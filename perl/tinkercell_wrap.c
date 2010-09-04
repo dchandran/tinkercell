@@ -1488,85 +1488,89 @@ SWIG_Perl_SetModule(swig_module_info *module) {
 
 /* -------- TYPES TABLE (BEGIN) -------- */
 
-#define SWIGTYPE_p_ArrayOfItems swig_types[0]
-#define SWIGTYPE_p_ArrayOfStrings swig_types[1]
-#define SWIGTYPE_p_TableOfReals swig_types[2]
-#define SWIGTYPE_p_TableOfStrings swig_types[3]
-#define SWIGTYPE_p_char swig_types[4]
-#define SWIGTYPE_p_double swig_types[5]
-#define SWIGTYPE_p_f_ArrayOfItems_ArrayOfStrings__ArrayOfStrings swig_types[6]
-#define SWIGTYPE_p_f_ArrayOfItems_ArrayOfStrings__TableOfReals swig_types[7]
-#define SWIGTYPE_p_f_ArrayOfItems__ArrayOfStrings swig_types[8]
-#define SWIGTYPE_p_f_ArrayOfItems__TableOfReals swig_types[9]
-#define SWIGTYPE_p_f_ArrayOfStrings__ArrayOfItems swig_types[10]
-#define SWIGTYPE_p_f___ArrayOfItems swig_types[11]
-#define SWIGTYPE_p_f___ArrayOfStrings swig_types[12]
-#define SWIGTYPE_p_f___int swig_types[13]
-#define SWIGTYPE_p_f___p_char swig_types[14]
-#define SWIGTYPE_p_f___void swig_types[15]
-#define SWIGTYPE_p_f_double__TableOfReals swig_types[16]
-#define SWIGTYPE_p_f_double__void swig_types[17]
-#define SWIGTYPE_p_f_double_double__TableOfReals swig_types[18]
-#define SWIGTYPE_p_f_double_double__void swig_types[19]
-#define SWIGTYPE_p_f_int__ArrayOfItems swig_types[20]
-#define SWIGTYPE_p_f_int__ArrayOfStrings swig_types[21]
-#define SWIGTYPE_p_f_int__TableOfReals swig_types[22]
-#define SWIGTYPE_p_f_int__double swig_types[23]
-#define SWIGTYPE_p_f_int__int swig_types[24]
-#define SWIGTYPE_p_f_int__p_char swig_types[25]
-#define SWIGTYPE_p_f_int__void swig_types[26]
-#define SWIGTYPE_p_f_int_double__void swig_types[27]
-#define SWIGTYPE_p_f_int_double_double__void swig_types[28]
-#define SWIGTYPE_p_f_int_double_double_int__void swig_types[29]
-#define SWIGTYPE_p_f_int_double_int__void swig_types[30]
-#define SWIGTYPE_p_f_int_int__void swig_types[31]
-#define SWIGTYPE_p_f_int_int_int__double swig_types[32]
-#define SWIGTYPE_p_f_int_int_int_double_double__void swig_types[33]
-#define SWIGTYPE_p_f_int_p_q_const__char__ArrayOfItems swig_types[34]
-#define SWIGTYPE_p_f_int_p_q_const__char__TableOfReals swig_types[35]
-#define SWIGTYPE_p_f_int_p_q_const__char__TableOfStrings swig_types[36]
-#define SWIGTYPE_p_f_int_p_q_const__char__double swig_types[37]
-#define SWIGTYPE_p_f_int_p_q_const__char__int swig_types[38]
-#define SWIGTYPE_p_f_int_p_q_const__char__p_char swig_types[39]
-#define SWIGTYPE_p_f_int_p_q_const__char__void swig_types[40]
-#define SWIGTYPE_p_f_int_p_q_const__char_double__void swig_types[41]
-#define SWIGTYPE_p_f_int_p_q_const__char_int__void swig_types[42]
-#define SWIGTYPE_p_f_int_p_q_const__char_p_q_const__char__void swig_types[43]
-#define SWIGTYPE_p_f_int_p_q_const__char_struct_TableOfReals__void swig_types[44]
-#define SWIGTYPE_p_f_int_p_q_const__char_struct_TableOfStrings__void swig_types[45]
-#define SWIGTYPE_p_f_int_struct_ArrayOfStrings__void swig_types[46]
-#define SWIGTYPE_p_f_int_struct_TableOfReals_p_f_struct_TableOfReals__void__void swig_types[47]
-#define SWIGTYPE_p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void swig_types[48]
-#define SWIGTYPE_p_f_p_f_void__void__void swig_types[49]
-#define SWIGTYPE_p_f_p_q_const__char_ArrayOfItems__ArrayOfItems swig_types[50]
-#define SWIGTYPE_p_f_p_q_const__char__ArrayOfItems swig_types[51]
-#define SWIGTYPE_p_f_p_q_const__char__double swig_types[52]
-#define SWIGTYPE_p_f_p_q_const__char__int swig_types[53]
-#define SWIGTYPE_p_f_p_q_const__char__p_char swig_types[54]
-#define SWIGTYPE_p_f_p_q_const__char__void swig_types[55]
-#define SWIGTYPE_p_f_p_q_const__char_int_int__void swig_types[56]
-#define SWIGTYPE_p_f_p_q_const__char_int_int_struct_ArrayOfStrings__void swig_types[57]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__int swig_types[58]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__void swig_types[59]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char__int swig_types[60]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void swig_types[61]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_struct_TableOfReals__int swig_types[62]
-#define SWIGTYPE_p_f_p_q_const__char_struct_ArrayOfItems__int swig_types[63]
-#define SWIGTYPE_p_f_p_q_const__char_struct_ArrayOfStrings_p_q_const__char__int swig_types[64]
-#define SWIGTYPE_p_f_struct_ArrayOfItems__void swig_types[65]
-#define SWIGTYPE_p_f_struct_ArrayOfItems_p_q_const__char_p_q_const__char__int swig_types[66]
-#define SWIGTYPE_p_f_struct_ArrayOfItems_struct_ArrayOfStrings__void swig_types[67]
-#define SWIGTYPE_p_f_struct_ArrayOfItems_struct_TableOfReals__void swig_types[68]
-#define SWIGTYPE_p_f_struct_ArrayOfStrings_p_double__void swig_types[69]
-#define SWIGTYPE_p_f_struct_TableOfReals__void swig_types[70]
-#define SWIGTYPE_p_f_struct_TableOfReals_p_q_const__char__void swig_types[71]
-#define SWIGTYPE_p_f_struct_TableOfReals_p_q_const__char_p_f_struct_TableOfReals__void__void swig_types[72]
-#define SWIGTYPE_p_f_struct_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void swig_types[73]
+#define SWIGTYPE_p_char swig_types[0]
+#define SWIGTYPE_p_double swig_types[1]
+#define SWIGTYPE_p_f___int swig_types[2]
+#define SWIGTYPE_p_f___p_char swig_types[3]
+#define SWIGTYPE_p_f___tc_items swig_types[4]
+#define SWIGTYPE_p_f___tc_strings swig_types[5]
+#define SWIGTYPE_p_f___void swig_types[6]
+#define SWIGTYPE_p_f_double__tc_matrix swig_types[7]
+#define SWIGTYPE_p_f_double__void swig_types[8]
+#define SWIGTYPE_p_f_double_double__tc_matrix swig_types[9]
+#define SWIGTYPE_p_f_double_double__void swig_types[10]
+#define SWIGTYPE_p_f_int__tc_matrix swig_types[11]
+#define SWIGTYPE_p_f_int__void swig_types[12]
+#define SWIGTYPE_p_f_int_int__void swig_types[13]
+#define SWIGTYPE_p_f_long__double swig_types[14]
+#define SWIGTYPE_p_f_long__long swig_types[15]
+#define SWIGTYPE_p_f_long__p_char swig_types[16]
+#define SWIGTYPE_p_f_long__tc_items swig_types[17]
+#define SWIGTYPE_p_f_long__tc_strings swig_types[18]
+#define SWIGTYPE_p_f_long__void swig_types[19]
+#define SWIGTYPE_p_f_long_double__void swig_types[20]
+#define SWIGTYPE_p_f_long_double_double__void swig_types[21]
+#define SWIGTYPE_p_f_long_double_double_int__void swig_types[22]
+#define SWIGTYPE_p_f_long_double_int__void swig_types[23]
+#define SWIGTYPE_p_f_long_int__void swig_types[24]
+#define SWIGTYPE_p_f_long_long_int__double swig_types[25]
+#define SWIGTYPE_p_f_long_long_int_double_double__void swig_types[26]
+#define SWIGTYPE_p_f_long_p_q_const__char__double swig_types[27]
+#define SWIGTYPE_p_f_long_p_q_const__char__int swig_types[28]
+#define SWIGTYPE_p_f_long_p_q_const__char__p_char swig_types[29]
+#define SWIGTYPE_p_f_long_p_q_const__char__tc_items swig_types[30]
+#define SWIGTYPE_p_f_long_p_q_const__char__tc_matrix swig_types[31]
+#define SWIGTYPE_p_f_long_p_q_const__char__tc_table swig_types[32]
+#define SWIGTYPE_p_f_long_p_q_const__char__void swig_types[33]
+#define SWIGTYPE_p_f_long_p_q_const__char_double__void swig_types[34]
+#define SWIGTYPE_p_f_long_p_q_const__char_int__void swig_types[35]
+#define SWIGTYPE_p_f_long_p_q_const__char_p_q_const__char__void swig_types[36]
+#define SWIGTYPE_p_f_long_p_q_const__char_struct_tc_matrix__void swig_types[37]
+#define SWIGTYPE_p_f_long_p_q_const__char_struct_tc_table__void swig_types[38]
+#define SWIGTYPE_p_f_long_struct_tc_matrix_p_f_struct_tc_matrix__void__void swig_types[39]
+#define SWIGTYPE_p_f_long_struct_tc_strings__void swig_types[40]
+#define SWIGTYPE_p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void swig_types[41]
+#define SWIGTYPE_p_f_p_f_void__void__void swig_types[42]
+#define SWIGTYPE_p_f_p_q_const__char__double swig_types[43]
+#define SWIGTYPE_p_f_p_q_const__char__int swig_types[44]
+#define SWIGTYPE_p_f_p_q_const__char__long swig_types[45]
+#define SWIGTYPE_p_f_p_q_const__char__p_char swig_types[46]
+#define SWIGTYPE_p_f_p_q_const__char__tc_items swig_types[47]
+#define SWIGTYPE_p_f_p_q_const__char__void swig_types[48]
+#define SWIGTYPE_p_f_p_q_const__char_int_int__void swig_types[49]
+#define SWIGTYPE_p_f_p_q_const__char_int_int_struct_tc_strings__void swig_types[50]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__int swig_types[51]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__long swig_types[52]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__void swig_types[53]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char__int swig_types[54]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void swig_types[55]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_struct_tc_matrix__int swig_types[56]
+#define SWIGTYPE_p_f_p_q_const__char_struct_tc_items__int swig_types[57]
+#define SWIGTYPE_p_f_p_q_const__char_struct_tc_strings_p_q_const__char__int swig_types[58]
+#define SWIGTYPE_p_f_p_q_const__char_tc_items__tc_items swig_types[59]
+#define SWIGTYPE_p_f_struct_tc_items__void swig_types[60]
+#define SWIGTYPE_p_f_struct_tc_items_p_q_const__char_p_q_const__char__long swig_types[61]
+#define SWIGTYPE_p_f_struct_tc_items_struct_tc_matrix__void swig_types[62]
+#define SWIGTYPE_p_f_struct_tc_items_struct_tc_strings__void swig_types[63]
+#define SWIGTYPE_p_f_struct_tc_matrix__void swig_types[64]
+#define SWIGTYPE_p_f_struct_tc_matrix_p_q_const__char__void swig_types[65]
+#define SWIGTYPE_p_f_struct_tc_matrix_p_q_const__char_p_f_struct_tc_matrix__void__void swig_types[66]
+#define SWIGTYPE_p_f_struct_tc_matrix_p_q_const__char_p_q_const__char_p_q_const__char__void swig_types[67]
+#define SWIGTYPE_p_f_struct_tc_strings_p_double__void swig_types[68]
+#define SWIGTYPE_p_f_tc_items__tc_matrix swig_types[69]
+#define SWIGTYPE_p_f_tc_items__tc_strings swig_types[70]
+#define SWIGTYPE_p_f_tc_items_tc_strings__tc_matrix swig_types[71]
+#define SWIGTYPE_p_f_tc_items_tc_strings__tc_strings swig_types[72]
+#define SWIGTYPE_p_f_tc_strings__tc_items swig_types[73]
 #define SWIGTYPE_p_f_void__void swig_types[74]
-#define SWIGTYPE_p_int swig_types[75]
+#define SWIGTYPE_p_long swig_types[75]
 #define SWIGTYPE_p_p_char swig_types[76]
-static swig_type_info *swig_types[78];
-static swig_module_info swig_module = {swig_types, 77, 0, 0, 0, 0};
+#define SWIGTYPE_p_tc_items swig_types[77]
+#define SWIGTYPE_p_tc_matrix swig_types[78]
+#define SWIGTYPE_p_tc_strings swig_types[79]
+#define SWIGTYPE_p_tc_table swig_types[80]
+static swig_type_info *swig_types[82];
+static swig_module_info swig_module = {swig_types, 81, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -1599,7 +1603,7 @@ SWIGEXPORT void SWIG_init (CV *cv, CPerlObj *);
 #endif
 
 
-#include "TCstructs.h"
+#include "API/TCstructs.h"
 #include "API/TC_Main_api.h"
 #include "API/TC_BasicInformationTool_api.h"
 #include "API/TC_ConnectionInsertion_api.h"
@@ -1873,9 +1877,9 @@ SWIGCLASS_STATIC int swig_magic_readonly(pTHX_ SV *SWIGUNUSEDPARM(sv), MAGIC *SW
 #ifdef __cplusplus
 extern "C" {
 #endif
-XS(_wrap_ArrayOfStrings_length_set) {
+XS(_wrap_tc_strings_length_set) {
   {
-    ArrayOfStrings *arg1 = (ArrayOfStrings *) 0 ;
+    tc_strings *arg1 = (tc_strings *) 0 ;
     int arg2 ;
     void *argp1 = 0 ;
     int res1 = 0 ;
@@ -1885,16 +1889,16 @@ XS(_wrap_ArrayOfStrings_length_set) {
     dXSARGS;
     
     if ((items < 2) || (items > 2)) {
-      SWIG_croak("Usage: ArrayOfStrings_length_set(self,length);");
+      SWIG_croak("Usage: tc_strings_length_set(self,length);");
     }
-    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_ArrayOfStrings, 0 |  0 );
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_tc_strings, 0 |  0 );
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ArrayOfStrings_length_set" "', argument " "1"" of type '" "ArrayOfStrings *""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_strings_length_set" "', argument " "1"" of type '" "tc_strings *""'"); 
     }
-    arg1 = (ArrayOfStrings *)(argp1);
+    arg1 = (tc_strings *)(argp1);
     ecode2 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
     if (!SWIG_IsOK(ecode2)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "ArrayOfStrings_length_set" "', argument " "2"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_strings_length_set" "', argument " "2"" of type '" "int""'");
     } 
     arg2 = (int)(val2);
     if (arg1) (arg1)->length = arg2;
@@ -1910,9 +1914,9 @@ XS(_wrap_ArrayOfStrings_length_set) {
 }
 
 
-XS(_wrap_ArrayOfStrings_length_get) {
+XS(_wrap_tc_strings_length_get) {
   {
-    ArrayOfStrings *arg1 = (ArrayOfStrings *) 0 ;
+    tc_strings *arg1 = (tc_strings *) 0 ;
     void *argp1 = 0 ;
     int res1 = 0 ;
     int argvi = 0;
@@ -1920,13 +1924,13 @@ XS(_wrap_ArrayOfStrings_length_get) {
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
-      SWIG_croak("Usage: ArrayOfStrings_length_get(self);");
+      SWIG_croak("Usage: tc_strings_length_get(self);");
     }
-    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_ArrayOfStrings, 0 |  0 );
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_tc_strings, 0 |  0 );
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ArrayOfStrings_length_get" "', argument " "1"" of type '" "ArrayOfStrings *""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_strings_length_get" "', argument " "1"" of type '" "tc_strings *""'"); 
     }
-    arg1 = (ArrayOfStrings *)(argp1);
+    arg1 = (tc_strings *)(argp1);
     result = (int) ((arg1)->length);
     ST(argvi) = SWIG_From_int  SWIG_PERL_CALL_ARGS_1((int)(result)); argvi++ ;
     
@@ -1938,9 +1942,9 @@ XS(_wrap_ArrayOfStrings_length_get) {
 }
 
 
-XS(_wrap_ArrayOfStrings_strings_set) {
+XS(_wrap_tc_strings_strings_set) {
   {
-    ArrayOfStrings *arg1 = (ArrayOfStrings *) 0 ;
+    tc_strings *arg1 = (tc_strings *) 0 ;
     char **arg2 = (char **) 0 ;
     void *argp1 = 0 ;
     int res1 = 0 ;
@@ -1950,16 +1954,16 @@ XS(_wrap_ArrayOfStrings_strings_set) {
     dXSARGS;
     
     if ((items < 2) || (items > 2)) {
-      SWIG_croak("Usage: ArrayOfStrings_strings_set(self,strings);");
+      SWIG_croak("Usage: tc_strings_strings_set(self,strings);");
     }
-    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_ArrayOfStrings, 0 |  0 );
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_tc_strings, 0 |  0 );
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ArrayOfStrings_strings_set" "', argument " "1"" of type '" "ArrayOfStrings *""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_strings_strings_set" "', argument " "1"" of type '" "tc_strings *""'"); 
     }
-    arg1 = (ArrayOfStrings *)(argp1);
+    arg1 = (tc_strings *)(argp1);
     res2 = SWIG_ConvertPtr(ST(1), &argp2,SWIGTYPE_p_p_char, 0 |  0 );
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "ArrayOfStrings_strings_set" "', argument " "2"" of type '" "char **""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_strings_strings_set" "', argument " "2"" of type '" "char **""'"); 
     }
     arg2 = (char **)(argp2);
     if (arg1) (arg1)->strings = arg2;
@@ -1975,9 +1979,9 @@ XS(_wrap_ArrayOfStrings_strings_set) {
 }
 
 
-XS(_wrap_ArrayOfStrings_strings_get) {
+XS(_wrap_tc_strings_strings_get) {
   {
-    ArrayOfStrings *arg1 = (ArrayOfStrings *) 0 ;
+    tc_strings *arg1 = (tc_strings *) 0 ;
     void *argp1 = 0 ;
     int res1 = 0 ;
     int argvi = 0;
@@ -1985,13 +1989,13 @@ XS(_wrap_ArrayOfStrings_strings_get) {
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
-      SWIG_croak("Usage: ArrayOfStrings_strings_get(self);");
+      SWIG_croak("Usage: tc_strings_strings_get(self);");
     }
-    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_ArrayOfStrings, 0 |  0 );
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_tc_strings, 0 |  0 );
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ArrayOfStrings_strings_get" "', argument " "1"" of type '" "ArrayOfStrings *""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_strings_strings_get" "', argument " "1"" of type '" "tc_strings *""'"); 
     }
-    arg1 = (ArrayOfStrings *)(argp1);
+    arg1 = (tc_strings *)(argp1);
     result = (char **) ((arg1)->strings);
     ST(argvi) = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_p_char, 0 | 0); argvi++ ;
     
@@ -2003,17 +2007,17 @@ XS(_wrap_ArrayOfStrings_strings_get) {
 }
 
 
-XS(_wrap_new_ArrayOfStrings) {
+XS(_wrap_new_tc_strings) {
   {
     int argvi = 0;
-    ArrayOfStrings *result = 0 ;
+    tc_strings *result = 0 ;
     dXSARGS;
     
     if ((items < 0) || (items > 0)) {
-      SWIG_croak("Usage: new_ArrayOfStrings();");
+      SWIG_croak("Usage: new_tc_strings();");
     }
-    result = (ArrayOfStrings *)calloc(1, sizeof(ArrayOfStrings));
-    ST(argvi) = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_ArrayOfStrings, SWIG_OWNER | SWIG_SHADOW); argvi++ ;
+    result = (tc_strings *)calloc(1, sizeof(tc_strings));
+    ST(argvi) = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_tc_strings, SWIG_OWNER | SWIG_SHADOW); argvi++ ;
     XSRETURN(argvi);
   fail:
     SWIG_croak_null();
@@ -2021,22 +2025,22 @@ XS(_wrap_new_ArrayOfStrings) {
 }
 
 
-XS(_wrap_delete_ArrayOfStrings) {
+XS(_wrap_delete_tc_strings) {
   {
-    ArrayOfStrings *arg1 = (ArrayOfStrings *) 0 ;
+    tc_strings *arg1 = (tc_strings *) 0 ;
     void *argp1 = 0 ;
     int res1 = 0 ;
     int argvi = 0;
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
-      SWIG_croak("Usage: delete_ArrayOfStrings(self);");
+      SWIG_croak("Usage: delete_tc_strings(self);");
     }
-    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_ArrayOfStrings, SWIG_POINTER_DISOWN |  0 );
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_tc_strings, SWIG_POINTER_DISOWN |  0 );
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_ArrayOfStrings" "', argument " "1"" of type '" "ArrayOfStrings *""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_tc_strings" "', argument " "1"" of type '" "tc_strings *""'"); 
     }
-    arg1 = (ArrayOfStrings *)(argp1);
+    arg1 = (tc_strings *)(argp1);
     free((char *) arg1);
     ST(argvi) = sv_newmortal();
     
@@ -2048,9 +2052,9 @@ XS(_wrap_delete_ArrayOfStrings) {
 }
 
 
-XS(_wrap_ArrayOfItems_length_set) {
+XS(_wrap_tc_items_length_set) {
   {
-    ArrayOfItems *arg1 = (ArrayOfItems *) 0 ;
+    tc_items *arg1 = (tc_items *) 0 ;
     int arg2 ;
     void *argp1 = 0 ;
     int res1 = 0 ;
@@ -2060,16 +2064,16 @@ XS(_wrap_ArrayOfItems_length_set) {
     dXSARGS;
     
     if ((items < 2) || (items > 2)) {
-      SWIG_croak("Usage: ArrayOfItems_length_set(self,length);");
+      SWIG_croak("Usage: tc_items_length_set(self,length);");
     }
-    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_ArrayOfItems, 0 |  0 );
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_tc_items, 0 |  0 );
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ArrayOfItems_length_set" "', argument " "1"" of type '" "ArrayOfItems *""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_items_length_set" "', argument " "1"" of type '" "tc_items *""'"); 
     }
-    arg1 = (ArrayOfItems *)(argp1);
+    arg1 = (tc_items *)(argp1);
     ecode2 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
     if (!SWIG_IsOK(ecode2)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "ArrayOfItems_length_set" "', argument " "2"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_items_length_set" "', argument " "2"" of type '" "int""'");
     } 
     arg2 = (int)(val2);
     if (arg1) (arg1)->length = arg2;
@@ -2085,9 +2089,9 @@ XS(_wrap_ArrayOfItems_length_set) {
 }
 
 
-XS(_wrap_ArrayOfItems_length_get) {
+XS(_wrap_tc_items_length_get) {
   {
-    ArrayOfItems *arg1 = (ArrayOfItems *) 0 ;
+    tc_items *arg1 = (tc_items *) 0 ;
     void *argp1 = 0 ;
     int res1 = 0 ;
     int argvi = 0;
@@ -2095,13 +2099,13 @@ XS(_wrap_ArrayOfItems_length_get) {
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
-      SWIG_croak("Usage: ArrayOfItems_length_get(self);");
+      SWIG_croak("Usage: tc_items_length_get(self);");
     }
-    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_ArrayOfItems, 0 |  0 );
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_tc_items, 0 |  0 );
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ArrayOfItems_length_get" "', argument " "1"" of type '" "ArrayOfItems *""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_items_length_get" "', argument " "1"" of type '" "tc_items *""'"); 
     }
-    arg1 = (ArrayOfItems *)(argp1);
+    arg1 = (tc_items *)(argp1);
     result = (int) ((arg1)->length);
     ST(argvi) = SWIG_From_int  SWIG_PERL_CALL_ARGS_1((int)(result)); argvi++ ;
     
@@ -2113,10 +2117,10 @@ XS(_wrap_ArrayOfItems_length_get) {
 }
 
 
-XS(_wrap_ArrayOfItems_items_set) {
+XS(_wrap_tc_items_items_set) {
   {
-    ArrayOfItems *arg1 = (ArrayOfItems *) 0 ;
-    int *arg2 = (int *) 0 ;
+    tc_items *arg1 = (tc_items *) 0 ;
+    long *arg2 = (long *) 0 ;
     void *argp1 = 0 ;
     int res1 = 0 ;
     void *argp2 = 0 ;
@@ -2125,18 +2129,18 @@ XS(_wrap_ArrayOfItems_items_set) {
     dXSARGS;
     
     if ((items < 2) || (items > 2)) {
-      SWIG_croak("Usage: ArrayOfItems_items_set(self,items);");
+      SWIG_croak("Usage: tc_items_items_set(self,items);");
     }
-    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_ArrayOfItems, 0 |  0 );
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_tc_items, 0 |  0 );
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ArrayOfItems_items_set" "', argument " "1"" of type '" "ArrayOfItems *""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_items_items_set" "', argument " "1"" of type '" "tc_items *""'"); 
     }
-    arg1 = (ArrayOfItems *)(argp1);
-    res2 = SWIG_ConvertPtr(ST(1), &argp2,SWIGTYPE_p_int, SWIG_POINTER_DISOWN |  0 );
+    arg1 = (tc_items *)(argp1);
+    res2 = SWIG_ConvertPtr(ST(1), &argp2,SWIGTYPE_p_long, SWIG_POINTER_DISOWN |  0 );
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "ArrayOfItems_items_set" "', argument " "2"" of type '" "int *""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_items_items_set" "', argument " "2"" of type '" "long *""'"); 
     }
-    arg2 = (int *)(argp2);
+    arg2 = (long *)(argp2);
     if (arg1) (arg1)->items = arg2;
     ST(argvi) = sv_newmortal();
     
@@ -2150,25 +2154,25 @@ XS(_wrap_ArrayOfItems_items_set) {
 }
 
 
-XS(_wrap_ArrayOfItems_items_get) {
+XS(_wrap_tc_items_items_get) {
   {
-    ArrayOfItems *arg1 = (ArrayOfItems *) 0 ;
+    tc_items *arg1 = (tc_items *) 0 ;
     void *argp1 = 0 ;
     int res1 = 0 ;
     int argvi = 0;
-    int *result = 0 ;
+    long *result = 0 ;
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
-      SWIG_croak("Usage: ArrayOfItems_items_get(self);");
+      SWIG_croak("Usage: tc_items_items_get(self);");
     }
-    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_ArrayOfItems, 0 |  0 );
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_tc_items, 0 |  0 );
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ArrayOfItems_items_get" "', argument " "1"" of type '" "ArrayOfItems *""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_items_items_get" "', argument " "1"" of type '" "tc_items *""'"); 
     }
-    arg1 = (ArrayOfItems *)(argp1);
-    result = (int *) ((arg1)->items);
-    ST(argvi) = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_int, 0 | 0); argvi++ ;
+    arg1 = (tc_items *)(argp1);
+    result = (long *) ((arg1)->items);
+    ST(argvi) = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_long, 0 | 0); argvi++ ;
     
     XSRETURN(argvi);
   fail:
@@ -2178,17 +2182,17 @@ XS(_wrap_ArrayOfItems_items_get) {
 }
 
 
-XS(_wrap_new_ArrayOfItems) {
+XS(_wrap_new_tc_items) {
   {
     int argvi = 0;
-    ArrayOfItems *result = 0 ;
+    tc_items *result = 0 ;
     dXSARGS;
     
     if ((items < 0) || (items > 0)) {
-      SWIG_croak("Usage: new_ArrayOfItems();");
+      SWIG_croak("Usage: new_tc_items();");
     }
-    result = (ArrayOfItems *)calloc(1, sizeof(ArrayOfItems));
-    ST(argvi) = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_ArrayOfItems, SWIG_OWNER | SWIG_SHADOW); argvi++ ;
+    result = (tc_items *)calloc(1, sizeof(tc_items));
+    ST(argvi) = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_tc_items, SWIG_OWNER | SWIG_SHADOW); argvi++ ;
     XSRETURN(argvi);
   fail:
     SWIG_croak_null();
@@ -2196,22 +2200,22 @@ XS(_wrap_new_ArrayOfItems) {
 }
 
 
-XS(_wrap_delete_ArrayOfItems) {
+XS(_wrap_delete_tc_items) {
   {
-    ArrayOfItems *arg1 = (ArrayOfItems *) 0 ;
+    tc_items *arg1 = (tc_items *) 0 ;
     void *argp1 = 0 ;
     int res1 = 0 ;
     int argvi = 0;
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
-      SWIG_croak("Usage: delete_ArrayOfItems(self);");
+      SWIG_croak("Usage: delete_tc_items(self);");
     }
-    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_ArrayOfItems, SWIG_POINTER_DISOWN |  0 );
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_tc_items, SWIG_POINTER_DISOWN |  0 );
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_ArrayOfItems" "', argument " "1"" of type '" "ArrayOfItems *""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_tc_items" "', argument " "1"" of type '" "tc_items *""'"); 
     }
-    arg1 = (ArrayOfItems *)(argp1);
+    arg1 = (tc_items *)(argp1);
     free((char *) arg1);
     ST(argvi) = sv_newmortal();
     
@@ -2223,9 +2227,9 @@ XS(_wrap_delete_ArrayOfItems) {
 }
 
 
-XS(_wrap_TableOfReals_rows_set) {
+XS(_wrap_tc_matrix_rows_set) {
   {
-    TableOfReals *arg1 = (TableOfReals *) 0 ;
+    tc_matrix *arg1 = (tc_matrix *) 0 ;
     int arg2 ;
     void *argp1 = 0 ;
     int res1 = 0 ;
@@ -2235,16 +2239,16 @@ XS(_wrap_TableOfReals_rows_set) {
     dXSARGS;
     
     if ((items < 2) || (items > 2)) {
-      SWIG_croak("Usage: TableOfReals_rows_set(self,rows);");
+      SWIG_croak("Usage: tc_matrix_rows_set(self,rows);");
     }
-    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_TableOfReals, 0 |  0 );
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_tc_matrix, 0 |  0 );
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "TableOfReals_rows_set" "', argument " "1"" of type '" "TableOfReals *""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_matrix_rows_set" "', argument " "1"" of type '" "tc_matrix *""'"); 
     }
-    arg1 = (TableOfReals *)(argp1);
+    arg1 = (tc_matrix *)(argp1);
     ecode2 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
     if (!SWIG_IsOK(ecode2)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "TableOfReals_rows_set" "', argument " "2"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_matrix_rows_set" "', argument " "2"" of type '" "int""'");
     } 
     arg2 = (int)(val2);
     if (arg1) (arg1)->rows = arg2;
@@ -2260,9 +2264,9 @@ XS(_wrap_TableOfReals_rows_set) {
 }
 
 
-XS(_wrap_TableOfReals_rows_get) {
+XS(_wrap_tc_matrix_rows_get) {
   {
-    TableOfReals *arg1 = (TableOfReals *) 0 ;
+    tc_matrix *arg1 = (tc_matrix *) 0 ;
     void *argp1 = 0 ;
     int res1 = 0 ;
     int argvi = 0;
@@ -2270,13 +2274,13 @@ XS(_wrap_TableOfReals_rows_get) {
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
-      SWIG_croak("Usage: TableOfReals_rows_get(self);");
+      SWIG_croak("Usage: tc_matrix_rows_get(self);");
     }
-    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_TableOfReals, 0 |  0 );
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_tc_matrix, 0 |  0 );
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "TableOfReals_rows_get" "', argument " "1"" of type '" "TableOfReals *""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_matrix_rows_get" "', argument " "1"" of type '" "tc_matrix *""'"); 
     }
-    arg1 = (TableOfReals *)(argp1);
+    arg1 = (tc_matrix *)(argp1);
     result = (int) ((arg1)->rows);
     ST(argvi) = SWIG_From_int  SWIG_PERL_CALL_ARGS_1((int)(result)); argvi++ ;
     
@@ -2288,9 +2292,9 @@ XS(_wrap_TableOfReals_rows_get) {
 }
 
 
-XS(_wrap_TableOfReals_cols_set) {
+XS(_wrap_tc_matrix_cols_set) {
   {
-    TableOfReals *arg1 = (TableOfReals *) 0 ;
+    tc_matrix *arg1 = (tc_matrix *) 0 ;
     int arg2 ;
     void *argp1 = 0 ;
     int res1 = 0 ;
@@ -2300,16 +2304,16 @@ XS(_wrap_TableOfReals_cols_set) {
     dXSARGS;
     
     if ((items < 2) || (items > 2)) {
-      SWIG_croak("Usage: TableOfReals_cols_set(self,cols);");
+      SWIG_croak("Usage: tc_matrix_cols_set(self,cols);");
     }
-    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_TableOfReals, 0 |  0 );
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_tc_matrix, 0 |  0 );
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "TableOfReals_cols_set" "', argument " "1"" of type '" "TableOfReals *""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_matrix_cols_set" "', argument " "1"" of type '" "tc_matrix *""'"); 
     }
-    arg1 = (TableOfReals *)(argp1);
+    arg1 = (tc_matrix *)(argp1);
     ecode2 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
     if (!SWIG_IsOK(ecode2)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "TableOfReals_cols_set" "', argument " "2"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_matrix_cols_set" "', argument " "2"" of type '" "int""'");
     } 
     arg2 = (int)(val2);
     if (arg1) (arg1)->cols = arg2;
@@ -2325,9 +2329,9 @@ XS(_wrap_TableOfReals_cols_set) {
 }
 
 
-XS(_wrap_TableOfReals_cols_get) {
+XS(_wrap_tc_matrix_cols_get) {
   {
-    TableOfReals *arg1 = (TableOfReals *) 0 ;
+    tc_matrix *arg1 = (tc_matrix *) 0 ;
     void *argp1 = 0 ;
     int res1 = 0 ;
     int argvi = 0;
@@ -2335,13 +2339,13 @@ XS(_wrap_TableOfReals_cols_get) {
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
-      SWIG_croak("Usage: TableOfReals_cols_get(self);");
+      SWIG_croak("Usage: tc_matrix_cols_get(self);");
     }
-    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_TableOfReals, 0 |  0 );
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_tc_matrix, 0 |  0 );
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "TableOfReals_cols_get" "', argument " "1"" of type '" "TableOfReals *""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_matrix_cols_get" "', argument " "1"" of type '" "tc_matrix *""'"); 
     }
-    arg1 = (TableOfReals *)(argp1);
+    arg1 = (tc_matrix *)(argp1);
     result = (int) ((arg1)->cols);
     ST(argvi) = SWIG_From_int  SWIG_PERL_CALL_ARGS_1((int)(result)); argvi++ ;
     
@@ -2353,9 +2357,9 @@ XS(_wrap_TableOfReals_cols_get) {
 }
 
 
-XS(_wrap_TableOfReals_values_set) {
+XS(_wrap_tc_matrix_values_set) {
   {
-    TableOfReals *arg1 = (TableOfReals *) 0 ;
+    tc_matrix *arg1 = (tc_matrix *) 0 ;
     double *arg2 = (double *) 0 ;
     void *argp1 = 0 ;
     int res1 = 0 ;
@@ -2365,16 +2369,16 @@ XS(_wrap_TableOfReals_values_set) {
     dXSARGS;
     
     if ((items < 2) || (items > 2)) {
-      SWIG_croak("Usage: TableOfReals_values_set(self,values);");
+      SWIG_croak("Usage: tc_matrix_values_set(self,values);");
     }
-    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_TableOfReals, 0 |  0 );
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_tc_matrix, 0 |  0 );
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "TableOfReals_values_set" "', argument " "1"" of type '" "TableOfReals *""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_matrix_values_set" "', argument " "1"" of type '" "tc_matrix *""'"); 
     }
-    arg1 = (TableOfReals *)(argp1);
+    arg1 = (tc_matrix *)(argp1);
     res2 = SWIG_ConvertPtr(ST(1), &argp2,SWIGTYPE_p_double, SWIG_POINTER_DISOWN |  0 );
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "TableOfReals_values_set" "', argument " "2"" of type '" "double *""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_matrix_values_set" "', argument " "2"" of type '" "double *""'"); 
     }
     arg2 = (double *)(argp2);
     if (arg1) (arg1)->values = arg2;
@@ -2390,9 +2394,9 @@ XS(_wrap_TableOfReals_values_set) {
 }
 
 
-XS(_wrap_TableOfReals_values_get) {
+XS(_wrap_tc_matrix_values_get) {
   {
-    TableOfReals *arg1 = (TableOfReals *) 0 ;
+    tc_matrix *arg1 = (tc_matrix *) 0 ;
     void *argp1 = 0 ;
     int res1 = 0 ;
     int argvi = 0;
@@ -2400,13 +2404,13 @@ XS(_wrap_TableOfReals_values_get) {
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
-      SWIG_croak("Usage: TableOfReals_values_get(self);");
+      SWIG_croak("Usage: tc_matrix_values_get(self);");
     }
-    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_TableOfReals, 0 |  0 );
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_tc_matrix, 0 |  0 );
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "TableOfReals_values_get" "', argument " "1"" of type '" "TableOfReals *""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_matrix_values_get" "', argument " "1"" of type '" "tc_matrix *""'"); 
     }
-    arg1 = (TableOfReals *)(argp1);
+    arg1 = (tc_matrix *)(argp1);
     result = (double *) ((arg1)->values);
     ST(argvi) = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_double, 0 | 0); argvi++ ;
     
@@ -2418,10 +2422,10 @@ XS(_wrap_TableOfReals_values_get) {
 }
 
 
-XS(_wrap_TableOfReals_rownames_set) {
+XS(_wrap_tc_matrix_rownames_set) {
   {
-    TableOfReals *arg1 = (TableOfReals *) 0 ;
-    ArrayOfStrings *arg2 = (ArrayOfStrings *) 0 ;
+    tc_matrix *arg1 = (tc_matrix *) 0 ;
+    tc_strings *arg2 = (tc_strings *) 0 ;
     void *argp1 = 0 ;
     int res1 = 0 ;
     void *argp2 = 0 ;
@@ -2430,18 +2434,18 @@ XS(_wrap_TableOfReals_rownames_set) {
     dXSARGS;
     
     if ((items < 2) || (items > 2)) {
-      SWIG_croak("Usage: TableOfReals_rownames_set(self,rownames);");
+      SWIG_croak("Usage: tc_matrix_rownames_set(self,rownames);");
     }
-    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_TableOfReals, 0 |  0 );
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_tc_matrix, 0 |  0 );
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "TableOfReals_rownames_set" "', argument " "1"" of type '" "TableOfReals *""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_matrix_rownames_set" "', argument " "1"" of type '" "tc_matrix *""'"); 
     }
-    arg1 = (TableOfReals *)(argp1);
-    res2 = SWIG_ConvertPtr(ST(1), &argp2,SWIGTYPE_p_ArrayOfStrings, 0 |  0 );
+    arg1 = (tc_matrix *)(argp1);
+    res2 = SWIG_ConvertPtr(ST(1), &argp2,SWIGTYPE_p_tc_strings, 0 |  0 );
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "TableOfReals_rownames_set" "', argument " "2"" of type '" "ArrayOfStrings *""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_matrix_rownames_set" "', argument " "2"" of type '" "tc_strings *""'"); 
     }
-    arg2 = (ArrayOfStrings *)(argp2);
+    arg2 = (tc_strings *)(argp2);
     if (arg1) (arg1)->rownames = *arg2;
     ST(argvi) = sv_newmortal();
     
@@ -2455,25 +2459,25 @@ XS(_wrap_TableOfReals_rownames_set) {
 }
 
 
-XS(_wrap_TableOfReals_rownames_get) {
+XS(_wrap_tc_matrix_rownames_get) {
   {
-    TableOfReals *arg1 = (TableOfReals *) 0 ;
+    tc_matrix *arg1 = (tc_matrix *) 0 ;
     void *argp1 = 0 ;
     int res1 = 0 ;
     int argvi = 0;
-    ArrayOfStrings *result = 0 ;
+    tc_strings *result = 0 ;
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
-      SWIG_croak("Usage: TableOfReals_rownames_get(self);");
+      SWIG_croak("Usage: tc_matrix_rownames_get(self);");
     }
-    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_TableOfReals, 0 |  0 );
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_tc_matrix, 0 |  0 );
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "TableOfReals_rownames_get" "', argument " "1"" of type '" "TableOfReals *""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_matrix_rownames_get" "', argument " "1"" of type '" "tc_matrix *""'"); 
     }
-    arg1 = (TableOfReals *)(argp1);
-    result = (ArrayOfStrings *)& ((arg1)->rownames);
-    ST(argvi) = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_ArrayOfStrings, 0 | SWIG_SHADOW); argvi++ ;
+    arg1 = (tc_matrix *)(argp1);
+    result = (tc_strings *)& ((arg1)->rownames);
+    ST(argvi) = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_tc_strings, 0 | SWIG_SHADOW); argvi++ ;
     
     XSRETURN(argvi);
   fail:
@@ -2483,10 +2487,10 @@ XS(_wrap_TableOfReals_rownames_get) {
 }
 
 
-XS(_wrap_TableOfReals_colnames_set) {
+XS(_wrap_tc_matrix_colnames_set) {
   {
-    TableOfReals *arg1 = (TableOfReals *) 0 ;
-    ArrayOfStrings *arg2 = (ArrayOfStrings *) 0 ;
+    tc_matrix *arg1 = (tc_matrix *) 0 ;
+    tc_strings *arg2 = (tc_strings *) 0 ;
     void *argp1 = 0 ;
     int res1 = 0 ;
     void *argp2 = 0 ;
@@ -2495,18 +2499,18 @@ XS(_wrap_TableOfReals_colnames_set) {
     dXSARGS;
     
     if ((items < 2) || (items > 2)) {
-      SWIG_croak("Usage: TableOfReals_colnames_set(self,colnames);");
+      SWIG_croak("Usage: tc_matrix_colnames_set(self,colnames);");
     }
-    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_TableOfReals, 0 |  0 );
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_tc_matrix, 0 |  0 );
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "TableOfReals_colnames_set" "', argument " "1"" of type '" "TableOfReals *""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_matrix_colnames_set" "', argument " "1"" of type '" "tc_matrix *""'"); 
     }
-    arg1 = (TableOfReals *)(argp1);
-    res2 = SWIG_ConvertPtr(ST(1), &argp2,SWIGTYPE_p_ArrayOfStrings, 0 |  0 );
+    arg1 = (tc_matrix *)(argp1);
+    res2 = SWIG_ConvertPtr(ST(1), &argp2,SWIGTYPE_p_tc_strings, 0 |  0 );
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "TableOfReals_colnames_set" "', argument " "2"" of type '" "ArrayOfStrings *""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_matrix_colnames_set" "', argument " "2"" of type '" "tc_strings *""'"); 
     }
-    arg2 = (ArrayOfStrings *)(argp2);
+    arg2 = (tc_strings *)(argp2);
     if (arg1) (arg1)->colnames = *arg2;
     ST(argvi) = sv_newmortal();
     
@@ -2520,25 +2524,25 @@ XS(_wrap_TableOfReals_colnames_set) {
 }
 
 
-XS(_wrap_TableOfReals_colnames_get) {
+XS(_wrap_tc_matrix_colnames_get) {
   {
-    TableOfReals *arg1 = (TableOfReals *) 0 ;
+    tc_matrix *arg1 = (tc_matrix *) 0 ;
     void *argp1 = 0 ;
     int res1 = 0 ;
     int argvi = 0;
-    ArrayOfStrings *result = 0 ;
+    tc_strings *result = 0 ;
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
-      SWIG_croak("Usage: TableOfReals_colnames_get(self);");
+      SWIG_croak("Usage: tc_matrix_colnames_get(self);");
     }
-    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_TableOfReals, 0 |  0 );
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_tc_matrix, 0 |  0 );
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "TableOfReals_colnames_get" "', argument " "1"" of type '" "TableOfReals *""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_matrix_colnames_get" "', argument " "1"" of type '" "tc_matrix *""'"); 
     }
-    arg1 = (TableOfReals *)(argp1);
-    result = (ArrayOfStrings *)& ((arg1)->colnames);
-    ST(argvi) = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_ArrayOfStrings, 0 | SWIG_SHADOW); argvi++ ;
+    arg1 = (tc_matrix *)(argp1);
+    result = (tc_strings *)& ((arg1)->colnames);
+    ST(argvi) = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_tc_strings, 0 | SWIG_SHADOW); argvi++ ;
     
     XSRETURN(argvi);
   fail:
@@ -2548,17 +2552,17 @@ XS(_wrap_TableOfReals_colnames_get) {
 }
 
 
-XS(_wrap_new_TableOfReals) {
+XS(_wrap_new_tc_matrix) {
   {
     int argvi = 0;
-    TableOfReals *result = 0 ;
+    tc_matrix *result = 0 ;
     dXSARGS;
     
     if ((items < 0) || (items > 0)) {
-      SWIG_croak("Usage: new_TableOfReals();");
+      SWIG_croak("Usage: new_tc_matrix();");
     }
-    result = (TableOfReals *)calloc(1, sizeof(TableOfReals));
-    ST(argvi) = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_TableOfReals, SWIG_OWNER | SWIG_SHADOW); argvi++ ;
+    result = (tc_matrix *)calloc(1, sizeof(tc_matrix));
+    ST(argvi) = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_tc_matrix, SWIG_OWNER | SWIG_SHADOW); argvi++ ;
     XSRETURN(argvi);
   fail:
     SWIG_croak_null();
@@ -2566,22 +2570,22 @@ XS(_wrap_new_TableOfReals) {
 }
 
 
-XS(_wrap_delete_TableOfReals) {
+XS(_wrap_delete_tc_matrix) {
   {
-    TableOfReals *arg1 = (TableOfReals *) 0 ;
+    tc_matrix *arg1 = (tc_matrix *) 0 ;
     void *argp1 = 0 ;
     int res1 = 0 ;
     int argvi = 0;
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
-      SWIG_croak("Usage: delete_TableOfReals(self);");
+      SWIG_croak("Usage: delete_tc_matrix(self);");
     }
-    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_TableOfReals, SWIG_POINTER_DISOWN |  0 );
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_tc_matrix, SWIG_POINTER_DISOWN |  0 );
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_TableOfReals" "', argument " "1"" of type '" "TableOfReals *""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_tc_matrix" "', argument " "1"" of type '" "tc_matrix *""'"); 
     }
-    arg1 = (TableOfReals *)(argp1);
+    arg1 = (tc_matrix *)(argp1);
     free((char *) arg1);
     ST(argvi) = sv_newmortal();
     
@@ -2593,9 +2597,9 @@ XS(_wrap_delete_TableOfReals) {
 }
 
 
-XS(_wrap_TableOfStrings_rows_set) {
+XS(_wrap_tc_table_rows_set) {
   {
-    TableOfStrings *arg1 = (TableOfStrings *) 0 ;
+    tc_table *arg1 = (tc_table *) 0 ;
     int arg2 ;
     void *argp1 = 0 ;
     int res1 = 0 ;
@@ -2605,16 +2609,16 @@ XS(_wrap_TableOfStrings_rows_set) {
     dXSARGS;
     
     if ((items < 2) || (items > 2)) {
-      SWIG_croak("Usage: TableOfStrings_rows_set(self,rows);");
+      SWIG_croak("Usage: tc_table_rows_set(self,rows);");
     }
-    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_TableOfStrings, 0 |  0 );
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_tc_table, 0 |  0 );
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "TableOfStrings_rows_set" "', argument " "1"" of type '" "TableOfStrings *""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_table_rows_set" "', argument " "1"" of type '" "tc_table *""'"); 
     }
-    arg1 = (TableOfStrings *)(argp1);
+    arg1 = (tc_table *)(argp1);
     ecode2 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
     if (!SWIG_IsOK(ecode2)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "TableOfStrings_rows_set" "', argument " "2"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_table_rows_set" "', argument " "2"" of type '" "int""'");
     } 
     arg2 = (int)(val2);
     if (arg1) (arg1)->rows = arg2;
@@ -2630,9 +2634,9 @@ XS(_wrap_TableOfStrings_rows_set) {
 }
 
 
-XS(_wrap_TableOfStrings_rows_get) {
+XS(_wrap_tc_table_rows_get) {
   {
-    TableOfStrings *arg1 = (TableOfStrings *) 0 ;
+    tc_table *arg1 = (tc_table *) 0 ;
     void *argp1 = 0 ;
     int res1 = 0 ;
     int argvi = 0;
@@ -2640,13 +2644,13 @@ XS(_wrap_TableOfStrings_rows_get) {
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
-      SWIG_croak("Usage: TableOfStrings_rows_get(self);");
+      SWIG_croak("Usage: tc_table_rows_get(self);");
     }
-    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_TableOfStrings, 0 |  0 );
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_tc_table, 0 |  0 );
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "TableOfStrings_rows_get" "', argument " "1"" of type '" "TableOfStrings *""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_table_rows_get" "', argument " "1"" of type '" "tc_table *""'"); 
     }
-    arg1 = (TableOfStrings *)(argp1);
+    arg1 = (tc_table *)(argp1);
     result = (int) ((arg1)->rows);
     ST(argvi) = SWIG_From_int  SWIG_PERL_CALL_ARGS_1((int)(result)); argvi++ ;
     
@@ -2658,9 +2662,9 @@ XS(_wrap_TableOfStrings_rows_get) {
 }
 
 
-XS(_wrap_TableOfStrings_cols_set) {
+XS(_wrap_tc_table_cols_set) {
   {
-    TableOfStrings *arg1 = (TableOfStrings *) 0 ;
+    tc_table *arg1 = (tc_table *) 0 ;
     int arg2 ;
     void *argp1 = 0 ;
     int res1 = 0 ;
@@ -2670,16 +2674,16 @@ XS(_wrap_TableOfStrings_cols_set) {
     dXSARGS;
     
     if ((items < 2) || (items > 2)) {
-      SWIG_croak("Usage: TableOfStrings_cols_set(self,cols);");
+      SWIG_croak("Usage: tc_table_cols_set(self,cols);");
     }
-    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_TableOfStrings, 0 |  0 );
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_tc_table, 0 |  0 );
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "TableOfStrings_cols_set" "', argument " "1"" of type '" "TableOfStrings *""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_table_cols_set" "', argument " "1"" of type '" "tc_table *""'"); 
     }
-    arg1 = (TableOfStrings *)(argp1);
+    arg1 = (tc_table *)(argp1);
     ecode2 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
     if (!SWIG_IsOK(ecode2)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "TableOfStrings_cols_set" "', argument " "2"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_table_cols_set" "', argument " "2"" of type '" "int""'");
     } 
     arg2 = (int)(val2);
     if (arg1) (arg1)->cols = arg2;
@@ -2695,9 +2699,9 @@ XS(_wrap_TableOfStrings_cols_set) {
 }
 
 
-XS(_wrap_TableOfStrings_cols_get) {
+XS(_wrap_tc_table_cols_get) {
   {
-    TableOfStrings *arg1 = (TableOfStrings *) 0 ;
+    tc_table *arg1 = (tc_table *) 0 ;
     void *argp1 = 0 ;
     int res1 = 0 ;
     int argvi = 0;
@@ -2705,13 +2709,13 @@ XS(_wrap_TableOfStrings_cols_get) {
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
-      SWIG_croak("Usage: TableOfStrings_cols_get(self);");
+      SWIG_croak("Usage: tc_table_cols_get(self);");
     }
-    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_TableOfStrings, 0 |  0 );
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_tc_table, 0 |  0 );
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "TableOfStrings_cols_get" "', argument " "1"" of type '" "TableOfStrings *""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_table_cols_get" "', argument " "1"" of type '" "tc_table *""'"); 
     }
-    arg1 = (TableOfStrings *)(argp1);
+    arg1 = (tc_table *)(argp1);
     result = (int) ((arg1)->cols);
     ST(argvi) = SWIG_From_int  SWIG_PERL_CALL_ARGS_1((int)(result)); argvi++ ;
     
@@ -2723,9 +2727,9 @@ XS(_wrap_TableOfStrings_cols_get) {
 }
 
 
-XS(_wrap_TableOfStrings_strings_set) {
+XS(_wrap_tc_table_strings_set) {
   {
-    TableOfStrings *arg1 = (TableOfStrings *) 0 ;
+    tc_table *arg1 = (tc_table *) 0 ;
     char **arg2 = (char **) 0 ;
     void *argp1 = 0 ;
     int res1 = 0 ;
@@ -2735,16 +2739,16 @@ XS(_wrap_TableOfStrings_strings_set) {
     dXSARGS;
     
     if ((items < 2) || (items > 2)) {
-      SWIG_croak("Usage: TableOfStrings_strings_set(self,strings);");
+      SWIG_croak("Usage: tc_table_strings_set(self,strings);");
     }
-    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_TableOfStrings, 0 |  0 );
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_tc_table, 0 |  0 );
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "TableOfStrings_strings_set" "', argument " "1"" of type '" "TableOfStrings *""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_table_strings_set" "', argument " "1"" of type '" "tc_table *""'"); 
     }
-    arg1 = (TableOfStrings *)(argp1);
+    arg1 = (tc_table *)(argp1);
     res2 = SWIG_ConvertPtr(ST(1), &argp2,SWIGTYPE_p_p_char, 0 |  0 );
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "TableOfStrings_strings_set" "', argument " "2"" of type '" "char **""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_table_strings_set" "', argument " "2"" of type '" "char **""'"); 
     }
     arg2 = (char **)(argp2);
     if (arg1) (arg1)->strings = arg2;
@@ -2760,9 +2764,9 @@ XS(_wrap_TableOfStrings_strings_set) {
 }
 
 
-XS(_wrap_TableOfStrings_strings_get) {
+XS(_wrap_tc_table_strings_get) {
   {
-    TableOfStrings *arg1 = (TableOfStrings *) 0 ;
+    tc_table *arg1 = (tc_table *) 0 ;
     void *argp1 = 0 ;
     int res1 = 0 ;
     int argvi = 0;
@@ -2770,13 +2774,13 @@ XS(_wrap_TableOfStrings_strings_get) {
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
-      SWIG_croak("Usage: TableOfStrings_strings_get(self);");
+      SWIG_croak("Usage: tc_table_strings_get(self);");
     }
-    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_TableOfStrings, 0 |  0 );
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_tc_table, 0 |  0 );
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "TableOfStrings_strings_get" "', argument " "1"" of type '" "TableOfStrings *""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_table_strings_get" "', argument " "1"" of type '" "tc_table *""'"); 
     }
-    arg1 = (TableOfStrings *)(argp1);
+    arg1 = (tc_table *)(argp1);
     result = (char **) ((arg1)->strings);
     ST(argvi) = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_p_char, 0 | 0); argvi++ ;
     
@@ -2788,10 +2792,10 @@ XS(_wrap_TableOfStrings_strings_get) {
 }
 
 
-XS(_wrap_TableOfStrings_rownames_set) {
+XS(_wrap_tc_table_rownames_set) {
   {
-    TableOfStrings *arg1 = (TableOfStrings *) 0 ;
-    ArrayOfStrings *arg2 = (ArrayOfStrings *) 0 ;
+    tc_table *arg1 = (tc_table *) 0 ;
+    tc_strings *arg2 = (tc_strings *) 0 ;
     void *argp1 = 0 ;
     int res1 = 0 ;
     void *argp2 = 0 ;
@@ -2800,18 +2804,18 @@ XS(_wrap_TableOfStrings_rownames_set) {
     dXSARGS;
     
     if ((items < 2) || (items > 2)) {
-      SWIG_croak("Usage: TableOfStrings_rownames_set(self,rownames);");
+      SWIG_croak("Usage: tc_table_rownames_set(self,rownames);");
     }
-    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_TableOfStrings, 0 |  0 );
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_tc_table, 0 |  0 );
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "TableOfStrings_rownames_set" "', argument " "1"" of type '" "TableOfStrings *""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_table_rownames_set" "', argument " "1"" of type '" "tc_table *""'"); 
     }
-    arg1 = (TableOfStrings *)(argp1);
-    res2 = SWIG_ConvertPtr(ST(1), &argp2,SWIGTYPE_p_ArrayOfStrings, 0 |  0 );
+    arg1 = (tc_table *)(argp1);
+    res2 = SWIG_ConvertPtr(ST(1), &argp2,SWIGTYPE_p_tc_strings, 0 |  0 );
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "TableOfStrings_rownames_set" "', argument " "2"" of type '" "ArrayOfStrings *""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_table_rownames_set" "', argument " "2"" of type '" "tc_strings *""'"); 
     }
-    arg2 = (ArrayOfStrings *)(argp2);
+    arg2 = (tc_strings *)(argp2);
     if (arg1) (arg1)->rownames = *arg2;
     ST(argvi) = sv_newmortal();
     
@@ -2825,25 +2829,25 @@ XS(_wrap_TableOfStrings_rownames_set) {
 }
 
 
-XS(_wrap_TableOfStrings_rownames_get) {
+XS(_wrap_tc_table_rownames_get) {
   {
-    TableOfStrings *arg1 = (TableOfStrings *) 0 ;
+    tc_table *arg1 = (tc_table *) 0 ;
     void *argp1 = 0 ;
     int res1 = 0 ;
     int argvi = 0;
-    ArrayOfStrings *result = 0 ;
+    tc_strings *result = 0 ;
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
-      SWIG_croak("Usage: TableOfStrings_rownames_get(self);");
+      SWIG_croak("Usage: tc_table_rownames_get(self);");
     }
-    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_TableOfStrings, 0 |  0 );
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_tc_table, 0 |  0 );
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "TableOfStrings_rownames_get" "', argument " "1"" of type '" "TableOfStrings *""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_table_rownames_get" "', argument " "1"" of type '" "tc_table *""'"); 
     }
-    arg1 = (TableOfStrings *)(argp1);
-    result = (ArrayOfStrings *)& ((arg1)->rownames);
-    ST(argvi) = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_ArrayOfStrings, 0 | SWIG_SHADOW); argvi++ ;
+    arg1 = (tc_table *)(argp1);
+    result = (tc_strings *)& ((arg1)->rownames);
+    ST(argvi) = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_tc_strings, 0 | SWIG_SHADOW); argvi++ ;
     
     XSRETURN(argvi);
   fail:
@@ -2853,10 +2857,10 @@ XS(_wrap_TableOfStrings_rownames_get) {
 }
 
 
-XS(_wrap_TableOfStrings_colnames_set) {
+XS(_wrap_tc_table_colnames_set) {
   {
-    TableOfStrings *arg1 = (TableOfStrings *) 0 ;
-    ArrayOfStrings *arg2 = (ArrayOfStrings *) 0 ;
+    tc_table *arg1 = (tc_table *) 0 ;
+    tc_strings *arg2 = (tc_strings *) 0 ;
     void *argp1 = 0 ;
     int res1 = 0 ;
     void *argp2 = 0 ;
@@ -2865,18 +2869,18 @@ XS(_wrap_TableOfStrings_colnames_set) {
     dXSARGS;
     
     if ((items < 2) || (items > 2)) {
-      SWIG_croak("Usage: TableOfStrings_colnames_set(self,colnames);");
+      SWIG_croak("Usage: tc_table_colnames_set(self,colnames);");
     }
-    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_TableOfStrings, 0 |  0 );
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_tc_table, 0 |  0 );
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "TableOfStrings_colnames_set" "', argument " "1"" of type '" "TableOfStrings *""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_table_colnames_set" "', argument " "1"" of type '" "tc_table *""'"); 
     }
-    arg1 = (TableOfStrings *)(argp1);
-    res2 = SWIG_ConvertPtr(ST(1), &argp2,SWIGTYPE_p_ArrayOfStrings, 0 |  0 );
+    arg1 = (tc_table *)(argp1);
+    res2 = SWIG_ConvertPtr(ST(1), &argp2,SWIGTYPE_p_tc_strings, 0 |  0 );
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "TableOfStrings_colnames_set" "', argument " "2"" of type '" "ArrayOfStrings *""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_table_colnames_set" "', argument " "2"" of type '" "tc_strings *""'"); 
     }
-    arg2 = (ArrayOfStrings *)(argp2);
+    arg2 = (tc_strings *)(argp2);
     if (arg1) (arg1)->colnames = *arg2;
     ST(argvi) = sv_newmortal();
     
@@ -2890,25 +2894,25 @@ XS(_wrap_TableOfStrings_colnames_set) {
 }
 
 
-XS(_wrap_TableOfStrings_colnames_get) {
+XS(_wrap_tc_table_colnames_get) {
   {
-    TableOfStrings *arg1 = (TableOfStrings *) 0 ;
+    tc_table *arg1 = (tc_table *) 0 ;
     void *argp1 = 0 ;
     int res1 = 0 ;
     int argvi = 0;
-    ArrayOfStrings *result = 0 ;
+    tc_strings *result = 0 ;
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
-      SWIG_croak("Usage: TableOfStrings_colnames_get(self);");
+      SWIG_croak("Usage: tc_table_colnames_get(self);");
     }
-    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_TableOfStrings, 0 |  0 );
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_tc_table, 0 |  0 );
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "TableOfStrings_colnames_get" "', argument " "1"" of type '" "TableOfStrings *""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_table_colnames_get" "', argument " "1"" of type '" "tc_table *""'"); 
     }
-    arg1 = (TableOfStrings *)(argp1);
-    result = (ArrayOfStrings *)& ((arg1)->colnames);
-    ST(argvi) = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_ArrayOfStrings, 0 | SWIG_SHADOW); argvi++ ;
+    arg1 = (tc_table *)(argp1);
+    result = (tc_strings *)& ((arg1)->colnames);
+    ST(argvi) = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_tc_strings, 0 | SWIG_SHADOW); argvi++ ;
     
     XSRETURN(argvi);
   fail:
@@ -2918,17 +2922,17 @@ XS(_wrap_TableOfStrings_colnames_get) {
 }
 
 
-XS(_wrap_new_TableOfStrings) {
+XS(_wrap_new_tc_table) {
   {
     int argvi = 0;
-    TableOfStrings *result = 0 ;
+    tc_table *result = 0 ;
     dXSARGS;
     
     if ((items < 0) || (items > 0)) {
-      SWIG_croak("Usage: new_TableOfStrings();");
+      SWIG_croak("Usage: new_tc_table();");
     }
-    result = (TableOfStrings *)calloc(1, sizeof(TableOfStrings));
-    ST(argvi) = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_TableOfStrings, SWIG_OWNER | SWIG_SHADOW); argvi++ ;
+    result = (tc_table *)calloc(1, sizeof(tc_table));
+    ST(argvi) = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_tc_table, SWIG_OWNER | SWIG_SHADOW); argvi++ ;
     XSRETURN(argvi);
   fail:
     SWIG_croak_null();
@@ -2936,22 +2940,22 @@ XS(_wrap_new_TableOfStrings) {
 }
 
 
-XS(_wrap_delete_TableOfStrings) {
+XS(_wrap_delete_tc_table) {
   {
-    TableOfStrings *arg1 = (TableOfStrings *) 0 ;
+    tc_table *arg1 = (tc_table *) 0 ;
     void *argp1 = 0 ;
     int res1 = 0 ;
     int argvi = 0;
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
-      SWIG_croak("Usage: delete_TableOfStrings(self);");
+      SWIG_croak("Usage: delete_tc_table(self);");
     }
-    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_TableOfStrings, SWIG_POINTER_DISOWN |  0 );
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_tc_table, SWIG_POINTER_DISOWN |  0 );
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_TableOfStrings" "', argument " "1"" of type '" "TableOfStrings *""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_tc_table" "', argument " "1"" of type '" "tc_table *""'"); 
     }
-    arg1 = (TableOfStrings *)(argp1);
+    arg1 = (tc_table *)(argp1);
     free((char *) arg1);
     ST(argvi) = sv_newmortal();
     
@@ -2963,7 +2967,7 @@ XS(_wrap_delete_TableOfStrings) {
 }
 
 
-XS(_wrap_newMatrix) {
+XS(_wrap_tc_createMatrix) {
   {
     int arg1 ;
     int arg2 ;
@@ -2972,24 +2976,24 @@ XS(_wrap_newMatrix) {
     int val2 ;
     int ecode2 = 0 ;
     int argvi = 0;
-    TableOfReals result;
+    tc_matrix result;
     dXSARGS;
     
     if ((items < 2) || (items > 2)) {
-      SWIG_croak("Usage: newMatrix(rows,cols);");
+      SWIG_croak("Usage: tc_createMatrix(rows,cols);");
     }
     ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "newMatrix" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_createMatrix" "', argument " "1"" of type '" "int""'");
     } 
     arg1 = (int)(val1);
     ecode2 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
     if (!SWIG_IsOK(ecode2)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "newMatrix" "', argument " "2"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_createMatrix" "', argument " "2"" of type '" "int""'");
     } 
     arg2 = (int)(val2);
-    result = newMatrix(arg1,arg2);
-    ST(argvi) = SWIG_NewPointerObj((TableOfReals *)memcpy((TableOfReals *)malloc(sizeof(TableOfReals)),&result,sizeof(TableOfReals)), SWIGTYPE_p_TableOfReals, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    result = tc_createMatrix(arg1,arg2);
+    ST(argvi) = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     
     
     XSRETURN(argvi);
@@ -3001,7 +3005,7 @@ XS(_wrap_newMatrix) {
 }
 
 
-XS(_wrap_newTableOfStrings) {
+XS(_wrap_tc_createTable) {
   {
     int arg1 ;
     int arg2 ;
@@ -3010,24 +3014,24 @@ XS(_wrap_newTableOfStrings) {
     int val2 ;
     int ecode2 = 0 ;
     int argvi = 0;
-    TableOfStrings result;
+    tc_table result;
     dXSARGS;
     
     if ((items < 2) || (items > 2)) {
-      SWIG_croak("Usage: newTableOfStrings(rows,cols);");
+      SWIG_croak("Usage: tc_createTable(rows,cols);");
     }
     ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "newTableOfStrings" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_createTable" "', argument " "1"" of type '" "int""'");
     } 
     arg1 = (int)(val1);
     ecode2 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
     if (!SWIG_IsOK(ecode2)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "newTableOfStrings" "', argument " "2"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_createTable" "', argument " "2"" of type '" "int""'");
     } 
     arg2 = (int)(val2);
-    result = newTableOfStrings(arg1,arg2);
-    ST(argvi) = SWIG_NewPointerObj((TableOfStrings *)memcpy((TableOfStrings *)malloc(sizeof(TableOfStrings)),&result,sizeof(TableOfStrings)), SWIGTYPE_p_TableOfStrings, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    result = tc_createTable(arg1,arg2);
+    ST(argvi) = SWIG_NewPointerObj((tc_table *)memcpy((tc_table *)malloc(sizeof(tc_table)),&result,sizeof(tc_table)), SWIGTYPE_p_tc_table, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     
     
     XSRETURN(argvi);
@@ -3039,25 +3043,25 @@ XS(_wrap_newTableOfStrings) {
 }
 
 
-XS(_wrap_newArrayOfStrings) {
+XS(_wrap_tc_createStringsArray) {
   {
     int arg1 ;
     int val1 ;
     int ecode1 = 0 ;
     int argvi = 0;
-    ArrayOfStrings result;
+    tc_strings result;
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
-      SWIG_croak("Usage: newArrayOfStrings(len);");
+      SWIG_croak("Usage: tc_createStringsArray(len);");
     }
     ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "newArrayOfStrings" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_createStringsArray" "', argument " "1"" of type '" "int""'");
     } 
     arg1 = (int)(val1);
-    result = newArrayOfStrings(arg1);
-    ST(argvi) = SWIG_NewPointerObj((ArrayOfStrings *)memcpy((ArrayOfStrings *)malloc(sizeof(ArrayOfStrings)),&result,sizeof(ArrayOfStrings)), SWIGTYPE_p_ArrayOfStrings, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    result = tc_createStringsArray(arg1);
+    ST(argvi) = SWIG_NewPointerObj((tc_strings *)memcpy((tc_strings *)malloc(sizeof(tc_strings)),&result,sizeof(tc_strings)), SWIGTYPE_p_tc_strings, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     
     XSRETURN(argvi);
   fail:
@@ -3067,25 +3071,25 @@ XS(_wrap_newArrayOfStrings) {
 }
 
 
-XS(_wrap_newArrayOfItems) {
+XS(_wrap_tc_createItemsArray) {
   {
     int arg1 ;
     int val1 ;
     int ecode1 = 0 ;
     int argvi = 0;
-    ArrayOfItems result;
+    tc_items result;
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
-      SWIG_croak("Usage: newArrayOfItems(len);");
+      SWIG_croak("Usage: tc_createItemsArray(len);");
     }
     ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "newArrayOfItems" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_createItemsArray" "', argument " "1"" of type '" "int""'");
     } 
     arg1 = (int)(val1);
-    result = newArrayOfItems(arg1);
-    ST(argvi) = SWIG_NewPointerObj((ArrayOfItems *)memcpy((ArrayOfItems *)malloc(sizeof(ArrayOfItems)),&result,sizeof(ArrayOfItems)), SWIGTYPE_p_ArrayOfItems, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    result = tc_createItemsArray(arg1);
+    ST(argvi) = SWIG_NewPointerObj((tc_items *)memcpy((tc_items *)malloc(sizeof(tc_items)),&result,sizeof(tc_items)), SWIGTYPE_p_tc_items, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     
     XSRETURN(argvi);
   fail:
@@ -3095,9 +3099,9 @@ XS(_wrap_newArrayOfItems) {
 }
 
 
-XS(_wrap_getValue) {
+XS(_wrap_tc_getMatrixValue) {
   {
-    TableOfReals arg1 ;
+    tc_matrix arg1 ;
     int arg2 ;
     int arg3 ;
     void *argp1 ;
@@ -3111,30 +3115,30 @@ XS(_wrap_getValue) {
     dXSARGS;
     
     if ((items < 3) || (items > 3)) {
-      SWIG_croak("Usage: getValue(M,i,j);");
+      SWIG_croak("Usage: tc_getMatrixValue(M,i,j);");
     }
     {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_TableOfReals,  0 );
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_matrix,  0 );
       if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "getValue" "', argument " "1"" of type '" "TableOfReals""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getMatrixValue" "', argument " "1"" of type '" "tc_matrix""'"); 
       }  
       if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "getValue" "', argument " "1"" of type '" "TableOfReals""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getMatrixValue" "', argument " "1"" of type '" "tc_matrix""'");
       } else {
-        arg1 = *((TableOfReals *)(argp1));
+        arg1 = *((tc_matrix *)(argp1));
       }
     }
     ecode2 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
     if (!SWIG_IsOK(ecode2)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "getValue" "', argument " "2"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_getMatrixValue" "', argument " "2"" of type '" "int""'");
     } 
     arg2 = (int)(val2);
     ecode3 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(2), &val3);
     if (!SWIG_IsOK(ecode3)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "getValue" "', argument " "3"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "tc_getMatrixValue" "', argument " "3"" of type '" "int""'");
     } 
     arg3 = (int)(val3);
-    result = (double)getValue(arg1,arg2,arg3);
+    result = (double)tc_getMatrixValue(arg1,arg2,arg3);
     ST(argvi) = SWIG_From_double  SWIG_PERL_CALL_ARGS_1((double)(result)); argvi++ ;
     
     
@@ -3147,9 +3151,9 @@ XS(_wrap_getValue) {
 }
 
 
-XS(_wrap_setValue) {
+XS(_wrap_tc_setMatrixValue) {
   {
-    TableOfReals arg1 ;
+    tc_matrix arg1 ;
     int arg2 ;
     int arg3 ;
     double arg4 ;
@@ -3165,35 +3169,35 @@ XS(_wrap_setValue) {
     dXSARGS;
     
     if ((items < 4) || (items > 4)) {
-      SWIG_croak("Usage: setValue(M,i,j,d);");
+      SWIG_croak("Usage: tc_setMatrixValue(M,i,j,d);");
     }
     {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_TableOfReals,  0 );
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_matrix,  0 );
       if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "setValue" "', argument " "1"" of type '" "TableOfReals""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setMatrixValue" "', argument " "1"" of type '" "tc_matrix""'"); 
       }  
       if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "setValue" "', argument " "1"" of type '" "TableOfReals""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_setMatrixValue" "', argument " "1"" of type '" "tc_matrix""'");
       } else {
-        arg1 = *((TableOfReals *)(argp1));
+        arg1 = *((tc_matrix *)(argp1));
       }
     }
     ecode2 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
     if (!SWIG_IsOK(ecode2)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "setValue" "', argument " "2"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_setMatrixValue" "', argument " "2"" of type '" "int""'");
     } 
     arg2 = (int)(val2);
     ecode3 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(2), &val3);
     if (!SWIG_IsOK(ecode3)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "setValue" "', argument " "3"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "tc_setMatrixValue" "', argument " "3"" of type '" "int""'");
     } 
     arg3 = (int)(val3);
     ecode4 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(3), &val4);
     if (!SWIG_IsOK(ecode4)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "setValue" "', argument " "4"" of type '" "double""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "tc_setMatrixValue" "', argument " "4"" of type '" "double""'");
     } 
     arg4 = (double)(val4);
-    setValue(arg1,arg2,arg3,arg4);
+    tc_setMatrixValue(arg1,arg2,arg3,arg4);
     ST(argvi) = sv_newmortal();
     
     
@@ -3208,9 +3212,9 @@ XS(_wrap_setValue) {
 }
 
 
-XS(_wrap_getRowName) {
+XS(_wrap_tc_getRowName) {
   {
-    TableOfReals arg1 ;
+    tc_matrix arg1 ;
     int arg2 ;
     void *argp1 ;
     int res1 = 0 ;
@@ -3221,25 +3225,25 @@ XS(_wrap_getRowName) {
     dXSARGS;
     
     if ((items < 2) || (items > 2)) {
-      SWIG_croak("Usage: getRowName(M,i);");
+      SWIG_croak("Usage: tc_getRowName(M,i);");
     }
     {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_TableOfReals,  0 );
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_matrix,  0 );
       if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "getRowName" "', argument " "1"" of type '" "TableOfReals""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getRowName" "', argument " "1"" of type '" "tc_matrix""'"); 
       }  
       if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "getRowName" "', argument " "1"" of type '" "TableOfReals""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getRowName" "', argument " "1"" of type '" "tc_matrix""'");
       } else {
-        arg1 = *((TableOfReals *)(argp1));
+        arg1 = *((tc_matrix *)(argp1));
       }
     }
     ecode2 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
     if (!SWIG_IsOK(ecode2)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "getRowName" "', argument " "2"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_getRowName" "', argument " "2"" of type '" "int""'");
     } 
     arg2 = (int)(val2);
-    result = (char *)getRowName(arg1,arg2);
+    result = (char *)tc_getRowName(arg1,arg2);
     ST(argvi) = SWIG_FromCharPtr((const char *)result); argvi++ ;
     
     XSRETURN(argvi);
@@ -3250,9 +3254,9 @@ XS(_wrap_getRowName) {
 }
 
 
-XS(_wrap_setRowName) {
+XS(_wrap_tc_setRowName) {
   {
-    TableOfReals arg1 ;
+    tc_matrix arg1 ;
     int arg2 ;
     char *arg3 = (char *) 0 ;
     void *argp1 ;
@@ -3266,30 +3270,30 @@ XS(_wrap_setRowName) {
     dXSARGS;
     
     if ((items < 3) || (items > 3)) {
-      SWIG_croak("Usage: setRowName(M,i,s);");
+      SWIG_croak("Usage: tc_setRowName(M,i,s);");
     }
     {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_TableOfReals,  0 );
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_matrix,  0 );
       if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "setRowName" "', argument " "1"" of type '" "TableOfReals""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setRowName" "', argument " "1"" of type '" "tc_matrix""'"); 
       }  
       if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "setRowName" "', argument " "1"" of type '" "TableOfReals""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_setRowName" "', argument " "1"" of type '" "tc_matrix""'");
       } else {
-        arg1 = *((TableOfReals *)(argp1));
+        arg1 = *((tc_matrix *)(argp1));
       }
     }
     ecode2 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
     if (!SWIG_IsOK(ecode2)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "setRowName" "', argument " "2"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_setRowName" "', argument " "2"" of type '" "int""'");
     } 
     arg2 = (int)(val2);
     res3 = SWIG_AsCharPtrAndSize(ST(2), &buf3, NULL, &alloc3);
     if (!SWIG_IsOK(res3)) {
-      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "setRowName" "', argument " "3"" of type '" "char const *""'");
+      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_setRowName" "', argument " "3"" of type '" "char const *""'");
     }
     arg3 = (char *)(buf3);
-    setRowName(arg1,arg2,(char const *)arg3);
+    tc_setRowName(arg1,arg2,(char const *)arg3);
     ST(argvi) = sv_newmortal();
     
     if (alloc3 == SWIG_NEWOBJ) free((char*)buf3);
@@ -3302,9 +3306,9 @@ XS(_wrap_setRowName) {
 }
 
 
-XS(_wrap_getColumnName) {
+XS(_wrap_tc_getColumnName) {
   {
-    TableOfReals arg1 ;
+    tc_matrix arg1 ;
     int arg2 ;
     void *argp1 ;
     int res1 = 0 ;
@@ -3315,25 +3319,25 @@ XS(_wrap_getColumnName) {
     dXSARGS;
     
     if ((items < 2) || (items > 2)) {
-      SWIG_croak("Usage: getColumnName(M,j);");
+      SWIG_croak("Usage: tc_getColumnName(M,j);");
     }
     {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_TableOfReals,  0 );
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_matrix,  0 );
       if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "getColumnName" "', argument " "1"" of type '" "TableOfReals""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getColumnName" "', argument " "1"" of type '" "tc_matrix""'"); 
       }  
       if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "getColumnName" "', argument " "1"" of type '" "TableOfReals""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getColumnName" "', argument " "1"" of type '" "tc_matrix""'");
       } else {
-        arg1 = *((TableOfReals *)(argp1));
+        arg1 = *((tc_matrix *)(argp1));
       }
     }
     ecode2 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
     if (!SWIG_IsOK(ecode2)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "getColumnName" "', argument " "2"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_getColumnName" "', argument " "2"" of type '" "int""'");
     } 
     arg2 = (int)(val2);
-    result = (char *)getColumnName(arg1,arg2);
+    result = (char *)tc_getColumnName(arg1,arg2);
     ST(argvi) = SWIG_FromCharPtr((const char *)result); argvi++ ;
     
     XSRETURN(argvi);
@@ -3344,9 +3348,9 @@ XS(_wrap_getColumnName) {
 }
 
 
-XS(_wrap_setColumnName) {
+XS(_wrap_tc_setColumnName) {
   {
-    TableOfReals arg1 ;
+    tc_matrix arg1 ;
     int arg2 ;
     char *arg3 = (char *) 0 ;
     void *argp1 ;
@@ -3360,30 +3364,30 @@ XS(_wrap_setColumnName) {
     dXSARGS;
     
     if ((items < 3) || (items > 3)) {
-      SWIG_croak("Usage: setColumnName(M,j,s);");
+      SWIG_croak("Usage: tc_setColumnName(M,j,s);");
     }
     {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_TableOfReals,  0 );
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_matrix,  0 );
       if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "setColumnName" "', argument " "1"" of type '" "TableOfReals""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setColumnName" "', argument " "1"" of type '" "tc_matrix""'"); 
       }  
       if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "setColumnName" "', argument " "1"" of type '" "TableOfReals""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_setColumnName" "', argument " "1"" of type '" "tc_matrix""'");
       } else {
-        arg1 = *((TableOfReals *)(argp1));
+        arg1 = *((tc_matrix *)(argp1));
       }
     }
     ecode2 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
     if (!SWIG_IsOK(ecode2)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "setColumnName" "', argument " "2"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_setColumnName" "', argument " "2"" of type '" "int""'");
     } 
     arg2 = (int)(val2);
     res3 = SWIG_AsCharPtrAndSize(ST(2), &buf3, NULL, &alloc3);
     if (!SWIG_IsOK(res3)) {
-      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "setColumnName" "', argument " "3"" of type '" "char const *""'");
+      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_setColumnName" "', argument " "3"" of type '" "char const *""'");
     }
     arg3 = (char *)(buf3);
-    setColumnName(arg1,arg2,(char const *)arg3);
+    tc_setColumnName(arg1,arg2,(char const *)arg3);
     ST(argvi) = sv_newmortal();
     
     if (alloc3 == SWIG_NEWOBJ) free((char*)buf3);
@@ -3396,9 +3400,9 @@ XS(_wrap_setColumnName) {
 }
 
 
-XS(_wrap_getString) {
+XS(_wrap_tc_getTableValue) {
   {
-    TableOfStrings arg1 ;
+    tc_table arg1 ;
     int arg2 ;
     int arg3 ;
     void *argp1 ;
@@ -3412,30 +3416,30 @@ XS(_wrap_getString) {
     dXSARGS;
     
     if ((items < 3) || (items > 3)) {
-      SWIG_croak("Usage: getString(S,i,j);");
+      SWIG_croak("Usage: tc_getTableValue(S,i,j);");
     }
     {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_TableOfStrings,  0 );
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_table,  0 );
       if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "getString" "', argument " "1"" of type '" "TableOfStrings""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getTableValue" "', argument " "1"" of type '" "tc_table""'"); 
       }  
       if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "getString" "', argument " "1"" of type '" "TableOfStrings""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getTableValue" "', argument " "1"" of type '" "tc_table""'");
       } else {
-        arg1 = *((TableOfStrings *)(argp1));
+        arg1 = *((tc_table *)(argp1));
       }
     }
     ecode2 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
     if (!SWIG_IsOK(ecode2)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "getString" "', argument " "2"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_getTableValue" "', argument " "2"" of type '" "int""'");
     } 
     arg2 = (int)(val2);
     ecode3 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(2), &val3);
     if (!SWIG_IsOK(ecode3)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "getString" "', argument " "3"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "tc_getTableValue" "', argument " "3"" of type '" "int""'");
     } 
     arg3 = (int)(val3);
-    result = (char *)getString(arg1,arg2,arg3);
+    result = (char *)tc_getTableValue(arg1,arg2,arg3);
     ST(argvi) = SWIG_FromCharPtr((const char *)result); argvi++ ;
     
     
@@ -3448,9 +3452,9 @@ XS(_wrap_getString) {
 }
 
 
-XS(_wrap_setString) {
+XS(_wrap_tc_setTableValue) {
   {
-    TableOfStrings arg1 ;
+    tc_table arg1 ;
     int arg2 ;
     int arg3 ;
     char *arg4 = (char *) 0 ;
@@ -3467,35 +3471,35 @@ XS(_wrap_setString) {
     dXSARGS;
     
     if ((items < 4) || (items > 4)) {
-      SWIG_croak("Usage: setString(S,i,j,s);");
+      SWIG_croak("Usage: tc_setTableValue(S,i,j,s);");
     }
     {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_TableOfStrings,  0 );
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_table,  0 );
       if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "setString" "', argument " "1"" of type '" "TableOfStrings""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setTableValue" "', argument " "1"" of type '" "tc_table""'"); 
       }  
       if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "setString" "', argument " "1"" of type '" "TableOfStrings""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_setTableValue" "', argument " "1"" of type '" "tc_table""'");
       } else {
-        arg1 = *((TableOfStrings *)(argp1));
+        arg1 = *((tc_table *)(argp1));
       }
     }
     ecode2 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
     if (!SWIG_IsOK(ecode2)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "setString" "', argument " "2"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_setTableValue" "', argument " "2"" of type '" "int""'");
     } 
     arg2 = (int)(val2);
     ecode3 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(2), &val3);
     if (!SWIG_IsOK(ecode3)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "setString" "', argument " "3"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "tc_setTableValue" "', argument " "3"" of type '" "int""'");
     } 
     arg3 = (int)(val3);
     res4 = SWIG_AsCharPtrAndSize(ST(3), &buf4, NULL, &alloc4);
     if (!SWIG_IsOK(res4)) {
-      SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "setString" "', argument " "4"" of type '" "char const *""'");
+      SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "tc_setTableValue" "', argument " "4"" of type '" "char const *""'");
     }
     arg4 = (char *)(buf4);
-    setString(arg1,arg2,arg3,(char const *)arg4);
+    tc_setTableValue(arg1,arg2,arg3,(char const *)arg4);
     ST(argvi) = sv_newmortal();
     
     
@@ -3510,9 +3514,9 @@ XS(_wrap_setString) {
 }
 
 
-XS(_wrap_nthString) {
+XS(_wrap_tc_getString) {
   {
-    ArrayOfStrings arg1 ;
+    tc_strings arg1 ;
     int arg2 ;
     void *argp1 ;
     int res1 = 0 ;
@@ -3523,25 +3527,25 @@ XS(_wrap_nthString) {
     dXSARGS;
     
     if ((items < 2) || (items > 2)) {
-      SWIG_croak("Usage: nthString(S,i);");
+      SWIG_croak("Usage: tc_getString(S,i);");
     }
     {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_ArrayOfStrings,  0 );
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_strings,  0 );
       if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "nthString" "', argument " "1"" of type '" "ArrayOfStrings""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getString" "', argument " "1"" of type '" "tc_strings""'"); 
       }  
       if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "nthString" "', argument " "1"" of type '" "ArrayOfStrings""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getString" "', argument " "1"" of type '" "tc_strings""'");
       } else {
-        arg1 = *((ArrayOfStrings *)(argp1));
+        arg1 = *((tc_strings *)(argp1));
       }
     }
     ecode2 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
     if (!SWIG_IsOK(ecode2)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "nthString" "', argument " "2"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_getString" "', argument " "2"" of type '" "int""'");
     } 
     arg2 = (int)(val2);
-    result = (char *)nthString(arg1,arg2);
+    result = (char *)tc_getString(arg1,arg2);
     ST(argvi) = SWIG_FromCharPtr((const char *)result); argvi++ ;
     
     XSRETURN(argvi);
@@ -3552,9 +3556,9 @@ XS(_wrap_nthString) {
 }
 
 
-XS(_wrap_setNthString) {
+XS(_wrap_tc_setString) {
   {
-    ArrayOfStrings arg1 ;
+    tc_strings arg1 ;
     int arg2 ;
     char *arg3 = (char *) 0 ;
     void *argp1 ;
@@ -3568,30 +3572,30 @@ XS(_wrap_setNthString) {
     dXSARGS;
     
     if ((items < 3) || (items > 3)) {
-      SWIG_croak("Usage: setNthString(S,i,c);");
+      SWIG_croak("Usage: tc_setString(S,i,c);");
     }
     {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_ArrayOfStrings,  0 );
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_strings,  0 );
       if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "setNthString" "', argument " "1"" of type '" "ArrayOfStrings""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setString" "', argument " "1"" of type '" "tc_strings""'"); 
       }  
       if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "setNthString" "', argument " "1"" of type '" "ArrayOfStrings""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_setString" "', argument " "1"" of type '" "tc_strings""'");
       } else {
-        arg1 = *((ArrayOfStrings *)(argp1));
+        arg1 = *((tc_strings *)(argp1));
       }
     }
     ecode2 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
     if (!SWIG_IsOK(ecode2)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "setNthString" "', argument " "2"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_setString" "', argument " "2"" of type '" "int""'");
     } 
     arg2 = (int)(val2);
     res3 = SWIG_AsCharPtrAndSize(ST(2), &buf3, NULL, &alloc3);
     if (!SWIG_IsOK(res3)) {
-      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "setNthString" "', argument " "3"" of type '" "char const *""'");
+      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_setString" "', argument " "3"" of type '" "char const *""'");
     }
     arg3 = (char *)(buf3);
-    setNthString(arg1,arg2,(char const *)arg3);
+    tc_setString(arg1,arg2,(char const *)arg3);
     ST(argvi) = sv_newmortal();
     
     if (alloc3 == SWIG_NEWOBJ) free((char*)buf3);
@@ -3604,39 +3608,39 @@ XS(_wrap_setNthString) {
 }
 
 
-XS(_wrap_nthItem) {
+XS(_wrap_tc_getItem) {
   {
-    ArrayOfItems arg1 ;
+    tc_items arg1 ;
     int arg2 ;
     void *argp1 ;
     int res1 = 0 ;
     int val2 ;
     int ecode2 = 0 ;
     int argvi = 0;
-    int result;
+    long result;
     dXSARGS;
     
     if ((items < 2) || (items > 2)) {
-      SWIG_croak("Usage: nthItem(A,i);");
+      SWIG_croak("Usage: tc_getItem(A,i);");
     }
     {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_ArrayOfItems,  0 );
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_items,  0 );
       if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "nthItem" "', argument " "1"" of type '" "ArrayOfItems""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getItem" "', argument " "1"" of type '" "tc_items""'"); 
       }  
       if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "nthItem" "', argument " "1"" of type '" "ArrayOfItems""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getItem" "', argument " "1"" of type '" "tc_items""'");
       } else {
-        arg1 = *((ArrayOfItems *)(argp1));
+        arg1 = *((tc_items *)(argp1));
       }
     }
     ecode2 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
     if (!SWIG_IsOK(ecode2)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "nthItem" "', argument " "2"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_getItem" "', argument " "2"" of type '" "int""'");
     } 
     arg2 = (int)(val2);
-    result = (int)nthItem(arg1,arg2);
-    ST(argvi) = SWIG_From_int  SWIG_PERL_CALL_ARGS_1((int)(result)); argvi++ ;
+    result = (long)tc_getItem(arg1,arg2);
+    ST(argvi) = SWIG_From_long  SWIG_PERL_CALL_ARGS_1((long)(result)); argvi++ ;
     
     XSRETURN(argvi);
   fail:
@@ -3646,45 +3650,45 @@ XS(_wrap_nthItem) {
 }
 
 
-XS(_wrap_setNthItem) {
+XS(_wrap_tc_setItem) {
   {
-    ArrayOfItems arg1 ;
+    tc_items arg1 ;
     int arg2 ;
-    int arg3 ;
+    long arg3 ;
     void *argp1 ;
     int res1 = 0 ;
     int val2 ;
     int ecode2 = 0 ;
-    int val3 ;
+    long val3 ;
     int ecode3 = 0 ;
     int argvi = 0;
     dXSARGS;
     
     if ((items < 3) || (items > 3)) {
-      SWIG_croak("Usage: setNthItem(A,i,o);");
+      SWIG_croak("Usage: tc_setItem(A,i,o);");
     }
     {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_ArrayOfItems,  0 );
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_items,  0 );
       if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "setNthItem" "', argument " "1"" of type '" "ArrayOfItems""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setItem" "', argument " "1"" of type '" "tc_items""'"); 
       }  
       if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "setNthItem" "', argument " "1"" of type '" "ArrayOfItems""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_setItem" "', argument " "1"" of type '" "tc_items""'");
       } else {
-        arg1 = *((ArrayOfItems *)(argp1));
+        arg1 = *((tc_items *)(argp1));
       }
     }
     ecode2 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
     if (!SWIG_IsOK(ecode2)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "setNthItem" "', argument " "2"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_setItem" "', argument " "2"" of type '" "int""'");
     } 
     arg2 = (int)(val2);
-    ecode3 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(2), &val3);
+    ecode3 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(2), &val3);
     if (!SWIG_IsOK(ecode3)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "setNthItem" "', argument " "3"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "tc_setItem" "', argument " "3"" of type '" "long""'");
     } 
-    arg3 = (int)(val3);
-    setNthItem(arg1,arg2,arg3);
+    arg3 = (long)(val3);
+    tc_setItem(arg1,arg2,arg3);
     ST(argvi) = sv_newmortal();
     
     
@@ -3697,23 +3701,23 @@ XS(_wrap_setNthItem) {
 }
 
 
-XS(_wrap_deleteMatrix) {
+XS(_wrap_tc_deleteMatrix) {
   {
-    TableOfReals *arg1 = (TableOfReals *) 0 ;
+    tc_matrix *arg1 = (tc_matrix *) 0 ;
     void *argp1 = 0 ;
     int res1 = 0 ;
     int argvi = 0;
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
-      SWIG_croak("Usage: deleteMatrix(M);");
+      SWIG_croak("Usage: tc_deleteMatrix(M);");
     }
-    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_TableOfReals, 0 |  0 );
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_tc_matrix, 0 |  0 );
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "deleteMatrix" "', argument " "1"" of type '" "TableOfReals *""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_deleteMatrix" "', argument " "1"" of type '" "tc_matrix *""'"); 
     }
-    arg1 = (TableOfReals *)(argp1);
-    deleteMatrix(arg1);
+    arg1 = (tc_matrix *)(argp1);
+    tc_deleteMatrix(arg1);
     ST(argvi) = sv_newmortal();
     
     XSRETURN(argvi);
@@ -3724,23 +3728,23 @@ XS(_wrap_deleteMatrix) {
 }
 
 
-XS(_wrap_deleteTableOfStrings) {
+XS(_wrap_tc_deleteTable) {
   {
-    TableOfStrings *arg1 = (TableOfStrings *) 0 ;
+    tc_table *arg1 = (tc_table *) 0 ;
     void *argp1 = 0 ;
     int res1 = 0 ;
     int argvi = 0;
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
-      SWIG_croak("Usage: deleteTableOfStrings(M);");
+      SWIG_croak("Usage: tc_deleteTable(M);");
     }
-    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_TableOfStrings, 0 |  0 );
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_tc_table, 0 |  0 );
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "deleteTableOfStrings" "', argument " "1"" of type '" "TableOfStrings *""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_deleteTable" "', argument " "1"" of type '" "tc_table *""'"); 
     }
-    arg1 = (TableOfStrings *)(argp1);
-    deleteTableOfStrings(arg1);
+    arg1 = (tc_table *)(argp1);
+    tc_deleteTable(arg1);
     ST(argvi) = sv_newmortal();
     
     XSRETURN(argvi);
@@ -3751,23 +3755,23 @@ XS(_wrap_deleteTableOfStrings) {
 }
 
 
-XS(_wrap_deleteArrayOfItems) {
+XS(_wrap_tc_deleteItemsArray) {
   {
-    ArrayOfItems *arg1 = (ArrayOfItems *) 0 ;
+    tc_items *arg1 = (tc_items *) 0 ;
     void *argp1 = 0 ;
     int res1 = 0 ;
     int argvi = 0;
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
-      SWIG_croak("Usage: deleteArrayOfItems(A);");
+      SWIG_croak("Usage: tc_deleteItemsArray(A);");
     }
-    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_ArrayOfItems, 0 |  0 );
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_tc_items, 0 |  0 );
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "deleteArrayOfItems" "', argument " "1"" of type '" "ArrayOfItems *""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_deleteItemsArray" "', argument " "1"" of type '" "tc_items *""'"); 
     }
-    arg1 = (ArrayOfItems *)(argp1);
-    deleteArrayOfItems(arg1);
+    arg1 = (tc_items *)(argp1);
+    tc_deleteItemsArray(arg1);
     ST(argvi) = sv_newmortal();
     
     XSRETURN(argvi);
@@ -3778,23 +3782,23 @@ XS(_wrap_deleteArrayOfItems) {
 }
 
 
-XS(_wrap_deleteArrayOfStrings) {
+XS(_wrap_tc_deleteStringsArray) {
   {
-    ArrayOfStrings *arg1 = (ArrayOfStrings *) 0 ;
+    tc_strings *arg1 = (tc_strings *) 0 ;
     void *argp1 = 0 ;
     int res1 = 0 ;
     int argvi = 0;
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
-      SWIG_croak("Usage: deleteArrayOfStrings(C);");
+      SWIG_croak("Usage: tc_deleteStringsArray(C);");
     }
-    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_ArrayOfStrings, 0 |  0 );
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_tc_strings, 0 |  0 );
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "deleteArrayOfStrings" "', argument " "1"" of type '" "ArrayOfStrings *""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_deleteStringsArray" "', argument " "1"" of type '" "tc_strings *""'"); 
     }
-    arg1 = (ArrayOfStrings *)(argp1);
-    deleteArrayOfStrings(arg1);
+    arg1 = (tc_strings *)(argp1);
+    tc_deleteStringsArray(arg1);
     ST(argvi) = sv_newmortal();
     
     XSRETURN(argvi);
@@ -3805,45 +3809,45 @@ XS(_wrap_deleteArrayOfStrings) {
 }
 
 
-XS(_wrap_cbind) {
+XS(_wrap_tc_appendColumns) {
   {
-    TableOfReals arg1 ;
-    TableOfReals arg2 ;
+    tc_matrix arg1 ;
+    tc_matrix arg2 ;
     void *argp1 ;
     int res1 = 0 ;
     void *argp2 ;
     int res2 = 0 ;
     int argvi = 0;
-    TableOfReals result;
+    tc_matrix result;
     dXSARGS;
     
     if ((items < 2) || (items > 2)) {
-      SWIG_croak("Usage: cbind(A,B);");
+      SWIG_croak("Usage: tc_appendColumns(A,B);");
     }
     {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_TableOfReals,  0 );
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_matrix,  0 );
       if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "cbind" "', argument " "1"" of type '" "TableOfReals""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_appendColumns" "', argument " "1"" of type '" "tc_matrix""'"); 
       }  
       if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "cbind" "', argument " "1"" of type '" "TableOfReals""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_appendColumns" "', argument " "1"" of type '" "tc_matrix""'");
       } else {
-        arg1 = *((TableOfReals *)(argp1));
+        arg1 = *((tc_matrix *)(argp1));
       }
     }
     {
-      res2 = SWIG_ConvertPtr(ST(1), &argp2, SWIGTYPE_p_TableOfReals,  0 );
+      res2 = SWIG_ConvertPtr(ST(1), &argp2, SWIGTYPE_p_tc_matrix,  0 );
       if (!SWIG_IsOK(res2)) {
-        SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "cbind" "', argument " "2"" of type '" "TableOfReals""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_appendColumns" "', argument " "2"" of type '" "tc_matrix""'"); 
       }  
       if (!argp2) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "cbind" "', argument " "2"" of type '" "TableOfReals""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_appendColumns" "', argument " "2"" of type '" "tc_matrix""'");
       } else {
-        arg2 = *((TableOfReals *)(argp2));
+        arg2 = *((tc_matrix *)(argp2));
       }
     }
-    result = cbind(arg1,arg2);
-    ST(argvi) = SWIG_NewPointerObj((TableOfReals *)memcpy((TableOfReals *)malloc(sizeof(TableOfReals)),&result,sizeof(TableOfReals)), SWIGTYPE_p_TableOfReals, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    result = tc_appendColumns(arg1,arg2);
+    ST(argvi) = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     XSRETURN(argvi);
   fail:
     SWIG_croak_null();
@@ -3851,45 +3855,45 @@ XS(_wrap_cbind) {
 }
 
 
-XS(_wrap_rbind) {
+XS(_wrap_tc_appendRows) {
   {
-    TableOfReals arg1 ;
-    TableOfReals arg2 ;
+    tc_matrix arg1 ;
+    tc_matrix arg2 ;
     void *argp1 ;
     int res1 = 0 ;
     void *argp2 ;
     int res2 = 0 ;
     int argvi = 0;
-    TableOfReals result;
+    tc_matrix result;
     dXSARGS;
     
     if ((items < 2) || (items > 2)) {
-      SWIG_croak("Usage: rbind(A,B);");
+      SWIG_croak("Usage: tc_appendRows(A,B);");
     }
     {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_TableOfReals,  0 );
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_matrix,  0 );
       if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "rbind" "', argument " "1"" of type '" "TableOfReals""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_appendRows" "', argument " "1"" of type '" "tc_matrix""'"); 
       }  
       if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "rbind" "', argument " "1"" of type '" "TableOfReals""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_appendRows" "', argument " "1"" of type '" "tc_matrix""'");
       } else {
-        arg1 = *((TableOfReals *)(argp1));
+        arg1 = *((tc_matrix *)(argp1));
       }
     }
     {
-      res2 = SWIG_ConvertPtr(ST(1), &argp2, SWIGTYPE_p_TableOfReals,  0 );
+      res2 = SWIG_ConvertPtr(ST(1), &argp2, SWIGTYPE_p_tc_matrix,  0 );
       if (!SWIG_IsOK(res2)) {
-        SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "rbind" "', argument " "2"" of type '" "TableOfReals""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_appendRows" "', argument " "2"" of type '" "tc_matrix""'"); 
       }  
       if (!argp2) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "rbind" "', argument " "2"" of type '" "TableOfReals""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_appendRows" "', argument " "2"" of type '" "tc_matrix""'");
       } else {
-        arg2 = *((TableOfReals *)(argp2));
+        arg2 = *((tc_matrix *)(argp2));
       }
     }
-    result = rbind(arg1,arg2);
-    ST(argvi) = SWIG_NewPointerObj((TableOfReals *)memcpy((TableOfReals *)malloc(sizeof(TableOfReals)),&result,sizeof(TableOfReals)), SWIGTYPE_p_TableOfReals, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    result = tc_appendRows(arg1,arg2);
+    ST(argvi) = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     XSRETURN(argvi);
   fail:
     SWIG_croak_null();
@@ -3900,14 +3904,14 @@ XS(_wrap_rbind) {
 XS(_wrap_tc_allItems) {
   {
     int argvi = 0;
-    ArrayOfItems result;
+    tc_items result;
     dXSARGS;
     
     if ((items < 0) || (items > 0)) {
       SWIG_croak("Usage: tc_allItems();");
     }
     result = tc_allItems();
-    ST(argvi) = SWIG_NewPointerObj((ArrayOfItems *)memcpy((ArrayOfItems *)malloc(sizeof(ArrayOfItems)),&result,sizeof(ArrayOfItems)), SWIGTYPE_p_ArrayOfItems, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    ST(argvi) = SWIG_NewPointerObj((tc_items *)memcpy((tc_items *)malloc(sizeof(tc_items)),&result,sizeof(tc_items)), SWIGTYPE_p_tc_items, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     XSRETURN(argvi);
   fail:
     SWIG_croak_null();
@@ -3918,14 +3922,14 @@ XS(_wrap_tc_allItems) {
 XS(_wrap_tc_selectedItems) {
   {
     int argvi = 0;
-    ArrayOfItems result;
+    tc_items result;
     dXSARGS;
     
     if ((items < 0) || (items > 0)) {
       SWIG_croak("Usage: tc_selectedItems();");
     }
     result = tc_selectedItems();
-    ST(argvi) = SWIG_NewPointerObj((ArrayOfItems *)memcpy((ArrayOfItems *)malloc(sizeof(ArrayOfItems)),&result,sizeof(ArrayOfItems)), SWIGTYPE_p_ArrayOfItems, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    ST(argvi) = SWIG_NewPointerObj((tc_items *)memcpy((tc_items *)malloc(sizeof(tc_items)),&result,sizeof(tc_items)), SWIGTYPE_p_tc_items, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     XSRETURN(argvi);
   fail:
     SWIG_croak_null();
@@ -3940,7 +3944,7 @@ XS(_wrap_tc_itemsOfFamily) {
     char *buf1 = 0 ;
     int alloc1 = 0 ;
     int argvi = 0;
-    ArrayOfItems result;
+    tc_items result;
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
@@ -3952,7 +3956,7 @@ XS(_wrap_tc_itemsOfFamily) {
     }
     arg1 = (char *)(buf1);
     result = tc_itemsOfFamily((char const *)arg1);
-    ST(argvi) = SWIG_NewPointerObj((ArrayOfItems *)memcpy((ArrayOfItems *)malloc(sizeof(ArrayOfItems)),&result,sizeof(ArrayOfItems)), SWIGTYPE_p_ArrayOfItems, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    ST(argvi) = SWIG_NewPointerObj((tc_items *)memcpy((tc_items *)malloc(sizeof(tc_items)),&result,sizeof(tc_items)), SWIGTYPE_p_tc_items, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
     XSRETURN(argvi);
   fail:
@@ -3965,14 +3969,14 @@ XS(_wrap_tc_itemsOfFamily) {
 XS(_wrap_tc_itemsOfFamilyFrom) {
   {
     char *arg1 = (char *) 0 ;
-    ArrayOfItems arg2 ;
+    tc_items arg2 ;
     int res1 ;
     char *buf1 = 0 ;
     int alloc1 = 0 ;
     void *argp2 ;
     int res2 = 0 ;
     int argvi = 0;
-    ArrayOfItems result;
+    tc_items result;
     dXSARGS;
     
     if ((items < 2) || (items > 2)) {
@@ -3984,18 +3988,18 @@ XS(_wrap_tc_itemsOfFamilyFrom) {
     }
     arg1 = (char *)(buf1);
     {
-      res2 = SWIG_ConvertPtr(ST(1), &argp2, SWIGTYPE_p_ArrayOfItems,  0 );
+      res2 = SWIG_ConvertPtr(ST(1), &argp2, SWIGTYPE_p_tc_items,  0 );
       if (!SWIG_IsOK(res2)) {
-        SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_itemsOfFamilyFrom" "', argument " "2"" of type '" "ArrayOfItems""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_itemsOfFamilyFrom" "', argument " "2"" of type '" "tc_items""'"); 
       }  
       if (!argp2) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_itemsOfFamilyFrom" "', argument " "2"" of type '" "ArrayOfItems""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_itemsOfFamilyFrom" "', argument " "2"" of type '" "tc_items""'");
       } else {
-        arg2 = *((ArrayOfItems *)(argp2));
+        arg2 = *((tc_items *)(argp2));
       }
     }
     result = tc_itemsOfFamilyFrom((char const *)arg1,arg2);
-    ST(argvi) = SWIG_NewPointerObj((ArrayOfItems *)memcpy((ArrayOfItems *)malloc(sizeof(ArrayOfItems)),&result,sizeof(ArrayOfItems)), SWIGTYPE_p_ArrayOfItems, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    ST(argvi) = SWIG_NewPointerObj((tc_items *)memcpy((tc_items *)malloc(sizeof(tc_items)),&result,sizeof(tc_items)), SWIGTYPE_p_tc_items, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
     XSRETURN(argvi);
   fail:
@@ -4012,7 +4016,7 @@ XS(_wrap_tc_find) {
     char *buf1 = 0 ;
     int alloc1 = 0 ;
     int argvi = 0;
-    int result;
+    long result;
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
@@ -4023,8 +4027,8 @@ XS(_wrap_tc_find) {
       SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_find" "', argument " "1"" of type '" "char const *""'");
     }
     arg1 = (char *)(buf1);
-    result = (int)tc_find((char const *)arg1);
-    ST(argvi) = SWIG_From_int  SWIG_PERL_CALL_ARGS_1((int)(result)); argvi++ ;
+    result = (long)tc_find((char const *)arg1);
+    ST(argvi) = SWIG_From_long  SWIG_PERL_CALL_ARGS_1((long)(result)); argvi++ ;
     if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
     XSRETURN(argvi);
   fail:
@@ -4036,29 +4040,29 @@ XS(_wrap_tc_find) {
 
 XS(_wrap_tc_findItems) {
   {
-    ArrayOfStrings arg1 ;
+    tc_strings arg1 ;
     void *argp1 ;
     int res1 = 0 ;
     int argvi = 0;
-    ArrayOfItems result;
+    tc_items result;
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
       SWIG_croak("Usage: tc_findItems(names);");
     }
     {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_ArrayOfStrings,  0 );
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_strings,  0 );
       if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_findItems" "', argument " "1"" of type '" "ArrayOfStrings""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_findItems" "', argument " "1"" of type '" "tc_strings""'"); 
       }  
       if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_findItems" "', argument " "1"" of type '" "ArrayOfStrings""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_findItems" "', argument " "1"" of type '" "tc_strings""'");
       } else {
-        arg1 = *((ArrayOfStrings *)(argp1));
+        arg1 = *((tc_strings *)(argp1));
       }
     }
     result = tc_findItems(arg1);
-    ST(argvi) = SWIG_NewPointerObj((ArrayOfItems *)memcpy((ArrayOfItems *)malloc(sizeof(ArrayOfItems)),&result,sizeof(ArrayOfItems)), SWIGTYPE_p_ArrayOfItems, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    ST(argvi) = SWIG_NewPointerObj((tc_items *)memcpy((tc_items *)malloc(sizeof(tc_items)),&result,sizeof(tc_items)), SWIGTYPE_p_tc_items, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     XSRETURN(argvi);
   fail:
     SWIG_croak_null();
@@ -4068,8 +4072,8 @@ XS(_wrap_tc_findItems) {
 
 XS(_wrap_tc_select) {
   {
-    int arg1 ;
-    int val1 ;
+    long arg1 ;
+    long val1 ;
     int ecode1 = 0 ;
     int argvi = 0;
     dXSARGS;
@@ -4077,11 +4081,11 @@ XS(_wrap_tc_select) {
     if ((items < 1) || (items > 1)) {
       SWIG_croak("Usage: tc_select(item);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_select" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_select" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     tc_select(arg1);
     ST(argvi) = sv_newmortal();
     
@@ -4112,8 +4116,8 @@ XS(_wrap_tc_deselect) {
 
 XS(_wrap_tc_getName) {
   {
-    int arg1 ;
-    int val1 ;
+    long arg1 ;
+    long val1 ;
     int ecode1 = 0 ;
     int argvi = 0;
     char *result = 0 ;
@@ -4122,11 +4126,11 @@ XS(_wrap_tc_getName) {
     if ((items < 1) || (items > 1)) {
       SWIG_croak("Usage: tc_getName(item);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getName" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getName" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     result = (char *)tc_getName(arg1);
     ST(argvi) = SWIG_FromCharPtr((const char *)result); argvi++ ;
     
@@ -4140,8 +4144,8 @@ XS(_wrap_tc_getName) {
 
 XS(_wrap_tc_getUniqueName) {
   {
-    int arg1 ;
-    int val1 ;
+    long arg1 ;
+    long val1 ;
     int ecode1 = 0 ;
     int argvi = 0;
     char *result = 0 ;
@@ -4150,11 +4154,11 @@ XS(_wrap_tc_getUniqueName) {
     if ((items < 1) || (items > 1)) {
       SWIG_croak("Usage: tc_getUniqueName(item);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getUniqueName" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getUniqueName" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     result = (char *)tc_getUniqueName(arg1);
     ST(argvi) = SWIG_FromCharPtr((const char *)result); argvi++ ;
     
@@ -4168,9 +4172,9 @@ XS(_wrap_tc_getUniqueName) {
 
 XS(_wrap_tc_rename) {
   {
-    int arg1 ;
+    long arg1 ;
     char *arg2 = (char *) 0 ;
-    int val1 ;
+    long val1 ;
     int ecode1 = 0 ;
     int res2 ;
     char *buf2 = 0 ;
@@ -4181,11 +4185,11 @@ XS(_wrap_tc_rename) {
     if ((items < 2) || (items > 2)) {
       SWIG_croak("Usage: tc_rename(item,name);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_rename" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_rename" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     res2 = SWIG_AsCharPtrAndSize(ST(1), &buf2, NULL, &alloc2);
     if (!SWIG_IsOK(res2)) {
       SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_rename" "', argument " "2"" of type '" "char const *""'");
@@ -4206,29 +4210,29 @@ XS(_wrap_tc_rename) {
 
 XS(_wrap_tc_getNames) {
   {
-    ArrayOfItems arg1 ;
+    tc_items arg1 ;
     void *argp1 ;
     int res1 = 0 ;
     int argvi = 0;
-    ArrayOfStrings result;
+    tc_strings result;
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
       SWIG_croak("Usage: tc_getNames(items);");
     }
     {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_ArrayOfItems,  0 );
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_items,  0 );
       if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getNames" "', argument " "1"" of type '" "ArrayOfItems""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getNames" "', argument " "1"" of type '" "tc_items""'"); 
       }  
       if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getNames" "', argument " "1"" of type '" "ArrayOfItems""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getNames" "', argument " "1"" of type '" "tc_items""'");
       } else {
-        arg1 = *((ArrayOfItems *)(argp1));
+        arg1 = *((tc_items *)(argp1));
       }
     }
     result = tc_getNames(arg1);
-    ST(argvi) = SWIG_NewPointerObj((ArrayOfStrings *)memcpy((ArrayOfStrings *)malloc(sizeof(ArrayOfStrings)),&result,sizeof(ArrayOfStrings)), SWIGTYPE_p_ArrayOfStrings, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    ST(argvi) = SWIG_NewPointerObj((tc_strings *)memcpy((tc_strings *)malloc(sizeof(tc_strings)),&result,sizeof(tc_strings)), SWIGTYPE_p_tc_strings, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     XSRETURN(argvi);
   fail:
     SWIG_croak_null();
@@ -4238,29 +4242,29 @@ XS(_wrap_tc_getNames) {
 
 XS(_wrap_tc_getUniqueNames) {
   {
-    ArrayOfItems arg1 ;
+    tc_items arg1 ;
     void *argp1 ;
     int res1 = 0 ;
     int argvi = 0;
-    ArrayOfStrings result;
+    tc_strings result;
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
       SWIG_croak("Usage: tc_getUniqueNames(items);");
     }
     {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_ArrayOfItems,  0 );
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_items,  0 );
       if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getUniqueNames" "', argument " "1"" of type '" "ArrayOfItems""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getUniqueNames" "', argument " "1"" of type '" "tc_items""'"); 
       }  
       if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getUniqueNames" "', argument " "1"" of type '" "ArrayOfItems""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getUniqueNames" "', argument " "1"" of type '" "tc_items""'");
       } else {
-        arg1 = *((ArrayOfItems *)(argp1));
+        arg1 = *((tc_items *)(argp1));
       }
     }
     result = tc_getUniqueNames(arg1);
-    ST(argvi) = SWIG_NewPointerObj((ArrayOfStrings *)memcpy((ArrayOfStrings *)malloc(sizeof(ArrayOfStrings)),&result,sizeof(ArrayOfStrings)), SWIGTYPE_p_ArrayOfStrings, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    ST(argvi) = SWIG_NewPointerObj((tc_strings *)memcpy((tc_strings *)malloc(sizeof(tc_strings)),&result,sizeof(tc_strings)), SWIGTYPE_p_tc_strings, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     XSRETURN(argvi);
   fail:
     SWIG_croak_null();
@@ -4270,8 +4274,8 @@ XS(_wrap_tc_getUniqueNames) {
 
 XS(_wrap_tc_getFamily) {
   {
-    int arg1 ;
-    int val1 ;
+    long arg1 ;
+    long val1 ;
     int ecode1 = 0 ;
     int argvi = 0;
     char *result = 0 ;
@@ -4280,11 +4284,11 @@ XS(_wrap_tc_getFamily) {
     if ((items < 1) || (items > 1)) {
       SWIG_croak("Usage: tc_getFamily(item);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getFamily" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getFamily" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     result = (char *)tc_getFamily(arg1);
     ST(argvi) = SWIG_FromCharPtr((const char *)result); argvi++ ;
     
@@ -4298,9 +4302,9 @@ XS(_wrap_tc_getFamily) {
 
 XS(_wrap_tc_isA) {
   {
-    int arg1 ;
+    long arg1 ;
     char *arg2 = (char *) 0 ;
-    int val1 ;
+    long val1 ;
     int ecode1 = 0 ;
     int res2 ;
     char *buf2 = 0 ;
@@ -4312,11 +4316,11 @@ XS(_wrap_tc_isA) {
     if ((items < 2) || (items > 2)) {
       SWIG_croak("Usage: tc_isA(item,family);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_isA" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_isA" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     res2 = SWIG_AsCharPtrAndSize(ST(1), &buf2, NULL, &alloc2);
     if (!SWIG_IsOK(res2)) {
       SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_isA" "', argument " "2"" of type '" "char const *""'");
@@ -4393,7 +4397,7 @@ XS(_wrap_tc_errorReport) {
 
 XS(_wrap_tc_printTable) {
   {
-    TableOfReals arg1 ;
+    tc_matrix arg1 ;
     void *argp1 ;
     int res1 = 0 ;
     int argvi = 0;
@@ -4403,14 +4407,14 @@ XS(_wrap_tc_printTable) {
       SWIG_croak("Usage: tc_printTable(data);");
     }
     {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_TableOfReals,  0 );
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_matrix,  0 );
       if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_printTable" "', argument " "1"" of type '" "TableOfReals""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_printTable" "', argument " "1"" of type '" "tc_matrix""'"); 
       }  
       if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_printTable" "', argument " "1"" of type '" "TableOfReals""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_printTable" "', argument " "1"" of type '" "tc_matrix""'");
       } else {
-        arg1 = *((TableOfReals *)(argp1));
+        arg1 = *((tc_matrix *)(argp1));
       }
     }
     tc_printTable(arg1);
@@ -4469,8 +4473,8 @@ XS(_wrap_tc_clear) {
 
 XS(_wrap_tc_remove) {
   {
-    int arg1 ;
-    int val1 ;
+    long arg1 ;
+    long val1 ;
     int ecode1 = 0 ;
     int argvi = 0;
     dXSARGS;
@@ -4478,11 +4482,11 @@ XS(_wrap_tc_remove) {
     if ((items < 1) || (items > 1)) {
       SWIG_croak("Usage: tc_remove(item);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_remove" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_remove" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     tc_remove(arg1);
     ST(argvi) = sv_newmortal();
     
@@ -4496,8 +4500,8 @@ XS(_wrap_tc_remove) {
 
 XS(_wrap_tc_getY) {
   {
-    int arg1 ;
-    int val1 ;
+    long arg1 ;
+    long val1 ;
     int ecode1 = 0 ;
     int argvi = 0;
     double result;
@@ -4506,11 +4510,11 @@ XS(_wrap_tc_getY) {
     if ((items < 1) || (items > 1)) {
       SWIG_croak("Usage: tc_getY(item);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getY" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getY" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     result = (double)tc_getY(arg1);
     ST(argvi) = SWIG_From_double  SWIG_PERL_CALL_ARGS_1((double)(result)); argvi++ ;
     
@@ -4524,8 +4528,8 @@ XS(_wrap_tc_getY) {
 
 XS(_wrap_tc_getX) {
   {
-    int arg1 ;
-    int val1 ;
+    long arg1 ;
+    long val1 ;
     int ecode1 = 0 ;
     int argvi = 0;
     double result;
@@ -4534,11 +4538,11 @@ XS(_wrap_tc_getX) {
     if ((items < 1) || (items > 1)) {
       SWIG_croak("Usage: tc_getX(item);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getX" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getX" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     result = (double)tc_getX(arg1);
     ST(argvi) = SWIG_From_double  SWIG_PERL_CALL_ARGS_1((double)(result)); argvi++ ;
     
@@ -4552,29 +4556,29 @@ XS(_wrap_tc_getX) {
 
 XS(_wrap_tc_getPos) {
   {
-    ArrayOfItems arg1 ;
+    tc_items arg1 ;
     void *argp1 ;
     int res1 = 0 ;
     int argvi = 0;
-    TableOfReals result;
+    tc_matrix result;
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
       SWIG_croak("Usage: tc_getPos(items);");
     }
     {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_ArrayOfItems,  0 );
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_items,  0 );
       if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getPos" "', argument " "1"" of type '" "ArrayOfItems""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getPos" "', argument " "1"" of type '" "tc_items""'"); 
       }  
       if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getPos" "', argument " "1"" of type '" "ArrayOfItems""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getPos" "', argument " "1"" of type '" "tc_items""'");
       } else {
-        arg1 = *((ArrayOfItems *)(argp1));
+        arg1 = *((tc_items *)(argp1));
       }
     }
     result = tc_getPos(arg1);
-    ST(argvi) = SWIG_NewPointerObj((TableOfReals *)memcpy((TableOfReals *)malloc(sizeof(TableOfReals)),&result,sizeof(TableOfReals)), SWIGTYPE_p_TableOfReals, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    ST(argvi) = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     XSRETURN(argvi);
   fail:
     SWIG_croak_null();
@@ -4584,10 +4588,10 @@ XS(_wrap_tc_getPos) {
 
 XS(_wrap_tc_setPos) {
   {
-    int arg1 ;
+    long arg1 ;
     double arg2 ;
     double arg3 ;
-    int val1 ;
+    long val1 ;
     int ecode1 = 0 ;
     double val2 ;
     int ecode2 = 0 ;
@@ -4599,11 +4603,11 @@ XS(_wrap_tc_setPos) {
     if ((items < 3) || (items > 3)) {
       SWIG_croak("Usage: tc_setPos(item,x,y);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setPos" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setPos" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     ecode2 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
     if (!SWIG_IsOK(ecode2)) {
       SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_setPos" "', argument " "2"" of type '" "double""'");
@@ -4631,8 +4635,8 @@ XS(_wrap_tc_setPos) {
 
 XS(_wrap_tc_setPosMulti) {
   {
-    ArrayOfItems arg1 ;
-    TableOfReals arg2 ;
+    tc_items arg1 ;
+    tc_matrix arg2 ;
     void *argp1 ;
     int res1 = 0 ;
     void *argp2 ;
@@ -4644,25 +4648,25 @@ XS(_wrap_tc_setPosMulti) {
       SWIG_croak("Usage: tc_setPosMulti(items,positions);");
     }
     {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_ArrayOfItems,  0 );
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_items,  0 );
       if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setPosMulti" "', argument " "1"" of type '" "ArrayOfItems""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setPosMulti" "', argument " "1"" of type '" "tc_items""'"); 
       }  
       if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_setPosMulti" "', argument " "1"" of type '" "ArrayOfItems""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_setPosMulti" "', argument " "1"" of type '" "tc_items""'");
       } else {
-        arg1 = *((ArrayOfItems *)(argp1));
+        arg1 = *((tc_items *)(argp1));
       }
     }
     {
-      res2 = SWIG_ConvertPtr(ST(1), &argp2, SWIGTYPE_p_TableOfReals,  0 );
+      res2 = SWIG_ConvertPtr(ST(1), &argp2, SWIGTYPE_p_tc_matrix,  0 );
       if (!SWIG_IsOK(res2)) {
-        SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setPosMulti" "', argument " "2"" of type '" "TableOfReals""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setPosMulti" "', argument " "2"" of type '" "tc_matrix""'"); 
       }  
       if (!argp2) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_setPosMulti" "', argument " "2"" of type '" "TableOfReals""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_setPosMulti" "', argument " "2"" of type '" "tc_matrix""'");
       } else {
-        arg2 = *((TableOfReals *)(argp2));
+        arg2 = *((tc_matrix *)(argp2));
       }
     }
     tc_setPosMulti(arg1,arg2);
@@ -4785,7 +4789,7 @@ XS(_wrap_tc_appDir) {
 
 XS(_wrap_tc_createInputWindowFromFile) {
   {
-    TableOfReals arg1 ;
+    tc_matrix arg1 ;
     char *arg2 = (char *) 0 ;
     char *arg3 = (char *) 0 ;
     char *arg4 = (char *) 0 ;
@@ -4807,14 +4811,14 @@ XS(_wrap_tc_createInputWindowFromFile) {
       SWIG_croak("Usage: tc_createInputWindowFromFile(input,filename,functionname,title);");
     }
     {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_TableOfReals,  0 );
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_matrix,  0 );
       if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_createInputWindowFromFile" "', argument " "1"" of type '" "TableOfReals""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_createInputWindowFromFile" "', argument " "1"" of type '" "tc_matrix""'"); 
       }  
       if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_createInputWindowFromFile" "', argument " "1"" of type '" "TableOfReals""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_createInputWindowFromFile" "', argument " "1"" of type '" "tc_matrix""'");
       } else {
-        arg1 = *((TableOfReals *)(argp1));
+        arg1 = *((tc_matrix *)(argp1));
       }
     }
     res2 = SWIG_AsCharPtrAndSize(ST(1), &buf2, NULL, &alloc2);
@@ -4849,9 +4853,9 @@ XS(_wrap_tc_createInputWindowFromFile) {
 
 XS(_wrap_tc_createInputWindow) {
   {
-    TableOfReals arg1 ;
+    tc_matrix arg1 ;
     char *arg2 = (char *) 0 ;
-    void (*arg3)(TableOfReals) = (void (*)(TableOfReals)) 0 ;
+    void (*arg3)(tc_matrix) = (void (*)(tc_matrix)) 0 ;
     void *argp1 ;
     int res1 = 0 ;
     int res2 ;
@@ -4864,14 +4868,14 @@ XS(_wrap_tc_createInputWindow) {
       SWIG_croak("Usage: tc_createInputWindow(input,title,f);");
     }
     {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_TableOfReals,  0 );
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_matrix,  0 );
       if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_createInputWindow" "', argument " "1"" of type '" "TableOfReals""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_createInputWindow" "', argument " "1"" of type '" "tc_matrix""'"); 
       }  
       if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_createInputWindow" "', argument " "1"" of type '" "TableOfReals""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_createInputWindow" "', argument " "1"" of type '" "tc_matrix""'");
       } else {
-        arg1 = *((TableOfReals *)(argp1));
+        arg1 = *((tc_matrix *)(argp1));
       }
     }
     res2 = SWIG_AsCharPtrAndSize(ST(1), &buf2, NULL, &alloc2);
@@ -4880,9 +4884,9 @@ XS(_wrap_tc_createInputWindow) {
     }
     arg2 = (char *)(buf2);
     {
-      int res = SWIG_ConvertFunctionPtr(ST(2), (void**)(&arg3), SWIGTYPE_p_f_struct_TableOfReals__void);
+      int res = SWIG_ConvertFunctionPtr(ST(2), (void**)(&arg3), SWIGTYPE_p_f_struct_tc_matrix__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_createInputWindow" "', argument " "3"" of type '" "void (*)(TableOfReals)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_createInputWindow" "', argument " "3"" of type '" "void (*)(tc_matrix)""'"); 
       }
     }
     tc_createInputWindow(arg1,(char const *)arg2,arg3);
@@ -4903,7 +4907,7 @@ XS(_wrap_tc_addInputWindowOptions) {
     char *arg1 = (char *) 0 ;
     int arg2 ;
     int arg3 ;
-    ArrayOfStrings arg4 ;
+    tc_strings arg4 ;
     int res1 ;
     char *buf1 = 0 ;
     int alloc1 = 0 ;
@@ -4935,14 +4939,14 @@ XS(_wrap_tc_addInputWindowOptions) {
     } 
     arg3 = (int)(val3);
     {
-      res4 = SWIG_ConvertPtr(ST(3), &argp4, SWIGTYPE_p_ArrayOfStrings,  0 );
+      res4 = SWIG_ConvertPtr(ST(3), &argp4, SWIGTYPE_p_tc_strings,  0 );
       if (!SWIG_IsOK(res4)) {
-        SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "tc_addInputWindowOptions" "', argument " "4"" of type '" "ArrayOfStrings""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "tc_addInputWindowOptions" "', argument " "4"" of type '" "tc_strings""'"); 
       }  
       if (!argp4) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_addInputWindowOptions" "', argument " "4"" of type '" "ArrayOfStrings""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_addInputWindowOptions" "', argument " "4"" of type '" "tc_strings""'");
       } else {
-        arg4 = *((ArrayOfStrings *)(argp4));
+        arg4 = *((tc_strings *)(argp4));
       }
     }
     tc_addInputWindowOptions((char const *)arg1,arg2,arg3,arg4);
@@ -5038,23 +5042,23 @@ XS(_wrap_tc_openNewWindow) {
 
 XS(_wrap_tc_getChildren) {
   {
-    int arg1 ;
-    int val1 ;
+    long arg1 ;
+    long val1 ;
     int ecode1 = 0 ;
     int argvi = 0;
-    ArrayOfItems result;
+    tc_items result;
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
       SWIG_croak("Usage: tc_getChildren(o);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getChildren" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getChildren" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     result = tc_getChildren(arg1);
-    ST(argvi) = SWIG_NewPointerObj((ArrayOfItems *)memcpy((ArrayOfItems *)malloc(sizeof(ArrayOfItems)),&result,sizeof(ArrayOfItems)), SWIGTYPE_p_ArrayOfItems, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    ST(argvi) = SWIG_NewPointerObj((tc_items *)memcpy((tc_items *)malloc(sizeof(tc_items)),&result,sizeof(tc_items)), SWIGTYPE_p_tc_items, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     
     XSRETURN(argvi);
   fail:
@@ -5066,23 +5070,23 @@ XS(_wrap_tc_getChildren) {
 
 XS(_wrap_tc_getParent) {
   {
-    int arg1 ;
-    int val1 ;
+    long arg1 ;
+    long val1 ;
     int ecode1 = 0 ;
     int argvi = 0;
-    int result;
+    long result;
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
       SWIG_croak("Usage: tc_getParent(o);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getParent" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getParent" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
-    result = (int)tc_getParent(arg1);
-    ST(argvi) = SWIG_From_int  SWIG_PERL_CALL_ARGS_1((int)(result)); argvi++ ;
+    arg1 = (long)(val1);
+    result = (long)tc_getParent(arg1);
+    ST(argvi) = SWIG_From_long  SWIG_PERL_CALL_ARGS_1((long)(result)); argvi++ ;
     
     XSRETURN(argvi);
   fail:
@@ -5094,32 +5098,32 @@ XS(_wrap_tc_getParent) {
 
 XS(_wrap_tc_getNumericalData) {
   {
-    int arg1 ;
+    long arg1 ;
     char *arg2 = (char *) 0 ;
-    int val1 ;
+    long val1 ;
     int ecode1 = 0 ;
     int res2 ;
     char *buf2 = 0 ;
     int alloc2 = 0 ;
     int argvi = 0;
-    TableOfReals result;
+    tc_matrix result;
     dXSARGS;
     
     if ((items < 2) || (items > 2)) {
       SWIG_croak("Usage: tc_getNumericalData(item,data);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getNumericalData" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getNumericalData" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     res2 = SWIG_AsCharPtrAndSize(ST(1), &buf2, NULL, &alloc2);
     if (!SWIG_IsOK(res2)) {
       SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_getNumericalData" "', argument " "2"" of type '" "char const *""'");
     }
     arg2 = (char *)(buf2);
     result = tc_getNumericalData(arg1,(char const *)arg2);
-    ST(argvi) = SWIG_NewPointerObj((TableOfReals *)memcpy((TableOfReals *)malloc(sizeof(TableOfReals)),&result,sizeof(TableOfReals)), SWIGTYPE_p_TableOfReals, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    ST(argvi) = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     
     if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
     XSRETURN(argvi);
@@ -5133,10 +5137,10 @@ XS(_wrap_tc_getNumericalData) {
 
 XS(_wrap_tc_setNumericalData) {
   {
-    int arg1 ;
+    long arg1 ;
     char *arg2 = (char *) 0 ;
-    TableOfReals arg3 ;
-    int val1 ;
+    tc_matrix arg3 ;
+    long val1 ;
     int ecode1 = 0 ;
     int res2 ;
     char *buf2 = 0 ;
@@ -5149,25 +5153,25 @@ XS(_wrap_tc_setNumericalData) {
     if ((items < 3) || (items > 3)) {
       SWIG_croak("Usage: tc_setNumericalData(o,title,data);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setNumericalData" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setNumericalData" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     res2 = SWIG_AsCharPtrAndSize(ST(1), &buf2, NULL, &alloc2);
     if (!SWIG_IsOK(res2)) {
       SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setNumericalData" "', argument " "2"" of type '" "char const *""'");
     }
     arg2 = (char *)(buf2);
     {
-      res3 = SWIG_ConvertPtr(ST(2), &argp3, SWIGTYPE_p_TableOfReals,  0 );
+      res3 = SWIG_ConvertPtr(ST(2), &argp3, SWIGTYPE_p_tc_matrix,  0 );
       if (!SWIG_IsOK(res3)) {
-        SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_setNumericalData" "', argument " "3"" of type '" "TableOfReals""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_setNumericalData" "', argument " "3"" of type '" "tc_matrix""'"); 
       }  
       if (!argp3) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_setNumericalData" "', argument " "3"" of type '" "TableOfReals""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_setNumericalData" "', argument " "3"" of type '" "tc_matrix""'");
       } else {
-        arg3 = *((TableOfReals *)(argp3));
+        arg3 = *((tc_matrix *)(argp3));
       }
     }
     tc_setNumericalData(arg1,(char const *)arg2,arg3);
@@ -5185,32 +5189,32 @@ XS(_wrap_tc_setNumericalData) {
 
 XS(_wrap_tc_getTextData) {
   {
-    int arg1 ;
+    long arg1 ;
     char *arg2 = (char *) 0 ;
-    int val1 ;
+    long val1 ;
     int ecode1 = 0 ;
     int res2 ;
     char *buf2 = 0 ;
     int alloc2 = 0 ;
     int argvi = 0;
-    TableOfStrings result;
+    tc_table result;
     dXSARGS;
     
     if ((items < 2) || (items > 2)) {
       SWIG_croak("Usage: tc_getTextData(item,data);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getTextData" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getTextData" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     res2 = SWIG_AsCharPtrAndSize(ST(1), &buf2, NULL, &alloc2);
     if (!SWIG_IsOK(res2)) {
       SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_getTextData" "', argument " "2"" of type '" "char const *""'");
     }
     arg2 = (char *)(buf2);
     result = tc_getTextData(arg1,(char const *)arg2);
-    ST(argvi) = SWIG_NewPointerObj((TableOfStrings *)memcpy((TableOfStrings *)malloc(sizeof(TableOfStrings)),&result,sizeof(TableOfStrings)), SWIGTYPE_p_TableOfStrings, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    ST(argvi) = SWIG_NewPointerObj((tc_table *)memcpy((tc_table *)malloc(sizeof(tc_table)),&result,sizeof(tc_table)), SWIGTYPE_p_tc_table, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     
     if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
     XSRETURN(argvi);
@@ -5224,10 +5228,10 @@ XS(_wrap_tc_getTextData) {
 
 XS(_wrap_tc_setTextData) {
   {
-    int arg1 ;
+    long arg1 ;
     char *arg2 = (char *) 0 ;
-    TableOfStrings arg3 ;
-    int val1 ;
+    tc_table arg3 ;
+    long val1 ;
     int ecode1 = 0 ;
     int res2 ;
     char *buf2 = 0 ;
@@ -5240,25 +5244,25 @@ XS(_wrap_tc_setTextData) {
     if ((items < 3) || (items > 3)) {
       SWIG_croak("Usage: tc_setTextData(o,title,data);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setTextData" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setTextData" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     res2 = SWIG_AsCharPtrAndSize(ST(1), &buf2, NULL, &alloc2);
     if (!SWIG_IsOK(res2)) {
       SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setTextData" "', argument " "2"" of type '" "char const *""'");
     }
     arg2 = (char *)(buf2);
     {
-      res3 = SWIG_ConvertPtr(ST(2), &argp3, SWIGTYPE_p_TableOfStrings,  0 );
+      res3 = SWIG_ConvertPtr(ST(2), &argp3, SWIGTYPE_p_tc_table,  0 );
       if (!SWIG_IsOK(res3)) {
-        SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_setTextData" "', argument " "3"" of type '" "TableOfStrings""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_setTextData" "', argument " "3"" of type '" "tc_table""'"); 
       }  
       if (!argp3) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_setTextData" "', argument " "3"" of type '" "TableOfStrings""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_setTextData" "', argument " "3"" of type '" "tc_table""'");
       } else {
-        arg3 = *((TableOfStrings *)(argp3));
+        arg3 = *((tc_table *)(argp3));
       }
     }
     tc_setTextData(arg1,(char const *)arg2,arg3);
@@ -5276,23 +5280,23 @@ XS(_wrap_tc_setTextData) {
 
 XS(_wrap_tc_getNumericalDataNames) {
   {
-    int arg1 ;
-    int val1 ;
+    long arg1 ;
+    long val1 ;
     int ecode1 = 0 ;
     int argvi = 0;
-    ArrayOfStrings result;
+    tc_strings result;
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
       SWIG_croak("Usage: tc_getNumericalDataNames(o);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getNumericalDataNames" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getNumericalDataNames" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     result = tc_getNumericalDataNames(arg1);
-    ST(argvi) = SWIG_NewPointerObj((ArrayOfStrings *)memcpy((ArrayOfStrings *)malloc(sizeof(ArrayOfStrings)),&result,sizeof(ArrayOfStrings)), SWIGTYPE_p_ArrayOfStrings, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    ST(argvi) = SWIG_NewPointerObj((tc_strings *)memcpy((tc_strings *)malloc(sizeof(tc_strings)),&result,sizeof(tc_strings)), SWIGTYPE_p_tc_strings, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     
     XSRETURN(argvi);
   fail:
@@ -5304,23 +5308,23 @@ XS(_wrap_tc_getNumericalDataNames) {
 
 XS(_wrap_tc_getTextDataNames) {
   {
-    int arg1 ;
-    int val1 ;
+    long arg1 ;
+    long val1 ;
     int ecode1 = 0 ;
     int argvi = 0;
-    ArrayOfStrings result;
+    tc_strings result;
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
       SWIG_croak("Usage: tc_getTextDataNames(o);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getTextDataNames" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getTextDataNames" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     result = tc_getTextDataNames(arg1);
-    ST(argvi) = SWIG_NewPointerObj((ArrayOfStrings *)memcpy((ArrayOfStrings *)malloc(sizeof(ArrayOfStrings)),&result,sizeof(ArrayOfStrings)), SWIGTYPE_p_ArrayOfStrings, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    ST(argvi) = SWIG_NewPointerObj((tc_strings *)memcpy((tc_strings *)malloc(sizeof(tc_strings)),&result,sizeof(tc_strings)), SWIGTYPE_p_tc_strings, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     
     XSRETURN(argvi);
   fail:
@@ -5357,7 +5361,7 @@ XS(_wrap_tc_zoom) {
 }
 
 
-XS(_wrap_tc_getString) {
+XS(_wrap_tc_tc_getTableValue) {
   {
     char *arg1 = (char *) 0 ;
     int res1 ;
@@ -5368,14 +5372,14 @@ XS(_wrap_tc_getString) {
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
-      SWIG_croak("Usage: tc_getString(title);");
+      SWIG_croak("Usage: tc_tc_getTableValue(title);");
     }
     res1 = SWIG_AsCharPtrAndSize(ST(0), &buf1, NULL, &alloc1);
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getString" "', argument " "1"" of type '" "char const *""'");
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_tc_getTableValue" "', argument " "1"" of type '" "char const *""'");
     }
     arg1 = (char *)(buf1);
-    result = (char *)tc_getString((char const *)arg1);
+    result = (char *)tc_tc_getTableValue((char const *)arg1);
     ST(argvi) = SWIG_FromCharPtr((const char *)result); argvi++ ;
     if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
     XSRETURN(argvi);
@@ -5404,10 +5408,10 @@ XS(_wrap_tc_getFilename) {
 }
 
 
-XS(_wrap_tc_getStringFromList) {
+XS(_wrap_tc_tc_getTableValueFromList) {
   {
     char *arg1 = (char *) 0 ;
-    ArrayOfStrings arg2 ;
+    tc_strings arg2 ;
     char *arg3 = (char *) 0 ;
     int res1 ;
     char *buf1 = 0 ;
@@ -5422,30 +5426,30 @@ XS(_wrap_tc_getStringFromList) {
     dXSARGS;
     
     if ((items < 3) || (items > 3)) {
-      SWIG_croak("Usage: tc_getStringFromList(title,list,selectedString);");
+      SWIG_croak("Usage: tc_tc_getTableValueFromList(title,list,selectedString);");
     }
     res1 = SWIG_AsCharPtrAndSize(ST(0), &buf1, NULL, &alloc1);
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getStringFromList" "', argument " "1"" of type '" "char const *""'");
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_tc_getTableValueFromList" "', argument " "1"" of type '" "char const *""'");
     }
     arg1 = (char *)(buf1);
     {
-      res2 = SWIG_ConvertPtr(ST(1), &argp2, SWIGTYPE_p_ArrayOfStrings,  0 );
+      res2 = SWIG_ConvertPtr(ST(1), &argp2, SWIGTYPE_p_tc_strings,  0 );
       if (!SWIG_IsOK(res2)) {
-        SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_getStringFromList" "', argument " "2"" of type '" "ArrayOfStrings""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_tc_getTableValueFromList" "', argument " "2"" of type '" "tc_strings""'"); 
       }  
       if (!argp2) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getStringFromList" "', argument " "2"" of type '" "ArrayOfStrings""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_tc_getTableValueFromList" "', argument " "2"" of type '" "tc_strings""'");
       } else {
-        arg2 = *((ArrayOfStrings *)(argp2));
+        arg2 = *((tc_strings *)(argp2));
       }
     }
     res3 = SWIG_AsCharPtrAndSize(ST(2), &buf3, NULL, &alloc3);
     if (!SWIG_IsOK(res3)) {
-      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_getStringFromList" "', argument " "3"" of type '" "char const *""'");
+      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_tc_getTableValueFromList" "', argument " "3"" of type '" "char const *""'");
     }
     arg3 = (char *)(buf3);
-    result = (int)tc_getStringFromList((char const *)arg1,arg2,(char const *)arg3);
+    result = (int)tc_tc_getTableValueFromList((char const *)arg1,arg2,(char const *)arg3);
     ST(argvi) = SWIG_From_int  SWIG_PERL_CALL_ARGS_1((int)(result)); argvi++ ;
     if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
     if (alloc3 == SWIG_NEWOBJ) free((char*)buf3);
@@ -5489,7 +5493,7 @@ XS(_wrap_tc_getNumber) {
 
 XS(_wrap_tc_getNumbers) {
   {
-    ArrayOfStrings arg1 ;
+    tc_strings arg1 ;
     double *arg2 = (double *) 0 ;
     void *argp1 ;
     int res1 = 0 ;
@@ -5502,14 +5506,14 @@ XS(_wrap_tc_getNumbers) {
       SWIG_croak("Usage: tc_getNumbers(labels,result);");
     }
     {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_ArrayOfStrings,  0 );
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_strings,  0 );
       if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getNumbers" "', argument " "1"" of type '" "ArrayOfStrings""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getNumbers" "', argument " "1"" of type '" "tc_strings""'"); 
       }  
       if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getNumbers" "', argument " "1"" of type '" "ArrayOfStrings""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getNumbers" "', argument " "1"" of type '" "tc_strings""'");
       } else {
-        arg1 = *((ArrayOfStrings *)(argp1));
+        arg1 = *((tc_strings *)(argp1));
       }
     }
     res2 = SWIG_ConvertPtr(ST(1), &argp2,SWIGTYPE_p_double, 0 |  0 );
@@ -5588,14 +5592,14 @@ XS(_wrap_tc_messageDialog) {
 XS(_wrap_tc_thisThread) {
   {
     int argvi = 0;
-    int result;
+    long result;
     dXSARGS;
     
     if ((items < 0) || (items > 0)) {
       SWIG_croak("Usage: tc_thisThread();");
     }
-    result = (int)tc_thisThread();
-    ST(argvi) = SWIG_From_int  SWIG_PERL_CALL_ARGS_1((int)(result)); argvi++ ;
+    result = (long)tc_thisThread();
+    ST(argvi) = SWIG_From_long  SWIG_PERL_CALL_ARGS_1((long)(result)); argvi++ ;
     XSRETURN(argvi);
   fail:
     SWIG_croak_null();
@@ -5605,8 +5609,8 @@ XS(_wrap_tc_thisThread) {
 
 XS(_wrap_tc_createSliders) {
   {
-    TableOfReals arg1 ;
-    void (*arg2)(TableOfReals) = (void (*)(TableOfReals)) 0 ;
+    tc_matrix arg1 ;
+    void (*arg2)(tc_matrix) = (void (*)(tc_matrix)) 0 ;
     void *argp1 ;
     int res1 = 0 ;
     int argvi = 0;
@@ -5616,20 +5620,20 @@ XS(_wrap_tc_createSliders) {
       SWIG_croak("Usage: tc_createSliders(input,f);");
     }
     {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_TableOfReals,  0 );
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_matrix,  0 );
       if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_createSliders" "', argument " "1"" of type '" "TableOfReals""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_createSliders" "', argument " "1"" of type '" "tc_matrix""'"); 
       }  
       if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_createSliders" "', argument " "1"" of type '" "TableOfReals""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_createSliders" "', argument " "1"" of type '" "tc_matrix""'");
       } else {
-        arg1 = *((TableOfReals *)(argp1));
+        arg1 = *((tc_matrix *)(argp1));
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(1), (void**)(&arg2), SWIGTYPE_p_f_struct_TableOfReals__void);
+      int res = SWIG_ConvertFunctionPtr(ST(1), (void**)(&arg2), SWIGTYPE_p_f_struct_tc_matrix__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_createSliders" "', argument " "2"" of type '" "void (*)(TableOfReals)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_createSliders" "', argument " "2"" of type '" "void (*)(tc_matrix)""'"); 
       }
     }
     tc_createSliders(arg1,arg2);
@@ -5645,8 +5649,8 @@ XS(_wrap_tc_createSliders) {
 
 XS(_wrap_tc_getColor) {
   {
-    int arg1 ;
-    int val1 ;
+    long arg1 ;
+    long val1 ;
     int ecode1 = 0 ;
     int argvi = 0;
     char *result = 0 ;
@@ -5655,11 +5659,11 @@ XS(_wrap_tc_getColor) {
     if ((items < 1) || (items > 1)) {
       SWIG_croak("Usage: tc_getColor(item);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getColor" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getColor" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     result = (char *)tc_getColor(arg1);
     ST(argvi) = SWIG_FromCharPtr((const char *)result); argvi++ ;
     
@@ -5673,10 +5677,10 @@ XS(_wrap_tc_getColor) {
 
 XS(_wrap_tc_setColor) {
   {
-    int arg1 ;
+    long arg1 ;
     char *arg2 = (char *) 0 ;
     int arg3 ;
-    int val1 ;
+    long val1 ;
     int ecode1 = 0 ;
     int res2 ;
     char *buf2 = 0 ;
@@ -5689,11 +5693,11 @@ XS(_wrap_tc_setColor) {
     if ((items < 3) || (items > 3)) {
       SWIG_croak("Usage: tc_setColor(item,name,permanent);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setColor" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setColor" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     res2 = SWIG_AsCharPtrAndSize(ST(1), &buf2, NULL, &alloc2);
     if (!SWIG_IsOK(res2)) {
       SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setColor" "', argument " "2"" of type '" "char const *""'");
@@ -5721,9 +5725,9 @@ XS(_wrap_tc_setColor) {
 
 XS(_wrap_tc_changeNodeImage) {
   {
-    int arg1 ;
+    long arg1 ;
     char *arg2 = (char *) 0 ;
-    int val1 ;
+    long val1 ;
     int ecode1 = 0 ;
     int res2 ;
     char *buf2 = 0 ;
@@ -5734,11 +5738,11 @@ XS(_wrap_tc_changeNodeImage) {
     if ((items < 2) || (items > 2)) {
       SWIG_croak("Usage: tc_changeNodeImage(item,filename);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_changeNodeImage" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_changeNodeImage" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     res2 = SWIG_AsCharPtrAndSize(ST(1), &buf2, NULL, &alloc2);
     if (!SWIG_IsOK(res2)) {
       SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_changeNodeImage" "', argument " "2"" of type '" "char const *""'");
@@ -5759,9 +5763,9 @@ XS(_wrap_tc_changeNodeImage) {
 
 XS(_wrap_tc_changeArrowHead) {
   {
-    int arg1 ;
+    long arg1 ;
     char *arg2 = (char *) 0 ;
-    int val1 ;
+    long val1 ;
     int ecode1 = 0 ;
     int res2 ;
     char *buf2 = 0 ;
@@ -5772,11 +5776,11 @@ XS(_wrap_tc_changeArrowHead) {
     if ((items < 2) || (items > 2)) {
       SWIG_croak("Usage: tc_changeArrowHead(connection,filename);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_changeArrowHead" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_changeArrowHead" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     res2 = SWIG_AsCharPtrAndSize(ST(1), &buf2, NULL, &alloc2);
     if (!SWIG_IsOK(res2)) {
       SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_changeArrowHead" "', argument " "2"" of type '" "char const *""'");
@@ -5797,11 +5801,11 @@ XS(_wrap_tc_changeArrowHead) {
 
 XS(_wrap_tc_setSize) {
   {
-    int arg1 ;
+    long arg1 ;
     double arg2 ;
     double arg3 ;
     int arg4 ;
-    int val1 ;
+    long val1 ;
     int ecode1 = 0 ;
     double val2 ;
     int ecode2 = 0 ;
@@ -5815,11 +5819,11 @@ XS(_wrap_tc_setSize) {
     if ((items < 4) || (items > 4)) {
       SWIG_croak("Usage: tc_setSize(item,width,height,permanent);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setSize" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setSize" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     ecode2 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
     if (!SWIG_IsOK(ecode2)) {
       SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_setSize" "', argument " "2"" of type '" "double""'");
@@ -5854,8 +5858,8 @@ XS(_wrap_tc_setSize) {
 
 XS(_wrap_tc_getWidth) {
   {
-    int arg1 ;
-    int val1 ;
+    long arg1 ;
+    long val1 ;
     int ecode1 = 0 ;
     int argvi = 0;
     double result;
@@ -5864,11 +5868,11 @@ XS(_wrap_tc_getWidth) {
     if ((items < 1) || (items > 1)) {
       SWIG_croak("Usage: tc_getWidth(item);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getWidth" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getWidth" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     result = (double)tc_getWidth(arg1);
     ST(argvi) = SWIG_From_double  SWIG_PERL_CALL_ARGS_1((double)(result)); argvi++ ;
     
@@ -5882,8 +5886,8 @@ XS(_wrap_tc_getWidth) {
 
 XS(_wrap_tc_getHeight) {
   {
-    int arg1 ;
-    int val1 ;
+    long arg1 ;
+    long val1 ;
     int ecode1 = 0 ;
     int argvi = 0;
     double result;
@@ -5892,11 +5896,11 @@ XS(_wrap_tc_getHeight) {
     if ((items < 1) || (items > 1)) {
       SWIG_croak("Usage: tc_getHeight(item);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getHeight" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getHeight" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     result = (double)tc_getHeight(arg1);
     ST(argvi) = SWIG_From_double  SWIG_PERL_CALL_ARGS_1((double)(result)); argvi++ ;
     
@@ -5910,10 +5914,10 @@ XS(_wrap_tc_getHeight) {
 
 XS(_wrap_tc_setAngle) {
   {
-    int arg1 ;
+    long arg1 ;
     double arg2 ;
     int arg3 ;
-    int val1 ;
+    long val1 ;
     int ecode1 = 0 ;
     double val2 ;
     int ecode2 = 0 ;
@@ -5925,11 +5929,11 @@ XS(_wrap_tc_setAngle) {
     if ((items < 3) || (items > 3)) {
       SWIG_croak("Usage: tc_setAngle(item,t,permanent);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setAngle" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setAngle" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     ecode2 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
     if (!SWIG_IsOK(ecode2)) {
       SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_setAngle" "', argument " "2"" of type '" "double""'");
@@ -5957,8 +5961,8 @@ XS(_wrap_tc_setAngle) {
 
 XS(_wrap_tc_getAngle) {
   {
-    int arg1 ;
-    int val1 ;
+    long arg1 ;
+    long val1 ;
     int ecode1 = 0 ;
     int argvi = 0;
     double result;
@@ -5967,11 +5971,11 @@ XS(_wrap_tc_getAngle) {
     if ((items < 1) || (items > 1)) {
       SWIG_croak("Usage: tc_getAngle(item);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getAngle" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getAngle" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     result = (double)tc_getAngle(arg1);
     ST(argvi) = SWIG_From_double  SWIG_PERL_CALL_ARGS_1((double)(result)); argvi++ ;
     
@@ -5985,114 +5989,114 @@ XS(_wrap_tc_getAngle) {
 
 XS(_wrap_tc_Main_api_initialize) {
   {
-    ArrayOfItems (*arg1)() = (ArrayOfItems (*)()) 0 ;
-    ArrayOfItems (*arg2)() = (ArrayOfItems (*)()) 0 ;
-    ArrayOfItems (*arg3)(char const *) = (ArrayOfItems (*)(char const *)) 0 ;
-    ArrayOfItems (*arg4)(char const *,ArrayOfItems) = (ArrayOfItems (*)(char const *,ArrayOfItems)) 0 ;
-    int (*arg5)(char const *) = (int (*)(char const *)) 0 ;
-    ArrayOfItems (*arg6)(ArrayOfStrings) = (ArrayOfItems (*)(ArrayOfStrings)) 0 ;
-    void (*arg7)(int) = (void (*)(int)) 0 ;
+    tc_items (*arg1)() = (tc_items (*)()) 0 ;
+    tc_items (*arg2)() = (tc_items (*)()) 0 ;
+    tc_items (*arg3)(char const *) = (tc_items (*)(char const *)) 0 ;
+    tc_items (*arg4)(char const *,tc_items) = (tc_items (*)(char const *,tc_items)) 0 ;
+    long (*arg5)(char const *) = (long (*)(char const *)) 0 ;
+    tc_items (*arg6)(tc_strings) = (tc_items (*)(tc_strings)) 0 ;
+    void (*arg7)(long) = (void (*)(long)) 0 ;
     void (*arg8)() = (void (*)()) 0 ;
-    char *(*arg9)(int) = (char *(*)(int)) 0 ;
-    char *(*arg10)(int) = (char *(*)(int)) 0 ;
-    void (*arg11)(int,char const *) = (void (*)(int,char const *)) 0 ;
-    ArrayOfStrings (*arg12)(ArrayOfItems) = (ArrayOfStrings (*)(ArrayOfItems)) 0 ;
-    ArrayOfStrings (*arg13)(ArrayOfItems) = (ArrayOfStrings (*)(ArrayOfItems)) 0 ;
-    char *(*arg14)(int) = (char *(*)(int)) 0 ;
-    int (*arg15)(int,char const *) = (int (*)(int,char const *)) 0 ;
+    char *(*arg9)(long) = (char *(*)(long)) 0 ;
+    char *(*arg10)(long) = (char *(*)(long)) 0 ;
+    void (*arg11)(long,char const *) = (void (*)(long,char const *)) 0 ;
+    tc_strings (*arg12)(tc_items) = (tc_strings (*)(tc_items)) 0 ;
+    tc_strings (*arg13)(tc_items) = (tc_strings (*)(tc_items)) 0 ;
+    char *(*arg14)(long) = (char *(*)(long)) 0 ;
+    int (*arg15)(long,char const *) = (int (*)(long,char const *)) 0 ;
     void (*arg16)() = (void (*)()) 0 ;
     void (*arg17)(char const *) = (void (*)(char const *)) 0 ;
     void (*arg18)(char const *) = (void (*)(char const *)) 0 ;
-    void (*arg19)(TableOfReals) = (void (*)(TableOfReals)) 0 ;
+    void (*arg19)(tc_matrix) = (void (*)(tc_matrix)) 0 ;
     void (*arg20)(char const *) = (void (*)(char const *)) 0 ;
-    void (*arg21)(int) = (void (*)(int)) 0 ;
-    double (*arg22)(int) = (double (*)(int)) 0 ;
-    double (*arg23)(int) = (double (*)(int)) 0 ;
-    TableOfReals (*arg24)(ArrayOfItems) = (TableOfReals (*)(ArrayOfItems)) 0 ;
-    void (*arg25)(int,double,double) = (void (*)(int,double,double)) 0 ;
-    void (*arg26)(ArrayOfItems,TableOfReals) = (void (*)(ArrayOfItems,TableOfReals)) 0 ;
+    void (*arg21)(long) = (void (*)(long)) 0 ;
+    double (*arg22)(long) = (double (*)(long)) 0 ;
+    double (*arg23)(long) = (double (*)(long)) 0 ;
+    tc_matrix (*arg24)(tc_items) = (tc_matrix (*)(tc_items)) 0 ;
+    void (*arg25)(long,double,double) = (void (*)(long,double,double)) 0 ;
+    void (*arg26)(tc_items,tc_matrix) = (void (*)(tc_items,tc_matrix)) 0 ;
     void (*arg27)(double,double) = (void (*)(double,double)) 0 ;
     int (*arg28)() = (int (*)()) 0 ;
     int (*arg29)() = (int (*)()) 0 ;
     int (*arg30)() = (int (*)()) 0 ;
     char *(*arg31)() = (char *(*)()) 0 ;
-    void (*arg32)(TableOfReals,char const *,char const *,char const *) = (void (*)(TableOfReals,char const *,char const *,char const *)) 0 ;
-    void (*arg33)(TableOfReals,char const *,void (*)(TableOfReals)) = (void (*)(TableOfReals,char const *,void (*)(TableOfReals))) 0 ;
-    void (*arg34)(int,TableOfReals,void (*)(TableOfReals)) = (void (*)(int,TableOfReals,void (*)(TableOfReals))) 0 ;
-    void (*arg35)(char const *,int,int,ArrayOfStrings) = (void (*)(char const *,int,int,ArrayOfStrings)) 0 ;
+    void (*arg32)(tc_matrix,char const *,char const *,char const *) = (void (*)(tc_matrix,char const *,char const *,char const *)) 0 ;
+    void (*arg33)(tc_matrix,char const *,void (*)(tc_matrix)) = (void (*)(tc_matrix,char const *,void (*)(tc_matrix))) 0 ;
+    void (*arg34)(long,tc_matrix,void (*)(tc_matrix)) = (void (*)(long,tc_matrix,void (*)(tc_matrix))) 0 ;
+    void (*arg35)(char const *,int,int,tc_strings) = (void (*)(char const *,int,int,tc_strings)) 0 ;
     void (*arg36)(char const *,int,int) = (void (*)(char const *,int,int)) 0 ;
     void (*arg37)(char const *) = (void (*)(char const *)) 0 ;
-    ArrayOfItems (*arg38)(int) = (ArrayOfItems (*)(int)) 0 ;
-    int (*arg39)(int) = (int (*)(int)) 0 ;
-    TableOfReals (*arg40)(int,char const *) = (TableOfReals (*)(int,char const *)) 0 ;
-    void (*arg41)(int,char const *,TableOfReals) = (void (*)(int,char const *,TableOfReals)) 0 ;
-    TableOfStrings (*arg42)(int,char const *) = (TableOfStrings (*)(int,char const *)) 0 ;
-    void (*arg43)(int,char const *,TableOfStrings) = (void (*)(int,char const *,TableOfStrings)) 0 ;
-    ArrayOfStrings (*arg44)(int) = (ArrayOfStrings (*)(int)) 0 ;
-    ArrayOfStrings (*arg45)(int) = (ArrayOfStrings (*)(int)) 0 ;
+    tc_items (*arg38)(long) = (tc_items (*)(long)) 0 ;
+    long (*arg39)(long) = (long (*)(long)) 0 ;
+    tc_matrix (*arg40)(long,char const *) = (tc_matrix (*)(long,char const *)) 0 ;
+    void (*arg41)(long,char const *,tc_matrix) = (void (*)(long,char const *,tc_matrix)) 0 ;
+    tc_table (*arg42)(long,char const *) = (tc_table (*)(long,char const *)) 0 ;
+    void (*arg43)(long,char const *,tc_table) = (void (*)(long,char const *,tc_table)) 0 ;
+    tc_strings (*arg44)(long) = (tc_strings (*)(long)) 0 ;
+    tc_strings (*arg45)(long) = (tc_strings (*)(long)) 0 ;
     void (*arg46)(double) = (void (*)(double)) 0 ;
     char *(*arg47)(char const *) = (char *(*)(char const *)) 0 ;
-    int (*arg48)(char const *,ArrayOfStrings,char const *) = (int (*)(char const *,ArrayOfStrings,char const *)) 0 ;
+    int (*arg48)(char const *,tc_strings,char const *) = (int (*)(char const *,tc_strings,char const *)) 0 ;
     double (*arg49)(char const *) = (double (*)(char const *)) 0 ;
-    void (*arg50)(ArrayOfStrings,double *) = (void (*)(ArrayOfStrings,double *)) 0 ;
+    void (*arg50)(tc_strings,double *) = (void (*)(tc_strings,double *)) 0 ;
     char *(*arg51)() = (char *(*)()) 0 ;
     int (*arg52)(char const *) = (int (*)(char const *)) 0 ;
     void (*arg53)(char const *) = (void (*)(char const *)) 0 ;
-    void (*arg54)(int,double,double,int) = (void (*)(int,double,double,int)) 0 ;
-    double (*arg55)(int) = (double (*)(int)) 0 ;
-    double (*arg56)(int) = (double (*)(int)) 0 ;
-    void (*arg57)(int,double,int) = (void (*)(int,double,int)) 0 ;
-    double (*arg58)(int) = (double (*)(int)) 0 ;
-    char *(*arg59)(int) = (char *(*)(int)) 0 ;
-    void (*arg60)(int,char const *,int) = (void (*)(int,char const *,int)) 0 ;
-    void (*arg61)(int,char const *) = (void (*)(int,char const *)) 0 ;
-    void (*arg62)(int,char const *) = (void (*)(int,char const *)) 0 ;
+    void (*arg54)(long,double,double,int) = (void (*)(long,double,double,int)) 0 ;
+    double (*arg55)(long) = (double (*)(long)) 0 ;
+    double (*arg56)(long) = (double (*)(long)) 0 ;
+    void (*arg57)(long,double,int) = (void (*)(long,double,int)) 0 ;
+    double (*arg58)(long) = (double (*)(long)) 0 ;
+    char *(*arg59)(long) = (char *(*)(long)) 0 ;
+    void (*arg60)(long,char const *,int) = (void (*)(long,char const *,int)) 0 ;
+    void (*arg61)(long,char const *) = (void (*)(long,char const *)) 0 ;
+    void (*arg62)(long,char const *) = (void (*)(long,char const *)) 0 ;
     int argvi = 0;
     dXSARGS;
     
     if ((items < 62) || (items > 62)) {
-      SWIG_croak("Usage: tc_Main_api_initialize(tc_allItems0,tc_selectedItems0,tc_itemsOfFamily0,tc_itemsOfFamily1,tc_find0,tc_findItems0,tc_select0,tc_deselect0,tc_getName0,tc_getUniqueName0,tc_setName0,tc_getNames0,tc_getUniqueNames0,tc_getFamily0,tc_isA0,tc_clearText,tc_outputText0,tc_errorReport0,tc_outputTable0,tc_printFile0,tc_removeItem0,tc_getY0,tc_getX0,tc_getPos0,tc_setPos0,tc_setPos1,tc_moveSelected0,tc_isWindows0,tc_isMac0,tc_isLinux0,tc_appDir0,tc_createInputWindow0,tc_createInputWindow1,createSliders,tc_addInputWindowOptions0,tc_addInputWindowCheckbox0,tc_openNewWindow0,tc_getChildren0,tc_getParent0,tc_getNumericalData0,tc_setNumericalData0,tc_getTextData0,tc_setTextData0,tc_getNumericalDataNames0,tc_getTextDataNames0,tc_zoom0,getString,getSelectedString,getNumber,getNumbers,getFilename,askQuestion,messageDialog,setSize0,getWidth0,getHeight0,setAngle0,getAngle0,getColor,setColor0,changeGraphics0,changeArrowHead0);");
+      SWIG_croak("Usage: tc_Main_api_initialize(tc_allItems0,tc_selectedItems0,tc_itemsOfFamily0,tc_itemsOfFamily1,tc_find0,tc_findItems0,tc_select0,tc_deselect0,tc_getName0,tc_getUniqueName0,tc_setName0,tc_getNames0,tc_getUniqueNames0,tc_getFamily0,tc_isA0,tc_clearText,tc_outputText0,tc_errorReport0,tc_outputTable0,tc_printFile0,tc_removeItem0,tc_getY0,tc_getX0,tc_getPos0,tc_setPos0,tc_setPos1,tc_moveSelected0,tc_isWindows0,tc_isMac0,tc_isLinux0,tc_appDir0,tc_createInputWindow0,tc_createInputWindow1,createSliders,tc_addInputWindowOptions0,tc_addInputWindowCheckbox0,tc_openNewWindow0,tc_getChildren0,tc_getParent0,tc_getNumericalData0,tc_setNumericalData0,tc_getTextData0,tc_setTextData0,tc_getNumericalDataNames0,tc_getTextDataNames0,tc_zoom0,tc_getTableValue,getSelectedString,getNumber,getNumbers,getFilename,askQuestion,messageDialog,setSize0,getWidth0,getHeight0,setAngle0,getAngle0,getColor,setColor0,changeGraphics0,changeArrowHead0);");
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f___ArrayOfItems);
+      int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f___tc_items);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "1"" of type '" "ArrayOfItems (*)()""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "1"" of type '" "tc_items (*)()""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(1), (void**)(&arg2), SWIGTYPE_p_f___ArrayOfItems);
+      int res = SWIG_ConvertFunctionPtr(ST(1), (void**)(&arg2), SWIGTYPE_p_f___tc_items);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "2"" of type '" "ArrayOfItems (*)()""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "2"" of type '" "tc_items (*)()""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(2), (void**)(&arg3), SWIGTYPE_p_f_p_q_const__char__ArrayOfItems);
+      int res = SWIG_ConvertFunctionPtr(ST(2), (void**)(&arg3), SWIGTYPE_p_f_p_q_const__char__tc_items);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "3"" of type '" "ArrayOfItems (*)(char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "3"" of type '" "tc_items (*)(char const *)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(3), (void**)(&arg4), SWIGTYPE_p_f_p_q_const__char_ArrayOfItems__ArrayOfItems);
+      int res = SWIG_ConvertFunctionPtr(ST(3), (void**)(&arg4), SWIGTYPE_p_f_p_q_const__char_tc_items__tc_items);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "4"" of type '" "ArrayOfItems (*)(char const *,ArrayOfItems)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "4"" of type '" "tc_items (*)(char const *,tc_items)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(4), (void**)(&arg5), SWIGTYPE_p_f_p_q_const__char__int);
+      int res = SWIG_ConvertFunctionPtr(ST(4), (void**)(&arg5), SWIGTYPE_p_f_p_q_const__char__long);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "5"" of type '" "int (*)(char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "5"" of type '" "long (*)(char const *)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(5), (void**)(&arg6), SWIGTYPE_p_f_ArrayOfStrings__ArrayOfItems);
+      int res = SWIG_ConvertFunctionPtr(ST(5), (void**)(&arg6), SWIGTYPE_p_f_tc_strings__tc_items);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "6"" of type '" "ArrayOfItems (*)(ArrayOfStrings)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "6"" of type '" "tc_items (*)(tc_strings)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(6), (void**)(&arg7), SWIGTYPE_p_f_int__void);
+      int res = SWIG_ConvertFunctionPtr(ST(6), (void**)(&arg7), SWIGTYPE_p_f_long__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "7"" of type '" "void (*)(int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "7"" of type '" "void (*)(long)""'"); 
       }
     }
     {
@@ -6102,45 +6106,45 @@ XS(_wrap_tc_Main_api_initialize) {
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(8), (void**)(&arg9), SWIGTYPE_p_f_int__p_char);
+      int res = SWIG_ConvertFunctionPtr(ST(8), (void**)(&arg9), SWIGTYPE_p_f_long__p_char);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "9"" of type '" "char const *(*)(int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "9"" of type '" "char const *(*)(long)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(9), (void**)(&arg10), SWIGTYPE_p_f_int__p_char);
+      int res = SWIG_ConvertFunctionPtr(ST(9), (void**)(&arg10), SWIGTYPE_p_f_long__p_char);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "10"" of type '" "char const *(*)(int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "10"" of type '" "char const *(*)(long)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(10), (void**)(&arg11), SWIGTYPE_p_f_int_p_q_const__char__void);
+      int res = SWIG_ConvertFunctionPtr(ST(10), (void**)(&arg11), SWIGTYPE_p_f_long_p_q_const__char__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "11"" of type '" "void (*)(int,char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "11"" of type '" "void (*)(long,char const *)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(11), (void**)(&arg12), SWIGTYPE_p_f_ArrayOfItems__ArrayOfStrings);
+      int res = SWIG_ConvertFunctionPtr(ST(11), (void**)(&arg12), SWIGTYPE_p_f_tc_items__tc_strings);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "12"" of type '" "ArrayOfStrings (*)(ArrayOfItems)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "12"" of type '" "tc_strings (*)(tc_items)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(12), (void**)(&arg13), SWIGTYPE_p_f_ArrayOfItems__ArrayOfStrings);
+      int res = SWIG_ConvertFunctionPtr(ST(12), (void**)(&arg13), SWIGTYPE_p_f_tc_items__tc_strings);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "13"" of type '" "ArrayOfStrings (*)(ArrayOfItems)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "13"" of type '" "tc_strings (*)(tc_items)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(13), (void**)(&arg14), SWIGTYPE_p_f_int__p_char);
+      int res = SWIG_ConvertFunctionPtr(ST(13), (void**)(&arg14), SWIGTYPE_p_f_long__p_char);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "14"" of type '" "char const *(*)(int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "14"" of type '" "char const *(*)(long)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(14), (void**)(&arg15), SWIGTYPE_p_f_int_p_q_const__char__int);
+      int res = SWIG_ConvertFunctionPtr(ST(14), (void**)(&arg15), SWIGTYPE_p_f_long_p_q_const__char__int);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "15"" of type '" "int (*)(int,char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "15"" of type '" "int (*)(long,char const *)""'"); 
       }
     }
     {
@@ -6162,9 +6166,9 @@ XS(_wrap_tc_Main_api_initialize) {
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(18), (void**)(&arg19), SWIGTYPE_p_f_struct_TableOfReals__void);
+      int res = SWIG_ConvertFunctionPtr(ST(18), (void**)(&arg19), SWIGTYPE_p_f_struct_tc_matrix__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "19"" of type '" "void (*)(TableOfReals)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "19"" of type '" "void (*)(tc_matrix)""'"); 
       }
     }
     {
@@ -6174,39 +6178,39 @@ XS(_wrap_tc_Main_api_initialize) {
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(20), (void**)(&arg21), SWIGTYPE_p_f_int__void);
+      int res = SWIG_ConvertFunctionPtr(ST(20), (void**)(&arg21), SWIGTYPE_p_f_long__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "21"" of type '" "void (*)(int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "21"" of type '" "void (*)(long)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(21), (void**)(&arg22), SWIGTYPE_p_f_int__double);
+      int res = SWIG_ConvertFunctionPtr(ST(21), (void**)(&arg22), SWIGTYPE_p_f_long__double);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "22"" of type '" "double (*)(int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "22"" of type '" "double (*)(long)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(22), (void**)(&arg23), SWIGTYPE_p_f_int__double);
+      int res = SWIG_ConvertFunctionPtr(ST(22), (void**)(&arg23), SWIGTYPE_p_f_long__double);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "23"" of type '" "double (*)(int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "23"" of type '" "double (*)(long)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(23), (void**)(&arg24), SWIGTYPE_p_f_ArrayOfItems__TableOfReals);
+      int res = SWIG_ConvertFunctionPtr(ST(23), (void**)(&arg24), SWIGTYPE_p_f_tc_items__tc_matrix);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "24"" of type '" "TableOfReals (*)(ArrayOfItems)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "24"" of type '" "tc_matrix (*)(tc_items)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(24), (void**)(&arg25), SWIGTYPE_p_f_int_double_double__void);
+      int res = SWIG_ConvertFunctionPtr(ST(24), (void**)(&arg25), SWIGTYPE_p_f_long_double_double__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "25"" of type '" "void (*)(int,double,double)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "25"" of type '" "void (*)(long,double,double)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(25), (void**)(&arg26), SWIGTYPE_p_f_struct_ArrayOfItems_struct_TableOfReals__void);
+      int res = SWIG_ConvertFunctionPtr(ST(25), (void**)(&arg26), SWIGTYPE_p_f_struct_tc_items_struct_tc_matrix__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "26"" of type '" "void (*)(ArrayOfItems,TableOfReals)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "26"" of type '" "void (*)(tc_items,tc_matrix)""'"); 
       }
     }
     {
@@ -6240,27 +6244,27 @@ XS(_wrap_tc_Main_api_initialize) {
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(31), (void**)(&arg32), SWIGTYPE_p_f_struct_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void);
+      int res = SWIG_ConvertFunctionPtr(ST(31), (void**)(&arg32), SWIGTYPE_p_f_struct_tc_matrix_p_q_const__char_p_q_const__char_p_q_const__char__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "32"" of type '" "void (*)(TableOfReals,char const *,char const *,char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "32"" of type '" "void (*)(tc_matrix,char const *,char const *,char const *)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(32), (void**)(&arg33), SWIGTYPE_p_f_struct_TableOfReals_p_q_const__char_p_f_struct_TableOfReals__void__void);
+      int res = SWIG_ConvertFunctionPtr(ST(32), (void**)(&arg33), SWIGTYPE_p_f_struct_tc_matrix_p_q_const__char_p_f_struct_tc_matrix__void__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "33"" of type '" "void (*)(TableOfReals,char const *,void (*)(TableOfReals))""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "33"" of type '" "void (*)(tc_matrix,char const *,void (*)(tc_matrix))""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(33), (void**)(&arg34), SWIGTYPE_p_f_int_struct_TableOfReals_p_f_struct_TableOfReals__void__void);
+      int res = SWIG_ConvertFunctionPtr(ST(33), (void**)(&arg34), SWIGTYPE_p_f_long_struct_tc_matrix_p_f_struct_tc_matrix__void__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "34"" of type '" "void (*)(int,TableOfReals,void (*)(TableOfReals))""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "34"" of type '" "void (*)(long,tc_matrix,void (*)(tc_matrix))""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(34), (void**)(&arg35), SWIGTYPE_p_f_p_q_const__char_int_int_struct_ArrayOfStrings__void);
+      int res = SWIG_ConvertFunctionPtr(ST(34), (void**)(&arg35), SWIGTYPE_p_f_p_q_const__char_int_int_struct_tc_strings__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "35"" of type '" "void (*)(char const *,int,int,ArrayOfStrings)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "35"" of type '" "void (*)(char const *,int,int,tc_strings)""'"); 
       }
     }
     {
@@ -6276,51 +6280,51 @@ XS(_wrap_tc_Main_api_initialize) {
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(37), (void**)(&arg38), SWIGTYPE_p_f_int__ArrayOfItems);
+      int res = SWIG_ConvertFunctionPtr(ST(37), (void**)(&arg38), SWIGTYPE_p_f_long__tc_items);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "38"" of type '" "ArrayOfItems (*)(int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "38"" of type '" "tc_items (*)(long)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(38), (void**)(&arg39), SWIGTYPE_p_f_int__int);
+      int res = SWIG_ConvertFunctionPtr(ST(38), (void**)(&arg39), SWIGTYPE_p_f_long__long);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "39"" of type '" "int (*)(int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "39"" of type '" "long (*)(long)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(39), (void**)(&arg40), SWIGTYPE_p_f_int_p_q_const__char__TableOfReals);
+      int res = SWIG_ConvertFunctionPtr(ST(39), (void**)(&arg40), SWIGTYPE_p_f_long_p_q_const__char__tc_matrix);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "40"" of type '" "TableOfReals (*)(int,char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "40"" of type '" "tc_matrix (*)(long,char const *)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(40), (void**)(&arg41), SWIGTYPE_p_f_int_p_q_const__char_struct_TableOfReals__void);
+      int res = SWIG_ConvertFunctionPtr(ST(40), (void**)(&arg41), SWIGTYPE_p_f_long_p_q_const__char_struct_tc_matrix__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "41"" of type '" "void (*)(int,char const *,TableOfReals)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "41"" of type '" "void (*)(long,char const *,tc_matrix)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(41), (void**)(&arg42), SWIGTYPE_p_f_int_p_q_const__char__TableOfStrings);
+      int res = SWIG_ConvertFunctionPtr(ST(41), (void**)(&arg42), SWIGTYPE_p_f_long_p_q_const__char__tc_table);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "42"" of type '" "TableOfStrings (*)(int,char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "42"" of type '" "tc_table (*)(long,char const *)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(42), (void**)(&arg43), SWIGTYPE_p_f_int_p_q_const__char_struct_TableOfStrings__void);
+      int res = SWIG_ConvertFunctionPtr(ST(42), (void**)(&arg43), SWIGTYPE_p_f_long_p_q_const__char_struct_tc_table__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "43"" of type '" "void (*)(int,char const *,TableOfStrings)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "43"" of type '" "void (*)(long,char const *,tc_table)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(43), (void**)(&arg44), SWIGTYPE_p_f_int__ArrayOfStrings);
+      int res = SWIG_ConvertFunctionPtr(ST(43), (void**)(&arg44), SWIGTYPE_p_f_long__tc_strings);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "44"" of type '" "ArrayOfStrings (*)(int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "44"" of type '" "tc_strings (*)(long)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(44), (void**)(&arg45), SWIGTYPE_p_f_int__ArrayOfStrings);
+      int res = SWIG_ConvertFunctionPtr(ST(44), (void**)(&arg45), SWIGTYPE_p_f_long__tc_strings);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "45"" of type '" "ArrayOfStrings (*)(int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "45"" of type '" "tc_strings (*)(long)""'"); 
       }
     }
     {
@@ -6336,9 +6340,9 @@ XS(_wrap_tc_Main_api_initialize) {
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(47), (void**)(&arg48), SWIGTYPE_p_f_p_q_const__char_struct_ArrayOfStrings_p_q_const__char__int);
+      int res = SWIG_ConvertFunctionPtr(ST(47), (void**)(&arg48), SWIGTYPE_p_f_p_q_const__char_struct_tc_strings_p_q_const__char__int);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "48"" of type '" "int (*)(char const *,ArrayOfStrings,char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "48"" of type '" "int (*)(char const *,tc_strings,char const *)""'"); 
       }
     }
     {
@@ -6348,9 +6352,9 @@ XS(_wrap_tc_Main_api_initialize) {
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(49), (void**)(&arg50), SWIGTYPE_p_f_struct_ArrayOfStrings_p_double__void);
+      int res = SWIG_ConvertFunctionPtr(ST(49), (void**)(&arg50), SWIGTYPE_p_f_struct_tc_strings_p_double__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "50"" of type '" "void (*)(ArrayOfStrings,double *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "50"" of type '" "void (*)(tc_strings,double *)""'"); 
       }
     }
     {
@@ -6372,60 +6376,60 @@ XS(_wrap_tc_Main_api_initialize) {
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(53), (void**)(&arg54), SWIGTYPE_p_f_int_double_double_int__void);
+      int res = SWIG_ConvertFunctionPtr(ST(53), (void**)(&arg54), SWIGTYPE_p_f_long_double_double_int__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "54"" of type '" "void (*)(int,double,double,int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "54"" of type '" "void (*)(long,double,double,int)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(54), (void**)(&arg55), SWIGTYPE_p_f_int__double);
+      int res = SWIG_ConvertFunctionPtr(ST(54), (void**)(&arg55), SWIGTYPE_p_f_long__double);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "55"" of type '" "double (*)(int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "55"" of type '" "double (*)(long)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(55), (void**)(&arg56), SWIGTYPE_p_f_int__double);
+      int res = SWIG_ConvertFunctionPtr(ST(55), (void**)(&arg56), SWIGTYPE_p_f_long__double);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "56"" of type '" "double (*)(int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "56"" of type '" "double (*)(long)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(56), (void**)(&arg57), SWIGTYPE_p_f_int_double_int__void);
+      int res = SWIG_ConvertFunctionPtr(ST(56), (void**)(&arg57), SWIGTYPE_p_f_long_double_int__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "57"" of type '" "void (*)(int,double,int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "57"" of type '" "void (*)(long,double,int)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(57), (void**)(&arg58), SWIGTYPE_p_f_int__double);
+      int res = SWIG_ConvertFunctionPtr(ST(57), (void**)(&arg58), SWIGTYPE_p_f_long__double);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "58"" of type '" "double (*)(int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "58"" of type '" "double (*)(long)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(58), (void**)(&arg59), SWIGTYPE_p_f_int__p_char);
+      int res = SWIG_ConvertFunctionPtr(ST(58), (void**)(&arg59), SWIGTYPE_p_f_long__p_char);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "59"" of type '" "char const *(*)(int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "59"" of type '" "char const *(*)(long)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(59), (void**)(&arg60), SWIGTYPE_p_f_int_p_q_const__char_int__void);
+      int res = SWIG_ConvertFunctionPtr(ST(59), (void**)(&arg60), SWIGTYPE_p_f_long_p_q_const__char_int__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "60"" of type '" "void (*)(int,char const *,int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "60"" of type '" "void (*)(long,char const *,int)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(60), (void**)(&arg61), SWIGTYPE_p_f_int_p_q_const__char__void);
+      int res = SWIG_ConvertFunctionPtr(ST(60), (void**)(&arg61), SWIGTYPE_p_f_long_p_q_const__char__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "61"" of type '" "void (*)(int,char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "61"" of type '" "void (*)(long,char const *)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(61), (void**)(&arg62), SWIGTYPE_p_f_int_p_q_const__char__void);
+      int res = SWIG_ConvertFunctionPtr(ST(61), (void**)(&arg62), SWIGTYPE_p_f_long_p_q_const__char__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "62"" of type '" "void (*)(int,char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "62"" of type '" "void (*)(long,char const *)""'"); 
       }
     }
-    tc_Main_api_initialize(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,(char const *(*)(int))arg9,(char const *(*)(int))arg10,arg11,arg12,arg13,(char const *(*)(int))arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23,arg24,arg25,arg26,arg27,arg28,arg29,arg30,(char const *(*)())arg31,arg32,arg33,arg34,arg35,arg36,arg37,arg38,arg39,arg40,arg41,arg42,arg43,arg44,arg45,arg46,(char const *(*)(char const *))arg47,arg48,arg49,arg50,(char const *(*)())arg51,arg52,arg53,arg54,arg55,arg56,arg57,arg58,(char const *(*)(int))arg59,arg60,arg61,arg62);
+    tc_Main_api_initialize(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,(char const *(*)(long))arg9,(char const *(*)(long))arg10,arg11,arg12,arg13,(char const *(*)(long))arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23,arg24,arg25,arg26,arg27,arg28,arg29,arg30,(char const *(*)())arg31,arg32,arg33,arg34,arg35,arg36,arg37,arg38,arg39,arg40,arg41,arg42,arg43,arg44,arg45,arg46,(char const *(*)(char const *))arg47,arg48,arg49,arg50,(char const *(*)())arg51,arg52,arg53,arg54,arg55,arg56,arg57,arg58,(char const *(*)(long))arg59,arg60,arg61,arg62);
     ST(argvi) = sv_newmortal();
     
     
@@ -6587,9 +6591,9 @@ XS(_wrap_tc_showProgress) {
 
 XS(_wrap_tc_CThread_api_initialize) {
   {
-    int arg1 ;
-    void (*arg2)(int,int) = (void (*)(int,int)) 0 ;
-    int val1 ;
+    long arg1 ;
+    void (*arg2)(long,int) = (void (*)(long,int)) 0 ;
+    long val1 ;
     int ecode1 = 0 ;
     int argvi = 0;
     dXSARGS;
@@ -6597,15 +6601,15 @@ XS(_wrap_tc_CThread_api_initialize) {
     if ((items < 2) || (items > 2)) {
       SWIG_croak("Usage: tc_CThread_api_initialize(cthread,showProgress);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_CThread_api_initialize" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_CThread_api_initialize" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     {
-      int res = SWIG_ConvertFunctionPtr(ST(1), (void**)(&arg2), SWIGTYPE_p_f_int_int__void);
+      int res = SWIG_ConvertFunctionPtr(ST(1), (void**)(&arg2), SWIGTYPE_p_f_long_int__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CThread_api_initialize" "', argument " "2"" of type '" "void (*)(int,int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CThread_api_initialize" "', argument " "2"" of type '" "void (*)(long,int)""'"); 
       }
     }
     tc_CThread_api_initialize(arg1,arg2);
@@ -6623,29 +6627,29 @@ XS(_wrap_tc_CThread_api_initialize) {
 
 XS(_wrap_tc_getParameters) {
   {
-    ArrayOfItems arg1 ;
+    tc_items arg1 ;
     void *argp1 ;
     int res1 = 0 ;
     int argvi = 0;
-    TableOfReals result;
+    tc_matrix result;
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
       SWIG_croak("Usage: tc_getParameters(a);");
     }
     {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_ArrayOfItems,  0 );
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_items,  0 );
       if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getParameters" "', argument " "1"" of type '" "ArrayOfItems""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getParameters" "', argument " "1"" of type '" "tc_items""'"); 
       }  
       if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getParameters" "', argument " "1"" of type '" "ArrayOfItems""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getParameters" "', argument " "1"" of type '" "tc_items""'");
       } else {
-        arg1 = *((ArrayOfItems *)(argp1));
+        arg1 = *((tc_items *)(argp1));
       }
     }
     result = tc_getParameters(arg1);
-    ST(argvi) = SWIG_NewPointerObj((TableOfReals *)memcpy((TableOfReals *)malloc(sizeof(TableOfReals)),&result,sizeof(TableOfReals)), SWIGTYPE_p_TableOfReals, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    ST(argvi) = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     XSRETURN(argvi);
   fail:
     SWIG_croak_null();
@@ -6655,29 +6659,29 @@ XS(_wrap_tc_getParameters) {
 
 XS(_wrap_tc_getInitialValues) {
   {
-    ArrayOfItems arg1 ;
+    tc_items arg1 ;
     void *argp1 ;
     int res1 = 0 ;
     int argvi = 0;
-    TableOfReals result;
+    tc_matrix result;
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
       SWIG_croak("Usage: tc_getInitialValues(a);");
     }
     {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_ArrayOfItems,  0 );
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_items,  0 );
       if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getInitialValues" "', argument " "1"" of type '" "ArrayOfItems""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getInitialValues" "', argument " "1"" of type '" "tc_items""'"); 
       }  
       if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getInitialValues" "', argument " "1"" of type '" "ArrayOfItems""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getInitialValues" "', argument " "1"" of type '" "tc_items""'");
       } else {
-        arg1 = *((ArrayOfItems *)(argp1));
+        arg1 = *((tc_items *)(argp1));
       }
     }
     result = tc_getInitialValues(arg1);
-    ST(argvi) = SWIG_NewPointerObj((TableOfReals *)memcpy((TableOfReals *)malloc(sizeof(TableOfReals)),&result,sizeof(TableOfReals)), SWIGTYPE_p_TableOfReals, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    ST(argvi) = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     XSRETURN(argvi);
   fail:
     SWIG_croak_null();
@@ -6687,8 +6691,8 @@ XS(_wrap_tc_getInitialValues) {
 
 XS(_wrap_tc_setInitialValues) {
   {
-    ArrayOfItems arg1 ;
-    TableOfReals arg2 ;
+    tc_items arg1 ;
+    tc_matrix arg2 ;
     void *argp1 ;
     int res1 = 0 ;
     void *argp2 ;
@@ -6700,25 +6704,25 @@ XS(_wrap_tc_setInitialValues) {
       SWIG_croak("Usage: tc_setInitialValues(items,values);");
     }
     {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_ArrayOfItems,  0 );
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_items,  0 );
       if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setInitialValues" "', argument " "1"" of type '" "ArrayOfItems""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setInitialValues" "', argument " "1"" of type '" "tc_items""'"); 
       }  
       if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_setInitialValues" "', argument " "1"" of type '" "ArrayOfItems""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_setInitialValues" "', argument " "1"" of type '" "tc_items""'");
       } else {
-        arg1 = *((ArrayOfItems *)(argp1));
+        arg1 = *((tc_items *)(argp1));
       }
     }
     {
-      res2 = SWIG_ConvertPtr(ST(1), &argp2, SWIGTYPE_p_TableOfReals,  0 );
+      res2 = SWIG_ConvertPtr(ST(1), &argp2, SWIGTYPE_p_tc_matrix,  0 );
       if (!SWIG_IsOK(res2)) {
-        SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setInitialValues" "', argument " "2"" of type '" "TableOfReals""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setInitialValues" "', argument " "2"" of type '" "tc_matrix""'"); 
       }  
       if (!argp2) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_setInitialValues" "', argument " "2"" of type '" "TableOfReals""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_setInitialValues" "', argument " "2"" of type '" "tc_matrix""'");
       } else {
-        arg2 = *((TableOfReals *)(argp2));
+        arg2 = *((tc_matrix *)(argp2));
       }
     }
     tc_setInitialValues(arg1,arg2);
@@ -6732,29 +6736,29 @@ XS(_wrap_tc_setInitialValues) {
 
 XS(_wrap_tc_getFixedVariables) {
   {
-    ArrayOfItems arg1 ;
+    tc_items arg1 ;
     void *argp1 ;
     int res1 = 0 ;
     int argvi = 0;
-    TableOfReals result;
+    tc_matrix result;
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
       SWIG_croak("Usage: tc_getFixedVariables(a);");
     }
     {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_ArrayOfItems,  0 );
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_items,  0 );
       if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getFixedVariables" "', argument " "1"" of type '" "ArrayOfItems""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getFixedVariables" "', argument " "1"" of type '" "tc_items""'"); 
       }  
       if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getFixedVariables" "', argument " "1"" of type '" "ArrayOfItems""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getFixedVariables" "', argument " "1"" of type '" "tc_items""'");
       } else {
-        arg1 = *((ArrayOfItems *)(argp1));
+        arg1 = *((tc_items *)(argp1));
       }
     }
     result = tc_getFixedVariables(arg1);
-    ST(argvi) = SWIG_NewPointerObj((TableOfReals *)memcpy((TableOfReals *)malloc(sizeof(TableOfReals)),&result,sizeof(TableOfReals)), SWIGTYPE_p_TableOfReals, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    ST(argvi) = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     XSRETURN(argvi);
   fail:
     SWIG_croak_null();
@@ -6764,29 +6768,29 @@ XS(_wrap_tc_getFixedVariables) {
 
 XS(_wrap_tc_getParametersAndFixedVariables) {
   {
-    ArrayOfItems arg1 ;
+    tc_items arg1 ;
     void *argp1 ;
     int res1 = 0 ;
     int argvi = 0;
-    TableOfReals result;
+    tc_matrix result;
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
       SWIG_croak("Usage: tc_getParametersAndFixedVariables(a);");
     }
     {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_ArrayOfItems,  0 );
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_items,  0 );
       if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getParametersAndFixedVariables" "', argument " "1"" of type '" "ArrayOfItems""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getParametersAndFixedVariables" "', argument " "1"" of type '" "tc_items""'"); 
       }  
       if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getParametersAndFixedVariables" "', argument " "1"" of type '" "ArrayOfItems""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getParametersAndFixedVariables" "', argument " "1"" of type '" "tc_items""'");
       } else {
-        arg1 = *((ArrayOfItems *)(argp1));
+        arg1 = *((tc_items *)(argp1));
       }
     }
     result = tc_getParametersAndFixedVariables(arg1);
-    ST(argvi) = SWIG_NewPointerObj((TableOfReals *)memcpy((TableOfReals *)malloc(sizeof(TableOfReals)),&result,sizeof(TableOfReals)), SWIGTYPE_p_TableOfReals, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    ST(argvi) = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     XSRETURN(argvi);
   fail:
     SWIG_croak_null();
@@ -6796,9 +6800,9 @@ XS(_wrap_tc_getParametersAndFixedVariables) {
 
 XS(_wrap_tc_getTextAttribute) {
   {
-    int arg1 ;
+    long arg1 ;
     char *arg2 = (char *) 0 ;
-    int val1 ;
+    long val1 ;
     int ecode1 = 0 ;
     int res2 ;
     char *buf2 = 0 ;
@@ -6810,11 +6814,11 @@ XS(_wrap_tc_getTextAttribute) {
     if ((items < 2) || (items > 2)) {
       SWIG_croak("Usage: tc_getTextAttribute(item,attribute);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getTextAttribute" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getTextAttribute" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     res2 = SWIG_AsCharPtrAndSize(ST(1), &buf2, NULL, &alloc2);
     if (!SWIG_IsOK(res2)) {
       SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_getTextAttribute" "', argument " "2"" of type '" "char const *""'");
@@ -6835,9 +6839,9 @@ XS(_wrap_tc_getTextAttribute) {
 
 XS(_wrap_tc_getParameter) {
   {
-    int arg1 ;
+    long arg1 ;
     char *arg2 = (char *) 0 ;
-    int val1 ;
+    long val1 ;
     int ecode1 = 0 ;
     int res2 ;
     char *buf2 = 0 ;
@@ -6849,11 +6853,11 @@ XS(_wrap_tc_getParameter) {
     if ((items < 2) || (items > 2)) {
       SWIG_croak("Usage: tc_getParameter(item,attribute);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getParameter" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getParameter" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     res2 = SWIG_AsCharPtrAndSize(ST(1), &buf2, NULL, &alloc2);
     if (!SWIG_IsOK(res2)) {
       SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_getParameter" "', argument " "2"" of type '" "char const *""'");
@@ -6874,43 +6878,43 @@ XS(_wrap_tc_getParameter) {
 
 XS(_wrap_tc_getParametersNamed) {
   {
-    ArrayOfItems arg1 ;
-    ArrayOfStrings arg2 ;
+    tc_items arg1 ;
+    tc_strings arg2 ;
     void *argp1 ;
     int res1 = 0 ;
     void *argp2 ;
     int res2 = 0 ;
     int argvi = 0;
-    TableOfReals result;
+    tc_matrix result;
     dXSARGS;
     
     if ((items < 2) || (items > 2)) {
       SWIG_croak("Usage: tc_getParametersNamed(a,attibutes);");
     }
     {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_ArrayOfItems,  0 );
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_items,  0 );
       if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getParametersNamed" "', argument " "1"" of type '" "ArrayOfItems""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getParametersNamed" "', argument " "1"" of type '" "tc_items""'"); 
       }  
       if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getParametersNamed" "', argument " "1"" of type '" "ArrayOfItems""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getParametersNamed" "', argument " "1"" of type '" "tc_items""'");
       } else {
-        arg1 = *((ArrayOfItems *)(argp1));
+        arg1 = *((tc_items *)(argp1));
       }
     }
     {
-      res2 = SWIG_ConvertPtr(ST(1), &argp2, SWIGTYPE_p_ArrayOfStrings,  0 );
+      res2 = SWIG_ConvertPtr(ST(1), &argp2, SWIGTYPE_p_tc_strings,  0 );
       if (!SWIG_IsOK(res2)) {
-        SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_getParametersNamed" "', argument " "2"" of type '" "ArrayOfStrings""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_getParametersNamed" "', argument " "2"" of type '" "tc_strings""'"); 
       }  
       if (!argp2) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getParametersNamed" "', argument " "2"" of type '" "ArrayOfStrings""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getParametersNamed" "', argument " "2"" of type '" "tc_strings""'");
       } else {
-        arg2 = *((ArrayOfStrings *)(argp2));
+        arg2 = *((tc_strings *)(argp2));
       }
     }
     result = tc_getParametersNamed(arg1,arg2);
-    ST(argvi) = SWIG_NewPointerObj((TableOfReals *)memcpy((TableOfReals *)malloc(sizeof(TableOfReals)),&result,sizeof(TableOfReals)), SWIGTYPE_p_TableOfReals, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    ST(argvi) = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     XSRETURN(argvi);
   fail:
     SWIG_croak_null();
@@ -6920,43 +6924,43 @@ XS(_wrap_tc_getParametersNamed) {
 
 XS(_wrap_tc_getParametersExcept) {
   {
-    ArrayOfItems arg1 ;
-    ArrayOfStrings arg2 ;
+    tc_items arg1 ;
+    tc_strings arg2 ;
     void *argp1 ;
     int res1 = 0 ;
     void *argp2 ;
     int res2 = 0 ;
     int argvi = 0;
-    TableOfReals result;
+    tc_matrix result;
     dXSARGS;
     
     if ((items < 2) || (items > 2)) {
       SWIG_croak("Usage: tc_getParametersExcept(a,Modeling);");
     }
     {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_ArrayOfItems,  0 );
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_items,  0 );
       if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getParametersExcept" "', argument " "1"" of type '" "ArrayOfItems""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getParametersExcept" "', argument " "1"" of type '" "tc_items""'"); 
       }  
       if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getParametersExcept" "', argument " "1"" of type '" "ArrayOfItems""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getParametersExcept" "', argument " "1"" of type '" "tc_items""'");
       } else {
-        arg1 = *((ArrayOfItems *)(argp1));
+        arg1 = *((tc_items *)(argp1));
       }
     }
     {
-      res2 = SWIG_ConvertPtr(ST(1), &argp2, SWIGTYPE_p_ArrayOfStrings,  0 );
+      res2 = SWIG_ConvertPtr(ST(1), &argp2, SWIGTYPE_p_tc_strings,  0 );
       if (!SWIG_IsOK(res2)) {
-        SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_getParametersExcept" "', argument " "2"" of type '" "ArrayOfStrings""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_getParametersExcept" "', argument " "2"" of type '" "tc_strings""'"); 
       }  
       if (!argp2) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getParametersExcept" "', argument " "2"" of type '" "ArrayOfStrings""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getParametersExcept" "', argument " "2"" of type '" "tc_strings""'");
       } else {
-        arg2 = *((ArrayOfStrings *)(argp2));
+        arg2 = *((tc_strings *)(argp2));
       }
     }
     result = tc_getParametersExcept(arg1,arg2);
-    ST(argvi) = SWIG_NewPointerObj((TableOfReals *)memcpy((TableOfReals *)malloc(sizeof(TableOfReals)),&result,sizeof(TableOfReals)), SWIGTYPE_p_TableOfReals, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    ST(argvi) = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     XSRETURN(argvi);
   fail:
     SWIG_croak_null();
@@ -6966,43 +6970,43 @@ XS(_wrap_tc_getParametersExcept) {
 
 XS(_wrap_tc_getAllTextNamed) {
   {
-    ArrayOfItems arg1 ;
-    ArrayOfStrings arg2 ;
+    tc_items arg1 ;
+    tc_strings arg2 ;
     void *argp1 ;
     int res1 = 0 ;
     void *argp2 ;
     int res2 = 0 ;
     int argvi = 0;
-    ArrayOfStrings result;
+    tc_strings result;
     dXSARGS;
     
     if ((items < 2) || (items > 2)) {
       SWIG_croak("Usage: tc_getAllTextNamed(a,Modeling);");
     }
     {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_ArrayOfItems,  0 );
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_items,  0 );
       if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getAllTextNamed" "', argument " "1"" of type '" "ArrayOfItems""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getAllTextNamed" "', argument " "1"" of type '" "tc_items""'"); 
       }  
       if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getAllTextNamed" "', argument " "1"" of type '" "ArrayOfItems""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getAllTextNamed" "', argument " "1"" of type '" "tc_items""'");
       } else {
-        arg1 = *((ArrayOfItems *)(argp1));
+        arg1 = *((tc_items *)(argp1));
       }
     }
     {
-      res2 = SWIG_ConvertPtr(ST(1), &argp2, SWIGTYPE_p_ArrayOfStrings,  0 );
+      res2 = SWIG_ConvertPtr(ST(1), &argp2, SWIGTYPE_p_tc_strings,  0 );
       if (!SWIG_IsOK(res2)) {
-        SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_getAllTextNamed" "', argument " "2"" of type '" "ArrayOfStrings""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_getAllTextNamed" "', argument " "2"" of type '" "tc_strings""'"); 
       }  
       if (!argp2) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getAllTextNamed" "', argument " "2"" of type '" "ArrayOfStrings""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getAllTextNamed" "', argument " "2"" of type '" "tc_strings""'");
       } else {
-        arg2 = *((ArrayOfStrings *)(argp2));
+        arg2 = *((tc_strings *)(argp2));
       }
     }
     result = tc_getAllTextNamed(arg1,arg2);
-    ST(argvi) = SWIG_NewPointerObj((ArrayOfStrings *)memcpy((ArrayOfStrings *)malloc(sizeof(ArrayOfStrings)),&result,sizeof(ArrayOfStrings)), SWIGTYPE_p_ArrayOfStrings, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    ST(argvi) = SWIG_NewPointerObj((tc_strings *)memcpy((tc_strings *)malloc(sizeof(tc_strings)),&result,sizeof(tc_strings)), SWIGTYPE_p_tc_strings, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     XSRETURN(argvi);
   fail:
     SWIG_croak_null();
@@ -7012,10 +7016,10 @@ XS(_wrap_tc_getAllTextNamed) {
 
 XS(_wrap_tc_setTextAttribute) {
   {
-    int arg1 ;
+    long arg1 ;
     char *arg2 = (char *) 0 ;
     char *arg3 = (char *) 0 ;
-    int val1 ;
+    long val1 ;
     int ecode1 = 0 ;
     int res2 ;
     char *buf2 = 0 ;
@@ -7029,11 +7033,11 @@ XS(_wrap_tc_setTextAttribute) {
     if ((items < 3) || (items > 3)) {
       SWIG_croak("Usage: tc_setTextAttribute(item,attribute,value);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setTextAttribute" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setTextAttribute" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     res2 = SWIG_AsCharPtrAndSize(ST(1), &buf2, NULL, &alloc2);
     if (!SWIG_IsOK(res2)) {
       SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setTextAttribute" "', argument " "2"" of type '" "char const *""'");
@@ -7061,10 +7065,10 @@ XS(_wrap_tc_setTextAttribute) {
 
 XS(_wrap_tc_setParameter) {
   {
-    int arg1 ;
+    long arg1 ;
     char *arg2 = (char *) 0 ;
     double arg3 ;
-    int val1 ;
+    long val1 ;
     int ecode1 = 0 ;
     int res2 ;
     char *buf2 = 0 ;
@@ -7077,11 +7081,11 @@ XS(_wrap_tc_setParameter) {
     if ((items < 3) || (items > 3)) {
       SWIG_croak("Usage: tc_setParameter(item,attribute,value);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setParameter" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setParameter" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     res2 = SWIG_AsCharPtrAndSize(ST(1), &buf2, NULL, &alloc2);
     if (!SWIG_IsOK(res2)) {
       SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setParameter" "', argument " "2"" of type '" "char const *""'");
@@ -7109,9 +7113,9 @@ XS(_wrap_tc_setParameter) {
 
 XS(_wrap_tc_BasicInformationTool_Text_api) {
   {
-    char *(*arg1)(int,char const *) = (char *(*)(int,char const *)) 0 ;
-    ArrayOfStrings (*arg2)(ArrayOfItems,ArrayOfStrings) = (ArrayOfStrings (*)(ArrayOfItems,ArrayOfStrings)) 0 ;
-    void (*arg3)(int,char const *,char const *) = (void (*)(int,char const *,char const *)) 0 ;
+    char *(*arg1)(long,char const *) = (char *(*)(long,char const *)) 0 ;
+    tc_strings (*arg2)(tc_items,tc_strings) = (tc_strings (*)(tc_items,tc_strings)) 0 ;
+    void (*arg3)(long,char const *,char const *) = (void (*)(long,char const *,char const *)) 0 ;
     int argvi = 0;
     dXSARGS;
     
@@ -7119,24 +7123,24 @@ XS(_wrap_tc_BasicInformationTool_Text_api) {
       SWIG_croak("Usage: tc_BasicInformationTool_Text_api(getTextData,getAllTextDataNamed,setTextData);");
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_int_p_q_const__char__p_char);
+      int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_long_p_q_const__char__p_char);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Text_api" "', argument " "1"" of type '" "char const *(*)(int,char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Text_api" "', argument " "1"" of type '" "char const *(*)(long,char const *)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(1), (void**)(&arg2), SWIGTYPE_p_f_ArrayOfItems_ArrayOfStrings__ArrayOfStrings);
+      int res = SWIG_ConvertFunctionPtr(ST(1), (void**)(&arg2), SWIGTYPE_p_f_tc_items_tc_strings__tc_strings);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Text_api" "', argument " "2"" of type '" "ArrayOfStrings (*)(ArrayOfItems,ArrayOfStrings)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Text_api" "', argument " "2"" of type '" "tc_strings (*)(tc_items,tc_strings)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(2), (void**)(&arg3), SWIGTYPE_p_f_int_p_q_const__char_p_q_const__char__void);
+      int res = SWIG_ConvertFunctionPtr(ST(2), (void**)(&arg3), SWIGTYPE_p_f_long_p_q_const__char_p_q_const__char__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Text_api" "', argument " "3"" of type '" "void (*)(int,char const *,char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Text_api" "', argument " "3"" of type '" "void (*)(long,char const *,char const *)""'"); 
       }
     }
-    tc_BasicInformationTool_Text_api((char const *(*)(int,char const *))arg1,arg2,arg3);
+    tc_BasicInformationTool_Text_api((char const *(*)(long,char const *))arg1,arg2,arg3);
     ST(argvi) = sv_newmortal();
     
     
@@ -7153,15 +7157,15 @@ XS(_wrap_tc_BasicInformationTool_Text_api) {
 
 XS(_wrap_tc_BasicInformationTool_Numeric_api) {
   {
-    TableOfReals (*arg1)(ArrayOfItems) = (TableOfReals (*)(ArrayOfItems)) 0 ;
-    void (*arg2)(ArrayOfItems,TableOfReals) = (void (*)(ArrayOfItems,TableOfReals)) 0 ;
-    TableOfReals (*arg3)(ArrayOfItems) = (TableOfReals (*)(ArrayOfItems)) 0 ;
-    TableOfReals (*arg4)(ArrayOfItems) = (TableOfReals (*)(ArrayOfItems)) 0 ;
-    TableOfReals (*arg5)(ArrayOfItems) = (TableOfReals (*)(ArrayOfItems)) 0 ;
-    double (*arg6)(int,char const *) = (double (*)(int,char const *)) 0 ;
-    TableOfReals (*arg7)(ArrayOfItems,ArrayOfStrings) = (TableOfReals (*)(ArrayOfItems,ArrayOfStrings)) 0 ;
-    TableOfReals (*arg8)(ArrayOfItems,ArrayOfStrings) = (TableOfReals (*)(ArrayOfItems,ArrayOfStrings)) 0 ;
-    void (*arg9)(int,char const *,double) = (void (*)(int,char const *,double)) 0 ;
+    tc_matrix (*arg1)(tc_items) = (tc_matrix (*)(tc_items)) 0 ;
+    void (*arg2)(tc_items,tc_matrix) = (void (*)(tc_items,tc_matrix)) 0 ;
+    tc_matrix (*arg3)(tc_items) = (tc_matrix (*)(tc_items)) 0 ;
+    tc_matrix (*arg4)(tc_items) = (tc_matrix (*)(tc_items)) 0 ;
+    tc_matrix (*arg5)(tc_items) = (tc_matrix (*)(tc_items)) 0 ;
+    double (*arg6)(long,char const *) = (double (*)(long,char const *)) 0 ;
+    tc_matrix (*arg7)(tc_items,tc_strings) = (tc_matrix (*)(tc_items,tc_strings)) 0 ;
+    tc_matrix (*arg8)(tc_items,tc_strings) = (tc_matrix (*)(tc_items,tc_strings)) 0 ;
+    void (*arg9)(long,char const *,double) = (void (*)(long,char const *,double)) 0 ;
     int argvi = 0;
     dXSARGS;
     
@@ -7169,57 +7173,57 @@ XS(_wrap_tc_BasicInformationTool_Numeric_api) {
       SWIG_croak("Usage: tc_BasicInformationTool_Numeric_api(getInitialValues,setInitialValues,getParameters,getFixedVariabes,getParametersAndFixedVariabes,getNumericalData,getParametersNamed,getParametersExcept,setNumericalData);");
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_ArrayOfItems__TableOfReals);
+      int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_tc_items__tc_matrix);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "1"" of type '" "TableOfReals (*)(ArrayOfItems)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "1"" of type '" "tc_matrix (*)(tc_items)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(1), (void**)(&arg2), SWIGTYPE_p_f_struct_ArrayOfItems_struct_TableOfReals__void);
+      int res = SWIG_ConvertFunctionPtr(ST(1), (void**)(&arg2), SWIGTYPE_p_f_struct_tc_items_struct_tc_matrix__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "2"" of type '" "void (*)(ArrayOfItems,TableOfReals)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "2"" of type '" "void (*)(tc_items,tc_matrix)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(2), (void**)(&arg3), SWIGTYPE_p_f_ArrayOfItems__TableOfReals);
+      int res = SWIG_ConvertFunctionPtr(ST(2), (void**)(&arg3), SWIGTYPE_p_f_tc_items__tc_matrix);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "3"" of type '" "TableOfReals (*)(ArrayOfItems)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "3"" of type '" "tc_matrix (*)(tc_items)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(3), (void**)(&arg4), SWIGTYPE_p_f_ArrayOfItems__TableOfReals);
+      int res = SWIG_ConvertFunctionPtr(ST(3), (void**)(&arg4), SWIGTYPE_p_f_tc_items__tc_matrix);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "4"" of type '" "TableOfReals (*)(ArrayOfItems)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "4"" of type '" "tc_matrix (*)(tc_items)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(4), (void**)(&arg5), SWIGTYPE_p_f_ArrayOfItems__TableOfReals);
+      int res = SWIG_ConvertFunctionPtr(ST(4), (void**)(&arg5), SWIGTYPE_p_f_tc_items__tc_matrix);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "5"" of type '" "TableOfReals (*)(ArrayOfItems)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "5"" of type '" "tc_matrix (*)(tc_items)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(5), (void**)(&arg6), SWIGTYPE_p_f_int_p_q_const__char__double);
+      int res = SWIG_ConvertFunctionPtr(ST(5), (void**)(&arg6), SWIGTYPE_p_f_long_p_q_const__char__double);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "6"" of type '" "double (*)(int,char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "6"" of type '" "double (*)(long,char const *)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(6), (void**)(&arg7), SWIGTYPE_p_f_ArrayOfItems_ArrayOfStrings__TableOfReals);
+      int res = SWIG_ConvertFunctionPtr(ST(6), (void**)(&arg7), SWIGTYPE_p_f_tc_items_tc_strings__tc_matrix);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "7"" of type '" "TableOfReals (*)(ArrayOfItems,ArrayOfStrings)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "7"" of type '" "tc_matrix (*)(tc_items,tc_strings)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(7), (void**)(&arg8), SWIGTYPE_p_f_ArrayOfItems_ArrayOfStrings__TableOfReals);
+      int res = SWIG_ConvertFunctionPtr(ST(7), (void**)(&arg8), SWIGTYPE_p_f_tc_items_tc_strings__tc_matrix);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "8"" of type '" "TableOfReals (*)(ArrayOfItems,ArrayOfStrings)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "8"" of type '" "tc_matrix (*)(tc_items,tc_strings)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(8), (void**)(&arg9), SWIGTYPE_p_f_int_p_q_const__char_double__void);
+      int res = SWIG_ConvertFunctionPtr(ST(8), (void**)(&arg9), SWIGTYPE_p_f_long_p_q_const__char_double__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "9"" of type '" "void (*)(int,char const *,double)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "9"" of type '" "void (*)(long,char const *,double)""'"); 
       }
     }
     tc_BasicInformationTool_Numeric_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9);
@@ -7251,7 +7255,7 @@ XS(_wrap_tc_BasicInformationTool_Numeric_api) {
 
 XS(_wrap_tc_insertConnection) {
   {
-    ArrayOfItems arg1 ;
+    tc_items arg1 ;
     char *arg2 = (char *) 0 ;
     char *arg3 = (char *) 0 ;
     void *argp1 ;
@@ -7263,21 +7267,21 @@ XS(_wrap_tc_insertConnection) {
     char *buf3 = 0 ;
     int alloc3 = 0 ;
     int argvi = 0;
-    int result;
+    long result;
     dXSARGS;
     
     if ((items < 3) || (items > 3)) {
       SWIG_croak("Usage: tc_insertConnection(parts,name,family);");
     }
     {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_ArrayOfItems,  0 );
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_items,  0 );
       if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_insertConnection" "', argument " "1"" of type '" "ArrayOfItems""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_insertConnection" "', argument " "1"" of type '" "tc_items""'"); 
       }  
       if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_insertConnection" "', argument " "1"" of type '" "ArrayOfItems""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_insertConnection" "', argument " "1"" of type '" "tc_items""'");
       } else {
-        arg1 = *((ArrayOfItems *)(argp1));
+        arg1 = *((tc_items *)(argp1));
       }
     }
     res2 = SWIG_AsCharPtrAndSize(ST(1), &buf2, NULL, &alloc2);
@@ -7290,8 +7294,8 @@ XS(_wrap_tc_insertConnection) {
       SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_insertConnection" "', argument " "3"" of type '" "char const *""'");
     }
     arg3 = (char *)(buf3);
-    result = (int)tc_insertConnection(arg1,(char const *)arg2,(char const *)arg3);
-    ST(argvi) = SWIG_From_int  SWIG_PERL_CALL_ARGS_1((int)(result)); argvi++ ;
+    result = (long)tc_insertConnection(arg1,(char const *)arg2,(char const *)arg3);
+    ST(argvi) = SWIG_From_long  SWIG_PERL_CALL_ARGS_1((long)(result)); argvi++ ;
     if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
     if (alloc3 == SWIG_NEWOBJ) free((char*)buf3);
     XSRETURN(argvi);
@@ -7305,23 +7309,23 @@ XS(_wrap_tc_insertConnection) {
 
 XS(_wrap_tc_getConnectedNodes) {
   {
-    int arg1 ;
-    int val1 ;
+    long arg1 ;
+    long val1 ;
     int ecode1 = 0 ;
     int argvi = 0;
-    ArrayOfItems result;
+    tc_items result;
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
       SWIG_croak("Usage: tc_getConnectedNodes(connection);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getConnectedNodes" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getConnectedNodes" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     result = tc_getConnectedNodes(arg1);
-    ST(argvi) = SWIG_NewPointerObj((ArrayOfItems *)memcpy((ArrayOfItems *)malloc(sizeof(ArrayOfItems)),&result,sizeof(ArrayOfItems)), SWIGTYPE_p_ArrayOfItems, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    ST(argvi) = SWIG_NewPointerObj((tc_items *)memcpy((tc_items *)malloc(sizeof(tc_items)),&result,sizeof(tc_items)), SWIGTYPE_p_tc_items, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     
     XSRETURN(argvi);
   fail:
@@ -7333,32 +7337,32 @@ XS(_wrap_tc_getConnectedNodes) {
 
 XS(_wrap_tc_getConnectedNodesWithRole) {
   {
-    int arg1 ;
+    long arg1 ;
     char *arg2 = (char *) 0 ;
-    int val1 ;
+    long val1 ;
     int ecode1 = 0 ;
     int res2 ;
     char *buf2 = 0 ;
     int alloc2 = 0 ;
     int argvi = 0;
-    ArrayOfItems result;
+    tc_items result;
     dXSARGS;
     
     if ((items < 2) || (items > 2)) {
       SWIG_croak("Usage: tc_getConnectedNodesWithRole(connection,role);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getConnectedNodesWithRole" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getConnectedNodesWithRole" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     res2 = SWIG_AsCharPtrAndSize(ST(1), &buf2, NULL, &alloc2);
     if (!SWIG_IsOK(res2)) {
       SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_getConnectedNodesWithRole" "', argument " "2"" of type '" "char const *""'");
     }
     arg2 = (char *)(buf2);
     result = tc_getConnectedNodesWithRole(arg1,(char const *)arg2);
-    ST(argvi) = SWIG_NewPointerObj((ArrayOfItems *)memcpy((ArrayOfItems *)malloc(sizeof(ArrayOfItems)),&result,sizeof(ArrayOfItems)), SWIGTYPE_p_ArrayOfItems, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    ST(argvi) = SWIG_NewPointerObj((tc_items *)memcpy((tc_items *)malloc(sizeof(tc_items)),&result,sizeof(tc_items)), SWIGTYPE_p_tc_items, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     
     if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
     XSRETURN(argvi);
@@ -7372,23 +7376,23 @@ XS(_wrap_tc_getConnectedNodesWithRole) {
 
 XS(_wrap_tc_getConnections) {
   {
-    int arg1 ;
-    int val1 ;
+    long arg1 ;
+    long val1 ;
     int ecode1 = 0 ;
     int argvi = 0;
-    ArrayOfItems result;
+    tc_items result;
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
       SWIG_croak("Usage: tc_getConnections(part);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getConnections" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getConnections" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     result = tc_getConnections(arg1);
-    ST(argvi) = SWIG_NewPointerObj((ArrayOfItems *)memcpy((ArrayOfItems *)malloc(sizeof(ArrayOfItems)),&result,sizeof(ArrayOfItems)), SWIGTYPE_p_ArrayOfItems, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    ST(argvi) = SWIG_NewPointerObj((tc_items *)memcpy((tc_items *)malloc(sizeof(tc_items)),&result,sizeof(tc_items)), SWIGTYPE_p_tc_items, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     
     XSRETURN(argvi);
   fail:
@@ -7400,32 +7404,32 @@ XS(_wrap_tc_getConnections) {
 
 XS(_wrap_tc_getConnectionsWithRole) {
   {
-    int arg1 ;
+    long arg1 ;
     char *arg2 = (char *) 0 ;
-    int val1 ;
+    long val1 ;
     int ecode1 = 0 ;
     int res2 ;
     char *buf2 = 0 ;
     int alloc2 = 0 ;
     int argvi = 0;
-    ArrayOfItems result;
+    tc_items result;
     dXSARGS;
     
     if ((items < 2) || (items > 2)) {
       SWIG_croak("Usage: tc_getConnectionsWithRole(part,role);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getConnectionsWithRole" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getConnectionsWithRole" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     res2 = SWIG_AsCharPtrAndSize(ST(1), &buf2, NULL, &alloc2);
     if (!SWIG_IsOK(res2)) {
       SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_getConnectionsWithRole" "', argument " "2"" of type '" "char const *""'");
     }
     arg2 = (char *)(buf2);
     result = tc_getConnectionsWithRole(arg1,(char const *)arg2);
-    ST(argvi) = SWIG_NewPointerObj((ArrayOfItems *)memcpy((ArrayOfItems *)malloc(sizeof(ArrayOfItems)),&result,sizeof(ArrayOfItems)), SWIGTYPE_p_ArrayOfItems, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    ST(argvi) = SWIG_NewPointerObj((tc_items *)memcpy((tc_items *)malloc(sizeof(tc_items)),&result,sizeof(tc_items)), SWIGTYPE_p_tc_items, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     
     if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
     XSRETURN(argvi);
@@ -7439,11 +7443,11 @@ XS(_wrap_tc_getConnectionsWithRole) {
 
 XS(_wrap_tc_ConnectionInsertion_api) {
   {
-    int (*arg1)(ArrayOfItems,char const *,char const *) = (int (*)(ArrayOfItems,char const *,char const *)) 0 ;
-    ArrayOfItems (*arg2)(int) = (ArrayOfItems (*)(int)) 0 ;
-    ArrayOfItems (*arg3)(int,char const *) = (ArrayOfItems (*)(int,char const *)) 0 ;
-    ArrayOfItems (*arg4)(int) = (ArrayOfItems (*)(int)) 0 ;
-    ArrayOfItems (*arg5)(int,char const *) = (ArrayOfItems (*)(int,char const *)) 0 ;
+    long (*arg1)(tc_items,char const *,char const *) = (long (*)(tc_items,char const *,char const *)) 0 ;
+    tc_items (*arg2)(long) = (tc_items (*)(long)) 0 ;
+    tc_items (*arg3)(long,char const *) = (tc_items (*)(long,char const *)) 0 ;
+    tc_items (*arg4)(long) = (tc_items (*)(long)) 0 ;
+    tc_items (*arg5)(long,char const *) = (tc_items (*)(long,char const *)) 0 ;
     int argvi = 0;
     dXSARGS;
     
@@ -7451,33 +7455,33 @@ XS(_wrap_tc_ConnectionInsertion_api) {
       SWIG_croak("Usage: tc_ConnectionInsertion_api(insertConnection,getConnectedParts,getConnectedPartsWithRole,getConnections,getConnectionsWithRole);");
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_struct_ArrayOfItems_p_q_const__char_p_q_const__char__int);
+      int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_struct_tc_items_p_q_const__char_p_q_const__char__long);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionInsertion_api" "', argument " "1"" of type '" "int (*)(ArrayOfItems,char const *,char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionInsertion_api" "', argument " "1"" of type '" "long (*)(tc_items,char const *,char const *)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(1), (void**)(&arg2), SWIGTYPE_p_f_int__ArrayOfItems);
+      int res = SWIG_ConvertFunctionPtr(ST(1), (void**)(&arg2), SWIGTYPE_p_f_long__tc_items);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionInsertion_api" "', argument " "2"" of type '" "ArrayOfItems (*)(int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionInsertion_api" "', argument " "2"" of type '" "tc_items (*)(long)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(2), (void**)(&arg3), SWIGTYPE_p_f_int_p_q_const__char__ArrayOfItems);
+      int res = SWIG_ConvertFunctionPtr(ST(2), (void**)(&arg3), SWIGTYPE_p_f_long_p_q_const__char__tc_items);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionInsertion_api" "', argument " "3"" of type '" "ArrayOfItems (*)(int,char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionInsertion_api" "', argument " "3"" of type '" "tc_items (*)(long,char const *)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(3), (void**)(&arg4), SWIGTYPE_p_f_int__ArrayOfItems);
+      int res = SWIG_ConvertFunctionPtr(ST(3), (void**)(&arg4), SWIGTYPE_p_f_long__tc_items);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionInsertion_api" "', argument " "4"" of type '" "ArrayOfItems (*)(int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionInsertion_api" "', argument " "4"" of type '" "tc_items (*)(long)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(4), (void**)(&arg5), SWIGTYPE_p_f_int_p_q_const__char__ArrayOfItems);
+      int res = SWIG_ConvertFunctionPtr(ST(4), (void**)(&arg5), SWIGTYPE_p_f_long_p_q_const__char__tc_items);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionInsertion_api" "', argument " "5"" of type '" "ArrayOfItems (*)(int,char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionInsertion_api" "', argument " "5"" of type '" "tc_items (*)(long,char const *)""'"); 
       }
     }
     tc_ConnectionInsertion_api(arg1,arg2,arg3,arg4,arg5);
@@ -7501,12 +7505,12 @@ XS(_wrap_tc_ConnectionInsertion_api) {
 
 XS(_wrap_tc_getControlPointX) {
   {
-    int arg1 ;
-    int arg2 ;
+    long arg1 ;
+    long arg2 ;
     int arg3 ;
-    int val1 ;
+    long val1 ;
     int ecode1 = 0 ;
-    int val2 ;
+    long val2 ;
     int ecode2 = 0 ;
     int val3 ;
     int ecode3 = 0 ;
@@ -7517,16 +7521,16 @@ XS(_wrap_tc_getControlPointX) {
     if ((items < 3) || (items > 3)) {
       SWIG_croak("Usage: tc_getControlPointX(connection,part,whichPoint);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getControlPointX" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getControlPointX" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
-    ecode2 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
+    arg1 = (long)(val1);
+    ecode2 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
     if (!SWIG_IsOK(ecode2)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_getControlPointX" "', argument " "2"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_getControlPointX" "', argument " "2"" of type '" "long""'");
     } 
-    arg2 = (int)(val2);
+    arg2 = (long)(val2);
     ecode3 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(2), &val3);
     if (!SWIG_IsOK(ecode3)) {
       SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "tc_getControlPointX" "', argument " "3"" of type '" "int""'");
@@ -7549,12 +7553,12 @@ XS(_wrap_tc_getControlPointX) {
 
 XS(_wrap_tc_getControlPointY) {
   {
-    int arg1 ;
-    int arg2 ;
+    long arg1 ;
+    long arg2 ;
     int arg3 ;
-    int val1 ;
+    long val1 ;
     int ecode1 = 0 ;
-    int val2 ;
+    long val2 ;
     int ecode2 = 0 ;
     int val3 ;
     int ecode3 = 0 ;
@@ -7565,16 +7569,16 @@ XS(_wrap_tc_getControlPointY) {
     if ((items < 3) || (items > 3)) {
       SWIG_croak("Usage: tc_getControlPointY(connection,part,whichPoint);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getControlPointY" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getControlPointY" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
-    ecode2 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
+    arg1 = (long)(val1);
+    ecode2 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
     if (!SWIG_IsOK(ecode2)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_getControlPointY" "', argument " "2"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_getControlPointY" "', argument " "2"" of type '" "long""'");
     } 
-    arg2 = (int)(val2);
+    arg2 = (long)(val2);
     ecode3 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(2), &val3);
     if (!SWIG_IsOK(ecode3)) {
       SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "tc_getControlPointY" "', argument " "3"" of type '" "int""'");
@@ -7597,14 +7601,14 @@ XS(_wrap_tc_getControlPointY) {
 
 XS(_wrap_tc_setControlPoint) {
   {
-    int arg1 ;
-    int arg2 ;
+    long arg1 ;
+    long arg2 ;
     int arg3 ;
     double arg4 ;
     double arg5 ;
-    int val1 ;
+    long val1 ;
     int ecode1 = 0 ;
-    int val2 ;
+    long val2 ;
     int ecode2 = 0 ;
     int val3 ;
     int ecode3 = 0 ;
@@ -7618,16 +7622,16 @@ XS(_wrap_tc_setControlPoint) {
     if ((items < 5) || (items > 5)) {
       SWIG_croak("Usage: tc_setControlPoint(connection,part,whichPoint,x,y);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setControlPoint" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setControlPoint" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
-    ecode2 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
+    arg1 = (long)(val1);
+    ecode2 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
     if (!SWIG_IsOK(ecode2)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_setControlPoint" "', argument " "2"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_setControlPoint" "', argument " "2"" of type '" "long""'");
     } 
-    arg2 = (int)(val2);
+    arg2 = (long)(val2);
     ecode3 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(2), &val3);
     if (!SWIG_IsOK(ecode3)) {
       SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "tc_setControlPoint" "', argument " "3"" of type '" "int""'");
@@ -7664,10 +7668,10 @@ XS(_wrap_tc_setControlPoint) {
 
 XS(_wrap_tc_setCenterPoint) {
   {
-    int arg1 ;
+    long arg1 ;
     double arg2 ;
     double arg3 ;
-    int val1 ;
+    long val1 ;
     int ecode1 = 0 ;
     double val2 ;
     int ecode2 = 0 ;
@@ -7679,11 +7683,11 @@ XS(_wrap_tc_setCenterPoint) {
     if ((items < 3) || (items > 3)) {
       SWIG_croak("Usage: tc_setCenterPoint(connection,y,x);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setCenterPoint" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setCenterPoint" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     ecode2 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
     if (!SWIG_IsOK(ecode2)) {
       SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_setCenterPoint" "', argument " "2"" of type '" "double""'");
@@ -7711,8 +7715,8 @@ XS(_wrap_tc_setCenterPoint) {
 
 XS(_wrap_tc_getCenterPointX) {
   {
-    int arg1 ;
-    int val1 ;
+    long arg1 ;
+    long val1 ;
     int ecode1 = 0 ;
     int argvi = 0;
     double result;
@@ -7721,11 +7725,11 @@ XS(_wrap_tc_getCenterPointX) {
     if ((items < 1) || (items > 1)) {
       SWIG_croak("Usage: tc_getCenterPointX(connection);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getCenterPointX" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getCenterPointX" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     result = (double)tc_getCenterPointX(arg1);
     ST(argvi) = SWIG_From_double  SWIG_PERL_CALL_ARGS_1((double)(result)); argvi++ ;
     
@@ -7739,8 +7743,8 @@ XS(_wrap_tc_getCenterPointX) {
 
 XS(_wrap_tc_getCenterPointY) {
   {
-    int arg1 ;
-    int val1 ;
+    long arg1 ;
+    long val1 ;
     int ecode1 = 0 ;
     int argvi = 0;
     double result;
@@ -7749,11 +7753,11 @@ XS(_wrap_tc_getCenterPointY) {
     if ((items < 1) || (items > 1)) {
       SWIG_croak("Usage: tc_getCenterPointY(connection);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getCenterPointY" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getCenterPointY" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     result = (double)tc_getCenterPointY(arg1);
     ST(argvi) = SWIG_From_double  SWIG_PERL_CALL_ARGS_1((double)(result)); argvi++ ;
     
@@ -7767,9 +7771,9 @@ XS(_wrap_tc_getCenterPointY) {
 
 XS(_wrap_tc_setStraight) {
   {
-    int arg1 ;
+    long arg1 ;
     int arg2 ;
-    int val1 ;
+    long val1 ;
     int ecode1 = 0 ;
     int val2 ;
     int ecode2 = 0 ;
@@ -7779,11 +7783,11 @@ XS(_wrap_tc_setStraight) {
     if ((items < 2) || (items > 2)) {
       SWIG_croak("Usage: tc_setStraight(item,straight);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setStraight" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setStraight" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     ecode2 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
     if (!SWIG_IsOK(ecode2)) {
       SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_setStraight" "', argument " "2"" of type '" "int""'");
@@ -7831,10 +7835,10 @@ XS(_wrap_tc_setAllStraight) {
 
 XS(_wrap_tc_setLineWidth) {
   {
-    int arg1 ;
+    long arg1 ;
     double arg2 ;
     int arg3 ;
-    int val1 ;
+    long val1 ;
     int ecode1 = 0 ;
     double val2 ;
     int ecode2 = 0 ;
@@ -7846,11 +7850,11 @@ XS(_wrap_tc_setLineWidth) {
     if ((items < 3) || (items > 3)) {
       SWIG_croak("Usage: tc_setLineWidth(item,width,permanent);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setLineWidth" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setLineWidth" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     ecode2 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
     if (!SWIG_IsOK(ecode2)) {
       SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_setLineWidth" "', argument " "2"" of type '" "double""'");
@@ -7878,15 +7882,15 @@ XS(_wrap_tc_setLineWidth) {
 
 XS(_wrap_tc_ConnectionSelection_api) {
   {
-    double (*arg1)(int,int,int) = (double (*)(int,int,int)) 0 ;
-    double (*arg2)(int,int,int) = (double (*)(int,int,int)) 0 ;
-    void (*arg3)(int,int,int,double,double) = (void (*)(int,int,int,double,double)) 0 ;
-    void (*arg4)(int,double,double) = (void (*)(int,double,double)) 0 ;
-    double (*arg5)(int) = (double (*)(int)) 0 ;
-    double (*arg6)(int) = (double (*)(int)) 0 ;
-    void (*arg7)(int,int) = (void (*)(int,int)) 0 ;
+    double (*arg1)(long,long,int) = (double (*)(long,long,int)) 0 ;
+    double (*arg2)(long,long,int) = (double (*)(long,long,int)) 0 ;
+    void (*arg3)(long,long,int,double,double) = (void (*)(long,long,int,double,double)) 0 ;
+    void (*arg4)(long,double,double) = (void (*)(long,double,double)) 0 ;
+    double (*arg5)(long) = (double (*)(long)) 0 ;
+    double (*arg6)(long) = (double (*)(long)) 0 ;
+    void (*arg7)(long,int) = (void (*)(long,int)) 0 ;
     void (*arg8)(int) = (void (*)(int)) 0 ;
-    void (*arg9)(int,double,int) = (void (*)(int,double,int)) 0 ;
+    void (*arg9)(long,double,int) = (void (*)(long,double,int)) 0 ;
     int argvi = 0;
     dXSARGS;
     
@@ -7894,45 +7898,45 @@ XS(_wrap_tc_ConnectionSelection_api) {
       SWIG_croak("Usage: tc_ConnectionSelection_api(getControlPointX,getControlPointY,setControlPoint,setCenterPoint,getCenterPointX,getCenterPointY,setStraight,setAllStraight,setLineWidth);");
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_int_int_int__double);
+      int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_long_long_int__double);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "1"" of type '" "double (*)(int,int,int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "1"" of type '" "double (*)(long,long,int)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(1), (void**)(&arg2), SWIGTYPE_p_f_int_int_int__double);
+      int res = SWIG_ConvertFunctionPtr(ST(1), (void**)(&arg2), SWIGTYPE_p_f_long_long_int__double);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "2"" of type '" "double (*)(int,int,int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "2"" of type '" "double (*)(long,long,int)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(2), (void**)(&arg3), SWIGTYPE_p_f_int_int_int_double_double__void);
+      int res = SWIG_ConvertFunctionPtr(ST(2), (void**)(&arg3), SWIGTYPE_p_f_long_long_int_double_double__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "3"" of type '" "void (*)(int,int,int,double,double)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "3"" of type '" "void (*)(long,long,int,double,double)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(3), (void**)(&arg4), SWIGTYPE_p_f_int_double_double__void);
+      int res = SWIG_ConvertFunctionPtr(ST(3), (void**)(&arg4), SWIGTYPE_p_f_long_double_double__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "4"" of type '" "void (*)(int,double,double)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "4"" of type '" "void (*)(long,double,double)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(4), (void**)(&arg5), SWIGTYPE_p_f_int__double);
+      int res = SWIG_ConvertFunctionPtr(ST(4), (void**)(&arg5), SWIGTYPE_p_f_long__double);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "5"" of type '" "double (*)(int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "5"" of type '" "double (*)(long)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(5), (void**)(&arg6), SWIGTYPE_p_f_int__double);
+      int res = SWIG_ConvertFunctionPtr(ST(5), (void**)(&arg6), SWIGTYPE_p_f_long__double);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "6"" of type '" "double (*)(int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "6"" of type '" "double (*)(long)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(6), (void**)(&arg7), SWIGTYPE_p_f_int_int__void);
+      int res = SWIG_ConvertFunctionPtr(ST(6), (void**)(&arg7), SWIGTYPE_p_f_long_int__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "7"" of type '" "void (*)(int,int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "7"" of type '" "void (*)(long,int)""'"); 
       }
     }
     {
@@ -7942,9 +7946,9 @@ XS(_wrap_tc_ConnectionSelection_api) {
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(8), (void**)(&arg9), SWIGTYPE_p_f_int_double_int__void);
+      int res = SWIG_ConvertFunctionPtr(ST(8), (void**)(&arg9), SWIGTYPE_p_f_long_double_int__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "9"" of type '" "void (*)(int,double,int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "9"" of type '" "void (*)(long,double,int)""'"); 
       }
     }
     tc_ConnectionSelection_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9);
@@ -7976,7 +7980,7 @@ XS(_wrap_tc_ConnectionSelection_api) {
 
 XS(_wrap_tc_merge) {
   {
-    ArrayOfItems arg1 ;
+    tc_items arg1 ;
     void *argp1 ;
     int res1 = 0 ;
     int argvi = 0;
@@ -7986,14 +7990,14 @@ XS(_wrap_tc_merge) {
       SWIG_croak("Usage: tc_merge(parts);");
     }
     {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_ArrayOfItems,  0 );
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_items,  0 );
       if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_merge" "', argument " "1"" of type '" "ArrayOfItems""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_merge" "', argument " "1"" of type '" "tc_items""'"); 
       }  
       if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_merge" "', argument " "1"" of type '" "ArrayOfItems""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_merge" "', argument " "1"" of type '" "tc_items""'");
       } else {
-        arg1 = *((ArrayOfItems *)(argp1));
+        arg1 = *((tc_items *)(argp1));
       }
     }
     tc_merge(arg1);
@@ -8007,8 +8011,8 @@ XS(_wrap_tc_merge) {
 
 XS(_wrap_tc_separate) {
   {
-    int arg1 ;
-    int val1 ;
+    long arg1 ;
+    long val1 ;
     int ecode1 = 0 ;
     int argvi = 0;
     dXSARGS;
@@ -8016,11 +8020,11 @@ XS(_wrap_tc_separate) {
     if ((items < 1) || (items > 1)) {
       SWIG_croak("Usage: tc_separate(part);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_separate" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_separate" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     tc_separate(arg1);
     ST(argvi) = sv_newmortal();
     
@@ -8034,8 +8038,8 @@ XS(_wrap_tc_separate) {
 
 XS(_wrap_tc_GroupHandlerTool_api) {
   {
-    void (*arg1)(ArrayOfItems) = (void (*)(ArrayOfItems)) 0 ;
-    void (*arg2)(int) = (void (*)(int)) 0 ;
+    void (*arg1)(tc_items) = (void (*)(tc_items)) 0 ;
+    void (*arg2)(long) = (void (*)(long)) 0 ;
     int argvi = 0;
     dXSARGS;
     
@@ -8043,15 +8047,15 @@ XS(_wrap_tc_GroupHandlerTool_api) {
       SWIG_croak("Usage: tc_GroupHandlerTool_api(merge,separate);");
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_struct_ArrayOfItems__void);
+      int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_struct_tc_items__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_GroupHandlerTool_api" "', argument " "1"" of type '" "void (*)(ArrayOfItems)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_GroupHandlerTool_api" "', argument " "1"" of type '" "void (*)(tc_items)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(1), (void**)(&arg2), SWIGTYPE_p_f_int__void);
+      int res = SWIG_ConvertFunctionPtr(ST(1), (void**)(&arg2), SWIGTYPE_p_f_long__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_GroupHandlerTool_api" "', argument " "2"" of type '" "void (*)(int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_GroupHandlerTool_api" "', argument " "2"" of type '" "void (*)(long)""'"); 
       }
     }
     tc_GroupHandlerTool_api(arg1,arg2);
@@ -8078,7 +8082,7 @@ XS(_wrap_tc_insert) {
     char *buf2 = 0 ;
     int alloc2 = 0 ;
     int argvi = 0;
-    int result;
+    long result;
     dXSARGS;
     
     if ((items < 2) || (items > 2)) {
@@ -8094,8 +8098,8 @@ XS(_wrap_tc_insert) {
       SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_insert" "', argument " "2"" of type '" "char const *""'");
     }
     arg2 = (char *)(buf2);
-    result = (int)tc_insert((char const *)arg1,(char const *)arg2);
-    ST(argvi) = SWIG_From_int  SWIG_PERL_CALL_ARGS_1((int)(result)); argvi++ ;
+    result = (long)tc_insert((char const *)arg1,(char const *)arg2);
+    ST(argvi) = SWIG_From_long  SWIG_PERL_CALL_ARGS_1((long)(result)); argvi++ ;
     if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
     if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
     XSRETURN(argvi);
@@ -8109,7 +8113,7 @@ XS(_wrap_tc_insert) {
 
 XS(_wrap_tc_NodeInsertion_api) {
   {
-    int (*arg1)(char const *,char const *) = (int (*)(char const *,char const *)) 0 ;
+    long (*arg1)(char const *,char const *) = (long (*)(char const *,char const *)) 0 ;
     int argvi = 0;
     dXSARGS;
     
@@ -8117,9 +8121,9 @@ XS(_wrap_tc_NodeInsertion_api) {
       SWIG_croak("Usage: tc_NodeInsertion_api(insertItem);");
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_p_q_const__char_p_q_const__char__int);
+      int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_p_q_const__char_p_q_const__char__long);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_NodeInsertion_api" "', argument " "1"" of type '" "int (*)(char const *,char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_NodeInsertion_api" "', argument " "1"" of type '" "long (*)(char const *,char const *)""'"); 
       }
     }
     tc_NodeInsertion_api(arg1);
@@ -8135,29 +8139,29 @@ XS(_wrap_tc_NodeInsertion_api) {
 
 XS(_wrap_tc_getStoichiometry) {
   {
-    ArrayOfItems arg1 ;
+    tc_items arg1 ;
     void *argp1 ;
     int res1 = 0 ;
     int argvi = 0;
-    TableOfReals result;
+    tc_matrix result;
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
       SWIG_croak("Usage: tc_getStoichiometry(A);");
     }
     {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_ArrayOfItems,  0 );
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_items,  0 );
       if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getStoichiometry" "', argument " "1"" of type '" "ArrayOfItems""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getStoichiometry" "', argument " "1"" of type '" "tc_items""'"); 
       }  
       if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getStoichiometry" "', argument " "1"" of type '" "ArrayOfItems""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getStoichiometry" "', argument " "1"" of type '" "tc_items""'");
       } else {
-        arg1 = *((ArrayOfItems *)(argp1));
+        arg1 = *((tc_items *)(argp1));
       }
     }
     result = tc_getStoichiometry(arg1);
-    ST(argvi) = SWIG_NewPointerObj((TableOfReals *)memcpy((TableOfReals *)malloc(sizeof(TableOfReals)),&result,sizeof(TableOfReals)), SWIGTYPE_p_TableOfReals, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    ST(argvi) = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     XSRETURN(argvi);
   fail:
     SWIG_croak_null();
@@ -8167,8 +8171,8 @@ XS(_wrap_tc_getStoichiometry) {
 
 XS(_wrap_tc_setStoichiometry) {
   {
-    ArrayOfItems arg1 ;
-    TableOfReals arg2 ;
+    tc_items arg1 ;
+    tc_matrix arg2 ;
     void *argp1 ;
     int res1 = 0 ;
     void *argp2 ;
@@ -8180,25 +8184,25 @@ XS(_wrap_tc_setStoichiometry) {
       SWIG_croak("Usage: tc_setStoichiometry(A,N);");
     }
     {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_ArrayOfItems,  0 );
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_items,  0 );
       if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setStoichiometry" "', argument " "1"" of type '" "ArrayOfItems""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setStoichiometry" "', argument " "1"" of type '" "tc_items""'"); 
       }  
       if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_setStoichiometry" "', argument " "1"" of type '" "ArrayOfItems""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_setStoichiometry" "', argument " "1"" of type '" "tc_items""'");
       } else {
-        arg1 = *((ArrayOfItems *)(argp1));
+        arg1 = *((tc_items *)(argp1));
       }
     }
     {
-      res2 = SWIG_ConvertPtr(ST(1), &argp2, SWIGTYPE_p_TableOfReals,  0 );
+      res2 = SWIG_ConvertPtr(ST(1), &argp2, SWIGTYPE_p_tc_matrix,  0 );
       if (!SWIG_IsOK(res2)) {
-        SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setStoichiometry" "', argument " "2"" of type '" "TableOfReals""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setStoichiometry" "', argument " "2"" of type '" "tc_matrix""'"); 
       }  
       if (!argp2) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_setStoichiometry" "', argument " "2"" of type '" "TableOfReals""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_setStoichiometry" "', argument " "2"" of type '" "tc_matrix""'");
       } else {
-        arg2 = *((TableOfReals *)(argp2));
+        arg2 = *((tc_matrix *)(argp2));
       }
     }
     tc_setStoichiometry(arg1,arg2);
@@ -8212,29 +8216,29 @@ XS(_wrap_tc_setStoichiometry) {
 
 XS(_wrap_tc_getRates) {
   {
-    ArrayOfItems arg1 ;
+    tc_items arg1 ;
     void *argp1 ;
     int res1 = 0 ;
     int argvi = 0;
-    ArrayOfStrings result;
+    tc_strings result;
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
       SWIG_croak("Usage: tc_getRates(A);");
     }
     {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_ArrayOfItems,  0 );
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_items,  0 );
       if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getRates" "', argument " "1"" of type '" "ArrayOfItems""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getRates" "', argument " "1"" of type '" "tc_items""'"); 
       }  
       if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getRates" "', argument " "1"" of type '" "ArrayOfItems""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getRates" "', argument " "1"" of type '" "tc_items""'");
       } else {
-        arg1 = *((ArrayOfItems *)(argp1));
+        arg1 = *((tc_items *)(argp1));
       }
     }
     result = tc_getRates(arg1);
-    ST(argvi) = SWIG_NewPointerObj((ArrayOfStrings *)memcpy((ArrayOfStrings *)malloc(sizeof(ArrayOfStrings)),&result,sizeof(ArrayOfStrings)), SWIGTYPE_p_ArrayOfStrings, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    ST(argvi) = SWIG_NewPointerObj((tc_strings *)memcpy((tc_strings *)malloc(sizeof(tc_strings)),&result,sizeof(tc_strings)), SWIGTYPE_p_tc_strings, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     XSRETURN(argvi);
   fail:
     SWIG_croak_null();
@@ -8244,8 +8248,8 @@ XS(_wrap_tc_getRates) {
 
 XS(_wrap_tc_setRates) {
   {
-    ArrayOfItems arg1 ;
-    ArrayOfStrings arg2 ;
+    tc_items arg1 ;
+    tc_strings arg2 ;
     void *argp1 ;
     int res1 = 0 ;
     void *argp2 ;
@@ -8257,25 +8261,25 @@ XS(_wrap_tc_setRates) {
       SWIG_croak("Usage: tc_setRates(A,rates);");
     }
     {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_ArrayOfItems,  0 );
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_items,  0 );
       if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setRates" "', argument " "1"" of type '" "ArrayOfItems""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setRates" "', argument " "1"" of type '" "tc_items""'"); 
       }  
       if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_setRates" "', argument " "1"" of type '" "ArrayOfItems""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_setRates" "', argument " "1"" of type '" "tc_items""'");
       } else {
-        arg1 = *((ArrayOfItems *)(argp1));
+        arg1 = *((tc_items *)(argp1));
       }
     }
     {
-      res2 = SWIG_ConvertPtr(ST(1), &argp2, SWIGTYPE_p_ArrayOfStrings,  0 );
+      res2 = SWIG_ConvertPtr(ST(1), &argp2, SWIGTYPE_p_tc_strings,  0 );
       if (!SWIG_IsOK(res2)) {
-        SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setRates" "', argument " "2"" of type '" "ArrayOfStrings""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setRates" "', argument " "2"" of type '" "tc_strings""'"); 
       }  
       if (!argp2) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_setRates" "', argument " "2"" of type '" "ArrayOfStrings""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_setRates" "', argument " "2"" of type '" "tc_strings""'");
       } else {
-        arg2 = *((ArrayOfStrings *)(argp2));
+        arg2 = *((tc_strings *)(argp2));
       }
     }
     tc_setRates(arg1,arg2);
@@ -8289,23 +8293,23 @@ XS(_wrap_tc_setRates) {
 
 XS(_wrap_tc_getStoichiometryFor) {
   {
-    int arg1 ;
-    int val1 ;
+    long arg1 ;
+    long val1 ;
     int ecode1 = 0 ;
     int argvi = 0;
-    TableOfReals result;
+    tc_matrix result;
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
       SWIG_croak("Usage: tc_getStoichiometryFor(x);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getStoichiometryFor" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getStoichiometryFor" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     result = tc_getStoichiometryFor(arg1);
-    ST(argvi) = SWIG_NewPointerObj((TableOfReals *)memcpy((TableOfReals *)malloc(sizeof(TableOfReals)),&result,sizeof(TableOfReals)), SWIGTYPE_p_TableOfReals, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    ST(argvi) = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     
     XSRETURN(argvi);
   fail:
@@ -8317,8 +8321,8 @@ XS(_wrap_tc_getStoichiometryFor) {
 
 XS(_wrap_tc_getRate) {
   {
-    int arg1 ;
-    int val1 ;
+    long arg1 ;
+    long val1 ;
     int ecode1 = 0 ;
     int argvi = 0;
     char *result = 0 ;
@@ -8327,11 +8331,11 @@ XS(_wrap_tc_getRate) {
     if ((items < 1) || (items > 1)) {
       SWIG_croak("Usage: tc_getRate(x);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getRate" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getRate" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     result = (char *)tc_getRate(arg1);
     ST(argvi) = SWIG_FromCharPtr((const char *)result); argvi++ ;
     
@@ -8345,9 +8349,9 @@ XS(_wrap_tc_getRate) {
 
 XS(_wrap_tc_setRate) {
   {
-    int arg1 ;
+    long arg1 ;
     char *arg2 = (char *) 0 ;
-    int val1 ;
+    long val1 ;
     int ecode1 = 0 ;
     int res2 ;
     char *buf2 = 0 ;
@@ -8358,11 +8362,11 @@ XS(_wrap_tc_setRate) {
     if ((items < 2) || (items > 2)) {
       SWIG_croak("Usage: tc_setRate(x,r);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setRate" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setRate" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     res2 = SWIG_AsCharPtrAndSize(ST(1), &buf2, NULL, &alloc2);
     if (!SWIG_IsOK(res2)) {
       SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setRate" "', argument " "2"" of type '" "char const *""'");
@@ -8383,9 +8387,9 @@ XS(_wrap_tc_setRate) {
 
 XS(_wrap_tc_setStoichiometryFor) {
   {
-    int arg1 ;
-    TableOfReals arg2 ;
-    int val1 ;
+    long arg1 ;
+    tc_matrix arg2 ;
+    long val1 ;
     int ecode1 = 0 ;
     void *argp2 ;
     int res2 = 0 ;
@@ -8395,20 +8399,20 @@ XS(_wrap_tc_setStoichiometryFor) {
     if ((items < 2) || (items > 2)) {
       SWIG_croak("Usage: tc_setStoichiometryFor(x,N);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setStoichiometryFor" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setStoichiometryFor" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     {
-      res2 = SWIG_ConvertPtr(ST(1), &argp2, SWIGTYPE_p_TableOfReals,  0 );
+      res2 = SWIG_ConvertPtr(ST(1), &argp2, SWIGTYPE_p_tc_matrix,  0 );
       if (!SWIG_IsOK(res2)) {
-        SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setStoichiometryFor" "', argument " "2"" of type '" "TableOfReals""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setStoichiometryFor" "', argument " "2"" of type '" "tc_matrix""'"); 
       }  
       if (!argp2) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_setStoichiometryFor" "', argument " "2"" of type '" "TableOfReals""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_setStoichiometryFor" "', argument " "2"" of type '" "tc_matrix""'");
       } else {
-        arg2 = *((TableOfReals *)(argp2));
+        arg2 = *((tc_matrix *)(argp2));
       }
     }
     tc_setStoichiometryFor(arg1,arg2);
@@ -8424,10 +8428,10 @@ XS(_wrap_tc_setStoichiometryFor) {
 
 XS(_wrap_tc_StoichiometryTool_api) {
   {
-    TableOfReals (*arg1)(ArrayOfItems) = (TableOfReals (*)(ArrayOfItems)) 0 ;
-    void (*arg2)(ArrayOfItems,TableOfReals) = (void (*)(ArrayOfItems,TableOfReals)) 0 ;
-    ArrayOfStrings (*arg3)(ArrayOfItems) = (ArrayOfStrings (*)(ArrayOfItems)) 0 ;
-    void (*arg4)(ArrayOfItems,ArrayOfStrings) = (void (*)(ArrayOfItems,ArrayOfStrings)) 0 ;
+    tc_matrix (*arg1)(tc_items) = (tc_matrix (*)(tc_items)) 0 ;
+    void (*arg2)(tc_items,tc_matrix) = (void (*)(tc_items,tc_matrix)) 0 ;
+    tc_strings (*arg3)(tc_items) = (tc_strings (*)(tc_items)) 0 ;
+    void (*arg4)(tc_items,tc_strings) = (void (*)(tc_items,tc_strings)) 0 ;
     int argvi = 0;
     dXSARGS;
     
@@ -8435,27 +8439,27 @@ XS(_wrap_tc_StoichiometryTool_api) {
       SWIG_croak("Usage: tc_StoichiometryTool_api(getStoichiometry,setStoichiometry,getRates,setRates);");
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_ArrayOfItems__TableOfReals);
+      int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_tc_items__tc_matrix);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_StoichiometryTool_api" "', argument " "1"" of type '" "TableOfReals (*)(ArrayOfItems)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_StoichiometryTool_api" "', argument " "1"" of type '" "tc_matrix (*)(tc_items)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(1), (void**)(&arg2), SWIGTYPE_p_f_struct_ArrayOfItems_struct_TableOfReals__void);
+      int res = SWIG_ConvertFunctionPtr(ST(1), (void**)(&arg2), SWIGTYPE_p_f_struct_tc_items_struct_tc_matrix__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_StoichiometryTool_api" "', argument " "2"" of type '" "void (*)(ArrayOfItems,TableOfReals)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_StoichiometryTool_api" "', argument " "2"" of type '" "void (*)(tc_items,tc_matrix)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(2), (void**)(&arg3), SWIGTYPE_p_f_ArrayOfItems__ArrayOfStrings);
+      int res = SWIG_ConvertFunctionPtr(ST(2), (void**)(&arg3), SWIGTYPE_p_f_tc_items__tc_strings);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_StoichiometryTool_api" "', argument " "3"" of type '" "ArrayOfStrings (*)(ArrayOfItems)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_StoichiometryTool_api" "', argument " "3"" of type '" "tc_strings (*)(tc_items)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(3), (void**)(&arg4), SWIGTYPE_p_f_struct_ArrayOfItems_struct_ArrayOfStrings__void);
+      int res = SWIG_ConvertFunctionPtr(ST(3), (void**)(&arg4), SWIGTYPE_p_f_struct_tc_items_struct_tc_strings__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_StoichiometryTool_api" "', argument " "4"" of type '" "void (*)(ArrayOfItems,ArrayOfStrings)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_StoichiometryTool_api" "', argument " "4"" of type '" "void (*)(tc_items,tc_strings)""'"); 
       }
     }
     tc_StoichiometryTool_api(arg1,arg2,arg3,arg4);
@@ -8571,7 +8575,7 @@ XS(_wrap_tc_compileBuildLoadSliders) {
     char *arg1 = (char *) 0 ;
     char *arg2 = (char *) 0 ;
     char *arg3 = (char *) 0 ;
-    TableOfReals arg4 ;
+    tc_matrix arg4 ;
     int res1 ;
     char *buf1 = 0 ;
     int alloc1 = 0 ;
@@ -8606,14 +8610,14 @@ XS(_wrap_tc_compileBuildLoadSliders) {
     }
     arg3 = (char *)(buf3);
     {
-      res4 = SWIG_ConvertPtr(ST(3), &argp4, SWIGTYPE_p_TableOfReals,  0 );
+      res4 = SWIG_ConvertPtr(ST(3), &argp4, SWIGTYPE_p_tc_matrix,  0 );
       if (!SWIG_IsOK(res4)) {
-        SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "tc_compileBuildLoadSliders" "', argument " "4"" of type '" "TableOfReals""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "tc_compileBuildLoadSliders" "', argument " "4"" of type '" "tc_matrix""'"); 
       }  
       if (!argp4) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_compileBuildLoadSliders" "', argument " "4"" of type '" "TableOfReals""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_compileBuildLoadSliders" "', argument " "4"" of type '" "tc_matrix""'");
       } else {
-        arg4 = *((TableOfReals *)(argp4));
+        arg4 = *((tc_matrix *)(argp4));
       }
     }
     result = (int)tc_compileBuildLoadSliders((char const *)arg1,(char const *)arg2,(char const *)arg3,arg4);
@@ -9008,7 +9012,7 @@ XS(_wrap_tc_LoadCLibraries_api) {
   {
     int (*arg1)(char const *,char const *) = (int (*)(char const *,char const *)) 0 ;
     int (*arg2)(char const *,char const *,char const *) = (int (*)(char const *,char const *,char const *)) 0 ;
-    int (*arg3)(char const *,char const *,char const *,TableOfReals) = (int (*)(char const *,char const *,char const *,TableOfReals)) 0 ;
+    int (*arg3)(char const *,char const *,char const *,tc_matrix) = (int (*)(char const *,char const *,char const *,tc_matrix)) 0 ;
     void (*arg4)(char const *) = (void (*)(char const *)) 0 ;
     void (*arg5)(void (*)(),char const *,char const *,char const *,char const *,char const *,int,int,int) = (void (*)(void (*)(),char const *,char const *,char const *,char const *,char const *,int,int,int)) 0 ;
     void (*arg6)(void (*)(void)) = (void (*)(void (*)(void))) 0 ;
@@ -9032,9 +9036,9 @@ XS(_wrap_tc_LoadCLibraries_api) {
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(2), (void**)(&arg3), SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_struct_TableOfReals__int);
+      int res = SWIG_ConvertFunctionPtr(ST(2), (void**)(&arg3), SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_struct_tc_matrix__int);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_LoadCLibraries_api" "', argument " "3"" of type '" "int (*)(char const *,char const *,char const *,TableOfReals)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_LoadCLibraries_api" "', argument " "3"" of type '" "int (*)(char const *,char const *,char const *,tc_matrix)""'"); 
       }
     }
     {
@@ -9174,7 +9178,7 @@ XS(_wrap_tc_OctaveTool_api) {
 
 XS(_wrap_tc_surface) {
   {
-    TableOfReals arg1 ;
+    tc_matrix arg1 ;
     char *arg2 = (char *) 0 ;
     void *argp1 ;
     int res1 = 0 ;
@@ -9188,14 +9192,14 @@ XS(_wrap_tc_surface) {
       SWIG_croak("Usage: tc_surface(z,title);");
     }
     {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_TableOfReals,  0 );
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_matrix,  0 );
       if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_surface" "', argument " "1"" of type '" "TableOfReals""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_surface" "', argument " "1"" of type '" "tc_matrix""'"); 
       }  
       if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_surface" "', argument " "1"" of type '" "TableOfReals""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_surface" "', argument " "1"" of type '" "tc_matrix""'");
       } else {
-        arg1 = *((TableOfReals *)(argp1));
+        arg1 = *((tc_matrix *)(argp1));
       }
     }
     res2 = SWIG_AsCharPtrAndSize(ST(1), &buf2, NULL, &alloc2);
@@ -9216,7 +9220,7 @@ XS(_wrap_tc_surface) {
 
 XS(_wrap_tc_plot) {
   {
-    TableOfReals arg1 ;
+    tc_matrix arg1 ;
     char *arg2 = (char *) 0 ;
     void *argp1 ;
     int res1 = 0 ;
@@ -9230,14 +9234,14 @@ XS(_wrap_tc_plot) {
       SWIG_croak("Usage: tc_plot(data,title);");
     }
     {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_TableOfReals,  0 );
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_matrix,  0 );
       if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_plot" "', argument " "1"" of type '" "TableOfReals""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_plot" "', argument " "1"" of type '" "tc_matrix""'"); 
       }  
       if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_plot" "', argument " "1"" of type '" "TableOfReals""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_plot" "', argument " "1"" of type '" "tc_matrix""'");
       } else {
-        arg1 = *((TableOfReals *)(argp1));
+        arg1 = *((tc_matrix *)(argp1));
       }
     }
     res2 = SWIG_AsCharPtrAndSize(ST(1), &buf2, NULL, &alloc2);
@@ -9258,7 +9262,7 @@ XS(_wrap_tc_plot) {
 
 XS(_wrap_tc_scatterplot) {
   {
-    TableOfReals arg1 ;
+    tc_matrix arg1 ;
     char *arg2 = (char *) 0 ;
     void *argp1 ;
     int res1 = 0 ;
@@ -9272,14 +9276,14 @@ XS(_wrap_tc_scatterplot) {
       SWIG_croak("Usage: tc_scatterplot(data,title);");
     }
     {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_TableOfReals,  0 );
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_matrix,  0 );
       if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_scatterplot" "', argument " "1"" of type '" "TableOfReals""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_scatterplot" "', argument " "1"" of type '" "tc_matrix""'"); 
       }  
       if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_scatterplot" "', argument " "1"" of type '" "TableOfReals""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_scatterplot" "', argument " "1"" of type '" "tc_matrix""'");
       } else {
-        arg1 = *((TableOfReals *)(argp1));
+        arg1 = *((tc_matrix *)(argp1));
       }
     }
     res2 = SWIG_AsCharPtrAndSize(ST(1), &buf2, NULL, &alloc2);
@@ -9300,7 +9304,7 @@ XS(_wrap_tc_scatterplot) {
 
 XS(_wrap_tc_errorBars) {
   {
-    TableOfReals arg1 ;
+    tc_matrix arg1 ;
     char *arg2 = (char *) 0 ;
     void *argp1 ;
     int res1 = 0 ;
@@ -9314,14 +9318,14 @@ XS(_wrap_tc_errorBars) {
       SWIG_croak("Usage: tc_errorBars(data,title);");
     }
     {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_TableOfReals,  0 );
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_matrix,  0 );
       if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_errorBars" "', argument " "1"" of type '" "TableOfReals""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_errorBars" "', argument " "1"" of type '" "tc_matrix""'"); 
       }  
       if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_errorBars" "', argument " "1"" of type '" "TableOfReals""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_errorBars" "', argument " "1"" of type '" "tc_matrix""'");
       } else {
-        arg1 = *((TableOfReals *)(argp1));
+        arg1 = *((tc_matrix *)(argp1));
       }
     }
     res2 = SWIG_AsCharPtrAndSize(ST(1), &buf2, NULL, &alloc2);
@@ -9342,7 +9346,7 @@ XS(_wrap_tc_errorBars) {
 
 XS(_wrap_tc_hist) {
   {
-    TableOfReals arg1 ;
+    tc_matrix arg1 ;
     char *arg2 = (char *) 0 ;
     void *argp1 ;
     int res1 = 0 ;
@@ -9356,14 +9360,14 @@ XS(_wrap_tc_hist) {
       SWIG_croak("Usage: tc_hist(data,title);");
     }
     {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_TableOfReals,  0 );
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_matrix,  0 );
       if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_hist" "', argument " "1"" of type '" "TableOfReals""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_hist" "', argument " "1"" of type '" "tc_matrix""'"); 
       }  
       if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_hist" "', argument " "1"" of type '" "TableOfReals""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_hist" "', argument " "1"" of type '" "tc_matrix""'");
       } else {
-        arg1 = *((TableOfReals *)(argp1));
+        arg1 = *((tc_matrix *)(argp1));
       }
     }
     res2 = SWIG_AsCharPtrAndSize(ST(1), &buf2, NULL, &alloc2);
@@ -9425,7 +9429,7 @@ XS(_wrap_tc_getPlotData) {
     int val1 ;
     int ecode1 = 0 ;
     int argvi = 0;
-    TableOfReals result;
+    tc_matrix result;
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
@@ -9437,7 +9441,7 @@ XS(_wrap_tc_getPlotData) {
     } 
     arg1 = (int)(val1);
     result = tc_getPlotData(arg1);
-    ST(argvi) = SWIG_NewPointerObj((TableOfReals *)memcpy((TableOfReals *)malloc(sizeof(TableOfReals)),&result,sizeof(TableOfReals)), SWIGTYPE_p_TableOfReals, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    ST(argvi) = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     
     XSRETURN(argvi);
   fail:
@@ -9477,13 +9481,13 @@ XS(_wrap_tc_gnuplot) {
 
 XS(_wrap_tc_PlotTool_api) {
   {
-    void (*arg1)(TableOfReals,char const *) = (void (*)(TableOfReals,char const *)) 0 ;
-    void (*arg2)(TableOfReals,char const *) = (void (*)(TableOfReals,char const *)) 0 ;
-    void (*arg3)(TableOfReals,char const *) = (void (*)(TableOfReals,char const *)) 0 ;
-    void (*arg4)(TableOfReals,char const *) = (void (*)(TableOfReals,char const *)) 0 ;
-    void (*arg5)(TableOfReals,char const *) = (void (*)(TableOfReals,char const *)) 0 ;
+    void (*arg1)(tc_matrix,char const *) = (void (*)(tc_matrix,char const *)) 0 ;
+    void (*arg2)(tc_matrix,char const *) = (void (*)(tc_matrix,char const *)) 0 ;
+    void (*arg3)(tc_matrix,char const *) = (void (*)(tc_matrix,char const *)) 0 ;
+    void (*arg4)(tc_matrix,char const *) = (void (*)(tc_matrix,char const *)) 0 ;
+    void (*arg5)(tc_matrix,char const *) = (void (*)(tc_matrix,char const *)) 0 ;
     void (*arg6)(int,int) = (void (*)(int,int)) 0 ;
-    TableOfReals (*arg7)(int) = (TableOfReals (*)(int)) 0 ;
+    tc_matrix (*arg7)(int) = (tc_matrix (*)(int)) 0 ;
     void (*arg8)(char const *) = (void (*)(char const *)) 0 ;
     int argvi = 0;
     dXSARGS;
@@ -9492,33 +9496,33 @@ XS(_wrap_tc_PlotTool_api) {
       SWIG_croak("Usage: tc_PlotTool_api(plot,surface,hist,errorBars,scatterplot,multiplot,plotData,gnuplot);");
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_struct_TableOfReals_p_q_const__char__void);
+      int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_struct_tc_matrix_p_q_const__char__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "1"" of type '" "void (*)(TableOfReals,char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "1"" of type '" "void (*)(tc_matrix,char const *)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(1), (void**)(&arg2), SWIGTYPE_p_f_struct_TableOfReals_p_q_const__char__void);
+      int res = SWIG_ConvertFunctionPtr(ST(1), (void**)(&arg2), SWIGTYPE_p_f_struct_tc_matrix_p_q_const__char__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "2"" of type '" "void (*)(TableOfReals,char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "2"" of type '" "void (*)(tc_matrix,char const *)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(2), (void**)(&arg3), SWIGTYPE_p_f_struct_TableOfReals_p_q_const__char__void);
+      int res = SWIG_ConvertFunctionPtr(ST(2), (void**)(&arg3), SWIGTYPE_p_f_struct_tc_matrix_p_q_const__char__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "3"" of type '" "void (*)(TableOfReals,char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "3"" of type '" "void (*)(tc_matrix,char const *)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(3), (void**)(&arg4), SWIGTYPE_p_f_struct_TableOfReals_p_q_const__char__void);
+      int res = SWIG_ConvertFunctionPtr(ST(3), (void**)(&arg4), SWIGTYPE_p_f_struct_tc_matrix_p_q_const__char__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "4"" of type '" "void (*)(TableOfReals,char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "4"" of type '" "void (*)(tc_matrix,char const *)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(4), (void**)(&arg5), SWIGTYPE_p_f_struct_TableOfReals_p_q_const__char__void);
+      int res = SWIG_ConvertFunctionPtr(ST(4), (void**)(&arg5), SWIGTYPE_p_f_struct_tc_matrix_p_q_const__char__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "5"" of type '" "void (*)(TableOfReals,char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "5"" of type '" "void (*)(tc_matrix,char const *)""'"); 
       }
     }
     {
@@ -9528,9 +9532,9 @@ XS(_wrap_tc_PlotTool_api) {
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(6), (void**)(&arg7), SWIGTYPE_p_f_int__TableOfReals);
+      int res = SWIG_ConvertFunctionPtr(ST(6), (void**)(&arg7), SWIGTYPE_p_f_int__tc_matrix);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "7"" of type '" "TableOfReals (*)(int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "7"" of type '" "tc_matrix (*)(int)""'"); 
       }
     }
     {
@@ -9567,7 +9571,7 @@ XS(_wrap_tc_PlotTool_api) {
 XS(_wrap_tc_writeModel) {
   {
     char *arg1 = (char *) 0 ;
-    ArrayOfItems arg2 ;
+    tc_items arg2 ;
     int res1 ;
     char *buf1 = 0 ;
     int alloc1 = 0 ;
@@ -9586,14 +9590,14 @@ XS(_wrap_tc_writeModel) {
     }
     arg1 = (char *)(buf1);
     {
-      res2 = SWIG_ConvertPtr(ST(1), &argp2, SWIGTYPE_p_ArrayOfItems,  0 );
+      res2 = SWIG_ConvertPtr(ST(1), &argp2, SWIGTYPE_p_tc_items,  0 );
       if (!SWIG_IsOK(res2)) {
-        SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_writeModel" "', argument " "2"" of type '" "ArrayOfItems""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_writeModel" "', argument " "2"" of type '" "tc_items""'"); 
       }  
       if (!argp2) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_writeModel" "', argument " "2"" of type '" "ArrayOfItems""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_writeModel" "', argument " "2"" of type '" "tc_items""'");
       } else {
-        arg2 = *((ArrayOfItems *)(argp2));
+        arg2 = *((tc_items *)(argp2));
       }
     }
     result = (int)tc_writeModel((char const *)arg1,arg2);
@@ -9609,7 +9613,7 @@ XS(_wrap_tc_writeModel) {
 
 XS(_wrap_tc_ModelFileGenerator_api) {
   {
-    int (*arg1)(char const *,ArrayOfItems) = (int (*)(char const *,ArrayOfItems)) 0 ;
+    int (*arg1)(char const *,tc_items) = (int (*)(char const *,tc_items)) 0 ;
     int argvi = 0;
     dXSARGS;
     
@@ -9617,9 +9621,9 @@ XS(_wrap_tc_ModelFileGenerator_api) {
       SWIG_croak("Usage: tc_ModelFileGenerator_api(modelgen);");
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_p_q_const__char_struct_ArrayOfItems__int);
+      int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_p_q_const__char_struct_tc_items__int);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ModelFileGenerator_api" "', argument " "1"" of type '" "int (*)(char const *,ArrayOfItems)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ModelFileGenerator_api" "', argument " "1"" of type '" "int (*)(char const *,tc_items)""'"); 
       }
     }
     tc_ModelFileGenerator_api(arg1);
@@ -9636,14 +9640,14 @@ XS(_wrap_tc_ModelFileGenerator_api) {
 XS(_wrap_tc_getEventTriggers) {
   {
     int argvi = 0;
-    ArrayOfStrings result;
+    tc_strings result;
     dXSARGS;
     
     if ((items < 0) || (items > 0)) {
       SWIG_croak("Usage: tc_getEventTriggers();");
     }
     result = tc_getEventTriggers();
-    ST(argvi) = SWIG_NewPointerObj((ArrayOfStrings *)memcpy((ArrayOfStrings *)malloc(sizeof(ArrayOfStrings)),&result,sizeof(ArrayOfStrings)), SWIGTYPE_p_ArrayOfStrings, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    ST(argvi) = SWIG_NewPointerObj((tc_strings *)memcpy((tc_strings *)malloc(sizeof(tc_strings)),&result,sizeof(tc_strings)), SWIGTYPE_p_tc_strings, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     XSRETURN(argvi);
   fail:
     SWIG_croak_null();
@@ -9654,14 +9658,14 @@ XS(_wrap_tc_getEventTriggers) {
 XS(_wrap_tc_getEventResponses) {
   {
     int argvi = 0;
-    ArrayOfStrings result;
+    tc_strings result;
     dXSARGS;
     
     if ((items < 0) || (items > 0)) {
       SWIG_croak("Usage: tc_getEventResponses();");
     }
     result = tc_getEventResponses();
-    ST(argvi) = SWIG_NewPointerObj((ArrayOfStrings *)memcpy((ArrayOfStrings *)malloc(sizeof(ArrayOfStrings)),&result,sizeof(ArrayOfStrings)), SWIGTYPE_p_ArrayOfStrings, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    ST(argvi) = SWIG_NewPointerObj((tc_strings *)memcpy((tc_strings *)malloc(sizeof(tc_strings)),&result,sizeof(tc_strings)), SWIGTYPE_p_tc_strings, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     XSRETURN(argvi);
   fail:
     SWIG_croak_null();
@@ -9710,8 +9714,8 @@ XS(_wrap_tc_addEvent) {
 
 XS(_wrap_tc_SimulationEventsTool_api) {
   {
-    ArrayOfStrings (*arg1)() = (ArrayOfStrings (*)()) 0 ;
-    ArrayOfStrings (*arg2)() = (ArrayOfStrings (*)()) 0 ;
+    tc_strings (*arg1)() = (tc_strings (*)()) 0 ;
+    tc_strings (*arg2)() = (tc_strings (*)()) 0 ;
     void (*arg3)(char const *,char const *) = (void (*)(char const *,char const *)) 0 ;
     int argvi = 0;
     dXSARGS;
@@ -9720,15 +9724,15 @@ XS(_wrap_tc_SimulationEventsTool_api) {
       SWIG_croak("Usage: tc_SimulationEventsTool_api(getEventTriggers,getEventResponses,addEvent);");
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f___ArrayOfStrings);
+      int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f___tc_strings);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_SimulationEventsTool_api" "', argument " "1"" of type '" "ArrayOfStrings (*)()""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_SimulationEventsTool_api" "', argument " "1"" of type '" "tc_strings (*)()""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(1), (void**)(&arg2), SWIGTYPE_p_f___ArrayOfStrings);
+      int res = SWIG_ConvertFunctionPtr(ST(1), (void**)(&arg2), SWIGTYPE_p_f___tc_strings);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_SimulationEventsTool_api" "', argument " "2"" of type '" "ArrayOfStrings (*)()""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_SimulationEventsTool_api" "', argument " "2"" of type '" "tc_strings (*)()""'"); 
       }
     }
     {
@@ -9754,29 +9758,29 @@ XS(_wrap_tc_SimulationEventsTool_api) {
 
 XS(_wrap_tc_getForcingFunctionNames) {
   {
-    ArrayOfItems arg1 ;
+    tc_items arg1 ;
     void *argp1 ;
     int res1 = 0 ;
     int argvi = 0;
-    ArrayOfStrings result;
+    tc_strings result;
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
       SWIG_croak("Usage: tc_getForcingFunctionNames(a);");
     }
     {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_ArrayOfItems,  0 );
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_items,  0 );
       if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getForcingFunctionNames" "', argument " "1"" of type '" "ArrayOfItems""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getForcingFunctionNames" "', argument " "1"" of type '" "tc_items""'"); 
       }  
       if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getForcingFunctionNames" "', argument " "1"" of type '" "ArrayOfItems""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getForcingFunctionNames" "', argument " "1"" of type '" "tc_items""'");
       } else {
-        arg1 = *((ArrayOfItems *)(argp1));
+        arg1 = *((tc_items *)(argp1));
       }
     }
     result = tc_getForcingFunctionNames(arg1);
-    ST(argvi) = SWIG_NewPointerObj((ArrayOfStrings *)memcpy((ArrayOfStrings *)malloc(sizeof(ArrayOfStrings)),&result,sizeof(ArrayOfStrings)), SWIGTYPE_p_ArrayOfStrings, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    ST(argvi) = SWIG_NewPointerObj((tc_strings *)memcpy((tc_strings *)malloc(sizeof(tc_strings)),&result,sizeof(tc_strings)), SWIGTYPE_p_tc_strings, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     XSRETURN(argvi);
   fail:
     SWIG_croak_null();
@@ -9786,29 +9790,29 @@ XS(_wrap_tc_getForcingFunctionNames) {
 
 XS(_wrap_tc_getForcingFunctionAssignments) {
   {
-    ArrayOfItems arg1 ;
+    tc_items arg1 ;
     void *argp1 ;
     int res1 = 0 ;
     int argvi = 0;
-    ArrayOfStrings result;
+    tc_strings result;
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
       SWIG_croak("Usage: tc_getForcingFunctionAssignments(a);");
     }
     {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_ArrayOfItems,  0 );
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_items,  0 );
       if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getForcingFunctionAssignments" "', argument " "1"" of type '" "ArrayOfItems""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getForcingFunctionAssignments" "', argument " "1"" of type '" "tc_items""'"); 
       }  
       if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getForcingFunctionAssignments" "', argument " "1"" of type '" "ArrayOfItems""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getForcingFunctionAssignments" "', argument " "1"" of type '" "tc_items""'");
       } else {
-        arg1 = *((ArrayOfItems *)(argp1));
+        arg1 = *((tc_items *)(argp1));
       }
     }
     result = tc_getForcingFunctionAssignments(arg1);
-    ST(argvi) = SWIG_NewPointerObj((ArrayOfStrings *)memcpy((ArrayOfStrings *)malloc(sizeof(ArrayOfStrings)),&result,sizeof(ArrayOfStrings)), SWIGTYPE_p_ArrayOfStrings, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    ST(argvi) = SWIG_NewPointerObj((tc_strings *)memcpy((tc_strings *)malloc(sizeof(tc_strings)),&result,sizeof(tc_strings)), SWIGTYPE_p_tc_strings, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     XSRETURN(argvi);
   fail:
     SWIG_croak_null();
@@ -9818,10 +9822,10 @@ XS(_wrap_tc_getForcingFunctionAssignments) {
 
 XS(_wrap_tc_addForcingFunction) {
   {
-    int arg1 ;
+    long arg1 ;
     char *arg2 = (char *) 0 ;
     char *arg3 = (char *) 0 ;
-    int val1 ;
+    long val1 ;
     int ecode1 = 0 ;
     int res2 ;
     char *buf2 = 0 ;
@@ -9835,11 +9839,11 @@ XS(_wrap_tc_addForcingFunction) {
     if ((items < 3) || (items > 3)) {
       SWIG_croak("Usage: tc_addForcingFunction(item,functionName,assignmentRule);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_addForcingFunction" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_addForcingFunction" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     res2 = SWIG_AsCharPtrAndSize(ST(1), &buf2, NULL, &alloc2);
     if (!SWIG_IsOK(res2)) {
       SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_addForcingFunction" "', argument " "2"" of type '" "char const *""'");
@@ -9867,9 +9871,9 @@ XS(_wrap_tc_addForcingFunction) {
 
 XS(_wrap_tc_AssignmentFunctionsTool_api) {
   {
-    ArrayOfStrings (*arg1)(ArrayOfItems) = (ArrayOfStrings (*)(ArrayOfItems)) 0 ;
-    ArrayOfStrings (*arg2)(ArrayOfItems) = (ArrayOfStrings (*)(ArrayOfItems)) 0 ;
-    void (*arg3)(int,char const *,char const *) = (void (*)(int,char const *,char const *)) 0 ;
+    tc_strings (*arg1)(tc_items) = (tc_strings (*)(tc_items)) 0 ;
+    tc_strings (*arg2)(tc_items) = (tc_strings (*)(tc_items)) 0 ;
+    void (*arg3)(long,char const *,char const *) = (void (*)(long,char const *,char const *)) 0 ;
     int argvi = 0;
     dXSARGS;
     
@@ -9877,21 +9881,21 @@ XS(_wrap_tc_AssignmentFunctionsTool_api) {
       SWIG_croak("Usage: tc_AssignmentFunctionsTool_api(getForcingFunctionNames,getForcingFunctionAssignments,addForcingFunction);");
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_ArrayOfItems__ArrayOfStrings);
+      int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_tc_items__tc_strings);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_AssignmentFunctionsTool_api" "', argument " "1"" of type '" "ArrayOfStrings (*)(ArrayOfItems)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_AssignmentFunctionsTool_api" "', argument " "1"" of type '" "tc_strings (*)(tc_items)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(1), (void**)(&arg2), SWIGTYPE_p_f_ArrayOfItems__ArrayOfStrings);
+      int res = SWIG_ConvertFunctionPtr(ST(1), (void**)(&arg2), SWIGTYPE_p_f_tc_items__tc_strings);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_AssignmentFunctionsTool_api" "', argument " "2"" of type '" "ArrayOfStrings (*)(ArrayOfItems)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_AssignmentFunctionsTool_api" "', argument " "2"" of type '" "tc_strings (*)(tc_items)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(2), (void**)(&arg3), SWIGTYPE_p_f_int_p_q_const__char_p_q_const__char__void);
+      int res = SWIG_ConvertFunctionPtr(ST(2), (void**)(&arg3), SWIGTYPE_p_f_long_p_q_const__char_p_q_const__char__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_AssignmentFunctionsTool_api" "', argument " "3"" of type '" "void (*)(int,char const *,char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_AssignmentFunctionsTool_api" "', argument " "3"" of type '" "void (*)(long,char const *,char const *)""'"); 
       }
     }
     tc_AssignmentFunctionsTool_api(arg1,arg2,arg3);
@@ -9911,9 +9915,9 @@ XS(_wrap_tc_AssignmentFunctionsTool_api) {
 
 XS(_wrap_tc_displayText) {
   {
-    int arg1 ;
+    long arg1 ;
     char *arg2 = (char *) 0 ;
-    int val1 ;
+    long val1 ;
     int ecode1 = 0 ;
     int res2 ;
     char *buf2 = 0 ;
@@ -9924,11 +9928,11 @@ XS(_wrap_tc_displayText) {
     if ((items < 2) || (items > 2)) {
       SWIG_croak("Usage: tc_displayText(item,text);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_displayText" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_displayText" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     res2 = SWIG_AsCharPtrAndSize(ST(1), &buf2, NULL, &alloc2);
     if (!SWIG_IsOK(res2)) {
       SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_displayText" "', argument " "2"" of type '" "char const *""'");
@@ -9949,9 +9953,9 @@ XS(_wrap_tc_displayText) {
 
 XS(_wrap_tc_displayNumber) {
   {
-    int arg1 ;
+    long arg1 ;
     double arg2 ;
-    int val1 ;
+    long val1 ;
     int ecode1 = 0 ;
     double val2 ;
     int ecode2 = 0 ;
@@ -9961,11 +9965,11 @@ XS(_wrap_tc_displayNumber) {
     if ((items < 2) || (items > 2)) {
       SWIG_croak("Usage: tc_displayNumber(item,number);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_displayNumber" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_displayNumber" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     ecode2 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
     if (!SWIG_IsOK(ecode2)) {
       SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_displayNumber" "', argument " "2"" of type '" "double""'");
@@ -10025,9 +10029,9 @@ XS(_wrap_tc_setDisplayLabelColor) {
 
 XS(_wrap_tc_highlight) {
   {
-    int arg1 ;
+    long arg1 ;
     char *arg2 = (char *) 0 ;
-    int val1 ;
+    long val1 ;
     int ecode1 = 0 ;
     int res2 ;
     char *buf2 = 0 ;
@@ -10038,11 +10042,11 @@ XS(_wrap_tc_highlight) {
     if ((items < 2) || (items > 2)) {
       SWIG_croak("Usage: tc_highlight(item,color);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_highlight" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_highlight" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     res2 = SWIG_AsCharPtrAndSize(ST(1), &buf2, NULL, &alloc2);
     if (!SWIG_IsOK(res2)) {
       SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_highlight" "', argument " "2"" of type '" "char const *""'");
@@ -10063,10 +10067,10 @@ XS(_wrap_tc_highlight) {
 
 XS(_wrap_tc_CLabelsTool_api) {
   {
-    void (*arg1)(int,char const *) = (void (*)(int,char const *)) 0 ;
-    void (*arg2)(int,double) = (void (*)(int,double)) 0 ;
+    void (*arg1)(long,char const *) = (void (*)(long,char const *)) 0 ;
+    void (*arg2)(long,double) = (void (*)(long,double)) 0 ;
     void (*arg3)(char const *,char const *) = (void (*)(char const *,char const *)) 0 ;
-    void (*arg4)(int,char const *) = (void (*)(int,char const *)) 0 ;
+    void (*arg4)(long,char const *) = (void (*)(long,char const *)) 0 ;
     int argvi = 0;
     dXSARGS;
     
@@ -10074,15 +10078,15 @@ XS(_wrap_tc_CLabelsTool_api) {
       SWIG_croak("Usage: tc_CLabelsTool_api(displayText,displayNumber,setDisplayLabelColor,highlight);");
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_int_p_q_const__char__void);
+      int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_long_p_q_const__char__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CLabelsTool_api" "', argument " "1"" of type '" "void (*)(int,char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CLabelsTool_api" "', argument " "1"" of type '" "void (*)(long,char const *)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(1), (void**)(&arg2), SWIGTYPE_p_f_int_double__void);
+      int res = SWIG_ConvertFunctionPtr(ST(1), (void**)(&arg2), SWIGTYPE_p_f_long_double__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CLabelsTool_api" "', argument " "2"" of type '" "void (*)(int,double)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CLabelsTool_api" "', argument " "2"" of type '" "void (*)(long,double)""'"); 
       }
     }
     {
@@ -10092,9 +10096,9 @@ XS(_wrap_tc_CLabelsTool_api) {
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(3), (void**)(&arg4), SWIGTYPE_p_f_int_p_q_const__char__void);
+      int res = SWIG_ConvertFunctionPtr(ST(3), (void**)(&arg4), SWIGTYPE_p_f_long_p_q_const__char__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CLabelsTool_api" "', argument " "4"" of type '" "void (*)(int,char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CLabelsTool_api" "', argument " "4"" of type '" "void (*)(long,char const *)""'"); 
       }
     }
     tc_CLabelsTool_api(arg1,arg2,arg3,arg4);
@@ -10116,23 +10120,23 @@ XS(_wrap_tc_CLabelsTool_api) {
 
 XS(_wrap_tc_getAnnotation) {
   {
-    int arg1 ;
-    int val1 ;
+    long arg1 ;
+    long val1 ;
     int ecode1 = 0 ;
     int argvi = 0;
-    ArrayOfStrings result;
+    tc_strings result;
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
       SWIG_croak("Usage: tc_getAnnotation(o);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getAnnotation" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getAnnotation" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     result = tc_getAnnotation(arg1);
-    ST(argvi) = SWIG_NewPointerObj((ArrayOfStrings *)memcpy((ArrayOfStrings *)malloc(sizeof(ArrayOfStrings)),&result,sizeof(ArrayOfStrings)), SWIGTYPE_p_ArrayOfStrings, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    ST(argvi) = SWIG_NewPointerObj((tc_strings *)memcpy((tc_strings *)malloc(sizeof(tc_strings)),&result,sizeof(tc_strings)), SWIGTYPE_p_tc_strings, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     
     XSRETURN(argvi);
   fail:
@@ -10144,9 +10148,9 @@ XS(_wrap_tc_getAnnotation) {
 
 XS(_wrap_tc_setAnnotation) {
   {
-    int arg1 ;
-    ArrayOfStrings arg2 ;
-    int val1 ;
+    long arg1 ;
+    tc_strings arg2 ;
+    long val1 ;
     int ecode1 = 0 ;
     void *argp2 ;
     int res2 = 0 ;
@@ -10156,20 +10160,20 @@ XS(_wrap_tc_setAnnotation) {
     if ((items < 2) || (items > 2)) {
       SWIG_croak("Usage: tc_setAnnotation(o,annot);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setAnnotation" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setAnnotation" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     {
-      res2 = SWIG_ConvertPtr(ST(1), &argp2, SWIGTYPE_p_ArrayOfStrings,  0 );
+      res2 = SWIG_ConvertPtr(ST(1), &argp2, SWIGTYPE_p_tc_strings,  0 );
       if (!SWIG_IsOK(res2)) {
-        SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setAnnotation" "', argument " "2"" of type '" "ArrayOfStrings""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setAnnotation" "', argument " "2"" of type '" "tc_strings""'"); 
       }  
       if (!argp2) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_setAnnotation" "', argument " "2"" of type '" "ArrayOfStrings""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_setAnnotation" "', argument " "2"" of type '" "tc_strings""'");
       } else {
-        arg2 = *((ArrayOfStrings *)(argp2));
+        arg2 = *((tc_strings *)(argp2));
       }
     }
     tc_setAnnotation(arg1,arg2);
@@ -10185,8 +10189,8 @@ XS(_wrap_tc_setAnnotation) {
 
 XS(_wrap_tc_NameFamily_api_initialize) {
   {
-    ArrayOfStrings (*arg1)(int) = (ArrayOfStrings (*)(int)) 0 ;
-    void (*arg2)(int,ArrayOfStrings) = (void (*)(int,ArrayOfStrings)) 0 ;
+    tc_strings (*arg1)(long) = (tc_strings (*)(long)) 0 ;
+    void (*arg2)(long,tc_strings) = (void (*)(long,tc_strings)) 0 ;
     int argvi = 0;
     dXSARGS;
     
@@ -10194,15 +10198,15 @@ XS(_wrap_tc_NameFamily_api_initialize) {
       SWIG_croak("Usage: tc_NameFamily_api_initialize(tc_getAnnotation0,tc_setAnnotation0);");
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_int__ArrayOfStrings);
+      int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_long__tc_strings);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_NameFamily_api_initialize" "', argument " "1"" of type '" "ArrayOfStrings (*)(int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_NameFamily_api_initialize" "', argument " "1"" of type '" "tc_strings (*)(long)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(1), (void**)(&arg2), SWIGTYPE_p_f_int_struct_ArrayOfStrings__void);
+      int res = SWIG_ConvertFunctionPtr(ST(1), (void**)(&arg2), SWIGTYPE_p_f_long_struct_tc_strings__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_NameFamily_api_initialize" "', argument " "2"" of type '" "void (*)(int,ArrayOfStrings)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_NameFamily_api_initialize" "', argument " "2"" of type '" "void (*)(long,tc_strings)""'"); 
       }
     }
     tc_NameFamily_api_initialize(arg1,arg2);
@@ -10220,23 +10224,23 @@ XS(_wrap_tc_NameFamily_api_initialize) {
 
 XS(_wrap_tc_partsIn) {
   {
-    int arg1 ;
-    int val1 ;
+    long arg1 ;
+    long val1 ;
     int ecode1 = 0 ;
     int argvi = 0;
-    ArrayOfItems result;
+    tc_items result;
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
       SWIG_croak("Usage: tc_partsIn(o);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_partsIn" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_partsIn" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     result = tc_partsIn(arg1);
-    ST(argvi) = SWIG_NewPointerObj((ArrayOfItems *)memcpy((ArrayOfItems *)malloc(sizeof(ArrayOfItems)),&result,sizeof(ArrayOfItems)), SWIGTYPE_p_ArrayOfItems, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    ST(argvi) = SWIG_NewPointerObj((tc_items *)memcpy((tc_items *)malloc(sizeof(tc_items)),&result,sizeof(tc_items)), SWIGTYPE_p_tc_items, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     
     XSRETURN(argvi);
   fail:
@@ -10248,23 +10252,23 @@ XS(_wrap_tc_partsIn) {
 
 XS(_wrap_tc_partsUpstream) {
   {
-    int arg1 ;
-    int val1 ;
+    long arg1 ;
+    long val1 ;
     int ecode1 = 0 ;
     int argvi = 0;
-    ArrayOfItems result;
+    tc_items result;
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
       SWIG_croak("Usage: tc_partsUpstream(o);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_partsUpstream" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_partsUpstream" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     result = tc_partsUpstream(arg1);
-    ST(argvi) = SWIG_NewPointerObj((ArrayOfItems *)memcpy((ArrayOfItems *)malloc(sizeof(ArrayOfItems)),&result,sizeof(ArrayOfItems)), SWIGTYPE_p_ArrayOfItems, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    ST(argvi) = SWIG_NewPointerObj((tc_items *)memcpy((tc_items *)malloc(sizeof(tc_items)),&result,sizeof(tc_items)), SWIGTYPE_p_tc_items, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     
     XSRETURN(argvi);
   fail:
@@ -10276,23 +10280,23 @@ XS(_wrap_tc_partsUpstream) {
 
 XS(_wrap_tc_partsDownstream) {
   {
-    int arg1 ;
-    int val1 ;
+    long arg1 ;
+    long val1 ;
     int ecode1 = 0 ;
     int argvi = 0;
-    ArrayOfItems result;
+    tc_items result;
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
       SWIG_croak("Usage: tc_partsDownstream(o);");
     }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_partsDownstream" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_partsDownstream" "', argument " "1"" of type '" "long""'");
     } 
-    arg1 = (int)(val1);
+    arg1 = (long)(val1);
     result = tc_partsDownstream(arg1);
-    ST(argvi) = SWIG_NewPointerObj((ArrayOfItems *)memcpy((ArrayOfItems *)malloc(sizeof(ArrayOfItems)),&result,sizeof(ArrayOfItems)), SWIGTYPE_p_ArrayOfItems, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    ST(argvi) = SWIG_NewPointerObj((tc_items *)memcpy((tc_items *)malloc(sizeof(tc_items)),&result,sizeof(tc_items)), SWIGTYPE_p_tc_items, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     
     XSRETURN(argvi);
   fail:
@@ -10304,7 +10308,7 @@ XS(_wrap_tc_partsDownstream) {
 
 XS(_wrap_tc_alignParts) {
   {
-    ArrayOfItems arg1 ;
+    tc_items arg1 ;
     void *argp1 ;
     int res1 = 0 ;
     int argvi = 0;
@@ -10314,14 +10318,14 @@ XS(_wrap_tc_alignParts) {
       SWIG_croak("Usage: tc_alignParts(a);");
     }
     {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_ArrayOfItems,  0 );
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_items,  0 );
       if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_alignParts" "', argument " "1"" of type '" "ArrayOfItems""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_alignParts" "', argument " "1"" of type '" "tc_items""'"); 
       }  
       if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_alignParts" "', argument " "1"" of type '" "ArrayOfItems""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_alignParts" "', argument " "1"" of type '" "tc_items""'");
       } else {
-        arg1 = *((ArrayOfItems *)(argp1));
+        arg1 = *((tc_items *)(argp1));
       }
     }
     tc_alignParts(arg1);
@@ -10335,10 +10339,10 @@ XS(_wrap_tc_alignParts) {
 
 XS(_wrap_tc_AutoGeneRegulatoryTool_api) {
   {
-    ArrayOfItems (*arg1)(int) = (ArrayOfItems (*)(int)) 0 ;
-    ArrayOfItems (*arg2)(int) = (ArrayOfItems (*)(int)) 0 ;
-    ArrayOfItems (*arg3)(int) = (ArrayOfItems (*)(int)) 0 ;
-    void (*arg4)(ArrayOfItems) = (void (*)(ArrayOfItems)) 0 ;
+    tc_items (*arg1)(long) = (tc_items (*)(long)) 0 ;
+    tc_items (*arg2)(long) = (tc_items (*)(long)) 0 ;
+    tc_items (*arg3)(long) = (tc_items (*)(long)) 0 ;
+    void (*arg4)(tc_items) = (void (*)(tc_items)) 0 ;
     int argvi = 0;
     dXSARGS;
     
@@ -10346,27 +10350,27 @@ XS(_wrap_tc_AutoGeneRegulatoryTool_api) {
       SWIG_croak("Usage: tc_AutoGeneRegulatoryTool_api(f1,f2,f3,f4);");
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_int__ArrayOfItems);
+      int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_long__tc_items);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_AutoGeneRegulatoryTool_api" "', argument " "1"" of type '" "ArrayOfItems (*)(int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_AutoGeneRegulatoryTool_api" "', argument " "1"" of type '" "tc_items (*)(long)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(1), (void**)(&arg2), SWIGTYPE_p_f_int__ArrayOfItems);
+      int res = SWIG_ConvertFunctionPtr(ST(1), (void**)(&arg2), SWIGTYPE_p_f_long__tc_items);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_AutoGeneRegulatoryTool_api" "', argument " "2"" of type '" "ArrayOfItems (*)(int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_AutoGeneRegulatoryTool_api" "', argument " "2"" of type '" "tc_items (*)(long)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(2), (void**)(&arg3), SWIGTYPE_p_f_int__ArrayOfItems);
+      int res = SWIG_ConvertFunctionPtr(ST(2), (void**)(&arg3), SWIGTYPE_p_f_long__tc_items);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_AutoGeneRegulatoryTool_api" "', argument " "3"" of type '" "ArrayOfItems (*)(int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_AutoGeneRegulatoryTool_api" "', argument " "3"" of type '" "tc_items (*)(long)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(3), (void**)(&arg4), SWIGTYPE_p_f_struct_ArrayOfItems__void);
+      int res = SWIG_ConvertFunctionPtr(ST(3), (void**)(&arg4), SWIGTYPE_p_f_struct_tc_items__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_AutoGeneRegulatoryTool_api" "', argument " "4"" of type '" "void (*)(ArrayOfItems)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_AutoGeneRegulatoryTool_api" "', argument " "4"" of type '" "void (*)(tc_items)""'"); 
       }
     }
     tc_AutoGeneRegulatoryTool_api(arg1,arg2,arg3,arg4);
@@ -10451,7 +10455,7 @@ XS(_wrap_tc_simulateODE) {
     double val2 ;
     int ecode2 = 0 ;
     int argvi = 0;
-    TableOfReals result;
+    tc_matrix result;
     dXSARGS;
     
     if ((items < 2) || (items > 2)) {
@@ -10468,7 +10472,7 @@ XS(_wrap_tc_simulateODE) {
     } 
     arg2 = (double)(val2);
     result = tc_simulateODE(arg1,arg2);
-    ST(argvi) = SWIG_NewPointerObj((TableOfReals *)memcpy((TableOfReals *)malloc(sizeof(TableOfReals)),&result,sizeof(TableOfReals)), SWIGTYPE_p_TableOfReals, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    ST(argvi) = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     
     
     XSRETURN(argvi);
@@ -10486,7 +10490,7 @@ XS(_wrap_tc_simulateSSA) {
     double val1 ;
     int ecode1 = 0 ;
     int argvi = 0;
-    TableOfReals result;
+    tc_matrix result;
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
@@ -10498,7 +10502,7 @@ XS(_wrap_tc_simulateSSA) {
     } 
     arg1 = (double)(val1);
     result = tc_simulateSSA(arg1);
-    ST(argvi) = SWIG_NewPointerObj((TableOfReals *)memcpy((TableOfReals *)malloc(sizeof(TableOfReals)),&result,sizeof(TableOfReals)), SWIGTYPE_p_TableOfReals, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    ST(argvi) = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     
     XSRETURN(argvi);
   fail:
@@ -10512,8 +10516,8 @@ XS(_wrap_tc_SBML_api) {
   {
     void (*arg1)(char const *) = (void (*)(char const *)) 0 ;
     void (*arg2)(char const *) = (void (*)(char const *)) 0 ;
-    TableOfReals (*arg3)(double,double) = (TableOfReals (*)(double,double)) 0 ;
-    TableOfReals (*arg4)(double) = (TableOfReals (*)(double)) 0 ;
+    tc_matrix (*arg3)(double,double) = (tc_matrix (*)(double,double)) 0 ;
+    tc_matrix (*arg4)(double) = (tc_matrix (*)(double)) 0 ;
     int argvi = 0;
     dXSARGS;
     
@@ -10533,15 +10537,15 @@ XS(_wrap_tc_SBML_api) {
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(2), (void**)(&arg3), SWIGTYPE_p_f_double_double__TableOfReals);
+      int res = SWIG_ConvertFunctionPtr(ST(2), (void**)(&arg3), SWIGTYPE_p_f_double_double__tc_matrix);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_SBML_api" "', argument " "3"" of type '" "TableOfReals (*)(double,double)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_SBML_api" "', argument " "3"" of type '" "tc_matrix (*)(double,double)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(3), (void**)(&arg4), SWIGTYPE_p_f_double__TableOfReals);
+      int res = SWIG_ConvertFunctionPtr(ST(3), (void**)(&arg4), SWIGTYPE_p_f_double__tc_matrix);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_SBML_api" "', argument " "4"" of type '" "TableOfReals (*)(double)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_SBML_api" "', argument " "4"" of type '" "tc_matrix (*)(double)""'"); 
       }
     }
     tc_SBML_api(arg1,arg2,arg3,arg4);
@@ -10564,320 +10568,336 @@ XS(_wrap_tc_SBML_api) {
 
 /* -------- TYPE CONVERSION AND EQUIVALENCE RULES (BEGIN) -------- */
 
-static swig_type_info _swigt__p_ArrayOfItems = {"_p_ArrayOfItems", "struct ArrayOfItems *|ArrayOfItems *", 0, 0, (void*)"tinkercell::ArrayOfItems", 0};
-static swig_type_info _swigt__p_ArrayOfStrings = {"_p_ArrayOfStrings", "struct ArrayOfStrings *|ArrayOfStrings *", 0, 0, (void*)"tinkercell::ArrayOfStrings", 0};
-static swig_type_info _swigt__p_TableOfReals = {"_p_TableOfReals", "struct TableOfReals *|TableOfReals *", 0, 0, (void*)"tinkercell::TableOfReals", 0};
-static swig_type_info _swigt__p_TableOfStrings = {"_p_TableOfStrings", "struct TableOfStrings *|TableOfStrings *", 0, 0, (void*)"tinkercell::TableOfStrings", 0};
 static swig_type_info _swigt__p_char = {"_p_char", "char *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_double = {"_p_double", "double *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_ArrayOfItems_ArrayOfStrings__ArrayOfStrings = {"_p_f_ArrayOfItems_ArrayOfStrings__ArrayOfStrings", "ArrayOfStrings (*)(ArrayOfItems,ArrayOfStrings)|struct ArrayOfStrings (*)(ArrayOfItems,ArrayOfStrings)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_ArrayOfItems_ArrayOfStrings__TableOfReals = {"_p_f_ArrayOfItems_ArrayOfStrings__TableOfReals", "TableOfReals (*)(ArrayOfItems,ArrayOfStrings)|struct TableOfReals (*)(ArrayOfItems,ArrayOfStrings)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_ArrayOfItems__ArrayOfStrings = {"_p_f_ArrayOfItems__ArrayOfStrings", "struct ArrayOfStrings (*)(ArrayOfItems)|ArrayOfStrings (*)(ArrayOfItems)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_ArrayOfItems__TableOfReals = {"_p_f_ArrayOfItems__TableOfReals", "struct TableOfReals (*)(ArrayOfItems)|TableOfReals (*)(ArrayOfItems)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_ArrayOfStrings__ArrayOfItems = {"_p_f_ArrayOfStrings__ArrayOfItems", "struct ArrayOfItems (*)(ArrayOfStrings)|ArrayOfItems (*)(ArrayOfStrings)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f___ArrayOfItems = {"_p_f___ArrayOfItems", "struct ArrayOfItems (*)()|ArrayOfItems (*)()", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f___ArrayOfStrings = {"_p_f___ArrayOfStrings", "struct ArrayOfStrings (*)()|ArrayOfStrings (*)()", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f___int = {"_p_f___int", "int (*)()", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f___p_char = {"_p_f___p_char", "char *(*)()", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f___tc_items = {"_p_f___tc_items", "struct tc_items (*)()|tc_items (*)()", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f___tc_strings = {"_p_f___tc_strings", "struct tc_strings (*)()|tc_strings (*)()", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f___void = {"_p_f___void", "void (*)()", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_double__TableOfReals = {"_p_f_double__TableOfReals", "struct TableOfReals (*)(double)|TableOfReals (*)(double)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_double__tc_matrix = {"_p_f_double__tc_matrix", "struct tc_matrix (*)(double)|tc_matrix (*)(double)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_double__void = {"_p_f_double__void", "void (*)(double)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_double_double__TableOfReals = {"_p_f_double_double__TableOfReals", "struct TableOfReals (*)(double,double)|TableOfReals (*)(double,double)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_double_double__tc_matrix = {"_p_f_double_double__tc_matrix", "struct tc_matrix (*)(double,double)|tc_matrix (*)(double,double)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_double_double__void = {"_p_f_double_double__void", "void (*)(double,double)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_int__ArrayOfItems = {"_p_f_int__ArrayOfItems", "struct ArrayOfItems (*)(int)|ArrayOfItems (*)(int)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_int__ArrayOfStrings = {"_p_f_int__ArrayOfStrings", "struct ArrayOfStrings (*)(int)|ArrayOfStrings (*)(int)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_int__TableOfReals = {"_p_f_int__TableOfReals", "struct TableOfReals (*)(int)|TableOfReals (*)(int)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_int__double = {"_p_f_int__double", "double (*)(int)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_int__int = {"_p_f_int__int", "int (*)(int)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_int__p_char = {"_p_f_int__p_char", "char *(*)(int)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int__tc_matrix = {"_p_f_int__tc_matrix", "struct tc_matrix (*)(int)|tc_matrix (*)(int)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_int__void = {"_p_f_int__void", "void (*)(int)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_int_double__void = {"_p_f_int_double__void", "void (*)(int,double)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_int_double_double__void = {"_p_f_int_double_double__void", "void (*)(int,double,double)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_int_double_double_int__void = {"_p_f_int_double_double_int__void", "void (*)(int,double,double,int)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_int_double_int__void = {"_p_f_int_double_int__void", "void (*)(int,double,int)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_int_int__void = {"_p_f_int_int__void", "void (*)(int,int)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_int_int_int__double = {"_p_f_int_int_int__double", "double (*)(int,int,int)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_int_int_int_double_double__void = {"_p_f_int_int_int_double_double__void", "void (*)(int,int,int,double,double)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_int_p_q_const__char__ArrayOfItems = {"_p_f_int_p_q_const__char__ArrayOfItems", "struct ArrayOfItems (*)(int,char const *)|ArrayOfItems (*)(int,char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_int_p_q_const__char__TableOfReals = {"_p_f_int_p_q_const__char__TableOfReals", "struct TableOfReals (*)(int,char const *)|TableOfReals (*)(int,char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_int_p_q_const__char__TableOfStrings = {"_p_f_int_p_q_const__char__TableOfStrings", "struct TableOfStrings (*)(int,char const *)|TableOfStrings (*)(int,char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_int_p_q_const__char__double = {"_p_f_int_p_q_const__char__double", "double (*)(int,char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_int_p_q_const__char__int = {"_p_f_int_p_q_const__char__int", "int (*)(int,char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_int_p_q_const__char__p_char = {"_p_f_int_p_q_const__char__p_char", "char *(*)(int,char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_int_p_q_const__char__void = {"_p_f_int_p_q_const__char__void", "void (*)(int,char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_int_p_q_const__char_double__void = {"_p_f_int_p_q_const__char_double__void", "void (*)(int,char const *,double)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_int_p_q_const__char_int__void = {"_p_f_int_p_q_const__char_int__void", "void (*)(int,char const *,int)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_int_p_q_const__char_p_q_const__char__void = {"_p_f_int_p_q_const__char_p_q_const__char__void", "void (*)(int,char const *,char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_int_p_q_const__char_struct_TableOfReals__void = {"_p_f_int_p_q_const__char_struct_TableOfReals__void", "void (*)(int,char const *,struct TableOfReals)|void (*)(int,char const *,TableOfReals)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_int_p_q_const__char_struct_TableOfStrings__void = {"_p_f_int_p_q_const__char_struct_TableOfStrings__void", "void (*)(int,char const *,struct TableOfStrings)|void (*)(int,char const *,TableOfStrings)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_int_struct_ArrayOfStrings__void = {"_p_f_int_struct_ArrayOfStrings__void", "void (*)(int,struct ArrayOfStrings)|void (*)(int,ArrayOfStrings)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_int_struct_TableOfReals_p_f_struct_TableOfReals__void__void = {"_p_f_int_struct_TableOfReals_p_f_struct_TableOfReals__void__void", "void (*)(int,TableOfReals,void (*)(TableOfReals))|void (*)(int,struct TableOfReals,void (*)(struct TableOfReals))", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_long__double = {"_p_f_long__double", "double (*)(long)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_long__long = {"_p_f_long__long", "long (*)(long)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_long__p_char = {"_p_f_long__p_char", "char *(*)(long)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_long__tc_items = {"_p_f_long__tc_items", "struct tc_items (*)(long)|tc_items (*)(long)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_long__tc_strings = {"_p_f_long__tc_strings", "struct tc_strings (*)(long)|tc_strings (*)(long)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_long__void = {"_p_f_long__void", "void (*)(long)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_long_double__void = {"_p_f_long_double__void", "void (*)(long,double)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_long_double_double__void = {"_p_f_long_double_double__void", "void (*)(long,double,double)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_long_double_double_int__void = {"_p_f_long_double_double_int__void", "void (*)(long,double,double,int)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_long_double_int__void = {"_p_f_long_double_int__void", "void (*)(long,double,int)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_long_int__void = {"_p_f_long_int__void", "void (*)(long,int)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_long_long_int__double = {"_p_f_long_long_int__double", "double (*)(long,long,int)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_long_long_int_double_double__void = {"_p_f_long_long_int_double_double__void", "void (*)(long,long,int,double,double)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_long_p_q_const__char__double = {"_p_f_long_p_q_const__char__double", "double (*)(long,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_long_p_q_const__char__int = {"_p_f_long_p_q_const__char__int", "int (*)(long,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_long_p_q_const__char__p_char = {"_p_f_long_p_q_const__char__p_char", "char *(*)(long,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_long_p_q_const__char__tc_items = {"_p_f_long_p_q_const__char__tc_items", "struct tc_items (*)(long,char const *)|tc_items (*)(long,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_long_p_q_const__char__tc_matrix = {"_p_f_long_p_q_const__char__tc_matrix", "struct tc_matrix (*)(long,char const *)|tc_matrix (*)(long,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_long_p_q_const__char__tc_table = {"_p_f_long_p_q_const__char__tc_table", "struct tc_table (*)(long,char const *)|tc_table (*)(long,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_long_p_q_const__char__void = {"_p_f_long_p_q_const__char__void", "void (*)(long,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_long_p_q_const__char_double__void = {"_p_f_long_p_q_const__char_double__void", "void (*)(long,char const *,double)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_long_p_q_const__char_int__void = {"_p_f_long_p_q_const__char_int__void", "void (*)(long,char const *,int)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_long_p_q_const__char_p_q_const__char__void = {"_p_f_long_p_q_const__char_p_q_const__char__void", "void (*)(long,char const *,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_long_p_q_const__char_struct_tc_matrix__void = {"_p_f_long_p_q_const__char_struct_tc_matrix__void", "void (*)(long,char const *,struct tc_matrix)|void (*)(long,char const *,tc_matrix)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_long_p_q_const__char_struct_tc_table__void = {"_p_f_long_p_q_const__char_struct_tc_table__void", "void (*)(long,char const *,struct tc_table)|void (*)(long,char const *,tc_table)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_long_struct_tc_matrix_p_f_struct_tc_matrix__void__void = {"_p_f_long_struct_tc_matrix_p_f_struct_tc_matrix__void__void", "void (*)(long,struct tc_matrix,void (*)(struct tc_matrix))|void (*)(long,tc_matrix,void (*)(tc_matrix))", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_long_struct_tc_strings__void = {"_p_f_long_struct_tc_strings__void", "void (*)(long,struct tc_strings)|void (*)(long,tc_strings)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void = {"_p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void", "void (*)(void (*)(),char const *,char const *,char const *,char const *,char const *,int,int,int)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_f_void__void__void = {"_p_f_p_f_void__void__void", "void (*)(void (*)(void))", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_q_const__char_ArrayOfItems__ArrayOfItems = {"_p_f_p_q_const__char_ArrayOfItems__ArrayOfItems", "struct ArrayOfItems (*)(char const *,ArrayOfItems)|ArrayOfItems (*)(char const *,ArrayOfItems)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_q_const__char__ArrayOfItems = {"_p_f_p_q_const__char__ArrayOfItems", "struct ArrayOfItems (*)(char const *)|ArrayOfItems (*)(char const *)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_q_const__char__double = {"_p_f_p_q_const__char__double", "double (*)(char const *)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_q_const__char__int = {"_p_f_p_q_const__char__int", "int (*)(char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char__long = {"_p_f_p_q_const__char__long", "long (*)(char const *)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_q_const__char__p_char = {"_p_f_p_q_const__char__p_char", "char *(*)(char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char__tc_items = {"_p_f_p_q_const__char__tc_items", "struct tc_items (*)(char const *)|tc_items (*)(char const *)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_q_const__char__void = {"_p_f_p_q_const__char__void", "void (*)(char const *)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_q_const__char_int_int__void = {"_p_f_p_q_const__char_int_int__void", "void (*)(char const *,int,int)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_q_const__char_int_int_struct_ArrayOfStrings__void = {"_p_f_p_q_const__char_int_int_struct_ArrayOfStrings__void", "void (*)(char const *,int,int,ArrayOfStrings)|void (*)(char const *,int,int,struct ArrayOfStrings)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char_int_int_struct_tc_strings__void = {"_p_f_p_q_const__char_int_int_struct_tc_strings__void", "void (*)(char const *,int,int,struct tc_strings)|void (*)(char const *,int,int,tc_strings)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_q_const__char_p_q_const__char__int = {"_p_f_p_q_const__char_p_q_const__char__int", "int (*)(char const *,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char_p_q_const__char__long = {"_p_f_p_q_const__char_p_q_const__char__long", "long (*)(char const *,char const *)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_q_const__char_p_q_const__char__void = {"_p_f_p_q_const__char_p_q_const__char__void", "void (*)(char const *,char const *)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_q_const__char_p_q_const__char_p_q_const__char__int = {"_p_f_p_q_const__char_p_q_const__char_p_q_const__char__int", "int (*)(char const *,char const *,char const *)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void = {"_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void", "void (*)(char const *,char const *,char const *,char const *,char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_q_const__char_p_q_const__char_p_q_const__char_struct_TableOfReals__int = {"_p_f_p_q_const__char_p_q_const__char_p_q_const__char_struct_TableOfReals__int", "int (*)(char const *,char const *,char const *,struct TableOfReals)|int (*)(char const *,char const *,char const *,TableOfReals)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_q_const__char_struct_ArrayOfItems__int = {"_p_f_p_q_const__char_struct_ArrayOfItems__int", "int (*)(char const *,struct ArrayOfItems)|int (*)(char const *,ArrayOfItems)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_q_const__char_struct_ArrayOfStrings_p_q_const__char__int = {"_p_f_p_q_const__char_struct_ArrayOfStrings_p_q_const__char__int", "int (*)(char const *,ArrayOfStrings,char const *)|int (*)(char const *,struct ArrayOfStrings,char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_struct_ArrayOfItems__void = {"_p_f_struct_ArrayOfItems__void", "void (*)(struct ArrayOfItems)|void (*)(ArrayOfItems)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_struct_ArrayOfItems_p_q_const__char_p_q_const__char__int = {"_p_f_struct_ArrayOfItems_p_q_const__char_p_q_const__char__int", "int (*)(ArrayOfItems,char const *,char const *)|int (*)(struct ArrayOfItems,char const *,char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_struct_ArrayOfItems_struct_ArrayOfStrings__void = {"_p_f_struct_ArrayOfItems_struct_ArrayOfStrings__void", "void (*)(ArrayOfItems,ArrayOfStrings)|void (*)(struct ArrayOfItems,struct ArrayOfStrings)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_struct_ArrayOfItems_struct_TableOfReals__void = {"_p_f_struct_ArrayOfItems_struct_TableOfReals__void", "void (*)(struct ArrayOfItems,struct TableOfReals)|void (*)(ArrayOfItems,TableOfReals)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_struct_ArrayOfStrings_p_double__void = {"_p_f_struct_ArrayOfStrings_p_double__void", "void (*)(struct ArrayOfStrings,double *)|void (*)(ArrayOfStrings,double *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_struct_TableOfReals__void = {"_p_f_struct_TableOfReals__void", "void (*)(struct TableOfReals)|void (*)(TableOfReals)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_struct_TableOfReals_p_q_const__char__void = {"_p_f_struct_TableOfReals_p_q_const__char__void", "void (*)(struct TableOfReals,char const *)|void (*)(TableOfReals,char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_struct_TableOfReals_p_q_const__char_p_f_struct_TableOfReals__void__void = {"_p_f_struct_TableOfReals_p_q_const__char_p_f_struct_TableOfReals__void__void", "void (*)(TableOfReals,char const *,void (*)(TableOfReals))|void (*)(struct TableOfReals,char const *,void (*)(struct TableOfReals))", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_struct_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void = {"_p_f_struct_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void", "void (*)(TableOfReals,char const *,char const *,char const *)|void (*)(struct TableOfReals,char const *,char const *,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char_p_q_const__char_p_q_const__char_struct_tc_matrix__int = {"_p_f_p_q_const__char_p_q_const__char_p_q_const__char_struct_tc_matrix__int", "int (*)(char const *,char const *,char const *,tc_matrix)|int (*)(char const *,char const *,char const *,struct tc_matrix)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char_struct_tc_items__int = {"_p_f_p_q_const__char_struct_tc_items__int", "int (*)(char const *,struct tc_items)|int (*)(char const *,tc_items)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char_struct_tc_strings_p_q_const__char__int = {"_p_f_p_q_const__char_struct_tc_strings_p_q_const__char__int", "int (*)(char const *,tc_strings,char const *)|int (*)(char const *,struct tc_strings,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char_tc_items__tc_items = {"_p_f_p_q_const__char_tc_items__tc_items", "struct tc_items (*)(char const *,tc_items)|tc_items (*)(char const *,tc_items)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_struct_tc_items__void = {"_p_f_struct_tc_items__void", "void (*)(struct tc_items)|void (*)(tc_items)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_struct_tc_items_p_q_const__char_p_q_const__char__long = {"_p_f_struct_tc_items_p_q_const__char_p_q_const__char__long", "long (*)(struct tc_items,char const *,char const *)|long (*)(tc_items,char const *,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_struct_tc_items_struct_tc_matrix__void = {"_p_f_struct_tc_items_struct_tc_matrix__void", "void (*)(struct tc_items,struct tc_matrix)|void (*)(tc_items,tc_matrix)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_struct_tc_items_struct_tc_strings__void = {"_p_f_struct_tc_items_struct_tc_strings__void", "void (*)(struct tc_items,struct tc_strings)|void (*)(tc_items,tc_strings)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_struct_tc_matrix__void = {"_p_f_struct_tc_matrix__void", "void (*)(struct tc_matrix)|void (*)(tc_matrix)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_struct_tc_matrix_p_q_const__char__void = {"_p_f_struct_tc_matrix_p_q_const__char__void", "void (*)(struct tc_matrix,char const *)|void (*)(tc_matrix,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_struct_tc_matrix_p_q_const__char_p_f_struct_tc_matrix__void__void = {"_p_f_struct_tc_matrix_p_q_const__char_p_f_struct_tc_matrix__void__void", "void (*)(struct tc_matrix,char const *,void (*)(struct tc_matrix))|void (*)(tc_matrix,char const *,void (*)(tc_matrix))", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_struct_tc_matrix_p_q_const__char_p_q_const__char_p_q_const__char__void = {"_p_f_struct_tc_matrix_p_q_const__char_p_q_const__char_p_q_const__char__void", "void (*)(tc_matrix,char const *,char const *,char const *)|void (*)(struct tc_matrix,char const *,char const *,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_struct_tc_strings_p_double__void = {"_p_f_struct_tc_strings_p_double__void", "void (*)(struct tc_strings,double *)|void (*)(tc_strings,double *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_tc_items__tc_matrix = {"_p_f_tc_items__tc_matrix", "struct tc_matrix (*)(tc_items)|tc_matrix (*)(tc_items)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_tc_items__tc_strings = {"_p_f_tc_items__tc_strings", "struct tc_strings (*)(tc_items)|tc_strings (*)(tc_items)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_tc_items_tc_strings__tc_matrix = {"_p_f_tc_items_tc_strings__tc_matrix", "struct tc_matrix (*)(tc_items,tc_strings)|tc_matrix (*)(tc_items,tc_strings)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_tc_items_tc_strings__tc_strings = {"_p_f_tc_items_tc_strings__tc_strings", "struct tc_strings (*)(tc_items,tc_strings)|tc_strings (*)(tc_items,tc_strings)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_tc_strings__tc_items = {"_p_f_tc_strings__tc_items", "struct tc_items (*)(tc_strings)|tc_items (*)(tc_strings)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_void__void = {"_p_f_void__void", "void (*)(void)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_int = {"_p_int", "int *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_long = {"_p_long", "long *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_p_char = {"_p_p_char", "char **", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_tc_items = {"_p_tc_items", "struct tc_items *|tc_items *", 0, 0, (void*)"tinkercell::tc_items", 0};
+static swig_type_info _swigt__p_tc_matrix = {"_p_tc_matrix", "struct tc_matrix *|tc_matrix *", 0, 0, (void*)"tinkercell::tc_matrix", 0};
+static swig_type_info _swigt__p_tc_strings = {"_p_tc_strings", "struct tc_strings *|tc_strings *", 0, 0, (void*)"tinkercell::tc_strings", 0};
+static swig_type_info _swigt__p_tc_table = {"_p_tc_table", "struct tc_table *|tc_table *", 0, 0, (void*)"tinkercell::tc_table", 0};
 
 static swig_type_info *swig_type_initial[] = {
-  &_swigt__p_ArrayOfItems,
-  &_swigt__p_ArrayOfStrings,
-  &_swigt__p_TableOfReals,
-  &_swigt__p_TableOfStrings,
   &_swigt__p_char,
   &_swigt__p_double,
-  &_swigt__p_f_ArrayOfItems_ArrayOfStrings__ArrayOfStrings,
-  &_swigt__p_f_ArrayOfItems_ArrayOfStrings__TableOfReals,
-  &_swigt__p_f_ArrayOfItems__ArrayOfStrings,
-  &_swigt__p_f_ArrayOfItems__TableOfReals,
-  &_swigt__p_f_ArrayOfStrings__ArrayOfItems,
-  &_swigt__p_f___ArrayOfItems,
-  &_swigt__p_f___ArrayOfStrings,
   &_swigt__p_f___int,
   &_swigt__p_f___p_char,
+  &_swigt__p_f___tc_items,
+  &_swigt__p_f___tc_strings,
   &_swigt__p_f___void,
-  &_swigt__p_f_double__TableOfReals,
+  &_swigt__p_f_double__tc_matrix,
   &_swigt__p_f_double__void,
-  &_swigt__p_f_double_double__TableOfReals,
+  &_swigt__p_f_double_double__tc_matrix,
   &_swigt__p_f_double_double__void,
-  &_swigt__p_f_int__ArrayOfItems,
-  &_swigt__p_f_int__ArrayOfStrings,
-  &_swigt__p_f_int__TableOfReals,
-  &_swigt__p_f_int__double,
-  &_swigt__p_f_int__int,
-  &_swigt__p_f_int__p_char,
+  &_swigt__p_f_int__tc_matrix,
   &_swigt__p_f_int__void,
-  &_swigt__p_f_int_double__void,
-  &_swigt__p_f_int_double_double__void,
-  &_swigt__p_f_int_double_double_int__void,
-  &_swigt__p_f_int_double_int__void,
   &_swigt__p_f_int_int__void,
-  &_swigt__p_f_int_int_int__double,
-  &_swigt__p_f_int_int_int_double_double__void,
-  &_swigt__p_f_int_p_q_const__char__ArrayOfItems,
-  &_swigt__p_f_int_p_q_const__char__TableOfReals,
-  &_swigt__p_f_int_p_q_const__char__TableOfStrings,
-  &_swigt__p_f_int_p_q_const__char__double,
-  &_swigt__p_f_int_p_q_const__char__int,
-  &_swigt__p_f_int_p_q_const__char__p_char,
-  &_swigt__p_f_int_p_q_const__char__void,
-  &_swigt__p_f_int_p_q_const__char_double__void,
-  &_swigt__p_f_int_p_q_const__char_int__void,
-  &_swigt__p_f_int_p_q_const__char_p_q_const__char__void,
-  &_swigt__p_f_int_p_q_const__char_struct_TableOfReals__void,
-  &_swigt__p_f_int_p_q_const__char_struct_TableOfStrings__void,
-  &_swigt__p_f_int_struct_ArrayOfStrings__void,
-  &_swigt__p_f_int_struct_TableOfReals_p_f_struct_TableOfReals__void__void,
+  &_swigt__p_f_long__double,
+  &_swigt__p_f_long__long,
+  &_swigt__p_f_long__p_char,
+  &_swigt__p_f_long__tc_items,
+  &_swigt__p_f_long__tc_strings,
+  &_swigt__p_f_long__void,
+  &_swigt__p_f_long_double__void,
+  &_swigt__p_f_long_double_double__void,
+  &_swigt__p_f_long_double_double_int__void,
+  &_swigt__p_f_long_double_int__void,
+  &_swigt__p_f_long_int__void,
+  &_swigt__p_f_long_long_int__double,
+  &_swigt__p_f_long_long_int_double_double__void,
+  &_swigt__p_f_long_p_q_const__char__double,
+  &_swigt__p_f_long_p_q_const__char__int,
+  &_swigt__p_f_long_p_q_const__char__p_char,
+  &_swigt__p_f_long_p_q_const__char__tc_items,
+  &_swigt__p_f_long_p_q_const__char__tc_matrix,
+  &_swigt__p_f_long_p_q_const__char__tc_table,
+  &_swigt__p_f_long_p_q_const__char__void,
+  &_swigt__p_f_long_p_q_const__char_double__void,
+  &_swigt__p_f_long_p_q_const__char_int__void,
+  &_swigt__p_f_long_p_q_const__char_p_q_const__char__void,
+  &_swigt__p_f_long_p_q_const__char_struct_tc_matrix__void,
+  &_swigt__p_f_long_p_q_const__char_struct_tc_table__void,
+  &_swigt__p_f_long_struct_tc_matrix_p_f_struct_tc_matrix__void__void,
+  &_swigt__p_f_long_struct_tc_strings__void,
   &_swigt__p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void,
   &_swigt__p_f_p_f_void__void__void,
-  &_swigt__p_f_p_q_const__char_ArrayOfItems__ArrayOfItems,
-  &_swigt__p_f_p_q_const__char__ArrayOfItems,
   &_swigt__p_f_p_q_const__char__double,
   &_swigt__p_f_p_q_const__char__int,
+  &_swigt__p_f_p_q_const__char__long,
   &_swigt__p_f_p_q_const__char__p_char,
+  &_swigt__p_f_p_q_const__char__tc_items,
   &_swigt__p_f_p_q_const__char__void,
   &_swigt__p_f_p_q_const__char_int_int__void,
-  &_swigt__p_f_p_q_const__char_int_int_struct_ArrayOfStrings__void,
+  &_swigt__p_f_p_q_const__char_int_int_struct_tc_strings__void,
   &_swigt__p_f_p_q_const__char_p_q_const__char__int,
+  &_swigt__p_f_p_q_const__char_p_q_const__char__long,
   &_swigt__p_f_p_q_const__char_p_q_const__char__void,
   &_swigt__p_f_p_q_const__char_p_q_const__char_p_q_const__char__int,
   &_swigt__p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void,
-  &_swigt__p_f_p_q_const__char_p_q_const__char_p_q_const__char_struct_TableOfReals__int,
-  &_swigt__p_f_p_q_const__char_struct_ArrayOfItems__int,
-  &_swigt__p_f_p_q_const__char_struct_ArrayOfStrings_p_q_const__char__int,
-  &_swigt__p_f_struct_ArrayOfItems__void,
-  &_swigt__p_f_struct_ArrayOfItems_p_q_const__char_p_q_const__char__int,
-  &_swigt__p_f_struct_ArrayOfItems_struct_ArrayOfStrings__void,
-  &_swigt__p_f_struct_ArrayOfItems_struct_TableOfReals__void,
-  &_swigt__p_f_struct_ArrayOfStrings_p_double__void,
-  &_swigt__p_f_struct_TableOfReals__void,
-  &_swigt__p_f_struct_TableOfReals_p_q_const__char__void,
-  &_swigt__p_f_struct_TableOfReals_p_q_const__char_p_f_struct_TableOfReals__void__void,
-  &_swigt__p_f_struct_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void,
+  &_swigt__p_f_p_q_const__char_p_q_const__char_p_q_const__char_struct_tc_matrix__int,
+  &_swigt__p_f_p_q_const__char_struct_tc_items__int,
+  &_swigt__p_f_p_q_const__char_struct_tc_strings_p_q_const__char__int,
+  &_swigt__p_f_p_q_const__char_tc_items__tc_items,
+  &_swigt__p_f_struct_tc_items__void,
+  &_swigt__p_f_struct_tc_items_p_q_const__char_p_q_const__char__long,
+  &_swigt__p_f_struct_tc_items_struct_tc_matrix__void,
+  &_swigt__p_f_struct_tc_items_struct_tc_strings__void,
+  &_swigt__p_f_struct_tc_matrix__void,
+  &_swigt__p_f_struct_tc_matrix_p_q_const__char__void,
+  &_swigt__p_f_struct_tc_matrix_p_q_const__char_p_f_struct_tc_matrix__void__void,
+  &_swigt__p_f_struct_tc_matrix_p_q_const__char_p_q_const__char_p_q_const__char__void,
+  &_swigt__p_f_struct_tc_strings_p_double__void,
+  &_swigt__p_f_tc_items__tc_matrix,
+  &_swigt__p_f_tc_items__tc_strings,
+  &_swigt__p_f_tc_items_tc_strings__tc_matrix,
+  &_swigt__p_f_tc_items_tc_strings__tc_strings,
+  &_swigt__p_f_tc_strings__tc_items,
   &_swigt__p_f_void__void,
-  &_swigt__p_int,
+  &_swigt__p_long,
   &_swigt__p_p_char,
+  &_swigt__p_tc_items,
+  &_swigt__p_tc_matrix,
+  &_swigt__p_tc_strings,
+  &_swigt__p_tc_table,
 };
 
-static swig_cast_info _swigc__p_ArrayOfItems[] = {  {&_swigt__p_ArrayOfItems, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_ArrayOfStrings[] = {  {&_swigt__p_ArrayOfStrings, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_TableOfReals[] = {  {&_swigt__p_TableOfReals, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_TableOfStrings[] = {  {&_swigt__p_TableOfStrings, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_char[] = {  {&_swigt__p_char, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_double[] = {  {&_swigt__p_double, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_ArrayOfItems_ArrayOfStrings__ArrayOfStrings[] = {  {&_swigt__p_f_ArrayOfItems_ArrayOfStrings__ArrayOfStrings, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_ArrayOfItems_ArrayOfStrings__TableOfReals[] = {  {&_swigt__p_f_ArrayOfItems_ArrayOfStrings__TableOfReals, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_ArrayOfItems__ArrayOfStrings[] = {  {&_swigt__p_f_ArrayOfItems__ArrayOfStrings, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_ArrayOfItems__TableOfReals[] = {  {&_swigt__p_f_ArrayOfItems__TableOfReals, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_ArrayOfStrings__ArrayOfItems[] = {  {&_swigt__p_f_ArrayOfStrings__ArrayOfItems, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f___ArrayOfItems[] = {  {&_swigt__p_f___ArrayOfItems, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f___ArrayOfStrings[] = {  {&_swigt__p_f___ArrayOfStrings, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f___int[] = {  {&_swigt__p_f___int, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f___p_char[] = {  {&_swigt__p_f___p_char, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f___tc_items[] = {  {&_swigt__p_f___tc_items, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f___tc_strings[] = {  {&_swigt__p_f___tc_strings, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f___void[] = {  {&_swigt__p_f___void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_double__TableOfReals[] = {  {&_swigt__p_f_double__TableOfReals, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_double__tc_matrix[] = {  {&_swigt__p_f_double__tc_matrix, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_double__void[] = {  {&_swigt__p_f_double__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_double_double__TableOfReals[] = {  {&_swigt__p_f_double_double__TableOfReals, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_double_double__tc_matrix[] = {  {&_swigt__p_f_double_double__tc_matrix, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_double_double__void[] = {  {&_swigt__p_f_double_double__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_int__ArrayOfItems[] = {  {&_swigt__p_f_int__ArrayOfItems, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_int__ArrayOfStrings[] = {  {&_swigt__p_f_int__ArrayOfStrings, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_int__TableOfReals[] = {  {&_swigt__p_f_int__TableOfReals, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_int__double[] = {  {&_swigt__p_f_int__double, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_int__int[] = {  {&_swigt__p_f_int__int, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_int__p_char[] = {  {&_swigt__p_f_int__p_char, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int__tc_matrix[] = {  {&_swigt__p_f_int__tc_matrix, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_int__void[] = {  {&_swigt__p_f_int__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_int_double__void[] = {  {&_swigt__p_f_int_double__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_int_double_double__void[] = {  {&_swigt__p_f_int_double_double__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_int_double_double_int__void[] = {  {&_swigt__p_f_int_double_double_int__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_int_double_int__void[] = {  {&_swigt__p_f_int_double_int__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_int_int__void[] = {  {&_swigt__p_f_int_int__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_int_int_int__double[] = {  {&_swigt__p_f_int_int_int__double, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_int_int_int_double_double__void[] = {  {&_swigt__p_f_int_int_int_double_double__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_int_p_q_const__char__ArrayOfItems[] = {  {&_swigt__p_f_int_p_q_const__char__ArrayOfItems, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_int_p_q_const__char__TableOfReals[] = {  {&_swigt__p_f_int_p_q_const__char__TableOfReals, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_int_p_q_const__char__TableOfStrings[] = {  {&_swigt__p_f_int_p_q_const__char__TableOfStrings, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_int_p_q_const__char__double[] = {  {&_swigt__p_f_int_p_q_const__char__double, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_int_p_q_const__char__int[] = {  {&_swigt__p_f_int_p_q_const__char__int, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_int_p_q_const__char__p_char[] = {  {&_swigt__p_f_int_p_q_const__char__p_char, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_int_p_q_const__char__void[] = {  {&_swigt__p_f_int_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_int_p_q_const__char_double__void[] = {  {&_swigt__p_f_int_p_q_const__char_double__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_int_p_q_const__char_int__void[] = {  {&_swigt__p_f_int_p_q_const__char_int__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_int_p_q_const__char_p_q_const__char__void[] = {  {&_swigt__p_f_int_p_q_const__char_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_int_p_q_const__char_struct_TableOfReals__void[] = {  {&_swigt__p_f_int_p_q_const__char_struct_TableOfReals__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_int_p_q_const__char_struct_TableOfStrings__void[] = {  {&_swigt__p_f_int_p_q_const__char_struct_TableOfStrings__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_int_struct_ArrayOfStrings__void[] = {  {&_swigt__p_f_int_struct_ArrayOfStrings__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_int_struct_TableOfReals_p_f_struct_TableOfReals__void__void[] = {  {&_swigt__p_f_int_struct_TableOfReals_p_f_struct_TableOfReals__void__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_long__double[] = {  {&_swigt__p_f_long__double, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_long__long[] = {  {&_swigt__p_f_long__long, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_long__p_char[] = {  {&_swigt__p_f_long__p_char, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_long__tc_items[] = {  {&_swigt__p_f_long__tc_items, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_long__tc_strings[] = {  {&_swigt__p_f_long__tc_strings, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_long__void[] = {  {&_swigt__p_f_long__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_long_double__void[] = {  {&_swigt__p_f_long_double__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_long_double_double__void[] = {  {&_swigt__p_f_long_double_double__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_long_double_double_int__void[] = {  {&_swigt__p_f_long_double_double_int__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_long_double_int__void[] = {  {&_swigt__p_f_long_double_int__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_long_int__void[] = {  {&_swigt__p_f_long_int__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_long_long_int__double[] = {  {&_swigt__p_f_long_long_int__double, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_long_long_int_double_double__void[] = {  {&_swigt__p_f_long_long_int_double_double__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_long_p_q_const__char__double[] = {  {&_swigt__p_f_long_p_q_const__char__double, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_long_p_q_const__char__int[] = {  {&_swigt__p_f_long_p_q_const__char__int, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_long_p_q_const__char__p_char[] = {  {&_swigt__p_f_long_p_q_const__char__p_char, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_long_p_q_const__char__tc_items[] = {  {&_swigt__p_f_long_p_q_const__char__tc_items, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_long_p_q_const__char__tc_matrix[] = {  {&_swigt__p_f_long_p_q_const__char__tc_matrix, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_long_p_q_const__char__tc_table[] = {  {&_swigt__p_f_long_p_q_const__char__tc_table, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_long_p_q_const__char__void[] = {  {&_swigt__p_f_long_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_long_p_q_const__char_double__void[] = {  {&_swigt__p_f_long_p_q_const__char_double__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_long_p_q_const__char_int__void[] = {  {&_swigt__p_f_long_p_q_const__char_int__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_long_p_q_const__char_p_q_const__char__void[] = {  {&_swigt__p_f_long_p_q_const__char_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_long_p_q_const__char_struct_tc_matrix__void[] = {  {&_swigt__p_f_long_p_q_const__char_struct_tc_matrix__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_long_p_q_const__char_struct_tc_table__void[] = {  {&_swigt__p_f_long_p_q_const__char_struct_tc_table__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_long_struct_tc_matrix_p_f_struct_tc_matrix__void__void[] = {  {&_swigt__p_f_long_struct_tc_matrix_p_f_struct_tc_matrix__void__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_long_struct_tc_strings__void[] = {  {&_swigt__p_f_long_struct_tc_strings__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void[] = {  {&_swigt__p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_f_void__void__void[] = {  {&_swigt__p_f_p_f_void__void__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_q_const__char_ArrayOfItems__ArrayOfItems[] = {  {&_swigt__p_f_p_q_const__char_ArrayOfItems__ArrayOfItems, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_q_const__char__ArrayOfItems[] = {  {&_swigt__p_f_p_q_const__char__ArrayOfItems, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char__double[] = {  {&_swigt__p_f_p_q_const__char__double, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char__int[] = {  {&_swigt__p_f_p_q_const__char__int, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_p_q_const__char__long[] = {  {&_swigt__p_f_p_q_const__char__long, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char__p_char[] = {  {&_swigt__p_f_p_q_const__char__p_char, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_p_q_const__char__tc_items[] = {  {&_swigt__p_f_p_q_const__char__tc_items, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char__void[] = {  {&_swigt__p_f_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char_int_int__void[] = {  {&_swigt__p_f_p_q_const__char_int_int__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_q_const__char_int_int_struct_ArrayOfStrings__void[] = {  {&_swigt__p_f_p_q_const__char_int_int_struct_ArrayOfStrings__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_p_q_const__char_int_int_struct_tc_strings__void[] = {  {&_swigt__p_f_p_q_const__char_int_int_struct_tc_strings__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char_p_q_const__char__int[] = {  {&_swigt__p_f_p_q_const__char_p_q_const__char__int, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_p_q_const__char_p_q_const__char__long[] = {  {&_swigt__p_f_p_q_const__char_p_q_const__char__long, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char_p_q_const__char__void[] = {  {&_swigt__p_f_p_q_const__char_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char_p_q_const__char_p_q_const__char__int[] = {  {&_swigt__p_f_p_q_const__char_p_q_const__char_p_q_const__char__int, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void[] = {  {&_swigt__p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_q_const__char_p_q_const__char_p_q_const__char_struct_TableOfReals__int[] = {  {&_swigt__p_f_p_q_const__char_p_q_const__char_p_q_const__char_struct_TableOfReals__int, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_q_const__char_struct_ArrayOfItems__int[] = {  {&_swigt__p_f_p_q_const__char_struct_ArrayOfItems__int, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_q_const__char_struct_ArrayOfStrings_p_q_const__char__int[] = {  {&_swigt__p_f_p_q_const__char_struct_ArrayOfStrings_p_q_const__char__int, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_struct_ArrayOfItems__void[] = {  {&_swigt__p_f_struct_ArrayOfItems__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_struct_ArrayOfItems_p_q_const__char_p_q_const__char__int[] = {  {&_swigt__p_f_struct_ArrayOfItems_p_q_const__char_p_q_const__char__int, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_struct_ArrayOfItems_struct_ArrayOfStrings__void[] = {  {&_swigt__p_f_struct_ArrayOfItems_struct_ArrayOfStrings__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_struct_ArrayOfItems_struct_TableOfReals__void[] = {  {&_swigt__p_f_struct_ArrayOfItems_struct_TableOfReals__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_struct_ArrayOfStrings_p_double__void[] = {  {&_swigt__p_f_struct_ArrayOfStrings_p_double__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_struct_TableOfReals__void[] = {  {&_swigt__p_f_struct_TableOfReals__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_struct_TableOfReals_p_q_const__char__void[] = {  {&_swigt__p_f_struct_TableOfReals_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_struct_TableOfReals_p_q_const__char_p_f_struct_TableOfReals__void__void[] = {  {&_swigt__p_f_struct_TableOfReals_p_q_const__char_p_f_struct_TableOfReals__void__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_struct_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void[] = {  {&_swigt__p_f_struct_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_p_q_const__char_p_q_const__char_p_q_const__char_struct_tc_matrix__int[] = {  {&_swigt__p_f_p_q_const__char_p_q_const__char_p_q_const__char_struct_tc_matrix__int, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_p_q_const__char_struct_tc_items__int[] = {  {&_swigt__p_f_p_q_const__char_struct_tc_items__int, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_p_q_const__char_struct_tc_strings_p_q_const__char__int[] = {  {&_swigt__p_f_p_q_const__char_struct_tc_strings_p_q_const__char__int, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_p_q_const__char_tc_items__tc_items[] = {  {&_swigt__p_f_p_q_const__char_tc_items__tc_items, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_struct_tc_items__void[] = {  {&_swigt__p_f_struct_tc_items__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_struct_tc_items_p_q_const__char_p_q_const__char__long[] = {  {&_swigt__p_f_struct_tc_items_p_q_const__char_p_q_const__char__long, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_struct_tc_items_struct_tc_matrix__void[] = {  {&_swigt__p_f_struct_tc_items_struct_tc_matrix__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_struct_tc_items_struct_tc_strings__void[] = {  {&_swigt__p_f_struct_tc_items_struct_tc_strings__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_struct_tc_matrix__void[] = {  {&_swigt__p_f_struct_tc_matrix__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_struct_tc_matrix_p_q_const__char__void[] = {  {&_swigt__p_f_struct_tc_matrix_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_struct_tc_matrix_p_q_const__char_p_f_struct_tc_matrix__void__void[] = {  {&_swigt__p_f_struct_tc_matrix_p_q_const__char_p_f_struct_tc_matrix__void__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_struct_tc_matrix_p_q_const__char_p_q_const__char_p_q_const__char__void[] = {  {&_swigt__p_f_struct_tc_matrix_p_q_const__char_p_q_const__char_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_struct_tc_strings_p_double__void[] = {  {&_swigt__p_f_struct_tc_strings_p_double__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_tc_items__tc_matrix[] = {  {&_swigt__p_f_tc_items__tc_matrix, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_tc_items__tc_strings[] = {  {&_swigt__p_f_tc_items__tc_strings, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_tc_items_tc_strings__tc_matrix[] = {  {&_swigt__p_f_tc_items_tc_strings__tc_matrix, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_tc_items_tc_strings__tc_strings[] = {  {&_swigt__p_f_tc_items_tc_strings__tc_strings, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_tc_strings__tc_items[] = {  {&_swigt__p_f_tc_strings__tc_items, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_void__void[] = {  {&_swigt__p_f_void__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_int[] = {  {&_swigt__p_int, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_long[] = {  {&_swigt__p_long, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_p_char[] = {  {&_swigt__p_p_char, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_tc_items[] = {  {&_swigt__p_tc_items, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_tc_matrix[] = {  {&_swigt__p_tc_matrix, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_tc_strings[] = {  {&_swigt__p_tc_strings, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_tc_table[] = {  {&_swigt__p_tc_table, 0, 0, 0},{0, 0, 0, 0}};
 
 static swig_cast_info *swig_cast_initial[] = {
-  _swigc__p_ArrayOfItems,
-  _swigc__p_ArrayOfStrings,
-  _swigc__p_TableOfReals,
-  _swigc__p_TableOfStrings,
   _swigc__p_char,
   _swigc__p_double,
-  _swigc__p_f_ArrayOfItems_ArrayOfStrings__ArrayOfStrings,
-  _swigc__p_f_ArrayOfItems_ArrayOfStrings__TableOfReals,
-  _swigc__p_f_ArrayOfItems__ArrayOfStrings,
-  _swigc__p_f_ArrayOfItems__TableOfReals,
-  _swigc__p_f_ArrayOfStrings__ArrayOfItems,
-  _swigc__p_f___ArrayOfItems,
-  _swigc__p_f___ArrayOfStrings,
   _swigc__p_f___int,
   _swigc__p_f___p_char,
+  _swigc__p_f___tc_items,
+  _swigc__p_f___tc_strings,
   _swigc__p_f___void,
-  _swigc__p_f_double__TableOfReals,
+  _swigc__p_f_double__tc_matrix,
   _swigc__p_f_double__void,
-  _swigc__p_f_double_double__TableOfReals,
+  _swigc__p_f_double_double__tc_matrix,
   _swigc__p_f_double_double__void,
-  _swigc__p_f_int__ArrayOfItems,
-  _swigc__p_f_int__ArrayOfStrings,
-  _swigc__p_f_int__TableOfReals,
-  _swigc__p_f_int__double,
-  _swigc__p_f_int__int,
-  _swigc__p_f_int__p_char,
+  _swigc__p_f_int__tc_matrix,
   _swigc__p_f_int__void,
-  _swigc__p_f_int_double__void,
-  _swigc__p_f_int_double_double__void,
-  _swigc__p_f_int_double_double_int__void,
-  _swigc__p_f_int_double_int__void,
   _swigc__p_f_int_int__void,
-  _swigc__p_f_int_int_int__double,
-  _swigc__p_f_int_int_int_double_double__void,
-  _swigc__p_f_int_p_q_const__char__ArrayOfItems,
-  _swigc__p_f_int_p_q_const__char__TableOfReals,
-  _swigc__p_f_int_p_q_const__char__TableOfStrings,
-  _swigc__p_f_int_p_q_const__char__double,
-  _swigc__p_f_int_p_q_const__char__int,
-  _swigc__p_f_int_p_q_const__char__p_char,
-  _swigc__p_f_int_p_q_const__char__void,
-  _swigc__p_f_int_p_q_const__char_double__void,
-  _swigc__p_f_int_p_q_const__char_int__void,
-  _swigc__p_f_int_p_q_const__char_p_q_const__char__void,
-  _swigc__p_f_int_p_q_const__char_struct_TableOfReals__void,
-  _swigc__p_f_int_p_q_const__char_struct_TableOfStrings__void,
-  _swigc__p_f_int_struct_ArrayOfStrings__void,
-  _swigc__p_f_int_struct_TableOfReals_p_f_struct_TableOfReals__void__void,
+  _swigc__p_f_long__double,
+  _swigc__p_f_long__long,
+  _swigc__p_f_long__p_char,
+  _swigc__p_f_long__tc_items,
+  _swigc__p_f_long__tc_strings,
+  _swigc__p_f_long__void,
+  _swigc__p_f_long_double__void,
+  _swigc__p_f_long_double_double__void,
+  _swigc__p_f_long_double_double_int__void,
+  _swigc__p_f_long_double_int__void,
+  _swigc__p_f_long_int__void,
+  _swigc__p_f_long_long_int__double,
+  _swigc__p_f_long_long_int_double_double__void,
+  _swigc__p_f_long_p_q_const__char__double,
+  _swigc__p_f_long_p_q_const__char__int,
+  _swigc__p_f_long_p_q_const__char__p_char,
+  _swigc__p_f_long_p_q_const__char__tc_items,
+  _swigc__p_f_long_p_q_const__char__tc_matrix,
+  _swigc__p_f_long_p_q_const__char__tc_table,
+  _swigc__p_f_long_p_q_const__char__void,
+  _swigc__p_f_long_p_q_const__char_double__void,
+  _swigc__p_f_long_p_q_const__char_int__void,
+  _swigc__p_f_long_p_q_const__char_p_q_const__char__void,
+  _swigc__p_f_long_p_q_const__char_struct_tc_matrix__void,
+  _swigc__p_f_long_p_q_const__char_struct_tc_table__void,
+  _swigc__p_f_long_struct_tc_matrix_p_f_struct_tc_matrix__void__void,
+  _swigc__p_f_long_struct_tc_strings__void,
   _swigc__p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void,
   _swigc__p_f_p_f_void__void__void,
-  _swigc__p_f_p_q_const__char_ArrayOfItems__ArrayOfItems,
-  _swigc__p_f_p_q_const__char__ArrayOfItems,
   _swigc__p_f_p_q_const__char__double,
   _swigc__p_f_p_q_const__char__int,
+  _swigc__p_f_p_q_const__char__long,
   _swigc__p_f_p_q_const__char__p_char,
+  _swigc__p_f_p_q_const__char__tc_items,
   _swigc__p_f_p_q_const__char__void,
   _swigc__p_f_p_q_const__char_int_int__void,
-  _swigc__p_f_p_q_const__char_int_int_struct_ArrayOfStrings__void,
+  _swigc__p_f_p_q_const__char_int_int_struct_tc_strings__void,
   _swigc__p_f_p_q_const__char_p_q_const__char__int,
+  _swigc__p_f_p_q_const__char_p_q_const__char__long,
   _swigc__p_f_p_q_const__char_p_q_const__char__void,
   _swigc__p_f_p_q_const__char_p_q_const__char_p_q_const__char__int,
   _swigc__p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void,
-  _swigc__p_f_p_q_const__char_p_q_const__char_p_q_const__char_struct_TableOfReals__int,
-  _swigc__p_f_p_q_const__char_struct_ArrayOfItems__int,
-  _swigc__p_f_p_q_const__char_struct_ArrayOfStrings_p_q_const__char__int,
-  _swigc__p_f_struct_ArrayOfItems__void,
-  _swigc__p_f_struct_ArrayOfItems_p_q_const__char_p_q_const__char__int,
-  _swigc__p_f_struct_ArrayOfItems_struct_ArrayOfStrings__void,
-  _swigc__p_f_struct_ArrayOfItems_struct_TableOfReals__void,
-  _swigc__p_f_struct_ArrayOfStrings_p_double__void,
-  _swigc__p_f_struct_TableOfReals__void,
-  _swigc__p_f_struct_TableOfReals_p_q_const__char__void,
-  _swigc__p_f_struct_TableOfReals_p_q_const__char_p_f_struct_TableOfReals__void__void,
-  _swigc__p_f_struct_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void,
+  _swigc__p_f_p_q_const__char_p_q_const__char_p_q_const__char_struct_tc_matrix__int,
+  _swigc__p_f_p_q_const__char_struct_tc_items__int,
+  _swigc__p_f_p_q_const__char_struct_tc_strings_p_q_const__char__int,
+  _swigc__p_f_p_q_const__char_tc_items__tc_items,
+  _swigc__p_f_struct_tc_items__void,
+  _swigc__p_f_struct_tc_items_p_q_const__char_p_q_const__char__long,
+  _swigc__p_f_struct_tc_items_struct_tc_matrix__void,
+  _swigc__p_f_struct_tc_items_struct_tc_strings__void,
+  _swigc__p_f_struct_tc_matrix__void,
+  _swigc__p_f_struct_tc_matrix_p_q_const__char__void,
+  _swigc__p_f_struct_tc_matrix_p_q_const__char_p_f_struct_tc_matrix__void__void,
+  _swigc__p_f_struct_tc_matrix_p_q_const__char_p_q_const__char_p_q_const__char__void,
+  _swigc__p_f_struct_tc_strings_p_double__void,
+  _swigc__p_f_tc_items__tc_matrix,
+  _swigc__p_f_tc_items__tc_strings,
+  _swigc__p_f_tc_items_tc_strings__tc_matrix,
+  _swigc__p_f_tc_items_tc_strings__tc_strings,
+  _swigc__p_f_tc_strings__tc_items,
   _swigc__p_f_void__void,
-  _swigc__p_int,
+  _swigc__p_long,
   _swigc__p_p_char,
+  _swigc__p_tc_items,
+  _swigc__p_tc_matrix,
+  _swigc__p_tc_strings,
+  _swigc__p_tc_table,
 };
 
 
@@ -10893,64 +10913,64 @@ static swig_variable_info swig_variables[] = {
 {0,0,0,0}
 };
 static swig_command_info swig_commands[] = {
-{"tinkercellc::ArrayOfStrings_length_set", _wrap_ArrayOfStrings_length_set},
-{"tinkercellc::ArrayOfStrings_length_get", _wrap_ArrayOfStrings_length_get},
-{"tinkercellc::ArrayOfStrings_strings_set", _wrap_ArrayOfStrings_strings_set},
-{"tinkercellc::ArrayOfStrings_strings_get", _wrap_ArrayOfStrings_strings_get},
-{"tinkercellc::new_ArrayOfStrings", _wrap_new_ArrayOfStrings},
-{"tinkercellc::delete_ArrayOfStrings", _wrap_delete_ArrayOfStrings},
-{"tinkercellc::ArrayOfItems_length_set", _wrap_ArrayOfItems_length_set},
-{"tinkercellc::ArrayOfItems_length_get", _wrap_ArrayOfItems_length_get},
-{"tinkercellc::ArrayOfItems_items_set", _wrap_ArrayOfItems_items_set},
-{"tinkercellc::ArrayOfItems_items_get", _wrap_ArrayOfItems_items_get},
-{"tinkercellc::new_ArrayOfItems", _wrap_new_ArrayOfItems},
-{"tinkercellc::delete_ArrayOfItems", _wrap_delete_ArrayOfItems},
-{"tinkercellc::TableOfReals_rows_set", _wrap_TableOfReals_rows_set},
-{"tinkercellc::TableOfReals_rows_get", _wrap_TableOfReals_rows_get},
-{"tinkercellc::TableOfReals_cols_set", _wrap_TableOfReals_cols_set},
-{"tinkercellc::TableOfReals_cols_get", _wrap_TableOfReals_cols_get},
-{"tinkercellc::TableOfReals_values_set", _wrap_TableOfReals_values_set},
-{"tinkercellc::TableOfReals_values_get", _wrap_TableOfReals_values_get},
-{"tinkercellc::TableOfReals_rownames_set", _wrap_TableOfReals_rownames_set},
-{"tinkercellc::TableOfReals_rownames_get", _wrap_TableOfReals_rownames_get},
-{"tinkercellc::TableOfReals_colnames_set", _wrap_TableOfReals_colnames_set},
-{"tinkercellc::TableOfReals_colnames_get", _wrap_TableOfReals_colnames_get},
-{"tinkercellc::new_TableOfReals", _wrap_new_TableOfReals},
-{"tinkercellc::delete_TableOfReals", _wrap_delete_TableOfReals},
-{"tinkercellc::TableOfStrings_rows_set", _wrap_TableOfStrings_rows_set},
-{"tinkercellc::TableOfStrings_rows_get", _wrap_TableOfStrings_rows_get},
-{"tinkercellc::TableOfStrings_cols_set", _wrap_TableOfStrings_cols_set},
-{"tinkercellc::TableOfStrings_cols_get", _wrap_TableOfStrings_cols_get},
-{"tinkercellc::TableOfStrings_strings_set", _wrap_TableOfStrings_strings_set},
-{"tinkercellc::TableOfStrings_strings_get", _wrap_TableOfStrings_strings_get},
-{"tinkercellc::TableOfStrings_rownames_set", _wrap_TableOfStrings_rownames_set},
-{"tinkercellc::TableOfStrings_rownames_get", _wrap_TableOfStrings_rownames_get},
-{"tinkercellc::TableOfStrings_colnames_set", _wrap_TableOfStrings_colnames_set},
-{"tinkercellc::TableOfStrings_colnames_get", _wrap_TableOfStrings_colnames_get},
-{"tinkercellc::new_TableOfStrings", _wrap_new_TableOfStrings},
-{"tinkercellc::delete_TableOfStrings", _wrap_delete_TableOfStrings},
-{"tinkercellc::newMatrix", _wrap_newMatrix},
-{"tinkercellc::newTableOfStrings", _wrap_newTableOfStrings},
-{"tinkercellc::newArrayOfStrings", _wrap_newArrayOfStrings},
-{"tinkercellc::newArrayOfItems", _wrap_newArrayOfItems},
-{"tinkercellc::getValue", _wrap_getValue},
-{"tinkercellc::setValue", _wrap_setValue},
-{"tinkercellc::getRowName", _wrap_getRowName},
-{"tinkercellc::setRowName", _wrap_setRowName},
-{"tinkercellc::getColumnName", _wrap_getColumnName},
-{"tinkercellc::setColumnName", _wrap_setColumnName},
-{"tinkercellc::getString", _wrap_getString},
-{"tinkercellc::setString", _wrap_setString},
-{"tinkercellc::nthString", _wrap_nthString},
-{"tinkercellc::setNthString", _wrap_setNthString},
-{"tinkercellc::nthItem", _wrap_nthItem},
-{"tinkercellc::setNthItem", _wrap_setNthItem},
-{"tinkercellc::deleteMatrix", _wrap_deleteMatrix},
-{"tinkercellc::deleteTableOfStrings", _wrap_deleteTableOfStrings},
-{"tinkercellc::deleteArrayOfItems", _wrap_deleteArrayOfItems},
-{"tinkercellc::deleteArrayOfStrings", _wrap_deleteArrayOfStrings},
-{"tinkercellc::cbind", _wrap_cbind},
-{"tinkercellc::rbind", _wrap_rbind},
+{"tinkercellc::tc_strings_length_set", _wrap_tc_strings_length_set},
+{"tinkercellc::tc_strings_length_get", _wrap_tc_strings_length_get},
+{"tinkercellc::tc_strings_strings_set", _wrap_tc_strings_strings_set},
+{"tinkercellc::tc_strings_strings_get", _wrap_tc_strings_strings_get},
+{"tinkercellc::new_tc_strings", _wrap_new_tc_strings},
+{"tinkercellc::delete_tc_strings", _wrap_delete_tc_strings},
+{"tinkercellc::tc_items_length_set", _wrap_tc_items_length_set},
+{"tinkercellc::tc_items_length_get", _wrap_tc_items_length_get},
+{"tinkercellc::tc_items_items_set", _wrap_tc_items_items_set},
+{"tinkercellc::tc_items_items_get", _wrap_tc_items_items_get},
+{"tinkercellc::new_tc_items", _wrap_new_tc_items},
+{"tinkercellc::delete_tc_items", _wrap_delete_tc_items},
+{"tinkercellc::tc_matrix_rows_set", _wrap_tc_matrix_rows_set},
+{"tinkercellc::tc_matrix_rows_get", _wrap_tc_matrix_rows_get},
+{"tinkercellc::tc_matrix_cols_set", _wrap_tc_matrix_cols_set},
+{"tinkercellc::tc_matrix_cols_get", _wrap_tc_matrix_cols_get},
+{"tinkercellc::tc_matrix_values_set", _wrap_tc_matrix_values_set},
+{"tinkercellc::tc_matrix_values_get", _wrap_tc_matrix_values_get},
+{"tinkercellc::tc_matrix_rownames_set", _wrap_tc_matrix_rownames_set},
+{"tinkercellc::tc_matrix_rownames_get", _wrap_tc_matrix_rownames_get},
+{"tinkercellc::tc_matrix_colnames_set", _wrap_tc_matrix_colnames_set},
+{"tinkercellc::tc_matrix_colnames_get", _wrap_tc_matrix_colnames_get},
+{"tinkercellc::new_tc_matrix", _wrap_new_tc_matrix},
+{"tinkercellc::delete_tc_matrix", _wrap_delete_tc_matrix},
+{"tinkercellc::tc_table_rows_set", _wrap_tc_table_rows_set},
+{"tinkercellc::tc_table_rows_get", _wrap_tc_table_rows_get},
+{"tinkercellc::tc_table_cols_set", _wrap_tc_table_cols_set},
+{"tinkercellc::tc_table_cols_get", _wrap_tc_table_cols_get},
+{"tinkercellc::tc_table_strings_set", _wrap_tc_table_strings_set},
+{"tinkercellc::tc_table_strings_get", _wrap_tc_table_strings_get},
+{"tinkercellc::tc_table_rownames_set", _wrap_tc_table_rownames_set},
+{"tinkercellc::tc_table_rownames_get", _wrap_tc_table_rownames_get},
+{"tinkercellc::tc_table_colnames_set", _wrap_tc_table_colnames_set},
+{"tinkercellc::tc_table_colnames_get", _wrap_tc_table_colnames_get},
+{"tinkercellc::new_tc_table", _wrap_new_tc_table},
+{"tinkercellc::delete_tc_table", _wrap_delete_tc_table},
+{"tinkercellc::tc_createMatrix", _wrap_tc_createMatrix},
+{"tinkercellc::tc_createTable", _wrap_tc_createTable},
+{"tinkercellc::tc_createStringsArray", _wrap_tc_createStringsArray},
+{"tinkercellc::tc_createItemsArray", _wrap_tc_createItemsArray},
+{"tinkercellc::tc_getMatrixValue", _wrap_tc_getMatrixValue},
+{"tinkercellc::tc_setMatrixValue", _wrap_tc_setMatrixValue},
+{"tinkercellc::tc_getRowName", _wrap_tc_getRowName},
+{"tinkercellc::tc_setRowName", _wrap_tc_setRowName},
+{"tinkercellc::tc_getColumnName", _wrap_tc_getColumnName},
+{"tinkercellc::tc_setColumnName", _wrap_tc_setColumnName},
+{"tinkercellc::tc_getTableValue", _wrap_tc_getTableValue},
+{"tinkercellc::tc_setTableValue", _wrap_tc_setTableValue},
+{"tinkercellc::tc_getString", _wrap_tc_getString},
+{"tinkercellc::tc_setString", _wrap_tc_setString},
+{"tinkercellc::tc_getItem", _wrap_tc_getItem},
+{"tinkercellc::tc_setItem", _wrap_tc_setItem},
+{"tinkercellc::tc_deleteMatrix", _wrap_tc_deleteMatrix},
+{"tinkercellc::tc_deleteTable", _wrap_tc_deleteTable},
+{"tinkercellc::tc_deleteItemsArray", _wrap_tc_deleteItemsArray},
+{"tinkercellc::tc_deleteStringsArray", _wrap_tc_deleteStringsArray},
+{"tinkercellc::tc_appendColumns", _wrap_tc_appendColumns},
+{"tinkercellc::tc_appendRows", _wrap_tc_appendRows},
 {"tinkercellc::tc_allItems", _wrap_tc_allItems},
 {"tinkercellc::tc_selectedItems", _wrap_tc_selectedItems},
 {"tinkercellc::tc_itemsOfFamily", _wrap_tc_itemsOfFamily},
@@ -10996,9 +11016,9 @@ static swig_command_info swig_commands[] = {
 {"tinkercellc::tc_getNumericalDataNames", _wrap_tc_getNumericalDataNames},
 {"tinkercellc::tc_getTextDataNames", _wrap_tc_getTextDataNames},
 {"tinkercellc::tc_zoom", _wrap_tc_zoom},
-{"tinkercellc::tc_getString", _wrap_tc_getString},
+{"tinkercellc::tc_tc_getTableValue", _wrap_tc_tc_getTableValue},
 {"tinkercellc::tc_getFilename", _wrap_tc_getFilename},
-{"tinkercellc::tc_getStringFromList", _wrap_tc_getStringFromList},
+{"tinkercellc::tc_tc_getTableValueFromList", _wrap_tc_tc_getTableValueFromList},
 {"tinkercellc::tc_getNumber", _wrap_tc_getNumber},
 {"tinkercellc::tc_getNumbers", _wrap_tc_getNumbers},
 {"tinkercellc::tc_askQuestion", _wrap_tc_askQuestion},
@@ -11407,10 +11427,10 @@ XS(SWIG_init) {
     SvREADONLY_on(sv);
   }
   
-  SWIG_TypeClientData(SWIGTYPE_p_ArrayOfStrings, (void*) "tinkercell::ArrayOfStrings");
-  SWIG_TypeClientData(SWIGTYPE_p_ArrayOfItems, (void*) "tinkercell::ArrayOfItems");
-  SWIG_TypeClientData(SWIGTYPE_p_TableOfReals, (void*) "tinkercell::TableOfReals");
-  SWIG_TypeClientData(SWIGTYPE_p_TableOfStrings, (void*) "tinkercell::TableOfStrings");
+  SWIG_TypeClientData(SWIGTYPE_p_tc_strings, (void*) "tinkercell::tc_strings");
+  SWIG_TypeClientData(SWIGTYPE_p_tc_items, (void*) "tinkercell::tc_items");
+  SWIG_TypeClientData(SWIGTYPE_p_tc_matrix, (void*) "tinkercell::tc_matrix");
+  SWIG_TypeClientData(SWIGTYPE_p_tc_table, (void*) "tinkercell::tc_table");
   ST(0) = &PL_sv_yes;
   XSRETURN(1);
 }

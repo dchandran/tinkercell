@@ -160,40 +160,40 @@ function(fun, userData = NULL)
 #######################################################################
 
 
-setClass('_p_ArrayOfStrings', contains = 'ExternalReference')
-setClass("ArrayOfStrings",
+setClass('_p_tc_strings', contains = 'ExternalReference')
+setClass("tc_strings",
     representation(
         length = "integer",
         strings = "character"),
         contains = "RSWIGStruct")
 
 
-# End class ArrayOfStrings
+# End class tc_strings
 
-setClass('_p_ArrayOfStrings', contains = 'ExternalReference')
-setClass('_p_ArrayOfItems', contains = 'ExternalReference')
-setClass("ArrayOfItems",
+setClass('_p_tc_strings', contains = 'ExternalReference')
+setClass('_p_tc_items', contains = 'ExternalReference')
+setClass("tc_items",
     representation(
         length = "integer"),
         contains = "RSWIGStruct")
 
 
-# End class ArrayOfItems
+# End class tc_items
 
-setClass('_p_ArrayOfItems', contains = 'ExternalReference')
-setClass('_p_TableOfReals', contains = 'ExternalReference')
-setClass("TableOfReals",
+setClass('_p_tc_items', contains = 'ExternalReference')
+setClass('_p_tc_matrix', contains = 'ExternalReference')
+setClass("tc_matrix",
     representation(
         rows = "integer",
         cols = "integer"),
         contains = "RSWIGStruct")
 
 
-# End class TableOfReals
+# End class tc_matrix
 
-setClass('_p_TableOfReals', contains = 'ExternalReference')
-setClass('_p_TableOfStrings', contains = 'ExternalReference')
-setClass("TableOfStrings",
+setClass('_p_tc_matrix', contains = 'ExternalReference')
+setClass('_p_tc_table', contains = 'ExternalReference')
+setClass("tc_table",
     representation(
         rows = "integer",
         cols = "integer",
@@ -201,48 +201,48 @@ setClass("TableOfStrings",
         contains = "RSWIGStruct")
 
 
-# End class TableOfStrings
+# End class tc_table
 
-setClass('_p_TableOfStrings', contains = 'ExternalReference')
-setClass('_p_f_struct_TableOfReals__void',
-        prototype = list(parameterTypes = c('_TableOfReals'),
-                        returnType = '_p_f_struct_TableOfReals__void'),
+setClass('_p_tc_table', contains = 'ExternalReference')
+setClass('_p_f_struct_tc_matrix__void',
+        prototype = list(parameterTypes = c('_tc_matrix'),
+                        returnType = '_p_f_struct_tc_matrix__void'),
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f___ArrayOfItems',
+setClass('_p_f___tc_items',
         prototype = list(parameterTypes = c(),
-                        returnType = '_p_f___ArrayOfItems'),
+                        returnType = '_p_f___tc_items'),
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_p_q_const__char__ArrayOfItems',
+setClass('_p_f_p_q_const__char__tc_items',
         prototype = list(parameterTypes = c('_p_char'),
-                        returnType = '_p_f_p_q_const__char__ArrayOfItems'),
+                        returnType = '_p_f_p_q_const__char__tc_items'),
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_p_q_const__char_ArrayOfItems__ArrayOfItems',
-        prototype = list(parameterTypes = c('_p_char', '_ArrayOfItems'),
-                        returnType = '_p_f_p_q_const__char_ArrayOfItems__ArrayOfItems'),
+setClass('_p_f_p_q_const__char_tc_items__tc_items',
+        prototype = list(parameterTypes = c('_p_char', '_tc_items'),
+                        returnType = '_p_f_p_q_const__char_tc_items__tc_items'),
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_p_q_const__char__int',
+setClass('_p_f_p_q_const__char__long',
         prototype = list(parameterTypes = c('_p_char'),
-                        returnType = '_p_f_p_q_const__char__int'),
+                        returnType = '_p_f_p_q_const__char__long'),
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_ArrayOfStrings__ArrayOfItems',
-        prototype = list(parameterTypes = c('_ArrayOfStrings'),
-                        returnType = '_p_f_ArrayOfStrings__ArrayOfItems'),
+setClass('_p_f_tc_strings__tc_items',
+        prototype = list(parameterTypes = c('_tc_strings'),
+                        returnType = '_p_f_tc_strings__tc_items'),
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_int__void',
-        prototype = list(parameterTypes = c('_int'),
-                        returnType = '_p_f_int__void'),
+setClass('_p_f_long__void',
+        prototype = list(parameterTypes = c('_long'),
+                        returnType = '_p_f_long__void'),
         contains = 'CRoutinePointer')
 
 ##
@@ -252,27 +252,27 @@ setClass('_p_f___void',
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_int__p_char',
-        prototype = list(parameterTypes = c('_int'),
-                        returnType = '_p_f_int__p_char'),
+setClass('_p_f_long__p_char',
+        prototype = list(parameterTypes = c('_long'),
+                        returnType = '_p_f_long__p_char'),
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_int_p_q_const__char__void',
-        prototype = list(parameterTypes = c('_int', '_p_char'),
-                        returnType = '_p_f_int_p_q_const__char__void'),
+setClass('_p_f_long_p_q_const__char__void',
+        prototype = list(parameterTypes = c('_long', '_p_char'),
+                        returnType = '_p_f_long_p_q_const__char__void'),
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_ArrayOfItems__ArrayOfStrings',
-        prototype = list(parameterTypes = c('_ArrayOfItems'),
-                        returnType = '_p_f_ArrayOfItems__ArrayOfStrings'),
+setClass('_p_f_tc_items__tc_strings',
+        prototype = list(parameterTypes = c('_tc_items'),
+                        returnType = '_p_f_tc_items__tc_strings'),
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_int_p_q_const__char__int',
-        prototype = list(parameterTypes = c('_int', '_p_char'),
-                        returnType = '_p_f_int_p_q_const__char__int'),
+setClass('_p_f_long_p_q_const__char__int',
+        prototype = list(parameterTypes = c('_long', '_p_char'),
+                        returnType = '_p_f_long_p_q_const__char__int'),
         contains = 'CRoutinePointer')
 
 ##
@@ -282,27 +282,27 @@ setClass('_p_f_p_q_const__char__void',
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_int__double',
-        prototype = list(parameterTypes = c('_int'),
-                        returnType = '_p_f_int__double'),
+setClass('_p_f_long__double',
+        prototype = list(parameterTypes = c('_long'),
+                        returnType = '_p_f_long__double'),
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_ArrayOfItems__TableOfReals',
-        prototype = list(parameterTypes = c('_ArrayOfItems'),
-                        returnType = '_p_f_ArrayOfItems__TableOfReals'),
+setClass('_p_f_tc_items__tc_matrix',
+        prototype = list(parameterTypes = c('_tc_items'),
+                        returnType = '_p_f_tc_items__tc_matrix'),
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_int_double_double__void',
-        prototype = list(parameterTypes = c('_int', '_double', '_double'),
-                        returnType = '_p_f_int_double_double__void'),
+setClass('_p_f_long_double_double__void',
+        prototype = list(parameterTypes = c('_long', '_double', '_double'),
+                        returnType = '_p_f_long_double_double__void'),
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_struct_ArrayOfItems_struct_TableOfReals__void',
-        prototype = list(parameterTypes = c('_ArrayOfItems', '_TableOfReals'),
-                        returnType = '_p_f_struct_ArrayOfItems_struct_TableOfReals__void'),
+setClass('_p_f_struct_tc_items_struct_tc_matrix__void',
+        prototype = list(parameterTypes = c('_tc_items', '_tc_matrix'),
+                        returnType = '_p_f_struct_tc_items_struct_tc_matrix__void'),
         contains = 'CRoutinePointer')
 
 ##
@@ -324,27 +324,27 @@ setClass('_p_f___p_char',
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_struct_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void',
-        prototype = list(parameterTypes = c('_TableOfReals', '_p_char', '_p_char', '_p_char'),
-                        returnType = '_p_f_struct_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void'),
+setClass('_p_f_struct_tc_matrix_p_q_const__char_p_q_const__char_p_q_const__char__void',
+        prototype = list(parameterTypes = c('_tc_matrix', '_p_char', '_p_char', '_p_char'),
+                        returnType = '_p_f_struct_tc_matrix_p_q_const__char_p_q_const__char_p_q_const__char__void'),
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_struct_TableOfReals_p_q_const__char_p_f_struct_TableOfReals__void__void',
-        prototype = list(parameterTypes = c('_TableOfReals', '_p_char', '_p_f_struct_TableOfReals__void'),
-                        returnType = '_p_f_struct_TableOfReals_p_q_const__char_p_f_struct_TableOfReals__void__void'),
+setClass('_p_f_struct_tc_matrix_p_q_const__char_p_f_struct_tc_matrix__void__void',
+        prototype = list(parameterTypes = c('_tc_matrix', '_p_char', '_p_f_struct_tc_matrix__void'),
+                        returnType = '_p_f_struct_tc_matrix_p_q_const__char_p_f_struct_tc_matrix__void__void'),
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_int_struct_TableOfReals_p_f_struct_TableOfReals__void__void',
-        prototype = list(parameterTypes = c('_int', '_TableOfReals', '_p_f_struct_TableOfReals__void'),
-                        returnType = '_p_f_int_struct_TableOfReals_p_f_struct_TableOfReals__void__void'),
+setClass('_p_f_long_struct_tc_matrix_p_f_struct_tc_matrix__void__void',
+        prototype = list(parameterTypes = c('_long', '_tc_matrix', '_p_f_struct_tc_matrix__void'),
+                        returnType = '_p_f_long_struct_tc_matrix_p_f_struct_tc_matrix__void__void'),
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_p_q_const__char_int_int_struct_ArrayOfStrings__void',
-        prototype = list(parameterTypes = c('_p_char', '_int', '_int', '_ArrayOfStrings'),
-                        returnType = '_p_f_p_q_const__char_int_int_struct_ArrayOfStrings__void'),
+setClass('_p_f_p_q_const__char_int_int_struct_tc_strings__void',
+        prototype = list(parameterTypes = c('_p_char', '_int', '_int', '_tc_strings'),
+                        returnType = '_p_f_p_q_const__char_int_int_struct_tc_strings__void'),
         contains = 'CRoutinePointer')
 
 ##
@@ -354,45 +354,45 @@ setClass('_p_f_p_q_const__char_int_int__void',
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_int__ArrayOfItems',
-        prototype = list(parameterTypes = c('_int'),
-                        returnType = '_p_f_int__ArrayOfItems'),
+setClass('_p_f_long__tc_items',
+        prototype = list(parameterTypes = c('_long'),
+                        returnType = '_p_f_long__tc_items'),
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_int__int',
-        prototype = list(parameterTypes = c('_int'),
-                        returnType = '_p_f_int__int'),
+setClass('_p_f_long__long',
+        prototype = list(parameterTypes = c('_long'),
+                        returnType = '_p_f_long__long'),
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_int_p_q_const__char__TableOfReals',
-        prototype = list(parameterTypes = c('_int', '_p_char'),
-                        returnType = '_p_f_int_p_q_const__char__TableOfReals'),
+setClass('_p_f_long_p_q_const__char__tc_matrix',
+        prototype = list(parameterTypes = c('_long', '_p_char'),
+                        returnType = '_p_f_long_p_q_const__char__tc_matrix'),
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_int_p_q_const__char_struct_TableOfReals__void',
-        prototype = list(parameterTypes = c('_int', '_p_char', '_TableOfReals'),
-                        returnType = '_p_f_int_p_q_const__char_struct_TableOfReals__void'),
+setClass('_p_f_long_p_q_const__char_struct_tc_matrix__void',
+        prototype = list(parameterTypes = c('_long', '_p_char', '_tc_matrix'),
+                        returnType = '_p_f_long_p_q_const__char_struct_tc_matrix__void'),
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_int_p_q_const__char__TableOfStrings',
-        prototype = list(parameterTypes = c('_int', '_p_char'),
-                        returnType = '_p_f_int_p_q_const__char__TableOfStrings'),
+setClass('_p_f_long_p_q_const__char__tc_table',
+        prototype = list(parameterTypes = c('_long', '_p_char'),
+                        returnType = '_p_f_long_p_q_const__char__tc_table'),
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_int_p_q_const__char_struct_TableOfStrings__void',
-        prototype = list(parameterTypes = c('_int', '_p_char', '_TableOfStrings'),
-                        returnType = '_p_f_int_p_q_const__char_struct_TableOfStrings__void'),
+setClass('_p_f_long_p_q_const__char_struct_tc_table__void',
+        prototype = list(parameterTypes = c('_long', '_p_char', '_tc_table'),
+                        returnType = '_p_f_long_p_q_const__char_struct_tc_table__void'),
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_int__ArrayOfStrings',
-        prototype = list(parameterTypes = c('_int'),
-                        returnType = '_p_f_int__ArrayOfStrings'),
+setClass('_p_f_long__tc_strings',
+        prototype = list(parameterTypes = c('_long'),
+                        returnType = '_p_f_long__tc_strings'),
         contains = 'CRoutinePointer')
 
 ##
@@ -408,9 +408,9 @@ setClass('_p_f_p_q_const__char__p_char',
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_p_q_const__char_struct_ArrayOfStrings_p_q_const__char__int',
-        prototype = list(parameterTypes = c('_p_char', '_ArrayOfStrings', '_p_char'),
-                        returnType = '_p_f_p_q_const__char_struct_ArrayOfStrings_p_q_const__char__int'),
+setClass('_p_f_p_q_const__char_struct_tc_strings_p_q_const__char__int',
+        prototype = list(parameterTypes = c('_p_char', '_tc_strings', '_p_char'),
+                        returnType = '_p_f_p_q_const__char_struct_tc_strings_p_q_const__char__int'),
         contains = 'CRoutinePointer')
 
 ##
@@ -420,111 +420,123 @@ setClass('_p_f_p_q_const__char__double',
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_struct_ArrayOfStrings_p_double__void',
-        prototype = list(parameterTypes = c('_ArrayOfStrings', '_p_double'),
-                        returnType = '_p_f_struct_ArrayOfStrings_p_double__void'),
+setClass('_p_f_struct_tc_strings_p_double__void',
+        prototype = list(parameterTypes = c('_tc_strings', '_p_double'),
+                        returnType = '_p_f_struct_tc_strings_p_double__void'),
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_int_double_double_int__void',
-        prototype = list(parameterTypes = c('_int', '_double', '_double', '_int'),
-                        returnType = '_p_f_int_double_double_int__void'),
+setClass('_p_f_p_q_const__char__int',
+        prototype = list(parameterTypes = c('_p_char'),
+                        returnType = '_p_f_p_q_const__char__int'),
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_int_double_int__void',
-        prototype = list(parameterTypes = c('_int', '_double', '_int'),
-                        returnType = '_p_f_int_double_int__void'),
+setClass('_p_f_long_double_double_int__void',
+        prototype = list(parameterTypes = c('_long', '_double', '_double', '_int'),
+                        returnType = '_p_f_long_double_double_int__void'),
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_int_p_q_const__char_int__void',
-        prototype = list(parameterTypes = c('_int', '_p_char', '_int'),
-                        returnType = '_p_f_int_p_q_const__char_int__void'),
+setClass('_p_f_long_double_int__void',
+        prototype = list(parameterTypes = c('_long', '_double', '_int'),
+                        returnType = '_p_f_long_double_int__void'),
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_int_int__void',
-        prototype = list(parameterTypes = c('_int', '_int'),
-                        returnType = '_p_f_int_int__void'),
+setClass('_p_f_long_p_q_const__char_int__void',
+        prototype = list(parameterTypes = c('_long', '_p_char', '_int'),
+                        returnType = '_p_f_long_p_q_const__char_int__void'),
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_int_p_q_const__char__p_char',
-        prototype = list(parameterTypes = c('_int', '_p_char'),
-                        returnType = '_p_f_int_p_q_const__char__p_char'),
+setClass('_p_f_long_int__void',
+        prototype = list(parameterTypes = c('_long', '_int'),
+                        returnType = '_p_f_long_int__void'),
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_ArrayOfItems_ArrayOfStrings__ArrayOfStrings',
-        prototype = list(parameterTypes = c('_ArrayOfItems', '_ArrayOfStrings'),
-                        returnType = '_p_f_ArrayOfItems_ArrayOfStrings__ArrayOfStrings'),
+setClass('_p_f_long_p_q_const__char__p_char',
+        prototype = list(parameterTypes = c('_long', '_p_char'),
+                        returnType = '_p_f_long_p_q_const__char__p_char'),
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_int_p_q_const__char_p_q_const__char__void',
-        prototype = list(parameterTypes = c('_int', '_p_char', '_p_char'),
-                        returnType = '_p_f_int_p_q_const__char_p_q_const__char__void'),
+setClass('_p_f_tc_items_tc_strings__tc_strings',
+        prototype = list(parameterTypes = c('_tc_items', '_tc_strings'),
+                        returnType = '_p_f_tc_items_tc_strings__tc_strings'),
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_int_p_q_const__char__double',
-        prototype = list(parameterTypes = c('_int', '_p_char'),
-                        returnType = '_p_f_int_p_q_const__char__double'),
+setClass('_p_f_long_p_q_const__char_p_q_const__char__void',
+        prototype = list(parameterTypes = c('_long', '_p_char', '_p_char'),
+                        returnType = '_p_f_long_p_q_const__char_p_q_const__char__void'),
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_ArrayOfItems_ArrayOfStrings__TableOfReals',
-        prototype = list(parameterTypes = c('_ArrayOfItems', '_ArrayOfStrings'),
-                        returnType = '_p_f_ArrayOfItems_ArrayOfStrings__TableOfReals'),
+setClass('_p_f_long_p_q_const__char__double',
+        prototype = list(parameterTypes = c('_long', '_p_char'),
+                        returnType = '_p_f_long_p_q_const__char__double'),
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_int_p_q_const__char_double__void',
-        prototype = list(parameterTypes = c('_int', '_p_char', '_double'),
-                        returnType = '_p_f_int_p_q_const__char_double__void'),
+setClass('_p_f_tc_items_tc_strings__tc_matrix',
+        prototype = list(parameterTypes = c('_tc_items', '_tc_strings'),
+                        returnType = '_p_f_tc_items_tc_strings__tc_matrix'),
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_struct_ArrayOfItems_p_q_const__char_p_q_const__char__int',
-        prototype = list(parameterTypes = c('_ArrayOfItems', '_p_char', '_p_char'),
-                        returnType = '_p_f_struct_ArrayOfItems_p_q_const__char_p_q_const__char__int'),
+setClass('_p_f_long_p_q_const__char_double__void',
+        prototype = list(parameterTypes = c('_long', '_p_char', '_double'),
+                        returnType = '_p_f_long_p_q_const__char_double__void'),
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_int_p_q_const__char__ArrayOfItems',
-        prototype = list(parameterTypes = c('_int', '_p_char'),
-                        returnType = '_p_f_int_p_q_const__char__ArrayOfItems'),
+setClass('_p_f_struct_tc_items_p_q_const__char_p_q_const__char__long',
+        prototype = list(parameterTypes = c('_tc_items', '_p_char', '_p_char'),
+                        returnType = '_p_f_struct_tc_items_p_q_const__char_p_q_const__char__long'),
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_int_int_int__double',
-        prototype = list(parameterTypes = c('_int', '_int', '_int'),
-                        returnType = '_p_f_int_int_int__double'),
+setClass('_p_f_long_p_q_const__char__tc_items',
+        prototype = list(parameterTypes = c('_long', '_p_char'),
+                        returnType = '_p_f_long_p_q_const__char__tc_items'),
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_int_int_int_double_double__void',
-        prototype = list(parameterTypes = c('_int', '_int', '_int', '_double', '_double'),
-                        returnType = '_p_f_int_int_int_double_double__void'),
+setClass('_p_f_long_long_int__double',
+        prototype = list(parameterTypes = c('_long', '_long', '_int'),
+                        returnType = '_p_f_long_long_int__double'),
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_struct_ArrayOfItems__void',
-        prototype = list(parameterTypes = c('_ArrayOfItems'),
-                        returnType = '_p_f_struct_ArrayOfItems__void'),
+setClass('_p_f_long_long_int_double_double__void',
+        prototype = list(parameterTypes = c('_long', '_long', '_int', '_double', '_double'),
+                        returnType = '_p_f_long_long_int_double_double__void'),
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_p_q_const__char_p_q_const__char__int',
+setClass('_p_f_int__void',
+        prototype = list(parameterTypes = c('_int'),
+                        returnType = '_p_f_int__void'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_struct_tc_items__void',
+        prototype = list(parameterTypes = c('_tc_items'),
+                        returnType = '_p_f_struct_tc_items__void'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_p_q_const__char_p_q_const__char__long',
         prototype = list(parameterTypes = c('_p_char', '_p_char'),
-                        returnType = '_p_f_p_q_const__char_p_q_const__char__int'),
+                        returnType = '_p_f_p_q_const__char_p_q_const__char__long'),
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_struct_ArrayOfItems_struct_ArrayOfStrings__void',
-        prototype = list(parameterTypes = c('_ArrayOfItems', '_ArrayOfStrings'),
-                        returnType = '_p_f_struct_ArrayOfItems_struct_ArrayOfStrings__void'),
+setClass('_p_f_struct_tc_items_struct_tc_strings__void',
+        prototype = list(parameterTypes = c('_tc_items', '_tc_strings'),
+                        returnType = '_p_f_struct_tc_items_struct_tc_strings__void'),
         contains = 'CRoutinePointer')
 
 ##
@@ -534,15 +546,21 @@ setClass('_p_f_void__void',
         contains = 'CRoutinePointer')
 
 ##
+setClass('_p_f_p_q_const__char_p_q_const__char__int',
+        prototype = list(parameterTypes = c('_p_char', '_p_char'),
+                        returnType = '_p_f_p_q_const__char_p_q_const__char__int'),
+        contains = 'CRoutinePointer')
+
+##
 setClass('_p_f_p_q_const__char_p_q_const__char_p_q_const__char__int',
         prototype = list(parameterTypes = c('_p_char', '_p_char', '_p_char'),
                         returnType = '_p_f_p_q_const__char_p_q_const__char_p_q_const__char__int'),
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_p_q_const__char_p_q_const__char_p_q_const__char_struct_TableOfReals__int',
-        prototype = list(parameterTypes = c('_p_char', '_p_char', '_p_char', '_TableOfReals'),
-                        returnType = '_p_f_p_q_const__char_p_q_const__char_p_q_const__char_struct_TableOfReals__int'),
+setClass('_p_f_p_q_const__char_p_q_const__char_p_q_const__char_struct_tc_matrix__int',
+        prototype = list(parameterTypes = c('_p_char', '_p_char', '_p_char', '_tc_matrix'),
+                        returnType = '_p_f_p_q_const__char_p_q_const__char_p_q_const__char_struct_tc_matrix__int'),
         contains = 'CRoutinePointer')
 
 ##
@@ -564,27 +582,33 @@ setClass('_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_struct_TableOfReals_p_q_const__char__void',
-        prototype = list(parameterTypes = c('_TableOfReals', '_p_char'),
-                        returnType = '_p_f_struct_TableOfReals_p_q_const__char__void'),
+setClass('_p_f_struct_tc_matrix_p_q_const__char__void',
+        prototype = list(parameterTypes = c('_tc_matrix', '_p_char'),
+                        returnType = '_p_f_struct_tc_matrix_p_q_const__char__void'),
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_int__TableOfReals',
+setClass('_p_f_int_int__void',
+        prototype = list(parameterTypes = c('_int', '_int'),
+                        returnType = '_p_f_int_int__void'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_int__tc_matrix',
         prototype = list(parameterTypes = c('_int'),
-                        returnType = '_p_f_int__TableOfReals'),
+                        returnType = '_p_f_int__tc_matrix'),
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_p_q_const__char_struct_ArrayOfItems__int',
-        prototype = list(parameterTypes = c('_p_char', '_ArrayOfItems'),
-                        returnType = '_p_f_p_q_const__char_struct_ArrayOfItems__int'),
+setClass('_p_f_p_q_const__char_struct_tc_items__int',
+        prototype = list(parameterTypes = c('_p_char', '_tc_items'),
+                        returnType = '_p_f_p_q_const__char_struct_tc_items__int'),
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f___ArrayOfStrings',
+setClass('_p_f___tc_strings',
         prototype = list(parameterTypes = c(),
-                        returnType = '_p_f___ArrayOfStrings'),
+                        returnType = '_p_f___tc_strings'),
         contains = 'CRoutinePointer')
 
 ##
@@ -594,27 +618,27 @@ setClass('_p_f_p_q_const__char_p_q_const__char__void',
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_int_double__void',
-        prototype = list(parameterTypes = c('_int', '_double'),
-                        returnType = '_p_f_int_double__void'),
+setClass('_p_f_long_double__void',
+        prototype = list(parameterTypes = c('_long', '_double'),
+                        returnType = '_p_f_long_double__void'),
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_int_struct_ArrayOfStrings__void',
-        prototype = list(parameterTypes = c('_int', '_ArrayOfStrings'),
-                        returnType = '_p_f_int_struct_ArrayOfStrings__void'),
+setClass('_p_f_long_struct_tc_strings__void',
+        prototype = list(parameterTypes = c('_long', '_tc_strings'),
+                        returnType = '_p_f_long_struct_tc_strings__void'),
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_double_double__TableOfReals',
+setClass('_p_f_double_double__tc_matrix',
         prototype = list(parameterTypes = c('_double', '_double'),
-                        returnType = '_p_f_double_double__TableOfReals'),
+                        returnType = '_p_f_double_double__tc_matrix'),
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_double__TableOfReals',
+setClass('_p_f_double__tc_matrix',
         prototype = list(parameterTypes = c('_double'),
-                        returnType = '_p_f_double__TableOfReals'),
+                        returnType = '_p_f_double__tc_matrix'),
         contains = 'CRoutinePointer')
 
 ##
@@ -640,9 +664,9 @@ function(from) {if (!is.null(from$"__str__")) from$"__str__"()})
 setMethod('print', 'ExternalReference',
 function(x) {print(as(x, "character"))})
 
-# Start of ArrayOfStrings_length_set
+# Start of tc_strings_length_set
 
-`ArrayOfStrings_length_set` = function(self, s_length)
+`tc_strings_length_set` = function(self, s_length)
 {
   s_length = as.integer(s_length) 
   
@@ -650,84 +674,84 @@ function(x) {print(as(x, "character"))})
     warning("using only the first element of s_length")
   }
   
-  .Call('R_swig_ArrayOfStrings_length_set', self, s_length, PACKAGE='tinkercell')
+  .Call('R_swig_tc_strings_length_set', self, s_length, PACKAGE='tinkercell')
   
 }
 
-attr(`ArrayOfStrings_length_set`, 'returnType') = 'void'
-attr(`ArrayOfStrings_length_set`, "inputTypes") = c('_p_ArrayOfStrings', 'integer')
-class(`ArrayOfStrings_length_set`) = c("SWIGFunction", class('ArrayOfStrings_length_set'))
+attr(`tc_strings_length_set`, 'returnType') = 'void'
+attr(`tc_strings_length_set`, "inputTypes") = c('_p_tc_strings', 'integer')
+class(`tc_strings_length_set`) = c("SWIGFunction", class('tc_strings_length_set'))
 
-# Start of ArrayOfStrings_length_get
+# Start of tc_strings_length_get
 
-`ArrayOfStrings_length_get` = function(self, .copy = FALSE)
+`tc_strings_length_get` = function(self, .copy = FALSE)
 {
-  .Call('R_swig_ArrayOfStrings_length_get', self, as.logical(.copy), PACKAGE='tinkercell')
+  .Call('R_swig_tc_strings_length_get', self, as.logical(.copy), PACKAGE='tinkercell')
   
 }
 
-attr(`ArrayOfStrings_length_get`, 'returnType') = 'integer'
-attr(`ArrayOfStrings_length_get`, "inputTypes") = c('_p_ArrayOfStrings')
-class(`ArrayOfStrings_length_get`) = c("SWIGFunction", class('ArrayOfStrings_length_get'))
+attr(`tc_strings_length_get`, 'returnType') = 'integer'
+attr(`tc_strings_length_get`, "inputTypes") = c('_p_tc_strings')
+class(`tc_strings_length_get`) = c("SWIGFunction", class('tc_strings_length_get'))
 
-# Start of ArrayOfStrings_strings_set
+# Start of tc_strings_strings_set
 
-`ArrayOfStrings_strings_set` = function(self, s_strings)
+`tc_strings_strings_set` = function(self, s_strings)
 {
-  .Call('R_swig_ArrayOfStrings_strings_set', self, s_strings, PACKAGE='tinkercell')
+  .Call('R_swig_tc_strings_strings_set', self, s_strings, PACKAGE='tinkercell')
   
 }
 
-attr(`ArrayOfStrings_strings_set`, 'returnType') = 'void'
-attr(`ArrayOfStrings_strings_set`, "inputTypes") = c('_p_ArrayOfStrings', 'character')
-class(`ArrayOfStrings_strings_set`) = c("SWIGFunction", class('ArrayOfStrings_strings_set'))
+attr(`tc_strings_strings_set`, 'returnType') = 'void'
+attr(`tc_strings_strings_set`, "inputTypes") = c('_p_tc_strings', 'character')
+class(`tc_strings_strings_set`) = c("SWIGFunction", class('tc_strings_strings_set'))
 
-# Start of ArrayOfStrings_strings_get
+# Start of tc_strings_strings_get
 
-`ArrayOfStrings_strings_get` = function(self)
+`tc_strings_strings_get` = function(self)
 {
-  ans = .Call('R_swig_ArrayOfStrings_strings_get', self, PACKAGE='tinkercell')
+  ans = .Call('R_swig_tc_strings_strings_get', self, PACKAGE='tinkercell')
   class(ans) <- "_p_p_char"
   
   ans
   
 }
 
-attr(`ArrayOfStrings_strings_get`, 'returnType') = 'character'
-attr(`ArrayOfStrings_strings_get`, "inputTypes") = c('_p_ArrayOfStrings')
-class(`ArrayOfStrings_strings_get`) = c("SWIGFunction", class('ArrayOfStrings_strings_get'))
+attr(`tc_strings_strings_get`, 'returnType') = 'character'
+attr(`tc_strings_strings_get`, "inputTypes") = c('_p_tc_strings')
+class(`tc_strings_strings_get`) = c("SWIGFunction", class('tc_strings_strings_get'))
 
-# Start of new_ArrayOfStrings
+# Start of new_tc_strings
 
-`ArrayOfStrings` = function()
+`tc_strings` = function()
 {
-  ans = .Call('R_swig_new_ArrayOfStrings', PACKAGE='tinkercell')
-  class(ans) <- "_p_ArrayOfStrings"
+  ans = .Call('R_swig_new_tc_strings', PACKAGE='tinkercell')
+  class(ans) <- "_p_tc_strings"
   
   ans
   
 }
 
-attr(`ArrayOfStrings`, 'returnType') = '_p_ArrayOfStrings'
-class(`ArrayOfStrings`) = c("SWIGFunction", class('ArrayOfStrings'))
+attr(`tc_strings`, 'returnType') = '_p_tc_strings'
+class(`tc_strings`) = c("SWIGFunction", class('tc_strings'))
 
-# Start of delete_ArrayOfStrings
+# Start of delete_tc_strings
 
-`delete_ArrayOfStrings` = function(self)
+`delete_tc_strings` = function(self)
 {
-  .Call('R_swig_delete_ArrayOfStrings', self, PACKAGE='tinkercell')
+  .Call('R_swig_delete_tc_strings', self, PACKAGE='tinkercell')
   
 }
 
-attr(`delete_ArrayOfStrings`, 'returnType') = 'void'
-attr(`delete_ArrayOfStrings`, "inputTypes") = c('_p_ArrayOfStrings')
-class(`delete_ArrayOfStrings`) = c("SWIGFunction", class('delete_ArrayOfStrings'))
+attr(`delete_tc_strings`, 'returnType') = 'void'
+attr(`delete_tc_strings`, "inputTypes") = c('_p_tc_strings')
+class(`delete_tc_strings`) = c("SWIGFunction", class('delete_tc_strings'))
 
-# Start of accessor method for ArrayOfStrings
-setMethod('$', '_p_ArrayOfStrings', function(x, name)
+# Start of accessor method for tc_strings
+setMethod('$', '_p_tc_strings', function(x, name)
 
 {
-  accessorFuns = list('length' = ArrayOfStrings_length_get, 'strings' = ArrayOfStrings_strings_get)
+  accessorFuns = list('length' = tc_strings_length_get, 'strings' = tc_strings_strings_get)
   vaccessors = c('length', 'strings')
   idx = pmatch(name, names(accessorFuns))
   if(is.na(idx)) 
@@ -739,12 +763,12 @@ setMethod('$', '_p_ArrayOfStrings', function(x, name)
 
 
 )
-# end of accessor method for ArrayOfStrings
-# Start of accessor method for ArrayOfStrings
-setMethod('$<-', '_p_ArrayOfStrings', function(x, name, value)
+# end of accessor method for tc_strings
+# Start of accessor method for tc_strings
+setMethod('$<-', '_p_tc_strings', function(x, name, value)
 
 {
-  accessorFuns = list('length' = ArrayOfStrings_length_set, 'strings' = ArrayOfStrings_strings_set)
+  accessorFuns = list('length' = tc_strings_length_set, 'strings' = tc_strings_strings_set)
   idx = pmatch(name, names(accessorFuns))
   if(is.na(idx)) 
   return(callNextMethod(x, name, value))
@@ -755,11 +779,11 @@ setMethod('$<-', '_p_ArrayOfStrings', function(x, name, value)
 
 
 )
-setMethod('[[<-', c('_p_ArrayOfStrings', 'character'),function(x, i, j, ..., value)
+setMethod('[[<-', c('_p_tc_strings', 'character'),function(x, i, j, ..., value)
 
 {
   name = i
-  accessorFuns = list('length' = ArrayOfStrings_length_set, 'strings' = ArrayOfStrings_strings_set)
+  accessorFuns = list('length' = tc_strings_length_set, 'strings' = tc_strings_strings_set)
   idx = pmatch(name, names(accessorFuns))
   if(is.na(idx)) 
   return(callNextMethod(x, name, value))
@@ -770,10 +794,10 @@ setMethod('[[<-', c('_p_ArrayOfStrings', 'character'),function(x, i, j, ..., val
 
 
 )
-# end of accessor method for ArrayOfStrings
-setMethod('delete', '_p_ArrayOfStrings', function(obj) {delete_ArrayOfStrings(obj)})
-# Start definition of copy functions & methods for ArrayOfStrings
-CopyToR_ArrayOfStrings = function(value, obj = new("ArrayOfStrings"))
+# end of accessor method for tc_strings
+setMethod('delete', '_p_tc_strings', function(obj) {delete_tc_strings(obj)})
+# Start definition of copy functions & methods for tc_strings
+CopyToR_tc_strings = function(value, obj = new("tc_strings"))
 {
   obj@length = value$length
   obj@strings = value$strings
@@ -782,7 +806,7 @@ CopyToR_ArrayOfStrings = function(value, obj = new("ArrayOfStrings"))
 
 
 
-CopyToC_ArrayOfStrings = function(value, obj)
+CopyToC_tc_strings = function(value, obj)
 {
   obj$length = value@length
   obj$strings = value@strings
@@ -791,15 +815,15 @@ CopyToC_ArrayOfStrings = function(value, obj)
 
 
 
-# Start definition of copy methods for ArrayOfStrings
-setMethod('copyToR', '_p_ArrayOfStrings', CopyToR_ArrayOfStrings)
-setMethod('copyToC', 'ArrayOfStrings', CopyToC_ArrayOfStrings)
+# Start definition of copy methods for tc_strings
+setMethod('copyToR', '_p_tc_strings', CopyToR_tc_strings)
+setMethod('copyToC', 'tc_strings', CopyToC_tc_strings)
 
-# End definition of copy methods for ArrayOfStrings
-# End definition of copy functions & methods for ArrayOfStrings
-# Start of ArrayOfItems_length_set
+# End definition of copy methods for tc_strings
+# End definition of copy functions & methods for tc_strings
+# Start of tc_items_length_set
 
-`ArrayOfItems_length_set` = function(self, s_length)
+`tc_items_length_set` = function(self, s_length)
 {
   s_length = as.integer(s_length) 
   
@@ -807,85 +831,85 @@ setMethod('copyToC', 'ArrayOfStrings', CopyToC_ArrayOfStrings)
     warning("using only the first element of s_length")
   }
   
-  .Call('R_swig_ArrayOfItems_length_set', self, s_length, PACKAGE='tinkercell')
+  .Call('R_swig_tc_items_length_set', self, s_length, PACKAGE='tinkercell')
   
 }
 
-attr(`ArrayOfItems_length_set`, 'returnType') = 'void'
-attr(`ArrayOfItems_length_set`, "inputTypes") = c('_p_ArrayOfItems', 'integer')
-class(`ArrayOfItems_length_set`) = c("SWIGFunction", class('ArrayOfItems_length_set'))
+attr(`tc_items_length_set`, 'returnType') = 'void'
+attr(`tc_items_length_set`, "inputTypes") = c('_p_tc_items', 'integer')
+class(`tc_items_length_set`) = c("SWIGFunction", class('tc_items_length_set'))
 
-# Start of ArrayOfItems_length_get
+# Start of tc_items_length_get
 
-`ArrayOfItems_length_get` = function(self, .copy = FALSE)
+`tc_items_length_get` = function(self, .copy = FALSE)
 {
-  .Call('R_swig_ArrayOfItems_length_get', self, as.logical(.copy), PACKAGE='tinkercell')
+  .Call('R_swig_tc_items_length_get', self, as.logical(.copy), PACKAGE='tinkercell')
   
 }
 
-attr(`ArrayOfItems_length_get`, 'returnType') = 'integer'
-attr(`ArrayOfItems_length_get`, "inputTypes") = c('_p_ArrayOfItems')
-class(`ArrayOfItems_length_get`) = c("SWIGFunction", class('ArrayOfItems_length_get'))
+attr(`tc_items_length_get`, 'returnType') = 'integer'
+attr(`tc_items_length_get`, "inputTypes") = c('_p_tc_items')
+class(`tc_items_length_get`) = c("SWIGFunction", class('tc_items_length_get'))
 
-# Start of ArrayOfItems_items_set
+# Start of tc_items_items_set
 
-`ArrayOfItems_items_set` = function(self, s_items)
+`tc_items_items_set` = function(self, s_items)
 {
   s_items = as.integer(s_items) 
-  .Call('R_swig_ArrayOfItems_items_set', self, s_items, PACKAGE='tinkercell')
+  .Call('R_swig_tc_items_items_set', self, s_items, PACKAGE='tinkercell')
   
 }
 
-attr(`ArrayOfItems_items_set`, 'returnType') = 'void'
-attr(`ArrayOfItems_items_set`, "inputTypes") = c('_p_ArrayOfItems', 'integer')
-class(`ArrayOfItems_items_set`) = c("SWIGFunction", class('ArrayOfItems_items_set'))
+attr(`tc_items_items_set`, 'returnType') = 'void'
+attr(`tc_items_items_set`, "inputTypes") = c('_p_tc_items', 'integer')
+class(`tc_items_items_set`) = c("SWIGFunction", class('tc_items_items_set'))
 
-# Start of ArrayOfItems_items_get
+# Start of tc_items_items_get
 
-`ArrayOfItems_items_get` = function(self)
+`tc_items_items_get` = function(self)
 {
-  ans = .Call('R_swig_ArrayOfItems_items_get', self, PACKAGE='tinkercell')
-  class(ans) <- "_p_int"
+  ans = .Call('R_swig_tc_items_items_get', self, PACKAGE='tinkercell')
+  class(ans) <- "_p_long"
   
   ans
   
 }
 
-attr(`ArrayOfItems_items_get`, 'returnType') = 'integer'
-attr(`ArrayOfItems_items_get`, "inputTypes") = c('_p_ArrayOfItems')
-class(`ArrayOfItems_items_get`) = c("SWIGFunction", class('ArrayOfItems_items_get'))
+attr(`tc_items_items_get`, 'returnType') = 'integer'
+attr(`tc_items_items_get`, "inputTypes") = c('_p_tc_items')
+class(`tc_items_items_get`) = c("SWIGFunction", class('tc_items_items_get'))
 
-# Start of new_ArrayOfItems
+# Start of new_tc_items
 
-`ArrayOfItems` = function()
+`tc_items` = function()
 {
-  ans = .Call('R_swig_new_ArrayOfItems', PACKAGE='tinkercell')
-  class(ans) <- "_p_ArrayOfItems"
+  ans = .Call('R_swig_new_tc_items', PACKAGE='tinkercell')
+  class(ans) <- "_p_tc_items"
   
   ans
   
 }
 
-attr(`ArrayOfItems`, 'returnType') = '_p_ArrayOfItems'
-class(`ArrayOfItems`) = c("SWIGFunction", class('ArrayOfItems'))
+attr(`tc_items`, 'returnType') = '_p_tc_items'
+class(`tc_items`) = c("SWIGFunction", class('tc_items'))
 
-# Start of delete_ArrayOfItems
+# Start of delete_tc_items
 
-`delete_ArrayOfItems` = function(self)
+`delete_tc_items` = function(self)
 {
-  .Call('R_swig_delete_ArrayOfItems', self, PACKAGE='tinkercell')
+  .Call('R_swig_delete_tc_items', self, PACKAGE='tinkercell')
   
 }
 
-attr(`delete_ArrayOfItems`, 'returnType') = 'void'
-attr(`delete_ArrayOfItems`, "inputTypes") = c('_p_ArrayOfItems')
-class(`delete_ArrayOfItems`) = c("SWIGFunction", class('delete_ArrayOfItems'))
+attr(`delete_tc_items`, 'returnType') = 'void'
+attr(`delete_tc_items`, "inputTypes") = c('_p_tc_items')
+class(`delete_tc_items`) = c("SWIGFunction", class('delete_tc_items'))
 
-# Start of accessor method for ArrayOfItems
-setMethod('$', '_p_ArrayOfItems', function(x, name)
+# Start of accessor method for tc_items
+setMethod('$', '_p_tc_items', function(x, name)
 
 {
-  accessorFuns = list('length' = ArrayOfItems_length_get, 'items' = ArrayOfItems_items_get)
+  accessorFuns = list('length' = tc_items_length_get, 'items' = tc_items_items_get)
   vaccessors = c('length', 'items')
   idx = pmatch(name, names(accessorFuns))
   if(is.na(idx)) 
@@ -897,12 +921,12 @@ setMethod('$', '_p_ArrayOfItems', function(x, name)
 
 
 )
-# end of accessor method for ArrayOfItems
-# Start of accessor method for ArrayOfItems
-setMethod('$<-', '_p_ArrayOfItems', function(x, name, value)
+# end of accessor method for tc_items
+# Start of accessor method for tc_items
+setMethod('$<-', '_p_tc_items', function(x, name, value)
 
 {
-  accessorFuns = list('length' = ArrayOfItems_length_set, 'items' = ArrayOfItems_items_set)
+  accessorFuns = list('length' = tc_items_length_set, 'items' = tc_items_items_set)
   idx = pmatch(name, names(accessorFuns))
   if(is.na(idx)) 
   return(callNextMethod(x, name, value))
@@ -913,11 +937,11 @@ setMethod('$<-', '_p_ArrayOfItems', function(x, name, value)
 
 
 )
-setMethod('[[<-', c('_p_ArrayOfItems', 'character'),function(x, i, j, ..., value)
+setMethod('[[<-', c('_p_tc_items', 'character'),function(x, i, j, ..., value)
 
 {
   name = i
-  accessorFuns = list('length' = ArrayOfItems_length_set, 'items' = ArrayOfItems_items_set)
+  accessorFuns = list('length' = tc_items_length_set, 'items' = tc_items_items_set)
   idx = pmatch(name, names(accessorFuns))
   if(is.na(idx)) 
   return(callNextMethod(x, name, value))
@@ -928,10 +952,10 @@ setMethod('[[<-', c('_p_ArrayOfItems', 'character'),function(x, i, j, ..., value
 
 
 )
-# end of accessor method for ArrayOfItems
-setMethod('delete', '_p_ArrayOfItems', function(obj) {delete_ArrayOfItems(obj)})
-# Start definition of copy functions & methods for ArrayOfItems
-CopyToR_ArrayOfItems = function(value, obj = new("ArrayOfItems"))
+# end of accessor method for tc_items
+setMethod('delete', '_p_tc_items', function(obj) {delete_tc_items(obj)})
+# Start definition of copy functions & methods for tc_items
+CopyToR_tc_items = function(value, obj = new("tc_items"))
 {
   obj@length = value$length
   obj
@@ -939,7 +963,7 @@ CopyToR_ArrayOfItems = function(value, obj = new("ArrayOfItems"))
 
 
 
-CopyToC_ArrayOfItems = function(value, obj)
+CopyToC_tc_items = function(value, obj)
 {
   obj$length = value@length
   obj
@@ -947,15 +971,15 @@ CopyToC_ArrayOfItems = function(value, obj)
 
 
 
-# Start definition of copy methods for ArrayOfItems
-setMethod('copyToR', '_p_ArrayOfItems', CopyToR_ArrayOfItems)
-setMethod('copyToC', 'ArrayOfItems', CopyToC_ArrayOfItems)
+# Start definition of copy methods for tc_items
+setMethod('copyToR', '_p_tc_items', CopyToR_tc_items)
+setMethod('copyToC', 'tc_items', CopyToC_tc_items)
 
-# End definition of copy methods for ArrayOfItems
-# End definition of copy functions & methods for ArrayOfItems
-# Start of TableOfReals_rows_set
+# End definition of copy methods for tc_items
+# End definition of copy functions & methods for tc_items
+# Start of tc_matrix_rows_set
 
-`TableOfReals_rows_set` = function(self, s_rows)
+`tc_matrix_rows_set` = function(self, s_rows)
 {
   s_rows = as.integer(s_rows) 
   
@@ -963,29 +987,29 @@ setMethod('copyToC', 'ArrayOfItems', CopyToC_ArrayOfItems)
     warning("using only the first element of s_rows")
   }
   
-  .Call('R_swig_TableOfReals_rows_set', self, s_rows, PACKAGE='tinkercell')
+  .Call('R_swig_tc_matrix_rows_set', self, s_rows, PACKAGE='tinkercell')
   
 }
 
-attr(`TableOfReals_rows_set`, 'returnType') = 'void'
-attr(`TableOfReals_rows_set`, "inputTypes") = c('_p_TableOfReals', 'integer')
-class(`TableOfReals_rows_set`) = c("SWIGFunction", class('TableOfReals_rows_set'))
+attr(`tc_matrix_rows_set`, 'returnType') = 'void'
+attr(`tc_matrix_rows_set`, "inputTypes") = c('_p_tc_matrix', 'integer')
+class(`tc_matrix_rows_set`) = c("SWIGFunction", class('tc_matrix_rows_set'))
 
-# Start of TableOfReals_rows_get
+# Start of tc_matrix_rows_get
 
-`TableOfReals_rows_get` = function(self, .copy = FALSE)
+`tc_matrix_rows_get` = function(self, .copy = FALSE)
 {
-  .Call('R_swig_TableOfReals_rows_get', self, as.logical(.copy), PACKAGE='tinkercell')
+  .Call('R_swig_tc_matrix_rows_get', self, as.logical(.copy), PACKAGE='tinkercell')
   
 }
 
-attr(`TableOfReals_rows_get`, 'returnType') = 'integer'
-attr(`TableOfReals_rows_get`, "inputTypes") = c('_p_TableOfReals')
-class(`TableOfReals_rows_get`) = c("SWIGFunction", class('TableOfReals_rows_get'))
+attr(`tc_matrix_rows_get`, 'returnType') = 'integer'
+attr(`tc_matrix_rows_get`, "inputTypes") = c('_p_tc_matrix')
+class(`tc_matrix_rows_get`) = c("SWIGFunction", class('tc_matrix_rows_get'))
 
-# Start of TableOfReals_cols_set
+# Start of tc_matrix_cols_set
 
-`TableOfReals_cols_set` = function(self, s_cols)
+`tc_matrix_cols_set` = function(self, s_cols)
 {
   s_cols = as.integer(s_cols) 
   
@@ -993,138 +1017,138 @@ class(`TableOfReals_rows_get`) = c("SWIGFunction", class('TableOfReals_rows_get'
     warning("using only the first element of s_cols")
   }
   
-  .Call('R_swig_TableOfReals_cols_set', self, s_cols, PACKAGE='tinkercell')
+  .Call('R_swig_tc_matrix_cols_set', self, s_cols, PACKAGE='tinkercell')
   
 }
 
-attr(`TableOfReals_cols_set`, 'returnType') = 'void'
-attr(`TableOfReals_cols_set`, "inputTypes") = c('_p_TableOfReals', 'integer')
-class(`TableOfReals_cols_set`) = c("SWIGFunction", class('TableOfReals_cols_set'))
+attr(`tc_matrix_cols_set`, 'returnType') = 'void'
+attr(`tc_matrix_cols_set`, "inputTypes") = c('_p_tc_matrix', 'integer')
+class(`tc_matrix_cols_set`) = c("SWIGFunction", class('tc_matrix_cols_set'))
 
-# Start of TableOfReals_cols_get
+# Start of tc_matrix_cols_get
 
-`TableOfReals_cols_get` = function(self, .copy = FALSE)
+`tc_matrix_cols_get` = function(self, .copy = FALSE)
 {
-  .Call('R_swig_TableOfReals_cols_get', self, as.logical(.copy), PACKAGE='tinkercell')
+  .Call('R_swig_tc_matrix_cols_get', self, as.logical(.copy), PACKAGE='tinkercell')
   
 }
 
-attr(`TableOfReals_cols_get`, 'returnType') = 'integer'
-attr(`TableOfReals_cols_get`, "inputTypes") = c('_p_TableOfReals')
-class(`TableOfReals_cols_get`) = c("SWIGFunction", class('TableOfReals_cols_get'))
+attr(`tc_matrix_cols_get`, 'returnType') = 'integer'
+attr(`tc_matrix_cols_get`, "inputTypes") = c('_p_tc_matrix')
+class(`tc_matrix_cols_get`) = c("SWIGFunction", class('tc_matrix_cols_get'))
 
-# Start of TableOfReals_values_set
+# Start of tc_matrix_values_set
 
-`TableOfReals_values_set` = function(self, s_values)
+`tc_matrix_values_set` = function(self, s_values)
 {
-  .Call('R_swig_TableOfReals_values_set', self, s_values, PACKAGE='tinkercell')
+  .Call('R_swig_tc_matrix_values_set', self, s_values, PACKAGE='tinkercell')
   
 }
 
-attr(`TableOfReals_values_set`, 'returnType') = 'void'
-attr(`TableOfReals_values_set`, "inputTypes") = c('_p_TableOfReals', 'numeric')
-class(`TableOfReals_values_set`) = c("SWIGFunction", class('TableOfReals_values_set'))
+attr(`tc_matrix_values_set`, 'returnType') = 'void'
+attr(`tc_matrix_values_set`, "inputTypes") = c('_p_tc_matrix', 'numeric')
+class(`tc_matrix_values_set`) = c("SWIGFunction", class('tc_matrix_values_set'))
 
-# Start of TableOfReals_values_get
+# Start of tc_matrix_values_get
 
-`TableOfReals_values_get` = function(self)
+`tc_matrix_values_get` = function(self)
 {
-  ans = .Call('R_swig_TableOfReals_values_get', self, PACKAGE='tinkercell')
+  ans = .Call('R_swig_tc_matrix_values_get', self, PACKAGE='tinkercell')
   class(ans) <- "_p_double"
   
   ans
   
 }
 
-attr(`TableOfReals_values_get`, 'returnType') = 'numeric'
-attr(`TableOfReals_values_get`, "inputTypes") = c('_p_TableOfReals')
-class(`TableOfReals_values_get`) = c("SWIGFunction", class('TableOfReals_values_get'))
+attr(`tc_matrix_values_get`, 'returnType') = 'numeric'
+attr(`tc_matrix_values_get`, "inputTypes") = c('_p_tc_matrix')
+class(`tc_matrix_values_get`) = c("SWIGFunction", class('tc_matrix_values_get'))
 
-# Start of TableOfReals_rownames_set
+# Start of tc_matrix_rownames_set
 
-`TableOfReals_rownames_set` = function(self, s_rownames)
+`tc_matrix_rownames_set` = function(self, s_rownames)
 {
-  .Call('R_swig_TableOfReals_rownames_set', self, s_rownames, PACKAGE='tinkercell')
+  .Call('R_swig_tc_matrix_rownames_set', self, s_rownames, PACKAGE='tinkercell')
   
 }
 
-attr(`TableOfReals_rownames_set`, 'returnType') = 'void'
-attr(`TableOfReals_rownames_set`, "inputTypes") = c('_p_TableOfReals', '_p_ArrayOfStrings')
-class(`TableOfReals_rownames_set`) = c("SWIGFunction", class('TableOfReals_rownames_set'))
+attr(`tc_matrix_rownames_set`, 'returnType') = 'void'
+attr(`tc_matrix_rownames_set`, "inputTypes") = c('_p_tc_matrix', '_p_tc_strings')
+class(`tc_matrix_rownames_set`) = c("SWIGFunction", class('tc_matrix_rownames_set'))
 
-# Start of TableOfReals_rownames_get
+# Start of tc_matrix_rownames_get
 
-`TableOfReals_rownames_get` = function(self)
+`tc_matrix_rownames_get` = function(self)
 {
-  ans = .Call('R_swig_TableOfReals_rownames_get', self, PACKAGE='tinkercell')
-  class(ans) <- "_p_ArrayOfStrings"
+  ans = .Call('R_swig_tc_matrix_rownames_get', self, PACKAGE='tinkercell')
+  class(ans) <- "_p_tc_strings"
   
   ans
   
 }
 
-attr(`TableOfReals_rownames_get`, 'returnType') = '_p_ArrayOfStrings'
-attr(`TableOfReals_rownames_get`, "inputTypes") = c('_p_TableOfReals')
-class(`TableOfReals_rownames_get`) = c("SWIGFunction", class('TableOfReals_rownames_get'))
+attr(`tc_matrix_rownames_get`, 'returnType') = '_p_tc_strings'
+attr(`tc_matrix_rownames_get`, "inputTypes") = c('_p_tc_matrix')
+class(`tc_matrix_rownames_get`) = c("SWIGFunction", class('tc_matrix_rownames_get'))
 
-# Start of TableOfReals_colnames_set
+# Start of tc_matrix_colnames_set
 
-`TableOfReals_colnames_set` = function(self, s_colnames)
+`tc_matrix_colnames_set` = function(self, s_colnames)
 {
-  .Call('R_swig_TableOfReals_colnames_set', self, s_colnames, PACKAGE='tinkercell')
+  .Call('R_swig_tc_matrix_colnames_set', self, s_colnames, PACKAGE='tinkercell')
   
 }
 
-attr(`TableOfReals_colnames_set`, 'returnType') = 'void'
-attr(`TableOfReals_colnames_set`, "inputTypes") = c('_p_TableOfReals', '_p_ArrayOfStrings')
-class(`TableOfReals_colnames_set`) = c("SWIGFunction", class('TableOfReals_colnames_set'))
+attr(`tc_matrix_colnames_set`, 'returnType') = 'void'
+attr(`tc_matrix_colnames_set`, "inputTypes") = c('_p_tc_matrix', '_p_tc_strings')
+class(`tc_matrix_colnames_set`) = c("SWIGFunction", class('tc_matrix_colnames_set'))
 
-# Start of TableOfReals_colnames_get
+# Start of tc_matrix_colnames_get
 
-`TableOfReals_colnames_get` = function(self)
+`tc_matrix_colnames_get` = function(self)
 {
-  ans = .Call('R_swig_TableOfReals_colnames_get', self, PACKAGE='tinkercell')
-  class(ans) <- "_p_ArrayOfStrings"
+  ans = .Call('R_swig_tc_matrix_colnames_get', self, PACKAGE='tinkercell')
+  class(ans) <- "_p_tc_strings"
   
   ans
   
 }
 
-attr(`TableOfReals_colnames_get`, 'returnType') = '_p_ArrayOfStrings'
-attr(`TableOfReals_colnames_get`, "inputTypes") = c('_p_TableOfReals')
-class(`TableOfReals_colnames_get`) = c("SWIGFunction", class('TableOfReals_colnames_get'))
+attr(`tc_matrix_colnames_get`, 'returnType') = '_p_tc_strings'
+attr(`tc_matrix_colnames_get`, "inputTypes") = c('_p_tc_matrix')
+class(`tc_matrix_colnames_get`) = c("SWIGFunction", class('tc_matrix_colnames_get'))
 
-# Start of new_TableOfReals
+# Start of new_tc_matrix
 
-`TableOfReals` = function()
+`tc_matrix` = function()
 {
-  ans = .Call('R_swig_new_TableOfReals', PACKAGE='tinkercell')
-  class(ans) <- "_p_TableOfReals"
+  ans = .Call('R_swig_new_tc_matrix', PACKAGE='tinkercell')
+  class(ans) <- "_p_tc_matrix"
   
   ans
   
 }
 
-attr(`TableOfReals`, 'returnType') = '_p_TableOfReals'
-class(`TableOfReals`) = c("SWIGFunction", class('TableOfReals'))
+attr(`tc_matrix`, 'returnType') = '_p_tc_matrix'
+class(`tc_matrix`) = c("SWIGFunction", class('tc_matrix'))
 
-# Start of delete_TableOfReals
+# Start of delete_tc_matrix
 
-`delete_TableOfReals` = function(self)
+`delete_tc_matrix` = function(self)
 {
-  .Call('R_swig_delete_TableOfReals', self, PACKAGE='tinkercell')
+  .Call('R_swig_delete_tc_matrix', self, PACKAGE='tinkercell')
   
 }
 
-attr(`delete_TableOfReals`, 'returnType') = 'void'
-attr(`delete_TableOfReals`, "inputTypes") = c('_p_TableOfReals')
-class(`delete_TableOfReals`) = c("SWIGFunction", class('delete_TableOfReals'))
+attr(`delete_tc_matrix`, 'returnType') = 'void'
+attr(`delete_tc_matrix`, "inputTypes") = c('_p_tc_matrix')
+class(`delete_tc_matrix`) = c("SWIGFunction", class('delete_tc_matrix'))
 
-# Start of accessor method for TableOfReals
-setMethod('$', '_p_TableOfReals', function(x, name)
+# Start of accessor method for tc_matrix
+setMethod('$', '_p_tc_matrix', function(x, name)
 
 {
-  accessorFuns = list('rows' = TableOfReals_rows_get, 'cols' = TableOfReals_cols_get, 'values' = TableOfReals_values_get, 'rownames' = TableOfReals_rownames_get, 'colnames' = TableOfReals_colnames_get)
+  accessorFuns = list('rows' = tc_matrix_rows_get, 'cols' = tc_matrix_cols_get, 'values' = tc_matrix_values_get, 'rownames' = tc_matrix_rownames_get, 'colnames' = tc_matrix_colnames_get)
   vaccessors = c('rows', 'cols', 'values', 'rownames', 'colnames')
   idx = pmatch(name, names(accessorFuns))
   if(is.na(idx)) 
@@ -1136,12 +1160,12 @@ setMethod('$', '_p_TableOfReals', function(x, name)
 
 
 )
-# end of accessor method for TableOfReals
-# Start of accessor method for TableOfReals
-setMethod('$<-', '_p_TableOfReals', function(x, name, value)
+# end of accessor method for tc_matrix
+# Start of accessor method for tc_matrix
+setMethod('$<-', '_p_tc_matrix', function(x, name, value)
 
 {
-  accessorFuns = list('rows' = TableOfReals_rows_set, 'cols' = TableOfReals_cols_set, 'values' = TableOfReals_values_set, 'rownames' = TableOfReals_rownames_set, 'colnames' = TableOfReals_colnames_set)
+  accessorFuns = list('rows' = tc_matrix_rows_set, 'cols' = tc_matrix_cols_set, 'values' = tc_matrix_values_set, 'rownames' = tc_matrix_rownames_set, 'colnames' = tc_matrix_colnames_set)
   idx = pmatch(name, names(accessorFuns))
   if(is.na(idx)) 
   return(callNextMethod(x, name, value))
@@ -1152,11 +1176,11 @@ setMethod('$<-', '_p_TableOfReals', function(x, name, value)
 
 
 )
-setMethod('[[<-', c('_p_TableOfReals', 'character'),function(x, i, j, ..., value)
+setMethod('[[<-', c('_p_tc_matrix', 'character'),function(x, i, j, ..., value)
 
 {
   name = i
-  accessorFuns = list('rows' = TableOfReals_rows_set, 'cols' = TableOfReals_cols_set, 'values' = TableOfReals_values_set, 'rownames' = TableOfReals_rownames_set, 'colnames' = TableOfReals_colnames_set)
+  accessorFuns = list('rows' = tc_matrix_rows_set, 'cols' = tc_matrix_cols_set, 'values' = tc_matrix_values_set, 'rownames' = tc_matrix_rownames_set, 'colnames' = tc_matrix_colnames_set)
   idx = pmatch(name, names(accessorFuns))
   if(is.na(idx)) 
   return(callNextMethod(x, name, value))
@@ -1167,10 +1191,10 @@ setMethod('[[<-', c('_p_TableOfReals', 'character'),function(x, i, j, ..., value
 
 
 )
-# end of accessor method for TableOfReals
-setMethod('delete', '_p_TableOfReals', function(obj) {delete_TableOfReals(obj)})
-# Start definition of copy functions & methods for TableOfReals
-CopyToR_TableOfReals = function(value, obj = new("TableOfReals"))
+# end of accessor method for tc_matrix
+setMethod('delete', '_p_tc_matrix', function(obj) {delete_tc_matrix(obj)})
+# Start definition of copy functions & methods for tc_matrix
+CopyToR_tc_matrix = function(value, obj = new("tc_matrix"))
 {
   obj@rows = value$rows
   obj@cols = value$cols
@@ -1179,7 +1203,7 @@ CopyToR_TableOfReals = function(value, obj = new("TableOfReals"))
 
 
 
-CopyToC_TableOfReals = function(value, obj)
+CopyToC_tc_matrix = function(value, obj)
 {
   obj$rows = value@rows
   obj$cols = value@cols
@@ -1188,15 +1212,15 @@ CopyToC_TableOfReals = function(value, obj)
 
 
 
-# Start definition of copy methods for TableOfReals
-setMethod('copyToR', '_p_TableOfReals', CopyToR_TableOfReals)
-setMethod('copyToC', 'TableOfReals', CopyToC_TableOfReals)
+# Start definition of copy methods for tc_matrix
+setMethod('copyToR', '_p_tc_matrix', CopyToR_tc_matrix)
+setMethod('copyToC', 'tc_matrix', CopyToC_tc_matrix)
 
-# End definition of copy methods for TableOfReals
-# End definition of copy functions & methods for TableOfReals
-# Start of TableOfStrings_rows_set
+# End definition of copy methods for tc_matrix
+# End definition of copy functions & methods for tc_matrix
+# Start of tc_table_rows_set
 
-`TableOfStrings_rows_set` = function(self, s_rows)
+`tc_table_rows_set` = function(self, s_rows)
 {
   s_rows = as.integer(s_rows) 
   
@@ -1204,29 +1228,29 @@ setMethod('copyToC', 'TableOfReals', CopyToC_TableOfReals)
     warning("using only the first element of s_rows")
   }
   
-  .Call('R_swig_TableOfStrings_rows_set', self, s_rows, PACKAGE='tinkercell')
+  .Call('R_swig_tc_table_rows_set', self, s_rows, PACKAGE='tinkercell')
   
 }
 
-attr(`TableOfStrings_rows_set`, 'returnType') = 'void'
-attr(`TableOfStrings_rows_set`, "inputTypes") = c('_p_TableOfStrings', 'integer')
-class(`TableOfStrings_rows_set`) = c("SWIGFunction", class('TableOfStrings_rows_set'))
+attr(`tc_table_rows_set`, 'returnType') = 'void'
+attr(`tc_table_rows_set`, "inputTypes") = c('_p_tc_table', 'integer')
+class(`tc_table_rows_set`) = c("SWIGFunction", class('tc_table_rows_set'))
 
-# Start of TableOfStrings_rows_get
+# Start of tc_table_rows_get
 
-`TableOfStrings_rows_get` = function(self, .copy = FALSE)
+`tc_table_rows_get` = function(self, .copy = FALSE)
 {
-  .Call('R_swig_TableOfStrings_rows_get', self, as.logical(.copy), PACKAGE='tinkercell')
+  .Call('R_swig_tc_table_rows_get', self, as.logical(.copy), PACKAGE='tinkercell')
   
 }
 
-attr(`TableOfStrings_rows_get`, 'returnType') = 'integer'
-attr(`TableOfStrings_rows_get`, "inputTypes") = c('_p_TableOfStrings')
-class(`TableOfStrings_rows_get`) = c("SWIGFunction", class('TableOfStrings_rows_get'))
+attr(`tc_table_rows_get`, 'returnType') = 'integer'
+attr(`tc_table_rows_get`, "inputTypes") = c('_p_tc_table')
+class(`tc_table_rows_get`) = c("SWIGFunction", class('tc_table_rows_get'))
 
-# Start of TableOfStrings_cols_set
+# Start of tc_table_cols_set
 
-`TableOfStrings_cols_set` = function(self, s_cols)
+`tc_table_cols_set` = function(self, s_cols)
 {
   s_cols = as.integer(s_cols) 
   
@@ -1234,138 +1258,138 @@ class(`TableOfStrings_rows_get`) = c("SWIGFunction", class('TableOfStrings_rows_
     warning("using only the first element of s_cols")
   }
   
-  .Call('R_swig_TableOfStrings_cols_set', self, s_cols, PACKAGE='tinkercell')
+  .Call('R_swig_tc_table_cols_set', self, s_cols, PACKAGE='tinkercell')
   
 }
 
-attr(`TableOfStrings_cols_set`, 'returnType') = 'void'
-attr(`TableOfStrings_cols_set`, "inputTypes") = c('_p_TableOfStrings', 'integer')
-class(`TableOfStrings_cols_set`) = c("SWIGFunction", class('TableOfStrings_cols_set'))
+attr(`tc_table_cols_set`, 'returnType') = 'void'
+attr(`tc_table_cols_set`, "inputTypes") = c('_p_tc_table', 'integer')
+class(`tc_table_cols_set`) = c("SWIGFunction", class('tc_table_cols_set'))
 
-# Start of TableOfStrings_cols_get
+# Start of tc_table_cols_get
 
-`TableOfStrings_cols_get` = function(self, .copy = FALSE)
+`tc_table_cols_get` = function(self, .copy = FALSE)
 {
-  .Call('R_swig_TableOfStrings_cols_get', self, as.logical(.copy), PACKAGE='tinkercell')
+  .Call('R_swig_tc_table_cols_get', self, as.logical(.copy), PACKAGE='tinkercell')
   
 }
 
-attr(`TableOfStrings_cols_get`, 'returnType') = 'integer'
-attr(`TableOfStrings_cols_get`, "inputTypes") = c('_p_TableOfStrings')
-class(`TableOfStrings_cols_get`) = c("SWIGFunction", class('TableOfStrings_cols_get'))
+attr(`tc_table_cols_get`, 'returnType') = 'integer'
+attr(`tc_table_cols_get`, "inputTypes") = c('_p_tc_table')
+class(`tc_table_cols_get`) = c("SWIGFunction", class('tc_table_cols_get'))
 
-# Start of TableOfStrings_strings_set
+# Start of tc_table_strings_set
 
-`TableOfStrings_strings_set` = function(self, s_strings)
+`tc_table_strings_set` = function(self, s_strings)
 {
-  .Call('R_swig_TableOfStrings_strings_set', self, s_strings, PACKAGE='tinkercell')
+  .Call('R_swig_tc_table_strings_set', self, s_strings, PACKAGE='tinkercell')
   
 }
 
-attr(`TableOfStrings_strings_set`, 'returnType') = 'void'
-attr(`TableOfStrings_strings_set`, "inputTypes") = c('_p_TableOfStrings', 'character')
-class(`TableOfStrings_strings_set`) = c("SWIGFunction", class('TableOfStrings_strings_set'))
+attr(`tc_table_strings_set`, 'returnType') = 'void'
+attr(`tc_table_strings_set`, "inputTypes") = c('_p_tc_table', 'character')
+class(`tc_table_strings_set`) = c("SWIGFunction", class('tc_table_strings_set'))
 
-# Start of TableOfStrings_strings_get
+# Start of tc_table_strings_get
 
-`TableOfStrings_strings_get` = function(self)
+`tc_table_strings_get` = function(self)
 {
-  ans = .Call('R_swig_TableOfStrings_strings_get', self, PACKAGE='tinkercell')
+  ans = .Call('R_swig_tc_table_strings_get', self, PACKAGE='tinkercell')
   class(ans) <- "_p_p_char"
   
   ans
   
 }
 
-attr(`TableOfStrings_strings_get`, 'returnType') = 'character'
-attr(`TableOfStrings_strings_get`, "inputTypes") = c('_p_TableOfStrings')
-class(`TableOfStrings_strings_get`) = c("SWIGFunction", class('TableOfStrings_strings_get'))
+attr(`tc_table_strings_get`, 'returnType') = 'character'
+attr(`tc_table_strings_get`, "inputTypes") = c('_p_tc_table')
+class(`tc_table_strings_get`) = c("SWIGFunction", class('tc_table_strings_get'))
 
-# Start of TableOfStrings_rownames_set
+# Start of tc_table_rownames_set
 
-`TableOfStrings_rownames_set` = function(self, s_rownames)
+`tc_table_rownames_set` = function(self, s_rownames)
 {
-  .Call('R_swig_TableOfStrings_rownames_set', self, s_rownames, PACKAGE='tinkercell')
+  .Call('R_swig_tc_table_rownames_set', self, s_rownames, PACKAGE='tinkercell')
   
 }
 
-attr(`TableOfStrings_rownames_set`, 'returnType') = 'void'
-attr(`TableOfStrings_rownames_set`, "inputTypes") = c('_p_TableOfStrings', '_p_ArrayOfStrings')
-class(`TableOfStrings_rownames_set`) = c("SWIGFunction", class('TableOfStrings_rownames_set'))
+attr(`tc_table_rownames_set`, 'returnType') = 'void'
+attr(`tc_table_rownames_set`, "inputTypes") = c('_p_tc_table', '_p_tc_strings')
+class(`tc_table_rownames_set`) = c("SWIGFunction", class('tc_table_rownames_set'))
 
-# Start of TableOfStrings_rownames_get
+# Start of tc_table_rownames_get
 
-`TableOfStrings_rownames_get` = function(self)
+`tc_table_rownames_get` = function(self)
 {
-  ans = .Call('R_swig_TableOfStrings_rownames_get', self, PACKAGE='tinkercell')
-  class(ans) <- "_p_ArrayOfStrings"
+  ans = .Call('R_swig_tc_table_rownames_get', self, PACKAGE='tinkercell')
+  class(ans) <- "_p_tc_strings"
   
   ans
   
 }
 
-attr(`TableOfStrings_rownames_get`, 'returnType') = '_p_ArrayOfStrings'
-attr(`TableOfStrings_rownames_get`, "inputTypes") = c('_p_TableOfStrings')
-class(`TableOfStrings_rownames_get`) = c("SWIGFunction", class('TableOfStrings_rownames_get'))
+attr(`tc_table_rownames_get`, 'returnType') = '_p_tc_strings'
+attr(`tc_table_rownames_get`, "inputTypes") = c('_p_tc_table')
+class(`tc_table_rownames_get`) = c("SWIGFunction", class('tc_table_rownames_get'))
 
-# Start of TableOfStrings_colnames_set
+# Start of tc_table_colnames_set
 
-`TableOfStrings_colnames_set` = function(self, s_colnames)
+`tc_table_colnames_set` = function(self, s_colnames)
 {
-  .Call('R_swig_TableOfStrings_colnames_set', self, s_colnames, PACKAGE='tinkercell')
+  .Call('R_swig_tc_table_colnames_set', self, s_colnames, PACKAGE='tinkercell')
   
 }
 
-attr(`TableOfStrings_colnames_set`, 'returnType') = 'void'
-attr(`TableOfStrings_colnames_set`, "inputTypes") = c('_p_TableOfStrings', '_p_ArrayOfStrings')
-class(`TableOfStrings_colnames_set`) = c("SWIGFunction", class('TableOfStrings_colnames_set'))
+attr(`tc_table_colnames_set`, 'returnType') = 'void'
+attr(`tc_table_colnames_set`, "inputTypes") = c('_p_tc_table', '_p_tc_strings')
+class(`tc_table_colnames_set`) = c("SWIGFunction", class('tc_table_colnames_set'))
 
-# Start of TableOfStrings_colnames_get
+# Start of tc_table_colnames_get
 
-`TableOfStrings_colnames_get` = function(self)
+`tc_table_colnames_get` = function(self)
 {
-  ans = .Call('R_swig_TableOfStrings_colnames_get', self, PACKAGE='tinkercell')
-  class(ans) <- "_p_ArrayOfStrings"
+  ans = .Call('R_swig_tc_table_colnames_get', self, PACKAGE='tinkercell')
+  class(ans) <- "_p_tc_strings"
   
   ans
   
 }
 
-attr(`TableOfStrings_colnames_get`, 'returnType') = '_p_ArrayOfStrings'
-attr(`TableOfStrings_colnames_get`, "inputTypes") = c('_p_TableOfStrings')
-class(`TableOfStrings_colnames_get`) = c("SWIGFunction", class('TableOfStrings_colnames_get'))
+attr(`tc_table_colnames_get`, 'returnType') = '_p_tc_strings'
+attr(`tc_table_colnames_get`, "inputTypes") = c('_p_tc_table')
+class(`tc_table_colnames_get`) = c("SWIGFunction", class('tc_table_colnames_get'))
 
-# Start of new_TableOfStrings
+# Start of new_tc_table
 
-`TableOfStrings` = function()
+`tc_table` = function()
 {
-  ans = .Call('R_swig_new_TableOfStrings', PACKAGE='tinkercell')
-  class(ans) <- "_p_TableOfStrings"
+  ans = .Call('R_swig_new_tc_table', PACKAGE='tinkercell')
+  class(ans) <- "_p_tc_table"
   
   ans
   
 }
 
-attr(`TableOfStrings`, 'returnType') = '_p_TableOfStrings'
-class(`TableOfStrings`) = c("SWIGFunction", class('TableOfStrings'))
+attr(`tc_table`, 'returnType') = '_p_tc_table'
+class(`tc_table`) = c("SWIGFunction", class('tc_table'))
 
-# Start of delete_TableOfStrings
+# Start of delete_tc_table
 
-`delete_TableOfStrings` = function(self)
+`delete_tc_table` = function(self)
 {
-  .Call('R_swig_delete_TableOfStrings', self, PACKAGE='tinkercell')
+  .Call('R_swig_delete_tc_table', self, PACKAGE='tinkercell')
   
 }
 
-attr(`delete_TableOfStrings`, 'returnType') = 'void'
-attr(`delete_TableOfStrings`, "inputTypes") = c('_p_TableOfStrings')
-class(`delete_TableOfStrings`) = c("SWIGFunction", class('delete_TableOfStrings'))
+attr(`delete_tc_table`, 'returnType') = 'void'
+attr(`delete_tc_table`, "inputTypes") = c('_p_tc_table')
+class(`delete_tc_table`) = c("SWIGFunction", class('delete_tc_table'))
 
-# Start of accessor method for TableOfStrings
-setMethod('$', '_p_TableOfStrings', function(x, name)
+# Start of accessor method for tc_table
+setMethod('$', '_p_tc_table', function(x, name)
 
 {
-  accessorFuns = list('rows' = TableOfStrings_rows_get, 'cols' = TableOfStrings_cols_get, 'strings' = TableOfStrings_strings_get, 'rownames' = TableOfStrings_rownames_get, 'colnames' = TableOfStrings_colnames_get)
+  accessorFuns = list('rows' = tc_table_rows_get, 'cols' = tc_table_cols_get, 'strings' = tc_table_strings_get, 'rownames' = tc_table_rownames_get, 'colnames' = tc_table_colnames_get)
   vaccessors = c('rows', 'cols', 'strings', 'rownames', 'colnames')
   idx = pmatch(name, names(accessorFuns))
   if(is.na(idx)) 
@@ -1377,12 +1401,12 @@ setMethod('$', '_p_TableOfStrings', function(x, name)
 
 
 )
-# end of accessor method for TableOfStrings
-# Start of accessor method for TableOfStrings
-setMethod('$<-', '_p_TableOfStrings', function(x, name, value)
+# end of accessor method for tc_table
+# Start of accessor method for tc_table
+setMethod('$<-', '_p_tc_table', function(x, name, value)
 
 {
-  accessorFuns = list('rows' = TableOfStrings_rows_set, 'cols' = TableOfStrings_cols_set, 'strings' = TableOfStrings_strings_set, 'rownames' = TableOfStrings_rownames_set, 'colnames' = TableOfStrings_colnames_set)
+  accessorFuns = list('rows' = tc_table_rows_set, 'cols' = tc_table_cols_set, 'strings' = tc_table_strings_set, 'rownames' = tc_table_rownames_set, 'colnames' = tc_table_colnames_set)
   idx = pmatch(name, names(accessorFuns))
   if(is.na(idx)) 
   return(callNextMethod(x, name, value))
@@ -1393,11 +1417,11 @@ setMethod('$<-', '_p_TableOfStrings', function(x, name, value)
 
 
 )
-setMethod('[[<-', c('_p_TableOfStrings', 'character'),function(x, i, j, ..., value)
+setMethod('[[<-', c('_p_tc_table', 'character'),function(x, i, j, ..., value)
 
 {
   name = i
-  accessorFuns = list('rows' = TableOfStrings_rows_set, 'cols' = TableOfStrings_cols_set, 'strings' = TableOfStrings_strings_set, 'rownames' = TableOfStrings_rownames_set, 'colnames' = TableOfStrings_colnames_set)
+  accessorFuns = list('rows' = tc_table_rows_set, 'cols' = tc_table_cols_set, 'strings' = tc_table_strings_set, 'rownames' = tc_table_rownames_set, 'colnames' = tc_table_colnames_set)
   idx = pmatch(name, names(accessorFuns))
   if(is.na(idx)) 
   return(callNextMethod(x, name, value))
@@ -1408,10 +1432,10 @@ setMethod('[[<-', c('_p_TableOfStrings', 'character'),function(x, i, j, ..., val
 
 
 )
-# end of accessor method for TableOfStrings
-setMethod('delete', '_p_TableOfStrings', function(obj) {delete_TableOfStrings(obj)})
-# Start definition of copy functions & methods for TableOfStrings
-CopyToR_TableOfStrings = function(value, obj = new("TableOfStrings"))
+# end of accessor method for tc_table
+setMethod('delete', '_p_tc_table', function(obj) {delete_tc_table(obj)})
+# Start definition of copy functions & methods for tc_table
+CopyToR_tc_table = function(value, obj = new("tc_table"))
 {
   obj@rows = value$rows
   obj@cols = value$cols
@@ -1421,7 +1445,7 @@ CopyToR_TableOfStrings = function(value, obj = new("TableOfStrings"))
 
 
 
-CopyToC_TableOfStrings = function(value, obj)
+CopyToC_tc_table = function(value, obj)
 {
   obj$rows = value@rows
   obj$cols = value@cols
@@ -1431,15 +1455,15 @@ CopyToC_TableOfStrings = function(value, obj)
 
 
 
-# Start definition of copy methods for TableOfStrings
-setMethod('copyToR', '_p_TableOfStrings', CopyToR_TableOfStrings)
-setMethod('copyToC', 'TableOfStrings', CopyToC_TableOfStrings)
+# Start definition of copy methods for tc_table
+setMethod('copyToR', '_p_tc_table', CopyToR_tc_table)
+setMethod('copyToC', 'tc_table', CopyToC_tc_table)
 
-# End definition of copy methods for TableOfStrings
-# End definition of copy functions & methods for TableOfStrings
-# Start of newMatrix
+# End definition of copy methods for tc_table
+# End definition of copy functions & methods for tc_table
+# Start of tc_createMatrix
 
-`newMatrix` = function(rows, cols, .copy = FALSE)
+`tc_createMatrix` = function(rows, cols, .copy = FALSE)
 {
   rows = as.integer(rows) 
   
@@ -1453,20 +1477,20 @@ setMethod('copyToC', 'TableOfStrings', CopyToC_TableOfStrings)
     warning("using only the first element of cols")
   }
   
-  ans = .Call('R_swig_newMatrix', rows, cols, as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_TableOfReals"
+  ans = .Call('R_swig_tc_createMatrix', rows, cols, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_tc_matrix"
   
   ans
   
 }
 
-attr(`newMatrix`, 'returnType') = '_p_TableOfReals'
-attr(`newMatrix`, "inputTypes") = c('integer', 'integer')
-class(`newMatrix`) = c("SWIGFunction", class('newMatrix'))
+attr(`tc_createMatrix`, 'returnType') = '_p_tc_matrix'
+attr(`tc_createMatrix`, "inputTypes") = c('integer', 'integer')
+class(`tc_createMatrix`) = c("SWIGFunction", class('tc_createMatrix'))
 
-# Start of newTableOfStrings
+# Start of tc_createTable
 
-`newTableOfStrings` = function(rows, cols, .copy = FALSE)
+`tc_createTable` = function(rows, cols, .copy = FALSE)
 {
   rows = as.integer(rows) 
   
@@ -1480,20 +1504,20 @@ class(`newMatrix`) = c("SWIGFunction", class('newMatrix'))
     warning("using only the first element of cols")
   }
   
-  ans = .Call('R_swig_newTableOfStrings', rows, cols, as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_TableOfStrings"
+  ans = .Call('R_swig_tc_createTable', rows, cols, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_tc_table"
   
   ans
   
 }
 
-attr(`newTableOfStrings`, 'returnType') = '_p_TableOfStrings'
-attr(`newTableOfStrings`, "inputTypes") = c('integer', 'integer')
-class(`newTableOfStrings`) = c("SWIGFunction", class('newTableOfStrings'))
+attr(`tc_createTable`, 'returnType') = '_p_tc_table'
+attr(`tc_createTable`, "inputTypes") = c('integer', 'integer')
+class(`tc_createTable`) = c("SWIGFunction", class('tc_createTable'))
 
-# Start of newArrayOfStrings
+# Start of tc_createStringsArray
 
-`newArrayOfStrings` = function(len, .copy = FALSE)
+`tc_createStringsArray` = function(len, .copy = FALSE)
 {
   len = as.integer(len) 
   
@@ -1501,20 +1525,20 @@ class(`newTableOfStrings`) = c("SWIGFunction", class('newTableOfStrings'))
     warning("using only the first element of len")
   }
   
-  ans = .Call('R_swig_newArrayOfStrings', len, as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_ArrayOfStrings"
+  ans = .Call('R_swig_tc_createStringsArray', len, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_tc_strings"
   
   ans
   
 }
 
-attr(`newArrayOfStrings`, 'returnType') = '_p_ArrayOfStrings'
-attr(`newArrayOfStrings`, "inputTypes") = c('integer')
-class(`newArrayOfStrings`) = c("SWIGFunction", class('newArrayOfStrings'))
+attr(`tc_createStringsArray`, 'returnType') = '_p_tc_strings'
+attr(`tc_createStringsArray`, "inputTypes") = c('integer')
+class(`tc_createStringsArray`) = c("SWIGFunction", class('tc_createStringsArray'))
 
-# Start of newArrayOfItems
+# Start of tc_createItemsArray
 
-`newArrayOfItems` = function(len, .copy = FALSE)
+`tc_createItemsArray` = function(len, .copy = FALSE)
 {
   len = as.integer(len) 
   
@@ -1522,20 +1546,20 @@ class(`newArrayOfStrings`) = c("SWIGFunction", class('newArrayOfStrings'))
     warning("using only the first element of len")
   }
   
-  ans = .Call('R_swig_newArrayOfItems', len, as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_ArrayOfItems"
+  ans = .Call('R_swig_tc_createItemsArray', len, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_tc_items"
   
   ans
   
 }
 
-attr(`newArrayOfItems`, 'returnType') = '_p_ArrayOfItems'
-attr(`newArrayOfItems`, "inputTypes") = c('integer')
-class(`newArrayOfItems`) = c("SWIGFunction", class('newArrayOfItems'))
+attr(`tc_createItemsArray`, 'returnType') = '_p_tc_items'
+attr(`tc_createItemsArray`, "inputTypes") = c('integer')
+class(`tc_createItemsArray`) = c("SWIGFunction", class('tc_createItemsArray'))
 
-# Start of getValue
+# Start of tc_getMatrixValue
 
-`getValue` = function(M, i, j, .copy = FALSE)
+`tc_getMatrixValue` = function(M, i, j, .copy = FALSE)
 {
   i = as.integer(i) 
   
@@ -1549,17 +1573,17 @@ class(`newArrayOfItems`) = c("SWIGFunction", class('newArrayOfItems'))
     warning("using only the first element of j")
   }
   
-  .Call('R_swig_getValue', M, i, j, as.logical(.copy), PACKAGE='tinkercell')
+  .Call('R_swig_tc_getMatrixValue', M, i, j, as.logical(.copy), PACKAGE='tinkercell')
   
 }
 
-attr(`getValue`, 'returnType') = 'numeric'
-attr(`getValue`, "inputTypes") = c('_p_TableOfReals', 'integer', 'integer')
-class(`getValue`) = c("SWIGFunction", class('getValue'))
+attr(`tc_getMatrixValue`, 'returnType') = 'numeric'
+attr(`tc_getMatrixValue`, "inputTypes") = c('_p_tc_matrix', 'integer', 'integer')
+class(`tc_getMatrixValue`) = c("SWIGFunction", class('tc_getMatrixValue'))
 
-# Start of setValue
+# Start of tc_setMatrixValue
 
-`setValue` = function(M, i, j, d)
+`tc_setMatrixValue` = function(M, i, j, d)
 {
   i = as.integer(i) 
   
@@ -1574,17 +1598,17 @@ class(`getValue`) = c("SWIGFunction", class('getValue'))
   }
   
   
-  .Call('R_swig_setValue', M, i, j, d, PACKAGE='tinkercell')
+  .Call('R_swig_tc_setMatrixValue', M, i, j, d, PACKAGE='tinkercell')
   
 }
 
-attr(`setValue`, 'returnType') = 'void'
-attr(`setValue`, "inputTypes") = c('_p_TableOfReals', 'integer', 'integer', 'numeric')
-class(`setValue`) = c("SWIGFunction", class('setValue'))
+attr(`tc_setMatrixValue`, 'returnType') = 'void'
+attr(`tc_setMatrixValue`, "inputTypes") = c('_p_tc_matrix', 'integer', 'integer', 'numeric')
+class(`tc_setMatrixValue`) = c("SWIGFunction", class('tc_setMatrixValue'))
 
-# Start of getRowName
+# Start of tc_getRowName
 
-`getRowName` = function(M, i)
+`tc_getRowName` = function(M, i)
 {
   i = as.integer(i) 
   
@@ -1592,17 +1616,17 @@ class(`setValue`) = c("SWIGFunction", class('setValue'))
     warning("using only the first element of i")
   }
   
-  .Call('R_swig_getRowName', M, i, PACKAGE='tinkercell')
+  .Call('R_swig_tc_getRowName', M, i, PACKAGE='tinkercell')
   
 }
 
-attr(`getRowName`, 'returnType') = 'character'
-attr(`getRowName`, "inputTypes") = c('_p_TableOfReals', 'integer')
-class(`getRowName`) = c("SWIGFunction", class('getRowName'))
+attr(`tc_getRowName`, 'returnType') = 'character'
+attr(`tc_getRowName`, "inputTypes") = c('_p_tc_matrix', 'integer')
+class(`tc_getRowName`) = c("SWIGFunction", class('tc_getRowName'))
 
-# Start of setRowName
+# Start of tc_setRowName
 
-`setRowName` = function(M, i, s)
+`tc_setRowName` = function(M, i, s)
 {
   i = as.integer(i) 
   
@@ -1611,17 +1635,17 @@ class(`getRowName`) = c("SWIGFunction", class('getRowName'))
   }
   
   s = as(s, "character") 
-  .Call('R_swig_setRowName', M, i, s, PACKAGE='tinkercell')
+  .Call('R_swig_tc_setRowName', M, i, s, PACKAGE='tinkercell')
   
 }
 
-attr(`setRowName`, 'returnType') = 'void'
-attr(`setRowName`, "inputTypes") = c('_p_TableOfReals', 'integer', 'character')
-class(`setRowName`) = c("SWIGFunction", class('setRowName'))
+attr(`tc_setRowName`, 'returnType') = 'void'
+attr(`tc_setRowName`, "inputTypes") = c('_p_tc_matrix', 'integer', 'character')
+class(`tc_setRowName`) = c("SWIGFunction", class('tc_setRowName'))
 
-# Start of getColumnName
+# Start of tc_getColumnName
 
-`getColumnName` = function(M, j)
+`tc_getColumnName` = function(M, j)
 {
   j = as.integer(j) 
   
@@ -1629,67 +1653,18 @@ class(`setRowName`) = c("SWIGFunction", class('setRowName'))
     warning("using only the first element of j")
   }
   
-  .Call('R_swig_getColumnName', M, j, PACKAGE='tinkercell')
+  .Call('R_swig_tc_getColumnName', M, j, PACKAGE='tinkercell')
   
 }
 
-attr(`getColumnName`, 'returnType') = 'character'
-attr(`getColumnName`, "inputTypes") = c('_p_TableOfReals', 'integer')
-class(`getColumnName`) = c("SWIGFunction", class('getColumnName'))
+attr(`tc_getColumnName`, 'returnType') = 'character'
+attr(`tc_getColumnName`, "inputTypes") = c('_p_tc_matrix', 'integer')
+class(`tc_getColumnName`) = c("SWIGFunction", class('tc_getColumnName'))
 
-# Start of setColumnName
+# Start of tc_setColumnName
 
-`setColumnName` = function(M, j, s)
+`tc_setColumnName` = function(M, j, s)
 {
-  j = as.integer(j) 
-  
-  if(length(j) > 1) {
-    warning("using only the first element of j")
-  }
-  
-  s = as(s, "character") 
-  .Call('R_swig_setColumnName', M, j, s, PACKAGE='tinkercell')
-  
-}
-
-attr(`setColumnName`, 'returnType') = 'void'
-attr(`setColumnName`, "inputTypes") = c('_p_TableOfReals', 'integer', 'character')
-class(`setColumnName`) = c("SWIGFunction", class('setColumnName'))
-
-# Start of getString
-
-`getString` = function(S, i, j)
-{
-  i = as.integer(i) 
-  
-  if(length(i) > 1) {
-    warning("using only the first element of i")
-  }
-  
-  j = as.integer(j) 
-  
-  if(length(j) > 1) {
-    warning("using only the first element of j")
-  }
-  
-  .Call('R_swig_getString', S, i, j, PACKAGE='tinkercell')
-  
-}
-
-attr(`getString`, 'returnType') = 'character'
-attr(`getString`, "inputTypes") = c('_p_TableOfStrings', 'integer', 'integer')
-class(`getString`) = c("SWIGFunction", class('getString'))
-
-# Start of setString
-
-`setString` = function(S, i, j, s)
-{
-  i = as.integer(i) 
-  
-  if(length(i) > 1) {
-    warning("using only the first element of i")
-  }
-  
   j = as.integer(j) 
   
   if(length(j) > 1) {
@@ -1697,17 +1672,17 @@ class(`getString`) = c("SWIGFunction", class('getString'))
   }
   
   s = as(s, "character") 
-  .Call('R_swig_setString', S, i, j, s, PACKAGE='tinkercell')
+  .Call('R_swig_tc_setColumnName', M, j, s, PACKAGE='tinkercell')
   
 }
 
-attr(`setString`, 'returnType') = 'void'
-attr(`setString`, "inputTypes") = c('_p_TableOfStrings', 'integer', 'integer', 'character')
-class(`setString`) = c("SWIGFunction", class('setString'))
+attr(`tc_setColumnName`, 'returnType') = 'void'
+attr(`tc_setColumnName`, "inputTypes") = c('_p_tc_matrix', 'integer', 'character')
+class(`tc_setColumnName`) = c("SWIGFunction", class('tc_setColumnName'))
 
-# Start of nthString
+# Start of tc_getTableValue
 
-`nthString` = function(S, i)
+`tc_getTableValue` = function(S, i, j)
 {
   i = as.integer(i) 
   
@@ -1715,17 +1690,66 @@ class(`setString`) = c("SWIGFunction", class('setString'))
     warning("using only the first element of i")
   }
   
-  .Call('R_swig_nthString', S, i, PACKAGE='tinkercell')
+  j = as.integer(j) 
+  
+  if(length(j) > 1) {
+    warning("using only the first element of j")
+  }
+  
+  .Call('R_swig_tc_getTableValue', S, i, j, PACKAGE='tinkercell')
   
 }
 
-attr(`nthString`, 'returnType') = 'character'
-attr(`nthString`, "inputTypes") = c('_p_ArrayOfStrings', 'integer')
-class(`nthString`) = c("SWIGFunction", class('nthString'))
+attr(`tc_getTableValue`, 'returnType') = 'character'
+attr(`tc_getTableValue`, "inputTypes") = c('_p_tc_table', 'integer', 'integer')
+class(`tc_getTableValue`) = c("SWIGFunction", class('tc_getTableValue'))
 
-# Start of setNthString
+# Start of tc_setTableValue
 
-`setNthString` = function(S, i, c)
+`tc_setTableValue` = function(S, i, j, s)
+{
+  i = as.integer(i) 
+  
+  if(length(i) > 1) {
+    warning("using only the first element of i")
+  }
+  
+  j = as.integer(j) 
+  
+  if(length(j) > 1) {
+    warning("using only the first element of j")
+  }
+  
+  s = as(s, "character") 
+  .Call('R_swig_tc_setTableValue', S, i, j, s, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_setTableValue`, 'returnType') = 'void'
+attr(`tc_setTableValue`, "inputTypes") = c('_p_tc_table', 'integer', 'integer', 'character')
+class(`tc_setTableValue`) = c("SWIGFunction", class('tc_setTableValue'))
+
+# Start of tc_getString
+
+`tc_getString` = function(S, i)
+{
+  i = as.integer(i) 
+  
+  if(length(i) > 1) {
+    warning("using only the first element of i")
+  }
+  
+  .Call('R_swig_tc_getString', S, i, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_getString`, 'returnType') = 'character'
+attr(`tc_getString`, "inputTypes") = c('_p_tc_strings', 'integer')
+class(`tc_getString`) = c("SWIGFunction", class('tc_getString'))
+
+# Start of tc_setString
+
+`tc_setString` = function(S, i, c)
 {
   i = as.integer(i) 
   
@@ -1734,17 +1758,17 @@ class(`nthString`) = c("SWIGFunction", class('nthString'))
   }
   
   c = as(c, "character") 
-  .Call('R_swig_setNthString', S, i, c, PACKAGE='tinkercell')
+  .Call('R_swig_tc_setString', S, i, c, PACKAGE='tinkercell')
   
 }
 
-attr(`setNthString`, 'returnType') = 'void'
-attr(`setNthString`, "inputTypes") = c('_p_ArrayOfStrings', 'integer', 'character')
-class(`setNthString`) = c("SWIGFunction", class('setNthString'))
+attr(`tc_setString`, 'returnType') = 'void'
+attr(`tc_setString`, "inputTypes") = c('_p_tc_strings', 'integer', 'character')
+class(`tc_setString`) = c("SWIGFunction", class('tc_setString'))
 
-# Start of nthItem
+# Start of tc_getItem
 
-`nthItem` = function(A, i, .copy = FALSE)
+`tc_getItem` = function(A, i, .copy = FALSE)
 {
   i = as.integer(i) 
   
@@ -1752,17 +1776,17 @@ class(`setNthString`) = c("SWIGFunction", class('setNthString'))
     warning("using only the first element of i")
   }
   
-  .Call('R_swig_nthItem', A, i, as.logical(.copy), PACKAGE='tinkercell')
+  .Call('R_swig_tc_getItem', A, i, as.logical(.copy), PACKAGE='tinkercell')
   
 }
 
-attr(`nthItem`, 'returnType') = 'integer'
-attr(`nthItem`, "inputTypes") = c('_p_ArrayOfItems', 'integer')
-class(`nthItem`) = c("SWIGFunction", class('nthItem'))
+attr(`tc_getItem`, 'returnType') = 'integer'
+attr(`tc_getItem`, "inputTypes") = c('_p_tc_items', 'integer')
+class(`tc_getItem`) = c("SWIGFunction", class('tc_getItem'))
 
-# Start of setNthItem
+# Start of tc_setItem
 
-`setNthItem` = function(A, i, o)
+`tc_setItem` = function(A, i, o)
 {
   i = as.integer(i) 
   
@@ -1776,104 +1800,104 @@ class(`nthItem`) = c("SWIGFunction", class('nthItem'))
     warning("using only the first element of o")
   }
   
-  .Call('R_swig_setNthItem', A, i, o, PACKAGE='tinkercell')
+  .Call('R_swig_tc_setItem', A, i, o, PACKAGE='tinkercell')
   
 }
 
-attr(`setNthItem`, 'returnType') = 'void'
-attr(`setNthItem`, "inputTypes") = c('_p_ArrayOfItems', 'integer', 'integer')
-class(`setNthItem`) = c("SWIGFunction", class('setNthItem'))
+attr(`tc_setItem`, 'returnType') = 'void'
+attr(`tc_setItem`, "inputTypes") = c('_p_tc_items', 'integer', 'integer')
+class(`tc_setItem`) = c("SWIGFunction", class('tc_setItem'))
 
-# Start of deleteMatrix
+# Start of tc_deleteMatrix
 
-`deleteMatrix` = function(M)
+`tc_deleteMatrix` = function(M)
 {
-  .Call('R_swig_deleteMatrix', M, PACKAGE='tinkercell')
+  .Call('R_swig_tc_deleteMatrix', M, PACKAGE='tinkercell')
   
 }
 
-attr(`deleteMatrix`, 'returnType') = 'void'
-attr(`deleteMatrix`, "inputTypes") = c('_p_TableOfReals')
-class(`deleteMatrix`) = c("SWIGFunction", class('deleteMatrix'))
+attr(`tc_deleteMatrix`, 'returnType') = 'void'
+attr(`tc_deleteMatrix`, "inputTypes") = c('_p_tc_matrix')
+class(`tc_deleteMatrix`) = c("SWIGFunction", class('tc_deleteMatrix'))
 
-# Start of deleteTableOfStrings
+# Start of tc_deleteTable
 
-`deleteTableOfStrings` = function(M)
+`tc_deleteTable` = function(M)
 {
-  .Call('R_swig_deleteTableOfStrings', M, PACKAGE='tinkercell')
+  .Call('R_swig_tc_deleteTable', M, PACKAGE='tinkercell')
   
 }
 
-attr(`deleteTableOfStrings`, 'returnType') = 'void'
-attr(`deleteTableOfStrings`, "inputTypes") = c('_p_TableOfStrings')
-class(`deleteTableOfStrings`) = c("SWIGFunction", class('deleteTableOfStrings'))
+attr(`tc_deleteTable`, 'returnType') = 'void'
+attr(`tc_deleteTable`, "inputTypes") = c('_p_tc_table')
+class(`tc_deleteTable`) = c("SWIGFunction", class('tc_deleteTable'))
 
-# Start of deleteArrayOfItems
+# Start of tc_deleteItemsArray
 
-`deleteArrayOfItems` = function(A)
+`tc_deleteItemsArray` = function(A)
 {
-  .Call('R_swig_deleteArrayOfItems', A, PACKAGE='tinkercell')
+  .Call('R_swig_tc_deleteItemsArray', A, PACKAGE='tinkercell')
   
 }
 
-attr(`deleteArrayOfItems`, 'returnType') = 'void'
-attr(`deleteArrayOfItems`, "inputTypes") = c('_p_ArrayOfItems')
-class(`deleteArrayOfItems`) = c("SWIGFunction", class('deleteArrayOfItems'))
+attr(`tc_deleteItemsArray`, 'returnType') = 'void'
+attr(`tc_deleteItemsArray`, "inputTypes") = c('_p_tc_items')
+class(`tc_deleteItemsArray`) = c("SWIGFunction", class('tc_deleteItemsArray'))
 
-# Start of deleteArrayOfStrings
+# Start of tc_deleteStringsArray
 
-`deleteArrayOfStrings` = function(C)
+`tc_deleteStringsArray` = function(C)
 {
-  .Call('R_swig_deleteArrayOfStrings', C, PACKAGE='tinkercell')
+  .Call('R_swig_tc_deleteStringsArray', C, PACKAGE='tinkercell')
   
 }
 
-attr(`deleteArrayOfStrings`, 'returnType') = 'void'
-attr(`deleteArrayOfStrings`, "inputTypes") = c('_p_ArrayOfStrings')
-class(`deleteArrayOfStrings`) = c("SWIGFunction", class('deleteArrayOfStrings'))
+attr(`tc_deleteStringsArray`, 'returnType') = 'void'
+attr(`tc_deleteStringsArray`, "inputTypes") = c('_p_tc_strings')
+class(`tc_deleteStringsArray`) = c("SWIGFunction", class('tc_deleteStringsArray'))
 
-# Start of cbind
+# Start of tc_appendColumns
 
-`cbind` = function(A, B, .copy = FALSE)
+`tc_appendColumns` = function(A, B, .copy = FALSE)
 {
-  ans = .Call('R_swig_cbind', A, B, as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_TableOfReals"
+  ans = .Call('R_swig_tc_appendColumns', A, B, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_tc_matrix"
   
   ans
   
 }
 
-attr(`cbind`, 'returnType') = '_p_TableOfReals'
-attr(`cbind`, "inputTypes") = c('_p_TableOfReals', '_p_TableOfReals')
-class(`cbind`) = c("SWIGFunction", class('cbind'))
+attr(`tc_appendColumns`, 'returnType') = '_p_tc_matrix'
+attr(`tc_appendColumns`, "inputTypes") = c('_p_tc_matrix', '_p_tc_matrix')
+class(`tc_appendColumns`) = c("SWIGFunction", class('tc_appendColumns'))
 
-# Start of rbind
+# Start of tc_appendRows
 
-`rbind` = function(A, B, .copy = FALSE)
+`tc_appendRows` = function(A, B, .copy = FALSE)
 {
-  ans = .Call('R_swig_rbind', A, B, as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_TableOfReals"
+  ans = .Call('R_swig_tc_appendRows', A, B, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_tc_matrix"
   
   ans
   
 }
 
-attr(`rbind`, 'returnType') = '_p_TableOfReals'
-attr(`rbind`, "inputTypes") = c('_p_TableOfReals', '_p_TableOfReals')
-class(`rbind`) = c("SWIGFunction", class('rbind'))
+attr(`tc_appendRows`, 'returnType') = '_p_tc_matrix'
+attr(`tc_appendRows`, "inputTypes") = c('_p_tc_matrix', '_p_tc_matrix')
+class(`tc_appendRows`) = c("SWIGFunction", class('tc_appendRows'))
 
 # Start of tc_allItems
 
 `tc_allItems` = function(.copy = FALSE)
 {
   ans = .Call('R_swig_tc_allItems', as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_ArrayOfItems"
+  class(ans) <- "_p_tc_items"
   
   ans
   
 }
 
-attr(`tc_allItems`, 'returnType') = '_p_ArrayOfItems'
+attr(`tc_allItems`, 'returnType') = '_p_tc_items'
 class(`tc_allItems`) = c("SWIGFunction", class('tc_allItems'))
 
 # Start of tc_selectedItems
@@ -1881,13 +1905,13 @@ class(`tc_allItems`) = c("SWIGFunction", class('tc_allItems'))
 `tc_selectedItems` = function(.copy = FALSE)
 {
   ans = .Call('R_swig_tc_selectedItems', as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_ArrayOfItems"
+  class(ans) <- "_p_tc_items"
   
   ans
   
 }
 
-attr(`tc_selectedItems`, 'returnType') = '_p_ArrayOfItems'
+attr(`tc_selectedItems`, 'returnType') = '_p_tc_items'
 class(`tc_selectedItems`) = c("SWIGFunction", class('tc_selectedItems'))
 
 # Start of tc_itemsOfFamily
@@ -1896,13 +1920,13 @@ class(`tc_selectedItems`) = c("SWIGFunction", class('tc_selectedItems'))
 {
   family = as(family, "character") 
   ans = .Call('R_swig_tc_itemsOfFamily', family, as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_ArrayOfItems"
+  class(ans) <- "_p_tc_items"
   
   ans
   
 }
 
-attr(`tc_itemsOfFamily`, 'returnType') = '_p_ArrayOfItems'
+attr(`tc_itemsOfFamily`, 'returnType') = '_p_tc_items'
 attr(`tc_itemsOfFamily`, "inputTypes") = c('character')
 class(`tc_itemsOfFamily`) = c("SWIGFunction", class('tc_itemsOfFamily'))
 
@@ -1913,14 +1937,14 @@ class(`tc_itemsOfFamily`) = c("SWIGFunction", class('tc_itemsOfFamily'))
   family = as(family, "character") 
   
   ans = .Call('R_swig_tc_itemsOfFamilyFrom', family, itemsToSelectFrom, as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_ArrayOfItems"
+  class(ans) <- "_p_tc_items"
   
   ans
   
 }
 
-attr(`tc_itemsOfFamilyFrom`, 'returnType') = '_p_ArrayOfItems'
-attr(`tc_itemsOfFamilyFrom`, "inputTypes") = c('character', '_p_ArrayOfItems')
+attr(`tc_itemsOfFamilyFrom`, 'returnType') = '_p_tc_items'
+attr(`tc_itemsOfFamilyFrom`, "inputTypes") = c('character', '_p_tc_items')
 class(`tc_itemsOfFamilyFrom`) = c("SWIGFunction", class('tc_itemsOfFamilyFrom'))
 
 # Start of tc_find
@@ -1941,14 +1965,14 @@ class(`tc_find`) = c("SWIGFunction", class('tc_find'))
 `tc_findItems` = function(names, .copy = FALSE)
 {
   ans = .Call('R_swig_tc_findItems', names, as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_ArrayOfItems"
+  class(ans) <- "_p_tc_items"
   
   ans
   
 }
 
-attr(`tc_findItems`, 'returnType') = '_p_ArrayOfItems'
-attr(`tc_findItems`, "inputTypes") = c('_p_ArrayOfStrings')
+attr(`tc_findItems`, 'returnType') = '_p_tc_items'
+attr(`tc_findItems`, "inputTypes") = c('_p_tc_strings')
 class(`tc_findItems`) = c("SWIGFunction", class('tc_findItems'))
 
 # Start of tc_select
@@ -2040,14 +2064,14 @@ class(`tc_rename`) = c("SWIGFunction", class('tc_rename'))
 `tc_getNames` = function(items, .copy = FALSE)
 {
   ans = .Call('R_swig_tc_getNames', items, as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_ArrayOfStrings"
+  class(ans) <- "_p_tc_strings"
   
   ans
   
 }
 
-attr(`tc_getNames`, 'returnType') = '_p_ArrayOfStrings'
-attr(`tc_getNames`, "inputTypes") = c('_p_ArrayOfItems')
+attr(`tc_getNames`, 'returnType') = '_p_tc_strings'
+attr(`tc_getNames`, "inputTypes") = c('_p_tc_items')
 class(`tc_getNames`) = c("SWIGFunction", class('tc_getNames'))
 
 # Start of tc_getUniqueNames
@@ -2055,14 +2079,14 @@ class(`tc_getNames`) = c("SWIGFunction", class('tc_getNames'))
 `tc_getUniqueNames` = function(items, .copy = FALSE)
 {
   ans = .Call('R_swig_tc_getUniqueNames', items, as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_ArrayOfStrings"
+  class(ans) <- "_p_tc_strings"
   
   ans
   
 }
 
-attr(`tc_getUniqueNames`, 'returnType') = '_p_ArrayOfStrings'
-attr(`tc_getUniqueNames`, "inputTypes") = c('_p_ArrayOfItems')
+attr(`tc_getUniqueNames`, 'returnType') = '_p_tc_strings'
+attr(`tc_getUniqueNames`, "inputTypes") = c('_p_tc_items')
 class(`tc_getUniqueNames`) = c("SWIGFunction", class('tc_getUniqueNames'))
 
 # Start of tc_getFamily
@@ -2137,7 +2161,7 @@ class(`tc_errorReport`) = c("SWIGFunction", class('tc_errorReport'))
 }
 
 attr(`tc_printTable`, 'returnType') = 'void'
-attr(`tc_printTable`, "inputTypes") = c('_p_TableOfReals')
+attr(`tc_printTable`, "inputTypes") = c('_p_tc_matrix')
 class(`tc_printTable`) = c("SWIGFunction", class('tc_printTable'))
 
 # Start of tc_printFile
@@ -2223,14 +2247,14 @@ class(`tc_getX`) = c("SWIGFunction", class('tc_getX'))
 `tc_getPos` = function(items, .copy = FALSE)
 {
   ans = .Call('R_swig_tc_getPos', items, as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_TableOfReals"
+  class(ans) <- "_p_tc_matrix"
   
   ans
   
 }
 
-attr(`tc_getPos`, 'returnType') = '_p_TableOfReals'
-attr(`tc_getPos`, "inputTypes") = c('_p_ArrayOfItems')
+attr(`tc_getPos`, 'returnType') = '_p_tc_matrix'
+attr(`tc_getPos`, "inputTypes") = c('_p_tc_items')
 class(`tc_getPos`) = c("SWIGFunction", class('tc_getPos'))
 
 # Start of tc_setPos
@@ -2262,7 +2286,7 @@ class(`tc_setPos`) = c("SWIGFunction", class('tc_setPos'))
 }
 
 attr(`tc_setPosMulti`, 'returnType') = 'void'
-attr(`tc_setPosMulti`, "inputTypes") = c('_p_ArrayOfItems', '_p_TableOfReals')
+attr(`tc_setPosMulti`, "inputTypes") = c('_p_tc_items', '_p_tc_matrix')
 class(`tc_setPosMulti`) = c("SWIGFunction", class('tc_setPosMulti'))
 
 # Start of tc_moveSelected
@@ -2333,7 +2357,7 @@ class(`tc_appDir`) = c("SWIGFunction", class('tc_appDir'))
 }
 
 attr(`tc_createInputWindowFromFile`, 'returnType') = 'void'
-attr(`tc_createInputWindowFromFile`, "inputTypes") = c('_p_TableOfReals', 'character', 'character', 'character')
+attr(`tc_createInputWindowFromFile`, "inputTypes") = c('_p_tc_matrix', 'character', 'character', 'character')
 class(`tc_createInputWindowFromFile`) = c("SWIGFunction", class('tc_createInputWindowFromFile'))
 
 # Start of tc_createInputWindow
@@ -2356,7 +2380,7 @@ class(`tc_createInputWindowFromFile`) = c("SWIGFunction", class('tc_createInputW
 }
 
 attr(`tc_createInputWindow`, 'returnType') = 'void'
-attr(`tc_createInputWindow`, "inputTypes") = c('_p_TableOfReals', 'character', '_p_f_struct_TableOfReals__void')
+attr(`tc_createInputWindow`, "inputTypes") = c('_p_tc_matrix', 'character', '_p_f_struct_tc_matrix__void')
 class(`tc_createInputWindow`) = c("SWIGFunction", class('tc_createInputWindow'))
 
 # Start of tc_addInputWindowOptions
@@ -2382,7 +2406,7 @@ class(`tc_createInputWindow`) = c("SWIGFunction", class('tc_createInputWindow'))
 }
 
 attr(`tc_addInputWindowOptions`, 'returnType') = 'void'
-attr(`tc_addInputWindowOptions`, "inputTypes") = c('character', 'integer', 'integer', '_p_ArrayOfStrings')
+attr(`tc_addInputWindowOptions`, "inputTypes") = c('character', 'integer', 'integer', '_p_tc_strings')
 class(`tc_addInputWindowOptions`) = c("SWIGFunction", class('tc_addInputWindowOptions'))
 
 # Start of tc_addInputWindowCheckbox
@@ -2434,13 +2458,13 @@ class(`tc_openNewWindow`) = c("SWIGFunction", class('tc_openNewWindow'))
   }
   
   ans = .Call('R_swig_tc_getChildren', o, as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_ArrayOfItems"
+  class(ans) <- "_p_tc_items"
   
   ans
   
 }
 
-attr(`tc_getChildren`, 'returnType') = '_p_ArrayOfItems'
+attr(`tc_getChildren`, 'returnType') = '_p_tc_items'
 attr(`tc_getChildren`, "inputTypes") = c('integer')
 class(`tc_getChildren`) = c("SWIGFunction", class('tc_getChildren'))
 
@@ -2474,13 +2498,13 @@ class(`tc_getParent`) = c("SWIGFunction", class('tc_getParent'))
   
   data = as(data, "character") 
   ans = .Call('R_swig_tc_getNumericalData', item, data, as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_TableOfReals"
+  class(ans) <- "_p_tc_matrix"
   
   ans
   
 }
 
-attr(`tc_getNumericalData`, 'returnType') = '_p_TableOfReals'
+attr(`tc_getNumericalData`, 'returnType') = '_p_tc_matrix'
 attr(`tc_getNumericalData`, "inputTypes") = c('integer', 'character')
 class(`tc_getNumericalData`) = c("SWIGFunction", class('tc_getNumericalData'))
 
@@ -2501,7 +2525,7 @@ class(`tc_getNumericalData`) = c("SWIGFunction", class('tc_getNumericalData'))
 }
 
 attr(`tc_setNumericalData`, 'returnType') = 'void'
-attr(`tc_setNumericalData`, "inputTypes") = c('integer', 'character', '_p_TableOfReals')
+attr(`tc_setNumericalData`, "inputTypes") = c('integer', 'character', '_p_tc_matrix')
 class(`tc_setNumericalData`) = c("SWIGFunction", class('tc_setNumericalData'))
 
 # Start of tc_getTextData
@@ -2516,13 +2540,13 @@ class(`tc_setNumericalData`) = c("SWIGFunction", class('tc_setNumericalData'))
   
   data = as(data, "character") 
   ans = .Call('R_swig_tc_getTextData', item, data, as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_TableOfStrings"
+  class(ans) <- "_p_tc_table"
   
   ans
   
 }
 
-attr(`tc_getTextData`, 'returnType') = '_p_TableOfStrings'
+attr(`tc_getTextData`, 'returnType') = '_p_tc_table'
 attr(`tc_getTextData`, "inputTypes") = c('integer', 'character')
 class(`tc_getTextData`) = c("SWIGFunction", class('tc_getTextData'))
 
@@ -2543,7 +2567,7 @@ class(`tc_getTextData`) = c("SWIGFunction", class('tc_getTextData'))
 }
 
 attr(`tc_setTextData`, 'returnType') = 'void'
-attr(`tc_setTextData`, "inputTypes") = c('integer', 'character', '_p_TableOfStrings')
+attr(`tc_setTextData`, "inputTypes") = c('integer', 'character', '_p_tc_table')
 class(`tc_setTextData`) = c("SWIGFunction", class('tc_setTextData'))
 
 # Start of tc_getNumericalDataNames
@@ -2557,13 +2581,13 @@ class(`tc_setTextData`) = c("SWIGFunction", class('tc_setTextData'))
   }
   
   ans = .Call('R_swig_tc_getNumericalDataNames', o, as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_ArrayOfStrings"
+  class(ans) <- "_p_tc_strings"
   
   ans
   
 }
 
-attr(`tc_getNumericalDataNames`, 'returnType') = '_p_ArrayOfStrings'
+attr(`tc_getNumericalDataNames`, 'returnType') = '_p_tc_strings'
 attr(`tc_getNumericalDataNames`, "inputTypes") = c('integer')
 class(`tc_getNumericalDataNames`) = c("SWIGFunction", class('tc_getNumericalDataNames'))
 
@@ -2578,13 +2602,13 @@ class(`tc_getNumericalDataNames`) = c("SWIGFunction", class('tc_getNumericalData
   }
   
   ans = .Call('R_swig_tc_getTextDataNames', o, as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_ArrayOfStrings"
+  class(ans) <- "_p_tc_strings"
   
   ans
   
 }
 
-attr(`tc_getTextDataNames`, 'returnType') = '_p_ArrayOfStrings'
+attr(`tc_getTextDataNames`, 'returnType') = '_p_tc_strings'
 attr(`tc_getTextDataNames`, "inputTypes") = c('integer')
 class(`tc_getTextDataNames`) = c("SWIGFunction", class('tc_getTextDataNames'))
 
@@ -2600,18 +2624,18 @@ attr(`tc_zoom`, 'returnType') = 'void'
 attr(`tc_zoom`, "inputTypes") = c('numeric')
 class(`tc_zoom`) = c("SWIGFunction", class('tc_zoom'))
 
-# Start of tc_getString
+# Start of tc_tc_getTableValue
 
-`tc_getString` = function(title)
+`tc_tc_getTableValue` = function(title)
 {
   title = as(title, "character") 
-  .Call('R_swig_tc_getString', title, PACKAGE='tinkercell')
+  .Call('R_swig_tc_tc_getTableValue', title, PACKAGE='tinkercell')
   
 }
 
-attr(`tc_getString`, 'returnType') = 'character'
-attr(`tc_getString`, "inputTypes") = c('character')
-class(`tc_getString`) = c("SWIGFunction", class('tc_getString'))
+attr(`tc_tc_getTableValue`, 'returnType') = 'character'
+attr(`tc_tc_getTableValue`, "inputTypes") = c('character')
+class(`tc_tc_getTableValue`) = c("SWIGFunction", class('tc_tc_getTableValue'))
 
 # Start of tc_getFilename
 
@@ -2624,20 +2648,20 @@ class(`tc_getString`) = c("SWIGFunction", class('tc_getString'))
 attr(`tc_getFilename`, 'returnType') = 'character'
 class(`tc_getFilename`) = c("SWIGFunction", class('tc_getFilename'))
 
-# Start of tc_getStringFromList
+# Start of tc_tc_getTableValueFromList
 
-`tc_getStringFromList` = function(title, list, selectedString, .copy = FALSE)
+`tc_tc_getTableValueFromList` = function(title, list, selectedString, .copy = FALSE)
 {
   title = as(title, "character") 
   
   selectedString = as(selectedString, "character") 
-  .Call('R_swig_tc_getStringFromList', title, list, selectedString, as.logical(.copy), PACKAGE='tinkercell')
+  .Call('R_swig_tc_tc_getTableValueFromList', title, list, selectedString, as.logical(.copy), PACKAGE='tinkercell')
   
 }
 
-attr(`tc_getStringFromList`, 'returnType') = 'integer'
-attr(`tc_getStringFromList`, "inputTypes") = c('character', '_p_ArrayOfStrings', 'character')
-class(`tc_getStringFromList`) = c("SWIGFunction", class('tc_getStringFromList'))
+attr(`tc_tc_getTableValueFromList`, 'returnType') = 'integer'
+attr(`tc_tc_getTableValueFromList`, "inputTypes") = c('character', '_p_tc_strings', 'character')
+class(`tc_tc_getTableValueFromList`) = c("SWIGFunction", class('tc_tc_getTableValueFromList'))
 
 # Start of tc_getNumber
 
@@ -2661,7 +2685,7 @@ class(`tc_getNumber`) = c("SWIGFunction", class('tc_getNumber'))
 }
 
 attr(`tc_getNumbers`, 'returnType') = 'void'
-attr(`tc_getNumbers`, "inputTypes") = c('_p_ArrayOfStrings', 'numeric')
+attr(`tc_getNumbers`, "inputTypes") = c('_p_tc_strings', 'numeric')
 class(`tc_getNumbers`) = c("SWIGFunction", class('tc_getNumbers'))
 
 # Start of tc_askQuestion
@@ -2720,7 +2744,7 @@ class(`tc_thisThread`) = c("SWIGFunction", class('tc_thisThread'))
 }
 
 attr(`tc_createSliders`, 'returnType') = 'void'
-attr(`tc_createSliders`, "inputTypes") = c('_p_TableOfReals', '_p_f_struct_TableOfReals__void')
+attr(`tc_createSliders`, "inputTypes") = c('_p_tc_matrix', '_p_f_struct_tc_matrix__void')
 class(`tc_createSliders`) = c("SWIGFunction", class('tc_createSliders'))
 
 # Start of tc_getColor
@@ -2911,7 +2935,7 @@ class(`tc_getAngle`) = c("SWIGFunction", class('tc_getAngle'))
 
 # Start of tc_Main_api_initialize
 
-`tc_Main_api_initialize` = function(tc_allItems0, tc_selectedItems0, tc_itemsOfFamily0, tc_itemsOfFamily1, tc_find0, tc_findItems0, tc_select0, tc_deselect0, tc_getName0, tc_getUniqueName0, tc_setName0, tc_getNames0, tc_getUniqueNames0, tc_getFamily0, tc_isA0, tc_clearText, tc_outputText0, tc_errorReport0, tc_outputTable0, tc_printFile0, tc_removeItem0, tc_getY0, tc_getX0, tc_getPos0, tc_setPos0, tc_setPos1, tc_moveSelected0, tc_isWindows0, tc_isMac0, tc_isLinux0, tc_appDir0, tc_createInputWindow0, tc_createInputWindow1, createSliders, tc_addInputWindowOptions0, tc_addInputWindowCheckbox0, tc_openNewWindow0, tc_getChildren0, tc_getParent0, tc_getNumericalData0, tc_setNumericalData0, tc_getTextData0, tc_setTextData0, tc_getNumericalDataNames0, tc_getTextDataNames0, tc_zoom0, getString, getSelectedString, getNumber, getNumbers, getFilename, askQuestion, messageDialog, setSize0, getWidth0, getHeight0, setAngle0, getAngle0, getColor, setColor0, changeGraphics0, changeArrowHead0)
+`tc_Main_api_initialize` = function(tc_allItems0, tc_selectedItems0, tc_itemsOfFamily0, tc_itemsOfFamily1, tc_find0, tc_findItems0, tc_select0, tc_deselect0, tc_getName0, tc_getUniqueName0, tc_setName0, tc_getNames0, tc_getUniqueNames0, tc_getFamily0, tc_isA0, tc_clearText, tc_outputText0, tc_errorReport0, tc_outputTable0, tc_printFile0, tc_removeItem0, tc_getY0, tc_getX0, tc_getPos0, tc_setPos0, tc_setPos1, tc_moveSelected0, tc_isWindows0, tc_isMac0, tc_isLinux0, tc_appDir0, tc_createInputWindow0, tc_createInputWindow1, createSliders, tc_addInputWindowOptions0, tc_addInputWindowCheckbox0, tc_openNewWindow0, tc_getChildren0, tc_getParent0, tc_getNumericalData0, tc_setNumericalData0, tc_getTextData0, tc_setTextData0, tc_getNumericalDataNames0, tc_getTextDataNames0, tc_zoom0, tc_getTableValue, getSelectedString, getNumber, getNumbers, getFilename, askQuestion, messageDialog, setSize0, getWidth0, getHeight0, setAngle0, getAngle0, getColor, setColor0, changeGraphics0, changeArrowHead0)
 {
   if(is.function(tc_allItems0)) {
     assert('...' %in% names(formals(tc_allItems0)) || length(formals(tc_allItems0)) >= 0)
@@ -3373,14 +3397,14 @@ class(`tc_getAngle`) = c("SWIGFunction", class('tc_getAngle'))
       tc_zoom0 = tc_zoom0$address
     }
   }
-  if(is.function(getString)) {
-    assert('...' %in% names(formals(getString)) || length(formals(getString)) >= 1)
+  if(is.function(tc_getTableValue)) {
+    assert('...' %in% names(formals(tc_getTableValue)) || length(formals(tc_getTableValue)) >= 1)
   } else {
-    if(is.character(getString)) {
-      getString = getNativeSymbolInfo(getString)
+    if(is.character(tc_getTableValue)) {
+      tc_getTableValue = getNativeSymbolInfo(tc_getTableValue)
     }
-    if(is(getString, "NativeSymbolInfo")) {
-      getString = getString$address
+    if(is(tc_getTableValue, "NativeSymbolInfo")) {
+      tc_getTableValue = tc_getTableValue$address
     }
   }
   if(is.function(getSelectedString)) {
@@ -3424,7 +3448,7 @@ class(`tc_getAngle`) = c("SWIGFunction", class('tc_getAngle'))
     }
   }
   if(is.function(askQuestion)) {
-    assert('...' %in% names(formals(askQuestion)) || length(formals(askQuestion)) >= 0)
+    assert('...' %in% names(formals(askQuestion)) || length(formals(askQuestion)) >= 1)
   } else {
     if(is.character(askQuestion)) {
       askQuestion = getNativeSymbolInfo(askQuestion)
@@ -3533,12 +3557,12 @@ class(`tc_getAngle`) = c("SWIGFunction", class('tc_getAngle'))
       changeArrowHead0 = changeArrowHead0$address
     }
   }
-  .Call('R_swig_tc_Main_api_initialize', tc_allItems0, tc_selectedItems0, tc_itemsOfFamily0, tc_itemsOfFamily1, tc_find0, tc_findItems0, tc_select0, tc_deselect0, tc_getName0, tc_getUniqueName0, tc_setName0, tc_getNames0, tc_getUniqueNames0, tc_getFamily0, tc_isA0, tc_clearText, tc_outputText0, tc_errorReport0, tc_outputTable0, tc_printFile0, tc_removeItem0, tc_getY0, tc_getX0, tc_getPos0, tc_setPos0, tc_setPos1, tc_moveSelected0, tc_isWindows0, tc_isMac0, tc_isLinux0, tc_appDir0, tc_createInputWindow0, tc_createInputWindow1, createSliders, tc_addInputWindowOptions0, tc_addInputWindowCheckbox0, tc_openNewWindow0, tc_getChildren0, tc_getParent0, tc_getNumericalData0, tc_setNumericalData0, tc_getTextData0, tc_setTextData0, tc_getNumericalDataNames0, tc_getTextDataNames0, tc_zoom0, getString, getSelectedString, getNumber, getNumbers, getFilename, askQuestion, messageDialog, setSize0, getWidth0, getHeight0, setAngle0, getAngle0, getColor, setColor0, changeGraphics0, changeArrowHead0, PACKAGE='tinkercell')
+  .Call('R_swig_tc_Main_api_initialize', tc_allItems0, tc_selectedItems0, tc_itemsOfFamily0, tc_itemsOfFamily1, tc_find0, tc_findItems0, tc_select0, tc_deselect0, tc_getName0, tc_getUniqueName0, tc_setName0, tc_getNames0, tc_getUniqueNames0, tc_getFamily0, tc_isA0, tc_clearText, tc_outputText0, tc_errorReport0, tc_outputTable0, tc_printFile0, tc_removeItem0, tc_getY0, tc_getX0, tc_getPos0, tc_setPos0, tc_setPos1, tc_moveSelected0, tc_isWindows0, tc_isMac0, tc_isLinux0, tc_appDir0, tc_createInputWindow0, tc_createInputWindow1, createSliders, tc_addInputWindowOptions0, tc_addInputWindowCheckbox0, tc_openNewWindow0, tc_getChildren0, tc_getParent0, tc_getNumericalData0, tc_setNumericalData0, tc_getTextData0, tc_setTextData0, tc_getNumericalDataNames0, tc_getTextDataNames0, tc_zoom0, tc_getTableValue, getSelectedString, getNumber, getNumbers, getFilename, askQuestion, messageDialog, setSize0, getWidth0, getHeight0, setAngle0, getAngle0, getColor, setColor0, changeGraphics0, changeArrowHead0, PACKAGE='tinkercell')
   
 }
 
 attr(`tc_Main_api_initialize`, 'returnType') = 'void'
-attr(`tc_Main_api_initialize`, "inputTypes") = c('_p_f___ArrayOfItems', '_p_f___ArrayOfItems', '_p_f_p_q_const__char__ArrayOfItems', '_p_f_p_q_const__char_ArrayOfItems__ArrayOfItems', '_p_f_p_q_const__char__int', '_p_f_ArrayOfStrings__ArrayOfItems', '_p_f_int__void', '_p_f___void', '_p_f_int__p_char', '_p_f_int__p_char', '_p_f_int_p_q_const__char__void', '_p_f_ArrayOfItems__ArrayOfStrings', '_p_f_ArrayOfItems__ArrayOfStrings', '_p_f_int__p_char', '_p_f_int_p_q_const__char__int', '_p_f___void', '_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void', '_p_f_struct_TableOfReals__void', '_p_f_p_q_const__char__void', '_p_f_int__void', '_p_f_int__double', '_p_f_int__double', '_p_f_ArrayOfItems__TableOfReals', '_p_f_int_double_double__void', '_p_f_struct_ArrayOfItems_struct_TableOfReals__void', '_p_f_double_double__void', '_p_f___int', '_p_f___int', '_p_f___int', '_p_f___p_char', '_p_f_struct_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void', '_p_f_struct_TableOfReals_p_q_const__char_p_f_struct_TableOfReals__void__void', '_p_f_int_struct_TableOfReals_p_f_struct_TableOfReals__void__void', '_p_f_p_q_const__char_int_int_struct_ArrayOfStrings__void', '_p_f_p_q_const__char_int_int__void', '_p_f_p_q_const__char__void', '_p_f_int__ArrayOfItems', '_p_f_int__int', '_p_f_int_p_q_const__char__TableOfReals', '_p_f_int_p_q_const__char_struct_TableOfReals__void', '_p_f_int_p_q_const__char__TableOfStrings', '_p_f_int_p_q_const__char_struct_TableOfStrings__void', '_p_f_int__ArrayOfStrings', '_p_f_int__ArrayOfStrings', '_p_f_double__void', '_p_f_p_q_const__char__p_char', '_p_f_p_q_const__char_struct_ArrayOfStrings_p_q_const__char__int', '_p_f_p_q_const__char__double', '_p_f_struct_ArrayOfStrings_p_double__void', '_p_f___p_char', '_p_f_p_q_const__char__int', '_p_f_p_q_const__char__void', '_p_f_int_double_double_int__void', '_p_f_int__double', '_p_f_int__double', '_p_f_int_double_int__void', '_p_f_int__double', '_p_f_int__p_char', '_p_f_int_p_q_const__char_int__void', '_p_f_int_p_q_const__char__void', '_p_f_int_p_q_const__char__void')
+attr(`tc_Main_api_initialize`, "inputTypes") = c('_p_f___tc_items', '_p_f___tc_items', '_p_f_p_q_const__char__tc_items', '_p_f_p_q_const__char_tc_items__tc_items', '_p_f_p_q_const__char__long', '_p_f_tc_strings__tc_items', '_p_f_long__void', '_p_f___void', '_p_f_long__p_char', '_p_f_long__p_char', '_p_f_long_p_q_const__char__void', '_p_f_tc_items__tc_strings', '_p_f_tc_items__tc_strings', '_p_f_long__p_char', '_p_f_long_p_q_const__char__int', '_p_f___void', '_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void', '_p_f_struct_tc_matrix__void', '_p_f_p_q_const__char__void', '_p_f_long__void', '_p_f_long__double', '_p_f_long__double', '_p_f_tc_items__tc_matrix', '_p_f_long_double_double__void', '_p_f_struct_tc_items_struct_tc_matrix__void', '_p_f_double_double__void', '_p_f___int', '_p_f___int', '_p_f___int', '_p_f___p_char', '_p_f_struct_tc_matrix_p_q_const__char_p_q_const__char_p_q_const__char__void', '_p_f_struct_tc_matrix_p_q_const__char_p_f_struct_tc_matrix__void__void', '_p_f_long_struct_tc_matrix_p_f_struct_tc_matrix__void__void', '_p_f_p_q_const__char_int_int_struct_tc_strings__void', '_p_f_p_q_const__char_int_int__void', '_p_f_p_q_const__char__void', '_p_f_long__tc_items', '_p_f_long__long', '_p_f_long_p_q_const__char__tc_matrix', '_p_f_long_p_q_const__char_struct_tc_matrix__void', '_p_f_long_p_q_const__char__tc_table', '_p_f_long_p_q_const__char_struct_tc_table__void', '_p_f_long__tc_strings', '_p_f_long__tc_strings', '_p_f_double__void', '_p_f_p_q_const__char__p_char', '_p_f_p_q_const__char_struct_tc_strings_p_q_const__char__int', '_p_f_p_q_const__char__double', '_p_f_struct_tc_strings_p_double__void', '_p_f___p_char', '_p_f_p_q_const__char__int', '_p_f_p_q_const__char__void', '_p_f_long_double_double_int__void', '_p_f_long__double', '_p_f_long__double', '_p_f_long_double_int__void', '_p_f_long__double', '_p_f_long__p_char', '_p_f_long_p_q_const__char_int__void', '_p_f_long_p_q_const__char__void', '_p_f_long_p_q_const__char__void')
 class(`tc_Main_api_initialize`) = c("SWIGFunction", class('tc_Main_api_initialize'))
 
 # Start of tc_showProgress
@@ -3584,7 +3608,7 @@ class(`tc_showProgress`) = c("SWIGFunction", class('tc_showProgress'))
 }
 
 attr(`tc_CThread_api_initialize`, 'returnType') = 'void'
-attr(`tc_CThread_api_initialize`, "inputTypes") = c('integer', '_p_f_int_int__void')
+attr(`tc_CThread_api_initialize`, "inputTypes") = c('integer', '_p_f_long_int__void')
 class(`tc_CThread_api_initialize`) = c("SWIGFunction", class('tc_CThread_api_initialize'))
 
 # Start of tc_getParameters
@@ -3592,14 +3616,14 @@ class(`tc_CThread_api_initialize`) = c("SWIGFunction", class('tc_CThread_api_ini
 `tc_getParameters` = function(a, .copy = FALSE)
 {
   ans = .Call('R_swig_tc_getParameters', a, as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_TableOfReals"
+  class(ans) <- "_p_tc_matrix"
   
   ans
   
 }
 
-attr(`tc_getParameters`, 'returnType') = '_p_TableOfReals'
-attr(`tc_getParameters`, "inputTypes") = c('_p_ArrayOfItems')
+attr(`tc_getParameters`, 'returnType') = '_p_tc_matrix'
+attr(`tc_getParameters`, "inputTypes") = c('_p_tc_items')
 class(`tc_getParameters`) = c("SWIGFunction", class('tc_getParameters'))
 
 # Start of tc_getInitialValues
@@ -3607,14 +3631,14 @@ class(`tc_getParameters`) = c("SWIGFunction", class('tc_getParameters'))
 `tc_getInitialValues` = function(a, .copy = FALSE)
 {
   ans = .Call('R_swig_tc_getInitialValues', a, as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_TableOfReals"
+  class(ans) <- "_p_tc_matrix"
   
   ans
   
 }
 
-attr(`tc_getInitialValues`, 'returnType') = '_p_TableOfReals'
-attr(`tc_getInitialValues`, "inputTypes") = c('_p_ArrayOfItems')
+attr(`tc_getInitialValues`, 'returnType') = '_p_tc_matrix'
+attr(`tc_getInitialValues`, "inputTypes") = c('_p_tc_items')
 class(`tc_getInitialValues`) = c("SWIGFunction", class('tc_getInitialValues'))
 
 # Start of tc_setInitialValues
@@ -3626,7 +3650,7 @@ class(`tc_getInitialValues`) = c("SWIGFunction", class('tc_getInitialValues'))
 }
 
 attr(`tc_setInitialValues`, 'returnType') = 'void'
-attr(`tc_setInitialValues`, "inputTypes") = c('_p_ArrayOfItems', '_p_TableOfReals')
+attr(`tc_setInitialValues`, "inputTypes") = c('_p_tc_items', '_p_tc_matrix')
 class(`tc_setInitialValues`) = c("SWIGFunction", class('tc_setInitialValues'))
 
 # Start of tc_getFixedVariables
@@ -3634,14 +3658,14 @@ class(`tc_setInitialValues`) = c("SWIGFunction", class('tc_setInitialValues'))
 `tc_getFixedVariables` = function(a, .copy = FALSE)
 {
   ans = .Call('R_swig_tc_getFixedVariables', a, as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_TableOfReals"
+  class(ans) <- "_p_tc_matrix"
   
   ans
   
 }
 
-attr(`tc_getFixedVariables`, 'returnType') = '_p_TableOfReals'
-attr(`tc_getFixedVariables`, "inputTypes") = c('_p_ArrayOfItems')
+attr(`tc_getFixedVariables`, 'returnType') = '_p_tc_matrix'
+attr(`tc_getFixedVariables`, "inputTypes") = c('_p_tc_items')
 class(`tc_getFixedVariables`) = c("SWIGFunction", class('tc_getFixedVariables'))
 
 # Start of tc_getParametersAndFixedVariables
@@ -3649,14 +3673,14 @@ class(`tc_getFixedVariables`) = c("SWIGFunction", class('tc_getFixedVariables'))
 `tc_getParametersAndFixedVariables` = function(a, .copy = FALSE)
 {
   ans = .Call('R_swig_tc_getParametersAndFixedVariables', a, as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_TableOfReals"
+  class(ans) <- "_p_tc_matrix"
   
   ans
   
 }
 
-attr(`tc_getParametersAndFixedVariables`, 'returnType') = '_p_TableOfReals'
-attr(`tc_getParametersAndFixedVariables`, "inputTypes") = c('_p_ArrayOfItems')
+attr(`tc_getParametersAndFixedVariables`, 'returnType') = '_p_tc_matrix'
+attr(`tc_getParametersAndFixedVariables`, "inputTypes") = c('_p_tc_items')
 class(`tc_getParametersAndFixedVariables`) = c("SWIGFunction", class('tc_getParametersAndFixedVariables'))
 
 # Start of tc_getTextAttribute
@@ -3702,14 +3726,14 @@ class(`tc_getParameter`) = c("SWIGFunction", class('tc_getParameter'))
 `tc_getParametersNamed` = function(a, attibutes, .copy = FALSE)
 {
   ans = .Call('R_swig_tc_getParametersNamed', a, attibutes, as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_TableOfReals"
+  class(ans) <- "_p_tc_matrix"
   
   ans
   
 }
 
-attr(`tc_getParametersNamed`, 'returnType') = '_p_TableOfReals'
-attr(`tc_getParametersNamed`, "inputTypes") = c('_p_ArrayOfItems', '_p_ArrayOfStrings')
+attr(`tc_getParametersNamed`, 'returnType') = '_p_tc_matrix'
+attr(`tc_getParametersNamed`, "inputTypes") = c('_p_tc_items', '_p_tc_strings')
 class(`tc_getParametersNamed`) = c("SWIGFunction", class('tc_getParametersNamed'))
 
 # Start of tc_getParametersExcept
@@ -3717,14 +3741,14 @@ class(`tc_getParametersNamed`) = c("SWIGFunction", class('tc_getParametersNamed'
 `tc_getParametersExcept` = function(a, Modeling, .copy = FALSE)
 {
   ans = .Call('R_swig_tc_getParametersExcept', a, Modeling, as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_TableOfReals"
+  class(ans) <- "_p_tc_matrix"
   
   ans
   
 }
 
-attr(`tc_getParametersExcept`, 'returnType') = '_p_TableOfReals'
-attr(`tc_getParametersExcept`, "inputTypes") = c('_p_ArrayOfItems', '_p_ArrayOfStrings')
+attr(`tc_getParametersExcept`, 'returnType') = '_p_tc_matrix'
+attr(`tc_getParametersExcept`, "inputTypes") = c('_p_tc_items', '_p_tc_strings')
 class(`tc_getParametersExcept`) = c("SWIGFunction", class('tc_getParametersExcept'))
 
 # Start of tc_getAllTextNamed
@@ -3732,14 +3756,14 @@ class(`tc_getParametersExcept`) = c("SWIGFunction", class('tc_getParametersExcep
 `tc_getAllTextNamed` = function(a, Modeling, .copy = FALSE)
 {
   ans = .Call('R_swig_tc_getAllTextNamed', a, Modeling, as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_ArrayOfStrings"
+  class(ans) <- "_p_tc_strings"
   
   ans
   
 }
 
-attr(`tc_getAllTextNamed`, 'returnType') = '_p_ArrayOfStrings'
-attr(`tc_getAllTextNamed`, "inputTypes") = c('_p_ArrayOfItems', '_p_ArrayOfStrings')
+attr(`tc_getAllTextNamed`, 'returnType') = '_p_tc_strings'
+attr(`tc_getAllTextNamed`, "inputTypes") = c('_p_tc_items', '_p_tc_strings')
 class(`tc_getAllTextNamed`) = c("SWIGFunction", class('tc_getAllTextNamed'))
 
 # Start of tc_setTextAttribute
@@ -3821,7 +3845,7 @@ class(`tc_setParameter`) = c("SWIGFunction", class('tc_setParameter'))
 }
 
 attr(`tc_BasicInformationTool_Text_api`, 'returnType') = 'void'
-attr(`tc_BasicInformationTool_Text_api`, "inputTypes") = c('_p_f_int_p_q_const__char__p_char', '_p_f_ArrayOfItems_ArrayOfStrings__ArrayOfStrings', '_p_f_int_p_q_const__char_p_q_const__char__void')
+attr(`tc_BasicInformationTool_Text_api`, "inputTypes") = c('_p_f_long_p_q_const__char__p_char', '_p_f_tc_items_tc_strings__tc_strings', '_p_f_long_p_q_const__char_p_q_const__char__void')
 class(`tc_BasicInformationTool_Text_api`) = c("SWIGFunction", class('tc_BasicInformationTool_Text_api'))
 
 # Start of tc_BasicInformationTool_Numeric_api
@@ -3923,7 +3947,7 @@ class(`tc_BasicInformationTool_Text_api`) = c("SWIGFunction", class('tc_BasicInf
 }
 
 attr(`tc_BasicInformationTool_Numeric_api`, 'returnType') = 'void'
-attr(`tc_BasicInformationTool_Numeric_api`, "inputTypes") = c('_p_f_ArrayOfItems__TableOfReals', '_p_f_struct_ArrayOfItems_struct_TableOfReals__void', '_p_f_ArrayOfItems__TableOfReals', '_p_f_ArrayOfItems__TableOfReals', '_p_f_ArrayOfItems__TableOfReals', '_p_f_int_p_q_const__char__double', '_p_f_ArrayOfItems_ArrayOfStrings__TableOfReals', '_p_f_ArrayOfItems_ArrayOfStrings__TableOfReals', '_p_f_int_p_q_const__char_double__void')
+attr(`tc_BasicInformationTool_Numeric_api`, "inputTypes") = c('_p_f_tc_items__tc_matrix', '_p_f_struct_tc_items_struct_tc_matrix__void', '_p_f_tc_items__tc_matrix', '_p_f_tc_items__tc_matrix', '_p_f_tc_items__tc_matrix', '_p_f_long_p_q_const__char__double', '_p_f_tc_items_tc_strings__tc_matrix', '_p_f_tc_items_tc_strings__tc_matrix', '_p_f_long_p_q_const__char_double__void')
 class(`tc_BasicInformationTool_Numeric_api`) = c("SWIGFunction", class('tc_BasicInformationTool_Numeric_api'))
 
 # Start of tc_insertConnection
@@ -3937,7 +3961,7 @@ class(`tc_BasicInformationTool_Numeric_api`) = c("SWIGFunction", class('tc_Basic
 }
 
 attr(`tc_insertConnection`, 'returnType') = 'integer'
-attr(`tc_insertConnection`, "inputTypes") = c('_p_ArrayOfItems', 'character', 'character')
+attr(`tc_insertConnection`, "inputTypes") = c('_p_tc_items', 'character', 'character')
 class(`tc_insertConnection`) = c("SWIGFunction", class('tc_insertConnection'))
 
 # Start of tc_getConnectedNodes
@@ -3951,13 +3975,13 @@ class(`tc_insertConnection`) = c("SWIGFunction", class('tc_insertConnection'))
   }
   
   ans = .Call('R_swig_tc_getConnectedNodes', connection, as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_ArrayOfItems"
+  class(ans) <- "_p_tc_items"
   
   ans
   
 }
 
-attr(`tc_getConnectedNodes`, 'returnType') = '_p_ArrayOfItems'
+attr(`tc_getConnectedNodes`, 'returnType') = '_p_tc_items'
 attr(`tc_getConnectedNodes`, "inputTypes") = c('integer')
 class(`tc_getConnectedNodes`) = c("SWIGFunction", class('tc_getConnectedNodes'))
 
@@ -3973,13 +3997,13 @@ class(`tc_getConnectedNodes`) = c("SWIGFunction", class('tc_getConnectedNodes'))
   
   role = as(role, "character") 
   ans = .Call('R_swig_tc_getConnectedNodesWithRole', connection, role, as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_ArrayOfItems"
+  class(ans) <- "_p_tc_items"
   
   ans
   
 }
 
-attr(`tc_getConnectedNodesWithRole`, 'returnType') = '_p_ArrayOfItems'
+attr(`tc_getConnectedNodesWithRole`, 'returnType') = '_p_tc_items'
 attr(`tc_getConnectedNodesWithRole`, "inputTypes") = c('integer', 'character')
 class(`tc_getConnectedNodesWithRole`) = c("SWIGFunction", class('tc_getConnectedNodesWithRole'))
 
@@ -3994,13 +4018,13 @@ class(`tc_getConnectedNodesWithRole`) = c("SWIGFunction", class('tc_getConnected
   }
   
   ans = .Call('R_swig_tc_getConnections', part, as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_ArrayOfItems"
+  class(ans) <- "_p_tc_items"
   
   ans
   
 }
 
-attr(`tc_getConnections`, 'returnType') = '_p_ArrayOfItems'
+attr(`tc_getConnections`, 'returnType') = '_p_tc_items'
 attr(`tc_getConnections`, "inputTypes") = c('integer')
 class(`tc_getConnections`) = c("SWIGFunction", class('tc_getConnections'))
 
@@ -4016,13 +4040,13 @@ class(`tc_getConnections`) = c("SWIGFunction", class('tc_getConnections'))
   
   role = as(role, "character") 
   ans = .Call('R_swig_tc_getConnectionsWithRole', part, role, as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_ArrayOfItems"
+  class(ans) <- "_p_tc_items"
   
   ans
   
 }
 
-attr(`tc_getConnectionsWithRole`, 'returnType') = '_p_ArrayOfItems'
+attr(`tc_getConnectionsWithRole`, 'returnType') = '_p_tc_items'
 attr(`tc_getConnectionsWithRole`, "inputTypes") = c('integer', 'character')
 class(`tc_getConnectionsWithRole`) = c("SWIGFunction", class('tc_getConnectionsWithRole'))
 
@@ -4085,7 +4109,7 @@ class(`tc_getConnectionsWithRole`) = c("SWIGFunction", class('tc_getConnectionsW
 }
 
 attr(`tc_ConnectionInsertion_api`, 'returnType') = 'void'
-attr(`tc_ConnectionInsertion_api`, "inputTypes") = c('_p_f_struct_ArrayOfItems_p_q_const__char_p_q_const__char__int', '_p_f_int__ArrayOfItems', '_p_f_int_p_q_const__char__ArrayOfItems', '_p_f_int__ArrayOfItems', '_p_f_int_p_q_const__char__ArrayOfItems')
+attr(`tc_ConnectionInsertion_api`, "inputTypes") = c('_p_f_struct_tc_items_p_q_const__char_p_q_const__char__long', '_p_f_long__tc_items', '_p_f_long_p_q_const__char__tc_items', '_p_f_long__tc_items', '_p_f_long_p_q_const__char__tc_items')
 class(`tc_ConnectionInsertion_api`) = c("SWIGFunction", class('tc_ConnectionInsertion_api'))
 
 # Start of tc_getControlPointX
@@ -4378,7 +4402,7 @@ class(`tc_setLineWidth`) = c("SWIGFunction", class('tc_setLineWidth'))
     }
   }
   if(is.function(setAllStraight)) {
-    assert('...' %in% names(formals(setAllStraight)) || length(formals(setAllStraight)) >= 0)
+    assert('...' %in% names(formals(setAllStraight)) || length(formals(setAllStraight)) >= 1)
   } else {
     if(is.character(setAllStraight)) {
       setAllStraight = getNativeSymbolInfo(setAllStraight)
@@ -4402,7 +4426,7 @@ class(`tc_setLineWidth`) = c("SWIGFunction", class('tc_setLineWidth'))
 }
 
 attr(`tc_ConnectionSelection_api`, 'returnType') = 'void'
-attr(`tc_ConnectionSelection_api`, "inputTypes") = c('_p_f_int_int_int__double', '_p_f_int_int_int__double', '_p_f_int_int_int_double_double__void', '_p_f_int_double_double__void', '_p_f_int__double', '_p_f_int__double', '_p_f_int_int__void', '_p_f_int__void', '_p_f_int_double_int__void')
+attr(`tc_ConnectionSelection_api`, "inputTypes") = c('_p_f_long_long_int__double', '_p_f_long_long_int__double', '_p_f_long_long_int_double_double__void', '_p_f_long_double_double__void', '_p_f_long__double', '_p_f_long__double', '_p_f_long_int__void', '_p_f_int__void', '_p_f_long_double_int__void')
 class(`tc_ConnectionSelection_api`) = c("SWIGFunction", class('tc_ConnectionSelection_api'))
 
 # Start of tc_merge
@@ -4414,7 +4438,7 @@ class(`tc_ConnectionSelection_api`) = c("SWIGFunction", class('tc_ConnectionSele
 }
 
 attr(`tc_merge`, 'returnType') = 'void'
-attr(`tc_merge`, "inputTypes") = c('_p_ArrayOfItems')
+attr(`tc_merge`, "inputTypes") = c('_p_tc_items')
 class(`tc_merge`) = c("SWIGFunction", class('tc_merge'))
 
 # Start of tc_separate
@@ -4464,7 +4488,7 @@ class(`tc_separate`) = c("SWIGFunction", class('tc_separate'))
 }
 
 attr(`tc_GroupHandlerTool_api`, 'returnType') = 'void'
-attr(`tc_GroupHandlerTool_api`, "inputTypes") = c('_p_f_struct_ArrayOfItems__void', '_p_f_int__void')
+attr(`tc_GroupHandlerTool_api`, "inputTypes") = c('_p_f_struct_tc_items__void', '_p_f_long__void')
 class(`tc_GroupHandlerTool_api`) = c("SWIGFunction", class('tc_GroupHandlerTool_api'))
 
 # Start of tc_insert
@@ -4500,7 +4524,7 @@ class(`tc_insert`) = c("SWIGFunction", class('tc_insert'))
 }
 
 attr(`tc_NodeInsertion_api`, 'returnType') = 'void'
-attr(`tc_NodeInsertion_api`, "inputTypes") = c('_p_f_p_q_const__char_p_q_const__char__int')
+attr(`tc_NodeInsertion_api`, "inputTypes") = c('_p_f_p_q_const__char_p_q_const__char__long')
 class(`tc_NodeInsertion_api`) = c("SWIGFunction", class('tc_NodeInsertion_api'))
 
 # Start of tc_getStoichiometry
@@ -4508,14 +4532,14 @@ class(`tc_NodeInsertion_api`) = c("SWIGFunction", class('tc_NodeInsertion_api'))
 `tc_getStoichiometry` = function(A, .copy = FALSE)
 {
   ans = .Call('R_swig_tc_getStoichiometry', A, as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_TableOfReals"
+  class(ans) <- "_p_tc_matrix"
   
   ans
   
 }
 
-attr(`tc_getStoichiometry`, 'returnType') = '_p_TableOfReals'
-attr(`tc_getStoichiometry`, "inputTypes") = c('_p_ArrayOfItems')
+attr(`tc_getStoichiometry`, 'returnType') = '_p_tc_matrix'
+attr(`tc_getStoichiometry`, "inputTypes") = c('_p_tc_items')
 class(`tc_getStoichiometry`) = c("SWIGFunction", class('tc_getStoichiometry'))
 
 # Start of tc_setStoichiometry
@@ -4527,7 +4551,7 @@ class(`tc_getStoichiometry`) = c("SWIGFunction", class('tc_getStoichiometry'))
 }
 
 attr(`tc_setStoichiometry`, 'returnType') = 'void'
-attr(`tc_setStoichiometry`, "inputTypes") = c('_p_ArrayOfItems', '_p_TableOfReals')
+attr(`tc_setStoichiometry`, "inputTypes") = c('_p_tc_items', '_p_tc_matrix')
 class(`tc_setStoichiometry`) = c("SWIGFunction", class('tc_setStoichiometry'))
 
 # Start of tc_getRates
@@ -4535,14 +4559,14 @@ class(`tc_setStoichiometry`) = c("SWIGFunction", class('tc_setStoichiometry'))
 `tc_getRates` = function(A, .copy = FALSE)
 {
   ans = .Call('R_swig_tc_getRates', A, as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_ArrayOfStrings"
+  class(ans) <- "_p_tc_strings"
   
   ans
   
 }
 
-attr(`tc_getRates`, 'returnType') = '_p_ArrayOfStrings'
-attr(`tc_getRates`, "inputTypes") = c('_p_ArrayOfItems')
+attr(`tc_getRates`, 'returnType') = '_p_tc_strings'
+attr(`tc_getRates`, "inputTypes") = c('_p_tc_items')
 class(`tc_getRates`) = c("SWIGFunction", class('tc_getRates'))
 
 # Start of tc_setRates
@@ -4554,7 +4578,7 @@ class(`tc_getRates`) = c("SWIGFunction", class('tc_getRates'))
 }
 
 attr(`tc_setRates`, 'returnType') = 'void'
-attr(`tc_setRates`, "inputTypes") = c('_p_ArrayOfItems', '_p_ArrayOfStrings')
+attr(`tc_setRates`, "inputTypes") = c('_p_tc_items', '_p_tc_strings')
 class(`tc_setRates`) = c("SWIGFunction", class('tc_setRates'))
 
 # Start of tc_getStoichiometryFor
@@ -4568,13 +4592,13 @@ class(`tc_setRates`) = c("SWIGFunction", class('tc_setRates'))
   }
   
   ans = .Call('R_swig_tc_getStoichiometryFor', x, as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_TableOfReals"
+  class(ans) <- "_p_tc_matrix"
   
   ans
   
 }
 
-attr(`tc_getStoichiometryFor`, 'returnType') = '_p_TableOfReals'
+attr(`tc_getStoichiometryFor`, 'returnType') = '_p_tc_matrix'
 attr(`tc_getStoichiometryFor`, "inputTypes") = c('integer')
 class(`tc_getStoichiometryFor`) = c("SWIGFunction", class('tc_getStoichiometryFor'))
 
@@ -4631,7 +4655,7 @@ class(`tc_setRate`) = c("SWIGFunction", class('tc_setRate'))
 }
 
 attr(`tc_setStoichiometryFor`, 'returnType') = 'void'
-attr(`tc_setStoichiometryFor`, "inputTypes") = c('integer', '_p_TableOfReals')
+attr(`tc_setStoichiometryFor`, "inputTypes") = c('integer', '_p_tc_matrix')
 class(`tc_setStoichiometryFor`) = c("SWIGFunction", class('tc_setStoichiometryFor'))
 
 # Start of tc_StoichiometryTool_api
@@ -4683,7 +4707,7 @@ class(`tc_setStoichiometryFor`) = c("SWIGFunction", class('tc_setStoichiometryFo
 }
 
 attr(`tc_StoichiometryTool_api`, 'returnType') = 'void'
-attr(`tc_StoichiometryTool_api`, "inputTypes") = c('_p_f_ArrayOfItems__TableOfReals', '_p_f_struct_ArrayOfItems_struct_TableOfReals__void', '_p_f_ArrayOfItems__ArrayOfStrings', '_p_f_struct_ArrayOfItems_struct_ArrayOfStrings__void')
+attr(`tc_StoichiometryTool_api`, "inputTypes") = c('_p_f_tc_items__tc_matrix', '_p_f_struct_tc_items_struct_tc_matrix__void', '_p_f_tc_items__tc_strings', '_p_f_struct_tc_items_struct_tc_strings__void')
 class(`tc_StoichiometryTool_api`) = c("SWIGFunction", class('tc_StoichiometryTool_api'))
 
 # Start of tc_compileAndRun
@@ -4728,7 +4752,7 @@ class(`tc_compileBuildLoad`) = c("SWIGFunction", class('tc_compileBuildLoad'))
 }
 
 attr(`tc_compileBuildLoadSliders`, 'returnType') = 'integer'
-attr(`tc_compileBuildLoadSliders`, "inputTypes") = c('character', 'character', 'character', '_p_TableOfReals')
+attr(`tc_compileBuildLoadSliders`, "inputTypes") = c('character', 'character', 'character', '_p_tc_matrix')
 class(`tc_compileBuildLoadSliders`) = c("SWIGFunction", class('tc_compileBuildLoadSliders'))
 
 # Start of tc_runPythonCode
@@ -4916,7 +4940,7 @@ class(`tc_DynamicLibraryMenu_api`) = c("SWIGFunction", class('tc_DynamicLibraryM
 `tc_LoadCLibraries_api` = function(compileAndRun, compileBuildLoad, compileBuildLoadSliders, loadLibrary, addFunction, callback, unload)
 {
   if(is.function(compileAndRun)) {
-    assert('...' %in% names(formals(compileAndRun)) || length(formals(compileAndRun)) >= 0)
+    assert('...' %in% names(formals(compileAndRun)) || length(formals(compileAndRun)) >= 2)
   } else {
     if(is.character(compileAndRun)) {
       compileAndRun = getNativeSymbolInfo(compileAndRun)
@@ -4990,7 +5014,7 @@ class(`tc_DynamicLibraryMenu_api`) = c("SWIGFunction", class('tc_DynamicLibraryM
 }
 
 attr(`tc_LoadCLibraries_api`, 'returnType') = 'void'
-attr(`tc_LoadCLibraries_api`, "inputTypes") = c('_p_f_p_q_const__char_p_q_const__char__int', '_p_f_p_q_const__char_p_q_const__char_p_q_const__char__int', '_p_f_p_q_const__char_p_q_const__char_p_q_const__char_struct_TableOfReals__int', '_p_f_p_q_const__char__void', '_p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void', '_p_f_p_f_void__void__void', '_p_f_p_f_void__void__void')
+attr(`tc_LoadCLibraries_api`, "inputTypes") = c('_p_f_p_q_const__char_p_q_const__char__int', '_p_f_p_q_const__char_p_q_const__char_p_q_const__char__int', '_p_f_p_q_const__char_p_q_const__char_p_q_const__char_struct_tc_matrix__int', '_p_f_p_q_const__char__void', '_p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void', '_p_f_p_f_void__void__void', '_p_f_p_f_void__void__void')
 class(`tc_LoadCLibraries_api`) = c("SWIGFunction", class('tc_LoadCLibraries_api'))
 
 # Start of tc_PythonTool_api
@@ -5087,7 +5111,7 @@ class(`tc_OctaveTool_api`) = c("SWIGFunction", class('tc_OctaveTool_api'))
 }
 
 attr(`tc_surface`, 'returnType') = 'void'
-attr(`tc_surface`, "inputTypes") = c('_p_TableOfReals', 'character')
+attr(`tc_surface`, "inputTypes") = c('_p_tc_matrix', 'character')
 class(`tc_surface`) = c("SWIGFunction", class('tc_surface'))
 
 # Start of tc_plot
@@ -5100,7 +5124,7 @@ class(`tc_surface`) = c("SWIGFunction", class('tc_surface'))
 }
 
 attr(`tc_plot`, 'returnType') = 'void'
-attr(`tc_plot`, "inputTypes") = c('_p_TableOfReals', 'character')
+attr(`tc_plot`, "inputTypes") = c('_p_tc_matrix', 'character')
 class(`tc_plot`) = c("SWIGFunction", class('tc_plot'))
 
 # Start of tc_scatterplot
@@ -5113,7 +5137,7 @@ class(`tc_plot`) = c("SWIGFunction", class('tc_plot'))
 }
 
 attr(`tc_scatterplot`, 'returnType') = 'void'
-attr(`tc_scatterplot`, "inputTypes") = c('_p_TableOfReals', 'character')
+attr(`tc_scatterplot`, "inputTypes") = c('_p_tc_matrix', 'character')
 class(`tc_scatterplot`) = c("SWIGFunction", class('tc_scatterplot'))
 
 # Start of tc_errorBars
@@ -5126,7 +5150,7 @@ class(`tc_scatterplot`) = c("SWIGFunction", class('tc_scatterplot'))
 }
 
 attr(`tc_errorBars`, 'returnType') = 'void'
-attr(`tc_errorBars`, "inputTypes") = c('_p_TableOfReals', 'character')
+attr(`tc_errorBars`, "inputTypes") = c('_p_tc_matrix', 'character')
 class(`tc_errorBars`) = c("SWIGFunction", class('tc_errorBars'))
 
 # Start of tc_hist
@@ -5139,7 +5163,7 @@ class(`tc_errorBars`) = c("SWIGFunction", class('tc_errorBars'))
 }
 
 attr(`tc_hist`, 'returnType') = 'void'
-attr(`tc_hist`, "inputTypes") = c('_p_TableOfReals', 'character')
+attr(`tc_hist`, "inputTypes") = c('_p_tc_matrix', 'character')
 class(`tc_hist`) = c("SWIGFunction", class('tc_hist'))
 
 # Start of tc_multiplot
@@ -5177,13 +5201,13 @@ class(`tc_multiplot`) = c("SWIGFunction", class('tc_multiplot'))
   }
   
   ans = .Call('R_swig_tc_getPlotData', whichPlot, as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_TableOfReals"
+  class(ans) <- "_p_tc_matrix"
   
   ans
   
 }
 
-attr(`tc_getPlotData`, 'returnType') = '_p_TableOfReals'
+attr(`tc_getPlotData`, 'returnType') = '_p_tc_matrix'
 attr(`tc_getPlotData`, "inputTypes") = c('integer')
 class(`tc_getPlotData`) = c("SWIGFunction", class('tc_getPlotData'))
 
@@ -5255,7 +5279,7 @@ class(`tc_gnuplot`) = c("SWIGFunction", class('tc_gnuplot'))
     }
   }
   if(is.function(multiplot)) {
-    assert('...' %in% names(formals(multiplot)) || length(formals(multiplot)) >= 0)
+    assert('...' %in% names(formals(multiplot)) || length(formals(multiplot)) >= 2)
   } else {
     if(is.character(multiplot)) {
       multiplot = getNativeSymbolInfo(multiplot)
@@ -5289,7 +5313,7 @@ class(`tc_gnuplot`) = c("SWIGFunction", class('tc_gnuplot'))
 }
 
 attr(`tc_PlotTool_api`, 'returnType') = 'void'
-attr(`tc_PlotTool_api`, "inputTypes") = c('_p_f_struct_TableOfReals_p_q_const__char__void', '_p_f_struct_TableOfReals_p_q_const__char__void', '_p_f_struct_TableOfReals_p_q_const__char__void', '_p_f_struct_TableOfReals_p_q_const__char__void', '_p_f_struct_TableOfReals_p_q_const__char__void', '_p_f_int_int__void', '_p_f_int__TableOfReals', '_p_f_p_q_const__char__void')
+attr(`tc_PlotTool_api`, "inputTypes") = c('_p_f_struct_tc_matrix_p_q_const__char__void', '_p_f_struct_tc_matrix_p_q_const__char__void', '_p_f_struct_tc_matrix_p_q_const__char__void', '_p_f_struct_tc_matrix_p_q_const__char__void', '_p_f_struct_tc_matrix_p_q_const__char__void', '_p_f_int_int__void', '_p_f_int__tc_matrix', '_p_f_p_q_const__char__void')
 class(`tc_PlotTool_api`) = c("SWIGFunction", class('tc_PlotTool_api'))
 
 # Start of tc_writeModel
@@ -5303,7 +5327,7 @@ class(`tc_PlotTool_api`) = c("SWIGFunction", class('tc_PlotTool_api'))
 }
 
 attr(`tc_writeModel`, 'returnType') = 'integer'
-attr(`tc_writeModel`, "inputTypes") = c('character', '_p_ArrayOfItems')
+attr(`tc_writeModel`, "inputTypes") = c('character', '_p_tc_items')
 class(`tc_writeModel`) = c("SWIGFunction", class('tc_writeModel'))
 
 # Start of tc_ModelFileGenerator_api
@@ -5325,7 +5349,7 @@ class(`tc_writeModel`) = c("SWIGFunction", class('tc_writeModel'))
 }
 
 attr(`tc_ModelFileGenerator_api`, 'returnType') = 'void'
-attr(`tc_ModelFileGenerator_api`, "inputTypes") = c('_p_f_p_q_const__char_struct_ArrayOfItems__int')
+attr(`tc_ModelFileGenerator_api`, "inputTypes") = c('_p_f_p_q_const__char_struct_tc_items__int')
 class(`tc_ModelFileGenerator_api`) = c("SWIGFunction", class('tc_ModelFileGenerator_api'))
 
 # Start of tc_getEventTriggers
@@ -5333,13 +5357,13 @@ class(`tc_ModelFileGenerator_api`) = c("SWIGFunction", class('tc_ModelFileGenera
 `tc_getEventTriggers` = function(.copy = FALSE)
 {
   ans = .Call('R_swig_tc_getEventTriggers', as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_ArrayOfStrings"
+  class(ans) <- "_p_tc_strings"
   
   ans
   
 }
 
-attr(`tc_getEventTriggers`, 'returnType') = '_p_ArrayOfStrings'
+attr(`tc_getEventTriggers`, 'returnType') = '_p_tc_strings'
 class(`tc_getEventTriggers`) = c("SWIGFunction", class('tc_getEventTriggers'))
 
 # Start of tc_getEventResponses
@@ -5347,13 +5371,13 @@ class(`tc_getEventTriggers`) = c("SWIGFunction", class('tc_getEventTriggers'))
 `tc_getEventResponses` = function(.copy = FALSE)
 {
   ans = .Call('R_swig_tc_getEventResponses', as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_ArrayOfStrings"
+  class(ans) <- "_p_tc_strings"
   
   ans
   
 }
 
-attr(`tc_getEventResponses`, 'returnType') = '_p_ArrayOfStrings'
+attr(`tc_getEventResponses`, 'returnType') = '_p_tc_strings'
 class(`tc_getEventResponses`) = c("SWIGFunction", class('tc_getEventResponses'))
 
 # Start of tc_addEvent
@@ -5409,7 +5433,7 @@ class(`tc_addEvent`) = c("SWIGFunction", class('tc_addEvent'))
 }
 
 attr(`tc_SimulationEventsTool_api`, 'returnType') = 'void'
-attr(`tc_SimulationEventsTool_api`, "inputTypes") = c('_p_f___ArrayOfStrings', '_p_f___ArrayOfStrings', '_p_f_p_q_const__char_p_q_const__char__void')
+attr(`tc_SimulationEventsTool_api`, "inputTypes") = c('_p_f___tc_strings', '_p_f___tc_strings', '_p_f_p_q_const__char_p_q_const__char__void')
 class(`tc_SimulationEventsTool_api`) = c("SWIGFunction", class('tc_SimulationEventsTool_api'))
 
 # Start of tc_getForcingFunctionNames
@@ -5417,14 +5441,14 @@ class(`tc_SimulationEventsTool_api`) = c("SWIGFunction", class('tc_SimulationEve
 `tc_getForcingFunctionNames` = function(a, .copy = FALSE)
 {
   ans = .Call('R_swig_tc_getForcingFunctionNames', a, as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_ArrayOfStrings"
+  class(ans) <- "_p_tc_strings"
   
   ans
   
 }
 
-attr(`tc_getForcingFunctionNames`, 'returnType') = '_p_ArrayOfStrings'
-attr(`tc_getForcingFunctionNames`, "inputTypes") = c('_p_ArrayOfItems')
+attr(`tc_getForcingFunctionNames`, 'returnType') = '_p_tc_strings'
+attr(`tc_getForcingFunctionNames`, "inputTypes") = c('_p_tc_items')
 class(`tc_getForcingFunctionNames`) = c("SWIGFunction", class('tc_getForcingFunctionNames'))
 
 # Start of tc_getForcingFunctionAssignments
@@ -5432,14 +5456,14 @@ class(`tc_getForcingFunctionNames`) = c("SWIGFunction", class('tc_getForcingFunc
 `tc_getForcingFunctionAssignments` = function(a, .copy = FALSE)
 {
   ans = .Call('R_swig_tc_getForcingFunctionAssignments', a, as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_ArrayOfStrings"
+  class(ans) <- "_p_tc_strings"
   
   ans
   
 }
 
-attr(`tc_getForcingFunctionAssignments`, 'returnType') = '_p_ArrayOfStrings'
-attr(`tc_getForcingFunctionAssignments`, "inputTypes") = c('_p_ArrayOfItems')
+attr(`tc_getForcingFunctionAssignments`, 'returnType') = '_p_tc_strings'
+attr(`tc_getForcingFunctionAssignments`, "inputTypes") = c('_p_tc_items')
 class(`tc_getForcingFunctionAssignments`) = c("SWIGFunction", class('tc_getForcingFunctionAssignments'))
 
 # Start of tc_addForcingFunction
@@ -5501,7 +5525,7 @@ class(`tc_addForcingFunction`) = c("SWIGFunction", class('tc_addForcingFunction'
 }
 
 attr(`tc_AssignmentFunctionsTool_api`, 'returnType') = 'void'
-attr(`tc_AssignmentFunctionsTool_api`, "inputTypes") = c('_p_f_ArrayOfItems__ArrayOfStrings', '_p_f_ArrayOfItems__ArrayOfStrings', '_p_f_int_p_q_const__char_p_q_const__char__void')
+attr(`tc_AssignmentFunctionsTool_api`, "inputTypes") = c('_p_f_tc_items__tc_strings', '_p_f_tc_items__tc_strings', '_p_f_long_p_q_const__char_p_q_const__char__void')
 class(`tc_AssignmentFunctionsTool_api`) = c("SWIGFunction", class('tc_AssignmentFunctionsTool_api'))
 
 # Start of tc_displayText
@@ -5624,7 +5648,7 @@ class(`tc_highlight`) = c("SWIGFunction", class('tc_highlight'))
 }
 
 attr(`tc_CLabelsTool_api`, 'returnType') = 'void'
-attr(`tc_CLabelsTool_api`, "inputTypes") = c('_p_f_int_p_q_const__char__void', '_p_f_int_double__void', '_p_f_p_q_const__char_p_q_const__char__void', '_p_f_int_p_q_const__char__void')
+attr(`tc_CLabelsTool_api`, "inputTypes") = c('_p_f_long_p_q_const__char__void', '_p_f_long_double__void', '_p_f_p_q_const__char_p_q_const__char__void', '_p_f_long_p_q_const__char__void')
 class(`tc_CLabelsTool_api`) = c("SWIGFunction", class('tc_CLabelsTool_api'))
 
 # Start of tc_getAnnotation
@@ -5638,13 +5662,13 @@ class(`tc_CLabelsTool_api`) = c("SWIGFunction", class('tc_CLabelsTool_api'))
   }
   
   ans = .Call('R_swig_tc_getAnnotation', o, as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_ArrayOfStrings"
+  class(ans) <- "_p_tc_strings"
   
   ans
   
 }
 
-attr(`tc_getAnnotation`, 'returnType') = '_p_ArrayOfStrings'
+attr(`tc_getAnnotation`, 'returnType') = '_p_tc_strings'
 attr(`tc_getAnnotation`, "inputTypes") = c('integer')
 class(`tc_getAnnotation`) = c("SWIGFunction", class('tc_getAnnotation'))
 
@@ -5664,7 +5688,7 @@ class(`tc_getAnnotation`) = c("SWIGFunction", class('tc_getAnnotation'))
 }
 
 attr(`tc_setAnnotation`, 'returnType') = 'void'
-attr(`tc_setAnnotation`, "inputTypes") = c('integer', '_p_ArrayOfStrings')
+attr(`tc_setAnnotation`, "inputTypes") = c('integer', '_p_tc_strings')
 class(`tc_setAnnotation`) = c("SWIGFunction", class('tc_setAnnotation'))
 
 # Start of tc_NameFamily_api_initialize
@@ -5696,7 +5720,7 @@ class(`tc_setAnnotation`) = c("SWIGFunction", class('tc_setAnnotation'))
 }
 
 attr(`tc_NameFamily_api_initialize`, 'returnType') = 'void'
-attr(`tc_NameFamily_api_initialize`, "inputTypes") = c('_p_f_int__ArrayOfStrings', '_p_f_int_struct_ArrayOfStrings__void')
+attr(`tc_NameFamily_api_initialize`, "inputTypes") = c('_p_f_long__tc_strings', '_p_f_long_struct_tc_strings__void')
 class(`tc_NameFamily_api_initialize`) = c("SWIGFunction", class('tc_NameFamily_api_initialize'))
 
 # Start of tc_partsIn
@@ -5710,13 +5734,13 @@ class(`tc_NameFamily_api_initialize`) = c("SWIGFunction", class('tc_NameFamily_a
   }
   
   ans = .Call('R_swig_tc_partsIn', o, as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_ArrayOfItems"
+  class(ans) <- "_p_tc_items"
   
   ans
   
 }
 
-attr(`tc_partsIn`, 'returnType') = '_p_ArrayOfItems'
+attr(`tc_partsIn`, 'returnType') = '_p_tc_items'
 attr(`tc_partsIn`, "inputTypes") = c('integer')
 class(`tc_partsIn`) = c("SWIGFunction", class('tc_partsIn'))
 
@@ -5731,13 +5755,13 @@ class(`tc_partsIn`) = c("SWIGFunction", class('tc_partsIn'))
   }
   
   ans = .Call('R_swig_tc_partsUpstream', o, as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_ArrayOfItems"
+  class(ans) <- "_p_tc_items"
   
   ans
   
 }
 
-attr(`tc_partsUpstream`, 'returnType') = '_p_ArrayOfItems'
+attr(`tc_partsUpstream`, 'returnType') = '_p_tc_items'
 attr(`tc_partsUpstream`, "inputTypes") = c('integer')
 class(`tc_partsUpstream`) = c("SWIGFunction", class('tc_partsUpstream'))
 
@@ -5752,13 +5776,13 @@ class(`tc_partsUpstream`) = c("SWIGFunction", class('tc_partsUpstream'))
   }
   
   ans = .Call('R_swig_tc_partsDownstream', o, as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_ArrayOfItems"
+  class(ans) <- "_p_tc_items"
   
   ans
   
 }
 
-attr(`tc_partsDownstream`, 'returnType') = '_p_ArrayOfItems'
+attr(`tc_partsDownstream`, 'returnType') = '_p_tc_items'
 attr(`tc_partsDownstream`, "inputTypes") = c('integer')
 class(`tc_partsDownstream`) = c("SWIGFunction", class('tc_partsDownstream'))
 
@@ -5771,7 +5795,7 @@ class(`tc_partsDownstream`) = c("SWIGFunction", class('tc_partsDownstream'))
 }
 
 attr(`tc_alignParts`, 'returnType') = 'void'
-attr(`tc_alignParts`, "inputTypes") = c('_p_ArrayOfItems')
+attr(`tc_alignParts`, "inputTypes") = c('_p_tc_items')
 class(`tc_alignParts`) = c("SWIGFunction", class('tc_alignParts'))
 
 # Start of tc_AutoGeneRegulatoryTool_api
@@ -5823,7 +5847,7 @@ class(`tc_alignParts`) = c("SWIGFunction", class('tc_alignParts'))
 }
 
 attr(`tc_AutoGeneRegulatoryTool_api`, 'returnType') = 'void'
-attr(`tc_AutoGeneRegulatoryTool_api`, "inputTypes") = c('_p_f_int__ArrayOfItems', '_p_f_int__ArrayOfItems', '_p_f_int__ArrayOfItems', '_p_f_struct_ArrayOfItems__void')
+attr(`tc_AutoGeneRegulatoryTool_api`, "inputTypes") = c('_p_f_long__tc_items', '_p_f_long__tc_items', '_p_f_long__tc_items', '_p_f_struct_tc_items__void')
 class(`tc_AutoGeneRegulatoryTool_api`) = c("SWIGFunction", class('tc_AutoGeneRegulatoryTool_api'))
 
 # Start of tc_exportSBML
@@ -5857,13 +5881,13 @@ class(`tc_importSBML`) = c("SWIGFunction", class('tc_importSBML'))
 `tc_simulateODE` = function(time, step_size, .copy = FALSE)
 {
   ans = .Call('R_swig_tc_simulateODE', time, step_size, as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_TableOfReals"
+  class(ans) <- "_p_tc_matrix"
   
   ans
   
 }
 
-attr(`tc_simulateODE`, 'returnType') = '_p_TableOfReals'
+attr(`tc_simulateODE`, 'returnType') = '_p_tc_matrix'
 attr(`tc_simulateODE`, "inputTypes") = c('numeric', 'numeric')
 class(`tc_simulateODE`) = c("SWIGFunction", class('tc_simulateODE'))
 
@@ -5872,13 +5896,13 @@ class(`tc_simulateODE`) = c("SWIGFunction", class('tc_simulateODE'))
 `tc_simulateSSA` = function(time, .copy = FALSE)
 {
   ans = .Call('R_swig_tc_simulateSSA', time, as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_TableOfReals"
+  class(ans) <- "_p_tc_matrix"
   
   ans
   
 }
 
-attr(`tc_simulateSSA`, 'returnType') = '_p_TableOfReals'
+attr(`tc_simulateSSA`, 'returnType') = '_p_tc_matrix'
 attr(`tc_simulateSSA`, "inputTypes") = c('numeric')
 class(`tc_simulateSSA`) = c("SWIGFunction", class('tc_simulateSSA'))
 
@@ -5931,7 +5955,7 @@ class(`tc_simulateSSA`) = c("SWIGFunction", class('tc_simulateSSA'))
 }
 
 attr(`tc_SBML_api`, 'returnType') = 'void'
-attr(`tc_SBML_api`, "inputTypes") = c('_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void', '_p_f_double_double__TableOfReals', '_p_f_double__TableOfReals')
+attr(`tc_SBML_api`, "inputTypes") = c('_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void', '_p_f_double_double__tc_matrix', '_p_f_double__tc_matrix')
 class(`tc_SBML_api`) = c("SWIGFunction", class('tc_SBML_api'))
 
 

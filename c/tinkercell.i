@@ -1,7 +1,7 @@
 %module tinkercell
 %inline
 %{
-#include "TCstructs.h"
+#include "API/TCstructs.h"
 #include "API/TC_Main_api.h"
 #include "API/TC_BasicInformationTool_api.h"
 #include "API/TC_ConnectionInsertion_api.h"
@@ -17,7 +17,7 @@
 #include "API/TC_AutoGeneRegulatoryTool_api.h"
 #include "API/TC_SBML_api.h"
 %}
-%include "TCstructs.h"
+%include "API/TCstructs.h"
 %include "API/TC_Main_api.h"
 %include "API/TC_BasicInformationTool_api.h"
 %include "API/TC_ConnectionInsertion_api.h"

@@ -49,28 +49,28 @@ sub this {
 
 package tinkercell;
 
-*newMatrix = *tinkercellc::newMatrix;
-*newTableOfStrings = *tinkercellc::newTableOfStrings;
-*newArrayOfStrings = *tinkercellc::newArrayOfStrings;
-*newArrayOfItems = *tinkercellc::newArrayOfItems;
-*getValue = *tinkercellc::getValue;
-*setValue = *tinkercellc::setValue;
-*getRowName = *tinkercellc::getRowName;
-*setRowName = *tinkercellc::setRowName;
-*getColumnName = *tinkercellc::getColumnName;
-*setColumnName = *tinkercellc::setColumnName;
-*getString = *tinkercellc::getString;
-*setString = *tinkercellc::setString;
-*nthString = *tinkercellc::nthString;
-*setNthString = *tinkercellc::setNthString;
-*nthItem = *tinkercellc::nthItem;
-*setNthItem = *tinkercellc::setNthItem;
-*deleteMatrix = *tinkercellc::deleteMatrix;
-*deleteTableOfStrings = *tinkercellc::deleteTableOfStrings;
-*deleteArrayOfItems = *tinkercellc::deleteArrayOfItems;
-*deleteArrayOfStrings = *tinkercellc::deleteArrayOfStrings;
-*cbind = *tinkercellc::cbind;
-*rbind = *tinkercellc::rbind;
+*tc_createMatrix = *tinkercellc::tc_createMatrix;
+*tc_createTable = *tinkercellc::tc_createTable;
+*tc_createStringsArray = *tinkercellc::tc_createStringsArray;
+*tc_createItemsArray = *tinkercellc::tc_createItemsArray;
+*tc_getMatrixValue = *tinkercellc::tc_getMatrixValue;
+*tc_setMatrixValue = *tinkercellc::tc_setMatrixValue;
+*tc_getRowName = *tinkercellc::tc_getRowName;
+*tc_setRowName = *tinkercellc::tc_setRowName;
+*tc_getColumnName = *tinkercellc::tc_getColumnName;
+*tc_setColumnName = *tinkercellc::tc_setColumnName;
+*tc_getTableValue = *tinkercellc::tc_getTableValue;
+*tc_setTableValue = *tinkercellc::tc_setTableValue;
+*tc_getString = *tinkercellc::tc_getString;
+*tc_setString = *tinkercellc::tc_setString;
+*tc_getItem = *tinkercellc::tc_getItem;
+*tc_setItem = *tinkercellc::tc_setItem;
+*tc_deleteMatrix = *tinkercellc::tc_deleteMatrix;
+*tc_deleteTable = *tinkercellc::tc_deleteTable;
+*tc_deleteItemsArray = *tinkercellc::tc_deleteItemsArray;
+*tc_deleteStringsArray = *tinkercellc::tc_deleteStringsArray;
+*tc_appendColumns = *tinkercellc::tc_appendColumns;
+*tc_appendRows = *tinkercellc::tc_appendRows;
 *tc_allItems = *tinkercellc::tc_allItems;
 *tc_selectedItems = *tinkercellc::tc_selectedItems;
 *tc_itemsOfFamily = *tinkercellc::tc_itemsOfFamily;
@@ -116,9 +116,9 @@ package tinkercell;
 *tc_getNumericalDataNames = *tinkercellc::tc_getNumericalDataNames;
 *tc_getTextDataNames = *tinkercellc::tc_getTextDataNames;
 *tc_zoom = *tinkercellc::tc_zoom;
-*tc_getString = *tinkercellc::tc_getString;
+*tc_tc_getTableValue = *tinkercellc::tc_tc_getTableValue;
 *tc_getFilename = *tinkercellc::tc_getFilename;
-*tc_getStringFromList = *tinkercellc::tc_getStringFromList;
+*tc_tc_getTableValueFromList = *tinkercellc::tc_tc_getTableValueFromList;
 *tc_getNumber = *tinkercellc::tc_getNumber;
 *tc_getNumbers = *tinkercellc::tc_getNumbers;
 *tc_askQuestion = *tinkercellc::tc_askQuestion;
@@ -234,20 +234,20 @@ package tinkercell;
 *tc_simulateSSA = *tinkercellc::tc_simulateSSA;
 *tc_SBML_api = *tinkercellc::tc_SBML_api;
 
-############# Class : tinkercell::ArrayOfStrings ##############
+############# Class : tinkercell::tc_strings ##############
 
-package tinkercell::ArrayOfStrings;
+package tinkercell::tc_strings;
 use vars qw(@ISA %OWNER %ITERATORS %BLESSEDMEMBERS);
 @ISA = qw( tinkercell );
 %OWNER = ();
 %ITERATORS = ();
-*swig_length_get = *tinkercellc::ArrayOfStrings_length_get;
-*swig_length_set = *tinkercellc::ArrayOfStrings_length_set;
-*swig_strings_get = *tinkercellc::ArrayOfStrings_strings_get;
-*swig_strings_set = *tinkercellc::ArrayOfStrings_strings_set;
+*swig_length_get = *tinkercellc::tc_strings_length_get;
+*swig_length_set = *tinkercellc::tc_strings_length_set;
+*swig_strings_get = *tinkercellc::tc_strings_strings_get;
+*swig_strings_set = *tinkercellc::tc_strings_strings_set;
 sub new {
     my $pkg = shift;
-    my $self = tinkercellc::new_ArrayOfStrings(@_);
+    my $self = tinkercellc::new_tc_strings(@_);
     bless $self, $pkg if defined($self);
 }
 
@@ -257,7 +257,7 @@ sub DESTROY {
     return unless defined $self;
     delete $ITERATORS{$self};
     if (exists $OWNER{$self}) {
-        tinkercellc::delete_ArrayOfStrings($self);
+        tinkercellc::delete_tc_strings($self);
         delete $OWNER{$self};
     }
 }
@@ -275,20 +275,20 @@ sub ACQUIRE {
 }
 
 
-############# Class : tinkercell::ArrayOfItems ##############
+############# Class : tinkercell::tc_items ##############
 
-package tinkercell::ArrayOfItems;
+package tinkercell::tc_items;
 use vars qw(@ISA %OWNER %ITERATORS %BLESSEDMEMBERS);
 @ISA = qw( tinkercell );
 %OWNER = ();
 %ITERATORS = ();
-*swig_length_get = *tinkercellc::ArrayOfItems_length_get;
-*swig_length_set = *tinkercellc::ArrayOfItems_length_set;
-*swig_items_get = *tinkercellc::ArrayOfItems_items_get;
-*swig_items_set = *tinkercellc::ArrayOfItems_items_set;
+*swig_length_get = *tinkercellc::tc_items_length_get;
+*swig_length_set = *tinkercellc::tc_items_length_set;
+*swig_items_get = *tinkercellc::tc_items_items_get;
+*swig_items_set = *tinkercellc::tc_items_items_set;
 sub new {
     my $pkg = shift;
-    my $self = tinkercellc::new_ArrayOfItems(@_);
+    my $self = tinkercellc::new_tc_items(@_);
     bless $self, $pkg if defined($self);
 }
 
@@ -298,7 +298,7 @@ sub DESTROY {
     return unless defined $self;
     delete $ITERATORS{$self};
     if (exists $OWNER{$self}) {
-        tinkercellc::delete_ArrayOfItems($self);
+        tinkercellc::delete_tc_items($self);
         delete $OWNER{$self};
     }
 }
@@ -316,26 +316,26 @@ sub ACQUIRE {
 }
 
 
-############# Class : tinkercell::TableOfReals ##############
+############# Class : tinkercell::tc_matrix ##############
 
-package tinkercell::TableOfReals;
+package tinkercell::tc_matrix;
 use vars qw(@ISA %OWNER %ITERATORS %BLESSEDMEMBERS);
 @ISA = qw( tinkercell );
 %OWNER = ();
 %ITERATORS = ();
-*swig_rows_get = *tinkercellc::TableOfReals_rows_get;
-*swig_rows_set = *tinkercellc::TableOfReals_rows_set;
-*swig_cols_get = *tinkercellc::TableOfReals_cols_get;
-*swig_cols_set = *tinkercellc::TableOfReals_cols_set;
-*swig_values_get = *tinkercellc::TableOfReals_values_get;
-*swig_values_set = *tinkercellc::TableOfReals_values_set;
-*swig_rownames_get = *tinkercellc::TableOfReals_rownames_get;
-*swig_rownames_set = *tinkercellc::TableOfReals_rownames_set;
-*swig_colnames_get = *tinkercellc::TableOfReals_colnames_get;
-*swig_colnames_set = *tinkercellc::TableOfReals_colnames_set;
+*swig_rows_get = *tinkercellc::tc_matrix_rows_get;
+*swig_rows_set = *tinkercellc::tc_matrix_rows_set;
+*swig_cols_get = *tinkercellc::tc_matrix_cols_get;
+*swig_cols_set = *tinkercellc::tc_matrix_cols_set;
+*swig_values_get = *tinkercellc::tc_matrix_values_get;
+*swig_values_set = *tinkercellc::tc_matrix_values_set;
+*swig_rownames_get = *tinkercellc::tc_matrix_rownames_get;
+*swig_rownames_set = *tinkercellc::tc_matrix_rownames_set;
+*swig_colnames_get = *tinkercellc::tc_matrix_colnames_get;
+*swig_colnames_set = *tinkercellc::tc_matrix_colnames_set;
 sub new {
     my $pkg = shift;
-    my $self = tinkercellc::new_TableOfReals(@_);
+    my $self = tinkercellc::new_tc_matrix(@_);
     bless $self, $pkg if defined($self);
 }
 
@@ -345,7 +345,7 @@ sub DESTROY {
     return unless defined $self;
     delete $ITERATORS{$self};
     if (exists $OWNER{$self}) {
-        tinkercellc::delete_TableOfReals($self);
+        tinkercellc::delete_tc_matrix($self);
         delete $OWNER{$self};
     }
 }
@@ -363,26 +363,26 @@ sub ACQUIRE {
 }
 
 
-############# Class : tinkercell::TableOfStrings ##############
+############# Class : tinkercell::tc_table ##############
 
-package tinkercell::TableOfStrings;
+package tinkercell::tc_table;
 use vars qw(@ISA %OWNER %ITERATORS %BLESSEDMEMBERS);
 @ISA = qw( tinkercell );
 %OWNER = ();
 %ITERATORS = ();
-*swig_rows_get = *tinkercellc::TableOfStrings_rows_get;
-*swig_rows_set = *tinkercellc::TableOfStrings_rows_set;
-*swig_cols_get = *tinkercellc::TableOfStrings_cols_get;
-*swig_cols_set = *tinkercellc::TableOfStrings_cols_set;
-*swig_strings_get = *tinkercellc::TableOfStrings_strings_get;
-*swig_strings_set = *tinkercellc::TableOfStrings_strings_set;
-*swig_rownames_get = *tinkercellc::TableOfStrings_rownames_get;
-*swig_rownames_set = *tinkercellc::TableOfStrings_rownames_set;
-*swig_colnames_get = *tinkercellc::TableOfStrings_colnames_get;
-*swig_colnames_set = *tinkercellc::TableOfStrings_colnames_set;
+*swig_rows_get = *tinkercellc::tc_table_rows_get;
+*swig_rows_set = *tinkercellc::tc_table_rows_set;
+*swig_cols_get = *tinkercellc::tc_table_cols_get;
+*swig_cols_set = *tinkercellc::tc_table_cols_set;
+*swig_strings_get = *tinkercellc::tc_table_strings_get;
+*swig_strings_set = *tinkercellc::tc_table_strings_set;
+*swig_rownames_get = *tinkercellc::tc_table_rownames_get;
+*swig_rownames_set = *tinkercellc::tc_table_rownames_set;
+*swig_colnames_get = *tinkercellc::tc_table_colnames_get;
+*swig_colnames_set = *tinkercellc::tc_table_colnames_set;
 sub new {
     my $pkg = shift;
-    my $self = tinkercellc::new_TableOfStrings(@_);
+    my $self = tinkercellc::new_tc_table(@_);
     bless $self, $pkg if defined($self);
 }
 
@@ -392,7 +392,7 @@ sub DESTROY {
     return unless defined $self;
     delete $ITERATORS{$self};
     if (exists $OWNER{$self}) {
-        tinkercellc::delete_TableOfStrings($self);
+        tinkercellc::delete_tc_table($self);
         delete $OWNER{$self};
     }
 }

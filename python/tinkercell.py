@@ -66,196 +66,196 @@ except AttributeError:
     _newclass = 0
 
 
-class ArrayOfStrings(_object):
+class tc_strings(_object):
     __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, ArrayOfStrings, name, value)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, tc_strings, name, value)
     __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, ArrayOfStrings, name)
+    __getattr__ = lambda self, name: _swig_getattr(self, tc_strings, name)
     __repr__ = _swig_repr
-    __swig_setmethods__["length"] = _tinkercell.ArrayOfStrings_length_set
-    __swig_getmethods__["length"] = _tinkercell.ArrayOfStrings_length_get
-    if _newclass:length = _swig_property(_tinkercell.ArrayOfStrings_length_get, _tinkercell.ArrayOfStrings_length_set)
-    __swig_setmethods__["strings"] = _tinkercell.ArrayOfStrings_strings_set
-    __swig_getmethods__["strings"] = _tinkercell.ArrayOfStrings_strings_get
-    if _newclass:strings = _swig_property(_tinkercell.ArrayOfStrings_strings_get, _tinkercell.ArrayOfStrings_strings_set)
+    __swig_setmethods__["length"] = _tinkercell.tc_strings_length_set
+    __swig_getmethods__["length"] = _tinkercell.tc_strings_length_get
+    if _newclass:length = _swig_property(_tinkercell.tc_strings_length_get, _tinkercell.tc_strings_length_set)
+    __swig_setmethods__["strings"] = _tinkercell.tc_strings_strings_set
+    __swig_getmethods__["strings"] = _tinkercell.tc_strings_strings_get
+    if _newclass:strings = _swig_property(_tinkercell.tc_strings_strings_get, _tinkercell.tc_strings_strings_set)
     def __init__(self): 
-        this = _tinkercell.new_ArrayOfStrings()
+        this = _tinkercell.new_tc_strings()
         try: self.this.append(this)
         except: self.this = this
-    __swig_destroy__ = _tinkercell.delete_ArrayOfStrings
+    __swig_destroy__ = _tinkercell.delete_tc_strings
     __del__ = lambda self : None;
-ArrayOfStrings_swigregister = _tinkercell.ArrayOfStrings_swigregister
-ArrayOfStrings_swigregister(ArrayOfStrings)
+tc_strings_swigregister = _tinkercell.tc_strings_swigregister
+tc_strings_swigregister(tc_strings)
 
-class ArrayOfItems(_object):
+class tc_items(_object):
     __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, ArrayOfItems, name, value)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, tc_items, name, value)
     __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, ArrayOfItems, name)
+    __getattr__ = lambda self, name: _swig_getattr(self, tc_items, name)
     __repr__ = _swig_repr
-    __swig_setmethods__["length"] = _tinkercell.ArrayOfItems_length_set
-    __swig_getmethods__["length"] = _tinkercell.ArrayOfItems_length_get
-    if _newclass:length = _swig_property(_tinkercell.ArrayOfItems_length_get, _tinkercell.ArrayOfItems_length_set)
-    __swig_setmethods__["items"] = _tinkercell.ArrayOfItems_items_set
-    __swig_getmethods__["items"] = _tinkercell.ArrayOfItems_items_get
-    if _newclass:items = _swig_property(_tinkercell.ArrayOfItems_items_get, _tinkercell.ArrayOfItems_items_set)
+    __swig_setmethods__["length"] = _tinkercell.tc_items_length_set
+    __swig_getmethods__["length"] = _tinkercell.tc_items_length_get
+    if _newclass:length = _swig_property(_tinkercell.tc_items_length_get, _tinkercell.tc_items_length_set)
+    __swig_setmethods__["items"] = _tinkercell.tc_items_items_set
+    __swig_getmethods__["items"] = _tinkercell.tc_items_items_get
+    if _newclass:items = _swig_property(_tinkercell.tc_items_items_get, _tinkercell.tc_items_items_set)
     def __init__(self): 
-        this = _tinkercell.new_ArrayOfItems()
+        this = _tinkercell.new_tc_items()
         try: self.this.append(this)
         except: self.this = this
-    __swig_destroy__ = _tinkercell.delete_ArrayOfItems
+    __swig_destroy__ = _tinkercell.delete_tc_items
     __del__ = lambda self : None;
-ArrayOfItems_swigregister = _tinkercell.ArrayOfItems_swigregister
-ArrayOfItems_swigregister(ArrayOfItems)
+tc_items_swigregister = _tinkercell.tc_items_swigregister
+tc_items_swigregister(tc_items)
 
-class TableOfReals(_object):
+class tc_matrix(_object):
     __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, TableOfReals, name, value)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, tc_matrix, name, value)
     __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, TableOfReals, name)
+    __getattr__ = lambda self, name: _swig_getattr(self, tc_matrix, name)
     __repr__ = _swig_repr
-    __swig_setmethods__["rows"] = _tinkercell.TableOfReals_rows_set
-    __swig_getmethods__["rows"] = _tinkercell.TableOfReals_rows_get
-    if _newclass:rows = _swig_property(_tinkercell.TableOfReals_rows_get, _tinkercell.TableOfReals_rows_set)
-    __swig_setmethods__["cols"] = _tinkercell.TableOfReals_cols_set
-    __swig_getmethods__["cols"] = _tinkercell.TableOfReals_cols_get
-    if _newclass:cols = _swig_property(_tinkercell.TableOfReals_cols_get, _tinkercell.TableOfReals_cols_set)
-    __swig_setmethods__["values"] = _tinkercell.TableOfReals_values_set
-    __swig_getmethods__["values"] = _tinkercell.TableOfReals_values_get
-    if _newclass:values = _swig_property(_tinkercell.TableOfReals_values_get, _tinkercell.TableOfReals_values_set)
-    __swig_setmethods__["rownames"] = _tinkercell.TableOfReals_rownames_set
-    __swig_getmethods__["rownames"] = _tinkercell.TableOfReals_rownames_get
-    if _newclass:rownames = _swig_property(_tinkercell.TableOfReals_rownames_get, _tinkercell.TableOfReals_rownames_set)
-    __swig_setmethods__["colnames"] = _tinkercell.TableOfReals_colnames_set
-    __swig_getmethods__["colnames"] = _tinkercell.TableOfReals_colnames_get
-    if _newclass:colnames = _swig_property(_tinkercell.TableOfReals_colnames_get, _tinkercell.TableOfReals_colnames_set)
+    __swig_setmethods__["rows"] = _tinkercell.tc_matrix_rows_set
+    __swig_getmethods__["rows"] = _tinkercell.tc_matrix_rows_get
+    if _newclass:rows = _swig_property(_tinkercell.tc_matrix_rows_get, _tinkercell.tc_matrix_rows_set)
+    __swig_setmethods__["cols"] = _tinkercell.tc_matrix_cols_set
+    __swig_getmethods__["cols"] = _tinkercell.tc_matrix_cols_get
+    if _newclass:cols = _swig_property(_tinkercell.tc_matrix_cols_get, _tinkercell.tc_matrix_cols_set)
+    __swig_setmethods__["values"] = _tinkercell.tc_matrix_values_set
+    __swig_getmethods__["values"] = _tinkercell.tc_matrix_values_get
+    if _newclass:values = _swig_property(_tinkercell.tc_matrix_values_get, _tinkercell.tc_matrix_values_set)
+    __swig_setmethods__["rownames"] = _tinkercell.tc_matrix_rownames_set
+    __swig_getmethods__["rownames"] = _tinkercell.tc_matrix_rownames_get
+    if _newclass:rownames = _swig_property(_tinkercell.tc_matrix_rownames_get, _tinkercell.tc_matrix_rownames_set)
+    __swig_setmethods__["colnames"] = _tinkercell.tc_matrix_colnames_set
+    __swig_getmethods__["colnames"] = _tinkercell.tc_matrix_colnames_get
+    if _newclass:colnames = _swig_property(_tinkercell.tc_matrix_colnames_get, _tinkercell.tc_matrix_colnames_set)
     def __init__(self): 
-        this = _tinkercell.new_TableOfReals()
+        this = _tinkercell.new_tc_matrix()
         try: self.this.append(this)
         except: self.this = this
-    __swig_destroy__ = _tinkercell.delete_TableOfReals
+    __swig_destroy__ = _tinkercell.delete_tc_matrix
     __del__ = lambda self : None;
-TableOfReals_swigregister = _tinkercell.TableOfReals_swigregister
-TableOfReals_swigregister(TableOfReals)
+tc_matrix_swigregister = _tinkercell.tc_matrix_swigregister
+tc_matrix_swigregister(tc_matrix)
 
-class TableOfStrings(_object):
+class tc_table(_object):
     __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, TableOfStrings, name, value)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, tc_table, name, value)
     __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, TableOfStrings, name)
+    __getattr__ = lambda self, name: _swig_getattr(self, tc_table, name)
     __repr__ = _swig_repr
-    __swig_setmethods__["rows"] = _tinkercell.TableOfStrings_rows_set
-    __swig_getmethods__["rows"] = _tinkercell.TableOfStrings_rows_get
-    if _newclass:rows = _swig_property(_tinkercell.TableOfStrings_rows_get, _tinkercell.TableOfStrings_rows_set)
-    __swig_setmethods__["cols"] = _tinkercell.TableOfStrings_cols_set
-    __swig_getmethods__["cols"] = _tinkercell.TableOfStrings_cols_get
-    if _newclass:cols = _swig_property(_tinkercell.TableOfStrings_cols_get, _tinkercell.TableOfStrings_cols_set)
-    __swig_setmethods__["strings"] = _tinkercell.TableOfStrings_strings_set
-    __swig_getmethods__["strings"] = _tinkercell.TableOfStrings_strings_get
-    if _newclass:strings = _swig_property(_tinkercell.TableOfStrings_strings_get, _tinkercell.TableOfStrings_strings_set)
-    __swig_setmethods__["rownames"] = _tinkercell.TableOfStrings_rownames_set
-    __swig_getmethods__["rownames"] = _tinkercell.TableOfStrings_rownames_get
-    if _newclass:rownames = _swig_property(_tinkercell.TableOfStrings_rownames_get, _tinkercell.TableOfStrings_rownames_set)
-    __swig_setmethods__["colnames"] = _tinkercell.TableOfStrings_colnames_set
-    __swig_getmethods__["colnames"] = _tinkercell.TableOfStrings_colnames_get
-    if _newclass:colnames = _swig_property(_tinkercell.TableOfStrings_colnames_get, _tinkercell.TableOfStrings_colnames_set)
+    __swig_setmethods__["rows"] = _tinkercell.tc_table_rows_set
+    __swig_getmethods__["rows"] = _tinkercell.tc_table_rows_get
+    if _newclass:rows = _swig_property(_tinkercell.tc_table_rows_get, _tinkercell.tc_table_rows_set)
+    __swig_setmethods__["cols"] = _tinkercell.tc_table_cols_set
+    __swig_getmethods__["cols"] = _tinkercell.tc_table_cols_get
+    if _newclass:cols = _swig_property(_tinkercell.tc_table_cols_get, _tinkercell.tc_table_cols_set)
+    __swig_setmethods__["strings"] = _tinkercell.tc_table_strings_set
+    __swig_getmethods__["strings"] = _tinkercell.tc_table_strings_get
+    if _newclass:strings = _swig_property(_tinkercell.tc_table_strings_get, _tinkercell.tc_table_strings_set)
+    __swig_setmethods__["rownames"] = _tinkercell.tc_table_rownames_set
+    __swig_getmethods__["rownames"] = _tinkercell.tc_table_rownames_get
+    if _newclass:rownames = _swig_property(_tinkercell.tc_table_rownames_get, _tinkercell.tc_table_rownames_set)
+    __swig_setmethods__["colnames"] = _tinkercell.tc_table_colnames_set
+    __swig_getmethods__["colnames"] = _tinkercell.tc_table_colnames_get
+    if _newclass:colnames = _swig_property(_tinkercell.tc_table_colnames_get, _tinkercell.tc_table_colnames_set)
     def __init__(self): 
-        this = _tinkercell.new_TableOfStrings()
+        this = _tinkercell.new_tc_table()
         try: self.this.append(this)
         except: self.this = this
-    __swig_destroy__ = _tinkercell.delete_TableOfStrings
+    __swig_destroy__ = _tinkercell.delete_tc_table
     __del__ = lambda self : None;
-TableOfStrings_swigregister = _tinkercell.TableOfStrings_swigregister
-TableOfStrings_swigregister(TableOfStrings)
+tc_table_swigregister = _tinkercell.tc_table_swigregister
+tc_table_swigregister(tc_table)
 
 
-def newMatrix(*args):
-  return _tinkercell.newMatrix(*args)
-newMatrix = _tinkercell.newMatrix
+def tc_createMatrix(*args):
+  return _tinkercell.tc_createMatrix(*args)
+tc_createMatrix = _tinkercell.tc_createMatrix
 
-def newTableOfStrings(*args):
-  return _tinkercell.newTableOfStrings(*args)
-newTableOfStrings = _tinkercell.newTableOfStrings
+def tc_createTable(*args):
+  return _tinkercell.tc_createTable(*args)
+tc_createTable = _tinkercell.tc_createTable
 
-def newArrayOfStrings(*args):
-  return _tinkercell.newArrayOfStrings(*args)
-newArrayOfStrings = _tinkercell.newArrayOfStrings
+def tc_createStringsArray(*args):
+  return _tinkercell.tc_createStringsArray(*args)
+tc_createStringsArray = _tinkercell.tc_createStringsArray
 
-def newArrayOfItems(*args):
-  return _tinkercell.newArrayOfItems(*args)
-newArrayOfItems = _tinkercell.newArrayOfItems
+def tc_createItemsArray(*args):
+  return _tinkercell.tc_createItemsArray(*args)
+tc_createItemsArray = _tinkercell.tc_createItemsArray
 
-def getValue(*args):
-  return _tinkercell.getValue(*args)
-getValue = _tinkercell.getValue
+def tc_getMatrixValue(*args):
+  return _tinkercell.tc_getMatrixValue(*args)
+tc_getMatrixValue = _tinkercell.tc_getMatrixValue
 
-def setValue(*args):
-  return _tinkercell.setValue(*args)
-setValue = _tinkercell.setValue
+def tc_setMatrixValue(*args):
+  return _tinkercell.tc_setMatrixValue(*args)
+tc_setMatrixValue = _tinkercell.tc_setMatrixValue
 
-def getRowName(*args):
-  return _tinkercell.getRowName(*args)
-getRowName = _tinkercell.getRowName
+def tc_getRowName(*args):
+  return _tinkercell.tc_getRowName(*args)
+tc_getRowName = _tinkercell.tc_getRowName
 
-def setRowName(*args):
-  return _tinkercell.setRowName(*args)
-setRowName = _tinkercell.setRowName
+def tc_setRowName(*args):
+  return _tinkercell.tc_setRowName(*args)
+tc_setRowName = _tinkercell.tc_setRowName
 
-def getColumnName(*args):
-  return _tinkercell.getColumnName(*args)
-getColumnName = _tinkercell.getColumnName
+def tc_getColumnName(*args):
+  return _tinkercell.tc_getColumnName(*args)
+tc_getColumnName = _tinkercell.tc_getColumnName
 
-def setColumnName(*args):
-  return _tinkercell.setColumnName(*args)
-setColumnName = _tinkercell.setColumnName
+def tc_setColumnName(*args):
+  return _tinkercell.tc_setColumnName(*args)
+tc_setColumnName = _tinkercell.tc_setColumnName
 
-def getString(*args):
-  return _tinkercell.getString(*args)
-getString = _tinkercell.getString
+def tc_getTableValue(*args):
+  return _tinkercell.tc_getTableValue(*args)
+tc_getTableValue = _tinkercell.tc_getTableValue
 
-def setString(*args):
-  return _tinkercell.setString(*args)
-setString = _tinkercell.setString
+def tc_setTableValue(*args):
+  return _tinkercell.tc_setTableValue(*args)
+tc_setTableValue = _tinkercell.tc_setTableValue
 
-def nthString(*args):
-  return _tinkercell.nthString(*args)
-nthString = _tinkercell.nthString
+def tc_getString(*args):
+  return _tinkercell.tc_getString(*args)
+tc_getString = _tinkercell.tc_getString
 
-def setNthString(*args):
-  return _tinkercell.setNthString(*args)
-setNthString = _tinkercell.setNthString
+def tc_setString(*args):
+  return _tinkercell.tc_setString(*args)
+tc_setString = _tinkercell.tc_setString
 
-def nthItem(*args):
-  return _tinkercell.nthItem(*args)
-nthItem = _tinkercell.nthItem
+def tc_getItem(*args):
+  return _tinkercell.tc_getItem(*args)
+tc_getItem = _tinkercell.tc_getItem
 
-def setNthItem(*args):
-  return _tinkercell.setNthItem(*args)
-setNthItem = _tinkercell.setNthItem
+def tc_setItem(*args):
+  return _tinkercell.tc_setItem(*args)
+tc_setItem = _tinkercell.tc_setItem
 
-def deleteMatrix(*args):
-  return _tinkercell.deleteMatrix(*args)
-deleteMatrix = _tinkercell.deleteMatrix
+def tc_deleteMatrix(*args):
+  return _tinkercell.tc_deleteMatrix(*args)
+tc_deleteMatrix = _tinkercell.tc_deleteMatrix
 
-def deleteTableOfStrings(*args):
-  return _tinkercell.deleteTableOfStrings(*args)
-deleteTableOfStrings = _tinkercell.deleteTableOfStrings
+def tc_deleteTable(*args):
+  return _tinkercell.tc_deleteTable(*args)
+tc_deleteTable = _tinkercell.tc_deleteTable
 
-def deleteArrayOfItems(*args):
-  return _tinkercell.deleteArrayOfItems(*args)
-deleteArrayOfItems = _tinkercell.deleteArrayOfItems
+def tc_deleteItemsArray(*args):
+  return _tinkercell.tc_deleteItemsArray(*args)
+tc_deleteItemsArray = _tinkercell.tc_deleteItemsArray
 
-def deleteArrayOfStrings(*args):
-  return _tinkercell.deleteArrayOfStrings(*args)
-deleteArrayOfStrings = _tinkercell.deleteArrayOfStrings
+def tc_deleteStringsArray(*args):
+  return _tinkercell.tc_deleteStringsArray(*args)
+tc_deleteStringsArray = _tinkercell.tc_deleteStringsArray
 
-def cbind(*args):
-  return _tinkercell.cbind(*args)
-cbind = _tinkercell.cbind
+def tc_appendColumns(*args):
+  return _tinkercell.tc_appendColumns(*args)
+tc_appendColumns = _tinkercell.tc_appendColumns
 
-def rbind(*args):
-  return _tinkercell.rbind(*args)
-rbind = _tinkercell.rbind
+def tc_appendRows(*args):
+  return _tinkercell.tc_appendRows(*args)
+tc_appendRows = _tinkercell.tc_appendRows
 
 def tc_allItems():
   return _tinkercell.tc_allItems()
@@ -437,17 +437,17 @@ def tc_zoom(*args):
   return _tinkercell.tc_zoom(*args)
 tc_zoom = _tinkercell.tc_zoom
 
-def tc_getString(*args):
-  return _tinkercell.tc_getString(*args)
-tc_getString = _tinkercell.tc_getString
+def tc_tc_getTableValue(*args):
+  return _tinkercell.tc_tc_getTableValue(*args)
+tc_tc_getTableValue = _tinkercell.tc_tc_getTableValue
 
 def tc_getFilename():
   return _tinkercell.tc_getFilename()
 tc_getFilename = _tinkercell.tc_getFilename
 
-def tc_getStringFromList(*args):
-  return _tinkercell.tc_getStringFromList(*args)
-tc_getStringFromList = _tinkercell.tc_getStringFromList
+def tc_tc_getTableValueFromList(*args):
+  return _tinkercell.tc_tc_getTableValueFromList(*args)
+tc_tc_getTableValueFromList = _tinkercell.tc_tc_getTableValueFromList
 
 def tc_getNumber(*args):
   return _tinkercell.tc_getNumber(*args)

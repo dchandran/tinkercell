@@ -686,7 +686,7 @@ namespace Tinkercell
 		
 		bool b;
 
-		if (isFirstTime || familiesInCatalog.size() < 10)
+		if (isFirstTime)
 		{
 			if (NodeFamily::cast(family))
 				b = family->children().isEmpty();
@@ -708,7 +708,6 @@ namespace Tinkercell
 	void CatalogWidget::setUpTabView()
 	{
 		tabGroups.clear();
-		isFirstTime = true;
 
 		tabWidget = new QTabWidget;
 		tabWidget->setWindowTitle(tr("Parts and Connections"));
@@ -739,6 +738,8 @@ namespace Tinkercell
 		settings.beginGroup("CatalogWidget");
 		familiesInCatalog = settings.value(tr("familiesInCatalog"),QStringList()).toStringList();
 		settings.endGroup();
+		
+		isFirstTime = familiesInCatalog.size() < 10;
 
 		for (int i=0; i < tabGroups.size(); ++i)
 		{

@@ -115,6 +115,8 @@ namespace Tinkercell
         void showGroup(const QString& group);
 		/*! \brief set the cursor icon when button pressed*/
 		void otherButtonPressed ( const QString&, const QPixmap & );
+		/*! \brief select the families to show*/
+		void selectFamiliesToShow();
 
     private:
 
@@ -175,9 +177,7 @@ namespace Tinkercell
 		/*! \brief check boxes to select the families to show*/
 		QList<QCheckBox*> selectFamilyCheckBoxes;		
 		/*! \brief widget to select the families to show*/
-		QDialog * selectFamilyWidget;	
-		/*! \brief select the families to show*/
-		void selectFamiliesToShow();
+		QDialog * selectFamilyWidget;
     };
 
 

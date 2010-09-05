@@ -114,6 +114,11 @@ namespace Tinkercell
 				treeViewAction->setCheckable(true);
 				treeViewAction->setChecked(CatalogWidget::layoutMode == CatalogWidget::TreeView);
 				connect(treeViewAction,SIGNAL(toggled(bool)),this,SLOT(setTreeMode(bool)));
+				if (layoutMode == TabView)
+				{
+					QAction * familyShowButton = mainWindow->optionsMenu->addAction(tr("Show/hide catalog items"));
+					connect(familyShowButton,SIGNAL(triggered()),this,SLOT(selectFamiliesToShow()));
+				}
 			}
 
 			return true;

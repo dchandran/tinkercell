@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #run in the bin folder
-
+echo "MUST RUN IN THE BIN FOLDER. USE CURRENT PATH AS ARGUMENT"
 CURPATH=$1
 LIBFILES='*.dylib'
 PLUGINFILES='plugins/*.dylib'

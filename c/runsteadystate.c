@@ -97,18 +97,23 @@ void setup1()
 	tc_strings a3 = {2, options3};
 
 	loadAllNames();
-
 	m.rownames.length = m.rows = 7;
 	m.colnames.length = m.cols = 1;
 	m.colnames.strings = cols;
 	m.rownames.strings = rows;
 	m.values = values;
+	
+	if (tc_isMac())
+	{
+		m.rows = 4;
+		a1.length = 1;
+	}
 
 	tc_createInputWindow(m,"Steady state analysis",&run);
+	tc_addInputWindowOptions("Steady state analysis",0, 0, a1);
 	tc_addInputWindowOptions("Steady state analysis",1, 0, allNames);
 	if (!tc_isMac())
 	{
-		tc_addInputWindowOptions("Steady state analysis",0, 0, a1);
 		tc_addInputWindowOptions("Steady state analysis",5, 0, a2);
 		tc_addInputWindowOptions("Steady state analysis",6, 0, a3);
 	}

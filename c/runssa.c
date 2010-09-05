@@ -425,6 +425,7 @@ void setupSSA()
 	if (tc_isMac())
 	{
 		m.rows = 2;
+		a1.length = 1;
 	}
 	m.cols = 1;
 	m.colnames.length = 1;
@@ -434,9 +435,9 @@ void setupSSA()
 	m.values = values;
 
 	tc_createInputWindow(m,"Gillespie algorithm",&runSSA);
+	tc_addInputWindowOptions("Gillespie algorithm",0, 0, a1);
 	if (!tc_isMac())
 	{
-		tc_addInputWindowOptions("Gillespie algorithm",0, 0, a1);
 		tc_addInputWindowOptions("Gillespie algorithm",3, 0, a2);
 		tc_addInputWindowOptions("Gillespie algorithm",4, 0, a3);
 	}

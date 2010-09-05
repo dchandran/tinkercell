@@ -112,7 +112,7 @@ namespace Tinkercell
 	{
 		if (connectionHandle && ratePlotWidget && stoichiometryWidget && (ratePlotWidget->isVisible() || stoichiometryWidget->isVisible()))
 		{
-			updateWidgets();
+			//updateWidgets();
 		}
 	}
 
@@ -1167,9 +1167,6 @@ namespace Tinkercell
 		}
 
 		combinedTable.resize(rowNames.size(),colNames.size());
-		for (int i=0; i < combinedTable.rows(); ++i)
-			for (int j=0; j < combinedTable.cols(); ++j)
-				combinedTable.value(i,j) = 0.0;
 
 		for (int i=0; i < colNames.size(); ++i)
 			combinedTable.colName(i) = colNames[i];
@@ -1188,34 +1185,36 @@ namespace Tinkercell
 					nDataTable1 = &(connectionHandles[i]->data->numericalData[QObject::tr("Reactant stoichiometries")]);
 					nDataTable2 = &(connectionHandles[i]->data->numericalData[QObject::tr("Product stoichiometries")]);
 					
-					for (int k=0; k < nDataTable1->rows() && k < nDataTable2->rows(); ++k)
+					for (int k=0; k < nDataTable1->rows() || k < nDataTable2->rows(); ++k)
 					{
-						for (int j=0; j < nDataTable1->cols(); ++j)     //get unique species
-						{
-						    QString s = nDataTable1->colName(j);
+						if (nDataTable1->rows() > k)
+							for (int j=0; j < nDataTable1->cols(); ++j)     //get unique species
+							{
+								QString s = nDataTable1->colName(j);
 
-							j0 = colNames.indexOf(s);
-							if (j0 < 0)
-								j0 = colNames.indexOf(QString(s).replace(".",replaceDot));
-							if (j0 < 0)
-								j0 = colNames.indexOf(QString(s).replace(replaceDot,"."));
+								j0 = colNames.indexOf(s);
+								if (j0 < 0)
+									j0 = colNames.indexOf(QString(s).replace(".",replaceDot));
+								if (j0 < 0)
+									j0 = colNames.indexOf(QString(s).replace(replaceDot,"."));
 
-							if (j0 >= 0)
-								combinedTable.value(n,j0) -= nDataTable1->value(k,j);
-						}
-						for (int j=0; j < nDataTable2->cols(); ++j)     //get unique species
-						{
-						    QString s = nDataTable2->colName(j);
+								if (j0 >= 0)
+									combinedTable.value(n,j0) -= nDataTable1->value(k,j);
+							}
+						if (nDataTable2->rows() > k)
+							for (int j=0; j < nDataTable2->cols(); ++j)     //get unique species
+							{
+								QString s = nDataTable2->colName(j);
 
-							j0 = colNames.indexOf(s);
-							if (j0 < 0)
-								j0 = colNames.indexOf(QString(s).replace(".",replaceDot));
-							if (j0 < 0)
-								j0 = colNames.indexOf(QString(s).replace(replaceDot,"."));
+								j0 = colNames.indexOf(s);
+								if (j0 < 0)
+									j0 = colNames.indexOf(QString(s).replace(".",replaceDot));
+								if (j0 < 0)
+									j0 = colNames.indexOf(QString(s).replace(replaceDot,"."));
 
-							if (j0 >= 0)
-								combinedTable.value(n,j0) += nDataTable2->value(k,j);
-						}
+								if (j0 >= 0)
+									combinedTable.value(n,j0) += nDataTable2->value(k,j);
+							}
 						++n;
 					}
 				}

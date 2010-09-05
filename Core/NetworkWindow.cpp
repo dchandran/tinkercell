@@ -206,7 +206,8 @@ namespace Tinkercell
 					if (network->mainWindow && network->mainWindow->currentNetworkWindow == this)
 						network->mainWindow->currentNetworkWindow = 0;
 					event->accept();
-					QMainWindow::closeEvent(event);
+					setParent(0);
+					hide();
 				}
 			}
 		}

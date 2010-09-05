@@ -10,6 +10,7 @@ for connecting items using the connections in the ConnectionsTree
 ****************************************************************************/
 
 #include <math.h>
+#include <iostream>
 #include "GraphicsScene.h"
 #include "UndoCommands.h"
 #include "MainWindow.h"
@@ -548,7 +549,7 @@ namespace Tinkercell
 			{
 				item->centerRegionItem = new ArrowHeadItem(*static_cast<ArrowHeadItem*>(node));
 				if (node->defaultSize.width() > 0 && node->defaultSize.height() > 0)
-					node->scale(node->defaultSize.width()/node->sceneBoundingRect().width(),node->defaultSize.height()/node->sceneBoundingRect().height());
+					item->centerRegionItem->scale(node->defaultSize.width()/node->sceneBoundingRect().width(),node->defaultSize.height()/node->sceneBoundingRect().height());
 				insertList += item->centerRegionItem;
 			}
 		}
@@ -655,22 +656,27 @@ namespace Tinkercell
 				if (h = NodeHandle::cast(nodeItems[j]->handle()))
 					nodeHandles << h;
 		}
-
-		QList<ItemFamily*> childFamilies = selectedFamily->findValidChildFamilies(nodeHandles,all);
 		
-		if (childFamilies.isEmpty() && selectedFamilyOriginal) //search all families under root
-		{
-			childFamilies = selectedFamilyOriginal->findValidChildFamilies(nodeHandles,all);
-		}
-
-		if (childFamilies.isEmpty()) return false; //no suitable connection family found
-		QString s;
 		if (!all)
 		{
+			//if (selectedFamily->isValidSet(nodeHandles,all))
+				//return true;
+
+			QList<ItemFamily*> childFamilies = selectedFamily->findValidChildFamilies(nodeHandles,all);
+		
+			if (childFamilies.isEmpty() && selectedFamilyOriginal) //search all families under root
+			{
+				childFamilies = selectedFamilyOriginal->findValidChildFamilies(nodeHandles,all);
+			}
+
+			if (childFamilies.isEmpty()) return false; //no suitable connection family found
+		
 			selectedFamily = ConnectionFamily::cast(childFamilies.last());
 		}
 		else
 		{
+			QList<ItemFamily*> childFamilies = selectedFamilyOriginal->findValidChildFamilies(nodeHandles,all);
+			
 			if (allowFlips)
 			{
 				selectedFamily = ConnectionFamily::cast(childFamilies.last());
@@ -680,22 +686,19 @@ namespace Tinkercell
 			{
 				ConnectionFamily * finalSelectedFamily = 0;
 				QList<NodeGraphicsItem*> originalNodesList = selectedNodes;
-				for (int i=0; i < childFamilies.size(); ++i)
+				for (int i=(childFamilies.size()-1); i >= 0; --i)
 				{
 					selectedFamily = ConnectionFamily::cast(childFamilies[i]);
 					selectedNodes = originalNodesList;
 					if (setRequirements())
 					{
 						finalSelectedFamily = selectedFamily;
+						break;
 					}
 				}
-
-				if (finalSelectedFamily && selectedFamily != finalSelectedFamily)
-				{
-					selectedFamily = finalSelectedFamily;
-					setRequirements();
-				}
 			}
+			
+			return !childFamilies.isEmpty();
 		}
 
 		return true;

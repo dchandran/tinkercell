@@ -6,16 +6,16 @@
     
     <connection family="1 to 1" participant_types="Node,Node" participant_roles="Reactant,Product">
 
-      <connection family="Degradation" participant_types="Molecule,Empty" participant_roles="Reactant,Empty">
+      <connection family="Degradation" participant_types="Molecule,Empty">
         <text>This connection represents degradation, dilution, or secretion of a molecular species.</text>
       </connection>
 
-      <connection family="Production" participant_types="Empty,Molecule" participant_roles="Empty,Product">
+      <connection family="Production" participant_types="Empty,Molecule">
         <text>This connection represents production or influx of a molecular species.</text>
-        <connection family="Transcription" participant_types="Empty,mRNA" participant_roles="Empty,Product">
+        <connection family="Transcription" participant_types="Empty,mRNA">
           <text>Production of mRNA from DNA template.</text>
         </connection>
-        <connection family="Translation" participant_types="Empty,Protein" participant_roles="Empty,Product">
+        <connection family="Translation" participant_types="Empty,Protein">
           <text>Production of protein from mRNA template. </text>
         </connection>
       </connection>

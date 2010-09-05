@@ -526,23 +526,21 @@ namespace Tinkercell
 						ConnectionGraphicsItem::CurveSegment(1,new ConnectionGraphicsItem::ControlPoint(item,image));
 
 					ArrowHeadItem * arrow = 0;
-					QString nodeImageFile = appDir + tr("/ArrowItems/Reaction.xml");
-
-
-					NodeGraphicsReader imageReader;
-					arrow = new ArrowHeadItem(item);
-					imageReader.readXml(arrow,nodeImageFile);
-					arrow->normalize();
-					//arrow->scale(0.1,0.1);
-					double w = 0.1;
-					if (arrow->defaultSize.width() > 0 && arrow->defaultSize.height() > 0)
-						w = arrow->defaultSize.width()/arrow->sceneBoundingRect().width();
-					arrow->scale(w,w);
+					if (!connectionFamily->graphicsItems.isEmpty())
+					{
+						NodeGraphicsItem * node = NodeGraphicsItem::cast(connectionFamily->graphicsItems.first());
+						if (node && node->className == ArrowHeadItem::CLASSNAME)
+						{
+							arrow = new ArrowHeadItem(*static_cast<ArrowHeadItem*>(node));
+							if (arrow->defaultSize.width() > 0 && arrow->defaultSize.height() > 0)
+								arrow->scale(arrow->defaultSize.width()/arrow->sceneBoundingRect().width(),arrow->defaultSize.height()/arrow->sceneBoundingRect().height());
+							list += arrow;
+						}
+					}
+					
 					item->curveSegments.last().arrowStart = arrow;
-					list += arrow;
 
-
-					connection->name = tr("J");
+					connection->name = tr("deg");
 					item->lineType = ConnectionGraphicsItem::line;
 					connection->name = scene->network->makeUnique(connection->name,usedNames);
                     usedNames << node->name << connection->name;

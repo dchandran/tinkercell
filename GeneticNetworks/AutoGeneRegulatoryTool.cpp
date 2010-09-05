@@ -534,6 +534,7 @@ namespace Tinkercell
 							arrow = new ArrowHeadItem(*static_cast<ArrowHeadItem*>(node));
 							if (arrow->defaultSize.width() > 0 && arrow->defaultSize.height() > 0)
 								arrow->scale(arrow->defaultSize.width()/arrow->sceneBoundingRect().width(),arrow->defaultSize.height()/arrow->sceneBoundingRect().height());
+							arrow->connectionItem = item;
 							list += arrow;
 						}
 					}

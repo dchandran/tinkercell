@@ -140,18 +140,24 @@ void SBML_sim::loadSBML(SBMLDocument * doc)
 				if (!species->get(i)->getConstant() && !species->get(i)->getBoundaryCondition())
 				{
 					variableNames.push_back(species->get(i)->getId());
-					if (species->get(i)->getInitialAmount() != 0)
+					if (species->get(i)->isSetInitialAmount())
 						variableValues.push_back(species->get(i)->getInitialAmount());
 					else
+					if (species->get(i)->isSetInitialConcentration())
 						variableValues.push_back(species->get(i)->getInitialConcentration());
+					else
+						variableValues.push_back(0.0);
 				}
 				else
 				{
 					parameterNames.push_back(species->get(i)->getId());
-					if (species->get(i)->getInitialAmount() != 0)
+					if (species->get(i)->isSetInitialAmount())
 						parameterValues.push_back(species->get(i)->getInitialAmount());
 					else
+					if (species->get(i)->isSetInitialConcentration())
 						parameterValues.push_back(species->get(i)->getInitialConcentration());
+					else
+						parameterValues.push_back(0.0);
 				}
 
 		if (params)

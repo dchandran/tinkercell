@@ -10,22 +10,25 @@ CPLUGINFILES='plugins/c/*.dylib'
 #copy other supporting files
 
 cp -R plugins Tinkercell.app/Contents/MacOS/
-cp -R ../../c Tinkercell.app/Contents/MacOS/
+mkdir Tinkercell.app/Contents/MacOS/c
+mkdir Tinkercell.app/Contents/MacOS/lib
+cp -R ../../c/API Tinkercell.app/Contents/MacOS/c
+cp ../../c/*.h Tinkercell.app/Contents/MacOS/
 cp -R ../../Main/tinkercell.qss Tinkercell.app/Contents/MacOS/
 cp -R ../../c/icons/*.png Tinkercell.app/Contents/MacOS/plugins/c
 cp -R ../../c/icons/*.PNG Tinkercell.app/Contents/MacOS/plugins/c
-cp plugins/c/lib*.a Tinkercell.app/Contents/MacOS/c/
-cp lib*.a Tinkercell.app/Contents/MacOS/c/
+cp plugins/c/lib*.a Tinkercell.app/Contents/MacOS/lib
+cp lib*.a Tinkercell.app/Contents/MacOS/lib
 cp -R ../../ArrowItems Tinkercell.app/Contents/MacOS/
 cp -R ../../NodeItems Tinkercell.app/Contents/MacOS/
 cp -R ../../DecoratorItems Tinkercell.app/Contents/MacOS/
 mkdir Tinkercell.app/Contents/MacOS/NodesTree/
 cp ../../NodesTree/*.xml Tinkercell.app/Contents/MacOS/NodesTree/
 cp -R ../../NodesTree/Icons Tinkercell.app/Contents/MacOS/NodesTree/
-cp -R ../../python Tinkercell.app/Contents/MacOS/
-cp ../../python/python*.txt Tinkercell.app/Contents/MacOS/
+cp -R python Tinkercell.app/Contents/MacOS/
+cp ../../python/*.py Tinkercell.app/Contents/MacOS/python
 cp ../../*.txt Tinkercell.app/Contents/MacOS/
-
+#cp -R octave Tinkercell.app/Contents/MacOS/
 #QT frameworks install for TinkerCell.app
 
 install_name_tool \

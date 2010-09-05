@@ -157,6 +157,9 @@ namespace Tinkercell
 		/*! \brief checks whether this family is too generic to include in the catalog*/
 		bool includeFamilyInCatalog(ItemFamily*);
 
+		/*! \brief checks whether this is the first time loading*/
+		bool isFirstTime;
+
 		/*! \brief tab-view widget*/
 		QTabWidget * tabWidget;
 		

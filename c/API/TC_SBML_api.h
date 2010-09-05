@@ -34,6 +34,16 @@ TCAPIEXPORT tc_matrix tc_simulateODE(double time, double step_size);
 TCAPIEXPORT tc_matrix tc_simulateSSA(double time);
 
 /*!
+ \brief analyze the steady state of the model due to change in a parameter or initial value
+ \param const char* variable name
+ \param double start value
+ \param double end value
+ \ingroup Simulation
+*/
+TCAPIEXPORT tc_matrix tc_steadyStateScan(const char* variable, double start, double end);
+
+
+/*!
  \brief initializing function
  \ingroup init
 */
@@ -41,7 +51,8 @@ TCAPIEXPORT void tc_SBML_api(
 	void (*exportSBML)(const char*),
 	void (*importSBML)(const char*),
 	tc_matrix (*simulateODE)(double, double),
-	tc_matrix (*simulateSSA)(double));
+	tc_matrix (*simulateSSA)(double),
+	tc_matrix (*steadyStateScan)(const char* , double , double ));
 
 END_C_DECLS
 #endif

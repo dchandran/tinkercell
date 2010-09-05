@@ -29,12 +29,14 @@ namespace Tinkercell
 			void importSBML(QSemaphore*, const QString&);
 			void simulateODE(QSemaphore*, NumericalDataTable*, double, double);
 			void simulateGillespie(QSemaphore*, NumericalDataTable*, double);
+			void steadyStateScan(QSemaphore*, NumericalDataTable* , const QString&, double , double );
 			
 		public:
 			void exportSBMLFile(const char *);
 			void importSBMLString(const char*);
 			tc_matrix ODEsim(double, double);
 			tc_matrix GillespieSim(double);
+			tc_matrix ScanSS(const char* , double , double );
 	};
 	
 	
@@ -73,6 +75,7 @@ namespace Tinkercell
 		void importSBML(QSemaphore*, const QString&);
 		void simulateODE(QSemaphore*, NumericalDataTable*, double, double);
 		void simulateGillespie(QSemaphore*, NumericalDataTable*, double);
+		void steadyStateScan(QSemaphore*, NumericalDataTable* , const QString&, double , double );
 
 	private:
 
@@ -86,6 +89,7 @@ namespace Tinkercell
 		static void importSBMLString(const char*);
 		static tc_matrix ODEsim(double, double);
 		static tc_matrix GillespieSim(double);
+		static tc_matrix ScanSS(const char* , double , double );
 	};
 
 	class SimulationThread : public QThread

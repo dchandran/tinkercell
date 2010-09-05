@@ -51,6 +51,21 @@ tc_matrix tc_simulateSSA(double t)
 	return (tc_createMatrix(0,0));
 }
 
+tc_matrix (*_tc_steadyStateScan)(const char* variable, double start, double end) = 0;
+/*!
+ \brief analyze the steady state of the model due to change in a parameter or initial value
+ \param const char* variable name
+ \param double start value
+ \param double end value
+ \ingroup Simulation
+*/
+tc_matrix tc_steadyStateScan(const char* variable, double start, double end)
+{
+	if (_tc_steadyStateScan)
+		return _tc_steadyStateScan(variable, start, end);
+	return (tc_createMatrix(0,0));
+}
+
 /*!
  \brief initializing function
  \ingroup init
@@ -59,11 +74,13 @@ void tc_SBML_api(
 	void (*exportSBML)(const char*),
 	void (*importSBML)(const char*),
 	tc_matrix (*simulateODE)(double, double),
-	tc_matrix (*simulateSSA)(double))
+	tc_matrix (*simulateSSA)(double),
+	tc_matrix (*steadyStateScan)(const char* , double , double ))
 {
 	_tc_exportSBML = exportSBML;
 	_tc_importSBML = importSBML;
 	_tc_simulateODE = simulateODE;
 	_tc_simulateSSA = simulateSSA;
+	_tc_steadyStateScan = steadyStateScan;
 }
 

@@ -901,6 +901,10 @@ def tc_simulateSSA(*args):
   return _tinkercell.tc_simulateSSA(*args)
 tc_simulateSSA = _tinkercell.tc_simulateSSA
 
+def tc_steadyStateScan(*args):
+  return _tinkercell.tc_steadyStateScan(*args)
+tc_steadyStateScan = _tinkercell.tc_steadyStateScan
+
 def tc_SBML_api(*args):
   return _tinkercell.tc_SBML_api(*args)
 tc_SBML_api = _tinkercell.tc_SBML_api

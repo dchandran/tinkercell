@@ -25,6 +25,7 @@ SBMLImportExport::SBMLImportExport() : Tool("SBML Tool")
 	connect(&fToS,SIGNAL(importSBML(QSemaphore*, const QString&)),this,SLOT(importSBML(QSemaphore*, const QString&)));
 	connect(&fToS,SIGNAL(simulateODE(QSemaphore*, NumericalDataTable*,double, double)),this,SLOT(simulateODE(QSemaphore*, NumericalDataTable*,double, double)));
 	connect(&fToS,SIGNAL(simulateGillespie(QSemaphore*, NumericalDataTable*,double)),this,SLOT(simulateGillespie(QSemaphore*, NumericalDataTable*,double)));
+	connect(&fToS,SIGNAL(steadyStateScan(QSemaphore*, NumericalDataTable* , const QString&, double , double )),this,SLOT(steadyStateScan(QSemaphore*, NumericalDataTable* , const QString&, double , double )));
 }
 
 SBMLImportExport::~SBMLImportExport()
@@ -103,14 +104,15 @@ typedef void (*tc_SBML_api)(
 		void (*exportSBMLFile)(const char *),
 		void (*importSBMLString)(const char*),
 		tc_matrix (*ODEsim)(double, double),
-		tc_matrix (*GillespieSim)(double));
+		tc_matrix (*GillespieSim)(double),
+		tc_matrix (*steadyStateScan)(const char* , double , double ));
 
 void SBMLImportExport::setupFunctionPointers( QLibrary * library)
 {
 	tc_SBML_api f = (tc_SBML_api)library->resolve("tc_SBML_api");
 	if (f)
 	{
-		f(	&exportSBMLFile, &importSBMLString, &ODEsim, &GillespieSim );
+		f(	&exportSBMLFile, &importSBMLString, &ODEsim, &GillespieSim, &ScanSS );
 	}
 }
 
@@ -167,6 +169,11 @@ tc_matrix SBMLImportExport::GillespieSim(double time)
 	return fToS.GillespieSim(time);
 }
 
+tc_matrix SBMLImportExport::ScanSS(const char* var, double a, double b)
+{
+	return fToS.ScanSS(var,a,b);
+}
+
 void SBMLImportExport_FtoS::exportSBMLFile(const char * c)
 {
 	QSemaphore * s = new QSemaphore(1);
@@ -210,6 +217,18 @@ tc_matrix SBMLImportExport_FtoS::GillespieSim(double time)
 	return ConvertValue(t);
 }
 
+tc_matrix SBMLImportExport_FtoS::ScanSS(const char* var, double a, double b)
+{
+	QSemaphore * s = new QSemaphore(1);
+	NumericalDataTable t;
+	s->acquire();
+	emit steadyStateScan(s,&t,ConvertValue(var),a,b);
+	s->acquire();
+	s->release();
+	delete s;
+	return ConvertValue(t);
+}
+
 void SBMLImportExport::exportSBML(QSemaphore * sem, const QString & str)
 {
 	if (modelNeedsUpdate)
@@ -232,7 +251,9 @@ void SBMLImportExport::simulateODE(QSemaphore * sem, NumericalDataTable * dat, d
 {
 	if (modelNeedsUpdate)
 		updateSBMLModel();
-	QThread * thread = new SimulationThread(sem, dat, sbmlDocument, SimulationThread::ODE, mainWindow);
+	SimulationThread * thread = new SimulationThread(sem, dat, sbmlDocument, SimulationThread::ODE, mainWindow);
+	thread->setTime(time);
+	thread->setStepSize(dt);
 	thread->start();
 }
 
@@ -240,7 +261,17 @@ void SBMLImportExport::simulateGillespie(QSemaphore * sem, NumericalDataTable * 
 {
 	if (modelNeedsUpdate)
 		updateSBMLModel();
-	QThread * thread = new SimulationThread(sem, dat, sbmlDocument, SimulationThread::Gillespie, mainWindow);
+	SimulationThread * thread = new SimulationThread(sem, dat, sbmlDocument, SimulationThread::Gillespie, mainWindow);
+	thread->setTime(time);
+	thread->start();
+}
+
+void SBMLImportExport::steadyStateScan(QSemaphore* sem, NumericalDataTable* dat, const QString& var, double start, double end)
+{
+	if (modelNeedsUpdate)
+		updateSBMLModel();
+	SimulationThread * thread = new SimulationThread(sem, dat, sbmlDocument, SimulationThread::Scan, mainWindow);
+	thread->setScanVariable(var, start, end);
 	thread->start();
 }
 

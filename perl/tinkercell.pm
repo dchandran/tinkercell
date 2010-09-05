@@ -232,6 +232,7 @@ package tinkercell;
 *tc_importSBML = *tinkercellc::tc_importSBML;
 *tc_simulateODE = *tinkercellc::tc_simulateODE;
 *tc_simulateSSA = *tinkercellc::tc_simulateSSA;
+*tc_steadyStateScan = *tinkercellc::tc_steadyStateScan;
 *tc_SBML_api = *tinkercellc::tc_SBML_api;
 
 ############# Class : tinkercell::tc_strings ##############

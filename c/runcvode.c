@@ -224,7 +224,7 @@ TCAPIEXPORT void run(%s) \n\
 {\n\
 	int i,j;\n\
 	double mx=0;\n\
-	void * x;\n\
+	long x;\n\
 	tc_items A;\n\
 	tc_matrix data, ss1, ss2;\n\
 	tc_strings names;\n\

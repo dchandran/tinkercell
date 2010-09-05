@@ -646,6 +646,7 @@ SimulationThread::SimulationThread(QSemaphore * sem, NumericalDataTable * dat, S
 void SimulationThread::setScanVariable(const QString& s, double a, double b)
 {
 	scanParam = s;
+	scanParam.replace(tr("."),tr("_"));
 	from = a;
 	to = b;
 }
@@ -671,30 +672,40 @@ void SimulationThread::run()
 	
 	if (simType == Scan && !scanParam.isEmpty())
 	{
+		int k1=-1,k2=-1;
 		vector<double> x0 = sim.getVariableValues();
 		vector<double> x = x0;
 		results.resize(100,names.size()+1);
 		for (int i=0; i < names.size(); ++i)
+		{
 			results.colName(i+1) = QString(names[i].c_str());
+			if (names[i].compare( ConvertValue(scanParam) ) == 0)
+				k1 = i;
+		}
 		results.colName(0) = scanParam;
 		vector<double> params = sim.getParameterValues();
 		names = sim.getParameterNames();	
-		int k = -1;	
 		for (int i=0; i < names.size(); ++i)
 			if (names[i].compare( ConvertValue(scanParam) ) == 0)
 			{
-				k = i;
+				k2 = i;
 				break;
 			}
-		if (k > -1)
+		if (k1 > -1 || k2 > -1)
 		{
 			for (int i=0; i < 100; ++i)
 			{
-				params[k] = from + (i/100.0) * (to-from);
+				if (k1 > -1)
+					x0[k1] = from + (i/100.0) * (to-from);
+				else
+					params[k2] = from + (i/100.0) * (to-from);
 				sim.setParameters(params);
 				sim.setVariableValues(x0);
 				x = sim.steadyState();
-				results.value(i,0) = params[k];
+				if (k1 > -1)
+					results.value(i,0) = x0[k1];
+				else
+					results.value(i,0) = params[k2];
 				for (int j=0; j < x.size(); ++j)
 					results.value(i,j+1) = x[j];
 			}

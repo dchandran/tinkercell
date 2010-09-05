@@ -99,7 +99,9 @@ void run(tc_matrix input)
 	
 	if (tc_isMac())
 	{
-		tc_plot(tc_simulateODE(end,dt),"Time Course Simulation");
+		N = tc_simulateODE(end,dt);
+		tc_plot(N,"Time Course Simulation");
+		tc_deleteMatrix(&N);
 		return;
 	}
 	

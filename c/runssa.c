@@ -51,7 +51,9 @@ void runSSA(tc_matrix input)
 	
 	if (tc_isMac())
 	{
-		tc_plot(tc_simulateSSA(time),"Stochastic Simulation");
+		N = tc_simulateSSA(time);
+		tc_plot(N,"Stochastic Simulation");
+		tc_deleteMatrix(&N);
 		return;
 	}
 	
@@ -303,6 +305,7 @@ void runCellSSA(tc_matrix input)
 		if (input.rows > 3)
 			replication = tc_getMatrixValue(input,3,0);
 		if (input.rows > 4)
+
 			death = tc_getMatrixValue(input,4,0);
 		if (input.rows > 5)
 			mutants = (int)tc_getMatrixValue(input,5,0);

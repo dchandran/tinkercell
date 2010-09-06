@@ -101,15 +101,24 @@ namespace Tinkercell
             QString currentDir = QDir::currentPath();
             QDir::setCurrent(MainWindow::tempDir());
 
-            f(script.toAscii().data(),"octav.out");
+            f(script.toAscii().data(),"octav.out","octav.err");
             if (mainWindow && mainWindow->console())
             {
-            	QFile file(tr("octav.out"));
-            	if (file.open(QFile::ReadOnly | QFile::Text))
+            	QFile outfile(tr("octav.out"));
+            	if (outfile.open(QFile::ReadOnly | QFile::Text))
             	{
-		            QString allText(file.readAll());
-					mainWindow->console()->message(allText);
-					file.close();
+		            QString allText(outfile.readAll());
+		            if (!allText.isEmpty())
+						mainWindow->console()->message(allText);
+					outfile.close();
+				}
+				QFile errfile(tr("octav.err"));
+            	if (errfile.open(QFile::ReadOnly | QFile::Text))
+            	{
+		            QString allText(errfile.readLine());
+		            if (!allText.isEmpty() && !allText.contains(tr("octave_base_value::print")))
+						mainWindow->console()->error(allText);
+					errfile.close();
 				}
             }
 

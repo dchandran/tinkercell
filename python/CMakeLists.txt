@@ -10,16 +10,16 @@ IF(EMBED_PYTHON AND PYTHONLIBS_FOUND)
 
   INCLUDE_DIRECTORIES( BEFORE ${PYTHON_INCLUDE_PATH} )
 
-#  CONFIGURE_FILE( runpy.c.in 
-#    ${TINKERCELL_BINARY_DIR}/python/runpy.c
-#   @ONLY
-#  )
+  CONFIGURE_FILE( runpy.c.in 
+    ${TINKERCELL_BINARY_DIR}/python/runpy.c
+   @ONLY
+  )
   ADD_DEFINITIONS(-DLIB_EXPORTS=0)
   
   ADD_LIBRARY( tcpy
   	  SHARED
-#	  ${TINKERCELL_BINARY_DIR}/python/runpy.c
-      runpy.c
+	  ${TINKERCELL_BINARY_DIR}/python/runpy.c
+#      runpy.c
 	  tinkercell_wrap.c
   )
     

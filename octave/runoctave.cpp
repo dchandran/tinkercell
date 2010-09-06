@@ -20,8 +20,6 @@
 #include <octave/sighandlers.h>
 #include <octave/sysdep.h>
 
-//#include "TC_api.h"
-
 void recover_from_exception (void)
 {
   unwind_protect::run_all ();
@@ -57,7 +55,6 @@ int octave_call(const char *string,const char* filename)
 #else
       unwind_protect::run_all ();
       raw_mode (0);
-      //std::cout << "\n";
       octave_restore_signal_mask ();
 #endif
   }
@@ -98,14 +95,12 @@ int octave_call(const char *string,const char* filename)
     }
   catch (octave_interrupt_exception)
     {
-      recover_from_exception ();
-     // std::cout << "2\n"; 
+      recover_from_exception (); 
       error_state = -2; 
     }
   catch (std::bad_alloc)
     {
       recover_from_exception ();
-    // std::cout << "3\n"; 
       error_state = -3;
     }
 
@@ -127,14 +122,15 @@ extern "C"
 		octave_main(argc,argv,1);
 	}
 
-	OCTAVE_EXPORT void exec(const char * input, const char * filename)
+	OCTAVE_EXPORT void exec(const char * input, const char * outfile, const char * errfile)
 	{
-		octave_call(input,filename);
+        FILE * f = freopen (errfile,"w+",stderr);
+		octave_call(input,outfile);
 	}
 
 	OCTAVE_EXPORT void finalize()
 	{
 		do_octave_atexit();
 	}
-
 }
+

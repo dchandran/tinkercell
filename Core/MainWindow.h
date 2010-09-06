@@ -59,6 +59,7 @@ namespace Tinkercell
 	static QString PROJECTNAME = QObject::tr("TinkerCell");
 	static QString CPP_ENTRY_FUNCTION = QObject::tr("loadTCTool");
 	static QString C_ENTRY_FUNCTION = QObject::tr("tc_main");
+	static QString PROJECT_VERSION = QObject::tr("0.0.0");
 
 	class ConsoleWindow;
 	class NodeGraphicsItem;

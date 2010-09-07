@@ -9,46 +9,54 @@
 
  The API uses <b>six main data structures</b>: 
  
-<b>Item</b>: just a reference to a TinkerCell object (memory pointer)
+<b>reference</b>: any reference to a TinkerCell object is returned as an integer (long in C)
 
-<b>String</b>: exactly what the name means
+<b>string</b>: a string of characters (const char * in C)
 
-<b>ArrayOfItems</b> array of Items
+<b>tc_items</b> array of Items
 \code
-         ArrayOfItems A = tc_allItems()         
-    	 A.length    	 
-    	 nthItem(A,3)
+         tc_items A = tc_allItems()    
+         A.length    	 
+         x = tc_getItem(A,3)
+         tc_items B = tc_createItemsArray(2)
+         tc_setItem(B, 0, x)
 \endcode
 
-<b>ArrayOfStrings</b>: array of Strings
+<b>tc_strings</b>: array of Strings
 \code
-	     ArrayOfStrings S = tc_getNames( tc_allItems() )
-		 S.length
-		 nthString(S,3)
+         tc_items all = tc_allItems()
+         tc_strings S = tc_getNames( all )
+         S.length
+         tc_getString(S,3)
+         tc_strings S2 = tc_createStringsArray(5) 
+         tc_setString( S2 , 0, "ha ha")
 \endcode
 
-<b>Matrix</b>: Two dimensional array of reals with row and column names. The rownames and colnames fields are ArrayOfString objects
+<b>tc_matrix</b>: Two dimensional array of reals with row and column names. The rownames and colnames fields are ArrayOfString objects
 \code	
-	     Matrix M = tc_getNumericalData( tc_find("a"), "Parameters" )	     
-		 M.rows		 
-		 M.cols		 
-		 getColumnName(M,2)
-		 setColumnName(M,2,"col2")		 
-		 getRowName(M,1)		 
-		 setRowName(M,1,"row1")		 
-		 getValue(M,2,3)		 
-		 setValue(M,2,3,0.5)
+         int x = tc_find("a")
+         tc_matrix M = tc_getNumericalData( x, "Parameters" )	     
+         M.rows		 
+         M.cols		 
+         tc_getColumnName(M,2)
+         tc_setColumnName(M,2,"col2")		 
+         tc_getRowName(M,1)		 
+         tc_setRowName(M,1,"row1")		 
+         tc_getMatrixValue(M,2,3)		 
+         tc_setMatrixValue(M,2,3,0.5)
+         tc_matrix M2 = tc_createMatrix(4,5)
 \endcode
 
-<b>TableOfStrings</b>: Two dimensional array of Strings with row and column names. The rownames and colnames fields are ArrayOfString objects
+<b>tc_table</b>: Two dimensional array of Strings with row and column names. The rownames and colnames fields are ArrayOfString objects
 \code	
-	     TableOfStrings S = tc_getTextData( tc_find("a"), "Text Attributes" )	     
-		 S.rows		 
-		 S.cols		 
-		 nthString( S.rownames, 1)		 
-		 nthString( S.colnames, 2)		 
-		 getString(S,2,3)		 
-		 setString(S,2,3,"hello")
+         int x = tc_find("a")
+         tc_table S = tc_getTextData( x, "Text Attributes" )	     
+         S.rows
+         S.cols
+         tc_getString( S.rownames, 1)		 
+         tc_getString( S.colnames, 2)		 
+         tc_getTableValue(S,2,3)		 
+         tc_setTableValue(S,2,3,"hello")
 \endcode
 */
 

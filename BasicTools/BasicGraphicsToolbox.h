@@ -25,6 +25,7 @@ buttons for all these functions.
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QAction>
+#include <QActionGroup>
 #include <QFile>
 #include <QHBoxLayout>
 #include <QGridLayout>

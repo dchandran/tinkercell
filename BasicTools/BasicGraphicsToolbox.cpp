@@ -49,10 +49,23 @@ namespace Tinkercell
 		gradientMenu = new QMenu(tr("Gradients"),changeBrush);
 		QAction * noGradient = new QAction(tr("None"),gradientMenu);
 		connect(noGradient,SIGNAL(triggered()),this,SLOT(noGradient()));
-		QAction * linearGradient = new QAction(linearGradientIcon = QIcon(tr(":/images/linearGradient.png")),tr("Linear"),gradientMenu);
+		QAction * linearGradient = new QAction(tr("Linear"),gradientMenu);
 		connect(linearGradient,SIGNAL(triggered()),this,SLOT(linearGradient()));
-		QAction * radialGradient = new QAction(radialGradientIcon = QIcon(tr(":/images/radialGradient.png")),tr("Radial"),gradientMenu);
+		QAction * radialGradient = new QAction(tr("Radial"),gradientMenu);
 		connect(radialGradient,SIGNAL(triggered()),this,SLOT(radialGradient()));
+		
+		linearGradientIcon = QIcon(tr(":/images/linearGradient.png"));
+		radialGradientIcon = QIcon(tr(":/images/radialGradient.png"));
+		
+		noGradient->setCheckable(true);
+		linearGradient->setCheckable(true);
+		radialGradient->setCheckable(true);
+		noGradient->setChecked(true);
+		QActionGroup * gradientActions = new QActionGroup(this);
+		gradientActions->addAction(noGradient);
+		gradientActions->addAction(linearGradient);
+		gradientActions->addAction(radialGradient);
+		gradientActions->setExclusive(true);
 
 		gradientMenu->addAction(noGradient);
 		gradientMenu->addAction(linearGradient);
@@ -585,7 +598,7 @@ namespace Tinkercell
 			brushColor1.setAlpha(d);
 			QPixmap balpha1(20,20);
 			QPainter painter(&balpha1);
-			painter.setBrush(QBrush(QColor(0,0,0,brushColor1.alpha())));
+			painter.setBrush(QBrush(QColor(255-brushColor1.alpha(),255-brushColor1.alpha(),255-brushColor1.alpha())));
 			painter.setPen(Qt::NoPen);
 			painter.drawRect(0,0,20,20);
 			changeBrushAlpha1->setIcon(QIcon(balpha1));
@@ -624,7 +637,7 @@ namespace Tinkercell
 			brushColor2.setAlpha(d);
 			QPixmap balpha2(20,20);
 			QPainter painter(&balpha2);
-			painter.setBrush(QBrush(QColor(0,0,0,brushColor2.alpha())));
+			painter.setBrush(QBrush(255-QColor(brushColor2.alpha(),255-brushColor2.alpha(),255-brushColor2.alpha())));
 			painter.setPen(Qt::NoPen);
 			painter.drawRect(0,0,20,20);
 			changeBrushAlpha2->setIcon(QIcon(balpha2));
@@ -711,12 +724,38 @@ namespace Tinkercell
 			mainWindow->setCursor(Qt::ArrowCursor);
 			return;
 		}
+		
+		if (mode == pen && button == Qt::LeftButton)
+		{
+			to.rx() -= 1.0;
+			to.ry() += 0.5;
+			
+			QGraphicsItem * item = scene->itemAt(to);
+			
+			if (item == 0)
+			{
+				scene->useDefaultBehavior = true;
+				if (mode != this->none)
+				{
+					mode = this->none;
+					mainWindow->setCursor(Qt::ArrowCursor);
+					return;
+				}
+			}
+			else
+			{
+				if (qgraphicsitem_cast<NodeGraphicsItem::Shape*>(item) || ControlPoint::cast(item))
+				{
+					scene->setPen(tr("pen changed"),item,QPen(penColor,penWidth));
+					return;
+				}
+			}
+		}
 
 		if (mode == brush && button == Qt::LeftButton)
 		{
 			to.rx() += 1;
 			to.ry() += 0.5;
-
 
 			QGraphicsItem * item = scene->itemAt(to);
 			if (item == 0)
@@ -734,6 +773,7 @@ namespace Tinkercell
 				if (qgraphicsitem_cast<NodeGraphicsItem::Shape*>(item) || ControlPoint::cast(item))
 				{
 					scene->setBrush(tr("brush changed"),item,QBrush(brushColor1));
+					return;
 				}
 			}
 		}
@@ -828,7 +868,7 @@ namespace Tinkercell
 					scene->scaleView(0.75);
 				}
 				else
-					if (mode == brush || mode == pen || mode == gradient)
+					if (mode == this->brush || mode == this->pen || mode == this->gradient)
 					{
 						/*if (mode != pen)
 						{
@@ -841,7 +881,7 @@ namespace Tinkercell
 							point.ry() += 0.5;
 						}*/
 
-						QGraphicsItem * item = scene->itemAt(point);
+						QGraphicsItem * item = getGraphicsItem(scene->itemAt(point));
 						if (!item || (!ConnectionGraphicsItem::cast(item) && (item->sceneBoundingRect().width() > 500 || item->sceneBoundingRect().height() > 500)))
 						{
 							QList<QGraphicsItem*> ps = scene->items(QRectF(point.rx()-50.0,point.ry()-50.0,100.0,100.0));
@@ -865,35 +905,46 @@ namespace Tinkercell
 						}
 						else
 						{
-							if (qgraphicsitem_cast<NodeGraphicsItem::Shape*>(item) || ControlPoint::cast(item))
+							NodeGraphicsItem * node = NodeGraphicsItem::cast(item);
+							if (node && !node->shapes.isEmpty())
 							{
-								if (mode == brush)
-									scene->setBrush(tr("brush changed"),item,QBrush(brushColor1));
-								else
-									if (mode == gradient)
+								NodeGraphicsItem::Shape * shape = node->shapes[0];
+								for (int i=0; i < node->shapes.size(); ++i)
+									if (node->shapes[i]->sceneBoundingRect().contains(point))
 									{
-										QPointF colorPt1 = item->sceneBoundingRect().topLeft(),
-											colorPt2 = item->sceneBoundingRect().bottomRight();
-										QLinearGradient gradient(colorPt1,colorPt2);
-										gradient.setColorAt(0,brushColor1);
-										gradient.setColorAt(1,brushColor2);
-										scene->setBrush(tr("brush changed"),item,QBrush(gradient));
-										NodeGraphicsItem::Shape * shape = qgraphicsitem_cast<NodeGraphicsItem::Shape*>(item);
-										if (shape)
-										{
-											shape->gradientPoints.first = colorPt1;
-											shape->gradientPoints.second = colorPt2;
-										}
+										shape = node->shapes[i];
+										break;
 									}
+
+								if (shape)
+								{
+									if (mode == brush)
+										scene->setBrush(tr("brush changed"),shape,QBrush(brushColor1));
 									else
-									{
-										scene->setPen(tr("pen changed"),item,QPen(penColor,penWidth));
-									}
+										if (mode == gradient)
+										{
+											QPointF colorPt1 = shape->sceneBoundingRect().topLeft(),
+												colorPt2 = shape->sceneBoundingRect().bottomRight();
+											QLinearGradient gradient(colorPt1,colorPt2);
+											gradient.setColorAt(0,brushColor1);
+											gradient.setColorAt(1,brushColor2);
+											scene->setBrush(tr("brush changed"),shape,QBrush(gradient));
+											if (shape)
+											{
+												shape->gradientPoints.first = colorPt1;
+												shape->gradientPoints.second = colorPt2;
+											}
+										}
+										else
+										{
+											scene->setPen(tr("pen changed"),shape,QPen(penColor,penWidth));
+										}
+								}
 							}
 							else
 							{
 								ConnectionGraphicsItem * connection = ConnectionGraphicsItem::cast(item);
-								if (connection != 0)
+								if (connection)
 								{
 									connection->setControlPointsVisible(true);
 									QPen pen = connection->defaultPen;

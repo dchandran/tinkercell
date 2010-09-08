@@ -20,7 +20,11 @@
 #ifndef NCELLML
 #include <IfaceCellML_APISPEC.hxx>
 #include <CellMLBootstrap.hpp>
-using namespace iface;
+#include "IAnnoTools.h"
+#include "cellmlx.h"
+
+#define CELLML_BOOTSTRAP_CONTRACTID "@cellml.org/cellml-bootstrap;1"
+
 #endif
 
 #define MAINMODULE "__main"
@@ -37,13 +41,13 @@ private:
   std::vector<std::string>   m_functions;
 
   std::set<Variable*>      m_storedvars;
+  std::set<Formula*>       m_storedformulas;
 
   std::vector<Module> m_modules;
+  std::map<std::string, size_t> m_modulemap;
   std::vector<std::string> m_currentModules;
   std::vector<ReactantList> m_currentReactantLists;
   std::vector<std::string> m_currentImportedModule;
-  Formula m_scratchFormula;
-  std::vector<Formula> m_scratchFormulas;
   DNAStrand m_workingstrand;
 
   std::vector<UserFunction> m_userfunctions;
@@ -55,8 +59,10 @@ private:
   char m_cc;
   const_type m_constness;
   std::string m_error;
+  std::vector<std::string> m_warnings;
   std::vector<std::vector<Module> > m_oldmodules;
   std::vector<std::vector<UserFunction> > m_olduserfunctions;
+  std::vector<std::map<std::string, size_t> > m_oldmodulemaps;
 
 public:
   Registry();
@@ -69,22 +75,27 @@ public:
 
   void ClearModules();
   void FreeVariables();
+  void FreeFormulas();
   void ClearAll();
 
-  int    OpenFile(const std::string filename);
-  int    OpenString(const std::string model);
+  int    OpenFile(const std::string& filename);
+  int    OpenString(std::string model);
 #ifndef NSBML
   int    CheckAndAddSBMLIfGood(SBMLDocument* document);
 #endif
 #ifndef NCELLML
-  bool   LoadCellML(cellml_api::Model* model);
+  bool   LoadCellML(nsCOMPtr<cellml_apiIModel> model);
+  bool   LoadConnections(nsCOMPtr<cellml_apiIConnectionSet> connections);
+  bool   SynchronizeCellMLConnection(nsCOMPtr<cellml_apiIConnection> connection);
+  std::map<std::string, std::string> m_cellmlnames;
 #endif
+  void   CreateLocalVariablesForSubmodelInterfaceIfNeeded();
   bool   SwitchToPreviousFile();
   size_t GetNumFiles() {return m_oldmodules.size();};
   void   SetupFunctions();
 
   //Modules
-  void NewCurrentModule(const std::string* name);
+  bool NewCurrentModule(const std::string* name);
   Module* CurrentModule();
   void RevertToPreviousModule();
 
@@ -94,7 +105,7 @@ public:
 
   //Variables
   void SetConstness(const_type isconst) {m_constness = isconst;};
-  void AddVariableToCurrentExportList(Variable* export_var);
+  bool AddVariableToCurrentExportList(Variable* export_var);
   bool AddVariableToCurrentImportList(Variable* import_var);
   Variable* AddVariableToCurrent(const std::string* name);
   Variable* AddNewReactionToCurrent(rd_type divider, Formula* formula);
@@ -115,12 +126,16 @@ public:
 
   //Events
   bool SetNewCurrentEvent(Formula* trigger);
+  bool SetNewCurrentEvent(Formula* delay, Formula* trigger);
   bool SetNewCurrentEvent(Formula* trigger, Variable* var);
+  bool SetNewCurrentEvent(Formula* delay, Formula* trigger, Variable* var);
   bool AddResultToCurrentEvent(Variable* var, Formula* form);
   bool SetCompartmentOfCurrentSubmod(Variable* var);
 
   void SetError(std::string error) {m_error = error;};
   void AddErrorPrefix(std::string error) {m_error = error + m_error;};
+  void AddWarning(std::string warning) {m_warnings.push_back(warning);};
+  void ClearWarnings() {m_warnings.clear();};
 
   std::string GetLastFile();
   Module* GetModule(std::string modulename);
@@ -142,6 +157,7 @@ public:
   std::string GetNthModuleName(size_t n);
   char GetCC() {return m_cc;};
   std::string GetError() {return m_error;};
+  std::vector<std::string> GetWarnings() {return m_warnings;};
   long SaveModules();
   bool RevertToModuleSet(long n);
 

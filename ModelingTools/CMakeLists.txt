@@ -57,8 +57,6 @@ TARGET_LINK_LIBRARIES( ModelingTools
   ModelingTools
   NodesTree
   TinkerCellCore
-  muparser
-  PlotTool
 )
 
 IF( WIN32 )

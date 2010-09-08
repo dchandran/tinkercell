@@ -1,6 +1,9 @@
 #include <cassert>
 #include <string>
 #include <vector>
+
+extern bool CaselessStrCmp(const std::string& lhs, const std::string& rhs);
+
 #ifndef NSBML
 #include "sbmlx.h"
 #include "formula.h"
@@ -59,61 +62,6 @@ string getNameFromSBMLObject(string ID, string name, string basename)
   return name;
 }
 */
-void setFormulaWithString(string formulastring, Formula* formula)
-{
-  if (formulastring.size()==0) return;
-  string formpart = "";
-  formpart.push_back(formulastring[0]);
-  bool isword((isalpha(formulastring[0]) || formulastring[0]=='_'));
-  for (size_t ch=1; ch<formulastring.size(); ch++) {
-    char ccurr = formulastring[ch];
-    if (isword) {
-      if (isalpha(ccurr) || isdigit(ccurr) || ccurr=='_') {
-        //continue word
-        formpart.push_back(ccurr);
-      }
-      else {
-        //end of word
-        vector<string> fullname;
-        fullname.push_back(formpart);
-        Variable* subvar = g_registry.CurrentModule()->GetVariable(fullname);
-        if (subvar == NULL && g_registry.IsFunction(formpart) == NULL) {
-          subvar = g_registry.CurrentModule()->AddOrFindVariable(&formpart);
-        }
-        if (subvar != NULL) {
-          formula->AddVariable(subvar);
-        }
-        else {
-          formula->AddText(&formpart);
-        }
-        formpart.clear();
-        formpart.push_back(ccurr);
-        isword = false;
-      }
-    }
-    else {
-      if (isalpha(ccurr) || ccurr=='_') {
-        //new word
-        formula->AddText(&formpart);
-        formpart.clear();
-        formpart.push_back(ccurr);
-        isword = true;
-      }
-      else {
-        //continue non-word
-        formpart.push_back(ccurr);
-      }
-    }
-  }
-  if (isword && g_registry.IsFunction(formpart) == NULL) {
-    Variable* subvar = g_registry.CurrentModule()->AddOrFindVariable(&formpart);
-    formula->AddVariable(subvar);
-  }
-  else {
-    formula->AddText(&formpart);
-  }
-}
-
 void setTimeName(ASTNode *node)  
 {
   if (node->getType() == AST_NAME_TIME) {
@@ -160,11 +108,16 @@ ASTNode* parseStringToASTNode(const string& formula) {
 
 #endif
 
-extern bool CaselessStrCmp(const std::string& lhs, const std::string& rhs);
 
 //SBML models might have variable names in them that are reserved keywords in Antimony (like 'compartment', to take a huge example).  FixName fixes this so that you can output readable Antimony again.
-void FixName(std::string& name)
+bool FixName(std::string& name)
 {
+  while (name.size() && name[0] == ' ') {
+    name.erase(0, 1);
+  }
+  while (name.size() && name[name.size()-1] == ' ') {
+    name.erase(name.size()-1, 1);
+  }
   const char* keywords[] = {
   "DNA",
   "at",
@@ -271,19 +224,29 @@ void FixName(std::string& name)
   for (size_t kw=0; kw<98; kw++) {
     if (CaselessStrCmp(name, keywords[kw])) {
       name += "_";
-      return;
+      return true;
     }
   }
-}
-
-void FixName(std::vector<std::string>& names)
-{
-  for (size_t n=0; n<names.size(); n++) {
-    FixName(names[n]);
+  for (size_t pos=0; pos<name.size(); pos++) {
+    if (!(isalpha(name[pos]) || isdigit(name[pos]) || name[pos]=='_')) {
+      name[pos] = '_';
+    }
   }
+  return false;
 }
 
-void FixName(std::vector<std::vector<std::string> >& allnames) 
+bool FixName(vector<string>& names)
+{
+  bool ret = false;
+  for (size_t n=0; n<names.size(); n++) {
+    if (FixName(names[n])) {
+      ret = true;
+    }
+  }
+  return ret;
+}
+
+void FixName(vector<vector<string> >& allnames) 
 {
   for (size_t n=0; n<allnames.size(); n++) {
     FixName(allnames[n]);
@@ -291,3 +254,20 @@ void FixName(std::vector<std::vector<std::string> >& allnames)
 }
 
 
+void FixName(map<vector<string>, Variable*>& varmap)
+{
+  for (map<vector<string>, Variable*>::iterator vm=varmap.begin(); vm != varmap.end();)
+  {
+    vector<string> name = vm->first;
+    if (FixName(name)) {
+      map<vector<string>, Variable*>::iterator vm2 = vm;
+      vm++;
+      varmap.insert(make_pair(name, vm2->second));
+      varmap.erase(vm2);
+    }
+    else {
+      vm++;
+    }
+  }
+  
+}

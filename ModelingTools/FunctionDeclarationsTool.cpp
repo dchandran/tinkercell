@@ -666,7 +666,7 @@ namespace Tinkercell
 			QRegExp regex(tr("\\.(?!\\d)"));
 			for (int i=0; i < items.size(); ++i)
 			{
-				if (mainWindow->isValidHandlePointer(items[i]) && !visited.contains(items[i]) && items[i]->data && items[i]->hasTextData(tr("Assignments")))
+				if (items[i] && !visited.contains(items[i]) && items[i]->data && items[i]->hasTextData(tr("Assignments")))
 				{
 					QString s;
 					QStringList lst = items[i]->data->textData[tr("Assignments")].getRowNames();
@@ -702,7 +702,7 @@ namespace Tinkercell
 			QRegExp regex(tr("\\.(?!\\d)"));
 			for (int i=0; i < items.size(); ++i)
 			{
-				if (mainWindow->isValidHandlePointer(items[i]) && !visited.contains(items[i]) && items[i]->data && items[i]->hasTextData(tr("Assignments"))
+				if (items[i] && !visited.contains(items[i]) && items[i]->data && items[i]->hasTextData(tr("Assignments"))
 					&& items[i]->data->textData[tr("Assignments")].cols() > 0)
 				{
 					DataTable<QString>& dat = items[i]->data->textData[tr("Assignments")];
@@ -728,7 +728,7 @@ namespace Tinkercell
 		if (!item)
 			item = win->globalHandle();
 
-		if (mainWindow->isValidHandlePointer(item) && item->data && !func.isEmpty() && !var.isEmpty())
+		if (item && item->data && !func.isEmpty() && !var.isEmpty())
 		{
 			if (!item->hasTextData(tr("Assignments")))
 				item->data->textData[tr("Assignments")] = DataTable<QString>();

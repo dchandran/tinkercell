@@ -31,3 +31,4 @@ IF( DOXYGEN_FOUND )
         (visit http://www.stack.nl/~dimitri/doxygen/)" )
   ENDIF( DOXYGEN_FOUND )
 ENDIF( DOXYGENDOC )
+

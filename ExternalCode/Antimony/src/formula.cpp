@@ -49,6 +49,11 @@ void Formula::AddMathThing(char maththing)
   m_components.push_back(newvar);
 }
 
+void Formula::AddFormula(const Formula* form2)
+{
+  m_components.insert(m_components.end(), form2->m_components.begin(), form2->m_components.end());
+}
+
 void Formula::AddEllipses()
 {
   vector<string> novar;
@@ -56,6 +61,18 @@ void Formula::AddEllipses()
   string ellipses = "...";
   newvar = make_pair(ellipses, novar);
   //assert(m_components.size()==0);
+  m_components.push_back(newvar);
+}
+
+void Formula::AddParentheses()
+{
+  vector<string> novar;
+  pair<string, vector<string> > newvar;
+  string math = "(";
+  newvar = make_pair(math, novar);
+  m_components.insert(m_components.begin(), newvar);
+  math = ")";
+  newvar = make_pair(math, novar);
   m_components.push_back(newvar);
 }
 
@@ -90,6 +107,44 @@ bool Formula::IsDouble() const
     }
   }
   return false;
+}
+
+bool Formula::IsAmountIn(const Variable* compartment) const
+{
+  if (compartment==NULL) return false;
+  size_t check=0;
+  if (m_components.size() == 3) {
+    if (m_components[0].second.size() == 0) {
+      if (IsReal(m_components[0].first)) {
+        check = 1;
+      }
+    }
+  }
+  else if (m_components.size() == 4) {
+    if (m_components[0].second.size() == 0 && m_components[0].first == "-" &&
+        m_components[1].second.size() == 0 && IsReal(m_components[1].first) ) {
+      check = 2;;
+    }
+  }
+  if (check==0) return false;
+  if (m_components[check].second.size() == 0 && m_components[check].first == "/" &&
+      m_components[check+1].second == compartment->GetName()) {
+    return true;
+  }
+  return false;
+}
+
+double Formula::ToAmount() const
+{
+  //We will assume that 'IsAmountIn' returned true.
+  if (m_components.size() == 3) {
+    return atof(m_components[0].first.c_str());
+  }
+  else if (m_components.size() == 4) {
+    return 0 - atof(m_components[1].first.c_str());
+  }
+  assert(false);
+  return 0;
 }
 
 bool Formula::IsOne() const
@@ -281,9 +336,10 @@ string Formula::ToSBMLString() const
 string Formula::ToSBMLString(vector<pair<Variable*, size_t> > strands) const
 {
   string formula = ToDelimitedStringWithStrands('_', strands);
+  //cout << "Original: " << formula << endl;
   string revform = ConvertOneSymbolToFunction(formula);
   while (formula != revform) {
-    //cout << "Changing '" << formula << "' to '" << revform << endl;
+    //cout << "Changing to '" << revform << endl << endl;
     formula = revform;
     revform = ConvertOneSymbolToFunction(formula);
   }
@@ -294,10 +350,10 @@ string Formula::ConvertOneSymbolToFunction(string formula) const
 {
   size_t mid = string::npos;
   string whichfn = "";
-  const char* symbols[] = {"<=", ">=", "==", "&&", "||", "!=", "<", ">", "!"};
-  const char* symnames[] = {"leq", "geq", "eq", "and", "or", "neq", "lt", "gt", "not"};
+  const char* symbols[] = {"<=", ">=", "==", "&&", "||", "!=", "<>", "<", ">", "!"};
+  const char* symnames[] = {"leq", "geq", "eq", "and", "or", "neq", "neq", "lt", "gt", "not"};
 
-  for (size_t sym=0; sym<9; sym++) {
+  for (size_t sym=0; sym<10; sym++) {
     size_t ltgt = formula.find(symbols[sym]);
     if (ltgt != string::npos) {
       mid = ltgt;
@@ -352,6 +408,7 @@ string Formula::ConvertOneSymbolToFunction(string formula) const
 vector<const Variable*> Formula::GetVariablesFrom(string formula, string module) const
 {
   vector<const Variable*> retval;
+  set<const Variable*> varset;
   string varname = "";
   bool foundname = false;
   for (size_t pos=0; pos<formula.size(); pos++) {
@@ -362,13 +419,16 @@ vector<const Variable*> Formula::GetVariablesFrom(string formula, string module)
       varname += formula[pos];
     }
     else if (foundname) {
-      retval.push_back(g_registry.GetModule(module)->GetVariableFromSymbol(varname));
+      varset.insert(g_registry.GetModule(module)->GetVariableFromSymbol(varname));
       foundname = false;
       varname = "";
     }
   }
   if (foundname) {
-    retval.push_back(g_registry.GetModule(module)->GetVariableFromSymbol(varname));
+    varset.insert(g_registry.GetModule(module)->GetVariableFromSymbol(varname));
+  }
+  for (set<const Variable*>::iterator var=varset.begin(); var != varset.end(); var++) {
+    retval.push_back(*var);
   }
   return retval;
 }
@@ -454,4 +514,67 @@ void Formula::ReplaceWith(const Variable* origvar, const Variable* newvar)
       m_components[comp].second = newvar->GetName();
     }
   }
+}
+
+
+bool Formula::IsStraightCopyOf(const Formula* origform) const
+{
+  if (m_components.size() != origform->m_components.size()) {
+    //cout << "Different sizes" << endl;
+    return false;
+  }
+  for (size_t comp=0; comp<m_components.size(); comp++) {
+    if (m_components[comp].second.size() > 0) {
+      vector<string> orig = origform->m_components[comp].second;
+      vector<string> copy = m_components[comp].second;
+      int diff = copy.size() - orig.size();
+      assert(diff > 0);
+      for (size_t element = 0; element<orig.size(); element++) {
+        if (orig[element] != copy[element+diff]) {
+          //cout << "Different variable in this spot" << endl;
+          return false;
+        }
+      }
+    }
+    else {
+      if (m_components[comp].first != origform->m_components[comp].first) {
+        //cout << "Different texts" << endl;
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
+void Formula::UseInstead(std::string newname, const Variable* oldvar)
+{
+  vector<string> newfullname;
+  newfullname.push_back(newname);
+  for (size_t comp=0; comp<m_components.size(); comp++) {
+    if (m_components[comp].second.size() > 0) {
+      Module* module = g_registry.GetModule(m_components[comp].first);
+      assert(module != NULL);
+      Variable* subvar = module->GetVariable(m_components[comp].second);
+      if (subvar==NULL) continue; //Each time we do this, we break the scheme, so if it's broken, it's because of THIS EXACT FUNCTION a nanosecond ago.
+      if (subvar->GetIsEquivalentTo(oldvar)) {
+        m_components[comp].second = newfullname;
+      }
+    }
+  }
+}
+
+string Formula::ToCellML()
+{
+  string retval = "";
+  //Don't check the variables; just concatenate strings.
+  for (size_t comp=0; comp<m_components.size(); comp++) {
+    if (m_components[comp].second.size() > 0) {
+      assert(m_components[comp].second.size()==1); //CellML formulas can't refer to subvariables.
+      retval += ToStringFromVecDelimitedBy(m_components[comp].second, '_');
+    }
+    else {
+      retval += m_components[comp].first;
+    }
+  }
+  return retval;
 }

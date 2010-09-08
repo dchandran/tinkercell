@@ -637,7 +637,7 @@ namespace Tinkercell
 			brushColor2.setAlpha(d);
 			QPixmap balpha2(20,20);
 			QPainter painter(&balpha2);
-			painter.setBrush(QBrush(255-QColor(brushColor2.alpha(),255-brushColor2.alpha(),255-brushColor2.alpha())));
+			painter.setBrush(QBrush(QColor(255-brushColor2.alpha(),255-brushColor2.alpha(),255-brushColor2.alpha())));
 			painter.setPen(Qt::NoPen);
 			painter.drawRect(0,0,20,20);
 			changeBrushAlpha2->setIcon(QIcon(balpha2));

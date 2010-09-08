@@ -123,7 +123,6 @@ IF( QT4_FOUND AND OPENGL_FOUND )
     ${TINKERCELL_BINARY_DIR}/AntimonyEditor/
     ${TINKERCELL_BINARY_DIR}/NodeGraphicsItem/
     ${TINKERCELL_BINARY_DIR}/NodesTree/
-    ${TINKERCELL_BINARY_DIR}/PlotTools/
     ${TINKERCELL_BINARY_DIR}/SegmentationAnimation/
     ${TINKERCELL_BINARY_DIR}/DynamicCodeTools/
     ${TINKERCELL_BINARY_DIR}/GeneticNetworks/
@@ -187,8 +186,6 @@ IF( QT4_FOUND AND OPENGL_FOUND )
 		${TINKERCELL_BINARY_DIR}/NodeGraphicsItem/Debug
 		${TINKERCELL_BINARY_DIR}/NodesTree/Release
 		${TINKERCELL_BINARY_DIR}/NodesTree/Debug
-		${TINKERCELL_BINARY_DIR}/PlotTools/Release
-		${TINKERCELL_BINARY_DIR}/PlotTools/Debug
 		${TINKERCELL_BINARY_DIR}/SegmentationAnimation/Release
 		${TINKERCELL_BINARY_DIR}/SegmentationAnimation/Debug
 		${TINKERCELL_BINARY_DIR}/DynamicCodeTools/Release
@@ -220,7 +217,7 @@ IF( QT4_FOUND AND OPENGL_FOUND )
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbw/include/SBW
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbw/include/libxml
     ${TINKERCELL_SOURCE_DIR}/c/
-    ${TINKERCELL_SOURCE_DIR}/c/API
+    ${TINKERCELL_SOURCE_DIR}/API
     ${TINKERCELL_SOURCE_DIR}/c/sbml_sim/
     ${TINKERCELL_SOURCE_DIR}/c/lpsolve/
     ${TINKERCELL_SOURCE_DIR}/Core/
@@ -231,7 +228,6 @@ IF( QT4_FOUND AND OPENGL_FOUND )
     ${TINKERCELL_SOURCE_DIR}/AntimonyEditor/
     ${TINKERCELL_SOURCE_DIR}/NodeGraphicsItem/
     ${TINKERCELL_SOURCE_DIR}/NodesTree/
-    ${TINKERCELL_SOURCE_DIR}/PlotTools/
     ${TINKERCELL_SOURCE_DIR}/SegmentationAnimation/
     ${TINKERCELL_SOURCE_DIR}/DynamicCodeTools/
     ${TINKERCELL_SOURCE_DIR}/GeneticNetworks/
@@ -248,30 +244,44 @@ ENDIF(UNIX AND NOT APPLE)
 SET(TINKERCELL_BINARY_BIN_DIR TINKERCELL_BINARY_DIR/bin)
 
 #----------------------------------------------------------------------------
-#   TinkerCellCore and needed files
+#   TinkerCellCore and graphics files
 #----------------------------------------------------------------------------
 
-ADD_SUBDIRECTORY( Core )
-ADD_SUBDIRECTORY( Main )
-ADD_SUBDIRECTORY( ExternalCode )  
-ADD_SUBDIRECTORY( ArrowItems )
-ADD_SUBDIRECTORY( NodeItems )
-ADD_SUBDIRECTORY( DecoratorItems )
-ADD_SUBDIRECTORY( NodeGraphicsItem )
+ADD_SUBDIRECTORY( Core )   #C++ Core + API
+ADD_SUBDIRECTORY( API )   #C API + SWIG file
+ADD_SUBDIRECTORY( Main )   #main executable
+ADD_SUBDIRECTORY( ExternalCode )  #MuParser, cvODE, libSBML, SBW, etc.
+ADD_SUBDIRECTORY( ArrowItems )   #graphics files for arrow heads
+ADD_SUBDIRECTORY( NodeItems )   #graphics files for nodes
+ADD_SUBDIRECTORY( DecoratorItems )   #graphics files for decorating connections
+ADD_SUBDIRECTORY( NodeGraphicsItem )   #program for drawing new graphics items
+
+#---------------------------------------------------------------------------
+# Extend C API to other languages using SWIG (if installed)
+#---------------------------------------------------------------------------
+
+ADD_SUBDIRECTORY( python )
+ADD_SUBDIRECTORY( ruby )
+ADD_SUBDIRECTORY( perl )
+ADD_SUBDIRECTORY( octave )
+ADD_SUBDIRECTORY( R )
+
 
 #----------------------------------------------------------------------------
 #   TinkerCell plugins
 #----------------------------------------------------------------------------
 
+#The following options allow enabling or disabling of plugins from CMake GUI
 OPTION( PLUGIN_BASIC "Plug-in for enabling basic features" ON )
 OPTION( PLUGIN_MODELING "Plug-in for enabling modeling functions" ON )
 OPTION( PLUGIN_MODULES "Plug-in for enabling modules" ON )
 OPTION( PLUGIN_C_PLUGINS "Enable C plug-ins" ON )
 
+#Compile enables plugins
+
 IF( PLUGIN_BASIC )
    ADD_SUBDIRECTORY( BasicTools )
    ADD_SUBDIRECTORY( NodesTree )
-   ADD_SUBDIRECTORY( PlotTools )
 ENDIF( PLUGIN_BASIC )
 
 IF( PLUGIN_C_PLUGINS )
@@ -295,20 +305,11 @@ ENDIF( PLUGIN_MODULES )
 #---------------------------------------------------------------------------
 # Doxygen documentation
 #---------------------------------------------------------------------------
-OPTION( DOXYGENDOC "Generate Doxygen Documentation" OFF )
-IF( DOXYGENDOC )
-   ADD_SUBDIRECTORY( Documentation )
-ENDIF( DOXYGENDOC )
-#---------------------------------------------------------------------------
-# SWIG
-#---------------------------------------------------------------------------
 
-#SET_PROPERTY(GLOBAL PROPERTY ALLOW_DUPLICATE_CUSTOM_TARGETS)
-ADD_SUBDIRECTORY( python )
-ADD_SUBDIRECTORY( ruby )
-ADD_SUBDIRECTORY( perl )
-ADD_SUBDIRECTORY( octave )
-ADD_SUBDIRECTORY( R )
+OPTION( DOXYGEN_ENABLED "Generate Doxygen Documentation" OFF )
+IF( DOXYGEN_ENABLED )
+   ADD_SUBDIRECTORY( Documentation )
+ENDIF( DOXYGEN_ENABLED )
 
 #----------------------------------------------------------------------------
 # Other programs (not really part of Tinkercell)

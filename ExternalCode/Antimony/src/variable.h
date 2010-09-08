@@ -10,6 +10,11 @@
 #include "reaction.h"
 #include "enums.h"
 
+#ifndef NCELLML
+#include <nsCOMPtr.h>
+#include "cellmlx.h"
+#endif
+
 class Module;
 
 class Variable
@@ -52,13 +57,18 @@ private:
   //If we came from SBML, we have a Unit
   std::string m_units;
 
+  //If we are using CellML, this is a link to the corresponding variable in that document.
+#ifndef NCELLML
+  nsCOMPtr<cellml_apiICellMLVariable> m_cellmlvariable;
+#endif
+
 public:
   Variable(const std::string name, const Module* module);
   ~Variable() {};
 
 
   bool IsPointer() const {return m_sameVariable.size() != 0;};
-  std::vector<std::string> GetName() const;
+  const std::vector<std::string>& GetName() const;
   std::vector<std::string> GetPointerName() const {return m_sameVariable;};
   std::string GetNameDelimitedBy(char cc) const;
   var_type GetType() const;
@@ -76,11 +86,13 @@ public:
   AntimonyEvent* GetEvent();
   const AntimonyEvent* GetEvent() const;
   Variable* GetSubVariable(const std::string* name);
-  Variable* GetSameVariable() const;
+  Variable* GetSameVariable();
+  const Variable* GetSameVariable() const;
   const DNAStrand* GetDNAStrand() const;
   Variable* GetCompartment() const;
   bool GetIsSetCompartment() const {return (m_compartment.size() != 0);};
   std::string GetNamespace() const {return m_module;};
+  void SetNamespace(const std::string& modname) {m_module = modname;};
   bool GetIsConst() const;
   const_type GetConstType() const {return m_const;};
   bool GetIsEquivalentTo(const Variable* var) const;
@@ -117,6 +129,15 @@ public:
   bool AnyCompartmentLoops(std::vector<const Variable*> lowercomps) const;
   std::string ToString() const;
   void FixNames();
+  void ClearSameName() {m_sameVariable.clear();};
+  bool StillMatchesOriginal(formula_type ftype) const;
+  const Variable* GetOriginal() const;
+
+
+#ifndef NCELLML
+  nsCOMPtr<cellml_apiICellMLVariable> GetCellMLVariable() {return m_cellmlvariable;};
+  void SetCellMLVariable(nsCOMPtr<cellml_apiICellMLVariable> cmlvar) {m_cellmlvariable = cmlvar;};
+#endif
 };
 
 

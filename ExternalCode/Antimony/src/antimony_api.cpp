@@ -18,12 +18,6 @@
 
 #define DEFAULTCOMP "default_compartment" //Also defined in module.cpp
 
-#ifndef NCELLML
-#include <IfaceCellML_APISPEC.hxx>
-#include <CellMLBootstrap.hpp>
-//using namespace iface;
-#endif
-
 using namespace std;
 extern int yyparse();
 extern int yylloc_first_line;
@@ -253,6 +247,7 @@ LIB_EXTERN long loadFile(const char* filename)
 #ifndef NSBML
 long CheckAndAddSBMLDoc(SBMLDocument* document)
 {
+  g_registry.ClearWarnings();
   document->setConsistencyChecks(LIBSBML_CAT_UNITS_CONSISTENCY, false);
   document->checkConsistency();
   if (document->getErrorLog()->getNumFailsWithSeverity(2) > 0 || document->getErrorLog()->getNumFailsWithSeverity(3) > 0 ) {
@@ -265,6 +260,7 @@ long CheckAndAddSBMLDoc(SBMLDocument* document)
   }
   g_registry.CurrentModule()->LoadSBML(document);
 
+  g_registry.FinalizeModules();
   return g_registry.SaveModules();
 }
 
@@ -299,35 +295,40 @@ LIB_EXTERN long loadSBMLString(const char* model)
 #endif
 
 #ifndef NCELLML
-long CheckAndAddCellMLDoc(cellml_api::Model* model)
+
+#include "cellmlx.h"
+
+long CheckAndAddCellMLDoc(nsCOMPtr<cellml_apiIModel> model)
 {
+  g_registry.ClearWarnings();
   if (g_registry.LoadCellML(model)) return -1;
+  g_registry.FinalizeModules();
   return g_registry.SaveModules();
 }
 
 LIB_EXTERN long loadCellMLFile(const char* filename)
-{ 
-  cellml_api::CellMLBootstrap* boot = CreateCellMLBootstrap();
-  cellml_api::ModelLoader* ml = boot->modelLoader();
-  boot->release_ref();
-  cellml_api::Model* model;
-  try
-  {
-    model = ml->loadFromURL(ToWString(filename).c_str());
-  }
-  catch (...)
-  {
+{
+  nsresult rv;
+  nsCOMPtr<cellml_apiICellMLBootstrap> boot(do_GetService(CELLML_BOOTSTRAP_CONTRACTID, &rv));
+  NS_ENSURE_SUCCESS(rv, -1);
+  nsCOMPtr<cellml_apiIDOMModelLoader> ml;
+  rv = boot->GetModelLoader(getter_AddRefs(ml));
+
+  nsCOMPtr<cellml_apiIModel> model;
+  rv = ml->LoadFromURL(ToNSString(filename), getter_AddRefs(model));
+  if (NS_FAILED(rv)) {
     string file(filename);
-    wchar_t* error = ml->lastErrorMessage();
-    g_registry.SetError("Unable to read CellML file '" + file + "' due to errors encountered when parsing the file.  Error(s) from libCellML:\n" +  ToThinString(error));
-    ml->release_ref();
-    free(error);
+    nsString error;
+    ml->GetLastErrorMessage(error);
+    g_registry.SetError("Unable to read CellML file '" + file + "' due to errors encountered when parsing the file.  Error(s) from libCellML:\n" +  ToThinString(error.get()));
     return -1;
   }
   long retval = CheckAndAddCellMLDoc(model);
   if (retval == -1) {
     string error = g_registry.GetError();
-    error += ToThinString(ml->lastErrorMessage());
+    nsString nserror;
+    ml->GetLastErrorMessage(nserror);
+    error += ToThinString(nserror.get());
     g_registry.SetError(error);
   }
   return retval;
@@ -335,22 +336,52 @@ LIB_EXTERN long loadCellMLFile(const char* filename)
 
 LIB_EXTERN long loadCellMLString(const char* modelstring)
 {
-  cellml_api::CellMLBootstrap* boot = CreateCellMLBootstrap();
-  cellml_api::ModelLoader* ml = boot->modelLoader();
-  boot->release_ref();
-  cellml_api::Model* model;
-  try
-  {
-    model = ml->createFromText(ToWString(modelstring).c_str());
-  }
-  catch (...)
-  {
-    g_registry.SetError("Unable to read CellML string due to errors encountered when parsing the file.  Error(s) from libCellML:\n" +  ToThinString(ml->lastErrorMessage()));
-    ml->release_ref();
-    return -1;
+  nsresult rv;
+  nsCOMPtr<cellml_apiICellMLBootstrap> boot(do_GetService(CELLML_BOOTSTRAP_CONTRACTID, &rv));
+  NS_ENSURE_SUCCESS(rv, -1);
+  nsCOMPtr<cellml_apiIDOMModelLoader> ml;
+  rv = boot->GetModelLoader(getter_AddRefs(ml));
+
+  nsCOMPtr<cellml_apiIModel> model;
+  rv = ml->CreateFromText(ToNSString(modelstring), getter_AddRefs(model));
+  if (NS_FAILED(rv)) {
+    nsString error;
+    ml->GetLastErrorMessage(error);
+    g_registry.SetError("Unable to read CellML string due to errors encountered when parsing the file.  Error(s) from libCellML:\n" +  ToThinString(error.get()));
   }
   return CheckAndAddCellMLDoc(model);
 }
+
+LIB_EXTERN int writeCellMLFile(const char* filename, const char* moduleName)
+{
+  if (!checkModule(moduleName)) return NULL;
+  nsCOMPtr<cellml_apiIModel> model = g_registry.GetModule(moduleName)->GetCellMLModel();
+  nsresult rv;
+  nsString cellmltext;
+  rv = model->GetSerialisedText(cellmltext);
+  string oldlocale = setlocale(LC_ALL, NULL);
+  setlocale(LC_ALL, "C");
+  ofstream afile(filename);
+  if (!afile.good()) {
+    string error = "Unable to open file ";
+    error += filename;
+    error += " for writing.";
+    g_registry.SetError(error);
+    setlocale(LC_ALL, oldlocale.c_str());
+    return 0;
+  }
+  string cellmlstring = ToThinString(cellmltext.get());
+  size_t gtpos;
+  while ((gtpos = cellmlstring.find("><")) != string::npos) {
+    cellmlstring.insert(gtpos+1, "\n");
+  }
+  afile << cellmlstring;
+  afile.close();
+  setlocale(LC_ALL, oldlocale.c_str());
+  return 1;
+}
+
+
 #endif
 
 LIB_EXTERN unsigned long getNumFiles()
@@ -371,6 +402,20 @@ LIB_EXTERN void clearPreviousLoads()
 LIB_EXTERN char* getLastError()
 {
   return getCharStar((g_registry.GetError()).c_str());
+}
+
+LIB_EXTERN char* getWarnings()
+{
+  string ret;
+  vector<string> warnings = g_registry.GetWarnings();
+  if (warnings.size() == 0) return NULL;
+  for (size_t warn=0; warn<warnings.size(); warn++) {
+    if (warn > 0) {
+      ret += "\n";
+    }
+    ret += warnings[warn];
+  }
+  return getCharStar(ret.c_str());
 }
 
 LIB_EXTERN char** getModuleNames()
@@ -406,11 +451,6 @@ LIB_EXTERN char*  getNthModuleName(unsigned long n)
   return retval;
 }
 
-LIB_EXTERN unsigned long getNumModules()
-{
-  return g_registry.GetNumModules();
-}
-
 LIB_EXTERN bool checkModule(const char* moduleName)
 {
   if (g_registry.GetModule(moduleName) == NULL) {
@@ -432,6 +472,149 @@ LIB_EXTERN bool checkModule(const char* moduleName)
   return true;
 }
 
+
+LIB_EXTERN unsigned long getNumSymbolsInInterfaceOf(const char* moduleName)
+{
+  if (!checkModule(moduleName)) return NULL;
+  return g_registry.GetModule(moduleName)->GetNumExportVariables();
+}
+
+LIB_EXTERN char** getSymbolNamesInInterfaceOf(const char* moduleName)
+{
+  if (!checkModule(moduleName)) return NULL;
+  Module* mod = g_registry.GetModule(moduleName);
+  unsigned long intnum = mod->GetNumExportVariables();
+  char** names = getCharStarStar(intnum);
+  if (names==NULL) return NULL;
+  for (unsigned long var=0; var<intnum; var++) {
+    names[var] = getNthSymbolNameInInterfaceOf(moduleName, var);
+    if (names[var]==NULL) return NULL;
+  }
+  return names;
+}
+
+LIB_EXTERN char* getNthSymbolNameInInterfaceOf(const char* moduleName, unsigned long n)
+{
+  if (!checkModule(moduleName)) return NULL;
+  return getCharStar(g_registry.GetModule(moduleName)->GetNthExportVariable(n)[0].c_str());
+}
+
+
+LIB_EXTERN unsigned long getNumReplacedSymbolNames(const char* moduleName)
+{
+  if (!checkModule(moduleName)) return NULL;
+  return g_registry.GetModule(moduleName)->GetNumSynchronizedVariables();
+}
+
+LIB_EXTERN char*** getAllReplacementSymbolPairs(const char* moduleName)
+{
+  if (!checkModule(moduleName)) return NULL;
+  vector<pair<string, string> > replacements = g_registry.GetModule(moduleName)->GetAllSynchronizedVariablePairs();
+  char*** ret = getCharStarStarStar(replacements.size());
+  if (ret==NULL) return NULL;
+  for (size_t n=0; n<replacements.size(); n++) {
+    char** two = getCharStarStar(2);
+    if (two==NULL) return NULL;
+    char* former = getCharStar(replacements[n].first.c_str());
+    if (former==NULL) return NULL;
+    char* latter = getCharStar(replacements[n].second.c_str());
+    if (latter==NULL) return NULL;
+    two[0] = former;
+    two[1] = latter;
+    ret[n] = two;
+  }
+  return ret;
+}
+
+LIB_EXTERN char** getNthReplacementSymbolPair(const char* moduleName, unsigned long n)
+{
+  if (!checkModule(moduleName)) return NULL;
+  pair<string, string> replacement = g_registry.GetModule(moduleName)->GetNthSynchronizedVariablePair(n);
+  char** ret = getCharStarStar(2);
+  if (ret==NULL) return NULL;
+  char* former = getCharStar(replacement.first.c_str());
+  if (former==NULL) return NULL;
+  char* latter = getCharStar(replacement.second.c_str());
+  if (latter==NULL) return NULL;
+  ret[0] = former;
+  ret[1] = latter;
+  return ret;
+}
+
+LIB_EXTERN char* getNthFormerSymbolName(const char* moduleName, unsigned long n)
+{
+  if (!checkModule(moduleName)) return NULL;
+  pair<string, string> replacement = g_registry.GetModule(moduleName)->GetNthSynchronizedVariablePair(n);
+  return getCharStar(replacement.first.c_str());
+}
+
+LIB_EXTERN char* getNthReplacementSymbolName(const char* moduleName, unsigned long n)
+{
+  if (!checkModule(moduleName)) return NULL;
+  pair<string, string> replacement = g_registry.GetModule(moduleName)->GetNthSynchronizedVariablePair(n);
+  return getCharStar(replacement.second.c_str());
+}
+
+
+LIB_EXTERN unsigned long getNumReplacedSymbolNamesBetween(const char* moduleName, const char* formerSubmodName, const char* replacementSubmodName)
+{
+  if (!checkModule(moduleName)) return NULL;
+  return g_registry.GetModule(moduleName)->GetSynchronizedVariablesBetween(formerSubmodName, replacementSubmodName).size();
+}
+
+LIB_EXTERN char*** getAllReplacementSymbolPairsBetween(const char* moduleName, const char* formerSubmodName, const char* replacementSubmodName, unsigned long n)
+{
+  if (!checkModule(moduleName)) return NULL;
+  vector<pair<string, string> > replacements = g_registry.GetModule(moduleName)->GetSynchronizedVariablesBetween(formerSubmodName, replacementSubmodName);
+  char*** ret = getCharStarStarStar(replacements.size());
+  if (ret==NULL) return NULL;
+  for (size_t n=0; n<replacements.size(); n++) {
+    char** two = getCharStarStar(2);
+    if (two==NULL) return NULL;
+    char* former = getCharStar(replacements[n].first.c_str());
+    if (former==NULL) return NULL;
+    char* latter = getCharStar(replacements[n].second.c_str());
+    if (latter==NULL) return NULL;
+    two[0] = former;
+    two[1] = latter;
+    ret[n] = two;
+  }
+  return ret;
+}
+
+LIB_EXTERN char** getNthReplacementSymbolPairBetween(const char* moduleName, const char* formerSubmodName, const char* replacementSubmodName, unsigned long n)
+{
+  if (!checkModule(moduleName)) return NULL;
+  pair<string, string> replacement = g_registry.GetModule(moduleName)->GetNthSynchronizedVariablesBetween(formerSubmodName, replacementSubmodName, n);
+  char** ret = getCharStarStar(2);
+  if (ret==NULL) return NULL;
+  char* former = getCharStar(replacement.first.c_str());
+  if (former==NULL) return NULL;
+  char* latter = getCharStar(replacement.second.c_str());
+  if (latter==NULL) return NULL;
+  ret[0] = former;
+  ret[1] = latter;
+  return ret;
+}
+
+LIB_EXTERN char* getNthFormerSymbolNameBetween(const char* moduleName, const char* formerSubmodName, const char* replacementSubmodName, unsigned long n)
+{
+  if (!checkModule(moduleName)) return NULL;
+  pair<string, string> replacement = g_registry.GetModule(moduleName)->GetNthSynchronizedVariablesBetween(formerSubmodName, replacementSubmodName, n);
+  return getCharStar(replacement.first.c_str());
+}
+
+LIB_EXTERN char* getNthReplacementSymbolNameBetween(const char* moduleName, const char* formerSubmodName, const char* replacementSubmodName, unsigned long n)
+{
+  if (!checkModule(moduleName)) return NULL;
+  pair<string, string> replacement = g_registry.GetModule(moduleName)->GetNthSynchronizedVariablesBetween(formerSubmodName, replacementSubmodName, n);
+  return getCharStar(replacement.second.c_str());
+}
+
+LIB_EXTERN unsigned long getNumModules()
+{
+  return g_registry.GetNumModules();
+}
 
 LIB_EXTERN unsigned long getNumSymbolsOfType(const char* moduleName, return_type rtype)
 {
@@ -1032,6 +1215,23 @@ LIB_EXTERN char* getTriggerForEvent(const char* moduleName, unsigned long eventn
   return getCharStar(trig.c_str());
 }
 
+LIB_EXTERN char* getDelayForEvent(const char* moduleName, unsigned long eventno)
+{
+  if (!checkModule(moduleName)) return NULL;
+  const Variable* var = g_registry.GetModule(moduleName)->GetNthVariableOfType(allEvents, eventno);
+  if (var==NULL) return NULL;
+  string trig = var->GetEvent()->GetDelay()->ToDelimitedStringWithEllipses(g_registry.GetCC());
+  return getCharStar(trig.c_str());
+}
+
+LIB_EXTERN bool getEventHasDelay(const char* moduleName, unsigned long eventno)
+{
+  if (!checkModule(moduleName)) return NULL;
+  const Variable* var = g_registry.GetModule(moduleName)->GetNthVariableOfType(allEvents, eventno);
+  if (var==NULL) return NULL;
+  return (!var->GetEvent()->GetDelay()->IsEmpty());
+}
+
 LIB_EXTERN char* getNthAssignmentVariableForEvent(const char* moduleName, unsigned long eventno, unsigned long n)
 {
   if (!checkModule(moduleName)) return NULL;
@@ -1356,8 +1556,18 @@ LIB_EXTERN int writeAntimonyFile(const char* filename, const char* moduleName)
   while (antimony.size()>1 && antimony[0] == '\n') {
     antimony.erase(0, 1);
   }
-  antimony = "//Created by libAntimony " VERSION_STRING "\n" + antimony;
-  afile << antimony;
+  string top = "//Created by libAntimony " VERSION_STRING "\n";
+  vector<string> warnings = g_registry.GetWarnings();
+  for (size_t warn=0; warn<warnings.size(); warn++) {
+    if (warn == 0) {
+      top += "\n//Warnings from automatic translation:\n";
+    }
+    top += "//    " + warnings[warn] + "\n";
+  }
+  if (warnings.size() > 0) {
+    top += "\n";
+  }
+  afile << top << antimony;
   afile.close();
   setlocale(LC_ALL, oldlocale.c_str());
   return 1;
@@ -1645,7 +1855,11 @@ LIB_EXTERN void printAllDataFor(const char* moduleName)
     
     cout << endl << "Events" << endl;
     for (unsigned long event=0; event<getNumEvents(moduleName); event++) {
-      cout << eventnames[event] << ": @(" << getTriggerForEvent(moduleName, event) << "): ";
+      cout << eventnames[event] << ": at ";
+      if (getEventHasDelay(moduleName, event)) {
+        cout << getDelayForEvent(moduleName, event) << " after ";
+      }
+      cout << getTriggerForEvent(moduleName, event) << ": ";
       for (unsigned long asnt=0; asnt<getNumAssignmentsForEvent(moduleName, event); asnt++) {
         if (asnt > 0) {
           cout << ", ";

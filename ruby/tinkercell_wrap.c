@@ -1892,21 +1892,21 @@ static VALUE mTinkercell;
 #define SWIG_as_voidptrptr(a) ((void)SWIG_as_voidptr(*a),(void**)(a)) 
 
 
-#include "API/TCstructs.h"
-#include "API/TC_Main_api.h"
-#include "API/TC_BasicInformationTool_api.h"
-#include "API/TC_ConnectionInsertion_api.h"
-#include "API/TC_ConnectionSelection_api.h"
-#include "API/TC_GroupHandlerTool_api.h"
-#include "API/TC_NodeInsertion_api.h"
-#include "API/TC_StoichiometryTool_api.h"
-#include "API/TC_DynamicLibraryTool_api.h"
-#include "API/TC_PlotTool_api.h"
-#include "API/TC_ModelFileGenerator_api.h"
-#include "API/TC_EventsAssignments_api.h"
-#include "API/TC_NameFamily_api.h"
-#include "API/TC_AutoGeneRegulatoryTool_api.h"
-#include "API/TC_SBML_api.h"
+#include "TCstructs.h"
+#include "TC_Main_api.h"
+#include "TC_BasicInformationTool_api.h"
+#include "TC_ConnectionInsertion_api.h"
+#include "TC_ConnectionSelection_api.h"
+#include "TC_GroupHandlerTool_api.h"
+#include "TC_NodeInsertion_api.h"
+#include "TC_StoichiometryTool_api.h"
+#include "TC_DynamicLibraryTool_api.h"
+#include "TC_PlotTool_api.h"
+#include "TC_ModelFileGenerator_api.h"
+#include "TC_EventsAssignments_api.h"
+#include "TC_NameFamily_api.h"
+#include "TC_AutoGeneRegulatoryTool_api.h"
+#include "TC_SBML_api.h"
 
 
 #include <limits.h>
@@ -1926,7 +1926,7 @@ SWIG_ruby_failed(void)
 } 
 
 
-/*@SWIG:C:\\Swig\\Lib\\ruby\\rubyprimtypes.swg,23,%ruby_aux_method@*/
+/*@SWIG:/usr/share/swig1.3/ruby/rubyprimtypes.swg,23,%ruby_aux_method@*/
 SWIGINTERN VALUE SWIG_AUX_NUM2LONG(VALUE *args)
 {
   VALUE obj = args[0];
@@ -1984,7 +1984,7 @@ SWIG_From_int  (int value)
   #define SWIG_From_double   rb_float_new 
 
 
-/*@SWIG:C:\\Swig\\Lib\\ruby\\rubyprimtypes.swg,23,%ruby_aux_method@*/
+/*@SWIG:/usr/share/swig1.3/ruby/rubyprimtypes.swg,23,%ruby_aux_method@*/
 SWIGINTERN VALUE SWIG_AUX_NUM2DBL(VALUE *args)
 {
   VALUE obj = args[0];

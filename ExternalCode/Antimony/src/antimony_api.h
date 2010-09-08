@@ -50,7 +50,7 @@
   * - 21: modularStrands:    All defined DNA strands, with some being subparts of the others.
   *
   * Returned Pointers
-  * The majority of the functions described below return pointers to arrays and/or strings.  These pointers pointers you then own, created with 'malloc':  you must 'free' them yourself to release the allocated memory.  Some programming environments will handle this automatically for you, and others will not.  If you want to not bother with it, the function 'freeAll' is provided, which will free every pointer created by this library.  In order for this to work, however, you must have not freed a single provided pointer yourself, and you must not subsequently try to reference any data provided by the library (your own copies of the data will be fine, of course).
+  * The majority of the functions described below return pointers to arrays and/or strings.  These pointers you then own, and are created with 'malloc':  you must 'free' them yourself to release the allocated memory.  Some programming environments will handle this automatically for you, and others will not.  If you want to not bother with it, the function 'freeAll' is provided, which will free every pointer created by this library.  In order for this to work, however, you must have not freed a single provided pointer yourself, and you must not subsequently try to reference any data provided by the library (your own copies of the data will be fine, of course).
   *
   * If the library runs out of memory when trying to return a pointer, it will return NULL instead and attempt to set an error message, retrievable with 'getLastError()'.
   *
@@ -181,12 +181,12 @@ LIB_EXTERN void   clearPreviousLoads();
 /**
  * Writes out an antimony-formatted file containing the given module.  If no module name is given, all modules in the current set are returned.  If the module depends on any sub-modules, those modules are written out as well, also in the antimony format.  Returns 0 on failure (and sets an error), 1 on success.
  */
-LIB_EXTERN int   writeAntimonyFile(const char* filename, const char* moduleName = NULL);
+LIB_EXTERN int   writeAntimonyFile(const char* filename, const char* moduleName);
 
 /**
  * Returns the same output as writeAntimonyFile, but to a char* array instead of to a file.  Returns NULL on failure, and sets an error.
  */
-LIB_EXTERN char* getAntimonyString(const char* moduleName = NULL);
+LIB_EXTERN char* getAntimonyString(const char* moduleName);
 
 #ifndef NSBML
 /**
@@ -200,21 +200,21 @@ LIB_EXTERN int   writeSBMLFile(const char* filename, const char* moduleName);
  * Returns the same output as writeSBMLFile, but to a char* array instead of to a file.  Returns the output of libSBML's 'writeSBMLToString", which "Returns the string on success and NULL if one of the underlying parser components fail (rare)."
  * NOTE:  This function is unavailable when libAntimony is compiled with the '-NSBML' flag.
  *
- *@see writeSBMLToString
+ *@see writeSBMLFile
  */
 LIB_EXTERN char* getSBMLString(const char* moduleName);
 #endif
 
 #ifndef NCELLML
 /**
- * Writes out a CellML-formatted XML file to the file indicated.  For now, the output is 'flattened', that is, all components of sub-modules are re-named and placed in a single model.  Returns the output of libCellML's 'writeCellML', which "Returns non-zero on success and zero if the filename could not be opened for writing."  An error indicating this is set on returning zero.
+ * Writes out a CellML-formatted XML file to the file indicated.  For now, the output is 'flattened', that is, all components of sub-modules are re-named and placed in a single model.  Returns one on success and zero on failure.
  * NOTE:  This function is unavailable when libAntimony is compiled with the '-NCELLML' flag.
  *
  *@see getCellMLString
  */
 LIB_EXTERN int   writeCellMLFile(const char* filename, const char* moduleName);
 /**
- * Returns the same output as writeCellMLFile, but to a char* array instead of to a file.  Returns the output of libCellML's 'writeCellMLToString", which "Returns the string on success and NULL if one of the underlying parser components fail (rare)."
+ * Returns the same output as writeCellMLFile, but to a char* array instead of to a file.  Returns the string on success (as translated to 'char' from CellML's native 'wchar') and NULL on failure."
  * NOTE:  This function is unavailable when libAntimony is compiled with the '-NCELLML' flag.
  *
  *@see writeCellMLToString
@@ -253,6 +253,11 @@ LIB_EXTERN bool   checkModule(const char* moduleName);
  * When any function returns an error condition, a longer description of the problem is stored in memory, and is obtainable with this function.  In most cases, this means that a call that returns a pointer returned 'NULL' (or 0).
  */
 LIB_EXTERN char*  getLastError();
+
+/**
+ * When translating some other format to Antimony, elements that are unable to be translated are saved as warnings, retrievable with this function (returns NULL if no warnings present).
+ */
+LIB_EXTERN char*  getWarnings();
 
 #ifndef NSBML
 /**
@@ -293,6 +298,100 @@ LIB_EXTERN char*  getNthModuleName(unsigned long n);
 /** \} */
 
 /**
+ * Returns the number of symbols defined to be in the interface of the given module.  In other words, if a module is defined 'module M(x, y, z)', this returns '3'.  (Modules with no interface symbols return '0'.)
+ */
+LIB_EXTERN unsigned long getNumSymbolsInInterfaceOf(const char* moduleName);
+
+/**
+ * Returns the names of the symbols defined to be in the interface of the given module.  In other words, if a module is defined 'module M(x, y, z)', this returns the list 'x, y, z'.  A module with no symbols defined in its interface would return a pointer to an empty string. 
+ */
+LIB_EXTERN char** getSymbolNamesInInterfaceOf(const char* moduleName);
+
+/**
+ * Returns the Nth symbol name defined to be in the interface of the given module.  If a module is defined 'module M(x, y, z)', calling this with n=0 returns "x".  If no such symbol is found, NULL is returned and an error is set.
+ */
+LIB_EXTERN char* getNthSymbolNameInInterfaceOf(const char* moduleName, unsigned long n);
+
+
+
+/**
+ * Returns the Nth replacement symbol name of a symbol that has replaced a different symbol in the given module, through the use of an 'is' construct, or through the use of a module's interface.
+ * @see getNthFormerSymbolName
+ * @see getNthReplacementSymbolName
+ */
+LIB_EXTERN unsigned long getNumReplacedSymbolNames(const char* moduleName);
+
+/**
+ * Returns a list of pairs of symbol names that have been synchronized with each other--the first the symbol that was replaced, and the second the symbol used as the replacement.  These replacements are created when 'is' is used, and when a module's 'interface' (the symbols listed in parentheses) is used.
+ * @see getNthFormerSymbolName
+ * @see getNthReplacementSymbolName
+ * @see getNthReplacementSymbolPair
+ */
+LIB_EXTERN char*** getAllReplacementSymbolPairs(const char* moduleName);
+
+/**
+ * Returns the Nth pair of symbol names that have been synchronized with each other--the first the symbol that was replaced, and the second the symbol used as the replacement.  These replacements are created when 'is' is used, and when a module's 'interface' (the symbols listed in parentheses) is used.
+ * @see getNthFormerSymbolName
+ * @see getNthReplacementSymbolName
+ */
+LIB_EXTERN char** getNthReplacementSymbolPair(const char* moduleName, unsigned long n);
+
+/**
+ * Returns the Nth symbol name that has been replaced by a new symbol name in the given module, through the use of an 'is' construct, or through the use of a module's interface.
+ * @see getNthReplacementSymbolName
+ * @see GetNumReplacedSymbolNames
+ */
+LIB_EXTERN char* getNthFormerSymbolName(const char* moduleName, unsigned long n);
+
+/**
+ * Returns the Nth replacement symbol name of a symbol that has replaced a different symbol in the given module, through the use of an 'is' construct, or through the use of a module's interface.
+ * @see getNthFormerSymbolName
+ * @see GetNumReplacedSymbolNames
+ */
+LIB_EXTERN char* getNthReplacementSymbolName(const char* moduleName, unsigned long n);
+
+
+
+/**
+ * Returns the Nth replacement symbol name of a symbol that has replaced a different symbol in the given module, through the use of an 'is' construct, or through the use of a module's interface, between the given submodules, with the variable in the first submodule being the former variable name, and the variable in the second being the replacement variable name.  If an empty string is used as one of the submodule names, those synchronized variables that are not part of any submodule are searched for.
+ * @see getNthFormerSymbolName
+ * @see getNthReplacementSymbolName
+ */
+LIB_EXTERN unsigned long getNumReplacedSymbolNamesBetween(const char* moduleName, const char* formerSubmodName, const char* replacementSubmodName);
+
+/**
+ * Returns a list of pairs of symbol names that have been synchronized with each other--the first the symbol that was replaced, and the second the symbol used as the replacement, between the given submodules, with the variable in the first submodule being the former variable name, and the variable in the second being the replacement variable name.  These replacements are created when 'is' is used, and when a module's 'interface' (the symbols listed in parentheses) is used.
+ * @see getNthFormerSymbolName
+ * @see getNthReplacementSymbolName
+ * @see getNthReplacementSymbolPair
+ */
+LIB_EXTERN char*** getAllReplacementSymbolPairsBetween(const char* moduleName, const char* formerSubmodName, const char* replacementSubmodName, unsigned long n);
+
+/**
+ * Returns the Nth pair of symbol names that have been synchronized with each other--the first the symbol that was replaced, and the second the symbol used as the replacement, between the given submodules, with the variable in the first submodule being the former variable name, and the variable in the second being the replacement variable name.  These replacements are created when 'is' is used, and when a module's 'interface' (the symbols listed in parentheses) is used.
+ * @see getNthFormerSymbolName
+ * @see getNthReplacementSymbolName
+ */
+LIB_EXTERN char** getNthReplacementSymbolPairBetween(const char* moduleName, const char* formerSubmodName, const char* replacementSubmodName, unsigned long n);
+
+/**
+ * Returns the Nth symbol name that has been replaced by a new symbol name in the given module, through the use of an 'is' construct, or through the use of a module's interface, between the given submodules, with the variable in the first submodule being the former variable name, and the variable in the second being the replacement variable name.
+ * @see getNthReplacementSymbolName
+ * @see GetNumReplacedSymbolNames
+ */
+LIB_EXTERN char* getNthFormerSymbolNameBetween(const char* moduleName, const char* formerSubmodName, const char* replacementSubmodName, unsigned long n);
+
+/**
+ * Returns the Nth replacement symbol name of a symbol that has replaced a different symbol in the given module, through the use of an 'is' construct, or through the use of a module's interface, between the given submodules, with the variable in the first submodule being the former variable name, and the variable in the second being the replacement variable name.
+ * @see getNthFormerSymbolName
+ * @see GetNumReplacedSymbolNames
+ */
+LIB_EXTERN char* getNthReplacementSymbolNameBetween(const char* moduleName, const char* formerSubmodName, const char* replacementSubmodName, unsigned long n);
+
+
+
+
+/**
   * @name Symbols and symbol information
   */
 /** \{ */
@@ -331,20 +430,6 @@ LIB_EXTERN char** getSymbolEquationsOfType(const char* moduleName, return_type r
 
 
 /**
- * Returns the equations associated with the assignment rule for symbols of the given return type.
- * - Species:                 The assignment rule for the species in question
- * - Formulas and operators:  The assignment rule of the formula in question
- * - Compartments:            The assignment rule for the compartment
- * - DNA Strands:             The assignment rule or reaction rate at the end of the strand.
- * - Reactions and genes:     The reaction rate (for consistency with DNA strands)
- *
- * - Events:                  Nothing
- * - Interactions:            Nothing
- * - Modules:                 Nothing
- */
-LIB_EXTERN char** getSymbolAssignmentRulesOfType(const char* moduleName, return_type rtype);
-
-/**
  * Returns the equations associated with the initial assignment for symbols of the given return type.
  * - Species:                 The initial assignment for the species in question
  * - Formulas and operators:  The initial assignment of the formula in question
@@ -352,6 +437,20 @@ LIB_EXTERN char** getSymbolAssignmentRulesOfType(const char* moduleName, return_
  *
  * - DNA Strands:             Nothing
  * - Reactions and genes:     Nothing
+ * - Events:                  Nothing
+ * - Interactions:            Nothing
+ * - Modules:                 Nothing
+ */
+LIB_EXTERN char** getSymbolInitialAssignmentsOfType(const char* moduleName, return_type rtype);
+
+/**
+ * Returns the equations associated with the assignment rule for symbols of the given return type.
+ * - Species:                 The assignment rule for the species in question
+ * - Formulas and operators:  The assignment rule of the formula in question
+ * - Compartments:            The assignment rule for the compartment
+ * - DNA Strands:             The assignment rule or reaction rate at the end of the strand.
+ * - Reactions and genes:     The reaction rate (for consistency with DNA strands)
+ *
  * - Events:                  Nothing
  * - Interactions:            Nothing
  * - Modules:                 Nothing
@@ -372,8 +471,8 @@ LIB_EXTERN char** getSymbolAssignmentRulesOfType(const char* moduleName, return_
 LIB_EXTERN char** getSymbolRateRulesOfType(const char* moduleName, return_type rtype);
 
 /**
- * Returns the compartments associated with the symbols of the given return type.  Note that unlike in SBML, any symbol of any type may have an associated compartment, including compartments themselves.  Rules about compartments in Antimony can be found in the <A class="el" HREF="Tutorial.pdf">Tutorial.pdf</a> document included with this documentation.
- */ //LS DEBUG:  documentation check
+ * Returns the compartments associated with the symbols of the given return type.  Note that unlike in SBML, any symbol of any type may have an associated compartment, including compartments themselves.  Rules about compartments in Antimony can be found in the <A class="el" target="_top" HREF="Tutorial.pdf">Tutorial.pdf</a> document included with this documentation.
+ */
 LIB_EXTERN char** getSymbolCompartmentsOfType(const char* moduleName, return_type rtype);
 
 /**
@@ -651,6 +750,16 @@ LIB_EXTERN unsigned long  getNumAssignmentsForEvent(const char* moduleName, unsi
 LIB_EXTERN char*   getTriggerForEvent(const char* moduleName, unsigned long event);
 
 /**
+ * Returns the delay for the given event, as an equation (if present; if the event has no delay, "" is returned).
+ */
+LIB_EXTERN char*   getDelayForEvent(const char* moduleName, unsigned long event);
+
+/**
+ * Returns 'true' if the given event has a delay; 'false' otherwise.
+ */
+LIB_EXTERN bool    getEventHasDelay(const char* moduleName, unsigned long event);
+
+/**
  * Each assignment for an event assigns a formula to a variable.  This function returns the variable in question for the given event and assignment.
  */
 LIB_EXTERN char*   getNthAssignmentVariableForEvent(const char* moduleName, unsigned long event, unsigned long n);
@@ -731,9 +840,9 @@ LIB_EXTERN bool    getIsNthModularDNAStrandOpen(const char* moduleName, unsigned
 
 /**
  * Frees all pointers handed to you by libAntimony.
- * All libAntimony functions above that return pointers return malloc'ed pointers that you now own.  If you wish, you can ignore this and never free anything, as long as you call 'freeAll' at the very end of your program.  If you free *anything*, however, calling this function will cause the program to crash!  It won't know that you already freed that pointer, and will attempt to free it again.  So either keep track of all memory management yourself, or use this function after you're completely done.
+ * All libAntimony functions above that return pointers return malloc'ed pointers that you now own.  If you wish, you can ignore this and never free anything, as long as you call 'freeAll' at the very end of your program.  If you free *anything* yourself, however, calling this function will cause the program to crash!  It won't know that you already freed that pointer, and will attempt to free it again.  So either keep track of all memory management yourself, or use this function after you're completely done.
  *
- * Note that this function only frees pointers handed to you by other antimony_api functions.  The models themselves are still in memory and are available.
+ * Note that this function only frees pointers handed to you by other antimony_api functions.  The models themselves are still in memory and are available.  (To clear that memory, use clearPreviousLoads() )
  */
 LIB_EXTERN void freeAll();
 

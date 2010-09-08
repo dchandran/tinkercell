@@ -45,7 +45,7 @@ namespace Tinkercell
 	loaded by this class, the library will be unloaded upon completion on the
 	function. To prevent the automatic unloading, use the setAutoUnload option.
 	Only four types of functions are supported.
-	\ingroup core
+	\ingroup CAPI
 	*/
 	class TINKERCELLEXPORT CThread : public QThread
 	{

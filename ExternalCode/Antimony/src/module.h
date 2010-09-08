@@ -10,8 +10,8 @@
 #endif
 
 #ifndef NCELLML
-#include <IfaceCellML_APISPEC.hxx>
-using namespace iface;
+#include "ICellMLInputServices.h"
+#include <nsCOMPtr.h>
 #endif
 
 #include "antimony_api.h"
@@ -20,8 +20,7 @@ using namespace iface;
 
 class ReactionList;
 
-class Module
-{
+class Module{
 protected:
   std::string m_modulename;
   std::vector<std::vector<std::string> > m_exportlist;
@@ -33,9 +32,13 @@ private:
 
   std::vector<Variable*> m_variables;
   std::vector<std::pair<std::vector<std::string>, std::vector<std::string> > > m_synchronized;
+  std::vector<std::vector<std::string> > m_changed;
   std::vector<std::string> m_returnvalue;
 
   size_t m_currentexportvar;
+
+  //Caching for speed:
+  std::map<std::vector<std::string>, Variable*> m_varmap;
 
 #ifndef NSBML
   SBMLDocument m_sbml;
@@ -44,14 +47,18 @@ private:
 #endif
 
 #ifndef NCELLML
-  cellml_api::Model* m_cellmlmodel;
-  cellml_api::CellMLComponent* m_cellmlcomponent;
+  nsCOMPtr<cellml_apiIModel> m_cellmlmodel;
+  nsCOMPtr<cellml_apiICellMLComponent> m_cellmlcomponent;
+  std::map<std::vector<std::string>, std::string > m_cellmlnames;
+  std::set<std::string> m_uniquenames;
+  std::map<Variable*, std::vector<Variable*> > m_syncedvars;
+  bool m_childrenadded;
 #endif
 
 public:
 
   //Storage vectors for output:
-  std::vector<std::vector<std::string> > m_uniquevars;
+  std::vector<Variable*> m_uniquevars;
 
   Module(std::string name);
   Module(const Module& src); //Can't accept default with CellML, since it reference counts.
@@ -61,7 +68,8 @@ public:
 
   Variable* AddOrFindVariable(const std::string* name);
   Variable* AddNewNumberedVariable(const std::string name);
-  void AddVariableToExportList(Variable* var);
+  void StoreVariable(Variable* var);
+  bool AddVariableToExportList(Variable* var);
   Variable* AddNewReaction(ReactantList* left, rd_type divider, ReactantList* right, Formula* formula);
   Variable* AddNewReaction(ReactantList* left, rd_type divider, ReactantList* right, Formula* formula, Variable* var);
   bool SetFormula(Formula* formula);
@@ -70,24 +78,31 @@ public:
   void SetComponentCompartments(Variable* compartment);
   void AddSynchronizedPair(Variable* oldvar, Variable* newvar);
   void AddTimeToUserFunction(std::string function);
+  void CreateLocalVariablesForSubmodelInterfaceIfNeeded();
 
-  Variable* GetVariable(std::vector<std::string> name);
-  const Variable* GetVariable(std::vector<std::string> name) const;
+  Variable* GetVariable(const std::vector<std::string>& name);
+  void AddToVarMapFrom(const Module& submod);
+  const Variable* GetVariable(const std::vector<std::string>& name) const;
   const Variable* GetVariableFromSymbol(std::string varname) const;
   Variable* GetSubVariable(const std::string* name);
   const Formula* GetFormula() const;
   Formula* GetFormula();
   Variable* GetNextExportVariable();
   size_t GetNumExportVariables() const {return m_exportlist.size();};
+  std::vector<std::string> GetNthExportVariable(size_t n) const;
+  size_t GetNumSynchronizedVariables() const;
+  std::pair<std::string, std::string> GetNthSynchronizedVariablePair(size_t n) const;
+  std::vector<std::pair<std::string, std::string> > GetAllSynchronizedVariablePairs() const;
+  std::vector<std::pair<std::string, std::string> > GetSynchronizedVariablesBetween(std::string mod1, std::string mod2) const;
+  std::pair<std::string, std::string> GetNthSynchronizedVariablesBetween(std::string mod1, std::string mod2, size_t n) const;
   Variable* GetUpstreamDNA();
   Variable* GetDownstreamDNA();
   formula_type GetFormulaType() const; //If we have a return value
 
   const std::string& GetModuleName() const;
   std::string GetVariableNameDelimitedBy(char cc) const;
-  std::vector<std::pair<std::vector<std::string>, std::vector<std::string> > > GetSyncronized() const {return m_synchronized;};
   std::string ToString() const;
-  std::string OutputOnly(std::vector<var_type> types, std::string name, std::string indent, char cc) const;
+  std::string OutputOnly(std::vector<var_type> types, std::string name, std::string indent, char cc, std::map<const Variable*, Variable > origmap) const;
   std::string ListIn80Cols(std::string type, std::vector<std::string> names, std::string indent) const;
   std::string GetAntimony(std::set<const Module*>& usedmods, bool funcsincluded) const;
   std::string GetJarnacReactions() const;
@@ -106,7 +121,7 @@ public:
   bool   AreEquivalent(return_type rtype, var_type vtype) const;
   bool   AreEquivalent(return_type rtype, bool isconst) const;
 
-  std::string ListSynchronizedVariables(std::string indent) const;
+  std::string ListSynchronizedVariables(std::string indent, std::set<size_t> alreadysynchronized) const;
   std::string ListAssignmentDifferencesFrom(const Module* origmod, std::string mname, std::string indent) const;
 #ifndef NSBML
   void  LoadSBML(const SBMLDocument* sbmldoc);
@@ -116,15 +131,55 @@ public:
 #endif
 
 #ifndef NCELLML
-  void  LoadCellMLModel(cellml_api::Model* model);
-  void  LoadConnections(cellml_api::ConnectionSet* connections);
-  void  LoadCellMLComponent(cellml_api::CellMLComponent* component);
-  const cellml_api::Model* GetCellMLModel();
+  //Reading:
+  void  LoadCellMLModel(nsCOMPtr<cellml_apiIModel> model, std::vector<nsCOMPtr<cellml_apiICellMLComponent> > top_components);
+  void  LoadCellMLComponent(nsCOMPtr<cellml_apiICellMLComponent> component);
+  void  SetCellMLChildrenAsSubmodules(nsCOMPtr<cellml_apiICellMLComponent> component);
+  const nsCOMPtr<cellml_apiIModel> GetCellMLModel();
+  void  ResyncVariablesWith(const Module* twin, std::string modulename, std::vector<std::string> varname);
+  void  ReloadSubmodelVariables(const std::string& modname);
+  void  ReloadSubmodelConnections(Module* syncmod);
+
+  //Creating:
   void  CreateCellMLModel();
-  cellml_api::CellMLComponent* CreateCellMLComponentFor(cellml_api::Model* model);
+  void  AddCellMLComponentsTo(nsCOMPtr<cellml_apiIModel> model, Module* topmod);
+  nsCOMPtr<cellml_apiICellMLComponent> GetCellMLComponent(Module* topmod);
+  void  CreateCellMLComponent(Module* topmod);
+  void  AddVariableToCellML(Variable* variable, nsCOMPtr<cellml_apiIModel> model);
+  nsCOMPtr<cellml_apiICellMLVariable> AddVariableToCellML(std::string varname, nsCOMPtr<cellml_apiIModel> model);
+  void  AssignMathOnceFor(std::vector<Variable*> varlist, nsCOMPtr<domIDocument> doc);
+  bool  AddCellMLMathTo(std::string formula, Variable* targetvar, nsCOMPtr<domIDocument> doc);
+  void  AddTimeFor(nsCOMPtr<cellml_apiICellMLVariable> cmlvar);
+  nsCOMPtr<cellml_apiICellMLVariable>  AddTimeTo(nsCOMPtr<cellml_apiICellMLComponent> cmlcomp);
+  Variable* WhichFirstDefined(std::vector<Variable*> varlist, formula_type ftype);
+  bool  InUnique(std::string name);
+  void  AddUnique(std::vector<std::string> fullname, std::string name);
+  std::string GetCellMLNameOf(std::vector<std::string> name);
+  void  AddEncapsulationTo(nsCOMPtr<cellml_apiIModel> model);
+  nsCOMPtr<cellml_apiIComponentRef> GetComponentRef(nsCOMPtr<cellml_apiIModel> model, std::string cmlname);
+  void  AddConnectionsTo(nsCOMPtr<cellml_apiIModel> model, Module* topmod);
+  void  AddOneConnection(nsCOMPtr<cellml_apiIModel> model, Variable* var, Module* topmod);
+  void  AddOneConnection(nsCOMPtr<cellml_apiIModel> model, nsCOMPtr<cellml_apiICellMLVariable> var1, nsCOMPtr<cellml_apiICellMLVariable> var2);
+  void  AddODEsTo(nsCOMPtr<cellml_apiIModel> model, Module* topmod);
+  void  GetAllSpeciesAndReactions(std::set<Variable*>& species, std::set<Variable*>& reactions);
+  Module* BestModuleToAdd(std::set<Variable*> involvedrxns, std::set<Variable*>& contains );
+  void  AddRateRuleInvolving(Variable* species, Formula form, std::set<Variable*> involvedrxns);
+  std::string FindOrCreateLocalVersionOf(Variable* variable, nsCOMPtr<cellml_apiICellMLVariable>& localvar);
 #endif
 
   void  FixNames();
+
+private:
+  void FillInOrigmap(std::map<const Variable*, Variable >& origmap) const;
+  bool OrigFormulaIsAlready(const Variable* var, const std::map<const Variable*, Variable>& origmap, std::string formula) const;
+  bool OrigIsAlreadyCompartment(const Variable* var, const std::map<const Variable*, Variable>& origmap) const;
+  bool OrigIsAlreadyConstSpecies(const Variable* var, const std::map<const Variable*, Variable>& origmap, bool isconst) const;
+  bool OrigIsAlreadyDNAStrand(const Variable* var, const std::map<const Variable*, Variable>& origmap, std::string strand) const;
+  bool OrigIsAlreadyAssignmentRule(const Variable* var, const std::map<const Variable*, Variable>& origmap, std::string rule) const;
+  bool OrigIsAlreadyRateRule(const Variable* var, const std::map<const Variable*, Variable>& origmap, std::string rule) const;
+  bool OrigIsAlreadyReaction(const Variable* var, const std::map<const Variable*, Variable>& origmap, std::string rxn) const;
+  bool OrigIsAlreadyEvent(const Variable* var, const std::map<const Variable*, Variable>& origmap, std::string event) const;
+  bool OrigMatches(const Variable* var, const std::map<const Variable*, Variable>& origmap, var_type type, const_type isconst, const Variable* comp) const;
 };
 
 #include "userfunction.h"

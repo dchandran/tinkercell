@@ -1723,7 +1723,7 @@ namespace Tinkercell
 			QPointF p;
 
 			for (int i=0; i < items.size(); ++i)
-				if (mainWindow->isValidHandlePointer(items[i]) && NodeHandle::cast(items[i]))
+				if (items[i] && NodeHandle::cast(items[i]))
 				{
 					for (int j=0; j < items[i]->graphicsItems.size(); ++j)
 						if (qgraphicsitem_cast<NodeGraphicsItem*>(items[i]->graphicsItems[j]))
@@ -1772,7 +1772,7 @@ namespace Tinkercell
 	void AutoGeneRegulatoryTool::partsIn(QSemaphore * s, ItemHandle* h,  QList<ItemHandle*>* parts)
 	{
 		GraphicsScene * scene = currentScene();
-		if (parts && scene && mainWindow->isValidHandlePointer(h))
+		if (parts && scene && h)
 		{
 			qreal y = -1.0;
 			QList<ItemHandle*> allChildren = h->allChildren();
@@ -1837,7 +1837,7 @@ namespace Tinkercell
 	void AutoGeneRegulatoryTool::partsUpstream(QSemaphore * s, ItemHandle* h, QList<ItemHandle*>* parts)
 	{
 		GraphicsScene * scene = currentScene();
-		if (parts && scene && mainWindow->isValidHandlePointer(h) && h->graphicsItems.size() > 0)
+		if (parts && scene && h && h->graphicsItems.size() > 0)
 		{
 			qreal y = -1.0;
 			NodeGraphicsItem * node = 0;
@@ -1898,7 +1898,7 @@ namespace Tinkercell
 	void AutoGeneRegulatoryTool::partsDownstream(QSemaphore * s, ItemHandle* h, QList<ItemHandle*>* parts)
 	{
 		GraphicsScene * scene = currentScene();
-		if (parts && scene && mainWindow->isValidHandlePointer(h) && h->graphicsItems.size() > 0)
+		if (parts && scene && h && h->graphicsItems.size() > 0)
 		{
 			qreal y = -1.0;
 			NodeGraphicsItem * node = 0;

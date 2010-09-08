@@ -27,7 +27,13 @@
 
 namespace Tinkercell
 {
-
+	/*! \brief This class is used to run interpreters such as python, perl, octave, R, etc.
+	This is the parent class that provides the basic structure for loading the library that will
+	embed one of these languages.
+	\sa PythonInterpreterThread
+	\sa OctaveInterpreterThread
+	\ingroup CAPI
+	*/
     class TINKERCELLEXPORT InterpreterThread : public CThread
 	{
 		Q_OBJECT

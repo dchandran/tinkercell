@@ -430,8 +430,41 @@ namespace Tinkercell
 						if (name.isEmpty())
 						{
 							QString s = nDat.rowName(rowNumber);
-							nDat.removeRow(rowNumber);
-							win->changeData(handle->fullName() + tr(".") + s + tr(" removed"),handle, this->name,&nDat);
+							QString s2 = handle->fullName() + tr(".") + s;
+							bool beingUsed = false;
+							QString s3;
+							
+							QList<ItemHandle*> allHandles = win->handles();
+							for (int i=0; i < allHandles.size(); ++i)
+							{
+								QStringList textKeys = allHandles[i]->textDataNames();
+								for (int j=0; j < textKeys.size(); ++j)
+								{
+									TextDataTable & textData = allHandles[i]->textDataTable(textKeys[j]);
+									for (int k1=0; k1 < textData.rows(); ++k1)
+									{
+										for (int k2=0; k2 < textData.cols(); ++k2)
+											if (textData.value(k1,k2).contains(s2))
+											{
+												s3 = allHandles[i]->fullName() + tr("'s ") + textKeys[j];
+												beingUsed = true;
+												break;
+											}
+										if (beingUsed) break;
+									}
+									if (beingUsed) break;
+								}
+								if (beingUsed) break;
+							}
+							if (beingUsed)
+							{
+								QMessageBox::information(this,tr("Cannot remove"),s2 + tr(" cannot be removed because it is being used inside ") + s3);
+							}
+							else
+							{
+								nDat.removeRow(rowNumber);
+								win->changeData(handle->fullName() + tr(".") + s + tr(" removed"),handle, this->name,&nDat);
+							}
 						}
 						else
 						{
@@ -679,15 +712,15 @@ namespace Tinkercell
 		if ((type == both || type == numerical) && !(handle->hasNumericalData(name)))
 		{
 			QStringList nKeys = family->numericalAttributes.keys();
-			nKeys.removeAll(tr("numin"));
-			nKeys.removeAll(tr("numout"));
 			DataTable<qreal> numericalAttributes;
-			numericalAttributes.resize(nKeys.size(),1);
-			numericalAttributes.description() = tr("Parameters: an Nx1 table storing all the real attributes for this item. Row names are the attribute names, and first column holds the values.");
+			numericalAttributes.resize(nKeys.size(),3);
+			numericalAttributes.description() = tr("Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds.");
 
 			for (int i=0; i < nKeys.size(); ++i)
 			{
 				numericalAttributes.value(i,0) = family->numericalAttributes.value(nKeys[i]);
+				numericalAttributes.value(i,1) = 0.1 * family->numericalAttributes.value(nKeys[i]);
+				numericalAttributes.value(i,2) = 10.0 * family->numericalAttributes.value(nKeys[i]);
 				numericalAttributes.rowName(i) = nKeys[i];
 			}
 
@@ -725,7 +758,7 @@ namespace Tinkercell
 			return;
 		}
 
-		QStringList names, values;
+		QStringList names, values, lowerBounds, upperBounds;
 		QStringList headers;
 
 		DataTable<qreal> * nDataTable = 0;
@@ -746,6 +779,8 @@ namespace Tinkercell
 							headers << (itemHandles[i]->fullName() + tr("."));
 							names += nDataTable->rowName(j);
 							values += QString::number(nDataTable->value(j,0));
+							lowerBounds += QString::number(nDataTable->value(j,1));
+							upperBounds += QString::number(nDataTable->value(j,2));
 						}
 					}
 				}
@@ -767,7 +802,10 @@ namespace Tinkercell
 		}
 
 		tableWidget.setRowCount(names.size());
-		tableWidget.setColumnCount(2);
+		if (lowerBounds.isEmpty() || upperBounds.isEmpty())
+			tableWidget.setColumnCount(2);
+		else
+			tableWidget.setColumnCount(4);
 		tableWidget.setHorizontalHeaderLabels(QStringList() << "variable" << "value");
 		tableWidget.setVerticalHeaderLabels(headers);
 
@@ -777,6 +815,11 @@ namespace Tinkercell
 		{
 			tableWidget.setItem(i,0,new QTableWidgetItem(names[i]));
 			tableWidget.setItem(i,1,new QTableWidgetItem(values[i]));
+			if (!(lowerBounds.isEmpty() || upperBounds.isEmpty()))
+			{
+				tableWidget.setItem(i,2,new QTableWidgetItem(lowerBounds[i]));
+				tableWidget.setItem(i,3,new QTableWidgetItem(upperBounds[i]));
+			}
 		}
 
 		connect(&tableWidget,SIGNAL(cellChanged(int,int)),this,SLOT(setValue(int,int)));
@@ -1139,7 +1182,7 @@ namespace Tinkercell
 			for (int i=0; i < handles.size(); ++i)
 			{
 				handle = handles.at(i);
-				if (mainWindow->isValidHandlePointer(handle) && handle->data && handle->hasNumericalData(tr("Initial Value")))
+				if (handle && handle->data && handle->hasNumericalData(tr("Initial Value")))
 				{
 					//if (handle->hasNumericalData(tr("Fixed")) && handle->data->numericalData[tr("Fixed")].value(0,0) > 0)
 						//continue;
@@ -1181,7 +1224,7 @@ namespace Tinkercell
 			for (int i=0; i < handles.size() && i < dat.rows(); ++i)
 			{
 				handle = handles.at(i);
-				if (mainWindow->isValidHandlePointer(handle) && handle->data && handle->hasNumericalData(tr("Initial Value")))
+				if (handle && handle->data && handle->hasNumericalData(tr("Initial Value")))
 				{
 					dataTable = new DataTable<qreal>(handle->data->numericalData[tr("Initial Value")]);
 					dataTable->value(0,0) = dat.at(i,0);
@@ -1216,7 +1259,7 @@ namespace Tinkercell
 			for (int i=0; i < handles.size(); ++i)
 			{
 				handle = handles.at(i);
-				if (mainWindow->isValidHandlePointer(handle) && handle->data && handle->hasNumericalData(tr("Fixed")))
+				if (handle && handle->data && handle->hasNumericalData(tr("Fixed")))
 				{
 					dataTable = &(handle->data->numericalData[tr("Fixed")]);
 					if (dataTable && dataTable->cols() > 0 && dataTable->rows() > 0 && (dataTable->value(0,0) > 0))
@@ -1280,7 +1323,7 @@ namespace Tinkercell
 
 			for (i=0; i < handles.size(); ++i)
 			{
-				if (!mainWindow->isValidHandlePointer(handles[i]))
+				if (!handles[i])
 					continue;
 
 				if (handles[i]->hasTextData(tr("Events")))
@@ -1372,7 +1415,7 @@ namespace Tinkercell
 			for (int i=0; i < handles.size(); ++i)
 			{
 				handle = handles.at(i);
-				if (mainWindow->isValidHandlePointer(handle) && handle->data && handle->hasNumericalData(tr("Fixed")))
+				if (handle && handle->data && handle->hasNumericalData(tr("Fixed")))
 				{
 					dataTable = &(handle->data->numericalData[tr("Fixed")]);
 					if (dataTable && dataTable->cols() > 0 && dataTable->rows() > 0 && (dataTable->value(0,0) > 0))
@@ -1404,7 +1447,7 @@ namespace Tinkercell
 		{
 			QList<ItemHandle*> handles;
 			for (int i=0; i < list.size(); ++i)
-				if (mainWindow->isValidHandlePointer(list[i]))
+				if (list[i])
 					handles << list[i];
 
 			if (currentNetwork() && currentNetwork()->globalHandle())
@@ -1423,7 +1466,7 @@ namespace Tinkercell
 		{
 			QList<ItemHandle*> handles;
 			for (int i=0; i < list.size(); ++i)
-				if (mainWindow->isValidHandlePointer(list[i]))
+				if (list[i])
 					handles << list[i];
 
 			if (currentNetwork() && currentNetwork()->globalHandle())
@@ -1442,7 +1485,7 @@ namespace Tinkercell
 		{
 			QList<ItemHandle*> handles;
 			for (int i=0; i < list.size(); ++i)
-				if (mainWindow->isValidHandlePointer(list[i]))
+				if (list[i])
 					handles << list[i];
 
 			if (currentNetwork() && currentNetwork()->globalHandle())
@@ -1461,7 +1504,7 @@ namespace Tinkercell
 		{
 			QList<ItemHandle*> handles;
 			for (int i=0; i < list.size(); ++i)
-				if (mainWindow->isValidHandlePointer(list[i]))
+				if (list[i])
 					handles << list[i];
 
 			if (currentNetwork() && currentNetwork()->globalHandle())
@@ -1483,7 +1526,7 @@ namespace Tinkercell
 	{
 		if (ptr)
 		{
-			if (mainWindow->isValidHandlePointer(handle) && handle->data && handle->hasTextData(this->name))
+			if (handle && handle->data && handle->hasTextData(this->name))
 			{
 				const QVector<QString>& rownames = handle->data->textData[name].rowNames();
 				for (int i=0; i < rownames.size(); ++i)
@@ -1504,7 +1547,7 @@ namespace Tinkercell
 	{
 		if (ptr)
 		{
-			if (mainWindow->isValidHandlePointer(handle) && handle->data && handle->hasNumericalData(name))
+			if (handle && handle->data && handle->hasNumericalData(name))
 			{
 				(*ptr) = 0.0;
 				const QVector<QString>& rownames = handle->data->numericalData[name].rowNames();
@@ -1522,7 +1565,7 @@ namespace Tinkercell
 	}
 	void BasicInformationTool::setTextData(QSemaphore* s,ItemHandle* handle,const QString& text,const QString& value)
 	{
-		if (mainWindow->isValidHandlePointer(handle))
+		if (handle)
 		{
 			if (handle->data && handle->hasTextData(name))
 			{
@@ -1566,7 +1609,7 @@ namespace Tinkercell
 
 	void BasicInformationTool::setNumericalData(QSemaphore* s,ItemHandle* handle,const QString& text,qreal value)
 	{
-		if (mainWindow->isValidHandlePointer(handle))
+		if (handle)
 		{
 			if (handle->data && handle->hasNumericalData(name))
 			{

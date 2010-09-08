@@ -32,6 +32,7 @@ bool IsInteraction(const rd_type rdtype)
 {
   switch(rdtype) {
   case rdBecomes:
+  case rdBecomesIrreversibly:
     return false;
   case rdActivates:
   case rdInhibits:
@@ -156,6 +157,7 @@ std::string RDToString(rd_type type)
 {
   switch(type) {
   case rdBecomes:    return "->";
+  case rdBecomesIrreversibly:  return "=>";
   case rdActivates:  return "-o";
   case rdInhibits:   return "-|";
   case rdInfluences: return "-(";
@@ -228,7 +230,7 @@ string VarTypeToAntimony(const var_type vtype)
   return "undeclared_type";
 }
 
-string ReturnTypeToString(return_type rtype)
+string ReturnTypeToString(const return_type rtype)
 {
   switch(rtype) {
   case allSymbols:
@@ -280,3 +282,20 @@ string ReturnTypeToString(return_type rtype)
   return "Uncaught type";
 }
 
+string FormulaTypeToString(const formula_type ftype)
+{
+  switch(ftype) {
+  case formulaINITIAL:
+    return "Initial";
+  case formulaASSIGNMENT:
+    return "Assignment rule";
+  case formulaRATE:
+    return "Rate rule";
+  case formulaKINETIC:
+    return "Kinetic law";
+  case formulaTRIGGER:
+    return "Trigger";
+  }
+  assert(false); //uncaught type
+  return "uncaught type";
+}

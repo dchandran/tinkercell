@@ -15,7 +15,12 @@
 
 namespace Tinkercell
 {
-
+	/*! \brief This class is used to embed an octave interpreter inside a TinkerCell application.
+	The C library responsible for embedding octave is called runOctave.cpp and is located
+	inside the octave/ folder
+	\sa PythonInterpreterThread
+	\ingroup CAPI
+	*/
     class TINKERCELLEXPORT OctaveInterpreterThread : public InterpreterThread
 	{
 		Q_OBJECT

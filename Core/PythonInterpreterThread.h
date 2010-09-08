@@ -14,7 +14,12 @@
 
 namespace Tinkercell
 {
-
+	/*! \brief This class is used to embed an python interpreter inside a TinkerCell application.
+	The C library responsible for embedding python is called runpy.c and is located
+	inside the python/ folder
+	\sa InterpreterThread
+	\ingroup CAPI
+	*/
     class TINKERCELLEXPORT PythonInterpreterThread : public InterpreterThread
 	{
 		Q_OBJECT

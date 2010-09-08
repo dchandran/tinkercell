@@ -24,12 +24,15 @@ public:
   void AddNum(double num);
   void AddMathThing(char maththing);
   void AddText(const std::string* function);
+  void AddFormula(const Formula* form2);
   void AddEllipses();
+  void AddParentheses();
 
   void SetNewTopName(std::string newmodname, std::string newtopname);
 
   bool IsEmpty() const;
   bool IsDouble() const;
+  bool IsAmountIn(const Variable* compartment) const;
   bool IsOne() const;
   bool IsEllipsesOnly() const;
   bool GetIsConst() const;
@@ -44,6 +47,7 @@ public:
   std::string ToDelimitedStringWithEllipses(char cc) const;
   std::string ToSBMLString() const;
   std::string ToSBMLString(std::vector<std::pair<Variable*, size_t> > strands) const;
+  double      ToAmount() const;
   std::string ConvertOneSymbolToFunction(std::string formula) const;
   std::vector<const Variable*> GetVariablesFrom(std::string formula, std::string module) const;
   std::vector<std::vector<std::string> > GetVariables() const;
@@ -52,6 +56,11 @@ public:
   void ChangeTimeTo(const Variable* timeref);
   void InsertTimeInFunction(std::string function);
   void ReplaceWith(const Variable* origvar, const Variable* newvar);
+  bool IsStraightCopyOf(const Formula* origform) const;
+
+  //For CellMLStuff:
+  void UseInstead(std::string newname, const Variable* oldvar);
+  std::string ToCellML();
 };
 
 

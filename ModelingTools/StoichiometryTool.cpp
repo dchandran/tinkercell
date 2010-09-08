@@ -151,7 +151,7 @@ namespace Tinkercell
 		{
 			QList<ItemHandle*> handles;
 			for (int i=0; i < items.size(); ++i)
-				if (mainWindow->isValidHandlePointer(items[i]))
+				if (items[i])
 					handles << items[i];
 			(*p) = (getStoichiometry(handles));
 		}
@@ -165,7 +165,7 @@ namespace Tinkercell
 		{
 			QList<ItemHandle*> handles;
 			for (int i=0; i < items.size(); ++i)
-				if (mainWindow->isValidHandlePointer(items[i]))
+				if (items[i])
 					handles << items[i];
 			(*p) = getRates(handles);
 		}
@@ -180,7 +180,7 @@ namespace Tinkercell
 		{
 			QList<ItemHandle*> handles;
 			for (int i=0; i < items.size(); ++i)
-				if (mainWindow->isValidHandlePointer(items[i]))
+				if (items[i])
 					handles << items[i];
 			setStoichiometry(mainWindow->currentNetwork(),handles,table);
 		}
@@ -194,7 +194,7 @@ namespace Tinkercell
 		{
 			QList<ItemHandle*> handles;
 			for (int i=0; i < items.size(); ++i)
-				if (mainWindow->isValidHandlePointer(items[i]))
+				if (items[i])
 					handles << items[i];
 			setRates(mainWindow->currentNetwork(),handles,rates);
 		}

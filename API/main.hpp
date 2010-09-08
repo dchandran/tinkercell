@@ -7,48 +7,60 @@
  are much slower than function calls. But they can be used to communicate between threads, which is the
  main reason why they are used in TinkerCell.
 
- The API uses <b>six main data structures</b>: 
+The API uses <b>six main data structures</b>: 
  
-<b>Item</b>: just a reference to a TinkerCell object (memory pointer)
+<b>item</b>: just a reference to a TinkerCell object. Items are represented as integers in Python and Octave and as long ints in C.
 
-<b>String</b>: exactly what the name means
+<b>string</b>: a string of characters used. Represented as const char* in C.
 
-<b>ArrayOfItems</b> array of Items
+<b>tc_items</b> array of items
 \code
-         ArrayOfItems A = tc_allItems()         
-    	 A.length    	 
-    	 nthItem(A,3)
+         tc_items A = tc_allItems()         
+         A.length    	 
+         tc_getItem(A,3)
+
+         long x = tc_find("x")
+         tc_setItem(A,3,x)
+         tc_items A2 = tc_createItemsArray(10) //array of length 10
 \endcode
 
-<b>ArrayOfStrings</b>: array of Strings
+<b>tc_strings</b>: array of strings
 \code
-	     ArrayOfStrings S = tc_getNames( tc_allItems() )
-		 S.length
-		 nthString(S,3)
+         tc_items A = tc_allItems()
+         tc_strings S = tc_getNames( A )
+         S.length
+         tc_getString(S,3)
+         tc_setString(S,3,"hello")
+         tc_strings S2 = tc_createStringsArray(10) //array of length 10
 \endcode
 
-<b>Matrix</b>: Two dimensional array of reals with row and column names. The rownames and colnames fields are ArrayOfString objects
+<b>tc_matrix</b>: Two dimensional array of reals with row and column names. The rownames and colnames fields are tc_strings objects
 \code	
-	     Matrix M = tc_getNumericalData( tc_find("a"), "Parameters" )	     
-		 M.rows		 
-		 M.cols		 
-		 getColumnName(M,2)
-		 setColumnName(M,2,"col2")		 
-		 getRowName(M,1)		 
-		 setRowName(M,1,"row1")		 
-		 getValue(M,2,3)		 
-		 setValue(M,2,3,0.5)
+         long x = tc_find("x")
+	     tc_matrix M = tc_getNumericalData( x, "Parameters" )	     
+		 int r = M.rows
+		 int c = M.cols
+		 tc_getColumnName(M,2)
+		 tc_setColumnName(M,2,"col2")		 
+		 tc_getRowName(M,1)		 
+		 tc_setRowName(M,1,"row1")		 
+		 tc_getMatrixValue(M,2,3)		 
+		 tc_setMatrixValue(M,2,3,0.5)
+		 
+		 tc_matrix M2 = tc_createMatrix(5,4)
 \endcode
 
-<b>TableOfStrings</b>: Two dimensional array of Strings with row and column names. The rownames and colnames fields are ArrayOfString objects
+<b>tc_table</b>: Two dimensional array of Strings with row and column names. The rownames and colnames fields are tc_strings objects
 \code	
-	     TableOfStrings S = tc_getTextData( tc_find("a"), "Text Attributes" )	     
+         long x = tc_find("x")
+	     tc_table S = tc_getTextData( x, "Text Attributes" )	     
 		 S.rows		 
 		 S.cols		 
-		 nthString( S.rownames, 1)		 
-		 nthString( S.colnames, 2)		 
-		 getString(S,2,3)		 
-		 setString(S,2,3,"hello")
+		 tc_getString( S.rownames, 1)		 
+		 tc_getString( S.colnames, 2)		 
+		 tc_getTableValue(S,2,3)		 
+		 tc_setTableValue(S,2,3,"hello")
+		 tc_table S2 = tc_createTable(4,5)
 \endcode
 */
 

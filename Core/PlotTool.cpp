@@ -97,7 +97,7 @@ namespace Tinkercell
 		
 		connect(&fToS,SIGNAL(gnuplot(QSemaphore*,const QString&)), this, SLOT(gnuplot(QSemaphore*,const QString&)));
 		
-		connect(&fToS,SIGNAL(savePlotImage(QSemaphore*,int, const QString&)), this, SLOT(savePlotImage(QSemaphore*,int, const QString&)));
+		connect(&fToS,SIGNAL(savePlotImage(QSemaphore*, const QString&)), this, SLOT(savePlotImage(QSemaphore*, const QString&)));
 	}
 
 	QSize PlotTool::sizeHint() const

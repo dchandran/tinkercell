@@ -82,6 +82,9 @@ The API uses <b>six main data structures</b>:
 /*! \defgroup Network Network data 
 \brief get/set information about the individual items in the network*/
 
+/*! \defgroup Plotting Graphing
+\brief display graphs, save graphs, get graph values*/
+
 /*! \defgroup Modeling Modeling
 \brief get/set parameters, equations, and so on*/
 

@@ -60,8 +60,8 @@ TCAPIEXPORT tc_matrix tc_getPlotData(int whichPlot);
 */
 TCAPIEXPORT void tc_gnuplot(const char*);
 /*!
- \brief save the current plot as a PNG file
- \param string filename
+ \brief save the current plot as a PDF file
+ \param string filename (PDF suffix)
  \ingroup Plotting
 */
 TCAPIEXPORT void tc_savePlot(const char * filename);

@@ -157,6 +157,12 @@ namespace Tinkercell
 		/*! \brief gets the all child handles and their child handles
 		\return QList<ItemHandle*> list of handles*/
 		virtual QList<ItemHandle*> allChildren() const;
+		/*! \brief all the numerical data table names
+		\return QStringList*/
+		virtual QStringList numericalDataNames() const;
+		/*! \brief all the numerical text table names
+		\return QStringList*/
+		virtual QStringList textDataNames() const;
 		/*! \brief does this handle have a numerical data table with this name?
 		\param QString name of tool, e.g. "Numerical Attributes"
 		\return bool true = has a numerical table by this name. false = does not have a numerical table by this name*/

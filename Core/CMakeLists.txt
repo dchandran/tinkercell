@@ -17,13 +17,15 @@ ADD_LIBRARY( TinkerCellCore
   SHARED
   ${TINKERCELL_CORE_MOC}
   ${TINKERCELL_CORE_SRC}
-  ${TINKERCELL_SOURCE_DIR}/c/API/TCstructs.c
+  ${TINKERCELL_SOURCE_DIR}/API/TCstructs.c
   ${TINKERCELL_QRC}
 )
 
 TARGET_LINK_LIBRARIES( TinkerCellCore
   TinkerCellCore
   muparser
+  qwt
+  qwtplot3d
   ${QT_LIBRARIES}
 )
 

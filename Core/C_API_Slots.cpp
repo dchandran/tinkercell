@@ -974,7 +974,7 @@ namespace Tinkercell
 			
 		if (item && list)
 		{
-			(*list) << item->data->numericalData.keys();
+			(*list) << item->numericalDataNames();
 		}
 		if (sem)
 			sem->release();
@@ -987,7 +987,7 @@ namespace Tinkercell
 			
 		if (item && list)
 		{
-			(*list) << item->data->textData.keys();
+			(*list) << item->textDataNames();
 		}
 		if (sem)
 			sem->release();

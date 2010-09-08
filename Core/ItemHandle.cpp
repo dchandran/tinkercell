@@ -355,6 +355,20 @@ namespace Tinkercell
 		}
 		return 0;
 	}
+	
+	QStringList ItemHandle::numericalDataNames() const
+	{
+		if (data)
+			return data->numericalData.keys();
+		return QStringList();
+	}
+	
+	QStringList ItemHandle::textDataNames() const
+	{
+		if (data)
+			return data->textData.keys();
+		return QStringList();
+	}
 
 	bool ItemHandle::hasNumericalData(const QString& name) const
 	{

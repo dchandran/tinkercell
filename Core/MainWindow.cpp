@@ -42,6 +42,8 @@ The MainWindow keeps a list of all plugins, and it is also responsible for loadi
 #include "AbstractInputWindow.h"
 #include "TextParser.h"
 #include "C_API_Slots.h"
+#include "PlotTool.h"
+#include "GnuplotTool.h"
 
 namespace Tinkercell
 {
@@ -284,6 +286,9 @@ namespace Tinkercell
 		c_api_slots = new C_API_Slots(this);
 		
 		readSettings();
+
+		addTool(new PlotTool());
+		addTool(new GnuplotTool());
 	}
 
 	ConsoleWindow * MainWindow::console() const

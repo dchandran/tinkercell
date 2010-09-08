@@ -15,17 +15,17 @@ This is a template class that stores a 2 dimensional table, including the row an
 
 \code
 
-NumericalDataTable * dat = new NumericalDataTable;
-dat->resize(10,4);
-dat->colName(0) = "column 1";
-dat->seRowNames( QStringList() << "row A" << "row B" << "row C" );
-dat->value("row A", "column 1") = 10.0;
-dat->removeCol(2);
-dat->addCol(3,"column 3");  //insert new column at position 3
-dat->value("X", "Y") = 5.0;   //automatically creates a new row called X and new column called Y
-int r = dat->rows();
-int c = dat->cols();
-NumericalDataTable dat2 = dat->transpose();
+	NumericalDataTable * dat = new NumericalDataTable;
+	dat->resize(10,4);
+	dat->colName(0) = "column 1";
+	dat->seRowNames( QStringList() << "row A" << "row B" << "row C" );
+	dat->value("row A", "column 1") = 10.0;
+	dat->removeCol(2);
+	dat->addCol(3,"column 3");  //insert new column at position 3
+	dat->value("X", "Y") = 5.0;   //automatically creates a new row called X and new column called Y
+	int r = dat->rows();
+	int c = dat->cols();
+	NumericalDataTable dat2 = dat->transpose();
 
 \endcode
 
@@ -37,20 +37,20 @@ The common procedure for using an undo command is as follows:
 
 \code
 
-            QList<QGraphicsItem*> graphicsItems;
-            //add some items into graphicsItems
-            QUndoCommand * cmd = new InsertGraphicsCommand("some informative message here",graphicsItems,handles);
+	QList<QGraphicsItem*> graphicsItems;
+	//add some items into graphicsItems
+	QUndoCommand * cmd = new InsertGraphicsCommand("some informative message here",graphicsItems,handles);
 
-            if (mainWindow && mainWindow->historyStack())
-                mainWindow->historyStack()->push(cmd);
+	if (mainWindow && mainWindow->historyStack())
+		mainWindow->historyStack()->push(cmd);
 \endcode
 Alternatively, the NetworkHandle class and GraphicsScene class provide functions that automatically do the same operations:
 
 \code
-            QList<QGraphicsItem*> graphicsItems;
-            //add some items into graphicsItems
-            GraphicsScene * scene = currentScene();
-            scene->insert("informative message here", graphicsItems);
+	QList<QGraphicsItem*> graphicsItems;
+	//add some items into graphicsItems
+	GraphicsScene * scene = currentScene();
+	scene->insert("informative message here", graphicsItems);
 
 \endcode
 
@@ -63,32 +63,31 @@ NodeHandle and ConnectionHandle inherit from ItemHandle. For text based models, 
 Here is a code example, where two graphics items are placed inside a handle, and a new table is added to the handle:
 
 \code
-            NodeHandle * nodeHandle = new NodeHandle;
+	NodeHandle * nodeHandle = new NodeHandle;
 
-            //make a node item from an XML file
-            NodeGraphicsItem * node = new NodeGraphicsItem;
-            NodeGraphicsReader reader;
-            reader.readXML(node,"mynode.xml");
+	//make a node item from an XML file
+	NodeGraphicsItem * node = new NodeGraphicsItem;
+	NodeGraphicsReader reader;
+	reader.readXML(node,"mynode.xml");
 
-            //make a text graphics item
-            TextGraphicsItem * text = new TextGraphicsItem("hello world");
-            
-            //add graphics items to the handle
-            nodeHandle->graphicsItems << node << text;
+	//make a text graphics item
+	TextGraphicsItem * text = new TextGraphicsItem("hello world");
 
-            nodeHandle->textData("magic word") = "please";
-            nodeHandle->numericalData("magic numbers","pi","value") = 3.141593;
-            nodeHandle->numericalData("magic numbers","e","value") = 2.718282;
+	//add graphics items to the handle
+	nodeHandle->graphicsItems << node << text;
 
-            //get the entire table
-            DataTable<qreal> magicNumbers = nodeHandle->numericalDataTable("magic numbers");
-            //set the entire table
-            nodeHandle->numericalDataTable("magic numbers") = magicNumbers;
-            
-            //get list of all tables
-            nodeHandle->getNumericalDataNames();
-            nodeHandle->getTextDataNames();
+	nodeHandle->textData("magic word") = "please";
+	nodeHandle->numericalData("magic numbers","pi","value") = 3.141593;
+	nodeHandle->numericalData("magic numbers","e","value") = 2.718282;
 
+	//get the entire table
+	DataTable<qreal> magicNumbers = nodeHandle->numericalDataTable("magic numbers");
+	//set the entire table
+	nodeHandle->numericalDataTable("magic numbers") = magicNumbers;
+
+	//get list of all tables
+	nodeHandle->getNumericalDataNames();
+	nodeHandle->getTextDataNames();
 \endcode
 
 ItemHandle contains several functions for conveniently retrieving information or the list of child items. Please see the ItemHandle documentation . Each ItemHandle instance contains a list of pointers to tools, or classes that inherit from class Tool. These tools are associated with this item. When items are selected by a user, the list of contextMenuActions from each of these tools is placed in context menu and the list of graphics items are displayed to the side.
@@ -98,16 +97,16 @@ ItemHandle contains several functions for conveniently retrieving information or
 The ItemFamily class is used to describe a family that a node or connection belongs in. Nodes and connections are not required to belong in a family. Each family can have multiple parent families. The two main child classes are NodeFamily and ConnectionFamily. NodeFamily stores the default graphics item(s) that is used to draw an item of that family, and ConnectionFamily stores the default arrow head that is used when drawing connections of a given family. The family information is useful for tools in order to distinguish items and insert data tables according to the family of the item.
 
 \code
-            NodeFamily * f1 = new NodeFamily("family A");
-            NodeFamily * f2 = new NodeFamily("family B");
-            f2->setParent(f1);  //family B is a sub-family of family A
+	NodeFamily * f1 = new NodeFamily("family A");
+	NodeFamily * f2 = new NodeFamily("family B");
+	f2->setParent(f1);  //family B is a sub-family of family A
 
-            NodeHandle * node = new NodeHandle("x",f2);
+	NodeHandle * node = new NodeHandle("x",f2);
 
-            if (node->isA("family A")) // will return true
-                //do something
+	if (node->isA("family A")) // will return true
+	{
+	}
 \endcode
-
 
 <b>ItemData</b>
 
@@ -228,23 +227,28 @@ The ConsoleWindow class provides a generic framework for Tools to receive comman
 
 Tools can also interact with the user by connecting to the ConsoleWindow's commandExecuted signal. This signal is emitted whenever the user pressed <return> after entering a text at the command prompt. The Tools can process the string and carry out necessary operations. 
 
-/code
+\code
 	if (console())
+	{
 		console()->message("hello world");    //print a message on the console window
-	console()->error("incorrect response");  //print an error message on the console window
-	console()->eval("print 1+2");  //evaluate this expression (only runs if a plugin such as python plugin is available)
-	
+		console()->error("incorrect response");  //print an error message on the console window
+		console()->eval("print 1+2");  //evaluate this expression (only runs if a plugin such as python plugin is available)
+	}
+
 	DataTable<double> data;
 	console()->printTable(data); //print a table (tab-delimited)
 
 	ConsoleWindow * console = console();
 	if (console)
 	{
-		 connect(editor, SIGNAL( commandExecuted(const QString&) ),
-				 this, SLOT( commandExecuted(const QString&) ));
+		connect(editor, SIGNAL( commandExecuted(const QString&) ),
+			 this, SLOT( commandExecuted(const QString&) ));
 	}
+	
+\endcode
+Tools may also disable and re-enable the ConsoleWindow while they are processing the command by using:
 
-	Tools may also disable and re-enable the ConsoleWindow while they are processing the command by using:
+\code
 
 	console()->freeze();    //lock the console window
 	console()->unfreeze();  //unlock the console window
@@ -254,13 +258,13 @@ Tools can also interact with the user by connecting to the ConsoleWindow's comma
 	CommandTextEdit * editor = console()->editor();
 	if (editor)
 	{
-		 connect(this, SIGNAL(freeze()), editor,SLOT(freeze()));
-		 connect(this, SIGNAL(unfreeze()), editor,SLOT(unfreeze()));
-		 connect(this, SIGNAL(setFreeze(bool)), editor,SLOT(setFreeze(bool)));
-		 connect(editor, SIGNAL( commandExecuted(const QString&) ),
+		connect(this, SIGNAL(freeze()), editor,SLOT(freeze()));
+		connect(this, SIGNAL(unfreeze()), editor,SLOT(unfreeze()));
+		connect(this, SIGNAL(setFreeze(bool)), editor,SLOT(setFreeze(bool)));
+		connect(editor, SIGNAL( commandExecuted(const QString&) ),
 				 this, SLOT( commandExecuted(const QString&) ));
 	}
-/endcode
+\endcode
 
 <b>CThread</b>
 

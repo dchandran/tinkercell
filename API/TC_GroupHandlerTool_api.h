@@ -6,18 +6,20 @@ BEGIN_C_DECLS
 
 /*! 
  \brief merge an array of items
+ \param tc_items list of items
  \ingroup Merging
 */
 TCAPIEXPORT void tc_merge(tc_items parts);
 
 /*! 
  \brief separate all the graphical items in the handle 
+ \param int address of item
  \ingroup Merging
 */
 TCAPIEXPORT void tc_separate(long part);
 
 /*! 
- \brief initialize grouping
+ \brief initialize grouping plug-in
  \ingroup init
 */
 TCAPIEXPORT void tc_GroupHandlerTool_api(

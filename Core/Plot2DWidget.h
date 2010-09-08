@@ -138,7 +138,7 @@ namespace Tinkercell
 		virtual void updateData(const DataTable<qreal>&);
 		
 	public slots:
-		void exportData(const QString&);
+		void exportData(const QString&, const QString &);
 		void logX(bool);
 		void logY(bool);
 		void logAxis(int,bool);

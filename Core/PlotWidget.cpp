@@ -33,7 +33,7 @@ namespace Tinkercell
 	{
 	}
 	
-	void PlotWidget::exportData(const QString & type)
+	void PlotWidget::exportData(const QString & type, const QString&)
 	{
 		QString output = dataToString();
 		

@@ -42,7 +42,7 @@ namespace Tinkercell
 
 	public slots:
 
-		void exportData(const QString&);
+		void exportData(const QString&,const QString&);
 
 	private slots:
 		void saveVector();

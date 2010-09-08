@@ -68,7 +68,7 @@ namespace Tinkercell
 	public slots:
 		/*! \brief export data is some format
 			\param QString format*/
-		virtual void exportData(const QString&);
+		virtual void exportData(const QString&, const QString & file);
 		
 		friend class PlotTool;
 	};

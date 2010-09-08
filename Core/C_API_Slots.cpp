@@ -131,7 +131,11 @@ namespace Tinkercell
 		void (*setColor)(long,const char*,int),
 		
 		void (*changeGraphics)(long,const char*),
-		void (*changeArrowHead)(long,const char*)
+		void (*changeArrowHead)(long,const char*),
+		
+		void (*screenshot)(const char*, int, int),
+		int (*screenHeight)(),
+		int (*screenWidth)()
 
 	);
 	
@@ -202,7 +206,10 @@ namespace Tinkercell
 				&(_getColor),
 				&(_setColor),
 				&(_changeGraphics),
-				&(_changeArrowHead)
+				&(_changeArrowHead),
+				&(_screenshot),
+				&(_screenHeight),
+				&(_screenWidth)
 			);
 		}
 	}
@@ -294,6 +301,10 @@ namespace Tinkercell
 		connect(&fToS,SIGNAL(setColor(QSemaphore*,ItemHandle*,const QString&,int)),this,SLOT(setColor(QSemaphore*,ItemHandle*,const QString&,int)));
 		connect(&fToS,SIGNAL(changeGraphics(QSemaphore*,ItemHandle*,const QString&)),this,SLOT(changeGraphics(QSemaphore*,ItemHandle*,const QString&)));
 		connect(&fToS,SIGNAL(changeArrowHead(QSemaphore*,ItemHandle*,const QString&)),this,SLOT(changeArrowHead(QSemaphore*,ItemHandle*,const QString&)));
+
+		connect(&fToS,SIGNAL(screenshot(QSemaphore*, const QString&, int, int)),this,SLOT(screenshot(QSemaphore*, const QString&, int, int)));
+		connect(&fToS,SIGNAL(screenHeight(QSemaphore*, int*)),this,SLOT(screenHeight(QSemaphore*, int*)));
+		connect(&fToS,SIGNAL(screenWidth(QSemaphore*, int*)),this,SLOT(screenWidth(QSemaphore*, int*)));
 	}
 	
 	void C_API_Slots::zoom(QSemaphore* sem, qreal factor)
@@ -460,6 +471,7 @@ namespace Tinkercell
 		if (s)
 			s->release();
 	}
+
 	void C_API_Slots::isLinux(QSemaphore* s, int * i)
 	{
 #ifdef Q_WS_WIN
@@ -558,6 +570,44 @@ namespace Tinkercell
 		if (s)
 			s->release();
 	}
+	
+	void C_API_Slots::screenshot(QSemaphore * s, const QString& fileName, int w, int h)
+	{
+		GraphicsScene * scene = currentScene();
+		if (scene)
+		{
+			QRectF viewport = scene->viewport();
+			QImage printer(w,h,QImage::Format_ARGB32);
+			scene->print(&printer);
+			printer.save(fileName,"png");
+		}
+		if (s)
+			s->release();
+	}
+	
+	void C_API_Slots::screenHeight(QSemaphore * s, int * w)
+	{
+		GraphicsScene * scene = currentScene();
+		if (scene && w)
+		{
+			QRectF viewport = scene->viewport();
+			(*w) = viewport.width();
+		}
+		if (s)
+			s->release();
+	}
+	
+	void C_API_Slots::screenWidth(QSemaphore * s, int * h)
+	{
+		GraphicsScene * scene = currentScene();
+		if (scene && h)
+		{
+			QRectF viewport = scene->viewport();
+			(*h) = viewport.height();
+		}
+		if (s)
+			s->release();
+	}	
 
 	void C_API_Slots::itemNames(QSemaphore* s,QStringList* list,const QList<ItemHandle*>& items)
 	{
@@ -2374,6 +2424,52 @@ namespace Tinkercell
 		s->acquire();
 		s->release();
 		return;
+	}
+	
+	void C_API_Slots::_screenshot(const char* s, int w, int h)
+	{
+		fToS.screenshot(s,w,h);
+	}
+
+	void Core_FtoS::screenshot(const char * file, int w, int h)
+	{
+		QSemaphore * s = new QSemaphore(1);
+		s->acquire();
+		emit screenshot(s,ConvertValue(file),w,h);
+		s->acquire();
+		s->release();
+	}
+	
+	int C_API_Slots::_screenHeight()
+	{
+		return fToS.screenHeight();
+	}
+
+	int Core_FtoS::screenHeight()
+	{
+		int h = 0;
+		QSemaphore * s = new QSemaphore(1);
+		s->acquire();
+		emit screenHeight(s,&h);
+		s->acquire();
+		s->release();
+		return h;
+	}
+	
+	int C_API_Slots::_screenWidth()
+	{
+		return fToS.screenWidth();
+	}
+
+	int Core_FtoS::screenWidth()
+	{
+		int h = 0;
+		QSemaphore * s = new QSemaphore(1);
+		s->acquire();
+		emit screenWidth(s,&h);
+		s->acquire();
+		s->release();
+		return h;
 	}
 	
 	void C_API_Slots::getColor(QSemaphore* s,QString* name,ItemHandle* handle)

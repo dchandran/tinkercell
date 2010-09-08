@@ -733,6 +733,39 @@ void tc_changeArrowHead(long connection,const char* filename)
 		_tc_changeArrowHead(connection,filename);
 }
 
+void (*_tc_screenshot)(const char * filename, int width, int height) = 0;
+/*!
+ \brief save screenshot in a file
+ \ingroup Input and Output
+*/
+void tc_screenshot(const char * filename, int width, int height)
+{
+	if (_tc_screenshot)
+		_tc_screenshot(filename, width, height);
+}
+
+int (*_tc_screenWidth)(void) = 0;
+int (*_tc_screenHeight)(void) = 0;
+/*!
+ \brief get width of current canvar
+*/
+int tc_screenWidth()
+{
+	if (_tc_screenWidth)
+		return _tc_screenWidth();
+	return 0;
+}
+
+/*!
+ \brief get height of current canvar
+*/
+int tc_screenHeight()
+{
+	if (_tc_screenHeight)
+		return _tc_screenHeight();
+	return 0;
+}
+
 
 /*! 
  \brief initialize main
@@ -815,7 +848,11 @@ void tc_Main_api_initialize(
 		void (*setColor0)(long,const char*,int),
 		
 		void (*changeGraphics0)(long,const char*),
-		void (*changeArrowHead0)(long,const char*)
+		void (*changeArrowHead0)(long,const char*),
+		
+		void (*screenshot)(const char*, int, int),
+		int (*screenHeight)(),
+		int (*screenWidth)()
 	)
 {
 	_tc_allItems = tc_allItems0;
@@ -895,6 +932,10 @@ void tc_Main_api_initialize(
 	
 	_tc_changeNodeImage = changeGraphics0;
 	_tc_changeArrowHead = changeArrowHead0;
+	
+	_tc_screenshot = screenshot;
+	_tc_screenHeight = screenHeight;
+	_tc_screenWidth = screenWidth;
 }
 
 void (*_tc_showProgress)(long thread, int progress);

@@ -501,13 +501,25 @@ def tc_getHeight(*args):
   return _tinkercell.tc_getHeight(*args)
 tc_getHeight = _tinkercell.tc_getHeight
 
+def tc_getAngle(*args):
+  return _tinkercell.tc_getAngle(*args)
+tc_getAngle = _tinkercell.tc_getAngle
+
 def tc_setAngle(*args):
   return _tinkercell.tc_setAngle(*args)
 tc_setAngle = _tinkercell.tc_setAngle
 
-def tc_getAngle(*args):
-  return _tinkercell.tc_getAngle(*args)
-tc_getAngle = _tinkercell.tc_getAngle
+def tc_screenshot(*args):
+  return _tinkercell.tc_screenshot(*args)
+tc_screenshot = _tinkercell.tc_screenshot
+
+def tc_screenWidth():
+  return _tinkercell.tc_screenWidth()
+tc_screenWidth = _tinkercell.tc_screenWidth
+
+def tc_screenHeight():
+  return _tinkercell.tc_screenHeight()
+tc_screenHeight = _tinkercell.tc_screenHeight
 
 def tc_Main_api_initialize(*args):
   return _tinkercell.tc_Main_api_initialize(*args)
@@ -741,6 +753,18 @@ def tc_callWhenExiting(*args):
   return _tinkercell.tc_callWhenExiting(*args)
 tc_callWhenExiting = _tinkercell.tc_callWhenExiting
 
+def tc_runOctaveCode(*args):
+  return _tinkercell.tc_runOctaveCode(*args)
+tc_runOctaveCode = _tinkercell.tc_runOctaveCode
+
+def tc_runOctaveFile(*args):
+  return _tinkercell.tc_runOctaveFile(*args)
+tc_runOctaveFile = _tinkercell.tc_runOctaveFile
+
+def tc_addOctavePlugin(*args):
+  return _tinkercell.tc_addOctavePlugin(*args)
+tc_addOctavePlugin = _tinkercell.tc_addOctavePlugin
+
 def tc_DynamicLibraryMenu_api(*args):
   return _tinkercell.tc_DynamicLibraryMenu_api(*args)
 tc_DynamicLibraryMenu_api = _tinkercell.tc_DynamicLibraryMenu_api
@@ -788,6 +812,10 @@ tc_getPlotData = _tinkercell.tc_getPlotData
 def tc_gnuplot(*args):
   return _tinkercell.tc_gnuplot(*args)
 tc_gnuplot = _tinkercell.tc_gnuplot
+
+def tc_savePlot(*args):
+  return _tinkercell.tc_savePlot(*args)
+tc_savePlot = _tinkercell.tc_savePlot
 
 def tc_PlotTool_api(*args):
   return _tinkercell.tc_PlotTool_api(*args)

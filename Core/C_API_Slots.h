@@ -116,6 +116,10 @@ namespace Tinkercell
 		
 		void changeGraphics(QSemaphore*,ItemHandle*,const QString&);
 		void changeArrowHead(QSemaphore*,ItemHandle*,const QString&);
+		
+		void screenshot(QSemaphore*, const QString&, int, int);
+		void screenHeight(QSemaphore*, int*);
+		void screenWidth(QSemaphore*, int*);
 
 	public:
 		void zoom(double);
@@ -190,6 +194,10 @@ namespace Tinkercell
 		
 		void changeGraphics(long,const char*);
 		void changeArrowHead(long,const char*);
+		
+		void screenshot(const char*, int, int);
+		int screenHeight();
+		int screenWidth();
 	};
 
 	/*! \brief A set of slots that are called by C libraries
@@ -280,6 +288,9 @@ namespace Tinkercell
 		static void _changeArrowHead(long,const char*);
 		static int _askQuestion(const char*);
 		static void _messageDialog(const char*);
+		static void _screenshot(const char*, int, int);
+		static int _screenHeight();
+		static int _screenWidth();
 		/*! 
 		* \brief Dialog for selecting strings. 
 		*/
@@ -710,6 +721,9 @@ namespace Tinkercell
 		void setColor(QSemaphore*,ItemHandle*,const QString&,int);
 		void changeGraphics(QSemaphore*,ItemHandle*,const QString&);
 		void changeArrowHead(QSemaphore*,ItemHandle*,const QString&);
+		void screenshot(QSemaphore*, const QString &, int, int);
+		void screenHeight(QSemaphore*, int*);
+		void screenWidth(QSemaphore*, int*);
 	
 	private:
 		QList<QGraphicsItem*> temporarilyColorChanged;

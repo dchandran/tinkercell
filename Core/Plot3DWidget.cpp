@@ -264,18 +264,14 @@ namespace Tinkercell
 		updateGL();
 	}
 
-	void Plot3DWidget::exportData(const QString& type)
+	void Plot3DWidget::exportData(const QString& type, const QString & fileName)
 	{
 		if (type.toLower() == tr("save graph"))
 		{
-			QString fileName =
-			QFileDialog::getSaveFileName(this, tr("Print to File"),
-                                          MainWindow::previousFileName,
-                                          tr("PNG Files (*.png)"));
-
 			if (fileName.isEmpty() || fileName.isNull()) return;
-
-			MainWindow::previousFileName = fileName.remove(QRegExp(tr("\\.*")));
+			
+			MainWindow::previousFileName = fileName;
+			MainWindow::previousFileName.remove(QRegExp(tr("\\.*")));
 
 			if (surfacePlot)
 			{
@@ -296,7 +292,7 @@ namespace Tinkercell
 		}
 		else
 		{
-			PlotWidget::exportData(type);
+			PlotWidget::exportData(type,fileName);
 		}
 	}
 

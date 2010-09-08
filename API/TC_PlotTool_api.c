@@ -95,6 +95,17 @@ void tc_gnuplot(const char * s)
 		_tc_gnuplot(s);
 }
 
+void (*_tc_savePlot)(const char * ) = 0;
+/*!
+ \brief save plot
+ \ingroup Plotting
+*/
+void tc_savePlot(const char * filename)
+{
+	if (_tc_savePlot)
+		_tc_savePlot(filename);
+}
+
 /*!
  \brief initializing function
  \ingroup init
@@ -107,7 +118,8 @@ void tc_PlotTool_api(
 	void (*scatterplot)(tc_matrix data, const char* title) ,
 	void (*multiplot)(int r, int c),
 	tc_matrix (*plotData)(int),
-	void (*gnuplot)(const char*))
+	void (*gnuplot)(const char*),
+	void (*savePlotImage)(const char *))
 {
 	_tc_plot = plot;
 	_tc_getPlotData = plotData;
@@ -117,5 +129,6 @@ void tc_PlotTool_api(
 	_tc_scatterplot = scatterplot;
 	_tc_multiplot = multiplot;
 	_tc_gnuplot = gnuplot;
+	_tc_savePlot = savePlotImage;
 }
 

@@ -3252,7 +3252,7 @@ R_swig_tc_itemsOfFamilyFrom ( SEXP family, SEXP itemsToSelectFrom, SEXP s_swig_c
 
 
 SWIGEXPORT SEXP
-R_swig_tc_find ( SEXP fullname, SEXP s_swig_copy)
+R_swig_tc_find ( SEXP name, SEXP s_swig_copy)
 {
   long result;
   char *arg1 = (char *) 0 ;
@@ -3263,7 +3263,7 @@ R_swig_tc_find ( SEXP fullname, SEXP s_swig_copy)
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_AsCharPtrAndSize(fullname, &buf1, NULL, &alloc1);
+  res1 = SWIG_AsCharPtrAndSize(name, &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_find" "', argument " "1"" of type '" "char const *""'");
   }
@@ -4854,6 +4854,26 @@ R_swig_tc_getHeight ( SEXP item, SEXP s_swig_copy)
 
 
 SWIGEXPORT SEXP
+R_swig_tc_getAngle ( SEXP item, SEXP s_swig_copy)
+{
+  double result;
+  long arg1 ;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  arg1 = (long)(INTEGER(item)[0]);
+  result = (double)tc_getAngle(arg1);
+  r_ans = SWIG_From_double((double)(result));
+  
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
+SWIGEXPORT SEXP
 R_swig_tc_setAngle ( SEXP item, SEXP t, SEXP permanent)
 {
   long arg1 ;
@@ -4879,18 +4899,64 @@ R_swig_tc_setAngle ( SEXP item, SEXP t, SEXP permanent)
 
 
 SWIGEXPORT SEXP
-R_swig_tc_getAngle ( SEXP item, SEXP s_swig_copy)
+R_swig_tc_screenshot ( SEXP filename, SEXP width, SEXP height)
 {
-  double result;
-  long arg1 ;
+  char *arg1 = (char *) 0 ;
+  int arg2 ;
+  int arg3 ;
+  int res1 ;
+  char *buf1 = 0 ;
+  int alloc1 = 0 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  arg1 = (long)(INTEGER(item)[0]);
-  result = (double)tc_getAngle(arg1);
-  r_ans = SWIG_From_double((double)(result));
+  res1 = SWIG_AsCharPtrAndSize(filename, &buf1, NULL, &alloc1);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_screenshot" "', argument " "1"" of type '" "char const *""'");
+  }
+  arg1 = (char *)(buf1);
+  arg2 = (int)(INTEGER(width)[0]);
+  arg3 = (int)(INTEGER(height)[0]);
+  tc_screenshot((char const *)arg1,arg2,arg3);
+  r_ans = R_NilValue;
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
   
+  
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
+SWIGEXPORT SEXP
+R_swig_tc_screenWidth ( SEXP s_swig_copy)
+{
+  int result;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  result = (int)tc_screenWidth();
+  r_ans = Rf_ScalarInteger(result);
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
+SWIGEXPORT SEXP
+R_swig_tc_screenHeight ( SEXP s_swig_copy)
+{
+  int result;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  result = (int)tc_screenHeight();
+  r_ans = Rf_ScalarInteger(result);
   vmaxset(r_vmax);
   if(r_nprotect)  Rf_unprotect(r_nprotect);
   
@@ -6698,7 +6764,7 @@ void _p_f_long_p_q_const__char_int__void(long s_arg1, char const * s_arg2, int s
 
 
 SWIGEXPORT SEXP
-R_swig_tc_Main_api_initialize ( SEXP tc_allItems0, SEXP tc_selectedItems0, SEXP tc_itemsOfFamily0, SEXP tc_itemsOfFamily1, SEXP tc_find0, SEXP tc_findItems0, SEXP tc_select0, SEXP tc_deselect0, SEXP tc_getName0, SEXP tc_getUniqueName0, SEXP tc_setName0, SEXP tc_getNames0, SEXP tc_getUniqueNames0, SEXP tc_getFamily0, SEXP tc_isA0, SEXP tc_clearText, SEXP tc_outputText0, SEXP tc_errorReport0, SEXP tc_outputTable0, SEXP tc_printFile0, SEXP tc_removeItem0, SEXP tc_getY0, SEXP tc_getX0, SEXP tc_getPos0, SEXP tc_setPos0, SEXP tc_setPos1, SEXP tc_moveSelected0, SEXP tc_isWindows0, SEXP tc_isMac0, SEXP tc_isLinux0, SEXP tc_appDir0, SEXP tc_createInputWindow0, SEXP tc_createInputWindow1, SEXP createSliders, SEXP tc_addInputWindowOptions0, SEXP tc_addInputWindowCheckbox0, SEXP tc_openNewWindow0, SEXP tc_getChildren0, SEXP tc_getParent0, SEXP tc_getNumericalData0, SEXP tc_setNumericalData0, SEXP tc_getTextData0, SEXP tc_setTextData0, SEXP tc_getNumericalDataNames0, SEXP tc_getTextDataNames0, SEXP tc_zoom0, SEXP tc_getStringDialog0, SEXP getSelectedString, SEXP getNumber, SEXP getNumbers, SEXP getFilename, SEXP askQuestion, SEXP messageDialog, SEXP setSize0, SEXP getWidth0, SEXP getHeight0, SEXP setAngle0, SEXP getAngle0, SEXP getColor, SEXP setColor0, SEXP changeGraphics0, SEXP changeArrowHead0)
+R_swig_tc_Main_api_initialize ( SEXP tc_allItems0, SEXP tc_selectedItems0, SEXP tc_itemsOfFamily0, SEXP tc_itemsOfFamily1, SEXP tc_find0, SEXP tc_findItems0, SEXP tc_select0, SEXP tc_deselect0, SEXP tc_getName0, SEXP tc_getUniqueName0, SEXP tc_setName0, SEXP tc_getNames0, SEXP tc_getUniqueNames0, SEXP tc_getFamily0, SEXP tc_isA0, SEXP tc_clearText, SEXP tc_outputText0, SEXP tc_errorReport0, SEXP tc_outputTable0, SEXP tc_printFile0, SEXP tc_removeItem0, SEXP tc_getY0, SEXP tc_getX0, SEXP tc_getPos0, SEXP tc_setPos0, SEXP tc_setPos1, SEXP tc_moveSelected0, SEXP tc_isWindows0, SEXP tc_isMac0, SEXP tc_isLinux0, SEXP tc_appDir0, SEXP tc_createInputWindow0, SEXP tc_createInputWindow1, SEXP createSliders, SEXP tc_addInputWindowOptions0, SEXP tc_addInputWindowCheckbox0, SEXP tc_openNewWindow0, SEXP tc_getChildren0, SEXP tc_getParent0, SEXP tc_getNumericalData0, SEXP tc_setNumericalData0, SEXP tc_getTextData0, SEXP tc_setTextData0, SEXP tc_getNumericalDataNames0, SEXP tc_getTextDataNames0, SEXP tc_zoom0, SEXP tc_getStringDialog0, SEXP getSelectedString, SEXP getNumber, SEXP getNumbers, SEXP getFilename, SEXP askQuestion, SEXP messageDialog, SEXP setSize0, SEXP getWidth0, SEXP getHeight0, SEXP setAngle0, SEXP getAngle0, SEXP getColor, SEXP setColor0, SEXP changeGraphics0, SEXP changeArrowHead0, SEXP screenshot, SEXP screenHeight, SEXP screenWidth)
 {
   tc_items (*arg1)() = (tc_items (*)()) 0 ;
   tc_items (*arg2)() = (tc_items (*)()) 0 ;
@@ -6762,6 +6828,9 @@ R_swig_tc_Main_api_initialize ( SEXP tc_allItems0, SEXP tc_selectedItems0, SEXP 
   void (*arg60)(long,char const *,int) = (void (*)(long,char const *,int)) 0 ;
   void (*arg61)(long,char const *) = (void (*)(long,char const *)) 0 ;
   void (*arg62)(long,char const *) = (void (*)(long,char const *)) 0 ;
+  void (*arg63)(char const *,int,int) = (void (*)(char const *,int,int)) 0 ;
+  int (*arg64)() = (int (*)()) 0 ;
+  int (*arg65)() = (int (*)()) 0 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
@@ -7448,8 +7517,44 @@ R_swig_tc_Main_api_initialize ( SEXP tc_allItems0, SEXP tc_selectedItems0, SEXP 
     arg62 = _p_f_long_p_q_const__char__void;
     R_SWIG_pushCallbackFunctionData(changeArrowHead0, NULL);
   }
-  tc_Main_api_initialize(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,(char const *(*)(long))arg9,(char const *(*)(long))arg10,arg11,arg12,arg13,(char const *(*)(long))arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23,arg24,arg25,arg26,arg27,arg28,arg29,arg30,(char const *(*)())arg31,arg32,arg33,arg34,arg35,arg36,arg37,arg38,arg39,arg40,arg41,arg42,arg43,arg44,arg45,arg46,(char const *(*)(char const *))arg47,arg48,arg49,arg50,(char const *(*)())arg51,arg52,arg53,arg54,arg55,arg56,arg57,arg58,(char const *(*)(long))arg59,arg60,arg61,arg62);
+  if(TYPEOF(screenshot) != CLOSXP) {
+    {
+      int res = SWIG_R_ConvertPtr(screenshot, (void**)(&arg63), SWIGTYPE_p_f_p_q_const__char_int_int__void, 0);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "63"" of type '" "void (*)(char const *,int,int)""'"); 
+      }
+    }
+  } else {
+    arg63 = _p_f_p_q_const__char_int_int__void;
+    R_SWIG_pushCallbackFunctionData(screenshot, NULL);
+  }
+  if(TYPEOF(screenHeight) != CLOSXP) {
+    {
+      int res = SWIG_R_ConvertPtr(screenHeight, (void**)(&arg64), SWIGTYPE_p_f___int, 0);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "64"" of type '" "int (*)()""'"); 
+      }
+    }
+  } else {
+    arg64 = _p_f___int;
+    R_SWIG_pushCallbackFunctionData(screenHeight, NULL);
+  }
+  if(TYPEOF(screenWidth) != CLOSXP) {
+    {
+      int res = SWIG_R_ConvertPtr(screenWidth, (void**)(&arg65), SWIGTYPE_p_f___int, 0);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "65"" of type '" "int (*)()""'"); 
+      }
+    }
+  } else {
+    arg65 = _p_f___int;
+    R_SWIG_pushCallbackFunctionData(screenWidth, NULL);
+  }
+  tc_Main_api_initialize(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,(char const *(*)(long))arg9,(char const *(*)(long))arg10,arg11,arg12,arg13,(char const *(*)(long))arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23,arg24,arg25,arg26,arg27,arg28,arg29,arg30,(char const *(*)())arg31,arg32,arg33,arg34,arg35,arg36,arg37,arg38,arg39,arg40,arg41,arg42,arg43,arg44,arg45,arg46,(char const *(*)(char const *))arg47,arg48,arg49,arg50,(char const *(*)())arg51,arg52,arg53,arg54,arg55,arg56,arg57,arg58,(char const *(*)(long))arg59,arg60,arg61,arg62,arg63,arg64,arg65);
   r_ans = R_NilValue;
+  
+  
+  
   
   
   
@@ -7885,7 +7990,7 @@ R_swig_tc_getParametersNamed ( SEXP a, SEXP attibutes, SEXP s_swig_copy)
 
 
 SWIGEXPORT SEXP
-R_swig_tc_getParametersExcept ( SEXP a, SEXP Modeling, SEXP s_swig_copy)
+R_swig_tc_getParametersExcept ( SEXP a, SEXP attributes, SEXP s_swig_copy)
 {
   tc_matrix result;
   tc_items arg1 ;
@@ -7910,7 +8015,7 @@ R_swig_tc_getParametersExcept ( SEXP a, SEXP Modeling, SEXP s_swig_copy)
     }
   }
   {
-    res2 = SWIG_R_ConvertPtr(Modeling, &argp2, SWIGTYPE_p_tc_strings,  0 );
+    res2 = SWIG_R_ConvertPtr(attributes, &argp2, SWIGTYPE_p_tc_strings,  0 );
     if (!SWIG_IsOK(res2)) {
       SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_getParametersExcept" "', argument " "2"" of type '" "tc_strings""'"); 
     }  
@@ -7930,7 +8035,7 @@ R_swig_tc_getParametersExcept ( SEXP a, SEXP Modeling, SEXP s_swig_copy)
 
 
 SWIGEXPORT SEXP
-R_swig_tc_getAllTextNamed ( SEXP a, SEXP Modeling, SEXP s_swig_copy)
+R_swig_tc_getAllTextNamed ( SEXP a, SEXP attributes, SEXP s_swig_copy)
 {
   tc_strings result;
   tc_items arg1 ;
@@ -7955,7 +8060,7 @@ R_swig_tc_getAllTextNamed ( SEXP a, SEXP Modeling, SEXP s_swig_copy)
     }
   }
   {
-    res2 = SWIG_R_ConvertPtr(Modeling, &argp2, SWIGTYPE_p_tc_strings,  0 );
+    res2 = SWIG_R_ConvertPtr(attributes, &argp2, SWIGTYPE_p_tc_strings,  0 );
     if (!SWIG_IsOK(res2)) {
       SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_getAllTextNamed" "', argument " "2"" of type '" "tc_strings""'"); 
     }  
@@ -10452,6 +10557,124 @@ R_swig_tc_callWhenExiting ( SEXP f)
 
 
 SWIGEXPORT SEXP
+R_swig_tc_runOctaveCode ( SEXP code)
+{
+  char *arg1 = (char *) 0 ;
+  int res1 ;
+  char *buf1 = 0 ;
+  int alloc1 = 0 ;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  res1 = SWIG_AsCharPtrAndSize(code, &buf1, NULL, &alloc1);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_runOctaveCode" "', argument " "1"" of type '" "char const *""'");
+  }
+  arg1 = (char *)(buf1);
+  tc_runOctaveCode((char const *)arg1);
+  r_ans = R_NilValue;
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
+SWIGEXPORT SEXP
+R_swig_tc_runOctaveFile ( SEXP filename)
+{
+  char *arg1 = (char *) 0 ;
+  int res1 ;
+  char *buf1 = 0 ;
+  int alloc1 = 0 ;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  res1 = SWIG_AsCharPtrAndSize(filename, &buf1, NULL, &alloc1);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_runOctaveFile" "', argument " "1"" of type '" "char const *""'");
+  }
+  arg1 = (char *)(buf1);
+  tc_runOctaveFile((char const *)arg1);
+  r_ans = R_NilValue;
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
+SWIGEXPORT SEXP
+R_swig_tc_addOctavePlugin ( SEXP file, SEXP name, SEXP description, SEXP category, SEXP icon)
+{
+  char *arg1 = (char *) 0 ;
+  char *arg2 = (char *) 0 ;
+  char *arg3 = (char *) 0 ;
+  char *arg4 = (char *) 0 ;
+  char *arg5 = (char *) 0 ;
+  int res1 ;
+  char *buf1 = 0 ;
+  int alloc1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  int res3 ;
+  char *buf3 = 0 ;
+  int alloc3 = 0 ;
+  int res4 ;
+  char *buf4 = 0 ;
+  int alloc4 = 0 ;
+  int res5 ;
+  char *buf5 = 0 ;
+  int alloc5 = 0 ;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  res1 = SWIG_AsCharPtrAndSize(file, &buf1, NULL, &alloc1);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_addOctavePlugin" "', argument " "1"" of type '" "char const *""'");
+  }
+  arg1 = (char *)(buf1);
+  res2 = SWIG_AsCharPtrAndSize(name, &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_addOctavePlugin" "', argument " "2"" of type '" "char const *""'");
+  }
+  arg2 = (char *)(buf2);
+  res3 = SWIG_AsCharPtrAndSize(description, &buf3, NULL, &alloc3);
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_addOctavePlugin" "', argument " "3"" of type '" "char const *""'");
+  }
+  arg3 = (char *)(buf3);
+  res4 = SWIG_AsCharPtrAndSize(category, &buf4, NULL, &alloc4);
+  if (!SWIG_IsOK(res4)) {
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "tc_addOctavePlugin" "', argument " "4"" of type '" "char const *""'");
+  }
+  arg4 = (char *)(buf4);
+  res5 = SWIG_AsCharPtrAndSize(icon, &buf5, NULL, &alloc5);
+  if (!SWIG_IsOK(res5)) {
+    SWIG_exception_fail(SWIG_ArgError(res5), "in method '" "tc_addOctavePlugin" "', argument " "5"" of type '" "char const *""'");
+  }
+  arg5 = (char *)(buf5);
+  tc_addOctavePlugin((char const *)arg1,(char const *)arg2,(char const *)arg3,(char const *)arg4,(char const *)arg5);
+  r_ans = R_NilValue;
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  if (alloc3 == SWIG_NEWOBJ) free((char*)buf3);
+  if (alloc4 == SWIG_NEWOBJ) free((char*)buf4);
+  if (alloc5 == SWIG_NEWOBJ) free((char*)buf5);
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
+SWIGEXPORT SEXP
 R_swig_tc_DynamicLibraryMenu_api ( SEXP callFunction)
 {
   void (*arg1)(char const *) = (void (*)(char const *)) 0 ;
@@ -10958,7 +11181,7 @@ R_swig_tc_PythonTool_api ( SEXP runPythonCode, SEXP runPythonFile, SEXP addPytho
 
 
 SWIGEXPORT SEXP
-R_swig_tc_OctaveTool_api ( SEXP runOctaveCode, SEXP runPythonFile, SEXP addOctavePlugin)
+R_swig_tc_OctaveTool_api ( SEXP runOctaveCode, SEXP runOctaveFile, SEXP addOctavePlugin)
 {
   void (*arg1)(char const *) = (void (*)(char const *)) 0 ;
   void (*arg2)(char const *) = (void (*)(char const *)) 0 ;
@@ -10978,16 +11201,16 @@ R_swig_tc_OctaveTool_api ( SEXP runOctaveCode, SEXP runPythonFile, SEXP addOctav
     arg1 = _p_f_p_q_const__char__void;
     R_SWIG_pushCallbackFunctionData(runOctaveCode, NULL);
   }
-  if(TYPEOF(runPythonFile) != CLOSXP) {
+  if(TYPEOF(runOctaveFile) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(runPythonFile, (void**)(&arg2), SWIGTYPE_p_f_p_q_const__char__void, 0);
+      int res = SWIG_R_ConvertPtr(runOctaveFile, (void**)(&arg2), SWIGTYPE_p_f_p_q_const__char__void, 0);
       if (!SWIG_IsOK(res)) {
         SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_OctaveTool_api" "', argument " "2"" of type '" "void (*)(char const *)""'"); 
       }
     }
   } else {
     arg2 = _p_f_p_q_const__char__void;
-    R_SWIG_pushCallbackFunctionData(runPythonFile, NULL);
+    R_SWIG_pushCallbackFunctionData(runOctaveFile, NULL);
   }
   if(TYPEOF(addOctavePlugin) != CLOSXP) {
     {
@@ -11280,6 +11503,32 @@ R_swig_tc_gnuplot ( SEXP s_arg1)
 }
 
 
+SWIGEXPORT SEXP
+R_swig_tc_savePlot ( SEXP filename)
+{
+  char *arg1 = (char *) 0 ;
+  int res1 ;
+  char *buf1 = 0 ;
+  int alloc1 = 0 ;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  res1 = SWIG_AsCharPtrAndSize(filename, &buf1, NULL, &alloc1);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_savePlot" "', argument " "1"" of type '" "char const *""'");
+  }
+  arg1 = (char *)(buf1);
+  tc_savePlot((char const *)arg1);
+  r_ans = R_NilValue;
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
 void _p_f_tc_matrix_p_q_const__char__void(tc_matrix s_arg1, char const * s_arg2) {
   tc_matrix arg1 ;
   char *arg2 = (char *) 0 ;
@@ -11414,7 +11663,7 @@ tc_matrix _p_f_int__tc_matrix(int s_arg1) {
 
 
 SWIGEXPORT SEXP
-R_swig_tc_PlotTool_api ( SEXP plot, SEXP surface, SEXP hist, SEXP errorBars, SEXP scatterplot, SEXP multiplot, SEXP plotData, SEXP gnuplot)
+R_swig_tc_PlotTool_api ( SEXP plot, SEXP surface, SEXP hist, SEXP errorBars, SEXP scatterplot, SEXP multiplot, SEXP plotData, SEXP gnuplot, SEXP savePlotImage)
 {
   void (*arg1)(tc_matrix,char const *) = (void (*)(tc_matrix,char const *)) 0 ;
   void (*arg2)(tc_matrix,char const *) = (void (*)(tc_matrix,char const *)) 0 ;
@@ -11424,6 +11673,7 @@ R_swig_tc_PlotTool_api ( SEXP plot, SEXP surface, SEXP hist, SEXP errorBars, SEX
   void (*arg6)(int,int) = (void (*)(int,int)) 0 ;
   tc_matrix (*arg7)(int) = (tc_matrix (*)(int)) 0 ;
   void (*arg8)(char const *) = (void (*)(char const *)) 0 ;
+  void (*arg9)(char const *) = (void (*)(char const *)) 0 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
@@ -11516,8 +11766,20 @@ R_swig_tc_PlotTool_api ( SEXP plot, SEXP surface, SEXP hist, SEXP errorBars, SEX
     arg8 = _p_f_p_q_const__char__void;
     R_SWIG_pushCallbackFunctionData(gnuplot, NULL);
   }
-  tc_PlotTool_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8);
+  if(TYPEOF(savePlotImage) != CLOSXP) {
+    {
+      int res = SWIG_R_ConvertPtr(savePlotImage, (void**)(&arg9), SWIGTYPE_p_f_p_q_const__char__void, 0);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "9"" of type '" "void (*)(char const *)""'"); 
+      }
+    }
+  } else {
+    arg9 = _p_f_p_q_const__char__void;
+    R_SWIG_pushCallbackFunctionData(savePlotImage, NULL);
+  }
+  tc_PlotTool_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9);
   r_ans = R_NilValue;
+  
   
   
   
@@ -11922,7 +12184,7 @@ R_swig_tc_getForcingFunctionAssignments ( SEXP a, SEXP s_swig_copy)
 
 
 SWIGEXPORT SEXP
-R_swig_tc_addForcingFunction ( SEXP item, SEXP functionName, SEXP assignmentRule)
+R_swig_tc_addForcingFunction ( SEXP item, SEXP variable, SEXP formula)
 {
   long arg1 ;
   char *arg2 = (char *) 0 ;
@@ -11938,12 +12200,12 @@ R_swig_tc_addForcingFunction ( SEXP item, SEXP functionName, SEXP assignmentRule
   VMAXTYPE r_vmax = vmaxget() ;
   
   arg1 = (long)(INTEGER(item)[0]);
-  res2 = SWIG_AsCharPtrAndSize(functionName, &buf2, NULL, &alloc2);
+  res2 = SWIG_AsCharPtrAndSize(variable, &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
     SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_addForcingFunction" "', argument " "2"" of type '" "char const *""'");
   }
   arg2 = (char *)(buf2);
-  res3 = SWIG_AsCharPtrAndSize(assignmentRule, &buf3, NULL, &alloc3);
+  res3 = SWIG_AsCharPtrAndSize(formula, &buf3, NULL, &alloc3);
   if (!SWIG_IsOK(res3)) {
     SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_addForcingFunction" "', argument " "3"" of type '" "char const *""'");
   }
@@ -13501,6 +13763,7 @@ SWIGEXPORT void SWIG_init(void) {
 #include <R_ext/Rdynload.h>
 
 SWIGINTERN R_CallMethodDef CallEntries[] = {
+   {"R_swig_tc_screenWidth", (DL_FUNC) &R_swig_tc_screenWidth, 1},
    {"R_swig_tc_getPlotData", (DL_FUNC) &R_swig_tc_getPlotData, 2},
    {"R_swig_tc_gnuplot", (DL_FUNC) &R_swig_tc_gnuplot, 1},
    {"R_swig_tc_exportSBML", (DL_FUNC) &R_swig_tc_exportSBML, 1},
@@ -13511,8 +13774,8 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_getTextAttribute", (DL_FUNC) &R_swig_tc_getTextAttribute, 2},
    {"R_swig_tc_insertConnection", (DL_FUNC) &R_swig_tc_insertConnection, 4},
    {"R_swig_tc_loadLibrary", (DL_FUNC) &R_swig_tc_loadLibrary, 1},
-   {"R_swig_tc_separate", (DL_FUNC) &R_swig_tc_separate, 1},
    {"R_swig_tc_getNames", (DL_FUNC) &R_swig_tc_getNames, 2},
+   {"R_swig_tc_separate", (DL_FUNC) &R_swig_tc_separate, 1},
    {"R_swig_tc_plot", (DL_FUNC) &R_swig_tc_plot, 2},
    {"R_swig_tc_ConnectionSelection_api", (DL_FUNC) &R_swig_tc_ConnectionSelection_api, 9},
    {"R_swig_tc_ConnectionInsertion_api", (DL_FUNC) &R_swig_tc_ConnectionInsertion_api, 5},
@@ -13529,12 +13792,12 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_surface", (DL_FUNC) &R_swig_tc_surface, 2},
    {"R_swig_tc_getAnnotation", (DL_FUNC) &R_swig_tc_getAnnotation, 2},
    {"R_swig_tc_setAnnotation", (DL_FUNC) &R_swig_tc_setAnnotation, 2},
-   {"R_swig_tc_GroupHandlerTool_api", (DL_FUNC) &R_swig_tc_GroupHandlerTool_api, 2},
    {"R_swig_tc_getParent", (DL_FUNC) &R_swig_tc_getParent, 2},
+   {"R_swig_tc_GroupHandlerTool_api", (DL_FUNC) &R_swig_tc_GroupHandlerTool_api, 2},
    {"R_swig_tc_StoichiometryTool_api", (DL_FUNC) &R_swig_tc_StoichiometryTool_api, 4},
    {"R_swig_tc_PythonTool_api", (DL_FUNC) &R_swig_tc_PythonTool_api, 3},
    {"R_swig_tc_OctaveTool_api", (DL_FUNC) &R_swig_tc_OctaveTool_api, 3},
-   {"R_swig_tc_PlotTool_api", (DL_FUNC) &R_swig_tc_PlotTool_api, 8},
+   {"R_swig_tc_PlotTool_api", (DL_FUNC) &R_swig_tc_PlotTool_api, 9},
    {"R_swig_tc_SimulationEventsTool_api", (DL_FUNC) &R_swig_tc_SimulationEventsTool_api, 3},
    {"R_swig_tc_AssignmentFunctionsTool_api", (DL_FUNC) &R_swig_tc_AssignmentFunctionsTool_api, 3},
    {"R_swig_tc_CLabelsTool_api", (DL_FUNC) &R_swig_tc_CLabelsTool_api, 4},
@@ -13573,8 +13836,8 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_setCenterPoint", (DL_FUNC) &R_swig_tc_setCenterPoint, 3},
    {"R_swig_tc_printTable", (DL_FUNC) &R_swig_tc_printTable, 1},
    {"R_swig_tc_displayNumber", (DL_FUNC) &R_swig_tc_displayNumber, 2},
-   {"R_swig_tc_getAngle", (DL_FUNC) &R_swig_tc_getAngle, 2},
    {"R_swig_tc_setAngle", (DL_FUNC) &R_swig_tc_setAngle, 3},
+   {"R_swig_tc_getAngle", (DL_FUNC) &R_swig_tc_getAngle, 2},
    {"R_swig_tc_addInputWindowOptions", (DL_FUNC) &R_swig_tc_addInputWindowOptions, 4},
    {"R_swig_tc_moveSelected", (DL_FUNC) &R_swig_tc_moveSelected, 2},
    {"R_swig_tc_appDir", (DL_FUNC) &R_swig_tc_appDir, 0},
@@ -13600,6 +13863,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_getTextDataNames", (DL_FUNC) &R_swig_tc_getTextDataNames, 2},
    {"R_swig_tc_getNumericalDataNames", (DL_FUNC) &R_swig_tc_getNumericalDataNames, 2},
    {"R_swig_tc_compileBuildLoad", (DL_FUNC) &R_swig_tc_compileBuildLoad, 4},
+   {"R_swig_tc_screenshot", (DL_FUNC) &R_swig_tc_screenshot, 3},
    {"R_swig_tc_callback", (DL_FUNC) &R_swig_tc_callback, 1},
    {"R_swig_tc_changeNodeImage", (DL_FUNC) &R_swig_tc_changeNodeImage, 2},
    {"R_swig_tc_table_strings_get", (DL_FUNC) &R_swig_tc_table_strings_get, 1},
@@ -13627,7 +13891,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_isMac", (DL_FUNC) &R_swig_tc_isMac, 1},
    {"R_swig_tc_steadyStateScan", (DL_FUNC) &R_swig_tc_steadyStateScan, 4},
    {"R_swig_tc_CThread_api_initialize", (DL_FUNC) &R_swig_tc_CThread_api_initialize, 2},
-   {"R_swig_tc_Main_api_initialize", (DL_FUNC) &R_swig_tc_Main_api_initialize, 62},
+   {"R_swig_tc_Main_api_initialize", (DL_FUNC) &R_swig_tc_Main_api_initialize, 65},
    {"R_swig_tc_setPos", (DL_FUNC) &R_swig_tc_setPos, 3},
    {"R_swig_tc_NameFamily_api_initialize", (DL_FUNC) &R_swig_tc_NameFamily_api_initialize, 2},
    {"R_swig_tc_callFunction", (DL_FUNC) &R_swig_tc_callFunction, 1},
@@ -13643,6 +13907,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_getX", (DL_FUNC) &R_swig_tc_getX, 2},
    {"R_swig_tc_getY", (DL_FUNC) &R_swig_tc_getY, 2},
    {"R_swig_tc_findItems", (DL_FUNC) &R_swig_tc_findItems, 2},
+   {"R_swig_tc_savePlot", (DL_FUNC) &R_swig_tc_savePlot, 1},
    {"R_swig_tc_getParameters", (DL_FUNC) &R_swig_tc_getParameters, 2},
    {"R_swig_tc_createInputWindow", (DL_FUNC) &R_swig_tc_createInputWindow, 3},
    {"R_swig_delete_tc_matrix", (DL_FUNC) &R_swig_delete_tc_matrix, 1},
@@ -13655,6 +13920,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_getTableValue", (DL_FUNC) &R_swig_tc_getTableValue, 3},
    {"R_swig_tc_setTableValue", (DL_FUNC) &R_swig_tc_setTableValue, 4},
    {"R_swig_tc_setSize", (DL_FUNC) &R_swig_tc_setSize, 4},
+   {"R_swig_tc_addOctavePlugin", (DL_FUNC) &R_swig_tc_addOctavePlugin, 5},
    {"R_swig_tc_displayText", (DL_FUNC) &R_swig_tc_displayText, 2},
    {"R_swig_tc_merge", (DL_FUNC) &R_swig_tc_merge, 1},
    {"R_swig_tc_getParametersNamed", (DL_FUNC) &R_swig_tc_getParametersNamed, 3},
@@ -13669,11 +13935,13 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_getStringDialog", (DL_FUNC) &R_swig_tc_getStringDialog, 1},
    {"R_swig_tc_items_items_get", (DL_FUNC) &R_swig_tc_items_items_get, 1},
    {"R_swig_tc_hist", (DL_FUNC) &R_swig_tc_hist, 2},
+   {"R_swig_tc_runOctaveFile", (DL_FUNC) &R_swig_tc_runOctaveFile, 1},
    {"R_swig_tc_createMatrix", (DL_FUNC) &R_swig_tc_createMatrix, 3},
    {"R_swig_tc_deleteMatrix", (DL_FUNC) &R_swig_tc_deleteMatrix, 1},
    {"R_swig_tc_openNewWindow", (DL_FUNC) &R_swig_tc_openNewWindow, 1},
    {"R_swig_tc_insert", (DL_FUNC) &R_swig_tc_insert, 3},
    {"R_swig_tc_setControlPoint", (DL_FUNC) &R_swig_tc_setControlPoint, 5},
+   {"R_swig_tc_runOctaveCode", (DL_FUNC) &R_swig_tc_runOctaveCode, 1},
    {"R_swig_tc_table_strings_set", (DL_FUNC) &R_swig_tc_table_strings_set, 2},
    {"R_swig_tc_strings_strings_set", (DL_FUNC) &R_swig_tc_strings_strings_set, 2},
    {"R_swig_tc_appendRows", (DL_FUNC) &R_swig_tc_appendRows, 3},
@@ -13688,6 +13956,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_matrix_colnames_set", (DL_FUNC) &R_swig_tc_matrix_colnames_set, 2},
    {"R_swig_tc_matrix_rownames_set", (DL_FUNC) &R_swig_tc_matrix_rownames_set, 2},
    {"R_swig_tc_matrix_values_set", (DL_FUNC) &R_swig_tc_matrix_values_set, 2},
+   {"R_swig_tc_screenHeight", (DL_FUNC) &R_swig_tc_screenHeight, 1},
    {"R_swig_tc_getHeight", (DL_FUNC) &R_swig_tc_getHeight, 2},
    {"R_swig_tc_addInputWindowCheckbox", (DL_FUNC) &R_swig_tc_addInputWindowCheckbox, 3},
    {"R_swig_tc_table_rows_get", (DL_FUNC) &R_swig_tc_table_rows_get, 2},

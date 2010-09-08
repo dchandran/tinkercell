@@ -6,67 +6,96 @@
 BEGIN_C_DECLS
 
 /*! 
- \brief get all the parameters
+ \brief get all the parameters for the given items. use tc_allItems() as argument to get all parameters 
+ \param tc_items list of items for which the parameters are returned
+ \return tc_matrix parameter values in the same order as the input list
  \ingroup Modeling
 */
 TCAPIEXPORT tc_matrix tc_getParameters(tc_items a);
 /*! 
- \brief get initial values of the given items. Fixed varianbles are included.
+ \brief get initial values of the given items. Fixed varianbles are included. use tc_allItems() for all items in the model.
+ \param tc_items list of items for which the initial values are returned
+ \return tc_matrix initial values in the same order as the input list
  \ingroup Modeling
 */
 TCAPIEXPORT tc_matrix tc_getInitialValues(tc_items a);
 /*! 
  \brief set initial values of the given items. 
+ \param tc_items list of items for which initial values are set
+ \param tc_matrix the initial values in the same order as the list of items
  \ingroup Modeling
 */
 TCAPIEXPORT void tc_setInitialValues(tc_items items,tc_matrix values);
 /*! 
  \brief get all fixed variables
+ \param tc_items list of items for which fixed attribute are set
+ \param tc_matrix matrix with 1 (fixed) or 0 (floating) in the same order as the list of items
  \ingroup Modeling
 */
 TCAPIEXPORT tc_matrix tc_getFixedVariables(tc_items a);
 /*! 
  \brief get all the parameters and fixed variables
+ \param tc_items list of items. use tc_allItems() to get all items in the model
+ \return tc_matrix list of parameters and fixed variables. order is not preserved from the input
  \ingroup Modeling
 */
 TCAPIEXPORT tc_matrix tc_getParametersAndFixedVariables(tc_items a);
 /*! 
  \brief get the text attribute with the given name for the given item
+ \param int item in the model, e.g. something returned from tc_find
+ \param string name of the attribute
+ \return string attribute
  \ingroup Network data
 */
 TCAPIEXPORT const char* tc_getTextAttribute(long item,const char* attribute);
 /*! 
- \brief get the numerical attribute with the given name for the given item
+ \brief get the parameter with the given name for the given item
+ \param int item in the model, e.g. something returned from tc_find
+ \param string name of the parameter
+ \return double value
  \ingroup Modeling
 */
 TCAPIEXPORT double tc_getParameter(long item,const char* attribute);
 /*! 
  \brief get all numerical Modeling with the given names for the given items
+ \param tc_items a list of items
+ \param tc_strings a list of parameter names that exist in one or more of the given items
+ \return tc_matrix the set of parameters with rownames as parameter names
  \ingroup Modeling
 */
 TCAPIEXPORT tc_matrix tc_getParametersNamed(tc_items a,tc_strings attibutes);
 /*! 
  \brief get all numerical Modeling EXCEPT the given names
+ \param tc_items a list of items
+ \param tc_strings a list of parameter names that exist in one or more of the given items
+ \return tc_matrix the set of parameters with rownames as parameter names
  \ingroup Modeling
 */
-TCAPIEXPORT tc_matrix tc_getParametersExcept(tc_items a,tc_strings Modeling);
+TCAPIEXPORT tc_matrix tc_getParametersExcept(tc_items a,tc_strings attributes);
 /*! 
  \brief get all text Modeling with the given name for the given items
+ \param tc_items a list of items
+ \param tc_strings a list of text attribute name that exists in each of the given items
+ \return tc_strings the set of all text attribute values, one for each item in the input
  \ingroup Network data
 */
-TCAPIEXPORT tc_strings tc_getAllTextNamed(tc_items a,tc_strings Modeling);
+TCAPIEXPORT tc_strings tc_getAllTextNamed(tc_items a,tc_strings attributes);
 /*! 
  \brief set text attribute for the given item
+ \param int item in model
+ \param string name of text attribute
  \ingroup Network data
 */
 TCAPIEXPORT void tc_setTextAttribute(long item,const char* attribute,const char* value);
 /*! 
- \brief set numerical attribute for the given item
+ \brief set a parameter value for the given item
+ \param int item in model
+ \param string name of parameter
  \ingroup Modeling
 */
 TCAPIEXPORT void tc_setParameter(long item,const char* attribute,double value);
 /*! 
- \brief initialize attribute functions
+ \brief initialize the parameters and attributes plug-in
  \ingroup init
 */
 TCAPIEXPORT void tc_BasicInformationTool_Text_api(

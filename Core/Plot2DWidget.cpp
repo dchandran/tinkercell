@@ -626,20 +626,17 @@ namespace Tinkercell
 		}
 	}
 	
-	void Plot2DWidget::exportData(const QString& type)
+	void Plot2DWidget::exportData(const QString& type, const QString& fileName)
 	{
 		if (!dataPlot) return;
 		
 		if (type.toLower() == tr("save graph"))
 		{
-			QString fileName = 
-				QFileDialog::getSaveFileName(this, tr("Print to File"),
-                                          MainWindow::previousFileName,
-                                          tr("PDF Files (*.pdf)"));
-			
 			if (fileName.isEmpty() || fileName.isNull()) return;
 			
-			MainWindow::previousFileName = fileName.remove(QRegExp(tr("\\.*")));
+			MainWindow::previousFileName = fileName;			
+			MainWindow::previousFileName.remove(QRegExp(tr("\\.*")));
+
 			//QPrinter printer(QPrinter::HighResolution);
 			QPrinter printer(QPrinter::ScreenResolution);
 			printer.setOutputFormat(QPrinter::PdfFormat);
@@ -669,7 +666,7 @@ namespace Tinkercell
 		}
 		else
 		{
-			PlotWidget::exportData(type);
+			PlotWidget::exportData(type,fileName);
 		}
 	}
 	

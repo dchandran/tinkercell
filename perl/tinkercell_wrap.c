@@ -4021,7 +4021,7 @@ XS(_wrap_tc_find) {
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
-      SWIG_croak("Usage: tc_find(fullname);");
+      SWIG_croak("Usage: tc_find(name);");
     }
     res1 = SWIG_AsCharPtrAndSize(ST(0), &buf1, NULL, &alloc1);
     if (!SWIG_IsOK(res1)) {
@@ -5913,6 +5913,34 @@ XS(_wrap_tc_getHeight) {
 }
 
 
+XS(_wrap_tc_getAngle) {
+  {
+    long arg1 ;
+    long val1 ;
+    int ecode1 = 0 ;
+    int argvi = 0;
+    double result;
+    dXSARGS;
+    
+    if ((items < 1) || (items > 1)) {
+      SWIG_croak("Usage: tc_getAngle(item);");
+    }
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    if (!SWIG_IsOK(ecode1)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getAngle" "', argument " "1"" of type '" "long""'");
+    } 
+    arg1 = (long)(val1);
+    result = (double)tc_getAngle(arg1);
+    ST(argvi) = SWIG_From_double  SWIG_PERL_CALL_ARGS_1((double)(result)); argvi++ ;
+    
+    XSRETURN(argvi);
+  fail:
+    
+    SWIG_croak_null();
+  }
+}
+
+
 XS(_wrap_tc_setAngle) {
   {
     long arg1 ;
@@ -5960,29 +5988,85 @@ XS(_wrap_tc_setAngle) {
 }
 
 
-XS(_wrap_tc_getAngle) {
+XS(_wrap_tc_screenshot) {
   {
-    long arg1 ;
-    long val1 ;
-    int ecode1 = 0 ;
+    char *arg1 = (char *) 0 ;
+    int arg2 ;
+    int arg3 ;
+    int res1 ;
+    char *buf1 = 0 ;
+    int alloc1 = 0 ;
+    int val2 ;
+    int ecode2 = 0 ;
+    int val3 ;
+    int ecode3 = 0 ;
     int argvi = 0;
-    double result;
     dXSARGS;
     
-    if ((items < 1) || (items > 1)) {
-      SWIG_croak("Usage: tc_getAngle(item);");
+    if ((items < 3) || (items > 3)) {
+      SWIG_croak("Usage: tc_screenshot(filename,width,height);");
     }
-    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
-    if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getAngle" "', argument " "1"" of type '" "long""'");
+    res1 = SWIG_AsCharPtrAndSize(ST(0), &buf1, NULL, &alloc1);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_screenshot" "', argument " "1"" of type '" "char const *""'");
+    }
+    arg1 = (char *)(buf1);
+    ecode2 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
+    if (!SWIG_IsOK(ecode2)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_screenshot" "', argument " "2"" of type '" "int""'");
     } 
-    arg1 = (long)(val1);
-    result = (double)tc_getAngle(arg1);
-    ST(argvi) = SWIG_From_double  SWIG_PERL_CALL_ARGS_1((double)(result)); argvi++ ;
+    arg2 = (int)(val2);
+    ecode3 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(2), &val3);
+    if (!SWIG_IsOK(ecode3)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "tc_screenshot" "', argument " "3"" of type '" "int""'");
+    } 
+    arg3 = (int)(val3);
+    tc_screenshot((char const *)arg1,arg2,arg3);
+    ST(argvi) = sv_newmortal();
+    if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+    
     
     XSRETURN(argvi);
   fail:
+    if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
     
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_tc_screenWidth) {
+  {
+    int argvi = 0;
+    int result;
+    dXSARGS;
+    
+    if ((items < 0) || (items > 0)) {
+      SWIG_croak("Usage: tc_screenWidth();");
+    }
+    result = (int)tc_screenWidth();
+    ST(argvi) = SWIG_From_int  SWIG_PERL_CALL_ARGS_1((int)(result)); argvi++ ;
+    XSRETURN(argvi);
+  fail:
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_tc_screenHeight) {
+  {
+    int argvi = 0;
+    int result;
+    dXSARGS;
+    
+    if ((items < 0) || (items > 0)) {
+      SWIG_croak("Usage: tc_screenHeight();");
+    }
+    result = (int)tc_screenHeight();
+    ST(argvi) = SWIG_From_int  SWIG_PERL_CALL_ARGS_1((int)(result)); argvi++ ;
+    XSRETURN(argvi);
+  fail:
     SWIG_croak_null();
   }
 }
@@ -6052,11 +6136,14 @@ XS(_wrap_tc_Main_api_initialize) {
     void (*arg60)(long,char const *,int) = (void (*)(long,char const *,int)) 0 ;
     void (*arg61)(long,char const *) = (void (*)(long,char const *)) 0 ;
     void (*arg62)(long,char const *) = (void (*)(long,char const *)) 0 ;
+    void (*arg63)(char const *,int,int) = (void (*)(char const *,int,int)) 0 ;
+    int (*arg64)() = (int (*)()) 0 ;
+    int (*arg65)() = (int (*)()) 0 ;
     int argvi = 0;
     dXSARGS;
     
-    if ((items < 62) || (items > 62)) {
-      SWIG_croak("Usage: tc_Main_api_initialize(tc_allItems0,tc_selectedItems0,tc_itemsOfFamily0,tc_itemsOfFamily1,tc_find0,tc_findItems0,tc_select0,tc_deselect0,tc_getName0,tc_getUniqueName0,tc_setName0,tc_getNames0,tc_getUniqueNames0,tc_getFamily0,tc_isA0,tc_clearText,tc_outputText0,tc_errorReport0,tc_outputTable0,tc_printFile0,tc_removeItem0,tc_getY0,tc_getX0,tc_getPos0,tc_setPos0,tc_setPos1,tc_moveSelected0,tc_isWindows0,tc_isMac0,tc_isLinux0,tc_appDir0,tc_createInputWindow0,tc_createInputWindow1,createSliders,tc_addInputWindowOptions0,tc_addInputWindowCheckbox0,tc_openNewWindow0,tc_getChildren0,tc_getParent0,tc_getNumericalData0,tc_setNumericalData0,tc_getTextData0,tc_setTextData0,tc_getNumericalDataNames0,tc_getTextDataNames0,tc_zoom0,tc_getStringDialog0,getSelectedString,getNumber,getNumbers,getFilename,askQuestion,messageDialog,setSize0,getWidth0,getHeight0,setAngle0,getAngle0,getColor,setColor0,changeGraphics0,changeArrowHead0);");
+    if ((items < 65) || (items > 65)) {
+      SWIG_croak("Usage: tc_Main_api_initialize(tc_allItems0,tc_selectedItems0,tc_itemsOfFamily0,tc_itemsOfFamily1,tc_find0,tc_findItems0,tc_select0,tc_deselect0,tc_getName0,tc_getUniqueName0,tc_setName0,tc_getNames0,tc_getUniqueNames0,tc_getFamily0,tc_isA0,tc_clearText,tc_outputText0,tc_errorReport0,tc_outputTable0,tc_printFile0,tc_removeItem0,tc_getY0,tc_getX0,tc_getPos0,tc_setPos0,tc_setPos1,tc_moveSelected0,tc_isWindows0,tc_isMac0,tc_isLinux0,tc_appDir0,tc_createInputWindow0,tc_createInputWindow1,createSliders,tc_addInputWindowOptions0,tc_addInputWindowCheckbox0,tc_openNewWindow0,tc_getChildren0,tc_getParent0,tc_getNumericalData0,tc_setNumericalData0,tc_getTextData0,tc_setTextData0,tc_getNumericalDataNames0,tc_getTextDataNames0,tc_zoom0,tc_getStringDialog0,getSelectedString,getNumber,getNumbers,getFilename,askQuestion,messageDialog,setSize0,getWidth0,getHeight0,setAngle0,getAngle0,getColor,setColor0,changeGraphics0,changeArrowHead0,screenshot,screenHeight,screenWidth);");
     }
     {
       int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f___tc_items);
@@ -6430,8 +6517,29 @@ XS(_wrap_tc_Main_api_initialize) {
         SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "62"" of type '" "void (*)(long,char const *)""'"); 
       }
     }
-    tc_Main_api_initialize(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,(char const *(*)(long))arg9,(char const *(*)(long))arg10,arg11,arg12,arg13,(char const *(*)(long))arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23,arg24,arg25,arg26,arg27,arg28,arg29,arg30,(char const *(*)())arg31,arg32,arg33,arg34,arg35,arg36,arg37,arg38,arg39,arg40,arg41,arg42,arg43,arg44,arg45,arg46,(char const *(*)(char const *))arg47,arg48,arg49,arg50,(char const *(*)())arg51,arg52,arg53,arg54,arg55,arg56,arg57,arg58,(char const *(*)(long))arg59,arg60,arg61,arg62);
+    {
+      int res = SWIG_ConvertFunctionPtr(ST(62), (void**)(&arg63), SWIGTYPE_p_f_p_q_const__char_int_int__void);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "63"" of type '" "void (*)(char const *,int,int)""'"); 
+      }
+    }
+    {
+      int res = SWIG_ConvertFunctionPtr(ST(63), (void**)(&arg64), SWIGTYPE_p_f___int);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "64"" of type '" "int (*)()""'"); 
+      }
+    }
+    {
+      int res = SWIG_ConvertFunctionPtr(ST(64), (void**)(&arg65), SWIGTYPE_p_f___int);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "65"" of type '" "int (*)()""'"); 
+      }
+    }
+    tc_Main_api_initialize(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,(char const *(*)(long))arg9,(char const *(*)(long))arg10,arg11,arg12,arg13,(char const *(*)(long))arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23,arg24,arg25,arg26,arg27,arg28,arg29,arg30,(char const *(*)())arg31,arg32,arg33,arg34,arg35,arg36,arg37,arg38,arg39,arg40,arg41,arg42,arg43,arg44,arg45,arg46,(char const *(*)(char const *))arg47,arg48,arg49,arg50,(char const *(*)())arg51,arg52,arg53,arg54,arg55,arg56,arg57,arg58,(char const *(*)(long))arg59,arg60,arg61,arg62,arg63,arg64,arg65);
     ST(argvi) = sv_newmortal();
+    
+    
+    
     
     
     
@@ -6496,6 +6604,9 @@ XS(_wrap_tc_Main_api_initialize) {
     
     XSRETURN(argvi);
   fail:
+    
+    
+    
     
     
     
@@ -6936,7 +7047,7 @@ XS(_wrap_tc_getParametersExcept) {
     dXSARGS;
     
     if ((items < 2) || (items > 2)) {
-      SWIG_croak("Usage: tc_getParametersExcept(a,Modeling);");
+      SWIG_croak("Usage: tc_getParametersExcept(a,attributes);");
     }
     {
       res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_items,  0 );
@@ -6982,7 +7093,7 @@ XS(_wrap_tc_getAllTextNamed) {
     dXSARGS;
     
     if ((items < 2) || (items > 2)) {
-      SWIG_croak("Usage: tc_getAllTextNamed(a,Modeling);");
+      SWIG_croak("Usage: tc_getAllTextNamed(a,attributes);");
     }
     {
       res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_items,  0 );
@@ -8983,6 +9094,134 @@ XS(_wrap_tc_callWhenExiting) {
 }
 
 
+XS(_wrap_tc_runOctaveCode) {
+  {
+    char *arg1 = (char *) 0 ;
+    int res1 ;
+    char *buf1 = 0 ;
+    int alloc1 = 0 ;
+    int argvi = 0;
+    dXSARGS;
+    
+    if ((items < 1) || (items > 1)) {
+      SWIG_croak("Usage: tc_runOctaveCode(code);");
+    }
+    res1 = SWIG_AsCharPtrAndSize(ST(0), &buf1, NULL, &alloc1);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_runOctaveCode" "', argument " "1"" of type '" "char const *""'");
+    }
+    arg1 = (char *)(buf1);
+    tc_runOctaveCode((char const *)arg1);
+    ST(argvi) = sv_newmortal();
+    if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+    XSRETURN(argvi);
+  fail:
+    if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_tc_runOctaveFile) {
+  {
+    char *arg1 = (char *) 0 ;
+    int res1 ;
+    char *buf1 = 0 ;
+    int alloc1 = 0 ;
+    int argvi = 0;
+    dXSARGS;
+    
+    if ((items < 1) || (items > 1)) {
+      SWIG_croak("Usage: tc_runOctaveFile(filename);");
+    }
+    res1 = SWIG_AsCharPtrAndSize(ST(0), &buf1, NULL, &alloc1);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_runOctaveFile" "', argument " "1"" of type '" "char const *""'");
+    }
+    arg1 = (char *)(buf1);
+    tc_runOctaveFile((char const *)arg1);
+    ST(argvi) = sv_newmortal();
+    if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+    XSRETURN(argvi);
+  fail:
+    if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_tc_addOctavePlugin) {
+  {
+    char *arg1 = (char *) 0 ;
+    char *arg2 = (char *) 0 ;
+    char *arg3 = (char *) 0 ;
+    char *arg4 = (char *) 0 ;
+    char *arg5 = (char *) 0 ;
+    int res1 ;
+    char *buf1 = 0 ;
+    int alloc1 = 0 ;
+    int res2 ;
+    char *buf2 = 0 ;
+    int alloc2 = 0 ;
+    int res3 ;
+    char *buf3 = 0 ;
+    int alloc3 = 0 ;
+    int res4 ;
+    char *buf4 = 0 ;
+    int alloc4 = 0 ;
+    int res5 ;
+    char *buf5 = 0 ;
+    int alloc5 = 0 ;
+    int argvi = 0;
+    dXSARGS;
+    
+    if ((items < 5) || (items > 5)) {
+      SWIG_croak("Usage: tc_addOctavePlugin(file,name,description,category,icon);");
+    }
+    res1 = SWIG_AsCharPtrAndSize(ST(0), &buf1, NULL, &alloc1);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_addOctavePlugin" "', argument " "1"" of type '" "char const *""'");
+    }
+    arg1 = (char *)(buf1);
+    res2 = SWIG_AsCharPtrAndSize(ST(1), &buf2, NULL, &alloc2);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_addOctavePlugin" "', argument " "2"" of type '" "char const *""'");
+    }
+    arg2 = (char *)(buf2);
+    res3 = SWIG_AsCharPtrAndSize(ST(2), &buf3, NULL, &alloc3);
+    if (!SWIG_IsOK(res3)) {
+      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_addOctavePlugin" "', argument " "3"" of type '" "char const *""'");
+    }
+    arg3 = (char *)(buf3);
+    res4 = SWIG_AsCharPtrAndSize(ST(3), &buf4, NULL, &alloc4);
+    if (!SWIG_IsOK(res4)) {
+      SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "tc_addOctavePlugin" "', argument " "4"" of type '" "char const *""'");
+    }
+    arg4 = (char *)(buf4);
+    res5 = SWIG_AsCharPtrAndSize(ST(4), &buf5, NULL, &alloc5);
+    if (!SWIG_IsOK(res5)) {
+      SWIG_exception_fail(SWIG_ArgError(res5), "in method '" "tc_addOctavePlugin" "', argument " "5"" of type '" "char const *""'");
+    }
+    arg5 = (char *)(buf5);
+    tc_addOctavePlugin((char const *)arg1,(char const *)arg2,(char const *)arg3,(char const *)arg4,(char const *)arg5);
+    ST(argvi) = sv_newmortal();
+    if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+    if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+    if (alloc3 == SWIG_NEWOBJ) free((char*)buf3);
+    if (alloc4 == SWIG_NEWOBJ) free((char*)buf4);
+    if (alloc5 == SWIG_NEWOBJ) free((char*)buf5);
+    XSRETURN(argvi);
+  fail:
+    if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+    if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+    if (alloc3 == SWIG_NEWOBJ) free((char*)buf3);
+    if (alloc4 == SWIG_NEWOBJ) free((char*)buf4);
+    if (alloc5 == SWIG_NEWOBJ) free((char*)buf5);
+    SWIG_croak_null();
+  }
+}
+
+
 XS(_wrap_tc_DynamicLibraryMenu_api) {
   {
     void (*arg1)(char const *) = (void (*)(char const *)) 0 ;
@@ -9142,7 +9381,7 @@ XS(_wrap_tc_OctaveTool_api) {
     dXSARGS;
     
     if ((items < 3) || (items > 3)) {
-      SWIG_croak("Usage: tc_OctaveTool_api(runOctaveCode,runPythonFile,addOctavePlugin);");
+      SWIG_croak("Usage: tc_OctaveTool_api(runOctaveCode,runOctaveFile,addOctavePlugin);");
     }
     {
       int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_p_q_const__char__void);
@@ -9480,6 +9719,34 @@ XS(_wrap_tc_gnuplot) {
 }
 
 
+XS(_wrap_tc_savePlot) {
+  {
+    char *arg1 = (char *) 0 ;
+    int res1 ;
+    char *buf1 = 0 ;
+    int alloc1 = 0 ;
+    int argvi = 0;
+    dXSARGS;
+    
+    if ((items < 1) || (items > 1)) {
+      SWIG_croak("Usage: tc_savePlot(filename);");
+    }
+    res1 = SWIG_AsCharPtrAndSize(ST(0), &buf1, NULL, &alloc1);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_savePlot" "', argument " "1"" of type '" "char const *""'");
+    }
+    arg1 = (char *)(buf1);
+    tc_savePlot((char const *)arg1);
+    ST(argvi) = sv_newmortal();
+    if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+    XSRETURN(argvi);
+  fail:
+    if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+    SWIG_croak_null();
+  }
+}
+
+
 XS(_wrap_tc_PlotTool_api) {
   {
     void (*arg1)(tc_matrix,char const *) = (void (*)(tc_matrix,char const *)) 0 ;
@@ -9490,11 +9757,12 @@ XS(_wrap_tc_PlotTool_api) {
     void (*arg6)(int,int) = (void (*)(int,int)) 0 ;
     tc_matrix (*arg7)(int) = (tc_matrix (*)(int)) 0 ;
     void (*arg8)(char const *) = (void (*)(char const *)) 0 ;
+    void (*arg9)(char const *) = (void (*)(char const *)) 0 ;
     int argvi = 0;
     dXSARGS;
     
-    if ((items < 8) || (items > 8)) {
-      SWIG_croak("Usage: tc_PlotTool_api(plot,surface,hist,errorBars,scatterplot,multiplot,plotData,gnuplot);");
+    if ((items < 9) || (items > 9)) {
+      SWIG_croak("Usage: tc_PlotTool_api(plot,surface,hist,errorBars,scatterplot,multiplot,plotData,gnuplot,savePlotImage);");
     }
     {
       int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_tc_matrix_p_q_const__char__void);
@@ -9544,8 +9812,15 @@ XS(_wrap_tc_PlotTool_api) {
         SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "8"" of type '" "void (*)(char const *)""'"); 
       }
     }
-    tc_PlotTool_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8);
+    {
+      int res = SWIG_ConvertFunctionPtr(ST(8), (void**)(&arg9), SWIGTYPE_p_f_p_q_const__char__void);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "9"" of type '" "void (*)(char const *)""'"); 
+      }
+    }
+    tc_PlotTool_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9);
     ST(argvi) = sv_newmortal();
+    
     
     
     
@@ -9556,6 +9831,7 @@ XS(_wrap_tc_PlotTool_api) {
     
     XSRETURN(argvi);
   fail:
+    
     
     
     
@@ -9838,7 +10114,7 @@ XS(_wrap_tc_addForcingFunction) {
     dXSARGS;
     
     if ((items < 3) || (items > 3)) {
-      SWIG_croak("Usage: tc_addForcingFunction(item,functionName,assignmentRule);");
+      SWIG_croak("Usage: tc_addForcingFunction(item,variable,formula);");
     }
     ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
@@ -11095,8 +11371,11 @@ static swig_command_info swig_commands[] = {
 {"tinkercellc::tc_setSize", _wrap_tc_setSize},
 {"tinkercellc::tc_getWidth", _wrap_tc_getWidth},
 {"tinkercellc::tc_getHeight", _wrap_tc_getHeight},
-{"tinkercellc::tc_setAngle", _wrap_tc_setAngle},
 {"tinkercellc::tc_getAngle", _wrap_tc_getAngle},
+{"tinkercellc::tc_setAngle", _wrap_tc_setAngle},
+{"tinkercellc::tc_screenshot", _wrap_tc_screenshot},
+{"tinkercellc::tc_screenWidth", _wrap_tc_screenWidth},
+{"tinkercellc::tc_screenHeight", _wrap_tc_screenHeight},
 {"tinkercellc::tc_Main_api_initialize", _wrap_tc_Main_api_initialize},
 {"tinkercellc::tc_showProgress", _wrap_tc_showProgress},
 {"tinkercellc::tc_CThread_api_initialize", _wrap_tc_CThread_api_initialize},
@@ -11155,6 +11434,9 @@ static swig_command_info swig_commands[] = {
 {"tinkercellc::tc_addFunction", _wrap_tc_addFunction},
 {"tinkercellc::tc_callback", _wrap_tc_callback},
 {"tinkercellc::tc_callWhenExiting", _wrap_tc_callWhenExiting},
+{"tinkercellc::tc_runOctaveCode", _wrap_tc_runOctaveCode},
+{"tinkercellc::tc_runOctaveFile", _wrap_tc_runOctaveFile},
+{"tinkercellc::tc_addOctavePlugin", _wrap_tc_addOctavePlugin},
 {"tinkercellc::tc_DynamicLibraryMenu_api", _wrap_tc_DynamicLibraryMenu_api},
 {"tinkercellc::tc_LoadCLibraries_api", _wrap_tc_LoadCLibraries_api},
 {"tinkercellc::tc_PythonTool_api", _wrap_tc_PythonTool_api},
@@ -11167,6 +11449,7 @@ static swig_command_info swig_commands[] = {
 {"tinkercellc::tc_multiplot", _wrap_tc_multiplot},
 {"tinkercellc::tc_getPlotData", _wrap_tc_getPlotData},
 {"tinkercellc::tc_gnuplot", _wrap_tc_gnuplot},
+{"tinkercellc::tc_savePlot", _wrap_tc_savePlot},
 {"tinkercellc::tc_PlotTool_api", _wrap_tc_PlotTool_api},
 {"tinkercellc::tc_writeModel", _wrap_tc_writeModel},
 {"tinkercellc::tc_ModelFileGenerator_api", _wrap_tc_ModelFileGenerator_api},

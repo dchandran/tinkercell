@@ -1951,10 +1951,10 @@ class(`tc_itemsOfFamilyFrom`) = c("SWIGFunction", class('tc_itemsOfFamilyFrom'))
 
 # Start of tc_find
 
-`tc_find` = function(fullname, .copy = FALSE)
+`tc_find` = function(name, .copy = FALSE)
 {
-  fullname = as(fullname, "character") 
-  .Call('R_swig_tc_find', fullname, as.logical(.copy), PACKAGE='tinkercell')
+  name = as(name, "character") 
+  .Call('R_swig_tc_find', name, as.logical(.copy), PACKAGE='tinkercell')
   
 }
 
@@ -2892,6 +2892,24 @@ attr(`tc_getHeight`, 'returnType') = 'numeric'
 attr(`tc_getHeight`, "inputTypes") = c('integer')
 class(`tc_getHeight`) = c("SWIGFunction", class('tc_getHeight'))
 
+# Start of tc_getAngle
+
+`tc_getAngle` = function(item, .copy = FALSE)
+{
+  item = as.integer(item) 
+  
+  if(length(item) > 1) {
+    warning("using only the first element of item")
+  }
+  
+  .Call('R_swig_tc_getAngle', item, as.logical(.copy), PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_getAngle`, 'returnType') = 'numeric'
+attr(`tc_getAngle`, "inputTypes") = c('integer')
+class(`tc_getAngle`) = c("SWIGFunction", class('tc_getAngle'))
+
 # Start of tc_setAngle
 
 `tc_setAngle` = function(item, t, permanent)
@@ -2917,27 +2935,56 @@ attr(`tc_setAngle`, 'returnType') = 'void'
 attr(`tc_setAngle`, "inputTypes") = c('integer', 'numeric', 'integer')
 class(`tc_setAngle`) = c("SWIGFunction", class('tc_setAngle'))
 
-# Start of tc_getAngle
+# Start of tc_screenshot
 
-`tc_getAngle` = function(item, .copy = FALSE)
+`tc_screenshot` = function(filename, width, height)
 {
-  item = as.integer(item) 
+  filename = as(filename, "character") 
+  width = as.integer(width) 
   
-  if(length(item) > 1) {
-    warning("using only the first element of item")
+  if(length(width) > 1) {
+    warning("using only the first element of width")
   }
   
-  .Call('R_swig_tc_getAngle', item, as.logical(.copy), PACKAGE='tinkercell')
+  height = as.integer(height) 
+  
+  if(length(height) > 1) {
+    warning("using only the first element of height")
+  }
+  
+  .Call('R_swig_tc_screenshot', filename, width, height, PACKAGE='tinkercell')
   
 }
 
-attr(`tc_getAngle`, 'returnType') = 'numeric'
-attr(`tc_getAngle`, "inputTypes") = c('integer')
-class(`tc_getAngle`) = c("SWIGFunction", class('tc_getAngle'))
+attr(`tc_screenshot`, 'returnType') = 'void'
+attr(`tc_screenshot`, "inputTypes") = c('character', 'integer', 'integer')
+class(`tc_screenshot`) = c("SWIGFunction", class('tc_screenshot'))
+
+# Start of tc_screenWidth
+
+`tc_screenWidth` = function(.copy = FALSE)
+{
+  .Call('R_swig_tc_screenWidth', as.logical(.copy), PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_screenWidth`, 'returnType') = 'integer'
+class(`tc_screenWidth`) = c("SWIGFunction", class('tc_screenWidth'))
+
+# Start of tc_screenHeight
+
+`tc_screenHeight` = function(.copy = FALSE)
+{
+  .Call('R_swig_tc_screenHeight', as.logical(.copy), PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_screenHeight`, 'returnType') = 'integer'
+class(`tc_screenHeight`) = c("SWIGFunction", class('tc_screenHeight'))
 
 # Start of tc_Main_api_initialize
 
-`tc_Main_api_initialize` = function(tc_allItems0, tc_selectedItems0, tc_itemsOfFamily0, tc_itemsOfFamily1, tc_find0, tc_findItems0, tc_select0, tc_deselect0, tc_getName0, tc_getUniqueName0, tc_setName0, tc_getNames0, tc_getUniqueNames0, tc_getFamily0, tc_isA0, tc_clearText, tc_outputText0, tc_errorReport0, tc_outputTable0, tc_printFile0, tc_removeItem0, tc_getY0, tc_getX0, tc_getPos0, tc_setPos0, tc_setPos1, tc_moveSelected0, tc_isWindows0, tc_isMac0, tc_isLinux0, tc_appDir0, tc_createInputWindow0, tc_createInputWindow1, createSliders, tc_addInputWindowOptions0, tc_addInputWindowCheckbox0, tc_openNewWindow0, tc_getChildren0, tc_getParent0, tc_getNumericalData0, tc_setNumericalData0, tc_getTextData0, tc_setTextData0, tc_getNumericalDataNames0, tc_getTextDataNames0, tc_zoom0, tc_getStringDialog0, getSelectedString, getNumber, getNumbers, getFilename, askQuestion, messageDialog, setSize0, getWidth0, getHeight0, setAngle0, getAngle0, getColor, setColor0, changeGraphics0, changeArrowHead0)
+`tc_Main_api_initialize` = function(tc_allItems0, tc_selectedItems0, tc_itemsOfFamily0, tc_itemsOfFamily1, tc_find0, tc_findItems0, tc_select0, tc_deselect0, tc_getName0, tc_getUniqueName0, tc_setName0, tc_getNames0, tc_getUniqueNames0, tc_getFamily0, tc_isA0, tc_clearText, tc_outputText0, tc_errorReport0, tc_outputTable0, tc_printFile0, tc_removeItem0, tc_getY0, tc_getX0, tc_getPos0, tc_setPos0, tc_setPos1, tc_moveSelected0, tc_isWindows0, tc_isMac0, tc_isLinux0, tc_appDir0, tc_createInputWindow0, tc_createInputWindow1, createSliders, tc_addInputWindowOptions0, tc_addInputWindowCheckbox0, tc_openNewWindow0, tc_getChildren0, tc_getParent0, tc_getNumericalData0, tc_setNumericalData0, tc_getTextData0, tc_setTextData0, tc_getNumericalDataNames0, tc_getTextDataNames0, tc_zoom0, tc_getStringDialog0, getSelectedString, getNumber, getNumbers, getFilename, askQuestion, messageDialog, setSize0, getWidth0, getHeight0, setAngle0, getAngle0, getColor, setColor0, changeGraphics0, changeArrowHead0, screenshot, screenHeight, screenWidth)
 {
   if(is.function(tc_allItems0)) {
     assert('...' %in% names(formals(tc_allItems0)) || length(formals(tc_allItems0)) >= 0)
@@ -3559,12 +3606,42 @@ class(`tc_getAngle`) = c("SWIGFunction", class('tc_getAngle'))
       changeArrowHead0 = changeArrowHead0$address
     }
   }
-  .Call('R_swig_tc_Main_api_initialize', tc_allItems0, tc_selectedItems0, tc_itemsOfFamily0, tc_itemsOfFamily1, tc_find0, tc_findItems0, tc_select0, tc_deselect0, tc_getName0, tc_getUniqueName0, tc_setName0, tc_getNames0, tc_getUniqueNames0, tc_getFamily0, tc_isA0, tc_clearText, tc_outputText0, tc_errorReport0, tc_outputTable0, tc_printFile0, tc_removeItem0, tc_getY0, tc_getX0, tc_getPos0, tc_setPos0, tc_setPos1, tc_moveSelected0, tc_isWindows0, tc_isMac0, tc_isLinux0, tc_appDir0, tc_createInputWindow0, tc_createInputWindow1, createSliders, tc_addInputWindowOptions0, tc_addInputWindowCheckbox0, tc_openNewWindow0, tc_getChildren0, tc_getParent0, tc_getNumericalData0, tc_setNumericalData0, tc_getTextData0, tc_setTextData0, tc_getNumericalDataNames0, tc_getTextDataNames0, tc_zoom0, tc_getStringDialog0, getSelectedString, getNumber, getNumbers, getFilename, askQuestion, messageDialog, setSize0, getWidth0, getHeight0, setAngle0, getAngle0, getColor, setColor0, changeGraphics0, changeArrowHead0, PACKAGE='tinkercell')
+  if(is.function(screenshot)) {
+    assert('...' %in% names(formals(screenshot)) || length(formals(screenshot)) >= 0)
+  } else {
+    if(is.character(screenshot)) {
+      screenshot = getNativeSymbolInfo(screenshot)
+    }
+    if(is(screenshot, "NativeSymbolInfo")) {
+      screenshot = screenshot$address
+    }
+  }
+  if(is.function(screenHeight)) {
+    assert('...' %in% names(formals(screenHeight)) || length(formals(screenHeight)) >= 0)
+  } else {
+    if(is.character(screenHeight)) {
+      screenHeight = getNativeSymbolInfo(screenHeight)
+    }
+    if(is(screenHeight, "NativeSymbolInfo")) {
+      screenHeight = screenHeight$address
+    }
+  }
+  if(is.function(screenWidth)) {
+    assert('...' %in% names(formals(screenWidth)) || length(formals(screenWidth)) >= 0)
+  } else {
+    if(is.character(screenWidth)) {
+      screenWidth = getNativeSymbolInfo(screenWidth)
+    }
+    if(is(screenWidth, "NativeSymbolInfo")) {
+      screenWidth = screenWidth$address
+    }
+  }
+  .Call('R_swig_tc_Main_api_initialize', tc_allItems0, tc_selectedItems0, tc_itemsOfFamily0, tc_itemsOfFamily1, tc_find0, tc_findItems0, tc_select0, tc_deselect0, tc_getName0, tc_getUniqueName0, tc_setName0, tc_getNames0, tc_getUniqueNames0, tc_getFamily0, tc_isA0, tc_clearText, tc_outputText0, tc_errorReport0, tc_outputTable0, tc_printFile0, tc_removeItem0, tc_getY0, tc_getX0, tc_getPos0, tc_setPos0, tc_setPos1, tc_moveSelected0, tc_isWindows0, tc_isMac0, tc_isLinux0, tc_appDir0, tc_createInputWindow0, tc_createInputWindow1, createSliders, tc_addInputWindowOptions0, tc_addInputWindowCheckbox0, tc_openNewWindow0, tc_getChildren0, tc_getParent0, tc_getNumericalData0, tc_setNumericalData0, tc_getTextData0, tc_setTextData0, tc_getNumericalDataNames0, tc_getTextDataNames0, tc_zoom0, tc_getStringDialog0, getSelectedString, getNumber, getNumbers, getFilename, askQuestion, messageDialog, setSize0, getWidth0, getHeight0, setAngle0, getAngle0, getColor, setColor0, changeGraphics0, changeArrowHead0, screenshot, screenHeight, screenWidth, PACKAGE='tinkercell')
   
 }
 
 attr(`tc_Main_api_initialize`, 'returnType') = 'void'
-attr(`tc_Main_api_initialize`, "inputTypes") = c('_p_f___tc_items', '_p_f___tc_items', '_p_f_p_q_const__char__tc_items', '_p_f_p_q_const__char_tc_items__tc_items', '_p_f_p_q_const__char__long', '_p_f_tc_strings__tc_items', '_p_f_long__void', '_p_f___void', '_p_f_long__p_char', '_p_f_long__p_char', '_p_f_long_p_q_const__char__void', '_p_f_tc_items__tc_strings', '_p_f_tc_items__tc_strings', '_p_f_long__p_char', '_p_f_long_p_q_const__char__int', '_p_f___void', '_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void', '_p_f_tc_matrix__void', '_p_f_p_q_const__char__void', '_p_f_long__void', '_p_f_long__double', '_p_f_long__double', '_p_f_tc_items__tc_matrix', '_p_f_long_double_double__void', '_p_f_tc_items_tc_matrix__void', '_p_f_double_double__void', '_p_f___int', '_p_f___int', '_p_f___int', '_p_f___p_char', '_p_f_tc_matrix_p_q_const__char_p_q_const__char_p_q_const__char__void', '_p_f_tc_matrix_p_q_const__char_p_f_tc_matrix__void__void', '_p_f_long_tc_matrix_p_f_tc_matrix__void__void', '_p_f_p_q_const__char_int_int_tc_strings__void', '_p_f_p_q_const__char_int_int__void', '_p_f_p_q_const__char__void', '_p_f_long__tc_items', '_p_f_long__long', '_p_f_long_p_q_const__char__tc_matrix', '_p_f_long_p_q_const__char_tc_matrix__void', '_p_f_long_p_q_const__char__tc_table', '_p_f_long_p_q_const__char_tc_table__void', '_p_f_long__tc_strings', '_p_f_long__tc_strings', '_p_f_double__void', '_p_f_p_q_const__char__p_char', '_p_f_p_q_const__char_tc_strings_p_q_const__char__int', '_p_f_p_q_const__char__double', '_p_f_tc_strings_p_double__void', '_p_f___p_char', '_p_f_p_q_const__char__int', '_p_f_p_q_const__char__void', '_p_f_long_double_double_int__void', '_p_f_long__double', '_p_f_long__double', '_p_f_long_double_int__void', '_p_f_long__double', '_p_f_long__p_char', '_p_f_long_p_q_const__char_int__void', '_p_f_long_p_q_const__char__void', '_p_f_long_p_q_const__char__void')
+attr(`tc_Main_api_initialize`, "inputTypes") = c('_p_f___tc_items', '_p_f___tc_items', '_p_f_p_q_const__char__tc_items', '_p_f_p_q_const__char_tc_items__tc_items', '_p_f_p_q_const__char__long', '_p_f_tc_strings__tc_items', '_p_f_long__void', '_p_f___void', '_p_f_long__p_char', '_p_f_long__p_char', '_p_f_long_p_q_const__char__void', '_p_f_tc_items__tc_strings', '_p_f_tc_items__tc_strings', '_p_f_long__p_char', '_p_f_long_p_q_const__char__int', '_p_f___void', '_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void', '_p_f_tc_matrix__void', '_p_f_p_q_const__char__void', '_p_f_long__void', '_p_f_long__double', '_p_f_long__double', '_p_f_tc_items__tc_matrix', '_p_f_long_double_double__void', '_p_f_tc_items_tc_matrix__void', '_p_f_double_double__void', '_p_f___int', '_p_f___int', '_p_f___int', '_p_f___p_char', '_p_f_tc_matrix_p_q_const__char_p_q_const__char_p_q_const__char__void', '_p_f_tc_matrix_p_q_const__char_p_f_tc_matrix__void__void', '_p_f_long_tc_matrix_p_f_tc_matrix__void__void', '_p_f_p_q_const__char_int_int_tc_strings__void', '_p_f_p_q_const__char_int_int__void', '_p_f_p_q_const__char__void', '_p_f_long__tc_items', '_p_f_long__long', '_p_f_long_p_q_const__char__tc_matrix', '_p_f_long_p_q_const__char_tc_matrix__void', '_p_f_long_p_q_const__char__tc_table', '_p_f_long_p_q_const__char_tc_table__void', '_p_f_long__tc_strings', '_p_f_long__tc_strings', '_p_f_double__void', '_p_f_p_q_const__char__p_char', '_p_f_p_q_const__char_tc_strings_p_q_const__char__int', '_p_f_p_q_const__char__double', '_p_f_tc_strings_p_double__void', '_p_f___p_char', '_p_f_p_q_const__char__int', '_p_f_p_q_const__char__void', '_p_f_long_double_double_int__void', '_p_f_long__double', '_p_f_long__double', '_p_f_long_double_int__void', '_p_f_long__double', '_p_f_long__p_char', '_p_f_long_p_q_const__char_int__void', '_p_f_long_p_q_const__char__void', '_p_f_long_p_q_const__char__void', '_p_f_p_q_const__char_int_int__void', '_p_f___int', '_p_f___int')
 class(`tc_Main_api_initialize`) = c("SWIGFunction", class('tc_Main_api_initialize'))
 
 # Start of tc_showProgress
@@ -3740,9 +3817,9 @@ class(`tc_getParametersNamed`) = c("SWIGFunction", class('tc_getParametersNamed'
 
 # Start of tc_getParametersExcept
 
-`tc_getParametersExcept` = function(a, Modeling, .copy = FALSE)
+`tc_getParametersExcept` = function(a, attributes, .copy = FALSE)
 {
-  ans = .Call('R_swig_tc_getParametersExcept', a, Modeling, as.logical(.copy), PACKAGE='tinkercell')
+  ans = .Call('R_swig_tc_getParametersExcept', a, attributes, as.logical(.copy), PACKAGE='tinkercell')
   class(ans) <- "_p_tc_matrix"
   
   ans
@@ -3755,9 +3832,9 @@ class(`tc_getParametersExcept`) = c("SWIGFunction", class('tc_getParametersExcep
 
 # Start of tc_getAllTextNamed
 
-`tc_getAllTextNamed` = function(a, Modeling, .copy = FALSE)
+`tc_getAllTextNamed` = function(a, attributes, .copy = FALSE)
 {
-  ans = .Call('R_swig_tc_getAllTextNamed', a, Modeling, as.logical(.copy), PACKAGE='tinkercell')
+  ans = .Call('R_swig_tc_getAllTextNamed', a, attributes, as.logical(.copy), PACKAGE='tinkercell')
   class(ans) <- "_p_tc_strings"
   
   ans
@@ -4915,6 +4992,49 @@ attr(`tc_callWhenExiting`, 'returnType') = 'void'
 attr(`tc_callWhenExiting`, "inputTypes") = c('_p_f_void__void')
 class(`tc_callWhenExiting`) = c("SWIGFunction", class('tc_callWhenExiting'))
 
+# Start of tc_runOctaveCode
+
+`tc_runOctaveCode` = function(code)
+{
+  code = as(code, "character") 
+  .Call('R_swig_tc_runOctaveCode', code, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_runOctaveCode`, 'returnType') = 'void'
+attr(`tc_runOctaveCode`, "inputTypes") = c('character')
+class(`tc_runOctaveCode`) = c("SWIGFunction", class('tc_runOctaveCode'))
+
+# Start of tc_runOctaveFile
+
+`tc_runOctaveFile` = function(filename)
+{
+  filename = as(filename, "character") 
+  .Call('R_swig_tc_runOctaveFile', filename, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_runOctaveFile`, 'returnType') = 'void'
+attr(`tc_runOctaveFile`, "inputTypes") = c('character')
+class(`tc_runOctaveFile`) = c("SWIGFunction", class('tc_runOctaveFile'))
+
+# Start of tc_addOctavePlugin
+
+`tc_addOctavePlugin` = function(file, name, description, category, icon)
+{
+  file = as(file, "character") 
+  name = as(name, "character") 
+  description = as(description, "character") 
+  category = as(category, "character") 
+  icon = as(icon, "character") 
+  .Call('R_swig_tc_addOctavePlugin', file, name, description, category, icon, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_addOctavePlugin`, 'returnType') = 'void'
+attr(`tc_addOctavePlugin`, "inputTypes") = c('character', 'character', 'character', 'character', 'character')
+class(`tc_addOctavePlugin`) = c("SWIGFunction", class('tc_addOctavePlugin'))
+
 # Start of tc_DynamicLibraryMenu_api
 
 `tc_DynamicLibraryMenu_api` = function(callFunction)
@@ -5063,7 +5183,7 @@ class(`tc_PythonTool_api`) = c("SWIGFunction", class('tc_PythonTool_api'))
 
 # Start of tc_OctaveTool_api
 
-`tc_OctaveTool_api` = function(runOctaveCode, runPythonFile, addOctavePlugin)
+`tc_OctaveTool_api` = function(runOctaveCode, runOctaveFile, addOctavePlugin)
 {
   if(is.function(runOctaveCode)) {
     assert('...' %in% names(formals(runOctaveCode)) || length(formals(runOctaveCode)) >= 0)
@@ -5075,14 +5195,14 @@ class(`tc_PythonTool_api`) = c("SWIGFunction", class('tc_PythonTool_api'))
       runOctaveCode = runOctaveCode$address
     }
   }
-  if(is.function(runPythonFile)) {
-    assert('...' %in% names(formals(runPythonFile)) || length(formals(runPythonFile)) >= 0)
+  if(is.function(runOctaveFile)) {
+    assert('...' %in% names(formals(runOctaveFile)) || length(formals(runOctaveFile)) >= 0)
   } else {
-    if(is.character(runPythonFile)) {
-      runPythonFile = getNativeSymbolInfo(runPythonFile)
+    if(is.character(runOctaveFile)) {
+      runOctaveFile = getNativeSymbolInfo(runOctaveFile)
     }
-    if(is(runPythonFile, "NativeSymbolInfo")) {
-      runPythonFile = runPythonFile$address
+    if(is(runOctaveFile, "NativeSymbolInfo")) {
+      runOctaveFile = runOctaveFile$address
     }
   }
   if(is.function(addOctavePlugin)) {
@@ -5095,7 +5215,7 @@ class(`tc_PythonTool_api`) = c("SWIGFunction", class('tc_PythonTool_api'))
       addOctavePlugin = addOctavePlugin$address
     }
   }
-  .Call('R_swig_tc_OctaveTool_api', runOctaveCode, runPythonFile, addOctavePlugin, PACKAGE='tinkercell')
+  .Call('R_swig_tc_OctaveTool_api', runOctaveCode, runOctaveFile, addOctavePlugin, PACKAGE='tinkercell')
   
 }
 
@@ -5226,9 +5346,22 @@ attr(`tc_gnuplot`, 'returnType') = 'void'
 attr(`tc_gnuplot`, "inputTypes") = c('character')
 class(`tc_gnuplot`) = c("SWIGFunction", class('tc_gnuplot'))
 
+# Start of tc_savePlot
+
+`tc_savePlot` = function(filename)
+{
+  filename = as(filename, "character") 
+  .Call('R_swig_tc_savePlot', filename, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_savePlot`, 'returnType') = 'void'
+attr(`tc_savePlot`, "inputTypes") = c('character')
+class(`tc_savePlot`) = c("SWIGFunction", class('tc_savePlot'))
+
 # Start of tc_PlotTool_api
 
-`tc_PlotTool_api` = function(plot, surface, hist, errorBars, scatterplot, multiplot, plotData, gnuplot)
+`tc_PlotTool_api` = function(plot, surface, hist, errorBars, scatterplot, multiplot, plotData, gnuplot, savePlotImage)
 {
   if(is.function(plot)) {
     assert('...' %in% names(formals(plot)) || length(formals(plot)) >= 2)
@@ -5310,12 +5443,22 @@ class(`tc_gnuplot`) = c("SWIGFunction", class('tc_gnuplot'))
       gnuplot = gnuplot$address
     }
   }
-  .Call('R_swig_tc_PlotTool_api', plot, surface, hist, errorBars, scatterplot, multiplot, plotData, gnuplot, PACKAGE='tinkercell')
+  if(is.function(savePlotImage)) {
+    assert('...' %in% names(formals(savePlotImage)) || length(formals(savePlotImage)) >= 0)
+  } else {
+    if(is.character(savePlotImage)) {
+      savePlotImage = getNativeSymbolInfo(savePlotImage)
+    }
+    if(is(savePlotImage, "NativeSymbolInfo")) {
+      savePlotImage = savePlotImage$address
+    }
+  }
+  .Call('R_swig_tc_PlotTool_api', plot, surface, hist, errorBars, scatterplot, multiplot, plotData, gnuplot, savePlotImage, PACKAGE='tinkercell')
   
 }
 
 attr(`tc_PlotTool_api`, 'returnType') = 'void'
-attr(`tc_PlotTool_api`, "inputTypes") = c('_p_f_tc_matrix_p_q_const__char__void', '_p_f_tc_matrix_p_q_const__char__void', '_p_f_tc_matrix_p_q_const__char__void', '_p_f_tc_matrix_p_q_const__char__void', '_p_f_tc_matrix_p_q_const__char__void', '_p_f_int_int__void', '_p_f_int__tc_matrix', '_p_f_p_q_const__char__void')
+attr(`tc_PlotTool_api`, "inputTypes") = c('_p_f_tc_matrix_p_q_const__char__void', '_p_f_tc_matrix_p_q_const__char__void', '_p_f_tc_matrix_p_q_const__char__void', '_p_f_tc_matrix_p_q_const__char__void', '_p_f_tc_matrix_p_q_const__char__void', '_p_f_int_int__void', '_p_f_int__tc_matrix', '_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void')
 class(`tc_PlotTool_api`) = c("SWIGFunction", class('tc_PlotTool_api'))
 
 # Start of tc_writeModel
@@ -5470,7 +5613,7 @@ class(`tc_getForcingFunctionAssignments`) = c("SWIGFunction", class('tc_getForci
 
 # Start of tc_addForcingFunction
 
-`tc_addForcingFunction` = function(item, functionName, assignmentRule)
+`tc_addForcingFunction` = function(item, variable, formula)
 {
   item = as.integer(item) 
   
@@ -5478,9 +5621,9 @@ class(`tc_getForcingFunctionAssignments`) = c("SWIGFunction", class('tc_getForci
     warning("using only the first element of item")
   }
   
-  functionName = as(functionName, "character") 
-  assignmentRule = as(assignmentRule, "character") 
-  .Call('R_swig_tc_addForcingFunction', item, functionName, assignmentRule, PACKAGE='tinkercell')
+  variable = as(variable, "character") 
+  formula = as(formula, "character") 
+  .Call('R_swig_tc_addForcingFunction', item, variable, formula, PACKAGE='tinkercell')
   
 }
 

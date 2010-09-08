@@ -96,6 +96,8 @@ namespace Tinkercell
 		connect(&fToS,SIGNAL(getDataTable(QSemaphore*,DataTable<qreal>*, int)), this, SLOT(getData(QSemaphore*, DataTable<qreal>*,int)));
 		
 		connect(&fToS,SIGNAL(gnuplot(QSemaphore*,const QString&)), this, SLOT(gnuplot(QSemaphore*,const QString&)));
+		
+		connect(&fToS,SIGNAL(savePlotImage(QSemaphore*,int, const QString&)), this, SLOT(savePlotImage(QSemaphore*,int, const QString&)));
 	}
 
 	QSize PlotTool::sizeHint() const
@@ -377,6 +379,18 @@ namespace Tinkercell
 			s->release();
 	}
 	
+	void PlotTool::savePlotImage(QSemaphore * s, const QString& file)
+	{
+		QMdiSubWindow * subwindow = multiplePlotsArea->currentSubWindow();
+		if (subwindow && subwindow->widget())
+		{
+			PlotWidget * plotWidget = static_cast<PlotWidget*>(subwindow->widget());
+			plotWidget->exportData(tr("save graph"),file);
+		}
+		if (s)
+			s->release();
+	}
+	
 	void PlotTool::gnuplot(QSemaphore * s, const QString& script)
 	{
 		emit gnuplot(script);
@@ -466,7 +480,8 @@ namespace Tinkercell
 		void (*scatterplot)(tc_matrix data,const char* title) ,
 		void (*multiplot)(int,int),
 		tc_matrix (*plotData)(int),
-		void (*gnuplot)(const char*)
+		void (*gnuplot)(const char*),
+		void (*savePlotImage)(const char*)
 	);
 
     void PlotTool::setupFunctionPointers( QLibrary * library )
@@ -482,7 +497,8 @@ namespace Tinkercell
 				&(plotScatterC),
 				&(plotMultiplotC),
 				&(getDataMatrix),
-				&(_gnuplot)
+				&(_gnuplot),
+				&(_savePlotImage)
 			);
 		}
     }
@@ -559,7 +575,13 @@ namespace Tinkercell
 		if (subwindow && subwindow->widget())
 		{
 			PlotWidget * plotWidget = static_cast<PlotWidget*>(subwindow->widget());
-			plotWidget->exportData(type);
+			QString fileName;
+			if (type.toLower() == tr("save graph"))
+				fileName = QFileDialog::getSaveFileName(this, tr("Print to File"),
+                                          MainWindow::previousFileName,
+                                          tr("PNG Files (*.png)"));
+
+			plotWidget->exportData(type,fileName);
 		}
 	}
 
@@ -717,6 +739,17 @@ namespace Tinkercell
 		delete s;
 	}
 	
+	void PlotTool_FtoS::savePlotImage(const char * c)
+	{
+		QSemaphore * s = new QSemaphore(1);
+		s->acquire();
+		emit savePlotImage(s,QString(c));
+		s->acquire();
+		s->release();
+		delete s;
+	}
+
+	
 	void PlotTool::plotMatrix(tc_matrix m, const char* title)
 	{
 		int x = 0, all = 1;
@@ -760,6 +793,11 @@ namespace Tinkercell
 		return fToS.gnuplot(s);
 	}
 	
+	void PlotTool::_savePlotImage(const char* s)
+	{
+		return fToS.savePlotImage(s);
+	}
+	
 	PlotTool_FtoS PlotTool::fToS;
-
 }
+

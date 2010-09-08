@@ -6,12 +6,14 @@ BEGIN_C_DECLS
 
 /*! 
  \brief write the ODE, stoichiometry, and rates functions to a file
+ \param string output filename
+ \param tc_items items to include in the model. use tc_allItems for the whole model
  \ingroup Programming
 */
 TCAPIEXPORT int tc_writeModel(const char* file, tc_items items);
 
 /*! 
- \brief initialize model generator functions
+ \brief initialize model generator plug-in
  \ingroup init
 */
 TCAPIEXPORT void tc_ModelFileGenerator_api(

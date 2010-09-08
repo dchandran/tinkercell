@@ -27,7 +27,7 @@
 
 BEGIN_C_DECLS
 
-/*!\brief An array of strings with length information. Use tc_getString(M,i) to get the i-th string.*/
+/*!\brief An array of strings with length information. Use tc_getString(M,i) to get the i-th string*/
 typedef struct
 {
 	int length;
@@ -62,70 +62,174 @@ typedef struct
 	tc_strings colnames;
 } tc_table;
 
-/*!\brief Create a matrix with the given rows and columns*/
+/*!\brief Create a matrix with the given rows and columns
+ \param int number of rows
+ \param int number of columns
+  \return tc_matrix
+ \ingroup Basic
+*/
 TCAPIEXPORT tc_matrix tc_createMatrix(int rows, int cols);
 
-/*!\brief Create a strings table with the given rows and columns*/
+/*!\brief Create a strings table with the given rows and columns
+ \param int number of rows
+ \param int number of columns
+  \return tc_table
+ \ingroup Basic
+*/
 TCAPIEXPORT tc_table tc_createTable(int rows, int cols);
 
-/*!\brief Create an array of strings*/
+/*!\brief Create an array of strings
+ \param int length
+ \return tc_strings
+ \ingroup Basic
+*/
 TCAPIEXPORT tc_strings tc_createStringsArray(int len);
 
-/*!\brief Create an array of items*/
+/*!\brief Create an array of items
+ \param int number of items
+ \return tc_items
+ \ingroup Basic
+*/
 TCAPIEXPORT tc_items tc_createItemsArray(int len);
 
-/*!\brief get i,jth value from a tc_matrix*/
+/*!\brief get i,jth value from a tc_matrix
+ \param tc_matrix matrix
+ \param int row
+ \param int column
+ \return double value at the given row, column
+ \ingroup Basic
+*/
 TCAPIEXPORT double tc_getMatrixValue(tc_matrix M, int i, int j);
 
-/*!\brief set i,jth value of a tc_matrix*/
+/*!\brief set i,jth value of a tc_matrix
+ \param tc_matrix matrix
+ \param int row
+ \param int column
+ \param double value at the given row, column
+ \ingroup Basic
+*/
 TCAPIEXPORT void tc_setMatrixValue(tc_matrix M, int i, int j, double d);
 
-/*!\brief get ith row name from a tc_matrix*/
+/*!\brief get ith row name from a tc_matrix
+ \param tc_matrix matrix
+ \param int row
+ \return string row name
+ \ingroup Basic
+*/
 TCAPIEXPORT const char * tc_getRowName(tc_matrix M, int i);
 
-/*!\brief set ith row name for a tc_matrix*/
+/*!\brief set ith row name for a tc_matrix
+ \param tc_matrix matrix
+ \param int row
+ \param string row name
+ \ingroup Basic
+*/
 TCAPIEXPORT void tc_setRowName(tc_matrix M, int i, const char * s);
 
-/*!\brief get jth column name of a tc_matrix*/
+/*!\brief get jth column name of a tc_matrix
+ \param tc_matrix matrix
+ \param int column
+ \return string column name
+ \ingroup Basic
+*/
 TCAPIEXPORT const char * tc_getColumnName(tc_matrix M, int j);
 
-/*!\brief set jth column name of a tc_matrix*/
+/*!\brief set jth column name of a tc_matrix
+ \param tc_matrix matrix
+ \param int column
+ \param string column name
+ \ingroup Basic
+*/
 TCAPIEXPORT void tc_setColumnName(tc_matrix M, int j, const char * s);
 
-/*!\brief get i,j-th string in a table*/
+/*!\brief get i,j-th string in a table
+ \param tc_table table
+ \param int row
+ \param int column
+ \return string value at row,column
+ \ingroup Basic
+*/
 TCAPIEXPORT const char* tc_getTableValue(tc_table S, int i, int j);
 
-/*!\brief set i,jth string in a table*/
+/*!\brief set i,jth string in a table
+ \param tc_table table
+ \param int row
+ \param int column
+ \param string value at row,column
+ \ingroup Basic
+*/
 TCAPIEXPORT void tc_setTableValue(tc_table S, int i, int j, const char * s);
 
-/*!\brief get ith string in array of strings*/
+/*!\brief get ith string in array of strings
+ \param tc_strings array
+ \param int index
+ \return string value
+ \ingroup Basic
+*/
 TCAPIEXPORT const char* tc_getString(tc_strings S, int i);
 
-/*!\brief set ith string in array of strings*/
+/*!\brief set ith string in array of strings
+ \param tc_strings array
+ \param int index
+ \param string value
+ \ingroup Basic
+*/
 TCAPIEXPORT void tc_setString(tc_strings S, int i, const char * c);
 
-/*!\brief get ith long item in array of items*/
+/*!\brief get ith long item in array of items
+\param tc_items array
+ \param int index
+ \return long value
+ \ingroup Basic
+*/
 TCAPIEXPORT long tc_getItem(tc_items A, int i);
 
-/*!\brief set ith long item in array of items*/
+/*!\brief set ith long item in array of items
+ \param tc_items array
+ \param int index
+ \param long value
+ \ingroup Basic
+*/
 TCAPIEXPORT void tc_setItem(tc_items A, int i, long o);
 
-/*!\brief delete a matrix*/
+/*!\brief delete a matrix
+ \param &tc_matrix pointer to matrix
+ \ingroup Basic
+*/
 TCAPIEXPORT void tc_deleteMatrix(tc_matrix *M);
 
-/*!\brief delete a strings table*/
+/*!\brief delete a strings table
+ \param &tc_table pointer to table
+ \ingroup Basic
+*/
 TCAPIEXPORT void tc_deleteTable(tc_table *M);
 
-/*!\brief delete an array */
+/*!\brief delete an array of items
+ \param &tc_items pointer to array
+ \ingroup Basic
+*/
 TCAPIEXPORT void tc_deleteItemsArray(tc_items *A);
 
-/*!\brief delete an array */
+/*!\brief delete an array of strings
+ \param &tc_strings pointer to array
+ \ingroup Basic
+*/
 TCAPIEXPORT void tc_deleteStringsArray(tc_strings *C);
 
-/*!\brief combine two matrices by appending their columns. row size must be equal for both matrices*/
+/*!\brief combine two matrices by appending their columns. row size must be equal for both matrices
+ \param tc_matrix first matrix
+ \param tc_matrix fsecond matrix
+ \return tc_matrix new combined matrix
+ \ingroup Basic
+*/
 TCAPIEXPORT tc_matrix tc_appendColumns(tc_matrix A, tc_matrix B);
 
-/*!\brief combine two matrices by appending their row. column sizes must be equal for both matrices*/
+/*!\brief combine two matrices by appending their row. column sizes must be equal for both matrices
+ \param tc_matrix first matrix
+ \param tc_matrix fsecond matrix
+ \return tc_matrix new combined matrix
+ \ingroup Basic
+*/
 TCAPIEXPORT tc_matrix tc_appendRows(tc_matrix A, tc_matrix B);
 
 END_C_DECLS

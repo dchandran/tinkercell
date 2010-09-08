@@ -341,7 +341,7 @@ specific for:\n\"\"\"\n\n") + text;
 
 		QSplitter * splitter = new QSplitter(Qt::Horizontal);
         splitter->addWidget(editorWidget);
-        splitter->addWidget(new TCFunctionsListView(mainWindow, appDir + tr("/c/API"), editor));
+        splitter->addWidget(new TCFunctionsListView(mainWindow, appDir + tr("/c"), editor));
         splitter->setStretchFactor(0,2);
 
         window->setCentralWidget(splitter);

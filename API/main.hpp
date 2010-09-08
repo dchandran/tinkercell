@@ -64,6 +64,9 @@ The API uses <b>six main data structures</b>:
 \endcode
 */
 
+/*! \defgroup Basic Basic operations
+\brief basic functions for getting and setting matrices, arrays, tables, etc.*/
+
 /*! \defgroup Appearance Appearance
 \brief get/set position, color, size, etc*/
 

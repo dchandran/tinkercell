@@ -226,20 +226,17 @@ Each Tool can choose to create instances of Tool::GraphicsItem and place them on
 
 The ConsoleWindow class provides a generic framework for Tools to receive command-line input as well as display messages or execute commands. Each tool can access the ConsoleWindow using console() or mainWindow->console(). For example:
 
- if (console())
-    console()->message("hello world");    //print a message on the console window
- if (console())
-    console()->error("incorrect response");  //print an error message on the console window
- if (console())
-    console()->eval("print 1+2");  //evaluate this expression (only runs if a plugin such as python plugin is available)
- DataTable<double> data;
- //fill in data
- if (console())
-    console()->printTable(data); //print a table (tab-delimited)
-
 Tools can also interact with the user by connecting to the ConsoleWindow's commandExecuted signal. This signal is emitted whenever the user pressed <return> after entering a text at the command prompt. The Tools can process the string and carry out necessary operations. 
 
 /code
+	if (console())
+		console()->message("hello world");    //print a message on the console window
+	console()->error("incorrect response");  //print an error message on the console window
+	console()->eval("print 1+2");  //evaluate this expression (only runs if a plugin such as python plugin is available)
+	
+	DataTable<double> data;
+	console()->printTable(data); //print a table (tab-delimited)
+
 	ConsoleWindow * console = console();
 	if (console)
 	{

@@ -74,10 +74,6 @@ namespace Tinkercell
 		addExportOption(QIcon(tr(":/images/new.png")),tr("Text"),tr("Show the data table"));
 		addExportOption(QIcon(tr(":/images/latex.png")),tr("LaTeX"),tr("Export data to LaTeX"));
 		addExportOption(QIcon(tr(":/images/copy.png")),tr("Clipboard"),tr("Copy data to clipboard"));
-		QAction * action = functionsWidgetDock->toggleViewAction();
-		action->setIcon(QIcon(tr(":/images/function.png")));
-		action->setToolTip(tr("Plot one or more formulas"));
-		toolBar.addAction(action);
 
 		//C interface
 		connect(&fToS,SIGNAL(plotDataTable(QSemaphore*,DataTable<qreal>&, int, const QString& , int)),

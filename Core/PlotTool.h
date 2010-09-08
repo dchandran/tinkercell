@@ -171,7 +171,7 @@ namespace Tinkercell
 
 	private:
 
-		QDockWidget* dockWidget, *functionsWidgetDock;
+		QDockWidget* dockWidget;
 		QMainWindow * window;
 		QMdiArea * multiplePlotsArea;
 		QPlainTextEdit functionsTextEdit;

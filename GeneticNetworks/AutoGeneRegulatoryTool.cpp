@@ -1506,7 +1506,8 @@ namespace Tinkercell
 
 	QUndoCommand * AutoGeneRegulatoryTool::adjustPlasmid(GraphicsScene * scene, NodeGraphicsItem * vector, bool align)
 	{
-		if (!vector || !scene) return 0;
+		QList<QUndoCommand*> commands;
+		if (!vector || !scene) return new CompositeCommand(tr("plasmid adjusted"),commands);
 
 		ItemHandle * vectorHandle = vector->handle();
 		ItemHandle * handle = 0;
@@ -1543,7 +1544,7 @@ namespace Tinkercell
 			}
 
 		if (!children.isEmpty())
-			scene->network->setParentHandle(children, parents);
+			commands << new SetParentHandleCommand(tr("parents set"), scene->network, children, parents);
 
 		existingChildren = vectorHandle->children;
 		QList<QGraphicsItem*> nodesInPlasmid;
@@ -1609,10 +1610,10 @@ namespace Tinkercell
 		  			p3.rx() = p2.x() + 100.0 - vector->boundaryControlPoints[1]->scenePos().x();
 				
 				dist << p3;
-				return new MoveCommand(scene,controls,dist);
+				commands << new MoveCommand(scene,controls,dist);
 			}
 		}
-		return 0;
+		return new CompositeCommand(tr("plasmid adjusted"),commands);
 	}
 
 	/*****************************************

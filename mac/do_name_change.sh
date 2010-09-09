@@ -12,13 +12,13 @@ CPLUGINFILES='plugins/c/*.dylib'
 cp -R plugins Tinkercell.app/Contents/MacOS/
 mkdir Tinkercell.app/Contents/MacOS/c
 mkdir Tinkercell.app/Contents/MacOS/lib
-cp -R ../../c/API Tinkercell.app/Contents/MacOS/c
-cp ../../c/*.h Tinkercell.app/Contents/MacOS/
-cp -R ../../Main/tinkercell.qss Tinkercell.app/Contents/MacOS/
-cp -R ../../c/icons/*.png Tinkercell.app/Contents/MacOS/plugins/c
-cp -R ../../c/icons/*.PNG Tinkercell.app/Contents/MacOS/plugins/c
-cp plugins/c/lib*.a Tinkercell.app/Contents/MacOS/lib
-cp lib*.a Tinkercell.app/Contents/MacOS/lib
+cp ../../API/*.h Tinkercell.app/Contents/MacOS/c
+cp ../../c/*.h Tinkercell.app/Contents/MacOS/c/
+cp ../../Main/tinkercell.qss Tinkercell.app/Contents/MacOS/
+cp ../../c/icons/*.png Tinkercell.app/Contents/MacOS/plugins/c/
+cp ../../c/icons/*.PNG Tinkercell.app/Contents/MacOS/plugins/c/
+cp plugins/c/.a Tinkercell.app/Contents/MacOS/lib/
+cp lib*.a Tinkercell.app/Contents/MacOS/
 cp -R ../../ArrowItems Tinkercell.app/Contents/MacOS/
 cp -R ../../NodeItems Tinkercell.app/Contents/MacOS/
 cp -R ../../DecoratorItems Tinkercell.app/Contents/MacOS/

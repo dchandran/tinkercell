@@ -40,7 +40,6 @@ namespace Tinkercell
 		mRNAstep("Add mRNA stage",this),
 		autoPhosphate("Insert phosphate",this)
 	{
-		justAdjustedPlasmid = false;
 		separator = 0;
 		doAssignment = true;
 		setPalette(QPalette(QColor(255,255,255,255)));
@@ -567,17 +566,18 @@ namespace Tinkercell
 		}
 	}
 
-	void AutoGeneRegulatoryTool::autoAssignRates(QList<NodeHandle*>& parts)
+	QUndoCommand * AutoGeneRegulatoryTool::autoAssignRates(QList<NodeHandle*>& parts)
 	{
+		QUndoCommand * command = 0;
 		GraphicsScene * scene = currentScene();
-		if (!scene || !mainWindow || parts.isEmpty()) return;
+		if (!scene || !mainWindow || parts.isEmpty()) return command;
 
 		ItemHandle * rbs = 0, * promoter = 0;
 		QString rate, s0;
 
 		QList<ItemHandle*> targetHandles;
 		QList<QString> hashStrings;
-		QList<DataTable<QString>*> dataTables;
+		QList<DataTable<QString>*> oldDataTables, newDataTables;
 		
 		QList<ConnectionHandle*> regulations, connections;
 		QList<NodeHandle*> activators, repressors, nodes;
@@ -656,9 +656,8 @@ namespace Tinkercell
 								//rate += promoter->fullName();
 								rate += hillEquation(regulations, activators, repressors);
 								sDat->value(0,0) = rate;
-								targetHandles += connections[j];
-								hashStrings += tr("Rate equations");
-								dataTables += sDat;
+								oldDataTables += &(connections[j]->data->textData[tr("Rate equations")]);
+								newDataTables += sDat;
 							}
 
 
@@ -670,11 +669,10 @@ namespace Tinkercell
 								{
 									s = rbs->fullName() + tr(".strength * ") + sDat->value(tr("translation"),0);
 									sDat->value(tr("translation"),0) = s;
-									if (!dataTables.contains(sDat))
+									if (!newDataTables.contains(sDat))
 									{
-										targetHandles += connections[j];
-										hashStrings += tr("Rate equations");
-										dataTables += sDat;
+										oldDataTables += &(connections[j]->data->textData[tr("Rate equations")]);
+										newDataTables += sDat;
 									}
 								}
 							}
@@ -707,9 +705,8 @@ namespace Tinkercell
 													if (!sDat2->value(0,0).contains(rbs->fullName()))
 													{
 														sDat2->value(0,0) = s;
-														targetHandles += connections2[l];
-														hashStrings += tr("Rate equations");
-														dataTables += sDat2;
+														oldDataTables += &(connections[j]->data->textData[tr("Rate equations")]);
+														newDataTables += sDat2;
 													}
 													else
 														delete sDat2;
@@ -729,14 +726,16 @@ namespace Tinkercell
 			}
 		}
 
-		if (dataTables.size() > 0)
+		if (newDataTables.size() > 0)
 		{
-			scene->network->changeData(tr("gene regulation kinetics changed"),targetHandles,hashStrings,dataTables);
-		}
+			command = new ChangeTextDataCommand(tr("gene regulation kinetics changed"),oldDataTables,newDataTables);
 
-		for (int i=0; i < dataTables.size(); ++i)
-			if (dataTables[i])
-				delete dataTables[i];
+			for (int i=0; i < newDataTables.size(); ++i)
+				if (newDataTables[i])
+					delete newDataTables[i];
+		}
+		
+		return command;
 	}
 
 	bool AutoGeneRegulatoryTool::setMainWindow(MainWindow * main)
@@ -748,16 +747,10 @@ namespace Tinkercell
 			connect(this,SIGNAL(dataChanged(const QList<ItemHandle*>&)),
 					mainWindow,SIGNAL(dataChanged(const QList<ItemHandle*>&)));
 
-			connect(this,SIGNAL(itemsInsertedSignal(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)),
-						mainWindow,SIGNAL(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)));
+			connect(mainWindow,SIGNAL(itemsAboutToBeInserted(GraphicsScene *, QList<QGraphicsItem*>&, QList<ItemHandle*>&, QList<QUndoCommand*>&)),
+					this,SLOT(itemsAboutToBeInserted(GraphicsScene *, QList<QGraphicsItem*>&, QList<ItemHandle*>&, QList<QUndoCommand*>&)));
 
-			connect(mainWindow,SIGNAL(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)),
-					this,SLOT(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)));
-
-			connect(mainWindow,SIGNAL(itemsInserted(NetworkHandle*,const QList<ItemHandle*>&)),
-					  this, SLOT(itemsInserted(NetworkHandle*,const QList<ItemHandle*>&)));
-
-            connect(mainWindow,SIGNAL(itemsAboutToBeRemoved(GraphicsScene*,QList<QGraphicsItem*>&,QList<ItemHandle*>&,QList<QUndoCommand*>&)),
+			connect(mainWindow,SIGNAL(itemsAboutToBeRemoved(GraphicsScene*,QList<QGraphicsItem*>&,QList<ItemHandle*>&,QList<QUndoCommand*>&)),
                           this, SLOT(itemsRemoved(GraphicsScene*,QList<QGraphicsItem*>&, QList<ItemHandle*>&,QList<QUndoCommand*>&)));
 
 			connect(mainWindow,SIGNAL(itemsAboutToBeMoved(GraphicsScene*, QList<QGraphicsItem*>&, QList<QPointF>&, QList<QUndoCommand*>&)),
@@ -831,13 +824,11 @@ namespace Tinkercell
 
 		ItemHandle * handle = item->handle();
 
-		if (!justAdjustedPlasmid && handle && handle->isA(tr("Vector")))
+		if (handle && handle->isA(tr("Vector")))
 		{
-			adjustPlasmid(scene,item);
+			scene->network->push(adjustPlasmid(scene,item));
 			return;
 		}
-
-		justAdjustedPlasmid = false;
 
 		bool partCollided = false;
 
@@ -910,7 +901,7 @@ namespace Tinkercell
 		}
 	}
 
-	void AutoGeneRegulatoryTool::itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>& items, const QList<ItemHandle*>& )
+	void AutoGeneRegulatoryTool::itemsAboutToBeInserted(GraphicsScene * scene, QList<QGraphicsItem*>& items, QList<ItemHandle*>& handle, QList<QUndoCommand*>& commands)
 	{
 		QGraphicsItem * item = 0;
 		NodeGraphicsItem * node = 0;
@@ -939,97 +930,7 @@ namespace Tinkercell
 					item = items[i];
 			}
 		}
-/*
-		if (item)
-		{
-			ItemHandle * handle = getHandle(item);
-			if (handle && !handle->tools.contains(this) && handle->isA(tr("Coding")))// && handle->isA(tr("promoter")))
-			{
-				handle->tools += this;
-				scene->selected().clear();
-				scene->selected() += item;
-				autoGeneProductTriggered();
-			}
-		}
-*/
-
 	}
-
-	void AutoGeneRegulatoryTool::itemsInserted(NetworkHandle* network, const QList<ItemHandle*>& handles0)
-	{
-		if (!network) return;
-
-		QList<ItemHandle*> handles;
-
-/*
-		for (int i=0; i < handles0.size(); ++i)
-			if (handles0[i])
-			{
-				if (ConnectionHandle::cast(handles0[i]))
-				{
-					QList<NodeHandle*> nodes = (ConnectionHandle::cast(handles0[i]))->nodes();
-					for (int j=0; j < nodes.size(); ++j)
-						if (nodes[j]->isA(tr("Part")) && !nodes[j]->isA(tr("Vector"))  && !handles.contains(nodes[j]) && !handles0.contains(nodes[j]))
-						{
-							handles += nodes[j];
-						}
-
-				}
-			}
-*/
-
-		QList<ItemHandle*> parts, upstream;
-		QList<NodeHandle*> parts2;
-
-		for (int i=0; i < handles.size(); ++i)
-		{
-			if (!handles[i]) continue;
-
-			NodeGraphicsItem * startNode = 0;
-
-			QList<NodeHandle*> parts2;
-
-			for (int j=0; j < handles[i]->graphicsItems.size(); ++j)
-			{
-				startNode = NodeGraphicsItem::topLevelNodeItem(handles[i]->graphicsItems[j]);
-				if (startNode)
-					break;
-			}
-
-			ItemHandle * handle = getHandle(startNode);
-			if (!startNode || !handle) continue;
-
-			findAllParts(network->currentScene(),startNode,tr("Part"),parts,false,QStringList() << "Terminator" << "Vector" ,true);
-			findAllParts(network->currentScene(),startNode,tr("Part"),upstream,true,QStringList() << "Terminator" << "Vector",true);
-
-			if (!parts.contains(handle))
-				parts.push_front(handle);
-
-			while (!upstream.isEmpty())
-			{
-				parts.push_front(upstream.first());
-				upstream.pop_front();
-			}
-
-			QList<NodeHandle*> parts3;
-
-			for (int j=0; j < parts.size(); ++j)
-			{
-				NodeHandle * node = NodeHandle::cast(parts[j]);
-				if (node && !parts2.contains(node) && !handles0.contains(node))
-				{
-					parts2 += node;
-					parts3 += node;
-				}
-			}
-
-			if (!parts3.isEmpty())
-			{
-				autoAssignRates(parts3);
-			}
-		}
-	}
-
 	void AutoGeneRegulatoryTool::itemsMoved(GraphicsScene* scene, QList<QGraphicsItem*>& items, QList<QPointF>& distance, QList<QUndoCommand*>& commands)
 	{
 		if (!scene) return;
@@ -1113,8 +1014,6 @@ namespace Tinkercell
 								QString s = connections[j]->fullName() + tr(" rate = 0.0");
 								
 								commands << new ChangeTextDataCommand(s,&(connections[j]->textDataTable(tr("Rate equations"))),&newRates);
-								//if (console())
-									//console()->message(s);
 							}
 						}
 					}
@@ -1122,29 +1021,24 @@ namespace Tinkercell
 			}
 		}
 		
-		if (!justAdjustedPlasmid)
+		ItemHandle * h = 0;
+
+		for (int i=0; i < items.size(); ++i)
 		{
-			ItemHandle * h = 0;
+			h = getHandle(items[i]);
 
-			for (int i=0; i < items.size(); ++i)
+			if (h && h->isA(tr("Vector")))
 			{
-				h = getHandle(items[i]);
-
-				if (h && h->isA(tr("Vector")))
-				{
-					for (int j=0; j < h->graphicsItems.size(); ++j)
-						adjustPlasmid(scene,NodeGraphicsItem::cast(h->graphicsItems[j]),false);
-				}
-				else
-				if (h && (h = h->parentOfFamily(tr("Vector"))))
-				{
-					for (int j=0; j < h->graphicsItems.size(); ++j)
-						adjustPlasmid(scene,NodeGraphicsItem::cast(h->graphicsItems[j]),false);
-				}
+				for (int j=0; j < h->graphicsItems.size(); ++j)
+					commands << adjustPlasmid(scene,NodeGraphicsItem::cast(h->graphicsItems[j]),false);
+			}
+			else
+			if (h && (h = h->parentOfFamily(tr("Vector"))))
+			{
+				for (int j=0; j < h->graphicsItems.size(); ++j)
+					commands << adjustPlasmid(scene,NodeGraphicsItem::cast(h->graphicsItems[j]),false);
 			}
 		}
-
-		justAdjustedPlasmid = false;
 
 		for (int i=0; i < items.size(); ++i)
 		{
@@ -1180,12 +1074,12 @@ namespace Tinkercell
 			}
 			if (!parts3.isEmpty())
 			{
-				autoAssignRates(parts3);
+				commands << autoAssignRates(parts3);
 			}
 		}
 	}
 
-    void AutoGeneRegulatoryTool::itemsRemoved(GraphicsScene * scene, QList<QGraphicsItem*>& , QList<ItemHandle*>& handles, QList<QUndoCommand*>&)
+    void AutoGeneRegulatoryTool::itemsRemoved(GraphicsScene * scene, QList<QGraphicsItem*>& , QList<ItemHandle*>& handles, QList<QUndoCommand*>& commands)
 	{
 		if (!scene) return;
 
@@ -1246,7 +1140,7 @@ namespace Tinkercell
 
 				if (!nodeHandles.isEmpty())
 				{
-					autoAssignRates(nodeHandles);
+					commands << autoAssignRates(nodeHandles);
 				}
 			}
 		}
@@ -1610,11 +1504,9 @@ namespace Tinkercell
 		return rate;
 	}
 
-	void AutoGeneRegulatoryTool::adjustPlasmid(GraphicsScene * scene, NodeGraphicsItem * vector, bool align)
+	QUndoCommand * AutoGeneRegulatoryTool::adjustPlasmid(GraphicsScene * scene, NodeGraphicsItem * vector, bool align)
 	{
-		if (!vector || !scene) return;
-
-		justAdjustedPlasmid = true;
+		if (!vector || !scene) return 0;
 
 		ItemHandle * vectorHandle = vector->handle();
 		ItemHandle * handle = 0;
@@ -1717,10 +1609,10 @@ namespace Tinkercell
 		  			p3.rx() = p2.x() + 100.0 - vector->boundaryControlPoints[1]->scenePos().x();
 				
 				dist << p3;
-		  		scene->move(controls,dist);
+				return new MoveCommand(scene,controls,dist);
 			}
-
 		}
+		return 0;
 	}
 
 	/*****************************************

@@ -659,15 +659,10 @@ namespace Tinkercell
 		
 		if (!all)
 		{
-			//if (selectedFamily->isValidSet(nodeHandles,all))
-				//return true;
-
 			QList<ItemFamily*> childFamilies = selectedFamily->findValidChildFamilies(nodeHandles,all);
 		
 			if (childFamilies.isEmpty() && selectedFamilyOriginal) //search all families under root
-			{
 				childFamilies = selectedFamilyOriginal->findValidChildFamilies(nodeHandles,all);
-			}
 
 			if (childFamilies.isEmpty()) return false; //no suitable connection family found
 		
@@ -690,9 +685,10 @@ namespace Tinkercell
 				{
 					selectedFamily = ConnectionFamily::cast(childFamilies[i]);
 					selectedNodes = originalNodesList;
+					finalSelectedFamily = selectedFamily;
+					MainWindow::instance()->console()->message(finalSelectedFamily->name);
 					if (setRequirements())
 					{
-						finalSelectedFamily = selectedFamily;
 						break;
 					}
 				}
@@ -867,7 +863,6 @@ namespace Tinkercell
 				}
 
 				QString appDir = QCoreApplication::applicationDirPath();
-				
 				bool valid = changeSelectedFamilyToMatchSelection(true,allowFlips);
 				//check if enough items have been selected to make the connection
 				if (selectedNodes.size() >= (numRequiredIn + numRequiredOut) && valid)

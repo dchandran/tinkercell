@@ -54,8 +54,7 @@ namespace Tinkercell
 		bool setMainWindow(MainWindow * main);
 	
 	public slots:
-		void itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>& , const QList<ItemHandle*>& );
-		void itemsInserted(NetworkHandle* , const QList<ItemHandle*>& handles);
+		void itemsAboutToBeInserted(GraphicsScene *, QList<QGraphicsItem*>&, QList<ItemHandle*>&, QList<QUndoCommand*>&);
 		void itemsRemoved(GraphicsScene *, QList<QGraphicsItem*>&, QList<ItemHandle*>&,QList<QUndoCommand*>&);
 		void itemsMoved(GraphicsScene * scene, QList<QGraphicsItem*>& item, QList<QPointF>& distance, QList<QUndoCommand*>& commands);
 		void nodeCollided(const QList<QGraphicsItem*>& , NodeGraphicsItem * , const QList<QPointF>& );
@@ -67,10 +66,8 @@ namespace Tinkercell
 		void autoGeneProductTriggered();
 		void autoTFTriggeredUp();
 		void autoTFTriggeredDown();
-		void autoAssignRates(QList<NodeHandle*>&);
 		
 	signals:
-		void itemsInsertedSignal(GraphicsScene * scene, const QList<QGraphicsItem*>& , const QList<ItemHandle*>& );
 		void alignCompactHorizontal();
 		void setMiddleBox(int,const QString&);
 		void dataChanged(const QList<ItemHandle*>& items);
@@ -82,8 +79,7 @@ namespace Tinkercell
 		void partsUpstream(QSemaphore*, ItemHandle*, QList<ItemHandle*>* parts);
 		void partsDownstream(QSemaphore*, ItemHandle*, QList<ItemHandle*>* parts);
 		void alignParts(QSemaphore*,const QList<ItemHandle*>&);
-		void adjustPlasmid(GraphicsScene * , NodeGraphicsItem*, bool align=true);
-	
+		
 	private:
 		QTimeLine glowTimer;
 		void connectPlugins();
@@ -94,7 +90,6 @@ namespace Tinkercell
 		QAction autoPhosphate;
 		QAction * separator;
 		bool doAssignment;
-		bool justAdjustedPlasmid;
 		
 		static tc_items _partsIn(long);
 		static tc_items _partsUpstream(long);
@@ -102,6 +97,9 @@ namespace Tinkercell
 		static void _alignParts(tc_items);
 		
 		static AutoGeneRegulatoryTool_FtoS fToS;
+		
+		QUndoCommand * adjustPlasmid(GraphicsScene * , NodeGraphicsItem*, bool align=true);
+		QUndoCommand * autoAssignRates(QList<NodeHandle*>&);
 		
 	public:
 		static void findAllParts(GraphicsScene*,NodeGraphicsItem*,const QString& family,QList<ItemHandle*>& ,bool upstream=true,const QStringList& stopIf=QStringList(), bool stopIfElongation = false);

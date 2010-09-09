@@ -89,7 +89,7 @@ namespace Tinkercell
 		QAction mRNAstep;
 		QAction autoPhosphate;
 		QAction * separator;
-		bool doAssignment;
+		bool autoAlignEnabled;
 		
 		static tc_items _partsIn(long);
 		static tc_items _partsUpstream(long);

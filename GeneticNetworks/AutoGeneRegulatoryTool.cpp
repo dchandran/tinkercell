@@ -41,7 +41,7 @@ namespace Tinkercell
 		autoPhosphate("Insert phosphate",this)
 	{
 		separator = 0;
-		doAssignment = true;
+		autoAlignEnabled = true;
 		setPalette(QPalette(QColor(255,255,255,255)));
 		setAutoFillBackground(true);
 		connect(&autoTFUp,SIGNAL(triggered()),this,SLOT(autoTFTriggeredUp()));
@@ -618,7 +618,7 @@ namespace Tinkercell
 					QList<ConnectionHandle*> connections = NodeHandle::cast(parts[i])->connections();
 					for (int j=0; j < connections.size(); ++j)
 						if (connections[j] &&
-							connections[j]->isA(tr("Protein production")) &&
+							connections[j]->isA(tr("Production")) &&
 							connections[j]->hasTextData(tr("Rate equations")))
 					{
 						DataTable<QString> * sDat = new DataTable<QString>(connections[j]->data->textData[tr("Rate equations")]);
@@ -685,20 +685,10 @@ namespace Tinkercell
 									QList<ConnectionHandle*> connections2 = NodeHandle::cast(rna[k])->connections();
 									for (int l=0; l < connections2.size(); ++l)
 										if (connections2[l] &&
-											connections2[l]->nodesIn().contains(NodeHandle::cast(rna[k])) &&
+											connections2[l]->isA(tr("Translation")) &&
 											connections2[l]->hasTextData(tr("Rate equations")))
 											if (rbs)
 											{
-												bool hasProtein = false;
-												QList<NodeHandle*> nodes2 = connections2[l]->nodesOut();
-												for (int m=0; m < nodes2.size(); ++m)
-													if (nodes2[m] && nodes2[m]->isA(tr("Protein")))
-													{
-														hasProtein = true;
-														break;
-													}
-												if (hasProtein)
-												{
 													DataTable<QString> * sDat2 = new DataTable<QString>(connections2[l]->data->textData[tr("Rate equations")]);
 													QString s = rbs->fullName() + tr(".strength * ") + rna[k]->fullName();
 
@@ -710,7 +700,6 @@ namespace Tinkercell
 													}
 													else
 														delete sDat2;
-												}
 											}
 								}
 						}
@@ -819,6 +808,8 @@ namespace Tinkercell
 
 	void AutoGeneRegulatoryTool::nodeCollided(const QList<QGraphicsItem*>& items, NodeGraphicsItem * item, const QList<QPointF>& )
 	{
+		if (!autoAlignEnabled) return;
+
 		GraphicsScene * scene = currentScene();
 		if (!scene || !item || items.isEmpty()) return;
 
@@ -896,8 +887,9 @@ namespace Tinkercell
 			scene->selected() = select;
 			scene->select(0);
 
-			doAssignment = false;
+			autoAlignEnabled = false;
 			emit alignCompactHorizontal();
+			autoAlignEnabled = true;
 		}
 	}
 
@@ -933,7 +925,7 @@ namespace Tinkercell
 	}
 	void AutoGeneRegulatoryTool::itemsMoved(GraphicsScene* scene, QList<QGraphicsItem*>& items, QList<QPointF>& distance, QList<QUndoCommand*>& commands)
 	{
-		if (!scene) return;
+		if (!scene || !autoAlignEnabled) return;
 
 		QList<NodeHandle*> parts2;
 
@@ -1020,9 +1012,10 @@ namespace Tinkercell
 				}
 			}
 		}
-		
-		ItemHandle * h = 0;
 
+/*
+		ItemHandle * h = 0;
+		
 		for (int i=0; i < items.size(); ++i)
 		{
 			h = getHandle(items[i]);
@@ -1039,7 +1032,7 @@ namespace Tinkercell
 					commands << adjustPlasmid(scene,NodeGraphicsItem::cast(h->graphicsItems[j]),false);
 			}
 		}
-
+*/
 		for (int i=0; i < items.size(); ++i)
 		{
 			NodeGraphicsItem * startNode = NodeGraphicsItem::topLevelNodeItem(items[i]);
@@ -1076,6 +1069,7 @@ namespace Tinkercell
 			{
 				commands << autoAssignRates(parts3);
 			}
+			
 		}
 	}
 
@@ -1529,7 +1523,8 @@ namespace Tinkercell
 
 		QList<QGraphicsItem*> list;
 		QList<ItemHandle*> existingChildren = vectorHandle->children;
-
+		QList<ItemHandle*> trueChildren = children + existingChildren;
+		
 		for (int i=0; i < existingChildren.size(); ++i)
 			if (existingChildren[i])
 			{
@@ -1539,6 +1534,7 @@ namespace Tinkercell
 					{
 						children << existingChildren[i];
 						parents << 0;
+						trueChildren.removeAll(existingChildren[i]);
 						break;
 					}
 			}
@@ -1546,13 +1542,12 @@ namespace Tinkercell
 		if (!children.isEmpty())
 			commands << new SetParentHandleCommand(tr("parents set"), scene->network, children, parents);
 
-		existingChildren = vectorHandle->children;
 		QList<QGraphicsItem*> nodesInPlasmid;
 
-		for (int i=0; i < existingChildren.size(); ++i)
-			if (existingChildren[i])
+		for (int i=0; i < trueChildren.size(); ++i)
+			if (trueChildren[i])
 			{
-				list = existingChildren[i]->graphicsItems;
+				list = trueChildren[i]->graphicsItems;
 				for (int j=0; j < list.size(); ++j)
 					if (NodeGraphicsItem::cast(list[j]))
 					{
@@ -1564,7 +1559,11 @@ namespace Tinkercell
 		{
 			list = scene->selected();
 			scene->selected() = nodesInPlasmid;
+			
+			autoAlignEnabled = false;
 			emit alignCompactHorizontal();
+			autoAlignEnabled = true;
+			
 			scene->selected() = list;
 
 			QGraphicsItem * leftMost = nodesInPlasmid[0], * rightMost = nodesInPlasmid[0];
@@ -1672,7 +1671,10 @@ namespace Tinkercell
 
 			scene->move(selected,points);
 			scene->select(selected);
+			
+			autoAlignEnabled = false;
 			emit alignCompactHorizontal();
+			autoAlignEnabled = true;
 		}
 		if (s)
 			s->release();

@@ -85,7 +85,10 @@ namespace Tinkercell
 	};
 
 	/*!
-	\brief A docking widget that contains many PlotWidget instances
+	\brief A docking widget that can contains one or more PlotWidget instances. 
+		Each PlotWidget can either be a text output, 2D graph, or 3D graph. 
+		Alternatively, the PlotTool can use an separate Gnuplot window to generate plots.
+	\ingroup plugins
 	*/
 	class TINKERCELLEXPORT PlotTool : public Tool
 	{
@@ -93,18 +96,49 @@ namespace Tinkercell
 		
 	signals:
 	
+		/*!	\brief plot  a 2D graph
+		\param NumericalDataTable data
+		\param int column for the x-axis
+		\param QString title
+		\param int(bool) whether or not to graph all the columns or just the handles that exist in the network
+		*/
 		void plotDataTable(DataTable<qreal>& m, int x, const QString& title, int all);
 		
+		/*!	\brief plot  a 3D graph
+		\param NumericalDataTable data with 3 columns
+		\param QString title
+		*/
 		void plotDataTable3D(DataTable<qreal>& m, const QString& title);
 		
+		/*!	\brief plot  a histogram
+		\param NumericalDataTable data
+		\param int number of bins
+		\param QString title
+		*/
 		void plotHist(DataTable<qreal>& m, double bins, const QString& title);
 		
+		/*!	\brief plot  a 2D graph with error bars, where every alternating column are the errors
+		\param NumericalDataTable data
+		\param int index of x-axis
+		\param QString title
+		*/
 		void plotErrorbars(DataTable<qreal>& m, int x, const QString& title);
 		
-		void plotMultiplot(int x, int y);
+		/*!	\brief enable multiple plots (grid)
+		\param int number of rows of plots
+		\param int number of columns of plots
+		*/
+		void plotMultiplot(int rows, int columns);
 		
+		/*!	\brief make a scatterplot
+		\param NumericalDataTable data
+		\param QString title
+		*/
 		void plotScatterplot(DataTable<qreal>& m, const QString& title);
 		
+		/*!\brief send a script to gnuplot
+		\param QString gnuplot script
+		*/
 		void gnuplot(const QString& script);
 
 	public:

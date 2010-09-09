@@ -156,7 +156,10 @@ namespace Tinkercell
 		{
 			QString text = mimeData->text();
 			if (!text.isNull() && !text.isEmpty())
-				emit itemsDropped(scene, text, mapToScene(event->pos()));
+			{
+				scene->lastPoint() = mapToScene(event->pos());
+				emit itemsDropped(scene, text, scene->lastPoint());
+			}
 		}
 	}
 

@@ -53,6 +53,23 @@ namespace Tinkercell
 
 	void CollisionDetection::itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>& items, const QList<ItemHandle*>&)
 	{
+		if (!(nodeBelowCursor != 0 || connectionBelowCursor != 0))
+		{
+			QList<QGraphicsItem*> existingItems = scene->items(scene->lastPoint());
+			
+			for (int i=0; i < existingItems.size(); ++i)
+				if ((nodeBelowCursor = NodeGraphicsItem::cast(existingItems[i])) && !items.contains(nodeBelowCursor))
+					break;
+				else
+				{
+					nodeBelowCursor = 0;
+					if ((connectionBelowCursor = ConnectionGraphicsItem::cast(existingItems[i])) && !items.contains(connectionBelowCursor))
+						break;
+					else
+						connectionBelowCursor = 0;
+				}
+		}
+
 		if (nodeBelowCursor != 0 || connectionBelowCursor != 0)
 		{
 			if (nodeBelowCursor != 0 && !ToolGraphicsItem::cast(nodeBelowCursor->topLevelItem()))
@@ -61,37 +78,6 @@ namespace Tinkercell
 				if (connectionBelowCursor != 0 && !ToolGraphicsItem::cast(connectionBelowCursor->topLevelItem()))
 					emit connectionCollided(items,connectionBelowCursor,QList<QPointF>());
 		}
-		/*
-		if (scene)
-		{
-			QList<QGraphicsItem*> itemsAt;
-			NodeGraphicsItem * node = 0;
-			ConnectionGraphicsItem * connection = 0;
-			for (int i=0; i < items.size(); ++i)
-			{
-				//QRectF rect;
-				QPainterPath path;
-				if ((connection = ConnectionGraphicsItem::cast(items[i])))
-				{
-					QList<NodeGraphicsItem*> nodes = connection->nodes();
-					for (int j=0; j < nodes.size(); ++j)
-					if (nodes[j])
-					path = path.united(nodes[j]->mapToScene(nodes[j]->shape()));
-				}
-				//itemsAt = scene->items(rect);
-				itemsAt = scene->items(path);
-				QRectF rect = path.boundingRect();
-				for (int j=0; j < itemsAt.size(); ++j)
-				{
-					if (itemsAt[j]->sceneBoundingRect().contains(rect))
-					{
-						if ((node = NodeGraphicsItem::cast(itemsAt[j])))
-						emit nodeCollided(QList<QGraphicsItem*>() << connection, node, QPointF(), 0);
-					}
-				}
-			}
-		}
-		*/
 	}
 
 	void CollisionDetection::stopGlow(QTimeLine::State state)
@@ -207,8 +193,7 @@ namespace Tinkercell
 						nodeBelowCursor2 = 0;
 					else
 					{
-						/*if (!movingItems.isEmpty() && nodeBelowCursor2->sceneBoundingRect().contains(scene->lastPoint()))
-						nodeBelowCursor2 = 0;*/
+						/*
 						ItemHandle * handle = getHandle(nodeBelowCursor2);
 						for (int i=0; i < nodeSelectionTool->selectedNodes.size(); ++i)
 						{
@@ -218,7 +203,7 @@ namespace Tinkercell
 								nodeBelowCursor2 = 0;
 								break;
 							}
-						}
+						}*/
 					}
 				}
 
@@ -235,8 +220,7 @@ namespace Tinkercell
 						connectionBelowCursor2 = 0;
 					else
 					{
-						/*if (!movingItems.isEmpty() && connectionBelowCursor2->pathShape.contains(scene->lastPoint()))
-						connectionBelowCursor2 = 0;*/
+						/*
 						ItemHandle * handle = getHandle(connectionBelowCursor2);
 						for (int i=0; i < nodeSelectionTool->selectedNodes.size(); ++i)
 						{
@@ -257,6 +241,7 @@ namespace Tinkercell
 									break;
 								}
 							}
+							*/
 					}
 				}
 
@@ -264,42 +249,21 @@ namespace Tinkercell
 					(nodeBelowCursor2 != nodeBelowCursor || connectionBelowCursor2 != connectionBelowCursor))
 				{
 					if (glowTimer.state() != QTimeLine::NotRunning)
-					{
 						glowTimer.stop();
-					}
 					
 					connectionBelowCursor = connectionBelowCursor2;
 					nodeBelowCursor = nodeBelowCursor2;
 					
 					glowTimer.stop();
 					glowTimer.setFrameRange(50,250);
+
 					glowTimer.setDirection(QTimeLine::Backward);
 					//glowTimer.setUpdateInterval(100);
 					glowTimer.setDuration(2000);
 					glowTimer.setLoopCount(0);
 					
-					if (connectionBelowCursor)
-					{
+					if (connectionBelowCursor || nodeBelowCursor)
 						glowTimer.start();
-					}
-					else					
-					if (nodeBelowCursor)
-					{
-						QRectF rect = nodeBelowCursor->sceneBoundingRect();
-						if (rect.width() < 500 && rect.height() < 500)
-							glowTimer.start();
-						else
-						{
-							for (int i=0; i < movingItems.size(); ++i)
-							{
-								if (NodeGraphicsItem::cast(movingItems[i]) || ConnectionGraphicsItem::cast(movingItems[i]))
-								{
-									glowTimer.start();
-									break;
-								}
-							}
-						}
-					}
 				}
 				else
 				{

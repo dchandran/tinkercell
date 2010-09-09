@@ -106,7 +106,7 @@ namespace Tinkercell
 	public:
 		static void findAllParts(GraphicsScene*,NodeGraphicsItem*,const QString& family,QList<ItemHandle*>& ,bool upstream=true,const QStringList& stopIf=QStringList(), bool stopIfElongation = false);
 		static QString hillEquation(NodeHandle *,ItemHandle* exclude = 0);
-		static QString hillEquation(QList<ConnectionHandle*> connections, QList<NodeHandle*>& activators, QList<NodeHandle*> repressors);
+		static QString hillEquation(QList<ConnectionHandle*>& connections, QList<NodeHandle*>& activators, QList<NodeHandle*> repressors);
 	};
 
 

@@ -501,9 +501,13 @@ namespace Tinkercell
 				NodeGraphicsItem * node = NodeGraphicsItem::cast(qitem);
 				if (node && node->className == ArrowHeadItem::CLASSNAME)
 				{
-					scene->selected().clear();
-					scene->selected() += node;
-					emit substituteNodeGraphics();
+					ArrowHeadItem * arrow = static_cast<ArrowHeadItem*>(node);
+					if (arrow->connectionItem && arrow->connectionItem->centerRegionItem != arrow)
+					{
+						scene->selected().clear();
+						scene->selected() += node;
+						emit substituteNodeGraphics();
+					}
 				}
 			}
 		}

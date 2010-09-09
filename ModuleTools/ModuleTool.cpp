@@ -845,6 +845,19 @@ namespace Tinkercell
 		if (!scene || !scene->network || !item || !mainWindow) return;
 		
 		ItemHandle * handle = getHandle(item);
+		
+		if (!handle)
+		{
+			NodeGraphicsItem * node;
+			if ((node = qgraphicsitem_cast<NodeGraphicsItem*>(item)) && 
+				(node->className == ArrowHeadItem::CLASSNAME))
+			{
+				ArrowHeadItem * arrow = static_cast<ArrowHeadItem*>(node);
+				if (arrow->connectionItem && arrow->connectionItem->centerRegionItem == arrow)
+					handle = getHandle(arrow->connectionItem);
+			}
+		}
+		
 		if (handle && handle->family())
 		{
 			QList<TextEditor*> editors = scene->network->editors();

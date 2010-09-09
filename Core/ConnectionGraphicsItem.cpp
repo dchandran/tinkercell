@@ -526,7 +526,7 @@ namespace Tinkercell
 				&& curveSegments.size() > 1 && curveSegments[i].arrowEnd == 0)
 				return curveSegments[i].last();
 		}
-		if (curveSegments[0].size() >= 4)
+		if (curveSegments.size() > 0 && curveSegments[0].size() >= 4)
 		{
 			int i = curveSegments[0].size()/2;
 			if (lineType == line || curveSegments[0].size() > 4)

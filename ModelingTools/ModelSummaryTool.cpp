@@ -653,6 +653,7 @@ namespace Tinkercell
 		QHash<QString,QWidget*> widgets;
 		QList<QGraphicsItem*> & items = scene->selected();
 
+		NodeGraphicsItem * node;
 		ItemHandle * handle;
 		itemHandles.clear();
 
@@ -661,8 +662,18 @@ namespace Tinkercell
 			{
 				handle = getHandle(items[i]);
 				
-				if (!handle && qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(items[i]))
-					handle = getHandle(qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(items[i])->connectionItem);
+				if (!handle)
+				{
+					if (qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(items[i]))
+						handle = getHandle(qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(items[i])->connectionItem);
+					else
+					if ((node = qgraphicsitem_cast<NodeGraphicsItem*>(items[i])) && (node->className == ArrowHeadItem::CLASSNAME))
+					{
+						ArrowHeadItem * arrow = static_cast<ArrowHeadItem*>(node);
+						if (arrow->connectionItem && arrow->connectionItem->centerRegionItem == arrow)
+							handle = getHandle(arrow->connectionItem);
+					}
+				}
 				
 				if ( handle &&
 					(handle->children.isEmpty() || handle->isA(tr("Compartment"))))

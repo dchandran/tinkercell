@@ -242,6 +242,9 @@ namespace Tinkercell
 				mainWindow->contextItemsMenu.addAction(separator);
 			else
 				separator = mainWindow->contextItemsMenu.addSeparator();
+
+
+
 				
 			if (reactions)
 				mainWindow->contextItemsMenu.addAction(autoReverse);
@@ -389,7 +392,7 @@ namespace Tinkercell
 				//if (!connectionHandle->tools.contains(this))
 					//connectionHandle->tools += this;
 
-				if (connectionHandle->data &&
+				if (connectionHandle &&
 					(
 					!(connectionHandle->hasNumericalData(tr("Reactant stoichiometries"))) ||
 					!(connectionHandle->hasNumericalData(tr("Product stoichiometries"))) ||
@@ -495,24 +498,24 @@ namespace Tinkercell
 
 		for (int i=0; i < selected.size(); ++i)
 		{
-			if ((handle = getHandle(selected[i])) && handle->data
+			if ((handle = getHandle(selected[i]))
 				&& handle->hasNumericalData(tr("Reactant stoichiometries"))
 				&& handle->hasNumericalData(tr("Product stoichiometries"))
 				&& handle->hasTextData(tr("Rate equations")))
 			{
 				items << handle;
 
-				if (handle->data->numericalData[tr("Reactant stoichiometries")].rows() != 1 ||
-					handle->data->numericalData[tr("Product stoichiometries")].rows() != 1 ||
-					handle->data->textData[tr("Rate equations")].rows() != 1)
+				if (handle->numericalDataTable(tr("Reactant stoichiometries")).rows() != 1 ||
+					handle->numericalDataTable(tr("Product stoichiometries")).rows() != 1 ||
+					handle->textDataTable(tr("Rate equations")).rows() != 1)
 				{
 					cannots << handle->fullName();
 				}
 				else
 				{
-					nDat1 = new NumericalDataTable(handle->data->numericalData[tr("Reactant stoichiometries")]);
-					nDat2 = new NumericalDataTable(handle->data->numericalData[tr("Product stoichiometries")]);
-					sDat = new TextDataTable(handle->data->textData[tr("Rate equations")]);
+					nDat1 = new NumericalDataTable(handle->numericalDataTable(tr("Reactant stoichiometries")));
+					nDat2 = new NumericalDataTable(handle->numericalDataTable(tr("Product stoichiometries")));
+					sDat = new TextDataTable(handle->textDataTable(tr("Rate equations")));
 
 					nDat1->rowName(0) = nDat2->rowName(0) = sDat->rowName(0) = tr("forward");
 					nDat1->insertRow(1,tr("reverse"));
@@ -543,9 +546,9 @@ namespace Tinkercell
 					nDataNew << nDat1 << nDat2;
 					sDataNew << sDat;
 
-					nDataOld << &(handle->data->numericalData[tr("Reactant stoichiometries")]) 
-							 << &(handle->data->numericalData[tr("Product stoichiometries")]);
-					sDataOld << &(handle->data->textData[tr("Rate equations")]);
+					nDataOld << &(handle->numericalDataTable(tr("Reactant stoichiometries"))) 
+							 << &(handle->numericalDataTable(tr("Product stoichiometries")));
+					sDataOld << &(handle->textDataTable(tr("Rate equations")));
 				}
 			}
 		}
@@ -732,9 +735,9 @@ namespace Tinkercell
 					products.description() = QString("Number of each product participating in this reaction");
 					rates.description() = QString("Rates: a set of rates, one for each reaction represented by this item. Row names correspond to reaction names. The number of rows in this table and the stoichiometry table will be the same.");
 
-					connection->data->numericalData.insert(tr("Reactant stoichiometries"),reactants);
-					connection->data->numericalData.insert(tr("Product stoichiometries"),products);
-					connection->data->textData.insert(tr("Rate equations"),rates);
+					connection->numericalDataTable(tr("Reactant stoichiometries")) = reactants;
+					connection->numericalDataTable(tr("Product stoichiometries")) = products;
+					connection->textDataTable(tr("Rate equations")) = rates;
 
 					list += item;
 				}
@@ -753,7 +756,7 @@ namespace Tinkercell
 
 	void StoichiometryTool::insertDataMatrix(ConnectionHandle * handle)
 	{
-		if (!ConnectionHandle::cast(handle) || !handle->data || !handle->isA(tr("Biochemical"))) return;
+		if (!ConnectionHandle::cast(handle) || !handle->isA(tr("Biochemical"))) return;
 
 		DefaultRateAndStoichiometry::setDefault(handle);
 	}
@@ -1099,8 +1102,8 @@ namespace Tinkercell
 					connection->hasNumericalData(QObject::tr("Reactant stoichiometries")) &&
 					connection->hasNumericalData(QObject::tr("Product stoichiometries")))
 				{
-					nDataTable1 = &(connection->data->numericalData[QObject::tr("Reactant stoichiometries")]);
-					nDataTable2 = &(connection->data->numericalData[QObject::tr("Product stoichiometries")]);
+					nDataTable1 = &(connection->numericalDataTable(QObject::tr("Reactant stoichiometries")));
+					nDataTable2 = &(connection->numericalDataTable(QObject::tr("Product stoichiometries")));
 					//get unique species names in the stoichiometry matrix
 					for (int j=0; j < nDataTable1->cols(); ++j) 
 					{
@@ -1139,7 +1142,7 @@ namespace Tinkercell
 				}
 				if (connectionHandles[i]->hasTextData(QObject::tr("Rate equations")))
 				{
-					sDataTable = &(connectionHandles[i]->data->textData[QObject::tr("Rate equations")]);
+					sDataTable = &(connectionHandles[i]->textDataTable(QObject::tr("Rate equations")));
 					for (int j=0; j < sDataTable->rows(); ++j) //get rates and reaction names
 					{
 						if (sDataTable->value(j,0).isEmpty()) continue;
@@ -1177,13 +1180,12 @@ namespace Tinkercell
 		int n = 0, j0;
 		for (int i=0; i < connectionHandles.size(); ++i) //build combined matrix for all selected reactions
 			if (connectionHandles[i] != 0 
-				&& connectionHandles[i]->children.isEmpty() 
-				&& connectionHandles[i]->data != 0)
+				&& connectionHandles[i]->children.isEmpty())
 				if (connectionHandles[i]->hasNumericalData(QObject::tr("Reactant stoichiometries")) &&
 					connectionHandles[i]->hasNumericalData(QObject::tr("Product stoichiometries")))
 				{
-					nDataTable1 = &(connectionHandles[i]->data->numericalData[QObject::tr("Reactant stoichiometries")]);
-					nDataTable2 = &(connectionHandles[i]->data->numericalData[QObject::tr("Product stoichiometries")]);
+					nDataTable1 = &(connectionHandles[i]->numericalDataTable(QObject::tr("Reactant stoichiometries")));
+					nDataTable2 = &(connectionHandles[i]->numericalDataTable(QObject::tr("Product stoichiometries")));
 					
 					for (int k=0; k < nDataTable1->rows() || k < nDataTable2->rows(); ++k)
 					{
@@ -1261,13 +1263,13 @@ namespace Tinkercell
 		int n=0;
 		for (int i=0; i < connectionHandles.size(); ++i) //build combined matrix for all selected reactions
 		{
-			if (connectionHandles[i] && connectionHandles[i]->children.isEmpty() && connectionHandles[i]->data != 0)
+			if (connectionHandles[i] && connectionHandles[i]->children.isEmpty())
 			{
 				if (connectionHandles[i]->hasNumericalData(QObject::tr("Reactant stoichiometries")) &&
 					connectionHandles[i]->hasNumericalData(QObject::tr("Product stoichiometries")))
 				{
-					nDat1 = new NumericalDataTable(connectionHandles[i]->data->numericalData[ QObject::tr("Reactant stoichiometries") ]);
-					nDat2 = new NumericalDataTable(connectionHandles[i]->data->numericalData[ QObject::tr("Product stoichiometries") ]);
+					nDat1 = new NumericalDataTable(connectionHandles[i]->numericalDataTable( QObject::tr("Reactant stoichiometries") ));
+					nDat2 = new NumericalDataTable(connectionHandles[i]->numericalDataTable( QObject::tr("Product stoichiometries") ));
 
 					bool last = i == connectionHandles.size() - 1;
 					QList<bool> pickCol;
@@ -1322,8 +1324,8 @@ namespace Tinkercell
 							}
 					}
 
-					nDataTablesOld << &(connectionHandles[i]->data->numericalData[ QObject::tr("Reactant stoichiometries") ])
-								   << &(connectionHandles[i]->data->numericalData[ QObject::tr("Product stoichiometries") ]);
+					nDataTablesOld << &(connectionHandles[i]->numericalDataTable(QObject::tr("Reactant stoichiometries") ))
+								   << &(connectionHandles[i]->numericalDataTable( QObject::tr("Product stoichiometries") ));
 					nDataTablesNew << nDat1 << nDat2;
 				}
 			}
@@ -1366,7 +1368,7 @@ namespace Tinkercell
 
 			    if (connectionHandles[i]->hasTextData(QObject::tr("Rate equations")))
 				{
-					sDataTable = &(connectionHandles[i]->data->textData[QObject::tr("Rate equations")]);
+					sDataTable = &(connectionHandles[i]->textDataTable(QObject::tr("Rate equations")));
 					for (int j=0; j < sDataTable->rows(); ++j) //get rates and reaction names
 					{
 						rates += sDataTable->value(j,0);
@@ -1404,12 +1406,11 @@ namespace Tinkercell
 		bool change = false;
 		for (int i=0; i < connectionHandles.size(); ++i) //build combined matrix for all selected reactions
 		{
-			if (connectionHandles[i] && connectionHandles[i]->children.isEmpty() && connectionHandles[i]->data != 0)
+			if (connectionHandles[i] && connectionHandles[i]->children.isEmpty())
 			{
 				if (connectionHandles[i]->hasTextData(QObject::tr("Rate equations")))
 				{
-					//nDataTable = new NumericalDataTable(connectionHandles[i]->data->numericalData[ thisName ]);
-					sDataTable = new TextDataTable(connectionHandles[i]->data->textData[ QObject::tr("Rate equations") ]);
+					sDataTable = new TextDataTable(connectionHandles[i]->textDataTable( QObject::tr("Rate equations") ));
 
 					bool last = (i == (connectionHandles.size() - 1));
 					int /*cols = 0,*/ rows = 0;

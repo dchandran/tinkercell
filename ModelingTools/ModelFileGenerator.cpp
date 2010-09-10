@@ -120,11 +120,11 @@ namespace Tinkercell
 		QList< QPair<ItemHandle*,double> > modifiedHandles;
 		for (i=0; i < handles.size(); ++i)
 		{
-			if (currentNetwork->symbolsTable.isValidPointer(handles[i]) && handles[i]->data && handles[i]->hasNumericalData(QString("Parameters"))
+			if (currentNetwork->symbolsTable.isValidPointer(handles[i]) && handles[i]->hasNumericalData(QString("Parameters"))
 				&& handles[i]->family() && handles[i]->family()->isA("Cell"))
 			{
 				QList<ItemHandle*> handlesInCell;
-				double popSz = handles[i]->data->numericalData[QString("Parameters")].at("Count",0);
+				double popSz = handles[i]->numericalDataTable(QString("Parameters")).at("Count",0);
 				if (popSz > 0)
 				{
 					handlesInCell << handles[i]->children;
@@ -146,9 +146,9 @@ namespace Tinkercell
 		{
 			handle = modifiedHandles[i].first;
 			popSz =  modifiedHandles[i].second;
-			if (handle && handle->family() && handle->family()->isA("Node") && handle->data && handle->hasNumericalData(QString("Initial Value")))
+			if (handle && handle->family() && handle->family()->isA("Node")  && handle->hasNumericalData(QString("Initial Value")))
 			{
-				DataTable<qreal>& dat = handle->data->numericalData[QString("Initial Value")];
+				DataTable<qreal>& dat = handle->numericalDataTable(QString("Initial Value"));
 				dat.value(0,0) *= popSz;
 			}
 		}
@@ -193,9 +193,9 @@ namespace Tinkercell
 		{
 			handle = modifiedHandles[i].first;
 			popSz =  modifiedHandles[i].second;
-			if (handle && handle->family() && handle->family()->isA("Node") && handle->data && handle->hasNumericalData("Initial Value"))
+			if (handle && handle->family() && handle->family()->isA("Node") && handle->hasNumericalData("Initial Value"))
 			{
-				DataTable<qreal>& dat = handle->data->numericalData["Initial Value"];
+				DataTable<qreal>& dat = handle->numericalDataTable("Initial Value");
 				dat.value(0,0) /= popSz;
 			}
 		}
@@ -209,32 +209,30 @@ namespace Tinkercell
 		{
 			if (currentNetwork->symbolsTable.isValidPointer(handles[i]))// && handles[i]->family())
 			{
-				if (handles[i]->data)
+				if (handles[i]->hasNumericalData(tr("Initial Value")))
 				{
-					if (handles[i]->hasNumericalData(tr("Initial Value")))
+					vars << handles[i]->fullName(replaceDot);
+					initValues << toString(handles[i]->numericalDataTable(tr("Initial Value")).value(0,0));
+				}
+				/*else
+					if (!handles[i]->name.isEmpty())
 					{
 						vars << handles[i]->fullName(replaceDot);
-						initValues << toString(handles[i]->data->numericalData[tr("Initial Value")].value(0,0));
-					}
-					/*else
-						if (!handles[i]->name.isEmpty())
-						{
-							vars << handles[i]->fullName(replaceDot);
-							initValues << "0.0";
-						}*/
-					if (handles[i]->hasNumericalData(tr("Fixed")) &&
-						handles[i]->data->numericalData[tr("Fixed")].at(0,0) > 0)
+						initValues << "0.0";
+					}*/
+				if (handles[i]->hasNumericalData(tr("Fixed")) &&
+					handles[i]->numericalDataTable(tr("Fixed")).at(0,0) > 0)
+				{
+					int k = N.rowNames().indexOf(handles[i]->fullName(replaceDot));
+					if (k >= 0)
 					{
-						int k = N.rowNames().indexOf(handles[i]->fullName(replaceDot));
-						if (k >= 0)
-						{
-							fixedVars << handles[i]->fullName(replaceDot);
-						}
+						fixedVars << handles[i]->fullName(replaceDot);
 					}
 				}
+				
 				if (handles[i]->hasTextData(tr("Events")))
 				{
-					DataTable<QString>& dat = handles[i]->data->textData[tr("Events")];
+					DataTable<QString>& dat = handles[i]->textDataTable(tr("Events"));
 					if (dat.cols() == 1)
 						for (j=0; j < dat.rows(); ++j)
 						{
@@ -258,7 +256,7 @@ namespace Tinkercell
 				}
 				if (handles[i]->hasTextData(tr("Functions")))
 				{
-					DataTable<QString>& dat = handles[i]->data->textData[tr("Functions")];
+					DataTable<QString>& dat = handles[i]->textDataTable(tr("Functions"));
 
 					if (dat.cols() == 2)
 					{
@@ -280,7 +278,7 @@ namespace Tinkercell
 
 				if (handles[i]->hasTextData(tr("Assignments")))
 				{
-					DataTable<QString>& dat = handles[i]->data->textData[tr("Assignments")];
+					DataTable<QString>& dat = handles[i]->textDataTable(tr("Assignments"));
 					if (dat.cols() == 1)
 						for (j=0; j < dat.rows(); ++j)
 						{

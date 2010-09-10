@@ -188,7 +188,6 @@ namespace Tinkercell
 	{
 		if (handle && isStartElement() && name() == "Table")
 		{
-			if (!handle->data) handle->data = new ItemData;
 			QXmlStreamAttributes vec = attributes();
 			QString name, desc;
 			QStringList rownames, colnames, values;
@@ -258,7 +257,7 @@ namespace Tinkercell
 					}
 				}
 				data.description() = desc;
-				handle->data->numericalData[name] = data;
+				handle->numericalDataTable(name) = data;
 			}
 		}
 	}
@@ -268,7 +267,6 @@ namespace Tinkercell
 	{
 		if (handle && isStartElement() && name().toString() == QObject::tr("Table"))
 		{
-			if (!handle->data) handle->data = new ItemData;
 			QXmlStreamAttributes vec = attributes();
 			QString name;
 			QStringList rownames, colnames, values;
@@ -327,7 +325,7 @@ namespace Tinkercell
 						++k;
 					}
 				}
-				handle->data->textData[name] = data;
+				handle->textDataTable(name) = data;
 			}
 		}
 	}

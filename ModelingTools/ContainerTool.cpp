@@ -764,7 +764,7 @@ namespace Tinkercell
             QString attributeName = item->text();
             QLineEdit * editor = static_cast<QLineEdit*>(widget);
 
-            if (handle && handle->data)
+            if (handle)
             {
 				if (index.column() == 0)
 				{
@@ -804,7 +804,7 @@ namespace Tinkercell
             QString attributeName = item->text();
             QVariant value;
 
-            if (handle && handle->data)// && !attributeName.isEmpty())
+            if (handle)// && !attributeName.isEmpty())
             {
 				QLineEdit * editor = static_cast<QLineEdit*>(widget);
 				value = QVariant(editor->text());

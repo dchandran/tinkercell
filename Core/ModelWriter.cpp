@@ -142,23 +142,22 @@ namespace Tinkercell
 				writer->writeAttribute("roles",roles.join(sep));
 			}
 
-			if (handle->data)
-			{
-				QList<QString> nkeys = handle->data->numericalData.keys();
-				QList<QString> skeys = handle->data->textData.keys();
 
-				if (nkeys.size() > 0)
+			QList<QString> nkeys = handle->numericalDataNames();
+			QList<QString> skeys = handle->textDataNames();
+
+			if (nkeys.size() > 0)
+			{
+				writer->writeStartElement("tc_matrix");
+				for (int i=0; i < nkeys.size(); ++i)
 				{
-					writer->writeStartElement("tc_matrix");
-					for (int i=0; i < nkeys.size(); ++i)
-					{
-						writer->writeStartElement("Table");
-						writer->writeAttribute("key",nkeys[i]);
-						writeDataTable(handle->data->numericalData[ nkeys[i] ],writer);
-						writer->writeEndElement();
-					}
+					writer->writeStartElement("Table");
+					writer->writeAttribute("key",nkeys[i]);
+					writeDataTable(handle->numericalDataTable( nkeys[i] ),writer);
 					writer->writeEndElement();
 				}
+				writer->writeEndElement();
+			}
 
 				if (skeys.size() > 0)
 				{
@@ -167,14 +166,13 @@ namespace Tinkercell
 					{
 						writer->writeStartElement("Table");
 						writer->writeAttribute("key",skeys[i]);
-						writeDataTable(handle->data->textData[ skeys[i] ],writer);
+						writeDataTable(handle->textDataTable( skeys[i] ),writer);
 						writer->writeEndElement();
 					}
 					writer->writeEndElement();
 				}
 			}
 			writer->writeEndElement();
-		}
 	}
 
 	/*! \brief Writes a data table of doubles into an XML file

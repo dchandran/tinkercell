@@ -112,13 +112,13 @@ namespace Tinkercell
 		int k = 0;
 		for (int i=0; i < nodes.size(); ++i)
 		{
-			if (nodes[i] && nodes[i]->data && nodes[i]->hasTextData(tr("Text Attributes"))
-				&& nodes[i]->data->textData[tr("Text Attributes")].getRowNames().contains(tr("sequence")))
+			if (nodes[i] && nodes[i]->hasTextData(tr("Text Attributes"))
+				&& nodes[i]->textDataTable(tr("Text Attributes")).getRowNames().contains(tr("sequence")))
 				{
 					this->colors << colors[k];
 					format.setBackground(colors[k]);
 					cursor.setCharFormat(format);
-					cursor.insertText(nodes[i]->data->textData[tr("Text Attributes")].value(tr("sequence"),0));
+					cursor.insertText(nodes[i]->textDataTable(tr("Text Attributes")).value(tr("sequence"),0));
 					++k;
 
 					if (k >= colors.size()) k = 0;
@@ -139,10 +139,10 @@ namespace Tinkercell
 
 		for (int i=0; i < nodes.size(); ++i)
 		{
-			if (nodes[i] && nodes[i]->data && nodes[i]->hasTextData(tr("Text Attributes"))
-				&& nodes[i]->data->textData[tr("Text Attributes")].getRowNames().contains(tr("sequence")))
+			if (nodes[i] && nodes[i]->hasTextData(tr("Text Attributes"))
+				&& nodes[i]->textDataTable(tr("Text Attributes")).getRowNames().contains(tr("sequence")))
 				{
-					j += nodes[i]->data->textData[tr("Text Attributes")].value(tr("sequence"),0).length();
+					j += nodes[i]->textDataTable(tr("Text Attributes")).value(tr("sequence"),0).length();
 					if (j > k)
 						return i;
 				}
@@ -258,10 +258,9 @@ namespace Tinkercell
 		
 		if (selected.size() == 1 &&
 			(handle = getHandle(selected[0])) &&
-			handle->isA(tr("Part")) &&
-			handle->data && handle->hasTextData(tr("Text Attributes")))
+			handle->isA(tr("Part")) && handle->hasTextData(tr("Text Attributes")))
 		{
-			DataTable<QString> data(handle->data->textData[tr("Text Attributes")]);
+			DataTable<QString> data(handle->textDataTable(tr("Text Attributes")));
 			data.value(tr("sequence"),0) = textEdit.toPlainText();
 			net->changeData(handle->fullName() + tr("'s sequence changed"),handle,tr("Text Attributes"),&data);
 		}

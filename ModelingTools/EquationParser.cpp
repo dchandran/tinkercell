@@ -54,7 +54,7 @@ namespace Tinkercell
 		{
 			if (allHandles[i] && allHandles[i]->hasTextData(QString("Functions")))
 			{
-				DataTable<QString>& sDat = allHandles[i]->data->textData[QString("Functions")];
+				DataTable<QString>& sDat = allHandles[i]->textDataTable(QString("Functions"));
 				for (int j=0; j < sDat.rows(); ++j)
 					parser.DefineFun((allHandles[i]->fullName() + QString("__Q_X_Z_W__") + sDat.rowName(j)).toAscii().data(), &(CallFunction), true);
 			}
@@ -198,7 +198,7 @@ namespace Tinkercell
 											return false;
 										}
 
-										DataTable<qreal> dat(handle2->data->numericalData[QString("Parameters")]);
+										DataTable<qreal> dat(handle2->numericalDataTable(QString("Parameters")));
 
 										if (!str2.contains(QRegExp(QString("^") + handle2->fullName() + QString("\\."))) &&
 											!str2.contains(QRegExp(QString("^") + handle2->fullName() + QString("_"))))
@@ -267,7 +267,7 @@ namespace Tinkercell
 		{
 			if (allHandles[i] && allHandles[i]->hasTextData(QString("Functions")))
 			{
-				DataTable<QString>& sDat = allHandles[i]->data->textData[QString("Functions")];
+				DataTable<QString>& sDat = allHandles[i]->textDataTable(QString("Functions"));
 				for (int j=0; j < sDat.rows(); ++j)
 				{
 					functionNames << allHandles[i]->fullName() + QString("_") + sDat.rowName(j);
@@ -315,7 +315,7 @@ namespace Tinkercell
 					{
 						if (handle->hasNumericalData(QString("Initial Value")))
 						{
-							assignments += sd_pair(n,handle->data->numericalData[QString("Initial Value")].value(0,0));
+							assignments += sd_pair(n,handle->numericalDataTable(QString("Initial Value")).value(0,0));
 							parser.DefineVar(item->first.data(), &(assignments.last().second));
 						}
 						continue;
@@ -330,10 +330,10 @@ namespace Tinkercell
 							p = symbolsTable.uniqueDataWithUnderscore[n].second;
 						q = n;
 						q.remove(handle->fullName("_") + QString("_"));
-						if (handle->data && handle->hasNumericalData(p)
-							&& handle->data->numericalData[p].getRowNames().contains(q))
+						if (handle && handle->hasNumericalData(p)
+							&& handle->numericalDataTable(p).getRowNames().contains(q))
 							{
-								assignments += sd_pair(n,handle->data->numericalData[p].value(q,0));
+								assignments += sd_pair(n,handle->numericalDataTable(p).value(q,0));
 								parser.DefineVar(item->first.data(), &(assignments.last().second));
 							}
 					}

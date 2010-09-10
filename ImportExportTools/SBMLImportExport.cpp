@@ -288,10 +288,254 @@ void SBMLImportExport::updateSBMLModel()
 	modelNeedsUpdate = false;
 }
 
-QList<ItemHandle*> SBMLImportExport::importSBML(const QString& str)
+QList<ItemHandle*> SBMLImportExport::importSBML(const QString& sbml_text, NodeFamily * defaultSpeciesFamily, ConnectionFamily * defaultReactionFamily)
 {
 	QList<ItemHandle*> handles;
 	
+	SBMLReader * sbmlreader = new SBMLReader;
+	SBMLDocument * doc;
+	std::string s1,s2;
+	
+	if (QFile::exists(sbml_text))
+		doc = sbmlreader->readSBML(sbml_text);
+	else
+		doc = sbmlreader->readSBMLFromString(sbml_text); 
+	
+	if (!doc || doc->getNumErrors() > 0)
+	{
+		if (console())
+			console()->error(tr("Failed to load SBML using libsbml");
+	}
+	else
+	{
+		QList<ItemHandle*> handles;
+		ItemHandle * global = new ItemHandle("");
+		handles << global;
+
+		Model * model = doc->getModel();
+		ListOfParameters * params = model->getListOfParameters();
+		ListOfReactions * reacs = model->getListOfReactions();
+		ListOfSpecies * species = model->getListOfSpecies();
+		ListOfSpeciesTypes * types = model->getListOfSpeciesTypes();
+		ListOfEvents * events = model->getListOfEvents();
+		ListOfRules * rules = model->getListOfRules();
+
+		if (events)
+		{
+			TextDataTable & globalEvents = global->textDataTable("Events");
+			for (int i=0; i < events->size(); ++i)
+			{
+				Event * e = events->get(i);
+				s1 = SBML_formulaToString( e->getTrigger()->getMath() );
+				QString trigger( s.c_str() );
+				QStringList responses;
+				ListOfEventAssignments * eventAssn = e->getListOfEventAssignments();
+				for (int j=0; j < eventAssn->size(); ++j)
+				{
+					s1 = eventAssn->get(j)->getVariable();
+					s1.append("=");
+					s1.append( SBML_formulaToString( eventAssn->get(j)->getMath() ) );
+					responses << tr( s.c_str() );
+				}
+
+				if (globalEvents.value(trigger,0).isEmpty())
+					globalEvents.value(trigger,0) = responses.join(";");
+				else
+					globalEvents.value(trigger,0) += tr(";") + responses.join(";");
+			}
+		}
+
+		if (rules)
+		{
+			TextDataTable & globalAssignments = global->textDataTable("Assignments");
+			for (int i=0; i < rules->size(); ++i)
+			{
+				Rule * r = rules->get(i);			
+				if (r->isAssignment())
+				{
+					AssignmentRule * ar  = (AssignmentRule*)r;
+					s1 = ar->getVariable();
+					s2 = ar->getFormula();
+					globalAssignments.value(tr(s1.c_stri()),tr(s2.c_str());
+				}
+			}
+		}
+
+		if (species)
+			for (int i=0; i < species->size(); ++i)
+				if (!species->get(i)->getConstant() && !species->get(i)->getBoundaryCondition())
+				{
+					s1 = species->get(i)->getId();
+					ItemHandle * h = new NodeHandle(defaultSpeciesFamily, tr( s1.c_str() ));
+					
+					double d = 0.0;
+					
+					if (species->get(i)->isSetInitialAmount())
+						d = species->get(i)->getInitialAmount();
+					else
+					if (species->get(i)->isSetInitialConcentration())
+						d = species->get(i)->getInitialConcentration();
+					
+					h->numericalDataTable("Initial Values
+				}
+				else
+				{
+					parameterNames.push_back(species->get(i)->getId());
+					if (species->get(i)->isSetInitialAmount())
+						parameterValues.push_back(species->get(i)->getInitialAmount());
+					else
+					if (species->get(i)->isSetInitialConcentration())
+						parameterValues.push_back(species->get(i)->getInitialConcentration());
+					else
+						parameterValues.push_back(0.0);
+				}
+
+		if (params)
+			for (int i=0; i < params->size(); ++i)
+			{
+				parameterNames.push_back(params->get(i)->getId());
+				parameterValues.push_back(params->get(i)->getValue());
+			}
+
+		int numReacs = 0;
+		
+		if (reacs)
+			numReacs = reacs->size();
+
+		stoichiometryMatrix = new double[ numReacs * variableNames.size() ];
+
+		for (int i=0; i < numReacs; ++i)
+		{
+			Reaction * r = reacs->get(i);
+			reactionNames.push_back(r->getId());
+			rateEquations.push_back(r->getKineticLaw()->getFormula());
+			ListOfSpeciesReferences * reactants = r->getListOfReactants(),
+									* products  = r->getListOfProducts();
+
+			for (int j=0; j < variableNames.size(); ++j)
+			{
+				stoichiometryMatrix[ j*numReacs + i ] = 0.0;
+
+				for (int k=0; k < reactants->size(); ++k)
+					if (reactants->get(k) && reactants->get(k)->getSpecies() == variableNames[j])
+						stoichiometryMatrix[ j*numReacs + i ] -= 1.0;
+						//stoichiometryMatrix[ j*numReacs + i ] -= SpeciesReference_getStoichiometry(reactants->get(k));
+					
+				for (int k=0; k < products->size(); ++k)
+					if (products->get(k) && products->get(k)->getSpecies() == variableNames[j])
+						stoichiometryMatrix[ j*numReacs + i ] += 1.0;
+						//stoichiometryMatrix[ j*numReacs + i ] += SpeciesReference_getStoichiometry(reactants->get(k));
+			}
+		}
+		
+		for (int i=0; i < rateEquations.size(); ++i)
+		{
+			mu::Parser p;
+			addSBMLFunctions(p);
+			p.SetExpr(rateEquations[i]);
+			
+			for (int j=0; j < variableNames.size(); ++j)
+				p.DefineVar(variableNames[j],&variableValues[j]);
+
+			for (int j=0; j < parameterNames.size(); ++j)
+				p.DefineVar(parameterNames[j],&parameterValues[j]);
+			
+			for (int j=0; j < assignmentVariables.size(); ++j)
+				p.DefineVar(assignmentVariables[j],&assignmentValues[j]);
+
+			try
+			{
+				rateEqns.push_back(p);
+			}
+			catch(...)
+			{
+				reactionNames.clear();
+				rateEqns.clear();
+				break;
+			}
+		}
+		
+		for (int i=0; i < assignmentEquations.size(); ++i)
+		{
+			mu::Parser p;
+			addSBMLFunctions(p);
+			p.SetExpr(assignmentEquations[i]);
+			
+			for (int j=0; j < variableNames.size(); ++j)
+				p.DefineVar(variableNames[j],&variableValues[j]);
+
+			for (int j=0; j < parameterNames.size(); ++j)
+				p.DefineVar(parameterNames[j],&parameterValues[j]);
+			
+			for (int j=0; j < assignmentVariables.size(); ++j)
+				p.DefineVar(assignmentVariables[j],&assignmentValues[j]);
+
+			try
+			{
+				p.Eval();
+				assignmentEqns.push_back(p);
+			}
+			catch(...)
+			{
+				//assignmentVariables.clear();
+				//assignmentEqns.clear();
+				break;
+			}
+		}
+
+		for (int i=0; i < eventTriggers.size(); ++i)
+		{
+			mu::Parser p;
+			addSBMLFunctions(p);
+			p.SetExpr(eventTriggers[i]);
+			
+			for (int j=0; j < variableNames.size(); ++j)
+				p.DefineVar(variableNames[j],&variableValues[j]);
+
+			for (int j=0; j < parameterNames.size(); ++j)
+				p.DefineVar(parameterNames[j],&parameterValues[j]);
+			
+			for (int j=0; j < assignmentVariables.size(); ++j)
+				p.DefineVar(assignmentVariables[j],&assignmentValues[j]);
+
+			try
+			{
+				p.Eval();
+				
+				//resposes for the trigger
+				vector<mu::Parser> responses;
+				for (int j=0; j < eventResponses[i].size(); ++j)
+				{
+					mu::Parser p;
+					addSBMLFunctions(p);
+					p.SetExpr(eventResponses[i][j]);
+
+					try
+					{
+						p.Eval();
+						responses.push_back(p);
+					}
+					catch(...) {}
+				}
+
+				if (responses.size() > 0)
+				{
+					triggerEqns.push_back(p);
+					responseEqns.push_back(responses);
+				}
+			}
+			catch(...)
+			{
+				//assignmentVariables.clear();
+				//assignmentEqns.clear();
+				break;
+			}
+		}
+
+		//delete params;
+		//delete reacs;
+	}
+
 	return handles;
 }
 
@@ -348,7 +592,7 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 			}
 			if (handles[i]->hasTextData(tr("Events")))
 			{
-				DataTable<QString>& dat = handles[i]->data->textData[tr("Events")];
+				DataTable<QString>& dat = handles[i]->textDataTable(tr("Events"));
 				if (dat.cols() == 1)
 					for (j=0; j < dat.rows(); ++j)
 					{
@@ -366,7 +610,7 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 			}
 			if (handles[i]->hasTextData(tr("Functions")))
 			{
-				DataTable<QString>& dat = handles[i]->data->textData[tr("Functions")];
+				DataTable<QString>& dat = handles[i]->textDataTable(tr("Functions"));
 
 				if (dat.cols() == 2)
 				{
@@ -387,7 +631,7 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 
 			if (handles[i]->hasTextData(tr("Assignments")))
 			{
-				DataTable<QString>& dat = handles[i]->data->textData[tr("Assignments")];
+				DataTable<QString>& dat = handles[i]->textDataTable(tr("Assignments"));
 				if (dat.cols() == 1)
 					for (j=0; j < dat.rows(); ++j)
 					{

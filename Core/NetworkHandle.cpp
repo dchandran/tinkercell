@@ -453,9 +453,9 @@ namespace Tinkercell
 	/*! \brief change numerical data table*/
 	void NetworkHandle::changeData(const QString& name, ItemHandle* handle, const QString& hashstring, const NumericalDataTable* newdata)
 	{
-		if (handle && handle->data && handle->data->numericalData.contains(hashstring))
+		if (handle && handle->hasNumericalData(hashstring))
 		{
-			QUndoCommand * command = new ChangeDataCommand<qreal>(name,&(handle->data->numericalData[hashstring]),newdata);
+			QUndoCommand * command = new ChangeDataCommand<qreal>(name,&(handle->numericalDataTable(hashstring)),newdata);
 
 			history.push(command);
 
@@ -471,9 +471,9 @@ namespace Tinkercell
 
 		for (int i=0; i < handles.size() && i < hashstrings.size() && i < newdata.size(); ++i)
 		{
-			if (newdata[i] && handles[i] && handles[i]->data && handles[i]->data->numericalData.contains(hashstrings[i]))
+			if (newdata[i] && handles[i] && handles[i]->hasNumericalData(hashstrings[i]))
 			{
-				oldTables += &(handles[i]->data->numericalData[ hashstrings[i] ]);
+				oldTables += &(handles[i]->numericalDataTable(hashstrings[i]));
 				newTables += newdata[i];
 			}
 		}
@@ -494,9 +494,9 @@ namespace Tinkercell
 
 		for (int i=0; i < handles.size() && i < newdata.size(); ++i)
 		{
-			if (newdata[i] && handles[i] && handles[i]->data && handles[i]->data->numericalData.contains(hashstring))
+			if (newdata[i] && handles[i] && handles[i]->hasNumericalData(hashstring))
 			{
-				oldTables += &(handles[i]->data->numericalData[ hashstring ]);
+				oldTables += &(handles[i]->numericalDataTable( hashstring ));
 				newTables += newdata[i];
 			}
 		}
@@ -513,9 +513,9 @@ namespace Tinkercell
 	/*! \brief change text data table*/
 	void NetworkHandle::changeData(const QString& name, ItemHandle* handle, const QString& hashstring, const TextDataTable* newdata)
 	{
-		if (handle && handle->data && handle->data->textData.contains(hashstring))
+		if (handle && handle->hasTextData(hashstring))
 		{
-			QUndoCommand * command = new ChangeDataCommand<QString>(name,&(handle->data->textData[hashstring]),newdata);
+			QUndoCommand * command = new ChangeDataCommand<QString>(name,&(handle->textDataTable(hashstring)),newdata);
 			history.push(command);
 
 			QList<ItemHandle*> handles;
@@ -530,9 +530,9 @@ namespace Tinkercell
 
 		for (int i=0; i < handles.size() && i < hashstrings.size() && i < newdata.size(); ++i)
 		{
-			if (newdata[i] && handles[i] && handles[i]->data && handles[i]->data->textData.contains(hashstrings[i]))
+			if (newdata[i] && handles[i] && handles[i]->hasTextData(hashstrings[i]))
 			{
-				oldTables += &(handles[i]->data->textData[ hashstrings[i] ]);
+				oldTables += &(handles[i]->textDataTable( hashstrings[i] ));
 				newTables += newdata[i];
 			}
 		}
@@ -553,9 +553,9 @@ namespace Tinkercell
 
 		for (int i=0; i < handles.size() && i < newdata.size(); ++i)
 		{
-			if (newdata[i] && handles[i] && handles[i]->data && handles[i]->data->textData.contains(hashstring))
+			if (newdata[i] && handles[i] && handles[i]->hasTextData(hashstring))
 			{
-				oldTables += &(handles[i]->data->textData[ hashstring ]);
+				oldTables += &(handles[i]->textDataTable( hashstring ));
 				newTables += newdata[i];
 			}
 		}
@@ -572,9 +572,9 @@ namespace Tinkercell
 	/*! \brief change two types of data tables*/
 	void NetworkHandle::changeData(const QString& name, ItemHandle* handle, const QString& hashstring, const NumericalDataTable* newdata1, const TextDataTable* newdata2)
 	{
-		if (handle && handle->data && handle->data->numericalData.contains(hashstring) && handle->data->textData.contains(hashstring))
+		if (handle && handle->hasNumericalData(hashstring) && handle->hasTextData(hashstring))
 		{
-			QUndoCommand * command = new Change2DataCommand<qreal,QString>(name,&(handle->data->numericalData[hashstring]), newdata1, &(handle->data->textData[hashstring]),newdata2);
+			QUndoCommand * command = new Change2DataCommand<qreal,QString>(name,&(handle->numericalDataTable(hashstring)), newdata1, &(handle->textDataTable(hashstring)),newdata2);
 
 			history.push(command);
 
@@ -592,18 +592,18 @@ namespace Tinkercell
 		int j = 0;
 		for (int i=0; j < handles.size() && j < hashstrings.size() && i < newdata1.size(); ++i, ++j)
 		{
-			if (newdata1[i] && handles[j] && handles[j]->data && handles[j]->data->numericalData.contains(hashstrings[j]))
+			if (newdata1[i] && handles[j] && handles[j]->hasNumericalData(hashstrings[j]))
 			{
-				oldTablesN += &(handles[j]->data->numericalData[ hashstrings[j] ]);
+				oldTablesN += &(handles[j]->numericalDataTable( hashstrings[j] ));
 				newTablesN += newdata1[i];
 			}
 		}
 
 		for (int i=0; j < handles.size() && j < hashstrings.size() && i < newdata2.size(); ++i, ++j)
 		{
-			if (newdata2[i] && handles[j] && handles[j]->data && handles[j]->data->textData.contains(hashstrings[j]))
+			if (newdata2[i] && handles[j] && handles[j]->hasTextData(hashstrings[j]))
 			{
-				oldTablesS += &(handles[j]->data->textData[ hashstrings[j] ]);
+				oldTablesS += &(handles[j]->textDataTable( hashstrings[j] ));
 				newTablesS += newdata2[i];
 			}
 		}
@@ -625,9 +625,9 @@ namespace Tinkercell
 
 		for (int i=0; i < handles.size() && i < newdata2.size(); ++i)
 		{
-			if (newdata2[i] && handles[i] && handles[i]->data && handles[i]->data->textData.contains(hashstring))
+			if (newdata2[i] && handles[i] && handles[i]->hasTextData(hashstring))
 			{
-				oldTablesS += &(handles[i]->data->textData[ hashstring ]);
+				oldTablesS += &(handles[i]->textDataTable( hashstring ));
 				newTablesS += newdata2[i];
 			}
 		}
@@ -636,9 +636,9 @@ namespace Tinkercell
 
 		for (int i=0; i < handles.size()  && i < newdata1.size(); ++i)
 		{
-			if (newdata1[i] && handles[i] && handles[i]->data && handles[i]->data->numericalData.contains(hashstring))
+			if (newdata1[i] && handles[i] && handles[i]->hasNumericalData(hashstring))
 			{
-				oldTablesN += &(handles[i]->data->numericalData[ hashstring ]);
+				oldTablesN += &(handles[i]->numericalDataTable( hashstring ));
 				newTablesN += newdata1[i];
 			}
 		}
@@ -803,6 +803,7 @@ namespace Tinkercell
 							s.replace(QRegExp(tr("([^a-zA-Z0-9_\\.])")+str+tr("$")),tr("\\1") + handle->fullName() + tr(".")  + str);
 						}
 					}
+					
 					else
 					if (symbolsTable.nonuniqueData.contains(str) && symbolsTable.nonuniqueData[str].first)
 					{

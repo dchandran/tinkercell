@@ -49,7 +49,8 @@ namespace Tinkercell
 	*/
 	class TINKERCELLEXPORT ItemData
 	{
-	public:
+		friend class ItemHandle;
+	private:
 		/*! \brief hash table that stores the numerical data for each tool*/
 		QHash<QString,NumericalDataTable > numericalData;
 		/*! \brief hash table that stores the text data for each tool*/
@@ -82,6 +83,11 @@ namespace Tinkercell
 	class TINKERCELLEXPORT ItemHandle: public QObject
 	{
 		Q_OBJECT
+	
+	private:
+		/*! \brief the data (from each tool) for this handle
+		\sa ItemData*/
+		ItemData* data;
 
 	public:
 		/*! \brief name of this item*/
@@ -90,9 +96,7 @@ namespace Tinkercell
 		QList<QGraphicsItem*> graphicsItems;
 		/*! \brief list of tools associated with this handle*/
 		QList<Tool*> tools;
-		/*! \brief the data (from each tool) for this handle
-		\sa ItemData*/
-		ItemData* data;
+		
 		/*! \brief the network that this item belongs in*/
 		NetworkHandle * network;
 		/*! \brief this handles immediate parent (main parent if there are more than one)*/
@@ -159,74 +163,74 @@ namespace Tinkercell
 		virtual QList<ItemHandle*> allChildren() const;
 		/*! \brief all the numerical data table names
 		\return QStringList*/
-		virtual QStringList numericalDataNames() const;
+		QStringList numericalDataNames() const;
 		/*! \brief all the numerical text table names
 		\return QStringList*/
-		virtual QStringList textDataNames() const;
+		QStringList textDataNames() const;
 		/*! \brief does this handle have a numerical data table with this name?
 		\param QString name of tool, e.g. "Numerical Attributes"
 		\return bool true = has a numerical table by this name. false = does not have a numerical table by this name*/
-		virtual bool hasNumericalData(const QString& name) const;
+		bool hasNumericalData(const QString& name) const;
 		/*! \brief does this handle have a text data table with this name?
 		\param QString name of tool, e.g. "Text Attributes"
 		\return bool true = has a text table by this name. false = does not have a text table by this name*/
-		virtual bool hasTextData(const QString& name) const;
+		bool hasTextData(const QString& name) const;
 		/*! \brief gets a numerical attribute with the given name, row, column
 		\param QString name of tool, e.g. "Numerical Attributes"
 		\param int row in data table
 		\param int column in data table
 		\return double value*/
-		virtual qreal numericalData(const QString& name, int row=0, int column=0) const;
+		qreal numericalData(const QString& name, int row=0, int column=0) const;
 		/*! \brief gets a numerical attribute with the given name, row, column
 		\param QString name of tool, e.g. "Numerical Attributes"
 		\param QString row name in data table
 		\param QString column name data table
 		\return double value*/
-		virtual qreal numericalData(const QString& name, const QString& row, const QString& column=QString()) const;
+		qreal numericalData(const QString& name, const QString& row, const QString& column=QString()) const;
 		/*! \brief gets a text attribute with the given name, row, column
 		\param QString name of tool, e.g. "Text Attributes"
 		\param int row in data table
 		\param int column in data table
 		\return QString value*/
-		virtual QString textData(const QString& name, int row=0, int column=0) const;
+		QString textData(const QString& name, int row=0, int column=0) const;
 		/*! \brief gets a text attribute with the given name, row, column
 		\param QString name of tool, e.g. "Text Attributes"
 		\param QString row name in data table
 		\param QString column name data table
 		\return QString value*/
-		virtual QString textData(const QString& name, const QString& row, const QString& column=QString()) const;
+		QString textData(const QString& name, const QString& row, const QString& column=QString()) const;
 		/*! \brief gets a reference to the numerical attribute with the given name, row, column
 		\param QString name of tool, e.g. "Numerical Attributes"
 		\param int row in data table
 		\param int column in data table
 		\return double reference value*/
-		virtual qreal& numericalData(const QString& name, int row=0, int column=0);
+		qreal& numericalData(const QString& name, int row=0, int column=0);
 		/*! \brief gets a reference to the numerical attribute with the given name, row, column
 		\param QString name of tool, e.g. "Numerical Attributes"
 		\param QString row name in data table
 		\param QString column name data table
 		\return double reference value*/
-		virtual qreal& numericalData(const QString& name, const QString& row, const QString& column=QString());
+		qreal& numericalData(const QString& name, const QString& row, const QString& column=QString());
 		/*! \brief gets a reference to the text attribute with the given name, row, column
 		\param QString name of tool, e.g. "Text Attributes"
 		\param int row in data table
 		\param int column in data table
 		\return QString reference value*/
-		virtual QString& textData(const QString& name, int row=0, int column=0);
+		QString& textData(const QString& name, int row=0, int column=0);
 		/*! \brief gets a reference to the text attribute with the given name, row, column
 		\param QString name of tool, e.g. "Text Attributes"
 		\param QString row name in data table
 		\param QString column name data table
 		\return QString& reference value*/
-		virtual QString& textData(const QString& name, const QString& row, const QString& column=QString());
+		QString& textData(const QString& name, const QString& row, const QString& column=QString());
 		/*! \brief gets reference to a numerical table with the given name. Makes the table if needed
 		\param QString name of tool, e.g. "Numerical Attributes"
 		\return DataTable<double>& reference of table*/
-		virtual NumericalDataTable& numericalDataTable(const QString& name);
+		NumericalDataTable& numericalDataTable(const QString& name);
 		/*! \brief gets reference to a text table with the given name. Makes the table if needed
 		\param QString name of tool, e.g. "Numerical Attributes"
 		\return TextDataTable& reference of table*/
-		virtual TextDataTable& textDataTable(const QString& name);
+		TextDataTable& textDataTable(const QString& name);
 	};
 
 	/*! \brief
@@ -249,13 +253,21 @@ namespace Tinkercell
 		/*! \brief node family for this node handle*/
 		NodeFamily* nodeFamily;
 		/*! \brief default constructor -- initialize everything*/
-		NodeHandle(const QString& name = QString());
+		NodeHandle(const QString& name = QString(), NodeFamily * nodeFamily = 0);
 		/*! \brief copy constructor -- copies all the data (deep). graphic items are shallow copies*/
 		NodeHandle(const NodeHandle & copy);
 		/*! \brief operator = */
 		virtual NodeHandle& operator = (const NodeHandle&);
-		/*! \brief constructor using initial family and graphics item*/
-		NodeHandle(NodeFamily * nodeFamily, NodeGraphicsItem * item = 0);
+		/*! \brief constructor using initial family and graphics item
+		\param nodeFamily* node family
+		\param NodeGraphicsItem* graphics item
+		*/
+		NodeHandle(NodeFamily * nodeFamily, NodeGraphicsItem * item);
+		/*! \brief constructor using initial family and name
+		\param nodeFamily* node family
+		\param QString name
+		*/
+		NodeHandle(NodeFamily * nodeFamily, const QString& name = QString());
 		/*! \brief return a clone of this handle
 		\return ItemFamily* node handle as item handle*/
 		virtual ItemHandle * clone() const;
@@ -315,10 +327,12 @@ namespace Tinkercell
 		/*! \brief the family for this connection handle*/
 		ConnectionFamily* connectionFamily;
 		/*! \brief default constructor -- initializes everything*/
-		ConnectionHandle(const QString& name = QString());
+		ConnectionHandle(const QString& name = QString(), ConnectionFamily * family = 0);
 		/*! \brief one parameter constructor -- initializes everything
-		\param ConnectionFamily* connection family*/
-		ConnectionHandle(ConnectionFamily * family);
+		\param ConnectionFamily* connection family
+		\param QString name
+		*/
+		ConnectionHandle(ConnectionFamily * family, const QString& name = QString());
 		/*! \brief copy constructor -- deep copy of data, but shallow copy of graphics items*/
 		ConnectionHandle(const ConnectionHandle&);
 		/*! \brief operator = */

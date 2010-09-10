@@ -215,7 +215,7 @@ namespace Tinkercell
 	{
 		if (!item || !itemHandle || !itemHandle->hasNumericalData(item->text())) return;
 		
-		NumericalDataTable& table = itemHandle->data->numericalData[item->text()];
+		NumericalDataTable& table = itemHandle->numericalDataTable(item->text());
 		
 		textEdit->clear();
 		
@@ -253,7 +253,7 @@ namespace Tinkercell
 	{
 		if (!item || !itemHandle || !itemHandle->hasTextData(item->text())) return;
 		
-		DataTable<QString>& table = itemHandle->data->textData[item->text()];
+		DataTable<QString>& table = itemHandle->textDataTable(item->text());
 		
 		textEdit->clear();
 		
@@ -298,27 +298,27 @@ namespace Tinkercell
 		numericalTables.clear();
 		textTables.clear();
 		
-		if (!textEdit || !itemHandle || !itemHandle->data) return;
+		if (!textEdit || !itemHandle) return;
 		
 		textEdit->clear();
 		
-		QStringList list = itemHandle->data->numericalData.keys();
+		QStringList list = itemHandle->numericalDataNames();
 		
 		QListWidgetItem * newItem;
 		for (int i=0; i < list.size(); ++i)
 		{
 			newItem = new QListWidgetItem;
 			newItem->setText(list[i]);
-			newItem->setToolTip(itemHandle->data->numericalData[ list[i] ].description());
+			newItem->setToolTip(itemHandle->numericalDataTable( list[i] ).description());
 			numericalTables.addItem(newItem);
 		}
 		
-		list = itemHandle->data->textData.keys();
+		list = itemHandle->textDataNames();
 		for (int i=0; i < list.size(); ++i)
 		{
 			newItem = new QListWidgetItem;
 			newItem->setText(list[i]);
-			newItem->setToolTip(itemHandle->data->textData[ list[i] ].description());
+			newItem->setToolTip(itemHandle->textDataTable( list[i] ).description());
 			textTables.addItem(newItem);
 		}
 	}

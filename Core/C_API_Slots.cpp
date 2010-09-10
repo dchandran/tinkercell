@@ -954,9 +954,9 @@ namespace Tinkercell
 		if (!item && currentNetwork())
 			item = currentNetwork()->globalHandle();
 
-		if (dat && item && item->data && item->data->numericalData.contains(tool))
+		if (dat && item && item->hasNumericalData(tool))
 		{
-			(*dat) = item->data->numericalData[tool];
+			(*dat) = item->numericalDataTable(tool);
 		}
 		if (sem)
 			sem->release();
@@ -967,11 +967,11 @@ namespace Tinkercell
 		if (!item && currentNetwork())
 			item = currentNetwork()->globalHandle();
 
-		if (item && item->data)
+		if (item)
 		{
-			if (!item->data->numericalData.contains(tool))
+			if (!item->hasNumericalData(tool))
 			{
-				item->data->numericalData[tool] = DataTable<qreal>();
+				item->numericalDataTable(tool) = DataTable<qreal>();
 			}
 			NetworkHandle * win = currentNetwork();
 			if (win)
@@ -988,9 +988,9 @@ namespace Tinkercell
 		if (!item && currentNetwork())
 			item = currentNetwork()->globalHandle();
 
-		if (dat && item && item->data && item->data->textData.contains(tool))
+		if (dat && item && item->hasTextData(tool))
 		{
-			(*dat) = item->data->textData[tool];
+			(*dat) = item->textDataTable(tool);
 		}
 		if (sem)
 			sem->release();
@@ -1001,11 +1001,11 @@ namespace Tinkercell
 		if (!item && currentNetwork())
 			item = currentNetwork()->globalHandle();
 
-		if (item && item->data)
+		if (item)
 		{
-			if (!item->data->textData.contains(tool))
+			if (!item->hasTextData(tool))
 			{
-				item->data->textData[tool] = DataTable<QString>();
+				item->textDataTable(tool) = TextDataTable();
 			}
 			NetworkHandle * win = currentNetwork();
 			if (win)

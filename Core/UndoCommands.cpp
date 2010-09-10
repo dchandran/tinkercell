@@ -490,17 +490,16 @@ namespace Tinkercell
 				QList<ItemHandle*> affectedHandles = textEditor->items();
 
 				for (int i=0; i < affectedHandles.size(); ++i)
-					if (affectedHandles[i]->data)
-					{
-						QList<QString> keys1 = affectedHandles[i]->data->numericalData.keys();
-						QList<QString> keys2 = affectedHandles[i]->data->textData.keys();
+				{
+					QList<QString> keys1 = affectedHandles[i]->numericalDataNames();
+					QList<QString> keys2 = affectedHandles[i]->textDataNames();
 
-						for (int j=0; j < keys1.size(); ++j)
-							oldData1 += new DataTable<qreal>(affectedHandles[i]->data->numericalData[ keys1[j] ]);
+					for (int j=0; j < keys1.size(); ++j)
+						oldData1 += new DataTable<qreal>(affectedHandles[i]->numericalDataTable( keys1[j] ));
 
-						for (int j=0; j < keys2.size(); ++j)
-							oldData2 += new DataTable<QString>(affectedHandles[i]->data->textData[ keys2[j] ]);
-					}
+					for (int j=0; j < keys2.size(); ++j)
+						oldData2 += new DataTable<QString>(affectedHandles[i]->textDataTable( keys2[j] ));
+				}
 
 				DataTable<qreal> * nDat = 0;
 				DataTable<QString> * sDat = 0;
@@ -517,11 +516,11 @@ namespace Tinkercell
 							regexp3(QString("([^A-Za-z0-9_.])") + oldname + QString("$")), //(!letter/num)+oldname
 							regexp4(QString("([^A-Za-z0-9_.])") + oldname + QString("([^A-Za-z0-9_])")); //(!letter/num)+oldname+(!letter/num)
 
-						QList< QString > keys = affectedHandles[i]->data->numericalData.keys();
+						QList< QString > keys = affectedHandles[i]->numericalDataNames();
 						for (int j=0; j < keys.size(); ++j)  //go through each numeric data
 						{
 							affected = false;
-							nDat = &(affectedHandles[i]->data->numericalData[ keys[j] ]);
+							nDat = &(affectedHandles[i]->numericalDataTable( keys[j] ));
 							for (int k=0; k < nDat->rows(); ++k)
 							{
 								if (nDat->rowName(k).contains(regexp1) || nDat->rowName(k).contains(regexp2) ||
@@ -546,12 +545,12 @@ namespace Tinkercell
 			                  //  graphicsScene->console()->message(QObject::tr("data changed : ") + keys[j] + QObject::tr(" in ") + affectedHandles[i]->fullName());
 						}
 
-						keys = affectedHandles[i]->data->textData.keys();
+						keys = affectedHandles[i]->textDataNames();
 
 						for (int j=0; j < keys.size(); ++j)  //go through each text data
 						{
 							affected = false;
-							sDat = &(affectedHandles[i]->data->textData[ keys[j] ]);
+							sDat = &(affectedHandles[i]->textDataTable( keys[j] ));
 							for (int k=0; k < sDat->rows(); ++k)
 							{
 								if (sDat->rowName(k).contains(regexp1) || sDat->rowName(k).contains(regexp2) ||
@@ -617,17 +616,16 @@ namespace Tinkercell
 					}
 				}
 				for (int i=0; i < affectedHandles.size(); ++i)
-					if (affectedHandles[i]->data)
-					{
-						QList<QString> keys1 = affectedHandles[i]->data->numericalData.keys();
-						QList<QString> keys2 = affectedHandles[i]->data->textData.keys();
+				{
+					QList<QString> keys1 = affectedHandles[i]->numericalDataNames();
+					QList<QString> keys2 = affectedHandles[i]->textDataNames();
 
-						for (int j=0; j < keys1.size(); ++j)
-							newData1 += &(affectedHandles[i]->data->numericalData[ keys1[j] ]);
+					for (int j=0; j < keys1.size(); ++j)
+						newData1 += &(affectedHandles[i]->numericalDataTable( keys1[j] ));
 
-						for (int j=0; j < keys2.size(); ++j)
-							newData2 += &(affectedHandles[i]->data->textData[ keys2[j] ]);
-					}
+					for (int j=0; j < keys2.size(); ++j)
+						newData2 += &(affectedHandles[i]->textDataTable( keys2[j] ));
+				}
 				changeDataCommand = new Change2DataCommand<qreal,QString>(QString(""), newData1, oldData1, newData2, oldData2);
 				for (int i=0; i < oldData1.size(); ++i)
 					if (oldData1[i])
@@ -1084,22 +1082,21 @@ namespace Tinkercell
 			for (int i=0; i < items.size(); ++i)
 			{
 				handle = getHandle(items[i]);
-				if (handle && handle->data && handle->graphicsItems.size() > 0 && !affectedHandles.contains(handle))
+				if (handle && handle->graphicsItems.size() > 0 && !affectedHandles.contains(handle))
 					affectedHandles += handle;
 			}
 
-			for (int i=0; i < affectedHandles.size(); ++i)
-				if (affectedHandles[i]->data)
-				{
-					QList<QString> keys1 = affectedHandles[i]->data->numericalData.keys();
-					QList<QString> keys2 = affectedHandles[i]->data->textData.keys();
+			for (int i=0; i < affectedHandles.size(); ++i)		
+			{
+				QList<QString> keys1 = affectedHandles[i]->numericalDataNames();
+				QList<QString> keys2 = affectedHandles[i]->textDataNames();
 
-					for (int j=0; j < keys1.size(); ++j)
-						oldData1 += new DataTable<qreal>(affectedHandles[i]->data->numericalData[ keys1[j] ]);
+				for (int j=0; j < keys1.size(); ++j)
+					oldData1 += new DataTable<qreal>(affectedHandles[i]->numericalDataTable( keys1[j] ));
 
-					for (int j=0; j < keys2.size(); ++j)
-						oldData2 += new DataTable<QString>(affectedHandles[i]->data->textData[ keys2[j] ]);
-				}
+				for (int j=0; j < keys2.size(); ++j)
+					oldData2 += new DataTable<QString>(affectedHandles[i]->textDataTable( keys2[j] ));
+			}
 
 			DataTable<qreal> * nDat = 0;
 			DataTable<QString> * sDat = 0;
@@ -1116,11 +1113,11 @@ namespace Tinkercell
 						regexp3(QString("([^A-Za-z0-9_.])") + oldname + QString("$")), //(!letter/num)+oldname
 						regexp4(QString("([^A-Za-z0-9_.])") + oldname + QString("([^A-Za-z0-9_])")); //(!letter/num)+oldname+(!letter/num)
 
-					QList< QString > keys = affectedHandles[i]->data->numericalData.keys();
+					QList< QString > keys = affectedHandles[i]->numericalDataNames();
 					for (int j=0; j < keys.size(); ++j)  //go through each numeric data
 					{
 						affected = false;
-						nDat = &(affectedHandles[i]->data->numericalData[ keys[j] ]);
+						nDat = &(affectedHandles[i]->numericalDataTable( keys[j] ));
 						for (int k=0; k < nDat->rows(); ++k)
 						{
 							if (nDat->rowName(k).contains(regexp1) || nDat->rowName(k).contains(regexp2) ||
@@ -1145,12 +1142,12 @@ namespace Tinkercell
                           //  graphicsScene->console()->message(QObject::tr("data changed : ") + keys[j] + QObject::tr(" in ") + affectedHandles[i]->fullName());
 					}
 
-					keys = affectedHandles[i]->data->textData.keys();
+					keys = affectedHandles[i]->textDataNames();
 
 					for (int j=0; j < keys.size(); ++j)  //go through each text data
 					{
 						affected = false;
-						sDat = &(affectedHandles[i]->data->textData[ keys[j] ]);
+						sDat = &(affectedHandles[i]->textDataTable( keys[j] ));
 						for (int k=0; k < sDat->rows(); ++k)
 						{
 							if (sDat->rowName(k).contains(regexp1) || sDat->rowName(k).contains(regexp2) ||
@@ -1216,17 +1213,16 @@ namespace Tinkercell
 				}
 			}
 			for (int i=0; i < affectedHandles.size(); ++i)
-				if (affectedHandles[i]->data)
-				{
-					QList<QString> keys1 = affectedHandles[i]->data->numericalData.keys();
-					QList<QString> keys2 = affectedHandles[i]->data->textData.keys();
+			{
+				QList<QString> keys1 = affectedHandles[i]->numericalDataNames();
+				QList<QString> keys2 = affectedHandles[i]->textDataNames();
 
-					for (int j=0; j < keys1.size(); ++j)
-						newData1 += &(affectedHandles[i]->data->numericalData[ keys1[j] ]);
+				for (int j=0; j < keys1.size(); ++j)
+					newData1 += &(affectedHandles[i]->numericalDataTable( keys1[j] ));
 
-					for (int j=0; j < keys2.size(); ++j)
-						newData2 += &(affectedHandles[i]->data->textData[ keys2[j] ]);
-				}
+				for (int j=0; j < keys2.size(); ++j)
+					newData2 += &(affectedHandles[i]->textDataTable( keys2[j] ));
+			}
 			changeDataCommand = new Change2DataCommand<qreal,QString>(QString(""), newData1, oldData1, newData2, oldData2);
 			for (int i=0; i < oldData1.size(); ++i)
 				if (oldData1[i])
@@ -2142,16 +2138,16 @@ namespace Tinkercell
 
 		for (int i=0; i < handles.size(); ++i)
 		{
-			if (handles[i] && handles[i]->data)  //go through each handles num data and text data
+			if (handles[i])  //go through each handles num data and text data
 			{
 				QString fullname = handles[i]->fullName();
 				QString s = newname;
 				s.remove(fullname + QObject::tr("."));
 				
-				QList< QString > keys = handles[i]->data->numericalData.keys();
+				QList< QString > keys = handles[i]->numericalDataNames();
 				for (int j=0; j < keys.size(); ++j)  //go through each num data
 				{
-					nDat = &(handles[i]->data->numericalData[ keys[j] ]);
+					nDat = &(handles[i]->numericalDataTable( keys[j] ));
 					for (int k=0; k < nDat->rows(); ++k)
 					{
 						if (nDat->rowName(k).contains(oldname))
@@ -2169,10 +2165,10 @@ namespace Tinkercell
 							nDat->colName(k) = s;
 					}
 				}
-				keys = handles[i]->data->textData.keys();
+				keys = handles[i]->textDataNames();
 				for (int j=0; j < keys.size(); ++j)  //go through each text data
 				{
-					sDat = &(handles[i]->data->textData[ keys[j] ]);
+					sDat = &(handles[i]->textDataTable (keys[j]));
 					for (int k=0; k < sDat->rows(); ++k)
 					{
 						if (sDat->rowName(k).contains(oldname))
@@ -2216,16 +2212,16 @@ namespace Tinkercell
 		if (firstTime)
 		{
 			for (int i=0; i < allhandles.size(); ++i)
-				if (allhandles[i] && allhandles[i]->data)
+				if (allhandles[i])
 				{
-					QList<QString> keys1 = allhandles[i]->data->numericalData.keys();
-					QList<QString> keys2 = allhandles[i]->data->textData.keys();
+					QList<QString> keys1 = allhandles[i]->numericalDataNames();
+					QList<QString> keys2 = allhandles[i]->textDataNames();
 
 					for (int j=0; j < keys1.size(); ++j)
-						oldData1 += new DataTable<qreal>(allhandles[i]->data->numericalData[ keys1[j] ]);
+						oldData1 += new DataTable<qreal>(allhandles[i]->numericalDataTable( keys1[j] ));
 
 					for (int j=0; j < keys2.size(); ++j)
-						oldData2 += new DataTable<QString>(allhandles[i]->data->textData[ keys2[j] ]);
+						oldData2 += new DataTable<QString>(allhandles[i]->textDataTable( keys2[j] ));
 				}
 		}
 
@@ -2283,16 +2279,16 @@ namespace Tinkercell
 
 
 			for (int i=0; i < allhandles.size(); ++i)
-				if (allhandles[i] && allhandles[i]->data)
+				if (allhandles[i])
 				{
-					QList<QString> keys1 = allhandles[i]->data->numericalData.keys();
-					QList<QString> keys2 = allhandles[i]->data->textData.keys();
+					QList<QString> keys1 = allhandles[i]->numericalDataNames();
+					QList<QString> keys2 = allhandles[i]->textDataNames();
 
 					for (int j=0; j < keys1.size(); ++j)
-						newData1 += &(allhandles[i]->data->numericalData[ keys1[j] ]);
+						newData1 += &(allhandles[i]->numericalDataTable( keys1[j] ));
 
 					for (int j=0; j < keys2.size(); ++j)
-						newData2 += &(allhandles[i]->data->textData[ keys2[j] ]);
+						newData2 += &(allhandles[i]->textDataTable( keys2[j] ));
 				}
 				changeDataCommand = new Change2DataCommand<qreal,QString>(QString(""), newData1, oldData1, newData2, oldData2);
 				for (int i=0; i < oldData1.size(); ++i)

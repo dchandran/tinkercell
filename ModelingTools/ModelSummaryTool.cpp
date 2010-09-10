@@ -183,10 +183,10 @@ namespace Tinkercell
 				QString s;
 				
 				if (handles[i]->hasTextData(tr("Rate equations")) && 
-					handles[i]->data->textData[tr("Rate equations")].rows() > 0 && 
-					handles[i]->data->textData[tr("Rate equations")].cols() > 0)
+					handles[i]->textDataTable(tr("Rate equations")).rows() > 0 && 
+					handles[i]->textDataTable(tr("Rate equations")).cols() > 0)
 					s = handles[i]->family()->name + tr(": ") + handles[i]->fullName() + tr("\n") + tr("Rate = ") 
-						+ handles[i]->data->textData[tr("Rate equations")].at(0,0);
+						+ handles[i]->textDataTable(tr("Rate equations")).at(0,0);
 				else
 					s = handles[i]->family()->name + tr(": ") + handles[i]->fullName() + tr("\n") + tr("[No Rate]");				
 				
@@ -396,7 +396,7 @@ namespace Tinkercell
 				changedHandles << handles[i];
 				DataTable<qreal> * dat = new DataTable<qreal>(handles[i]->numericalDataTable(tr("Fixed")));
 				
-				nDataTablesOld += &(handles[i]->data->numericalData[tr("Fixed")]);
+				nDataTablesOld += &(handles[i]->numericalDataTable(tr("Fixed")));
 				nDataTablesNew += dat;
 
 				if (dat->value(0,0) > 0)
@@ -522,15 +522,15 @@ namespace Tinkercell
 
 			for (int i=0; i < itemHandles.size(); ++i)
 			{
-				if (itemHandles[i] != 0 && itemHandles[i]->data != 0)
+				if (itemHandles[i] != 0)
 				{
 					if (itemHandles[i]->hasNumericalData(tr("Initial Value")))
 					{
 						nDataTable2 = 0;
 						if (itemHandles[i]->hasNumericalData(tr("Fixed")))
-							nDataTable2 = new DataTable<qreal>(itemHandles[i]->data->numericalData[tr("Fixed")]);
+							nDataTable2 = new DataTable<qreal>(itemHandles[i]->numericalDataTable(tr("Fixed")));
 
-						nDataTable1 = new DataTable<qreal>(itemHandles[i]->data->numericalData[tr("Initial Value")]);
+						nDataTable1 = new DataTable<qreal>(itemHandles[i]->numericalDataTable(tr("Initial Value")));
 
 						for (int j=0; j < nDataTable1->rows() && n < values.size(); ++j, ++n)
 						{
@@ -553,13 +553,13 @@ namespace Tinkercell
 								newNames += names[n];
 							}
 						}
-						nDataTablesOld += &(itemHandles[i]->data->numericalData[tr("Initial Value")]);
+						nDataTablesOld += &(itemHandles[i]->numericalDataTable(tr("Initial Value")));
 						nDataTablesNew += nDataTable1;
 						handles += itemHandles[i];
 
-						if (nDataTable2 && itemHandles[i]->data->numericalData[tr("Fixed")] != (*nDataTable2))
+						if (nDataTable2 && itemHandles[i]->numericalDataTable(tr("Fixed")) != (*nDataTable2))
 						{
-							nDataTablesOld += &(itemHandles[i]->data->numericalData[tr("Fixed")]);
+							nDataTablesOld += &(itemHandles[i]->numericalDataTable(tr("Fixed")));
 							nDataTablesNew += nDataTable2;
 							handles += itemHandles[i];
 							
@@ -691,9 +691,9 @@ namespace Tinkercell
 		for (int i=0; i < itemHandles.size(); ++i) //build combined matrix for all selected reactions
 		{
 			if (itemHandles[i] && itemHandles[i]->family() && !(itemHandles[i]->family()->measurementUnit.name.isEmpty())
-				&& itemHandles[i]->data && itemHandles[i]->hasNumericalData(tr("Initial Value")))
+				&& itemHandles[i]->hasNumericalData(tr("Initial Value")))
 			{
-				nDataTable = &(itemHandles[i]->data->numericalData[tr("Initial Value")]);
+				nDataTable = &(itemHandles[i]->numericalDataTable(tr("Initial Value")));
 				for (int j=0; j < nDataTable->rows(); ++j)
 				{
 					if (itemHandles[i]->parent)
@@ -707,9 +707,9 @@ namespace Tinkercell
 				}
 			}
 
-			if (itemHandles[i] && itemHandles[i]->data && itemHandles[i]->hasNumericalData(tr("Fixed")))
+			if (itemHandles[i] && itemHandles[i]->hasNumericalData(tr("Fixed")))
 			{
-				nDataTable = &(itemHandles[i]->data->numericalData[tr("Fixed")]);
+				nDataTable = &(itemHandles[i]->numericalDataTable(tr("Fixed")));
 				for (int j=0; j < nDataTable->rows(); ++j)
 				{
 					if (nDataTable->value(j,0) > 0.0)

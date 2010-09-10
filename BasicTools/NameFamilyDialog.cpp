@@ -134,7 +134,7 @@ namespace Tinkercell
 		for (int i=0; i < handles.size(); ++i)
 			if (handles[i] && handles[i]->family())
 			{
-				if (handles[i]->data && !handles[i]->hasTextData(tr("Annotation")))
+				if (!handles[i]->hasTextData(tr("Annotation")))
 				{
 					DataTable<QString> data;
 					data.resize(5,1);
@@ -145,7 +145,7 @@ namespace Tinkercell
 
 					data.description() = tr("Annotation: A set of fields and text values. The fields, such as author or date, are the row names. First column contains values.");
 
-					handles[i]->data->textData[tr("Annotation")] = data;
+					handles[i]->textDataTable(tr("Annotation")) = data;
 				}
 				if (!handles[i]->tools.contains(this) )
 					handles[i]->tools += this;
@@ -201,7 +201,7 @@ namespace Tinkercell
 
 		if (handle->hasTextData(tr("Annotation")))
 		{
-			DataTable<QString>& annotation = handle->data->textData[tr("Annotation")];
+			DataTable<QString>& annotation = handle->textDataTable(tr("Annotation"));
 			if (annotation.cols() == 1)
 				for (int i=0; i < annotation.rows(); ++i)
 				{
@@ -254,11 +254,11 @@ namespace Tinkercell
 		if (name != handle->name)
 			net->rename(handle,name);
 
-		if (handle->data && handle->hasTextData(tr("Annotation")))
+		if (handle->hasTextData(tr("Annotation")))
 		{
 			bool changed = false;
 
-			if (data != handle->data->textData[tr("Annotation")])
+			if (data != handle->textDataTable(tr("Annotation")))
 				net->changeData(handle->fullName() + tr("'s annotation changed"), handle,tr("Annotation"),&data);
 		}
 
@@ -332,9 +332,9 @@ namespace Tinkercell
 		{
 			(*list).clear();
 
-			if (item->data && item->hasTextData(tr("Annotation")))
+			if (item->hasTextData(tr("Annotation")))
 			{
-				DataTable<QString> data = item->data->textData[tr("Annotation")];
+				DataTable<QString> data = item->textDataTable(tr("Annotation"));
 
 				//(*list) << data.getRowNames();
 
@@ -348,16 +348,14 @@ namespace Tinkercell
 
 	void NameFamilyDialog::setAnnotation(QSemaphore* sem, ItemHandle* item, const QStringList& list)
 	{
-		if (mainWindow->isValidHandlePointer(item) && item->data)
+		if (mainWindow->isValidHandlePointer(item))
 		{
 			DataTable<QString> data;
 
 			if (item->hasTextData(tr("Annotation")))
-				data = item->data->textData[tr("Annotation")];
+				data = item->textDataTable(tr("Annotation"));
 			else
-			{
-				item->data->textData[tr("Annotation")] = data;
-			}
+				item->textDataTable(tr("Annotation")) = data;
 
 			for (int i=0; i < (list.size()-1); i+=2)
 				data.value( list[i] ,0) = list[i+1];

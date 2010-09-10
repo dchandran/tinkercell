@@ -161,7 +161,7 @@ namespace Tinkercell
 			if (handles[i] && handles[i]->family() && !handles[i]->tools.contains(this))
 				handles[i]->tools += this;
 
-			if (handles[i] && handles[i]->family() && handles[i]->data && (
+			if (handles[i] && handles[i]->family() && (
 				!(handles[i]->hasTextData(tr("Functions"))) ||
 				!(handles[i]->hasTextData(tr("Assignments")))
 				))
@@ -213,7 +213,7 @@ namespace Tinkercell
 			if (scene->selected().size() > 0)
 				handle = getHandle(scene->selected()).last();
 
-		if (!handle || !handle->data) return;
+		if (!handle) return;
 
 		if (handle->hasTextData(tr("Assignment")) || handle->hasTextData(tr("Functions")))
 		{
@@ -223,17 +223,17 @@ namespace Tinkercell
 
 				QString f = updatedFunctionNames[row];
 
-				if (handle->hasTextData(tr("Assignments")) && handle->data->textData[tr("Assignments")].getRowNames().contains(f))
+				if (handle->hasTextData(tr("Assignments")) && handle->textDataTable(tr("Assignments")).getRowNames().contains(f))
 				{
-					DataTable<QString> newData(handle->data->textData[tr("Assignments")]);
+					DataTable<QString> newData(handle->textDataTable(tr("Assignments")));
 					newData.removeRow(f);
 
 					win->changeData(handle->fullName() + tr(".") + f + tr(" removed"), handle,tr("Assignments"),&newData);
 
 				}
-				if (handle->hasTextData(tr("Functions")) && handle->data->textData[tr("Functions")].getRowNames().contains(f))
+				if (handle->hasTextData(tr("Functions")) && handle->textDataTable(tr("Functions")).getRowNames().contains(f))
 				{
-					DataTable<QString> newData(handle->data->textData[tr("Functions")]);
+					DataTable<QString> newData(handle->textDataTable(tr("Functions")));
 					newData.removeRow(f);
 
 					win->changeData(handle->fullName() + tr(".") + f + tr(" removed"), handle,tr("Functions"),&newData);
@@ -266,7 +266,7 @@ namespace Tinkercell
 				if (var.startsWith(handle->fullName() + tr(".")))
 					var.remove(handle->fullName() + tr("."));
 
-				DataTable<QString> newData(handle->data->textData[tr("Assignments")]);
+				DataTable<QString> newData(handle->textDataTable(tr("Assignments")));
 
 				if (!newData.rowNames().contains(var))
 				{
@@ -316,7 +316,7 @@ namespace Tinkercell
 						return;
 					}
 
-					DataTable<QString> newData(handle->data->textData[tr("Functions")]);
+					DataTable<QString> newData(handle->textDataTable(tr("Functions")));
 
 					if (!newData.rowNames().contains(var))
 					{
@@ -424,7 +424,7 @@ namespace Tinkercell
 
 	void AssignmentFunctionsTool::insertDataMatrix(ItemHandle * handle)
 	{
-		if (handle == 0 || handle->family() == 0 || !handle->data) return;
+		if (handle == 0 || handle->family() == 0 ) return;
 
 		QStringList colNames;
 		colNames << "value";
@@ -437,7 +437,7 @@ namespace Tinkercell
 			table.colName(0) = QString("rule");
 			table.description() = tr("Assignments: A set of forcing functions. Row names correspond to the function name, and first column will contain the function string.");
 
-			handle->data->textData.insert(tr("Assignments"),table);
+			handle->textDataTable(tr("Assignments")) = table;
 		}
 
 		if (!handle->hasTextData(tr("Functions")))
@@ -449,7 +449,7 @@ namespace Tinkercell
 			table.colName(1) = QString("defn");
 			table.description() = tr("Functions: A set of function definitions. First column contains the list of arguments, and second column contains the function strings. Row names correspond to the function names.");
 
-			handle->data->textData.insert(tr("Functions"),table);
+			handle->textDataTable(tr("Functions")) = table;
 		}
 	}
 
@@ -478,7 +478,7 @@ namespace Tinkercell
 		{
 			if (itemHandles[i] != 0 && itemHandles[i]->hasTextData(tr("Assignments")))
 			{
-				sDataTable = &(itemHandles[i]->data->textData[tr("Assignments")]);
+				sDataTable = &(itemHandles[i]->textDataTable(tr("Assignments")));
 				if (sDataTable->cols() < 1) continue;
 
 				for (int j=0; j < sDataTable->rows(); ++j)
@@ -499,7 +499,7 @@ namespace Tinkercell
 		{
 			if (itemHandles[i] != 0 && itemHandles[i]->hasTextData(tr("Functions")))
 			{
-				sDataTable = &(itemHandles[i]->data->textData[tr("Functions")]);
+				sDataTable = &(itemHandles[i]->textDataTable(tr("Functions")));
 				if (sDataTable->cols() < 2) continue;
 
 				for (int j=0; j < sDataTable->rows(); ++j)
@@ -553,7 +553,7 @@ namespace Tinkercell
 			while (!lastItem && (i+1) < tableItems.size()) lastItem = tableItems[++i];
 		}
 
-		if (lastItem == 0 || lastItem->data == 0) return;
+		if (lastItem == 0) return;
 
 		disconnect(&tableWidget,SIGNAL(cellChanged(int,int)),this,SLOT(setValue(int,int)));
 
@@ -584,21 +584,21 @@ namespace Tinkercell
 
 			ItemHandle * handle = tableItems[row];
 
-			if (!handle || !handle->data) continue;
+			if (!handle) continue;
 
 			if (row >= updatedFunctionNames.size()) continue;
 			QString f = updatedFunctionNames[row];
-			if (handle->hasTextData(tr("Assignments")) && handle->data->textData[tr("Assignments")].getRowNames().contains(f))
+			if (handle->hasTextData(tr("Assignments")) && handle->textDataTable(tr("Assignments")).getRowNames().contains(f))
 			{
-				DataTable<QString> * sDat = new DataTable<QString>(handle->data->textData[tr("Assignments")]);
+				DataTable<QString> * sDat = new DataTable<QString>(handle->textDataTable(tr("Assignments")));
 				sDat->removeRow(f);
 				sDats << sDat;
 				handles << handle;
 				toolNames << tr("Assignments");
 			}
-			if (handle->hasTextData(tr("Functions")) && handle->data->textData[tr("Functions")].getRowNames().contains(f))
+			if (handle->hasTextData(tr("Functions")) && handle->textDataTable(tr("Functions")).getRowNames().contains(f))
 			{
-				DataTable<QString> * sDat = new DataTable<QString>(handle->data->textData[tr("Functions")]);
+				DataTable<QString> * sDat = new DataTable<QString>(handle->textDataTable(tr("Functions")));
 				sDat->removeRow(f);
 				sDats << sDat;
 				handles << handle;
@@ -666,10 +666,10 @@ namespace Tinkercell
 			QRegExp regex(tr("\\.(?!\\d)"));
 			for (int i=0; i < items.size(); ++i)
 			{
-				if (items[i] && !visited.contains(items[i]) && items[i]->data && items[i]->hasTextData(tr("Assignments")))
+				if (items[i] && !visited.contains(items[i])  &&  items[i]->hasTextData(tr("Assignments")))
 				{
 					QString s;
-					QStringList lst = items[i]->data->textData[tr("Assignments")].getRowNames();
+					QStringList lst = items[i]->textDataTable(tr("Assignments")).getRowNames();
 
 					for (int j=0; j < lst.size(); ++j)
 					{
@@ -702,10 +702,10 @@ namespace Tinkercell
 			QRegExp regex(tr("\\.(?!\\d)"));
 			for (int i=0; i < items.size(); ++i)
 			{
-				if (items[i] && !visited.contains(items[i]) && items[i]->data && items[i]->hasTextData(tr("Assignments"))
-					&& items[i]->data->textData[tr("Assignments")].cols() > 0)
+				if (items[i] && !visited.contains(items[i]) && items[i]->hasTextData(tr("Assignments"))
+					&& items[i]->textDataTable(tr("Assignments")).cols() > 0)
 				{
-					DataTable<QString>& dat = items[i]->data->textData[tr("Assignments")];
+					DataTable<QString>& dat = items[i]->textDataTable(tr("Assignments"));
 					for (int j=0; j < dat.rows(); ++j)
 					{
 						QString s = dat.value(j,0);
@@ -728,12 +728,12 @@ namespace Tinkercell
 		if (!item)
 			item = win->globalHandle();
 
-		if (item && item->data && !func.isEmpty() && !var.isEmpty())
+		if (item && !func.isEmpty() && !var.isEmpty())
 		{
 			if (!item->hasTextData(tr("Assignments")))
-				item->data->textData[tr("Assignments")] = DataTable<QString>();
+				item->textDataTable(tr("Assignments")) = DataTable<QString>();
 
-			DataTable<QString> dat = item->data->textData[tr("Assignments")];
+			DataTable<QString> dat = item->textDataTable(tr("Assignments"));
 
 			QString f = func;
 			QRegExp regex(QString("([A-Za-z0-9])_([A-Za-z])"));
@@ -764,7 +764,7 @@ namespace Tinkercell
 					else
 						currentNetwork()->changeData(item->fullName() + tr(".") + s + tr(" = ") + f,item,tr("Assignments"),&dat);
 				else
-					item->data->textData[tr("Assignments")] = dat;
+					item->textDataTable(tr("Assignments")) = dat;
 			}
 		}
 		if (sem)

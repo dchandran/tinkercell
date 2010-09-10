@@ -238,9 +238,13 @@ namespace Tinkercell
 			network->rename(this,s);
 	}
 	
-	void ItemHandle::changeData(const QString& hashstring, const DataTable<qreal>* newdata)
+	void ItemHandle::changeData(const QString& hashstring0, const DataTable<qreal>* newdata)
 	{
-		if (!data || !newdata) return;
+		if (!newdata) return;
+		
+		if (!data) data = new ItemData;
+		
+		QString hashstring = hashstring0.toLower();
 		
 		if (network)
 			network->changeData( name + QString("'s ") + hashstring + QString(" changed"), this, hashstring, newdata);
@@ -248,9 +252,13 @@ namespace Tinkercell
 			data->numericalData[hashstring] = (*newdata);
 	}
 	
-	void ItemHandle::changeData(const QString& hashstring, const DataTable<QString>* newdata)
+	void ItemHandle::changeData(const QString& hashstring0, const DataTable<QString>* newdata)
 	{
-		if (!data || !newdata) return;
+		if (!newdata) return;
+		
+		if (!data) data = new ItemData;
+		
+		QString hashstring = hashstring0.toLower();
 		
 		if (network)
 			network->changeData( name + QString("'s ") + hashstring + QString(" changed"), this, hashstring, newdata);
@@ -372,12 +380,12 @@ namespace Tinkercell
 
 	bool ItemHandle::hasNumericalData(const QString& name) const
 	{
-		return (data && data->numericalData.contains(name));
+		return (data && data->numericalData.contains(name.toLower()));
 	}
 
 	bool ItemHandle::hasTextData(const QString& name) const
 	{
-		return (data && data->textData.contains(name));
+		return (data && data->textData.contains(name.toLower()));
 	}
 
 	QList<QGraphicsItem*> ItemHandle::allGraphicsItems() const
@@ -399,8 +407,9 @@ namespace Tinkercell
 		return list;
 	}
 
-	qreal ItemHandle::numericalData(const QString& name, int row, int column) const
+	qreal ItemHandle::numericalData(const QString& name0, int row, int column) const
 	{
+		QString name = name0.toLower();
 		if (data && data->numericalData.contains(name))
 		{
 			return data->numericalData[name].at(row,column);
@@ -408,8 +417,10 @@ namespace Tinkercell
 		return 0.0;
 	}
 
-	qreal ItemHandle::numericalData(const QString& name, const QString& row, const QString& column) const
+	qreal ItemHandle::numericalData(const QString& name0, const QString& row, const QString& column) const
 	{
+		QString name = name0.toLower();
+
 		if (data && data->numericalData.contains(name))
 		{
 			if (!row.isEmpty() && !column.isEmpty())
@@ -427,8 +438,10 @@ namespace Tinkercell
 		return 0.0;
 	}
 
-	QString ItemHandle::textData(const QString& name, int row, int column) const
+	QString ItemHandle::textData(const QString& name0, int row, int column) const
 	{
+		QString name = name0.toLower();
+
 		if (data && data->textData.contains(name))
 		{
 			return data->textData[name].at(row,column);
@@ -436,8 +449,10 @@ namespace Tinkercell
 		return QString();
 	}
 
-	QString ItemHandle::textData(const QString& name, const QString& row, const QString& column) const
+	QString ItemHandle::textData(const QString& name0, const QString& row, const QString& column) const
 	{
+		QString name = name0.toLower();
+				
 		if (data && data->textData.contains(name))
 		{
 			if (!row.isEmpty() && !column.isEmpty())
@@ -455,9 +470,10 @@ namespace Tinkercell
 		return QString();
 	}
 
-	qreal& ItemHandle::numericalData(const QString& name, int row, int column)
+	qreal& ItemHandle::numericalData(const QString& name0, int row, int column)
 	{
 		if (!data) data = new ItemData;
+		QString name = name0.toLower();
 
 		if (!data->numericalData.contains(name))
 		{
@@ -467,9 +483,10 @@ namespace Tinkercell
 		return data->numericalData[name].value(row,column);
 	}
 
-	qreal& ItemHandle::numericalData(const QString& name, const QString& row, const QString& column)
+	qreal& ItemHandle::numericalData(const QString& name0, const QString& row, const QString& column)
 	{
 		if (!data) data = new ItemData;
+		QString name = name0.toLower();
 
 		if (!data->numericalData.contains(name))
 		{
@@ -488,9 +505,10 @@ namespace Tinkercell
 		return data->numericalData[name].value(row,column);
 	}
 
-	QString& ItemHandle::textData(const QString& name, int row, int column)
+	QString& ItemHandle::textData(const QString& name0, int row, int column)
 	{
 		if (!data) data = new ItemData;
+		QString name = name0.toLower();
 
 		if (!data->textData.contains(name))
 		{
@@ -500,9 +518,10 @@ namespace Tinkercell
 		return data->textData[name].value(row,column);
 	}
 
-	QString& ItemHandle::textData(const QString& name, const QString& row, const QString& column)
+	QString& ItemHandle::textData(const QString& name0, const QString& row, const QString& column)
 	{
 		if (!data) data = new ItemData;
+		QString name = name0.toLower();
 
 		if (!data->textData.contains(name))
 		{
@@ -521,9 +540,10 @@ namespace Tinkercell
 		return data->textData[name].value(row,column);
 	}
 
-	DataTable<qreal>& ItemHandle::numericalDataTable(const QString& name)
+	DataTable<qreal>& ItemHandle::numericalDataTable(const QString& name0)
 	{
 		if (!data) data = new ItemData;
+		QString name = name0.toLower();
 
 		if (!data->numericalData.contains(name))
 		{
@@ -533,9 +553,10 @@ namespace Tinkercell
 		return data->numericalData[name];
 	}
 
-	DataTable<QString>& ItemHandle::textDataTable(const QString& name)
+	DataTable<QString>& ItemHandle::textDataTable(const QString& name0)
 	{
 		if (!data) data = new ItemData;
+		QString name = name0.toLower();
 
 		if (!data->textData.contains(name))
 		{
@@ -581,9 +602,9 @@ namespace Tinkercell
 		return nodes;
 	}
 
-	NodeHandle::NodeHandle(const QString& s) : ItemHandle(s)
+	NodeHandle::NodeHandle(const QString& s, NodeFamily * family) : ItemHandle(s)
 	{
-		nodeFamily = 0;
+		nodeFamily = family;
 		type = NodeHandle::TYPE;
 	}
 
@@ -596,6 +617,12 @@ namespace Tinkercell
 			graphicsItems += item;
 			item->setHandle(this);
 		}
+	}
+	
+	NodeHandle::NodeHandle(NodeFamily * family, const QString& s) : ItemHandle(s)
+	{
+		nodeFamily = family;
+		type = NodeHandle::TYPE;
 	}
 
 	void NodeHandle::setFamily(ItemFamily * p, bool useCommand)
@@ -687,15 +714,15 @@ namespace Tinkercell
 		return nodes;
 	}
 
-	ConnectionHandle::ConnectionHandle(const QString& s) : ItemHandle(s)
+	ConnectionHandle::ConnectionHandle(const QString& s, ConnectionFamily * family) : ItemHandle(s)
 	{
 		type = ConnectionHandle::TYPE;
 		parent = 0;
-		connectionFamily = 0;
-		data = new ItemData();
+		connectionFamily = family;
 	}
+	
 
-	ConnectionHandle::ConnectionHandle(ConnectionFamily * family) : ItemHandle()
+	ConnectionHandle::ConnectionHandle(ConnectionFamily * family, const QString& s) : ItemHandle(s)
 	{
 		type = ConnectionHandle::TYPE;
 		connectionFamily = family;

@@ -77,7 +77,7 @@ namespace Tinkercell
 			if (column == 0)
 				return QVariant(attributeName);
 			else
-				if (itemHandle->data->numericalData[QString("Parameters")].getRowNames().contains(attributeName))
+				if (itemHandle->numericalDataTable(QString("Parameters")).getRowNames().contains(attributeName))
 					return QVariant(itemHandle->numericalData(QString("Parameters"),attributeName,0));
 		}
 		else
@@ -447,7 +447,7 @@ namespace Tinkercell
 
 		QString attributeName = item->text();
 
-		if (!handle || !handle->data || !handle->family()) return false;
+		if (!handle || !handle->family()) return false;
 
 		if (index.column() == 0)
 		{
@@ -470,7 +470,7 @@ namespace Tinkercell
 			{
 				if (handle->hasNumericalData(QString("Initial Value")))
 				{
-					NumericalDataTable newTable(handle->data->numericalData[ QString("Initial Value") ]);
+					NumericalDataTable newTable(handle->numericalDataTable( QString("Initial Value") ));
 					bool ok;
 					double d = value.toDouble(&ok);
 					if (ok && newTable.value(0,0) != d)
@@ -492,7 +492,7 @@ namespace Tinkercell
 						QString s = value.toString();
 						if (EquationParser::validate(network, handle, s, QStringList() << "time"))
 						{
-							 TextDataTable newTable(handle->data->textData[ QString("Rate equations") ]);
+							 TextDataTable newTable(handle->textDataTable( QString("Rate equations") ));
 							 newTable.value(0,0) = s;
 							 network->changeData(handle->fullName() + tr("'s rate = ") + s,
 											handle,
@@ -505,7 +505,7 @@ namespace Tinkercell
 			else
 				if (handle->hasNumericalData(QString("Parameters")))
 				{
-					DataTable<qreal> newTable(handle->data->numericalData[ QString("Parameters") ]);
+					DataTable<qreal> newTable(handle->numericalDataTable( QString("Parameters") ));
 					bool ok;
 					double d = value.toDouble(&ok);
 					if (ok && newTable.value(attributeName,0) != d)

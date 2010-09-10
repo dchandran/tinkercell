@@ -27,7 +27,7 @@ namespace Tinkercell
 	public:
 		static void setDefault(ConnectionHandle * handle)
 		{
-			if (!handle || !handle->data) return;
+			if (!handle) return;
 
 			QList<NodeHandle*> nodes = handle->nodes();
 
@@ -37,7 +37,7 @@ namespace Tinkercell
 			rates.value(QObject::tr("rate"),QObject::tr("formula")) = QObject::tr("0.0");
 			if (handle->hasNumericalData(QObject::tr("Parameters")))
 			{
-				handle->data->numericalData[QObject::tr("Parameters")].value(QObject::tr("k0"),0) = 1.0;
+				handle->numericalDataTable(QObject::tr("Parameters")).value(QObject::tr("k0"),0) = 1.0;
 				rates.value(QObject::tr("rate"),QObject::tr("formula")) = handle->fullName() + QObject::tr(".k0");
 			}
 
@@ -70,9 +70,9 @@ namespace Tinkercell
 			products.description() = QString("Number of each product participating in this reaction");
 			rates.description() = QString("Rates: a set of rates, one for each reaction represented by this item. Row names correspond to reaction names. The number of rows in this table and the stoichiometry table will be the same.");
 
-			handle->data->numericalData.insert(QObject::tr("Reactant stoichiometries"),reactants);
-			handle->data->numericalData.insert(QObject::tr("Product stoichiometries"),products);
-			handle->data->textData.insert(QObject::tr("Rate equations"),rates);
+			handle->numericalDataTable(QObject::tr("Reactant stoichiometries")) = reactants;
+			handle->numericalDataTable(QObject::tr("Product stoichiometries")) = products;
+			handle->textDataTable(QObject::tr("Rate equations")) = rates;
 
 		}
 	};

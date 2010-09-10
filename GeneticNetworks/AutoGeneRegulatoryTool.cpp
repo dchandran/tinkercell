@@ -621,7 +621,7 @@ namespace Tinkercell
 							connections[j]->isA(tr("Production")) &&
 							connections[j]->hasTextData(tr("Rate equations")))
 					{
-						DataTable<QString> * sDat = new DataTable<QString>(connections[j]->data->textData[tr("Rate equations")]);
+						DataTable<QString> * sDat = new DataTable<QString>(connections[j]->textDataTable(tr("Rate equations")));
 						s0 = sDat->value(0,0);
 						
 						if (promoter)
@@ -650,13 +650,13 @@ namespace Tinkercell
 								rate = tr("");
 							
 								if (promoter->hasNumericalData(tr("Parameters"))
-									&& promoter->data->numericalData[tr("Parameters")].getRowNames().contains(tr("strength")))
+									&& promoter->numericalDataTable(tr("Parameters")).getRowNames().contains(tr("strength")))
 									rate = promoter->fullName() + tr(".strength*") + rate;
 								
 								//rate += promoter->fullName();
 								rate += hillEquation(regulations, activators, repressors);
 								sDat->value(0,0) = rate;
-								oldDataTables += &(connections[j]->data->textData[tr("Rate equations")]);
+								oldDataTables += &(connections[j]->textDataTable(tr("Rate equations")));
 								newDataTables += sDat;
 							}
 
@@ -671,7 +671,7 @@ namespace Tinkercell
 									sDat->value(tr("translation"),0) = s;
 									if (!newDataTables.contains(sDat))
 									{
-										oldDataTables += &(connections[j]->data->textData[tr("Rate equations")]);
+										oldDataTables += &(connections[j]->textDataTable(tr("Rate equations")));
 										newDataTables += sDat;
 									}
 								}
@@ -689,13 +689,13 @@ namespace Tinkercell
 											connections2[l]->hasTextData(tr("Rate equations")))
 											if (rbs)
 											{
-													DataTable<QString> * sDat2 = new DataTable<QString>(connections2[l]->data->textData[tr("Rate equations")]);
+													DataTable<QString> * sDat2 = new DataTable<QString>(connections2[l]->textDataTable(tr("Rate equations")));
 													QString s = rbs->fullName() + tr(".strength * ") + rna[k]->fullName();
 
 													if (!sDat2->value(0,0).contains(rbs->fullName()))
 													{
 														sDat2->value(0,0) = s;
-														oldDataTables += &(connections[j]->data->textData[tr("Rate equations")]);
+														oldDataTables += &(connections[j]->textDataTable(tr("Rate equations")));
 														newDataTables += sDat2;
 													}
 													else
@@ -1001,7 +1001,7 @@ namespace Tinkercell
 
 							if (!intersects && beforeIntersected)
 							{
-								DataTable<QString> newRates(connections[j]->data->textData[tr("Rate equations")]);
+								DataTable<QString> newRates(connections[j]->textDataTable(tr("Rate equations")));
 								newRates.value(0,0) = tr("0.0");
 								QString s = connections[j]->fullName() + tr(" rate = 0.0");
 								
@@ -1255,9 +1255,9 @@ namespace Tinkercell
 						QList<NodeGraphicsItem*> connectedNodes = connections[j]->nodesWithoutArrows();
 						if (connectedNodes.size() > 0 && connectedNodes[0] && (h = connectedNodes[0]->handle())
 							&& h->isA(family) && h->children.isEmpty() && !visited.contains(connectedNodes[0])
-							&& (!stopIfElongation || !connections[j]->handle()->data
+							&& (!stopIfElongation
 								|| !connections[j]->handle()->hasNumericalData(tr("Product stoichiometries"))
-								|| connections[j]->handle()->data->numericalData[tr("Product stoichiometries")].rows() < 1)
+								|| connections[j]->handle()->numericalDataTable(tr("Product stoichiometries")).rows() < 1)
 							)
 							{
 								visited += connectedNodes[0];
@@ -1277,9 +1277,9 @@ namespace Tinkercell
 						QList<NodeGraphicsItem*> connectedNodes = connections[j]->nodesWithArrows();
 						if (connectedNodes.size() > 0 && connectedNodes[0] && (h = connectedNodes[0]->handle())
 							&& h->isA(family) && h->children.isEmpty() && !visited.contains(connectedNodes[0])
-							&& (!stopIfElongation || !connections[j]->handle()->data
+							&& (!stopIfElongation
 								|| !connections[j]->handle()->hasNumericalData(tr("Product stoichiometries"))
-								|| connections[j]->handle()->data->numericalData[tr("Product stoichiometries")].rows() < 1)
+								|| connections[j]->handle()->numericalDataTable(tr("Product stoichiometries")).rows() < 1)
 							)
 							{
 								visited += connectedNodes[0];

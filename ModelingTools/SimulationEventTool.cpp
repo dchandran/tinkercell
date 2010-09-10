@@ -294,7 +294,7 @@ namespace Tinkercell
 				events.resize(0,1);
 				events.colName(0) = tr("event");
 				events.description() = tr("Events: set of triggers and events. The row names are the triggers, and the first column contains a string describing one or more events, usually an assignment.");
-				globalHandle->data->textData.insert(tr("Events"),events);
+				globalHandle->textDataTable(tr("Events")) = events;
 			}
 		
 			for (int i=0; i < items.size(); ++i)
@@ -441,7 +441,7 @@ namespace Tinkercell
 			events.resize(0,1);
 			events.colName(0) = tr("event");
 			events.description() = tr("Events: set of triggers and events. The row names are the triggers, and the first column contains a string describing one or more events, usually an assignment.");
-			globalHandle->data->textData.insert(tr("Events"),events);
+			globalHandle->textDataTable(tr("Events")) = events;
 		}
 		
 		select(0);
@@ -468,7 +468,7 @@ namespace Tinkercell
 			events.resize(0,1);
 			events.colName(0) = tr("event");
 			events.description() = tr("Events: set of triggers and events. The row names are the triggers, and the first column contains a string describing one or more events, usually an assignment.");
-			globalHandle->data->textData.insert(tr("Events"),events);
+			globalHandle->textDataTable(tr("Events")) = events;
 		}
 		
 		select(0);
@@ -563,7 +563,7 @@ namespace Tinkercell
 
 		if (globalHandle->hasTextData(tr("Events")))
 		{
-			sDataTable = &(globalHandle->data->textData[tr("Events")]);
+			sDataTable = &(globalHandle->textDataTable(tr("Events")));
 			for (int j=0; j < sDataTable->rows(); ++j)
 			{
 				ifthens << (tr("WHEN  ") + sDataTable->rowName(j) + tr("   DO   ") + sDataTable->value(j,0));
@@ -652,10 +652,10 @@ namespace Tinkercell
 
 		ItemHandle * lastItem = win->globalHandle();
 
-		if (lastItem == 0 || lastItem->data == 0) return;
+		if (lastItem == 0) return;
 
 		if (!lastItem->hasTextData(tr("Events")))
-			lastItem->data->textData[tr("Events")] = DataTable<QString>();
+			lastItem->textDataTable(tr("Events")) = DataTable<QString>();
 
 		
 		if (!parseRateString(win, lastItem, ifs))
@@ -664,7 +664,7 @@ namespace Tinkercell
 		if (!parseRateString(win, lastItem, thens))
 			return;
 
-		DataTable<QString> newData(lastItem->data->textData[tr("Events")]);
+		DataTable<QString> newData(lastItem->textDataTable(tr("Events")));
 
 		if (!oldEvent.isEmpty())
 		{
@@ -710,9 +710,9 @@ namespace Tinkercell
 
 			for (int i=0; i < itemHandles.size(); ++i)
 			{
-				if (itemHandles[i] && itemHandles[i]->data && itemHandles[i]->hasTextData(tr("Events")))
+				if (itemHandles[i] && itemHandles[i]->hasTextData(tr("Events")))
 				{
-					DataTable<QString> dat(itemHandles[i]->data->textData[tr("Events")]);
+					DataTable<QString> dat(itemHandles[i]->textDataTable(tr("Events")));
 					if ( (j + dat.rows()) > n )
 					{
 						int k = n - j;
@@ -795,10 +795,10 @@ namespace Tinkercell
 			QRegExp regex(tr("\\.(?!\\d)"));
 			for (int i=0; i < items.size(); ++i)
 			{
-				if (items[i] && !visited.contains(items[i]) && items[i]->data && items[i]->hasTextData(tr("Events")))
+				if (items[i] && !visited.contains(items[i]) && items[i]->hasTextData(tr("Events")))
 				{
 					QString s;
-					QStringList lst = items[i]->data->textData[tr("Events")].getRowNames();
+					QStringList lst = items[i]->textDataTable(tr("Events")).getRowNames();
 
 					for (int j=0; j < lst.size(); ++j)
 					{
@@ -827,11 +827,10 @@ namespace Tinkercell
 			{
 				if (items[i] &&
 					!visited.contains(items[i]) &&
-					items[i]->data &&
 					items[i]->hasTextData(tr("Events")) &&
-					items[i]->data->textData[tr("Events")].cols() > 0)
+					items[i]->textDataTable(tr("Events")).cols() > 0)
 				{
-					DataTable<QString>& dat = items[i]->data->textData[tr("Events")];
+					DataTable<QString>& dat = items[i]->textDataTable(tr("Events"));
 					for (int j=0; j < dat.rows(); ++j)
 					{
 						QString s = dat.value(j,0);
@@ -859,12 +858,12 @@ namespace Tinkercell
 		
 		item = network->globalHandle();
 
-		if (item && item->data && !trigger.isEmpty() && !event.isEmpty())
+		if (item && !trigger.isEmpty() && !event.isEmpty())
 		{
 			if (!item->hasTextData(tr("Events")))
-				item->data->textData[tr("Events")] = DataTable<QString>();
+				item->textDataTable(tr("Events")) = DataTable<QString>();
 
-			DataTable<QString> dat = item->data->textData[tr("Events")];
+			DataTable<QString> dat = item->textDataTable(tr("Events"));
 
 			QRegExp regex(QString("([A-Za-z0-9])_([A-Za-z])"));
 

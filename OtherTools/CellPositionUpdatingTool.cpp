@@ -52,7 +52,7 @@ namespace Tinkercell
 				handle->isA(tr("Cell")) && 
 				handle->hasNumericalData(tr("Numerical Attributes")))
 			{
-				NumericalDataTable * dat = new NumericalDataTable(handle->data->numericalData[tr("Numerical Attributes")]);
+				NumericalDataTable * dat = new NumericalDataTable(handle->numericalDataTable(tr("Parameters")));
 				QPointF pos = items[i]->scenePos();
 				
 				dat->value(tr("x"),0) = pos.x();
@@ -64,7 +64,7 @@ namespace Tinkercell
 			
 		if (handles.size() > 0)
 		{
-			scene->network->changeData(tr("cell position changed"),handles,tr("Numerical Attributes"),newTables);
+			scene->network->changeData(tr("cell position changed"),handles,tr("Parameters"),newTables);
 			for (int i=0; i < newTables.size(); ++i)
 				delete newTables[i];
 		}

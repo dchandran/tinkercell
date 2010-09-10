@@ -69,7 +69,7 @@ namespace Tinkercell
 
 	/*! \brief Constructor: connects all the signals of the new window to that of the main window */
 	GraphicsView::GraphicsView(NetworkWindow * network)
-		: QGraphicsView (network->scene,network), scene(network->scene)
+		: QGraphicsView (network->scene, network), scene(network->scene)
 	{		
 		setCacheMode(QGraphicsView::CacheBackground);
 		setViewportUpdateMode (QGraphicsView::BoundingRectViewportUpdate);

@@ -218,8 +218,8 @@ namespace Tinkercell
 		if (scene)
 		{
 			scene->deselect();
-			delete scene;
-			MainWindow::invalidPointers[ (void*)scene ] = true;
+			//delete scene;
+			//MainWindow::invalidPointers[ (void*)scene ] = true;
 			scene = 0;
 		}
 		
@@ -297,25 +297,19 @@ namespace Tinkercell
 		
 		if (scene)
 		{
-			QList<QGraphicsView*> views = scene->views();
-			delete scene;
-			for (int i=0; i < views.size(); ++i)
+			//QList<QGraphicsView*> views = scene->views();
+			/*for (int i=0; i < views.size(); ++i)
 				if (views[i])
-					delete views[i];
+					delete views[i];*/
+			//delete scene;
 			scene = 0;
 		}
 		
 		if (editor)
 		{
-			delete editor;
+			//delete editor;
 			editor = 0;
-		}
-		
-		if (editor)
-		{
-			delete editor;
-			editor = 0;
-		}
+		}	
 		
 		scene = new GraphicsScene(network);
 		scene->networkWindow = this;
@@ -324,8 +318,8 @@ namespace Tinkercell
 		GraphicsView * view = new GraphicsView(this);
 		connect(view,SIGNAL(itemsDropped(GraphicsScene*, const QString&, const QPointF&)),network->mainWindow,SIGNAL(itemsDropped(GraphicsScene*, const QString&,const QPointF&)));
 	
-		if (centralWidgetLayout)
-			delete centralWidgetLayout;
+		//if (centralWidgetLayout)
+			//delete centralWidgetLayout;
 		centralWidgetLayout = new QHBoxLayout;
 		centralWidgetLayout->setContentsMargins(0,0,0,0);
 		centralWidgetLayout->addWidget(view);
@@ -343,17 +337,18 @@ namespace Tinkercell
 		
 		if (scene)
 		{
-			QList<QGraphicsView*> views = scene->views();
-			delete scene;
+			/*QList<QGraphicsView*> views = scene->views();
 			for (int i=0; i < views.size(); ++i)
 				if (views[i] && views[i]->parentWidget() == this)
 					delete views[i];
+			*/
+			//delete scene;
 			scene = 0;
 		}
 		
 		if (editor)
 		{
-			delete editor;
+			//delete editor;
 			editor = 0;
 		}
 		
@@ -361,8 +356,8 @@ namespace Tinkercell
 		editor->networkWindow = this;
 		editor->network = network;
 	
-		if (centralWidgetLayout)
-			delete centralWidgetLayout;
+		//if (centralWidgetLayout)
+			//delete centralWidgetLayout;
 		centralWidgetLayout = new QHBoxLayout;
 		centralWidgetLayout->setContentsMargins(0,0,0,0);
 		centralWidgetLayout->addWidget(editor);

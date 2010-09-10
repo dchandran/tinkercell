@@ -33,6 +33,7 @@ namespace Tinkercell
 	NetworkHandle::~NetworkHandle()
 	{
 		close();
+		/*
 		QList<NetworkWindow*> list = networkWindows;
 		networkWindows.clear();
 
@@ -40,7 +41,7 @@ namespace Tinkercell
 			if (list[i])
 			{
 				delete list[i];
-			}
+			}*/
 		history.clear();
 	}
 	

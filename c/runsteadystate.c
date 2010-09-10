@@ -106,7 +106,7 @@ void setup1()
 	if (tc_isMac())
 	{
 		m.rows = 4;
-		a1.length = 1;
+		options1[1] = "Not available in Mac";
 	}
 
 	tc_createInputWindow(m,"Steady state analysis",&run);

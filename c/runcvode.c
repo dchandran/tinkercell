@@ -39,7 +39,7 @@ void setup()
 	if (tc_isMac())
 	{
 		m.rows = m.rownames.length = 3;
-		a1.length = 1;
+		options1[1] = "Not available in Mac";
 	}
 	m.cols = m.colnames.length =  1;
 	m.colnames.strings = cols;

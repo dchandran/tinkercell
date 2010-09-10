@@ -425,7 +425,7 @@ void setupSSA()
 	if (tc_isMac())
 	{
 		m.rows = 2;
-		a1.length = 1;
+		options1[1] = "Not available in Mac";
 	}
 	m.cols = 1;
 	m.colnames.length = 1;

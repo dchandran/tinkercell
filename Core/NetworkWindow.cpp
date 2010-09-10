@@ -318,8 +318,8 @@ namespace Tinkercell
 		GraphicsView * view = new GraphicsView(this);
 		connect(view,SIGNAL(itemsDropped(GraphicsScene*, const QString&, const QPointF&)),network->mainWindow,SIGNAL(itemsDropped(GraphicsScene*, const QString&,const QPointF&)));
 	
-		//if (centralWidgetLayout)
-			//delete centralWidgetLayout;
+		if (centralWidgetLayout)
+			delete centralWidgetLayout;
 		centralWidgetLayout = new QHBoxLayout;
 		centralWidgetLayout->setContentsMargins(0,0,0,0);
 		centralWidgetLayout->addWidget(view);
@@ -356,8 +356,8 @@ namespace Tinkercell
 		editor->networkWindow = this;
 		editor->network = network;
 	
-		//if (centralWidgetLayout)
-			//delete centralWidgetLayout;
+		if (centralWidgetLayout)
+			delete centralWidgetLayout;
 		centralWidgetLayout = new QHBoxLayout;
 		centralWidgetLayout->setContentsMargins(0,0,0,0);
 		centralWidgetLayout->addWidget(editor);

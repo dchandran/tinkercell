@@ -391,21 +391,38 @@ namespace Tinkercell
 	
 	NodeFamily * NodesTree::getFamily(const QString& name) const
 	{
-		if (nodeFamilies.contains(name.toLower()))
-			return nodeFamilies.value(name.toLower());
+		if (connectionFamilies.contains(name))
+			return connectionFamilies.value(name);
+		
+		QStringList words = name.split(" ");
+		for (int i=0; i < words.slze(); ++i)
+		{
+			words[i] = words[i].toLower();
+			words[0] = words[0].toUpper();
+		}
+
+		QString s = words.join(" ");
+		
+		if (nodeFamilies.contains(s))
+			return nodeFamilies.value(s);
 		return 0;
 	}
 	
 	bool NodesTree::insertFamily(NodeFamily * family, FamilyTreeButton * button)
 	{
-		if (name.isEmpty() || !family || nodeFamilies.contains(name.toLower())) return false;
-		QString name = family->name;
-		
-		if (name.isEmpty()) return false;
+		if (name.isEmpty() || !family) return false;
+		QStringList words = family->name.split(" ");
+		for (int i=0; i < words.slze(); ++i)
+		{
+			words[i] = words[i].toLower();
+			words[0] = words[0].toUpper();
+		}
 
-		nodeFamilies [name.toLower()] = family;
+		family->name = words.join(" ");
+
+		nodeFamilies [family->name] = family;
 		if (button)
-			treeButtons [name.toLower()] = button;
+			treeButtons [family->name] = button;
 		return true;
 	}
 	

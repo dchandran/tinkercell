@@ -11,6 +11,7 @@
 #include <QFile>
 #include <QColor>
 #include "NodesTreeReader.h"
+#include "ConsoleWindow.h"
 
 namespace Tinkercell
 {
@@ -134,16 +135,15 @@ namespace Tinkercell
                     if (vec.at(i).name().toString().toLower() == QObject::tr("family"))  //get name of node
                     {
                          node->name = vec.at(i).value().toString();
-                         QString lname = node->name.toLower();
                          treeItem->setText(0,node->name);
-                         if (tree->nodeFamilies.contains(lname))
+                         if (tree->nodeFamilies.contains(node->name))
                          {
                               delete node;
-                              node = tree->nodeFamilies[lname];
+                              node = tree->nodeFamilies[node->name];
                          }
                          else
                          {
-                              tree->nodeFamilies[lname] = node;
+                              tree->nodeFamilies[node->name] = node;
                          }
                          tree->treeItems.insertMulti(lname,treeItem);
                     }
@@ -176,6 +176,9 @@ namespace Tinkercell
                QString appDir = QCoreApplication::applicationDirPath();
 
                QString iconFile = tree->iconFile(node->name);
+               
+               MainWindow::instance()->console()->message(iconFile);
+                              
 			   if (!QFile::exists(iconFile))
 			   		iconFile = appDir + QString("/") + iconFile;
 

@@ -1,4 +1,4 @@
-FILE( GLOB C_ICON_FILES icons/*.png icons/*.PNG )
+FILE( GLOB C_ICON_FILES *.png *.PNG )
 
 INSTALL( FILES ${C_ICON_FILES}
   DESTINATION icons

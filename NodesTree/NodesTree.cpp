@@ -360,7 +360,7 @@ namespace Tinkercell
 		else
 		{
 			file = tr("NodeItems/");
-			file += name.toLower();
+			file += name;
 			file.replace(tr(" "),tr(""));
 			file += tr(".PNG");
 		}

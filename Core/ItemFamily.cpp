@@ -232,8 +232,8 @@ namespace Tinkercell
 
 		NodeHandle * h;
 		
-		if ((full && nodes.size() != nodeFunctions.size()) ||
-			(nodes.size() > nodeFunctions.size()))
+		if ((full && nodes.size() != nodeRoles.size()) ||
+			(nodes.size() > nodeRoles.size()))
 		{
 			return false;
 		}

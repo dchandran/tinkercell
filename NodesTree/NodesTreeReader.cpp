@@ -133,7 +133,7 @@ namespace Tinkercell
                {
                     if (vec.at(i).name().toString().toLower() == QObject::tr("family"))  //get name of node
                     {
-                         node->name = vec.at(i).value().toString();
+                         node->name = vec.at(i).value().toString().toLower();
                          treeItem->setText(0,node->name);
                          if (tree->nodeFamilies.contains(node->name))
                          {

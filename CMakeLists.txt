@@ -255,6 +255,7 @@ ADD_SUBDIRECTORY( Core )   #C++ Core + API
 ADD_SUBDIRECTORY( API )   #C API + SWIG file
 ADD_SUBDIRECTORY( Main )   #main executable
 ADD_SUBDIRECTORY( ExternalCode )  #MuParser, cvODE, libSBML, SBW, etc.
+ADD_SUBDIRECTORY( icons )   #icons
 ADD_SUBDIRECTORY( ArrowItems )   #graphics files for arrow heads
 ADD_SUBDIRECTORY( NodeItems )   #graphics files for nodes
 ADD_SUBDIRECTORY( DecoratorItems )   #graphics files for decorating connections

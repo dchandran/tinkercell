@@ -1,0 +1,7 @@
+FILE( GLOB C_ICON_FILES icons/*.png icons/*.PNG )
+
+INSTALL( FILES ${C_ICON_FILES}
+  DESTINATION icons
+  COMPONENT icons
+)
+

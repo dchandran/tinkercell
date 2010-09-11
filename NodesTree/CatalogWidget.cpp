@@ -16,6 +16,8 @@
 #include <QMessageBox>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include "NodesTree.h"
+#include "ConnectionsTree.h"
 #include "ConsoleWindow.h"
 #include "ItemFamily.h"
 #include "NetworkHandle.h"

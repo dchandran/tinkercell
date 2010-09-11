@@ -208,10 +208,10 @@ namespace Tinkercell
 	
 	QString ConnectionsTree::iconFile(ConnectionFamily * family)
 	{
-		QString file = tr("NodesTree/Icons/");
+		QString file = tr("icons/");
 		file += family->name;
 		file.replace(tr(" "),tr(""));
-		file += tr(".PNG");
+		file += tr(".png");
 		return  file;
 	}
 	
@@ -236,6 +236,13 @@ namespace Tinkercell
 	QTreeWidget & ConnectionsTree::widget()
 	{ 
 		return treeWidget; 
+	}
+
+	ConnectionFamily * ConnectionsTree::getFamily(const QString& name) const
+	{
+		if (connectionFamilies.contains(name.toLower()))
+			return connectionFamilies.value(name.toLower());
+		return 0;
 	}
 }
 

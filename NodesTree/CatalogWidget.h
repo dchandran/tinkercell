@@ -17,11 +17,12 @@
 #include "ItemFamily.h"
 #include "MainWindow.h"
 #include "TreeButton.h"
-#include "NodesTree.h"
-#include "ConnectionsTree.h"
 
 namespace Tinkercell
 {
+	class NodesTree;
+	class ConnectionsTree;
+
     /*!
       \brief This class is provided for convenience and visual appeal. 
 			It holds the recently selected nodes and connections and

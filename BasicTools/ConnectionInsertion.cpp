@@ -58,9 +58,9 @@ namespace Tinkercell
 		if (selectedFamily != 0)
 		{
 			QList<NodeHandle*> nodes, visited;
-			for (int i=0; i < selectedFamily->nodeFamilies.size() && i < selectedFamily->nodeFunctions.size(); ++i)
-				if (isReactant(selectedFamily->nodeFunctions[i])) 
-					//&& (numRequiredOut > 0 || i < (selectedFamily->nodeFunctions.size()-1)))
+			for (int i=0; i < selectedFamily->nodeFamilies.size() && i < selectedFamily->nodeRoles.size(); ++i)
+				if (isReactant(selectedFamily->nodeRoles[i])) 
+					//&& (numRequiredOut > 0 || i < (selectedFamily->nodeRoles.size()-1)))
 				{
 					++numRequiredIn;
 					typeIn << selectedFamily->nodeFamilies[i];
@@ -398,15 +398,15 @@ namespace Tinkercell
 				nodes = connection->nodes();
 				
 				bool in;
-				QStringList nodeFunctions = family->nodeFunctions,
+				QStringList nodeRoles = family->nodeRoles,
 							nodeFamilies = family->nodeFamilies,
 							oldRowNames = oldTable->getRowNames();
 
 				for (int j=0; j < oldTable->rows(); ++j)
 				{
-					int k = nodeFunctions.indexOf(oldTable->value(j,0));
+					int k = nodeRoles.indexOf(oldTable->value(j,0));
 					if (k > -1)
-						nodeFunctions[k] = tr("");
+						nodeRoles[k] = tr("");
 				}
 				
 				for (int j=0; j < nodes.size(); ++j) //for each node
@@ -416,14 +416,14 @@ namespace Tinkercell
 					{
 						in = nodesIn.contains(nodes[j]);
 						//look for suitable role for this node
-						for (int k=0; k < nodeFunctions.size() && k < nodeFamilies.size(); ++k)
-							if (!nodeFunctions[k].isEmpty() && 
+						for (int k=0; k < nodeRoles.size() && k < nodeFamilies.size(); ++k)
+							if (!nodeRoles[k].isEmpty() && 
 								nodeFamily->isA(nodeFamilies[k]) &&
-								(!in || (in && isReactant(nodeFunctions[k]))) //if in-node, then must be reactant
+								(!in || (in && isReactant(nodeRoles[k]))) //if in-node, then must be reactant
 								)
 							{
-								newTable->value(nodes[j]->fullName(),0) = nodeFunctions[k];
-								nodeFunctions[k] = tr("");
+								newTable->value(nodes[j]->fullName(),0) = nodeRoles[k];
+								nodeRoles[k] = tr("");
 								break;
 							}
 					}

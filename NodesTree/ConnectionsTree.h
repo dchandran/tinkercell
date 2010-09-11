@@ -27,6 +27,7 @@
 #include "ItemHandle.h"
 #include "ConnectionGraphicsItem.h"
 #include "ConnectionsTreeReader.h"
+#include "CatalogWidget.h"
 
 namespace Tinkercell
 {
@@ -46,13 +47,22 @@ namespace Tinkercell
     {
         Q_OBJECT
 
-    public:
+    private:
         /*! \brief the hashtable of all connection families indexed by their name*/
         QMap<QString,ConnectionFamily*> connectionFamilies;
         /*! \brief the hashtable of all tree items indexed by their name*/
         QHash<QString,QTreeWidgetItem*> treeItems;
 		/*! \brief the hashtable of all buttons on the tree widget indexed by their name*/
         QHash<QString,QToolButton*> treeButtons;
+        
+        friend class ConnectionsTreeReader;
+        friend class CatalogWidget;
+	
+	public:
+		 /*! \brief get a node family
+        \param QString name
+         */
+		ConnectionFamily * getFamily(const QString& name) const;
         /*! \brief Constructor - read the tree file and uses connection tree reader to fill in the tree
         \param the parent widget (usually 0)
         \param the XML file with the tree information

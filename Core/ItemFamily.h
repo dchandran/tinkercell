@@ -150,7 +150,7 @@ namespace Tinkercell
 		/*! \brief the type of each node that is involved in this connection*/
 		QStringList nodeFamilies;
 		/*! \brief the role of each node in this connection*/
-		QStringList nodeFunctions;
+		QStringList nodeRoles;
 		
 		/*! \brief indicates whether or not the given string is the name of this family or any of its parent families*/
 		virtual bool isA(const QString& familyName) const;

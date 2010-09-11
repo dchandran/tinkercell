@@ -30,6 +30,7 @@
 #include "ItemHandle.h"
 #include "NodesTreeReader.h"
 #include "TreeButton.h"
+#include "CatalogWidget.h"
 
 namespace Tinkercell
 {
@@ -48,7 +49,7 @@ namespace Tinkercell
     {
         Q_OBJECT
 
-    public:
+    private:
         /*! \brief family name to NodeFamily hash*/
         QMap<QString,NodeFamily*> nodeFamilies;
 
@@ -57,6 +58,21 @@ namespace Tinkercell
 		
 		/*! \brief family name to button hash. These are the buttons located in the nodes tree window*/
         QHash<QString,QToolButton*> treeButtons;
+        
+        friend class NodesTreeReader;
+        friend class CatalogWidget;
+
+	public:
+	
+	    /*! \brief get a node family
+        \param QString name
+         */
+		NodeFamily * getFamily(const QString& name) const;
+		
+		  /*! \brief get a node family
+        \param QString name
+         */
+		NodeFamily * getFamily(const QString& name) const;
 
         /*! \brief default constructor
         \param Widget* parent widget

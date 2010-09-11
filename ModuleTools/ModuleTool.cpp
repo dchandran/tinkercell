@@ -1062,7 +1062,7 @@ namespace Tinkercell
 			lineEdit = static_cast<QLineEdit*>(newModuleTable->cellWidget(i,0));
 			comboBox = static_cast<QComboBox*>(newModuleTable->cellWidget(i,1));
 			
-			newModuleFamily->nodeFunctions += lineEdit->text();
+			newModuleFamily->nodeRoles += lineEdit->text();
 			newModuleFamily->nodeFamilies += comboBox->currentText();
 		}
 

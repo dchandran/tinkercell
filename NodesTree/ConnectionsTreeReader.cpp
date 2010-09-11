@@ -77,7 +77,7 @@ namespace Tinkercell
                {
                     if (vec.at(i).name().toString().toLower() == QObject::tr("family"))  //get name of node
                     {
-                         family->name = vec.at(i).value().toString();
+                         family->name = vec.at(i).value().toString().toLower();
                          treeItem->setText(0,family->name);
                          if (tree->connectionFamilies.contains(family->name))
                          {
@@ -104,7 +104,7 @@ namespace Tinkercell
                     else
                     if (vec.at(i).name().toString().toLower() == QObject::tr("participant_roles"))  //family types for nodes in this connection
                     {
-                         family->nodeFunctions = vec.at(i).value().toString().split(",");
+                         family->nodeRoles = vec.at(i).value().toString().split(",");
                     }
                     else
                     {
@@ -143,8 +143,8 @@ namespace Tinkercell
                     if (family->measurementUnit.name.isEmpty())
                          family->measurementUnit = parentFamily->measurementUnit;
                         
-					if (family->nodeFunctions.isEmpty())
-                    	family->nodeFunctions = parentFamily->nodeFunctions;
+					if (family->nodeRoles.isEmpty())
+                    	family->nodeRoles = parentFamily->nodeRoles;
 					
 					if (family->nodeFamilies.isEmpty())
                     	family->nodeFamilies = parentFamily->nodeFamilies;
@@ -155,7 +155,7 @@ namespace Tinkercell
                if (family->nodeFamilies.isEmpty())
                	    family->nodeFamilies << "anything";
 
-			   while (family->nodeFamilies.size() < family->nodeFunctions.size())
+			   while (family->nodeFamilies.size() < family->nodeRoles.size())
 			   		family->nodeFamilies << family->nodeFamilies.last();
 
                //set arrow head

@@ -1,7 +1,7 @@
 #include <Python.h>
 #include "TC_api.h"
 
-#ifndef USEDLOPEN
+#ifndef NODLOPEN
 #include "dlfcn.h"
 #endif
 
@@ -16,7 +16,7 @@ TCAPIEXPORT void initialize()
 {
 	PyObject *mainmod;
 	PyObject *dlfl;
-#ifndef USEDLOPEN
+#ifndef NODLOPEN
 	dlopen("@PYTHON_LIBRARIES@", RTLD_LAZY | RTLD_GLOBAL);	
 	Py_SetProgramName("Tinkercell");
 #endif

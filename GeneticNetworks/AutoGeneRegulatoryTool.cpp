@@ -68,9 +68,9 @@ namespace Tinkercell
 		QWidget * treeWidget = mainWindow->tool(tr("Nodes Tree"));
 		NodesTree * nodesTree = static_cast<NodesTree*>(treeWidget);
 
-		if (!nodesTree->nodeFamilies.contains("Phosphate")) return;
+		if (!nodesTree->getFamily("Phosphate")) return;
 
-		NodeFamily * nodeFamily = nodesTree->nodeFamilies["Phosphate"];
+		NodeFamily * nodeFamily = nodesTree->getFamily("Phosphate");
 
 		QList<QGraphicsItem*>& selected = scene->selected();
 		ItemHandle * handle = 0;
@@ -162,15 +162,15 @@ namespace Tinkercell
 		QWidget * treeWidget = mainWindow->tool(tr("Nodes Tree"));
 		NodesTree * nodesTree = static_cast<NodesTree*>(treeWidget);
 
-		if (!nodesTree->nodeFamilies.contains("Transcription Factor")) return;
+		if (!nodesTree->getFamily("Transcription Factor")) return;
 
                 treeWidget = mainWindow->tool(tr("Connections Tree"));
 		ConnectionsTree * connectionsTree = static_cast<ConnectionsTree*>(treeWidget);
 
-		if (!connectionsTree->connectionFamilies.contains(regulationName)) return;
+		if (!connectionsTree->getFamily(regulationName)) return;
 
-		NodeFamily * nodeFamily = nodesTree->nodeFamilies["Transcription Factor"];
-		ConnectionFamily * connectionFamily = connectionsTree->connectionFamilies[regulationName];
+		NodeFamily * nodeFamily = nodesTree->getFamily("Transcription Factor");
+		ConnectionFamily * connectionFamily = connectionsTree->getFamily(regulationName);
 
 		QList<QGraphicsItem*>& selected = scene->selected();
 		ItemHandle * handle = 0;
@@ -312,13 +312,13 @@ namespace Tinkercell
 		treeWidget = mainWindow->tool(tr("Connections Tree"));
 		ConnectionsTree * connectionsTree = static_cast<ConnectionsTree*>(treeWidget);
 
-		if (!nodesTree->nodeFamilies.contains("Protein") ||
-			!connectionsTree->connectionFamilies.contains("Protein production")
+		if (!nodesTree->getFamily("Protein") ||
+			!connectionsTree->getFamily("Protein production")
 			)
 			return;
 
-		NodeFamily * proteinFamily = nodesTree->nodeFamilies["Protein"];
-		ConnectionFamily * productionFamily = connectionsTree->connectionFamilies["Protein production"];
+		NodeFamily * proteinFamily = nodesTree->getFamily("Protein");
+		ConnectionFamily * productionFamily = connectionsTree->getFamily("Protein production");
 
 		QList<QGraphicsItem*>& selected = scene->selected();
 		ItemHandle * handle = 0;
@@ -451,15 +451,15 @@ namespace Tinkercell
 		QWidget * treeWidget = mainWindow->tool(tr("Nodes Tree"));
 		NodesTree * nodesTree = static_cast<NodesTree*>(treeWidget);
 
-		if (!nodesTree->nodeFamilies.contains("Empty")) return;
+		if (!nodesTree->getFamily("Empty")) return;
 
 		treeWidget = mainWindow->tool(tr("Connections Tree"));
 		ConnectionsTree * connectionsTree = static_cast<ConnectionsTree*>(treeWidget);
 
-		if (!connectionsTree->connectionFamilies.contains("Degradation")) return;
+		if (!connectionsTree->getFamily("Degradation")) return;
 
-		NodeFamily * nodeFamily = nodesTree->nodeFamilies["Empty"];
-		ConnectionFamily * connectionFamily = connectionsTree->connectionFamilies["Degradation"];
+		NodeFamily * nodeFamily = nodesTree->getFamily("Empty");
+		ConnectionFamily * connectionFamily = connectionsTree->getFamily("Degradation");
 
 		QList<QGraphicsItem*>& selected = scene->selected();
 		ItemHandle * handle = 0;
@@ -702,6 +702,7 @@ namespace Tinkercell
 														delete sDat2;
 											}
 								}
+
 						}
 					
 					rbs = 0;

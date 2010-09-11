@@ -187,9 +187,9 @@ namespace Tinkercell
 	void NodeInsertion::insertItem(QSemaphore * sem, ItemHandle** item, const QString& name, const QString& family)
 	{
 		if (mainWindow && mainWindow->currentScene() && !name.isEmpty() && !family.isEmpty() && nodesTree
-			&& nodesTree->nodeFamilies.contains(family))
+			&& nodesTree->getFamily(family))
 		{
-			NodeFamily * nodeFamily = nodesTree->nodeFamilies[family];
+			NodeFamily * nodeFamily = nodesTree->getFamily(family);
 			GraphicsScene * scene = mainWindow->currentScene();
 			if (item)
 				(*item) = 0;
@@ -218,9 +218,9 @@ namespace Tinkercell
 	void NodeInsertion::itemsDropped(GraphicsScene * scene, const QString& family, const QPointF& point)
 	{
 		if (mainWindow && scene->useDefaultBehavior && !selectedNodeFamily && !family.isEmpty() && 
-			nodesTree && nodesTree->nodeFamilies.contains(family))
+			nodesTree && nodesTree->getFamily(family))
 		{
-			selectedNodeFamily = nodesTree->nodeFamilies[family];
+			selectedNodeFamily = nodesTree->getFamily(family);
 			sceneClicked(scene,point,Qt::LeftButton,Qt::NoModifier);
 			selectedNodeFamily = 0;
 		}

@@ -37,6 +37,7 @@ namespace Tinkercell
 
     class MainWindow;
     class NodeFamily;
+    class FamilyTreeButton;
 
     /*!
       \brief This class loads the hierarchy of nodes along with their attributes, units, and other
@@ -65,14 +66,22 @@ namespace Tinkercell
 	public:
 	
 	    /*! \brief get a node family
-        \param QString name
+        \param QString name of node family
+        \return NodeFamily* can be 0 if none is found
          */
 		NodeFamily * getFamily(const QString& name) const;
 		
-		  /*! \brief get a node family
-        \param QString name
+ 	 	 /*! \brief insert a new node family
+        \param QString name of node family
+        \param NodeFamily * new family
+        \param FamilyTreeButton* button
+        \return bool returns false if the family already existed
          */
-		NodeFamily * getFamily(const QString& name) const;
+		bool insertFamily(const QString& name, NodeFamily *, FamilyTreeButton * );
+		
+		 /*! \brief get names of all families (sorted)
+         \return QStringList family names*/
+		QStringList getAllFamilyNames() const;
 
         /*! \brief default constructor
         \param Widget* parent widget

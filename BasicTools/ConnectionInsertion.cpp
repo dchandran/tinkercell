@@ -466,7 +466,7 @@ namespace Tinkercell
 			return;
 		}
 
-		if (!connectionsTree->connectionFamilies.contains(family) || !connectionsTree->connectionFamilies.value(family))
+		if (!connectionsTree->getFamily(family))
 		{
 			if (console())
 				console()->error(family + tr(" not recognized"));
@@ -477,7 +477,7 @@ namespace Tinkercell
 			return;
 		}
 
-		selectedFamilyOriginal = selectedFamily = connectionsTree->connectionFamilies.value(family);
+		selectedFamilyOriginal = selectedFamily = connectionsTree->getFamily(family);
 		
 		QList<NodeHandle*> nodes;
 		NodeHandle * h1;
@@ -703,9 +703,9 @@ namespace Tinkercell
 	void ConnectionInsertion::itemsDropped(GraphicsScene * scene, const QString& family, const QPointF& point)
 	{
 		if (mainWindow && scene && scene->useDefaultBehavior && !selectedFamily && !family.isEmpty() && 
-			connectionsTree && connectionsTree->connectionFamilies.contains(family))
+			connectionsTree && connectionsTree->getFamily(family))
 		{
-			selectedFamilyOriginal = selectedFamily = connectionsTree->connectionFamilies[family];
+			selectedFamilyOriginal = selectedFamily = connectionsTree->getFamily(family);
 			setRequirements();
 			sceneClicked(scene,point,Qt::LeftButton,Qt::NoModifier);
 			selectedFamilyOriginal = selectedFamily = 0;
@@ -731,16 +731,16 @@ namespace Tinkercell
 			
 			NodeFamily * nodeFamily;
 			NodeFamily * moleculeFamily = 0;
-			if (nodesTree->nodeFamilies.contains(tr("Molecule")))
-				moleculeFamily = nodesTree->nodeFamilies[ tr("Molecule") ];
+			if (nodesTree->getFamily(tr("Molecule")))
+				moleculeFamily = nodesTree->getFamily(tr("Molecule"));
 
 			QStringList usedNames;
 			ItemHandle * handle;
 			
 			for (int i=0; i < alltypes.size(); ++i)
-				if (nodesTree->nodeFamilies.contains(alltypes[i]))
+				if (nodesTree->getFamily(alltypes[i]))
 				{
-					nodeFamily = nodesTree->nodeFamilies[ alltypes[i] ];
+					nodeFamily = nodesTree->getFamily( alltypes[i] );
 					alreadyPresent = false;
 					for (int j=0; j < selectedHandles.size(); ++j)
 						if (selectedHandles[j] && selectedHandles[j]->isA(nodeFamily))

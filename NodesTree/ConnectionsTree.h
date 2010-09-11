@@ -35,6 +35,7 @@ namespace Tinkercell
     class Widget;
     class MainWindow;
     class ConnectionFamily;
+    class FamilyTreeButton;
 
     /*!
       \brief This class loads the hierarchy of connections along with their attributes, units, and other
@@ -59,10 +60,24 @@ namespace Tinkercell
         friend class CatalogWidget;
 	
 	public:
-		 /*! \brief get a node family
-        \param QString name
+		 /*! \brief get a connection family
+        \param QString name of connection family
+        \return ConnectionFamily* can be 0 if nothing is found
          */
 		ConnectionFamily * getFamily(const QString& name) const;
+		
+		 /*! \brief insert a new connection family
+        \param QString name of connection family
+        \param NodeFamily * new family
+        \param FamilyTreeButton* button
+        \return bool returns false if the family already existed
+         */
+		bool insertFamily(const QString& name, ConnectionFamily *, FamilyTreeButton * );
+		
+		 /*! \brief get names of all families (sorted)
+         \return QStringList names of all families*/
+		QStringList getAllFamilyNames() const;
+
         /*! \brief Constructor - read the tree file and uses connection tree reader to fill in the tree
         \param the parent widget (usually 0)
         \param the XML file with the tree information

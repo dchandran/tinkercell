@@ -156,7 +156,7 @@ namespace Tinkercell
 		if (tool->name == tr("Connections Tree") && !connectionsTree)
 		{
 			connectionsTree = static_cast<ConnectionsTree*>(tool);
-			if (!connectionsTree->connectionFamilies.contains(tr("Module")))
+			if (!connectionsTree->getFamily(tr("Module")))
 			{
 				QString appDir = QCoreApplication::applicationDirPath();
 				
@@ -166,7 +166,7 @@ namespace Tinkercell
 				moduleFamily->textAttributes[tr("Functional description")] = tr("");
 				moduleFamily->graphicsItems << new ArrowHeadItem(appDir + interfaceFileName)
 											 << new ArrowHeadItem(appDir + moduleFileName);				
-				connectionsTree->connectionFamilies[moduleFamily->name] = moduleFamily;
+				connectionsTree->insertFamily(moduleFamily->name,moduleFamily,0);
 			}
 		}
 
@@ -229,11 +229,11 @@ namespace Tinkercell
 
 			NodesTree * nodesTree = static_cast<NodesTree*>(tool);
 
-			if (!nodesTree->nodeFamilies.contains(tr("Module"))) return;
+			if (!nodesTree->getFamily(tr("Module"))) return;
 
 			NodeHandle * handle = new NodeHandle;
 			handle->name = scene->network->makeUnique(tr("mod1"));
-			NodeFamily * moduleFamily = nodesTree->nodeFamilies.value(tr("Module"));
+			NodeFamily * moduleFamily = nodesTree->getFamily(tr("Module"));
 			handle->setFamily(moduleFamily);
 
 			NodeGraphicsItem * image;
@@ -940,8 +940,7 @@ namespace Tinkercell
 			delete widget;
 		}
 		newModuleTable->setRowCount(n);
-		QStringList names(nodesTree->nodeFamilies.keys());
-		names.sort();
+		QStringList names(nodesTree->getAllFamilyNames());
 		
 		int k = names.indexOf(tr("Molecule"));
 		if (k < 0)
@@ -1033,7 +1032,7 @@ namespace Tinkercell
 	void ModuleTool::makeNewModule()
 	{
 		if (!catalogWidget || !nodesTree || !connectionsTree || !newModuleName || !newModuleTable || 
-			!connectionsTree->connectionFamilies.contains(tr("Module"))) 
+			!connectionsTree->getFamily(tr("Module"))) 
 			return;
 
 		QString name = newModuleName->text();
@@ -1041,7 +1040,7 @@ namespace Tinkercell
 		
 		QString appDir = QCoreApplication::applicationDirPath();
 
-		ConnectionFamily * moduleFamily = connectionsTree->connectionFamilies[ tr("Module") ];
+		ConnectionFamily * moduleFamily = connectionsTree->getFamily(tr("Module"));
 		ConnectionFamily * newModuleFamily = new ConnectionFamily(name);
 		newModuleFamily->setParent(moduleFamily);
 		newModuleFamily->pixmap = moduleFamily->pixmap;
@@ -1049,9 +1048,9 @@ namespace Tinkercell
 		newModuleFamily->graphicsItems << new ArrowHeadItem(appDir + interfaceFileName)
 										<< new ArrowHeadItem(appDir + moduleFileName);
 
-		connectionsTree->connectionFamilies[name] = newModuleFamily;
+		
 		FamilyTreeButton * button = new FamilyTreeButton(newModuleFamily);
-		connectionsTree->treeButtons[name] = button;
+		connectionsTree->insertFamily(name,newModuleFamily,button);
 		connect(button,SIGNAL(connectionSelected(ConnectionFamily*)),connectionsTree,SLOT(buttonPressed(ConnectionFamily*)));
 				
 		QLineEdit * lineEdit;

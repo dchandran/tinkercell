@@ -245,6 +245,7 @@ namespace Tinkercell
 
 
 
+
 				
 			if (reactions)
 				mainWindow->contextItemsMenu.addAction(autoReverse);
@@ -303,7 +304,7 @@ namespace Tinkercell
 		{
 			if ((connectionHandle = ConnectionHandle::cast(handles[i])) &&
 				(connectionFamily = ConnectionFamily::cast(connectionHandle->family())) &&
-				connectionFamily->nodeFunctions.contains(tr("Catalyst")) &&
+				connectionFamily->nodeRoles.contains(tr("Catalyst")) &&
 				connectionHandle->hasNumericalData(tr("Parameters")) &&
 				connectionHandle->hasTextData(tr("Rate equations")) &&
 				connectionHandle->hasTextData(tr("Participants")) &&
@@ -597,10 +598,10 @@ namespace Tinkercell
 		QWidget * treeWidget = mainWindow->tool(tr("Connections Tree"));
 		ConnectionsTree * connectionsTree = static_cast<ConnectionsTree*>(treeWidget);
 
-		if (!connectionsTree->connectionFamilies.contains("Biochemical")) return;
+		if (!connectionsTree->getFamily("Biochemical")) return;
 
 		NodeFamily * nodeFamily = 0;
-		ConnectionFamily * connectionFamily = connectionsTree->connectionFamilies["Biochemical"];
+		ConnectionFamily * connectionFamily = connectionsTree->getFamily("Biochemical");
 
 		QList<QGraphicsItem*>& selected = scene->selected();
 		ItemHandle * handle = 0;

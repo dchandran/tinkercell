@@ -91,14 +91,14 @@ namespace Tinkercell
 		
 		NodesTree * nodesTree = static_cast<NodesTree*>(tool);
 
-		QStringList families(nodesTree->nodeFamilies.keys());
+		QStringList families(nodesTree->getAllFamilyNames());
 		QStringList keys, rownames;
 		NodeFamily * family;
 		QString key;
 		
 		for (int i=0; i < families.size(); ++i)
 		{
-			family = nodesTree->nodeFamilies[ families[i] ];
+			family = nodesTree->getFamily( families[i] );
 			if (family && !family->measurementUnit.property.isEmpty())
 			{
 				key = family->measurementUnit.property;

@@ -274,14 +274,14 @@ namespace Tinkercell
 		}
 
 		NodesTree * nodesTree = static_cast<NodesTree*>(mainWindow->tool("Nodes Tree"));
-		if (!(nodesTree && nodesTree->nodeFamilies.contains(family)))
+		if (!(nodesTree && nodesTree->getFamily(family)))
 		{
 			if (console())
                 console()->error(tr("Family name does not match any node family name."));
 			return;
 		}
 
-		currentNetwork()->setHandleFamily(handle, nodesTree->nodeFamilies[family]);
+		currentNetwork()->setHandleFamily(handle, nodesTree->getFamily(family));
 
 		selectedItem = 0;
 

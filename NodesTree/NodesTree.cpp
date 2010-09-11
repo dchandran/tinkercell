@@ -354,13 +354,13 @@ namespace Tinkercell
 		if (nodeGraphicsFileNames.contains(name) && QFile::exists(nodeGraphicsFileNames[name]))
 		{
 			file = nodeGraphicsFileNames[name];
-			file.replace(tr(".XML"),tr(".PNG"));
-			file.replace(tr(".xml"),tr(".PNG"));
+			file.replace(tr(".XML"),tr(".png"));
+			file.replace(tr(".xml"),tr(".png"));
 		}
 		else
 		{
 			file = tr("NodeItems/");
-			file += name;
+			file += name.toLower();
 			file.replace(tr(" "),tr(""));
 			file += tr(".PNG");
 		}
@@ -388,7 +388,29 @@ namespace Tinkercell
 	{
 		return treeWidget;
 	}
- 
+	
+	NodeFamily * NodesTree::getFamily(const QString& name) const
+	{
+		if (nodeFamilies.contains(name.toLower()))
+			return nodeFamilies.value(name.toLower());
+		return 0;
+	}
+	
+	bool NodesTree::insertFamily(const QString& name, NodeFamily * family, FamilyTreeButton * button)
+	{
+		if (name.isEmpty() || !family || nodeFamilies.contains(name.toLower())) return false;
+		nodeFamilies [name.toLower()] = family;
+		if (button)
+			treeButtons [name.toLower()] = button;
+		return true;
+	}
+	
+	QStringList NodesTree::getAllFamilyNames() const
+	{
+		QStringList names(nodeFamilies.keys());
+		names.sort();
+		return names;
+	}
 }
 
 

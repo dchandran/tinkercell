@@ -298,12 +298,12 @@ QList<ItemHandle*> SBMLImportExport::importSBML(const QString& sbml_text)
 	ConnectionsTree * connectionsTree = static_cast<ConnectionsTree*>(mainWindow->tool("Connections Tree"));
 	
 	if (!nodesTree || connectionsTree || 
-		!nodesTree->nodeFamilies.contains(tr("Molecule"))  ||
-		!connectionsTree->connectionFamilies.contains(tr("Biochemical")))
+		!nodesTree->getFamily(tr("Molecule"))  ||
+		!connectionsTree->getFamily(tr("Biochemical")))
 		return handles;
 	
-	NodeFamily * defaultSpeciesFamily = nodesTree->nodeFamilies[tr("Molecule")];
-	ConnectionFamily * defaultReactionFamily = connectionsTree->connectionFamilies[tr("Biochemical")];
+	NodeFamily * defaultSpeciesFamily = nodesTree->getFamily(tr("Molecule"));
+	ConnectionFamily * defaultReactionFamily = connectionsTree->getFamily(tr("Biochemical"));
 
 	SBMLReader * sbmlreader = new SBMLReader;
 	SBMLDocument * doc;

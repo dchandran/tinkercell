@@ -247,7 +247,7 @@ namespace Tinkercell
 			if (!family->measurementUnit.name.isEmpty() && !family->measurementUnit.property.isEmpty())
 				text += tr("Unit of measurement: ") + family->measurementUnit.name + tr("\n\n");
 
-			text += tr("Participants: ") + family->nodeFunctions.join(" , ");
+			text += tr("Participants: ") + family->nodeRoles.join(" , ");
 
 			text += tr("\n\nAttributes: ")
 					+ ( QStringList() << family->numericalAttributes.keys() << family->textAttributes.keys() ).join(" , ")

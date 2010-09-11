@@ -460,16 +460,16 @@ namespace Tinkercell
 				if (handlesList[i].second->type == NodeHandle::TYPE)
 				{
 					nodeHandle = static_cast<NodeHandle*>(handlesList[i].second);
-					if (nodesTree->nodeFamilies.contains(handlesList[i].first))
-						nodeHandle->setFamily( nodesTree->nodeFamilies[handlesList[i].first] );
+					if (nodesTree->getFamily(handlesList[i].first))
+						nodeHandle->setFamily( nodesTree->getFamily(handlesList[i].first));
 				}
 				else
 					if (handlesList[i].second->type == ConnectionHandle::TYPE)
 					{
 						connectionHandle = static_cast<ConnectionHandle*>(handlesList[i].second);
-						if (connectionsTree->connectionFamilies.contains(handlesList[i].first))
+						if (connectionsTree->getFamily(handlesList[i].first))
 						{
-							connectionHandle->setFamily( connectionsTree->connectionFamilies[handlesList[i].first] );
+							connectionHandle->setFamily( connectionsTree->getFamily(handlesList[i].first));
 						}
 					}
 					if (handlesList[i].second->family())

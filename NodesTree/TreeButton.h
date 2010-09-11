@@ -10,7 +10,6 @@
 #ifndef TINKERCELL_TREEBUTTONWIDGET_H
 #define TINKERCELL_TREEBUTTONWIDGET_H
 
-
 #include <QWidget>
 #include <QHash>
 #include <QIcon>

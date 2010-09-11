@@ -209,7 +209,7 @@ namespace Tinkercell
 	QString ConnectionsTree::iconFile(ConnectionFamily * family)
 	{
 		QString file = tr("icons/");
-		file += family->name;
+		file += family->name.toLower();
 		file.replace(tr(" "),tr(""));
 		file += tr(".png");
 		return  file;
@@ -243,6 +243,22 @@ namespace Tinkercell
 		if (connectionFamilies.contains(name.toLower()))
 			return connectionFamilies.value(name.toLower());
 		return 0;
+	}
+	
+	bool ConnectionsTree::insertFamily(const QString& name, ConnectionFamily * family, FamilyTreeButton * button)
+	{
+		if (name.isEmpty() || !family || connectionFamilies.contains(name.toLower())) return false;
+		connectionFamilies[name] = family;
+		if (button)
+			treeButtons[name] = button;
+		return true;
+	}
+	
+	QStringList ConnectionsTree::getAllFamilyNames() const
+	{
+		QStringList names(connectionFamilies.keys());
+		names.sort();
+		return names;
 	}
 }
 

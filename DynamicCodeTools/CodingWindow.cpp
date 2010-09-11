@@ -942,7 +942,7 @@ specific for:\n\"\"\"\n\n") + text;
 			//completer->setModel(new QStringListModel(visitedFunctions, completer));
 			//completer->setModelSorting(QCompleter::CaseInsensitivelySortedModel);
 			//completer->setWrapAround(false);
-			completer->setCaseSensitivity(Qt::CaseInsensitive);
+			completer->setCaseSensitivity(Qt::CaseSensitive);
 			
 			console->editor()->setCompleter(completer);
 		 }

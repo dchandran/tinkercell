@@ -1,9 +1,9 @@
-FILE(GLOB EnzymeCatalysis_FILES EnzymeCatalysis/*.*)
-FILE(GLOB ProteinProduction_FILES ProteinProduction/*.*)
-FILE(GLOB TranscriptionActivation_FILES TranscriptionActivation/*.*)
-FILE(GLOB TranscriptionRepression_FILES TranscriptionRepression/*.*)
-FILE(GLOB DirectGeneActivation_FILES DirectGeneActivation/*.*)
-FILE(GLOB DirectGeneRepression_FILES DirectGeneRepression/*.*)
+FILE(GLOB EnzymeCatalysis_FILES EnzymeCatalysis/*.xml EnzymeCatalysis/*.sbml EnzymeCatalysis/*.txt EnzymeCatalysis/*.png EnzymeCatalysis/*.tic EnzymeCatalysis/*.ant)
+FILE(GLOB ProteinProduction_FILES ProteinProduction/*.xml ProteinProduction/*.sbml ProteinProduction/*.txt ProteinProduction/*.png ProteinProduction/*.tic ProteinProduction/*.ant)
+FILE(GLOB TranscriptionActivation_FILES TranscriptionActivation/*.xml TranscriptionActivation/*.sbml TranscriptionActivation/*.txt TranscriptionActivation/*.png TranscriptionActivation/*.tic TranscriptionActivation/*.ant)
+FILE(GLOB TranscriptionRepression_FILES TranscriptionRepression/*.xml TranscriptionRepression/*.sbml TranscriptionRepression/*.txt TranscriptionRepression/*.png TranscriptionRepression/*.tic TranscriptionRepression/*.ant)
+FILE(GLOB DirectGeneActivation_FILES DirectGeneActivation/*.xml DirectGeneActivation/*.sbml DirectGeneActivation/*.txt DirectGeneActivation/*.png DirectGeneActivation/*.tic DirectGeneActivation/*.ant)
+FILE(GLOB DirectGeneRepression_FILES DirectGeneRepression/*.xml DirectGeneRepression/*.sbml DirectGeneRepression/*.txt DirectGeneRepression/*.png DirectGeneRepression/*.tic DirectGeneRepression/*.ant)
 
 INSTALL( FILES ${EnzymeCatalysis_FILES} 
   DESTINATION Modules/EnzymeCatalysis

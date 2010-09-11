@@ -277,17 +277,8 @@ namespace Tinkercell
 		}
 		else
 		{
-			settings.setValue(tr("numNodeTabs"),numNodeTabs);
-
-			QStringList list1, list2;
-			for (int i=0; i < tabGroups.size(); ++i)
-			{
-				list1 << tabGroups[i].first;
-				list2 << tabGroups[i].second.join(tr(","));
-			}
-
-			settings.setValue(tr("familyTabNames"),list1);
-			settings.setValue(tr("familyTabs"),list2);
+			if (tabWidget)
+				settings.setValue(tr("currentIndex"),tabWidget->currentIndex());
 			settings.setValue(tr("familiesInCatalog"),familiesInCatalog);
 		}
 
@@ -737,6 +728,7 @@ namespace Tinkercell
 		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
 		settings.beginGroup("CatalogWidget");
 		familiesInCatalog = settings.value(tr("familiesInCatalog"),QStringList()).toStringList();
+		int currentIndex = settings.value(tr("currentIndex"),0).toInt();
 		settings.endGroup();
 		
 		isFirstTime = familiesInCatalog.size() < 10;
@@ -799,9 +791,11 @@ namespace Tinkercell
 		layout->addWidget(tabWidget);
 		layout->setContentsMargins(0,0,0,0);
 		layout->setSpacing(0);
-		setLayout(layout);
-		
+		setLayout(layout);		
 		isFirstTime = false;
+		
+		if (currentIndex > -1 && currentIndex < tabWidget->count())
+			tabWidget->setCurrentIndex(currentIndex);
 	}
 		
 	void CatalogWidget::showButtons(const QStringList& familyNames)

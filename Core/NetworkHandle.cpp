@@ -269,14 +269,19 @@ namespace Tinkercell
 		return &(symbolsTable.globalHandle);
 	}
 
-	QList<ItemHandle*> NetworkHandle::handles()
+	QList<ItemHandle*> NetworkHandle::handles(bool includeGlobal, bool sort)
 	{
-		QStringList names = symbolsTable.uniqueHandlesWithDot.keys();
-		names.sort();
 		QList<ItemHandle*> handles;
-		handles << &(symbolsTable.globalHandle);
-		for (int i=0; i < names.size(); ++i)
-			handles += symbolsTable.uniqueHandlesWithDot[ names[i] ];
+		if (includeGlobal)
+			handles << &(symbolsTable.globalHandle);
+
+		if (sort)
+		{
+			QStringList names = symbolsTable.uniqueHandlesWithDot.keys();
+			names.sort();			
+			for (int i=0; i < names.size(); ++i)
+				handles += symbolsTable.uniqueHandlesWithDot[ names[i] ];
+		}
 		return handles;
 	}
 

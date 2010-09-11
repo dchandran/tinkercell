@@ -304,6 +304,7 @@ ENDIF( PLUGIN_MODELING )
 
 IF( PLUGIN_MODULES )
    ADD_SUBDIRECTORY( ModuleTools )
+   ADD_SUBDIRECTORY( Modules )
 ENDIF( PLUGIN_MODULES )
 
 #---------------------------------------------------------------------------

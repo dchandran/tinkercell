@@ -506,7 +506,7 @@ namespace Tinkercell
 		}
 
 		if (returnPtr)
-			(*returnPtr) = win->handles();
+			(*returnPtr) = win->handles(false,true);
 
 		if (s)
 			s->release();

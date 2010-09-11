@@ -86,8 +86,11 @@ namespace Tinkercell
 			\{
 		*/
 		
-		/*! \brief get all the visible items in this network window*/
-		virtual QList<ItemHandle*> handles();
+		/*! \brief get all the visible items in this network window
+		* \param bool include the global handle (default = true)
+		* \param bool sort handles by full name (default = false)
+		*/
+		virtual QList<ItemHandle*> handles(bool includeGlobalHandle=true, bool sort=false);
 		/*! \brief get list of all items sorted according to family*/
 		virtual QList<ItemHandle*> handlesSortedByFamily() const;
 		/*! \brief the model global item*/

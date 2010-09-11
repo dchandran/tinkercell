@@ -1020,9 +1020,11 @@ namespace Tinkercell
 		
 		for (int i=0; i<graphicsItems.size(); ++i)
 		{
-			if (graphicsItems[i] && graphicsItems[i]->scene() == graphicsScene)
+			if (graphicsItems[i])
 			{
-				graphicsScene->removeItem(graphicsItems[i]);
+				if (graphicsScene && graphicsItems[i]->scene() == graphicsScene)
+					graphicsScene->removeItem(graphicsItems[i]);
+
 				NodeGraphicsItem * node = qgraphicsitem_cast<NodeGraphicsItem*>(graphicsItems[i]);
 				if (node)
 				{
@@ -1041,7 +1043,7 @@ namespace Tinkercell
 							if (connection->curveSegments[j].arrowEnd && connection->curveSegments[j].arrowEnd->scene() == graphicsScene)
 								graphicsScene->removeItem(connection->curveSegments[j].arrowEnd);
 						}
-						if (connection->centerRegionItem)
+						if (connection->centerRegionItem && graphicsScene && graphicsItems[i]->scene() == graphicsScene)
 							graphicsScene->removeItem(connection->centerRegionItem);
 					}
 				}
@@ -1262,45 +1264,46 @@ namespace Tinkercell
 		ConnectionGraphicsItem * connection;
 
 		for (int i=0; i<graphicsItems.size(); ++i)
-		{
-			if (graphicsItems[i] && graphicsItems[i]->scene() != graphicsScene)
-				graphicsScene->addItem(graphicsItems[i]);
+			if (graphicsItems[i])
+			{
+				if (graphicsScene && graphicsItems[i]->scene() != graphicsScene)
+					graphicsScene->addItem(graphicsItems[i]);
 
-			NodeGraphicsItem * node = qgraphicsitem_cast<NodeGraphicsItem*>(graphicsItems[i]);
-			if (node)
-			{
-				node->setBoundingBoxVisible(false);
-			}
-			else
-			{
-				connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(graphicsItems[i]);
-				if (connection)
+				NodeGraphicsItem * node = qgraphicsitem_cast<NodeGraphicsItem*>(graphicsItems[i]);
+				if (node)
 				{
-					connections << connection;
+					node->setBoundingBoxVisible(false);
+				}
+				else
+				{
+					connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(graphicsItems[i]);
+					if (connection)
+					{
+						connections << connection;
+					}
+				}
+
+				if (itemHandles.size() > i && itemHandles[i])
+				{
+					if (parentHandles.size() > i && !MainWindow::invalidPointers.contains(itemHandles[i]))
+						itemHandles[i]->setParent(parentHandles[i],false);
+				
+					itemHandles[i]->network = graphicsScene->network;
+					setHandle(graphicsItems[i],itemHandles[i]);
+
+					if (itemHandles[i]->parent)
+						itemHandles[i]->setParent(itemHandles[i]->parent,false);
+
+					for (int j=0; j < itemHandles[i]->children.size(); ++j)
+						if (itemHandles[i]->children[j])
+							itemHandles[i]->children[j]->parent = itemHandles[i];
+
+				}
+				if (itemParents.size() > i && itemParents[i] != 0)
+				{
+					graphicsItems[i]->setParentItem(itemParents[i]);
 				}
 			}
-
-			if (itemHandles.size() > i && itemHandles[i])
-			{
-				if (parentHandles.size() > i && !MainWindow::invalidPointers.contains(itemHandles[i]))
-					itemHandles[i]->setParent(parentHandles[i],false);
-				
-				itemHandles[i]->network = graphicsScene->network;
-				setHandle(graphicsItems[i],itemHandles[i]);
-
-				if (itemHandles[i]->parent)
-					itemHandles[i]->setParent(itemHandles[i]->parent,false);
-
-				for (int j=0; j < itemHandles[i]->children.size(); ++j)
-					if (itemHandles[i]->children[j])
-						itemHandles[i]->children[j]->parent = itemHandles[i];
-
-			}
-			if (itemParents.size() > i && itemParents[i] != 0)
-			{
-				graphicsItems[i]->setParentItem(itemParents[i]);
-			}
-		}
 
 		for (int i=0; i < connections.size(); ++i)
 		{

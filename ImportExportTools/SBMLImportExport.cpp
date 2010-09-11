@@ -11,6 +11,8 @@
 #include "BasicInformationTool.h"
 #include "StoichiometryTool.h"
 #include "sbml_sim.h"
+#include "NodesTree.h"
+#include "ConnectionsTree.h"
 #include "ConsoleWindow.h"
 
 using namespace Tinkercell;
@@ -288,23 +290,34 @@ void SBMLImportExport::updateSBMLModel()
 	modelNeedsUpdate = false;
 }
 
-QList<ItemHandle*> SBMLImportExport::importSBML(const QString& sbml_text, NodeFamily * defaultSpeciesFamily, ConnectionFamily * defaultReactionFamily)
+QList<ItemHandle*> SBMLImportExport::importSBML(const QString& sbml_text)
 {
 	QList<ItemHandle*> handles;
 	
+	NodesTree * nodesTree = static_cast<NodesTree*>(mainWindow->tool("Nodes Tree"));
+	ConnectionsTree * connectionsTree = static_cast<ConnectionsTree*>(mainWindow->tool("Connections Tree"));
+	
+	if (!nodesTree || connectionsTree || 
+		!nodesTree->nodeFamilies.contains(tr("Molecule"))  ||
+		!connectionsTree->connectionFamilies.contains(tr("Biochemical")))
+		return handles;
+	
+	NodeFamily * defaultSpeciesFamily = nodesTree->nodeFamilies[tr("Molecule")];
+	ConnectionFamily * defaultReactionFamily = connectionsTree->connectionFamilies[tr("Biochemical")];
+
 	SBMLReader * sbmlreader = new SBMLReader;
 	SBMLDocument * doc;
 	std::string s1,s2;
 	
 	if (QFile::exists(sbml_text))
-		doc = sbmlreader->readSBML(sbml_text);
+		doc = sbmlreader->readSBML(ConvertValue(sbml_text));
 	else
-		doc = sbmlreader->readSBMLFromString(sbml_text); 
+		doc = sbmlreader->readSBMLFromString(ConvertValue(sbml_text)); 
 	
 	if (!doc || doc->getNumErrors() > 0)
 	{
 		if (console())
-			console()->error(tr("Failed to load SBML using libsbml");
+			console()->error(tr("Failed to load SBML using libsbml"));
 	}
 	else
 	{
@@ -327,7 +340,7 @@ QList<ItemHandle*> SBMLImportExport::importSBML(const QString& sbml_text, NodeFa
 			{
 				Event * e = events->get(i);
 				s1 = SBML_formulaToString( e->getTrigger()->getMath() );
-				QString trigger( s.c_str() );
+				QString trigger( s1.c_str() );
 				QStringList responses;
 				ListOfEventAssignments * eventAssn = e->getListOfEventAssignments();
 				for (int j=0; j < eventAssn->size(); ++j)
@@ -335,7 +348,7 @@ QList<ItemHandle*> SBMLImportExport::importSBML(const QString& sbml_text, NodeFa
 					s1 = eventAssn->get(j)->getVariable();
 					s1.append("=");
 					s1.append( SBML_formulaToString( eventAssn->get(j)->getMath() ) );
-					responses << tr( s.c_str() );
+					responses << tr( s1.c_str() );
 				}
 
 				if (globalEvents.value(trigger,0).isEmpty())
@@ -356,184 +369,75 @@ QList<ItemHandle*> SBMLImportExport::importSBML(const QString& sbml_text, NodeFa
 					AssignmentRule * ar  = (AssignmentRule*)r;
 					s1 = ar->getVariable();
 					s2 = ar->getFormula();
-					globalAssignments.value(tr(s1.c_stri()),tr(s2.c_str());
+					globalAssignments.value( tr(s1.c_str()) , 0 ) = tr(s2.c_str());
 				}
 			}
 		}
 
 		if (species)
 			for (int i=0; i < species->size(); ++i)
-				if (!species->get(i)->getConstant() && !species->get(i)->getBoundaryCondition())
-				{
-					s1 = species->get(i)->getId();
-					ItemHandle * h = new NodeHandle(defaultSpeciesFamily, tr( s1.c_str() ));
-					
-					double d = 0.0;
-					
-					if (species->get(i)->isSetInitialAmount())
-						d = species->get(i)->getInitialAmount();
-					else
-					if (species->get(i)->isSetInitialConcentration())
-						d = species->get(i)->getInitialConcentration();
-					
-					h->numericalDataTable("Initial Values
-				}
+			{
+				s1 = species->get(i)->getId();
+				ItemHandle * h = new NodeHandle(defaultSpeciesFamily, tr( s1.c_str() ));
+				handles << h;
+
+				double d = 0.0;
+				
+				if (species->get(i)->isSetInitialAmount())
+					d = species->get(i)->getInitialAmount();
 				else
-				{
-					parameterNames.push_back(species->get(i)->getId());
-					if (species->get(i)->isSetInitialAmount())
-						parameterValues.push_back(species->get(i)->getInitialAmount());
-					else
-					if (species->get(i)->isSetInitialConcentration())
-						parameterValues.push_back(species->get(i)->getInitialConcentration());
-					else
-						parameterValues.push_back(0.0);
-				}
+				if (species->get(i)->isSetInitialConcentration())
+					d = species->get(i)->getInitialConcentration();
+				
+				h->numericalData("Initial Values") = d;
+				h->numericalData("Fixed") = 0;
+				if (species->get(i)->getConstant() || species->get(i)->getBoundaryCondition())
+					h->numericalData("Fixed") = 1;
+			}
 
 		if (params)
+		{
+			TextDataTable & globalParams = global->textDataTable("Parameters");
 			for (int i=0; i < params->size(); ++i)
 			{
-				parameterNames.push_back(params->get(i)->getId());
-				parameterValues.push_back(params->get(i)->getValue());
+				s1 = params->get(i)->getId();
+				globalParams.value(tr(s1.c_str()),0) = params->get(i)->getValue();;
 			}
+		}
 
 		int numReacs = 0;
 		
 		if (reacs)
 			numReacs = reacs->size();
 
-		stoichiometryMatrix = new double[ numReacs * variableNames.size() ];
-
 		for (int i=0; i < numReacs; ++i)
 		{
 			Reaction * r = reacs->get(i);
-			reactionNames.push_back(r->getId());
-			rateEquations.push_back(r->getKineticLaw()->getFormula());
+			s1 = r->getId();
+			
+			ConnectionHandle * h = new ConnectionHandle(defaultReactionFamily,tr(s1.c_str()));
+			handles << h;
+			
+			h->textData("Rate equations") = tr(r->getKineticLaw()->getFormula().c_str());
+			NumericalDataTable & reacStoic = h->numericalDataTable("Reactant stoichiometries"),
+											 & prodStoic = h->numericalDataTable("Product stoichiometries"); 
+
 			ListOfSpeciesReferences * reactants = r->getListOfReactants(),
-									* products  = r->getListOfProducts();
+													* products  = r->getListOfProducts();
 
-			for (int j=0; j < variableNames.size(); ++j)
-			{
-				stoichiometryMatrix[ j*numReacs + i ] = 0.0;
-
-				for (int k=0; k < reactants->size(); ++k)
-					if (reactants->get(k) && reactants->get(k)->getSpecies() == variableNames[j])
-						stoichiometryMatrix[ j*numReacs + i ] -= 1.0;
-						//stoichiometryMatrix[ j*numReacs + i ] -= SpeciesReference_getStoichiometry(reactants->get(k));
-					
-				for (int k=0; k < products->size(); ++k)
-					if (products->get(k) && products->get(k)->getSpecies() == variableNames[j])
-						stoichiometryMatrix[ j*numReacs + i ] += 1.0;
-						//stoichiometryMatrix[ j*numReacs + i ] += SpeciesReference_getStoichiometry(reactants->get(k));
-			}
-		}
-		
-		for (int i=0; i < rateEquations.size(); ++i)
-		{
-			mu::Parser p;
-			addSBMLFunctions(p);
-			p.SetExpr(rateEquations[i]);
-			
-			for (int j=0; j < variableNames.size(); ++j)
-				p.DefineVar(variableNames[j],&variableValues[j]);
-
-			for (int j=0; j < parameterNames.size(); ++j)
-				p.DefineVar(parameterNames[j],&parameterValues[j]);
-			
-			for (int j=0; j < assignmentVariables.size(); ++j)
-				p.DefineVar(assignmentVariables[j],&assignmentValues[j]);
-
-			try
-			{
-				rateEqns.push_back(p);
-			}
-			catch(...)
-			{
-				reactionNames.clear();
-				rateEqns.clear();
-				break;
-			}
-		}
-		
-		for (int i=0; i < assignmentEquations.size(); ++i)
-		{
-			mu::Parser p;
-			addSBMLFunctions(p);
-			p.SetExpr(assignmentEquations[i]);
-			
-			for (int j=0; j < variableNames.size(); ++j)
-				p.DefineVar(variableNames[j],&variableValues[j]);
-
-			for (int j=0; j < parameterNames.size(); ++j)
-				p.DefineVar(parameterNames[j],&parameterValues[j]);
-			
-			for (int j=0; j < assignmentVariables.size(); ++j)
-				p.DefineVar(assignmentVariables[j],&assignmentValues[j]);
-
-			try
-			{
-				p.Eval();
-				assignmentEqns.push_back(p);
-			}
-			catch(...)
-			{
-				//assignmentVariables.clear();
-				//assignmentEqns.clear();
-				break;
-			}
-		}
-
-		for (int i=0; i < eventTriggers.size(); ++i)
-		{
-			mu::Parser p;
-			addSBMLFunctions(p);
-			p.SetExpr(eventTriggers[i]);
-			
-			for (int j=0; j < variableNames.size(); ++j)
-				p.DefineVar(variableNames[j],&variableValues[j]);
-
-			for (int j=0; j < parameterNames.size(); ++j)
-				p.DefineVar(parameterNames[j],&parameterValues[j]);
-			
-			for (int j=0; j < assignmentVariables.size(); ++j)
-				p.DefineVar(assignmentVariables[j],&assignmentValues[j]);
-
-			try
-			{
-				p.Eval();
-				
-				//resposes for the trigger
-				vector<mu::Parser> responses;
-				for (int j=0; j < eventResponses[i].size(); ++j)
+			for (int k=0; k < reactants->size(); ++k)
+				if (reactants->get(k))
 				{
-					mu::Parser p;
-					addSBMLFunctions(p);
-					p.SetExpr(eventResponses[i][j]);
-
-					try
-					{
-						p.Eval();
-						responses.push_back(p);
-					}
-					catch(...) {}
+					s1 = reactants->get(k)->getSpecies();
+					reacStoic.value(0, tr(s1.c_str())) += 1.0; 
 				}
-
-				if (responses.size() > 0)
+			for (int k=0; k < products->size(); ++k)
+				if (products->get(k))
 				{
-					triggerEqns.push_back(p);
-					responseEqns.push_back(responses);
+					s1 = products->get(k)->getSpecies();
+					prodStoic.value(0, tr(s1.c_str())) += 1.0; 
 				}
-			}
-			catch(...)
-			{
-				//assignmentVariables.clear();
-				//assignmentEqns.clear();
-				break;
-			}
 		}
-
-		//delete params;
-		//delete reacs;
 	}
 
 	return handles;

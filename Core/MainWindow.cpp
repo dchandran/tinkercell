@@ -664,8 +664,9 @@ namespace Tinkercell
 		return dock;
 	}
 
-	Tool * MainWindow::tool(const QString& s) const
+	Tool * MainWindow::tool(const QString& s0) const
 	{
+		QString s = s0.toLower();
 		if (toolsHash.contains(s))
 			return toolsHash.value(s);
 		return 0;
@@ -683,9 +684,9 @@ namespace Tinkercell
 		bool add = true;
 		emit toolAboutToBeLoaded(tool,&add);
 
-		if (!toolsHash.contains(tool->name) && add)
+		if (!toolsHash.contains(tool->name.toLower()) && add)
 		{
-			toolsHash.insert(tool->name,tool);
+			toolsHash.insert(tool->name.toLower(),tool);
 			if (tool->mainWindow != this)
 			{
 				tool->setMainWindow( static_cast<MainWindow*>(this) );
@@ -695,8 +696,8 @@ namespace Tinkercell
 		else
 		if (!add)
 		{
-			if (toolsHash.contains(tool->name))
-				toolsHash.remove(tool->name);
+			if (toolsHash.contains(tool->name.toLower()))
+				toolsHash.remove(tool->name.toLower());
 			if (!tool->parentWidget())
 				delete tool;
 		}

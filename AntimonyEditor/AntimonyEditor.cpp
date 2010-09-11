@@ -269,9 +269,9 @@ namespace Tinkercell
 				rate.rowName(0) = reactionHandle->name;
 				rate.colName(0) = tr("rate");
 				rate.value(0,0) = srate;
-				reactionHandle->data->textData[tr("Rate equations")] = rate;
-				reactionHandle->data->numericalData[tr("Reactant stoichiometries")] = reactants;
-				reactionHandle->data->numericalData[tr("Product stoichiometries")] = products;
+				reactionHandle->textDataTable(tr("Rate equations")) = rate;
+				reactionHandle->numericalDataTable(tr("Reactant stoichiometries")) = reactants;
+				reactionHandle->numericalDataTable(tr("Product stoichiometries")) = products;
 
 				for (int var=0; var < nodesIn.size(); ++var)
 					reactionHandle->addNode(nodesIn[var],-1);
@@ -307,11 +307,11 @@ namespace Tinkercell
 				if (ok && speciesItems.contains(s))
 				{
 					speciesItems[s]->numericalData(tr("Initial Value")) = x;
-					speciesItems[s]->data->numericalData[ tr("Initial Value") ].rowName(0) = tr("concentration");
-					speciesItems[s]->data->numericalData[ tr("Initial Value") ].colName(0) = tr("uM");
+					speciesItems[s]->numericalDataTable(tr("Initial Value")).rowName(0) = tr("concentration");
+					speciesItems[s]->numericalDataTable(tr("Initial Value")).colName(0) = tr("uM");
 					speciesItems[s]->numericalData(tr("Fixed")) = 1;
-					speciesItems[s]->data->numericalData[ tr("Fixed") ].rowName(0) = tr("fix");
-					speciesItems[s]->data->numericalData[ tr("Fixed") ].colName(0) = tr("value");
+					speciesItems[s]->numericalDataTable(tr("Fixed")).rowName(0) = tr("fix");
+					speciesItems[s]->numericalDataTable(tr("Fixed")).colName(0) = tr("value");
 				}
 			}
 
@@ -331,7 +331,7 @@ namespace Tinkercell
 				RenameCommand::findReplaceAllHandleData(handlesInModule2,tr(assignmentNames[j]),moduleHandle->name + tr(".") + tr(assignmentNames[j]));
 			}
 
-			moduleHandle->data->textData[tr("Assignments")] = assgnsTable;
+			moduleHandle->textDataTable(tr("Assignments")) = assgnsTable;
 
 			int numEvents = (int)getNumEvents(moduleName);
 			char ** eventNames = getEventNames(moduleName);
@@ -351,7 +351,7 @@ namespace Tinkercell
 					eventsTable.value(trigger,0) = x + tr(" = ") + f;
 				}
 			}
-			moduleHandle->data->textData[tr("Events")] = eventsTable;
+			moduleHandle->textDataTable(tr("Events")) = eventsTable;
 
 			int numParams = (int)getNumSymbolsOfType(moduleName,constFormulas);
 			char ** paramNames = getSymbolNamesOfType(moduleName,constFormulas);
@@ -371,7 +371,7 @@ namespace Tinkercell
 				else
 				{
 					RenameCommand::findReplaceAllHandleData(handlesInModule2,tr(paramValues[j]),moduleHandle->name + tr(".") + tr(paramValues[j]));
-					moduleHandle->data->textData[tr("Assignments")].value(tr(paramNames[j]),0) = paramValues[j];
+					moduleHandle->textDataTable(tr("Assignments")).value(tr(paramNames[j]),0) = paramValues[j];
 				}
 			}
 
@@ -392,7 +392,7 @@ namespace Tinkercell
 				}
 			}
 
-			moduleHandle->data->numericalData[tr("Numerical Attributes")] = paramsTable;
+			moduleHandle->numericalDataTable(tr("Numerical Attributes")) = paramsTable;
 
 			for (int j=0; j < handlesInModule.size(); ++j)
 				if (handlesInModule[j])

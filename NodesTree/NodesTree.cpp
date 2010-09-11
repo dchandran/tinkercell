@@ -396,9 +396,13 @@ namespace Tinkercell
 		return 0;
 	}
 	
-	bool NodesTree::insertFamily(const QString& name, NodeFamily * family, FamilyTreeButton * button)
+	bool NodesTree::insertFamily(NodeFamily * family, FamilyTreeButton * button)
 	{
 		if (name.isEmpty() || !family || nodeFamilies.contains(name.toLower())) return false;
+		QString name = family->name;
+		
+		if (name.isEmpty()) return false;
+
 		nodeFamilies [name.toLower()] = family;
 		if (button)
 			treeButtons [name.toLower()] = button;

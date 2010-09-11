@@ -77,18 +77,19 @@ namespace Tinkercell
                {
                     if (vec.at(i).name().toString().toLower() == QObject::tr("family"))  //get name of node
                     {
-                         family->name = vec.at(i).value().toString().toLower();
-                         QString name = family->name.toLower();
+                         family->name = vec.at(i).value().toString();
+                         QString lname = family->name.toLower();
                          treeItem->setText(0,family->name);
-                         if (tree->connectionFamilies.contains(name))
+                         if (tree->connectionFamilies.contains(lname))
                          {
-                              family = tree->connectionFamilies[name];
+	                       	  delete family;
+                              family = tree->connectionFamilies[lname];
                          }
                          else
                          {
-                              tree->connectionFamilies[name] = family;
+                              tree->connectionFamilies[lname] = family;
                          }
-                         tree->treeItems.insertMulti(name,treeItem);
+                         tree->treeItems.insertMulti(lname,treeItem);
                     }
                     else
                     if (vec.at(i).name().toString().toLower() == QObject::tr("units"))  //get measuring unit for the node

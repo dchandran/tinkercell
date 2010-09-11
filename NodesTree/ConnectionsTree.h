@@ -67,12 +67,11 @@ namespace Tinkercell
 		ConnectionFamily * getFamily(const QString& name) const;
 		
 		 /*! \brief insert a new connection family
-        \param QString name of connection family
         \param NodeFamily * new family
         \param FamilyTreeButton* button
         \return bool returns false if the family already existed
          */
-		bool insertFamily(const QString& name, ConnectionFamily *, FamilyTreeButton * );
+		bool insertFamily(ConnectionFamily *, FamilyTreeButton * );
 		
 		 /*! \brief get names of all families (sorted)
          \return QStringList names of all families*/

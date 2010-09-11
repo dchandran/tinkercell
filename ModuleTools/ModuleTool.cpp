@@ -166,7 +166,7 @@ namespace Tinkercell
 				moduleFamily->textAttributes[tr("Functional description")] = tr("");
 				moduleFamily->graphicsItems << new ArrowHeadItem(appDir + interfaceFileName)
 											 << new ArrowHeadItem(appDir + moduleFileName);				
-				connectionsTree->insertFamily(moduleFamily->name,moduleFamily,0);
+				connectionsTree->insertFamily(moduleFamily,0);
 			}
 		}
 
@@ -1050,7 +1050,7 @@ namespace Tinkercell
 
 		
 		FamilyTreeButton * button = new FamilyTreeButton(newModuleFamily);
-		connectionsTree->insertFamily(name,newModuleFamily,button);
+		connectionsTree->insertFamily(newModuleFamily,button);
 		connect(button,SIGNAL(connectionSelected(ConnectionFamily*)),connectionsTree,SLOT(buttonPressed(ConnectionFamily*)));
 				
 		QLineEdit * lineEdit;

@@ -39,6 +39,7 @@ TARGET_LINK_LIBRARIES( AntimonyEditor
   AntimonyEditor
   antimony
   ModelingTools
+  NodesTree
 #  AutoGeneRegulatoryTool
   TinkerCellCore
 )

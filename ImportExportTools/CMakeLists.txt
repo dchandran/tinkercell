@@ -33,6 +33,7 @@ ADD_LIBRARY( SBMLImportExport
 TARGET_LINK_LIBRARIES( SBMLImportExport
   SBMLImportExport
   ModelingTools
+  NodesTree
   TinkerCellCore
   muparser
   sbml

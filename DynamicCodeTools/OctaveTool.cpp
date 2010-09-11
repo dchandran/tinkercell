@@ -387,12 +387,19 @@ namespace Tinkercell
 		QString homeDir = MainWindow::homeDir();
 		
 		QString icon = icon0;
-		
-		if (!QFile(icon).exists() && QFile(appDir + tr("/") + icon).exists())
-			icon = appDir + tr("/") + icon;
-		
-		if (!QFile(icon).exists() && QFile(homeDir + tr("/") + icon).exists())
-			icon = homeDir + tr("/") + icon;
+
+		if (!QFile(icon).exists())
+			if (QFile(appDir + tr("/") + icon).exists())
+				icon = appDir + tr("/") + icon;
+			else
+			if (QFile(appDir + tr("/icons/") + icon).exists())
+				icon = appDir + tr("/icons/") + icon;
+			else
+			if (QFile(homeDir + tr("/") + icon).exists())
+				icon = homeDir + tr("/") + icon;
+			else
+			if (QFile(homeDir + tr("/octave/") + icon).exists())
+				icon = homeDir + tr("/octave/") + icon;
 	
 		QPixmap pixmap(icon);
 	

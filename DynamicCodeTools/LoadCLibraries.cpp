@@ -116,7 +116,10 @@ namespace Tinkercell
                         appDir = QCoreApplication::applicationDirPath();
 
             QString name[] = {  appDir + tr("/") + iconFilename,
+                                         appDir + tr("/icons/") + iconFilename,
                                          home + tr("/") + iconFilename,
+                                         home + tr("/plugins/c/") + iconFilename,
+                                         appDir + tr("/plugins/c/") + iconFilename,
                                          current + tr("/") + iconFilename,
                                          iconFilename };
             QString iconFile("");

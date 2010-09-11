@@ -74,10 +74,10 @@ TCAPIEXPORT void tc_main()
 
 	strcpy(selected_var,"\0");
 	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?
-	tc_addFunction(&setup1, "Steady state analysis", "uses Sundials library (compiles to C program)", "Steady state", "plugins/c/cvode.png", "", 1, 0, 0);
+	tc_addFunction(&setup1, "Steady state analysis", "uses Sundials library (compiles to C program)", "Steady state", "cvode.png", "", 1, 0, 0);
 	
 	if (!tc_isMac())
-		tc_addFunction(&setup2, "2-Parameter Steady state analysis", "uses Sundials library (compiles to C program)", "Steady state", "plugins/c/cvode.png", "", 1, 0, 0);
+		tc_addFunction(&setup2, "2-Parameter Steady state analysis", "uses Sundials library (compiles to C program)", "Steady state", "cvode.png", "", 1, 0, 0);
 
 	tc_callback(&callback);
 	tc_callWhenExiting(&unload);

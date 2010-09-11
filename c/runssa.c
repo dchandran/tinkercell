@@ -755,10 +755,10 @@ void setupLangevin()
 TCAPIEXPORT void tc_main()
 {
 	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?
-	tc_addFunction(&setupSSA, "Stochastic simulation (Discrete)", "uses custom Gillespie algorithm (compiles to C program)", "Simulate", "plugins/c/stochastic.png", "", 1, 0, 0);
+	tc_addFunction(&setupSSA, "Stochastic simulation (Discrete)", "uses custom Gillespie algorithm (compiles to C program)", "Simulate", "stochastic.png", "", 1, 0, 0);
 	
 	if (!tc_isMac())
-		tc_addFunction(&setupLangevin, "Stochastic simulation (Continuous)", "uses Langevin method (compiles to C program)", "Simulate", "plugins/c/stochastic.png", "", 1, 0, 0);
+		tc_addFunction(&setupLangevin, "Stochastic simulation (Continuous)", "uses Langevin method (compiles to C program)", "Simulate", "stochastic.png", "", 1, 0, 0);
 	
-	//tc_addFunction(&setupCellSSA, "Multi-cell stochastic simulation", "uses custom Gillespie algorithm (compiles to C program)", "Simulate", "plugins/c/cells.png", "", 1, 0, 0);
+	//tc_addFunction(&setupCellSSA, "Multi-cell stochastic simulation", "uses custom Gillespie algorithm (compiles to C program)", "Simulate", "cells.png", "", 1, 0, 0);
 }

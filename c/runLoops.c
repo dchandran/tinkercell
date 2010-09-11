@@ -9,7 +9,7 @@ void setup();
 TCAPIEXPORT void tc_main()
 {
 	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?  
-	tc_addFunction(&run, "Find loops", "loops in the Jacobian can sometimes indicate bistability or oscillations", "Network structure", "plugins/c/nodedges.png", "", 1, 0, 0);
+	tc_addFunction(&run, "Find loops", "loops in the Jacobian can sometimes indicate bistability or oscillations", "Network structure", "nodedges.png", "", 1, 0, 0);
 }
 
 

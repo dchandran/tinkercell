@@ -13,7 +13,7 @@ void setup();
 TCAPIEXPORT void tc_main()
 {
 	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?
-	tc_addFunction(&run, "Load full binding kinetics", "use on the target of a binding reaction to generate all possible states", "Generate kinetics", "plugins/c/fullBinding.png", "", 1, 0, 0);
+	tc_addFunction(&run, "Load full binding kinetics", "use on the target of a binding reaction to generate all possible states", "Generate kinetics", "fullBinding.png", "", 1, 0, 0);
 }
 
 void run()

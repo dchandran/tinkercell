@@ -110,7 +110,7 @@ void SimpleDesigner::addParameters(QStringList& newVars)
 	
 	if (globalHandle->hasNumericalData("parameters"))     
 	{
-		params = globalHandle->data->numericalData["parameters"]; //get existing set of parameters
+		params = globalHandle->numericalDataTable("parameters"); //get existing set of parameters
 		vars = params.getRowNames();
 	}
 	
@@ -121,7 +121,7 @@ void SimpleDesigner::addParameters(QStringList& newVars)
 			params.value(newVars[i],0) = 1.0;   //add new parameters to existing set
 		}
 	
-	globalHandle->data->numericalData["parameters"] = params;   //update with new set of parameters
+	globalHandle->numericalDataTable("parameters") = params;   //update with new set of parameters
 	
 	vars.clear();
 	

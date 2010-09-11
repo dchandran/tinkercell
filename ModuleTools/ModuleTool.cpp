@@ -857,7 +857,7 @@ namespace Tinkercell
 					handle = getHandle(arrow->connectionItem);
 			}
 		}
-		
+
 		if (handle && handle->family())
 		{
 			QList<TextEditor*> editors = scene->network->editors();
@@ -899,7 +899,7 @@ namespace Tinkercell
 									if (items2[j] && !items2[j]->scene())
 										items << items2[j];
 							}
-						
+
 						if (!items.isEmpty())
 						{
 							newScene->insert(handle->name + tr(" expanded"),items);

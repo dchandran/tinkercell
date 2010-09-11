@@ -20,7 +20,7 @@
         </connection>
       </connection>
       
-      <connection family="Protein production" participant_types="Coding,Protein" participant_roles="Template,Product">
+      <connection family="Protein Production" participant_types="Coding,Protein" participant_roles="Template,Product">
         <text>The complete process of producing a protein from the template DNA.</text>
       </connection>
     

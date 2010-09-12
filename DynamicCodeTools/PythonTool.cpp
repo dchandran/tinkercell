@@ -180,7 +180,7 @@ namespace Tinkercell
 		if (mainWindow)
 		{
 			QString appDir = QCoreApplication::applicationDirPath();
-			QString homeDir = homeDir();
+			QString homeDir = Tool::homeDir();
 		#ifdef Q_WS_WIN
 			pythonInterpreter = new PythonInterpreterThread(appDir + tr("/python/_tinkercell.pyd"), mainWindow);
 		#else

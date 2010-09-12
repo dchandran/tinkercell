@@ -621,7 +621,7 @@ namespace Tinkercell
 							connections[j]->hasTextData(tr("Rate equations")))
 						{
 							TextDataTable & participants = connections[j]->textDataTable(tr("Participants"));
-							if (participants.at(parts[i]->fullName()).toLower() == tr("template"))
+							if (participants.at(parts[i]->fullName(),0).toLower() == tr("template"))
 							{
 								TextDataTable * sDat = new TextDataTable(connections[j]->textDataTable(tr("Rate equations")));
 								s0 = sDat->value(0,0);

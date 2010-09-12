@@ -921,10 +921,15 @@ namespace Tinkercell
 		}
 	}
 
-	void AutoGeneRegulatoryTool::itemsAboutToBeInserted(GraphicsScene * scene, QList<QGraphicsItem*>& items, QList<ItemHandle*>& handle, QList<QUndoCommand*>& commands)
+	void AutoGeneRegulatoryTool::itemsAboutToBeInserted(GraphicsScene * scene, QList<QGraphicsItem*>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>& commands)
 	{
 		QGraphicsItem * item = 0;
 		NodeGraphicsItem * node = 0;
+		ConnectionGraphicsItem * connection = 0;
+		QList<NodeGraphicsItem*> nodes;
+		QList<ItemHandle*> visited;
+		ItemHandle * handle;
+		
 		for (int i=0; i < items.size(); ++i)
 		{
 			if ((node = NodeGraphicsItem::cast(items[i]))
@@ -948,6 +953,55 @@ namespace Tinkercell
 					return;
 				else
 					item = items[i];
+			}
+			
+			connection = ConnectionGraphicsItem::cast(items[i]);
+			NodeGraphicsItem * startNode = 0;
+			if (connection 
+				&& (handle = connection->handle()) 
+				&& (handle->isA(tr("Transcription Regulation")) || handle->isA(tr("Production"))))
+			{
+				nodes = connection->nodes();
+				for (int j=0; j < nodes.size(); ++j)
+					if (nodes[i] && nodes[i]->handle() 
+						&& (nodes[i]->handle()->isA(tr("Promoter")) || nodes[i]->handle()->isA(tr("Coding"))))
+					{
+						startNode = nodes[i];
+						break;
+					}
+			}
+
+			if (!startNode) continue;
+
+			handle = NodeHandle::cast(getHandle(startNode));
+			if (visited.contains(handle) || !handle) continue;
+
+			QList<ItemHandle*> parts,upstream;
+
+			findAllParts(scene,startNode,tr("Part"),parts,false,QStringList() << "Terminator" << "Vector",true);
+			findAllParts(scene,startNode,tr("Part"),upstream,true,QStringList() << "Terminator" << "Vector",true);
+
+			if (!parts.contains(handle))
+				parts.push_front(handle);
+
+			while (!upstream.isEmpty())
+			{
+				parts.push_front(upstream.first());
+				upstream.pop_front();
+			}
+
+			QList<NodeHandle*> parts3;
+
+			QStringList lst;
+			for (int j=0; j < parts.size(); ++j)
+			{
+				NodeHandle * node = NodeHandle::cast(parts[j]);
+				parts3 += node;
+				visited += node;
+			}
+			if (!parts3.isEmpty())
+			{
+				commands << autoAssignRates(parts3);
 			}
 		}
 	}
@@ -1041,26 +1095,6 @@ namespace Tinkercell
 			}
 		}
 
-/*
-		ItemHandle * h = 0;
-		
-		for (int i=0; i < items.size(); ++i)
-		{
-			h = getHandle(items[i]);
-
-			if (h && h->isA(tr("Vector")))
-			{
-				for (int j=0; j < h->graphicsItems.size(); ++j)
-					commands << adjustPlasmid(scene,NodeGraphicsItem::cast(h->graphicsItems[j]),false);
-			}
-			else
-			if (h && (h = h->parentOfFamily(tr("Vector"))))
-			{
-				for (int j=0; j < h->graphicsItems.size(); ++j)
-					commands << adjustPlasmid(scene,NodeGraphicsItem::cast(h->graphicsItems[j]),false);
-			}
-		}
-*/
 		for (int i=0; i < items.size(); ++i)
 		{
 			NodeGraphicsItem * startNode = NodeGraphicsItem::topLevelNodeItem(items[i]);
@@ -1070,10 +1104,16 @@ namespace Tinkercell
 			handle = NodeHandle::cast(getHandle(startNode));
 			if (parts2.contains(handle) || !handle) continue;
 
+			if (distance.size() > i)
+				startNode->setPos( startNode->scenePos() + distance[i] );
+
 			QList<ItemHandle*> parts,upstream;
 
 			findAllParts(scene,startNode,tr("Part"),parts,false,QStringList() << "Terminator" << "Vector",true);
 			findAllParts(scene,startNode,tr("Part"),upstream,true,QStringList() << "Terminator" << "Vector",true);
+			
+			if (distance.size() > i)
+				startNode->setPos( startNode->scenePos() - distance[i] );
 
 			if (!parts.contains(handle))
 				parts.push_front(handle);
@@ -1097,7 +1137,6 @@ namespace Tinkercell
 			{
 				commands << autoAssignRates(parts3);
 			}
-			
 		}
 	}
 

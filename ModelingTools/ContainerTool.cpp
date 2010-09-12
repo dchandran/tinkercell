@@ -898,7 +898,8 @@ namespace Tinkercell
             	}
 
             for (int j=0; j < speciesOut.size(); ++j)
-                if ((handle = speciesOut[j]->parentOfFamily(tr("Compartment"))) && !dilutionFactorOut.contains(handle->fullName()))
+                if ((handle = speciesOut[j]->parentOfFamily(tr("Compartment"))) && !dilutionFactorOut.contains(handle->fullName())
+                	&& !dilutionFactorIn.contains(handle->fullName()))
                 {
 					dilutionFactorOut << handle->fullName();
       		    }
@@ -908,7 +909,7 @@ namespace Tinkercell
                     rates->value(j,0) = rates->value(j,0) + tr(" * ") + reactions[i]->fullName() + tr(".DilutionFactor");
 
             QString in, out;
-            if (dilutionFactorIn.size() == 0 && dilutionFactorOut.size() == 0)
+            if (dilutionFactorIn.isEmpty() || dilutionFactorOut.isEmpty())
 			{
 				if (data->getRowNames().contains(tr("DilutionFactor")))
 				{

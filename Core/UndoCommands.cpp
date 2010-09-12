@@ -993,7 +993,7 @@ namespace Tinkercell
 				graphicsScenes += static_cast<GraphicsScene*>(graphicsItems[i]->scene());
 			else
 				graphicsScenes += 0;
-		
+
 		for (int i=0; i<graphicsItems.size(); ++i)
 		{
 			if (graphicsItems[i] && graphicsScenes[i])
@@ -1032,9 +1032,6 @@ namespace Tinkercell
 				itemHandles[i]->network = 0;
 				if (itemHandles[i]->graphicsItems.isEmpty())
 				{
-					if (itemHandles[i]->parent)
-						itemHandles[i]->parent->children.removeAll(itemHandles[i]);
-
 					for (int j=0; j < itemHandles[i]->children.size(); ++j)
 						if (itemHandles[i]->children[j])
 							itemHandles[i]->children[j]->parent = 0;
@@ -1215,9 +1212,9 @@ namespace Tinkercell
 		}
 		
 		while (parentHandles.size() < itemHandles.size()) parentHandles += 0;
-			
+		
 		for (int i=0; i < itemHandles.size(); ++i)
-			if (itemHandles[i])
+			if (itemHandles[i] && (itemHandles.indexOf(itemHandles[i]) == i))
 			{
 				parentHandles[i] = itemHandles[i]->parent;
 				itemHandles[i]->setParent(0,false);
@@ -1251,16 +1248,14 @@ namespace Tinkercell
 					}
 				}
 
-				if (itemHandles.size() > i && itemHandles[i])
+				if (itemHandles.size() > i && itemHandles[i] && (itemHandles.indexOf(itemHandles[i]) == i))
 				{
-					if (parentHandles.size() > i && !MainWindow::invalidPointers.contains(itemHandles[i]))
+					if (parentHandles.size() > i && 
+						!MainWindow::invalidPointers.contains(itemHandles[i]))
 						itemHandles[i]->setParent(parentHandles[i],false);
 				
 					itemHandles[i]->network = graphicsScenes[i]->network;
 					setHandle(graphicsItems[i],itemHandles[i]);
-
-					if (itemHandles[i]->parent)
-						itemHandles[i]->setParent(itemHandles[i]->parent,false);
 
 					for (int j=0; j < itemHandles[i]->children.size(); ++j)
 						if (itemHandles[i]->children[j])

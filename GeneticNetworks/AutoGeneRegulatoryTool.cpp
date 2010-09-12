@@ -617,103 +617,107 @@ namespace Tinkercell
 					QList<ConnectionHandle*> connections = NodeHandle::cast(parts[i])->connections();
 					for (int j=0; j < connections.size(); ++j)
 						if (connections[j] &&
-							connections[j]->isA(tr("Production")) &&
+							connections[j]->hasTextData(tr("Participants")) &&
 							connections[j]->hasTextData(tr("Rate equations")))
-					{
-						DataTable<QString> * sDat = new DataTable<QString>(connections[j]->textDataTable(tr("Rate equations")));
-						s0 = sDat->value(0,0);
-						
-						if (promoter)
 						{
-							s0.remove(tr(" "));
-							bool ok1 = (s0 == (promoter->fullName() + tr(".strength*") + promoter->fullName()));
-							bool ok2 = true;
-							
-							for (int k=0; k < activators.size(); ++k)
-								if (!s0.contains(activators[k]->fullName()))
-								{
-									ok2 = false;
-									break;
-								}
-							
-							if (ok2)
-								for (int k=0; k < repressors.size(); ++k)
-									if (!s0.contains(repressors[k]->fullName()))
-									{
-										ok2 = false;
-										break;
-									}
-							
-							if (!ok1 && !ok2)
+							TextDataTable & participants = connections[j]->textDataTable(tr("Participants"));
+							if (participants.at(parts[i]->fullName()).toLower() == tr("template"))
 							{
-								rate = tr("");
+								TextDataTable * sDat = new TextDataTable(connections[j]->textDataTable(tr("Rate equations")));
+								s0 = sDat->value(0,0);
+						
+								if (promoter)
+								{
+									s0.remove(tr(" "));
+									bool ok1 = (s0 == (promoter->fullName() + tr(".strength*") + promoter->fullName()));
+									bool ok2 = true;
 							
-								if (promoter->hasNumericalData(tr("Parameters"))
-									&& promoter->numericalDataTable(tr("Parameters")).getRowNames().contains(tr("strength")))
-									rate = promoter->fullName() + tr(".strength*") + rate;
+									for (int k=0; k < activators.size(); ++k)
+										if (!s0.contains(activators[k]->fullName()))
+										{
+											ok2 = false;
+											break;
+										}
+							
+									if (ok2)
+										for (int k=0; k < repressors.size(); ++k)
+											if (!s0.contains(repressors[k]->fullName()))
+											{
+												ok2 = false;
+												break;
+											}
+							
+									if (!ok1 && !ok2)
+									{
+										rate = tr("");
+							
+										if (promoter->hasNumericalData(tr("Parameters"))
+											&& promoter->numericalDataTable(tr("Parameters")).getRowNames().contains(tr("strength")))
+											rate = promoter->fullName() + tr(".strength*") + rate;
 								
-								//rate += promoter->fullName();
-								rate += hillEquation(regulations, activators, repressors);
-								sDat->value(0,0) = rate;
-								oldDataTables += &(connections[j]->textDataTable(tr("Rate equations")));
-								newDataTables += sDat;
-							}
-
-
-							if (sDat->getRowNames().contains(tr("translation")))
-							{
-								QString s = sDat->value(tr("translation"),0);
-
-								if (rbs && !s.contains(rbs->fullName()))
-								{
-									s = rbs->fullName() + tr(".strength * ") + sDat->value(tr("translation"),0);
-									sDat->value(tr("translation"),0) = s;
-									if (!newDataTables.contains(sDat))
-									{
+										//rate += promoter->fullName();
+										rate += hillEquation(regulations, activators, repressors);
+										sDat->value(0,0) = rate;
 										oldDataTables += &(connections[j]->textDataTable(tr("Rate equations")));
 										newDataTables += sDat;
 									}
-								}
-							}
+
+
+									if (sDat->getRowNames().contains(tr("translation")))
+									{
+										QString s = sDat->value(tr("translation"),0);
+
+										if (rbs && !s.contains(rbs->fullName()))
+										{
+											s = rbs->fullName() + tr(".strength * ") + sDat->value(tr("translation"),0);
+											sDat->value(tr("translation"),0) = s;
+											if (!newDataTables.contains(sDat))
+											{
+												oldDataTables += &(connections[j]->textDataTable(tr("Rate equations")));
+												newDataTables += sDat;
+											}
+										}
+									}
 						
 
-							QList<NodeHandle*> rna = connections[j]->nodesOut();
-							for (int k=0; k < rna.size(); ++k)
-								if (NodeHandle::cast(rna[k]) && rna[k]->isA(tr("RNA")))
-								{
-									QList<ConnectionHandle*> connections2 = NodeHandle::cast(rna[k])->connections();
-									for (int l=0; l < connections2.size(); ++l)
-										if (connections2[l] &&
-											connections2[l]->isA(tr("Translation")) &&
-											connections2[l]->hasTextData(tr("Rate equations")))
-											if (rbs)
-											{
-													DataTable<QString> * sDat2 = new DataTable<QString>(connections2[l]->textDataTable(tr("Rate equations")));
-													QString s = rbs->fullName() + tr(".strength * ") + rna[k]->fullName();
-
-													if (!sDat2->value(0,0).contains(rbs->fullName()))
+									QList<NodeHandle*> rna = connections[j]->nodesOut();
+									for (int k=0; k < rna.size(); ++k)
+										if (NodeHandle::cast(rna[k]) && rna[k]->isA(tr("RNA")))
+										{
+											QList<ConnectionHandle*> connections2 = NodeHandle::cast(rna[k])->connections();
+											for (int l=0; l < connections2.size(); ++l)
+												if (connections2[l] &&
+													connections2[l]->isA(tr("Translation")) &&
+													connections2[l]->hasTextData(tr("Rate equations")))
+													if (rbs)
 													{
-														sDat2->value(0,0) = s;
-														oldDataTables += &(connections[j]->textDataTable(tr("Rate equations")));
-														newDataTables += sDat2;
-													}
-													else
-														delete sDat2;
-											}
-								}
+															DataTable<QString> * sDat2 = new DataTable<QString>(connections2[l]->textDataTable(tr("Rate equations")));
+															QString s = rbs->fullName() + tr(".strength * ") + rna[k]->fullName();
 
-						}
+															if (!sDat2->value(0,0).contains(rbs->fullName()))
+															{
+																sDat2->value(0,0) = s;
+																oldDataTables += &(connections[j]->textDataTable(tr("Rate equations")));
+																newDataTables += sDat2;
+															}
+															else
+																delete sDat2;
+													}
+										}
+
+								}
 					
-					rbs = 0;
-				}
+							rbs = 0;
+						}
 				
-				if ((parts[i]->isA(tr("Terminator")) || parts[i]->isA(tr("Vector")) ) && NodeHandle::cast(parts[i]))
-				{
-					promoter = 0;
-					rbs = 0;
+						if ((parts[i]->isA(tr("Terminator")) || parts[i]->isA(tr("Vector")) ) && NodeHandle::cast(parts[i]))
+						{
+							promoter = 0;
+							rbs = 0;
+						}
+					}
 				}
 			}
-		}
 
 		if (newDataTables.size() > 0)
 		{
@@ -1150,6 +1154,7 @@ namespace Tinkercell
 		bool containsRegulatorUp = false;
 		bool containsRegulatorDown = false;
 		bool containsCoding = false;
+
 		for (int i=0; i < items.size(); ++i)
 		{
 			handle = getHandle(items[i]);

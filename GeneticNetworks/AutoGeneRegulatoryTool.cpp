@@ -568,6 +568,7 @@ namespace Tinkercell
 	QUndoCommand * AutoGeneRegulatoryTool::autoAssignRates(QList<NodeHandle*>& parts)
 	{
 		QUndoCommand * command = 0;
+		QList<QUndoCommand*> commands;
 		GraphicsScene * scene = currentScene();
 		if (!scene || !mainWindow || parts.isEmpty()) return command;
 
@@ -650,18 +651,40 @@ namespace Tinkercell
 									if (!ok1 && !ok2)
 									{
 										rate = tr("");
-							
-										if (promoter->hasNumericalData(tr("Parameters"))
-											&& promoter->numericalDataTable(tr("Parameters")).getRowNames().contains(tr("strength")))
+										
+										NumericalDataTable & params = promoter->numericalDataTable(tr("Parameters"));
+										NumericalDataTable * params2 = 0;
+										QStringList rownames = params.getRowNames();
+										if (rownames.contains(tr("strength")))
 											rate = promoter->fullName() + tr(".strength*") + rate;
 								
 										//rate += promoter->fullName();
 										rate += hillEquation(regulations, activators, repressors);
+										QString p;
+										for (int k=0; k < regulations.size(); ++k)
+										{
+											p = regulations[k]->fullName() + tr(".Kd");
+											if (rate.contains(p) && !rownames.contains(p))
+											{
+												if (!params2)
+													params2 = new NumericalDataTable(params);
+												params2->value(p,0) = 1.0;
+											}
+											p = regulations[k]->fullName() + tr(".h");
+											if (rate.contains(p) && !rownames.contains(p))
+											{
+												if (!params2)
+													params2 = new NumericalDataTable(params);
+												params2->value(p,0) = 1.0;
+											}
+										}
 										sDat->value(0,0) = rate;
 										oldDataTables += &(connections[j]->textDataTable(tr("Rate equations")));
 										newDataTables += sDat;
+										
+										if (params2)
+											commands << new ChangeNumericalDataCommand(tr("New parameters"),&params,params2);
 									}
-
 
 									if (sDat->getRowNames().contains(tr("translation")))
 									{
@@ -678,7 +701,6 @@ namespace Tinkercell
 											}
 										}
 									}
-						
 
 									QList<NodeHandle*> rna = connections[j]->nodesOut();
 									for (int k=0; k < rna.size(); ++k)
@@ -704,9 +726,7 @@ namespace Tinkercell
 																delete sDat2;
 													}
 										}
-
 								}
-					
 							rbs = 0;
 						}
 				
@@ -721,14 +741,18 @@ namespace Tinkercell
 
 		if (newDataTables.size() > 0)
 		{
-			command = new ChangeTextDataCommand(tr("gene regulation kinetics changed"),oldDataTables,newDataTables);
+			command = new ChangeTextDataCommand(tr("Gene regulation kinetics changed"),oldDataTables,newDataTables);
 
 			for (int i=0; i < newDataTables.size(); ++i)
 				if (newDataTables[i])
 					delete newDataTables[i];
 		}
 		
-		return command;
+		if (commands.isEmpty())
+			return command;
+		
+		commands << command;
+		return new CompositeCommand(tr("Gene regulation kinetics changed"),commands);
 	}
 
 	bool AutoGeneRegulatoryTool::setMainWindow(MainWindow * main)

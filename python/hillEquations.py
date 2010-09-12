@@ -4,7 +4,7 @@ name: Hill equations
 description: automatically generate the equilibrium rate equation for transcription
 icon: hillequation.png
 menu: yes
-specific for: Synthesis 
+specific for: Production
 tool: yes
 """
 
@@ -29,7 +29,7 @@ if (len(synthesis) > 0):
 			indiv2 = [];
 			connectors = [];
 			promotername = "";
-			genes = tc_getConnectedNodes( i );
+			genes = tc_getConnectedNodesWithRole( i , "Template");
 			if genes.length > 0 and tc_isA( tc_getItem(genes,0) ,"Part" ):
 				upstream = tc_partsUpstream( tc_getItem(genes,0) );
 				for j in range(0,upstream.length):
@@ -40,9 +40,10 @@ if (len(synthesis) > 0):
 					for k in range(0,connectors2.length):
 						c = tc_getItem(connectors2,k);
 						connectors.append(c);
-						isRepressor = (t==0 and tc_isA(c,"Transcription Repression"));
 						cname = tc_getUniqueName(c);
-						parts = tc_getConnectedNodesIn(c);
+						parts = tc_getConnectedNodesWithRole(c,"Repressor");
+						isRepressor = (parts.length > 0);
+						if not isRepressor: parts = tc_getConnectedNodesWithRole(c,"Activator");
 						pnames = tc_getUniqueNames(parts);
 						for n in range(0,pnames.length):
 							s = "((" + tc_getString(pnames,n) + "/" + cname + ".Kd)^" + cname + ".h)";

@@ -164,7 +164,7 @@ namespace Tinkercell
 
 		if (!nodesTree->getFamily("Transcription Factor")) return;
 
-                treeWidget = mainWindow->tool(tr("Connections Tree"));
+        treeWidget = mainWindow->tool(tr("Connections Tree"));
 		ConnectionsTree * connectionsTree = static_cast<ConnectionsTree*>(treeWidget);
 
 		if (!connectionsTree->getFamily(regulationName)) return;
@@ -1147,7 +1147,8 @@ namespace Tinkercell
 		ItemHandle * handle = 0;
 		bool containsSpecies = false;
 		bool containsProteins = false;
-		bool containsRegulator = false;
+		bool containsRegulatorUp = false;
+		bool containsRegulatorDown = false;
 		bool containsCoding = false;
 		for (int i=0; i < items.size(); ++i)
 		{
@@ -1156,15 +1157,17 @@ namespace Tinkercell
 				containsSpecies = true;
 			if (!containsProteins && handle && handle->isA("Protein"))
 				containsProteins = true;
-			if (!containsRegulator && handle && handle->isA("Promoter"))
-				containsRegulator = true;
+			if (!containsRegulatorDown && handle && handle->isA("Repressible Promoter"))
+				containsRegulatorDown = true;
+			if (!containsRegulatorUp && handle && handle->isA("Inducible Promoter"))
+				containsRegulatorUp = true;
 			if (!containsCoding && handle && handle->isA("Coding"))
 				containsCoding = true;
 
-			if (containsRegulator && containsSpecies && containsCoding) break;
+			if ((containsRegulatorDown || containsRegulatorUp) && containsSpecies && containsCoding) break;
 		}
 
-		if (containsSpecies || containsRegulator || containsCoding)
+		if (containsSpecies || containsRegulatorDown || containsRegulatorUp || containsCoding)
 		{
 			if (separator)
 				mainWindow->contextItemsMenu.addAction(separator);
@@ -1181,16 +1184,15 @@ namespace Tinkercell
 			else
 				mainWindow->contextItemsMenu.removeAction(&autoPhosphate);
 
-			if (containsRegulator)
-			{
+			if (containsRegulatorUp)
 				mainWindow->contextItemsMenu.addAction(&autoTFUp);
-				mainWindow->contextItemsMenu.addAction(&autoTFDown);
-			}
 			else
-			{
 				mainWindow->contextItemsMenu.removeAction(&autoTFUp);
+			
+			if (containsRegulatorDown)
+				mainWindow->contextItemsMenu.addAction(&autoTFDown);
+			else
 				mainWindow->contextItemsMenu.removeAction(&autoTFDown);
-			}
 
 			if (containsCoding)
 				mainWindow->contextItemsMenu.addAction(&autoGeneProduct);

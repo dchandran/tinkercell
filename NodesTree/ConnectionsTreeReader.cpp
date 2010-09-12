@@ -180,12 +180,15 @@ namespace Tinkercell
                nodeitem = new ArrowHeadItem(decoratorImageFile);
                
                if (!nodeitem->isValid())
+               {
                    delete nodeitem;
+                   nodeitem = 0;
+               }
                else
 	               family->graphicsItems += nodeitem;
 	           
-	           if (parentFamily &&
-	           		(family->graphicsItems.size() < parentFamily->graphicsItems.size()) &&
+	           if (parentFamily && !nodeitem &&
+	           		(parentFamily->graphicsItems.size() > 1) &&
                     NodeGraphicsItem::cast(parentFamily->graphicsItems.last()))
                     family->graphicsItems += (NodeGraphicsItem::topLevelNodeItem(parentFamily->graphicsItems.last()))->clone();
 

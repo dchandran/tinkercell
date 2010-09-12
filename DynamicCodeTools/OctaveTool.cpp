@@ -181,8 +181,8 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
 
 			toolLoaded(0);
-			
-			octaveInterpreter = new OctaveInterpreterThread(appDir + tr("/octave"), tr("libtcoct"), mainWindow);
+
+			octaveInterpreter = new OctaveInterpreterThread(tr("octave"), tr("libtcoct"), mainWindow);
 			connect(octaveInterpreter,SIGNAL(started()),this,SIGNAL(octaveStarted()));
 			connect(octaveInterpreter,SIGNAL(finished()),this,SIGNAL(octaveFinished()));
 			connect(octaveInterpreter,SIGNAL(terminated()),this,SIGNAL(octaveFinished()));

@@ -84,6 +84,8 @@ namespace Tinkercell
         if (!lib || !lib->isLoaded() || code.isEmpty()) return;
        
         QString script;
+        QString appDir = QCoreApplication::applicationDirPath();
+        QString homeDir = MainWindow::homeDir();
 		
         if (!f)
             f = (execFunc)lib->resolve("exec");
@@ -92,7 +94,14 @@ namespace Tinkercell
         {
         	if (!addpathDone)
         	{
-	        	script = QObject::tr("addpath(\"") + octaveFolder + QObject::tr("\")\ntinkercell('global')\n");	        	
+        		#ifdef Q_WS_WIN
+	        	script = QObject::tr("addpath(\"") + appDir + QObject::tr("\\") + octaveFolder + QObject::tr("\")\n");
+	        	script = QObject::tr("addpath(\"") + homeDir + QObject::tr("\\") + octaveFolder + QObject::tr("\")\n");
+	        	#else
+	        	script = QObject::tr("addpath(\"") + appDir + QObject::tr("/") + octaveFolder + QObject::tr("\")\n");
+	        	script = QObject::tr("addpath(\"") + homeDir + QObject::tr("/") + octaveFolder + QObject::tr("\")\n");
+	        	#endif
+	        	script += QObject::tr("tinkercell('global')\n");
 	        	addpathDone = true;
 	        }
 			

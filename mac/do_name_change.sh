@@ -15,8 +15,7 @@ mkdir Tinkercell.app/Contents/MacOS/lib
 cp ../../API/*.h Tinkercell.app/Contents/MacOS/c
 cp ../../c/*.h Tinkercell.app/Contents/MacOS/c/
 cp ../../Main/tinkercell.qss Tinkercell.app/Contents/MacOS/
-cp ../../c/icons/*.png Tinkercell.app/Contents/MacOS/plugins/c/
-cp ../../c/icons/*.PNG Tinkercell.app/Contents/MacOS/plugins/c/
+cp -R ../../icons Tinkercell.app/Contents/MacOS/
 cp plugins/c/.a Tinkercell.app/Contents/MacOS/lib/
 cp lib*.a Tinkercell.app/Contents/MacOS/
 cp -R ../../ArrowItems Tinkercell.app/Contents/MacOS/
@@ -28,7 +27,8 @@ cp -R ../../NodesTree/Icons Tinkercell.app/Contents/MacOS/NodesTree/
 cp -R python Tinkercell.app/Contents/MacOS/
 cp ../../python/*.py Tinkercell.app/Contents/MacOS/python
 cp ../../*.txt Tinkercell.app/Contents/MacOS/
-#cp -R octave Tinkercell.app/Contents/MacOS/
+cp -R octave Tinkercell.app/Contents/MacOS/
+cp ../../octave/*.m Tinkercell.app/Contents/MacOS/octave/
 #QT frameworks install for TinkerCell.app
 
 install_name_tool \

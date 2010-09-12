@@ -145,7 +145,7 @@ namespace Tinkercell
                          {
                               tree->nodeFamilies[node->name] = node;
                          }
-                         tree->treeItems.insertMulti(lname,treeItem);
+                         tree->treeItems.insertMulti(node->name,treeItem);
                     }
                     else
                     if (vec.at(i).name().toString().toLower() == QObject::tr("units"))  //get measuring unit for the node

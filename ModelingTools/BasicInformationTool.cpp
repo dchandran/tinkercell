@@ -361,7 +361,7 @@ namespace Tinkercell
 		{
 			if (handles[i] && handles[i]->family() && !handles[i]->tools.contains(this))
 			{
-				handles[i]->tools += this;
+				handles[i]->tools += this;	
 			}
 
 			if (handles[i] && handles[i]->family())
@@ -681,7 +681,6 @@ namespace Tinkercell
 			table.resize(1,1);
 
 			table.rowName(0) = family->measurementUnit.property;
-
 
 			table.colName(0) = family->measurementUnit.property;
 			table.value(0,0) = 0.0;
@@ -1179,7 +1178,9 @@ namespace Tinkercell
 			QStringList names;
 			QList<qreal> values;
 
+
 			for (int i=0; i < handles.size(); ++i)
+
 			{
 				handle = handles.at(i);
 				if (handle && handle->hasNumericalData(tr("Initial Value")))

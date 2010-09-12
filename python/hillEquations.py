@@ -2,23 +2,25 @@
 category: Generate kinetics
 name: Hill equations
 description: automatically generate the equilibrium rate equation for transcription
-icon: plugins/c/hillequation.png
+icon: hillequation.png
 menu: yes
 specific for: Synthesis 
 tool: yes
 """
 
 from tinkercell import *
+from tc2py import *
+
 items = tc_selectedItems();
 synthesis = [];
 for i in range(0,items.length):
-	if tc_isA( tc_getItem(items,i),"Synthesis"):
+	if tc_isA( tc_getItem(items,i),"Production"):
 		synthesis.append( tc_getItem(items,i) );
 tc_deleteItemsArray(items);
 
 if (len(synthesis) > 0):
 	strList = toStrings(("Auto","Activation","Repression","AND","OR","NOR","XOR"));
-	t = tc_tc_getTableValueFromList("Select the logical function to approximate:",strList,"Auto");
+	t = tc_getStringFromList("Select the logical function to approximate:",strList,"Auto");
 	tc_deleteStringsArray(strList);
 	if t > -1:
 		for i in synthesis:
@@ -27,13 +29,13 @@ if (len(synthesis) > 0):
 			indiv2 = [];
 			connectors = [];
 			promotername = "";
-			genes = tc_getConnectedNodesIn( i );
+			genes = tc_getConnectedNodes( i );
 			if genes.length > 0 and tc_isA( tc_getItem(genes,0) ,"Part" ):
 				upstream = tc_partsUpstream( tc_getItem(genes,0) );
 				for j in range(0,upstream.length):
 					p = tc_getItem(upstream,j);
 					if tc_isA(p,"Promoter"): promotername = tc_getUniqueName(p);
-					connectors2 = tc_getConnectionsIn(p);
+					connectors2 = tc_getConnectionsWithRole(p,"Target");
 					isRepressor = False;
 					for k in range(0,connectors2.length):
 						c = tc_getItem(connectors2,k);

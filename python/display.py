@@ -2,7 +2,7 @@ from tinkercell import *
 
 def numbers(itemNames, numbers,adjustLine=True,adjustColors=True,minLineWidth=0.1,maxLineWidth=10.0):
     items = tc_findItems( toStrings(itemNames) );
-    items = fromItems( items );
+    items = fromTC( items );
     n = len(numbers);
     if (len(itemNames) < n):
         n = len(itemNames);

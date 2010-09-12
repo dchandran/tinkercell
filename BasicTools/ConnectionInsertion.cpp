@@ -226,11 +226,27 @@ namespace Tinkercell
 
 	void ConnectionInsertion::getConnectedNodes(QSemaphore* sem,QList<ItemHandle*>* list,ItemHandle* item)
 	{
-		if (mainWindow->isValidHandlePointer(item) && list && item->type == ConnectionHandle::TYPE)
+		if (mainWindow->isValidHandlePointer(item) && list)
 		{
-			QList<NodeHandle*> nodes = (static_cast<ConnectionHandle*>(item))->nodes();
-			for (int i=0; i < nodes.size(); ++i)
-				(*list) += nodes[i];
+			if (item->type == ConnectionHandle::TYPE)
+			{
+				QList<NodeHandle*> nodes = (static_cast<ConnectionHandle*>(item))->nodes();
+				for (int i=0; i < nodes.size(); ++i)
+					(*list) += nodes[i];
+			}
+			else
+			if (item->type == NodeHandle::TYPE)
+			{
+				QList<ConnectionHandle*> connections = (static_cast<NodeHandle*>(item))->connections();
+				QList<ItemHandle*> & lst = (*list);
+				for (int j=0; j < connections.size(); ++j)
+				{
+					QList<NodeHandle*> nodes = connections[j]->nodes();
+					for (int i=0; i < nodes.size(); ++i)
+						if (!lst.contains(nodes[i]) && nodes[i] != item)
+							lst += nodes[i];
+				}
+			}
 		}
 
 		if (sem)
@@ -240,18 +256,35 @@ namespace Tinkercell
 	void ConnectionInsertion::getConnectedNodesWithRole(QSemaphore* sem,QList<ItemHandle*>* list,ItemHandle* item, const QString & role)
 	{
 		ConnectionHandle * connectionHandle = 0;
-		if (mainWindow->isValidHandlePointer(item) && list && 
-			(connectionHandle = ConnectionHandle::cast(item)) &&
-			connectionHandle->hasTextData(tr("Participants")))
+		NodeHandle * nodeHandle = 0;
+		if (mainWindow->isValidHandlePointer(item) && list)
 		{
-			TextDataTable & table = connectionHandle->textDataTable(tr("Participants"));
-			QList<NodeHandle*> nodes = connectionHandle->nodes();
+			if ((connectionHandle = ConnectionHandle::cast(item)) && connectionHandle->hasTextData(tr("Participants")))
+			{
+				TextDataTable & table = connectionHandle->textDataTable(tr("Participants"));
+				QList<NodeHandle*> nodes = connectionHandle->nodes();
 
-			for (int i=0; i < nodes.size(); ++i)
-				if (nodes[i] && table.at(nodes[i]->fullName(),0).contains(role))
-					(*list) += nodes[i];
+				for (int i=0; i < nodes.size(); ++i)
+					if (nodes[i] && table.at(nodes[i]->fullName(),0).contains(role))
+						(*list) += nodes[i];
+			}	
+			else
+			if (nodeHandle = NodeHandle::cast(item))
+			{
+				QList<ConnectionHandle*> connections = (static_cast<NodeHandle*>(nodeHandle))->connections();
+				QList<ItemHandle*> & lst = (*list);
+				for (int j=0; j < connections.size(); ++j)
+					if (connections[j]->hasTextData(tr("Participants")))
+					{
+						QList<NodeHandle*> nodes = connections[j]->nodes();
+						TextDataTable & table = connections[j]->textDataTable(tr("Participants"));
+
+						for (int i=0; i < nodes.size(); ++i)
+							if (nodes[i] != item && nodes[i] && table.at(nodes[i]->fullName(),0).contains(role) && !lst.contains(nodes[i]))
+								lst += nodes[i];
+					}
+			}
 		}
-
 		if (sem)
 			sem->release();
 	}

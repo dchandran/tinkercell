@@ -39,27 +39,38 @@
       <text>This connection represents a molecule regulating another.</text>
       
       <connection family="Enzyme Catalysis" participant_types="Protein,Molecule,Molecule" participant_roles="Catalyst,Reactant,Product">
-      </connection> 
+      </connection>
       
-      <connection family="Activation" participant_types="Molecule,Node">
+      <connection family="Transcription Regulation" participant_types="Transcription Factor,Promoter">
+          <connection family="Transcription Activation" participant_types="Transcription Factor,Inducible Promoter" participant_roles="Activator,Target">
+          </connection>       	
+          <connection family="Transcription Repression" participant_types="Transcription Factor,Repressible Promoter" participant_roles="Repressor,Target">
+          </connection>
+      </connection>
+      
+      <connection family="Activation" participant_types="Molecule,Node" participant_roles="Activator,Target">
           <connection family="Transcription Activation" participant_types="Transcription Factor,Inducible Promoter">
           </connection> 
+          <connection family="Direct Gene Activation" participant_types="Coding,Inducible Promoter" participant_roles="Activator,Target">
+          </connection>
       </connection>
       
-      <connection family="Repression" participant_types="Molecule,Node">
-        <connection family="Transcription Repression" participant_types="Transcription Factor,Repressible Promoter">
-        </connection>
+      <connection family="Repression" participant_types="Molecule,Node" participant_roles="Repressor,Target">
+          <connection family="Transcription Repression" participant_types="Transcription Factor,Repressible Promoter">
+          </connection>
+          <connection family="Direct Gene Repression" participant_types="Coding,Repressible Promoter" participant_roles="Repressor,Target">
+          </connection>
       </connection>
 
-      <connection family="Direct Gene Regulation" participant_types="Coding,Promoter">
+      <connection family="Direct Gene Regulation" participant_types="Coding,Promoter" participant_roles="Regulator,Target">
         <text>This connection represents a gene regulating another gene.</text>
-        <connection family="Direct Gene Activation" participant_types="Coding,Inducible Promoter">
+        <connection family="Direct Gene Activation" participant_types="Coding,Inducible Promoter" participant_roles="Activator,Target">
         </connection>
-  	    <connection family="Direct Gene Repression" participant_types="Coding,Repressible Promoter">
+  	    <connection family="Direct Gene Repression" participant_types="Coding,Repressible Promoter" participant_roles="Repressor,Target">
         </connection>
       </connection>
     </connection>
-  <connection family="PoPS" participant_types="Part,Part">
+  <connection family="PoPS" participant_types="Part,Part" participant_roles="Upstream,Downstream">
     <text>This connection represents the movement of RNA polymerase along a strand of DNA.</text>
   </connection>  
 </connection>

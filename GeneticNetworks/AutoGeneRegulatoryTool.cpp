@@ -313,12 +313,11 @@ namespace Tinkercell
 		ConnectionsTree * connectionsTree = static_cast<ConnectionsTree*>(treeWidget);
 
 		if (!nodesTree->getFamily("Protein") ||
-			!connectionsTree->getFamily("Protein production")
-			)
+			!connectionsTree->getFamily("Protein Production"))
 			return;
 
 		NodeFamily * proteinFamily = nodesTree->getFamily("Protein");
-		ConnectionFamily * productionFamily = connectionsTree->getFamily("Protein production");
+		ConnectionFamily * productionFamily = connectionsTree->getFamily("Protein Production");
 
 		QList<QGraphicsItem*>& selected = scene->selected();
 		ItemHandle * handle = 0;
@@ -941,7 +940,7 @@ namespace Tinkercell
 			{
 				connections = scene->network->symbolsTable.handlesByFamily.values(tr("Transcription"));
 				connections += scene->network->symbolsTable.handlesByFamily.values(tr("Translation"));
-				connections += scene->network->symbolsTable.handlesByFamily.values(tr("Protein production"));
+				connections += scene->network->symbolsTable.handlesByFamily.values(tr("Protein Production"));
 				for (int j=0; j < connections.size(); ++j)
 				{
 					if (connections[j] && connections[j]->hasTextData(tr("Rate equations")))
@@ -1509,9 +1508,13 @@ namespace Tinkercell
 
 		QList<ItemHandle*> children, parents;
 		QList<QGraphicsItem*> intersectingItems = scene->items(vector->sceneBoundingRect());
+		
+		qreal lowestZ = scene->ZValue();
 
 		for (int i=0; i < intersectingItems.size(); ++i)
 		{
+			if (intersectingItems[i]->zValue() < lowestZ)
+				lowestZ = intersectingItems[i]->zValue();
 			handle = getHandle(intersectingItems[i]);
 			if (handle && !handle->isChildOf(vectorHandle) &&
 				handle->isA(tr("Part")) && !handle->isA(tr("Vector")) &&
@@ -1541,7 +1544,10 @@ namespace Tinkercell
 			}
 
 		if (!children.isEmpty())
+		{
 			commands << new SetParentHandleCommand(tr("parents set"), scene->network, children, parents);
+			commands << new ChangeZCommand(tr("adjust z"), scene, vector, lowestZ);
+		}
 
 		QList<QGraphicsItem*> nodesInPlasmid;
 

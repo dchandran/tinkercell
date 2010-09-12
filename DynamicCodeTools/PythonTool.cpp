@@ -121,12 +121,22 @@ namespace Tinkercell
 			
 			filesFound = true;
 		
-			if (!QFile(icon).exists() && QFile(appDir + tr("/") + icon).exists())
-				icon = appDir + tr("/") + icon;
-			
-			if (!QFile(icon).exists() && QFile(homeDir + tr("/") + icon).exists())
-				icon = homeDir + tr("/") + icon;
+			if (!QFile(icon).exists())
+				if (QFile(appDir + tr("/") + icon).exists())
+					icon = appDir + tr("/") + icon;
+				else
+				if (QFile(appDir + tr("/icons/") + icon).exists())
+					icon = appDir + tr("/icons/") + icon;
+				else
+				if (QFile(homeDir + tr("/") + icon).exists())
+					icon = homeDir + tr("/") + icon;
+				else
+				if (QFile(homeDir + tr("/python/") + icon).exists())
+					icon = homeDir + tr("/python/") + icon;
 		
+			if (!QFile(icon).exists())
+				icon = tr(":/images/default.png");
+
 			QPixmap pixmap(icon);
 		
             QToolButton * button = libMenu->addFunction(category, name, QIcon(pixmap));
@@ -418,7 +428,9 @@ namespace Tinkercell
 			else
 			if (QFile(homeDir + tr("/python/") + icon).exists())
 				icon = homeDir + tr("/python/") + icon;
-	
+		
+		if (!QFile(icon).exists())
+			icon = tr(":/images/default.png");
 		QPixmap pixmap(icon);
 	
         QToolButton * button = libMenu->addFunction(category, name, QIcon(pixmap));

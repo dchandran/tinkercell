@@ -11,7 +11,6 @@
 #include <QFile>
 #include <QColor>
 #include "NodesTreeReader.h"
-#include "ConsoleWindow.h"
 
 namespace Tinkercell
 {
@@ -176,8 +175,6 @@ namespace Tinkercell
                QString appDir = QCoreApplication::applicationDirPath();
 
                QString iconFile = tree->iconFile(node->name);
-               
-               MainWindow::instance()->console()->message(iconFile);
                               
 			   if (!QFile::exists(iconFile))
 			   		iconFile = appDir + QString("/") + iconFile;

@@ -4,15 +4,15 @@ def getPyscesModel():
     import re
 
     A = tc_allItems();
-    N = fromMatrix( tc_getStoichiometry(A), True );
-    rates0 = fromStrings( tc_getRates(A) );
-    params = fromMatrix( tc_getParameters(A) );
-    fixed = fromMatrix( tc_getFixedVariables(A) );
-    inits = fromMatrix( tc_getInitialValues(A) );
-    funcsNames = fromStrings( tc_getForcingFunctionNames(A) );
-    funcsAssign0 = fromStrings( tc_getForcingFunctionAssignments(A) );
-    triggers = fromStrings(  tc_getEventTriggers() );
-    events0 = fromStrings( tc_getEventResponses() );
+    N = fromTC( tc_getStoichiometry(A), True );
+    rates0 = fromTC( tc_getRates(A) );
+    params = fromTC( tc_getParameters(A) );
+    fixed = fromTC( tc_getFixedVariables(A) );
+    inits = fromTC( tc_getInitialValues(A) );
+    funcsNames = fromTC( tc_getForcingFunctionNames(A) );
+    funcsAssign0 = fromTC( tc_getForcingFunctionAssignments(A) );
+    triggers = fromTC(  tc_getEventTriggers() );
+    events0 = fromTC( tc_getEventResponses() );
     tc_deleteItemsArray(A);
     emptyExists = False;
     modelString = '';

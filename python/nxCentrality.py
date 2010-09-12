@@ -2,7 +2,7 @@
 category: Network structure
 name: Centrality measures
 description: uses NetworkX to make centrality measurements
-icon: plugins/c/nodedges.png
+icon: nodedges.png
 menu: yes
 """
 
@@ -43,8 +43,8 @@ G.add_nodes_from( range( 0, numNodes ) );
 G.add_edges_from(M);
 
 #user interface
-strList = toStrings( ("degree centrality", "betweenness centrality", "load centrality", "closeness centrality") );
-option = tc_tc_getTableValueFromList("Select type of centrality:", strList, "degree centrality");
+strList = toTC( ("degree centrality", "betweenness centrality", "load centrality", "closeness centrality") );
+option = tc_getStringFromList("Select type of centrality:", strList, "degree centrality");
 tc_deleteStringsArray(strList);
 
 N = [];

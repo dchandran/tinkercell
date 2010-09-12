@@ -1,6 +1,6 @@
 from tinkercell import  *
 
-def to_tc_items(array):
+def toItems(array):
     n = len(array);
     A = tc_createItemsArray(n);
     for i in range(0, n):
@@ -8,7 +8,7 @@ def to_tc_items(array):
 
     return A;
 
-def from_tc_items(array):
+def fromItems(array):
     n = array.length;
     A = range(0,n);
     for i in range(0, n):
@@ -17,7 +17,7 @@ def from_tc_items(array):
     tc_deleteItemsArray(array);
     return A;
 
-def to_tc_strings(array):
+def toStrings(array):
     n = len(array);
     A = tc_createStringsArray(n);
     for i in range(0, n):
@@ -25,7 +25,7 @@ def to_tc_strings(array):
 
     return A;
 
-def from_tc_strings(array):
+def fromStrings(array):
     n = array.length;
     A = range(0,n);
     for i in range(0, n):
@@ -34,11 +34,11 @@ def from_tc_strings(array):
     tc_deleteStringsArray(array);
     return A;
 
-def from_tc_matrix(matrix, row_wise = False):
+def fromMatrix(matrix, row_wise = False):
     n = matrix.rows;
     m = matrix.cols;
-    cols = from_tc_strings(matrix.colnames);
-    rows = from_tc_strings(matrix.rownames);
+    cols = fromStrings(matrix.colnames);
+    rows = fromStrings(matrix.rownames);
     if row_wise:
         A = range(0,n);
         for i in range(0, n):
@@ -55,7 +55,7 @@ def from_tc_matrix(matrix, row_wise = False):
     tc_deleteMatrix(matrix);
     return [rows, cols, A];
 
-def to_tc_matrix(lists, row_wise = False , rows = [], cols = []):
+def toMatrix(lists, row_wise = False , rows = [], cols = []):
     n = len(lists);
     m = len(lists[0]);
     if row_wise:
@@ -84,14 +84,14 @@ def toHex(r,g,b):
     return "#" + hexchars[r / 16] + hexchars[r % 16] + hexchars[g / 16] + hexchars[g % 16] + hexchars[b / 16] + hexchars[b % 16];
 
 def fromTC(x):
-    if type(x) == type(tc_createMatrix(0,0)): return from_tc_matrix(x)
-    if type(x) == type(tc_createStringsArray(0)): return from_tc_strings(x)
-    if type(x) == type(tc_createItemsArray(0)): return from_tc_items(x)
-    return null
+    if type(x) == type(tc_createMatrix(0,0)): return fromMatrix(x)
+    if type(x) == type(tc_createStringsArray(0)): return fromStrings(x)
+    if type(x) == type(tc_createItemsArray(0)): return fromItems(x)
+    return x
 
 def toTC(x):
-    if type(x) == type([]) and len(x) > 0 and type(x[0]) == type([]): return to_tc_matrix(x)
-    if type(x) == type([]) and len(x) > 0 and type(x[0]) == type('hello'): return to_tc_strings(x)
-    if type(x) == type([]) and len(x) > 0 and str(type(x[0])) == '<type \'SwigPyObject\'>': return to_tc_items(x)
-    return null
+    if type(x) == type([]) and len(x) > 0 and type(x[0]) == type([]): return toMatrix(x)
+    if type(x) == type([]) and len(x) > 0 and type(x[0]) == type('hello'): return toStrings(x)
+    if type(x) == type([]) and len(x) > 0 and type(x[0]) == type(1): return toItems(x)
+    return x
 

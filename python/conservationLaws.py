@@ -2,7 +2,7 @@
 description: compute the conservation laws using PySCeS
 category: Network structure
 name: Conservation laws
-icon: plugins/c/pysces.png
+icon: pysces.png
 menu: yes
 """
 

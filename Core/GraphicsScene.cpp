@@ -324,17 +324,17 @@ namespace Tinkercell
 
 		if (!gitem)
 		{
-			p = getGraphicsItem(p);
-			if (!p || p->sceneBoundingRect().width() > 100 || p->sceneBoundingRect().height() > 100)
+			p = 0;//getGraphicsItem(p);
+			//if (!p || p->sceneBoundingRect().width() > 100 || p->sceneBoundingRect().height() > 100)
 			{
-				QList<QGraphicsItem*> ps = items(QRectF(clickedPoint.rx()-20.0,clickedPoint.ry()-20.0,40.0,40.0));
+				QList<QGraphicsItem*> ps = items(QRectF(clickedPoint.rx()-10.0,clickedPoint.ry()-10.0,20.0,20.0));
 				if (!ps.isEmpty())
 				{
 					for (int i=0; i < ps.size(); ++i)
 					{
-						p = getGraphicsItem(ps[i]);						
+						p = getGraphicsItem(ps[i]);
 
-						if (p)// && !TextGraphicsItem::cast(p))
+						if (p && !TextGraphicsItem::cast(p))
 							break;
 					}
 				}
@@ -2092,7 +2092,7 @@ namespace Tinkercell
 		}
 		visibleTools.clear();
 	}
-	
+
 	void GraphicsScene::showGraphicalTools()
 	{
 		hideGraphicalTools();

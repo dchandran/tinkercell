@@ -17,7 +17,7 @@ cp ../../c/*.h Tinkercell.app/Contents/MacOS/c/
 cp ../../Main/tinkercell.qss Tinkercell.app/Contents/MacOS/
 cp -R ../../icons Tinkercell.app/Contents/MacOS/
 cp plugins/c/.a Tinkercell.app/Contents/MacOS/lib/
-cp lib*.a Tinkercell.app/Contents/MacOS/
+cp lib* Tinkercell.app/Contents/MacOS/
 cp -R ../../ArrowItems Tinkercell.app/Contents/MacOS/
 cp -R ../../NodeItems Tinkercell.app/Contents/MacOS/
 cp -R ../../DecoratorItems Tinkercell.app/Contents/MacOS/

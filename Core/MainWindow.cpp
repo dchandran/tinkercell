@@ -1177,6 +1177,9 @@ namespace Tinkercell
 	{
 		if (win)
 		{
+			if (!win->isVisible())
+				win->show();
+
 			if (allowViewModeToChange && tabWidget && tabWidget->count() > 1)
 			{
 				int i = tabWidget->indexOf(win);
@@ -1184,11 +1187,9 @@ namespace Tinkercell
 				{
 					tabWidget->removeTab(i);
 					win->setParent(this);
-					win->setWindowFlags(Qt::Window);
-					if (!win->isVisible())
-						win->show();
-					setCurrentWindow(win);
 				}
+				win->setWindowFlags(Qt::Window);
+				setCurrentWindow(win);
 			}
 			win->raise();
 		}

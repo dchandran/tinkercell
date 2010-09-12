@@ -869,7 +869,7 @@ namespace Tinkercell
 					editors[i]->popOut();
 					return;
 				}
-			
+
 			for (int i=0; i < scenes.size(); ++i)
 				if (scenes[i]->localHandle() == handle)
 				{

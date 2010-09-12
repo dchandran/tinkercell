@@ -192,7 +192,10 @@ namespace Tinkercell
 	{
 		if (network && network->networkWindows.contains(this))
 		{
-			if (network->networkWindows.size() <= 1)
+			if (network->mainWindow && network->mainWindow->currentNetworkWindow == this)
+				network->mainWindow->currentNetworkWindow = 0;
+
+			if (network->networkWindows.size() > 0 && network->networkWindows[0] == this)
 			{
 				bool b = true;
 		
@@ -202,11 +205,8 @@ namespace Tinkercell
 				if (b)
 				{
 					emit networkClosed(network);
-				
-					if (network->mainWindow && network->mainWindow->currentNetworkWindow == this)
-						network->mainWindow->currentNetworkWindow = 0;
 					event->accept();
-					setParent(0);
+					network->close();
 					hide();
 				}
 			}
@@ -270,7 +270,10 @@ namespace Tinkercell
 	void NetworkWindow::popOut()
 	{
 		if (network && network->mainWindow)
+		{
+			network->mainWindow->console()->message("popout");	
 			network->mainWindow->popOut(this);
+		}
 	}
 
 	void NetworkWindow::popIn()
@@ -302,12 +305,14 @@ namespace Tinkercell
 				if (views[i])
 					delete views[i];*/
 			//delete scene;
+			scene->networkWindow = 0;
 			scene = 0;
 		}
 		
 		if (editor)
 		{
 			//delete editor;
+			editor->networkWindow = 0;
 			editor = 0;
 		}	
 		
@@ -343,12 +348,14 @@ namespace Tinkercell
 					delete views[i];
 			*/
 			//delete scene;
+			scene->networkWindow = 0;
 			scene = 0;
 		}
 		
 		if (editor)
 		{
 			//delete editor;
+			editor->networkWindow = 0;
 			editor = 0;
 		}
 		
@@ -381,5 +388,4 @@ namespace Tinkercell
 	}*/
 	
 }
-
 

@@ -271,7 +271,6 @@ namespace Tinkercell
 	{
 		if (network && network->mainWindow)
 		{
-			network->mainWindow->console()->message("popout");	
 			network->mainWindow->popOut(this);
 		}
 	}

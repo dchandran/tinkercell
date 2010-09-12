@@ -161,36 +161,40 @@ namespace Tinkercell
 			   		family->nodeFamilies << family->nodeFamilies.last();
 
                //set arrow head
+               ArrowHeadItem * nodeitem = 0;
 
-               QString arrowImageFile = appDir + QString("/") + ConnectionsTree::arrowImageFile(family->name);
-               ArrowHeadItem * nodeitem = new ArrowHeadItem(arrowImageFile);
-
-               if (!nodeitem->isValid())
-                   delete nodeitem;
-               else
-	               family->graphicsItems += nodeitem;
-
-               //if no arrow file, same as parent's arrow
-               if (parentFamily && family->graphicsItems.isEmpty() && 
-               		!parentFamily->graphicsItems.isEmpty() &&
-                    NodeGraphicsItem::cast(parentFamily->graphicsItems[0]))
-                    family->graphicsItems += (NodeGraphicsItem::topLevelNodeItem(parentFamily->graphicsItems[0]))->clone();
-               
-               QString decoratorImageFile = appDir + QString("/") + ConnectionsTree::decoratorImageFile(family->name);
-               nodeitem = new ArrowHeadItem(decoratorImageFile);
-               
-               if (!nodeitem->isValid())
+               if (family->graphicsItems.isEmpty())
                {
-                   delete nodeitem;
-                   nodeitem = 0;
-               }
-               else
-	               family->graphicsItems += nodeitem;
-	           
-	           if (parentFamily && !nodeitem &&
-	           		(parentFamily->graphicsItems.size() > 1) &&
-                    NodeGraphicsItem::cast(parentFamily->graphicsItems.last()))
-                    family->graphicsItems += (NodeGraphicsItem::topLevelNodeItem(parentFamily->graphicsItems.last()))->clone();
+               	   QString arrowImageFile = appDir + QString("/") + ConnectionsTree::arrowImageFile(family->name);
+		           nodeitem = new ArrowHeadItem(arrowImageFile);
+
+		           if (!nodeitem->isValid())
+		               delete nodeitem;
+		           else
+			           family->graphicsItems += nodeitem;
+		           //if no arrow file, same as parent's arrow
+		           if (parentFamily && family->graphicsItems.isEmpty() && 
+		           		!parentFamily->graphicsItems.isEmpty() &&
+		                NodeGraphicsItem::cast(parentFamily->graphicsItems[0]))
+		                family->graphicsItems += (NodeGraphicsItem::topLevelNodeItem(parentFamily->graphicsItems[0]))->clone();
+			   }              
+               if (family->graphicsItems.size() < 2)
+               {
+		           QString decoratorImageFile = appDir + QString("/") + ConnectionsTree::decoratorImageFile(family->name);
+		           nodeitem = new ArrowHeadItem(decoratorImageFile);
+		           
+		           if (!nodeitem->isValid())
+		               delete nodeitem;
+		           else
+			           family->graphicsItems += nodeitem;
+			       
+			       if (parentFamily && (family->graphicsItems.size() < 2) &&
+			       		(parentFamily->graphicsItems.size() > 1) &&
+		                NodeGraphicsItem::cast(parentFamily->graphicsItems.last()))
+		                {
+			                family->graphicsItems += (NodeGraphicsItem::topLevelNodeItem(parentFamily->graphicsItems.last()))->clone();
+			            }
+			   }
 
                //read sub nodes and child nodes
                QString text;

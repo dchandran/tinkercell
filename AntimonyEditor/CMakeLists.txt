@@ -12,6 +12,7 @@ INCLUDE_DIRECTORIES(
 
 SET( TINKERCELL_CORE_HDRS
   ../Core/MainWindow.h 
+  ../Core/NetworkWindow.h
   ../Core/NetworkHandle.h
   ../Core/CodeEditor.h 
   ../Core/TextEditor.h 

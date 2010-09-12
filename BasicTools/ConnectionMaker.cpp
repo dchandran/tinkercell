@@ -437,7 +437,7 @@ namespace Tinkercell
 		ItemHandle * h1, *h2;
 
 		if (connection->lineType == ConnectionGraphicsItem::line
-			&& nodes.size() > 1 
+			&& nodes.size() == 2 
 			&& nodes[0] 
 			&& nodes[1]
 			&& (h1 = getHandle(nodes[0]))

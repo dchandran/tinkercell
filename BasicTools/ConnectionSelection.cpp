@@ -571,6 +571,7 @@ namespace Tinkercell
 		QList<ConnectionGraphicsItem::ControlPoint*> points;
 		NodeGraphicsItem * node = 0;
 		ConnectionGraphicsItem * connection = 0;
+		ItemHandle * h = 0;
 
 		for (int i=0; i < items.size(); ++i)
 		{
@@ -609,27 +610,29 @@ namespace Tinkercell
 				if ((p = points[j]) && !items.contains(p->connectionItem))
 				{
 					k = p->connectionItem->indexOf(p);
-					if (k > -1 && p->connectionItem->curveSegments[k].size() > 4)
+					if (k > -1 && 
+						p->connectionItem->curveSegments.size() > 1 && 
+						p->connectionItem->curveSegments[k].size() > 4 &&
+						!NodeGraphicsItem::cast(p->parentItem()))
 					{
 						RemoveControlPointCommand * cmmd1 = new RemoveControlPointCommand("control point removed",scene,p);
 						commands << cmmd1;
 					}
 					else
+					if (p->connectionItem->curveSegments.size() > 1)
 					{
 						RemoveCurveSegmentCommand * cmmd2 = new RemoveCurveSegmentCommand("path removed",scene,p);
-						if (cmmd2->curveSegments.size() > 0)
+						commands << cmmd2;
+					}
+					else
+					{
+						if (p->connectionItem && !items.contains(p->connectionItem))
 						{
-							commands << cmmd2;
-						}
-						else
-						{
-							if (p->connectionItem && !items.contains(p->connectionItem))
+							QString s;
+							if ((h = p->connectionItem->handle()) && !handles.contains(h))
 							{
-								QString s;
-								if (p->connectionItem->handle())
-									handles += p->connectionItem->handle();
-
-								items += p->connectionItem;
+								handles += h;
+								items += h->graphicsItems;
 							}
 						}
 					}

@@ -271,7 +271,7 @@ namespace Tinkercell
 			else
 			if (nodeHandle = NodeHandle::cast(item))
 			{
-				QList<ConnectionHandle*> connections = (static_cast<NodeHandle*>(nodeHandle))->connections();
+				QList<ConnectionHandle*> connections = nodeHandle->connections();
 				QList<ItemHandle*> & lst = (*list);
 				for (int j=0; j < connections.size(); ++j)
 					if (connections[j]->hasTextData(tr("Participants")))
@@ -280,7 +280,7 @@ namespace Tinkercell
 						TextDataTable & table = connections[j]->textDataTable(tr("Participants"));
 
 						for (int i=0; i < nodes.size(); ++i)
-							if (nodes[i] != item && nodes[i] && table.at(nodes[i]->fullName(),0).contains(role) && !lst.contains(nodes[i]))
+							if (nodes[i] != nodeHandle && nodes[i] && table.at(nodes[i]->fullName(),0).contains(role) && !lst.contains(nodes[i]))
 								lst += nodes[i];
 					}
 			}
@@ -719,7 +719,6 @@ namespace Tinkercell
 					selectedFamily = ConnectionFamily::cast(childFamilies[i]);
 					selectedNodes = originalNodesList;
 					finalSelectedFamily = selectedFamily;
-					MainWindow::instance()->console()->message(finalSelectedFamily->name);
 					if (setRequirements())
 					{
 						break;

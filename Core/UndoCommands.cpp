@@ -941,7 +941,9 @@ namespace Tinkercell
 		{
 			QList<ConnectionGraphicsItem*> connections = node->connections();
 			for (int j=0; j < connections.size(); ++j)
-				if (connections[j] && connections[j]->scene() == node->scene())
+				if (connections[j] && 
+					connections[j]->scene() == node->scene() &&
+					!graphicsItems.contains(connections[j]))
 				{
 					graphicsItems += connections[j];
 					itemHandles.append(getHandle(connections[j]));
@@ -972,7 +974,10 @@ namespace Tinkercell
 				{
 					QList<ConnectionGraphicsItem*> connections = node->connections();
 					for (int j=0; j < connections.size(); ++j)
-						if (connections[j] && connections[j]->scene() == node->scene() && !items.contains(connections[j]))
+						if (connections[j] && 
+							connections[j]->scene() == node->scene() && 
+							!items.contains(connections[j]) &&
+							!graphicsItems.contains(connections[j]))
 						{
 							graphicsItems += connections[j];
 							itemHandles.append(getHandle(connections[j]));
@@ -1248,18 +1253,20 @@ namespace Tinkercell
 					}
 				}
 
-				if (itemHandles.size() > i && itemHandles[i] && (itemHandles.indexOf(itemHandles[i]) == i))
+				if (itemHandles.size() > i && itemHandles[i])
 				{
 					if (parentHandles.size() > i && 
+						(itemHandles.indexOf(itemHandles[i]) == i) &&
 						!MainWindow::invalidPointers.contains(itemHandles[i]))
 						itemHandles[i]->setParent(parentHandles[i],false);
 				
 					itemHandles[i]->network = graphicsScenes[i]->network;
 					setHandle(graphicsItems[i],itemHandles[i]);
 
-					for (int j=0; j < itemHandles[i]->children.size(); ++j)
-						if (itemHandles[i]->children[j])
-							itemHandles[i]->children[j]->parent = itemHandles[i];
+					if ((itemHandles.indexOf(itemHandles[i]) == i))
+						for (int j=0; j < itemHandles[i]->children.size(); ++j)
+							if (itemHandles[i]->children[j])
+								itemHandles[i]->children[j]->parent = itemHandles[i];
 
 				}
 				if (itemParents.size() > i && itemParents[i] != 0)

@@ -12,10 +12,10 @@
 
       <connection family="Production" participant_types="Empty,Molecule">
         <text>This connection represents production or influx of a molecular species.</text>
-        <connection family="Transcription" participant_types="Empty,mRNA">
+        <connection family="Transcription" participant_types="Coding,Empty,mRNA" participant_roles="Template,Reactant,Product">
           <text>Production of mRNA from DNA template.</text>
         </connection>
-        <connection family="Translation" participant_types="Empty,Protein">
+        <connection family="Translation" participant_types="mRNA,Empty,Protein" participant_roles="Template,Reactant,Product">
           <text>Production of protein from mRNA template. </text>
         </connection>
       </connection>

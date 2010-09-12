@@ -29,6 +29,7 @@ ADD_LIBRARY( AutoGeneRegulatoryTool
 
 TARGET_LINK_LIBRARIES( AutoGeneRegulatoryTool
   AutoGeneRegulatoryTool
+  NodesTree
   TinkerCellCore
 )
 

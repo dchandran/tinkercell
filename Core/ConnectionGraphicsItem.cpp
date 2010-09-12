@@ -1134,6 +1134,7 @@ namespace Tinkercell
 			{
 				if (curveSegments[i][j])
 				{
+					curveSegments[i][j]->connectionItem = this;
 					if (lineType == bezier || (j%3)==0)
 					{
 						curveSegments[i][j]->setVisible(visible);

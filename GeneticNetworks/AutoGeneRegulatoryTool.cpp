@@ -263,11 +263,10 @@ namespace Tinkercell
 							arrow->connectionItem = item;
 							if (arrow->defaultSize.width() > 0 && arrow->defaultSize.height() > 0)
 								arrow->scale(arrow->defaultSize.width()/arrow->sceneBoundingRect().width(),arrow->defaultSize.height()/arrow->sceneBoundingRect().height());
+							item->curveSegments.last().arrowStart = arrow;
+							list += arrow;
 						}
 					}
-
-					item->curveSegments.last().arrowStart = arrow;
-					list += arrow;
 
 					QStringList words = regulationName.split(tr(" "));
 					for (int k=0; k < words.size(); ++k)
@@ -401,10 +400,19 @@ namespace Tinkercell
 					list += item;
 
 					ArrowHeadItem * arrow = 0;
-					QString nodeImageFile = appDir + tr("/ArrowItems/Production.xml");
-					arrow = new ArrowHeadItem(nodeImageFile, item);
-					item->curveSegments.last().arrowEnd = arrow;
-					list += arrow;
+					if (productionFamily->graphicsItems.size() > 0)
+					{
+						NodeGraphicsItem * node = NodeGraphicsItem::cast(productionFamily->graphicsItems[0]);
+						if (node && node->className == ArrowHeadItem::CLASSNAME)
+						{
+							arrow = new ArrowHeadItem(*static_cast<ArrowHeadItem*>(node));
+							arrow->connectionItem = item;
+							if (arrow->defaultSize.width() > 0 && arrow->defaultSize.height() > 0)
+								arrow->scale(arrow->defaultSize.width()/arrow->sceneBoundingRect().width(),arrow->defaultSize.height()/arrow->sceneBoundingRect().height());
+							item->curveSegments.last().arrowEnd = arrow;
+							list += arrow;
+						}
+					}
 
 					connection->name = tr("J1");
 					item->lineType = ConnectionGraphicsItem::line;
@@ -418,10 +426,19 @@ namespace Tinkercell
 					font.setPointSize(22);
 					nameItem->setFont(font);
 					
-					nodeImageFile = appDir + tr("/DecoratorItems/UpCircle.xml");
-					ArrowHeadItem * middleItem = new ArrowHeadItem(nodeImageFile,item);
-					item->centerRegionItem = middleItem;
-					list += middleItem;
+					if (productionFamily->graphicsItems.size() > 1)
+					{
+						NodeGraphicsItem * node = NodeGraphicsItem::cast(productionFamily->graphicsItems.last());
+						if (node && node->className == ArrowHeadItem::CLASSNAME)
+						{
+							arrow = new ArrowHeadItem(*static_cast<ArrowHeadItem*>(node));
+							arrow->connectionItem = item;
+							if (arrow->defaultSize.width() > 0 && arrow->defaultSize.height() > 0)
+								arrow->scale(arrow->defaultSize.width()/arrow->sceneBoundingRect().width(),arrow->defaultSize.height()/arrow->sceneBoundingRect().height());
+							item->centerRegionItem = arrow;
+							list += arrow;
+						}
+					}
 					
 					nameItem = new TextGraphicsItem(proteinNode,0);
 					font = nameItem->font();
@@ -923,7 +940,6 @@ namespace Tinkercell
 
 	void AutoGeneRegulatoryTool::itemsAboutToBeInserted(GraphicsScene * scene, QList<QGraphicsItem*>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>& commands)
 	{
-		QGraphicsItem * item = 0;
 		NodeGraphicsItem * node = 0;
 		ConnectionGraphicsItem * connection = 0;
 		QList<NodeGraphicsItem*> nodes;
@@ -946,14 +962,6 @@ namespace Tinkercell
 
 				node->boundaryControlPoints.clear();
 			}
-
-			if (!qgraphicsitem_cast<TextGraphicsItem*>(items[i]))
-			{
-				if (item)
-					return;
-				else
-					item = items[i];
-			}
 			
 			connection = ConnectionGraphicsItem::cast(items[i]);
 			NodeGraphicsItem * startNode = 0;
@@ -963,10 +971,10 @@ namespace Tinkercell
 			{
 				nodes = connection->nodes();
 				for (int j=0; j < nodes.size(); ++j)
-					if (nodes[i] && nodes[i]->handle() 
-						&& (nodes[i]->handle()->isA(tr("Promoter")) || nodes[i]->handle()->isA(tr("Coding"))))
+					if (nodes[j] && nodes[j]->handle() 
+						&& (nodes[j]->handle()->isA(tr("Promoter")) || nodes[j]->handle()->isA(tr("Coding"))))
 					{
-						startNode = nodes[i];
+						startNode = nodes[j];
 						break;
 					}
 			}
@@ -992,13 +1000,13 @@ namespace Tinkercell
 
 			QList<NodeHandle*> parts3;
 
-			QStringList lst;
 			for (int j=0; j < parts.size(); ++j)
 			{
-				NodeHandle * node = NodeHandle::cast(parts[j]);
-				parts3 += node;
-				visited += node;
+				NodeHandle * h = NodeHandle::cast(parts[j]);
+				parts3 += h;
+				visited += h;
 			}
+			
 			if (!parts3.isEmpty())
 			{
 				commands << autoAssignRates(parts3);
@@ -1126,7 +1134,6 @@ namespace Tinkercell
 
 			QList<NodeHandle*> parts3;
 
-			QStringList lst;
 			for (int j=0; j < parts.size(); ++j)
 			{
 				NodeHandle * node = NodeHandle::cast(parts[j]);

@@ -1026,6 +1026,10 @@ namespace Tinkercell
 						}
 						if (connection->centerRegionItem && graphicsScenes[i] && graphicsItems[i]->scene() == graphicsScenes[i])
 							graphicsScenes[i]->removeItem(connection->centerRegionItem);
+						QList<ConnectionGraphicsItem::ControlPoint*> cps = connection->controlPoints(true);
+						for (int j=0; j < cps.size(); ++j)
+							if (cps[j])
+								cps[j]->connectionItem = 0;
 					}
 				}
 			}

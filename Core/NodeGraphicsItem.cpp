@@ -1168,7 +1168,7 @@ namespace Tinkercell
 		{
 			ConnectionGraphicsItem::ControlPoint * cp =
 				qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(children[i]);
-			if (cp && cp->connectionItem && cp->connectionItem->scene() && cp->connectionItem->isVisible() && (cp->connectionItem->scene() == scene))
+			if (cp && cp->connectionItem)
 				connections += cp->connectionItem;
 		}
 		return connections;
@@ -1184,8 +1184,7 @@ namespace Tinkercell
 		{
 			ConnectionGraphicsItem::ControlPoint * cp =
 				qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(children[i]);
-			if (cp && cp->connectionItem && cp->connectionItem->scene() && cp->connectionItem->isVisible()
-				&& (cp->connectionItem->scene() == scene)
+			if (cp && cp->connectionItem
 				&& (cp->connectionItem->nodesWithArrows().contains(this)))
 				connections += cp->connectionItem;
 		}
@@ -1202,8 +1201,7 @@ namespace Tinkercell
 		{
 			ConnectionGraphicsItem::ControlPoint * cp =
 				qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(children[i]);
-			if (cp && cp->connectionItem && cp->connectionItem->scene() && cp->connectionItem->isVisible()
-				&& (cp->connectionItem->scene() == scene)
+			if (cp && cp->connectionItem
 				&& !(cp->connectionItem->nodesWithArrows().contains(this)))
 				connections += cp->connectionItem;
 		}
@@ -1220,8 +1218,7 @@ namespace Tinkercell
 		{
 			ConnectionGraphicsItem::ControlPoint * cp =
 				qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(children[i]);
-			if (cp && cp->connectionItem && cp->connectionItem->scene() && cp->connectionItem->isVisible()
-				&& (cp->connectionItem->scene() == scene)
+			if (cp && cp->connectionItem
 				&& (cp->connectionItem->nodesDisconnected().contains(this)))
 				connections += cp->connectionItem;
 		}
@@ -1238,7 +1235,7 @@ namespace Tinkercell
 		{
 			ConnectionGraphicsItem::ControlPoint * cp =
 				qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(children[i]);
-			if (cp && cp->connectionItem && cp->connectionItem->scene() && cp->connectionItem->isVisible() && (cp->connectionItem->scene() == scene))
+			if (cp && cp->connectionItem)
 				connections += cp->connectionItem;
 		}
 		return connections;

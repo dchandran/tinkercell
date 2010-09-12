@@ -326,7 +326,7 @@ namespace Tinkercell
 			else
 			{
 				if (name.isEmpty())
-					command = new RemoveGraphicsCommand(tr("text removed"),mainWindow->currentScene(),item);
+					command = new RemoveGraphicsCommand(tr("text removed"),item);
 				else
 					command = new ChangeTextCommand(tr("text changed"),item,name);
 				if (mainWindow->historyStack())

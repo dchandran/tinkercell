@@ -207,26 +207,22 @@ namespace Tinkercell
 		* \param GraphicsScene* where change happened
 		* \param QGraphicsItem* item that is removed
 		*/
-		RemoveGraphicsCommand(const QString& name, GraphicsScene * scene, QGraphicsItem * item);
+		RemoveGraphicsCommand(const QString& name, QGraphicsItem * item);
 		/*! \brief constructor
 		* \param QString name of command
 		* \param GraphicsScene* where change happened
 		* \param QList<QGraphicsItem*>& items that are removed
 		*/
-		RemoveGraphicsCommand(const QString& name, GraphicsScene * scene, const QList<QGraphicsItem*>& items);
+		RemoveGraphicsCommand(const QString& name, const QList<QGraphicsItem*>& items);
 		/*! \brief redo the change*/
 		void redo();
 		/*! \brief undo the change*/
 		void undo();
-		/*! \brief destructor*/
-		~RemoveGraphicsCommand();
 	private:
 		/*! \brief used to update information*/
 		Change2DataCommand<qreal,QString> * changeDataCommand;
 		/*! \brief scene where change happened*/
-		GraphicsScene * graphicsScene;
-		/*! \brief network where change happened*/
-		NetworkHandle * network;
+		QList<GraphicsScene*> graphicsScenes;
 		/*! \brief items that were removed*/
 		QList<QGraphicsItem*> graphicsItems;
 		/*! \brief removed items' parents*/

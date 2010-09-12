@@ -1152,7 +1152,7 @@ namespace Tinkercell
 		QList<QUndoCommand*> commands;		
 		emit itemsAboutToBeRemoved(this,allitems,handles,commands);
 
-		QUndoCommand * command = new RemoveGraphicsCommand(name, this, allitems);
+		QUndoCommand * command = new RemoveGraphicsCommand(name, allitems);
 		
 		if (!commands.isEmpty())
 		{
@@ -1194,7 +1194,7 @@ namespace Tinkercell
 		QList<QUndoCommand*> commands;		
 		emit itemsAboutToBeRemoved(this,allitems,handles,commands);
 
-		QUndoCommand * command = new RemoveGraphicsCommand(name, this, allitems);
+		QUndoCommand * command = new RemoveGraphicsCommand(name, allitems);
 		
 		if (!commands.isEmpty())
 		{

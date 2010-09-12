@@ -931,25 +931,9 @@ namespace Tinkercell
 			delete renameCommand;
 	}
 
-	RemoveGraphicsCommand::~RemoveGraphicsCommand()
-	{
-		/*
-		if (graphicsScene)
-		for (int i=0; i < graphicsItems.size(); ++i)
-		if (!graphicsScene->items().contains(graphicsItems[i]))
-		graphicsScene->addItem(graphicsItems[i]);
-		*/
-	}
-
-	RemoveGraphicsCommand::RemoveGraphicsCommand(const QString& name, GraphicsScene * scene, QGraphicsItem * item)
+	RemoveGraphicsCommand::RemoveGraphicsCommand(const QString& name, QGraphicsItem * item)
 		: QUndoCommand(name), changeDataCommand(0)
 	{
-		graphicsScene = scene;
-		network = 0;
-		if (scene)
-			network = scene->network;
-		graphicsItems.clear();
-		
 		item = getGraphicsItem(item);
 		
 		NodeGraphicsItem * node = NodeGraphicsItem::cast(item);
@@ -957,7 +941,7 @@ namespace Tinkercell
 		{
 			QList<ConnectionGraphicsItem*> connections = node->connections();
 			for (int j=0; j < connections.size(); ++j)
-				if (connections[j] && connections[j]->scene() == scene)
+				if (connections[j] && connections[j]->scene() == node->scene())
 				{
 					graphicsItems += connections[j];
 					itemHandles.append(getHandle(connections[j]));
@@ -967,22 +951,16 @@ namespace Tinkercell
 		
 		graphicsItems.append( item );
 		itemHandles.append(getHandle(item));
+		
 		if (item)
 			itemParents.append(item->parentItem());
 		else
 			itemParents.append(0);
 	}
 
-	RemoveGraphicsCommand::RemoveGraphicsCommand(const QString& name, GraphicsScene * scene, const QList<QGraphicsItem*>& items)
+	RemoveGraphicsCommand::RemoveGraphicsCommand(const QString& name, const QList<QGraphicsItem*>& items)
 		: QUndoCommand(name), changeDataCommand(0)
 	{
-		graphicsScene = scene;
-		network = 0;
-		if (scene)
-			network = scene->network;
-		graphicsItems.clear();
-		itemParents.clear();
-		
 		QGraphicsItem * item;
 		NodeGraphicsItem * node;
 		
@@ -994,7 +972,7 @@ namespace Tinkercell
 				{
 					QList<ConnectionGraphicsItem*> connections = node->connections();
 					for (int j=0; j < connections.size(); ++j)
-						if (connections[j] && connections[j]->scene() == scene && !items.contains(connections[j]))
+						if (connections[j] && connections[j]->scene() == node->scene() && !items.contains(connections[j]))
 						{
 							graphicsItems += connections[j];
 							itemHandles.append(getHandle(connections[j]));
@@ -1009,21 +987,19 @@ namespace Tinkercell
 
 	void RemoveGraphicsCommand::redo()
 	{
-		if (MainWindow::invalidPointers.contains(graphicsScene) && network)
-		{
-			graphicsScene = 0;
-		}
-		
-		if (!graphicsScene || graphicsScene->network != network) return;
-		
-		network->showScene(graphicsScene);
+		graphicsScenes.clear();
+		for (int i=0; i<graphicsItems.size(); ++i)
+			if (graphicsItems[i])		
+				graphicsScenes += static_cast<GraphicsScene*>(graphicsItems[i]->scene());
+			else
+				graphicsScenes += 0;
 		
 		for (int i=0; i<graphicsItems.size(); ++i)
 		{
-			if (graphicsItems[i])
+			if (graphicsItems[i] && graphicsScenes[i])
 			{
-				if (graphicsScene && graphicsItems[i]->scene() == graphicsScene)
-					graphicsScene->removeItem(graphicsItems[i]);
+				if (graphicsItems[i]->scene() == graphicsScenes[i])
+					graphicsScenes[i]->removeItem(graphicsItems[i]);
 
 				NodeGraphicsItem * node = qgraphicsitem_cast<NodeGraphicsItem*>(graphicsItems[i]);
 				if (node)
@@ -1038,13 +1014,13 @@ namespace Tinkercell
 						connection->setControlPointsVisible(false);
 						for (int j=0; j < connection->curveSegments.size(); ++j)
 						{
-							if (connection->curveSegments[j].arrowStart && connection->curveSegments[j].arrowStart->scene() == graphicsScene)
-								graphicsScene->removeItem(connection->curveSegments[j].arrowStart);
-							if (connection->curveSegments[j].arrowEnd && connection->curveSegments[j].arrowEnd->scene() == graphicsScene)
-								graphicsScene->removeItem(connection->curveSegments[j].arrowEnd);
+							if (connection->curveSegments[j].arrowStart && connection->curveSegments[j].arrowStart->scene() == graphicsScenes[i])
+								graphicsScenes[i]->removeItem(connection->curveSegments[j].arrowStart);
+							if (connection->curveSegments[j].arrowEnd && connection->curveSegments[j].arrowEnd->scene() == graphicsScenes[i])
+								graphicsScenes[i]->removeItem(connection->curveSegments[j].arrowEnd);
 						}
-						if (connection->centerRegionItem && graphicsScene && graphicsItems[i]->scene() == graphicsScene)
-							graphicsScene->removeItem(connection->centerRegionItem);
+						if (connection->centerRegionItem && graphicsScenes[i] && graphicsItems[i]->scene() == graphicsScenes[i])
+							graphicsScenes[i]->removeItem(connection->centerRegionItem);
 					}
 				}
 			}
@@ -1080,7 +1056,10 @@ namespace Tinkercell
 					namesToKill << itemHandles[i]->fullName();
 
 			ItemHandle * handle;
-			QList<QGraphicsItem*> items = graphicsScene->items();
+			QList<QGraphicsItem*> items;
+			for (int i=0; i < graphicsScenes.size(); ++i)
+				if (graphicsScenes[i])
+					items += graphicsScenes[i]->items();
 			for (int i=0; i < items.size(); ++i)
 			{
 				handle = getHandle(items[i]);
@@ -1140,8 +1119,6 @@ namespace Tinkercell
 								affected = true;
 							}
 						}
-						//if (affected && graphicsScene->console())
-                          //  graphicsScene->console()->message(QObject::tr("data changed : ") + keys[j] + QObject::tr(" in ") + affectedHandles[i]->fullName());
 					}
 
 					keys = affectedHandles[i]->textDataNames();
@@ -1209,8 +1186,6 @@ namespace Tinkercell
 									affected = true;
 								}
 							}
-							//if (affected && graphicsScene->console())
-								//graphicsScene->console()->message(QObject::tr("data changed : ") + keys[j] + QObject::tr(" in ") + affectedHandles[i]->fullName());
 					}
 				}
 			}
@@ -1251,23 +1226,14 @@ namespace Tinkercell
 
 	void RemoveGraphicsCommand::undo()
 	{
-		if (MainWindow::invalidPointers.contains(graphicsScene) && network)
-		{
-			graphicsScene = 0;
-		}
-		
-		if (!graphicsScene || graphicsScene->network != network) return;
-		
-		network->showScene(graphicsScene);
-
 		QList<ConnectionGraphicsItem*> connections;
 		ConnectionGraphicsItem * connection;
 
-		for (int i=0; i<graphicsItems.size(); ++i)
-			if (graphicsItems[i])
+		for (int i=0; i<graphicsItems.size() && i<graphicsScenes.size(); ++i)
+			if (graphicsItems[i] && graphicsScenes[i])
 			{
-				if (graphicsScene && graphicsItems[i]->scene() != graphicsScene)
-					graphicsScene->addItem(graphicsItems[i]);
+				if (graphicsItems[i]->scene() != graphicsScenes[i])
+					graphicsScenes[i]->addItem(graphicsItems[i]);
 
 				NodeGraphicsItem * node = qgraphicsitem_cast<NodeGraphicsItem*>(graphicsItems[i]);
 				if (node)
@@ -1280,6 +1246,8 @@ namespace Tinkercell
 					if (connection)
 					{
 						connections << connection;
+						if (connection->centerRegionItem && connection->centerRegionItem->scene() != graphicsScenes[i])
+							graphicsScenes[i]->addItem(connection->centerRegionItem);
 					}
 				}
 
@@ -1288,7 +1256,7 @@ namespace Tinkercell
 					if (parentHandles.size() > i && !MainWindow::invalidPointers.contains(itemHandles[i]))
 						itemHandles[i]->setParent(parentHandles[i],false);
 				
-					itemHandles[i]->network = graphicsScene->network;
+					itemHandles[i]->network = graphicsScenes[i]->network;
 					setHandle(graphicsItems[i],itemHandles[i]);
 
 					if (itemHandles[i]->parent)

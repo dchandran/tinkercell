@@ -463,7 +463,7 @@ namespace Tinkercell
 				commands << new InsertGraphicsCommand(tr("fixed text"), scene, insertItems);
 				
 			if (scene && removeItems.size() > 0)
-				commands << new RemoveGraphicsCommand(tr("fixed text"), scene, removeItems);
+				commands << new RemoveGraphicsCommand(tr("fixed text"), removeItems);
 				
 			CompositeCommand * command = new CompositeCommand(tr("toggle fixed for ") + names.join(tr(",")).left(5),commands);
 			net->history.push(command);
@@ -624,7 +624,7 @@ namespace Tinkercell
 			commands << new InsertGraphicsCommand(tr("fixed text"), scene, insertItems);
 			
 		if (scene && removeItems.size() > 0)
-			commands << new RemoveGraphicsCommand(tr("fixed text"), scene, removeItems);
+			commands << new RemoveGraphicsCommand(tr("fixed text"), removeItems);
 			
 		CompositeCommand * command = new CompositeCommand(tr("changed initial values or fixed"),commands);
 		win->history.push(command);

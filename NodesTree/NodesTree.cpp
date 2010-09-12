@@ -391,11 +391,11 @@ namespace Tinkercell
 	
 	NodeFamily * NodesTree::getFamily(const QString& name) const
 	{
-		if (connectionFamilies.contains(name))
-			return connectionFamilies.value(name);
+		if (nodeFamilies.contains(name))
+			return nodeFamilies.value(name);
 		
 		QStringList words = name.split(" ");
-		for (int i=0; i < words.slze(); ++i)
+		for (int i=0; i < words.size(); ++i)
 		{
 			words[i] = words[i].toLower();
 			words[0] = words[0].toUpper();
@@ -412,7 +412,7 @@ namespace Tinkercell
 	{
 		if (name.isEmpty() || !family) return false;
 		QStringList words = family->name.split(" ");
-		for (int i=0; i < words.slze(); ++i)
+		for (int i=0; i < words.size(); ++i)
 		{
 			words[i] = words[i].toLower();
 			words[0] = words[0].toUpper();

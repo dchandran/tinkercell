@@ -244,7 +244,7 @@ namespace Tinkercell
 			return connectionFamilies.value(name);
 		
 		QStringList words = name.split(" ");
-		for (int i=0; i < words.slze(); ++i)
+		for (int i=0; i < words.size(); ++i)
 		{
 			words[i] = words[i].toLower();
 			words[0] = words[0].toUpper();
@@ -253,14 +253,14 @@ namespace Tinkercell
 		QString s = words.join(" ");
 		if (connectionFamilies.contains(s))
 			return connectionFamilies.value(s);
-		return true;
+		return 0;
 	}
 	
 	bool ConnectionsTree::insertFamily(ConnectionFamily * family, FamilyTreeButton * button)
 	{
 		if (!family) return false;
 		QStringList words = family->name.split(" ");
-		for (int i=0; i < words.slze(); ++i)
+		for (int i=0; i < words.size(); ++i)
 		{
 			words[i] = words[i].toLower();
 			words[0] = words[0].toUpper();

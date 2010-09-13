@@ -21,18 +21,15 @@ The octave interpreter that runs as a separate thread and can accept strings to 
 namespace Tinkercell
 {
 	
-    OctaveInterpreterThread::OctaveInterpreterThread(const QString& dir, const QString & dllname, MainWindow* main)
-        : InterpreterThread(dir + QObject::tr("/") + dllname,main), octaveFolder(dir)
+    OctaveInterpreterThread::OctaveInterpreterThread(const QString & octname, const QString & dllname, MainWindow* main)
+        : InterpreterThread(QObject::tr("octave/") + dllname,main)
     {
 		addpathDone = false;
     	f = 0;
 		connect(this,SIGNAL(setupSwigLibrary( QLibrary * )),mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )));
-		QLibrary * swig = CThread::loadLibrary(dir + tr("/tinkercell.oct"), mainWindow);
+		QLibrary * swig = CThread::loadLibrary(tr("octave/") + octname, mainWindow);
 		if (swig->isLoaded())
 			emit setupSwigLibrary(swig);
-	#ifdef Q_WS_WIN
-		octaveFolder.replace(tr("/"),tr("\\\\"));
-	#endif
     }
     
     void OctaveInterpreterThread::finalize()
@@ -84,8 +81,6 @@ namespace Tinkercell
         if (!lib || !lib->isLoaded() || code.isEmpty()) return;
        
         QString script;
-        QString appDir = QCoreApplication::applicationDirPath();
-        QString homeDir = MainWindow::homeDir();
 		
         if (!f)
             f = (execFunc)lib->resolve("exec");
@@ -94,15 +89,19 @@ namespace Tinkercell
         {
         	if (!addpathDone)
         	{
-        		#ifdef Q_WS_WIN
+        		QString appDir = QCoreApplication::applicationDirPath();
+		        QString homeDir = MainWindow::homeDir();
+        	#ifdef Q_WS_WIN
         		appDir.replace("/","\\\\");
         		homeDir.replace("/","\\\\");
-	        	script = QObject::tr("addpath(\"") + appDir + QObject::tr("\\\\") + octaveFolder + QObject::tr("\")\n");
-	        	script = QObject::tr("addpath(\"") + homeDir + QObject::tr("\\\\") + octaveFolder + QObject::tr("\")\n");
-	        	#else
-	        	script = QObject::tr("addpath(\"") + appDir + QObject::tr("/") + octaveFolder + QObject::tr("\")\n");
-	        	script = QObject::tr("addpath(\"") + homeDir + QObject::tr("/") + octaveFolder + QObject::tr("\")\n");
-	        	#endif
+	        	script = QObject::tr("addpath(\"") + appDir + QObject::tr("\\\\octave\")\n");
+	        	if (QDir(homeDir + QObject::tr("/octave")).exists())
+		        	script = QObject::tr("addpath(\"") + homeDir + QObject::tr("\\\\octave\")\n");
+	        #else
+	        	script = QObject::tr("addpath(\"") + appDir + QObject::tr("/octave\")\n");
+	        	if (QDir(homeDir + QObject::tr("/octave")).exists())
+		        	script = QObject::tr("addpath(\"") + homeDir + QObject::tr("/octave\")\n");
+        	#endif
 	        	script += QObject::tr("tinkercell('global')\n");
 	        	addpathDone = true;
 	        }

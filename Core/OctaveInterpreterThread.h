@@ -1,4 +1,3 @@
-
 /****************************************************************************
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
@@ -37,6 +36,7 @@ namespace Tinkercell
 		*/
 		OctaveInterpreterThread(const QString&, const QString&, MainWindow* main);
 
+		static QString OCTAVE_FOLDER;
 	signals:	
 		void setupSwigLibrary( QLibrary * );
 
@@ -47,7 +47,6 @@ namespace Tinkercell
 	protected:
 		virtual void run();
 		execFunc f;
-		QString octaveFolder;
 		bool addpathDone;
 	};
 }

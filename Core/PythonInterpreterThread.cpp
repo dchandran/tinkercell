@@ -24,6 +24,7 @@ namespace Tinkercell
         : InterpreterThread(dllname,main)
     {
     	f = 0;
+    	addpathDone = false;
     }
     
     void PythonInterpreterThread::finalize()
@@ -72,6 +73,25 @@ namespace Tinkercell
         if (!lib || !lib->isLoaded() || code.isEmpty()) return;
 
         QString script;
+
+		if (!addpathDone)
+		{
+			QString appDir = QCoreApplication::applicationDirPath();
+			QString homeDir = Tool::homeDir();
+
+		#ifdef Q_WS_WIN
+			QString pydir1 = appDir.replace("/","\\\\") + tr("\\\\python");
+			QString pydir2 = homeDir.replace("/","\\\\") + tr("\\\\python");
+		#else
+			QString pydir1 = appDir + tr("/python");
+			QString pydir2 = homeDir + tr("/python");
+		#endif
+			script = tr("import sys\nsys.path.append(\"") + pydir1 + tr("\")\n");
+			if (QDir(homeDir + QObject::tr("/python")).exists())
+				script += tr("import sys\nsys.path.append(\"") + pydir2 + tr("\")\n");
+			addpathDone = true;
+		}
+        
 		script =  QObject::tr("import sys\n_outfile = open('py.out','w')\nsys.stdout = _outfile;\n");
 		script += code;
 		script +=  QObject::tr("\n_outfile.close();\n");

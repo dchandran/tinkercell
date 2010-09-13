@@ -40,7 +40,7 @@ IF(EMBED_PYTHON AND PYTHONLIBS_FOUND)
           TARGET tcpy POST_BUILD
           COMMAND move /Y ..\\bin\\python\\libtcpy.dll ..\\bin\\python\\_tinkercell.pyd
      )
-     FILE(GLOB PYTHON_LOADER ${TINKERCELL_BINARY_DIR}/python/_tinkercell.pyd)
+     FILE(GLOB PYTHON_LOADER ${TINKERCELL_BINARY_DIR}/bin/python/_tinkercell.pyd)
   ELSE ( WIN32 )
      IF( APPLE )
         ADD_CUSTOM_COMMAND ( 

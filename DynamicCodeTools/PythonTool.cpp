@@ -180,7 +180,6 @@ namespace Tinkercell
 		if (mainWindow)
 		{
 			QString appDir = QCoreApplication::applicationDirPath();
-			QString homeDir = Tool::homeDir();
 		#ifdef Q_WS_WIN
 			pythonInterpreter = new PythonInterpreterThread(appDir + tr("/python/_tinkercell.pyd"), mainWindow);
 		#else
@@ -199,26 +198,14 @@ namespace Tinkercell
 			
 			if (console())
 				console()->message(tr("Python initializing (init.py) ...\n"));
-
-			#ifdef Q_WS_WIN
-			QString pydir1 = appDir.replace("/","\\\\") + tr("\\\\python");
-			QString pydir2 = homeDir.replace("/","\\\\") + tr("\\\\python");
-			#else
-			QString pydir1 = appDir + tr("/python");
-			QString pydir2 = homeDir + tr("/python");
-			#endif
-			
-			QString s = tr("import sys\nsys.path.append(\"") + pydir1 + tr("\")\n");
-			s += tr("import sys\nsys.path.append(\"") + pydir2 + tr("\")\n");
 			
 			QFile file(appDir + tr("/python/init.py"));
 			if (file.open(QFile::ReadOnly | QFile::Text))
             {
-                s += file.readAll();
+                QString s = file.readAll();
                 file.close();
+                runPythonCode(s);
             }
-			
-			runPythonCode(s);
 			
 			return true;
 		}

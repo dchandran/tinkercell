@@ -38,6 +38,7 @@ namespace Tinkercell
 	protected:
 		virtual void run();
 		execFunc f;
+		bool addpathDone;
 	};
 }
 

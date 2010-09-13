@@ -311,6 +311,7 @@ namespace Tinkercell
 		if (contextMenuJustActivated)
 		{
 			contextMenuJustActivated = false;
+			deselect();
 			return;
 		}
 		
@@ -457,6 +458,7 @@ namespace Tinkercell
 		if (contextMenuJustActivated)
 		{
 			contextMenuJustActivated = false;
+			deselect();
 			return;
 		}
 
@@ -534,6 +536,7 @@ namespace Tinkercell
 		if (contextMenuJustActivated)
 		{
 			contextMenuJustActivated = false;
+			deselect();
 			return;
 		}
 

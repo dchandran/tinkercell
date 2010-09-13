@@ -694,16 +694,22 @@ namespace Tinkercell
 		{
 			QList<ItemFamily*> childFamilies = selectedFamily->findValidChildFamilies(nodeHandles,all);
 		
-			if (childFamilies.isEmpty() && selectedFamilyOriginal) //search all families under root
+			if (childFamilies.isEmpty() && selectedFamilyOriginal) //search all families under original
 				childFamilies = selectedFamilyOriginal->findValidChildFamilies(nodeHandles,all);
 
+			if (childFamilies.isEmpty() && selectedFamilyOriginal) //search all families under root
+			{
+				selectedFamilyOriginal = ConnectionFamily::cast(selectedFamilyOriginal->root());
+				childFamilies = selectedFamilyOriginal->findValidChildFamilies(nodeHandles,all);
+			}
+			
 			if (childFamilies.isEmpty()) return false; //no suitable connection family found
 		
 			selectedFamily = ConnectionFamily::cast(childFamilies.last());
 		}
 		else
 		{
-			QList<ItemFamily*> childFamilies = selectedFamilyOriginal->findValidChildFamilies(nodeHandles,all);
+			QList<ItemFamily*> childFamilies = selectedFamilyOriginal->findValidChildFamilies(nodeHandles,all);			
 			
 			if (allowFlips)
 			{

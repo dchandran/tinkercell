@@ -238,7 +238,7 @@ namespace Tinkercell
 					QString text;
 					QList<ItemHandle*> handles = getHandle(list);
 					for (int i=0; i < handles.size(); ++i)
-						if (handles[i])
+						if (handles[i] && handles.indexOf(handles[i]) == i)
 							text += handles[i]->name + " ";
 					scene->insert(text + tr("inserted"),list);
 				}

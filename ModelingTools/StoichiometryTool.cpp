@@ -246,6 +246,7 @@ namespace Tinkercell
 
 
 
+
 				
 			if (reactions)
 				mainWindow->contextItemsMenu.addAction(autoReverse);
@@ -930,7 +931,11 @@ namespace Tinkercell
 		
 		while (plusSigns.size() <= j)
 			plusSigns += (new QLabel(this));
-		plusSigns[j]->setText(tr("->"));
+			
+		if ((reactants.cols() < 1) && (products.cols() < 1))
+			plusSigns[j]->setText(tr(" No changes are happing in this reaction "));
+		else
+			plusSigns[j]->setText(tr("->"));
 		plusSigns[j]->show();
 		stoichiometryLayout->addWidget(plusSigns[j],0,Qt::AlignCenter);
 		++j;

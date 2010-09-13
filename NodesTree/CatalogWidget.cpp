@@ -252,7 +252,6 @@ namespace Tinkercell
 	CatalogWidget::~CatalogWidget()
 	{
 		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
-
 		settings.beginGroup("CatalogWidget");
 		settings.setValue(tr("Mode"),(int)(CatalogWidget::layoutMode));
 
@@ -389,7 +388,11 @@ namespace Tinkercell
 		}
 		showButtons(showlist);
 		hideButtons(hidelist);
-		
+
+		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
+		settings.beginGroup("CatalogWidget");
+		settings.setValue(tr("familiesInCatalog"),familiesInCatalog);
+		settings.endGroup();
 	}
 
 	void CatalogWidget::setNumberOfRecentItems()
@@ -954,8 +957,7 @@ namespace Tinkercell
 		bool widgetChanged = false;
 		
 		for (int i=0; i < familyNames.size(); ++i)
-			if (familiesInCatalog.contains(familyNames[i]))
-				familiesInCatalog.removeAll(familyNames[i]);
+			familiesInCatalog.removeAll(familyNames[i]);
 
 		if (nodesTree)
 		{

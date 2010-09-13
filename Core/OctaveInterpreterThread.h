@@ -35,7 +35,7 @@ namespace Tinkercell
 		* \param QString name of the octave embed library
 		*/
 		OctaveInterpreterThread(const QString&, const QString&, MainWindow* main);
-
+		/*! \brief the folder where tinkercell will look for octave files, defaults to /octave*/
 		static QString OCTAVE_FOLDER;
 	signals:	
 		void setupSwigLibrary( QLibrary * );

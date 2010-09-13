@@ -31,6 +31,8 @@ namespace Tinkercell
 	public:
 		PythonInterpreterThread(const QString&, MainWindow* main);
 
+		/*! \brief the folder where tinkercell will look for python files, defaults to /python*/
+		static QString PYTHON_FOLDER;
 	public slots:
 		virtual void initialize();
 		virtual void finalize();

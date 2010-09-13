@@ -19,7 +19,8 @@ The python interpreter that runs as a separate thread and can accept strings to 
 
 namespace Tinkercell
 {
-	
+	QString PythonInterpreterThread::PYTHON_FOLDER("python");
+
     PythonInterpreterThread::PythonInterpreterThread(const QString & dllname, MainWindow* main)
         : InterpreterThread(dllname,main)
     {
@@ -80,14 +81,14 @@ namespace Tinkercell
 			QString homeDir = Tool::homeDir();
 
 		#ifdef Q_WS_WIN
-			QString pydir1 = appDir.replace("/","\\\\") + tr("\\\\python");
-			QString pydir2 = homeDir.replace("/","\\\\") + tr("\\\\python");
+			QString pydir1 = appDir.replace("/","\\\\") + tr("\\\\") + PYTHON_FOLDER;
+			QString pydir2 = homeDir.replace("/","\\\\") + tr("\\\\") + PYTHON_FOLDER;
 		#else
-			QString pydir1 = appDir + tr("/python");
-			QString pydir2 = homeDir + tr("/python");
+			QString pydir1 = appDir + tr("/") + PYTHON_FOLDER;
+			QString pydir2 = homeDir + tr("/") + PYTHON_FOLDER;
 		#endif
 			script = tr("import sys\nsys.path.append(\"") + pydir1 + tr("\")\n");
-			if (QDir(homeDir + QObject::tr("/python")).exists())
+			if (QDir(homeDir + QObject::tr("/") + PYTHON_FOLDER).exists())
 				script += tr("import sys\nsys.path.append(\"") + pydir2 + tr("\")\n");
 			addpathDone = true;
 		}

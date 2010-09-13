@@ -95,8 +95,10 @@ namespace Tinkercell
         	if (!addpathDone)
         	{
         		#ifdef Q_WS_WIN
-	        	script = QObject::tr("addpath(\"") + appDir + QObject::tr("\\") + octaveFolder + QObject::tr("\")\n");
-	        	script = QObject::tr("addpath(\"") + homeDir + QObject::tr("\\") + octaveFolder + QObject::tr("\")\n");
+        		appDir.replace("/","\\\\");
+        		homeDir.replace("/","\\\\");
+	        	script = QObject::tr("addpath(\"") + appDir + QObject::tr("\\\\") + octaveFolder + QObject::tr("\")\n");
+	        	script = QObject::tr("addpath(\"") + homeDir + QObject::tr("\\\\") + octaveFolder + QObject::tr("\")\n");
 	        	#else
 	        	script = QObject::tr("addpath(\"") + appDir + QObject::tr("/") + octaveFolder + QObject::tr("\")\n");
 	        	script = QObject::tr("addpath(\"") + homeDir + QObject::tr("/") + octaveFolder + QObject::tr("\")\n");

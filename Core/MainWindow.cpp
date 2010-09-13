@@ -64,9 +64,6 @@ namespace Tinkercell
 	{
 		if (!homeDirPath.isEmpty() && QDir(homeDirPath).exists())
 		{
-#ifdef Q_WS_WIN
-			homeDirPath.replace(tr("/"),tr("\\"));
-#endif
 			return homeDirPath;
 		}
 
@@ -78,9 +75,6 @@ namespace Tinkercell
 
 		dir.cd(tcdir);
 		homeDirPath = dir.absolutePath();
-#ifdef Q_WS_WIN
-		homeDirPath.replace(tr("/"),tr("\\"));
-#endif
 		return homeDirPath;
 	}
 
@@ -91,12 +85,7 @@ namespace Tinkercell
 		QString temp = location + tr("/TinkerCell");
 
 		if (!temp.isEmpty() && QDir(temp).exists())
-		{
-#ifdef Q_WS_WIN
-			temp.replace(tr("/"),tr("\\"));
-#endif
 			return temp;
-		}
 
 		QDir dir(location);
 
@@ -105,9 +94,6 @@ namespace Tinkercell
 
 		dir.cd(QString("TinkerCell"));
 		temp = dir.absolutePath();
-#ifdef Q_WS_WIN
-		temp.replace(tr("/"),tr("\\"));
-#endif
 		return temp;
 	}
 
@@ -360,8 +346,8 @@ namespace Tinkercell
 #ifdef Q_WS_WIN
 
 		tempDir.replace(tr("/"),tr("\\"));
-		cmd = tr("deltree /Y \"") + tempDir + tr("\"");
-
+		cmd = tr("del /s /f /q \"") + tempDir + tr("\"");
+		
 #else
 
 		cmd = tr("rm -R ") + tempDir;

@@ -952,6 +952,10 @@ namespace Tinkercell
 		if (!tabWidget) return;
 				
 		bool widgetChanged = false;
+		
+		for (int i=0; i < familyNames.size(); ++i)
+			if (familiesInCatalog.contains(familyNames[i]))
+				familiesInCatalog.removeAll(familyNames[i]);
 
 		if (nodesTree)
 		{

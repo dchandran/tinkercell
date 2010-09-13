@@ -83,7 +83,7 @@ namespace Tinkercell
 			connect(scene,SIGNAL(copyItems(GraphicsScene*, QList<QGraphicsItem*>& , QList<ItemHandle*>&)),
 				main, SIGNAL(copyItems(GraphicsScene*, QList<QGraphicsItem*>& , QList<ItemHandle*>&)));
 		}
-		
+
 		if (editor)
 		{
 			editor->contextEditorMenu = &(main->contextEditorMenu);
@@ -226,22 +226,9 @@ namespace Tinkercell
 		
 		if (network && network->networkWindows.contains(this))
 		{
-			if (network->networkWindows.size() <= 1)
-			{
-				network->networkWindows.removeAll(this);
-
-				if (network->mainWindow && network->mainWindow->currentNetworkWindow == this)
-					network->mainWindow->currentNetworkWindow = 0;
-
-				network->close();
-			}
-			else
-			{
-				network->networkWindows.removeAll(this);
-
-				if (network->mainWindow && network->mainWindow->currentNetworkWindow == this)
-					network->mainWindow->currentNetworkWindow = 0;
-			}
+			network->networkWindows.removeAll(this);
+			if (network->mainWindow && network->mainWindow->currentNetworkWindow == this)
+				network->mainWindow->currentNetworkWindow = 0;
 		}
 	}
 	

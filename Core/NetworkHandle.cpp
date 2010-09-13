@@ -145,6 +145,7 @@ namespace Tinkercell
 			if (list[i])
 			{
 				list[i]->disconnect();
+				list[i]->network = 0;
 				list[i]->close();
 			}
 

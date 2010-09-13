@@ -1180,7 +1180,7 @@ namespace Tinkercell
 			if (!win->isVisible())
 				win->show();
 
-			if (allowViewModeToChange && tabWidget && tabWidget->count() > 1)
+			if (allowViewModeToChange && tabWidget)
 			{
 				int i = tabWidget->indexOf(win);
 				if (i > -1 && i < tabWidget->count())

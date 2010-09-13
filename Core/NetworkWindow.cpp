@@ -139,7 +139,7 @@ namespace Tinkercell
 			connect(this,SIGNAL(networkClosing(NetworkHandle *, bool*)),main,SIGNAL(networkClosing(NetworkHandle *, bool*)));
 			connect(this,SIGNAL(networkClosed(NetworkHandle *)),main,SIGNAL(networkClosed(NetworkHandle *)));
 			connectToMainWindow();
-			setWindowTitle(tr("network ") + QString::number(1 + main->allNetworks.size()));
+			setWindowTitle(tr("network ") + QString::number(main->allNetworks.size()));
 			main->setCurrentWindow(this);
 		}
 		
@@ -179,7 +179,7 @@ namespace Tinkercell
 			connect(this,SIGNAL(networkClosing(NetworkHandle *, bool*)),main,SIGNAL(networkClosing(NetworkHandle *, bool*)));
 			connect(this,SIGNAL(networkClosed(NetworkHandle *)),main,SIGNAL(networkClosed(NetworkHandle *)));
 			connectToMainWindow();
-			setWindowTitle(tr("network ") + QString::number(1 + main->allNetworks.size()));
+			setWindowTitle(tr("network ") + QString::number(main->allNetworks.size()));
 			main->setCurrentWindow(this);
 		}
 		
@@ -207,6 +207,7 @@ namespace Tinkercell
 					emit networkClosed(network);
 					event->accept();
 					network->close();
+					popOut();
 					hide();
 				}
 			}

@@ -282,6 +282,10 @@ namespace Tinkercell
 			for (int i=0; i < names.size(); ++i)
 				handles += symbolsTable.uniqueHandlesWithDot[ names[i] ];
 		}
+		else
+		{
+			handles += symbolsTable.uniqueHandlesWithDot.values();
+		}
 		return handles;
 	}
 

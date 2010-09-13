@@ -332,10 +332,12 @@ namespace Tinkercell
 				{
 					for (int i=0; i < ps.size(); ++i)
 					{
+						if (i > 0 && p && ps[i] && (ps[i]->sceneBoundingRect().width() > 80 || ps[i]->sceneBoundingRect().height() > 80))
+							break;
+
 						p = getGraphicsItem(ps[i]);
 
-						if (p && 
-							(!TextGraphicsItem::cast(p) || p->sceneBoundingRect().width() > 100 || p->sceneBoundingRect().height() > 100))
+						if (p && !TextGraphicsItem::cast(p))
 							break;
 					}
 				}

@@ -668,11 +668,7 @@ namespace Tinkercell
 									if (!ok1 && !ok2)
 									{
 										rate = tr("");
-										
-										NumericalDataTable & params = promoter->numericalDataTable(tr("Parameters"));
-										NumericalDataTable * params2 = 0;
-										QStringList rownames = params.getRowNames();
-										if (rownames.contains(tr("strength")))
+										if (promoter->numericalDataTable(tr("Parameters")).getRowNames().contains(tr("strength")))
 											rate = promoter->fullName() + tr(".strength*") + rate;
 								
 										//rate += promoter->fullName();
@@ -680,27 +676,29 @@ namespace Tinkercell
 										QString p;
 										for (int k=0; k < regulations.size(); ++k)
 										{
+											NumericalDataTable & params = regulations[k]->numericalDataTable(tr("Parameters"));
+											NumericalDataTable * params2 = 0;
+											QStringList rownames = params.getRowNames();
 											p = regulations[k]->fullName() + tr(".Kd");
-											if (rate.contains(p) && !rownames.contains(p))
+											if (rate.contains(p) && !rownames.contains("Kd"))
 											{
 												if (!params2)
 													params2 = new NumericalDataTable(params);
-												params2->value(p,0) = 1.0;
+												params2->value("Kd",0) = 1.0;
 											}
 											p = regulations[k]->fullName() + tr(".h");
-											if (rate.contains(p) && !rownames.contains(p))
+											if (rate.contains(p) && !rownames.contains("h"))
 											{
 												if (!params2)
 													params2 = new NumericalDataTable(params);
-												params2->value(p,0) = 1.0;
+												params2->value("h",0) = 1.0;
 											}
+											if (params2)
+												commands << new ChangeNumericalDataCommand(tr("New parameters"),&params,params2);
 										}
 										sDat->value(0,0) = rate;
 										oldDataTables += &(connections[j]->textDataTable(tr("Rate equations")));
 										newDataTables += sDat;
-										
-										if (params2)
-											commands << new ChangeNumericalDataCommand(tr("New parameters"),&params,params2);
 									}
 
 									if (sDat->getRowNames().contains(tr("translation")))

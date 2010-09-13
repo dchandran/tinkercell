@@ -131,6 +131,7 @@ namespace Tinkercell
 	{
 		gridSz = GRID;
 		mouseDown = false;
+		contextMenuJustActivated = false;
 		useDefaultBehavior = USE_DEFAULT_BEHAVIOR;
 		setFocus();
 		//setItemIndexMethod(NoIndex);
@@ -307,6 +308,12 @@ namespace Tinkercell
 	* \return void*/
 	void GraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 	{
+		if (contextMenuJustActivated)
+		{
+			contextMenuJustActivated = false;
+			return;
+		}
+		
 		if (!toolTips.isEmpty()) hideToolTips();
 
 		clickedScreenPoint = mouseEvent->screenPos();
@@ -447,6 +454,12 @@ namespace Tinkercell
 	* \return void*/
 	void GraphicsScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
 	{
+		if (contextMenuJustActivated)
+		{
+			contextMenuJustActivated = false;
+			return;
+		}
+
 		QPointF point1 = mouseEvent->scenePos(), point0 = mouseEvent->lastScenePos();
 		QPointF change = QPointF(point1.x()-point0.x(),point1.y()-point0.y());
 		
@@ -518,6 +531,12 @@ namespace Tinkercell
 	* \return void*/
 	void GraphicsScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 	{
+		if (contextMenuJustActivated)
+		{
+			contextMenuJustActivated = false;
+			return;
+		}
+
 		mouseDown = false;
 
 		QPointF point1 = mouseEvent->scenePos(), point0 = clickedPoint;
@@ -620,12 +639,18 @@ namespace Tinkercell
 			{
 				populateContextMenu();
 				if (contextItemsMenu)
+				{
+					contextMenuJustActivated = true;
 					contextItemsMenu->exec(mouseEvent->screenPos());
+				}
 			}
 			else
 			{
 				if (contextScreenMenu)
+				{
+					contextMenuJustActivated = true;
 					contextScreenMenu->exec(mouseEvent->screenPos());
+				}
 			}
 		}
 		else
@@ -1792,7 +1817,7 @@ namespace Tinkercell
 					selectedItems = handle->graphicsItems;
 					QPointF p(0,0);
 					for (int j=0; j < handle->graphicsItems.size(); ++j)
-						p += handle->graphicsItems[j]->scenePos();
+						p += handle->graphicsItems[j]->sceneBoundingRect().center();
 
 					p /= handle->graphicsItems.size();
 					centerOn(p);

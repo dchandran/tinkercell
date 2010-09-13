@@ -611,7 +611,6 @@ namespace Tinkercell
 				{
 					k = p->connectionItem->indexOf(p);
 					if (k > -1 && 
-						p->connectionItem->curveSegments.size() > 1 && 
 						p->connectionItem->curveSegments[k].size() > 4 &&
 						!NodeGraphicsItem::cast(p->parentItem()))
 					{

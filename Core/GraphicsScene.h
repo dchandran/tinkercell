@@ -432,6 +432,8 @@ namespace Tinkercell
 		int gridSz;
 		/*! \brief topmost Z value*/
 		qreal lastZ;
+		/*! \brief a hack to prevent strange mouse movements after context menu event*/
+		bool contextMenuJustActivated;
 		/*! \brief rectanglular selection area*/
 		QGraphicsRectItem selectionRect;
 		/*! \brief list of temporary tool tips*/

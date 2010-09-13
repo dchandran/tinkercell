@@ -651,7 +651,6 @@ namespace Tinkercell
 			{
 				if (contextScreenMenu)
 				{
-					contextMenuJustActivated = true;
 					contextScreenMenu->exec(mouseEvent->screenPos());
 				}
 			}

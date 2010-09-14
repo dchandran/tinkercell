@@ -105,31 +105,31 @@ IF( QT4_FOUND AND OPENGL_FOUND )
     ${C_LIBRARY_OUTPUT_PATH}
     ${TINKERCELL_BINARY_DIR}
     ${TINKERCELL_BINARY_DIR}/bin
-	${TINKERCELL_BINARY_DIR}/ExternalCode/
+	${TINKERCELL_BINARY_DIR}/ExternalCode
 	${TINKERCELL_BINARY_DIR}/ExternalCode/lapack
-    ${TINKERCELL_BINARY_DIR}/ExternalCode/muparser/
-    ${TINKERCELL_BINARY_DIR}/ExternalCode/qwt/
-    ${TINKERCELL_BINARY_DIR}/ExternalCode/qwtplot3d/include/
-    ${TINKERCELL_BINARY_DIR}/ExternalCode/cvode260/
-    ${TINKERCELL_BINARY_DIR}/ExternalCode/optim/
+    ${TINKERCELL_BINARY_DIR}/ExternalCode/muparser
+    ${TINKERCELL_BINARY_DIR}/ExternalCode/qwt
+    ${TINKERCELL_BINARY_DIR}/ExternalCode/qwtplot3d/include
+    ${TINKERCELL_BINARY_DIR}/ExternalCode/cvode260
+    ${TINKERCELL_BINARY_DIR}/ExternalCode/optim
     ${TINKERCELL_BINARY_DIR}/ExternalCode/sbml
-    ${TINKERCELL_BINARY_DIR}/ExternalCode/Antimony
-    ${TINKERCELL_BINARY_DIR}/c/
-    ${TINKERCELL_BINARY_DIR}/c/lpsolve/
-    ${TINKERCELL_BINARY_DIR}/c/sundials/
-    ${TINKERCELL_BINARY_DIR}/c/nvector/
-    ${TINKERCELL_BINARY_DIR}/c/cvode/
-    ${TINKERCELL_BINARY_DIR}/Core/
-    ${TINKERCELL_BINARY_DIR}/BasicTools/
-    ${TINKERCELL_BINARY_DIR}/ModuleTools/
-    ${TINKERCELL_BINARY_DIR}/ModelingTools/
-    ${TINKERCELL_BINARY_DIR}/OtherTools/
-    ${TINKERCELL_BINARY_DIR}/NodeGraphicsItem/
-    ${TINKERCELL_BINARY_DIR}/NodesTree/
-    ${TINKERCELL_BINARY_DIR}/SegmentationAnimation/
-    ${TINKERCELL_BINARY_DIR}/DynamicCodeTools/
-    ${TINKERCELL_BINARY_DIR}/GeneticNetworks/
-    ${TINKERCELL_BINARY_DIR}/ImportExportTools/
+    ${TINKERCELL_BINARY_DIR}/ExternalCode/Antimony/src
+    ${TINKERCELL_BINARY_DIR}/c
+    ${TINKERCELL_BINARY_DIR}/c/lpsolve
+    ${TINKERCELL_BINARY_DIR}/c/sundials
+    ${TINKERCELL_BINARY_DIR}/c/nvector
+    ${TINKERCELL_BINARY_DIR}/c/cvode
+    ${TINKERCELL_BINARY_DIR}/Core
+    ${TINKERCELL_BINARY_DIR}/BasicTools
+    ${TINKERCELL_BINARY_DIR}/ModuleTools
+    ${TINKERCELL_BINARY_DIR}/ModelingTools
+    ${TINKERCELL_BINARY_DIR}/OtherTools
+    ${TINKERCELL_BINARY_DIR}/NodeGraphicsItem
+    ${TINKERCELL_BINARY_DIR}/NodesTree
+    ${TINKERCELL_BINARY_DIR}/SegmentationAnimation
+    ${TINKERCELL_BINARY_DIR}/DynamicCodeTools
+    ${TINKERCELL_BINARY_DIR}/GeneticNetworks
+    ${TINKERCELL_BINARY_DIR}/ImportExportTools
    )
   IF ( WIN32 )
 	  LINK_DIRECTORIES( 
@@ -201,11 +201,11 @@ IF( QT4_FOUND AND OPENGL_FOUND )
 
   INCLUDE_DIRECTORIES( BEFORE
     ${QT_INCLUDES}
-    ${TINKERCELL_SOURCE_DIR}/ExternalCode/
-    ${TINKERCELL_SOURCE_DIR}/ExternalCode/muparser/
-    ${TINKERCELL_SOURCE_DIR}/ExternalCode/qwt/
-    ${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/
-    ${TINKERCELL_SOURCE_DIR}/ExternalCode/optim/
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/muparser
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/qwt
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/optim
     ${TINKERCELL_SOURCE_DIR}/ExternalCode/lapack/INCLUDE
     ${TINKERCELL_SOURCE_DIR}/ExternalCode/cvode260/include
     ${TINKERCELL_BINARY_DIR}/ExternalCode/cvode260/include
@@ -216,25 +216,25 @@ IF( QT4_FOUND AND OPENGL_FOUND )
     ${TINKERCELL_SOURCE_DIR}/ExternalCode/cvode260/include/nvector
     ${TINKERCELL_BINARY_DIR}/ExternalCode/cvode260/include/nvector
     ${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml
-    ${TINKERCELL_SOURCE_DIR}/ExternalCode/Antimony
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/Antimony/src
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbw/include
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbw/include/SBW
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbw/include/libxml
-    ${TINKERCELL_SOURCE_DIR}/c/
+    ${TINKERCELL_SOURCE_DIR}/c
     ${TINKERCELL_SOURCE_DIR}/API
-    ${TINKERCELL_SOURCE_DIR}/c/sbml_sim/
-    ${TINKERCELL_SOURCE_DIR}/c/lpsolve/
-    ${TINKERCELL_SOURCE_DIR}/Core/
-    ${TINKERCELL_SOURCE_DIR}/BasicTools/
-    ${TINKERCELL_SOURCE_DIR}/ModuleTools/
-    ${TINKERCELL_SOURCE_DIR}/ModelingTools/
-    ${TINKERCELL_SOURCE_DIR}/OtherTools/
-    ${TINKERCELL_SOURCE_DIR}/NodeGraphicsItem/
-    ${TINKERCELL_SOURCE_DIR}/NodesTree/
-    ${TINKERCELL_SOURCE_DIR}/SegmentationAnimation/
-    ${TINKERCELL_SOURCE_DIR}/DynamicCodeTools/
-    ${TINKERCELL_SOURCE_DIR}/GeneticNetworks/
-    ${TINKERCELL_SOURCE_DIR}/ImportExportTools/
+    ${TINKERCELL_SOURCE_DIR}/c/sbml_sim
+    ${TINKERCELL_SOURCE_DIR}/c/lpsolve
+    ${TINKERCELL_SOURCE_DIR}/Core
+    ${TINKERCELL_SOURCE_DIR}/BasicTools
+    ${TINKERCELL_SOURCE_DIR}/ModuleTools
+    ${TINKERCELL_SOURCE_DIR}/ModelingTools
+    ${TINKERCELL_SOURCE_DIR}/OtherTools
+    ${TINKERCELL_SOURCE_DIR}/NodeGraphicsItem
+    ${TINKERCELL_SOURCE_DIR}/NodesTree
+    ${TINKERCELL_SOURCE_DIR}/SegmentationAnimation
+    ${TINKERCELL_SOURCE_DIR}/DynamicCodeTools
+    ${TINKERCELL_SOURCE_DIR}/GeneticNetworks
+    ${TINKERCELL_SOURCE_DIR}/ImportExportTools
  )
 
 IF (UNIX AND NOT APPLE)

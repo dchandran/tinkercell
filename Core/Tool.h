@@ -87,6 +87,15 @@ namespace Tinkercell
 		*/
 		NetworkWindow* currentWindow() const;
 		/*!
+		* \brief get the items inside a file. 
+		Some tool must implement this function and connect to the getItemsFromFile signal.
+		The Core library does not implement a read file function. 
+		* \param QString& file that is selected by user
+		* \return QList<ItemHandle*> list of items inside the file
+		* \return void
+		*/
+		QList<ItemHandle*> getItemsFromFile(const QString& filename);
+		/*!
 		* \brief same as MainWindow::homeDir
 		*/
 		static QString homeDir();

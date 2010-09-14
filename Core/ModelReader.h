@@ -38,7 +38,7 @@ namespace Tinkercell
 		/*! \brief Reads a list of <family,handles> pairs from an XML file using the IO device provided 
 		* \param QIODevice to use
 		* \return list of item handles*/ 
-		QList< QPair<QString,ItemHandle*> > readHandles(NetworkHandle * , QIODevice * device);
+		QList< QPair<QString,ItemHandle*> > readHandles(QIODevice * device);
 		/*! \brief Reads up to the next start node
 		* \return Token Typer*/ 
 		QXmlStreamReader::TokenType readNext();

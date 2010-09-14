@@ -198,6 +198,15 @@ namespace Tinkercell
 		*/
 		void loadDynamicLibrary(const QString&);
 		/*!
+		* \brief get the items inside a file. 
+		Some tool must implement this function and connect to the getItemsFromFile signal.
+		The Core library does not implement a read file function. 
+		* \param QString& file that is selected by user
+		* \return QList<ItemHandle*> list of items inside the file
+		* \return void
+		*/
+		QList<ItemHandle*> getItemsFromFile(const QString& filename);
+		/*!
 		* \brief gets the current scene that is active
 		* \return GraphicsScene* current scene
 		*/
@@ -535,28 +544,35 @@ namespace Tinkercell
 		*/
 		void networkClosed(NetworkHandle *);
 		/*!
-		* \brief signals used inform that the Network is going to be saved as it is
+		* \brief signals when a tool is about to save a network
 		* \param NetworkHandle *  the window where Network was loaded (usually current scene)
 		* \return void*/
 		void prepareNetworkForSaving(NetworkHandle*,bool*);
 		/*!
-		* \brief signals used inform that the network has been saved
+		* \brief signals when a tool  has saved the network in a file
 		* \param NetworkHandle *  the window where network was loaded (usually current scene)
 		* \return void
 		*/
 		void networkSaved(NetworkHandle*);
 		/*!
-		* \brief signals used selects a file to save the current network to
+		* \brief signals when  user selects a file to save the current network to
 		* \param QString& file that is selected by user
 		* \return void
 		*/
 		void saveNetwork(const QString& filename);
 		/*!
-		* \brief signals used selects a file to open in the current network
+		* \brief signals when  user selects a file to open in the current network
 		* \param QString& file that is selected by user
 		* \return void
 		*/
 		void loadNetwork(const QString& filename);
+		/*!
+		* \brief signal sent to a tool so that the tool can get the items inside a file
+		* \param QList<ItemHandle*>& list of items inside the file
+		* \param QString& file that is selected by user
+		* \return void
+		*/
+		void getItemsFromFile(QList<ItemHandle*>&, const QString& filename);
 		/*!
 		* \brief signals informs that the current network has just loaded a new Network
 		* \param NetworkHandle *  the window where network was loaded (usually current scene)

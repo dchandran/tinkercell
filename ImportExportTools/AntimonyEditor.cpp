@@ -19,6 +19,7 @@
 #include "ConnectionsTree.h"
 #include "AntimonyEditor.h"
 #include "ModelSummaryTool.h"
+#include "ModuleTool.h"
 #include "CloneItems.h"
 #include <QToolButton>
 #include <QRegExp>
@@ -122,7 +123,6 @@ namespace Tinkercell
 
 		ConnectionFamily * biochemicalFamily = 0;
 		NodeFamily * speciesFamily = 0;
-		NodeFamily * moduleFamily = 0;
 
 		if (mainWindow->tool(tr("Nodes Tree")) && mainWindow->tool(tr("Connections Tree")))
 		{
@@ -130,10 +130,9 @@ namespace Tinkercell
 			ConnectionsTree * connectionsTree = static_cast<ConnectionsTree*>(mainWindow->tool(tr("Connections Tree")));
 			biochemicalFamily = connectionsTree->getFamily(tr("Biochemical"));
 			speciesFamily = partsTree->getFamily(tr("Molecule"));
-			moduleFamily = partsTree->getFamily(tr("Module"));
 		}
 
-		if (!biochemicalFamily || !speciesFamily || !moduleFamily)
+		if (!biochemicalFamily || !speciesFamily)
 		{
 			if (console())
                 console()->error(tr("No parts and connection information"));
@@ -152,7 +151,7 @@ namespace Tinkercell
 			char * moduleName = modnames[i];
 			ItemHandle * moduleHandle = 0;
 
-			moduleHandle = new NodeHandle(moduleFamily);
+			moduleHandle = new NodeHandle;
 			moduleHandle->name = QString(moduleName);
 			itemsToInsert += moduleHandle;
 
@@ -427,18 +426,25 @@ namespace Tinkercell
 
 	void AntimonyEditor::toolLoaded(Tool*)
 	{
-		static bool connected1 = false;
-		if (connected1) return;
+		static bool connected1 = false, connected2 = false;
+		if (connected1 && connected2) return;
 
-		if (mainWindow && mainWindow->tool(tr("Model Summary")))
+		if (!connected1 && mainWindow && mainWindow->tool(tr("Model Summary")))
 		{
 			connected1 = true;
-			QWidget * widget = mainWindow->tool(tr("Model Summary"));
-			ModelSummaryTool * modelSummary = static_cast<ModelSummaryTool*>(widget);
+			//QWidget * widget = mainWindow->tool(tr("Model Summary"));
+			//ModelSummaryTool * modelSummary = static_cast<ModelSummaryTool*>(widget);
 			//connect(modelSummary,SIGNAL(displayModel(QTabWidget&, const QList<ItemHandle*>&, QHash<QString,qreal>&, QHash<QString,QString>&)),
 					//this,SLOT(displayModel(QTabWidget&, const QList<ItemHandle*>&, QHash<QString,qreal>&, QHash<QString,QString>&)));
 		}
-
+		if (!connected2 && mainWindow && mainWindow->tool(tr("Module Connection Tool")))
+		{
+			connected2 = true;
+			QWidget * widget = mainWindow->tool(tr("Module Connection Tool"));
+			ModuleTool * moduleTool = static_cast<ModuleTool*>(widget);
+			connect(moduleTool,SIGNAL(getTextVersion(const QList<ItemHandle*>&, QString&)),
+					this,SLOT(getTextVersion(const QList<ItemHandle*>&, QString&)));
+		}
 	}
 
 	void AntimonyEditor::copyItems(GraphicsScene * scene, QList<QGraphicsItem*>& , QList<ItemHandle*>& handles)
@@ -682,10 +688,9 @@ namespace Tinkercell
 		return s;
 	}
 
-	void AntimonyEditor::createTextWindow(TextEditor * newEditor, const QList<ItemHandle*>& items)
+	void AntimonyEditor::getTextVersion(const QList<ItemHandle*>& items, QString& text)
 	{
-		if (!newEditor || !newEditor->networkWindow) return;
-		newEditor->setText(getAntimonyScript(items));
+		text = getAntimonyScript(items);
 	}
 
 

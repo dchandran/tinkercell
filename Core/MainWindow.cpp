@@ -1297,4 +1297,11 @@ namespace Tinkercell
 	{
 		//event->accept();
 	}
+	
+	QList<ItemHandle*> MainWindow::getItemsFromFile(const QString& filename)
+	{
+		QList<ItemHandle*> items;
+		emit getItemsFromFile(items,filename);
+		return items;
+	}
 }

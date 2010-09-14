@@ -109,12 +109,6 @@ namespace Tinkercell
 	{
 		if (!network) return;
 		
-		centralWidgetLayout = new QHBoxLayout;
-		centralWidgetLayout->setContentsMargins(0,0,0,0);
-		QWidget * centralWidget = new QWidget;
-		centralWidget->setLayout(centralWidgetLayout);
-		setCentralWidget(centralWidget);
-		
 		if (scene)
 		{
 			scene->networkWindow = this;
@@ -122,7 +116,7 @@ namespace Tinkercell
 			
 			GraphicsView * view = new GraphicsView(this);
 			connect(view,SIGNAL(itemsDropped(GraphicsScene*, const QString&, const QPointF&)),network->mainWindow,SIGNAL(itemsDropped(GraphicsScene*, const QString&,const QPointF&)));
-			centralWidgetLayout->addWidget(view);
+			setCentralWidget(view);
 			//setAttribute(Qt::WA_DeleteOnClose);
 		}
 
@@ -152,17 +146,11 @@ namespace Tinkercell
 	{
 		if (!network) return;
 		
-		centralWidgetLayout = new QHBoxLayout;
-		centralWidgetLayout->setContentsMargins(0,0,0,0);
-		QWidget * centralWidget = new QWidget;
-		centralWidget->setLayout(centralWidgetLayout);
-		setCentralWidget(centralWidget);
-		
 		if (editor)
 		{
 			editor->networkWindow = this;
 			editor->network = network;
-			centralWidgetLayout->addWidget(editor);
+			setCentralWidget(editor);
 			//setAttribute(Qt::WA_DeleteOnClose);
 		}
 
@@ -310,14 +298,7 @@ namespace Tinkercell
 		GraphicsView * view = new GraphicsView(this);
 		connect(view,SIGNAL(itemsDropped(GraphicsScene*, const QString&, const QPointF&)),network->mainWindow,SIGNAL(itemsDropped(GraphicsScene*, const QString&,const QPointF&)));
 	
-		if (centralWidgetLayout)
-			delete centralWidgetLayout;
-		centralWidgetLayout = new QHBoxLayout;
-		centralWidgetLayout->setContentsMargins(0,0,0,0);
-		centralWidgetLayout->addWidget(view);
-	
-		if (centralWidget())
-			centralWidget()->setLayout(centralWidgetLayout);
+		setCentralWidget(view);
 		connectToMainWindow();
 		
 		return scene;
@@ -350,15 +331,7 @@ namespace Tinkercell
 		editor->networkWindow = this;
 		editor->network = network;
 	
-		if (centralWidgetLayout)
-			delete centralWidgetLayout;
-		centralWidgetLayout = new QHBoxLayout;
-		centralWidgetLayout->setContentsMargins(0,0,0,0);
-		centralWidgetLayout->addWidget(editor);
-	
-		if (centralWidget())
-			centralWidget()->setLayout(centralWidgetLayout);		
-		
+		setCentralWidget(editor);
 		
 		connectToMainWindow();
 		

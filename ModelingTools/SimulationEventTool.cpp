@@ -25,6 +25,7 @@ textsheet.xml files that define the NodeGraphicsItems.
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
 #include "SimulationEventTool.h"
+#include "FunctionDeclarationsTool.h"
 #include "CatalogWidget.h"
 #include "muParserDef.h"
 #include "muParser.h"
@@ -74,10 +75,10 @@ namespace Tinkercell
 
 	void SimulationEventsTool::toolLoaded(Tool * tool)
 	{
-		static bool connected = false;
-		if (!tool) return;
+		static bool connected1 = false, connected2 = false;
+		if (!tool || (connected1 && connected2)) return;
 
-		if (tool->name == tr("Parts and Connections Catalog") && !connected)
+		if (tool->name == tr("Parts and Connections Catalog") && !connected1)
 		{
 			CatalogWidget * catalog = static_cast<CatalogWidget*>(tool);
 
@@ -100,7 +101,13 @@ namespace Tinkercell
 								<< tr("Insert a sin function as as input for one of the variables in the model")
 				);
 			
-			connected = true;
+			connected1 = true;
+		}
+		if (tool->name == tr("Functions and Assignments") && !connected2)
+		{
+			AssignmentFunctionsTool * assignmentsTool = static_cast<AssignmentFunctionsTool*>(tool);
+			connect(this,SIGNAL(showAssignments(int)),assignmentsTool,SLOT(select(int)));
+			connected2 = false;
 		}
 	}
 
@@ -144,6 +151,8 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
 
 			toolLoaded(mainWindow->tool(tr("Parts and Connections Catalog")));
+			
+			toolLoaded(mainWindow->tool(tr("Functions and Assignments")));
 
 			setWindowTitle(name);
 
@@ -433,15 +442,22 @@ namespace Tinkercell
 		NodeGraphicsItem * node = NodeGraphicsItem::cast(item);
 		ItemHandle * globalHandle = scene->network->globalHandle();
 
-		if (!node || node->handle() || !globalHandle || node->className != tr("Event function")) return;
-
-		if (!globalHandle->hasTextData(tr("Events")))
+		if (node && node->className == tr("Event function"))
 		{
-			DataTable<QString> events;
-			events.resize(0,1);
-			events.colName(0) = tr("event");
-			events.description() = tr("Events: set of triggers and events. The row names are the triggers, and the first column contains a string describing one or more events, usually an assignment.");
-			globalHandle->textDataTable(tr("Events")) = events;
+			if (!globalHandle->hasTextData(tr("Events")))
+			{
+				DataTable<QString> events;
+				events.resize(0,1);
+				events.colName(0) = tr("event");
+				events.description() = tr("Events: set of triggers and events. The row names are the triggers, and the first column contains a string describing one or more events, usually an assignment.");
+				globalHandle->textDataTable(tr("Events")) = events;
+			}
+			select(0);
+		}
+		else
+		if (node && node->className == tr("Forcing function"))
+		{
+			showAssignments(0);
 		}
 		
 		select(0);
@@ -460,18 +476,23 @@ namespace Tinkercell
 		NodeGraphicsItem * node = NodeGraphicsItem::cast(item);
 		ItemHandle * globalHandle = scene->network->globalHandle();
 
-		if (!node || node->handle() || !globalHandle || node->className != tr("Event function")) return;
-
-		if (!globalHandle->hasTextData(tr("Events")))
+		if (node && node->className == tr("Event function"))
 		{
-			DataTable<QString> events;
-			events.resize(0,1);
-			events.colName(0) = tr("event");
-			events.description() = tr("Events: set of triggers and events. The row names are the triggers, and the first column contains a string describing one or more events, usually an assignment.");
-			globalHandle->textDataTable(tr("Events")) = events;
+			if (!globalHandle->hasTextData(tr("Events")))
+			{
+				DataTable<QString> events;
+				events.resize(0,1);
+				events.colName(0) = tr("event");
+				events.description() = tr("Events: set of triggers and events. The row names are the triggers, and the first column contains a string describing one or more events, usually an assignment.");
+				globalHandle->textDataTable(tr("Events")) = events;
+			}
+			select(0);
 		}
-		
-		select(0);
+		else
+		if (node && node->className == tr("Forcing function"))
+		{
+			showAssignments(0);
+		}
 	}
 
 	void SimulationEventsTool::itemsRemoved(GraphicsScene * scene, const QList<QGraphicsItem*>& items, const QList<ItemHandle*>& )

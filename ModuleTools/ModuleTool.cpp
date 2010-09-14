@@ -146,7 +146,7 @@ namespace Tinkercell
 	void ModuleTool::toolLoaded(Tool * tool)
 	{
 		if (!tool) return;
-		static bool connected2 = false, connected3 = false;
+		static bool connected2 = false;
 		
 		if (tool->name == tr("Nodes Tree") && !nodesTree)
 		{
@@ -191,13 +191,6 @@ namespace Tinkercell
 				);
 
 			connected2 = true;
-		}
-		
-		if (tool->name == tr("Save and Load") && !connected3)
-		{
-			LoadSaveTool * loadSaveTool = static_cast<LoadSaveTool*>(tool);
-			connect(this,SIGNAL(loadItems(QList<QGraphicsItem*>&, const QString&)),loadSaveTool,SLOT(loadItems(QList<QGraphicsItem*>&, const QString&)));
-			connected3 = true;
 		}
 	}
 
@@ -360,7 +353,7 @@ namespace Tinkercell
 	{
 		return new RenameCommand(tr("Substitute items"),currentNetwork(),items,substituteFrom,substituteWith);
 	}
-	
+
 	void ModuleTool::removeSubnetworks(QList<QGraphicsItem*>& items, QList<ItemHandle*>& handles)
 	{
 		ItemHandle * handle, * h;
@@ -452,10 +445,8 @@ namespace Tinkercell
 						if (QFile::exists(filename) && !visitedFiles.contains(filename))
 						{			
 							visitedFiles << filename;
-							QList<QGraphicsItem*> items;
-							emit loadItems(items, filename);
 
-							QList<ItemHandle*> handles2 = getHandle(items);
+							QList<ItemHandle*> handles2 = mainWindow->getItemsFromFile(filename);
 							
 							QList<ItemHandle*> visitedHandles;
 							
@@ -725,31 +716,54 @@ namespace Tinkercell
 			QList<QGraphicsItem*> items;
 			
 			if (QFile::exists(filename) && currentNetwork())
-			{			
-				emit loadItems(items, filename);
-								
+			{
 				NetworkWindow * window = currentNetwork()->currentWindow();
-				if (window && window->scene && !items.isEmpty())
+				QList<ItemHandle*> handles = mainWindow->getItemsFromFile(filename);
+				
+				if (!window || handles.isEmpty()) return;
+				
+				QList<QGraphicsItem*> items;
+				for (int i=0; i < handles.size(); ++i)
 				{
-					ItemHandle * h;
-					for (int i=0; i < items.size(); ++i)
-						if (h = getHandle(items[i]))
-						{
-							h->setParent(window->handle);
-							if (NodeHandle::cast(h))
-								h->tools += this;
-						}
-
-					GraphicsScene * scene = window->scene;
-					
-					scene->remove(tr("remove model"),scene->items());
-					scene->insert(tr("new model"),items);
-					
-					QRectF rect;
-					for (int i=0; i < items.size(); ++i)
-						if (items[i])
-							rect.unite(items[i]->sceneBoundingRect());
-					scene->fitInView(rect);
+					if (!handles[i]->parent)
+					{
+						handles[i]->setParent(window->handle,false);
+						if (!ConnectionHandle::cast(handles[i]))
+							items << handles[i]->graphicsItems;
+					}
+				}
+				
+				if (window && window->scene)
+				{
+					if (!items.isEmpty())
+					{
+						GraphicsScene * scene = window->scene;
+						scene->remove(tr("remove model"),scene->items());
+						scene->insert(tr("new model"),items);
+						scene->fitAll();
+					}
+					else
+					{
+						QString modelText;
+						emit getTextVersion(handles, modelText);
+						window->newTextEditor()->setText(modelText);
+					}
+				}
+				else
+				if (window && window->editor)
+				{
+					if (!items.isEmpty())
+					{
+						GraphicsScene * scene = window->newScene();
+						scene->insert(tr("new model"),items);
+						scene->fitAll();
+					}
+					else
+					{
+						QString modelText;
+						emit getTextVersion(handles, modelText);
+						window->newTextEditor()->setText(modelText);
+					}
 				}
 			}
 		}

@@ -69,7 +69,7 @@ namespace Tinkercell
 
 	signals:
 
-		void loadItems(QList<QGraphicsItem*>&, const QString&);
+		void getTextVersion(const QList<ItemHandle*>&, QString&);
 
 	public slots:
 
@@ -102,7 +102,8 @@ namespace Tinkercell
 		QDockWidget * makeDockWidget(const QString&);
 		void makeNewModule();
 		
-		QDialog * newModuleDialog;
+		QDialog *
+		 newModuleDialog;
 		QLineEdit * newModuleName;
 		QTableWidget * newModuleTable;
 		ConnectionsTree * connectionsTree;

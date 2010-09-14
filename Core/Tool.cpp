@@ -169,5 +169,12 @@ namespace Tinkercell
 		if (item && !graphicsItems.contains(item))
 			graphicsItems << item;
 	}
+	
+	QList<ItemHandle*> Tool::getItemsFromFile(const QString& filename)
+	{
+		if (mainWindow)
+			return mainWindow->getItemsFromFile(filename);
+		return QList<ItemHandle*>();
+	}
 }
 

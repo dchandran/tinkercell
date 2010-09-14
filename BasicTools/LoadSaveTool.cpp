@@ -71,6 +71,7 @@ namespace Tinkercell
 		{
 			connect(mainWindow,SIGNAL(saveNetwork(const QString&)),this,SLOT(saveNetwork(const QString&)));
 			connect(mainWindow,SIGNAL(loadNetwork(const QString&)),this,SLOT(loadNetwork(const QString&)));
+			connect(mainWindow,SIGNAL(getItemsFromFile(QList<ItemHandle*>&, const QString&)),this,SLOT(getItemsFromFile(QList<ItemHandle*>&, const QString&)));
 			connect(mainWindow,SIGNAL(networkClosing(NetworkHandle * , bool *)),this,SLOT(networkClosing(NetworkHandle * , bool *)));
 			connect(mainWindow,SIGNAL(historyChanged( int )),this,SLOT(historyChanged( int )));
 
@@ -391,12 +392,19 @@ namespace Tinkercell
 			emit networkLoaded(scene->network);
 		}
 	}
+	
+	void LoadSaveTool::getItemsFromFile(QList<ItemHandle*>& handles, const QString& filename)
+	{
+		QList<QGraphicsItem*> items;
+		loadItems(items,filename);
+		ItemHandle * h;
+		for (int i=0; i < items.size(); ++i)
+			if (h = getHandle(items[i]))
+				handles += h;
+	}
 
 	void LoadSaveTool::loadItems(QList<QGraphicsItem*>& items, const QString& filename)
 	{
-		GraphicsScene * scene = currentScene();
-		if (!scene) return;
-
 		if (!mainWindow->tool(tr("Nodes Tree")) || !mainWindow->tool(tr("Connections Tree")))
 		{
 			QMessageBox::information(this,tr("Error"),tr("No Nodes or Connections set available."));
@@ -447,16 +455,18 @@ namespace Tinkercell
 		modelReader.readNext();
 
 		//read all the handles
-		QList<QPair<QString,ItemHandle*> > handlesList = modelReader.readHandles(scene->network,&file1);
+		QList<QPair<QString,ItemHandle*> > handlesList = modelReader.readHandles(&file1);
 
 		QHash<QString,ItemHandle*> handlesHash;  //hash name->handle
 		NodeHandle * nodeHandle;
 		ConnectionHandle * connectionHandle;
 
 		for (int i=0; i < handlesList.size(); ++i)
-		{
 			if (handlesList[i].second)
 			{
+				if (handlesList[i].first.isEmpty() && handlesList[i].second->name.isEmpty() && currentNetwork())
+					(*currentNetwork()->globalHandle()) = (*handlesList[i].second);
+
 				if (handlesList[i].second->type == NodeHandle::TYPE)
 				{
 					nodeHandle = static_cast<NodeHandle*>(handlesList[i].second);
@@ -472,10 +482,9 @@ namespace Tinkercell
 							connectionHandle->setFamily( connectionsTree->getFamily(handlesList[i].first));
 						}
 					}
-					if (handlesList[i].second->family())
-						handlesHash[handlesList[i].second->fullName()] = handlesList[i].second;
+				if (handlesList[i].second->family())
+					handlesHash[handlesList[i].second->fullName()] = handlesList[i].second;
 			}
-		}
 
 		file1.close();
 

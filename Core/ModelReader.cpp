@@ -9,7 +9,6 @@ data.
 
 ****************************************************************************/
 
-#include "NetworkHandle.h"
 #include "ModelReader.h"
 #include "ConsoleWindow.h"
 #include <QtDebug>
@@ -31,7 +30,7 @@ namespace Tinkercell
 	/*! \brief Reads a list of <family,handles> pairs from an XML file using the IO device provided 
 	* \param QIODevice to use
 	* \return list of item handles*/ 
-	QList< QPair<QString,ItemHandle*> > ModelReader::readHandles(NetworkHandle * network, QIODevice * device)
+	QList< QPair<QString,ItemHandle*> > ModelReader::readHandles(QIODevice * device)
 	{
 		QList< QPair<QString,ItemHandle*> > list;
 		if (!device) return list;
@@ -44,13 +43,6 @@ namespace Tinkercell
 		QList< QPair<ItemHandle*,QStringList> > nodes, roles;
 		
 		handle = readHandle(list,nodes,roles);
-		if (network && handle.second && handle.second->name.isEmpty())
-		{
-			(*network->globalHandle()) = (*handle.second);
-			delete handle.second;
-			handle = readHandle(list,nodes,roles);
-		}
-
 		while (handle.second)
 		{
 			list << handle;

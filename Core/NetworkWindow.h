@@ -102,9 +102,6 @@ namespace Tinkercell
 		/*!\brief filename associated with this window*/
 		QString filename;
 		
-		/*!\brief central widget layout*/
-		QHBoxLayout * centralWidgetLayout;
-		
 		friend class MainWindow;
 		friend class GraphicsScene;
 		friend class GraphicsView;

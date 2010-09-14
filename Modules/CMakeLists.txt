@@ -5,6 +5,11 @@ FILE(GLOB TranscriptionRepression_FILES TranscriptionRepression/*.xml Transcript
 FILE(GLOB DirectGeneActivation_FILES DirectGeneActivation/*.xml DirectGeneActivation/*.sbml DirectGeneActivation/*.txt DirectGeneActivation/*.png DirectGeneActivation/*.tic DirectGeneActivation/*.ant)
 FILE(GLOB DirectGeneRepression_FILES DirectGeneRepression/*.xml DirectGeneRepression/*.sbml DirectGeneRepression/*.txt DirectGeneRepression/*.png DirectGeneRepression/*.tic DirectGeneRepression/*.ant)
 
+INSTALL( FILES modules.xml
+  DESTINATION Modules
+  COMPONENT Modules
+)
+
 INSTALL( FILES ${EnzymeCatalysis_FILES} 
   DESTINATION Modules/EnzymeCatalysis
   COMPONENT Modules

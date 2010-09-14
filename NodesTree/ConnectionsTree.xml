@@ -1,42 +1,37 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE ConnectionsTree>
 <ConnectionsTree version="1.0">
-<connection family="Biochemical" participant_types="Node,Node" participant_roles="Reactant,Product">
-<text>This is a generic class representing any biological reaction with reactant(s) and/or product(s).</text>
-    
+<connection family="Biochemical" participant_types="Node,Node" participant_roles="Reactant,Product" description="This is a generic class representing any biological reaction with reactant(s) and/or product(s)">
+  
     <connection family="1 to 1" participant_types="Node,Node" participant_roles="Reactant,Product">
 
-      <connection family="Degradation" participant_types="Molecule,Empty">
-        <text>This connection represents degradation, dilution, or secretion of a molecular species.</text>
+      <connection family="Degradation" participant_types="Molecule,Empty" description="This connection represents degradation, dilution, or secretion of a molecular species.">
       </connection>
 
-      <connection family="Production" participant_types="Empty,Molecule">
-        <text>This connection represents production or influx of a molecular species.</text>
-        <connection family="Transcription" participant_types="Coding,Empty,mRNA" participant_roles="Template,Reactant,Product">
-          <text>Production of mRNA from DNA template.</text>
+      <connection family="Production" participant_types="Empty,Molecule" description="This connection represents production or influx of a molecular species.">
+
+        <connection family="Transcription" participant_types="Coding,Empty,mRNA" participant_roles="Template,Reactant,Product" description="Production of mRNA from DNA template.">
         </connection>
-        <connection family="Translation" participant_types="mRNA,Empty,Protein" participant_roles="Template,Reactant,Product">
-          <text>Production of protein from mRNA template. </text>
+
+        <connection family="Translation" participant_types="mRNA,Empty,Protein" participant_roles="Template,Reactant,Product" description="Production of protein from mRNA template.">
         </connection>
       
-      
-        <connection family="Protein Production" participant_types="Coding,Protein" participant_roles="Template,Product">
-          <text>The complete process of producing a protein from the template DNA.</text>
+        <connection family="Protein Production" participant_types="Coding,Protein" participant_roles="Template,Product" description="The complete process of producing a protein from the template DNA.">
         </connection>
+
        </connection>
      </connection>
 
-    <connection family="2 to 1" participant_types="Node" participant_roles="Reactant1,Reactant2,Product"></connection>
-    <connection family="3 to 1" participant_types="Node" participant_roles="Reactant1,Reactant2,Reactant3,Product"></connection>
-    <connection family="1 to 2" participant_types="Node" participant_roles="Reactant1,Product,Product"></connection>
+    <connection family="2 to 1" participant_types="Node" participant_roles="Reactant,Reactant,Product"></connection>
+    <connection family="3 to 1" participant_types="Node" participant_roles="Reactant,Reactant,Reactant,Product"></connection>
+    <connection family="1 to 2" participant_types="Node" participant_roles="Reactant,Product,Product"></connection>
     <connection family="2 to 2" participant_types="Node" participant_roles="Reactant,Reactant,Product,Product"></connection>
     <connection family="3 to 2" participant_types="Node" participant_roles="Reactant,Reactant,Reactant,Product,Product"></connection>
     <connection family="1 to 3" participant_types="Node" participant_roles="Reactant,Product,Product,Product"></connection>
     <connection family="2 to 3" participant_types="Node" participant_roles="Reactant,Reactant,Product,Product,Product"></connection>
     <connection family="3 to 3" participant_types="Node" participant_roles="Reactant,Reactant,Reactant,Product,Product,Product"></connection>
 
-    <connection family="Regulation" participant_types="Node" participant_roles="Regulator,Target">    
-      <text>This connection represents a molecule regulating another.</text>
+    <connection family="Regulation" participant_types="Node" participant_roles="Regulator,Target" description="This connection represents a molecule regulating another.">
       
       <connection family="Enzyme Catalysis" participant_types="Protein,Molecule,Molecule" participant_roles="Catalyst,Reactant,Product">
       </connection>
@@ -62,16 +57,14 @@
           </connection>
       </connection>
 
-      <connection family="Direct Gene Regulation" participant_types="Coding,Promoter" participant_roles="Regulator,Target">
-        <text>This connection represents a gene regulating another gene.</text>
+      <connection family="Direct Gene Regulation" participant_types="Coding,Promoter" participant_roles="Regulator,Target" description="This connection represents a gene regulating another gene.">
         <connection family="Direct Gene Activation" participant_types="Coding,Inducible Promoter" participant_roles="Activator,Target">
         </connection>
   	    <connection family="Direct Gene Repression" participant_types="Coding,Repressible Promoter" participant_roles="Repressor,Target">
         </connection>
       </connection>
     </connection>
-  <connection family="PoPS" participant_types="Part,Part" participant_roles="Upstream,Downstream">
-    <text>This connection represents the movement of RNA polymerase along a strand of DNA.</text>
+  <connection family="PoPS" participant_types="Part,Part" participant_roles="Upstream,Downstream" description="This connection represents the movement of RNA polymerase along a strand of DNA.">
   </connection>  
 </connection>
 </ConnectionsTree>

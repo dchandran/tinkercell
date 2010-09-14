@@ -154,6 +154,11 @@ namespace Tinkercell
                               node->measurementUnit = Unit(units[0],units[1]);
                     }
                     else
+                    if (vec.at(i).name().toString().toLower() == QObject::tr("description"))
+                    {
+                    	node->description = vec.at(i).value().toString();
+                    }
+                    else
                     {
                          atrib = vec.at(i).name().toString();         //get other attributes
                          value = vec.at(i).value().toString();
@@ -251,11 +256,6 @@ namespace Tinkercell
                {
                     if (isStartElement())
                     {
-                         if (name().toString().toLower() == QObject::tr("text"))
-                         {
-                              node->description = readElementText();
-                         }
-                         else
                          if (name().toString().toLower() == QObject::tr("node"))
                          {
                               childNode = readNode(tree, node);

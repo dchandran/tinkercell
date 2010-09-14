@@ -107,6 +107,13 @@ namespace Tinkercell
                     if (vec.at(i).name().toString().toLower() == QObject::tr("participant_roles"))  //family types for nodes in this connection
                     {
                          family->nodeRoles = vec.at(i).value().toString().split(",");
+                         for (int i=0; i < family->nodeRoles.size(); ++i)
+                         	family->nodeRoles[i] = family->nodeRoles[i].trimmed().toLower();
+                    }
+                    else
+                    if (vec.at(i).name().toString().toLower() == QObject::tr("description"))
+                    {
+                    	family->description = vec.at(i).value().toString();
                     }
                     else
                     {
@@ -204,11 +211,6 @@ namespace Tinkercell
                {
                     if (isStartElement())
                     {
-                         if (name().toString().toLower() == QObject::tr("text"))
-                         {
-                              family->description = readElementText();
-                         }
-                         else
                          if (name().toString().toLower() == QObject::tr("connection"))
                          {
                               pair = readConnection(tree, family);

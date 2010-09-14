@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ModuleInterfaces>
+<ModuleInterfaces version="1.0">
+<module family="Genetic Network" description="The class of modules that involve gene regulation.">
+   <module family="Genetic Negative Autoregulation" participant_types="Transcription Factor, Transcription Factor" participant_roles="Input, Output" description="An induced production of a repressor, where the repressor also inhibits its own production."></module>
+   <module family="Genetic Positive Autoregulation" participant_types="Transcription Factor, Transcription Factor" participant_roles="Input, Output" description="An induced production of a repressor, where the repressor also activates its own production. Can be bistable for certain parameter ranges."></module>
+   <module family="Incoherent Feedforward" participant_types="Transcription Factor, Transcription Factor" participant_roles="Input, Output" description="The input regulator positively and negatively regulates the output protein's production, depending on the concentration level of the input."></module>
+   <module family="Genetic Toggle Switch" participant_types="Transcription Factor, Transcription Factor" participant_roles="Repressor, Repressor" description="Bistable switch involving two transcription factors that repress each other's promoters."></module>
+</module>
+<module family="Ultrasensitive" description="The class of modules where the input-output response curve is a sigmoid (depends on parameters too)">
+   <module family="Posphorylation Dephosphorylation Cycle" participant_types="Protein, Protein" participant_roles="Input, Output" description="A process where the input Kinase phosphorylates the output protein and another phosphatase dephosphorylates the output protein."></module>
+   <module family="Genetic Positive Autoregulation" participant_types="Transcription Factor, Transcription Factor" participant_roles="Input, Output" description="An induced production of a repressor, where the repressor also activates its own production. Can be bistable for certain parameter ranges."></module>   
+</module>
+<module family="Bistable" description="The class of modules where the system can exist in one of two stable states (depends on parameters too)">
+   <module family="Posphorylation Dephosphorylation Cycle" participant_types="Protein, Protein" participant_roles="Input, Output" description="A process where the input Kinase phosphorylates the output protein and another phosphatase dephosphorylates the output protein."></module>
+   <module family="Genetic Positive Autoregulation" participant_types="Transcription Factor, Transcription Factor" participant_roles="Input, Output" description="An induced production of a repressor, where the repressor also activates its own production. Can be bistable for certain parameter ranges."></module>   
+   <module family="Genetic Toggle Switch" participant_types="Transcription Factor, Transcription Factor" participant_roles="Repressor, Repressor" description="Bistable switch involving two transcription factors that repress each other's promoters."></module>
+</module>
+<module family="Feedback" description="The class of networks where there is some form of feedback">
+   <module family="Autoregulation" description="The class of modules where the output molecule regulates itself">
+      <module family="Genetic Negative Autoregulation" participant_types="Transcription Factor, Transcription Factor" participant_roles="Input, Output" description="An induced production of a repressor, where the repressor also inhibits its own production."></module>
+      <module family="Genetic Positive Autoregulation" participant_types="Transcription Factor, Transcription Factor" participant_roles="Input, Output" description="An induced production of a repressor, where the repressor also activates its own production. Can be bistable for certain parameter ranges."></module>
+   </module>
+   <module family="Genetic Toggle Switch" participant_types="Transcription Factor, Transcription Factor" participant_roles="Repressor, Repressor" description="Bistable switch involving two transcription factors that repress each other's promoters."></module>
+</module>
+</ModuleInterfaces>
+

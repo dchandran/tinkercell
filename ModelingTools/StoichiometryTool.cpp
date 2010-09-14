@@ -247,6 +247,7 @@ namespace Tinkercell
 
 
 
+
 				
 			if (reactions)
 				mainWindow->contextItemsMenu.addAction(autoReverse);
@@ -305,7 +306,7 @@ namespace Tinkercell
 		{
 			if ((connectionHandle = ConnectionHandle::cast(handles[i])) &&
 				(connectionFamily = ConnectionFamily::cast(connectionHandle->family())) &&
-				connectionFamily->nodeRoles.contains(tr("Catalyst")) &&
+				connectionFamily->nodeRoles.contains(tr("catalyst"),Qt::CaseInsensitive) &&
 				connectionHandle->hasNumericalData(tr("Parameters")) &&
 				connectionHandle->hasTextData(tr("Rate equations")) &&
 				connectionHandle->hasTextData(tr("Participants")) &&
@@ -342,10 +343,10 @@ namespace Tinkercell
 					
 					for (int j=0; j < participants.rows(); ++j)
 					{
-						if (participants.value(j,0) == tr("Catalyst"))
+						if (participants.value(j,0).toLower() == tr("catalyst"))
 							enz = participants.rowName(j);
 						else
-						if (participants.value(j,0).contains(tr("Reactant")))
+						if (participants.value(j,0).toLower().contains(tr("reactant")))
 							reacs += participants.rowName(j);
 					}
 					

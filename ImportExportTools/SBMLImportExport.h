@@ -23,7 +23,8 @@ namespace Tinkercell
 {
 	class TINKERCELLEXPORT SBMLImportExport_FtoS : public QObject
 	{
-		Q_OBJECT
+			Q_OBJECT
+
 		signals:
 			void exportSBML(QSemaphore*, const QString&);
 			void importSBML(QSemaphore*, const QString&);
@@ -38,7 +39,6 @@ namespace Tinkercell
 			tc_matrix GillespieSim(double);
 			tc_matrix ScanSS(const char* , double , double );
 	};
-	
 	
 	/*! \brief This class imports and exports SBML file format
 	and can performs ODE and stochastic simulations. The ODE simulation

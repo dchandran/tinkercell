@@ -11,6 +11,7 @@
 #include "BasicInformationTool.h"
 #include "StoichiometryTool.h"
 #include "sbml_sim.h"
+#include "TextEditor.h"
 #include "NodesTree.h"
 #include "ConnectionsTree.h"
 #include "ConsoleWindow.h"

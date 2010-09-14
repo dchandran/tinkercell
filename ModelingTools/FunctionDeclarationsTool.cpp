@@ -142,7 +142,8 @@ namespace Tinkercell
 	void AssignmentFunctionsTool::displayModel(QTabWidget& widgets, const QList<ItemHandle*>& items, QHash<QString,qreal>& constants, QHash<QString,QString>& equationsList)
 	{
 		//if (functionsListWidget.count() > 0)
-		widgets.addTab(this,tr("Function declarations"));
+		if (widgets.count() > 0)
+			widgets.addTab(this,tr("Function declarations"));
 		/*else
 		if (dockWidget && dockWidget->widget() != this)
 		dockWidget->setWidget(this);*/
@@ -254,25 +255,18 @@ namespace Tinkercell
 				if (!EquationParser::validate(currentNetwork(), handle, func, QStringList() << "time"))
 					return;
 
-				if (handle->name == var) var = handle->fullName();
-
-				int k = 0;
-				while (
-					(win->symbolsTable.uniqueDataWithDot.contains(handle->fullName() + tr(".") + var)) &&
-					!(win->symbolsTable.uniqueDataWithDot[handle->fullName() + tr(".") + var].second == tr("Assignments"))
-					)
-					var = regex1.cap(1) + QString::number(++k);
-
-				if (var.startsWith(handle->fullName() + tr(".")))
-					var.remove(handle->fullName() + tr("."));
-
-				DataTable<QString> newData(handle->textDataTable(tr("Assignments")));
-
-				if (!newData.rowNames().contains(var))
+				if (handle->name == var) 
+					var = handle->fullName();
+				else
 				{
-					newData.insertRow(newData.rows(),var);
+					if (var.startsWith(handle->fullName() + tr(".")))
+						var.remove(handle->fullName() + tr("."));
+					var = handle->fullName() + tr(".") + var;
+					var = win->makeUnique(var);
+					var.remove(handle->fullName() + tr("."));
 				}
 
+				DataTable<QString> newData(handle->textDataTable(tr("Assignments")));
 				newData.value(var,0) = func;
 
 				win->changeData(handle->fullName() + tr(".") + var + tr(" = ") + func, handle,tr("Assignments"),&newData);
@@ -290,6 +284,9 @@ namespace Tinkercell
 
 					if (var.startsWith(handle->fullName() + tr(".")))
 						var.remove(handle->fullName() + tr("."));
+					var = handle->fullName() + tr(".") + var;
+					var = win->makeUnique(var);
+					var.remove(handle->fullName() + tr("."));
 
 					if (var.contains(tr(".")))
 						return;
@@ -317,12 +314,6 @@ namespace Tinkercell
 					}
 
 					DataTable<QString> newData(handle->textDataTable(tr("Functions")));
-
-					if (!newData.rowNames().contains(var))
-					{
-						newData.insertRow(newData.rows(),var);
-					}
-
 					newData.value(var,0) = args.join(tr(","));
 					newData.value(var,1) = s;
 

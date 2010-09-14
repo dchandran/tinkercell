@@ -93,7 +93,7 @@ namespace Tinkercell
 			addpathDone = true;
 		}
         
-		script =  QObject::tr("import sys\n_outfile = open('py.out','w')\nsys.stdout = _outfile;\n");
+		script +=  QObject::tr("import sys\n_outfile = open('py.out','w')\nsys.stdout = _outfile;\n");
 		script += code;
 		script +=  QObject::tr("\n_outfile.close();\n");
 

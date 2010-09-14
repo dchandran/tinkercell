@@ -244,7 +244,17 @@ void SBMLImportExport::exportSBML(QSemaphore * sem, const QString & str)
 
 void SBMLImportExport::importSBML(QSemaphore * sem, const QString& str)
 {
-	importSBML(str);
+	QList<ItemHandle*> items = importSBML(str);
+	QString text;
+	emit getTextVersion(items, &text);
+	
+	TextEditor * editor = mainWindow->newTextEditor();
+	if (editor)
+	{
+		editor->setItems(items);
+		editor->setText(text);
+	}
+
 	if (sem)
 		sem->release();
 }

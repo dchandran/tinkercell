@@ -745,7 +745,7 @@ namespace Tinkercell
 					else
 					{
 						QString modelText;
-						emit getTextVersion(handles, modelText);
+						emit getTextVersion(handles, &modelText);
 						window->newTextEditor()->setText(modelText);
 					}
 				}
@@ -761,7 +761,7 @@ namespace Tinkercell
 					else
 					{
 						QString modelText;
-						emit getTextVersion(handles, modelText);
+						emit getTextVersion(handles, &modelText);
 						window->newTextEditor()->setText(modelText);
 					}
 				}

@@ -69,7 +69,7 @@ namespace Tinkercell
 
 	signals:
 
-		void getTextVersion(const QList<ItemHandle*>&, QString&);
+		void getTextVersion(const QList<ItemHandle*>&, QString*);
 
 	public slots:
 

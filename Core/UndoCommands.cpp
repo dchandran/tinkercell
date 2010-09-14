@@ -287,11 +287,12 @@ namespace Tinkercell
 
 	void InsertHandlesCommand::redo()
 	{
+		return;
 		if (MainWindow::invalidPointers.contains(textEditor))
 		{
 			textEditor = 0;
 		}
-		
+
 		if (textEditor && textEditor->network == network)
 		{
 			network->showTextEditor(textEditor);

@@ -20,6 +20,7 @@
 #include "AntimonyEditor.h"
 #include "ModelSummaryTool.h"
 #include "ModuleTool.h"
+#include "SBMLImportExport.h"
 #include "CloneItems.h"
 #include <QToolButton>
 #include <QRegExp>
@@ -429,21 +430,21 @@ namespace Tinkercell
 		static bool connected1 = false, connected2 = false;
 		if (connected1 && connected2) return;
 
-		if (!connected1 && mainWindow && mainWindow->tool(tr("Model Summary")))
+		if (!connected1 && mainWindow && mainWindow->tool(tr("SBML Tool")))
 		{
 			connected1 = true;
-			//QWidget * widget = mainWindow->tool(tr("Model Summary"));
-			//ModelSummaryTool * modelSummary = static_cast<ModelSummaryTool*>(widget);
-			//connect(modelSummary,SIGNAL(displayModel(QTabWidget&, const QList<ItemHandle*>&, QHash<QString,qreal>&, QHash<QString,QString>&)),
-					//this,SLOT(displayModel(QTabWidget&, const QList<ItemHandle*>&, QHash<QString,qreal>&, QHash<QString,QString>&)));
+			QWidget * widget = mainWindow->tool(tr("SBML Tool"));
+			SBMLImportExport * sbmlTool = static_cast<SBMLImportExport*>(widget);
+			connect(sbmlTool,SIGNAL(getTextVersion(const QList<ItemHandle*>&, QString*)),
+					this,SLOT(getTextVersion(const QList<ItemHandle*>&, QString*)));
 		}
 		if (!connected2 && mainWindow && mainWindow->tool(tr("Module Connection Tool")))
 		{
 			connected2 = true;
 			QWidget * widget = mainWindow->tool(tr("Module Connection Tool"));
 			ModuleTool * moduleTool = static_cast<ModuleTool*>(widget);
-			connect(moduleTool,SIGNAL(getTextVersion(const QList<ItemHandle*>&, QString&)),
-					this,SLOT(getTextVersion(const QList<ItemHandle*>&, QString&)));
+			connect(moduleTool,SIGNAL(getTextVersion(const QList<ItemHandle*>&, QString*)),
+					this,SLOT(getTextVersion(const QList<ItemHandle*>&, QString*)));
 		}
 	}
 
@@ -688,9 +689,10 @@ namespace Tinkercell
 		return s;
 	}
 
-	void AntimonyEditor::getTextVersion(const QList<ItemHandle*>& items, QString& text)
+	void AntimonyEditor::getTextVersion(const QList<ItemHandle*>& items, QString* text)
 	{
-		text = getAntimonyScript(items);
+		if (text)
+			(*text) = getAntimonyScript(items);
 	}
 
 

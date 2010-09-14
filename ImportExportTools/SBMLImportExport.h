@@ -63,6 +63,9 @@ namespace Tinkercell
 		
 		NumericalDataTable integrateODEs(double time, double stepsize);
 		NumericalDataTable Gillespie(double time);
+	
+	signals:
+		void getTextVersion(const QList<ItemHandle*>&, QString*);
 
 	private slots:
 

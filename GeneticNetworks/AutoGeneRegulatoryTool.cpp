@@ -560,7 +560,7 @@ namespace Tinkercell
 					
 					item->curveSegments.last().arrowStart = arrow;
 
-					connection->name = tr("deg");
+					connection->name = tr("deg1");
 					item->lineType = ConnectionGraphicsItem::line;
 					connection->name = scene->network->makeUnique(connection->name,usedNames);
                     usedNames << node->name << connection->name;

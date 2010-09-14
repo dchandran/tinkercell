@@ -124,12 +124,12 @@ IF( QT4_FOUND AND OPENGL_FOUND )
     ${TINKERCELL_BINARY_DIR}/ModuleTools/
     ${TINKERCELL_BINARY_DIR}/ModelingTools/
     ${TINKERCELL_BINARY_DIR}/OtherTools/
-    ${TINKERCELL_BINARY_DIR}/AntimonyEditor/
     ${TINKERCELL_BINARY_DIR}/NodeGraphicsItem/
     ${TINKERCELL_BINARY_DIR}/NodesTree/
     ${TINKERCELL_BINARY_DIR}/SegmentationAnimation/
     ${TINKERCELL_BINARY_DIR}/DynamicCodeTools/
     ${TINKERCELL_BINARY_DIR}/GeneticNetworks/
+    ${TINKERCELL_BINARY_DIR}/ImportExportTools/
    )
   IF ( WIN32 )
 	  LINK_DIRECTORIES( 
@@ -184,8 +184,6 @@ IF( QT4_FOUND AND OPENGL_FOUND )
 		${TINKERCELL_BINARY_DIR}/ModelingTools/Debug
 		${TINKERCELL_BINARY_DIR}/OtherTools/Release
 		${TINKERCELL_BINARY_DIR}/OtherTools/Debug
-		${TINKERCELL_BINARY_DIR}/AntimonyEditor/Release
-		${TINKERCELL_BINARY_DIR}/AntimonyEditor/Debug
 		${TINKERCELL_BINARY_DIR}/NodeGraphicsItem/Release
 		${TINKERCELL_BINARY_DIR}/NodeGraphicsItem/Debug
 		${TINKERCELL_BINARY_DIR}/NodesTree/Release
@@ -196,6 +194,8 @@ IF( QT4_FOUND AND OPENGL_FOUND )
 		${TINKERCELL_BINARY_DIR}/DynamicCodeTools/Debug
 		${TINKERCELL_BINARY_DIR}/GeneticNetworks/Release
 		${TINKERCELL_BINARY_DIR}/GeneticNetworks/Debug
+		${TINKERCELL_BINARY_DIR}/ImportExportTools/Release
+		${TINKERCELL_BINARY_DIR}/ImportExportTools/Debug		
 	   )
   ENDIF ( WIN32 )
 
@@ -229,12 +229,12 @@ IF( QT4_FOUND AND OPENGL_FOUND )
     ${TINKERCELL_SOURCE_DIR}/ModuleTools/
     ${TINKERCELL_SOURCE_DIR}/ModelingTools/
     ${TINKERCELL_SOURCE_DIR}/OtherTools/
-    ${TINKERCELL_SOURCE_DIR}/AntimonyEditor/
     ${TINKERCELL_SOURCE_DIR}/NodeGraphicsItem/
     ${TINKERCELL_SOURCE_DIR}/NodesTree/
     ${TINKERCELL_SOURCE_DIR}/SegmentationAnimation/
     ${TINKERCELL_SOURCE_DIR}/DynamicCodeTools/
     ${TINKERCELL_SOURCE_DIR}/GeneticNetworks/
+    ${TINKERCELL_SOURCE_DIR}/ImportExportTools/
  )
 
 IF (UNIX AND NOT APPLE)
@@ -299,7 +299,6 @@ IF( PLUGIN_MODELING )
   ADD_SUBDIRECTORY( ModelingTools )
   ADD_SUBDIRECTORY( GeneticNetworks )
   ADD_SUBDIRECTORY( OtherTools )
-  ADD_SUBDIRECTORY( AntimonyEditor )  
   ADD_SUBDIRECTORY( ImportExportTools )
 ENDIF( PLUGIN_MODELING )
 
@@ -355,3 +354,4 @@ INCLUDE( CMake/TinkercellCPack.cmake )
 
 
 ENDIF( QT4_FOUND AND OPENGL_FOUND  )
+

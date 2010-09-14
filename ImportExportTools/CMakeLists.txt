@@ -51,3 +51,35 @@ ELSE( WIN32 )
   )
 ENDIF( WIN32 )
 
+FILE( GLOB ANTIMONYEDITOR_HDRS AntimonyEditor.h AntimonySyntaxHighlighter.h )
+FILE( GLOB ANTIMONYEDITOR_SRC AntimonyEditor.cpp AntimonySyntaxHighlighter.cpp )
+QT4_WRAP_CPP( ANTIMONYEDITOR_MOC ${ANTIMONYEDITOR_HDRS})
+
+ADD_LIBRARY( AntimonyEditor
+  SHARED
+  ${ANTIMONYEDITOR_SRC}
+  ${ANTIMONYEDITOR_MOC}
+  ${TinkercellCore_MOC}
+ )
+
+TARGET_LINK_LIBRARIES( AntimonyEditor
+  AntimonyEditor
+  antimony
+  sbml
+  sbml_sim
+  ModelingTools
+  SBMLImportExport
+  NodesTree
+  TinkerCellCore
+)
+
+IF( WIN32 )
+  INSTALL(TARGETS AntimonyEditor
+    DESTINATION plugins
+  )
+ELSE( WIN32 )
+  INSTALL(TARGETS AntimonyEditor
+    LIBRARY DESTINATION plugins
+  )
+ENDIF( WIN32 )
+

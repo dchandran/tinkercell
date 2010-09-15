@@ -34,7 +34,7 @@ users with the option to terminate the thread.
 #include <QProgressBar>
 #include <QItemDelegate>
 #include "Tool.h"
-#include "TCstructs.h"
+#include "TC_structs.h"
 #include "DataTable.h"
 
 namespace Tinkercell

@@ -199,6 +199,8 @@ namespace Tinkercell
 					hide();
 				}
 			}
+			
+			event->accept();
 		}
 	}
 	

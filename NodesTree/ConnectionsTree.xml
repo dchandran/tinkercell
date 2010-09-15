@@ -45,7 +45,7 @@
       
       <connection family="Activation" participant_types="Molecule,Node" participant_roles="Activator,Target">
           <connection family="Transcription Activation" participant_types="Transcription Factor,Inducible Promoter">
-          </connection> 
+          </connection>
           <connection family="Direct Gene Activation" participant_types="Coding,Inducible Promoter" participant_roles="Activator,Target">
           </connection>
       </connection>

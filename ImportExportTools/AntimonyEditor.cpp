@@ -95,15 +95,20 @@ namespace Tinkercell
 
 		QString modelString = editor->toPlainText() + tr("\n");
 
-		QList<ItemHandle*> itemsToInsert = parse(modelString);
+		ItemHandle * root = editor->localHandle();
+		if (!root)
+			editor->globalHandle();
+
+		QList<ItemHandle*> itemsToInsert = parse(modelString, root);
 
 		if (!itemsToInsert.isEmpty())
 		{
+			console()->message("items inserted");
 			editor->setItems(itemsToInsert);
 		}
 	}
 
-	QList<ItemHandle*> AntimonyEditor::parse(const QString& modelString)
+	QList<ItemHandle*> AntimonyEditor::parse(const QString& modelString, ItemHandle * moduleHandle)
 	{
 		long ok = loadString(modelString.toAscii().data());
 
@@ -146,21 +151,23 @@ namespace Tinkercell
 		char** modnames = getModuleNames();
 
 		QList<ItemHandle*> itemsToInsert;
+		
 
-		for (int i=0; i < nummods; ++i)
+		//for (int i=0; i < nummods; ++i)
 		{
-			char * moduleName = modnames[i];
-			ItemHandle * moduleHandle = 0;
-
-			moduleHandle = new NodeHandle;
+			QStringList symbolsInModule;
+			//char * moduleName = modnames[i];
+			const char * moduleName = std::string("__main").c_str();
+			
+			/*ItemHandle * moduleHandle = 0;
+			moduleHandle = new NodeHandle(moduleFamily);
 			moduleHandle->name = QString(moduleName);
 			itemsToInsert += moduleHandle;
 
 			if (QString(modnames[i]) == tr("__main"))
 				moduleHandle->name = tr("main");
 
-			QStringList symbolsInModule;
-			symbolsInModule << moduleHandle->name;
+			symbolsInModule << moduleHandle->name;*/
 
 			QList<ItemHandle*> handlesInModule;
 			QHash<QString,NodeHandle*> speciesItems;
@@ -275,7 +282,9 @@ namespace Tinkercell
 				
 				for (int var=0; var < nodesOut.size(); ++var)
 					reactionHandle->addNode(nodesOut[var],1);
+
 				itemsToInsert += reactionHandle;
+				console()->message(reactionHandle->name);
 			}
 
 			int numSpecies = (int)getNumSymbolsOfType(moduleName,varSpecies);
@@ -318,17 +327,20 @@ namespace Tinkercell
 
 			TextDataTable assgnsTable;
 			QList<ItemHandle*> handlesInModule2 = handlesInModule;
-			handlesInModule2 << moduleHandle;
+			
+			//handlesInModule2 << moduleHandle;
 
 			for (int j=0; j < numAssignments; ++j)
 			{
 				QString x(assignmentValues[j]);
 				assgnsTable.value(tr(assignmentNames[j]),0) = x;
 				symbolsInModule << tr(assignmentNames[j]);
-				RenameCommand::findReplaceAllHandleData(handlesInModule2,tr(assignmentNames[j]),moduleHandle->name + tr(".") + tr(assignmentNames[j]));
+				if (moduleHandle)
+					RenameCommand::findReplaceAllHandleData(handlesInModule2,tr(assignmentNames[j]),moduleHandle->name + tr(".") + tr(assignmentNames[j]));
 			}
 
-			moduleHandle->textDataTable(tr("Assignments")) = assgnsTable;
+			if (moduleHandle)
+				moduleHandle->textDataTable(tr("Assignments")) = assgnsTable;
 
 			int numEvents = (int)getNumEvents(moduleName);
 			char ** eventNames = getEventNames(moduleName);
@@ -348,7 +360,8 @@ namespace Tinkercell
 					eventsTable.value(trigger,0) = x + tr(" = ") + f;
 				}
 			}
-			moduleHandle->textDataTable(tr("Events")) = eventsTable;
+			if (moduleHandle)
+				moduleHandle->textDataTable(tr("Events")) = eventsTable;
 
 			int numParams = (int)getNumSymbolsOfType(moduleName,constFormulas);
 			char ** paramNames = getSymbolNamesOfType(moduleName,constFormulas);
@@ -363,9 +376,11 @@ namespace Tinkercell
 				if (ok)
 				{
 					paramsTable.value(tr(paramNames[j]),0) = x;
-					RenameCommand::findReplaceAllHandleData(handlesInModule2,tr(paramNames[j]),moduleHandle->name + tr(".") + tr(paramNames[j]));
+					if (moduleHandle)
+						RenameCommand::findReplaceAllHandleData(handlesInModule2,tr(paramNames[j]),moduleHandle->name + tr(".") + tr(paramNames[j]));
 				}
 				else
+				if (moduleHandle)
 				{
 					RenameCommand::findReplaceAllHandleData(handlesInModule2,tr(paramValues[j]),moduleHandle->name + tr(".") + tr(paramValues[j]));
 					moduleHandle->textDataTable(tr("Assignments")).value(tr(paramNames[j]),0) = paramValues[j];
@@ -385,23 +400,20 @@ namespace Tinkercell
 					if (!ok)
 						x = 1.0;
 					paramsTable.value(tr(paramNames[j]),0) = x;
-					RenameCommand::findReplaceAllHandleData(handlesInModule2,tr(paramNames[j]),moduleHandle->name + tr(".") + tr(paramNames[j]));
+					if (moduleHandle)
+						RenameCommand::findReplaceAllHandleData(handlesInModule2,tr(paramNames[j]),moduleHandle->name + tr(".") + tr(paramNames[j]));
 				}
 			}
-
-			moduleHandle->numericalDataTable(tr("Numerical Attributes")) = paramsTable;
-
-			for (int j=0; j < handlesInModule.size(); ++j)
-				if (handlesInModule[j])
-				{
-					handlesInModule[j]->setParent(moduleHandle);
-					RenameCommand::findReplaceAllHandleData(handlesInModule2,handlesInModule[j]->name,handlesInModule[j]->fullName());
-				}
-
-			if (handlesInModule.isEmpty())
+			if (moduleHandle)
 			{
-				if (moduleHandle)
-					delete moduleHandle;
+				moduleHandle->numericalDataTable(tr("Numerical Attributes")) = paramsTable;
+
+				for (int j=0; j < handlesInModule.size(); ++j)
+					if (handlesInModule[j])
+					{
+						handlesInModule[j]->setParent(moduleHandle);
+						RenameCommand::findReplaceAllHandleData(handlesInModule2,handlesInModule[j]->name,handlesInModule[j]->fullName());
+					}
 			}
 		}
 

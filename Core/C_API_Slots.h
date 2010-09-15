@@ -27,7 +27,7 @@ the API provided by this file is probably much larger than individual plug-in AP
 #include <QFileInfo>
 #include <QLabel>
 #include "DataTable.h"
-#include "TCstructs.h"
+#include "TC_structs.h"
 
 namespace Tinkercell
 {

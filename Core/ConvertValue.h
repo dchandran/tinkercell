@@ -21,10 +21,7 @@ and QGraphicsItem.
 #include <QGraphicsItem>
 #include <QStringList>
 #include <math.h>
-extern "C"
-{
-	#include "TCstructs.h"
-}
+#include "TC_structs.h"
 
 #ifdef Q_WS_WIN
 #define TINKERCELLEXPORT __declspec(dllexport)
@@ -82,12 +79,12 @@ namespace Tinkercell
 	\return tc_table
 	*/
 	TINKERCELLEXPORT tc_table ConvertValue(const DataTable<QString>&);
-	/*! \brief convert matrix to datatable<double> (see DataTable.h and TCstructs.h)
+	/*! \brief convert matrix to datatable<double> (see DataTable.h and TC_structs.h)
 	\ingroup helper
 	\return DataTable of qreals
 	*/
 	TINKERCELLEXPORT DataTable<qreal>* ConvertValue(tc_matrix);
-	/*! \brief convert Datatable<double> to tc_matrix (see DataTable.h and TCstructs.h)
+	/*! \brief convert Datatable<double> to tc_matrix (see DataTable.h and TC_structs.h)
 	\ingroup helper
 	\return tc_matrix
 	*/

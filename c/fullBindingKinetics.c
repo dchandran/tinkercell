@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
-#include "TCstructs.h"
+#include "TC_structs.h"
 
 tc_matrix fullBindingKinetics(int N, char ** rxnNames, char ** proteinNames)
 {

@@ -868,7 +868,7 @@ specific for:\n\"\"\"\n\n") + text;
 		 {
 			QFileInfo fileInfo = list.at(i);
 			QFile file(fileInfo.absoluteFilePath());
-			if (fileInfo.completeSuffix().toLower() != tr("h") || !file.open(QFile::ReadOnly)) continue;
+			if (fileInfo.baseName().startsWith(tr("TC_")) && fileInfo.completeSuffix().toLower() != tr("h") || !file.open(QFile::ReadOnly)) continue;
 			
 			QRegExp regexComments(tr("brief\\s*([^\\n\\r]+)"));
 			QRegExp regexGroup(tr("ingroup\\s*([^\\n\\r]+)"));

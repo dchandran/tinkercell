@@ -1,7 +1,7 @@
 #ifndef TINKERCELL_TC_DYNAMICLIBRARYTOOL_API_H
 #define TINKERCELL_TC_DYNAMICLIBRARYTOOL_API_H
 
-#include "TCstructs.h"
+#include "TC_structs.h"
 BEGIN_C_DECLS
 
 /*! 

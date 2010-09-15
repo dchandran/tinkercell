@@ -32,7 +32,7 @@
 #include <QPlainTextEdit>
 #include <QLineEdit>
 #include <QDockWidget>
-#include "TCstructs.h"
+#include "TC_structs.h"
 #include "Tool.h"
 #include "DataTable.h"
 #include "qwt_plot.h"
@@ -45,7 +45,6 @@
 #include "qwt_plot_layout.h"
 #include "qwt_plot_zoomer.h"
 #include "qwt_legend_item.h"
-
 
 namespace Tinkercell
 {

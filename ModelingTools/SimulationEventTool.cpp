@@ -459,8 +459,6 @@ namespace Tinkercell
 		{
 			showAssignments(0);
 		}
-		
-		select(0);
 	}
 
 	void SimulationEventsTool::keyPressed(GraphicsScene* scene,QKeyEvent * keyEvent)

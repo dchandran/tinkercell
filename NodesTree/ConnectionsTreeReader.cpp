@@ -108,7 +108,11 @@ namespace Tinkercell
                     {
                          family->nodeRoles = vec.at(i).value().toString().split(",");
                          for (int i=0; i < family->nodeRoles.size(); ++i)
-                         	family->nodeRoles[i] = family->nodeRoles[i].trimmed().toLower();
+                         {
+                         	family->nodeRoles[i] = family->nodeRoles[i].toLower();
+                         	family->nodeRoles[i] = RemoveDisallowedCharactersFromName(family->nodeRoles[i]);
+                         	family->nodeRoles[i].replace(".","_");
+                         }
                     }
                     else
                     if (vec.at(i).name().toString().toLower() == QObject::tr("description"))

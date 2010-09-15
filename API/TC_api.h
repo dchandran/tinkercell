@@ -1,7 +1,7 @@
 #ifndef TINKERCELL_TCAPI_H
 #define TINKERCELL_TCAPI_H
 
-#include "TCstructs.h"
+#include "TC_structs.h"
 #include "TC_Main_api.h"
 #include "TC_BasicInformationTool_api.h"
 #include "TC_ConnectionInsertion_api.h"

@@ -119,18 +119,24 @@ namespace Tinkercell
 		QList<ItemHandle*> oldHandles;
 		QList<ItemHandle*> childHandles;
 		allNewHandles.clear();
+		
+		//make a list of all scenes to check whether child items should be copied (if in the same scene)
+		QGraphicsScene * itemScene = 0;
+		QList<QGraphicsScene*> allScenes;
+		for (int i=0; i < items0.size(); ++i)
+			if (items0[i] && (itemScene = items0[i]->scene()) && !allScenes.contains(itemScene))
+				allScenes += itemScene;
 
-		QRectF boundingRect;
+		//copy child items (if in the same scene)
 		QList<QGraphicsItem*> items, visited;
 		for (int i=0; i < items0.size(); ++i)
             if (items0[i] && !items.contains(items0[i]))
             {
-                boundingRect = boundingRect.united(items0[i]->sceneBoundingRect());
                 if (handle = getHandle(items0[i]))
                 {
                     QList<QGraphicsItem*> list = handle->allGraphicsItems();
                     for (int j=0; j < list.size(); ++j)
-                        if (!items.contains(list[j]))
+                        if (!items.contains(list[j]) && allScenes.contains(list[j]->scene()))
                             items << list[j];
                 }
                 else

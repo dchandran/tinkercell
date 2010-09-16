@@ -38,7 +38,7 @@ namespace Tinkercell
 		handles << &globalHandle;
 
 		for (int j=0; j < windows.size(); ++j)
-			if (windows[j])
+			if (windows[j] && !windows[j]->handle)
 			{
 				if (windows[j]->scene)
 				{
@@ -251,6 +251,7 @@ namespace Tinkercell
 			allHandles += handlesByFamily.values(sortedFamilies[i]->name);
 		
 		return allHandles;
+
 	}
 	
 	QList<ItemHandle*> SymbolsTable::allHandlesSortedByName() const

@@ -882,7 +882,28 @@ namespace Tinkercell
 		int row = 0;
 		if (reactants.rows() > 1 && products.rows() > 1) row = pickRow1->currentIndex();
 		
-		for (int i=reactants.cols(); i < reactantCoeffs.size(); ++i)
+		QLineEdit * line;
+		while (reactantCoeffs.size() < reactants.cols())
+		{
+			reactantCoeffs += (line = new QLineEdit(this));
+			line->setMaximumWidth(50);
+			connect(line,SIGNAL(editingFinished()),this,SLOT(stoichiometryChanged()));
+		}
+		
+		while (reactantNames.size() < reactants.cols())
+			reactantNames += (new QLabel(this));
+			
+		while (productNames.size() < products.cols())
+			productNames += (new QLabel(this));
+		
+		while (productCoeffs.size() < products.cols())
+		{
+			productCoeffs += (line = new QLineEdit(this));
+			line->setMaximumWidth(50);
+			connect(line,SIGNAL(editingFinished()),this,SLOT(stoichiometryChanged()));
+		}
+		
+		for (int i=0; i < reactantCoeffs.size(); ++i)
 			if (reactantCoeffs[i])
 			{
 				stoichiometryLayout->removeWidget(reactantCoeffs[i]);
@@ -890,7 +911,7 @@ namespace Tinkercell
 				reactantCoeffs[i]->hide();
 			}
 		
-		for (int i=products.cols(); i < productCoeffs.size(); ++i)
+		for (int i=0; i < productCoeffs.size(); ++i)
 			if (productCoeffs[i])
 			{
 				stoichiometryLayout->removeWidget(productCoeffs[i]);
@@ -898,7 +919,7 @@ namespace Tinkercell
 				productCoeffs[i]->hide();
 			}
 			
-		for (int i=reactants.cols(); i < reactantNames.size(); ++i)
+		for (int i=0; i < reactantNames.size(); ++i)
 			if (reactantNames[i])
 			{
 				stoichiometryLayout->removeWidget(reactantNames[i]);
@@ -906,7 +927,7 @@ namespace Tinkercell
 				reactantNames[i]->hide();
 			}
 		
-		for (int i=products.cols(); i < productNames.size(); ++i)
+		for (int i=0; i < productNames.size(); ++i)
 			if (productNames[i])
 			{
 				stoichiometryLayout->removeWidget(productNames[i]);
@@ -921,27 +942,6 @@ namespace Tinkercell
 				plusSigns[i]->setParent(this);
 				plusSigns[i]->hide();
 			}
-		
-		QLineEdit * line;
-		while (reactantCoeffs.size() < reactants.cols())
-		{
-			reactantCoeffs += (line = new QLineEdit(this));
-			line->setMaximumWidth(50);
-			connect(line,SIGNAL(editingFinished()),this,SLOT(stoichiometryChanged()));
-		}
-		
-		while (productCoeffs.size() < products.cols())
-		{
-			productCoeffs += (line = new QLineEdit(this));
-			line->setMaximumWidth(50);
-			connect(line,SIGNAL(editingFinished()),this,SLOT(stoichiometryChanged()));
-		}
-		
-		while (reactantNames.size() < reactants.cols())
-			reactantNames += (new QLabel(this));
-			
-		while (productNames.size() < products.cols())
-			productNames += (new QLabel(this));
 		
 		int j=0;
 		
@@ -958,6 +958,8 @@ namespace Tinkercell
 					plusSigns[j]->show();
 					stoichiometryLayout->addWidget(plusSigns[j],0,Qt::AlignCenter);
 				}
+				else
+					plusSigns[j]->hide();
 				stoichiometryLayout->addWidget(reactantCoeffs[i],0,Qt::AlignRight);
 				stoichiometryLayout->addWidget(reactantNames[i],0,Qt::AlignLeft);
 				++j;
@@ -975,6 +977,7 @@ namespace Tinkercell
 		plusSigns[j]->show();
 		stoichiometryLayout->addWidget(plusSigns[j],0,Qt::AlignCenter);
 		
+		++j;
 		int j2 = 0;
 		for (int i=0; i < products.cols(); ++i)
 			if (products.at(row,i) > 0)
@@ -989,6 +992,8 @@ namespace Tinkercell
 					plusSigns[j]->show();
 					stoichiometryLayout->addWidget(plusSigns[j],0,Qt::AlignCenter);
 				}
+				else
+					plusSigns[j]->hide();
 				stoichiometryLayout->addWidget(productCoeffs[i],0,Qt::AlignRight);
 				stoichiometryLayout->addWidget(productNames[i],0,Qt::AlignLeft);
 				++j;

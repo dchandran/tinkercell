@@ -740,7 +740,6 @@ namespace Tinkercell
 						{
 							handles[i]->setParent(parentHandle,false);
 							items << handles[i]->graphicsItems;
-							console()->message(tr("rename ") + handles[i]->name + tr(" with ") + handles[i]->fullName());
 							RenameCommand::findReplaceAllHandleData(handles,handles[i]->name,handles[i]->fullName());
 						}
 					}

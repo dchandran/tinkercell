@@ -119,24 +119,27 @@ namespace Tinkercell
 		QList<ItemHandle*> oldHandles;
 		QList<ItemHandle*> childHandles;
 		allNewHandles.clear();
-		
-		//make a list of all scenes to check whether child items should be copied (if in the same scene)
-		QGraphicsScene * itemScene = 0;
-		QList<QGraphicsScene*> allScenes;
-		for (int i=0; i < items0.size(); ++i)
-			if (items0[i] && (itemScene = items0[i]->scene()) && !allScenes.contains(itemScene))
-				allScenes += itemScene;
 
-		//copy child items (if in the same scene)
+		//copy connected nodes
+		QList<NodeGraphicsItem*> connectedNodes;
 		QList<QGraphicsItem*> items, visited;
+		
+		//copy child items
 		for (int i=0; i < items0.size(); ++i)
             if (items0[i] && !items.contains(items0[i]))
             {
+            	if (connection = ConnectionGraphicsItem::cast(items0[i]))
+		        {
+		        	connectedNodes = connection->nodes();
+		        	for (int j=0; j < connectedNodes.size(); ++j)
+		        		if (!items0.contains(connectedNodes[j]))
+		        			items0 += connectedNodes[j];
+		        }
                 if (handle = getHandle(items0[i]))
                 {
                     QList<QGraphicsItem*> list = handle->allGraphicsItems();
                     for (int j=0; j < list.size(); ++j)
-                        if (!items.contains(list[j]) && allScenes.contains(list[j]->scene()))
+                        if (!items.contains(list[j]))
                             items << list[j];
                 }
                 else
@@ -158,20 +161,21 @@ namespace Tinkercell
                 {
                     setHandle(itemClone,0);
                     duplicateItems << itemClone;
+
                     if ((connection = ConnectionGraphicsItem::cast(itemClone)))
                     {
                         connectionItems += connection;
                         if (connection->centerRegionItem)
                         {
-                            node1 = connection->centerRegionItem;
-                            connection = ConnectionGraphicsItem::cast(items[i]);
-                            if (connection && connection->centerRegionItem && connection->centerRegionItem->isVisible())
+                        	node2 = connection->centerRegionItem;
+                        	connection = ConnectionGraphicsItem::cast(items[i]);
+                            if (connection && node2)
                             {
-                                node2 = connection->centerRegionItem;
+                                node1 = connection->centerRegionItem;
                                 if (node1 && node2)
                                 {
-                                    originalsAndClones += QPair<NodeGraphicsItem*,NodeGraphicsItem*>(node2,node1);
-                                    duplicateItems << node1;
+                                    originalsAndClones += QPair<NodeGraphicsItem*,NodeGraphicsItem*>(node1,node2);
+                                    duplicateItems << node2;
                                 }
                             }
                         }

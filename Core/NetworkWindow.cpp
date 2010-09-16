@@ -195,12 +195,12 @@ namespace Tinkercell
 					emit networkClosed(network);
 					event->accept();
 					network->close();
-					popOut();
+					setParent(network->mainWindow);
+					setWindowFlags(Qt::Window);
 					hide();
+					event->accept();
 				}
 			}
-			
-			event->accept();
 		}
 	}
 	

@@ -59,13 +59,15 @@ namespace Tinkercell
 		/*! \brief constructor
 		* \param NetworkHandle* window where items are inserted
 		* \param QList<ItemHandle*> new items
+		* \param bool check for uniqueness of names before inserting
 		*/
-		InsertHandlesCommand(TextEditor *, const QList<ItemHandle*> & );
+		InsertHandlesCommand(TextEditor *, const QList<ItemHandle*> &, bool checkNames=true);
 		/*! \brief constructor
 		* \param NetworkHandle* window where items are inserted
 		* \param ItemHandle* new item
+		* \param bool check for uniqueness of names before inserting
 		*/
-		InsertHandlesCommand(TextEditor *, ItemHandle*);
+		InsertHandlesCommand(TextEditor *, ItemHandle*, bool checkNames=true);
 		/*! \brief destructor. deletes all text items and their handles (if not containing any graphics items)*/
 		~InsertHandlesCommand();
 		/*! \brief redo the change*/
@@ -84,6 +86,8 @@ namespace Tinkercell
 		NetworkHandle * network;
 		/*! \brief Rename any duplicate names*/
 		RenameCommand * renameCommand;
+		/*! \brief check names before inserting*/
+		bool checkNames;
 	};
 
 	/*! \brief this command inserts new handles to a NetworkHandle
@@ -94,13 +98,15 @@ namespace Tinkercell
 		/*! \brief constructor
 		* \param TextEditor* window where items are deleted
 		* \param QList<ItemHandle*> deleted items
+		* \param bool update data of other items where removed items might occur (default=true)
 		*/
-		RemoveHandlesCommand(TextEditor *, const QList<ItemHandle*> & );
+		RemoveHandlesCommand(TextEditor *, const QList<ItemHandle*> & , bool updateDataFields=true);
 		/*! \brief constructor
 		* \param TextEditor* window where items are deleted
 		* \param ItemHandle* deleted item
+		* \param bool update data of other items where removed items might occur (default=true)
 		*/
-		RemoveHandlesCommand(TextEditor *, ItemHandle*);
+		RemoveHandlesCommand(TextEditor *, ItemHandle*, bool updateDataFields=true);
 		/*! \brief redo the change*/
 		void redo();
 		/*! \brief undo the change*/
@@ -117,6 +123,8 @@ namespace Tinkercell
 		TextEditor * textEditor;
 		/*! \brief network where change happened*/
 		NetworkHandle * network;
+		/*! \breif update data */
+		bool updateData;
 	};
 
 	/*! \brief this command performs a move and allows redo/undo of that move
@@ -167,14 +175,16 @@ namespace Tinkercell
 		* \param QString name of command
 		* \param GraphicsScene* where change happened
 		* \param QGraphicsItem* item that is inserted
+		* \param bool check for uniqueness of names before inserting (default = true)
 		*/
-		InsertGraphicsCommand(const QString& name, GraphicsScene * scene, QGraphicsItem * item);
+		InsertGraphicsCommand(const QString& name, GraphicsScene * scene, QGraphicsItem * item, bool checkNames=true);
 		/*! \brief constructor
 		* \param QString name of command
 		* \param GraphicsScene* where change happened
 		* \param QList<QGraphicsItem*>& items that are inserted
+		* \param bool check for uniqueness of names before inserting (default = true)
 		*/
-		InsertGraphicsCommand(const QString& name, GraphicsScene * scene, const QList<QGraphicsItem*>& items);
+		InsertGraphicsCommand(const QString& name, GraphicsScene * scene, const QList<QGraphicsItem*>& items, bool checkNames=true);
 		/*! \brief redo the change*/
 		void redo();
 		/*! \brief undo the change*/
@@ -196,6 +206,8 @@ namespace Tinkercell
 		QList<ItemHandle*> parentHandles;
 		/*! \brief Rename any duplicate names*/
 		RenameCommand * renameCommand;
+		/*! \brief check names before inserting*/
+		bool checkNames;
 	};
 	/*! \brief this command performs an removal and allows redo/undo of that removal
 	* \ingroup undo*/
@@ -206,14 +218,16 @@ namespace Tinkercell
 		* \param QString name of command
 		* \param GraphicsScene* where change happened
 		* \param QGraphicsItem* item that is removed
+		* \param bool update data of other items where removed items might occur (default=true)
 		*/
-		RemoveGraphicsCommand(const QString& name, QGraphicsItem * item);
+		RemoveGraphicsCommand(const QString& name, QGraphicsItem * item, bool updataDataFields=true);
 		/*! \brief constructor
 		* \param QString name of command
 		* \param GraphicsScene* where change happened
 		* \param QList<QGraphicsItem*>& items that are removed
+		* \param bool update data of other items where removed items might occur (default=true)
 		*/
-		RemoveGraphicsCommand(const QString& name, const QList<QGraphicsItem*>& items);
+		RemoveGraphicsCommand(const QString& name, const QList<QGraphicsItem*>& items, bool updateDataFields=true);
 		/*! \brief redo the change*/
 		void redo();
 		/*! \brief undo the change*/
@@ -233,6 +247,8 @@ namespace Tinkercell
 		QList<ItemHandle*> parentHandles;
 		/*! \brief the set of data that are changed as a result of the removal*/
 		QList< ItemHandle* > affectedHandles;
+		/* \param bool update data of other items where removed items might occur (default=true)*/
+		bool updateData;
 	};
 
 

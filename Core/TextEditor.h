@@ -185,48 +185,8 @@ namespace Tinkercell
 		/*! \brief print text
 		\param QPrinter */
 		virtual void print(QPrinter * printer);
-		/*! \brief add widget to the side bar
-		\param QWidget */
-		virtual void addSideBarWidget(QWidget * );
-		/*! \brief remove a widget from the side bar
-		\param QWidget */
-		virtual void removeSideBarWidget(QWidget * );
-		/*! \brief set the orientation of the side bar
-		\param Qt::Orientation */
-		virtual void setSideBarOrientation(Qt::Orientation orientation);
-		/*! \brief make a widget containing this text editor and the side bar
-		\param Qt::Orientation orientation of the side bar
-		\return QWidget */
-		virtual QWidget* widget(Qt::Orientation orientation = Qt::Vertical);
 
 	protected:
-
-		class TextEditorWidget : public QWidget
-		{
-		public:
-			/*! \brief constructor*/
-			TextEditorWidget(TextEditor*,Qt::Orientation orientation = Qt::Vertical);
-			/*! \brief the main text editor*/
-			TextEditor * textEditor;
-			/*! \brief orientation of items in the side bar*/
-			Qt::Orientation orientation;
-			/*! \brief widgets located on the side bar*/
-			QList<QWidget*> sideBarWidgets;
-			/*! \brief add widget to the side bar
-			\param QWidget */
-			virtual void addSideBarWidget(QWidget * );
-			/*! \brief remove a widget from the side bar
-			\param QWidget */
-			virtual void removeSideBarWidget(QWidget * );
-			/*! \brief set the orientation of the side bar
-			\param Qt::Orientation */
-			virtual void setSideBarOrientation(Qt::Orientation orientation);
-			/*! \brief setup the side bar*/
-			virtual void setup();
-		};
-
-		/*! \brief the side bar*/
-		TextEditorWidget * editorWidget;
 		/*! \brief previously accessed line number. This is to keep track of when a line is modified*/
 		int prevBlockNumber;
 		/*! \brief current line number. This is to keep track of when a line is modified*/

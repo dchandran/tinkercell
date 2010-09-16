@@ -357,23 +357,37 @@ namespace Tinkercell
 	void ModuleTool::removeSubnetworks(QList<QGraphicsItem*>& items, QList<ItemHandle*>& handles)
 	{
 		ItemHandle * handle, * h;
-		NodeGraphicsItem * node;
+		QList<NodeGraphicsItem*> nodes;
+		ConnectionGraphicsItem * connection;
 		for (int i=0; i < items.size(); ++i)
-			if (handle = getHandle(items[i]))
+			if ((handle = getHandle(items[i])) && ConnectionFamily::cast(handle->family()))
 			{
-				if (ConnectionGraphicsItem::cast(items[i]))
-				{
-					for (int j=0; j < handle->children.size(); ++j)
-						if (handle->children[j])
+				for (int j=0; j < handle->children.size(); ++j)
+					if (handle->children[j])
+					{
+						QList<QGraphicsItem*> childItems = handle->children[j]->allGraphicsItems();
+						for (int k=0; k < childItems.size(); ++k)
 						{
-							QList<QGraphicsItem*> childItems = handle->children[j]->allGraphicsItems();
-							for (int k=0; k < childItems.size(); ++k)
+							items.removeAll(childItems[k]);
+							handles.removeAll( getHandle(childItems[k]) );
+							if (connection = ConnectionGraphicsItem::cast(childItems[k]))
 							{
-								items.removeAll(childItems[k]);
-								handles.removeAll( getHandle(childItems[k]) );
+								nodes = connection->nodes();
+								for (int l=0; l < nodes.size(); ++l)
+								{
+									items.removeAll(nodes[l]);
+									QRectF rect = nodes[l]->sceneBoundingRect();
+									rect.adjust(-10,-10,10,10);
+									if (h=nodes[l]->handle())
+										for (int m=0; m < h->graphicsItems.size(); ++m)
+										{
+											if (rect.intersects(h->graphicsItems[m]->sceneBoundingRect()))
+												items.removeAll(h->graphicsItems[m]);
+										}
+								}
 							}
 						}
-				}
+					}
 			}
 	}
 

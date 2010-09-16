@@ -121,7 +121,7 @@ void SBMLImportExport::setupFunctionPointers( QLibrary * library)
 
 void SBMLImportExport::loadSBMLFile()
 {
-	QString file = QFileDialog::getSaveFileName (this, tr("Save SBML file"));
+	QString file = QFileDialog::getOpenFileName (this, tr("Load SBML file"));
 	if (file.isNull() || file.isEmpty()) return;
 	
 	importSBML(0, file);
@@ -129,7 +129,7 @@ void SBMLImportExport::loadSBMLFile()
 
 void SBMLImportExport::saveSBMLFile()
 {
-	QString file = QFileDialog::getOpenFileName (this, tr("Load SBML file"));
+	QString file = QFileDialog::getSaveFileName (this, tr("Save SBML file"));
 	if (file.isNull() || file.isEmpty()) return;
 	
 	exportSBML(0, file);
@@ -305,16 +305,23 @@ QList<ItemHandle*> SBMLImportExport::importSBML(const QString& sbml_text)
 {
 	QList<ItemHandle*> handles;
 	
-	NodesTree * nodesTree = static_cast<NodesTree*>(mainWindow->tool("Nodes Tree"));
-	ConnectionsTree * connectionsTree = static_cast<ConnectionsTree*>(mainWindow->tool("Connections Tree"));
-	
-	if (!nodesTree || connectionsTree || 
-		!nodesTree->getFamily(tr("Molecule"))  ||
-		!connectionsTree->getFamily(tr("Biochemical")))
-		return handles;
-	
-	NodeFamily * defaultSpeciesFamily = nodesTree->getFamily(tr("Molecule"));
-	ConnectionFamily * defaultReactionFamily = connectionsTree->getFamily(tr("Biochemical"));
+	ConnectionFamily * defaultReactionFamily = 0;
+	NodeFamily * defaultSpeciesFamily = 0;
+
+	if (mainWindow->tool(tr("Nodes Tree")) && mainWindow->tool(tr("Connections Tree")))
+	{
+		NodesTree * partsTree = static_cast<NodesTree*>(mainWindow->tool(tr("Nodes Tree")));
+		ConnectionsTree * connectionsTree = static_cast<ConnectionsTree*>(mainWindow->tool(tr("Connections Tree")));
+		defaultReactionFamily = connectionsTree->getFamily(tr("Biochemical"));
+		defaultSpeciesFamily = partsTree->getFamily(tr("Molecule"));
+	}
+
+	if (!defaultSpeciesFamily || !defaultReactionFamily)
+	{
+		if (console())
+            console()->error(tr("No parts and connection information"));
+		return QList<ItemHandle*>();
+	}
 
 	SBMLReader * sbmlreader = new SBMLReader;
 	SBMLDocument * doc;
@@ -332,7 +339,6 @@ QList<ItemHandle*> SBMLImportExport::importSBML(const QString& sbml_text)
 	}
 	else
 	{
-		QList<ItemHandle*> handles;
 		ItemHandle * global = new ItemHandle("");
 		handles << global;
 
@@ -400,7 +406,7 @@ QList<ItemHandle*> SBMLImportExport::importSBML(const QString& sbml_text)
 				if (species->get(i)->isSetInitialConcentration())
 					d = species->get(i)->getInitialConcentration();
 				
-				h->numericalData("Initial Values") = d;
+				h->numericalData("Initial Value") = d;
 				h->numericalData("Fixed") = 0;
 				if (species->get(i)->getConstant() || species->get(i)->getBoundaryCondition())
 					h->numericalData("Fixed") = 1;
@@ -408,11 +414,11 @@ QList<ItemHandle*> SBMLImportExport::importSBML(const QString& sbml_text)
 
 		if (params)
 		{
-			TextDataTable & globalParams = global->textDataTable("Parameters");
+			NumericalDataTable & globalParams = global->numericalDataTable("Parameters");
 			for (int i=0; i < params->size(); ++i)
 			{
 				s1 = params->get(i)->getId();
-				globalParams.value(tr(s1.c_str()),0) = params->get(i)->getValue();;
+				globalParams.value(tr(s1.c_str()),0) = params->get(i)->getValue();
 			}
 		}
 
@@ -431,10 +437,10 @@ QList<ItemHandle*> SBMLImportExport::importSBML(const QString& sbml_text)
 			
 			h->textData("Rate equations") = tr(r->getKineticLaw()->getFormula().c_str());
 			NumericalDataTable & reacStoic = h->numericalDataTable("Reactant stoichiometries"),
-											 & prodStoic = h->numericalDataTable("Product stoichiometries"); 
+								& prodStoic = h->numericalDataTable("Product stoichiometries"); 
 
 			ListOfSpeciesReferences * reactants = r->getListOfReactants(),
-													* products  = r->getListOfProducts();
+									* products  = r->getListOfProducts();
 
 			for (int k=0; k < reactants->size(); ++k)
 				if (reactants->get(k))

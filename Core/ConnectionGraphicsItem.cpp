@@ -626,6 +626,8 @@ namespace Tinkercell
 
 					if (curveSegments[i].arrowStart->scene() != scene() && scene())
 					{
+						if (curveSegments[i].arrowStart->scene())
+							curveSegments[i].arrowStart->scene()->removeItem(curveSegments[i].arrowStart);
 						(static_cast<GraphicsScene*>(scene()))->addItem(curveSegments[i].arrowStart);
 					}
 
@@ -694,6 +696,8 @@ namespace Tinkercell
 
 				if (curveSegments[i].arrowEnd->scene() != scene() && scene())
 				{
+					if (curveSegments[i].arrowEnd->scene())
+						curveSegments[i].arrowEnd->scene()->removeItem(curveSegments[i].arrowEnd);
 					(static_cast<GraphicsScene*>(scene()))->addItem(curveSegments[i].arrowEnd);
 				}
 
@@ -778,6 +782,8 @@ namespace Tinkercell
 
 					if (curveSegments[0].arrowEnd->scene() != scene() && scene())
 					{
+						if (curveSegments[0].arrowEnd->scene())
+							curveSegments[0].arrowEnd->scene()->removeItem(curveSegments[0].arrowEnd);
 						(static_cast<GraphicsScene*>(scene()))->addItem(curveSegments[0].arrowEnd);
 					}
 
@@ -891,6 +897,8 @@ namespace Tinkercell
 				for (int i=0; i < children.size(); ++i)
 					if (qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(children[i]))
 					{
+						if (centerRegionItem->scene())
+							centerRegionItem->scene()->removeItem(centerRegionItem);
 						(static_cast<GraphicsScene*>(scene()))->addItem(centerRegionItem);
 						break;
 					}
@@ -915,14 +923,22 @@ namespace Tinkercell
 				if (curveSegments[i].arrowStart)
 				{
 					if (curveSegments[i].arrowStart->scene() != this->scene() && this->scene())
+					{
+						if (curveSegments[i].arrowStart->scene())
+							curveSegments[i].arrowStart->scene()->removeItem(curveSegments[i].arrowStart);
 						(static_cast<GraphicsScene*>(scene()))->addItem(curveSegments[i].arrowStart);
+					}
 					curveSegments[i].arrowStart->setZValue(z + 0.1);
 				}
 				if (curveSegments[i].arrowEnd)
 				{
 					if (curveSegments[i].arrowEnd->scene() != this->scene() && this->scene())
+					{
+						if (curveSegments[i].arrowEnd->scene())
+							curveSegments[i].arrowEnd->scene()->removeItem(curveSegments[i].arrowEnd);
 						(static_cast<GraphicsScene*>(scene()))->addItem(curveSegments[i].arrowEnd);
-						curveSegments[i].arrowEnd->setZValue(z + 0.1);
+					}
+					curveSegments[i].arrowEnd->setZValue(z + 0.1);
 				}
 				
 
@@ -954,13 +970,21 @@ namespace Tinkercell
 				if (curveSegments[i].arrowStart)
 				{
 					if (curveSegments[i].arrowStart->scene() != this->scene() && this->scene())
+					{
+						if (curveSegments[i].arrowStart->scene())
+							curveSegments[i].arrowStart->scene()->removeItem(curveSegments[i].arrowStart);
 						(static_cast<GraphicsScene*>(scene()))->addItem(curveSegments[i].arrowStart);
+					}
 					curveSegments[i].arrowStart->setZValue(z + 0.1);
 				}
 				if (curveSegments[i].arrowEnd)
 				{
 					if (curveSegments[i].arrowEnd->scene() != this->scene() && this->scene())
+					{
+						if (curveSegments[i].arrowEnd->scene())
+							curveSegments[i].arrowEnd->scene()->removeItem(curveSegments[i].arrowEnd);
 						(static_cast<GraphicsScene*>(scene()))->addItem(curveSegments[i].arrowEnd);
+					}
 					curveSegments[i].arrowEnd->setZValue(z + 0.1);
 				}
 				

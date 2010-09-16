@@ -382,6 +382,9 @@ namespace Tinkercell
 			NetworkWindow * oldWindow = currentNetworkWindow;
 
 			currentNetworkWindow = window;
+	
+			if (!window->isVisible())
+				window->show();
 			
 			if (!window->hasFocus())
 				window->setFocus();
@@ -1163,9 +1166,6 @@ namespace Tinkercell
 	{
 		if (win)
 		{
-			if (!win->isVisible())
-				win->show();
-
 			if (allowViewModeToChange && tabWidget)
 			{
 				int i = tabWidget->indexOf(win);

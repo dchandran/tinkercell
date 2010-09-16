@@ -116,7 +116,7 @@ namespace Tinkercell
 		//multiple cells
 
 		QStringList assignedHandles;
-
+/*
 		QList< QPair<ItemHandle*,double> > modifiedHandles;
 		for (i=0; i < handles.size(); ++i)
 		{
@@ -139,9 +139,9 @@ namespace Tinkercell
 				}
 			}
 		}
-
 		ItemHandle* handle;
 		double popSz;
+
 		for (i=0; i < modifiedHandles.size(); ++i)
 		{
 			handle = modifiedHandles[i].first;
@@ -152,6 +152,7 @@ namespace Tinkercell
 				dat.value(0,0) *= popSz;
 			}
 		}
+*/
 		QStringList rates = StoichiometryTool::getRates(handles, replaceDot);
 
 		for (i=0; i < rates.size(); ++i)
@@ -189,7 +190,7 @@ namespace Tinkercell
 		}
 
 		//restore modified cells
-		for (i=0; i < modifiedHandles.size(); ++i)
+/*		for (i=0; i < modifiedHandles.size(); ++i)
 		{
 			handle = modifiedHandles[i].first;
 			popSz =  modifiedHandles[i].second;
@@ -199,7 +200,7 @@ namespace Tinkercell
 				dat.value(0,0) /= popSz;
 			}
 		}
-
+*/
 		QRegExp regex(tr("\\.(?!\\d)"));
 		QString s1,s2;
 		QStringList vars, fluxes, initValues, eventTriggers, eventActions, assignmentNames,

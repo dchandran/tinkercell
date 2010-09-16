@@ -529,8 +529,6 @@ namespace Tinkercell
 									affected = true;
 								}
 							}
-							//if (affected && graphicsScene->console())
-			                  //  graphicsScene->console()->message(QObject::tr("data changed : ") + keys[j] + QObject::tr(" in ") + affectedHandles[i]->fullName());
 						}
 
 						keys = affectedHandles[i]->textDataNames();
@@ -598,8 +596,6 @@ namespace Tinkercell
 										affected = true;
 									}
 								}
-								//if (affected && graphicsScene->console())
-									//graphicsScene->console()->message(QObject::tr("data changed : ") + keys[j] + QObject::tr(" in ") + affectedHandles[i]->fullName());
 						}
 					}
 				}
@@ -2107,8 +2103,6 @@ namespace Tinkercell
 	{
 		DataTable<qreal> * nDat = 0;
 		DataTable<QString> * sDat = 0;
-		
-		MainWindow::instance()->console()->message(oldname + QString(" --- " ) + newname);
 
 		for (int i=0; i < handles.size(); ++i)
 		{
@@ -2985,13 +2979,8 @@ namespace Tinkercell
 						s0 = children[i]->fullName();
 						if (s0 != s1)
 						{
-							MainWindow::instance()->console()->message(s0 + QString(" should become ") + s1);
 							oldNames += s0;
 							newNames += s1;
-						}
-						else
-						{
-							MainWindow::instance()->console()->message(s0 + QString(" == ") + s1);
 						}
 						allNames += s1;
 					}

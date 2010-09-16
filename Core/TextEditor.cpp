@@ -187,7 +187,7 @@ namespace Tinkercell
 		emit itemsInserted(network, newItems);
 	}
 
-	void TextEditor::insertItem( ItemHandle * item )
+	void TextEditor::insert( ItemHandle * item )
 	{
 		if (item && !allItems.contains(item))
 		{
@@ -199,14 +199,14 @@ namespace Tinkercell
 		}
 	}
 
-	void TextEditor::insertItems( const QList<ItemHandle*>& list)
+	void TextEditor::insert( const QList<ItemHandle*>& list)
 	{
 		push( new InsertHandlesCommand(this,list) );
 
 		emit itemsInserted(network, list);
 	}
 
-	void TextEditor::removeItem( ItemHandle * item)
+	void TextEditor::remove( ItemHandle * item)
 	{
 		if (item && allItems.contains(item))
 		{
@@ -219,7 +219,7 @@ namespace Tinkercell
 
 	}
 
-	void TextEditor::removeItems( const QList<ItemHandle*>& handles)
+	void TextEditor::remove( const QList<ItemHandle*>& handles)
 	{
 		push( new RemoveHandlesCommand(this,handles) );
 

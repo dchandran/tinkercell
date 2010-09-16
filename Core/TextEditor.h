@@ -84,16 +84,16 @@ namespace Tinkercell
 		~TextEditor();
 		/*! \brief insert a text item
 		\param ItemHandle* the item*/
-		void insertItem( ItemHandle* );
+		void insert( ItemHandle* );
 		/*! \brief insert text items
 		\param QList<ItemHandle*> the items*/
-		void insertItems( const QList<ItemHandle*>& );
+		void insert( const QList<ItemHandle*>& );
 		/*! \brief remove an item
 		\param ItemHandle* the item*/
-		void removeItem( ItemHandle* );
+		void remove( ItemHandle* );
 		/*! \brief remove text items
 		\param QList<ItemHandle*> the items*/
-		void removeItems( const QList<ItemHandle*>& );
+		void remove( const QList<ItemHandle*>& );
 		/*! \brief clear existing items and insert new items
 		\param QList<ItemHandle*> the new items*/
 		void setItems( const QList<ItemHandle*>& );

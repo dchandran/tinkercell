@@ -1847,12 +1847,18 @@ namespace Tinkercell
 		handles.clear();
 		oldNames.clear();
 		newNames.clear();
+		QString s;
 
 		if (handle && net)
 		{
 			handles += handle;
 			oldNames += handle->fullName();
+			s = handle->name;
+			handle->name = newname;
+			if (handle->parent)
+				handle->name.remove(handle->parent->fullName() + QObject::tr("."));
 			newNames += net->makeUnique(handle);
+			handle->name = s;
 		}
 	}
 
@@ -1957,6 +1963,7 @@ namespace Tinkercell
 
 		ItemHandle * handle1;
 		QStringList allNames;
+		QString s;
 		for (int i=0; i < allItems.size(); ++i)
 			if ((handle1 = (allItems[i])) && (handle != handle1))
 			{
@@ -1968,7 +1975,12 @@ namespace Tinkercell
 		{
 			handles += handle;
 			oldNames += handle->fullName();
+			s = handle->name;
+			handle->name = newname;
+			if (handle->parent)
+				handle->name.remove(handle->parent->fullName() + QObject::tr("."));
 			newNames += net->makeUnique(handle);
+			handle->name = s;
 		}
 	}
 
@@ -1983,6 +1995,8 @@ namespace Tinkercell
 
 		ItemHandle * handle;
 		QStringList allNames;
+		QString s;
+
 		for (int i=0; i < allhandles.size(); ++i)
 			if ((handle = (allhandles[i])) && !items.contains(handle))
 			{
@@ -1999,7 +2013,14 @@ namespace Tinkercell
 				{
 					handles += handle;
 					oldNames += handle->fullName();
+					
+					s = handle->name;
+					handle->name = newnames[i];
+					if (handle->parent)
+						handle->name.remove(handle->parent->fullName() + QObject::tr("."));
 					newNames += net->makeUnique(handle,newNames);
+					handle->name = s;
+
 				}
 			}
 		}
@@ -2022,13 +2043,7 @@ namespace Tinkercell
 		oldNames.clear();
 		newNames.clear();
 		ItemHandle * handle;
-		QStringList allNames;
-		for (int i=0; i < allItems.size(); ++i)
-			if ((handle = (allItems[i])) && !items.contains(handle))
-			{
-				allNames << handle->fullName();
-				allNames << handle->fullName(QObject::tr("_"));
-			}
+		QString s;
 
 		if (net)
 		{
@@ -2039,7 +2054,13 @@ namespace Tinkercell
 				{
 					handles += handle;
 					oldNames += handle->fullName();
+					
+					s = handle->name;
+					handle->name = newnames[i];
+					if (handle->parent)
+						handle->name.remove(handle->parent->fullName() + QObject::tr("."));
 					newNames += net->makeUnique(handle,newNames);
+					handle->name = s;
 				}
 			}
 		}
@@ -2047,7 +2068,7 @@ namespace Tinkercell
 
 	void RenameCommand::substituteString(QString& target, const QString& oldname,const QString& newname0)
 	{
-		if (oldname == newname0 || target.size() > 1000) return;
+		if (oldname == newname0) return;
 		QString newname = newname0;
 		newname.replace(QRegExp("[^A-Za-z0-9_]"),QString("_@@@_"));
 
@@ -2086,6 +2107,8 @@ namespace Tinkercell
 	{
 		DataTable<qreal> * nDat = 0;
 		DataTable<QString> * sDat = 0;
+		
+		MainWindow::instance()->console()->message(oldname + QString(" --- " ) + newname);
 
 		for (int i=0; i < handles.size(); ++i)
 		{
@@ -2962,8 +2985,13 @@ namespace Tinkercell
 						s0 = children[i]->fullName();
 						if (s0 != s1)
 						{
+							MainWindow::instance()->console()->message(s0 + QString(" should become ") + s1);
 							oldNames += s0;
 							newNames += s1;
+						}
+						else
+						{
+							MainWindow::instance()->console()->message(s0 + QString(" == ") + s1);
 						}
 						allNames += s1;
 					}

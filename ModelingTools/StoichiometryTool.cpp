@@ -112,7 +112,7 @@ namespace Tinkercell
 	{
 		if (connectionHandle && ratePlotWidget && stoichiometryWidget && (ratePlotWidget->isVisible() || stoichiometryWidget->isVisible()))
 		{
-			//updateWidgets();
+			updateWidgets();
 		}
 	}
 
@@ -242,6 +242,8 @@ namespace Tinkercell
 				mainWindow->contextItemsMenu.addAction(separator);
 			else
 				separator = mainWindow->contextItemsMenu.addSeparator();
+
+
 
 
 
@@ -417,7 +419,8 @@ namespace Tinkercell
 	StoichiometryTool::StoichiometryTool() : Tool(tr("Stoichiometry and Rates"),tr("Modeling")),
 		autoReverse(new QAction("Make reversible",this)),
 		autoDimer(new QAction("Make dimer",this)),
-		separator(0)
+		separator(0),
+		pickRow1(0), pickRow2(0)
 	{
 		QString appDir = QCoreApplication::applicationDirPath();
 	
@@ -435,7 +438,12 @@ namespace Tinkercell
 		ratePlotWidget = new QWidget(this);
 		QVBoxLayout * plotLayout = new QVBoxLayout;
 		
-		plotLayout->addWidget(plotLineEdit = new QLineEdit);
+		QHBoxLayout * rateEquationLayout = new QHBoxLayout;
+		rateEquationLayout->addWidget(plotLineEdit = new QLineEdit);
+		rateEquationLayout->addWidget(pickRow1 = new QComboBox);
+		connect(pickRow1,SIGNAL(currentIndexChanged(int)),this,SLOT(selectedRowChanged(int)));
+		plotLayout->addLayout(rateEquationLayout);
+		
 		plotLayout->addSpacing(20);
 		
 		plotLayout->addWidget(plotWidget = new Plot2DWidget);
@@ -469,19 +477,35 @@ namespace Tinkercell
 		optionsLayout->addWidget(new QLabel(tr("log(y):")),0,Qt::AlignRight);
 		optionsLayout->addWidget(logy,0,Qt::AlignLeft);
 		connect(logy,SIGNAL(toggled(bool)),plotWidget,SLOT(logY(bool)));
-		
+
 		plotLayout->addLayout(optionsLayout);
 		ratePlotWidget->setLayout(plotLayout);
 		connect(plotLineEdit,SIGNAL(editingFinished()),this,SLOT(rateEquationChanged()));
-		
+
 		stoichiometryWidget = new QWidget(this);
 		stoichiometryLayout = new QHBoxLayout;
 		
 		QHBoxLayout * stoicSuperLayout = new QHBoxLayout;
+		stoicSuperLayout->addWidget(pickRow2 = new QComboBox);
+		connect(pickRow2,SIGNAL(currentIndexChanged(int)),this,SLOT(selectedRowChanged(int)));
 		stoicSuperLayout->addStretch(2);
 		stoicSuperLayout->addLayout(stoichiometryLayout,1);
 		stoicSuperLayout->addStretch(2);
 		stoichiometryWidget->setLayout(stoicSuperLayout);
+	}
+	
+	void StoichiometryTool::selectedRowChanged(int i)
+	{
+		if (!pickRow1 || !pickRow2) return;
+		
+		disconnect(pickRow1,SIGNAL(currentIndexChanged(int)),this,SLOT(selectedRowChanged(int)));
+		disconnect(pickRow2,SIGNAL(currentIndexChanged(int)),this,SLOT(selectedRowChanged(int)));
+		pickRow1->setCurrentIndex(i);
+		pickRow2->setCurrentIndex(i);
+		updatePlotWidget();
+		updateStoichiometryWidget();
+		connect(pickRow1,SIGNAL(currentIndexChanged(int)),this,SLOT(selectedRowChanged(int)));
+		connect(pickRow2,SIGNAL(currentIndexChanged(int)),this,SLOT(selectedRowChanged(int)));
 	}
 
 	void StoichiometryTool::addReverseReaction()
@@ -813,10 +837,17 @@ namespace Tinkercell
 			!endPlot || 
 			!plotLineEdit ||
 			!plotVar ||
+			!pickRow1 ||
+			!pickRow2 ||
 			!connectionHandle->hasTextData(tr("Rate equations")))
 			return false;
 		
-		QString rate = connectionHandle->textData(tr("Rate equations"));
+		TextDataTable& ratesTable = connectionHandle->textDataTable(tr("Rate equations"));
+		
+		int row = 0;
+		if (ratesTable.rows() > 1) row = pickRow1->currentIndex();
+		
+		QString rate = ratesTable.value(row,0);
 		plotLineEdit->setText(rate);
 		
 		varslist.clear();
@@ -848,6 +879,9 @@ namespace Tinkercell
 		NumericalDataTable & reactants = connectionHandle->numericalDataTable(tr("Reactant stoichiometries")),
 						   & products = connectionHandle->numericalDataTable(tr("Product stoichiometries"));
 
+		int row = 0;
+		if (reactants.rows() > 1 && products.rows() > 1) row = pickRow1->currentIndex();
+		
 		for (int i=reactants.cols(); i < reactantCoeffs.size(); ++i)
 			if (reactantCoeffs[i])
 			{
@@ -912,23 +946,24 @@ namespace Tinkercell
 		int j=0;
 		
 		for (int i=0; i < reactants.cols(); ++i)
-		{
-			reactantCoeffs[i]->setText(QString::number(reactants.at(0,i)));
-			reactantNames[i]->setText(reactants.colName(i));
-			stoichiometryLayout->addWidget(reactantCoeffs[i],0,Qt::AlignRight);
-			stoichiometryLayout->addWidget(reactantNames[i],0,Qt::AlignLeft);
-			if (i < (reactants.cols() - 1))
+			if (reactants.at(row,i) > 0)
 			{
+				reactantCoeffs[i]->setText(QString::number(reactants.at(row,i)));
+				reactantNames[i]->setText(reactants.colName(i));
 				while (plusSigns.size() <= j)
 					plusSigns += (new QLabel(this));
 				plusSigns[j]->setText(tr("+"));
-				plusSigns[j]->show();
-				stoichiometryLayout->addWidget(plusSigns[j],0,Qt::AlignCenter);
+				if (j > 0)
+				{
+					plusSigns[j]->show();
+					stoichiometryLayout->addWidget(plusSigns[j],0,Qt::AlignCenter);
+				}
+				stoichiometryLayout->addWidget(reactantCoeffs[i],0,Qt::AlignRight);
+				stoichiometryLayout->addWidget(reactantNames[i],0,Qt::AlignLeft);
 				++j;
+				reactantCoeffs[i]->show();
+				reactantNames[i]->show();
 			}
-			reactantCoeffs[i]->show();
-			reactantNames[i]->show();
-		}
 		
 		while (plusSigns.size() <= j)
 			plusSigns += (new QLabel(this));
@@ -939,28 +974,31 @@ namespace Tinkercell
 			plusSigns[j]->setText(tr("->"));
 		plusSigns[j]->show();
 		stoichiometryLayout->addWidget(plusSigns[j],0,Qt::AlignCenter);
-		++j;
 		
+		int j2 = 0;
 		for (int i=0; i < products.cols(); ++i)
-		{
-			productCoeffs[i]->setText(QString::number(products.at(0,i)));
-			productNames[i]->setText(products.colName(i));
-			stoichiometryLayout->addWidget(productCoeffs[i],0,Qt::AlignRight);
-			stoichiometryLayout->addWidget(productNames[i],0,Qt::AlignLeft);
-			if (i < (products.cols() - 1))
+			if (products.at(row,i) > 0)
 			{
+				productCoeffs[i]->setText(QString::number(products.at(row,i)));
+				productNames[i]->setText(products.colName(i));
 				while (plusSigns.size() <= j)
 					plusSigns += (new QLabel(this));
 				plusSigns[j]->setText(tr("+"));
-				plusSigns[j]->show();
-				stoichiometryLayout->addWidget(plusSigns[j],0,Qt::AlignCenter);
+				if (j2 > 0)
+				{
+					plusSigns[j]->show();
+					stoichiometryLayout->addWidget(plusSigns[j],0,Qt::AlignCenter);
+				}
+				stoichiometryLayout->addWidget(productCoeffs[i],0,Qt::AlignRight);
+				stoichiometryLayout->addWidget(productNames[i],0,Qt::AlignLeft);
 				++j;
+				++j2;
+				productCoeffs[i]->show();
+				productNames[i]->show();
 			}
-			productCoeffs[i]->show();
-			productNames[i]->show();
-		}
 		
-		//stoichiometryWidget->setLayout(stoichiometryLayout);
+		if (!plusSigns.size() >= j)
+			plusSigns[j-1]->hide();
 		
 		return true;
 	}
@@ -1002,7 +1040,10 @@ namespace Tinkercell
 				
 				if (rate != newTable.value(0,0))
 				{
-					newTable.value(0,0) = rate;
+					int row = 0;
+					if (pickRow1 && pickRow1->isVisible())
+						row = pickRow1->currentIndex();
+					newTable.value(row,0) = rate;
 					network->changeData(connectionHandle->fullName() + tr(" rate changed"),
 										connectionHandle,
 										tr("Rate equations"),
@@ -1023,14 +1064,19 @@ namespace Tinkercell
 			
 			double d;
 			bool ok;
-			bool changed = false;
+			bool changed = false;			
+			int row = 0;
+			
+			if (pickRow1 && pickRow1->isVisible())
+				row = pickRow1->currentIndex();
+			
 			for (int i=0; i < reactantCoeffs.size(); ++i)
 			{
 				d = reactantCoeffs[i]->text().toDouble(&ok);
 				if (ok && reactants.value(0,i) != d)
 				{
 					changed = true;
-					reactants.value(0,i) = d;
+					reactants.value(row,i) = d;
 				}
 			}
 			
@@ -1040,7 +1086,7 @@ namespace Tinkercell
 				if (ok && products.value(0,i) != d)
 				{
 					changed = true;
-					products.value(0,i) = d;
+					products.value(row,i) = d;
 				}
 			}
 			
@@ -1057,13 +1103,37 @@ namespace Tinkercell
 
 	void StoichiometryTool::updateWidgets()
 	{
-		if (ratePlotWidget && 
-		    stoichiometryWidget)
-		    {
-				updatePlotWidget();
-				updateStoichiometryWidget();
-			}
+		if (!connectionHandle ||
+			!pickRow1 ||
+			!pickRow2 ||
+			!connectionHandle->hasTextData(tr("Rate equations")))
+		{
+			if (ratePlotWidget)
+				ratePlotWidget->hide();
+			if (stoichiometryWidget)
+				stoichiometryWidget->hide();
+			return;
+		}
 
+		TextDataTable& ratesTable = connectionHandle->textDataTable(tr("Rate equations"));
+		pickRow1->clear();
+		pickRow2->clear();
+		QStringList list = ratesTable.getRowNames();
+		if (list.size() < 2)
+		{
+			pickRow1->hide();
+			pickRow2->hide();
+			updatePlotWidget();
+			updateStoichiometryWidget();
+		}
+		else
+		{
+			pickRow1->show();
+			pickRow2->show();
+			pickRow1->addItems(list);
+			pickRow2->addItems(list);
+			pickRow1->setCurrentIndex(0);
+		}
 	}
 
 	//get the stoiciometry of the items and return the matrix

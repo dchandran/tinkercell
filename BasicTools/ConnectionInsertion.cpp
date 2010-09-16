@@ -10,7 +10,6 @@ for connecting items using the connections in the ConnectionsTree
 ****************************************************************************/
 
 #include <math.h>
-#include <iostream>
 #include "GraphicsScene.h"
 #include "UndoCommands.h"
 #include "MainWindow.h"
@@ -709,7 +708,12 @@ namespace Tinkercell
 		}
 		else
 		{
-			QList<ItemFamily*> childFamilies = selectedFamilyOriginal->findValidChildFamilies(nodeHandles,all);			
+			QList<ItemFamily*> childFamilies = selectedFamily->findValidChildFamilies(nodeHandles,all);
+			
+			if (childFamilies.isEmpty() && selectedFamilyOriginal) //search all families under original
+				childFamilies = selectedFamilyOriginal->findValidChildFamilies(nodeHandles,all);
+			
+			if (childFamilies.isEmpty()) return false; //no suitable connection family found
 			
 			if (allowFlips)
 			{
@@ -732,7 +736,7 @@ namespace Tinkercell
 				}
 			}
 			
-			return !childFamilies.isEmpty();
+			return true;
 		}
 
 		return true;
@@ -763,9 +767,20 @@ namespace Tinkercell
 			double dtheta = 2*3.14159 / alltypes.size();
 			QPointF p;
 			bool alreadyPresent;
+			ItemHandle * handle;
 			QList<ItemHandle*> selectedHandles;
+			QList<NodeGraphicsItem*> nodeItems;
+
 			for (int i=0; i < selectedNodes.size(); ++i)
 				selectedHandles << selectedNodes[i]->handle();
+			
+			for (int i=0; i < selectedConnections.size(); ++i)
+			{
+				nodeItems = selectedConnections[i]->nodes();
+				for (int j=0; j < nodeItems.size(); ++j)
+					if (handle = NodeHandle::cast(nodeItems[j]->handle()))
+						selectedHandles << handle;
+			}
 			
 			NodeFamily * nodeFamily;
 			NodeFamily * moleculeFamily = 0;
@@ -773,7 +788,6 @@ namespace Tinkercell
 				moleculeFamily = nodesTree->getFamily(tr("Molecule"));
 
 			QStringList usedNames;
-			ItemHandle * handle;
 			
 			for (int i=0; i < alltypes.size(); ++i)
 				if (nodesTree->getFamily(alltypes[i]))

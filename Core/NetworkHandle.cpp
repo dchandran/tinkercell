@@ -372,7 +372,7 @@ namespace Tinkercell
 		newname = makeUnique(newname);
 		newNames += newname;
 
-		QUndoCommand * command = new RenameCommand(handle->name + tr(" renamed to ") + newname,this,items,newNames);
+		QUndoCommand * command = new RenameCommand(handle->fullName() + tr(" renamed to ") + newname,this,items,newNames);
 
 		history.push(command);
 
@@ -1063,7 +1063,7 @@ namespace Tinkercell
 					 (symbolsTable.uniqueDataWithDot.contains(str) && symbolsTable.uniqueDataWithDot[str].first != handle) ||
 					 (symbolsTable.uniqueDataWithUnderscore.contains(str) && symbolsTable.uniqueDataWithUnderscore[str].first != handle) ||  
 					 doNotUse.contains(str);
-		if (!taken) return handle->name;
+		if (!taken) return str;
 		
 		while (taken)
 		{			
@@ -1076,9 +1076,9 @@ namespace Tinkercell
 					 doNotUse.contains(str);
 			++c;
 		}
-		name = handle->name;
+		str = handle->fullName();
 		handle->name = saveName;
-		return name;
+		return str;
 	}
 	
 }

@@ -275,33 +275,27 @@ namespace Tinkercell
 		if (!network) return 0;
 		QList<QGraphicsView*> views;
 		
-		if (scene)
-		{
-			//QList<QGraphicsView*> views = scene->views();
-			/*for (int i=0; i < views.size(); ++i)
-				if (views[i])
-					delete views[i];*/
-			//delete scene;
-			scene->networkWindow = 0;
-			scene = 0;
-		}
-		
 		if (editor)
 		{
-			//delete editor;
+			editor->remove(editor->items());
 			editor->networkWindow = 0;
 			editor = 0;
-		}	
+		}
 		
-		scene = new GraphicsScene(network);
-		scene->networkWindow = this;
-		scene->network = network;
-		
-		GraphicsView * view = new GraphicsView(this);
-		connect(view,SIGNAL(itemsDropped(GraphicsScene*, const QString&, const QPointF&)),network->mainWindow,SIGNAL(itemsDropped(GraphicsScene*, const QString&,const QPointF&)));
-	
-		setCentralWidget(view);
-		connectToMainWindow();
+		if (scene)
+		{
+			scene->remove(tr("Remove old network"),scene->items());
+		}
+		else
+		{
+			scene = new GraphicsScene(network);
+			scene->networkWindow = this;
+			scene->network = network;		
+			GraphicsView * view = new GraphicsView(this);
+			connect(view,SIGNAL(itemsDropped(GraphicsScene*, const QString&, const QPointF&)),network->mainWindow,SIGNAL(itemsDropped(GraphicsScene*, const QString&,const QPointF&)));
+			setCentralWidget(view);
+			connectToMainWindow();
+		}
 		
 		return scene;
 	}
@@ -312,30 +306,23 @@ namespace Tinkercell
 		
 		if (scene)
 		{
-			/*QList<QGraphicsView*> views = scene->views();
-			for (int i=0; i < views.size(); ++i)
-				if (views[i] && views[i]->parentWidget() == this)
-					delete views[i];
-			*/
-			//delete scene;
+			scene->remove(tr("Remove old network"),scene->items());
 			scene->networkWindow = 0;
 			scene = 0;
 		}
 		
 		if (editor)
 		{
-			//delete editor;
-			editor->networkWindow = 0;
-			editor = 0;
+			editor->remove(editor->items());
 		}
-		
-		editor = new TextEditor(network);
-		editor->networkWindow = this;
-		editor->network = network;
-	
-		setCentralWidget(editor);
-		
-		connectToMainWindow();
+		else
+		{
+			editor = new TextEditor(network);
+			editor->networkWindow = this;
+			editor->network = network;
+			setCentralWidget(editor);		
+			connectToMainWindow();
+		}
 		
 		return editor;
 	}

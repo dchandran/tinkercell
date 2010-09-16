@@ -738,22 +738,20 @@ namespace Tinkercell
 						visitedHandles << handles[i];
 						if (!handles[i]->parent)
 						{
-							//handles[i]->setParent(parentHandle,false);
+							handles[i]->setParent(parentHandle,false);
 							items << handles[i]->graphicsItems;
-							//RenameCommand::findReplaceAllHandleData(handles,handles[i]->name,handles[i]->fullName());
+							console()->message(tr("rename ") + handles[i]->name + tr(" with ") + handles[i]->fullName());
+							RenameCommand::findReplaceAllHandleData(handles,handles[i]->name,handles[i]->fullName());
 						}
 					}
-				
+
 				if (window && window->scene)
 				{
 					if (!items.isEmpty())
 					{
-						//GraphicsScene * scene = window->scene;
-						//scene->remove(tr("clear model"),scene->items());
 						GraphicsScene * scene = window->newScene();
 						scene->insert(tr("new model"),items);
 						scene->fitAll();
-						return;
 					}
 					else
 					{
@@ -787,7 +785,6 @@ namespace Tinkercell
 					h = findCorrespondingHandle(NodeHandle::cast(parentHandle->children[i]),ConnectionHandle::cast(parentHandle));
 					if (h)
 					{
-						console()->message(h->name);
 						commands << new MergeHandlesCommand(
 								tr("merge"), network, QList<ItemHandle*>() << h << parentHandle->children[i]);
 					}

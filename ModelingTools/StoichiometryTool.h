@@ -158,6 +158,7 @@ namespace Tinkercell
 		void startStopChanged(double);
 		void rateEquationChanged();
 		void stoichiometryChanged();
+		void selectedRowChanged(int);
 
 	protected:
 		/*! \brief used for the C API*/
@@ -190,7 +191,7 @@ namespace Tinkercell
 
 		Plot2DWidget * plotWidget;		
 		QLineEdit * plotLineEdit;
-		QComboBox * plotVar;
+		QComboBox * plotVar, * pickRow1, *pickRow2;
 		QDoubleSpinBox * startPlot, * endPlot;
 		QWidget * ratePlotWidget, * stoichiometryWidget;
 		QList<QLineEdit*> reactantCoeffs, productCoeffs;

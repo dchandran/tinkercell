@@ -4,6 +4,9 @@ FILE(GLOB TranscriptionActivation_FILES TranscriptionActivation/*.xml Transcript
 FILE(GLOB TranscriptionRepression_FILES TranscriptionRepression/*.xml TranscriptionRepression/*.sbml TranscriptionRepression/*.txt TranscriptionRepression/*.png TranscriptionRepression/*.tic TranscriptionRepression/*.ant)
 FILE(GLOB DirectGeneActivation_FILES DirectGeneActivation/*.xml DirectGeneActivation/*.sbml DirectGeneActivation/*.txt DirectGeneActivation/*.png DirectGeneActivation/*.tic DirectGeneActivation/*.ant)
 FILE(GLOB DirectGeneRepression_FILES DirectGeneRepression/*.xml DirectGeneRepression/*.sbml DirectGeneRepression/*.txt DirectGeneRepression/*.png DirectGeneRepression/*.tic DirectGeneRepression/*.ant)
+FILE(GLOB AllostericActivation_FILES AllostericActivation/*.xml AllostericActivation/*.sbml AllostericActivation/*.txt AllostericActivation/*.png AllostericActivation/*.tic AllostericActivation/*.ant)
+FILE(GLOB AllostericInhibition_FILES AllostericInhibition/*.xml AllostericInhibition/*.sbml AllostericInhibition/*.txt AllostericInhibition/*.png AllostericInhibition/*.tic AllostericInhibition/*.ant)
+FILE(GLOB Phosphorylation_FILES Phosphorylation/*.xml Phosphorylation/*.sbml Phosphorylation/*.txt Phosphorylation/*.png Phosphorylation/*.tic Phosphorylation/*.ant)
 
 INSTALL( FILES modules.xml
   DESTINATION Modules
@@ -37,6 +40,21 @@ INSTALL( FILES ${DirectGeneActivation_FILES}
 
 INSTALL( FILES ${DirectGeneRepression_FILES} 
   DESTINATION Modules/DirectGeneRepression
+  COMPONENT Modules
+)
+
+INSTALL( FILES ${AllostericActivation_FILES} 
+  DESTINATION Modules/AllostericActivation
+  COMPONENT Modules
+)
+
+INSTALL( FILES ${AllostericInhibition_FILES} 
+  DESTINATION Modules/AllostericInhibition
+  COMPONENT Modules
+)
+
+INSTALL( FILES ${Phosphorylation_FILES} 
+  DESTINATION Modules/Phosphorylation
   COMPONENT Modules
 )
 

@@ -36,19 +36,6 @@
                 <Table key="rate equations" rows="2" cols="1" rowNames="forward;;reverse" colNames="formula" values="v3.k0*Intermediate1;;v3.k0*Intermediate2"/>
             </tc_table>
         </Handle>
-        <Handle type="1" name="Reactant" parent="" family="Molecule">
-            <tc_matrix>
-                <Table key="initial value" rows="1" cols="1" rowNames="concentration" colNames="concentration" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="5"/>
-                <Table key="parameters" rows="1" cols="1" rowNames="molecularweight" colNames="value" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="50000"/>
-                <Table key="fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
-            </tc_matrix>
-            <tc_table>
-                <Table key="text attributes" rows="0" cols="1" rowNames="" colNames="value" values=""/>
-                <Table key="functions" rows="0" cols="2" rowNames="" colNames="args;;defn" values=""/>
-                <Table key="assignments" rows="0" cols="1" rowNames="" colNames="rule" values=""/>
-                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" colNames="entry" values="author;;date;;description;;uri;;reference"/>
-            </tc_table>
-        </Handle>
         <Handle type="1" name="Intermediate1" parent="" family="Enzyme">
             <tc_matrix>
                 <Table key="initial value" rows="1" cols="1" rowNames="concentration" colNames="concentration" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="5"/>
@@ -101,20 +88,33 @@
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" colNames="entry" values="author;;date;;description;;uri;;reference"/>
             </tc_table>
         </Handle>
-        <Handle type="2" name="v1" parent="" family="2 to 1">
+        <Handle type="1" name="Substrate" parent="" family="Molecule">
             <tc_matrix>
-                <Table key="product stoichiometries" rows="2" cols="3" rowNames="forward;;reverse" colNames="Intermediate1;;Catalyst;;Reactant" desc="Number of each product participating in this reaction" values="1;;0;;0;;0;;1;;1"/>
-                <Table key="parameters" rows="1" cols="1" rowNames="k0" colNames="value" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1"/>
-                <Table key="reactant stoichiometries" rows="2" cols="3" rowNames="forward;;reverse" colNames="Catalyst;;Reactant;;Intermediate1" desc="Number of each reactant participating in this reaction" values="1;;1;;0;;0;;0;;1"/>
+                <Table key="initial value" rows="1" cols="1" rowNames="concentration" colNames="concentration" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="5"/>
+                <Table key="parameters" rows="1" cols="1" rowNames="molecularweight" colNames="value" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="50000"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
                 <Table key="text attributes" rows="0" cols="1" rowNames="" colNames="value" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" colNames="args;;defn" values=""/>
-                <Table key="participants" rows="3" cols="1" rowNames="Catalyst;;Reactant;;Intermediate1" colNames="" values="reactant;;reactant;;product"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" colNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" colNames="entry" values="author;;date;;description;;uri;;reference"/>
-                <Table key="rate equations" rows="2" cols="1" rowNames="forward;;reverse" colNames="formula" values="v1.k0*Catalyst*Reactant;;v1.k0*Intermediate1"/>
+            </tc_table>
+        </Handle>
+        <Handle type="2" name="v1" parent="" family="2 to 1">
+            <tc_matrix>
+                <Table key="product stoichiometries" rows="2" cols="3" rowNames="forward;;reverse" colNames="Intermediate1;;Catalyst;;Substrate" desc="Number of each product participating in this reaction" values="1;;0;;0;;0;;1;;1"/>
+                <Table key="parameters" rows="1" cols="1" rowNames="k0" colNames="value" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1"/>
+                <Table key="reactant stoichiometries" rows="2" cols="3" rowNames="forward;;reverse" colNames="Catalyst;;Substrate;;Intermediate1" desc="Number of each reactant participating in this reaction" values="1;;1;;0;;0;;0;;1"/>
+                <Table key="fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
+            </tc_matrix>
+            <tc_table>
+                <Table key="text attributes" rows="0" cols="1" rowNames="" colNames="value" values=""/>
+                <Table key="functions" rows="0" cols="2" rowNames="" colNames="args;;defn" values=""/>
+                <Table key="participants" rows="3" cols="1" rowNames="Catalyst;;Substrate;;Intermediate1" colNames="" values="reactant;;reactant;;product"/>
+                <Table key="assignments" rows="0" cols="1" rowNames="" colNames="rule" values=""/>
+                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" colNames="entry" values="author;;date;;description;;uri;;reference"/>
+                <Table key="rate equations" rows="2" cols="1" rowNames="forward;;reverse" colNames="formula" values="v1.k0*Catalyst*Substrate;;v1.k0*Intermediate1"/>
             </tc_table>
         </Handle>
     </Handles>
@@ -536,7 +536,7 @@
                 </renderInformation>
             </listOfRenderInformation>
         </NodeItem>
-        <NodeItem className="NodeGraphicsItem" handle="Reactant" z="2">
+        <NodeItem className="NodeGraphicsItem" handle="Substrate" z="2">
             <pos x="4856.74" y="4920.43"/>
             <transform m11="0.8592" m12="0" m21="0" m22="0.909601"/>
             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
@@ -609,7 +609,7 @@
                     <Path numPoints="4" NodeAtStart="Catalyst" NodeAtStartX="5260.28" NodeAtStartY="4740.45" NodeAtEnd="" NodeAtEndX="0" NodeAtEndY="0">
                         <ControlPoints indices="0,1,2,3"/>
                     </Path>
-                    <Path numPoints="4" NodeAtStart="Reactant" NodeAtStartX="4856.74" NodeAtStartY="4920.43" NodeAtEnd="" NodeAtEndX="0" NodeAtEndY="0">
+                    <Path numPoints="4" NodeAtStart="Substrate" NodeAtStartX="4856.74" NodeAtStartY="4920.43" NodeAtEnd="" NodeAtEndX="0" NodeAtEndY="0">
                         <ControlPoints indices="4,5,2,3"/>
                     </Path>
                     <Path numPoints="4" NodeAtStart="Intermediate1" NodeAtStartX="5089.2" NodeAtStartY="5113.33" NodeAtEnd="" NodeAtEndX="0" NodeAtEndY="0">
@@ -768,8 +768,8 @@
                     <Path numPoints="4" NodeAtStart="Intermediate1" NodeAtStartX="5089.2" NodeAtStartY="5113.33" NodeAtEnd="Intermediate2" NodeAtEndX="5399.93" NodeAtEndY="5110.45">
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
-                            <pos x="5324.93" y="5057.76" angle="35.0869"/>
-                            <transform m11="0.327383" m12="0.229826" m21="-0.172369" m22="0.245537"/>
+                            <pos x="5324.93" y="5057.76" angle="35.0875"/>
+                            <transform m11="0.32738" m12="0.22983" m21="-0.172372" m22="0.245535"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfGradientDefinitions>
@@ -812,7 +812,7 @@
                 <CenterRegion>
                     <Rect width="20" height="20"/>
                     <Decorator>
-                        <pos x="5237.59" y="5036.71" angle="0"/>
+                        <pos x="5237.6" y="5036.71" angle="0"/>
                         <transform m11="0.2" m12="0" m21="0" m22="0.2"/>
                         <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                             <renderInformation id="TinkerCell_Style" programName="TinkerCell">
@@ -973,7 +973,7 @@
                         <ControlPoints indices="7,8,6,3"/>
                         <ArrowAtStart>
                             <pos x="5335.28" y="4781.06" angle="-151.564"/>
-                            <transform m11="-0.351484" m12="-0.190943" m21="0.143207" m22="-0.263613"/>
+                            <transform m11="-0.351485" m12="-0.190941" m21="0.143205" m22="-0.263614"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfGradientDefinitions>
@@ -1122,6 +1122,6 @@
         <TextItem text="Intermediate1" handle="Intermediate1" x="5001.53" y="5178.26" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="19.1" font="Sans" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="Catalyst" handle="Catalyst" x="5190.84" y="4643.77" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="17.1" font="Sans" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="Product" handle="Product" x="5568.61" y="4912.21" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="5" font="Sans" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="Reactant" handle="Reactant" x="4808.24" y="4955.43" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="3" font="Sans" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="Substrate" handle="Substrate" x="4809.34" y="4957.63" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="3" font="Sans" size="22" bold="0" italics="0" underline="0"/>
     </Texts>
 </Model>

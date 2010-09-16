@@ -33,8 +33,11 @@
 
     <connection family="Regulation" participant_types="Node" participant_roles="Regulator,Target" description="This connection represents a molecule regulating another.">
       
-      <connection family="Enzyme Catalysis" participant_types="Protein,Molecule,Molecule" participant_roles="Catalyst,Reactant,Product">
+      <connection family="Enzyme Catalysis" participant_types="Protein,Molecule,Molecule" participant_roles="Catalyst,Substrate,Product" description="A protein catalyst converting a substrate to a product through an intermediate step">
       </connection>
+      
+      <connection family="Phosphorylation" participant_types="Protein,Protein" participant_roles="Kinase,Target">
+          </connection>
       
       <connection family="Transcription Regulation" participant_types="Transcription Factor,Promoter">
           <connection family="Transcription Activation" participant_types="Transcription Factor,Inducible Promoter" participant_roles="Activator,Target">
@@ -43,17 +46,21 @@
           </connection>
       </connection>
       
-      <connection family="Activation" participant_types="Molecule,Node" participant_roles="Activator,Target">
+      <connection family="Activation" participant_types="Node" participant_roles="Activator,Target">
+          <connection family="Allosteric Activation" participant_types="Molecule,Protein">
+          </connection>
           <connection family="Transcription Activation" participant_types="Transcription Factor,Inducible Promoter">
           </connection>
           <connection family="Direct Gene Activation" participant_types="Coding,Inducible Promoter" participant_roles="Activator,Target">
           </connection>
       </connection>
       
-      <connection family="Repression" participant_types="Molecule,Node" participant_roles="Repressor,Target">
+      <connection family="Repression" participant_types="Node" participant_roles="Repressor,Target">
+          <connection family="Allosteric Inhibition" participant_types="Molecule,Protein" participant_roles="Inhibitor,Target">
+          </connection>
           <connection family="Transcription Repression" participant_types="Transcription Factor,Repressible Promoter">
           </connection>
-          <connection family="Direct Gene Repression" participant_types="Coding,Repressible Promoter" participant_roles="Repressor,Target">
+          <connection family="Direct Gene Repression" participant_types="Coding,Repressible Promoter">
           </connection>
       </connection>
 

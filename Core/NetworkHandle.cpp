@@ -1042,6 +1042,44 @@ namespace Tinkercell
 		return newnames;
 	}
 	
+	QString NetworkHandle::makeUnique(ItemHandle * handle, const QStringList& doNotUse) const
+	{
+		if (!handle) return QString();
+
+		QString saveName = handle->name;
+		QString name = handle->name;
+
+		int k = name.length();
+		while (k > 0 && name[k-1].isNumber())
+			--k;
+		if (k < name.length())
+			name = name.left(k);
+
+		int c = 1;
+		QString str = handle->fullName();
+		
+		bool taken = (symbolsTable.uniqueHandlesWithDot.contains(str) && symbolsTable.uniqueHandlesWithDot[str] != handle) || 
+ 					 (symbolsTable.uniqueHandlesWithUnderscore.contains(str) && symbolsTable.uniqueHandlesWithUnderscore[str] != handle) || 
+					 (symbolsTable.uniqueDataWithDot.contains(str) && symbolsTable.uniqueDataWithDot[str].first != handle) ||
+					 (symbolsTable.uniqueDataWithUnderscore.contains(str) && symbolsTable.uniqueDataWithUnderscore[str].first != handle) ||  
+					 doNotUse.contains(str);
+		if (!taken) return handle->name;
+		
+		while (taken)
+		{			
+			handle->name = name + QString::number(c);
+			str = handle->fullName();
+			taken = (symbolsTable.uniqueHandlesWithDot.contains(str) && symbolsTable.uniqueHandlesWithDot[str] != handle) || 
+ 					 (symbolsTable.uniqueHandlesWithUnderscore.contains(str) && symbolsTable.uniqueHandlesWithUnderscore[str] != handle) || 
+					 (symbolsTable.uniqueDataWithDot.contains(str) && symbolsTable.uniqueDataWithDot[str].first != handle) ||
+					 (symbolsTable.uniqueDataWithUnderscore.contains(str) && symbolsTable.uniqueDataWithUnderscore[str].first != handle) ||  
+					 doNotUse.contains(str);
+			++c;
+		}
+		name = handle->name;
+		handle->name = saveName;
+		return name;
+	}
 	
 }
 

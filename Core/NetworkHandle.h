@@ -193,9 +193,18 @@ namespace Tinkercell
 		virtual bool parseMath(QString&,QStringList&);		
 		/*! \brief checks whether the given string names a unique item or data entry
 		* \param QString target string
+		* \param QStringList any other names that should be disallowed (optional)
 		* \return QString new string
 		*/
 		virtual QString makeUnique(const QString&, const QStringList& doNotUseNames=QStringList()) const;
+		/*! \brief checks whether the given handle's name is unique and returns a new name.
+			Note that this can be different from makeUnqiue for strings, because this function
+			will check if an existing name belongs to the given handle, in which case no change is needed.
+		* \param ItemHandle * handle
+		* \param QStringList any other names that should be disallowed (optional)
+		* \return QString new string
+		*/
+		virtual QString makeUnique(ItemHandle * handle, const QStringList& doNotUseNames=QStringList()) const;
 		/*! \brief checks whether the given string names a unique item or data entry
 		* \param QStringList target strings
 		* \return QStringList new strings

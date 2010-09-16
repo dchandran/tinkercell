@@ -3,120 +3,120 @@
 <Model>
     <Handles>
         <Handle type="0" name="" parent="" family="Node"/>
+        <Handle type="0" name="" parent="" family="Node"/>
         <Handle type="2" name="v2" parent="" family="1 to 2">
-            <TableOfReals>
-                <Table key="Product stoichiometries" rows="2" cols="3" rowNames="forward;;reverse" colNames="Product;;Catalyst;;Intermediate2" desc="Number of each product participating in this reaction" values="1;;1;;0;;0;;0;;1"/>
-                <Table key="Reactant stoichiometries" rows="2" cols="3" rowNames="forward;;reverse" colNames="Intermediate2;;Product;;Catalyst" desc="Number of each reactant participating in this reaction" values="1;;0;;0;;0;;1;;1"/>
-                <Table key="Parameters" rows="2" cols="1" rowNames="k0;;k1" colNames="value" desc="Parameters: an Nx1 table storing all the real attributes for this item. Row names are the attribute names, and first column holds the values." values="1;;1"/>
-                <Table key="Fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
-            </TableOfReals>
-            <TableOfStrings>
-                <Table key="Functions" rows="0" cols="2" rowNames="" colNames="args;;defn" values=""/>
-                <Table key="Participants" rows="3" cols="1" rowNames="Intermediate2;;Product;;Catalyst" colNames="" values="Reactant1;;Product;;Product"/>
-                <Table key="Rate equations" rows="2" cols="1" rowNames="forward;;reverse" colNames="formula" values="v2.k1*Intermediate2;;v2.k0*Product*Catalyst"/>
-                <Table key="Assignments" rows="0" cols="1" rowNames="" colNames="rule" values=""/>
-                <Table key="Annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" colNames="entry" values="author;;date;;description;;uri;;reference"/>
-                <Table key="Text Attributes" rows="0" cols="1" rowNames="" colNames="value" values=""/>
-            </TableOfStrings>
+            <tc_matrix>
+                <Table key="product stoichiometries" rows="2" cols="3" rowNames="forward;;reverse" colNames="Product;;Catalyst;;Intermediate2" desc="Number of each product participating in this reaction" values="1;;1;;0;;0;;0;;1"/>
+                <Table key="parameters" rows="1" cols="1" rowNames="k0" colNames="value" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1"/>
+                <Table key="reactant stoichiometries" rows="2" cols="3" rowNames="forward;;reverse" colNames="Intermediate2;;Product;;Catalyst" desc="Number of each reactant participating in this reaction" values="1;;0;;0;;0;;1;;1"/>
+                <Table key="fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
+            </tc_matrix>
+            <tc_table>
+                <Table key="text attributes" rows="0" cols="1" rowNames="" colNames="value" values=""/>
+                <Table key="functions" rows="0" cols="2" rowNames="" colNames="args;;defn" values=""/>
+                <Table key="participants" rows="3" cols="1" rowNames="Intermediate2;;Product;;Catalyst" colNames="" values="reactant;;product;;product"/>
+                <Table key="assignments" rows="0" cols="1" rowNames="" colNames="rule" values=""/>
+                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" colNames="entry" values="author;;date;;description;;uri;;reference"/>
+                <Table key="rate equations" rows="2" cols="1" rowNames="forward;;reverse" colNames="formula" values="v2.k0*Intermediate2;;v2.k0*Product*Catalyst"/>
+            </tc_table>
         </Handle>
         <Handle type="2" name="v3" parent="" family="1 to 1">
-            <TableOfReals>
-                <Table key="Product stoichiometries" rows="2" cols="2" rowNames="forward;;reverse" colNames="Intermediate2;;Intermediate1" desc="Number of each product participating in this reaction" values="1;;0;;0;;1"/>
-                <Table key="Reactant stoichiometries" rows="2" cols="2" rowNames="forward;;reverse" colNames="Intermediate1;;Intermediate2" desc="Number of each reactant participating in this reaction" values="1;;0;;0;;1"/>
-                <Table key="Parameters" rows="2" cols="1" rowNames="k0;;k1" colNames="value" desc="Parameters: an Nx1 table storing all the real attributes for this item. Row names are the attribute names, and first column holds the values." values="1;;1"/>
-                <Table key="Fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
-            </TableOfReals>
-            <TableOfStrings>
-                <Table key="Functions" rows="0" cols="2" rowNames="" colNames="args;;defn" values=""/>
-                <Table key="Participants" rows="2" cols="1" rowNames="Intermediate1;;Intermediate2" colNames="" values="Reactant;;Product"/>
-                <Table key="Rate equations" rows="2" cols="1" rowNames="forward;;reverse" colNames="formula" values="v3.k1*Intermediate1;;v3.k0*Intermediate2"/>
-                <Table key="Assignments" rows="0" cols="1" rowNames="" colNames="rule" values=""/>
-                <Table key="Annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" colNames="entry" values="author;;date;;description;;uri;;reference"/>
-                <Table key="Text Attributes" rows="0" cols="1" rowNames="" colNames="value" values=""/>
-            </TableOfStrings>
+            <tc_matrix>
+                <Table key="product stoichiometries" rows="2" cols="2" rowNames="forward;;reverse" colNames="Intermediate2;;Intermediate1" desc="Number of each product participating in this reaction" values="1;;0;;0;;1"/>
+                <Table key="parameters" rows="1" cols="1" rowNames="k0" colNames="value" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1"/>
+                <Table key="reactant stoichiometries" rows="2" cols="2" rowNames="forward;;reverse" colNames="Intermediate1;;Intermediate2" desc="Number of each reactant participating in this reaction" values="1;;0;;0;;1"/>
+                <Table key="fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
+            </tc_matrix>
+            <tc_table>
+                <Table key="text attributes" rows="0" cols="1" rowNames="" colNames="value" values=""/>
+                <Table key="functions" rows="0" cols="2" rowNames="" colNames="args;;defn" values=""/>
+                <Table key="participants" rows="2" cols="1" rowNames="Intermediate1;;Intermediate2" colNames="" values="reactant;;product"/>
+                <Table key="assignments" rows="0" cols="1" rowNames="" colNames="rule" values=""/>
+                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" colNames="entry" values="author;;date;;description;;uri;;reference"/>
+                <Table key="rate equations" rows="2" cols="1" rowNames="forward;;reverse" colNames="formula" values="v3.k0*Intermediate1;;v3.k0*Intermediate2"/>
+            </tc_table>
         </Handle>
         <Handle type="1" name="Reactant" parent="" family="Molecule">
-            <TableOfReals>
-                <Table key="Initial Value" rows="1" cols="1" rowNames="concentration" colNames="concentration" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="1"/>
-                <Table key="Parameters" rows="1" cols="1" rowNames="molecularweight" colNames="value" desc="Parameters: an Nx1 table storing all the real attributes for this item. Row names are the attribute names, and first column holds the values." values="50000"/>
-                <Table key="Fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
-            </TableOfReals>
-            <TableOfStrings>
-                <Table key="Functions" rows="0" cols="2" rowNames="" colNames="args;;defn" values=""/>
-                <Table key="Assignments" rows="0" cols="1" rowNames="" colNames="rule" values=""/>
-                <Table key="Annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" colNames="entry" values="author;;date;;description;;uri;;reference"/>
-                <Table key="Text Attributes" rows="0" cols="1" rowNames="" colNames="value" values=""/>
-            </TableOfStrings>
+            <tc_matrix>
+                <Table key="initial value" rows="1" cols="1" rowNames="concentration" colNames="concentration" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="5"/>
+                <Table key="parameters" rows="1" cols="1" rowNames="molecularweight" colNames="value" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="50000"/>
+                <Table key="fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
+            </tc_matrix>
+            <tc_table>
+                <Table key="text attributes" rows="0" cols="1" rowNames="" colNames="value" values=""/>
+                <Table key="functions" rows="0" cols="2" rowNames="" colNames="args;;defn" values=""/>
+                <Table key="assignments" rows="0" cols="1" rowNames="" colNames="rule" values=""/>
+                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" colNames="entry" values="author;;date;;description;;uri;;reference"/>
+            </tc_table>
         </Handle>
         <Handle type="1" name="Intermediate1" parent="" family="Enzyme">
-            <TableOfReals>
-                <Table key="Initial Value" rows="1" cols="1" rowNames="concentration" colNames="concentration" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="1"/>
-                <Table key="Parameters" rows="1" cols="1" rowNames="molecularweight" colNames="value" desc="Parameters: an Nx1 table storing all the real attributes for this item. Row names are the attribute names, and first column holds the values." values="50000"/>
-                <Table key="Fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
-            </TableOfReals>
-            <TableOfStrings>
-                <Table key="Functions" rows="0" cols="2" rowNames="" colNames="args;;defn" values=""/>
-                <Table key="Assignments" rows="0" cols="1" rowNames="" colNames="rule" values=""/>
-                <Table key="Annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" colNames="entry" values="author;;date;;description;;uri;;reference"/>
-                <Table key="Text Attributes" rows="1" cols="1" rowNames="sequence" colNames="value" values="GSWTQHNMCP"/>
-            </TableOfStrings>
+            <tc_matrix>
+                <Table key="initial value" rows="1" cols="1" rowNames="concentration" colNames="concentration" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="5"/>
+                <Table key="parameters" rows="1" cols="1" rowNames="molecularweight" colNames="value" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="50000"/>
+                <Table key="fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
+            </tc_matrix>
+            <tc_table>
+                <Table key="text attributes" rows="1" cols="1" rowNames="sequence" colNames="value" values="GSWTQHNMCP"/>
+                <Table key="functions" rows="0" cols="2" rowNames="" colNames="args;;defn" values=""/>
+                <Table key="assignments" rows="0" cols="1" rowNames="" colNames="rule" values=""/>
+                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" colNames="entry" values="author;;date;;description;;uri;;reference"/>
+            </tc_table>
         </Handle>
         <Handle type="1" name="Intermediate2" parent="" family="Enzyme">
-            <TableOfReals>
-                <Table key="Initial Value" rows="1" cols="1" rowNames="concentration" colNames="concentration" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="1"/>
-                <Table key="Parameters" rows="1" cols="1" rowNames="molecularweight" colNames="value" desc="Parameters: an Nx1 table storing all the real attributes for this item. Row names are the attribute names, and first column holds the values." values="50000"/>
-                <Table key="Fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
-            </TableOfReals>
-            <TableOfStrings>
-                <Table key="Functions" rows="0" cols="2" rowNames="" colNames="args;;defn" values=""/>
-                <Table key="Assignments" rows="0" cols="1" rowNames="" colNames="rule" values=""/>
-                <Table key="Annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" colNames="entry" values="author;;date;;description;;uri;;reference"/>
-                <Table key="Text Attributes" rows="1" cols="1" rowNames="sequence" colNames="value" values="GSWTQHNMCP"/>
-            </TableOfStrings>
+            <tc_matrix>
+                <Table key="initial value" rows="1" cols="1" rowNames="concentration" colNames="concentration" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="5"/>
+                <Table key="parameters" rows="1" cols="1" rowNames="molecularweight" colNames="value" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="50000"/>
+                <Table key="fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
+            </tc_matrix>
+            <tc_table>
+                <Table key="text attributes" rows="1" cols="1" rowNames="sequence" colNames="value" values="GSWTQHNMCP"/>
+                <Table key="functions" rows="0" cols="2" rowNames="" colNames="args;;defn" values=""/>
+                <Table key="assignments" rows="0" cols="1" rowNames="" colNames="rule" values=""/>
+                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" colNames="entry" values="author;;date;;description;;uri;;reference"/>
+            </tc_table>
         </Handle>
         <Handle type="1" name="Catalyst" parent="" family="Enzyme">
-            <TableOfReals>
-                <Table key="Initial Value" rows="1" cols="1" rowNames="concentration" colNames="concentration" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="1"/>
-                <Table key="Parameters" rows="1" cols="1" rowNames="molecularweight" colNames="value" desc="Parameters: an Nx1 table storing all the real attributes for this item. Row names are the attribute names, and first column holds the values." values="50000"/>
-                <Table key="Fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
-            </TableOfReals>
-            <TableOfStrings>
-                <Table key="Functions" rows="0" cols="2" rowNames="" colNames="args;;defn" values=""/>
-                <Table key="Assignments" rows="0" cols="1" rowNames="" colNames="rule" values=""/>
-                <Table key="Annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" colNames="entry" values="author;;date;;description;;uri;;reference"/>
-                <Table key="Text Attributes" rows="1" cols="1" rowNames="sequence" colNames="value" values="GSWTQHNMCP"/>
-            </TableOfStrings>
+            <tc_matrix>
+                <Table key="initial value" rows="1" cols="1" rowNames="concentration" colNames="concentration" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="5"/>
+                <Table key="parameters" rows="1" cols="1" rowNames="molecularweight" colNames="value" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="50000"/>
+                <Table key="fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
+            </tc_matrix>
+            <tc_table>
+                <Table key="text attributes" rows="1" cols="1" rowNames="sequence" colNames="value" values="GSWTQHNMCP"/>
+                <Table key="functions" rows="0" cols="2" rowNames="" colNames="args;;defn" values=""/>
+                <Table key="assignments" rows="0" cols="1" rowNames="" colNames="rule" values=""/>
+                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" colNames="entry" values="author;;date;;description;;uri;;reference"/>
+            </tc_table>
         </Handle>
         <Handle type="1" name="Product" parent="" family="Molecule">
-            <TableOfReals>
-                <Table key="Initial Value" rows="1" cols="1" rowNames="concentration" colNames="concentration" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="1"/>
-                <Table key="Parameters" rows="1" cols="1" rowNames="molecularweight" colNames="value" desc="Parameters: an Nx1 table storing all the real attributes for this item. Row names are the attribute names, and first column holds the values." values="50000"/>
-                <Table key="Fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
-            </TableOfReals>
-            <TableOfStrings>
-                <Table key="Functions" rows="0" cols="2" rowNames="" colNames="args;;defn" values=""/>
-                <Table key="Assignments" rows="0" cols="1" rowNames="" colNames="rule" values=""/>
-                <Table key="Annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" colNames="entry" values="author;;date;;description;;uri;;reference"/>
-                <Table key="Text Attributes" rows="0" cols="1" rowNames="" colNames="value" values=""/>
-            </TableOfStrings>
+            <tc_matrix>
+                <Table key="initial value" rows="1" cols="1" rowNames="concentration" colNames="concentration" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="5"/>
+                <Table key="parameters" rows="1" cols="1" rowNames="molecularweight" colNames="value" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="50000"/>
+                <Table key="fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
+            </tc_matrix>
+            <tc_table>
+                <Table key="text attributes" rows="0" cols="1" rowNames="" colNames="value" values=""/>
+                <Table key="functions" rows="0" cols="2" rowNames="" colNames="args;;defn" values=""/>
+                <Table key="assignments" rows="0" cols="1" rowNames="" colNames="rule" values=""/>
+                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" colNames="entry" values="author;;date;;description;;uri;;reference"/>
+            </tc_table>
         </Handle>
         <Handle type="2" name="v1" parent="" family="2 to 1">
-            <TableOfReals>
-                <Table key="Product stoichiometries" rows="2" cols="3" rowNames="forward;;reverse" colNames="Intermediate1;;Catalyst;;Reactant" desc="Number of each product participating in this reaction" values="1;;0;;0;;0;;1;;1"/>
-                <Table key="Reactant stoichiometries" rows="2" cols="3" rowNames="forward;;reverse" colNames="Catalyst;;Reactant;;Intermediate1" desc="Number of each reactant participating in this reaction" values="1;;1;;0;;0;;0;;1"/>
-                <Table key="Parameters" rows="2" cols="1" rowNames="k0;;k1" colNames="value" desc="Parameters: an Nx1 table storing all the real attributes for this item. Row names are the attribute names, and first column holds the values." values="1;;1"/>
-                <Table key="Fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
-            </TableOfReals>
-            <TableOfStrings>
-                <Table key="Functions" rows="0" cols="2" rowNames="" colNames="args;;defn" values=""/>
-                <Table key="Participants" rows="3" cols="1" rowNames="Catalyst;;Reactant;;Intermediate1" colNames="" values="Reactant1;;Reactant2;;Product"/>
-                <Table key="Rate equations" rows="2" cols="1" rowNames="forward;;reverse" colNames="formula" values="v1.k1*Catalyst*Reactant;;v1.k0*Intermediate1"/>
-                <Table key="Assignments" rows="0" cols="1" rowNames="" colNames="rule" values=""/>
-                <Table key="Annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" colNames="entry" values="author;;date;;description;;uri;;reference"/>
-                <Table key="Text Attributes" rows="0" cols="1" rowNames="" colNames="value" values=""/>
-            </TableOfStrings>
+            <tc_matrix>
+                <Table key="product stoichiometries" rows="2" cols="3" rowNames="forward;;reverse" colNames="Intermediate1;;Catalyst;;Reactant" desc="Number of each product participating in this reaction" values="1;;0;;0;;0;;1;;1"/>
+                <Table key="parameters" rows="1" cols="1" rowNames="k0" colNames="value" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1"/>
+                <Table key="reactant stoichiometries" rows="2" cols="3" rowNames="forward;;reverse" colNames="Catalyst;;Reactant;;Intermediate1" desc="Number of each reactant participating in this reaction" values="1;;1;;0;;0;;0;;1"/>
+                <Table key="fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
+            </tc_matrix>
+            <tc_table>
+                <Table key="text attributes" rows="0" cols="1" rowNames="" colNames="value" values=""/>
+                <Table key="functions" rows="0" cols="2" rowNames="" colNames="args;;defn" values=""/>
+                <Table key="participants" rows="3" cols="1" rowNames="Catalyst;;Reactant;;Intermediate1" colNames="" values="reactant;;reactant;;product"/>
+                <Table key="assignments" rows="0" cols="1" rowNames="" colNames="rule" values=""/>
+                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" colNames="entry" values="author;;date;;description;;uri;;reference"/>
+                <Table key="rate equations" rows="2" cols="1" rowNames="forward;;reverse" colNames="formula" values="v1.k0*Catalyst*Reactant;;v1.k0*Intermediate1"/>
+            </tc_table>
         </Handle>
-        <Handle type="0" name="" parent="" family="Node"/>
     </Handles>
     <Nodes>
         <NodeItem className="NodeGraphicsItem" handle="Intermediate2" z="30">
@@ -595,15 +595,15 @@
         <ConnectionItem className="ConnectionGraphicsItem" handle="v1" z="50.7">
             <ConnectionGraphicsItem version="1.0" color="#3232ff" width="5" type="bezier" style="1" gap="10">
                 <ControlPoints>
-                    <ControlPoint x="5195.28" y="4760.02"/>
-                    <ControlPoint x="5094.55" y="4790.36"/>
-                    <ControlPoint x="5044.63" y="4875.58"/>
-                    <ControlPoint x="5046.36" y="4921.21"/>
-                    <ControlPoint x="4896.5" y="4906.12"/>
-                    <ControlPoint x="4972.32" y="4881.04"/>
-                    <ControlPoint x="5062.52" y="5039.34"/>
-                    <ControlPoint x="5048.21" y="4999.67"/>
-                    <ControlPoint x="5048.09" y="4966.85"/>
+                    <ControlPoint x="5195.28" y="4759.62"/>
+                    <ControlPoint x="5091.05" y="4790.36"/>
+                    <ControlPoint x="5041.13" y="4875.58"/>
+                    <ControlPoint x="5042.86" y="4921.21"/>
+                    <ControlPoint x="4896.5" y="4905.71"/>
+                    <ControlPoint x="4968.82" y="4881.04"/>
+                    <ControlPoint x="5060.24" y="5039.34"/>
+                    <ControlPoint x="5044.71" y="4999.67"/>
+                    <ControlPoint x="5044.59" y="4966.85"/>
                 </ControlPoints>
                 <CurveSegments>
                     <Path numPoints="4" NodeAtStart="Catalyst" NodeAtStartX="5260.28" NodeAtStartY="4740.45" NodeAtEnd="" NodeAtEndX="0" NodeAtEndY="0">
@@ -615,8 +615,8 @@
                     <Path numPoints="4" NodeAtStart="Intermediate1" NodeAtStartX="5089.2" NodeAtStartY="5113.33" NodeAtEnd="" NodeAtEndX="0" NodeAtEndY="0">
                         <ControlPoints indices="6,7,8,3"/>
                         <ArrowAtStart>
-                            <pos x="5062.52" y="5039.34" angle="70.1704"/>
-                            <transform m11="0.135923" m12="0.376198" m21="-0.282148" m22="0.101942"/>
+                            <pos x="5060.24" y="5039.34" angle="68.6232"/>
+                            <transform m11="0.146026" m12="0.372393" m21="-0.279294" m22="0.10952"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfGradientDefinitions>
@@ -658,23 +658,118 @@
                 </CurveSegments>
                 <CenterRegion>
                     <Rect width="20" height="20"/>
+                    <Decorator>
+                        <pos x="5042.86" y="4921.21" angle="0"/>
+                        <transform m11="0.25" m12="0" m21="0" m22="0.25"/>
+                        <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
+                            <renderInformation id="TinkerCell_Style" programName="TinkerCell">
+                                <listOfColorDefinitions>
+                                    <colorDefinition id="shape0color" value="#ffffff" alpha="255"/>
+                                    <colorDefinition id="shape1color" value="#6464ff" alpha="255"/>
+                                    <colorDefinition id="shape2color" value="#6464ff" alpha="255"/>
+                                </listOfColorDefinitions>
+                                <listOfStyles>
+                                    <style idList="reversible reaction" width="40" height="30">
+                                        <g>
+                                            <polygon fill="shape0color" stroke="#7a7a7a" stroke-width="8" stroke-alpha="1">
+                                                <listOfCurveSegments>
+                                                    <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                                        <start x="-50" y="50"/>
+                                                        <end x="-50" y="-50"/>
+                                                    </curveSegment>
+                                                    <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                                        <start x="-50" y="-50"/>
+                                                        <end x="50" y="-50"/>
+                                                    </curveSegment>
+                                                    <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                                        <start x="50" y="-50"/>
+                                                        <end x="50" y="50"/>
+                                                    </curveSegment>
+                                                    <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                                        <start x="50" y="50"/>
+                                                        <end x="-50" y="50"/>
+                                                    </curveSegment>
+                                                </listOfCurveSegments>
+                                            </polygon>
+                                            <polygon fill="shape1color" stroke="#646464" stroke-width="0" stroke-alpha="1">
+                                                <listOfCurveSegments>
+                                                    <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                                        <start x="-19.7211" y="-37.2727"/>
+                                                        <end x="-10.9562" y="-37.2727"/>
+                                                    </curveSegment>
+                                                    <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                                        <start x="-10.9562" y="-37.2727"/>
+                                                        <end x="-32.0717" y="-16.6667"/>
+                                                    </curveSegment>
+                                                    <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                                        <start x="-32.0717" y="-16.6667"/>
+                                                        <end x="34.4622" y="-17.2727"/>
+                                                    </curveSegment>
+                                                    <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                                        <start x="34.4622" y="-17.2727"/>
+                                                        <end x="34.4622" y="-10.6061"/>
+                                                    </curveSegment>
+                                                    <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                                        <start x="34.4622" y="-10.6061"/>
+                                                        <end x="-43.2271" y="-10.6061"/>
+                                                    </curveSegment>
+                                                    <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                                        <start x="-43.2271" y="-10.6061"/>
+                                                        <end x="-19.7211" y="-37.2727"/>
+                                                    </curveSegment>
+                                                </listOfCurveSegments>
+                                            </polygon>
+                                            <polygon fill="shape2color" stroke="#646464" stroke-width="0" stroke-alpha="1">
+                                                <listOfCurveSegments>
+                                                    <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                                        <start x="-34.0637" y="-1.5152"/>
+                                                        <end x="41.6335" y="-1.5152"/>
+                                                    </curveSegment>
+                                                    <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                                        <start x="41.6335" y="-1.5152"/>
+                                                        <end x="17.7291" y="33.6364"/>
+                                                    </curveSegment>
+                                                    <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                                        <start x="17.7291" y="33.6364"/>
+                                                        <end x="9.761" y="33.6364"/>
+                                                    </curveSegment>
+                                                    <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                                        <start x="9.761" y="33.6364"/>
+                                                        <end x="31.6733" y="4.5455"/>
+                                                    </curveSegment>
+                                                    <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                                        <start x="31.6733" y="4.5455"/>
+                                                        <end x="-34.0637" y="6.3636"/>
+                                                    </curveSegment>
+                                                    <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                                        <start x="-34.0637" y="6.3636"/>
+                                                        <end x="-34.0637" y="-1.5152"/>
+                                                    </curveSegment>
+                                                </listOfCurveSegments>
+                                            </polygon>
+                                        </g>
+                                    </style>
+                                </listOfStyles>
+                            </renderInformation>
+                        </listOfRenderInformation>
+                    </Decorator>
                 </CenterRegion>
             </ConnectionGraphicsItem>
         </ConnectionItem>
         <ConnectionItem className="ConnectionGraphicsItem" handle="v3" z="42.6">
             <ConnectionGraphicsItem version="1.0" color="#3232ff" width="5" type="bezier" style="1" gap="10">
                 <ControlPoints>
-                    <ControlPoint x="5156.22" y="5085.8"/>
-                    <ControlPoint x="5163.27" y="5082.9"/>
-                    <ControlPoint x="5260.75" y="5081.52"/>
-                    <ControlPoint x="5324.93" y="5094.86"/>
+                    <ControlPoint x="5156.22" y="5057.76"/>
+                    <ControlPoint x="5187.76" y="5031.6"/>
+                    <ControlPoint x="5284.07" y="5029.06"/>
+                    <ControlPoint x="5324.93" y="5057.76"/>
                 </ControlPoints>
                 <CurveSegments>
                     <Path numPoints="4" NodeAtStart="Intermediate1" NodeAtStartX="5089.2" NodeAtStartY="5113.33" NodeAtEnd="Intermediate2" NodeAtEndX="5399.93" NodeAtEndY="5110.45">
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
-                            <pos x="5324.93" y="5094.86" angle="11.7412"/>
-                            <transform m11="0.391639" m12="0.0813558" m21="-0.0610169" m22="0.293729"/>
+                            <pos x="5324.93" y="5057.76" angle="35.0869"/>
+                            <transform m11="0.327383" m12="0.229826" m21="-0.172369" m22="0.245537"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfGradientDefinitions>
@@ -717,17 +812,94 @@
                 <CenterRegion>
                     <Rect width="20" height="20"/>
                     <Decorator>
-                        <pos x="5219.88" y="5083.77" angle="0"/>
+                        <pos x="5237.59" y="5036.71" angle="0"/>
                         <transform m11="0.2" m12="0" m21="0" m22="0.2"/>
                         <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                             <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                 <listOfColorDefinitions>
-                                    <colorDefinition id="shape0color" value="#6464ff" alpha="0"/>
+                                    <colorDefinition id="shape0color" value="#ffffff" alpha="255"/>
+                                    <colorDefinition id="shape1color" value="#6464ff" alpha="255"/>
+                                    <colorDefinition id="shape2color" value="#6464ff" alpha="255"/>
                                 </listOfColorDefinitions>
                                 <listOfStyles>
-                                    <style idList="circle" width="20" height="20">
+                                    <style idList="reversible reaction" width="40" height="30">
                                         <g>
-                                            <ellipse cx="0" cy="0" rx="50" ry="50" angleStart="0" angleEnd="360" fill="shape0color" stroke="#6464ff" stroke-width="8" stroke-alpha="1"/>
+                                            <polygon fill="shape0color" stroke="#7a7a7a" stroke-width="8" stroke-alpha="1">
+                                                <listOfCurveSegments>
+                                                    <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                                        <start x="-50" y="50"/>
+                                                        <end x="-50" y="-50"/>
+                                                    </curveSegment>
+                                                    <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                                        <start x="-50" y="-50"/>
+                                                        <end x="50" y="-50"/>
+                                                    </curveSegment>
+                                                    <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                                        <start x="50" y="-50"/>
+                                                        <end x="50" y="50"/>
+                                                    </curveSegment>
+                                                    <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                                        <start x="50" y="50"/>
+                                                        <end x="-50" y="50"/>
+                                                    </curveSegment>
+                                                </listOfCurveSegments>
+                                            </polygon>
+                                            <polygon fill="shape1color" stroke="#646464" stroke-width="0" stroke-alpha="1">
+                                                <listOfCurveSegments>
+                                                    <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                                        <start x="-19.7211" y="-37.2727"/>
+                                                        <end x="-10.9562" y="-37.2727"/>
+                                                    </curveSegment>
+                                                    <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                                        <start x="-10.9562" y="-37.2727"/>
+                                                        <end x="-32.0717" y="-16.6667"/>
+                                                    </curveSegment>
+                                                    <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                                        <start x="-32.0717" y="-16.6667"/>
+                                                        <end x="34.4622" y="-17.2727"/>
+                                                    </curveSegment>
+                                                    <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                                        <start x="34.4622" y="-17.2727"/>
+                                                        <end x="34.4622" y="-10.6061"/>
+                                                    </curveSegment>
+                                                    <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                                        <start x="34.4622" y="-10.6061"/>
+                                                        <end x="-43.2271" y="-10.6061"/>
+                                                    </curveSegment>
+                                                    <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                                        <start x="-43.2271" y="-10.6061"/>
+                                                        <end x="-19.7211" y="-37.2727"/>
+                                                    </curveSegment>
+                                                </listOfCurveSegments>
+                                            </polygon>
+                                            <polygon fill="shape2color" stroke="#646464" stroke-width="0" stroke-alpha="1">
+                                                <listOfCurveSegments>
+                                                    <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                                        <start x="-34.0637" y="-1.5152"/>
+                                                        <end x="41.6335" y="-1.5152"/>
+                                                    </curveSegment>
+                                                    <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                                        <start x="41.6335" y="-1.5152"/>
+                                                        <end x="17.7291" y="33.6364"/>
+                                                    </curveSegment>
+                                                    <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                                        <start x="17.7291" y="33.6364"/>
+                                                        <end x="9.761" y="33.6364"/>
+                                                    </curveSegment>
+                                                    <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                                        <start x="9.761" y="33.6364"/>
+                                                        <end x="31.6733" y="4.5455"/>
+                                                    </curveSegment>
+                                                    <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                                        <start x="31.6733" y="4.5455"/>
+                                                        <end x="-34.0637" y="6.3636"/>
+                                                    </curveSegment>
+                                                    <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                                        <start x="-34.0637" y="6.3636"/>
+                                                        <end x="-34.0637" y="-1.5152"/>
+                                                    </curveSegment>
+                                                </listOfCurveSegments>
+                                            </polygon>
                                         </g>
                                     </style>
                                 </listOfStyles>
@@ -740,15 +912,15 @@
         <ConnectionItem className="ConnectionGraphicsItem" handle="v2" z="35.1">
             <ConnectionGraphicsItem version="1.0" color="#3232ff" width="5" type="bezier" style="1" gap="10">
                 <ControlPoints>
-                    <ControlPoint x="5405.33" y="5045.45"/>
-                    <ControlPoint x="5411.02" y="4977"/>
-                    <ControlPoint x="5410.93" y="4944.78"/>
-                    <ControlPoint x="5411.53" y="4900.34"/>
-                    <ControlPoint x="5557.65" y="4854.44"/>
-                    <ControlPoint x="5482.15" y="4842.3"/>
-                    <ControlPoint x="5412.14" y="4855.89"/>
-                    <ControlPoint x="5335.28" y="4782.12"/>
-                    <ControlPoint x="5356.82" y="4794.08"/>
+                    <ControlPoint x="5407.67" y="5045.45"/>
+                    <ControlPoint x="5415.68" y="4978.17"/>
+                    <ControlPoint x="5415.59" y="4945.95"/>
+                    <ControlPoint x="5416.19" y="4901.51"/>
+                    <ControlPoint x="5557.65" y="4854.62"/>
+                    <ControlPoint x="5486.81" y="4843.47"/>
+                    <ControlPoint x="5416.8" y="4857.06"/>
+                    <ControlPoint x="5335.28" y="4781.06"/>
+                    <ControlPoint x="5361.48" y="4795.25"/>
                 </ControlPoints>
                 <CurveSegments>
                     <Path numPoints="4" NodeAtStart="Intermediate2" NodeAtStartX="5399.93" NodeAtStartY="5110.45" NodeAtEnd="" NodeAtEndX="0" NodeAtEndY="0">
@@ -757,8 +929,8 @@
                     <Path numPoints="4" NodeAtStart="Product" NodeAtStartX="5620.61" NodeAtStartY="4877.21" NodeAtEnd="" NodeAtEndX="0" NodeAtEndY="0">
                         <ControlPoints indices="4,5,6,3"/>
                         <ArrowAtStart>
-                            <pos x="5557.65" y="4854.44" angle="9.13092"/>
-                            <transform m11="0.394936" m12="0.0634445" m21="-0.0475833" m22="0.296202"/>
+                            <pos x="5557.65" y="4854.62" angle="8.94188"/>
+                            <transform m11="0.395143" m12="0.0621418" m21="-0.0466063" m22="0.296358"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfGradientDefinitions>
@@ -800,8 +972,8 @@
                     <Path numPoints="4" NodeAtStart="Catalyst" NodeAtStartX="5260.28" NodeAtStartY="4740.45" NodeAtEnd="" NodeAtEndX="0" NodeAtEndY="0">
                         <ControlPoints indices="7,8,6,3"/>
                         <ArrowAtStart>
-                            <pos x="5335.28" y="4782.12" angle="-150.944"/>
-                            <transform m11="-0.349397" m12="-0.194735" m21="0.146051" m22="-0.262048"/>
+                            <pos x="5335.28" y="4781.06" angle="-151.564"/>
+                            <transform m11="-0.351484" m12="-0.190943" m21="0.143207" m22="-0.263613"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfGradientDefinitions>
@@ -844,7 +1016,7 @@
                 <CenterRegion>
                     <Rect width="20" height="20"/>
                     <Decorator>
-                        <pos x="5411.53" y="4900.34" angle="0"/>
+                        <pos x="5416.19" y="4901.51" angle="0"/>
                         <transform m11="0.25" m12="0" m21="0" m22="0.25"/>
                         <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                             <renderInformation id="TinkerCell_Style" programName="TinkerCell">
@@ -943,9 +1115,9 @@
         </ConnectionItem>
     </Connections>
     <Texts>
-        <TextItem text="v1" handle="v1" x="5068.3" y="4913.43" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="51.7" font="Sans" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="v3" handle="v3" x="5179" y="5097.87" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="43.6" font="Sans" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="v2" handle="v2" x="5432.7" y="4920.34" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="36.1" font="Sans" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="v1" handle="v1" x="5064.8" y="4913.43" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="51.7" font="Sans" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="v3" handle="v3" x="5203.04" y="5046.13" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="43.6" font="Sans" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="v2" handle="v2" x="5437.36" y="4921.51" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="36.1" font="Sans" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="Intermediate2" handle="Intermediate2" x="5308.22" y="5184.46" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="28.8" font="Sans" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="Intermediate1" handle="Intermediate1" x="5001.53" y="5178.26" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="19.1" font="Sans" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="Catalyst" handle="Catalyst" x="5190.84" y="4643.77" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="17.1" font="Sans" size="22" bold="0" italics="0" underline="0"/>

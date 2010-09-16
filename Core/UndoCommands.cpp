@@ -318,7 +318,7 @@ namespace Tinkercell
 					if (!renameCommand && !nameChangeHandles.contains(items[i]))
 					{
 						s0 = items[i]->fullName();
-						s1 = textEditor->network->makeUnique(s0,usedNames);
+						s1 = textEditor->network->makeUnique(items[i],usedNames);
 						usedNames << s1;
 						nameChangeHandles << items[i];
 						
@@ -757,7 +757,7 @@ namespace Tinkercell
 							if (!renameCommand && !nameChangeHandles.contains(handles[i]))
 							{
 								s0 = handles[i]->fullName();
-								s1 = graphicsScene->network->makeUnique(s0,usedNames);
+								s1 = graphicsScene->network->makeUnique(handles[i],usedNames);
 								usedNames << s1;
 								nameChangeHandles << handles[i];
 								
@@ -1852,7 +1852,7 @@ namespace Tinkercell
 		{
 			handles += handle;
 			oldNames += handle->fullName();
-			newNames += net->makeUnique(newname);
+			newNames += net->makeUnique(handle);
 		}
 	}
 
@@ -1968,7 +1968,7 @@ namespace Tinkercell
 		{
 			handles += handle;
 			oldNames += handle->fullName();
-			newNames += net->makeUnique(newname);
+			newNames += net->makeUnique(handle);
 		}
 	}
 
@@ -1999,9 +1999,9 @@ namespace Tinkercell
 				{
 					handles += handle;
 					oldNames += handle->fullName();
+					newNames += net->makeUnique(handle,newNames);
 				}
 			}
-			newNames = net->makeUnique(newnames);
 		}
 	}
 
@@ -2039,9 +2039,9 @@ namespace Tinkercell
 				{
 					handles += handle;
 					oldNames += handle->fullName();
+					newNames += net->makeUnique(handle,newNames);
 				}
 			}
-			newNames = net->makeUnique(newnames);
 		}
 	}
 
@@ -2949,31 +2949,23 @@ namespace Tinkercell
 		{
 			QList<QString> newNames, oldNames;
 			QStringList allNames;
-			QString s0, s1,s2;
+			QString s0, s1;
 			
 			for (int i=0; i < children.size() && i < newParents.size() && i < oldParents.size(); ++i)
 				if (children[i] && newParents[i] != oldParents[i])
 				{
 					if (children[i] != newParents[i] && !children[i]->isChildOf(newParents[i]))
 					{
-						//MainWindow::instance()->console()->message(children[i]->name);
-						
 						children[i]->setParent(newParents[i],false);
-						s1 = children[i]->fullName();
+						s1 = net->makeUnique(children[i],allNames);						
 						children[i]->setParent(oldParents[i],false);
-						
-						oldNames += children[i]->fullName();
-						
-						if (allNames.contains(s1) || 
-							(net->symbolsTable.uniqueHandlesWithDot.contains(s1) && net->symbolsTable.uniqueHandlesWithDot[s1] != children[i]) ||
-							(net->symbolsTable.uniqueDataWithDot.contains(s1) && net->symbolsTable.uniqueDataWithDot[s1].first != children[i])
-							)
-							s2 = net->makeUnique(s1,allNames);
-						else
-							s2 = s1;
-						
-						newNames += s2;
-						allNames += s2;
+						s0 = children[i]->fullName();
+						if (s0 != s1)
+						{
+							oldNames += s0;
+							newNames += s1;
+						}
+						allNames += s1;
 					}
 				}
 			renameCommand = new RenameCommand(QString("rename"),net,oldNames,newNames);

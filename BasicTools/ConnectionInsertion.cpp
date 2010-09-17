@@ -920,7 +920,9 @@ namespace Tinkercell
 				QString appDir = QCoreApplication::applicationDirPath();
 				bool valid = changeSelectedFamilyToMatchSelection(true,allowFlips);
 				//check if enough items have been selected to make the connection
-				if (selectedNodes.size() >= (numRequiredIn + numRequiredOut) && valid)
+				if (selectedNodes.size() > 0 && 
+					selectedNodes.size() >= (numRequiredIn + numRequiredOut) && 
+					valid)
 				{
 					scene->selected().clear();
 					mainWindow->statusBar()->clearMessage();

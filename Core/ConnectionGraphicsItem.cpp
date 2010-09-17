@@ -15,6 +15,7 @@ node graphics item and is used to draw the arrow heads at the end of the connect
 
 ****************************************************************************/
 
+#include <iostream>
 #include <math.h>
 #include <QPainterPathStroker>
 #include "GraphicsScene.h"
@@ -925,10 +926,6 @@ namespace Tinkercell
 					}
 					curveSegments[i].arrowEnd->setZValue(z + 0.1);
 				}
-				
-				for (int j=0; j < curveSegments[i].size(); ++j)
-					if (MainWindow::invalidPointers.contains(curveSegments[i][j]))
-						curveSegments[i][j] = 0;
 
 				NodeGraphicsItem * node = nodeAt(i);
 				if (curveSegments[i].size() > 0 && 
@@ -939,7 +936,7 @@ namespace Tinkercell
 					pos = curveSegments[i][0]->scenePos();
 					path.moveTo(pos);
 					for (int j=0; j+3 < curveSegments[i].size(); j+=3)
-						if (curveSegments[i][j])
+						if (curveSegments[i][j] && curveSegments[i][j+1] && curveSegments[i][j+2] && curveSegments[i][j+3])
 						{
 							curveSegments[i][j+1]->setZValue(z + 0.02);
 							curveSegments[i][j+2]->setZValue(z + 0.02);
@@ -1061,12 +1058,7 @@ namespace Tinkercell
 
 					curveSegments[i][j]->connectionItem = 0;
 					
-					if (!MainWindow::invalidPointers.contains( (void*)curveSegments[i][j]) )
-					{
-						delete curveSegments[i][j];
-						MainWindow::invalidPointers[ (void*)curveSegments[i][j] ] = true;
-					}
-
+					delete curveSegments[i][j];
 					curveSegments[i][j] = 0;
 
 					if (all)
@@ -1427,12 +1419,10 @@ namespace Tinkercell
 	{
 		for (int i=0; i < graphicsItems.size(); ++i)
 		{
-			graphicsItems[i]->setParentItem(0);
-			if (graphicsItems[i] && !MainWindow::invalidPointers.contains((void*)graphicsItems[i])
-				&& !graphicsItems[i]->connectionItem && !graphicsItems[i]->scene())
+			if (graphicsItems[i] && !graphicsItems[i]->connectionItem && !graphicsItems[i]->scene())
 			{
+				graphicsItems[i]->setParentItem(0);
 				delete graphicsItems[i];
-				MainWindow::invalidPointers[ (void*)graphicsItems[i] ] = true;
 			}
 		}
 	}
@@ -1645,7 +1635,7 @@ namespace Tinkercell
 				curveSegments[i][0]->setParentItem(parentsAtStart[i]);
 			if (curveSegments[i].last() && parentsAtEnd.size() > i && parentsAtEnd[i] &&
 				!MainWindow::invalidPointers.contains((void*)parentsAtEnd[i]))
-				curveSegments[i].last()->setParentItem(parentsAtStart[i]);
+				curveSegments[i].last()->setParentItem(parentsAtEnd[i]);
 
 			connectionItem->curveSegments.append(curveSegments[i]);
 			for (int j=0; j < curveSegments[i].size(); ++j)
@@ -1761,7 +1751,6 @@ namespace Tinkercell
 					if (!curveSegments[i][j]->connectionItem && !curveSegments[i][j]->scene())
 					{
 						delete curveSegments[i][j];
-						MainWindow::invalidPointers[ (void*)curveSegments[i][j] ] = true;
 					}
 				}
 				if (curveSegments[i].arrowStart && 
@@ -1771,7 +1760,7 @@ namespace Tinkercell
 					curveSegments[i].arrowStart->setParentItem(0);
 					delete curveSegments[i].arrowStart;
 					MainWindow::invalidPointers[ (void*)curveSegments[i].arrowStart ] = true;
-					
+					curveSegments[i].arrowStart = 0;
 				}
 				if (curveSegments[i].arrowEnd && 
 					!MainWindow::invalidPointers.contains((void*)curveSegments[i].arrowEnd) &&
@@ -1780,6 +1769,7 @@ namespace Tinkercell
 					curveSegments[i].arrowEnd->setParentItem(0);
 					delete curveSegments[i].arrowEnd;
 					MainWindow::invalidPointers[ (void*)curveSegments[i].arrowEnd ] = true;
+					curveSegments[i].arrowEnd = 0;
 				}
 		}
 	}

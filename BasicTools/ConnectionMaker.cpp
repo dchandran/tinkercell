@@ -18,7 +18,6 @@ so that it looks appealing
 #include "ConnectionMaker.h"
 #include "DnaGraphicsItem.h"
 
-
 namespace Tinkercell
 {
 
@@ -393,7 +392,7 @@ namespace Tinkercell
 			center = nodes.at(1)->scenePos();
 			vector.append(new ConnectionGraphicsItem::ControlPoint(nodes.at(1)->mapFromScene(pointOnEdge(nodes.at(1)->sceneBoundingRect(),(center + middlePiece[3]->scenePos()) * 0.5)),connection, nodes.at(1)) );
 			connection->curveSegments.append(vector);
-
+			
 			delete middlePiece[0];
 			delete middlePiece[3];
 		}
@@ -411,13 +410,10 @@ namespace Tinkercell
 					vector.append(new ConnectionGraphicsItem::ControlPoint((p + middlePiece[0]->scenePos()) * 0.5,connection));
 					vector.append(middlePiece[0]);
 					vector.append(middlePiece[1]);
-
 					connection->curveSegments.append(vector);
-
 				}
 				else
 				{
-
 					ConnectionGraphicsItem::CurveSegment vector;
 					QPointF p = pointOnEdge(nodes.at(i)->sceneBoundingRect(),(center + middlePiece[3]->scenePos()) * 0.5);
 					vector.append(new ConnectionGraphicsItem::ControlPoint(nodes.at(i)->mapFromScene(p),connection, nodes.at(i)) );
@@ -455,7 +451,6 @@ namespace Tinkercell
 					y = nodes[1]->sceneBoundingRect().top() - 2*nodes[1]->sceneBoundingRect().height();
 
 				cp = new ConnectionGraphicsItem::ControlPoint(QPointF(nodes[0]->scenePos().x(),y),connection);
-
 				AddControlPointCommand command1(tr(""),scene,cp);
 				command1.redo();
 			}
@@ -478,7 +473,7 @@ namespace Tinkercell
 			{
 				cp->setPos( cp->pos() + QPointF( 0.0, 1.5 * nodes[0]->sceneBoundingRect().height() ) );
 			}
-		
+	
 			AddControlPointCommand command2(tr(""),scene,cp);
 			command2.redo();
 			connection->setPen(connection->defaultPen);

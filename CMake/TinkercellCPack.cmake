@@ -2,8 +2,6 @@
 # CMAKE Install files
 #---------------------------------------------------------------------------
 
-## NOTE: (arnaudgelas)
-# There is a special keyword for libraries...
 FILE(GLOB TINKERCELL_ALL_FILES_IN_BIN 
 	${TINKERCELL_BINARY_BIN_DIR}/*.DLL 
 	${TINKERCELL_BINARY_BIN_DIR}/*.dll
@@ -24,6 +22,14 @@ INSTALL(FILES ${TINKERCELL_ALL_FILES_IN_BIN}
 # ---------------------
 # CPACK
 # --------------------
+
+SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "CAD For Synthetic Biology")
+
+IF (UNIX AND NOT APPLE)
+   SET(CPACK_PACKAGE_CONTACT "admin@tinkercell.com")
+   SET(CPACK_DEBIAN_PACKAGE_SECTION "Science")
+   SET(CPACK_DEBIAN_PACKAGE_DESCRIPTION "CAD For Synthetic Biology")
+ENDIF (UNIX AND NOT APPLE)
 
 INCLUDE(InstallRequiredSystemLibraries)
 

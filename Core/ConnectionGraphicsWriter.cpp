@@ -8,6 +8,7 @@ This is the header file for the xml writer that writes a connection item.
 
 ****************************************************************************/
 
+#include "MainWindow.h"
 #include "ItemHandle.h"
 #include "ConnectionGraphicsWriter.h"
 #include "NodeGraphicsWriter.h"
@@ -27,7 +28,7 @@ namespace Tinkercell
 	* \return void*/
 	bool ConnectionGraphicsWriter::writeXml(ConnectionGraphicsItem * connection,const QString& fileName)
 	{
-		if (!connection || MainWindow::invalidPoints.contains(connection)) return false;
+		if (!connection || MainWindow::invalidPointers.contains(connection)) return false;
 
 		QFile file (fileName);
 
@@ -54,7 +55,7 @@ namespace Tinkercell
 	* \return void*/
 	bool ConnectionGraphicsWriter::writeXml(ConnectionGraphicsItem * connection,QIODevice * device)
 	{
-		if (!connection || !device || MainWindow::invalidPoints.contains(connection)) return false;
+		if (!connection || !device || MainWindow::invalidPointers.contains(connection)) return false;
 
 		setDevice(device);
 
@@ -73,7 +74,7 @@ namespace Tinkercell
 	* \return void*/ 
 	bool ConnectionGraphicsWriter::writeConnectionGraphics(ConnectionGraphicsItem * connection,QIODevice * device)
 	{
-		if (!connection || !device || MainWindow::invalidPoints.contains(connection)) return false;
+		if (!connection || !device || MainWindow::invalidPointers.contains(connection)) return false;
 		setDevice(device);
 
 		return writeConnectionGraphics(connection,const_cast<ConnectionGraphicsWriter*>(this));
@@ -84,7 +85,7 @@ namespace Tinkercell
 	* \return void*/ 
 	bool ConnectionGraphicsWriter::writeConnectionGraphics(ConnectionGraphicsItem * connection,QXmlStreamWriter * writer)
 	{
-		if (!connection || !writer || MainWindow::invalidPoints.contains(connection)) return false;
+		if (!connection || !writer || MainWindow::invalidPointers.contains(connection)) return false;
 
 		QStringList types;
 		types << "line" << "bezier";
@@ -135,7 +136,7 @@ namespace Tinkercell
 		{
 			for (int i=0; i < controlPoints.size(); ++i)
 			{
-				if (controlPoints[i] && !MainWindow::invalidPoints.contains(controlPoints[i]))
+				if (controlPoints[i] && !MainWindow::invalidPointers.contains(controlPoints[i]))
 				{
 					writer->writeStartElement("ControlPoint");
 					writer->writeAttribute("x",QString::number(controlPoints[i]->x()));
@@ -238,7 +239,7 @@ namespace Tinkercell
 	* \return void*/
 	void ConnectionGraphicsWriter::writeArrowHead(ArrowHeadItem * node, QXmlStreamWriter * writer)
 	{
-		if (node && writer && !MainWindow::invalidPoints.contains(node))
+		if (node && writer && !MainWindow::invalidPointers.contains(node))
 		{
 			QTransform t1 = node->sceneTransform();
 			QPointF pos = node->scenePos();

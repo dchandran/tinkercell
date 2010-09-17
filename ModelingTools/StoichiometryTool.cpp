@@ -250,6 +250,7 @@ namespace Tinkercell
 
 
 
+
 				
 			if (reactions)
 				mainWindow->contextItemsMenu.addAction(autoReverse);
@@ -330,12 +331,12 @@ namespace Tinkercell
 					if (validEquation) continue;
 
 					changedHandles << connectionHandle;
-					if (!oldparams->rowNames().contains(tr("Vmax")) ||
+					if (!oldparams->rowNames().contains(tr("Kcat")) ||
 						!oldparams->rowNames().contains(tr("Km")))
 					{
 						oldparameters << oldparams;
 						NumericalDataTable * newparams = new NumericalDataTable(*oldparams);
-						newparams->value(tr("Vmax"),0) = 1.0;
+						newparams->value(tr("Kcat"),0) = 1.0;
 						newparams->value(tr("Km"),0) = 1.0;
 						newparameters << newparams;
 					}
@@ -356,7 +357,7 @@ namespace Tinkercell
 					{
 						QString s = connectionHandle->fullName();
 						QString r = reacs.join(tr("*"));
-						s += tr(".Vmax * ");
+						s += tr(".Kcat * ");
 						s += enz;
 						s += tr(" * "); 
 						s += r;

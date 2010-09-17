@@ -51,6 +51,7 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(copyItems(GraphicsScene *, QList<QGraphicsItem*>&, QList<ItemHandle*>&)),this,SLOT(copyItems(GraphicsScene *, QList<QGraphicsItem*>&, QList<ItemHandle*>&)));
 			connect(mainWindow,SIGNAL(networkOpened(NetworkHandle*)),this,SLOT(networkOpened(NetworkHandle*)));
 			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
+			connect(mainWindow,SIGNAL(getItemsFromFile(QList<ItemHandle*>&, const QString&)),this,SLOT(getItemsFromFile(QList<ItemHandle*>&, const QString&)));
 
 			toolLoaded(0);
 
@@ -699,8 +700,28 @@ namespace Tinkercell
 		if (text)
 			(*text) = getAntimonyScript(items);
 	}
+	
+	void AntimonyEditor::getItemsFromFile(QList<ItemHandle*>& items, const QString& filename)
+	{
+		NetworkWindow * window = currentWindow();
+		
+		ItemHandle * root = 0;
+		if (window)
+			root = window->handle;
+		
+		if (!root && currentNetwork())
+			root = currentNetwork()->globalHandle();
+		
+		QString s;
+		QFile file(filename);
+			if (file.open(QFile::ReadOnly | QFile::Text))
+		    {
+		        s == file.readAll();
+		        file.close();
+		    }
 
-
+		items = parse(s, root);
+	}
 }
 
 extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)

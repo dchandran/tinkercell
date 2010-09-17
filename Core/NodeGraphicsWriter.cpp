@@ -25,7 +25,7 @@ namespace Tinkercell
 	* \return void*/
 	bool NodeGraphicsWriter::writeXml(NodeGraphicsItem * node,const QString& fileName, bool normalize)
 	{
-		if (!node) return false;
+		if (!node || MainWindow::invalidPoints.contains(node)) return false;
 
 		QFile file (fileName);
 
@@ -53,7 +53,7 @@ namespace Tinkercell
 	* \return void*/
 	bool NodeGraphicsWriter::writeXml(NodeGraphicsItem * node,QIODevice * device, bool normalize)
 	{
-		if (!node || !device) return false;
+		if (!node || !device || MainWindow::invalidPoints.contains(node)) return false;
 
 		setDevice(device);
 
@@ -72,7 +72,7 @@ namespace Tinkercell
 	* \return void*/
 	bool NodeGraphicsWriter::writeNodeGraphics(NodeGraphicsItem * node,QIODevice * device, bool normalize)
 	{
-		if (!node || !device) return false;
+		if (!node || !device || MainWindow::invalidPoints.contains(node)) return false;
 		setDevice(device);
 
 		return writeNodeGraphics(node,const_cast<NodeGraphicsWriter*>(this),normalize);
@@ -83,7 +83,7 @@ namespace Tinkercell
 	* \return void*/ 
 	bool NodeGraphicsWriter::writeNodeGraphics(NodeGraphicsItem * node, QXmlStreamWriter * writer, bool normalize)
 	{
-		if (!node || !writer) return false;
+		if (!node || MainWindow::invalidPoints.contains(node) || !writer) return false;
 
 		writer->writeStartElement("listOfRenderInformation");
 		writer->writeAttribute("xmlns", "http://projects.eml.org/bcb/sbml/render/level2");
@@ -96,9 +96,9 @@ namespace Tinkercell
 
 		for (int i = 0; i < node->shapes.size(); ++i)
 		{
-			if (!writeColors && node->shapes[i] && !node->shapes[i]->defaultBrush.gradient())
+			if (!writeColors && node->shapes[i] && !MainWindow::invalidPoints.contains(node->shapes[i]) && !node->shapes[i]->defaultBrush.gradient())
 				writeColors = true;
-			if (!writeGradients && node->shapes[i] && node->shapes[i]->defaultBrush.gradient())
+			if (!writeGradients && node->shapes[i] && !MainWindow::invalidPoints.contains(node->shapes[i]) && node->shapes[i]->defaultBrush.gradient())
 				writeGradients = true;
 
 			if (writeColors && writeGradients)
@@ -206,10 +206,10 @@ namespace Tinkercell
 
 	void NodeGraphicsWriter::writeShapeGradients(NodeGraphicsItem * node, int index, QXmlStreamWriter * writer, bool normalize)
 	{
-		if (writer && node)
+		if (writer && node && !MainWindow::invalidPoints.contains(node))
 		{
 			NodeGraphicsItem::Shape * ptr = node->shapes[index];
-			if (!ptr || !ptr->defaultBrush.gradient()) return;
+			if (!ptr || MainWindow::invalidPoints.contains(ptr) || !ptr->defaultBrush.gradient()) return;
 
 			const QGradient * gradient = ptr->defaultBrush.gradient();
 		
@@ -267,7 +267,7 @@ namespace Tinkercell
 
 	void NodeGraphicsWriter::writeShapeColors(NodeGraphicsItem * node, int index, QXmlStreamWriter * writer)
 	{
-		if (writer && node)
+		if (writer && node && !MainWindow::invalidPoints.contains(node))
 		{
 			NodeGraphicsItem::Shape * ptr = node->shapes[index];
 			if (!ptr || ptr->defaultBrush.gradient()) return;
@@ -286,7 +286,7 @@ namespace Tinkercell
 	* \return void*/
 	void NodeGraphicsWriter::writeShape(NodeGraphicsItem * node, int index, QXmlStreamWriter * writer, bool normalize)
 	{
-		if (writer && node)
+		if (writer && node && !MainWindow::invalidPoints.contains(node))
 		{
 			NodeGraphicsItem::Shape * ptr = node->shapes[index];
 			if (!ptr) return;

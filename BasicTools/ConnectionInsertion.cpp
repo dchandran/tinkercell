@@ -432,13 +432,16 @@ namespace Tinkercell
 				bool in;
 				QStringList nodeRoles = family->nodeRoles,
 							nodeFamilies = family->nodeFamilies,
-							oldRowNames = oldTable->getRowNames();
+							oldRowNames;
 
 				for (int j=0; j < oldTable->rows(); ++j)
 				{
 					int k = nodeRoles.indexOf(oldTable->value(j,0));
 					if (k > -1)
+					{
 						nodeRoles[k] = tr("");
+						oldRowNames += oldTable->rowName(j);
+					}
 				}
 				
 				for (int j=0; j < nodes.size(); ++j) //for each node

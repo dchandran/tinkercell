@@ -364,11 +364,14 @@ namespace Tinkercell
 #endif
 
 		for (int i=0; i < boundaryControlPoints.size(); ++i)
-			if (boundaryControlPoints[i])
+			if (boundaryControlPoints[i] && !MainWindow::invalidPointers.contains(boundaryControlPoints[i]))
 			{
 				boundaryControlPoints[i]->nodeItem = 0;
 				if (!boundaryControlPoints[i]->scene())
+				{
 					delete boundaryControlPoints[i];
+					MainWindow::invalidPointers[ (void*)(boundaryControlPoints[i]) ] = true;
+				}
 				boundaryControlPoints[i] = 0;
 			}
 			boundaryControlPoints.clear();
@@ -433,12 +436,13 @@ namespace Tinkercell
 				boundaryControlPoints[i] = 0;
 			}
 
-		if (boundingBoxItem)
+		if (boundingBoxItem && !MainWindow::invalidPointers.contains((void*)(boundingBoxItem)))
 		{
 			removeFromGroup(boundingBoxItem);
 			if (boundingBoxItem->scene())
 				boundingBoxItem->scene()->removeItem(boundingBoxItem);
 			delete boundingBoxItem;
+			MainWindow::invalidPointers[ (void*)(boundingBoxItem) ] = true;
 			boundingBoxItem = 0;
 		}
 
@@ -975,11 +979,14 @@ namespace Tinkercell
 			if (controlPoints.contains(control))
 				controlPoints.remove( controlPoints.indexOf(control) );
 			for (int i=shapes.size()-1; i >= 0; --i)
-				if (shapes[i] && shapes[i]->controlPoints.contains(control))
+				if (shapes[i] && 
+					!MainWindow::invalidPointers.contains(shapes[i]) &&
+					shapes[i]->controlPoints.contains(control))
 				{
 					removeFromGroup(shapes[i]);
 					delete shapes[i];
 					shapes.remove(i);
+					MainWindow::invalidPointers[ (void*)(shapes[i]) ] = true;
 				}
 			refresh();
 		}
@@ -987,13 +994,14 @@ namespace Tinkercell
 	/*! \brief add a shape to the set of shapes*/
 	void NodeGraphicsItem::removeShape(Shape* shape)
 	{
-		if (shape)
+		if (shape && !MainWindow::invalidPointers.contains(shape))
 		{
 			if (shapes.contains(shape))
 			{
 				shapes.remove( shapes.indexOf(shape));
 				removeFromGroup(shape);
 				delete shape;
+				MainWindow::invalidPointers[ (void*)shape ] = true;
 			}
 			refresh();
 		}

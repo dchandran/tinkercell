@@ -465,8 +465,8 @@ namespace Tinkercell
 									visitedHandles << handles2[j];
 									if (!handles2[j]->parent)
 									{
-										handles2[j]->setParent(handles[i],false);
-										RenameCommand::findReplaceAllHandleData(handles2,handles2[j]->name,handles2[j]->fullName());
+										commands << new SetParentHandleCommand(tr("set parent"),0,handles2[j],handles[i]);
+										commands << new RenameCommand(tr("rename"),0,handles2,handles2[j]->name,handles2[j]->fullName());
 									}
 								}
 						}
@@ -550,7 +550,7 @@ namespace Tinkercell
 						}
 					modules << handles[i];
 				}
-				
+	
 			for (int i=0; i < modules.size(); ++i)
 				for (int j=0; j < modules[i]->children.size(); ++j)
 				{
@@ -563,7 +563,7 @@ namespace Tinkercell
 				}
 			
 			if (!commands.isEmpty())
-				network->push( new CompositeCommand(tr("Merged models"),commands) );
+				network->push( new CompositeCommand(tr("merged models by roles"),commands) );
 	    }
     }
 

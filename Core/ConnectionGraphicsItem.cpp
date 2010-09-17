@@ -863,34 +863,13 @@ namespace Tinkercell
 		setPos(0,0);
 		adjustEndPoints();
 		qreal z = zValue();
-		/*if (!centerRegionItem)
-		{
-			ArrowHeadItem * node = new ArrowHeadItem;
-			node->connectionItem = this;
-			NodeGraphicsReader imageReader;
-			imageReader.readXml(node,DefaultMiddleItemFile);
-			if (node->isValid())
-			{
-				node->normalize();
-				node->scale(25.0/node->sceneBoundingRect().height(),25.0/node->sceneBoundingRect().height());
-			}
+		
+		if (MainWindow::invalidPointers.contains(centerRegionItem))
 			centerRegionItem = 0;
-		}*/
+		
 		if (centerRegionItem && centerRegionItem->parentItem() == 0)
 		{
 			centerRegionItem->connectionItem = this;
-			/*if (centerRegionItem->scene() != scene() && scene())
-			{
-			if (centerRegionItem->scene())
-			centerRegionItem->scene()->removeItem(centerRegionItem);
-			if (scene())
-			{
-			(static_cast<GraphicsScene*>(scene()))->addItem(centerRegionItem);
-			}
-			}*/
-
-			//if (centerRegionItem->scene() == scene() && centerRegionItem->isVisible())
-			//{
 			if (centerRegionItem->scene() != this->scene() && this->scene())
 			{
 				QList<QGraphicsItem*> children = centerRegionItem->childItems();
@@ -903,6 +882,7 @@ namespace Tinkercell
 						break;
 					}
 			}
+		
 			centerRegionItem->setPos( centerLocation() );
 			centerRegionItem->setZValue(z + 0.01);
 
@@ -919,7 +899,8 @@ namespace Tinkercell
 			QPointF pos;
 			for (int i=0; i < curveSegments.size(); ++i)
 			{
-				
+				if (MainWindow::invalidPointers.contains(curveSegments[i].arrowStart))
+					curveSegments[i].arrowStart = 0;
 				if (curveSegments[i].arrowStart)
 				{
 					if (curveSegments[i].arrowStart->scene() != this->scene() && this->scene())
@@ -930,6 +911,10 @@ namespace Tinkercell
 					}
 					curveSegments[i].arrowStart->setZValue(z + 0.1);
 				}
+				
+				if (MainWindow::invalidPointers.contains(curveSegments[i].arrowEnd))
+					curveSegments[i].arrowEnd = 0;
+				
 				if (curveSegments[i].arrowEnd)
 				{
 					if (curveSegments[i].arrowEnd->scene() != this->scene() && this->scene())
@@ -941,9 +926,13 @@ namespace Tinkercell
 					curveSegments[i].arrowEnd->setZValue(z + 0.1);
 				}
 				
+				for (int j=0; j < curveSegments[i].size(); ++j)
+					if (MainWindow::invalidPointers.contains(curveSegments[i][j]))
+						curveSegments[i][j] = 0;
 
 				NodeGraphicsItem * node = nodeAt(i);
-				if (curveSegments[i].size() > 0 && curveSegments[i][0] &&
+				if (curveSegments[i].size() > 0 && 
+					curveSegments[i][0] &&
 					node && node->scene() == scene())
 				{
 					curveSegments[i][0]->setZValue(z + 0.02);
@@ -966,7 +955,6 @@ namespace Tinkercell
 			QPointF pos1,pos2,pos3;
 			for (int i=0; i < curveSegments.size(); ++i)
 			{
-				
 				if (curveSegments[i].arrowStart)
 				{
 					if (curveSegments[i].arrowStart->scene() != this->scene() && this->scene())
@@ -1440,9 +1428,11 @@ namespace Tinkercell
 		for (int i=0; i < graphicsItems.size(); ++i)
 		{
 			graphicsItems[i]->setParentItem(0);
-			if (graphicsItems[i] && !graphicsItems[i]->connectionItem && !graphicsItems[i]->scene())
+			if (graphicsItems[i] && !MainWindow::invalidPointers.contains((void*)graphicsItems[i])
+				&& !graphicsItems[i]->connectionItem && !graphicsItems[i]->scene())
 			{
 				delete graphicsItems[i];
+				MainWindow::invalidPointers[ (void*)graphicsItems[i] ] = true;
 			}
 		}
 	}
@@ -1765,23 +1755,31 @@ namespace Tinkercell
 		for (int i=0; i < curveSegments.size(); ++i)
 		{
 			for (int j=0; j < curveSegments[i].size(); ++j)
-				if (curveSegments[i][j])
+				if (curveSegments[i][j] && !MainWindow::invalidPointers.contains((void*)curveSegments[i][j]))
 				{
 					curveSegments[i][j]->setParentItem(0);
-					if (curveSegments[i][j] && !curveSegments[i][j]->connectionItem && !curveSegments[i][j]->scene())
+					if (!curveSegments[i][j]->connectionItem && !curveSegments[i][j]->scene())
 					{
 						delete curveSegments[i][j];
+						MainWindow::invalidPointers[ (void*)curveSegments[i][j] ] = true;
 					}
 				}
-				if (curveSegments[i].arrowStart && !curveSegments[i].arrowStart->scene())
+				if (curveSegments[i].arrowStart && 
+					!MainWindow::invalidPointers.contains((void*)curveSegments[i].arrowStart) &&
+					!curveSegments[i].arrowStart->scene())
 				{
 					curveSegments[i].arrowStart->setParentItem(0);
 					delete curveSegments[i].arrowStart;
+					MainWindow::invalidPointers[ (void*)curveSegments[i].arrowStart ] = true;
+					
 				}
-				if (curveSegments[i].arrowEnd && !curveSegments[i].arrowEnd->scene())
+				if (curveSegments[i].arrowEnd && 
+					!MainWindow::invalidPointers.contains((void*)curveSegments[i].arrowEnd) &&
+					!curveSegments[i].arrowEnd->scene())
 				{
 					curveSegments[i].arrowEnd->setParentItem(0);
 					delete curveSegments[i].arrowEnd;
+					MainWindow::invalidPointers[ (void*)curveSegments[i].arrowEnd ] = true;
 				}
 		}
 	}

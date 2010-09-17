@@ -25,9 +25,9 @@ namespace Tinkercell
 	* \param ConnectionGraphicsItem pointer to write as XML
 	* \param QIODevice to use
 	* \return void*/
-	bool ConnectionGraphicsWriter::writeXml(ConnectionGraphicsItem * idrawable,const QString& fileName)
+	bool ConnectionGraphicsWriter::writeXml(ConnectionGraphicsItem * connection,const QString& fileName)
 	{
-		if (!idrawable) return false;
+		if (!connection || MainWindow::invalidPoints.contains(connection)) return false;
 
 		QFile file (fileName);
 
@@ -41,7 +41,7 @@ namespace Tinkercell
 		writeStartDocument();
 		writeDTD("<!DOCTYPE ConnectionGraphicsItem>");
 
-		writeConnectionGraphics(idrawable,&file);
+		writeConnectionGraphics(connection,&file);
 
 		writeEndDocument();
 
@@ -52,16 +52,16 @@ namespace Tinkercell
 	* \param ConnectionGraphicsItem pointer to write as XML
 	* \param QIODevice to use
 	* \return void*/
-	bool ConnectionGraphicsWriter::writeXml(ConnectionGraphicsItem * idrawable,QIODevice * device)
+	bool ConnectionGraphicsWriter::writeXml(ConnectionGraphicsItem * connection,QIODevice * device)
 	{
-		if (!idrawable || !device) return false;
+		if (!connection || !device || MainWindow::invalidPoints.contains(connection)) return false;
 
 		setDevice(device);
 
 		writeStartDocument();
 		writeDTD("<!DOCTYPE ConnectionGraphicsItem>");
 
-		writeConnectionGraphics(idrawable,device);
+		writeConnectionGraphics(connection,device);
 
 		writeEndDocument();
 
@@ -71,12 +71,12 @@ namespace Tinkercell
 	* \param connection item pointer to write as XML
 	* \param xml writer in use
 	* \return void*/ 
-	bool ConnectionGraphicsWriter::writeConnectionGraphics(ConnectionGraphicsItem * idrawable,QIODevice * device)
+	bool ConnectionGraphicsWriter::writeConnectionGraphics(ConnectionGraphicsItem * connection,QIODevice * device)
 	{
-		if (!idrawable || !device) return false;
+		if (!connection || !device || MainWindow::invalidPoints.contains(connection)) return false;
 		setDevice(device);
 
-		return writeConnectionGraphics(idrawable,const_cast<ConnectionGraphicsWriter*>(this));
+		return writeConnectionGraphics(connection,const_cast<ConnectionGraphicsWriter*>(this));
 	}
 	/*! \brief Writes an NodeImage as an XML file using the xml writer provided 
 	* \param connection item pointer to write as XML
@@ -84,7 +84,7 @@ namespace Tinkercell
 	* \return void*/ 
 	bool ConnectionGraphicsWriter::writeConnectionGraphics(ConnectionGraphicsItem * connection,QXmlStreamWriter * writer)
 	{
-		if (!connection || !writer) return false;
+		if (!connection || !writer || MainWindow::invalidPoints.contains(connection)) return false;
 
 		QStringList types;
 		types << "line" << "bezier";
@@ -135,7 +135,7 @@ namespace Tinkercell
 		{
 			for (int i=0; i < controlPoints.size(); ++i)
 			{
-				if (controlPoints[i])
+				if (controlPoints[i] && !MainWindow::invalidPoints.contains(controlPoints[i]))
 				{
 					writer->writeStartElement("ControlPoint");
 					writer->writeAttribute("x",QString::number(controlPoints[i]->x()));
@@ -238,7 +238,7 @@ namespace Tinkercell
 	* \return void*/
 	void ConnectionGraphicsWriter::writeArrowHead(ArrowHeadItem * node, QXmlStreamWriter * writer)
 	{
-		if (node && writer)
+		if (node && writer && !MainWindow::invalidPoints.contains(node))
 		{
 			QTransform t1 = node->sceneTransform();
 			QPointF pos = node->scenePos();

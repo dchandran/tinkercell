@@ -492,6 +492,7 @@ namespace Tinkercell
 			if (childHandles[j] && childHandles[j]->isA(tr("Module")))
 			{
 				s += tr("    ");
+
 				s += childHandles[j]->name;
 				s += tr(": ");
 				s += childHandles[j]->name;
@@ -703,6 +704,8 @@ namespace Tinkercell
 	
 	void AntimonyEditor::getItemsFromFile(QList<ItemHandle*>& items, const QString& filename)
 	{
+		if (!items.isEmpty()) return;
+
 		NetworkWindow * window = currentWindow();
 		
 		ItemHandle * root = 0;

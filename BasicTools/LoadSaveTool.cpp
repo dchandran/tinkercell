@@ -395,6 +395,7 @@ namespace Tinkercell
 	
 	void LoadSaveTool::getItemsFromFile(QList<ItemHandle*>& handles, const QString& filename)
 	{
+		if (!handles.isEmpty()) return;
 		QList<QGraphicsItem*> items;
 		loadItems(items,filename);
 		ItemHandle * h;

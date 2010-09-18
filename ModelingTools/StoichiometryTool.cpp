@@ -251,6 +251,7 @@ namespace Tinkercell
 
 
 
+
 				
 			if (reactions)
 				mainWindow->contextItemsMenu.addAction(autoReverse);
@@ -349,7 +350,7 @@ namespace Tinkercell
 						if (participants.value(j,0).toLower() == tr("catalyst"))
 							enz = participants.rowName(j);
 						else
-						if (participants.value(j,0).toLower().contains(tr("reactant")))
+						if (participants.value(j,0).toLower().contains(tr("substrate")) || participants.value(j,0).toLower().contains(tr("reactant")))
 							reacs += participants.rowName(j);
 					}
 					

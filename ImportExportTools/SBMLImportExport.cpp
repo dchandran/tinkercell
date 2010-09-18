@@ -23,7 +23,9 @@ SBMLImportExport::SBMLImportExport() : Tool("SBML Tool")
 {
 	modelNeedsUpdate = true;
 	sbmlDocument = 0;
-	
+
+	OPEN_FILE_EXTENSIONS << "sbml" << "SBML";
+
 	connect(&fToS,SIGNAL(exportSBML(QSemaphore*, const QString&)),this,SLOT(exportSBML(QSemaphore*, const QString&)));
 	connect(&fToS,SIGNAL(importSBML(QSemaphore*, const QString&)),this,SLOT(importSBML(QSemaphore*, const QString&)));
 	connect(&fToS,SIGNAL(simulateODE(QSemaphore*, NumericalDataTable*,double, double)),this,SLOT(simulateODE(QSemaphore*, NumericalDataTable*,double, double)));
@@ -47,7 +49,7 @@ bool SBMLImportExport::setMainWindow(MainWindow * main)
 		QList<QAction*> actions = mainWindow->fileMenu->actions();
 
 		QAction * targetAction = 0;
-		QMenu * exportmenu = 0, * importmenu = 0;
+		QMenu * exportmenu = 0;//, * importmenu = 0;
 		
 		for (int i=0; i < actions.size(); ++i)
 			if (actions[i] && actions[i]->menu())
@@ -60,43 +62,38 @@ bool SBMLImportExport::setMainWindow(MainWindow * main)
 				else
 					if (actions[i]->text() == tr("&Import"))
 					{
-						importmenu = actions[i]->menu();
+						//importmenu = actions[i]->menu();
 						targetAction = actions[i];
 					}
 			}
 		
-		if (!exportmenu && !importmenu)
+		if (!exportmenu)
 		{
 			for (int i=0; i < actions.size(); ++i)
 				if (actions[i] && actions[i]->text() == tr("&Close page"))
 				{
 					exportmenu = new QMenu(tr("&Export"));
-					importmenu = new QMenu(tr("&Import"));
-					mainWindow->fileMenu->insertMenu(actions[i],importmenu);
+					//importmenu = new QMenu(tr("&Import"));
+					//mainWindow->fileMenu->insertMenu(actions[i],importmenu);
 					mainWindow->fileMenu->insertMenu(actions[i],exportmenu);
 				}
 		}
-		else
+
 		if (!exportmenu)
 		{
 			exportmenu = new QMenu(tr("&Export"));
 			mainWindow->fileMenu->insertMenu(targetAction,exportmenu);
 		}
-		else
-		if (!importmenu)
-		{
-			importmenu = new QMenu(tr("&Export"));
-			mainWindow->fileMenu->insertMenu(targetAction,importmenu);
-		}
 		
-		if (importmenu && exportmenu)
+		if (exportmenu)
 		{
-			importmenu->addAction(tr("load SBML file"),this,SLOT(loadSBMLFile()));
+			//importmenu->addAction(tr("load SBML file"),this,SLOT(loadSBMLFile()));
 			exportmenu->addAction(tr("save SBML file"),this,SLOT(saveSBMLFile()));
 		}
 
 	}
 	connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
+	connect(mainWindow,SIGNAL(loadNetwork(const QString&)),this,SLOT(loadNetwork(const QString&)));
 	connect(main,SIGNAL(historyChanged(int)),this, SLOT(historyChanged(int)));
 	connect(main,SIGNAL(windowChanged(NetworkWindow*,NetworkWindow*)),this, SLOT(windowChanged(NetworkWindow*,NetworkWindow*)));
 	
@@ -243,17 +240,26 @@ void SBMLImportExport::exportSBML(QSemaphore * sem, const QString & str)
 		sem->release();
 }
 
+void SBMLImportExport::loadNetwork(const QString& filename)
+{
+	importSBML(0,filename);
+}
+
 void SBMLImportExport::importSBML(QSemaphore * sem, const QString& str)
 {
 	QList<ItemHandle*> items = importSBML(str);
-	QString text;
-	emit getTextVersion(items, &text);
 	
-	TextEditor * editor = mainWindow->newTextEditor();
-	if (editor)
+	if (items.size() > 0)
 	{
-		editor->setItems(items);
-		editor->setText(text);
+		QString text;
+		emit getTextVersion(items, &text);
+	
+		TextEditor * editor = mainWindow->newTextEditor();
+		if (editor)
+		{
+			editor->setItems(items);
+			editor->setText(text);
+		}
 	}
 
 	if (sem)

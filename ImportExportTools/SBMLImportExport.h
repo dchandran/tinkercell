@@ -69,6 +69,7 @@ namespace Tinkercell
 
 	private slots:
 
+		void loadNetwork(const QString& filename);
 		void windowChanged(NetworkWindow*,NetworkWindow*);
 		void historyChanged(int);
 		void setupFunctionPointers( QLibrary * );

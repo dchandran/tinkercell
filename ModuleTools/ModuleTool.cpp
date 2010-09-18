@@ -426,6 +426,17 @@ namespace Tinkercell
 				}
 			}
 		}
+		
+		if (scene->localHandle())
+		{
+			ItemHandle * parentHandle = scene->localHandle();
+			for (int i=0; i < handles.size(); ++i)
+				if (handles[i] && !handles[i]->parent)
+				{
+					commands << new SetParentHandleCommand(tr("set parent"),0,handles[i],parentHandle);
+					commands << new RenameCommand(tr("rename"),0,handles,handles[i]->name,parentHandle->fullName() + tr(".") + handles[i]->name);
+				}
+		}
 
 		for (int i=0; i < handles.size(); ++i)
 			if (handles[i] && handles[i]->children.isEmpty() && ConnectionFamily::cast(handles[i]->family()))
@@ -452,23 +463,29 @@ namespace Tinkercell
 				
 					if (!list.isEmpty())
 					{	
-						QString filename = list.first().absoluteFilePath();
-
-						if (QFile::exists(filename))
+						bool loaded = false;
+						while (!loaded)
 						{
-							QList<ItemHandle*> handles2 = mainWindow->getItemsFromFile(filename);							
-							QList<ItemHandle*> visitedHandles;
+							QString filename = list.first().absoluteFilePath();
+
+							if (QFile::exists(filename))
+							{
+								QList<ItemHandle*> handles2 = mainWindow->getItemsFromFile(filename);							
+								loaded = !handles2.isEmpty();
+								
+								QList<ItemHandle*> visitedHandles;
 							
-							for (int j=0; j < handles2.size(); ++j)
-								if (handles2[j] && !visitedHandles.contains(handles2[j]))
-								{
-									visitedHandles << handles2[j];
-									if (!handles2[j]->parent)
+								for (int j=0; j < handles2.size(); ++j)
+									if (handles2[j] && !visitedHandles.contains(handles2[j]))
 									{
-										commands << new SetParentHandleCommand(tr("set parent"),0,handles2[j],handles[i]);
-										commands << new RenameCommand(tr("rename"),0,handles2,handles2[j]->name,handles2[j]->fullName());
+										visitedHandles << handles2[j];
+										if (!handles2[j]->parent)
+										{
+											commands << new SetParentHandleCommand(tr("set parent"),0,handles2[j],handles[i]);
+											commands << new RenameCommand(tr("rename"),0,handles2,handles2[j]->name,handles[i]->fullName() + tr(".") + handles2[j]->name);
+										}
 									}
-								}
+							}
 						}
 					}
 				}
@@ -723,8 +740,6 @@ namespace Tinkercell
 				
 				if (!window || !window->handle) return;
 				
-				ItemHandle * parentHandle = window->handle;
-				
 				QList<ItemHandle*> handles = mainWindow->getItemsFromFile(filename);
 				
 				if (handles.isEmpty()) return;
@@ -737,11 +752,7 @@ namespace Tinkercell
 					{
 						visitedHandles << handles[i];
 						if (!handles[i]->parent)
-						{
-							handles[i]->setParent(parentHandle,false);
 							items << handles[i]->graphicsItems;
-							RenameCommand::findReplaceAllHandleData(handles,handles[i]->name,handles[i]->fullName());
-						}
 					}
 
 				if (window && window->scene)
@@ -920,34 +931,42 @@ namespace Tinkercell
 			QDockWidget * dock = makeDockWidget(handle->family()->name);
 			if (dock)
 			{
-				NetworkHandle * network = scene->network;
-				GraphicsScene * newScene = network->createScene();
-				NetworkWindow * window = newScene->networkWindow;
-				if (window)
+				if (!handle->children.isEmpty())
 				{
-					window->addDockWidget(Qt::TopDockWidgetArea,dock);
-					window->handle = handle;
-					
-					if (!handle->children.isEmpty())
-					{
-						QList<QGraphicsItem*> items, items2;
-						for (int i=0; i < handle->children.size(); ++i)
-							if (handle->children[i])
-							{
-								items2 = handle->children[i]->graphicsItems;
-								for (int j=0; j < items2.size(); ++j)							
-									if (items2[j] && !items2[j]->scene())
-										items << items2[j];
-							}
-
-						if (!items.isEmpty())
+					QList<QGraphicsItem*> items, items2;
+					for (int i=0; i < handle->children.size(); ++i)
+						if (handle->children[i])
 						{
-							newScene->insert(handle->name + tr(" expanded"),items);
+							items2 = handle->children[i]->graphicsItems;
+							for (int j=0; j < items2.size(); ++j)							
+								if (items2[j] && !items2[j]->scene())
+									items << items2[j];
 						}
+				
+					
+					NetworkHandle * network = scene->network;
+					NetworkWindow * window = 0;
+					if (!items.isEmpty())
+					{
+						GraphicsScene * newScene = network->createScene();
+						newScene->insert(handle->name + tr(" visible"),items);
+						window = newScene->networkWindow;
 					}
+					else
+					{
+						QString modelText;
+						emit getTextVersion(handle->children, &modelText);
+						TextEditor * newEditor = network->createTextEditor(modelText);
+						window = newEditor->networkWindow;
+					}
+					if (window)
+					{
+						window->addDockWidget(Qt::TopDockWidgetArea,dock);
+						window->handle = handle;						
+					}
+					else
+						delete dock;
 				}
-				else
-					delete dock;
 			}
 		}
     }

@@ -49,7 +49,7 @@ namespace Tinkercell
 		{
 			mainWindow->addParser(this);
 			connect(mainWindow,SIGNAL(copyItems(GraphicsScene *, QList<QGraphicsItem*>&, QList<ItemHandle*>&)),this,SLOT(copyItems(GraphicsScene *, QList<QGraphicsItem*>&, QList<ItemHandle*>&)));
-			connect(mainWindow,SIGNAL(networkOpened(NetworkHandle*)),this,SLOT(networkOpened(NetworkHandle*)));
+			connect(mainWindow,SIGNAL(windowChanged(NetworkWindow*,NetworkWindow*)),this,SLOT(windowChanged(NetworkWindow*,NetworkWindow*)));
 			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
 			connect(mainWindow,SIGNAL(getItemsFromFile(QList<ItemHandle*>&, const QString&)),this,SLOT(getItemsFromFile(QList<ItemHandle*>&, const QString&)));
 
@@ -59,11 +59,13 @@ namespace Tinkercell
 		return false;
 	}
 
-	void AntimonyEditor::networkOpened(NetworkHandle * network)
+	void AntimonyEditor::windowChanged(NetworkWindow*,NetworkWindow * window)
 	{
-		if (network && network->currentTextEditor() && TextParser::currentParser() == this)
+		if (window && window->editor && !visitedWindows.contains(window) && TextParser::currentParser() == this)
 		{
-			AntimonySyntaxHighlighter * as = new AntimonySyntaxHighlighter(network->currentTextEditor()->document());
+			visitedWindows[window] = true;
+
+			AntimonySyntaxHighlighter * as = new AntimonySyntaxHighlighter(window->editor->document());
 			connect(this,SIGNAL(validSyntax(bool)),as,SLOT(setValid(bool)));
 
 			QToolButton * button = new QToolButton(this);
@@ -74,21 +76,17 @@ namespace Tinkercell
 			button->setToolTip(tr("interpret script using Antimony language"));
 			connect(button,SIGNAL(pressed()),this,SLOT(parse()));
 			
-			NetworkWindow * window = network->currentTextEditor()->networkWindow;
-			if (window)
-			{
-				QDockWidget * dock = new QDockWidget;
-				QVBoxLayout * layout = new QVBoxLayout;
-				QWidget * widget = new QWidget;
-				layout->setContentsMargins(5,8,5,5);
-				layout->setSpacing(12);
-				widget->setLayout(layout);
-				layout->addWidget(button,1,Qt::AlignTop);
-				widget->setPalette(QPalette(QColor(255,255,255)));
-				widget->setAutoFillBackground (true);
-				dock->setWidget(widget);
-				window->addDockWidget(Qt::RightDockWidgetArea,dock);
-			}
+			QDockWidget * dock = new QDockWidget;
+			QVBoxLayout * layout = new QVBoxLayout;
+			QWidget * widget = new QWidget;
+			layout->setContentsMargins(5,8,5,5);
+			layout->setSpacing(12);
+			widget->setLayout(layout);
+			layout->addWidget(button,1,Qt::AlignTop);
+			widget->setPalette(QPalette(QColor(255,255,255)));
+			widget->setAutoFillBackground (true);
+			dock->setWidget(widget);
+			window->addDockWidget(Qt::RightDockWidgetArea,dock);
 			/*
 			button = new QToolButton;
 			button->setToolButtonStyle ( Qt::ToolButtonTextUnderIcon );
@@ -493,6 +491,7 @@ namespace Tinkercell
 			{
 				s += tr("    ");
 
+
 				s += childHandles[j]->name;
 				s += tr(": ");
 				s += childHandles[j]->name;
@@ -717,11 +716,11 @@ namespace Tinkercell
 		
 		QString s;
 		QFile file(filename);
-			if (file.open(QFile::ReadOnly | QFile::Text))
-		    {
-		        s == file.readAll();
-		        file.close();
-		    }
+		if (file.open(QFile::ReadOnly | QFile::Text))
+	    {
+	        s = file.readAll();
+	        file.close();
+	    }
 
 		items = parse(s, root);
 	}

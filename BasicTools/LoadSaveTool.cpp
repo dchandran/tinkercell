@@ -20,6 +20,8 @@ namespace Tinkercell
 {
 	LoadSaveTool::LoadSaveTool() : Tool(tr("Save and Load"),tr("Basic GUI"))
 	{
+		OPEN_FILE_EXTENSIONS << "tic" << "TIC";
+		SAVE_FILE_EXTENSIONS << "tic" << "TIC";
 		countHistory = 0;
 		restoreDialog = 0;
 		restoreButton = 0;
@@ -346,19 +348,31 @@ namespace Tinkercell
 
 	void LoadSaveTool::loadNetwork(const QString& filename)
 	{
-		GraphicsScene * scene = currentScene();
-		if (!scene || !scene->network || !scene->network->handles().isEmpty() || (scene->network->history.count() > 0))
-		{
-			scene = mainWindow->newScene();
-		}
-
-		if (!scene) return;
-
 		QList<QGraphicsItem*> items;
 		loadItems(items,filename);
 
 		if (items.size() > 0)
 		{
+			GraphicsScene * scene = currentScene();
+			if (!scene || !scene->network || !scene->network->handles().isEmpty() || (scene->network->history.count() > 0))
+			{
+				scene = mainWindow->newScene();
+			}
+
+			if (!scene)
+			{
+				QList<ItemHandle*> visited;
+				ItemHandle * handle;
+				for (int i=0; i < items.size(); ++i)
+				{
+					if ((handle = getHandle(items[i])) && !handle->parent && !visited.contains(handle))
+						delete handle;
+					else
+						delete items[i];					
+				}
+				return;
+			}
+		
 		    scene->insert(tr("load"),items);
 
 			ConnectionGraphicsItem * connection = 0;

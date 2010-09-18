@@ -27,9 +27,9 @@
 #include <QTimeLine>
 #include <QActionGroup>
 #include <QLineEdit>
-#include <QHash>
 #include <QSemaphore>
 #include "NetworkHandle.h"
+#include "NetworkWindow.h"
 #include "TextEditor.h"
 #include "ItemHandle.h"
 #include "TextParser.h"
@@ -68,11 +68,12 @@ namespace Tinkercell
         */
         void lineChanged(TextEditor *, int, const QString&);
 		/*!
-        * \brief if text editor is opened, sets its syntax highlighter
-        * \param NetworkHandle* the current new window
-        * \return void
-        */
-        void networkOpened(NetworkHandle*);
+		* \brief signals whenever the current window changes
+		* \param NetworkWindow* the previous windpw
+		* \param NetworkWindow* the current new window
+		* \return void
+		*/
+		void windowChanged(NetworkWindow*,NetworkWindow*);
 		/*!
         * \brief insert module(s) in the scene
         */
@@ -112,7 +113,7 @@ namespace Tinkercell
 	private:
 		void connectTCFunctions();
 		static void appendScript(QString&, const QList<ItemHandle*>&);
-
+		QHash<NetworkWindow*,bool> visitedWindows;
 	};
 
 }

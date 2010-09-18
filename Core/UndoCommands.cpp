@@ -2345,14 +2345,14 @@ namespace Tinkercell
 				changeDataCommand->undo();
 		}
 		
-		if (network)
+		/*if (network)
 		{
 			QList<TextEditor*> editors = network->editors();
 			for (int i=0; i < editors.size(); ++i)
 				if (editors[i])
 					for (int j=0; j < oldNames.size() && j < newNames.size(); ++j)
 						editors[i]->replace(oldNames[j],newNames[j]);
-		}
+		}*/
 	}
 
 	void RenameCommand::undo()
@@ -2370,14 +2370,14 @@ namespace Tinkercell
 		    changeDataCommand->redo();
 		}
 		
-		if (network)
+		/*if (network)
 		{
 			QList<TextEditor*> editors = network->editors();
 			for (int i=0; i < editors.size(); ++i)
 				if (editors[i])
 					for (int j=0; j < oldNames.size() && j < newNames.size(); ++j)
 						editors[i]->replace(newNames[j],oldNames[j]);
-		}
+		}*/	
 	}
 
 	CompositeCommand::CompositeCommand(const QString& name, const QList<QUndoCommand*>& list, const QList<QUndoCommand*>& noDelete)

@@ -60,6 +60,8 @@ namespace Tinkercell
 	static QString CPP_ENTRY_FUNCTION = QObject::tr("loadTCTool");
 	static QString C_ENTRY_FUNCTION = QObject::tr("tc_main");
 	static QString PROJECT_VERSION = QObject::tr("0.0.0");
+	static QStringList OPEN_FILE_EXTENSIONS;
+	static QStringList SAVE_FILE_EXTENSIONS;
 
 	class ConsoleWindow;
 	class NodeGraphicsItem;
@@ -120,9 +122,6 @@ namespace Tinkercell
 
 		/*! \brief the default option to use for console window*/
 		static TOOL_WINDOW_OPTION defaultConsoleWindowOption;
-
-		/*! \brief the default extension for saving files*/
-		static QString defaultFileExtension;
 
 		/*! \brief register all the TinkerCell data structures with Qt*/
 		static void RegisterDataTypes();

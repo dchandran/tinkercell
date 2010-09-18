@@ -56,7 +56,6 @@ namespace Tinkercell
 	MainWindow::TOOL_WINDOW_OPTION MainWindow::defaultHistoryWindowOption = MainWindow::ToolBoxWidget;
 	MainWindow::TOOL_WINDOW_OPTION MainWindow::defaultConsoleWindowOption = MainWindow::DockWidget;
 	QString MainWindow::previousFileName;
-	QString MainWindow::defaultFileExtension("tic");
 	QString MainWindow::homeDirPath;
 	/*************************************/
 
@@ -468,7 +467,7 @@ namespace Tinkercell
 			fileName =
 				QFileDialog::getSaveFileName(this, tr("Save Current Network"),
 				previousFileName,
-				(PROJECTNAME + tr(" files (*.") + defaultFileExtension + tr(")")));
+				(PROJECTNAME + tr(" files (*.") + OPEN_FILE_EXTENSIONS.join(tr(" *.")) + tr(")")));
 			if (fileName.isNull() || fileName.isEmpty())
 				return;
 			else
@@ -492,12 +491,12 @@ namespace Tinkercell
 		if (!currentNetworkWindow || !currentNetworkWindow->network) return;
 		
 		QString def = currentNetworkWindow->filename;
-		def.replace(QRegExp("\\..*$"),tr(".") + defaultFileExtension);
+		def.replace(QRegExp("\\..*$"),tr(".") + SAVE_FILE_EXTENSIONS.join(tr(" *.")));
 
 		QString fileName =
 			QFileDialog::getSaveFileName(this, tr("Save Current Network"),
 			def,
-			(PROJECTNAME + tr(" files (*.") + defaultFileExtension + tr(")")));
+			(PROJECTNAME + tr(" files (*.") + SAVE_FILE_EXTENSIONS.join(tr(" *.") + tr(")"))));
 		if (fileName.isEmpty())
 			return;
 
@@ -537,7 +536,7 @@ namespace Tinkercell
 	void MainWindow::open()
 	{
 		QString def = previousFileName;
-		def.replace(QRegExp("\\..*$"),tr(".") + defaultFileExtension);
+		def.replace(QRegExp("\\..*$"),tr(".") + OPEN_FILE_EXTENSIONS.join(tr(" *.")));
 
 		QStringList fileNames =
 			QFileDialog::getOpenFileNames(this, tr("Open File"),

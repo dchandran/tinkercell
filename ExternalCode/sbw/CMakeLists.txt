@@ -1,3 +1,11 @@
+INCLUDE_DIRECTORIES( 
+	BEFORE
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbw
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbw/include
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbw/include/SBW
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbw/include/libxml
+)
+
 IF (WIN32)
   IF( MINGW )
     ADD_DEFINITIONS(-DMINGW)

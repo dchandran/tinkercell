@@ -1,0 +1,8 @@
+FILE( GLOB BIOCODER_SRC *.cpp )
+
+ADD_LIBRARY( biocoder
+#  SHARED
+  STATIC
+  ${BIOCODER_SRC} 
+)
+

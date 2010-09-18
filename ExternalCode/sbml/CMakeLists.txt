@@ -18,6 +18,7 @@ ENDIF(WIN32)
 INCLUDE_DIRECTORIES( 
 	BEFORE
 	${LIBXML2_INCLUDE_DIR}
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/xml 
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/util 
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/validator 

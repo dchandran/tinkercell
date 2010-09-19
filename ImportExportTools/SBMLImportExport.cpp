@@ -614,8 +614,8 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 	for (int i=0; i < families.size(); ++i)
 	{
 		SpeciesType_t * s = Model_createSpeciesType(model);
-		SpeciesType_setId(s, ConvertValue(families[i]->name));
-		SpeciesType_setName(s, ConvertValue(families[i]->name));
+		SpeciesType_setId(s, ConvertValue(families[i]->name()));
+		SpeciesType_setName(s, ConvertValue(families[i]->name()));
 		if (!families[i]->measurementUnit.name.isEmpty())
 		{
 			UnitDefinition_t * unitDef = Model_createUnitDefinition(model);
@@ -646,7 +646,7 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 		Species_setCompartment(s, ConvertValue(speciesCompartments[i]));
 		if (speciesHandles[i] && speciesHandles[i]->family())
 		{
-			Species_setSpeciesType(s,ConvertValue(speciesHandles[i]->family()->name));
+			Species_setSpeciesType(s,ConvertValue(speciesHandles[i]->family()->name()));
 			if (!speciesHandles[i]->family()->measurementUnit.name.isEmpty())
 				Species_setUnits(s, ConvertValue(speciesHandles[i]->family()->measurementUnit.name));
 		}
@@ -670,8 +670,8 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 				if (!families.contains(handles[j]->family()))
 				{
 					SpeciesType_t * s = Model_createSpeciesType(model);
-					SpeciesType_setId(s, ConvertValue(handles[j]->family()->name));
-					SpeciesType_setName(s, ConvertValue(handles[j]->family()->name));
+					SpeciesType_setId(s, ConvertValue(handles[j]->family()->name()));
+					SpeciesType_setName(s, ConvertValue(handles[j]->family()->name()));
 					if (!handles[j]->family()->measurementUnit.name.isEmpty())
 					{
 						UnitDefinition_t * unitDef = Model_createUnitDefinition(model);
@@ -679,7 +679,7 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 						UnitDefinition_setName(unitDef, ConvertValue(handles[j]->family()->measurementUnit.name));
 					}
 				}
-				Species_setSpeciesType(s,ConvertValue(handles[j]->family()->name));
+				Species_setSpeciesType(s,ConvertValue(handles[j]->family()->name()));
 				if (!handles[j]->family()->measurementUnit.name.isEmpty())
 					Species_setUnits(s, ConvertValue(handles[j]->family()->measurementUnit.name));
 			}

@@ -133,15 +133,15 @@ namespace Tinkercell
 				if (!families.contains(root))
 					families << root->allChildren();
 				
-				item_names[family->name] << handle->fullName();
-				hash[family->name].insertMulti(handle->fullName(),childItems[i]);
+				item_names[family->name()] << handle->fullName();
+				hash[family->name()].insertMulti(handle->fullName(),childItems[i]);
 				childItems[i]->sortChildren();
 			}
 		}
 
 		for (int i=0; i < families.size(); ++i)
 			if (families[i])
-				family_names << families[i]->name;
+				family_names << families[i]->name();
 		
 		for (int i=0; i < family_names.size(); ++i)
 			item_names[ family_names[i] ].sort();

@@ -101,17 +101,14 @@ namespace Multicell
 
 			NodeFamily * family;
 
-			currentFamily = family = new NodeFamily;
+			currentFamily = family = new NodeFamily("green cells");
 			currentColor = QColor(50,250,50,255);
-			family->name = tr("green cells");
 			cellSelector->addCellType(family,QColor(50,250,50,255));
 
-			family = new NodeFamily;
-			family->name = tr("red cells");
+			family = new NodeFamily("red cells");
 			cellSelector->addCellType(family,QColor(250,50,50,255));
 
-			family = new NodeFamily;
-			family->name = tr("blue cells");
+			family = new NodeFamily("blue cells");
 			cellSelector->addCellType(family,QColor(50,50,250,255));
 
 			return true;
@@ -225,7 +222,7 @@ namespace Multicell
 		if (h && h->family())
 		{
 			if (console())
-                console()->message(h->name + tr("   ") + h->family()->name + tr("  ..."));
+                console()->message(h->name + tr("   ") + h->family()->name() + tr("  ..."));
 		}
 	}
 

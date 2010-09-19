@@ -71,25 +71,27 @@ namespace Tinkercell
                QXmlStreamAttributes vec = attributes();
 
                QString atrib,value;
+               QStringList nodeRoles, nodeFamilies; 
+               
                bool numerical = false;
 
                for (int i=0; i < vec.size(); ++i)  //for each attribute
                {
                     if (vec.at(i).name().toString().toLower() == QObject::tr("family"))  //get name of node
                     {
-                         family->name = vec.at(i).value().toString();
-                         treeItem->setText(0,family->name);
-                         if (tree->connectionFamilies.contains(family->name))
+                         family->setName(vec.at(i).value().toString());
+                         treeItem->setText(0,family->name());
+                         if (tree->connectionFamilies.contains(family->name()))
                          {
 	                       	  delete family;
-                              family = tree->connectionFamilies[family->name];
+                              family = tree->connectionFamilies[family->name()];
                          }
                          else
                          {
-                              tree->connectionFamilies[family->name] = family;
+                              tree->connectionFamilies[family->name()] = family;
                          }
                          
-                         tree->treeItems.insertMulti(family->name,treeItem);
+                         tree->treeItems.insertMulti(family->name(),treeItem);
                     }
                     else
                     if (vec.at(i).name().toString().toLower() == QObject::tr("units"))  //get measuring unit for the node
@@ -101,18 +103,12 @@ namespace Tinkercell
                     else
                     if (vec.at(i).name().toString().toLower() == QObject::tr("participant_types"))  //family types for nodes in this connection
                     {
-                         family->nodeFamilies = vec.at(i).value().toString().split(",");
+                         nodeFamilies = vec.at(i).value().toString().split(",");
                     }
                     else
                     if (vec.at(i).name().toString().toLower() == QObject::tr("participant_roles"))  //family types for nodes in this connection
                     {
-                         family->nodeRoles = vec.at(i).value().toString().split(",");
-                         for (int i=0; i < family->nodeRoles.size(); ++i)
-                         {
-                         	family->nodeRoles[i] = family->nodeRoles[i].toLower();
-                         	family->nodeRoles[i] = RemoveDisallowedCharactersFromName(family->nodeRoles[i]);
-                         	family->nodeRoles[i].replace(".","_");
-                         }
+                    	 nodeRoles = vec.at(i).value().toString().split(",");
                     }
                     else
                     if (vec.at(i).name().toString().toLower() == QObject::tr("description"))
@@ -132,6 +128,22 @@ namespace Tinkercell
 
                     }
                }
+               
+               if (nodeRoles.isEmpty() && parentFamily)
+					nodeRoles = parentFamily->participantRoles();
+               
+               if (nodeFamilies.isEmpty() && parentFamily)
+					nodeFamilies = parentFamily->participantTypes();
+               
+               if (!nodeRoles.isEmpty() && !nodeFamilies.isEmpty())
+	               for (int i=0; i < nodeRoles.size(); ++i)
+    	           {
+    	           		if (nodeFamilies.size() > i)
+    	           			family->addParticipant(nodeRoles[i],nodeFamilies[i]);
+    	           		else
+    	           			family->addParticipant(nodeRoles[i],nodeFamilies.last());
+    	           }
+
                readNext();
                QString appDir = QCoreApplication::applicationDirPath();
                //set icon
@@ -155,28 +167,16 @@ namespace Tinkercell
 
                     if (family->measurementUnit.name.isEmpty())
                          family->measurementUnit = parentFamily->measurementUnit;
-                        
-					if (family->nodeRoles.isEmpty())
-                    	family->nodeRoles = parentFamily->nodeRoles;
-					
-					if (family->nodeFamilies.isEmpty())
-                    	family->nodeFamilies = parentFamily->nodeFamilies;
 
                     family->description = parentFamily->description;
                }
-               
-               if (family->nodeFamilies.isEmpty())
-               	    family->nodeFamilies << "anything";
-
-			   while (family->nodeFamilies.size() < family->nodeRoles.size())
-			   		family->nodeFamilies << family->nodeFamilies.last();
 
                //set arrow head
                ArrowHeadItem * nodeitem = 0;
 
                if (family->graphicsItems.isEmpty())
                {
-               	   QString arrowImageFile = appDir + QString("/") + ConnectionsTree::arrowImageFile(family->name);
+               	   QString arrowImageFile = appDir + QString("/") + ConnectionsTree::arrowImageFile(family->name());
 		           nodeitem = new ArrowHeadItem(arrowImageFile);
 
 		           if (!nodeitem->isValid())
@@ -191,7 +191,7 @@ namespace Tinkercell
 			   }              
                if (family->graphicsItems.size() < 2)
                {
-		           QString decoratorImageFile = appDir + QString("/") + ConnectionsTree::decoratorImageFile(family->name);
+		           QString decoratorImageFile = appDir + QString("/") + ConnectionsTree::decoratorImageFile(family->name());
 		           nodeitem = new ArrowHeadItem(decoratorImageFile);
 		           
 		           if (!nodeitem->isValid())

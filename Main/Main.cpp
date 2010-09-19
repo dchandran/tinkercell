@@ -73,25 +73,36 @@ int main(int argc, char *argv[])
     QString home = MainWindow::homeDir();
 
     LoadPluginsFromDir(appDir + QString("/plugins"),&mainWindow, &splash);
-    LoadPluginsFromDir(home + QString("/plugins"),&mainWindow, &splash);
+#ifdef Q_WS_WIN
+	LoadPluginsFromDir(home + QString("/plugins/windows"),&mainWindow, &splash);
+#else
+#ifdef Q_WS_MAC
+	LoadPluginsFromDir(home + QString("/plugins/mac"),&mainWindow, &splash);
+#else
+	LoadPluginsFromDir(home + QString("/plugins/ubuntu"),&mainWindow, &splash);
+#endif
+#endif
 
     LoadPluginsFromDir(appDir + QString("/plugins/c"),&mainWindow, &splash);
-    LoadPluginsFromDir(home + QString("/plugins/c"),&mainWindow, &splash);
+#ifdef Q_WS_WIN
+	LoadPluginsFromDir(home + QString("/plugins/c/windows"),&mainWindow, &splash);
+#else
+#ifdef Q_WS_MAC
+	LoadPluginsFromDir(home + QString("/plugins/c/mac"),&mainWindow, &splash);
+#else
+	LoadPluginsFromDir(home + QString("/plugins/c/ubuntu"),&mainWindow, &splash);
+#endif
+#endif
 
 	mainWindow.newScene();
-	
 	mainWindow.readSettings();
-	
     mainWindow.show();
-
     splash.finish(&mainWindow);
 	
 	if (argc > 1) mainWindow.open(QString(argv[1]));
 
-    int output = app.exec();
-	
+    int output = app.exec();	
 	app.closeAllWindows();
-
     return output;
 }
 

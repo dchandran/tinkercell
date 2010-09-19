@@ -57,17 +57,18 @@ namespace Tinkercell
 		if (selectedFamily != 0)
 		{
 			QList<NodeHandle*> nodes, visited;
-			for (int i=0; i < selectedFamily->nodeFamilies.size() && i < selectedFamily->nodeRoles.size(); ++i)
-				if (isReactant(selectedFamily->nodeRoles[i])) 
-					//&& (numRequiredOut > 0 || i < (selectedFamily->nodeRoles.size()-1)))
+			QStringList nodeRoles = selectedFamily->participantRoles(),
+						nodeFamilies = selectedFamily->participantTypes();
+			for (int i=0; i < nodeFamilies.size() && i < nodeRoles.size(); ++i)
+				if (isReactant(nodeRoles[i]))
 				{
 					++numRequiredIn;
-					typeIn << selectedFamily->nodeFamilies[i];
+					typeIn << nodeFamilies[i];
 				}
 				else
 				{
 					++numRequiredOut;
-					typeOut << selectedFamily->nodeFamilies[i];
+					typeOut << nodeFamilies[i];
 				}
 
 			for (int i=0; i < selectedConnections.size(); ++i)
@@ -430,8 +431,8 @@ namespace Tinkercell
 				nodes = connection->nodes();
 				
 				bool in;
-				QStringList nodeRoles = family->nodeRoles,
-							nodeFamilies = family->nodeFamilies,
+				QStringList nodeRoles = family->participantRoles(),
+							nodeFamilies = family->participantTypes(),
 							oldRowNames;
 
 				for (int j=0; j < oldTable->rows(); ++j)
@@ -905,7 +906,7 @@ namespace Tinkercell
 				{
 					if (node || connection)
 					{
-						console()->error(tr("Please select one of each: ") + selectedFamily->nodeFamilies.join(tr(",")));
+						console()->error(tr("Please select one of each: ") + selectedFamily->participantTypes().join(tr(",")));
 					}
 					else
 					{
@@ -1003,7 +1004,7 @@ namespace Tinkercell
 					{
 						handle = new ConnectionHandle(selectedFamily,item);
 						
-						handle->name = selectedFamily->name.toLower() + tr("1");
+						handle->name = selectedFamily->name().toLower() + tr("1");
 						QStringList words = handle->name.split(tr(" "));
 						if (words.size() > 1)
 						{
@@ -1063,12 +1064,12 @@ namespace Tinkercell
 						insertList += arrow;
 					}
 					
-					if (handle->family()->name.contains(tr("Gene")) || handle->family()->name.contains(tr("Transcription")))
+					if (handle->family()->name().contains(tr("Gene")) || handle->family()->name().contains(tr("Transcription")))
 					{
 						item->lineType = ConnectionGraphicsItem::line;					
-						if (handle->family()->name.contains(tr("Repression")))
+						if (handle->family()->name().contains(tr("Repression")))
 							item->defaultPen.setColor(QColor(tr("#C30000")));
-						if (handle->family()->name.contains(tr("Activation")))
+						if (handle->family()->name().contains(tr("Activation")))
 							item->defaultPen.setColor(QColor(tr("#049102")));
 					}
 
@@ -1098,7 +1099,7 @@ namespace Tinkercell
 						emit handleFamilyChanged(scene->network, QList<ItemHandle*>() << handle, oldFamilies);
 
 					if (catalogWidget && selectedFamily->children().isEmpty())
-						catalogWidget->showButtons(QStringList() << selectedFamily->name);
+						catalogWidget->showButtons(QStringList() << selectedFamily->name());
 
 					selectedNodes.clear();
 					selectedConnections.clear();

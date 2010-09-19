@@ -16,8 +16,9 @@ Each item in Tinkercell has an associated family.
 
 namespace Tinkercell
 {
-	int NodeFamily::TYPE = 1;
-	int ConnectionFamily::TYPE = 2;
+	/*********************************
+  	Units
+	**********************************/
 	
 	Unit::Unit(const QString& p, const QString& s): property(p), name(s)
 	{
@@ -27,25 +28,17 @@ namespace Tinkercell
 	{
 	}
 
-	NodeFamily * NodeFamily::cast(ItemFamily* item)
-	{
-		if (item && item->type == NodeFamily::TYPE)
-			return static_cast<NodeFamily*>(item);
-		return 0;
-	}
-
-	ConnectionFamily * ConnectionFamily::cast(ItemFamily* item)
-	{
-		if (item && item->type == ConnectionFamily::TYPE)
-			return static_cast<ConnectionFamily*>(item);
-		return 0;
-	}
-
 	/*********************************
 	ITEM FAMILY
 	**********************************/
+	
+	QStringList ItemFamily::ALLNAMES;
+	QHash<QString,int> ItemFamily::NAMETOID;
 
-	ItemFamily::ItemFamily(const QString& s) : type(0), name(s) {}
+	ItemFamily::ItemFamily(const QString& s): type(0)
+	{
+		setName(s);
+	}
 
 	ItemFamily::~ItemFamily()
 	{
@@ -53,13 +46,50 @@ namespace Tinkercell
 			if (graphicsItems[i] && !graphicsItems[i]->scene())
 				delete graphicsItems[i];
 	}
+	
+	QString ItemFamily::name() const
+	{
+		return _name;
+	}
+	
+	void ItemFamily::setName(const QString& s)
+	{
+		if (_name.toLower() == s.toLower() && 
+			NAMETOID.contains(s.toLower()) && 
+			NAMETOID.value(s.toLower()) == ID)
+		{
+			_name = s;
+			return;
+		}
 
-	bool ItemFamily::isA(const QString& ) const { return false; }
+		int n = 1;
+		_name = s;
+		while (NAMETOID.contains(_name.toLower()))
+		{
+			_name = s + QString::number(n); 
+			++n;
+		}
+		ID = ALLNAMES.size();
+		ALLNAMES += _name;
+		NAMETOID.insert( _name.toLower() , ID );
+	}
+	
+	bool ItemFamily::isA(int ID) const
+	{
+		return false;
+	}
+
+	bool ItemFamily::isA(const QString& name) const
+	{
+		QString s = _name.toLower();
+		if (!NAMETOID.contains(s)) return false;
+		return isA(NAMETOID.value(s));
+	}
 
 	bool ItemFamily::isA(const ItemFamily* family) const
 	{
 		if (!family) return false;
-		return isA(family->name);
+		return isA(family->ID);
 	}
 
 	ItemFamily * ItemFamily::root() const
@@ -73,7 +103,7 @@ namespace Tinkercell
 	bool ItemFamily::isRelatedTo(const ItemFamily * family) const
 	{
 		if (!family) return false;
-		return isA(family->root()->name);
+		return isA(family->root()->ID);
 	}
 	
 	QList<ItemFamily*> ItemFamily::allChildren() const
@@ -95,10 +125,19 @@ namespace Tinkercell
 	/**************************************
 				NODE FAMILY
 	**************************************/
-
-	NodeFamily::NodeFamily(const QString& s)
+	
+	int NodeFamily::TYPE = 1;
+	
+	NodeFamily * NodeFamily::cast(ItemFamily* item)
 	{
-		name = s;
+		if (item && item->type == NodeFamily::TYPE)
+			return static_cast<NodeFamily*>(item);
+		return 0;
+	}
+
+	NodeFamily::NodeFamily(const QString& s): 
+		ItemFamily(s)
+	{
 		type = NodeFamily::TYPE;
 	}
 
@@ -111,27 +150,31 @@ namespace Tinkercell
 	}
 
 	/*! \brief indicates whether or not the given string is the name of this family or any of its parent families*/
-	bool NodeFamily::isA(const QString& familyName) const
+	bool NodeFamily::isA(int id) const
 	{
-		QString familyName2 = familyName;
-		
-		if (familyName2.endsWith(QChar('s')))
-			familyName2.chop(1);
-
-		if (familyName.compare(name, Qt::CaseInsensitive) == 0 ||
-			familyName2.compare(name, Qt::CaseInsensitive) == 0 ||
-			familyName.compare(QObject::tr("anything"), Qt::CaseInsensitive) == 0 || 
-			familyName.compare(QObject::tr("thing"), Qt::CaseInsensitive) == 0) return true;
+		if (ID == id) return true;
 
 		QList<NodeFamily*> families = parentFamilies;
 		for (int i=0; i < families.size(); ++i)
 		{
-			if (familyName.compare(families[i]->name, Qt::CaseInsensitive) == 0) return true;
-			if (familyName2.compare(families[i]->name, Qt::CaseInsensitive) == 0) return true;
+			if (families[i]->ID == id) return true;
 			families += families[i]->parentFamilies;
 		}
 		
 		return false;
+	}
+	
+	bool NodeFamily::isA(const QString& name) const
+	{
+		QString s = _name.toLower();
+		if (!ItemFamily::NAMETOID.contains(s)) return false;
+		return isA(ItemFamily::NAMETOID.value(s));
+	}
+
+	bool NodeFamily::isA(const ItemFamily* family) const
+	{
+		if (!family) return false;
+		return isA(family->ID);
 	}
 
 	QList<ItemFamily*> NodeFamily::parents() const
@@ -163,36 +206,51 @@ namespace Tinkercell
 	CONNECTION FAMILY
 	**********************************/
 
-	ConnectionFamily::ConnectionFamily(const QString& s)
+	int ConnectionFamily::TYPE = 2;
+	QStringList ConnectionFamily::ALLROLENAMES;
+	QHash<QString,int> ConnectionFamily::ROLEID;	
+
+	ConnectionFamily * ConnectionFamily::cast(ItemFamily* item)
 	{
-		name = s;
+		if (item && item->type == ConnectionFamily::TYPE)
+			return static_cast<ConnectionFamily*>(item);
+		return 0;
+	}
+
+	ConnectionFamily::ConnectionFamily(const QString& s): 
+		ItemFamily(s)
+	{
 		type = ConnectionFamily::TYPE;
 	}
 
 	ConnectionFamily::~ConnectionFamily() {}
 
 	/*! \brief indicates whether or not the given string is the name of this family or any of its parent families*/
-	bool ConnectionFamily::isA(const QString& familyName) const
+	bool ConnectionFamily::isA(int id) const
 	{
-		QString familyName2 = familyName;
-		
-		if (familyName2.endsWith(QChar('s')))
-			familyName2.chop(1);
-
-		if (familyName.compare(name, Qt::CaseInsensitive) == 0 ||
-			familyName2.compare(name, Qt::CaseInsensitive) == 0 ||
-			familyName.compare(QObject::tr("anything"), Qt::CaseInsensitive) == 0 || 
-			familyName.compare(QObject::tr("thing"), Qt::CaseInsensitive) == 0) return true;
+		if (ID == id) return true;
 
 		QList<ConnectionFamily*> families = parentFamilies;
 		for (int i=0; i < families.size(); ++i)
 		{
-			if (familyName.compare(families[i]->name, Qt::CaseInsensitive) == 0) return true;
-			if (familyName2.compare(families[i]->name, Qt::CaseInsensitive) == 0) return true;
+			if (families[i]->ID == id) return true;
 			families += families[i]->parentFamilies;
 		}
-
+		
 		return false;
+	}
+	
+	bool ConnectionFamily::isA(const QString& name) const
+	{
+		QString s = _name.toLower();
+		if (!ItemFamily::NAMETOID.contains(s)) return false;
+		return isA(ItemFamily::NAMETOID.value(s));
+	}
+
+	bool ConnectionFamily::isA(const ItemFamily* family) const
+	{
+		if (!family) return false;
+		return isA(family->ID);
 	}
 
 	ItemFamily* ConnectionFamily::parent() const
@@ -239,16 +297,18 @@ namespace Tinkercell
 		}
 		
 		bool b;
-		QList<bool> allIncluded;
-		for (int i=0; i < nodeFamilies.size(); ++i)
-			allIncluded << false;
+		QVector<bool> allIncluded(nodeRoles.size());
+		for (int i=0; i < nodeRoles.size(); ++i)
+			allIncluded[i] = false;
 		
 		for (int i=0; i < nodes.size(); ++i)  //for each node in this connection
 		{
 			b = false;
-			for (int j=0; j < nodeFamilies.size(); ++j)   //check of the family allows it
+			for (int j=0; j < nodeRoles.size(); ++j)   //check of the family allows it
 			{
-				if (!allIncluded[j] && nodes[i] && nodes[i]->isA(nodeFamilies[j]))
+				if (!allIncluded[j] && nodes[i] && 
+					nodes[i]->family() && 
+					nodes[i]->family()->isA(nodeRoles[j].second))
 				{
 					allIncluded[j] = true;
 					b = true;
@@ -301,4 +361,84 @@ namespace Tinkercell
 
 		return validFamilies;
 	}
+	
+	bool ConnectionFamily::addParticipant(const QString& role, const QString& family)
+	{
+		QString f = family.toLower(), r = role.toLower();
+		
+		if (!ItemFamily::NAMETOID.contains(f)) return false;
+		
+		int nodeid = NAMETOID.value(f);
+		int roleid = 0;
+		
+		if (ROLEID.contains(r) && ALLROLENAMES.size() > ROLEID.value(r))	
+		{
+			roleid = ROLEID.value(r);
+		}
+		else
+		{
+			roleid = ALLROLENAMES.size();
+			ALLROLENAMES += r;
+			ROLEID.insert( r, roleid );
+		}
+
+		nodeRoles += QPair<int,int>( roleid, nodeid );
+		return true;
+	}
+	
+	QString ConnectionFamily::participantFamily(const QString& role) const
+	{
+		QString r = role.toLower();
+		if (!ROLEID.contains(r)) return QString();		
+		int k1 = ROLEID.value(r);
+		int k2 = -1;
+		
+		for (int i=0; i < nodeRoles.size(); ++i)
+			if (nodeRoles[i].first == k1)
+			{
+				k2 = nodeRoles[i].second;
+				break;
+			}
+		
+		if (k2 < 0) 
+			return QString();
+
+		if (ItemFamily::ALLNAMES.size() > k2)
+			return ItemFamily::ALLNAMES[k2];
+		
+		return QString();
+	}
+
+	QStringList ConnectionFamily::participantRoles() const
+	{
+		QStringList roles;
+		for (int i=0; i < nodeRoles.size(); ++i)
+			if (ALLROLENAMES.size() > nodeRoles[i].first)
+				roles += ALLROLENAMES[ nodeRoles[i].first ];
+		return roles;
+	}
+	
+	QStringList ConnectionFamily::participantTypes() const
+	{
+		QStringList families;
+		for (int i=0; i < nodeRoles.size(); ++i)
+			if (ItemFamily::ALLNAMES.size() > nodeRoles[i].second)
+				families += ItemFamily::ALLNAMES[ nodeRoles[i].second ];
+		return families;
+	}
+	
+	int ConnectionFamily::numberOfIdenticalNodesFamilies(ConnectionFamily * other) const
+	{
+		if (!other) return 0;
+		
+		int total = 0;
+		for (int i=0; i < nodeRoles.size(); ++i)
+			for (int j=0; j < other->nodeRoles.size(); ++j)
+				if (nodeRoles[i].second == other->nodeRoles[j].second)
+				{
+					++total;
+					break;
+				}
+	}
 }
+

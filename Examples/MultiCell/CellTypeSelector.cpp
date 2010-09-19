@@ -42,7 +42,7 @@ namespace Multicell
 			if (i < cellColors.size() && i < cellFamilies.size())
 				emit cellTypeSelected(cellFamilies[i],cellColors[i]);
             if (main && main->console())
-                main->console()->message(cellFamilies[i]->name + tr(" selected"));
+                main->console()->message(cellFamilies[i]->name() + tr(" selected"));
 		}
 	}
 
@@ -53,7 +53,7 @@ namespace Multicell
 		cellColors << color;
 		cellFamilies << family;
 
-		QListWidgetItem * item = new QListWidgetItem(family->name);
+		QListWidgetItem * item = new QListWidgetItem(family->name());
 		addItem ( item );
 
 		QToolButton * toolButton = new QToolButton(this);
@@ -66,7 +66,7 @@ namespace Multicell
 
 		if (family)
             if (main->console())
-                main->console()->message(family->name + tr(" added"));
+                main->console()->message(family->name() + tr(" added"));
 	}
 
 	void CellTypeSelector::addCellType()

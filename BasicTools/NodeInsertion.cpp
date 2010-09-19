@@ -92,7 +92,7 @@ namespace Tinkercell
 			QString name = s;
 			if (s.isNull() || s.isEmpty())
 			{
-				name = family->name.toLower() + tr("1");
+				name = family->name().toLower() + tr("1");
 				QStringList words = name.split(tr(" "));
 				if (words.size() > 1)
 				{

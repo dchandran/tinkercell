@@ -163,7 +163,7 @@ namespace Tinkercell
 			if (NodeHandle::cast(handles[i]) && handles[i]->family() 
 				&& handles[i]->hasNumericalData(tr("Initial Value")))
 			{
-				QString s = handles[i]->family()->name + tr(": ") + handles[i]->fullName() + tr("\n")
+				QString s = handles[i]->family()->name() + tr(": ") + handles[i]->fullName() + tr("\n")
 							+ handles[i]->family()->measurementUnit.property + tr(" = ")
 							+ QString::number(handles[i]->numericalData(tr("Initial Value")))
 							+ tr(" ") + handles[i]->family()->measurementUnit.name;
@@ -185,10 +185,10 @@ namespace Tinkercell
 				if (handles[i]->hasTextData(tr("Rate equations")) && 
 					handles[i]->textDataTable(tr("Rate equations")).rows() > 0 && 
 					handles[i]->textDataTable(tr("Rate equations")).cols() > 0)
-					s = handles[i]->family()->name + tr(": ") + handles[i]->fullName() + tr("\n") + tr("Rate = ") 
+					s = handles[i]->family()->name() + tr(": ") + handles[i]->fullName() + tr("\n") + tr("Rate = ") 
 						+ handles[i]->textDataTable(tr("Rate equations")).at(0,0);
 				else
-					s = handles[i]->family()->name + tr(": ") + handles[i]->fullName() + tr("\n") + tr("[No Rate]");				
+					s = handles[i]->family()->name() + tr(": ") + handles[i]->fullName() + tr("\n") + tr("[No Rate]");				
 				
 				for (int j=0; j < handles[i]->graphicsItems.size(); ++j)
 					if (ConnectionGraphicsItem::cast(handles[i]->graphicsItems[j]))

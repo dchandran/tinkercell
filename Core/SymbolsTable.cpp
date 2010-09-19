@@ -108,7 +108,7 @@ namespace Tinkercell
 				}
 
 				if (handle->family())
-					handlesByFamily.insertMulti(handle->family()->name, handle);
+					handlesByFamily.insertMulti(handle->family()->name(), handle);
 
 				QList<QString> keys = handle->numericalDataNames();
 				for (int j=0; j < keys.size(); ++j)
@@ -248,7 +248,7 @@ namespace Tinkercell
 		
 		allHandles.clear();
 		for (int i=0; i < sortedFamilies.size(); ++i)
-			allHandles += handlesByFamily.values(sortedFamilies[i]->name);
+			allHandles += handlesByFamily.values(sortedFamilies[i]->name());
 		
 		return allHandles;
 

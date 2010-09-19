@@ -195,7 +195,7 @@ namespace Tinkercell
 			cursor.insertText(tr("family : "));
 
 			cursor.setCharFormat(textFormat);
-			cursor.insertText(handle->family()->name);
+			cursor.insertText(handle->family()->name());
 			cursor.insertText(tr("\n"));
 		}
 
@@ -264,7 +264,7 @@ namespace Tinkercell
 
 		containsConnections = (ConnectionHandle::cast(selectedItem) != 0);
 
-		if (!handle->family() || family.isEmpty() || handle->family()->name == family) return;
+		if (!handle->family() || family.isEmpty() || handle->family()->name() == family) return;
 
 		if (!mainWindow->tool("Nodes Tree"))
 		{

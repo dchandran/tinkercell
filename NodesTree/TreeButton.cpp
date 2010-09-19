@@ -41,21 +41,21 @@ namespace Tinkercell
 	{
 		if (!nodeFamily) return;
 		
-		name = nodeFamily->name;
+		name = nodeFamily->name();
 
-		QAction* infoAction = new QAction(QIcon(":/images/about.png"),tr("about ") + nodeFamily->name, this);
+		QAction* infoAction = new QAction(QIcon(":/images/about.png"),tr("about ") + nodeFamily->name(), this);
 		QAction* graphicsAction = new QAction(QIcon(":/images/replace.png"),tr("change graphics"), this);
 		connect(infoAction,SIGNAL(triggered()),this,SLOT(about()));
 		connect(graphicsAction,SIGNAL(triggered()),this,SLOT(replaceAction()));
 		menu.addAction(infoAction);
 		menu.addAction(graphicsAction);
 
-		setToolTip(nodeFamily->name + tr(": ") + nodeFamily->description);
+		setToolTip(nodeFamily->name() + tr(": ") + nodeFamily->description);
 		setPalette(QPalette(QColor(255,255,255)));
 		setAutoFillBackground (true);
 		setAcceptDrops(true);
 		
-		QString s = nodeFamily->name;
+		QString s = nodeFamily->name();
 		int sz = 16 - s.length();
 		if (sz > 0)
 		{
@@ -88,26 +88,26 @@ namespace Tinkercell
 	{
 		if (!connectionFamily) return;
 
-		name = connectionFamily->name;
+		name = connectionFamily->name();
 
-		QAction* infoAction = new QAction(QIcon(":/images/about.png"),tr("about ") + connectionFamily->name, this);
+		QAction* infoAction = new QAction(QIcon(":/images/about.png"),tr("about ") + connectionFamily->name(), this);
 		connect(infoAction,SIGNAL(triggered()),this,SLOT(about()));
 		menu.addAction(infoAction);
 
-		/*if (connectionFamily->name.contains(tr("Connection")) ||
-			connectionFamily->name.contains(tr("connection")) ||
-			connectionFamily->name.contains(tr("Reaction")) ||
-			connectionFamily->name.contains(tr("reaction")))
-			setToolTip(QObject::tr("insert ") + (connectionFamily->name));
+		/*if (connectionFamily->name().contains(tr("Connection")) ||
+			connectionFamily->name().contains(tr("connection")) ||
+			connectionFamily->name().contains(tr("Reaction")) ||
+			connectionFamily->name().contains(tr("reaction")))
+			setToolTip(QObject::tr("insert ") + (connectionFamily->name()));
 		else
-			setToolTip(QObject::tr("insert ") + (connectionFamily->name) + tr(" reaction"));*/
-		setToolTip(connectionFamily->name + tr(": ") + connectionFamily->description);
+			setToolTip(QObject::tr("insert ") + (connectionFamily->name()) + tr(" reaction"));*/
+		setToolTip(connectionFamily->name() + tr(": ") + connectionFamily->description);
 
 		setPalette(QPalette(QColor(255,255,255)));
 		setAutoFillBackground (true);
 		setAcceptDrops(true);
 		
-		QString s = connectionFamily->name;
+		QString s = connectionFamily->name();
 		int sz = 16 - s.length();
 		if (sz > 0)
 		{
@@ -198,16 +198,16 @@ namespace Tinkercell
 		{
 			NodeFamily * family = nodeFamily;
 
-			QString text = tr("Family: ") + family->name + tr("\nParent(s): ");
+			QString text = tr("Family: ") + family->name() + tr("\nParent(s): ");
 			if (family->parent())
 			{
 				QList<ItemFamily*> parents = family->parents();
 				for (int j=0; j < parents.size(); ++j)
 					if (parents[j])
 						if ((j+1) < parents.size())
-							text += parents[j]->name + tr(" , ");
+							text += parents[j]->name() + tr(" , ");
 						else
-							text += parents[j]->name + tr("\n\n");
+							text += parents[j]->name() + tr("\n\n");
 			}
 			else
 				text += tr("none\n\n");
@@ -228,16 +228,16 @@ namespace Tinkercell
 		if (connectionFamily)
 		{
 			ConnectionFamily * family = connectionFamily;
-			QString text = tr("Family: ") + family->name + tr("\nParent(s): ");
+			QString text = tr("Family: ") + family->name() + tr("\nParent(s): ");
 			if (family->parent())
 			{
 				QList<ItemFamily*> parents = family->parents();
 				for (int j=0; j < parents.size(); ++j)
 					if (parents[j])
 						if ((j+1) < parents.size())
-							text += parents[j]->name + tr(" , ");
+							text += parents[j]->name() + tr(" , ");
 						else
-							text += parents[j]->name + tr("\n\n");
+							text += parents[j]->name() + tr("\n\n");
 			}
 			else
 				text += tr("none\n\n");
@@ -247,7 +247,7 @@ namespace Tinkercell
 			if (!family->measurementUnit.name.isEmpty() && !family->measurementUnit.property.isEmpty())
 				text += tr("Unit of measurement: ") + family->measurementUnit.name + tr("\n\n");
 
-			text += tr("Participants: ") + family->nodeRoles.join(" , ");
+			text += tr("Participants: ") + family->participantRoles().join(" , ");
 
 			text += tr("\n\nAttributes: ")
 					+ ( QStringList() << family->numericalAttributes.keys() << family->textAttributes.keys() ).join(" , ")

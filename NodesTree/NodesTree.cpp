@@ -336,12 +336,12 @@ namespace Tinkercell
                     if (treeButton) newFile = treeButton->newFileName;
                     
                     if (newFile.isNull() || newFile.isEmpty())
-                    	newFile = nodeImageFile(family->name);
+                    	newFile = nodeImageFile(family->name());
                     
                     if (item->isExpanded())
-                         nodeFiles << (family->name + tr(",") + newFile + tr(",expanded"));
+                         nodeFiles << (family->name() + tr(",") + newFile + tr(",expanded"));
                     else
-                         nodeFiles << (family->name + tr(",") + newFile + tr(",collapsed"));
+                         nodeFiles << (family->name() + tr(",") + newFile + tr(",collapsed"));
                }
           }
           settings.setValue("nodeFiles",nodeFiles);
@@ -411,18 +411,18 @@ namespace Tinkercell
 	bool NodesTree::insertFamily(NodeFamily * family, FamilyTreeButton * button)
 	{
 		if (name.isEmpty() || !family) return false;
-		QStringList words = family->name.split(" ");
+		QStringList words = family->name().split(" ");
 		for (int i=0; i < words.size(); ++i)
 		{
 			words[i] = words[i].toLower();
 			words[0] = words[0].toUpper();
 		}
 
-		family->name = words.join(" ");
+		family->name() = words.join(" ");
 
-		nodeFamilies [family->name] = family;
+		nodeFamilies [family->name()] = family;
 		if (button)
-			treeButtons [family->name] = button;
+			treeButtons [family->name()] = button;
 		return true;
 	}
 	

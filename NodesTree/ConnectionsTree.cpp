@@ -85,7 +85,7 @@ namespace Tinkercell
             QList<QTreeWidgetItem*> treeItem = treeItems.values(keys[i]);
             if (family && !treeItem.isEmpty())
             {
-                QString setting = settings.value(family->name,QString()).toString();
+                QString setting = settings.value(family->name(),QString()).toString();
                 if (!setting.isEmpty())
                     for (int j=0; j < treeItem.size(); ++j)
                         treeItem[j]->setExpanded(setting == tr("expanded"));
@@ -197,9 +197,9 @@ namespace Tinkercell
             if (family && item)
             {
                 if (item->isExpanded())
-                    settings.setValue(family->name, tr("expanded"));
+                    settings.setValue(family->name(), tr("expanded"));
                 else
-                    settings.setValue(family->name, tr("collapsed"));
+                    settings.setValue(family->name(), tr("collapsed"));
             }
 
         }
@@ -209,7 +209,7 @@ namespace Tinkercell
 	QString ConnectionsTree::iconFile(ConnectionFamily * family)
 	{
 		QString file = tr("icons/");
-		file += family->name.toLower();
+		file += family->name().toLower();
 		file.replace(tr(" "),tr(""));
 		file += tr(".png");
 		return  file;
@@ -259,18 +259,18 @@ namespace Tinkercell
 	bool ConnectionsTree::insertFamily(ConnectionFamily * family, FamilyTreeButton * button)
 	{
 		if (!family) return false;
-		QStringList words = family->name.split(" ");
+		QStringList words = family->name().split(" ");
 		for (int i=0; i < words.size(); ++i)
 		{
 			words[i] = words[i].toLower();
 			words[0] = words[0].toUpper();
 		}
 		
-		family->name = words.join(" ");
+		family->name() = words.join(" ");
 		
-		connectionFamilies[family->name] = family;
+		connectionFamilies[family->name()] = family;
 		if (button)
-			treeButtons[family->name] = button;
+			treeButtons[family->name()] = button;
 		return true;
 	}
 	

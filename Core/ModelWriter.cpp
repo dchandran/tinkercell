@@ -124,7 +124,7 @@ namespace Tinkercell
 			else
 				writer->writeAttribute("parent","");
 			if (handle->family())
-				writer->writeAttribute("family",handle->family()->name);
+				writer->writeAttribute("family",handle->family()->name());
 			else
 				writer->writeAttribute("family","Node");
 			

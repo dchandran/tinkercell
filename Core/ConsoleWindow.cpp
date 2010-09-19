@@ -728,7 +728,7 @@ namespace Tinkercell
 			cursor.setCharFormat(tableHeaderFormat);
 			cursor.insertText(tr("family: "));
 			cursor.setCharFormat(messageFormat);
-			cursor.insertText(h->family()->name + tr("\n"));
+			cursor.insertText(h->family()->name() + tr("\n"));
 		}
 
 		QList<QString> keys = h->numericalDataNames();

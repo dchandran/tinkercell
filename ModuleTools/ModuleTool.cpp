@@ -296,8 +296,8 @@ namespace Tinkercell
 					QMessageBox::information(this,
 						tr("Cannot connect"),
 						 tr("Cannot connect because ") +
-						handle1->name + tr(" (") + handle1->family()->name + tr(") and ") +
-						handle2->name + tr(" (") + handle2->family()->name + tr(") are different types of objects")	);
+						handle1->name + tr(" (") + handle1->family()->name() + tr(") and ") +
+						handle2->name + tr(" (") + handle2->family()->name() + tr(") are different types of objects")	);
 					return;
 				}
 
@@ -444,7 +444,7 @@ namespace Tinkercell
 			if (handles[i] && !visited.contains(handles[i]) && handles[i]->children.isEmpty() && ConnectionFamily::cast(handles[i]->family()))
 			{
 				visited << handles[i];
-				QString s = handles[i]->family()->name;
+				QString s = handles[i]->family()->name();
 				s.replace(tr(" "),tr(""));
 				QString dirname = homeDir() + tr("/Modules/") + s;
 				QDir dir(dirname);
@@ -933,7 +933,7 @@ namespace Tinkercell
 					return;
 				}
 			
-			QDockWidget * dock = makeDockWidget(handle->family()->name);
+			QDockWidget * dock = makeDockWidget(handle->family()->name());
 			if (dock)
 			{
 				if (!handle->children.isEmpty())
@@ -1123,13 +1123,11 @@ namespace Tinkercell
 		for (int i=0; i < newModuleTable->rowCount(); ++i)
 		{
 			lineEdit = static_cast<QLineEdit*>(newModuleTable->cellWidget(i,0));
-			comboBox = static_cast<QComboBox*>(newModuleTable->cellWidget(i,1));
-			
-			newModuleFamily->nodeRoles += lineEdit->text();
-			newModuleFamily->nodeFamilies += comboBox->currentText();
+			comboBox = static_cast<QComboBox*>(newModuleTable->cellWidget(i,1));			
+			newModuleFamily->addParticipant(lineEdit->text(), comboBox->currentText());
 		}
 
-		catalogWidget->showButtons(QStringList() << newModuleFamily->name);
+		catalogWidget->showButtons(QStringList() << newModuleFamily->name());
 	}
 
 	void ModuleTool::itemsDropped(GraphicsScene * scene, const QString& family, const QPointF& point)

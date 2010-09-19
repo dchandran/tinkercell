@@ -133,18 +133,18 @@ namespace Tinkercell
                {
                     if (vec.at(i).name().toString().toLower() == QObject::tr("family"))  //get name of node
                     {
-                         node->name = vec.at(i).value().toString();
-                         treeItem->setText(0,node->name);
-                         if (tree->nodeFamilies.contains(node->name))
+                         node->setName(vec.at(i).value().toString());
+                         treeItem->setText(0,node->name());
+                         if (tree->nodeFamilies.contains(node->name()))
                          {
                               delete node;
-                              node = tree->nodeFamilies[node->name];
+                              node = tree->nodeFamilies[node->name()];
                          }
                          else
                          {
-                              tree->nodeFamilies[node->name] = node;
+                              tree->nodeFamilies[node->name()] = node;
                          }
-                         tree->treeItems.insertMulti(node->name,treeItem);
+                         tree->treeItems.insertMulti(node->name(),treeItem);
                     }
                     else
                     if (vec.at(i).name().toString().toLower() == QObject::tr("units"))  //get measuring unit for the node
@@ -179,14 +179,14 @@ namespace Tinkercell
                //node file
                QString appDir = QCoreApplication::applicationDirPath();
 
-               QString iconFile = tree->iconFile(node->name);
+               QString iconFile = tree->iconFile(node->name());
                               
 			   if (!QFile::exists(iconFile))
 			   		iconFile = appDir + QString("/") + iconFile;
 
                if (node->graphicsItems.isEmpty())
                {
-               		QString nodeImageFile = tree->nodeImageFile(node->name);
+               		QString nodeImageFile = tree->nodeImageFile(node->name());
                		if (!QFile::exists(nodeImageFile))
 						nodeImageFile = appDir + QString("/") + nodeImageFile;
 				                    

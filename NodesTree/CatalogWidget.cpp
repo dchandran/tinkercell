@@ -148,7 +148,7 @@ namespace Tinkercell
 	{
 		if (!nodeFamily || nodes.isEmpty() || !currentScene()) return;
 
-		emit buttonPressed(nodeFamily->name);
+		emit buttonPressed(nodeFamily->name());
 
 		int w = 20, h = 20;
 		if (nodeFamily->pixmap.width() > nodeFamily->pixmap.height())
@@ -179,8 +179,8 @@ namespace Tinkercell
 			{
 				nodes[i] = nodes[i-1];
 				buttons[i]->setIcon(QIcon(nodes[i]->pixmap));
-				buttons[i]->setToolTip(nodes[i]->name);
-				buttons[i]->setText(nodes[i]->name);
+				buttons[i]->setToolTip(nodes[i]->name());
+				buttons[i]->setText(nodes[i]->name());
 				if (nodes[i]->pixmap.width() > nodes[i]->pixmap.height())
 				{
 					int w = 20 * nodes[i]->pixmap.width()/nodes[i]->pixmap.height();
@@ -197,8 +197,8 @@ namespace Tinkercell
 
 		nodes[0] = nodeFamily;
 		buttons[0]->setIcon(QIcon(nodes[0]->pixmap));
-		buttons[0]->setToolTip(nodes[0]->name);
-		buttons[0]->setText(nodes[0]->name);
+		buttons[0]->setToolTip(nodes[0]->name());
+		buttons[0]->setText(nodes[0]->name());
 		buttons[0]->setIconSize(QSize(w,h));
 	}
 
@@ -206,7 +206,7 @@ namespace Tinkercell
 	{
 		if (!family || connections.isEmpty() || !currentScene()) return;
 
-		emit buttonPressed(family->name);
+		emit buttonPressed(family->name());
 		
 		int w = 20, h = 20;
 
@@ -238,14 +238,14 @@ namespace Tinkercell
 			{
 				connections[i] = connections[i-1];
 				buttons[i]->setIcon(QIcon(connections[i]->pixmap));
-				buttons[i]->setToolTip(connections[i]->name);
-				buttons[i]->setText(connections[i]->name);
+				buttons[i]->setToolTip(connections[i]->name());
+				buttons[i]->setText(connections[i]->name());
 			}
 
 		connections[0] = family;
 		buttons[0]->setIcon(QIcon(connections[0]->pixmap));
-		buttons[0]->setToolTip(connections[0]->name);
-		buttons[0]->setText(connections[0]->name);
+		buttons[0]->setToolTip(connections[0]->name());
+		buttons[0]->setText(connections[0]->name());
 		buttons[0]->setIconSize(QSize(w, h));
 	}
 
@@ -262,7 +262,7 @@ namespace Tinkercell
 			for (int i=0; i < nodes.size(); ++i)
 			{
 			   if (nodes[i])
-				settings.setValue(QString::number(i),nodes[i]->name);
+				settings.setValue(QString::number(i),nodes[i]->name());
 			}
 			settings.endGroup();
 
@@ -271,7 +271,7 @@ namespace Tinkercell
 			for (int i=0; i < connections.size(); ++i)
 			{
 			   if (connections[i])
-				settings.setValue(QString::number(i),connections[i]->name);
+				settings.setValue(QString::number(i),connections[i]->name());
 			}
 
 			settings.endGroup();
@@ -457,11 +457,11 @@ namespace Tinkercell
 				if (nodesTree->nodeFamilies.contains(s) && (family = nodesTree->nodeFamilies[s]))
 				{
 					nodes << family;
-					allFamilyNames << family->name;
+					allFamilyNames << family->name();
 
 					QToolButton * button = new QToolButton;
 					button->setIcon(QIcon(family->pixmap));
-					button->setText(family->name);
+					button->setText(family->name());
 
 					if (family->pixmap.width() > family->pixmap.height())
 					{
@@ -476,7 +476,7 @@ namespace Tinkercell
 						button->setIconSize(QSize(20, h));
 					}
 
-					button->setToolTip(family->name);
+					button->setToolTip(family->name());
 					button->setPalette(QPalette(QColor(255,255,255)));
 					button->setAutoFillBackground (true);
 					buttonsLayout->addWidget(button,i+1,0,Qt::AlignCenter);
@@ -509,11 +509,11 @@ namespace Tinkercell
 					(family = connectionsTree->connectionFamilies[s]))
 				{
 					connections << family;
-					allFamilyNames << family->name;
+					allFamilyNames << family->name();
 
 					QToolButton * button = new QToolButton;
 					button->setIcon(QIcon(family->pixmap));
-					button->setText(family->name);
+					button->setText(family->name());
 
 					if (family->pixmap.width() > family->pixmap.height())
 					{
@@ -528,7 +528,7 @@ namespace Tinkercell
 						button->setIconSize(QSize(20, h));
 					}
 
-					button->setToolTip(family->name);
+					button->setToolTip(family->name());
 					button->setPalette(QPalette(QColor(255,255,255)));
 					button->setAutoFillBackground (true);
 					buttonsLayout->addWidget(button,i+1,1,Qt::AlignCenter);
@@ -688,14 +688,14 @@ namespace Tinkercell
 				b = family->children().isEmpty();
 		
 			if (ConnectionFamily::cast(family)) //ad-hoc
-				b = family->parent() && family->parent()->name == tr("Biochemical");
+				b = family->parent() && family->parent()->name() == tr("Biochemical");
 	
-			if (b && !familiesInCatalog.contains(family->name))
-				familiesInCatalog << family->name;
+			if (b && !familiesInCatalog.contains(family->name()))
+				familiesInCatalog << family->name();
 		}
 		else 
 		{
-			b = familiesInCatalog.contains(family->name);
+			b = familiesInCatalog.contains(family->name());
 		}
 
 		return b;
@@ -767,7 +767,7 @@ namespace Tinkercell
 			{
 				QList<ItemFamily*> children = rootFamilies[i]->children();
 				if (includeFamilyInCatalog(rootFamilies[i]))
-					families << rootFamilies[i]->name;
+					families << rootFamilies[i]->name();
 				rootFamilies << children;
 			}
 		}
@@ -786,7 +786,7 @@ namespace Tinkercell
 			{
 				QList<ItemFamily*> children = rootFamilies[i]->children();
 				if (includeFamilyInCatalog(rootFamilies[i]))
-					families << rootFamilies[i]->name;
+					families << rootFamilies[i]->name();
 				rootFamilies << children;
 			}
 		}
@@ -849,7 +849,7 @@ namespace Tinkercell
 
 					if (isA)
 					{
-						QList<QToolButton*> buttons = nodesTree->treeButtons.values(families[i]->name);
+						QList<QToolButton*> buttons = nodesTree->treeButtons.values(families[i]->name());
 						if (buttons.size()>0 && buttons[0] && !usedButtons.contains(buttons[0]))
 						{
 							usedButtons << buttons[0];
@@ -915,7 +915,7 @@ namespace Tinkercell
 
 					if (isA)
 					{
-						QList<QToolButton*> buttons = connectionsTree->treeButtons.values(families[i]->name);
+						QList<QToolButton*> buttons = connectionsTree->treeButtons.values(families[i]->name());
 						if (buttons.size()>0 && buttons[0] && !usedButtons.contains(buttons[0]))
 						{
 							usedButtons << buttons[0];
@@ -994,7 +994,7 @@ namespace Tinkercell
 
 					if (isA)
 					{
-						QList<QToolButton*> buttons = nodesTree->treeButtons.values(families[i]->name);
+						QList<QToolButton*> buttons = nodesTree->treeButtons.values(families[i]->name());
 						if (buttons[0] && usedButtons.contains(buttons[0]))
 						{
 							usedButtons.removeAll(buttons[0]);
@@ -1050,7 +1050,7 @@ namespace Tinkercell
 
 					if (isA)
 					{
-						QList<QToolButton*> buttons = connectionsTree->treeButtons.values(families[i]->name);
+						QList<QToolButton*> buttons = connectionsTree->treeButtons.values(families[i]->name());
 						if (buttons[0] && usedButtons.contains(buttons[0]))
 						{
 							usedButtons.removeAll(buttons[0]);

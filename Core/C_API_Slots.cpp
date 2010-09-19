@@ -606,7 +606,7 @@ namespace Tinkercell
 		}
 		if (s)
 			s->release();
-	}	
+	}
 
 	void C_API_Slots::itemNames(QSemaphore* s,QStringList* list,const QList<ItemHandle*>& items)
 	{
@@ -672,7 +672,7 @@ namespace Tinkercell
 	{
 		if (handle && family && handle->family())
 		{
-			(*family) = handle->family()->name;
+			(*family) = handle->family()->name();
 		}
 		if (s)
 			s->release();

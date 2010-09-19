@@ -56,7 +56,8 @@ namespace Tinkercell
 
 	/*! \brief This class defines the family of a node or connection.
 	The class contains the icon for the family, family name, and minimal data that
-	defines the family.
+	defines the family. Each family has a name, which is internally converted to an integer (ID)
+	The ID is used to perform isA checks, thus avoiding repeated string matches
 	\ingroup core
 	*/
 	class TINKERCELLEXPORT ItemFamily

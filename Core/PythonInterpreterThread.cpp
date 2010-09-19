@@ -73,7 +73,7 @@ namespace Tinkercell
     {
         if (!lib || !lib->isLoaded() || code.isEmpty()) return;
 
-        QString script;
+        QString script = QObject::tr("import sys\n");
 
 		if (!addpathDone)
 		{
@@ -87,13 +87,12 @@ namespace Tinkercell
 			QString pydir1 = appDir + tr("/") + PYTHON_FOLDER;
 			QString pydir2 = homeDir + tr("/") + PYTHON_FOLDER;
 		#endif
-			script = tr("import sys\nsys.path.append(\"") + pydir1 + tr("\")\n");
-			if (QDir(homeDir + QObject::tr("/") + PYTHON_FOLDER).exists())
-				script += tr("import sys\nsys.path.append(\"") + pydir2 + tr("\")\n");
+			script += tr("sys.path.append(\"") + pydir1 + tr("\")\n");
+			script += tr("sys.path.append(\"") + pydir2 + tr("\")\n");
 			addpathDone = true;
 		}
         
-		script +=  QObject::tr("import sys\n_outfile = open('py.out','w')\nsys.stdout = _outfile;\n");
+		script +=  QObject::tr("_outfile = open('py.out','w')\nsys.stdout = _outfile;\n");
 		script += code;
 		script +=  QObject::tr("\n_outfile.close();\n");
 

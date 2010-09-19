@@ -12,6 +12,7 @@ This tool allows the loading and saving of Networks.
 #include "LoadSaveTool.h"
 #include "CThread.h"
 #include "ConsoleWindow.h"
+#include "UndoCommands.h"
 #include <QtDebug>
 #include <QRegExp>
 #include <QMessageBox>
@@ -73,7 +74,7 @@ namespace Tinkercell
 		{
 			connect(mainWindow,SIGNAL(saveNetwork(const QString&)),this,SLOT(saveNetwork(const QString&)));
 			connect(mainWindow,SIGNAL(loadNetwork(const QString&)),this,SLOT(loadNetwork(const QString&)));
-			connect(mainWindow,SIGNAL(getItemsFromFile(QList<ItemHandle*>&, const QString&)),this,SLOT(getItemsFromFile(QList<ItemHandle*>&, const QString&)));
+			connect(mainWindow,SIGNAL(getItemsFromFile(QList<ItemHandle*>&, const QString&,ItemHandle*)),this,SLOT(getItemsFromFile(QList<ItemHandle*>&, const QString&,ItemHandle*)));
 			connect(mainWindow,SIGNAL(networkClosing(NetworkHandle * , bool *)),this,SLOT(networkClosing(NetworkHandle * , bool *)));
 			connect(mainWindow,SIGNAL(historyChanged( int )),this,SLOT(historyChanged( int )));
 
@@ -407,15 +408,23 @@ namespace Tinkercell
 		}
 	}
 	
-	void LoadSaveTool::getItemsFromFile(QList<ItemHandle*>& handles, const QString& filename)
+	void LoadSaveTool::getItemsFromFile(QList<ItemHandle*>& handles, const QString& filename,ItemHandle * root)
 	{
 		if (!handles.isEmpty()) return;
 		QList<QGraphicsItem*> items;
 		loadItems(items,filename);
 		ItemHandle * h;
 		for (int i=0; i < items.size(); ++i)
-			if (h = getHandle(items[i]))
+			if ((h = getHandle(items[i])) && !handles.contains(h))
 				handles += h;
+		
+		if (root)
+			for (int i=0; i < handles.size(); ++i)
+				if (h = handles[i])
+				{
+					h->setParent(root,false);
+					RenameCommand::findReplaceAllHandleData(handles,h->name,h->fullName());
+				}
 	}
 
 	void LoadSaveTool::loadItems(QList<QGraphicsItem*>& items, const QString& filename)

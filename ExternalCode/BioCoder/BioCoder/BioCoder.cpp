@@ -1,10 +1,10 @@
 #include <iostream>
-#include <conio.h>
-#include <cstdio>
+//#include <conio.h>
+//#include <cstdio>
 extern "C"
-	{
-#include <stdarg.h>
-	}
+{
+	#include <stdarg.h>
+}
 #include "BioCoder.h"
 
 using namespace std;
@@ -2811,15 +2811,15 @@ void nanodrop(Container& container1)
 	}
 
 void time_constraint(Container& container1, Time* time1, enum time_constraint_type type)
-	{
+{
 	switch (type){
-		case CURRENT_FLUID:	if (time == 0)
+		case CURRENT_FLUID:	if (time1 == 0)
 							fprintf(fp, "<font color=red>NOTE: Use %s ", container1.contents.new_name);
 							else
 								{
 								fprintf(fp, "<font color=red>NOTE: Use %s within ", container1.contents.new_name);
 			};time1->display_time();fprintf(fp, ".</font><br>");break;
-		case NEXTSTEP:	if (time == 0)
+		case NEXTSTEP:	if (time1 == 0)
 							fprintf(fp, "<font color=red>NOTE: Proceed to the next step ");
 						else
 							fprintf(fp, "<font color=red>NOTE: Proceed to the next step within ");

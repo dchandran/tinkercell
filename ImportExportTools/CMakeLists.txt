@@ -55,6 +55,21 @@ FILE( GLOB ANTIMONYEDITOR_HDRS AntimonyEditor.h AntimonySyntaxHighlighter.h )
 FILE( GLOB ANTIMONYEDITOR_SRC AntimonyEditor.cpp AntimonySyntaxHighlighter.cpp )
 QT4_WRAP_CPP( ANTIMONYEDITOR_MOC ${ANTIMONYEDITOR_HDRS})
 
+  INCLUDE_DIRECTORIES( BEFORE
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/Antimony/src
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbw/include
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbw/include/SBW
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbw/include/libxml
+    ${TINKERCELL_SOURCE_DIR}/c/sbml_sim
+    ${TINKERCELL_SOURCE_DIR}/Core
+    ${TINKERCELL_SOURCE_DIR}/BasicTools
+    ${TINKERCELL_SOURCE_DIR}/ModuleTools
+    ${TINKERCELL_SOURCE_DIR}/ModelingTools
+    ${TINKERCELL_SOURCE_DIR}/NodesTree
+    ${TINKERCELL_SOURCE_DIR}/ImportExportTools
+ )
+
 ADD_LIBRARY( AntimonyEditor
   SHARED
   ${ANTIMONYEDITOR_SRC}

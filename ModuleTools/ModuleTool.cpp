@@ -437,10 +437,13 @@ namespace Tinkercell
 					commands << new RenameCommand(tr("rename"),0,handles,handles[i]->name,parentHandle->fullName() + tr(".") + handles[i]->name);
 				}
 		}
+		
+		QList<ItemHandle*> visited;
 
 		for (int i=0; i < handles.size(); ++i)
-			if (handles[i] && handles[i]->children.isEmpty() && ConnectionFamily::cast(handles[i]->family()))
+			if (handles[i] && !visited.contains(handles[i]) && handles[i]->children.isEmpty() && ConnectionFamily::cast(handles[i]->family()))
 			{
+				visited << handles[i];
 				QString s = handles[i]->family()->name;
 				s.replace(tr(" "),tr(""));
 				QString dirname = homeDir() + tr("/Modules/") + s;
@@ -470,7 +473,8 @@ namespace Tinkercell
 
 							if (QFile::exists(filename))
 							{
-								QList<ItemHandle*> handles2 = mainWindow->getItemsFromFile(filename);							
+								QList<ItemHandle*> handles2 = mainWindow->getItemsFromFile(filename);
+
 								loaded = !handles2.isEmpty();
 								
 								QList<ItemHandle*> visitedHandles;
@@ -482,7 +486,7 @@ namespace Tinkercell
 										if (!handles2[j]->parent)
 										{
 											commands << new SetParentHandleCommand(tr("set parent"),0,handles2[j],handles[i]);
-											commands << new RenameCommand(tr("rename"),0,handles2,handles2[j]->name,handles[i]->fullName() + tr(".") + handles2[j]->name);
+											commands << new RenameCommand(tr("rename"),0,handles2,handles2[j]->name,handles[i]->fullName() + tr(".") + handles2[j]->name);											
 										}
 									}
 							}
@@ -739,8 +743,9 @@ namespace Tinkercell
 				NetworkWindow * window = network->currentWindow();
 				
 				if (!window || !window->handle) return;
+				ItemHandle * parentHandle = window->handle;
 				
-				QList<ItemHandle*> handles = mainWindow->getItemsFromFile(filename);
+				QList<ItemHandle*> handles = mainWindow->getItemsFromFile(filename,parentHandle);
 				
 				if (handles.isEmpty()) return;
 				

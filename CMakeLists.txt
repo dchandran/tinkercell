@@ -105,31 +105,6 @@ IF( QT4_FOUND AND OPENGL_FOUND )
     ${C_LIBRARY_OUTPUT_PATH}
     ${TINKERCELL_BINARY_DIR}
     ${TINKERCELL_BINARY_DIR}/bin
-	${TINKERCELL_BINARY_DIR}/ExternalCode
-	${TINKERCELL_BINARY_DIR}/ExternalCode/lapack
-    ${TINKERCELL_BINARY_DIR}/ExternalCode/muparser
-    ${TINKERCELL_BINARY_DIR}/ExternalCode/qwt
-    ${TINKERCELL_BINARY_DIR}/ExternalCode/qwtplot3d/include
-    ${TINKERCELL_BINARY_DIR}/ExternalCode/cvode260
-    ${TINKERCELL_BINARY_DIR}/ExternalCode/optim
-    ${TINKERCELL_BINARY_DIR}/ExternalCode/sbml
-    ${TINKERCELL_BINARY_DIR}/ExternalCode/Antimony/src
-    ${TINKERCELL_BINARY_DIR}/c
-    ${TINKERCELL_BINARY_DIR}/c/lpsolve
-    ${TINKERCELL_BINARY_DIR}/c/sundials
-    ${TINKERCELL_BINARY_DIR}/c/nvector
-    ${TINKERCELL_BINARY_DIR}/c/cvode
-    ${TINKERCELL_BINARY_DIR}/Core
-    ${TINKERCELL_BINARY_DIR}/BasicTools
-    ${TINKERCELL_BINARY_DIR}/ModuleTools
-    ${TINKERCELL_BINARY_DIR}/ModelingTools
-    ${TINKERCELL_BINARY_DIR}/OtherTools
-    ${TINKERCELL_BINARY_DIR}/NodeGraphicsItem
-    ${TINKERCELL_BINARY_DIR}/NodesTree
-    ${TINKERCELL_BINARY_DIR}/SegmentationAnimation
-    ${TINKERCELL_BINARY_DIR}/DynamicCodeTools
-    ${TINKERCELL_BINARY_DIR}/GeneticNetworks
-    ${TINKERCELL_BINARY_DIR}/ImportExportTools
    )
   IF ( WIN32 )
 	  LINK_DIRECTORIES( 
@@ -141,66 +116,13 @@ IF( QT4_FOUND AND OPENGL_FOUND )
 		${TINKERCELL_BINARY_DIR}/Release
 		${TINKERCELL_BINARY_DIR}/Debug
 		${TINKERCELL_BINARY_DIR}/bin/Release
-		${TINKERCELL_BINARY_DIR}/bin/Debug
-		${TINKERCELL_BINARY_DIR}/ExternalCode/Release
-		${TINKERCELL_BINARY_DIR}/ExternalCode/Debug
-		${TINKERCELL_BINARY_DIR}/ExternalCode/lapack/Release
-		${TINKERCELL_BINARY_DIR}/ExternalCode/lapack/Debug
-		${TINKERCELL_BINARY_DIR}/ExternalCode/muparser/Release
-		${TINKERCELL_BINARY_DIR}/ExternalCode/muparser/Debug
-		${TINKERCELL_BINARY_DIR}/ExternalCode/qwt/Release
-		${TINKERCELL_BINARY_DIR}/ExternalCode/qwt/Debug
-		${TINKERCELL_BINARY_DIR}/ExternalCode/qwtplot3d/include/Release
-		${TINKERCELL_BINARY_DIR}/ExternalCode/qwtplot3d/include/Debug
-		${TINKERCELL_BINARY_DIR}/ExternalCode/cvode_src/cvode/Release
-		${TINKERCELL_BINARY_DIR}/ExternalCode/cvode_src/cvode/Debug
-		${TINKERCELL_BINARY_DIR}/ExternalCode/cvode_src/sundials/Release
-		${TINKERCELL_BINARY_DIR}/ExternalCode/cvode_src/sundials/Debug
-		${TINKERCELL_BINARY_DIR}/ExternalCode/nvec_par/Release
-		${TINKERCELL_BINARY_DIR}/ExternalCode/nvec_par/Debug
-		${TINKERCELL_BINARY_DIR}/ExternalCode/optim/Release
-		${TINKERCELL_BINARY_DIR}/ExternalCode/optim/Debug
-		${TINKERCELL_BINARY_DIR}/ExternalCode/sbml/Release
-		${TINKERCELL_BINARY_DIR}/ExternalCode/sbml/Debug
-		${TINKERCELL_BINARY_DIR}/ExternalCode/Antimony/Release
-		${TINKERCELL_BINARY_DIR}/ExternalCode/Antimony/Debug
-		${TINKERCELL_BINARY_DIR}/c/Release
-		${TINKERCELL_BINARY_DIR}/c/Debug
-		${TINKERCELL_BINARY_DIR}/c/lpsolve/Release
-		${TINKERCELL_BINARY_DIR}/c/lpsolve/Debug
-		${TINKERCELL_BINARY_DIR}/c/sundials/Release
-		${TINKERCELL_BINARY_DIR}/c/sundials/Debug
-		${TINKERCELL_BINARY_DIR}/c/nvector/Release
-		${TINKERCELL_BINARY_DIR}/c/nvector/Debug
-		${TINKERCELL_BINARY_DIR}/c/cvode/Release
-		${TINKERCELL_BINARY_DIR}/c/cvode/Debug
-		${TINKERCELL_BINARY_DIR}/Core/Release
-		${TINKERCELL_BINARY_DIR}/Core/Debug
-		${TINKERCELL_BINARY_DIR}/BasicTools/Release
-		${TINKERCELL_BINARY_DIR}/BasicTools/Debug
-		${TINKERCELL_BINARY_DIR}/ModuleTools/Release
-		${TINKERCELL_BINARY_DIR}/ModuleTools/Debug
-		${TINKERCELL_BINARY_DIR}/ModelingTools/Release
-		${TINKERCELL_BINARY_DIR}/ModelingTools/Debug
-		${TINKERCELL_BINARY_DIR}/OtherTools/Release
-		${TINKERCELL_BINARY_DIR}/OtherTools/Debug
-		${TINKERCELL_BINARY_DIR}/NodeGraphicsItem/Release
-		${TINKERCELL_BINARY_DIR}/NodeGraphicsItem/Debug
-		${TINKERCELL_BINARY_DIR}/NodesTree/Release
-		${TINKERCELL_BINARY_DIR}/NodesTree/Debug
-		${TINKERCELL_BINARY_DIR}/SegmentationAnimation/Release
-		${TINKERCELL_BINARY_DIR}/SegmentationAnimation/Debug
-		${TINKERCELL_BINARY_DIR}/DynamicCodeTools/Release
-		${TINKERCELL_BINARY_DIR}/DynamicCodeTools/Debug
-		${TINKERCELL_BINARY_DIR}/GeneticNetworks/Release
-		${TINKERCELL_BINARY_DIR}/GeneticNetworks/Debug
-		${TINKERCELL_BINARY_DIR}/ImportExportTools/Release
-		${TINKERCELL_BINARY_DIR}/ImportExportTools/Debug		
+		${TINKERCELL_BINARY_DIR}/bin/Debug	
 	   )
   ENDIF ( WIN32 )
 
   INCLUDE_DIRECTORIES( BEFORE
     ${QT_INCLUDES}
+    ${TINKERCELL_SOURCE_DIR}
     ${TINKERCELL_SOURCE_DIR}/ExternalCode
     ${TINKERCELL_SOURCE_DIR}/ExternalCode/muparser
     ${TINKERCELL_SOURCE_DIR}/ExternalCode/qwt
@@ -215,26 +137,9 @@ IF( QT4_FOUND AND OPENGL_FOUND )
     ${TINKERCELL_BINARY_DIR}/ExternalCode/cvode260/include/sundials
     ${TINKERCELL_SOURCE_DIR}/ExternalCode/cvode260/include/nvector
     ${TINKERCELL_BINARY_DIR}/ExternalCode/cvode260/include/nvector
-    ${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml
-    ${TINKERCELL_SOURCE_DIR}/ExternalCode/Antimony/src
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbw/include
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbw/include/SBW
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbw/include/libxml
     ${TINKERCELL_SOURCE_DIR}/c
     ${TINKERCELL_SOURCE_DIR}/API
-    ${TINKERCELL_SOURCE_DIR}/c/sbml_sim
-    ${TINKERCELL_SOURCE_DIR}/c/lpsolve
     ${TINKERCELL_SOURCE_DIR}/Core
-    ${TINKERCELL_SOURCE_DIR}/BasicTools
-    ${TINKERCELL_SOURCE_DIR}/ModuleTools
-    ${TINKERCELL_SOURCE_DIR}/ModelingTools
-    ${TINKERCELL_SOURCE_DIR}/OtherTools
-    ${TINKERCELL_SOURCE_DIR}/NodeGraphicsItem
-    ${TINKERCELL_SOURCE_DIR}/NodesTree
-    ${TINKERCELL_SOURCE_DIR}/SegmentationAnimation
-    ${TINKERCELL_SOURCE_DIR}/DynamicCodeTools
-    ${TINKERCELL_SOURCE_DIR}/GeneticNetworks
-    ${TINKERCELL_SOURCE_DIR}/ImportExportTools
  )
 
 IF (UNIX AND NOT APPLE)
@@ -254,7 +159,7 @@ SET(TINKERCELL_BINARY_BIN_DIR TINKERCELL_BINARY_DIR/bin)
 ADD_SUBDIRECTORY( Core )   #C++ Core + API
 ADD_SUBDIRECTORY( API )   #C API + SWIG file
 ADD_SUBDIRECTORY( Main )   #main executable
-ADD_SUBDIRECTORY( ExternalCode )  #MuParser, cvODE, libSBML, SBW, etc.
+ADD_SUBDIRECTORY( ExternalCode )  #MuParser, QWT, cvODE, letc.
 ADD_SUBDIRECTORY( icons )   #icons
 ADD_SUBDIRECTORY( ArrowItems )   #graphics files for arrow heads
 ADD_SUBDIRECTORY( NodeItems )   #graphics files for nodes
@@ -262,69 +167,20 @@ ADD_SUBDIRECTORY( DecoratorItems )   #graphics files for decorating connections
 ADD_SUBDIRECTORY( NodeGraphicsItem )   #program for drawing new graphics items
 
 #---------------------------------------------------------------------------
-# Extend C API to other languages using SWIG (if installed)
+# documentation
 #---------------------------------------------------------------------------
 
-ADD_SUBDIRECTORY( python )
-ADD_SUBDIRECTORY( ruby )
-ADD_SUBDIRECTORY( perl )
-ADD_SUBDIRECTORY( octave )
-ADD_SUBDIRECTORY( R )
-
-
-#----------------------------------------------------------------------------
-#   TinkerCell plugins
-#----------------------------------------------------------------------------
-
-#The following options allow enabling or disabling of plugins from CMake GUI
-OPTION( PLUGIN_BASIC "Plug-in for enabling basic features" ON )
-OPTION( PLUGIN_MODELING "Plug-in for enabling modeling functions" ON )
-OPTION( PLUGIN_MODULES "Plug-in for enabling modules" ON )
-OPTION( PLUGIN_C_PLUGINS "Enable C plug-ins" ON )
-
-#Compile enables plugins
-
-IF( PLUGIN_BASIC )
-   ADD_SUBDIRECTORY( BasicTools )
-   ADD_SUBDIRECTORY( NodesTree )
-ENDIF( PLUGIN_BASIC )
-
-IF( PLUGIN_C_PLUGINS )
-   ADD_SUBDIRECTORY( DynamicCodeTools )
-   ADD_SUBDIRECTORY( DB )
-   ADD_SUBDIRECTORY( c )
-ENDIF( PLUGIN_C_PLUGINS )
-
-IF( PLUGIN_MODELING )
-  ADD_SUBDIRECTORY( ModelingTools )
-  ADD_SUBDIRECTORY( GeneticNetworks )
-  ADD_SUBDIRECTORY( OtherTools )
-  ADD_SUBDIRECTORY( ImportExportTools )
-ENDIF( PLUGIN_MODELING )
-
-IF( PLUGIN_MODULES )
-   ADD_SUBDIRECTORY( ModuleTools )
-   ADD_SUBDIRECTORY( Modules )
-ENDIF( PLUGIN_MODULES )
-
-#---------------------------------------------------------------------------
-# Doxygen documentation
-#---------------------------------------------------------------------------
-
-OPTION( DOXYGEN_ENABLED "Generate Doxygen Documentation" OFF )
-IF( DOXYGEN_ENABLED )
-   ADD_SUBDIRECTORY( Documentation )
-ENDIF( DOXYGEN_ENABLED )
+ADD_SUBDIRECTORY( Documentation )
 
 #----------------------------------------------------------------------------
 # Other programs (not really part of Tinkercell)
 #----------------------------------------------------------------------------
 
-  OPTION( BUILD_EXAMPLE_PROGRAMS "SimpleDesigner, Multicell, SegmentationAnimation" OFF )
+OPTION( BUILD_EXAMPLE_PROGRAMS "SimpleDesigner, Multicell, SegmentationAnimation" OFF )
 
-  IF( BUILD_EXAMPLE_PROGRAMS )
+IF( BUILD_EXAMPLE_PROGRAMS )
      ADD_SUBDIRECTORY( Examples )
-  ENDIF( BUILD_EXAMPLE_PROGRAMS )
+ENDIF( BUILD_EXAMPLE_PROGRAMS )
 
 #--------------------------------------------------------------------------------------------
 # Windows only: include specific binaries that are usually already available on Unix systems
@@ -340,9 +196,15 @@ ENDIF(WIN32)
 
 FILE(GLOB TINKERCELL_SUPPORTING_FILES about.txt COPYRIGHT.TXT *.py)
 INSTALL(FILES ${TINKERCELL_SUPPORTING_FILES} DESTINATION bin/../)  
+
+#----------------------------------------------------------------------------
+#   TinkerCell plugins
+#----------------------------------------------------------------------------
+
+INCLUDE( CMake/TinkercellPlugins.cmake )
   
 #----------------------------------------------------------------------------
-# Done with Tinkercell plugins and other components
+# CPack
 #----------------------------------------------------------------------------
 
 INCLUDE( CMake/TinkercellCPack.cmake )
@@ -351,7 +213,6 @@ INCLUDE( CMake/TinkercellCPack.cmake )
 # CTEST 
 # INCLUDE( CTest )
 # --------------------
-
 
 ENDIF( QT4_FOUND AND OPENGL_FOUND  )
 

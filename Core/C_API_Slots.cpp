@@ -134,9 +134,8 @@ namespace Tinkercell
 		void (*changeArrowHead)(long,const char*),
 		
 		void (*screenshot)(const char*, int, int),
-		int (*screenHeight)(),
-		int (*screenWidth)()
-
+		int (*screenWidth)(),
+		int (*screenHeight)()
 	);
 	
 	void C_API_Slots::setupFunctionPointers(QLibrary * library)
@@ -208,8 +207,8 @@ namespace Tinkercell
 				&(_changeGraphics),
 				&(_changeArrowHead),
 				&(_screenshot),
-				&(_screenHeight),
-				&(_screenWidth)
+				&(_screenWidth),
+				&(_screenHeight)
 			);
 		}
 	}
@@ -585,7 +584,7 @@ namespace Tinkercell
 			s->release();
 	}
 	
-	void C_API_Slots::screenHeight(QSemaphore * s, int * w)
+	void C_API_Slots::screenWidth(QSemaphore * s, int * w)
 	{
 		GraphicsScene * scene = currentScene();
 		if (scene && w)
@@ -597,7 +596,7 @@ namespace Tinkercell
 			s->release();
 	}
 	
-	void C_API_Slots::screenWidth(QSemaphore * s, int * h)
+	void C_API_Slots::screenHeight(QSemaphore * s, int * h)
 	{
 		GraphicsScene * scene = currentScene();
 		if (scene && h)

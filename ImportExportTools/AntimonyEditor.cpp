@@ -51,7 +51,7 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(copyItems(GraphicsScene *, QList<QGraphicsItem*>&, QList<ItemHandle*>&)),this,SLOT(copyItems(GraphicsScene *, QList<QGraphicsItem*>&, QList<ItemHandle*>&)));
 			connect(mainWindow,SIGNAL(windowChanged(NetworkWindow*,NetworkWindow*)),this,SLOT(windowChanged(NetworkWindow*,NetworkWindow*)));
 			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
-			connect(mainWindow,SIGNAL(getItemsFromFile(QList<ItemHandle*>&, const QString&)),this,SLOT(getItemsFromFile(QList<ItemHandle*>&, const QString&)));
+			connect(mainWindow,SIGNAL(getItemsFromFile(QList<ItemHandle*>&, const QString&,ItemHandle*)),this,SLOT(getItemsFromFile(QList<ItemHandle*>&, const QString&,ItemHandle*)));
 
 			toolLoaded(0);
 
@@ -175,10 +175,11 @@ namespace Tinkercell
 			if (QString(modnames[i]) == tr("__main"))
 				moduleHandle->name = tr("main");
 
-			symbolsInModule << moduleHandle->name;*/
+			symbolsInModule << moduleHandle->name;
 
-			QList<ItemHandle*> handlesInModule;
+			QList<ItemHandle*> handlesInModule;*/
 			QHash<QString,NodeHandle*> speciesItems;
+			QHash<QString,ConnectionHandle*> reactionItems;
 
 			char ***leftrxnnames = getReactantNames("__main");
 			char ***rightrxnnames = getProductNames("__main");
@@ -191,108 +192,106 @@ namespace Tinkercell
 			int numrxn = (int)getNumReactions("__main");
 
 			for (int rxn=0; rxn < numrxn; ++rxn)
-			{
-				int numReactants = getNumReactants("__main",rxn);
-				int numProducts = getNumProducts("__main",rxn);
-
-				QList<NodeHandle*> nodesIn, nodesOut;
-				NumericalDataTable reactants, products;
-				TextDataTable rate;
-				QStringList colNames;
-
-				for (int var=0; var<numReactants; ++var)
+				if (!reactionItems.contains(tr(rxnnames[rxn])))
 				{
-					if (!colNames.contains(tr(leftrxnnames[rxn][var])))
+					int numReactants = getNumReactants("__main",rxn);
+					int numProducts = getNumProducts("__main",rxn);
+
+					QList<NodeHandle*> nodesIn, nodesOut;
+					NumericalDataTable reactants, products;
+					TextDataTable rate;
+					QStringList colNames;
+
+					for (int var=0; var<numReactants; ++var)
 					{
-						colNames << tr(leftrxnnames[rxn][var]);
+						if (!colNames.contains(tr(leftrxnnames[rxn][var])))
+						{
+							colNames << tr(leftrxnnames[rxn][var]);
+						}
 					}
-				}
 				
-				reactants.resize(1,colNames.size());
-				reactants.setColNames(colNames);
-				colNames.clear();
+					reactants.resize(1,colNames.size());
+					reactants.setColNames(colNames);
+					colNames.clear();
 				
-				for (int var=0; var<numProducts; ++var)
-				{
-					if (!colNames.contains(tr(rightrxnnames[rxn][var])))
+					for (int var=0; var<numProducts; ++var)
 					{
-						colNames << tr(rightrxnnames[rxn][var]);
-					}
-				}
-
-				products.resize(1,colNames.size());
-				products.setColNames(colNames);
-
-				for (int j=0; j < colNames.size(); ++j)
-				{
-					products.value(0,j) = 0;
-				}
-
-				rate.resize(1,1);
-				ConnectionHandle * reactionHandle = new ConnectionHandle(biochemicalFamily);
-				handlesInModule << reactionHandle;
-
-				reactionHandle->name = rxnnames[rxn];
-				reactants.rowName(0) = products.rowName(0) = reactionHandle->name;
-				symbolsInModule << reactionHandle->name;
-
-				for (int var=0; var<numReactants; ++var)
-				{
-					NodeHandle * handle = 0;
-					if (!speciesItems.contains(tr(leftrxnnames[rxn][var])))
-					{
-						handle = new NodeHandle(speciesFamily);
-						handlesInModule << handle;
-						handle->name = tr(leftrxnnames[rxn][var]);
-						symbolsInModule << handle->name;
-						speciesItems[tr(leftrxnnames[rxn][var])] = handle;
-						nodesIn << handle;
-						itemsToInsert  += handle;
-					}
-					else
-					{
-						handle = speciesItems[tr(leftrxnnames[rxn][var])];
-					}
-					reactants.value(0,tr(leftrxnnames[rxn][var])) = leftrxnstoichs[rxn][var];
-				}
-
-				for (int var=0; var<numProducts; var++)
-				{
-					NodeHandle * partHandle = 0;
-					if (!speciesItems.contains(tr(rightrxnnames[rxn][var])))
-					{
-						partHandle = new NodeHandle(speciesFamily);
-						handlesInModule << partHandle;
-						partHandle->name = tr(rightrxnnames[rxn][var]);
-						symbolsInModule << partHandle->name;
-						speciesItems[tr(rightrxnnames[rxn][var])] = partHandle;
-						nodesOut << partHandle;
-						itemsToInsert += partHandle;
-					}
-					else
-					{
-						partHandle = speciesItems[tr(rightrxnnames[rxn][var])];
+						if (!colNames.contains(tr(rightrxnnames[rxn][var])))
+						{
+							colNames << tr(rightrxnnames[rxn][var]);
+						}
 					}
 
-					products.value(0,tr(rightrxnnames[rxn][var])) += rightrxnstoichs[rxn][var];
-				}
+					products.resize(1,colNames.size());
+					products.setColNames(colNames);
 
-				QString srate = tr(rxnrates[rxn]);
-				rate.rowName(0) = reactionHandle->name;
-				rate.colName(0) = tr("rate");
-				rate.value(0,0) = srate;
-				reactionHandle->textDataTable(tr("Rate equations")) = rate;
-				reactionHandle->numericalDataTable(tr("Reactant stoichiometries")) = reactants;
-				reactionHandle->numericalDataTable(tr("Product stoichiometries")) = products;
+					for (int j=0; j < colNames.size(); ++j)
+					{
+						products.value(0,j) = 0;
+					}
 
-				for (int var=0; var < nodesIn.size(); ++var)
-					reactionHandle->addNode(nodesIn[var],-1);
+					rate.resize(1,1);
+					ConnectionHandle * reactionHandle = new ConnectionHandle(biochemicalFamily);
+
+					reactionHandle->name = rxnnames[rxn];
+					reactants.rowName(0) = products.rowName(0) = reactionHandle->name;
+					symbolsInModule << reactionHandle->name;
+
+					for (int var=0; var<numReactants; ++var)
+					{
+						NodeHandle * handle = 0;
+						if (!speciesItems.contains(tr(leftrxnnames[rxn][var])))
+						{
+							handle = new NodeHandle(speciesFamily);
+							handle->name = tr(leftrxnnames[rxn][var]);
+							symbolsInModule << handle->name;
+							speciesItems[tr(leftrxnnames[rxn][var])] = handle;
+							nodesIn << handle;
+							itemsToInsert  += handle;
+						}
+						else
+						{
+							handle = speciesItems[tr(leftrxnnames[rxn][var])];
+						}
+						reactants.value(0,tr(leftrxnnames[rxn][var])) += leftrxnstoichs[rxn][var];
+					}
+
+					for (int var=0; var<numProducts; var++)
+					{
+						NodeHandle * handle = 0;
+						if (!speciesItems.contains(tr(rightrxnnames[rxn][var])))
+						{
+							handle = new NodeHandle(speciesFamily);
+							handle->name = tr(rightrxnnames[rxn][var]);
+							symbolsInModule << handle->name;
+							speciesItems[tr(rightrxnnames[rxn][var])] = handle;
+							nodesOut << handle;
+							itemsToInsert += handle;
+						}
+						else
+						{
+							handle = speciesItems[tr(rightrxnnames[rxn][var])];
+						}
+
+						products.value(0,tr(rightrxnnames[rxn][var])) += rightrxnstoichs[rxn][var];
+					}
+
+					QString srate = tr(rxnrates[rxn]);
+					rate.rowName(0) = reactionHandle->name;
+					rate.colName(0) = tr("rate");
+					rate.value(0,0) = srate;
+					reactionHandle->textDataTable(tr("Rate equations")) = rate;
+					reactionHandle->numericalDataTable(tr("Reactant stoichiometries")) = reactants;
+					reactionHandle->numericalDataTable(tr("Product stoichiometries")) = products;
+
+					for (int var=0; var < nodesIn.size(); ++var)
+						reactionHandle->addNode(nodesIn[var],-1);
 				
-				for (int var=0; var < nodesOut.size(); ++var)
-					reactionHandle->addNode(nodesOut[var],1);
+					for (int var=0; var < nodesOut.size(); ++var)
+						reactionHandle->addNode(nodesOut[var],1);
 
-				itemsToInsert += reactionHandle;
-			}
+					itemsToInsert += reactionHandle;
+				}
 
 			int numSpecies = (int)getNumSymbolsOfType("__main",varSpecies);
 			char ** speciesNames = getSymbolNamesOfType("__main",varSpecies);
@@ -302,7 +301,17 @@ namespace Tinkercell
 				bool ok;
 				qreal x = QString(speciesValues[j]).toDouble(&ok);
 				QString s(speciesNames[j]);
-				if (ok && speciesItems.contains(s))
+				
+				if (!speciesItems.contains(s))
+				{
+					NodeHandle * handle = new NodeHandle(speciesFamily);
+					handle->name = s;
+					symbolsInModule << handle->name;
+					speciesItems[s] = handle;
+					itemsToInsert << handle;
+				}
+
+				if (ok)
 				{
 					speciesItems[s]->numericalData(tr("Initial Value"),speciesFamily->measurementUnit.name,speciesFamily->measurementUnit.property) = x;
 					speciesItems[s]->numericalData(tr("Fixed")) = 0;
@@ -317,7 +326,15 @@ namespace Tinkercell
 				bool ok;
 				qreal x = QString(constSpeciesValues[j]).toDouble(&ok);
 				QString s(constSpeciesNames[j]);
-				if (ok && speciesItems.contains(s))
+				if (!speciesItems.contains(s))
+				{
+					NodeHandle * handle = new NodeHandle(speciesFamily);
+					handle->name = s;
+					symbolsInModule << handle->name;
+					speciesItems[s] = handle;
+					itemsToInsert << handle;
+				}
+				if (ok)
 				{
 					speciesItems[s]->numericalData(tr("Initial Value")) = x;
 					speciesItems[s]->numericalDataTable(tr("Initial Value")).rowName(0) = tr("concentration");
@@ -333,17 +350,14 @@ namespace Tinkercell
 			char ** assignmentValues = getSymbolEquationsOfType("__main",varFormulas);
 
 			TextDataTable assgnsTable;
-			QList<ItemHandle*> handlesInModule2 = handlesInModule;
 			
-			//handlesInModule2 << moduleHandle;
-
 			for (int j=0; j < numAssignments; ++j)
 			{
 				QString x(assignmentValues[j]);
 				assgnsTable.value(tr(assignmentNames[j]),0) = x;
 				symbolsInModule << tr(assignmentNames[j]);
 				if (moduleHandle && !moduleHandle->name.isEmpty())
-					RenameCommand::findReplaceAllHandleData(handlesInModule2,tr(assignmentNames[j]),moduleHandle->name + tr(".") + tr(assignmentNames[j]));
+					RenameCommand::findReplaceAllHandleData(itemsToInsert,tr(assignmentNames[j]),moduleHandle->name + tr(".") + tr(assignmentNames[j]));
 			}
 
 			if (moduleHandle)
@@ -384,12 +398,12 @@ namespace Tinkercell
 				{
 					paramsTable.value(tr(paramNames[j]),0) = x;
 					if (moduleHandle && !moduleHandle->name.isEmpty())
-						RenameCommand::findReplaceAllHandleData(handlesInModule2,tr(paramNames[j]),moduleHandle->name + tr(".") + tr(paramNames[j]));
+						RenameCommand::findReplaceAllHandleData(itemsToInsert,tr(paramNames[j]),moduleHandle->name + tr(".") + tr(paramNames[j]));
 				}
 				else
 				if (moduleHandle)
 				{
-					RenameCommand::findReplaceAllHandleData(handlesInModule2,tr(paramValues[j]),moduleHandle->name + tr(".") + tr(paramValues[j]));
+					RenameCommand::findReplaceAllHandleData(itemsToInsert,tr(paramValues[j]),moduleHandle->name + tr(".") + tr(paramValues[j]));
 					moduleHandle->textDataTable(tr("Assignments")).value(tr(paramNames[j]),0) = paramValues[j];
 				}
 			}
@@ -408,19 +422,20 @@ namespace Tinkercell
 						x = 1.0;
 					paramsTable.value(tr(paramNames[j]),0) = x;
 					if (moduleHandle && !moduleHandle->name.isEmpty())
-						RenameCommand::findReplaceAllHandleData(handlesInModule2,tr(paramNames[j]),moduleHandle->name + tr(".") + tr(paramNames[j]));
+						RenameCommand::findReplaceAllHandleData(itemsToInsert,tr(paramNames[j]),moduleHandle->name + tr(".") + tr(paramNames[j]));
 				}
 			}
+
 			if (moduleHandle)
 			{
 				moduleHandle->numericalDataTable(tr("Parameters")) = paramsTable;
 
 				if (!moduleHandle->name.isEmpty())				
-					for (int j=0; j < handlesInModule.size(); ++j)
-						if (handlesInModule[j])
+					for (int j=0; j < itemsToInsert.size(); ++j)
+						if (itemsToInsert[j])
 						{
-							handlesInModule[j]->setParent(moduleHandle);
-							RenameCommand::findReplaceAllHandleData(handlesInModule2,handlesInModule[j]->name,handlesInModule[j]->fullName());
+							itemsToInsert[j]->setParent(moduleHandle,false);
+							RenameCommand::findReplaceAllHandleData(itemsToInsert,itemsToInsert[j]->name,itemsToInsert[j]->fullName());
 						}
 			}
 		}
@@ -652,7 +667,7 @@ namespace Tinkercell
 
 		for (int i=0; i < list.size(); ++i)
 		{
-			root = 0;
+	/*		root = 0;
 			if (list[i]) root = list[i]->root();
 
 			if (root)
@@ -664,7 +679,10 @@ namespace Tinkercell
 
 			for (int j=0; j < temp.size(); ++j)
 				if (temp[j] && !allHandles.contains(temp[j]))
-					allHandles << temp[j];
+					allHandles << temp[j];*/
+			
+			if (!allHandles.contains(list[i]))
+				allHandles += list[i];
 		}
 
 		for (int i=0; i < allHandles.size(); ++i)
@@ -701,18 +719,11 @@ namespace Tinkercell
 			(*text) = getAntimonyScript(items);
 	}
 	
-	void AntimonyEditor::getItemsFromFile(QList<ItemHandle*>& items, const QString& filename)
+	void AntimonyEditor::getItemsFromFile(QList<ItemHandle*>& items, const QString& filename, ItemHandle * root)
 	{
 		if (!items.isEmpty()) return;
 
 		NetworkWindow * window = currentWindow();
-		
-		ItemHandle * root = 0;
-		if (window)
-			root = window->handle;
-		
-		if (!root && currentNetwork())
-			root = currentNetwork()->globalHandle();
 		
 		QString s;
 		QFile file(filename);

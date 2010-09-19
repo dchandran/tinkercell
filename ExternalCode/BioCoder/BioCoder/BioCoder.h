@@ -1,8 +1,11 @@
 #ifndef __BIOCODER__
 #define __BIOCODER__
 #include <iostream>
-#include <conio.h>
+//#include <conio.h>
 #include <cstdio>
+#include <time.h>
+#include <stdlib.h>
+#include <string.h>
 #include <fstream>
 #include "Graph.h"
 

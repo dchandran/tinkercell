@@ -1,11 +1,6 @@
 #ifndef HEADER_lp_lib
 #define HEADER_lp_lib
 
-#define INLINE static
-#define O3
-#define YY_NEVER_INTERACTIVE
-#define PARSER_LP
-
 /* --------------------------------------------------------------------------
 
   This is the main library header file for the lp_solve v5.0 release
@@ -126,8 +121,6 @@
 #define INVERSE_LUMOD            2
 #define INVERSE_LUSOL            3
 #define INVERSE_GLPKLU           4
-
-#define RoleIsExternalInvEngine
 
 #ifndef RoleIsExternalInvEngine            /* Defined in inverse DLL drivers */
   #ifdef ExcludeNativeInverse

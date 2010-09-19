@@ -86,9 +86,10 @@ namespace Tinkercell
 		* \brief load antimony scipt into the list of items
 		* \param QList<ItemHandle*>& list of items inside the file
 		* \param QString& file that is selected by user
+		* \param ItemHandle* optional root parent item
 		* \return void
 		*/
-		void getItemsFromFile(QList<ItemHandle*>&, const QString& filename);
+		void getItemsFromFile(QList<ItemHandle*>&, const QString& filename,ItemHandle * root=0);
 
 	signals:
 		/*! \brief invalid syntax*/

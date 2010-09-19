@@ -54,7 +54,7 @@ namespace Tinkercell
 		void prepareNetworkForSaving(NetworkHandle*,bool*);
 		void saveItems(NetworkHandle*, const QString& filename);
 		void loadItems(QList<QGraphicsItem*>&, const QString& );
-		void getItemsFromFile(QList<ItemHandle*>&, const QString&);
+		void getItemsFromFile(QList<ItemHandle*>&, const QString&,ItemHandle* root=0);
 		void saveNetwork(const QString& filename);
 		void loadNetwork(const QString& filename);
 		void historyChanged( int );

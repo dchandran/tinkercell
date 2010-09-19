@@ -1,6 +1,6 @@
 #include "BioCoder.h"
 
-void main()
+int main()
 {
 	start_protocol("Silver- Restriction Digest");
 
@@ -75,4 +75,6 @@ void main()
 
 
 	end_protocol();
+	
+	return 1;
 }

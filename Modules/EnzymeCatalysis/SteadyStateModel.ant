@@ -1,4 +1,4 @@
-var Substrate, Catalyst, Product;
-Substrate -> Product; Kcat * Enzyme * Substrate/(Km + Substrate);
+species Substrate, Catalyst, Product;
+v: Substrate -> Product; Kcat * Catalyst * Substrate/(Km + Substrate);
 Kcat = 1.0
 Km = 1.0

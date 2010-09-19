@@ -1,5 +1,5 @@
 #include "TC_api.h"
-#include "lp_lib.h"
+#include "lpsolve/lp_lib.h"
 
 void run(tc_matrix input) //first row = objective, rest = contraints, first two cols = arguments
 {

@@ -1,6 +1,8 @@
 #ifndef __GRAPH__
 #define __GRAPH__
-#define NULL 0
+//#define NULL 0
+#include <stdlib.h>
+#include <string.h>
 #include "BioCoder.h"
 
 typedef struct _Node {

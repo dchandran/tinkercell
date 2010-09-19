@@ -745,7 +745,6 @@ void tc_screenshot(const char * filename, int width, int height)
 }
 
 int (*_tc_screenWidth)(void) = 0;
-int (*_tc_screenHeight)(void) = 0;
 /*!
  \brief get width of current canvar
 */
@@ -756,6 +755,7 @@ int tc_screenWidth()
 	return 0;
 }
 
+int (*_tc_screenHeight)(void) = 0;
 /*!
  \brief get height of current canvar
 */
@@ -851,8 +851,8 @@ void tc_Main_api_initialize(
 		void (*changeArrowHead0)(long,const char*),
 		
 		void (*screenshot)(const char*, int, int),
-		int (*screenHeight)(),
-		int (*screenWidth)()
+		int (*screenWidth)(),
+		int (*screenHeight)()
 	)
 {
 	_tc_allItems = tc_allItems0;
@@ -934,8 +934,8 @@ void tc_Main_api_initialize(
 	_tc_changeArrowHead = changeArrowHead0;
 	
 	_tc_screenshot = screenshot;
-	_tc_screenHeight = screenHeight;
 	_tc_screenWidth = screenWidth;
+	_tc_screenHeight = screenHeight;
 }
 
 void (*_tc_showProgress)(long thread, int progress);

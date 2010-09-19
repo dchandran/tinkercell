@@ -104,55 +104,16 @@ ADD_LIBRARY( parametercorrelation
 
 TARGET_LINK_LIBRARIES( parametercorrelation parametercorrelation tinkercellapi )
 
-#ADD_SUBDIRECTORY( lpsolve )
-
-INCLUDE_DIRECTORIES(
-    ${TINKERCELL_SOURCE_DIR}/c/lpsolve/shared/
-    ${TINKERCELL_SOURCE_DIR}/c/lpsolve/colamd/
-    ${TINKERCELL_SOURCE_DIR}/c/lpsolve/bfp/
-    ${TINKERCELL_SOURCE_DIR}/c/lpsolve/bfp/bfp_LUSOL
-    ${TINKERCELL_SOURCE_DIR}/c/lpsolve/bfp/bfp_LUSOL/LUSOL
-)
-
-SET( LPSOLVE_SRC
-  ${TINKERCELL_SOURCE_DIR}/c/lpsolve/lp_MDO.c
-  ${TINKERCELL_SOURCE_DIR}/c/lpsolve/shared/commonlib.c
-  ${TINKERCELL_SOURCE_DIR}/c/lpsolve/colamd/colamd.c
-  ${TINKERCELL_SOURCE_DIR}/c/lpsolve/shared/mmio.c
-  ${TINKERCELL_SOURCE_DIR}/c/lpsolve/shared/myblas.c
-  ${TINKERCELL_SOURCE_DIR}/c/lpsolve/ini.c
-  ${TINKERCELL_SOURCE_DIR}/c/lpsolve/lp_rlp.c
-  ${TINKERCELL_SOURCE_DIR}/c/lpsolve/lp_crash.c
-  ${TINKERCELL_SOURCE_DIR}/c/lpsolve/bfp/bfp_LUSOL/lp_LUSOL.c
-  ${TINKERCELL_SOURCE_DIR}/c/lpsolve/bfp/bfp_LUSOL/LUSOL/lusol.c
-  ${TINKERCELL_SOURCE_DIR}/c/lpsolve/lp_Hash.c
-  ${TINKERCELL_SOURCE_DIR}/c/lpsolve/lp_lib.c
-  ${TINKERCELL_SOURCE_DIR}/c/lpsolve/lp_wlp.c
-  ${TINKERCELL_SOURCE_DIR}/c/lpsolve/lp_matrix.c
-  ${TINKERCELL_SOURCE_DIR}/c/lpsolve/lp_mipbb.c
-  ${TINKERCELL_SOURCE_DIR}/c/lpsolve/lp_MPS.c
-  ${TINKERCELL_SOURCE_DIR}/c/lpsolve/lp_params.c
-  ${TINKERCELL_SOURCE_DIR}/c/lpsolve/lp_presolve.c
-  ${TINKERCELL_SOURCE_DIR}/c/lpsolve/lp_price.c
-  ${TINKERCELL_SOURCE_DIR}/c/lpsolve/lp_pricePSE.c
-  ${TINKERCELL_SOURCE_DIR}/c/lpsolve/lp_report.c
-  ${TINKERCELL_SOURCE_DIR}/c/lpsolve/lp_scale.c
-  ${TINKERCELL_SOURCE_DIR}/c/lpsolve/lp_simplex.c
-  ${TINKERCELL_SOURCE_DIR}/c/lpsolve/lp_SOS.c
-  ${TINKERCELL_SOURCE_DIR}/c/lpsolve/lp_utils.c
-  ${TINKERCELL_SOURCE_DIR}/c/lpsolve/yacc_read.c
+INCLUDE_DIRECTORIES( BEFORE
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/lpsolve
 )
 
 ADD_LIBRARY( lpsolve
   SHARED
   lpsolve.c
-  ${LPSOLVE_SRC}
 )
 
-TARGET_LINK_LIBRARIES( lpsolve lpsolve tinkercellapi )
-
-#SET_TARGET_PROPERTIES(lpsolve PROPERTIES FLAGS "-DINLINE=static -O3 -DBFP_CALLMODEL=__stdcall -DYY_NEVER_INTERACTIVE -DPARSER_LP -DINVERSE_ACTIVE=INVERSE_LUSOL -DRoleIsExternalInvEngine -DExcludeNativeInverse")
-#SET_TARGET_PROPERTIES(lpsolve PROPERTIES LINK_FLAGS "-DINLINE=static -O3 -DBFP_CALLMODEL=__stdcall -DYY_NEVER_INTERACTIVE -DPARSER_LP -DINVERSE_ACTIVE=INVERSE_LUSOL -DRoleIsExternalInvEngine -DExcludeNativeInverse")
+TARGET_LINK_LIBRARIES( lpsolve lpsolve lp_solve tinkercellapi )
 
 ##
 ## CPack

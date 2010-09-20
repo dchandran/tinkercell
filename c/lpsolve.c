@@ -1,7 +1,9 @@
 #include "TC_api.h"
+BEGIN_C_DECLS
+
 #include "lpsolve/lp_lib.h"
 
-void run(tc_matrix input) //first row = objective, rest = contraints, first two cols = arguments
+TCAPIEXPORT void run(tc_matrix input) //first row = objective, rest = contraints, first two cols = arguments
 {
 	lprec *lp;
 	int i,j,k;
@@ -119,7 +121,8 @@ void run(tc_matrix input) //first row = objective, rest = contraints, first two 
 													else
 														tc_errorReport("lpsolve error");
 
-		delete_lp(lp);
+		if (k > 0)
+			delete_lp(lp);
 
 		return;
 	}
@@ -170,3 +173,5 @@ void run(tc_matrix input) //first row = objective, rest = contraints, first two 
 
 	return;
 }
+END_C_DECLS
+

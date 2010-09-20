@@ -54,6 +54,8 @@ namespace Tinkercell
 	
 	void ItemFamily::setName(const QString& s)
 	{
+		if (s.isNull() || s.isEmpty()) return;
+
 		if (_name.toLower() == s.toLower() && 
 			NAMETOID.contains(s.toLower()) && 
 			NAMETOID.value(s.toLower()) == ID)
@@ -81,7 +83,7 @@ namespace Tinkercell
 
 	bool ItemFamily::isA(const QString& name) const
 	{
-		QString s = _name.toLower();
+		QString s = name.toLower();
 		if (!NAMETOID.contains(s)) return false;
 		return isA(NAMETOID.value(s));
 	}
@@ -166,7 +168,7 @@ namespace Tinkercell
 	
 	bool NodeFamily::isA(const QString& name) const
 	{
-		QString s = _name.toLower();
+		QString s = name.toLower();
 		if (!ItemFamily::NAMETOID.contains(s)) return false;
 		return isA(ItemFamily::NAMETOID.value(s));
 	}
@@ -242,7 +244,7 @@ namespace Tinkercell
 	
 	bool ConnectionFamily::isA(const QString& name) const
 	{
-		QString s = _name.toLower();
+		QString s = name.toLower();
 		if (!ItemFamily::NAMETOID.contains(s)) return false;
 		return isA(ItemFamily::NAMETOID.value(s));
 	}

@@ -132,7 +132,7 @@ namespace Tinkercell
 					icon = homeDir + tr("/octave/") + icon;
 		
 			if (!QFile(icon).exists())
-				icon = tr(":/images/default.png");
+				icon = tr(":/images/function.png");
 			QPixmap pixmap(icon);
 		
             QToolButton * button = libMenu->addFunction(category, name, QIcon(pixmap));
@@ -410,7 +410,7 @@ namespace Tinkercell
 				icon = homeDir + tr("/octave/") + icon;
 		
 		if (!QFile(icon).exists())
-			icon = tr(":/images/default.png");
+			icon = tr(":/images/function.png");
 		QPixmap pixmap(icon);
 	
         QToolButton * button = libMenu->addFunction(category, name, QIcon(pixmap));

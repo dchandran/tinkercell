@@ -61,7 +61,7 @@ namespace Tinkercell
 
 	QString MainWindow::homeDir()
 	{
-		if (!homeDirPath.isEmpty() && QDir(homeDirPath).exists())
+		if (homeDirPath.contains(PROJECTNAME) && QDir(homeDirPath).exists())
 		{
 			return homeDirPath;
 		}

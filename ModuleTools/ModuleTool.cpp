@@ -42,7 +42,7 @@ namespace Tinkercell
         mode = none;
         lineItem.setPen(QPen(QColor(255,10,10,255),2.0,Qt::DotLine));
         
-        QString appDir = QCoreApplication::applicationDirPath();
+        /*QString appDir = QCoreApplication::applicationDirPath();
         NodeGraphicsReader reader;
         reader.readXml(&image, appDir + interfaceFileName);
         image.normalize();
@@ -51,7 +51,7 @@ namespace Tinkercell
         toolGraphicsItem->addToGroup(&image);
         toolGraphicsItem->setToolTip(tr("Module input/output"));
         addGraphicsItem(toolGraphicsItem);
-        addAction(QIcon(":/images/moduleInput.png"),tr("Module input/output"),tr("Set selected nodes as interfaces for this module"));
+        addAction(QIcon(":/images/moduleInput.png"),tr("Module input/output"),tr("Set selected nodes as interfaces for this module"));*/
     }
 
 	//insert interface node
@@ -179,14 +179,11 @@ namespace Tinkercell
 
 			QList<QToolButton*> newButtons = catalogWidget->addNewButtons(
 				tr("Modules"),
-				QStringList() 	<< tr("New module") 
-								//<< tr("Insert input/output")
+				QStringList() 	<< tr("New module")
 								<< tr("Connect input/output"),
-				QList<QIcon>() 	<< QIcon(QPixmap(tr(":/images/module.png"))) 
-								//<< QIcon(QPixmap(tr(":/images/moduleInput.png")))
-								<< QIcon(QPixmap(tr(":/images/connectmodules.png"))),
+				QList<QIcon>() 	<< QIcon(QPixmap(tr(":/images/module.png")))
+								<< QIcon(QPixmap(tr(":/images/merge.png"))),
 				QStringList() 	<< tr("A module is a self-contained subsystem that can be used to build larger systems")
-								//<< tr("Use this to set an item inside a module as an input or ouput for that module")
 								<< tr("Use this to connect inputs and ouputs of two modules")
 				);
 
@@ -700,8 +697,6 @@ namespace Tinkercell
         ConnectionGraphicsItem * connection = new ConnectionGraphicsItem;
 		connection->className = connectionClassName;
 		connection->setPen(connection->defaultPen = QPen(QColor(255,100,0,255),3.0));
-
-		//ModuleConnectionGraphicsItem * connection = new ModuleConnectionGraphicsItem;
 
         QList<ItemHandle*> handles;
         handles << handle1 << handle2;

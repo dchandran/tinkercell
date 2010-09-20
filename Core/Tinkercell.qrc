@@ -66,7 +66,6 @@
         <file>images/plus.png</file>
         <file>images/globe.png</file>
         <file>images/upArrow.png</file>
-        <file>images/default.png</file>
         <file>images/eye.png</file>
         <file>images/phosphate.png</file>
         <file>images/antimony.png</file>
@@ -74,8 +73,6 @@
         <file>images/up.png</file>
         <file>images/down.png</file>
         <file>images/module.png</file>
-        <file>images/moduleInput.png</file>
-		<file>images/connectmodules.png</file>
 		<file>images/lollipop.png</file>
         <file>images/parts.png</file>
 		<file>images/export.png</file>

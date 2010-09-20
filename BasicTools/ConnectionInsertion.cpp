@@ -693,7 +693,7 @@ namespace Tinkercell
 					nodeHandles << h;
 		}
 		
-		if (!all)
+		if (!all || allowFlips)
 		{
 			QList<ItemFamily*> childFamilies = selectedFamily->findValidChildFamilies(nodeHandles,all);
 		
@@ -709,38 +709,26 @@ namespace Tinkercell
 			if (childFamilies.isEmpty()) return false; //no suitable connection family found
 		
 			selectedFamily = ConnectionFamily::cast(childFamilies.last());
+			
+			if (all)
+				setRequirements();
 		}
 		else
 		{
-			QList<ItemFamily*> childFamilies = selectedFamily->findValidChildFamilies(nodeHandles,all);
-			
-			if (childFamilies.isEmpty() && selectedFamilyOriginal) //search all families under original
-				childFamilies = selectedFamilyOriginal->findValidChildFamilies(nodeHandles,all);
+			QList<ItemFamily*> childFamilies = selectedFamilyOriginal->findValidChildFamilies(nodeHandles,all);
 			
 			if (childFamilies.isEmpty()) return false; //no suitable connection family found
 			
-			if (allowFlips)
+			QList<NodeGraphicsItem*> originalNodesList = selectedNodes;
+			for (int i=(childFamilies.size()-1); i >= 0; --i)
 			{
-				selectedFamily = ConnectionFamily::cast(childFamilies.last());
-				setRequirements();
-			}
-			else
-			{
-				ConnectionFamily * finalSelectedFamily = 0;
-				QList<NodeGraphicsItem*> originalNodesList = selectedNodes;
-				for (int i=(childFamilies.size()-1); i >= 0; --i)
+				selectedFamily = ConnectionFamily::cast(childFamilies[i]);
+				selectedNodes = originalNodesList;
+				if (setRequirements())
 				{
-					selectedFamily = ConnectionFamily::cast(childFamilies[i]);
-					selectedNodes = originalNodesList;
-					finalSelectedFamily = selectedFamily;
-					if (setRequirements())
-					{
-						break;
-					}
+					break;
 				}
 			}
-			
-			return true;
 		}
 
 		return true;

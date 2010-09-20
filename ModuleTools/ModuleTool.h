@@ -55,7 +55,6 @@
 #include "CatalogWidget.h"
 #include "ItemHandle.h"
 #include "Tool.h"
-#include "ModuleConnectionGraphicsItem.h"
 
 namespace Tinkercell
 {

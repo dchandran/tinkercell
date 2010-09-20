@@ -71,7 +71,7 @@ namespace Tinkercell
 \"Function name\", \n\
 \"Short description\", \n\
 \"Category\", \n\
-\"plugins/c/default.png\", \n\
+\"plugins/c/function.png\", \n\
 \"\", 1, 0, 0); \n}\n\n");
 			editor->setPlainText(code);
 			QMessageBox::information(this,tr("Program description missing"),tr("tc_main and tc_addFunction are required for adding a new C function to the programs menu. Take a look at the code."));
@@ -130,7 +130,7 @@ namespace Tinkercell
 category: Miscellaneous\n\
 name: name of program\n\
 description: what does this program do?\n\
-icon: plugins/c/default.png\n\
+icon: plugins/c/function.png\n\
 menu: yes\n\
 tool: yes\n\
 specific for:\n\"\"\"\n\n") + text;
@@ -177,7 +177,7 @@ specific for:\n\"\"\"\n\n") + text;
 #category: Miscellaneous\n\
 #name: My function\n\
 #description: This program does something\n\
-#icon: plugins/c/default.png\n\
+#icon: plugins/c/function.png\n\
 #menu: yes\n\
 #tool: yes\n\
 #specific for:\n\n") + text;
@@ -539,7 +539,7 @@ specific for:\n\"\"\"\n\n") + text;
 		 action = toolBar->addAction(QIcon(":/images/stop.png"),tr("Stop"),this,SIGNAL(stopPython()));
 		 action->setToolTip(tr("Terminate (Python only)"));
 
-		 //action = toolBar->addAction(QIcon(":/images/default.png"),tr("Buttonize"),this,SLOT(convertCodeToButton()));
+		 //action = toolBar->addAction(QIcon(":/images/function.png"),tr("Buttonize"),this,SLOT(convertCodeToButton()));
 		 //action->setToolTip(tr("Add code to the functions list"));
 
 		 action = toolBar->addAction(QIcon(":/images/about.png"),tr("About"),this,SLOT(about()));

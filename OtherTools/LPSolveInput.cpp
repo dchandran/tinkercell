@@ -37,7 +37,6 @@ namespace Tinkercell
 		layout1->addWidget(new QLabel(tr("Select one or more reactions on the screen."),groupBox1),0);
 		layout1->addWidget(max,0);
 		layout1->addWidget(min,0);
-
 		layout1->addWidget(&objectivesTable,3);
 		groupBox1->setLayout(layout1);
 
@@ -108,7 +107,7 @@ namespace Tinkercell
 		max->setChecked(true);
 		min->setChecked(false);
 
-		connect(min,SIGNAL(clicked()),max,SLOT(toggle()));
+		//connect(min,SIGNAL(toggled()),max,SLOT(toggle()));
 		connect(max,SIGNAL(toggled(bool)),this,SLOT(checkboxSelected(bool)));
 	}
 
@@ -120,8 +119,8 @@ namespace Tinkercell
 
 	void LPSolveInputWindow::showLogFile()
 	{
-		QString homeDir = MainWindow::homeDir();
-		QDesktopServices::openUrl(QUrl(homeDir + tr("/lpsolve.out")));
+		QString tempDir = MainWindow::tempDir();
+		QDesktopServices::openUrl(QUrl(tempDir + tr("/lpsolve.out")));
 	}
 
 	bool LPSolveInputWindow::setMainWindow(MainWindow * main)
@@ -169,7 +168,7 @@ namespace Tinkercell
                 alreadyConnected = true;
 				QString appDir = QCoreApplication::applicationDirPath();
 
-				QIcon icon(appDir + tr("/plugins/c/lpsolve.png"));
+				QIcon icon(appDir + tr("/icons/lpsolve.png"));
 
 				QToolButton * button = libMenu->addFunction(tr("Analysis"), tr("Flux Balance Analysis"), icon);
 				button->setToolTip(tr("uses LPsolve linear programming C library"));

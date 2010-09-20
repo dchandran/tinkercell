@@ -355,7 +355,7 @@ namespace Tinkercell
 		
 		if (textEditor)
 		{
-			network->showTextEditor(textEditor);
+			//network->showTextEditor(textEditor);
 
 			QList<ItemHandle*>& list = textEditor->items();
 			for (int i=0; i < items.size(); ++i)
@@ -447,8 +447,7 @@ namespace Tinkercell
 		
 		if (textEditor)
 		{
-			network->showTextEditor(textEditor);
-				
+			//network->showTextEditor(textEditor);				
 			QList<ItemHandle*>& list = textEditor->items();
 			
 			while (parentHandles.size() < items.size()) parentHandles += 0;
@@ -809,7 +808,7 @@ namespace Tinkercell
 		ConnectionGraphicsItem * connection = 0;
 		if (graphicsScene && graphicsScene->network == network)
 		{
-			network->showScene(graphicsScene);
+			//network->showScene(graphicsScene);
 
 			for (int i=0; i<graphicsItems.size(); ++i)
 			{

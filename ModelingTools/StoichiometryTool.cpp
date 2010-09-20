@@ -253,6 +253,7 @@ namespace Tinkercell
 
 
 
+
 				
 			if (reactions)
 				mainWindow->contextItemsMenu.addAction(autoReverse);
@@ -316,8 +317,7 @@ namespace Tinkercell
 				connectionHandle->hasTextData(tr("Rate equations")) &&
 				connectionHandle->hasTextData(tr("Participants")) &&
 				!changedHandles.contains(connectionHandle))
-				{
-					
+				{					
 					NumericalDataTable * oldparams = &connectionHandle->numericalDataTable(tr("Parameters"));
 					TextDataTable * oldeqns = &connectionHandle->textDataTable(tr("Rate equations"));
 					TextDataTable & participants = connectionHandle->textDataTable(tr("Participants"));
@@ -361,7 +361,7 @@ namespace Tinkercell
 						QString r = reacs.join(tr("*"));
 						s += tr(".Kcat * ");
 						s += enz;
-						s += tr(" * "); 
+						s += tr(" * ");
 						s += r;
 						s += tr("/( ");
 						s += connectionHandle->fullName();

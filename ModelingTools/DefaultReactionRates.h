@@ -53,7 +53,8 @@ namespace Tinkercell
 				node = connectedNodes[i];
 				if (node && !(node->isA(QString("Empty"))))
 				{
-					if (participants.value(node->fullName(),0).toLower().contains(QObject::tr("reactant")))
+					if (participants.value(node->fullName(),0).toLower().contains(QObject::tr("reactant")) ||
+						participants.value(node->fullName(),0).toLower().contains(QObject::tr("substrate")))
 					{
 						reactants.value(QObject::tr("stoichiometry"), node->fullName()) += 1.0;
 						rates.value(QObject::tr("rate"),QObject::tr("formula")) += QObject::tr("*") + node->fullName();						

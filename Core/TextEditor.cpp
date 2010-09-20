@@ -173,7 +173,7 @@ namespace Tinkercell
 	void TextEditor::setItems( const QList<ItemHandle*>& newItems)
 	{
 		QList<QUndoCommand*> commands;
-		
+
 		commands << new RemoveHandlesCommand(this,allItems,false)
 		  		  << new InsertHandlesCommand(this,newItems,false);
 	

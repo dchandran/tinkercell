@@ -156,7 +156,7 @@ namespace Tinkercell
 		QGraphicsSimpleTextItem * textItem = 0;
 		for (int i=0; i < handle->graphicsItems.size(); ++i)
 		{
-			if (handle->graphicsItems[i])
+			if (handle->graphicsItems[i] && handle->graphicsItems[i]->scene() == scene)
 			{	
 				QPointF p;
 				if ((node= qgraphicsitem_cast<NodeGraphicsItem*>(handle->graphicsItems[i])))
@@ -202,7 +202,7 @@ namespace Tinkercell
 		bool circle = false;
 		for (int i=0; i < handle->graphicsItems.size(); ++i)
 		{
-			if (handle->graphicsItems[i])
+			if (handle->graphicsItems[i] && handle->graphicsItems[i]->scene() == scene)
 			{	
 				circle = false;
 				QRectF rect;

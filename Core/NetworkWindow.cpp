@@ -123,13 +123,14 @@ namespace Tinkercell
 		//if (!network->networkWindows.contains(this))
 			//network->networkWindows += this;
 
-		setWindowFlags(Qt::Window);
-		show();
-
 		MainWindow * main = network->mainWindow;
-
+		
+		setWindowFlags(Qt::Window);
+		
 		if (main)
 		{
+			int w = main->width(), h = main->height();
+			setGeometry(w * 3/8, h * 3/8, w * 3/4, h * 3/4);
 			connect(this,SIGNAL(networkClosing(NetworkHandle *, bool*)),main,SIGNAL(networkClosing(NetworkHandle *, bool*)));
 			connect(this,SIGNAL(networkClosed(NetworkHandle *)),main,SIGNAL(networkClosed(NetworkHandle *)));
 			connectToMainWindow();
@@ -137,6 +138,7 @@ namespace Tinkercell
 			main->setCurrentWindow(this);
 		}
 		
+		show();
 		setFocusPolicy(Qt::StrongFocus);
 		setWindowIcon(QIcon(tr(":/images/newscene.png")));
 	}
@@ -160,17 +162,19 @@ namespace Tinkercell
 		//	network->networkWindows += this;
 		
 		setWindowFlags(Qt::Window);
-		show();
 		
 		if (main)
 		{
+			int w = main->width(), h = main->height();
+			setGeometry(w * 3/8, h * 3/8, w * 3/4, h * 3/4);
 			connect(this,SIGNAL(networkClosing(NetworkHandle *, bool*)),main,SIGNAL(networkClosing(NetworkHandle *, bool*)));
 			connect(this,SIGNAL(networkClosed(NetworkHandle *)),main,SIGNAL(networkClosed(NetworkHandle *)));
 			connectToMainWindow();
 			setWindowTitle(tr("network ") + QString::number(main->allNetworks.size()));
 			main->setCurrentWindow(this);
 		}
-		
+
+		show();
 		setFocusPolicy(Qt::StrongFocus);
 		setWindowIcon(QIcon(tr(":/images/newtext.png")));
 	}
@@ -278,7 +282,6 @@ namespace Tinkercell
 		if (editor)
 		{
 			editor->remove(editor->items());
-			editor->networkWindow = 0;
 			editor = 0;
 		}
 		
@@ -307,7 +310,6 @@ namespace Tinkercell
 		if (scene)
 		{
 			scene->remove(tr("Remove old network"),scene->items());
-			scene->networkWindow = 0;
 			scene = 0;
 		}
 		
@@ -320,6 +322,7 @@ namespace Tinkercell
 			editor = new TextEditor(network);
 			editor->networkWindow = this;
 			editor->network = network;
+			
 			setCentralWidget(editor);		
 			connectToMainWindow();
 		}

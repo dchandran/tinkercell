@@ -134,6 +134,9 @@ namespace Tinkercell
 
 			connect(mainWindow,SIGNAL(mousePressed(GraphicsScene *, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)),
 				this,SLOT(sceneClicked(GraphicsScene *, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)));
+				
+			connect(mainWindow,SIGNAL(itemsDropped(GraphicsScene *, const QString&, const QPointF&)),
+				this,SLOT(itemsDropped(GraphicsScene *, const QString&, const QPointF&)));
 
 			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 
@@ -273,8 +276,27 @@ namespace Tinkercell
 	{
 		return QSize(400, 200);
 	}
+	
+	void SimulationEventsTool::itemsDropped(GraphicsScene * scene, const QString& name, const QPointF& point)
+	{
+		if (name.toLower() == tr("new event"))
+			mode = addingEvent;
+		
+		if (name.toLower() == tr("step input"))
+			mode = addingStep;
+			
+		if (name.toLower() == tr("impulse"))
+			mode = addingPulse;
+			
+		if (name.toLower() == tr("wave input"))
+			mode = addingWave;
 
-	void SimulationEventsTool::sceneClicked(GraphicsScene *scene, QPointF point, Qt::MouseButton button, Qt::KeyboardModifiers modifiers)
+		sceneClicked(scene,point,Qt::LeftButton,Qt::NoModifier);
+
+		mode = none;
+	}
+
+	void SimulationEventsTool::sceneClicked(GraphicsScene * scene, QPointF point, Qt::MouseButton button, Qt::KeyboardModifiers modifiers)
 	{
 		if (mode == none || button == Qt::RightButton || !scene || scene->useDefaultBehavior)
 		{

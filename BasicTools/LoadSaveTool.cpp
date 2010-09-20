@@ -414,16 +414,16 @@ namespace Tinkercell
 		QList<QGraphicsItem*> items;
 		loadItems(items,filename);
 		ItemHandle * h;
+
 		for (int i=0; i < items.size(); ++i)
 			if ((h = getHandle(items[i])) && !handles.contains(h))
 				handles += h;
 		
 		if (root)
 			for (int i=0; i < handles.size(); ++i)
-				if (h = handles[i])
+				if ((h = handles[i]) && !h->parent)
 				{
-					h->setParent(root,false);
-					RenameCommand::findReplaceAllHandleData(handles,h->name,h->fullName());
+					RenameCommand::findReplaceAllHandleData(handles,h->name,root->fullName() + tr(".") + h->name);
 				}
 	}
 

@@ -470,7 +470,7 @@ namespace Tinkercell
 
 							if (QFile::exists(filename))
 							{
-								QList<ItemHandle*> handles2 = mainWindow->getItemsFromFile(filename);
+								QList<ItemHandle*> handles2 = mainWindow->getItemsFromFile(filename,handles[i]);
 
 								loaded = !handles2.isEmpty();
 								
@@ -480,10 +480,11 @@ namespace Tinkercell
 									if (handles2[j] && !visitedHandles.contains(handles2[j]))
 									{
 										visitedHandles << handles2[j];
-										if (!handles2[j]->parent)
+										if (!handles2[j]->parent || handles2[j]->parent == handles[i])
 										{
+											handles2[j]->setParent(0,false);
 											commands << new SetParentHandleCommand(tr("set parent"),0,handles2[j],handles[i]);
-											commands << new RenameCommand(tr("rename"),0,handles2,handles2[j]->name,handles[i]->fullName() + tr(".") + handles2[j]->name);											
+											commands << new RenameCommand(tr("rename"),0,handles2,handles2[j]->name,handles[i]->fullName() + tr(".") + handles2[j]->name);
 										}
 									}
 							}
@@ -767,7 +768,9 @@ namespace Tinkercell
 					{
 						QString modelText;
 						emit getTextVersion(handles, &modelText);
-						window->newTextEditor()->setText(modelText);
+						TextEditor * newEditor = window->newTextEditor();
+						newEditor->setText(modelText);
+						newEditor->insert(handles);
 					}
 				}
 				else
@@ -783,7 +786,9 @@ namespace Tinkercell
 					{
 						QString modelText;
 						emit getTextVersion(handles, &modelText);
-						window->newTextEditor()->setText(modelText);
+						TextEditor * newEditor = window->newTextEditor();
+						newEditor->setText(modelText);
+						newEditor->insert(handles);
 					}
 				}
 				
@@ -827,6 +832,7 @@ namespace Tinkercell
 			return 0;
 			
 		QDockWidget * dock = new QDockWidget;
+		dock->setMaximumHeight(150);
 		QWidget * widget = new QWidget;
 		QHBoxLayout * layout = new QHBoxLayout;
 		QScrollArea * scrollArea = new QScrollArea;
@@ -949,22 +955,30 @@ namespace Tinkercell
 					if (!items.isEmpty())
 					{
 						GraphicsScene * newScene = network->createScene();
-						newScene->insert(handle->name + tr(" visible"),items);
 						window = newScene->networkWindow;
+						if (window)
+						{
+							window->addDockWidget(Qt::TopDockWidgetArea,dock);
+							window->handle = handle;	
+						}	
+						newScene->insert(handle->name + tr(" visible"),items);
+						newScene->fitAll();
 					}
 					else
 					{
 						QString modelText;
 						emit getTextVersion(handle->children, &modelText);
-						TextEditor * newEditor = network->createTextEditor(modelText);
+						TextEditor * newEditor = network->createTextEditor(modelText);	
 						window = newEditor->networkWindow;
+						if (window)
+						{
+							window->addDockWidget(Qt::TopDockWidgetArea,dock);
+							window->handle = handle;	
+						}
+						newEditor->insert(handle->children);
 					}
-					if (window)
-					{
-						window->addDockWidget(Qt::TopDockWidgetArea,dock);
-						window->handle = handle;						
-					}
-					else
+					
+					if (!window)
 						delete dock;
 				}
 			}

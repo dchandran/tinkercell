@@ -77,6 +77,7 @@ namespace Tinkercell
 			connect(button,SIGNAL(pressed()),this,SLOT(parse()));
 			
 			QDockWidget * dock = new QDockWidget;
+			dock->setMaximumWidth(150);
 			QVBoxLayout * layout = new QVBoxLayout;
 			QWidget * widget = new QWidget;
 			layout->setContentsMargins(5,8,5,5);
@@ -292,7 +293,7 @@ namespace Tinkercell
 
 					itemsToInsert += reactionHandle;
 				}
-
+			
 			int numSpecies = (int)getNumSymbolsOfType("__main",varSpecies);
 			char ** speciesNames = getSymbolNamesOfType("__main",varSpecies);
 			char ** speciesValues = getSymbolEquationsOfType("__main",varSpecies);
@@ -317,7 +318,7 @@ namespace Tinkercell
 					speciesItems[s]->numericalData(tr("Fixed")) = 0;
 				}
 			}
-
+			
 			int numConstSpecies = (int)getNumSymbolsOfType("__main",constSpecies);
 			char ** constSpeciesNames = getSymbolNamesOfType("__main",constSpecies);
 			char ** constSpeciesValues = getSymbolEquationsOfType("__main",constSpecies);
@@ -344,6 +345,11 @@ namespace Tinkercell
 					speciesItems[s]->numericalDataTable(tr("Fixed")).colName(0) = tr("value");
 				}
 			}
+			
+			QList<ItemHandle*> allHandles = itemsToInsert;
+			
+			if (moduleHandle)
+				allHandles += moduleHandle;
 
 			int numAssignments = (int)getNumSymbolsOfType("__main",varFormulas);
 			char ** assignmentNames = getSymbolNamesOfType("__main",varFormulas);
@@ -357,7 +363,7 @@ namespace Tinkercell
 				assgnsTable.value(tr(assignmentNames[j]),0) = x;
 				symbolsInModule << tr(assignmentNames[j]);
 				if (moduleHandle && !moduleHandle->name.isEmpty())
-					RenameCommand::findReplaceAllHandleData(itemsToInsert,tr(assignmentNames[j]),moduleHandle->name + tr(".") + tr(assignmentNames[j]));
+					RenameCommand::findReplaceAllHandleData(allHandles,tr(assignmentNames[j]),moduleHandle->name + tr(".") + tr(assignmentNames[j]));
 			}
 
 			if (moduleHandle)
@@ -398,12 +404,14 @@ namespace Tinkercell
 				{
 					paramsTable.value(tr(paramNames[j]),0) = x;
 					if (moduleHandle && !moduleHandle->name.isEmpty())
-						RenameCommand::findReplaceAllHandleData(itemsToInsert,tr(paramNames[j]),moduleHandle->name + tr(".") + tr(paramNames[j]));
+					{						
+						RenameCommand::findReplaceAllHandleData(allHandles,tr(paramNames[j]),moduleHandle->name + tr(".") + tr(paramNames[j]));
+					}
 				}
 				else
 				if (moduleHandle)
 				{
-					RenameCommand::findReplaceAllHandleData(itemsToInsert,tr(paramValues[j]),moduleHandle->name + tr(".") + tr(paramValues[j]));
+					RenameCommand::findReplaceAllHandleData(allHandles,tr(paramNames[j]),moduleHandle->name + tr(".") + tr(paramNames[j]));
 					moduleHandle->textDataTable(tr("Assignments")).value(tr(paramNames[j]),0) = paramValues[j];
 				}
 			}
@@ -422,7 +430,9 @@ namespace Tinkercell
 						x = 1.0;
 					paramsTable.value(tr(paramNames[j]),0) = x;
 					if (moduleHandle && !moduleHandle->name.isEmpty())
-						RenameCommand::findReplaceAllHandleData(itemsToInsert,tr(paramNames[j]),moduleHandle->name + tr(".") + tr(paramNames[j]));
+					{
+						RenameCommand::findReplaceAllHandleData(allHandles,tr(paramNames[j]),moduleHandle->name + tr(".") + tr(paramNames[j]));
+					}
 				}
 			}
 
@@ -432,15 +442,15 @@ namespace Tinkercell
 
 				if (!moduleHandle->name.isEmpty())				
 					for (int j=0; j < itemsToInsert.size(); ++j)
-						if (itemsToInsert[j])
+						if (itemsToInsert[j] && !itemsToInsert[j]->parent)
 						{
-							itemsToInsert[j]->setParent(moduleHandle,false);
-							RenameCommand::findReplaceAllHandleData(itemsToInsert,itemsToInsert[j]->name,itemsToInsert[j]->fullName());
+							RenameCommand::findReplaceAllHandleData(allHandles,itemsToInsert[j]->name,moduleHandle->fullName() + tr(".") + itemsToInsert[j]->name);
 						}
 			}
 		}
 
 		freeAll();
+
 		return itemsToInsert;
 	}
 

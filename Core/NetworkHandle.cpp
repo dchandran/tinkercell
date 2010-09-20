@@ -180,16 +180,45 @@ namespace Tinkercell
 	
 	void NetworkHandle::showScene(GraphicsScene * scene)
 	{
+		if (!scene) return;
+
 		for (int i=0; i < networkWindows.size(); ++i)
 			if (networkWindows[i] && networkWindows[i]->scene == scene && !networkWindows[i]->isVisible())
+			{
 				networkWindows[i]->popOut();
+				return;
+			}
+		if (scene->networkWindow)
+		{
+			NetworkWindow * window = scene->networkWindow;
+			QList<QGraphicsView*> views = scene->views();
+			if (views.isEmpty() || !views[0]) return;
+			window->scene = scene;
+			window->editor = 0;			
+			window->setCentralWidget(views[0]);
+			if (!window->isVisible())
+				window->popOut();
+		}
 	}
 
 	void NetworkHandle::showTextEditor(TextEditor * editor)
 	{
+		if (!editor) return;
 		for (int i=0; i < networkWindows.size(); ++i)
 			if (networkWindows[i] && networkWindows[i]->editor == editor && !networkWindows[i]->isVisible())
+			{
 				networkWindows[i]->popOut();
+				return;
+			}
+		if (editor->networkWindow)
+		{
+			NetworkWindow * window = editor->networkWindow;
+			window->scene = 0;
+			window->editor = editor;
+			window->setCentralWidget(editor);
+			if (!window->isVisible())
+				window->popOut();
+		}
 	}
 	
 	TextEditor * NetworkHandle::createTextEditor(const QString& text)

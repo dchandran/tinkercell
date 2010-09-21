@@ -261,6 +261,11 @@ void SBMLImportExport::importSBML(QSemaphore * sem, const QString& str)
 			editor->setText(text);
 		}
 	}
+	else
+	{
+		if (sem && console())
+			console()->error("Failed to load SBML file");
+	}
 
 	if (sem)
 		sem->release();
@@ -340,8 +345,8 @@ QList<ItemHandle*> SBMLImportExport::importSBML(const QString& sbml_text)
 	
 	if (!doc || doc->getNumErrors() > 0)
 	{
-		if (console())
-			console()->error(tr("Failed to load SBML using libsbml"));
+		//if (console())
+			//console()->error(tr("Failed to load SBML using libsbml"));
 	}
 	else
 	{

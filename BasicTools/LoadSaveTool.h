@@ -63,12 +63,12 @@ namespace Tinkercell
 
 	protected:
 
-		static NodeGraphicsItem* readNode(NodeGraphicsReader&,QString&,QTransform&,QPointF&,qreal&);
-		static ConnectionGraphicsItem* readConnection(NodeGraphicsReader &,QList<NodeGraphicsItem*>&, QList<ConnectionGraphicsItem*>& , QString&,qreal&);
-		static TextGraphicsItem * readText(QXmlStreamReader & ,QString&, QTransform&,QPointF&, qreal&);
-		static void writeNode(NodeGraphicsItem* node, QXmlStreamWriter& modelWriter);
-		static void writeConnection(ConnectionGraphicsItem* connection, QXmlStreamWriter& modelWriter);
-		static void writeText(TextGraphicsItem* text, QXmlStreamWriter& modelWriter);	
+		static NodeGraphicsItem* readNode(NodeGraphicsReader&,QString&,QTransform&,QPointF&,qreal&,int&);
+		static ConnectionGraphicsItem* readConnection(NodeGraphicsReader &,QList<NodeGraphicsItem*>&, QList<ConnectionGraphicsItem*>& , QString&,qreal&, int&);
+		static TextGraphicsItem * readText(QXmlStreamReader & ,QString&, QTransform&,QPointF&, qreal&, int&);
+		static void writeNode(NodeGraphicsItem* node, QXmlStreamWriter& modelWriter,int sceneNumber);
+		static void writeConnection(ConnectionGraphicsItem* connection, QXmlStreamWriter& modelWriter,int sceneNumber);
+		static void writeText(TextGraphicsItem* text, QXmlStreamWriter& modelWriter,int sceneNumber);	
 
 		QHash<NetworkHandle*,bool> savedNetworks;
 		int countHistory;

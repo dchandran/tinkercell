@@ -117,7 +117,7 @@ namespace Tinkercell
 			(*b) = true;
 	}
 
-	void LoadSaveTool::writeNode(NodeGraphicsItem* node, QXmlStreamWriter& modelWriter)
+	void LoadSaveTool::writeNode(NodeGraphicsItem* node, QXmlStreamWriter& modelWriter, int sceneNumber)
 	{
 		if (!node) return;
 		ItemHandle * handle = getHandle(node);
@@ -125,6 +125,8 @@ namespace Tinkercell
 
 		modelWriter.writeStartElement("NodeItem");
 		modelWriter.writeAttribute("className",node->className);
+		modelWriter.writeAttribute(tr("scene"), QString::number(sceneNumber));
+
 		if (handle)
 			modelWriter.writeAttribute("handle",handle->fullName(tr(".")));
 		else
@@ -154,13 +156,14 @@ namespace Tinkercell
 		modelWriter.writeEndElement();
 	}
 
-	void LoadSaveTool::writeConnection(ConnectionGraphicsItem* connection, QXmlStreamWriter& modelWriter)
+	void LoadSaveTool::writeConnection(ConnectionGraphicsItem* connection, QXmlStreamWriter& modelWriter, int sceneNumber)
 	{
 		if (!connection) return;
 		ItemHandle * handle = getHandle(connection);
 
 		modelWriter.writeStartElement(tr("ConnectionItem"));
 		modelWriter.writeAttribute(tr("className"),connection->className);
+		modelWriter.writeAttribute(tr("scene"), QString::number(sceneNumber));
 
 		if (handle)
 			modelWriter.writeAttribute(tr("handle"),handle->fullName(tr(".")));
@@ -172,12 +175,14 @@ namespace Tinkercell
 		modelWriter.writeEndElement();
 	}
 
-	void LoadSaveTool::writeText(TextGraphicsItem* text, QXmlStreamWriter& modelWriter)
+	void LoadSaveTool::writeText(TextGraphicsItem* text, QXmlStreamWriter& modelWriter,int sceneNumber)
 	{
 		if (!text) return;
 
 		modelWriter.writeStartElement(tr("TextItem"));
 		modelWriter.writeAttribute(tr("text"),text->toPlainText());
+		modelWriter.writeAttribute(tr("scene"), QString::number(sceneNumber));
+		
 		ItemHandle * handle = getHandle(text);
 		if (handle)
 			modelWriter.writeAttribute(tr("handle"),handle->fullName());
@@ -211,7 +216,7 @@ namespace Tinkercell
 	{
 		if (!network || filename.isEmpty()) return;
 		
-		QList<GraphicsScene*> scenes = network->scenes();		
+		QList<GraphicsScene*> scenes = network->scenes();
 		QList<QGraphicsItem*> allitems;
 		
 		for (int i=0; i < scenes.size(); ++i)
@@ -279,7 +284,7 @@ namespace Tinkercell
 		for (int i=0; i < nodeItems.size(); ++i)
 		{
 			node = nodeItems[i];
-			writeNode(node,modelWriter);
+			writeNode(node,modelWriter,scenes.indexOf(static_cast<GraphicsScene*>(node->scene())));
 		}
 		modelWriter.writeEndElement();
 
@@ -299,13 +304,15 @@ namespace Tinkercell
 		for (int i=0; i < firstSetofConnections.size(); ++i)
 		{
 			connection = firstSetofConnections[i];
-			writeConnection(connection,modelWriter);
+			writeConnection(connection,modelWriter,scenes.indexOf(static_cast<GraphicsScene*>(connection->scene())));
 		}
+
 		for (int i=0; i < connectionItems.size(); ++i)
 		{
 			connection = connectionItems[i];
-			writeConnection(connection,modelWriter);
+			writeConnection(connection,modelWriter,scenes.indexOf(static_cast<GraphicsScene*>(connection->scene())));
 		}
+
 		modelWriter.writeEndElement();
 
 		modelWriter.writeStartElement(tr("Texts"));
@@ -313,7 +320,7 @@ namespace Tinkercell
 		for (int i=0; i < textItems.size(); ++i)
 		{
 			text = textItems[i];
-			writeText(text,modelWriter);
+			writeText(text,modelWriter,scenes.indexOf(static_cast<GraphicsScene*>(node->scene())));
 		}
 
 		modelWriter.writeEndElement();
@@ -427,7 +434,7 @@ namespace Tinkercell
 				}
 	}
 
-	void LoadSaveTool::loadItems(QList<QGraphicsItem*>& items, const QString& filename)
+	void LoadSaveTool::loadItems(QList<QGraphicsItem*>& itemsToInsert, const QString& filename)
 	{
 		if (!mainWindow->tool(tr("Nodes Tree")) || !mainWindow->tool(tr("Connections Tree")))
 		{
@@ -529,6 +536,8 @@ namespace Tinkercell
 		QList<QTransform> transforms;
 		QList<QPointF> points;
 		QList<qreal> zValues;
+		QList<int> sceneNumbers;
+		QList<QGraphicsItem*> items;
 
 		//find starting point for nodes
 		NodeGraphicsReader nodeReader;
@@ -546,7 +555,8 @@ namespace Tinkercell
 			QTransform t;
 			QPointF p;
 			qreal z;
-			NodeGraphicsItem * node = readNode(nodeReader,s,t,p,z);
+			int sn;
+			NodeGraphicsItem * node = readNode(nodeReader,s,t,p,z,sn);
 			if (node)
 			{
 				if (!s.isEmpty() && handlesHash.contains(s))
@@ -556,6 +566,7 @@ namespace Tinkercell
 				items << node;
 				nodes << node;
 				zValues << z;
+				sceneNumbers << sn;
 			}
 			nodeReader.readNext();
 		}
@@ -569,7 +580,8 @@ namespace Tinkercell
 		{
 			QString s;
 			qreal z;
-			ConnectionGraphicsItem * connection = readConnection(nodeReader,nodes,connections,s,z);
+			int sn;
+			ConnectionGraphicsItem * connection = readConnection(nodeReader,nodes,connections,s,z,sn);
 			if (connection)
 			{
 				if (!s.isEmpty() && handlesHash.contains(s))
@@ -579,6 +591,7 @@ namespace Tinkercell
 				connections << connection;
 				points << QPointF(0,0);
 				zValues << z;
+				sceneNumbers << sn;
 				QList<ConnectionGraphicsItem::ControlPoint*> controlPoints = connection->controlPoints(true);
 				for (int i=0; i < controlPoints.size(); ++i)
 				{
@@ -588,6 +601,7 @@ namespace Tinkercell
 						items << controlPoints[i];
 						points << controlPoints[i]->pos();
 						zValues << (z+0.1);
+						sceneNumbers << sn;
 					}
 				}
 				QList<ArrowHeadItem*> arrowHeads;
@@ -605,6 +619,7 @@ namespace Tinkercell
 						points << arrowHeads[i]->pos();
 						items << arrowHeads[i];
 						zValues << (z+0.1);
+						sceneNumbers << sn;
 					}
 				}
 			}
@@ -622,7 +637,8 @@ namespace Tinkercell
 			QTransform t;
 			QPointF p;
 			qreal z;
-			TextGraphicsItem * text = readText(nodeReader,s,t,p,z);
+			int sn;
+			TextGraphicsItem * text = readText(nodeReader,s,t,p,z,sn);
 			if (text)
 			{
 				if (!s.isEmpty() && handlesHash.contains(s))
@@ -631,6 +647,7 @@ namespace Tinkercell
 				points << p;
 				items << text;
 				zValues << z;
+				sceneNumbers << sn;
 			}
 			nodeReader.readNext();
 		}
@@ -638,6 +655,7 @@ namespace Tinkercell
 
 		if (items.size() > 0)
 		{
+			int minSceneNumber = -1;
 			for (int i=0; i < items.size(); ++i)
 			{
 				items[i]->resetTransform();
@@ -645,12 +663,18 @@ namespace Tinkercell
 				items[i]->setTransform(transforms[i]);
 				items[i]->setPos(points[i]);
 				items[i]->setZValue(zValues[i]);
+				if (sceneNumbers[i] < minSceneNumber || minSceneNumber < 0)
+					minSceneNumber = sceneNumbers[i];
+			}
+			for (int i=0; i < items.size(); ++i)
+			{
+				if (sceneNumbers[i] == minSceneNumber)
+					itemsToInsert << items[i];
 			}
 		}
-
 	}
 
-	TextGraphicsItem * LoadSaveTool::readText(QXmlStreamReader & nodeReader,QString& handle, QTransform& transform,QPointF& pos, qreal& z)
+	TextGraphicsItem * LoadSaveTool::readText(QXmlStreamReader & nodeReader,QString& handle, QTransform& transform,QPointF& pos, qreal& z, int & sceneNumber)
 	{
 		if (nodeReader.isStartElement() && nodeReader.name() == "TextItem")
 		{
@@ -664,10 +688,11 @@ namespace Tinkercell
 				if (attribs[i].name().toString() == tr("text"))
 					text->setPlainText(attribs[i].value().toString());
 				else
+				if (attribs[i].name().toString() == tr("scene"))
+					sceneNumber = attribs[i].value().toString().toDouble(&ok);
+				else
 					if (attribs[i].name().toString() == tr("handle"))
-					{
 						handle = attribs[i].value().toString();
-					}
 					else
 						if (attribs[i].name().toString() == tr("x"))
 							pos.rx() = attribs[i].value().toString().toDouble(&ok);
@@ -716,7 +741,7 @@ namespace Tinkercell
 		return 0;
 	}
 
-	ConnectionGraphicsItem * LoadSaveTool::readConnection(NodeGraphicsReader & nodeReader,QList<NodeGraphicsItem*>& nodes, QList<ConnectionGraphicsItem*>& connections, QString& handle, qreal& z)
+	ConnectionGraphicsItem * LoadSaveTool::readConnection(NodeGraphicsReader & nodeReader,QList<NodeGraphicsItem*>& nodes, QList<ConnectionGraphicsItem*>& connections, QString& handle, qreal& z, int & sceneNumber)
 	{
 		if (nodeReader.isStartElement() && nodeReader.name() == "ConnectionItem")
 		{
@@ -724,11 +749,18 @@ namespace Tinkercell
 			QXmlStreamAttributes attribs = nodeReader.attributes();
 			ConnectionGraphicsItem * connection = 0;
 			QString type;
+			bool ok;
+
 			for (int i=0; i < attribs.size(); ++i)
 			{
 				if (attribs[i].name().toString() == tr("className"))
 				{
 					type = attribs[i].value().toString();
+				}
+				else
+				if (attribs[i].name().toString() == tr("scene"))
+				{
+					sceneNumber = attribs[i].value().toString().toDouble(&ok);
 				}
 				else
 					if (attribs[i].name().toString() == tr("handle"))
@@ -738,7 +770,6 @@ namespace Tinkercell
 					else
 						if (attribs[i].name().toString() == tr("z"))
 						{
-							bool ok;
 							z = attribs[i].value().toString().toDouble(&ok);
 							if (!ok) z = 1.0;
 						}
@@ -759,17 +790,23 @@ namespace Tinkercell
 		return 0;
 	}
 
-	NodeGraphicsItem * LoadSaveTool::readNode(NodeGraphicsReader & reader,QString& handle, QTransform& transform,QPointF& pos, qreal& z)
+	NodeGraphicsItem * LoadSaveTool::readNode(NodeGraphicsReader & reader,QString& handle, QTransform& transform,QPointF& pos, qreal& z, int & sceneNumber)
 	{
 		if (!(reader.isStartElement() && reader.name() == QObject::tr("NodeItem"))) return 0;
 
 		QXmlStreamAttributes attribs = reader.attributes();
 		QString type;
+		bool ok;
 		for (int i=0; i < attribs.size(); ++i)
 		{
 			if (attribs[i].name().toString() == tr("className"))
 			{
 				type = attribs[i].value().toString();
+			}
+			else
+			if (attribs[i].name().toString() == tr("scene"))
+			{
+				sceneNumber = attribs[i].value().toString().toDouble(&ok);
 			}
 			else
 				if (attribs.at(i).name().toString() == tr("handle"))
@@ -779,7 +816,6 @@ namespace Tinkercell
 				else
 					if (attribs[i].name().toString() == tr("z"))
 					{
-						bool ok;
 						z = attribs[i].value().toString().toDouble(&ok);
 						if (!ok) z = 1.0;
 					}
@@ -808,7 +844,6 @@ namespace Tinkercell
 					if (reader.name() == "pos")
 					{
 						attribs = reader.attributes();
-						bool ok;
 						if (attribs.size() == 2)
 						{
 							n = attribs.at(0).value().toString().toDouble(&ok);
@@ -824,7 +859,6 @@ namespace Tinkercell
 						if (reader.name() == "transform")
 						{
 							QXmlStreamAttributes attribs = reader.attributes();
-							bool ok;
 							if (attribs.size() == 4)
 							{
 								n = attribs.at(0).value().toString().toDouble(&ok);

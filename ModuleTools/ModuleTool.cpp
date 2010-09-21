@@ -395,7 +395,7 @@ namespace Tinkercell
 		commands << moduleConnectionsInserted(items)
 				 << substituteStrings(handles);
 		
-		removeSubnetworks(items,handles);
+		//removeSubnetworks(items,handles);
 
 		ItemHandle * h1 = 0, * h2 = 0;
 

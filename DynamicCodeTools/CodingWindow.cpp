@@ -456,14 +456,17 @@ specific for:\n\"\"\"\n\n") + text;
 				QAction * aboutAction = 0;
 	
 				for (int i=0; i < actions.size(); ++i)
-					if (actions[i] && actions[i]->menu() && actions[i]->text() == tr("About"))
+					if (actions[i] && actions[i]->text() == tr("About"))
 					{
 						aboutAction = actions[i];
-						mainWindow->helpMenu->removeAction(aboutAction);
-						mainWindow->helpMenu->insertAction(pyscesHelp,aboutAction);
-						mainWindow->helpMenu->insertSeparator(aboutAction);
 						break;	
 					}
+				if (aboutAction)
+				{	
+					mainWindow->helpMenu->removeAction(aboutAction);
+					mainWindow->helpMenu->addSeparator();
+					mainWindow->helpMenu->addAction(aboutAction);
+				}
 			}
 
 			if (mainWindow->optionsMenu && cButton && pythonButton && octaveButton)

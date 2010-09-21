@@ -663,7 +663,7 @@ namespace Tinkercell
 				items[i]->setTransform(transforms[i]);
 				items[i]->setPos(points[i]);
 				items[i]->setZValue(zValues[i]);
-				if (sceneNumbers[i] < minSceneNumber || minSceneNumber < 0)
+				if (sceneNumbers[i] >= 0 && (sceneNumbers[i] < minSceneNumber || minSceneNumber < 0))
 					minSceneNumber = sceneNumbers[i];
 			}
 			for (int i=0; i < items.size(); ++i)

@@ -52,13 +52,12 @@ namespace Tinkercell
 		{
 			if (mainWindow->helpMenu)
 			{
-				mainWindow->helpMenu->addAction(QIcon(":/images/about.png"),tr("About TinkerCell"),this,SLOT(showAboutBox()));
-				mainWindow->helpMenu->addAction(QIcon(":/images/question.png"),tr("User's Guide"),this,SLOT(openDocumentation()));
-				mainWindow->helpMenu->addSeparator();
+				//mainWindow->helpMenu->addAction(QIcon(":/images/question.png"),tr("User's Guide"),this,SLOT(openDocumentation()));
 				mainWindow->helpMenu->addAction(QIcon(":/images/globe.png"),tr("TinkerCell Homepage"),this,SLOT(openHomePage()));
 				mainWindow->helpMenu->addAction(QIcon(":/images/globe.png"),tr("TinkerCell Blog"),this,SLOT(openBlog()));
-				mainWindow->helpMenu->addSeparator();
 				mainWindow->helpMenu->addAction(tr("Write to us"),this,SLOT(emailAuthor()));
+				mainWindow->helpMenu->addSeparator();
+				mainWindow->helpMenu->addAction(QIcon(":/images/about.png"),tr("About"),this,SLOT(showAboutBox()));
 			}
 			return true;
 		}

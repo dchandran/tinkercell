@@ -13,7 +13,7 @@
 #include <QMainWindow>
 #include <QTextEdit>
 #include <QSyntaxHighlighter>
-#include <QHash>
+#include <QMenu>
 #include <QTextCharFormat>
 #include <QDialog>
 #include <QCompleter>
@@ -23,6 +23,7 @@
 #include <QThread>
 #include <QToolBar>
 #include <QTimeLine>
+#include <QAction>
 #include <QActionGroup>
 #include <QLineEdit>
 #include <QHash>
@@ -72,6 +73,7 @@ namespace Tinkercell
 	public:
 		CodingWindow();
 		bool setMainWindow(MainWindow*);
+		static bool DO_SVN_UPDATE;
 
 	signals:
 		void runPython(const QString&);
@@ -89,7 +91,7 @@ namespace Tinkercell
 	public slots:
 		void run();
 		void about();
-//		void dialogFinished();
+		void toggleSVNupdate(bool);
 		virtual QSize sizeHint() const;
 		void newDoc();
 		void open();

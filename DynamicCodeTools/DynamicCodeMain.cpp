@@ -30,16 +30,6 @@ extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)
 
 #endif
 
-	QString s;
-	if (!QFile::exists(homeDir + QObject::tr("/.svn")))
-	{
-		s = QObject::tr("svn co https://tinkercellextra.svn.sourceforge.net/svnroot/tinkercellextra ") + homeDir;
-		system(s.toAscii().data());
-	}
-	
-	s = QObject::tr("cd ") + homeDir + QObject::tr("; svn update");
-	system(s.toAscii().data());
-
 	Tinkercell::DynamicLibraryMenu * libMenu = new Tinkercell::DynamicLibraryMenu;
 	main->addTool(libMenu);
 
@@ -54,6 +44,18 @@ extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)
 
 	Tinkercell::CodingWindow * cScriptWindow = new Tinkercell::CodingWindow;
 	main->addTool(cScriptWindow);
-
+	
+	if (Tinkercell::CodingWindow::DO_SVN_UPDATE)
+	{
+		QString s;
+		if (!QFile::exists(homeDir + QObject::tr("/.svn")))
+		{
+			s = QObject::tr("svn co https://tinkercellextra.svn.sourceforge.net/svnroot/tinkercellextra ") + homeDir;
+			system(s.toAscii().data());
+		}
+	
+		s = QObject::tr("cd ") + homeDir + QObject::tr("; svn update");
+		system(s.toAscii().data());
+	}
 }
 

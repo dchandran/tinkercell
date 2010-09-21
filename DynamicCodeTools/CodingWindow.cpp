@@ -25,13 +25,16 @@
 #include <QProgressBar>
 #include <QDir>
 #include <QtDebug>
+#include <QDesktopServices>
 
 namespace Tinkercell
 {
 	 /********************************
-	      MAIN WINDOW
+	      Coding window
 	 *********************************/
 
+	bool CodingWindow::DO_SVN_UPDATE = true;
+	
 	CodingWindow::CodingWindow()
 		 : Tool(tr("Coding Window"),tr("Coding"))
 	{
@@ -45,6 +48,11 @@ namespace Tinkercell
 
 		 setupEditor();
 		 setupMenu();
+		 
+ 		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
+		settings.beginGroup("Subversion");
+		DO_SVN_UPDATE = settings.value(tr("auto-update"),true).toBool();
+		settings.endGroup();
 	}
 	
 	void CodingWindow::convertCodeToButton()
@@ -332,6 +340,15 @@ specific for:\n\"\"\"\n\n") + text;
 			disconnect(pyTool->pythonInterpreter,SIGNAL(progress(int)),progressBar,SLOT(setValue(int)));
 		}
 	}
+	
+	void CodingWindow::toggleSVNupdate(bool b)
+	{
+		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
+		settings.beginGroup("Subversion");
+		DO_SVN_UPDATE = b;
+		settings.setValue(tr("auto-update"),b);
+		settings.endGroup();
+	}
 
 	bool CodingWindow::setMainWindow(MainWindow* main)
 	{
@@ -372,6 +389,16 @@ specific for:\n\"\"\"\n\n") + text;
 					connect(toggle,SIGNAL(toggled(bool)),this,SLOT(setVisible(bool)));
 				}
 				connect(action,SIGNAL(triggered()),this,SLOT(show()));
+			}
+			
+			if (mainWindow->optionsMenu)
+			{
+				mainWindow->optionsMenu->addSeparator();
+				QAction * svnupdate = mainWindow->optionsMenu->addAction(tr("SVN updates"));
+				svnupdate->setToolTip(tr("TinkerCell home folder will be updated with new models and plug-ins during startup"));					
+				svnupdate->setCheckable(true);
+				svnupdate->setChecked(true);
+				connect(svnupdate,SIGNAL(toggled(bool)),this,SLOT(toggleSVNupdate(bool)));
 			}
 			
 			toolBar->addAction(action);
@@ -424,7 +451,19 @@ specific for:\n\"\"\"\n\n") + text;
 
 			if (mainWindow->helpMenu)
 			{
-				mainWindow->helpMenu->addAction(tr("PySCeS user manual"),this,SLOT(pyscesHelp()));
+				QList<QAction*> actions = mainWindow->helpMenu->actions();
+				QAction * pyscesHelp = mainWindow->helpMenu->addAction(tr("PySCeS user manual"),this,SLOT(pyscesHelp()));
+				QAction * aboutAction = 0;
+	
+				for (int i=0; i < actions.size(); ++i)
+					if (actions[i] && actions[i]->menu() && actions[i]->text() == tr("About"))
+					{
+						aboutAction = actions[i];
+						mainWindow->helpMenu->removeAction(aboutAction);
+						mainWindow->helpMenu->insertAction(pyscesHelp,aboutAction);
+						mainWindow->helpMenu->insertSeparator(aboutAction);
+						break;	
+					}
 			}
 
 			if (mainWindow->optionsMenu && cButton && pythonButton && octaveButton)

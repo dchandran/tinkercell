@@ -8,6 +8,7 @@
 ****************************************************************************/
 #include <QLabel>
 #include <QTabWidget>
+#include <QDesktopServices>
 #include "LPSolveInput.h"
 #include "ConnectionGraphicsItem.h"
 #include "ConsoleWindow.h"

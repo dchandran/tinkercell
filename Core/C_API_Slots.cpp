@@ -590,7 +590,7 @@ namespace Tinkercell
 		if (scene && w)
 		{
 			QRectF viewport = scene->viewport();
-			(*w) = viewport.width();
+			(*w) = (int)viewport.width();
 		}
 		if (s)
 			s->release();
@@ -602,7 +602,7 @@ namespace Tinkercell
 		if (scene && h)
 		{
 			QRectF viewport = scene->viewport();
-			(*h) = viewport.height();
+			(*h) = (int)viewport.height();
 		}
 		if (s)
 			s->release();

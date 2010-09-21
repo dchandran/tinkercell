@@ -496,7 +496,7 @@ namespace Tinkercell
 		QString fileName =
 			QFileDialog::getSaveFileName(this, tr("Save Current Network"),
 			def,
-			(PROJECTNAME + tr(" files (*.") + SAVE_FILE_EXTENSIONS.join(tr(" *.") + tr(")"))));
+			(PROJECTNAME + tr(" files (*.") + SAVE_FILE_EXTENSIONS.join(tr(" *.")) + tr(")")));
 		if (fileName.isEmpty())
 			return;
 

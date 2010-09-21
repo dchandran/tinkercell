@@ -555,7 +555,7 @@ namespace Tinkercell
 			QTransform t;
 			QPointF p;
 			qreal z;
-			int sn;
+			int sn=-1;
 			NodeGraphicsItem * node = readNode(nodeReader,s,t,p,z,sn);
 			if (node)
 			{
@@ -580,7 +580,7 @@ namespace Tinkercell
 		{
 			QString s;
 			qreal z;
-			int sn;
+			int sn=-1;
 			ConnectionGraphicsItem * connection = readConnection(nodeReader,nodes,connections,s,z,sn);
 			if (connection)
 			{
@@ -637,7 +637,7 @@ namespace Tinkercell
 			QTransform t;
 			QPointF p;
 			qreal z;
-			int sn;
+			int sn=-1;
 			TextGraphicsItem * text = readText(nodeReader,s,t,p,z,sn);
 			if (text)
 			{

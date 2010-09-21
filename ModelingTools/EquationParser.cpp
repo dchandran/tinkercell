@@ -339,6 +339,11 @@ namespace Tinkercell
 					}
 				}
 			}
+			
+			for (int i=0; i < assignments.size(); ++i)
+			{
+				assignments[i].first.replace(QObject::tr("_"),QObject::tr("."));
+			}
 
 			if (b)
 				(*b) = true;

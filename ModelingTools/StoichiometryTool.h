@@ -189,7 +189,7 @@ namespace Tinkercell
 		/*! \brief separator for the action that makes a reaction reversible*/
 		QAction * separator;
 
-		Plot2DWidget * plotWidget;		
+		Plot2DWidget * plotWidget;
 		QLineEdit * plotLineEdit;
 		QComboBox * plotVar, * pickRow1, *pickRow2;
 		QDoubleSpinBox * startPlot, * endPlot;

@@ -47,25 +47,11 @@ namespace Tinkercell
     {
         return QSize(140, 200);
     }
-
-    ConnectionsTree::ConnectionsTree(QWidget * parent, const QString& filename) :
-            Tool(tr("Connections Tree"),tr("Parts Catalog"),parent)
+    
+    void ConnectionsTree::readTreeFile(const QString& filename)
     {
-        setWindowFlags(Qt::Tool);
-
-        QVBoxLayout * layout = new QVBoxLayout;
-        treeWidget.setHeaderHidden(true);
-
-        treeWidget.header()->setResizeMode(QHeaderView::Stretch);
-        //treeWidget->setHeaderLabels(labels);
-        layout->addWidget(&treeWidget);
-        layout->setContentsMargins(0,0,0,0);
-        layout->setSpacing(0);
-        setLayout(layout);
-
-        QString appDir = QCoreApplication::applicationDirPath();
         ConnectionsTreeReader reader;
-
+        QString appDir = QCoreApplication::applicationDirPath();
 		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
         settings.beginGroup("ConnectionsTree");
        //QString xmlFile = settings.value("file", filename).toString();
@@ -107,9 +93,25 @@ namespace Tinkercell
 					treeButtons.insertMulti(keys[i],button);
                 }
             }
-        }
-		
-		settings.endGroup();
+        }		
+		settings.endGroup();    	
+    }
+
+    ConnectionsTree::ConnectionsTree(QWidget * parent, const QString& filename) :
+            Tool(tr("Connections Tree"),tr("Parts Catalog"),parent)
+    {
+        setWindowFlags(Qt::Tool);
+
+        QVBoxLayout * layout = new QVBoxLayout;
+        treeWidget.setHeaderHidden(true);
+
+        treeWidget.header()->setResizeMode(QHeaderView::Stretch);
+        //treeWidget->setHeaderLabels(labels);
+        layout->addWidget(&treeWidget);
+        layout->setContentsMargins(0,0,0,0);
+        layout->setSpacing(0);
+        setLayout(layout);
+        readTreeFile(filename);
     }
 
 

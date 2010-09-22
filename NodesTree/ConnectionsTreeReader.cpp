@@ -37,7 +37,7 @@ namespace Tinkercell
 
           setDevice(device);
 
-          while (!atEnd() && !(isStartElement() && name() == QObject::tr("ConnectionsTree")))
+          while (!atEnd() && !(isStartElement() && name() == QObject::tr("ProcessGraph")))
           {
                readNext();
           }
@@ -63,7 +63,7 @@ namespace Tinkercell
      {
           ConnectionFamily * family = 0;
           QTreeWidgetItem * treeItem = 0;
-          if (tree && isStartElement() && name().toString().toLower() == QObject::tr("connection"))
+          if (tree && isStartElement() && name().toString().toLower() == QObject::tr("process"))
           {
                family = new ConnectionFamily;
 
@@ -213,11 +213,11 @@ namespace Tinkercell
                QString text;
                QPair<ConnectionFamily*,QTreeWidgetItem*> pair;
 
-               while (!atEnd() && !(isEndElement() && name().toString().toLower() == QObject::tr("connection")))
+               while (!atEnd() && !(isEndElement() && name().toString().toLower() == QObject::tr("process")))
                {
                     if (isStartElement())
                     {
-                         if (name().toString().toLower() == QObject::tr("connection"))
+                         if (name().toString().toLower() == QObject::tr("process"))
                          {
                               pair = readConnection(tree, family);
                               treeItem->addChild(pair.second);

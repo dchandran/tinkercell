@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE NodesTree>
-<NodesTree version="1.0">
+<!DOCTYPE NodesGraph>
+<NodesGraph version="1.0">
 <node family="Node" description="Nodes can be connected to one another using one of the various types of connections. The two main divisions of nodes are DNA parts and molecular species.">
   <node family="Molecule" units="concentration,uM" molecularweight="50000" description="Molecular species that diffuse through the cell, such as proteins, RNA, or metabolites.">
 	<node family="Small Molecule" description="Metabolites, ions, and other small molecules">
@@ -44,4 +44,4 @@
 </node>
 <node family="Empty" description="Degradation or dilution">
 </node>
-</NodesTree>
+</NodesGraph>

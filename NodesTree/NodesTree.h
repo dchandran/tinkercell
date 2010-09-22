@@ -87,6 +87,11 @@ namespace Tinkercell
         \param QString filename from which to load heirarchy of nodes. default = NodesTree/NodesTree.xml
          */
         NodesTree(QWidget * parent = 0, const QString& filename = QString());
+        
+        /*! \brief load node families from XML file using NodesTreeReader
+        \param QString filename
+         */
+        void readTreeFile(const QString& filename);
 
         /*! \brief load this tool into the main window
            \param MainWindow* the TinkerCell main window

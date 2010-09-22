@@ -82,6 +82,10 @@ namespace Tinkercell
         \param the XML file with the tree information
         */
         ConnectionsTree(QWidget * parent = 0, const QString& filename = QString());
+        /*! \brief load node families from XML file using ConnectionsTreeReader
+        \param QString filename
+         */
+        void readTreeFile(const QString& filename);
         /*! \brief set the main window and dock this tool*/
         bool setMainWindow(MainWindow *);
         /*! \brief gets the icon file name for a family

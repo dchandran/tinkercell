@@ -42,20 +42,9 @@ namespace Tinkercell
      {
           return QSize(140, 200);
      }
-
-     NodesTree::NodesTree(QWidget * parent, const QString& filename) :
-               Tool(tr("Nodes Tree"),tr("Parts Catalog"),parent)
-     {
-          QVBoxLayout * layout = new QVBoxLayout;
-          treeWidget.setHeaderHidden(true);
-
-          treeWidget.header()->setResizeMode(QHeaderView::Stretch);
-
-          layout->addWidget(&treeWidget);
-          layout->setContentsMargins(0,0,0,0);
-          layout->setSpacing(0);
-          setLayout(layout);
-
+     
+	void  NodesTree::readTreeFile(const QString& filename)
+	{
           NodesTreeReader reader;
           QString appDir = QCoreApplication::applicationDirPath();
 
@@ -101,10 +90,6 @@ namespace Tinkercell
                          button->nodesTree = this;
 
                          connect(button,SIGNAL(nodeSelected(NodeFamily*)),this,SLOT(buttonPressed(NodeFamily*)));
-                         //button->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-                         //button->setDefault(false);
-                         //button->setFlat(true);
-
                          QHBoxLayout * layout = new QHBoxLayout;
                          layout->addWidget(button,0,Qt::AlignLeft);
                          layout->setContentsMargins(0,0,0,0);
@@ -120,7 +105,22 @@ namespace Tinkercell
           }
 
           settings.endGroup();
-          makeNodeSelectionDialog();
+	}
+
+     NodesTree::NodesTree(QWidget * parent, const QString& filename) :
+               Tool(tr("Nodes Tree"),tr("Parts Catalog"),parent)
+     {
+          QVBoxLayout * layout = new QVBoxLayout;
+          treeWidget.setHeaderHidden(true);
+
+          treeWidget.header()->setResizeMode(QHeaderView::Stretch);
+
+          layout->addWidget(&treeWidget);
+          layout->setContentsMargins(0,0,0,0);
+          layout->setSpacing(0);
+          setLayout(layout);
+          makeNodeSelectionDialog();          
+          readTreeFile(filename);
      }
 
      void NodesTree::buttonPressed(NodeFamily * node)

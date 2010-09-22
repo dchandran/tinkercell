@@ -41,17 +41,6 @@ namespace Tinkercell
         setAutoFillBackground(true);
         mode = none;
         lineItem.setPen(QPen(QColor(255,10,10,255),2.0,Qt::DotLine));
-        
-        /*QString appDir = QCoreApplication::applicationDirPath();
-        NodeGraphicsReader reader;
-        reader.readXml(&image, appDir + interfaceFileName);
-        image.normalize();
-        image.scale(40.0/image.sceneBoundingRect().width(),20.0/image.sceneBoundingRect().height());
-        ToolGraphicsItem * toolGraphicsItem = new ToolGraphicsItem(this);
-        toolGraphicsItem->addToGroup(&image);
-        toolGraphicsItem->setToolTip(tr("Module input/output"));
-        addGraphicsItem(toolGraphicsItem);
-        addAction(QIcon(":/images/moduleInput.png"),tr("Module input/output"),tr("Set selected nodes as interfaces for this module"));*/
     }
 
 	//insert interface node
@@ -131,12 +120,9 @@ namespace Tinkercell
 
 			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
 
-			toolLoaded(mainWindow->tool(tr("Nodes Tree")));
-			
+			toolLoaded(mainWindow->tool(tr("Nodes Tree")));			
 			toolLoaded(mainWindow->tool(tr("Connections Tree")));
-
 			toolLoaded(mainWindow->tool(tr("Parts and Connections Catalog")));
-
 			toolLoaded(mainWindow->tool(tr("Save and Load")));
         }
 
@@ -153,14 +139,17 @@ namespace Tinkercell
 			nodesTree = static_cast<NodesTree*>(tool);
 		}
 		
+		QStringList moduleFamilyNames;
+		
 		if (tool->name == tr("Connections Tree") && !connectionsTree)
 		{
+			QString appDir = QCoreApplication::applicationDirPath();
+			QString home = homeDir();
 			connectionsTree = static_cast<ConnectionsTree*>(tool);
-			if (!connectionsTree->getFamily(tr("Module")))
+			ConnectionFamily * moduleFamily = connectionsTree->getFamily(tr("Module"));
+			if (!moduleFamily)
 			{
-				QString appDir = QCoreApplication::applicationDirPath();
-				
-				ConnectionFamily * moduleFamily = new ConnectionFamily(tr("Module"));
+				moduleFamily = new ConnectionFamily(tr("Module"));
 				moduleFamily->pixmap = QPixmap(tr(":/images/module.png"));
 				moduleFamily->description = tr("Self-contained subsystem that can be used to build larger systems");
 				moduleFamily->textAttributes[tr("Functional description")] = tr("");
@@ -168,6 +157,18 @@ namespace Tinkercell
 											 << new ArrowHeadItem(appDir + moduleFileName);				
 				connectionsTree->insertFamily(moduleFamily,0);
 			}
+			
+			if (QFile::exists(home + tr("/Modules/modules.xml")))
+				connectionsTree->readTreeFile(home + tr("/Modules/modules.xml"));
+			else
+			if (QFile::exists(appDir + tr("/Modules/modules.xml")))				
+				connectionsTree->readTreeFile(appDir + tr("/Modules/modules.xml"));
+			
+			QList<ItemFamily*> childFamilies = moduleFamily->allChildren();
+			
+			for (int i=0; i < childFamilies.size(); ++i)
+				if (childFamilies[i]->children().isEmpty())
+					moduleFamilyNames << childFamilies[i]->name();
 		}
 
 		if (tool->name == tr("Parts and Connections Catalog") && !connected2)
@@ -186,6 +187,9 @@ namespace Tinkercell
 				QStringList() 	<< tr("A module is a self-contained subsystem that can be used to build larger systems")
 								<< tr("Use this to connect inputs and ouputs of two modules")
 				);
+			
+			if (!moduleFamilyNames.isEmpty())
+				catalogWidget->showButtons(moduleFamilyNames);
 
 			connected2 = true;
 		}

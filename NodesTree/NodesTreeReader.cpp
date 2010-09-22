@@ -39,7 +39,7 @@ namespace Tinkercell
 
           setDevice(device);
 
-          while (!atEnd() && !(isStartElement() && name() == QObject::tr("NodesTree")))
+          while (!atEnd() && !(isStartElement() && name() == QObject::tr("NodesGraph")))
           {
                readNext();
           }

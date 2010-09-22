@@ -29,6 +29,7 @@ cp ../../python/*.py Tinkercell.app/Contents/MacOS/python
 cp ../../*.txt Tinkercell.app/Contents/MacOS/
 cp -R octave Tinkercell.app/Contents/MacOS/
 cp ../../octave/*.m Tinkercell.app/Contents/MacOS/octave/
+cp -R ../../Modules/ Tinkercell.app/Contents/MacOS/
 #QT frameworks install for TinkerCell.app
 
 install_name_tool \

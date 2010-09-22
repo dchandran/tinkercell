@@ -56,21 +56,14 @@ namespace Tinkercell
 	{
 		if (s.isNull() || s.isEmpty()) return;
 
-		if (_name.toLower() == s.toLower() && 
-			NAMETOID.contains(s.toLower()) && 
-			NAMETOID.value(s.toLower()) == ID)
+		if (NAMETOID.contains(s.toLower()))
 		{
 			_name = s;
+			ID = NAMETOID[ s.toLower() ];
 			return;
 		}
 
-		int n = 1;
 		_name = s;
-		while (NAMETOID.contains(_name.toLower()))
-		{
-			_name = s + QString::number(n); 
-			++n;
-		}
 		ID = ALLNAMES.size();
 		ALLNAMES += _name;
 		NAMETOID.insert( _name.toLower() , ID );

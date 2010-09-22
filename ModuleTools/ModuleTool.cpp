@@ -897,9 +897,9 @@ namespace Tinkercell
 		}
 	}
 
-	void ModuleTool::mouseDoubleClicked (GraphicsScene * scene, QPointF , QGraphicsItem * item, Qt::MouseButton, Qt::KeyboardModifiers)
+	void ModuleTool::mouseDoubleClicked (GraphicsScene * scene, QPointF , QGraphicsItem * item, Qt::MouseButton, Qt::KeyboardModifiers modifiers)
     {
-		if (!scene || !scene->network || !item || !mainWindow) return;
+		if (!scene || !scene->network || !item || !mainWindow || modifiers) return;
 		
 		ItemHandle * handle = getHandle(item);
 		

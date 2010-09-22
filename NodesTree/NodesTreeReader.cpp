@@ -137,8 +137,9 @@ namespace Tinkercell
                          treeItem->setText(0,node->name());
                          if (tree->nodeFamilies.contains(node->name()))
                          {
+	                          NodeFamily * node2 = tree->nodeFamilies[node->name()];
                               delete node;
-                              node = tree->nodeFamilies[node->name()];
+                              node = node2;
                          }
                          else
                          {

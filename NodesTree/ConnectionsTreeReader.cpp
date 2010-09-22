@@ -7,6 +7,7 @@
  XML reader that populates the connections tree
 
 ****************************************************************************/
+#include <iostream>
 #include "ConsoleWindow.h"
 #include "ConnectionsTreeReader.h"
 namespace Tinkercell
@@ -83,8 +84,9 @@ namespace Tinkercell
                          treeItem->setText(0,family->name());
                          if (tree->connectionFamilies.contains(family->name()))
                          {
+                         	  ConnectionFamily * family2 = tree->connectionFamilies[family->name()];
 	                       	  delete family;
-                              family = tree->connectionFamilies[family->name()];
+                              family = family2;
                          }
                          else
                          {

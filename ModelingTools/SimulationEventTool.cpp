@@ -279,6 +279,7 @@ namespace Tinkercell
 	
 	void SimulationEventsTool::itemsDropped(GraphicsScene * scene, const QString& name, const QPointF& point)
 	{
+		scene->useDefaultBehavior = false;
 		if (name.toLower() == tr("new event"))
 			mode = addingEvent;
 		
@@ -292,7 +293,8 @@ namespace Tinkercell
 			mode = addingWave;
 
 		sceneClicked(scene,point,Qt::LeftButton,Qt::NoModifier);
-
+		
+		scene->useDefaultBehavior = true;
 		mode = none;
 	}
 

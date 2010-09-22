@@ -96,7 +96,7 @@ namespace Tinkercell
 				isR = isReactant(h);
 				isP = isProduct(h);
 				
-				if (isR && i >= numRequiredIn)	
+				if (isR && !isP && i >= numRequiredIn)	
 					inOrder = false;
 
 				if (isR && isP)

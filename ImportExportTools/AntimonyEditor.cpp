@@ -127,7 +127,7 @@ namespace Tinkercell
 
 		if (ok < 0)
 		{
-			if (console())
+			if (console() && !moduleHandle)
 				console()->error(tr(getLastError()));
 			emit validSyntax(false);
 			return QList<ItemHandle*>();

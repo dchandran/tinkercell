@@ -131,16 +131,21 @@ namespace Tinkercell
 					if (connection->handle() && connection->centerPoint())  //set location of text
 					{
 						TextGraphicsItem * textItem = 0;
-						QPointF centerPoint = connection->centerLocation();
-
-						QPointF p[] = { 	(centerPoint + QPointF(-20.0,0.0) ),
+						QPointF centerPoint;
+						
+						if (connection->centerRegionItem)
+							centerPoint = connection->centerRegionItem->sceneBoundingRect().bottomRight();		
+						else
+							centerPoint = connection->centerLocation();
+						
+						QPointF p[] = { 	(centerPoint + QPointF(20.0,20.0) ),
 							(centerPoint + QPointF(20.0,0.0) ),
 							(centerPoint + QPointF(0.0,-20.0) ),
 							(centerPoint + QPointF(0.0,20.0) ),
 							(centerPoint + QPointF(-20.0,-20.0) ),
 							(centerPoint + QPointF(20.0,-20.0) ),
 							(centerPoint + QPointF(-20.0,20.0) ),
-							(centerPoint + QPointF(20.0,20.0) ) };
+							(centerPoint + QPointF(-20.0,0.0) ) };
 						for (int j=0; j < connection->handle()->graphicsItems.size(); ++j)
 						{
 							if ((textItem = TextGraphicsItem::cast(connection->handle()->graphicsItems[j])) 

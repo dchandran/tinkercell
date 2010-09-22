@@ -49,8 +49,8 @@ namespace Tinkercell
 		connect(&autoDegradation,SIGNAL(triggered()),this,SLOT(autoDegradationTriggered()));
 		autoDegradation.setIcon(QIcon(":/images/empty.png"));
 		connect(&autoGeneProduct,SIGNAL(triggered()),this,SLOT(autoGeneProductTriggered()));
-		connect(&autoPhosphate,SIGNAL(triggered()),this,SLOT(autoPhosphateTriggered()));
-		autoPhosphate.setIcon(QIcon(":/images/phosphate.png"));
+		//connect(&autoPhosphate,SIGNAL(triggered()),this,SLOT(autoPhosphateTriggered()));
+		//autoPhosphate.setIcon(QIcon(":/images/phosphate.png"));
 		mRNAstep.setIcon(QIcon(":/images/upArrow.png"));
 
 		connect(&fToS,SIGNAL(partsIn(QSemaphore*, ItemHandle*, QList<ItemHandle*>*)),this,SLOT(partsIn(QSemaphore*, ItemHandle*, QList<ItemHandle*>*)));
@@ -1251,11 +1251,6 @@ namespace Tinkercell
 				mainWindow->contextItemsMenu.addAction(&autoDegradation);
 			else
 				mainWindow->contextItemsMenu.removeAction(&autoDegradation);
-
-			if (containsSpecies)
-				mainWindow->contextItemsMenu.addAction(&autoPhosphate);
-			else
-				mainWindow->contextItemsMenu.removeAction(&autoPhosphate);
 
 			if (containsRegulatorUp)
 				mainWindow->contextItemsMenu.addAction(&autoTFUp);

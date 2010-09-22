@@ -55,13 +55,11 @@ namespace Tinkercell
 		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
         settings.beginGroup("ConnectionsTree");
        //QString xmlFile = settings.value("file", filename).toString();
-        QString xmlFile ;
+        QString xmlFile = filename;
         if (xmlFile.isNull() || xmlFile.isEmpty())
             xmlFile = (appDir + tr("/NodesTree/ConnectionsTree.xml"));
 
-        reader.readXml(this,xmlFile);
-
-        QList<QString> keys = connectionFamilies.keys();
+        QStringList keys = reader.readXml(this,xmlFile);
 
         for (int i=0; i < keys.size(); ++i)
         {

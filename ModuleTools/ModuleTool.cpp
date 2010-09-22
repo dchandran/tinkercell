@@ -120,35 +120,37 @@ namespace Tinkercell
 
 			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
 
-			toolLoaded(mainWindow->tool(tr("Nodes Tree")));			
-			toolLoaded(mainWindow->tool(tr("Connections Tree")));
-			toolLoaded(mainWindow->tool(tr("Parts and Connections Catalog")));
-			toolLoaded(mainWindow->tool(tr("Save and Load")));
+			toolLoaded(mainWindow->tool(tr("")));
         }
 
         return true;
     }
 
-	void ModuleTool::toolLoaded(Tool * tool)
+	void ModuleTool::toolLoaded(Tool*)
 	{
-		if (!tool) return;
-		static bool connected2 = false;
+		static bool connected1 = false;
 		
-		if (tool->name == tr("Nodes Tree") && !nodesTree)
+		if (mainWindow->tool(tr("Nodes Tree")) && !nodesTree)
 		{
+			Tool * tool = static_cast<Tool*>(mainWindow->tool(tr("Nodes Tree")));
 			nodesTree = static_cast<NodesTree*>(tool);
 		}
 		
 		QStringList moduleFamilyNames;
-		
-		if (tool->name == tr("Connections Tree") && !connectionsTree)
+		if (mainWindow->tool(tr("Connections Tree")) && !connectionsTree)
 		{
-			QString appDir = QCoreApplication::applicationDirPath();
-			QString home = homeDir();
+			Tool * tool = static_cast<Tool*>(mainWindow->tool(tr("Connections Tree")));
 			connectionsTree = static_cast<ConnectionsTree*>(tool);
+		}
+		
+		if (connectionsTree)
+		{
 			ConnectionFamily * moduleFamily = connectionsTree->getFamily(tr("Module"));
 			if (!moduleFamily)
 			{
+				QString appDir = QCoreApplication::applicationDirPath();
+				QString home = homeDir();
+
 				moduleFamily = new ConnectionFamily(tr("Module"));
 				moduleFamily->pixmap = QPixmap(tr(":/images/module.png"));
 				moduleFamily->description = tr("Self-contained subsystem that can be used to build larger systems");
@@ -156,13 +158,12 @@ namespace Tinkercell
 				moduleFamily->graphicsItems << new ArrowHeadItem(appDir + interfaceFileName)
 											 << new ArrowHeadItem(appDir + moduleFileName);				
 				connectionsTree->insertFamily(moduleFamily,0);
+				if (QFile::exists(home + tr("/Modules/modules.xml")))
+					connectionsTree->readTreeFile(home + tr("/Modules/modules.xml"));
+				else
+				if (QFile::exists(appDir + tr("/Modules/modules.xml")))				
+					connectionsTree->readTreeFile(appDir + tr("/Modules/modules.xml"));
 			}
-			
-			if (QFile::exists(home + tr("/Modules/modules.xml")))
-				connectionsTree->readTreeFile(home + tr("/Modules/modules.xml"));
-			else
-			if (QFile::exists(appDir + tr("/Modules/modules.xml")))				
-				connectionsTree->readTreeFile(appDir + tr("/Modules/modules.xml"));
 			
 			QList<ItemFamily*> childFamilies = moduleFamily->allChildren();
 			
@@ -171,8 +172,9 @@ namespace Tinkercell
 					moduleFamilyNames << childFamilies[i]->name();
 		}
 
-		if (tool->name == tr("Parts and Connections Catalog") && !connected2)
+		if (mainWindow->tool(tr("Parts and Connections Catalog")) && !connected1)
 		{
+			Tool * tool = static_cast<Tool*>(mainWindow->tool(tr("Parts and Connections Catalog")));
 			catalogWidget = static_cast<CatalogWidget*>(tool);
 
 			connect(catalogWidget,SIGNAL(buttonPressed(const QString&)),
@@ -191,7 +193,7 @@ namespace Tinkercell
 			if (!moduleFamilyNames.isEmpty())
 				catalogWidget->showButtons(moduleFamilyNames);
 
-			connected2 = true;
+			connected1 = true;
 		}
 	}
 
@@ -399,7 +401,7 @@ namespace Tinkercell
 		commands << moduleConnectionsInserted(items)
 				 << substituteStrings(handles);
 		
-		//removeSubnetworks(items,handles);
+		removeSubnetworks(items,handles);
 
 		ItemHandle * h1 = 0, * h2 = 0;
 

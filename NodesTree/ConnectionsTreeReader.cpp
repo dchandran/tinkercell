@@ -7,7 +7,6 @@
  XML reader that populates the connections tree
 
 ****************************************************************************/
-#include <iostream>
 #include "ConsoleWindow.h"
 #include "ConnectionsTreeReader.h"
 namespace Tinkercell
@@ -16,24 +15,25 @@ namespace Tinkercell
      /*! \brief Reads an tree from an XML file using the IO device provided
          * \param QIODevice to use
          * \return void*/
-     void ConnectionsTreeReader::readXml(ConnectionsTree* tree, const QString& fileName)
+     QStringList ConnectionsTreeReader::readXml(ConnectionsTree* tree, const QString& fileName)
      {
           QFile file (fileName);
 
           if (!file.open(QFile::ReadOnly | QFile::Text))
           {
-               return;
+               return QStringList();
           }
 
-          readTree(tree, &file);
+          return readTree(tree, &file);
      }
 
      /*! \brief Reads an tree from an XML file using the IO device provided
          * \param QIODevice to use
          * \return void*/
-     void ConnectionsTreeReader::readTree(ConnectionsTree* tree, QIODevice * device)
+     QStringList ConnectionsTreeReader::readTree(ConnectionsTree* tree, QIODevice * device)
      {
-          if (!device) return;
+     	  QStringList newFamilies;
+          if (!device) return newFamilies;
 
           setDevice(device);
 
@@ -54,9 +54,14 @@ namespace Tinkercell
                {
                     tree->widget().addTopLevelItem(treeItem);
                     treeItem->setExpanded(true);
+                    QList<ItemFamily*> children = family->allChildren();
+                    for (int i=0; i < children.size(); ++i)
+                    	if (!newFamilies.contains(children[i]->name()))
+		                    newFamilies << children[i]->name();
                }
                readNext();
           }
+          return newFamilies;
      }
 
      QPair<ConnectionFamily*,QTreeWidgetItem*> ConnectionsTreeReader::readConnection(ConnectionsTree* tree, ConnectionFamily* parentFamily)
@@ -131,21 +136,23 @@ namespace Tinkercell
                     }
                }
                
-               if (nodeRoles.isEmpty() && parentFamily)
-					nodeRoles = parentFamily->participantRoles();
-               
-               if (nodeFamilies.isEmpty() && parentFamily)
-					nodeFamilies = parentFamily->participantTypes();
-               
-               if (!nodeRoles.isEmpty() && !nodeFamilies.isEmpty())
-	               for (int i=0; i < nodeRoles.size(); ++i)
-    	           {
-    	           		if (nodeFamilies.size() > i)
-    	           			family->addParticipant(nodeRoles[i],nodeFamilies[i]);
-    	           		else
-    	           			family->addParticipant(nodeRoles[i],nodeFamilies.last());
-    	           }
-
+               if (family->participantRoles().isEmpty())
+               {
+		           if (nodeRoles.isEmpty() && parentFamily)
+						nodeRoles = parentFamily->participantRoles();
+		           
+		           if (nodeFamilies.isEmpty() && parentFamily)
+						nodeFamilies = parentFamily->participantTypes();
+		           
+		           if (!nodeRoles.isEmpty() && !nodeFamilies.isEmpty())
+			           for (int i=0; i < nodeRoles.size(); ++i)
+			           {
+			           		if (nodeFamilies.size() > i)
+			           			family->addParticipant(nodeRoles[i],nodeFamilies[i]);
+			           		else
+			           			family->addParticipant(nodeRoles[i],nodeFamilies.last());
+			           }
+			   }
                readNext();
                QString appDir = QCoreApplication::applicationDirPath();
                //set icon

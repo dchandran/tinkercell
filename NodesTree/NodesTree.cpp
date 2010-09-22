@@ -64,13 +64,11 @@ namespace Tinkercell
 	        }
           }
 
-          QString xmlFile ;
+          QString xmlFile = filename;
           if (xmlFile.isNull() || xmlFile.isEmpty())
                xmlFile = (appDir + tr("/NodesTree/NodesTree.xml"));
 
-          reader.readXml(this,xmlFile);
-
-          QList<QString> keys = nodeFamilies.keys();
+          QStringList keys = reader.readXml(this,xmlFile);
 
           for (int i=0; i < keys.size(); ++i)
           {

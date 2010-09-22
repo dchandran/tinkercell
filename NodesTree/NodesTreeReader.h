@@ -36,8 +36,8 @@ class NodeFamily;
 class NodesTreeReader : public QXmlStreamReader
 {	
 public:
-	void readXml(NodesTree* tree, const QString & filename);	
-	void readTree(NodesTree* tree, QIODevice * device);
+	QStringList readXml(NodesTree* tree, const QString & filename);	
+	QStringList readTree(NodesTree* tree, QIODevice * device);
 private:
 	QPair<NodeFamily*,QTreeWidgetItem*> readNode(NodesTree* tree, NodeFamily* parentNode = 0);
 	QList< QPair<NodeFamily*,QString> > compositeNodes;

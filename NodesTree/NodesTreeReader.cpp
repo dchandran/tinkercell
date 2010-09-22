@@ -18,24 +18,25 @@ namespace Tinkercell
      /*! \brief Reads an tree from an XML file using the IO device provided
       * \param QIODevice to use
       * \return void*/
-     void NodesTreeReader::readXml(NodesTree* tree, const QString& fileName)
+     QStringList NodesTreeReader::readXml(NodesTree* tree, const QString& fileName)
      {
           QFile file (fileName);
 
           if (!file.open(QFile::ReadOnly | QFile::Text))
           {
-               return;
+               return QStringList();
           }
 
-          readTree(tree, &file);
+          return readTree(tree, &file);
      }
 
      /*! \brief Reads an tree from an XML file using the IO device provided
       * \param QIODevice to use
       * \return void*/
-     void NodesTreeReader::readTree(NodesTree* tree, QIODevice * device)
+     QStringList NodesTreeReader::readTree(NodesTree* tree, QIODevice * device)
      {
-          if (!device) return;
+     	  QStringList newFamilies;
+          if (!device) return newFamilies;
 
           setDevice(device);
 
@@ -63,6 +64,10 @@ namespace Tinkercell
                          for (int i=0; i < treeItem->childCount(); ++i)
                               if (treeItem->child(i))
                                    treeItem->child(i)->setExpanded(true);
+                          QList<ItemFamily*> children = node->allChildren();
+		                  for (int i=0; i < children.size(); ++i)
+        	                  if (!newFamilies.contains(children[i]->name()))
+		                  	       newFamilies << children[i]->name();
                     }
                }
                readNext();
@@ -91,6 +96,7 @@ namespace Tinkercell
                     node->graphicsItems.clear();
                }
           }
+          return newFamilies;
 /*
           QString text;
           for (int i=0; i < compositeNodes.size(); ++i)

@@ -76,9 +76,18 @@ namespace Tinkercell
 
 	bool ItemFamily::isA(const QString& name) const
 	{
-		QString s = name.toLower();
-		if (!NAMETOID.contains(s)) return false;
-		return isA(NAMETOID.value(s));
+		QString s1 = name.toLower();
+	
+		if (NAMETOID.contains(s1))
+			return isA(NAMETOID.value(s1));
+		
+		if (s1.endsWith('s'))
+			s1.chop(1);
+
+		if (NAMETOID.contains(s1))
+			return isA(NAMETOID.value(s1));
+		
+		return false;
 	}
 
 	bool ItemFamily::isA(const ItemFamily* family) const
@@ -161,9 +170,18 @@ namespace Tinkercell
 	
 	bool NodeFamily::isA(const QString& name) const
 	{
-		QString s = name.toLower();
-		if (!ItemFamily::NAMETOID.contains(s)) return false;
-		return isA(ItemFamily::NAMETOID.value(s));
+		QString s1 = name.toLower();
+	
+		if (NAMETOID.contains(s1))
+			return isA(NAMETOID.value(s1));
+		
+		if (s1.endsWith('s'))
+			s1.chop(1);
+
+		if (NAMETOID.contains(s1))
+			return isA(NAMETOID.value(s1));
+		
+		return false;
 	}
 
 	bool NodeFamily::isA(const ItemFamily* family) const
@@ -237,9 +255,18 @@ namespace Tinkercell
 	
 	bool ConnectionFamily::isA(const QString& name) const
 	{
-		QString s = name.toLower();
-		if (!ItemFamily::NAMETOID.contains(s)) return false;
-		return isA(ItemFamily::NAMETOID.value(s));
+		QString s1 = name.toLower();
+	
+		if (NAMETOID.contains(s1))
+			return isA(NAMETOID.value(s1));
+		
+		if (s1.endsWith('s'))
+			s1.chop(1);
+
+		if (NAMETOID.contains(s1))
+			return isA(NAMETOID.value(s1));
+		
+		return false;	
 	}
 
 	bool ConnectionFamily::isA(const ItemFamily* family) const
@@ -359,7 +386,7 @@ namespace Tinkercell
 	
 	bool ConnectionFamily::addParticipant(const QString& role, const QString& family)
 	{
-		QString f = family.toLower(), r = role.toLower();
+		QString f = family.toLower().trimmed(), r = role.toLower().trimmed();
 		
 		if (!ItemFamily::NAMETOID.contains(f)) return false;
 		

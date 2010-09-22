@@ -37,8 +37,8 @@ class ConnectionFamily;
 class ConnectionsTreeReader : public QXmlStreamReader
 {	
 public:
-	void readXml(ConnectionsTree* tree, const QString & filename);	
-	void readTree(ConnectionsTree* tree, QIODevice * device);
+	QStringList readXml(ConnectionsTree* tree, const QString & filename);	
+	QStringList readTree(ConnectionsTree* tree, QIODevice * device);
 private:
 	QPair<ConnectionFamily*,QTreeWidgetItem*> readConnection(ConnectionsTree* tree, ConnectionFamily* parentNode = 0);
 };

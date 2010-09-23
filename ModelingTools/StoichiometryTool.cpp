@@ -255,6 +255,7 @@ namespace Tinkercell
 
 
 
+
 				
 			if (reactions)
 				mainWindow->contextItemsMenu.addAction(autoReverse);
@@ -711,14 +712,14 @@ namespace Tinkercell
 						NodeGraphicsItem * node = NodeGraphicsItem::cast(connectionFamily->graphicsItems[0]);
 						if (node && node->className == ArrowHeadItem::CLASSNAME)
 						{
-							ArrowHeadItem * arrow = static_cast<ArrowHeadItem*>(node);							
-							arrow = new ArrowHeadItem(item);
-							item->curveSegments.last().arrowStart = arrow->clone();
+							ArrowHeadItem * arrow = static_cast<ArrowHeadItem*>(node->clone());
+							arrow->connectionItem = item;
+							item->curveSegments.last().arrowStart = arrow;
 							list += item->curveSegments.last().arrowStart;
 						}
 					}
 
-					connection->name = tr("J_") + node->name + tr("_dimerize");
+					connection->name = tr("dimer_") + node->name;
 					item->lineType = ConnectionGraphicsItem::line;
 					connection->name = scene->network->makeUnique(connection->name,newNames);
 					newNames << connection->name;

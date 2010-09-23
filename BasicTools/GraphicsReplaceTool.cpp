@@ -69,7 +69,9 @@ namespace Tinkercell
 			QDir graphicsDir1(appDir + tr("/Graphics"));
 			QDir graphicsDir2(homeDir + tr("/Graphics"));
 			graphicsDir1.setFilter(QDir::AllDirs);
-			graphicsDir2.setSorting(QDir::AllDirs);
+			graphicsDir2.setFilter(QDir::AllDirs);
+			graphicsDir1.setSorting(QDir::Name);
+			graphicsDir2.setSorting(QDir::Name);
 			QFileInfoList subdirs = graphicsDir1.entryInfoList() + graphicsDir2.entryInfoList();
 			
 			QFileInfoList list;
@@ -77,7 +79,7 @@ namespace Tinkercell
 			for (int j = 0; j < list.size(); ++j) //for each theme file inside Graphics
 			{
 				QDir dir(list.at(j).absoluteFilePath() + tr("/") + headers[i]); //get Grpahics/theme/header dir
-				if (dir.exists)
+				if (dir.exists())
 				{
 					dir.setFilter(QDir::Files);
 					dir.setSorting(QDir::Name);
@@ -90,6 +92,7 @@ namespace Tinkercell
 			for (int j = 0; j < list.size(); ++j)
 			{
 				QFileInfo fileInfo = list.at(j);
+				QDir dir(fileInfo.absoluteFilePath() + tr("/") + headers[i]); //get Grpahics/theme/header dir
 				if (fileInfo.completeSuffix().toLower() == tr("png") &&
 					dir.exists(fileInfo.baseName() + tr(".xml")))
 				{
@@ -100,31 +103,7 @@ namespace Tinkercell
 					nodesListWidget->addItem(item);
 					nodesFilesList << item->data(3).toString();
 				}
-			}
-
-			QDir userdir(MainWindow::homeDir());
-			if (userdir.exists(paths[i]))
-			{
-				userdir.cd(paths[i]);
-				userdir.setFilter(QDir::Files);
-				userdir.setSorting(QDir::Name);
-				list = userdir.entryInfoList();
-
-				for (int i = 0; i < list.size(); ++i)
-				{
-					QFileInfo fileInfo = list.at(i);
-					if (fileInfo.completeSuffix().toLower() == tr("png") &&
-						userdir.exists(fileInfo.baseName() + tr(".xml")) &&
-						!nodesFilesList.contains(userdir.absolutePath() + tr("/") + fileInfo.baseName() + tr(".xml")))
-					{
-						QListWidgetItem * item = new QListWidgetItem(QIcon(fileInfo.absoluteFilePath()),
-							fileInfo.baseName(),nodesListWidget);
-                        item->setData(3,userdir.absolutePath() + tr("/") + fileInfo.baseName() + tr(".xml"));
-						nodesListWidget->addItem(item);
-						nodesFilesList << item->data(3).toString();
-					}
-				}
-			}
+			}			
 
 			connect(nodesListWidget,SIGNAL(itemActivated(QListWidgetItem*)),this,SLOT(replaceNode(QListWidgetItem*)));
 			tabWidget->addTab(nodesListWidget,headers[i]);

@@ -154,13 +154,16 @@ namespace Tinkercell
      
      void NodesTree::selectTheme()
      {
-     		QDir graphicsDir1(appDir + tr("/Graphics"));
-			QDir graphicsDir2(homeDir + tr("/Graphics"));
-			graphicsDir1.setFilter(QDir::AllDirs);
-			graphicsDir2.setSorting(QDir::AllDirs);
-			QFileInfoList subdirs = graphicsDir1.entryInfoList() + graphicsDir2.entryInfoList();
-			
-			
+     	QString appDir = QCoreApplication::applicationDirPath();
+     	QString homeDir = mainWindow->homeDir();
+     	QDir graphicsDir1(appDir + tr("/Graphics"));
+		QDir graphicsDir2(homeDir + tr("/Graphics"));
+		graphicsDir1.setFilter(QDir::AllDirs);
+		graphicsDir2.setFilter(QDir::AllDirs);
+		graphicsDir1.setSorting(QDir::Name);
+		graphicsDir2.setSorting(QDir::Name);
+		QFileInfoList subdirs = graphicsDir1.entryInfoList() + graphicsDir2.entryInfoList();
+
      }
 
      void NodesTree::changeTree()
@@ -207,22 +210,24 @@ namespace Tinkercell
 		nodeFileAccepted();
 	 }
 
-
      void NodesTree::makeNodeSelectionDialog()
      {
           QString appDir = QCoreApplication::applicationDirPath();
+          QString homeDir = mainWindow->homeDir();
           QDir graphicsDir1(appDir + tr("/Graphics"));
 		  QDir graphicsDir2(homeDir + tr("/Graphics"));
 		  graphicsDir1.setFilter(QDir::AllDirs);
-		  graphicsDir2.setSorting(QDir::AllDirs);
-		  QFileInfoList subdirs = dir.entryInfoList();
+   		  graphicsDir2.setFilter(QDir::AllDirs);
+		  graphicsDir1.setSorting(QDir::Name);
+		  graphicsDir2.setSorting(QDir::Name);
+		  QFileInfoList subdirs = graphicsDir1.entryInfoList() + graphicsDir2.entryInfoList();
 		
 		  QFileInfoList list;
 		
   		  for (int j = 0; j < list.size(); ++j) //for each theme file inside Graphics
 		  {
 			  QDir dir(list.at(j).absoluteFilePath() + tr("/Nodes")); //get Grpahics/theme/header dir
-			  if (dir.exists)
+			  if (dir.exists())
 			  {
 				  dir.setFilter(QDir::Files);
 				  dir.setSorting(QDir::Name);
@@ -236,6 +241,7 @@ namespace Tinkercell
           for (int i = 0; i < list.size(); ++i)
           {
                QFileInfo fileInfo = list.at(i);
+                QDir dir(fileInfo.absoluteFilePath() + tr("/Nodes")); //get Grpahics/theme/header dir
                if (fileInfo.completeSuffix().toLower() == tr("png") &&
                    dir.exists(fileInfo.baseName() + tr(".xml")))
                {

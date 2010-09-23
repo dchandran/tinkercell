@@ -182,6 +182,7 @@ namespace Tinkercell
 		QStringList visited;
 		QString theme;
 		QButtonGroup * buttonGroup = new QButtonGroup(this);
+		themesLayout->addStretch(1);
 		for (int i=0; i < subdirs.size(); ++i)
 		{
 			theme = subdirs.at(i).baseName();
@@ -189,12 +190,13 @@ namespace Tinkercell
 			{
 				visited << theme;
 				QToolButton * button = new QToolButton;
-				button->setIcon(QIcon(subdirs.at(i).absoluteFilePath() + tr("/screenshot.png")));
+				QIcon icon(subdirs.at(i).absoluteFilePath() + tr("/screenshot.png"));			
+				button->setIcon(icon);				
+				button->setIconSize(QSize(200,200));
 				button->setText(theme);
 				button->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-				button->setFixedWidth(120);
-				button->setFixedHeight(100);
 				themesLayout->addWidget(button);
+				themesLayout->addStretch(1);
 				button->setCheckable(true);
 				button->setChecked(false);
 				buttonGroup->addButton(button);

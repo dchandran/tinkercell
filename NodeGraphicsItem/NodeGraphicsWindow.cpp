@@ -123,7 +123,7 @@
 		if (previousFileName.isEmpty() || previousFileName.isEmpty())
 			previousFileName = QDir::currentPath();
 		QString fileName = 
-				QFileDialog::getOpenFileName(this, tr("Save Drawable File"),
+				QFileDialog::getOpenFileName(this, tr("Load Drawable File"),
 											  previousFileName,
 											  tr("XML Files (*.xml)"));
 		if (fileName.isEmpty())

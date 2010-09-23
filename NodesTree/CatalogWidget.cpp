@@ -110,8 +110,7 @@ namespace Tinkercell
 			}
 
 			if (mainWindow->optionsMenu)
-			{
-				mainWindow->optionsMenu->addSeparator();
+			{				
 				QAction * treeViewAction = mainWindow->optionsMenu->addAction(tr("Tree-view catalog"));
 				treeViewAction->setCheckable(true);
 				treeViewAction->setChecked(CatalogWidget::layoutMode == CatalogWidget::TreeView);

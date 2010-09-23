@@ -15,6 +15,7 @@
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
 #include "ConnectionsTree.h"
+#include "NodesTree.h"
 #include "TreeButton.h"
 #include <QDialog>
 
@@ -54,7 +55,7 @@ namespace Tinkercell
         QString appDir = QCoreApplication::applicationDirPath();
 		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
         settings.beginGroup("ConnectionsTree");
-       //QString xmlFile = settings.value("file", filename).toString();
+        NodesTree::themeDirectory = settings.value("theme",tr("Bio1")).toString();
         QString xmlFile = filename;
         if (xmlFile.isNull() || xmlFile.isEmpty())
             xmlFile = (appDir + tr("/NodesTree/ConnectionsTree.xml"));
@@ -187,6 +188,7 @@ namespace Tinkercell
         QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
 
         settings.beginGroup("ConnectionsTree");
+    	settings.setValue("theme",NodesTree::themeDirectory);
 
         QList<QString> keys = connectionFamilies.keys();
 
@@ -217,7 +219,7 @@ namespace Tinkercell
 	
 	QString ConnectionsTree::arrowImageFile(QString name)
 	{
-		QString file = tr("ArrowItems/");
+		QString file = NodesTree::themeDirectory + tr("/Arrows/");
 		file += name;
 		file.replace(tr(" "),tr(""));
 		file += tr(".xml");
@@ -226,7 +228,7 @@ namespace Tinkercell
 	
 	QString ConnectionsTree::decoratorImageFile(QString name)
 	{
-		QString file = tr("DecoratorItems/");
+		QString file = NodesTree::themeDirectory + tr("/Decorators/");
 		file += name;
 		file.replace(tr(" "),tr(""));
 		file += tr(".xml");

@@ -47,19 +47,21 @@ public:
 protected slots:
 	void about();
 	void replaceAction();
+	void selected();
 	
 protected:
 	virtual void contextMenuEvent(QContextMenuEvent * event);
-	//virtual void mouseReleaseEvent(QMouseEvent * event);
-	virtual void mousePressEvent(QMouseEvent *event);
-	virtual void dragEnterEvent(QDragEnterEvent *event);
-	virtual void dropEvent(QDropEvent * event);
+	virtual void mousePressEvent(QMouseEvent * event);
+	virtual void mouseMoveEvent(QMouseEvent *event);
 	QMenu menu;
 	
 	QString name;
 	NodeFamily * nodeFamily;
 	ConnectionFamily* connectionFamily;
 	QString newFileName;
+	
+	bool dragStarted, dragContinued;
+	QPointF dragStartPos;
 	
 	NodesTree * nodesTree;
 	friend class NodesTree;

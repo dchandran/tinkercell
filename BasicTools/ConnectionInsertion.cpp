@@ -125,8 +125,8 @@ namespace Tinkercell
 	{
 		QString appDir = QCoreApplication::applicationDirPath();
 
-		ConnectionGraphicsItem::DefaultMiddleItemFile = appDir + QString("/DecoratorItems/simplecircle.xml");
-		ConnectionGraphicsItem::DefaultArrowHeadFile = appDir + QString("/ArrowItems/Reaction.xml");
+		ConnectionGraphicsItem::DefaultMiddleItemFile = appDir + QString("/icons/simplecircle.xml");
+		ConnectionGraphicsItem::DefaultArrowHeadFile = appDir + QString("/Graphics/Bio1/Arrows/Biochemical.xml");
 
 		nodeInsertionTool = 0;
 		mainWindow = 0;

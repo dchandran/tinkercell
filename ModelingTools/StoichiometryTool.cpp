@@ -254,6 +254,7 @@ namespace Tinkercell
 
 
 
+
 				
 			if (reactions)
 				mainWindow->contextItemsMenu.addAction(autoReverse);
@@ -613,7 +614,7 @@ namespace Tinkercell
 		else
 		{
 			QString appDir = QCoreApplication::applicationDirPath();
-			QString filename = appDir + tr("/DecoratorItems/Reversible.xml");
+			QString filename = appDir + tr("/icons/Reversible.xml");
 			emit setMiddleBox(1,filename);
 		}
 	}
@@ -705,18 +706,17 @@ namespace Tinkercell
 					item->curveSegments +=
 						ConnectionGraphicsItem::CurveSegment(1,new ConnectionGraphicsItem::ControlPoint(item,image));
 
-					ArrowHeadItem * arrow = 0;
-					QString nodeImageFile = appDir + tr("/ArrowItems/Reaction.xml");
-					NodeGraphicsReader imageReader;
-					arrow = new ArrowHeadItem(item);
-					imageReader.readXml(arrow,nodeImageFile);
-					arrow->normalize();
-					double w = 0.1;
-					if (arrow->defaultSize.width() > 0 && arrow->defaultSize.height() > 0)
-						w = arrow->defaultSize.width()/arrow->sceneBoundingRect().width();
-					arrow->scale(w,w);
-					item->curveSegments.last().arrowStart = arrow;
-					list += arrow;
+					if (!connectionFamily->graphicsItems.isEmpty())
+					{
+						NodeGraphicsItem * node = NodeGraphicsItem::cast(connectionFamily->graphicsItems[0]);
+						if (node && node->className == ArrowHeadItem::CLASSNAME)
+						{
+							ArrowHeadItem * arrow = static_cast<ArrowHeadItem*>(node);							
+							arrow = new ArrowHeadItem(item);
+							item->curveSegments.last().arrowStart = arrow->clone();
+							list += item->curveSegments.last().arrowStart;
+						}
+					}
 
 					connection->name = tr("J_") + node->name + tr("_dimerize");
 					item->lineType = ConnectionGraphicsItem::line;

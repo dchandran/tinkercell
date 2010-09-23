@@ -567,20 +567,20 @@ namespace Tinkercell
 			
 			if (type == BasicInformationTool::both)
 			{
-				reader.readXml(&item,appDir + tr("/DecoratorItems/textsheet.xml"));
+				reader.readXml(&item,appDir + tr("/icons/textsheet.xml"));
 				item.setToolTip(tr("Attributes"));
 				toolGraphicsItem->setToolTip(tr("Attributes"));
 			}
 			else
 				if (type == BasicInformationTool::numerical)
 				{
-					reader.readXml(&item,appDir + tr("/DecoratorItems/datasheet.xml"));
+					reader.readXml(&item,appDir + tr("/icons/datasheet.xml"));
 					item.setToolTip(tr("Parameters"));
 					toolGraphicsItem->setToolTip(tr("Parameters"));
 				}
 				else
 				{
-					reader.readXml(&item,appDir + tr("/DecoratorItems/textsheet.xml"));
+					reader.readXml(&item,appDir + tr("/icons/textsheet.xml"));
 					item.setToolTip(tr("Text attributes"));
 					toolGraphicsItem->setToolTip(tr("Text attributes"));
 				}

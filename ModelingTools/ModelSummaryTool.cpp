@@ -354,7 +354,7 @@ namespace Tinkercell
 		QString appDir = QCoreApplication::applicationDirPath();
 
 		NodeGraphicsReader reader;
-		reader.readXml(&item,appDir + tr("/DecoratorItems/monitor.xml"));
+		reader.readXml(&item,appDir + tr("/icons/monitor.xml"));
 
 		item.normalize();
 		item.scale(30.0/item.sceneBoundingRect().width(),35.0/item.sceneBoundingRect().height());
@@ -419,7 +419,7 @@ namespace Tinkercell
 								lockNode = new NodeGraphicsItem;
 								QString appDir = QCoreApplication::applicationDirPath();
 								NodeGraphicsReader reader;
-								reader.readXml(lockNode,appDir + tr("/DecoratorItems/lock.xml"));
+								reader.readXml(lockNode,appDir + tr("/icons/lock.xml"));
 								lockNode->normalize();
 								for (int k=0; k < lockNode->boundaryControlPoints.size(); ++k)
 									if (lockNode->boundaryControlPoints[k])
@@ -578,7 +578,7 @@ namespace Tinkercell
 											lockNode = new NodeGraphicsItem;
 											QString appDir = QCoreApplication::applicationDirPath();
 											NodeGraphicsReader reader;
-											reader.readXml(lockNode,appDir + tr("/DecoratorItems/lock.xml"));
+											reader.readXml(lockNode,appDir + tr("/icons/lock.xml"));
 											lockNode->normalize();
 											for (int k=0; k < lockNode->boundaryControlPoints.size(); ++k)
 												if (lockNode->boundaryControlPoints[k])

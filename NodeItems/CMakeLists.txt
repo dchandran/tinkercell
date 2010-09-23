@@ -1,6 +1,0 @@
-FILE(GLOB NODE_FILES *.png *.PNG *.xml *.XML)
-
-INSTALL( FILES ${NODE_FILES}
-  DESTINATION NodeItems
-  COMPONENT Graphics
-)

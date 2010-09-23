@@ -1,6 +1,0 @@
-FILE(GLOB GRAPHICS_FILES *.png *.PNG *.xml *.XML)
-
-INSTALL( FILES ${GRAPHICS_FILES}
-  DESTINATION DecoratorItems
-  COMPONENT Graphics
-)

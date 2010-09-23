@@ -27,9 +27,9 @@
 
 namespace Tinkercell
 {
-	static QString linkerFileName("/DecoratorItems/moduleLinker.xml");
-	static QString interfaceFileName("/DecoratorItems/moduleInterface.xml");
-	static QString moduleFileName("/DecoratorItems/Module.xml");
+	static QString linkerFileName("/icons/moduleLinker.xml");
+	static QString interfaceFileName("/icons/moduleInterface.xml");
+	static QString moduleFileName("/icons/Module.xml");
 	static QString linkerClassName("module linker item");
 	static QString interfaceClassName("module interface item");
 	static QString connectionClassName("module connection item");
@@ -220,7 +220,7 @@ namespace Tinkercell
 
 		if (mode == inserting)
 		{
-			Tool * tool = mainWindow->tool(tr("Nodes Tree"));
+			/*Tool * tool = mainWindow->tool(tr("Nodes Tree"));
 			if (!tool) return;
 
 			NodesTree * nodesTree = static_cast<NodesTree*>(tool);
@@ -241,7 +241,7 @@ namespace Tinkercell
 			}
 			else
 			{
-				image = new NodeGraphicsItem(appDir + tr("/NodeItems/Module.xml"));
+				image = new NodeGraphicsItem(appDir + tr("/icons/Module.xml"));
 			}
 			
 			image->setPos(point);
@@ -254,7 +254,7 @@ namespace Tinkercell
 
 			scene->insert(handle->name + tr(" inserted"),QList<QGraphicsItem*>() << image << text);
 
-			return;
+			return;*/
 		}
 
 		QList<QGraphicsItem*> items = scene->items(point);

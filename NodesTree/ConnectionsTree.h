@@ -125,6 +125,8 @@ namespace Tinkercell
         void contextMenuEvent(QContextMenuEvent * event);
         /*! \brief the tree widget that displays the family tree*/
         QTreeWidget treeWidget;
+        /*! \brief folder with the theme to use*/
+        QString themeDir;
     };
 
 }

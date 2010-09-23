@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE NodeGraphicsItem>
+<listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
+    <renderInformation id="TinkerCell_Style" programName="TinkerCell">
+        <listOfColorDefinitions>
+            <colorDefinition id="shape0color" value="#d8d8d8" alpha="255"/>
+            <colorDefinition id="shape1color" value="#4a4a4a" alpha="255"/>
+            <colorDefinition id="shape2color" value="#ababab" alpha="255"/>
+        </listOfColorDefinitions>
+        <listOfGradientDefinitions>
+            <radialGradient id="shape3color" x1="41.6%" y1="37.2%" x2="62%" y2="65.2%">
+                <stop offset="0%" stop-color="#ff701d" stop-alpha="1"/>
+                <stop offset="100%" stop-color="#643c19" stop-alpha="1"/>
+            </radialGradient>
+        </listOfGradientDefinitions>
+        <listOfStyles>
+            <style idList="block molecule" width="50" height="50">
+                <g>
+                    <polygon fill="shape0color" stroke="#646464" stroke-width="0" stroke-alpha="1">
+                        <listOfCurveSegments>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="0%" y="0%"/>
+                                <end x="100%" y="0%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="100%" y="0%"/>
+                                <end x="92.8571%" y="7.50988%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="92.8571%" y="7.50988%"/>
+                                <end x="7.14286%" y="7.50988%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="7.14286%" y="7.50988%"/>
+                                <end x="7.14286%" y="92.8854%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="7.14286%" y="92.8854%"/>
+                                <end x="0%" y="100%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="0%" y="100%"/>
+                                <end x="0%" y="0%"/>
+                            </curveSegment>
+                        </listOfCurveSegments>
+                    </polygon>
+                    <polygon fill="shape1color" stroke="#646464" stroke-width="0" stroke-alpha="1">
+                        <listOfCurveSegments>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="100%" y="0%"/>
+                                <end x="100%" y="100%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="100%" y="100%"/>
+                                <end x="0%" y="100%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="0%" y="100%"/>
+                                <end x="7.14286%" y="92.8854%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="7.14286%" y="92.8854%"/>
+                                <end x="92.8571%" y="92.8854%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="92.8571%" y="92.8854%"/>
+                                <end x="92.8571%" y="7.50988%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="92.8571%" y="7.50988%"/>
+                                <end x="100%" y="0%"/>
+                            </curveSegment>
+                        </listOfCurveSegments>
+                    </polygon>
+                    <polygon fill="shape2color" stroke="#646464" stroke-width="0" stroke-alpha="1">
+                        <listOfCurveSegments>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="7.14286%" y="7.50988%"/>
+                                <end x="92.8571%" y="7.50988%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="92.8571%" y="7.50988%"/>
+                                <end x="92.8571%" y="92.8854%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="92.8571%" y="92.8854%"/>
+                                <end x="7.14286%" y="92.8854%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="7.14286%" y="92.8854%"/>
+                                <end x="7.14286%" y="7.50988%"/>
+                            </curveSegment>
+                        </listOfCurveSegments>
+                    </polygon>
+                    <ellipse cx="51.2%" cy="49.2%" rx="29.2%" ry="29.2%" angleStart="0" angleEnd="360" fill="shape3color" stroke="#646464" stroke-width="0" stroke-alpha="1"/>
+                </g>
+            </style>
+        </listOfStyles>
+    </renderInformation>
+</listOfRenderInformation>

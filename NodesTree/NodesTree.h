@@ -65,6 +65,9 @@ namespace Tinkercell
 
 	public:
 	
+		/*! \brief folder with the theme to use*/
+        static QString themeDirectory;
+	
 	    /*! \brief get a node family
         \param QString name of node family
         \return NodeFamily* can be 0 if none is found
@@ -150,7 +153,8 @@ namespace Tinkercell
 		void itemActivated( QListWidgetItem * );
         /*! \brief one of the network is closing*/
         void networkClosing(NetworkHandle * , bool *);
-
+        /*! \brief select theme for nodes and connection arrows*/
+		void selectTheme();
     private:
 
         /*! \brief replaces the nodes graphics file with a new one*/
@@ -177,7 +181,6 @@ namespace Tinkercell
 
         /*! \brief store all the node graphics file names*/
         QHash<QString,QString> nodeGraphicsFileNames;
-
         friend class FamilyTreeButton;
     };
 

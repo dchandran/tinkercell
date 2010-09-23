@@ -194,7 +194,7 @@ namespace Tinkercell
 		QString appDir = QCoreApplication::applicationDirPath();
 		openedByUser = false;
 		NodeGraphicsReader reader;
-		reader.readXml(&item,appDir + tr("/DecoratorItems/DNATool.xml"));
+		reader.readXml(&item,appDir + tr("/icons/DNATool.xml"));
 		item.setToolTip(tr("DNA sequence"));
 		setToolTip(tr("DNA sequence"));
 

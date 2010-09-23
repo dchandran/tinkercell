@@ -15,6 +15,8 @@
 
 namespace Tinkercell
 {
+	 QString NodesTree::themeDirectory("Bio1");
+
      NodesTree::~NodesTree()
      {
 		  networkClosing(0,0);
@@ -51,6 +53,7 @@ namespace Tinkercell
           QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
           settings.beginGroup("NodesTree");
           
+	      themeDirectory = settings.value("theme",tr("Bio1")).toString();
           QStringList nodeSettings = settings.value("nodeFiles",QStringList()).toStringList();
           QHash<QString,bool> expandedNodes;
           
@@ -138,9 +141,26 @@ namespace Tinkercell
           {
                connect(this,SIGNAL(sendEscapeSignal(const QWidget*)),mainWindow,SIGNAL(escapeSignal(const QWidget*)));
                
-               return true;
+		       if (mainWindow->optionsMenu)
+			   {
+					mainWindow->optionsMenu->addSeparator();
+					QAction * treeViewAction = mainWindow->optionsMenu->addAction(tr("Select Theme"),this,SLOT(selectTheme()));
+			   }
+
+            return true;
           }
           return false;
+     }
+     
+     void NodesTree::selectTheme()
+     {
+     		QDir graphicsDir1(appDir + tr("/Graphics"));
+			QDir graphicsDir2(homeDir + tr("/Graphics"));
+			graphicsDir1.setFilter(QDir::AllDirs);
+			graphicsDir2.setSorting(QDir::AllDirs);
+			QFileInfoList subdirs = graphicsDir1.entryInfoList() + graphicsDir2.entryInfoList();
+			
+			
      }
 
      void NodesTree::changeTree()
@@ -191,12 +211,24 @@ namespace Tinkercell
      void NodesTree::makeNodeSelectionDialog()
      {
           QString appDir = QCoreApplication::applicationDirPath();
-
-          QDir dir(appDir + tr("/NodeItems/"));
-          dir.setFilter(QDir::Files);
-          dir.setSorting(QDir::Name);
-
-          QFileInfoList list = dir.entryInfoList();
+          QDir graphicsDir1(appDir + tr("/Graphics"));
+		  QDir graphicsDir2(homeDir + tr("/Graphics"));
+		  graphicsDir1.setFilter(QDir::AllDirs);
+		  graphicsDir2.setSorting(QDir::AllDirs);
+		  QFileInfoList subdirs = dir.entryInfoList();
+		
+		  QFileInfoList list;
+		
+  		  for (int j = 0; j < list.size(); ++j) //for each theme file inside Graphics
+		  {
+			  QDir dir(list.at(j).absoluteFilePath() + tr("/Nodes")); //get Grpahics/theme/header dir
+			  if (dir.exists)
+			  {
+				  dir.setFilter(QDir::Files);
+				  dir.setSorting(QDir::Name);
+				  list += dir.entryInfoList();
+			  }
+		  }
 
           nodesListWidget = new QListWidget(this);
           nodesFilesList.clear();
@@ -214,31 +246,7 @@ namespace Tinkercell
                     nodesFilesList << item->data(3).toString();
                }
           }
-
-          QDir userdir(MainWindow::homeDir());
-          if (userdir.exists(tr("/NodeItems/")))
-          {
-               userdir.cd(tr("/NodeItems/"));
-               userdir.setFilter(QDir::Files);
-               userdir.setSorting(QDir::Name);
-               list = userdir.entryInfoList();
-
-               for (int i = 0; i < list.size(); ++i)
-               {
-                    QFileInfo fileInfo = list.at(i);
-                    if (fileInfo.completeSuffix().toLower() == tr("png") &&
-                        userdir.exists(fileInfo.baseName() + tr(".xml")) &&
-                        !nodesFilesList.contains(userdir.absolutePath() + tr("/") + fileInfo.baseName() + tr(".xml")))
-                    {
-                         QListWidgetItem * item = new QListWidgetItem(QIcon(fileInfo.absoluteFilePath()),
-                                                                      fileInfo.baseName(),nodesListWidget);
-                         item->setData(3,userdir.absolutePath() + tr("/") + fileInfo.baseName() + tr(".xml"));
-                         nodesListWidget->addItem(item);
-                         nodesFilesList << item->data(3).toString();
-                    }
-               }
-          }
-
+          
           nodeSelectionDialog = new QDialog(this);
           nodeSelectionDialog->setSizeGripEnabled(true);
           QVBoxLayout * layout = new QVBoxLayout;
@@ -316,7 +324,7 @@ namespace Tinkercell
           QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
 
           settings.beginGroup("NodesTree");
-          
+     	  settings.setValue("theme",themeDirectory);
           QList<QString> keys = nodeFamilies.keys();
           QStringList nodeFiles;
 
@@ -357,7 +365,7 @@ namespace Tinkercell
 		}
 		else
 		{
-			file = tr("NodeItems/");
+			file = themeDirectory + tr("/Nodes/");
 			file += name;
 			file.replace(tr(" "),tr(""));
 			file += tr(".PNG");
@@ -374,7 +382,7 @@ namespace Tinkercell
 		}
 		else
 		{
-			file = tr("NodeItems/");
+			file = themeDirectory + tr("/Nodes/");
 			file += name;
 			file.replace(tr(" "),tr(""));
 			file += tr(".xml");

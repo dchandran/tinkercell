@@ -6,7 +6,7 @@
 
 
 ****************************************************************************/
-
+#include <iostream>
 #include <QMimeData>
 #include <QDrag>
 #include "MainWindow.h"
@@ -25,7 +25,7 @@ namespace Tinkercell
 	{
 		setPalette(QPalette(QColor(255,255,255)));
 		setAutoFillBackground (true);
-		setAcceptDrops(true);
+		setCheckable(false);
 		
 		QString s = name;
 		int sz = 16 - s.length();
@@ -35,6 +35,8 @@ namespace Tinkercell
 			s = s.rightJustified(16);
 		}
 		setText(s);
+		dragContinued = dragStarted = false;
+		connect(this,SIGNAL(released()),this,SLOT(selected()));
 	}
 
 	FamilyTreeButton::FamilyTreeButton(NodeFamily* family , QWidget * parent) : QToolButton(parent), nodeFamily(family), connectionFamily(0)
@@ -44,16 +46,16 @@ namespace Tinkercell
 		name = nodeFamily->name();
 
 		QAction* infoAction = new QAction(QIcon(":/images/about.png"),tr("about ") + nodeFamily->name(), this);
-		QAction* graphicsAction = new QAction(QIcon(":/images/replace.png"),tr("change graphics"), this);
+		//QAction* graphicsAction = new QAction(QIcon(":/images/replace.png"),tr("change graphics"), this);
 		connect(infoAction,SIGNAL(triggered()),this,SLOT(about()));
-		connect(graphicsAction,SIGNAL(triggered()),this,SLOT(replaceAction()));
+		//connect(graphicsAction,SIGNAL(triggered()),this,SLOT(replaceAction()));
 		menu.addAction(infoAction);
-		menu.addAction(graphicsAction);
+		//menu.addAction(graphicsAction);
 
 		setToolTip(nodeFamily->name() + tr(": ") + nodeFamily->description);
 		setPalette(QPalette(QColor(255,255,255)));
 		setAutoFillBackground (true);
-		setAcceptDrops(true);
+		setCheckable(false);
 		
 		QString s = nodeFamily->name();
 		int sz = 16 - s.length();
@@ -82,6 +84,8 @@ namespace Tinkercell
 		}
 		
 		setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+		dragContinued = dragStarted = false;
+		connect(this,SIGNAL(released()),this,SLOT(selected()));
 	}
 
 	FamilyTreeButton::FamilyTreeButton(ConnectionFamily* family, QWidget * parent) : QToolButton(parent), nodeFamily(0), connectionFamily(family)
@@ -93,19 +97,11 @@ namespace Tinkercell
 		QAction* infoAction = new QAction(QIcon(":/images/about.png"),tr("about ") + connectionFamily->name(), this);
 		connect(infoAction,SIGNAL(triggered()),this,SLOT(about()));
 		menu.addAction(infoAction);
-
-		/*if (connectionFamily->name().contains(tr("Connection")) ||
-			connectionFamily->name().contains(tr("connection")) ||
-			connectionFamily->name().contains(tr("Reaction")) ||
-			connectionFamily->name().contains(tr("reaction")))
-			setToolTip(QObject::tr("insert ") + (connectionFamily->name()));
-		else
-			setToolTip(QObject::tr("insert ") + (connectionFamily->name()) + tr(" reaction"));*/
 		setToolTip(connectionFamily->name() + tr(": ") + connectionFamily->description);
 
 		setPalette(QPalette(QColor(255,255,255)));
 		setAutoFillBackground (true);
-		setAcceptDrops(true);
+		setCheckable(false);
 		
 		QString s = connectionFamily->name();
 		int sz = 16 - s.length();
@@ -134,6 +130,8 @@ namespace Tinkercell
 		}
 		
 		setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+		dragContinued = dragStarted = false;
+		connect(this,SIGNAL(released()),this,SLOT(selected()));
 	}
 	void FamilyTreeButton::contextMenuEvent(QContextMenuEvent * event)
 	{
@@ -148,32 +146,47 @@ namespace Tinkercell
 		menu.exec(pos);
 	}
 	
-	void FamilyTreeButton::mousePressEvent(QMouseEvent *event)
+	void FamilyTreeButton::selected()
 	{
-		if (event->button() == Qt::LeftButton) 
+		dragStarted = false;
+		if (dragContinued) return;
+		
+		if (nodeFamily)
+			emit nodeSelected(nodeFamily);
+		else
+		if (connectionFamily)
+			emit connectionSelected(connectionFamily);	
+		else
+			emit pressed(text().trimmed(),icon().pixmap(30));
+	}
+	
+	void FamilyTreeButton::mousePressEvent(QMouseEvent * event)
+	{
+		dragContinued = false;
+		dragStarted = true;
+		dragStartPos = event->posF();
+		QToolButton::mousePressEvent(event);
+	}
+	
+	void FamilyTreeButton::mouseMoveEvent(QMouseEvent *event)
+	{
+		if (dragStarted && !dragContinued )
 		{
-			QDrag *drag = new QDrag(this);
-			QMimeData *mimeData = new QMimeData;
-			drag->setPixmap(icon().pixmap(QSize(30,30)));
-			mimeData->setText(name);	
-			drag->setMimeData(mimeData);
-			drag->exec();
+			QPointF p = event->posF() - dragStartPos;
+			if ( (p.x()*p.x() + p.y()*p.y()) > geometry().height()/2.0)
+			{
+				dragStarted = false;
+				QDrag *drag = new QDrag(this);
+				QMimeData *mimeData = new QMimeData;
+				drag->setPixmap(icon().pixmap(QSize(30,30)));
+				mimeData->setText(name);	
+				drag->setMimeData(mimeData);
+				drag->exec();
+				dragContinued = true;
+				setDown(false);
+			}
 		}
 	}
-
-/*
-	void FamilyTreeButton::mouseReleaseEvent(QMouseEvent * event)
-	{
-		if (event->button() == Qt::LeftButton)
-		{
-			if (nodeFamily)
-				emit nodeSelected(nodeFamily);
-			else
-			if (connectionFamily)
-				emit connectionSelected(connectionFamily);
-		}
-	}
-*/
 
 	void FamilyTreeButton::about()
 	{
@@ -317,6 +330,7 @@ namespace Tinkercell
 		return 0;
 	}
 	
+/*
 	void FamilyTreeButton::dragEnterEvent(QDragEnterEvent *event)
 	{
 		event->accept();
@@ -332,6 +346,6 @@ namespace Tinkercell
 		else
 			emit pressed(text().trimmed(),icon().pixmap(30));
 	}
-
+*/
 }
 

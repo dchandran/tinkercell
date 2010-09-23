@@ -1,6 +1,0 @@
-FILE(GLOB ARROW_FILES *.png *.PNG *.xml *.XML)
-
-INSTALL( FILES ${ARROW_FILES} 
-  DESTINATION ArrowItems
-  COMPONENT Graphics
-)

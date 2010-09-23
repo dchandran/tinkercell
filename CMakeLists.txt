@@ -161,9 +161,7 @@ ADD_SUBDIRECTORY( API )   #C API + SWIG file
 ADD_SUBDIRECTORY( Main )   #main executable
 ADD_SUBDIRECTORY( ExternalCode )  #MuParser, QWT, cvODE, letc.
 ADD_SUBDIRECTORY( icons )   #icons
-ADD_SUBDIRECTORY( ArrowItems )   #graphics files for arrow heads
-ADD_SUBDIRECTORY( NodeItems )   #graphics files for nodes
-ADD_SUBDIRECTORY( DecoratorItems )   #graphics files for decorating connections
+ADD_SUBDIRECTORY( Graphics )   #graphics files
 ADD_SUBDIRECTORY( NodeGraphicsItem )   #program for drawing new graphics items
 
 #---------------------------------------------------------------------------

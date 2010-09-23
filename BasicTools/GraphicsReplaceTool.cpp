@@ -57,22 +57,33 @@ namespace Tinkercell
 	void GraphicsReplaceTool::makeNodeSelectionDialog()
 	{
 		QString appDir = QCoreApplication::applicationDirPath();
+		QString homeDir = mainWindow->homeDir();
 
 		tabWidget = new QTabWidget(mainWindow);
 
 		QStringList headers;
-		QStringList paths;
-		headers << "Nodes, Cells, etc." << "Arrow heads" << "Decorations";
-		paths << "/NodeItems/" << "/ArrowItems/" << "/DecoratorItems/";
+		headers << "Nodes" << "Arrows" << "Decorators";
 
-		for (int i=0; i < headers.size() && paths.size(); ++i)
+		for (int i=0; i < headers.size(); ++i)
 		{
-
-			QDir dir(appDir + paths[i]);
-			dir.setFilter(QDir::Files);
-			dir.setSorting(QDir::Name);
-
-			QFileInfoList list = dir.entryInfoList();
+			QDir graphicsDir1(appDir + tr("/Graphics"));
+			QDir graphicsDir2(homeDir + tr("/Graphics"));
+			graphicsDir1.setFilter(QDir::AllDirs);
+			graphicsDir2.setSorting(QDir::AllDirs);
+			QFileInfoList subdirs = graphicsDir1.entryInfoList() + graphicsDir2.entryInfoList();
+			
+			QFileInfoList list;
+			
+			for (int j = 0; j < list.size(); ++j) //for each theme file inside Graphics
+			{
+				QDir dir(list.at(j).absoluteFilePath() + tr("/") + headers[i]); //get Grpahics/theme/header dir
+				if (dir.exists)
+				{
+					dir.setFilter(QDir::Files);
+					dir.setSorting(QDir::Name);
+					list += dir.entryInfoList();
+				}
+			}
 
 			QListWidget * nodesListWidget = new QListWidget(mainWindow);
 

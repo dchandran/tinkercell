@@ -292,7 +292,7 @@ namespace Tinkercell
                }
           }
           else //if no image file, same as parent's image*/
-          if (node != 0 && node->graphicsItems.size() < 1 && parentNode)
+          if (node != 0 && node->graphicsItems.isEmpty() && parentNode)
           {
                for (int i=0; i < parentNode->graphicsItems.size(); ++i)
                     if (NodeGraphicsItem::topLevelNodeItem(parentNode->graphicsItems[i]))

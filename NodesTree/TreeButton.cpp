@@ -173,7 +173,7 @@ namespace Tinkercell
 		if (dragStarted && !dragContinued )
 		{
 			QPointF p = event->posF() - dragStartPos;
-			if ( (p.x()*p.x() + p.y()*p.y()) > geometry().height()/2.0)
+			if ( (p.x()*p.x() + p.y()*p.y()) > geometry().height())
 			{
 				dragStarted = false;
 				QDrag *drag = new QDrag(this);

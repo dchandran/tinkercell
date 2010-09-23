@@ -92,7 +92,8 @@ namespace Tinkercell
 
 		writer->writeStartElement("ConnectionGraphicsItem");
 		writer->writeAttribute("version", "1.0");
-		writer->writeAttribute("color", connection->defaultPen.color().name());
+		writer->writeAttribute("name", connection->name);
+		writer->writeAttribute("color", connection->defaultPen.color().name());		
 		writer->writeAttribute("width", QString::number(connection->defaultPen.widthF()));
 		writer->writeAttribute("type", types[ (int)connection->lineType ]);
 		writer->writeAttribute("style", QString::number((int)(connection->defaultPen.style())));

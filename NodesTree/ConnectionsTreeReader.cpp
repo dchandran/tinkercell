@@ -7,7 +7,7 @@
  XML reader that populates the connections tree
 
 ****************************************************************************/
-#include "ConsoleWindow.h"
+#include "MainWindow.h"
 #include "ConnectionsTreeReader.h"
 namespace Tinkercell
 {
@@ -154,8 +154,11 @@ namespace Tinkercell
 			           }
 			   }
                readNext();
+               QString homeDir = MainWindow::homeDir();
                QString appDir = QCoreApplication::applicationDirPath();
                //set icon
+               if (family->pixmap.load(homeDir + QString("/") + ConnectionsTree::iconFile(family)))
+                    family->pixmap.setMask(family->pixmap.createMaskFromColor(QColor(255,255,255)));
                if (family->pixmap.load(appDir + QString("/") + ConnectionsTree::iconFile(family)))
                     family->pixmap.setMask(family->pixmap.createMaskFromColor(QColor(255,255,255)));
                else
@@ -185,11 +188,25 @@ namespace Tinkercell
 
                if (family->graphicsItems.isEmpty())
                {
-               	   QString arrowImageFile = appDir + QString("/") + ConnectionsTree::arrowImageFile(family->name());
-		           nodeitem = new ArrowHeadItem(arrowImageFile);
+               	   QString arrowImageFile;
+               	   nodeitem = 0;
+               	   arrowImageFile = homeDir + QString("/") + ConnectionsTree::arrowImageFile(family->name());
+               	   if (QFile::exists(arrowImageFile))
+               	   {
+               	   	   nodeitem = new ArrowHeadItem(arrowImageFile);
+               	   }
+               	   else
+               	   {
+                 	   arrowImageFile = appDir + QString("/") + ConnectionsTree::arrowImageFile(family->name());
+	               	   if (QFile::exists(arrowImageFile))
+				           nodeitem = new ArrowHeadItem(arrowImageFile);
+				   }
 
-		           if (!nodeitem->isValid())
-		               delete nodeitem;
+		           if (!nodeitem || !nodeitem->isValid())
+		           {
+		               if (nodeitem) 
+		                   delete nodeitem;
+		           }
 		           else
 			           family->graphicsItems += nodeitem;
 		           //if no arrow file, same as parent's arrow
@@ -200,11 +217,26 @@ namespace Tinkercell
 			   }              
                if (family->graphicsItems.size() < 2)
                {
-		           QString decoratorImageFile = appDir + QString("/") + ConnectionsTree::decoratorImageFile(family->name());
-		           nodeitem = new ArrowHeadItem(decoratorImageFile);
+		           QString decoratorImageFile;
+		           decoratorImageFile = homeDir + QString("/") + ConnectionsTree::decoratorImageFile(family->name());
+		           nodeitem = 0;
+
+               	   if (QFile::exists(decoratorImageFile))
+               	   {
+               	   	   nodeitem = new ArrowHeadItem(decoratorImageFile);
+               	   }
+               	   else
+               	   {
+                 	   decoratorImageFile = appDir + QString("/") + ConnectionsTree::decoratorImageFile(family->name());
+	               	   if (QFile::exists(decoratorImageFile))
+				           nodeitem = new ArrowHeadItem(decoratorImageFile);
+				   }
 		           
-		           if (!nodeitem->isValid())
-		               delete nodeitem;
+		           if (!nodeitem || !nodeitem->isValid())
+		           {
+		           	   if (nodeitem)
+			               delete nodeitem;
+		           }
 		           else
 			           family->graphicsItems += nodeitem;
 			       

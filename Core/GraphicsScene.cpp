@@ -2138,11 +2138,14 @@ namespace Tinkercell
 					tool = itemHandle->tools[j];
 					if (tool && !tool->graphicsItems.isEmpty())
 						for (int k=0; k < tool->graphicsItems.size(); ++k)
+						{
 							if (!visibleTools.contains(tool->graphicsItems[k]))
 								visibleTools += tool->graphicsItems[k];
+						}
 				}
 			}
 		}
+		
 		scaleGraphicalTools();
 	}
 
@@ -2188,9 +2191,10 @@ namespace Tinkercell
 
 				if (tool->isVisible() && visibleTools.size() > 1)
 				{
-					miny += bounds.height() * 1.5;
+					if (bounds.height() < 500.0)
+						miny += bounds.height() * 1.5;
 
-					if (bounds.width() > w) w = bounds.width();
+					if (bounds.width() > w && bounds.width() < 500) w = bounds.width();
 
 					if (miny > viewport.bottom() - 50.0)
 					{

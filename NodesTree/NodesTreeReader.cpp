@@ -10,6 +10,7 @@
 #include <QRegExp>
 #include <QFile>
 #include <QColor>
+#include "MainWindow.h"
 #include "NodesTreeReader.h"
 
 namespace Tinkercell
@@ -184,30 +185,38 @@ namespace Tinkercell
                readNext();
 
                //node file
+               QString homeDir = MainWindow::homeDir();
                QString appDir = QCoreApplication::applicationDirPath();
 
                QString iconFile = tree->iconFile(node->name());
-                              
-			   if (!QFile::exists(iconFile))
+               
+               if (!QFile::exists(iconFile) && QFile::exists(homeDir + QString("/") + iconFile))
+			   		iconFile = homeDir + QString("/") + iconFile;
+               else
+			   if (!QFile::exists(iconFile) && QFile::exists(appDir + QString("/") + iconFile))
 			   		iconFile = appDir + QString("/") + iconFile;
 
                if (node->graphicsItems.isEmpty())
                {
-               		QString nodeImageFile = tree->nodeImageFile(node->name());
-               		if (!QFile::exists(nodeImageFile))
+               		QString nodeImageFile = tree->nodeImageFile(node->name()); 
+
+               		if (!QFile::exists(nodeImageFile) && QFile::exists(homeDir + QString("/") + nodeImageFile))
+						nodeImageFile = homeDir + QString("/") + nodeImageFile;
+				    else
+				    if (!QFile::exists(nodeImageFile) && QFile::exists(appDir + QString("/") + nodeImageFile))
 						nodeImageFile = appDir + QString("/") + nodeImageFile;
-				                    
+
                     NodeGraphicsReader imageReader;
                     NodeGraphicsItem * nodeitem = new NodeGraphicsItem;
                     imageReader.readXml(nodeitem,nodeImageFile);
-                    if (nodeitem->isValid())
+                    if (nodeitem && nodeitem->isValid())
                     {
                          nodeitem->normalize();
                          node->graphicsItems += nodeitem;
                     }
                     else
                     {
-                         delete nodeitem;
+                         if (nodeitem) delete nodeitem;
                     }
                }
                //set icon

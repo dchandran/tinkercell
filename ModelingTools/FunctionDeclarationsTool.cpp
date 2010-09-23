@@ -159,8 +159,8 @@ namespace Tinkercell
 	{
 		for (int i=0; i < handles.size(); ++i)
 		{
-			if (handles[i] && handles[i]->family() && !handles[i]->tools.contains(this))
-				handles[i]->tools += this;
+			//if (handles[i] && handles[i]->family() && !handles[i]->tools.contains(this))
+				//handles[i]->tools += this;
 
 			if (handles[i] && handles[i]->family() && (
 				!(handles[i]->hasTextData(tr("Functions"))) ||
@@ -390,7 +390,7 @@ namespace Tinkercell
 
 		QString appDir = QCoreApplication::applicationDirPath();
 
-		NodeGraphicsReader reader;
+		/*NodeGraphicsReader reader;
 		reader.readXml(&item,appDir + tr("/icons/func.xml"));
 
 		item.normalize();
@@ -400,7 +400,7 @@ namespace Tinkercell
 		toolGraphicsItem->addToGroup(&item);
 		toolGraphicsItem->setToolTip(name);
 
-		/*QToolButton * toolButton = new QToolButton(this);
+		QToolButton * toolButton = new QToolButton(this);
 		toolButton->setIcon(QIcon(appDir + tr("/icons/func.xml")));
 		toolButton->setToolTip(name);
 		this->buttons.addButton(toolButton);*/

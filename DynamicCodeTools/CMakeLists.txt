@@ -3,13 +3,12 @@ SET(LIBRARY_OUTPUT_PATH ${CPP_LIBRARY_OUTPUT_PATH})
 SET( TINKERCELL_CORE_HDRS
   ../Core/MainWindow.h 
   ../Core/NetworkHandle.h
-  ../Core/CThread.h 
-  ../Core/CodeEditor.h 
+  ../Core/NetworkWindow.h
+  ../Core/CodeEditor.h
   ../Core/TextEditor.h 
-  ../Core/GraphicsScene.h 
-  ../Core/Tool.h 
-  ../Core/ItemHandle.h 
-  ../Core/ItemFamily.h
+  ../Core/GraphicsScene.h
+  ../Core/GraphicsView.h  
+  ../Core/Tool.h
   )
 
 FILE( GLOB DYNAMICTOOLS_HDRS *.h )

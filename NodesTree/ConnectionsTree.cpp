@@ -219,7 +219,7 @@ namespace Tinkercell
 	
 	QString ConnectionsTree::arrowImageFile(QString name)
 	{
-		QString file = NodesTree::themeDirectory + tr("/Arrows/");
+		QString file = tr("/Graphics/") + NodesTree::themeDirectory + tr("/Arrows/");
 		file += name;
 		file.replace(tr(" "),tr(""));
 		file += tr(".xml");
@@ -228,7 +228,7 @@ namespace Tinkercell
 	
 	QString ConnectionsTree::decoratorImageFile(QString name)
 	{
-		QString file = NodesTree::themeDirectory + tr("/Decorators/");
+		QString file = tr("/Graphics/") + NodesTree::themeDirectory + tr("/Decorators/");
 		file += name;
 		file.replace(tr(" "),tr(""));
 		file += tr(".xml");

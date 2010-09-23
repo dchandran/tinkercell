@@ -1,6 +1,33 @@
 SET(LIBRARY_OUTPUT_PATH ${EXECUTABLE_OUTPUT_PATH})
 
-FILE(GLOB TINKERCELL_CORE_HDRS *.h)
+FILE(GLOB TINKERCELL_CORE_HDRS 
+	AbstractInputWindow.h
+	C_API_Slots.h
+	CodeEditor.h
+	ConsoleWindow.h
+	CThread.h
+	GnuplotTool.h
+	GraphicsScene.h
+	GraphicsView.h
+	HistoryWindow.h
+	InterpreterThread.h
+	ItemHandle.h
+	MainWindow.h
+	MultithreadedSliderWidget.h
+	NetworkHandle.h
+	NetworkWindow.h
+	OctaveInterpreterThread.h
+	Plot2DWidget.h
+	Plot3DWidget.h
+	PlotTextWidget.h
+	PlotTool.h
+	PlotWidget.h
+	PythonInterpreterThread.h
+	TextEditor.h
+	TextGraphicsItem.h
+	TextParser.h
+	Tool.h
+)
 
 FILE(GLOB TINKERCELL_CORE_SRC *.cpp)
 

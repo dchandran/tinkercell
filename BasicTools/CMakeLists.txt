@@ -13,12 +13,12 @@ ADD_DEFINITIONS(-DQT_SHARED)
 SET( TINKERCELL_CORE_HDRS
   ../Core/MainWindow.h 
   ../Core/NetworkHandle.h
+  ../Core/NetworkWindow.h
   ../Core/CodeEditor.h
   ../Core/TextEditor.h 
-  ../Core/GraphicsScene.h 
-  ../Core/Tool.h 
-  ../Core/ItemHandle.h 
-  ../Core/ItemFamily.h
+  ../Core/GraphicsScene.h
+  ../Core/GraphicsView.h  
+  ../Core/Tool.h
   )
 
 CONFIGURE_FILE( TinkerCellAboutBox.cpp.in

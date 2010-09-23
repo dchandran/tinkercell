@@ -11,10 +11,9 @@ SET( TINKERCELL_CORE_HDRS
   ../Core/NetworkWindow.h
   ../Core/CodeEditor.h
   ../Core/TextEditor.h 
-  ../Core/GraphicsScene.h 
-  ../Core/Tool.h 
-  ../Core/ItemHandle.h 
-  ../Core/ItemFamily.h
+  ../Core/GraphicsScene.h
+  ../Core/GraphicsView.h  
+  ../Core/Tool.h
   )
 
 QT4_WRAP_CPP( TinkercellCore_MOC ${TINKERCELL_CORE_HDRS})

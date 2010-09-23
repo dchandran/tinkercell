@@ -57,7 +57,7 @@ namespace Tinkercell
 	void GraphicsReplaceTool::makeNodeSelectionDialog()
 	{
 		QString appDir = QCoreApplication::applicationDirPath();
-		QString homeDir = mainWindow->homeDir();
+		QString homeDir = MainWindow::homeDir();
 
 		tabWidget = new QTabWidget(mainWindow);
 
@@ -72,13 +72,19 @@ namespace Tinkercell
 			graphicsDir2.setFilter(QDir::AllDirs);
 			graphicsDir1.setSorting(QDir::Name);
 			graphicsDir2.setSorting(QDir::Name);
-			QFileInfoList subdirs = graphicsDir1.entryInfoList() + graphicsDir2.entryInfoList();
+			QFileInfoList subdirs;
+			
+			if (graphicsDir1.exists())	
+				subdirs += graphicsDir1.entryInfoList();
+			
+			if (graphicsDir2.exists())
+				subdirs += graphicsDir2.entryInfoList();
 			
 			QFileInfoList list;
 			
-			for (int j = 0; j < list.size(); ++j) //for each theme file inside Graphics
+			for (int j = 0; j < subdirs.size(); ++j) //for each theme file inside Graphics
 			{
-				QDir dir(list.at(j).absoluteFilePath() + tr("/") + headers[i]); //get Grpahics/theme/header dir
+				QDir dir(subdirs.at(j).absoluteFilePath() + tr("/") + headers[i]); //get Grpahics/theme/header dir
 				if (dir.exists())
 				{
 					dir.setFilter(QDir::Files);
@@ -91,14 +97,13 @@ namespace Tinkercell
 
 			for (int j = 0; j < list.size(); ++j)
 			{
-				QFileInfo fileInfo = list.at(j);
-				QDir dir(fileInfo.absoluteFilePath() + tr("/") + headers[i]); //get Grpahics/theme/header dir
+				QFileInfo fileInfo = list.at(j);				
 				if (fileInfo.completeSuffix().toLower() == tr("png") &&
-					dir.exists(fileInfo.baseName() + tr(".xml")))
+					QFile::exists(fileInfo.absolutePath() + tr("/") + fileInfo.baseName() + tr(".xml")))
 				{
 					QListWidgetItem * item = new QListWidgetItem(QIcon(fileInfo.absoluteFilePath()),
 						fileInfo.baseName(),nodesListWidget);
-                    item->setData(3,dir.absolutePath() + tr("/") + fileInfo.baseName() + tr(".xml"));
+                    item->setData(3,fileInfo.absolutePath() + tr("/") + fileInfo.baseName() + tr(".xml"));
 					item->setSizeHint(QSize(20,20));
 					nodesListWidget->addItem(item);
 					nodesFilesList << item->data(3).toString();

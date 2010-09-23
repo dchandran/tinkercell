@@ -352,10 +352,9 @@ namespace Tinkercell
 		openedByUser = false;
 
 		QString appDir = QCoreApplication::applicationDirPath();
-
-		NodeGraphicsReader reader;
+		NodeGraphicsReader reader;		
 		reader.readXml(&item,appDir + tr("/icons/monitor.xml"));
-
+		
 		item.normalize();
 		item.scale(30.0/item.sceneBoundingRect().width(),35.0/item.sceneBoundingRect().height());
 		

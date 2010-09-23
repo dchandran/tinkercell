@@ -154,7 +154,7 @@ namespace Tinkercell
         /*! \brief one of the network is closing*/
         void networkClosing(NetworkHandle * , bool *);
         /*! \brief select theme for nodes and connection arrows*/
-		void selectTheme();
+		void selectTheme(QAbstractButton * button);
     private:
 
         /*! \brief replaces the nodes graphics file with a new one*/
@@ -181,6 +181,10 @@ namespace Tinkercell
 
         /*! \brief store all the node graphics file names*/
         QHash<QString,QString> nodeGraphicsFileNames;
+        
+        void setupThemesDialog();
+        QDialog * selectThemesDialog;
+        
         friend class FamilyTreeButton;
     };
 

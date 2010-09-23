@@ -110,6 +110,8 @@ namespace Tinkercell
 		static QString DefaultMiddleItemFile;
 		/*! \brief used to initialize the arrow heads for a connection */
 		static QString DefaultArrowHeadFile;
+		/*! \brief just a name used identifying the connection */
+		QString name;
 		/*! \brief used for checking type before static casts */
 		QString className;
 		/*! \brief permanent brush for this control point*/

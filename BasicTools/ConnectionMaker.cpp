@@ -446,9 +446,10 @@ namespace Tinkercell
 			&& ((h1->isA("Part")) || (h2->isA(tr("Part")))))
 		{
 			ConnectionGraphicsItem::ControlPoint * cp;
-			qreal x1,x2,y;
+			qreal x1,x2,y,dy;
+			dy = nodes[0]->scenePos().y() - nodes[1]->scenePos().y();
 
-			//if (h1->isA("Part"))
+			if (h1->isA("Part") || (dy*dy < 2.0*nodes[0]->sceneBoundingRect().height()))
 			{
 				if (nodes[0]->sceneBoundingRect().top() < nodes[1]->sceneBoundingRect().top())
 					y = nodes[0]->sceneBoundingRect().top() - 2*nodes[0]->sceneBoundingRect().height();
@@ -459,10 +460,10 @@ namespace Tinkercell
 				AddControlPointCommand command1(tr(""),scene,cp);
 				command1.redo();
 			}
-			/*else
+			else
 			{
 				y = nodes[0]->scenePos().y();
-			}*/
+			}
 
 			//x1 = nodes[1]->sceneBoundingRect().left() + 20.0;
 			//x2 = nodes[1]->sceneBoundingRect().right() - 20.0;

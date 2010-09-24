@@ -93,7 +93,7 @@ namespace Tinkercell
 						if (itemHandle->children.isEmpty())
 							return QVariant(itemHandle->textData(QString("Rate equations")));
 						else
-							return QVariant("<abstraction>");
+							return QVariant("<grouped>");
 			}
 		}
 

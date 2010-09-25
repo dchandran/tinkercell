@@ -737,15 +737,15 @@ namespace Tinkercell
 
 		if (enableScene)
 		{
-			QAction* newAction = fileMenu->addAction(QIcon(tr(":/images/newscene.png")),tr("&New Graphics Scene"));
+			QAction* newAction = fileMenu->addAction(QIcon(tr(":/images/new.png")),tr("&New Graphics Scene"));
 			newAction->setShortcut(QKeySequence::New);
 			connect (newAction, SIGNAL(triggered()),this,SLOT(newScene()));
 			toolBarBasic->addAction(newAction);
 		}
 
-		if (enableText)
+		if (enableText && !enableScene)
 		{
-			QAction* newAction2 = fileMenu->addAction(QIcon(tr(":/images/newtext.png")),tr("New Text &Editor"));
+			QAction* newAction2 = fileMenu->addAction(QIcon(tr(":/images/new.png")),tr("New Text &Editor"));
 			newAction2->setShortcut(tr("CTRL+SHIFT+N"));
 			connect (newAction2, SIGNAL(triggered()),this,SLOT(newTextEditor()));
 			toolBarBasic->addAction(newAction2);

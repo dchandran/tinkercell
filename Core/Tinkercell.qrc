@@ -21,14 +21,13 @@
         <file>images/function.png</file>
         <file>images/graph.png</file>
 		<file>images/graph2.png</file>
+		<file>images/graph3.png</file>
         <file>images/group.png</file>
         <file>images/horizontalFlip.png</file>
         <file>images/image.png</file>
         <file>images/linearGradient.png</file>
         <file>images/merge.png</file>
         <file>images/new.png</file>
-        <file>images/newtext.png</file>
-        <file>images/newscene.png</file>
         <file>images/open.png</file>
         <file>images/paste.png</file>
         <file>images/pencil.png</file>
@@ -39,13 +38,12 @@
         <file>images/save.png</file>
         <file>images/sendBack.png</file>
         <file>images/separate.png</file>
-        <file>images/source.png</file>
         <file>images/text.png</file>
         <file>images/Tinkercell.png</file>
         <file>images/undo.png</file>
         <file>images/ungroup.png</file>
         <file>images/verticalFlip.png</file>
-        <file>images/x.png</file>
+        <file>images/zoom.png</file>
         <file>images/zoomin.png</file>
         <file>images/zoomout.png</file>
         <file>images/alignright.png</file>
@@ -61,13 +59,11 @@
         <file>images/cmd.png</file>
         <file>images/play.png</file>
         <file>images/empty.png</file>
-        <file>images/stop.png</file>
         <file>images/minus.png</file>
         <file>images/plus.png</file>
         <file>images/globe.png</file>
         <file>images/upArrow.png</file>
         <file>images/eye.png</file>
-        <file>images/phosphate.png</file>
         <file>images/antimony.png</file>
         <file>images/log.png</file>
         <file>images/up.png</file>
@@ -81,11 +77,21 @@
 		<file>images/camera.png</file>
 		<file>images/monitor.png</file>
 		<file>images/lock.png</file>
+		<file>images/unlock.png</file>
 		<file>images/clock.png</file>
 		<file>images/stepFunc.png</file>
 		<file>images/pulseFunc.png</file>
 		<file>images/sinFunc.png</file>
 		<file>images/legend.png</file>
 		<file>images/star.png</file>
+		<file>images/sun.png</file>
+		<file>images/puzzle.png</file>
+		<file>images/tool.png</file>
+		<file>images/paint.png</file>
+		<file>images/clipboard.png</file>
+		<file>images/key.png</file>
+		<file>images/greenFlag.png</file>
+		<file>images/hot.png</file>
+		<file>images/switch.png</file>
     </qresource>
 </RCC>

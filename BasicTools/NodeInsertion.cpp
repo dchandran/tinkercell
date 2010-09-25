@@ -241,6 +241,7 @@ namespace Tinkercell
 						if (handles[i] && handles.indexOf(handles[i]) == i)
 							text += handles[i]->name + " ";
 					scene->insert(text + tr("inserted"),list);
+					mainWindow->sendEscapeSignal(this);
 				}
 			}
 		}

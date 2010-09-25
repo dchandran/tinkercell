@@ -1088,9 +1088,10 @@ namespace Tinkercell
 
 					if (catalogWidget && selectedFamily->children().isEmpty())
 						catalogWidget->showButtons(QStringList() << selectedFamily->name());
-
+						
 					selectedNodes.clear();
 					selectedConnections.clear();
+					mainWindow->sendEscapeSignal(this);
 				}
 				else
 				{

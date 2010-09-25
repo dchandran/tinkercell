@@ -376,7 +376,7 @@ specific for:\n\"\"\"\n\n") + text;
 
 			QToolBar * toolBar = mainWindow->toolBarForTools;
 			QAction * action = new QAction(tr("Coding Window"),toolBar);
-			action->setIcon(QIcon(tr(":/images/source.png")));
+			action->setIcon(QIcon(tr(":/images/tool.png")));
 
 			if (dock)
 				connect(action,SIGNAL(triggered()),dock,SLOT(show()));

@@ -97,16 +97,18 @@ namespace Tinkercell
         		homeDir.replace("/","\\\\");
 	        	script = QObject::tr("addpath(\"") + appDir + QObject::tr("\\\\") + OCTAVE_FOLDER + QObject::tr("\")\n");
 	        	if (QDir(homeDir + QObject::tr("/") + OCTAVE_FOLDER).exists())
-		        	script = QObject::tr("addpath(\"") + homeDir + QObject::tr("\\\\") + OCTAVE_FOLDER + QObject::tr("\")\n");
+		        	script += QObject::tr("addpath(\"") + homeDir + QObject::tr("\\\\") + OCTAVE_FOLDER + QObject::tr("\")\n");
 	        #else
+	        
 	        	script = QObject::tr("addpath(\"") + appDir + QObject::tr("/") + OCTAVE_FOLDER + QObject::tr("\")\n");
 	        	if (QDir(homeDir + QObject::tr("/") + OCTAVE_FOLDER).exists())
-		        	script = QObject::tr("addpath(\"") + homeDir + QObject::tr("/") + OCTAVE_FOLDER + QObject::tr("\")\n");
+		        	script += QObject::tr("addpath(\"") + homeDir + QObject::tr("/") + OCTAVE_FOLDER + QObject::tr("\")\n");
         	#endif
 	        	script += QObject::tr("tinkercell('global')\n");
 	        	addpathDone = true;
 	        }
 			
+			mainWindow->console()->message(script);
 			script += code;
 
             QString currentDir = QDir::currentPath();

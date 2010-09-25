@@ -4,7 +4,7 @@ Copyright (c) 2008 Deepak Chandran
 Contact: Deepak Chandran (dchandran1@gmail.com)
 See COPYRIGHT.TXT
 
-The BasicGraphicsToolbox is a tool that has various simple function such as
+The BasicGraphicsToolbar is a tool that has various simple function such as
 coloring, zooming, aligning, etc. A toolbar is placed on the main window that has
 buttons for all these functions.
 
@@ -19,34 +19,32 @@ buttons for all these functions.
 #include "NodeGraphicsItem.h"
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
-#include "BasicGraphicsToolbox.h"
-#include "GraphicsTransformTool.h"
+#include "BasicGraphicsToolbar.h"
 
 namespace Tinkercell
 {
 
-	BasicGraphicsToolbox::BasicGraphicsToolbox() : Tool(tr("Basic Graphics Toolbox"),tr("Basic GUI"))
+	BasicGraphicsToolbar::BasicGraphicsToolbar() : Tool(tr("Basic Graphics Toolbox"),tr("Basic GUI"))
 	{
 		mode = none;
 	}
 	
-	void BasicGraphicsToolbox::init()
+	void BasicGraphicsToolbar::init()
 	{
-		QToolBar * zoomToolBar = mainWindow->toolBarForTools;
-		zoomToolBar->setObjectName(tr("Zoom tool"));
+		QToolBar * toolBar = mainWindow->toolBarForTools;
+		toolBar->setObjectName(name);
 		
-		zoomToolBar->addAction(QIcon(tr(":/images/zoomin.png")),tr("Zoom in"),this,SLOT(zoomIn()));
-		zoomToolBar->addAction(QIcon(tr(":/images/zoomout.png")),tr("Zoom out"),this,SLOT(zoomOut()));
-		
-		QToolBar * colorToolBar = mainWindow->toolBarForTools;
-		colorToolBar->setObjectName(name);
+		toolBar->addAction(QIcon(tr(":/images/zoomin.png")),tr("Zoom in"),this,SLOT(zoomIn()));
+		toolBar->addAction(QIcon(tr(":/images/zoomout.png")),tr("Zoom out"),this,SLOT(zoomOut()));
 
-		QToolButton * changeBrush = new QToolButton(colorToolBar);
-		changeBrush->setPopupMode(QToolButton::MenuButtonPopup);
-		changeBrush->setIcon(QIcon(tr(":/images/bucket.png")));
-		connect(changeBrush,SIGNAL(pressed()),this,SLOT(changeBrush()));
+		QToolButton * setColor = new QToolButton(toolBar);
+		setColor->setPopupMode(QToolButton::MenuButtonPopup);
+		setColor->setIcon(QIcon(tr(":/images/paint.png")));
+		 
+		QAction * changeBrush = new QAction(QIcon(tr(":/images/bucket.png")),tr("Fill color"),toolBar);
+		connect(changeBrush,SIGNAL(triggered()),this,SLOT(changeBrush()));
 
-		gradientMenu = new QMenu(tr("Gradients"),changeBrush);
+		gradientMenu = new QMenu(tr("Gradients"),setColor);
 		QAction * noGradient = new QAction(tr("None"),gradientMenu);
 		connect(noGradient,SIGNAL(triggered()),this,SLOT(noGradient()));
 		QAction * linearGradient = new QAction(tr("Linear"),gradientMenu);
@@ -77,18 +75,18 @@ namespace Tinkercell
 		penColor = QColor(10,10,10,255);
 		penWidth = 1.0;
 
-		QMenu * changeBrushMenu = new QMenu(gradientMenu);
+		QMenu * changeColorMenu = new QMenu(gradientMenu);
 
-		changeBrushColor1 = new QAction(tr("Color 1"),changeBrushMenu);
+		changeBrushColor1 = new QAction(tr("Color 1"),changeColorMenu);
 		connect(changeBrushColor1,SIGNAL(triggered()),this,SLOT(selectBrushColor1()));
 
-		changeBrushColor2 = new QAction(tr("Color 2"),changeBrushMenu);
+		changeBrushColor2 = new QAction(tr("Color 2"),changeColorMenu);
 		connect(changeBrushColor2,SIGNAL(triggered()),this,SLOT(selectBrushColor2()));
 
-		changeBrushAlpha1 = new QAction(tr("Transparency 1"),changeBrushMenu);
+		changeBrushAlpha1 = new QAction(tr("Transparency 1"),changeColorMenu);
 		connect(changeBrushAlpha1,SIGNAL(triggered()),this,SLOT(selectBrushAlpha1()));
 
-		changeBrushAlpha2 = new QAction(tr("Transparency 2"),changeBrushMenu);
+		changeBrushAlpha2 = new QAction(tr("Transparency 2"),changeColorMenu);
 		connect(changeBrushAlpha2,SIGNAL(triggered()),this,SLOT(selectBrushAlpha2()));
 
 		QPixmap bcolor1(20,20);
@@ -119,44 +117,27 @@ namespace Tinkercell
 		painter4.drawRect(0,0,20,20);
 		changeBrushAlpha2->setIcon(QIcon(balpha2));
 
-		changeBrushMenu->addAction(changeBrushColor1);
-		changeBrushMenu->addAction(changeBrushColor2);
-		changeBrushMenu->addSeparator();
-		changeBrushMenu->addMenu(gradientMenu);
-		changeBrushMenu->addSeparator();
-		changeBrushMenu->addAction(changeBrushAlpha1);
-		changeBrushMenu->addAction(changeBrushAlpha2);
-		changeBrush->setMenu(changeBrushMenu);
+		changeColorMenu->addAction(changeBrush);
+		changeColorMenu->addSeparator();
+		changeColorMenu->addAction(changeBrushColor1);
+		changeColorMenu->addAction(changeBrushColor2);
+		changeColorMenu->addAction(changeBrushAlpha1);
+		changeColorMenu->addAction(changeBrushAlpha2);
+		changeColorMenu->addMenu(gradientMenu);
+		changeColorMenu->addSeparator();
 
-		QToolButton * changePen = new QToolButton(colorToolBar);
-		changePen->setPopupMode(QToolButton::MenuButtonPopup);
-		changePen->setIcon(QIcon(tr(":/images/pencil.png")));
-		connect(changePen,SIGNAL(pressed()),this,SLOT(changePen()));
+		QAction * changePen = new QAction(QIcon(tr(":/images/pencil.png")),tr("Set outline"),toolBar);
+		connect(changePen,SIGNAL(triggered()),this,SLOT(changePen()));
+		changeColorMenu->addAction(changePen);
+		changePenWidth = new QAction(tr("Width = ") + QString::number(penWidth),changeColorMenu);
+		connect(changePenWidth,SIGNAL(triggered()),this,SLOT(selectPenWidth()));
+		changeColorMenu->addAction(changePenWidth);
+		
+		setColor->setMenu(changeColorMenu);
 
-		QMenu * changePenMenu = new QMenu(changePen);
-		changePenColor = new QAction(tr("Color"),0);
-		connect(changePenColor,SIGNAL(triggered()),this,SLOT(selectPenColor()));
-		QPixmap pcolor(20,20);
-		QPainter painter5(&pcolor);
-		painter5.setBrush(QBrush(penColor));
-		painter5.setPen(Qt::NoPen);
-		painter5.drawRect(0,0,20,20);
-		changePenColor->setIcon(QIcon(pcolor));
-		changePenMenu->addAction(changePenColor);
-		changePen->setMenu(changePenMenu);
+		alignButton = new QAction(toolBar);
 
-		QToolButton * bringFront = new QToolButton(colorToolBar);
-		bringFront->setIcon(QIcon(tr(":/images/bringFront.png")));
-		connect(bringFront,SIGNAL(pressed()),this,SLOT(bringToFront()));
-
-		QToolButton * sendBack = new QToolButton(colorToolBar);
-		sendBack->setIcon(QIcon(tr(":/images/sendBack.png")));
-		connect(sendBack,SIGNAL(pressed()),this,SLOT(sendToBack()));
-
-		alignButton = new QToolButton(colorToolBar);
-		alignButton->setPopupMode(QToolButton::MenuButtonPopup);
-
-		QMenu * alignMenu = new QMenu(colorToolBar);
+		QMenu * alignMenu = new QMenu(toolBar);
 
 		alignMenu->addAction(QIcon(tr(":/images/alignright.png")),tr("Align right"),
 			this,SLOT(alignRight()));
@@ -186,28 +167,18 @@ namespace Tinkercell
 
 		alignMode = this->compacthorizontal;
 		alignButton->setIcon(QIcon(tr(":/images/aligncompacthorizontal.png")));
-		connect(alignButton,SIGNAL(pressed()),this,SLOT(alignSelected()));
-
+		
 		changeBrush->setToolTip(tr("Change fill color"));
-		colorToolBar->addWidget(changeBrush);
 		changePen->setToolTip(tr("Change outline color"));
-		colorToolBar->addWidget(changePen);
-		bringFront->setToolTip(tr("Bring items forward"));
-		colorToolBar->addWidget(bringFront);
-		sendBack->setToolTip(tr("Send items back"));
-		colorToolBar->addWidget(sendBack);
 		alignButton->setToolTip(tr("Align items"));
-		colorToolBar->addWidget(alignButton);
-
-		changePenWidth = new QAction(tr("Width = ") + QString::number(penWidth),changePenMenu);
-		connect(changePenWidth,SIGNAL(triggered()),this,SLOT(selectPenWidth()));
-		changePenMenu->addAction(changePenWidth);
+		
+		toolBar->addWidget(setColor);
 
 		findText = replaceText = 0;
 		findToolBar = 0;
 	}
 
-	void BasicGraphicsToolbox::selectPenWidth()
+	void BasicGraphicsToolbar::selectPenWidth()
 	{
 		bool ok;
 		double d = QInputDialog::getDouble(mainWindow,tr("Pen Width"),tr("Set pen width"),penWidth,0.1,100.0,1,&ok);
@@ -218,7 +189,7 @@ namespace Tinkercell
 		}
 	}
 
-	bool BasicGraphicsToolbox::setMainWindow(MainWindow * main)
+	bool BasicGraphicsToolbar::setMainWindow(MainWindow * main)
 	{
 		Tool::setMainWindow(main);
 		if (main != 0)
@@ -237,12 +208,10 @@ namespace Tinkercell
 			replaceAction->setShortcut(QKeySequence::Replace);
 
 			findToolBar->addWidget(findText);
-			//findToolBar->addAction(QIcon(tr(":/images/find.png")),tr("Find text"),this,SLOT(find()));
-			findToolBar->addAction(tr("Find"),this,SLOT(find()));
+			findToolBar->addAction(tr("&Find"),this,SLOT(find()));
 			findToolBar->addSeparator();
 			findToolBar->addWidget(replaceText);
-			//findToolBar->addAction(QIcon(tr(":/images/replace.png")),tr("Replace text"),this,SLOT(rename()));
-			findToolBar->addAction(tr("Replace"),this,SLOT(rename()));
+			findToolBar->addAction(tr("&Replace"),this,SLOT(rename()));
 			findToolBar->addSeparator();
 
 			QAction * escape1 = new QAction(findText);
@@ -253,7 +222,7 @@ namespace Tinkercell
 			escape2->setShortcut(QKeySequence(Qt::Key_Escape));
 			connect(escape2,SIGNAL(triggered()),this,SLOT(closeFind()));
 
-			QAction * escape = findToolBar->addAction(QIcon(tr(":/images/x.png")),tr("close"),this,SLOT(closeFind()));
+			QAction * escape = findToolBar->addAction(QIcon(tr(":/images/minus.png")),tr("close"),this,SLOT(closeFind()));
 			escape->setShortcut(QKeySequence(Qt::Key_Escape));
 
 			connect(findText,SIGNAL(returnPressed()),this,SLOT(find()));
@@ -274,6 +243,14 @@ namespace Tinkercell
 			{
 				mainWindow->editMenu->addAction(findAction);
 				mainWindow->editMenu->addAction(replaceAction);
+			}
+			
+			if (mainWindow->viewMenu)
+			{
+				QAction * fitAll = mainWindow->viewMenu->addAction(QIcon(tr(":/images/fitAll.png")),tr("Fit &all"));
+				fitAll->setShortcut(tr("F5"));
+				mainWindow->contextScreenMenu.addAction(fitAll);
+				connect(fitAll,SIGNAL(triggered()),this,SLOT(fitAll()));
 			}
 
 			mainWindow->contextScreenMenu.addAction(
@@ -298,6 +275,8 @@ namespace Tinkercell
                 tr("Send items back"),
                 this,
                 SLOT(sendToBack()));
+            
+            mainWindow->contextItemsMenu.addAction(alignButton);
 
 			connect(mainWindow,SIGNAL(escapeSignal(const QWidget*)),this,SLOT(escapeSlot(const QWidget*)));
 
@@ -318,7 +297,7 @@ namespace Tinkercell
 		return false;
 	}
 
-	void BasicGraphicsToolbox::setBackgroundImage()
+	void BasicGraphicsToolbar::setBackgroundImage()
 	{
 		if (!currentScene()) return;
 
@@ -331,13 +310,19 @@ namespace Tinkercell
 			currentScene()->setBackground(image);
 	}
 
-	void BasicGraphicsToolbox::unsetBackgroundImage()
+	void BasicGraphicsToolbar::unsetBackgroundImage()
 	{
 		if (!currentScene()) return;
 		currentScene()->setBackground(QPixmap());
 	}
+	
+	void BasicGraphicsToolbar::fitAll()
+	{
+		if (currentScene())
+			currentScene()->fitAll();
+	}
 
-	void BasicGraphicsToolbox::closeFind()
+	void BasicGraphicsToolbar::closeFind()
 	{
 		if (findText) findText->clear();
 		if (replaceText) replaceText->clear();
@@ -346,7 +331,7 @@ namespace Tinkercell
 			findToolBar->hide();
 	}
 
-	void BasicGraphicsToolbox::find()
+	void BasicGraphicsToolbar::find()
 	{
 		if (!mainWindow || !findText) return;
 
@@ -357,7 +342,7 @@ namespace Tinkercell
 				currentTextEditor()->find(findText->text());
 	}
 
-	void BasicGraphicsToolbox::rename()
+	void BasicGraphicsToolbar::rename()
 	{
 		if (!currentNetwork() || !findText || !replaceText || findText->text().isEmpty()) return;
 
@@ -365,7 +350,7 @@ namespace Tinkercell
 			currentNetwork()->rename(findText->text(),replaceText->text());
 	}
 
-	void BasicGraphicsToolbox::noGradient()
+	void BasicGraphicsToolbar::noGradient()
 	{
 		if (mode == gradient)
 			mode = brush;
@@ -373,7 +358,7 @@ namespace Tinkercell
 		gradientMenu->setIcon(QIcon());
 	}
 
-	void BasicGraphicsToolbox::linearGradient()
+	void BasicGraphicsToolbar::linearGradient()
 	{
 		if (mode == brush)
 			mode = gradient;
@@ -381,7 +366,7 @@ namespace Tinkercell
 		gradientMenu->setIcon(linearGradientIcon);
 	}
 
-	void BasicGraphicsToolbox::radialGradient()
+	void BasicGraphicsToolbar::radialGradient()
 	{
 		if (mode == brush)
 			mode = gradient;
@@ -389,7 +374,7 @@ namespace Tinkercell
 		gradientMenu->setIcon(radialGradientIcon);
 	}
 
-	void BasicGraphicsToolbox::bringToFront()
+	void BasicGraphicsToolbar::bringToFront()
 	{
 		if (mainWindow != 0 && mainWindow->currentScene() != 0)
 		{
@@ -417,7 +402,7 @@ namespace Tinkercell
 		}
 	}
 
-	void BasicGraphicsToolbox::sendToBack()
+	void BasicGraphicsToolbar::sendToBack()
 	{
 		if (mainWindow != 0 && mainWindow->currentScene() != 0)
 		{
@@ -445,65 +430,7 @@ namespace Tinkercell
 		}
 	}
 
-	void BasicGraphicsToolbox::group()
-	{
-		if (mainWindow != 0 && mainWindow->currentScene() != 0)
-		{
-			GraphicsScene * scene = mainWindow->currentScene();
-			QList<QGraphicsItem*> selected = scene->selected();
-
-			if (selected.size() < 1) return;
-
-			scene->deselect();
-
-			QList<QGraphicsItem*> items;
-			for (int i=0; i < selected.size(); ++i)
-				if (selected[i] != 0)
-				{
-					ConnectionGraphicsItem * connection = ConnectionGraphicsItem::topLevelConnectionItem(selected[i]);
-					if (connection != 0)
-					{
-						QList<ConnectionGraphicsItem::ControlPoint*> cplist = connection->controlPoints();
-						for (int j=0; j < cplist.size(); ++j)
-							items += cplist[j];
-					}
-					else
-						items += selected[i]->topLevelItem();
-				}
-				QGraphicsItemGroup * grp = new QGraphicsItemGroup(0,scene);
-				scene->setParentItem(tr("items grouped"),items,grp);
-		}
-	}
-
-	void BasicGraphicsToolbox::ungroup()
-	{
-		if (mainWindow != 0 && mainWindow->currentScene() != 0)
-		{
-			GraphicsScene * scene = mainWindow->currentScene();
-			QList<QGraphicsItem*> selected = scene->selected();
-
-			if (selected.size() < 1) return;
-			scene->deselect();
-
-			QGraphicsItemGroup * groupItem = 0;
-			for (int i=0; i < selected.size(); ++i)
-				if (selected[i] != 0)
-				{
-					groupItem = dynamic_cast<QGraphicsItemGroup*>(selected[i]->topLevelItem());
-					if (groupItem != 0 &&
-						NodeGraphicsItem::cast(selected[i]->topLevelItem()) == 0)
-					{
-						QList<QGraphicsItem*> list = groupItem->childItems();
-						scene->setParentItem(tr("ungroup"),list,0);
-						scene->remove(tr("remove group"),groupItem);
-						//scene->destroyItemGroup(groupItem);
-						break;
-					}
-				}
-		}
-	}
-
-	void BasicGraphicsToolbox::zoomIn()
+	void BasicGraphicsToolbar::zoomIn()
 	{
 		if (currentScene())
 		{
@@ -522,7 +449,7 @@ namespace Tinkercell
 			}
 	}
 
-	void BasicGraphicsToolbox::zoomOut()
+	void BasicGraphicsToolbar::zoomOut()
 	{
 		if (currentScene())
 		{
@@ -539,7 +466,7 @@ namespace Tinkercell
 			}
 	}
 
-	void BasicGraphicsToolbox::changeBrush()
+	void BasicGraphicsToolbar::changeBrush()
 	{
 		if (mainWindow != 0 && mainWindow->currentScene() != 0)
 			//&& (mode != none || mainWindow->currentScene()->useDefaultBehavior))
@@ -554,7 +481,7 @@ namespace Tinkercell
 		}
 	}
 
-	void BasicGraphicsToolbox::changePen()
+	void BasicGraphicsToolbar::changePen()
 	{
 		if (mainWindow != 0 && mainWindow->currentScene() != 0)
 			//&& (mode != none || mainWindow->currentScene()->useDefaultBehavior))
@@ -566,7 +493,7 @@ namespace Tinkercell
 		}
 	}
 
-	void BasicGraphicsToolbox::selectBrushColor1()
+	void BasicGraphicsToolbar::selectBrushColor1()
 	{
 		if (!mainWindow || !mainWindow->currentScene()) return;
 		bool b = mainWindow->currentScene()->useDefaultBehavior;
@@ -575,7 +502,7 @@ namespace Tinkercell
 		if (color.isValid())
 		{
 			int a = brushColor1.alpha();
-			brushColor1 = color;
+			penColor = brushColor1 = color;
 			brushColor1.setAlpha(a);
 			QPixmap bcolor1(20,20);
 			QPainter painter(&bcolor1);
@@ -586,7 +513,7 @@ namespace Tinkercell
 		}
 	}
 
-	void BasicGraphicsToolbox::selectBrushAlpha1()
+	void BasicGraphicsToolbar::selectBrushAlpha1()
 	{
 		if (!mainWindow || !mainWindow->currentScene()) return;
 		bool b = mainWindow->currentScene()->useDefaultBehavior;
@@ -605,7 +532,7 @@ namespace Tinkercell
 		}
 	}
 
-	void BasicGraphicsToolbox::selectBrushColor2()
+	void BasicGraphicsToolbar::selectBrushColor2()
 	{
 		if (!mainWindow || !mainWindow->currentScene()) return;
 		bool b = mainWindow->currentScene()->useDefaultBehavior;
@@ -625,7 +552,7 @@ namespace Tinkercell
 		}
 	}
 
-	void BasicGraphicsToolbox::selectBrushAlpha2()
+	void BasicGraphicsToolbar::selectBrushAlpha2()
 	{
 		if (!mainWindow || !mainWindow->currentScene()) return;
 		bool b = mainWindow->currentScene()->useDefaultBehavior;
@@ -644,25 +571,7 @@ namespace Tinkercell
 		}
 	}
 
-	void BasicGraphicsToolbox::selectPenColor()
-	{
-		if (!mainWindow || !mainWindow->currentScene()) return;
-		bool b = mainWindow->currentScene()->useDefaultBehavior;
-		QColor color = QColorDialog::getColor(penColor);
-		mainWindow->currentScene()->useDefaultBehavior = b;
-		if (color.isValid())
-		{
-			penColor = color;
-			QPixmap pcolor(20,20);
-			QPainter painter(&pcolor);
-			painter.setBrush(QBrush(penColor));
-			painter.setPen(Qt::NoPen);
-			painter.drawRect(0,0,20,20);
-			changePenColor->setIcon(QIcon(pcolor));
-		}
-	}
-
-	void BasicGraphicsToolbox::mousePressed(GraphicsScene * scene, QPointF , Qt::MouseButton button, Qt::KeyboardModifiers )
+	void BasicGraphicsToolbar::mousePressed(GraphicsScene * scene, QPointF , Qt::MouseButton button, Qt::KeyboardModifiers )
 	{
 		if (scene && button == Qt::LeftButton && mode == zoom)
 		{
@@ -681,7 +590,7 @@ namespace Tinkercell
 		}
 	}
 
-	void BasicGraphicsToolbox::mouseMoved(GraphicsScene * scene, QGraphicsItem* , QPointF point, Qt::MouseButton button, Qt::KeyboardModifiers , QList<QGraphicsItem*>& )
+	void BasicGraphicsToolbar::mouseMoved(GraphicsScene * scene, QGraphicsItem* , QPointF point, Qt::MouseButton button, Qt::KeyboardModifiers , QList<QGraphicsItem*>& )
 	{
 		if (scene && button == Qt::LeftButton && mode == zoom && zoomRect.isVisible())
 		{
@@ -691,7 +600,7 @@ namespace Tinkercell
 		}
 	}
 
-	void BasicGraphicsToolbox::mouseDragged(GraphicsScene * scene, QPointF from, QPointF to, Qt::MouseButton button, Qt::KeyboardModifiers )
+	void BasicGraphicsToolbar::mouseDragged(GraphicsScene * scene, QPointF from, QPointF to, Qt::MouseButton button, Qt::KeyboardModifiers )
 	{
 		if (scene == 0) return;
 
@@ -845,7 +754,7 @@ namespace Tinkercell
 		}
 	}
 
-	void BasicGraphicsToolbox::mouseReleased(GraphicsScene * scene, QPointF point, Qt::MouseButton button, Qt::KeyboardModifiers )
+	void BasicGraphicsToolbar::mouseReleased(GraphicsScene * scene, QPointF point, Qt::MouseButton button, Qt::KeyboardModifiers )
 	{
 		if (scene != 0 && button == Qt::LeftButton)
 		{
@@ -975,7 +884,7 @@ namespace Tinkercell
 		}
 	}
 
-	void BasicGraphicsToolbox::escapeSlot(const QWidget* )
+	void BasicGraphicsToolbar::escapeSlot(const QWidget* )
 	{
 		if (mode != none)
 		{
@@ -986,7 +895,7 @@ namespace Tinkercell
 		}
 	}
 
-	QList<QGraphicsItem*> BasicGraphicsToolbox::itemsToAlign(QList<QGraphicsItem*>& selected)
+	QList<QGraphicsItem*> BasicGraphicsToolbar::itemsToAlign(QList<QGraphicsItem*>& selected)
 	{
 		QList<QGraphicsItem*> nodeslist, textlist, cplist;
 
@@ -1036,7 +945,7 @@ namespace Tinkercell
 			return cplist;
 	}
 
-	void BasicGraphicsToolbox::moveTextGraphicsItems(QList<QGraphicsItem*> & items,QList<QPointF> & points)
+	void BasicGraphicsToolbar::moveTextGraphicsItems(QList<QGraphicsItem*> & items,QList<QPointF> & points)
 	{
 		NodeGraphicsItem* node = 0;
 		TextGraphicsItem* text = 0;
@@ -1070,7 +979,7 @@ namespace Tinkercell
 		}
 	}
 
-	void BasicGraphicsToolbox::moveChildItems(QList<QGraphicsItem*> & items, QList<QPointF> & points)
+	void BasicGraphicsToolbar::moveChildItems(QList<QGraphicsItem*> & items, QList<QPointF> & points)
 	{
 		ItemHandle * handle;
 		QList<ItemHandle*> visited;
@@ -1115,7 +1024,7 @@ namespace Tinkercell
 		}
 	}
 
-	void BasicGraphicsToolbox::alignLeft()
+	void BasicGraphicsToolbar::alignLeft()
 	{
 		if (!mainWindow || !mainWindow->currentScene()) return;
 		GraphicsScene * scene = mainWindow->currentScene();
@@ -1155,7 +1064,7 @@ namespace Tinkercell
 		}
 
 	}
-	void BasicGraphicsToolbox::alignRight()
+	void BasicGraphicsToolbar::alignRight()
 	{
 		if (!mainWindow || !mainWindow->currentScene()) return;
 		GraphicsScene * scene = mainWindow->currentScene();
@@ -1194,7 +1103,7 @@ namespace Tinkercell
 			scene->move(list,newPositions);
 		}
 	}
-	void BasicGraphicsToolbox::alignTop()
+	void BasicGraphicsToolbar::alignTop()
 	{
 		if (!mainWindow || !mainWindow->currentScene()) return;
 		GraphicsScene * scene = mainWindow->currentScene();
@@ -1233,7 +1142,7 @@ namespace Tinkercell
 			scene->move(list,newPositions);
 		}
 	}
-	void BasicGraphicsToolbox::alignBottom()
+	void BasicGraphicsToolbar::alignBottom()
 	{
 		if (!mainWindow || !mainWindow->currentScene()) return;
 		GraphicsScene * scene = mainWindow->currentScene();
@@ -1272,7 +1181,7 @@ namespace Tinkercell
 			scene->move(list,newPositions);
 		}
 	}
-	void BasicGraphicsToolbox::alignCompactVertical()
+	void BasicGraphicsToolbar::alignCompactVertical()
 	{
 		if (!mainWindow || !mainWindow->currentScene()) return;
 		GraphicsScene * scene = mainWindow->currentScene();
@@ -1343,7 +1252,7 @@ namespace Tinkercell
 
 		scene->transform(tr("change size"),selected,changeWidth,emptyList,false,false);*/
 	}
-	void BasicGraphicsToolbox::alignCompactHorizontal()
+	void BasicGraphicsToolbar::alignCompactHorizontal()
 	{
 		if (!mainWindow || !mainWindow->currentScene()) return;
 		GraphicsScene * scene = mainWindow->currentScene();
@@ -1414,7 +1323,7 @@ namespace Tinkercell
 
 		scene->transform(tr("change size"),selected,changeHeight,emptyList,false,false);*/
 	}
-	void BasicGraphicsToolbox::alignEvenSpacedVertical()
+	void BasicGraphicsToolbar::alignEvenSpacedVertical()
 	{
 		if (!mainWindow || !mainWindow->currentScene()) return;
 		GraphicsScene * scene = mainWindow->currentScene();
@@ -1489,7 +1398,7 @@ namespace Tinkercell
 		moveTextGraphicsItems(list,newPositions);
 		scene->move(list,newPositions);
 	}
-	void BasicGraphicsToolbox::alignEvenSpacedHorizontal()
+	void BasicGraphicsToolbar::alignEvenSpacedHorizontal()
 	{
 		if (!mainWindow || !mainWindow->currentScene()) return;
 		GraphicsScene * scene = mainWindow->currentScene();
@@ -1565,7 +1474,7 @@ namespace Tinkercell
 		scene->move(list,newPositions);
 	}
 
-	void BasicGraphicsToolbox::alignSelected()
+	void BasicGraphicsToolbar::alignSelected()
 	{
 		switch (alignMode)
 		{

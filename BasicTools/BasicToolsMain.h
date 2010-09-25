@@ -13,7 +13,6 @@ Function that loads dll into main window
 #include "ConnectionInsertion.h"
 #include "ConnectionMaker.h"
 #include "NodeInsertion.h"
-#include "BasicGraphicsToolbox.h"
 #include "GraphicsReplaceTool.h"
 #include "GraphicsTransformTool.h"
 #include "GroupHandlerTool.h"

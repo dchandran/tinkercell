@@ -4,7 +4,7 @@ Copyright (c) 2008 Deepak Chandran
 Contact: Deepak Chandran (dchandran1@gmail.com)
 See COPYRIGHT.TXT
 
-The BasicGraphicsToolbox is a tool that has various simple function such as
+The BasicGraphicsToolbar is a tool that has various simple function such as
 coloring, zooming, aligning, etc. A toolbar is placed on the main window that has
 buttons for all these functions.
 
@@ -44,12 +44,12 @@ buttons for all these functions.
 
 namespace Tinkercell
 {
-	class BasicGraphicsToolbox : public Tool
+	class BasicGraphicsToolbar : public Tool
 	{
 		Q_OBJECT
 
 	public:
-		BasicGraphicsToolbox();
+		BasicGraphicsToolbar();
 		bool setMainWindow(MainWindow * main);
 
 	public slots:
@@ -63,15 +63,13 @@ namespace Tinkercell
 		void closeFind();
 		void rename();
 		void zoomOut();
-		void group();
-		void ungroup();
+		void fitAll();
 		void changeBrush();
 		void changePen();
 		void selectBrushColor1();
 		void selectBrushAlpha1();
 		void selectBrushColor2();
 		void selectBrushAlpha2();
-		void selectPenColor();
 		void selectPenWidth();
 		void noGradient();
 		void linearGradient();
@@ -106,7 +104,7 @@ namespace Tinkercell
 		QToolBar * findToolBar;
 		QColor brushColor1, brushColor2, penColor;
 		qreal penWidth;
-		QAction * changeBrushColor1, * changeBrushColor2, * changePenColor, *changePenWidth, *changeBrushAlpha1, *changeBrushAlpha2;
+		QAction * changeBrushColor1, * changeBrushColor2, *changePenWidth, *changeBrushAlpha1, *changeBrushAlpha2;
 		QAction * findAction;
 		QSpinBox * brushAlpha1, * brushAlpha2, * penAlpha;
 		QLineEdit * findText;
@@ -116,7 +114,7 @@ namespace Tinkercell
 		enum Mode { none, gradient, brush, pen, zoom, unzoom };
 		Mode mode;
 		QGraphicsRectItem zoomRect;			
-		QToolButton * alignButton;
+		QAction * alignButton;
 		enum AlignMode { left, right, bottom, top, centervertical, centerhorizontal, evenspacedvertical, evenspacedhorizontal, compactvertical, compacthorizontal };
 		AlignMode alignMode;
 	};

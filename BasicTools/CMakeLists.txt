@@ -30,7 +30,6 @@ QT4_ADD_RESOURCES( TINKERCELL_BASICTOOLS_QRC ../Core/Tinkercell.qrc )
 
 SET(TINKERCELL_BASICTOOLS_SRC 
   ${TINKERCELL_BINARY_DIR}/BasicTools/TinkerCellAboutBox.cpp
-  BasicGraphicsToolbox.cpp
   CollisionDetection.cpp
   ConnectionInsertion.cpp
   ConnectionMaker.cpp
@@ -48,7 +47,6 @@ SET(TINKERCELL_BASICTOOLS_SRC
 )
 
 SET(TINKERCELL_BASICTOOLS_HDR
-  BasicGraphicsToolbox.h
   CollisionDetection.h
   ConnectionInsertion.h
   ConnectionMaker.h

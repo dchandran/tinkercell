@@ -7,6 +7,7 @@
 This is an example application that uses the TinkerCell Core library
 ****************************************************************************/
 
+#include "BasicGraphicsToolbar.h"
 #include "SimpleDesigner.h"
 
 using namespace Tinkercell;
@@ -457,17 +458,17 @@ int main(int argc, char *argv[])
 	
 	mainWindow.setWindowTitle(QString("Simple Designer"));
     mainWindow.statusBar()->showMessage(QString("Welcome to Simple Designer"));
-
-	Tool * tool = new SimpleDesigner;
-	mainWindow.addTool(tool);
+    
+	mainWindow.addTool(new SimpleDesigner);
+	mainWindow.addTool(new BasicGraphicsToolbar);
 	
 	GraphicsScene::SelectionRectangleBrush = QBrush(QColor(5,5,5,40));
 
     mainWindow.newScene();
-	
     mainWindow.show();
 
     int output = app.exec();
 
     return output;
 }
+

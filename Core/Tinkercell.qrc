@@ -7,7 +7,6 @@
 		<file>images/rightarrow.png</file>
         <file>images/bringFront.png</file>
         <file>images/blueDot.png</file>
-        <file>images/blueRect.png</file>
         <file>images/bucket.png</file>
         <file>images/changeView.png</file>
         <file>images/close.png</file>
@@ -69,7 +68,6 @@
         <file>images/up.png</file>
         <file>images/down.png</file>
         <file>images/module.png</file>
-		<file>images/lollipop.png</file>
         <file>images/parts.png</file>
 		<file>images/export.png</file>
 		<file>images/calc.png</file>

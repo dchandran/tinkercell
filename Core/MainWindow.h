@@ -395,10 +395,6 @@ namespace Tinkercell
 		*/
 		void printToFile();
 		/*!
-		* \brief adjusts the current's scene's view rectangle to fit all the visible items
-		*/
-		void fitAll();
-		/*!
 		* \brief sends a signal to all plugins telling them to exit their current processes.
 		*/
 		void sendEscapeSignal(const QWidget * w = 0);
@@ -431,6 +427,7 @@ namespace Tinkercell
 		static MainWindow * instance();
 
 	protected slots:
+		
 		/*! \brief pop-out the given window*/
 		void popOut(NetworkWindow *);
 		
@@ -838,10 +835,6 @@ namespace Tinkercell
 	private:
 		/*! \brief home directory path*/
 		static QString homeDirPath;
-		/*! \brief used to rename items*/
-		QLineEdit * renameOld;
-		/*! \brief used to rename items*/
-		QLineEdit * renameNew;
 		/*!
 		* \brief the global main window
 		*/

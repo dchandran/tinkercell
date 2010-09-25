@@ -9,6 +9,9 @@
 
 ****************************************************************************/
 
+#include "PlotTool.h"
+#include "GnuplotTool.h"
+#include "BasicGraphicsToolbar.h"
 #include "DefaultPluginsMenu.h"
 #include "GraphicsScene.h"
 #include "ConsoleWindow.h"
@@ -48,6 +51,9 @@ int main(int argc, char *argv[])
 
 
     MainWindow mainWindow;
+    mainWindow.addTool(new BasicGraphicsToolbar());
+    mainWindow.addTool(new PlotTool());
+	mainWindow.addTool(new GnuplotTool());
     
     mainWindow.setWindowTitle(QObject::tr("Tinkercell: synthetic biology CAD"));
     mainWindow.statusBar()->showMessage(QObject::tr("Welcome to Tinkercell"));

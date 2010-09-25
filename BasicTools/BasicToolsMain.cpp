@@ -30,9 +30,6 @@ extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)
 	
 	Tinkercell::TinkercellAboutBox * about = new Tinkercell::TinkercellAboutBox;
 	main->addTool(about);
-	
-	Tinkercell::BasicGraphicsToolbox * basicGraphicsToolbox = new Tinkercell::BasicGraphicsToolbox;
-	main->addTool(basicGraphicsToolbox);
 
 	Tinkercell::GraphicsReplaceTool * graphicsReplaceTool = new Tinkercell::GraphicsReplaceTool;	
 	main->addTool(graphicsReplaceTool);

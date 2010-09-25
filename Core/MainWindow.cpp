@@ -271,9 +271,6 @@ namespace Tinkercell
 		c_api_slots = new C_API_Slots(this);
 		
 		readSettings();
-
-		addTool(new PlotTool());
-		addTool(new GnuplotTool());
 	}
 
 	ConsoleWindow * MainWindow::console() const
@@ -716,12 +713,6 @@ namespace Tinkercell
 		    return currentNetworkWindow->network;
 		return 0;
 	}
-
-	void MainWindow::fitAll()
-	{
-		if (currentScene())
-			currentScene()->fitAll();
-	}
 	
 	void MainWindow::initializeMenus(bool enableScene, bool enableText)
 	{
@@ -790,13 +781,9 @@ namespace Tinkercell
 		QAction * redoAction = editMenu->addAction(QIcon(tr(":/images/redo.png")),tr("&Redo"));
 		redoAction->setShortcut(QKeySequence::Redo);
 		connect(redoAction,SIGNAL(triggered()),this,SLOT(redo()));
+		editMenu->addSeparator();
 
 		viewMenu = menuBar()->addMenu(tr("&View"));
-
-		QAction* fitAll = viewMenu->addAction(QIcon(tr(":/images/fitAll.png")),tr("Fit &all"));
-		fitAll->setShortcut(tr("F5"));
-		connect(fitAll,SIGNAL(triggered()),this,SLOT(fitAll()));
-
 
 		optionsMenu = menuBar()->addMenu(tr("&Options"));
 		QAction * changeUserHome = optionsMenu->addAction(QIcon(tr(":/images/appicon.png")), tr("&Set Home Directory"));
@@ -873,7 +860,6 @@ namespace Tinkercell
 		addToolBar(Qt::TopToolBarArea, toolBarEdits);
 		addToolBar(Qt::TopToolBarArea, toolBarForTools);
 
-		contextScreenMenu.addAction(fitAll);
 		contextScreenMenu.addAction(closeAction);
 		contextScreenMenu.addAction(undoAction);
 		contextScreenMenu.addAction(redoAction);
@@ -891,7 +877,6 @@ namespace Tinkercell
 		contextSelectionMenu.addAction(cutAction);
 		contextEditorMenu.addAction(pasteAction);
 
-		contextScreenMenu.addAction(fitAll);
 		contextScreenMenu.addAction(closeAction);
 
 		contextScreenMenu.addAction(undoAction);

@@ -27,6 +27,7 @@ FILE(GLOB TINKERCELL_CORE_HDRS
 	TextGraphicsItem.h
 	TextParser.h
 	Tool.h
+	BasicGraphicsToolbar.h
 )
 
 FILE(GLOB TINKERCELL_CORE_SRC *.cpp)

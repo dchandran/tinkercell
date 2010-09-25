@@ -20,7 +20,7 @@
 #include "TextGraphicsItem.h"
 #include "ConsoleWindow.h"
 #include "CollisionDetection.h"
-#include "BasicGraphicsToolbox.h"
+#include "BasicGraphicsToolbar.h"
 #include "ConnectionSelection.h"
 #include "NodeInsertion.h"
 #include "NodesTree.h"
@@ -828,7 +828,7 @@ namespace Tinkercell
 		if (!alreadyConnected2 && mainWindow->tool(tr("Basic Graphics Toolbox")))
 		{
 			QWidget * widget = mainWindow->tool(tr("Basic Graphics Toolbox"));
-			BasicGraphicsToolbox * basicToolBox = static_cast<BasicGraphicsToolbox*>(widget);
+			BasicGraphicsToolbar * basicToolBox = static_cast<BasicGraphicsToolbar*>(widget);
 			if (basicToolBox)
 			{
 				alreadyConnected2 = true;

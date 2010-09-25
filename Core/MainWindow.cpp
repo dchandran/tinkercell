@@ -228,7 +228,7 @@ namespace Tinkercell
 		connect(tabWidget,SIGNAL(currentChanged(int)),this,SLOT(tabIndexChanged(int)));
 
 		QToolButton * upButton = new QToolButton;
-		upButton->setIcon(QIcon(tr(":/images/rightarrow.png")));
+		upButton->setIcon(QIcon(tr(":/images/switch.png")));
 		tabWidget->setCornerWidget(upButton);
 		connect(upButton,SIGNAL(pressed()),this,SLOT(popOut()));
 		upButton->setToolTip(tr("Pop-out"));
@@ -842,6 +842,8 @@ namespace Tinkercell
 		toolBarBasic->addAction(openAction);
 		toolBarBasic->addAction(closeAction);
 		toolBarBasic->addAction(saveAction);
+		toolBarBasic->addAction(printAction);
+		toolBarBasic->addAction(printToFileAction);		
 
 		toolBarEdits->addAction(arrowAction);
 		toolBarEdits->addAction(undoAction);

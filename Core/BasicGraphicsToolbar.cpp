@@ -32,7 +32,6 @@ namespace Tinkercell
 	void BasicGraphicsToolbar::init()
 	{
 		QToolBar * toolBar = mainWindow->toolBarForTools;
-		toolBar->setObjectName(name);
 		
 		toolBar->addAction(QIcon(tr(":/images/zoomin.png")),tr("Zoom in"),this,SLOT(zoomIn()));
 		toolBar->addAction(QIcon(tr(":/images/zoomout.png")),tr("Zoom out"),this,SLOT(zoomOut()));
@@ -135,7 +134,9 @@ namespace Tinkercell
 		
 		setColor->setMenu(changeColorMenu);
 
-		alignButton = new QAction(toolBar);
+		alignButton = new QAction(this);
+		alignButton->setObjectName(tr("Align objects"));
+		alignButton->setText(tr("Align items"));
 
 		QMenu * alignMenu = new QMenu(toolBar);
 

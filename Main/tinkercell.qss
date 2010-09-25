@@ -103,7 +103,7 @@ QMainWindow::separator {
     background: qlineargradient(x1: 0, y1: 1, x2: 0, y2: 0,
                                  stop: 0 #C1F4Fd, stop: 0.1 #C8D1D3,
                                  stop: 0.2 #999999, stop: 1.0 #FFFFFF);
-     spacing: 5px;
+     spacing: 10px;
      icon-size: 14px;
  }*/
 

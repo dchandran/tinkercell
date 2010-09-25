@@ -39,8 +39,9 @@ namespace Tinkercell
 		QToolButton * setColor = new QToolButton(toolBar);
 		setColor->setPopupMode(QToolButton::MenuButtonPopup);
 		setColor->setIcon(QIcon(tr(":/images/paint.png")));
+		setColor->setToolTip(tr("Set fill and outline color"));
 		 
-		QAction * changeBrush = new QAction(QIcon(tr(":/images/bucket.png")),tr("Fill color"),toolBar);
+		QAction * changeBrush = new QAction(QIcon(tr(":/images/bucket.png")),tr("Set fill color"),toolBar);
 		connect(changeBrush,SIGNAL(triggered()),this,SLOT(changeBrush()));
 
 		gradientMenu = new QMenu(tr("Gradients"),setColor);
@@ -76,16 +77,16 @@ namespace Tinkercell
 
 		QMenu * changeColorMenu = new QMenu(gradientMenu);
 
-		changeBrushColor1 = new QAction(tr("Color 1"),changeColorMenu);
+		changeBrushColor1 = new QAction(tr("Main color"),changeColorMenu);
 		connect(changeBrushColor1,SIGNAL(triggered()),this,SLOT(selectBrushColor1()));
 
-		changeBrushColor2 = new QAction(tr("Color 2"),changeColorMenu);
+		changeBrushColor2 = new QAction(tr("Secondary color (for gradients)"),changeColorMenu);
 		connect(changeBrushColor2,SIGNAL(triggered()),this,SLOT(selectBrushColor2()));
 
-		changeBrushAlpha1 = new QAction(tr("Transparency 1"),changeColorMenu);
+		changeBrushAlpha1 = new QAction(tr("Main transparency"),changeColorMenu);
 		connect(changeBrushAlpha1,SIGNAL(triggered()),this,SLOT(selectBrushAlpha1()));
 
-		changeBrushAlpha2 = new QAction(tr("Transparency 2"),changeColorMenu);
+		changeBrushAlpha2 = new QAction(tr("Secondary transparency 2"),changeColorMenu);
 		connect(changeBrushAlpha2,SIGNAL(triggered()),this,SLOT(selectBrushAlpha2()));
 
 		QPixmap bcolor1(20,20);
@@ -116,22 +117,22 @@ namespace Tinkercell
 		painter4.drawRect(0,0,20,20);
 		changeBrushAlpha2->setIcon(QIcon(balpha2));
 
-		changeColorMenu->addAction(changeBrush);
-		changeColorMenu->addSeparator();
-		changeColorMenu->addAction(changeBrushColor1);
-		changeColorMenu->addAction(changeBrushColor2);
-		changeColorMenu->addAction(changeBrushAlpha1);
-		changeColorMenu->addAction(changeBrushAlpha2);
-		changeColorMenu->addMenu(gradientMenu);
-		changeColorMenu->addSeparator();
-
 		QAction * changePen = new QAction(QIcon(tr(":/images/pencil.png")),tr("Set outline"),toolBar);
 		connect(changePen,SIGNAL(triggered()),this,SLOT(changePen()));
-		changeColorMenu->addAction(changePen);
-		changePenWidth = new QAction(tr("Width = ") + QString::number(penWidth),changeColorMenu);
+		changePenWidth = new QAction(tr("Outline width : ") + QString::number(penWidth),changeColorMenu);
 		connect(changePenWidth,SIGNAL(triggered()),this,SLOT(selectPenWidth()));
+
+		changeColorMenu->addAction(changeBrush);
+		changeColorMenu->addAction(changePen);
+		changeColorMenu->addSeparator();
+		changeColorMenu->addAction(changeBrushColor1);
+		changeColorMenu->addAction(changeBrushAlpha1);
+		changeColorMenu->addSeparator();
+		changeColorMenu->addMenu(gradientMenu);
+		changeColorMenu->addAction(changeBrushColor2);
+		changeColorMenu->addAction(changeBrushAlpha2);		
+		changeColorMenu->addSeparator();
 		changeColorMenu->addAction(changePenWidth);
-		
 		setColor->setMenu(changeColorMenu);
 
 		alignButton = new QAction(this);
@@ -175,8 +176,55 @@ namespace Tinkercell
 		
 		toolBar->addWidget(setColor);
 
-		findText = replaceText = 0;
-		findToolBar = 0;
+		findText = new QLineEdit;
+		replaceText = new QLineEdit;
+		findToolBar = new QToolBar(tr("Find tool"),mainWindow);
+		findToolBar->setObjectName(tr("Find tool"));
+
+		QAction * findAction = new QAction(QIcon(tr(":/images/find.png")),tr("Find text"),mainWindow);
+		findAction->setShortcut(QKeySequence::Find);
+		toolBar->addAction(findAction);
+
+		QAction * replaceAction = new QAction(QIcon(tr(":/images/replace.png")),tr("Replace text"),mainWindow);
+		replaceAction->setShortcut(QKeySequence::Replace);
+
+		findToolBar->addWidget(findText);
+		findToolBar->addAction(tr("&Find"),this,SLOT(find()));
+		findToolBar->addSeparator();
+		findToolBar->addWidget(replaceText);
+		findToolBar->addAction(tr("&Replace"),this,SLOT(rename()));
+		findToolBar->addSeparator();
+
+		QAction * escape1 = new QAction(findText);
+		escape1->setShortcut(QKeySequence(Qt::Key_Escape));
+		connect(escape1,SIGNAL(triggered()),this,SLOT(closeFind()));
+
+		QAction * escape2 = new QAction(replaceText);
+		escape2->setShortcut(QKeySequence(Qt::Key_Escape));
+		connect(escape2,SIGNAL(triggered()),this,SLOT(closeFind()));
+
+		QAction * escape = findToolBar->addAction(QIcon(tr(":/images/minus.png")),tr("close"),this,SLOT(closeFind()));
+		escape->setShortcut(QKeySequence(Qt::Key_Escape));
+
+		connect(findText,SIGNAL(returnPressed()),this,SLOT(find()));
+		connect(replaceText,SIGNAL(returnPressed()),this,SLOT(rename()));
+
+		connect(findAction,SIGNAL(triggered()),findToolBar,SLOT(show()));
+		connect(replaceAction,SIGNAL(triggered()),findToolBar,SLOT(show()));
+
+		connect(findAction,SIGNAL(triggered()),findText,SLOT(setFocus()));
+		connect(replaceAction,SIGNAL(triggered()),findText,SLOT(setFocus()));
+
+		mainWindow->addToolBar(Qt::BottomToolBarArea,findToolBar);
+		findToolBar->setAllowedAreas(Qt::AllToolBarAreas);
+		findToolBar->setFloatable(true);
+		findToolBar->setVisible(false);
+
+		if (mainWindow->editMenu)
+		{
+			mainWindow->editMenu->addAction(findAction);
+			mainWindow->editMenu->addAction(replaceAction);
+		}
 	}
 
 	void BasicGraphicsToolbar::selectPenWidth()
@@ -186,7 +234,7 @@ namespace Tinkercell
 		if (ok)
 		{
 			penWidth = d;
-			changePenWidth->setText(tr("Width = ") + QString::number(penWidth));
+			changePenWidth->setText(tr("Outline width : ") + QString::number(penWidth));
 		}
 	}
 
@@ -195,57 +243,7 @@ namespace Tinkercell
 		Tool::setMainWindow(main);
 		if (main != 0)
 		{
-			init();
-
-			findText = new QLineEdit;
-			replaceText = new QLineEdit;
-			findToolBar = new QToolBar(tr("Find tool"),main->centralWidget());
-			findToolBar->setObjectName(tr("Find tool"));
-			
-			QAction * findAction = new QAction(QIcon(tr(":/images/find.png")),tr("Find text"),main->centralWidget());
-			findAction->setShortcut(QKeySequence::Find);
-
-			QAction * replaceAction = new QAction(QIcon(tr(":/images/replace.png")),tr("Replace text"),main->centralWidget());
-			replaceAction->setShortcut(QKeySequence::Replace);
-
-			findToolBar->addWidget(findText);
-			findToolBar->addAction(tr("&Find"),this,SLOT(find()));
-			findToolBar->addSeparator();
-			findToolBar->addWidget(replaceText);
-			findToolBar->addAction(tr("&Replace"),this,SLOT(rename()));
-			findToolBar->addSeparator();
-
-			QAction * escape1 = new QAction(findText);
-			escape1->setShortcut(QKeySequence(Qt::Key_Escape));
-			connect(escape1,SIGNAL(triggered()),this,SLOT(closeFind()));
-
-			QAction * escape2 = new QAction(replaceText);
-			escape2->setShortcut(QKeySequence(Qt::Key_Escape));
-			connect(escape2,SIGNAL(triggered()),this,SLOT(closeFind()));
-
-			QAction * escape = findToolBar->addAction(QIcon(tr(":/images/minus.png")),tr("close"),this,SLOT(closeFind()));
-			escape->setShortcut(QKeySequence(Qt::Key_Escape));
-
-			connect(findText,SIGNAL(returnPressed()),this,SLOT(find()));
-			connect(replaceText,SIGNAL(returnPressed()),this,SLOT(rename()));
-
-			connect(findAction,SIGNAL(triggered()),findToolBar,SLOT(show()));
-			connect(replaceAction,SIGNAL(triggered()),findToolBar,SLOT(show()));
-
-			connect(findAction,SIGNAL(triggered()),findText,SLOT(setFocus()));
-			connect(replaceAction,SIGNAL(triggered()),findText,SLOT(setFocus()));
-
-			mainWindow->addToolBar(Qt::BottomToolBarArea,findToolBar);
-			findToolBar->setAllowedAreas(Qt::AllToolBarAreas);
-			findToolBar->setFloatable(true);
-			findToolBar->setVisible(false);
-
-			if (mainWindow->editMenu)
-			{
-				mainWindow->editMenu->addAction(findAction);
-				mainWindow->editMenu->addAction(replaceAction);
-			}
-			
+			init();		
 			if (mainWindow->viewMenu)
 			{
 				QAction * fitAll = mainWindow->viewMenu->addAction(QIcon(tr(":/images/fitAll.png")),tr("Fit &all"));

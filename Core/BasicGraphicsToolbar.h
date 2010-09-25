@@ -44,7 +44,7 @@ buttons for all these functions.
 
 namespace Tinkercell
 {
-	class BasicGraphicsToolbar : public Tool
+	class TINKERCELLEXPORT BasicGraphicsToolbar : public Tool
 	{
 		Q_OBJECT
 

@@ -80,8 +80,8 @@ namespace Multicell
 			connect(mainWindow,SIGNAL(mouseDragged(GraphicsScene *, QPointF, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)),
 					this,SLOT(mouseDragged(GraphicsScene *, QPointF, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)));
 
-			connect(mainWindow,SIGNAL(itemsMoved(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<QPointF>&, Qt::KeyboardModifiers)),
-					this,SLOT(itemsMoved(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<QPointF>&, Qt::KeyboardModifiers)));
+			connect(mainWindow,SIGNAL(itemsMoved(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<QPointF>&)),
+					this,SLOT(itemsMoved(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<QPointF>&)));
 
 			connect(mainWindow,SIGNAL(mouseMoved(GraphicsScene *, QGraphicsItem*, QPointF, Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>&)),
 					this,SLOT(mouseMoved(GraphicsScene *, QGraphicsItem*, QPointF, Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>&)));
@@ -98,6 +98,7 @@ namespace Multicell
 
 			setWindowTitle(tr("Cell types"));
 			mainWindow->addToolWindow(cellSelector,MainWindow::DockWidget, Qt::LeftDockWidgetArea, Qt::LeftDockWidgetArea);
+			cellSelector->setObjectName("Cell selector");
 
 			NodeFamily * family;
 
@@ -230,7 +231,7 @@ namespace Multicell
 	{
 	}
 
-	void MulticellInterface::itemsMoved(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<QPointF>& distance, Qt::KeyboardModifiers modifiers)
+	void MulticellInterface::itemsMoved(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<QPointF>& distance)
 	{
 	}
 

@@ -589,36 +589,16 @@ namespace Tinkercell
 		GraphicsScene * scene = currentScene();
 		if (!scene || !mainWindow || parts.isEmpty()) return command;
 
-		ItemHandle * rbs = 0, * promoter = 0;
+		ItemHandle * rbs;
 		QString rate, s0;
 
-		QList<ItemHandle*> targetHandles;
+		QList<ItemHandle*> targetHandles, promoters;
 		QList<QString> hashStrings;
 		QList<DataTable<QString>*> oldDataTables, newDataTables;
 		
-		QList<ConnectionHandle*> regulations, connections;
-		QList<NodeHandle*> activators, repressors, nodes;
-
 		for (int i=0; i < parts.size(); ++i)
 			if (parts[i])
-			{
-				connections = parts[i]->connections();
-				for (int j=0; j < connections.size(); ++j)
-					if (connections[j] && connections[j]->isA("Regulation"))
-					{
-						bool b = connections[j]->isA("Repression");
-						nodes = connections[j]->nodes();
-						for (int k=0; k < nodes.size(); ++k)
-							if (nodes[k] != parts[i])
-							{
-								regulations += connections[j];
-								if (b)
-									repressors += nodes[k];
-								else
-									activators += nodes[k];
-							}
-					}
-				
+			{				
 				if (parts[i]->isA(tr("RBS")))
 				{
 					rbs = parts[i];
@@ -626,8 +606,72 @@ namespace Tinkercell
 
 				if (parts[i]->isA(tr("Promoter")))
 				{
-					if (promoter == 0)
-						promoter = parts[i];
+					promoters += parts[i];
+					bool isProperReaction = false;
+					QList<ConnectionHandle*> connections = NodeHandle::cast(parts[i])->connections();
+					for (int j=0; j < connections.size(); ++j)
+						if (connections[j] &&
+							(!connections[j]->children.isEmpty() ||
+								(connections[j]->hasTextData(tr("Rate equations")) &&
+									connections[j]->textDataTable(tr("Rate equations")).rows() > 0)))
+						{
+							isProperReaction = true;
+							break;
+						}
+
+					if (!isProperReaction)
+					{
+						TextDataTable & sDat = parts[i]->textDataTable(tr("Assignments"));
+						if (sDat.getRowNames().contains(parts[i]->name))
+						{
+							isProperReaction = true;
+							QString & s = sDat.value(parts[i]->name,0);
+							for (int j=0; j < connections.size(); ++j)
+								if (connections[j] && !s.contains(connections[j]->fullName()))
+								{
+									isProperReaction = false;
+									break;
+								}
+						}
+					}
+					
+					if (!isProperReaction)
+					{
+						QString rate = hillEquation(NodeHandle::cast(parts[i]));
+						if (!rate.isEmpty())
+						{
+							TextDataTable * sDat = new TextDataTable(parts[i]->textDataTable(tr("Assignments")));
+							QString p;
+						
+							for (int j=0; j < connections.size(); ++j)
+								if (connections[j] && connections[j]->isA(tr("Regulation")))
+								{
+									NumericalDataTable & params = connections[j]->numericalDataTable(tr("Parameters"));
+									NumericalDataTable * params2 = 0;
+									QStringList rownames = params.getRowNames();
+									p = connections[j]->fullName() + tr(".Kd");
+									if (rate.contains(p) && !rownames.contains("Kd"))
+									{
+										if (!params2)
+											params2 = new NumericalDataTable(params);
+										params2->value("Kd",0) = 1.0;
+									}
+									p = connections[j]->fullName() + tr(".h");
+									if (rate.contains(p) && !rownames.contains("h"))
+									{
+										if (!params2)
+											params2 = new NumericalDataTable(params);
+										params2->value("h",0) = 1.0;
+									}
+									if (params2)
+										commands << new ChangeNumericalDataCommand(tr("New parameters"),&params,params2);
+								}
+
+							sDat->value(parts[i]->name,0) = rate;
+							oldDataTables += &(parts[i]->textDataTable(tr("Assignments")));
+							newDataTables += sDat;
+						}
+					}
 				}
 
 				if (parts[i]->isA(tr("Coding")) && NodeHandle::cast(parts[i]))
@@ -643,59 +687,24 @@ namespace Tinkercell
 							{
 								TextDataTable * sDat = new TextDataTable(connections[j]->textDataTable(tr("Rate equations")));
 								s0 = sDat->value(0,0);
-						
-								if (promoter)
-								{
-									s0.remove(tr(" "));
-									bool ok1 = (s0 == (promoter->fullName() + tr(".strength*") + promoter->fullName()));
-									bool ok2 = true;
-							
-									for (int k=0; k < activators.size(); ++k)
-										if (!s0.contains(activators[k]->fullName()))
-										{
-											ok2 = false;
-											break;
-										}
-							
-									if (ok2)
-										for (int k=0; k < repressors.size(); ++k)
-											if (!s0.contains(repressors[k]->fullName()))
-											{
-												ok2 = false;
-												break;
-											}
-							
-									if (!ok1 && !ok2)
+								bool ok = true;
+								
+								for (int k=0; k < promoters.size(); ++k)
+									if (!s0.contains(promoters[k]->fullName()))
+									{
+										ok = false;
+										break;
+									}
+								
+									if (!ok)
 									{
 										rate = tr("");
-										if (promoter->numericalDataTable(tr("Parameters")).getRowNames().contains(tr("strength")))
-											rate = promoter->fullName() + tr(".strength*") + rate;
-								
-										//rate += promoter->fullName();
-										rate += hillEquation(regulations, activators, repressors);
-										QString p;
-										for (int k=0; k < regulations.size(); ++k)
-										{
-											NumericalDataTable & params = regulations[k]->numericalDataTable(tr("Parameters"));
-											NumericalDataTable * params2 = 0;
-											QStringList rownames = params.getRowNames();
-											p = regulations[k]->fullName() + tr(".Kd");
-											if (rate.contains(p) && !rownames.contains("Kd"))
-											{
-												if (!params2)
-													params2 = new NumericalDataTable(params);
-												params2->value("Kd",0) = 1.0;
-											}
-											p = regulations[k]->fullName() + tr(".h");
-											if (rate.contains(p) && !rownames.contains("h"))
-											{
-												if (!params2)
-													params2 = new NumericalDataTable(params);
-												params2->value("h",0) = 1.0;
-											}
-											if (params2)
-												commands << new ChangeNumericalDataCommand(tr("New parameters"),&params,params2);
-										}
+										for (int k=0; k < promoters.size(); ++k)
+											if (rate.isEmpty())
+												rate = promoters[k]->fullName();
+											else
+												rate += tr("*") + promoters[k]->fullName();
+
 										sDat->value(0,0) = rate;
 										oldDataTables += &(connections[j]->textDataTable(tr("Rate equations")));
 										newDataTables += sDat;
@@ -717,7 +726,7 @@ namespace Tinkercell
 										}
 									}
 
-									QList<NodeHandle*> rna = connections[j]->nodesOut();
+									QList<NodeHandle*> rna = connections[j]->nodes();
 									for (int k=0; k < rna.size(); ++k)
 										if (NodeHandle::cast(rna[k]) && rna[k]->isA(tr("RNA")))
 										{
@@ -747,12 +756,11 @@ namespace Tinkercell
 				
 						if ((parts[i]->isA(tr("Terminator")) || parts[i]->isA(tr("Vector")) ) && NodeHandle::cast(parts[i]))
 						{
-							promoter = 0;
+							promoters.clear();
 							rbs = 0;
 						}
 					}
 				}
-			}
 
 		if (newDataTables.size() > 0)
 		{
@@ -779,8 +787,8 @@ namespace Tinkercell
 			connect(this,SIGNAL(dataChanged(const QList<ItemHandle*>&)),
 					mainWindow,SIGNAL(dataChanged(const QList<ItemHandle*>&)));
 
-			connect(mainWindow,SIGNAL(itemsAboutToBeInserted(GraphicsScene *, QList<QGraphicsItem*>&, QList<ItemHandle*>&, QList<QUndoCommand*>&)),
-					this,SLOT(itemsAboutToBeInserted(GraphicsScene *, QList<QGraphicsItem*>&, QList<ItemHandle*>&, QList<QUndoCommand*>&)));
+			connect(mainWindow,SIGNAL(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)),
+					this,SLOT(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)));
 
 			connect(mainWindow,SIGNAL(itemsAboutToBeRemoved(GraphicsScene*,QList<QGraphicsItem*>&,QList<ItemHandle*>&,QList<QUndoCommand*>&)),
                           this, SLOT(itemsRemoved(GraphicsScene*,QList<QGraphicsItem*>&, QList<ItemHandle*>&,QList<QUndoCommand*>&)));
@@ -936,7 +944,7 @@ namespace Tinkercell
 		}
 	}
 
-	void AutoGeneRegulatoryTool::itemsAboutToBeInserted(GraphicsScene * scene, QList<QGraphicsItem*>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>& commands)
+	void AutoGeneRegulatoryTool::itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>& items, const QList<ItemHandle*>& handles)
 	{
 		NodeGraphicsItem * node = 0;
 		ConnectionGraphicsItem * connection = 0;
@@ -1007,7 +1015,7 @@ namespace Tinkercell
 			
 			if (!parts3.isEmpty())
 			{
-				commands << autoAssignRates(parts3);
+				scene->network->push(autoAssignRates(parts3));
 			}
 		}
 	}
@@ -1519,7 +1527,7 @@ namespace Tinkercell
 
 		QString rate;
 		if (positives.isEmpty()) 
-			rate = handle->fullName() + tr(".strength)/(") + allTFs.join("*") + tr(")");
+			rate = handle->fullName() + tr(".strength/(") + allTFs.join("*") + tr(")");
 		else
 			rate = handle->fullName() + tr(".strength*(") + positives.join(" * ") + tr(" - 1)/(") + allTFs.join("*") + tr(")");
 		return rate;
@@ -1582,18 +1590,21 @@ namespace Tinkercell
 		qreal lowestZ = scene->ZValue();
 
 		for (int i=0; i < intersectingItems.size(); ++i)
-		{
-			if (intersectingItems[i]->zValue() < lowestZ)
-				lowestZ = intersectingItems[i]->zValue();
-			handle = getHandle(intersectingItems[i]);
-			if (handle && !handle->isChildOf(vectorHandle) &&
-				handle->isA(tr("Part")) && !handle->isA(tr("Vector")) &&
-				(!handle->parent || vectorHandle->isChildOf(handle->parent)))
+			if (intersectingItems[i] && intersectingItems[i] != vector)
 			{
-				children << handle;
-				parents << vectorHandle;
+				if (intersectingItems[i]->zValue() < lowestZ)
+					lowestZ = intersectingItems[i]->zValue();
+				handle = getHandle(intersectingItems[i]);
+				if (handle && 
+					!handle->isChildOf(vectorHandle) &&
+					handle->isA(tr("Part")) && 
+					!handle->isA(tr("Vector")) &&
+					(!handle->parent || vectorHandle->isChildOf(handle->parent)))
+				{
+					children << handle;
+					parents << vectorHandle;
+				}
 			}
-		}
 
 		QList<QGraphicsItem*> list;
 		QList<ItemHandle*> existingChildren = vectorHandle->children;

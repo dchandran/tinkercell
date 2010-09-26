@@ -249,7 +249,7 @@ namespace Tinkercell
 		if (showHistory)
 		{
 			historyWindow.setWindowTitle(tr("History"));
-			historyWindow.setWindowIcon(QIcon(tr(":/images/undo.png")));
+			historyWindow.setWindowIcon(QIcon(tr(":/images/scroll.png")));
 			addToolWindow(&historyWindow,MainWindow::defaultHistoryWindowOption,Qt::RightDockWidgetArea);
 		}
 
@@ -728,7 +728,7 @@ namespace Tinkercell
 
 		if (enableScene)
 		{
-			QAction* newAction = fileMenu->addAction(QIcon(tr(":/images/new.png")),tr("&New Graphics Scene"));
+			QAction* newAction = fileMenu->addAction(QIcon(tr(":/images/new.png")),tr("&New canvas"));
 			newAction->setShortcut(QKeySequence::New);
 			connect (newAction, SIGNAL(triggered()),this,SLOT(newScene()));
 			toolBarBasic->addAction(newAction);
@@ -736,7 +736,7 @@ namespace Tinkercell
 
 		if (enableText && !enableScene)
 		{
-			QAction* newAction2 = fileMenu->addAction(QIcon(tr(":/images/new.png")),tr("New Text &Editor"));
+			QAction* newAction2 = fileMenu->addAction(QIcon(tr(":/images/new.png")),tr("New text &editor"));
 			newAction2->setShortcut(tr("CTRL+SHIFT+N"));
 			connect (newAction2, SIGNAL(triggered()),this,SLOT(newTextEditor()));
 			toolBarBasic->addAction(newAction2);

@@ -336,7 +336,10 @@ namespace Tinkercell
 								assignments += sd_pair(n,handle->numericalDataTable(p).value(q,0));
 								parser.DefineVar(item->first.data(), &(assignments.last().second));
 							}
+						continue;
 					}
+					
+					assignments += sd_pair(n,1.0);
 				}
 			}
 			

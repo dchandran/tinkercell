@@ -451,14 +451,12 @@ namespace Tinkercell
 
 		if (index.column() == 0)
 		{
-            if (network 
-            	&& handle
-				&& !value.toString().isEmpty()
-				&& value.toString() != handle->name)
+            if (network && handle && !value.toString().isEmpty())
 			{
-				if (attributeName.isEmpty())
+				if (attributeName.isEmpty() && value.toString() != handle->name)
 					network->rename(handle, value.toString());
 				else
+				if (value.toString() != attributeName)
 					network->rename(handle->fullName() + tr(".") + attributeName, handle->fullName() + tr(".") + value.toString());
 				return true;
 			}

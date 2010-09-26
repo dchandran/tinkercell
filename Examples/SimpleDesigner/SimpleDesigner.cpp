@@ -7,17 +7,30 @@
 This is an example application that uses the TinkerCell Core library
 ****************************************************************************/
 
+#include <vector>
+#include "sbml/SBMLReader.h"
+#include "sbml/SBMLWriter.h"
+#include "sbml/SBMLDocument.h"
+#include "sbml/Species.h"
+#include "sbml/SpeciesReference.h"
+#include "sbml/ListOf.h"
+#include "sbml/Model.h"
+#include "sbml/Rule.h"
+#include "sbml_sim.h"
 #include "BasicGraphicsToolbar.h"
 #include "SimpleDesigner.h"
 
 using namespace Tinkercell;
+using namespace std;
 
 SimpleDesigner::SimpleDesigner(): Tool(tr("Simple Designer"))
 {
 	actionGroup = new QActionGroup(this);
 	mode = 0;
+	plotTool = 0;
 	
 	toolBar = new QToolBar(this);
+	toolBar->setObjectName("Simple Designer Toolbar");
 	actionGroup->setExclusive(true);
 	
 	arrowButton = new QAction(QIcon(":/images/arrow.png"),tr("arrow"),toolBar);
@@ -50,8 +63,8 @@ SimpleDesigner::SimpleDesigner(): Tool(tr("Simple Designer"))
 	layout2->addWidget(name2 = new QLineEdit,0,1);
 	layout2->addWidget(rate  = new QLineEdit,1,1);
 	
-	
 	listWidget = new QListWidget;
+	connect(listWidget,SIGNAL(itemActivated ( QListWidgetItem * )), this, SLOT(parameterItemActivated ( QListWidgetItem * )));
 	layout3->addWidget(listWidget);
 	
 	groupBox1 = new QGroupBox(tr(" Species "));
@@ -132,6 +145,29 @@ void SimpleDesigner::addParameters(QStringList& newVars)
 	listWidget->addItems(vars);   //update list widget for viewing parameters
 }
 
+void SimpleDesigner::parameterItemActivated ( QListWidgetItem * item )
+{
+	NetworkHandle * network = currentNetwork();
+	if (!network) return;  //no window open
+	
+	QString s = item->text();  //get string "name = value"
+	QStringList parts = s.split("=");
+	QString param = parts[0].trimmed(); //parse to get parameter name
+	
+	ItemHandle * globalHandle = network->globalHandle(); //handle for the model
+	NumericalDataTable & oldTable = globalHandle->numericalDataTable("parameters");
+	
+	double d = QInputDialog::getDouble(this,"Change parameter", param, 	oldTable.value(param,0)); //get value from user
+	
+	//update parameter value using to the history window
+	NumericalDataTable newTable(oldTable); //new parameter table
+	newTable.value(param,0) = d;	
+	QString message = tr("parameter ") + param + tr(" changed"); //message for the history stack
+	network->changeData(message, globalHandle, "parameters", &newTable); //adds undo command
+	
+	item->setText(param + tr(" = ") + QString::number(d));
+}
+
 void SimpleDesigner::rateChanged() 
 {
 	GraphicsScene * scene = currentScene();
@@ -141,8 +177,7 @@ void SimpleDesigner::rateChanged()
 	QGraphicsItem * selectedItem = scene->selected()[0];
 	ItemHandle * handle = getHandle(selectedItem);
 	
-	if (!handle || !handle->hasTextData("rate")) return;
-	
+	if (!handle || !handle->hasTextData("rate")) return;	
 	
 	QString formula = rate->text();
 	
@@ -199,6 +234,15 @@ bool SimpleDesigner::setMainWindow(MainWindow * main)
 	Tool::setMainWindow(main);
 	if (mainWindow)
 	{
+		QWidget * tool = mainWindow->tool("Default Plot Tool");
+		plotTool = static_cast<PlotTool*>(tool);
+		
+		if (plotTool && plotTool->parentWidget())
+		{
+			QDockWidget * dockWidget = static_cast<QDockWidget*>(plotTool->parentWidget());
+			dockWidget->setFloating(false);
+		}
+
 		mainWindow->addToolBar(Qt::LeftToolBarArea,toolBar);
 
 		setWindowTitle(tr("Information Box"));
@@ -206,6 +250,9 @@ bool SimpleDesigner::setMainWindow(MainWindow * main)
 		QDockWidget * dockWidget = mainWindow->addToolWindow(this, MainWindow::DockWidget, Qt::BottomDockWidgetArea, Qt::NoDockWidgetArea);
 		if (dockWidget)
 			dockWidget->setFloating(true);
+
+		mainWindow->toolBarForTools->addAction(QIcon(tr(":/images/play.png")), tr("Simulate"), this, SLOT(ode()));
+		mainWindow->toolBarForTools->addAction(QIcon(tr(":/images/graph.png")), tr("Stochastic"), this, SLOT(ssa()));
 		
 		connect(mainWindow,SIGNAL(itemsInserted(NetworkHandle*, const QList<ItemHandle*>&)),
 				this, SLOT(itemsInserted(NetworkHandle*,const QList<ItemHandle*>&)));
@@ -439,6 +486,133 @@ void SimpleDesigner::escapeSignal(const QWidget * sender)
 		currentScene()->deselect();
 }
 
+void SimpleDesigner::ode()
+{
+	simulate(false);
+}
+
+void SimpleDesigner::ssa()
+{
+	simulate(true);
+}
+
+void SimpleDesigner::simulate(bool stochastic)
+{
+	NetworkHandle * network = currentNetwork();
+	if (!network) return;
+	
+	SBMLDocument_t * doc = SBMLDocument_create();
+	Model_t * model = SBMLDocument_createModel(doc);
+	
+	QList<ItemHandle*> handles = network->handles();
+	NumericalDataTable params = network->globalHandle()->numericalDataTable("parameters");	
+	
+	//create compartment
+	Compartment_t * comp = Model_createCompartment (model);
+	Compartment_setId(comp, "DefaultCompartment");
+	Compartment_setName(comp, "DefaultCompartment");
+	Compartment_setVolume(comp, 1.0);
+	Compartment_setUnits(comp, "uL");
+
+	//create list of species
+	for (int i=0; i < handles.size(); ++i)
+		if (NodeHandle::cast(handles[i]))  //if node
+		{
+			double d = handles[i]->numericalData("concentration");
+			QString name = handles[i]->name;
+
+			Species_t * s = Model_createSpecies(model);
+			Species_setId(s,ConvertValue(name));
+			Species_setName(s,ConvertValue(name));
+			Species_setConstant(s,0);
+			Species_setInitialConcentration(s, d);
+			Species_setInitialAmount(s, d);
+			Species_setCompartment(s, "DefaultCompartment");
+		}
+	
+	//create list of reactions
+	for (int i=0; i < handles.size(); ++i)
+		if (ConnectionHandle::cast(handles[i]))  //if reaction
+		{
+			ConnectionHandle * reactionHandle = ConnectionHandle::cast(handles[i]);
+			
+			QString name = reactionHandle->name;
+			QString rate = reactionHandle->textData("rate");
+			
+			QList<NodeHandle*> reactants = reactionHandle->nodesIn();
+			QList<NodeHandle*> products = reactionHandle->nodesOut();
+			
+			Reaction_t * reac = Model_createReaction(model);
+			Reaction_setId(reac, ConvertValue(name));
+			Reaction_setName(reac, ConvertValue(name));
+			Reaction_setId(reac, ConvertValue(name));
+			KineticLaw_t  * kinetic = Reaction_createKineticLaw(reac);
+			KineticLaw_setFormula( kinetic, ConvertValue( rate ));
+
+			for (int j=0; j < reactants.size(); ++j)
+			{ 
+				SpeciesReference_t * sref = Reaction_createReactant(reac);
+				SpeciesReference_setId(sref, ConvertValue(reactants[j]->name));
+				SpeciesReference_setName(sref, ConvertValue(reactants[j]->name));
+				SpeciesReference_setSpecies(sref, ConvertValue(reactants[j]->name));
+				//SpeciesReference_setStoichiometry( sref, -stoictc_matrix.value(j,i) );
+			}
+			for (int j=0; j < products.size(); ++j)
+			{ 
+				SpeciesReference_t * sref = Reaction_createProduct(reac);
+				SpeciesReference_setId(sref, ConvertValue(products[j]->name));
+				SpeciesReference_setName(sref, ConvertValue(products[j]->name));
+				SpeciesReference_setSpecies(sref, ConvertValue(products[j]->name));
+			}
+		}
+	
+	//create list of parameters
+	for (int i=0; i < params.rows(); ++i)
+	{
+		Parameter_t * p = Model_createParameter(model);
+		Parameter_setId(p, ConvertValue(params.rowName(i)));
+		Parameter_setName(p, ConvertValue(params.rowName(i)));
+		Parameter_setValue(p, params.value(i,0));
+	}	
+	
+	SBML_sim sim(doc);	
+
+	vector<string> names = sim.getVariableNames();	
+	vector< vector<double> > output;	
+	NumericalDataTable results;
+
+	try
+	{
+		if (stochastic)
+			output = sim.ssa(100.0);
+		else
+			output = sim.simulate(100.0,0.1);
+	}
+	catch(...)
+	{
+		
+	}
+
+	if (output.size() > 0)
+	{
+		int sz = output[0].size();
+
+		results.resize(sz,output.size());
+		for (int i=0; i < names.size(); ++i)
+			results.colName(i+1) = QString(names[i].c_str());
+		results.colName(0) = tr("time");
+
+		for (int i=0; i < output.size(); ++i)
+			for (int j=0; j < sz; ++j)
+				results.value(j,i) = output[i][j];
+	}
+	
+	if (plotTool)
+		plotTool->plot(results,"Simulation");
+	
+	delete doc;
+}
+
 /************ MAIN ******************/
 
 int main(int argc, char *argv[])
@@ -459,8 +633,9 @@ int main(int argc, char *argv[])
 	mainWindow.setWindowTitle(QString("Simple Designer"));
     mainWindow.statusBar()->showMessage(QString("Welcome to Simple Designer"));
     
-	mainWindow.addTool(new SimpleDesigner);
+	mainWindow.addTool(new PlotTool);
 	mainWindow.addTool(new BasicGraphicsToolbar);
+	mainWindow.addTool(new SimpleDesigner);
 	
 	GraphicsScene::SelectionRectangleBrush = QBrush(QColor(5,5,5,40));
 

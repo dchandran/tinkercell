@@ -141,12 +141,11 @@ namespace Tinkercell
 
 	void AssignmentFunctionsTool::displayModel(QTabWidget& widgets, const QList<ItemHandle*>& items, QHash<QString,qreal>& constants, QHash<QString,QString>& equationsList)
 	{
-		//if (functionsListWidget.count() > 0)
-		if (widgets.count() > 0)
-			widgets.addTab(this,tr("Function declarations"));
-		/*else
-		if (dockWidget && dockWidget->widget() != this)
-		dockWidget->setWidget(this);*/
+		if (graphWidget->isVisible())
+			widgets.insertTab(0,this,tr("Formulas"));
+		else
+		if (widgets.count() > 0)		
+			widgets.addTab(this,tr("Formulas"));
 	}
 
 	void AssignmentFunctionsTool::historyUpdate(int i)
@@ -383,6 +382,7 @@ namespace Tinkercell
 
 		QVBoxLayout * layout = new QVBoxLayout;
 		layout->addWidget(groupBox);
+		layout->addWidget(graphWidget = new EquationGraph);
 		setLayout(layout);
 
 		connectTCFunctions();
@@ -458,12 +458,14 @@ namespace Tinkercell
 			tableWidget.setRowCount(0);
 			tableWidget.setColumnCount(1);
 			tableWidget.setHorizontalHeaderLabels(QStringList() << "function");
+			graphWidget->hide();
 			return;
 		}
 
 		QStringList functions;
 
 		DataTable<QString> * sDataTable = 0;
+		QString assignmentVar, assignmentFormula;
 
 		for (int i=0; i < itemHandles.size(); ++i) //build combined matrix for all selected reactions
 		{
@@ -479,7 +481,11 @@ namespace Tinkercell
 					updatedFunctionNames << sDataTable->rowName(j);
 
 					if (sDataTable->rowName(j) == itemHandles[i]->fullName())
+					{
 						functions += sDataTable->rowName(j) + tr(" = ") + (sDataTable->value(j,0));
+						assignmentVar = itemHandles[i]->fullName();
+						assignmentFormula = sDataTable->value(j,0);
+					}
 					else
 						functions += itemHandles[i]->fullName() + tr(".") + sDataTable->rowName(j) + tr(" = ") + (sDataTable->value(j,0));
 				}
@@ -508,8 +514,18 @@ namespace Tinkercell
 		tableWidget.setRowCount(functions.size());
 		tableWidget.setColumnCount(1);
 		tableWidget.setHorizontalHeaderLabels(QStringList() << "function");
-		//tableWidget.setHorizontalHeader(0);
-		//tableWidget.setVerticalHeader(0);
+		
+		if (!assignmentVar.isEmpty() && !assignmentFormula.isEmpty())
+		{
+			graphWidget->show();
+			graphWidget->setFormula(assignmentFormula,currentNetwork());
+			graphWidget->setTitle(assignmentVar + tr(" formula"));
+			graphWidget->setYLabel(assignmentVar);
+		}
+		else
+		{
+			graphWidget->hide();
+		}
 
 		disconnect(&tableWidget,SIGNAL(cellChanged(int,int)),this,SLOT(setValue(int,int)));
 

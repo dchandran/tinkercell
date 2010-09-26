@@ -91,5 +91,6 @@
 		<file>images/greenFlag.png</file>
 		<file>images/hot.png</file>
 		<file>images/switch.png</file>
+		<file>images/scroll.png</file>
     </qresource>
 </RCC>

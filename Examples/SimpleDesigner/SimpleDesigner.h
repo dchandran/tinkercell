@@ -20,6 +20,7 @@ This is an example application that uses the TinkerCell Core library
 #include <QGroupBox>
 #include <QListWidget>
 #include <QGraphicsSimpleTextItem>
+#include <QInputDialog>
 #include "NodeGraphicsItem.h"
 #include "ConnectionGraphicsItem.h"
 #include "NetworkHandle.h"
@@ -27,59 +28,27 @@ This is an example application that uses the TinkerCell Core library
 #include "MainWindow.h"
 #include "Tool.h"
 #include "ConsoleWindow.h"
+#include "PlotTool.h"
 
 using namespace Tinkercell;
-
-class RoundRectItem : public NodeGraphicsItem::Shape
-{
-public:
-	QRectF rect;
-	
-	QRectF boundingRect() const
-	{
-		return rect;
-	}
-	
-	virtual QPainterPath shape() const
-	{
-		QPainterPath path;
-		path.addRect(rect);
-		return path;
-	}
-	
-	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,QWidget *widget)
-	{	
-		if (painter)
-		{
-			painter->setPen(pen());
-			painter->setBrush(brush());
-			painter->drawRoundedRect(rect, 20.0, 20.0, Qt::AbsoluteSize);
-		}
-	}
-};
 
 class SimpleNode: public NodeGraphicsItem
 {
 public:
 
 	QGraphicsSimpleTextItem * textItem;
-	RoundRectItem * rectItem;
 
-	SimpleNode(QGraphicsItem * g = 0) : NodeGraphicsItem(g)
+	SimpleNode() : NodeGraphicsItem(":/images/node.xml")
 	{
 		textItem = new QGraphicsSimpleTextItem;
 		textItem->scale(2.0,2.0);
-		
-		rectItem = new RoundRectItem;
-		rectItem->rect = QRectF(-50.0,-30.0,100,60);
-		
-		addShape(rectItem);
 		addToGroup(textItem);
 		
 		refresh();
 		recomputeBoundingRect();
 		
-		textItem->setPos(-0.5*textItem->boundingRect().width(),-0.5*textItem->boundingRect().height());
+		textItem->setPos(-boundingRect().width()/4.0,-boundingRect().height()/2.0);
+		textItem->setZValue(1.0);
 	}
 	
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,QWidget *widget)
@@ -94,17 +63,12 @@ public:
 	NodeGraphicsItem* clone() const
 	{
 		SimpleNode * node = new SimpleNode;
-		node->rectItem->rect = rectItem->rect;
-		RoundRectItem * rect = new RoundRectItem;
-		node->refresh();
-		node->recomputeBoundingRect();
 		node->setPos(scenePos());
 		node->adjustBoundaryControlPoints();
 		return node;
 	}
 
 };
-
 
 class SimpleDesigner : public Tool
 {
@@ -133,6 +97,10 @@ public slots:
 
 private slots:
 	void actionTriggered(QAction*);
+	void parameterItemActivated ( QListWidgetItem * item );
+	void ode();
+	void ssa();
+	void simulate(bool stochastic);
 
 private:
 	int mode;
@@ -147,6 +115,7 @@ private:
 	QLineEdit * conc;
 	QLineEdit * rate;
 	QAction * arrowButton;
+	PlotTool * plotTool;
 	
 	QList<QGraphicsItem*> selectedItems;
 	

@@ -25,6 +25,7 @@ SET( TINKERCELL_CORE_HDRS
 QT4_WRAP_CPP( TinkercellCore_MOC ${TINKERCELL_CORE_HDRS})
 
 SET(MODELING_TOOLS_HDRS 
+  EquationGraph.h
   BasicInformationTool.h
   ModelSummaryTool.h
   ContainerTool.h
@@ -37,6 +38,7 @@ SET(MODELING_TOOLS_HDRS
 )
 
 SET(MODELING_TOOLS_SRC 
+  EquationGraph.cpp
    BasicInformationTool.cpp
    EquationParser.cpp
    SimulationEventTool.cpp

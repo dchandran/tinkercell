@@ -32,6 +32,7 @@ textsheet.xml files that define the NodeGraphicsItems.
 #include <QButtonGroup>
 #include <QTableView>
 
+#include "EquationGraph.h"
 #include "NodeGraphicsItem.h"
 #include "DataTable.h"
 #include "ItemHandle.h"
@@ -116,6 +117,7 @@ namespace Tinkercell
 		bool openedByUser;
 		NodeGraphicsItem item;
 		QDockWidget * dockWidget;
+		EquationGraph * graphWidget;
 
 		static tc_strings _getForcingFunctionNames(tc_items);
 		static tc_strings _getForcingFunctionAssignments(tc_items);
@@ -126,3 +128,4 @@ namespace Tinkercell
 }
 
 #endif
+

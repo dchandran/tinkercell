@@ -1,7 +1,11 @@
 SET(LIBRARY_OUTPUT_PATH ${CPP_LIBRARY_OUTPUT_PATH})
 
-QT4_WRAP_CPP( SIMPLEDESIGNER_MOC SimpleDesigner.h)
+  INCLUDE_DIRECTORIES( BEFORE
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml
+    ${TINKERCELL_SOURCE_DIR}/c/sbml_sim
+ )
 
+QT4_WRAP_CPP( SIMPLEDESIGNER_MOC SimpleDesigner.h)
 QT4_ADD_RESOURCES( SIMPLEDESIGNER_QRC simpledesigner.qrc )
 
 IF( APPLE AND BUILD_BUNDLE )
@@ -25,6 +29,8 @@ IF( APPLE AND BUILD_BUNDLE )
 
   TARGET_LINK_LIBRARIES( SimpleDesigner
     TinkerCellCore
+    sbml
+	sbml_sim
     ${QT_LIBRARIES}
   )
   
@@ -59,6 +65,8 @@ ELSE( APPLE AND BUILD_BUNDLE )
 
     TARGET_LINK_LIBRARIES( SimpleDesigner
       TinkerCellCore
+      sbml
+      sbml_sim
       ${QT_LIBRARIES}
     )
     
@@ -73,6 +81,8 @@ ELSE( APPLE AND BUILD_BUNDLE )
 
       TARGET_LINK_LIBRARIES( SimpleDesigner
         TinkerCellCore
+        sbml
+        sbml_sim
         ${QT_LIBRARIES}
       )
     ENDIF( WIN32 )

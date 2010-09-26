@@ -39,7 +39,7 @@ the stoichiometry and rates tables.
 #include "DataTable.h"
 #include "ItemHandle.h"
 #include "Tool.h"
-#include "Plot2DWidget.h"
+#include "EquationGraph.h"
 #include "SpinBoxDelegate.h"
 
 namespace Tinkercell
@@ -154,8 +154,7 @@ namespace Tinkercell
 		void addReverseReaction();
 		/*! \brief make a dimer*/
 		void addDimer();
-		void xaxisChanged(const QString&);
-		void startStopChanged(double);
+		
 		void rateEquationChanged();
 		void stoichiometryChanged();
 		void selectedRowChanged(int);
@@ -189,18 +188,14 @@ namespace Tinkercell
 		/*! \brief separator for the action that makes a reaction reversible*/
 		QAction * separator;
 
-		Plot2DWidget * plotWidget;
 		QLineEdit * plotLineEdit;
-		QComboBox * plotVar, * pickRow1, *pickRow2;
-		QDoubleSpinBox * startPlot, * endPlot;
+		QComboBox * pickRow1, *pickRow2;
+		EquationGraph * graphWidget;
 		QWidget * ratePlotWidget, * stoichiometryWidget;
 		QList<QLineEdit*> reactantCoeffs, productCoeffs;
 		QList<QLabel*> reactantNames, productNames, plusSigns;
 		QHBoxLayout * stoichiometryLayout;
-		QString currentVar;
-		QStringList varslist;
-		
-		bool replot(QString& rate, const QString& xaxis, qreal from, qreal to, QStringList& vars);
+
 		bool updatePlotWidget();
 		bool updateStoichiometryWidget();
 		void updateWidgets();

@@ -121,7 +121,7 @@ namespace Multicell
 		* \param QPointF point where the item is moved to
 		* \param Qt::KeyboardModifiers modifier keys being used when mouse clicked
 		* \return void*/
-		virtual void itemsMoved(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<QPointF>& distance, Qt::KeyboardModifiers modifiers);
+		virtual void itemsMoved(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<QPointF>& distance);
 		/*! \brief signals whenever mouse moves, and indicates whether it is on top of an item
 		* \param GraphicsScene* scene where the event took place
 		* \param QGraphicsItem* pointer to item that mouse is on top of

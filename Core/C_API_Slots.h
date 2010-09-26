@@ -84,6 +84,7 @@ namespace Tinkercell
 		void isMac(QSemaphore*,int*);
 		void isLinux(QSemaphore*,int*);
 		void appDir(QSemaphore*,QString*);
+		void homeDir(QSemaphore*,QString*);
 		void zoom(QSemaphore*,qreal);
 
 		void getNumericalDataNames(QSemaphore*,QStringList*,ItemHandle*);
@@ -162,6 +163,7 @@ namespace Tinkercell
 		int isMac();
 		int isLinux();
 		const char* appDir();
+		const char* homeDir();
 
 		tc_strings getNumericalDataNames(long);
 		tc_strings getTextDataNames(long);
@@ -261,6 +263,7 @@ namespace Tinkercell
 		static int _isMac();
 		static int _isLinux();
 		static const char* _appDir();
+		static const char* _homeDir();
 
 		static tc_strings _getNumericalDataNames(long);
 		static tc_strings _getTextDataNames(long);
@@ -605,6 +608,13 @@ namespace Tinkercell
 		* \return void
 		*/
 		void appDir(QSemaphore*,QString*);
+		/*!
+		* \brief returns the tinkercell home directory. This function is designed to be used with the C API framework
+		* \param QSemaphore* semaphore
+		* \param QString*  place to store the directory
+		* \return void
+		*/
+		void homeDir(QSemaphore*,QString*);
 		/*!
 		* \brief returns the name of all data entries for given item. This function is designed to be used with the C API framework
 		* \param QSemaphore* semaphore

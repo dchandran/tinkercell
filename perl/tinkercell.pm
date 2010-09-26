@@ -102,6 +102,7 @@ package tinkercell;
 *tc_isMac = *tinkercellc::tc_isMac;
 *tc_isLinux = *tinkercellc::tc_isLinux;
 *tc_appDir = *tinkercellc::tc_appDir;
+*tc_homeDir = *tinkercellc::tc_homeDir;
 *tc_createInputWindowFromFile = *tinkercellc::tc_createInputWindowFromFile;
 *tc_createInputWindow = *tinkercellc::tc_createInputWindow;
 *tc_addInputWindowOptions = *tinkercellc::tc_addInputWindowOptions;

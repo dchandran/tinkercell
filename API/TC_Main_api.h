@@ -240,6 +240,13 @@ TCAPIEXPORT int tc_isLinux();
 TCAPIEXPORT const char* tc_appDir();
 
 /*! 
+ \brief TinkerCell home folder
+ \return string home folder path
+ \ingroup System information
+*/
+TCAPIEXPORT const char* tc_homeDir();
+
+/*! 
  \brief create an input window that will run a function inside a C library
  \param tc_matrix input window's arguments a default values
  \param string C library file
@@ -561,7 +568,8 @@ TCAPIEXPORT void tc_Main_api_initialize(
 		int (*tc_isMac0)(),
 		int (*tc_isLinux0)(),
 		const char* (*tc_appDir0)(),
-		
+		const char* (*tc_homeDir0)(),
+
 		void (*tc_createInputWindow0)(tc_matrix,const char*,const char*, const char*),
         void (*tc_createInputWindow1)(tc_matrix, const char*, void (*f)(tc_matrix)),
 		void (*createSliders)(long, tc_matrix, void (*f)(tc_matrix)),

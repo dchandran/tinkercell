@@ -381,6 +381,10 @@ def tc_appDir():
   return _tinkercell.tc_appDir()
 tc_appDir = _tinkercell.tc_appDir
 
+def tc_homeDir():
+  return _tinkercell.tc_homeDir()
+tc_homeDir = _tinkercell.tc_homeDir
+
 def tc_createInputWindowFromFile(*args):
   return _tinkercell.tc_createInputWindowFromFile(*args)
 tc_createInputWindowFromFile = _tinkercell.tc_createInputWindowFromFile

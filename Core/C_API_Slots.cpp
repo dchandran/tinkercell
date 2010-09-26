@@ -91,6 +91,7 @@ namespace Tinkercell
 		int (*tc_isMac0)(),
 		int (*tc_isLinux0)(),
 		const char* (*tc_appDir0)(),
+		const char* (*tc_homeDir0)(),
 		
 		void (*tc_createInputWindow0)(tc_matrix,const char*,const char*, const char*),
         void (*tc_createInputWindow1)(tc_matrix, const char*, void (*f)(tc_matrix)),
@@ -175,6 +176,7 @@ namespace Tinkercell
 				&(_isMac),
 				&(_isLinux),
 				&(_appDir),
+				&(_homeDir),
 				&(_createInputWindow1),
 				&(_createInputWindow2),
 				&(_createSliders),
@@ -268,6 +270,7 @@ namespace Tinkercell
 		connect(&fToS,SIGNAL(isMac(QSemaphore*,int*)),this,SLOT(isMac(QSemaphore*,int*)));
 		connect(&fToS,SIGNAL(isLinux(QSemaphore*,int*)),this,SLOT(isLinux(QSemaphore*,int*)));
 		connect(&fToS,SIGNAL(appDir(QSemaphore*,QString*)),this,SLOT(appDir(QSemaphore*,QString*)));
+		connect(&fToS,SIGNAL(homeDir(QSemaphore*,QString*)),this,SLOT(homeDir(QSemaphore*,QString*)));
 		connect(&fToS,SIGNAL(getChildren(QSemaphore*,QList<ItemHandle*>*,ItemHandle*)),this,SLOT(getChildren(QSemaphore*,QList<ItemHandle*>*,ItemHandle*)));
 		connect(&fToS,SIGNAL(getParent(QSemaphore*,ItemHandle**,ItemHandle*)),this,SLOT(getParent(QSemaphore*,ItemHandle**,ItemHandle*)));
 
@@ -494,6 +497,16 @@ namespace Tinkercell
 		if (s)
 			s->release();
 	}
+
+	void C_API_Slots::homeDir(QSemaphore* s, QString * dir)
+	{
+		QString homeDir = MainWindow::homeDir();
+		if (dir)
+			(*dir) = homeDir;
+		if (s)
+			s->release();
+	}
+
 
 	void C_API_Slots::allItems(QSemaphore* s,QList<ItemHandle*>* returnPtr)
 	{
@@ -1253,6 +1266,12 @@ namespace Tinkercell
 		return fToS.appDir();
 	}
 
+	const char*  C_API_Slots::_homeDir()
+	{
+		return fToS.homeDir();
+	}
+
+
 	tc_matrix C_API_Slots::_getNumericalData(long o,const char* a)
 	{
 		return fToS.getNumericalData(o,a);
@@ -1743,6 +1762,18 @@ namespace Tinkercell
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
 		emit appDir(s,&dir);
+		s->acquire();
+		s->release();
+		delete s;
+		return ConvertValue(dir);
+	}
+
+	const char* Core_FtoS::homeDir()
+	{
+		QString dir;
+		QSemaphore * s = new QSemaphore(1);
+		s->acquire();
+		emit homeDir(s,&dir);
 		s->acquire();
 		s->release();
 		delete s;

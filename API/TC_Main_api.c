@@ -362,6 +362,19 @@ const char* tc_appDir()
 	return 0;
 }
 
+const char* (*_tc_homeDir)() = 0;
+/*! 
+ \brief TinkerCell home folder
+ \ingroup System information
+*/
+const char* tc_homeDir()
+{
+	if (_tc_homeDir)
+		return _tc_homeDir();
+	return 0;
+}
+
+
 void (*_tc_createInputWindowFromFile)(tc_matrix input, const char* filename,const char* functionname, const char* title) = 0;
 /*! 
  \brief create an input window that can call a dynamic library
@@ -808,7 +821,8 @@ void tc_Main_api_initialize(
 		int (*tc_isMac0)(),
 		int (*tc_isLinux0)(),
 		const char* (*tc_appDir0)(),
-		
+		const char* (*tc_homeDir0)(),
+
 		void (*tc_createInputWindow0)(tc_matrix,const char*,const char*, const char*),
         void (*tc_createInputWindow1)(tc_matrix, const char*, void (*f)(tc_matrix)),
 		void (*createSliders0)(long, tc_matrix, void (*f)(tc_matrix)),
@@ -892,6 +906,8 @@ void tc_Main_api_initialize(
 	_tc_isMac = tc_isMac0;
 	_tc_isLinux = tc_isLinux0;
 	_tc_appDir = tc_appDir0;
+	_tc_homeDir = tc_homeDir0;
+	
     _tc_createInputWindow = tc_createInputWindow1;
     _tc_createInputWindowFromFile = tc_createInputWindow0;
 	_tc_addInputWindowOptions = tc_addInputWindowOptions0;

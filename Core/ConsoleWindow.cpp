@@ -15,7 +15,7 @@ a generic command prompt (e.g. by Python plugin)
 
 namespace Tinkercell
 {
-	QString ConsoleWindow::Prompt(">>");
+	QString ConsoleWindow::Prompt(">");
 	
 	QColor ConsoleWindow::BackgroundColor = QColor("#000000");
 	QColor ConsoleWindow::PlainTextColor = QColor("#FEFFEC");
@@ -134,6 +134,7 @@ namespace Tinkercell
 
 		cursor.setCharFormat(normalFormat);
 		cursor.insertText(ConsoleWindow::Prompt);
+		alreadyInsertedPrompt = true;
 		currentPosition = cursor.position();
 	}
 
@@ -175,6 +176,7 @@ namespace Tinkercell
 
 		cursor.setCharFormat(normalFormat);
     	cursor.insertText(ConsoleWindow::Prompt);
+    	alreadyInsertedPrompt = true;
 
 		if (cursor.position() > currentPosition)
 			currentPosition = cursor.position();
@@ -190,13 +192,19 @@ namespace Tinkercell
 		}
 		
 		QTextCursor cursor = textCursor();
-		cursor.setPosition(currentPosition);
+		QTextDocument * doc = cursor.document();
+		if (doc)
+			cursor.setPosition(doc->characterCount());
+		
+		if (cursor.position() > currentPosition)
+			currentPosition = cursor.position();
 
 		cursor.setCharFormat(messageFormat);
 		cursor.insertText(s + tr("\n"));
 
 		cursor.setCharFormat(normalFormat);
     	cursor.insertText(ConsoleWindow::Prompt);
+    	alreadyInsertedPrompt = true;
 
 		if (cursor.position() > currentPosition)
 			currentPosition = cursor.position();
@@ -225,6 +233,9 @@ namespace Tinkercell
 	void CommandTextEdit::setFreeze(bool frozen)
 	{
 		QTextCursor cursor = textCursor();
+		QTextDocument * doc = document();
+		if (doc)
+			cursor.setPosition(doc->characterCount()-1);
 
 		if (!frozen)
 		{
@@ -232,57 +243,49 @@ namespace Tinkercell
 			{
 				cursor.setCharFormat(messageFormat);
 				cursor.insertText(messagesStack.join(tr("\n")) + tr("\n"));
+				alreadyInsertedPrompt = false;
 				messagesStack.clear();
-				currentPosition = cursor.position();
 			}
 
 			if (!errorsStack.isEmpty())
 			{
 				cursor.setCharFormat(errorFormat);
 				cursor.insertText(tr("Error: ") + errorsStack.join(tr("\n")) +  tr("\n"));
+				alreadyInsertedPrompt = false;
 				errorsStack.clear();
-				currentPosition = cursor.position();
 			}
 		}
 
 		if (this->frozen == frozen)
 		{
-			if (cursor.position() > currentPosition)
-				currentPosition = cursor.position();	
 			currentHistoryIndex = historyStack.size();
 			this->ensureCursorVisible();
 		}
-
+		
+		currentPosition = doc->characterCount();
 		this->frozen = frozen;
 
-		QString blockText = cursor.block().text();
-		if (frozen)
+		if (!frozen)		
 		{
-			if (blockText.contains(ConsoleWindow::Prompt))
+			if (!alreadyInsertedPrompt)
 			{
-				cursor.setPosition(currentPosition - blockText.size(), QTextCursor::KeepAnchor);
-				cursor.removeSelectedText();
-			}
-		}
-		else
-		{
-			if (blockText != ConsoleWindow::Prompt)
-			{
-				cursor.setPosition(currentPosition - blockText.size(), QTextCursor::KeepAnchor);
-				cursor.removeSelectedText();
 				cursor.setCharFormat(normalFormat);
 				cursor.insertText(ConsoleWindow::Prompt);
+				alreadyInsertedPrompt = true;
 			}
 		}
+
 		if (cursor.position() > currentPosition)
 			currentPosition = cursor.position();
+
 		currentHistoryIndex = historyStack.size();
 		this->ensureCursorVisible();
 	}
 
 	void CommandTextEdit::eval(const QString& command)
 	{
-        if (frozen) return;
+		QTextDocument * doc = document();
+        if (!doc || frozen || command.isEmpty()) return;
 
 	    QTextCursor cursor = textCursor();
         cursor.setCharFormat(normalFormat);
@@ -291,28 +294,24 @@ namespace Tinkercell
 			cursor.setPosition(currentPosition);
 
         cursor.movePosition(QTextCursor::EndOfBlock);
-        cursor.setPosition(currentPosition,QTextCursor::KeepAnchor);
-        cursor.removeSelectedText();
         cursor.insertText(command + tr("\n"));
-        cursor.movePosition(QTextCursor::EndOfBlock);
+        alreadyInsertedPrompt = false;
         currentPosition = cursor.position();
-        if (!command.isEmpty())
+		if (historyStack.isEmpty() || command != historyStack.back())
         {
-            if (historyStack.isEmpty() || command != historyStack.back())
-            {
-                historyStack << command;
-                currentHistoryIndex = historyStack.size();
-            }
-            
-            emit commandExecuted(command);
+            historyStack << command;
+            currentHistoryIndex = historyStack.size();
         }
-
-        if (cursor.block().text() != ConsoleWindow::Prompt)
+        
+        emit commandExecuted(command);
+    
+        if (!alreadyInsertedPrompt)
         {
             cursor.setCharFormat(normalFormat);
             cursor.insertText(ConsoleWindow::Prompt);
+            alreadyInsertedPrompt = true;
         }
-        cursor.movePosition(QTextCursor::EndOfBlock);
+        
         if (cursor.position() > currentPosition)
             currentPosition = cursor.position();
         currentHistoryIndex = historyStack.size();
@@ -321,9 +320,11 @@ namespace Tinkercell
 
 	void CommandTextEdit::keyPressEvent ( QKeyEvent * event )
 	{
-		if (!event || !document()) return;
+		QTextDocument * doc = document();
 		
-		currentPosition = document()->lastBlock().position() + ConsoleWindow::Prompt.size();
+		if (!event || !doc) return;
+		
+		currentPosition = doc->lastBlock().position() + ConsoleWindow::Prompt.size();
 
 		if (c && c->popup()->isVisible())
 		{
@@ -360,15 +361,14 @@ namespace Tinkercell
 
 		if (key == Qt::Key_Return || key == Qt::Key_Enter)
 		{
-			if (frozen || (cursor.position() < currentPosition)) return;
-			QString command = cursor.block().text().remove(0,ConsoleWindow::Prompt.size());
+			if (frozen || cursor.position() < currentPosition) return;
 
+			QString command = cursor.block().text().remove(0,ConsoleWindow::Prompt.size());			
 			cursor.movePosition(QTextCursor::EndOfBlock);
-			cursor.setPosition(currentPosition,QTextCursor::KeepAnchor);
-			cursor.removeSelectedText();
-			cursor.insertText(command + tr("\n"));
-			cursor.movePosition(QTextCursor::EndOfBlock);
+			cursor.insertText(tr("\n"));
+			alreadyInsertedPrompt = false;
 			currentPosition = cursor.position();
+
 			if (!command.isEmpty())
 			{
 				if (historyStack.isEmpty() || command != historyStack.back())
@@ -384,14 +384,16 @@ namespace Tinkercell
 						emit commandExecuted(command);
 			}
 
-			if (cursor.block().text() != ConsoleWindow::Prompt)
+			if (!alreadyInsertedPrompt)
 			{
 				cursor.setCharFormat(normalFormat);
 				cursor.insertText(ConsoleWindow::Prompt);
+				alreadyInsertedPrompt = true;
+				cursor.movePosition(QTextCursor::EndOfBlock);
+				if (cursor.position() > currentPosition)
+					currentPosition = cursor.position();
 			}
-			cursor.movePosition(QTextCursor::EndOfBlock);
-			if (cursor.position() > currentPosition)
-				currentPosition = cursor.position();
+
 			currentHistoryIndex = historyStack.size();
 			this->ensureCursorVisible();
 		}
@@ -462,6 +464,7 @@ namespace Tinkercell
 						if (options.size() == 1)
 						{
 							cursor.insertText(options[0].right(options[0].size() - text.size()));
+							alreadyInsertedPrompt = false;
 						}
 						else
 						{
@@ -469,6 +472,7 @@ namespace Tinkercell
 							cursor.insertText(tr("\n") + options.join(tr("\n")) + tr("\n"));
 							cursor.setCharFormat(normalFormat);
 							cursor.insertText(ConsoleWindow::Prompt + text);
+							alreadyInsertedPrompt = false;
 						}
 					}
 					
@@ -574,8 +578,6 @@ namespace Tinkercell
 		{
 			if (parentWidget())
 				parentWidget()->show();
-
-
 			else
 				show();
 		}
@@ -697,6 +699,7 @@ namespace Tinkercell
 				cursor.insertText(h->textData(id,s2) + tr("\n"));
 				cursor.setCharFormat(normalFormat);
 				cursor.insertText(ConsoleWindow::Prompt);
+				alreadyInsertedPrompt = true;
 				return true;
 			}
 		}
@@ -711,6 +714,7 @@ namespace Tinkercell
 				cursor.insertText(QString::number(h->numericalData(id,s2)) + tr("\n"));
 				cursor.setCharFormat(normalFormat);
 				cursor.insertText(ConsoleWindow::Prompt);
+				alreadyInsertedPrompt = true;
 				return true;
 			}
 		}
@@ -795,6 +799,7 @@ namespace Tinkercell
 
 		cursor.setCharFormat(normalFormat);
 		cursor.insertText(ConsoleWindow::Prompt);
+		alreadyInsertedPrompt = true;
 	}
 
 }

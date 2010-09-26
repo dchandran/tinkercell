@@ -78,17 +78,21 @@ namespace Tinkercell
 		if (!addpathDone)
 		{
 			QString appDir = QCoreApplication::applicationDirPath();
-			QString homeDir = Tool::homeDir();
+			QString homeDir = MainWindow::homeDir();
+			QString tempDir = MainWindow::tempDir();
 
 		#ifdef Q_WS_WIN
 			QString pydir1 = appDir.replace("/","\\\\") + tr("\\\\") + PYTHON_FOLDER;
 			QString pydir2 = homeDir.replace("/","\\\\") + tr("\\\\") + PYTHON_FOLDER;
+			QString pydir3 = tempDir.replace("/","\\\\");
 		#else
 			QString pydir1 = appDir + tr("/") + PYTHON_FOLDER;
 			QString pydir2 = homeDir + tr("/") + PYTHON_FOLDER;
+			QString pydir3 = tempDir;
 		#endif
 			script += tr("sys.path.append(\"") + pydir1 + tr("\")\n");
 			script += tr("sys.path.append(\"") + pydir2 + tr("\")\n");
+			script += tr("sys.path.append(\"") + pydir3 + tr("\")\n");
 			addpathDone = true;
 		}
         

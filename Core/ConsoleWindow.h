@@ -131,6 +131,8 @@ namespace Tinkercell
 		bool printValue(QTextCursor&, const QString&);
 		/*! \brief used for auto completion*/
 		void printHandleSummary(QTextCursor&, ItemHandle *);
+		/*! \brief used to insert the prompt in the confusion of multiple threads*/
+		bool alreadyInsertedPrompt;
 	};
 
 	/*! \brief Used to create an output window that can display outputs

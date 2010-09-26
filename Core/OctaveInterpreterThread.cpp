@@ -92,24 +92,26 @@ namespace Tinkercell
         	{
         		QString appDir = QCoreApplication::applicationDirPath();
 		        QString homeDir = MainWindow::homeDir();
+		        QString tempDir = MainWindow::tempDir();
         	#ifdef Q_WS_WIN
         		appDir.replace("/","\\\\");
         		homeDir.replace("/","\\\\");
-	        	script = QObject::tr("addpath(\"") + appDir + QObject::tr("\\\\") + OCTAVE_FOLDER + QObject::tr("\")\n");
-	        	if (QDir(homeDir + QObject::tr("/") + OCTAVE_FOLDER).exists())
-		        	script += QObject::tr("addpath(\"") + homeDir + QObject::tr("\\\\") + OCTAVE_FOLDER + QObject::tr("\")\n");
+	        	script += QObject::tr("addpath(\"") + appDir + QObject::tr("\\\\") + OCTAVE_FOLDER + QObject::tr("\")\n");
+	        	script += QObject::tr("addpath(\"") + homeDir + QObject::tr("\\\\") + OCTAVE_FOLDER + QObject::tr("\")\n");
+	        	script += QObject::tr("addpath(\"") + tempDir + QObject::tr("\")\n");
 	        #else
-	        
-	        	script = QObject::tr("addpath(\"") + appDir + QObject::tr("/") + OCTAVE_FOLDER + QObject::tr("\")\n");
-	        	if (QDir(homeDir + QObject::tr("/") + OCTAVE_FOLDER).exists())
-		        	script += QObject::tr("addpath(\"") + homeDir + QObject::tr("/") + OCTAVE_FOLDER + QObject::tr("\")\n");
+	        	script += QObject::tr("addpath(\"") + appDir + QObject::tr("/") + OCTAVE_FOLDER + QObject::tr("\")\n");
+	        	script += QObject::tr("addpath(\"") + homeDir + QObject::tr("/") + OCTAVE_FOLDER + QObject::tr("\")\n");
+	        	script += QObject::tr("addpath(\"") + tempDir + QObject::tr("\")\n");
         	#endif
 	        	script += QObject::tr("tinkercell('global')\n");
 	        	addpathDone = true;
+	        	
+	        	f(script.toAscii().data(),"octav.out","octav.err");
 	        }
 			
 			mainWindow->console()->message(script);
-			script += code;
+			script = code;
 
             QString currentDir = QDir::currentPath();
             QDir::setCurrent(MainWindow::tempDir());

@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
     PROJECTWEBSITE = QObject::tr("www.tinkercell.com");
     ORGANIZATIONNAME = QObject::tr("TinkerCell");
     PROJECTNAME = QObject::tr("TinkerCell");
-    Tinkercell::ConsoleWindow::Prompt = QObject::tr(">>>");	
+    Tinkercell::ConsoleWindow::Prompt = QObject::tr(">");	
 	Tinkercell::ConsoleWindow::BackgroundColor = QColor("#222222");
 	
 	QColor color("#00EE00");

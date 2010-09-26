@@ -267,8 +267,8 @@ specific for:\n\"\"\"\n\n") + text;
 			connect(ocTool->octaveInterpreter,SIGNAL(progress(int)),progressBar,SLOT(setValue(int)));
 		}
 		
-		if (editor)
-	 		editor->setPlainText(tr("tinkercell('global')\n"));
+		//if (editor)
+	 		//editor->setPlainText(tr("tinkercell('global')\n"));
 	}
 	
 	void CodingWindow::disableOctave()
@@ -318,8 +318,8 @@ specific for:\n\"\"\"\n\n") + text;
 			connect(pyTool->pythonInterpreter,SIGNAL(progress(int)),progressBar,SLOT(setValue(int)));
 		}
 		
-	 	if (editor)
-    		editor->setPlainText(tr("from tinkercell import *\n"));
+	 	//if (editor)
+    		//editor->setPlainText(tr("from tinkercell import *\n"));
 	 	
 	}
 	

@@ -129,6 +129,8 @@ namespace Tinkercell
         void buttonPressed(NodeFamily * node);
         /*! \brief load a new hierarchy of nodes from a new xml file*/
         void changeTree();
+        /*! \brief replaces all the nodes graphics with current style*/
+        void updateTheme();
 
     signals:
         /*! \brief one of the nodes in the tree has been selected*/
@@ -155,10 +157,12 @@ namespace Tinkercell
         void networkClosing(NetworkHandle * , bool *);
         /*! \brief select theme for nodes and connection arrows*/
 		void selectTheme(QAbstractButton * button);
+		
     private:
 
         /*! \brief replaces the nodes graphics file with a new one*/
         QString replaceNodeFile();
+        
         /*! \brief dialog for replacing a node family's graphics file*/
         void makeNodeSelectionDialog();
 

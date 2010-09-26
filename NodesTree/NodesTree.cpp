@@ -15,6 +15,7 @@
 #include <QMessageBox>
 #include <QRegExp>
 #include <QScrollArea>
+#include "ConnectionsTree.h"
 
 namespace Tinkercell
 {
@@ -227,7 +228,12 @@ namespace Tinkercell
       	if (button)
       	{
 	      	 themeDirectory = button->text();
-	      	 QMessageBox::information(this,tr("Information"),tr("Theme ") + themeDirectory + tr(" will take effect when TinkerCell starts next time"));
+	      	 updateTheme();
+	      	 if (mainWindow->tool(tr("Connections Tree")))
+	      	 {
+	      	 	ConnectionsTree * connectionsTree = static_cast<ConnectionsTree*>(mainWindow->tool(tr("Connections Tree")));
+	      	 	connectionsTree->updateTheme();
+	      	 }
 	    }
       }
 
@@ -513,6 +519,95 @@ namespace Tinkercell
 		QStringList names(nodeFamilies.keys());
 		names.sort();
 		return names;
+	}
+
+	void NodesTree::updateTheme()
+	{
+		QString homeDir = MainWindow::homeDir();
+        QString appDir = QCoreApplication::applicationDirPath();
+               
+		QList<NodeFamily*> toplevel;
+		NodeFamily * root;
+		QList<NodeFamily*> allFamilies = nodeFamilies.values();
+		for (int i=0; i < allFamilies.size(); ++i)
+		{
+			root = NodeFamily::cast(allFamilies[i]->root());
+			if (!toplevel.contains(root))
+				toplevel += root;
+
+			for (int j=0; j < allFamilies[i]->graphicsItems.size(); ++j)
+				delete allFamilies[i]->graphicsItems[j];
+
+			allFamilies[i]->graphicsItems.clear();
+		}
+		for (int i=0; i < toplevel.size(); ++i)
+		{
+			QString graphicsFile = nodeImageFile(toplevel[i]->name()), 
+					   icon = iconFile(toplevel[i]->name());
+
+			NodeFamily * node = toplevel[i];
+
+			if (!QFile::exists(icon) && QFile::exists(homeDir + QString("/") + icon))
+		   		icon = homeDir + QString("/") + icon;
+           else
+		   if (!QFile::exists(icon) && QFile::exists(appDir + QString("/") + icon))
+		   		icon = appDir + QString("/") + icon;
+
+          if (node->graphicsItems.isEmpty())
+          {
+           		if (!QFile::exists(graphicsFile) && QFile::exists(homeDir + QString("/") + graphicsFile))
+					graphicsFile = homeDir + QString("/") + graphicsFile;
+				else
+				    if (!QFile::exists(graphicsFile) && QFile::exists(appDir + QString("/") + graphicsFile))
+						graphicsFile = appDir + QString("/") + graphicsFile;
+
+              NodeGraphicsReader imageReader;
+              NodeGraphicsItem * nodeitem = new NodeGraphicsItem;
+              imageReader.readXml(nodeitem,graphicsFile);
+              if (nodeitem && nodeitem->isValid())
+              {
+                   nodeitem->normalize();
+                   node->graphicsItems += nodeitem;
+              }
+              else
+              {
+                   if (nodeitem) delete nodeitem;
+              }
+		  }
+              if (node->graphicsItems.isEmpty() && node->parent())
+              	 for (int j=0; j < node->parent()->graphicsItems.size(); ++j)
+              	 	node->graphicsItems += (NodeGraphicsItem::topLevelNodeItem(node->parent()->graphicsItems[j]))->clone();
+
+               if (node->pixmap.load(icon))
+                    node->pixmap.setMask(node->pixmap.createMaskFromColor(QColor(255,255,255)));
+               else
+                    if (node->parent())
+                         node->pixmap = node->parent()->pixmap;
+
+			QList<QToolButton*> buttons = treeButtons.values(node->name());
+
+			for (int j=0; j < buttons.size(); ++j)
+			{
+				buttons[j]->setIcon(QIcon(node->pixmap));
+				if (node->pixmap.width() > node->pixmap.height())
+				{
+					int w = 20 * node->pixmap.width()/node->pixmap.height();
+					if (w > 50) w = 50;
+					buttons[j]->setIconSize(QSize(w,20));
+				}
+				else
+				{
+					int h = 20 * node->pixmap.height()/node->pixmap.width();
+					if (h > 50) h = 50;
+					buttons[j]->setIconSize(QSize(20, h));
+				}
+			}
+			
+			QList<ItemFamily*> children = node->children();
+			for (int j=0; j < children.size(); ++j)
+				if (NodeFamily::cast(children[j]) && !toplevel.contains(NodeFamily::cast(children[j])))
+					toplevel += NodeFamily::cast(children[j]);
+		}
 	}
 }
 

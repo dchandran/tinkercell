@@ -282,6 +282,133 @@ namespace Tinkercell
 		names.sort();
 		return names;
 	}
+
+	void ConnectionsTree::updateTheme()
+	{
+		QString homeDir = MainWindow::homeDir();
+        QString appDir = QCoreApplication::applicationDirPath();
+
+        QList<ConnectionFamily*> toplevel;
+		ConnectionFamily * root;
+		QList<ConnectionFamily*> allFamilies = connectionFamilies.values();
+
+		for (int i=0; i < allFamilies.size(); ++i)
+		{
+			root = ConnectionFamily::cast(allFamilies[i]->root());
+			if (!toplevel.contains(root))
+				toplevel += root;
+
+			for (int j=0; j < allFamilies[i]->graphicsItems.size(); ++j)
+				delete allFamilies[i]->graphicsItems[j];
+
+			allFamilies[i]->graphicsItems.clear();
+		}
+
+		for (int i=0; i < toplevel.size(); ++i)
+		{
+				ConnectionFamily * family = toplevel[i];
+				ConnectionFamily * parentFamily = ConnectionFamily::cast(family->parent());
+               //set icon
+               if (family->pixmap.load(homeDir + QString("/") + ConnectionsTree::iconFile(family)))
+                    family->pixmap.setMask(family->pixmap.createMaskFromColor(QColor(255,255,255)));
+               if (family->pixmap.load(appDir + QString("/") + ConnectionsTree::iconFile(family)))
+                    family->pixmap.setMask(family->pixmap.createMaskFromColor(QColor(255,255,255)));
+               else
+                    if (parentFamily)		//if no icon file, same as parent's icon
+                         family->pixmap = parentFamily->pixmap;
+
+               //set arrow head
+               ArrowHeadItem * nodeitem = 0;
+
+               if (family->graphicsItems.isEmpty())
+               {
+               	   QString arrowImageFile;
+               	   nodeitem = 0;
+               	   arrowImageFile = homeDir + QString("/") + ConnectionsTree::arrowImageFile(family->name());
+               	   if (QFile::exists(arrowImageFile))
+               	   {
+               	   	   nodeitem = new ArrowHeadItem(arrowImageFile);
+               	   }
+               	   else
+               	   {
+                 	   arrowImageFile = appDir + QString("/") + ConnectionsTree::arrowImageFile(family->name());
+	               	   if (QFile::exists(arrowImageFile))
+				           nodeitem = new ArrowHeadItem(arrowImageFile);
+				   }
+
+		           if (!nodeitem || !nodeitem->isValid())
+		           {
+		               if (nodeitem) 
+		                   delete nodeitem;
+		           }
+		           else
+			           family->graphicsItems += nodeitem;
+		           //if no arrow file, same as parent's arrow
+		           if (parentFamily && family->graphicsItems.isEmpty() && 
+		           		!parentFamily->graphicsItems.isEmpty() &&
+		                NodeGraphicsItem::cast(parentFamily->graphicsItems[0]))
+		                family->graphicsItems += (NodeGraphicsItem::topLevelNodeItem(parentFamily->graphicsItems[0]))->clone();
+			   }
+
+			   //decorator
+               if (family->graphicsItems.size() < 2)
+               {
+		           QString decoratorImageFile;
+		           decoratorImageFile = homeDir + QString("/") + ConnectionsTree::decoratorImageFile(family->name());
+		           nodeitem = 0;
+
+               	   if (QFile::exists(decoratorImageFile))
+               	   {
+               	   	   nodeitem = new ArrowHeadItem(decoratorImageFile);
+               	   }
+               	   else
+               	   {
+                 	   decoratorImageFile = appDir + QString("/") + ConnectionsTree::decoratorImageFile(family->name());
+	               	   if (QFile::exists(decoratorImageFile))
+				           nodeitem = new ArrowHeadItem(decoratorImageFile);
+				   }
+		           
+		           if (!nodeitem || !nodeitem->isValid())
+		           {
+		           	   if (nodeitem)
+			               delete nodeitem;
+		           }
+		           else
+			           family->graphicsItems += nodeitem;
+			       
+			       if (parentFamily && (family->graphicsItems.size() < 2) &&
+			       		(parentFamily->graphicsItems.size() > 1) &&
+		                NodeGraphicsItem::cast(parentFamily->graphicsItems.last()))
+		                {
+			                family->graphicsItems += (NodeGraphicsItem::topLevelNodeItem(parentFamily->graphicsItems.last()))->clone();
+			            }
+			   }
+
+ 			   QList<QToolButton*> buttons = treeButtons.values(family->name());
+
+				for (int j=0; j < buttons.size(); ++j)
+				{
+					buttons[j]->setIcon(QIcon(family->pixmap));
+					if (family->pixmap.width() > family->pixmap.height())
+					{
+						int w = 20 * family->pixmap.width()/family->pixmap.height();
+						if (w > 50) w = 50;
+						buttons[j]->setIconSize(QSize(w,20));
+					}
+					else
+					{
+						int h = 20 * family->pixmap.height()/family->pixmap.width();
+						if (h > 50) h = 50;
+						buttons[j]->setIconSize(QSize(20, h));
+					}
+				}
+
+			    QList<ItemFamily*> children = family->children();
+				for (int j=0; j < children.size(); ++j)
+					if (ConnectionFamily::cast(children[j]) && !toplevel.contains(ConnectionFamily::cast(children[j])))
+						toplevel += ConnectionFamily::cast(children[j]);
+		}
+	}
 }
 
 

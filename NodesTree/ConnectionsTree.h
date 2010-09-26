@@ -108,6 +108,8 @@ namespace Tinkercell
         void buttonPressed(ConnectionFamily*);
         /*! \brief request to change the connections tree hierarchy*/
         void changeTree();
+         /*! \brief replaces all the arrow and decorator graphics with current style*/
+        void updateTheme();
     private slots:
         /*! \brief current network is closing*/
         void networkClosing(NetworkHandle * , bool *);
@@ -125,8 +127,6 @@ namespace Tinkercell
         void contextMenuEvent(QContextMenuEvent * event);
         /*! \brief the tree widget that displays the family tree*/
         QTreeWidget treeWidget;
-        /*! \brief folder with the theme to use*/
-        QString themeDir;
     };
 
 }

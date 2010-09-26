@@ -228,7 +228,7 @@ namespace Tinkercell
 		connect(tabWidget,SIGNAL(currentChanged(int)),this,SLOT(tabIndexChanged(int)));
 
 		QToolButton * upButton = new QToolButton;
-		upButton->setIcon(QIcon(tr(":/images/switch.png")));
+		upButton->setIcon(QIcon(tr(":/images/eject.png")));
 		tabWidget->setCornerWidget(upButton);
 		connect(upButton,SIGNAL(pressed()),this,SLOT(popOut()));
 		upButton->setToolTip(tr("Pop-out"));

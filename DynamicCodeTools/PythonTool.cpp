@@ -121,7 +121,8 @@ namespace Tinkercell
 			
 			filesFound = true;
 		
-			if (!QFile(icon).exists())
+			if (!icon.isEmpty() && !QFile(icon).exists())
+			{
 				if (QFile(appDir + tr("/") + icon).exists())
 					icon = appDir + tr("/") + icon;
 				else
@@ -133,10 +134,10 @@ namespace Tinkercell
 				else
 				if (QFile(homeDir + tr("/python/") + icon).exists())
 					icon = homeDir + tr("/python/") + icon;
-		
-			if (!QFile(icon).exists())
-				icon = tr(":/images/function.png");
+			}
 
+			if (icon.isEmpty() || !QFile(icon).exists())
+				icon = tr(":/images/function.png");
 			QPixmap pixmap(icon);
 		
             QToolButton * button = libMenu->addFunction(category, name, QIcon(pixmap));
@@ -408,6 +409,7 @@ namespace Tinkercell
 		QString icon = icon0;
 		
 		if (!QFile(icon).exists())
+		{
 			if (QFile(appDir + tr("/") + icon).exists())
 				icon = appDir + tr("/") + icon;
 			else
@@ -419,8 +421,9 @@ namespace Tinkercell
 			else
 			if (QFile(homeDir + tr("/python/") + icon).exists())
 				icon = homeDir + tr("/python/") + icon;
-		
-		if (!QFile(icon).exists())
+		}
+
+		if (icon.isEmpty() || !QFile(icon).exists())
 			icon = tr(":/images/function.png");
 		QPixmap pixmap(icon);
 	

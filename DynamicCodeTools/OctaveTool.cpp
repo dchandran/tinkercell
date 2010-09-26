@@ -119,6 +119,7 @@ namespace Tinkercell
 			filesFound = true;
 		
 			if (!QFile(icon).exists())
+			{
 				if (QFile(appDir + tr("/") + icon).exists())
 					icon = appDir + tr("/") + icon;
 				else
@@ -130,8 +131,8 @@ namespace Tinkercell
 				else
 				if (QFile(homeDir + tr("/octave/") + icon).exists())
 					icon = homeDir + tr("/octave/") + icon;
-		
-			if (!QFile(icon).exists())
+			}
+			if (icon.isEmpty() || !QFile(icon).exists())
 				icon = tr(":/images/function.png");
 			QPixmap pixmap(icon);
 		
@@ -397,6 +398,7 @@ namespace Tinkercell
 		QString icon = icon0;
 
 		if (!QFile(icon).exists())
+		{
 			if (QFile(appDir + tr("/") + icon).exists())
 				icon = appDir + tr("/") + icon;
 			else
@@ -408,8 +410,8 @@ namespace Tinkercell
 			else
 			if (QFile(homeDir + tr("/octave/") + icon).exists())
 				icon = homeDir + tr("/octave/") + icon;
-		
-		if (!QFile(icon).exists())
+		}
+		if (icon.isEmpty() || !QFile(icon).exists())
 			icon = tr(":/images/function.png");
 		QPixmap pixmap(icon);
 	

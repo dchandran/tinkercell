@@ -115,22 +115,30 @@ namespace Tinkercell
                         current = QDir::currentPath(),
                         appDir = QCoreApplication::applicationDirPath();
 
-            QString name[] = {  appDir + tr("/") + iconFilename,
+            QString name[] = {  iconFilename,
+            							appDir + tr("/") + iconFilename,
                                          appDir + tr("/icons/") + iconFilename,
+                                         home + tr("/icons/") + iconFilename,
                                          home + tr("/") + iconFilename,
-                                         home + tr("/plugins/c/") + iconFilename,
-                                         appDir + tr("/plugins/c/") + iconFilename,
-                                         current + tr("/") + iconFilename,
-                                         iconFilename };
+                                         home + tr("/plugins/") + iconFilename,
+                                         appDir + tr("/plugins/") + iconFilename,
+                                         current + tr("/") + iconFilename};
             QString iconFile("");
-            for (int i=0; i < 4; ++i)
+			bool found = false;
+            
+            for (int i=0; i < 8; ++i)
             {
-                if (QFile::exists(name[i]))
+                if (QFile::exists(name[i]) || name[i].startsWith(tr(":/images")))
                 {
                     iconFile = name[i];
+                    found = true;
                     break;
                 }
             }
+
+            if (!found)
+            	iconFile = tr(":/images/function.png");
+
 
             QPixmap pixmap(iconFile);
             QIcon icon(pixmap);

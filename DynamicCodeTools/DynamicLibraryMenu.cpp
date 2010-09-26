@@ -82,8 +82,11 @@ namespace Tinkercell
 		}
 	}
 
-	QToolButton * DynamicLibraryMenu::addFunction(const QString& category, const QString& functionName, const QIcon& icon)
+	QToolButton * DynamicLibraryMenu::addFunction(const QString& category, const QString& functionName, const QIcon& icon0)
 	{
+		QIcon icon = icon0;
+		if (icon.isNull())
+			icon = QIcon(tr(":/images/function.png"));
 		QToolButton * toolButton = new QToolButton;
 		toolButton->setFont(treeWidget.font());
 		toolButton->setAutoRaise(true);
@@ -113,8 +116,12 @@ namespace Tinkercell
 		return toolButton;
 	}
 
-	QAction * DynamicLibraryMenu::addMenuItem(const QString& category, const QString& functionName, const QIcon& icon, bool defaultAction)
+	QAction * DynamicLibraryMenu::addMenuItem(const QString& category, const QString& functionName, const QIcon& icon0, bool defaultAction)
 	{
+		QIcon icon = icon0;
+		if (icon.isNull())
+			icon = QIcon(tr(":/images/function.png"));
+
 		QAction * action = new QAction(icon,functionName,this);
 
 		if (!menuButton) return action;
@@ -176,8 +183,11 @@ namespace Tinkercell
 		targetAction.trigger();
 	}
 
-	QAction * DynamicLibraryMenu::addContextMenuItem(const QString& familyName,const QString& functionName, const QPixmap& icon, bool showTool)
+	QAction * DynamicLibraryMenu::addContextMenuItem(const QString& familyName,const QString& functionName, const QPixmap& icon0, bool showTool)
 	{
+		QPixmap icon = icon0;
+		if (icon.isNull())
+			icon.load(tr(":/images/function.png"));
 		GraphicalActionTool * gtool = new GraphicalActionTool(familyName, functionName,icon,this);
 		graphicalTools += QPair<QString,GraphicalActionTool*>(familyName,gtool);
 		showGraphicalTool += showTool;

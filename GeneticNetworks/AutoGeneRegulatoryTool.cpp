@@ -589,7 +589,7 @@ namespace Tinkercell
 		GraphicsScene * scene = currentScene();
 		if (!scene || !mainWindow || parts.isEmpty()) return command;
 
-		ItemHandle * rbs;
+		ItemHandle * rbs = 0;
 		QString rate, s0;
 
 		QList<ItemHandle*> targetHandles, promoters;
@@ -612,8 +612,8 @@ namespace Tinkercell
 					for (int j=0; j < connections.size(); ++j)
 						if (connections[j] &&
 							(!connections[j]->children.isEmpty() ||
-								(connections[j]->hasTextData(tr("Rate equations")) &&
-									connections[j]->textDataTable(tr("Rate equations")).rows() > 0)))
+								(connections[j]->hasNumericalData(tr("Product stoichiometries")) &&
+									connections[j]->numericalDataTable(tr("Product stoichiometries")).cols() > 0)))
 						{
 							isProperReaction = true;
 							break;
@@ -709,55 +709,57 @@ namespace Tinkercell
 										oldDataTables += &(connections[j]->textDataTable(tr("Rate equations")));
 										newDataTables += sDat;
 									}
-
-									if (sDat->getRowNames().contains(tr("translation")))
+									
+									if (rbs)
 									{
-										QString s = sDat->value(tr("translation"),0);
-
-										if (rbs && !s.contains(rbs->fullName()))
+										if (sDat->getRowNames().contains(tr("translation")))
 										{
-											s = rbs->fullName() + tr(".strength * ") + sDat->value(tr("translation"),0);
-											sDat->value(tr("translation"),0) = s;
-											if (!newDataTables.contains(sDat))
+											QString s = sDat->value(tr("translation"),0);
+
+											if (rbs && !s.contains(rbs->fullName()))
 											{
-												oldDataTables += &(connections[j]->textDataTable(tr("Rate equations")));
-												newDataTables += sDat;
+												s = rbs->fullName() + tr(".strength * ") + sDat->value(tr("translation"),0);
+												sDat->value(tr("translation"),0) = s;
+												if (!newDataTables.contains(sDat))
+												{
+													oldDataTables += &(connections[j]->textDataTable(tr("Rate equations")));
+													newDataTables += sDat;
+												}
 											}
 										}
-									}
 
-									QList<NodeHandle*> rna = connections[j]->nodes();
-									for (int k=0; k < rna.size(); ++k)
-										if (NodeHandle::cast(rna[k]) && rna[k]->isA(tr("RNA")))
-										{
-											QList<ConnectionHandle*> connections2 = NodeHandle::cast(rna[k])->connections();
-											for (int l=0; l < connections2.size(); ++l)
-												if (connections2[l] &&
-													connections2[l]->isA(tr("Translation")) &&
-													connections2[l]->hasTextData(tr("Rate equations")))
-													if (rbs)
-													{
+										QList<NodeHandle*> rna = connections[j]->nodes();
+										
+										for (int k=0; k < rna.size(); ++k)
+											if (NodeHandle::cast(rna[k]) && rna[k]->isA(tr("RNA")))
+											{
+												QList<ConnectionHandle*> connections2 = NodeHandle::cast(rna[k])->connections();
+												for (int l=0; l < connections2.size(); ++l)
+													if (connections2[l] &&
+														connections2[l]->isA(tr("Translation")) &&
+														connections2[l]->hasTextData(tr("Rate equations")))
+														{
 															DataTable<QString> * sDat2 = new DataTable<QString>(connections2[l]->textDataTable(tr("Rate equations")));
 															QString s = rbs->fullName() + tr(".strength * ") + rna[k]->fullName();
 
 															if (!sDat2->value(0,0).contains(rbs->fullName()))
 															{
 																sDat2->value(0,0) = s;
-																oldDataTables += &(connections[j]->textDataTable(tr("Rate equations")));
+																oldDataTables += &(connections2[l]->textDataTable(tr("Rate equations")));
 																newDataTables += sDat2;
 															}
 															else
 																delete sDat2;
-													}
-										}
+														}
+											}
+									}
 								}
-							rbs = 0;
 						}
+						rbs = 0;
 				
 						if ((parts[i]->isA(tr("Terminator")) || parts[i]->isA(tr("Vector")) ) && NodeHandle::cast(parts[i]))
 						{
 							promoters.clear();
-							rbs = 0;
 						}
 					}
 				}

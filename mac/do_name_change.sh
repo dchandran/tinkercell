@@ -18,9 +18,7 @@ cp ../../Main/tinkercell.qss Tinkercell.app/Contents/MacOS/
 cp -R ../../icons Tinkercell.app/Contents/MacOS/
 cp plugins/c/.a Tinkercell.app/Contents/MacOS/lib/
 cp lib* Tinkercell.app/Contents/MacOS/
-cp -R ../../ArrowItems Tinkercell.app/Contents/MacOS/
-cp -R ../../NodeItems Tinkercell.app/Contents/MacOS/
-cp -R ../../DecoratorItems Tinkercell.app/Contents/MacOS/
+cp -R ../../Graphics Tinkercell.app/Contents/MacOS/
 mkdir Tinkercell.app/Contents/MacOS/NodesTree/
 cp ../../NodesTree/*.xml Tinkercell.app/Contents/MacOS/NodesTree/
 cp -R ../../NodesTree/Icons Tinkercell.app/Contents/MacOS/NodesTree/

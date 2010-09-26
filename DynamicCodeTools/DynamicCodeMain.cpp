@@ -31,20 +31,11 @@ extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)
 #endif
 
 	Tinkercell::DynamicLibraryMenu * libMenu = new Tinkercell::DynamicLibraryMenu;
-	main->addTool(libMenu);
+    Tinkercell::LoadCLibrariesTool * cLibraries = new Tinkercell::LoadCLibrariesTool;
+    Tinkercell::PythonTool * pythonTool = new Tinkercell::PythonTool;
+    Tinkercell::OctaveTool * octaveTool = new Tinkercell::OctaveTool;
+    Tinkercell::CodingWindow * cScriptWindow = new Tinkercell::CodingWindow;
 
-	Tinkercell::LoadCLibrariesTool * cLibraries = new Tinkercell::LoadCLibrariesTool;
-	main->addTool(cLibraries);
-
-	Tinkercell::PythonTool * pythonTool = new Tinkercell::PythonTool;
-	main->addTool(pythonTool);
-	
-	Tinkercell::OctaveTool * octaveTool = new Tinkercell::OctaveTool;
-	main->addTool(octaveTool);
-
-	Tinkercell::CodingWindow * cScriptWindow = new Tinkercell::CodingWindow;
-	main->addTool(cScriptWindow);
-	
 	if (Tinkercell::CodingWindow::DO_SVN_UPDATE)
 	{
 		QString s;
@@ -57,5 +48,11 @@ extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)
 		s = QObject::tr("cd ") + homeDir + QObject::tr("; svn update");
 		system(s.toAscii().data());
 	}
+
+	main->addTool(libMenu);
+    main->addTool(cLibraries);
+	main->addTool(pythonTool);
+	main->addTool(octaveTool);
+	main->addTool(cScriptWindow);
 }
 

@@ -88,6 +88,7 @@ namespace Tinkercell
 		QHBoxLayout * layout3 = new QHBoxLayout;
 
 		layout2->addWidget( textEdit = new CodeEditor );
+		textEdit->setReadOnly(true);
 		layout3->addWidget(okButton);
 		layout3->addWidget(cancelButton);
 
@@ -141,7 +142,7 @@ namespace Tinkercell
 					data.colName(0) = tr("entry");
 					data.setRowNames( QStringList() << tr("author") << tr("date") << tr("description") << tr("uri") << tr("reference") );
 					for (int j=0; j < 5; ++j)
-						data.value(j,0) = data.rowName(j);
+						data.value(j,0) = tr("");
 
 					data.description() = tr("Annotation: A set of fields and text values. The fields, such as author or date, are the row names. First column contains values.");
 

@@ -570,7 +570,7 @@ namespace Tinkercell
 
 	void CatalogWidget::makeTabWidget()
 	{
-		if (!tabWidget) return;
+		if (!tabWidget || !connectionsTree || !nodesTree) return;
 		
 		int k = tabWidget->currentIndex();
 
@@ -580,6 +580,12 @@ namespace Tinkercell
 			tabGroups << tabGroupButtons[i].first;
 
 		QList<QWidget*> tabs;
+		
+		QList<QToolButton*> buttons = nodesTree->treeButtons.values();
+		buttons << connectionsTree->treeButtons.values();
+		
+		for (int i=0; i < buttons.size(); ++i)
+			buttons[i]->setParent(0);
 
 		for (int i=0; i < tabGroups.size(); ++i)
 		{

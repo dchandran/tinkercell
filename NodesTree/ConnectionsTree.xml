@@ -39,13 +39,6 @@
       <process family="Phosphorylation" participant_types="Protein,Protein" participant_roles="Kinase,Target">
           </process>
       
-      <process family="Transcription Regulation" participant_types="Transcription Factor,Promoter">
-          <process family="Transcription Activation" participant_types="Transcription Factor,Inducible Promoter" participant_roles="Activator,Target">
-          </process>       	
-          <process family="Transcription Repression" participant_types="Transcription Factor,Repressible Promoter" participant_roles="Repressor,Target">
-          </process>
-      </process>
-      
       <process family="Activation" participant_types="Node" participant_roles="Activator,Target">
           <process family="Allosteric Activation" participant_types="Molecule,Protein">
           </process>
@@ -61,6 +54,13 @@
           <process family="Transcription Repression" participant_types="Transcription Factor,Repressible Promoter">
           </process>
           <process family="Direct Gene Repression" participant_types="Coding,Repressible Promoter">
+          </process>
+      </process>
+      
+       <process family="Transcription Regulation" participant_types="Transcription Factor,Promoter">
+          <process family="Transcription Activation" participant_types="Transcription Factor,Inducible Promoter" participant_roles="Activator,Target">
+          </process>       	
+          <process family="Transcription Repression" participant_types="Transcription Factor,Repressible Promoter" participant_roles="Repressor,Target">
           </process>
       </process>
 

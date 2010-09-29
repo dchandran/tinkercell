@@ -223,7 +223,7 @@ namespace Tinkercell
 		
 		QString outputs;
 		
-		QStringList colnames = table.getColNames(), rownames = table.getRowNames();
+		QStringList colnames = table.columnNames(), rownames = table.rowNames();
 		
 		for (int i=0; i < colnames.size(); ++i)
 		{
@@ -239,7 +239,7 @@ namespace Tinkercell
 			cursor.insertText(rownames.at(i));
 			outputs = tr("");
 			
-			for (int j=0; j < table.cols(); ++j)
+			for (int j=0; j < table.columns(); ++j)
 			{
 				outputs += tr("\t") + QString::number(table.at(i,j));
 			}
@@ -261,7 +261,7 @@ namespace Tinkercell
 		
 		QString outputs;
 		
-		QStringList colnames = table.getColNames(), rownames = table.getRowNames();
+		QStringList colnames = table.columnNames(), rownames = table.rowNames();
 		
 		for (int i=0; i < colnames.size(); ++i)
 		{
@@ -277,7 +277,7 @@ namespace Tinkercell
 			cursor.insertText(rownames.at(i));
 			outputs = tr("");
 			
-			for (int j=0; j < table.cols(); ++j)
+			for (int j=0; j < table.columns(); ++j)
 			{
 				outputs += tr("\t") + (table.at(i,j));
 			}

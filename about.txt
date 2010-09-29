@@ -27,4 +27,4 @@ Credits
 - E. coli regulatory network is obtained from RegulonDB
 - gnuplot is used in the gnuplot tool, as the name suggests
 - GNU C compiler (GPL) is used by one of the plugins to compile C code
-
+- toolbar icons were obtained from www.aha-soft.com (www.small-icons.com/packs/24x24-free-toolbar-icons.htm)

@@ -30,16 +30,6 @@ IF( APPLE AND BUILD_BUNDLE )
   ADD_CUSTOM_COMMAND( TARGET TinkerCell POST_BUILD
       COMMAND mkdir ARGS -p
         ${EXECUTABLE_OUTPUT_PATH}/TinkerCell.app/Contents/Resources
-        ${EXECUTABLE_OUTPUT_PATH}/TinkerCell.app/Contents/Frameworks
-        ${EXECUTABLE_OUTPUT_PATH}/TinkerCell.app/Contents/MacOS
-      COMMAND cp ARGS -rf ${QT_LIBRARY_DIR}/QtCore.framework
-        ${EXECUTABLE_OUTPUT_PATH}/TinkerCell.app/Contents/Frameworks/
- 	  COMMAND cp ARGS -rf ${QT_LIBRARY_DIR}/QtGui.framework
-        ${EXECUTABLE_OUTPUT_PATH}/TinkerCell.app/Contents/Frameworks/
-	  COMMAND cp ARGS -rf ${QT_LIBRARY_DIR}/QtXml.framework
-        ${EXECUTABLE_OUTPUT_PATH}/TinkerCell.app/Contents/Frameworks/
-	  COMMAND cp ARGS -rf ${QT_LIBRARY_DIR}/QtOpenGL.framework
-        ${EXECUTABLE_OUTPUT_PATH}/TinkerCell.app/Contents/Frameworks/
       COMMAND cp ARGS ${MACOSX_BUNDLE_ICON_FILE}
         ${EXECUTABLE_OUTPUT_PATH}/TinkerCell.app/Contents/Resources
   )

@@ -34,22 +34,6 @@ IF( APPLE AND BUILD_BUNDLE )
     BUNDLE DESTINATION bin/../
     RUNTIME DESTINATION bin/../)
 
-  ADD_CUSTOM_COMMAND( TARGET MultiCell POST_BUILD
-      COMMAND mkdir ARGS -p
-        ${EXECUTABLE_OUTPUT_PATH}/MultiCell.app/Contents/Resources
-        ${EXECUTABLE_OUTPUT_PATH}/MultiCell.app/Contents/Frameworks
-      COMMAND cp ARGS -rf ${QT_LIBRARY_DIR}/QtXml.framework
-        ${EXECUTABLE_OUTPUT_PATH}/MultiCell.app/Contents/Frameworks/
-      COMMAND cp ARGS ${EXECUTABLE_OUTPUT_PATH}/libTinkerCellCore.dylib
-         ${EXECUTABLE_OUTPUT_PATH}/MultiCell.app/Contents/MacOS/
-#      COMMAND cp ARGS ${MACOSX_TINKERCELL_BUNDLE_ICON_FILE}
-#        ${EXECUTABLE_OUTPUT_PATH}/MultiCell.app/Contents/Resources
-      COMMAND cp ARGS -rf ${LIBRARY_OUTPUT_PATH}
-        ${EXECUTABLE_OUTPUT_PATH}/MultiCell.app/Contents/MacOS/
-#      COMMAND cp ARGS *.qm
-#        ${EXECUTABLE_OUTPUT_PATH}/MultiCell.app/Contents/Resources 
-  )
-
 ELSE( APPLE AND BUILD_BUNDLE )
   IF( UNIX OR ( APPLE AND NOT BUILD_BUNDLE ) )
     ADD_EXECUTABLE( MultiCell

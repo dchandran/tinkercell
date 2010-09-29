@@ -1767,7 +1767,7 @@ namespace Tinkercell
 					delete curveSegments[i][j];
 				}
 				if (curveSegments[i].arrowStart && 
-					!curveSegments[i][j].arrowStart->connectionItem &&
+					!curveSegments[i].arrowStart->connectionItem &&
 					!MainWindow::invalidPointers.contains((void*)curveSegments[i].arrowStart))
 				{
 					curveSegments[i].arrowStart->setParentItem(0);
@@ -1776,7 +1776,7 @@ namespace Tinkercell
 					curveSegments[i].arrowStart = 0;
 				}
 				if (curveSegments[i].arrowEnd && 
-					!curveSegments[i][j].arrowEnd->connectionItem &&
+					!curveSegments[i].arrowEnd->connectionItem &&
 					!MainWindow::invalidPointers.contains((void*)curveSegments[i].arrowEnd))
 				{
 					curveSegments[i].arrowEnd->setParentItem(0);

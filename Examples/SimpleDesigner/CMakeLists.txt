@@ -38,13 +38,6 @@ IF( APPLE AND BUILD_BUNDLE )
     BUNDLE DESTINATION bin/../
     RUNTIME DESTINATION bin/../)
 
-  ADD_CUSTOM_COMMAND( TARGET SimpleDesigner PRE_BUILD
-      COMMAND mkdir ARGS -p
-        ${EXECUTABLE_OUTPUT_PATH}/SimpleDesigner.app/Contents/Resources
-      COMMAND cp ARGS ${MACOSX_BUNDLE_ICON_FILE}
-        ${EXECUTABLE_OUTPUT_PATH}/SimpleDesigner.app/Contents/Resources
-  )
-
 ELSE( APPLE AND BUILD_BUNDLE )
   IF( UNIX OR ( APPLE AND NOT BUILD_BUNDLE ) )
     ADD_EXECUTABLE( SimpleDesigner

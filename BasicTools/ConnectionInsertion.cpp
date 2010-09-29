@@ -73,7 +73,15 @@ namespace Tinkercell
 			
 			for (int i=0; i < selectedConnections.size(); ++i)
 			{
-				nodes = NodeHandle::cast( getHandle(selectedConnections[i]->nodesAsGraphicsItems()) );
+				ConnectionHandle * h = ConnectionHandle::cast(selectedConnections[i]->handle());
+				for (int j=0; j < h->graphicsItems.size(); ++j)
+				{
+					ConnectionGraphicsItem * c;
+					if (c = ConnectionGraphicsItem::cast(h->graphicsItems[j]))
+					{
+						nodes += NodeHandle::cast( getHandle(c->nodesAsGraphicsItems()) );
+					}
+				}
 				for (int j=0; j < nodes.size(); ++j)
 					if (isReactant(nodes[j]) && numRequiredIn > 0)
 						--numRequiredIn;
@@ -560,11 +568,7 @@ namespace Tinkercell
 						if ((connection = ConnectionGraphicsItem::topLevelConnectionItem(items[i]->graphicsItems[j])) &&
 							!selectedConnections.contains(connection))
 						{
-							ConnectionHandle * h = ConnectionHandle::cast(connection->handle());
-							for (int k=0; k < h->graphicsItems.size(); ++k)
-								if (ConnectionGraphicsItem::cast(h->graphicsItems[k]) &&
-									!selectedConnections.contains(ConnectionGraphicsItem::cast(h->graphicsItems[k])))
-									selectedConnections += ConnectionGraphicsItem::cast(h->graphicsItems[k]);
+							selectedConnections += connection;
 							break;
 						}
 						if ((node = NodeGraphicsItem::topLevelNodeItem(items[i]->graphicsItems[j])))
@@ -879,10 +883,7 @@ namespace Tinkercell
 					ItemHandle * handle2 = getHandle(connection);
 					if (handle2 && handle2->family())
 					{
-						for (int k=0; k < handle2->graphicsItems.size(); ++k)
-							if (ConnectionGraphicsItem::cast(handle2->graphicsItems[k]) &&
-								!selectedConnections.contains(ConnectionGraphicsItem::cast(handle2->graphicsItems[k])))
-								selectedConnections.push_back(ConnectionGraphicsItem::cast(handle2->graphicsItems[k]));
+						selectedConnections.push_back(connection);
 						if (!changeSelectedFamilyToMatchSelection())
 						{
 							selectedConnections.pop_back();

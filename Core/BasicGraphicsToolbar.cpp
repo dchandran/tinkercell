@@ -31,7 +31,8 @@ namespace Tinkercell
 	
 	void BasicGraphicsToolbar::init()
 	{
-		QToolBar * toolBar = mainWindow->toolBarForTools;
+		QToolBar * toolBar = new QToolBar(tr("Zoom, color, find toolbar"),mainWindow);//mainWindow->toolBarForTools;
+		toolBar->setObjectName(tr("Zoom, color, find toolbar"));
 		
 		toolBar->addAction(QIcon(tr(":/images/zoomin.png")),tr("Zoom in"),this,SLOT(zoomIn()));
 		toolBar->addAction(QIcon(tr(":/images/zoomout.png")),tr("Zoom out"),this,SLOT(zoomOut()));

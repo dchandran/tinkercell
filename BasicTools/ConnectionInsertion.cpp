@@ -75,10 +75,10 @@ namespace Tinkercell
 			{
 				nodes = NodeHandle::cast( getHandle(selectedConnections[i]->nodesAsGraphicsItems()) );
 				for (int j=0; j < nodes.size(); ++j)
-					if (isReactant(nodes[j]))
+					if (isReactant(nodes[j]) && numRequiredIn > 0)
 						--numRequiredIn;
 					else
-					if (isProduct(nodes[j]))
+					if (isProduct(nodes[j]) && numRequiredOut > 0)
 						--numRequiredOut;
 			}
 			
@@ -958,7 +958,7 @@ namespace Tinkercell
 						return;
 
 					ConnectionGraphicsItem * item = new ConnectionGraphicsItem;
-		
+					
 					if (!createdCenterItem && selectedFamily->graphicsItems.size() > 1 && selectedFamily->graphicsItems.last())
 					{
 						NodeGraphicsItem * node0 = NodeGraphicsItem::cast(selectedFamily->graphicsItems.last());
@@ -970,7 +970,7 @@ namespace Tinkercell
 							insertList += item->centerRegionItem;
 						}
 					}
-
+					
 					//making new connections
 
 					insertList += item;
@@ -1001,7 +1001,7 @@ namespace Tinkercell
 								handle->name += words[i].left(1);
 							handle->name += tr("1");
 						}
-						
+
 						if (handle->name.length() > 3)
 							handle->name = handle->name.left( 3 ) + tr("1");
 							
@@ -1022,12 +1022,6 @@ namespace Tinkercell
 						setHandle(item,handle);
 						item->defaultPen.setStyle(Qt::DashLine); //assuming modifier
 						item->setPen(item->defaultPen);
-					}
-
-					ArrowHeadItem temparrow;
-					for (int i=numRequiredIn; i < item->curveSegments.size(); ++i)
-					{
-						item->curveSegments[i].arrowStart = &temparrow;
 					}
 
 					for (int i=numRequiredIn; i < item->curveSegments.size(); ++i)
@@ -1053,13 +1047,13 @@ namespace Tinkercell
 					}
 					
 					if (handle->family()->name().contains(tr("Gene")) || handle->family()->name().contains(tr("Transcription")))
-					{
-						item->lineType = ConnectionGraphicsItem::line;					
-						if (handle->family()->name().contains(tr("Repression")))
+						item->lineType = ConnectionGraphicsItem::line;
+					
+					if (handle->isA(tr("Repression")))
 							item->defaultPen.setColor(QColor(tr("#C30000")));
-						if (handle->family()->name().contains(tr("Activation")))
-							item->defaultPen.setColor(QColor(tr("#049102")));
-					}
+
+					if (handle->isA(tr("Activation")))
+						item->defaultPen.setColor(QColor(tr("#049102")));
 
 					QList<QUndoCommand*> commands;
 					QList<ItemFamily*> oldFamilies;

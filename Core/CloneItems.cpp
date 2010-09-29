@@ -135,15 +135,15 @@ namespace Tinkercell
 		        		if (!items0.contains(connectedNodes[j]))
 		        			items0 += connectedNodes[j];
 		        }
-                if (handle = getHandle(items0[i]))
+                /*if (handle = getHandle(items0[i]))
                 {
                     QList<QGraphicsItem*> list = handle->allGraphicsItems();
                     for (int j=0; j < list.size(); ++j)
                         if (!items.contains(list[j]))
                             items << list[j];
                 }
-                else
-                    items << items0[i];
+                else*/
+                   	items << items0[i];
             }
         
         //return value

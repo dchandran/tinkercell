@@ -1221,6 +1221,7 @@ namespace Tinkercell
 		graphicsScene = scene;
 		graphicsItems.clear();
 		graphicsItems += item;
+		undone = false;
 	}
 
 	AddControlPointCommand::AddControlPointCommand(
@@ -1230,6 +1231,7 @@ namespace Tinkercell
 	{
 		graphicsScene = scene;
 		graphicsItems = items;
+		undone = false;
 	}
 
 	void AddControlPointCommand::redo()
@@ -1383,6 +1385,8 @@ namespace Tinkercell
 					item->setControlPointsVisible(true);
 					item->refresh();
 			}
+			
+			undone = false;
 	}
 
 	void AddControlPointCommand::undo()
@@ -1413,13 +1417,17 @@ namespace Tinkercell
 				item->refresh();
 			}
 		}
+		
+		undone = true;
 	}
 
 	AddControlPointCommand::~AddControlPointCommand()
 	{
+		if (!undone) return;
+
 		for (int i=0; i < graphicsItems.size(); ++i)
 		{
-			if (graphicsItems[i] && !graphicsItems[i]->connectionItem && !graphicsItems[i]->scene())
+			if (graphicsItems[i])
 			{
 				graphicsItems[i]->setParentItem(0);
 				delete graphicsItems[i];
@@ -1685,6 +1693,7 @@ namespace Tinkercell
 		ConnectionGraphicsItem::CurveSegment& item)
 		: QUndoCommand(name)
 	{
+		undone = false;
 		curveSegments.clear();
 		graphicsScene = scene;
 		connectionItem = connection;
@@ -1698,12 +1707,12 @@ namespace Tinkercell
 		QList<ConnectionGraphicsItem::CurveSegment> items)
 		: QUndoCommand(name)
 	{
+		undone = false;
 		curveSegments.clear();
 		graphicsScene = scene;
 		connectionItem = connection;
 		if (connectionItem == 0) return;
 		curveSegments << items;
-
 	}
 
 	void AddCurveSegmentCommand::redo()
@@ -1720,6 +1729,8 @@ namespace Tinkercell
 				curveSegments[i].arrowEnd->setVisible(true);
 		}
 		connectionItem->refresh();
+		
+		undone = false;
 	}
 
 	void AddCurveSegmentCommand::undo()
@@ -1738,24 +1749,26 @@ namespace Tinkercell
 				curveSegments[i].arrowEnd->setVisible(false);
 		}
 		connectionItem->refresh();
+		
+		undone = true;
 	}
 
 	AddCurveSegmentCommand::~AddCurveSegmentCommand()
 	{
+		if (!undone) return;
+
 		for (int i=0; i < curveSegments.size(); ++i)
 		{
 			for (int j=0; j < curveSegments[i].size(); ++j)
-				if (curveSegments[i][j] && !MainWindow::invalidPointers.contains((void*)curveSegments[i][j]))
+				if (curveSegments[i][j] && 
+					!curveSegments[i][j]->connectionItem)
 				{
 					curveSegments[i][j]->setParentItem(0);
-					if (!curveSegments[i][j]->connectionItem && !curveSegments[i][j]->scene())
-					{
-						delete curveSegments[i][j];
-					}
+					delete curveSegments[i][j];
 				}
 				if (curveSegments[i].arrowStart && 
-					!MainWindow::invalidPointers.contains((void*)curveSegments[i].arrowStart) &&
-					!curveSegments[i].arrowStart->scene())
+					!curveSegments[i][j].arrowStart->connectionItem &&
+					!MainWindow::invalidPointers.contains((void*)curveSegments[i].arrowStart))
 				{
 					curveSegments[i].arrowStart->setParentItem(0);
 					delete curveSegments[i].arrowStart;
@@ -1763,8 +1776,8 @@ namespace Tinkercell
 					curveSegments[i].arrowStart = 0;
 				}
 				if (curveSegments[i].arrowEnd && 
-					!MainWindow::invalidPointers.contains((void*)curveSegments[i].arrowEnd) &&
-					!curveSegments[i].arrowEnd->scene())
+					!curveSegments[i][j].arrowEnd->connectionItem &&
+					!MainWindow::invalidPointers.contains((void*)curveSegments[i].arrowEnd))
 				{
 					curveSegments[i].arrowEnd->setParentItem(0);
 					delete curveSegments[i].arrowEnd;

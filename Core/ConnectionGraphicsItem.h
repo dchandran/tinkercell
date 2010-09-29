@@ -338,15 +338,13 @@ namespace Tinkercell
 		* \param graphics scene
 		* \param control point(s) that have been added
 		* \return void*/
-		AddControlPointCommand(const QString& name, GraphicsScene * scene, 
-			ConnectionGraphicsItem::ControlPoint * item );
+		AddControlPointCommand(const QString& name, GraphicsScene * scene, ConnectionGraphicsItem::ControlPoint * item );
 		/*! \brief constructor that makes the command. If added to history stack, also does redo
 		* \param name
 		* \param graphics scene
 		* \param control point(s) that have been added
 		* \return void*/
-		AddControlPointCommand(const QString& name, GraphicsScene * scene, 
-			QList<ConnectionGraphicsItem::ControlPoint *> items);
+		AddControlPointCommand(const QString& name, GraphicsScene * scene, QList<ConnectionGraphicsItem::ControlPoint *> items);
 		/*! \brief destructor. deletes all control points that do not belong a scene*/
 		virtual ~AddControlPointCommand();
 		/*! \brief Adds a new control point. Control points were set in the constructor
@@ -363,6 +361,9 @@ namespace Tinkercell
 		QList<ConnectionGraphicsItem::ControlPoint*> graphicsItems;
 		/*! \brief the poisition(s) at which the control points were added*/
 		QList<int> listK1, listK2;
+	private:
+		/*! \brief used in the destructor to determine whether the last operation was an undo*/
+		bool undone;
 	};
 
 	/*! \brief A command that removed control points. Allows undo and redo
@@ -437,6 +438,9 @@ namespace Tinkercell
 		QList<ConnectionGraphicsItem::CurveSegment> curveSegments;
 		/*! \brief the poisition(s) at which the control point vectors were added*/
 		QList<int> listK1;
+	private:
+		/*! \brief used in the destructor to determine whether the last operation was an undo*/
+		bool undone;
 	};
 
 	/*! \brief A command that removed control points. Allows undo and redo

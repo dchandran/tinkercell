@@ -331,7 +331,7 @@ namespace Tinkercell
 						q = n;
 						q.remove(handle->fullName("_") + QString("_"));
 						if (handle && handle->hasNumericalData(p)
-							&& handle->numericalDataTable(p).getRowNames().contains(q))
+							&& handle->numericalDataTable(p).hasRow(q))
 							{
 								assignments += sd_pair(n,handle->numericalDataTable(p).value(q,0));
 								parser.DefineVar(item->first.data(), &(assignments.last().second));

@@ -292,9 +292,9 @@ namespace Tinkercell
 	void PlotTool::plotData(QSemaphore * s, DataTable<qreal>& matrix,int x,const QString& title,int all)
 	{
 		QRegExp regexp(tr("(?!\\d)_(?!\\d)"));
-		for (int i=0; i < matrix.cols(); ++i)
+		for (int i=0; i < matrix.columns(); ++i)
 		{
-			matrix.colName(i).replace(regexp,tr("."));
+			matrix.columnName(i).replace(regexp,tr("."));
 		}
 		
 		matrix.description() = title;
@@ -315,9 +315,9 @@ namespace Tinkercell
 	void PlotTool::plotScatter(QSemaphore * s, DataTable<qreal>& matrix,const QString& title)
 	{
 		QRegExp regexp(tr("(?!\\d)_(?!\\d)"));
-		for (int i=0; i < matrix.cols(); ++i)
+		for (int i=0; i < matrix.columns(); ++i)
 		{
-			matrix.colName(i).replace(regexp,tr("."));
+			matrix.columnName(i).replace(regexp,tr("."));
 		}
 
 		matrix.description() = title;
@@ -338,9 +338,9 @@ namespace Tinkercell
 	void PlotTool::plotHist(QSemaphore* s,DataTable<qreal>& data, double binsz, const QString& title)
 	{
 		QRegExp regexp(tr("(?!\\d)_(?!\\d)"));
-		for (int i=0; i < data.cols(); ++i)
+		for (int i=0; i < data.columns(); ++i)
 		{
-			data.colName(i).replace(regexp,tr("."));
+			data.columnName(i).replace(regexp,tr("."));
 		}
 
 		data.description() = title;
@@ -361,9 +361,9 @@ namespace Tinkercell
 	void PlotTool::plotErrorbars(QSemaphore* s,DataTable<qreal>& data, int x, const QString& title)
 	{
 		QRegExp regexp(tr("(?!\\d)_(?!\\d)"));
-		for (int i=0; i < data.cols(); ++i)
+		for (int i=0; i < data.columns(); ++i)
 		{
-			data.colName(i).replace(regexp,tr("."));
+			data.columnName(i).replace(regexp,tr("."));
 		}
 		
 		data.description() = title;
@@ -434,9 +434,9 @@ namespace Tinkercell
 	void PlotTool::surface(QSemaphore * s, DataTable<qreal>& matrix,const QString& title)
 	{
 		QRegExp regexp(tr("(?!\\d)_(?!\\d)"));
-		for (int i=0; i < matrix.cols(); ++i)
+		for (int i=0; i < matrix.columns(); ++i)
 		{
-			matrix.colName(i).replace(regexp,tr("."));
+			matrix.columnName(i).replace(regexp,tr("."));
 		}
 
 		matrix.description() = title;
@@ -520,8 +520,8 @@ namespace Tinkercell
 		
 		bool hasItems = false;
 
-		for (int i=0; i < table.cols(); ++i)
-			if (hash.contains(table.colName(i)))
+		for (int i=0; i < table.columns(); ++i)
+			if (hash.contains(table.columnName(i)))
 			{
 				hasItems = true;
 				break;
@@ -529,10 +529,10 @@ namespace Tinkercell
 
 		if (!hasItems) return;
 		
-		for (int i=0; i < table.cols(); ++i)
-			if (!hash.contains(table.colName(i)) && (x != i))
+		for (int i=0; i < table.columns(); ++i)
+			if (!hash.contains(table.columnName(i)) && (x != i))
 			{
-				table.removeCol(i);
+				table.removeColumn(i);
 				--i;
 			}
 	}

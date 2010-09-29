@@ -139,7 +139,7 @@ namespace Tinkercell
 				{
 					DataTable<QString> data;
 					data.resize(5,1);
-					data.colName(0) = tr("entry");
+					data.columnName(0) = tr("entry");
 					data.setRowNames( QStringList() << tr("author") << tr("date") << tr("description") << tr("uri") << tr("reference") );
 					for (int j=0; j < 5; ++j)
 						data.value(j,0) = tr("");
@@ -203,7 +203,7 @@ namespace Tinkercell
 		if (handle->hasTextData(tr("Annotation")))
 		{
 			DataTable<QString>& annotation = handle->textDataTable(tr("Annotation"));
-			if (annotation.cols() == 1)
+			if (annotation.columns() == 1)
 				for (int i=0; i < annotation.rows(); ++i)
 				{
 					cursor.setCharFormat(fieldFormat);
@@ -337,7 +337,7 @@ namespace Tinkercell
 			{
 				DataTable<QString> data = item->textDataTable(tr("Annotation"));
 
-				//(*list) << data.getRowNames();
+				//(*list) << data.rowNames();
 
 				for (int i=0; i < data.rows(); ++i)
 					(*list) << data.rowName(i) << data.value(i,0);

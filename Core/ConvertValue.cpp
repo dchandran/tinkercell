@@ -105,7 +105,7 @@ namespace Tinkercell
 			D->rowName(i) = QString(m.rownames.strings[i]);
 
 		for (int i=0; i < m.cols && m.colnames.strings && m.colnames.strings[i]; ++i)
-			D->colName(i) = QString(m.colnames.strings[i]);
+			D->columnName(i) = QString(m.colnames.strings[i]);
 
 		for (int i=0; i < m.rows; ++i)
 			for (int j=0; j < m.cols; ++j)
@@ -121,7 +121,7 @@ namespace Tinkercell
 		tc_matrix m;
 
 		m.rownames.length = m.rows = D.rows();
-		m.colnames.length = m.cols = D.cols();
+		m.colnames.length = m.cols = D.columns();
 		
 		if (m.rows > 0)
 			m.rownames.strings = new char*[m.rows];	
@@ -149,7 +149,7 @@ namespace Tinkercell
 
 		for (int i=0; i < m.cols; ++i)
 		{
-			QString s = D.colName(i);
+			QString s = D.columnName(i);
 			m.colnames.strings[i] = new char[s.length()+1];
 			m.colnames.strings[i][s.length()] = '\0';
 			for (int j=0; j < s.length(); ++j)
@@ -175,7 +175,7 @@ namespace Tinkercell
 			D->rowName(i) = QString(m.rownames.strings[i]);
 
 		for (int i=0; i < m.cols && m.colnames.strings && m.colnames.strings[i]; ++i)
-			D->colName(i) = QString(m.colnames.strings[i]);
+			D->columnName(i) = QString(m.colnames.strings[i]);
 
 		for (int i=0; i < m.rows; ++i)
 			for (int j=0; j < m.cols; ++j)
@@ -191,7 +191,7 @@ namespace Tinkercell
 		tc_table m;
 
 		m.rownames.length = m.rows = D.rows();
-		m.colnames.length = m.cols = D.cols();		
+		m.colnames.length = m.cols = D.columns();		
 		
 		if (m.rows > 0)
 			m.rownames.strings = new char*[m.rows];	
@@ -219,7 +219,7 @@ namespace Tinkercell
 
 		for (int i=0; i < m.cols; ++i)
 		{
-			QString s = D.colName(i);
+			QString s = D.columnName(i);
 			m.colnames.strings[i] = new char[s.length()+1];
 			m.colnames.strings[i][s.length()] = '\0';
 			for (int j=0; j < s.length(); ++j)

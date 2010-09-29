@@ -613,7 +613,7 @@ namespace Tinkercell
 						if (connections[j] &&
 							(!connections[j]->children.isEmpty() ||
 								(connections[j]->hasNumericalData(tr("Product stoichiometries")) &&
-									connections[j]->numericalDataTable(tr("Product stoichiometries")).cols() > 0)))
+									connections[j]->numericalDataTable(tr("Product stoichiometries")).columns() > 0)))
 						{
 							isProperReaction = true;
 							break;
@@ -622,7 +622,7 @@ namespace Tinkercell
 					if (!isProperReaction)
 					{
 						TextDataTable & sDat = parts[i]->textDataTable(tr("Assignments"));
-						if (sDat.getRowNames().contains(parts[i]->name))
+						if (sDat.hasRow(parts[i]->name))
 						{
 							isProperReaction = true;
 							QString & s = sDat.value(parts[i]->name,0);
@@ -648,7 +648,7 @@ namespace Tinkercell
 								{
 									NumericalDataTable & params = connections[j]->numericalDataTable(tr("Parameters"));
 									NumericalDataTable * params2 = 0;
-									QStringList rownames = params.getRowNames();
+									QStringList rownames = params.rowNames();
 									p = connections[j]->fullName() + tr(".Kd");
 									if (rate.contains(p) && !rownames.contains("Kd"))
 									{
@@ -712,7 +712,7 @@ namespace Tinkercell
 									
 									if (rbs)
 									{
-										if (sDat->getRowNames().contains(tr("translation")))
+										if (sDat->hasRow(tr("translation")))
 										{
 											QString s = sDat->value(tr("translation"),0);
 

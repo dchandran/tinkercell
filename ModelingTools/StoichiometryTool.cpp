@@ -243,6 +243,7 @@ namespace Tinkercell
 			else
 				separator = mainWindow->contextItemsMenu.addSeparator();
 
+
 			if (reactions)
 				mainWindow->contextItemsMenu.addAction(autoReverse);
 			else
@@ -505,18 +506,18 @@ namespace Tinkercell
 					sDat->insertRow(1,tr("reverse"));
 
 					QStringList reactants;
-					for (int j=0; j < nDat1->cols(); ++j)
-						nDat2->value(1,nDat1->colName(j)) = nDat1->value(0,j);
+					for (int j=0; j < nDat1->columns(); ++j)
+						nDat2->value(1,nDat1->columnName(j)) = nDat1->value(0,j);
 
-					for (int j=0; j < nDat2->cols(); ++j)
+					for (int j=0; j < nDat2->columns(); ++j)
 					{
-						nDat1->value(1,nDat2->colName(j)) = nDat2->value(0,j);
+						nDat1->value(1,nDat2->columnName(j)) = nDat2->value(0,j);
 						if (nDat2->value(0,j) > 0)
 						{
 							if (nDat2->value(0,j) == 1)
-								reactants << nDat2->colName(j);
+								reactants << nDat2->columnName(j);
 							else
-								reactants << ( nDat2->colName(j) + tr("^") + QString::number(nDat2->value(0,j)) );
+								reactants << ( nDat2->columnName(j) + tr("^") + QString::number(nDat2->value(0,j)) );
 						}
 					}
 
@@ -697,11 +698,11 @@ namespace Tinkercell
 					reactants.resize(2,2);
 					products.resize(2,2);
 					
-					rates.colName(0) = tr("rates");
+					rates.columnName(0) = tr("rates");
 					reactants.rowName(0) = products.rowName(0) = rates.rowName(0) = tr("forwards");
 					reactants.rowName(1) = reactants.rowName(1) = rates.rowName(1) = tr("reverse");
-					reactants.colName(0) = products.colName(0) = handle->fullName();
-					products.colName(1) = reactants.colName(1) = node->fullName();
+					reactants.columnName(0) = products.columnName(0) = handle->fullName();
+					products.columnName(1) = reactants.columnName(1) = node->fullName();
 
 					reactants.value(0,0) = 2.0;
 					products.value(0,1) = 1.0;
@@ -783,20 +784,20 @@ namespace Tinkercell
 		if (reactants.rows() > 1 && products.rows() > 1) row = pickRow1->currentIndex();
 		
 		QLineEdit * line;
-		while (reactantCoeffs.size() < reactants.cols())
+		while (reactantCoeffs.size() < reactants.columns())
 		{
 			reactantCoeffs += (line = new QLineEdit(this));
 			line->setMaximumWidth(50);
 			connect(line,SIGNAL(editingFinished()),this,SLOT(stoichiometryChanged()));
 		}
 		
-		while (reactantNames.size() < reactants.cols())
+		while (reactantNames.size() < reactants.columns())
 			reactantNames += (new QLabel(this));
 			
-		while (productNames.size() < products.cols())
+		while (productNames.size() < products.columns())
 			productNames += (new QLabel(this));
 		
-		while (productCoeffs.size() < products.cols())
+		while (productCoeffs.size() < products.columns())
 		{
 			productCoeffs += (line = new QLineEdit(this));
 			line->setMaximumWidth(50);
@@ -845,11 +846,11 @@ namespace Tinkercell
 		
 		int j=0;
 		
-		for (int i=0; i < reactants.cols(); ++i)
+		for (int i=0; i < reactants.columns(); ++i)
 			if (reactants.at(row,i) > 0)
 			{
 				reactantCoeffs[i]->setText(QString::number(reactants.at(row,i)));
-				reactantNames[i]->setText(reactants.colName(i));
+				reactantNames[i]->setText(reactants.columnName(i));
 				while (plusSigns.size() <= j)
 					plusSigns += (new QLabel(this));
 				plusSigns[j]->setText(tr("+"));
@@ -870,7 +871,7 @@ namespace Tinkercell
 		while (plusSigns.size() <= j)
 			plusSigns += (new QLabel(this));
 			
-		if ((reactants.cols() < 1) && (products.cols() < 1))
+		if ((reactants.columns() < 1) && (products.columns() < 1))
 			plusSigns[j]->setText(tr(" No changes are happing in this reaction "));
 		else
 			plusSigns[j]->setText(tr("->"));
@@ -879,11 +880,11 @@ namespace Tinkercell
 		
 		++j;
 		int j2 = 0;
-		for (int i=0; i < products.cols(); ++i)
+		for (int i=0; i < products.columns(); ++i)
 			if (products.at(row,i) > 0)
 			{
 				productCoeffs[i]->setText(QString::number(products.at(row,i)));
-				productNames[i]->setText(products.colName(i));
+				productNames[i]->setText(products.columnName(i));
 				while (plusSigns.size() <= j)
 					plusSigns += (new QLabel(this));
 				plusSigns[j]->setText(tr("+"));
@@ -998,7 +999,7 @@ namespace Tinkercell
 		TextDataTable& ratesTable = connectionHandle->textDataTable(tr("Rate equations"));
 		pickRow1->clear();
 		pickRow2->clear();
-		QStringList list = ratesTable.getRowNames();
+		QStringList list = ratesTable.rowNames();
 		if (list.size() < 2)
 		{
 			pickRow1->hide();
@@ -1026,7 +1027,7 @@ namespace Tinkercell
 			return combinedTable;
 		}
 
-		QStringList colNames, rowNames, rates;
+		QStringList columnNames, rowNames, rates;
 		NumericalDataTable * nDataTable1 = 0, * nDataTable2 = 0;
 		TextDataTable * sDataTable = 0;
 		ConnectionHandle * connection = 0;
@@ -1062,28 +1063,28 @@ namespace Tinkercell
 					nDataTable1 = &(connection->numericalDataTable(QObject::tr("Reactant stoichiometries")));
 					nDataTable2 = &(connection->numericalDataTable(QObject::tr("Product stoichiometries")));
 					//get unique species names in the stoichiometry matrix
-					for (int j=0; j < nDataTable1->cols(); ++j) 
+					for (int j=0; j < nDataTable1->columns(); ++j) 
 					{
-						QString s = nDataTable1->colName(j);
+						QString s = nDataTable1->columnName(j);
 
-						if (!colNames.contains(s)
+						if (!columnNames.contains(s)
 							&& !fixedSpecies.contains(s)
-							&& !colNames.contains(QString(s).replace(".",replaceDot))
-							&& !colNames.contains(QString(s).replace(replaceDot,".")))
+							&& !columnNames.contains(QString(s).replace(".",replaceDot))
+							&& !columnNames.contains(QString(s).replace(replaceDot,".")))
 						{
-							colNames += s;
+							columnNames += s;
 						}
 					}
-					for (int j=0; j < nDataTable2->cols(); ++j) 
+					for (int j=0; j < nDataTable2->columns(); ++j) 
 					{
-						QString s = nDataTable2->colName(j);
+						QString s = nDataTable2->columnName(j);
 
-						if (!colNames.contains(s)
+						if (!columnNames.contains(s)
 							&& !fixedSpecies.contains(s)
-							&& !colNames.contains(QString(s).replace(".",replaceDot))
-							&& !colNames.contains(QString(s).replace(replaceDot,".")))
+							&& !columnNames.contains(QString(s).replace(".",replaceDot))
+							&& !columnNames.contains(QString(s).replace(replaceDot,".")))
 						{
-							colNames += s;
+							columnNames += s;
 						}
 					}
 					//if any node does not appear in the stoichiometry matrix, add it anyway
@@ -1093,8 +1094,8 @@ namespace Tinkercell
 						{
 							QString s = connectedNodes[j]->fullName();
 
-							if (!colNames.contains(s))
-								colNames << s;
+							if (!columnNames.contains(s))
+								columnNames << s;
 						}
 				}
 				if (connectionHandles[i]->hasTextData(QObject::tr("Rate equations")))
@@ -1126,10 +1127,10 @@ namespace Tinkercell
 			}
 		}
 
-		combinedTable.resize(rowNames.size(),colNames.size());
+		combinedTable.resize(rowNames.size(),columnNames.size());
 
-		for (int i=0; i < colNames.size(); ++i)
-			combinedTable.colName(i) = colNames[i];
+		for (int i=0; i < columnNames.size(); ++i)
+			combinedTable.columnName(i) = columnNames[i];
 
 		for (int i=0; i < rowNames.size(); ++i)
 			combinedTable.rowName(i) = rowNames[i];
@@ -1147,29 +1148,29 @@ namespace Tinkercell
 					for (int k=0; k < nDataTable1->rows() || k < nDataTable2->rows(); ++k)
 					{
 						if (nDataTable1->rows() > k)
-							for (int j=0; j < nDataTable1->cols(); ++j)     //get unique species
+							for (int j=0; j < nDataTable1->columns(); ++j)     //get unique species
 							{
-								QString s = nDataTable1->colName(j);
+								QString s = nDataTable1->columnName(j);
 
-								j0 = colNames.indexOf(s);
+								j0 = columnNames.indexOf(s);
 								if (j0 < 0)
-									j0 = colNames.indexOf(QString(s).replace(".",replaceDot));
+									j0 = columnNames.indexOf(QString(s).replace(".",replaceDot));
 								if (j0 < 0)
-									j0 = colNames.indexOf(QString(s).replace(replaceDot,"."));
+									j0 = columnNames.indexOf(QString(s).replace(replaceDot,"."));
 
 								if (j0 >= 0)
 									combinedTable.value(n,j0) -= nDataTable1->value(k,j);
 							}
 						if (nDataTable2->rows() > k)
-							for (int j=0; j < nDataTable2->cols(); ++j)     //get unique species
+							for (int j=0; j < nDataTable2->columns(); ++j)     //get unique species
 							{
-								QString s = nDataTable2->colName(j);
+								QString s = nDataTable2->columnName(j);
 
-								j0 = colNames.indexOf(s);
+								j0 = columnNames.indexOf(s);
 								if (j0 < 0)
-									j0 = colNames.indexOf(QString(s).replace(".",replaceDot));
+									j0 = columnNames.indexOf(QString(s).replace(".",replaceDot));
 								if (j0 < 0)
-									j0 = colNames.indexOf(QString(s).replace(replaceDot,"."));
+									j0 = columnNames.indexOf(QString(s).replace(replaceDot,"."));
 
 								if (j0 >= 0)
 									combinedTable.value(n,j0) += nDataTable2->value(k,j);
@@ -1180,8 +1181,8 @@ namespace Tinkercell
 
         /*this tool's matrix is actually the transpose of traditional stoichiometry matrix*/
 
-		for (int i=0; i < colNames.size(); ++i)
-			combinedTable.colName(i).replace(QString("."),replaceDot);
+		for (int i=0; i < columnNames.size(); ++i)
+			combinedTable.columnName(i).replace(QString("."),replaceDot);
 
 		for (int i=0; i < rowNames.size(); ++i)
 			combinedTable.rowName(i).replace(QString("."),replaceDot);
@@ -1211,9 +1212,9 @@ namespace Tinkercell
 			{
 				stoicMatrix.rowName(i).replace(regex,QString("\\1.\\2"));
 			}
-			for (int i=0; i < stoicMatrix.cols(); ++i)
+			for (int i=0; i < stoicMatrix.columns(); ++i)
 			{
-				stoicMatrix.colName(i).replace(regex,QString("\\1.\\2"));
+				stoicMatrix.columnName(i).replace(regex,QString("\\1.\\2"));
 			}
 		}
 
@@ -1231,7 +1232,7 @@ namespace Tinkercell
 					bool last = i == connectionHandles.size() - 1;
 					QList<bool> pickCol;
 					int cols1 = 0, cols2 = 0, rows = 0;
-					for (int j=0; j < stoicMatrix.cols(); ++j)
+					for (int j=0; j < stoicMatrix.columns(); ++j)
 						pickCol << false;
 					int n0 = n;
 					int k = 0;
@@ -1240,7 +1241,7 @@ namespace Tinkercell
 
 					for (k=0; (last || k < nDat1->rows()) && k < nDat2->rows() && n0 < stoicMatrix.rows(); ++k, ++n0, ++rows)
 					{
-						for (int j=0; j < stoicMatrix.cols(); ++j)
+						for (int j=0; j < stoicMatrix.columns(); ++j)
 						{
 							if (stoicMatrix.at(n0,j) != 0)
 							{
@@ -1254,27 +1255,27 @@ namespace Tinkercell
 						}
 					}
 
-					if (nDat1->rows() != rows || nDat1->cols() !=  cols1)
+					if (nDat1->rows() != rows || nDat1->columns() !=  cols1)
 						nDat1->resize(rows,cols1);
 					
-					if (nDat2->rows() != rows || nDat2->cols() !=  cols2)
+					if (nDat2->rows() != rows || nDat2->columns() !=  cols2)
 						nDat2->resize(rows,cols1);
 
 					for (k=0; k < nDat1->rows() && n < stoicMatrix.rows(); ++k, ++n)
 					{
 						int j1 = 0, j2 = 0;
-						for (int j=0; j < stoicMatrix.cols(); ++j)
+						for (int j=0; j < stoicMatrix.columns(); ++j)
 							if (pickCol[j])
 							{
 								if (stoicMatrix.at(n,j) < 0)
 								{
-									nDat1->colName(j1) = stoicMatrix.colName(j);
+									nDat1->columnName(j1) = stoicMatrix.columnName(j);
 									nDat1->value(k,j1) = stoicMatrix.at(n,j);
 									++j1;
 								}
 								else
 								{
-									nDat2->colName(j2) = stoicMatrix.colName(j);
+									nDat2->columnName(j2) = stoicMatrix.columnName(j);
 									nDat2->value(k,j2) = stoicMatrix.at(n,j);
 									++j2;
 								}
@@ -1582,7 +1583,7 @@ namespace Tinkercell
 				if (!removeRowNames.isEmpty())
 				{
 					for (int j=0; j < removeRowNames.size(); ++j)
-						newNumTable->removeCol(removeRowNames[j]);
+						newNumTable->removeColumn(removeRowNames[j]);
 					oldNumTables << oldNumTable;
 					newNumTables << newNumTable;
 				}
@@ -1593,7 +1594,7 @@ namespace Tinkercell
 				if (!removeRowNames.isEmpty())
 				{
 					for (int j=0; j < removeRowNames.size(); ++j)
-						newNumTable->removeCol(removeRowNames[j]);
+						newNumTable->removeColumn(removeRowNames[j]);
 					oldNumTables << oldNumTable;
 					newNumTables << newNumTable;
 				}

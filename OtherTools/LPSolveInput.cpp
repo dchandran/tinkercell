@@ -194,11 +194,11 @@ namespace Tinkercell
 
 			for (int i=0; i < dataTable2.rows(); ++i)
 			{
-				for (int j=2; j < dataTable2.cols(); ++j)
+				for (int j=2; j < dataTable2.columns(); ++j)
 				{
 					if (dataTable2.value(i,j) > 0)
 					{
-						constraintsTable.setItem(i,0,new QTableWidgetItem(dataTable2.colName(j)));
+						constraintsTable.setItem(i,0,new QTableWidgetItem(dataTable2.columnName(j)));
 						constraintsTable.setItem(i,2,new QTableWidgetItem(QString::number(dataTable2.value(i,j))));
 						if (dataTable2.value(i,j) > 0 && dataTable2.value(i,j) < 3)
 							constraintsTable.setItem(i,1,new QTableWidgetItem(delegate2.options[1][(int)dataTable2.value(i,j)]));
@@ -221,22 +221,22 @@ namespace Tinkercell
 
 		QList<ItemHandle*> handles = network->handles();
 		NumericalDataTable N = StoichiometryTool::getStoichiometry(handles,tr("."));
-		dataTable.resize(N.rows()+1,N.cols()+2);
-		dataTable.colName(0) = tr("inequality");
-		dataTable.colName(1) = tr("constraint");
+		dataTable.resize(N.rows()+1,N.columns()+2);
+		dataTable.columnName(0) = tr("inequality");
+		dataTable.columnName(1) = tr("constraint");
 		dataTable.rowName(0) = tr("objective");
 
-		QVector<qreal> vec(N.cols());
+		QVector<qreal> vec(N.columns());
 		for (int j=0; j < vec.size(); ++j)
 		{
 			vec[j] = dataTable.value(0,j+2);
 		}
 
 		int k;
-		for (int j=0; j < N.cols(); ++j)
+		for (int j=0; j < N.columns(); ++j)
 		{
-			dataTable.colName(j+2) = N.colName(j);
-			k = targetFluxes.indexOf(N.colName(j));
+			dataTable.columnName(j+2) = N.columnName(j);
+			k = targetFluxes.indexOf(N.columnName(j));
 			if (k > -1 && k < vec.size())
 				dataTable.value(0,j+2) = vec[k];
 		}
@@ -244,7 +244,7 @@ namespace Tinkercell
 		for (int i=0; i < N.rows(); ++i)
 		{
 			dataTable.rowName(i+1) = N.rowName(i);
-			for (int j=0; j < N.cols(); ++j)
+			for (int j=0; j < N.columns(); ++j)
 			{
 				dataTable.value(i+1,j+2) = N.value(i,j);
 			}
@@ -253,15 +253,15 @@ namespace Tinkercell
 		}
 		this->N = N.rows() + 1;
 
-		delegate1.options[0] = N.getColNames();
-		delegate2.options[0] = N.getColNames();
+		delegate1.options[0] = N.columnNames();
+		delegate2.options[0] = N.columnNames();
 
 		constraintsTableChanged(0,0);
 
 		//update table
         QList<ItemHandle*> selected = getHandle(scene->selected());
 
-		QStringList rownames = dataTable.getColNames(); //flux names
+		QStringList rownames = dataTable.columnNames(); //flux names
 		targetFluxes.clear();
 		objectivesTable.clearContents();
 
@@ -276,8 +276,8 @@ namespace Tinkercell
 
 		objectivesTable.setRowCount(targetFluxes.size());
 
-		for (int i=2; i < dataTable.cols(); ++i)
-			if (targetFluxes.contains(dataTable.colName(i)))
+		for (int i=2; i < dataTable.columns(); ++i)
+			if (targetFluxes.contains(dataTable.columnName(i)))
 			{
 				if (dataTable.value(0,i) == 0.0)
 					dataTable.value(0,i) = 1.0;
@@ -347,8 +347,8 @@ namespace Tinkercell
 		if (objectivesTable.columnCount() < 2) return;
 		bool ok;
 
-		for (int i=2; i < dataTable.cols(); ++i)
-			if (targetFluxes.contains(dataTable.colName(i)))
+		for (int i=2; i < dataTable.columns(); ++i)
+			if (targetFluxes.contains(dataTable.columnName(i)))
 			{
 				if (dataTable.value(0,i) == 0.0)
 					dataTable.value(0,i) = 1.0;
@@ -372,9 +372,9 @@ namespace Tinkercell
 	void LPSolveInputWindow::constraintsTableChanged(int i,int j)
 	{
 		NumericalDataTable dataTable2;
-		dataTable.resize(N + constraintsTable.rowCount(),dataTable.cols());
-		dataTable2.resize(constraintsTable.rowCount(),dataTable.cols());
-		dataTable2.setColNames(dataTable.colNames());
+		dataTable.resize(N + constraintsTable.rowCount(),dataTable.columns());
+		dataTable2.resize(constraintsTable.rowCount(),dataTable.columns());
+		dataTable2.setColumnNames(dataTable.columnNames());
 		QString s;
 		bool ok;
 		double d;
@@ -383,7 +383,7 @@ namespace Tinkercell
 			if (constraintsTable.item(i,0) && constraintsTable.item(i,1) && constraintsTable.item(i,2))
 			{
 				s = constraintsTable.item(i,0)->text();
-				k = dataTable.getColNames().indexOf(s);
+				k = dataTable.columnNames().indexOf(s);
 				if (k > -1)
 				{
 					dataTable2.value(i,k) = dataTable.value(i+N,k) = 1.0;

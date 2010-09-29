@@ -212,7 +212,7 @@ namespace Tinkercell
 								rownames = vec.at(i).value().toString().split(sep);
 							}
 							else
-								if (handle && vec.at(i).name().toString() == QObject::tr("colNames"))
+								if (handle && vec.at(i).name().toString() == QObject::tr("columnNames"))
 								{
 									colnames = vec.at(i).value().toString().split(sep);
 								}
@@ -234,7 +234,7 @@ namespace Tinkercell
 				DataTable<qreal> data;
 				data.resize(rows,cols);
 				for (int i=0; i < rows; ++i) data.rowName(i) = rownames[i];
-				for (int i=0; i < cols; ++i) data.colName(i) = colnames[i];
+				for (int i=0; i < cols; ++i) data.columnName(i) = colnames[i];
 				int k = 0;
 				for (int i=0; i < rows; ++i)
 				{
@@ -291,7 +291,7 @@ namespace Tinkercell
 								rownames = vec.at(i).value().toString().split(sep);
 							}
 							else
-								if (handle && vec.at(i).name().toString() == QObject::tr("colNames"))
+								if (handle && vec.at(i).name().toString() == QObject::tr("columnNames"))
 								{
 									colnames = vec.at(i).value().toString().split(sep);
 								}
@@ -307,7 +307,7 @@ namespace Tinkercell
 				DataTable<QString> data;
 				data.resize(rows,cols);
 				for (int i=0; i < rows; ++i) data.rowName(i) = rownames[i];
-				for (int i=0; i < cols; ++i) data.colName(i) = colnames[i];
+				for (int i=0; i < cols; ++i) data.columnName(i) = colnames[i];
 				int k = 0;
 				for (int i=0; i < rows; ++i)
 				{

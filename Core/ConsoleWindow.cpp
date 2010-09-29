@@ -613,7 +613,7 @@ namespace Tinkercell
 	{
 		QString outputs;
 
-		QStringList colnames = table.getColNames(), rownames = table.getRowNames();
+		QStringList colnames = table.columnNames(), rownames = table.rowNames();
 
 		outputs += tr("\n");
 		for (int i=0; i < colnames.size(); ++i)
@@ -624,7 +624,7 @@ namespace Tinkercell
 		for (int i=0; i < table.rows(); ++i)
 		{
 			outputs += rownames.at(i);
-			for (int j=0; j < table.cols(); ++j)
+			for (int j=0; j < table.columns(); ++j)
 			{
 				outputs += tr("\t") + QString::number(table.at(i,j));
 			}
@@ -694,7 +694,7 @@ namespace Tinkercell
 			QString s2 = s;
 			s2.remove(h->fullName(".") + tr("."));
 			s2.remove(h->fullName("_") + tr("_"));
-			if (h->textDataTable(id).getRowNames().contains(s2))
+			if (h->textDataTable(id).rowNames().contains(s2))
 			{
 				cursor.insertText(h->textData(id,s2) + tr("\n"));
 				cursor.setCharFormat(normalFormat);
@@ -709,7 +709,7 @@ namespace Tinkercell
 			QString s2 = s;
 			s2.remove(h->fullName(".") + tr("."));
 			s2.remove(h->fullName("_") + tr("_"));
-			if (h->numericalDataTable(id).getRowNames().contains(s2))
+			if (h->numericalDataTable(id).rowNames().contains(s2))
 			{
 				cursor.insertText(QString::number(h->numericalData(id,s2)) + tr("\n"));
 				cursor.setCharFormat(normalFormat);
@@ -739,7 +739,7 @@ namespace Tinkercell
 		for (int i=0; i < keys.size(); ++i)
 		{
 			NumericalDataTable & dat = h->numericalDataTable( keys[i] );
-			if (dat.rows() > 0 && dat.cols() > 0)
+			if (dat.rows() > 0 && dat.columns() > 0)
 			{
 				int maxsz = 0;
 				for (int j=0; j < dat.rows(); ++j)
@@ -751,14 +751,14 @@ namespace Tinkercell
 				cursor.insertText(keys[i] + tr(":\n"));
 				
 				cursor.setCharFormat(messageFormat);
-				for (int k=0; k < dat.cols(); ++k)
-					s += tr("    ") + dat.colName(k);
+				for (int k=0; k < dat.columns(); ++k)
+					s += tr("    ") + dat.columnName(k);
 				s += tr("\n");
 				for (int j=0; j < dat.rows(); ++j)
 				{
 					s += dat.rowName(j) + tr(":    ");
 					
-					for (int k=0; k < dat.cols(); ++k)
+					for (int k=0; k < dat.columns(); ++k)
 						s += QString::number(dat.at(j,k)) + tr("    ");
 					s += tr("\n");
 				}
@@ -770,7 +770,7 @@ namespace Tinkercell
 		for (int i=0; i < keys.size(); ++i)
 		{
 			TextDataTable & dat = h->textDataTable( keys[i] );
-			if (dat.rows() > 0 && dat.cols() > 0)
+			if (dat.rows() > 0 && dat.columns() > 0)
 			{
 				int maxsz = 0;
 				for (int j=0; j < dat.rows(); ++j)
@@ -782,14 +782,14 @@ namespace Tinkercell
 				cursor.insertText(keys[i] + tr(":\n"));
 				
 				cursor.setCharFormat(messageFormat);
-				for (int k=0; k < dat.cols(); ++k)
-					s += tr("    ") + dat.colName(k);
+				for (int k=0; k < dat.columns(); ++k)
+					s += tr("    ") + dat.columnName(k);
 				s += tr("\n");
 				for (int j=0; j < dat.rows(); ++j)
 				{
 					s += dat.rowName(j) + tr(":    ");
 					
-					for (int k=0; k < dat.cols(); ++k)
+					for (int k=0; k < dat.columns(); ++k)
 						s += (dat.at(j,k)) + tr("    ");
 					s += tr("\n");
 				}

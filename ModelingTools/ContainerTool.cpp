@@ -911,7 +911,7 @@ namespace Tinkercell
             QString in, out;
             if (dilutionFactorIn.isEmpty() || dilutionFactorOut.isEmpty())
 			{
-				if (data->getRowNames().contains(tr("DilutionFactor")))
+				if (data->hasRow(tr("DilutionFactor")))
 				{
 					data->value(tr("DilutionFactor"),0) = tr("1.0");
 					targetHandles << reactions[i];

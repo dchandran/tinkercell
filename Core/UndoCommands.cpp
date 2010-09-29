@@ -518,12 +518,12 @@ namespace Tinkercell
 									affected = true;
 								}
 							}
-							for (int k=0; k < nDat->cols(); ++k)
+							for (int k=0; k < nDat->columns(); ++k)
 							{
-								if (nDat->colName(k).contains(regexp1) || nDat->colName(k).contains(regexp2) ||
-									nDat->colName(k).contains(regexp3) || nDat->colName(k).contains(regexp4))
+								if (nDat->columnName(k).contains(regexp1) || nDat->columnName(k).contains(regexp2) ||
+									nDat->columnName(k).contains(regexp3) || nDat->columnName(k).contains(regexp4))
 								{
-									nDat->removeCol(k);
+									nDat->removeColumn(k);
 									--k;
 									affected = true;
 								}
@@ -546,12 +546,12 @@ namespace Tinkercell
 									affected = true;
 								}
 							}
-							for (int k=0; k < sDat->cols(); ++k)
+							for (int k=0; k < sDat->columns(); ++k)
 							{
-								if (sDat->colName(k).contains(regexp1) || sDat->colName(k).contains(regexp2) ||
-									sDat->colName(k).contains(regexp3) || sDat->colName(k).contains(regexp4))
+								if (sDat->columnName(k).contains(regexp1) || sDat->columnName(k).contains(regexp2) ||
+									sDat->columnName(k).contains(regexp3) || sDat->columnName(k).contains(regexp4))
 								{
-									sDat->removeCol(k);
+									sDat->removeColumn(k);
 									--k;
 									affected = true;
 								}
@@ -559,7 +559,7 @@ namespace Tinkercell
 
 							QString newname("1.0");
 							for (int k=0; k < sDat->rows(); ++k) //substitute each value in the table
-								for (int l=0; l < sDat->cols(); ++l)
+								for (int l=0; l < sDat->columns(); ++l)
 								{
 									QString & target = sDat->value(k,l);// = QString("0.0");
 
@@ -1095,12 +1095,12 @@ namespace Tinkercell
 								affected = true;
 							}
 						}
-						for (int k=0; k < nDat->cols(); ++k)
+						for (int k=0; k < nDat->columns(); ++k)
 						{
-							if (nDat->colName(k).contains(regexp1) || nDat->colName(k).contains(regexp2) ||
-								nDat->colName(k).contains(regexp3) || nDat->colName(k).contains(regexp4))
+							if (nDat->columnName(k).contains(regexp1) || nDat->columnName(k).contains(regexp2) ||
+								nDat->columnName(k).contains(regexp3) || nDat->columnName(k).contains(regexp4))
 							{
-								nDat->removeCol(k);
+								nDat->removeColumn(k);
 								--k;
 								affected = true;
 							}
@@ -1123,12 +1123,12 @@ namespace Tinkercell
 								affected = true;
 							}
 						}
-						for (int k=0; k < sDat->cols(); ++k)
+						for (int k=0; k < sDat->columns(); ++k)
 						{
-							if (sDat->colName(k).contains(regexp1) || sDat->colName(k).contains(regexp2) ||
-								sDat->colName(k).contains(regexp3) || sDat->colName(k).contains(regexp4))
+							if (sDat->columnName(k).contains(regexp1) || sDat->columnName(k).contains(regexp2) ||
+								sDat->columnName(k).contains(regexp3) || sDat->columnName(k).contains(regexp4))
 							{
-								sDat->removeCol(k);
+								sDat->removeColumn(k);
 								--k;
 								affected = true;
 							}
@@ -1136,7 +1136,7 @@ namespace Tinkercell
 
 						QString newname("1.0");
 						for (int k=0; k < sDat->rows(); ++k) //substitute each value in the table
-							for (int l=0; l < sDat->cols(); ++l)
+							for (int l=0; l < sDat->columns(); ++l)
 							{
 								QString & target = sDat->value(k,l);// = QString("0.0");
 
@@ -2147,13 +2147,13 @@ namespace Tinkercell
 						if (fullname + QObject::tr(".") + nDat->rowName(k) == oldname)						
 							nDat->rowName(k) = s;
 					}
-					for (int k=0; k < nDat->cols(); ++k)
+					for (int k=0; k < nDat->columns(); ++k)
 					{
-						if (nDat->colName(k).contains(oldname))
-							substituteString(nDat->colName(k),oldname,newname);
+						if (nDat->columnName(k).contains(oldname))
+							substituteString(nDat->columnName(k),oldname,newname);
 						
-						if (fullname + QObject::tr(".") + nDat->colName(k) == oldname)						
-							nDat->colName(k) = s;
+						if (fullname + QObject::tr(".") + nDat->columnName(k) == oldname)						
+							nDat->columnName(k) = s;
 					}
 				}
 				keys = handles[i]->textDataNames();
@@ -2168,16 +2168,16 @@ namespace Tinkercell
 						if (fullname + QObject::tr(".") + sDat->rowName(k) == oldname)						
 							sDat->rowName(k) = s;
 					}
-					for (int k=0; k < sDat->cols(); ++k)
+					for (int k=0; k < sDat->columns(); ++k)
 					{
-						if (sDat->colName(k).contains(oldname))
-							substituteString(sDat->colName(k),oldname,newname);
+						if (sDat->columnName(k).contains(oldname))
+							substituteString(sDat->columnName(k),oldname,newname);
 						
-						if (fullname + QObject::tr(".") + sDat->colName(k) == oldname)						
-							sDat->colName(k) = s;
+						if (fullname + QObject::tr(".") + sDat->columnName(k) == oldname)						
+							sDat->columnName(k) = s;
 					}
 					for (int k=0; k < sDat->rows(); ++k) //substitute each value in the table
-						for (int l=0; l < sDat->cols(); ++l)
+						for (int l=0; l < sDat->columns(); ++l)
 						{
 							if (sDat->value(k,l).contains(oldname))
 								substituteString(sDat->value(k,l),oldname,newname);

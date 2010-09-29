@@ -106,17 +106,17 @@ namespace Tinkercell
 			on = !on;
 			plotItem->setVisible(on);
 			const QwtPlotItemList& list = itemList();
-			for (int i=0; i < dataTable.cols() && i < list.size(); ++i)
+			for (int i=0; i < dataTable.columns() && i < list.size(); ++i)
 				if (list.at(i) == plotItem)
 				{
-					if (on && hideList.contains(dataTable.colName(i)))
+					if (on && hideList.contains(dataTable.columnName(i)))
 					{
-						hideList.removeAll(dataTable.colName(i));
+						hideList.removeAll(dataTable.columnName(i));
 					}
 					else
-					if (!on && !hideList.contains(dataTable.colName(i)))
+					if (!on && !hideList.contains(dataTable.columnName(i)))
 					{
-						hideList += (dataTable.colName(i));
+						hideList += (dataTable.columnName(i));
 					}
 				}
 			this->replot();
@@ -125,7 +125,7 @@ namespace Tinkercell
 	
 	void DataPlot::setXAxis(int x)
 	{
-		if (x >= 0 && x != xcolumn && x < dataTable.cols())
+		if (x >= 0 && x != xcolumn && x < dataTable.columns())
 		{
 			int dt = 1;
 			if (dataTable.rows() > 100)
@@ -148,12 +148,12 @@ namespace Tinkercell
 		
 		delta = 100;
 		
-		histData.resize(delta, dataTable.cols());
-		histData.setColNames(dataTable.getColNames());
+		histData.resize(delta, dataTable.columns());
+		histData.setColumnNames(dataTable.columnNames());
 		xmax = xmin = dataTable.value(0,0);
 		
-		for (int i=0; i < dataTable.cols(); ++i)
-			if (dataTable.colName(i).toLower() != tr("time"))
+		for (int i=0; i < dataTable.columns(); ++i)
+			if (dataTable.columnName(i).toLower() != tr("time"))
 				for (int j=0; j < dataTable.rows(); ++j)
 				{
 					if (xmin > dataTable.value(j,i))
@@ -171,7 +171,7 @@ namespace Tinkercell
 		if (width <= 0.0)
 			width = 1.0;
 		
-		for (int i=0; i < dataTable.cols(); ++i)
+		for (int i=0; i < dataTable.columns(); ++i)
 		{
 			for (int j=0; j < delta; ++j)
 				histData.value(j,i) = 0.0;
@@ -180,14 +180,14 @@ namespace Tinkercell
 				histData.value( (int)(dataTable.value(j,i)/width) , i ) += 1.0;
 		}
 		
-		if (xcolumn >= 0 && xcolumn < histData.cols())
+		if (xcolumn >= 0 && xcolumn < histData.columns())
 		{
-			histData.colName(xcolumn) = tr("values");
+			histData.columnName(xcolumn) = tr("values");
 			for (int i=0; i < delta; ++i)
 				histData.value(i,xcolumn) = (double)i * width;
 		}
 		
-		histData.colName(0) = tr("values");
+		histData.columnName(0) = tr("values");
 		histData.description() = tr("histogram");
 		
 		dataTable = histData;
@@ -218,26 +218,26 @@ namespace Tinkercell
 		}
 
 		this->clear();
-		if (dataTable.cols() > 2)
+		if (dataTable.columns() > 2)
 		{
 			insertLegend(new QwtLegend(this), QwtPlot::RightLegend,0.2);
 			legend()->setItemMode(QwtLegend::CheckableItem);
 		}
 			
 		QList<QwtPlotCurve*> curves;
-		for (int i=0, c = 0, t = 0; i < dataTable.cols(); ++i)
+		for (int i=0, c = 0, t = 0; i < dataTable.columns(); ++i)
 		{
 			if (c >= penList.size())
 				c = 0;
-			if (i != x && dataTable.colName(i).toLower() != tr("time") && !hideList.contains(dataTable.colName(i)))
+			if (i != x && dataTable.columnName(i).toLower() != tr("time") && !hideList.contains(dataTable.columnName(i)))
 			{
-				QwtPlotCurve * curve = new QwtPlotCurve(dataTable.colName(i));
+				QwtPlotCurve * curve = new QwtPlotCurve(dataTable.columnName(i));
 				curve->setRenderHint(QwtPlotItem::RenderAntialiased);						
 				curve->setPen(penList[c]);
 				curve->setData( DataColumn(&dataTable,x,i,dt) );
 				curve->attach(this);
 				
-				if (dataTable.cols() > 2)
+				if (dataTable.columns() > 2)
 					curve->updateLegend(legend());
 					
 				if (type == PlotTool::ScatterPlot)
@@ -262,8 +262,8 @@ namespace Tinkercell
 		
 		//hideList.clear();
 		
-		if (dataTable.cols() > x)
-			setAxisTitle(xBottom, dataTable.colName(x));
+		if (dataTable.columns() > x)
+			setAxisTitle(xBottom, dataTable.columnName(x));
 		else
 			if (x < 0)
 				setAxisTitle(xBottom, "Index");
@@ -272,11 +272,11 @@ namespace Tinkercell
 				
 		QString ylabel = axisTitle(QwtPlot::yLeft).text();
 		
-		if (dataTable.cols() == 2)
+		if (dataTable.columns() == 2)
 			if (x == 0)
-				ylabel = dataTable.colName(1);
+				ylabel = dataTable.columnName(1);
 			else
-				ylabel = dataTable.colName(0);
+				ylabel = dataTable.columnName(0);
 		
 		if (ylabel.isEmpty() || ylabel.isNull())
 			ylabel = tr("Values");
@@ -300,8 +300,8 @@ namespace Tinkercell
 		const QwtPlotItemList& list = itemList();
 		QwtLegend * leg = legend();
 		if (!leg) return;
-		for (int i=0; i < dataTable.cols() && i < list.size(); ++i)
-			if (hideList.contains(dataTable.colName(i)))
+		for (int i=0; i < dataTable.columns() && i < list.size(); ++i)
+			if (hideList.contains(dataTable.columnName(i)))
 			{
 				list[i]->setVisible(false);
 				QWidget * w = leg->find(list[i]);
@@ -556,7 +556,7 @@ namespace Tinkercell
 		{
 			axisNames->clear();
 			if (x >= 0)
-				axisNames->addItems(matrix.getColNames());
+				axisNames->addItems(matrix.columnNames());
 		}
 	}
 	
@@ -573,12 +573,12 @@ namespace Tinkercell
 		
 		DataTable<qreal> & dataTable = dataPlot->dataTable;
 		
-		bool same = (dataTable.cols() == newData.cols());
+		bool same = (dataTable.columns() == newData.columns());
 		
 		if (same)
 		{
-			for (int i=0; i < dataTable.cols(); ++i)
-				if (dataTable.colName(i) != newData.colName(i))
+			for (int i=0; i < dataTable.columns(); ++i)
+				if (dataTable.columnName(i) != newData.columnName(i))
 				{
 					same = false;
 					break;
@@ -586,17 +586,17 @@ namespace Tinkercell
 		}
 		
 		/*int removeSz = 0;
-		for (int i=0; i < newData.cols(); ++i)
-			if (dataPlot->hideList.contains(newData.colName(i)))
+		for (int i=0; i < newData.columns(); ++i)
+			if (dataPlot->hideList.contains(newData.columnName(i)))
 				++removeSz;
 				
-		dataTable.resize(newData.rows(), newData.cols() - removeSz);
-		dataTable.setRowNames(newData.getRowNames());
+		dataTable.resize(newData.rows(), newData.columns() - removeSz);
+		dataTable.setRowNames(newData.rowNames());
 		
-		for (int i=0, k = 0; i < newData.cols(); ++i)
-			if (!dataPlot->hideList.contains(newData.colName(i)))
+		for (int i=0, k = 0; i < newData.columns(); ++i)
+			if (!dataPlot->hideList.contains(newData.columnName(i)))
 			{
-				dataTable.colName(k) = dataTable.colName(i);
+				dataTable.columnName(k) = dataTable.columnName(i);
 				for (int j=0; j < dataTable.rows(); ++j)
 					dataTable.value(j,k) = newData.at(j,i);
 				++k;
@@ -615,14 +615,14 @@ namespace Tinkercell
 			plot(newData,newData.description(),	dataPlot->xcolumn);
 		}
 		
-		if (newData.cols() > dataPlot->xcolumn)
+		if (newData.columns() > dataPlot->xcolumn)
 		{
-			dataPlot->setAxisTitle(QwtPlot::xBottom, newData.colName(dataPlot->xcolumn));
-			if (newData.cols() == 2)
+			dataPlot->setAxisTitle(QwtPlot::xBottom, newData.columnName(dataPlot->xcolumn));
+			if (newData.columns() == 2)
 				if (dataPlot->xcolumn == 0)
-					dataPlot->setAxisTitle(QwtPlot::yLeft, newData.colName(1));
+					dataPlot->setAxisTitle(QwtPlot::yLeft, newData.columnName(1));
 				else
-					dataPlot->setAxisTitle(QwtPlot::yLeft, newData.colName(0));
+					dataPlot->setAxisTitle(QwtPlot::yLeft, newData.columnName(0));
 		}
 	}
 	
@@ -797,8 +797,8 @@ namespace Tinkercell
 			   ymin = table.at(0,1),
 			   ymax = table.at(0,1);
 			
-		QStringList colnames(table.getColNames()),
-					rownames(table.getRowNames());
+		QStringList colnames(table.columnNames()),
+					rownames(table.rowNames());
 
 		int c = 0;
 		
@@ -808,7 +808,7 @@ namespace Tinkercell
 		for (int i=0; i < colnames.size(); ++i)
 		{
 			for (int j=0; j < table.rows(); ++j)
-				for (int k=0; k < table.cols(); ++k)
+				for (int k=0; k < table.columns(); ++k)
 					if (k != dataPlot->xcolumn)
 					{
 						if (ymin > table.at(j,k))
@@ -939,37 +939,37 @@ namespace Tinkercell
 		DataTable<qreal> dataTable(*data());
 		int xIndex = -1;
 		
-		QStringList colNames = dataTable.getColNames();
+		QStringList columnNames = dataTable.columnNames();
 		
 		if (dataPlot->xcolumn >= 0)
-			xIndex = colNames.indexOf(dataTable.colName(dataPlot->xcolumn));
+			xIndex = columnNames.indexOf(dataTable.columnName(dataPlot->xcolumn));
 		
-		for (int i=0; i < dataTable.cols(); ++i)
+		for (int i=0; i < dataTable.columns(); ++i)
 			if (i != dataPlot->xcolumn)
 			{
-				QString s = dataTable.colName(i);
-				while (colNames.contains(dataTable.colName(i)))
-					dataTable.colName(i) += tr("'");
+				QString s = dataTable.columnName(i);
+				while (columnNames.contains(dataTable.columnName(i)))
+					dataTable.columnName(i) += tr("'");
 					
 				if (dataPlot->hideList.contains(s))
-					dataPlot->hideList << dataTable.colName(i);
+					dataPlot->hideList << dataTable.columnName(i);
 			}
 		
 		int m = newData.rows();
 		if (m > dataTable.rows())
 			m = dataTable.rows();
 		
-		int n = dataTable.cols();
+		int n = dataTable.columns();
 		
 		if (xIndex >= 0)
-			dataTable.resize(m,dataTable.cols() + newData.cols() - 1);
+			dataTable.resize(m,dataTable.columns() + newData.columns() - 1);
 		else
-			dataTable.resize(m,dataTable.cols() + newData.cols());
+			dataTable.resize(m,dataTable.columns() + newData.columns());
 		
-		for (int i=0, k=0; i < newData.cols(); ++i)
+		for (int i=0, k=0; i < newData.columns(); ++i)
 			if (i != xIndex)
 			{
-				dataTable.colName(k+n) = newData.colName(i);
+				dataTable.columnName(k+n) = newData.columnName(i);
 				for (int j=0; j < m; ++j)
 					dataTable.value(j,k+n) = newData.at(j,i);
 				++k;
@@ -994,7 +994,7 @@ namespace Tinkercell
 		if (!plot) return;
 		
 		QString s;
-		int rows = plot->dataTable.cols();
+		int rows = plot->dataTable.columns();
 		QTableWidget * tableWidget = new QTableWidget(rows,1);
 		tableWidget->horizontalHeader()->hide();
 		tableWidget->verticalHeader()->hide();
@@ -1007,7 +1007,7 @@ namespace Tinkercell
 		
 		for (int i=0; i < rows; ++i)
 		{
-			s = plot->dataTable.colName(i);
+			s = plot->dataTable.columnName(i);
 			QCheckBox * button = new QCheckBox( s );
 			//button->setStyleSheet(tr("background-color: ") + DataPlot::penList[i].color().name());
 			tableWidget->setCellWidget(i,0,button);

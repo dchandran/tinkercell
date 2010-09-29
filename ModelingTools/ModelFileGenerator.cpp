@@ -164,12 +164,12 @@ namespace Tinkercell
 
 		DataTable<qreal> N = StoichiometryTool::getStoichiometry(handles,replaceDot,true);
 
-		int r = N.rows(), c = N.cols();
+		int r = N.rows(), c = N.columns();
 
 		if (r < 1 || c < 1 || rates.isEmpty()) return 0;
 
 		DataTable<qreal> params = BasicInformationTool::getParameters(handles,QStringList(), QStringList(), replaceDot);
-		params.insertCol(1,tr("used"));
+		params.insertColumn(1,tr("used"));
 
 		bool used = false;
 		for (i=0; i < params.rows(); ++i)
@@ -234,7 +234,7 @@ namespace Tinkercell
 				if (handles[i]->hasTextData(tr("Events")))
 				{
 					DataTable<QString>& dat = handles[i]->textDataTable(tr("Events"));
-					if (dat.cols() == 1)
+					if (dat.columns() == 1)
 						for (j=0; j < dat.rows(); ++j)
 						{
 							s1 =  dat.rowName(j);
@@ -259,7 +259,7 @@ namespace Tinkercell
 				{
 					DataTable<QString>& dat = handles[i]->textDataTable(tr("Functions"));
 
-					if (dat.cols() == 2)
+					if (dat.columns() == 2)
 					{
 						for (j=0; j < dat.rows(); ++j)
 						{
@@ -280,7 +280,7 @@ namespace Tinkercell
 				if (handles[i]->hasTextData(tr("Assignments")))
 				{
 					DataTable<QString>& dat = handles[i]->textDataTable(tr("Assignments"));
-					if (dat.cols() == 1)
+					if (dat.columns() == 1)
 						for (j=0; j < dat.rows(); ++j)
 						{
                             name = handles[i]->fullName(replaceDot);
@@ -350,7 +350,7 @@ namespace Tinkercell
                 allValues << initValues[i];
             }
 
-		fluxes = N.getColNames();
+		fluxes = N.columnNames();
 
 		for (i=0; i < fluxes.size(); ++i)
 		{
@@ -393,8 +393,8 @@ namespace Tinkercell
 		/*if (fixedVars.size() < N.rows())
 		{
 			DataTable<qreal> N2(N);
-			N.resize(N.rows()-fixedVars.size(), N.cols());
-			N.setColNames(N2.getColNames());
+			N.resize(N.rows()-fixedVars.size(), N.columns());
+			N.setColNames(N2.columnNames());
 
 			int i2;
 			for (i=0, i2 = 0; i < N2.rows(); ++i)
@@ -402,7 +402,7 @@ namespace Tinkercell
 				if (!fixedVars.contains(N2.rowName(i)))
 				{
 					N.rowName(i2) = N2.rowName(i);
-					for (j=0; j < N2.cols(); ++j)
+					for (j=0; j < N2.columns(); ++j)
 					{
 						N.value(i2,j) = N2.value(i,j);
 					}
@@ -464,7 +464,7 @@ namespace Tinkercell
 			code += tr("   k[");
 			code += QString::number(i);
 			code += tr("] = model->");
-			code += N.colName(i);
+			code += N.columnName(i);
 			code += tr(";\n");
 		}
 
@@ -560,7 +560,7 @@ namespace Tinkercell
 			code += tr("    rates[");
 			code += QString::number(i);
 			code += tr("] = model->");
-			code += N.colName(i);
+			code += N.columnName(i);
 			code += tr(" = ");
 			code += insertPrefix(handles,tr("model->"),rates[i],replaceDot);
 			code += tr(";\n");
@@ -642,12 +642,12 @@ namespace Tinkercell
 
 		//variable names
 		code += tr("char * TCvarnames[] = {\"");
-		code += N.getRowNames().join("\",\"");
+		code += N.rowNames().join("\",\"");
 		code += tr("\",0};\n\n");
 
 		//reaction names
 		code += tr("char * TCreactionnames[] = {\"");
-		code += N.getColNames().join("\",\"");
+		code += N.columnNames().join("\",\"");
 		code += tr("\",0};\n\n");
 
 		code += tr("double TCinit[");

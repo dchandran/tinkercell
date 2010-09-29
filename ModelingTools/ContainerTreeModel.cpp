@@ -77,7 +77,7 @@ namespace Tinkercell
 			if (column == 0)
 				return QVariant(attributeName);
 			else
-				if (itemHandle->numericalDataTable(QString("Parameters")).getRowNames().contains(attributeName))
+				if (itemHandle->numericalDataTable(QString("Parameters")).hasRow(attributeName))
 					return QVariant(itemHandle->numericalData(QString("Parameters"),attributeName,0));
 		}
 		else

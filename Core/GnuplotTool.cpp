@@ -87,7 +87,7 @@ namespace Tinkercell
     {
 		m.description() = title;
         
-		labels = m.getColNames();
+		labels = m.columnNames();
 
         QDir dir(MainWindow::tempDir());
         /*if (!dir.cd(tr("gnuplot")))
@@ -104,16 +104,16 @@ namespace Tinkercell
         {
             QTextStream out(&data);
             out << tr("#") << title << tr("\n");
-            for (int i=0; i < m.cols(); ++i)
+            for (int i=0; i < m.columns(); ++i)
                 if (i > 0)
-                    out << tr("\t") << m.colName(i);
+                    out << tr("\t") << m.columnName(i);
                 else
-                    out << m.colName(i);
+                    out << m.columnName(i);
             out << tr("\n");
 
             for (int i=0; i < m.rows(); ++i)
             {
-                for (int j=0; j < m.cols(); ++j)
+                for (int j=0; j < m.columns(); ++j)
                     if (j > 0)
                         out << tr("\t") << QString::number(m.at(i,j));
                     else
@@ -125,7 +125,7 @@ namespace Tinkercell
         }
 
         QString s;
-        int cols = m.cols();
+        int cols = m.columns();
 
         for (int i=0; i < cols; ++i)
             if (i != x)
@@ -134,7 +134,7 @@ namespace Tinkercell
                 {
 					s += tr("set xlabel ");
 					s += tr("\"");
-					s += m.colName(x);
+					s += m.columnName(x);
 					s += tr("\"\n");
                     s += tr("set title '");
                     s += title;
@@ -158,15 +158,15 @@ namespace Tinkercell
     
 	void GnuplotTool::gnuplotDataTable3D(DataTable<qreal>& m, const QString& title)
 	{
-        if (m.cols() < 3) return;
+        if (m.columns() < 3) return;
 
 		m.description() = title;
         
-		labels = m.getColNames();
+		labels = m.columnNames();
 
         QString z;
         QString s = tr("#");
-        s += m.getColNames().join(tr("\t")) += tr("\n");
+        s += m.columnNames().join(tr("\t")) += tr("\n");
         int rows = m.rows();
 
         int k = 0;
@@ -207,15 +207,15 @@ namespace Tinkercell
 		s += title;
 		s += tr("\nset xlabel ");
 		s += tr("'");
-		s += m.colName(0);
+		s += m.columnName(0);
 		
 		s += tr("'\nset ylabel ");
 		s += tr("'");
-		s += m.colName(1);
+		s += m.columnName(1);
 		
 		s += tr("'\nset zlabel ");
 		s += tr("'");
-		s += m.colName(2);
+		s += m.columnName(2);
 		
 		s += tr("'\nset pm3d; set nokey; set contour\nsplot 'data");
 		s += QString::number(previousCommands.size());
@@ -226,12 +226,12 @@ namespace Tinkercell
 
     void GnuplotTool::gnuplotHist(DataTable<qreal>& m, double bins, const QString& title)
     {
-		m.removeCol(tr("time"));
-		m.removeCol(tr("Time"));
+		m.removeColumn(tr("time"));
+		m.removeColumn(tr("Time"));
 		
 		m.description() = title;
         
-		labels = m.getColNames();
+		labels = m.columnNames();
 		
         QDir dir(MainWindow::tempDir());
         /*if (!dir.cd(tr("gnuplot")))
@@ -248,16 +248,16 @@ namespace Tinkercell
         {
             QTextStream out(&data);
             out << tr("#") << title << tr("\n");
-            for (int i=0; i < m.cols(); ++i)
+            for (int i=0; i < m.columns(); ++i)
                 if (i > 0)
-                    out << tr("\t") << m.colName(i);
+                    out << tr("\t") << m.columnName(i);
                 else
-                    out << m.colName(i);
+                    out << m.columnName(i);
             out << tr("\n");
 
             for (int i=0; i < m.rows(); ++i)
             {
-                for (int j=0; j < m.cols(); ++j)
+                for (int j=0; j < m.columns(); ++j)
                     if (j > 0)
                         out << tr("\t") << QString::number(m.at(i,j));
                     else
@@ -269,7 +269,7 @@ namespace Tinkercell
         }
 
         QString s;
-        int cols = m.cols();
+        int cols = m.columns();
 
         for (int i=0; i < cols; ++i)
 		{
@@ -290,7 +290,7 @@ namespace Tinkercell
 			s += QString::number(i+1);
 			s += tr(",bw)):(1.0) smooth freq with boxes title ");
 			s += tr("'");
-			s += m.colName(i);
+			s += m.columnName(i);
 			s += tr("'");
 			if (i < cols-1)
 				s += tr(", ");
@@ -468,16 +468,16 @@ namespace Tinkercell
 
 		QString s;
 
-		for (int i=0; i < m.cols(); ++i)
+		for (int i=0; i < m.columns(); ++i)
 			if (i > 0)
-				s += tr("\t") + m.colName(i);
+				s += tr("\t") + m.columnName(i);
 			else
-				s += m.colName(i);
+				s += m.columnName(i);
 		s += tr("\n");
 
 		for (int i=0; i < m.rows(); ++i)
 		{
-			for (int j=0; j < m.cols(); ++j)
+			for (int j=0; j < m.columns(); ++j)
 				if (j > 0)
 					s += tr("\t") += QString::number(m.at(i,j));
 				else
@@ -510,16 +510,16 @@ namespace Tinkercell
         {
             QTextStream out(&data);
             out << tr("#") << m.description() << tr("\n");
-            for (int i=0; i < m.cols(); ++i)
+            for (int i=0; i < m.columns(); ++i)
                 if (i > 0)
-                    out << tr("\t") << m.colName(i);
+                    out << tr("\t") << m.columnName(i);
                 else
-                    out << m.colName(i);
+                    out << m.columnName(i);
             out << tr("\n");
 
             for (int i=0; i < m.rows(); ++i)
             {
-                for (int j=0; j < m.cols(); ++j)
+                for (int j=0; j < m.columns(); ++j)
                     if (j > 0)
                         out << tr("\t") << QString::number(m.at(i,j));
                     else

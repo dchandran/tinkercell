@@ -15,6 +15,7 @@ the table.
 #define TINKERCELL_DATATABLE_H
 
 #include <QList>
+#include <QHash>
 #include <QVector>
 #include <QString>
 #include <QStringList>
@@ -38,10 +39,10 @@ namespace Tinkercell
 	protected:
 		/*! \brief the values in the table*/
 		QVector<T> dataMatrix;
-		/*! \brief the column names*/
-		QVector<QString> colHeaders;
-		/*! \brief the row names*/
-		QVector<QString> rowHeaders;
+		/*! \brief the column and row names*/
+		QVector<QString> colHeaders, rowHeaders;
+		/*! \brief hash for quick lookup of row and columns by name*/
+		QHash<QString,int> colHash, rowHash;
 		/*! \brief a description of this table (optional)*/
 		QString desc;
 	public:
@@ -53,26 +54,28 @@ namespace Tinkercell
 		virtual QString& description();
 		
 		/*! \brief get the column names
-		\return QVector reference to the actural column names
+		\return QStringList column names (copy)
 		*/
-		virtual const QVector<QString>& colNames() const;
+		virtual QStringList columnNames() const;
+		/*! \brief check is this table has a row with the given name
+		\param QString row name
+		\return bool true if the row with the name exists
+		*/
+		virtual bool hasRow(const QString&) const;
+		/*! \brief check is this table has a column with the given name
+		\param QString column name
+		\return bool true if the column with the name exists
+		*/
+		virtual bool hasColumn(const QString&) const;
 		/*! \brief get the row names
-		\return QVector reference to the actural row names
+		\return QStringList row names (copy)
 		*/
-		virtual const QVector<QString>& rowNames() const;
-		/*! \brief get the column names
-		\return QStringList column names as QStringList (copy)
-		*/
-		virtual QStringList getColNames() const;
-		/*! \brief get the row names
-		\return QStringList row names as QStringList (copy)
-		*/
-		virtual QStringList getRowNames() const;
+		virtual QStringList rowNames() const;
 		/*! \brief get the ith column name reference. can be used to change the column name
 		\param int col number
 		\return QString reference to the ith column name
 		*/
-		virtual QString& colName(int i);
+		virtual QString& columnName(int i);
 		
 		/*! \brief get the ith row name reference. can be used to change the row name
 		\param int col number
@@ -84,7 +87,7 @@ namespace Tinkercell
 		\param int col number
 		\return QString copy of the ith column name
 		*/
-		virtual QString colName(int i) const;
+		virtual QString columnName(int i) const;
 		
 		/*! \brief get the ith row name. cannot be used to change the row name
 		\param int row number
@@ -93,22 +96,10 @@ namespace Tinkercell
 		virtual QString& rowName(int i);
 		
 		/*! \brief set all the column names. 
-		\param QVector vector of strings
+		\param QStringList vector of strings
 		\return void
 		*/
-		virtual void setColNames(const QVector<QString>& names);
-		
-		/*! \brief set all the row names.
-		\param QVector vector of strings
-		\return void
-		*/
-		virtual void setRowNames(const QVector<QString>& names);
-		
-		/*! \brief set all the column names. 
-		\param QVector vector of strings
-		\return void
-		*/
-		virtual void setColNames(const QStringList& names);
+		virtual void setColumnNames(const QStringList& names);
 		
 		/*! \brief set all the row names. 
 		\param QVector vector of strings
@@ -124,14 +115,14 @@ namespace Tinkercell
 		/*! \brief get the number of columns
 		\return int number of columns
 		*/
-		virtual int cols() const;
+		virtual int columns() const;
 		
 		/*! \brief get the value at the ith row and jth column. can also be used to set the value
-		\param int row number (i)
-		\param int column number (j)
+		\param int row number
+		\param int column number (defaults to 0)
 		\return T reference to value at ith row and jth column. returns value at 0 if i or j are not inside the table
 		*/
-		virtual T& value (int i, int j) ;
+		virtual T& value (int i, int j=0) ;
 		
 		/*! \brief get the value using row and column names. can also be used to set the value. Slower than
 		using value(int,int)
@@ -144,10 +135,10 @@ namespace Tinkercell
 		/*! \brief get the value using row name. can also be used to set the value. Slower than
 		using value(int,int)
 		\param QString row name
-		\param int column number
+		\param int column number (defaults to 0)
 		\return T reference to value at given row and column. returns value at 0 if row and column are not in the table
 		*/
-		virtual T& value (const QString& r, int j);
+		virtual T& value (const QString& r, int j=0);
 		
 		/*! \brief get the value using column name. can also be used to set the value. Slower than
 		using value(int,int)
@@ -171,10 +162,10 @@ namespace Tinkercell
 		
 		/*! \brief get the value using row and column number. cannot also be used to set the value. 
 		\param int row number
-		\param int column number
+		\param int column number (defaults to 0)
 		\return T copy of value at given row and column. returns value at 0 if row and column are not in the table
 		*/
-		virtual T at (int i, int j) const;
+		virtual T at (int i, int j=0) const;
 		
 		/*! \brief get the value using row and column name. cannot also be used to set the value. 
 		\param QString row name
@@ -185,10 +176,10 @@ namespace Tinkercell
 		
 		/*! \brief get the value using row name. cannot also be used to set the value. 
 		\param QString row name
-		\param int column number
+		\param int column number (defaults to 0)
 		\return T copy of value at given row and column. returns value at 0 if row and column are not in the table
 		*/
-		virtual T at (const QString& r, int j) const;
+		virtual T at (const QString& r, int j=0) const;
 		
 		/*! \brief get the value using column name. cannot also be used to set the value. 
 		\param int row number
@@ -199,50 +190,50 @@ namespace Tinkercell
 		
 		/*! \brief set the size of the data table 
 		\param int row count
-		\param int column count
+		\param int column count (defaults to 1)
 		\return void
 		*/
-		virtual void resize(int m, int n);
+		virtual void resize(int m, int n=1);
 		
 		/*! \brief insert a new row at the given location with the given name. Insertion will fail if there is already
 		a row with the same name
 		\param int row number
 		\param QString row name
-		\return int 0 if failed, 1 if successful
+		\return Boolean false if failed, true if successful
 		*/
-		virtual int insertRow(int k, const QString& row);
+		virtual bool insertRow(int k, const QString& row);
 		
 		/*! \brief insert a new column at the given location with the given name. Insertion will fail if there is already
 		a column with the same name
 		\param int column number
 		\param QString column name
-		\return int 0 if failed, 1 if successful
+		\return Boolean false if failed, true if successful
 		*/
-		virtual int insertCol(int k, const QString& col);
+		virtual bool insertColumn(int k, const QString& col);
 		
 		/*! \brief remove an existing row at the given index.
 		\param int row number
-		\return int 0 if failed, 1 if successful
+		\return Boolean false if failed, true if successful
 		*/
-		virtual int removeRow(int k);
+		virtual bool removeRow(int k);
 		
 		/*! \brief remove an existing row with the given name.
 		\param QString row name
-		\return int 0 if failed, 1 if successful
+		\return Boolean false if failed, true if successful
 		*/
-		virtual int removeRow(const QString& name);
+		virtual bool removeRow(const QString& name);
 		
 		/*! \brief remove an existing column at the given index.
 		\param int column number
-		\return int 0 if failed, 1 if successful
+		\return Boolean false if failed, true if successful
 		*/
-		virtual int removeCol(int k);
+		virtual bool removeColumn(int k);
 		
 		/*! \brief remove an existing col with the given name.
 		\param QString row name
-		\return int 0 if failed, 1 if successful
+		\return Boolean false if failed, true if successful
 		*/
-		virtual int removeCol(const QString& name);
+		virtual bool removeColumn(const QString& name);
 		
 		/*! \brief swap two rows. Nothing will happen if the given numbers are outside the table
 		\param int first row number
@@ -256,7 +247,7 @@ namespace Tinkercell
 		\param int second column number
 		\return void
 		*/
-		virtual void swapCols(int j1, int j2);
+		virtual void swapColumns(int j1, int j2);
 		
 		/*! \brief swap two rows using their name. Nothing will happen if the given numbers are outside the table
 		\param int first row name
@@ -270,13 +261,12 @@ namespace Tinkercell
 		\param int second column name
 		\return void
 		*/
-		virtual void swapCols(const QString& s1, const QString& s2);
+		virtual void swapColumns(const QString& s1, const QString& s2);
 		
 		/*! \brief get transpose of the table. complexity = n*m (use sparingly)
 		\return new data table
 		*/
 		virtual DataTable<T> transpose() const;
-
 	};
 
 
@@ -362,24 +352,26 @@ namespace Tinkercell
 	/*! \brief get the column names
 	\return QVector reference to the actural column names
 	*/
-	template <typename T>  const QVector<QString>& DataTable<T>::colNames() const { return colHeaders; }
+	template <typename T>  QStringList DataTable<T>::columnNames() const { return QStringList(colHeaders.toList()); }
 	/*! \brief get the row names
 	\return QVector reference to the actural row names
 	*/
-	template <typename T>  const QVector<QString>& DataTable<T>::rowNames() const { return rowHeaders; }
-	/*! \brief get the column names
-	\return QStringList column names as QStringList (copy)
+	template <typename T>  QStringList DataTable<T>::rowNames() const { return QStringList(rowHeaders.toList()); }
+		/*! \brief check is this table has a row with the given name
+	\param QString row name
+	\return bool true if the row with the name exists
 	*/
-	template <typename T>  QStringList DataTable<T>::getColNames() const { return QStringList::fromVector(colHeaders); }
-	/*! \brief get the row names
-	\return QStringList row names as QStringList (copy)
+	template <typename T> bool DataTable<T>::hasRow(const QString& s) const { return rowHash.contains(s); }
+	/*! \brief check is this table has a column with the given name
+	\param QString column name
+	\return bool true if the column with the name exists
 	*/
-	template <typename T>  QStringList DataTable<T>::getRowNames() const { return QStringList::fromVector(rowHeaders); }
+	template <typename T> bool DataTable<T>::hasColumn(const QString& s) const { return colHash.contains(s); }
 	/*! \brief get the ith column name reference. can be used to change the column name
 	\param int col number
 	\return QString reference to the ith column name
 	*/
-	template <typename T>  QString& DataTable<T>::colName(int i) 
+	template <typename T>  QString& DataTable<T>::columnName(int i) 
 	{ 
 		if (i < 0 || i >= colHeaders.size())
 		{
@@ -405,7 +397,7 @@ namespace Tinkercell
 	\param int col number
 	\return QString copy of the ith column name
 	*/
-	template <typename T>  QString DataTable<T>::colName(int i) const
+	template <typename T>  QString DataTable<T>::columnName(int i) const
 	{ 
 		if (i < 0 || i >= colHeaders.size())
 			return QString();
@@ -426,46 +418,31 @@ namespace Tinkercell
 		return rowHeaders[i];
 	}
 	/*! \brief set all the column names. 
-	\param QVector vector of strings
+	\param QStringList vector of strings
 	\return void
 	*/
-	template <typename T>  void DataTable<T>::setColNames(const QVector<QString>& names)
+	template <typename T>  void DataTable<T>::setColumnNames(const QStringList& names)
 	{
 		if (names.size() != colHeaders.size())
 			resize(rowHeaders.size(),names.size());
-		colHeaders = names;
+		colHeaders = QVector<QString>::fromList(names);
+		colHash.clear();
+		for (int i=0; i < names.size(); ++i)
+			colHash[ names[i] ] = i;
 	}
 	/*! \brief set all the row names.
-	\param QVector vector of strings
-	\return void
-	*/
-	template <typename T>  void DataTable<T>::setRowNames(const QVector<QString>& names)
-	{
-		if (names.size() != colHeaders.size())
-			resize(names.size(),colHeaders.size());
-		rowHeaders = names;	
-	}
-	/*! \brief set all the column names. 
-	\param QVector vector of strings
-	\return void
-	*/
-	template <typename T>  void DataTable<T>::setColNames(const QStringList& names)
-	{
-		if (names.size() != colHeaders.size())
-			resize(rowHeaders.size(),names.size());
-		for (int i=0; i < names.size(); ++i)
-			colHeaders[i] = names[i];
-	}
-	/*! \brief set all the row names. 
-	\param QVector vector of strings
+	\param QStringList vector of strings
 	\return void
 	*/
 	template <typename T>  void DataTable<T>::setRowNames(const QStringList& names)
 	{
-		if (names.size() != rowHeaders.size())
+		if (names.size() != colHeaders.size())
 			resize(names.size(),colHeaders.size());
+		rowHeaders = QVector<QString>::fromList(names);
+		
+		rowHash.clear();
 		for (int i=0; i < names.size(); ++i)
-			rowHeaders[i] = names[i];	
+			rowHash[ names[i] ] = i;
 	}
 	/*! \brief get the number of rows
 	\return int number of rows
@@ -477,7 +454,7 @@ namespace Tinkercell
 	/*! \brief get the number of columns
 	\return int number of columns
 	*/
-	template <typename T>  int DataTable<T>::cols() const
+	template <typename T>  int DataTable<T>::columns() const
 	{
 		return colHeaders.size();
 	}
@@ -486,7 +463,7 @@ namespace Tinkercell
 	\param int column number (j)
 	\return T reference to value at ith row and jth column. returns value at 0 if i or j are not inside the table
 	*/
-	template <typename T>  T& DataTable<T>::value (int i, int j) 
+	template <typename T>  T& DataTable<T>::value (int i, int j)
 	{
 		if (i < 0) i = 0;
 		if (j < 0) j = 0;
@@ -512,20 +489,25 @@ namespace Tinkercell
 	template <typename T>  T& DataTable<T>::value (const QString& r, const QString& c)
 	{
 		int m = rowHeaders.size(), n = colHeaders.size();
-		if (!rowHeaders.contains(r))
+		if (!rowHash.contains(r))
 			++m;
-		if (!colHeaders.contains(c))
+		if (!colHash.contains(c))
 			++n;
 		if (m != rowHeaders.size() || n != colHeaders.size())
 		{
 			resize(m,n);
-			if (!rowHeaders.contains(r))
+			if (!rowHash.contains(r))
+			{
 				rowHeaders[ rowHeaders.size()-1 ] = r;
+				rowHash[ r ] = rowHeaders.size()-1;
+			}
 			if (!colHeaders.contains(c))
+			{
 				colHeaders[ colHeaders.size()-1 ] = c;
+				colHash[ c ] = colHeaders.size()-1;
+			}
 		}
-		int i = rowHeaders.indexOf(r),
-			j = colHeaders.indexOf(c);
+		int i = rowHash[r],	j = colHash[c];
 		return value(i,j);
 	}
 	/*! \brief get the value using row name. can also be used to set the value. Slower than
@@ -537,15 +519,20 @@ namespace Tinkercell
 	template <typename T>  T& DataTable<T>::value (const QString& r, int j)
 	{
 		int m = rowHeaders.size(), n = colHeaders.size();
-		if (!rowHeaders.contains(r))
+		if (!rowHash.contains(r))
 			++m;
+		if (j > n)
+			n = j + 1;
 		if (m != rowHeaders.size() || n != colHeaders.size())
 		{
 			resize(m,n);
-			if (!rowHeaders.contains(r))
+			if (!rowHash.contains(r))
+			{
 				rowHeaders[ rowHeaders.size()-1 ] = r;
+				rowHash[ r ] = rowHeaders.size()-1;
+			}
 		}
-		int i = rowHeaders.indexOf(r);
+		int i = rowHash[r];
 		return value(i,j);
 	}
 	/*! \brief get the value using column name. can also be used to set the value. Slower than
@@ -557,16 +544,21 @@ namespace Tinkercell
 	template <typename T>  T& DataTable<T>::value (int i, const QString& c)
 	{
 		int m = rowHeaders.size(), n = colHeaders.size();
-		if (!colHeaders.contains(c))
+		if (!colHash.contains(c))
 			++n;
+		if (i > m)
+			m = i + 1;
 		if (m != rowHeaders.size() || n != colHeaders.size())
 		{
 			resize(m,n);
-			if (!colHeaders.contains(c))
+			if (!colHash.contains(c))
+			{
 				colHeaders[ colHeaders.size()-1 ] = c;
+				colHash[ c ] = colHeaders.size()-1;
+			}
 		}
-		int j = colHeaders.indexOf(c);
-		return value(i,j);
+		int j = colHash[c];
+		return value(i,j);	
 	}
 	/*! \brief checks if the two data table's headers and contents are the same
 	\param DataTable<T>
@@ -609,8 +601,10 @@ namespace Tinkercell
 	*/
 	template <typename T>  T DataTable<T>::at (const QString& r, const QString& c) const
 	{
-		int i = rowHeaders.indexOf(r),
-			j = colHeaders.indexOf(c);
+		if (!rowHash.contains(r) || !colHash.contains(c))
+			return T();
+
+		int i = rowHash[r], j = colHash[c];
 		return at(i,j);
 	}
 	/*! \brief get the value using row name. cannot also be used to set the value. 
@@ -620,7 +614,10 @@ namespace Tinkercell
 	*/
 	template <typename T>  T DataTable<T>::at (const QString& r, int j) const
 	{
-		int i = rowHeaders.indexOf(r);
+		if (!rowHash.contains(r))
+			return T();
+
+		int i = rowHash[r];
 		return at(i,j);
 	}
 	/*! \brief get the value using column name. cannot also be used to set the value. 
@@ -630,7 +627,10 @@ namespace Tinkercell
 	*/
 	template <typename T>  T DataTable<T>::at (int i, const QString& c) const
 	{
-		int j = colHeaders.indexOf(c);
+		if (!colHash.contains(c))
+			return T();
+
+		int j = colHash[c];
 		return at(i,j);
 	}
 	/*! \brief set the size of the data table 
@@ -641,8 +641,18 @@ namespace Tinkercell
 	template <typename T>  void DataTable<T>::resize(int m, int n)
 	{
 		if (m < 0 || n < 0) return;
+
 		int m0 = rowHeaders.size(), n0 = colHeaders.size();
 		QVector<T> oldMatrix(dataMatrix);
+		
+		if (m < m0)
+			for (int i=m; i < m0; ++i)
+				rowHash.remove( rowHeaders[i] );
+		
+		if (n < n0)
+			for (int i=n; i < n0; ++i)
+				colHash.remove( colHeaders[i] );
+
 		dataMatrix.clear();
 		dataMatrix.resize(m*n);
 		rowHeaders.resize(m);
@@ -661,68 +671,41 @@ namespace Tinkercell
 	a row with the same name
 	\param int row number
 	\param QString row name
-	\return int 0 if failed, 1 if successful
+	\return Boolean false if failed, true if successful
 	*/
-	template <typename T>  int DataTable<T>::insertRow(int k, const QString& row)
+	template <typename T>  bool DataTable<T>::insertRow(int k, const QString& row)
 	{
-		if (rowHeaders.contains(row)) return 0;
-
-		int n = rowHeaders.size()+1;
-
-		QVector<T> dataMatrix2( n * colHeaders.size() );
-
-		for (int i=0; i < rowHeaders.size(); ++i)
-			for (int j=0; j < colHeaders.size(); ++j)
-			{
-				if (i < k)
-					dataMatrix2[ i*colHeaders.size()+j ] = dataMatrix[ i*colHeaders.size()+j ];
-				else
-					dataMatrix2[ (i+1)*colHeaders.size()+j ] = dataMatrix[ i*colHeaders.size()+j ];
-			}
-
-			dataMatrix = dataMatrix2;
-			rowHeaders.insert(k,row);
-
-			return 1;			
+		if (rowHash.contains(row)) return false;
+		int m = rowHeaders.size();
+		resize( m+1, colHeaders.size() );
+		rowHeaders[ m ] = row;
+		rowHash[ row ] = m;
+		return true;
 	}
 	/*! \brief insert a new column at the given location with the given name. Insertion will fail if there is already
 	a column with the same name
 	\param int column number
 	\param QString column name
-	\return int 0 if failed, 1 if successful
+	\return Boolean false if failed, true if successful
 	*/
-	template <typename T>  int DataTable<T>::insertCol(int k, const QString& col)
+	template <typename T>  bool DataTable<T>::insertColumn(int k, const QString& col)
 	{
-		if (colHeaders.contains(col)) return 0;
-
-		int n = colHeaders.size()+1;
-
-		QVector<T> dataMatrix2( n * rowHeaders.size() );
-
-		for (int i=0; i < rowHeaders.size(); ++i)
-			for (int j=0; j < colHeaders.size(); ++j)
-			{
-				if (j < k)
-					dataMatrix2[ i*n+j ] = dataMatrix[ i*colHeaders.size()+j ];
-				else
-					dataMatrix2[ i*n+j+1 ] = dataMatrix[ i*colHeaders.size()+j ];
-			}
-
-			dataMatrix = dataMatrix2;
-			colHeaders.insert(k,col);
-
-			return 1;			
+		if (colHash.contains(col)) return false;
+		int n = colHeaders.size();
+		resize( rowHeaders.size() , n + 1 );
+		colHeaders[ n ] = col;
+		colHash[ col ] = n;
+		return true;
 	}
 	/*! \brief remove an existing row at the given index.
 	\param int row number
-	\return int 0 if failed, 1 if successful
+	\return Boolean false if failed, true if successful
 	*/
-	template <typename T>  int DataTable<T>::removeRow(int k)
+	template <typename T>  bool DataTable<T>::removeRow(int k)
 	{
-		if (k < 0 || k >= rowHeaders.size()) return 0;
-
+		if (k < 0 || k >= rowHeaders.size()) return false;
 		int n = rowHeaders.size()-1;
-
+		
 		QVector<T> dataMatrix2( n * colHeaders.size() );
 
 		for (int i=0; i < rowHeaders.size(); ++i)
@@ -735,28 +718,29 @@ namespace Tinkercell
 						dataMatrix2[ (i-1)*colHeaders.size()+j ] = dataMatrix[ i*colHeaders.size()+j ];
 			}
 
-			dataMatrix = dataMatrix2;
-			rowHeaders.remove(k);
+		dataMatrix = dataMatrix2;
+		rowHash.remove( rowHeaders[k] );
+		rowHeaders.remove(k);
 
-			return 1;
+		return true;
 	}
 	/*! \brief remove an existing row with the given name.
 	\param QString row name
-	\return int 0 if failed, 1 if successful
+	\return Boolean false if failed, true if successful
 	*/
-	template <typename T>  int DataTable<T>::removeRow(const QString& name)
+	template <typename T>  bool DataTable<T>::removeRow(const QString& name)
 	{
-		if (rowHeaders.contains(name))
-			return removeRow(rowHeaders.indexOf(name));
-		return -1;
+		if (rowHash.contains(name))
+			return removeRow(rowHash[name]);
+		return false;
 	}
 	/*! \brief remove an existing column at the given index.
 	\param int column number
-	\return int 0 if failed, 1 if successful
+	\return Boolean false if failed, true if successful
 	*/
-	template <typename T>  int DataTable<T>::removeCol(int k)
+	template <typename T>  bool DataTable<T>::removeColumn(int k)
 	{
-		if (k < 0 || k >= colHeaders.size()) return 0;
+		if (k < 0 || k >= colHeaders.size()) return false;
 
 		int n = colHeaders.size()-1;
 
@@ -772,20 +756,21 @@ namespace Tinkercell
 						dataMatrix2[ i*n+j-1 ] = dataMatrix[ i*colHeaders.size()+j ];
 			}
 
-			dataMatrix = dataMatrix2;
-			colHeaders.remove(k);
+		dataMatrix = dataMatrix2;
+		colHash.remove(colHeaders[k]);
+		colHeaders.remove(k);
 
-			return 1;
+		return true;
 	}
 	/*! \brief remove an existing col with the given name.
 	\param QString row name
-	\return int 0 if failed, 1 if successful
+	\return Boolean false if failed, true if successful
 	*/
-	template <typename T>  int DataTable<T>::removeCol(const QString& name)
+	template <typename T>  bool DataTable<T>::removeColumn(const QString& name)
 	{
-		if (colHeaders.contains(name))
-			return removeCol(colHeaders.indexOf(name));
-		return -1;
+		if (colHash.contains(name))
+			return removeColumn(colHash[name]);
+		return false;
 	}
 	/*! \brief swap two rows. Nothing will happen if the given numbers are outside the table
 	\param int first row number
@@ -799,6 +784,9 @@ namespace Tinkercell
 		QString str = rowHeaders[i1];
 		rowHeaders[i1] = rowHeaders[i2];
 		rowHeaders[i2] = str;
+
+		rowHash[ rowHeaders[i1] ] = i1;
+		rowHash[ rowHeaders[i2] ] = i2;
 
 		int n = colHeaders.size();
 		int k1,k2;
@@ -817,13 +805,16 @@ namespace Tinkercell
 	\param int second column number
 	\return void
 	*/
-	template <typename T>  void DataTable<T>::swapCols(int j1, int j2)
+	template <typename T>  void DataTable<T>::swapColumns(int j1, int j2)
 	{
 		if (j1 < 0 || j2 < 0 || j1 >= colHeaders.size() || j2 >= colHeaders.size()) return;
 
 		QString str = colHeaders[j1];
 		colHeaders[j1] = colHeaders[j2];
 		colHeaders[j2] = str;
+		
+		colHash[ colHeaders[j1] ] = j1;
+		colHash[ colHeaders[j2] ] = j2;
 
 		int n = colHeaders.size(), m = rowHeaders.size();
 		int k1,k2;
@@ -844,16 +835,18 @@ namespace Tinkercell
 	*/
 	template <typename T>  void DataTable<T>::swapRows(const QString& s1, const QString& s2)
 	{
-		swapRows( rowHeaders.indexOf(s1), rowHeaders.indexOf(s2) );
+		if (rowHash.contains(s1) && rowHash.contains(s2))
+			swapRows( rowHash[s1], rowHash[s2] );
 	}
 	/*! \brief swap two columns using their name. Nothing will happen if the given numbers are outside the table
 	\param int first column name
 	\param int second column name
 	\return void
 	*/
-	template <typename T>  void DataTable<T>::swapCols(const QString& s1, const QString& s2)
+	template <typename T>  void DataTable<T>::swapColumns(const QString& s1, const QString& s2)
 	{
-		swapCols( colHeaders.indexOf(s1), colHeaders.indexOf(s2) );
+		if (colHash.contains(s1) && colHash.contains(s2))
+			swapColumns( colHash[s1], colHash[s2] );
 	}
 	/*! \brief get transpose of the table. complexity = n*m (use sparingly)
 	\return new data table
@@ -861,13 +854,15 @@ namespace Tinkercell
 	template <typename T>  DataTable<T> DataTable<T>::transpose() const
 	{
 		DataTable<T> newTable;
-		newTable.resize( cols(), rows() );
+		newTable.resize( colHeaders.size(), rowHeaders.size() );
 
 		newTable.colHeaders = rowHeaders;
 		newTable.rowHeaders = colHeaders;
+		newTable.rowHash = rowHash;
+		newTable.colHash = colHash;
 
 		for (int i=0; i < rows(); ++i)
-			for (int j=0; j < cols(); ++j)
+			for (int j=0; j < columns(); ++j)
 				newTable.value(j,i) = at(i,j);
 
 		return newTable;
@@ -1013,3 +1008,4 @@ namespace Tinkercell
 }
 
 #endif
+

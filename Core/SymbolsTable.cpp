@@ -137,22 +137,22 @@ namespace Tinkercell
 					}
 
 					/*
-					for (int k=0; k < nDat.cols(); ++k)
+					for (int k=0; k < nDat.columns(); ++k)
 					{						
-						if (!nDat.colName(k).isEmpty())
+						if (!nDat.columnName(k).isEmpty())
 						{
 							if (!handle->name.isEmpty())
 							{
-								uniqueDataWithDot.insertMulti(handle->fullName() + QObject::tr(".") + nDat.colName(k),
+								uniqueDataWithDot.insertMulti(handle->fullName() + QObject::tr(".") + nDat.columnName(k),
 									QPair<ItemHandle*,QString>(handle,keys[j]));
-								uniqueDataWithUnderscore.insertMulti(handle->fullName(QObject::tr("_")) + QObject::tr("_") + nDat.colName(k),
+								uniqueDataWithUnderscore.insertMulti(handle->fullName(QObject::tr("_")) + QObject::tr("_") + nDat.columnName(k),
 									QPair<ItemHandle*,QString>(handle,keys[j]));
 							}
-							nonuniqueData.insertMulti(handle->fullName() + QObject::tr(".") + nDat.colName(k),
+							nonuniqueData.insertMulti(handle->fullName() + QObject::tr(".") + nDat.columnName(k),
 									QPair<ItemHandle*,QString>(handle,keys[j]));
-							nonuniqueData.insertMulti(handle->fullName(QObject::tr("_")) + QObject::tr("_") + nDat.colName(k), 
+							nonuniqueData.insertMulti(handle->fullName(QObject::tr("_")) + QObject::tr("_") + nDat.columnName(k), 
 								QPair<ItemHandle*,QString>(handle,keys[j]));
-							nonuniqueData.insertMulti(nDat.colName(k),
+							nonuniqueData.insertMulti(nDat.columnName(k),
 								QPair<ItemHandle*,QString>(handle,keys[j]));
 						}
 					}
@@ -185,23 +185,23 @@ namespace Tinkercell
 						}
 					}
 					
-					for (int k=0; k < sDat.cols(); ++k)
+					for (int k=0; k < sDat.columns(); ++k)
 					{
 						/*
-						if (!sDat.colName(k).isEmpty())
+						if (!sDat.columnName(k).isEmpty())
 						{
 							if (!handle->name.isEmpty())
 							{
-								uniqueDataWithDot.insertMulti(handle->fullName() + QObject::tr(".") + sDat.colName(k),
+								uniqueDataWithDot.insertMulti(handle->fullName() + QObject::tr(".") + sDat.columnName(k),
 									QPair<ItemHandle*,QString>(handle,keys[j]));
-								uniqueDataWothUnderscore.insertMulti(handle->fullName(QObject::tr("_")) + QObject::tr("_") + sDat.colName(k),
+								uniqueDataWothUnderscore.insertMulti(handle->fullName(QObject::tr("_")) + QObject::tr("_") + sDat.columnName(k),
 									QPair<ItemHandle*,QString>(handle,keys[j]));
 							}
-							nonuniqueData.insertMulti(handle->fullName() + QObject::tr(".") + sDat.colName(k),
+							nonuniqueData.insertMulti(handle->fullName() + QObject::tr(".") + sDat.columnName(k),
 								QPair<ItemHandle*,QString>(handle,keys[j]));
-							nonuniqueData.insertMulti(handle->fullName(QObject::tr("_")) + QObject::tr("_") + sDat.colName(k),
+							nonuniqueData.insertMulti(handle->fullName(QObject::tr("_")) + QObject::tr("_") + sDat.columnName(k),
 								QPair<ItemHandle*,QString>(handle,keys[j]));
-							nonuniqueData.insertMulti(sDat.colName(k),
+							nonuniqueData.insertMulti(sDat.columnName(k),
 								QPair<ItemHandle*,QString>(handle,keys[j]));
 						}
 						*/

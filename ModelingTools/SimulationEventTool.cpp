@@ -325,7 +325,7 @@ namespace Tinkercell
 			{
 				DataTable<QString> events;
 				events.resize(0,1);
-				events.colName(0) = tr("event");
+				events.columnName(0) = tr("event");
 				events.description() = tr("Events: set of triggers and events. The row names are the triggers, and the first column contains a string describing one or more events, usually an assignment.");
 				globalHandle->textDataTable(tr("Events")) = events;
 			}
@@ -472,7 +472,7 @@ namespace Tinkercell
 			{
 				DataTable<QString> events;
 				events.resize(0,1);
-				events.colName(0) = tr("event");
+				events.columnName(0) = tr("event");
 				events.description() = tr("Events: set of triggers and events. The row names are the triggers, and the first column contains a string describing one or more events, usually an assignment.");
 				globalHandle->textDataTable(tr("Events")) = events;
 			}
@@ -504,7 +504,7 @@ namespace Tinkercell
 			{
 				DataTable<QString> events;
 				events.resize(0,1);
-				events.colName(0) = tr("event");
+				events.columnName(0) = tr("event");
 				events.description() = tr("Events: set of triggers and events. The row names are the triggers, and the first column contains a string describing one or more events, usually an assignment.");
 				globalHandle->textDataTable(tr("Events")) = events;
 			}
@@ -716,7 +716,7 @@ namespace Tinkercell
 				newData.rowName(k) = ifs;
 		}
 
-		if (!newData.rowNames().contains(ifs))
+		if (!newData.hasRow(ifs))
 		{
 			newData.insertRow(newData.rows(),ifs);
 		}
@@ -841,7 +841,7 @@ namespace Tinkercell
 				if (items[i] && !visited.contains(items[i]) && items[i]->hasTextData(tr("Events")))
 				{
 					QString s;
-					QStringList lst = items[i]->textDataTable(tr("Events")).getRowNames();
+					QStringList lst = items[i]->textDataTable(tr("Events")).rowNames();
 
 					for (int j=0; j < lst.size(); ++j)
 					{
@@ -871,7 +871,7 @@ namespace Tinkercell
 				if (items[i] &&
 					!visited.contains(items[i]) &&
 					items[i]->hasTextData(tr("Events")) &&
-					items[i]->textDataTable(tr("Events")).cols() > 0)
+					items[i]->textDataTable(tr("Events")).columns() > 0)
 				{
 					DataTable<QString>& dat = items[i]->textDataTable(tr("Events"));
 					for (int j=0; j < dat.rows(); ++j)

@@ -201,32 +201,32 @@ namespace Tinkercell
 					QList<NodeHandle*> nodesIn, nodesOut;
 					NumericalDataTable reactants, products;
 					TextDataTable rate;
-					QStringList colNames;
+					QStringList columnNames;
 
 					for (int var=0; var<numReactants; ++var)
 					{
-						if (!colNames.contains(tr(leftrxnnames[rxn][var])))
+						if (!columnNames.contains(tr(leftrxnnames[rxn][var])))
 						{
-							colNames << tr(leftrxnnames[rxn][var]);
+							columnNames << tr(leftrxnnames[rxn][var]);
 						}
 					}
 				
-					reactants.resize(1,colNames.size());
-					reactants.setColNames(colNames);
-					colNames.clear();
+					reactants.resize(1,columnNames.size());
+					reactants.setColumnNames(columnNames);
+					columnNames.clear();
 				
 					for (int var=0; var<numProducts; ++var)
 					{
-						if (!colNames.contains(tr(rightrxnnames[rxn][var])))
+						if (!columnNames.contains(tr(rightrxnnames[rxn][var])))
 						{
-							colNames << tr(rightrxnnames[rxn][var]);
+							columnNames << tr(rightrxnnames[rxn][var]);
 						}
 					}
 
-					products.resize(1,colNames.size());
-					products.setColNames(colNames);
+					products.resize(1,columnNames.size());
+					products.setColumnNames(columnNames);
 
-					for (int j=0; j < colNames.size(); ++j)
+					for (int j=0; j < columnNames.size(); ++j)
 					{
 						products.value(0,j) = 0;
 					}
@@ -258,6 +258,7 @@ namespace Tinkercell
 					}
 
 					for (int var=0; var<numProducts; var++)
+
 					{
 						NodeHandle * handle = 0;
 						if (!speciesItems.contains(tr(rightrxnnames[rxn][var])))
@@ -279,7 +280,7 @@ namespace Tinkercell
 
 					QString srate = tr(rxnrates[rxn]);
 					rate.rowName(0) = reactionHandle->name;
-					rate.colName(0) = tr("rate");
+					rate.columnName(0) = tr("rate");
 					rate.value(0,0) = srate;
 					reactionHandle->textDataTable(tr("Rate equations")) = rate;
 					reactionHandle->numericalDataTable(tr("Reactant stoichiometries")) = reactants;
@@ -339,10 +340,10 @@ namespace Tinkercell
 				{
 					speciesItems[s]->numericalData(tr("Initial Value")) = x;
 					speciesItems[s]->numericalDataTable(tr("Initial Value")).rowName(0) = tr("concentration");
-					speciesItems[s]->numericalDataTable(tr("Initial Value")).colName(0) = tr("uM");
+					speciesItems[s]->numericalDataTable(tr("Initial Value")).columnName(0) = tr("uM");
 					speciesItems[s]->numericalData(tr("Fixed")) = 1;
 					speciesItems[s]->numericalDataTable(tr("Fixed")).rowName(0) = tr("fix");
-					speciesItems[s]->numericalDataTable(tr("Fixed")).colName(0) = tr("value");
+					speciesItems[s]->numericalDataTable(tr("Fixed")).columnName(0) = tr("value");
 				}
 			}
 			
@@ -574,17 +575,17 @@ namespace Tinkercell
 							rate = rates.value(r,0);
 							allEqns += rate;
 
-							for (int c=0; c < reactants.cols(); ++c)
+							for (int c=0; c < reactants.columns(); ++c)
 								if (reactants.value(r,c) > 0)
 								{
-									species = reactants.colName(c);
+									species = reactants.columnName(c);
 									lhs += species.replace(tr("."),tr("_"));
 								}
 							
-							for (int c=0; c < products.cols(); ++c)
+							for (int c=0; c < products.columns(); ++c)
 								if (products.value(r,c) > 0)
 								{
-									species = products.colName(c);
+									species = products.columnName(c);
 									rhs += species.replace(tr("."),tr("_"));
 								}
 

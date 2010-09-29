@@ -87,8 +87,8 @@ namespace Tinkercell
 		{
 			DataTable<qreal>& table = *dat;
 			
-			QStringList colnames = table.getColNames(), 
-						rownames = table.getRowNames();
+			QStringList colnames = table.columnNames(), 
+						rownames = table.rowNames();
 		
 			bool printRows = true;
 			for (int i=0; i < rownames.size(); ++i)
@@ -115,7 +115,7 @@ namespace Tinkercell
 					output += rownames.at(i) + tr("\t");
 				}
 			
-				for (int j=0; j < table.cols(); ++j)
+				for (int j=0; j < table.columns(); ++j)
 				{
 					if (j == 0)
 						output += QString::number(table.at(i,j));

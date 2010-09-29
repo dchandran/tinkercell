@@ -286,7 +286,7 @@ namespace Tinkercell
 				name = tr("row") + QString::number(n);
 			}
 		}
-		QStringList names = dataTable.getRowNames();
+		QStringList names = dataTable.rowNames();
 
 		while (names.contains(name))  //find a unique row name
 		{
@@ -359,15 +359,15 @@ namespace Tinkercell
 		dataTable = table;
 		comboBoxes.clear();
 		int r = dataTable.rows();
-		int c = dataTable.cols();
+		int c = dataTable.columns();
 		tableWidget.clear();
 		tableWidget.setColumnCount(c);
 		tableWidget.setRowCount(r);
-		tableWidget.setVerticalHeaderLabels(dataTable.getRowNames());
-		tableWidget.setHorizontalHeaderLabels(dataTable.getColNames());
+		tableWidget.setVerticalHeaderLabels(dataTable.rowNames());
+		tableWidget.setHorizontalHeaderLabels(dataTable.columnNames());
 
 		for (int i=0; i < dataTable.rows(); ++i)
-			for (int j=0; j < dataTable.cols(); ++j)
+			for (int j=0; j < dataTable.columns(); ++j)
 			{
 				tableWidget.setItem(i,j,new QTableWidgetItem(QString::number(dataTable.at(i,j))));
 				delegate.options.value(i,j) = QStringList();

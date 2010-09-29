@@ -128,8 +128,8 @@ namespace Tinkercell
 				plot.value(i,1) = parser.Eval();
 			}
 		}
-		plot.colName(0) = currentVar;
-		plot.colName(1) = ylab;
+		plot.columnName(0) = currentVar;
+		plot.columnName(1) = ylab;
 		plotWidget->plot(plot,title,0);
 		
 		return true;

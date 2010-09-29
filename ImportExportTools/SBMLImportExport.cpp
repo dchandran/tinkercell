@@ -482,7 +482,7 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 	QStringList species, compartments, eventTriggers, eventActions, assignmentNames,
 				assignmentDefs, fixedVars, functionNames, functionDefs, functionArgs;
 
-	species = stoictc_matrix.getRowNames();
+	species = stoictc_matrix.rowNames();
 	QVector<double> initialValues(species.size(),0.0);
 	QVector<QString> speciesCompartments(species.size(),tr("DefaultCompartment"));
 	QList<double> fixedValues, compartmentVolumes;
@@ -525,7 +525,7 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 			if (handles[i]->hasTextData(tr("Events")))
 			{
 				DataTable<QString>& dat = handles[i]->textDataTable(tr("Events"));
-				if (dat.cols() == 1)
+				if (dat.columns() == 1)
 					for (j=0; j < dat.rows(); ++j)
 					{
 						s1 =  dat.rowName(j);
@@ -544,7 +544,7 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 			{
 				DataTable<QString>& dat = handles[i]->textDataTable(tr("Functions"));
 
-				if (dat.cols() == 2)
+				if (dat.columns() == 2)
 				{
 					for (j=0; j < dat.rows(); ++j)
 					{
@@ -564,7 +564,7 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 			if (handles[i]->hasTextData(tr("Assignments")))
 			{
 				DataTable<QString>& dat = handles[i]->textDataTable(tr("Assignments"));
-				if (dat.cols() == 1)
+				if (dat.columns() == 1)
 					for (j=0; j < dat.rows(); ++j)
 					{
                         name = handles[i]->fullName(tr("_"));
@@ -691,12 +691,12 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 	}
 	
 	//create list of reactions
-	for (int i=0; i < stoictc_matrix.cols(); ++i)
+	for (int i=0; i < stoictc_matrix.columns(); ++i)
 	{
 		Reaction_t * reac = Model_createReaction(model);
-		Reaction_setId(reac, ConvertValue(stoictc_matrix.colName(i)));
-		Reaction_setName(reac, ConvertValue(stoictc_matrix.colName(i)));
-		Reaction_setId(reac, ConvertValue(stoictc_matrix.colName(i)));
+		Reaction_setId(reac, ConvertValue(stoictc_matrix.columnName(i)));
+		Reaction_setName(reac, ConvertValue(stoictc_matrix.columnName(i)));
+		Reaction_setId(reac, ConvertValue(stoictc_matrix.columnName(i)));
 		KineticLaw_t  * kinetic = Reaction_createKineticLaw(reac);
 		KineticLaw_setFormula( kinetic, ConvertValue( rates[i] ));
 
@@ -854,11 +854,11 @@ void SimulationThread::run()
 		results.resize(100,names.size()+1);
 		for (int i=0; i < names.size(); ++i)
 		{
-			results.colName(i+1) = QString(names[i].c_str());
+			results.columnName(i+1) = QString(names[i].c_str());
 			if (names[i].compare( ConvertValue(scanParam) ) == 0)
 				k1 = i;
 		}
-		results.colName(0) = scanParam;
+		results.columnName(0) = scanParam;
 		vector<double> params = sim.getParameterValues();
 		names = sim.getParameterNames();	
 		for (int i=0; i < names.size(); ++i)
@@ -906,8 +906,8 @@ void SimulationThread::run()
 	
 			results.resize(sz,output.size());
 			for (int i=0; i < names.size(); ++i)
-				results.colName(i+1) = QString(names[i].c_str());
-			results.colName(0) = tr("time");
+				results.columnName(i+1) = QString(names[i].c_str());
+			results.columnName(0) = tr("time");
 	
 			for (int i=0; i < output.size(); ++i)
 				for (int j=0; j < sz; ++j)

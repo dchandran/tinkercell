@@ -183,15 +183,15 @@ namespace Tinkercell
 	{
 		//writeStartElement("Table");
 		writer->writeAttribute("rows",QString::number(table.rows()));
-		writer->writeAttribute("cols",QString::number(table.cols()));
-		writer->writeAttribute("rowNames",table.getRowNames().join(sep));
-		writer->writeAttribute("colNames",table.getColNames().join(sep));
+		writer->writeAttribute("cols",QString::number(table.columns()));
+		writer->writeAttribute("rowNames",table.rowNames().join(sep));
+		writer->writeAttribute("columnNames",table.columnNames().join(sep));
 		writer->writeAttribute("desc",table.description());
 
 		QStringList values;
 
 		for (int i=0; i < table.rows(); ++i)
-			for (int j=0; j < table.cols(); ++j)
+			for (int j=0; j < table.columns(); ++j)
 			{
 				values << QString::number(table.at(i,j));
 			}
@@ -208,14 +208,14 @@ namespace Tinkercell
 	{
 		//writeStartElement("tc_table");
 		writer->writeAttribute("rows",QString::number(table.rows()));
-		writer->writeAttribute("cols",QString::number(table.cols()));
-		writer->writeAttribute("rowNames",table.getRowNames().join(sep));
-		writer->writeAttribute("colNames",table.getColNames().join(sep));
+		writer->writeAttribute("cols",QString::number(table.columns()));
+		writer->writeAttribute("rowNames",table.rowNames().join(sep));
+		writer->writeAttribute("columnNames",table.columnNames().join(sep));
 
 		QStringList values;
 
 		for (int i=0; i < table.rows(); ++i)
-			for (int j=0; j < table.cols(); ++j)
+			for (int j=0; j < table.columns(); ++j)
 			{
 				values << table.at(i,j);
 			}

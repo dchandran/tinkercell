@@ -113,7 +113,7 @@ namespace Tinkercell
 		for (int i=0; i < nodes.size(); ++i)
 		{
 			if (nodes[i] && nodes[i]->hasTextData(tr("Text Attributes"))
-				&& nodes[i]->textDataTable(tr("Text Attributes")).getRowNames().contains(tr("sequence")))
+				&& nodes[i]->textDataTable(tr("Text Attributes")).hasRow(tr("sequence")))
 				{
 					this->colors << colors[k];
 					format.setBackground(colors[k]);
@@ -140,7 +140,7 @@ namespace Tinkercell
 		for (int i=0; i < nodes.size(); ++i)
 		{
 			if (nodes[i] && nodes[i]->hasTextData(tr("Text Attributes"))
-				&& nodes[i]->textDataTable(tr("Text Attributes")).getRowNames().contains(tr("sequence")))
+				&& nodes[i]->textDataTable(tr("Text Attributes")).hasRow(tr("sequence")))
 				{
 					j += nodes[i]->textDataTable(tr("Text Attributes")).value(tr("sequence"),0).length();
 					if (j > k)

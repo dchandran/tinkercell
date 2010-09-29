@@ -413,7 +413,7 @@ namespace Tinkercell
 			
 			MultithreadedSliderWidget * widget = new MultithreadedSliderWidget(mainWindow, cthread, Qt::Horizontal);
 			
-			QStringList names(data.getRowNames());
+			QStringList names(data.rowNames());
 			QList<double> min, max;
 			for (int i=0; i < names.size(); ++i)
 			{
@@ -848,7 +848,7 @@ namespace Tinkercell
 
 	void C_API_Slots::setPos(QSemaphore* sem,const QList<ItemHandle*>& items, DataTable<qreal>& pos)
 	{
-		if (currentScene() && !items.isEmpty() && items.size() == pos.rows() && pos.cols() == 2)
+		if (currentScene() && !items.isEmpty() && items.size() == pos.rows() && pos.columns() == 2)
 		{
 			QList<QGraphicsItem*> graphicsItems;
 			QGraphicsItem* item;
@@ -917,7 +917,7 @@ namespace Tinkercell
 		}
 		else
 			if (console())
-                console()->message(QString::number(items.size()) + tr(" ") + QString::number(pos.cols()));
+                console()->message(QString::number(items.size()) + tr(" ") + QString::number(pos.columns()));
 
 		if (sem)
 			sem->release();
@@ -948,8 +948,8 @@ namespace Tinkercell
 			}
 
 			(*pos).resize(p.size(),2);
-			(*pos).colName(0) = tr("x");
-			(*pos).colName(1) = tr("y");
+			(*pos).columnName(0) = tr("x");
+			(*pos).columnName(1) = tr("y");
 			for (int i=0; i < p.size(); ++i)
 			{
 				(*pos).value(i,0) = p[i].rx();

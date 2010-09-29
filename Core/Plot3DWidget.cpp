@@ -67,8 +67,8 @@ namespace Tinkercell
 		double ** array = new double*[table.rows()];
 		for (int i=0; i < table.rows(); ++i)
 		{
-			array[i] = new double[table.cols()];
-			for (int j=0; j < table.cols(); ++j)
+			array[i] = new double[table.columns()];
+			for (int j=0; j < table.columns(); ++j)
 				array[i][j] = table.at(i,j);
 		}
 		return array;
@@ -76,7 +76,7 @@ namespace Tinkercell
 
 	void Plot3DWidget::surface(const DataTable<qreal>& data,const QString& title)
 	{
-		if (!surfacePlot || data.cols() < 3) return;
+		if (!surfacePlot || data.columns() < 3) return;
 
 		this->dataTable = data;
 
@@ -130,10 +130,10 @@ namespace Tinkercell
         }
 		
 		if (dataTable2.rows() < 2)
-			for (int i=0; i < dataTable2.cols(); ++i)
+			for (int i=0; i < dataTable2.columns(); ++i)
 				dataTable2.value(1,i) = 0.0;
 		
-		if (dataTable2.cols() < 2)
+		if (dataTable2.columns() < 2)
 			for (int i=0; i < dataTable2.rows(); ++i)
 				dataTable2.value(i,1) = 0.0;
 
@@ -148,7 +148,7 @@ namespace Tinkercell
 		surfacePlot->minZ = minZ;
 		surfacePlot->maxZ = maxZ;
 		double ** array = tableToArray(dataTable2);
-		surfacePlot->loadFromData(array,dataTable2.rows(),dataTable2.cols(),minX,maxX,minY,maxY);
+		surfacePlot->loadFromData(array,dataTable2.rows(),dataTable2.columns(),minX,maxX,minY,maxY);
 		
 		for (int i=0; i < dataTable2.rows(); ++i)
 			delete array[i];
@@ -161,9 +161,9 @@ namespace Tinkercell
 		if (maxY > max) max = maxY;
 
 		surfacePlot->setScale(max/maxX,max/maxY,max/maxZ);
-		setXLabel(data.colName(0));
-		setYLabel(data.colName(1));
-		setZLabel(data.colName(2));
+		setXLabel(data.columnName(0));
+		setYLabel(data.columnName(1));
+		setZLabel(data.columnName(2));
 
 		surfacePlot->setCoordinateStyle(BOX);
 
@@ -191,12 +191,12 @@ namespace Tinkercell
 		if (dataTable)
 		{
 			int r = dataTable->rows()-1,
-				c = dataTable->cols()-1;
+				c = dataTable->columns()-1;
 
 			int i = (int)(r * (x-minX) / maxX) +1,
 				j = (int)(c * (y-minY) / maxY) +1;
 
-			if (i >= 0 && j >= 0 && i < dataTable->rows() && j < dataTable->cols())
+			if (i >= 0 && j >= 0 && i < dataTable->rows() && j < dataTable->columns())
 				return dataTable->value(i,j);
 		}
 

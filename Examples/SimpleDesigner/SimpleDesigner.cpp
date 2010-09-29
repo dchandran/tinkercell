@@ -125,7 +125,7 @@ void SimpleDesigner::addParameters(QStringList& newVars)
 	if (globalHandle->hasNumericalData("parameters"))     
 	{
 		params = globalHandle->numericalDataTable("parameters"); //get existing set of parameters
-		vars = params.getRowNames();
+		vars = params.rowNames();
 	}
 	
 	for (int i=0; i < newVars.size(); ++i)
@@ -599,8 +599,8 @@ void SimpleDesigner::simulate(bool stochastic)
 
 		results.resize(sz,output.size());
 		for (int i=0; i < names.size(); ++i)
-			results.colName(i+1) = QString(names[i].c_str());
-		results.colName(0) = tr("time");
+			results.columnName(i+1) = QString(names[i].c_str());
+		results.columnName(0) = tr("time");
 
 		for (int i=0; i < output.size(); ++i)
 			for (int j=0; j < sz; ++j)

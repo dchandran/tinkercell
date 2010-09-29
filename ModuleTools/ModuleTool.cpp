@@ -539,7 +539,7 @@ namespace Tinkercell
 		if (nodes.contains(node)) return 0;
 		
 		TextDataTable & participants = connection->textDataTable(tr("Participants"));
-		QStringList rownames = participants.getRowNames();
+		QStringList rownames = participants.rowNames();
 		QString s;
 		
 		for (int i=0; i < nodes.size(); ++i)

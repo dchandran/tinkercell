@@ -443,7 +443,7 @@ namespace Tinkercell
 									TextDataTable & textData = allHandles[i]->textDataTable(textKeys[j]);
 									for (int k1=0; k1 < textData.rows(); ++k1)
 									{
-										for (int k2=0; k2 < textData.cols(); ++k2)
+										for (int k2=0; k2 < textData.columns(); ++k2)
 											if (textData.value(k1,k2).contains(s2))
 											{
 												s3 = allHandles[i]->fullName() + tr("'s ") + textKeys[j];
@@ -670,8 +670,8 @@ namespace Tinkercell
 	{
 		if (handle == 0 || handle->family() == 0) return;
 
-		QStringList colNames;
-		colNames << "value";
+		QStringList columnNames;
+		columnNames << "value";
 
 		ItemFamily* family = handle->family();
 
@@ -682,7 +682,7 @@ namespace Tinkercell
 
 			table.rowName(0) = family->measurementUnit.property;
 
-			table.colName(0) = family->measurementUnit.property;
+			table.columnName(0) = family->measurementUnit.property;
 			table.value(0,0) = 0.0;
 			
 			if (initialValues.contains(family->measurementUnit.property))
@@ -701,7 +701,7 @@ namespace Tinkercell
 			fixed.resize(1,1);
 
 			fixed.rowName(0) = QString("fix");
-			fixed.colName(0) = QString("value");
+			fixed.columnName(0) = QString("value");
 			fixed.value(0,0) = 0.0;
 			fixed.description() = tr("Fixed: stores 1 if this is a fixed variable, 0 otherwise");
 
@@ -723,12 +723,14 @@ namespace Tinkercell
 				numericalAttributes.rowName(i) = nKeys[i];
 			}
 
-			numericalAttributes.setColNames(colNames);
+			numericalAttributes.setColumnNames(columnNames);
 			handle->numericalDataTable(this->name) = numericalAttributes;
 		}
 
 		if ((type == both || type == text) && !(handle->hasTextData(name)))
 		{
+
+
 
 
 			QList<QString> sKeys = family->textAttributes.keys();
@@ -742,7 +744,7 @@ namespace Tinkercell
 				textAttributes.rowName(i) = sKeys[i];
 			}
 
-			textAttributes.setColNames(colNames);
+			textAttributes.setColumnNames(columnNames);
 			handle->textDataTable(this->name) = textAttributes;
 		}
 	}
@@ -869,7 +871,7 @@ namespace Tinkercell
 				tableWidget.setItem(n,0,new QTableWidgetItem(name));
 				tableItems << QPair<ItemHandle*,int>(lastItem,nDat.rowNames().size());
 
-				nDat.resize(nDat.rows()+1,nDat.cols());
+				nDat.resize(nDat.rows()+1,nDat.columns());
 				nDat.value(nDat.rows()-1,0) = 1.0;
 				nDat.rowName(nDat.rows()-1) = name;
 
@@ -892,7 +894,7 @@ namespace Tinkercell
 				tableWidget.setItem(n,0,new QTableWidgetItem(name));
 				tableItems << QPair<ItemHandle*,int>(lastItem,sDat.rowNames().size());
 
-				sDat.resize(sDat.rows()+1,sDat.cols());
+				sDat.resize(sDat.rows()+1,sDat.columns());
 				sDat.value(sDat.rows()-1,0) = tr("hello world");
 				sDat.rowName(sDat.rows()-1) = name;
 
@@ -1088,11 +1090,11 @@ namespace Tinkercell
             if (handle && handle->hasNumericalData(name))
             {
                 dataTable = &(handle->numericalDataTable(name));
-                if (dataTable && dataTable->cols() > 0)
+                if (dataTable && dataTable->columns() > 0)
                     for (int j=0; j < dataTable->rows(); ++j)
                     {
                     if ((mustHave.isEmpty() || mustHave.contains(dataTable->rowName(j).toLower()) || mustHave.contains(dataTable->rowName(j)))
-                        && (exclude.isEmpty() || !(exclude.contains(dataTable->rowName(j).toLower()) || exclude.contains(dataTable->rowName(j)))))                        
+                        && (exclude.isEmpty() || !(exclude.contains(dataTable->rowName(j).toLower()) || exclude.contains(dataTable->rowName(j)))))
 						{
 							if (handle->name.isEmpty())
 								rownames += dataTable->rowName(j);
@@ -1133,7 +1135,7 @@ namespace Tinkercell
 
 			if (handle && handle->hasTextData(name))
 			{				dataTable = &(handle->textDataTable(name));
-			if (dataTable && dataTable->cols() > 0)
+			if (dataTable && dataTable->columns() > 0)
 				for (int j=0; j < dataTable->rows(); ++j)
 				{
 					if ((mustHave.isEmpty() || mustHave.contains(dataTable->rowName(j).toLower()) || mustHave.contains(dataTable->rowName(j)))
@@ -1188,7 +1190,7 @@ namespace Tinkercell
 				if (handle && handle->hasNumericalData(tr("Initial Value")))
 				{
 					dataTable = &(handle->numericalDataTable(tr("Initial Value")));
-					if (dataTable && dataTable->cols() > 0 && dataTable->rows() > 0)
+					if (dataTable && dataTable->columns() > 0 && dataTable->rows() > 0)
 					{
 						names << handle->fullName(tr("_"));
 						values << dataTable->value(0,0);
@@ -1197,7 +1199,7 @@ namespace Tinkercell
 			}
 
 			int rows = (*ptr).rows();
-			(*ptr).resize( rows + names.size(), (*ptr).cols() );
+			(*ptr).resize( rows + names.size(), (*ptr).columns() );
 
 			for (int i=0; i < names.size(); ++i)
 			{
@@ -1217,7 +1219,7 @@ namespace Tinkercell
 		QStringList names;
 		QList<qreal> values;
 
-		if (dat.cols() == 1)
+		if (dat.columns() == 1)
 		{
 			QList< DataTable<qreal>* > newData;
 			QList< ItemHandle* > handles2;
@@ -1262,7 +1264,7 @@ namespace Tinkercell
 				if (handle && handle->hasNumericalData(tr("Fixed")))
 				{
 					dataTable = &(handle->numericalDataTable(tr("Fixed")));
-					if (dataTable && dataTable->cols() > 0 && dataTable->rows() > 0 && (dataTable->value(0,0) > 0))
+					if (dataTable && dataTable->columns() > 0 && dataTable->rows() > 0 && (dataTable->value(0,0) > 0))
 					{
 						names << handle->fullName(tr("_"));
 						values << dataTable->value(0,0);
@@ -1271,7 +1273,7 @@ namespace Tinkercell
 			}
 
 			int rows = (*ptr).rows();
-			(*ptr).resize( rows + names.size(), (*ptr).cols() );
+			(*ptr).resize( rows + names.size(), (*ptr).columns() );
 
 			for (int i=0; i < names.size(); ++i)
 			{
@@ -1298,7 +1300,7 @@ namespace Tinkercell
 			QString replaceDot("_");
 			QStringList rates = StoichiometryTool::getRates(handles, replaceDot);
 			DataTable<qreal> params = BasicInformationTool::getParameters(handles,QStringList(), QStringList(), replaceDot);
-			params.insertCol(1,tr("used"));
+			params.insertColumn(1,tr("used"));
 
 			bool used = false;
 			for (i=0; i < params.rows(); ++i)
@@ -1329,7 +1331,7 @@ namespace Tinkercell
 				if (handles[i]->hasTextData(tr("Events")))
 				{
 					DataTable<QString>& dat = handles[i]->textDataTable(tr("Events"));
-					if (dat.cols() == 1)
+					if (dat.columns() == 1)
 						for (j=0; j < dat.rows(); ++j)
 						{
 							s1 =  dat.rowName(j);
@@ -1350,7 +1352,7 @@ namespace Tinkercell
 				if (handles[i]->hasTextData(tr("Assignments")))
 				{
 					DataTable<QString>& dat = handles[i]->textDataTable(tr("Assignments"));
-					if (dat.cols() == 1)
+					if (dat.columns() == 1)
 						for (j=0; j < dat.rows(); ++j)
 						{
 							s1 =  dat.rowName(j);
@@ -1369,7 +1371,7 @@ namespace Tinkercell
 				if (handles[i]->hasTextData(tr("Functions")))
 				{
 					DataTable<QString>& dat = handles[i]->textDataTable(tr("Functions"));
-					if (dat.cols() == 1)
+					if (dat.columns() == 1)
 						for (j=0; j < dat.rows(); ++j)
 						{
 							s1 =  dat.rowName(j);
@@ -1394,7 +1396,7 @@ namespace Tinkercell
 
 			DataTable<qreal> params2;
 			params2.resize(count,1);
-			params2.colName(0) = params.colName(0);
+			params2.columnName(0) = params.columnName(0);
 
 			for (int i=0, j=0; i < params.rows() && j < count; ++i)
 			{
@@ -1418,7 +1420,7 @@ namespace Tinkercell
 				if (handle && handle->hasNumericalData(tr("Fixed")))
 				{
 					dataTable = &(handle->numericalDataTable(tr("Fixed")));
-					if (dataTable && dataTable->cols() > 0 && dataTable->rows() > 0 && (dataTable->value(0,0) > 0))
+					if (dataTable && dataTable->columns() > 0 && dataTable->rows() > 0 && (dataTable->value(0,0) > 0))
 					{
 						names << handle->fullName(tr("_"));
 						values << dataTable->value(0,0);
@@ -1427,7 +1429,7 @@ namespace Tinkercell
 			}
 
 			int rows = params2.rows();
-			params2.resize( rows + names.size(), (*ptr).cols() );
+			params2.resize( rows + names.size(), (*ptr).columns() );
 
 			for (int i=0; i < names.size(); ++i)
 			{
@@ -1512,7 +1514,7 @@ namespace Tinkercell
 					handles << currentNetwork()->globalHandle();
 
 			DataTable<QString> dat = getTextData(handles,text);
-			if (dat.cols() > 0)
+			if (dat.columns() > 0)
 			{
 				for (int i=0; i < dat.rows(); ++i)
 					(*ptr) << dat.at(i,0);
@@ -1528,10 +1530,11 @@ namespace Tinkercell
 		{
 			if (handle && handle->hasTextData(this->name))
 			{
-				const QVector<QString>& rownames = handle->textDataTable(name).rowNames();
-				for (int i=0; i < rownames.size(); ++i)
-					if (rownames.at(i).toLower() == text.toLower())
-						(*ptr) = handle->textDataTable(name).at(i,0);
+				if (handle->textDataTable(name).hasRow(text))
+				{
+					(*ptr) = handle->textDataTable(name).at(text,0);
+				}
+				
 				QRegExp regex(tr("\\.(?!\\d)"));
 				(*ptr).replace(regex,tr("_"));
 			}
@@ -1550,10 +1553,10 @@ namespace Tinkercell
 			if (handle && handle->hasNumericalData(name))
 			{
 				(*ptr) = 0.0;
-				const QVector<QString>& rownames = handle->numericalDataTable(name).rowNames();
-				for (int i=0; i < rownames.size(); ++i)
-					if (rownames.at(i).toLower() == text.toLower())
-						(*ptr) = handle->numericalDataTable(name).at(i,0);
+				if (handle->numericalDataTable(name).hasRow(text))
+				{
+					(*ptr) = handle->numericalDataTable(name).at(text,0);
+				}
 			}
 			else
 			{
@@ -1573,27 +1576,7 @@ namespace Tinkercell
 				if (win)
 				{
 					DataTable<QString> * newData = new DataTable<QString>(handle->textDataTable(name));
-					bool contains = false;
-
-					const QVector<QString>& rownames = handle->textDataTable(name).rowNames();
-					for (int i=0; i < rownames.size(); ++i)
-						if (rownames.at(i).toLower() == text.toLower())
-						{
-							newData->value(i,0) = value;
-							contains = true;
-						}
-					if (!contains)
-					{
-						QString s = text;
-
-						int k = 0;
-						while (win->symbolsTable.uniqueDataWithDot.contains(handle->fullName() + tr(".") + s))
-							s = text + QString::number(++k);
-
-						newData->insertRow(rownames.size(),s);
-						newData->value(rownames.size(),0) = value;
-					}
-
+					newData->value(text,0) = value;
 					win->changeData(handle->fullName() + tr(".") + text + tr(" = ") + value, handle,name,newData);
 					delete newData;
 				}
@@ -1617,30 +1600,9 @@ namespace Tinkercell
 				if (win)
 				{
 					DataTable<qreal> * newData = new DataTable<qreal>(handle->numericalDataTable(name));
-
-					bool contains = false;
-
-					const QVector<QString>& rownames = handle->numericalDataTable(name).rowNames();
-					for (int i=0; i < rownames.size(); ++i)
-						if (rownames.at(i).toLower() == text.toLower())
-						{
-							newData->value(i,0) = value;
-							contains = true;
-						}
-						if (!contains)
-						{
-							QString s = text;
-
-							int k = 0;
-							while (win->symbolsTable.uniqueDataWithDot.contains(handle->fullName() + tr(".") + s))
-								s = text + QString::number(++k);
-
-							newData->insertRow(rownames.size(),s);
-							newData->value(rownames.size(),0) = value;
-						}
-
-						win->changeData(handle->fullName() + tr(".") + text + tr(" = ") + QString::number(value), handle,this->name,newData);
-						delete newData;
+					newData->value(text,0) = value;
+					win->changeData(handle->fullName() + tr(".") + text + tr(" = ") + QString::number(value), handle,this->name,newData);
+					delete newData;
 				}
 				else
 				{
@@ -1925,7 +1887,7 @@ namespace Tinkercell
 	{
 		int i,j;
 		DataTable<qreal> params = BasicInformationTool::getParameters(handles,QStringList(), QStringList(), replaceDot);
-		params.insertCol(1,tr("used"));
+		params.insertColumn(1,tr("used"));
 
 		QRegExp regex(tr("\\.(?!\\d)"));
 		QString s1,s2;
@@ -1938,7 +1900,7 @@ namespace Tinkercell
 			if (handles[i]->hasTextData(tr("Rate equations")))
 			{
 				DataTable<QString>& dat = handles[i]->textDataTable(tr("Rate equations"));
-				if (dat.cols() == 1)
+				if (dat.columns() == 1)
 					for (j=0; j < dat.rows(); ++j)
 					{
 						s2 =  dat.value(j,0);
@@ -1955,7 +1917,7 @@ namespace Tinkercell
 			if (handles[i]->hasTextData(tr("Events")))
 			{
 				DataTable<QString>& dat = handles[i]->textDataTable(tr("Events"));
-				if (dat.cols() == 1)
+				if (dat.columns() == 1)
 					for (j=0; j < dat.rows(); ++j)
 					{
 						s1 =  dat.rowName(j);
@@ -1976,7 +1938,7 @@ namespace Tinkercell
 			if (handles[i]->hasTextData(tr("Assignments")))
 			{
 				DataTable<QString>& dat = handles[i]->textDataTable(tr("Assignments"));
-				if (dat.cols() == 1)
+				if (dat.columns() == 1)
 					for (j=0; j < dat.rows(); ++j)
 					{
 						s1 =  dat.rowName(j);
@@ -2001,7 +1963,7 @@ namespace Tinkercell
 
 		DataTable<qreal> params2;
 		params2.resize(count,1);
-		params2.colName(0) = params.colName(0);
+		params2.columnName(0) = params.columnName(0);
 
 		for (int i=0, j=0; i < params.rows() && j < count; ++i)
 		{

@@ -430,7 +430,7 @@ namespace Tinkercell
 		
 		MultithreadedSliderWidget * widget = new MultithreadedSliderWidget(mainWindow, dllName, funcname, Qt::Horizontal);
 		
-		QStringList names(data.getRowNames());
+		QStringList names(data.rowNames());
 		QList<double> min, max;
 		for (int i=0; i < names.size(); ++i)
 		{

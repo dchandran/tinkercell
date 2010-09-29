@@ -185,7 +185,7 @@ namespace Tinkercell
 		valueline.clear();
 		values.resize(options.size(),1);
 		values.setRowNames(options);
-		values.setColNames(QStringList() << "value");
+		values.setColumnNames(QStringList() << "value");
 		
 		QHBoxLayout* layout = new QHBoxLayout;
 		

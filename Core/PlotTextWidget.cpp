@@ -52,8 +52,8 @@ namespace Tinkercell
 		regularFormat.setForeground(QColor("#252F41"));
 		regularFormat.setFontWeight(QFont::Bold);
 
-		QStringList colnames = dataTable.getColNames(),
-					rownames = dataTable.getRowNames();
+		QStringList colnames = dataTable.columnNames(),
+					rownames = dataTable.rowNames();
 	
 		bool printRows = true;
 		for (int i=0; i < rownames.size(); ++i)
@@ -82,7 +82,7 @@ namespace Tinkercell
 				cursor.setCharFormat(headerFormat);
 				cursor.insertText(rownames.at(i));
 			}
-			for (int j=0; j < dataTable.cols(); ++j)
+			for (int j=0; j < dataTable.columns(); ++j)
 			{
 				if (j == 0 && !printRows)
 					outputs += QString::number(dataTable.at(i,j));

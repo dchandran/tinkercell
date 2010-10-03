@@ -65,6 +65,8 @@ namespace Tinkercell
                          for (int i=0; i < treeItem->childCount(); ++i)
                               if (treeItem->child(i))
                                    treeItem->child(i)->setExpanded(true);
+                          if (!newFamilies.contains(node->name()))
+		                  	       newFamilies << node->name();
                           QList<ItemFamily*> children = node->allChildren();
 		                  for (int i=0; i < children.size(); ++i)
         	                  if (!newFamilies.contains(children[i]->name()))

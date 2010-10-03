@@ -2,46 +2,45 @@
 <!DOCTYPE NodesGraph>
 <NodesGraph version="1.0">
 <node family="Node" description="Nodes can be connected to one another using one of the various types of connections. The two main divisions of nodes are DNA parts and molecular species.">
+
   <node family="Molecule" units="concentration,uM" molecularweight="50000" description="Molecular species that diffuse through the cell, such as proteins, RNA, or metabolites.">
-	<node family="Small Molecule" description="Metabolites, ions, and other small molecules">
-	</node>
+
+	<node family="Small Molecule" description="Metabolites, ions, and other small molecules"></node>
+
 	<node family="Protein" sequence="GSWTQHNMCP" description="Chain of amino acids.">
 	    <node family="Enzyme" description="Proteins that catalyze a metabolic reaction."></node>
 		<node family="Transcription Factor" targetPromoter="promoterX" targetDNA="GGCCCGC" decription="proteins that bind to a regulatory site and influence the activity of the downstream promoter."></node>
 		<node family="Receptor" transmembrane="1" description="Receptors usually have a binding domain and can be localized on the plasma membrane."></node>
 		<node family="Reporter" type="fluorescent" description="Molecules that are used as indicators, such as fluorescent molecules."></node>
 	</node>
+
 	<node family="RNA" length="25" sequence="AUGCUAGCU" description="RNA molecules">
 		<node family="mRNA"></node>
 		<node family="Ribozyme"></node>
 	</node>
+
   </node>
   <node family="Part" units="activity,PoPS" length="300"  sequence="AAGCTGATGGCTAGAAT" composite="false" description="DNA nodes represent components that belong on a DNA strand, such as promoter, genes, etc.">
+
 	<node family="Vector" units="copies,count" resitance="ampicillin" ori="" replication_rate="10.0" description="A vector backbone, which contains a selectable marker, and an insert constitute a plasmid."></node>
-	<node family="Coding">
-	</node>
+
+	<node family="Coding"></node>
 	
 	<node family="Promoter" strength="1.0" description="RNA Polymerase binding site; may or may not include the operator sites, depending on the model">
-		<node family="Constitutive Promoter" composite="true" description="A promoter that is always active">
-		</node>
-		<node family="Inducible Promoter" composite="true" description="A promoter that is requires a transcription factor for activation">
-		</node>
-		<node family="Repressible Promoter" composite="true" description="A promoter that can be repressed by a transcription factor">
-		</node>
+		<node family="Constitutive Promoter" composite="true" description="A promoter that is always active"></node>
+		<node family="Inducible Promoter" composite="true" description="A promoter that is requires a transcription factor for activation"></node>
+		<node family="Repressible Promoter" composite="true" description="A promoter that can be repressed by a transcription factor"></node>
 	</node>
 	
-	<node family="RBS" strength="1.0" description="Ribosome binding site">
-	</node>
+	<node family="RBS" strength="1.0" description="Ribosome binding site"></node>
 	
-	<node family="Terminator" strength="1.0" description="Transcriptional terminator">
-	</node>
+	<node family="Terminator" strength="1.0" description="Transcriptional terminator">	</node>
   </node>
 </node>
 <node family="Compartment" units="volume,fL" description="A region where the contained molecular species are localized and contained">
 	<node family="Subcellular compartment" x="0" y="0" description="A compartment inside a biological cell, e.g. nucleus"></node>
-	<node family="Cell" species="E.coli" count="1" x="0" y="0" description="A biological cell, e.g. a bacterium">
-	</node>
+	<node family="Cell" species="E.coli" count="1" x="0" y="0" description="A biological cell, e.g. a bacterium"></node>
 </node>
-<node family="Empty" description="Degradation or dilution">
-</node>
+<node family="Empty" description="Degradation or dilution"></node>
 </NodesGraph>
+

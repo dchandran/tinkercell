@@ -31,125 +31,125 @@ cp -R ../../Modules/ Tinkercell.app/Contents/MacOS/
 #QT frameworks install for TinkerCell.app
 
 install_name_tool \
-        -id @executable_path/../Frameworks/QtCore.framework/Versions/4/QtCore \
-        Tinkercell.app/Contents/Frameworks/QtCore.framework/Versions/4/QtCore
+        -id @executable_path/../Frameworks/libQtCore.4.dylib \
+        Tinkercell.app/Contents/Frameworks/libQtCore.4.dylib
 
 install_name_tool \
-        -id @executable_path/../Frameworks/QtGui.framework/Versions/4/QtGui \
-        Tinkercell.app/Contents/Frameworks/QtGui.framework/Versions/4/QtGui
+        -id @executable_path/../Frameworks/libQtGui.4.dylib \
+        Tinkercell.app/Contents/Frameworks/libQtGui.4.dylib
 
 install_name_tool \
-        -id @executable_path/../Frameworks/QtXml.framework/Versions/4/QtXml \
-        Tinkercell.app/Contents/Frameworks/QtXml.framework/Versions/4/QtXml
+        -id @executable_path/../Frameworks/libQtXml.4.dylib \
+        Tinkercell.app/Contents/Frameworks/libQtXml.4.dylib
 
 install_name_tool \
-        -id @executable_path/../Frameworks/QtOpenGL.framework/Versions/4/QtOpenGL \
-        Tinkercell.app/Contents/Frameworks/QtOpenGL.framework/Versions/4/QtOpenGL
+        -id @executable_path/../Frameworks/libQtOpenGL.4.dylib \
+        Tinkercell.app/Contents/Frameworks/libQtOpenGL.4.dylib
 
 #QT frameworks install for NodeGraphics.app
 
 install_name_tool \
-        -id @executable_path/../Frameworks/QtCore.framework/Versions/4/QtCore \
-        NodeGraphics.app/Contents/Frameworks/QtCore.framework/Versions/4/QtCore
+        -id @executable_path/../Frameworks/libQtCore.4.dylib \
+        NodeGraphics.app/Contents/Frameworks/libQtCore.4.dylib
 
 install_name_tool \
-        -id @executable_path/../Frameworks/QtGui.framework/Versions/4/QtGui \
-        NodeGraphics.app/Contents/Frameworks/QtGui.framework/Versions/4/QtGui
+        -id @executable_path/../Frameworks/libQtGui.4.dylib \
+        NodeGraphics.app/Contents/Frameworks/libQtGui.4.dylib
 
 install_name_tool \
-        -id @executable_path/../Frameworks/QtXml.framework/Versions/4/QtXml \
-        NodeGraphics.app/Contents/Frameworks/QtXml.framework/Versions/4/QtXml
+        -id @executable_path/../Frameworks/libQtXml.4.dylib \
+        NodeGraphics.app/Contents/Frameworks/libQtXml.4.dylib
 
 install_name_tool \
-        -id @executable_path/../Frameworks/QtOpenGL.framework/Versions/4/QtOpenGL \
-        NodeGraphics.app/Contents/Frameworks/QtOpenGL.framework/Versions/4/QtOpenGL
+        -id @executable_path/../Frameworks/libQtOpenGL.4.dylib \
+        NodeGraphics.app/Contents/Frameworks/libQtOpenGL.4.dylib
 
 #QtCore name change for other Qt frameworks in TinkerCell.app
 
 install_name_tool \
-          -change QtCore.framework/Versions/4/QtCore \
-          @executable_path/../Frameworks/QtCore.framework/Versions/4/QtCore \
-          Tinkercell.app/Contents/Frameworks/QtGui.framework/Versions/4/QtGui
+          -change @QT_QTCORE_LIBRARY_RELEASE@ \
+          @executable_path/../Frameworks/libQtCore.4.dylib \
+          Tinkercell.app/Contents/Frameworks/libQtGui.4.dylib
 
 install_name_tool \
-          -change QtCore.framework/Versions/4/QtCore \
-          @executable_path/../Frameworks/QtCore.framework/Versions/4/QtCore \
-          Tinkercell.app/Contents/Frameworks/QtXml.framework/Versions/4/QtXml
+          -change @QT_QTCORE_LIBRARY_RELEASE@ \
+          @executable_path/../Frameworks/libQtCore.4.dylib \
+          Tinkercell.app/Contents/Frameworks/libQtXml.4.dylib
           
 install_name_tool \
-          -change QtCore.framework/Versions/4/QtCore \
-          @executable_path/../Frameworks/QtCore.framework/Versions/4/QtCore \
-          Tinkercell.app/Contents/Frameworks/QtOpenGL.framework/Versions/4/QtOpenGL
+          -change @QT_QTCORE_LIBRARY_RELEASE@ \
+          @executable_path/../Frameworks/libQtCore.4.dylib \
+          Tinkercell.app/Contents/Frameworks/libQtOpenGL.4.dylib
 
 install_name_tool \
-          -change QtGui.framework/Versions/4/QtGui \
-          @executable_path/../Frameworks/QtGui.framework/Versions/4/QtGui \
-          Tinkercell.app/Contents/Frameworks/QtOpenGL.framework/Versions/4/QtOpenGL
+          -change @QT_QTGUI_LIBRARY_RELEASE@ \
+          @executable_path/../Frameworks/libQtGui.4.dylib \
+          Tinkercell.app/Contents/Frameworks/libQtOpenGL.4.dylib
           
 #QtCore name change for other Qt frameworks in TinkerCell.app
 
 install_name_tool \
-          -change QtCore.framework/Versions/4/QtCore \
-          @executable_path/../Frameworks/QtCore.framework/Versions/4/QtCore \
-          NodeGraphics.app/Contents/Frameworks/QtGui.framework/Versions/4/QtGui
+          -change @QT_QTCORE_LIBRARY_RELEASE@ \
+          @executable_path/../Frameworks/libQtCore.4.dylib \
+          NodeGraphics.app/Contents/Frameworks/libQtGui.4.dylib
 
 install_name_tool \
-          -change QtCore.framework/Versions/4/QtCore \
-          @executable_path/../Frameworks/QtCore.framework/Versions/4/QtCore \
-          NodeGraphics.app/Contents/Frameworks/QtXml.framework/Versions/4/QtXml
+          -change @QT_QTCORE_LIBRARY_RELEASE@ \
+          @executable_path/../Frameworks/libQtCore.4.dylib \
+          NodeGraphics.app/Contents/Frameworks/libQtXml.4.dylib
           
 install_name_tool \
-          -change QtCore.framework/Versions/4/QtCore \
-          @executable_path/../Frameworks/QtCore.framework/Versions/4/QtCore \
-          NodeGraphics.app/Contents/Frameworks/QtOpenGL.framework/Versions/4/QtOpenGL
+          -change @QT_QTCORE_LIBRARY_RELEASE@ \
+          @executable_path/../Frameworks/libQtCore.4.dylib \
+          NodeGraphics.app/Contents/Frameworks/libQtOpenGL.4.dylib
 
 install_name_tool \
-          -change QtGui.framework/Versions/4/QtGui \
+          -change @QT_QTGUI_LIBRARY_RELEASE@ \
           @executable_path/../Frameworks/QtGui.framework/Versions/4/QtGui \
-          NodeGraphics.app/Contents/Frameworks/QtOpenGL.framework/Versions/4/QtOpenGL
+          NodeGraphics.app/Contents/Frameworks/libQtOpenGL.4.dylib
 
 #QT framework name change for TinkerCell.app
 
 install_name_tool \
-          -change QtCore.framework/Versions/4/QtCore \
-          @executable_path/../Frameworks/QtCore.framework/Versions/4/QtCore \
+          -change @QT_QTCORE_LIBRARY_RELEASE@ \
+          @executable_path/../Frameworks/libQtCore.4.dylib \
           Tinkercell.app/Contents/MacOS/Tinkercell
 
 install_name_tool \
-          -change QtGui.framework/Versions/4/QtGui \
-          @executable_path/../Frameworks/QtGui.framework/Versions/4/QtGui \
+          -change @QT_QTGUI_LIBRARY_RELEASE@ \
+          @executable_path/../Frameworks/libQtGui.4.dylib \
           Tinkercell.app/Contents/MacOS/Tinkercell
 
 install_name_tool \
-          -change QtXml.framework/Versions/4/QtXml \
-          @executable_path/../Frameworks/QtXml.framework/Versions/4/QtXml \
+          -change @QT_QTXML_LIBRARY_RELEASE@ \
+          @executable_path/../Frameworks/libQtXml.4.dylib \
           Tinkercell.app/Contents/MacOS/Tinkercell
 
 install_name_tool \
-          -change QtOpenGL.framework/Versions/4/QtOpenGL \
-          @executable_path/../Frameworks/QtOpenGL.framework/Versions/4/QtOpenGL \
+          -change @QT_QTOPENGL_LIBRARY_RELEASE@ \
+          @executable_path/../Frameworks/libQtOpenGL.4.dylib \
           Tinkercell.app/Contents/MacOS/Tinkercell
 
 #QT framework name change for NodeGraphcs.app
 
 install_name_tool \
-          -change QtCore.framework/Versions/4/QtCore \
-          @executable_path/../Frameworks/QtCore.framework/Versions/4/QtCore \
+          -change @QT_QTCORE_LIBRARY_RELEASE@ \
+          @executable_path/../Frameworks/libQtCore.4.dylib \
           NodeGraphics.app/Contents/MacOS/NodeGraphics
 
 install_name_tool \
-          -change QtGui.framework/Versions/4/QtGui \
-          @executable_path/../Frameworks/QtGui.framework/Versions/4/QtGui \
+          -change @QT_QTGUI_LIBRARY_RELEASE@ \
+          @executable_path/../Frameworks/libQtGui.4.dylib \
           NodeGraphics.app/Contents/MacOS/NodeGraphics
 
 install_name_tool \
-          -change QtXml.framework/Versions/4/QtXml \
-          @executable_path/../Frameworks/QtXml.framework/Versions/4/QtXml \
+          -change @QT_QTXML_LIBRARY_RELEASE@ \
+          @executable_path/../Frameworks/libQtXml.4.dylib \
           NodeGraphics.app/Contents/MacOS/NodeGraphics
 
 install_name_tool \
-          -change QtOpenGL.framework/Versions/4/QtOpenGL \
-          @executable_path/../Frameworks/QtOpenGL.framework/Versions/4/QtOpenGL \
+          -change @QT_QTOPENGL_LIBRARY_RELEASE@ \
+          @executable_path/../Frameworks/libQtOpenGL.4.dylib \
           NodeGraphics.app/Contents/MacOS/NodeGraphics
 
 #for all libraries used in Tinkercell.app and NodeGraphics.app
@@ -189,43 +189,43 @@ do
          NodeGraphics.app/Contents/MacOS/NodeGraphics
 
   install_name_tool \
-          -change QtCore.framework/Versions/4/QtCore \
-          @executable_path/../Frameworks/QtCore.framework/Versions/4/QtCore \
+          -change @QT_QTCORE_LIBRARY_RELEASE@ \
+          @executable_path/../Frameworks/libQtCore.4.dylib \
           Tinkercell.app/Contents/Frameworks/$f
 
   install_name_tool \
-          -change QtGui.framework/Versions/4/QtGui \
-          @executable_path/../Frameworks/QtGui.framework/Versions/4/QtGui \
+          -change @QT_QTGUI_LIBRARY_RELEASE@ \
+          @executable_path/../Frameworks/libQtGui.4.dylib \
           Tinkercell.app/Contents/Frameworks/$f
 
   install_name_tool \
-          -change QtXml.framework/Versions/4/QtXml \
-          @executable_path/../Frameworks/QtXml.framework/Versions/4/QtXml \
+          -change @QT_QTXML_LIBRARY_RELEASE@ \
+          @executable_path/../Frameworks/libQtXml.4.dylib \
           Tinkercell.app/Contents/Frameworks/$f
 
   install_name_tool \
-          -change QtOpenGL.framework/Versions/4/QtOpenGL \
-          @executable_path/../Frameworks/QtOpenGL.framework/Versions/4/QtOpenGL \
+          -change @QT_QTOPENGL_LIBRARY_RELEASE@ \
+          @executable_path/../Frameworks/libQtOpenGL.4.dylib \
           Tinkercell.app/Contents/Frameworks/$f
           
   install_name_tool \
-          -change QtCore.framework/Versions/4/QtCore \
-          @executable_path/../Frameworks/QtCore.framework/Versions/4/QtCore \
+          -change @QT_QTCORE_LIBRARY_RELEASE@ \
+          @executable_path/../Frameworks/libQtCore.4.dylib \
           NodeGraphics.app/Contents/Frameworks/$f
 
   install_name_tool \
-          -change QtGui.framework/Versions/4/QtGui \
-          @executable_path/../Frameworks/QtGui.framework/Versions/4/QtGui \
+          -change @QT_QTGUI_LIBRARY_RELEASE@ \
+          @executable_path/../Frameworks/libQtGui.4.dylib \
           NodeGraphics.app/Contents/Frameworks/$f
 
   install_name_tool \
-          -change QtXml.framework/Versions/4/QtXml \
-          @executable_path/../Frameworks/QtXml.framework/Versions/4/QtXml \
+          -change @QT_QTXML_LIBRARY_RELEASE@ \
+          @executable_path/../Frameworks/libQtXml.4.dylib \
           NodeGraphics.app/Contents/Frameworks/$f
 
   install_name_tool \
-          -change QtOpenGL.framework/Versions/4/QtOpenGL \
-          @executable_path/../Frameworks/QtOpenGL.framework/Versions/4/QtOpenGL \
+          -change @QT_QTOPENGL_LIBRARY_RELEASE@ \
+          @executable_path/../Frameworks/libQtOpenGL.4.dylib \
           NodeGraphics.app/Contents/Frameworks/$f
 
 done
@@ -241,23 +241,23 @@ do
           Tinkercell.app/Contents/MacOS/$f1
 
   install_name_tool \
-          -change QtCore.framework/Versions/4/QtCore \
-          @executable_path/../Frameworks/QtCore.framework/Versions/4/QtCore \
+          -change @QT_QTCORE_LIBRARY_RELEASE@ \
+          @executable_path/../Frameworks/libQtCore.4.dylib \
          Tinkercell.app/Contents/MacOS/$f1
 
   install_name_tool \
-          -change QtGui.framework/Versions/4/QtGui \
-          @executable_path/../Frameworks/QtGui.framework/Versions/4/QtGui \
+          -change @QT_QTGUI_LIBRARY_RELEASE@ \
+          @executable_path/../Frameworks/libQtGui.4.dylib \
           Tinkercell.app/Contents/MacOS/$f1
 
   install_name_tool \
-          -change QtXml.framework/Versions/4/QtXml \
-          @executable_path/../Frameworks/QtXml.framework/Versions/4/QtXml \
+          -change @QT_QTXML_LIBRARY_RELEASE@ \
+          @executable_path/../Frameworks/libQtXml.4.dylib \
           Tinkercell.app/Contents/MacOS/$f1
 
   install_name_tool \
-          -change QtOpenGL.framework/Versions/4/QtOpenGL \
-          @executable_path/../Frameworks/QtOpenGL.framework/Versions/4/QtOpenGL \
+          -change @QT_QTOPENGL_LIBRARY_RELEASE@ \
+          @executable_path/../Frameworks/libQtOpenGL.4.dylib \
           Tinkercell.app/Contents/MacOS/$f1
 
   for f2 in $LIBFILES

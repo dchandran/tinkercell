@@ -88,7 +88,7 @@ namespace Tinkercell
 		changeBrushAlpha1 = new QAction(tr("Main transparency"),changeColorMenu);
 		connect(changeBrushAlpha1,SIGNAL(triggered()),this,SLOT(selectBrushAlpha1()));
 
-		changeBrushAlpha2 = new QAction(tr("Secondary transparency 2"),changeColorMenu);
+		changeBrushAlpha2 = new QAction(tr("Secondary transparency"),changeColorMenu);
 		connect(changeBrushAlpha2,SIGNAL(triggered()),this,SLOT(selectBrushAlpha2()));
 
 		QPixmap bcolor1(20,20);

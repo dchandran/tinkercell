@@ -142,28 +142,6 @@ void  tc_addFunction(void (*f)(), const char* title, const char* description, co
 		_tc_addFunction(f,title,description, category, iconFile, target_family, show_menu, in_tool_menu, make_default);
 }
 
-void  (*_tc_callback)(void (*f)(void)) = 0;
-/*! 
- \brief this function will be called whenever the model is changed
- \ingroup Programming interface
-*/
-void  tc_callback(void (*f)(void))
-{
-	if (_tc_callback)
-		_tc_callback(f);
-}
-
-void  (*_tc_callWhenExiting)(void (*f)(void)) = 0;
-/*! 
- \brief this function will be called whenever Tinkercell exits. Use it to free memory.
- \ingroup Programming interface
-*/
-void  tc_callWhenExiting(void (*f)(void))
-{
-	if (_tc_callWhenExiting)
-		_tc_callWhenExiting(f);
-}
-
 /*! 
  \brief initialize dialogs and c interface
  \ingroup init
@@ -184,9 +162,7 @@ void tc_LoadCLibraries_api(
 		int (*compileBuildLoad)(const char* ,const char* , const char*),
 		int (*compileBuildLoadSliders)(const char* ,const char* ,const char* , tc_matrix ),
 		void (*loadLibrary)(const char*),
-		void  (*addFunction)(void (*f)(), const char*, const char*, const char*, const char*, const char*, int, int, int),
-		void (*callback)(void (*f)(void)),
-		void (*unload)(void (*f)(void))
+		void  (*addFunction)(void (*f)(), const char*, const char*, const char*, const char*, const char*, int, int, int)
 )
 {
 	_tc_compileAndRun = compileAndRun;
@@ -194,8 +170,6 @@ void tc_LoadCLibraries_api(
 	_tc_compileBuildLoadSliders = compileBuildLoadSliders;
 	_tc_loadLibrary = loadLibrary;
 	_tc_addFunction = addFunction;
-	_tc_callback = callback;
-	_tc_callWhenExiting = unload;
 }
 
 /*! 

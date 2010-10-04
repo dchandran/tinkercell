@@ -1,11 +1,11 @@
-/****************************************************************************
+/***************************************************************************
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  see COPYRIGHT.TXT
 
  Provides a toolbar with buttons that call C functions (run of separate threads)
-
 ****************************************************************************/
+
 #include <QVBoxLayout>
 #include <QDockWidget>
 #include <QProcess>
@@ -35,16 +35,6 @@ namespace Tinkercell
         libMenu = 0;
     }
 
-	LoadCLibrariesTool::~LoadCLibrariesTool()
-	{
-		for (int i=0; i < unloadFunctions.size(); ++i)
-			if (unloadFunctions[i])
-			{
-				VoidFunction f = unloadFunctions[i];
-				f();
-			}
-	}
-
     bool LoadCLibrariesTool::setMainWindow(MainWindow * main)
     {
         Tool::setMainWindow(main);
@@ -52,60 +42,11 @@ namespace Tinkercell
         {
             connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
             connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
-			connect(mainWindow,SIGNAL(dataChanged(const QList<ItemHandle*>&)),this,SLOT(dataChanged(const QList<ItemHandle*>&)));
-			connect(mainWindow,SIGNAL(windowChanged(NetworkWindow*,NetworkWindow*)),this,SLOT(windowChanged(NetworkWindow*,NetworkWindow*)));
-			connect(mainWindow,SIGNAL(itemsInserted(NetworkHandle * , const QList<ItemHandle*>&)),this,SLOT(itemsInserted(NetworkHandle * , const QList<ItemHandle*>&)));
-			connect(mainWindow,SIGNAL(itemsRemoved(NetworkHandle * , const QList<ItemHandle*>&)),this,SLOT(itemsRemoved(NetworkHandle * , const QList<ItemHandle*>&)));
-
             toolLoaded(0);
-
             return true;
         }
         return false;
     }
-
-	void LoadCLibrariesTool::itemsInserted(NetworkHandle * win, const QList<ItemHandle*>& handles)
-	{
-		if (win && handles.size() > 0)
-			for (int i=0; i < callBackFunctions.size(); ++i)
-				if (callBackFunctions[i])
-				{
-					VoidFunction f = callBackFunctions[i];
-					f();
-				}
-	}
-
-	void LoadCLibrariesTool::itemsRemoved(NetworkHandle * win, const QList<ItemHandle*>& handles)
-	{
-		if (win && handles.size() > 0)
-			for (int i=0; i < callBackFunctions.size(); ++i)
-				if (callBackFunctions[i])
-				{
-					VoidFunction f = callBackFunctions[i];
-					f();
-				}
-	}
-
-	void LoadCLibrariesTool::windowChanged(NetworkWindow* w1,NetworkWindow* w2)
-	{
-		if (w2)
-			for (int i=0; i < callBackFunctions.size(); ++i)
-				if (callBackFunctions[i])
-				{
-					VoidFunction f = callBackFunctions[i];
-					f();
-				}
-	}
-
-	void LoadCLibrariesTool::dataChanged(const QList<ItemHandle*>&)
-	{
-		for (int i=0; i < callBackFunctions.size(); ++i)
-			if (callBackFunctions[i])
-			{
-				VoidFunction f = callBackFunctions[i];
-				f();
-			}
-	}
 
     void LoadCLibrariesTool::addFunction(QSemaphore* s,void (*f)(void), const QString& title, const QString& desc, const QString& cat, const QString& iconFilename,const QString& family, int show_menu, int in_tool_menu, int deft)
     {
@@ -175,22 +116,6 @@ namespace Tinkercell
             s->release();
     }
 
-    void LoadCLibrariesTool::callback(QSemaphore* s,void (*f)(void))
-    {
-		if (!callBackFunctions.contains(f))
-			callBackFunctions << f;
-        if (s)
-            s->release();
-    }
-
-	void LoadCLibrariesTool::unload(QSemaphore* s,void (*f)(void))
-    {
-		//if (!unloadFunctions.contains(f))
-			//unloadFunctions << f;
-        if (s)
-            s->release();
-    }
-
     void LoadCLibrariesTool::toolLoaded(Tool*)
     {
         static bool connected = false;
@@ -214,9 +139,6 @@ namespace Tinkercell
         connect(&fToS,SIGNAL(loadLibrary(QSemaphore*,const QString&)),this,SLOT(loadLibrary(QSemaphore*,const QString&)));
         connect(&fToS,SIGNAL(addFunction(QSemaphore*,VoidFunction, const QString& , const QString& , const QString& , const QString& ,const QString& , int, int,int)),
                    this,SLOT(addFunction(QSemaphore*,VoidFunction,QString,QString,QString,QString,QString,int,int,int)));
-        connect(&fToS,SIGNAL(callback(QSemaphore*,VoidFunction)),this,SLOT(callback(QSemaphore*,VoidFunction)));
-		connect(&fToS,SIGNAL(unload(QSemaphore*,VoidFunction)),this,SLOT(unload(QSemaphore*,VoidFunction)));
-
     }
 
     typedef void (*tc_LoadCLibraries_api)(
@@ -224,9 +146,7 @@ namespace Tinkercell
             int (*compileBuildLoad)(const char *, const char* , const char*),
 			int (*compileBuildLoadSliders)(const char * ,const char* ,const char* , tc_matrix),
             void (*loadLib)(const char*),
-            void (*addf)(void (*f)(),const char * , const char* , const char* , const char* , const char * , int , int , int ),
-            void (*callback)(void (*f)()),
-			void (*unload)(void (*f)())
+            void (*addf)(void (*f)(),const char * , const char* , const char* , const char* , const char * , int , int , int )
             );
 
     void LoadCLibrariesTool::setupFunctionPointers( QLibrary * library)
@@ -239,9 +159,7 @@ namespace Tinkercell
                     &(_compileBuildLoad),
 					&(_compileBuildLoadSliders),
                     &(_loadLibrary),
-                    &(_addFunction),
-                    &(_callback),
-					&(_unload)
+                    &(_addFunction)
                     );
         }
     }
@@ -485,16 +403,6 @@ namespace Tinkercell
         fToS.addFunction(f, title, desc, cat, icon, family, inMenu, inTool, deft);
     }
 
-    void  LoadCLibrariesTool::_callback(void (*f)(void))
-    {
-		fToS.callback(f);
-    }
-
-	void  LoadCLibrariesTool::_unload(void (*f)(void))
-    {
-		fToS.unload(f);
-    }
-
     int LoadCLibrariesTool_FToS::compileAndRun(const char * cfile,const char* args)
     {
         QSemaphore * s = new QSemaphore(1);
@@ -538,26 +446,6 @@ namespace Tinkercell
         QSemaphore * s = new QSemaphore(1);
         s->acquire();
         emit addFunction(s,f,ConvertValue(title),ConvertValue(desc),ConvertValue(cat),ConvertValue(icon),ConvertValue(family),inMenu,inTool, deft);
-        s->acquire();
-        s->release();
-        delete s;
-    }
-
-    void LoadCLibrariesTool_FToS::callback(void (*f)())
-    {
-        QSemaphore * s = new QSemaphore(1);
-        s->acquire();
-        emit callback(s,f);
-        s->acquire();
-        s->release();
-        delete s;
-    }
-
-	void LoadCLibrariesTool_FToS::unload(void (*f)())
-    {
-        QSemaphore * s = new QSemaphore(1);
-        s->acquire();
-        emit unload(s,f);
         s->acquire();
         s->release();
         delete s;

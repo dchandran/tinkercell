@@ -954,7 +954,7 @@ void tc_Main_api_initialize(
 	_tc_screenHeight = screenHeight;
 }
 
-void (*_tc_showProgress)(long thread, int progress);
+void (*_tc_showProgress)(long thread, int progress) = 0;
 /*! 
  \brief show progress of current operation
  \ingroup Input and Output
@@ -965,15 +965,43 @@ void tc_showProgress(int progress)
 		_tc_showProgress(_cthread_ptr,progress);
 }
 
+void (*_tc_callback)(long, void (*f)(void)) = 0;
+/*! 
+ \brief this function will be called whenever the model is changed
+ \param void* callback function pointer
+ \ingroup Programming
+*/
+void tc_callback(void (*f)(void))
+{
+	if (_tc_callback && _cthread_ptr)
+		_tc_callback(_cthread_ptr, f);
+}
+
+void (*_tc_callWhenExiting)(long, void (*f)(void)) = 0;
+/*! 
+ \brief this function will be called whenever Tinkercell exits. Use it to free memory.
+ \param void* callback function pointer
+ \ingroup Programming
+*/
+void tc_callWhenExiting(void (*f)(void))
+{
+	if (_tc_callWhenExiting && _cthread_ptr)
+		_tc_callWhenExiting(_cthread_ptr, f);
+}
+
 /*! 
  \brief initialize main
  \ingroup init
 */
-void tc_CThread_api_initialize( 
+void tc_CThread_api_initialize(
 	long cthread,
-	void (*showProgress)(long, int)	)
+	void (*callback)(long, void (*f)(void)),
+	void (*callWhenExiting)(long, void (*f)(void)),
+	void (*showProgress)(long, int))
 {
 	_tc_showProgress = showProgress;
+	_tc_callback = callback;
+	_tc_callWhenExiting = callWhenExiting;
 	_cthread_ptr = cthread;
 }
 

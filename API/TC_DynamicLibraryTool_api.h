@@ -74,18 +74,6 @@ TCAPIEXPORT void tc_loadLibrary(const char* filename);
  \ingroup Programming
 */
 TCAPIEXPORT void tc_addFunction(void (*f)(), const char* title, const char* description, const char* category, const char* iconFile, const char* target_family, int show_menu, int in_tool_menu, int make_default);
-/*! 
- \brief this function will be called whenever the model is changed
- \param void* callback function pointer
- \ingroup Programming
-*/
-TCAPIEXPORT void tc_callback(void (*f)(void));
-/*! 
- \brief this function will be called whenever Tinkercell exits. Use it to free memory.
- \param void* callback function pointer
- \ingroup Programming
-*/
-TCAPIEXPORT void tc_callWhenExiting(void (*f)(void));
 
 /*! 
  \brief run the Octave code given by the string
@@ -126,9 +114,7 @@ TCAPIEXPORT void tc_LoadCLibraries_api(
 		int (*compileBuildLoad)(const char* ,const char* , const char*),
 		int (*compileBuildLoadSliders)(const char* ,const char* ,const char* , tc_matrix ),
 		void (*loadLibrary)(const char*),
-		void  (*addFunction)(void (*f)(), const char*, const char*, const char*, const char*, const char*, int, int, int),
-		void (*callback)(void (*f)(void)),
-		void (*unload)(void (*f)(void))
+		void  (*addFunction)(void (*f)(), const char*, const char*, const char*, const char*, const char*, int, int, int)
 );
 
 /*! 

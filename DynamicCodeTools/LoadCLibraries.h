@@ -40,8 +40,6 @@ namespace Tinkercell
 			void compileBuildLoadSliders(QSemaphore*,int*,const QString&,const QString&,const QString&, DataTable<qreal>& );
 			void loadLibrary(QSemaphore*,const QString&);
 			void addFunction(QSemaphore*,VoidFunction, const QString& , const QString& , const QString& , const QString& ,const QString& , int, int, int);
-			void callback(QSemaphore*,VoidFunction);
-			void unload(QSemaphore*,VoidFunction);
 			
 		public slots:
 			int compileAndRun(const char * cfile,const char* args);
@@ -49,8 +47,6 @@ namespace Tinkercell
 			int compileBuildLoadSliders(const char * cfile,const char* f,const char* title, tc_matrix);
 			void loadLibrary(const char*);
 			void addFunction(VoidFunction, const char*, const char*, const char*, const char*, const char*, int, int, int);
-			void callback(VoidFunction);
-			void unload(VoidFunction);
 	};
 
 	class TINKERCELLEXPORT LoadCLibrariesTool : public Tool
@@ -81,8 +77,6 @@ namespace Tinkercell
 		void compileBuildLoadSliders(QSemaphore*,int*,const QString&,const QString&,const QString&, DataTable<qreal>& );
 		void loadLibrary(QSemaphore*,const QString&);
 		void addFunction(QSemaphore*,VoidFunction, const QString& , const QString& , const QString& , const QString& ,const QString& , int, int, int);
-		void callback(QSemaphore*,VoidFunction);
-		void unload(QSemaphore*,VoidFunction);
 		
 	protected:
 		void connectTCFunctions();
@@ -93,8 +87,6 @@ namespace Tinkercell
         DynamicLibraryMenu * libMenu;
 		
 	private:
-		QList<VoidFunction> callBackFunctions;
-		QList<VoidFunction> unloadFunctions;
 		int numLibFiles;
 		static LoadCLibrariesTool_FToS fToS;		
 		static int _compileAndRun(const char * cfile,const char* args);
@@ -102,8 +94,6 @@ namespace Tinkercell
 		static int _compileBuildLoadSliders(const char * cfile,const char* f,const char* title, tc_matrix);
 		static void _loadLibrary(const char*);
 		static void _addFunction(VoidFunction, const char*, const char*, const char*, const char*, const char *, int, int, int);
-		static void _callback(VoidFunction);
-		static void _unload(VoidFunction);
      };
 }
 

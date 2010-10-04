@@ -38,8 +38,11 @@ namespace Tinkercell
 		f2 = 0;
 		f3 = 0;
 		f4 = 0;
+		callbackPtr = 0;
+		callWhenExitPtr = 0;
 		setLibrary(libPtr);
 		connect(this,SIGNAL(terminated()),this,SLOT(cleanupAfterTerminated()));
+		connect(mainWindow,SIGNAL(historyChanged(int)),this,SLOT(update()));
 	}
 
 	CThread::CThread(MainWindow * main, const QString & libName, bool autoUnload)
@@ -52,6 +55,7 @@ namespace Tinkercell
 		this->lib = 0;
 		setLibrary(libName);
 		connect(this,SIGNAL(terminated()),this,SLOT(cleanupAfterTerminated()));
+		connect(mainWindow,SIGNAL(historyChanged(int)),this,SLOT(update()));
 	}
 
 	CThread::~CThread()
@@ -122,6 +126,8 @@ namespace Tinkercell
 
 	typedef void (*cthread_api_initialize)(
 		long cthread,
+		void (*callback)(long, void (*f)(void)),
+		void (*callWhenExiting)(long, void (*f)(void)),
 		void (*showProgress)(long , int) );
 		
 	void CThread::setupCFunctionPointers()
@@ -134,6 +140,8 @@ namespace Tinkercell
 			{
 				f0( 
 					(long)(p),
+					&(setCallback),
+					&(setCallWhenExiting),
 					&(setProgress)
 				);
 			}
@@ -229,7 +237,13 @@ namespace Tinkercell
 			unload();
 		}
 	}
-
+	
+	void CThread::update()
+	{
+		if (callbackPtr)
+			callbackPtr();
+	}
+	
 	void CThread::unload()
 	{
 		/*if (isRunning())
@@ -242,6 +256,9 @@ namespace Tinkercell
 			lib->unload();
 		}
 		
+		if (callWhenExitPtr)
+			callWhenExitPtr();
+
 		cthreads.removeAll(this);
 	}
 
@@ -289,6 +306,22 @@ namespace Tinkercell
 	}
 
 	QList<CThread*> CThread::cthreads;
+
+	void CThread::setCallback(long address,  void (*f)(void) )
+	{
+		void * ptr = (void*)address;
+		CThread * thread = static_cast<CThread*>(ptr);
+		if (cthreads.contains(thread))
+			thread->callbackPtr = f;
+	}
+
+	void CThread::setCallWhenExiting(long address,  void (*f)(void) )
+	{
+		void * ptr = (void*)address;
+		CThread * thread = static_cast<CThread*>(ptr);
+		if (cthreads.contains(thread))
+			thread->callWhenExitPtr = f;
+	}
 
 	void CThread::setProgress(long address, int progress)
 	{

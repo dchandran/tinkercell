@@ -17,11 +17,21 @@ namespace Tinkercell
 	AbstractInputWindow::AbstractInputWindow(const QString& name, CThread * thread)
 		: Tool(name), cthread(thread), dockWidget(0)
 	{
+		if (cthread)
+			connect(this,SIGNAL(updateThread()),cthread,SLOT(update()));
 	}
 
 	void AbstractInputWindow::setThread(CThread * thread)
 	{
-		cthread = thread;
+		if (cthread != thread)
+		{
+			cthread = thread;
+			if (cthread)
+				connect(this,SIGNAL(updateThread()),cthread,SLOT(update()));
+			
+			if (mainWindow && cthread)
+				disconnect(mainWindow,SIGNAL(historyChanged(int)),cthread,SLOT(update()));
+		}
 	}
 
 	CThread * AbstractInputWindow::thread() const
@@ -52,6 +62,8 @@ namespace Tinkercell
 		Tool::setMainWindow(main);
 		if (mainWindow)
 		{
+			if (cthread)
+				disconnect(mainWindow,SIGNAL(historyChanged(int)),cthread,SLOT(update()));
 			connect(mainWindow,SIGNAL(escapeSignal(const QWidget*)),this,SLOT(escapeSignal(const QWidget*)));
 			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(loadAPI(Tool*)));
 			loadAPI(0);
@@ -82,6 +94,11 @@ namespace Tinkercell
 	{
 		if (cthread)
 			cthread->start();
+	}
+	
+	void AbstractInputWindow::enterEvent ( QEvent * )
+	{
+		emit updateThread();
 	}
 
 	/******************************

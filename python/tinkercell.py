@@ -533,6 +533,14 @@ def tc_showProgress(*args):
   return _tinkercell.tc_showProgress(*args)
 tc_showProgress = _tinkercell.tc_showProgress
 
+def tc_callback(*args):
+  return _tinkercell.tc_callback(*args)
+tc_callback = _tinkercell.tc_callback
+
+def tc_callWhenExiting(*args):
+  return _tinkercell.tc_callWhenExiting(*args)
+tc_callWhenExiting = _tinkercell.tc_callWhenExiting
+
 def tc_CThread_api_initialize(*args):
   return _tinkercell.tc_CThread_api_initialize(*args)
 tc_CThread_api_initialize = _tinkercell.tc_CThread_api_initialize
@@ -748,14 +756,6 @@ tc_loadLibrary = _tinkercell.tc_loadLibrary
 def tc_addFunction(*args):
   return _tinkercell.tc_addFunction(*args)
 tc_addFunction = _tinkercell.tc_addFunction
-
-def tc_callback(*args):
-  return _tinkercell.tc_callback(*args)
-tc_callback = _tinkercell.tc_callback
-
-def tc_callWhenExiting(*args):
-  return _tinkercell.tc_callWhenExiting(*args)
-tc_callWhenExiting = _tinkercell.tc_callWhenExiting
 
 def tc_runOctaveCode(*args):
   return _tinkercell.tc_runOctaveCode(*args)

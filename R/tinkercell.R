@@ -446,6 +446,18 @@ setClass('_p_f_long_p_q_const__char_int__void',
         contains = 'CRoutinePointer')
 
 ##
+setClass('_p_f_void__void',
+        prototype = list(parameterTypes = c('_void'),
+                        returnType = '_p_f_void__void'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_long_p_f_void__void__void',
+        prototype = list(parameterTypes = c('_long', '_p_f_void__void'),
+                        returnType = '_p_f_long_p_f_void__void__void'),
+        contains = 'CRoutinePointer')
+
+##
 setClass('_p_f_long_int__void',
         prototype = list(parameterTypes = c('_long', '_int'),
                         returnType = '_p_f_long_int__void'),
@@ -536,12 +548,6 @@ setClass('_p_f_tc_items_tc_strings__void',
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_void__void',
-        prototype = list(parameterTypes = c('_void'),
-                        returnType = '_p_f_void__void'),
-        contains = 'CRoutinePointer')
-
-##
 setClass('_p_f_p_q_const__char_p_q_const__char__int',
         prototype = list(parameterTypes = c('_p_char', '_p_char'),
                         returnType = '_p_f_p_q_const__char_p_q_const__char__int'),
@@ -563,12 +569,6 @@ setClass('_p_f_p_q_const__char_p_q_const__char_p_q_const__char_tc_matrix__int',
 setClass('_p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void',
         prototype = list(parameterTypes = c('_p_f___void', '_p_char', '_p_char', '_p_char', '_p_char', '_p_char', '_int', '_int', '_int'),
                         returnType = '_p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void'),
-        contains = 'CRoutinePointer')
-
-##
-setClass('_p_f_p_f_void__void__void',
-        prototype = list(parameterTypes = c('_p_f_void__void'),
-                        returnType = '_p_f_p_f_void__void__void'),
         contains = 'CRoutinePointer')
 
 ##
@@ -3683,9 +3683,53 @@ attr(`tc_showProgress`, 'returnType') = 'void'
 attr(`tc_showProgress`, "inputTypes") = c('integer')
 class(`tc_showProgress`) = c("SWIGFunction", class('tc_showProgress'))
 
+# Start of tc_callback
+
+`tc_callback` = function(f)
+{
+  if(is.function(f)) {
+    assert('...' %in% names(formals(f)) || length(formals(f)) >= 1)
+  } else {
+    if(is.character(f)) {
+      f = getNativeSymbolInfo(f)
+    }
+    if(is(f, "NativeSymbolInfo")) {
+      f = f$address
+    }
+  }
+  .Call('R_swig_tc_callback', f, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_callback`, 'returnType') = 'void'
+attr(`tc_callback`, "inputTypes") = c('_p_f_void__void')
+class(`tc_callback`) = c("SWIGFunction", class('tc_callback'))
+
+# Start of tc_callWhenExiting
+
+`tc_callWhenExiting` = function(f)
+{
+  if(is.function(f)) {
+    assert('...' %in% names(formals(f)) || length(formals(f)) >= 0)
+  } else {
+    if(is.character(f)) {
+      f = getNativeSymbolInfo(f)
+    }
+    if(is(f, "NativeSymbolInfo")) {
+      f = f$address
+    }
+  }
+  .Call('R_swig_tc_callWhenExiting', f, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_callWhenExiting`, 'returnType') = 'void'
+attr(`tc_callWhenExiting`, "inputTypes") = c('_p_f_void__void')
+class(`tc_callWhenExiting`) = c("SWIGFunction", class('tc_callWhenExiting'))
+
 # Start of tc_CThread_api_initialize
 
-`tc_CThread_api_initialize` = function(cthread, showProgress)
+`tc_CThread_api_initialize` = function(cthread, callback, callWhenExiting, showProgress)
 {
   cthread = as.integer(cthread) 
   
@@ -3693,6 +3737,26 @@ class(`tc_showProgress`) = c("SWIGFunction", class('tc_showProgress'))
     warning("using only the first element of cthread")
   }
   
+  if(is.function(callback)) {
+    assert('...' %in% names(formals(callback)) || length(formals(callback)) >= 2)
+  } else {
+    if(is.character(callback)) {
+      callback = getNativeSymbolInfo(callback)
+    }
+    if(is(callback, "NativeSymbolInfo")) {
+      callback = callback$address
+    }
+  }
+  if(is.function(callWhenExiting)) {
+    assert('...' %in% names(formals(callWhenExiting)) || length(formals(callWhenExiting)) >= 0)
+  } else {
+    if(is.character(callWhenExiting)) {
+      callWhenExiting = getNativeSymbolInfo(callWhenExiting)
+    }
+    if(is(callWhenExiting, "NativeSymbolInfo")) {
+      callWhenExiting = callWhenExiting$address
+    }
+  }
   if(is.function(showProgress)) {
     assert('...' %in% names(formals(showProgress)) || length(formals(showProgress)) >= 2)
   } else {
@@ -3703,12 +3767,12 @@ class(`tc_showProgress`) = c("SWIGFunction", class('tc_showProgress'))
       showProgress = showProgress$address
     }
   }
-  .Call('R_swig_tc_CThread_api_initialize', cthread, showProgress, PACKAGE='tinkercell')
+  .Call('R_swig_tc_CThread_api_initialize', cthread, callback, callWhenExiting, showProgress, PACKAGE='tinkercell')
   
 }
 
 attr(`tc_CThread_api_initialize`, 'returnType') = 'void'
-attr(`tc_CThread_api_initialize`, "inputTypes") = c('integer', '_p_f_long_int__void')
+attr(`tc_CThread_api_initialize`, "inputTypes") = c('integer', '_p_f_long_p_f_void__void__void', '_p_f_long_p_f_void__void__void', '_p_f_long_int__void')
 class(`tc_CThread_api_initialize`) = c("SWIGFunction", class('tc_CThread_api_initialize'))
 
 # Start of tc_getParameters
@@ -4969,50 +5033,6 @@ attr(`tc_addFunction`, 'returnType') = 'void'
 attr(`tc_addFunction`, "inputTypes") = c('_p_f___void', 'character', 'character', 'character', 'character', 'character', 'integer', 'integer', 'integer')
 class(`tc_addFunction`) = c("SWIGFunction", class('tc_addFunction'))
 
-# Start of tc_callback
-
-`tc_callback` = function(f)
-{
-  if(is.function(f)) {
-    assert('...' %in% names(formals(f)) || length(formals(f)) >= 1)
-  } else {
-    if(is.character(f)) {
-      f = getNativeSymbolInfo(f)
-    }
-    if(is(f, "NativeSymbolInfo")) {
-      f = f$address
-    }
-  }
-  .Call('R_swig_tc_callback', f, PACKAGE='tinkercell')
-  
-}
-
-attr(`tc_callback`, 'returnType') = 'void'
-attr(`tc_callback`, "inputTypes") = c('_p_f_void__void')
-class(`tc_callback`) = c("SWIGFunction", class('tc_callback'))
-
-# Start of tc_callWhenExiting
-
-`tc_callWhenExiting` = function(f)
-{
-  if(is.function(f)) {
-    assert('...' %in% names(formals(f)) || length(formals(f)) >= 0)
-  } else {
-    if(is.character(f)) {
-      f = getNativeSymbolInfo(f)
-    }
-    if(is(f, "NativeSymbolInfo")) {
-      f = f$address
-    }
-  }
-  .Call('R_swig_tc_callWhenExiting', f, PACKAGE='tinkercell')
-  
-}
-
-attr(`tc_callWhenExiting`, 'returnType') = 'void'
-attr(`tc_callWhenExiting`, "inputTypes") = c('_p_f_void__void')
-class(`tc_callWhenExiting`) = c("SWIGFunction", class('tc_callWhenExiting'))
-
 # Start of tc_runOctaveCode
 
 `tc_runOctaveCode` = function(code)
@@ -5080,7 +5100,7 @@ class(`tc_DynamicLibraryMenu_api`) = c("SWIGFunction", class('tc_DynamicLibraryM
 
 # Start of tc_LoadCLibraries_api
 
-`tc_LoadCLibraries_api` = function(compileAndRun, compileBuildLoad, compileBuildLoadSliders, loadLibrary, addFunction, callback, unload)
+`tc_LoadCLibraries_api` = function(compileAndRun, compileBuildLoad, compileBuildLoadSliders, loadLibrary, addFunction)
 {
   if(is.function(compileAndRun)) {
     assert('...' %in% names(formals(compileAndRun)) || length(formals(compileAndRun)) >= 2)
@@ -5132,32 +5152,12 @@ class(`tc_DynamicLibraryMenu_api`) = c("SWIGFunction", class('tc_DynamicLibraryM
       addFunction = addFunction$address
     }
   }
-  if(is.function(callback)) {
-    assert('...' %in% names(formals(callback)) || length(formals(callback)) >= 1)
-  } else {
-    if(is.character(callback)) {
-      callback = getNativeSymbolInfo(callback)
-    }
-    if(is(callback, "NativeSymbolInfo")) {
-      callback = callback$address
-    }
-  }
-  if(is.function(unload)) {
-    assert('...' %in% names(formals(unload)) || length(formals(unload)) >= 0)
-  } else {
-    if(is.character(unload)) {
-      unload = getNativeSymbolInfo(unload)
-    }
-    if(is(unload, "NativeSymbolInfo")) {
-      unload = unload$address
-    }
-  }
-  .Call('R_swig_tc_LoadCLibraries_api', compileAndRun, compileBuildLoad, compileBuildLoadSliders, loadLibrary, addFunction, callback, unload, PACKAGE='tinkercell')
+  .Call('R_swig_tc_LoadCLibraries_api', compileAndRun, compileBuildLoad, compileBuildLoadSliders, loadLibrary, addFunction, PACKAGE='tinkercell')
   
 }
 
 attr(`tc_LoadCLibraries_api`, 'returnType') = 'void'
-attr(`tc_LoadCLibraries_api`, "inputTypes") = c('_p_f_p_q_const__char_p_q_const__char__int', '_p_f_p_q_const__char_p_q_const__char_p_q_const__char__int', '_p_f_p_q_const__char_p_q_const__char_p_q_const__char_tc_matrix__int', '_p_f_p_q_const__char__void', '_p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void', '_p_f_p_f_void__void__void', '_p_f_p_f_void__void__void')
+attr(`tc_LoadCLibraries_api`, "inputTypes") = c('_p_f_p_q_const__char_p_q_const__char__int', '_p_f_p_q_const__char_p_q_const__char_p_q_const__char__int', '_p_f_p_q_const__char_p_q_const__char_p_q_const__char_tc_matrix__int', '_p_f_p_q_const__char__void', '_p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void')
 class(`tc_LoadCLibraries_api`) = c("SWIGFunction", class('tc_LoadCLibraries_api'))
 
 # Start of tc_PythonTool_api

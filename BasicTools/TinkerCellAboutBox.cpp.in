@@ -12,9 +12,17 @@ namespace Tinkercell
 		QHBoxLayout * layout1 = new QHBoxLayout;
 
 		
-		PROJECT_VERSION = tr("@TINKERCELL_VERSION@");
-		QString text = tr("TinkerCell\nVersion: ") + PROJECT_VERSION;
+		PROJECT_VERSION = tr("@TINKERCELL_WC_REVISION@");		
+		QString text;
+		
+		bool ok;
+		int number = PROJECT_VERSION.toInt(&ok);
+		if (ok)
+		{
+			PROJECT_VERSION = tr("1.") + QString::number( (int)(number/1000 ) ) + tr(".") + QString::number(number % 1000);
+		}
 
+		text = tr("TinkerCell\nVersion: ") + PROJECT_VERSION;
 		QString appDir = QCoreApplication::applicationDirPath();
 		QString filename = appDir + tr("/about.txt");
 

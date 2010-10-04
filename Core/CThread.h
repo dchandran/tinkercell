@@ -60,6 +60,10 @@ namespace Tinkercell
 	
 		/*! \brief uload the C library*/
 		virtual void unload();
+		/*!
+		* \brief call the callback function, if one exists
+		*/
+		virtual void update();
 
 	public:
 
@@ -68,9 +72,6 @@ namespace Tinkercell
 
 		/*! \brief emits the progress signal*/
 		virtual void emitSignal(int i) { emit progress(i); }
-
-		/*! \brief set progress on a thread. the first arg is the id returned from createProgressMeter*/
-		static void setProgress(long ptr, int progress);
 		
 		/*! \brief search the default tinkercell folders for the library and load it
 		* \param QString name of library (with or without full path)
@@ -225,6 +226,14 @@ namespace Tinkercell
 		*/
 		void (*f4)(tc_matrix);
 		/*!
+		* \brief callback function
+		*/
+		void (*callbackPtr)(void);
+		/*!
+		* \brief call when exit function
+		*/
+		void (*callWhenExitPtr)(void);
+		/*!
 		* \brief the library where the functions are located that can be run inside this thread
 		*/
 		QLibrary * lib;
@@ -250,6 +259,20 @@ namespace Tinkercell
 		* \brief cleanup (such as unload libraries) upon termination
 		*/
 		virtual void cleanupAfterTerminated();
+		
+	private:
+		/*! 
+		\brief set progress on a thread. the first arg is the id returned from createProgressMeter
+		*/
+		static void setProgress(long ptr, int progress);
+		/*! 
+		\brief set callback function on a thread. the first arg is the id returned from createProgressMeter
+		*/
+		static void setCallback(long ptr,  void (*f)(void) );
+		/*! 
+		\brief set destructor function on a thread. the first arg is the id returned from createProgressMeter
+		*/
+		static void setCallWhenExiting(long ptr,  void (*f)(void) );
 	};
 
 	/*! \brief This class is used to run a process (command + args) as a separate thread as a separate thread
@@ -258,6 +281,7 @@ namespace Tinkercell
 	class TINKERCELLEXPORT ProcessThread : public QThread
 	{
 		Q_OBJECT
+
 	public:
 		/*! \brief constructor -- used to initialize the main window, the command name and the args for the command
 		* \param QString command
@@ -267,11 +291,14 @@ namespace Tinkercell
 		ProcessThread(const QString&, const QString& ,MainWindow* main);
 		/*! \brief get the results (output stream) from the process
 		* \return QString output*/
+		
 		virtual QString output() const;
 		/*! \brief get the errors (error stream) from the process
 		* \return QString output*/
+		
 		virtual QString errors() const;
 		/*! \brief destructor -- free the library that this thread loaded*/
+		
 		virtual ~ProcessThread();
 		/*! \brief  creates a dialog that shows the name of the running thread and a button for terminating the thread
 		* \param MainWindow main window
@@ -280,9 +307,11 @@ namespace Tinkercell
 		* \param QIcon icon to display
 		*/
 		static QWidget * dialog(MainWindow *, ProcessThread*, const QString& text = QString("Process"), QIcon icon = QIcon());
+
 	protected slots:
 		/*! \brief unload the library (if loaded) and delete it*/
 		virtual void stopProcess();
+
 	protected:
 		/*! \brief the name of the executable*/
 		QString exe;
@@ -298,7 +327,6 @@ namespace Tinkercell
 		QProcess process;
 		/*! \brief initializes the function pointers through the main window and then runs the target function*/
 		virtual void run();
-
 	};
 
 }

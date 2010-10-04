@@ -74,6 +74,11 @@ namespace Tinkercell
 
 		/*! \brief the thread that will be started by this input window*/
 		virtual CThread * thread() const;
+	
+	signals:
+		
+		/*! \brief update the thread*/
+		void updateThread();
 
 	public slots:
 
@@ -94,6 +99,8 @@ namespace Tinkercell
 		virtual void loadAPI(Tool*);
 
 	protected:
+		/*! \brief when mouse enters this widget, the cthread is updated*/
+		virtual void enterEvent ( QEvent * event );
 		/*! \brief the target thread*/
 		CThread * cthread;
 		/*! \brief the docked window for this widget (0 if not a docked widget)*/

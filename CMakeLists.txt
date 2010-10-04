@@ -9,12 +9,13 @@ IF ( WIN32 )
    SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--enable-auto-import")
 ENDIF ( WIN32 )
 
-SET( TINKERCELL_MAJOR_VERSION "1" )
-SET( TINKERCELL_MINOR_VERSION "0" )
+#--------------------------------------------------------------------------
+# TinkerCell version obtained from Subversion revision number
+#--------------------------------------------------------------------------
 
-# just in case someone wants
-# 1- to mirror using something different than svn
-# 2- to build it from tarball
+#SET( TINKERCELL_MAJOR_VERSION "1" )
+#SET( TINKERCELL_MINOR_VERSION "0" )
+
 IF( EXISTS ${CMAKE_SOURCE_DIR}/.svn )
   FIND_PACKAGE( Subversion )
 
@@ -27,8 +28,7 @@ ELSE( EXISTS ${CMAKE_SOURCE_DIR}/.svn )
   SET( TINKERCELL_WC_REVISION "0" )
 ENDIF( EXISTS ${CMAKE_SOURCE_DIR}/.svn )
 
-SET( TINKERCELL_VERSION
-"${TINKERCELL_MAJOR_VERSION}.${TINKERCELL_MINOR_VERSION}.${TINKERCELL_WC_REVISION}" )
+SET( TINKERCELL_VERSION ${TINKERCELL_WC_REVISION} )
 
 #--------------------------------------------------------------------------
 # cmake policies

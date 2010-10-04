@@ -621,13 +621,26 @@ TCAPIEXPORT void tc_Main_api_initialize(
  \ingroup Input and Output
 */
 TCAPIEXPORT void tc_showProgress(int progress);
-
+/*! 
+ \brief this function will be called whenever the model is changed
+ \param void* callback function pointer
+ \ingroup Programming
+*/
+TCAPIEXPORT void tc_callback(void (*f)(void));
+/*! 
+ \brief this function will be called whenever Tinkercell exits. Use it to free memory.
+ \param void* callback function pointer
+ \ingroup Programming
+*/
+TCAPIEXPORT void tc_callWhenExiting(void (*f)(void));
 /*! 
  \brief initialize main
  \ingroup init
 */
 TCAPIEXPORT void tc_CThread_api_initialize( 
 	long cthread,
+	void (*callback)(long, void (*f)(void)),
+	void (*callWhenExiting)(long, void (*f)(void)),
 	void (*showProgress)(long, int)	);
 
 END_C_DECLS

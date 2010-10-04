@@ -507,7 +507,7 @@ namespace Tinkercell
 			brushColor1.setAlpha(a);
 			QPixmap bcolor1(20,20);
 			QPainter painter(&bcolor1);
-			painter.setBrush(QBrush(brushColor1));
+			painter.setBrush(QBrush(color));
 			painter.setPen(Qt::NoPen);
 			painter.drawRect(0,0,20,20);
 			changeBrushColor1->setIcon(QIcon(bcolor1));
@@ -546,7 +546,7 @@ namespace Tinkercell
 			brushColor2.setAlpha(a);
 			QPixmap bcolor2(20,20);
 			QPainter painter(&bcolor2);
-			painter.setBrush(QBrush(brushColor2));
+			painter.setBrush(QBrush(color));
 			painter.setPen(Qt::NoPen);
 			painter.drawRect(0,0,20,20);
 			changeBrushColor2->setIcon(QIcon(bcolor2));

@@ -1,14 +1,12 @@
 /****************************************************************************
-
 Copyright (c) 2008 Deepak Chandran
 Contact: Deepak Chandran (dchandran1@gmail.com)
 See COPYRIGHT.TXT
 
 This file defines the class that is used as a general output area as well as
 a generic command prompt (e.g. by Python plugin)
-
-
 ****************************************************************************/
+
 #include "NetworkHandle.h"
 #include "MainWindow.h"
 #include "ConsoleWindow.h"
@@ -162,6 +160,8 @@ namespace Tinkercell
 
 	void CommandTextEdit::error(const QString& s)
 	{
+		if (s.isEmpty()) return;
+		
 		if (frozen)
 		{
 			errorsStack << s;
@@ -185,6 +185,8 @@ namespace Tinkercell
 
 	void CommandTextEdit::message(const QString& s)
 	{
+		if (s.isEmpty()) return;
+				
 		if (frozen)
 		{
 			messagesStack << s;

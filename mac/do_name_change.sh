@@ -9,41 +9,41 @@ CPLUGINFILES='plugins/c/*.dylib'
 
 #copy other supporting files
 
-cp -R plugins Tinkercell.app/Contents/MacOS/
-mkdir Tinkercell.app/Contents/MacOS/c
-mkdir Tinkercell.app/Contents/MacOS/lib
-cp ../../API/*.h Tinkercell.app/Contents/MacOS/c
-cp ../../c/*.h Tinkercell.app/Contents/MacOS/c/
-cp ../../Main/tinkercell.qss Tinkercell.app/Contents/MacOS/
-cp -R ../../icons Tinkercell.app/Contents/MacOS/
-cp plugins/c/.a Tinkercell.app/Contents/MacOS/lib/
-cp lib* Tinkercell.app/Contents/MacOS/
-cp -R ../../Graphics Tinkercell.app/Contents/MacOS/
-mkdir Tinkercell.app/Contents/MacOS/NodesTree/
-cp ../../NodesTree/*.xml Tinkercell.app/Contents/MacOS/NodesTree/
-cp -R python Tinkercell.app/Contents/MacOS/
-cp ../../python/*.py Tinkercell.app/Contents/MacOS/python
-cp ../../*.txt Tinkercell.app/Contents/MacOS/
-cp -R octave Tinkercell.app/Contents/MacOS/
-cp ../../octave/*.m Tinkercell.app/Contents/MacOS/octave/
-cp -R ../../Modules/ Tinkercell.app/Contents/MacOS/
+cp -R plugins TinkerCell.app/Contents/MacOS/
+mkdir TinkerCell.app/Contents/MacOS/c
+mkdir TinkerCell.app/Contents/MacOS/lib
+cp ../../API/*.h TinkerCell.app/Contents/MacOS/c
+cp ../../c/*.h TinkerCell.app/Contents/MacOS/c/
+cp ../../Main/tinkercell.qss TinkerCell.app/Contents/MacOS/
+cp -R ../../icons TinkerCell.app/Contents/MacOS/
+cp plugins/c/.a TinkerCell.app/Contents/MacOS/lib/
+cp lib* TinkerCell.app/Contents/MacOS/
+cp -R ../../Graphics TinkerCell.app/Contents/MacOS/
+mkdir TinkerCell.app/Contents/MacOS/NodesTree/
+cp ../../NodesTree/*.xml TinkerCell.app/Contents/MacOS/NodesTree/
+cp -R python TinkerCell.app/Contents/MacOS/
+cp ../../python/*.py TinkerCell.app/Contents/MacOS/python
+cp ../../*.txt TinkerCell.app/Contents/MacOS/
+cp -R octave TinkerCell.app/Contents/MacOS/
+cp ../../octave/*.m TinkerCell.app/Contents/MacOS/octave/
+cp -R ../../Modules/ TinkerCell.app/Contents/MacOS/
 #QT frameworks install for TinkerCell.app
 
 install_name_tool \
         -id @executable_path/../Frameworks/libQtCore.4.dylib \
-        Tinkercell.app/Contents/Frameworks/libQtCore.4.dylib
+        TinkerCell.app/Contents/Frameworks/libQtCore.4.dylib
 
 install_name_tool \
         -id @executable_path/../Frameworks/libQtGui.4.dylib \
-        Tinkercell.app/Contents/Frameworks/libQtGui.4.dylib
+        TinkerCell.app/Contents/Frameworks/libQtGui.4.dylib
 
 install_name_tool \
         -id @executable_path/../Frameworks/libQtXml.4.dylib \
-        Tinkercell.app/Contents/Frameworks/libQtXml.4.dylib
+        TinkerCell.app/Contents/Frameworks/libQtXml.4.dylib
 
 install_name_tool \
         -id @executable_path/../Frameworks/libQtOpenGL.4.dylib \
-        Tinkercell.app/Contents/Frameworks/libQtOpenGL.4.dylib
+        TinkerCell.app/Contents/Frameworks/libQtOpenGL.4.dylib
 
 #QT frameworks install for NodeGraphics.app
 
@@ -68,22 +68,22 @@ install_name_tool \
 install_name_tool \
           -change @QT_QTCORE_LIBRARY_RELEASE@ \
           @executable_path/../Frameworks/libQtCore.4.dylib \
-          Tinkercell.app/Contents/Frameworks/libQtGui.4.dylib
+          TinkerCell.app/Contents/Frameworks/libQtGui.4.dylib
 
 install_name_tool \
           -change @QT_QTCORE_LIBRARY_RELEASE@ \
           @executable_path/../Frameworks/libQtCore.4.dylib \
-          Tinkercell.app/Contents/Frameworks/libQtXml.4.dylib
+          TinkerCell.app/Contents/Frameworks/libQtXml.4.dylib
           
 install_name_tool \
           -change @QT_QTCORE_LIBRARY_RELEASE@ \
           @executable_path/../Frameworks/libQtCore.4.dylib \
-          Tinkercell.app/Contents/Frameworks/libQtOpenGL.4.dylib
+          TinkerCell.app/Contents/Frameworks/libQtOpenGL.4.dylib
 
 install_name_tool \
           -change @QT_QTGUI_LIBRARY_RELEASE@ \
           @executable_path/../Frameworks/libQtGui.4.dylib \
-          Tinkercell.app/Contents/Frameworks/libQtOpenGL.4.dylib
+          TinkerCell.app/Contents/Frameworks/libQtOpenGL.4.dylib
           
 #QtCore name change for other Qt frameworks in TinkerCell.app
 
@@ -112,22 +112,22 @@ install_name_tool \
 install_name_tool \
           -change @QT_QTCORE_LIBRARY_RELEASE@ \
           @executable_path/../Frameworks/libQtCore.4.dylib \
-          Tinkercell.app/Contents/MacOS/Tinkercell
+          TinkerCell.app/Contents/MacOS/Tinkercell
 
 install_name_tool \
           -change @QT_QTGUI_LIBRARY_RELEASE@ \
           @executable_path/../Frameworks/libQtGui.4.dylib \
-          Tinkercell.app/Contents/MacOS/Tinkercell
+          TinkerCell.app/Contents/MacOS/Tinkercell
 
 install_name_tool \
           -change @QT_QTXML_LIBRARY_RELEASE@ \
           @executable_path/../Frameworks/libQtXml.4.dylib \
-          Tinkercell.app/Contents/MacOS/Tinkercell
+          TinkerCell.app/Contents/MacOS/Tinkercell
 
 install_name_tool \
           -change @QT_QTOPENGL_LIBRARY_RELEASE@ \
           @executable_path/../Frameworks/libQtOpenGL.4.dylib \
-          Tinkercell.app/Contents/MacOS/Tinkercell
+          TinkerCell.app/Contents/MacOS/Tinkercell
 
 #QT framework name change for NodeGraphcs.app
 
@@ -151,13 +151,13 @@ install_name_tool \
           @executable_path/../Frameworks/libQtOpenGL.4.dylib \
           NodeGraphics.app/Contents/MacOS/NodeGraphics
 
-#for all libraries used in Tinkercell.app and NodeGraphics.app
+#for all libraries used in TinkerCell.app and NodeGraphics.app
 
 for f in $LIBFILES
 do
   echo "Processing $f"
   
-  cp $f Tinkercell.app/Contents/Frameworks/
+  cp $f TinkerCell.app/Contents/Frameworks/
   
   cp $f NodeGraphics.app/Contents/Frameworks/
   
@@ -166,7 +166,7 @@ do
     install_name_tool \
           -change $CURPATH/$f2 \
           @executable_path/../Frameworks/$f2 \
-          Tinkercell.app/Contents/Frameworks/$f
+          TinkerCell.app/Contents/Frameworks/$f
     install_name_tool \
           -change $CURPATH/$f2 \
           @executable_path/../Frameworks/$f2 \
@@ -175,12 +175,12 @@ do
   
   install_name_tool \
         -id @executable_path/../Frameworks/$f \
-        Tinkercell.app/Contents/Frameworks/$f
+        TinkerCell.app/Contents/Frameworks/$f
   
   install_name_tool \
         -change $CURPATH/$f \
          @executable_path/../Frameworks/$f \
-         Tinkercell.app/Contents/MacOS/Tinkercell
+         TinkerCell.app/Contents/MacOS/Tinkercell
 
   install_name_tool \
          -change $CURPATH/$f \
@@ -190,22 +190,22 @@ do
   install_name_tool \
           -change @QT_QTCORE_LIBRARY_RELEASE@ \
           @executable_path/../Frameworks/libQtCore.4.dylib \
-          Tinkercell.app/Contents/Frameworks/$f
+          TinkerCell.app/Contents/Frameworks/$f
 
   install_name_tool \
           -change @QT_QTGUI_LIBRARY_RELEASE@ \
           @executable_path/../Frameworks/libQtGui.4.dylib \
-          Tinkercell.app/Contents/Frameworks/$f
+          TinkerCell.app/Contents/Frameworks/$f
 
   install_name_tool \
           -change @QT_QTXML_LIBRARY_RELEASE@ \
           @executable_path/../Frameworks/libQtXml.4.dylib \
-          Tinkercell.app/Contents/Frameworks/$f
+          TinkerCell.app/Contents/Frameworks/$f
 
   install_name_tool \
           -change @QT_QTOPENGL_LIBRARY_RELEASE@ \
           @executable_path/../Frameworks/libQtOpenGL.4.dylib \
-          Tinkercell.app/Contents/Frameworks/$f
+          TinkerCell.app/Contents/Frameworks/$f
           
   install_name_tool \
           -change @QT_QTCORE_LIBRARY_RELEASE@ \
@@ -237,48 +237,48 @@ do
   install_name_tool \
           -id \
           @executable_path/$f1 \
-          Tinkercell.app/Contents/MacOS/$f1
+          TinkerCell.app/Contents/MacOS/$f1
 
   install_name_tool \
           -change @QT_QTCORE_LIBRARY_RELEASE@ \
           @executable_path/../Frameworks/libQtCore.4.dylib \
-         Tinkercell.app/Contents/MacOS/$f1
+         TinkerCell.app/Contents/MacOS/$f1
 
   install_name_tool \
           -change @QT_QTGUI_LIBRARY_RELEASE@ \
           @executable_path/../Frameworks/libQtGui.4.dylib \
-          Tinkercell.app/Contents/MacOS/$f1
+          TinkerCell.app/Contents/MacOS/$f1
 
   install_name_tool \
           -change @QT_QTXML_LIBRARY_RELEASE@ \
           @executable_path/../Frameworks/libQtXml.4.dylib \
-          Tinkercell.app/Contents/MacOS/$f1
+          TinkerCell.app/Contents/MacOS/$f1
 
   install_name_tool \
           -change @QT_QTOPENGL_LIBRARY_RELEASE@ \
           @executable_path/../Frameworks/libQtOpenGL.4.dylib \
-          Tinkercell.app/Contents/MacOS/$f1
+          TinkerCell.app/Contents/MacOS/$f1
 
   for f2 in $LIBFILES
   do
     install_name_tool \
           -change $CURPATH/$f2 \
           @executable_path/../Frameworks/$f2 \
-          Tinkercell.app/Contents/MacOS/$f1
+          TinkerCell.app/Contents/MacOS/$f1
   done
   for f2 in $PLUGINFILES
   do
     install_name_tool \
           -change $CURPATH/$f2 \
           @executable_path/$f2 \
-          Tinkercell.app/Contents/MacOS/$f1
+          TinkerCell.app/Contents/MacOS/$f1
   done
   for f2 in $CPLUGINFILES
   do
     install_name_tool \
           -change $CURPATH/$f2 \
           @executable_path/$f2 \
-          Tinkercell.app/Contents/MacOS/$f1
+          TinkerCell.app/Contents/MacOS/$f1
   done
 done
 
@@ -288,13 +288,13 @@ do
   install_name_tool \
           -id \
           @executable_path/$f1 \
-          Tinkercell.app/Contents/MacOS/$f1  
+          TinkerCell.app/Contents/MacOS/$f1  
   for f2 in $CPLUGINFILES
   do
     install_name_tool \
           -change $CURPATH/$f2 \
           @executable_path/$f2 \
-          Tinkercell.app/Contents/MacOS/$f1
+          TinkerCell.app/Contents/MacOS/$f1
   done
 done
 

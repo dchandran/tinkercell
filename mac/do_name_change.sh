@@ -15,6 +15,13 @@ cp @QT_QTGUI_LIBRARY_RELEASE@ TinkerCell.app/Contents/Frameworks
 cp @QT_QTXML_LIBRARY_RELEASE@ TinkerCell.app/Contents/Frameworks
 cp @QT_QTOPENGL_LIBRARY_RELEASE@ TinkerCell.app/Contents/Frameworks
 
+mkdir NodeGraphics.app/Contents/Frameworks
+cp @QT_QTCORE_LIBRARY_RELEASE@ NodeGraphics.app/Contents/Frameworks
+cp @QT_QTGUI_LIBRARY_RELEASE@ NodeGraphics.app/Contents/Frameworks
+cp @QT_QTXML_LIBRARY_RELEASE@ NodeGraphics.app/Contents/Frameworks
+cp @QT_QTOPENGL_LIBRARY_RELEASE@ NodeGraphics.app/Contents/Frameworks
+
+
 cp -R plugins TinkerCell.app/Contents/MacOS/
 mkdir TinkerCell.app/Contents/MacOS/c
 mkdir TinkerCell.app/Contents/MacOS/lib

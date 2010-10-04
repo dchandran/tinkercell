@@ -57,14 +57,9 @@ namespace Tinkercell
 
 	public:
 		LoadCLibrariesTool();
-		~LoadCLibrariesTool();
 		bool setMainWindow(MainWindow*);
 
 	public slots:
-		void windowChanged(NetworkWindow*,NetworkWindow*);
-		void dataChanged(const QList<ItemHandle*>&);
-		void itemsInserted(NetworkHandle * , const QList<ItemHandle*>&);
-		void itemsRemoved(NetworkHandle * , const QList<ItemHandle*>& );
 		void setupFunctionPointers( QLibrary * );
 		void toolLoaded(Tool*);
 		void compileAndRunC(const QString&,const QString&);

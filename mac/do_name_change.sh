@@ -21,7 +21,6 @@ cp lib* Tinkercell.app/Contents/MacOS/
 cp -R ../../Graphics Tinkercell.app/Contents/MacOS/
 mkdir Tinkercell.app/Contents/MacOS/NodesTree/
 cp ../../NodesTree/*.xml Tinkercell.app/Contents/MacOS/NodesTree/
-cp -R ../../NodesTree/Icons Tinkercell.app/Contents/MacOS/NodesTree/
 cp -R python Tinkercell.app/Contents/MacOS/
 cp ../../python/*.py Tinkercell.app/Contents/MacOS/python
 cp ../../*.txt Tinkercell.app/Contents/MacOS/

@@ -1,5 +1,4 @@
 function A = fromTC(arg)
-	A = [];
 	try  %items array
 	    n = arg.length;
 		A = zeros(1,n);
@@ -27,6 +26,7 @@ function A = fromTC(arg)
 				endfor
 				tc_deleteMatrix(M);
 			catch
+				A = arg;
 			end_try_catch %matrix
 		end_try_catch %strings array
 	end_try_catch %items array

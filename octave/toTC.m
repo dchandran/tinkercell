@@ -1,5 +1,4 @@
 function A = toTC(arg)
-	A = [];
 	try  %items array
 	    n = length(arg);
     	A = tc_createItemsArray(n);
@@ -24,6 +23,7 @@ function A = toTC(arg)
 			        endfor
 			    endfor
 			catch
+				A = arg;
 			end_try_catch %matrix
 		end_try_catch %strings array
 	end_try_catch %items array

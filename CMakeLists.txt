@@ -163,7 +163,9 @@ ADD_SUBDIRECTORY( ExternalCode )  #MuParser, QWT, cvODE, letc.
 ADD_SUBDIRECTORY( icons )   #icons
 ADD_SUBDIRECTORY( Graphics )   #graphics files
 ADD_SUBDIRECTORY( NodeGraphicsItem )   #program for drawing new graphics items
-
+IF (APPLE)
+   ADD_SUBDIRECTORY( mac )   #Only for Mac
+ENDIF(APPLE)
 #---------------------------------------------------------------------------
 # documentation
 #---------------------------------------------------------------------------

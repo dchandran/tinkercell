@@ -33,7 +33,7 @@ IF( APPLE AND BUILD_BUNDLE )
 
   SET(CPACK_BUNDLE_NAME "NodeGraphics")  
   SET(CPACK_BUNDLE_PLIST info.plist)  
-  SET( MACOSX_BUNDLE_ICON_FILE nodegraphics.icns  )
+  SET( MACOSX_BUNDLE_ICON_FILE ${TINKERCELL_SOURCE_DIR}/NodeGraphicsItem/nodegraphics.icns  )
   SET( MACOSX_BUNDLE_SHORT_VERSION_STRING ${TINKERCELL_VERSION}  )
   SET( MACOSX_BUNDLE_VERSION ${TINKERCELL_VERSION}  )
   SET( MACOSX_BUNDLE_LONG_VERSION_STRING Version ${TINKERCELL_VERSION}  )
@@ -51,23 +51,11 @@ IF( APPLE AND BUILD_BUNDLE )
     ${QT_LIBRARIES}
   )
  
-  ADD_CUSTOM_COMMAND( TARGET NodeGraphics POST_BUILD
-      COMMAND mkdir ARGS -p 
-        ${EXECUTABLE_OUTPUT_PATH}/NodeGraphics.app/Contents/Resources
-        ${EXECUTABLE_OUTPUT_PATH}/NodeGraphics.app/Contents/Frameworks
-        ${EXECUTABLE_OUTPUT_PATH}/NodeGraphics.app/Contents/MacOS
-      
-      COMMAND cp ARGS -rf ${QT_LIBRARY_DIR}/QtCore.framework
-        ${EXECUTABLE_OUTPUT_PATH}/NodeGraphics.app/Contents/Frameworks/
-
- 	  COMMAND cp ARGS -rf ${QT_LIBRARY_DIR}/QtGui.framework
-        ${EXECUTABLE_OUTPUT_PATH}/NodeGraphics.app/Contents/Frameworks/
-
-	  COMMAND cp ARGS -rf ${QT_LIBRARY_DIR}/QtXml.framework
-        ${EXECUTABLE_OUTPUT_PATH}/NodeGraphics.app/Contents/Frameworks/
-        
-	  COMMAND cp ARGS -rf ${QT_LIBRARY_DIR}/QtOpenGL.framework
-        ${EXECUTABLE_OUTPUT_PATH}/NodeGraphics.app/Contents/Frameworks/
+  ADD_CUSTOM_COMMAND( TARGET NodeGraphics PRE_BUILD
+      COMMAND mkdir ARGS -p
+        ${EXECUTABLE_OUTPUT_PATH}/TinkerCell.app/Contents/Resources
+      COMMAND cp ARGS ${MACOSX_BUNDLE_ICON_FILE}
+        ${EXECUTABLE_OUTPUT_PATH}/TinkerCell.app/Contents/Resources
   )
 
 ELSE( APPLE AND BUILD_BUNDLE )

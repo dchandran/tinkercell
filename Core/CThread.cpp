@@ -52,6 +52,8 @@ namespace Tinkercell
 		f2 = 0;
 		f3 = 0;
 		f4 = 0;
+		callbackPtr = 0;
+		callWhenExitPtr = 0;
 		this->lib = 0;
 		setLibrary(libName);
 		connect(this,SIGNAL(terminated()),this,SLOT(cleanupAfterTerminated()));

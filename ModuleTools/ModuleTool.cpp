@@ -182,12 +182,12 @@ namespace Tinkercell
 
 			QList<QToolButton*> newButtons = catalogWidget->addNewButtons(
 				tr("Modules"),
-				QStringList() 	<< tr("New module")
-								<< tr("Connect input/output"),
-				QList<QIcon>() 	<< QIcon(QPixmap(tr(":/images/module.png")))
-								<< QIcon(QPixmap(tr(":/images/merge.png"))),
+				QStringList() 	<< tr("New module"),
+								//<< tr("Connect input/output"),
+				QList<QIcon>() 	<< QIcon(QPixmap(tr(":/images/module.png"))),
+								//<< QIcon(QPixmap(tr(":/images/merge.png"))),
 				QStringList() 	<< tr("A module is a self-contained subsystem that can be used to build larger systems")
-								<< tr("Use this to connect inputs and ouputs of two modules")
+								//<< tr("Use this to connect inputs and ouputs of two modules")
 				);
 			
 			if (!moduleFamilyNames.isEmpty())
@@ -1002,8 +1002,8 @@ namespace Tinkercell
 			showNewModuleDialog();
 		}
 
-		if (name == tr("Connect input/output"))
-			mode = connecting;
+		//if (name == tr("Connect input/output"))
+		//	mode = connecting;
 
 		if (mode != none)
 			scene->useDefaultBehavior = false;

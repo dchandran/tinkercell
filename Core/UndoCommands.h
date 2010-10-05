@@ -36,6 +36,7 @@ This file contains a collection of commands that perform simple operations that 
 #include "ItemHandle.h"
 #include "DataTable.h"
 #include "NodeGraphicsItem.h"
+#include "ConnectionGraphicsItem.h"
 
 #ifdef Q_WS_WIN
 #define TINKERCELLEXPORT __declspec(dllexport)
@@ -49,7 +50,6 @@ namespace Tinkercell
 	class GraphicsScene;
 	class TextEditor;
 	class RenameCommand;
-	class ConnectionGraphicsItem;
 
 	/*! \brief this command inserts new handles to a NetworkHandle
 	* \ingroup undo*/
@@ -703,6 +703,180 @@ namespace Tinkercell
 		
 		friend class NetworkHandle;
 	};
+	
+		/*! \brief An command that adds a new control point to a connection item; it has undo and redo functionality 
+	\ingroup undo*/
+	class TINKERCELLEXPORT AddControlPointCommand : public QUndoCommand
+	{
+	public:
+		/*! \brief constructor that makes the command. If added to history stack, also does redo
+		* \param name
+		* \param graphics scene
+		* \param control point(s) that have been added
+		* \return void*/
+		AddControlPointCommand(const QString& name, GraphicsScene * scene, ConnectionGraphicsItem::ControlPoint * item );
+		/*! \brief constructor that makes the command. If added to history stack, also does redo
+		* \param name
+		* \param graphics scene
+		* \param control point(s) that have been added
+		* \return void*/
+		AddControlPointCommand(const QString& name, GraphicsScene * scene, QList<ConnectionGraphicsItem::ControlPoint *> items);
+		/*! \brief destructor. deletes all control points that do not belong a scene*/
+		virtual ~AddControlPointCommand();
+		/*! \brief Adds a new control point. Control points were set in the constructor
+		* \param void
+		* \return void*/
+		void redo();
+		/*! \brief Remove new control points. Control points were set in the constructor
+		* \param void
+		* \return void*/
+		void undo();	
+		/*! \brief graphics scene to which control points were added*/
+		GraphicsScene * graphicsScene;
+		/*! \brief control points that were added*/
+		QList<ConnectionGraphicsItem::ControlPoint*> graphicsItems;
+		/*! \brief the poisition(s) at which the control points were added*/
+		QList<int> listK1, listK2;
+	private:
+		/*! \brief used in the destructor to determine whether the last operation was an undo*/
+		bool undone;
+	};
+
+	/*! \brief A command that removed control points. Allows undo and redo
+	\ingroup undo*/
+	class TINKERCELLEXPORT RemoveControlPointCommand : public QUndoCommand
+	{
+	public:
+		/*! \brief constructor that makes the command. If added to history stack, also does redo
+		* \param name
+		* \param graphics scene
+		* \param control point(s) that have been added
+		* \return void*/
+		RemoveControlPointCommand(const QString& name, GraphicsScene * scene, 
+			ConnectionGraphicsItem::ControlPoint * item);
+		/*! \brief constructor that makes the command. If added to history stack, also does redo
+		* \param name
+		* \param graphics scene
+		* \param control point(s) that have been added
+		* \return void*/
+		RemoveControlPointCommand(const QString& name, GraphicsScene * scene, 
+			QList<ConnectionGraphicsItem::ControlPoint *> items);
+		/*! \brief Remove new control points. Control points were set in the constructor
+		* \param void
+		* \return void*/
+		void redo();
+		/*! \brief Add new control points. Control points were set in the constructor
+		* \param void
+		* \return void*/
+		void undo();	
+		/*! \brief control points that were added*/
+		QList<ConnectionGraphicsItem::ControlPoint*> graphicsItems;
+		/*! \brief graphics scene to which control points were added*/
+		GraphicsScene * graphicsScene;	
+		/*! \brief the poisition(s) at which the control points were added*/
+		QList<int> listK1, listK2;
+	};
+
+	/*! \brief An command that adds a new control point to a connection item; it has undo and redo functionality 
+	\ingroup undo*/
+	class TINKERCELLEXPORT AddCurveSegmentCommand : public QUndoCommand
+	{
+	public:
+		/*! \brief constructor that makes the command. If added to history stack, also does redo
+		* \param name
+		* \param graphics scene
+		* \param control point(s) that have been added
+		* \return void*/
+		AddCurveSegmentCommand(const QString& name, GraphicsScene * scene, ConnectionGraphicsItem* connection,
+			ConnectionGraphicsItem::CurveSegment& item );
+		/*! \brief constructor that makes the command. If added to history stack, also does redo
+		* \param name
+		* \param graphics scene
+		* \param control point(s) that have been added
+		* \return void*/
+		AddCurveSegmentCommand(const QString& name, GraphicsScene * scene, ConnectionGraphicsItem* connection,
+			QList<ConnectionGraphicsItem::CurveSegment> items);
+		/*! \brief destructor. deletes all control points that do not belong a scene*/
+		virtual ~AddCurveSegmentCommand();
+		/*! \brief Adds a new control point. Control points were set in the constructor
+		* \param void
+		* \return void*/
+		void redo();
+		/*! \brief Remove new control points. Control points were set in the constructor
+		* \param void
+		* \return void*/
+		void undo();	
+		/*! \brief graphics scene to which control points were added*/
+		GraphicsScene * graphicsScene;
+		/*! \brief graphics item to which control points were added*/
+		ConnectionGraphicsItem* connectionItem;
+		/*! \brief vector of control points that were added*/
+		QList<ConnectionGraphicsItem::CurveSegment> curveSegments;
+		/*! \brief the poisition(s) at which the control point vectors were added*/
+		QList<int> listK1;
+	private:
+		/*! \brief used in the destructor to determine whether the last operation was an undo*/
+		bool undone;
+	};
+
+	/*! \brief A command that removed control points. Allows undo and redo
+	\ingroup undo*/
+	class TINKERCELLEXPORT RemoveCurveSegmentCommand : public QUndoCommand
+	{
+	public:
+		/*! \brief constructor that makes the command. If added to history stack, also does redo
+		* \param name
+		* \param graphics scene
+		* \param control point(s) that have been added
+		* \return void*/
+		RemoveCurveSegmentCommand(const QString& name, GraphicsScene * scene,
+			ConnectionGraphicsItem::ControlPoint * item);
+		/*! \brief constructor that makes the command. If added to history stack, also does redo
+		* \param name
+		* \param graphics scene
+		* \param control point(s) that have been added
+		* \return void*/
+		RemoveCurveSegmentCommand(const QString& name, GraphicsScene * scene, ConnectionGraphicsItem* connection,
+			QList<ConnectionGraphicsItem::ControlPoint *> items);
+
+		/*! \brief Remove new control points. Control points were set in the constructor
+		* \param void
+		* \return void*/
+		void redo();
+		/*! \brief Add new control points. Control points were set in the constructor
+		* \param void
+		* \return void*/
+		void undo();	
+		/*! \brief vector of control points that were added*/
+		QList<ConnectionGraphicsItem::CurveSegment> curveSegments;
+		/*! \brief graphics scene from which control points were removed*/
+		GraphicsScene * graphicsScene;	
+		/*! \brief graphics item from which control points were removed*/
+		ConnectionGraphicsItem* connectionItem;
+		/*! \brief the nodes belonging with the control point vectors*/
+		QList<QGraphicsItem*> parentsAtStart, parentsAtEnd;
+	};
+	
+		/*! \brief this command replaces one node item in a connection item with another
+	* \ingroup undo*/
+	class TINKERCELLEXPORT ReplaceConnectedNodeCommand : public QUndoCommand
+	{
+	public:
+		/*! \brief constructor
+		* \param QString name of command
+		* \param ConnectionGraphicsItem* connection where the nodes will be swapped
+		* \param NodeGraphicsItem* node to replace (old node)
+		* \param NodeGraphicsItem* new node
+		*/
+		ReplaceConnectedNodeCommand(const QString& name, ConnectionGraphicsItem *, NodeGraphicsItem * oldNode, NodeGraphicsItem * newNode);
+		void redo();
+		void undo();
+	private:
+		ConnectionGraphicsItem* connection;
+		NodeGraphicsItem* oldNode;
+		NodeGraphicsItem* newNode;
+	};
+
 
 }
 

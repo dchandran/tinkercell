@@ -915,24 +915,7 @@ namespace Tinkercell
 		: QUndoCommand(name), changeDataCommand(0), updateData(update)
 	{
 		item = getGraphicsItem(item);
-		
-		NodeGraphicsItem * node = NodeGraphicsItem::cast(item);
-		if (node)
-		{
-			QList<ConnectionGraphicsItem*> connections = node->connections();
-			for (int j=0; j < connections.size(); ++j)
-				if (connections[j] && 
-					connections[j]->scene() == node->scene() &&
-					!graphicsItems.contains(connections[j]))
-				{
-					graphicsItems += connections[j];
-					itemHandles.append(getHandle(connections[j]));
-					itemParents.append(connections[j]->parentItem());
-				}
-		}
-		
 		graphicsItems.append( item );
-		itemHandles.append(getHandle(item));
 		
 		if (item)
 			itemParents.append(item->parentItem());
@@ -949,23 +932,7 @@ namespace Tinkercell
 		for (int i=0; i < items.size(); ++i)
 			if ( (item = getGraphicsItem(items[i]) ) )
 			{
-				node = NodeGraphicsItem::cast(item);
-				if (node)
-				{
-					QList<ConnectionGraphicsItem*> connections = node->connections();
-					for (int j=0; j < connections.size(); ++j)
-						if (connections[j] && 
-							connections[j]->scene() == node->scene() && 
-							!items.contains(connections[j]) &&
-							!graphicsItems.contains(connections[j]))
-						{
-							graphicsItems += connections[j];
-							itemHandles.append(getHandle(connections[j]));
-							itemParents.append(connections[j]->parentItem());
-						}
-				}
 				graphicsItems.append(item);
-				itemHandles.append(getHandle(item));
 				itemParents.append(item->parentItem());
 			}
 	}
@@ -973,11 +940,30 @@ namespace Tinkercell
 	void RemoveGraphicsCommand::redo()
 	{
 		graphicsScenes.clear();
+		itemHandles.clear();
+		NodeGraphicsItem * node;
+		
 		for (int i=0; i<graphicsItems.size(); ++i)
+		{
 			if (graphicsItems[i])		
 				graphicsScenes += static_cast<GraphicsScene*>(graphicsItems[i]->scene());
 			else
 				graphicsScenes += 0;
+			itemHandles += getHandle(graphicsItems[i]);
+			node = NodeGraphicsItem::cast(graphicsItems[i]);
+			if (node)
+			{
+				QList<ConnectionGraphicsItem*> connections = node->connections();
+				for (int j=0; j < connections.size(); ++j)
+					if (connections[j] && 
+						connections[j]->scene() == node->scene() && 
+						!graphicsItems.contains(connections[j]))
+					{
+						graphicsItems += connections[j];
+						itemParents.append(connections[j]->parentItem());
+					}
+			}
+		}
 
 		for (int i=0; i<graphicsItems.size(); ++i)
 		{
@@ -1041,7 +1027,6 @@ namespace Tinkercell
 				if (itemHandles[i] && itemHandles[i]->graphicsItems.isEmpty())
 				{
 					namesToKill << itemHandles[i]->fullName();
-					MainWindow::instance()->console()->message(itemHandles[i]->fullName());
 				}
 
 			ItemHandle * handle;

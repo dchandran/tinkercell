@@ -58,8 +58,7 @@ namespace Tinkercell
 		QFileInfoList list = dir.entryInfoList();
 
 		QString appDir = QCoreApplication::applicationDirPath();
-		QString homeDir = MainWindow::homeDir();
-		
+		QString homeDir = MainWindow::homeDir();		
 		
 		for (int i = 0; i < list.size(); ++i)
 		{
@@ -242,7 +241,7 @@ namespace Tinkercell
                     QDir dir(name[i]);
                     if (dir.exists())
                     {
-                        opened = opened || loadFromDir(libMenu,dir);
+                        opened = loadFromDir(libMenu,dir) || opened;
                     }
                 }
                 /*

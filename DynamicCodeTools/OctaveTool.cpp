@@ -237,7 +237,7 @@ namespace Tinkercell
                     QDir dir(name[i]);
                     if (dir.exists())
                     {
-                        opened = opened || loadFromDir(libMenu,dir);
+                        opened = loadFromDir(libMenu,dir) || opened;
                     }
                 }
             }

@@ -885,38 +885,43 @@ namespace Tinkercell
 
 		if (!partCollided)
 		{
-			if (items.size() == 1)
+			handle = item->handle();
+			NodeGraphicsItem * hitNode;
+			for (int i=0; i < items.size(); ++i)
+				if (hitNode = NodeGraphicsItem::cast(items[i]))
+					break;
+
+			ItemHandle * h;
+			if (hitNode 
+				&& handle
+				&& !hitNode->connections().isEmpty()
+				&& !item->connections().isEmpty()
+				&& (h = hitNode->handle()) 
+				&& (h->isA(handle->family()) || handle->isA(h->family())) 
+				&& h->isA("Node") && handle->isA("Node")
+				)
 			{
-				NodeGraphicsItem * hitNode = NodeGraphicsItem::cast(items[0]);
-				ItemHandle * h;
-				if (hitNode 
-					&& !hitNode->connections().isEmpty()
-					&& !item->connections().isEmpty()
-					&& (h = hitNode->handle()) 
-					&& (h->isA(handle->family()) || handle->isA(h->family())) 
-					&& h->isA("Node") && handle->isA("Node")
-					)
+				if (h->isA(handle->family()))
 				{
-					if (h->isA(handle->family()))
-					{
-						QList<QUndoCommand*> commands;
-						QList<ConnectionGraphicsItem*> connections = hitNode->connections();
-						for (int i=0; i < connections.size(); ++i)
-							commands << new ReplaceConnectedNodeCommand(tr(""), connections[i],hitNode,item);
-						commands << new MergeHandlesCommand(tr(""), scene->network, QList<ItemHandle*>() << handle << h);
-						commands << new RemoveGraphicsCommand(tr(""), hitNode);
-						scene->network->push(new CompositeCommand(h->name + tr(" merged into ") + handle->name, commands));
-					}
-					else
-					{
-						QList<QUndoCommand*> commands;
-						QList<ConnectionGraphicsItem*> connections = item->connections();
-						for (int i=0; i < connections.size(); ++i)
-							commands << new ReplaceConnectedNodeCommand(tr(""), connections[i],item,hitNode);
-						commands << new MergeHandlesCommand(tr(""), scene->network, QList<ItemHandle*>() << h << handle);
-						commands << new RemoveGraphicsCommand(tr(""), item);
-						scene->network->push(new CompositeCommand(handle->name + tr(" merged into ") + h->name, commands));
-					}
+					QList<QUndoCommand*> commands;
+					QList<ConnectionGraphicsItem*> connections = hitNode->connections();
+					for (int i=0; i < connections.size(); ++i)
+						commands << new ReplaceConnectedNodeCommand(tr(""), connections[i],hitNode,item);
+					commands << new MergeHandlesCommand(tr(""), scene->network, QList<ItemHandle*>() << handle << h);
+					QList<QGraphicsItem*> graphicsItems = handle->allGraphicsItems();
+					scene->network->push(new CompositeCommand(h->name + tr(" merged into ") + handle->name, commands));
+					scene->network->push(new RemoveGraphicsCommand(tr(""), graphicsItems));
+				}
+				else
+				{
+					QList<QUndoCommand*> commands;
+					QList<ConnectionGraphicsItem*> connections = item->connections();
+					for (int i=0; i < connections.size(); ++i)
+						commands << new ReplaceConnectedNodeCommand(tr(""), connections[i],item,hitNode);
+					commands << new MergeHandlesCommand(tr(""), scene->network, QList<ItemHandle*>() << h << handle);
+					QList<QGraphicsItem*> graphicsItems = handle->allGraphicsItems();
+					scene->network->push(new CompositeCommand(handle->name + tr(" merged into ") + h->name, commands));
+					scene->network->push(new RemoveGraphicsCommand(tr(""), graphicsItems));
 				}
 			}
 			return;

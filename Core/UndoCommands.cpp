@@ -1039,7 +1039,10 @@ namespace Tinkercell
 			QStringList namesToKill;
 			for (int i=0; i < itemHandles.size(); ++i)
 				if (itemHandles[i] && itemHandles[i]->graphicsItems.isEmpty())
+				{
 					namesToKill << itemHandles[i]->fullName();
+					MainWindow::instance()->console()->message(itemHandles[i]->fullName());
+				}
 
 			ItemHandle * handle;
 			QList<QGraphicsItem*> items;
@@ -2765,8 +2768,8 @@ namespace Tinkercell
 	{
 		newHandle = 0;
 		oldHandles = handles;
-
-		QList<QString> oldNames, newNames;
+		
+		QStringList oldNames, newNames;
 
 		if (handles.size() > 0)
 		{

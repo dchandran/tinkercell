@@ -2808,22 +2808,6 @@ namespace Tinkercell
 
 	MergeHandlesCommand::~MergeHandlesCommand()
 	{
-		ItemHandle * handle = 0;
-		oldHandles << newHandle;
-		for (int i=0; i < oldHandles.size(); ++i)
-		{
-			if (oldHandles[i] && !oldHandles[i]->parent)
-			{
-				handle = oldHandles[i];
-				oldHandles.removeAll(handle);
-				if (!MainWindow::invalidPointers.contains( (void*)handle ))
-				{
-					MainWindow::invalidPointers[ (void*)handle ] = true;
-					delete handle;				
-				}
-			}
-		}
-
 		if (renameCommand)
 			delete renameCommand;
 	}

@@ -12,7 +12,6 @@ The connection graphics items defines a new control point item inside itself.
 This header file also contains the arrow head item class. The arrow head item inherits from
 node graphics item and is used to draw the arrow heads at the end of the connection items.
 
-
 ****************************************************************************/
 
 #include <iostream>

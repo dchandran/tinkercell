@@ -908,9 +908,9 @@ namespace Tinkercell
 					for (int i=0; i < connections.size(); ++i)
 						commands << new ReplaceConnectedNodeCommand(tr(""), connections[i],hitNode,item);
 					commands << new MergeHandlesCommand(tr(""), scene->network, QList<ItemHandle*>() << handle << h);
-					QList<QGraphicsItem*> graphicsItems = handle->allGraphicsItems();
+					QList<QGraphicsItem*> graphicsItems = h->graphicsItems;
 					scene->network->push(new CompositeCommand(h->name + tr(" merged into ") + handle->name, commands));
-					scene->network->push(new RemoveGraphicsCommand(tr(""), graphicsItems));
+					scene->network->push(new RemoveGraphicsCommand(tr("removed ") + h->name, graphicsItems));
 				}
 				else
 				{
@@ -919,9 +919,9 @@ namespace Tinkercell
 					for (int i=0; i < connections.size(); ++i)
 						commands << new ReplaceConnectedNodeCommand(tr(""), connections[i],item,hitNode);
 					commands << new MergeHandlesCommand(tr(""), scene->network, QList<ItemHandle*>() << h << handle);
-					QList<QGraphicsItem*> graphicsItems = handle->allGraphicsItems();
+					QList<QGraphicsItem*> graphicsItems = handle->graphicsItems;
 					scene->network->push(new CompositeCommand(handle->name + tr(" merged into ") + h->name, commands));
-					scene->network->push(new RemoveGraphicsCommand(tr(""), graphicsItems));
+					scene->network->push(new RemoveGraphicsCommand(tr("removed ") + handle->name, graphicsItems));
 				}
 			}
 			return;

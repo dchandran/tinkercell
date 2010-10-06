@@ -1,8 +1,8 @@
 def doLayout(type): #type = (spring, circular, random, spectral, shell, pydot, graphviz) 
 
-    from tinkercell import *
-    import networkx as nx
-    from tc2py import *
+	from tinkercell import *
+	import networkx as nx
+	from tc2py import *
    
 	nodes = tc_itemsOfFamily("node");
 	connections = tc_itemsOfFamily("connection");

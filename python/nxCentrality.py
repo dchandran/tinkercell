@@ -7,6 +7,7 @@ menu: yes
 """
 
 from tinkercell import *
+from tc2py import *
 import networkx as nx
 
 def getIndex(item,array):

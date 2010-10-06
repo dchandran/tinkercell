@@ -299,10 +299,9 @@ namespace Tinkercell
 
 		if (item)
 		{
-			if (item->parentItem && item->parentItem != parentItem)
-			{
+			if (item->parentItem)
 				item->parentItem->childItems.removeAll(item);
-			}
+
 			item->parentItem = parentItem;
 
 			if (!attribute.isEmpty())			
@@ -329,6 +328,8 @@ namespace Tinkercell
 			{
 				item->parentItem = 0;
 				item->childItems.clear();
+				for (int i=0; i < item->childItems.size(); ++i)
+					item->childItems[i]->parentItem = 0;
 				if (!markedForDeletion.contains(item))
 					markedForDeletion << item;
 			}

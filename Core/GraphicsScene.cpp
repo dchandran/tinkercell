@@ -156,6 +156,7 @@ namespace Tinkercell
 	GraphicsScene::~GraphicsScene()
 	{
 		if (!toolTips.isEmpty()) hideToolTips();
+		visibleTools.clear();
 		selectedItems.clear();
 		movingItems.clear();
 		if (movingItemsGroup)

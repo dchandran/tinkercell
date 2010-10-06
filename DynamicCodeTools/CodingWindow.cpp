@@ -343,7 +343,7 @@ specific for:\n\"\"\"\n\n") + text;
 	
 	void CodingWindow::toggleSVNupdate(bool b)
 	{
-		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
+		QSettings settings(MainWindow::ORGANIZATIONNAME,MainWindow::ORGANIZATIONNAME);
 		settings.beginGroup("Subversion");
 		DO_SVN_UPDATE = b;
 		settings.setValue(tr("auto-update"),b);

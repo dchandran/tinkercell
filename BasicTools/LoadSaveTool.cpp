@@ -217,11 +217,21 @@ namespace Tinkercell
 		if (!network || filename.isEmpty()) return;
 		
 		QList<GraphicsScene*> scenes = network->scenes();
-		QList<QGraphicsItem*> allitems;
+		QList<QGraphicsItem*> allitems, handleitems;
 		
 		for (int i=0; i < scenes.size(); ++i)
 			if (scenes[i])
 				allitems << scenes[i]->items();
+		
+		QList<ItemHandle*> allhandles = network->handles();
+		for (int i=0; i < allhandles.size(); ++i)
+			if (allhandles[i])
+			{
+				handleitems = allhandles[i]->allGraphicsItems();
+				for (int j=0; j < handleitems.size(); ++j)
+					if (!allitems.contains(handleitems[j]))
+						allitems += handleitems[j];
+			}
 
 		NodeGraphicsItem * node = 0;
 		ConnectionGraphicsItem * connection = 0;

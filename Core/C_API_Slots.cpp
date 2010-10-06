@@ -94,7 +94,7 @@ namespace Tinkercell
 		const char* (*tc_homeDir0)(),
 		
 		void (*tc_createInputWindow0)(tc_matrix,const char*,const char*, const char*),
-        void (*tc_createInputWindow1)(tc_matrix, const char*, void (*f)(tc_matrix)),
+        void (*tc_createInputWindow1)(long, tc_matrix, const char*, void (*f)(tc_matrix)),
 		void (*createSliders)(long, tc_matrix, void (*f)(tc_matrix)),
 		
 		void (*tc_addInputWindowOptions0)(const char*, int i, int j, tc_strings),
@@ -253,8 +253,8 @@ namespace Tinkercell
 		connect(&fToS,SIGNAL(createInputWindow(QSemaphore*,const DataTable<qreal>&,const QString&,const QString&,const QString&)),
 			this,SLOT(createInputWindow(QSemaphore*,const DataTable<qreal>&,const QString&,const QString&,const QString&)));
 
-		connect(&fToS,SIGNAL(createInputWindow(QSemaphore*,const DataTable<qreal>&,const QString&,MatrixInputFunction)),
-			this,SLOT(createInputWindow(QSemaphore*,const DataTable<qreal>&,const QString&,MatrixInputFunction)));
+		connect(&fToS,SIGNAL(createInputWindow(QSemaphore*,long, const DataTable<qreal>&,const QString&,MatrixInputFunction)),
+			this,SLOT(createInputWindow(QSemaphore*,long, const DataTable<qreal>&,const QString&,MatrixInputFunction)));
 		
 		connect(&fToS,SIGNAL(createSliders(QSemaphore*,CThread*,const DataTable<qreal>&,MatrixInputFunction)),
 			this,SLOT(createSliders(QSemaphore*,CThread*,const DataTable<qreal>&,MatrixInputFunction)));
@@ -398,9 +398,11 @@ namespace Tinkercell
 			s->release();
 	}
 	
-	void C_API_Slots::createInputWindow(QSemaphore* s,const DataTable<qreal>& dat,const QString& title, MatrixInputFunction f)
+	void C_API_Slots::createInputWindow(QSemaphore* s, long ptr, const DataTable<qreal>& dat,const QString& title, MatrixInputFunction f)
 	{
-		SimpleInputWindow::CreateWindow(mainWindow,title,f,dat);
+		CThread * thread = static_cast<CThread*>( (void*)ptr );
+		if (CThread::cthreads.contains(thread))
+			SimpleInputWindow::CreateWindow(thread,title,f,dat);
 		if (s)
 			s->release();
 	}
@@ -1221,9 +1223,9 @@ namespace Tinkercell
 		return fToS.createInputWindow(m,a,b,c);
 	}
 
-	void  C_API_Slots::_createInputWindow2(tc_matrix m,const char* a, MatrixInputFunction f)
+	void  C_API_Slots::_createInputWindow2(long ptr, tc_matrix m,const char* a, MatrixInputFunction f)
 	{
-		return fToS.createInputWindow(m,a,f);
+		return fToS.createInputWindow(ptr, m,a,f);
 	}
 	
 	void  C_API_Slots::_createSliders(long c, tc_matrix m,MatrixInputFunction f)
@@ -1665,12 +1667,12 @@ namespace Tinkercell
 		delete dat;
 	}
 
-	void Core_FtoS::createInputWindow(tc_matrix m, const char* title, MatrixInputFunction f)
+	void Core_FtoS::createInputWindow(long ptr, tc_matrix m, const char* title, MatrixInputFunction f)
 	{
 		DataTable<qreal>* dat = ConvertValue(m);
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
-		emit createInputWindow(s,*dat,ConvertValue(title),f);
+		emit createInputWindow(s,ptr,*dat,ConvertValue(title),f);
 		s->acquire();
 		s->release();
 		delete s;

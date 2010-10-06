@@ -105,6 +105,8 @@ namespace Tinkercell
 		CThread * cthread;
 		/*! \brief the docked window for this widget (0 if not a docked widget)*/
 		QDockWidget * dockWidget;
+		/*! \brief target function for this input window*/
+		 void (*targetFunction)(tc_matrix);
 	};
 
 	/*! \brief Used to create an input window that can receive user inputs for C plugins
@@ -126,12 +128,12 @@ namespace Tinkercell
 		static void CreateWindow(MainWindow * main, const QString& title, const QString& libraryFile, const QString& funcName, const DataTable<qreal>&);
 		/*! \brief creates a docking window in Tinkercell's mainwindow that can receive inputs from user and
 		run a function in a separate thread
-		* \param MainWindow
+		* \param CThread * existing thread with the library containing the function
 		* \param QString title
 		* \param inputtc_matrixFunction* function that is triggered by the run button in the input window
 		* \param QDataTable<qreal> input table and its default values
 		*/
-		static void CreateWindow(MainWindow * main, const QString& title, void (*f)(tc_matrix), const DataTable<qreal>&);
+		static void CreateWindow(CThread * cthread, const QString& title, void (*f)(tc_matrix), const DataTable<qreal>&);
 		/*! \brief add a list of options (combo box) to an existing input window
 		* \param QString title
 		* \param int row
@@ -163,12 +165,12 @@ namespace Tinkercell
 		SimpleInputWindow(MainWindow * main, const QString& title, const QString& dllName, const QString& funcName, const DataTable<qreal>&);
 		/*! \brief constructor that creates a docking window in Tinkercell's mainwindow that can receive inputs from user and
 		run a function in a separate thread
-		* \param MainWindow
+		* \param CThread * existing thread with the library containing the function
 		* \param QString title
 		* \param inputtc_matrixFunction* function that is triggered by the run button in the input window
 		* \param QDataTable<qreal> input table and its default values
 		*/
-		SimpleInputWindow(MainWindow * main, const QString& title, void (*f)(tc_matrix), const DataTable<qreal>&);
+		SimpleInputWindow(CThread * thread, const QString& title, void (*f)(tc_matrix), const DataTable<qreal>&);
 		/*! \brief constructor -- does nothing*/
 		SimpleInputWindow();
 		/*! \brief copy constructor*/

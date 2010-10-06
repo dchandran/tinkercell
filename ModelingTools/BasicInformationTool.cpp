@@ -1897,7 +1897,7 @@ namespace Tinkercell
 			if (!handles[i])
 				continue;
 
-			if (handles[i]->hasTextData(tr("Rate equations")))
+			if (handles[i]->children.isEmpty() && handles[i]->hasTextData(tr("Rate equations")))
 			{
 				DataTable<QString>& dat = handles[i]->textDataTable(tr("Rate equations"));
 				if (dat.columns() == 1)

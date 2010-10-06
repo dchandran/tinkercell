@@ -571,7 +571,7 @@ TCAPIEXPORT void tc_Main_api_initialize(
 		const char* (*tc_homeDir0)(),
 
 		void (*tc_createInputWindow0)(tc_matrix,const char*,const char*, const char*),
-        void (*tc_createInputWindow1)(tc_matrix, const char*, void (*f)(tc_matrix)),
+        void (*tc_createInputWindow1)(long, tc_matrix, const char*, void (*f)(tc_matrix)),
 		void (*createSliders)(long, tc_matrix, void (*f)(tc_matrix)),
 		
 		void (*tc_addInputWindowOptions0)(const char*, int i, int j, tc_strings),

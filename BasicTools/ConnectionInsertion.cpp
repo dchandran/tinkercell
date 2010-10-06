@@ -441,7 +441,28 @@ namespace Tinkercell
 				bool in;
 				QStringList nodeRoles = family->participantRoles(),
 							nodeFamilies = family->participantTypes(),
-							oldRowNames;
+							oldRowNames = oldTable->rowNames();
+							
+				for (int j=0; j < nodes.size(); ++j) //for each node
+					if (nodes[j] &&
+						!oldRowNames.contains(nodes[j]->fullName()) &&
+						(nodeFamily = nodes[j]->family()))
+					{
+						in = nodesIn.contains(nodes[j]);
+						//look for suitable role for this node
+						for (int k=0; k < nodeRoles.size() && k < nodeFamilies.size(); ++k)
+							if (!nodeRoles[k].isEmpty() && 
+								nodeFamily->isA(nodeFamilies[k]) &&
+								(!in || (in && isReactant(nodeRoles[k]))) //if in-node, then must be reactant
+								)
+							{
+								newTable->value(nodes[j]->fullName(),0) = nodeRoles[k];
+								nodeRoles[k] = tr("");
+								break;
+							}
+					}
+					
+				oldRowNames.clear();
 
 				for (int j=0; j < oldTable->rows(); ++j)
 				{

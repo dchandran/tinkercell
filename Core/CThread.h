@@ -250,6 +250,10 @@ namespace Tinkercell
 		*/
 		DataTable<qreal> argMatrix;
 		/*!
+		* \brief call tc_main
+		*/
+		virtual void call_tc_main();
+		/*!
 		* \brief the main function that runs one of the specified functions
 		*/
 		virtual void run();

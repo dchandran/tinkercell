@@ -9,6 +9,7 @@ menu: yes
 
 import numpy
 import pysces
+from tc2py import *
 from tc2pysces import *
 
 mod = getPyscesModel();

@@ -1,4 +1,5 @@
 def getPyscesModel():
+    from tc2py import *
     from tinkercell import *
     import pysces
     import re

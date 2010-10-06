@@ -159,23 +159,9 @@ namespace Tinkercell
 				TinkercellCEntryFunction f2 = (TinkercellCEntryFunction)lib->resolve(C_ENTRY_FUNCTION.toAscii().data());
 				if (f2)
 				{
-					try
-					{
-						setupFunctionPointersSlot(0,lib);
-						f2();
-						dynamicallyLoadedLibraries.insert(lib->fileName(),lib);
-						statusBar()->showMessage(lib->fileName() + tr(" successfully loaded"));
-					}
-					catch(...)
-					{
-						lib->unload();
-						delete lib;
-					}
-				}
-				else
-				{
-					lib->unload();
-					delete lib;
+					new CThread(this,lib);
+					statusBar()->showMessage(lib->fileName() + tr(" successfully loaded"));					
+					dynamicallyLoadedLibraries.insert(lib->fileName(),lib);
 				}
 			}
 		}

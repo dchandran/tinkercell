@@ -15,7 +15,7 @@ namespace Tinkercell
 {
 
 	AbstractInputWindow::AbstractInputWindow(const QString& name, CThread * thread)
-		: Tool(name), cthread(thread), dockWidget(0)
+		: Tool(name), cthread(thread), dockWidget(0), targetFunction(0)
 	{
 		if (cthread)
 			connect(this,SIGNAL(updateThread()),cthread,SLOT(update()));
@@ -30,7 +30,7 @@ namespace Tinkercell
 				connect(this,SIGNAL(updateThread()),cthread,SLOT(update()));
 			
 			if (mainWindow && cthread)
-				disconnect(mainWindow,SIGNAL(historyChanged(int)),cthread,SLOT(update()));
+				disconnect(mainWindow,SIGNAL(historyChanged()),cthread,SLOT(update()));
 		}
 	}
 
@@ -41,14 +41,14 @@ namespace Tinkercell
 
 	void AbstractInputWindow::loadAPI(Tool*)
 	{
-		if (mainWindow && cthread && cthread->library())
+		/*	if (mainWindow && cthread && cthread->library())
 		{
 			QSemaphore * s = new QSemaphore(1);
 			s->acquire();
 			mainWindow->setupNewThread(s,cthread->library());
 			s->acquire();
 			s->release();
-		}
+		}*/
 	}
 
 	void AbstractInputWindow::setInput(const DataTable<qreal>& dat)
@@ -63,11 +63,10 @@ namespace Tinkercell
 		if (mainWindow)
 		{
 			if (cthread)
-				disconnect(mainWindow,SIGNAL(historyChanged(int)),cthread,SLOT(update()));
+				disconnect(mainWindow,SIGNAL(historyChanged()),cthread,SLOT(update()));
+			
 			connect(mainWindow,SIGNAL(escapeSignal(const QWidget*)),this,SLOT(escapeSignal(const QWidget*)));
-			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(loadAPI(Tool*)));
-			loadAPI(0);
-
+			
 			setWindowTitle(name);
 			setWindowIcon(QIcon(tr(":/images/play.png")));
 			dockWidget = mainWindow->addToolWindow(this,MainWindow::DockWidget,Qt::BottomDockWidgetArea,Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea,false);
@@ -93,7 +92,11 @@ namespace Tinkercell
 	void AbstractInputWindow::exec()
 	{
 		if (cthread)
+		{
+			if (targetFunction)
+				cthread->setFunction(targetFunction);
 			cthread->start();
+		}
 	}
 	
 	void AbstractInputWindow::enterEvent ( QEvent * )
@@ -147,7 +150,6 @@ namespace Tinkercell
 		setupDisplay(data);
 
 		inputWindows[title.toLower()] = this;
-
 		setMainWindow(main);
 	}
 
@@ -155,6 +157,8 @@ namespace Tinkercell
 	{
 		if (cthread)
 		{
+			if (targetFunction)
+				cthread->setFunction(targetFunction);
 			int rows = tableWidget.rowCount(), cols = tableWidget.columnCount();
 			
 			for (int i=0; i < rows; ++i)
@@ -166,14 +170,9 @@ namespace Tinkercell
 
 	}
 
-	SimpleInputWindow::SimpleInputWindow(MainWindow * main, const QString& title, void (*f)(tc_matrix), const DataTable<qreal>& data)
+	SimpleInputWindow::SimpleInputWindow(CThread * thread, const QString& title, void (*f)(tc_matrix), const DataTable<qreal>& data)
 		: AbstractInputWindow(title)
 	{
-		CThread * thread = new CThread(main,0);
-		thread->setFunction(f);
-		this->dataTable = data;
-		setThread(thread);
-
 		QPushButton * runButton = new QPushButton(this);
 		runButton->setIcon(QIcon(":/images/play.png"));
 		connect(runButton,SIGNAL(released()),this,SLOT(exec()));
@@ -202,11 +201,16 @@ namespace Tinkercell
 		tableWidget.setItemDelegate(&delegate);
 		tableWidget.setEditTriggers ( QAbstractItemView::CurrentChanged | QAbstractItemView::DoubleClicked | QAbstractItemView::SelectedClicked | QAbstractItemView::EditKeyPressed );
 
+		if (thread)
+		{
+			targetFunction = f;
+			setThread(thread);
+			setMainWindow(cthread->mainWindow);
+		}
+		
+		this->dataTable = data;
 		setupDisplay(data);
-
 		inputWindows[title.toLower()] = this;
-
-		setMainWindow(main);
 	}
 
 	void SimpleInputWindow::AddOptions(const QString& title, int i, int j, const QStringList& options0)
@@ -243,6 +247,7 @@ namespace Tinkercell
 	void SimpleInputWindow::CreateWindow(MainWindow * main, const QString& title, const QString& lib, const QString& funcName, const DataTable<qreal>& data)
 	{
 		if (!main || lib.isEmpty() || funcName.isEmpty()) return;
+
 		SimpleInputWindow * inputWindow = 0;
 		if (SimpleInputWindow::inputWindows.contains(title.toLower()))
 		{
@@ -261,9 +266,10 @@ namespace Tinkercell
 		}
 	}
 
-	void SimpleInputWindow::CreateWindow(MainWindow * main, const QString& title, void (*f)(tc_matrix), const DataTable<qreal>& data)
+	void SimpleInputWindow::CreateWindow(CThread * thread, const QString& title, void (*f)(tc_matrix), const DataTable<qreal>& data)
 	{
-		if (!main || title.isEmpty() || !f) return;
+		if (!thread || title.isEmpty() || !f) return;
+
 		SimpleInputWindow * inputWindow = 0;
 		if (SimpleInputWindow::inputWindows.contains(title.toLower()))
 		{
@@ -271,7 +277,7 @@ namespace Tinkercell
 		}
 		else
 		{
-			inputWindow = new SimpleInputWindow(main,title,f,data);
+			inputWindow = new SimpleInputWindow(thread,title,f,data);
 		}
 		if (inputWindow)
 		{
@@ -399,8 +405,7 @@ namespace Tinkercell
 
 	void SimpleInputWindow::enterEvent ( QEvent * event )
 	{
-		//if (dockWidget)
-		//dockWidget->setWindowOpacity(1.0);
+		AbstractInputWindow::enterEvent(event);
 	}
 
 	void SimpleInputWindow::leaveEvent ( QEvent * event )

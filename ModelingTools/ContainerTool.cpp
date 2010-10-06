@@ -897,19 +897,19 @@ namespace Tinkercell
 					dilutionFactorIn << handle->fullName();
             	}
 
-            for (int j=0; j < speciesOut.size(); ++j)
+            /*for (int j=0; j < speciesOut.size(); ++j)
                 if ((handle = speciesOut[j]->parentOfFamily(tr("Compartment"))) && !dilutionFactorOut.contains(handle->fullName())
                 	&& !dilutionFactorIn.contains(handle->fullName()))
                 {
 					dilutionFactorOut << handle->fullName();
-      		    }
+      		    }*/
 
             for (int j=0; j < rates->rows(); ++j)
                 if (!rates->value(j,0).contains(reactions[i]->fullName() + tr(".DilutionFactor")))
                     rates->value(j,0) = rates->value(j,0) + tr(" * ") + reactions[i]->fullName() + tr(".DilutionFactor");
 
             QString in, out;
-            if (dilutionFactorIn.isEmpty() || dilutionFactorOut.isEmpty())
+            if (dilutionFactorIn.isEmpty() /*|| dilutionFactorOut.isEmpty()*/)
 			{
 				if (data->hasRow(tr("DilutionFactor")))
 				{
@@ -920,17 +920,18 @@ namespace Tinkercell
 				}
 			}
 			else
-            {
+            {            
                 if (dilutionFactorIn.size() > 0)
                     in = tr("(") + dilutionFactorIn.join(" * ") + tr(")");
                 else
                     in = tr("1.0");
-                if (dilutionFactorOut.size() > 0)
+
+               /*if (dilutionFactorOut.size() > 0)
                     out = tr("(") + dilutionFactorOut.join(" * ") + tr(")");
                 else
-                    out = tr("1.0");
+                    out = tr("1.0");*/
 
-                data->value(tr("DilutionFactor"),0) = out + tr("/") + in;
+                data->value(tr("DilutionFactor"),0) = tr("1.0/") + in;
 
                 targetHandles << reactions[i] << reactions[i];
                 newTables << data << rates;

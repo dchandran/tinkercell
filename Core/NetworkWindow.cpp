@@ -212,7 +212,7 @@ namespace Tinkercell
 	{
 		if (scene)
 		{
-			scene->deselect();
+			//scene->deselect();
 			//delete scene;
 			//MainWindow::invalidPointers[ (void*)scene ] = true;
 			scene = 0;

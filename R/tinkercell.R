@@ -326,9 +326,9 @@ setClass('_p_f_tc_matrix_p_q_const__char_p_q_const__char_p_q_const__char__void',
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_tc_matrix_p_q_const__char_p_f_tc_matrix__void__void',
-        prototype = list(parameterTypes = c('_tc_matrix', '_p_char', '_p_f_tc_matrix__void'),
-                        returnType = '_p_f_tc_matrix_p_q_const__char_p_f_tc_matrix__void__void'),
+setClass('_p_f_long_tc_matrix_p_q_const__char_p_f_tc_matrix__void__void',
+        prototype = list(parameterTypes = c('_long', '_tc_matrix', '_p_char', '_p_f_tc_matrix__void'),
+                        returnType = '_p_f_long_tc_matrix_p_q_const__char_p_f_tc_matrix__void__void'),
         contains = 'CRoutinePointer')
 
 ##
@@ -3328,7 +3328,7 @@ class(`tc_screenHeight`) = c("SWIGFunction", class('tc_screenHeight'))
     }
   }
   if(is.function(tc_createInputWindow1)) {
-    assert('...' %in% names(formals(tc_createInputWindow1)) || length(formals(tc_createInputWindow1)) >= 3)
+    assert('...' %in% names(formals(tc_createInputWindow1)) || length(formals(tc_createInputWindow1)) >= 4)
   } else {
     if(is.character(tc_createInputWindow1)) {
       tc_createInputWindow1 = getNativeSymbolInfo(tc_createInputWindow1)
@@ -3662,7 +3662,7 @@ class(`tc_screenHeight`) = c("SWIGFunction", class('tc_screenHeight'))
 }
 
 attr(`tc_Main_api_initialize`, 'returnType') = 'void'
-attr(`tc_Main_api_initialize`, "inputTypes") = c('_p_f___tc_items', '_p_f___tc_items', '_p_f_p_q_const__char__tc_items', '_p_f_p_q_const__char_tc_items__tc_items', '_p_f_p_q_const__char__long', '_p_f_tc_strings__tc_items', '_p_f_long__void', '_p_f___void', '_p_f_long__p_char', '_p_f_long__p_char', '_p_f_long_p_q_const__char__void', '_p_f_tc_items__tc_strings', '_p_f_tc_items__tc_strings', '_p_f_long__p_char', '_p_f_long_p_q_const__char__int', '_p_f___void', '_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void', '_p_f_tc_matrix__void', '_p_f_p_q_const__char__void', '_p_f_long__void', '_p_f_long__double', '_p_f_long__double', '_p_f_tc_items__tc_matrix', '_p_f_long_double_double__void', '_p_f_tc_items_tc_matrix__void', '_p_f_double_double__void', '_p_f___int', '_p_f___int', '_p_f___int', '_p_f___p_char', '_p_f___p_char', '_p_f_tc_matrix_p_q_const__char_p_q_const__char_p_q_const__char__void', '_p_f_tc_matrix_p_q_const__char_p_f_tc_matrix__void__void', '_p_f_long_tc_matrix_p_f_tc_matrix__void__void', '_p_f_p_q_const__char_int_int_tc_strings__void', '_p_f_p_q_const__char_int_int__void', '_p_f_p_q_const__char__void', '_p_f_long__tc_items', '_p_f_long__long', '_p_f_long_p_q_const__char__tc_matrix', '_p_f_long_p_q_const__char_tc_matrix__void', '_p_f_long_p_q_const__char__tc_table', '_p_f_long_p_q_const__char_tc_table__void', '_p_f_long__tc_strings', '_p_f_long__tc_strings', '_p_f_double__void', '_p_f_p_q_const__char__p_char', '_p_f_p_q_const__char_tc_strings_p_q_const__char__int', '_p_f_p_q_const__char__double', '_p_f_tc_strings_p_double__void', '_p_f___p_char', '_p_f_p_q_const__char__int', '_p_f_p_q_const__char__void', '_p_f_long_double_double_int__void', '_p_f_long__double', '_p_f_long__double', '_p_f_long_double_int__void', '_p_f_long__double', '_p_f_long__p_char', '_p_f_long_p_q_const__char_int__void', '_p_f_long_p_q_const__char__void', '_p_f_long_p_q_const__char__void', '_p_f_p_q_const__char_int_int__void', '_p_f___int', '_p_f___int')
+attr(`tc_Main_api_initialize`, "inputTypes") = c('_p_f___tc_items', '_p_f___tc_items', '_p_f_p_q_const__char__tc_items', '_p_f_p_q_const__char_tc_items__tc_items', '_p_f_p_q_const__char__long', '_p_f_tc_strings__tc_items', '_p_f_long__void', '_p_f___void', '_p_f_long__p_char', '_p_f_long__p_char', '_p_f_long_p_q_const__char__void', '_p_f_tc_items__tc_strings', '_p_f_tc_items__tc_strings', '_p_f_long__p_char', '_p_f_long_p_q_const__char__int', '_p_f___void', '_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void', '_p_f_tc_matrix__void', '_p_f_p_q_const__char__void', '_p_f_long__void', '_p_f_long__double', '_p_f_long__double', '_p_f_tc_items__tc_matrix', '_p_f_long_double_double__void', '_p_f_tc_items_tc_matrix__void', '_p_f_double_double__void', '_p_f___int', '_p_f___int', '_p_f___int', '_p_f___p_char', '_p_f___p_char', '_p_f_tc_matrix_p_q_const__char_p_q_const__char_p_q_const__char__void', '_p_f_long_tc_matrix_p_q_const__char_p_f_tc_matrix__void__void', '_p_f_long_tc_matrix_p_f_tc_matrix__void__void', '_p_f_p_q_const__char_int_int_tc_strings__void', '_p_f_p_q_const__char_int_int__void', '_p_f_p_q_const__char__void', '_p_f_long__tc_items', '_p_f_long__long', '_p_f_long_p_q_const__char__tc_matrix', '_p_f_long_p_q_const__char_tc_matrix__void', '_p_f_long_p_q_const__char__tc_table', '_p_f_long_p_q_const__char_tc_table__void', '_p_f_long__tc_strings', '_p_f_long__tc_strings', '_p_f_double__void', '_p_f_p_q_const__char__p_char', '_p_f_p_q_const__char_tc_strings_p_q_const__char__int', '_p_f_p_q_const__char__double', '_p_f_tc_strings_p_double__void', '_p_f___p_char', '_p_f_p_q_const__char__int', '_p_f_p_q_const__char__void', '_p_f_long_double_double_int__void', '_p_f_long__double', '_p_f_long__double', '_p_f_long_double_int__void', '_p_f_long__double', '_p_f_long__p_char', '_p_f_long_p_q_const__char_int__void', '_p_f_long_p_q_const__char__void', '_p_f_long_p_q_const__char__void', '_p_f_p_q_const__char_int_int__void', '_p_f___int', '_p_f___int')
 class(`tc_Main_api_initialize`) = c("SWIGFunction", class('tc_Main_api_initialize'))
 
 # Start of tc_showProgress

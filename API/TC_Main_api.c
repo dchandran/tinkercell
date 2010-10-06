@@ -1,5 +1,7 @@
 #include "TC_Main_api.h"
 
+static long _cthread_ptr = 0;
+
 tc_items (*_tc_allItems)() = 0;
 /*! 
  \brief get all visible items
@@ -374,7 +376,6 @@ const char* tc_homeDir()
 	return 0;
 }
 
-
 void (*_tc_createInputWindowFromFile)(tc_matrix input, const char* filename,const char* functionname, const char* title) = 0;
 /*! 
  \brief create an input window that can call a dynamic library
@@ -386,15 +387,15 @@ void tc_createInputWindowFromFile(tc_matrix input, const char* filename,const ch
 		_tc_createInputWindowFromFile(input,filename,functionname,title);
 }
 
-void (*_tc_createInputWindow)(tc_matrix, const char* title, void (*f)(tc_matrix)) = 0;
+void (*_tc_createInputWindow)(long ptr, tc_matrix, const char* title, void (*f)(tc_matrix)) = 0;
 /*!
  \brief create an input window that can call a dynamic library
  \ingroup Input and Output
 */
 void tc_createInputWindow(tc_matrix input, const char* title, void (*f)(tc_matrix))
 {
-	if (_tc_createInputWindow)
-		_tc_createInputWindow(input,title,f);
+	if (_tc_createInputWindow &&  _cthread_ptr)
+		_tc_createInputWindow( _cthread_ptr, input,title,f);
 }
 
 void (*_tc_addInputWindowOptions)(const char*, int i, int j, tc_strings) = 0;
@@ -620,8 +621,6 @@ void tc_messageDialog(const char* message)
 		_tc_messageDialog(message);
 }
 
-static long _cthread_ptr = 0;
-
 /*!
  \brief get pointer to the current thread
  \ingroup Programming interface
@@ -824,7 +823,7 @@ void tc_Main_api_initialize(
 		const char* (*tc_homeDir0)(),
 
 		void (*tc_createInputWindow0)(tc_matrix,const char*,const char*, const char*),
-        void (*tc_createInputWindow1)(tc_matrix, const char*, void (*f)(tc_matrix)),
+        void (*tc_createInputWindow1)(long ptr, tc_matrix, const char*, void (*f)(tc_matrix)),
 		void (*createSliders0)(long, tc_matrix, void (*f)(tc_matrix)),
 		
 		void (*tc_addInputWindowOptions0)(const char*, int i, int j, tc_strings),

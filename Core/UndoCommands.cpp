@@ -901,6 +901,11 @@ namespace Tinkercell
 					graphicsItems[i]->scene()->removeItem(graphicsItems[i]);
 				
 				MainWindow::invalidPointers[ (void*) graphicsItems[i] ] = true;
+				
+				QList<QGraphicsItem *> childItems = graphicsItems[i]->childItems();
+				for (int j=0; j < childItems.size(); ++j)
+					if (childItems[j])
+						childItems[j]->setParentItem(0);
 				delete graphicsItems[i];
 			}
 		}

@@ -8,7 +8,6 @@ This file defines the class that is used to create new threads in the
 Tinkercell main window. The threads can be associated with a dialog that provides
 users with the option to terminate the thread.
 
-
 ****************************************************************************/
 
 #include "GraphicsScene.h"
@@ -30,6 +29,7 @@ namespace Tinkercell
 	/******************
 	LIBRARY THREAD
 	*******************/
+	typedef void (*TinkercellCEntryFunction)();
 	
 	CThread::CThread(MainWindow * main, QLibrary * libPtr, bool autoUnload)
 		: QThread(main), mainWindow(main), autoUnloadLibrary(autoUnload)
@@ -42,7 +42,10 @@ namespace Tinkercell
 		callWhenExitPtr = 0;
 		setLibrary(libPtr);
 		connect(this,SIGNAL(terminated()),this,SLOT(cleanupAfterTerminated()));
-		connect(mainWindow,SIGNAL(historyChanged(int)),this,SLOT(update()));
+		
+		cthreads << this;
+		
+		call_tc_main();
 	}
 
 	CThread::CThread(MainWindow * main, const QString & libName, bool autoUnload)
@@ -57,19 +60,24 @@ namespace Tinkercell
 		this->lib = 0;
 		setLibrary(libName);
 		connect(this,SIGNAL(terminated()),this,SLOT(cleanupAfterTerminated()));
-		connect(mainWindow,SIGNAL(historyChanged(int)),this,SLOT(update()));
+		
+		cthreads << this;
+		
+		call_tc_main();
+	}
+	
+	void CThread::call_tc_main()
+	{
+		if (!lib) return;
+		
+		TinkercellCEntryFunction f = (TinkercellCEntryFunction)lib->resolve(C_ENTRY_FUNCTION.toAscii().data());
+		if (f)
+			f();	
 	}
 
 	CThread::~CThread()
 	{
-		if (lib)
-		{
-			unload();
-			
-			if (!lib->parent())
-				delete lib;
-			lib = 0;
-		}
+		cthreads.removeAll(this);
 	}
 
 	typedef void (*VoidFunction)();
@@ -248,20 +256,13 @@ namespace Tinkercell
 	
 	void CThread::unload()
 	{
-		/*if (isRunning())
-		{
-			terminate();
-		}*/
-		
 		if (lib && lib->isLoaded())
 		{
+			if (callWhenExitPtr)
+				callWhenExitPtr();
 			lib->unload();
+			lib = 0;
 		}
-		
-		if (callWhenExitPtr)
-			callWhenExitPtr();
-
-		cthreads.removeAll(this);
 	}
 
 	QString CThread::style = QString("background-color: qlineargradient(x1: 0, y1: 1, x2: 0, y2: 0, stop: 1.0 #585858, stop: 0.5 #0E0E0E, stop: 0.5 #9A9A9A, stop: 1.0 #E2E2E2);");
@@ -291,7 +292,6 @@ namespace Tinkercell
 			QProgressBar * progressbar = new QProgressBar;
 			layout->addWidget(progressbar);
 			progressbar->setRange(0,100);
-			cthreads << newThread;
 			connect(newThread,SIGNAL(progress(int)),progressbar,SLOT(setValue(int)));
 		}
 
@@ -314,7 +314,10 @@ namespace Tinkercell
 		void * ptr = (void*)address;
 		CThread * thread = static_cast<CThread*>(ptr);
 		if (cthreads.contains(thread))
+		{
 			thread->callbackPtr = f;
+			connect(thread->mainWindow,SIGNAL(historyChanged(int)),thread,SLOT(update()));
+		}
 	}
 
 	void CThread::setCallWhenExiting(long address,  void (*f)(void) )

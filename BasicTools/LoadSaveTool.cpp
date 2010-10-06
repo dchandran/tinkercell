@@ -21,8 +21,6 @@ namespace Tinkercell
 {
 	LoadSaveTool::LoadSaveTool() : Tool(tr("Save and Load"),tr("Basic GUI"))
 	{
-		OPEN_FILE_EXTENSIONS << "tic" << "TIC";
-		SAVE_FILE_EXTENSIONS << "tic" << "TIC";
 		countHistory = 0;
 		restoreDialog = 0;
 		restoreButton = 0;
@@ -72,6 +70,9 @@ namespace Tinkercell
 		Tool::setMainWindow(main);
 		if (mainWindow)
 		{
+			MainWindow::OPEN_FILE_EXTENSIONS << "TIC" << "tic";
+			MainWindow::SAVE_FILE_EXTENSIONS << "TIC" << "tic";
+			
 			connect(mainWindow,SIGNAL(saveNetwork(const QString&)),this,SLOT(saveNetwork(const QString&)));
 			connect(mainWindow,SIGNAL(loadNetwork(const QString&)),this,SLOT(loadNetwork(const QString&)));
 			connect(mainWindow,SIGNAL(getItemsFromFile(QList<ItemHandle*>&, const QString&,ItemHandle*)),this,SLOT(getItemsFromFile(QList<ItemHandle*>&, const QString&,ItemHandle*)));

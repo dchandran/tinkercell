@@ -55,6 +55,14 @@ namespace Tinkercell
 	MainWindow::TOOL_WINDOW_OPTION MainWindow::defaultToolWindowOption = MainWindow::ToolBoxWidget;
 	MainWindow::TOOL_WINDOW_OPTION MainWindow::defaultHistoryWindowOption = MainWindow::ToolBoxWidget;
 	MainWindow::TOOL_WINDOW_OPTION MainWindow::defaultConsoleWindowOption = MainWindow::DockWidget;
+	QString MainWindow::PROJECTWEBSITE = QObject::tr("www.tinkercell.com");
+	QString MainWindow::ORGANIZATIONNAME = QObject::tr("TinkerCell");
+	QString MainWindow::PROJECTNAME = QObject::tr("TinkerCell");
+	QString MainWindow::CPP_ENTRY_FUNCTION = QObject::tr("loadTCTool");
+	QString MainWindow::C_ENTRY_FUNCTION = QObject::tr("tc_main");
+	QString MainWindow::PROJECT_VERSION = QObject::tr("0.0.0");
+	QStringList MainWindow::OPEN_FILE_EXTENSIONS;
+	QStringList MainWindow::SAVE_FILE_EXTENSIONS;
 	QString MainWindow::previousFileName;
 	QString MainWindow::homeDirPath;
 	/*************************************/
@@ -447,6 +455,7 @@ namespace Tinkercell
 
 		if (fileName.isEmpty())
 		{
+			console()->message(PROJECTNAME + tr(" files (*.") + OPEN_FILE_EXTENSIONS.join(tr(" *.")) + tr(")"));
 			fileName =
 				QFileDialog::getSaveFileName(this, tr("Save Current Network"),
 				previousFileName,

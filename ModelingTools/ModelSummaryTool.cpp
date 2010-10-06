@@ -242,7 +242,7 @@ namespace Tinkercell
 				dockWidget->setAutoFillBackground(true);
 				//dockWidget->setWindowOpacity(0.9);
 
-				QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
+				QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
 
 				settings.beginGroup("ModelSummaryTool");
 				//dockWidget->resize(settings.value("size", sizeHint()).toSize());
@@ -295,7 +295,7 @@ namespace Tinkercell
 
 	void ModelSummaryTool::sceneClosing(NetworkHandle * , bool *)
 	{
-		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
+		QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
 
 		if (dockWidget)
 		{

@@ -37,7 +37,7 @@ namespace Tinkercell
 		connectionsTree(connectionsTree),
 		selectFamilyWidget(0)
 	{
-		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
+		QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
 
 		settings.beginGroup("CatalogWidget");
 		CatalogWidget::layoutMode = (CatalogWidget::MODE)(settings.value(tr("Mode"),(int)layoutMode).toInt());
@@ -250,7 +250,7 @@ namespace Tinkercell
 
 	CatalogWidget::~CatalogWidget()
 	{
-		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
+		QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
 		settings.beginGroup("CatalogWidget");
 		settings.setValue(tr("Mode"),(int)(CatalogWidget::layoutMode));
 
@@ -388,7 +388,7 @@ namespace Tinkercell
 		showButtons(showlist);
 		hideButtons(hidelist);
 
-		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
+		QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
 		settings.beginGroup("CatalogWidget");
 		settings.setValue(tr("familiesInCatalog"),familiesInCatalog);
 		settings.endGroup();
@@ -398,7 +398,7 @@ namespace Tinkercell
 	{
 		if (layoutMode != TreeView) return;
 
-		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
+		QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
 
 		settings.beginGroup("LastSelectedNodes");
 
@@ -424,7 +424,7 @@ namespace Tinkercell
 		QGridLayout * buttonsLayout = new QGridLayout;
 		buttonsLayout->addWidget(&arrowButton,0,0,Qt::AlignCenter);
 
-		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
+		QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
 
 		int n = 5;
 		QStringList allFamilyNames;
@@ -735,7 +735,7 @@ namespace Tinkercell
 
 		numNodeTabs = 4;
 
-		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
+		QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
 		settings.beginGroup("CatalogWidget");
 		familiesInCatalog = settings.value(tr("familiesInCatalog"),QStringList()).toStringList();
 		int currentIndex = settings.value(tr("currentIndex"),0).toInt();

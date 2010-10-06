@@ -53,7 +53,7 @@ namespace Tinkercell
     {
         ConnectionsTreeReader reader;
         QString appDir = QCoreApplication::applicationDirPath();
-		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
+		QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
         settings.beginGroup("ConnectionsTree");
         NodesTree::themeDirectory = settings.value("theme",tr("Bio1")).toString();
         QString xmlFile = filename;
@@ -152,7 +152,7 @@ namespace Tinkercell
         if (fileName.isEmpty())
             return;
 
-        QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
+        QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
 
         settings.beginGroup("ConnectionsTree");
         settings.setValue("file", fileName);
@@ -185,7 +185,7 @@ namespace Tinkercell
     void ConnectionsTree::networkClosing(NetworkHandle * , bool *)
     {
         //save state of the tree
-        QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
+        QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
 
         settings.beginGroup("ConnectionsTree");
     	settings.setValue("theme",NodesTree::themeDirectory);

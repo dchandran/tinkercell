@@ -54,15 +54,6 @@ One of the main roles of MainWindow is to serve as a signal/slot hub for Tools.
 
 namespace Tinkercell
 {
-	static QString PROJECTWEBSITE = QObject::tr("www.tinkercell.com");
-	static QString ORGANIZATIONNAME = QObject::tr("TinkerCell");
-	static QString PROJECTNAME = QObject::tr("TinkerCell");
-	static QString CPP_ENTRY_FUNCTION = QObject::tr("loadTCTool");
-	static QString C_ENTRY_FUNCTION = QObject::tr("tc_main");
-	static QString PROJECT_VERSION = QObject::tr("0.0.0");
-	static QStringList OPEN_FILE_EXTENSIONS;
-	static QStringList SAVE_FILE_EXTENSIONS;
-
 	class ConsoleWindow;
 	class NodeGraphicsItem;
 	class ConnectionGraphicsItem;
@@ -122,6 +113,30 @@ namespace Tinkercell
 
 		/*! \brief the default option to use for console window*/
 		static TOOL_WINDOW_OPTION defaultConsoleWindowOption;
+		
+		/*! \brief the project website*/
+		static QString PROJECTWEBSITE;
+		
+		/*! \brief the project organization name*/
+		static QString ORGANIZATIONNAME;
+
+		/*! \brief the project name*/
+		static QString PROJECTNAME;
+
+		/*! \brief the default function that is loaded in C++ plugins*/
+		static QString CPP_ENTRY_FUNCTION;
+
+		/*! \brief the default function that is loaded in C plugins*/
+		static QString C_ENTRY_FUNCTION;
+
+		/*! \brief the default project version*/
+		static QString PROJECT_VERSION;
+
+		/*! \brief the default file extensions that can be opened*/
+		static QStringList OPEN_FILE_EXTENSIONS;
+
+		/*! \brief the default file extensions that can be saved*/
+		static QStringList SAVE_FILE_EXTENSIONS;
 
 		/*! \brief register all the TinkerCell data structures with Qt*/
 		static void RegisterDataTypes();

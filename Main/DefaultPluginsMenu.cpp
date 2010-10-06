@@ -7,11 +7,11 @@ namespace Tinkercell
 	DefaultPluginsMenu::DefaultPluginsMenu(MainWindow * main)
         : QMenu(tr("Plug-ins"), main)
     {
-      QCoreApplication::setOrganizationName(Tinkercell::ORGANIZATIONNAME);
-      QCoreApplication::setOrganizationDomain(Tinkercell::PROJECTWEBSITE);
-      QCoreApplication::setApplicationName(Tinkercell::ORGANIZATIONNAME);
+      QCoreApplication::setOrganizationName(Tinkercell::MainWindow::ORGANIZATIONNAME);
+      QCoreApplication::setOrganizationDomain(Tinkercell::MainWindow::PROJECTWEBSITE);
+      QCoreApplication::setApplicationName(Tinkercell::MainWindow::ORGANIZATIONNAME);
 
-      QSettings settings(Tinkercell::ORGANIZATIONNAME, Tinkercell::ORGANIZATIONNAME);
+      QSettings settings(Tinkercell::MainWindow::ORGANIZATIONNAME, Tinkercell::MainWindow::ORGANIZATIONNAME);
 
       settings.beginGroup("MainWindow");
 
@@ -108,11 +108,11 @@ namespace Tinkercell
 
     void DefaultPluginsMenu::saveSettings()
     {
-      QCoreApplication::setOrganizationName(Tinkercell::ORGANIZATIONNAME);
-      QCoreApplication::setOrganizationDomain(Tinkercell::PROJECTWEBSITE);
-      QCoreApplication::setApplicationName(Tinkercell::ORGANIZATIONNAME);
+      QCoreApplication::setOrganizationName(Tinkercell::MainWindow::ORGANIZATIONNAME);
+      QCoreApplication::setOrganizationDomain(Tinkercell::MainWindow::PROJECTWEBSITE);
+      QCoreApplication::setApplicationName(Tinkercell::MainWindow::ORGANIZATIONNAME);
 
-      QSettings settings(Tinkercell::ORGANIZATIONNAME, Tinkercell::ORGANIZATIONNAME);
+      QSettings settings(Tinkercell::MainWindow::ORGANIZATIONNAME, Tinkercell::MainWindow::ORGANIZATIONNAME);
 
       QStringList doNotLoad;
 

@@ -244,6 +244,7 @@ namespace Tinkercell
 				separator = mainWindow->contextItemsMenu.addSeparator();
 
 
+
 			if (reactions)
 				mainWindow->contextItemsMenu.addAction(autoReverse);
 			else

@@ -617,9 +617,9 @@ void SimpleDesigner::simulate(bool stochastic)
 
 int main(int argc, char *argv[])
 {
-    PROJECTWEBSITE = QObject::tr("www.tinkercell.com");
-    ORGANIZATIONNAME = QObject::tr("Simple Designer");
-    PROJECTNAME = QObject::tr("Simple Designer");
+    MainWindow::PROJECTWEBSITE = QObject::tr("www.tinkercell.com");
+    MainWindow::ORGANIZATIONNAME = QObject::tr("Simple Designer");
+    MainWindow::PROJECTNAME = QObject::tr("Simple Designer");
 	
 	ConnectionGraphicsItem::DefaultMiddleItemFile = QString("");
 	ConnectionGraphicsItem::DefaultArrowHeadFile = QString(":/images/arrow.xml");

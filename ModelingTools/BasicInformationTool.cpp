@@ -86,7 +86,7 @@ namespace Tinkercell
 		
 		if (!tool) return;
 		
-		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
+		QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
 		settings.beginGroup("BasicInformationTool");
 		
 		NodesTree * nodesTree = static_cast<NodesTree*>(tool);
@@ -124,7 +124,7 @@ namespace Tinkercell
 
 	bool BasicInformationTool::setMainWindow(MainWindow * main)
 	{
-		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
+		QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
 
 		Tool::setMainWindow(main);
 
@@ -165,7 +165,7 @@ namespace Tinkercell
 				dockWidget->setAutoFillBackground(true);
 				//dockWidget->setWindowOpacity(0.8);
 	
-				QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
+				QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
 
 				if (type == both || type == numerical)
 				{
@@ -208,7 +208,7 @@ namespace Tinkercell
 
 	void BasicInformationTool::windowClosing(NetworkHandle * , bool *)
 	{
-		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
+		QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
 
 		if (dockWidget)
 		{

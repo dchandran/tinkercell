@@ -359,11 +359,11 @@ namespace Tinkercell
 		
 		if (DataPlot::penList.isEmpty())
 		{
-			QCoreApplication::setOrganizationName(Tinkercell::ORGANIZATIONNAME);
-			QCoreApplication::setOrganizationDomain(Tinkercell::PROJECTWEBSITE);
-			QCoreApplication::setApplicationName(Tinkercell::ORGANIZATIONNAME);
+			QCoreApplication::setOrganizationName(Tinkercell::MainWindow::ORGANIZATIONNAME);
+			QCoreApplication::setOrganizationDomain(Tinkercell::MainWindow::PROJECTWEBSITE);
+			QCoreApplication::setApplicationName(Tinkercell::MainWindow::ORGANIZATIONNAME);
 
-			QSettings settings(Tinkercell::ORGANIZATIONNAME, Tinkercell::ORGANIZATIONNAME);
+			QSettings settings(Tinkercell::MainWindow::ORGANIZATIONNAME, Tinkercell::MainWindow::ORGANIZATIONNAME);
 			
 			settings.beginGroup("Plot2DWidget");
 			
@@ -502,11 +502,11 @@ namespace Tinkercell
 		if (button)
 			button->setStyleSheet(tr("background-color: ") + DataPlot::penList[k].color().name());
 		
-		QCoreApplication::setOrganizationName(Tinkercell::ORGANIZATIONNAME);
-		QCoreApplication::setOrganizationDomain(Tinkercell::PROJECTWEBSITE);
-		QCoreApplication::setApplicationName(Tinkercell::ORGANIZATIONNAME);
+		QCoreApplication::setOrganizationName(Tinkercell::MainWindow::ORGANIZATIONNAME);
+		QCoreApplication::setOrganizationDomain(Tinkercell::MainWindow::PROJECTWEBSITE);
+		QCoreApplication::setApplicationName(Tinkercell::MainWindow::ORGANIZATIONNAME);
 
-		QSettings settings(Tinkercell::ORGANIZATIONNAME, Tinkercell::ORGANIZATIONNAME);
+		QSettings settings(Tinkercell::MainWindow::ORGANIZATIONNAME, Tinkercell::MainWindow::ORGANIZATIONNAME);
 		
 		settings.beginGroup("Plot2DWidget");
 		

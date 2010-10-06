@@ -27,18 +27,21 @@ int main(int argc, char *argv[])
     QApplication::setColorSpec (QApplication::ManyColor);
     QApplication app(argc, argv);
 
-    PROJECTWEBSITE = QObject::tr("www.tinkercell.com");
-    ORGANIZATIONNAME = QObject::tr("TinkerCell");
-    PROJECTNAME = QObject::tr("TinkerCell");
+    /***********************/
+	/* Optional confurations */
+    /***********************/
+    
+    Tinkercell::MainWindow::PROJECTWEBSITE = QObject::tr("www.tinkercell.com");
+    Tinkercell::MainWindow::ORGANIZATIONNAME = QObject::tr("TinkerCell");
+    Tinkercell::MainWindow::PROJECTNAME = QObject::tr("TinkerCell");
     Tinkercell::ConsoleWindow::Prompt = QObject::tr(">");	
-	Tinkercell::ConsoleWindow::BackgroundColor = QColor("#222222");
+	Tinkercell::ConsoleWindow::BackgroundColor = QColor("#555555");
 	
 	QColor color("#00EE00");
 	color.setAlpha(50);
 	Tinkercell::GraphicsScene::SelectionRectangleBrush = QBrush(color);
 
-    QString appDir = QCoreApplication::applicationDirPath();
-	
+    QString appDir = QCoreApplication::applicationDirPath();	
     QFile styleFile(appDir + QString("/tinkercell.qss"));
 
     if (styleFile.open(QFile::ReadOnly | QFile::Text))
@@ -46,9 +49,11 @@ int main(int argc, char *argv[])
         app.setStyleSheet(styleFile.readAll());
         styleFile.close();
     }
+    
+    /***********************/
+    /***********************/
 
     QString splashFile(":/images/Tinkercell.png");
-
 
     MainWindow mainWindow;
     mainWindow.addTool(new BasicGraphicsToolbar());
@@ -57,7 +62,6 @@ int main(int argc, char *argv[])
     
     mainWindow.setWindowTitle(QObject::tr("Tinkercell: synthetic biology CAD"));
     mainWindow.statusBar()->showMessage(QObject::tr("Welcome to Tinkercell"));
-
 
 	QPixmap pixmap(splashFile);
 
@@ -130,3 +134,4 @@ void LoadPluginsFromDir(const QString& dirname,MainWindow * main,QSplashScreen *
         main->loadDynamicLibrary(filename);
     }
 }
+

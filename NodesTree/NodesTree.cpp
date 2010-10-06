@@ -54,7 +54,7 @@ namespace Tinkercell
           NodesTreeReader reader;
           QString appDir = QCoreApplication::applicationDirPath();
 
-          QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
+          QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
           settings.beginGroup("NodesTree");
           
 	      themeDirectory = settings.value("theme",tr("Bio1")).toString();
@@ -246,7 +246,7 @@ namespace Tinkercell
           if (fileName.isEmpty())
                return;
 
-          QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
+          QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
 
           settings.beginGroup("NodesTree");
           settings.setValue("file", fileName);
@@ -403,7 +403,7 @@ namespace Tinkercell
      void NodesTree::networkClosing(NetworkHandle * , bool *)
      {
           //save state of the tree
-          QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
+          QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
 
           settings.beginGroup("NodesTree");
      	  settings.setValue("theme",themeDirectory);

@@ -24,8 +24,6 @@ SBMLImportExport::SBMLImportExport() : Tool("SBML Tool")
 	modelNeedsUpdate = true;
 	sbmlDocument = 0;
 
-	OPEN_FILE_EXTENSIONS << "sbml" << "SBML";
-
 	connect(&fToS,SIGNAL(exportSBML(QSemaphore*, const QString&)),this,SLOT(exportSBML(QSemaphore*, const QString&)));
 	connect(&fToS,SIGNAL(importSBML(QSemaphore*, const QString&)),this,SLOT(importSBML(QSemaphore*, const QString&)));
 	connect(&fToS,SIGNAL(simulateODE(QSemaphore*, NumericalDataTable*,double, double)),this,SLOT(simulateODE(QSemaphore*, NumericalDataTable*,double, double)));
@@ -43,6 +41,8 @@ bool SBMLImportExport::setMainWindow(MainWindow * main)
 {
 	Tool::setMainWindow(main);	
 	if (!mainWindow) return false;
+	
+	MainWindow::OPEN_FILE_EXTENSIONS << "SBML" << "sbml";
 
 	if (mainWindow->fileMenu)
 	{

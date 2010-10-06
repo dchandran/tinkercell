@@ -6,9 +6,9 @@ int main(int argc, char *argv[])
 {
 	QApplication app(argc, argv);
     
-    Tinkercell::PROJECTWEBSITE = QObject::tr("www.tinkercell.com");
-    Tinkercell::ORGANIZATIONNAME = QObject::tr("MultiCell Simulator");
-    Tinkercell::PROJECTNAME = QObject::tr("MultiCell Simulator");
+    Tinkercell::MainWindow::PROJECTWEBSITE = QObject::tr("www.tinkercell.com");
+    Tinkercell::MainWindow::ORGANIZATIONNAME = QObject::tr("MultiCell Simulator");
+    Tinkercell::MainWindow::PROJECTNAME = QObject::tr("MultiCell Simulator");
 
 	QString appDir = QCoreApplication::applicationDirPath();
 	

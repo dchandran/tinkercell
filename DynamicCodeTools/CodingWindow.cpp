@@ -49,7 +49,7 @@ namespace Tinkercell
 		 setupEditor();
 		 setupMenu();
 		 
- 		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
+ 		QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
 		settings.beginGroup("Subversion");
 		DO_SVN_UPDATE = settings.value(tr("auto-update"),true).toBool();
 		settings.endGroup();

@@ -12,7 +12,7 @@ namespace Tinkercell
 {
 	/*
 	* \param a pointer to a QGraphicsItem
-	* \return a QGraphicsItem that is one of the Tinkercell Graphics Items
+	* \return a QGraphicsItem that is either a NodeGraphicsItem, ConnectionGraphicsItem, ControlPoint, or TextGraphicsItem
 	*/
 	QGraphicsItem * getGraphicsItem( QGraphicsItem * item )
 	{
@@ -22,33 +22,40 @@ namespace Tinkercell
 		TextGraphicsItem * text = 0;
 
 		QGraphicsItem * p = item;
-		
-		if (MainWindow::invalidPointers.contains((void*)p))
-			return 0;
 
-		while (p && (ToolGraphicsItem::cast(p->topLevelItem()) == 0))
+		while (p && !MainWindow::invalidPointers.contains((void*)p))
 		{
 			text = TextGraphicsItem::cast(p);
-			if (text) return (QGraphicsItem*)(text);
+			if (text)
+			{
+				if (!ToolGraphicsItem::cast(text->topLevelItem()))
+					return (QGraphicsItem*)(text);
+			}
 
 			connection = ConnectionGraphicsItem::cast(p);
-			if (connection) return (QGraphicsItem*)connection;
+			if (connection)
+			{
+				if (!ToolGraphicsItem::cast(connection->topLevelItem()))
+					return (QGraphicsItem*)connection;
+			}
 
 			node = NodeGraphicsItem::cast(p);
-			if (node) return (QGraphicsItem*)node;
+			if (node)
+			{
+				if (!ToolGraphicsItem::cast(node->topLevelItem()))
+					return (QGraphicsItem*)node;
+			}
 
 			controlPoint = qgraphicsitem_cast<ControlPoint*>(p);
 			if (controlPoint == 0) controlPoint = qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(p);
 			if (controlPoint == 0) controlPoint = qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(p);
-			if (controlPoint) return (QGraphicsItem*)controlPoint;
+			if (controlPoint)
+			{
+				if (!ToolGraphicsItem::cast(controlPoint->topLevelItem()))
+					return (QGraphicsItem*)controlPoint;
+			}
 
-			if (p != p->parentItem())
-				p = p->parentItem();
-			else
-				p = 0;
-			
-			if (MainWindow::invalidPointers.contains((void*)p))
-				return 0;
+			p = p->parentItem();
 		}
 
 		return (0);

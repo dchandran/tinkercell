@@ -121,6 +121,7 @@ namespace Tinkercell
 	{
 		connectionItem = copy.connectionItem;
 		angle = copy.angle;
+		std::cout << "angle = " << (angle) << "\n";
 	}
 	
 	/*! \brief make a copy of this item*/

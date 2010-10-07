@@ -455,7 +455,6 @@ namespace Tinkercell
 
 		if (fileName.isEmpty())
 		{
-			console()->message(PROJECTNAME + tr(" files (*.") + OPEN_FILE_EXTENSIONS.join(tr(" *.")) + tr(")"));
 			fileName =
 				QFileDialog::getSaveFileName(this, tr("Save Current Network"),
 				previousFileName,

@@ -121,7 +121,6 @@ namespace Tinkercell
 	{
 		connectionItem = copy.connectionItem;
 		angle = copy.angle;
-		std::cout << "angle = " << (angle) << "\n";
 	}
 	
 	/*! \brief make a copy of this item*/
@@ -663,6 +662,7 @@ namespace Tinkercell
 					if (curveSegments[i].arrowStart->angle != angle)
 					{
 						double dx = angle - curveSegments[i].arrowStart->angle;
+						std::cout << "angle = " << angle << " + " << dx << "\n";
 						double sinx = sin(dx * 3.14/180.0),
 							  cosx = cos(dx * 3.14/180.0);
 						QTransform rotate(cosx, sinx, -sinx, cosx, 0, 0);

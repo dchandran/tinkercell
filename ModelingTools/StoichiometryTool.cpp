@@ -245,6 +245,7 @@ namespace Tinkercell
 
 
 
+
 			if (reactions)
 				mainWindow->contextItemsMenu.addAction(autoReverse);
 			else
@@ -926,7 +927,13 @@ namespace Tinkercell
 					if (pickRow1 && pickRow1->isVisible())
 						row = pickRow1->currentIndex();
 					newTable.value(row,0) = rate;
-					network->changeData(connectionHandle->fullName() + tr(" rate changed"),
+					
+					QString s;
+					if (newTable.rows() > 1)
+						s = connectionHandle->fullName() + tr(" ") + newTable.rowName(row) + tr(" rate changed");
+					else
+						s = connectionHandle->fullName() + tr(" rate changed");
+					network->changeData(s,
 										connectionHandle,
 										tr("Rate equations"),
 										&newTable);

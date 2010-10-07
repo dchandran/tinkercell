@@ -30,7 +30,7 @@
                 <Table key="participants" rows="3" cols="1" rowNames="Activator;;inactive_promoter;;Target" columnNames="" values="reactant1;;reactant2;;product"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
-                <Table key="rate equations" rows="2" cols="1" rowNames="forward;;reverse" columnNames="formula" values="binding.kb*Target;;binding.kb*Target"/>
+                <Table key="rate equations" rows="2" cols="1" rowNames="forward;;reverse" columnNames="formula" values="binding.kf*Activator*inactive_promoter;;binding.kb*Target"/>
             </tc_table>
         </Handle>
         <Handle type="1" name="Activator" parent="" family="Transcription Factor">
@@ -61,6 +61,54 @@
         </Handle>
     </Handles>
     <Nodes>
+        <NodeItem className="NodeGraphicsItem" scene="0" handle="Target" z="110.5">
+            <pos x="5711.48" y="4790.38"/>
+            <transform m11="0.696286" m12="-0.28116" m21="0.247372" m22="0.612611"/>
+            <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
+                <renderInformation id="TinkerCell_Style" programName="TinkerCell">
+                    <listOfGradientDefinitions>
+                        <radialGradient id="shape0color" x1="-21.8833" y1="-8.7097" x2="23.7401" y2="7.7419">
+                            <stop offset="0%" stop-color="#fff7d5" stop-alpha="1"/>
+                            <stop offset="100%" stop-color="#ff6735" stop-alpha="1"/>
+                        </radialGradient>
+                    </listOfGradientDefinitions>
+                    <listOfStyles>
+                        <style idList="protein" width="70" height="60">
+                            <g>
+                                <polygon fill="shape0color" stroke="#ff301d" stroke-width="2" stroke-alpha="1">
+                                    <listOfCurveSegments>
+                                        <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                            <start x="-43.1035" y="9.6774"/>
+                                            <basePoint1 x="-50" y="-20.9677"/>
+                                            <basePoint2 x="-16.8435" y="-50"/>
+                                            <end x="8.3554" y="-40.9677"/>
+                                        </curveSegment>
+                                        <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                            <start x="8.3554" y="-40.9677"/>
+                                            <basePoint1 x="38.5942" y="-29.0323"/>
+                                            <basePoint2 x="50" y="20.6452"/>
+                                            <end x="24.2706" y="21.2903"/>
+                                        </curveSegment>
+                                        <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                            <start x="24.2706" y="21.2903"/>
+                                            <basePoint1 x="5.9682" y="20"/>
+                                            <basePoint2 x="5.4377" y="-7.0968"/>
+                                            <end x="-9.1512" y="18.3871"/>
+                                        </curveSegment>
+                                        <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                            <start x="-9.1512" y="18.3871"/>
+                                            <basePoint1 x="-17.374" y="50"/>
+                                            <basePoint2 x="-37.5332" y="37.7419"/>
+                                            <end x="-43.1035" y="9.6774"/>
+                                        </curveSegment>
+                                    </listOfCurveSegments>
+                                </polygon>
+                            </g>
+                        </style>
+                    </listOfStyles>
+                </renderInformation>
+            </listOfRenderInformation>
+        </NodeItem>
         <NodeItem className="NodeGraphicsItem" scene="0" handle="Target" z="88.9">
             <pos x="5727.5" y="4822.5"/>
             <transform m11="1" m12="0" m21="0" m22="0.7"/>
@@ -534,15 +582,15 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="0" handle="binding" z="91.3">
             <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="bezier" style="1" gap="10">
                 <ControlPoints>
-                    <ControlPoint x="5297.73" y="5017.5"/>
-                    <ControlPoint x="5291.79" y="4913.07"/>
-                    <ControlPoint x="5330.48" y="4802.32"/>
-                    <ControlPoint x="5407.03" y="4790.83"/>
-                    <ControlPoint x="5250.75" y="4613.44"/>
-                    <ControlPoint x="5277.19" y="4703.07"/>
-                    <ControlPoint x="5657.5" y="4828.13"/>
-                    <ControlPoint x="5531.85" y="4772.58"/>
-                    <ControlPoint x="5483.57" y="4779.34"/>
+                    <ControlPoint x="5296.7" y="5017.5"/>
+                    <ControlPoint x="5287.86" y="4910.45"/>
+                    <ControlPoint x="5326.55" y="4799.7"/>
+                    <ControlPoint x="5403.1" y="4788.21"/>
+                    <ControlPoint x="5250.32" y="4613.44"/>
+                    <ControlPoint x="5273.26" y="4700.45"/>
+                    <ControlPoint x="5657.5" y="4827.93"/>
+                    <ControlPoint x="5527.92" y="4769.96"/>
+                    <ControlPoint x="5479.64" y="4776.72"/>
                 </ControlPoints>
                 <CurveSegments>
                     <Path numPoints="4" NodeAtStart="Activator" NodeAtStartX="5300" NodeAtStartY="5057.5" NodeAtEnd="" NodeAtEndX="0" NodeAtEndY="0">
@@ -554,8 +602,8 @@
                     <Path numPoints="4" NodeAtStart="Target" NodeAtStartX="5727.5" NodeAtStartY="4822.5" NodeAtEnd="" NodeAtEndX="0" NodeAtEndY="0">
                         <ControlPoints indices="6,7,8,3"/>
                         <ArrowAtStart>
-                            <pos x="5657.5" y="4828.13" angle="23.8486"/>
-                            <transform m11="0.365881" m12="0.161651" m21="-0.121239" m22="0.274411"/>
+                            <pos x="5657.5" y="4827.93" angle="24.1017"/>
+                            <transform m11="0.365164" m12="0.163265" m21="-0.122449" m22="0.273873"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -595,7 +643,7 @@
                 <CenterRegion>
                     <Rect width="20" height="20"/>
                     <Decorator>
-                        <pos x="5407.03" y="4790.83" angle="0"/>
+                        <pos x="5403.1" y="4788.21" angle="0"/>
                         <transform m11="0.25" m12="0" m21="0" m22="0.25"/>
                         <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                             <renderInformation id="TinkerCell_Style" programName="TinkerCell">
@@ -694,8 +742,8 @@
         </ConnectionItem>
     </Connections>
     <Texts>
-        <TextItem text="binding" scene="0" handle="binding" x="5382.03" y="4720.83" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="92.3" font="Sans" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="Target" scene="0" handle="Target" x="5723.5" y="4862.5" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="89.9" font="Sans" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="binding" scene="0" handle="binding" x="5378.1" y="4718.21" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="92.3" font="Sans" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="Target" scene="0" handle="Target" x="5677.5" y="4862.5" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="89.9" font="Sans" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="inactive_promoter" scene="0" handle="inactive_promoter" x="5093.5" y="4490" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="87.9" font="Sans" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="Activator" scene="0" handle="Activator" x="5213.5" y="5102.5" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="29.1" font="Sans" size="22" bold="0" italics="0" underline="0"/>
     </Texts>

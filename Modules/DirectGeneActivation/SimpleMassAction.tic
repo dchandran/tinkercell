@@ -6,200 +6,200 @@
         <Handle type="0" name="" parent="" family="Node"/>
         <Handle type="1" name="Target" parent="" family="Inducible Promoter">
             <tc_matrix>
-                <Table key="initial value" rows="1" cols="1" rowNames="activity" colNames="activity" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="1"/>
-                <Table key="parameters" rows="2" cols="1" rowNames="strength;;length" colNames="value" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1;;300"/>
-                <Table key="fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
+                <Table key="initial value" rows="1" cols="1" rowNames="activity" columnNames="activity" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="0"/>
+                <Table key="parameters" rows="2" cols="1" rowNames="strength;;length" columnNames="value" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1;;300"/>
+                <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
-                <Table key="text attributes" rows="2" cols="1" rowNames="sequence;;composite" colNames="value" values="AAGCTGATGGCTAGAAT;;true"/>
-                <Table key="functions" rows="0" cols="2" rowNames="" colNames="args;;defn" values=""/>
-                <Table key="assignments" rows="0" cols="1" rowNames="" colNames="rule" values=""/>
-                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" colNames="entry" values="author;;date;;description;;uri;;reference"/>
+                <Table key="text attributes" rows="2" cols="1" rowNames="sequence;;composite" columnNames="value" values="AAGCTGATGGCTAGAAT;;true"/>
+                <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
+                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
         </Handle>
         <Handle type="2" name="binding" parent="" family="2 to 1">
             <tc_matrix>
-                <Table key="product stoichiometries" rows="2" cols="3" rowNames="forward;;reverse" colNames="Target;;inactive_promoter;;TF" desc="Number of each product participating in this reaction" values="1;;0;;0;;0;;1;;1"/>
-                <Table key="parameters" rows="1" cols="1" rowNames="k0" colNames="value" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1"/>
-                <Table key="reactant stoichiometries" rows="2" cols="3" rowNames="forward;;reverse" colNames="inactive_promoter;;TF;;Target" desc="Number of each reactant participating in this reaction" values="1;;1;;0;;0;;0;;1"/>
-                <Table key="fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
+                <Table key="product stoichiometries" rows="2" cols="3" rowNames="forward;;reverse" columnNames="Target;;inactive_promoter;;TF" desc="Number of each product participating in this reaction" values="1;;0;;0;;0;;1;;1"/>
+                <Table key="parameters" rows="2" cols="3" rowNames="kf;;kb" columnNames="value;;;;" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1;;0;;0;;1;;0;;0"/>
+                <Table key="reactant stoichiometries" rows="2" cols="3" rowNames="forward;;reverse" columnNames="inactive_promoter;;TF;;Target" desc="Number of each reactant participating in this reaction" values="1;;1;;0;;0;;0;;1"/>
+                <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
-                <Table key="text attributes" rows="0" cols="1" rowNames="" colNames="value" values=""/>
-                <Table key="functions" rows="0" cols="2" rowNames="" colNames="args;;defn" values=""/>
-                <Table key="participants" rows="3" cols="1" rowNames="inactive_promoter;;TF;;Target" colNames="" values="reactant;;reactant;;product"/>
-                <Table key="assignments" rows="0" cols="1" rowNames="" colNames="rule" values=""/>
-                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" colNames="entry" values="author;;date;;description;;uri;;reference"/>
-                <Table key="rate equations" rows="2" cols="1" rowNames="forward;;reverse" colNames="formula" values="binding.k0*inactive_promoter*TF;;binding.k0*Target"/>
+                <Table key="text attributes" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
+                <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="participants" rows="3" cols="1" rowNames="inactive_promoter;;TF;;Target" columnNames="" values="reactant1;;reactant2;;product"/>
+                <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
+                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
+                <Table key="rate equations" rows="2" cols="1" rowNames="forward;;reverse" columnNames="formula" values="binding.kb*Target;;binding.kb*Target"/>
             </tc_table>
         </Handle>
         <Handle type="1" name="TF" parent="" family="Transcription Factor">
             <tc_matrix>
-                <Table key="initial value" rows="1" cols="1" rowNames="concentration" colNames="concentration" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="5"/>
-                <Table key="parameters" rows="1" cols="1" rowNames="molecularweight" colNames="value" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="50000"/>
-                <Table key="fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
+                <Table key="initial value" rows="1" cols="1" rowNames="concentration" columnNames="concentration" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="100"/>
+                <Table key="parameters" rows="1" cols="1" rowNames="molecularweight" columnNames="value" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="50000"/>
+                <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
-                <Table key="text attributes" rows="4" cols="1" rowNames="sequence;;targetDNA;;decription;;targetPromoter" colNames="value" values="GSWTQHNMCP;;GGCCCGC;;proteins that bind to a regulatory site and influence the activity of the downstream promoter.;;promoterX"/>
-                <Table key="functions" rows="0" cols="2" rowNames="" colNames="args;;defn" values=""/>
-                <Table key="assignments" rows="0" cols="1" rowNames="" colNames="rule" values=""/>
-                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" colNames="entry" values="author;;date;;description;;uri;;reference"/>
+                <Table key="text attributes" rows="4" cols="1" rowNames="sequence;;targetDNA;;decription;;targetPromoter" columnNames="value" values="GSWTQHNMCP;;GGCCCGC;;proteins that bind to a regulatory site and influence the activity of the downstream promoter.;;promoterX"/>
+                <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
+                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
         </Handle>
         <Handle type="2" name="protein_degradation" parent="" family="Degradation">
             <tc_matrix>
-                <Table key="product stoichiometries" rows="0" cols="0" rowNames="" colNames="" desc="Number of each product participating in this reaction" values=""/>
-                <Table key="parameters" rows="1" cols="1" rowNames="k0" colNames="value" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1"/>
-                <Table key="reactant stoichiometries" rows="1" cols="1" rowNames="stoichiometry" colNames="TF" desc="Number of each reactant participating in this reaction" values="1"/>
-                <Table key="fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
+                <Table key="product stoichiometries" rows="0" cols="0" rowNames="" columnNames="" desc="Number of each product participating in this reaction" values=""/>
+                <Table key="parameters" rows="1" cols="1" rowNames="k0" columnNames="value" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1"/>
+                <Table key="reactant stoichiometries" rows="1" cols="1" rowNames="stoichiometry" columnNames="TF" desc="Number of each reactant participating in this reaction" values="1"/>
+                <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
-                <Table key="text attributes" rows="0" cols="1" rowNames="" colNames="value" values=""/>
-                <Table key="functions" rows="0" cols="2" rowNames="" colNames="args;;defn" values=""/>
-                <Table key="participants" rows="2" cols="1" rowNames="TF;;emp2" colNames="" values="reactant;;product"/>
-                <Table key="assignments" rows="0" cols="1" rowNames="" colNames="rule" values=""/>
-                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" colNames="entry" values="author;;date;;description;;uri;;reference"/>
-                <Table key="rate equations" rows="1" cols="1" rowNames="rate" colNames="formula" values="protein_degradation.k0*TF"/>
+                <Table key="text attributes" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
+                <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="participants" rows="2" cols="1" rowNames="TF;;emp2" columnNames="" values="reactant;;product"/>
+                <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
+                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
+                <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="protein_degradation.k0*TF"/>
             </tc_table>
         </Handle>
         <Handle type="1" name="Activator" parent="" family="Coding">
             <tc_matrix>
-                <Table key="initial value" rows="1" cols="1" rowNames="activity" colNames="activity" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="1"/>
-                <Table key="parameters" rows="1" cols="1" rowNames="length" colNames="value" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="300"/>
-                <Table key="fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
+                <Table key="initial value" rows="1" cols="1" rowNames="activity" columnNames="activity" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="0"/>
+                <Table key="parameters" rows="1" cols="1" rowNames="length" columnNames="value" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="300"/>
+                <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
-                <Table key="text attributes" rows="2" cols="1" rowNames="sequence;;composite" colNames="value" values="AAGCTGATGGCTAGAAT;;false"/>
-                <Table key="functions" rows="0" cols="2" rowNames="" colNames="args;;defn" values=""/>
-                <Table key="assignments" rows="0" cols="1" rowNames="" colNames="rule" values=""/>
-                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" colNames="entry" values="author;;date;;description;;uri;;reference"/>
+                <Table key="text attributes" rows="2" cols="1" rowNames="sequence;;composite" columnNames="value" values="AAGCTGATGGCTAGAAT;;false"/>
+                <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
+                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
         </Handle>
         <Handle type="2" name="mrna_degradation" parent="" family="Degradation">
             <tc_matrix>
-                <Table key="product stoichiometries" rows="0" cols="0" rowNames="" colNames="" desc="Number of each product participating in this reaction" values=""/>
-                <Table key="parameters" rows="1" cols="1" rowNames="k0" colNames="value" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1"/>
-                <Table key="reactant stoichiometries" rows="1" cols="1" rowNames="stoichiometry" colNames="mrn1" desc="Number of each reactant participating in this reaction" values="1"/>
-                <Table key="fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
+                <Table key="product stoichiometries" rows="0" cols="0" rowNames="" columnNames="" desc="Number of each product participating in this reaction" values=""/>
+                <Table key="parameters" rows="1" cols="1" rowNames="k0" columnNames="value" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1"/>
+                <Table key="reactant stoichiometries" rows="1" cols="1" rowNames="stoichiometry" columnNames="mrn1" desc="Number of each reactant participating in this reaction" values="1"/>
+                <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
-                <Table key="text attributes" rows="0" cols="1" rowNames="" colNames="value" values=""/>
-                <Table key="functions" rows="0" cols="2" rowNames="" colNames="args;;defn" values=""/>
-                <Table key="participants" rows="2" cols="1" rowNames="mrn1;;emp1" colNames="" values="reactant;;product"/>
-                <Table key="assignments" rows="0" cols="1" rowNames="" colNames="rule" values=""/>
-                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" colNames="entry" values="author;;date;;description;;uri;;reference"/>
-                <Table key="rate equations" rows="1" cols="1" rowNames="rate" colNames="formula" values="mrna_degradation.k0*mrn1"/>
+                <Table key="text attributes" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
+                <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="participants" rows="2" cols="1" rowNames="mrn1;;emp1" columnNames="" values="reactant;;product"/>
+                <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
+                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
+                <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="mrna_degradation.k0*mrn1"/>
             </tc_table>
         </Handle>
         <Handle type="1" name="mrn1" parent="" family="mRNA">
             <tc_matrix>
-                <Table key="initial value" rows="1" cols="1" rowNames="concentration" colNames="concentration" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="5"/>
-                <Table key="parameters" rows="2" cols="1" rowNames="molecularweight;;length" colNames="value" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="50000;;25"/>
-                <Table key="fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
+                <Table key="initial value" rows="1" cols="1" rowNames="concentration" columnNames="concentration" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="100"/>
+                <Table key="parameters" rows="2" cols="1" rowNames="molecularweight;;length" columnNames="value" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="50000;;25"/>
+                <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
-                <Table key="text attributes" rows="1" cols="1" rowNames="sequence" colNames="value" values="AUGCUAGCU"/>
-                <Table key="functions" rows="0" cols="2" rowNames="" colNames="args;;defn" values=""/>
-                <Table key="assignments" rows="0" cols="1" rowNames="" colNames="rule" values=""/>
-                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" colNames="entry" values="author;;date;;description;;uri;;reference"/>
+                <Table key="text attributes" rows="1" cols="1" rowNames="sequence" columnNames="value" values="AUGCUAGCU"/>
+                <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
+                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
         </Handle>
         <Handle type="1" name="emp1" parent="" family="Empty">
             <tc_matrix>
-                <Table key="parameters" rows="0" cols="1" rowNames="" colNames="value" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
-                <Table key="fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
+                <Table key="parameters" rows="0" cols="1" rowNames="" columnNames="value" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
+                <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
-                <Table key="text attributes" rows="0" cols="1" rowNames="" colNames="value" values=""/>
-                <Table key="functions" rows="0" cols="2" rowNames="" colNames="args;;defn" values=""/>
-                <Table key="assignments" rows="0" cols="1" rowNames="" colNames="rule" values=""/>
-                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" colNames="entry" values="author;;date;;description;;uri;;reference"/>
+                <Table key="text attributes" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
+                <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
+                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
         </Handle>
         <Handle type="1" name="emp2" parent="" family="Empty">
             <tc_matrix>
-                <Table key="parameters" rows="0" cols="1" rowNames="" colNames="value" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
-                <Table key="fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
+                <Table key="parameters" rows="0" cols="1" rowNames="" columnNames="value" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
+                <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
-                <Table key="text attributes" rows="0" cols="1" rowNames="" colNames="value" values=""/>
-                <Table key="functions" rows="0" cols="2" rowNames="" colNames="args;;defn" values=""/>
-                <Table key="assignments" rows="0" cols="1" rowNames="" colNames="rule" values=""/>
-                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" colNames="entry" values="author;;date;;description;;uri;;reference"/>
+                <Table key="text attributes" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
+                <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
+                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
         </Handle>
         <Handle type="2" name="transcription" parent="" family="Transcription">
             <tc_matrix>
-                <Table key="product stoichiometries" rows="1" cols="1" rowNames="stoichiometry" colNames="mrn1" desc="Number of each product participating in this reaction" values="1"/>
-                <Table key="parameters" rows="1" cols="1" rowNames="k0" colNames="value" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1"/>
-                <Table key="reactant stoichiometries" rows="0" cols="0" rowNames="" colNames="" desc="Number of each reactant participating in this reaction" values=""/>
-                <Table key="fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
+                <Table key="product stoichiometries" rows="1" cols="1" rowNames="stoichiometry" columnNames="mrn1" desc="Number of each product participating in this reaction" values="1"/>
+                <Table key="parameters" rows="1" cols="1" rowNames="k0" columnNames="value" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1"/>
+                <Table key="reactant stoichiometries" rows="0" cols="0" rowNames="" columnNames="" desc="Number of each reactant participating in this reaction" values=""/>
+                <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
-                <Table key="text attributes" rows="0" cols="1" rowNames="" colNames="value" values=""/>
-                <Table key="functions" rows="0" cols="2" rowNames="" colNames="args;;defn" values=""/>
-                <Table key="participants" rows="3" cols="1" rowNames="emp4;;mrn1;;Activator" colNames="" values="reactant;;product;;template"/>
-                <Table key="assignments" rows="0" cols="1" rowNames="" colNames="rule" values=""/>
-                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" colNames="entry" values="author;;date;;description;;uri;;reference"/>
-                <Table key="rate equations" rows="1" cols="1" rowNames="rate" colNames="formula" values="transcription.k0"/>
+                <Table key="text attributes" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
+                <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="participants" rows="3" cols="1" rowNames="emp4;;mrn1;;Activator" columnNames="" values="reactant;;product;;template"/>
+                <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
+                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
+                <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="transcription.k0"/>
             </tc_table>
         </Handle>
         <Handle type="1" name="emp3" parent="" family="Empty">
             <tc_matrix>
-                <Table key="parameters" rows="0" cols="1" rowNames="" colNames="value" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
-                <Table key="fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
+                <Table key="parameters" rows="0" cols="1" rowNames="" columnNames="value" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
+                <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
-                <Table key="text attributes" rows="0" cols="1" rowNames="" colNames="value" values=""/>
-                <Table key="functions" rows="0" cols="2" rowNames="" colNames="args;;defn" values=""/>
-                <Table key="assignments" rows="0" cols="1" rowNames="" colNames="rule" values=""/>
-                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" colNames="entry" values="author;;date;;description;;uri;;reference"/>
+                <Table key="text attributes" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
+                <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
+                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
         </Handle>
         <Handle type="1" name="inactive_promoter" parent="" family="Inducible Promoter">
             <tc_matrix>
-                <Table key="initial value" rows="1" cols="1" rowNames="activity" colNames="activity" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="1"/>
-                <Table key="parameters" rows="2" cols="1" rowNames="strength;;length" colNames="value" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1;;300"/>
-                <Table key="fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
+                <Table key="initial value" rows="1" cols="1" rowNames="activity" columnNames="activity" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="0"/>
+                <Table key="parameters" rows="2" cols="1" rowNames="strength;;length" columnNames="value" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1;;300"/>
+                <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
-                <Table key="text attributes" rows="2" cols="1" rowNames="sequence;;composite" colNames="value" values="AAGCTGATGGCTAGAAT;;true"/>
-                <Table key="functions" rows="0" cols="2" rowNames="" colNames="args;;defn" values=""/>
-                <Table key="assignments" rows="0" cols="1" rowNames="" colNames="rule" values=""/>
-                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" colNames="entry" values="author;;date;;description;;uri;;reference"/>
+                <Table key="text attributes" rows="2" cols="1" rowNames="sequence;;composite" columnNames="value" values="AAGCTGATGGCTAGAAT;;true"/>
+                <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
+                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
         </Handle>
         <Handle type="2" name="translation" parent="" family="Translation">
             <tc_matrix>
-                <Table key="product stoichiometries" rows="1" cols="1" rowNames="stoichiometry" colNames="TF" desc="Number of each product participating in this reaction" values="1"/>
-                <Table key="parameters" rows="1" cols="1" rowNames="k0" colNames="value" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1"/>
-                <Table key="reactant stoichiometries" rows="0" cols="0" rowNames="" colNames="" desc="Number of each reactant participating in this reaction" values=""/>
-                <Table key="fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
+                <Table key="product stoichiometries" rows="1" cols="1" rowNames="stoichiometry" columnNames="TF" desc="Number of each product participating in this reaction" values="1"/>
+                <Table key="parameters" rows="1" cols="1" rowNames="k0" columnNames="value" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1"/>
+                <Table key="reactant stoichiometries" rows="0" cols="0" rowNames="" columnNames="" desc="Number of each reactant participating in this reaction" values=""/>
+                <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
-                <Table key="text attributes" rows="0" cols="1" rowNames="" colNames="value" values=""/>
-                <Table key="functions" rows="0" cols="2" rowNames="" colNames="args;;defn" values=""/>
-                <Table key="participants" rows="3" cols="1" rowNames="emp3;;TF;;mrn1" colNames="" values="reactant;;product;;template"/>
-                <Table key="assignments" rows="0" cols="1" rowNames="" colNames="rule" values=""/>
-                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" colNames="entry" values="author;;date;;description;;uri;;reference"/>
-                <Table key="rate equations" rows="1" cols="1" rowNames="rate" colNames="formula" values="translation.k0"/>
+                <Table key="text attributes" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
+                <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="participants" rows="3" cols="1" rowNames="emp3;;TF;;mrn1" columnNames="" values="reactant;;product;;template"/>
+                <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
+                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
+                <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="translation.k0"/>
             </tc_table>
         </Handle>
         <Handle type="1" name="emp4" parent="" family="Empty">
             <tc_matrix>
-                <Table key="parameters" rows="0" cols="1" rowNames="" colNames="value" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
-                <Table key="fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
+                <Table key="parameters" rows="0" cols="1" rowNames="" columnNames="value" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
+                <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
-                <Table key="text attributes" rows="0" cols="1" rowNames="" colNames="value" values=""/>
-                <Table key="functions" rows="0" cols="2" rowNames="" colNames="args;;defn" values=""/>
-                <Table key="assignments" rows="0" cols="1" rowNames="" colNames="rule" values=""/>
-                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" colNames="entry" values="author;;date;;description;;uri;;reference"/>
+                <Table key="text attributes" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
+                <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
+                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
         </Handle>
     </Handles>
     <Nodes>
-        <NodeItem className="NodeGraphicsItem" handle="inactive_promoter" z="69">
+        <NodeItem className="NodeGraphicsItem" scene="0" handle="inactive_promoter" z="69">
             <pos x="5200" y="4545"/>
             <transform m11="1" m12="0" m21="0" m22="0.7"/>
             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
@@ -409,7 +409,7 @@
                 </renderInformation>
             </listOfRenderInformation>
         </NodeItem>
-        <NodeItem className="NodeGraphicsItem" handle="Target" z="65.8">
+        <NodeItem className="NodeGraphicsItem" scene="0" handle="Target" z="65.8">
             <pos x="5667.5" y="4757.5"/>
             <transform m11="1" m12="0" m21="0" m22="0.7"/>
             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
@@ -619,7 +619,7 @@
                 </renderInformation>
             </listOfRenderInformation>
         </NodeItem>
-        <NodeItem className="NodeGraphicsItem" handle="emp4" z="51.1">
+        <NodeItem className="NodeGraphicsItem" scene="0" handle="emp4" z="51.1">
             <pos x="4622.5" y="5235"/>
             <transform m11="0.4" m12="0" m21="0" m22="0.4"/>
             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
@@ -745,7 +745,7 @@
                 </renderInformation>
             </listOfRenderInformation>
         </NodeItem>
-        <NodeItem className="NodeGraphicsItem" handle="emp3" z="46">
+        <NodeItem className="NodeGraphicsItem" scene="0" handle="emp3" z="46">
             <pos x="4640" y="4947.5"/>
             <transform m11="0.4" m12="0" m21="0" m22="0.4"/>
             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
@@ -871,7 +871,7 @@
                 </renderInformation>
             </listOfRenderInformation>
         </NodeItem>
-        <NodeItem className="NodeGraphicsItem" handle="emp2" z="34.3">
+        <NodeItem className="NodeGraphicsItem" scene="0" handle="emp2" z="34.3">
             <pos x="5507.5" y="5150"/>
             <transform m11="0.4" m12="0" m21="0" m22="0.4"/>
             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
@@ -997,7 +997,7 @@
                 </renderInformation>
             </listOfRenderInformation>
         </NodeItem>
-        <NodeItem className="NodeGraphicsItem" handle="emp1" z="30.3">
+        <NodeItem className="NodeGraphicsItem" scene="0" handle="emp1" z="30.3">
             <pos x="5477.5" y="5450"/>
             <transform m11="0.4" m12="0" m21="0" m22="0.4"/>
             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
@@ -1123,7 +1123,7 @@
                 </renderInformation>
             </listOfRenderInformation>
         </NodeItem>
-        <NodeItem className="NodeGraphicsItem" handle="TF" z="28.1">
+        <NodeItem className="NodeGraphicsItem" scene="0" handle="TF" z="28.1">
             <pos x="5135" y="5027.5"/>
             <transform m11="0.7" m12="0" m21="0" m22="0.6"/>
             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
@@ -1171,7 +1171,7 @@
                 </renderInformation>
             </listOfRenderInformation>
         </NodeItem>
-        <NodeItem className="NodeGraphicsItem" handle="mrn1" z="26">
+        <NodeItem className="NodeGraphicsItem" scene="0" handle="mrn1" z="26">
             <pos x="5110" y="5337.5"/>
             <transform m11="1" m12="0" m21="0" m22="0.927792"/>
             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
@@ -1306,7 +1306,7 @@
                 </renderInformation>
             </listOfRenderInformation>
         </NodeItem>
-        <NodeItem className="NodeGraphicsItem" handle="Activator" z="24">
+        <NodeItem className="NodeGraphicsItem" scene="0" handle="Activator" z="24">
             <pos x="5122.5" y="5632.5"/>
             <transform m11="1.6" m12="0" m21="0" m22="0.268"/>
             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
@@ -1408,10 +1408,10 @@
         </NodeItem>
     </Nodes>
     <Connections>
-        <ConnectionItem className="ConnectionGraphicsItem" handle="transcription" z="53.1">
-            <ConnectionGraphicsItem version="1.0" color="#3232ff" width="5" type="bezier" style="1" gap="10">
+        <ConnectionItem className="ConnectionGraphicsItem" scene="0" handle="transcription" z="53.1">
+            <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="bezier" style="1" gap="10">
                 <ControlPoints>
-                    <ControlPoint x="4652.5" y="5257.45"/>
+                    <ControlPoint x="4652.5" y="5239.77"/>
                     <ControlPoint x="4730.62" y="5315.92"/>
                     <ControlPoint x="4941.88" y="5325.68"/>
                     <ControlPoint x="5040" y="5329.39"/>
@@ -1420,8 +1420,8 @@
                     <Path numPoints="4" NodeAtStart="emp4" NodeAtStartX="4622.5" NodeAtStartY="5235" NodeAtEnd="mrn1" NodeAtEndX="5110" NodeAtEndY="5337.5">
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
-                            <pos x="5040" y="5329.39" angle="2.16261"/>
-                            <transform m11="0.499644" m12="0.0188583" m21="-0.00942913" m22="0.249822"/>
+                            <pos x="5040" y="5329.39" angle="2.16268"/>
+                            <transform m11="0.499644" m12="0.0188589" m21="-0.00942942" m22="0.249822"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -1503,7 +1503,7 @@
                 <CenterRegion>
                     <Rect width="20" height="20"/>
                     <Decorator>
-                        <pos x="4839.92" y="5313.62" angle="0"/>
+                        <pos x="4839.96" y="5311.44" angle="0"/>
                         <transform m11="0.5" m12="0" m21="0" m22="0.45"/>
                         <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                             <renderInformation id="TinkerCell_Style" programName="TinkerCell">
@@ -1533,10 +1533,10 @@
                 </CenterRegion>
             </ConnectionGraphicsItem>
         </ConnectionItem>
-        <ConnectionItem className="ConnectionGraphicsItem" handle="translation" z="48.1">
-            <ConnectionGraphicsItem version="1.0" color="#3232ff" width="5" type="bezier" style="1" gap="10">
+        <ConnectionItem className="ConnectionGraphicsItem" scene="0" handle="translation" z="48.1">
+            <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="bezier" style="1" gap="10">
                 <ControlPoints>
-                    <ControlPoint x="4670" y="4966.12"/>
+                    <ControlPoint x="4670" y="4949.75"/>
                     <ControlPoint x="4770" y="5028.21"/>
                     <ControlPoint x="4975" y="5029.22"/>
                     <ControlPoint x="5080" y="5028.09"/>
@@ -1545,8 +1545,8 @@
                     <Path numPoints="4" NodeAtStart="emp3" NodeAtStartX="4640" NodeAtStartY="4947.5" NodeAtEnd="TF" NodeAtEndX="5135" NodeAtEndY="5027.5">
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
-                            <pos x="5080" y="5028.09" angle="-0.616013"/>
-                            <transform m11="0.499971" m12="-0.0053729" m21="0.00268645" m22="0.249986"/>
+                            <pos x="5080" y="5028.09" angle="-0.615906"/>
+                            <transform m11="0.499971" m12="-0.00537197" m21="0.00268599" m22="0.249986"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -1628,7 +1628,7 @@
                 <CenterRegion>
                     <Rect width="20" height="20"/>
                     <Decorator>
-                        <pos x="4874.24" y="5020.43" angle="0"/>
+                        <pos x="4874.27" y="5018.41" angle="0"/>
                         <transform m11="0.5" m12="0" m21="0" m22="0.45"/>
                         <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                             <renderInformation id="TinkerCell_Style" programName="TinkerCell">
@@ -1658,8 +1658,8 @@
                 </CenterRegion>
             </ConnectionGraphicsItem>
         </ConnectionItem>
-        <ConnectionItem className="ConnectionGraphicsItem" handle="binding" z="71.7">
-            <ConnectionGraphicsItem version="1.0" color="#3232ff" width="5" type="bezier" style="1" gap="10">
+        <ConnectionItem className="ConnectionGraphicsItem" scene="0" handle="binding" z="71.7">
+            <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="bezier" style="1" gap="10">
                 <ControlPoints>
                     <ControlPoint x="5189.07" y="4590"/>
                     <ControlPoint x="5155.72" y="4668.23"/>
@@ -1669,7 +1669,7 @@
                     <ControlPoint x="5178.4" y="4868.23"/>
                     <ControlPoint x="5597.5" y="4761.55"/>
                     <ControlPoint x="5461.66" y="4695.78"/>
-                    <ControlPoint x="5393.32" y="4701.88"/>
+                    <ControlPoint x="5393.32" y="4704.37"/>
                 </ControlPoints>
                 <CurveSegments>
                     <Path numPoints="4" NodeAtStart="inactive_promoter" NodeAtStartX="5200" NodeAtStartY="4545" NodeAtEnd="" NodeAtEndX="0" NodeAtEndY="0">
@@ -1681,8 +1681,8 @@
                     <Path numPoints="4" NodeAtStart="Target" NodeAtStartX="5667.5" NodeAtStartY="4757.5" NodeAtEnd="" NodeAtEndX="0" NodeAtEndY="0">
                         <ControlPoints indices="6,7,8,3"/>
                         <ArrowAtStart>
-                            <pos x="5597.5" y="4761.55" angle="25.8358"/>
-                            <transform m11="0.360059" m12="0.174235" m21="-0.130676" m22="0.270044"/>
+                            <pos x="5597.5" y="4761.55" angle="25.8357"/>
+                            <transform m11="0.360059" m12="0.174234" m21="-0.130676" m22="0.270044"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -1819,20 +1819,20 @@
                 </CenterRegion>
             </ConnectionGraphicsItem>
         </ConnectionItem>
-        <ConnectionItem className="ConnectionGraphicsItem" handle="translation" z="59.4">
-            <ConnectionGraphicsItem version="1.0" color="#3232ff" width="5" type="bezier" style="2" gap="10">
+        <ConnectionItem className="ConnectionGraphicsItem" scene="0" handle="translation" z="59.4">
+            <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="bezier" style="2" gap="10">
                 <ControlPoints>
                     <ControlPoint x="5129.84" y="5294.97"/>
                     <ControlPoint x="5105.32" y="5168.27"/>
                     <ControlPoint x="4938.13" y="5174.88"/>
-                    <ControlPoint x="4880.38" y="5059.46"/>
+                    <ControlPoint x="4880.19" y="5057.45"/>
                 </ControlPoints>
                 <CurveSegments>
                     <Path numPoints="4" NodeAtStart="mrn1" NodeAtStartX="5110" NodeAtStartY="5337.5" NodeAtEnd="translation" NodeAtEndX="0" NodeAtEndY="0">
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
-                            <pos x="4880.38" y="5059.46" angle="-116.583"/>
-                            <transform m11="-0.223287" m12="-0.447374" m21="0.223687" m22="-0.111643"/>
+                            <pos x="4880.19" y="5057.45" angle="-116.261"/>
+                            <transform m11="-0.220769" m12="-0.448622" m21="0.224311" m22="-0.110384"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -1916,20 +1916,20 @@
                 </CenterRegion>
             </ConnectionGraphicsItem>
         </ConnectionItem>
-        <ConnectionItem className="ConnectionGraphicsItem" handle="transcription" z="57.2">
-            <ConnectionGraphicsItem version="1.0" color="#3232ff" width="5" type="bezier" style="2" gap="10">
+        <ConnectionItem className="ConnectionGraphicsItem" scene="0" handle="transcription" z="57.2">
+            <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="bezier" style="2" gap="10">
                 <ControlPoints>
                     <ControlPoint x="5119.92" y="5609.1"/>
                     <ControlPoint x="5119.74" y="5494.05"/>
                     <ControlPoint x="4900.94" y="5441.46"/>
-                    <ControlPoint x="4848.75" y="5352.65"/>
+                    <ControlPoint x="4848.46" y="5350.48"/>
                 </ControlPoints>
                 <CurveSegments>
                     <Path numPoints="4" NodeAtStart="Activator" NodeAtStartX="5122.5" NodeAtStartY="5632.5" NodeAtEnd="transcription" NodeAtEndX="0" NodeAtEndY="0">
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
-                            <pos x="4848.75" y="5352.65" angle="-120.442"/>
-                            <transform m11="-0.252872" m12="-0.431342" m21="0.215671" m22="-0.126436"/>
+                            <pos x="4848.46" y="5350.48" angle="-119.979"/>
+                            <transform m11="-0.249377" m12="-0.433372" m21="0.216686" m22="-0.124689"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -2013,8 +2013,8 @@
                 </CenterRegion>
             </ConnectionGraphicsItem>
         </ConnectionItem>
-        <ConnectionItem className="ConnectionGraphicsItem" handle="protein_degradation" z="35.3">
-            <ConnectionGraphicsItem version="1.0" color="#3232ff" width="5" type="bezier" style="1" gap="10">
+        <ConnectionItem className="ConnectionGraphicsItem" scene="0" handle="protein_degradation" z="35.3">
+            <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="bezier" style="1" gap="10">
                 <ControlPoints>
                     <ControlPoint x="5180" y="5026.96"/>
                     <ControlPoint x="5258.13" y="5026.02"/>
@@ -2025,8 +2025,8 @@
                     <Path numPoints="4" NodeAtStart="TF" NodeAtStartX="5135" NodeAtStartY="5027.5" NodeAtEnd="emp2" NodeAtEndX="5507.5" NodeAtEndY="5150">
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
-                            <pos x="5472.38" y="5118.73" angle="32.7504"/>
-                            <transform m11="0.420596" m12="0.270369" m21="-0.135184" m22="0.210298"/>
+                            <pos x="5472.38" y="5118.73" angle="32.7517"/>
+                            <transform m11="0.42059" m12="0.270378" m21="-0.135189" m22="0.210295"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -2110,8 +2110,8 @@
                 </CenterRegion>
             </ConnectionGraphicsItem>
         </ConnectionItem>
-        <ConnectionItem className="ConnectionGraphicsItem" handle="mrna_degradation" z="31.3">
-            <ConnectionGraphicsItem version="1.0" color="#3232ff" width="5" type="bezier" style="1" gap="10">
+        <ConnectionItem className="ConnectionGraphicsItem" scene="0" handle="mrna_degradation" z="31.3">
+            <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="bezier" style="1" gap="10">
                 <ControlPoints>
                     <ControlPoint x="5170" y="5325.06"/>
                     <ControlPoint x="5252.5" y="5315.47"/>
@@ -2122,8 +2122,8 @@
                     <Path numPoints="4" NodeAtStart="mrn1" NodeAtStartX="5110" NodeAtStartY="5337.5" NodeAtEnd="emp1" NodeAtEndX="5477.5" NodeAtEndY="5450">
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
-                            <pos x="5442.38" y="5412.41" angle="42.5423"/>
-                            <transform m11="0.368517" m12="0.337928" m21="-0.168964" m22="0.184258"/>
+                            <pos x="5442.38" y="5412.41" angle="42.5437"/>
+                            <transform m11="0.368509" m12="0.337937" m21="-0.168968" m22="0.184254"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -2209,15 +2209,15 @@
         </ConnectionItem>
     </Connections>
     <Texts>
-        <TextItem text="binding" handle="binding" x="5346.65" y="4650.42" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="72.7" font="Sans" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="inactive_promoter" handle="inactive_promoter" x="5061" y="4457.5" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="70" font="Sans" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="Target" handle="Target" x="5621" y="4670" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="66.8" font="Sans" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="transcription" handle="transcription" x="4773.66" y="5246.63" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="54.1" font="Sans" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="translation" handle="translation" x="4765.64" y="4960.87" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="49.1" font="Sans" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="protein_degradation" handle="protein_degradation" x="5268.75" y="4995.1" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="36.3" font="Sans" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="mrna_degradation" handle="mrna_degradation" x="5278.72" y="5284.26" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="32.3" font="Sans" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="TF" handle="TF" x="5106" y="5065" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="29.1" font="Sans" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="mrn1" handle="mrn1" x="5073" y="5362.5" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="27" font="Sans" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="Activator" handle="Activator" x="5055" y="5658.4" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="25" font="Sans" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="binding" scene="0" handle="binding" x="5346.65" y="4650.42" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="72.7" font="Sans" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="inactive_promoter" scene="0" handle="inactive_promoter" x="5061" y="4457.5" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="70" font="Sans" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="Target" scene="0" handle="Target" x="5621" y="4670" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="66.8" font="Sans" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="transcription" scene="0" handle="transcription" x="4773.66" y="5246.63" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="54.1" font="Sans" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="translation" scene="0" handle="translation" x="4765.64" y="4960.87" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="49.1" font="Sans" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="protein_degradation" scene="0" handle="protein_degradation" x="5268.75" y="4995.1" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="36.3" font="Sans" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="mrna_degradation" scene="0" handle="mrna_degradation" x="5278.72" y="5284.26" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="32.3" font="Sans" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="TF" scene="0" handle="TF" x="5106" y="5065" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="29.1" font="Sans" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="mrn1" scene="0" handle="mrn1" x="5073" y="5362.5" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="27" font="Sans" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="Activator" scene="0" handle="Activator" x="5055" y="5658.4" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="25" font="Sans" size="22" bold="0" italics="0" underline="0"/>
     </Texts>
 </Model>

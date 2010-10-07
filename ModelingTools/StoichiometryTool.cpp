@@ -246,6 +246,7 @@ namespace Tinkercell
 
 
 
+
 			if (reactions)
 				mainWindow->contextItemsMenu.addAction(autoReverse);
 			else
@@ -763,7 +764,10 @@ namespace Tinkercell
 		QString rate = ratesTable.value(row,0);
 		plotLineEdit->setText(rate);
 		graphWidget->setFormula(rate, currentNetwork());
-		graphWidget->setTitle(connectionHandle->name + tr(" rate formula"));
+		if (ratesTable.rows() > 1)
+			graphWidget->setTitle(connectionHandle->name + tr(" ") + ratesTable.rowName(row) + tr(" rate formula"));
+		else
+			graphWidget->setTitle(connectionHandle->name + tr(" rate formula"));
 		graphWidget->setYLabel(connectionHandle->name);
 		
 		return true;
@@ -920,12 +924,12 @@ namespace Tinkercell
 			if (parseRateString(network,connectionHandle,rate))
 			{
 				TextDataTable newTable(connectionHandle->textDataTable(tr("Rate equations")));
-				
-				if (rate != newTable.value(0,0))
+				int row = 0;
+				if (pickRow1 && pickRow1->isVisible())
+					row = pickRow1->currentIndex();
+
+				if (rate != newTable.value(row,0))
 				{
-					int row = 0;
-					if (pickRow1 && pickRow1->isVisible())
-						row = pickRow1->currentIndex();
 					newTable.value(row,0) = rate;
 					
 					QString s;
@@ -1005,6 +1009,7 @@ namespace Tinkercell
 		}
 
 		TextDataTable& ratesTable = connectionHandle->textDataTable(tr("Rate equations"));
+		QString s = pickRow1->currentText();
 		pickRow1->clear();
 		pickRow2->clear();
 		QStringList list = ratesTable.rowNames();
@@ -1020,8 +1025,11 @@ namespace Tinkercell
 			pickRow1->show();
 			pickRow2->show();
 			pickRow1->addItems(list);
-			pickRow2->addItems(list);
-			pickRow1->setCurrentIndex(0);
+			pickRow2->addItems(list);			
+			int i = list.indexOf(s);
+			if (i < 0)
+				i = 0;
+			pickRow1->setCurrentIndex(i);
 		}
 	}
 

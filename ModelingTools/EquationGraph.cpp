@@ -83,13 +83,15 @@ namespace Tinkercell
 	void EquationGraph::setTitle(const QString& s)
 	{
 		title = s;
-		plotWidget->setTitle(s);
+		if (plotWidget)
+			plotWidget->setTitle(s);
 	}
 
 	void EquationGraph::setYLabel(const QString& s)
 	{
 		ylab = s;
-		plotWidget->setYLabel(s);
+		if (plotWidget)
+			plotWidget->setYLabel(s);
 	}
 	
 	bool EquationGraph::replot(const QString& xaxis, qreal min, qreal max, QStringList & vars)

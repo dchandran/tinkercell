@@ -2523,7 +2523,6 @@ namespace Tinkercell
 				ArrowHeadItem * arrow = ArrowHeadItem::cast(targetNodes[i]);
 				if (arrow)
 				{
-					arrow->angle = 0.0;
 					if (arrow->connectionItem)
 						arrow->connectionItem->refresh(false);
 				}

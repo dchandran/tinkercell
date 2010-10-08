@@ -248,6 +248,8 @@ namespace Tinkercell
 
 
 
+
+
 			if (reactions)
 				mainWindow->contextItemsMenu.addAction(autoReverse);
 			else

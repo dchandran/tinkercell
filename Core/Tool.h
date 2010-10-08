@@ -163,7 +163,7 @@ namespace Tinkercell
 		/*! \brief main window for this tool*/
 		Tool * tool;
 		/*! \brief for enabling dynamic_cast*/
-		enum { Type = UserType + 10 };
+		enum { Type = UserType + 9 };
 		/*! \brief for enabling dynamic_cast*/
 		int type() const
 		{

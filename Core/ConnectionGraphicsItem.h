@@ -84,7 +84,19 @@ namespace Tinkercell
 		\return duplicate arrow head item
 		*/
 		virtual NodeGraphicsItem* clone() const;
-		/*! \brief used for checking type before static casts */
+		/*! \brief cast a graphics item to a node graphics item using qgraphicsitem_cast
+		\param QGraphicsItem* graphics item
+		\return ArrowHeadItem* can be 0 if the cast is invalid
+		*/
+		static ArrowHeadItem* cast(QGraphicsItem *);
+		/*! \brief for enabling dynamic_cast*/
+		enum { Type = UserType + 6 };
+		/*! \brief for enabling dynamic_cast*/
+		virtual int type() const
+		{
+			// Enable the use of dynamic_cast with this item.
+			return Type;
+		}
 		static const QString CLASSNAME;
 	};
 
@@ -167,7 +179,7 @@ namespace Tinkercell
 			/*! Copy operator */
 			virtual ControlPoint& operator = (const ControlPoint& copy);
 			/*! \brief for enabling dynamic_cast*/
-			enum { Type = UserType + 6 };
+			enum { Type = UserType + 7 };
 			/*! \brief for enabling dynamic_cast*/
 			virtual int type() const
 			{
@@ -220,9 +232,9 @@ namespace Tinkercell
 		* \return void*/
 		virtual void clear(bool all=false);
 		/*! \brief refresh the path if any controlpoints have moved
-		* \param void
+		* \param bool tranform arrow heads
 		* \return void*/
-		virtual void refresh();
+		virtual void refresh(bool arrows=true);
 		/*! \brief set visibility of control points
 		* \param visible = true, invisible = false
 		* \return void*/
@@ -323,8 +335,9 @@ namespace Tinkercell
 		QRectF pathBoundingRect;
 		/*! \brief update the boundary path*/
 		virtual void refreshBoundaryPath();
-		/*! \brief adjust the end control points so that they point straight*/
-		virtual void adjustEndPoints();
+		/*! \brief adjust the end control points so that they point straight
+		* \param bool adjust arrow transformations*/
+		virtual void adjustEndPoints(bool arrows=true);
 	};
 
 }

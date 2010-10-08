@@ -87,7 +87,7 @@ namespace Tinkercell
 		QPair<QGraphicsItem*,QPointF> relativePosition;
 
 		/*! \brief for enabling dynamic_cast*/
-		enum { Type = UserType + 7 };
+		enum { Type = UserType + 8};
 		/*! \brief for enabling dynamic_cast*/
 		int type() const
 		{

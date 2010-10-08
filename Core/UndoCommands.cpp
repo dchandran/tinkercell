@@ -2520,12 +2520,12 @@ namespace Tinkercell
 				targetNodes[i]->boundaryControlPoints.clear();
 
 				(*targetNodes[i]) = newNodes[i];
-				if (targetNodes[i]->className == ArrowHeadItem::CLASSNAME)
+				ArrowHeadItem * arrow = ArrowHeadItem::cast(targetNodes[i]);
+				if (arrow)
 				{
-					ArrowHeadItem * arrow = static_cast<ArrowHeadItem*>(targetNodes[i]);
 					arrow->angle = 0.0;
 					if (arrow->connectionItem)
-						arrow->connectionItem->refresh();
+						arrow->connectionItem->refresh(false);
 				}
 			}
 		}
@@ -2562,9 +2562,9 @@ namespace Tinkercell
 				targetNodes[i]->boundaryControlPoints.clear();
 
 				(*targetNodes[i]) = oldNodes[i];
-				if (targetNodes[i]->className == ArrowHeadItem::CLASSNAME)
+				ArrowHeadItem * arrow = ArrowHeadItem::cast(targetNodes[i]);
+				if (arrow)
 				{
-					ArrowHeadItem * arrow = static_cast<ArrowHeadItem*>(targetNodes[i]);
 					if (arrow->connectionItem)
 						arrow->connectionItem->refresh();
 				}

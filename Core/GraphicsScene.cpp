@@ -2062,7 +2062,7 @@ namespace Tinkercell
 				}
 				else
 				{
-					if ((node = NodeGraphicsItem::topLevelNodeItem(movingItems[i])) && (node->className == ArrowHeadItem::CLASSNAME))
+					if (ArrowHeadItem::cast(movingItems[i]))
 					{
 						movingItems.removeAll(node);
 					}

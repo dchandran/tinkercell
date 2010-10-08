@@ -499,7 +499,7 @@ namespace Tinkercell
 			else
 			{
 				NodeGraphicsItem * node = NodeGraphicsItem::cast(qitem);
-				if (node && node->className == ArrowHeadItem::CLASSNAME)
+				if (ArrowHeadItem::cast(node))
 				{
 					ArrowHeadItem * arrow = static_cast<ArrowHeadItem*>(node);
 					if (arrow->connectionItem && arrow->connectionItem->centerRegionItem != arrow)
@@ -698,7 +698,7 @@ namespace Tinkercell
 				NodeGraphicsItem * node;
 				QList<QGraphicsItem*> & list = scene->selected();
 				for (int i=0; i < list.size(); ++i)
-					if (!((node = NodeGraphicsItem::cast(list[i])) && node->className == ArrowHeadItem::CLASSNAME))
+					if (!((node = NodeGraphicsItem::cast(list[i])) && ArrowHeadItem::cast(node)))
 						return;
 				
 				emit substituteNodeGraphics();
@@ -743,7 +743,7 @@ namespace Tinkercell
 		for (int i=0; i < movingItems.size(); ++i)
 		{
 			NodeGraphicsItem * node = NodeGraphicsItem::cast(movingItems[i]);
-			if (node && node->className == ArrowHeadItem::CLASSNAME)
+			if (node && ArrowHeadItem::cast(node))
 			{
 				ArrowHeadItem * arrow = static_cast<ArrowHeadItem*>(node);
 				if (arrow && arrow->connectionItem)

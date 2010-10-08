@@ -67,7 +67,7 @@ namespace Tinkercell
 	*/
 	QGraphicsItem * cloneGraphicsItem( QGraphicsItem * item )
 	{
-		//ArrowHeadItem* arrow = 0;
+		ArrowHeadItem* arrow = 0;
 		NodeGraphicsItem * node = 0;
 		ConnectionGraphicsItem * connection = 0;
 		ControlPoint * controlPoint0 = 0;
@@ -84,6 +84,9 @@ namespace Tinkercell
 
 			connection = ConnectionGraphicsItem::cast(p);
 			if (connection) return (QGraphicsItem*)(connection->clone());
+			
+			arrow = ArrowHeadItem::cast(p);
+			if (arrow) return (QGraphicsItem*)(arrow->clone());
 
 			node = NodeGraphicsItem::cast(p);
 			if (node) return (QGraphicsItem*)(node->clone());
@@ -158,7 +161,7 @@ namespace Tinkercell
 
         //top level handles
 		for (int i=0; i < items.size(); ++i)
-            if (!visited.contains(items[i]) && !( (node1 = NodeGraphicsItem::cast(items[i])) && (node1->className == ArrowHeadItem::CLASSNAME) ) )
+            if (!visited.contains(items[i]) && !ArrowHeadItem::cast(items[i]))
             {
                 visited << items[i];
                 handle = getHandle(items[i]);
@@ -239,6 +242,7 @@ namespace Tinkercell
 						
                         setHandle(itemClone,cloneHandle);
                     }
+
                 }
             }
 

@@ -241,6 +241,7 @@ namespace Tinkercell
 #if QT_VERSION > 0x040600
 		setTransform(t1);
 #endif
+
 		/**copy handle**/
 		className = copy.className;
 		itemHandle = copy.itemHandle;
@@ -270,7 +271,7 @@ namespace Tinkercell
 
 		refresh();
 
-#if QT_VERSION < 0x040600		
+#if QT_VERSION < 0x040600	
 		setTransform(t1);
 #endif
 
@@ -1147,7 +1148,8 @@ namespace Tinkercell
 
 		while (p)
 		{
-			idptr = qgraphicsitem_cast<NodeGraphicsItem*>(p);
+			idptr = NodeGraphicsItem::cast(p);
+			
 			if (!idptr && includeControlPoints)
 			{
 				cp = qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(p);
@@ -1504,7 +1506,12 @@ namespace Tinkercell
 	NodeGraphicsItem* NodeGraphicsItem::cast(QGraphicsItem * q)
 	{
 		if (MainWindow::invalidPointers.contains( (void*)q )) return 0;
-		return qgraphicsitem_cast<NodeGraphicsItem*>(q);
+		
+		NodeGraphicsItem * node = qgraphicsitem_cast<NodeGraphicsItem*>(q);
+		if (!node)
+			node = qgraphicsitem_cast<ArrowHeadItem*>(q);
+
+		return node;
 	}
 	
 	QList<NodeGraphicsItem*> NodeGraphicsItem::cast(const QList<QGraphicsItem*>& list)
@@ -1513,8 +1520,10 @@ namespace Tinkercell
 		NodeGraphicsItem* q;
 		for (int i=0; i < list.size(); ++i)
 			if (!MainWindow::invalidPointers.contains( (void*)(list[i]) ) && 
-				(q = qgraphicsitem_cast<NodeGraphicsItem*>(list[i])))
+				( (q = qgraphicsitem_cast<NodeGraphicsItem*>(list[i])) || (q = qgraphicsitem_cast<ArrowHeadItem*>(list[i])) )
+				)
 				nodes << q;
 		return nodes;
 	}
 }
+

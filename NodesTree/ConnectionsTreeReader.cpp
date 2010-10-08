@@ -7,6 +7,7 @@
  XML reader that populates the connections tree
 
 ****************************************************************************/
+
 #include "MainWindow.h"
 #include "ConnectionsTreeReader.h"
 namespace Tinkercell
@@ -213,7 +214,7 @@ namespace Tinkercell
 		           if (parentFamily && family->graphicsItems.isEmpty() && 
 		           		!parentFamily->graphicsItems.isEmpty() &&
 		                NodeGraphicsItem::cast(parentFamily->graphicsItems[0]))
-		                family->graphicsItems += (NodeGraphicsItem::topLevelNodeItem(parentFamily->graphicsItems[0]))->clone();
+		                family->graphicsItems += (NodeGraphicsItem::cast(parentFamily->graphicsItems[0]))->clone();
 			   }
 
 			   //decorator
@@ -233,7 +234,7 @@ namespace Tinkercell
 	               	   if (QFile::exists(decoratorImageFile))
 				           nodeitem = new ArrowHeadItem(decoratorImageFile);
 				   }
-		           
+
 		           if (!nodeitem || !nodeitem->isValid())
 		           {
 		           	   if (nodeitem)
@@ -246,7 +247,7 @@ namespace Tinkercell
 			       		(parentFamily->graphicsItems.size() > 1) &&
 		                NodeGraphicsItem::cast(parentFamily->graphicsItems.last()))
 		                {
-			                family->graphicsItems += (NodeGraphicsItem::topLevelNodeItem(parentFamily->graphicsItems.last()))->clone();
+			                family->graphicsItems += (NodeGraphicsItem::cast(parentFamily->graphicsItems.last()))->clone();
 			            }
 			   }
 

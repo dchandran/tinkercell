@@ -247,6 +247,7 @@ namespace Tinkercell
 
 
 
+
 			if (reactions)
 				mainWindow->contextItemsMenu.addAction(autoReverse);
 			else
@@ -664,7 +665,7 @@ namespace Tinkercell
 					if (!connectionFamily->graphicsItems.isEmpty())
 					{
 						NodeGraphicsItem * node = NodeGraphicsItem::cast(connectionFamily->graphicsItems[0]);
-						if (node && node->className == ArrowHeadItem::CLASSNAME)
+						if (node && ArrowHeadItem::cast(node))
 						{
 							ArrowHeadItem * arrow = static_cast<ArrowHeadItem*>(node->clone());
 							arrow->connectionItem = item;

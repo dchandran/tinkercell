@@ -257,7 +257,7 @@ namespace Tinkercell
 					if (connectionFamily->graphicsItems.size() > 0)
 					{
 						NodeGraphicsItem * node = NodeGraphicsItem::cast(connectionFamily->graphicsItems[0]);
-						if (node && node->className == ArrowHeadItem::CLASSNAME)
+						if (node && ArrowHeadItem::cast(node))
 						{
 							arrow = static_cast<ArrowHeadItem*>(node->clone());
 							arrow->connectionItem = item;
@@ -403,7 +403,7 @@ namespace Tinkercell
 					if (productionFamily->graphicsItems.size() > 0)
 					{
 						NodeGraphicsItem * node = NodeGraphicsItem::cast(productionFamily->graphicsItems[0]);
-						if (node && node->className == ArrowHeadItem::CLASSNAME)
+						if (node && ArrowHeadItem::cast(node))
 						{
 							arrow = new ArrowHeadItem(*static_cast<ArrowHeadItem*>(node));
 							arrow->connectionItem = item;
@@ -429,7 +429,7 @@ namespace Tinkercell
 					if (productionFamily->graphicsItems.size() > 1)
 					{
 						NodeGraphicsItem * node = NodeGraphicsItem::cast(productionFamily->graphicsItems.last());
-						if (node && node->className == ArrowHeadItem::CLASSNAME)
+						if (node && ArrowHeadItem::cast(node))
 						{
 							arrow = new ArrowHeadItem(*static_cast<ArrowHeadItem*>(node));
 							arrow->connectionItem = item;
@@ -548,7 +548,7 @@ namespace Tinkercell
 					if (!connectionFamily->graphicsItems.isEmpty())
 					{
 						NodeGraphicsItem * node = NodeGraphicsItem::cast(connectionFamily->graphicsItems.first());
-						if (node && node->className == ArrowHeadItem::CLASSNAME)
+						if (node && ArrowHeadItem::cast(node))
 						{
 							arrow = new ArrowHeadItem(*static_cast<ArrowHeadItem*>(node));
 							if (arrow->defaultSize.width() > 0 && arrow->defaultSize.height() > 0)

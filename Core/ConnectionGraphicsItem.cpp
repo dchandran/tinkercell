@@ -14,7 +14,6 @@ node graphics item and is used to draw the arrow heads at the end of the connect
 
 ****************************************************************************/
 
-#include <iostream>
 #include <math.h>
 #include <QPainterPathStroker>
 #include "GraphicsScene.h"
@@ -97,7 +96,6 @@ namespace Tinkercell
 		}
 
 		return 0;
-
 	}
 
 	/*! Constructor: init everything */
@@ -128,6 +126,13 @@ namespace Tinkercell
 	{
 		return new ArrowHeadItem(*this);
 	}
+	
+	ArrowHeadItem* ArrowHeadItem::cast(QGraphicsItem * q)
+	{
+		if (MainWindow::invalidPointers.contains( (void*)q )) return 0;
+		return qgraphicsitem_cast<ArrowHeadItem*>(q);
+	}
+
 
 	/*! Constructor: initialize everything */
 	ConnectionGraphicsItem::ConnectionGraphicsItem(QGraphicsItem * parent) : QGraphicsPathItem (parent), itemHandle(0)
@@ -576,7 +581,7 @@ namespace Tinkercell
 	/*! \brief adjust the end control points so that they point straight
 	* \param void
 	* \return void*/
-	void ConnectionGraphicsItem::adjustEndPoints()
+	void ConnectionGraphicsItem::adjustEndPoints(bool arrowTransform)
 	{
 		if (!scene()) return;
 
@@ -662,12 +667,15 @@ namespace Tinkercell
 					if (curveSegments[i].arrowStart->angle != angle)
 					{
 						double dx = angle - curveSegments[i].arrowStart->angle;
-						std::cout << "angle = " << angle << " + " << dx << "\n";
-						double sinx = sin(dx * 3.14/180.0),
-							  cosx = cos(dx * 3.14/180.0);
-						QTransform rotate(cosx, sinx, -sinx, cosx, 0, 0);
-						QTransform t = curveSegments[i].arrowStart->transform();
-						curveSegments[i].arrowStart->setTransform(t * rotate);
+						
+						if (arrowTransform)
+						{
+							double sinx = sin(dx * 3.14159/180.0),
+								  cosx = cos(dx * 3.14159/180.0);
+							QTransform rotate(cosx, sinx, -sinx, cosx, 0, 0);
+							QTransform t = curveSegments[i].arrowStart->transform();
+							curveSegments[i].arrowStart->setTransform(t * rotate);
+						}
 						curveSegments[i].arrowStart->angle = angle;
 					}
 				}
@@ -721,11 +729,14 @@ namespace Tinkercell
 				if (curveSegments[i].arrowEnd->angle != angle)
 				{
 					double dx = angle - curveSegments[i].arrowEnd->angle;
-					double sinx = sin(dx * 3.14/180.0),
-					  	   cosx = cos(dx * 3.14/180.0);
-					QTransform rotate(cosx, sinx, -sinx, cosx, 0, 0);
-					QTransform t = curveSegments[i].arrowEnd->transform();
-					curveSegments[i].arrowEnd->setTransform(t * rotate);				
+					if (arrowTransform)
+					{
+						double sinx = sin(dx * 3.14159/180.0),
+						  	   cosx = cos(dx * 3.14159/180.0);
+						QTransform rotate(cosx, sinx, -sinx, cosx, 0, 0);
+						QTransform t = curveSegments[i].arrowEnd->transform();
+						curveSegments[i].arrowEnd->setTransform(t * rotate);
+					}
 					curveSegments[i].arrowEnd->angle = angle;
 				}
 			}
@@ -813,11 +824,14 @@ namespace Tinkercell
 					if (curveSegments[0].arrowEnd->angle != angle)
 					{
 						double dx = angle - curveSegments[0].arrowEnd->angle;
-						double sinx = sin(dx * 3.14/180.0),
-							   cosx = cos(dx * 3.14/180.0);
-						QTransform rotate(cosx, sinx, -sinx, cosx, 0, 0);
-						QTransform t = curveSegments[0].arrowEnd->transform();
-						curveSegments[0].arrowEnd->setTransform(t * rotate);
+						if (arrowTransform)
+						{
+							double sinx = sin(dx * 3.14159/180.0),
+								   cosx = cos(dx * 3.14159/180.0);
+							QTransform rotate(cosx, sinx, -sinx, cosx, 0, 0);
+							QTransform t = curveSegments[0].arrowEnd->transform();
+							curveSegments[0].arrowEnd->setTransform(t * rotate);
+						}
 						curveSegments[0].arrowEnd->angle = angle;
 					}
 				}
@@ -859,10 +873,10 @@ namespace Tinkercell
 	/*! \brief refresh the path if any controlpoints have moved
 	* \param void
 	* \return void*/
-	void ConnectionGraphicsItem::refresh()
+	void ConnectionGraphicsItem::refresh(bool arrowTransform)
 	{
 		setPos(0,0);
-		adjustEndPoints();
+		adjustEndPoints(arrowTransform);
 		qreal z = zValue();
 		
 		if (MainWindow::invalidPointers.contains(centerRegionItem))
@@ -1251,18 +1265,16 @@ namespace Tinkercell
 			if (curveSegments[i].size() > 0 && curveSegments[i][0])
 			{
 				node = NodeGraphicsItem::cast(curveSegments[i][0]->parentItem());
-				if (node && node->className == ArrowHeadItem::CLASSNAME)
+				if (node && (arrow = ArrowHeadItem::cast(node)))
 				{
-					arrow = static_cast<ArrowHeadItem*>(node);
 					if (arrow->connectionItem && arrow->connectionItem->centerRegionItem == arrow)
 						return true;
 				}
 				if (curveSegments[i].size() > 1 && curveSegments[i][curveSegments[i].size()-1])
 				{
 					node = NodeGraphicsItem::cast(curveSegments[i][curveSegments[i].size()-1]->parentItem());
-					if (node && node->className == ArrowHeadItem::CLASSNAME)
+					if (node && (arrow = ArrowHeadItem::cast(node)))
 					{
-						arrow = static_cast<ArrowHeadItem*>(node);
 						if (arrow->connectionItem && arrow->connectionItem->centerRegionItem == arrow)
 							return true;
 					}
@@ -1880,3 +1892,4 @@ namespace Tinkercell
 			}
 	}
 }
+

@@ -913,7 +913,7 @@ namespace Tinkercell
 		{
 			NodeGraphicsItem * node;
 			if ((node = qgraphicsitem_cast<NodeGraphicsItem*>(item)) && 
-				(node->className == ArrowHeadItem::CLASSNAME))
+				(ArrowHeadItem::cast(node)))
 			{
 				ArrowHeadItem * arrow = static_cast<ArrowHeadItem*>(node);
 				if (arrow->connectionItem && arrow->connectionItem->centerRegionItem == arrow)

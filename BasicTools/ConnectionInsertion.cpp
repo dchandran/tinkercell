@@ -611,9 +611,9 @@ namespace Tinkercell
 		if (selectedFamily->graphicsItems.size() > 1 && selectedFamily->graphicsItems.last())
 		{
 			NodeGraphicsItem * node = NodeGraphicsItem::cast(selectedFamily->graphicsItems.last());
-			if (node && node->className == ArrowHeadItem::CLASSNAME)
+			if (node && ArrowHeadItem::cast(node))
 			{
-				item->centerRegionItem = new ArrowHeadItem(*static_cast<ArrowHeadItem*>(node));
+				item->centerRegionItem = new ArrowHeadItem(*ArrowHeadItem::cast(node));
 				if (node->defaultSize.width() > 0 && node->defaultSize.height() > 0)
 					item->centerRegionItem->scale(node->defaultSize.width()/node->sceneBoundingRect().width(),node->defaultSize.height()/node->sceneBoundingRect().height());
 				insertList += item->centerRegionItem;
@@ -957,8 +957,8 @@ namespace Tinkercell
 								if (selectedFamily->graphicsItems.size() > 1 && selectedFamily->graphicsItems.last())
 								{
 									NodeGraphicsItem * node0 = NodeGraphicsItem::cast(selectedFamily->graphicsItems.last());
-									if (node0 && node0->className == ArrowHeadItem::CLASSNAME)
-										node = new ArrowHeadItem(*static_cast<ArrowHeadItem*>(node0));										
+									if (node0 && ArrowHeadItem::cast(node0))
+										node = new ArrowHeadItem(*ArrowHeadItem::cast(node0));										
 								}
 								else
 									node = new ArrowHeadItem(ConnectionGraphicsItem::DefaultMiddleItemFile, selectedConnections[j]);
@@ -992,9 +992,9 @@ namespace Tinkercell
 					if (!createdCenterItem && selectedFamily->graphicsItems.size() > 1 && selectedFamily->graphicsItems.last())
 					{
 						NodeGraphicsItem * node0 = NodeGraphicsItem::cast(selectedFamily->graphicsItems.last());
-						if (node0 && node0->className == ArrowHeadItem::CLASSNAME)
+						if (node0 && ArrowHeadItem::cast(node0))
 						{
-							item->centerRegionItem = new ArrowHeadItem(*static_cast<ArrowHeadItem*>(node0));
+							item->centerRegionItem = new ArrowHeadItem(*ArrowHeadItem::cast(node0));
 							if (node0->defaultSize.width() > 0 && node0->defaultSize.height() > 0)
 								node0->scale(node0->defaultSize.width()/node0->sceneBoundingRect().width(),node0->defaultSize.height()/node0->sceneBoundingRect().height());
 							insertList += item->centerRegionItem;

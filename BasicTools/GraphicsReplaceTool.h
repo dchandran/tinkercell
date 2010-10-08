@@ -40,7 +40,6 @@ namespace Tinkercell
 
 	public slots:
 		void substituteNodeGraphics();
-		void substituteNodeGraphics(bool);
 
 	private slots:
 		void selectNewNodeFile();

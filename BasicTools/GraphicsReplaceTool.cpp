@@ -179,20 +179,6 @@ namespace Tinkercell
 		GraphicsScene * scene = currentScene();
 		if (!scene) return;
 
-		bool b = true;
-		QList<QGraphicsItem*> & list = scene->selected();
-		NodeGraphicsItem * node;
-		for (int i=0; i < list.size(); ++i)
-			if ((node = NodeGraphicsItem::cast(list[i])) && node->className == ArrowHeadItem::CLASSNAME)
-			{
-				b = false;
-				break;
-			}
-		substituteNodeGraphics();
-	}
-
-	void GraphicsReplaceTool::substituteNodeGraphics()
-	{
 		nodeSelectionDialog->exec();
 		if (nodeSelectionDialog->result() == QDialog::Accepted)
 		{

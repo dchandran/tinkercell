@@ -188,12 +188,11 @@ namespace Tinkercell
 				b = false;
 				break;
 			}
-		substituteNodeGraphics(b);
+		substituteNodeGraphics();
 	}
 
-	void GraphicsReplaceTool::substituteNodeGraphics(bool b)
+	void GraphicsReplaceTool::substituteNodeGraphics()
 	{
-		_transform = b;
 		nodeSelectionDialog->exec();
 		if (nodeSelectionDialog->result() == QDialog::Accepted)
 		{
@@ -252,7 +251,7 @@ namespace Tinkercell
 		for (int i=0; i < nodesList.size(); ++i)
 			filenames += fileName;
 
-		ReplaceNodeGraphicsCommand * command = new ReplaceNodeGraphicsCommand(tr("Image replaced"),nodesList,filenames,_transform);
+		ReplaceNodeGraphicsCommand * command = new ReplaceNodeGraphicsCommand(tr("Image replaced"),nodesList,filenames);
 		if (scene->network)
 			scene->network->push(command);
 		else

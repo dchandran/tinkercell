@@ -51,7 +51,6 @@ namespace Tinkercell
 		bool fullReactionSelected(const ConnectionGraphicsItem*);
 		void makeNodeSelectionDialog();
 
-		bool _transform;
 		QList<QListWidget*> nodesListWidgets;
 		QTabWidget * tabWidget;
 		QStringList nodesFilesList;

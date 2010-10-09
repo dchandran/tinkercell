@@ -251,6 +251,8 @@ namespace Tinkercell
 
 
 
+
+
 			if (reactions)
 				mainWindow->contextItemsMenu.addAction(autoReverse);
 			else
@@ -679,7 +681,7 @@ namespace Tinkercell
 						}
 					}
 
-					connection->name = tr("dimer_") + node->name;
+					connection->name = handle->name + tr("_dimerize");
 					item->lineType = ConnectionGraphicsItem::line;
 					connection->name = scene->network->makeUnique(connection->name,newNames);
 					newNames << connection->name;
@@ -697,9 +699,8 @@ namespace Tinkercell
 					font = nameItem->font();
 					font.setPointSize(22);
 					nameItem->setFont(font);
-					
+
 					//make the rates and stoichiometry table
-					
 					NumericalDataTable reactants, products;
 					TextDataTable rates;
 					
@@ -708,18 +709,18 @@ namespace Tinkercell
 					products.resize(2,2);
 					
 					rates.setColumnName(0,tr("rates"));
-					reactants.setRowName(0,tr("forwards"));
-					products.setRowName(0,tr("forwards"));
-					rates.setRowName(0,tr("forwards"));
+					reactants.setRowName(0,tr("forward"));
+					products.setRowName(0,tr("forward"));
+					rates.setRowName(0,tr("forward"));
 
 					reactants.setRowName(1,tr("reverse"));
-					reactants.setRowName(1,tr("reverse"));
+					products.setRowName(1,tr("reverse"));
 					rates.setRowName(1,tr("reverse"));
 
 					reactants.setColumnName(0, handle->fullName());
 					products.setColumnName(0,handle->fullName());
-					products.setColumnName(1, node->fullName()); 
 					reactants.setColumnName(1,node->fullName());
+					products.setColumnName(1, node->fullName()); 
 
 					reactants.value(0,0) = 2.0;
 					products.value(0,1) = 1.0;
@@ -941,6 +942,8 @@ namespace Tinkercell
 				int row = 0;
 				if (pickRow1 && pickRow1->isVisible())
 					row = pickRow1->currentIndex();
+				
+				if (row < 0) return;
 
 				if (rate != newTable.value(row,0))
 				{
@@ -969,33 +972,46 @@ namespace Tinkercell
 			NumericalDataTable reactants(connectionHandle->numericalDataTable(tr("Reactant stoichiometries"))),
 							   products(connectionHandle->numericalDataTable(tr("Product stoichiometries")));
 			
+			QString s;
 			double d;
 			bool ok;
 			bool changed = false;			
 			int row = 0;
 			
-			if (pickRow1 && pickRow1->isVisible())
-				row = pickRow1->currentIndex();
+			if (pickRow2 && pickRow2->isVisible())
+				row = pickRow2->currentIndex();
 			
-			for (int i=0; i < reactantCoeffs.size(); ++i)
-			{
-				d = reactantCoeffs[i]->text().toDouble(&ok);
-				if (ok && reactants.value(0,i) != d)
-				{
-					changed = true;
-					reactants.value(row,i) = d;
-				}
-			}
+			if (row < 0) return;
 			
-			for (int i=0; i < productCoeffs.size(); ++i)
-			{
-				d = productCoeffs[i]->text().toDouble(&ok);
-				if (ok && products.value(0,i) != d)
+			for (int i=0; i < reactantNames.size() && i < reactantCoeffs.size(); ++i)
+				if (reactantNames[i]->isVisible() && reactantCoeffs[i]->isVisible())
 				{
-					changed = true;
-					products.value(row,i) = d;
+					s = reactantNames[i]->text();
+					if (!s.isEmpty())
+					{
+						d = reactantCoeffs[i]->text().toDouble(&ok);
+						if (ok && reactants.hasColumn(s) && reactants.value(row,s) != d)
+						{
+							changed = true;
+							reactants.value(row,s) = d;
+						}
+					}
 				}
-			}
+			
+			for (int i=0; i < productNames.size() && i < productCoeffs.size(); ++i)
+				if (productNames[i]->isVisible() && productCoeffs[i]->isVisible())
+				{
+					s = productNames[i]->text();
+					if (!s.isEmpty())
+					{
+						d = productCoeffs[i]->text().toDouble(&ok);
+						if (ok && products.hasColumn(s) && products.value(row,s) != d)
+						{
+							changed = true;
+							products.value(row,s) = d;
+						}
+					}
+				}
 			
 			if (changed)
 			{

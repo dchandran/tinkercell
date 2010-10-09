@@ -146,7 +146,8 @@ namespace Tinkercell
 	
 	void CLabelsTool::displayText(ItemHandle* handle, const QString& text)
 	{
-		clearLabels(handle);
+		if (handle)
+			clearLabels(handle);
 		
 		GraphicsScene * scene = currentScene();
 		if (!handle || !scene) return;
@@ -193,7 +194,8 @@ namespace Tinkercell
 	
 	void CLabelsTool::highlightItem(ItemHandle* handle, QColor color)
 	{
-		clearLabels(handle);
+		if (handle)
+			clearLabels(handle);
 		GraphicsScene * scene = currentScene();
 		if (!handle || !scene) return;
 		NodeGraphicsItem * node = 0;

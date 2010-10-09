@@ -902,7 +902,7 @@ namespace Tinkercell
 				&& h->isA("Node") && handle->isA("Node")
 				)
 			{
-				if (h->isA(handle->family()))
+				if (handle->isA(h->family()))
 				{
 					QList<QUndoCommand*> commands;
 					QList<ConnectionGraphicsItem*> connections = hitNode->connections();
@@ -924,9 +924,9 @@ namespace Tinkercell
 						commands << new ReplaceConnectedNodeCommand(tr(""), connections[i],item,hitNode);
 					commands << new MergeHandlesCommand(tr(""), scene->network, QList<ItemHandle*>() << h << handle);
 					QList<QGraphicsItem*> graphicsItems;
-					for (int i=0; i < h->graphicsItems.size(); ++i)
-						if (h->graphicsItems[i]->scene() == scene)
-							graphicsItems << h->graphicsItems[i];
+					for (int i=0; i < handle->graphicsItems.size(); ++i)
+						if (handle->graphicsItems[i]->scene() == scene)
+							graphicsItems << handle->graphicsItems[i];
 					commands << new RemoveGraphicsCommand(tr("removed ") + handle->name, graphicsItems);
 					scene->network->push(new CompositeCommand(handle->name + tr(" merged into ") + h->name, commands));
 				}
@@ -1427,6 +1427,7 @@ namespace Tinkercell
 			{
 				return;
 			}
+
 
 		handles << handle;
 

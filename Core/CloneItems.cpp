@@ -145,19 +145,16 @@ namespace Tinkercell
 		        		if (!items0.contains(connectedNodes[j]))
 		        			items0 += connectedNodes[j];
 		        }
-                /*if (handle = getHandle(items0[i]))
+                if (handle = getHandle(items0[i]))
                 {
                     QList<QGraphicsItem*> list = handle->allGraphicsItems();
                     for (int j=0; j < list.size(); ++j)
                         if (!items.contains(list[j]))
                             items << list[j];
                 }
-                else*/
+                else
                    	items << items0[i];
             }
-        
-        //return value
-        items0 = items;
 
         //top level handles
 		for (int i=0; i < items.size(); ++i)
@@ -170,7 +167,8 @@ namespace Tinkercell
                 if (itemClone)
                 {
                     setHandle(itemClone,0);
-                    duplicateItems << itemClone;
+                    if (items0.contains(items[i]))
+	                    duplicateItems << itemClone;
 
                     if ((connection = ConnectionGraphicsItem::cast(itemClone)))
                     {
@@ -185,7 +183,8 @@ namespace Tinkercell
                                 if (node1 && node2)
                                 {
                                     originalsAndClones += QPair<NodeGraphicsItem*,NodeGraphicsItem*>(node1,node2);
-                                    duplicateItems << node2;
+                                    if (items0.contains(node1))
+	                                    duplicateItems << node2;
                                 }
                             }
                         }

@@ -599,8 +599,8 @@ void SimpleDesigner::simulate(bool stochastic)
 
 		results.resize(sz,output.size());
 		for (int i=0; i < names.size(); ++i)
-			results.columnName(i+1) = QString(names[i].c_str());
-		results.columnName(0) = tr("time");
+			results.setColumnName(i+1, QString(names[i].c_str()));
+		results.setColumnName(0, tr("time"));
 
 		for (int i=0; i < output.size(); ++i)
 			for (int j=0; j < sz; ++j)

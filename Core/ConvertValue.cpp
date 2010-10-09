@@ -102,10 +102,10 @@ namespace Tinkercell
 		D->resize(m.rows,m.cols);
 
 		for (int i=0; i < m.rows && m.rownames.strings && m.rownames.strings[i]; ++i)
-			D->rowName(i) = QString(m.rownames.strings[i]);
+			D->setRowName(i,QString(m.rownames.strings[i]));
 
 		for (int i=0; i < m.cols && m.colnames.strings && m.colnames.strings[i]; ++i)
-			D->columnName(i) = QString(m.colnames.strings[i]);
+			D->setColumnName(i,QString(m.colnames.strings[i]));
 
 		for (int i=0; i < m.rows; ++i)
 			for (int j=0; j < m.cols; ++j)
@@ -172,10 +172,10 @@ namespace Tinkercell
 		D->resize(m.rows,m.cols);
 
 		for (int i=0; i < m.rows && m.rownames.strings && m.rownames.strings[i]; ++i)
-			D->rowName(i) = QString(m.rownames.strings[i]);
+			D->setRowName(i,QString(m.rownames.strings[i]));
 
 		for (int i=0; i < m.cols && m.colnames.strings && m.colnames.strings[i]; ++i)
-			D->columnName(i) = QString(m.colnames.strings[i]);
+			D->setColumnName(i,QString(m.colnames.strings[i]));
 
 		for (int i=0; i < m.rows; ++i)
 			for (int j=0; j < m.cols; ++j)

@@ -425,7 +425,7 @@ namespace Tinkercell
 			DataTable<QString> table;
 			table.resize(0,1);
 
-			table.columnName(0) = QString("rule");
+			table.setColumnName(0,QString("rule"));
 			table.description() = tr("Assignments: A set of forcing functions. Row names correspond to the function name, and first column will contain the function string.");
 
 			handle->textDataTable(tr("Assignments")) = table;
@@ -436,8 +436,8 @@ namespace Tinkercell
 			DataTable<QString> table;
 			table.resize(0,2);
 
-			table.columnName(0) = QString("args");
-			table.columnName(1) = QString("defn");
+			table.setColumnName(0, QString("args"));
+			table.setColumnName(1, QString("defn"));
 			table.description() = tr("Functions: A set of function definitions. First column contains the list of arguments, and second column contains the function strings. Row names correspond to the function names.");
 
 			handle->textDataTable(tr("Functions")) = table;

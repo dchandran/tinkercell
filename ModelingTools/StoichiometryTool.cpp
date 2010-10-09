@@ -250,6 +250,7 @@ namespace Tinkercell
 
 
 
+
 			if (reactions)
 				mainWindow->contextItemsMenu.addAction(autoReverse);
 			else
@@ -506,7 +507,9 @@ namespace Tinkercell
 					nDat2 = new NumericalDataTable(handle->numericalDataTable(tr("Product stoichiometries")));
 					sDat = new TextDataTable(handle->textDataTable(tr("Rate equations")));
 
-					nDat1->rowName(0) = nDat2->rowName(0) = sDat->rowName(0) = tr("forward");
+					nDat1->setRowName(0,tr("forward")); 
+					nDat2->setRowName(0,tr("forward"));
+					sDat->setRowName(0,tr("forward"));
 					nDat1->insertRow(1,tr("reverse"));
 					nDat2->insertRow(1,tr("reverse"));
 					sDat->insertRow(1,tr("reverse"));
@@ -704,11 +707,19 @@ namespace Tinkercell
 					reactants.resize(2,2);
 					products.resize(2,2);
 					
-					rates.columnName(0) = tr("rates");
-					reactants.rowName(0) = products.rowName(0) = rates.rowName(0) = tr("forwards");
-					reactants.rowName(1) = reactants.rowName(1) = rates.rowName(1) = tr("reverse");
-					reactants.columnName(0) = products.columnName(0) = handle->fullName();
-					products.columnName(1) = reactants.columnName(1) = node->fullName();
+					rates.setColumnName(0,tr("rates"));
+					reactants.setRowName(0,tr("forwards"));
+					products.setRowName(0,tr("forwards"));
+					rates.setRowName(0,tr("forwards"));
+
+					reactants.setRowName(1,tr("reverse"));
+					reactants.setRowName(1,tr("reverse"));
+					rates.setRowName(1,tr("reverse"));
+
+					reactants.setColumnName(0, handle->fullName());
+					products.setColumnName(0,handle->fullName());
+					products.setColumnName(1, node->fullName()); 
+					reactants.setColumnName(1,node->fullName());
 
 					reactants.value(0,0) = 2.0;
 					products.value(0,1) = 1.0;
@@ -1149,10 +1160,10 @@ namespace Tinkercell
 		combinedTable.resize(rowNames.size(),columnNames.size());
 
 		for (int i=0; i < columnNames.size(); ++i)
-			combinedTable.columnName(i) = columnNames[i];
+			combinedTable.setColumnName(i,columnNames[i]);
 
 		for (int i=0; i < rowNames.size(); ++i)
-			combinedTable.rowName(i) = rowNames[i];
+			combinedTable.setRowName(i,rowNames[i]);
 
 		int n = 0, j0;
 		for (int i=0; i < connectionHandles.size(); ++i) //build combined matrix for all selected reactions
@@ -1200,11 +1211,20 @@ namespace Tinkercell
 
         /*this tool's matrix is actually the transpose of traditional stoichiometry matrix*/
 
+		QString s;
 		for (int i=0; i < columnNames.size(); ++i)
-			combinedTable.columnName(i).replace(QString("."),replaceDot);
+		{
+			s = combinedTable.columnName(i);
+			s.replace(QString("."),replaceDot);
+			combinedTable.setColumnName(i,s);
+		}
 
 		for (int i=0; i < rowNames.size(); ++i)
-			combinedTable.rowName(i).replace(QString("."),replaceDot);
+		{
+			s = combinedTable.rowName(i);
+			s.replace(QString("."),replaceDot);
+			combinedTable.setRowName(i,s);
+		}
 
 		return combinedTable.transpose();
 	}
@@ -1227,13 +1247,19 @@ namespace Tinkercell
 		{
 			QRegExp regex(QString("([A-Za-z0-9])")+replaceDot+QString("([A-Za-z])"));
 
+			QString s;
 			for (int i=0; i < stoicMatrix.rows(); ++i)
 			{
-				stoicMatrix.rowName(i).replace(regex,QString("\\1.\\2"));
+				s = stoicMatrix.rowName(i);
+				s.replace(regex,QString("\\1.\\2"));
+				stoicMatrix.setRowName(i,s);
 			}
+
 			for (int i=0; i < stoicMatrix.columns(); ++i)
 			{
-				stoicMatrix.columnName(i).replace(regex,QString("\\1.\\2"));
+				s = stoicMatrix.columnName(i);
+				s.replace(regex,QString("\\1.\\2"));
+				stoicMatrix.setColumnName(i,s);
 			}
 		}
 
@@ -1288,13 +1314,13 @@ namespace Tinkercell
 							{
 								if (stoicMatrix.at(n,j) < 0)
 								{
-									nDat1->columnName(j1) = stoicMatrix.columnName(j);
+									nDat1->setColumnName(j1,stoicMatrix.columnName(j));
 									nDat1->value(k,j1) = stoicMatrix.at(n,j);
 									++j1;
 								}
 								else
 								{
-									nDat2->columnName(j2) = stoicMatrix.columnName(j);
+									nDat2->setColumnName(j2,stoicMatrix.columnName(j));
 									nDat2->value(k,j2) = stoicMatrix.at(n,j);
 									++j2;
 								}

@@ -595,10 +595,10 @@ namespace Tinkercell
 		QList<ItemHandle*> targetHandles, promoters;
 		QList<QString> hashStrings;
 		QList<DataTable<QString>*> oldDataTables, newDataTables;
-		
+
 		for (int i=0; i < parts.size(); ++i)
 			if (parts[i])
-			{				
+			{
 				if (parts[i]->isA(tr("RBS")))
 				{
 					rbs = parts[i];
@@ -677,12 +677,14 @@ namespace Tinkercell
 				if (parts[i]->isA(tr("Coding")) && NodeHandle::cast(parts[i]))
 				{
 					QList<ConnectionHandle*> connections = NodeHandle::cast(parts[i])->connections();
+					
 					for (int j=0; j < connections.size(); ++j)
 						if (connections[j] &&
 							connections[j]->hasTextData(tr("Participants")) &&
 							connections[j]->hasTextData(tr("Rate equations")))
 						{
 							TextDataTable & participants = connections[j]->textDataTable(tr("Participants"));
+
 							if (participants.at(parts[i]->fullName(),0).toLower() == tr("template"))
 							{
 								TextDataTable * sDat = new TextDataTable(connections[j]->textDataTable(tr("Rate equations")));
@@ -763,7 +765,6 @@ namespace Tinkercell
 						}
 					}
 				}
-
 		if (newDataTables.size() > 0)
 		{
 			command = new ChangeTextDataCommand(tr("Gene regulation kinetics changed"),oldDataTables,newDataTables);

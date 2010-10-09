@@ -233,8 +233,8 @@ namespace Tinkercell
 				qreal x;
 				DataTable<qreal> data;
 				data.resize(rows,cols);
-				for (int i=0; i < rows; ++i) data.rowName(i) = rownames[i];
-				for (int i=0; i < cols; ++i) data.columnName(i) = colnames[i];
+				for (int i=0; i < rows; ++i) data.setRowName(i,rownames[i]);
+				for (int i=0; i < cols; ++i) data.setColumnName(i,colnames[i]);
 				int k = 0;
 				for (int i=0; i < rows; ++i)
 				{
@@ -306,8 +306,8 @@ namespace Tinkercell
 			{
 				DataTable<QString> data;
 				data.resize(rows,cols);
-				for (int i=0; i < rows; ++i) data.rowName(i) = rownames[i];
-				for (int i=0; i < cols; ++i) data.columnName(i) = colnames[i];
+				for (int i=0; i < rows; ++i) data.setRowName(i,rownames[i]);
+				for (int i=0; i < cols; ++i) data.setColumnName(i,colnames[i]);
 				int k = 0;
 				for (int i=0; i < rows; ++i)
 				{

@@ -97,9 +97,9 @@ namespace Tinkercell
 
 		for (int i = 0; i < node->shapes.size(); ++i)
 		{
-			if (!writeColors && node->shapes[i] && !MainWindow::invalidPointers.contains(node->shapes[i]) && !node->shapes[i]->defaultBrush.gradient())
+			if (!writeColors && node->shapes[i] && /*!MainWindow::invalidPointers.contains(node->shapes[i]) &&*/ !node->shapes[i]->defaultBrush.gradient())
 				writeColors = true;
-			if (!writeGradients && node->shapes[i] && !MainWindow::invalidPointers.contains(node->shapes[i]) && node->shapes[i]->defaultBrush.gradient())
+			if (!writeGradients && node->shapes[i] && /*!MainWindow::invalidPointers.contains(node->shapes[i]) &&*/ node->shapes[i]->defaultBrush.gradient())
 				writeGradients = true;
 
 			if (writeColors && writeGradients)

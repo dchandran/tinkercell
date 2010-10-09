@@ -36,7 +36,7 @@ namespace Tinkercell
 	{
 		setAttribute(Qt::WA_DeleteOnClose);
 		cthread = thread;
-		setWindowFlags(Qt::Window);
+		setWindowFlags(Qt::Widget);
 		slidersLayout = 0;
 		hide();
 	}
@@ -47,7 +47,7 @@ namespace Tinkercell
 		setAttribute(Qt::WA_DeleteOnClose);
 		cthread = new CThread(parent, lib);
 		cthread->setMatrixFunction(functionName.toAscii().data());
-		setWindowFlags(Qt::Window);
+		setWindowFlags(Qt::Widget);
 		slidersLayout = 0;
 		hide();
 	}

@@ -2125,7 +2125,7 @@ namespace Tinkercell
 			if (handles[i])  //go through each handles num data and text data
 			{
 				QString fullname = handles[i]->fullName();
-				QString s = newname;
+				QString s = newname, s2;
 				s.remove(fullname + QObject::tr("."));
 				
 				QList< QString > keys = handles[i]->numericalDataNames();
@@ -2135,18 +2135,26 @@ namespace Tinkercell
 					for (int k=0; k < nDat->rows(); ++k)
 					{
 						if (nDat->rowName(k).contains(oldname))
-							substituteString(nDat->rowName(k),oldname,newname);
+						{
+							s2 = nDat->rowName(k);
+							substituteString(s2,oldname,newname);
+							nDat->setRowName(k,s2);
+						}
 
 						if (fullname + QObject::tr(".") + nDat->rowName(k) == oldname)						
-							nDat->rowName(k) = s;
+							nDat->setRowName(k,s);
 					}
 					for (int k=0; k < nDat->columns(); ++k)
 					{
 						if (nDat->columnName(k).contains(oldname))
-							substituteString(nDat->columnName(k),oldname,newname);
+						{
+							s2 = nDat->columnName(k);
+							substituteString(s2,oldname,newname);
+							nDat->setColumnName(k,s2);
+						}
 						
-						if (fullname + QObject::tr(".") + nDat->columnName(k) == oldname)						
-							nDat->columnName(k) = s;
+						if (fullname + QObject::tr(".") + nDat->columnName(k) == oldname)
+							nDat->setColumnName(k,s);
 					}
 				}
 				keys = handles[i]->textDataNames();
@@ -2156,18 +2164,26 @@ namespace Tinkercell
 					for (int k=0; k < sDat->rows(); ++k)
 					{
 						if (sDat->rowName(k).contains(oldname))
-							substituteString(sDat->rowName(k),oldname,newname);
+						{
+							s2 = sDat->rowName(k);
+							substituteString(s2,oldname,newname);
+							sDat->setRowName(k,s2);
+						}
 
 						if (fullname + QObject::tr(".") + sDat->rowName(k) == oldname)						
-							sDat->rowName(k) = s;
+							sDat->setRowName(k,s);
 					}
 					for (int k=0; k < sDat->columns(); ++k)
 					{
 						if (sDat->columnName(k).contains(oldname))
-							substituteString(sDat->columnName(k),oldname,newname);
+						{
+							s2 = sDat->columnName(k);
+							substituteString(s2,oldname,newname);
+							sDat->setColumnName(k,s2);
+						}
 						
-						if (fullname + QObject::tr(".") + sDat->columnName(k) == oldname)						
-							sDat->columnName(k) = s;
+						if (fullname + QObject::tr(".") + sDat->columnName(k) == oldname)
+							sDat->setColumnName(k,s);
 					}
 					for (int k=0; k < sDat->rows(); ++k) //substitute each value in the table
 						for (int l=0; l < sDat->columns(); ++l)

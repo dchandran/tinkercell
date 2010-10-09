@@ -854,11 +854,11 @@ void SimulationThread::run()
 		results.resize(100,names.size()+1);
 		for (int i=0; i < names.size(); ++i)
 		{
-			results.columnName(i+1) = QString(names[i].c_str());
+			results.setColumnName(i+1,QString(names[i].c_str()));
 			if (names[i].compare( ConvertValue(scanParam) ) == 0)
 				k1 = i;
 		}
-		results.columnName(0) = scanParam;
+		results.setColumnName(0, scanParam);
 		vector<double> params = sim.getParameterValues();
 		names = sim.getParameterNames();	
 		for (int i=0; i < names.size(); ++i)
@@ -906,8 +906,8 @@ void SimulationThread::run()
 	
 			results.resize(sz,output.size());
 			for (int i=0; i < names.size(); ++i)
-				results.columnName(i+1) = QString(names[i].c_str());
-			results.columnName(0) = tr("time");
+				results.setColumnName(i+1 , QString(names[i].c_str()));
+			results.setColumnName(0, tr("time"));
 	
 			for (int i=0; i < output.size(); ++i)
 				for (int j=0; j < sz; ++j)

@@ -401,7 +401,7 @@ namespace Tinkercell
 			{
 				if (!fixedVars.contains(N2.rowName(i)))
 				{
-					N.rowName(i2) = N2.rowName(i);
+					N.setRowName(i2, N2.rowName(i));
 					for (j=0; j < N2.columns(); ++j)
 					{
 						N.value(i2,j) = N2.value(i,j);

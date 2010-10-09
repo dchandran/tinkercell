@@ -222,9 +222,9 @@ namespace Tinkercell
 		QList<ItemHandle*> handles = network->handles();
 		NumericalDataTable N = StoichiometryTool::getStoichiometry(handles,tr("."));
 		dataTable.resize(N.rows()+1,N.columns()+2);
-		dataTable.columnName(0) = tr("inequality");
-		dataTable.columnName(1) = tr("constraint");
-		dataTable.rowName(0) = tr("objective");
+		dataTable.setColumnName(0, tr("inequality"));
+		dataTable.setColumnName(1, tr("constraint"));
+		dataTable.setRowName(0,tr("objective"));
 
 		QVector<qreal> vec(N.columns());
 		for (int j=0; j < vec.size(); ++j)
@@ -235,7 +235,7 @@ namespace Tinkercell
 		int k;
 		for (int j=0; j < N.columns(); ++j)
 		{
-			dataTable.columnName(j+2) = N.columnName(j);
+			dataTable.setColumnName(j+2, N.columnName(j));
 			k = targetFluxes.indexOf(N.columnName(j));
 			if (k > -1 && k < vec.size())
 				dataTable.value(0,j+2) = vec[k];
@@ -243,7 +243,7 @@ namespace Tinkercell
 
 		for (int i=0; i < N.rows(); ++i)
 		{
-			dataTable.rowName(i+1) = N.rowName(i);
+			dataTable.setRowName(i+1, N.rowName(i));
 			for (int j=0; j < N.columns(); ++j)
 			{
 				dataTable.value(i+1,j+2) = N.value(i,j);

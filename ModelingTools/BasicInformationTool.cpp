@@ -515,7 +515,7 @@ namespace Tinkercell
 						else
 						{
 							QString oldname = sDat.rowName(rowNumber);
-							sDat.rowName(rowNumber) = name;
+							sDat.setRowName(rowNumber, name);
 							QList<QUndoCommand*> commands;
 							commands += new ChangeDataCommand<QString>(tr("change data"),&handle->textDataTable(this->name),&sDat);
 							commands += new RenameCommand(tr("rename"),win,handle->fullName() + tr(".") + oldname,handle->fullName() + tr(".") + name);
@@ -680,9 +680,9 @@ namespace Tinkercell
 			DataTable<qreal> table;
 			table.resize(1,1);
 
-			table.rowName(0) = family->measurementUnit.property;
+			table.setRowName(0, family->measurementUnit.property);
 
-			table.columnName(0) = family->measurementUnit.property;
+			table.setColumnName(0,family->measurementUnit.property);
 			table.value(0,0) = 0.0;
 			
 			if (initialValues.contains(family->measurementUnit.property))
@@ -700,8 +700,8 @@ namespace Tinkercell
 			DataTable<qreal> fixed;
 			fixed.resize(1,1);
 
-			fixed.rowName(0) = QString("fix");
-			fixed.columnName(0) = QString("value");
+			fixed.setRowName(0, QString("fix"));
+			fixed.setColumnName(0,QString("value"));
 			fixed.value(0,0) = 0.0;
 			fixed.description() = tr("Fixed: stores 1 if this is a fixed variable, 0 otherwise");
 
@@ -720,7 +720,7 @@ namespace Tinkercell
 				numericalAttributes.value(i,0) = family->numericalAttributes.value(nKeys[i]);
 				numericalAttributes.value(i,1) = 0.1 * family->numericalAttributes.value(nKeys[i]);
 				numericalAttributes.value(i,2) = 10.0 * family->numericalAttributes.value(nKeys[i]);
-				numericalAttributes.rowName(i) = nKeys[i];
+				numericalAttributes.setRowName(i, nKeys[i]);
 			}
 
 			numericalAttributes.setColumnNames(columnNames);
@@ -741,7 +741,7 @@ namespace Tinkercell
 			for (int i=0; i < textAttributes.rows() && i < sKeys.size(); ++i)
 			{
 				textAttributes.value(i,0) = family->textAttributes.value(sKeys[i]);
-				textAttributes.rowName(i) = sKeys[i];
+				textAttributes.setRowName(i, sKeys[i]);
 			}
 
 			textAttributes.setColumnNames(columnNames);
@@ -873,7 +873,7 @@ namespace Tinkercell
 
 				nDat.resize(nDat.rows()+1,nDat.columns());
 				nDat.value(nDat.rows()-1,0) = 1.0;
-				nDat.rowName(nDat.rows()-1) = name;
+				nDat.setRowName(nDat.rows()-1,name);
 
 				win->changeData(lastItem->fullName() + tr(".") + name + tr(" added"), lastItem,this->name,&nDat);
 			}
@@ -896,7 +896,7 @@ namespace Tinkercell
 
 				sDat.resize(sDat.rows()+1,sDat.columns());
 				sDat.value(sDat.rows()-1,0) = tr("hello world");
-				sDat.rowName(sDat.rows()-1) = name;
+				sDat.setRowName(sDat.rows()-1 , name);
 
 				win->changeData(lastItem->fullName() + tr(".") + name + tr(" added"),lastItem,this->name,&sDat);
 			}
@@ -1112,7 +1112,7 @@ namespace Tinkercell
         combinedTable.resize(values.size(),1);
         for (int i=0; i < values.size() && i < rownames.size(); ++i)
         {
-            combinedTable.rowName(i) = rownames[i];
+            combinedTable.setRowName(i,rownames[i]);
             combinedTable.value(i,0) = values[i];
         }
 
@@ -1165,7 +1165,7 @@ namespace Tinkercell
 		combinedTable.resize(values.size(),1);
 		for (int i=0; i < values.size() && i < rownames.size(); ++i)
 		{
-			combinedTable.rowName(i) = rownames[i];
+			combinedTable.setRowName(i, rownames[i]);
 			combinedTable.value(i,0) = values[i];
 		}
 
@@ -1203,7 +1203,7 @@ namespace Tinkercell
 
 			for (int i=0; i < names.size(); ++i)
 			{
-				(*ptr).rowName(rows + i) = names[i];
+				(*ptr).setRowName(rows + i , names[i]);
 				(*ptr).value(rows + i, 0) = values[i];
 			}
 		}
@@ -1277,7 +1277,7 @@ namespace Tinkercell
 
 			for (int i=0; i < names.size(); ++i)
 			{
-				(*ptr).rowName(rows + i) = names[i];
+				(*ptr).setRowName(rows + i , names[i]);
 				(*ptr).value(rows + i, 0) = values[i];
 			}
 
@@ -1396,13 +1396,13 @@ namespace Tinkercell
 
 			DataTable<qreal> params2;
 			params2.resize(count,1);
-			params2.columnName(0) = params.columnName(0);
+			params2.setColumnName(0,params.columnName(0));
 
 			for (int i=0, j=0; i < params.rows() && j < count; ++i)
 			{
 				if (params.value(i,1) > 0.0)
 				{
-					params2.rowName(j) = params.rowName(i);
+					params2.setRowName(j, params.rowName(i));
 					params2.value(j,0) = params.value(i,0);
 					++j;
 				}
@@ -1433,7 +1433,7 @@ namespace Tinkercell
 
 			for (int i=0; i < names.size(); ++i)
 			{
-				params2.rowName(rows + i) = names[i];
+				params2.setRowName(rows + i, names[i]);
 				params2.value(rows + i, 0) = values[i];
 			}
 
@@ -1963,13 +1963,13 @@ namespace Tinkercell
 
 		DataTable<qreal> params2;
 		params2.resize(count,1);
-		params2.columnName(0) = params.columnName(0);
+		params2.setColumnName(0,params.columnName(0));
 
 		for (int i=0, j=0; i < params.rows() && j < count; ++i)
 		{
 			if (params.value(i,1) > 0.0)
 			{
-				params2.rowName(j) = params.rowName(i);
+				params2.setRowName(j , params.rowName(i));
 				params2.value(j,0) = params.value(i,0);
 				++j;
 			}

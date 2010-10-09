@@ -331,7 +331,7 @@ namespace Tinkercell
 		for (int i=0; i < textItems.size(); ++i)
 		{
 			text = textItems[i];
-			writeText(text,modelWriter,scenes.indexOf(static_cast<GraphicsScene*>(node->scene())));
+			writeText(text,modelWriter,scenes.indexOf(static_cast<GraphicsScene*>(text->scene())));
 		}
 
 		modelWriter.writeEndElement();
@@ -354,8 +354,6 @@ namespace Tinkercell
 		emit networkSaved(network);
 
 		mainWindow->statusBar()->showMessage(tr("model saved in ") + filename);
-		//if (console())
-          //  console()->message(tr("model successfully saved in : ") + filename);
 	}
 
 	void LoadSaveTool::saveNetwork(const QString& filename)
@@ -435,7 +433,9 @@ namespace Tinkercell
 
 		for (int i=0; i < items.size(); ++i)
 			if ((h = getHandle(items[i])) && !handles.contains(h))
+			{
 				handles += h;
+			}
 		
 		if (root)
 			for (int i=0; i < handles.size(); ++i)

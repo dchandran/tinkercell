@@ -139,7 +139,7 @@ namespace Tinkercell
 				{
 					DataTable<QString> data;
 					data.resize(5,1);
-					data.columnName(0) = tr("entry");
+					data.setColumnName(0,tr("entry"));
 					data.setRowNames( QStringList() << tr("author") << tr("date") << tr("description") << tr("uri") << tr("reference") );
 					for (int j=0; j < 5; ++j)
 						data.value(j,0) = tr("");

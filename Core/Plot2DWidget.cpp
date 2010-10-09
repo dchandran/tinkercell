@@ -214,7 +214,9 @@ namespace Tinkercell
 		QRegExp regex(tr("\\_(?!_)"));
 		for (int i=0; i < dataTable.rows(); ++i)
 		{
-			this->dataTable.rowName(i).replace(regex,tr("."));
+			QString s = this->dataTable.rowName(i);
+			s.replace(regex,tr("."));
+			this->dataTable.setRowName(i,s);
 		}
 
 		this->clear();
@@ -585,23 +587,6 @@ namespace Tinkercell
 				}
 		}
 		
-		/*int removeSz = 0;
-		for (int i=0; i < newData.columns(); ++i)
-			if (dataPlot->hideList.contains(newData.columnName(i)))
-				++removeSz;
-				
-		dataTable.resize(newData.rows(), newData.columns() - removeSz);
-		dataTable.setRowNames(newData.rowNames());
-		
-		for (int i=0, k = 0; i < newData.columns(); ++i)
-			if (!dataPlot->hideList.contains(newData.columnName(i)))
-			{
-				dataTable.columnName(k) = dataTable.columnName(i);
-				for (int j=0; j < dataTable.rows(); ++j)
-					dataTable.value(j,k) = newData.at(j,i);
-				++k;
-			}*/
-		
 		dataPlot->type = type;
 		if (same)
 		{
@@ -949,7 +934,7 @@ namespace Tinkercell
 			{
 				QString s = dataTable.columnName(i);
 				while (columnNames.contains(dataTable.columnName(i)))
-					dataTable.columnName(i) += tr("'");
+					dataTable.setColumnName(i, dataTable.columnName(i) + tr("'"));
 					
 				if (dataPlot->hideList.contains(s))
 					dataPlot->hideList << dataTable.columnName(i);
@@ -969,7 +954,7 @@ namespace Tinkercell
 		for (int i=0, k=0; i < newData.columns(); ++i)
 			if (i != xIndex)
 			{
-				dataTable.columnName(k+n) = newData.columnName(i);
+				dataTable.setColumnName(k+n, newData.columnName(i));
 				for (int j=0; j < m; ++j)
 					dataTable.value(j,k+n) = newData.at(j,i);
 				++k;
@@ -1083,3 +1068,4 @@ namespace Tinkercell
 		dialog->exec();
 	}
 }
+

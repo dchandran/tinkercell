@@ -1082,8 +1082,8 @@ namespace Tinkercell
 						{
 							if (curveSegments[i].arrowStart->scene())
 								curveSegments[i].arrowStart->scene()->removeItem(curveSegments[i].arrowStart);
-							delete curveSegments[i].arrowStart;
 							MainWindow::invalidPointers[ curveSegments[i].arrowStart ] = true;
+							delete curveSegments[i].arrowStart;
 						}
 							
 						if (curveSegments[i].arrowEnd &&
@@ -1091,8 +1091,8 @@ namespace Tinkercell
 						{
 							if (curveSegments[i].arrowEnd->scene())
 								curveSegments[i].arrowEnd->scene()->removeItem(curveSegments[i].arrowEnd);
-							delete curveSegments[i].arrowEnd;
 							MainWindow::invalidPointers[ (void*)curveSegments[i].arrowEnd ] = true;
+							delete curveSegments[i].arrowEnd;
 						}
 
 						curveSegments[i].arrowStart = 0;
@@ -1109,9 +1109,8 @@ namespace Tinkercell
 			if (centerRegionItem->scene())
 				centerRegionItem->scene()->removeItem(centerRegionItem);
 			
-			delete centerRegionItem;
 			MainWindow::invalidPointers[ (void*)centerRegionItem ] = true;
-			
+			delete centerRegionItem;			
 			centerRegionItem = 0;
 		}
 	}

@@ -235,7 +235,8 @@ namespace Tinkercell
 					ConnectionHandle * reactionHandle = new ConnectionHandle(biochemicalFamily);
 
 					reactionHandle->name = rxnnames[rxn];
-					reactants.rowName(0) = products.rowName(0) = reactionHandle->name;
+					reactants.setRowName(0, reactionHandle->name);
+					products.setRowName(0, reactionHandle->name);
 					symbolsInModule << reactionHandle->name;
 
 					for (int var=0; var<numReactants; ++var)
@@ -279,8 +280,8 @@ namespace Tinkercell
 					}
 
 					QString srate = tr(rxnrates[rxn]);
-					rate.rowName(0) = reactionHandle->name;
-					rate.columnName(0) = tr("rate");
+					rate.setRowName(0, reactionHandle->name);
+					rate.setColumnName(0, tr("rate"));
 					rate.value(0,0) = srate;
 					reactionHandle->textDataTable(tr("Rate equations")) = rate;
 					reactionHandle->numericalDataTable(tr("Reactant stoichiometries")) = reactants;
@@ -339,11 +340,11 @@ namespace Tinkercell
 				if (ok)
 				{
 					speciesItems[s]->numericalData(tr("Initial Value")) = x;
-					speciesItems[s]->numericalDataTable(tr("Initial Value")).rowName(0) = tr("concentration");
-					speciesItems[s]->numericalDataTable(tr("Initial Value")).columnName(0) = tr("uM");
+					speciesItems[s]->numericalDataTable(tr("Initial Value")).setRowName(0, tr("concentration"));
+					speciesItems[s]->numericalDataTable(tr("Initial Value")).setColumnName(0, tr("uM"));
 					speciesItems[s]->numericalData(tr("Fixed")) = 1;
-					speciesItems[s]->numericalDataTable(tr("Fixed")).rowName(0) = tr("fix");
-					speciesItems[s]->numericalDataTable(tr("Fixed")).columnName(0) = tr("value");
+					speciesItems[s]->numericalDataTable(tr("Fixed")).setRowName(0, tr("fix"));
+					speciesItems[s]->numericalDataTable(tr("Fixed")).setColumnName(0, tr("value"));
 				}
 			}
 			

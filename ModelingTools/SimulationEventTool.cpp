@@ -325,7 +325,7 @@ namespace Tinkercell
 			{
 				DataTable<QString> events;
 				events.resize(0,1);
-				events.columnName(0) = tr("event");
+				events.setColumnName(0,tr("event"));
 				events.description() = tr("Events: set of triggers and events. The row names are the triggers, and the first column contains a string describing one or more events, usually an assignment.");
 				globalHandle->textDataTable(tr("Events")) = events;
 			}
@@ -472,7 +472,7 @@ namespace Tinkercell
 			{
 				DataTable<QString> events;
 				events.resize(0,1);
-				events.columnName(0) = tr("event");
+				events.setColumnName(0, tr("event"));
 				events.description() = tr("Events: set of triggers and events. The row names are the triggers, and the first column contains a string describing one or more events, usually an assignment.");
 				globalHandle->textDataTable(tr("Events")) = events;
 			}
@@ -504,7 +504,7 @@ namespace Tinkercell
 			{
 				DataTable<QString> events;
 				events.resize(0,1);
-				events.columnName(0) = tr("event");
+				events.setColumnName(0, tr("event"));
 				events.description() = tr("Events: set of triggers and events. The row names are the triggers, and the first column contains a string describing one or more events, usually an assignment.");
 				globalHandle->textDataTable(tr("Events")) = events;
 			}
@@ -713,7 +713,7 @@ namespace Tinkercell
 		{
 			int k = newData.rowNames().indexOf(oldEvent);
 			if (k >= 0)
-				newData.rowName(k) = ifs;
+				newData.setRowName(k,ifs);
 		}
 
 		if (!newData.hasRow(ifs))

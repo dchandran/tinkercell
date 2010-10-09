@@ -228,11 +228,13 @@ namespace Tinkercell
 	{
 		if (net)
 		{
+			ContainerTreeItem * newRootItem;
+			
 			if (net != this->network)
 			{
 				treeItems.clear();
 				delete rootItem;
-				rootItem = 0;				
+				newRootItem = rootItem = new ContainerTreeItem;
 				
 				for (int i=0; i < markedForDeletion.size(); ++i)
 					if (markedForDeletion[i])
@@ -240,8 +242,11 @@ namespace Tinkercell
 		
 				markedForDeletion.clear();
 			}
-			
-			ContainerTreeItem * newRootItem = new ContainerTreeItem;
+			else
+			{
+				newRootItem = new ContainerTreeItem;
+			}
+
             this->network = net;
 			
             QList<ItemHandle*> items = net->symbolsTable.allHandlesSortedByFamily();
@@ -265,21 +270,24 @@ namespace Tinkercell
 					}
 				}
 			
-			if (rootItem)
+			if (rootItem != newRootItem)
 			{
-	            QList<ContainerTreeItem*> queue = rootItem->childItems;
+				if (rootItem)
+				{
+			        QList<ContainerTreeItem*> queue = rootItem->childItems;
 		
-		        for (int i=0; i < queue.size(); ++i)
-			        if (queue[i])
-			        {
-				        treeItems.remove(queue[i]->handle());
-				        queue << queue[i]->childItems;
-			        }
-			
-				delete rootItem;
-			}
+				    for (int i=0; i < queue.size(); ++i)
+					    if (queue[i])
+					    {
+						    treeItems.remove(queue[i]->handle());
+						    queue << queue[i]->childItems;
+					    }
 
-			rootItem = newRootItem;
+					delete rootItem;
+				}
+
+				rootItem = newRootItem;
+			}
 			emit layoutChanged();
 		}
 	}

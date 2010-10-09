@@ -294,7 +294,9 @@ namespace Tinkercell
 		QRegExp regexp(tr("(?!\\d)_(?!\\d)"));
 		for (int i=0; i < matrix.columns(); ++i)
 		{
-			matrix.columnName(i).replace(regexp,tr("."));
+			QString s = matrix.columnName(i);
+			s.replace(regexp,tr("."));
+			matrix.setColumnName(i,s);
 		}
 		
 		matrix.description() = title;
@@ -317,7 +319,9 @@ namespace Tinkercell
 		QRegExp regexp(tr("(?!\\d)_(?!\\d)"));
 		for (int i=0; i < matrix.columns(); ++i)
 		{
-			matrix.columnName(i).replace(regexp,tr("."));
+			QString s = matrix.columnName(i);
+			s.replace(regexp,tr("."));
+			matrix.setColumnName(i,s);
 		}
 
 		matrix.description() = title;
@@ -340,7 +344,9 @@ namespace Tinkercell
 		QRegExp regexp(tr("(?!\\d)_(?!\\d)"));
 		for (int i=0; i < data.columns(); ++i)
 		{
-			data.columnName(i).replace(regexp,tr("."));
+			QString s = data.columnName(i);
+			s.replace(regexp,tr("."));
+			data.setColumnName(i,s);
 		}
 
 		data.description() = title;
@@ -363,7 +369,9 @@ namespace Tinkercell
 		QRegExp regexp(tr("(?!\\d)_(?!\\d)"));
 		for (int i=0; i < data.columns(); ++i)
 		{
-			data.columnName(i).replace(regexp,tr("."));
+			QString s = data.columnName(i);
+			s.replace(regexp,tr("."));
+			data.setColumnName(i,s);
 		}
 		
 		data.description() = title;
@@ -436,7 +444,9 @@ namespace Tinkercell
 		QRegExp regexp(tr("(?!\\d)_(?!\\d)"));
 		for (int i=0; i < matrix.columns(); ++i)
 		{
-			matrix.columnName(i).replace(regexp,tr("."));
+			QString s = matrix.columnName(i);
+			s.replace(regexp,tr("."));
+			matrix.setColumnName(i,s);
 		}
 
 		matrix.description() = title;

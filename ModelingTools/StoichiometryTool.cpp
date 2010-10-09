@@ -253,6 +253,7 @@ namespace Tinkercell
 
 
 
+
 			if (reactions)
 				mainWindow->contextItemsMenu.addAction(autoReverse);
 			else
@@ -419,6 +420,7 @@ namespace Tinkercell
 		autoReverse(new QAction("Make reversible",this)),
 		autoDimer(new QAction("Make dimer",this)),
 		separator(0),
+		currentRow(0),
 		pickRow1(0), pickRow2(0)
 	{
 		QString appDir = QCoreApplication::applicationDirPath();
@@ -467,6 +469,7 @@ namespace Tinkercell
 		disconnect(pickRow2,SIGNAL(currentIndexChanged(int)),this,SLOT(selectedRowChanged(int)));
 		pickRow1->setCurrentIndex(i);
 		pickRow2->setCurrentIndex(i);
+		currentRow = i;
 		updatePlotWidget();
 		updateStoichiometryWidget();
 		connect(pickRow1,SIGNAL(currentIndexChanged(int)),this,SLOT(selectedRowChanged(int)));
@@ -773,8 +776,7 @@ namespace Tinkercell
 		
 		TextDataTable& ratesTable = connectionHandle->textDataTable(tr("Rate equations"));
 		
-		int row = 0;
-		if (ratesTable.rows() > 1) row = pickRow1->currentIndex();
+		int row = currentRow;
 		
 		QString rate = ratesTable.value(row,0);
 		plotLineEdit->setText(rate);
@@ -801,9 +803,8 @@ namespace Tinkercell
 		NumericalDataTable & reactants = connectionHandle->numericalDataTable(tr("Reactant stoichiometries")),
 						   & products = connectionHandle->numericalDataTable(tr("Product stoichiometries"));
 
-		int row = 0;
-		if (reactants.rows() > 1 && products.rows() > 1) row = pickRow1->currentIndex();
-		
+		int row = currentRow;
+
 		QLineEdit * line;
 		while (reactantCoeffs.size() < reactants.columns())
 		{
@@ -939,9 +940,7 @@ namespace Tinkercell
 			if (parseRateString(network,connectionHandle,rate))
 			{
 				TextDataTable newTable(connectionHandle->textDataTable(tr("Rate equations")));
-				int row = 0;
-				if (pickRow1 && pickRow1->isVisible())
-					row = pickRow1->currentIndex();
+				int row = currentRow;
 				
 				if (row < 0) return;
 
@@ -976,10 +975,7 @@ namespace Tinkercell
 			double d;
 			bool ok;
 			bool changed = false;			
-			int row = 0;
-			
-			if (pickRow2 && pickRow2->isVisible())
-				row = pickRow2->currentIndex();
+			int row = currentRow;
 			
 			if (row < 0) return;
 			
@@ -1042,6 +1038,7 @@ namespace Tinkercell
 		QString s = pickRow1->currentText();
 		pickRow1->clear();
 		pickRow2->clear();
+		currentRow = 0;
 		QStringList list = ratesTable.rowNames();
 		if (list.size() < 2)
 		{

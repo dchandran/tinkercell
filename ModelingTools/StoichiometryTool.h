@@ -189,6 +189,7 @@ namespace Tinkercell
 		QAction * separator;
 
 		QLineEdit * plotLineEdit;
+		int currentRow;
 		QComboBox * pickRow1, *pickRow2;
 		EquationGraph * graphWidget;
 		QWidget * ratePlotWidget, * stoichiometryWidget;

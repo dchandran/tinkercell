@@ -361,7 +361,7 @@ namespace Tinkercell
 			code += ");\n";
 		}
 
-		code += tr("endfunction\n");
+		code += tr("endfunction\nglobal StoichiometryMatrix\n\n");
 		code += tr("\n\nStoichiometryMatrix = [ ");
 
 		for (i = 0; i < r; ++i)
@@ -379,9 +379,7 @@ namespace Tinkercell
 						code += tr("];\n");
 			}
 		}
-		
-		code += tr("global StoichiometryMatrix\n");
-		
+
 		//print header and beginning of propensity function
 		code += tr("\nfunction DYDT = ODE(u, time)\n");
 		code += globals;

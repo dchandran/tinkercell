@@ -350,7 +350,7 @@ namespace Tinkercell
 		code += tr("endfunction\n");
 
 		//write assign-parameters function (not needed for simulation, but could be useful for some purpose)
-		code += tr("\n function [] = assignParameters(newparams)\n");
+		code += tr("\nfunction [] = assignParameters(newparams)\n");
 		code += globals;
 		for (i = 0; i < trueParams.size(); ++i)
 		{

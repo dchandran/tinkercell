@@ -12,7 +12,7 @@ the stoichiometry and rates tables.
 
 #include <QSettings>
 #include <QToolBox>
-#include <QMessageBox>
+#include <QInputDialog>
 #include "GraphicsScene.h"
 #include "NetworkHandle.h"
 #include "UndoCommands.h"
@@ -254,6 +254,7 @@ namespace Tinkercell
 
 
 
+
 			if (reactions)
 				mainWindow->contextItemsMenu.addAction(autoReverse);
 			else
@@ -418,7 +419,7 @@ namespace Tinkercell
 
 	StoichiometryTool::StoichiometryTool() : Tool(tr("Stoichiometry and Rates"),tr("Modeling")),
 		autoReverse(new QAction("Make reversible",this)),
-		autoDimer(new QAction("Make dimer",this)),
+		autoDimer(new QAction("Make multimer",this)),
 		separator(0),
 		currentRow(0),
 		pickRow1(0), pickRow2(0)
@@ -606,9 +607,12 @@ namespace Tinkercell
 
 		QString appDir = QCoreApplication::applicationDirPath();
 
-		QList<ItemHandle*> visitedHandles;
-		
+		QList<ItemHandle*> visitedHandles;		
 		QStringList newNames;
+		
+		double n = QInputDialog::getDouble(this,tr("Reaction stoichiometry"),tr("Numer of monomers in complex : "),2.0);
+		if (n < 2.0) 
+			n = 2.0;
 
 		for (int i=0; i < selected.size(); ++i)
 		{
@@ -725,13 +729,13 @@ namespace Tinkercell
 					reactants.setColumnName(1,node->fullName());
 					products.setColumnName(1, node->fullName()); 
 
-					reactants.value(0,0) = 2.0;
+					reactants.value(0,0) = n;
 					products.value(0,1) = 1.0;
 					
 					reactants.value(1,1) = 1.0;
-					products.value(1,0) = 2.0;					
+					products.value(1,0) = n;
 					
-					rates.value(0,0) = connection->fullName() + tr(".k0 * ") + handle->fullName() + tr("*") + handle->fullName();
+					rates.value(0,0) = connection->fullName() + tr(".k0 * ") + handle->fullName() + tr("^") + QString::number(n);
 					rates.value(1,0) = connection->fullName() + tr(".k0 * ") + node->fullName();
 					
 					reactants.description() = QString("Number of each reactant participating in this reaction");
@@ -741,6 +745,9 @@ namespace Tinkercell
 					connection->numericalDataTable(tr("Reactant stoichiometries")) = reactants;
 					connection->numericalDataTable(tr("Product stoichiometries")) = products;
 					connection->textDataTable(tr("Rate equations")) = rates;
+					connection->numericalData(tr("Parameters"),tr("k0"),tr("value")) = 1.0;
+					connection->numericalData(tr("Parameters"),tr("k0"),tr("min")) = 0.0;
+					connection->numericalData(tr("Parameters"),tr("k0"),tr("max")) = 100.0;
 
 					list += item;
 				}

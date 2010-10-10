@@ -671,7 +671,7 @@ namespace Tinkercell
 		if (handle == 0 || handle->family() == 0) return;
 
 		QStringList columnNames;
-		columnNames << "value";
+		columnNames << "value" << "min" << "max";
 
 		ItemFamily* family = handle->family();
 
@@ -1098,10 +1098,9 @@ namespace Tinkercell
 						{
 							if (handle->name.isEmpty())
 								rownames += dataTable->rowName(j);
-							else
-							{
+							else							
 								rownames += handle->fullName(sep) + sep + dataTable->rowName(j);
-							}
+
 							values += dataTable->at(j,0);
 						}
                 }
@@ -1115,6 +1114,7 @@ namespace Tinkercell
             combinedTable.setRowName(i,rownames[i]);
             combinedTable.value(i,0) = values[i];
         }
+        combinedTable.setColumnName(0,tr("values"));
 
         return combinedTable;
 	}

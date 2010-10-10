@@ -711,11 +711,12 @@ namespace Tinkercell
 					NumericalDataTable reactants, products;
 					TextDataTable rates;
 					
-					rates.resize(2,1);
-					reactants.resize(2,2);
-					products.resize(2,2);
+					rates.resize(3,1);
+					reactants.resize(3,2);
+					products.resize(3,2);
 					
 					rates.setColumnName(0,tr("rates"));
+					
 					reactants.setRowName(0,tr("forward"));
 					products.setRowName(0,tr("forward"));
 					rates.setRowName(0,tr("forward"));
@@ -723,11 +724,15 @@ namespace Tinkercell
 					reactants.setRowName(1,tr("reverse"));
 					products.setRowName(1,tr("reverse"));
 					rates.setRowName(1,tr("reverse"));
+					
+					reactants.setRowName(2,tr("diffuse"));
+					products.setRowName(2,tr("diffuse"));
+					rates.setRowName(2,tr("diffuse"));
 
 					reactants.setColumnName(0, handle->fullName());
 					products.setColumnName(0,handle->fullName());
 					reactants.setColumnName(1,node->fullName());
-					products.setColumnName(1, node->fullName()); 
+					products.setColumnName(1, node->fullName());
 
 					reactants.value(0,0) = n;
 					products.value(0,1) = 1.0;
@@ -735,8 +740,11 @@ namespace Tinkercell
 					reactants.value(1,1) = 1.0;
 					products.value(1,0) = n;
 					
+					products.value(2,1) = 1.0;
+					
 					rates.value(0,0) = connection->fullName() + tr(".kf * ") + handle->fullName() + tr("^") + QString::number(n);
 					rates.value(1,0) = connection->fullName() + tr(".kb * ") + node->fullName();
+					rates.value(2,0) = connection->fullName() + tr(".deg * ") + node->fullName();
 					
 					reactants.description() = QString("Number of each reactant participating in this reaction");
 					products.description() = QString("Number of each product participating in this reaction");
@@ -751,6 +759,9 @@ namespace Tinkercell
 					connection->numericalData(tr("Parameters"),tr("kb"),tr("value")) = 0.1;
 					connection->numericalData(tr("Parameters"),tr("kb"),tr("min")) = 0.0;
 					connection->numericalData(tr("Parameters"),tr("kb"),tr("max")) = 100.0;
+					connection->numericalData(tr("Parameters"),tr("deg"),tr("value")) = 0.1;
+					connection->numericalData(tr("Parameters"),tr("deg"),tr("min")) = 0.0;
+					connection->numericalData(tr("Parameters"),tr("deg"),tr("max")) = 1.0;
 
 					list += item;
 				}

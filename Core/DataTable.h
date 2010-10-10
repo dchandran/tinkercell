@@ -377,18 +377,14 @@ namespace Tinkercell
 	*/
 	template <typename T>  void DataTable<T>::setColumnName(int i, const QString& name) 
 	{ 
-		if (i < 0 || i >= colHeaders.size())
-		{
-			if (colHeaders.isEmpty())
-				colHeaders += QString();
-			colHeaders[ colHeaders.size() - 1 ] = name;
-			colHash[ name ] = colHeaders.size() - 1;
-		}
-		else
-		{
-			colHeaders[i]= name;
-			colHash[name] = i;
-		}
+		if (i < 0)
+			i = 0;
+			
+		if (i >= colHeaders.size())
+			resize(rowHeaders.size(), i+1);
+
+		colHeaders[i]= name;
+		colHash[name] = i;
 	}		
 	/*! \brief get the ith row name reference. can be used to change the row name
 	\param int col number
@@ -418,18 +414,14 @@ namespace Tinkercell
 	*/
 	template <typename T>  void DataTable<T>::setRowName(int i, const QString& name) 
 	{ 
-		if (i < 0 || i >= rowHeaders.size())
-		{
-			if (rowHeaders.isEmpty())
-				rowHeaders += QString();
-			rowHeaders[ rowHeaders.size() - 1 ] = name;
-			rowHash[name] = rowHeaders.size() - 1;
-		}
-		else
-		{
-			rowHeaders[i] = name;
-			rowHash[name] = i;
-		}
+		if (i < 0)
+			i = 0;
+		
+		if (i >= rowHeaders.size())
+			resize(i+1, colHeaders.size());
+		
+		rowHeaders[i] = name;
+		rowHash[name] = i;
 	}
 	/*! \brief set all the column names. 
 	\param QStringList vector of strings

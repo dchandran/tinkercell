@@ -735,8 +735,8 @@ namespace Tinkercell
 					reactants.value(1,1) = 1.0;
 					products.value(1,0) = n;
 					
-					rates.value(0,0) = connection->fullName() + tr(".k0 * ") + handle->fullName() + tr("^") + QString::number(n);
-					rates.value(1,0) = connection->fullName() + tr(".k0 * ") + node->fullName();
+					rates.value(0,0) = connection->fullName() + tr(".kf * ") + handle->fullName() + tr("^") + QString::number(n);
+					rates.value(1,0) = connection->fullName() + tr(".kb * ") + node->fullName();
 					
 					reactants.description() = QString("Number of each reactant participating in this reaction");
 					products.description() = QString("Number of each product participating in this reaction");
@@ -745,9 +745,12 @@ namespace Tinkercell
 					connection->numericalDataTable(tr("Reactant stoichiometries")) = reactants;
 					connection->numericalDataTable(tr("Product stoichiometries")) = products;
 					connection->textDataTable(tr("Rate equations")) = rates;
-					connection->numericalData(tr("Parameters"),tr("k0"),tr("value")) = 1.0;
-					connection->numericalData(tr("Parameters"),tr("k0"),tr("min")) = 0.0;
-					connection->numericalData(tr("Parameters"),tr("k0"),tr("max")) = 100.0;
+					connection->numericalData(tr("Parameters"),tr("kf"),tr("value")) = 1.0;
+					connection->numericalData(tr("Parameters"),tr("kf"),tr("min")) = 0.0;
+					connection->numericalData(tr("Parameters"),tr("kf"),tr("max")) = 100.0;
+					connection->numericalData(tr("Parameters"),tr("kb"),tr("value")) = 0.1;
+					connection->numericalData(tr("Parameters"),tr("kb"),tr("min")) = 0.0;
+					connection->numericalData(tr("Parameters"),tr("kb"),tr("max")) = 100.0;
 
 					list += item;
 				}

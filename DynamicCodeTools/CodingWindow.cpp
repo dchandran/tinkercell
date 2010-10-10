@@ -572,14 +572,14 @@ specific for:\n\"\"\"\n\n") + text;
 		 action = toolBar->addAction(QIcon(":/images/redo.png"),tr("Redo"),this,SLOT(redo()));
 		 action->setToolTip(tr("Redo"));
 
-		 action = toolBar->addAction(QIcon(":/images/cmd.png"),tr("Command"),&commandDialog,SLOT(exec()));
-		 action->setToolTip(tr("Edit command"));
+		 //action = toolBar->addAction(QIcon(":/images/cmd.png"),tr("Command"),&commandDialog,SLOT(exec()));
+		 //action->setToolTip(tr("Edit command"));
 
 		 action = toolBar->addAction(QIcon(":/images/play.png"),tr("Run"),this,SLOT(run()));
 		 action->setToolTip(tr("Run code"));
 
-		 action = toolBar->addAction(QIcon(":/images/stop.png"),tr("Stop"),this,SIGNAL(stopPython()));
-		 action->setToolTip(tr("Terminate (Python only)"));
+		 //action = toolBar->addAction(QIcon(":/images/exit.png"),tr("Stop"),this,SIGNAL(stopPython()));
+		 //action->setToolTip(tr("Terminate (Python only)"));
 
 		 //action = toolBar->addAction(QIcon(":/images/function.png"),tr("Buttonize"),this,SLOT(convertCodeToButton()));
 		 //action->setToolTip(tr("Add code to the functions list"));
@@ -910,7 +910,7 @@ specific for:\n\"\"\"\n\n") + text;
 		 {
 			QFileInfo fileInfo = list.at(i);
 			QFile file(fileInfo.absoluteFilePath());
-			if (fileInfo.baseName().startsWith(tr("TC_")) && fileInfo.completeSuffix().toLower() != tr("h") || !file.open(QFile::ReadOnly)) continue;
+			if (!fileInfo.baseName().startsWith(tr("TC_")) || fileInfo.completeSuffix().toLower() != tr("h") || !file.open(QFile::ReadOnly)) continue;
 			
 			QRegExp regexComments(tr("brief\\s*([^\\n\\r]+)"));
 			QRegExp regexGroup(tr("ingroup\\s*([^\\n\\r]+)"));

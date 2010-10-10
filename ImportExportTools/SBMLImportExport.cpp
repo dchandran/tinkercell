@@ -19,7 +19,7 @@
 using namespace Tinkercell;
 using namespace std;
 
-SBMLImportExport::SBMLImportExport() : Tool("SBML Tool")
+SBMLImportExport::SBMLImportExport() : Tool("SBML Tool","Export")
 {
 	modelNeedsUpdate = true;
 	sbmlDocument = 0;
@@ -88,7 +88,7 @@ bool SBMLImportExport::setMainWindow(MainWindow * main)
 		if (exportmenu)
 		{
 			//importmenu->addAction(tr("load SBML file"),this,SLOT(loadSBMLFile()));
-			exportmenu->addAction(tr("save SBML file"),this,SLOT(saveSBMLFile()));
+			exportmenu->addAction(tr("SBML"),this,SLOT(saveSBMLFile()));
 		}
 
 	}

@@ -5,7 +5,7 @@ def getPyscesModel():
     import re
 
     A = tc_allItems();
-    N = fromTC( tc_getStoichiometry(A), True );
+    N = fromMatrix( tc_getStoichiometry(A), True );
     rates0 = fromTC( tc_getRates(A) );
     params = fromTC( tc_getParameters(A) );
     fixed = fromTC( tc_getFixedVariables(A) );

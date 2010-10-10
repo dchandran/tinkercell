@@ -4,7 +4,7 @@
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
  
- This tool inports and exports SBML models
+ This tool imports and exports SBML models
 
 ****************************************************************************/
 

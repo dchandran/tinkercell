@@ -135,7 +135,7 @@ namespace Tinkercell
 		CandPythonSyntaxHighlighter *highlighter;
 
 		QString fileName;
-		QDialog commandDialog;
+		//QDialog commandDialog;
 
 	};
 

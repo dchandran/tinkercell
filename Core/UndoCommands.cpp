@@ -7,7 +7,7 @@ See COPYRIGHT.TXT
 This file contains a collection of commands that perform simple operations that can be redone and undone.
 
 ****************************************************************************/
-
+#include <iostream>
 #include "NodeGraphicsItem.h"
 #include "NodeGraphicsReader.h"
 #include "ConnectionGraphicsItem.h"
@@ -247,8 +247,8 @@ namespace Tinkercell
 		for (int i=0; i < items.size(); ++i)
 			if (items[i] && !MainWindow::invalidPointers.contains((void*)items[i]))
 			{
-				delete items[i];
 				MainWindow::invalidPointers[ (void*)items[i] ] = true;
+				delete items[i];
 				items[i] = 0;
 			}
 		if (renameCommand)
@@ -863,7 +863,18 @@ namespace Tinkercell
 	
 	InsertGraphicsCommand::~InsertGraphicsCommand()
 	{
+		std::cout << this->text().toAscii().data() << "\n";
 		ItemHandle * handle = 0;
+		
+		for (int i=0; i < graphicsItems.size(); ++i)
+		{
+			if (graphicsItems[i] && !MainWindow::invalidPointers.contains((void*)graphicsItems[i]))
+			{
+				if ((handle = getHandle(graphicsItems[i])) &&
+					!handles.contains(handle))
+					handles += handle;
+			}
+		}
 		
 		for (int i=0; i < handles.size(); ++i)
 		{
@@ -872,8 +883,8 @@ namespace Tinkercell
 				!handles[i]->parent && 
 				handles[i]->graphicsItems.isEmpty())
 			{
+			    MainWindow::invalidPointers[ (void*) handles[i] ] = true;
 			    delete handles[i];
-				MainWindow::invalidPointers[ (void*) handles[i] ] = true;
 			}
 		}
 		handles.clear();
@@ -885,15 +896,6 @@ namespace Tinkercell
 		{
 			if (graphicsItems[i] && !MainWindow::invalidPointers.contains((void*)graphicsItems[i]))
 			{
-				if ((handle = getHandle(graphicsItems[i])) && 
-					!MainWindow::invalidPointers.contains((void*)handle) &&
-					!handle->parent && 
-					handle->graphicsItems.isEmpty())
-				{
-					MainWindow::invalidPointers[ (void*) handle ] = true;
-					delete handle;
-				}
-
 			    if (graphicsItems[i]->parentItem())
 					graphicsItems[i]->setParentItem(0);
 

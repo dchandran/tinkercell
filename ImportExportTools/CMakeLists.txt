@@ -97,3 +97,32 @@ ELSE( WIN32 )
   )
 ENDIF( WIN32 )
 
+SET(OCTAVE_EXPORT_TOOL_HDRS OctaveExporter.h)
+SET(OCTAVE_EXPORT_TOOL_SRC OctaveExporter.cpp)
+QT4_WRAP_CPP( OCTAVE_EXPORT_TOOL_MOC ${OCTAVE_EXPORT_TOOL_HDRS})
+
+ADD_LIBRARY( OctaveExporter
+  SHARED
+  ${OCTAVE_EXPORT_TOOL_MOC}
+  ${TinkercellCore_MOC}
+  ${OCTAVE_EXPORT_TOOL_SRC}
+)
+
+TARGET_LINK_LIBRARIES( OctaveExporter
+  OctaveExporter
+  ModelingTools
+  NodesTree
+  TinkerCellCore
+)
+
+IF( WIN32 )
+  INSTALL(TARGETS OctaveExporter
+    DESTINATION plugins
+  )
+ELSE( WIN32 )
+  INSTALL(TARGETS OctaveExporter
+    LIBRARY DESTINATION plugins
+  )
+ENDIF( WIN32 )
+
+

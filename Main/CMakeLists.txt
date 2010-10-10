@@ -91,6 +91,6 @@ INSTALL(TARGETS TinkerCell
    RUNTIME DESTINATION bin/../
    COMPONENT "TinkerCell")
    
-FILE(GLOB TINKERCELL_EXAMPLES examples/*.xml)
+FILE(GLOB TINKERCELL_EXAMPLES examples/*.tic examples/*.TIC examples/*.xml)
 INSTALL(FILES ${TINKERCELL_EXAMPLES} DESTINATION examples COMPONENT "examples")
 INSTALL(FILES tinkercell.qss DESTINATION bin/../ COMPONENT "stylesheet")

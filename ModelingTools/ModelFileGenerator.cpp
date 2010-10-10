@@ -357,6 +357,8 @@ namespace Tinkercell
 			code += tr("    double ");
 			code += fluxes[i];
 			code += tr(";\n");
+			
+			allSymbols << fluxes[i];
 			allValues << tr("0.0");
 		}
 

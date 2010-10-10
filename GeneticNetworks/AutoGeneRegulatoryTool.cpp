@@ -1102,7 +1102,8 @@ namespace Tinkercell
 							for (int k=0; k < connections[j]->graphicsItems.size(); ++k)
 							{
 								if ((connection = ConnectionGraphicsItem::cast(connections[j]->graphicsItems[k]))
-									&& !items.contains(connection))
+									&& !items.contains(connection)
+									&& connection->scene() == scene)
 									nodeConnections << connection;
 							}
 

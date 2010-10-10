@@ -873,6 +873,7 @@ namespace Tinkercell
 				if ((handle = getHandle(graphicsItems[i])) &&
 					!handles.contains(handle))
 					handles += handle;
+				graphicsItems[i] = 0;
 			}
 		}
 		

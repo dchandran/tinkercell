@@ -29,9 +29,9 @@ TCAPIEXPORT void initialize()
 	//dlfl_dict = PyModule_GetDict( dlfl );
 }
 
-TCAPIEXPORT void exec(const char * code,const char * outfile)
+TCAPIEXPORT void exec(const char * code)
 {
-	FILE * file;
+	//FILE * file;
 	char *retString, 
 	 	   *errString;
 	PyObject * s,
@@ -46,25 +46,25 @@ TCAPIEXPORT void exec(const char * code,const char * outfile)
 	
 	PyErr_Fetch (&errobj, &errdata, &errtraceback);
 	
-	if (evalVal != NULL)
+	/*if (evalVal != NULL)
 	{
 		s = PyObject_Str(evalVal); 
 		retString = PyString_AsString(s);
 		tc_print(retString);
-		Py_DECREF(s); 
-		//Py_DECREF(evalVal);
-	}
+		Py_DECREF(s);
+	}*/
+
 	
 	if (errdata != NULL) 
 	{ 
 		s = PyObject_Str(errdata); 
 		errString = PyString_AsString(s);
 		tc_errorReport(errString);
-		file = fopen(outfile,"w");
+		/*file = fopen(outfile,"w");
 		if (file)
 		{
 			fclose(file);
-		}
+		}*/
 		Py_DECREF(s); 
 	}
 	

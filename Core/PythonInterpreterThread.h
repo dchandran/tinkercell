@@ -25,7 +25,7 @@ namespace Tinkercell
 		Q_OBJECT
 		
 		typedef void (*initFunc)();
-		typedef void (*execFunc)(const char*,const char*);
+		typedef void (*execFunc)(const char*);
 		typedef void (*finalFunc)();
 		
 	public:

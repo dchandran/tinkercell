@@ -640,6 +640,8 @@ namespace Tinkercell
 								if (stops.size() > 0)
 								{
 									color.setAlpha(stops[ stops.size() - 1 ].second.alpha());
+									for (int k=0; k < (stops.size()-1); ++k)
+										stops[k].second = QColor(255,255,255,stops[k].second.alpha());
 									stops[ stops.size() - 1 ].second = color;
 									gradient.setStops(stops);
 									QBrush newBrush(gradient);

@@ -96,9 +96,9 @@ namespace Tinkercell
 			addpathDone = true;
 		}
         
-		script +=  QObject::tr("_outfile = open('py.out','w')\nsys.stdout = _outfile;\n");
+		script +=  QObject::tr("_outfile = open('py.out','w')\nsys.stdout = _outfile;\nsys.stderr = _outfile;\n");
 		script += code;
-		script +=  QObject::tr("\n_outfile.close();\n");
+		script +=  QObject::tr("\n_outfile.close();\ntc_printFile('py.out');\n");
 
         if (!f)
             f = (execFunc)lib->resolve("exec");
@@ -108,17 +108,7 @@ namespace Tinkercell
             QString currentDir = QDir::currentPath();
             QDir::setCurrent(MainWindow::tempDir());
 
-            f(script.toAscii().data(),"py.out");
-            if (mainWindow && mainWindow->console())
-            {
-            	QFile file(tr("py.out"));
-            	if (file.open(QFile::ReadOnly | QFile::Text))
-            	{
-		            QString allText(file.readAll());
-					mainWindow->console()->message(allText);
-					file.close();
-				}
-            }
+            f(script.toAscii().data());
 
             QDir::setCurrent(currentDir);
         }

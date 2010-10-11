@@ -1,9 +1,8 @@
-def getPyscesModel():
-    from tc2py import *
-    from tinkercell import *
-    import pysces
-    import re
+from tc2py import *
+import pysces
+import re
 
+def getPyscesModel():
     A = tc_allItems();
     N = fromMatrix( tc_getStoichiometry(A), True );
     rates0 = fromTC( tc_getRates(A) );

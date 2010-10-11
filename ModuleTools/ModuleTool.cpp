@@ -476,7 +476,8 @@ namespace Tinkercell
 
 							if (QFile::exists(filename))
 							{
-								QList<ItemHandle*> handles2 = mainWindow->getItemsFromFile(filename,handles[i]);
+								QPair< QList<ItemHandle*> , QList<QGraphicsItem*> > pair = mainWindow->getItemsFromFile(filename,handles[i]);
+								QList<ItemHandle*> handles2 = pair.first;
 
 								loaded = !handles2.isEmpty();
 								
@@ -737,7 +738,6 @@ namespace Tinkercell
 		if (button)
 		{
 			QString filename = button->toolTip();
-			QList<QGraphicsItem*> items;
 			NetworkHandle * network = currentNetwork();
 			
 			if (QFile::exists(filename) && network)
@@ -747,25 +747,25 @@ namespace Tinkercell
 				if (!window || !window->handle) return;
 				ItemHandle * parentHandle = window->handle;
 				
-				QList<ItemHandle*> handles = mainWindow->getItemsFromFile(filename,parentHandle);
+				QPair< QList<ItemHandle*> , QList<QGraphicsItem*> > pair = mainWindow->getItemsFromFile(filename,parentHandle);
+				
+				QList<QGraphicsItem*> items = pair.second;
+				QList<ItemHandle*> handles = pair.first;
 				
 				if (handles.isEmpty()) return;
 				
 				QList<ItemHandle*> visitedHandles;
-				QList<QGraphicsItem*> items;
-				
-				for (int i=0; i < handles.size(); ++i)
-					if (handles[i] && !visitedHandles.contains(handles[i]))
-					{
-						visitedHandles << handles[i];
-						if (!handles[i]->parent)
+
+				if (items.isEmpty())
+				{
+					for (int i=0; i < handles.size(); ++i)
+						if (handles[i] && !visitedHandles.contains(handles[i]))
 						{
-							QList<QGraphicsItem*> items2 = handles[i]->graphicsItems;
-							for (int j=0; j < items2.size(); ++j)							
-								if (ConnectionGraphicsItem::cast(items2[j]) && !items2[j]->scene())
-									items << items2[j];
+							visitedHandles << handles[i];
+							if (!handles[i]->parent)							
+								items += handles[i]->graphicsItems;
 						}
-					}
+				}
 
 				if (window && window->scene)
 				{

@@ -91,10 +91,10 @@ namespace Tinkercell
 		Some tool must implement this function and connect to the getItemsFromFile signal.
 		The Core library does not implement a read file function. 
 		* \param QString& file that is selected by user
-		* \return QList<ItemHandle*> list of items inside the file
+		* \return QPair< QList<ItemHandle*>, QList<QGraphicsItem*> >  list of handles and graphics items inside the file
 		* \return void
 		*/
-		QList<ItemHandle*> getItemsFromFile(const QString& filename);
+		QPair< QList<ItemHandle*>, QList<QGraphicsItem*> >  getItemsFromFile(const QString& filename);
 		/*!
 		* \brief same as MainWindow::homeDir
 		*/

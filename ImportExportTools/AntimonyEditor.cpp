@@ -51,7 +51,7 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(copyItems(GraphicsScene *, QList<QGraphicsItem*>&, QList<ItemHandle*>&)),this,SLOT(copyItems(GraphicsScene *, QList<QGraphicsItem*>&, QList<ItemHandle*>&)));
 			connect(mainWindow,SIGNAL(windowChanged(NetworkWindow*,NetworkWindow*)),this,SLOT(windowChanged(NetworkWindow*,NetworkWindow*)));
 			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
-			connect(mainWindow,SIGNAL(getItemsFromFile(QList<ItemHandle*>&, const QString&,ItemHandle*)),this,SLOT(getItemsFromFile(QList<ItemHandle*>&, const QString&,ItemHandle*)));
+			connect(mainWindow,SIGNAL(getItemsFromFile(QList<ItemHandle*>&, QList<QGraphicsItem*>&, const QString&,ItemHandle*)),this,SLOT(getItemsFromFile(QList<ItemHandle*>&, QList<QGraphicsItem*>&, const QString&,ItemHandle*)));
 
 			toolLoaded(0);
 
@@ -731,7 +731,7 @@ namespace Tinkercell
 			(*text) = getAntimonyScript(items);
 	}
 	
-	void AntimonyEditor::getItemsFromFile(QList<ItemHandle*>& items, const QString& filename, ItemHandle * root)
+	void AntimonyEditor::getItemsFromFile(QList<ItemHandle*>& items, QList<QGraphicsItem*>& , const QString& filename, ItemHandle * root)
 	{
 		if (!items.isEmpty()) return;
 

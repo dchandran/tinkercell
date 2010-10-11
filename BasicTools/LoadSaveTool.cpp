@@ -75,7 +75,7 @@ namespace Tinkercell
 			
 			connect(mainWindow,SIGNAL(saveNetwork(const QString&)),this,SLOT(saveNetwork(const QString&)));
 			connect(mainWindow,SIGNAL(loadNetwork(const QString&)),this,SLOT(loadNetwork(const QString&)));
-			connect(mainWindow,SIGNAL(getItemsFromFile(QList<ItemHandle*>&, const QString&,ItemHandle*)),this,SLOT(getItemsFromFile(QList<ItemHandle*>&, const QString&,ItemHandle*)));
+			connect(mainWindow,SIGNAL(getItemsFromFile(QList<ItemHandle*>&, QList<QGraphicsItem*>&, const QString&,ItemHandle*)),this,SLOT(getItemsFromFile(QList<ItemHandle*>&, QList<QGraphicsItem*>&, const QString&,ItemHandle*)));
 			connect(mainWindow,SIGNAL(networkClosing(NetworkHandle * , bool *)),this,SLOT(networkClosing(NetworkHandle * , bool *)));
 			connect(mainWindow,SIGNAL(historyChanged( int )),this,SLOT(historyChanged( int )));
 
@@ -424,10 +424,9 @@ namespace Tinkercell
 		}
 	}
 	
-	void LoadSaveTool::getItemsFromFile(QList<ItemHandle*>& handles, const QString& filename,ItemHandle * root)
+	void LoadSaveTool::getItemsFromFile(QList<ItemHandle*>& handles, QList<QGraphicsItem*>& items, const QString& filename,ItemHandle * root)
 	{
 		if (!handles.isEmpty()) return;
-		QList<QGraphicsItem*> items;
 		loadItems(items,filename);
 		ItemHandle * h;
 

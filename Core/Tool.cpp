@@ -170,11 +170,11 @@ namespace Tinkercell
 			graphicsItems << item;
 	}
 	
-	QList<ItemHandle*> Tool::getItemsFromFile(const QString& filename)
+	QPair< QList<ItemHandle*>, QList<QGraphicsItem*> > Tool::getItemsFromFile(const QString& filename)
 	{
 		if (mainWindow)
 			return mainWindow->getItemsFromFile(filename);
-		return QList<ItemHandle*>();
+		return QPair< QList<ItemHandle*>, QList<QGraphicsItem*> >(QList<ItemHandle*>(),QList<QGraphicsItem*>());
 	}
 }
 

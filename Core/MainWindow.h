@@ -220,7 +220,7 @@ namespace Tinkercell
 		* \return QList<ItemHandle*> list of items inside the file
 		* \return void
 		*/
-		QList<ItemHandle*> getItemsFromFile(const QString& filename, ItemHandle * root = 0);
+		QPair< QList<ItemHandle*>, QList<QGraphicsItem*> > getItemsFromFile(const QString& filename, ItemHandle * root = 0);
 		/*!
 		* \brief gets the current scene that is active
 		* \return GraphicsScene* current scene
@@ -581,11 +581,12 @@ namespace Tinkercell
 		/*!
 		* \brief signal sent to a tool so that the tool can get the items inside a file
 		* \param QList<ItemHandle*>& list of items inside the file
+		* \param QList<QGraphicsItem*>& list of graphics items in the file
 		* \param QString& file that is selected by user
 		* \param ItemHandle * optional root parent handle for all the loaded items
 		* \return void
 		*/
-		void getItemsFromFile(QList<ItemHandle*>&, const QString& filename, ItemHandle * root);
+		void getItemsFromFile(QList<ItemHandle*>&, QList<QGraphicsItem*>&, const QString& filename, ItemHandle * root);
 		/*!
 		* \brief signals informs that the current network has just loaded a new Network
 		* \param NetworkHandle *  the window where network was loaded (usually current scene)

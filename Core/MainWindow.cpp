@@ -1285,10 +1285,11 @@ namespace Tinkercell
 		//event->accept();
 	}
 	
-	QList<ItemHandle*> MainWindow::getItemsFromFile(const QString& filename, ItemHandle * root)
+	QPair< QList<ItemHandle*>, QList<QGraphicsItem*> > MainWindow::getItemsFromFile(const QString& filename, ItemHandle * root)
 	{
 		QList<ItemHandle*> items;
-		emit getItemsFromFile(items,filename,root);
-		return items;
+		QList<QGraphicsItem*> gitems;
+		emit getItemsFromFile(items,gitems,filename,root);
+		return QPair< QList<ItemHandle*>, QList<QGraphicsItem*> >(items, gitems);
 	}
 }

@@ -292,6 +292,12 @@ namespace Tinkercell
 		settings.setValue("defaultHistoryWindowOption", (int)(defaultHistoryWindowOption));
 		settings.setValue("defaultConsoleWindowOption", (int)(defaultConsoleWindowOption));
 		settings.setValue("windowState", saveState());
+		
+		settings.setValue("ConsoleWindow::BackgroundColor", ConsoleWindow::BackgroundColor.name());
+		settings.setValue("ConsoleWindow::PlainTextColor", ConsoleWindow::PlainTextColor.name());
+		settings.setValue("ConsoleWindow::ErrorTextColor", ConsoleWindow::ErrorTextColor.name());
+		settings.setValue("ConsoleWindow::OutputTextColor", ConsoleWindow::OutputTextColor.name());
+		settings.setValue("ConsoleWindow::TableTextColor", ConsoleWindow::TableTextColor.name());
 
 		settings.endGroup();
 	}
@@ -321,7 +327,6 @@ namespace Tinkercell
 		defaultConsoleWindowOption = (TOOL_WINDOW_OPTION)(settings.value("defaultConsoleWindowOption", (int)defaultConsoleWindowOption).toInt());
 		
 		restoreState(settings.value("windowState").toByteArray());
-
 		settings.endGroup();
 	}
 

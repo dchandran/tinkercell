@@ -6,7 +6,7 @@ See COPYRIGHT.TXT
 This file defines the class that is used as a general output area as well as
 a generic command prompt (e.g. by Python plugin)
 ****************************************************************************/
-
+#include <QSettings>
 #include "NetworkHandle.h"
 #include "MainWindow.h"
 #include "ConsoleWindow.h"
@@ -23,13 +23,15 @@ namespace Tinkercell
 	
 	void CommandTextEdit::setBackgroundColor(const QColor& c)
 	{
-		setPalette(QPalette(ConsoleWindow::BackgroundColor = c));
+		ConsoleWindow::BackgroundColor = c;
+		setStyleSheet( tr("background : ") + ConsoleWindow::BackgroundColor.name());
 		update();
 	}
 	
 	void CommandTextEdit::setPlainTextColor(const QColor& c)
 	{
-		normalFormat.setForeground( ConsoleWindow::PlainTextColor = c );
+		ConsoleWindow::PlainTextColor = c;
+		normalFormat.setForeground(c);
 		update();
 	}
 	
@@ -103,6 +105,18 @@ namespace Tinkercell
 	CommandTextEdit::CommandTextEdit(MainWindow * parent): QTextEdit(parent), c(0), mainWindow(parent)
 	{
 		setUndoRedoEnabled ( false );
+		
+		QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
+
+		settings.beginGroup("MainWindow");
+		
+		ConsoleWindow::BackgroundColor =  QColor(settings.value("ConsoleWindow::BackgroundColor", ConsoleWindow::BackgroundColor.name()).toString());
+		ConsoleWindow::PlainTextColor =  QColor(settings.value("ConsoleWindow::PlainTextColor", ConsoleWindow::PlainTextColor.name()).toString());
+		ConsoleWindow::ErrorTextColor =  QColor(settings.value("ConsoleWindow::ErrorTextColor",ConsoleWindow::ErrorTextColor.name()).toString());
+		ConsoleWindow::OutputTextColor =  QColor(settings.value("ConsoleWindow::OutputTextColor",ConsoleWindow::OutputTextColor.name()).toString());
+		ConsoleWindow::TableTextColor =  QColor(settings.value("ConsoleWindow::TableTextColor", ConsoleWindow::TableTextColor.name()).toString());
+		
+		settings.endGroup();
 
 		setTextInteractionFlags(Qt::TextEditorInteraction);
 
@@ -111,7 +125,7 @@ namespace Tinkercell
 		font.setPointSize(12);
 		setFont(font);
 
-		setPalette(QPalette(ConsoleWindow::BackgroundColor));
+		setPalette(ConsoleWindow::BackgroundColor);
 
 		QTextCursor cursor = textCursor();
 

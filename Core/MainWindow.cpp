@@ -17,6 +17,7 @@ The MainWindow keeps a list of all plugins, and it is also responsible for loadi
 ****************************************************************************/
 
 #include <QLibrary>
+#include <QFileInfo>
 #include <QSettings>
 #include <QInputDialog>
 #include <QActionGroup>
@@ -526,12 +527,13 @@ namespace Tinkercell
 
 	void MainWindow::open()
 	{
-		QString def = previousFileName;
-		def.replace(QRegExp("\\..*$"),tr(".") + OPEN_FILE_EXTENSIONS.join(tr(" *.")));
+		QString dir = QFileInfo(previousFileName).absolutePath();
 
 		QStringList fileNames =
-			QFileDialog::getOpenFileNames(this, tr("Open File"),
-			def);
+			QFileDialog::getOpenFileNames(this, 
+			tr("Open File(s)"),
+			dir,
+			(PROJECTNAME + tr(" files (*.") + OPEN_FILE_EXTENSIONS.join(tr(" *.")) + tr(")")));
 		for (int i=0; i < fileNames.size(); ++i)
 			if (!fileNames[i].isEmpty())
 				open(fileNames[i]);

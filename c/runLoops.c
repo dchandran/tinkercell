@@ -46,29 +46,32 @@ void run()
    fprintf( out , "\
 #include \"TC_api.h\"\n\
 #include \"cvodesim.h\"\n\
-#include \"loops.h\"\n\
-int run(tc_matrix M)\n\
+#include \"loops.c\"\n\
+TCAPIEXPORT void run()\n\
 {\n\
    int i,j;\n\
-   TCinitialize();\n\
-   double * J = jacobian2(TCvars,TCreactions,TCstoic,&(TCpropensity),TCinit,0);\n\
+   TCinitialize(&TC_initial_model);\n\
+   double * J = jacobian2(TCvars,TCreactions,TCstoic,&(TCpropensity),TCinit,&TC_initial_model,0,0);\n\
    LoopsInformation info = getLoops(J,TCvars);\n\
+   FILE * file = fopen(\"loops.out\",\"w\");\n\
     for (i=0; i < info.numLoops; ++i)\n\
 	{\n\
 		if (info.loopTypes[i] > 0)\n\
-			tc_print(\"negative loop:\");\n\
+			fprintf(file,\"negative loop:\\n\");\n\
 		else\n\
-			tc_print(\"positive loop:\");\n\
+			fprintf(file,\"positive loop:\\n\");\n\
 		for (j=0; j < info.loopLengths[i]; ++j)\n\
 		{\n\
-			tc_print(TCvarnames[ info.nodes[i][j] ]);\n\
+			fprintf(file,\"%%s    \",TCvarnames[ info.nodes[i][j] ]);\n\
 			if (info.loopTypes[i] > 0) \n\
 				tc_highlight( tc_find(TCvarnames[ info.nodes[i][j] ]), \"#FF0000\" );\n\
 			else\n\
 				tc_highlight( tc_find(TCvarnames[ info.nodes[i][j] ]), \"#00FF00\" );\n\
 		}\n\
-		tc_print(\"\\n\");\n\
+		fprintf(file,\"\\n\");\n\
 	}\n\
+	fclose(file);\n\
+	tc_printFile(\"loops.out\");\n\
    freeLoopsInfo(info);\n\
    free(J);\n\
    return;\n\
@@ -76,6 +79,7 @@ int run(tc_matrix M)\n\
 
 
    fclose(out);
+   tc_compileBuildLoad("runloops.c -lode\0","run\0","Find loops\0");
    return;
 }
 

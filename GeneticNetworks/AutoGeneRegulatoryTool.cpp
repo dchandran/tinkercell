@@ -887,6 +887,16 @@ namespace Tinkercell
 		if (!partCollided)
 		{
 			handle = item->handle();
+			if (handle && item->connections().isEmpty())
+				for (int i=0; i < handle->graphicsItems.size(); ++i)
+					if ((item = NodeGraphicsItem::cast(handle->graphicsItems[i])) &&
+						(item->scene() == scene) &&
+						!item->connections().isEmpty())
+						break;
+					else
+						item = 0;
+				
+			
 			NodeGraphicsItem * hitNode;
 			for (int i=0; i < items.size(); ++i)
 				if (hitNode = NodeGraphicsItem::cast(items[i]))

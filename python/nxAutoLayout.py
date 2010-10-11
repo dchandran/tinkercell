@@ -80,22 +80,22 @@ def doLayout(type): #type = (spring, circular, random, spectral, shell, pydot, g
 		PosY.append(Pos[i][1]);
 
 	for i in range(numConnections,numConnections+numNodes):
-		Array.append(nodes[i-numConnections]);
+		Array.append(tc_getItem(nodes,i-numConnections));
 		PosX.append(Pos[i][0]);
 		PosY.append(Pos[i][1]);
 
-	tc_setAllStraight();
+	tc_setAllStraight(1);
 	
 	Array2 = tc_createItemsArray( len(Array) );
-	for i in Array:
-		tc_setItem(Array2,i);
+	for i in range(0,len(Array)):
+		tc_setItem(Array2,i,Array[i]);
 	
 	Pos = tc_createMatrix( len(PosX), 2 );
 	for i in range(0,len(PosX)):
 		tc_setMatrixValue(Pos, i, 0, PosX[i]);
 		tc_setMatrixValue(Pos, i, 1, PosY[i]);
-	
-	tc_setPosMulti(Array,Pos);
+
+	tc_setPosMulti(Array2,Pos);
 
 	print "layout finished";
 

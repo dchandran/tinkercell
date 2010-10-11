@@ -46,14 +46,14 @@ TCAPIEXPORT void exec(const char * code,const char * outfile)
 	
 	PyErr_Fetch (&errobj, &errdata, &errtraceback);
 	
-	/*if (evalVal != NULL)
+	if (evalVal != NULL)
 	{
 		s = PyObject_Str(evalVal); 
 		retString = PyString_AsString(s);
 		tc_print(retString);
 		Py_DECREF(s); 
-		Py_DECREF(evalVal);
-	}*/
+		//Py_DECREF(evalVal);
+	}
 	
 	if (errdata != NULL) 
 	{ 

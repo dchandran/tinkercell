@@ -44,7 +44,7 @@ G.add_nodes_from( range( 0, numNodes ) );
 G.add_edges_from(M);
 
 #user interface
-strList = toTC( ("degree centrality", "betweenness centrality", "load centrality", "closeness centrality") );
+strList = toStrings( ("degree centrality", "betweenness centrality", "load centrality", "closeness centrality") );
 option = tc_getStringFromList("Select type of centrality:", strList, "degree centrality");
 tc_deleteStringsArray(strList);
 
@@ -73,7 +73,7 @@ if len(N) == numNodes:  #print and display the values
 		elif maxV < 0 or maxV < N[i]:
 			best = i;
 			maxV = N[i];
-		s += nodeNames[i] + "\t" + str(N[i]) + "\n";
+		s += tc_getString(nodeNames,i) + "\t" + str(N[i]) + "\n";
 	tc_print(s);
 	if worst > -1 and best > -1:
 		tc_highlight( tc_getItem(nodes,best) , "#FF0000" );

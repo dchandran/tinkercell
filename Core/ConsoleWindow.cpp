@@ -374,6 +374,20 @@ namespace Tinkercell
 			QTextEdit::selectAll();
 			return;
 		}
+		
+		if (event->modifiers() == Qt::ControlModifier)
+		{
+			if (key == Qt::Key_Plus)
+			{
+				zoomIn();
+				return;
+			}
+			if (key == Qt::Key_Minus)
+			{
+				zoomOut();
+				return;
+			}
+		}
 
 		if (key == Qt::Key_Return || key == Qt::Key_Enter)
 		{

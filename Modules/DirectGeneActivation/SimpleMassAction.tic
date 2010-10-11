@@ -46,7 +46,7 @@
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="protein_degradation.k0*TF"/>
             </tc_table>
         </Handle>
-        <Handle type="1" name="TEMPLATE" parent="" family="Coding">
+        <Handle type="1" name="ACTIVATOR" parent="" family="Coding">
             <tc_matrix>
                 <Table key="initial value" rows="1" cols="1" rowNames="activity" columnNames="activity" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="0"/>
                 <Table key="parameters" rows="1" cols="1" rowNames="length" columnNames="value" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="300"/>
@@ -138,7 +138,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="participants" rows="3" cols="1" rowNames="emp1;;mrna;;TEMPLATE" columnNames="" values="reactant;;product;;template"/>
+                <Table key="participants" rows="3" cols="1" rowNames="emp1;;mrna;;ACTIVATOR" columnNames="" values="reactant;;product;;template"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="transcription.k0"/>
@@ -932,7 +932,7 @@
                 </renderInformation>
             </listOfRenderInformation>
         </NodeItem>
-        <NodeItem className="NodeGraphicsItem" scene="0" handle="TEMPLATE" z="2">
+        <NodeItem className="NodeGraphicsItem" scene="0" handle="ACTIVATOR" z="2">
             <pos x="4660.88" y="5324.69"/>
             <transform m11="1.6" m12="0" m21="0" m22="0.268"/>
             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
@@ -1634,7 +1634,7 @@
                     <ControlPoint x="4657.37" y="5186.67"/>
                 </ControlPoints>
                 <CurveSegments>
-                    <Path numPoints="4" NodeAtStart="TEMPLATE" NodeAtStartX="4660.88" NodeAtStartY="5324.69" NodeAtEnd="" NodeAtEndX="0" NodeAtEndY="0">
+                    <Path numPoints="4" NodeAtStart="ACTIVATOR" NodeAtStartX="4660.88" NodeAtStartY="5324.69" NodeAtEnd="" NodeAtEndX="0" NodeAtEndY="0">
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="4657.37" y="5186.67" angle="-90"/>
@@ -2354,7 +2354,7 @@
         <TextItem text="protein_degradation" scene="0" handle="protein_degradation" x="4748.05" y="4586.63" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="30" font="Sans" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="translation" scene="0" handle="translation" x="4795.54" y="4775.94" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="26.7" font="Sans" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="mrna" scene="0" handle="mrna" x="4954.14" y="4983.68" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="22.1" font="Sans" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="TEMPLATE" scene="0" handle="TEMPLATE" x="4580.73" y="5345.52" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="3" font="Sans" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="ACTIVATOR" scene="0" handle="ACTIVATOR" x="4580.73" y="5345.52" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="3" font="Sans" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="binding" scene="1" handle="upregulation.binding" x="5378.1" y="4718.21" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="92.3" font="Sans" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="inactive_promoter" scene="1" handle="upregulation.inactive_promoter" x="5092.42" y="4491.08" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="87.9" font="Sans" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="TARGET" scene="-1" handle="TARGET" x="5677.5" y="4862.5" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="89.9" font="Sans" size="22" bold="0" italics="0" underline="0"/>

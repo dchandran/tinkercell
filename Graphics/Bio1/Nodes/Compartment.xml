@@ -3,7 +3,7 @@
 <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
     <renderInformation id="TinkerCell_Style" programName="TinkerCell">
         <listOfColorDefinitions>
-            <colorDefinition id="shape0color" value="#8698ff" alpha="52"/>
+            <colorDefinition id="shape0color" value="#6464ff" alpha="114"/>
             <colorDefinition id="shape1color" value="#ffffff" alpha="255"/>
         </listOfColorDefinitions>
         <listOfStyles>

@@ -395,9 +395,6 @@ namespace Tinkercell
 		{
 			if (handles[i] && handles[i]->family() && (connectionHandle = ConnectionHandle::cast(handles[i])))
 			{
-				//if (!connectionHandle->tools.contains(this))
-					//connectionHandle->tools += this;
-
 				if (connectionHandle &&
 					(
 					!(connectionHandle->hasNumericalData(tr("Reactant stoichiometries"))) ||
@@ -405,6 +402,13 @@ namespace Tinkercell
 					!(connectionHandle->hasTextData(tr("Rate equations")))
 					))
 				{
+					if (handles[i]->isA(tr("Multimerization")))
+					{
+						double n = QInputDialog::getDouble(this,tr("Reaction stoichiometry"),tr("Numer of monomers in ") + handles[i]->fullName() + tr(" : "),2.0);
+						if (n < 2.0) 
+							n = 2.0;
+						handles[i]->numericalData(tr("Parameters"),tr("monomers"),tr("value")) = n;
+					}
 					insertDataMatrix(connectionHandle);
 					handleFamilyChanged(network, QList<ItemHandle*>() << handles[i],  QList<ItemFamily*>() );
 				}
@@ -595,10 +599,10 @@ namespace Tinkercell
 		QWidget * treeWidget = mainWindow->tool(tr("Connections Tree"));
 		ConnectionsTree * connectionsTree = static_cast<ConnectionsTree*>(treeWidget);
 
-		if (!connectionsTree->getFamily("Biochemical")) return;
+		if (!connectionsTree->getFamily("Multimerization")) return;
 
 		NodeFamily * nodeFamily = 0;
-		ConnectionFamily * connectionFamily = connectionsTree->getFamily("Biochemical");
+		ConnectionFamily * connectionFamily = connectionsTree->getFamily("Multimerization");
 
 		QList<QGraphicsItem*>& selected = scene->selected();
 		ItemHandle * handle = 0;
@@ -624,7 +628,7 @@ namespace Tinkercell
 
 				visitedHandles += handle;
 				NodeHandle * node = new NodeHandle(nodeFamily);
-				node->name = handle->name + tr("_dimer");
+				node->name = handle->name + tr("_multi");
 				node->name = scene->network->makeUnique(node->name,newNames);
 				newNames << node->name;
 
@@ -688,7 +692,7 @@ namespace Tinkercell
 						}
 					}
 
-					connection->name = handle->name + tr("_dimerize");
+					connection->name = tr("J1");
 					item->lineType = ConnectionGraphicsItem::line;
 					connection->name = scene->network->makeUnique(connection->name,newNames);
 					newNames << connection->name;
@@ -714,6 +718,9 @@ namespace Tinkercell
 					rates.resize(3,1);
 					reactants.resize(3,2);
 					products.resize(3,2);
+					reactants.description() = QString("Number of each reactant participating in this reaction");
+					products.description() = QString("Number of each product participating in this reaction");
+					rates.description() = QString("Rates: a set of rates, one for each reaction represented by this item. Row names correspond to reaction names. The number of rows in this table and the stoichiometry table will be the same.");
 					
 					rates.setColumnName(0,tr("rates"));
 					
@@ -740,19 +747,18 @@ namespace Tinkercell
 					reactants.value(1,1) = 1.0;
 					products.value(1,0) = n;
 					
-					products.value(2,1) = 1.0;
+					reactants.value(2,1) = 1.0;
 					
 					rates.value(0,0) = connection->fullName() + tr(".kf * ") + handle->fullName() + tr("^") + QString::number(n);
 					rates.value(1,0) = connection->fullName() + tr(".kb * ") + node->fullName();
 					rates.value(2,0) = connection->fullName() + tr(".deg * ") + node->fullName();
-					
-					reactants.description() = QString("Number of each reactant participating in this reaction");
-					products.description() = QString("Number of each product participating in this reaction");
-					rates.description() = QString("Rates: a set of rates, one for each reaction represented by this item. Row names correspond to reaction names. The number of rows in this table and the stoichiometry table will be the same.");
 
 					connection->numericalDataTable(tr("Reactant stoichiometries")) = reactants;
 					connection->numericalDataTable(tr("Product stoichiometries")) = products;
 					connection->textDataTable(tr("Rate equations")) = rates;
+					connection->numericalData(tr("Parameters"),tr("monomers"),tr("value")) = n;
+					connection->numericalData(tr("Parameters"),tr("monomers"),tr("min")) = n/2.0;
+					connection->numericalData(tr("Parameters"),tr("monomers"),tr("max")) = n*2.0;
 					connection->numericalData(tr("Parameters"),tr("kf"),tr("value")) = 1.0;
 					connection->numericalData(tr("Parameters"),tr("kf"),tr("min")) = 0.0;
 					connection->numericalData(tr("Parameters"),tr("kf"),tr("max")) = 100.0;

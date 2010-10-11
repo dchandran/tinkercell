@@ -759,7 +759,12 @@ namespace Tinkercell
 					{
 						visitedHandles << handles[i];
 						if (!handles[i]->parent)
-							items << handles[i]->graphicsItems;
+						{
+							QList<QGraphicsItem*> items2 = handles[i]->graphicsItems;
+							for (int j=0; j < items2.size(); ++j)							
+								if (ConnectionGraphicsItem::cast(items2[j]) && !items2[j]->scene())
+									items << items2[j];
+						}
 					}
 
 				if (window && window->scene)
@@ -951,7 +956,7 @@ namespace Tinkercell
 						{
 							items2 = handle->children[i]->graphicsItems;
 							for (int j=0; j < items2.size(); ++j)							
-								if (items2[j] && !items2[j]->scene())
+								if (ConnectionGraphicsItem::cast(items2[j]) && !items2[j]->scene())
 									items << items2[j];
 						}
 				

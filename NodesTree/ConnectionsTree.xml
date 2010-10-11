@@ -10,16 +10,20 @@
 
       <process family="Production" participant_types="Empty,Molecule" description="This connection represents production or influx of a molecular species.">
 
-        <process family="Transcription" participant_types="Coding,Empty,mRNA" participant_roles="Template,Reactant,Product" description="Production of mRNA from DNA template.">
-        </process>
+           <process family="Transcription" participant_types="Coding,Empty,mRNA" participant_roles="Template,Reactant,Product" description="Production of mRNA from DNA template.">
+           </process>
 
-        <process family="Translation" participant_types="mRNA,Empty,Protein" participant_roles="Template,Reactant,Product" description="Production of protein from mRNA template.">
-        </process>
+           <process family="Translation" participant_types="mRNA,Empty,Protein" participant_roles="Template,Reactant,Product" description="Production of protein from mRNA template.">
+           </process>
       
-        <process family="Protein Production" participant_types="Coding,Protein" participant_roles="Template,Product" description="The complete process of producing a protein from the template DNA.">
-        </process>
+           <process family="Protein Production" participant_types="Coding,Protein" participant_roles="Template,Product" description="The complete process of producing a protein from the template DNA.">
+           </process>
 
        </process>
+
+       <process family="Multimerization" participant_types="Molecule" monomers="2.0" description="The formation of a multimer from monomers.">
+       </process>
+
      </process>
 
     <process family="2 to 1" participant_types="Node" participant_roles="Reactant1,Reactant2,Product"></process>

@@ -168,6 +168,10 @@ namespace Tinkercell
 		if (GraphicsScene::copiedFromScene == this)
 			GraphicsScene::copiedFromScene = 0;
 		
+		QList<QGraphicsItem *> allitems = items();
+		for (int i=0; i < allitems.size(); ++i)
+			removeItem(allitems[i]);
+		
 		/*	
 		QList<ItemHandle*> handles = network->handles();
 		
@@ -178,10 +182,6 @@ namespace Tinkercell
 				if (items[j]->scene() == this)
 					removeItem(items[j]);
 		}
-		
-		QList<QGraphicsItem *> allitems = items();
-		for (int i=0; i < allitems.size(); ++i)
-			removeItem(allitems[i]->topLevelItem());
 		
 		removeItem(&selectionRect);
 		QList<QGraphicsItem *> allitems1 = items();

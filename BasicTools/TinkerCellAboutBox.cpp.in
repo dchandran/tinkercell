@@ -22,7 +22,7 @@ namespace Tinkercell
 			MainWindow::PROJECT_VERSION = tr("1.") + QString::number( (int)(number/1000 ) ) + tr(".") + QString::number(number % 1000);
 		}
 
-		text = tr("TinkerCell\nVersion: ") + MainWindow::PROJECT_VERSION;
+		text = tr("TinkerCell\nVersion: ") + MainWindow::PROJECT_VERSION + tr("\n\n");
 		QString appDir = QCoreApplication::applicationDirPath();
 		QString filename = appDir + tr("/about.txt");
 

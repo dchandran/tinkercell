@@ -77,43 +77,43 @@ do
          NodeGraphics.app/Contents/MacOS/NodeGraphics
 
   install_name_tool \
-          -change @QT_QTCORE_LIBRARY_RELEASE@ \
-          @executable_path/../Frameworks/$QTCORE \
+          -change @QT_QTCORE_LIBRARY_RELEASE@/$QTCORE \
+          @executable_path/../Frameworks/QtCore.framework/$QTCORE \
           TinkerCell.app/Contents/Frameworks/$f
 
   install_name_tool \
-          -change @QT_QTGUI_LIBRARY_RELEASE@ \
-          @executable_path/../Frameworks/$QTGUI \
+          -change @QT_QTGUI_LIBRARY_RELEASE@/$QTGUI \
+          @executable_path/../Frameworks/QtGui.framework/$QTGUI \
           TinkerCell.app/Contents/Frameworks/$f
 
   install_name_tool \
-          -change @QT_QTXML_LIBRARY_RELEASE@ \
-          @executable_path/../Frameworks/$QTXML \
+          -change @QT_QTXML_LIBRARY_RELEASE@/$QTXML \
+          @executable_path/../Frameworks/QtXml.framework/$QTXML \
           TinkerCell.app/Contents/Frameworks/$f
 
   install_name_tool \
-          -change @QT_QTOPENGL_LIBRARY_RELEASE@ \
-          @executable_path/../Frameworks/$QTOPENGL \
+          -change @QT_QTOPENGL_LIBRARY_RELEASE@/$QTOPENGL \
+          @executable_path/../Frameworks/QtOpenGL.framework/$QTOPENGL \
           TinkerCell.app/Contents/Frameworks/$f
           
   install_name_tool \
-          -change @QT_QTCORE_LIBRARY_RELEASE@ \
-          @executable_path/../Frameworks/$QTCORE \
+          -change @QT_QTCORE_LIBRARY_RELEASE@/$QTCORE \
+          @executable_path/../Frameworks/QtCore.framework/$QTCORE \
           NodeGraphics.app/Contents/Frameworks/$f
 
   install_name_tool \
-          -change @QT_QTGUI_LIBRARY_RELEASE@ \
-          @executable_path/../Frameworks/$QTGUI \
+          -change @QT_QTGUI_LIBRARY_RELEASE@/$QTGUI \
+          @executable_path/../Frameworks/QtGui.framework/$QTGUI \
           NodeGraphics.app/Contents/Frameworks/$f
 
   install_name_tool \
-          -change @QT_QTXML_LIBRARY_RELEASE@ \
-          @executable_path/../Frameworks/$QTXML \
+          -change @QT_QTXML_LIBRARY_RELEASE@$QTXML \
+          @executable_path/../Frameworks/QtXml.framework/$QTXML \
           NodeGraphics.app/Contents/Frameworks/$f
 
   install_name_tool \
-          -change @QT_QTOPENGL_LIBRARY_RELEASE@ \
-          @executable_path/../Frameworks/$QTOPENGL \
+          -change @QT_QTOPENGL_LIBRARY_RELEASE@/$QTOPENGL \
+          @executable_path/../Frameworks/QtOpenGL.framework/$QTOPENGL \
           NodeGraphics.app/Contents/Frameworks/$f
 
 done
@@ -129,23 +129,23 @@ do
           TinkerCell.app/Contents/MacOS/$f1
 
   install_name_tool \
-          -change @QT_QTCORE_LIBRARY_RELEASE@ \
-          @executable_path/../Frameworks/$QTCORE \
+          -change @QT_QTCORE_LIBRARY_RELEASE@/$QTCORE \
+          @executable_path/../Frameworks/QtCore.framework/$QTCORE \
          TinkerCell.app/Contents/MacOS/$f1
 
   install_name_tool \
-          -change @QT_QTGUI_LIBRARY_RELEASE@ \
-          @executable_path/../Frameworks/$QTGUI \
+          -change @QT_QTGUI_LIBRARY_RELEASE@/$QTGUI \
+          @executable_path/../Frameworks/QtGui.framework/$QTGUI \
           TinkerCell.app/Contents/MacOS/$f1
 
   install_name_tool \
-          -change @QT_QTXML_LIBRARY_RELEASE@ \
-          @executable_path/../Frameworks/$QTXML \
+          -change @QT_QTXML_LIBRARY_RELEASE@/$QTXML \
+          @executable_path/../Frameworks/QtXml.framework/$QTXML \
           TinkerCell.app/Contents/MacOS/$f1
 
   install_name_tool \
-          -change @QT_QTOPENGL_LIBRARY_RELEASE@ \
-          @executable_path/../Frameworks/$QTOPENGL \
+          -change @QT_QTOPENGL_LIBRARY_RELEASE@/$QTOPENGL \
+          @executable_path/../Frameworks/QtOpenGL.framework/$QTOPENGL \
           TinkerCell.app/Contents/MacOS/$f1
 
   for f2 in $LIBFILES

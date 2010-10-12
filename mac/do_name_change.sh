@@ -25,6 +25,7 @@ mkdir TinkerCell.app/Contents/MacOS/c
 mkdir TinkerCell.app/Contents/MacOS/lib
 cp ../../API/*.h TinkerCell.app/Contents/MacOS/c
 cp ../../c/*.h TinkerCell.app/Contents/MacOS/c
+cp ../../c/*.c TinkerCell.app/Contents/MacOS/c
 cp ../../Main/tinkercell.qss TinkerCell.app/Contents/MacOS/
 cp -R ../../icons TinkerCell.app/Contents/MacOS/
 cp plugins/c/*.a TinkerCell.app/Contents/MacOS/lib/

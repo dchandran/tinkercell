@@ -148,7 +148,7 @@ IF (UNIX AND NOT APPLE)
     SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
 ENDIF(UNIX AND NOT APPLE)
 
-SET(TINKERCELL_BINARY_BIN_DIR ${TINKERCELL_BINARY_DIR}$/bin)
+SET(TINKERCELL_BINARY_BIN_DIR ${TINKERCELL_BINARY_DIR}/bin)
 
 #----------------------------------------------------------------------------
 #   TinkerCellCore and graphics files

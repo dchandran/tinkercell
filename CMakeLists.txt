@@ -211,6 +211,7 @@ INCLUDE( CMake/TinkercellCPack.cmake )
 # CTEST 
 # INCLUDE( CTest )
 # --------------------
-
-ENDIF( QT4_FOUND AND OPENGL_FOUND  )
+ELSEIF(  QT4_FOUND AND QT_VERSION_MINOR GREATER 5  )
+    MESSAGE(FATAL_ERROR "Could not find Qt 4.5 or greater")
+ENDIF(  QT4_FOUND AND QT_VERSION_MINOR GREATER 5  )
 

@@ -10,10 +10,10 @@ PLUGINFILES='plugins/*.dylib'
 CPLUGINFILES='plugins/c/*.dylib'
 
 #Qt framework files
-QTCORE = @QT_QTCORE@
-QTGUI = @QT_QTGUI@
-QTXML = @QT_QTXML@
-QTOPENGL = @QT_QTOPENGL@
+QTCORE=@QT_QTCORE@
+QTGUI=@QT_QTGUI@
+QTXML=@QT_QTXML@
+QTOPENGL=@QT_QTOPENGL@
 
 #copy QT framework
 @QT_LIBRARY_DIR@/../bin/macdeployqt TinkerCell.app

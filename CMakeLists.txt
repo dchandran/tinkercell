@@ -84,11 +84,8 @@ SET(C_LIBRARY_OUTPUT_PATH
 FIND_PACKAGE( Qt4 )
 FIND_PACKAGE ( OpenGL )
 #--------------------------------------------
-# Build only if the version of qt is newer
-# than Qt4.4. Note Qt starts being LGPL with
-# Qt4.5
-# IF( QT4_FOUND AND QT_VERSION_MINOR GREATER 4 )
-IF( QT4_FOUND AND OPENGL_FOUND )
+# Build only if the version of qt is newer than Qt4.5.
+IF( QT4_FOUND AND QT_VERSION_MINOR GREATER 5 )
   IF( QT_USE_FILE )
 	  SET( QT_USE_QTCORE TRUE )
 	  SET( QT_USE_QTGUI TRUE )
@@ -151,7 +148,7 @@ IF (UNIX AND NOT APPLE)
     SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
 ENDIF(UNIX AND NOT APPLE)
 
-SET(TINKERCELL_BINARY_BIN_DIR TINKERCELL_BINARY_DIR/bin)
+SET(TINKERCELL_BINARY_BIN_DIR ${TINKERCELL_BINARY_DIR}$/bin)
 
 #----------------------------------------------------------------------------
 #   TinkerCellCore and graphics files

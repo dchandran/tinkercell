@@ -17,6 +17,7 @@ for connecting items using the connections in the ConnectionsTree
 #include <QIcon>
 #include <QPixmap>
 #include <QString>
+#include <QDialog>
 #include <QtDebug>
 #include <QGraphicsItem>
 #include <QGraphicsScene>
@@ -28,6 +29,8 @@ for connecting items using the connections in the ConnectionsTree
 #include <QGraphicsRectItem>
 #include <QTimeLine>
 #include <QHash>
+#include <QToolButton>
+#include <QLabel>
 #include <QList>
 
 #include "NodeGraphicsItem.h"
@@ -115,6 +118,7 @@ namespace Tinkercell
 		void aboutToInsertItems( GraphicsScene* , QList<QGraphicsItem *>& , QList<ItemHandle*>& , QList<QUndoCommand*>&);
 		void insertedItems( GraphicsScene* ,  const QList<QGraphicsItem *>& , const QList<ItemHandle*>& );
 		void handleFamilyChanged(NetworkHandle * , const QList<ItemHandle*>& , const QList<ItemFamily*>& );
+
 	private slots:
 		/*!\brief C API function*/
 		void insertConnection(QSemaphore*,ItemHandle** ,const QList<ItemHandle*>&,const QString&, const QString&);
@@ -190,6 +194,12 @@ namespace Tinkercell
 		bool isProduct(NodeHandle*);
 		
 		CatalogWidget * catalogWidget;
+		QDialog * pickFamilyDialog;
+		QHBoxLayout * pickFamilyDialogLayout;
+		void setupPickFamilyDialog();		
+		ConnectionFamily* pickFamily(const QList<ConnectionFamily*>&);
+		QHash<ConnectionFamily*, QToolButton*> pickFamilyHash;
+		QList<QToolButton*> visibleButtons;
 		
 		static bool isReactant(const QString&);
 	};

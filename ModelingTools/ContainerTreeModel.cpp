@@ -28,13 +28,20 @@ namespace Tinkercell
 
 	ContainerTreeItem::~ContainerTreeItem()
 	{
+		if (parentItem)
+			parentItem->childItems.removeAll(this);
 		qDeleteAll(childItems);
 	}
 
 	void ContainerTreeItem::appendChild(ContainerTreeItem *item)
 	{
+		if (!item)
+			return;
+		if (item->parentItem)
+			item->parentItem->childItems.removeAll(item);
 		if (!childItems.contains(item))
 			childItems.append(item);
+		item->parentItem = this;
 	}
 
 	ContainerTreeItem *ContainerTreeItem::child(int row)
@@ -233,7 +240,8 @@ namespace Tinkercell
 			if (net != this->network)
 			{
 				treeItems.clear();
-				delete rootItem;
+				if (rootItem)
+					delete rootItem;
 				newRootItem = rootItem = new ContainerTreeItem;
 				
 				for (int i=0; i < markedForDeletion.size(); ++i)

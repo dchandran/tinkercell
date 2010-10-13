@@ -144,6 +144,7 @@ namespace Tinkercell
 		selectedFamily = 0;
 		selectedFamilyOriginal = 0;
 		connectTCFunctions();
+		setupPickFamilyDialog();
 	}
 
 	bool ConnectionInsertion::setMainWindow(MainWindow * main)
@@ -725,6 +726,8 @@ namespace Tinkercell
 		
 		if (!all || allowFlips)
 		{
+			if (selectedFamily->isValidSet(nodeHandles,all)) return true;
+
 			QList<ItemFamily*> childFamilies = selectedFamily->findValidChildFamilies(nodeHandles,all);
 		
 			if (childFamilies.isEmpty() && selectedFamilyOriginal) //search all families under original
@@ -745,8 +748,7 @@ namespace Tinkercell
 		}
 		else
 		{
-			QList<ItemFamily*> childFamilies = selectedFamilyOriginal->findValidChildFamilies(nodeHandles,all);
-			
+			QList<ItemFamily*> childFamilies = selectedFamilyOriginal->findValidChildFamilies(nodeHandles,all);			
 			if (childFamilies.isEmpty()) return false; //no suitable connection family found
 			
 			QList<NodeGraphicsItem*> originalNodesList = selectedNodes;
@@ -1358,6 +1360,70 @@ namespace Tinkercell
 		tc_items A = ConvertValue(*list);
 		delete list;
 		return A;
+	}
+
+	 void ConnectionInsertion::setupPickFamilyDialog()
+     {
+		pickFamilyDialog = new QDialog(this);
+		pickFamilyDialog->setWindowTitle(tr("Select process"));
+		
+		pickFamilyDialogLayout = new QHBoxLayout;
+		
+		QWidget * widget = new QWidget;
+		widget->setLayout(pickFamilyDialogLayout);
+		
+		QScrollArea * scrollArea = new QScrollArea;
+		scrollArea->setWidget(widget);
+		
+		QVBoxLayout * layout = new QVBoxLayout;
+		layout->setContentsMargins(0,0,0,0);
+		layout->addWidget(new QLabel(tr("Which process did you mean?")),0);
+		layout->addWidget(scrollArea,1);
+		pickFamilyDialog->setLayout(layout);
+     }
+	
+	ConnectionFamily * ConnectionInsertion::pickFamily(const QList<ConnectionFamily*>& list)
+	{
+		if (!pickFamilyDialogLayout || !pickFamilyDialog) return;
+
+		QToolButton * button;
+		for (int i=0; i < list.size(); ++i)
+			if (list[i] && !pickFamilyHash.contains(list[i]))
+			{
+				button = = new QToolButton;
+				button->setCheckable(true);
+				connect(button,SIGNAL(clicked()),pickFamilyDialog,SLOT(accept()));
+				button->setIcon(QIcon(list[i]->pixmap));
+				button->setIconSize(QSize(100,100));
+				pickFamilyDialogLayout->addWidget(button);
+				pickFamilyHash[ list[i] ] = button;
+			}
+		
+		for (int i=0; i < visibleButtons.size(); ++i)
+			if (visibleButtons[i] && !list.contains(visibleButtons[i]))
+				visibleButtons[i]->hide();
+		
+		visibleButtons.clear();
+		for (int i=0; i < list.size(); ++i)
+			if (pickFamilyHash.contains(list[i]))
+			{
+				button = pickFamilyHash[ list[i] ];
+				button->setChecked(false);
+				visibleButtons += button;
+				if (!button->isVisible())
+					button->show();
+			}
+		
+		pickFamilyDialog->exec();
+		for (int i=0; i < list.size(); ++i)
+			if (pickFamilyHash.contains(list[i]))
+			{
+				button = pickFamilyHash[ list[i] ];
+				if (button->isChecked())
+					return list[i];
+			}
+		
+		return 0;
 	}
 
 }

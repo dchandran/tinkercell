@@ -21,7 +21,10 @@
 
        </process>
 
-       <process family="Multimerization" participant_types="Molecule" monomers="2.0" description="The formation of a multimer from monomers.">
+       <process family="Multimerization" participant_types="Protein" monomers="2.0" description="The formation of a multimer from monomers.">
+       </process>
+       
+       <process family="Conformation change" participant_types="Protein" description="Change in molecular structure.">
        </process>
 
      </process>

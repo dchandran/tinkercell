@@ -2,6 +2,12 @@
 HOW TO BUILD TINKERCELL PROJECT
 ===============================
 
+YOU WILL NEED TO INSTALL THE FOLLOWING LIBRARIES/PACKAGES
+----------------------------------------------------------
+Qt 4.5 or higher
+libxml2
+
+
 ALL SYSTEMS EXCEPT WIN32
 ------------------------
 1. Go to the Tinkercell source directory (e.g. Tinkercell/trunk) and create a new folder called BUILD.

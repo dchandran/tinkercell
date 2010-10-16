@@ -7,7 +7,6 @@ See COPYRIGHT.TXT
 This file contains a collection of commands that perform simple operations that can be redone and undone.
 
 ****************************************************************************/
-#include <iostream>
 #include "NodeGraphicsItem.h"
 #include "NodeGraphicsReader.h"
 #include "ConnectionGraphicsItem.h"
@@ -902,7 +901,6 @@ namespace Tinkercell
 	
 	InsertGraphicsCommand::~InsertGraphicsCommand()
 	{
-		std::cout << this->text().toAscii().data() << "\n";
 		ItemHandle * handle = 0;
 		
 		for (int i=0; i < graphicsItems.size(); ++i)

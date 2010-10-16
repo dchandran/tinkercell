@@ -600,7 +600,7 @@ namespace Tinkercell
 
 			QWidget * widget = new QWidget;
 
-            tempLayout->setContentsMargins(5,5,5,5);
+          tempLayout->setContentsMargins(5,5,5,5);
 			tempLayout->setSpacing(12);
 
 			widget->setLayout(tempLayout);

@@ -98,7 +98,7 @@ namespace Tinkercell
 
 		QGraphicsLineItem lineItem;
 		
-		QDockWidget * makeDockWidget(const QString&);
+		QDockWidget * makeDockWidget(const QStringList&);
 		void makeNewModule();
 		
 		QDialog *

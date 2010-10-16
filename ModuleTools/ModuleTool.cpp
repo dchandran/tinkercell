@@ -472,7 +472,7 @@ namespace Tinkercell
 						bool loaded = false;
 						while (!loaded)
 						{
-							QString filename = list.first().absoluteFilePath();
+							QString filename = list.last().absoluteFilePath();
 
 							if (QFile::exists(filename))
 							{
@@ -822,56 +822,68 @@ namespace Tinkercell
 		}
 	}
 	
-	QDockWidget * ModuleTool::makeDockWidget(const QString & family)
+	QDockWidget * ModuleTool::makeDockWidget(const QStringList & families)
 	{
-		QString s = family;
-		s.replace(tr(" "),tr(""));
+		QDockWidget * dock = 0;
+		QWidget * widget = 0;
+		QHBoxLayout * layout = 0;
+		QScrollArea * scrollArea = 0;
+		QButtonGroup * group = 0;
 		
-		QString dirname = homeDir() + tr("/Modules/") + s;
-		QDir dir(dirname);
-		
-		if (!dir.exists())		
-			dir.setPath(homeDir() + tr("/Modules/") + s.toLower());
-		
-		if (!dir.exists())
-			dir.setPath(QCoreApplication::applicationDirPath() + tr("/Modules/") + s);
-		
-		if (!dir.exists())
-			dir.setPath(QCoreApplication::applicationDirPath() + tr("/Modules/") + s.toLower());
-		
-		if (!dir.exists())
-			return 0;
-			
-		QDockWidget * dock = new QDockWidget;
-		dock->setMaximumHeight(150);
-		QWidget * widget = new QWidget;
-		QHBoxLayout * layout = new QHBoxLayout;
-		QScrollArea * scrollArea = new QScrollArea;
-		
-		QButtonGroup * group = new QButtonGroup(this);
-		connect(group,SIGNAL(buttonClicked(QAbstractButton*)),this,SLOT(modelButtonClicked(QAbstractButton*)));
-
-		dir.setFilter(QDir::Files);
-		dir.setSorting(QDir::Time);
-		QFileInfoList list = dir.entryInfoList();
-
-		for (int i = 0; i < list.size(); ++i)
+		for (int i=0; i < families.size(); ++i)
 		{
-		    QFileInfo fileInfo = list.at(i);
-		    QToolButton * button = new QToolButton;
-		    button->setToolButtonStyle ( Qt::ToolButtonTextUnderIcon );
-		    QString base = fileInfo.baseName();
-		    button->setText(base);
-		    button->setToolTip(fileInfo.absoluteFilePath());
-		    
-		    if (QFile::exists(dirname + base + tr(".png")))
-			    button->setIcon(QIcon(dirname + base + tr(".png")));
-		    else
-		    	button->setIcon(QIcon(tr(":/images/module.png")));
-		    group->addButton(button,i);
-		    layout->addWidget(button,0,Qt::AlignTop);
+			QString s = families[i];
+			s.replace(tr(" "),tr(""));
+
+			QString dirname = homeDir() + tr("/Modules/") + s;
+			QDir dir(dirname);
+
+			if (!dir.exists())		
+				dir.setPath(homeDir() + tr("/Modules/") + s.toLower());
+
+			if (!dir.exists())
+				dir.setPath(QCoreApplication::applicationDirPath() + tr("/Modules/") + s);
+
+			if (!dir.exists())
+				dir.setPath(QCoreApplication::applicationDirPath() + tr("/Modules/") + s.toLower());
+
+			if (!dir.exists())
+				continue;
+				
+			if (!dock)
+			{
+				dock = new QDockWidget;
+				dock->setMaximumHeight(150);
+				widget = new QWidget;
+				layout = new QHBoxLayout;
+				scrollArea = new QScrollArea;
+
+				group = new QButtonGroup(this);
+				connect(group,SIGNAL(buttonClicked(QAbstractButton*)),this,SLOT(modelButtonClicked(QAbstractButton*)));
+			}
+			
+			dir.setFilter(QDir::Files);
+			dir.setSorting(QDir::Time);
+			QFileInfoList list = dir.entryInfoList();
+
+			for (int i = 0; i < list.size(); ++i)
+			{
+				QFileInfo fileInfo = list.at(i);
+				QToolButton * button = new QToolButton;
+				button->setToolButtonStyle ( Qt::ToolButtonTextUnderIcon );
+				QString base = fileInfo.baseName();
+				button->setText(base);
+				button->setToolTip(fileInfo.absoluteFilePath());
+
+				if (QFile::exists(dirname + base + tr(".png")))
+					button->setIcon(QIcon(dirname + base + tr(".png")));
+				else
+					button->setIcon(QIcon(tr(":/images/module.png")));
+				group->addButton(button,i);
+				layout->addWidget(button,0,Qt::AlignTop);
+			}
 		}
-		
+
 		layout->setContentsMargins(5,8,5,5);
 		layout->setSpacing(12);
 		widget->setLayout(layout);
@@ -944,8 +956,15 @@ namespace Tinkercell
 					scenes[i]->popOut();
 					return;
 				}
+
+			ItemFamily * family = handle->family();
+			QList<ItemFamily*> children = family->children();
+			QStringList familynames;
+			familynames << family->name();
+			for (int i=0; i < children.size(); ++i)
+				familynames << children[i]->name();
 			
-			QDockWidget * dock = makeDockWidget(handle->family()->name());
+			QDockWidget * dock = makeDockWidget(familynames);
 			if (dock)
 			{
 				if (!handle->children.isEmpty())

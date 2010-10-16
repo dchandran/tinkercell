@@ -308,7 +308,7 @@ namespace Tinkercell
 	
 	bool ConnectionFamily::isValidSet(const QList<NodeHandle*>& nodes, bool full)
 	{
-		if (nodes.isEmpty()) return false;
+		if (nodes.isEmpty()) return !full;
 
 		NodeHandle * h;
 		

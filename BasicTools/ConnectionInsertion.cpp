@@ -142,9 +142,11 @@ namespace Tinkercell
 		connectionsTree = tree;
 		catalogWidget = 0;
 		selectedFamily = 0;
-		selectedFamilyOriginal = 0;
+
 		connectTCFunctions();
-		setupPickFamilyDialog();
+		pickFamilyDialog = new QDialog(this);
+		pickFamilyDialogLayout = 0;
+		pickFamilyDialog->setWindowTitle(tr("Select process"));
 	}
 
 	bool ConnectionInsertion::setMainWindow(MainWindow * main)
@@ -543,7 +545,7 @@ namespace Tinkercell
 			return;
 		}
 
-		selectedFamilyOriginal = selectedFamily = connectionsTree->getFamily(family);
+		selectedFamily = connectionsTree->getFamily(family);
 		
 		QList<NodeHandle*> nodes;
 		NodeHandle * h1;
@@ -556,7 +558,7 @@ namespace Tinkercell
 				nodes << h2->nodes();
 		
 		QList<ItemFamily*> subFamilies = selectedFamily->findValidChildFamilies(nodes);
-		selectedFamilyOriginal = selectedFamily = 0;
+		selectedFamily = 0;
 		if (!subFamilies.isEmpty())
 			selectedFamily = ConnectionFamily::cast(subFamilies.last());
 		
@@ -677,7 +679,6 @@ namespace Tinkercell
 		selectedNodes = saveSelectedNodes;
 		selectedConnections = saveSelectedConnections;
 		selectedFamily = 0;
-		selectedFamilyOriginal = 0;
 
 		if (sem)
 			sem->release();
@@ -690,7 +691,6 @@ namespace Tinkercell
 			&& connectionFamily && connectionsTree)
 		{
 			selectedFamily = connectionFamily;
-			selectedFamilyOriginal = connectionFamily;
 			setRequirements();
 
 			while (connectionFamily != 0 && connectionFamily->pixmap.isNull())
@@ -702,68 +702,6 @@ namespace Tinkercell
 				mainWindow->currentScene()->clearSelection();
 			}
 		}
-	}	
-
-	bool ConnectionInsertion::changeSelectedFamilyToMatchSelection(bool all, bool allowFlips)
-	{
-		if (!(selectedFamily && connectionsTree)) return false;
-		
-		QList<NodeHandle*> nodeHandles;
-		QList<NodeGraphicsItem*> nodeItems;
-		NodeHandle * h;
-		
-		for (int i=0; i < selectedNodes.size(); ++i)
-			if (h = NodeHandle::cast(selectedNodes[i]->handle()))
-				nodeHandles << h;
-		
-		for (int i=0; i < selectedConnections.size(); ++i)
-		{
-			nodeItems = selectedConnections[i]->nodes();
-			for (int j=0; j < nodeItems.size(); ++j)
-				if (h = NodeHandle::cast(nodeItems[j]->handle()))
-					nodeHandles << h;
-		}
-		
-		if (!all || allowFlips)
-		{
-			if (selectedFamily->isValidSet(nodeHandles,all)) return true;
-
-			QList<ItemFamily*> childFamilies = selectedFamily->findValidChildFamilies(nodeHandles,all);
-		
-			if (childFamilies.isEmpty() && selectedFamilyOriginal) //search all families under original
-				childFamilies = selectedFamilyOriginal->findValidChildFamilies(nodeHandles,all);
-
-			if (childFamilies.isEmpty() && selectedFamilyOriginal) //search all families under root
-			{
-				selectedFamilyOriginal = ConnectionFamily::cast(selectedFamilyOriginal->root());
-				childFamilies = selectedFamilyOriginal->findValidChildFamilies(nodeHandles,all);
-			}
-			
-			if (childFamilies.isEmpty()) return false; //no suitable connection family found
-		
-			selectedFamily = ConnectionFamily::cast(childFamilies.last());
-			
-			if (all)
-				setRequirements();
-		}
-		else
-		{
-			QList<ItemFamily*> childFamilies = selectedFamilyOriginal->findValidChildFamilies(nodeHandles,all);			
-			if (childFamilies.isEmpty()) return false; //no suitable connection family found
-			
-			QList<NodeGraphicsItem*> originalNodesList = selectedNodes;
-			for (int i=(childFamilies.size()-1); i >= 0; --i)
-			{
-				selectedFamily = ConnectionFamily::cast(childFamilies[i]);
-				selectedNodes = originalNodesList;
-				if (setRequirements())
-				{
-					break;
-				}
-			}
-		}
-
-		return true;
 	}
 
 	void ConnectionInsertion::itemsDropped(GraphicsScene * scene, const QString& family, const QPointF& point)
@@ -771,10 +709,10 @@ namespace Tinkercell
 		if (mainWindow && scene && scene->useDefaultBehavior && !selectedFamily && !family.isEmpty() && 
 			connectionsTree && connectionsTree->getFamily(family))
 		{
-			selectedFamilyOriginal = selectedFamily = connectionsTree->getFamily(family);
+			selectedFamily = connectionsTree->getFamily(family);
 			setRequirements();
 			sceneClicked(scene,point,Qt::LeftButton,Qt::NoModifier);
-			selectedFamilyOriginal = selectedFamily = 0;
+			selectedFamily = 0;
 		}
 	}
 
@@ -889,7 +827,7 @@ namespace Tinkercell
 					if (handle && handle->family())
 					{
 						selectedNodes.push_back(node);
-						if (!changeSelectedFamilyToMatchSelection())
+						if (!pickFamily(false,false))
 						{
 							selectedNodes.pop_back();
 						}
@@ -907,7 +845,7 @@ namespace Tinkercell
 					if (handle2 && handle2->family())
 					{
 						selectedConnections.push_back(connection);
-						if (!changeSelectedFamilyToMatchSelection())
+						if (!pickFamily(false,false))
 						{
 							selectedConnections.pop_back();
 						}
@@ -929,17 +867,17 @@ namespace Tinkercell
 						console()->error(tr("Please select one of each: ") + selectedFamily->participantTypes().join(tr(",")));
 					}
 					else
-					{
-						allowFlips = true;
-						insertList = autoInsertNodes(scene,point);					
-						for (int i=0; i < insertList.size(); ++i)
-							if (node = NodeGraphicsItem::cast(insertList[i]))
-								selectedNodes << node;
-					}
+						if (pickFamily(false,true))
+						{
+							insertList = autoInsertNodes(scene,point);
+							for (int i=0; i < insertList.size(); ++i)
+								if (node = NodeGraphicsItem::cast(insertList[i]))
+									selectedNodes << node;
+						}
 				}
 
 				QString appDir = QCoreApplication::applicationDirPath();
-				bool valid = changeSelectedFamilyToMatchSelection(true,allowFlips);
+				bool valid = pickFamily(true,true);
 				//check if enough items have been selected to make the connection
 				if (selectedNodes.size() > 0 && 
 					selectedNodes.size() >= (numRequiredIn + numRequiredOut) && 
@@ -1112,8 +1050,8 @@ namespace Tinkercell
 					if (!oldFamilies.isEmpty())
 						emit handleFamilyChanged(scene->network, QList<ItemHandle*>() << handle, oldFamilies);
 
-					if (catalogWidget && selectedFamily->children().isEmpty())
-						catalogWidget->showButtons(QStringList() << selectedFamily->name());
+					//if (catalogWidget && selectedFamily->children().isEmpty())
+						//catalogWidget->showButtons(QStringList() << selectedFamily->name());
 						
 					selectedNodes.clear();
 					selectedConnections.clear();
@@ -1134,7 +1072,6 @@ namespace Tinkercell
 	void ConnectionInsertion::clear(bool arrows)
 	{
 		selectedFamily = 0;
-		selectedFamilyOriginal = 0;
 		revertColors();
 		selectedConnections.clear();
 		selectedNodes.clear();
@@ -1362,69 +1299,130 @@ namespace Tinkercell
 		return A;
 	}
 
-	 void ConnectionInsertion::setupPickFamilyDialog()
+	 void ConnectionInsertion::setupPickFamilyDialog(const QList<QToolButton*>& buttons)
      {
-		pickFamilyDialog = new QDialog(this);
-		pickFamilyDialog->setWindowTitle(tr("Select process"));
+     	if (pickFamilyDialogLayout)
+     		delete pickFamilyDialogLayout;
+     	
+     	QWidget * widget = new QWidget;
+		QHBoxLayout * layout = new QHBoxLayout;
+		for (int i=0; i < buttons.size(); ++i)
+			layout->addWidget(buttons[i]);
 		
-		pickFamilyDialogLayout = new QHBoxLayout;
-		
-		QWidget * widget = new QWidget;
-		widget->setLayout(pickFamilyDialogLayout);
-		
+		widget->setLayout(layout);
+		widget->setPalette(QColor(255,255,255));
 		QScrollArea * scrollArea = new QScrollArea;
 		scrollArea->setWidget(widget);
 		
-		QVBoxLayout * layout = new QVBoxLayout;
-		layout->setContentsMargins(0,0,0,0);
-		layout->addWidget(new QLabel(tr("Which process did you mean?")),0);
-		layout->addWidget(scrollArea,1);
-		pickFamilyDialog->setLayout(layout);
+		pickFamilyDialogLayout = new QVBoxLayout;
+		pickFamilyDialogLayout->setContentsMargins(0,0,0,0);
+		pickFamilyDialogLayout->addWidget(new QLabel(tr("Which process did you mean?")),0);
+		pickFamilyDialogLayout->addWidget(scrollArea,1);
+		pickFamilyDialog->setLayout(pickFamilyDialogLayout);
      }
 	
-	ConnectionFamily * ConnectionInsertion::pickFamily(const QList<ConnectionFamily*>& list)
+	bool ConnectionInsertion::pickFamily(bool all, bool dialog)
 	{
-		if (!pickFamilyDialogLayout || !pickFamilyDialog) return;
+		if (!pickFamilyDialog || !selectedFamily) return false;
+		
+		QList<NodeHandle*> nodeHandles;
+		QList<NodeGraphicsItem*> nodeItems;
+		NodeHandle * h;
+		
+		for (int i=0; i < selectedNodes.size(); ++i)
+			if (h = NodeHandle::cast(selectedNodes[i]->handle()))
+				nodeHandles << h;
+		
+		for (int i=0; i < selectedConnections.size(); ++i)
+		{
+			nodeItems = selectedConnections[i]->nodes();
+			for (int j=0; j < nodeItems.size(); ++j)
+				if (h = NodeHandle::cast(nodeItems[j]->handle()))
+					nodeHandles << h;
+		}
+		
+		QList<ItemFamily*> childFamilies = selectedFamily->findValidChildFamilies(nodeHandles,all);
+		
+		if (childFamilies.isEmpty() || !ConnectionFamily::cast(childFamilies.first()))
+		{
+			return false;
+		}
+		
+		if ((!all && !dialog) || (childFamilies.size() == 1))
+		{
+			ConnectionFamily * original = selectedFamily;
+			selectedFamily = ConnectionFamily::cast(childFamilies.first());
+			setRequirements();
+			if (childFamilies.size() != 1)
+				selectedFamily = original;
+			return true;
+		}
+
+		QList<ConnectionFamily*> list, leaves;
+		QList<QToolButton*> toolButtons;
+		if (!childFamilies.isEmpty())
+			if (nodeHandles.isEmpty())
+			{
+				for (int i=0; i < childFamilies.size();  ++i)
+					list << ConnectionFamily::cast(childFamilies[i]);
+			}
+			else
+			{
+				QList<NodeGraphicsItem*> originalNodesList = selectedNodes;
+				for (int i=(childFamilies.size()-1); i >= 0; --i)
+				{
+					selectedFamily = ConnectionFamily::cast(childFamilies[i]);
+					selectedNodes = originalNodesList;
+					if (selectedFamily && setRequirements())
+						list << selectedFamily;
+				}
+			}
+			
+		if (list.size() > 1)
+		{
+			for (int i=0; i < list.size(); ++i)
+				if (list[i]->children().isEmpty())
+					leaves << list[i];
+		}
+		else
+			if (list.size() > 0)
+			{
+				selectedFamily = list[0];
+				setRequirements();
+				return true;
+			}
+		
+		if (leaves.size() < 2)
+			leaves = list;
 
 		QToolButton * button;
-		for (int i=0; i < list.size(); ++i)
-			if (list[i] && !pickFamilyHash.contains(list[i]))
-			{
-				button = = new QToolButton;
-				button->setCheckable(true);
-				connect(button,SIGNAL(clicked()),pickFamilyDialog,SLOT(accept()));
-				button->setIcon(QIcon(list[i]->pixmap));
-				button->setIconSize(QSize(100,100));
-				pickFamilyDialogLayout->addWidget(button);
-				pickFamilyHash[ list[i] ] = button;
-			}
-		
-		for (int i=0; i < visibleButtons.size(); ++i)
-			if (visibleButtons[i] && !list.contains(visibleButtons[i]))
-				visibleButtons[i]->hide();
-		
-		visibleButtons.clear();
-		for (int i=0; i < list.size(); ++i)
-			if (pickFamilyHash.contains(list[i]))
-			{
-				button = pickFamilyHash[ list[i] ];
-				button->setChecked(false);
-				visibleButtons += button;
-				if (!button->isVisible())
-					button->show();
-			}
+		for (int i=0; i < leaves.size(); ++i)
+		{
+			button = new QToolButton;
+			button->setCheckable(true);
+			connect(button,SIGNAL(clicked()),pickFamilyDialog,SLOT(accept()));
+			button->setIcon(QIcon(leaves[i]->pixmap));
+			button->setText(leaves[i]->name());
+			button->setIconSize(QSize(100,100));
+			button->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+			toolButtons << button;
+		}
+
+		setupPickFamilyDialog(toolButtons);
 		
 		pickFamilyDialog->exec();
-		for (int i=0; i < list.size(); ++i)
-			if (pickFamilyHash.contains(list[i]))
+		for (int i=0; i < leaves.size() && i < toolButtons.size(); ++i)
+		{
+			button = toolButtons[i];
+			if (button->isChecked())
 			{
-				button = pickFamilyHash[ list[i] ];
-				if (button->isChecked())
-					return list[i];
+				 selectedFamily = leaves[i];
+				 setRequirements();
+				 return true;
 			}
+		}
 		
-		return 0;
+		return false;
 	}
-
 }
 

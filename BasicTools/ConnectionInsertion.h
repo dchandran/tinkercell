@@ -135,8 +135,6 @@ namespace Tinkercell
 
 		/*!\brief the family that was selected from the connections tree, but might be updated automatically*/
 		ConnectionFamily * selectedFamily;
-		/*!\brief the family that was selected from the connections tree by user*/
-		ConnectionFamily * selectedFamilyOriginal;
 		/*! \brief the connection tree with all the connection families*/
 		ConnectionsTree * connectionsTree;
 		/*! \brief the nodes tree*/
@@ -147,8 +145,6 @@ namespace Tinkercell
 		QHash<QString,int> defaultInputs, defaultOutputs;
 		/*! \brief set the default number of inputs and outputs for different reactions*/
 		void initializeHashes();
-		/*! \brief if user selects wrong node types, then change that selected connection type to match user's selected nodes*/
-		bool changeSelectedFamilyToMatchSelection(bool all=false, bool allowFlips=false);
 		/*!\brief the currently selected set of nodes under insertion mode that are to be connected*/
 		QList<NodeGraphicsItem*> selectedNodes;
 		/*!\brief the currently selected set of connections that are to be connected*/
@@ -195,10 +191,9 @@ namespace Tinkercell
 		
 		CatalogWidget * catalogWidget;
 		QDialog * pickFamilyDialog;
-		QHBoxLayout * pickFamilyDialogLayout;
-		void setupPickFamilyDialog();		
-		ConnectionFamily* pickFamily(const QList<ConnectionFamily*>&);
-		QHash<ConnectionFamily*, QToolButton*> pickFamilyHash;
+		QVBoxLayout * pickFamilyDialogLayout;
+		void setupPickFamilyDialog(const QList<QToolButton*>&);		
+		bool pickFamily(bool,bool);
 		QList<QToolButton*> visibleButtons;
 		
 		static bool isReactant(const QString&);

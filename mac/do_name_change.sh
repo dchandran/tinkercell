@@ -39,7 +39,7 @@ cp ../../python/*.py TinkerCell.app/Contents/MacOS/python
 cp ../../*.txt TinkerCell.app/Contents/MacOS/
 cp -R octave TinkerCell.app/Contents/MacOS/
 cp ../../octave/*.m TinkerCell.app/Contents/MacOS/octave/
-cp -R ../../Modules/ TinkerCell.app/Contents/MacOS/
+cp -R ../../Modules TinkerCell.app/Contents/MacOS/
 
 #name change for all libraries used in TinkerCell.app and NodeGraphics.app
 

@@ -122,7 +122,7 @@ void SimpleDesigner::addParameters(QStringList& newVars)
 	QStringList vars;
 	DataTable<qreal> params;
 	
-	if (globalHandle->hasNumericalData("parameters"))     
+	if (globalHandle->hasNumericalData("parameters")) 
 	{
 		params = globalHandle->numericalDataTable("parameters"); //get existing set of parameters
 		vars = params.rowNames();
@@ -135,7 +135,7 @@ void SimpleDesigner::addParameters(QStringList& newVars)
 			params.value(newVars[i],0) = 1.0;   //add new parameters to existing set
 		}
 	
-	globalHandle->numericalDataTable("parameters") = params;   //update with new set of parameters
+	globalHandle->changeData("parameters", &params); //update with new set of parameters
 	
 	vars.clear();
 	

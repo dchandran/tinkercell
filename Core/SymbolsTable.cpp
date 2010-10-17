@@ -24,6 +24,7 @@ namespace Tinkercell
 
 	SymbolsTable::SymbolsTable(NetworkHandle * net) : network(net)
 	{
+		globalHandle.network = net;
 	}
 	
 	void SymbolsTable::update()

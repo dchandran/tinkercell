@@ -117,16 +117,12 @@ void SimpleDesigner::addParameters(QStringList& newVars)
 	
 	listWidget->clear();
 	
-	ItemHandle * globalHandle = network->globalHandle(); //handle for the entire model
-	
+	ItemHandle * globalHandle = network->globalHandle(); //handle for the entire model	
 	QStringList vars;
 	DataTable<qreal> params;
 	
-	if (globalHandle->hasNumericalData("parameters")) 
-	{
-		params = globalHandle->numericalDataTable("parameters"); //get existing set of parameters
-		vars = params.rowNames();
-	}
+	params = globalHandle->numericalDataTable("parameters"); //get existing set of parameters
+	vars = params.rowNames();
 	
 	for (int i=0; i < newVars.size(); ++i)
 		if (!vars.contains(newVars[i]))
@@ -135,8 +131,9 @@ void SimpleDesigner::addParameters(QStringList& newVars)
 			params.value(newVars[i],0) = 1.0;   //add new parameters to existing set
 		}
 	
+	if (vars.isEmpty()) return;
+
 	globalHandle->changeData("parameters", &params); //update with new set of parameters
-	
 	vars.clear();
 	
 	for (int i=0; i < params.rows(); ++i)
@@ -185,7 +182,7 @@ void SimpleDesigner::rateChanged()
 	QStringList newVars;
 	bool ok = net->parseMath(formula,newVars);
 	
-	if (ok)
+	if (ok && handle->textData("rate") != formula)
 	{
 		DataTable<QString> table;
 		table.value(0,0) = formula;
@@ -194,7 +191,8 @@ void SimpleDesigner::rateChanged()
 		setToolTip(handle);
 	}
 	else
-		mainWindow->statusBar()->showMessage(tr("error in formula : ") + formula);
+		if (!ok)
+			mainWindow->statusBar()->showMessage(tr("error in formula : ") + formula);
 }
 
 void SimpleDesigner::concentrationChanged()
@@ -213,7 +211,8 @@ void SimpleDesigner::concentrationChanged()
 	
 	table.value(0,0) = conc->text().toDouble(&ok);
 	
-	handle->changeData("concentration",&table);
+	if (ok && handle->numericalData("concentration") != table.value(0,0))
+		handle->changeData("concentration",&table);
 }
 
 void SimpleDesigner::actionTriggered(QAction* action)
@@ -423,6 +422,16 @@ void SimpleDesigner::itemsSelected(GraphicsScene * scene, const QList<QGraphicsI
 	{
 		groupBox1->hide();
 		groupBox2->hide();
+		listWidget->clear();
+		
+		NetworkHandle * network = scene->network;
+		NumericalDataTable & params = network->globalHandle()->numericalDataTable("parameters");
+		QStringList vars;
+	
+		for (int i=0; i < params.rows(); ++i)
+			vars << params.rowName(i) + tr(" = ") + QString::number(params.value(i,0));  //"param = value"
+	
+		listWidget->addItems(vars);   //update list widget for viewing parameters
 	}
 	else
 	{

@@ -247,7 +247,12 @@ namespace Tinkercell
 		QString hashstring = hashstring0.toLower();
 		
 		if (network)
-			network->changeData( name + QString("'s ") + hashstring + QString(" changed"), this, hashstring, newdata);
+		{
+			if (name.isEmpty())
+				network->changeData( hashstring + QString(" changed"), this, hashstring, newdata);
+			else
+				network->changeData( name + QString("'s ") + hashstring + QString(" changed"), this, hashstring, newdata);
+		}
 		else
 			data->numericalData[hashstring] = (*newdata);
 	}
@@ -261,7 +266,12 @@ namespace Tinkercell
 		QString hashstring = hashstring0.toLower();
 		
 		if (network)
-			network->changeData( name + QString("'s ") + hashstring + QString(" changed"), this, hashstring, newdata);
+		{
+			if (name.isEmpty())
+				network->changeData( hashstring + QString(" changed"), this, hashstring, newdata);
+			else
+				network->changeData( name + QString("'s ") + hashstring + QString(" changed"), this, hashstring, newdata);
+		}
 		else
 			data->textData[hashstring] = (*newdata);			
 	}

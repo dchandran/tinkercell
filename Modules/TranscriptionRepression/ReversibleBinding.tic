@@ -20,7 +20,7 @@
         <Handle type="2" name="binding" parent="" family="2 to 1">
             <tc_matrix>
                 <Table key="product stoichiometries" rows="2" cols="3" rowNames="forward;;reverse" columnNames="inactive_promoter;;Target;;Repressor" desc="Number of each product participating in this reaction" values="1;;0;;0;;0;;1;;1"/>
-                <Table key="parameters" rows="2" cols="3" rowNames="kb;;kf" columnNames="value;;;;" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1;;0;;0;;1;;0;;0"/>
+                <Table key="parameters" rows="2" cols="3" rowNames="kb;;kf" columnNames="value;;;;" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="0.1;;0;;0;;1;;0;;0"/>
                 <Table key="reactant stoichiometries" rows="2" cols="3" rowNames="forward;;reverse" columnNames="Target;;Repressor;;inactive_promoter" desc="Number of each reactant participating in this reaction" values="1;;1;;0;;0;;0;;1"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
@@ -524,7 +524,7 @@
                     <ControlPoint x="5371.84" y="4773.87"/>
                     <ControlPoint x="5244.14" y="5022.5"/>
                     <ControlPoint x="5217.17" y="4893.47"/>
-                    <ControlPoint x="5612.5" y="4772"/>
+                    <ControlPoint x="5612.5" y="4772.01"/>
                     <ControlPoint x="5521.08" y="4749.36"/>
                     <ControlPoint x="5464.67" y="4758.3"/>
                 </ControlPoints>
@@ -538,8 +538,8 @@
                     <Path numPoints="4" NodeAtStart="inactive_promoter" NodeAtStartX="5682.5" NodeAtStartY="4758.83" NodeAtEnd="" NodeAtEndX="0" NodeAtEndY="0">
                         <ControlPoints indices="6,7,8,3"/>
                         <ArrowAtStart>
-                            <pos x="5612.5" y="4772" angle="13.9134"/>
-                            <transform m11="0.388276" m12="0.0961349" m21="-0.0721012" m22="0.291207"/>
+                            <pos x="5612.5" y="4772.01" angle="13.9138"/>
+                            <transform m11="0.388275" m12="0.0961379" m21="-0.0721035" m22="0.291206"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>

@@ -176,7 +176,7 @@
         <Handle type="2" name="binding" parent="downregulation" family="2 to 1">
             <tc_matrix>
                 <Table key="product stoichiometries" rows="2" cols="3" rowNames="forward;;reverse" columnNames="downregulation.inactive_promoter;;TARGET;;TF" desc="Number of each product participating in this reaction" values="1;;0;;0;;0;;1;;1"/>
-                <Table key="parameters" rows="2" cols="3" rowNames="kb;;kf" columnNames="value;;;;" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1;;0;;0;;1;;0;;0"/>
+                <Table key="parameters" rows="2" cols="3" rowNames="kb;;kf" columnNames="value;;;;" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="0.1;;0;;0;;1;;0;;0"/>
                 <Table key="reactant stoichiometries" rows="2" cols="3" rowNames="forward;;reverse" columnNames="TARGET;;TF;;downregulation.inactive_promoter" desc="Number of each reactant participating in this reaction" values="1;;1;;0;;0;;0;;1"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
@@ -1807,7 +1807,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="4505.15" y="5016.86" angle="133.054"/>
-                            <transform m11="-0.27308" m12="0.292279" m21="-0.219208" m22="-0.204812"/>
+                            <transform m11="-0.273082" m12="0.292277" m21="-0.219206" m22="-0.204814"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -2209,8 +2209,8 @@
                     <Path numPoints="4" NodeAtStart="emp2" NodeAtStartX="4705" NodeAtStartY="4752.5" NodeAtEnd="TF" NodeAtEndX="5084.24" NodeAtEndY="4756.91">
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
-                            <pos x="5029.24" y="4800.34" angle="-38.2935"/>
-                            <transform m11="0.313939" m12="-0.247876" m21="0.185906" m22="0.235454"/>
+                            <pos x="5029.24" y="4800.34" angle="-38.2937"/>
+                            <transform m11="0.313938" m12="-0.247877" m21="0.185907" m22="0.235453"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -2304,7 +2304,7 @@
                         <ControlPoints indices="6,7,8,3"/>
                         <ArrowAtStart>
                             <pos x="5612.5" y="4772.01" angle="13.9138"/>
-                            <transform m11="0.388275" m12="0.0961382" m21="-0.0721037" m22="0.291206"/>
+                            <transform m11="0.388275" m12="0.0961385" m21="-0.0721039" m22="0.291206"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>

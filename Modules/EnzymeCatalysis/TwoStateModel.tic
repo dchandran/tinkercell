@@ -7,7 +7,7 @@
         <Handle type="2" name="v2" parent="" family="1 to 2">
             <tc_matrix>
                 <Table key="product stoichiometries" rows="1" cols="3" rowNames="stoichiometry" columnNames="Intermediate2;;Product;;Catalyst" desc="Number of each product participating in this reaction" values="0;;1;;1"/>
-                <Table key="parameters" rows="1" cols="3" rowNames="k0" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1;;0;;0"/>
+                <Table key="parameters" rows="1" cols="3" rowNames="kcat" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1;;0;;0"/>
                 <Table key="reactant stoichiometries" rows="1" cols="3" rowNames="stoichiometry" columnNames="Intermediate2;;Product;;Catalyst" desc="Number of each reactant participating in this reaction" values="1;;0;;0"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
@@ -17,13 +17,13 @@
                 <Table key="participants" rows="3" cols="1" rowNames="Intermediate2;;Product;;Catalyst" columnNames="" values="reactant1;;product2;;product"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
-                <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="v2.k0*Intermediate2"/>
+                <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="v2.kcat*Intermediate2"/>
             </tc_table>
         </Handle>
         <Handle type="2" name="v3" parent="" family="1 to 1">
             <tc_matrix>
                 <Table key="product stoichiometries" rows="2" cols="2" rowNames="forward;;reverse" columnNames="Intermediate1;;Intermediate2" desc="Number of each product participating in this reaction" values="0;;1;;1;;0"/>
-                <Table key="parameters" rows="1" cols="3" rowNames="k0" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1;;0;;0"/>
+                <Table key="parameters" rows="2" cols="3" rowNames="kf;;kb" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1;;0;;0;;1;;0;;0"/>
                 <Table key="reactant stoichiometries" rows="2" cols="2" rowNames="forward;;reverse" columnNames="Intermediate1;;Intermediate2" desc="Number of each reactant participating in this reaction" values="1;;0;;0;;1"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
@@ -33,7 +33,7 @@
                 <Table key="participants" rows="2" cols="1" rowNames="Intermediate1;;Intermediate2" columnNames="" values="reactant;;product"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
-                <Table key="rate equations" rows="2" cols="1" rowNames="forward;;reverse" columnNames="formula" values="v3.k0*Intermediate1;;v3.k0*Intermediate2"/>
+                <Table key="rate equations" rows="2" cols="1" rowNames="forward;;reverse" columnNames="formula" values="v3.kf*Intermediate1;;v3.kb*Intermediate2"/>
             </tc_table>
         </Handle>
         <Handle type="1" name="Intermediate1" parent="" family="Enzyme">
@@ -104,7 +104,7 @@
         <Handle type="2" name="v1" parent="" family="2 to 1">
             <tc_matrix>
                 <Table key="product stoichiometries" rows="2" cols="3" rowNames="forward;;reverse" columnNames="Catalyst;;Substrate;;Intermediate1" desc="Number of each product participating in this reaction" values="0;;0;;1;;1;;1;;0"/>
-                <Table key="parameters" rows="1" cols="3" rowNames="k0" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1;;0;;0"/>
+                <Table key="parameters" rows="2" cols="3" rowNames="kf;;kb" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1;;0;;0;;0.2;;0;;0"/>
                 <Table key="reactant stoichiometries" rows="2" cols="3" rowNames="forward;;reverse" columnNames="Catalyst;;Substrate;;Intermediate1" desc="Number of each reactant participating in this reaction" values="1;;1;;0;;0;;0;;1"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
@@ -114,7 +114,7 @@
                 <Table key="participants" rows="3" cols="1" rowNames="Catalyst;;Substrate;;Intermediate1" columnNames="" values="reactant1;;reactant2;;product"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
-                <Table key="rate equations" rows="2" cols="1" rowNames="forward;;reverse" columnNames="formula" values="v1.k0*Catalyst*Substrate;;v1.k0*Intermediate1"/>
+                <Table key="rate equations" rows="2" cols="1" rowNames="forward;;reverse" columnNames="formula" values="v1.kf*Catalyst*Substrate;;v1.kb*Intermediate1"/>
             </tc_table>
         </Handle>
     </Handles>
@@ -595,7 +595,7 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="0" handle="v1" z="50.7">
             <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="bezier" style="1" gap="10">
                 <ControlPoints>
-                    <ControlPoint x="5195.28" y="4759.47"/>
+                    <ControlPoint x="5195.28" y="4759.48"/>
                     <ControlPoint x="5089.76" y="4790.36"/>
                     <ControlPoint x="5039.84" y="4875.58"/>
                     <ControlPoint x="5041.57" y="4921.21"/>
@@ -615,8 +615,8 @@
                     <Path numPoints="4" NodeAtStart="Intermediate1" NodeAtStartX="5089.2" NodeAtStartY="5113.33" NodeAtEnd="" NodeAtEndX="0" NodeAtEndY="0">
                         <ControlPoints indices="6,7,8,3"/>
                         <ArrowAtStart>
-                            <pos x="5059.4" y="5039.34" angle="68.0603"/>
-                            <transform m11="0.149677" m12="0.37094" m21="-0.278205" m22="0.112258"/>
+                            <pos x="5059.4" y="5039.34" angle="68.0615"/>
+                            <transform m11="0.14967" m12="0.370943" m21="-0.278207" m22="0.112252"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfGradientDefinitions>
@@ -759,7 +759,7 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="0" handle="v3" z="42.6">
             <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="bezier" style="1" gap="10">
                 <ControlPoints>
-                    <ControlPoint x="5156.22" y="5058.64"/>
+                    <ControlPoint x="5156.22" y="5058.63"/>
                     <ControlPoint x="5187.76" y="5032.89"/>
                     <ControlPoint x="5290.53" y="5029.06"/>
                     <ControlPoint x="5324.93" y="5054.65"/>
@@ -768,8 +768,8 @@
                     <Path numPoints="4" NodeAtStart="Intermediate1" NodeAtStartX="5089.2" NodeAtStartY="5113.33" NodeAtEnd="Intermediate2" NodeAtEndX="5399.93" NodeAtEndY="5110.45">
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
-                            <pos x="5324.93" y="5054.65" angle="36.6488"/>
-                            <transform m11="0.320996" m12="0.238665" m21="-0.178998" m22="0.240747"/>
+                            <pos x="5324.93" y="5054.65" angle="36.6481"/>
+                            <transform m11="0.320999" m12="0.238661" m21="-0.178995" m22="0.240749"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfGradientDefinitions>
@@ -929,8 +929,8 @@
                     <Path numPoints="4" NodeAtStart="Product" NodeAtStartX="5620.61" NodeAtStartY="4877.21" NodeAtEnd="" NodeAtEndX="0" NodeAtEndY="0">
                         <ControlPoints indices="4,5,6,3"/>
                         <ArrowAtStart>
-                            <pos x="5557.65" y="4854.44" angle="9.12843"/>
-                            <transform m11="0.394939" m12="0.063428" m21="-0.0475709" m22="0.296205"/>
+                            <pos x="5557.65" y="4854.44" angle="9.12878"/>
+                            <transform m11="0.394939" m12="0.0634304" m21="-0.0475727" m22="0.296205"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfGradientDefinitions>
@@ -972,8 +972,8 @@
                     <Path numPoints="4" NodeAtStart="Catalyst" NodeAtStartX="5260.28" NodeAtStartY="4740.45" NodeAtEnd="" NodeAtEndX="0" NodeAtEndY="0">
                         <ControlPoints indices="7,8,6,3"/>
                         <ArrowAtStart>
-                            <pos x="5335.28" y="4780.05" angle="-152.165"/>
-                            <transform m11="-0.35347" m12="-0.187242" m21="0.140431" m22="-0.265102"/>
+                            <pos x="5335.28" y="4780.05" angle="-152.166"/>
+                            <transform m11="-0.353475" m12="-0.187233" m21="0.140424" m22="-0.265105"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfGradientDefinitions>

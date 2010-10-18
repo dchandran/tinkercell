@@ -366,13 +366,13 @@ namespace Tinkercell
         newChildren << specialCaseChildren;
         newParents << specialCaseParents;
 
-        if (!newChildren.isEmpty())
+        /*if (!newChildren.isEmpty())
         {
             QList<ItemHandle*> parentItems;
             while (parentItems.size() < newChildren.size()) parentItems << handle;
 
             adjustRates(scene, newChildren, parentItems);
-        }
+        }*/
         
         updateTree(0);
     }
@@ -494,10 +494,10 @@ namespace Tinkercell
             {
                 scene->network->setParentHandle(newChildren,handle);
 
-                QList<ItemHandle*> parentItems;
+                /*QList<ItemHandle*> parentItems;
                 while (parentItems.size() < newChildren.size()) parentItems << handle;
 
-                adjustRates(scene, newChildren, parentItems);
+                adjustRates(scene, newChildren, parentItems);*/
             }
             sendToBack(nodeHit,scene);
         }
@@ -572,7 +572,7 @@ namespace Tinkercell
         {
             scene->network->setParentHandle(children,newParents);
 
-            adjustRates(scene, children, newParents);
+            //adjustRates(scene, children, newParents);
         }
     }
 
@@ -730,7 +730,7 @@ namespace Tinkercell
         if (!children.isEmpty() && !newParents.isEmpty())
         {
             scene->network->setParentHandle(children,newParents);
-            adjustRates(scene,children,newParents);
+            //adjustRates(scene,children,newParents);
         }
     }
 

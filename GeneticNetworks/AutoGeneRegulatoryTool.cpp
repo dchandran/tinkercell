@@ -7,6 +7,7 @@
 
 ****************************************************************************/
 
+#include <iostream>
 #include <QDebug>
 #include "UndoCommands.h"
 #include "ItemHandle.h"
@@ -895,7 +896,6 @@ namespace Tinkercell
 						break;
 					else
 						item = 0;
-				
 			
 			NodeGraphicsItem * hitNode;
 			for (int i=0; i < items.size(); ++i)
@@ -903,7 +903,7 @@ namespace Tinkercell
 					break;
 
 			ItemHandle * h;
-			if (hitNode 
+			if (hitNode && item
 				&& handle
 				&& !hitNode->connections().isEmpty()
 				&& !item->connections().isEmpty()

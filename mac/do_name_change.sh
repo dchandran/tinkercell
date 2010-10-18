@@ -7,7 +7,7 @@ cd @TINKERCELL_BINARY_BIN_DIR@
 #library files
 LIBFILES='*.dylib'
 PLUGINFILES='plugins/*.dylib'
-CPLUGINFILES='plugins/c/*.dylib python/*.dylib octave/*.dylib'
+CPLUGINFILES='plugins/c/*.dylib python/*.dylib octave/*.oct'
 
 #Qt framework files
 QTCORE=@QT_QTCORE@

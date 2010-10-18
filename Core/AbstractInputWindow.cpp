@@ -425,18 +425,18 @@ namespace Tinkercell
 	QWidget * SimpleInputWindow::ComboBoxDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &/* option */, const QModelIndex & index) const
 	{
 		QStringList strings = options.at(index.row(),index.column());
-		if (strings.size() > 1)
+		if (strings.size() > 0)
 		{
 			QComboBox *editor = new QComboBox(parent);
 			editor->addItems(strings);
 			return editor;
 		}
-		else
+		/*else
 		if (strings.size() == 1)
 		{
 			QCheckBox * editor = new QCheckBox(tr(""),parent);
 			return editor;
-		}
+		}*/
 		else
 		{
 			/*QDoubleSpinBox *editor = new QDoubleSpinBox(parent);
@@ -451,19 +451,21 @@ namespace Tinkercell
 	void SimpleInputWindow::ComboBoxDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
 	{
 		QStringList strings = options.at(index.row(),index.column());
-		if (strings.size() > 1)
+		if (strings.size() > 0)
 		{
 			QString value = index.model()->data(index, Qt::EditRole).toString();
 			QComboBox *combo = static_cast<QComboBox*>(editor);
+			if (!strings.contains(value))
+				value = strings[0];
 			combo->setCurrentIndex(strings.indexOf(value));
 		}
-		else
+		/*else
 		if (strings.size() == 1) //checkbox
 		{
 			QString value = index.model()->data(index, Qt::EditRole).toString();
 			QCheckBox * check = static_cast<QCheckBox*>(editor);
 			check->setChecked(value.toLower().contains(tr("yes")));
-		}
+		}*/
 		else
 		{
 			double value = index.model()->data(index, Qt::EditRole).toDouble();
@@ -477,13 +479,13 @@ namespace Tinkercell
 	void SimpleInputWindow::ComboBoxDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 	{
 		QStringList strings = options.at(index.row(),index.column());
-		if (strings.size() > 1)
+		if (strings.size() > 0)
 		{
 			QComboBox *combo = static_cast<QComboBox*>(editor);
 			QString value = combo->currentText();
 			model->setData(index, value, Qt::EditRole);
 		}
-		else
+		/*else
 		if (strings.size() == 1)
 		{
 			QCheckBox * check = static_cast<QCheckBox*>(editor);
@@ -491,7 +493,7 @@ namespace Tinkercell
 				model->setData(index, tr("True"), Qt::EditRole);
 			else
 				model->setData(index, tr("False"), Qt::EditRole);
-		}
+		}*/
 		else
 		{
 			/*QDoubleSpinBox *spinBox = static_cast<QDoubleSpinBox*>(editor);

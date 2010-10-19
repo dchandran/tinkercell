@@ -136,7 +136,9 @@ namespace Tinkercell
 		
 		void (*screenshot)(const char*, int, int),
 		int (*screenWidth)(),
-		int (*screenHeight)()
+		int (*screenHeight)(),
+		int (*screenX)(),
+		int (*screenY)()
 	);
 	
 	void C_API_Slots::setupFunctionPointers(QLibrary * library)
@@ -210,7 +212,9 @@ namespace Tinkercell
 				&(_changeArrowHead),
 				&(_screenshot),
 				&(_screenWidth),
-				&(_screenHeight)
+				&(_screenHeight),
+				&(_screenX),
+				&(_screenY)
 			);
 		}
 	}
@@ -307,6 +311,8 @@ namespace Tinkercell
 		connect(&fToS,SIGNAL(screenshot(QSemaphore*, const QString&, int, int)),this,SLOT(screenshot(QSemaphore*, const QString&, int, int)));
 		connect(&fToS,SIGNAL(screenHeight(QSemaphore*, int*)),this,SLOT(screenHeight(QSemaphore*, int*)));
 		connect(&fToS,SIGNAL(screenWidth(QSemaphore*, int*)),this,SLOT(screenWidth(QSemaphore*, int*)));
+		connect(&fToS,SIGNAL(screenX(QSemaphore*, int*)),this,SLOT(screenX(QSemaphore*, int*)));
+		connect(&fToS,SIGNAL(screenY(QSemaphore*, int*)),this,SLOT(screenY(QSemaphore*, int*)));
 	}
 	
 	void C_API_Slots::zoom(QSemaphore* sem, qreal factor)
@@ -618,6 +624,30 @@ namespace Tinkercell
 		{
 			QRectF viewport = scene->viewport();
 			(*h) = (int)viewport.height();
+		}
+		if (s)
+			s->release();
+	}
+	
+	void C_API_Slots::screenX(QSemaphore * s, int * x)
+	{
+		GraphicsScene * scene = currentScene();
+		if (scene && x)
+		{
+			QRectF viewport = scene->viewport();
+			(*x) = (int)viewport.x();
+		}
+		if (s)
+			s->release();
+	}
+	
+	void C_API_Slots::screenY(QSemaphore * s, int * y)
+	{
+		GraphicsScene * scene = currentScene();
+		if (scene && y)
+		{
+			QRectF viewport = scene->viewport();
+			(*y) = (int)viewport.y();
 		}
 		if (s)
 			s->release();
@@ -2499,6 +2529,38 @@ namespace Tinkercell
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
 		emit screenWidth(s,&h);
+		s->acquire();
+		s->release();
+		return h;
+	}
+	
+	int C_API_Slots::_screenX()
+	{
+		return fToS.screenX();
+	}
+
+	int Core_FtoS::screenX()
+	{
+		int h = 0;
+		QSemaphore * s = new QSemaphore(1);
+		s->acquire();
+		emit screenX(s,&h);
+		s->acquire();
+		s->release();
+		return h;
+	}
+	
+	int C_API_Slots::_screenY()
+	{
+		return fToS.screenY();
+	}
+
+	int Core_FtoS::screenY()
+	{
+		int h = 0;
+		QSemaphore * s = new QSemaphore(1);
+		s->acquire();
+		emit screenY(s,&h);
 		s->acquire();
 		s->release();
 		return h;

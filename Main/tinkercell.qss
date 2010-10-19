@@ -285,6 +285,7 @@ QDockWidget {
  } 
  
  QLineEdit {
+     min-width: 8ex;
      border: 2px solid gray;
      border-radius: 10px;
      padding: 0 8px;

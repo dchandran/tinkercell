@@ -6629,6 +6629,32 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_tc_screenX(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  int result;
+  
+  if (!PyArg_ParseTuple(args,(char *)":tc_screenX")) SWIG_fail;
+  result = (int)tc_screenX();
+  resultobj = SWIG_From_int((int)(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tc_screenY(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  int result;
+  
+  if (!PyArg_ParseTuple(args,(char *)":tc_screenY")) SWIG_fail;
+  result = (int)tc_screenY();
+  resultobj = SWIG_From_int((int)(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_tc_Main_api_initialize(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   tc_items (*arg1)() = (tc_items (*)()) 0 ;
@@ -6697,6 +6723,8 @@ SWIGINTERN PyObject *_wrap_tc_Main_api_initialize(PyObject *SWIGUNUSEDPARM(self)
   void (*arg64)(char const *,int,int) = (void (*)(char const *,int,int)) 0 ;
   int (*arg65)() = (int (*)()) 0 ;
   int (*arg66)() = (int (*)()) 0 ;
+  int (*arg67)() = (int (*)()) 0 ;
+  int (*arg68)() = (int (*)()) 0 ;
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   PyObject * obj2 = 0 ;
@@ -6763,8 +6791,10 @@ SWIGINTERN PyObject *_wrap_tc_Main_api_initialize(PyObject *SWIGUNUSEDPARM(self)
   PyObject * obj63 = 0 ;
   PyObject * obj64 = 0 ;
   PyObject * obj65 = 0 ;
+  PyObject * obj66 = 0 ;
+  PyObject * obj67 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO:tc_Main_api_initialize",&obj0,&obj1,&obj2,&obj3,&obj4,&obj5,&obj6,&obj7,&obj8,&obj9,&obj10,&obj11,&obj12,&obj13,&obj14,&obj15,&obj16,&obj17,&obj18,&obj19,&obj20,&obj21,&obj22,&obj23,&obj24,&obj25,&obj26,&obj27,&obj28,&obj29,&obj30,&obj31,&obj32,&obj33,&obj34,&obj35,&obj36,&obj37,&obj38,&obj39,&obj40,&obj41,&obj42,&obj43,&obj44,&obj45,&obj46,&obj47,&obj48,&obj49,&obj50,&obj51,&obj52,&obj53,&obj54,&obj55,&obj56,&obj57,&obj58,&obj59,&obj60,&obj61,&obj62,&obj63,&obj64,&obj65)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO:tc_Main_api_initialize",&obj0,&obj1,&obj2,&obj3,&obj4,&obj5,&obj6,&obj7,&obj8,&obj9,&obj10,&obj11,&obj12,&obj13,&obj14,&obj15,&obj16,&obj17,&obj18,&obj19,&obj20,&obj21,&obj22,&obj23,&obj24,&obj25,&obj26,&obj27,&obj28,&obj29,&obj30,&obj31,&obj32,&obj33,&obj34,&obj35,&obj36,&obj37,&obj38,&obj39,&obj40,&obj41,&obj42,&obj43,&obj44,&obj45,&obj46,&obj47,&obj48,&obj49,&obj50,&obj51,&obj52,&obj53,&obj54,&obj55,&obj56,&obj57,&obj58,&obj59,&obj60,&obj61,&obj62,&obj63,&obj64,&obj65,&obj66,&obj67)) SWIG_fail;
   {
     int res = SWIG_ConvertFunctionPtr(obj0, (void**)(&arg1), SWIGTYPE_p_f___tc_items);
     if (!SWIG_IsOK(res)) {
@@ -7161,7 +7191,19 @@ SWIGINTERN PyObject *_wrap_tc_Main_api_initialize(PyObject *SWIGUNUSEDPARM(self)
       SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "66"" of type '" "int (*)()""'"); 
     }
   }
-  tc_Main_api_initialize(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,(char const *(*)(long))arg9,(char const *(*)(long))arg10,arg11,arg12,arg13,(char const *(*)(long))arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23,arg24,arg25,arg26,arg27,arg28,arg29,arg30,(char const *(*)())arg31,(char const *(*)())arg32,arg33,arg34,arg35,arg36,arg37,arg38,arg39,arg40,arg41,arg42,arg43,arg44,arg45,arg46,arg47,(char const *(*)(char const *))arg48,arg49,arg50,arg51,(char const *(*)())arg52,arg53,arg54,arg55,arg56,arg57,arg58,arg59,(char const *(*)(long))arg60,arg61,arg62,arg63,arg64,arg65,arg66);
+  {
+    int res = SWIG_ConvertFunctionPtr(obj66, (void**)(&arg67), SWIGTYPE_p_f___int);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "67"" of type '" "int (*)()""'"); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(obj67, (void**)(&arg68), SWIGTYPE_p_f___int);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "68"" of type '" "int (*)()""'"); 
+    }
+  }
+  tc_Main_api_initialize(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,(char const *(*)(long))arg9,(char const *(*)(long))arg10,arg11,arg12,arg13,(char const *(*)(long))arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23,arg24,arg25,arg26,arg27,arg28,arg29,arg30,(char const *(*)())arg31,(char const *(*)())arg32,arg33,arg34,arg35,arg36,arg37,arg38,arg39,arg40,arg41,arg42,arg43,arg44,arg45,arg46,arg47,(char const *(*)(char const *))arg48,arg49,arg50,arg51,(char const *(*)())arg52,arg53,arg54,arg55,arg56,arg57,arg58,arg59,(char const *(*)(long))arg60,arg61,arg62,arg63,arg64,arg65,arg66,arg67,arg68);
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -10962,6 +11004,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"tc_screenshot", _wrap_tc_screenshot, METH_VARARGS, NULL},
 	 { (char *)"tc_screenWidth", _wrap_tc_screenWidth, METH_VARARGS, NULL},
 	 { (char *)"tc_screenHeight", _wrap_tc_screenHeight, METH_VARARGS, NULL},
+	 { (char *)"tc_screenX", _wrap_tc_screenX, METH_VARARGS, NULL},
+	 { (char *)"tc_screenY", _wrap_tc_screenY, METH_VARARGS, NULL},
 	 { (char *)"tc_Main_api_initialize", _wrap_tc_Main_api_initialize, METH_VARARGS, NULL},
 	 { (char *)"tc_showProgress", _wrap_tc_showProgress, METH_VARARGS, NULL},
 	 { (char *)"tc_callback", _wrap_tc_callback, METH_VARARGS, NULL},

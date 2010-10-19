@@ -4981,6 +4981,40 @@ R_swig_tc_screenHeight ( SEXP s_swig_copy)
 }
 
 
+SWIGEXPORT SEXP
+R_swig_tc_screenX ( SEXP s_swig_copy)
+{
+  int result;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  result = (int)tc_screenX();
+  r_ans = Rf_ScalarInteger(result);
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
+SWIGEXPORT SEXP
+R_swig_tc_screenY ( SEXP s_swig_copy)
+{
+  int result;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  result = (int)tc_screenY();
+  r_ans = Rf_ScalarInteger(result);
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
 tc_items _p_f___tc_items() {
   tc_items result;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
@@ -6786,7 +6820,7 @@ void _p_f_long_p_q_const__char_int__void(long s_arg1, char const * s_arg2, int s
 
 
 SWIGEXPORT SEXP
-R_swig_tc_Main_api_initialize ( SEXP tc_allItems0, SEXP tc_selectedItems0, SEXP tc_itemsOfFamily0, SEXP tc_itemsOfFamily1, SEXP tc_find0, SEXP tc_findItems0, SEXP tc_select0, SEXP tc_deselect0, SEXP tc_getName0, SEXP tc_getUniqueName0, SEXP tc_setName0, SEXP tc_getNames0, SEXP tc_getUniqueNames0, SEXP tc_getFamily0, SEXP tc_isA0, SEXP tc_clearText, SEXP tc_outputText0, SEXP tc_errorReport0, SEXP tc_outputTable0, SEXP tc_printFile0, SEXP tc_removeItem0, SEXP tc_getY0, SEXP tc_getX0, SEXP tc_getPos0, SEXP tc_setPos0, SEXP tc_setPos1, SEXP tc_moveSelected0, SEXP tc_isWindows0, SEXP tc_isMac0, SEXP tc_isLinux0, SEXP tc_appDir0, SEXP tc_homeDir0, SEXP tc_createInputWindow0, SEXP tc_createInputWindow1, SEXP createSliders, SEXP tc_addInputWindowOptions0, SEXP tc_addInputWindowCheckbox0, SEXP tc_openNewWindow0, SEXP tc_getChildren0, SEXP tc_getParent0, SEXP tc_getNumericalData0, SEXP tc_setNumericalData0, SEXP tc_getTextData0, SEXP tc_setTextData0, SEXP tc_getNumericalDataNames0, SEXP tc_getTextDataNames0, SEXP tc_zoom0, SEXP tc_getStringDialog0, SEXP getSelectedString, SEXP getNumber, SEXP getNumbers, SEXP getFilename, SEXP askQuestion, SEXP messageDialog, SEXP setSize0, SEXP getWidth0, SEXP getHeight0, SEXP setAngle0, SEXP getAngle0, SEXP getColor, SEXP setColor0, SEXP changeGraphics0, SEXP changeArrowHead0, SEXP screenshot, SEXP screenHeight, SEXP screenWidth)
+R_swig_tc_Main_api_initialize ( SEXP tc_allItems0, SEXP tc_selectedItems0, SEXP tc_itemsOfFamily0, SEXP tc_itemsOfFamily1, SEXP tc_find0, SEXP tc_findItems0, SEXP tc_select0, SEXP tc_deselect0, SEXP tc_getName0, SEXP tc_getUniqueName0, SEXP tc_setName0, SEXP tc_getNames0, SEXP tc_getUniqueNames0, SEXP tc_getFamily0, SEXP tc_isA0, SEXP tc_clearText, SEXP tc_outputText0, SEXP tc_errorReport0, SEXP tc_outputTable0, SEXP tc_printFile0, SEXP tc_removeItem0, SEXP tc_getY0, SEXP tc_getX0, SEXP tc_getPos0, SEXP tc_setPos0, SEXP tc_setPos1, SEXP tc_moveSelected0, SEXP tc_isWindows0, SEXP tc_isMac0, SEXP tc_isLinux0, SEXP tc_appDir0, SEXP tc_homeDir0, SEXP tc_createInputWindow0, SEXP tc_createInputWindow1, SEXP createSliders, SEXP tc_addInputWindowOptions0, SEXP tc_addInputWindowCheckbox0, SEXP tc_openNewWindow0, SEXP tc_getChildren0, SEXP tc_getParent0, SEXP tc_getNumericalData0, SEXP tc_setNumericalData0, SEXP tc_getTextData0, SEXP tc_setTextData0, SEXP tc_getNumericalDataNames0, SEXP tc_getTextDataNames0, SEXP tc_zoom0, SEXP tc_getStringDialog0, SEXP getSelectedString, SEXP getNumber, SEXP getNumbers, SEXP getFilename, SEXP askQuestion, SEXP messageDialog, SEXP setSize0, SEXP getWidth0, SEXP getHeight0, SEXP setAngle0, SEXP getAngle0, SEXP getColor, SEXP setColor0, SEXP changeGraphics0, SEXP changeArrowHead0, SEXP screenshot, SEXP screenHeight, SEXP screenWidth, SEXP screenX, SEXP screenY)
 {
   tc_items (*arg1)() = (tc_items (*)()) 0 ;
   tc_items (*arg2)() = (tc_items (*)()) 0 ;
@@ -6854,6 +6888,8 @@ R_swig_tc_Main_api_initialize ( SEXP tc_allItems0, SEXP tc_selectedItems0, SEXP 
   void (*arg64)(char const *,int,int) = (void (*)(char const *,int,int)) 0 ;
   int (*arg65)() = (int (*)()) 0 ;
   int (*arg66)() = (int (*)()) 0 ;
+  int (*arg67)() = (int (*)()) 0 ;
+  int (*arg68)() = (int (*)()) 0 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
@@ -7584,8 +7620,32 @@ R_swig_tc_Main_api_initialize ( SEXP tc_allItems0, SEXP tc_selectedItems0, SEXP 
     arg66 = _p_f___int;
     R_SWIG_pushCallbackFunctionData(screenWidth, NULL);
   }
-  tc_Main_api_initialize(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,(char const *(*)(long))arg9,(char const *(*)(long))arg10,arg11,arg12,arg13,(char const *(*)(long))arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23,arg24,arg25,arg26,arg27,arg28,arg29,arg30,(char const *(*)())arg31,(char const *(*)())arg32,arg33,arg34,arg35,arg36,arg37,arg38,arg39,arg40,arg41,arg42,arg43,arg44,arg45,arg46,arg47,(char const *(*)(char const *))arg48,arg49,arg50,arg51,(char const *(*)())arg52,arg53,arg54,arg55,arg56,arg57,arg58,arg59,(char const *(*)(long))arg60,arg61,arg62,arg63,arg64,arg65,arg66);
+  if(TYPEOF(screenX) != CLOSXP) {
+    {
+      int res = SWIG_R_ConvertPtr(screenX, (void**)(&arg67), SWIGTYPE_p_f___int, 0);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "67"" of type '" "int (*)()""'"); 
+      }
+    }
+  } else {
+    arg67 = _p_f___int;
+    R_SWIG_pushCallbackFunctionData(screenX, NULL);
+  }
+  if(TYPEOF(screenY) != CLOSXP) {
+    {
+      int res = SWIG_R_ConvertPtr(screenY, (void**)(&arg68), SWIGTYPE_p_f___int, 0);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "68"" of type '" "int (*)()""'"); 
+      }
+    }
+  } else {
+    arg68 = _p_f___int;
+    R_SWIG_pushCallbackFunctionData(screenY, NULL);
+  }
+  tc_Main_api_initialize(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,(char const *(*)(long))arg9,(char const *(*)(long))arg10,arg11,arg12,arg13,(char const *(*)(long))arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23,arg24,arg25,arg26,arg27,arg28,arg29,arg30,(char const *(*)())arg31,(char const *(*)())arg32,arg33,arg34,arg35,arg36,arg37,arg38,arg39,arg40,arg41,arg42,arg43,arg44,arg45,arg46,arg47,(char const *(*)(char const *))arg48,arg49,arg50,arg51,(char const *(*)())arg52,arg53,arg54,arg55,arg56,arg57,arg58,arg59,(char const *(*)(long))arg60,arg61,arg62,arg63,arg64,arg65,arg66,arg67,arg68);
   r_ans = R_NilValue;
+  
+  
   
   
   
@@ -13861,8 +13921,8 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_items_items_set", (DL_FUNC) &R_swig_tc_items_items_set, 2},
    {"R_swig_tc_ModelFileGenerator_api", (DL_FUNC) &R_swig_tc_ModelFileGenerator_api, 1},
    {"R_swig_tc_zoom", (DL_FUNC) &R_swig_tc_zoom, 1},
-   {"R_swig_tc_setAllStraight", (DL_FUNC) &R_swig_tc_setAllStraight, 1},
    {"R_swig_tc_setStraight", (DL_FUNC) &R_swig_tc_setStraight, 2},
+   {"R_swig_tc_setAllStraight", (DL_FUNC) &R_swig_tc_setAllStraight, 1},
    {"R_swig_tc_getRate", (DL_FUNC) &R_swig_tc_getRate, 1},
    {"R_swig_tc_setRate", (DL_FUNC) &R_swig_tc_setRate, 2},
    {"R_swig_tc_strings_length_set", (DL_FUNC) &R_swig_tc_strings_length_set, 2},
@@ -13931,7 +13991,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_isMac", (DL_FUNC) &R_swig_tc_isMac, 1},
    {"R_swig_tc_steadyStateScan", (DL_FUNC) &R_swig_tc_steadyStateScan, 4},
    {"R_swig_tc_CThread_api_initialize", (DL_FUNC) &R_swig_tc_CThread_api_initialize, 4},
-   {"R_swig_tc_Main_api_initialize", (DL_FUNC) &R_swig_tc_Main_api_initialize, 66},
+   {"R_swig_tc_Main_api_initialize", (DL_FUNC) &R_swig_tc_Main_api_initialize, 68},
    {"R_swig_tc_setPos", (DL_FUNC) &R_swig_tc_setPos, 3},
    {"R_swig_tc_NameFamily_api_initialize", (DL_FUNC) &R_swig_tc_NameFamily_api_initialize, 2},
    {"R_swig_tc_callFunction", (DL_FUNC) &R_swig_tc_callFunction, 1},
@@ -14004,7 +14064,9 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_LoadCLibraries_api", (DL_FUNC) &R_swig_tc_LoadCLibraries_api, 5},
    {"R_swig_tc_multiplot", (DL_FUNC) &R_swig_tc_multiplot, 2},
    {"R_swig_tc_SBML_api", (DL_FUNC) &R_swig_tc_SBML_api, 5},
+   {"R_swig_tc_screenX", (DL_FUNC) &R_swig_tc_screenX, 1},
    {"R_swig_tc_setPosMulti", (DL_FUNC) &R_swig_tc_setPosMulti, 2},
+   {"R_swig_tc_screenY", (DL_FUNC) &R_swig_tc_screenY, 1},
    {"R_swig_tc_getUniqueNames", (DL_FUNC) &R_swig_tc_getUniqueNames, 2},
    {"R_swig_tc_runPythonFile", (DL_FUNC) &R_swig_tc_runPythonFile, 1},
    {"R_swig_tc_getEventResponses", (DL_FUNC) &R_swig_tc_getEventResponses, 1},

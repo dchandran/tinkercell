@@ -758,7 +758,7 @@ void tc_screenshot(const char * filename, int width, int height)
 
 int (*_tc_screenWidth)(void) = 0;
 /*!
- \brief get width of current canvar
+ \brief get width of current canvas
 */
 int tc_screenWidth()
 {
@@ -769,7 +769,7 @@ int tc_screenWidth()
 
 int (*_tc_screenHeight)(void) = 0;
 /*!
- \brief get height of current canvar
+ \brief get height of current canvas
 */
 int tc_screenHeight()
 {
@@ -778,6 +778,27 @@ int tc_screenHeight()
 	return 0;
 }
 
+int (*_tc_screenX)(void) = 0;
+/*!
+ \brief get x of current canvas
+*/
+int tc_screenX()
+{
+	if (_tc_screenX)
+		return _tc_screenX();
+	return 0;
+}
+
+int (*_tc_screenY)(void) = 0;
+/*!
+ \brief get y of current canvas
+*/
+int tc_screenY()
+{
+	if (_tc_screenY)
+		return _tc_screenY();
+	return 0;
+}
 
 /*! 
  \brief initialize main
@@ -865,7 +886,9 @@ void tc_Main_api_initialize(
 		
 		void (*screenshot)(const char*, int, int),
 		int (*screenWidth)(),
-		int (*screenHeight)()
+		int (*screenHeight)(),
+		int (*screenX)(),
+		int (*screenY)()
 	)
 {
 	_tc_allItems = tc_allItems0;
@@ -951,6 +974,9 @@ void tc_Main_api_initialize(
 	_tc_screenshot = screenshot;
 	_tc_screenWidth = screenWidth;
 	_tc_screenHeight = screenHeight;
+	
+	_tc_screenX = screenX;
+	_tc_screenY = screenY;
 }
 
 void (*_tc_showProgress)(long thread, int progress) = 0;

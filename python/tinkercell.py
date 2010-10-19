@@ -525,6 +525,14 @@ def tc_screenHeight():
   return _tinkercell.tc_screenHeight()
 tc_screenHeight = _tinkercell.tc_screenHeight
 
+def tc_screenX():
+  return _tinkercell.tc_screenX()
+tc_screenX = _tinkercell.tc_screenX
+
+def tc_screenY():
+  return _tinkercell.tc_screenY()
+tc_screenY = _tinkercell.tc_screenY
+
 def tc_Main_api_initialize(*args):
   return _tinkercell.tc_Main_api_initialize(*args)
 tc_Main_api_initialize = _tinkercell.tc_Main_api_initialize

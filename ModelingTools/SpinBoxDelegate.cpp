@@ -70,7 +70,8 @@ namespace Tinkercell
 		{
 			QString value = index.model()->data(index, Qt::EditRole).toString();
 			QComboBox *combo = static_cast<QComboBox*>(editor);
-			combo->setCurrentIndex(entries.indexOf(value));
+			if (entries.contains(value))
+				combo->setCurrentIndex(entries.indexOf(value));
 		}
 		else
 		{

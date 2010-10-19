@@ -418,18 +418,55 @@ namespace Tinkercell
 	ITEM DELEGATE FOR THE INPUT TABLE
 	*************************************/
 
-	SimpleInputWindow::ComboBoxDelegate::ComboBoxDelegate(QObject *parent) : QItemDelegate(parent)
+	PopupListWidgetDelegate::PopupListWidgetDelegate(QObject *parent) : QItemDelegate(parent)
 	{
 	}
+	
+	QString PopupListWidgetDelegate::displayListWidget(const QStringList& list, const QString& current)
+	{
+		PopupListWidgetDelegateDialog * dialog = new PopupListWidgetDelegateDialog;
+		QListWidget * listWidget = new QListWidget;
+		QVBoxLayout * layout = new QVBoxLayout;
+		layout->addWidget(listWidget,1,Qt::AlignCenter);
+		QPushButton * okButton = new QPushButton("&Select");
+		connect(okButton,SIGNAL(clicked()),dialog,SLOT(accept()));
+		connect(listWidget,SIGNAL(itemActivated(QListWidgetItem*)),dialog,SLOT(acceptListWidget(QListWidgetItem*)));
+		layout->addWidget(okButton,0,Qt::AlignCenter);
+		layout->setContentsMargins(0,0,0,0);
+		dialog->setLayout(layout);
+		
+		listWidget->addItems(list);
+		int k = 0;
+		if (!current.isEmpty())
+		{
+			k = list.indexOf(current);
+			if (k > -1)
+				listWidget->setCurrentRow(k);
+		}
 
-	QWidget * SimpleInputWindow::ComboBoxDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &/* option */, const QModelIndex & index) const
+		dialog->exec();		
+		QString s;
+		
+		if (dialog->result() == QDialog::Accepted)
+		{
+			k = listWidget->currentRow();
+			if (k > -1 && k < list.size())
+				s = list[k];
+		}
+		
+		delete dialog;		
+		return s;
+	}
+
+	QWidget * PopupListWidgetDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &/* option */, const QModelIndex & index) const
 	{
 		QStringList strings = options.at(index.row(),index.column());
 		if (strings.size() > 0)
 		{
-			QComboBox *editor = new QComboBox(parent);
-			editor->addItems(strings);
-			return editor;
+			/*QComboBox *editor = new QComboBox(parent);
+			editor->addItems(strings);*/
+			QLineEdit * label = new QLineEdit(parent);
+			return label;
 		}
 		/*else
 		if (strings.size() == 1)
@@ -448,16 +485,13 @@ namespace Tinkercell
 		}
 	}
 
-	void SimpleInputWindow::ComboBoxDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
+	void PopupListWidgetDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
 	{
 		QStringList strings = options.at(index.row(),index.column());
 		if (strings.size() > 0)
 		{
-			QString value = index.model()->data(index, Qt::EditRole).toString();
-			QComboBox *combo = static_cast<QComboBox*>(editor);
-			if (!strings.contains(value))
-				value = strings[0];
-			combo->setCurrentIndex(strings.indexOf(value));
+			QLineEdit * label = static_cast<QLineEdit*>(editor);
+			label->setText(index.model()->data(index, Qt::EditRole).toString());
 		}
 		/*else
 		if (strings.size() == 1) //checkbox
@@ -476,13 +510,15 @@ namespace Tinkercell
 		}
 	}
 
-	void SimpleInputWindow::ComboBoxDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
+	void PopupListWidgetDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 	{
 		QStringList strings = options.at(index.row(),index.column());
 		if (strings.size() > 0)
 		{
-			QComboBox *combo = static_cast<QComboBox*>(editor);
-			QString value = combo->currentText();
+			QLineEdit * label = static_cast<QLineEdit*>(editor);
+			QString value = label->text();
+			if (!strings.contains(value))
+				value = displayListWidget(strings);
 			model->setData(index, value, Qt::EditRole);
 		}
 		/*else
@@ -510,7 +546,7 @@ namespace Tinkercell
 		}
 	}
 
-	void SimpleInputWindow::ComboBoxDelegate::updateEditorGeometry(QWidget *editor,const QStyleOptionViewItem &option, const QModelIndex &/* index */) const
+	void PopupListWidgetDelegate::updateEditorGeometry(QWidget *editor,const QStyleOptionViewItem &option, const QModelIndex &/* index */) const
 	{
 		editor->setGeometry(option.rect);
 	}

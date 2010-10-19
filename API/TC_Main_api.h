@@ -515,18 +515,32 @@ TCAPIEXPORT void tc_setAngle(long item, double t,int permanent);
 TCAPIEXPORT void tc_screenshot(const char * filename, int width, int height);
 
 /*!
- \brief get width of current canvar
+ \brief get width of current canvas
  \return int width
  \ingroup Input and Output
 */
 TCAPIEXPORT int tc_screenWidth();
 
 /*!
- \brief get height of current canvar
- \return int width
+ \brief get height of current canvas
+ \return int height
  \ingroup Input and Output
 */
 TCAPIEXPORT int tc_screenHeight();
+
+/*!
+ \brief get x position of current canvas
+ \return int x
+ \ingroup Input and Output
+*/
+TCAPIEXPORT int tc_screenX();
+
+/*!
+ \brief get y position of current canvas
+ \return int y
+ \ingroup Input and Output
+*/
+TCAPIEXPORT int tc_screenY();
 
 /*! 
  \brief initialize core C api
@@ -613,7 +627,9 @@ TCAPIEXPORT void tc_Main_api_initialize(
 		
 		void (*screenshot)(const char*, int, int),
 		int (*screenHeight)(),
-		int (*screenWidth)()
+		int (*screenWidth)(),
+		int (*screenX)(),
+		int (*screenY)()
 	);
 
 /*! 

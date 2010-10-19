@@ -121,6 +121,8 @@ namespace Tinkercell
 		void screenshot(QSemaphore*, const QString&, int, int);
 		void screenHeight(QSemaphore*, int*);
 		void screenWidth(QSemaphore*, int*);
+		void screenX(QSemaphore*, int*);
+		void screenY(QSemaphore*, int*);
 
 	public:
 		void zoom(double);
@@ -200,6 +202,8 @@ namespace Tinkercell
 		void screenshot(const char*, int, int);
 		int screenHeight();
 		int screenWidth();
+		int screenX();
+		int screenY();
 	};
 
 	/*! \brief A set of slots that are called by C libraries
@@ -294,6 +298,8 @@ namespace Tinkercell
 		static void _screenshot(const char*, int, int);
 		static int _screenHeight();
 		static int _screenWidth();
+		static int _screenX();
+		static int _screenY();
 		/*! 
 		* \brief Dialog for selecting strings. 
 		*/
@@ -734,7 +740,8 @@ namespace Tinkercell
 		void screenshot(QSemaphore*, const QString &, int, int);
 		void screenHeight(QSemaphore*, int*);
 		void screenWidth(QSemaphore*, int*);
-	
+		void screenX(QSemaphore*, int*);
+		void screenY(QSemaphore*, int*);
 	private:
 		QList<QGraphicsItem*> temporarilyColorChanged;
 		QList< QPair<NodeGraphicsItem*,QPointF> > temporarilyChangedSize; 

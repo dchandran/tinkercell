@@ -6262,6 +6262,40 @@ fail:
 }
 
 
+static octave_value_list _wrap_tc_screenX (const octave_value_list& args, int nargout) {
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  int result;
+  
+  if (!SWIG_check_num_args("tc_screenX",args.length(),0,0,0)) {
+    SWIG_fail;
+  }
+  result = (int)tc_screenX();
+  _outv = SWIG_From_int((int)(result));
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_tc_screenY (const octave_value_list& args, int nargout) {
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  int result;
+  
+  if (!SWIG_check_num_args("tc_screenY",args.length(),0,0,0)) {
+    SWIG_fail;
+  }
+  result = (int)tc_screenY();
+  _outv = SWIG_From_int((int)(result));
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
 static octave_value_list _wrap_tc_Main_api_initialize (const octave_value_list& args, int nargout) {
   tc_items (*arg1)() = (tc_items (*)()) 0 ;
   tc_items (*arg2)() = (tc_items (*)()) 0 ;
@@ -6329,11 +6363,13 @@ static octave_value_list _wrap_tc_Main_api_initialize (const octave_value_list& 
   void (*arg64)(char const *,int,int) = (void (*)(char const *,int,int)) 0 ;
   int (*arg65)() = (int (*)()) 0 ;
   int (*arg66)() = (int (*)()) 0 ;
+  int (*arg67)() = (int (*)()) 0 ;
+  int (*arg68)() = (int (*)()) 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
   
-  if (!SWIG_check_num_args("tc_Main_api_initialize",args.length(),66,66,0)) {
+  if (!SWIG_check_num_args("tc_Main_api_initialize",args.length(),68,68,0)) {
     SWIG_fail;
   }
   {
@@ -6732,7 +6768,19 @@ static octave_value_list _wrap_tc_Main_api_initialize (const octave_value_list& 
       SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "66"" of type '" "int (*)()""'"); 
     }
   }
-  tc_Main_api_initialize(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,(char const *(*)(long))arg9,(char const *(*)(long))arg10,arg11,arg12,arg13,(char const *(*)(long))arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23,arg24,arg25,arg26,arg27,arg28,arg29,arg30,(char const *(*)())arg31,(char const *(*)())arg32,arg33,arg34,arg35,arg36,arg37,arg38,arg39,arg40,arg41,arg42,arg43,arg44,arg45,arg46,arg47,(char const *(*)(char const *))arg48,arg49,arg50,arg51,(char const *(*)())arg52,arg53,arg54,arg55,arg56,arg57,arg58,arg59,(char const *(*)(long))arg60,arg61,arg62,arg63,arg64,arg65,arg66);
+  {
+    int res = SWIG_ConvertFunctionPtr(args(66), (void**)(&arg67), SWIGTYPE_p_f___int);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "67"" of type '" "int (*)()""'"); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(args(67), (void**)(&arg68), SWIGTYPE_p_f___int);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "68"" of type '" "int (*)()""'"); 
+    }
+  }
+  tc_Main_api_initialize(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,(char const *(*)(long))arg9,(char const *(*)(long))arg10,arg11,arg12,arg13,(char const *(*)(long))arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23,arg24,arg25,arg26,arg27,arg28,arg29,arg30,(char const *(*)())arg31,(char const *(*)())arg32,arg33,arg34,arg35,arg36,arg37,arg38,arg39,arg40,arg41,arg42,arg43,arg44,arg45,arg46,arg47,(char const *(*)(char const *))arg48,arg49,arg50,arg51,(char const *(*)())arg52,arg53,arg54,arg55,arg56,arg57,arg58,arg59,(char const *(*)(long))arg60,arg61,arg62,arg63,arg64,arg65,arg66,arg67,arg68);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
 fail:
@@ -10648,6 +10696,8 @@ static const struct swig_octave_member swig_globals[] = {
 {"tc_screenshot",_wrap_tc_screenshot,0,0,2,0},
 {"tc_screenWidth",_wrap_tc_screenWidth,0,0,2,0},
 {"tc_screenHeight",_wrap_tc_screenHeight,0,0,2,0},
+{"tc_screenX",_wrap_tc_screenX,0,0,2,0},
+{"tc_screenY",_wrap_tc_screenY,0,0,2,0},
 {"tc_Main_api_initialize",_wrap_tc_Main_api_initialize,0,0,2,0},
 {"tc_showProgress",_wrap_tc_showProgress,0,0,2,0},
 {"tc_callback",_wrap_tc_callback,0,0,2,0},

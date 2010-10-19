@@ -138,6 +138,8 @@ package tinkercell;
 *tc_screenshot = *tinkercellc::tc_screenshot;
 *tc_screenWidth = *tinkercellc::tc_screenWidth;
 *tc_screenHeight = *tinkercellc::tc_screenHeight;
+*tc_screenX = *tinkercellc::tc_screenX;
+*tc_screenY = *tinkercellc::tc_screenY;
 *tc_Main_api_initialize = *tinkercellc::tc_Main_api_initialize;
 *tc_showProgress = *tinkercellc::tc_showProgress;
 *tc_callback = *tinkercellc::tc_callback;

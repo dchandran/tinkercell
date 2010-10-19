@@ -27,6 +27,9 @@ LPSolveInputWindow is a good example.
 #include <QAction>
 #include <QRadioButton>
 #include <QComboBox>
+#include <QListWidget>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
 #include <QCheckBox>
 #include <QGroupBox>
 #include <QFile>
@@ -44,6 +47,30 @@ LPSolveInputWindow is a good example.
 namespace Tinkercell
 {
 
+	/*! \brief dialog for list widget*/
+	class PopupListWidgetDelegateDialog : public QDialog
+	{
+		Q_OBJECT
+		
+		public slots:
+			void acceptListWidget(QListWidgetItem*)
+			{
+				QDialog::accept();
+			}
+	};
+	/*! \brief delegate used inside the SimpleInputWindow*/
+	class TINKERCELLEXPORT PopupListWidgetDelegate : public QItemDelegate
+	{
+	public:
+		PopupListWidgetDelegate(QObject *parent = 0);
+		/*! \brief options for the combo boxes. Uses line edits if empty. Uses check boxes if just one item*/
+		DataTable<QStringList> options;
+		QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+		void setEditorData(QWidget *editor, const QModelIndex &index) const;
+		void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const;
+		void updateEditorGeometry(QWidget *editor,const QStyleOptionViewItem &option, const QModelIndex &index) const;
+		static QString displayListWidget(const QStringList& list, const QString& current=QString());
+	};
 	/*!
 	\brief Classes that inherit from this class can be used as GUI windows that provide interface to C programs (library files).
 	\ingroup io
@@ -193,20 +220,8 @@ namespace Tinkercell
 		/*! \brief updates the input matrix when user changes the combo boxes*/
 		virtual void comboBoxChanged(int);
 	protected:
-		/*! \brief delegate used inside the SimpleInputWindow*/
-		class TINKERCELLEXPORT ComboBoxDelegate : public QItemDelegate
-		{
-		public:
-			ComboBoxDelegate(QObject *parent = 0);
-			/*! \brief options for the combo boxes. Uses line edits if empty. Uses check boxes if just one item*/
-			DataTable<QStringList> options;
-			QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-			void setEditorData(QWidget *editor, const QModelIndex &index) const;
-			void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const;
-			void updateEditorGeometry(QWidget *editor,const QStyleOptionViewItem &option, const QModelIndex &index) const;
-		};
 		/*! \brief the item delegate that is used to change values in the input window*/
-		ComboBoxDelegate delegate;
+		PopupListWidgetDelegate delegate;
 		/*! \brief make the window transparent when mouse exits the window*/
 		void leaveEvent ( QEvent * event );
 		/*! \brief make the window transparent when mouse exits the window*/
@@ -214,6 +229,5 @@ namespace Tinkercell
 		/*! \brief the set of all simple input windows*/
 		static QHash<QString,SimpleInputWindow*> inputWindows;
 	};
-
 }
 #endif

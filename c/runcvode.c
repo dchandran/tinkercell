@@ -17,6 +17,7 @@ void setup();
 
 TCAPIEXPORT void tc_main()
 {
+	MAC_WITHOUT_GCC = (MAC_WITHOUT_GCC * tc_isMac());
 	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?
 	tc_addFunction(&setup, "Deterministic simulation", "uses Sundials library (compiles to C program)", "Simulate", "cvode.png", "", 1, 0, 1);
 	//tc_addFunction(&getSS, "Get steady state", "Bring the system to nearest steady state and bring Jacobian", "Steady state", "cvode.png", "", 1, 0, 0);
@@ -37,7 +38,7 @@ void setup()
 	tc_strings a3 = {2,options3};
 
 	m.rows = m.rownames.length = 6;
-	if (tc_isMac() && MAC_WITHOUT_GCC)
+	if (MAC_WITHOUT_GCC)
 	{
 		m.rows = m.rownames.length = 3;
 	}
@@ -48,7 +49,7 @@ void setup()
 
 	tc_createInputWindow(m,"Deterministic simulation (CVODE)",&run);
 	tc_addInputWindowOptions("Deterministic Simulation (CVODE)",0, 0,  a1);		
-	if (!tc_isMac() && MAC_WITHOUT_GCC)
+	if (!MAC_WITHOUT_GCC)
 	{
 		tc_addInputWindowOptions("Deterministic Simulation (CVODE)",3, 0,  a2);
 		tc_addInputWindowOptions("Deterministic Simulation (CVODE)",4, 0,  a3);
@@ -99,7 +100,7 @@ void run(tc_matrix input)
 		return;
 	}
 	
-	if (tc_isMac() && MAC_WITHOUT_GCC)
+	if (MAC_WITHOUT_GCC)
 	{
 		N = tc_simulateODE(end,dt);
 		tc_plot(N,"Time Course Simulation");

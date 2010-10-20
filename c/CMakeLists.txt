@@ -1,5 +1,15 @@
 SET(LIBRARY_OUTPUT_PATH ${C_LIBRARY_OUTPUT_PATH})
 
+SET(MAC_WITHOUT_GCC "0")
+IF (APPLE)
+	#change this for use on mac without gcc installed
+	SET(MAC_WITHOUT_GCC "0")
+ENDIF(APPLE)
+
+CONFIGURE_FILE( runcvode.c ${TINKERCELL_BINARY_DIR}/c/runcvode.c  @ONLY)
+CONFIGURE_FILE( runssa.c ${TINKERCELL_BINARY_DIR}/c/runssa.c  @ONLY)
+CONFIGURE_FILE( runsteadystate.c ${TINKERCELL_BINARY_DIR}/c/runsteadystate.c  @ONLY)
+
 IF ( UNIX )
     ADD_CUSTOM_COMMAND ( 
         TARGET tinkercellapi POST_BUILD
@@ -38,7 +48,7 @@ SET(LIBRARY_OUTPUT_PATH ${C_LIBRARY_OUTPUT_PATH})
 
 ADD_LIBRARY( runsteadystate 
   SHARED
-  runsteadystate.c
+  ${TINKERCELL_BINARY_DIR}/c/runsteadystate.c
 )
 TARGET_LINK_LIBRARIES( runsteadystate runsteadystate tinkercellapi )
 
@@ -50,14 +60,14 @@ ENDIF( WIN32 )
 
 ADD_LIBRARY( runcvode 
   SHARED
-  runcvode.c
+  ${TINKERCELL_BINARY_DIR}/c/runcvode.c
 )
 
 TARGET_LINK_LIBRARIES( runcvode runcvode tinkercellapi )
 
 ADD_LIBRARY( runssa 
   SHARED
-  runssa.c
+  ${TINKERCELL_BINARY_DIR}/c/runssa.c
 )
 
 TARGET_LINK_LIBRARIES( runssa runssa tinkercellapi )

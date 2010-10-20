@@ -15,7 +15,6 @@ static char selected_var2[100];
 static char target_var[100];
 static tc_strings allNames;
 static int selectAll = 1;
-static int MAC_WITHOUT_GCC = 0;
 
 void run(tc_matrix input);
 void run2D(tc_matrix input);
@@ -70,7 +69,6 @@ void callback()
 
 TCAPIEXPORT void tc_main()
 {
-	MAC_WITHOUT_GCC = (MAC_WITHOUT_GCC * tc_isMac());
 	allNames = tc_createStringsArray(0);
 	target_var[0] = 0;
 
@@ -78,7 +76,7 @@ TCAPIEXPORT void tc_main()
 	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?
 	tc_addFunction(&setup1, "Steady state analysis", "uses Sundials library (compiles to C program)", "Steady state", "cvode.png", "", 1, 0, 0);
 	
-	if (!MAC_WITHOUT_GCC)
+	if (!@MAC_WITHOUT_GCC@)
 		tc_addFunction(&setup2, "2-Parameter Steady state analysis", "uses Sundials library (compiles to C program)", "Steady state", "cvode.png", "", 1, 0, 0);
 
 	tc_callback(&callback);
@@ -105,7 +103,7 @@ void setup1()
 	m.rownames.strings = rows;
 	m.values = values;
 	
-	if (MAC_WITHOUT_GCC)
+	if (@MAC_WITHOUT_GCC@)
 	{
 		m.rows = 4;
 		options1[1] = "Not available in Mac";
@@ -114,7 +112,7 @@ void setup1()
 	tc_createInputWindow(m,"Steady state analysis",&run);
 	tc_addInputWindowOptions("Steady state analysis",0, 0, a1);
 	tc_addInputWindowOptions("Steady state analysis",1, 0, allNames);
-	if (!MAC_WITHOUT_GCC)
+	if (!@MAC_WITHOUT_GCC@)
 	{
 		tc_addInputWindowOptions("Steady state analysis",5, 0, a2);
 		tc_addInputWindowOptions("Steady state analysis",6, 0, a3);
@@ -186,7 +184,7 @@ void run(tc_matrix input)
 		return;
 	}
 	
-	if (MAC_WITHOUT_GCC)
+	if (@MAC_WITHOUT_GCC@)
 	{
 		param = tc_getString(allNames,index); //the parameter to vary
 		strcpy(selected_var,param);

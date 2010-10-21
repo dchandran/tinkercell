@@ -28,6 +28,7 @@ namespace Tinkercell
 	{ 
 		connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 		connect(mainWindow,SIGNAL(escapeSignal(const QWidget*)),this,SLOT(escapeSlot(const QWidget*)));
+		connect(this,SIGNAL(saveNetwork(const QString&)), mainWindow, SIGNAL(saveNetwork(const QString&)));
 		connectTCFunctions();
 	}
 	
@@ -122,6 +123,8 @@ namespace Tinkercell
 		
 		int (*askQuestion)(const char*),
 		void (*messageDialog)(const char*),
+		void (*openFile)(const char*),
+		void (*saveToFile)(const char*),
 		
 		void (*setSize)(long,double,double,int),
 		double (*getWidth)(long),
@@ -201,6 +204,8 @@ namespace Tinkercell
 				&(_getFilename),
 				&(_askQuestion),
 				&(_messageDialog),
+				&(_openFile),
+				&(_saveToFile),
 				&(_setSize),
 				&(_getWidth),
 				&(_getHeight),
@@ -296,6 +301,8 @@ namespace Tinkercell
 
 		connect(&fToS,SIGNAL(askQuestion(QSemaphore*,const QString&, int*)),this,SLOT(askQuestion(QSemaphore*,const QString&, int*)));
 		connect(&fToS,SIGNAL(messageDialog(QSemaphore*,const QString&)),this,SLOT(messageDialog(QSemaphore*,const QString&)));
+		connect(&fToS,SIGNAL(openFile(QSemaphore*,const QString&)),this,SLOT(openFile(QSemaphore*,const QString&)));
+		connect(&fToS,SIGNAL(saveToFile(QSemaphore*,const QString&)),this,SLOT(saveToFile(QSemaphore*,const QString&)));
 
 		connect(&fToS,SIGNAL(setSize(QSemaphore*, ItemHandle*,double,double,int)),this,SLOT(setSize(QSemaphore*, ItemHandle*,double,double,int)));
 		connect(&fToS,SIGNAL(getWidth(QSemaphore*, ItemHandle*, double*)),this,SLOT(getWidth(QSemaphore*, ItemHandle*, double*)));
@@ -2127,6 +2134,20 @@ namespace Tinkercell
 		if (s)
 			s->release();
 	}
+	
+	void C_API_Slots::openFile(QSemaphore* s,const QString& file)
+	{
+		mainWindow->open(file);
+		if (s)
+			s->release();
+	}
+
+	void C_API_Slots::saveToFile(QSemaphore*,const QString& file)
+	{
+		emit saveNetwork(file);
+		if (s)
+			s->release();
+	}
 
     const char* C_API_Slots::_getString(const char* title)
     {
@@ -2161,6 +2182,16 @@ namespace Tinkercell
 	void C_API_Slots::_messageDialog(const char* msg)
     {
         return fToS.messageDialog(msg);
+    }
+    
+    void C_API_Slots::_openFile(const char* file)
+    {
+    	return fToS.openFile(file);
+    }
+    
+     void C_API_Slots::_saveToFile(const char* file)
+    {
+    	return fToS.saveToFile(file);
     }
 
     double Core_FtoS::getNumber(const char* c)
@@ -2229,6 +2260,26 @@ namespace Tinkercell
         QSemaphore * s = new QSemaphore(1);
         s->acquire();
         emit messageDialog(s,ConvertValue(c));
+        s->acquire();
+        s->release();
+        delete s;
+    }
+    
+	void Core_FtoS::openFile(const char* c)
+    {
+        QSemaphore * s = new QSemaphore(1);
+        s->acquire();
+        emit openFile(s,ConvertValue(c));
+        s->acquire();
+        s->release();
+        delete s;
+    }
+    
+	void Core_FtoS::saveToFile(const char* c)
+    {
+        QSemaphore * s = new QSemaphore(1);
+        s->acquire();
+        emit saveToFile(s,ConvertValue(c));
         s->acquire();
         s->release();
         delete s;

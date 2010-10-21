@@ -6230,6 +6230,54 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_tc_openFile(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  char *arg1 = (char *) 0 ;
+  int res1 ;
+  char *buf1 = 0 ;
+  int alloc1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:tc_openFile",&obj0)) SWIG_fail;
+  res1 = SWIG_AsCharPtrAndSize(obj0, &buf1, NULL, &alloc1);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_openFile" "', argument " "1"" of type '" "char const *""'");
+  }
+  arg1 = (char *)(buf1);
+  tc_openFile((char const *)arg1);
+  resultobj = SWIG_Py_Void();
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  return resultobj;
+fail:
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tc_saveToFile(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  char *arg1 = (char *) 0 ;
+  int res1 ;
+  char *buf1 = 0 ;
+  int alloc1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:tc_saveToFile",&obj0)) SWIG_fail;
+  res1 = SWIG_AsCharPtrAndSize(obj0, &buf1, NULL, &alloc1);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_saveToFile" "', argument " "1"" of type '" "char const *""'");
+  }
+  arg1 = (char *)(buf1);
+  tc_saveToFile((char const *)arg1);
+  resultobj = SWIG_Py_Void();
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  return resultobj;
+fail:
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_tc_thisThread(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   long result;
@@ -6711,20 +6759,22 @@ SWIGINTERN PyObject *_wrap_tc_Main_api_initialize(PyObject *SWIGUNUSEDPARM(self)
   char *(*arg52)() = (char *(*)()) 0 ;
   int (*arg53)(char const *) = (int (*)(char const *)) 0 ;
   void (*arg54)(char const *) = (void (*)(char const *)) 0 ;
-  void (*arg55)(long,double,double,int) = (void (*)(long,double,double,int)) 0 ;
-  double (*arg56)(long) = (double (*)(long)) 0 ;
-  double (*arg57)(long) = (double (*)(long)) 0 ;
-  void (*arg58)(long,double,int) = (void (*)(long,double,int)) 0 ;
+  void (*arg55)(char const *) = (void (*)(char const *)) 0 ;
+  void (*arg56)(char const *) = (void (*)(char const *)) 0 ;
+  void (*arg57)(long,double,double,int) = (void (*)(long,double,double,int)) 0 ;
+  double (*arg58)(long) = (double (*)(long)) 0 ;
   double (*arg59)(long) = (double (*)(long)) 0 ;
-  char *(*arg60)(long) = (char *(*)(long)) 0 ;
-  void (*arg61)(long,char const *,int) = (void (*)(long,char const *,int)) 0 ;
-  void (*arg62)(long,char const *) = (void (*)(long,char const *)) 0 ;
-  void (*arg63)(long,char const *) = (void (*)(long,char const *)) 0 ;
-  void (*arg64)(char const *,int,int) = (void (*)(char const *,int,int)) 0 ;
-  int (*arg65)() = (int (*)()) 0 ;
-  int (*arg66)() = (int (*)()) 0 ;
+  void (*arg60)(long,double,int) = (void (*)(long,double,int)) 0 ;
+  double (*arg61)(long) = (double (*)(long)) 0 ;
+  char *(*arg62)(long) = (char *(*)(long)) 0 ;
+  void (*arg63)(long,char const *,int) = (void (*)(long,char const *,int)) 0 ;
+  void (*arg64)(long,char const *) = (void (*)(long,char const *)) 0 ;
+  void (*arg65)(long,char const *) = (void (*)(long,char const *)) 0 ;
+  void (*arg66)(char const *,int,int) = (void (*)(char const *,int,int)) 0 ;
   int (*arg67)() = (int (*)()) 0 ;
   int (*arg68)() = (int (*)()) 0 ;
+  int (*arg69)() = (int (*)()) 0 ;
+  int (*arg70)() = (int (*)()) 0 ;
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   PyObject * obj2 = 0 ;
@@ -6793,8 +6843,10 @@ SWIGINTERN PyObject *_wrap_tc_Main_api_initialize(PyObject *SWIGUNUSEDPARM(self)
   PyObject * obj65 = 0 ;
   PyObject * obj66 = 0 ;
   PyObject * obj67 = 0 ;
+  PyObject * obj68 = 0 ;
+  PyObject * obj69 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO:tc_Main_api_initialize",&obj0,&obj1,&obj2,&obj3,&obj4,&obj5,&obj6,&obj7,&obj8,&obj9,&obj10,&obj11,&obj12,&obj13,&obj14,&obj15,&obj16,&obj17,&obj18,&obj19,&obj20,&obj21,&obj22,&obj23,&obj24,&obj25,&obj26,&obj27,&obj28,&obj29,&obj30,&obj31,&obj32,&obj33,&obj34,&obj35,&obj36,&obj37,&obj38,&obj39,&obj40,&obj41,&obj42,&obj43,&obj44,&obj45,&obj46,&obj47,&obj48,&obj49,&obj50,&obj51,&obj52,&obj53,&obj54,&obj55,&obj56,&obj57,&obj58,&obj59,&obj60,&obj61,&obj62,&obj63,&obj64,&obj65,&obj66,&obj67)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO:tc_Main_api_initialize",&obj0,&obj1,&obj2,&obj3,&obj4,&obj5,&obj6,&obj7,&obj8,&obj9,&obj10,&obj11,&obj12,&obj13,&obj14,&obj15,&obj16,&obj17,&obj18,&obj19,&obj20,&obj21,&obj22,&obj23,&obj24,&obj25,&obj26,&obj27,&obj28,&obj29,&obj30,&obj31,&obj32,&obj33,&obj34,&obj35,&obj36,&obj37,&obj38,&obj39,&obj40,&obj41,&obj42,&obj43,&obj44,&obj45,&obj46,&obj47,&obj48,&obj49,&obj50,&obj51,&obj52,&obj53,&obj54,&obj55,&obj56,&obj57,&obj58,&obj59,&obj60,&obj61,&obj62,&obj63,&obj64,&obj65,&obj66,&obj67,&obj68,&obj69)) SWIG_fail;
   {
     int res = SWIG_ConvertFunctionPtr(obj0, (void**)(&arg1), SWIGTYPE_p_f___tc_items);
     if (!SWIG_IsOK(res)) {
@@ -7120,27 +7172,27 @@ SWIGINTERN PyObject *_wrap_tc_Main_api_initialize(PyObject *SWIGUNUSEDPARM(self)
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(obj54, (void**)(&arg55), SWIGTYPE_p_f_long_double_double_int__void);
+    int res = SWIG_ConvertFunctionPtr(obj54, (void**)(&arg55), SWIGTYPE_p_f_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "55"" of type '" "void (*)(long,double,double,int)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "55"" of type '" "void (*)(char const *)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(obj55, (void**)(&arg56), SWIGTYPE_p_f_long__double);
+    int res = SWIG_ConvertFunctionPtr(obj55, (void**)(&arg56), SWIGTYPE_p_f_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "56"" of type '" "double (*)(long)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "56"" of type '" "void (*)(char const *)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(obj56, (void**)(&arg57), SWIGTYPE_p_f_long__double);
+    int res = SWIG_ConvertFunctionPtr(obj56, (void**)(&arg57), SWIGTYPE_p_f_long_double_double_int__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "57"" of type '" "double (*)(long)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "57"" of type '" "void (*)(long,double,double,int)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(obj57, (void**)(&arg58), SWIGTYPE_p_f_long_double_int__void);
+    int res = SWIG_ConvertFunctionPtr(obj57, (void**)(&arg58), SWIGTYPE_p_f_long__double);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "58"" of type '" "void (*)(long,double,int)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "58"" of type '" "double (*)(long)""'"); 
     }
   }
   {
@@ -7150,45 +7202,45 @@ SWIGINTERN PyObject *_wrap_tc_Main_api_initialize(PyObject *SWIGUNUSEDPARM(self)
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(obj59, (void**)(&arg60), SWIGTYPE_p_f_long__p_char);
+    int res = SWIG_ConvertFunctionPtr(obj59, (void**)(&arg60), SWIGTYPE_p_f_long_double_int__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "60"" of type '" "char const *(*)(long)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "60"" of type '" "void (*)(long,double,int)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(obj60, (void**)(&arg61), SWIGTYPE_p_f_long_p_q_const__char_int__void);
+    int res = SWIG_ConvertFunctionPtr(obj60, (void**)(&arg61), SWIGTYPE_p_f_long__double);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "61"" of type '" "void (*)(long,char const *,int)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "61"" of type '" "double (*)(long)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(obj61, (void**)(&arg62), SWIGTYPE_p_f_long_p_q_const__char__void);
+    int res = SWIG_ConvertFunctionPtr(obj61, (void**)(&arg62), SWIGTYPE_p_f_long__p_char);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "62"" of type '" "void (*)(long,char const *)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "62"" of type '" "char const *(*)(long)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(obj62, (void**)(&arg63), SWIGTYPE_p_f_long_p_q_const__char__void);
+    int res = SWIG_ConvertFunctionPtr(obj62, (void**)(&arg63), SWIGTYPE_p_f_long_p_q_const__char_int__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "63"" of type '" "void (*)(long,char const *)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "63"" of type '" "void (*)(long,char const *,int)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(obj63, (void**)(&arg64), SWIGTYPE_p_f_p_q_const__char_int_int__void);
+    int res = SWIG_ConvertFunctionPtr(obj63, (void**)(&arg64), SWIGTYPE_p_f_long_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "64"" of type '" "void (*)(char const *,int,int)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "64"" of type '" "void (*)(long,char const *)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(obj64, (void**)(&arg65), SWIGTYPE_p_f___int);
+    int res = SWIG_ConvertFunctionPtr(obj64, (void**)(&arg65), SWIGTYPE_p_f_long_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "65"" of type '" "int (*)()""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "65"" of type '" "void (*)(long,char const *)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(obj65, (void**)(&arg66), SWIGTYPE_p_f___int);
+    int res = SWIG_ConvertFunctionPtr(obj65, (void**)(&arg66), SWIGTYPE_p_f_p_q_const__char_int_int__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "66"" of type '" "int (*)()""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "66"" of type '" "void (*)(char const *,int,int)""'"); 
     }
   }
   {
@@ -7203,7 +7255,19 @@ SWIGINTERN PyObject *_wrap_tc_Main_api_initialize(PyObject *SWIGUNUSEDPARM(self)
       SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "68"" of type '" "int (*)()""'"); 
     }
   }
-  tc_Main_api_initialize(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,(char const *(*)(long))arg9,(char const *(*)(long))arg10,arg11,arg12,arg13,(char const *(*)(long))arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23,arg24,arg25,arg26,arg27,arg28,arg29,arg30,(char const *(*)())arg31,(char const *(*)())arg32,arg33,arg34,arg35,arg36,arg37,arg38,arg39,arg40,arg41,arg42,arg43,arg44,arg45,arg46,arg47,(char const *(*)(char const *))arg48,arg49,arg50,arg51,(char const *(*)())arg52,arg53,arg54,arg55,arg56,arg57,arg58,arg59,(char const *(*)(long))arg60,arg61,arg62,arg63,arg64,arg65,arg66,arg67,arg68);
+  {
+    int res = SWIG_ConvertFunctionPtr(obj68, (void**)(&arg69), SWIGTYPE_p_f___int);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "69"" of type '" "int (*)()""'"); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(obj69, (void**)(&arg70), SWIGTYPE_p_f___int);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "70"" of type '" "int (*)()""'"); 
+    }
+  }
+  tc_Main_api_initialize(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,(char const *(*)(long))arg9,(char const *(*)(long))arg10,arg11,arg12,arg13,(char const *(*)(long))arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23,arg24,arg25,arg26,arg27,arg28,arg29,arg30,(char const *(*)())arg31,(char const *(*)())arg32,arg33,arg34,arg35,arg36,arg37,arg38,arg39,arg40,arg41,arg42,arg43,arg44,arg45,arg46,arg47,(char const *(*)(char const *))arg48,arg49,arg50,arg51,(char const *(*)())arg52,arg53,arg54,arg55,arg56,arg57,arg58,arg59,arg60,arg61,(char const *(*)(long))arg62,arg63,arg64,arg65,arg66,arg67,arg68,arg69,arg70);
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -10990,6 +11054,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"tc_getNumbers", _wrap_tc_getNumbers, METH_VARARGS, NULL},
 	 { (char *)"tc_askQuestion", _wrap_tc_askQuestion, METH_VARARGS, NULL},
 	 { (char *)"tc_messageDialog", _wrap_tc_messageDialog, METH_VARARGS, NULL},
+	 { (char *)"tc_openFile", _wrap_tc_openFile, METH_VARARGS, NULL},
+	 { (char *)"tc_saveToFile", _wrap_tc_saveToFile, METH_VARARGS, NULL},
 	 { (char *)"tc_thisThread", _wrap_tc_thisThread, METH_VARARGS, NULL},
 	 { (char *)"tc_createSliders", _wrap_tc_createSliders, METH_VARARGS, NULL},
 	 { (char *)"tc_getColor", _wrap_tc_getColor, METH_VARARGS, NULL},

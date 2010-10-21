@@ -621,6 +621,30 @@ void tc_messageDialog(const char* message)
 		_tc_messageDialog(message);
 }
 
+void (*_tc_openFile)(const char*) = 0;
+/*! 
+ \brief open file
+ \param const char* file
+ \ingroup Input and Output
+*/
+void tc_openFile(const char* message)
+{
+	if (_tc_openFile && message)
+		_tc_openFile(message);
+}
+
+void (*_tc_saveToFile)(const char*) = 0;
+/*! 
+ \brief save to file
+ \param const char* file
+ \ingroup Input and Output
+*/
+void tc_saveToFile(const char* message)
+{
+	if (_tc_saveToFile && message)
+		_tc_saveToFile(message);
+}
+
 /*!
  \brief get pointer to the current thread
  \ingroup Programming interface
@@ -872,6 +896,8 @@ void tc_Main_api_initialize(
 		
 		int (*askQuestion0)(const char*),
 		void (*messageDialog0)(const char*),
+		void (*openFile0)(const char*),
+		void (*saveToFile0)(const char*),
 		
 		void (*setSize0)(long,double,double,int),
 		double (*getWidth0)(long),
@@ -957,6 +983,8 @@ void tc_Main_api_initialize(
 	
 	_tc_askQuestion = askQuestion0;
 	_tc_messageDialog = messageDialog0;
+	_tc_openFile = openFile0;
+	_tc_saveToFile = saveToFile0;
 	
 	_tc_createSliders = createSliders0;
 	

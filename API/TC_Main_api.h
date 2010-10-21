@@ -415,6 +415,20 @@ TCAPIEXPORT int tc_askQuestion(const char* message);
 */
 TCAPIEXPORT void tc_messageDialog(const char* message);
 
+/*! 
+ \brief open a file
+ \param string file name
+ \ingroup Input and Output
+*/
+TCAPIEXPORT void tc_openFile(const char* file);
+
+/*! 
+ \brief save current network
+ \param string filename
+ \ingroup Input and Output
+*/
+TCAPIEXPORT void tc_saveToFile(const char* file);
+
 /*!
  \brief get pointer to the current thread. used for passing this thread as some argument
  \return int pointer
@@ -613,6 +627,8 @@ TCAPIEXPORT void tc_Main_api_initialize(
 		
 		int (*askQuestion)(const char*),
 		void (*messageDialog)(const char*),
+		void (*openFile)(const char*),
+		void (*saveToFile)(const char*),
 		
 		void (*setSize0)(long,double,double,int),
 		double (*getWidth0)(long),

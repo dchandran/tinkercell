@@ -106,6 +106,8 @@ namespace Tinkercell
 		
 		void askQuestion(QSemaphore*,const QString&,int*);
 		void messageDialog(QSemaphore*,const QString&);
+		void openFile(QSemaphore*,const QString&);
+		void saveToFile(QSemaphore*,const QString&);
 		
 		void setSize(QSemaphore*, ItemHandle*,double,double,int);
 		void getWidth(QSemaphore*, ItemHandle*, double*);
@@ -187,6 +189,8 @@ namespace Tinkercell
         
 		int askQuestion(const char*);
 		void messageDialog(const char*);
+		void openFile(const char*);
+		void saveToFile(const char*);
 		
 		void setSize(long,double,double,int);
 		double getWidth(long);
@@ -216,7 +220,8 @@ namespace Tinkercell
 	
 	public:	
 		C_API_Slots(MainWindow * );
-		
+	signals:
+		void saveNetwork(const QString&);
 	private:
 	
 		static Core_FtoS fToS;
@@ -295,6 +300,9 @@ namespace Tinkercell
 		static void _changeArrowHead(long,const char*);
 		static int _askQuestion(const char*);
 		static void _messageDialog(const char*);
+		static void _openFile(const char *);
+		static void _saveToFile(const char *);
+		
 		static void _screenshot(const char*, int, int);
 		static int _screenHeight();
 		static int _screenWidth();
@@ -728,6 +736,8 @@ namespace Tinkercell
         void getFilename(QSemaphore*,QString*);
 		void askQuestion(QSemaphore*, const QString&, int *);
 		void messageDialog(QSemaphore*, const QString&);
+		void openFile(QSemaphore*,const QString&);
+		void saveToFile(QSemaphore*,const QString&);
         void setSize(QSemaphore*, ItemHandle*,double,double,int);
 		void getWidth(QSemaphore*, ItemHandle*, double*);
 		void getHeight(QSemaphore*, ItemHandle*,double*);

@@ -469,6 +469,14 @@ def tc_messageDialog(*args):
   return _tinkercell.tc_messageDialog(*args)
 tc_messageDialog = _tinkercell.tc_messageDialog
 
+def tc_openFile(*args):
+  return _tinkercell.tc_openFile(*args)
+tc_openFile = _tinkercell.tc_openFile
+
+def tc_saveToFile(*args):
+  return _tinkercell.tc_saveToFile(*args)
+tc_saveToFile = _tinkercell.tc_saveToFile
+
 def tc_thisThread():
   return _tinkercell.tc_thisThread()
 tc_thisThread = _tinkercell.tc_thisThread

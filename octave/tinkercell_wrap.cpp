@@ -5834,6 +5834,58 @@ fail:
 }
 
 
+static octave_value_list _wrap_tc_openFile (const octave_value_list& args, int nargout) {
+  char *arg1 = (char *) 0 ;
+  int res1 ;
+  char *buf1 = 0 ;
+  int alloc1 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  
+  if (!SWIG_check_num_args("tc_openFile",args.length(),1,1,0)) {
+    SWIG_fail;
+  }
+  res1 = SWIG_AsCharPtrAndSize(args(0), &buf1, NULL, &alloc1);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_openFile" "', argument " "1"" of type '" "char const *""'");
+  }
+  arg1 = (char *)(buf1);
+  tc_openFile((char const *)arg1);
+  _outv = octave_value();
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+  if (alloc1 == SWIG_NEWOBJ) delete[] buf1;
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_tc_saveToFile (const octave_value_list& args, int nargout) {
+  char *arg1 = (char *) 0 ;
+  int res1 ;
+  char *buf1 = 0 ;
+  int alloc1 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  
+  if (!SWIG_check_num_args("tc_saveToFile",args.length(),1,1,0)) {
+    SWIG_fail;
+  }
+  res1 = SWIG_AsCharPtrAndSize(args(0), &buf1, NULL, &alloc1);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_saveToFile" "', argument " "1"" of type '" "char const *""'");
+  }
+  arg1 = (char *)(buf1);
+  tc_saveToFile((char const *)arg1);
+  _outv = octave_value();
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+  if (alloc1 == SWIG_NEWOBJ) delete[] buf1;
+fail:
+  return _out;
+}
+
+
 static octave_value_list _wrap_tc_thisThread (const octave_value_list& args, int nargout) {
   octave_value_list _out;
   octave_value_list *_outp=&_out;
@@ -6351,25 +6403,27 @@ static octave_value_list _wrap_tc_Main_api_initialize (const octave_value_list& 
   char *(*arg52)() = (char *(*)()) 0 ;
   int (*arg53)(char const *) = (int (*)(char const *)) 0 ;
   void (*arg54)(char const *) = (void (*)(char const *)) 0 ;
-  void (*arg55)(long,double,double,int) = (void (*)(long,double,double,int)) 0 ;
-  double (*arg56)(long) = (double (*)(long)) 0 ;
-  double (*arg57)(long) = (double (*)(long)) 0 ;
-  void (*arg58)(long,double,int) = (void (*)(long,double,int)) 0 ;
+  void (*arg55)(char const *) = (void (*)(char const *)) 0 ;
+  void (*arg56)(char const *) = (void (*)(char const *)) 0 ;
+  void (*arg57)(long,double,double,int) = (void (*)(long,double,double,int)) 0 ;
+  double (*arg58)(long) = (double (*)(long)) 0 ;
   double (*arg59)(long) = (double (*)(long)) 0 ;
-  char *(*arg60)(long) = (char *(*)(long)) 0 ;
-  void (*arg61)(long,char const *,int) = (void (*)(long,char const *,int)) 0 ;
-  void (*arg62)(long,char const *) = (void (*)(long,char const *)) 0 ;
-  void (*arg63)(long,char const *) = (void (*)(long,char const *)) 0 ;
-  void (*arg64)(char const *,int,int) = (void (*)(char const *,int,int)) 0 ;
-  int (*arg65)() = (int (*)()) 0 ;
-  int (*arg66)() = (int (*)()) 0 ;
+  void (*arg60)(long,double,int) = (void (*)(long,double,int)) 0 ;
+  double (*arg61)(long) = (double (*)(long)) 0 ;
+  char *(*arg62)(long) = (char *(*)(long)) 0 ;
+  void (*arg63)(long,char const *,int) = (void (*)(long,char const *,int)) 0 ;
+  void (*arg64)(long,char const *) = (void (*)(long,char const *)) 0 ;
+  void (*arg65)(long,char const *) = (void (*)(long,char const *)) 0 ;
+  void (*arg66)(char const *,int,int) = (void (*)(char const *,int,int)) 0 ;
   int (*arg67)() = (int (*)()) 0 ;
   int (*arg68)() = (int (*)()) 0 ;
+  int (*arg69)() = (int (*)()) 0 ;
+  int (*arg70)() = (int (*)()) 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
   
-  if (!SWIG_check_num_args("tc_Main_api_initialize",args.length(),68,68,0)) {
+  if (!SWIG_check_num_args("tc_Main_api_initialize",args.length(),70,70,0)) {
     SWIG_fail;
   }
   {
@@ -6697,27 +6751,27 @@ static octave_value_list _wrap_tc_Main_api_initialize (const octave_value_list& 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(54), (void**)(&arg55), SWIGTYPE_p_f_long_double_double_int__void);
+    int res = SWIG_ConvertFunctionPtr(args(54), (void**)(&arg55), SWIGTYPE_p_f_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "55"" of type '" "void (*)(long,double,double,int)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "55"" of type '" "void (*)(char const *)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(55), (void**)(&arg56), SWIGTYPE_p_f_long__double);
+    int res = SWIG_ConvertFunctionPtr(args(55), (void**)(&arg56), SWIGTYPE_p_f_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "56"" of type '" "double (*)(long)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "56"" of type '" "void (*)(char const *)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(56), (void**)(&arg57), SWIGTYPE_p_f_long__double);
+    int res = SWIG_ConvertFunctionPtr(args(56), (void**)(&arg57), SWIGTYPE_p_f_long_double_double_int__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "57"" of type '" "double (*)(long)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "57"" of type '" "void (*)(long,double,double,int)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(57), (void**)(&arg58), SWIGTYPE_p_f_long_double_int__void);
+    int res = SWIG_ConvertFunctionPtr(args(57), (void**)(&arg58), SWIGTYPE_p_f_long__double);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "58"" of type '" "void (*)(long,double,int)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "58"" of type '" "double (*)(long)""'"); 
     }
   }
   {
@@ -6727,45 +6781,45 @@ static octave_value_list _wrap_tc_Main_api_initialize (const octave_value_list& 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(59), (void**)(&arg60), SWIGTYPE_p_f_long__p_char);
+    int res = SWIG_ConvertFunctionPtr(args(59), (void**)(&arg60), SWIGTYPE_p_f_long_double_int__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "60"" of type '" "char const *(*)(long)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "60"" of type '" "void (*)(long,double,int)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(60), (void**)(&arg61), SWIGTYPE_p_f_long_p_q_const__char_int__void);
+    int res = SWIG_ConvertFunctionPtr(args(60), (void**)(&arg61), SWIGTYPE_p_f_long__double);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "61"" of type '" "void (*)(long,char const *,int)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "61"" of type '" "double (*)(long)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(61), (void**)(&arg62), SWIGTYPE_p_f_long_p_q_const__char__void);
+    int res = SWIG_ConvertFunctionPtr(args(61), (void**)(&arg62), SWIGTYPE_p_f_long__p_char);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "62"" of type '" "void (*)(long,char const *)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "62"" of type '" "char const *(*)(long)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(62), (void**)(&arg63), SWIGTYPE_p_f_long_p_q_const__char__void);
+    int res = SWIG_ConvertFunctionPtr(args(62), (void**)(&arg63), SWIGTYPE_p_f_long_p_q_const__char_int__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "63"" of type '" "void (*)(long,char const *)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "63"" of type '" "void (*)(long,char const *,int)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(63), (void**)(&arg64), SWIGTYPE_p_f_p_q_const__char_int_int__void);
+    int res = SWIG_ConvertFunctionPtr(args(63), (void**)(&arg64), SWIGTYPE_p_f_long_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "64"" of type '" "void (*)(char const *,int,int)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "64"" of type '" "void (*)(long,char const *)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(64), (void**)(&arg65), SWIGTYPE_p_f___int);
+    int res = SWIG_ConvertFunctionPtr(args(64), (void**)(&arg65), SWIGTYPE_p_f_long_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "65"" of type '" "int (*)()""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "65"" of type '" "void (*)(long,char const *)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(65), (void**)(&arg66), SWIGTYPE_p_f___int);
+    int res = SWIG_ConvertFunctionPtr(args(65), (void**)(&arg66), SWIGTYPE_p_f_p_q_const__char_int_int__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "66"" of type '" "int (*)()""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "66"" of type '" "void (*)(char const *,int,int)""'"); 
     }
   }
   {
@@ -6780,7 +6834,19 @@ static octave_value_list _wrap_tc_Main_api_initialize (const octave_value_list& 
       SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "68"" of type '" "int (*)()""'"); 
     }
   }
-  tc_Main_api_initialize(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,(char const *(*)(long))arg9,(char const *(*)(long))arg10,arg11,arg12,arg13,(char const *(*)(long))arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23,arg24,arg25,arg26,arg27,arg28,arg29,arg30,(char const *(*)())arg31,(char const *(*)())arg32,arg33,arg34,arg35,arg36,arg37,arg38,arg39,arg40,arg41,arg42,arg43,arg44,arg45,arg46,arg47,(char const *(*)(char const *))arg48,arg49,arg50,arg51,(char const *(*)())arg52,arg53,arg54,arg55,arg56,arg57,arg58,arg59,(char const *(*)(long))arg60,arg61,arg62,arg63,arg64,arg65,arg66,arg67,arg68);
+  {
+    int res = SWIG_ConvertFunctionPtr(args(68), (void**)(&arg69), SWIGTYPE_p_f___int);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "69"" of type '" "int (*)()""'"); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(args(69), (void**)(&arg70), SWIGTYPE_p_f___int);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "70"" of type '" "int (*)()""'"); 
+    }
+  }
+  tc_Main_api_initialize(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,(char const *(*)(long))arg9,(char const *(*)(long))arg10,arg11,arg12,arg13,(char const *(*)(long))arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23,arg24,arg25,arg26,arg27,arg28,arg29,arg30,(char const *(*)())arg31,(char const *(*)())arg32,arg33,arg34,arg35,arg36,arg37,arg38,arg39,arg40,arg41,arg42,arg43,arg44,arg45,arg46,arg47,(char const *(*)(char const *))arg48,arg49,arg50,arg51,(char const *(*)())arg52,arg53,arg54,arg55,arg56,arg57,arg58,arg59,arg60,arg61,(char const *(*)(long))arg62,arg63,arg64,arg65,arg66,arg67,arg68,arg69,arg70);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
 fail:
@@ -10682,6 +10748,8 @@ static const struct swig_octave_member swig_globals[] = {
 {"tc_getNumbers",_wrap_tc_getNumbers,0,0,2,0},
 {"tc_askQuestion",_wrap_tc_askQuestion,0,0,2,0},
 {"tc_messageDialog",_wrap_tc_messageDialog,0,0,2,0},
+{"tc_openFile",_wrap_tc_openFile,0,0,2,0},
+{"tc_saveToFile",_wrap_tc_saveToFile,0,0,2,0},
 {"tc_thisThread",_wrap_tc_thisThread,0,0,2,0},
 {"tc_createSliders",_wrap_tc_createSliders,0,0,2,0},
 {"tc_getColor",_wrap_tc_getColor,0,0,2,0},

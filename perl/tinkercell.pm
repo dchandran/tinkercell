@@ -124,6 +124,8 @@ package tinkercell;
 *tc_getNumbers = *tinkercellc::tc_getNumbers;
 *tc_askQuestion = *tinkercellc::tc_askQuestion;
 *tc_messageDialog = *tinkercellc::tc_messageDialog;
+*tc_openFile = *tinkercellc::tc_openFile;
+*tc_saveToFile = *tinkercellc::tc_saveToFile;
 *tc_thisThread = *tinkercellc::tc_thisThread;
 *tc_createSliders = *tinkercellc::tc_createSliders;
 *tc_getColor = *tinkercellc::tc_getColor;

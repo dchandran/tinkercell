@@ -100,7 +100,8 @@ int main(int argc, char *argv[])
 #ifdef Q_WS_MAC
 	LoadPluginsFromDir(home + QString("/plugins/c/mac"),&mainWindow, &splash);
 #else
-	LoadPluginsFromDir(home + QString("/plugins/c/ubuntu"),&mainWindow, &splash);
+	LoadPluginsFromDir(home + QString("/plugins/c/ubuntu32"),&mainWindow, &splash);
+	LoadPluginsFromDir(home + QString("/plugins/c/ubuntu64"),&mainWindow, &splash);
 #endif
 #endif
 

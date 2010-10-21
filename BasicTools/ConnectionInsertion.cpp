@@ -1374,7 +1374,10 @@ namespace Tinkercell
 					selectedFamily = ConnectionFamily::cast(childFamilies[i]);
 					selectedNodes = originalNodesList;
 					if (selectedFamily && setRequirements())
+					{
+						console()->message(selectedFamily->name());
 						list << selectedFamily;
+					}
 				}
 			}
 			

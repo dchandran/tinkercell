@@ -50,7 +50,7 @@ ENDIF(COMMAND CMAKE_POLICY)
 #---------------------------------------------------------------------------
 IF( APPLE )
   OPTION( BUILD_BUNDLE "Make A Bundle Application" ON )
-  SET (CMAKE_OSX_ARCHITECTURES ppc;i386;x86_64;ppc64) 
+  SET (CMAKE_OSX_ARCHITECTURES ppc;i386) 
 ENDIF( APPLE )
 
 #---------------------------------------------------------------------------

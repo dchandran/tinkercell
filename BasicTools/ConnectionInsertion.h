@@ -158,7 +158,7 @@ namespace Tinkercell
 		QStringList typeIn, typeOut;
 		/*!\brief set the number and types of nodes to be selected in order to make a connection.
 		This number is determined using the ConnectionsTree*/
-		bool setRequirements();
+		bool setRequirements(bool adjust=true);
 		/*!\brief change the color of nodes selected to be connected*/
 		void setSelectColor();
 		/*!\brief clear currently selected items and exit insertion mode*/

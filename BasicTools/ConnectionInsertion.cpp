@@ -47,7 +47,7 @@ namespace Tinkercell
 		return false;
 	}
 	
-	bool ConnectionInsertion::setRequirements()
+	bool ConnectionInsertion::setRequirements(bool adjustList)
 	{
 		numRequiredIn = numRequiredOut = 0;
 		typeOut.clear();
@@ -117,14 +117,17 @@ namespace Tinkercell
 					products << selectedNodes[i];
 			}
 			
-			selectedNodes.clear();
-			selectedNodes << reactants;
-			for (int i=0; i < both.size(); ++i)
-				if (selectedNodes.size() < numRequiredIn)
-					selectedNodes.push_front(both[i]);
-				else
-					selectedNodes.push_back(both[i]);
-			selectedNodes << products;
+			if (adjustList)
+			{
+				selectedNodes.clear();
+				selectedNodes << reactants;
+				for (int i=0; i < both.size(); ++i)
+					if (selectedNodes.size() < numRequiredIn)
+						selectedNodes.push_front(both[i]);
+					else
+						selectedNodes.push_back(both[i]);
+				selectedNodes << products;
+			}
 		}
 		return inOrder;
 	}
@@ -691,7 +694,7 @@ namespace Tinkercell
 			&& connectionFamily && connectionsTree)
 		{
 			selectedFamily = connectionFamily;
-			setRequirements();
+			setRequirements(false);
 
 			while (connectionFamily != 0 && connectionFamily->pixmap.isNull())
 				connectionFamily = static_cast<ConnectionFamily*>(connectionFamily->parent());
@@ -1352,7 +1355,7 @@ namespace Tinkercell
 		{
 			ConnectionFamily * original = selectedFamily;
 			selectedFamily = ConnectionFamily::cast(childFamilies.first());
-			setRequirements();
+			setRequirements(all);
 			if (childFamilies.size() != 1)
 				selectedFamily = original;
 			return true;
@@ -1368,17 +1371,14 @@ namespace Tinkercell
 			}
 			else
 			{
-				QList<NodeGraphicsItem*> originalNodesList = selectedNodes;
+				ConnectionFamily * savedFamily = selectedFamily;
 				for (int i=(childFamilies.size()-1); i >= 0; --i)
 				{
 					selectedFamily = ConnectionFamily::cast(childFamilies[i]);
-					selectedNodes = originalNodesList;
-					if (selectedFamily && setRequirements())
-					{
-						console()->message(selectedFamily->name());
+					if (selectedFamily && setRequirements(false))
 						list << selectedFamily;
-					}
 				}
+				selectedFamily = savedFamily;
 			}
 			
 		if (list.size() > 1)

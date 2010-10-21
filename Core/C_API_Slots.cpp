@@ -2142,7 +2142,7 @@ namespace Tinkercell
 			s->release();
 	}
 
-	void C_API_Slots::saveToFile(QSemaphore*,const QString& file)
+	void C_API_Slots::saveToFile(QSemaphore* s,const QString& file)
 	{
 		emit saveNetwork(file);
 		if (s)

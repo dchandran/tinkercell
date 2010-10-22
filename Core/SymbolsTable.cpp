@@ -215,6 +215,11 @@ namespace Tinkercell
 			
 			}
 		}
+		
+		QList<NetworkWindow*> windows = network->networkWindows;
+		for (int i=0; i < windows.size(); ++i)
+			if (windows[i] && windows[i]->handle && !handlesAddress.contains(windows[i]->handle))
+				windows[i]->close();
 	}
 	
 	static void expandLeftFirst(ItemFamily * family, QList<ItemFamily*>& families)

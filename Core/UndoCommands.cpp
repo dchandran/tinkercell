@@ -1064,14 +1064,28 @@ namespace Tinkercell
 
 		if (firstTime)
 		{
+			bool exists;
+			GraphicsScene * scene;
+
 			QList< DataTable<qreal>* > oldData1, newData1;
 			QList< DataTable<QString>* > oldData2, newData2;
 
 			QStringList namesToKill;
 			for (int i=0; i < itemHandles.size(); ++i)
-				if (itemHandles[i] && itemHandles[i]->graphicsItems.isEmpty())
+				if (itemHandles[i])
 				{
-					namesToKill << itemHandles[i]->fullName();
+					exists = false;
+					for (int j=0; j < itemHandles[i]->graphicsItems.size(); ++j)
+						if (itemHandles[i]->graphicsItems[j]->scene() &&
+							(scene = static_cast<GraphicsScene*>(itemHandles[i]->graphicsItems[j]->scene())))
+							if (graphicsScenes.contains(scene) || !scene->localHandle())
+							{
+								exists = true;
+								break;
+							}
+
+					if (!exists)
+						namesToKill << itemHandles[i]->fullName();
 				}
 
 			ItemHandle * handle;

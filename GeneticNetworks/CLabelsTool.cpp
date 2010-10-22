@@ -242,7 +242,6 @@ namespace Tinkercell
 				textItems[i].second->setBrush(QBrush(textColor));
 			}
 		}
-		textItems.clear();
 		
 		for (int i=0; i < rectItems.size(); ++i)
 		{

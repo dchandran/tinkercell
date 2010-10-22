@@ -286,7 +286,7 @@ namespace Tinkercell
 		//find the downstream-most
 		for (int i=0; i < selected.size(); ++i)
 		{
-			if ((h = getHandle(selected[i])) && h->isA(tr("Part")) && (node = qgraphicsitem_cast<NodeGraphicsItem*>(selected[i])))
+			if ((h = getHandle(selected[i])) && h->isA(tr("Part")) && (node = NodeGraphicsItem::cast(selected[i])))
 			{
 				handlesUp.clear();
 				AutoGeneRegulatoryTool::findAllParts(scene,node,tr("Part"),handlesUp,true,QStringList());
@@ -298,10 +298,6 @@ namespace Tinkercell
 
 					break;
 				}
-				//if (node == 0)
-				//	node = qgraphicsitem_cast<NodeGraphicsItem*>(selected[i]);
-
-				//break;
 			}
 		}
 

@@ -47,7 +47,7 @@ namespace Tinkercell
 		QList<NumericalDataTable*> newTables;
 		
 		for (int i=0; i < items.size(); ++i)
-			if (qgraphicsitem_cast<NodeGraphicsItem*>(items[i]) &&
+			if (NodeGraphicsItem::cast(items[i]) &&
 				(handle = getHandle(items[i])) && 
 				handle->isA(tr("Cell")) && 
 				handle->hasNumericalData(tr("Numerical Attributes")))

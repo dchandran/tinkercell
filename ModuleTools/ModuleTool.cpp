@@ -928,11 +928,9 @@ namespace Tinkercell
 		
 		if (!handle)
 		{
-			NodeGraphicsItem * node;
-			if ((node = qgraphicsitem_cast<NodeGraphicsItem*>(item)) && 
-				(ArrowHeadItem::cast(node)))
+			ArrowHeadItem * arrow = static_cast<ArrowHeadItem*>(item);
+			if (arrow)
 			{
-				ArrowHeadItem * arrow = static_cast<ArrowHeadItem*>(node);
 				if (arrow->connectionItem && arrow->connectionItem->centerRegionItem == arrow)
 					handle = getHandle(arrow->connectionItem);
 			}

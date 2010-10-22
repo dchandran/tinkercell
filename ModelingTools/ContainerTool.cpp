@@ -179,7 +179,7 @@ namespace Tinkercell
 
         for (int i=0; i < items.size(); ++i)
         {
-            if (qgraphicsitem_cast<NodeGraphicsItem*>(items[i])
+            if (NodeGraphicsItem::cast(items[i])
                 && (handle = getHandle(items[i]))
                 && handle->isA(tr("Compartment")))
             {
@@ -197,7 +197,7 @@ namespace Tinkercell
 									!scene->moving().contains(child->graphicsItems[k]) &&
 									sceneBoundingRect.intersects(child->graphicsItems[k]->sceneBoundingRect()))
 								{
-									if ((connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(child->graphicsItems[k])))
+									if ((connection = ConnectionGraphicsItem::cast(child->graphicsItems[k])))
 									{
 										QList<QGraphicsItem*> controlPoints = connection->controlPointsAsGraphicsItems();
 										for (int l=0; l < controlPoints.size(); ++l)
@@ -247,7 +247,7 @@ namespace Tinkercell
         ConnectionGraphicsItem * connection;
 
         for (int i=0; i < items.size(); ++i)
-            if (connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(items[i]))
+            if (connection = ConnectionGraphicsItem::cast(items[i]))
             {
 		        QList<NodeGraphicsItem*> nodes = connection->nodes();
 
@@ -304,9 +304,9 @@ namespace Tinkercell
 
                     for (int j=0; j < child->graphicsItems.size(); ++j)
                     {
-                        if (qgraphicsitem_cast<TextGraphicsItem*>(child->graphicsItems[j])) continue;
+                        if (TextGraphicsItem::cast(child->graphicsItems[j])) continue;
 
-                        connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(child->graphicsItems[j]);
+                        connection = ConnectionGraphicsItem::cast(child->graphicsItems[j]);
 
                         childRect = child->graphicsItems[j]->sceneBoundingRect();
                         contained0 = false;
@@ -407,19 +407,19 @@ namespace Tinkercell
         QList<QGraphicsItem*> movingItems;
 
 		for (int i=0; i < movingItems0.size(); ++i)
-            if (node = qgraphicsitem_cast<NodeGraphicsItem*>(movingItems0[i]))
+            if (node = NodeGraphicsItem::cast(movingItems0[i]))
 				movingItems << node;
 
 		if (movingItems.isEmpty())
 		{
 			QList<QGraphicsItem*> insersectingItems = scene->items(nodeHit->sceneBoundingRect());
 			for (int i=0; i < insersectingItems.size(); ++i)
-				if ((node = qgraphicsitem_cast<NodeGraphicsItem*>(insersectingItems[i])) && !movingItems.contains(node))
+				if ((node = NodeGraphicsItem::cast(insersectingItems[i])) && !movingItems.contains(node))
 					movingItems << node;
 		}
 
         for (int i=0; i < movingItems.size(); ++i)
-            if (node = qgraphicsitem_cast<NodeGraphicsItem*>(movingItems[i]))
+            if (node = NodeGraphicsItem::cast(movingItems[i]))
             {
 				movingItems << node->connectionsAsGraphicsItems();
 			}
@@ -434,8 +434,8 @@ namespace Tinkercell
             QRectF itemRect = movingItems[i]->sceneBoundingRect();
             if (itemRect.width() >= hitRect.width() || itemRect.height() >= hitRect.height()) continue;
 
-            if (qgraphicsitem_cast<TextGraphicsItem*>(movingItems[i])) continue;
-            connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(movingItems[i]);
+            if (TextGraphicsItem::cast(movingItems[i])) continue;
+            connection = ConnectionGraphicsItem::cast(movingItems[i]);
 
             if (connection && !hitRect.contains(connection->sceneBoundingRect())) continue;
 
@@ -596,7 +596,7 @@ namespace Tinkercell
         
         for (int i=0; i < items0.size(); ++i)
         {
-            if (qgraphicsitem_cast<NodeGraphicsItem*>(items0[i]) &&
+            if (NodeGraphicsItem::cast(items0[i]) &&
                 (handle = getHandle(items0[i])) && !visited.contains(handle) &&
                 handle->isA(tr("Compartment")) &&
                 handle->children.size() > 0)
@@ -655,7 +655,7 @@ namespace Tinkercell
         QList<QGraphicsItem*> items = items0;
         for (int i=0; i < items0.size(); ++i)
         {
-            if (node = qgraphicsitem_cast<NodeGraphicsItem*>(items0[i]))
+            if (node = NodeGraphicsItem::cast(items0[i]))
             {
                 items << node->connectionsAsGraphicsItems();
             }
@@ -665,7 +665,7 @@ namespace Tinkercell
         QList<ItemHandle*> visitedHandles;
         for (int i=0; i < items.size(); ++i)
         {
-            if (qgraphicsitem_cast<TextGraphicsItem*>(items[i])) continue;
+            if (TextGraphicsItem::cast(items[i])) continue;
 
             handle = getHandle(items[i]);
 
@@ -673,7 +673,7 @@ namespace Tinkercell
 
 			visitedHandles << handle;
 
-            if (node = qgraphicsitem_cast<NodeGraphicsItem*>(items[i]))
+            if (node = NodeGraphicsItem::cast(items[i]))
             {
                 items << node->connectionsAsGraphicsItems();
             }
@@ -690,7 +690,7 @@ namespace Tinkercell
 
 		for (int i=0; i < movedCompartmentNodes.size(); ++i)
 			for (int j=0; j < movedCompartmentNodes[i]->graphicsItems.size(); ++j)
-				if (node = qgraphicsitem_cast<NodeGraphicsItem*>(movedCompartmentNodes[i]->graphicsItems[j]))
+				if (node = NodeGraphicsItem::cast(movedCompartmentNodes[i]->graphicsItems[j]))
 					nodeCollided(QList<QGraphicsItem*>(),node,QList<QPointF>());
 
 
@@ -791,7 +791,7 @@ namespace Tinkercell
 
             for (int j=0; j < reactions[i]->graphicsItems.size(); ++j)
             {
-                if (connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(reactions[i]->graphicsItems[j]))
+                if (connection = ConnectionGraphicsItem::cast(reactions[i]->graphicsItems[j]))
                 {
                     nodesIn = connection->nodesWithoutArrows();
                     nodesOut = connection->nodesWithArrows();

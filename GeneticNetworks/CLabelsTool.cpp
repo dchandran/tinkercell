@@ -160,11 +160,11 @@ namespace Tinkercell
 			if (handle->graphicsItems[i] && handle->graphicsItems[i]->scene() == scene)
 			{	
 				QPointF p;
-				if ((node= qgraphicsitem_cast<NodeGraphicsItem*>(handle->graphicsItems[i])))
+				if ((node =  NodeGraphicsItem::cast(handle->graphicsItems[i])))
 					p = node->scenePos();				
 				else
 				{
-					if ((connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(handle->graphicsItems[i])))
+					if ((connection = ConnectionGraphicsItem::cast(handle->graphicsItems[i])))
 						p = connection->centerLocation();					
 				}
 				if (!p.isNull())
@@ -208,7 +208,7 @@ namespace Tinkercell
 			{	
 				circle = false;
 				QRectF rect;
-				if ((node= qgraphicsitem_cast<NodeGraphicsItem*>(handle->graphicsItems[i])))
+				if ((node= NodeGraphicsItem::cast(handle->graphicsItems[i])))
 				{
 					rect = node->sceneBoundingRect();
 					rect.adjust(-50.0,-50.0,50.0,50.0);
@@ -216,7 +216,7 @@ namespace Tinkercell
 				}
 				else
 				{
-					if ((connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(handle->graphicsItems[i])))
+					if ((connection = ConnectionGraphicsItem::cast(handle->graphicsItems[i])))
 					{
 						rect = connection->sceneBoundingRect();
 						circle = true;

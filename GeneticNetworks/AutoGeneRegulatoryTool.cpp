@@ -86,7 +86,7 @@ namespace Tinkercell
 		for (int i=0; i < selected.size(); ++i)
 		{
 			handle = getHandle(selected[i]);
-			if (qgraphicsitem_cast<NodeGraphicsItem*>(selected[i]) && handle && handle->isA("Molecule") && !handlesPhos.contains(handle))
+			if (NodeGraphicsItem::cast(selected[i]) && handle && handle->isA("Molecule") && !handlesPhos.contains(handle))
 			{
 				handlesPhos += handle;
 				ItemHandle * node = handle;
@@ -190,9 +190,9 @@ namespace Tinkercell
 		for (int i=0; i < selected.size(); ++i)
 		{
 			handle = getHandle(selected[i]);
-			if (qgraphicsitem_cast<NodeGraphicsItem*>(selected[i]) && handle && handle->isA("Promoter") && !visited.contains(handle))
+			if (NodeGraphicsItem::cast(selected[i]) && handle && handle->isA("Promoter") && !visited.contains(handle))
 			{
-				regulatorNodes += qgraphicsitem_cast<NodeGraphicsItem*>(selected[i]);
+				regulatorNodes += NodeGraphicsItem::cast(selected[i]);
 				visited += handle;
 				NodeHandle * node = new NodeHandle(nodeFamily);
 				node->name = tr("tf");
@@ -332,7 +332,7 @@ namespace Tinkercell
 		for (int i=0; i < selected.size(); ++i)
 		{
 			handle = getHandle(selected[i]);
-			if (qgraphicsitem_cast<NodeGraphicsItem*>(selected[i]) && handle && handle->isA("Coding") && !visited.contains(handle))
+			if (NodeGraphicsItem::cast(selected[i]) && handle && handle->isA("Coding") && !visited.contains(handle))
 			{
 				visited += handle;
 				NodeHandle * proteinNode = new NodeHandle(proteinFamily);
@@ -491,7 +491,7 @@ namespace Tinkercell
 		for (int i=0; i < selected.size(); ++i)
 		{
 			handle = getHandle(selected[i]);
-			if (qgraphicsitem_cast<NodeGraphicsItem*>(selected[i]) && handle && handle->isA("Molecule") && !visited.contains(handle))
+			if (NodeGraphicsItem::cast(selected[i]) && handle && handle->isA("Molecule") && !visited.contains(handle))
 			{
 				visited += handle;
 				NodeHandle * node = new NodeHandle(nodeFamily);
@@ -955,7 +955,7 @@ namespace Tinkercell
 		}
 		else
 			for (int i=0; i < items.size(); ++i)
-				if (qgraphicsitem_cast<NodeGraphicsItem*>(items[i]) && (handle = getHandle(items[i])) && handle->isA("Part") && !handle->isA("Vector"))
+				if (NodeGraphicsItem::cast(items[i]) && (handle = getHandle(items[i])) && handle->isA("Part") && !handle->isA("Vector"))
 				{
 					dnaItem = items[i];
 					select << dnaItem;
@@ -972,7 +972,7 @@ namespace Tinkercell
 				QList<QGraphicsItem*> items = scene->items(p1);
 				itemLeft = 0;
 				for (int i=0; i < items.size(); ++i)
-					if (!select.contains(items[i]) && qgraphicsitem_cast<NodeGraphicsItem*>(items[i]) && (handle = getHandle(items[i])) && handle->isA("Part") && !handle->isA("Vector"))
+					if (!select.contains(items[i]) && NodeGraphicsItem::cast(items[i]) && (handle = getHandle(items[i])) && handle->isA("Part") && !handle->isA("Vector"))
 					{
 						itemLeft = items[i];
 						select << itemLeft;
@@ -986,7 +986,7 @@ namespace Tinkercell
 				QList<QGraphicsItem*> items = scene->items(p2);
 				itemRight = 0;
 				for (int i=0; i < items.size(); ++i)
-					if (!select.contains(items[i]) && qgraphicsitem_cast<NodeGraphicsItem*>(items[i]) && (handle = getHandle(items[i])) && handle->isA("Part") && !handle->isA("Vector"))
+					if (!select.contains(items[i]) && NodeGraphicsItem::cast(items[i]) && (handle = getHandle(items[i])) && handle->isA("Part") && !handle->isA("Vector"))
 					{
 						itemRight = items[i];
 						select << itemRight;
@@ -1802,7 +1802,7 @@ namespace Tinkercell
 				if (items[i] && NodeHandle::cast(items[i]))
 				{
 					for (int j=0; j < items[i]->graphicsItems.size(); ++j)
-						if (qgraphicsitem_cast<NodeGraphicsItem*>(items[i]->graphicsItems[j]))
+						if (NodeGraphicsItem::cast(items[i]->graphicsItems[j]))
 						{
 							if (selected.isEmpty())
 							{

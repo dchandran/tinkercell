@@ -19,6 +19,8 @@ namespace Tinkercell
 	      CONTAINER TREE ITEM
 	******************************************/
 	
+	QHash<ContainerTreeItem*,bool> ContainerTreeModel::markedForDeletion;
+	
 	ContainerTreeItem::ContainerTreeItem(ItemHandle * handle, ContainerTreeItem *parent)
 	{
 		parentItem = parent;
@@ -241,14 +243,8 @@ namespace Tinkercell
 			{
 				treeItems.clear();
 				if (rootItem)
-					delete rootItem;
+					markedForDeletion[rootItem] = true;
 				newRootItem = rootItem = new ContainerTreeItem;
-				
-				for (int i=0; i < markedForDeletion.size(); ++i)
-					if (markedForDeletion[i])
-						delete markedForDeletion[i];
-		
-				markedForDeletion.clear();
 			}
 			else
 			{
@@ -291,7 +287,7 @@ namespace Tinkercell
 						    queue << queue[i]->childItems;
 					    }
 
-					delete rootItem;
+					markedForDeletion[rootItem] = true;
 				}
 
 				rootItem = newRootItem;
@@ -347,7 +343,7 @@ namespace Tinkercell
 				for (int i=0; i < item->childItems.size(); ++i)
 					item->childItems[i]->parentItem = 0;
 				if (!markedForDeletion.contains(item))
-					markedForDeletion << item;
+					markedForDeletion[item] = true;
 			}
 			item = new ContainerTreeItem(handle,parentItem);
 			item->attributeName = attribute;
@@ -392,13 +388,13 @@ namespace Tinkercell
 		if (rootItem)
 		{
 			treeItems.clear();
-			markedForDeletion.removeAll(rootItem);
-			delete rootItem;
+			markedForDeletion[rootItem] = true;
 		}
 		
-		for (int i=0; i < markedForDeletion.size(); ++i)
-			if (markedForDeletion[i])
-				delete markedForDeletion[i];
+		QList<ContainerTreeItem*> deleteItems =markedForDeletion.keys();
+		for (int i=0; i < deleteItems.size(); ++i)
+			if (deleteItems[i])
+				delete deleteItems[i];
 
 		markedForDeletion.clear();
 	}
@@ -621,5 +617,89 @@ namespace Tinkercell
 		//if (rootItem)
 			//rootItem->sortChildren();
 	}
+
+	/********************************
+            TREE DELEGATE
+    *********************************/
+
+    ContainerTreeDelegate::ContainerTreeDelegate(QTreeView *parent)
+        : QItemDelegate(parent), treeView(parent)
+    {
+    }
+
+    QWidget *ContainerTreeDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &/* option */,	const QModelIndex & index) const
+    {
+    	if (index.isValid() && treeView)
+			treeView->scrollTo(index.sibling(index.row(),0));
+        return new QLineEdit(parent);
+    }
+
+    void ContainerTreeDelegate::setEditorData(QWidget *widget, const QModelIndex &index) const
+    {
+        if (index.isValid())
+        {
+            ContainerTreeItem * item = static_cast<ContainerTreeItem*>(index.internalPointer());
+            if (ContainerTreeModel::markedForDeletion.contains(item)) return;
+
+            ItemHandle * handle = item->handle();
+            QString attributeName = item->text();
+            QLineEdit * editor = static_cast<QLineEdit*>(widget);
+
+            if (handle)
+            {
+				if (index.column() == 0)
+				{
+					if (attributeName.isEmpty())
+						editor->setText( handle->name );
+					else
+						editor->setText( attributeName );
+				}
+
+				if (index.column() == 1)
+				{
+					if (attributeName.isEmpty())
+					{
+						if (handle->hasNumericalData(QString("Initial Value")))
+							editor->setText( QString::number(handle->numericalData(QString("Initial Value"))) );
+						else
+							if (handle->hasTextData(QString("Rate equations")))
+								editor->setText(handle->textData(QString("Rate equations")));
+					}
+					else
+						if (handle->hasNumericalData(QString("Parameters")))
+							editor->setText( QString::number(handle->numericalData(QString("Parameters"),attributeName)) );
+										
+				}
+			}
+			
+        }
+    }
+
+    void ContainerTreeDelegate::setModelData(QWidget *widget, QAbstractItemModel * model,
+                                             const QModelIndex &index) const
+    {
+        if (index.isValid())
+        {
+            ContainerTreeItem * item = static_cast<ContainerTreeItem*>(index.internalPointer());
+            if (ContainerTreeModel::markedForDeletion.contains(item)) return;
+
+            ItemHandle * handle = item->handle();
+            QString attributeName = item->text();
+            QVariant value;
+
+            if (handle)// && !attributeName.isEmpty())
+            {
+				QLineEdit * editor = static_cast<QLineEdit*>(widget);
+				value = QVariant(editor->text());
+                model->setData(index, value, Qt::EditRole);
+            }
+        }
+    }
+
+    void ContainerTreeDelegate::updateEditorGeometry(QWidget *editor,
+                                                     const QStyleOptionViewItem &option, const QModelIndex &/* index */) const
+    {
+        editor->setGeometry(option.rect);
+    }
 
 }

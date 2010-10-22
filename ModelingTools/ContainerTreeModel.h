@@ -25,7 +25,8 @@
 namespace Tinkercell
 {
 	class ContainerTreeModel;
-	
+	class ContainerTreeDelegate;
+
 	class ContainerTreeItem
 	{
 		friend class ContainerTreeModel;
@@ -86,8 +87,25 @@ namespace Tinkercell
 		ContainerTreeItem* makeBranch(ItemHandle*,ContainerTreeItem*,const QString& attribute=QString());
 		ContainerTreeItem* findTreeItem(ContainerTreeItem*, ItemHandle*,const QString& attribute);
 
-		QList<ContainerTreeItem*> markedForDeletion;
+		static QHash<ContainerTreeItem*,bool> markedForDeletion;
+		friend class ContainerTreeDelegate;
 	};
+	
+	class TINKERCELLEXPORT ContainerTreeDelegate : public QItemDelegate
+	{
+		Q_OBJECT
+
+	public:
+
+		ContainerTreeDelegate(QTreeView * parent = 0);
+		QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+		void setEditorData(QWidget *editor, const QModelIndex &index) const;
+		void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const;
+		void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+	private:
+		QTreeView * treeView;
+	};
+
 }
 
 

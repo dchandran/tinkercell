@@ -1027,6 +1027,8 @@ namespace Tinkercell
 				{
 					previousFileName = files[i].absoluteFilePath();
 					emit loadNetwork(files[i].absoluteFilePath());
+					if (currentNetworkWindow)
+						currentNetworkWindow->filename = previousFileName;
 				}
 			}
 		}

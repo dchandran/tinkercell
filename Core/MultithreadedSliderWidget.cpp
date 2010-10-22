@@ -13,6 +13,9 @@ Uses CThread.
 #include <QVBoxLayout>
 #include <QPushButton>
 #include "ConsoleWindow.h"
+#include "MainWindow.h"
+#include "NetworkHandle.h"
+#include "SymbolsTable.h"
 #include "MultithreadedSliderWidget.h"
 
 namespace Tinkercell
@@ -105,7 +108,6 @@ namespace Tinkercell
 		for (int i=0; i < valueline.size() && i < sliders.size() && i < max.size() && i < min.size(); ++i)
 			if (sliders[i])
 			{
-				
 				x = valueline[i]->text().toDouble(&ok);
 				if (ok)
 				{
@@ -255,7 +257,10 @@ namespace Tinkercell
 		
 		QVBoxLayout * mainlayout = new QVBoxLayout;
 		QHBoxLayout * buttonLayout = new QHBoxLayout;		
-		QPushButton * closeButton = new QPushButton(tr("Close"));
+		QPushButton * closeButton = new QPushButton(tr("&Close"));
+		QPushButton * saveValues = new QPushButton(tr("&Save values"));
+		buttonLayout->addStretch(1);
+		buttonLayout->addWidget(saveValues);
 		buttonLayout->addWidget(closeButton);
 		buttonLayout->addStretch(1);
 		QScrollArea * scrollArea = new QScrollArea;
@@ -264,6 +269,7 @@ namespace Tinkercell
 		mainlayout->addWidget(scrollArea);
 		mainlayout->addLayout(buttonLayout);
 		connect(closeButton,SIGNAL(pressed()),this,SLOT(close()));
+		connect(saveValues,SIGNAL(pressed()),this,SLOT(saveValues()));
 		setLayout(mainlayout);
 		
 		valueChanged();
@@ -273,4 +279,88 @@ namespace Tinkercell
 	{
 		return values;
 	}
+	
+	void MultithreadedSliderWidget::saveValues()
+	{
+		NetworkHandle * network = mainWindow->currentNetwork();
+		if (!network) 
+		{
+			mainWindow->statusBar()->showMessage(tr("No model to update"));
+			return;
+		}
+		
+		SymbolsTable & symbols = network->symbolsTable;
+		QString s;
+		qreal d;
+		bool ok;
+		QList<NumericalDataTable*> newTables, oldTables;
+		NumericalDataTable * newTable, * oldTable;
+		QPair<ItemHandle*,QString> pair;
+		int k;
+		for (int i=0; i < labels.size() && i < valueline.size(); ++i)
+			if (labels[i] && valueline[i])
+			{
+				s = labels[i]->text();
+				d = valueline[i]->text().toDouble(&ok);
+				
+				if (!ok) continue;
+				
+				if (symbols.uniqueDataWithDot.contains(s))
+				{
+					pair = symbols.uniqueDataWithDot.value(s);
+					if (pair.first && pair.first->hasNumericalData(pair.second))
+					{
+						oldTable = &(pair.first->numericalDataTable(pair.second));
+						s.remove(pair.first->fullName() + tr("."));
+						if (oldTable->hasRow(s) && oldTable->value(s,0) != d)
+						{
+							k = oldTables.indexOf(oldTable);
+							if (k > -1)							
+								newTable = newTables[k];
+							else
+							{
+								newTable = new NumericalDataTable(*oldTable);
+								oldTables << oldTable;
+								newTables << newTable;
+							}
+							newTable->value(s,0) = d;
+						}
+					}
+				}
+				else
+				{
+					s.replace(tr("."),tr("_"));
+					if (symbols.uniqueDataWithUnderscore.contains(s))
+					{
+						pair = symbols.uniqueDataWithUnderscore.value(s);
+						if (pair.first && pair.first->hasNumericalData(pair.second))
+						{
+							oldTable = &(pair.first->numericalDataTable(pair.second));
+							s.remove(pair.first->fullName(tr("_")) + tr("_"));
+							if (oldTable->hasRow(s) && oldTable->value(s,0) != d)
+							{
+								k = oldTables.indexOf(oldTable);
+								if (k > -1)							
+									newTable = newTables[k];
+								else
+								{
+									newTable = new NumericalDataTable(*oldTable);
+									oldTables << oldTable;
+									newTables << newTable;
+								}
+								newTable->value(s,0) = d;
+							}
+						}
+					}
+				}
+			}
+		
+		if (!newTables.isEmpty())
+		{
+			network->push(new ChangeNumericalDataCommand(tr("Updated from slider"), oldTables, newTables));
+			for (int i=0; i < newTables.size(); ++i)
+				delete newTables[i];
+		}
+	}
 }
+

@@ -106,6 +106,11 @@ namespace Tinkercell
 		* \brief whenver the text change, the function in the C library is called
 		*/
 		virtual void minmaxChanged();
+		
+				/*!
+		* \brief copy the values from the slider to the model
+		*/
+		virtual void saveValues();
 
 	protected:
 	

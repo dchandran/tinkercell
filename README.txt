@@ -3,85 +3,76 @@ HOW TO BUILD TINKERCELL PROJECT
 ===============================
 
 YOU WILL NEED TO INSTALL THE FOLLOWING LIBRARIES/PACKAGES
-----------------------------------------------------------
+-----------------------------------------------------------------------------------------
+C and C++ Compiler (XCode on Mac,  MinGW or Visual Studio in MS Windows, GCC in Linux)
+CMake (www.cmake.org)
 Qt 4.5 or higher
 libxml2
+python (optional)
+octave (optional)
 
 
-ALL SYSTEMS EXCEPT WIN32
-------------------------
-1. Go to the Tinkercell source directory (e.g. Tinkercell/trunk) and create a new folder called BUILD.
-2. Install CMake (www.cmake.org)
-3. Run the CMake GUI, located in the CMake folder
-4. Select the <Tinkercell folder>/trunk as the "source code" folder
-5. Select the <Tinkercell folder>/trunk/BUILD as the "build the binaries" folder
-6. Change the view to "Grouped view" -- this makes editting the options easier
-7. Click "configure". 
-8. If this is the first time you are configuring, you will be asked to select the compiler. 
-   Select the compiler you prefer. UNIX GCC works for systems with GCC installed. 
-9. If this is the first time you are configuring, you will need to click configure once again.
-10. The "generate" button should be available now. Click "generate"
-11. Open Command Prompt and go to the <Tinkercell folder>/trunk/BUILD directory
-12. run make. 
-    This will make all the binaries, but the application needs several other 
-	supporting files in the same directory as well.
-13. run "make package". 
-    This will place all the supporting files and binaries in one folder, 
-	which will probably be inside some directory starting with BUILD/_CPack*.
+COMPILING TINKERCELL
+-------------------------------
+1. Install the following libraries: libxml2, libxml2-dev , libx11-dev, python-dev, subversion, octave
+      In Linux, just use apt-get install libxml2 libxml2-dev libx11-dev python-dev subversion octave octave-headers
 
-WIN32 using MinGW g++
+2.  Install cmake, available from www.cmake.org
+      In Linux, use apt-get install cmake cmake-qt-gui. 
+
+3. Install Qt.
+      In Linux, use apt-get install libqt4-core libqt4-gui libqt4-xml libqt4-opengl qt4-dev-tools.
+
+     On other platforms, do the following:
+         1. download and install Qt 4.5.0 (or later) from http://qt.nokia.com/products
+         2. extract the Qt compressed file and inside the folder, run the following command:
+               1. ./configure -debug-and-release -no-accessibility -no-sql-db2 -no-sql-ibase -no-sql-mysql -no-sql-oci -no-sql-odbc -no-sql-psql -no-sql-sqlite -no-sql-sqlite2 -no-sql-tds -no-mmx -no-3dnow -no-sse -no-sse2 -qt-zlib -qt-gif -qt-libtiff -qt-libpng -qt-libmng -qt-libjpeg -no-openssl -no-nis -iconv -no-qdbus -no-nas-sound -opengl -no-sm -no-xshape -no-xinerama -no-xcursor -no-xfixes -no-xrandr -no-xrender -no-fontconfig -no-xkb
+               2. make  (this will take time)
+               3. make install  (this will also take time)
+
+4. Download TinkerCell source: http://sourceforge.net/projects/tinkercell/files/TinkerCellSource.tgz/download
+
+5. Run cmake-gui
+
+6. In the cmake-gui, select the ~/tinkercell/trunk folder for the source folder and ~/tinkercell/trunk/BUILD as the binary folder
+
+7. Run "Configure". When you run the first time, you will be asked to select the compiler you want to use.
+
+8. If libxml2 is not found, set the following manually (using the Add Entry button in cmake-gui):
+         1. LIBXML2_INCLUDE_DIR = /usr/include/libxml2
+         2. LIBXML2_LIBRARIES = /usr/lib/libxml2.so.2.7.5   (or whichever file you have)
+    In Windows, TinkerCell comes with libxml2 libraries, so this step will not be needed
+
+9. Run "Configure" a few times until all the redness disappears
+
+10. Run "Generate". This will create the makefile or the project file, depending on the compiler you selected
+
+11. Go to the ~/tinkercell/trunk/BUILD folder
+
+12. Run "make package" or open the project file and compile (this will take time). 
+     MAC ONLY: Just do "make" because "make package" does not do package correctly. 
+     
+13. MAC ONLY: After performing make, go to the bin folder and do "source do_name_change.sh"
+
+14. Linux and Windows, go to _CPack_Packages/ folder and find the TinkerCell subfolder. 
+      Windows, run TinkerCell.exe
+      Linux: Go to the bin folder and create a script:
+                    export LD_LIBRARY_PATH=<tinkercell folder>:<tinkercell folder>/plugins:<octave libraries folder>:<python libraries folder>
+                    <tinkercell folder>/TinkerCell
+          and then run    
+                     "source run_tinkercell"
+
+      Mac:  open the TinkerCell.app file in the bin folder
+
+
+WIN32 PROBLEMS
 --------------------------
-1. Go to the Tinkercell source directory (e.g. Tinkercell/trunk) and create a new folder called BUILD.
-2. Install CMake (www.cmake.org) and MinGW (www.mingw.org)
-3. Run the CMake GUI, located in the CMake folder
-4. Select the <Tinkercell folder>/trunk as the "source code" folder
-5. Select the <Tinkercell folder>/trunk/BUILD as the "build the binaries" folder
-6. Change the view to "Grouped view" -- this makes editting the options easier
-7. Click "configure". 
-8. If this is the first time you are configuring, you will be asked to select the compiler. Select MinGW.
-9. If this is the first time you are configuring, you will need to click configure once again.
-10. The "generate" button should be available now. Click "generate"
-11. Open Command Prompt and go to the <Tinkercell folder>/trunk/BUILD directory
-12. Type "mingw32-make" (or just "make" if the alias is setup).
-    This will make all the binaries, but the application needs several other 
-	supporting files in the same directory as well.
-13. run "mingw32-make package". 
-    This will place all the supporting files and binaries in one folder, 
-	which will probably be inside some directory starting with BUILD/_CPack*.
-
-
-Possible problems:
-
--- Problem: CMake is not able to find MinGW. 
-   Solution: Look for a field in the CMake GUI called CMAKE_CXX_COMPILER. 
+Problem: CMake is not able to find MinGW. 
+Solution: Look for a field in the CMake GUI called CMAKE_CXX_COMPILER. 
              Set the compiler manually by locating the mingw32-make.exe. 
              Click "configure" again.
 
-
-WIN32 using Visual Studio 
-----------------------------------------------------------------------------
-NOTE: Visual Studio is giving link errors, 
-      but you are welcome to try (and let me know if it works)
-
-1. Go to the Tinkercell source directory (e.g. Tinkercell/trunk) and create a new folder called BUILD.
-2. Install CMake (www.cmake.org) and Visual Studio C++ (http://www.microsoft.com/express/product/)
-3. Run the CMake GUI, located in the CMake folder
-4. Select the <Tinkercell folder>/trunk as the "source code" folder
-5. Select the <Tinkercell folder>/trunk/BUILD as the "build the binaries" folder
-6. Change the view to "Grouped view" -- this makes editting the options easier
-7. Click "configure". 
-8. If this is the first time you are configuring, you will be asked to select the compiler. 
-   Select the Visual Studio compiler.
-9. If this is the first time you are configuring, you will need to click configure once again.
-10. The "generate" button should be available now. Click "generate"
-11. The BUILD directory should now contain all the Visual Studio project files. 
-12. Open the TINKERCELL visual studio file, which will contain all the other projects.
-
-
-
-
-
-
-
+Problem: Visual Studio is giving link errors
+Solution: let me know if you find a solution!
 
 

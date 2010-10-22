@@ -142,15 +142,15 @@ namespace Tinkercell
 			Tool * tool = static_cast<Tool*>(mainWindow->tool(tr("Connections Tree")));
 			connectionsTree = static_cast<ConnectionsTree*>(tool);
 		}
+
+		QString appDir = QCoreApplication::applicationDirPath();
+		QString home = homeDir();
 		
 		if (connectionsTree)
 		{
 			ConnectionFamily * moduleFamily = connectionsTree->getFamily(tr("Module"));
 			if (!moduleFamily)
 			{
-				QString appDir = QCoreApplication::applicationDirPath();
-				QString home = homeDir();
-
 				moduleFamily = new ConnectionFamily(tr("Module"));
 				moduleFamily->pixmap = QPixmap(tr(":/images/module.png"));
 				moduleFamily->description = tr("Self-contained subsystem that can be used to build larger systems");
@@ -168,8 +168,18 @@ namespace Tinkercell
 			QList<ItemFamily*> childFamilies = moduleFamily->allChildren();
 			
 			for (int i=0; i < childFamilies.size(); ++i)
-				if (childFamilies[i]->children().isEmpty())
+			{
+				QString s = childFamilies[i]->name();
+				s.replace(tr(" "),tr(""));
+				QString dirname = home + tr("/Modules/") + s;
+				QDir dir(dirname);
+		
+				if (!dir.exists())
+					dir.setPath(home + tr("/Modules/") + s.toLower());
+
+				if (dir.exists())
 					moduleFamilyNames << childFamilies[i]->name();
+			}
 		}
 
 		if (mainWindow->tool(tr("Parts and Connections Catalog")) && !connected1)
@@ -936,7 +946,7 @@ namespace Tinkercell
 			}
 		}
 
-		if (handle && handle->family() && (!handle->children.isEmpty() || handle->family()->isA(tr("module"))))
+		if (handle && handle->family() && !handle->children.isEmpty())
 		{
 			QList<TextEditor*> editors = scene->network->editors();
 			QList<GraphicsScene*> scenes = scene->network->scenes();
@@ -968,13 +978,18 @@ namespace Tinkercell
 				if (!handle->children.isEmpty())
 				{
 					QList<QGraphicsItem*> items, items2;
+					NodeGraphicsItem * node;
 					for (int i=0; i < handle->children.size(); ++i)
 						if (handle->children[i])
 						{
 							items2 = handle->children[i]->graphicsItems;
-							for (int j=0; j < items2.size(); ++j)							
-								if (ConnectionGraphicsItem::cast(items2[j]) && !items2[j]->scene())
-									items << items2[j];
+							for (int j=0; j < items2.size(); ++j)
+								if (!items2[j]->scene())
+								{
+									node = NodeGraphicsItem::cast(items2[j]);
+									if (!node || node->connections().isEmpty())
+										items << items2[j];
+								}
 						}
 				
 					

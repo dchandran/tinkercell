@@ -366,8 +366,6 @@ namespace Tinkercell
 		}
 		if (sem)
 			sem->release();
-		if (sem)
-			sem->release();
 	}
 
 	tc_strings NameFamilyDialog::_getAnnotation(long o)

@@ -39,37 +39,22 @@ namespace Tinkercell
 		NetworkHandle * net = currentNetwork();
 		if (!net) return;
 
-		if (dockWidget && dockWidget->widget() != this)
-			dockWidget->setWidget(this);
-
 		openedByUser = true;
 
 		updateTable();
-		if (parentWidget() != 0)
-		{
-			if (parentWidget()->isVisible())
-				openedByUser = false;
-			else
-				parentWidget()->show();
-		}
+		if (isVisible())
+			openedByUser = false;
 		else
-		{
-			if (isVisible())
-				openedByUser = false;
-			else
-				show();
-		}
+			show();
+		raise();
 	}
 
 	void SimulationEventsTool::deselect(int)
 	{
-		if (openedByUser && (!dockWidget || dockWidget->isFloating()))
+		if (openedByUser)
 		{
 			openedByUser = false;
-			if (parentWidget() != 0)
-				parentWidget()->hide();
-			else
-				hide();
+			hide();
 		}
 	}
 
@@ -123,8 +108,6 @@ namespace Tinkercell
 			
 			connect(this,SIGNAL(dataChanged(const QList<ItemHandle*>&)),
 					mainWindow,SIGNAL(dataChanged(const QList<ItemHandle*>&)));
-
-			connect(mainWindow,SIGNAL(networkClosing(NetworkHandle * , bool *)),this,SLOT(sceneClosing(NetworkHandle * , bool *)));
 			
 			connect(this, SIGNAL(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)),
 					mainWindow,SIGNAL(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)));
@@ -159,53 +142,20 @@ namespace Tinkercell
 
 			setWindowTitle(name);
 
-			dockWidget = mainWindow->addToolWindow(this,MainWindow::DockWidget, Qt::BottomDockWidgetArea,Qt::NoDockWidgetArea);
+			mainWindow->addToViewMenu(this);
 
-			if (dockWidget)
-			{
-				dockWidget->move(mainWindow->geometry().bottomRight() - QPoint(sizeHint().width()*2,sizeHint().height()*2));
-
-				connect(dockWidget,SIGNAL(visibilityChanged(bool)),this,SLOT(visibilityChanged(bool)));
-
-				dockWidget->setWindowFlags(Qt::Tool);
-				dockWidget->setAttribute(Qt::WA_ContentsPropagated);
-				dockWidget->setPalette(QPalette(QColor(255,255,255,255)));
-				dockWidget->setAutoFillBackground(true);
-				//dockWidget->setWindowOpacity(0.9);
-
-				QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
-
-				settings.beginGroup("SimulationEventsTool");
-				//dockWidget->resize(settings.value("size", sizeHint()).toSize());
-				//dockWidget->move(settings.value("pos", dockWidget->pos()).toPoint());
-
-				dockWidget->hide();
-				if (settings.value("floating", true).toBool())
-					dockWidget->setFloating(true);
-
-				settings.endGroup();
-			}
+			move(mainWindow->geometry().bottomRight() - QPoint(sizeHint().width()*2,sizeHint().height()*2));
+			setAttribute(Qt::WA_ContentsPropagated);
+			setPalette(QPalette(QColor(255,255,255,255)));
+			setAutoFillBackground(true);
+			//setWindowOpacity(0.9);
 		}
 		return (mainWindow != 0);
 	}
 
-	void SimulationEventsTool::sceneClosing(NetworkHandle * , bool *)
-	{
-		QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
-
-		if (dockWidget)
-		{
-			settings.beginGroup("SimulationEventsTool");
-			//settings.setValue("floating", dockWidget && dockWidget->isFloating());
-			settings.setValue("size", dockWidget->size());
-			settings.setValue("pos", dockWidget->pos());
-			settings.endGroup();
-		}
-	}
-
 	void SimulationEventsTool::historyUpdate(int)
 	{
-		if (isVisible() || (parentWidget() && parentWidget() != mainWindow && parentWidget()->isVisible()))
+		if (isVisible())
 			updateTable();
 	}
 
@@ -255,21 +205,12 @@ namespace Tinkercell
 		groupBox->setLayout(eventBoxLayout);
 
 		eventDialog = 0;
-		dockWidget = 0;
 
 		QVBoxLayout * layout = new QVBoxLayout;
 		layout->addWidget(groupBox);
 		setLayout(layout);
 
 		connectTCFunctions();
-	}
-
-	void SimulationEventsTool::visibilityChanged(bool b)
-	{
-		if (b && dockWidget && groupBox)
-		{
-			dockWidget->setWidget(groupBox);
-		}
 	}
 
 	QSize SimulationEventsTool::sizeHint() const
@@ -302,12 +243,6 @@ namespace Tinkercell
 	{
 		if (mode == none || button == Qt::RightButton || !scene || scene->useDefaultBehavior)
 		{
-			if (dockWidget && dockWidget->widget() != this)
-				dockWidget->setWidget(this);
-
-			if (dockWidget && dockWidget->isVisible())
-				dockWidget->hide();
-
 			return;
 		}
 		

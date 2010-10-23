@@ -116,7 +116,6 @@ namespace Tinkercell
 
 		bool openedByUser;
 		NodeGraphicsItem item;
-		QDockWidget * dockWidget;
 		EquationGraph * graphWidget;
 
 		static tc_strings _getForcingFunctionNames(tc_items);

@@ -61,7 +61,6 @@ namespace Tinkercell
 	public slots:
 		void select(int i=0);
 		void deselect(int i=0);
-		void sceneClosing(NetworkHandle * , bool *);
 		void updateToolTips(const QList<ItemHandle*>&);
 		void itemsInserted(NetworkHandle *, const QList<ItemHandle*>& handles);
 		void itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>& , const QList<ItemHandle*>& );
@@ -85,7 +84,6 @@ namespace Tinkercell
 	private:
 		bool openedByUser;
 		NodeGraphicsItem item;
-		QDockWidget * dockWidget;
 		QList<ItemHandle*> itemHandles;
 		QAction * toggleFixedAction, *separator;
 		QPushButton * closeButton;

@@ -70,7 +70,6 @@ namespace Tinkercell
         void removeEvents();
         void historyUpdate(int);
         void setupFunctionPointers( QLibrary * );
-        void sceneClosing(NetworkHandle * , bool * );
 
 	signals:
 		void itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&);
@@ -113,7 +112,6 @@ namespace Tinkercell
     protected slots:
         void eventDialogFinished();
         void editEventsList(QListWidgetItem*);
-        void visibilityChanged(bool);
 
     protected:
 
@@ -131,7 +129,6 @@ namespace Tinkercell
 
         bool openedByUser;
         NodeGraphicsItem item;
-        QDockWidget * dockWidget;
 
 		static bool parseRateString(NetworkHandle * win, ItemHandle * handle, QString& s);
 

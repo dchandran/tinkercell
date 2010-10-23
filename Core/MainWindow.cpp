@@ -602,6 +602,21 @@ namespace Tinkercell
 		scene->print(&printer);
 		printer.save(fileName,"png");
 	}
+	
+	void MainWindow::addToViewMenu(QWidget * widget)
+	{
+		if (!widget || !viewMenu || toolWindows.contains(widget)) return;
+		
+		if (!widget->parentWidget())
+			widget->setParent(this);
+		toolWindows << widget;
+		
+		widget->setWindowFlags(Qt::Window);
+		
+		QAction * action = viewMenu->addAction(widget->windowTitle());
+		action->setCheckable(true);
+		connect(action,SIGNAL(toggled(bool)),widget,SLOT(setVisible(bool)));
+	}
 
 	QDockWidget * MainWindow::addToolWindow(QWidget * tool, TOOL_WINDOW_OPTION option, Qt::DockWidgetArea initArea, Qt::DockWidgetAreas allowedAreas, bool inMenu)
 	{
@@ -617,7 +632,7 @@ namespace Tinkercell
 			dock->setAllowedAreas(allowedAreas);
 			dock->setWidget(tool);
 			addDockWidget(initArea,dock);
-			if (inMenu)
+			if (inMenu && viewMenu)
 				viewMenu->addAction(dock->toggleViewAction());
 
 			return dock;
@@ -636,7 +651,7 @@ namespace Tinkercell
 			dock->setWidget(toolBox);
 			dock->setAllowedAreas(allowedAreas);
 			addDockWidget(initArea,dock);
-			if (inMenu)
+			if (inMenu && viewMenu)
 				viewMenu->addAction(dock->toggleViewAction());
 		}
 		else

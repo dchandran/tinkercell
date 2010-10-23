@@ -35,40 +35,24 @@ namespace Tinkercell
 		QList<ItemHandle*> list = getHandle(scene->selected());
 		if (list.size() == 1 && list[0])
 		{
-			if (dockWidget && dockWidget->widget() != this)
-				dockWidget->setWidget(this);
-
 			itemHandle = list[0];
-
 			openedByUser = true;
 
 			updateList();
-			if (parentWidget() != 0)
-			{
-				if (parentWidget()->isVisible())
-					openedByUser = false;
-				else
-					parentWidget()->show();
-			}
+			if (isVisible())
+				openedByUser = false;
 			else
-			{
-				if (isVisible())
-					openedByUser = false;
-				else
-					show();
-			}
+				show();
+			raise();
 		}
 	}
 
 	void ViewTablesTool::deselect(int)
 	{
-		if (openedByUser && (!dockWidget || dockWidget->isFloating()))
+		if (openedByUser)
 		{
 			openedByUser = false;
-			if (parentWidget() != 0)
-				parentWidget()->hide();
-			else
-				hide();
+			hide();
 		}
 	}
 
@@ -99,8 +83,7 @@ namespace Tinkercell
 	{
 		if (!scene) return;
 		
-		if (list.size() > 0 && !getHandle(list[0]) &&
-			(isVisible() || (parentWidget() && parentWidget() != mainWindow && parentWidget()->isVisible())))
+		if (list.size() > 0 && !getHandle(list[0]) && isVisible())
 		{
 			itemHandle = getHandle(list[0]);
 			updateList();
@@ -122,14 +105,10 @@ namespace Tinkercell
 			
 			setWindowTitle(name);
 			setWindowIcon(QIcon(tr(":/images/new.png")));
-			dockWidget = mainWindow->addToolWindow(this,MainWindow::DockWidget,Qt::BottomDockWidgetArea,Qt::NoDockWidgetArea);
+			mainWindow->addToViewMenu(this);
 			
-			if (dockWidget)
-			{
-				dockWidget->move(mainWindow->geometry().bottomRight() - QPoint(sizeHint().width()*2,sizeHint().height()*2));
-				dockWidget->hide();
-				dockWidget->setFloating(true);
-			}
+			move(mainWindow->geometry().bottomRight() - QPoint(sizeHint().width()*2,sizeHint().height()*2));
+			hide();
 		}
 		return (mainWindow != 0);
 	}
@@ -184,8 +163,6 @@ namespace Tinkercell
 		
 		QWidget * widget = new QWidget;
 		widget->setLayout(layout3);
-
-		dockWidget = 0;
 		
 		QSplitter * splitter = new QSplitter(Qt::Horizontal,this);
 		

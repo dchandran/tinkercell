@@ -180,6 +180,11 @@ namespace Tinkercell
 		*/
 		QDockWidget * addToolWindow(QWidget * tool, TOOL_WINDOW_OPTION option = DockWidget, Qt::DockWidgetArea initArea = Qt::RightDockWidgetArea, Qt::DockWidgetAreas allowedAreas = Qt::AllDockWidgetAreas, bool inMenu = true);
 		/*!
+		* \brief place a show/hide action in the view menu for the given widget
+		* \param QWidget* the new widget
+		*/
+		void addToViewMenu(QWidget * tool);
+		/*!
 		* \brief set the cursor for all windows
 		* \param QCursor cursor
 		* \return void

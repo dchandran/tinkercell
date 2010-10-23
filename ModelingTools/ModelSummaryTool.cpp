@@ -34,36 +34,24 @@ namespace Tinkercell
 	{
 		openedByUser = true;
 		updateTables();
-		if (parentWidget() != 0)
-		{
-			if (parentWidget()->isVisible())
-				openedByUser = false;
-			else
-				parentWidget()->show();
-		}
+		if (isVisible())
+			openedByUser = false;
 		else
-		{
-			if (isVisible())
-				openedByUser = false;
-			else
-				show();
-		}
+			show();
+		raise();
 		this->setFocus();
 	}
 
 	void ModelSummaryTool::deselect(int)
 	{
-		if (openedByUser && (!dockWidget || dockWidget->isFloating()))
+		if (openedByUser)
 		{
 			openedByUser = false;
 
 			if (tabWidget)
 				tabWidget->clear();
 
-			if (parentWidget() != 0)
-				parentWidget()->hide();
-			else
-				hide();
+			hide();
 		}
 	}
 
@@ -86,20 +74,10 @@ namespace Tinkercell
 			if (!tabWidget || tabWidget->count() < 1) return;
 
 			openedByUser = true;
-			if (parentWidget() != 0)
-			{
-				if (parentWidget()->isVisible())
-					openedByUser = false;
-				else
-					parentWidget()->show();
-			}
+			if (isVisible())
+				openedByUser = false;
 			else
-			{
-				if (isVisible())
-					openedByUser = false;
-				else
-					show();
-			}
+				show();
 		}
 	}
 	
@@ -140,20 +118,11 @@ namespace Tinkercell
 		if (!tabWidget || tabWidget->count() < 1) return;
 
 		openedByUser = true;
-		if (parentWidget() != 0)
-		{
-			if (parentWidget()->isVisible())
-				openedByUser = false;
-			else
-				parentWidget()->show();
-		}
+		if (isVisible())
+			openedByUser = false;
 		else
-		{
-			if (isVisible())
-				openedByUser = false;
-			else
-				show();
-		}
+			show();
+		raise();
 	}
 
 	void ModelSummaryTool::updateToolTips(const QList<ItemHandle*>& handles)
@@ -208,9 +177,7 @@ namespace Tinkercell
 			connect(this,SIGNAL(dataChanged(const QList<ItemHandle*>&)), mainWindow, SIGNAL(dataChanged(const QList<ItemHandle*>&)));
 			
 			connect(mainWindow,SIGNAL(dataChanged(const QList<ItemHandle*>&)), this, SLOT(updateToolTips(const QList<ItemHandle*>&)));
-			
-			connect(mainWindow,SIGNAL(networkClosing(NetworkHandle * , bool *)),this,SLOT(sceneClosing(NetworkHandle * , bool *)));
-
+		
 			connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),
 				this,SLOT(itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
 			
@@ -228,34 +195,13 @@ namespace Tinkercell
 
 			setWindowTitle(name);
 			setWindowIcon(QIcon(tr(":/images/monitor.png")));
-			dockWidget = mainWindow->addToolWindow(this,MainWindow::DockWidget,Qt::BottomDockWidgetArea,Qt::NoDockWidgetArea);
+			mainWindow->addToViewMenu(this);
 
-			if (dockWidget)
-			{
-				connect(closeButton,SIGNAL(pressed()),dockWidget,SLOT(hide()));
-						
-				dockWidget->move(mainWindow->geometry().center());
-
-				dockWidget->setWindowFlags(Qt::Tool);
-				dockWidget->setAttribute(Qt::WA_ContentsPropagated);
-				dockWidget->setPalette(QPalette(QColor(255,255,255,255)));
-				dockWidget->setAutoFillBackground(true);
-				//dockWidget->setWindowOpacity(0.9);
-
-				QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
-
-				settings.beginGroup("ModelSummaryTool");
-				//dockWidget->resize(settings.value("size", sizeHint()).toSize());
-				//dockWidget->move(settings.value("pos", dockWidget->pos()).toPoint());
-
-				settings.endGroup();
-				dockWidget->hide();
-				dockWidget->setFloating(true);
-			}
-			else
-			{
-				connect(closeButton,SIGNAL(pressed()),this,SLOT(hide()));
-			}
+			connect(closeButton,SIGNAL(pressed()),this,SLOT(hide()));
+			move(mainWindow->geometry().center());
+			setAttribute(Qt::WA_ContentsPropagated);
+			setPalette(QPalette(QColor(255,255,255,255)));
+			setAutoFillBackground(true);
 		}
 		return (mainWindow != 0);
 	}
@@ -293,20 +239,6 @@ namespace Tinkercell
 		updateToolTips(handles);
 	}
 
-	void ModelSummaryTool::sceneClosing(NetworkHandle * , bool *)
-	{
-		QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
-
-		if (dockWidget)
-		{
-			settings.beginGroup("ModelSummaryTool");
-			//settings.setValue("floating", dockWidget && dockWidget->isFloating());
-			settings.setValue("size", dockWidget->size());
-			settings.setValue("pos", dockWidget->pos());
-			settings.endGroup();
-		}
-	}
-
 	ModelSummaryTool::ModelSummaryTool() : Tool(tr("Model Summary"),tr("Basic GUI")), delegate(QStringList() << "floating" << "fixed")
 	{
 		groupBox.setTitle(tr(" Initial values of selected items "));
@@ -322,8 +254,6 @@ namespace Tinkercell
 		boxLayout->addWidget(&tableWidget);
 
 		groupBox.setLayout(boxLayout);
-
-		dockWidget = 0;
 
 		QVBoxLayout * layout = new QVBoxLayout;
 		tabWidget = new QTabWidget(this);

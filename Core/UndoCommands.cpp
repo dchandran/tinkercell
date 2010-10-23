@@ -7,6 +7,7 @@ See COPYRIGHT.TXT
 This file contains a collection of commands that perform simple operations that can be redone and undone.
 
 ****************************************************************************/
+#include <iostream>
 #include "NodeGraphicsItem.h"
 #include "NodeGraphicsReader.h"
 #include "ConnectionGraphicsItem.h"
@@ -987,14 +988,41 @@ namespace Tinkercell
 		graphicsScenes.clear();
 		itemHandles.clear();
 		NodeGraphicsItem * node;
+		GraphicsScene * scene;
+		ItemHandle * h;
 		
 		for (int i=0; i<graphicsItems.size(); ++i)
 		{
+			scene = 0;
 			if (graphicsItems[i])		
-				graphicsScenes += static_cast<GraphicsScene*>(graphicsItems[i]->scene());
-			else
-				graphicsScenes += 0;
-			itemHandles += getHandle(graphicsItems[i]);
+				scene = static_cast<GraphicsScene*>(graphicsItems[i]->scene());
+
+			graphicsScenes += scene;
+			
+			h = getHandle(graphicsItems[i]);
+			
+			if (scene && scene->network && h)
+			{
+				QList<GraphicsScene*> otherScenes = scene->network->scenes();
+				for (int j=0; j < otherScenes.size(); ++j)
+				{
+					if (otherScenes[j] != scene && otherScenes[j]->localHandle() == h)
+					{
+						QList<QGraphicsItem*> items = otherScenes[j]->items();
+						QList<QGraphicsItem*> gitems;
+						QGraphicsItem * item;
+						for (int k=0; k < items.size(); ++k)
+						{
+							item = getGraphicsItem(items[k]);
+							if (!gitems.contains(item))
+								gitems << item;
+						}
+						graphicsItems << gitems;
+					}
+				}
+			}
+
+			itemHandles += h;
 			node = NodeGraphicsItem::cast(graphicsItems[i]);
 			if (node)
 			{
@@ -1064,41 +1092,29 @@ namespace Tinkercell
 
 		if (firstTime)
 		{
-			bool exists;
-			GraphicsScene * scene;
-
 			QList< DataTable<qreal>* > oldData1, newData1;
 			QList< DataTable<QString>* > oldData2, newData2;
 
+			bool exists = false;
 			QStringList namesToKill;
 			for (int i=0; i < itemHandles.size(); ++i)
 				if (itemHandles[i])
 				{
 					exists = false;
 					for (int j=0; j < itemHandles[i]->graphicsItems.size(); ++j)
-						if (itemHandles[i]->graphicsItems[j]->scene() &&
-							(scene = static_cast<GraphicsScene*>(itemHandles[i]->graphicsItems[j]->scene())))
-							if (graphicsScenes.contains(scene) || !scene->localHandle())
-							{
-								exists = true;
-								break;
-							}
-
+						if (itemHandles[i]->graphicsItems[j]->scene())
+						{
+							exists = true;
+							break;
+						}
 					if (!exists)
 						namesToKill << itemHandles[i]->fullName();
 				}
 
-			ItemHandle * handle;
-			QList<QGraphicsItem*> items;
+			QList<NetworkHandle*> networkHandles;
 			for (int i=0; i < graphicsScenes.size(); ++i)
-				if (graphicsScenes[i])
-					items += graphicsScenes[i]->items();
-			for (int i=0; i < items.size(); ++i)
-			{
-				handle = getHandle(items[i]);
-				if (handle && handle->graphicsItems.size() > 0 && !affectedHandles.contains(handle))
-					affectedHandles += handle;
-			}
+				if (graphicsScenes[i] && graphicsScenes[i]->network && !networkHandles.contains(graphicsScenes[i]->network))
+					affectedHandles += graphicsScenes[i]->network->handles();
 
 			for (int i=0; i < affectedHandles.size(); ++i)		
 			{

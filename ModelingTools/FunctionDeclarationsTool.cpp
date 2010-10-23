@@ -35,40 +35,25 @@ namespace Tinkercell
 		NetworkHandle * net = currentNetwork();
 		if (!net) return;
 
-		if (dockWidget && dockWidget->widget() != this)
-			dockWidget->setWidget(this);
-
 		itemHandles = net->handles();
 
 		openedByUser = true;
 		updateTable();
-		if (dockWidget != 0)
-		{
-			if (dockWidget->isVisible())
-				openedByUser = false;
-			else
-				dockWidget->show();
-		}
+		if (isVisible())
+			openedByUser = false;
 		else
-		{
-			if (isVisible())
-				openedByUser = false;
-			else
-				show();
-		}
+			show();
+		raise();
 		this->setFocus();
 	}
 
 	void AssignmentFunctionsTool::deselect(int)
 	{
-		if (openedByUser && (!dockWidget || dockWidget->isFloating()))
+		if (openedByUser)
 		{
 			openedByUser = false;
 
-			if (dockWidget != 0)
-				dockWidget->hide();
-			else
-				hide();
+			hide();
 		}
 	}
 
@@ -92,22 +77,15 @@ namespace Tinkercell
 
 			setWindowTitle(name);
 			setWindowIcon(QIcon(":/images/function.png"));
-			dockWidget = mainWindow->addToolWindow(this,MainWindow::DockWidget,Qt::BottomDockWidgetArea,Qt::NoDockWidgetArea);
+			mainWindow->addToViewMenu(this);
+			move(mainWindow->geometry().bottomRight() - QPoint(sizeHint().width()*2,sizeHint().height()*3));
+			setAttribute(Qt::WA_ContentsPropagated);
+			setPalette(QPalette(QColor(255,255,255,255)));
+			setAutoFillBackground(true);
+			//setWindowOpacity(0.8);
 
-			if (dockWidget)
-			{
-				dockWidget->move(mainWindow->geometry().bottomRight() - QPoint(sizeHint().width()*2,sizeHint().height()*3));
-
-				dockWidget->setWindowFlags(Qt::Tool);
-				dockWidget->setAttribute(Qt::WA_ContentsPropagated);
-				dockWidget->setPalette(QPalette(QColor(255,255,255,255)));
-				dockWidget->setAutoFillBackground(true);
-				//dockWidget->setWindowOpacity(0.8);
-
-				dockWidget->hide();
-				dockWidget->setFloating(true);
-			}
-
+			hide();
+			
 			toolLoaded(0);
 		}
 
@@ -150,7 +128,7 @@ namespace Tinkercell
 
 	void AssignmentFunctionsTool::historyUpdate(int i)
 	{
-		if (parentWidget() && parentWidget()->isVisible())
+		if (isVisible())
 			updateTable();
 	}
 
@@ -173,7 +151,7 @@ namespace Tinkercell
 
 	void AssignmentFunctionsTool::itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& list, QPointF , Qt::KeyboardModifiers )
 	{
-		if (scene && (parentWidget() && parentWidget() != mainWindow && parentWidget()->isVisible()))
+		if (scene && isVisible())
 		{
 			itemHandles.clear();
 			ItemHandle * handle = 0;
@@ -285,6 +263,7 @@ namespace Tinkercell
 						var.remove(handle->fullName() + tr("."));
 					var = handle->fullName() + tr(".") + var;
 					var = win->makeUnique(var);
+
 					var.remove(handle->fullName() + tr("."));
 
 					if (var.contains(tr(".")))
@@ -377,8 +356,6 @@ namespace Tinkercell
 
 		boxLayout->addLayout(actionsLayout);
 		groupBox->setLayout(boxLayout);
-
-		dockWidget = 0;
 
 		QVBoxLayout * layout = new QVBoxLayout;
 		layout->addWidget(groupBox);

@@ -75,7 +75,6 @@ namespace Tinkercell
 		bool openedByUser;
 		NodeGraphicsItem item;
 		ItemHandle* itemHandle;
-		QDockWidget * dockWidget;
 		QTextCharFormat headerFormat, regularFormat;
 		
 	};

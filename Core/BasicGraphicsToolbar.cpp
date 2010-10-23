@@ -1225,6 +1225,13 @@ namespace Tinkercell
 		qreal x = list[0]->sceneBoundingRect().left(),
 			y = list[0]->sceneBoundingRect().bottom();
 
+		NodeGraphicsItem * node;
+		NodeGraphicsItem::Shape * shape;
+
+		node = NodeGraphicsItem::cast(list[0]);
+		if (node && (shape = node->rightMostShape()))
+			x = shape->sceneBoundingRect().left();
+
 		QList<QPointF> newPositions;
 		newPositions += QPointF(); //first item does not move
 
@@ -1233,7 +1240,11 @@ namespace Tinkercell
 			if (list[i])
 			{
 				QPointF pos;
-				pos.setX(x - list[i]->sceneBoundingRect().left());
+				node = NodeGraphicsItem::cast(list[i]);
+				if (node && (shape = node->rightMostShape()))
+					pos.setX(x - shape->sceneBoundingRect().left());
+				else
+					pos.setX(x - list[i]->sceneBoundingRect().left());
 				pos.setY(y - list[i]->sceneBoundingRect().top());
 				newPositions += pos;
 				y += list[i]->sceneBoundingRect().height();
@@ -1294,7 +1305,12 @@ namespace Tinkercell
 		if (list.size() < 2 || !list[0]) return;
 
 		qreal x = list[0]->sceneBoundingRect().right(),
-			y = list[0]->sceneBoundingRect().bottom();
+				 y = list[0]->sceneBoundingRect().bottom();
+
+		NodeGraphicsItem * node = NodeGraphicsItem::cast(list[0]);
+		NodeGraphicsItem::Shape * shape;
+		if (node && (shape = node->rightMostShape()))
+			y = shape->sceneBoundingRect().bottom();
 
 		QList<QPointF> newPositions;
 		newPositions += QPointF(); //first item does not move
@@ -1303,8 +1319,12 @@ namespace Tinkercell
 		{
 			if (list[i])
 			{
+				node = NodeGraphicsItem::cast(list[i]);
 				QPointF pos;
-				pos.setY(y - list[i]->sceneBoundingRect().bottom());
+				if (node && (shape = node->rightMostShape()))
+					pos.setY(y - shape->sceneBoundingRect().bottom());
+				else
+					pos.setY(y - list[i]->sceneBoundingRect().bottom());
 				pos.setX(x - list[i]->sceneBoundingRect().left());
 				newPositions += pos;
 				x += list[i]->sceneBoundingRect().width();

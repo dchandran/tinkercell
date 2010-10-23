@@ -291,7 +291,18 @@ namespace Tinkercell
 		virtual QList<NodeGraphicsItem*> nodesAbove() const;
 		/*! \brief nodes below of this node in sequence*/
 		virtual QList<NodeGraphicsItem*> nodesBelow() const;
-
+		/*! \brief get the shape with greatest height inside this group graphics item*/
+		virtual Shape *  tallestShape() const;
+		/*! \brief get the shape with greatest width inside this group graphics item*/
+		virtual Shape *  longestShape() const;
+		/*! \brief get the shape with lowest x value nside this group graphics item*/
+		virtual Shape *  leftMostShape() const;
+		/*! \brief get the shape with largest x value inside this group graphics item*/
+		virtual Shape *  rightMostShape() const;
+		/*! \brief get the shape with lowest y value nside this group graphics item*/
+		virtual Shape *  topMostShape() const;
+		/*! \brief get the shape with largest y value inside this group graphics item*/
+		virtual Shape *  bottomMostShape() const;
 	protected:
 		/*! \brief bounding rectangle for the whole group*/
 		QRectF boundingRectangle;

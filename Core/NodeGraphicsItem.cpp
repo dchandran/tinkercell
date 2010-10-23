@@ -1490,6 +1490,66 @@ namespace Tinkercell
 		return nodes;
 	}
 
+	NodeGraphicsItem::Shape * NodeGraphicsItem::longestShape() const
+	{
+		NodeGraphicsItem::Shape * shape = 0;
+		for (int i=0; i < shapes.size(); ++i)
+			if (!shape || shapes[i]->boundingRect().width() > shape->boundingRect().width())
+				shape = shapes[i];
+
+		return shape;
+	}
+	
+	NodeGraphicsItem::Shape * NodeGraphicsItem::tallestShape() const
+	{
+		NodeGraphicsItem::Shape * shape = 0;
+		for (int i=0; i < shapes.size(); ++i)
+			if (!shape || shapes[i]->boundingRect().height() > shape->boundingRect().height())
+				shape = shapes[i];
+
+		return shape;
+	}
+
+	NodeGraphicsItem::Shape *  NodeGraphicsItem::leftMostShape() const
+	{
+		NodeGraphicsItem::Shape * shape = 0;
+		for (int i=0; i < shapes.size(); ++i)
+			if (!shape || shapes[i]->boundingRect().left() > shape->boundingRect().left())
+				shape = shapes[i];
+
+		return shape;
+	}
+
+	NodeGraphicsItem::Shape *  NodeGraphicsItem::rightMostShape() const
+	{
+		NodeGraphicsItem::Shape * shape = 0;
+		for (int i=0; i < shapes.size(); ++i)
+			if (!shape || shapes[i]->boundingRect().right() > shape->boundingRect().right())
+				shape = shapes[i];
+
+		return shape;
+	}
+
+	NodeGraphicsItem::Shape *  NodeGraphicsItem::topMostShape() const
+	{
+		NodeGraphicsItem::Shape * shape = 0;
+		for (int i=0; i < shapes.size(); ++i)
+			if (!shape || shapes[i]->boundingRect().top() < shape->boundingRect().top())
+				shape = shapes[i];
+
+		return shape;
+	}
+
+	NodeGraphicsItem::Shape *  NodeGraphicsItem::bottomMostShape() const
+	{
+		NodeGraphicsItem::Shape * shape = 0;
+		for (int i=0; i < shapes.size(); ++i)
+			if (!shape || shapes[i]->boundingRect().bottom() > shape->boundingRect().bottom())
+				shape = shapes[i];
+
+		return shape;
+	}
+
 	QList<Tinkercell::ControlPoint*> NodeGraphicsItem::allControlPoints() const
 	{
 	    QList<Tinkercell::ControlPoint*> list;

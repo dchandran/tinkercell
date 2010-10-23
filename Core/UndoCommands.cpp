@@ -1001,7 +1001,7 @@ namespace Tinkercell
 			
 			h = getHandle(graphicsItems[i]);
 			
-			if (scene && scene->network && h)
+			/*if (scene && scene->network && h)
 			{
 				QList<GraphicsScene*> otherScenes = scene->network->scenes();
 				for (int j=0; j < otherScenes.size(); ++j)
@@ -1020,7 +1020,7 @@ namespace Tinkercell
 						graphicsItems << gitems;
 					}
 				}
-			}
+			}*/
 
 			itemHandles += h;
 			node = NodeGraphicsItem::cast(graphicsItems[i]);
@@ -1094,12 +1094,13 @@ namespace Tinkercell
 		{
 			QList< DataTable<qreal>* > oldData1, newData1;
 			QList< DataTable<QString>* > oldData2, newData2;
-
+			QList<ItemHandle*> visited;
 			bool exists = false;
 			QStringList namesToKill;
 			for (int i=0; i < itemHandles.size(); ++i)
-				if (itemHandles[i])
+				if (itemHandles[i] && !visited.contains(itemHandles[i]))
 				{
+					visited << itemHandles[i];
 					exists = false;
 					for (int j=0; j < itemHandles[i]->graphicsItems.size(); ++j)
 						if (itemHandles[i]->graphicsItems[j]->scene())

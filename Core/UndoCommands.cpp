@@ -1095,6 +1095,7 @@ namespace Tinkercell
 			QList< DataTable<qreal>* > oldData1, newData1;
 			QList< DataTable<QString>* > oldData2, newData2;
 			QList<ItemHandle*> visited;
+
 			bool exists = false;
 			QStringList namesToKill;
 			for (int i=0; i < itemHandles.size(); ++i)
@@ -1103,7 +1104,9 @@ namespace Tinkercell
 					visited << itemHandles[i];
 					exists = false;
 					for (int j=0; j < itemHandles[i]->graphicsItems.size(); ++j)
-						if (itemHandles[i]->graphicsItems[j]->scene())
+						if (itemHandles[i]->graphicsItems[j]->scene() &&
+							(h = (static_cast<GraphicsScene*>(itemHandles[i]->graphicsItems[j]->scene())->localHandle())) &&
+							!itemHandles.contains(h))
 						{
 							exists = true;
 							break;

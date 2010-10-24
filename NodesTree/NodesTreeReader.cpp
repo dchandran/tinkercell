@@ -263,8 +263,9 @@ namespace Tinkercell
 
                     if (node->measurementUnit.name.isEmpty())
                          node->measurementUnit = parentNode->measurementUnit;
-
-                    node->description = parentNode->description;
+					
+					if (node->description.isEmpty())
+	                    node->description = parentNode->description;
                }
                //read sub nodes and child nodes
 

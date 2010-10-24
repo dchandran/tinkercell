@@ -181,7 +181,8 @@ namespace Tinkercell
                     if (family->measurementUnit.name.isEmpty())
                          family->measurementUnit = parentFamily->measurementUnit;
 
-                    family->description = parentFamily->description;
+					if (family->description.isEmpty())
+	                    family->description = parentFamily->description;
                }
 
                //set arrow head

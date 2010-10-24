@@ -7,7 +7,6 @@ See COPYRIGHT.TXT
 This file contains a collection of commands that perform simple operations that can be redone and undone.
 
 ****************************************************************************/
-#include <iostream>
 #include "NodeGraphicsItem.h"
 #include "NodeGraphicsReader.h"
 #include "ConnectionGraphicsItem.h"
@@ -1104,12 +1103,14 @@ namespace Tinkercell
 					visited << itemHandles[i];
 					exists = false;
 					for (int j=0; j < itemHandles[i]->graphicsItems.size(); ++j)
-						if (itemHandles[i]->graphicsItems[j]->scene() &&
-							(h = (static_cast<GraphicsScene*>(itemHandles[i]->graphicsItems[j]->scene())->localHandle())) &&
-							!itemHandles.contains(h))
+						if (itemHandles[i]->graphicsItems[j]->scene())
 						{
-							exists = true;
-							break;
+							h = (static_cast<GraphicsScene*>(itemHandles[i]->graphicsItems[j]->scene()))->localHandle();
+							if (!h || !itemHandles.contains(h))
+							{
+								exists = true;
+								break;
+							}
 						}
 					if (!exists)
 						namesToKill << itemHandles[i]->fullName();
@@ -1118,7 +1119,10 @@ namespace Tinkercell
 			QList<NetworkHandle*> networkHandles;
 			for (int i=0; i < graphicsScenes.size(); ++i)
 				if (graphicsScenes[i] && graphicsScenes[i]->network && !networkHandles.contains(graphicsScenes[i]->network))
+				{
+					networkHandles += graphicsScenes[i]->network;
 					affectedHandles += graphicsScenes[i]->network->handles();
+				}
 
 			for (int i=0; i < affectedHandles.size(); ++i)		
 			{
@@ -1242,6 +1246,7 @@ namespace Tinkercell
 					}
 				}
 			}
+
 			for (int i=0; i < affectedHandles.size(); ++i)
 			{
 				QList<QString> keys1 = affectedHandles[i]->numericalDataNames();
@@ -1266,7 +1271,7 @@ namespace Tinkercell
 			if (changeDataCommand)
 				changeDataCommand->undo();
 		}
-		
+
 		while (parentHandles.size() < itemHandles.size()) parentHandles += 0;
 		
 		for (int i=0; i < itemHandles.size(); ++i)

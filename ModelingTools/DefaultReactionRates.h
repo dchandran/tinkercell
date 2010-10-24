@@ -94,8 +94,8 @@ namespace Tinkercell
 				reactants.value(0,reac) = n;
 				products.value(0,prod) = 1.0;
 					
-				reactants.value(1,reac) = 1.0;
-				products.value(1,prod) = n;					
+				reactants.value(1,prod) = 1.0;
+				products.value(1,reac) = n;					
 				reactants.value(2,prod) = 1.0;
 					
 				rates.value(0,0) = handle->fullName() + QObject::tr(".kf * ") + reactants.columnName(reac) + QObject::tr("^") + QString::number(n);

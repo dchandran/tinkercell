@@ -9,7 +9,6 @@ In addition to drawing , the GraphicsScene provides serveral signals and functio
 that is useful for plugins, eg. move, insert, delete, changeData, etc.
 
 ****************************************************************************/
-
 #include "DataTable.h"
 #include "NetworkHandle.h"
 #include "NetworkWindow.h"
@@ -1200,7 +1199,7 @@ namespace Tinkercell
 	void GraphicsScene::remove(const QString& name, const QList<QGraphicsItem*>& items)
 	{
 		if (!network) return;
-		
+
 		QList<QGraphicsItem*> allitems, items2;
 
 		QList<ItemHandle*> handles, handles2;

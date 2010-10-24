@@ -835,8 +835,8 @@ namespace Tinkercell
 		QLineEdit * line;
 		while (reactantCoeffs.size() < reactants.columns())
 		{
-			reactantCoeffs += (line = new QLineEdit(this));
-			line->setMaximumWidth(50);
+			reactantCoeffs += (line = new QLineEdit(this));			
+			line->setFixedWidth(50);
 			connect(line,SIGNAL(editingFinished()),this,SLOT(stoichiometryChanged()));
 		}
 		
@@ -849,7 +849,7 @@ namespace Tinkercell
 		while (productCoeffs.size() < products.columns())
 		{
 			productCoeffs += (line = new QLineEdit(this));
-			line->setMaximumWidth(50);
+			line->setFixedWidth(50);
 			connect(line,SIGNAL(editingFinished()),this,SLOT(stoichiometryChanged()));
 		}
 		

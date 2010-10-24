@@ -46,8 +46,14 @@ namespace Tinkercell
 
         process.startDetached(cmd);
     }
-	
+
     void GnuplotTool::runScript(const QString& script)
+    {
+    	makeScript(script);
+    	runScript();
+    }
+	
+    void GnuplotTool::makeScript(const QString& script)
 	{
 		int numPlots = (multiplotRows * multiplotCols);
 
@@ -152,7 +158,7 @@ namespace Tinkercell
                     s += tr(", ");
             }
         
-		runScript(s);
+		makeScript(s);
 	}
 
     
@@ -221,7 +227,7 @@ namespace Tinkercell
 		s += QString::number(previousCommands.size());
 		s += tr(".txt' with lines\n");
 
-        runScript(s);
+        makeScript(s);
     }
 
     void GnuplotTool::gnuplotHist(DataTable<qreal>& m, double bins, const QString& title)
@@ -296,12 +302,13 @@ namespace Tinkercell
 				s += tr(", ");
 		}
 		
-        runScript(s); 
+        makeScript(s); 
     }
 
     void GnuplotTool::gnuplotErrorbars(DataTable<qreal>& m, int x, const QString& title)
     {
 		m.description() = title;
+
     }
 
 	void GnuplotTool::gnuplotMultiplot(int x, int y)
@@ -446,7 +453,7 @@ namespace Tinkercell
 			QString s("\nset terminal gif; set output \"");
 			s += file;
 			s += tr("\"\n replot\n");
-			runScript(editor->toPlainText() + s);
+			makeScript(editor->toPlainText() + s);
 		}
     }
 

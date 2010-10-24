@@ -32,6 +32,8 @@ namespace Tinkercell
     public slots:
 	
 		void runScriptFile(const QString&);
+
+		void makeScript(const QString&);
 		
 		void runScript(const QString&);
 

@@ -629,7 +629,7 @@ if (slider)
 
 fprintf(out, "\
 	TCinitialize(model);\n\
-s	y = Langevin(TCvars, TCreactions, TCstoic, &(ssaFunc), TCinit, %lf, %lf, (void*)model, TCevents, TCtriggers, TCresponses);\n\
+	y = Langevin(TCvars, TCreactions, TCstoic, &(ssaFunc), TCinit, %lf, %lf, (void*)model);\n\
 	if (!y) \
 	{\n\
 		tc_errorReport(\"Stochastic simulation failed! Try simulating for a short time to see what is going wrong. \");\n\

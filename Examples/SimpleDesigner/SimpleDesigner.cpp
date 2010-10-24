@@ -364,18 +364,18 @@ void SimpleDesigner::deselectItem(GraphicsScene * scene, QGraphicsItem * item)
 
 void SimpleDesigner::selectItem(GraphicsScene * scene, QGraphicsItem * item, bool select)
 {
-	if (NodeGraphicsItem::topLevelNodeItem(item))
+	if (NodeGraphicsItem::cast(item))
 	{
-		NodeGraphicsItem * node = NodeGraphicsItem::topLevelNodeItem(item);
+		NodeGraphicsItem * node = NodeGraphicsItem::cast(item);
 		node->setBoundingBoxVisible(select);
 		if (select)
 			for (int j=0; j < node->boundaryControlPoints.size(); ++j)
 				scene->moving() += node->boundaryControlPoints[j];
 	}
 	else
-	if (ConnectionGraphicsItem::topLevelConnectionItem(item))
+	if (ConnectionGraphicsItem::cas(item))
 	{
-		ConnectionGraphicsItem * connection = ConnectionGraphicsItem::topLevelConnectionItem(item);
+		ConnectionGraphicsItem * connection = ConnectionGraphicsItem::cast(item);
 		if (select)
 		{
 			connection->setPen(QPen(QColor(255,0,0,255)));

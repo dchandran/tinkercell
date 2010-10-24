@@ -7,7 +7,6 @@ See COPYRIGHT.TXT
 This file defines the class that stores all symbols, such as node and 
 connection names and data columns and rows, for each scene
 
-
 ****************************************************************************/
 
 #include "MainWindow.h"
@@ -132,8 +131,12 @@ namespace Tinkercell
 								nonuniqueData.insertMulti(handle->fullName(QObject::tr("_")) + QObject::tr("_") + nDat.rowName(k), 
 									QPair<ItemHandle*,QString>(handle,keys[j]));
 							}
-							nonuniqueData.insertMulti(nDat.rowName(k),
-								QPair<ItemHandle*,QString>(handle,keys[j]));
+							else
+							{
+								uniqueDataWithDot[nDat.rowName(k)] = QPair<ItemHandle*,QString>(handle,keys[j]);
+								uniqueDataWithUnderscore[nDat.rowName(k)] = QPair<ItemHandle*,QString>(handle,keys[j]);
+							}
+							nonuniqueData.insertMulti(nDat.rowName(k),	QPair<ItemHandle*,QString>(handle,keys[j]));
 						}
 					}
 
@@ -180,6 +183,11 @@ namespace Tinkercell
 									QPair<ItemHandle*,QString>(handle,keys[j]));
 								nonuniqueData.insertMulti(handle->fullName(QObject::tr("_")) + QObject::tr("_") + sDat.rowName(k),
 									QPair<ItemHandle*,QString>(handle,keys[j]));
+							}
+							else
+							{
+								uniqueDataWithDot[sDat.rowName(k)] = QPair<ItemHandle*,QString>(handle,keys[j]);
+								uniqueDataWithUnderscore[sDat.rowName(k)] = QPair<ItemHandle*,QString>(handle,keys[j]);
 							}
 							nonuniqueData.insertMulti(sDat.rowName(k),
 								QPair<ItemHandle*,QString>(handle,keys[j]));

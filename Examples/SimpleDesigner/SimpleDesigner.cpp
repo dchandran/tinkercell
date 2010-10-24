@@ -373,7 +373,7 @@ void SimpleDesigner::selectItem(GraphicsScene * scene, QGraphicsItem * item, boo
 				scene->moving() += node->boundaryControlPoints[j];
 	}
 	else
-	if (ConnectionGraphicsItem::cas(item))
+	if (ConnectionGraphicsItem::cast(item))
 	{
 		ConnectionGraphicsItem * connection = ConnectionGraphicsItem::cast(item);
 		if (select)

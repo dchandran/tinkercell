@@ -485,20 +485,25 @@ namespace Tinkercell
 			connection->setPen(connection->defaultPen);
 		}
 		
+		bool allLines = true;
 		if (connection->lineType != ConnectionGraphicsItem::line)
+		{
 			for (int i=0; i < nodes.size(); ++i) //line type = line if any other connection is a line
 				if (nodes[i])
 				{
 					QList<ConnectionGraphicsItem*> otherConnections = nodes[i]->connections();
 					for (int j=0; j < otherConnections.size(); ++j)
-						if (otherConnections[j] && otherConnections[j]->lineType == ConnectionGraphicsItem::line)
+						if (otherConnections[j] && otherConnections[j]->lineType != ConnectionGraphicsItem::line)
 						{
-							connection->lineType = ConnectionGraphicsItem::line;
+							allLines = false;
 							break;
 						}
-					if (connection->lineType == ConnectionGraphicsItem::line)
+					if (!allLines)
 						break;
 				}
+			if (allLines)
+				connection->lineType = ConnectionGraphicsItem::line;
+		}
 	}
 
 	void ConnectionMaker::FixMultipleConnections(ConnectionGraphicsItem * connection, const QList<NodeGraphicsItem*>& nodes, int inputs)

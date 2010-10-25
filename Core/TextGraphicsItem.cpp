@@ -143,7 +143,7 @@ void TextGraphicsItem::setText(const QString& s)
 
 TextGraphicsItem* TextGraphicsItem::cast(QGraphicsItem * q)
 {
-	if (MainWindow::invalidPointers.contains( (void*)q )) return 0;
+	//if (MainWindow::invalidPointers.contains( (void*)q )) return 0;
 	return qgraphicsitem_cast<TextGraphicsItem*>(q);
 }
 

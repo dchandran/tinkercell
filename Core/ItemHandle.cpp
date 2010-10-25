@@ -42,7 +42,7 @@ namespace Tinkercell
 
 	ItemHandle * getHandle(QGraphicsItem * item)
 	{
-		if (!item || MainWindow::invalidPointers.contains((void*)item)) return 0;
+		if (!item/* || MainWindow::invalidPointers.contains((void*)item)*/) return 0;
 
 		item = getGraphicsItem(item);
 
@@ -77,7 +77,7 @@ namespace Tinkercell
 
 	void setHandle(QGraphicsItem * item, ItemHandle * handle)
 	{
-		if (!item || MainWindow::invalidPointers.contains((void*)item)) return;
+		if (!item/* || MainWindow::invalidPointers.contains((void*)item)*/) return;
 
 		item = getGraphicsItem(item);
 		
@@ -88,14 +88,14 @@ namespace Tinkercell
 			return;
 		}
 
-		ConnectionGraphicsItem * connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(item);
+		ConnectionGraphicsItem * connection = ConnectionGraphicsItem::cast(item);
 		if (connection)
 		{
 			connection->setHandle(handle);
 			return;
 		}
 
-		TextGraphicsItem * textItem = qgraphicsitem_cast<TextGraphicsItem*>(item);
+		TextGraphicsItem * textItem = TextGraphicsItem::cast(item);
 		if (textItem)
 		{
 			textItem->setHandle(handle);

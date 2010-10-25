@@ -23,7 +23,7 @@ namespace Tinkercell
 
 		QGraphicsItem * p = item;
 
-		while (p && !MainWindow::invalidPointers.contains((void*)p))
+		while (p/* && !MainWindow::invalidPointers.contains((void*)p)*/)
 		{
 			text = TextGraphicsItem::cast(p);
 			if (text)
@@ -138,6 +138,8 @@ namespace Tinkercell
 		for (int i=0; i < items0.size(); ++i)
             if (items0[i] && !items.contains(items0[i]))
             {
+            	items << items0[i];
+            		
             	if (connection = ConnectionGraphicsItem::cast(items0[i]))
 		        {
 		        	connectedNodes = connection->nodes();
@@ -145,15 +147,18 @@ namespace Tinkercell
 		        		if (!items0.contains(connectedNodes[j]))
 		        			items0 += connectedNodes[j];
 		        }
+
                 if (handle = getHandle(items0[i]))
                 {
                     QList<QGraphicsItem*> list = handle->allGraphicsItems();
                     for (int j=0; j < list.size(); ++j)
                         if (!items.contains(list[j]))
+                        {
                             items << list[j];
+                            if (list[j]->scene() && (list[j]->scene() == items0[i]->scene()))
+                            	items0 << list[j];
+                        }
                 }
-                else
-                   	items << items0[i];
             }
 
         //top level handles
@@ -162,13 +167,16 @@ namespace Tinkercell
             {
                 visited << items[i];
                 handle = getHandle(items[i]);
+                
                 QGraphicsItem * itemClone = cloneGraphicsItem(items[i]);
 
                 if (itemClone)
                 {
                     setHandle(itemClone,0);
-                    if (items0.contains(items[i]))
+                   if (items0.contains(items[i]))
+                   {
 	                    duplicateItems << itemClone;
+	               }
 
                     if ((connection = ConnectionGraphicsItem::cast(itemClone)))
                     {
@@ -212,6 +220,7 @@ namespace Tinkercell
 							if (!cloneHandle)
 							{
 								cloneHandle = handle->clone();
+								
 								cloneHandle->setParent(0,false);
 								cloneHandle->children.clear();
 								cloneHandle->graphicsItems.clear();
@@ -234,16 +243,16 @@ namespace Tinkercell
 										allNewHandles << cloneChildHandle;
 										originalAndCloneHandles << QPair<ItemHandle*,ItemHandle*>(handle,cloneChildHandle);
 									}
+
 							}
 						}
 						else
 							cloneHandle = handle;
-						
+
                         setHandle(itemClone,cloneHandle);
                     }
-
                 }
-            }
+           }
 
 		for (int i=0; i < connectionItems.size(); ++i)
 		{

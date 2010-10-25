@@ -661,17 +661,24 @@ namespace Tinkercell
 		if (scene)
 		{
 			NodeGraphicsItem * node;
+			TextGraphicsItem * text;
 			for (int i=0; i < graphicsItems.size(); ++i)
 				if ((node = NodeGraphicsItem::cast(graphicsItems[i])) && node->handle())
 				{
 					QList<QGraphicsItem*> items = node->handle()->graphicsItems;
 					QPointF dist;
-					qreal w = (node->sceneBoundingRect().height() + node->sceneBoundingRect().width())/2.0;
+					qreal w = (node->sceneBoundingRect().height() + node->sceneBoundingRect().width());
+					w = w*w;
+					text = 0;
 					for (int j=0; j < items.size(); ++j)					
-						if (!graphicsItems.contains(items[j]) && !items[j]->scene())
+						if (!graphicsItems.contains(items[j]) && 
+							!items[j]->scene() && 
+							(!NodeGraphicsItem::cast(items[j]) || NodeGraphicsItem::cast(items[j])->connections().isEmpty()) &&
+							(!TextGraphicsItem::cast(items[j]) || !text))
 						{
+							text = TextGraphicsItem::cast(items[j]);
 							dist = items[j]->scenePos() - node->scenePos();
-							if ( (dist.x()*dist.x() + dist.y()*dist.y()) < (w*w))
+							if ( (dist.x()*dist.x() + dist.y()*dist.y()) < w)
 								graphicsItems += items[j];
 						}
 				}
@@ -725,17 +732,24 @@ namespace Tinkercell
 		if (scene)
 		{
 			NodeGraphicsItem * node;
+			TextGraphicsItem * text;
 			for (int i=0; i < graphicsItems.size(); ++i)
 				if ((node = NodeGraphicsItem::cast(graphicsItems[i])) && node->handle())
 				{
 					QList<QGraphicsItem*> items = node->handle()->graphicsItems;
 					QPointF dist;
-					qreal w = (node->sceneBoundingRect().height() + node->sceneBoundingRect().width())/2.0;
+					qreal w = (node->sceneBoundingRect().height() + node->sceneBoundingRect().width());
+					w = w*w;
+					text = 0;
 					for (int j=0; j < items.size(); ++j)					
-						if (!graphicsItems.contains(items[j]) && !items[j]->scene())
+						if (!graphicsItems.contains(items[j]) && 
+							!items[j]->scene() && 
+							(!NodeGraphicsItem::cast(items[j]) || NodeGraphicsItem::cast(items[j])->connections().isEmpty()) &&
+							(!TextGraphicsItem::cast(items[j]) || !text))
 						{
+							text = TextGraphicsItem::cast(items[j]);
 							dist = items[j]->scenePos() - node->scenePos();
-							if ( (dist.x()*dist.x() + dist.y()*dist.y()) < (w*w))
+							if ( (dist.x()*dist.x() + dist.y()*dist.y()) < w)
 								graphicsItems += items[j];
 						}
 				}

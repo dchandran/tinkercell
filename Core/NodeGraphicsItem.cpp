@@ -1565,7 +1565,7 @@ namespace Tinkercell
 
 	NodeGraphicsItem* NodeGraphicsItem::cast(QGraphicsItem * q)
 	{
-		if (MainWindow::invalidPointers.contains( (void*)q )) return 0;
+		//if (MainWindow::invalidPointers.contains( (void*)q )) return 0;
 		
 		NodeGraphicsItem * node = qgraphicsitem_cast<NodeGraphicsItem*>(q);
 		if (!node)

@@ -978,18 +978,25 @@ namespace Tinkercell
 				if (!handle->children.isEmpty())
 				{
 					QList<QGraphicsItem*> items, items2;
-					NodeGraphicsItem * node;
 					for (int i=0; i < handle->children.size(); ++i)
 						if (handle->children[i])
 						{
 							items2 = handle->children[i]->graphicsItems;
+							int sceneNumber = -1;
 							for (int j=0; j < items2.size(); ++j)
-								if (!items2[j]->scene())
+								if (!items2[j]->scene() && ConnectionGraphicsItem::cast(items2[j]))
 								{
-									node = NodeGraphicsItem::cast(items2[j]);
-									if (!node || node->connections().isEmpty())
-										items << items2[j];
+									items << items2[j];
+									sceneNumber = ConnectionGraphicsItem::cast(items2[j])->sceneNumber;
 								}
+							if (sceneNumber >= 0)
+								for (int j=0; j < items2.size(); ++j)
+									if (!items2[j]->scene() && 
+										( (NodeGraphicsItem::cast(items2[j]) && NodeGraphicsItem::cast(items2[j])->sceneNumber == sceneNumber)
+										||
+										  (TextGraphicsItem::cast(items2[j]) && TextGraphicsItem::cast(items2[j])->sceneNumber == sceneNumber)
+										))
+										items << items2[j];
 						}
 				
 					

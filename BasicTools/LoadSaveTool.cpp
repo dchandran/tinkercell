@@ -699,7 +699,10 @@ namespace Tinkercell
 					text->setPlainText(attribs[i].value().toString());
 				else
 				if (attribs[i].name().toString() == tr("scene"))
-					sceneNumber = attribs[i].value().toString().toDouble(&ok);
+				{
+					sceneNumber = attribs[i].value().toString().toInt(&ok);
+					text->sceneNumber = (sceneNumber);
+				}
 				else
 					if (attribs[i].name().toString() == tr("handle"))
 						handle = attribs[i].value().toString();
@@ -770,7 +773,7 @@ namespace Tinkercell
 				else
 				if (attribs[i].name().toString() == tr("scene"))
 				{
-					sceneNumber = attribs[i].value().toString().toDouble(&ok);
+					sceneNumber = attribs[i].value().toString().toInt(&ok);
 				}
 				else
 					if (attribs[i].name().toString() == tr("handle"))
@@ -794,7 +797,10 @@ namespace Tinkercell
 				nodeReader.readNext();
 			}
 			if (connection && !type.isEmpty())
+			{
 				connection->className = type;
+				connection->sceneNumber = (sceneNumber);
+			}
 			return connection;
 		}
 		return 0;
@@ -816,7 +822,7 @@ namespace Tinkercell
 			else
 			if (attribs[i].name().toString() == tr("scene"))
 			{
-				sceneNumber = attribs[i].value().toString().toDouble(&ok);
+				sceneNumber = attribs[i].value().toString().toInt(&ok);
 			}
 			else
 				if (attribs.at(i).name().toString() == tr("handle"))
@@ -839,6 +845,7 @@ namespace Tinkercell
 			node = new NodeGraphicsItem;
 
 		if (!type.isEmpty()) node->className = type;
+		node->sceneNumber = (sceneNumber);
 
 		qreal n=0,m11=0,m12=0,m21=0,m22=0;
 

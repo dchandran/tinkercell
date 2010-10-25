@@ -140,6 +140,7 @@ namespace Tinkercell
 		setCacheMode(QGraphicsItem::DeviceCoordinateCache);
 		setFlag(QGraphicsItem::ItemIsMovable, false);
 		setFlag(QGraphicsItem::ItemIsSelectable, false);
+		sceneNumber = 0;
 
 		className = ConnectionGraphicsItem::CLASSNAME;
 		lineType = bezier;
@@ -177,6 +178,7 @@ namespace Tinkercell
 
 		className = copy.className;
 		centerRegionItem = 0;
+		sceneNumber = 0;
 
 		boundaryPathItem = new QGraphicsPathItem(this);
 		boundaryPathItem->setVisible(false);
@@ -1822,6 +1824,8 @@ namespace Tinkercell
 
 		className = ConnectionGraphicsItem::CLASSNAME;
 		lineType = line;
+		sceneNumber = 0;
+		
 		arrowHeadDistance = 10.0;
 		centerRegionItem = 0;
 		centerRegion = QSizeF(20,20);

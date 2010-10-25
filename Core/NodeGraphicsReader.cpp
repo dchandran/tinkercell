@@ -58,9 +58,7 @@ namespace Tinkercell
 		QString fill, stroke, s;
 		QBrush brush;
 		QPen pen;
-		QStringList locationTypes;
-		locationTypes << "NoLocation" << "LeftLocation" << "RightLocation" << "BottomLocation" << "TopLocation" << "CenterLocation";
-
+		
 		while (!atEnd() && !(isEndElement() && name() == "listOfRenderInformation"))
 		{
 			if (isStartElement())

@@ -661,25 +661,21 @@ namespace Tinkercell
 		if (scene)
 		{
 			NodeGraphicsItem * node;
-			TextGraphicsItem * text;
 			for (int i=0; i < graphicsItems.size(); ++i)
 				if ((node = NodeGraphicsItem::cast(graphicsItems[i])) && node->handle())
 				{
 					QList<QGraphicsItem*> items = node->handle()->graphicsItems;
-					QPointF dist;
-					qreal w = (node->sceneBoundingRect().height() + node->sceneBoundingRect().width());
-					w = w*w;
-					text = 0;
 					for (int j=0; j < items.size(); ++j)					
 						if (!graphicsItems.contains(items[j]) && 
 							!items[j]->scene() && 
-							(!NodeGraphicsItem::cast(items[j]) || NodeGraphicsItem::cast(items[j])->connections().isEmpty()) &&
-							(!TextGraphicsItem::cast(items[j]) || !text))
+							(
+								((NodeGraphicsItem::cast(items[j]) && 
+									NodeGraphicsItem::cast(items[j])->sceneNumber == node->sceneNumber)) ||
+								((TextGraphicsItem::cast(items[j]) && 
+									TextGraphicsItem::cast(items[j])->sceneNumber == node->sceneNumber))
+							))
 						{
-							text = TextGraphicsItem::cast(items[j]);
-							dist = items[j]->scenePos() - node->scenePos();
-							if ( (dist.x()*dist.x() + dist.y()*dist.y()) < w)
-								graphicsItems += items[j];
+							graphicsItems += items[j];
 						}
 				}
 		}
@@ -708,7 +704,7 @@ namespace Tinkercell
 				{
 					QList<NodeGraphicsItem*> nodes = connection->nodes();
 					for (int j=0; j < nodes.size(); ++j)
-						if (nodes[j] && !(nodes[j]->scene() || items.contains(nodes[j])))
+						if (nodes[j] && !(nodes[j]->scene() == scene || items.contains(nodes[j])))
 						{
 							graphicsItems += nodes[j];
 							parentGraphicsItems += NodeGraphicsItem::cast(nodes[j]->parentItem());
@@ -732,25 +728,21 @@ namespace Tinkercell
 		if (scene)
 		{
 			NodeGraphicsItem * node;
-			TextGraphicsItem * text;
 			for (int i=0; i < graphicsItems.size(); ++i)
 				if ((node = NodeGraphicsItem::cast(graphicsItems[i])) && node->handle())
 				{
 					QList<QGraphicsItem*> items = node->handle()->graphicsItems;
-					QPointF dist;
-					qreal w = (node->sceneBoundingRect().height() + node->sceneBoundingRect().width());
-					w = w*w;
-					text = 0;
 					for (int j=0; j < items.size(); ++j)					
 						if (!graphicsItems.contains(items[j]) && 
 							!items[j]->scene() && 
-							(!NodeGraphicsItem::cast(items[j]) || NodeGraphicsItem::cast(items[j])->connections().isEmpty()) &&
-							(!TextGraphicsItem::cast(items[j]) || !text))
+							(
+								((NodeGraphicsItem::cast(items[j]) && 
+									NodeGraphicsItem::cast(items[j])->sceneNumber == node->sceneNumber)) ||
+								((TextGraphicsItem::cast(items[j]) && 
+									TextGraphicsItem::cast(items[j])->sceneNumber == node->sceneNumber))
+							))
 						{
-							text = TextGraphicsItem::cast(items[j]);
-							dist = items[j]->scenePos() - node->scenePos();
-							if ( (dist.x()*dist.x() + dist.y()*dist.y()) < w)
-								graphicsItems += items[j];
+							graphicsItems += items[j];
 						}
 				}
 		}
@@ -780,6 +772,8 @@ namespace Tinkercell
 			{
 				if (graphicsItems[i] && graphicsItems[i]->scene() != graphicsScene)
 				{
+					if (graphicsItems[i]->scene())
+						graphicsItems[i]->scene()->removeItem(graphicsItems[i]);
 					graphicsScene->addItem(graphicsItems[i]);
 					if ((connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(graphicsItems[i])))
 					{

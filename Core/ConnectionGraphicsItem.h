@@ -157,6 +157,8 @@ namespace Tinkercell
 		virtual bool isValid();
 		/*! \brief number of different type of shapes available*/
 		static const int numLineTypes = 2;
+		/*! \brief for identifying which scene this item belongs in*/
+		int sceneNumber;
 		/*! \brief line or beizier */
 		typedef enum {line, bezier} LineType;
 

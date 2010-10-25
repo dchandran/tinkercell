@@ -77,6 +77,7 @@ namespace Tinkercell
 		setFlag(QGraphicsItem::ItemIsMovable, false);
 		setFlag(QGraphicsItem::ItemIsSelectable, false);
 
+		sceneNumber = 0;
 		className = NodeGraphicsItem::CLASSNAME;
 		ControlPoint * topleft = new ControlPoint(this);
 		topleft->setPos( boundingRect().topLeft() );
@@ -113,6 +114,8 @@ namespace Tinkercell
 		setFlag(QGraphicsItem::ItemIsSelectable, false);
 
 		className = NodeGraphicsItem::CLASSNAME;
+		sceneNumber = 0;
+		
 		ControlPoint * topleft = new ControlPoint(this);
 		topleft->setPos( boundingRect().topLeft() );
 		topleft->setVisible(false);
@@ -234,6 +237,8 @@ namespace Tinkercell
 		setFlag(QGraphicsItem::ItemIsMovable, false);
 		setFlag(QGraphicsItem::ItemIsSelectable, false);
 		setVisible(copy.isVisible());
+		sceneNumber = 0;
+		
 		QTransform t0 = copy.sceneTransform();
 		QTransform t1(t0.m11(),t0.m12(),0,t0.m21(),t0.m22(),0,0,0,1);
 		setPos(copy.scenePos());

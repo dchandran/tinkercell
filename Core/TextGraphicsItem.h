@@ -95,6 +95,9 @@ namespace Tinkercell
 			return Type;
 		}
 
+		/*! \brief for identifying which scene this item belongs in*/
+		int sceneNumber;
+
 signals:
 		// void lostFocus(TextGraphicsItem *item);
 		// void selectedChange(QGraphicsItem *item);

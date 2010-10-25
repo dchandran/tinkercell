@@ -595,9 +595,32 @@ namespace Tinkercell
 	{
 		if (scene && button == Qt::LeftButton && mode == zoom && zoomRect.isVisible())
 		{
-			QRectF rect(scene->lastPoint(), point );
+			QPointF & p0 = scene->lastPoint();
+			qreal x1, x2, y1, y2;
+			
+			if (p0.rx() > point.rx())
+			{
+				x1 = point.rx();
+				x2 = p0.rx();
+			}
+			else
+			{
+				x2 = point.rx();
+				x1 = p0.rx();
+			}
 
-			zoomRect.setRect(QRectF(rect.topLeft(),rect.bottomRight()));
+			if (p0.ry() > point.ry())
+			{
+				y1 = point.ry();
+				y2 = p0.ry();
+			}
+			else
+			{
+				y2 = point.ry();
+				y1 = p0.ry();
+			}
+
+			zoomRect.setRect(x1,y1,x2-x1,y2-y1);
 		}
 	}
 

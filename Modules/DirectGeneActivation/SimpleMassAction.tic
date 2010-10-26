@@ -6,7 +6,7 @@
         <Handle type="0" name="" parent="" family="Node"/>
         <Handle type="1" name="TARGET" parent="" family="Inducible Promoter">
             <tc_matrix>
-                <Table key="initial value" rows="1" cols="1" rowNames="activity" columnNames="activity" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="5"/>
+                <Table key="initial value" rows="1" cols="1" rowNames="activity" columnNames="activity" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="10"/>
                 <Table key="parameters" rows="2" cols="3" rowNames="strength;;length" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1;;0.1;;10;;300;;30;;3000"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
@@ -17,9 +17,9 @@
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
         </Handle>
-        <Handle type="1" name="TF" parent="" family="Transcription Factor">
+        <Handle type="1" name="tf" parent="" family="Transcription Factor">
             <tc_matrix>
-                <Table key="initial value" rows="1" cols="1" rowNames="concentration" columnNames="concentration" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="0"/>
+                <Table key="initial value" rows="1" cols="1" rowNames="concentration" columnNames="concentration" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="1"/>
                 <Table key="parameters" rows="1" cols="3" rowNames="molecularweight" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="50000;;5000;;500000"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
@@ -34,16 +34,16 @@
             <tc_matrix>
                 <Table key="product stoichiometries" rows="0" cols="0" rowNames="" columnNames="" desc="Number of each product participating in this reaction" values=""/>
                 <Table key="parameters" rows="1" cols="1" rowNames="k0" columnNames="value" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1"/>
-                <Table key="reactant stoichiometries" rows="1" cols="1" rowNames="stoichiometry" columnNames="TF" desc="Number of each reactant participating in this reaction" values="1"/>
+                <Table key="reactant stoichiometries" rows="1" cols="1" rowNames="stoichiometry" columnNames="tf" desc="Number of each reactant participating in this reaction" values="1"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
                 <Table key="text attributes" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="participants" rows="2" cols="1" rowNames="TF;;emp2" columnNames="" values="reactant;;product"/>
+                <Table key="participants" rows="2" cols="1" rowNames="tf;;emp2" columnNames="" values="reactant;;product"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
-                <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="protein_degradation.k0*TF"/>
+                <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="protein_degradation.k0*tf"/>
             </tc_table>
         </Handle>
         <Handle type="1" name="ACTIVATOR" parent="" family="Coding">
@@ -69,7 +69,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="participants" rows="2" cols="1" rowNames="TF;;TARGET" columnNames="" values="activator;;target"/>
+                <Table key="participants" rows="2" cols="1" rowNames="tf;;TARGET" columnNames="" values="activator;;target"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="upregulation.k0"/>
@@ -146,7 +146,7 @@
         </Handle>
         <Handle type="2" name="translation" parent="" family="Translation">
             <tc_matrix>
-                <Table key="product stoichiometries" rows="1" cols="1" rowNames="stoichiometry" columnNames="TF" desc="Number of each product participating in this reaction" values="1"/>
+                <Table key="product stoichiometries" rows="1" cols="1" rowNames="stoichiometry" columnNames="tf" desc="Number of each product participating in this reaction" values="1"/>
                 <Table key="parameters" rows="1" cols="3" rowNames="k0" columnNames="value;;;;" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1;;0;;0"/>
                 <Table key="reactant stoichiometries" rows="0" cols="0" rowNames="" columnNames="" desc="Number of each reactant participating in this reaction" values=""/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
@@ -154,7 +154,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="participants" rows="3" cols="1" rowNames="emp2;;TF;;mrna" columnNames="" values="reactant;;product;;template"/>
+                <Table key="participants" rows="3" cols="1" rowNames="emp2;;tf;;mrna" columnNames="" values="reactant;;product;;template"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="translation.k0*mrna"/>
@@ -162,8 +162,8 @@
         </Handle>
         <Handle type="1" name="inactive_promoter" parent="upregulation" family="Inducible Promoter">
             <tc_matrix>
-                <Table key="initial value" rows="1" cols="1" rowNames="activity" columnNames="activity" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="5"/>
-                <Table key="parameters" rows="2" cols="3" rowNames="strength;;length" columnNames="value;;;;" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1;;0;;0;;300;;0;;0"/>
+                <Table key="initial value" rows="1" cols="1" rowNames="activity" columnNames="activity" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="0"/>
+                <Table key="parameters" rows="2" cols="1" rowNames="strength;;length" columnNames="value" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1;;300"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
@@ -175,24 +175,24 @@
         </Handle>
         <Handle type="2" name="binding" parent="upregulation" family="2 to 1">
             <tc_matrix>
-                <Table key="product stoichiometries" rows="2" cols="3" rowNames="forward;;reverse" columnNames="TARGET;;TF;;upregulation.inactive_promoter" desc="Number of each product participating in this reaction" values="1;;0;;0;;0;;1;;1"/>
+                <Table key="product stoichiometries" rows="2" cols="3" rowNames="forward;;reverse" columnNames="TARGET;;tf;;upregulation.inactive_promoter" desc="Number of each product participating in this reaction" values="1;;0;;0;;0;;1;;1"/>
                 <Table key="parameters" rows="2" cols="3" rowNames="kf;;kb" columnNames="value;;;;" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1;;0;;0;;0.1;;0;;0"/>
-                <Table key="reactant stoichiometries" rows="2" cols="3" rowNames="forward;;reverse" columnNames="TF;;upregulation.inactive_promoter;;TARGET" desc="Number of each reactant participating in this reaction" values="1;;1;;0;;0;;0;;1"/>
+                <Table key="reactant stoichiometries" rows="2" cols="3" rowNames="forward;;reverse" columnNames="tf;;upregulation.inactive_promoter;;TARGET" desc="Number of each reactant participating in this reaction" values="1;;1;;0;;0;;0;;1"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
                 <Table key="text attributes" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="participants" rows="3" cols="1" rowNames="TF;;upregulation.inactive_promoter;;TARGET" columnNames="" values="reactant1;;reactant2;;product"/>
+                <Table key="participants" rows="3" cols="1" rowNames="tf;;upregulation.inactive_promoter;;TARGET" columnNames="" values="reactant1;;reactant2;;product"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
-                <Table key="rate equations" rows="2" cols="1" rowNames="forward;;reverse" columnNames="formula" values="upregulation.binding.kf*TF*upregulation.inactive_promoter;;upregulation.binding.kb*TARGET"/>
+                <Table key="rate equations" rows="2" cols="1" rowNames="forward;;reverse" columnNames="formula" values="upregulation.binding.kf*tf*upregulation.inactive_promoter;;upregulation.binding.kb*TARGET"/>
             </tc_table>
         </Handle>
     </Handles>
     <Nodes>
-        <NodeItem className="NodeGraphicsItem" scene="0" handle="TF" z="94.8">
-            <pos x="5089.69" y="4736.4"/>
+        <NodeItem className="NodeGraphicsItem" scene="0" handle="tf" z="58.4">
+            <pos x="5088.46" y="4751.08"/>
             <transform m11="0.7" m12="0" m21="0" m22="0.6"/>
             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
@@ -240,7 +240,7 @@
             </listOfRenderInformation>
         </NodeItem>
         <NodeItem className="NodeGraphicsItem" scene="0" handle="TARGET" z="54.6">
-            <pos x="5433.87" y="4973.45"/>
+            <pos x="5380.56" y="4963.4"/>
             <transform m11="1" m12="0" m21="0" m22="0.7"/>
             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
@@ -1032,56 +1032,8 @@
                 </renderInformation>
             </listOfRenderInformation>
         </NodeItem>
-        <NodeItem className="NodeGraphicsItem" scene="1" handle="TARGET" z="110.5">
-            <pos x="5711.48" y="4790.38"/>
-            <transform m11="0.696286" m12="-0.28116" m21="0.247372" m22="0.612611"/>
-            <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
-                <renderInformation id="TinkerCell_Style" programName="TinkerCell">
-                    <listOfGradientDefinitions>
-                        <radialGradient id="shape0color" x1="-21.8833" y1="-8.7097" x2="23.7401" y2="7.7419">
-                            <stop offset="0%" stop-color="#fff7d5" stop-alpha="1"/>
-                            <stop offset="100%" stop-color="#ff6735" stop-alpha="1"/>
-                        </radialGradient>
-                    </listOfGradientDefinitions>
-                    <listOfStyles>
-                        <style idList="protein" width="70" height="60">
-                            <g>
-                                <polygon fill="shape0color" stroke="#ff301d" stroke-width="2" stroke-alpha="1">
-                                    <listOfCurveSegments>
-                                        <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                            <start x="-43.1035" y="9.6774"/>
-                                            <basePoint1 x="-50" y="-20.9677"/>
-                                            <basePoint2 x="-16.8435" y="-50"/>
-                                            <end x="8.3554" y="-40.9677"/>
-                                        </curveSegment>
-                                        <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                            <start x="8.3554" y="-40.9677"/>
-                                            <basePoint1 x="38.5942" y="-29.0323"/>
-                                            <basePoint2 x="50" y="20.6452"/>
-                                            <end x="24.2706" y="21.2903"/>
-                                        </curveSegment>
-                                        <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                            <start x="24.2706" y="21.2903"/>
-                                            <basePoint1 x="5.9682" y="20"/>
-                                            <basePoint2 x="5.4377" y="-7.0968"/>
-                                            <end x="-9.1512" y="18.3871"/>
-                                        </curveSegment>
-                                        <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                            <start x="-9.1512" y="18.3871"/>
-                                            <basePoint1 x="-17.374" y="50"/>
-                                            <basePoint2 x="-37.5332" y="37.7419"/>
-                                            <end x="-43.1035" y="9.6774"/>
-                                        </curveSegment>
-                                    </listOfCurveSegments>
-                                </polygon>
-                            </g>
-                        </style>
-                    </listOfStyles>
-                </renderInformation>
-            </listOfRenderInformation>
-        </NodeItem>
         <NodeItem className="NodeGraphicsItem" scene="1" handle="TARGET" z="88.9">
-            <pos x="5726.42" y="4822.5"/>
+            <pos x="5727.5" y="4822.5"/>
             <transform m11="1" m12="0" m21="0" m22="0.7"/>
             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
@@ -1098,7 +1050,7 @@
                         </linearGradient>
                     </listOfGradientDefinitions>
                     <listOfStyles>
-                        <style idList="inducible promoter" width="100" height="70">
+                        <style idList="inducible promoter" width="100" height="70" group="Transcription Activation">
                             <g>
                                 <polygon fill="shape0color" stroke="#000000" stroke-width="3" stroke-alpha="1">
                                     <listOfCurveSegments>
@@ -1291,7 +1243,7 @@
             </listOfRenderInformation>
         </NodeItem>
         <NodeItem className="NodeGraphicsItem" scene="1" handle="upregulation.inactive_promoter" z="86.9">
-            <pos x="5213.92" y="4578.58"/>
+            <pos x="5215" y="4577.5"/>
             <transform m11="1" m12="0" m21="0" m22="0.7"/>
             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
@@ -1308,7 +1260,7 @@
                         </linearGradient>
                     </listOfGradientDefinitions>
                     <listOfStyles>
-                        <style idList="inducible promoter" width="100" height="70">
+                        <style idList="inducible promoter" width="100" height="70" group="Transcription Activation">
                             <g>
                                 <polygon fill="shape0color" stroke="#000000" stroke-width="3" stroke-alpha="1">
                                     <listOfCurveSegments>
@@ -1500,7 +1452,7 @@
                 </renderInformation>
             </listOfRenderInformation>
         </NodeItem>
-        <NodeItem className="NodeGraphicsItem" scene="1" handle="TF" z="28.1">
+        <NodeItem className="NodeGraphicsItem" scene="1" handle="tf" z="28.1">
             <pos x="5300" y="5057.5"/>
             <transform m11="0.7" m12="0" m21="0" m22="0.6"/>
             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
@@ -1512,7 +1464,55 @@
                         </radialGradient>
                     </listOfGradientDefinitions>
                     <listOfStyles>
-                        <style idList="protein" width="70" height="60">
+                        <style idList="protein" width="70" height="60" group="Transcription Activation">
+                            <g>
+                                <polygon fill="shape0color" stroke="#ff301d" stroke-width="2" stroke-alpha="1">
+                                    <listOfCurveSegments>
+                                        <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                            <start x="-43.1035" y="9.6774"/>
+                                            <basePoint1 x="-50" y="-20.9677"/>
+                                            <basePoint2 x="-16.8435" y="-50"/>
+                                            <end x="8.3554" y="-40.9677"/>
+                                        </curveSegment>
+                                        <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                            <start x="8.3554" y="-40.9677"/>
+                                            <basePoint1 x="38.5942" y="-29.0323"/>
+                                            <basePoint2 x="50" y="20.6452"/>
+                                            <end x="24.2706" y="21.2903"/>
+                                        </curveSegment>
+                                        <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                            <start x="24.2706" y="21.2903"/>
+                                            <basePoint1 x="5.9682" y="20"/>
+                                            <basePoint2 x="5.4377" y="-7.0968"/>
+                                            <end x="-9.1512" y="18.3871"/>
+                                        </curveSegment>
+                                        <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                            <start x="-9.1512" y="18.3871"/>
+                                            <basePoint1 x="-17.374" y="50"/>
+                                            <basePoint2 x="-37.5332" y="37.7419"/>
+                                            <end x="-43.1035" y="9.6774"/>
+                                        </curveSegment>
+                                    </listOfCurveSegments>
+                                </polygon>
+                            </g>
+                        </style>
+                    </listOfStyles>
+                </renderInformation>
+            </listOfRenderInformation>
+        </NodeItem>
+        <NodeItem className="NodeGraphicsItem" scene="-1" handle="TARGET" z="110.5">
+            <pos x="5711.48" y="4790.38"/>
+            <transform m11="0.696286" m12="-0.28116" m21="0.247372" m22="0.612611"/>
+            <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
+                <renderInformation id="TinkerCell_Style" programName="TinkerCell">
+                    <listOfGradientDefinitions>
+                        <radialGradient id="shape0color" x1="-21.8833" y1="-8.7097" x2="23.7401" y2="7.7419">
+                            <stop offset="0%" stop-color="#fff7d5" stop-alpha="1"/>
+                            <stop offset="100%" stop-color="#ff6735" stop-alpha="1"/>
+                        </radialGradient>
+                    </listOfGradientDefinitions>
+                    <listOfStyles>
+                        <style idList="protein" width="70" height="60" group="Transcription Activation">
                             <g>
                                 <polygon fill="shape0color" stroke="#ff301d" stroke-width="2" stroke-alpha="1">
                                     <listOfCurveSegments>
@@ -1550,33 +1550,33 @@
         </NodeItem>
     </Nodes>
     <Connections>
-        <ConnectionItem className="ConnectionGraphicsItem" scene="0" handle="upregulation" z="96.8">
+        <ConnectionItem className="ConnectionGraphicsItem" scene="0" handle="upregulation" z="60.4">
             <ConnectionGraphicsItem version="1.0" name="" color="#049102" width="5" type="line" style="1" gap="10">
                 <ControlPoints>
-                    <ControlPoint x="5134.69" y="4736.4"/>
-                    <ControlPoint x="5243.36" y="4456.33"/>
-                    <ControlPoint x="5313.06" y="4499"/>
-                    <ControlPoint x="5442.98" y="4736.4"/>
-                    <ControlPoint x="5474.75" y="4424.13"/>
-                    <ControlPoint x="5524.75" y="4424.13"/>
-                    <ControlPoint x="5442.98" y="4918.45"/>
+                    <ControlPoint x="5133.46" y="4748.54"/>
+                    <ControlPoint x="5288.06" y="4748.54"/>
+                    <ControlPoint x="5338.06" y="4748.54"/>
+                    <ControlPoint x="5388.06" y="4748.54"/>
+                    <ControlPoint x="5448.48" y="4812.88"/>
+                    <ControlPoint x="5430.8" y="4841.57"/>
+                    <ControlPoint x="5388.06" y="4908.4"/>
                 </ControlPoints>
                 <CurveSegments>
-                    <Path numPoints="7" NodeAtStart="TF" NodeAtStartX="5089.69" NodeAtStartY="4736.4" NodeAtEnd="TARGET" NodeAtEndX="5433.87" NodeAtEndY="4973.45">
+                    <Path numPoints="7" NodeAtStart="tf" NodeAtStartX="5088.46" NodeAtStartY="4751.08" NodeAtEnd="TARGET" NodeAtEndX="5380.56" NodeAtEndY="4963.4">
                         <ControlPoints indices="0,1,2,3,4,5,6"/>
                         <ArrowAtEnd>
-                            <pos x="5442.98" y="4918.45" angle="90"/>
-                            <transform m11="5.30718e-07" m12="0.4" m21="-0.4" m22="5.30718e-07"/>
+                            <pos x="5388.06" y="4908.4" angle="90"/>
+                            <transform m11="4.64378e-07" m12="0.35" m21="-0.4" m22="5.30718e-07"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
-                                        <colorDefinition id="shape0color" value="#249917" alpha="255"/>
-                                        <colorDefinition id="shape1color" value="#249917" alpha="255"/>
+                                        <colorDefinition id="shape0color" value="#00a505" alpha="255"/>
+                                        <colorDefinition id="shape1color" value="#00a505" alpha="255"/>
                                     </listOfColorDefinitions>
                                     <listOfStyles>
                                         <style idList="arrow and bar" width="35" height="40">
                                             <g>
-                                                <polygon fill="shape0color" stroke="#2238ff" stroke-width="1" stroke-alpha="1">
+                                                <polygon fill="shape0color" stroke="#00a505" stroke-width="2" stroke-alpha="1">
                                                     <listOfCurveSegments>
                                                         <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                                                             <start x="-50" y="-50"/>
@@ -1596,7 +1596,7 @@
                                                         </curveSegment>
                                                     </listOfCurveSegments>
                                                 </polygon>
-                                                <polygon fill="shape1color" stroke="#2238ff" stroke-width="1" stroke-alpha="1">
+                                                <polygon fill="shape1color" stroke="#00a505" stroke-width="2" stroke-alpha="1">
                                                     <listOfCurveSegments>
                                                         <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                                                             <start x="-19.5238" y="-49.3671"/>
@@ -1979,13 +1979,13 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="0" handle="protein_degradation" z="29">
             <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="bezier" style="1" gap="10">
                 <ControlPoints>
-                    <ControlPoint x="5044.69" y="4701.56"/>
+                    <ControlPoint x="5043.9" y="4711.08"/>
                     <ControlPoint x="4961.88" y="4637.46"/>
                     <ControlPoint x="4823.12" y="4639.12"/>
                     <ControlPoint x="4745" y="4714.11"/>
                 </ControlPoints>
                 <CurveSegments>
-                    <Path numPoints="4" NodeAtStart="TF" NodeAtStartX="5089.69" NodeAtStartY="4736.4" NodeAtEnd="emp2" NodeAtEndX="4705" NodeAtEndY="4752.5">
+                    <Path numPoints="4" NodeAtStart="tf" NodeAtStartX="5088.46" NodeAtStartY="4751.08" NodeAtEnd="emp2" NodeAtEndX="4705" NodeAtEndY="4752.5">
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="4745" y="4714.11" angle="136.173"/>
@@ -2029,7 +2029,7 @@
                 <CenterRegion>
                     <Rect width="20" height="20"/>
                     <Decorator>
-                        <pos x="4891.95" y="4656.19" angle="0"/>
+                        <pos x="4891.84" y="4657.35" angle="0"/>
                         <transform m11="0.25" m12="0" m21="0" m22="0.25"/>
                         <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                             <renderInformation id="TinkerCell_Style" programName="TinkerCell">
@@ -2106,14 +2106,14 @@
                     <ControlPoint x="4730.59" y="4782.5"/>
                     <ControlPoint x="4812.5" y="4878.51"/>
                     <ControlPoint x="4932.5" y="4876.72"/>
-                    <ControlPoint x="5034.69" y="4785.5"/>
+                    <ControlPoint x="5033.46" y="4795.39"/>
                 </ControlPoints>
                 <CurveSegments>
-                    <Path numPoints="4" NodeAtStart="emp2" NodeAtStartX="4705" NodeAtStartY="4752.5" NodeAtEnd="TF" NodeAtEndX="5089.69" NodeAtEndY="4736.4">
+                    <Path numPoints="4" NodeAtStart="emp2" NodeAtStartX="4705" NodeAtStartY="4752.5" NodeAtEnd="tf" NodeAtEndX="5088.46" NodeAtEndY="4751.08">
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
-                            <pos x="5034.69" y="4785.5" angle="-41.7546"/>
-                            <transform m11="0.298401" m12="-0.266377" m21="0.199782" m22="0.223801"/>
+                            <pos x="5033.46" y="4795.39" angle="-38.8546"/>
+                            <transform m11="0.311496" m12="-0.250939" m21="0.188203" m22="0.233622"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -2153,7 +2153,7 @@
                 <CenterRegion>
                     <Rect width="20" height="20"/>
                     <Decorator>
-                        <pos x="4876.14" y="4853.75" angle="0"/>
+                        <pos x="4875.99" y="4855.01" angle="0"/>
                         <transform m11="0.5" m12="0" m21="0" m22="0.45"/>
                         <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                             <renderInformation id="TinkerCell_Style" programName="TinkerCell">
@@ -2184,37 +2184,37 @@
             </ConnectionGraphicsItem>
         </ConnectionItem>
         <ConnectionItem className="ConnectionGraphicsItem" scene="1" handle="upregulation.binding" z="91.3">
-            <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="bezier" style="1" gap="10">
+            <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="bezier" style="1" gap="10" group="Transcription Activation">
                 <ControlPoints>
                     <ControlPoint x="5296.7" y="5017.5"/>
                     <ControlPoint x="5287.86" y="4910.45"/>
                     <ControlPoint x="5326.55" y="4799.7"/>
                     <ControlPoint x="5403.1" y="4788.21"/>
-                    <ControlPoint x="5249.42" y="4614.52"/>
+                    <ControlPoint x="5250.32" y="4613.44"/>
                     <ControlPoint x="5273.26" y="4700.45"/>
-                    <ControlPoint x="5656.42" y="4827.82"/>
+                    <ControlPoint x="5657.5" y="4827.93"/>
                     <ControlPoint x="5527.92" y="4769.96"/>
                     <ControlPoint x="5479.64" y="4776.72"/>
                 </ControlPoints>
                 <CurveSegments>
-                    <Path numPoints="4" NodeAtStart="TF" NodeAtStartX="5300" NodeAtStartY="5057.5" NodeAtEnd="" NodeAtEndX="0" NodeAtEndY="0">
+                    <Path numPoints="4" NodeAtStart="tf" NodeAtStartX="5300" NodeAtStartY="5057.5" NodeAtEnd="" NodeAtEndX="0" NodeAtEndY="0">
                         <ControlPoints indices="0,1,2,3"/>
                     </Path>
-                    <Path numPoints="4" NodeAtStart="upregulation.inactive_promoter" NodeAtStartX="5213.92" NodeAtStartY="4578.58" NodeAtEnd="" NodeAtEndX="0" NodeAtEndY="0">
+                    <Path numPoints="4" NodeAtStart="upregulation.inactive_promoter" NodeAtStartX="5215" NodeAtStartY="4577.5" NodeAtEnd="" NodeAtEndX="0" NodeAtEndY="0">
                         <ControlPoints indices="4,5,2,3"/>
                     </Path>
-                    <Path numPoints="4" NodeAtStart="TARGET" NodeAtStartX="5726.42" NodeAtStartY="4822.5" NodeAtEnd="" NodeAtEndX="0" NodeAtEndY="0">
+                    <Path numPoints="4" NodeAtStart="TARGET" NodeAtStartX="5727.5" NodeAtStartY="4822.5" NodeAtEnd="" NodeAtEndX="0" NodeAtEndY="0">
                         <ControlPoints indices="6,7,8,3"/>
                         <ArrowAtStart>
-                            <pos x="5656.42" y="4827.82" angle="24.2404"/>
-                            <transform m11="0.364768" m12="0.164148" m21="-0.123112" m22="0.273575"/>
+                            <pos x="5657.5" y="4827.93" angle="24.1015"/>
+                            <transform m11="0.365164" m12="0.163264" m21="-0.122448" m22="0.273873"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
                                         <colorDefinition id="shape0color" value="#09b600" alpha="255"/>
                                     </listOfColorDefinitions>
                                     <listOfStyles>
-                                        <style idList="arrow" width="40" height="30">
+                                        <style idList="arrow" width="40" height="30" group="Transcription Activation">
                                             <g>
                                                 <polygon fill="shape0color" stroke="#00557f" stroke-width="8" stroke-alpha="1">
                                                     <listOfCurveSegments>
@@ -2257,7 +2257,7 @@
                                     <colorDefinition id="shape2color" value="#6464ff" alpha="255"/>
                                 </listOfColorDefinitions>
                                 <listOfStyles>
-                                    <style idList="reversible reaction" width="40" height="30">
+                                    <style idList="reversible reaction" width="40" height="30" group="Transcription Activation">
                                         <g>
                                             <polygon fill="shape0color" stroke="#7a7a7a" stroke-width="8" stroke-alpha="1">
                                                 <listOfCurveSegments>
@@ -2346,18 +2346,18 @@
         </ConnectionItem>
     </Connections>
     <Texts>
-        <TextItem text="upregulation" scene="0" handle="upregulation" x="5207.7" y="4672.06" color="#249917" m11="1" m12="0" m21="0" m22="1" z="97.8" font="Sans" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="TF" scene="0" handle="TF" x="5075.69" y="4771.4" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="95.8" font="Sans" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="TARGET" scene="0" handle="TARGET" x="5384.28" y="5018" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="55.6" font="Sans" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="upregulation" scene="0" handle="upregulation" x="5223.21" y="4688.61" color="#008d33" m11="1" m12="0" m21="0" m22="1" z="61.4" font="Sans" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="tf" scene="0" handle="tf" x="5074.46" y="4786.08" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="59.4" font="Sans" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="TARGET" scene="0" handle="TARGET" x="5321.6" y="5008.4" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="55.6" font="Sans" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="mrna_degradation" scene="0" handle="mrna_degradation" x="4532.35" y="4897.87" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="43.7" font="Sans" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="transcription" scene="0" handle="transcription" x="4559.73" y="5060.43" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="40.7" font="Sans" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="protein_degradation" scene="0" handle="protein_degradation" x="4748.05" y="4586.63" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="30" font="Sans" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="translation" scene="0" handle="translation" x="4795.54" y="4775.94" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="26.7" font="Sans" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="protein_degradation" scene="0" handle="protein_degradation" x="4747.93" y="4587.79" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="30" font="Sans" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="translation" scene="0" handle="translation" x="4795.4" y="4777.2" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="26.7" font="Sans" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="mrna" scene="0" handle="mrna" x="4954.14" y="4983.68" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="22.1" font="Sans" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="ACTIVATOR" scene="0" handle="ACTIVATOR" x="4580.73" y="5345.52" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="3" font="Sans" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="TARGET" scene="1" handle="TARGET" x="5677.5" y="4862.5" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="89.9" font="Sans" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="TF" scene="-1" handle="TF" x="5213.5" y="5102.5" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="29.1" font="Sans" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="inactive_promoter" scene="-1" handle="upregulation.inactive_promoter" x="5092.42" y="4491.08" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="87.9" font="Sans" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="binding" scene="-1" handle="upregulation.binding" x="5378.1" y="4718.21" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="92.3" font="Sans" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="binding" scene="1" handle="upregulation.binding" x="5378.1" y="4718.21" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="92.3" font="Sans" size="22" bold="0" italics="0" underline="0" group="Transcription Activation"/>
+        <TextItem text="inactive_promoter" scene="1" handle="upregulation.inactive_promoter" x="5093.5" y="4490" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="87.9" font="Sans" size="22" bold="0" italics="0" underline="0" group="Transcription Activation"/>
+        <TextItem text="TARGET" scene="-1" handle="TARGET" x="5677.5" y="4862.5" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="89.9" font="Sans" size="22" bold="0" italics="0" underline="0" group="Transcription Activation"/>
+        <TextItem text="tf" scene="-1" handle="tf" x="5213.5" y="5102.5" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="29.1" font="Sans" size="22" bold="0" italics="0" underline="0" group="Transcription Activation"/>
     </Texts>
 </Model>

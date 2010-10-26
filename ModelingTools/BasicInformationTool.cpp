@@ -275,7 +275,7 @@ namespace Tinkercell
 					}*/
 		}
 
-		QStringList names, values;
+		QStringList names, values, min, max;
 		QStringList headers;
 		ignoredVarNames.clear();
 
@@ -300,6 +300,8 @@ namespace Tinkercell
 							headers << (itemHandles[i]->fullName() + tr("."));
 							names += nDataTable->rowName(j);
 							values += QString::number(nDataTable->value(j,0));
+							min += QString::number(nDataTable->value(j,1));
+							max += QString::number(nDataTable->value(j,2));
 							constants.insert(str,nDataTable->value(j,0));
 							remove = false;
 						}
@@ -326,8 +328,8 @@ namespace Tinkercell
 
 			tableWidget.clear();
 			tableWidget.setRowCount(names.size());
-			tableWidget.setColumnCount(2);
-			tableWidget.setHorizontalHeaderLabels(QStringList() << "variable" << "value");
+			tableWidget.setColumnCount(4);
+			tableWidget.setHorizontalHeaderLabels(QStringList() << "variable" << "value" << "min" << "max");
 			tableWidget.setVerticalHeaderLabels(headers);
 
 			disconnect(&tableWidget,SIGNAL(cellChanged(int,int)),this,SLOT(setValue(int,int)));
@@ -336,6 +338,8 @@ namespace Tinkercell
 			{
 				tableWidget.setItem(i,0,new QTableWidgetItem(names[i]));
 				tableWidget.setItem(i,1,new QTableWidgetItem(values[i]));
+				tableWidget.setItem(i,2,new QTableWidgetItem(min[i]));
+				tableWidget.setItem(i,3,new QTableWidgetItem(max[i]));
 			}
 
 			connect(&tableWidget,SIGNAL(cellChanged(int,int)),this,SLOT(setValue(int,int)));
@@ -480,9 +484,11 @@ namespace Tinkercell
 				double value = tableWidget.item(row,col)->text().toDouble(&ok);
 				if (!ok)
 				{
+					recursive = true;
+					tableWidget.item(row,col)->setText( QString::number(nDat.value(rowNumber,col-1)) );
 					return;
 				}
-				nDat.value(rowNumber,0) = value;
+				nDat.value(rowNumber,col-1) = value;
 				win->changeData(handle->fullName() + tr(".") + nDat.rowName(rowNumber) + tr(" changed"),handle,this->name,&nDat);
 			}
 		}
@@ -806,10 +812,15 @@ namespace Tinkercell
 
 		tableWidget.setRowCount(names.size());
 		if (lowerBounds.isEmpty() || upperBounds.isEmpty())
-			tableWidget.setColumnCount(2);
+		{
+				tableWidget.setColumnCount(2);
+				tableWidget.setHorizontalHeaderLabels(QStringList() << "variable" << "value" );
+		}
 		else
+		{
 			tableWidget.setColumnCount(4);
-		tableWidget.setHorizontalHeaderLabels(QStringList() << "variable" << "value");
+			tableWidget.setHorizontalHeaderLabels(QStringList() << "variable" << "value" << "min" << "max");
+		}
 		tableWidget.setVerticalHeaderLabels(headers);
 
 		disconnect(&tableWidget,SIGNAL(cellChanged(int,int)),this,SLOT(setValue(int,int)));

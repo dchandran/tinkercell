@@ -95,8 +95,8 @@ namespace Tinkercell
 			return Type;
 		}
 
-		/*! \brief for identifying which scene this item belongs in*/
-		int sceneNumber;
+		/*! \brief for identifying which group this item belongs in*/
+		QString groupID;
 
 signals:
 		// void lostFocus(TextGraphicsItem *item);

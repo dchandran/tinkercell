@@ -122,14 +122,13 @@ namespace Tinkercell
 			writer->writeEndElement();
 		}
 		
-		QStringList locationTypes;
-		locationTypes << "NoLocation" << "LeftLocation" << "RightLocation" << "BottomLocation" << "TopLocation" << "CenterLocation";
-
 		writer->writeStartElement("listOfStyles");
 		writer->writeStartElement("style");
 			writer->writeAttribute("idList", node->name);
 			writer->writeAttribute("width", QString::number(node->defaultSize.width()));
 			writer->writeAttribute("height", QString::number(node->defaultSize.height()));
+			if (!node->groupID.isEmpty())
+				writer->writeAttribute("group", node->groupID);
 			//writer->writeAttribute("class", node->className);
 		writer->writeStartElement("g");
 		

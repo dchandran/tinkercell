@@ -50,7 +50,6 @@ QGraphicsTextItem(text,parent), relativePosition(QPair<QGraphicsItem*,QPointF>(0
 	setFlag(QGraphicsItem::ItemIsMovable);
 	//setFlag(QGraphicsItem::ItemIsSelectable);
 	itemHandle = 0;
-	sceneNumber = 0;
 	boundingRectItem = new QGraphicsRectItem(this);
 	boundingRectItem->setPen(QPen(QColor(100,100,100),2));
 	boundingRectItem->setBrush(Qt::NoBrush);
@@ -64,7 +63,6 @@ QGraphicsTextItem(parent), relativePosition(QPair<QGraphicsItem*,QPointF>(0,QPoi
 	setFlag(QGraphicsItem::ItemIsMovable);
 	//setFlag(QGraphicsItem::ItemIsSelectable);
 	itemHandle = 0;
-	sceneNumber = 0;
 	boundingRectItem = new QGraphicsRectItem(this);
 	boundingRectItem->setPen(QPen(QColor(100,100,100),2));
 	boundingRectItem->setBrush(Qt::NoBrush);
@@ -76,7 +74,6 @@ QGraphicsTextItem(parent), relativePosition(QPair<QGraphicsItem*,QPointF>(0,QPoi
 {
 	if (handle) setPlainText(handle->name);
 	itemHandle = 0;
-	sceneNumber = 0;
 	setHandle(handle);
 	setTextInteractionFlags(Qt::TextEditorInteraction);
 	setFlag(QGraphicsItem::ItemIsMovable);
@@ -103,7 +100,6 @@ TextGraphicsItem::TextGraphicsItem(const TextGraphicsItem& copy) : QGraphicsText
 	//setFlag(QGraphicsItem::ItemIsSelectable);
 	setPlainText(copy.toPlainText());
 	itemHandle = copy.itemHandle;
-	sceneNumber = 0;
 
 	if (itemHandle)
 		setHandle(itemHandle);

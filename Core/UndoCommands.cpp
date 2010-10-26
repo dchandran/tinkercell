@@ -658,7 +658,7 @@ namespace Tinkercell
 				}
 		}
 		
-		if (scene)
+		/*if (scene)
 		{
 			NodeGraphicsItem * node;
 			for (int i=0; i < graphicsItems.size(); ++i)
@@ -678,7 +678,7 @@ namespace Tinkercell
 							graphicsItems += items[j];
 						}
 				}
-		}
+		}*/
 		
 		graphicsItems += item;
 		handles.clear();
@@ -725,7 +725,7 @@ namespace Tinkercell
 				handles += getHandle(item);
 			}
 		
-		if (scene)
+		/*if (scene)
 		{
 			NodeGraphicsItem * node;
 			for (int i=0; i < graphicsItems.size(); ++i)
@@ -745,7 +745,7 @@ namespace Tinkercell
 							graphicsItems += items[j];
 						}
 				}
-		}
+		}*/
 		
 		renameCommand = 0;
 	}

@@ -311,6 +311,11 @@ namespace Tinkercell
 					connection->name = attribs.at(i).value().toString();
 				}
 				else
+				if (attribs.at(i).name().toString() == "group")
+				{
+					connection->groupID = attribs.at(i).value().toString();
+				}
+				else
 					if (attribs.at(i).name().toString() == "width")
 					{
 						bool ok;

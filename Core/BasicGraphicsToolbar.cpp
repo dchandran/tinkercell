@@ -632,8 +632,31 @@ namespace Tinkercell
 		{
 			if (button == Qt::LeftButton)
 			{
-				QRectF rect(from,to);
-				rect = QRectF(rect.topLeft(),rect.bottomRight());
+				qreal x1, x2, y1, y2;
+			
+				if (from.rx() > to.rx())
+				{
+					x1 = to.rx();
+					x2 = from.rx();
+				}
+				else
+				{
+					x2 = to.rx();
+					x1 = from.rx();
+				}
+
+				if (from.ry() > to.ry())
+				{
+					y1 = to.ry();
+					y2 = from.ry();
+				}
+				else
+				{
+					y2 = to.ry();
+					y1 = from.ry();
+				}
+
+				QRectF rect(x1,y1,x2-x1,y2-y1);
 				if (scene->items(rect).size() < 2)
 				{
 					scene->centerOn(to);

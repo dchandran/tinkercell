@@ -98,6 +98,8 @@ namespace Tinkercell
 		writer->writeAttribute("type", types[ (int)connection->lineType ]);
 		writer->writeAttribute("style", QString::number((int)(connection->defaultPen.style())));
 		writer->writeAttribute("gap", QString::number(connection->arrowHeadDistance));
+		if (!connection->groupID.isEmpty())
+				writer->writeAttribute("group", connection->groupID);
 
 		QList<ConnectionGraphicsItem::ControlPoint*> controlPoints = connection->controlPoints(true);
 

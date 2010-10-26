@@ -262,7 +262,7 @@ namespace Tinkercell
 			return Type;
 		}
 		/*! \brief for identifying which scene this item belongs in*/
-		int sceneNumber;
+		QString groupID;
 		/*! \brief get all the connection items linked to this node*/
 		virtual QList<ConnectionGraphicsItem*> connections();
 		/*! \brief get all the connection items that have an arrow associated with this node*/

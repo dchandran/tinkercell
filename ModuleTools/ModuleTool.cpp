@@ -487,8 +487,23 @@ namespace Tinkercell
 							if (QFile::exists(filename))
 							{
 								QPair< QList<ItemHandle*> , QList<QGraphicsItem*> > pair = mainWindow->getItemsFromFile(filename,handles[i]);
+								
+								QList<QGraphicsItem*> items2 = pair.second;
+								NodeGraphicsItem * node;
+								ConnectionGraphicsItem * connection;
+								TextGraphicsItem * text;
+								QString familyName = handles[i]->family()->name();
+								for (int j=0; j < items2.size(); ++j)
+									if (node = NodeGraphicsItem::cast(items2[j]))
+										node->groupID = familyName;
+									else
+									if (connection = ConnectionGraphicsItem::cast(items2[j]))
+										connection->groupID = familyName;
+									else
+									if (text = TextGraphicsItem::cast(items2[j]))
+										text->groupID = familyName;
+								
 								QList<ItemHandle*> handles2 = pair.first;
-
 								loaded = !handles2.isEmpty();
 								
 								QList<ItemHandle*> visitedHandles;
@@ -754,13 +769,27 @@ namespace Tinkercell
 			{
 				NetworkWindow * window = network->currentWindow();
 				
-				if (!window || !window->handle) return;
+				if (!window || !window->handle || !window->handle->family()) return;
 				ItemHandle * parentHandle = window->handle;
 				
 				QPair< QList<ItemHandle*> , QList<QGraphicsItem*> > pair = mainWindow->getItemsFromFile(filename,parentHandle);
 				
 				QList<QGraphicsItem*> items = pair.second;
 				QList<ItemHandle*> handles = pair.first;
+				
+				NodeGraphicsItem * node;
+				ConnectionGraphicsItem * connection;
+				TextGraphicsItem * text;
+				QString familyName = parentHandle->family()->name();
+				for (int i=0; i < items.size(); ++i)
+					if (node = NodeGraphicsItem::cast(items[i]))
+						node->groupID = familyName;
+					else
+					if (connection = ConnectionGraphicsItem::cast(items[i]))
+						connection->groupID = familyName;
+					else
+					if (text = TextGraphicsItem::cast(items[i]))
+						text->groupID = familyName;
 				
 				if (handles.isEmpty()) return;
 				
@@ -932,10 +961,10 @@ namespace Tinkercell
 
 	void ModuleTool::mouseDoubleClicked (GraphicsScene * scene, QPointF , QGraphicsItem * item, Qt::MouseButton, Qt::KeyboardModifiers modifiers)
     {
-		if (!scene || !scene->network || !item || !mainWindow || modifiers) return;
-		
+		if (!scene || !scene->network || !item || !mainWindow || modifiers || !(NodeGraphicsItem::cast(item) || ConnectionGraphicsItem::cast(item))) return;
+
 		ItemHandle * handle = getHandle(item);
-		
+
 		if (!handle)
 		{
 			ArrowHeadItem * arrow = static_cast<ArrowHeadItem*>(item);
@@ -977,26 +1006,29 @@ namespace Tinkercell
 			{
 				if (!handle->children.isEmpty())
 				{
+					ConnectionGraphicsItem * connection;
+					NodeGraphicsItem * node;
+					TextGraphicsItem * text;
+					QString groupID = handle->family()->name();
 					QList<QGraphicsItem*> items, items2;
 					for (int i=0; i < handle->children.size(); ++i)
 						if (handle->children[i])
 						{
 							items2 = handle->children[i]->graphicsItems;
-							int sceneNumber = -1;
 							for (int j=0; j < items2.size(); ++j)
-								if (!items2[j]->scene() && ConnectionGraphicsItem::cast(items2[j]))
-								{
-									items << items2[j];
-									sceneNumber = ConnectionGraphicsItem::cast(items2[j])->sceneNumber;
-								}
-							if (sceneNumber >= 0)
-								for (int j=0; j < items2.size(); ++j)
-									if (!items2[j]->scene() && 
-										( (NodeGraphicsItem::cast(items2[j]) && NodeGraphicsItem::cast(items2[j])->sceneNumber == sceneNumber)
+								if (!items2[j]->scene() &&
+									(
+										( (connection = ConnectionGraphicsItem::cast(items2[j])) &&
+											(groupID == connection->groupID))
 										||
-										  (TextGraphicsItem::cast(items2[j]) && TextGraphicsItem::cast(items2[j])->sceneNumber == sceneNumber)
-										))
+										( (node = NodeGraphicsItem::cast(items2[j]))  &&
+											(groupID  ==  node->groupID))
+										||	
+										( (text = TextGraphicsItem::cast(items2[j]))  &&
+											(groupID == text->groupID))
+									))
 										items << items2[j];
+							
 						}
 				
 					

@@ -209,6 +209,8 @@ namespace Tinkercell
 		modelWriter.writeAttribute(tr("bold"),QString::number((int)font.bold()));
 		modelWriter.writeAttribute(tr("italics"),QString::number((int)font.italic()));
 		modelWriter.writeAttribute(tr("underline"),QString::number((int)font.underline()));
+		if (!text->groupID.isEmpty())
+			modelWriter.writeAttribute(tr("group"),text->groupID);
 
 		modelWriter.writeEndElement();
 	}
@@ -701,7 +703,6 @@ namespace Tinkercell
 				if (attribs[i].name().toString() == tr("scene"))
 				{
 					sceneNumber = attribs[i].value().toString().toInt(&ok);
-					text->sceneNumber = (sceneNumber);
 				}
 				else
 					if (attribs[i].name().toString() == tr("handle"))
@@ -745,6 +746,9 @@ namespace Tinkercell
 																	else
 																		if (attribs[i].name().toString() == tr("underline"))
 																			font.setUnderline(attribs[i].value().toString().toInt(&ok)==1);
+																		else
+																			if (attribs[i].name().toString() == tr("group"))
+																				text->groupID = attribs[i].value().toString();
 			}
 			text->setFont(font);
 			transform.setMatrix(m11,m12,0.0, m21, m22, 0.0, 0.0, 0.0, 1.0);
@@ -799,7 +803,6 @@ namespace Tinkercell
 			if (connection && !type.isEmpty())
 			{
 				connection->className = type;
-				connection->sceneNumber = (sceneNumber);
 			}
 			return connection;
 		}
@@ -845,7 +848,6 @@ namespace Tinkercell
 			node = new NodeGraphicsItem;
 
 		if (!type.isEmpty()) node->className = type;
-		node->sceneNumber = (sceneNumber);
 
 		qreal n=0,m11=0,m12=0,m21=0,m22=0;
 

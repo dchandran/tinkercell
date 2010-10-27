@@ -10,6 +10,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <QFile>
+#include <QRegExp>
+#include <QMessageBox>
+#include "MainWindow.h"
 #include "DynamicCodeMain.h"
 
 extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)
@@ -44,9 +47,30 @@ extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)
 			s = QObject::tr("svn co https://tinkercellextra.svn.sourceforge.net/svnroot/tinkercellextra ") + homeDir;
 			system(s.toAscii().data());
 		}
-	
+
 		s = QObject::tr("cd ") + homeDir + QObject::tr("; svn update");
 		system(s.toAscii().data());
+		
+#ifdef Q_WS_WIN
+		QString filename = homeDir + QObject::tr("\\\\updates.txt");
+#else
+		QString filename = homeDir + QObject::tr("/updates.txt");
+#endif
+
+		QFile file;
+		file.setFileName( filename );
+		if (file.open( QFile::ReadOnly | QFile::Text ))
+		{
+			QString text(file.readAll());
+			QRegExp regex("current version:\\s*([\\.0-9]+)");
+			if (regex.indexIn(text) > -1)
+			{
+				QString v = regex.cap(1);
+				if (v != Tinkercell::MainWindow::PROJECT_VERSION)	
+					QMessageBox::about(Tinkercell::MainWindow::instance(), "New version", "A new version of TinkerCell is available for download  at <a href='http://www.tinkercell.com/downloads-2'>tinkercell.com</a>");
+			}
+			file.close();
+		}
 	}
 
 	main->addTool(libMenu);

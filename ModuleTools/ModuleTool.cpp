@@ -459,7 +459,7 @@ namespace Tinkercell
 	{
 		if (!scene || !scene->network) return;
 		
-		abountToBeRenamed.clear();
+		aboutToBeRenamed.clear();
 
 		commands << moduleConnectionsInserted(items)
 				 << substituteStrings(handles);
@@ -588,7 +588,7 @@ namespace Tinkercell
 						}
 					}
 					
-					abountToBeRenamed << handles[i]->name;
+					aboutToBeRenamed << handles[i]->name;
 					
 					if (!items2.isEmpty())
 					{
@@ -684,11 +684,10 @@ namespace Tinkercell
 							break;
 						}
 					modules << handles[i];
-					
-					
+
 					QList<QGraphicsItem*> items2;					
 					
-					QList<ItemHandle*> children = handles[i]->allChildren();
+					/*QList<ItemHandle*> children = handles[i]->allChildren();
 
 					children = handles[i]->children;
 					QList<NodeHandle*> nodes = ch->nodes();
@@ -696,11 +695,12 @@ namespace Tinkercell
 						children << nodes[j];
 
 					for (int j=0; j < children.size(); ++j)
-						items2 << children[j]->graphicsItems;
+						items2 << children[j]->graphicsItems;*/
+						
+					QString groupName = handles[i]->name;
 
-					if (!items2.isEmpty())
+					if (!items2.isEmpty() && !aboutToBeRenamed.contains(groupName))
 					{
-						QString groupName = handles[i]->name;
 						NodeGraphicsItem * node;
 						ConnectionGraphicsItem * connection;
 						TextGraphicsItem * text;
@@ -708,19 +708,19 @@ namespace Tinkercell
 						for (int j=0; j < items2.size(); ++j)
 							if (node = NodeGraphicsItem::cast(items2[j]))
 							{
-								if (node->groupID != groupName && abountToBeRenamed.contains(node->groupID))
+								if (node->groupID != groupName && aboutToBeRenamed.contains(node->groupID))
 									node->groupID = groupName;
 							}
 							else
 							if (connection = ConnectionGraphicsItem::cast(items2[j]))
 							{
-								if (connection->groupID != groupName && abountToBeRenamed.contains(connection->groupID))
+								if (connection->groupID != groupName && aboutToBeRenamed.contains(connection->groupID))
 									connection->groupID = groupName;
 							}
 							else
 							if (text = TextGraphicsItem::cast(items2[j]))
 							{
-								if (text->groupID != groupName && abountToBeRenamed.contains(text->groupID))
+								if (text->groupID != groupName && aboutToBeRenamed.contains(text->groupID))
 									text->groupID = groupName;
 							}
 					}

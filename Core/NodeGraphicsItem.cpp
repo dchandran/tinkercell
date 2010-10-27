@@ -58,8 +58,8 @@ namespace Tinkercell
 
 	ItemHandle * NodeGraphicsItem::ControlPoint::handle() const
 	{
-		if (nodeItem)
-			return nodeItem->handle();
+		/*if (nodeItem)
+			return nodeItem->handle();*/
 		return 0;
 	}
 

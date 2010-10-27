@@ -73,6 +73,8 @@ namespace Tinkercell
 	public slots:
 
 		void select(int);
+
+	private slots:		
 		void escapeSignal(const QWidget *);
 		void itemsAboutToBeInserted (GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>&);
 		void itemsAboutToBeRemoved(GraphicsScene * scene, QList<QGraphicsItem*>& item, QList<ItemHandle*>& handles, QList<QUndoCommand*>&);
@@ -83,8 +85,7 @@ namespace Tinkercell
 		void sceneClicked(GraphicsScene *scene, QPointF point, Qt::MouseButton button, Qt::KeyboardModifiers modifiers);
 		void itemsDropped(GraphicsScene *, const QString&, const QPointF&);
 		void mouseMoved(GraphicsScene* scene, QGraphicsItem*, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>& items);
-
-	private slots:
+		void itemsRenamed(NetworkHandle * window, const QList<ItemHandle*>& items, const QList<QString>& oldnames, const QList<QString>& newnames);
 
 		void moduleButtonPressed(const QString&);
 		void modelButtonClicked (QAbstractButton *);

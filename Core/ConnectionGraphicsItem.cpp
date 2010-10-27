@@ -58,8 +58,8 @@ namespace Tinkercell
 
 	ItemHandle * ConnectionGraphicsItem::ControlPoint::handle() const
 	{
-		if (connectionItem)
-			return connectionItem->handle();
+		/*if (connectionItem)
+			return connectionItem->handle();*/
 		return 0;
 	}
 

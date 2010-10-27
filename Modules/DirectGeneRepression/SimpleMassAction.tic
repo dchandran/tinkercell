@@ -17,19 +17,6 @@
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
         </Handle>
-        <Handle type="1" name="tf" parent="" family="Transcription Factor">
-            <tc_matrix>
-                <Table key="initial value" rows="1" cols="1" rowNames="concentration" columnNames="concentration" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="1"/>
-                <Table key="parameters" rows="1" cols="3" rowNames="molecularweight" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="50000;;5000;;500000"/>
-                <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
-            </tc_matrix>
-            <tc_table>
-                <Table key="text attributes" rows="4" cols="3" rowNames="sequence;;targetDNA;;decription;;targetPromoter" columnNames="value;;min;;max" values="GSWTQHNMCP;;;;;;GGCCCGC;;;;;;proteins that bind to a regulatory site and influence the activity of the downstream promoter.;;;;;;promoterX;;;;"/>
-                <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
-                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
-            </tc_table>
-        </Handle>
         <Handle type="2" name="repression" parent="" family="Transcription Repression">
             <tc_matrix>
                 <Table key="product stoichiometries" rows="0" cols="0" rowNames="" columnNames="" desc="Number of each product participating in this reaction" values=""/>
@@ -40,7 +27,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="participants" rows="2" cols="1" rowNames="tf;;TARGET" columnNames="" values="repressor;;target"/>
+                <Table key="participants" rows="2" cols="1" rowNames="repressor_protein;;TARGET" columnNames="" values="repressor;;target"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="repression.k0"/>
@@ -50,16 +37,16 @@
             <tc_matrix>
                 <Table key="product stoichiometries" rows="0" cols="0" rowNames="" columnNames="" desc="Number of each product participating in this reaction" values=""/>
                 <Table key="parameters" rows="1" cols="1" rowNames="k0" columnNames="value" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1"/>
-                <Table key="reactant stoichiometries" rows="1" cols="1" rowNames="stoichiometry" columnNames="tf" desc="Number of each reactant participating in this reaction" values="1"/>
+                <Table key="reactant stoichiometries" rows="1" cols="1" rowNames="stoichiometry" columnNames="repressor_protein" desc="Number of each reactant participating in this reaction" values="1"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
                 <Table key="text attributes" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="participants" rows="2" cols="1" rowNames="tf;;emp2" columnNames="" values="reactant;;product"/>
+                <Table key="participants" rows="2" cols="1" rowNames="repressor_protein;;emp2" columnNames="" values="reactant;;product"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
-                <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="protein_degradation.k0*tf"/>
+                <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="protein_degradation.k0*repressor_protein"/>
             </tc_table>
         </Handle>
         <Handle type="1" name="REPRESSOR" parent="" family="Coding">
@@ -144,9 +131,22 @@
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="transcription.k0"/>
             </tc_table>
         </Handle>
+        <Handle type="1" name="repressor_protein" parent="" family="Transcription Factor">
+            <tc_matrix>
+                <Table key="initial value" rows="1" cols="1" rowNames="concentration" columnNames="concentration" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="0"/>
+                <Table key="parameters" rows="1" cols="3" rowNames="molecularweight" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="50000;;5000;;500000"/>
+                <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
+            </tc_matrix>
+            <tc_table>
+                <Table key="text attributes" rows="4" cols="3" rowNames="sequence;;targetDNA;;decription;;targetPromoter" columnNames="value;;min;;max" values="GSWTQHNMCP;;;;;;GGCCCGC;;;;;;proteins that bind to a regulatory site and influence the activity of the downstream promoter.;;;;;;promoterX;;;;"/>
+                <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
+                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
+            </tc_table>
+        </Handle>
         <Handle type="2" name="translation" parent="" family="Translation">
             <tc_matrix>
-                <Table key="product stoichiometries" rows="1" cols="1" rowNames="stoichiometry" columnNames="tf" desc="Number of each product participating in this reaction" values="1"/>
+                <Table key="product stoichiometries" rows="1" cols="1" rowNames="stoichiometry" columnNames="repressor_protein" desc="Number of each product participating in this reaction" values="1"/>
                 <Table key="parameters" rows="1" cols="3" rowNames="k0" columnNames="value;;;;" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1;;0;;0"/>
                 <Table key="reactant stoichiometries" rows="0" cols="0" rowNames="" columnNames="" desc="Number of each reactant participating in this reaction" values=""/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
@@ -154,7 +154,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="participants" rows="3" cols="1" rowNames="emp2;;tf;;mrna" columnNames="" values="reactant;;product;;template"/>
+                <Table key="participants" rows="3" cols="1" rowNames="emp2;;repressor_protein;;mrna" columnNames="" values="reactant;;product;;template"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="translation.k0*mrna"/>
@@ -175,24 +175,24 @@
         </Handle>
         <Handle type="2" name="binding" parent="repression" family="2 to 1">
             <tc_matrix>
-                <Table key="product stoichiometries" rows="2" cols="3" rowNames="forward;;reverse" columnNames="repression.inactive_promoter;;TARGET;;tf" desc="Number of each product participating in this reaction" values="1;;0;;0;;0;;1;;1"/>
+                <Table key="product stoichiometries" rows="2" cols="3" rowNames="forward;;reverse" columnNames="repression.inactive_promoter;;TARGET;;repressor_protein" desc="Number of each product participating in this reaction" values="1;;0;;0;;0;;1;;1"/>
                 <Table key="parameters" rows="2" cols="3" rowNames="kb;;kf" columnNames="value;;;;" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="0.1;;0;;0;;1;;0;;0"/>
-                <Table key="reactant stoichiometries" rows="2" cols="3" rowNames="forward;;reverse" columnNames="TARGET;;tf;;repression.inactive_promoter" desc="Number of each reactant participating in this reaction" values="1;;1;;0;;0;;0;;1"/>
+                <Table key="reactant stoichiometries" rows="2" cols="3" rowNames="forward;;reverse" columnNames="TARGET;;repressor_protein;;repression.inactive_promoter" desc="Number of each reactant participating in this reaction" values="1;;1;;0;;0;;0;;1"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
                 <Table key="text attributes" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="participants" rows="3" cols="1" rowNames="TARGET;;tf;;repression.inactive_promoter" columnNames="" values="reactant1;;reactant2;;product"/>
+                <Table key="participants" rows="3" cols="1" rowNames="TARGET;;repressor_protein;;repression.inactive_promoter" columnNames="" values="reactant1;;reactant2;;product"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
-                <Table key="rate equations" rows="2" cols="1" rowNames="forward;;reverse" columnNames="formula" values="repression.binding.kf*TARGET*tf;;repression.binding.kb*repression.inactive_promoter"/>
+                <Table key="rate equations" rows="2" cols="1" rowNames="forward;;reverse" columnNames="formula" values="repression.binding.kf*TARGET*repressor_protein;;repression.binding.kb*repression.inactive_promoter"/>
             </tc_table>
         </Handle>
     </Handles>
     <Nodes>
-        <NodeItem className="NodeGraphicsItem" scene="0" handle="TARGET" z="64.3">
-            <pos x="5407.43" y="5004.56"/>
+        <NodeItem className="NodeGraphicsItem" scene="0" handle="TARGET" z="56.6">
+            <pos x="5245.4" y="5046.56"/>
             <transform m11="1" m12="0" m21="0" m22="0.7"/>
             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
@@ -369,15 +369,15 @@
                 </renderInformation>
             </listOfRenderInformation>
         </NodeItem>
-        <NodeItem className="NodeGraphicsItem" scene="0" handle="tf" z="58.4">
-            <pos x="5088.46" y="4751.08"/>
+        <NodeItem className="NodeGraphicsItem" scene="0" handle="repressor_protein" z="54.6">
+            <pos x="5076.8" y="4763.08"/>
             <transform m11="0.7" m12="0" m21="0" m22="0.6"/>
             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                     <listOfGradientDefinitions>
-                        <radialGradient id="shape0color" x1="-21.8833" y1="-8.7097" x2="23.7401" y2="7.7419">
-                            <stop offset="0%" stop-color="#fff7d5" stop-alpha="1"/>
-                            <stop offset="100%" stop-color="#ff6735" stop-alpha="1"/>
+                        <radialGradient id="shape0color" x1="-17.8653" y1="-19.178" x2="11.5896" y2="3.40408">
+                            <stop offset="0%" stop-color="#ff8000" stop-alpha="1"/>
+                            <stop offset="100%" stop-color="#9d0000" stop-alpha="1"/>
                         </radialGradient>
                     </listOfGradientDefinitions>
                     <listOfStyles>
@@ -910,9 +910,9 @@
                         <colorDefinition id="shape1color" value="#000000" alpha="255"/>
                     </listOfColorDefinitions>
                     <listOfGradientDefinitions>
-                        <linearGradient id="shape2color" x1="-49.9674" y1="-40.7924" x2="-49.9672" y2="-23.0122">
-                            <stop offset="0%" stop-color="#00aeff" stop-alpha="1"/>
-                            <stop offset="100%" stop-color="#052cab" stop-alpha="1"/>
+                        <linearGradient id="shape2color" x1="6.55274" y1="-41.4938" x2="6.92093" y2="-8.52188">
+                            <stop offset="0%" stop-color="#ff8000" stop-alpha="1"/>
+                            <stop offset="100%" stop-color="#9d0000" stop-alpha="1"/>
                         </linearGradient>
                     </listOfGradientDefinitions>
                     <listOfStyles>
@@ -1018,7 +1018,7 @@
                         </linearGradient>
                     </listOfGradientDefinitions>
                     <listOfStyles>
-                        <style idList="repressible promoter" width="100" height="70" group="Transcription Repression">
+                        <style idList="repressible promoter" width="100" height="70" group="repression">
                             <g>
                                 <polygon fill="shape0color" stroke="#000000" stroke-width="2" stroke-alpha="1">
                                     <listOfCurveSegments>
@@ -1178,102 +1178,6 @@
                 </renderInformation>
             </listOfRenderInformation>
         </NodeItem>
-        <NodeItem className="NodeGraphicsItem" scene="-1" handle="tf" z="28.1">
-            <pos x="5300" y="5057.5"/>
-            <transform m11="0.7" m12="0" m21="0" m22="0.6"/>
-            <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
-                <renderInformation id="TinkerCell_Style" programName="TinkerCell">
-                    <listOfGradientDefinitions>
-                        <radialGradient id="shape0color" x1="-21.8833" y1="-8.7097" x2="23.7401" y2="7.7419">
-                            <stop offset="0%" stop-color="#fff7d5" stop-alpha="1"/>
-                            <stop offset="100%" stop-color="#ff6735" stop-alpha="1"/>
-                        </radialGradient>
-                    </listOfGradientDefinitions>
-                    <listOfStyles>
-                        <style idList="protein" width="70" height="60" group="Transcription Activation">
-                            <g>
-                                <polygon fill="shape0color" stroke="#ff301d" stroke-width="2" stroke-alpha="1">
-                                    <listOfCurveSegments>
-                                        <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                            <start x="-43.1035" y="9.6774"/>
-                                            <basePoint1 x="-50" y="-20.9677"/>
-                                            <basePoint2 x="-16.8435" y="-50"/>
-                                            <end x="8.3554" y="-40.9677"/>
-                                        </curveSegment>
-                                        <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                            <start x="8.3554" y="-40.9677"/>
-                                            <basePoint1 x="38.5942" y="-29.0323"/>
-                                            <basePoint2 x="50" y="20.6452"/>
-                                            <end x="24.2706" y="21.2903"/>
-                                        </curveSegment>
-                                        <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                            <start x="24.2706" y="21.2903"/>
-                                            <basePoint1 x="5.9682" y="20"/>
-                                            <basePoint2 x="5.4377" y="-7.0968"/>
-                                            <end x="-9.1512" y="18.3871"/>
-                                        </curveSegment>
-                                        <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                            <start x="-9.1512" y="18.3871"/>
-                                            <basePoint1 x="-17.374" y="50"/>
-                                            <basePoint2 x="-37.5332" y="37.7419"/>
-                                            <end x="-43.1035" y="9.6774"/>
-                                        </curveSegment>
-                                    </listOfCurveSegments>
-                                </polygon>
-                            </g>
-                        </style>
-                    </listOfStyles>
-                </renderInformation>
-            </listOfRenderInformation>
-        </NodeItem>
-        <NodeItem className="NodeGraphicsItem" scene="-1" handle="tf" z="28.1">
-            <pos x="5252.5" y="5062.5"/>
-            <transform m11="0.7" m12="0" m21="0" m22="0.6"/>
-            <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
-                <renderInformation id="TinkerCell_Style" programName="TinkerCell">
-                    <listOfGradientDefinitions>
-                        <radialGradient id="shape0color" x1="-21.8833" y1="-8.7097" x2="23.7401" y2="7.7419">
-                            <stop offset="0%" stop-color="#fff7d5" stop-alpha="1"/>
-                            <stop offset="100%" stop-color="#ff6735" stop-alpha="1"/>
-                        </radialGradient>
-                    </listOfGradientDefinitions>
-                    <listOfStyles>
-                        <style idList="protein" width="70" height="60" group="Transcription Repression">
-                            <g>
-                                <polygon fill="shape0color" stroke="#ff301d" stroke-width="2" stroke-alpha="1">
-                                    <listOfCurveSegments>
-                                        <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                            <start x="-43.1035" y="9.6774"/>
-                                            <basePoint1 x="-50" y="-20.9677"/>
-                                            <basePoint2 x="-16.8435" y="-50"/>
-                                            <end x="8.3554" y="-40.9677"/>
-                                        </curveSegment>
-                                        <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                            <start x="8.3554" y="-40.9677"/>
-                                            <basePoint1 x="38.5942" y="-29.0323"/>
-                                            <basePoint2 x="50" y="20.6452"/>
-                                            <end x="24.2706" y="21.2903"/>
-                                        </curveSegment>
-                                        <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                            <start x="24.2706" y="21.2903"/>
-                                            <basePoint1 x="5.9682" y="20"/>
-                                            <basePoint2 x="5.4377" y="-7.0968"/>
-                                            <end x="-9.1512" y="18.3871"/>
-                                        </curveSegment>
-                                        <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                            <start x="-9.1512" y="18.3871"/>
-                                            <basePoint1 x="-17.374" y="50"/>
-                                            <basePoint2 x="-37.5332" y="37.7419"/>
-                                            <end x="-43.1035" y="9.6774"/>
-                                        </curveSegment>
-                                    </listOfCurveSegments>
-                                </polygon>
-                            </g>
-                        </style>
-                    </listOfStyles>
-                </renderInformation>
-            </listOfRenderInformation>
-        </NodeItem>
         <NodeItem className="NodeGraphicsItem" scene="-1" handle="repression.inactive_promoter" z="112.2">
             <pos x="5735.43" y="4770.76"/>
             <transform m11="0.557396" m12="0.537852" m21="-0.46765" m22="0.484643"/>
@@ -1286,7 +1190,7 @@
                         </radialGradient>
                     </listOfGradientDefinitions>
                     <listOfStyles>
-                        <style idList="protein" width="70" height="60" group="Transcription Repression">
+                        <style idList="protein" width="70" height="60" group="repression">
                             <g>
                                 <polygon fill="shape0color" stroke="#ff301d" stroke-width="2" stroke-alpha="1">
                                     <listOfCurveSegments>
@@ -1340,7 +1244,7 @@
                         </linearGradient>
                     </listOfGradientDefinitions>
                     <listOfStyles>
-                        <style idList="repressible promoter" width="100" height="70" group="Transcription Repression">
+                        <style idList="repressible promoter" width="100" height="70" group="repression">
                             <g>
                                 <polygon fill="shape0color" stroke="#000000" stroke-width="2" stroke-alpha="1">
                                     <listOfCurveSegments>
@@ -1500,24 +1404,72 @@
                 </renderInformation>
             </listOfRenderInformation>
         </NodeItem>
+        <NodeItem className="NodeGraphicsItem" scene="-1" handle="repressor_protein" z="28.1">
+            <pos x="5252.5" y="5062.5"/>
+            <transform m11="0.7" m12="0" m21="0" m22="0.6"/>
+            <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
+                <renderInformation id="TinkerCell_Style" programName="TinkerCell">
+                    <listOfGradientDefinitions>
+                        <radialGradient id="shape0color" x1="-21.8833" y1="-8.7097" x2="23.7401" y2="7.7419">
+                            <stop offset="0%" stop-color="#fff7d5" stop-alpha="1"/>
+                            <stop offset="100%" stop-color="#ff6735" stop-alpha="1"/>
+                        </radialGradient>
+                    </listOfGradientDefinitions>
+                    <listOfStyles>
+                        <style idList="protein" width="70" height="60" group="repression">
+                            <g>
+                                <polygon fill="shape0color" stroke="#ff301d" stroke-width="2" stroke-alpha="1">
+                                    <listOfCurveSegments>
+                                        <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                            <start x="-43.1035" y="9.6774"/>
+                                            <basePoint1 x="-50" y="-20.9677"/>
+                                            <basePoint2 x="-16.8435" y="-50"/>
+                                            <end x="8.3554" y="-40.9677"/>
+                                        </curveSegment>
+                                        <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                            <start x="8.3554" y="-40.9677"/>
+                                            <basePoint1 x="38.5942" y="-29.0323"/>
+                                            <basePoint2 x="50" y="20.6452"/>
+                                            <end x="24.2706" y="21.2903"/>
+                                        </curveSegment>
+                                        <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                            <start x="24.2706" y="21.2903"/>
+                                            <basePoint1 x="5.9682" y="20"/>
+                                            <basePoint2 x="5.4377" y="-7.0968"/>
+                                            <end x="-9.1512" y="18.3871"/>
+                                        </curveSegment>
+                                        <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                            <start x="-9.1512" y="18.3871"/>
+                                            <basePoint1 x="-17.374" y="50"/>
+                                            <basePoint2 x="-37.5332" y="37.7419"/>
+                                            <end x="-43.1035" y="9.6774"/>
+                                        </curveSegment>
+                                    </listOfCurveSegments>
+                                </polygon>
+                            </g>
+                        </style>
+                    </listOfStyles>
+                </renderInformation>
+            </listOfRenderInformation>
+        </NodeItem>
     </Nodes>
     <Connections>
-        <ConnectionItem className="ConnectionGraphicsItem" scene="0" handle="repression" z="66.3">
+        <ConnectionItem className="ConnectionGraphicsItem" scene="0" handle="repression" z="58.6">
             <ConnectionGraphicsItem version="1.0" name="" color="#c30000" width="5" type="line" style="1" gap="10">
                 <ControlPoints>
-                    <ControlPoint x="5133.46" y="4751.08"/>
-                    <ControlPoint x="5192.15" y="4833.48"/>
-                    <ControlPoint x="5289.53" y="4910.87"/>
-                    <ControlPoint x="5407.43" y="4751.08"/>
-                    <ControlPoint x="5457.43" y="4751.08"/>
-                    <ControlPoint x="5507.43" y="4751.08"/>
-                    <ControlPoint x="5407.43" y="4949.56"/>
+                    <ControlPoint x="5121.8" y="4756.19"/>
+                    <ControlPoint x="5153.15" y="4756.19"/>
+                    <ControlPoint x="5203.15" y="4756.19"/>
+                    <ControlPoint x="5253.15" y="4756.19"/>
+                    <ControlPoint x="5330.47" y="5038.31"/>
+                    <ControlPoint x="4953.15" y="4756.19"/>
+                    <ControlPoint x="5253.15" y="4991.56"/>
                 </ControlPoints>
                 <CurveSegments>
-                    <Path numPoints="7" NodeAtStart="tf" NodeAtStartX="5088.46" NodeAtStartY="4751.08" NodeAtEnd="TARGET" NodeAtEndX="5407.43" NodeAtEndY="5004.56">
+                    <Path numPoints="7" NodeAtStart="repressor_protein" NodeAtStartX="5076.8" NodeAtStartY="4763.08" NodeAtEnd="TARGET" NodeAtEndX="5245.4" NodeAtEndY="5046.56">
                         <ControlPoints indices="0,1,2,3,4,5,6"/>
                         <ArrowAtEnd>
-                            <pos x="5407.43" y="4949.56" angle="90"/>
+                            <pos x="5253.15" y="4991.56" angle="90"/>
                             <transform m11="1.32679e-07" m12="0.1" m21="-0.4" m22="5.30718e-07"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
@@ -1645,7 +1597,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="4505.15" y="5016.86" angle="133.054"/>
-                            <transform m11="-0.273082" m12="0.292277" m21="-0.219206" m22="-0.204814"/>
+                            <transform m11="-0.273078" m12="0.292281" m21="-0.21921" m22="-0.20481"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -1914,13 +1866,13 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="0" handle="protein_degradation" z="29">
             <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="bezier" style="1" gap="10">
                 <ControlPoints>
-                    <ControlPoint x="5043.9" y="4711.08"/>
+                    <ControlPoint x="5040.21" y="4723.08"/>
                     <ControlPoint x="4961.88" y="4637.46"/>
                     <ControlPoint x="4823.12" y="4639.12"/>
                     <ControlPoint x="4745" y="4714.11"/>
                 </ControlPoints>
                 <CurveSegments>
-                    <Path numPoints="4" NodeAtStart="tf" NodeAtStartX="5088.46" NodeAtStartY="4751.08" NodeAtEnd="emp2" NodeAtEndX="4705" NodeAtEndY="4752.5">
+                    <Path numPoints="4" NodeAtStart="repressor_protein" NodeAtStartX="5076.8" NodeAtStartY="4763.08" NodeAtEnd="emp2" NodeAtEndX="4705" NodeAtEndY="4752.5">
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="4745" y="4714.11" angle="136.173"/>
@@ -1964,7 +1916,7 @@
                 <CenterRegion>
                     <Rect width="20" height="20"/>
                     <Decorator>
-                        <pos x="4891.84" y="4657.35" angle="0"/>
+                        <pos x="4891.35" y="4658.81" angle="0"/>
                         <transform m11="0.25" m12="0" m21="0" m22="0.25"/>
                         <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                             <renderInformation id="TinkerCell_Style" programName="TinkerCell">
@@ -2041,14 +1993,14 @@
                     <ControlPoint x="4730.59" y="4782.5"/>
                     <ControlPoint x="4812.5" y="4878.51"/>
                     <ControlPoint x="4932.5" y="4876.72"/>
-                    <ControlPoint x="5033.46" y="4795.39"/>
+                    <ControlPoint x="5021.8" y="4806.39"/>
                 </ControlPoints>
                 <CurveSegments>
-                    <Path numPoints="4" NodeAtStart="emp2" NodeAtStartX="4705" NodeAtStartY="4752.5" NodeAtEnd="tf" NodeAtEndX="5088.46" NodeAtEndY="4751.08">
+                    <Path numPoints="4" NodeAtStart="emp2" NodeAtStartX="4705" NodeAtStartY="4752.5" NodeAtEnd="repressor_protein" NodeAtEndX="5076.8" NodeAtEndY="4763.08">
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
-                            <pos x="5033.46" y="4795.39" angle="-38.8546"/>
-                            <transform m11="0.311496" m12="-0.250939" m21="0.188203" m22="0.233622"/>
+                            <pos x="5021.8" y="4806.39" angle="-38.2224"/>
+                            <transform m11="0.314246" m12="-0.247486" m21="0.185614" m22="0.235684"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -2088,7 +2040,7 @@
                 <CenterRegion>
                     <Rect width="20" height="20"/>
                     <Decorator>
-                        <pos x="4875.99" y="4855.01" angle="0"/>
+                        <pos x="4874.55" y="4856.41" angle="0"/>
                         <transform m11="0.5" m12="0" m21="0" m22="0.45"/>
                         <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                             <renderInformation id="TinkerCell_Style" programName="TinkerCell">
@@ -2119,15 +2071,15 @@
             </ConnectionGraphicsItem>
         </ConnectionItem>
         <ConnectionItem className="ConnectionGraphicsItem" scene="-1" handle="repression.binding" z="82.2">
-            <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="bezier" style="1" gap="10" group="Transcription Repression">
+            <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="bezier" style="1" gap="10" group="repression">
                 <ControlPoints>
-                    <ControlPoint x="15673.7" y="10024.9"/>
+                    <ControlPoint x="10448.7" y="7796.25"/>
                     <ControlPoint x="5229.33" y="4700.97"/>
                     <ControlPoint x="5279.01" y="4789.43"/>
                     <ControlPoint x="5371.84" y="4773.87"/>
-                    <ControlPoint x="11498.9" y="9908.1"/>
+                    <ControlPoint x="8923.4" y="8076"/>
                     <ControlPoint x="5217.17" y="4893.47"/>
-                    <ControlPoint x="16977.5" y="10428.3"/>
+                    <ControlPoint x="11295" y="8099.24"/>
                     <ControlPoint x="5521.08" y="4749.36"/>
                     <ControlPoint x="5464.67" y="4758.3"/>
                 </ControlPoints>
@@ -2135,7 +2087,7 @@
                     <Path numPoints="4" NodeAtStart="TARGET" NodeAtStartX="5225" NodeAtStartY="4567.5" NodeAtEnd="" NodeAtEndX="0" NodeAtEndY="0">
                         <ControlPoints indices="0,1,2,3"/>
                     </Path>
-                    <Path numPoints="4" NodeAtStart="tf" NodeAtStartX="5252.5" NodeAtStartY="5062.5" NodeAtEnd="" NodeAtEndX="0" NodeAtEndY="0">
+                    <Path numPoints="4" NodeAtStart="repressor_protein" NodeAtStartX="5252.5" NodeAtStartY="5062.5" NodeAtEnd="" NodeAtEndX="0" NodeAtEndY="0">
                         <ControlPoints indices="4,5,2,3"/>
                     </Path>
                     <Path numPoints="4" NodeAtStart="repression.inactive_promoter" NodeAtStartX="5682.5" NodeAtStartY="4758.83" NodeAtEnd="" NodeAtEndX="0" NodeAtEndY="0">
@@ -2149,7 +2101,7 @@
                                         <colorDefinition id="shape0color" value="#09b600" alpha="255"/>
                                     </listOfColorDefinitions>
                                     <listOfStyles>
-                                        <style idList="arrow" width="40" height="30" group="Transcription Repression">
+                                        <style idList="arrow" width="40" height="30" group="tr1">
                                             <g>
                                                 <polygon fill="shape0color" stroke="#00557f" stroke-width="8" stroke-alpha="1">
                                                     <listOfCurveSegments>
@@ -2192,7 +2144,7 @@
                                     <colorDefinition id="shape2color" value="#6464ff" alpha="255"/>
                                 </listOfColorDefinitions>
                                 <listOfStyles>
-                                    <style idList="reversible reaction" width="40" height="30" group="Transcription Repression">
+                                    <style idList="reversible reaction" width="40" height="30" group="tr1">
                                         <g>
                                             <polygon fill="shape0color" stroke="#7a7a7a" stroke-width="8" stroke-alpha="1">
                                                 <listOfCurveSegments>
@@ -2281,19 +2233,18 @@
         </ConnectionItem>
     </Connections>
     <Texts>
-        <TextItem text="repression" scene="0" handle="repression" x="5292.31" y="4698.51" color="#b92518" m11="1" m12="0" m21="0" m22="1" z="67.3" font="Sans" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="TARGET" scene="0" handle="TARGET" x="5399.43" y="5044.56" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="65.3" font="Sans" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="tf" scene="0" handle="tf" x="5074.46" y="4786.08" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="59.4" font="Sans" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="repression" scene="0" handle="repression" x="5261.61" y="4860.24" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="59.6" font="Sans" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="TARGET" scene="0" handle="TARGET" x="5196.2" y="5093.15" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="57.6" font="Sans" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="repressor_protein" scene="0" handle="repressor_protein" x="5071.04" y="4672.82" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="55.6" font="Sans" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="mrna_degradation" scene="0" handle="mrna_degradation" x="4532.35" y="4897.87" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="43.7" font="Sans" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="transcription" scene="0" handle="transcription" x="4559.73" y="5060.43" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="40.7" font="Sans" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="protein_degradation" scene="0" handle="protein_degradation" x="4747.93" y="4587.79" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="30" font="Sans" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="translation" scene="0" handle="translation" x="4795.4" y="4777.2" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="26.7" font="Sans" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="protein_degradation" scene="0" handle="protein_degradation" x="4747.45" y="4589.25" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="30" font="Sans" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="translation" scene="0" handle="translation" x="4793.95" y="4778.6" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="26.7" font="Sans" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="mrna" scene="0" handle="mrna" x="4954.14" y="4983.68" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="22.1" font="Sans" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="REPRESSOR" scene="0" handle="REPRESSOR" x="4583.23" y="5345.52" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="3" font="Sans" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="TARGET" scene="-1" handle="TARGET" x="5174.5" y="4487.5" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="78" font="Sans" size="22" bold="0" italics="0" underline="0" group="Transcription Repression"/>
-        <TextItem text="binding" scene="-1" handle="repression.binding" x="5364.34" y="4678.87" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="83.2" font="Sans" size="22" bold="0" italics="0" underline="0" group="Transcription Repression"/>
-        <TextItem text="tf" scene="-1" handle="tf" x="5213.5" y="5102.5" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="29.1" font="Sans" size="22" bold="0" italics="0" underline="0" group="Transcription Activation"/>
-        <TextItem text="tf" scene="-1" handle="tf" x="5161" y="5107.5" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="29.1" font="Sans" size="22" bold="0" italics="0" underline="0" group="Transcription Repression"/>
-        <TextItem text="inactive_promoter" scene="-1" handle="repression.inactive_promoter" x="5543.5" y="4653.83" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="80" font="Sans" size="22" bold="0" italics="0" underline="0" group="Transcription Repression"/>
+        <TextItem text="REPRESSOR" scene="0" handle="REPRESSOR" x="4580.73" y="5347.17" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="3" font="Sans" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="TARGET" scene="-1" handle="TARGET" x="5174.5" y="4487.5" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="78" font="Sans" size="22" bold="0" italics="0" underline="0" group="repression"/>
+        <TextItem text="binding" scene="-1" handle="repression.binding" x="5364.34" y="4678.87" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="83.2" font="Sans" size="22" bold="0" italics="0" underline="0" group="repression"/>
+        <TextItem text="inactive_promoter" scene="-1" handle="repression.inactive_promoter" x="5543.5" y="4653.83" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="80" font="Sans" size="22" bold="0" italics="0" underline="0" group="repression"/>
+        <TextItem text="repressor_protein" scene="-1" handle="repressor_protein" x="5161" y="5107.5" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="29.1" font="Sans" size="22" bold="0" italics="0" underline="0" group="repression"/>
     </Texts>
 </Model>

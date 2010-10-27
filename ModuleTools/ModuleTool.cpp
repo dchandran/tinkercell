@@ -9,6 +9,7 @@
 ****************************************************************************/
 
 #include <math.h>
+#include <QRegExp>
 #include "ItemFamily.h"
 #include "NetworkHandle.h"
 #include "ItemHandle.h"
@@ -117,6 +118,9 @@ namespace Tinkercell
 
 			connect(mainWindow, SIGNAL(itemsAboutToBeRemoved(GraphicsScene *, QList<QGraphicsItem*>& , QList<ItemHandle*>&, QList<QUndoCommand*>& )),
 					this, SLOT(itemsAboutToBeRemoved(GraphicsScene *, QList<QGraphicsItem*>& , QList<ItemHandle*>&, QList<QUndoCommand*>& )));
+			
+			connect(mainWindow, SIGNAL(itemsRenamed(NetworkHandle * , const QList<ItemHandle*>& , const QList<QString>& , const QList<QString>& )),
+					this, SLOT(itemsRenamed(NetworkHandle * , const QList<ItemHandle*>& , const QList<QString>& , const QList<QString>& )));
 
 			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
 
@@ -403,6 +407,53 @@ namespace Tinkercell
 					}
 			}
 	}
+	
+	void ModuleTool::itemsRenamed(NetworkHandle * network, const QList<ItemHandle*>& items, const QList<QString>& oldnames, const QList<QString>& newnames)
+	{
+		QList<GraphicsScene*> scenes = network->scenes();
+		QRegExp regex("\\.([^\\.]+)$");
+		ConnectionHandle * c;
+		
+		for (int i=0; i < items.size(); ++i)
+			if (items[i] 
+				&& (c = ConnectionHandle::cast(items[i]))
+				&& !items[i]->children.isEmpty() 
+				&& newnames.contains(items[i]->fullName()))
+			{
+				int k = newnames.indexOf(items[i]->fullName());
+				if (k < 0 || k > oldnames.size()) continue;
+				
+				QString oldname = oldnames[i], newname = newnames[i];
+				
+				if (regex.indexIn(oldname) && !regex.cap(1).isEmpty())
+					oldname = regex.cap(1);
+				if (regex.indexIn(newname) && !regex.cap(1).isEmpty())
+					newname = regex.cap(1);
+
+				QList<ItemHandle*> children = items[i]->children;
+				QList<NodeHandle*> nodes = c->nodes();
+				for (int j=0; j < nodes.size(); ++j)
+					children << nodes[j];
+
+				QList<QGraphicsItem*> gitems;
+
+				for (int j=0; j < children.size(); ++j)
+					gitems << children[j]->graphicsItems;
+
+				NodeGraphicsItem * node;
+				ConnectionGraphicsItem * connection;
+				TextGraphicsItem * text;
+				for (int j=0; j < gitems.size(); ++j)
+					if ((node = NodeGraphicsItem::cast(gitems[j])) && node->groupID == oldname)
+						node->groupID = newname;
+					else
+					if ((connection = ConnectionGraphicsItem::cast(gitems[j])) && connection->groupID == oldname)
+						connection->groupID = newname;
+					else
+					if ((text = TextGraphicsItem::cast(gitems[j])) && text->groupID == oldname)
+						text->groupID = newname;
+			}
+	}
 
 	void ModuleTool::itemsAboutToBeInserted(GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>& commands)
 	{
@@ -443,6 +494,20 @@ namespace Tinkercell
 		if (scene->localHandle())
 		{
 			ItemHandle * parentHandle = scene->localHandle();
+			NodeGraphicsItem * node;
+			ConnectionGraphicsItem * connection;
+			TextGraphicsItem * text;
+			QString groupName = parentHandle->name;
+			for (int i=0; i < items.size(); ++i)
+				if (node = NodeGraphicsItem::cast(items[i]))
+					node->groupID = groupName;
+				else
+				if (connection = ConnectionGraphicsItem::cast(items[i]))
+					connection->groupID = groupName;
+				else
+				if (text = TextGraphicsItem::cast(items[i]))
+					text->groupID = groupName;
+
 			for (int i=0; i < handles.size(); ++i)
 				if (handles[i] && !handles[i]->parent)
 				{
@@ -454,76 +519,91 @@ namespace Tinkercell
 		QList<ItemHandle*> visited;
 
 		for (int i=0; i < handles.size(); ++i)
-			if (handles[i] && !visited.contains(handles[i]) && handles[i]->children.isEmpty() && ConnectionFamily::cast(handles[i]->family()))
+			if (handles[i] && !visited.contains(handles[i]) && ConnectionFamily::cast(handles[i]->family()))
 			{
 				visited << handles[i];
-				QString s = handles[i]->family()->name();
-				s.replace(tr(" "),tr(""));
-				QString dirname = homeDir() + tr("/Modules/") + s;
-				QDir dir(dirname);
-		
-				if (!dir.exists())		
-					dir.setPath(homeDir() + tr("/Modules/") + s.toLower());
-		
-				if (!dir.exists())
-					dir.setPath(QCoreApplication::applicationDirPath() + tr("/Modules/") + s);
-		
-				if (!dir.exists())
-					dir.setPath(QCoreApplication::applicationDirPath() + tr("/Modules/") + s.toLower());
+				QString groupName = handles[i]->name;
+				QList<QGraphicsItem*> items2;
 				
-				if (dir.exists())
+				if (handles[i]->children.isEmpty())
 				{
-					dir.setFilter(QDir::Files);
-					dir.setSorting(QDir::Time);
-					QFileInfoList list = dir.entryInfoList();
+					QString s = handles[i]->family()->name();
+					s.replace(tr(" "),tr(""));
+					QString dirname = homeDir() + tr("/Modules/") + s;
+					QDir dir(dirname);
+		
+					if (!dir.exists())		
+						dir.setPath(homeDir() + tr("/Modules/") + s.toLower());
+		
+					if (!dir.exists())
+						dir.setPath(QCoreApplication::applicationDirPath() + tr("/Modules/") + s);
+		
+					if (!dir.exists())
+						dir.setPath(QCoreApplication::applicationDirPath() + tr("/Modules/") + s.toLower());
 				
-					if (!list.isEmpty())
-					{	
-						bool loaded = false;
-						while (!loaded)
-						{
-							QString filename = list.last().absoluteFilePath();
-
-							if (QFile::exists(filename))
+					if (dir.exists())
+					{
+						dir.setFilter(QDir::Files);
+						dir.setSorting(QDir::Time);
+						QFileInfoList list = dir.entryInfoList();
+				
+						if (!list.isEmpty())
+						{	
+							bool loaded = false;
+							while (!loaded)
 							{
-								QPair< QList<ItemHandle*> , QList<QGraphicsItem*> > pair = mainWindow->getItemsFromFile(filename,handles[i]);
+								QString filename = list.last().absoluteFilePath();
+
+								if (QFile::exists(filename))
+								{
+									QPair< QList<ItemHandle*> , QList<QGraphicsItem*> > pair = mainWindow->getItemsFromFile(filename,handles[i]);
 								
-								QList<QGraphicsItem*> items2 = pair.second;
-								NodeGraphicsItem * node;
-								ConnectionGraphicsItem * connection;
-								TextGraphicsItem * text;
-								QString familyName = handles[i]->family()->name();
-								for (int j=0; j < items2.size(); ++j)
-									if (node = NodeGraphicsItem::cast(items2[j]))
-										node->groupID = familyName;
-									else
-									if (connection = ConnectionGraphicsItem::cast(items2[j]))
-										connection->groupID = familyName;
-									else
-									if (text = TextGraphicsItem::cast(items2[j]))
-										text->groupID = familyName;
+									items2 = pair.second;
+									QList<ItemHandle*> handles2 = pair.first;
+									loaded = !handles2.isEmpty();
 								
-								QList<ItemHandle*> handles2 = pair.first;
-								loaded = !handles2.isEmpty();
-								
-								QList<ItemHandle*> visitedHandles;
+									QList<ItemHandle*> visitedHandles;
 							
-								for (int j=0; j < handles2.size(); ++j)
-									if (handles2[j] && !visitedHandles.contains(handles2[j]))
-									{
-										visitedHandles << handles2[j];
-										if (!handles2[j]->parent || handles2[j]->parent == handles[i])
+									for (int j=0; j < handles2.size(); ++j)
+										if (handles2[j] && !visitedHandles.contains(handles2[j]))
 										{
-											handles2[j]->setParent(0,false);
-											commands << new SetParentHandleCommand(tr("set parent"),0,handles2[j],handles[i]);
-											commands << new RenameCommand(tr("rename"),0,handles2,handles2[j]->name,handles[i]->fullName() + tr(".") + handles2[j]->name);
+											visitedHandles << handles2[j];
+											if (!handles2[j]->parent || handles2[j]->parent == handles[i])
+											{
+												handles2[j]->setParent(0,false);
+												commands << new SetParentHandleCommand(tr("set parent"),0,handles2[j],handles[i]);
+												commands << new RenameCommand(tr("rename"),0,handles2,handles2[j]->name,handles[i]->fullName() + tr(".") + handles2[j]->name);
+											}
 										}
 									}
+								}
 							}
 						}
 					}
+					/*else
+					{
+						QList<ItemHandle*> children = handles[i]->children;
+						for (int j=0; j < children.size(); ++j)
+							items2 << children[j]->graphicsItems;
+					}*/
+					
+					if (!items2.isEmpty())
+					{
+						NodeGraphicsItem * node;
+						ConnectionGraphicsItem * connection;
+						TextGraphicsItem * text;
+
+						for (int j=0; j < items2.size(); ++j)
+							if (node = NodeGraphicsItem::cast(items2[j]))
+								node->groupID = groupName;
+							else
+							if (connection = ConnectionGraphicsItem::cast(items2[j]))
+								connection->groupID = groupName;
+							else
+							if (text = TextGraphicsItem::cast(items2[j]))
+								text->groupID = groupName;
+					}
 				}
-			}
 	}
 
 	void ModuleTool::itemsAboutToBeRemoved(GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>& commands)
@@ -586,12 +666,13 @@ namespace Tinkercell
 		if (scene)
 		{
 			ConnectionGraphicsItem * c;
+			ConnectionHandle * ch;
 			QList<QUndoCommand*> commands;
 			QList<ItemHandle*> modules;
 			ItemHandle * h;
 			
 			for (int i=0; i < handles.size(); ++i)
-				if (ConnectionHandle::cast(handles[i]) && !handles[i]->children.isEmpty())
+				if ((ch = ConnectionHandle::cast(handles[i])) && !handles[i]->children.isEmpty())
 				{
 					for (int j=0; j < handles[i]->graphicsItems.size(); ++j)
 						if ((c = ConnectionGraphicsItem::cast(handles[i]->graphicsItems[j])) && (c->scene() == scene))
@@ -600,6 +681,50 @@ namespace Tinkercell
 							break;
 						}
 					modules << handles[i];
+					
+					
+					QList<QGraphicsItem*> items2;					
+					
+					QList<ItemHandle*> children = handles[i]->allChildren();
+					
+					QStringList childrenNames;
+					for (int j=0; j < children.size(); ++j)
+						childrenNames << children[j]->name;
+
+					children = handles[i]->children;
+					QList<NodeHandle*> nodes = ch->nodes();
+					for (int j=0; j < nodes.size(); ++j)
+						children << nodes[j];
+
+					for (int j=0; j < children.size(); ++j)
+						items2 << children[j]->graphicsItems;
+
+					if (!items2.isEmpty())
+					{
+						QString groupName = handles[i]->name;
+						NodeGraphicsItem * node;
+						ConnectionGraphicsItem * connection;
+						TextGraphicsItem * text;
+
+						for (int j=0; j < items2.size(); ++j)
+							if (node = NodeGraphicsItem::cast(items2[j]))
+							{
+								if (node->groupID != groupName && !childrenNames.contains(node->groupID))
+									node->groupID = groupName;
+							}
+							else
+							if (connection = ConnectionGraphicsItem::cast(items2[j]))
+							{
+								if (connection->groupID != groupName && !childrenNames.contains(connection->groupID))
+									connection->groupID = groupName;
+							}
+							else
+							if (text = TextGraphicsItem::cast(items2[j]))
+							{
+								if (text->groupID != groupName && !childrenNames.contains(text->groupID))
+									text->groupID = groupName;
+							}
+					}
 				}
 	
 			for (int i=0; i < modules.size(); ++i)
@@ -780,16 +905,16 @@ namespace Tinkercell
 				NodeGraphicsItem * node;
 				ConnectionGraphicsItem * connection;
 				TextGraphicsItem * text;
-				QString familyName = parentHandle->family()->name();
+				QString groupName = parentHandle->name;
 				for (int i=0; i < items.size(); ++i)
 					if (node = NodeGraphicsItem::cast(items[i]))
-						node->groupID = familyName;
+						node->groupID = groupName;
 					else
 					if (connection = ConnectionGraphicsItem::cast(items[i]))
-						connection->groupID = familyName;
+						connection->groupID = groupName;
 					else
 					if (text = TextGraphicsItem::cast(items[i]))
-						text->groupID = familyName;
+						text->groupID = groupName;
 				
 				if (handles.isEmpty()) return;
 				
@@ -1009,7 +1134,7 @@ namespace Tinkercell
 					ConnectionGraphicsItem * connection;
 					NodeGraphicsItem * node;
 					TextGraphicsItem * text;
-					QString groupID = handle->family()->name();
+					QString groupID = handle->name;
 					QList<QGraphicsItem*> items, items2;
 					for (int i=0; i < handle->children.size(); ++i)
 						if (handle->children[i])

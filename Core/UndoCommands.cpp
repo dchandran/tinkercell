@@ -658,28 +658,6 @@ namespace Tinkercell
 				}
 		}
 		
-		/*if (scene)
-		{
-			NodeGraphicsItem * node;
-			for (int i=0; i < graphicsItems.size(); ++i)
-				if ((node = NodeGraphicsItem::cast(graphicsItems[i])) && node->handle())
-				{
-					QList<QGraphicsItem*> items = node->handle()->graphicsItems;
-					for (int j=0; j < items.size(); ++j)					
-						if (!graphicsItems.contains(items[j]) && 
-							!items[j]->scene() && 
-							(
-								((NodeGraphicsItem::cast(items[j]) && 
-									NodeGraphicsItem::cast(items[j])->sceneNumber == node->sceneNumber)) ||
-								((TextGraphicsItem::cast(items[j]) && 
-									TextGraphicsItem::cast(items[j])->sceneNumber == node->sceneNumber))
-							))
-						{
-							graphicsItems += items[j];
-						}
-				}
-		}*/
-		
 		graphicsItems += item;
 		handles.clear();
 		handles += getHandle(item);
@@ -724,28 +702,6 @@ namespace Tinkercell
 				parentGraphicsItems += NodeGraphicsItem::cast(item->parentItem());	
 				handles += getHandle(item);
 			}
-		
-		/*if (scene)
-		{
-			NodeGraphicsItem * node;
-			for (int i=0; i < graphicsItems.size(); ++i)
-				if ((node = NodeGraphicsItem::cast(graphicsItems[i])) && node->handle())
-				{
-					QList<QGraphicsItem*> items = node->handle()->graphicsItems;
-					for (int j=0; j < items.size(); ++j)					
-						if (!graphicsItems.contains(items[j]) && 
-							!items[j]->scene() && 
-							(
-								((NodeGraphicsItem::cast(items[j]) && 
-									NodeGraphicsItem::cast(items[j])->sceneNumber == node->sceneNumber)) ||
-								((TextGraphicsItem::cast(items[j]) && 
-									TextGraphicsItem::cast(items[j])->sceneNumber == node->sceneNumber))
-							))
-						{
-							graphicsItems += items[j];
-						}
-				}
-		}*/
 		
 		renameCommand = 0;
 	}

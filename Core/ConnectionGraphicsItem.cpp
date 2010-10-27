@@ -176,6 +176,7 @@ namespace Tinkercell
 		setVisible(copy.isVisible());
 
 		className = copy.className;
+		groupID = copy.groupID;
 		centerRegionItem = 0;
 
 		boundaryPathItem = new QGraphicsPathItem(this);

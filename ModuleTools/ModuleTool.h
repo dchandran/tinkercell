@@ -121,6 +121,7 @@ namespace Tinkercell
 		QStringList substituteFrom, substituteWith;
 		QAction * viewModule;
 		NodeGraphicsItem image;
+		QStringList abountToBeRenamed;
 
 		static QList<QPointF> pathAroundRect(QRectF,QRectF,QPointF,QPointF);
 	};

@@ -458,6 +458,8 @@ namespace Tinkercell
 	void ModuleTool::itemsAboutToBeInserted(GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>& commands)
 	{
 		if (!scene || !scene->network) return;
+		
+		abountToBeRenamed.clear();
 
 		commands << moduleConnectionsInserted(items)
 				 << substituteStrings(handles);
@@ -560,6 +562,11 @@ namespace Tinkercell
 								
 									items2 = pair.second;
 									QList<ItemHandle*> handles2 = pair.first;
+									QList<ItemHandle*> allChildren = handles2;
+									for (int j=0; j < handles2.size(); ++j)
+										if (handles2[j])
+											allChildren << handles2[j]->allChildren();
+									
 									loaded = !handles2.isEmpty();
 								
 									QList<ItemHandle*> visitedHandles;
@@ -572,7 +579,7 @@ namespace Tinkercell
 											{
 												handles2[j]->setParent(0,false);
 												commands << new SetParentHandleCommand(tr("set parent"),0,handles2[j],handles[i]);
-												commands << new RenameCommand(tr("rename"),0,handles2,handles2[j]->name,handles[i]->fullName() + tr(".") + handles2[j]->name);
+												commands << new RenameCommand(tr("rename"),0,allChildren,handles2[j]->name,handles[i]->fullName() + tr(".") + handles2[j]->name);
 											}
 										}
 									}
@@ -580,12 +587,8 @@ namespace Tinkercell
 							}
 						}
 					}
-					/*else
-					{
-						QList<ItemHandle*> children = handles[i]->children;
-						for (int j=0; j < children.size(); ++j)
-							items2 << children[j]->graphicsItems;
-					}*/
+					
+					abountToBeRenamed << handles[i]->name;
 					
 					if (!items2.isEmpty())
 					{
@@ -686,10 +689,6 @@ namespace Tinkercell
 					QList<QGraphicsItem*> items2;					
 					
 					QList<ItemHandle*> children = handles[i]->allChildren();
-					
-					QStringList childrenNames;
-					for (int j=0; j < children.size(); ++j)
-						childrenNames << children[j]->name;
 
 					children = handles[i]->children;
 					QList<NodeHandle*> nodes = ch->nodes();
@@ -709,19 +708,19 @@ namespace Tinkercell
 						for (int j=0; j < items2.size(); ++j)
 							if (node = NodeGraphicsItem::cast(items2[j]))
 							{
-								if (node->groupID != groupName && !childrenNames.contains(node->groupID))
+								if (node->groupID != groupName && abountToBeRenamed.contains(node->groupID))
 									node->groupID = groupName;
 							}
 							else
 							if (connection = ConnectionGraphicsItem::cast(items2[j]))
 							{
-								if (connection->groupID != groupName && !childrenNames.contains(connection->groupID))
+								if (connection->groupID != groupName && abountToBeRenamed.contains(connection->groupID))
 									connection->groupID = groupName;
 							}
 							else
 							if (text = TextGraphicsItem::cast(items2[j]))
 							{
-								if (text->groupID != groupName && !childrenNames.contains(text->groupID))
+								if (text->groupID != groupName && abountToBeRenamed.contains(text->groupID))
 									text->groupID = groupName;
 							}
 					}

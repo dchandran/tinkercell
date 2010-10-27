@@ -78,6 +78,7 @@ namespace Tinkercell
 		setFlag(QGraphicsItem::ItemIsSelectable, false);
 
 		className = NodeGraphicsItem::CLASSNAME;
+	
 		ControlPoint * topleft = new ControlPoint(this);
 		topleft->setPos( boundingRect().topLeft() );
 		topleft->setVisible(false);
@@ -246,6 +247,7 @@ namespace Tinkercell
 
 		/**copy handle**/
 		className = copy.className;
+		groupID = copy.groupID;
 		itemHandle = copy.itemHandle;
 		name = copy.name;
 		defaultSize = copy.defaultSize;

@@ -627,6 +627,7 @@ namespace Tinkercell
 		QList< ItemHandle* > allChildren;
 		QList<QGraphicsItem*> allGraphicsItems;
 		RenameCommand * renameCommand;
+		Change2DataCommand<qreal,QString> * changeDataCommand;
 	};
 
 	/*! \brief this command assigns parent(s) to one or more handles

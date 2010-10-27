@@ -100,6 +100,7 @@ TextGraphicsItem::TextGraphicsItem(const TextGraphicsItem& copy) : QGraphicsText
 	//setFlag(QGraphicsItem::ItemIsSelectable);
 	setPlainText(copy.toPlainText());
 	itemHandle = copy.itemHandle;
+	groupID = copy.groupID;
 
 	if (itemHandle)
 		setHandle(itemHandle);

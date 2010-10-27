@@ -2845,9 +2845,78 @@ namespace Tinkercell
 		for (int i=0; i < handles.size(); ++i)
 			allHandles.removeAll(handles[i]);
 
+		allHandles << newHandle;
+
 		renameCommand = 0;
+		changeDataCommand = 0;
+
 		if (newHandle)
 		{
+			QStringList list, keys;
+			QList<NumericalDataTable*> newNumericTables, oldNumericTables;
+			QList<TextDataTable*> newTextTables, oldTextTables;
+			NumericalDataTable* nDat;
+			TextDataTable* sDat;
+
+			for (int i=0; i < handles.size(); ++i)
+				if (handles[i])
+				{
+					list = handles[i]->numericalDataNames();
+					for (int j=0; j < list.size(); ++j)
+						if (!keys.contains(list[j]))
+							keys << list[j];
+				}
+			
+			for (int j=0; j < keys.size(); ++j)
+			{
+				oldNumericTables << &(newHandle->numericalDataTable(keys[j]));
+				nDat = new NumericalDataTable(newHandle->numericalDataTable(keys[j]));
+				newNumericTables << nDat;
+
+				for (int i=0; i < handles.size(); ++i)
+					if (handles[i] && handles[i]->hasNumericalData(keys[j]))
+					{
+						NumericalDataTable & dat = handles[i]->numericalDataTable(keys[j]);
+						for (int r=0; r < dat.rows(); ++r)
+							for (int c=0; c < dat.columns(); ++c)
+								nDat->value(dat.rowName(r), dat.columnName(c)) = dat.value(r,c);
+					}
+			}
+			
+			keys.clear();
+			for (int i=0; i < handles.size(); ++i)
+				if (handles[i])
+				{
+					list = handles[i]->textDataNames();
+					for (int j=0; j < list.size(); ++j)
+						if (!keys.contains(list[j]))
+							keys << list[j];
+				}
+			
+			for (int j=0; j < keys.size(); ++j)
+			{
+				oldTextTables << &(newHandle->textDataTable(keys[j]));
+				sDat = new TextDataTable(newHandle->textDataTable(keys[j]));
+				newTextTables << sDat;
+
+				for (int i=0; i < handles.size(); ++i)
+					if (handles[i] && handles[i]->hasTextData(keys[j]))
+					{
+						TextDataTable & dat = handles[i]->textDataTable(keys[j]);
+						for (int r=0; r < dat.rows(); ++r)
+							for (int c=0; c < dat.columns(); ++c)
+								sDat->value(dat.rowName(r), dat.columnName(c)) = dat.value(r,c);
+					}
+			}
+			
+			changeDataCommand = new Change2DataCommand<qreal,QString>(QString(""), oldNumericTables, newNumericTables, oldTextTables, newTextTables);
+
+			for (int i=0; i < newNumericTables.size(); ++i)
+				delete newNumericTables[i];
+			
+			for (int i=0; i < newTextTables.size(); ++i)
+				delete newTextTables[i];
+			
 			net->symbolsTable.uniqueHandlesWithDot.remove(newHandle->fullName());
 			net->symbolsTable.uniqueHandlesWithUnderscore.remove(newHandle->fullName(QObject::tr("_")));
 			renameCommand = new RenameCommand(QString("rename"),net,allHandles,oldNames,newNames);
@@ -2860,6 +2929,9 @@ namespace Tinkercell
 	{
 		if (renameCommand)
 			delete renameCommand;
+		
+		if (changeDataCommand)
+			delete changeDataCommand;
 	}
 
 	void MergeHandlesCommand::redo()
@@ -2902,6 +2974,9 @@ namespace Tinkercell
 				setHandle(allGraphicsItems[i],newHandle);
 			}
 
+		if (changeDataCommand)
+			changeDataCommand->redo();
+
 		if (renameCommand)
 			renameCommand->redo();
 	}
@@ -2912,6 +2987,9 @@ namespace Tinkercell
 
 		if (renameCommand)
 			renameCommand->undo();
+
+		if (changeDataCommand)
+			changeDataCommand->redo();
 
 		QList<ItemHandle*> keyHandles = oldChildren.keys();
 		for (int i=0; i < keyHandles.size(); ++i)

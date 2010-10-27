@@ -119,7 +119,7 @@ namespace Tinkercell
 
 	void AssignmentFunctionsTool::displayModel(QTabWidget& widgets, const QList<ItemHandle*>& items, QHash<QString,qreal>& constants, QHash<QString,QString>& equationsList)
 	{
-		if (graphWidget->isVisible())
+		if (!updatedFunctions.isEmpty())
 			widgets.insertTab(0,this,tr("Formulas"));
 		else
 		if (widgets.count() > 0)		

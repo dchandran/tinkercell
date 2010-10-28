@@ -55,7 +55,7 @@ namespace Tinkercell
 		* \param list of control points to use
 		* \param the xml reader in use
 		* \return path vector with all the control points and nodes and arrows*/
-		static ConnectionGraphicsItem::CurveSegment readCurveSegment(QHash<QString,ItemHandle*>& nodes, QHash<QString,ItemHandle*>& connections, QList<ConnectionGraphicsItem::ControlPoint*>& controlPoints, NodeGraphicsReader *);
+		static ConnectionGraphicsItem::CurveSegment readCurveSegment(QHash<QString,ItemHandle*>& nodes, QHash<QString,ItemHandle*>& connections, QList<ConnectionGraphicsItem::ControlPoint*>& controlPoints, NodeGraphicsReader *, const QString& groupID=QString());
 		/*! \brief Reads a control point from an XML file 
 		* \param XML reader in use
 		* \return control point*/

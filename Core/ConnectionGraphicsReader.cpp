@@ -84,7 +84,7 @@ namespace Tinkercell
 	* \param list of control points to use
 	* \param the xml reader in use
 	* \return path vector with all the control points and nodes and arrows*/
-	ConnectionGraphicsItem::CurveSegment ConnectionGraphicsReader::readCurveSegment(QHash<QString,ItemHandle*>& nodes, QHash<QString,ItemHandle*>& connections, QList<ConnectionGraphicsItem::ControlPoint*>& controlPoints, NodeGraphicsReader * reader)
+	ConnectionGraphicsItem::CurveSegment ConnectionGraphicsReader::readCurveSegment(QHash<QString,ItemHandle*>& nodes, QHash<QString,ItemHandle*>& connections, QList<ConnectionGraphicsItem::ControlPoint*>& controlPoints, NodeGraphicsReader * reader, const QString& groupID)
 	{
 		ConnectionGraphicsItem::CurveSegment pathVector;
 		ItemHandle *startNodeHandle = 0, *endNodeHandle = 0;
@@ -206,32 +206,27 @@ namespace Tinkercell
 			{
 				for (int i=0; i < startNodeHandle->graphicsItems.size(); ++i)
 				{
-					NodeGraphicsItem * node = qgraphicsitem_cast<NodeGraphicsItem*>(startNodeHandle->graphicsItems[i]);
-					if (node)
+					NodeGraphicsItem * node = NodeGraphicsItem::cast(startNodeHandle->graphicsItems[i]);
+					if (node && (node->groupID == groupID) && (node->pos() == startPos))
 					{
 						pathVector[0]->setParentItem(node);
-						if (node->pos() == startPos)
-						{
-							break;
-						}
+						break;
 					}
 				}
 			}
 			else
 				if (startConnectionHandle && pathVector[0])
 				{
+					ConnectionGraphicsItem * c;
 					for (int i=0; i < startConnectionHandle->graphicsItems.size(); ++i)
-						if (qgraphicsitem_cast<ConnectionGraphicsItem*>(startConnectionHandle->graphicsItems[i]))
+						if ((c = ConnectionGraphicsItem::cast(startConnectionHandle->graphicsItems[i])) &&
+							 (c->groupID == groupID))
 						{
-							NodeGraphicsItem * node = qgraphicsitem_cast<NodeGraphicsItem*>(
-								(qgraphicsitem_cast<ConnectionGraphicsItem*>(startConnectionHandle->graphicsItems[i]))->centerRegionItem);
-							if (node)
+							NodeGraphicsItem * node = NodeGraphicsItem::cast(c->centerRegionItem);
+							if (node && (node->pos() == startPos))
 							{
 								pathVector[0]->setParentItem(node);
-								if (node->pos() == startPos)
-								{
-									break;
-								}
+								break;
 							}
 						}
 				}
@@ -240,32 +235,27 @@ namespace Tinkercell
 				{
 					for (int i=0; i < endNodeHandle->graphicsItems.size(); ++i)
 					{
-						NodeGraphicsItem * node = qgraphicsitem_cast<NodeGraphicsItem*>(endNodeHandle->graphicsItems[i]);
-						if (node)
+						NodeGraphicsItem * node = NodeGraphicsItem::cast(endNodeHandle->graphicsItems[i]);
+						if (node && (node->pos() == endPos) && (node->groupID == groupID))
 						{
 							pathVector[k]->setParentItem(node);
-							if (node->pos() == endPos)
-							{
-								break;
-							}
+							break;
 						}
 					}
 				}
 				else
 					if (endConnectionHandle && pathVector[k])
 					{
+						ConnectionGraphicsItem * c;
 						for (int i=0; i < endConnectionHandle->graphicsItems.size(); ++i)
-							if (qgraphicsitem_cast<ConnectionGraphicsItem*>(endConnectionHandle->graphicsItems[i]))
+							if ((c = ConnectionGraphicsItem::cast(endConnectionHandle->graphicsItems[i])) &&
+								 (c->groupID == groupID))
 							{
-								NodeGraphicsItem * node = qgraphicsitem_cast<NodeGraphicsItem*>(
-									(qgraphicsitem_cast<ConnectionGraphicsItem*>(endConnectionHandle->graphicsItems[i]))->centerRegionItem);
-								if (node)
+								NodeGraphicsItem * node = NodeGraphicsItem::cast(c->centerRegionItem);
+								if (node && (node->pos() == startPos))
 								{
 									pathVector[k]->setParentItem(node);
-									if (node->pos() == startPos)
-									{
-										break;
-									}
+									break;
 								}
 							}
 					}
@@ -388,7 +378,7 @@ namespace Tinkercell
 					{
 						while (!reader->atEnd() && !(reader->isEndElement() && reader->name() == "CurveSegments"))
 						{
-							connection->curveSegments += readCurveSegment(nodesHash,connectionsHash, controlPoints,reader);
+							connection->curveSegments += readCurveSegment(nodesHash,connectionsHash, controlPoints,reader,connection->groupID);
 							if (connection->curveSegments.last().arrowStart)
 								connection->curveSegments.last().arrowStart->connectionItem = connection;
 							if (connection->curveSegments.last().arrowEnd)

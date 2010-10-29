@@ -1107,7 +1107,7 @@ namespace Tinkercell
 					handle = getHandle(arrow->connectionItem);
 			}
 		}
-		
+
 		ConnectionHandle * chandle = ConnectionHandle::cast(handle);
 
 		if (chandle && handle->family() && !handle->children.isEmpty())
@@ -1148,12 +1148,12 @@ namespace Tinkercell
 					QList<QGraphicsItem*> items, items2;
 					for (int i=0; i < handle->children.size(); ++i)
 						if (handle->children[i])
-							items2 = handle->children[i]->graphicsItems;
+							items2 << handle->children[i]->graphicsItems;
 					
 					QList<NodeHandle*> nodes = chandle->nodes();
 					for (int i=0; i < nodes.size(); ++i)
 						if (nodes[i])
-							items2 = nodes[i]->graphicsItems;
+							items2 << nodes[i]->graphicsItems;
 					
 					for (int j=0; j < items2.size(); ++j)
 						if (!items2[j]->scene() &&

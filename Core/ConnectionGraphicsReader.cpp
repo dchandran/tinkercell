@@ -79,6 +79,7 @@ namespace Tinkercell
 		}
 		return list;
 	}
+
 	/*! \brief Reads a shape into an NodeGraphicsItem from an XML file
 	* \param hash table of fullname -> node handle
 	* \param list of control points to use

@@ -47,3 +47,10 @@ ELSE ( WIN32 )
     LIBRARY DESTINATION plugins
   )
 ENDIF( WIN32 )
+
+IF (UNIX AND EXISTS $ENV{HOME}/Documents/TinkerCell/updates.txt)
+  ADD_CUSTOM_COMMAND( TARGET DynamicCodeTools POST_BUILD
+      COMMAND perl -pi -e 's/current version: [0-9\\.]+/current version:   ${TINKERCELL_VERSION}/' $ENV{HOME}/Documents/TinkerCell/updates.txt
+)
+ENDIF (UNIX AND EXISTS $ENV{HOME}/Documents/TinkerCell/updates.txt)
+

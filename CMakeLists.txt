@@ -13,8 +13,7 @@ ENDIF ( WIN32 )
 # TinkerCell version obtained from Subversion revision number
 #--------------------------------------------------------------------------
 
-#SET( TINKERCELL_MAJOR_VERSION "1" )
-#SET( TINKERCELL_MINOR_VERSION "0" )
+SET( TINKERCELL_MAJOR_VERSION "1" )
 
 IF( EXISTS ${CMAKE_SOURCE_DIR}/.svn )
   FIND_PACKAGE( Subversion )

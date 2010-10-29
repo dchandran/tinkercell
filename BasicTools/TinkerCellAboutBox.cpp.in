@@ -19,7 +19,7 @@ namespace Tinkercell
 		int number = MainWindow::PROJECT_VERSION.toInt(&ok);
 		if (ok)
 		{
-			MainWindow::PROJECT_VERSION = tr("1.") + QString::number( (int)(number/1000 ) ) + tr(".") + QString::number(number % 1000);
+			MainWindow::PROJECT_VERSION = tr("@TINKERCELL_MAJOR_VERSION@.") + QString::number( (int)(number/1000 ) ) + tr(".") + QString::number(number % 1000);
 		}
 
 		text = tr("TinkerCell\nVersion: ") + MainWindow::PROJECT_VERSION + tr("\n\n");

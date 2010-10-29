@@ -443,7 +443,7 @@ namespace Tinkercell
 				NodeGraphicsItem * node;
 				ConnectionGraphicsItem * connection;
 				TextGraphicsItem * text;
-				/*for (int j=0; j < gitems.size(); ++j)
+				for (int j=0; j < gitems.size(); ++j)
 					if ((node = NodeGraphicsItem::cast(gitems[j])) && node->groupID == oldname)
 						node->groupID = newname;
 					else
@@ -451,7 +451,7 @@ namespace Tinkercell
 						connection->groupID = newname;
 					else
 					if ((text = TextGraphicsItem::cast(gitems[j])) && text->groupID == oldname)
-						text->groupID = newname;*/
+						text->groupID = newname;
 			}
 	}
 

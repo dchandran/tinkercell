@@ -1,5 +1,10 @@
 SET(LIBRARY_OUTPUT_PATH ${CPP_LIBRARY_OUTPUT_PATH})
 
+CONFIGURE_FILE( DynamicCodeMain.cpp.in
+  ${TINKERCELL_BINARY_DIR}/DynamicCodeTools/DynamicCodeMain.cpp
+  @ONLY
+)
+
 SET( TINKERCELL_CORE_HDRS
   ../Core/MainWindow.h 
   ../Core/NetworkHandle.h

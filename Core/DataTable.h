@@ -377,9 +377,10 @@ namespace Tinkercell
 	*/
 	template <typename T>  void DataTable<T>::setColumnName(int i, const QString& name) 
 	{ 
-		if (colHeaders.contains(name))
+		if (colHash.contains(name))
 		{
-			removeColumn(i);
+			if (colHash[name] != i)
+				removeColumn(i);
 			return;
 		}
 		
@@ -420,9 +421,10 @@ namespace Tinkercell
 	*/
 	template <typename T>  void DataTable<T>::setRowName(int i, const QString& name) 
 	{ 
-		if (rowHeaders.contains(name))
+		if (rowHash.contains(name))
 		{
-			removeRow(i);
+			if (rowHash[name] != i)
+				removeRow(i);
 			return;
 		}
 		

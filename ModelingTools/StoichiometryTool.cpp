@@ -892,11 +892,11 @@ namespace Tinkercell
 				plusSigns[i]->setParent(this);
 				plusSigns[i]->hide();
 			}
-		
+
 		int j=0;
-		
+
 		for (int i=0; i < reactants.columns(); ++i)
-			if (reactants.at(row,i) > 0)
+//			if (reactants.at(row,i) > 0)
 			{
 				reactantCoeffs[i]->setText(QString::number(reactants.at(row,i)));
 				reactantNames[i]->setText(reactants.columnName(i));
@@ -916,7 +916,7 @@ namespace Tinkercell
 				reactantCoeffs[i]->show();
 				reactantNames[i]->show();
 			}
-		
+
 		while (plusSigns.size() <= j)
 			plusSigns += (new QLabel(this));
 			
@@ -930,7 +930,7 @@ namespace Tinkercell
 		++j;
 		int j2 = 0;
 		for (int i=0; i < products.columns(); ++i)
-			if (products.at(row,i) > 0)
+//			if (products.at(row,i) > 0)
 			{
 				productCoeffs[i]->setText(QString::number(products.at(row,i)));
 				productNames[i]->setText(products.columnName(i));
@@ -1005,7 +1005,7 @@ namespace Tinkercell
 			int row = currentRow;
 			
 			if (row < 0) return;
-			
+
 			for (int i=0; i < reactantNames.size() && i < reactantCoeffs.size(); ++i)
 				if (reactantNames[i]->isVisible() && reactantCoeffs[i]->isVisible())
 				{
@@ -1038,6 +1038,7 @@ namespace Tinkercell
 			
 			if (changed)
 			{
+
 				network->changeData(connectionHandle->fullName() + tr(" stoichiometry changed"),
 									QList<ItemHandle*>() << connectionHandle << connectionHandle,
 									QStringList() << tr("Reactant stoichiometries") << tr("Product stoichiometries"),
@@ -1220,6 +1221,7 @@ namespace Tinkercell
 						if (nDataTable1->rows() > k)
 							for (int j=0; j < nDataTable1->columns(); ++j)     //get unique species
 							{
+
 								QString s = nDataTable1->columnName(j);
 
 								j0 = columnNames.indexOf(s);

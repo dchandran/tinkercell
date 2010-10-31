@@ -377,6 +377,12 @@ namespace Tinkercell
 	*/
 	template <typename T>  void DataTable<T>::setColumnName(int i, const QString& name) 
 	{ 
+		if (colHeaders.contains(name))
+		{
+			removeColumn(i);
+			return;
+		}
+		
 		if (i < 0)
 			i = 0;
 			
@@ -414,6 +420,12 @@ namespace Tinkercell
 	*/
 	template <typename T>  void DataTable<T>::setRowName(int i, const QString& name) 
 	{ 
+		if (rowHeaders.contains(name))
+		{
+			removeRow(i);
+			return;
+		}
+		
 		if (i < 0)
 			i = 0;
 		
@@ -427,8 +439,12 @@ namespace Tinkercell
 	\param QStringList vector of strings
 	\return void
 	*/
-	template <typename T>  void DataTable<T>::setColumnNames(const QStringList& names)
+	template <typename T>  void DataTable<T>::setColumnNames(const QStringList& lst)
 	{
+		QStringList names;
+		for (int i=0; i < lst.size(); ++i)
+			if (!names.contains(lst[i]))
+				names << lst[i];
 		if (names.size() != colHeaders.size())
 			resize(rowHeaders.size(),names.size());
 		colHeaders = QVector<QString>::fromList(names);
@@ -440,8 +456,12 @@ namespace Tinkercell
 	\param QStringList vector of strings
 	\return void
 	*/
-	template <typename T>  void DataTable<T>::setRowNames(const QStringList& names)
+	template <typename T>  void DataTable<T>::setRowNames(const QStringList& lst)
 	{
+		QStringList names;
+		for (int i=0; i < lst.size(); ++i)
+			if (!names.contains(lst[i]))
+				names << lst[i];
 		if (names.size() != colHeaders.size())
 			resize(names.size(),colHeaders.size());
 		rowHeaders = QVector<QString>::fromList(names);
@@ -725,8 +745,11 @@ namespace Tinkercell
 			}
 
 		dataMatrix = dataMatrix2;
-		rowHash.remove( rowHeaders[k] );
+		rowHash.clear();
 		rowHeaders.remove(k);
+		
+		for (int i=0; i < rowHeaders.size(); ++i)
+			rowHash[ rowHeaders[i] ] = i;
 
 		return true;
 	}
@@ -763,8 +786,11 @@ namespace Tinkercell
 			}
 
 		dataMatrix = dataMatrix2;
-		colHash.remove(colHeaders[k]);
+		colHash.clear();
 		colHeaders.remove(k);
+		
+		for (int i=0; i < colHeaders.size(); ++i)
+			colHash[ colHeaders[i] ] = i;
 
 		return true;
 	}

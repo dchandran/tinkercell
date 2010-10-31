@@ -698,12 +698,18 @@ namespace Tinkercell
 						regexp7(tr("([^A-Za-z0-9_>])abs\\s*\\("));
 
 				s.replace(regexp1,prefix + name);
-				s.replace(regexp2,prefix + name + tr("\\1"));
-				s.replace(regexp3,tr("\\1") + prefix + name);
-				s.replace(regexp4,tr("\\1") + prefix + name + tr("\\2"));
-				s.replace(regexp5,tr("\\1fmax("));
-				s.replace(regexp6,tr("\\1fmin("));
-				s.replace(regexp7,tr("\\1fabs("));
+				while (regexp2.indexIn(s) != -1)
+					s.replace(regexp2,prefix + name + tr("\\1"));
+				while (regexp3.indexIn(s) != -1)
+					s.replace(regexp3,tr("\\1") + prefix + name);
+				while (regexp4.indexIn(s) != -1)
+					s.replace(regexp4,tr("\\1") + prefix + name + tr("\\2"));
+				while (regexp5.indexIn(s) != -1)
+					s.replace(regexp5,tr("\\1fmax("));
+				while (regexp6.indexIn(s) != -1)
+					s.replace(regexp6,tr("\\1fmin("));
+				while (regexp7.indexIn(s) != -1)
+					s.replace(regexp7,tr("\\1fabs("));
 			}
 		return s;
 	}

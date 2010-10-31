@@ -441,60 +441,68 @@ namespace Tinkercell
 		* \param QList affected items
 		* \param QString old name
 		* \param QString new name
+		* \param bool make sure that the new names are unique (default = true). Use false if you already made this check or want to rename to something that already exists
 		*/
-		RenameCommand(const QString& name, NetworkHandle *, const QList<ItemHandle*>& allItems, const QString& oldname, const QString& newname);
+		RenameCommand(const QString& name, NetworkHandle *, const QList<ItemHandle*>& allItems, const QString& oldname, const QString& newname, bool forceUnique=true);
 		/*! \brief constructor
 		* \param QString name of command
 		* \param NetworkHandle * network
 		* \param QString old name
 		* \param QString new name
+		* \param bool make sure that the new names are unique (default = true). Use false if you already made this check or want to rename to something that already exists
 		*/
-		RenameCommand(const QString& name, NetworkHandle *, const QString& oldname, const QString& newname);
+		RenameCommand(const QString& name, NetworkHandle *, const QString& oldname, const QString& newname, bool forceUnique=true);
 		/*! \brief constructor
 		* \param QString name of command
 		* \param NetworkHandle * network
 		* \param QList affected items
 		* \param QString old name
 		* \param QString new name
+		* \param bool make sure that the new names are unique (default = true). Use false if you already made this check or want to rename to something that already exists
 		*/
-		RenameCommand(const QString& name, NetworkHandle *,  const QList<ItemHandle*>& allItems, const QList<QString>& oldname, const QList<QString>& newname);
+		RenameCommand(const QString& name, NetworkHandle *,  const QList<ItemHandle*>& allItems, const QList<QString>& oldname, const QList<QString>& newname, bool forceUnique=true);
 				/*! \brief constructor
 		* \param QString name of command
 		* \param NetworkHandle * network
 		* \param QString old name
 		* \param QString new name
+		* \param bool make sure that the new names are unique (default = true). Use false if you already made this check or want to rename to something that already exists
 		*/
-		RenameCommand(const QString& name, NetworkHandle *,  const QList<QString>& oldname, const QList<QString>& newname);
+		RenameCommand(const QString& name, NetworkHandle *,  const QList<QString>& oldname, const QList<QString>& newname, bool forceUnique=true);
 		/*! \brief constructor
 		* \param QString name of command
 		* \param NetworkHandle * network
 		* \param ItemHandle* target item handle
 		* \param QString new name
+		* \param bool make sure that the new names are unique (default = true). Use false if you already made this check or want to rename to something that already exists
 		*/
-		RenameCommand(const QString& name, NetworkHandle * , ItemHandle * itemHandle, const QString& newname);
+		RenameCommand(const QString& name, NetworkHandle * , ItemHandle * itemHandle, const QString& newname, bool forceUnique=true);
 		/*! \brief constructor
 		* \param QString name of command
 		* \param NetworkHandle * network
 		* \param QList<ItemHandle*>& all the items to modify if they contain the new name
 		* \param ItemHandle* target item
 		* \param QString new name
+		* \param bool make sure that the new names are unique (default = true). Use false if you already made this check or want to rename to something that already exists
 		*/
-		RenameCommand(const QString& name, NetworkHandle *,  const QList<ItemHandle*>& allItems, ItemHandle * item, const QString& newname);
+		RenameCommand(const QString& name, NetworkHandle *,  const QList<ItemHandle*>& allItems, ItemHandle * item, const QString& newname, bool forceUnique=true);
 		/*! \brief constructor
 		* \param QString name of command
 		* \param NetworkHandle * network
 		* \param QList<ItemHandle*>& target items
 		* \param QList<QString> new names (one for each item)
+		* \param bool make sure that the new names are unique (default = true). Use false if you already made this check or want to rename to something that already exists
 		*/
-		RenameCommand(const QString& name, NetworkHandle * , const QList<ItemHandle*>& itemhandles, const QList<QString>& newnames);
+		RenameCommand(const QString& name, NetworkHandle * , const QList<ItemHandle*>& itemhandles, const QList<QString>& newnames, bool forceUnique=true);
 		/*! \brief constructor
 		* \param QString name of command
 		* \param NetworkHandle * network
 		* \param QList<ItemHandle*>& all the items to modify if they contain the new name
 		* \param QList<ItemHandle*>& target items
 		* \param QList<QString> new names (one for each item)
+		* \param bool make sure that the new names are unique (default = true). Use false if you already made this check or want to rename to something that already exists
 		*/
-		RenameCommand(const QString& name, NetworkHandle *, const QList<ItemHandle*>& allItems, const QList<ItemHandle*>& itemhandles, const QList<QString>& newnames);
+		RenameCommand(const QString& name, NetworkHandle *, const QList<ItemHandle*>& allItems, const QList<ItemHandle*>& itemhandles, const QList<QString>& newnames, bool forceUnique=true);
 		void redo();
 		void undo();
 		static void findReplaceAllHandleData(const QList<ItemHandle*>& allItems,const QString& oldName,const QString& newName);
@@ -510,6 +518,7 @@ namespace Tinkercell
 		QList< QPair<TextGraphicsItem *, QString> > oldTextItemsNames;
 		Change2DataCommand<qreal,QString> * changeDataCommand;
 		NetworkHandle * network;
+		bool makeUnique;
 	};
 
 	/*! \brief this command can be used to combine multiple commands into one command

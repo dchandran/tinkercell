@@ -29,7 +29,8 @@ extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)
 	homeDir = QObject::tr("\"") + homeDir.replace(QObject::tr("/"),QObject::tr("\\")) + QObject::tr("\"");
 
 	QString s1(QObject::tr("copy \"") + appDir + QObject::tr("\"\\win32\\*.* \"") + tempDir + QObject::tr("\" /Y"));
-	system(s1.toAscii().data());
+	if (system(s1.toAscii().data()) < 0)
+		QMessageBox::information(Tinkercell::MainWindow::instance(), "Error", "Unable to copy some needed GCC files to temporary folder");
 
 #endif
 
@@ -42,14 +43,16 @@ extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)
 	if (Tinkercell::CodingWindow::DO_SVN_UPDATE)
 	{
 		QString s;
+		int err = 0;
 		if (!QFile::exists(homeDir + QObject::tr("/.svn")))
 		{
 			s = QObject::tr("svn co https://tinkercellextra.svn.sourceforge.net/svnroot/tinkercellextra ") + homeDir;
-			system(s.toAscii().data());
+			err =system(s.toAscii().data());
 		}
 
 		s = QObject::tr("cd ") + homeDir + QObject::tr("; svn update");
-		system(s.toAscii().data());
+		if (err < 0 || system(s.toAscii().data()) < 0)
+				QMessageBox::information(Tinkercell::MainWindow::instance(), "Error", "Unable to call SVN for auto-update. Check that SVN is installed and located in the system path.");
 		
 #ifdef Q_WS_WIN
 		QString filename = homeDir + QObject::tr("\\\\updates.txt");
@@ -66,7 +69,7 @@ extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)
 			if (regex.indexIn(text) > -1)
 			{
 				QString v = regex.cap(1);
-				if (v != @TINKERCELL_WC_REVISION@)	
+				if (v != QObject::tr("@TINKERCELL_WC_REVISION@"))	
 					QMessageBox::about(Tinkercell::MainWindow::instance(), "New version", "A new version of TinkerCell is available for download  at <a href='http://www.tinkercell.com/downloads-2'>tinkercell.com</a>");
 			}
 			file.close();

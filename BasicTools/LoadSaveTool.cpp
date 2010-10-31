@@ -442,6 +442,7 @@ namespace Tinkercell
 			for (int i=0; i < handles.size(); ++i)
 				if ((h = handles[i]) && !h->parent)
 				{
+					h->setParent(root,false);
 					RenameCommand::findReplaceAllHandleData(handles,h->name,root->fullName() + tr(".") + h->name);
 				}
 	}

@@ -352,13 +352,13 @@ namespace Tinkercell
 	void NetworkHandle::rename(const QString& oldname, const QString& s)
 	{
 		if (oldname == s) return;
-		
+
 		if (symbolsTable.uniqueHandlesWithDot.contains(oldname))
 		{
 			rename(symbolsTable.uniqueHandlesWithDot[oldname],s);
 			return;
 		}
-		
+
 		if (symbolsTable.nonuniqueHandles.contains(oldname))
 		{
 			rename(symbolsTable.nonuniqueHandles[oldname],s);

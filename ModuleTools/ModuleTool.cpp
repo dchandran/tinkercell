@@ -9,6 +9,7 @@
 ****************************************************************************/
 
 #include <math.h>
+#include <iostream>
 #include <QRegExp>
 #include "ItemFamily.h"
 #include "NetworkHandle.h"
@@ -461,10 +462,10 @@ namespace Tinkercell
 		
 		aboutToBeRenamed.clear();
 
-		commands << moduleConnectionsInserted(items)
+		/*commands << moduleConnectionsInserted(items)
 				 << substituteStrings(handles);
 		
-		//removeSubnetworks(items,handles);
+		removeSubnetworks(items,handles);
 
 		ItemHandle * h1 = 0, * h2 = 0;
 
@@ -491,7 +492,7 @@ namespace Tinkercell
 					}
 				}
 			}
-		}
+		}*/
 		
 		if (scene->localHandle())
 		{
@@ -509,12 +510,20 @@ namespace Tinkercell
 				else
 				if (text = TextGraphicsItem::cast(items[i]))
 					text->groupID = groupName;
+					
+			QList<ItemHandle*> allChildren = handles;
+			for (int i=0; i < handles.size(); ++i)
+				if (handles[i])
+					allChildren << handles[i]->allChildren();
+
+			QList<ItemHandle*> existingHandles = scene->network->handles();
 
 			for (int i=0; i < handles.size(); ++i)
-				if (handles[i] && !handles[i]->parent)
+				if (handles[i] && !existingHandles.contains(handles[i]) && !handles[i]->parent)
 				{
+					existingHandles << handles[i];
 					commands << new SetParentHandleCommand(tr("set parent"),0,handles[i],parentHandle);
-					commands << new RenameCommand(tr("rename"),0,handles,handles[i]->name,parentHandle->fullName() + tr(".") + handles[i]->name);
+					commands << new RenameCommand(tr("rename"),0,allChildren,handles[i]->name,parentHandle->fullName() + tr(".") + handles[i]->name);
 				}
 		}
 		
@@ -558,7 +567,7 @@ namespace Tinkercell
 
 								if (QFile::exists(filename))
 								{
-									QPair< QList<ItemHandle*> , QList<QGraphicsItem*> > pair = mainWindow->getItemsFromFile(filename,handles[i]);
+									QPair< QList<ItemHandle*> , QList<QGraphicsItem*> > pair = mainWindow->getItemsFromFile(filename,0);
 
 									items2 = pair.second;
 									QList<ItemHandle*> handles2 = pair.first;
@@ -579,7 +588,10 @@ namespace Tinkercell
 											{
 												handles2[j]->setParent(0,false);
 												commands << new SetParentHandleCommand(tr("set parent"),0,handles2[j],handles[i]);
-												commands << new RenameCommand(tr("rename"),0,allChildren,handles2[j]->name,handles[i]->fullName() + tr(".") + handles2[j]->name);
+												if (scene->localHandle())
+													commands << new RenameCommand(tr("rename"),0,allChildren,handles2[j]->name,scene->localHandle()->fullName() + tr(".") + handles[i]->fullName() + tr(".") + handles2[j]->name);
+												else
+													commands << new RenameCommand(tr("rename"),0,allChildren,handles2[j]->name,handles[i]->fullName() + tr(".") + handles2[j]->name);
 											}
 										}
 									}
@@ -1116,14 +1128,14 @@ namespace Tinkercell
 			QList<GraphicsScene*> scenes = scene->network->scenes();
 
 			for (int i=0; i < editors.size(); ++i)
-				if (editors[i]->localHandle() == handle)
+				if (editors[i]->localHandle() == handle && !editors[i]->text().isEmpty())
 				{
 					editors[i]->popOut();
 					return;
 				}
 
 			for (int i=0; i < scenes.size(); ++i)
-				if (scenes[i]->localHandle() == handle)
+				if (scenes[i]->localHandle() == handle && !scenes[i]->items().isEmpty())
 				{
 					scenes[i]->popOut();
 					return;
@@ -1182,7 +1194,7 @@ namespace Tinkercell
 						{
 							window->addDockWidget(Qt::TopDockWidgetArea,dock);
 							window->handle = handle;	
-						}	
+						}
 						newScene->insert(handle->name + tr(" visible"),items);
 						newScene->fitAll();
 					}

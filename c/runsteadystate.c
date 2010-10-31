@@ -342,10 +342,10 @@ TCAPIEXPORT void run(%s) \n\
 					{\n\
 						if (%i)\n\
 							for (j=0; j<TCreactions; ++j)\n\
-							   tc_setMatrixValue(dat,i,j+1,0.0);\n\
+							   tc_setMatrixValue(dat,i,j+1,tc_getMatrixValue(dat,i-1,j+1));\n\
 						else\n\
 							for (j=0; j<TCvars; ++j)\n\
-							   tc_setMatrixValue(dat,i,j+1,0.0);\n\
+							   tc_setMatrixValue(dat,i,j+1,tc_getMatrixValue(dat,i-1,j+1));\n\
 					}\n\
 					tc_showProgress((100*i)/dat.rows);\n\
 				}\n\

@@ -610,7 +610,7 @@ namespace Tinkercell
 				
 				if (otherToolBar)
 				{
-					window->addToolBar(Qt::RightToolBarArea,otherToolBar);
+					window->addToolBar(Qt::TopToolBarArea,otherToolBar);
 					otherToolBar->show();
 				}
 			}

@@ -1355,7 +1355,8 @@ namespace Tinkercell
 
 		QList<NodeGraphicsItem*> visited;
 
-		bool flipped = (node->transform().m11() < 0);
+		QTransform t = node->transform(); 
+		bool flipped = (t.m11() < 0) || (t.m22() < 0) || (t.m12() != 0) || (t.m21() != 0);
 		if (flipped)
 		{
 			upstream = !upstream;

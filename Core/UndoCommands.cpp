@@ -297,7 +297,7 @@ namespace Tinkercell
 		{
 			network->showTextEditor(textEditor);
 			QStringList oldNames, newNames, usedNames;
-			QList<ItemHandle*> nameChangeHandles;
+			QList<ItemHandle*> nameChangeHandles = network->handles();
 			QString s0,s1;
 			bool isNum;
 			
@@ -635,7 +635,11 @@ namespace Tinkercell
 		graphicsItems.clear();
 		
 		item = getGraphicsItem(item);
-		
+		if (!NodeGraphicsItem::cast(item) &&
+			!TextGraphicsItem::cast(item) &&
+			!ConnectionGraphicsItem::cast(item))
+			item = 0;
+
 		ConnectionGraphicsItem * connection = ConnectionGraphicsItem::cast(item);
 		if (connection)
 		{
@@ -658,9 +662,12 @@ namespace Tinkercell
 				}
 		}
 		
-		graphicsItems += item;
-		handles.clear();
-		handles += getHandle(item);
+		if (item)
+		{
+			graphicsItems += item;
+			handles.clear();
+			handles += getHandle(item);
+		}
 		renameCommand = 0;
 	}
 
@@ -675,7 +682,8 @@ namespace Tinkercell
 		QGraphicsItem * item;
 		ConnectionGraphicsItem * connection;
 		for (int i=0; i < items.size(); ++i)
-			if ((item = getGraphicsItem(items[i])) && !graphicsItems.contains(item))
+			if ((item = getGraphicsItem(items[i])) && !graphicsItems.contains(item) &&
+					(NodeGraphicsItem::cast(items[i]) || TextGraphicsItem::cast(items[i]) || ConnectionGraphicsItem::cast(items[i])))
 			{
 				connection = ConnectionGraphicsItem::cast(item);
 				if (connection)
@@ -721,7 +729,7 @@ namespace Tinkercell
 		{
 			network->showScene(graphicsScene);
 			QStringList newNames, oldNames, usedNames;
-			QList<ItemHandle*> nameChangeHandles;
+			QList<ItemHandle*> nameChangeHandles = network->handles();
 			QString s0,s1;
 			
 			for (int i=0; i<graphicsItems.size(); ++i)
@@ -750,7 +758,7 @@ namespace Tinkercell
 							if (parentHandles.size() > i && !MainWindow::invalidPointers.contains(parentHandles[i]))
 								handles[i]->setParent(parentHandles[i],false);
 							
-							handles[i]->network = graphicsScene->network;
+							handles[i]->network = network;
 							
 							if (!renameCommand && !nameChangeHandles.contains(handles[i]))
 							{
@@ -777,7 +785,7 @@ namespace Tinkercell
 					if (handles[i])
 						allHandles << handles[i] << handles[i]->allChildren();
 					
-				renameCommand = new RenameCommand(QString("rename"),graphicsScene->network,allHandles,oldNames,newNames);
+				renameCommand = new RenameCommand(QString("rename"),graphicsScene->network,allHandles,oldNames,newNames,false);
 			}
 			
 			if (renameCommand && checkNames)
@@ -867,14 +875,26 @@ namespace Tinkercell
 	{
 		ItemHandle * handle = 0;
 		
+		QList<QGraphicsItem*> list;
 		for (int i=0; i < graphicsItems.size(); ++i)
+			if (!MainWindow::invalidPointers.contains((void*)graphicsItems[i]) &&
+				(	NodeGraphicsItem::cast(graphicsItems[i]) || 
+					TextGraphicsItem::cast(graphicsItems[i]) || 
+					ConnectionGraphicsItem::cast(graphicsItems[i])))
+				list << graphicsItems[i];
+
+		graphicsItems.clear();
+
+		for (int i=0; i < list.size(); ++i)
 		{
-			if (graphicsItems[i] && !MainWindow::invalidPointers.contains((void*)graphicsItems[i]))
+			if (list[i] && !MainWindow::invalidPointers.contains((void*)list[i]))
 			{
-				if ((handle = getHandle(graphicsItems[i])) &&
+				if ((handle = getHandle(list[i])) &&
 					!handles.contains(handle))
+				{
 					handles += handle;
-				graphicsItems[i] = 0;
+					list[i] = 0;
+				}
 			}
 		}
 		
@@ -894,27 +914,25 @@ namespace Tinkercell
         ConnectionGraphicsItem * connection;
         NodeGraphicsItem * node;
 
-		for (int i=0; i < graphicsItems.size(); ++i)
+		for (int i=0; i < list.size(); ++i)
 		{
-			if (graphicsItems[i] && !MainWindow::invalidPointers.contains((void*)graphicsItems[i]))
+			if (list[i] && !MainWindow::invalidPointers.contains((void*)list[i]))
 			{
-			    if (graphicsItems[i]->parentItem())
-					graphicsItems[i]->setParentItem(0);
+			    if (list[i]->parentItem())
+					list[i]->setParentItem(0);
 
-				if (graphicsItems[i]->scene())
-					graphicsItems[i]->scene()->removeItem(graphicsItems[i]);
+				if (list[i]->scene())
+					list[i]->scene()->removeItem(list[i]);
 				
-				MainWindow::invalidPointers[ (void*) graphicsItems[i] ] = true;
+				MainWindow::invalidPointers[ (void*) list[i] ] = true;
 				
-				QList<QGraphicsItem *> childItems = graphicsItems[i]->childItems();
+				QList<QGraphicsItem *> childItems = list[i]->childItems();
 				for (int j=0; j < childItems.size(); ++j)
 					if (childItems[j])
 						childItems[j]->setParentItem(0);
-				delete graphicsItems[i];
+				delete list[i];
 			}
 		}
-
-		graphicsItems.clear();
 		
 		if (renameCommand)
 			delete renameCommand;
@@ -1882,8 +1900,8 @@ namespace Tinkercell
 		}
 	}
 
-	RenameCommand::RenameCommand(const QString& name, NetworkHandle * net, ItemHandle * handle, const QString& newname)
-		: QUndoCommand(name), changeDataCommand(0), network(net)
+	RenameCommand::RenameCommand(const QString& name, NetworkHandle * net, ItemHandle * handle, const QString& newname, bool forceUnique)
+		: QUndoCommand(name), changeDataCommand(0), network(net), makeUnique(forceUnique)
 	{
 		if (net)
 			allhandles = net->handles();
@@ -1898,7 +1916,7 @@ namespace Tinkercell
 			handles += handle;
 			oldNames += handle->fullName();
 			
-			if (net)
+			if (net && makeUnique)
 			{
 				s = handle->name;
 				handle->name = newname;
@@ -1912,8 +1930,8 @@ namespace Tinkercell
 		}
 	}
 
-	RenameCommand::RenameCommand(const QString& name, NetworkHandle * net, const QList<ItemHandle*>& allItems, const QString& oldname, const QString& newname)
-		: QUndoCommand(name), changeDataCommand(0), network(net)
+	RenameCommand::RenameCommand(const QString& name, NetworkHandle * net, const QList<ItemHandle*>& allItems, const QString& oldname, const QString& newname, bool forceUnique)
+		: QUndoCommand(name), changeDataCommand(0), network(net), makeUnique(forceUnique)
 	{
 		allhandles = allItems;
 		
@@ -1931,14 +1949,14 @@ namespace Tinkercell
 		newNames.clear();
 
 		oldNames += oldname;
-		if (net)
+		if (net && makeUnique)
 			newNames += net->makeUnique(newname);
 		else
 			newNames += newname;
 	}
 	
-	RenameCommand::RenameCommand(const QString& name, NetworkHandle * net, const QString& oldname, const QString& newname)
-		: QUndoCommand(name), changeDataCommand(0), network(net)
+	RenameCommand::RenameCommand(const QString& name, NetworkHandle * net, const QString& oldname, const QString& newname, bool forceUnique)
+		: QUndoCommand(name), changeDataCommand(0), network(net), makeUnique(forceUnique)
 	{
 		if (net)
 			this->allhandles = net->handles();
@@ -1948,14 +1966,14 @@ namespace Tinkercell
 		newNames.clear();
 
 		oldNames += oldname;
-		if (net)
+		if (net && makeUnique)
 			newNames += net->makeUnique(newname);
 		else
 			newNames += newname;
 	}
 	
-	RenameCommand::RenameCommand(const QString& name, NetworkHandle * net, const QList<ItemHandle*>& allItems, const QList<QString>& oldname, const QList<QString>& newname)
-		: QUndoCommand(name), changeDataCommand(0), network(net)
+	RenameCommand::RenameCommand(const QString& name, NetworkHandle * net, const QList<ItemHandle*>& allItems, const QList<QString>& oldname, const QList<QString>& newname, bool forceUnique)
+		: QUndoCommand(name), changeDataCommand(0), network(net), makeUnique(forceUnique)
 	{
 		allhandles = allItems;
 		for (int i=0; i < allhandles.size(); ++i)
@@ -1972,14 +1990,14 @@ namespace Tinkercell
 		newNames.clear();
 
 		oldNames << oldname;
-		if (net)
+		if (net && makeUnique)
 			newNames << net->makeUnique(newname);			
 		else
 			newNames << newname;
 	}
 	
-	RenameCommand::RenameCommand(const QString& name, NetworkHandle * net, const QList<QString>& oldname, const QList<QString>& newname)
-		: QUndoCommand(name), changeDataCommand(0), network(net)
+	RenameCommand::RenameCommand(const QString& name, NetworkHandle * net, const QList<QString>& oldname, const QList<QString>& newname, bool forceUnique)
+		: QUndoCommand(name), changeDataCommand(0), network(net), makeUnique(forceUnique)
 	{
 		if (net)
 			this->allhandles = net->handles();
@@ -1988,14 +2006,14 @@ namespace Tinkercell
 		newNames.clear();
 		
 		oldNames << oldname;
-		if (net)
+		if (net && makeUnique)
 			newNames << net->makeUnique(newname);
 		else
 			newNames << newname;
 	}
 
-	RenameCommand::RenameCommand(const QString& name, NetworkHandle * net, const QList<ItemHandle*>& allItems, ItemHandle * handle, const QString& newname)
-		: QUndoCommand(name), changeDataCommand(0), network(net)
+	RenameCommand::RenameCommand(const QString& name, NetworkHandle * net, const QList<ItemHandle*>& allItems, ItemHandle * handle, const QString& newname, bool forceUnique)
+		: QUndoCommand(name), changeDataCommand(0), network(net), makeUnique(forceUnique)
 	{
 		allhandles = allItems;
 		for (int i=0; i < allhandles.size(); ++i)
@@ -2025,7 +2043,7 @@ namespace Tinkercell
 		{
 			handles += handle;
 			oldNames += handle->fullName();
-			if (net)
+			if (net && makeUnique)
 			{
 				s = handle->name;
 				handle->name = newname;
@@ -2039,8 +2057,8 @@ namespace Tinkercell
 		}
 	}
 
-	RenameCommand::RenameCommand(const QString& name, NetworkHandle * net, const QList<ItemHandle*>& items, const QList<QString>& newnames)
-		: QUndoCommand(name), changeDataCommand(0), network(net)
+	RenameCommand::RenameCommand(const QString& name, NetworkHandle * net, const QList<ItemHandle*>& items, const QList<QString>& newnames, bool forceUnique)
+		: QUndoCommand(name), changeDataCommand(0), network(net), makeUnique(forceUnique)
 	{
 		if (net)
 			this->allhandles = net->handles();
@@ -2067,7 +2085,7 @@ namespace Tinkercell
 				handles += handle;
 				oldNames += handle->fullName();
 				
-				if (net)
+				if (net && makeUnique)
 				{
 					s = handle->name;
 					handle->name = newnames[i];
@@ -2082,8 +2100,8 @@ namespace Tinkercell
 		}
 	}
 
-	RenameCommand::RenameCommand(const QString& name, NetworkHandle * net, const QList<ItemHandle*>& allItems, const QList<ItemHandle*>& items, const QList<QString>& newnames)
-		: QUndoCommand(name), changeDataCommand(0), network(net)
+	RenameCommand::RenameCommand(const QString& name, NetworkHandle * net, const QList<ItemHandle*>& allItems, const QList<ItemHandle*>& items, const QList<QString>& newnames, bool forceUnique)
+		: QUndoCommand(name), changeDataCommand(0), network(net), makeUnique(forceUnique)
 	{
 		allhandles = allItems;
 		for (int i=0; i < allhandles.size(); ++i)
@@ -2108,7 +2126,7 @@ namespace Tinkercell
 			{
 				handles += handle;
 				oldNames += handle->fullName();
-				if (net)
+				if (net && makeUnique)
 				{
 					s = handle->name;
 					handle->name = newnames[i];
@@ -2917,11 +2935,7 @@ namespace Tinkercell
 			for (int i=0; i < newTextTables.size(); ++i)
 				delete newTextTables[i];
 			
-			net->symbolsTable.uniqueHandlesWithDot.remove(newHandle->fullName());
-			net->symbolsTable.uniqueHandlesWithUnderscore.remove(newHandle->fullName(QObject::tr("_")));
-			renameCommand = new RenameCommand(QString("rename"),net,allHandles,oldNames,newNames);
-			net->symbolsTable.uniqueHandlesWithDot[ newHandle->fullName() ] = newHandle;
-			net->symbolsTable.uniqueHandlesWithUnderscore[ newHandle->fullName(QObject::tr("_"))] = newHandle;
+			renameCommand = new RenameCommand(QString("rename"),net,allHandles,oldNames,newNames,false);
 		}
 	}
 

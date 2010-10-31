@@ -189,7 +189,7 @@ namespace Tinkercell
 		
 		histData.columnName(0) = tr("values");
 		histData.description() = tr("histogram");
-		
+
 		dataTable = histData;
 	}
 	
@@ -702,7 +702,7 @@ namespace Tinkercell
 		
 		if (s.isNull() || s.isEmpty()) return;
 		
-		dataPlot->setAxisTitle(QwtPlot::xBottom, s);		
+		dataPlot->setAxisTitle(QwtPlot::xBottom, s);
 	}
 	
 	void Plot2DWidget::setYLabel()

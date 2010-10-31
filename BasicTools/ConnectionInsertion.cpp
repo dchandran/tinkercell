@@ -475,7 +475,7 @@ namespace Tinkercell
 						!oldRowNames.contains(nodes[j]->fullName()) &&
 						(nodeFamily = nodes[j]->family()))
 					{
-						in = nodesIn.contains(nodes[j]);
+						in = nodesIn.contains(nodes[j]) && (j < nodesIn.size());
 						//look for suitable role for this node
 						for (int k=0; k < nodeRoles.size() && k < nodeFamilies.size(); ++k)
 							if (!nodeRoles[k].isEmpty() && 
@@ -506,7 +506,7 @@ namespace Tinkercell
 						!oldRowNames.contains(nodes[j]->fullName()) &&
 						(nodeFamily = nodes[j]->family()))
 					{
-						in = nodesIn.contains(nodes[j]);
+						in = nodesIn.contains(nodes[j]) && (j < nodesIn.size());
 						//look for suitable role for this node
 						for (int k=0; k < nodeRoles.size() && k < nodeFamilies.size(); ++k)
 							if (!nodeRoles[k].isEmpty() && 

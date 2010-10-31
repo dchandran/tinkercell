@@ -43,7 +43,7 @@ namespace Tinkercell
 
 			nodes.clear();
 			QList<NodeHandle*> connectedNodes = handle->nodes();
-			TextDataTable & participants = handle->textDataTable(QObject::tr("Participants"));
+			TextDataTable participants = handle->textDataTable(QObject::tr("Participants"));
 			NodeHandle * node;
 			QStringList names;
 			
@@ -59,6 +59,8 @@ namespace Tinkercell
 					for (int j=0; j < participants.rows(); ++j)
 						if (participants.value(j,0) == node->fullName())
 						{
+							participants.value(j,0) = QObject::tr("");
+							
 							isReactant = ( participants.rowName(j).toLower().contains(QObject::tr("reactant")) ||
 													participants.rowName(j).toLower().contains(QObject::tr("substrate")));
 						
@@ -74,12 +76,11 @@ namespace Tinkercell
 						products.value(QObject::tr("stoichiometry"), node->fullName()) += 0.0;
 						rates.value(QObject::tr("rate"),QObject::tr("formula")) += QObject::tr("*") + node->fullName();						
 					}
-					else
-						if (isProduct)
-						{
-							products.value( QObject::tr("stoichiometry"), node->fullName()) += 1.0;
-							reactants.value( QObject::tr("stoichiometry"), node->fullName()) += 0.0;
-						}
+					if (isProduct)
+					{
+						products.value( QObject::tr("stoichiometry"), node->fullName()) += 1.0;
+						reactants.value( QObject::tr("stoichiometry"), node->fullName()) += 0.0;
+					}
 				}
 			}
 			

@@ -27,7 +27,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="participants" rows="2" cols="1" rowNames="PRODUCT;;emp2" columnNames="" values="reactant;;product"/>
+                <Table key="participants" rows="4" cols="1" rowNames="reactant;;product;;PRODUCT;;emp2" columnNames="" values="PRODUCT;;emp2;;reactant;;product"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="protein_degradation.k0*PRODUCT"/>
@@ -69,7 +69,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="participants" rows="2" cols="1" rowNames="mrna;;emp1" columnNames="" values="reactant;;product"/>
+                <Table key="participants" rows="4" cols="1" rowNames="reactant;;product;;mrna;;emp1" columnNames="" values="mrna;;emp1;;reactant;;product"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="mrna_degradation.k0*mrna"/>
@@ -109,7 +109,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="participants" rows="3" cols="1" rowNames="emp1;;mrna;;TEMPLATE" columnNames="" values="reactant;;product;;template"/>
+                <Table key="participants" rows="6" cols="1" rowNames="reactant;;product;;template;;TEMPLATE;;emp1;;mrna" columnNames="" values="emp1;;mrna;;TEMPLATE;;template;;reactant;;product"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="transcription.k0"/>
@@ -125,7 +125,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="participants" rows="3" cols="1" rowNames="emp2;;PRODUCT;;mrna" columnNames="" values="reactant;;product;;template"/>
+                <Table key="participants" rows="6" cols="1" rowNames="reactant;;product;;template;;mrna;;emp2;;PRODUCT" columnNames="" values="emp2;;PRODUCT;;mrna;;template;;reactant;;product"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="translation.k0*mrna"/>
@@ -851,7 +851,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="4505.15" y="5016.86" angle="133.054"/>
-                            <transform m11="-0.273076" m12="0.292283" m21="-0.219212" m22="-0.204808"/>
+                            <transform m11="-0.273078" m12="0.292281" m21="-0.21921" m22="-0.20481"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>

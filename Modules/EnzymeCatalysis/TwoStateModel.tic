@@ -14,7 +14,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="participants" rows="3" cols="1" rowNames="Intermediate2;;Product;;Catalyst" columnNames="" values="reactant1;;product2;;product"/>
+                <Table key="participants" rows="6" cols="1" rowNames="reactant1;;product2;;product;;Intermediate2;;Product;;Catalyst" columnNames="" values="Intermediate2;;Product;;Catalyst;;reactant1;;product2;;product"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="v2.kcat*Intermediate2"/>
@@ -30,7 +30,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="participants" rows="2" cols="1" rowNames="Intermediate1;;Intermediate2" columnNames="" values="reactant;;product"/>
+                <Table key="participants" rows="4" cols="1" rowNames="reactant;;product;;Intermediate1;;Intermediate2" columnNames="" values="Intermediate1;;Intermediate2;;reactant;;product"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
                 <Table key="rate equations" rows="2" cols="1" rowNames="forward;;reverse" columnNames="formula" values="v3.kf*Intermediate1;;v3.kb*Intermediate2"/>
@@ -111,7 +111,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="participants" rows="3" cols="1" rowNames="Catalyst;;Substrate;;Intermediate1" columnNames="" values="reactant1;;reactant2;;product"/>
+                <Table key="participants" rows="6" cols="1" rowNames="reactant1;;reactant2;;product;;Catalyst;;Substrate;;Intermediate1" columnNames="" values="Catalyst;;Substrate;;Intermediate1;;reactant1;;reactant2;;product"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
                 <Table key="rate equations" rows="2" cols="1" rowNames="forward;;reverse" columnNames="formula" values="v1.kf*Catalyst*Substrate;;v1.kb*Intermediate1"/>
@@ -973,7 +973,7 @@
                         <ControlPoints indices="7,8,6,3"/>
                         <ArrowAtStart>
                             <pos x="5335.28" y="4780.05" angle="-152.166"/>
-                            <transform m11="-0.353475" m12="-0.187233" m21="0.140424" m22="-0.265105"/>
+                            <transform m11="-0.353476" m12="-0.18723" m21="0.140422" m22="-0.265106"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfGradientDefinitions>

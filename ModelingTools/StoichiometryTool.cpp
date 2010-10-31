@@ -322,7 +322,7 @@ namespace Tinkercell
 
 					bool validEquation = true;
 					for (int j=0; j < participants.rows(); ++j)
-						if (!oldeqns->value(0,0).contains(participants.rowName(j)))
+						if (!oldeqns->value(0,0).contains(participants.at(j,0)))
 						{
 							validEquation = false;
 							break;
@@ -346,10 +346,10 @@ namespace Tinkercell
 					
 					for (int j=0; j < participants.rows(); ++j)
 					{
-						if (participants.value(j,0).toLower() == tr("catalyst"))
+						if (participants.rowName(j).toLower() == tr("catalyst"))
 							enz = participants.rowName(j);
 						else
-						if (participants.value(j,0).toLower().contains(tr("substrate")) || participants.value(j,0).toLower().contains(tr("reactant")))
+						if (participants.rowName(j).toLower().contains(tr("substrate")) || participants.rowName(j).toLower().contains(tr("reactant")))
 							reacs += participants.rowName(j);
 					}
 					

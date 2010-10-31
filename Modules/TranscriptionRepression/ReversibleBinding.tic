@@ -27,7 +27,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="participants" rows="3" cols="1" rowNames="Target;;Repressor;;inactive_promoter" columnNames="" values="reactant1;;reactant2;;product"/>
+                <Table key="participants" rows="6" cols="1" rowNames="reactant1;;reactant2;;product;;Target;;Repressor;;inactive_promoter" columnNames="" values="Target;;Repressor;;inactive_promoter;;reactant1;;reactant2;;product"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
                 <Table key="rate equations" rows="2" cols="1" rowNames="forward;;reverse" columnNames="formula" values="binding.kf*Target*Repressor;;binding.kb*inactive_promoter"/>
@@ -539,7 +539,7 @@
                         <ControlPoints indices="6,7,8,3"/>
                         <ArrowAtStart>
                             <pos x="5612.5" y="4772.01" angle="13.9138"/>
-                            <transform m11="0.388275" m12="0.0961379" m21="-0.0721035" m22="0.291206"/>
+                            <transform m11="0.388275" m12="0.0961382" m21="-0.0721037" m22="0.291206"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>

@@ -53,7 +53,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="participants" rows="2" cols="1" rowNames="INPUT;;ip1" columnNames="" values="activator;;target"/>
+                <Table key="participants" rows="4" cols="1" rowNames="activator;;target;;INPUT;;ip1" columnNames="" values="INPUT;;ip1;;activator;;target"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="first.k0"/>
@@ -121,7 +121,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="participants" rows="2" cols="1" rowNames="gene1;;rp1" columnNames="middle" values="repressor;;target"/>
+                <Table key="participants" rows="4" cols="1" rowNames="repressor;;target;;gene1;;rp1" columnNames="middle" values="gene1;;rp1;;repressor;;target"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="middle.k0"/>
@@ -150,7 +150,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="participants" rows="2" cols="1" rowNames="gene2;;OUTPUT" columnNames="" values="template;;product"/>
+                <Table key="participants" rows="4" cols="1" rowNames="template;;product;;gene2;;OUTPUT" columnNames="" values="gene2;;OUTPUT;;template;;product"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="ip2*rp1"/>
@@ -179,7 +179,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="participants" rows="2" cols="1" rowNames="INPUT;;ip2" columnNames="" values="activator;;target"/>
+                <Table key="participants" rows="4" cols="1" rowNames="activator;;target;;INPUT;;ip2" columnNames="" values="INPUT;;ip2;;activator;;target"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="last.k0"/>
@@ -208,7 +208,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="participants" rows="3" cols="1" rowNames="INPUT;;first.inactive_promoter;;ip1" columnNames="" values="reactant1;;reactant2;;product"/>
+                <Table key="participants" rows="3" cols="1" rowNames="reactant1;;reactant2;;product" columnNames="" values="INPUT;;first.inactive_promoter;;ip1"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
                 <Table key="rate equations" rows="2" cols="1" rowNames="forward;;reverse" columnNames="formula" values="first.binding.kf*INPUT*first.inactive_promoter;;first.binding.kb*ip1"/>
@@ -274,7 +274,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="participants" rows="2" cols="1" rowNames="middle.repressor_protein;;rp1" columnNames="" values="repressor;;target"/>
+                <Table key="participants" rows="2" cols="1" rowNames="repressor;;target" columnNames="" values="middle.repressor_protein;;rp1"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="middle.repression.k0"/>
@@ -290,7 +290,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="participants" rows="3" cols="1" rowNames="middle.emp1;;middle.mrna;;gene1" columnNames="" values="reactant;;product;;template"/>
+                <Table key="participants" rows="3" cols="1" rowNames="reactant;;product;;template" columnNames="" values="middle.emp1;;middle.mrna;;gene1"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="ip1"/>
@@ -306,7 +306,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="participants" rows="2" cols="1" rowNames="middle.mrna;;middle.emp1" columnNames="" values="reactant;;product"/>
+                <Table key="participants" rows="2" cols="1" rowNames="reactant;;product" columnNames="" values="middle.mrna;;middle.emp1"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="middle.mrna_degradation.k0*middle.mrna"/>
@@ -322,7 +322,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="participants" rows="3" cols="1" rowNames="middle.emp2;;middle.repressor_protein;;middle.mrna" columnNames="" values="reactant;;product;;template"/>
+                <Table key="participants" rows="3" cols="1" rowNames="reactant;;product;;template" columnNames="" values="middle.emp2;;middle.repressor_protein;;middle.mrna"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="rbs1.strength * middle.mrna"/>
@@ -338,7 +338,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="participants" rows="2" cols="1" rowNames="middle.repressor_protein;;middle.emp2" columnNames="" values="reactant;;product"/>
+                <Table key="participants" rows="2" cols="1" rowNames="reactant;;product" columnNames="" values="middle.repressor_protein;;middle.emp2"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="middle.protein_degradation.k0*middle.repressor_protein"/>
@@ -391,7 +391,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="participants" rows="3" cols="1" rowNames="pp1.emp1;;pp1.mrna;;gene2" columnNames="" values="reactant;;product;;template"/>
+                <Table key="participants" rows="3" cols="1" rowNames="reactant;;product;;template" columnNames="" values="pp1.emp1;;pp1.mrna;;gene2"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="ip2*rp1"/>
@@ -407,7 +407,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="participants" rows="2" cols="1" rowNames="pp1.mrna;;pp1.emp1" columnNames="" values="reactant;;product"/>
+                <Table key="participants" rows="2" cols="1" rowNames="reactant;;product" columnNames="" values="pp1.mrna;;pp1.emp1"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="pp1.mrna_degradation.k0*pp1.mrna"/>
@@ -423,7 +423,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="participants" rows="3" cols="1" rowNames="pp1.emp2;;OUTPUT;;pp1.mrna" columnNames="" values="reactant;;product;;template"/>
+                <Table key="participants" rows="3" cols="1" rowNames="reactant;;product;;template" columnNames="" values="pp1.emp2;;OUTPUT;;pp1.mrna"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="rbs2.strength * pp1.mrna"/>
@@ -439,7 +439,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="participants" rows="2" cols="1" rowNames="OUTPUT;;pp1.emp2" columnNames="" values="reactant;;product"/>
+                <Table key="participants" rows="2" cols="1" rowNames="reactant;;product" columnNames="" values="OUTPUT;;pp1.emp2"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="pp1.protein_degradation.k0*OUTPUT"/>
@@ -468,7 +468,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="participants" rows="3" cols="1" rowNames="INPUT;;last.inactive_promoter;;ip2" columnNames="" values="reactant1;;reactant2;;product"/>
+                <Table key="participants" rows="3" cols="1" rowNames="reactant1;;reactant2;;product" columnNames="" values="INPUT;;last.inactive_promoter;;ip2"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
                 <Table key="rate equations" rows="2" cols="1" rowNames="forward;;reverse" columnNames="formula" values="last.binding.kf*INPUT*last.inactive_promoter;;last.binding.kb*ip2"/>
@@ -497,7 +497,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="participants" rows="3" cols="1" rowNames="rp1;;middle.repressor_protein;;middle.repression.inactive_promoter" columnNames="" values="reactant1;;reactant2;;product"/>
+                <Table key="participants" rows="3" cols="1" rowNames="reactant1;;reactant2;;product" columnNames="" values="rp1;;middle.repressor_protein;;middle.repression.inactive_promoter"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
                 <Table key="rate equations" rows="2" cols="1" rowNames="forward;;reverse" columnNames="formula" values="middle.repression.binding.kf*rp1*middle.repressor_protein;;middle.repression.binding.kb*middle.repression.inactive_promoter"/>
@@ -4755,7 +4755,7 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="-1" handle="pp1.transcription" z="48.4">
             <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="line" style="2" gap="10" group="pp1">
                 <ControlPoints>
-                    <ControlPoint x="43126.8" y="7236.19"/>
+                    <ControlPoint x="73663.8" y="7263.99"/>
                     <ControlPoint x="4652.96" y="5242.36"/>
                     <ControlPoint x="4653.18" y="5206.28"/>
                     <ControlPoint x="4657.37" y="5186.67"/>
@@ -4827,10 +4827,10 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="-1" handle="pp1.transcription" z="39.7">
             <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="bezier" style="1" gap="10" group="pp1">
                 <ControlPoints>
-                    <ControlPoint x="7257.5" y="8214.26"/>
+                    <ControlPoint x="7370.78" y="8342.56"/>
                     <ControlPoint x="4571.75" y="5166.32"/>
                     <ControlPoint x="4731.25" y="5171.3"/>
-                    <ControlPoint x="19506.2" y="18164.6"/>
+                    <ControlPoint x="24393.5" y="21910.5"/>
                 </ControlPoints>
                 <CurveSegments>
                     <Path numPoints="4" NodeAtStart="pp1.emp1" NodeAtStartX="4467.78" NodeAtStartY="5056.86" NodeAtEnd="pp1.mrna" NodeAtEndX="4887.33" NodeAtEndY="5057.57">
@@ -4910,7 +4910,7 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="-1" handle="middle.transcription" z="48.4">
             <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="line" style="2" gap="10" group="middle">
                 <ControlPoints>
-                    <ControlPoint x="43126.8" y="7236.19"/>
+                    <ControlPoint x="73663.8" y="7263.99"/>
                     <ControlPoint x="4652.96" y="5242.36"/>
                     <ControlPoint x="4653.18" y="5206.28"/>
                     <ControlPoint x="4657.37" y="5186.67"/>
@@ -4982,10 +4982,10 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="-1" handle="middle.transcription" z="39.7">
             <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="bezier" style="1" gap="10" group="middle">
                 <ControlPoints>
-                    <ControlPoint x="7257.5" y="8214.26"/>
+                    <ControlPoint x="7370.78" y="8342.56"/>
                     <ControlPoint x="4571.75" y="5166.32"/>
                     <ControlPoint x="4731.25" y="5171.3"/>
-                    <ControlPoint x="19506.2" y="18164.6"/>
+                    <ControlPoint x="24393.5" y="21910.5"/>
                 </ControlPoints>
                 <CurveSegments>
                     <Path numPoints="4" NodeAtStart="middle.emp1" NodeAtStartX="4467.78" NodeAtStartY="5056.86" NodeAtEnd="middle.mrna" NodeAtEndX="4887.33" NodeAtEndY="5057.57">
@@ -5065,10 +5065,10 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="-1" handle="pp1.protein_degradation" z="29">
             <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="bezier" style="1" gap="10" group="pp1">
                 <ControlPoints>
-                    <ControlPoint x="12842.5" y="10354.6"/>
+                    <ControlPoint x="14064.8" y="10975.3"/>
                     <ControlPoint x="4961.88" y="4637.46"/>
                     <ControlPoint x="4823.12" y="4639.12"/>
-                    <ControlPoint x="7643.48" y="7715.6"/>
+                    <ControlPoint x="7762.39" y="7838.74"/>
                 </ControlPoints>
                 <CurveSegments>
                     <Path numPoints="4" NodeAtStart="OUTPUT" NodeAtStartX="5075" NodeAtStartY="4762.5" NodeAtEnd="pp1.emp2" NodeAtEndX="4705" NodeAtEndY="4752.5">
@@ -5189,13 +5189,13 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="-1" handle="first.binding" z="91.3">
             <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="bezier" style="1" gap="10" group="first">
                 <ControlPoints>
-                    <ControlPoint x="13423.8" y="10996.5"/>
+                    <ControlPoint x="14696.7" y="11655.4"/>
                     <ControlPoint x="5287.86" y="4910.45"/>
                     <ControlPoint x="5326.55" y="4799.7"/>
                     <ControlPoint x="5403.1" y="4788.21"/>
-                    <ControlPoint x="20895.3" y="11607.1"/>
+                    <ControlPoint x="26110.3" y="12702.5"/>
                     <ControlPoint x="5273.26" y="4700.45"/>
-                    <ControlPoint x="22840" y="12217.2"/>
+                    <ControlPoint x="28567.5" y="13374.5"/>
                     <ControlPoint x="5527.92" y="4769.96"/>
                     <ControlPoint x="5479.64" y="4776.72"/>
                 </ControlPoints>
@@ -5350,10 +5350,10 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="-1" handle="pp1.mrna_degradation" z="42.7">
             <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="bezier" style="1" gap="10" group="pp1">
                 <ControlPoints>
-                    <ControlPoint x="19500.4" y="18120"/>
+                    <ControlPoint x="24387.7" y="21869.2"/>
                     <ControlPoint x="4768.2" y="4935.65"/>
                     <ControlPoint x="4576.56" y="4940.43"/>
-                    <ControlPoint x="7258.07" y="8209.78"/>
+                    <ControlPoint x="7371.01" y="8340.77"/>
                 </ControlPoints>
                 <CurveSegments>
                     <Path numPoints="4" NodeAtStart="pp1.mrna" NodeAtStartX="4887.33" NodeAtStartY="5057.57" NodeAtEnd="pp1.emp1" NodeAtEndX="4467.78" NodeAtEndY="5056.86">
@@ -5474,13 +5474,13 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="-1" handle="middle.repression.binding" z="82.2">
             <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="bezier" style="1" gap="10" group="repression">
                 <ControlPoints>
-                    <ControlPoint x="26123.7" y="12676.9"/>
+                    <ControlPoint x="31348.7" y="13441.3"/>
                     <ControlPoint x="5229.33" y="4700.97"/>
                     <ControlPoint x="5279.01" y="4789.43"/>
                     <ControlPoint x="5371.84" y="4773.87"/>
-                    <ControlPoint x="14563.7" y="11666.9"/>
+                    <ControlPoint x="15447.1" y="12062.6"/>
                     <ControlPoint x="5217.17" y="4893.47"/>
-                    <ControlPoint x="28342.5" y="13199.9"/>
+                    <ControlPoint x="34025" y="13998.8"/>
                     <ControlPoint x="5521.08" y="4749.36"/>
                     <ControlPoint x="5464.67" y="4758.3"/>
                 </ControlPoints>
@@ -5635,13 +5635,13 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="-1" handle="middle.repression" z="58.6">
             <ConnectionGraphicsItem version="1.0" name="" color="#c30000" width="5" type="line" style="1" gap="10" group="middle">
                 <ControlPoints>
-                    <ControlPoint x="12874.9" y="10363"/>
+                    <ControlPoint x="14089.2" y="10980.9"/>
                     <ControlPoint x="5153.15" y="4756.19"/>
                     <ControlPoint x="5203.15" y="4756.19"/>
                     <ControlPoint x="5253.15" y="4756.19"/>
                     <ControlPoint x="5330.47" y="5038.31"/>
                     <ControlPoint x="4953.15" y="4756.19"/>
-                    <ControlPoint x="20989.3" y="12764.1"/>
+                    <ControlPoint x="26234.7" y="13981.4"/>
                 </ControlPoints>
                 <CurveSegments>
                     <Path numPoints="7" NodeAtStart="middle.repressor_protein" NodeAtStartX="5076.8" NodeAtStartY="4763.08" NodeAtEnd="rp1" NodeAtEndX="5245.4" NodeAtEndY="5046.56">
@@ -5693,10 +5693,10 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="-1" handle="middle.mrna_degradation" z="42.7">
             <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="bezier" style="1" gap="10" group="middle">
                 <ControlPoints>
-                    <ControlPoint x="19500.4" y="18120"/>
+                    <ControlPoint x="24387.7" y="21869.2"/>
                     <ControlPoint x="4768.2" y="4935.65"/>
                     <ControlPoint x="4576.56" y="4940.43"/>
-                    <ControlPoint x="7258.07" y="8209.78"/>
+                    <ControlPoint x="7371.01" y="8340.77"/>
                 </ControlPoints>
                 <CurveSegments>
                     <Path numPoints="4" NodeAtStart="middle.mrna" NodeAtStartX="4887.33" NodeAtStartY="5057.57" NodeAtEnd="middle.emp1" NodeAtEndX="4467.78" NodeAtEndY="5056.86">
@@ -5817,7 +5817,7 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="-1" handle="middle.translation" z="34.7">
             <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="line" style="2" gap="10" group="middle">
                 <ControlPoints>
-                    <ControlPoint x="19536.3" y="18118.1"/>
+                    <ControlPoint x="24423.6" y="21867.4"/>
                     <ControlPoint x="4891.73" y="4980.31"/>
                     <ControlPoint x="4865.31" y="4923.5"/>
                     <ControlPoint x="4874.33" y="4895.47"/>
@@ -5889,10 +5889,10 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="-1" handle="middle.translation" z="25.7">
             <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="bezier" style="1" gap="10" group="middle">
                 <ControlPoints>
-                    <ControlPoint x="7642.56" y="7719.98"/>
+                    <ControlPoint x="7762.02" y="7840.49"/>
                     <ControlPoint x="4812.5" y="4878.51"/>
                     <ControlPoint x="4932.5" y="4876.72"/>
-                    <ControlPoint x="12840.6" y="10373.8"/>
+                    <ControlPoint x="14065.2" y="10987.4"/>
                 </ControlPoints>
                 <CurveSegments>
                     <Path numPoints="4" NodeAtStart="middle.emp2" NodeAtStartX="4705" NodeAtStartY="4752.5" NodeAtEnd="middle.repressor_protein" NodeAtEndX="5076.8" NodeAtEndY="4763.08">
@@ -5972,10 +5972,10 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="-1" handle="middle.protein_degradation" z="29">
             <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="bezier" style="1" gap="10" group="middle">
                 <ControlPoints>
-                    <ControlPoint x="12847" y="10355.8"/>
+                    <ControlPoint x="14069.7" y="10976.6"/>
                     <ControlPoint x="4961.88" y="4637.46"/>
                     <ControlPoint x="4823.12" y="4639.12"/>
-                    <ControlPoint x="7643.48" y="7715.6"/>
+                    <ControlPoint x="7762.39" y="7838.74"/>
                 </ControlPoints>
                 <CurveSegments>
                     <Path numPoints="4" NodeAtStart="middle.repressor_protein" NodeAtStartX="5076.8" NodeAtStartY="4763.08" NodeAtEnd="middle.emp2" NodeAtEndX="4705" NodeAtEndY="4752.5">
@@ -6096,13 +6096,13 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="-1" handle="last.binding" z="91.3">
             <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="bezier" style="1" gap="10" group="last">
                 <ControlPoints>
-                    <ControlPoint x="13423.8" y="10996.5"/>
+                    <ControlPoint x="14696.7" y="11655.4"/>
                     <ControlPoint x="5287.86" y="4910.45"/>
                     <ControlPoint x="5326.55" y="4799.7"/>
                     <ControlPoint x="5403.1" y="4788.21"/>
-                    <ControlPoint x="20895.3" y="11607.1"/>
+                    <ControlPoint x="26110.3" y="12702.5"/>
                     <ControlPoint x="5273.26" y="4700.45"/>
-                    <ControlPoint x="22840" y="12217.2"/>
+                    <ControlPoint x="28567.5" y="13374.5"/>
                     <ControlPoint x="5527.92" y="4769.96"/>
                     <ControlPoint x="5479.64" y="4776.72"/>
                 </ControlPoints>
@@ -6257,7 +6257,7 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="-1" handle="pp1.translation" z="34.7">
             <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="line" style="2" gap="10" group="pp1">
                 <ControlPoints>
-                    <ControlPoint x="19536.3" y="18118.1"/>
+                    <ControlPoint x="24423.6" y="21867.4"/>
                     <ControlPoint x="4891.73" y="4980.31"/>
                     <ControlPoint x="4865.31" y="4923.5"/>
                     <ControlPoint x="4874.33" y="4895.47"/>
@@ -6329,10 +6329,10 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="-1" handle="pp1.translation" z="25.7">
             <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="bezier" style="1" gap="10" group="pp1">
                 <ControlPoints>
-                    <ControlPoint x="7642.56" y="7719.98"/>
+                    <ControlPoint x="7762.02" y="7840.49"/>
                     <ControlPoint x="4812.5" y="4878.51"/>
                     <ControlPoint x="4932.5" y="4876.72"/>
-                    <ControlPoint x="12836.1" y="10372.7"/>
+                    <ControlPoint x="14060.3" y="10986.1"/>
                 </ControlPoints>
                 <CurveSegments>
                     <Path numPoints="4" NodeAtStart="pp1.emp2" NodeAtStartX="4705" NodeAtStartY="4752.5" NodeAtEnd="OUTPUT" NodeAtEndX="5075" NodeAtEndY="4762.5">

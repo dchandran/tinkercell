@@ -669,15 +669,14 @@ namespace Tinkercell
 		if (nodes.contains(node)) return 0;
 		
 		TextDataTable & participants = connection->textDataTable(tr("Participants"));
-		QStringList rownames = participants.rowNames();
 		QString s;
 		
 		for (int i=0; i < nodes.size(); ++i)
 		{
-			if (rownames.contains(nodes[i]->fullName()))
+			if (participants.hasRow(node->name.toLower()))
 			{
-				s = participants.value(nodes[i]->fullName(),0);
-				if (node->name.compare(s,Qt::CaseInsensitive) == 0)
+				s = participants.value(node->name.toLower(),0);
+				if (nodes[i]->fullName().compare(s,Qt::CaseInsensitive) == 0)
 					return nodes[i];
 			}
 		}

@@ -279,8 +279,13 @@ namespace Tinkercell
 				QList<NodeHandle*> nodes = connectionHandle->nodes();
 
 				for (int i=0; i < nodes.size(); ++i)
-					if (nodes[i] && table.at(nodes[i]->fullName(),0).contains(role))
-						(*list) += nodes[i];
+					if (nodes[i])
+						for (int j=0; j < table.rows(); ++j)
+							if (table.rowName(j).contains(role) && table.at(j,0) == nodes[i]->fullName())
+							{
+								(*list) += nodes[i];
+								break;
+							}
 			}	
 			else
 			if (nodeHandle = NodeHandle::cast(item))
@@ -294,8 +299,13 @@ namespace Tinkercell
 						TextDataTable & table = connections[j]->textDataTable(tr("Participants"));
 
 						for (int i=0; i < nodes.size(); ++i)
-							if (nodes[i] != nodeHandle && nodes[i] && table.at(nodes[i]->fullName(),0).contains(role) && !lst.contains(nodes[i]))
-								lst += nodes[i];
+							if (nodes[i] != nodeHandle && nodes[i] && !lst.contains(nodes[i]))
+								for (int j=0; j < table.rows(); ++j)
+									if (table.rowName(j).contains(role) && table.at(j,0) == nodes[i]->fullName())
+									{
+										lst += nodes[i];
+										break;
+									}
 					}
 			}
 		}
@@ -326,8 +336,12 @@ namespace Tinkercell
 				if (connections[i] && connections[i]->hasTextData(tr("Participants")) && !(*list).contains(connections[i]))
 				{
 					TextDataTable & table = connections[i]->textDataTable(tr("Participants"));
-					if (table.at(item->fullName(),0).contains(role))
-						(*list) << connections[i];
+					for (int j=0; j < table.rows(); ++j)
+						if (table.rowName(j).contains(role) && table.at(j,0) == node->fullName())
+						{
+							(*list) << connections[i];
+							break;
+						}
 				}
 		}
 		if (sem)
@@ -396,7 +410,11 @@ namespace Tinkercell
 				{
 					nodeHandle = getHandle(keys[i]->nodeAt(indices[j]));
 					if (nodeHandle)
-						removeRowNames << nodeHandle->fullName();
+					{
+						for (int k=0; k < newTable->rows(); ++k)
+							if (newTable->at(k,0) == nodeHandle->fullName())
+								removeRowNames << newTable->rowName(k);
+					}
 				}
 				
 				if (!removeRowNames.isEmpty())
@@ -447,7 +465,10 @@ namespace Tinkercell
 				bool in;
 				QStringList nodeRoles = family->participantRoles(),
 							nodeFamilies = family->participantTypes(),
-							oldRowNames = oldTable->rowNames();
+							oldRowNames;
+				
+				for (int j=0; j < oldTable->rows(); ++j)
+					oldRowNames << oldTable->value(j,0);
 							
 				for (int j=0; j < nodes.size(); ++j) //for each node
 					if (nodes[j] &&
@@ -462,7 +483,7 @@ namespace Tinkercell
 								(!in || (in && isReactant(nodeRoles[k]))) //if in-node, then must be reactant
 								)
 							{
-								newTable->value(nodes[j]->fullName(),0) = nodeRoles[k];
+								newTable->value(nodeRoles[k],0) = nodes[j]->fullName();
 								nodeRoles[k] = tr("");
 								break;
 							}
@@ -472,11 +493,11 @@ namespace Tinkercell
 
 				for (int j=0; j < oldTable->rows(); ++j)
 				{
-					int k = nodeRoles.indexOf(oldTable->value(j,0));
+					int k = nodeRoles.indexOf(oldTable->rowName(j));
 					if (k > -1)
 					{
 						nodeRoles[k] = tr("");
-						oldRowNames += oldTable->rowName(j);
+						oldRowNames += oldTable->value(j,0);
 					}
 				}
 				
@@ -493,7 +514,7 @@ namespace Tinkercell
 								(!in || (in && isReactant(nodeRoles[k]))) //if in-node, then must be reactant
 								)
 							{
-								newTable->value(nodes[j]->fullName(),0) = nodeRoles[k];
+								newTable->value(nodeRoles[k],0) = nodes[j]->fullName();
 								nodeRoles[k] = tr("");
 								break;
 							}

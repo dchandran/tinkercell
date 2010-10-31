@@ -14,7 +14,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="participants" rows="2" cols="1" rowNames="Inactive;;emp" columnNames="" values="reactant;;product"/>
+                <Table key="participants" rows="4" cols="1" rowNames="reactant;;product;;Inactive;;emp" columnNames="" values="Inactive;;emp;;reactant;;product"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="deg.k0*Inactive"/>
@@ -68,7 +68,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="participants" rows="3" cols="1" rowNames="Target;;Inhibitor;;Inactive" columnNames="" values="reactant1;;reactant2;;product"/>
+                <Table key="participants" rows="6" cols="1" rowNames="reactant1;;reactant2;;product;;Target;;Inhibitor;;Inactive" columnNames="" values="Target;;Inhibitor;;Inactive;;reactant1;;reactant2;;product"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
                 <Table key="rate equations" rows="2" cols="1" rowNames="forward;;reverse" columnNames="formula" values="v.kf*Target*Inhibitor;;v.kb*Inactive"/>
@@ -286,14 +286,14 @@
                     <ControlPoint x="5662.5" y="5433.7"/>
                     <ControlPoint x="5680.19" y="5344.63"/>
                     <ControlPoint x="5701.73" y="5323.89"/>
-                    <ControlPoint x="5793.09" y="5516.98"/>
+                    <ControlPoint x="5793.09" y="5516.97"/>
                 </ControlPoints>
                 <CurveSegments>
                     <Path numPoints="4" NodeAtStart="Inactive" NodeAtStartX="5617.5" NodeAtStartY="5405" NodeAtEnd="emp" NodeAtEndX="5833.09" NodeAtEndY="5542.48">
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
-                            <pos x="5793.09" y="5516.98" angle="32.5263"/>
-                            <transform m11="0.337258" m12="0.215075" m21="-0.161306" m22="0.252943"/>
+                            <pos x="5793.09" y="5516.97" angle="32.5247"/>
+                            <transform m11="0.337264" m12="0.215066" m21="-0.161299" m22="0.252947"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>

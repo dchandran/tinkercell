@@ -53,19 +53,33 @@ namespace Tinkercell
 				node = connectedNodes[i];
 				if (node && !(node->isA(QString("Empty"))))
 				{
-					if (participants.value(node->fullName(),0).toLower().contains(QObject::tr("reactant")) ||
-						participants.value(node->fullName(),0).toLower().contains(QObject::tr("substrate")))
+					bool isReactant = false;
+					bool isProduct = false;
+					
+					for (int j=0; j < participants.rows(); ++j)
+						if (participants.value(j,0) == node->fullName())
+						{
+							isReactant = ( participants.rowName(j).toLower().contains(QObject::tr("reactant")) ||
+													participants.rowName(j).toLower().contains(QObject::tr("substrate")));
+						
+							isProduct = ( participants.rowName(j).toLower().contains(QObject::tr("product")) );
+							
+							if (isReactant || isProduct)
+								break;
+						}
+					
+					if (isReactant)
 					{
 						reactants.value(QObject::tr("stoichiometry"), node->fullName()) += 1.0;
 						products.value(QObject::tr("stoichiometry"), node->fullName()) += 0.0;
 						rates.value(QObject::tr("rate"),QObject::tr("formula")) += QObject::tr("*") + node->fullName();						
 					}
 					else
-					if (participants.value(node->fullName(),0).toLower().contains(QObject::tr("product")))
-					{
-						products.value( QObject::tr("stoichiometry"), node->fullName()) += 1.0;
-						reactants.value( QObject::tr("stoichiometry"), node->fullName()) += 0.0;
-					}
+						if (isProduct)
+						{
+							products.value( QObject::tr("stoichiometry"), node->fullName()) += 1.0;
+							reactants.value( QObject::tr("stoichiometry"), node->fullName()) += 0.0;
+						}
 				}
 			}
 			

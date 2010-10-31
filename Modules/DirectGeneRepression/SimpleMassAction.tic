@@ -27,7 +27,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="participants" rows="2" cols="1" rowNames="repressor_protein;;TARGET" columnNames="" values="repressor;;target"/>
+                <Table key="participants" rows="4" cols="1" rowNames="repressor;;target;;repressor_protein;;TARGET" columnNames="" values="repressor_protein;;TARGET;;repressor;;target"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="repression.k0"/>
@@ -43,7 +43,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="participants" rows="2" cols="1" rowNames="repressor_protein;;emp2" columnNames="" values="reactant;;product"/>
+                <Table key="participants" rows="4" cols="1" rowNames="reactant;;product;;repressor_protein;;emp2" columnNames="" values="repressor_protein;;emp2;;reactant;;product"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="protein_degradation.k0*repressor_protein"/>
@@ -85,7 +85,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="participants" rows="2" cols="1" rowNames="mrna;;emp1" columnNames="" values="reactant;;product"/>
+                <Table key="participants" rows="4" cols="1" rowNames="reactant;;product;;mrna;;emp1" columnNames="" values="mrna;;emp1;;reactant;;product"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="mrna_degradation.k0*mrna"/>
@@ -125,7 +125,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="participants" rows="3" cols="1" rowNames="emp1;;mrna;;REPRESSOR" columnNames="" values="reactant;;product;;template"/>
+                <Table key="participants" rows="6" cols="1" rowNames="reactant;;product;;template;;REPRESSOR;;emp1;;mrna" columnNames="" values="emp1;;mrna;;REPRESSOR;;template;;reactant;;product"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="transcription.k0"/>
@@ -154,7 +154,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="participants" rows="3" cols="1" rowNames="emp2;;repressor_protein;;mrna" columnNames="" values="reactant;;product;;template"/>
+                <Table key="participants" rows="6" cols="1" rowNames="reactant;;product;;template;;mrna;;emp2;;repressor_protein" columnNames="" values="emp2;;repressor_protein;;mrna;;template;;reactant;;product"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="translation.k0*mrna"/>
@@ -183,7 +183,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="participants" rows="3" cols="1" rowNames="TARGET;;repressor_protein;;repression.inactive_promoter" columnNames="" values="reactant1;;reactant2;;product"/>
+                <Table key="participants" rows="3" cols="1" rowNames="reactant1;;reactant2;;product" columnNames="" values="TARGET;;repressor_protein;;repression.inactive_promoter"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
                 <Table key="rate equations" rows="2" cols="1" rowNames="forward;;reverse" columnNames="formula" values="repression.binding.kf*TARGET*repressor_protein;;repression.binding.kb*repression.inactive_promoter"/>
@@ -1597,7 +1597,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="4505.15" y="5016.86" angle="133.054"/>
-                            <transform m11="-0.273078" m12="0.292281" m21="-0.21921" m22="-0.20481"/>
+                            <transform m11="-0.27308" m12="0.292279" m21="-0.219208" m22="-0.204812"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -1999,8 +1999,8 @@
                     <Path numPoints="4" NodeAtStart="emp2" NodeAtStartX="4705" NodeAtStartY="4752.5" NodeAtEnd="repressor_protein" NodeAtEndX="5076.8" NodeAtEndY="4763.08">
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
-                            <pos x="5021.8" y="4806.39" angle="-38.2224"/>
-                            <transform m11="0.314246" m12="-0.247486" m21="0.185614" m22="0.235684"/>
+                            <pos x="5021.8" y="4806.39" angle="-38.2214"/>
+                            <transform m11="0.31425" m12="-0.24748" m21="0.18561" m22="0.235687"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -2073,13 +2073,13 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="-1" handle="repression.binding" z="82.2">
             <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="bezier" style="1" gap="10" group="repression">
                 <ControlPoints>
-                    <ControlPoint x="10448.7" y="7796.25"/>
+                    <ControlPoint x="15673.7" y="10024.9"/>
                     <ControlPoint x="5229.33" y="4700.97"/>
                     <ControlPoint x="5279.01" y="4789.43"/>
                     <ControlPoint x="5371.84" y="4773.87"/>
-                    <ControlPoint x="8923.4" y="8076"/>
+                    <ControlPoint x="11498.9" y="9908.1"/>
                     <ControlPoint x="5217.17" y="4893.47"/>
-                    <ControlPoint x="11295" y="8099.24"/>
+                    <ControlPoint x="16977.5" y="10428.3"/>
                     <ControlPoint x="5521.08" y="4749.36"/>
                     <ControlPoint x="5464.67" y="4758.3"/>
                 </ControlPoints>

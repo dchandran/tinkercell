@@ -40,7 +40,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="participants" rows="3" cols="1" rowNames="Inactive;;Activator;;Target" columnNames="" values="reactant1;;reactant2;;product"/>
+                <Table key="participants" rows="6" cols="1" rowNames="reactant1;;reactant2;;product;;Inactive;;Activator;;Target" columnNames="" values="Inactive;;Activator;;Target;;reactant1;;reactant2;;product"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
                 <Table key="rate equations" rows="2" cols="1" rowNames="forward;;reverse" columnNames="formula" values="v.kf*Inactive*Activator;;v.kb*Target"/>

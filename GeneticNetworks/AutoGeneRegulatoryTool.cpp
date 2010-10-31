@@ -686,7 +686,7 @@ namespace Tinkercell
 						{
 							TextDataTable & participants = connections[j]->textDataTable(tr("Participants"));
 
-							if (participants.at(parts[i]->fullName(),0).toLower() == tr("template"))
+							if (participants.at(tr("template"),0) == parts[i]->fullName())
 							{
 								TextDataTable * sDat = new TextDataTable(connections[j]->textDataTable(tr("Rate equations")));
 								s0 = sDat->value(0,0);
@@ -1684,6 +1684,7 @@ namespace Tinkercell
 						children << existingChildren[i];
 						parents << 0;
 						trueChildren.removeAll(existingChildren[i]);
+
 						break;
 					}
 			}

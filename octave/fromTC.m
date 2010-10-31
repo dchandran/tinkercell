@@ -16,15 +16,15 @@ function A = fromTC(arg)
 			tc_deleteStringsArray(arg);
 		catch
 			try %matrix
-				m = M.rows;
-				n = M.cols;
+				m = arg.rows;
+				n = arg.cols;
 				A = zeros(m,n);
 				for i=1:m
 					for j=1:n
-						A(i,j) = tc_getMatrixValue(M,i-1,j-1);
+						A(i,j) = tc_getMatrixValue(arg,i-1,j-1);
 					endfor
 				endfor
-				tc_deleteMatrix(M);
+				tc_deleteMatrix(arg);
 			catch
 				A = arg;
 			end_try_catch %matrix

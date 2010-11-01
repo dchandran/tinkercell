@@ -14,12 +14,12 @@ function A = toTC(arg)
     		endfor
 		catch
 			try %matrix
-				m = size(M,1);
-			    n = size(M,2);
+				m = size(arg,1);
+			    n = size(arg,2);
 			    A = tc_createMatrix(m,n);
 			    for i=1:m
 			        for j=1:n
-            			tc_setMatrixValue(matrix,i-1,j-1,M(i,j));
+            			tc_setMatrixValue(matrix,i-1,j-1,arg(i,j));
 			        endfor
 			    endfor
 			catch

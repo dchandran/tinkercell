@@ -26,28 +26,30 @@ IF(EMBED_OCTAVE AND OCTAVE_CRUFT_LIBRARY AND OCTAVE_OCTAVE_LIBRARY AND OCTAVE_OC
   ENDIF( WIN32 )
 
    FILE(GLOB TCAPI_SRC ${TINKERCELL_SOURCE_DIR}/API/*.c)
+   
+#embed
    ADD_LIBRARY( tcoct
   	  SHARED
   	  runoctave.cpp
-  	  tinkercell_wrap.cpp
- 	  ${TCAPI_SRC}
+  	 #tinkercell_wrap.cpp
+ 	  #${TCAPI_SRC}
   )
-  #  extend
+
+   TARGET_LINK_LIBRARIES( tcoct
+    tcoct
+    ${OCTAVE_CRUFT_LIBRARY}
+    ${OCTAVE_OCTAVE_LIBRARY}
+    ${OCTAVE_OCTAVEINTERP_LIBRARY}
+  )
+ 
+#extend
   ADD_LIBRARY( swigtcoct
   	  SHARED
         tinkercell_wrap.cpp
         ${TCAPI_SRC}
   )
 
- #embed
-  TARGET_LINK_LIBRARIES( tcoct
-    tcoct
-    ${OCTAVE_CRUFT_LIBRARY}
-    ${OCTAVE_OCTAVE_LIBRARY}
-    ${OCTAVE_OCTAVEINTERP_LIBRARY}
-  )
-
-    TARGET_LINK_LIBRARIES( swigtcoct
+   TARGET_LINK_LIBRARIES( swigtcoct
     swigtcoct
     ${OCTAVE_CRUFT_LIBRARY}
     ${OCTAVE_OCTAVE_LIBRARY}

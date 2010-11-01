@@ -54,14 +54,8 @@ extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)
 		if (err < 0 || system(s.toAscii().data()) < 0)
 				QMessageBox::information(Tinkercell::MainWindow::instance(), "Error", "Unable to call SVN for auto-update. Check that SVN is installed and located in the system path.");
 		
-#ifdef Q_WS_WIN
-		QString filename = homeDir + QObject::tr("\\\\updates.txt");
-#else
-		QString filename = homeDir + QObject::tr("/updates.txt");
-#endif
-
 		QFile file;
-		file.setFileName( filename );
+		file.setFileName( Tinkercell::MainWindow::homeDir() + QObject::tr("/updates.txt") );
 		if (file.open( QFile::ReadOnly | QFile::Text ))
 		{
 			QString text(file.readAll());

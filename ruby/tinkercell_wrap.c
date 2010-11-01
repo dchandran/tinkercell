@@ -1926,7 +1926,7 @@ SWIG_ruby_failed(void)
 } 
 
 
-/*@SWIG:C:\\Swig\\Lib\\ruby\\rubyprimtypes.swg,23,%ruby_aux_method@*/
+/*@SWIG:/usr/share/swig1.3/ruby/rubyprimtypes.swg,23,%ruby_aux_method@*/
 SWIGINTERN VALUE SWIG_AUX_NUM2LONG(VALUE *args)
 {
   VALUE obj = args[0];
@@ -1984,7 +1984,7 @@ SWIG_From_int  (int value)
   #define SWIG_From_double   rb_float_new 
 
 
-/*@SWIG:C:\\Swig\\Lib\\ruby\\rubyprimtypes.swg,23,%ruby_aux_method@*/
+/*@SWIG:/usr/share/swig1.3/ruby/rubyprimtypes.swg,23,%ruby_aux_method@*/
 SWIGINTERN VALUE SWIG_AUX_NUM2DBL(VALUE *args)
 {
   VALUE obj = args[0];

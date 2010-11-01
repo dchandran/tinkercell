@@ -1834,7 +1834,9 @@ namespace Tinkercell
 		if (symbolsTable->nonuniqueHandles.contains(text) ||
 			symbolsTable->nonuniqueData.contains(text))
 		{
-		
+
+			selectedItems.clear();
+
 			QList<ItemHandle*> items;
 			
 			if (symbolsTable->nonuniqueHandles.contains(text))
@@ -1863,13 +1865,9 @@ namespace Tinkercell
 							break;
 						}
 				if (!alreadySelected)
-				{
-					selectedItems.clear();
-					selectedItems += handle->graphicsItems;					
-				}
+					selectedItems += handle->graphicsItems;
 			}
 			
-			selectedItems.clear();
 			QPointF p(0,0);
 			for (int j=0; j < selectedItems.size(); ++j)
 				p += selectedItems[j]->scenePos();

@@ -9,6 +9,7 @@ The interpreter that runs as a separate thread and can accept strings to parse a
 
 ****************************************************************************/
 
+#include "Tool.h"
 #include "GraphicsScene.h"
 #include "MainWindow.h"
 #include "NodeGraphicsItem.h"
@@ -24,6 +25,12 @@ namespace Tinkercell
     {
         disconnect(this);
         CThread::cthreads << this;
+        connect(main,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
+    }
+    
+    void InterpreterThread::toolLoaded(Tool*)
+    {
+    	setCPointers();
     }
 
     void InterpreterThread::setCPointers()

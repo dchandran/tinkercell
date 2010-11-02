@@ -181,8 +181,6 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
 
-			toolLoaded(0);
-
 			octaveInterpreter = new OctaveInterpreterThread(tr("tinkercell.oct"), tr("libtcoct"), mainWindow);
 			connect(octaveInterpreter,SIGNAL(started()),this,SIGNAL(octaveStarted()));
 			connect(octaveInterpreter,SIGNAL(finished()),this,SIGNAL(octaveFinished()));
@@ -192,6 +190,9 @@ namespace Tinkercell
 				console()->message(tr("Octave initializing (init.m) ...\n"));
 			
 			octaveInterpreter->initialize();
+			
+			toolLoaded(0);
+
 			QString s;
 			
 			QFile file(appDir + tr("/octave/init.m"));
@@ -242,9 +243,6 @@ namespace Tinkercell
                 }
             }
         }
-
-        if (octaveInterpreter)
-            octaveInterpreter->setCPointers();
     }
 
     void OctaveTool::buttonPressed ( int id )

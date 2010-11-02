@@ -252,9 +252,6 @@ namespace Tinkercell
                 }*/
             }
         }
-
-        if (pythonInterpreter)
-            pythonInterpreter->setCPointers();
     }
 
     void PythonTool::buttonPressed ( int id )

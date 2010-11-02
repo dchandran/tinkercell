@@ -27,7 +27,25 @@ namespace Tinkercell
     {
 		addpathDone = false;
     	f = 0;
-		swigLib = CThread::loadLibrary(OCTAVE_FOLDER + tr("/") + octname, mainWindow);
+		swigLib = loadLibrary(OCTAVE_FOLDER + tr("/") + octname, mainWindow);
+    }
+
+    void OctaveInterpreterThread::setCPointers()
+    {
+        if (!lib || !swigLib || !lib->isLoaded() || !swigLib->isLoaded() || !mainWindow) return;
+       QSemaphore * s = new QSemaphore(1);
+       s->acquire();
+       mainWindow->setupNewThread(s,lib);
+   	   s->acquire();
+       s->release();       
+       mainWindow->setupNewThread(s,swigLib);
+   	   s->acquire();
+       s->release();
+    }
+    
+    void OctaveInterpreterThread::toolLoaded(Tool*)
+    {
+    	setCPointers();
     }
     
     void OctaveInterpreterThread::finalize()

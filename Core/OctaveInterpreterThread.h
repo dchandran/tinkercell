@@ -16,7 +16,8 @@ namespace Tinkercell
 {
 	/*! \brief This class is used to embed an octave interpreter inside a TinkerCell application.
 	The C library responsible for embedding octave is called runOctave.cpp and is located
-	inside the octave/ folder
+	inside the octave folder. The octave interpreter uses two libraries -- one for embedding octave in TinkerCell
+	and another for extending Octave with the TinkerCell C API.
 	\sa PythonInterpreterThread
 	\ingroup CAPI
 	*/
@@ -37,17 +38,20 @@ namespace Tinkercell
 		OctaveInterpreterThread(const QString&, const QString&, MainWindow* main);
 		/*! \brief the folder where tinkercell will look for octave files, defaults to /octave*/
 		static QString OCTAVE_FOLDER;
-	signals:	
-		void setupSwigLibrary( QLibrary * );
-
+		/*! \brief requests main window to load all the C pointers for the C API inside the embedded library
+		*/
+		virtual void setCPointers();
+	
 	public slots:
 		virtual void initialize();
 		virtual void finalize();
+		virtual void toolLoaded(Tool*);
 
 	protected:
 		virtual void run();
 		execFunc f;
 		bool addpathDone;
+		/*! \brief library with all the C API functions */
 		QLibrary * swigLib;
 	};
 }

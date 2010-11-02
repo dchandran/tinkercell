@@ -43,7 +43,7 @@ void print_octave_value_list(const octave_value_list& list, std::ofstream& file)
 	}
 }
 
-int octave_call(const char *string,const char* filename)
+int octave_call(const char *string)
 {
   int parse_status = 0;
 
@@ -87,11 +87,11 @@ int octave_call(const char *string,const char* filename)
     {
       //curr_sym_tab = top_level_sym_tab;
       reset_error_handler ();
-      octave_value_list list = eval_string(string, false, parse_status, 1);
-      std::ofstream outfile;
-      outfile.open(filename);
-      print_octave_value_list(list,outfile);
-      outfile.close();
+      octave_value_list list = eval_string(string, false, parse_status);
+      //std::ofstream outfile;
+      //outfile.open(filename);
+      //print_octave_value_list(list,outfile);
+      //outfile.close();
     }
   catch (octave_interrupt_exception)
     {
@@ -124,13 +124,16 @@ extern "C"
 
 	OCTAVE_EXPORT void exec(const char * input, const char * outfile, const char * errfile)
 	{
-        FILE * f = freopen (errfile,"w+",stderr);
-		octave_call(input,outfile);
+        FILE * f1 = freopen (errfile,"w+",stderr);
+        FILE * f2 = freopen (outfile,"w+",stdout);
+		  octave_call(input);
+		  fclose(f1);
+		  fclose(f2);
 	}
 
 	OCTAVE_EXPORT void finalize()
 	{
-		do_octave_atexit();
+ 		 do_octave_atexit();
 	}
 }
 

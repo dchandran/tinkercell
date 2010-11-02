@@ -27,10 +27,7 @@ namespace Tinkercell
     {
 		addpathDone = false;
     	f = 0;
-		connect(this,SIGNAL(setupSwigLibrary( QLibrary * )),mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )));
-		QLibrary * swig = CThread::loadLibrary(OCTAVE_FOLDER + tr("/") + octname, mainWindow);
-		if (swig->isLoaded())
-			emit setupSwigLibrary(swig);
+		swigLib = CThread::loadLibrary(OCTAVE_FOLDER + tr("/") + octname, mainWindow);
     }
     
     void OctaveInterpreterThread::finalize()
@@ -58,9 +55,9 @@ namespace Tinkercell
 			return;
 		}
 
-        QString appDir = QCoreApplication::applicationDirPath();
+       QString appDir = QCoreApplication::applicationDirPath();
 
-        initFunc f = (initFunc)lib->resolve("initialize");
+       initFunc f = (initFunc)lib->resolve("initialize");
         if (f)
         {
             mainWindow->console()->message(tr("Octave initialized"));

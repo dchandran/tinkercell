@@ -29,11 +29,11 @@ namespace Tinkercell
     void InterpreterThread::setCPointers()
     {
         if (!lib ||!mainWindow) return;
-        QSemaphore * s = new QSemaphore(1);
-        s->acquire();
-        mainWindow->setupNewThread(s,lib);
-		s->acquire();
-        s->release();
+       QSemaphore * s = new QSemaphore(1);
+       s->acquire();
+       mainWindow->setupNewThread(s,lib);
+		 s->acquire();
+       s->release();
     }
 
     void InterpreterThread::exec(const QString& str)

@@ -48,6 +48,7 @@ namespace Tinkercell
 		virtual void run();
 		execFunc f;
 		bool addpathDone;
+		QLibrary * swigLib;
 	};
 }
 

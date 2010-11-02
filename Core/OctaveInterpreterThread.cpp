@@ -103,11 +103,11 @@ namespace Tinkercell
 
         if (f)
         {
+        	QString tempDir = MainWindow::tempDir();
         	if (!addpathDone)
         	{
         		QString appDir = QCoreApplication::applicationDirPath();
 		        QString homeDir = MainWindow::homeDir();
-		        QString tempDir = MainWindow::tempDir();
         	#ifdef Q_WS_WIN
         		appDir.replace("/","\\\\");
         		homeDir.replace("/","\\\\");
@@ -125,13 +125,19 @@ namespace Tinkercell
 	        	f(script.toAscii().data(),"octav.out","octav.err");
 	        }
 			
-			mainWindow->console()->message(script);
 			script = code;
 
             QString currentDir = QDir::currentPath();
             QDir::setCurrent(MainWindow::tempDir());
+            
+            QFile sourcefile(tempDir + QObject::tr("/temp.m"));
+			if (sourcefile.open(QFile::WriteOnly))
+			{
+			    sourcefile.write(script.toAscii());
+			    sourcefile.close();
+			}
 
-            f(script.toAscii().data(),"octav.out","octav.err");
+            f("source('temp.m')","octav.out","octav.err");
             if (mainWindow && mainWindow->console())
             {
             	QFile outfile(tr("octav.out"));

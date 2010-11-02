@@ -3,17 +3,17 @@ function A = fromTC(arg)
 	    n = arg.length;
 		A = zeros(1,n);
 		for i=1:n
-		    A(i) = tc_getItem(arg,i-1);
+		    A(i) = tinkercell.tc_getItem(arg,i-1);
 		endfor
-		tc_deleteItemsArray(arg);
+		tinkercell.tc_deleteItemsArray(arg);
     catch
 	    try %strings array
 		    n = arg.length;
 			A = 1:n;
 			for i=1:n
-				A(i) = tc_getString(arg,i-1);
+				A(i) = tinkercell.tc_getString(arg,i-1);
 			endfor
-			tc_deleteStringsArray(arg);
+			tinkercell.tc_deleteStringsArray(arg);
 		catch
 			try %matrix
 				m = arg.rows;
@@ -21,10 +21,10 @@ function A = fromTC(arg)
 				A = zeros(m,n);
 				for i=1:m
 					for j=1:n
-						A(i,j) = tc_getMatrixValue(arg,i-1,j-1);
+						A(i,j) = tinkercell.tc_getMatrixValue(arg,i-1,j-1);
 					endfor
 				endfor
-				tc_deleteMatrix(arg);
+				tinkercell.tc_deleteMatrix(arg);
 			catch
 				A = arg;
 			end_try_catch %matrix

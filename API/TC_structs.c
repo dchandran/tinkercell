@@ -89,6 +89,7 @@ tc_items tc_createItemsArray(int len)
 	}
 	return A;
 }
+
 double tc_getMatrixValue(tc_matrix M, int i, int j)
 { 
 	if (i >= 0 && j >= 0 && i < M.rows && j < M.cols)

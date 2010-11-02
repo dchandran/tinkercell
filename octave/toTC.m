@@ -1,25 +1,25 @@
 function A = toTC(arg)
 	try  %items array
 	    n = length(arg);
-    	A = tc_createItemsArray(n);
+    	A = tinkercell.tc_createItemsArray(n);
     	for i =1:n
-    	    tc_setItem(A, i-1, arg(i));
+    	    tinkercell.tc_setItem(A, i-1, arg(i));
     	endfor
     catch
 	    try %strings array
 		    n = length(arg);
-		    A = tc_createStringsArray(n);
+		    A = tinkercell.tc_createStringsArray(n);
 		    for i=1:n
-		        tc_setString(A, i-1, arg(i));
+		        tinkercell.tc_setString(A, i-1, arg(i));
     		endfor
 		catch
 			try %matrix
 				m = size(arg,1);
 			    n = size(arg,2);
-			    A = tc_createMatrix(m,n);
+			    A = tinkercell.tc_createMatrix(m,n);
 			    for i=1:m
 			        for j=1:n
-            			tc_setMatrixValue(matrix,i-1,j-1,arg(i,j));
+            			tinkercell.tc_setMatrixValue(matrix,i-1,j-1,arg(i,j));
 			        endfor
 			    endfor
 			catch

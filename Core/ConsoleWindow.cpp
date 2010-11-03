@@ -231,9 +231,16 @@ namespace Tinkercell
 	{
 		clear();
 
-		currentPosition = this->toPlainText().length();
+		QTextCursor cursor = textCursor();
+		cursor.setCharFormat(normalFormat);
+		cursor.insertText(ConsoleWindow::Prompt);
+		alreadyInsertedPrompt = true;
+		cursor.movePosition(QTextCursor::EndOfBlock);
+		currentPosition = cursor.position();
 
-		this->ensureCursorVisible();
+		 if (cursor.position() < currentPosition)
+            cursor.setPosition(currentPosition);
+        this->ensureCursorVisible();
 	}
 
 	void CommandTextEdit::freeze()

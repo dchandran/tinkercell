@@ -589,15 +589,20 @@ namespace Tinkercell
 			return;
 		}
 
-		QList<ItemHandle*> list = getHandle(scene->selected());
+		QList<QGraphicsItem*> & selected = scene->selected();
 
 		if (returnPtr)
-			(*returnPtr) = list;
+		{
+			ItemHandle * h;
+			for (int i=0; i < selected.size(); ++i)
+				if ((h = getHandle(selected[i])) && !returnPtr->contains(h))
+					(*returnPtr) << h;
+		}
 
 		if (s)
 			s->release();
 	}
-	
+
 	void C_API_Slots::screenshot(QSemaphore * s, const QString& fileName, int w, int h)
 	{
 		GraphicsScene * scene = currentScene();
@@ -817,9 +822,7 @@ namespace Tinkercell
 	*/
 	void C_API_Slots::deselect(QSemaphore* sem)
 	{
-		GraphicsScene * scene = currentScene();
-		if (scene)
-			scene->deselect();
+		mainWindow->sendEscapeSignal();
 		if (sem)
 			sem->release();
 	}

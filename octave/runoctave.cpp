@@ -87,7 +87,8 @@ int octave_call(const char *string)
     {
       //curr_sym_tab = top_level_sym_tab;
       reset_error_handler ();
-      octave_value_list list = eval_string(string, false, parse_status,1);
+      eval_string(string, false, parse_status);
+      //octave_value_list list = eval_string(string, false, parse_status,1);
       //std::ofstream outfile;
       //outfile.open(filename);
       //print_octave_value_list(list,outfile);

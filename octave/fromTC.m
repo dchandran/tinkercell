@@ -1,7 +1,8 @@
 function A = fromTC(arg)
+	global tinkercell
 	argtyp = swig_type(arg);
 	if (length(argtyp) == 8)
-		if (argtyp(1:8) == 'tc_items')
+		if (argtyp == 'tc_items')
 			n = arg.length;
 			A = zeros(1,n);
 			for i=1:n
@@ -11,7 +12,7 @@ function A = fromTC(arg)
 		endif
     else
 	    if (length(argtyp) == 10)
-	    	if (argtyp(1:10) == 'tc_strings')
+	    	if (argtyp == 'tc_strings')
 				n = arg.length;
 				A = 1:n;
 				for i=1:n

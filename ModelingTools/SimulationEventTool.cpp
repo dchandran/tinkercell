@@ -420,6 +420,7 @@ namespace Tinkercell
 			for (int i=0; i < nodes.size(); ++i)
 				if (nodes[i])
 					scene->selected() += nodes[i];
+			scene->select(0);
 			showAssignments(0);
 		}
 	}

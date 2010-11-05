@@ -681,7 +681,7 @@ namespace Tinkercell
 			}
 			for (int i=0; i < items.size(); ++i)
 			{
-				if (sceneNumbers[i] == minSceneNumber)
+				//if (sceneNumbers[i] == minSceneNumber)
 					itemsToInsert << items[i];
 			}
 		}

@@ -1187,6 +1187,23 @@ namespace Tinkercell
 		}
 		return connections;
 	}
+	
+	/*! \brief get all the connected nodes*/
+	QList<NodeGraphicsItem*> NodeGraphicsItem::connectedNodes()
+	{
+		QList<ConnectionGraphicsItem*> connections = connections();
+		QList<NodeGraphicsItem*> nodes, list;
+		
+		for (int i=; i < connections.size(); ++i)
+		{
+			nodes = connections[i]->nodes();
+			for (int j=0; j < nodes.size(); ++j)
+				if (!list.contains(nodes[j]))
+					list += nodes[j];
+		}
+		return list;
+	}
+
 
 	/*! \brief get all the connection items linked to this node*/
 	QList<ConnectionGraphicsItem*> NodeGraphicsItem::connectionsWithArrows()

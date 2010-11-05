@@ -207,7 +207,6 @@ namespace Tinkercell
 					newData.removeRow(f);
 
 					win->changeData(handle->fullName() + tr(".") + f + tr(" removed"), handle,tr("Assignments"),&newData);
-
 				}
 				if (handle->hasTextData(tr("Functions")) && handle->textDataTable(tr("Functions")).hasRow(f))
 				{

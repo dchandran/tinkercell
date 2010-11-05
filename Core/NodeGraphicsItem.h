@@ -265,6 +265,8 @@ namespace Tinkercell
 		QString groupID;
 		/*! \brief get all the connection items linked to this node*/
 		virtual QList<ConnectionGraphicsItem*> connections();
+		/*! \brief get all the nodes connected to all the connections*/
+		virtual QList<NodeGraphicsItem*> connectedNodes();
 		/*! \brief get all the connection items that have an arrow associated with this node*/
 		virtual QList<ConnectionGraphicsItem*> connectionsWithArrows();
 		/*! \brief get all the connection items that do NOT have an arrow associated with this node*/

@@ -122,7 +122,7 @@ namespace Tinkercell
 	{
 		if (!node) return;
 		ItemHandle * handle = getHandle(node);
-		if (!handle) return; //don't write arrow heads and decorators
+		if (ArrowHeadItem::cast(node)) return; //don't write arrow heads and decorators
 
 		modelWriter.writeStartElement("NodeItem");
 		modelWriter.writeAttribute("className",node->className);

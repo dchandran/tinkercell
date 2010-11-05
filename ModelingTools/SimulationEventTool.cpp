@@ -416,6 +416,10 @@ namespace Tinkercell
 		else
 		if (node && node->className == tr("Forcing function"))
 		{
+			QList<NodeGraphicsItem*> nodes = node->connectedNodes();
+			for (int i=0; i < nodes.size(); ++i)
+				if (nodes[i])
+					scene->selected() += nodes[i];
 			showAssignments(0);
 		}
 	}

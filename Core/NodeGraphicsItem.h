@@ -264,17 +264,17 @@ namespace Tinkercell
 		/*! \brief for identifying which scene this item belongs in*/
 		QString groupID;
 		/*! \brief get all the connection items linked to this node*/
-		virtual QList<ConnectionGraphicsItem*> connections();
+		virtual QList<ConnectionGraphicsItem*> connections() const;
 		/*! \brief get all the nodes connected to all the connections*/
-		virtual QList<NodeGraphicsItem*> connectedNodes();
+		virtual QList<NodeGraphicsItem*> connectedNodes() const;
 		/*! \brief get all the connection items that have an arrow associated with this node*/
-		virtual QList<ConnectionGraphicsItem*> connectionsWithArrows();
+		virtual QList<ConnectionGraphicsItem*> connectionsWithArrows() const;
 		/*! \brief get all the connection items that do NOT have an arrow associated with this node*/
-		virtual QList<ConnectionGraphicsItem*> connectionsWithoutArrows();
+		virtual QList<ConnectionGraphicsItem*> connectionsWithoutArrows() const;
 		/*! \brief get all the connection items where this node is disconnected from the main connection, e.g. modifiers*/
-		virtual QList<ConnectionGraphicsItem*> connectionsDisconnected();
+		virtual QList<ConnectionGraphicsItem*> connectionsDisconnected() const;
 		/*! \brief get all the connection items linked to this node as a list of qgraphicsitems*/
-		virtual QList<QGraphicsItem*> connectionsAsGraphicsItems();
+		virtual QList<QGraphicsItem*> connectionsAsGraphicsItems() const;
 		/*! \brief get all the node items that are bordering this node*/
 		virtual QList<NodeGraphicsItem*> nodesAdjacent() const;
 		/*! \brief get all the node items that are connected to this node directly or indirectly. 

@@ -1173,10 +1173,10 @@ namespace Tinkercell
 	}
 
 	/*! \brief get all the connection items linked to this node*/
-	QList<ConnectionGraphicsItem*> NodeGraphicsItem::connections()
+	QList<ConnectionGraphicsItem*> NodeGraphicsItem::connections() const
 	{
 		QList<ConnectionGraphicsItem*> connections;
-		QList<QGraphicsItem*> children = this->childItems();
+		QList<QGraphicsItem*> children = childItems();
 		QGraphicsScene * scene = this->scene();
 		for (int i=0; i < children.size(); ++i)
 		{
@@ -1189,16 +1189,16 @@ namespace Tinkercell
 	}
 	
 	/*! \brief get all the connected nodes*/
-	QList<NodeGraphicsItem*> NodeGraphicsItem::connectedNodes()
+	QList<NodeGraphicsItem*> NodeGraphicsItem::connectedNodes() const
 	{
-		QList<ConnectionGraphicsItem*> connections = connections();
+		QList<ConnectionGraphicsItem*> cs = connections();
 		QList<NodeGraphicsItem*> nodes, list;
 		
-		for (int i=; i < connections.size(); ++i)
+		for (int i=0; i < cs.size(); ++i)
 		{
-			nodes = connections[i]->nodes();
+			nodes = cs[i]->nodes();
 			for (int j=0; j < nodes.size(); ++j)
-				if (!list.contains(nodes[j]))
+				if (!list.contains(nodes[j]) && nodes[j] != this)
 					list += nodes[j];
 		}
 		return list;
@@ -1206,7 +1206,7 @@ namespace Tinkercell
 
 
 	/*! \brief get all the connection items linked to this node*/
-	QList<ConnectionGraphicsItem*> NodeGraphicsItem::connectionsWithArrows()
+	QList<ConnectionGraphicsItem*> NodeGraphicsItem::connectionsWithArrows() const
 	{
 		QList<ConnectionGraphicsItem*> connections;
 		QList<QGraphicsItem*> children = this->childItems();
@@ -1216,14 +1216,14 @@ namespace Tinkercell
 			ConnectionGraphicsItem::ControlPoint * cp =
 				qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(children[i]);
 			if (cp && cp->connectionItem
-				&& (cp->connectionItem->nodesWithArrows().contains(this)))
+				&& (cp->connectionItem->nodesWithArrows().contains(const_cast<NodeGraphicsItem*>(this))))
 				connections += cp->connectionItem;
 		}
 		return connections;
 	}
 
 	/*! \brief get all the connection items linked to this node*/
-	QList<ConnectionGraphicsItem*> NodeGraphicsItem::connectionsWithoutArrows()
+	QList<ConnectionGraphicsItem*> NodeGraphicsItem::connectionsWithoutArrows() const
 	{
 		QList<ConnectionGraphicsItem*> connections;
 		QList<QGraphicsItem*> children = this->childItems();
@@ -1233,14 +1233,14 @@ namespace Tinkercell
 			ConnectionGraphicsItem::ControlPoint * cp =
 				qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(children[i]);
 			if (cp && cp->connectionItem
-				&& !(cp->connectionItem->nodesWithArrows().contains(this)))
+				&& !(cp->connectionItem->nodesWithArrows().contains(const_cast<NodeGraphicsItem*>(this))))
 				connections += cp->connectionItem;
 		}
 		return connections;
 	}
 
 	/*! \brief get all the connection items linked to this node*/
-	QList<ConnectionGraphicsItem*> NodeGraphicsItem::connectionsDisconnected()
+	QList<ConnectionGraphicsItem*> NodeGraphicsItem::connectionsDisconnected() const
 	{
 		QList<ConnectionGraphicsItem*> connections;
 		QList<QGraphicsItem*> children = this->childItems();
@@ -1250,14 +1250,14 @@ namespace Tinkercell
 			ConnectionGraphicsItem::ControlPoint * cp =
 				qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(children[i]);
 			if (cp && cp->connectionItem
-				&& (cp->connectionItem->nodesDisconnected().contains(this)))
+				&& (cp->connectionItem->nodesDisconnected().contains(const_cast<NodeGraphicsItem*>(this))))
 				connections += cp->connectionItem;
 		}
 		return connections;
 	}
 
 	/*! \brief get all the connection items linked to this node*/
-	QList<QGraphicsItem*> NodeGraphicsItem::connectionsAsGraphicsItems()
+	QList<QGraphicsItem*> NodeGraphicsItem::connectionsAsGraphicsItems() const
 	{
 		QList<QGraphicsItem*> connections;
 		QList<QGraphicsItem*> children = this->childItems();

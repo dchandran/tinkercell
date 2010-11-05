@@ -674,7 +674,7 @@ namespace Tinkercell
 		if (tabWidget)
 		{
 			emit displayModel(*tabWidget, itemHandles, constants, equations);
-			if (names.size() > 0)
+			if (names.size() > 0 && (tabWidget->count() < 1 || tabWidget->tabText(0) != tr("Formulas")))
 				tabWidget->insertTab(0,&groupBox,tr("Initial Values"));
 			tabWidget->setCurrentIndex(0);
 		}

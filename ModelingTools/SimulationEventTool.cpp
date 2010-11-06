@@ -123,8 +123,8 @@ namespace Tinkercell
 
 			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 
-			connect(mainWindow,SIGNAL(itemsRemoved(GraphicsScene * , const QList<QGraphicsItem*>& , const QList<ItemHandle*>&)),
-				this,SLOT(itemsRemoved(GraphicsScene * , const QList<QGraphicsItem*>& , const QList<ItemHandle*>&)));
+			connect(mainWindow,SIGNAL(itemsAboutToBeRemoved(GraphicsScene * , QList<QGraphicsItem*>& , QList<ItemHandle*>&, QList<QUndoCommand*>&)),
+				this,SLOT(itemsRemoved(GraphicsScene * , QList<QGraphicsItem*>& , QList<ItemHandle*>&, QList<QUndoCommand*>&)));
 
 			connect(mainWindow,SIGNAL(mouseDoubleClicked (GraphicsScene * , QPointF, QGraphicsItem *, Qt::MouseButton, Qt::KeyboardModifiers)),
 				this,SLOT(mouseDoubleClicked (GraphicsScene * , QPointF, QGraphicsItem *, Qt::MouseButton, Qt::KeyboardModifiers)));
@@ -463,7 +463,7 @@ namespace Tinkercell
 		}
 	}
 
-	void SimulationEventsTool::itemsRemoved(GraphicsScene * scene, const QList<QGraphicsItem*>& items, const QList<ItemHandle*>& )
+	void SimulationEventsTool::itemsRemoved(GraphicsScene * scene, QList<QGraphicsItem*>& items, QList<ItemHandle*>&, QList<QUndoCommand*>& commands)
 	{
 		if (!scene || !scene->network) return;
 
@@ -481,7 +481,7 @@ namespace Tinkercell
  				 globalHandle->hasTextData(tr("Events")))
 				{
 					DataTable<QString> emptyData;
-					scene->network->changeData(tr("Events removed"),globalHandle,tr("Events"),&emptyData);					
+					commands << new ChangeTextDataCommand(tr("Events removed"),&globalHandle->textDataTable(tr("Events")),&emptyData);
 					break;
 				}
 
@@ -539,13 +539,16 @@ namespace Tinkercell
 			}
 		}
 
-		scene->network->changeData(tr("Forcing function changed"),handles, oldNumericalTables,newNumericalTables, oldTextTables,newTextTables);
+		if (!newNumericalTables.isEmpty() || !newTextTables.isEmpty())
+		{
+			commands << new Change2DataCommand<qreal,QString>(tr("Forcing function changed"),oldNumericalTables,newNumericalTables, oldTextTables,newTextTables);
 
-		for (int i=0; i < newNumericalTables.size(); ++i)
-			delete newNumericalTables[i];
+			for (int i=0; i < newNumericalTables.size(); ++i)
+				delete newNumericalTables[i];
 			
-		for (int i=0; i < newTextTables.size(); ++i)
-			delete newTextTables[i];
+			for (int i=0; i < newTextTables.size(); ++i)
+				delete newTextTables[i];
+		}
 	}
 
 	void SimulationEventsTool::updateTable()

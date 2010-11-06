@@ -363,6 +363,7 @@ namespace Tinkercell
 			parameters.value( tr("sin_frequency"), 0 ) = 2.0;
 		}
 		
+		image->className = tr("Forcing function");
 		image->normalize();
 		image->scale(image->defaultSize.width()/image->sceneBoundingRect().width(),
 			image->defaultSize.height()/image->sceneBoundingRect().height());
@@ -421,7 +422,7 @@ namespace Tinkercell
 				if (nodes[i])
 					scene->selected() += nodes[i];
 			scene->select(0);
-			showAssignments(0);
+			emit showAssignments(0);
 		}
 	}
 
@@ -453,7 +454,12 @@ namespace Tinkercell
 		else
 		if (node && node->className == tr("Forcing function"))
 		{
-			showAssignments(0);
+			QList<NodeGraphicsItem*> nodes = node->connectedNodes();
+			for (int i=0; i < nodes.size(); ++i)
+				if (nodes[i])
+					scene->selected() += nodes[i];
+			scene->select(0);
+			emit showAssignments(0);
 		}
 	}
 

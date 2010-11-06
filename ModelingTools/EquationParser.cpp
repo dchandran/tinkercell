@@ -7,6 +7,7 @@ See COPYRIGHT.TXT
 See header file
 
 ****************************************************************************/
+#include <math.h>
 #include "EquationParser.h"
 
 namespace Tinkercell
@@ -41,6 +42,8 @@ namespace Tinkercell
 		if (!win || !handle) return false;
 
 		mu::Parser parser;
+		
+		parser.DefineOprt("pow", pow, 6);
 
 		s.replace(QRegExp(QString("\\.(?!\\d)")),QString("__Q_X_Z_W__"));
 		parser.SetExpr(s.toAscii().data());
@@ -282,6 +285,8 @@ namespace Tinkercell
 		s.replace(regex2,QString("_"));
 
 		mu::Parser parser;
+		
+		parser.DefineOprt("pow", pow, 6);
 		parser.SetExpr(s.toAscii().data());
 
 		ItemHandle * handle;
@@ -340,6 +345,7 @@ namespace Tinkercell
 					}
 					
 					assignments += sd_pair(n,1.0);
+					parser.DefineVar(item->first.data(), &(assignments.last().second));
 				}
 			}
 			

@@ -23,6 +23,11 @@ namespace Tinkercell
 	{
 		return d;
 	}
+	
+	static double powFunc(double x, double y)
+	{
+		return pow(x,y);
+	}
 
 	void EquationParser::SubstituteFunctionCalls(const QStringList& functions, const QList<QStringList>& arglist, QString& s)
 	{
@@ -43,7 +48,7 @@ namespace Tinkercell
 
 		mu::Parser parser;
 		
-		parser.DefineOprt("pow", pow, 6);
+		parser.DefineFun("pow", powFunc, false);
 
 		s.replace(QRegExp(QString("\\.(?!\\d)")),QString("__Q_X_Z_W__"));
 		parser.SetExpr(s.toAscii().data());
@@ -286,7 +291,7 @@ namespace Tinkercell
 
 		mu::Parser parser;
 		
-		parser.DefineOprt("pow", pow, 6);
+		parser.DefineFun("pow", powFunc, false);
 		parser.SetExpr(s.toAscii().data());
 
 		ItemHandle * handle;

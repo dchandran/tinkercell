@@ -491,40 +491,53 @@ namespace Tinkercell
 		QList<ItemHandle*> handles;
 		
 		for (int i=0; i < items.size(); ++i)
+		{
+			ItemHandle * nodeHandle = 0;
+			
 			if ( (connection = ConnectionGraphicsItem::cast(items[i])) && 
 				 (connection->handle() == 0) && 
  			 	 (connection->className == tr("Forcing function")))
 				{
 					QList<NodeGraphicsItem*> nodes = connection->nodes();
-					ItemHandle * nodeHandle = 0;
 					for (int j=0; j < nodes.size(); ++j)
 						if (nodes[j] && (nodeHandle = nodes[j]->handle()))
 							break;
-					
-					if (nodeHandle && nodeHandle->hasTextData(tr("Assignments")) && nodeHandle->hasNumericalData(tr("Parameters")))
-					{
-						handles << nodeHandle;
-						
-						DataTable<QString> * newData1 = new DataTable<QString>(nodeHandle->textDataTable(tr("Assignments")));
-						newData1->removeRow(nodeHandle->fullName());
-						newData1->removeRow(nodeHandle->name);
-						oldTextTables << &(nodeHandle->textDataTable(tr("Assignments")));
-						newTextTables << newData1;
-						
-						DataTable<qreal> * newData2 = new DataTable<qreal>(nodeHandle->numericalDataTable(tr("Parameters")));
-						newData2->removeRow(tr("step_height"));
-						newData2->removeRow(tr("step_time"));
-						newData2->removeRow(tr("step_steepness"));
-						newData2->removeRow(tr("impulse_height"));
-						newData2->removeRow(tr("impulse_width"));
-						newData2->removeRow(tr("impulse_time"));
-						newData2->removeRow(tr("sin_amplitude"));
-						newData2->removeRow(tr("sin_frequency"));
-						
-						oldNumericalTables << &(nodeHandle->numericalDataTable(tr("Parameters")));
-						newNumericalTables << newData2;
-					}
 				}
+			else
+			if ( (node = NodeGraphicsItem::cast(items[i])) && 
+				 (node->handle() == 0) && 
+ 			 	 (node->className == tr("Forcing function")))
+				{
+					QList<NodeGraphicsItem*> nodes = node->connectedNodes();
+					for (int j=0; j < nodes.size(); ++j)
+						if (nodes[j] && (nodeHandle = nodes[j]->handle()))
+							break;
+				}
+			
+			if (nodeHandle && nodeHandle->hasTextData(tr("Assignments")) && nodeHandle->hasNumericalData(tr("Parameters")))
+			{
+				handles << nodeHandle;
+			
+				DataTable<QString> * newData1 = new DataTable<QString>(nodeHandle->textDataTable(tr("Assignments")));
+				newData1->removeRow(nodeHandle->fullName());
+				newData1->removeRow(nodeHandle->name);
+				oldTextTables << &(nodeHandle->textDataTable(tr("Assignments")));
+				newTextTables << newData1;
+			
+				DataTable<qreal> * newData2 = new DataTable<qreal>(nodeHandle->numericalDataTable(tr("Parameters")));
+				newData2->removeRow(tr("step_height"));
+				newData2->removeRow(tr("step_time"));
+				newData2->removeRow(tr("step_steepness"));
+				newData2->removeRow(tr("impulse_height"));
+				newData2->removeRow(tr("impulse_width"));
+				newData2->removeRow(tr("impulse_time"));
+				newData2->removeRow(tr("sin_amplitude"));
+				newData2->removeRow(tr("sin_frequency"));
+			
+				oldNumericalTables << &(nodeHandle->numericalDataTable(tr("Parameters")));
+				newNumericalTables << newData2;
+			}
+		}
 
 		scene->network->changeData(tr("Forcing function changed"),handles, oldNumericalTables,newNumericalTables, oldTextTables,newTextTables);
 

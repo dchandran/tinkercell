@@ -17,6 +17,7 @@
 #include "NetworkWindow.h"
 #include "ItemHandle.h"
 #include "Tool.h"
+#include "CThread.h"
 #include "common/sbmlfwd.h"
 
 namespace Tinkercell
@@ -96,12 +97,12 @@ namespace Tinkercell
 		static tc_matrix ScanSS(const char* , double , double );
 	};
 
-	class SimulationThread : public QThread
+	class SimulationThread : public CThread
 	{
 		public:
 
 			enum SimulationType { ODE, Gillespie, Scan };
-			SimulationThread(QSemaphore * sem, NumericalDataTable *, SBMLDocument_t *, SimulationType , QObject *);
+			SimulationThread(QSemaphore * sem, NumericalDataTable *, SBMLDocument_t *, SimulationType , MainWindow *);
 			void setScanVariable(const QString&, double from, double to);
 			void setTime(double);
 			void setStepSize(double);

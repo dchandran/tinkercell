@@ -923,7 +923,9 @@ namespace Tinkercell
 		QList<QGraphicsItem*> allItems = items();
 		for (int i=0; i < allItems.size(); ++i)
 		{
-			parent = getGraphicsItem(allItems[i]);
+			parent = NodeGraphicsItem::cast(allItems[i]);
+			if (!parent)
+				parent = TextGraphicsItem::cast(allItems[i]);
 			if (parent)
 			{
 				rect = parent->sceneBoundingRect();

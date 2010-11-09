@@ -2,6 +2,9 @@
 <!DOCTYPE ProcessGraph>
 <ProcessGraph version="1.0">
 <process family="Module" description="A biological process with a human-defined behavior.">
+	<process family="Multiple Steps" participant_types="Molecule, Molecule" participant_roles="Input, Output" description="Processes with multiple intermediate steps">
+		<process family="Linear Chain"></process>
+	</process> 
 	<process family="Ultrasensitive" description="The class of modules where the input-output response curve is a sigmoid (depends on parameters too)">
 	   <process family="Phosphorylation Dephosphorylation Cycle" participant_types="Protein, Protein" participant_roles="Input, Output" description="A process where the input Kinase phosphorylates the output protein and another phosphatase dephosphorylates the output protein."></process>
 	   <process family="Genetic Positive Autoregulation" participant_types="Transcription Factor, Transcription Factor" participant_roles="Input, Output" description="An induced production of a repressor, where the repressor also activates its own production. Can be bistable for certain parameter ranges."></process>   

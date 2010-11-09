@@ -25,6 +25,7 @@ to draw movable points.
 #include "ItemHandle.h"
 #include "UndoCommands.h"
 #include "NodeGraphicsReader.h"
+#include "Tool.h"
 
 namespace Tinkercell
 {
@@ -1587,6 +1588,8 @@ namespace Tinkercell
 	NodeGraphicsItem* NodeGraphicsItem::cast(QGraphicsItem * q)
 	{
 		//if (MainWindow::invalidPointers.contains( (void*)q )) return 0;
+		
+		 if (!q || ToolGraphicsItem::cast(q->topLevelItem())) return 0;
 		
 		NodeGraphicsItem * node = qgraphicsitem_cast<NodeGraphicsItem*>(q);
 		if (!node)

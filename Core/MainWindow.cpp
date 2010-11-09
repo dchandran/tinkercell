@@ -172,6 +172,11 @@ namespace Tinkercell
 					statusBar()->showMessage(lib->fileName() + tr(" successfully loaded"));					
 					dynamicallyLoadedLibraries.insert(lib->fileName(),lib);
 				}
+				else
+				{
+					lib->unload();
+					delete lib;
+				}
 			}
 		}
 		else
@@ -230,7 +235,7 @@ namespace Tinkercell
 
 		setCentralWidget(tabWidget);
 
-		setWindowTitle(tr("Tinkercell"));
+		setWindowTitle(tr("TinkerCell"));
 		setStyleSheet("QMainWindow::separator { width: 0px; height: 0px; }");
 
 		connect(this,SIGNAL(funtionPointersToMainThread(QSemaphore*,QLibrary*)),this,SLOT(setupFunctionPointersSlot(QSemaphore*,QLibrary*)));
@@ -481,6 +486,10 @@ namespace Tinkercell
 		}
 
 		emit saveNetwork(fileName);
+		
+		QRegExp regex(tr("([^\\/]+$)"));
+		if (regex.indexIn(fileName))
+			currentNetworkWindow->setFileName(fileName);
 	}
 
 	void MainWindow::saveWindowAs()
@@ -509,6 +518,10 @@ namespace Tinkercell
 		}
 
 		emit saveNetwork(fileName);
+		
+		QRegExp regex(tr("([^\\/]+$)"));
+		if (regex.indexIn(fileName))
+			currentNetworkWindow->setFileName(fileName);
 	}
 
 	void MainWindow::open(const QString& fileName)
@@ -527,7 +540,13 @@ namespace Tinkercell
 		emit loadNetwork(fileName);
 		
 		if (currentNetworkWindow)
+		{
 			currentNetworkWindow->filename = fileName;
+		
+			QRegExp regex(tr("([^\\/]+$)"));
+			if (regex.indexIn(fileName))
+				currentNetworkWindow->setFileName(fileName);
+		}
 	}
 
 	void MainWindow::open()
@@ -1043,7 +1062,7 @@ namespace Tinkercell
 					previousFileName = files[i].absoluteFilePath();
 					emit loadNetwork(files[i].absoluteFilePath());
 					if (currentNetworkWindow)
-						currentNetworkWindow->filename = previousFileName;
+						currentNetworkWindow->setFileName(previousFileName);
 				}
 			}
 		}

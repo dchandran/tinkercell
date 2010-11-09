@@ -208,7 +208,7 @@ namespace Tinkercell
 
 		for (i=0; i < handles.size(); ++i)
 		{
-			if (currentNetwork->symbolsTable.isValidPointer(handles[i]))// && handles[i]->family())
+			if (!currentNetwork || currentNetwork->symbolsTable.isValidPointer(handles[i]))// && handles[i]->family())
 			{
 				if (handles[i]->hasNumericalData(tr("Initial Value")))
 				{

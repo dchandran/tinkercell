@@ -278,6 +278,7 @@ void SBMLImportExport::simulateODE(QSemaphore * sem, NumericalDataTable * dat, d
 	SimulationThread * thread = new SimulationThread(sem, dat, sbmlDocument, SimulationThread::ODE, mainWindow);
 	thread->setTime(time);
 	thread->setStepSize(dt);
+	CThread::dialog(thread,"ODE simulation",QIcon(),true);
 	thread->start();
 }
 
@@ -287,6 +288,7 @@ void SBMLImportExport::simulateGillespie(QSemaphore * sem, NumericalDataTable * 
 		updateSBMLModel();
 	SimulationThread * thread = new SimulationThread(sem, dat, sbmlDocument, SimulationThread::Gillespie, mainWindow);
 	thread->setTime(time);
+	CThread::dialog(thread,"Gillespie simulation",QIcon(),true);
 	thread->start();
 }
 
@@ -296,6 +298,7 @@ void SBMLImportExport::steadyStateScan(QSemaphore* sem, NumericalDataTable* dat,
 		updateSBMLModel();
 	SimulationThread * thread = new SimulationThread(sem, dat, sbmlDocument, SimulationThread::Scan, mainWindow);
 	thread->setScanVariable(var, start, end);
+	CThread::dialog(thread,"Steady state scan",QIcon(),true);
 	thread->start();
 }
 
@@ -812,8 +815,8 @@ NumericalDataTable SBMLImportExport::Gillespie(double time)
 	return dat;
 }
 
-SimulationThread::SimulationThread(QSemaphore * sem, NumericalDataTable * dat, SBMLDocument_t * doc, SimulationType ty, QObject * parent) :
- QThread(parent), semaphore(sem), dataTable(dat), sbmlDocument(doc), simType(ty)
+SimulationThread::SimulationThread(QSemaphore * sem, NumericalDataTable * dat, SBMLDocument_t * doc, SimulationType ty, MainWindow * parent) :
+ CThread(parent,0), semaphore(sem), dataTable(dat), sbmlDocument(doc), simType(ty)
 {
 	time = 100.0;
 	stepSize = 0.1;

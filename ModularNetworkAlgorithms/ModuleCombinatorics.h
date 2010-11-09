@@ -11,23 +11,39 @@ This tool generates multiple models by trying all available models for each proc
 #ifndef TINKERCELL_MODULECOMBINATORICS_H
 #define TINKERCELL_MODULECOMBINATORICS_H
 
+#include "DataTable.h"
+#include "ItemFamily.h"
+#include "ItemHandle.h"
 #include "Tool.h"
-#include "ModelFileGenerator.h"
+#include "NodesTree.h"
+#include "ConnectionsTree.h"
 
-class TINKERCELLEXPORT ModuleCombinatorics : public Tool
+namespace Tinkercell
 {
-		Q_OBJECT
+	class TINKERCELLEXPORT ModuleCombinatorics : public Tool
+	{
+			Q_OBJECT
 
-	public:
+		public:
 
-		ModuleCombinatorics();
-	
-	private:
+			ModuleCombinatorics();
+			bool setMainWindow(MainWindow*);
+		public slots:
+			
+			void run();
+		
+		private:
 
-		void getModelsFor(ItemFamily*, QList< QList<ItemHandle*> >&);
-		void writeModels();
-		void writeModels(int);
-};
+			NodesTree * nodesTree;
+			ConnectionsTree * connectionsTree;
+			void getModelsFor(ItemFamily*, QList< QPair< QString, QList<ItemHandle*> > >&);
+			void writeModels();
+			void printStats(QHash<QString, double>& stats);
+			void writeModels(int& k, QHash<QString, double>& stats, QList<ItemHandle*>& output, const QList<ItemHandle*>& handles, const QHash< ItemHandle*, QList< QPair< QString, QList<ItemHandle*> > > >& handleReplacements);
+	};
+}
+
+extern "C"  TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main);
 
 #endif
 

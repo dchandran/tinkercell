@@ -992,15 +992,16 @@ namespace Tinkercell
 						{
 							handle->name = tr("");
 							for (int i=0; i < words.size(); ++i)
-								handle->name += words[i].left(1);
+								if (words[i][0].isLetter())
+									handle->name += words[i][0];
 							handle->name += tr("1");
 						}
 
 						if (handle->name.length() > 3)
 							handle->name = handle->name.left( 3 ) + tr("1");
-							
-						if (!handle->name[0].isLetter())
-							handle->name = tr("J") + handle->name;
+						else	
+						if (handle->name.length() < 2)
+							handle->name = tr("J1");
 
 						handle->name = scene->network->makeUnique(handle->name);
 

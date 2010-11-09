@@ -2180,6 +2180,8 @@ namespace Tinkercell
 
 	void RenameCommand::findReplaceAllHandleData(const QList<ItemHandle*>& handles,const QString& oldname,const QString& newname)
 	{
+		if (oldname.isEmpty()) return; //impossible
+
 		DataTable<qreal> * nDat = 0;
 		DataTable<QString> * sDat = 0;
 

@@ -348,11 +348,6 @@ namespace Tinkercell
 		if (regex.indexIn(filename) >= 0)
 			filename2 = regex.cap(1);
 
-		if (mainWindow->currentNetwork())
-		{
-			mainWindow->currentNetwork()->setWindowTitle(filename2);
-		}
-
 		emit networkSaved(network);
 
 		mainWindow->statusBar()->showMessage(tr("model saved in ") + filename);
@@ -416,11 +411,6 @@ namespace Tinkercell
 			QString filename2 = filename;
 			if (regex.indexIn(filename) >= 0)
 				filename2 = regex.cap(1);
-
-			if (mainWindow->currentNetwork())
-			{
-				mainWindow->currentNetwork()->setWindowTitle(filename2);
-			}
 
 			emit networkLoaded(scene->network);
 		}
@@ -681,7 +671,7 @@ namespace Tinkercell
 			}
 			for (int i=0; i < items.size(); ++i)
 			{
-				//if (sceneNumbers[i] == minSceneNumber)
+				if (sceneNumbers[i] == minSceneNumber)
 					itemsToInsert << items[i];
 			}
 		}

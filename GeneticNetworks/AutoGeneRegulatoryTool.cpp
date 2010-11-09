@@ -677,6 +677,24 @@ namespace Tinkercell
 
 				if (parts[i]->isA(tr("Coding")) && NodeHandle::cast(parts[i]))
 				{
+					rate = tr("");
+					for (int k=0; k < promoters.size(); ++k)
+						if (rate.isEmpty())
+							rate = promoters[k]->fullName() + tr(".strength * ") + promoters[k]->fullName();
+						else
+							rate += tr(" * ") + promoters[k]->fullName() + tr(".strength * ") + promoters[k]->fullName();
+					
+					if (rate.isEmpty())
+						rate = tr("0.0");
+					if (!parts[i]->textDataTable(tr("Assignments")).hasRow(parts[i]->name) ||
+						 parts[i]->textData(tr("Assignments"),parts[i]->name,0) != rate)
+						 {
+							TextDataTable * sDat = new TextDataTable(parts[i]->textDataTable(tr("Assignments")));
+							sDat->value(parts[i]->name,0) = rate;
+							oldDataTables += &(parts[i]->textDataTable(tr("Assignments")));
+							newDataTables += sDat;
+						}
+				
 					QList<ConnectionHandle*> connections = NodeHandle::cast(parts[i])->connections();
 					
 					for (int j=0; j < connections.size(); ++j)
@@ -687,74 +705,33 @@ namespace Tinkercell
 							TextDataTable & participants = connections[j]->textDataTable(tr("Participants"));
 
 							if (participants.at(tr("template"),0) == parts[i]->fullName())
-							{
-								TextDataTable * sDat = new TextDataTable(connections[j]->textDataTable(tr("Rate equations")));
-								s0 = sDat->value(0,0);
-								bool ok = true;
-								
-								for (int k=0; k < promoters.size(); ++k)
-									if (!s0.contains(promoters[k]->fullName()))
-									{
-										ok = false;
-										break;
-									}
-								
-									if (!ok)
-									{
-										rate = tr("");
-										for (int k=0; k < promoters.size(); ++k)
-											if (rate.isEmpty())
-												rate = promoters[k]->fullName();
-											else
-												rate += tr("*") + promoters[k]->fullName();
-
-										sDat->value(0,0) = rate;
-										oldDataTables += &(connections[j]->textDataTable(tr("Rate equations")));
-										newDataTables += sDat;
-									}
-									
-									if (rbs)
-									{
-										if (sDat->hasRow(tr("translation")))
-										{
-											QString s = sDat->value(tr("translation"),0);
-
-											if (rbs && !s.contains(rbs->fullName()))
-											{
-												s = rbs->fullName() + tr(".strength * ") + sDat->value(tr("translation"),0);
-												sDat->value(tr("translation"),0) = s;
-												if (!newDataTables.contains(sDat))
-												{
-													oldDataTables += &(connections[j]->textDataTable(tr("Rate equations")));
-													newDataTables += sDat;
-												}
-											}
-										}
-
-										QList<NodeHandle*> rna = connections[j]->nodes();
+							{	
+								if (rbs)
+								{
+									QList<NodeHandle*> rna = connections[j]->nodes();
 										
-										for (int k=0; k < rna.size(); ++k)
-											if (NodeHandle::cast(rna[k]) && rna[k]->isA(tr("RNA")))
-											{
-												QList<ConnectionHandle*> connections2 = NodeHandle::cast(rna[k])->connections();
-												for (int l=0; l < connections2.size(); ++l)
-													if (connections2[l] &&
-														connections2[l]->isA(tr("Translation")) &&
-														connections2[l]->hasTextData(tr("Rate equations")))
-														{
-															DataTable<QString> * sDat2 = new DataTable<QString>(connections2[l]->textDataTable(tr("Rate equations")));
-															QString s = rbs->fullName() + tr(".strength * ") + rna[k]->fullName();
+									for (int k=0; k < rna.size(); ++k)
+										if (NodeHandle::cast(rna[k]) && rna[k]->isA(tr("RNA")))
+										{
+											QList<ConnectionHandle*> connections2 = NodeHandle::cast(rna[k])->connections();
+											for (int l=0; l < connections2.size(); ++l)
+												if (connections2[l] &&
+													connections2[l]->isA(tr("Translation")) &&
+													connections2[l]->hasTextData(tr("Rate equations")))
+													{
+														DataTable<QString> * sDat2 = new DataTable<QString>(connections2[l]->textDataTable(tr("Rate equations")));
+														QString s = rbs->fullName() + tr(".strength * ") + rna[k]->fullName();
 
-															if (!sDat2->value(0,0).contains(rbs->fullName()))
-															{
-																sDat2->value(0,0) = s;
-																oldDataTables += &(connections2[l]->textDataTable(tr("Rate equations")));
-																newDataTables += sDat2;
-															}
-															else
-																delete sDat2;
+														if (!sDat2->value(0,0).contains(rbs->fullName()))
+														{
+															sDat2->value(0,0) = s;
+															oldDataTables += &(connections2[l]->textDataTable(tr("Rate equations")));
+															newDataTables += sDat2;
 														}
-											}
+														else
+															delete sDat2;
+													}
+										}
 									}
 								}
 						}

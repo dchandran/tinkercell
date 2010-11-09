@@ -17,6 +17,7 @@
 #include <QGroupBox>
 #include <QToolButton>
 #include <QProcess>
+#include <QMessageBox>
 #include <QDir>
 #include "ConsoleWindow.h"
 #include "PlotTool.h"
@@ -39,12 +40,17 @@ namespace Tinkercell
 
     #endif
 	
-		QProcess process;
+		//QProcess process;
 
-        if (process.state() == QProcess::Running)
-            process.terminate();
+        //if (process.state() == QProcess::Running)
+            //process.terminate();
 
-        process.startDetached(cmd);
+        //process.startDetached(cmd);
+        if (!QProcess::startDetached(cmd))
+        	if (console())
+        		console()->error("Gnuplot is required to generate this plot, but it is not installed");
+        	else
+        		QMessageBox::information(this, "Cannot plot","Gnuplot is required to generate this plot, but it is not installed");
     }
 
     void GnuplotTool::runScript(const QString& script)

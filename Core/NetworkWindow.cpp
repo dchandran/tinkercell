@@ -1,4 +1,4 @@
-#include <QDebug>
+#include <QRegExp>
 #include <QVBoxLayout>
 #include "GraphicsScene.h"
 #include "TextEditor.h"
@@ -134,7 +134,10 @@ namespace Tinkercell
 			connect(this,SIGNAL(networkClosing(NetworkHandle *, bool*)),main,SIGNAL(networkClosing(NetworkHandle *, bool*)));
 			connect(this,SIGNAL(networkClosed(NetworkHandle *)),main,SIGNAL(networkClosed(NetworkHandle *)));
 			connectToMainWindow();
-			setWindowTitle(tr("network ") + QString::number(main->allNetworks.size()));
+			if (!network->networkWindows.isEmpty() && network->networkWindows[0])
+				setWindowTitle(network->networkWindows[0]->windowTitle());
+			else
+				setWindowTitle(tr("network ") + QString::number(main->allNetworks.size()));
 			main->setCurrentWindow(this);
 		}
 		
@@ -170,7 +173,10 @@ namespace Tinkercell
 			connect(this,SIGNAL(networkClosing(NetworkHandle *, bool*)),main,SIGNAL(networkClosing(NetworkHandle *, bool*)));
 			connect(this,SIGNAL(networkClosed(NetworkHandle *)),main,SIGNAL(networkClosed(NetworkHandle *)));
 			connectToMainWindow();
-			setWindowTitle(tr("network ") + QString::number(main->allNetworks.size()));
+			if (!network->networkWindows.isEmpty() && network->networkWindows[0])
+				setWindowTitle(network->networkWindows[0]->windowTitle());
+			else
+				setWindowTitle(tr("network ") + QString::number(main->allNetworks.size()));
 			main->setCurrentWindow(this);
 		}
 
@@ -329,8 +335,25 @@ namespace Tinkercell
 		
 		return editor;
 	}
+	
+	void NetworkWindow::setFileName(const QString& text)
+	{
+		filename = text;
+		
+		QRegExp regex(tr("([^\\/]+$)"));
+		if (network && network->mainWindow && regex.indexIn(filename))
+		{
+			this->setWindowTitle(regex.cap(1));
+			if (network->mainWindow->tabWidget)
+			{
+				int k = network->mainWindow->tabWidget->indexOf(this);
+				if (k >= 0)
+					network->mainWindow->tabWidget->setTabText(k, regex.cap(1));
+			}
+		}
+	}
 
-	/*bool NetworkHandle::winEvent ( MSG * m, long * result )
+	/*bool NetworkWindow::winEvent ( MSG * m, long * result )
 	{
 		if (mainWindow && m->message == WM_SIZE && m->wParam == SIZE_MINIMIZED)
 		{

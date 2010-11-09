@@ -22,6 +22,7 @@ node graphics item and is used to draw the arrow heads at the end of the connect
 #include "ItemHandle.h"
 #include "NodeGraphicsReader.h"
 #include "UndoCommands.h"
+#include "Tool.h"
 
 namespace Tinkercell
 {
@@ -73,7 +74,8 @@ namespace Tinkercell
 	ControlPoint * ControlPoint::cast(QGraphicsItem* item)
 	{
 		//if (MainWindow::invalidPointers.contains( (void*)item )) return 0;
-		
+		if (!item || ToolGraphicsItem::cast(item->topLevelItem())) return 0;
+
 		ControlPoint * idptr = 0;
 
 		QGraphicsItem * p = item;
@@ -130,6 +132,7 @@ namespace Tinkercell
 	ArrowHeadItem* ArrowHeadItem::cast(QGraphicsItem * q)
 	{
 		//if (MainWindow::invalidPointers.contains( (void*)q )) return 0;
+		if (!q || ToolGraphicsItem::cast(q->topLevelItem())) return 0;
 		return qgraphicsitem_cast<ArrowHeadItem*>(q);
 	}
 
@@ -1800,6 +1803,7 @@ namespace Tinkercell
 	ConnectionGraphicsItem* ConnectionGraphicsItem::cast(QGraphicsItem * q)
 	{
 		//if (MainWindow::invalidPointers.contains( (void*)q )) return 0;
+		if (!q || ToolGraphicsItem::cast(q->topLevelItem())) return 0;
 		return qgraphicsitem_cast<ConnectionGraphicsItem*>(q);
 	}
 	

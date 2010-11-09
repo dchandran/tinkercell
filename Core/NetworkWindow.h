@@ -67,6 +67,9 @@ namespace Tinkercell
 		/*! \brief calls main window's popIn
 		* \return void*/
 		virtual void popIn();
+		/*! \brief set file name and window title
+		* \return void*/
+		virtual void setFileName(const QString&);
 
 	protected:
 		/*! \brief close event sends signal to all tools asking for confirmation becore closing

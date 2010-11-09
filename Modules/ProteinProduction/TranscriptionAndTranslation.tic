@@ -42,7 +42,7 @@
             <tc_table>
                 <Table key="text attributes" rows="2" cols="1" rowNames="sequence;;composite" columnNames="value" values="AAGCTGATGGCTAGAAT;;false"/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
+                <Table key="assignments" rows="1" cols="1" rowNames="TEMPLATE" columnNames="rule" values="0.0"/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
         </Handle>
@@ -102,7 +102,7 @@
         <Handle type="2" name="transcription" parent="" family="Transcription">
             <tc_matrix>
                 <Table key="product stoichiometries" rows="1" cols="1" rowNames="stoichiometry" columnNames="mrna" desc="Number of each product participating in this reaction" values="1"/>
-                <Table key="parameters" rows="1" cols="1" rowNames="k0" columnNames="value" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1"/>
+                <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;;;" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
                 <Table key="reactant stoichiometries" rows="0" cols="0" rowNames="" columnNames="" desc="Number of each reactant participating in this reaction" values=""/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
@@ -112,7 +112,7 @@
                 <Table key="participants" rows="6" cols="1" rowNames="reactant;;product;;template;;TEMPLATE;;emp1;;mrna" columnNames="" values="emp1;;mrna;;TEMPLATE;;template;;reactant;;product"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
-                <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="transcription.k0"/>
+                <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="TEMPLATE"/>
             </tc_table>
         </Handle>
         <Handle type="2" name="translation" parent="" family="Translation">
@@ -851,7 +851,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="4505.15" y="5016.86" angle="133.054"/>
-                            <transform m11="-0.273078" m12="0.292281" m21="-0.21921" m22="-0.20481"/>
+                            <transform m11="-0.27308" m12="0.292279" m21="-0.219208" m22="-0.204812"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -965,17 +965,17 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="0" handle="transcription" z="39.7">
             <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="bezier" style="1" gap="10">
                 <ControlPoints>
-                    <ControlPoint x="4496.28" y="5086.86"/>
-                    <ControlPoint x="4571.75" y="5166.32"/>
-                    <ControlPoint x="4731.25" y="5171.3"/>
-                    <ControlPoint x="4844.2" y="5085.04"/>
+                    <ControlPoint x="4497.64" y="5086.86"/>
+                    <ControlPoint x="4578.4" y="5167.98"/>
+                    <ControlPoint x="4737.9" y="5172.96"/>
+                    <ControlPoint x="4828.47" y="5068.6"/>
                 </ControlPoints>
                 <CurveSegments>
                     <Path numPoints="4" NodeAtStart="emp1" NodeAtStartX="4467.78" NodeAtStartY="5056.86" NodeAtEnd="mrna" NodeAtEndX="4887.33" NodeAtEndY="5057.57">
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
-                            <pos x="4844.2" y="5085.04" angle="-37.3697"/>
-                            <transform m11="0.317895" m12="-0.242782" m21="0.182086" m22="0.238421"/>
+                            <pos x="4828.47" y="5068.6" angle="-49.0455"/>
+                            <transform m11="0.262184" m12="-0.302092" m21="0.226569" m22="0.196638"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -1015,7 +1015,7 @@
                 <CenterRegion>
                     <Rect width="20" height="20"/>
                     <Decorator>
-                        <pos x="4657.37" y="5147.63" angle="0"/>
+                        <pos x="4660.55" y="5146.79" angle="0"/>
                         <transform m11="0.5" m12="0" m21="0" m22="0.45"/>
                         <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                             <renderInformation id="TinkerCell_Style" programName="TinkerCell">
@@ -1327,7 +1327,7 @@
     </Connections>
     <Texts>
         <TextItem text="mrna_degradation" scene="0" handle="mrna_degradation" x="4532.35" y="4897.87" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="43.7" font="Sans" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="transcription" scene="0" handle="transcription" x="4559.73" y="5060.43" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="40.7" font="Sans" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="transcription" scene="0" handle="transcription" x="4566.38" y="5062.09" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="40.7" font="Sans" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="protein_degradation" scene="0" handle="protein_degradation" x="4747.27" y="4589.18" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="30" font="Sans" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="translation" scene="0" handle="translation" x="4793.73" y="4778.63" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="26.7" font="Sans" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="mrna" scene="0" handle="mrna" x="4954.14" y="4983.68" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="22.1" font="Sans" size="22" bold="0" italics="0" underline="0"/>

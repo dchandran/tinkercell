@@ -405,7 +405,7 @@ namespace Tinkercell
 		NetworkHandle * win = currentNetwork();
 		if (!win) return;
 
-		if (col > 1 || row >= tableItems.size() || !tableWidget.item(row,col)) return;
+		if (col > 3  || row >= tableItems.size() || !tableWidget.item(row,col)) return;
 
 		ItemHandle * handle = tableItems[row].first;
 		int rowNumber = tableItems[row].second;
@@ -536,6 +536,7 @@ namespace Tinkercell
 				}
 			}
 			else
+			if (col == 1)
 			{
 				QString value = tableWidget.item(row,col)->text();
 				sDat.value(rowNumber,0) = value;
@@ -1087,7 +1088,7 @@ namespace Tinkercell
 	DataTable<qreal> BasicInformationTool::getParameters(const QList<ItemHandle*>& handles, const QStringList& mustHave, const QStringList& exclude, const QString& sep)
 	{
 		QStringList rownames;
-        QList<qreal> values;
+        QList<qreal> values, minv, maxv;
 
         QString name("Parameters");
 
@@ -1113,6 +1114,8 @@ namespace Tinkercell
 								rownames += handle->fullName(sep) + sep + dataTable->rowName(j);
 
 							values += dataTable->at(j,0);
+							minv += dataTable->at(j,1);
+							maxv += dataTable->at(j,2);
 						}
                 }
             }
@@ -1124,8 +1127,12 @@ namespace Tinkercell
         {
             combinedTable.setRowName(i,rownames[i]);
             combinedTable.value(i,0) = values[i];
+            combinedTable.value(i,1) = minv[i];
+            combinedTable.value(i,2) = maxv[i];
         }
         combinedTable.setColumnName(0,tr("values"));
+        combinedTable.setColumnName(1,tr("min"));
+        combinedTable.setColumnName(2,tr("max"));
 
         return combinedTable;
 	}
@@ -1440,7 +1447,7 @@ namespace Tinkercell
 			}
 
 			int rows = params2.rows();
-			params2.resize( rows + names.size(), (*ptr).columns() );
+			params2.resize( rows + names.size(), 1 );
 
 			for (int i=0; i < names.size(); ++i)
 			{
@@ -1921,7 +1928,7 @@ namespace Tinkercell
 
 						for (int k=0; k < params.rows(); ++k)
 							if (s2.contains(params.rowName(k)))
-								params.value(k,1) = 1.0;
+								params.value(k,3) = 1.0;
 					}
 			}
 
@@ -1942,7 +1949,7 @@ namespace Tinkercell
 
 						for (int k=0; k < params.rows(); ++k)
 							if (s2.contains(params.rowName(k)) || s1.contains(params.rowName(k)))
-								params.value(k,1) = 1.0;
+								params.value(k,3) = 1.0;
 					}
 			}
 
@@ -1961,7 +1968,7 @@ namespace Tinkercell
 
 						for (int k=0; k < params.rows(); ++k)
 							if (s2.contains(params.rowName(k)) || s1.contains(params.rowName(k)))
-								params.value(k,1) = 1.0;
+								params.value(k,3) = 1.0;
 					}
 			}
 		}
@@ -1969,19 +1976,23 @@ namespace Tinkercell
 		int count = 0;
 		for (int i=0; i < params.rows(); ++i)
 		{
-			if (params.value(i,1) > 0.0) ++count;
+			if (params.value(i,3) > 0.0) ++count;
 		}
 
 		DataTable<qreal> params2;
-		params2.resize(count,1);
+		params2.resize(count,3);
 		params2.setColumnName(0,params.columnName(0));
+		params2.setColumnName(1,params.columnName(1));
+		params2.setColumnName(2,params.columnName(2));
 
 		for (int i=0, j=0; i < params.rows() && j < count; ++i)
 		{
-			if (params.value(i,1) > 0.0)
+			if (params.value(i,3) > 0.0)
 			{
 				params2.setRowName(j , params.rowName(i));
 				params2.value(j,0) = params.value(i,0);
+				params2.value(j,1) = params.value(i,1);
+				params2.value(j,2) = params.value(i,2);
 				++j;
 			}
 		}

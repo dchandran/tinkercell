@@ -105,7 +105,7 @@ namespace Tinkercell
 		virtual void setColumnNames(const QStringList& names);
 		
 		/*! \brief set all the row names. 
-		\param QVector vector of strings
+		\param QStringList vector of strings
 		\return void
 		*/
 		virtual void setRowNames(const QStringList& names);
@@ -267,9 +267,33 @@ namespace Tinkercell
 		virtual void swapColumns(const QString& s1, const QString& s2);
 		
 		/*! \brief get transpose of the table. complexity = n*m (use sparingly)
-		\return new data table
+		\return DataTable<T> new data table
 		*/
 		virtual DataTable<T> transpose() const;
+		
+		/*! \brief append another data table's columns to this data table
+		\param DataTable<T>* table to append
+		\return void
+		*/
+		void appendColumns(DataTable<T>*);
+		
+		/*! \brief append multiple data tables column-wise
+		\param QList< DataTable<T>* > list of tables
+		\return DataTable<T> new data table
+		*/
+		static DataTable<T> appendColumns(const QList< DataTable<T>* >&);
+		
+		/*! \brief append another data table's rows to this data table
+		\param DataTable<T>* table to append
+		\return void
+		*/
+		void appendRows(DataTable<T>*);
+		
+		/*! \brief append multiple data tables row-wise
+		\param QList< DataTable<T>* > list of tables to append
+		\return DataTable<T> new data table
+		*/
+		static DataTable<T> appendRows(const QList< DataTable<T>* >&);
 	};
 
 
@@ -899,6 +923,160 @@ namespace Tinkercell
 			for (int j=0; j < columns(); ++j)
 				newTable.value(j,i) = at(i,j);
 
+		return newTable;
+	}
+	
+	/*! \brief append another data table's rows
+	*/
+	template <typename T> void DataTable<T>::appendRows(DataTable<T>* other)
+	{
+		QList< DataTable<T> * > list;
+		list << this << other;
+		DataTable<T> A = appendRows(list);
+		dataMatrix = A.dataMatrix;
+		rowHeaders = A.rowHeaders;
+		colHeaders = A.colHeaders;
+		colHash = A.colHash;
+		rowHash = A.rowHash;
+	}
+	
+	/*! \brief append multiple data tables' rows
+	*/
+	template <typename T>  DataTable<T> DataTable<T>::appendRows(const QList< DataTable<T>* >& list)
+	{
+		DataTable<T> newTable;
+		QHash<QString,int> colHash, rowHash;
+		QStringList colHeaders, rowHeaders;
+		
+		QString s;
+		
+		int rows = 0, cols = 0, p;
+		
+		for (int i=0; i < list.size(); ++i)
+			if (list[i])
+			{
+				for (int j=0; j < list[i]->rows(); ++j) //get all rows with unique names
+				{
+					s = list[i]->rowName(j);
+					p = rows;
+					while (rowHash.contains(s))
+						s = QString("_") + QString::number(++p);
+					rowHeaders << s;
+					rowHash[rows] = s;
+					++rows;
+				}
+
+				for (int j=0; j < list[i]->columns(); ++j) //get all rows with unique names
+				{
+					s = list[i]->columnName(j);
+					if (!colHash.contains(s))
+					{
+						colHeaders << s;
+						colHash[cols] = s;
+						++cols;
+					}
+				}
+			}
+
+		newTable.resize(rows,cols);
+		newTable.colHeaders = colHeaders;
+		newTable.colHash = colHash;
+		newTable.rowHeaders = rowHeaders;
+		newTable.rowHash = rowHash;
+		
+		rows = 0;
+		for (int i=0; i < list.size(); ++i)
+			if (list[i])
+			{
+				for (int j=0; j < list[i]->columns(); ++j) //get all rows with unique names
+					if (colHash.contains(list[i]->colName(j)))
+					{
+						cols = colHash[ list[i]->colName(j) ];
+						for (int k=0; k < list[i]->rows(); ++k)
+						{
+							newTable.value(rows, cols) = list[i]->value(k, j);
+							++rows;
+						}
+					}
+			}
+		
+		return newTable;
+	}
+	
+	/*! \brief append another data table's columns
+	*/
+	template <typename T> void DataTable<T>::appendColumns(DataTable<T>* other)
+	{
+		QList< DataTable<T> * > list;
+		list << this << other;
+		DataTable<T> A = appendColumns(list);
+		dataMatrix = A.dataMatrix;
+		rowHeaders = A.rowHeaders;
+		colHeaders = A.colHeaders;
+		colHash = A.colHash;
+		rowHash = A.rowHash;
+	}
+	
+	/*! \brief append multiple data tables' columns
+	*/
+	template <typename T>  DataTable<T> DataTable<T>::appendColumns(const QList< DataTable<T>* >& list)
+	{
+		DataTable<T> newTable;
+		QHash<QString,int> colHash, rowHash;
+		QStringList colHeaders, rowHeaders;
+		
+		QString s;
+		
+		int rows = 0, cols = 0, p;
+		
+		for (int i=0; i < list.size(); ++i)
+			if (list[i])
+			{
+				for (int j=0; j < list[i]->rows(); ++j) //get all rows with unique names
+				{
+					s = list[i]->rowName(j);
+					if (!rowHash.contains(s))
+					{
+						rowHeaders << s;
+						rowHash[rows] = s;
+						++rows;
+					}
+				}
+
+				for (int j=0; j < list[i]->columns(); ++j) //get all rows with unique names
+				{
+					s = list[i]->columnName(j);
+					p = cols;
+					while (colHash.contains(s))
+						s = QString("_") + QString::number(++p);
+					colHeaders << s;
+					colHash[cols] = s;
+					++cols;
+				}
+			}
+
+		newTable.resize(rows,cols);
+		newTable.colHeaders = colHeaders;
+		newTable.colHash = colHash;
+		newTable.rowHeaders = rowHeaders;
+		newTable.rowHash = rowHash;
+		
+		cols = 0;
+		for (int i=0; i < list.size(); ++i)
+			if (list[i])
+			{
+				for (int j=0; j < list[i]->rows(); ++j) //get all rows with unique names
+					if (rowHash.contains(list[i]->rowName(j)))
+					{
+						rows = rowHash[ list[i]->rowName(j) ];
+						for (int k=0; k < list[i]->columns(); ++k)
+						{
+							newTable.value(rows, cols) = list[i]->value(j, k);
+							++cols;
+						}
+					}
+			}
+		
 		return newTable;
 	}
 

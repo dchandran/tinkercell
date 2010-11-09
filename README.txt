@@ -4,7 +4,7 @@ HOW TO BUILD TINKERCELL PROJECT
 
 YOU WILL NEED TO INSTALL THE FOLLOWING LIBRARIES/PACKAGES
 -----------------------------------------------------------------------------------------
-C and C++ Compiler (XCode on Mac,  MinGW or Visual Studio in MS Windows, GCC in Linux)
+C and C++ Compiler (XCode on Mac,  MinGW in Windows, GCC in Linux)
 CMake (www.cmake.org)
 Qt 4.5 or higher
 libxml2

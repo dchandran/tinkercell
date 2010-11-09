@@ -1,0 +1,97 @@
+SET(LIBRARY_OUTPUT_PATH ${EXECUTABLE_OUTPUT_PATH})
+
+IF (WIN32)
+
+	SET(BUILD_OS WIN32)
+	STATIC_LINKAGE = yes
+	
+	IF (MINGW)
+		SET (LIBXML2_LIBRARIES ${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/win32/libxml2/lib/libxml2.dll.a)
+	ELSE(MINGW)
+		SET (LIBXML2_LIBRARIES ${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/win32/libxml2/lib/libxml2.lib)
+	ENDIF(MINGW)
+	SET (LIBXML2_INCLUDE_DIR ${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/win32/libxml2/include)
+
+ELSE(WIN32)	
+	
+	IF (UNIX)
+		IF (APPLE)
+			SET(BUILD_OS MAC)
+		ELSEIF(APPLE)
+			SET(BUILD_OS LINUX)
+		ENDIF(APPLE)
+	ENDIF(UNIX)
+	
+	FIND_PACKAGE(LibXml2)	
+
+ENDIF(WIN32)
+
+INCLUDE_DIRECTORIES( 
+	BEFORE
+	${LIBXML2_INCLUDE_DIR}
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/sbml
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/COPASI
+)
+
+ADD_DEFINITIONS(-DWITH_CSPMETHOD)
+
+IF (WIN32)
+	ADD_DEFINITIONS(-DWIN32)
+	ADD_DEFINITIONS(-D_WIN32)
+	ADD_DEFINITIONS(-D_WINDOWS)
+	ADD_DEFINITIONS(-D_USRDLL)
+	ADD_DEFINITIONS(-D_EXPORTS)
+	ADD_DEFINITIONS(-DIN_LIBXML)
+	IF (MINGW)
+		ADD_DEFINITIONS(-DCYGWIN)
+	ENDIF(MINGW)
+ENDIF (WIN32)
+
+FILE( GLOB COPASI_SRC_FILES
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/COPASI/compareExpressions/*.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/COPASI/CopasiDataModel/*.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/COPASI/crosssection/*.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/COPASI/elementaryFluxModes/*.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/COPASI/function/*.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/COPASI/layout/*.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/COPASI/libs/*.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/COPASI/lyap/*.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/COPASI/MIRIAM/*.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/COPASI/model/*.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/COPASI/moieties/*.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/COPASI/odepack++/*.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/COPASI/optimization/*.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/COPASI/parameterFitting/*.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/COPASI/plot/*.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/COPASI/randomGenerator/*.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/COPASI/report/*.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/COPASI/sbml/*.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/COPASI/sbmlunit/*.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/COPASI/scan/*.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/COPASI/sensitivities/*.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/COPASI/steadystate/*.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/COPASI/trajectory/*.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/COPASI/tss/*.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/COPASI/tssanalysis/*.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/COPASI/utilities/*.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/COPASI/xml/*.cpp
+)
+
+ADD_LIBRARY( copasi
+  SHARED
+  ${COPASI_SRC_FILES}
+)
+
+TARGET_LINK_LIBRARIES( copasi
+  copasi
+  sbml
+  ${LIBXML2_LIBRARIES}
+)
+
+IF ( WIN32 )
+   INSTALL(TARGETS copasi DESTINATION bin/../)
+ELSE ( WIN32 )
+   INSTALL(TARGETS copasi LIBRARY DESTINATION bin/../)
+ENDIF( WIN32 )
+

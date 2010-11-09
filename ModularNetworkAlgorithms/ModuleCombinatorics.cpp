@@ -125,6 +125,7 @@ namespace Tinkercell
 				if (!list.isEmpty())
 				{
 					TextDataTable & participants = handles[i]->textDataTable("Participants");
+
 					for (int j=0; j < participants.rows(); ++j)
 					{
 						for (int k=0; k < list.size(); ++k)
@@ -137,7 +138,7 @@ namespace Tinkercell
 
 					for (int j=0; j < list.size(); ++j)
 						for (int k=0; k < list[j].second.size(); ++k)
-							if (!list[j].second[k]->parent && list[j].second[k]->family())
+							if (list[j].second[k] && !list[j].second[k]->parent && list[j].second[k]->family())
 							{
 								QString s = list[j].second[k]->name;
 								RenameCommand::findReplaceAllHandleData(list[j].second, list[j].second[k]->name, handles[i]->fullName() + tr(".") + list[j].second[k]->name);
@@ -153,12 +154,19 @@ namespace Tinkercell
 			QList<ItemHandle*> output;
 			QHash<QString, double> stats;
 			writeModels(k, stats, output, handles, handleReplacements);
+			
 			QList< QList< QPair< QString, QList<ItemHandle*> > > > lists = handleReplacements.values();
+			QList<ItemHandle*> visited;
+			
 			for (int i=0; i < lists.size(); ++i)
 				for (int j=0; j < lists[i].size(); ++j)
 					for (int k=0; k < lists[i][j].second.size(); ++k)
-						delete lists[i][j].second[k];
-			
+						if (lists[i][j].second[k])
+						{
+							lists[i][j].second[k]->children.clear();
+							delete lists[i][j].second[k];	
+						}
+			std::cout << "end\n";
 			printStats(stats);
 	}
 	
@@ -201,7 +209,7 @@ namespace Tinkercell
 		if (output.size() >= handles.size())
 		{
 			++k;
-			ModelFileGenerator::generateModelFile(tr("model") + QString::number(k), output);
+			ModelFileGenerator::generateModelFile(tempDir() + tr("/model") + QString::number(k), output);
 			
 			for (int i=0; i < output.size(); ++i)
 				if ((h = output[i]) && handleReplacements.contains(h))

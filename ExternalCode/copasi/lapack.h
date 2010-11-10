@@ -13,6 +13,11 @@
 #ifndef __CLAPACK_H
 #define __CLAPACK_H
 
+/* Subroutine */ int dgemm_(char *transa, char *transb, integer *m, integer *
+	n, integer *k, doublereal *alpha, doublereal *a, integer *lda, 
+	doublereal *b, integer *ldb, doublereal *beta, doublereal *c__, 
+	integer *ldc);
+
 /* Subroutine */
 int cbdsqr_(char *uplo, integer *n, integer *ncvt, integer *
             nru, integer *ncc, real *d__, real *e, complex *vt, integer *ldvt,

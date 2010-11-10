@@ -2,14 +2,15 @@ SET(LIBRARY_OUTPUT_PATH ${EXECUTABLE_OUTPUT_PATH})
 
 IF (WIN32)
 
-	SET(BUILD_OS WIN32)
+   SET(BUILD_OS WIN32)
 	
+	# libxml2 is included as a dll file in windows, so look in a specific folder:
 	IF (MINGW)
-		SET (LIBXML2_LIBRARIES ${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/win32/libxml2/lib/libxml2.dll.a)
+		SET (LIBXML2_LIBRARIES ${TINKERCELL_SOURCE_DIR}/ExternalCode/libSBML/win32/libxml2/lib/libxml2.dll.a)
 	ELSE(MINGW)
-		SET (LIBXML2_LIBRARIES ${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/win32/libxml2/lib/libxml2.lib)
+		SET (LIBXML2_LIBRARIES ${TINKERCELL_SOURCE_DIR}/ExternalCode/libSBML/win32/libxml2/lib/libxml2.lib)
 	ENDIF(MINGW)
-	SET (LIBXML2_INCLUDE_DIR ${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/win32/libxml2/include)
+	SET (LIBXML2_INCLUDE_DIR ${TINKERCELL_SOURCE_DIR}/ExternalCode/libSBML/win32/libxml2/include)
 
 ELSE(WIN32)	
 	
@@ -21,6 +22,7 @@ ELSE(WIN32)
 		ENDIF(APPLE)
 	ENDIF(UNIX)
 	
+	#ask CMAKE to find libxml2
 	FIND_PACKAGE(LibXml2)	
 
 ENDIF(WIN32)
@@ -28,15 +30,17 @@ ENDIF(WIN32)
 INCLUDE_DIRECTORIES( 
 	BEFORE
 	${LIBXML2_INCLUDE_DIR}
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/sbml
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/libSBML/include
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/libSBML/src
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor2/src
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor2/librdfa
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor2/util
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor/src
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor/librdfa
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor/util
 )
 
 ADD_DEFINITIONS(-DWITH_CSPMETHOD)
+ADD_DEFINITIONS(-DUSE_CLAPACK)
+ADD_DEFINITIONS(-DUSE_LAPACK)
 
 IF (WIN32)
 	ADD_DEFINITIONS(-DWIN32)
@@ -51,6 +55,7 @@ IF (WIN32)
 ENDIF (WIN32)
 
 FILE( GLOB copasi_SRC_FILES
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/model/*.cpp
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/compareExpressions/*.cpp
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/CopasiDataModel/*.cpp
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/crosssection/*.cpp
@@ -60,7 +65,6 @@ FILE( GLOB copasi_SRC_FILES
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/libs/*.cpp
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/lyap/*.cpp
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/MIRIAM/*.cpp
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/model/*.cpp
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/moieties/*.cpp
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/odepack++/*.cpp
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/optimization/*.cpp
@@ -89,6 +93,7 @@ TARGET_LINK_LIBRARIES( copasi
   copasi
   sbml
   raptor
+  lapack
   ${LIBXML2_LIBRARIES}
 )
 

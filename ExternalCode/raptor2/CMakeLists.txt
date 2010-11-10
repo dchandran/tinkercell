@@ -15,7 +15,7 @@ ENDIF(WIN32)
 
 FILE( GLOB RAPTOR_SRC src/*.c )
 
-ADD_LIBRARY( raptor 
+ADD_LIBRARY( raptor2
 #  SHARED
   STATIC
   ${RAPTOR_SRC} 

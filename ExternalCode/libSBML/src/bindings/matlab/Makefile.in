@@ -1,0 +1,196 @@
+## @configure_input@
+##
+## \file    Makefile.in
+## \brief   Makefile template for libsbml MATLAB bindings
+## \author  SBML Team <sbml-team@caltech.edu>
+##
+## $Id: Makefile.in 11717 2010-08-19 05:02:33Z mhucka $
+## $HeadURL: https://sbml.svn.sourceforge.net/svnroot/sbml/trunk/libsbml/src/bindings/matlab/Makefile.in $
+##
+##<!---------------------------------------------------------------------------
+## This file is part of libSBML.  Please visit http://sbml.org for more
+## information about SBML, and the latest version of libSBML.
+##
+## Copyright 2005-2010 California Institute of Technology.
+## Copyright 2002-2005 California Institute of Technology and
+##                     Japan Science and Technology Corporation.
+## 
+## This library is free software; you can redistribute it and/or modify it
+## under the terms of the GNU Lesser General Public License as published by
+## the Free Software Foundation.  A copy of the license agreement is provided
+## in the file named "LICENSE.txt" included with this software distribution
+## and also available online as http://sbml.org/software/libsbml/license.html
+##----------------------------------------------------------------------- -->*/
+
+
+# -----------------------------------------------------------------------------
+# Configuration variables
+# -----------------------------------------------------------------------------
+# Some of the following are substituted automatically by `configure'.  If
+# you are looking at "Makefile", do not edit these values; instead, run the
+# configure script at the top level of the src tree.  It will recreate
+# "Makefile".
+
+include @top_srcdir@/config/makefile-common-vars.mk
+
+# `srcdir' points to the current directory, but should be set by configure.
+# `subdir' must be set manually to the relative dir under srcdir.  Don't 
+# set `subdir' to an absolute path, or some make actions will fail.
+
+srcdir  = @srcdir@
+thisdir = src/bindings/matlab
+
+sources = TranslateSBML.c
+
+# This use of $(libraries) is slightly inconsistent with the other makefiles,
+# but for Matlab, these object files act a lot like dynamic libraries and
+# we're installing them in the same place as the other libraries, so....
+
+libraries = $(sources:.c=.$(MEXEXT))
+
+subdirs = test
+
+# `distfiles' determines the files and directories included in a distribution.
+# `distfiles_exclude' is used to filter out specific items, so that even if
+# they appear in `distfiles', they will not be copied in the distribution.
+
+distfiles =                           \
+        AUTHORS.txt                   \
+        CheckAndConvert.m             \
+        Contents.m                    \
+        Makefile.in                   \
+        README.txt                    \
+        TranslateSBML.c               \
+        TranslateSBML.m               \
+        buildWin.m                    \
+        install_Win32.m               \
+        install_Win64.m               \
+        install_for_Win32installers.m \
+        isoctave.m                    \
+        matlab-tags-regexp.txt        \
+        mexopts-R2007.sh              \
+        mexopts-R2008.sh              \
+        mexopts-R2009-R2010.sh        \
+	test.xml                      \
+	uninstall_Win32.m
+
+# `extra_clean' and `extra_distclean' determine the files and directories
+# removed during "make clean" and "make distclean".
+
+extra_clean = TranslateSBML.$(MEXTEXT) runTests.log
+
+
+# -----------------------------------------------------------------------------
+# Primary build actions
+# -----------------------------------------------------------------------------
+
+all: Makefile $(libraries)
+
+flags = $(MEX_FLAGS) $(MATLAB_CPPFLAGS) -I../.. -I../../../include -L../..
+
+# Figure out which mex options file to use.  I couldn't figure out a way to
+# get the version number without relying on the installation directory name
+# (which the user might change) -- there doesn't seem to be a command-line
+# command that will return the matlab version.  Lucky for us, "mex" is a
+# shell script, and it has a variable inside of it storing the version.
+
+version = `grep full_ver= $(MEX) | cut -f2 -d'=' | tr -d "'"`
+
+ifeq "$(version)" "R2007a"
+  mexopts_file = mexopts-R2007.sh
+else ifeq "$(version)" "R2007b"
+  mexopts_file = mexopts-R2007.sh
+else ifeq "$(version)" "R2008a"
+  mexopts_file = mexopts-R2008.sh
+else ifeq "$(version)" "R2008b"
+  mexopts_file = mexopts-R2008.sh
+else ifeq "$(version)" "R2009a"
+  mexopts_file = mexopts-R2009-R2010.sh
+else ifeq "$(version)" "R2009b"
+  mexopts_file = mexopts-R2009-R2010.sh
+else ifeq "$(version)" "R2010a"
+  mexopts_file = mexopts-R2009-R2010.sh
+else ifeq "$(version)" "R2010b"
+  mexopts_file = mexopts-R2009-R2010.sh
+else
+  # We didn't recognize the version.  Punt and hope for the best.
+  mexopts_file = mexopts-R2009-R2010.sh
+endif
+
+%.$(MEXEXT): %.c
+	env MATLABROOT=$(MATLABROOT) ARCH=$(MEX_ARCH) Arch=$(MEX_ARCH) \
+          CFLAGS="${CFLAGS}" $(LIBTOOL) --tag=CC --mode=link $(MEX) \
+          ARCH=$(MEX_ARCH) Arch=$(MEX_ARCH) -f $(mexopts_file) \
+          -o $@ $^ $(flags) ../../libsbml.la $(MATLAB_LIBS)
+	cp -f .libs/$@ .
+
+
+# -----------------------------------------------------------------------------
+# Tags.
+# -----------------------------------------------------------------------------
+
+matlab-tags-extra-flags = *.c --lang=none --regex=@matlab-tags-regexp.txt *.m
+
+etags-command = $(ETAGS) $(ETAGSFLAGS) $(matlab-tags-extra-flags)
+ctags-command = $(CTAGS) $(CTAGSFLAGS) $(matlab-tags-extra-flags)
+
+tags: etags ctags
+
+
+# -----------------------------------------------------------------------------
+# Targets for checking/testing.
+# -----------------------------------------------------------------------------
+
+check: all check-recursive
+
+
+# -----------------------------------------------------------------------------
+# Installation.
+# -----------------------------------------------------------------------------
+
+install: all install-libraries install-checkandconvert install-isoctave
+
+installdirs: all
+
+uninstall: uninstall-libraries uninstall-checkandconvert uninstall-isoctave
+
+install-checkandconvert:
+	$(INSTALL_SH) -m 644 CheckAndConvert.m "$(DESTDIR)$(LIBDIR)"
+
+uninstall-checkandconvert:
+	@target="$(DESTDIR)$(LIBDIR)/CheckAndConvert.m"; \
+	if test -f $$target ; then \
+	  echo rm $$target; \
+	  rm $$target; \
+	fi;
+
+install-isoctave:
+	$(INSTALL_SH) -m 644 isoctave.m "$(DESTDIR)$(LIBDIR)"
+
+uninstall-isoctave:
+	@target="$(DESTDIR)$(LIBDIR)/isoctave.m"; \
+	if test -f $$target ; then \
+	  echo rm $$target; \
+	  rm $$target; \
+	fi;
+
+
+# -----------------------------------------------------------------------------
+# Creating distribution (for libSBML maintainers only)
+# -----------------------------------------------------------------------------
+
+dist: dist-normal dist-recursive
+
+distcheck: all distcheck-normal distcheck-recursive
+
+
+# -----------------------------------------------------------------------------
+# Miscellaneous
+# -----------------------------------------------------------------------------
+
+include @top_srcdir@/config/makefile-common-actions.mk
+
+
+# -----------------------------------------------------------------------------
+# End.
+# -----------------------------------------------------------------------------

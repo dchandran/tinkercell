@@ -127,11 +127,11 @@
 # define ios_base ios
 #endif
 
-#if (defined USE_MKL || defined USE_SUNPERF || defined __x86_64)
-# define C_INT int
-#else
 # if (defined USE_CLAPACK || defined USE_LAPACK || defined Darwin)
 #  define C_INT long
+# else
+# if (defined USE_MKL || defined USE_SUNPERF || defined __x86_64)
+# define C_INT int
 # else
 #  error Neither USE_CLAPACK, USE_LAPACK, USE_SUNPERF, or USE_MKL is defined!
 # endif

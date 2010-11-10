@@ -79,12 +79,12 @@ public:
    * A static handler to interface with the C parser library. This is called
    * whenever a node id needs to be generated.
    * @param void * pGraph
-   * @param raptor_genid_type type
+   * @param int type
    * @param unsigned char * userNodeId
    * @return unsigned char * generatedId
    */
   static unsigned char * GenerateIdHandler(void * pGraph,
-      raptor_genid_type type,
+      int type,
       unsigned char * userNodeId);
 
   /**

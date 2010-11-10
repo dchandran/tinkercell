@@ -216,7 +216,7 @@ void CRDFParser::NameSpaceHandler(void * pGraph, raptor_namespace * pNameSpace)
 
 // static
 unsigned char * CRDFParser::GenerateIdHandler(void * pGraph,
-    raptor_genid_type /* type */,
+    int /* type */,
     unsigned char * existingNodeId)
 {
   std::string NodeId;

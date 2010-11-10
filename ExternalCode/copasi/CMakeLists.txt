@@ -31,6 +31,9 @@ INCLUDE_DIRECTORIES(
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/sbml
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor2/src
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor2/librdfa
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor2/util
 )
 
 ADD_DEFINITIONS(-DWITH_CSPMETHOD)
@@ -85,6 +88,7 @@ ADD_LIBRARY( copasi
 TARGET_LINK_LIBRARIES( copasi
   copasi
   sbml
+  raptor
   ${LIBXML2_LIBRARIES}
 )
 

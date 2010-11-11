@@ -131,6 +131,10 @@ namespace Tinkercell
 
 		/*! \brief the default project version*/
 		static QString PROJECT_VERSION;
+		
+		/*! \brief an optional string that can be used to change the mode of the application.
+			The meaning of this variable depends on the purpose of the application. Empty by default.*/
+		static QString PROGRAM_MODE;
 
 		/*! \brief the default file extensions that can be opened*/
 		static QStringList OPEN_FILE_EXTENSIONS;

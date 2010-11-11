@@ -245,6 +245,8 @@ namespace Tinkercell
 
 		connect(this,SIGNAL(itemsRemoved(GraphicsScene*,QList<QGraphicsItem*>,QList<ItemHandle*>)),
 			this,SLOT(itemsRemovedSlot(GraphicsScene*,QList<QGraphicsItem*>,QList<ItemHandle*>)));
+		
+		readSettings();
 
 		if (showHistory)
 		{
@@ -269,8 +271,6 @@ namespace Tinkercell
 
 		parsersMenu = 0;
 		c_api_slots = new C_API_Slots(this);
-		
-		readSettings();
 	}
 
 	ConsoleWindow * MainWindow::console() const

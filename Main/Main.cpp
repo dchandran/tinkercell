@@ -27,9 +27,9 @@ int main(int argc, char *argv[])
     QApplication::setColorSpec (QApplication::ManyColor);
     QApplication app(argc, argv);
 
-    /***********************/
-	/* Optional confurations */
-    /***********************/
+    /***********************	
+    	Optional configuration
+    ***********************/
     
     Tinkercell::MainWindow::PROJECTWEBSITE = QObject::tr("www.tinkercell.com");
     Tinkercell::MainWindow::ORGANIZATIONNAME = QObject::tr("TinkerCell");
@@ -50,21 +50,28 @@ int main(int argc, char *argv[])
         styleFile.close();
     }
     
-    /***********************/
-    /***********************/
+    /*******  Main Window ***********/
+    
+    // "lite" mode
+    MainWindow mainWindow(true, false, false, true, true);
+    MainWindow::PROGRAM_MODE = QString("lite");
+    
+    //normal mode 
+    //MainWindow mainWindow;
 
-    QString splashFile(":/images/Tinkercell.png");
-
-    MainWindow mainWindow;
+    /*******  Enable optional Core plugins ***********/
     mainWindow.addTool(new BasicGraphicsToolbar());
     mainWindow.addTool(new PlotTool());
 	mainWindow.addTool(new GnuplotTool());
-    
+
+    /*******  title , etc ***********/
     mainWindow.setWindowTitle(QObject::tr("Tinkercell: synthetic biology CAD"));
     mainWindow.statusBar()->showMessage(QObject::tr("Welcome to Tinkercell"));
 
-	QPixmap pixmap(splashFile);
+    /*******  Splash screen ***********/
 
+    QString splashFile(":/images/Tinkercell.png");
+	QPixmap pixmap(splashFile);
 	QSplashScreen splash(pixmap,Qt::SplashScreen);//|Qt::WindowStaysOnTopHint);
 	
     QSize sz = mainWindow.size();
@@ -75,6 +82,8 @@ int main(int argc, char *argv[])
 
     splash.show();
 
+
+    /*******  Load plugins from folders ***********/
     DefaultPluginsMenu menu(&mainWindow);
 
     mainWindow.optionsMenu->addMenu(&menu);
@@ -105,12 +114,15 @@ int main(int argc, char *argv[])
 #endif
 #endif
 
+    /*******  START TINKERCELL ***********/
 	mainWindow.newScene();
-	mainWindow.readSettings();
     mainWindow.show();
     splash.finish(&mainWindow);
-	
-	if (argc > 1) mainWindow.open(QString(argv[1]));
+
+    /*******  command line arguments ***********/
+	if (argc > 1) 
+		for (int i=1; i < argc; ++i)
+			mainWindow.open(QString(argv[i]));
 
     int output = app.exec();	
 	app.closeAllWindows();

@@ -220,7 +220,9 @@ namespace Tinkercell
 
 			setWindowTitle(tr("Programs"));
 			setWindowIcon(QIcon(tr(":/images/play.png")));
-			mainWindow->addToolWindow(this, MainWindow::defaultToolWindowOption, Qt::BottomDockWidgetArea);
+			
+			if (mainWindow->PROGRAM_MODE != tr("lite"))
+				mainWindow->addToolWindow(this, MainWindow::defaultToolWindowOption, Qt::BottomDockWidgetArea);
 			
 			if (mainWindow->menuBar())
     			mainWindow->menuBar()->insertMenu(mainWindow->helpMenu->menuAction(),&functionsMenu);

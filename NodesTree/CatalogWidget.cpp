@@ -634,7 +634,7 @@ namespace Tinkercell
 	QList<QToolButton*> CatalogWidget::addNewButtons(const QString& group, const QStringList& names, const QList<QIcon>& icons, const QStringList& tooltips)
 	{
 		QList<QToolButton*> newButtons;
-		if (!tabWidget) return newButtons;
+		if (!tabWidget || mainWindow->PROGRAM_MODE == tr("lite")) return newButtons;
 		
 		int i = 0;
 
@@ -734,6 +734,26 @@ namespace Tinkercell
 													QStringList() << tr("Biochemical"));
 
 		numNodeTabs = 4;
+		
+		if (mainWindow->PROGRAM_MODE == tr("lite"))
+		{
+			tabGroups.clear();
+
+			tabGroups
+					<< QPair<QString, QStringList>(
+													tr("Parts"),
+													QStringList() << "Part")
+
+					<< QPair<QString, QStringList>(
+													tr("Compartments"),
+													QStringList() << "Compartment")
+
+					<< QPair<QString, QStringList>(
+													tr("Regulation"),
+													QStringList() << "Regulation");
+
+			numNodeTabs = 3;
+		}
 
 		QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
 		settings.beginGroup("CatalogWidget");

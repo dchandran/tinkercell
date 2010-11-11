@@ -1,6 +1,8 @@
 SET(LIBRARY_OUTPUT_PATH ${EXECUTABLE_OUTPUT_PATH})
 
-IF (WIN32)
+#-------- find LIBXML2 library ----------------
+
+IF (WIN32)   #in windows, use the provided libxml2
 
 	IF (MINGW)
 		SET (LIBXML2_LIBRARIES ${TINKERCELL_SOURCE_DIR}/ExternalCode/libSBML/win32/libxml2/lib/libxml2.dll.a)
@@ -9,11 +11,13 @@ IF (WIN32)
 	ENDIF(MINGW)
 	SET (LIBXML2_INCLUDE_DIR ${TINKERCELL_SOURCE_DIR}/ExternalCode/libSBML/win32/libxml2/include)
 	
-ELSE(WIN32)	
+ELSE(WIN32)	  #in other OS, let Cmake find libxml2
 
 	FIND_PACKAGE(LibXml2)
 	
 ENDIF(WIN32)
+
+#----------- include folders ----------------------
 
 INCLUDE_DIRECTORIES( 
 	BEFORE
@@ -32,6 +36,8 @@ INCLUDE_DIRECTORIES(
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/libSBML/src/compress 
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/libSBML/src/annotation
 )
+
+#------ DEFINITIONS --------------
 
 #ADD_DEFINITIONS(-DLIBSBML_STATIC)
 ADD_DEFINITIONS(-DLIBSBML_EXPORTS)
@@ -53,6 +59,8 @@ IF (WIN32)
 		ADD_DEFINITIONS(-DCYGWIN)
 	ENDIF(MINGW)
 ENDIF (WIN32)
+
+#------ SBML source files --------------
 
 FILE( GLOB SBML_SRC_FILES
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/libSBML/src/xml/XML*.cpp 
@@ -82,6 +90,8 @@ FILE( GLOB SBML_SRC_FILES
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/libSBML/src/compress/OutputCompressor.cpp
 )
 
+#------ make the library --------------
+
 ADD_LIBRARY( sbml
   SHARED
   #STATIC
@@ -93,6 +103,7 @@ TARGET_LINK_LIBRARIES( sbml
   ${LIBXML2_LIBRARIES}
 )
 
+#------ install the library in the main TinkerCell folder --------------
 
 IF ( WIN32 )
    FILE( GLOB LIBXML_LIB_FILES ${TINKERCELL_SOURCE_DIR}/ExternalCode/libSBML/win32/libxml2/lib/*.dll DESTINATION bin/../ )

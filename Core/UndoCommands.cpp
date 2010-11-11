@@ -37,7 +37,7 @@ namespace Tinkercell
 		NodeGraphicsItem * node = 0;
 		for (int i=0; i < items.size(); ++i)
 		{
-			if ((connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(items[i])))
+			if ((connection = ConnectionGraphicsItem::cast(items[i])))
 			{
 				QList<QGraphicsItem*> cps = connection->controlPointsAsGraphicsItems();
 				for (int j=0; j < cps.size(); ++j)
@@ -57,7 +57,7 @@ namespace Tinkercell
 					change += amounts[i];
 				}
 
-				if ((node = qgraphicsitem_cast<NodeGraphicsItem*>(items[i])))
+				if ((node = NodeGraphicsItem::cast(items[i])))
 				{
 					QVector<NodeGraphicsItem::ControlPoint*> cps = node->boundaryControlPoints;
 					for (int j=0; j < cps.size(); ++j)
@@ -82,7 +82,7 @@ namespace Tinkercell
 		NodeGraphicsItem * node = 0;
 		for (int i=0; i < items.size(); ++i)
 		{
-			if ((connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(items[i])))
+			if ((connection = ConnectionGraphicsItem::cast(items[i])))
 			{
 				QList<QGraphicsItem*> cps = connection->controlPointsAsGraphicsItems();
 				for (int j=0; j < cps.size(); ++j)
@@ -101,7 +101,7 @@ namespace Tinkercell
 					graphicsItems += items[i];
 					change += amount;
 				}
-				if ((node = qgraphicsitem_cast<NodeGraphicsItem*>(items[i])))
+				if ((node = NodeGraphicsItem::cast(items[i])))
 				{
 					QVector<NodeGraphicsItem::ControlPoint*> cps = node->boundaryControlPoints;
 					for (int j=0; j < cps.size(); ++j)
@@ -126,7 +126,7 @@ namespace Tinkercell
 		ConnectionGraphicsItem * connection = 0;
 		NodeGraphicsItem * node = 0;
 
-		if ((connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(item)))
+		if ((connection = ConnectionGraphicsItem::cast(item)))
 		{
 			QList<QGraphicsItem*> cps = connection->controlPointsAsGraphicsItems();
 			for (int j=0; j < cps.size(); ++j)
@@ -145,7 +145,7 @@ namespace Tinkercell
 				graphicsItems += item;
 				change += amount;
 			}
-			if ((node = qgraphicsitem_cast<NodeGraphicsItem*>(item)))
+			if ((node = NodeGraphicsItem::cast(item)))
 			{
 				QVector<NodeGraphicsItem::ControlPoint*> cps = node->boundaryControlPoints;
 				for (int j=0; j < cps.size(); ++j)
@@ -739,7 +739,7 @@ namespace Tinkercell
 					if (graphicsItems[i]->scene())
 						graphicsItems[i]->scene()->removeItem(graphicsItems[i]);
 					graphicsScene->addItem(graphicsItems[i]);
-					if ((connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(graphicsItems[i])))
+					if ((connection = ConnectionGraphicsItem::cast(graphicsItems[i])))
 					{
 						connections << connection;
 					}
@@ -839,7 +839,7 @@ namespace Tinkercell
 					graphicsItems[i]->setParentItem(0);
 					graphicsScene->removeItem(graphicsItems[i]);
 
-					if ((connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(graphicsItems[i])))
+					if ((connection = ConnectionGraphicsItem::cast(graphicsItems[i])))
 					{
 						QList<QGraphicsItem*> arrows = connection->arrowHeadsAsGraphicsItems();
 						for (int j=0; j < arrows.size(); ++j)
@@ -972,6 +972,21 @@ namespace Tinkercell
 		GraphicsScene * scene;
 		ItemHandle * h;
 		
+		ConnectionGraphicsItem * connection;
+		for (int i=0; i < graphicsItems.size(); ++i)
+			if (connection = ConnectionGraphicsItem::cast(graphicsItems[i]))
+			{
+				for (int j=0; j < connection->curveSegments.size(); ++j)
+				{
+					if (connection->curveSegments[j].arrowStart && !graphicsItems.contains(connection->curveSegments[j].arrowStart))
+						graphicsItems += (connection->curveSegments[j].arrowStart);
+					if (connection->curveSegments[j].arrowEnd && !graphicsItems.contains(connection->curveSegments[j].arrowStart))
+						graphicsItems += (connection->curveSegments[j].arrowEnd);
+				}
+				if (connection->centerRegionItem && !graphicsItems.contains(connection->centerRegionItem))
+					graphicsItems += connection->centerRegionItem;
+			}
+		
 		for (int i=0; i<graphicsItems.size(); ++i)
 		{
 			scene = 0;
@@ -1026,30 +1041,21 @@ namespace Tinkercell
 				if (graphicsItems[i]->scene() == graphicsScenes[i])
 					graphicsScenes[i]->removeItem(graphicsItems[i]);
 
-				NodeGraphicsItem * node = qgraphicsitem_cast<NodeGraphicsItem*>(graphicsItems[i]);
+				NodeGraphicsItem * node = NodeGraphicsItem::cast(graphicsItems[i]);
 				if (node)
 				{
 					node->setBoundingBoxVisible(false);
 				}
 				else
 				{
-					ConnectionGraphicsItem * connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(graphicsItems[i]);
+					connection = ConnectionGraphicsItem::cast(graphicsItems[i]);
 					if (connection)
 					{
 						connection->setControlPointsVisible(false);
-						for (int j=0; j < connection->curveSegments.size(); ++j)
-						{
-							if (connection->curveSegments[j].arrowStart && connection->curveSegments[j].arrowStart->scene() == graphicsScenes[i])
-								graphicsScenes[i]->removeItem(connection->curveSegments[j].arrowStart);
-							if (connection->curveSegments[j].arrowEnd && connection->curveSegments[j].arrowEnd->scene() == graphicsScenes[i])
-								graphicsScenes[i]->removeItem(connection->curveSegments[j].arrowEnd);
-						}
-						if (connection->centerRegionItem && graphicsScenes[i] && graphicsItems[i]->scene() == graphicsScenes[i])
-							graphicsScenes[i]->removeItem(connection->centerRegionItem);
-						QList<ConnectionGraphicsItem::ControlPoint*> cps = connection->controlPoints(true);
+						/*QList<ConnectionGraphicsItem::ControlPoint*> cps = connection->controlPoints(true);
 						for (int j=0; j < cps.size(); ++j)
 							if (cps[j])
-								cps[j]->connectionItem = 0;
+								cps[j]->connectionItem = 0;*/
 					}
 				}
 			}
@@ -1276,19 +1282,17 @@ namespace Tinkercell
 				if (graphicsItems[i]->scene() != graphicsScenes[i])
 					graphicsScenes[i]->addItem(graphicsItems[i]);
 
-				NodeGraphicsItem * node = qgraphicsitem_cast<NodeGraphicsItem*>(graphicsItems[i]);
+				NodeGraphicsItem * node = NodeGraphicsItem::cast(graphicsItems[i]);
 				if (node)
 				{
 					node->setBoundingBoxVisible(false);
 				}
 				else
 				{
-					connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(graphicsItems[i]);
+					connection = ConnectionGraphicsItem::cast(graphicsItems[i]);
 					if (connection)
 					{
 						connections << connection;
-						if (connection->centerRegionItem && connection->centerRegionItem->scene() != graphicsScenes[i])
-							graphicsScenes[i]->addItem(connection->centerRegionItem);
 					}
 				}
 
@@ -1335,7 +1339,7 @@ namespace Tinkercell
 
 		QAbstractGraphicsShapeItem * aitem = qgraphicsitem_cast<QAbstractGraphicsShapeItem*>(item);
 		NodeGraphicsItem::Shape * shape = qgraphicsitem_cast<NodeGraphicsItem::Shape*>(item);
-		ConnectionGraphicsItem * connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(item);
+		ConnectionGraphicsItem * connection = ConnectionGraphicsItem::cast(item);
 		ControlPoint * controlPoint = qgraphicsitem_cast<ControlPoint*>(item);
 		if (controlPoint == 0) controlPoint = qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(item);
 		if (controlPoint == 0) controlPoint = qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(item);
@@ -1374,7 +1378,7 @@ namespace Tinkercell
 		{
 			QAbstractGraphicsShapeItem * aitem = qgraphicsitem_cast<QAbstractGraphicsShapeItem*>(items[i]);
 			NodeGraphicsItem::Shape * shape = qgraphicsitem_cast<NodeGraphicsItem::Shape*>(items[i]);
-			ConnectionGraphicsItem * connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(items[i]);
+			ConnectionGraphicsItem * connection = ConnectionGraphicsItem::cast(items[i]);
 			ControlPoint * controlPoint = qgraphicsitem_cast<ControlPoint*>(items[i]);
 			if (controlPoint == 0) controlPoint = qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(items[i]);
 			if (controlPoint == 0) controlPoint = qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(items[i]);
@@ -1410,7 +1414,7 @@ namespace Tinkercell
 		{
 			QAbstractGraphicsShapeItem * aitem = qgraphicsitem_cast<QAbstractGraphicsShapeItem*>(graphicsItems[i]);
 			NodeGraphicsItem::Shape * shape = qgraphicsitem_cast<NodeGraphicsItem::Shape*>(graphicsItems[i]);
-			ConnectionGraphicsItem * connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(graphicsItems[i]);
+			ConnectionGraphicsItem * connection = ConnectionGraphicsItem::cast(graphicsItems[i]);
 			ControlPoint * controlPoint = qgraphicsitem_cast<ControlPoint*>(graphicsItems[i]);
 			if (controlPoint == 0) controlPoint = qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(graphicsItems[i]);
 			if (controlPoint == 0) controlPoint = qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(graphicsItems[i]);
@@ -1433,7 +1437,7 @@ namespace Tinkercell
 		{
 			QAbstractGraphicsShapeItem * aitem = qgraphicsitem_cast<QAbstractGraphicsShapeItem*>(graphicsItems[i]);
 			NodeGraphicsItem::Shape * shape = qgraphicsitem_cast<NodeGraphicsItem::Shape*>(graphicsItems[i]);
-			ConnectionGraphicsItem * connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(graphicsItems[i]);
+			ConnectionGraphicsItem * connection = ConnectionGraphicsItem::cast(graphicsItems[i]);
 			ControlPoint * controlPoint = qgraphicsitem_cast<ControlPoint*>(graphicsItems[i]);
 			if (controlPoint == 0) controlPoint = qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(graphicsItems[i]);
 			if (controlPoint == 0) controlPoint = qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(graphicsItems[i]);
@@ -1459,7 +1463,7 @@ namespace Tinkercell
 		newPen.clear();
 		QAbstractGraphicsShapeItem * aitem = qgraphicsitem_cast<QAbstractGraphicsShapeItem*>(item);
 		NodeGraphicsItem::Shape * shape = qgraphicsitem_cast<NodeGraphicsItem::Shape*>(item);
-		ConnectionGraphicsItem * connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(item);
+		ConnectionGraphicsItem * connection = ConnectionGraphicsItem::cast(item);
 		ControlPoint * controlPoint = qgraphicsitem_cast<ControlPoint*>(item);
 		if (controlPoint == 0) controlPoint = qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(item);
 		if (controlPoint == 0) controlPoint = qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(item);
@@ -1505,7 +1509,7 @@ namespace Tinkercell
 		{
 			QAbstractGraphicsShapeItem * aitem = qgraphicsitem_cast<QAbstractGraphicsShapeItem*>(items[i]);
 			NodeGraphicsItem::Shape * shape = qgraphicsitem_cast<NodeGraphicsItem::Shape*>(items[i]);
-			ConnectionGraphicsItem * connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(items[i]);
+			ConnectionGraphicsItem * connection = ConnectionGraphicsItem::cast(items[i]);
 			ControlPoint * controlPoint = qgraphicsitem_cast<ControlPoint*>(items[i]);
 			if (controlPoint == 0) controlPoint = qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(items[i]);
 			if (controlPoint == 0) controlPoint = qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(items[i]);
@@ -1548,7 +1552,7 @@ namespace Tinkercell
 		{
 			QAbstractGraphicsShapeItem * aitem = qgraphicsitem_cast<QAbstractGraphicsShapeItem*>(graphicsItems[i]);
 			NodeGraphicsItem::Shape * shape = qgraphicsitem_cast<NodeGraphicsItem::Shape*>(graphicsItems[i]);
-			ConnectionGraphicsItem * connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(graphicsItems[i]);
+			ConnectionGraphicsItem * connection = ConnectionGraphicsItem::cast(graphicsItems[i]);
 			ControlPoint * controlPoint = qgraphicsitem_cast<ControlPoint*>(graphicsItems[i]);
 			if (controlPoint == 0) controlPoint = qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(graphicsItems[i]);
 			if (controlPoint == 0) controlPoint = qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(graphicsItems[i]);
@@ -1579,7 +1583,7 @@ namespace Tinkercell
 		{
 			QAbstractGraphicsShapeItem * aitem = qgraphicsitem_cast<QAbstractGraphicsShapeItem*>(graphicsItems[i]);
 			NodeGraphicsItem::Shape * shape = qgraphicsitem_cast<NodeGraphicsItem::Shape*>(graphicsItems[i]);
-			ConnectionGraphicsItem * connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(graphicsItems[i]);
+			ConnectionGraphicsItem * connection = ConnectionGraphicsItem::cast(graphicsItems[i]);
 			ControlPoint * controlPoint = qgraphicsitem_cast<ControlPoint*>(graphicsItems[i]);
 			TextGraphicsItem * textItem = qgraphicsitem_cast<TextGraphicsItem*>(graphicsItems[i]);
 			if (controlPoint == 0) controlPoint = qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(graphicsItems[i]);
@@ -1711,7 +1715,7 @@ namespace Tinkercell
 				
 				graphicsItems[i]->setTransform(t);
 
-				NodeGraphicsItem * node = qgraphicsitem_cast<NodeGraphicsItem*>(graphicsItems[i]);
+				NodeGraphicsItem * node = NodeGraphicsItem::cast(graphicsItems[i]);
 				if (node)
 				{
 					node->adjustBoundaryControlPoints();
@@ -1755,7 +1759,7 @@ namespace Tinkercell
 				
 				graphicsItems[i]->setTransform(t);
 
-				NodeGraphicsItem * node = qgraphicsitem_cast<NodeGraphicsItem*>(graphicsItems[i]);
+				NodeGraphicsItem * node = NodeGraphicsItem::cast(graphicsItems[i]);
 				if (node)
 				{
 					node->adjustBoundaryControlPoints();

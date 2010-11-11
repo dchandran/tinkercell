@@ -66,6 +66,7 @@ namespace Tinkercell
 	QStringList MainWindow::SAVE_FILE_EXTENSIONS;
 	QString MainWindow::previousFileName;
 	QString MainWindow::homeDirPath;
+	QString MainWindow::PROGRAM_MODE;
 	/*************************************/
 
 	QString MainWindow::homeDir()

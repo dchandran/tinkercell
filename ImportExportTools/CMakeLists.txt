@@ -55,7 +55,8 @@ FILE( GLOB ANTIMONYEDITOR_SRC AntimonyEditor.cpp AntimonySyntaxHighlighter.cpp )
 QT4_WRAP_CPP( ANTIMONYEDITOR_MOC ${ANTIMONYEDITOR_HDRS})
 
   INCLUDE_DIRECTORIES( BEFORE
-    ${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/libSBML/include
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/libSBML/src
     ${TINKERCELL_SOURCE_DIR}/ExternalCode/Antimony/src
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbw/include
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbw/include/SBW

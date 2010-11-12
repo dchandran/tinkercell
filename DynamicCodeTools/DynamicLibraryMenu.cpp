@@ -208,21 +208,19 @@ namespace Tinkercell
 		Tool::setMainWindow(main);
 		if (mainWindow)
 		{
-			QToolBar * toolBar = mainWindow->toolBarForTools;
-			menuButton = new QToolButton(toolBar);
-			menuButton->setIcon(QIcon(":/images/play.png"));
-			menuButton->setMenu(&functionsToolbarMenu);
-
-			menuButton->setPopupMode(QToolButton::MenuButtonPopup);
-			//connect(menuButton,SIGNAL(released()),functionsToolbarMenu.defaultAction(),SIGNAL(triggered()));
-
-			toolBar->addWidget(menuButton);
-
 			setWindowTitle(tr("Programs"));
 			setWindowIcon(QIcon(tr(":/images/play.png")));
 			
 			if (mainWindow->PROGRAM_MODE != tr("lite"))
+			{
 				mainWindow->addToolWindow(this, MainWindow::defaultToolWindowOption, Qt::BottomDockWidgetArea);
+				QToolBar * toolBar = mainWindow->toolBarForTools;
+				menuButton = new QToolButton(toolBar);
+				menuButton->setIcon(QIcon(":/images/play.png"));
+				menuButton->setMenu(&functionsToolbarMenu);
+				menuButton->setPopupMode(QToolButton::MenuButtonPopup);
+				toolBar->addWidget(menuButton);
+			}
 			
 			if (mainWindow->menuBar())
     			mainWindow->menuBar()->insertMenu(mainWindow->helpMenu->menuAction(),&functionsMenu);
@@ -232,7 +230,6 @@ namespace Tinkercell
 
 			connect(mainWindow,SIGNAL(itemsInserted(NetworkHandle*, const QList<ItemHandle*>&)),
 				this, SLOT(itemsInserted(NetworkHandle*, const QList<ItemHandle*>&)));
-
 
 			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 

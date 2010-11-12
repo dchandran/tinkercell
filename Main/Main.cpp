@@ -59,11 +59,11 @@ int main(int argc, char *argv[])
 	    MainWindow::PROGRAM_MODE = QString("lite");
 	    mainWindow.addTool(new BasicGraphicsToolbar());
 	    mainWindow.addTool(new PlotTool());
-	    mainWindow.addTool(new GnuplotTool());
   #else
     	MainWindow mainWindow;
     	mainWindow.addTool(new BasicGraphicsToolbar());
 	    mainWindow.addTool(new PlotTool());
+   	    mainWindow.addTool(new GnuplotTool());
 	#endif
 
     /*******  title , etc ***********/

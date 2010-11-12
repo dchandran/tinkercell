@@ -78,7 +78,8 @@ namespace Tinkercell
        initFunc f = (initFunc)lib->resolve("initialize");
         if (f)
         {
-            mainWindow->console()->message(tr("Octave initialized"));
+        	if (mainWindow->console())
+	            mainWindow->console()->message(tr("Octave initialized"));
             QString currentDir = QDir::currentPath();
 
             QDir::setCurrent(MainWindow::tempDir());

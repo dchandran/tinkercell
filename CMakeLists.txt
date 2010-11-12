@@ -84,7 +84,8 @@ FIND_PACKAGE( Qt4 )
 FIND_PACKAGE ( OpenGL )
 #--------------------------------------------
 # Build only if the version of qt is newer than Qt4.5.
-IF( QT4_FOUND AND QT_VERSION_MINOR GREATER 5 )
+IF( QT4_FOUND AND QT_VERSION_MINOR GREATER 5)
+  
   IF( QT_USE_FILE )
 	  SET( QT_USE_QTCORE TRUE )
 	  SET( QT_USE_QTGUI TRUE )
@@ -113,7 +114,7 @@ IF( QT4_FOUND AND QT_VERSION_MINOR GREATER 5 )
 		${TINKERCELL_BINARY_DIR}/Release
 		${TINKERCELL_BINARY_DIR}/Debug
 		${TINKERCELL_BINARY_DIR}/bin/Release
-		${TINKERCELL_BINARY_DIR}/bin/Debug	
+		${TINKERCELL_BINARY_DIR}/bin/Debug
 	   )
   ENDIF ( WIN32 )
 

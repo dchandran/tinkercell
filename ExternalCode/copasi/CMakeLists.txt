@@ -1,5 +1,8 @@
 SET(LIBRARY_OUTPUT_PATH ${EXECUTABLE_OUTPUT_PATH})
 
+#---------------------
+#    XML PARSER
+#---------------------
 IF (WIN32)
 
    SET(BUILD_OS WIN32)
@@ -27,6 +30,10 @@ ELSE(WIN32)
 
 ENDIF(WIN32)
 
+#----------------------------
+#    INCLUDE DIRECTORIES
+#----------------------------
+
 INCLUDE_DIRECTORIES( 
 	BEFORE
 	${LIBXML2_INCLUDE_DIR}
@@ -38,9 +45,17 @@ INCLUDE_DIRECTORIES(
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor/util
 )
 
+#---------------------
+#    DEFINITIONS
+#---------------------
+
 ADD_DEFINITIONS(-DWITH_CSPMETHOD)
 ADD_DEFINITIONS(-DUSE_CLAPACK)
 ADD_DEFINITIONS(-DUSE_LAPACK)
+
+#--------------------------
+#    DEFINITIONS FOR WINDOWS
+#--------------------------
 
 IF (WIN32)
 	ADD_DEFINITIONS(-DWIN32)
@@ -53,6 +68,10 @@ IF (WIN32)
 		ADD_DEFINITIONS(-DCYGWIN)
 	ENDIF(MINGW)
 ENDIF (WIN32)
+
+#--------------------------
+#  COPASI SOURCE FILES
+#--------------------------
 
 FILE( GLOB copasi_SRC_FILES
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/model/*.cpp
@@ -84,6 +103,10 @@ FILE( GLOB copasi_SRC_FILES
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/xml/*.cpp
 )
 
+#--------------------------
+#  MAKE libcopasi
+#--------------------------
+
 ADD_LIBRARY( copasi
   SHARED
   ${copasi_SRC_FILES}
@@ -96,6 +119,10 @@ TARGET_LINK_LIBRARIES( copasi
   lapack
   ${LIBXML2_LIBRARIES}
 )
+
+#----------------------------------
+#  INSTALL libcopasi in . (CPack)
+#----------------------------------
 
 IF ( WIN32 )
    INSTALL(TARGETS copasi DESTINATION bin/../)

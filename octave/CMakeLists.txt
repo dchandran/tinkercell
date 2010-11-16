@@ -42,7 +42,7 @@ IF(EMBED_OCTAVE AND OCTAVE_CRUFT_LIBRARY AND OCTAVE_OCTAVE_LIBRARY AND OCTAVE_OC
  
 #extend
   ADD_LIBRARY( swigtcoct
-  	  SHARED
+  	SHARED
         tinkercell_wrap.cpp
         ${TCAPI_SRC}
   )

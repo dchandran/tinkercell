@@ -5,7 +5,7 @@ CMAKE_MINIMUM_REQUIRED( VERSION 2.6 )
 SET(LIBRARY_OUTPUT_PATH ${EXECUTABLE_OUTPUT_PATH})
 
 ADD_SUBDIRECTORY( muparser )  #Math parser
-ADD_SUBDIRECTORY( curl )      #needed by raptor
+#ADD_SUBDIRECTORY( curl )      #needed by raptor
 ADD_SUBDIRECTORY( raptor2 )   #RDF parser
 ADD_SUBDIRECTORY( raptor )    #RDF parser
 ADD_SUBDIRECTORY( qwt )       #plot drawing using Qt

@@ -1,27 +1,12 @@
 SET(LIBRARY_OUTPUT_PATH ${EXECUTABLE_OUTPUT_PATH})
 
-#-------- find LIBXML2 library ----------------
-
-IF (WIN32)   #in windows, use the provided libxml2
-
-	IF (MINGW)
-		SET (LIBXML2_LIBRARIES ${TINKERCELL_SOURCE_DIR}/ExternalCode/libSBML/win32/libxml2/lib/libxml2.dll.a)
-	ELSE(MINGW)
-		SET (LIBXML2_LIBRARIES ${TINKERCELL_SOURCE_DIR}/ExternalCode/libSBML/win32/libxml2/lib/libxml2.lib)
-	ENDIF(MINGW)
-	SET (LIBXML2_INCLUDE_DIR ${TINKERCELL_SOURCE_DIR}/ExternalCode/libSBML/win32/libxml2/include)
-	
-ELSE(WIN32)	  #in other OS, let Cmake find libxml2
-
-	FIND_PACKAGE(LibXml2)
-	
-ENDIF(WIN32)
-
 #----------- include folders ----------------------
 
 INCLUDE_DIRECTORIES( 
 	BEFORE
 	${LIBXML2_INCLUDE_DIR}
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/expat
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/expat/lib
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/libSBML/include
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/libSBML/src/
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/libSBML/src/xml 
@@ -45,7 +30,8 @@ ADD_DEFINITIONS(-DLIBLAX_EXPORTS)
 
 ADD_DEFINITIONS(-DPACKAGE_NAME=\"libSBML\")
 ADD_DEFINITIONS(-DNDEBUG)
-ADD_DEFINITIONS(-DUSE_LIBXML)
+#ADD_DEFINITIONS(-DUSE_LIBXML)
+ADD_DEFINITIONS(-DUSE_EXPAT)
 ADD_DEFINITIONS(-DUSE_LAYOUT)
 
 IF (WIN32)
@@ -54,7 +40,7 @@ IF (WIN32)
 	ADD_DEFINITIONS(-D_WINDOWS)
 	ADD_DEFINITIONS(-D_USRDLL)
 	ADD_DEFINITIONS(-D_EXPORTS)
-	ADD_DEFINITIONS(-DIN_LIBXML)
+	#ADD_DEFINITIONS(-DIN_LIBXML)
 	IF (MINGW)
 		ADD_DEFINITIONS(-DCYGWIN)
 	ENDIF(MINGW)
@@ -93,23 +79,21 @@ FILE( GLOB SBML_SRC_FILES
 #------ make the library --------------
 
 ADD_LIBRARY( sbml
-  SHARED
-  #STATIC
+  #SHARED
+  STATIC
   ${SBML_SRC_FILES}
 )
 
 TARGET_LINK_LIBRARIES( sbml
   sbml
-  ${LIBXML2_LIBRARIES}
+  expat
 )
 
 #------ install the library in the main TinkerCell folder --------------
 
-IF ( WIN32 )
-   FILE( GLOB LIBXML_LIB_FILES ${TINKERCELL_SOURCE_DIR}/ExternalCode/libSBML/win32/libxml2/lib/*.dll DESTINATION bin/../ )
-   INSTALL(FILES ${LIBXML_LIB_FILES} DESTINATION bin/../)
-   INSTALL(TARGETS sbml DESTINATION bin/../)
-ELSE ( WIN32 )
-   INSTALL(TARGETS sbml LIBRARY DESTINATION bin/../)
-ENDIF( WIN32 )
+#IF ( WIN32 )
+#   INSTALL(TARGETS sbml DESTINATION bin/../)
+#ELSE ( WIN32 )
+#   INSTALL(TARGETS sbml LIBRARY DESTINATION bin/../)
+#ENDIF( WIN32 )
 

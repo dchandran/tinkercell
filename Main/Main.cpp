@@ -19,7 +19,7 @@
 #include <QBrush>
 
 using namespace Tinkercell;
-#define LITE
+//#define LITE
 
 void LoadPluginsFromDir(const QString&,MainWindow *,QSplashScreen*);
 

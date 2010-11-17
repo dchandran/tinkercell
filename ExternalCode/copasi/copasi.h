@@ -100,9 +100,13 @@
 # define strdup _strdup       // they just have a different name for this guy
 # define isnan _isnan         // they just have a different name for this guy
 # define finite _finite       // they just have a different name for this guy
-# define min _cpp_min         // they just have a different name for this guy
-# define max _cpp_max         // they just have a different name for this guy
-# define abs64 _abs64
+//# define min _cpp_min         // they just have a different name for this guy
+//# define max _cpp_max         // they just have a different name for this guy
+#ifndef CYGWIN
+   #define abs64 _abs64
+#else //CYGWIN
+   #define abs64 abs
+#endif  //CYGWIN
 #else
 # define C_INT64 long long int
 # ifndef LLONG_MAX

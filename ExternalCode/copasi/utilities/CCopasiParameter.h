@@ -18,11 +18,11 @@
 #ifndef COPASI_CCopasiParameter
 #define COPASI_CCopasiParameter
 
-#include <string>
-#include <vector>
-
 #include "report/CCopasiContainer.h"
 #include "report/CCopasiObjectName.h"
+
+#include <string>
+#include <vector>
 
 class CCopasiParameterGroup;
 

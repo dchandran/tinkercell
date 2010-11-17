@@ -161,7 +161,7 @@ class CRenameHandler;
 class CCopasiObject
 {
 #ifdef WIN32
-  friend CCopasiVector< CCopasiObject >;
+  friend class CCopasiVector< CCopasiObject >;
 #endif // WIN32
 
   typedef CCopasiObject referenceType;

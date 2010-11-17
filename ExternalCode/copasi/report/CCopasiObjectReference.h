@@ -196,7 +196,7 @@ public:
 
   virtual CCopasiObject * getObject(const CCopasiObjectName & cn)
   {
-#ifdef WIN32
+#if defined(WIN32) & !defined(CYGWIN)
     return new CCopasiObjectReference< referenceType::elementType >
 #else
     return new CCopasiObjectReference< typename referenceType::elementType >
@@ -259,7 +259,7 @@ public:
 
   virtual CCopasiObject * getObject(const CCopasiObjectName & cn)
   {
-#ifdef WIN32
+#if defined(WIN32) && !defined(CYGWIN)
     return new CCopasiObjectReference< referenceType::elementType >
 #else
     return new CCopasiObjectReference< typename referenceType::elementType >

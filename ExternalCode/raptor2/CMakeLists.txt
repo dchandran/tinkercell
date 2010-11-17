@@ -1,4 +1,7 @@
 INCLUDE_DIRECTORIES( BEFORE
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/curl/include
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/expat
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/expat/lib
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor2/src
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor2/librdfa
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor2/util
@@ -21,3 +24,7 @@ ADD_LIBRARY( raptor2
   ${RAPTOR_SRC} 
 )
 
+TARGET_LINK_LIBRARIES( raptor2
+   raptor2
+   libcurl
+)

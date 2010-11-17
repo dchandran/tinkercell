@@ -38,7 +38,7 @@ extern "C" {
 
 #define HAVE_STDLIB_H 1
 
-#if 0
+#if 1
 /* For using expat on win32 */
 #define RAPTOR_XML_EXPAT 1
 #define HAVE_EXPAT_H 1

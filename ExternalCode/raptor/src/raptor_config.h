@@ -56,19 +56,19 @@
 #define HAVE_ISASCII 1
 
 /* Define to 1 if you have the <libxml/hash.h> header file. */
-#define HAVE_LIBXML_HASH_H 1
+//#define HAVE_LIBXML_HASH_H 1
 
 /* Define to 1 if you have the <libxml/HTMLparser.h> header file. */
-#define HAVE_LIBXML_HTMLPARSER_H 1
+//#define HAVE_LIBXML_HTMLPARSER_H 1
 
 /* Define to 1 if you have the <libxml/nanohttp.h> header file. */
-#define HAVE_LIBXML_NANOHTTP_H 1
+//#define HAVE_LIBXML_NANOHTTP_H 1
 
 /* Define to 1 if you have the <libxml/parser.h> header file. */
-#define HAVE_LIBXML_PARSER_H 1
+//#define HAVE_LIBXML_PARSER_H 1
 
 /* Define to 1 if you have the <libxml/SAX2.h> header file. */
-#define HAVE_LIBXML_SAX2_H 1
+//#define HAVE_LIBXML_SAX2_H 1
 
 /* Define to 1 if you have the <libxslt/xslt.h> header file. */
 /* #undef HAVE_LIBXSLT_XSLT_H */
@@ -180,22 +180,22 @@
 #define PACKAGE_VERSION "1.4.21"
 
 /* does libxml struct xmlEntity have a field etype */
-#define RAPTOR_LIBXML_ENTITY_ETYPE 1
+//#define RAPTOR_LIBXML_ENTITY_ETYPE 1
 
 /* does libxml struct xmlEntity have a field name_length */
 /* #undef RAPTOR_LIBXML_ENTITY_NAME_LENGTH */
 
 /* does libxml have HTML_PARSE_NONET */
-#define RAPTOR_LIBXML_HTML_PARSE_NONET 1
+//#define RAPTOR_LIBXML_HTML_PARSE_NONET 1
 
 /* does libxml xmlSAXHandler have externalSubset field */
-#define RAPTOR_LIBXML_XMLSAXHANDLER_EXTERNALSUBSET 1
+//#define RAPTOR_LIBXML_XMLSAXHANDLER_EXTERNALSUBSET 1
 
 /* does libxml xmlSAXHandler have initialized field */
-#define RAPTOR_LIBXML_XMLSAXHANDLER_INITIALIZED 1
+//#define RAPTOR_LIBXML_XMLSAXHANDLER_INITIALIZED 1
 
 /* does libxml have XML_PARSE_NONET */
-#define RAPTOR_LIBXML_XML_PARSE_NONET 1
+//#define RAPTOR_LIBXML_XML_PARSE_NONET 1
 
 /* Provide a Unicode NFC check */
 #define RAPTOR_NFC_CHECK 1
@@ -270,7 +270,7 @@
 /* #undef RAPTOR_WWW_LIBFETCH */
 
 /* Have libxml available as a WWW library */
-#define RAPTOR_WWW_LIBXML 1
+//#define RAPTOR_WWW_LIBXML 1
 
 /* No WWW library */
 /* #undef RAPTOR_WWW_NONE */
@@ -279,10 +279,10 @@
 /* #undef RAPTOR_XML_1_1 */
 
 /* Use expat XML parser */
-/* #undef RAPTOR_XML_EXPAT */
+#define RAPTOR_XML_EXPAT 1
 
 /* Use libxml XML parser */
-#define RAPTOR_XML_LIBXML 1
+/* #define RAPTOR_XML_LIBXML 1 */
 
 /* The size of `unsigned char', as computed by sizeof. */
 #define SIZEOF_UNSIGNED_CHAR 1

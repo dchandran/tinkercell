@@ -22,7 +22,7 @@
 #undef HAVE_ERRNO_H
 
 /* Define to 1 if you have the <expat.h> header file. */
-#undef HAVE_EXPAT_H
+#define HAVE_EXPAT_H
 
 /* Define to 1 if you have the <fcntl.h> header file. */
 #undef HAVE_FCNTL_H
@@ -284,7 +284,7 @@
 #undef RAPTOR_XML_1_1
 
 /* Use expat XML parser */
-#undef RAPTOR_XML_EXPAT
+#define RAPTOR_XML_EXPAT 1
 
 /* Use libxml XML parser */
 #undef RAPTOR_XML_LIBXML

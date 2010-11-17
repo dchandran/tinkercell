@@ -1,3 +1,4 @@
+
 /* -*- Mode: c; c-basic-offset: 2 -*-
  *
  * ntriples_parse.c - Raptor N-Triples Parser implementation

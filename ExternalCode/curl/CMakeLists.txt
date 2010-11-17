@@ -148,7 +148,9 @@ mark_as_advanced(DISABLED_THREADSAFE)
 option(ENABLE_IPV6 "Define if you want to enable IPv6 support" OFF)
 mark_as_advanced(ENABLE_IPV6)
 
-if(WIN32)
+
+option(CURL_APPEND_WINSOCK "only for MSVC++" OFF)
+if(WIN32 AND ${CURL_APPEND_WINSOCK})
   list_spaces_append_once(CMAKE_C_STANDARD_LIBRARIES wsock32.lib ws2_32.lib)  # bufferoverflowu.lib
   if(CURL_DISABLE_LDAP)
     # Remove wldap32.lib from space-separated list
@@ -157,7 +159,7 @@ if(WIN32)
     to_list_spaces(_LIST CMAKE_C_STANDARD_LIBRARIES)
   else()
     # Append wldap32.lib
-    list_spaces_append_once(CMAKE_C_STANDARD_LIBRARIES wldap32.lib)
+    list_spaces_append_once(CMAKE_C_STANDARD_LIBRARIES wsock32.lib)  # bufferoverflowu.lib
   endif()
   set(CMAKE_C_STANDARD_LIBRARIES "${CMAKE_C_STANDARD_LIBRARIES}"   CACHE STRING "" FORCE)
 endif()

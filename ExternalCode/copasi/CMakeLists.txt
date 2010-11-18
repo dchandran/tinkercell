@@ -25,7 +25,7 @@ ENDIF(WIN32)
 
 INCLUDE_DIRECTORIES( 
 	BEFORE
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/expat/include
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/expat/lib
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/libSBML/include
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/libSBML/src
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi

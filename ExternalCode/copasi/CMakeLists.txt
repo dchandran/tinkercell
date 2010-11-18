@@ -6,14 +6,6 @@ SET(LIBRARY_OUTPUT_PATH ${EXECUTABLE_OUTPUT_PATH})
 IF (WIN32)
 
    SET(BUILD_OS WIN32)
-	
-	# libxml2 is included as a dll file in windows, so look in a specific folder:
-	IF (MINGW)
-		SET (LIBXML2_LIBRARIES ${TINKERCELL_SOURCE_DIR}/ExternalCode/libSBML/win32/libxml2/lib/libxml2.dll.a)
-	ELSE(MINGW)
-		SET (LIBXML2_LIBRARIES ${TINKERCELL_SOURCE_DIR}/ExternalCode/libSBML/win32/libxml2/lib/libxml2.lib)
-	ENDIF(MINGW)
-	SET (LIBXML2_INCLUDE_DIR ${TINKERCELL_SOURCE_DIR}/ExternalCode/libSBML/win32/libxml2/include)
 
 ELSE(WIN32)	
 	
@@ -24,9 +16,6 @@ ELSE(WIN32)
 			SET(BUILD_OS LINUX)
 		ENDIF(APPLE)
 	ENDIF(UNIX)
-	
-	#ask CMAKE to find libxml2
-	FIND_PACKAGE(LibXml2)	
 
 ENDIF(WIN32)
 
@@ -36,7 +25,7 @@ ENDIF(WIN32)
 
 INCLUDE_DIRECTORIES( 
 	BEFORE
-	${LIBXML2_INCLUDE_DIR}
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/expat/include
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/libSBML/include
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/libSBML/src
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi

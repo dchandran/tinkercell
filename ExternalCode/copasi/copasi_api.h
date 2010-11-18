@@ -1,7 +1,23 @@
 #ifndef COPASI_SIMPLE_API
 #define COPASI_SIMPLE_API
 
-
+/*! 
+ \brief initialize copasi -- MUST BE CALLED before calling any other functions
+ \ingroup copasi
+*/
+void copasi_init();
+/*! 
+ \brief destroy copasi -- MUST BE CALLED at the end of program
+ \ingroup copasi
+*/
+void copasi_end();
+/*! 
+ \brief create a model
+ \param char* model name
+ \return copasi_model a new model
+ \ingroup copasi
+*/
+copasi_model * createCopasiModel(const char* name);
 /*! 
  \brief create a model
  \param char* model name
@@ -69,27 +85,30 @@ void setReactionRate(copasi_reaction * reaction, const char * formula);
  \param copasi_model* model
  \param double end time
  \param double step size
- \return tc_matrix matrix of concentration and flux values
+ \param int 0=return concentration and flux, 1=return concentration, 2=return flux
+ \return tc_matrix matrix of concentration and/or flux values
  \ingroup copasi
 */
-tc_matrix simulateODE(copasi_model * model, double endtime, double dt);
+tc_matrix simulateODE(copasi_model * model, double endtime, double dt, int returnConcOrFlux);
 /*! 
  \brief simulate using Tau Leap (stochastic) algorithm
  \param copasi_model* model
  \param double end time
  \param double step size
- \return tc_matrix matrix of concentration and flux values
+ \param int 0=return concentration and flux, 1=return concentration, 2=return flux
+ \return tc_matrix matrix of concentration and/or flux values
  \ingroup copasi
 */
-tc_matrix simulateTauLeap(copasi_model * model, double endtime, double dt);
+tc_matrix simulateTauLeap(copasi_model * model, double endtime, double dt, int returnConcOrFlux);
 /*! 
  \brief simulate using exact stochastic method (Gillespie)
  \param copasi_model* model
  \param double end time
- \return tc_matrix matrix of concentration and flux values
+ \param int 0=return concentration and flux, 1=return concentration, 2=return flux
+ \return tc_matrix matrix of concentration and/or flux values
  \ingroup copasi
 */
-tc_matrix simulateGillespie(copasi_model * model, double endtime);
+tc_matrix simulateGillespie(copasi_model * model, double endtime, int returnConcOrFlux);
 /*! 
  \brief get steady state
  \param copasi_model* model

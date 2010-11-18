@@ -1,7 +1,7 @@
 SET(LIBRARY_OUTPUT_PATH ${EXECUTABLE_OUTPUT_PATH})
 
 #---------------------
-#    XML PARSER
+#    OS STUFF
 #---------------------
 IF (WIN32)
 
@@ -43,7 +43,7 @@ ADD_DEFINITIONS(-DUSE_CLAPACK)
 ADD_DEFINITIONS(-DUSE_LAPACK)
 
 #--------------------------
-#    DEFINITIONS FOR WINDOWS
+#  DEFINITIONS FOR WINDOWS
 #--------------------------
 
 IF (WIN32)
@@ -52,7 +52,7 @@ IF (WIN32)
 	ADD_DEFINITIONS(-D_WINDOWS)
 	ADD_DEFINITIONS(-D_USRDLL)
 	ADD_DEFINITIONS(-D_EXPORTS)
-	ADD_DEFINITIONS(-DIN_LIBXML)
+	#ADD_DEFINITIONS(-DIN_LIBXML)
 	IF (MINGW)
 		ADD_DEFINITIONS(-DCYGWIN)
 	ENDIF(MINGW)
@@ -97,6 +97,7 @@ FILE( GLOB copasi_SRC_FILES
 #--------------------------
 
 ADD_LIBRARY( copasi
+#  STATIC
   SHARED
   ${copasi_SRC_FILES}
 )
@@ -105,17 +106,35 @@ TARGET_LINK_LIBRARIES( copasi
   copasi
   sbml
   raptor
+  expat
   lapack
-  ${LIBXML2_LIBRARIES}
+  blas
+  f2c
 )
 
 #----------------------------------
 #  INSTALL libcopasi in . (CPack)
 #----------------------------------
 
-IF ( WIN32 )
-   INSTALL(TARGETS copasi DESTINATION bin/../)
-ELSE ( WIN32 )
-   INSTALL(TARGETS copasi LIBRARY DESTINATION bin/../)
-ENDIF( WIN32 )
+#IF ( WIN32 )
+#   INSTALL(TARGETS copasi DESTINATION bin/../)
+#ELSE ( WIN32 )
+#   INSTALL(TARGETS copasi LIBRARY DESTINATION bin/../)
+#ENDIF( WIN32 )
+
+#----------------------------------
+#  COPASI api
+#----------------------------------
+
+  ADD_EXECUTABLE(copasi_api_test  copasi_api.cpp)
+
+  TARGET_LINK_LIBRARIES( copasi_api_test
+    copasi
+    #sbml
+    #raptor
+    #expat
+    #lapack
+    #blas
+    #f2c
+  )
 

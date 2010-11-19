@@ -7,7 +7,7 @@ SET(LIBRARY_OUTPUT_PATH ${EXECUTABLE_OUTPUT_PATH})
 ADD_SUBDIRECTORY( muparser )  #Math parser
 ADD_SUBDIRECTORY( curl )      #needed by raptor
 ADD_SUBDIRECTORY( expat )      #small XML parser
-ADD_SUBDIRECTORY( raptor2 )   #RDF parser
+#ADD_SUBDIRECTORY( raptor2 )   #RDF parser
 ADD_SUBDIRECTORY( raptor )    #RDF parser
 ADD_SUBDIRECTORY( qwt )       #plot drawing using Qt
 ADD_SUBDIRECTORY( qwtplot3d )  #drawing 3D plots using Qt

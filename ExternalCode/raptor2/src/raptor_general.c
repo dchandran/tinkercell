@@ -636,9 +636,10 @@ raptor_vsnprintf(const char *message, va_list arguments)
  * Return value: filename part of a pathname
  **/
 const char*
-raptor_basename(const char *name)
+raptor_basename(const char * s)
 {
   char *p;
+  char * name = (char*)s;
   if((p = strrchr(name, '/')))
     name = p+1;
   else if((p = strrchr(name, '\\')))

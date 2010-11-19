@@ -543,6 +543,7 @@ void SimpleDesigner::simulate(bool stochastic)
 	for (int i=0; i < handles.size(); ++i)
 		if (ConnectionHandle::cast(handles[i]))  //if reaction
 		{
+
 			ConnectionHandle * reactionHandle = ConnectionHandle::cast(handles[i]);
 			
 			QString name = reactionHandle->name;
@@ -637,10 +638,10 @@ int main(int argc, char *argv[])
 
 	QString appDir = QCoreApplication::applicationDirPath();
     
-    MainWindow mainWindow(true,true,true,true);
-	
+	MainWindow mainWindow(true,true,true,true);
+	mainWindow.readSettings();
 	mainWindow.setWindowTitle(QString("Simple Designer"));
-    mainWindow.statusBar()->showMessage(QString("Welcome to Simple Designer"));
+        mainWindow.statusBar()->showMessage(QString("Welcome to Simple Designer"));
     
 	mainWindow.addTool(new PlotTool);
 	mainWindow.addTool(new BasicGraphicsToolbar);

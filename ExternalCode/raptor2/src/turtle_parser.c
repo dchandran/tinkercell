@@ -1789,7 +1789,7 @@ yyreduce:
   raptor_parser* parser = (raptor_parser *)rdf_parser;
   raptor_turtle_parser* turtle_parser = (raptor_turtle_parser*)parser->context;
   if(!turtle_parser->trig)
-    turtle_parser_error(rdf_parser, ":- is not allowed in Turtle");
+    turtle_parser_error((raptor_parser*)rdf_parser, ":- is not allowed in Turtle");
 }
     break;
 

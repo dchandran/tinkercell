@@ -34,7 +34,7 @@ extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)
 
 #endif
 
-	Tinkercell::DynamicLibraryMenu * libMenu = new Tinkercell::DynamicLibraryMenu;
+    Tinkercell::DynamicLibraryMenu * libMenu = new Tinkercell::DynamicLibraryMenu;
     Tinkercell::LoadCLibrariesTool * cLibraries = new Tinkercell::LoadCLibrariesTool;
     Tinkercell::PythonTool * pythonTool = new Tinkercell::PythonTool;
     Tinkercell::OctaveTool * octaveTool = new Tinkercell::OctaveTool;
@@ -64,7 +64,8 @@ extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)
 			{
 				QString v = regex.cap(1);
 				if (v != QObject::tr("@TINKERCELL_WC_REVISION@"))	
-					QMessageBox::about(Tinkercell::MainWindow::instance(), "New version", "A new version of TinkerCell is available for download  at <a href='http://www.tinkercell.com/downloads-2'>tinkercell.com</a>");
+					//QMessageBox::about(Tinkercell::MainWindow::instance(), "New version", "A new version of TinkerCell is available for download  at <a href='http://www.tinkercell.com/downloads-2'>tinkercell.com</a>");
+					main->statusBar()->showMessage(QString("A new version of TinkerCell is available for download  at <a href='http://www.tinkercell.com/downloads-2'>tinkercell.com</a>"));
 			}
 			file.close();
 		}

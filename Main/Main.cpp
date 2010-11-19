@@ -117,7 +117,8 @@ int main(int argc, char *argv[])
 #endif
 
     /*******  START TINKERCELL ***********/
-	mainWindow.newScene();
+    mainWindow.readSettings();
+    mainWindow.newScene();
     mainWindow.show();
     splash.finish(&mainWindow);
 

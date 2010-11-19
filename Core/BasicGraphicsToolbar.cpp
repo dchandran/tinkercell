@@ -435,13 +435,14 @@ namespace Tinkercell
 	{
 		if (currentScene())
 		{
-			currentScene()->useDefaultBehavior = false;
+			/*currentScene()->useDefaultBehavior = false;
 			mainWindow->sendEscapeSignal(this);
 
 			mainWindow->setCursor(QCursor(QPixmap(tr(":/images/zoomin.png")).scaled(25,25)));
 
 			mode = zoom;
-			currentScene()->useDefaultBehavior = false;
+			currentScene()->useDefaultBehavior = false;*/
+			currentScene()->zoomIn();
 		}
 		else
 			if (currentTextEditor())
@@ -454,11 +455,12 @@ namespace Tinkercell
 	{
 		if (currentScene())
 		{
-			currentScene()->useDefaultBehavior = false;
+			/*currentScene()->useDefaultBehavior = false;
 			mainWindow->sendEscapeSignal(this);
 			mainWindow->setCursor(QCursor(QPixmap(tr(":/images/zoomout.png")).scaled(25,25)));
 			mode = unzoom;
-			currentScene()->useDefaultBehavior = false;
+			currentScene()->useDefaultBehavior = false;*/
+			currentScene()->zoomOut();
 		}
 		else
 			if (currentTextEditor())
@@ -660,7 +662,7 @@ namespace Tinkercell
 				if (scene->items(rect).size() < 2)
 				{
 					scene->centerOn(to);
-					scene->scaleView(1.5);
+					scene->zoom(1.5);
 				}
 				else
 				{
@@ -814,14 +816,14 @@ namespace Tinkercell
 					scene->removeItem(&zoomRect);
 
 				scene->centerOn(point);
-				scene->scaleView(1.5);
+				scene->zoom(1.5);
 			}
 
 			else
 				if (mode == unzoom)
 				{
 					scene->centerOn(point);
-					scene->scaleView(0.75);
+					scene->zoom(0.75);
 				}
 				else
 					if (mode == this->brush || mode == this->pen || mode == this->gradient)

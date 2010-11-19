@@ -661,11 +661,9 @@ namespace Tinkercell
 		}
 	}
 	/*! \brief zoom
-	* Precondition: None
-	* Postcondition: None
 	* \param scale factor
 	* \return void*/
-	void GraphicsScene::scaleView(qreal scaleFactor)
+	void GraphicsScene::zoom(qreal scaleFactor)
 	{
 		if (!toolTips.isEmpty()) hideToolTips();
 
@@ -680,6 +678,21 @@ namespace Tinkercell
 		}
 		scaleGraphicalTools();
 	}
+	/*! \brief zoom in
+	* \param scale factor
+	* \return void*/
+	void GraphicsScene::zoomIn()
+	{
+		zoom(1.2);
+	}
+	/*! \brief zoom out
+	* \param scale factor
+	* \return void*/
+	void GraphicsScene::zoomOut()
+	{
+		zoom(0.8);
+	}
+
 	/*! \brief place center at the point
 	* Precondition: None
 	* Postcondition: None
@@ -775,13 +788,13 @@ namespace Tinkercell
 			{
 				if (key == Qt::Key_Plus || key == Qt::Key_Equal)
 				{
-					scaleView(qreal(1.2));
+					zoom(qreal(1.2));
 					keyEvent->accept();
 				}
 				else
 					if (key == Qt::Key_Underscore || key == Qt::Key_Minus)
 					{
-						scaleView(1/qreal(1.2));
+						zoom(1/qreal(1.2));
 						keyEvent->accept();
 					}
 			}

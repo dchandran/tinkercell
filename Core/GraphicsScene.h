@@ -175,19 +175,6 @@ namespace Tinkercell
 		* \param QPointF point
 		* \return void*/
 		virtual void centerOn(const QPointF& point) const;
-		/*! \brief adjusts view to include all items
-		* \return void*/
-		virtual void fitAll() const;
-		/*! \brief adjusts view to include the given rect
-		* \param QRectF
-		* \return void*/
-		virtual void fitInView(const QRectF&) const;
-		/*! \brief calls main window's popOut
-		* \return void*/
-		virtual void popOut();
-		/*! \brief calls main window's popIn
-		* \return void*/
-		virtual void popIn();
 		/*! \brief Clear all selection and moving items list
 		* \return void*/
 		virtual void clearSelection();
@@ -204,14 +191,42 @@ namespace Tinkercell
 		* \param QList<QGraphicsItem*>& items to select
 		* \return void*/
 		virtual void select(const QList<QGraphicsItem*>& item);
-		/*! \brief select all items*/
-		virtual void selectAll();
-		/*! \brief select items with the given text */
-		virtual void find(const QString&);
 		/*! \brief deselect one item
 		* \param QGraphicsItem* item to deselect
 		* \return void*/
 		virtual void deselect(QGraphicsItem* item);
+		/*! \brief show a tooltip a the given position*/
+		virtual void showToolTip(QPointF,const QString&);
+	
+	public slots:
+		/*! \brief adjusts view to include all items
+		* \return void*/
+		virtual void fitAll() const;
+		/*! \brief adjusts view to include the given rect
+		* \param QRectF
+		* \return void*/
+		virtual void fitInView(const QRectF&) const;
+		/*! \brief calls main window's popOut
+		* \return void*/
+		virtual void popOut();
+		/*! \brief calls main window's popIn
+		* \return void*/
+		virtual void popIn();
+		/*! \brief zoom in or out
+		* \param scale factor (< 1 means zoom out)
+		* \return void*/
+		virtual void zoom(qreal scaleFactor);
+		/*! \brief zoom in (zoom with 1.5)
+		* \return void*/
+		virtual void zoomIn();
+		/*! \brief zoom out (zoom with 0.75)
+		* \param scale factor
+		* \return void*/
+		virtual void zoomOut();
+		/*! \brief select all items*/
+		virtual void selectAll();
+		/*! \brief select items with the given text */
+		virtual void find(const QString&);
 		/*! \brief deselect all selected items
 		* \return void*/
 		virtual void deselect();
@@ -220,9 +235,7 @@ namespace Tinkercell
 		/*! \brief cut selected items*/
 		virtual void cut();
 		/*! \brief paste copied items*/
-		virtual void paste();		
-		/*! \brief show a tooltip a the given position*/
-		virtual void showToolTip(QPointF,const QString&);
+		virtual void paste();
 		
 		/*! \brief a simple move operation that also adds undo command to history window and emits associated signal(s)
 		* \param QGraphicsItem * item to move
@@ -509,12 +522,7 @@ namespace Tinkercell
 		* \param NodeGraphicsItem*
 		* \return void*/
 		virtual void snapToGrid(QGraphicsItem*);
-		/*! \brief zoom
-		* Precondition: None
-		* Postcondition: None
-		* \param scale factor
-		* \return void*/
-		virtual void scaleView(qreal scaleFactor);
+		
 
 		friend class MainWindow;
 		friend class NetworkWindow;

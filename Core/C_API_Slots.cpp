@@ -326,7 +326,7 @@ namespace Tinkercell
 	{
 		if (currentScene())
 		{
-			currentScene()->scaleView(factor);
+			currentScene()->zoom(factor);
 		}
 		if (sem)
 			sem->release();

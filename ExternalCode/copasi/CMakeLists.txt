@@ -39,12 +39,13 @@ INCLUDE_DIRECTORIES(
 #---------------------
 
 ADD_DEFINITIONS(-DWITH_CSPMETHOD)
-ADD_DEFINITIONS(-DUSE_CLAPACK)
+#ADD_DEFINITIONS(-D__cplusplus)
+#ADD_DEFINITIONS(-DUSE_CLAPACK)
 ADD_DEFINITIONS(-DUSE_LAPACK)
 
-#--------------------------
+#------------------------------------------
 #  DEFINITIONS FOR WINDOWS
-#--------------------------
+#------------------------------------------
 
 IF (WIN32)
 	ADD_DEFINITIONS(-DWIN32)
@@ -73,6 +74,7 @@ FILE( GLOB copasi_SRC_FILES
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/libs/*.cpp
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/lyap/*.cpp
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/MIRIAM/*.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/MIRIAM/WebServicesIssues/*.cpp
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/moieties/*.cpp
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/odepack++/*.cpp
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/optimization/*.cpp
@@ -90,6 +92,7 @@ FILE( GLOB copasi_SRC_FILES
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/tssanalysis/*.cpp
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/utilities/*.cpp
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/xml/*.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/commandline/*.cpp
 )
 
 #--------------------------

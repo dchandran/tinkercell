@@ -4,7 +4,7 @@ INCLUDE_DIRECTORIES( BEFORE
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/expat/lib
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor2/src
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor2/librdfa
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor2/util
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor2/utils
 	${LIBXML2_INCLUDE_DIR}
 )
 
@@ -17,7 +17,7 @@ IF(WIN32)
 	ADD_DEFINITIONS(-DWIN32)
 ENDIF(WIN32)
 
-FILE( GLOB RAPTOR_SRC src/*.c )
+FILE( GLOB RAPTOR_SRC src/*.c librdfa/*.c utils/*.c)
 
 SET_SOURCE_FILES_PROPERTIES(${RAPTOR_SRC}  PROPERTIES LANGUAGE CXX)
 

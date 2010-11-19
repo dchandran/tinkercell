@@ -65,10 +65,11 @@ Err (char *name, char *mess, int c)		/* returns '?' */
 
 
 int
-getopt (int argc, char * const argv[], const char *optstring)
+getopt (int argc, char * const argv[], const char * s)
 {
   static int sp = 1;		/* position within argument */
   int osp;		/* saved `sp' for param test */
+  char * optstring = (char*)s;
 
 #ifndef STRICT
   int oind;		/* saved `optind' for param test */

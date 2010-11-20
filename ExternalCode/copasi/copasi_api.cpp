@@ -28,7 +28,6 @@ int main()
 	// init
 	CCopasiRootContainer::init(0, NULL);
 	assert(CCopasiRootContainer::getRoot() != NULL);
-
 	// create a new datamodel
 	CCopasiDataModel* pDataModel = CCopasiRootContainer::addDatamodel();
 	assert(CCopasiRootContainer::getDatamodelList()->size() == 1);
@@ -42,6 +41,7 @@ int main()
 	pModel->setTimeUnit(CModel::s);
 	pModel->setVolumeUnit(CModel::microl);
 	pModel->setQuantityUnit(CModel::nMol);
+
 	// we have to keep a set of all the initial values that are changed during
 	// the model building process
 	// They are needed after the model has been built to make sure all initial
@@ -55,6 +55,7 @@ int main()
 	changedObjects.insert(pObject);
 	assert(pCompartment != NULL);
 	assert(pModel->getCompartments().size() == 1);
+
 	// create a new metabolite with the name glucose and an inital
 	// concentration of 10 nanomol
 	// the metabolite belongs to the compartment we created and is is to be
@@ -66,6 +67,7 @@ int main()
 	assert(pCompartment != NULL);
 	assert(pGlucose != NULL);
 	assert(pModel->getMetabolites().size() == 1);
+
 	// create a second metabolite called glucose-6-phosphate with an initial
 	// concentration of 0. This metabolite is to be changed by reactions
 	CMetab* pG6P = pModel->createMetabolite("glucose-6-phosphate", pCompartment->getObjectName(), 0.0, CMetab::REACTIONS);
@@ -74,6 +76,7 @@ int main()
 	assert(pObject != NULL);
 	changedObjects.insert(pObject);
 	assert(pModel->getMetabolites().size() == 2);
+
 	// another metabolite for ATP, also fixed
 	CMetab* pATP = pModel->createMetabolite("ATP", pCompartment->getObjectName(), 10.0, CMetab::FIXED);
 	assert(pATP != NULL);
@@ -108,6 +111,7 @@ int main()
 	// this reaction is to be irreversible
 	pReaction->setReversible(false);
 	assert(pReaction->isReversible() == false);
+
 	// now we ned to set a kinetic law on the reaction
 	// maybe constant flux would be OK
 	// we need to get the function from the function database
@@ -156,9 +160,11 @@ int main()
 	std::cerr << "Error. Could not find irreversible michaelis menten." << std::endl;
 	return 1;
 	}
+
 	// now we also create a separate reaction for the backwards reaction and
 	// set the kinetic law to irreversible mass action
 	// now we create a reaction
+
 	pReaction = pModel->createReaction("hexokinase-backwards");
 	assert(pReaction != NULL);
 	assert(pModel->getReactions().size() == 2);
@@ -170,6 +176,7 @@ int main()
 	// glucose-6-phosphate is a substrate with stoichiometry 1
 	pChemEq->addMetabolite(pG6P->getKey(), 1.0, CChemEq::SUBSTRATE);
 	// ADP is a substrate with stoichiometry 1
+
 	pChemEq->addMetabolite(pADP->getKey(), 1.0, CChemEq::SUBSTRATE);
 	assert(pChemEq->getSubstrates().size() == 2);
 	assert(pChemEq->getProducts().size() == 2);
@@ -179,6 +186,7 @@ int main()
 	// now we ned to set a kinetic law on the reaction
 	CFunction* pMassAction = dynamic_cast<CFunction*>(pFunDB->findFunction("Mass action ( irreversible)"));
 	assert(pMassAction != NULL);
+return 0;
 	// we set the function
 	// the method should be smart enough to associate the reaction entities
 	// with the correct function parameters
@@ -214,6 +222,7 @@ int main()
 	// finally compile the model
 	// compile needs to be done before updating all initial values for
 	// the model with the refresh sequence
+
 	pModel->compileIfNecessary(NULL);
 	// now that we are done building the model, we have to make sure all
 	// initial values are updated according to their dependencies
@@ -225,6 +234,7 @@ int main()
 		(**it2)();
 		++it2;
 	}
+
 	// save the model to a COPASI file
 	// we save to a file named example1.cps, we don’t want a progress report
 	// and we want to overwrite any existing file with the same name
@@ -235,6 +245,7 @@ int main()
 	// we save to a file named example1.xml, we want to overwrite any
 	// existing file with the same name and we want SBML L2V3
 	pDataModel->exportSBML("example1.xml", true, 2, 3);
+
 	// destroy the root container once we are done
 	CCopasiRootContainer::destroy();
 }

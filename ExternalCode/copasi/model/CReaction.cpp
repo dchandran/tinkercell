@@ -452,6 +452,8 @@ void CReaction::initializeParameters()
   unsigned C_INT32 imax = mMap.getFunctionParameters().getNumberOfParametersByUsage(CFunctionParameter::PARAMETER);
   unsigned C_INT32 pos;
   std::string name;
+  
+  std::cout << imax << "  imax\n";
 
   /* We have to be more intelligent here because during an XML load we have
      already the correct parameters */

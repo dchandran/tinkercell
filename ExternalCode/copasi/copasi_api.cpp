@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 #include <set>
+#include <iostream>
 #define COPASI_MAIN
 
 #include "copasi/copasi.h"
@@ -184,13 +185,17 @@ int main()
 	pReaction->setReversible(false);
 	assert(pReaction->isReversible() == false);
 	// now we ned to set a kinetic law on the reaction
-	CFunction* pMassAction = dynamic_cast<CFunction*>(pFunDB->findFunction("Mass action ( irreversible)"));
+	CFunction* pMassAction = dynamic_cast<CFunction*>(pFunDB->findFunction("irreversible mass action"));
+	std::cout << pMassAction << " == mass action\n";
 	assert(pMassAction != NULL);
-return 0;
+
 	// we set the function
 	// the method should be smart enough to associate the reaction entities
 	// with the correct function parameters
+	std::cout << "mass action\n";
 	pReaction->setFunction(pMassAction);
+
+	std::cout << pReaction->getFunction() << "\n";
 	assert(pReaction->getFunction() != NULL);
 	assert(pReaction->getFunctionParameters().size() == 2);
 	// so there should be two entries in the parameter mapping as well
@@ -210,15 +215,21 @@ return 0;
 	pModelValue->setStatus(CModelValue::ASSIGNMENT);
 	// the assignment does not have to make sense
 	pModelValue->setExpression("1.0 / 4.0 + 2.0");
+
 	// now we have to adjust the parameter mapping in the reaction so
 	// that the kinetic law uses the global parameter we just created instead
 	// of the local one that is created by default
 	// The first parameter is the one for the rate constant, so we point it to
 	// the key of out model value
+	std::cout << pReaction->getFunctionParameters().size() << "\n";
+	//if (pReaction->getFunctionParameters()[0]->getType() != CFunctionParameter::FLOAT64)
+		//std::cout << "Problem\n";
+return 0;
 	pReaction->setParameterMapping(0, pModelValue->getKey());
 	// now we have to set the parameter mapping for the substrates
 	pReaction->addParameterMapping("substrate", pG6P->getKey());
 	pReaction->addParameterMapping("substrate", pADP->getKey());
+
 	// finally compile the model
 	// compile needs to be done before updating all initial values for
 	// the model with the refresh sequence

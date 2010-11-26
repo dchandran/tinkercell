@@ -2,9 +2,9 @@ remove all "#define min _cpp_min" and "#define max _cpp_max"
        --  It appears MSVC++ and MinGW have removed std::_cpp_min and std::_cpp_max recently. 
 	        otherwise, the "#ifdef WIN32" shoudl be changed to "#if defined(WIN32) & !defined(CYGWIN)
 
-copasi.h (line 105) -- changed "#define abs64 abs"
+copasi.h (line 105) -- added #ifndef CYGWIN before "#define abs64 abs"
 
 report/CCopasiObject.h  (line 164) -- "friend CCopasiVector< CCopasiObject >" should be "friend class CCopasiVector< CCopasiObject >"
 
-
 report/CCopasiObjectReference.h (line 204 and 262) -- change "#ifdef WIN32" to "#if defined(WIN32) & !defined(CYGWIN)"
+

@@ -117,7 +117,7 @@ bool CProcessReport::progress()
 }
 
 bool CProcessReport::progressItem(const unsigned C_INT32 & handle)
-{return isValidHandle(handle);}
+{ return isValidHandle(handle);}
 
 bool CProcessReport::proceed()
 {return true;}

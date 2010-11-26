@@ -378,9 +378,3 @@ endif()
 add_library(lapack ${ALLOBJ} ${ALLXOBJ})
 target_link_libraries(lapack blas)
 
-IF ( WIN32 )
-  INSTALL(TARGETS lapack DESTINATION lib)
-ELSE ( WIN32 )
-  INSTALL(TARGETS lapack ARCHIVE DESTINATION lib)
-ENDIF( WIN32 )
-

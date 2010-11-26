@@ -51,7 +51,7 @@ int main()
 	// create a compartment with the name cell and an initial volume of 5.0
 	// microliter
 	CCompartment* pCompartment = pModel->createCompartment("cell", 5.0);
-	const CCopasiObject* pObject = pCompartment->getObject(CCopasiObjectName("Reference= InitialVolume"));
+	const CCopasiObject* pObject = pCompartment->getObject(CCopasiObjectName("Reference=InitialVolume"));
 	assert(pObject != NULL);
 	changedObjects.insert(pObject);
 	assert(pCompartment != NULL);
@@ -185,17 +185,14 @@ int main()
 	pReaction->setReversible(false);
 	assert(pReaction->isReversible() == false);
 	// now we ned to set a kinetic law on the reaction
-	CFunction* pMassAction = dynamic_cast<CFunction*>(pFunDB->findFunction("irreversible mass action"));
-	std::cout << pMassAction << " == mass action\n";
+	CFunction* pMassAction = dynamic_cast<CFunction*>(pFunDB->findFunction("Mass action (irreversible)"));
 	assert(pMassAction != NULL);
 
 	// we set the function
 	// the method should be smart enough to associate the reaction entities
 	// with the correct function parameters
-	std::cout << "mass action\n";
 	pReaction->setFunction(pMassAction);
 
-	std::cout << pReaction->getFunction() << "\n";
 	assert(pReaction->getFunction() != NULL);
 	assert(pReaction->getFunctionParameters().size() == 2);
 	// so there should be two entries in the parameter mapping as well
@@ -221,10 +218,9 @@ int main()
 	// of the local one that is created by default
 	// The first parameter is the one for the rate constant, so we point it to
 	// the key of out model value
-	std::cout << pReaction->getFunctionParameters().size() << "\n";
 	//if (pReaction->getFunctionParameters()[0]->getType() != CFunctionParameter::FLOAT64)
 		//std::cout << "Problem\n";
-return 0;
+//return 0;
 	pReaction->setParameterMapping(0, pModelValue->getKey());
 	// now we have to set the parameter mapping for the substrates
 	pReaction->addParameterMapping("substrate", pG6P->getKey());
@@ -233,12 +229,15 @@ return 0;
 	// finally compile the model
 	// compile needs to be done before updating all initial values for
 	// the model with the refresh sequence
-
+	
 	pModel->compileIfNecessary(NULL);
+	
 	// now that we are done building the model, we have to make sure all
 	// initial values are updated according to their dependencies
 	std::vector<Refresh*> refreshes = pModel->buildInitialRefreshSequence(changedObjects);
+	
 	std::vector<Refresh*>::iterator it2 = refreshes.begin(), endit2 = refreshes.end();
+	
 	while (it2 != endit2)
 	{
 		// call each refresh
@@ -251,12 +250,14 @@ return 0;
 	// and we want to overwrite any existing file with the same name
 	// Default tasks are automatically generated and will always appear in cps
 	// file unless they are explicitley deleted before saving.
+
 	pDataModel->saveModel("example1.cps", NULL, true);
+	
 	// export the model to an SBML file
 	// we save to a file named example1.xml, we want to overwrite any
 	// existing file with the same name and we want SBML L2V3
 	pDataModel->exportSBML("example1.xml", true, 2, 3);
-
+	
 	// destroy the root container once we are done
 	CCopasiRootContainer::destroy();
 }

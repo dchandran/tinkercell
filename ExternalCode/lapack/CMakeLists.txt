@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 2.6)
 project(CLAPACK C)
+
+SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3 -ffloat-store")
+
 enable_testing()
 include(CTest)
 
@@ -21,7 +24,7 @@ include_directories(${CLAPACK_SOURCE_DIR}/INCLUDE)
 add_subdirectory(F2CLIBS)
 add_subdirectory(BLAS)
 add_subdirectory(SRC)
-#add_subdirectory(TESTING)
+add_subdirectory(TESTING)
 set(CLAPACK_VERSION 3.2.1)
 set(CPACK_PACKAGE_VERSION_MAJOR 3)
 set(CPACK_PACKAGE_VERSION_MINOR 2)

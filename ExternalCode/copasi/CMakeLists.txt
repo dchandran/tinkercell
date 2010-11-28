@@ -131,7 +131,7 @@ TARGET_LINK_LIBRARIES( copasi
 #  COPASI api
 #----------------------------------
 
-  ADD_EXECUTABLE(copasi_api_test  copasi_api.cpp)
+  ADD_EXECUTABLE(copasi_api_test  test_copasi.cpp)
 
   TARGET_LINK_LIBRARIES( copasi_api_test
     copasi

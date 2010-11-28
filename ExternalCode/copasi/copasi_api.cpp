@@ -79,54 +79,53 @@ void setAssignmentRule(copasi_species * species, const char * formula)
 {
 }
 
-copasi_reaction * createReaction(copasi_model * model, const char* name)
+copasi_reaction createReaction(copasi_model model, const char* name)
 {
+	CModel* pModel = (CModel*)(model.CopasiModelPtr);
+	CReaction* pReaction = pModel->createReaction(name);
+	copasi_reaction r = { (void*)(pReaction), (void*)(pModel) };
+	return r;
 }
 
-void addReactant(copasi_reaction * reaction, copasi_species * species, double stoichiometry)
+void addReactant(copasi_reaction reaction, copasi_species species, double stoichiometry)
 {
+	CReaction* pReaction = (CReaction*)(reaction.CopasiReactionPtr);
+	CMetab* pSpecies = (CMetab*)(species.CopasiSpeciesPtr);
+	CChemEq* pChemEq = &pReaction->getChemEq();
+	pChemEq->addMetabolite(pSpecies->getKey(), stoichiometry, CChemEq::SUBSTRATE);
 }
 
 void addProduct(copasi_reaction * reaction, copasi_species * species, double stoichiometry)
 {
+	CReaction* pReaction = (CReaction*)(reaction.CopasiReactionPtr);
+	CMetab* pSpecies = (CMetab*)(species.CopasiSpeciesPtr);
+	CChemEq* pChemEq = &pReaction->getChemEq();
+	pChemEq->addMetabolite(pSpecies->getKey(), stoichiometry, CChemEq::PRODUCT);
 }
 
-void setReactionRate(copasi_reaction * reaction, const char * formula)
+void setReactionRate(copasi_reaction reaction, const char * formula)
 {
+	CReaction* pReaction = (CReaction*)(reaction.CopasiReactionPtr);
+	CChemEq* pChemEq = &pReaction->getChemEq();
 }
 
 tc_matrix simulateODE(copasi_model * model, double endtime, double dt, int returnConcOrFlux)
 {
 }
 
-tc_matrix simulateTauLeap(copasi_model * model, double endtime, double dt, int returnConcOrFlux);
-/*! 
- \brief simulate using exact stochastic method (Gillespie)
- \param copasi_model* model
- \param double end time
- \param int 0=return concentration and flux, 1=return concentration, 2=return flux
- \return tc_matrix matrix of concentration and/or flux values
- \ingroup copasi
-*/
-tc_matrix simulateGillespie(copasi_model * model, double endtime, int returnConcOrFlux);
-/*! 
- \brief get steady state
- \param copasi_model* model
- \param const char* parameter name
- \param double start value
- \param double end value
- \return tc_matrix matrix with parameter as the first column
- \ingroup copasi
-*/
-tc_matrix parameterScan(copasi_model * model, const char * parameter, double startvalue, double endvalue);
-/*! 
- \brief get steady state
- \param copasi_model* model
- \param const char* parameter name
- \param double start value
- \param double end value
- \return tc_matrix matrix of concentration and flux values as the first row
- \ingroup copasi
-*/
-tc_matrix getSteadyState(copasi_model * model, const char * parameter, double startvalue, double endvalue);
+tc_matrix simulateTauLeap(copasi_model * model, double endtime, double dt, int returnConcOrFlux)
+{
+}
+
+tc_matrix simulateGillespie(copasi_model * model, double endtime, int returnConcOrFlux)
+{
+}
+
+tc_matrix parameterScan(copasi_model * model, const char * parameter, double startvalue, double endvalue)
+{
+}
+
+tc_matrix getSteadyState(copasi_model * model, const char * parameter, double startvalue, double endvalue)
+{
+}
 

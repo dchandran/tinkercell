@@ -73,10 +73,22 @@ copasi_compartment createCompartment(copasi_model model, const char* name, doubl
 void setBoundarySpecies(copasi_species species, int isBoundary)
 {
 	CMetab* pSpecies = (CMetab*)(species.CopasiSpeciesPtr);
+	if (isBoundary)
+		pSpecies->setStatus(CModelEntity::FIXED);
+	else
+		pSpecies->setStatus(CModelEntity::REACTIONS);
 }
 
-void setAssignmentRule(copasi_species * species, const char * formula)
+void setAssignmentRule(copasi_species species, const char * formula)
 {
+	CMetab* pSpecies = (CMetab*)(species.CopasiSpeciesPtr);
+	if (formula)
+	{
+		pSpecies->setStatus(CModelEntity::ASSIGNMENT);
+		pSpecies->setExpression(std::string(formula));
+	}
+	else
+		pSpecies->setStatus(CModelEntity::REACTIONS);
 }
 
 copasi_reaction createReaction(copasi_model model, const char* name)
@@ -106,7 +118,8 @@ void addProduct(copasi_reaction * reaction, copasi_species * species, double sto
 void setReactionRate(copasi_reaction reaction, const char * formula)
 {
 	CReaction* pReaction = (CReaction*)(reaction.CopasiReactionPtr);
-	CChemEq* pChemEq = &pReaction->getChemEq();
+	CFunction * function = pReaction->getFunction();
+	//CChemEq* pChemEq = &pReaction->getChemEq();
 }
 
 tc_matrix simulateODE(copasi_model * model, double endtime, double dt, int returnConcOrFlux)

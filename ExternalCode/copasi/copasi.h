@@ -87,30 +87,34 @@
 #ifdef WIN32
 # define C_INT64 __int64
 # ifndef LLONG_MAX
-#  define LLONG_MAX _I64_MAX
+#     define LLONG_MAX _I64_MAX
 # endif
 # define LLONG_CONST(n) n ## i64
 # define C_INT32 int
 # define C_INT16 short
 # define C_FLOAT64 double
 # define C_FLOAT32 float
+#endif //WIN32
+#endif //SunOS || CYGWIN || Darwin
+
+#ifdef WIN32
 # define vsnprintf _vsnprintf // they just have a different name for this guy
 # define snprintf  _snprintf  // they just have a different name for this guy
 # define strcasecmp _stricmp  // they just have a different name for this guy
 # define strdup _strdup       // they just have a different name for this guy
-# define isnan _isnan         // they just have a different name for this guy
 # define finite _finite       // they just have a different name for this guy
-//# define min _cpp_min         // they just have a different name for this guy
-//# define max _cpp_max         // they just have a different name for this guy
-#ifndef CYGWIN
-   #define abs64 _abs64
-#else //CYGWIN
+# define isnan _isnan         // they just have a different name for this guy
+#ifndef __CYGWIN__
+   # define abs64 _abs64
+   # define min _cpp_min         // they just have a different name for this guy
+   # define max _cpp_max         // they just have a different name for this guy
+#else //not CYGWIN
    #define abs64 abs
 #endif  //CYGWIN
-#else
+#else //WIN32
 # define C_INT64 long long int
 # ifndef LLONG_MAX
-#  define  LLONG_MAX LONG_LONG_MAX
+#    define  LLONG_MAX LONG_LONG_MAX
 # endif
 # define LLONG_CONST(n) n ## LL
 # define C_INT32 long
@@ -118,7 +122,6 @@
 # define C_FLOAT64 double
 # define C_FLOAT32 float
 # define abs64 abs
-#endif
 #endif
 
 #ifdef Darwin

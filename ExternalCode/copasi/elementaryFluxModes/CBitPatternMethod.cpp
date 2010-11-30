@@ -34,8 +34,6 @@
 #include "blaswrap.h"
 #include "clapackwrap.h"
 
-#define DEBUG_MATRIX
-
 CBitPatternMethod::CBitPatternMethod(const CCopasiContainer * pParent):
     CEFMMethod(CCopasiTask::fluxMode, CCopasiMethod::EFMBitPatternAlgorithm, pParent),
     mpModel(NULL),

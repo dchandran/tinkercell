@@ -18,11 +18,11 @@ End CVS Header */
 #ifndef COPASI_CCopasiParameterGroup
 #define COPASI_CCopasiParameterGroup
 
-#include <string>
-#include <vector>
-
 #include "utilities/CCopasiParameter.h"
 #include "utilities/CCopasiMessage.h"
+
+#include <string>
+#include <vector>
 
 /**
  *  CCopasiParameterGroup class.

@@ -78,8 +78,8 @@ FILE( GLOB SBML_SRC_FILES
 #------ make the library --------------
 
 ADD_LIBRARY( sbml
-  #SHARED
-  STATIC
+  SHARED
+  #STATIC
   ${SBML_SRC_FILES}
 )
 

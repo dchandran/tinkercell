@@ -31,13 +31,13 @@
 #ifndef COPASI_CCopasiObject
 #define COPASI_CCopasiObject
 
+#include "copasi.h"
+
 #include <string>
 #include <iostream>
-#include <vector>
 #include <set>
 #include <list>
-
-#include "copasi.h"
+#include <vector>
 
 class CCopasiObjectName;
 class CCopasiContainer;

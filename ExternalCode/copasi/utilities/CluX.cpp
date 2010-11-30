@@ -34,7 +34,6 @@
 
 #include "clapackwrap.h"
 
-// #define DEBUG_MATRIX
 
 bool LUfactor(CMatrix< C_FLOAT64 > & A,
               CVector< unsigned C_INT32 > & row,

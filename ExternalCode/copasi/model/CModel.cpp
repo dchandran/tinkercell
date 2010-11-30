@@ -38,8 +38,6 @@
 
 #include "copasi.h"
 
-// #define DEBUG_MATRIX
-
 #include "CCompartment.h"
 #include "CMetab.h"
 #include "CModel.h"

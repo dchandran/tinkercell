@@ -67,9 +67,7 @@ ENDIF (WIN32)
 #--------------------------
 
 FILE( GLOB copasi_SRC_FILES
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/steadystate/*.cpp
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/report/*.cpp
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/model/*.cpp
+		${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/model/*.cpp
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/compareExpressions/*.cpp
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/CopasiDataModel/*.cpp
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/crosssection/*.cpp
@@ -78,8 +76,6 @@ FILE( GLOB copasi_SRC_FILES
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/layout/*.cpp
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/libs/*.cpp
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/lyap/*.cpp
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/MIRIAM/*.cpp
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/MIRIAM/WebServicesIssues/*.cpp
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/moieties/*.cpp
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/odepack++/*.cpp
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/optimization/*.cpp
@@ -90,12 +86,16 @@ FILE( GLOB copasi_SRC_FILES
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/sbmlunit/*.cpp
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/scan/*.cpp
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/sensitivities/*.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/steadystate/*.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/report/*.cpp
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/trajectory/*.cpp
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/tss/*.cpp
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/tssanalysis/*.cpp
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/utilities/*.cpp
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/xml/*.cpp
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/commandline/*.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/MIRIAM/*.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/MIRIAM/WebServicesIssues/*.cpp
 )
 
 #--------------------------

@@ -53,8 +53,8 @@ namespace Tinkercell
 
 	/********** GLOBAL VARIABLES **********/
 
-	MainWindow::TOOL_WINDOW_OPTION MainWindow::defaultToolWindowOption = MainWindow::ToolBoxWidget;
-	MainWindow::TOOL_WINDOW_OPTION MainWindow::defaultHistoryWindowOption = MainWindow::ToolBoxWidget;
+	MainWindow::TOOL_WINDOW_OPTION MainWindow::defaultToolWindowOption = MainWindow::TabWidget;
+	MainWindow::TOOL_WINDOW_OPTION MainWindow::defaultHistoryWindowOption = MainWindow::TabWidget;
 	MainWindow::TOOL_WINDOW_OPTION MainWindow::defaultConsoleWindowOption = MainWindow::DockWidget;
 	QString MainWindow::PROJECTWEBSITE = QObject::tr("www.tinkercell.com");
 	QString MainWindow::ORGANIZATIONNAME = QObject::tr("TinkerCell");
@@ -218,7 +218,7 @@ namespace Tinkercell
 
 		consoleWindow = 0;
 		currentNetworkWindow = 0;
-		toolBox = 0;
+		toolsTabWidget = 0;
 		setAutoFillBackground(true);
 
 		initializeMenus(enableScene,enableText);
@@ -660,15 +660,14 @@ namespace Tinkercell
 
 		QDockWidget * dock = 0;
 
-		if (!toolBox || option == NewToolBoxWidget)
+		if (!toolsTabWidget) //create the tab widget for tools
 		{
 			dock = new QDockWidget(tr("Tools Window"), this);
 			dock->setObjectName(tool->windowTitle());
-			if (option == NewToolBoxWidget)
-				dock->setWindowTitle(tool->windowTitle());
-			toolBox = new QToolBox;
-			toolBox->setMinimumWidth(300);
-			dock->setWidget(toolBox);
+			toolsTabWidget = new QTabWidget;
+			toolsTabWidget->setTabPosition(QTabWidget::East);
+			toolsTabWidget->setMinimumWidth(300);
+			dock->setWidget(toolsTabWidget);
 			dock->setAllowedAreas(allowedAreas);
 			addDockWidget(initArea,dock);
 			if (inMenu && viewMenu)
@@ -676,11 +675,11 @@ namespace Tinkercell
 		}
 		else
 		{
-			dock = static_cast<QDockWidget*>(toolBox->parentWidget()); //safe?
+			dock = static_cast<QDockWidget*>(toolsTabWidget->parentWidget()); //safe?
 		}
 
-		toolBox->addItem(tool,tool->windowIcon(),tool->windowTitle());
-		toolBox->setCurrentWidget(tool);
+		toolsTabWidget->addItem(tool,tool->windowIcon(),tool->windowTitle());
+		toolsTabWidget->setCurrentWidget(tool);
 
 		return dock;
 	}

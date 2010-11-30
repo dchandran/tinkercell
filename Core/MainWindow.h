@@ -39,7 +39,6 @@ One of the main roles of MainWindow is to serve as a signal/slot hub for Tools.
 #include <QGridLayout>
 #include <QSemaphore>
 #include <QLibrary>
-#include <QToolBox>
 #include <QHash>
 
 #include "HistoryWindow.h"
@@ -94,10 +93,9 @@ namespace Tinkercell
 
 		/*! \brief this enum is used to determine how to place a widget when used in addToolWindow.
 		             DockWidget = tool window is placed into a dockable widget
-					 ToolBoxWidget = tool window is placed in an existing toolbox, if one exists
-					 NewToolBoxWidget = tool window is placed inside a new toolbox
+					 TabWidget = tool window is placed in an existing tab widget, if one exists
 		*/
-		enum TOOL_WINDOW_OPTION { DockWidget , ToolBoxWidget , NewToolBoxWidget };
+		enum TOOL_WINDOW_OPTION { DockWidget , TabWidget };
 
 		/*! \brief the types of views for multiple documents
 		             TabView = tabbed documents
@@ -179,8 +177,8 @@ namespace Tinkercell
 		* \param Qt::DockWidgetArea the initial docking area
 		* \param Qt::DockWidgetAreas the allowed docking areas
 		* \param bool whether or not to place the docking window in the view menu
-		* \param bool use a QToolBox instead of a dock widget. The widget will not be dockable, but the entire toolbox will be dockable.
-		* \return QDockWidget* the new docking widget. ToolBoxWidget option is used, the docking widget may be an existing docking widget.
+		* \param bool use a tab widget instead of a dock widget. The widget will not be dockable, but the entire tab widget will be dockable.
+		* \return QDockWidget* the new docking widget. TabWidget option is used, the docking widget may be an existing docking widget.
 		*/
 		QDockWidget * addToolWindow(QWidget * tool, TOOL_WINDOW_OPTION option = DockWidget, Qt::DockWidgetArea initArea = Qt::RightDockWidgetArea, Qt::DockWidgetAreas allowedAreas = Qt::AllDockWidgetAreas, bool inMenu = true);
 		/*!
@@ -845,8 +843,8 @@ namespace Tinkercell
 		QTabWidget * tabWidget;
 		/*! \brief the list of all network windows*/
 		QList<NetworkHandle*> allNetworks;
-		/*! \brief the optional tool box that will only appear if one of the plug-ins uses the toolbox argument in the addToolWindow call*/
-		QToolBox * toolBox;
+		/*! \brief the optional tool box that will only appear if one of the plug-ins uses the tab widget argument in the addToolWindow call*/
+		QTabWidget * toolsTabWidget;
 		/*! \brief history view, not the stack itself. The stack is stored within each NetworkHandle*/
 		HistoryWindow historyWindow;
 		/*! \brief keep pointer to last selected window. Used by windowChanged signal*/

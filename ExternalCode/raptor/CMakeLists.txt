@@ -23,8 +23,8 @@ FILE( GLOB RAPTOR_SRC src/*.c src/*.y librdfa/*.c utils/*.c)
 #SET_SOURCE_FILES_PROPERTIES(${RAPTOR_SRC}  PROPERTIES LANGUAGE CXX)
 
 ADD_LIBRARY( raptor
-#  SHARED
-  STATIC
+  SHARED
+#  STATIC
   ${RAPTOR_SRC} 
 )
 
@@ -33,6 +33,7 @@ ADD_LIBRARY( raptor
 TARGET_LINK_LIBRARIES( raptor
    raptor
    libcurl
+   expat
 )
 
   

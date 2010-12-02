@@ -201,7 +201,7 @@
 #define RAPTOR_NFC_CHECK 1
 
 /* Building GRDDL parser */
-/* #undef RAPTOR_PARSER_GRDDL */
+#undef RAPTOR_PARSER_GRDDL
 
 /* Building guess parser */
 /* #undef RAPTOR_PARSER_GUESS */

@@ -38,15 +38,15 @@ extern "C" {
 
 #define HAVE_STDLIB_H 1
 
-#if 1
+#if 0
 /* For using expat on win32 */
 #define RAPTOR_XML_EXPAT 1
 #define HAVE_EXPAT_H 1
 
 #else
 /* For using libxml2 on win32 */
-  #define RAPTOR_XML_LIBXML
-  #define HAVE_LIBXML_XMLREADER_H
+#define RAPTOR_XML_LIBXML
+#define HAVE_LIBXML_XMLREADER_H
 /* does libxml struct xmlEntity have a field etype */
 /*#define RAPTOR_LIBXML_ENTITY_ETYPE*/
 
@@ -90,7 +90,7 @@ extern "C" {
  */
 
 /* Release version as a decimal */
-#define RAPTOR_VERSION_DECIMAL 10421
+#define RAPTOR_VERSION_DECIMAL 10420
 
 /* Major version number */
 #define RAPTOR_VERSION_MAJOR 1
@@ -99,10 +99,10 @@ extern "C" {
 #define RAPTOR_VERSION_MINOR 4
 
 /* Release version number */
-#define RAPTOR_VERSION_RELEASE 21
+#define RAPTOR_VERSION_RELEASE 20
 
 /* Version number of package */
-#define VERSION "1.4.21"
+#define VERSION "1.4.20"
 
 
 #ifdef RAPTOR_XML_LIBXML

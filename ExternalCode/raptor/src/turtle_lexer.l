@@ -2,7 +2,7 @@
  *
  * turtle_lexer.l - Raptor Turtle lexer - making tokens for turtle grammar generator
  *
- * Copyright (C) 2003-2010, David Beckett http://www.dajobe.org/
+ * Copyright (C) 2003-2008, David Beckett http://www.dajobe.org/
  * Copyright (C) 2003-2005, University of Bristol, UK http://www.bristol.ac.uk/
  * 
  * This package is Free Software and part of Redland http://librdf.org/
@@ -164,18 +164,12 @@ static const char turtle_lexer_oom_text[]="turtle_lexer: Out of memory";
 
 %}
 
-/* Tokens from SPARQL spec, adjusted for Turtle */
+/* from SPARQL */
 LANGUAGETOKEN [A-Za-z][-A-Z_a-z0-9]*
 NCCHAR1 [A-Za-z\\\x80-\xff]
 NCCHAR {NCCHAR1}|"-"|"_"|[0-9]
-/* SPARQL allows . in prefix after first position.   Would be:
-   NCNAME_PREFIX {NCCHAR1}(({NCCHAR}|".")*{NCCHAR})?
-*/
-NCNAME_PREFIX {NCCHAR1}{NCCHAR}*
-/* SPARQL allows . in name after first position.  Would be:
-  NCNAME ("_"|{NCCHAR1})(({NCCHAR}|".")*{NCCHAR})?
-*/
-NCNAME ("_"|{NCCHAR1}){NCCHAR}*
+NCNAME_PREFIX {NCCHAR1}(({NCCHAR}|".")*{NCCHAR})?
+NCNAME ("_"|{NCCHAR1})(({NCCHAR}|".")*{NCCHAR})?
 QNAME {NCNAME_PREFIX}?":"{NCNAME}?
 BNAME "_:"{NCNAME}
 
@@ -255,20 +249,13 @@ EXPONENT [eE][+-]?[0-9]+
                   turtle_parser->sb=NULL;
                   return STRING_LITERAL; }
 
-<LITERAL>\"|(\\.|[^\"\\]|\n)*	{
-		  char *p;
-
+<LITERAL>\"|(\\[^uU]|\\u....|\\U........|[^\"]|\n)*	{
 		  if (*yytext == EOF) {
                     BEGIN(INITIAL);
                     turtle_syntax_error(rdf_parser, "End of file in middle of literal");
                     raptor_free_stringbuffer(turtle_parser->sb);
                     turtle_parser->sb=NULL;
                     return EOF;
-                  }
-
-		  for(p = yytext; *p; p++) {
-                    if(*p == '\n')
-                      turtle_parser->lineno++;
                   }
 
                   if(raptor_stringbuffer_append_turtle_string(turtle_parser->sb, (unsigned char*)yytext, yyleng, '"', (raptor_simple_message_handler)turtle_lexer_syntax_error, rdf_parser)) { /* " */
@@ -279,11 +266,6 @@ EXPONENT [eE][+-]?[0-9]+
                   }
                   
    }
-
-<LITERAL>\\	{
-     		/* this should only happen if \ is at the end of the file so the Turtle doc is illegal anyway */
-                turtle_syntax_error(rdf_parser, "End of file in middle of literal");
-}
 
 {BNAME}	{ turtle_parser_lval->string=turtle_copy_token((unsigned char*)yytext+2, yyleng-2);
           if(!turtle_parser_lval->string)

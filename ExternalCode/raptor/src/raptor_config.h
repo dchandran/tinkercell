@@ -56,19 +56,19 @@
 #define HAVE_ISASCII 1
 
 /* Define to 1 if you have the <libxml/hash.h> header file. */
-//#define HAVE_LIBXML_HASH_H 1
+#define HAVE_LIBXML_HASH_H 1
 
 /* Define to 1 if you have the <libxml/HTMLparser.h> header file. */
-//#define HAVE_LIBXML_HTMLPARSER_H 1
+#define HAVE_LIBXML_HTMLPARSER_H 1
 
 /* Define to 1 if you have the <libxml/nanohttp.h> header file. */
-//#define HAVE_LIBXML_NANOHTTP_H 1
+#define HAVE_LIBXML_NANOHTTP_H 1
 
 /* Define to 1 if you have the <libxml/parser.h> header file. */
-//#define HAVE_LIBXML_PARSER_H 1
+#define HAVE_LIBXML_PARSER_H 1
 
 /* Define to 1 if you have the <libxml/SAX2.h> header file. */
-//#define HAVE_LIBXML_SAX2_H 1
+#define HAVE_LIBXML_SAX2_H 1
 
 /* Define to 1 if you have the <libxslt/xslt.h> header file. */
 /* #undef HAVE_LIBXSLT_XSLT_H */
@@ -168,7 +168,7 @@
 #define PACKAGE_NAME "Raptor RDF Parser"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "Raptor RDF Parser 1.4.21"
+#define PACKAGE_STRING "Raptor RDF Parser 1.4.20"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "raptor"
@@ -177,25 +177,25 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.4.21"
+#define PACKAGE_VERSION "1.4.20"
 
 /* does libxml struct xmlEntity have a field etype */
-//#define RAPTOR_LIBXML_ENTITY_ETYPE 1
+#define RAPTOR_LIBXML_ENTITY_ETYPE 1
 
 /* does libxml struct xmlEntity have a field name_length */
 /* #undef RAPTOR_LIBXML_ENTITY_NAME_LENGTH */
 
 /* does libxml have HTML_PARSE_NONET */
-//#define RAPTOR_LIBXML_HTML_PARSE_NONET 1
+#define RAPTOR_LIBXML_HTML_PARSE_NONET 1
 
 /* does libxml xmlSAXHandler have externalSubset field */
-//#define RAPTOR_LIBXML_XMLSAXHANDLER_EXTERNALSUBSET 1
+#define RAPTOR_LIBXML_XMLSAXHANDLER_EXTERNALSUBSET 1
 
 /* does libxml xmlSAXHandler have initialized field */
-//#define RAPTOR_LIBXML_XMLSAXHANDLER_INITIALIZED 1
+#define RAPTOR_LIBXML_XMLSAXHANDLER_INITIALIZED 1
 
 /* does libxml have XML_PARSE_NONET */
-//#define RAPTOR_LIBXML_XML_PARSE_NONET 1
+#define RAPTOR_LIBXML_XML_PARSE_NONET 1
 
 /* Provide a Unicode NFC check */
 #define RAPTOR_NFC_CHECK 1
@@ -252,7 +252,7 @@
 #define RAPTOR_SERIALIZER_TURTLE 1
 
 /* Release version as a decimal */
-#define RAPTOR_VERSION_DECIMAL 10421
+#define RAPTOR_VERSION_DECIMAL 10420
 
 /* Major version number */
 #define RAPTOR_VERSION_MAJOR 1
@@ -261,7 +261,7 @@
 #define RAPTOR_VERSION_MINOR 4
 
 /* Release version number */
-#define RAPTOR_VERSION_RELEASE 21
+#define RAPTOR_VERSION_RELEASE 20
 
 /* Have libcurl WWW library */
 /* #undef RAPTOR_WWW_LIBCURL */
@@ -270,10 +270,10 @@
 /* #undef RAPTOR_WWW_LIBFETCH */
 
 /* Have libxml available as a WWW library */
-//#define RAPTOR_WWW_LIBXML 1
+/* #undef RAPTOR_WWW_LIBXML */
 
 /* No WWW library */
-/* #undef RAPTOR_WWW_NONE */
+#define RAPTOR_WWW_NONE 1
 
 /* Check XML 1.1 Names */
 /* #undef RAPTOR_XML_1_1 */
@@ -282,7 +282,7 @@
 #define RAPTOR_XML_EXPAT 1
 
 /* Use libxml XML parser */
-/* #define RAPTOR_XML_LIBXML 1 */
+/* #undef RAPTOR_XML_LIBXML */
 
 /* The size of `unsigned char', as computed by sizeof. */
 #define SIZEOF_UNSIGNED_CHAR 1
@@ -291,7 +291,7 @@
 #define SIZEOF_UNSIGNED_INT 4
 
 /* The size of `unsigned long', as computed by sizeof. */
-#define SIZEOF_UNSIGNED_LONG 8
+#define SIZEOF_UNSIGNED_LONG 4
 
 /* The size of `unsigned short', as computed by sizeof. */
 #define SIZEOF_UNSIGNED_SHORT 2
@@ -303,7 +303,7 @@
 #define TIME_WITH_SYS_TIME 1
 
 /* Version number of package */
-#define VERSION "1.4.21"
+#define VERSION "1.4.20"
 
 /* Define WORDS_BIGENDIAN to 1 if your processor stores words with the most
    significant byte first (like Motorola and SPARC, unlike Intel). */
@@ -322,7 +322,7 @@
 /* #undef YYTEXT_POINTER */
 
 /* Number of bits in a file offset, on hosts where this is settable. */
-/* #undef _FILE_OFFSET_BITS */
+#define _FILE_OFFSET_BITS 64
 
 /* Define for large files, on AIX-style hosts. */
 /* #undef _LARGE_FILES */

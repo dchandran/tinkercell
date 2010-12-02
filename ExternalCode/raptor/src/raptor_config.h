@@ -198,31 +198,31 @@
 #define RAPTOR_LIBXML_XML_PARSE_NONET 1
 
 /* Provide a Unicode NFC check */
-#define RAPTOR_NFC_CHECK 1
+/* #undef RAPTOR_NFC_CHECK */
 
 /* Building GRDDL parser */
 /* #undef RAPTOR_PARSER_GRDDL */
 
 /* Building guess parser */
-#define RAPTOR_PARSER_GUESS 1
+/* #undef RAPTOR_PARSER_GUESS */
 
 /* Building Notation 3 parser */
 /* #undef RAPTOR_PARSER_N3 */
 
 /* Building N-Triples parser */
-#define RAPTOR_PARSER_NTRIPLES 1
+/* #undef RAPTOR_PARSER_NTRIPLES */
 
 /* Building RDFA parser */
-#define RAPTOR_PARSER_RDFA 1
+/* #undef RAPTOR_PARSER_RDFA */
 
 /* Building RDF/XML parser */
-#define RAPTOR_PARSER_RDFXML 1
+/* #undef RAPTOR_PARSER_RDFXML */
 
 /* Building RSS Tag Soup parser */
-#define RAPTOR_PARSER_RSS 1
+/* #undef RAPTOR_PARSER_RSS */
 
 /* Building TRiG parser */
-#define RAPTOR_PARSER_TRIG 1
+/* #undef RAPTOR_PARSER_TRIG */
 
 /* Building Turtle parser */
 #define RAPTOR_PARSER_TURTLE 1

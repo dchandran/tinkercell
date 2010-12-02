@@ -56,19 +56,19 @@
 #define HAVE_ISASCII 1
 
 /* Define to 1 if you have the <libxml/hash.h> header file. */
-#define HAVE_LIBXML_HASH_H 1
+//#define HAVE_LIBXML_HASH_H 1
 
 /* Define to 1 if you have the <libxml/HTMLparser.h> header file. */
-#define HAVE_LIBXML_HTMLPARSER_H 1
+//#define HAVE_LIBXML_HTMLPARSER_H 1
 
 /* Define to 1 if you have the <libxml/nanohttp.h> header file. */
-#define HAVE_LIBXML_NANOHTTP_H 1
+//#define HAVE_LIBXML_NANOHTTP_H 1
 
 /* Define to 1 if you have the <libxml/parser.h> header file. */
-#define HAVE_LIBXML_PARSER_H 1
+//#define HAVE_LIBXML_PARSER_H 1
 
 /* Define to 1 if you have the <libxml/SAX2.h> header file. */
-#define HAVE_LIBXML_SAX2_H 1
+//#define HAVE_LIBXML_SAX2_H 1
 
 /* Define to 1 if you have the <libxslt/xslt.h> header file. */
 /* #undef HAVE_LIBXSLT_XSLT_H */
@@ -180,25 +180,25 @@
 #define PACKAGE_VERSION "1.4.20"
 
 /* does libxml struct xmlEntity have a field etype */
-#define RAPTOR_LIBXML_ENTITY_ETYPE 1
+//#define RAPTOR_LIBXML_ENTITY_ETYPE 1
 
 /* does libxml struct xmlEntity have a field name_length */
 /* #undef RAPTOR_LIBXML_ENTITY_NAME_LENGTH */
 
 /* does libxml have HTML_PARSE_NONET */
-#define RAPTOR_LIBXML_HTML_PARSE_NONET 1
+//#define RAPTOR_LIBXML_HTML_PARSE_NONET 1
 
 /* does libxml xmlSAXHandler have externalSubset field */
-#define RAPTOR_LIBXML_XMLSAXHANDLER_EXTERNALSUBSET 1
+//#define RAPTOR_LIBXML_XMLSAXHANDLER_EXTERNALSUBSET 1
 
 /* does libxml xmlSAXHandler have initialized field */
-#define RAPTOR_LIBXML_XMLSAXHANDLER_INITIALIZED 1
+//#define RAPTOR_LIBXML_XMLSAXHANDLER_INITIALIZED 1
 
 /* does libxml have XML_PARSE_NONET */
-#define RAPTOR_LIBXML_XML_PARSE_NONET 1
+//#define RAPTOR_LIBXML_XML_PARSE_NONET 1
 
 /* Provide a Unicode NFC check */
-/* #undef RAPTOR_NFC_CHECK */
+#define RAPTOR_NFC_CHECK 1
 
 /* Building GRDDL parser */
 /* #undef RAPTOR_PARSER_GRDDL */
@@ -216,7 +216,7 @@
 /* #undef RAPTOR_PARSER_RDFA */
 
 /* Building RDF/XML parser */
-/* #undef RAPTOR_PARSER_RDFXML */
+#define RAPTOR_PARSER_RDFXML 1
 
 /* Building RSS Tag Soup parser */
 /* #undef RAPTOR_PARSER_RSS */
@@ -282,7 +282,7 @@
 #define RAPTOR_XML_EXPAT 1
 
 /* Use libxml XML parser */
-/* #undef RAPTOR_XML_LIBXML */
+#undef RAPTOR_XML_LIBXML
 
 /* The size of `unsigned char', as computed by sizeof. */
 #define SIZEOF_UNSIGNED_CHAR 1

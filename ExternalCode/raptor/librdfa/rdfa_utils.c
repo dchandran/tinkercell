@@ -20,6 +20,12 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with librdfa. If not, see <http://www.gnu.org/licenses/>.
  */
+ 
+#if defined(__MINGW32__)
+#define strtok_r( _s, _sep, _lasts ) \
+        ( *(_lasts) = strtok( (_s), (_sep) ) )
+#endif /* __MINGW32__ */
+ 
 #include "stdlib.h"
 #include "string.h"
 #include "stdio.h"

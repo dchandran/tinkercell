@@ -312,30 +312,29 @@ namespace Tinkercell
 		{
 			QUndoCommand * command = 0;
 			if (!name.isEmpty() && mainWindow->currentNetwork() && item->handle() && item->handle()->name == oldText)
-			{	
-				QList<QGraphicsItem*> items; items << item;
-				QList<QString> oldNames; oldNames << oldText;
-				QString newName = item->handle()->name = Tinkercell::RemoveDisallowedCharactersFromName(name);
-				QString fullname = item->handle()->fullName();
-				QList<QString> newNames; newNames << item->handle()->name;
-				item->handle()->name = oldText;
+			{
+				QString newName = Tinkercell::RemoveDisallowedCharactersFromName(name);
+				
+				if (newName == name)
+				{
+					item->handle()->name = newName;
 
-				if (currentNetwork())
-					currentNetwork()->rename(getHandle(items),newNames);
+					if (currentNetwork())
+						currentNetwork()->rename(getHandle(item),newName);
+					return;
+				}
 			}
+			
+			if (name.isEmpty())
+				command = new RemoveGraphicsCommand(tr("text removed"),item);
+			else
+				command = new ChangeTextCommand(tr("text changed"),item,name);
+			if (mainWindow->historyStack())
+				mainWindow->historyStack()->push(command);
 			else
 			{
-				if (name.isEmpty())
-					command = new RemoveGraphicsCommand(tr("text removed"),item);
-				else
-					command = new ChangeTextCommand(tr("text changed"),item,name);
-				if (mainWindow->historyStack())
-					mainWindow->historyStack()->push(command);
-				else
-				{
-					command->redo();
-					delete command;
-				}
+				command->redo();
+				delete command;
 			}
 		}
 	}

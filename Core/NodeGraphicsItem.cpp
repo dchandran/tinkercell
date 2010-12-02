@@ -147,6 +147,15 @@ namespace Tinkercell
         normalize();
         scale(defaultSize.width()/boundingRect().width(),defaultSize.height()/boundingRect().height());
 	}
+	
+	/*! \brief change color and size to defaults*/
+	void NodeGraphicsItem::resetToDefaults()
+	{
+		resetPen();
+		resetBrush();
+		resetTransform();
+        scale(defaultSize.width()/boundingRect().width(),defaultSize.height()/boundingRect().height());
+	}
 
 	/*! reset of control points that control the bounding box of this figure */
 	void NodeGraphicsItem::adjustBoundaryControlPoints()

@@ -211,6 +211,8 @@ namespace Tinkercell
 		virtual void resetBrush();
 		/*! \brief change outline color of all shapes to default pen*/
 		virtual void resetPen();
+		/*! \brief change color, transformation, and size to defaults*/
+		virtual void resetToDefaults();
 		/*! \brief gets a polygon that represents this graphicsItem*/
 		virtual QPolygonF polygon() const;
 		/*! \brief gets a path that represents this graphicsItem*/

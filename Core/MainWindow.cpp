@@ -678,7 +678,7 @@ namespace Tinkercell
 			dock = static_cast<QDockWidget*>(toolsTabWidget->parentWidget()); //safe?
 		}
 
-		toolsTabWidget->addItem(tool,tool->windowIcon(),tool->windowTitle());
+		toolsTabWidget->addTab(tool,tool->windowTitle()); //tool->windowIcon()
 		toolsTabWidget->setCurrentWidget(tool);
 
 		return dock;

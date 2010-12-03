@@ -35,17 +35,17 @@ namespace Tinkercell
 			QMenu * menu = new QMenu(tr("Change layout"),main->optionsMenu);
 			main->optionsMenu->addMenu(menu);
 			
-			if (MainWindow::defaultToolWindowOption == MainWindow::ToolBoxWidget)			
+			if (MainWindow::defaultToolWindowOption == MainWindow::TabWidget)			
 				toggleToolsLayoutAction = menu->addAction(tr("Use dock widgets for tools"));			
 			else			
 				toggleToolsLayoutAction = menu->addAction(tr("Use tool-box widgets for tools"));				
 			
-			if (MainWindow::defaultHistoryWindowOption == MainWindow::ToolBoxWidget)			
+			if (MainWindow::defaultHistoryWindowOption == MainWindow::TabWidget)			
 				toggleHistoryLayoutAction = menu->addAction(tr("Use dock widgets for history"));			
 			else			
 				toggleHistoryLayoutAction = menu->addAction(tr("Use tool-box widgets for history"));
 				
-			if (MainWindow::defaultConsoleWindowOption == MainWindow::ToolBoxWidget)			
+			if (MainWindow::defaultConsoleWindowOption == MainWindow::TabWidget)			
 				toggleConsoleLayoutAction = menu->addAction(tr("Use dock widgets for console"));			
 			else			
 				toggleConsoleLayoutAction = menu->addAction(tr("Use tool-box widgets for console"));
@@ -61,7 +61,7 @@ namespace Tinkercell
 		if (MainWindow::defaultHistoryWindowOption == MainWindow::DockWidget)
 		{
 			toggleToolsLayoutAction->setText(tr("Use dock widgets for history"));
-			MainWindow::defaultHistoryWindowOption =  MainWindow::ToolBoxWidget;
+			MainWindow::defaultHistoryWindowOption =  MainWindow::TabWidget;
 		}
 		else
 		{
@@ -76,7 +76,7 @@ namespace Tinkercell
 		if (MainWindow::defaultConsoleWindowOption == MainWindow::DockWidget)
 		{
 			toggleConsoleLayoutAction->setText(tr("Use dock widgets for console"));
-			MainWindow::defaultConsoleWindowOption =  MainWindow::ToolBoxWidget;
+			MainWindow::defaultConsoleWindowOption =  MainWindow::TabWidget;
 		}
 		else
 		{
@@ -91,7 +91,7 @@ namespace Tinkercell
 		if (MainWindow::defaultToolWindowOption == MainWindow::DockWidget)
 		{
 			toggleToolsLayoutAction->setText(tr("Use dock widgets for tools"));
-			MainWindow::defaultToolWindowOption =  MainWindow::ToolBoxWidget;
+			MainWindow::defaultToolWindowOption =  MainWindow::TabWidget;
 		}
 		else
 		{

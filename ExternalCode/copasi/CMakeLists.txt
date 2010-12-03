@@ -69,7 +69,7 @@ ENDIF (WIN32)
 #--------------------------
 
 FILE( GLOB copasi_SRC_FILES
-		${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/model/*.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/model/*.cpp
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/compareExpressions/*.cpp
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/CopasiDataModel/*.cpp
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/crosssection/*.cpp
@@ -135,15 +135,19 @@ TARGET_LINK_LIBRARIES( copasi
 #  COPASI api
 #----------------------------------
 
+OPTION( TEST_COPASI_API "test copasi api" OFF )
+
+IF (TEST_COPASI_API)
   ADD_EXECUTABLE(copasi_api_test  test_copasi.cpp)
 
   TARGET_LINK_LIBRARIES( copasi_api_test
     copasi
-    #sbml
-    #raptor
+    sbml
+    raptor
     #expat
     #lapack
     #blas
     #f2c
   )
 
+ENDIF (TEST_COPASI_API)

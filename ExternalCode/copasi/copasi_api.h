@@ -36,7 +36,7 @@ TCAPIEXPORT void copasi_end();
 TCAPIEXPORT copasi_model createCopasiModel();
 /*! 
  \brief add a compartment to the model
- \param copasi_model* model
+ \param copasi_model model
  \param char* compartment name
  \param double volume
  \return copasi_species a new compartment
@@ -45,31 +45,16 @@ TCAPIEXPORT copasi_model createCopasiModel();
 TCAPIEXPORT copasi_compartment createCompartment(copasi_model model, const char* name, double volume);
 /*! 
  \brief add a species to the model
- \param copasi_model* model
+ \param copasi_model model
  \param char* species name
  \param double initial value (concentration or count, depending on the model)
  \return copasi_species a new species
  \ingroup copasi
 */
-TCAPIEXPORT copasi_species createSpecies(copasi_compartment model, const char* name, double initial);
-/*! 
- \brief set a species as boundary or floating (will remove any assignment rules)
- \param copasi_model* model
- \param char* species name
- \param int boundary = 1, floating = 0 (default)
- \ingroup copasi
-*/
-TCAPIEXPORT void setBoundarySpecies(copasi_species species, int isBoundary);
-/*! 
- \brief set the assignment rule for a species (automatically assumes boundary species)
- \param copasi_model* model
- \param char* formula, use 0 to remove assignment rule
- \ingroup copasi
-*/
-TCAPIEXPORT void setAssignmentRule(copasi_species species, const char * formula);
+TCAPIEXPORT copasi_species createSpecies(copasi_compartment model, const char* name, double initialValue);
 /*!
  \brief add a species or set an existing species as fixed
- \param copasi_model* model
+ \param copasi_model model
  \param char* species name
  \return copasi_reaction a new reaction
  \ingroup copasi
@@ -94,14 +79,45 @@ TCAPIEXPORT void addProduct(copasi_reaction reaction, copasi_species species, do
 /*! 
  \brief set reaction rate equation
  \param copasi_reaction reaction
- \param char* formula
+ \param char* custom formula or SBO name, e.g. "Mass action (irreversible)"
  \ingroup copasi
 */
 TCAPIEXPORT void setReactionRate(copasi_reaction reaction, const char * formula);
+/*! 
+ \brief set a species as boundary or floating (will remove any assignment rules)
+ \param copasi_model model
+  \param copasi_species species
+ \param int boundary = 1, floating = 0 (default)
+ \ingroup copasi
+*/
+TCAPIEXPORT void setBoundarySpecies(copasi_species species, int isBoundary);
+/*! 
+ \brief set a species as boundary or floating (will remove any assignment rules)
+ \param copasi_model model
+ \param copasi_species species
+ \param double concentration
+ \ingroup copasi
+*/
+TCAPIEXPORT void setConcentration(copasi_species species, double initialValue);
+/*! 
+ \brief set the value of an existing global parameter or create a new global parameter
+ \param copasi_model model
+ \param char* parameter name
+ \param double value
+ \ingroup copasi
+*/
+TCAPIEXPORT void setGlobalParameter(copasi_model model, const char * name, double value);
+/*! 
+ \brief set the assignment rule for a species (automatically assumes boundary species)
+ \param copasi_model model
+ \param char* formula, use 0 to remove assignment rule
+ \ingroup copasi
+*/
+TCAPIEXPORT void setAssignmentRule(copasi_species species, const char * formula);
 
 /*! 
  \brief simulate using ODEs
- \param copasi_model* model
+ \param copasi_model model
  \param double end time
  \param double step size
  \param int 0=return concentration and flux, 1=return concentration, 2=return flux
@@ -121,7 +137,7 @@ TCAPIEXPORT tc_matrix simulateODE(copasi_model model, double endtime, double dt,
 TCAPIEXPORT tc_matrix simulateTauLeap(copasi_model model, double endtime, double dt, int returnConcOrFlux);
 /*! 
  \brief simulate using exact stochastic method (Gillespie)
- \param copasi_model* model
+ \param copasi_model model
  \param double end time
  \param int 0=return concentration and flux, 1=return concentration, 2=return flux
  \return tc_matrix matrix of concentration and/or flux values
@@ -130,7 +146,7 @@ TCAPIEXPORT tc_matrix simulateTauLeap(copasi_model model, double endtime, double
 TCAPIEXPORT tc_matrix simulateGillespie(copasi_model model, double endtime, int returnConcOrFlux);
 /*! 
  \brief get steady state
- \param copasi_model* model
+ \param copasi_model model
  \param const char* parameter name
  \param double start value
  \param double end value
@@ -140,7 +156,7 @@ TCAPIEXPORT tc_matrix simulateGillespie(copasi_model model, double endtime, int 
 TCAPIEXPORT tc_matrix parameterScan(copasi_model model, const char * parameter, double startvalue, double endvalue);
 /*! 
  \brief get steady state
- \param copasi_model* model
+ \param copasi_model model
  \param const char* parameter name
  \param double start value
  \param double end value

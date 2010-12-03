@@ -50,7 +50,7 @@ copasi_model createCopasiModel()
 	pModel->setTimeUnit(CModel::s);
 	//pModel->setVolumeUnit(CModel::microl);
 	//pModel->setQuantityUnit(CModel::nMol);
-	copasi_model m = { (void*)(pModel)};
+	copasi_model m = { (void*)(pModel) };
 	return m;
 }
 
@@ -69,6 +69,32 @@ copasi_compartment createCompartment(copasi_model model, const char* name, doubl
 	CCompartment* pCompartment = pModel->createCompartment(name, volume);
 	copasi_compartment c = { (void*)(pCompartment), (void*)(pModel) };
 	return c;
+}
+
+void setConcentration(copasi_species species, double initialValue)
+{
+	CMetab* pSpecies = (CMetab*)(species.CopasiSpeciesPtr);
+	pSpecies->setConcentration(initialValue);
+}
+
+void setGlobalParameter(copasi_model model, const char * name, double value)
+{
+	CModel* pModel = (CModel*)(model.CopasiModelPtr);
+	int i;
+	std::string s(name);
+	CCopasiVectorN< CModelValue > & params = pModel->getModelValues();
+	
+	for (i=0; i < params.size(); ++i)
+	{
+		if (params[i].getKey().compare( s ) == 0)
+		{
+			params[i].setValue(value);
+			return;
+		}
+	}
+	
+	//parameter not found, so create it
+	pModel->createModelValue(s,value);
 }
 
 void setBoundarySpecies(copasi_species species, int isBoundary)
@@ -116,9 +142,20 @@ void addProduct(copasi_reaction reaction, copasi_species species, double stoichi
 	pChemEq->addMetabolite(pSpecies->getKey(), stoichiometry, CChemEq::PRODUCT);
 }
 
-void setReactionRate(copasi_reaction reaction, const char * formula)
+int setReactionRate(copasi_reaction reaction, const char * formula)
 {
 	CReaction* pReaction = (CReaction*)(reaction.CopasiReactionPtr);
+	CFunctionDB* pFunDB = CCopasiRootContainer::getFunctionList();
+	CFunction* pFunction = 0;
+	if (pFunDB)
+	{
+		pFunction = dynamic_cast<CFunction*>(pFunDB->findFunction(std::string(formula)));
+		if (pFunction)
+		{
+			return (int)(pReaction->setFunction(pFunction)) - 1;
+		}
+	}
+	return (int)(pReaction->setFunction( std::string(formula) )) - 1;
 	//const CFunction * function = pReaction->getFunction();
 	//CChemEq* pChemEq = &pReaction->getChemEq();
 }

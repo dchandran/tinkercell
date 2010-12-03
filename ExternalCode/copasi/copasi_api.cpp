@@ -1,3 +1,4 @@
+
 /**
 * This is an example on how to build models with the COPASI backend API.
 */
@@ -6,8 +7,8 @@
 #include <string>
 #include <set>
 #include <iostream>
-#define COPASI_MAIN
 
+#define COPASI_MAIN
 #include "copasi_api.h"
 #include "copasi/copasi.h"
 #include "copasi/report/CCopasiRootContainer.h"
@@ -107,7 +108,7 @@ void addReactant(copasi_reaction reaction, copasi_species species, double stoich
 	pChemEq->addMetabolite(pSpecies->getKey(), stoichiometry, CChemEq::SUBSTRATE);
 }
 
-void addProduct(copasi_reaction * reaction, copasi_species * species, double stoichiometry)
+void addProduct(copasi_reaction reaction, copasi_species species, double stoichiometry)
 {
 	CReaction* pReaction = (CReaction*)(reaction.CopasiReactionPtr);
 	CMetab* pSpecies = (CMetab*)(species.CopasiSpeciesPtr);
@@ -118,27 +119,27 @@ void addProduct(copasi_reaction * reaction, copasi_species * species, double sto
 void setReactionRate(copasi_reaction reaction, const char * formula)
 {
 	CReaction* pReaction = (CReaction*)(reaction.CopasiReactionPtr);
-	CFunction * function = pReaction->getFunction();
+	//const CFunction * function = pReaction->getFunction();
 	//CChemEq* pChemEq = &pReaction->getChemEq();
 }
-
-tc_matrix simulateODE(copasi_model * model, double endtime, double dt, int returnConcOrFlux)
+/*
+tc_matrix simulateODE(copasi_model model, double endtime, double dt, int returnConcOrFlux)
 {
 }
 
-tc_matrix simulateTauLeap(copasi_model * model, double endtime, double dt, int returnConcOrFlux)
+tc_matrix simulateTauLeap(copasi_model model, double endtime, double dt, int returnConcOrFlux)
 {
 }
 
-tc_matrix simulateGillespie(copasi_model * model, double endtime, int returnConcOrFlux)
+tc_matrix simulateGillespie(copasi_model model, double endtime, int returnConcOrFlux)
 {
 }
 
-tc_matrix parameterScan(copasi_model * model, const char * parameter, double startvalue, double endvalue)
+tc_matrix parameterScan(copasi_model model, const char * parameter, double startvalue, double endvalue)
 {
 }
 
-tc_matrix getSteadyState(copasi_model * model, const char * parameter, double startvalue, double endvalue)
+tc_matrix getSteadyState(copasi_model model, const char * parameter, double startvalue, double endvalue)
 {
 }
-
+*/

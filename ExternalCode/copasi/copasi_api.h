@@ -107,7 +107,7 @@ TCAPIEXPORT void setReactionRate(copasi_reaction reaction, const char * formula)
  \param int 0=return concentration and flux, 1=return concentration, 2=return flux
  \return tc_matrix matrix of concentration and/or flux values
  \ingroup copasi
-*/
+*
 TCAPIEXPORT tc_matrix simulateODE(copasi_model model, double endtime, double dt, int returnConcOrFlux);
 /*! 
  \brief simulate using Tau Leap (stochastic) algorithm
@@ -117,7 +117,7 @@ TCAPIEXPORT tc_matrix simulateODE(copasi_model model, double endtime, double dt,
  \param int 0=return concentration and flux, 1=return concentration, 2=return flux
  \return tc_matrix matrix of concentration and/or flux values
  \ingroup copasi
-*/
+*
 TCAPIEXPORT tc_matrix simulateTauLeap(copasi_model model, double endtime, double dt, int returnConcOrFlux);
 /*! 
  \brief simulate using exact stochastic method (Gillespie)
@@ -126,7 +126,7 @@ TCAPIEXPORT tc_matrix simulateTauLeap(copasi_model model, double endtime, double
  \param int 0=return concentration and flux, 1=return concentration, 2=return flux
  \return tc_matrix matrix of concentration and/or flux values
  \ingroup copasi
-*/
+*
 TCAPIEXPORT tc_matrix simulateGillespie(copasi_model model, double endtime, int returnConcOrFlux);
 /*! 
  \brief get steady state
@@ -136,7 +136,7 @@ TCAPIEXPORT tc_matrix simulateGillespie(copasi_model model, double endtime, int 
  \param double end value
  \return tc_matrix matrix with parameter as the first column
  \ingroup copasi
-*/
+*
 TCAPIEXPORT tc_matrix parameterScan(copasi_model model, const char * parameter, double startvalue, double endvalue);
 /*! 
  \brief get steady state
@@ -146,9 +146,9 @@ TCAPIEXPORT tc_matrix parameterScan(copasi_model model, const char * parameter, 
  \param double end value
  \return tc_matrix matrix of concentration and flux values as the first row
  \ingroup copasi
-*/
+*
 TCAPIEXPORT tc_matrix getSteadyState(copasi_model model, const char * parameter, double startvalue, double endvalue);
-
+*/
 END_C_DECLS
 #endif
 

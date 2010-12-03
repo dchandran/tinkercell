@@ -1,3 +1,4 @@
+
 SET(LIBRARY_OUTPUT_PATH ${EXECUTABLE_OUTPUT_PATH})
 
 #---------------------
@@ -44,6 +45,7 @@ ADD_DEFINITIONS(-DUSE_CLAPACK)
 #ADD_DEFINITIONS(-DUSE_LAPACK)
 ADD_DEFINITIONS(-DCOPASI_DEBUG)
 ADD_DEFINITIONS(-DDEBUG_MATRIX)
+ADD_DEFINITIONS(-DWITH_CSPMETHOD)
 
 #------------------------------------------
 #  DEFINITIONS FOR WINDOWS
@@ -96,6 +98,7 @@ FILE( GLOB copasi_SRC_FILES
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/commandline/*.cpp
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/MIRIAM/*.cpp
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/MIRIAM/WebServicesIssues/*.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/copasi_api.cpp
 )
 
 #--------------------------

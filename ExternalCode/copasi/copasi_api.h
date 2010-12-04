@@ -80,9 +80,10 @@ TCAPIEXPORT void addProduct(copasi_reaction reaction, copasi_species species, do
  \brief set reaction rate equation
  \param copasi_reaction reaction
  \param char* custom formula or SBO name, e.g. "Mass action (irreversible)"
+ \return int success=0 failure=-1
  \ingroup copasi
 */
-TCAPIEXPORT void setReactionRate(copasi_reaction reaction, const char * formula);
+TCAPIEXPORT int setReactionRate(copasi_reaction reaction, const char * formula);
 /*! 
  \brief set a species as boundary or floating (will remove any assignment rules)
  \param copasi_model model

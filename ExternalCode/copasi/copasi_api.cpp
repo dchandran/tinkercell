@@ -86,9 +86,9 @@ void setGlobalParameter(copasi_model model, const char * name, double value)
 	
 	for (i=0; i < params.size(); ++i)
 	{
-		if (params[i].getKey().compare( s ) == 0)
+		if (params[i] && params[i]->getKey().compare( s ) == 0)
 		{
-			params[i].setValue(value);
+			params[i]->setValue(value);
 			return;
 		}
 	}

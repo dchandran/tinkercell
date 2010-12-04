@@ -5,7 +5,6 @@ INCLUDE_DIRECTORIES( BEFORE
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor/src
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor/librdfa
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor/utils
-	${LIBXML2_INCLUDE_DIR}
 )
 
 #ADD_DEFINITIONS(-D__cplusplus)

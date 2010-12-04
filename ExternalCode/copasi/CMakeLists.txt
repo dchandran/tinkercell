@@ -125,11 +125,11 @@ TARGET_LINK_LIBRARIES( copasi
 #  INSTALL libcopasi in . (CPack)
 #----------------------------------
 
-#IF ( WIN32 )
-#   INSTALL(TARGETS copasi DESTINATION bin/../)
-#ELSE ( WIN32 )
-#   INSTALL(TARGETS copasi LIBRARY DESTINATION bin/../)
-#ENDIF( WIN32 )
+IF ( WIN32 )
+   INSTALL(TARGETS copasi DESTINATION bin/../)
+ELSE ( WIN32 )
+   INSTALL(TARGETS copasi LIBRARY DESTINATION bin/../)
+ENDIF( WIN32 )
 
 #----------------------------------
 #  COPASI api

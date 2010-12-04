@@ -667,6 +667,7 @@ namespace Tinkercell
 			toolsTabWidget = new QTabWidget;
 			toolsTabWidget->setTabPosition(QTabWidget::East);
 			toolsTabWidget->setMinimumWidth(300);
+			toolsTabWidget->setStyleSheet("QTabBar::tab {min-width: 5ex;}");
 			dock->setWidget(toolsTabWidget);
 			dock->setAllowedAreas(allowedAreas);
 			addDockWidget(initArea,dock);

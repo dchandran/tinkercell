@@ -90,9 +90,9 @@ TARGET_LINK_LIBRARIES( sbml
 
 #------ install the library in the main TinkerCell folder --------------
 
-#IF ( WIN32 )
-#   INSTALL(TARGETS sbml DESTINATION bin/../)
-#ELSE ( WIN32 )
-#   INSTALL(TARGETS sbml LIBRARY DESTINATION bin/../)
-#ENDIF( WIN32 )
+IF ( WIN32 )
+   INSTALL(TARGETS sbml DESTINATION bin/../)
+ELSE ( WIN32 )
+   INSTALL(TARGETS sbml LIBRARY DESTINATION bin/../)
+ENDIF( WIN32 )
 

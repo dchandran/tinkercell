@@ -26,6 +26,7 @@ ENDIF(WIN32)
 
 INCLUDE_DIRECTORIES( 
 	BEFORE
+	${TINKERCELL_SOURCE_DIR}/API
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/expat/lib
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/libSBML/include
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/libSBML/src
@@ -99,6 +100,7 @@ FILE( GLOB copasi_SRC_FILES
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/MIRIAM/*.cpp
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/MIRIAM/WebServicesIssues/*.cpp
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/copasi_api.cpp
+	${TINKERCELL_SOURCE_DIR}/API/TC_structs.c
 )
 
 #--------------------------
@@ -138,7 +140,7 @@ ENDIF( WIN32 )
 OPTION( TEST_COPASI_API "test copasi api" OFF )
 
 IF (TEST_COPASI_API)
-  ADD_EXECUTABLE(copasi_api_test  test_copasi.cpp)
+  ADD_EXECUTABLE(copasi_api_test test_copasi.c)
 
   TARGET_LINK_LIBRARIES( copasi_api_test
     copasi
@@ -151,3 +153,4 @@ IF (TEST_COPASI_API)
   )
 
 ENDIF (TEST_COPASI_API)
+

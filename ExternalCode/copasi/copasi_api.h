@@ -4,10 +4,10 @@
 #include "TC_structs.h"
 
 /*!\brief this struct is used to contain a pointer to an instance of a COPASI class*/
-typedef struct  { 	void * CopasiModelPtr;  } copasi_model;
+typedef struct  { 	void * CopasiModelPtr;  void * CopasiDataModelPtr; } copasi_model;
 
 /*!\brief this struct is used to contain a pointer to an instance of a COPASI class*/
-typedef struct  { 	void * CopasiSpeciesPtr;  void * CopasiModelPtr; } copasi_species;
+typedef struct  { 	void * CopasiSpeciesPtr;  void * CopasiModelPtr;  } copasi_species;
 
 /*!\brief this struct is used to contain a pointer to an instance of a COPASI class*/
 typedef struct  { 	void * CopasiReactionPtr; void * CopasiModelPtr;  } copasi_reaction;
@@ -117,34 +117,45 @@ TCAPIEXPORT void setGlobalParameter(copasi_model model, const char * name, doubl
 TCAPIEXPORT void setAssignmentRule(copasi_species species, const char * formula);
 
 /*! 
- \brief simulate using ODEs
+ \brief simulate using LSODA numerical integrator
  \param copasi_model model
+  \param double start time
  \param double end time
- \param double step size
- \param int 0=return concentration and flux, 1=return concentration, 2=return flux
- \return tc_matrix matrix of concentration and/or flux values
+ \param int number of steps in the output
+ \return tc_matrix matrix of concentration or particles
  \ingroup copasi
-*
-TCAPIEXPORT tc_matrix simulateODE(copasi_model model, double endtime, double dt, int returnConcOrFlux);
+*/
+TCAPIEXPORT tc_matrix simulateDeterministic(copasi_model model, double startTime, double endTime, int numSteps);
 /*! 
- \brief simulate using Tau Leap (stochastic) algorithm
- \param copasi_model* model
- \param double end time
- \param double step size
- \param int 0=return concentration and flux, 1=return concentration, 2=return flux
- \return tc_matrix matrix of concentration and/or flux values
- \ingroup copasi
-*
-TCAPIEXPORT tc_matrix simulateTauLeap(copasi_model model, double endtime, double dt, int returnConcOrFlux);
-/*! 
- \brief simulate using exact stochastic method (Gillespie)
+ \brief simulate using exact stochastic algorithm
  \param copasi_model model
+  \param double start time
  \param double end time
- \param int 0=return concentration and flux, 1=return concentration, 2=return flux
- \return tc_matrix matrix of concentration and/or flux values
+ \param int number of steps in the output
+ \return tc_matrix matrix of concentration or particles
  \ingroup copasi
-*
-TCAPIEXPORT tc_matrix simulateGillespie(copasi_model model, double endtime, int returnConcOrFlux);
+*/
+TCAPIEXPORT tc_matrix simulateStochastic(copasi_model model, double startTime, double endTime, int numSteps);
+/*! 
+ \brief simulate using Hybrid algorithm/deterministic algorithm
+ \param copasi_model model
+  \param double start time
+ \param double end time
+ \param int number of steps in the output
+ \return tc_matrix matrix of concentration or particles
+ \ingroup copasi
+*/
+TCAPIEXPORT tc_matrix simulateHybrid(copasi_model model, double startTime, double endTime, int numSteps);
+/*! 
+ \brief simulate using Tau Leap stochastic algorithm
+ \param copasi_model model
+  \param double start time
+ \param double end time
+ \param int number of steps in the output
+ \return tc_matrix matrix of concentration or particles
+ \ingroup copasi
+*/
+TCAPIEXPORT tc_matrix simulateTauLeap(copasi_model model, double startTime, double endTime, int numSteps);
 /*! 
  \brief get steady state
  \param copasi_model model
@@ -166,6 +177,12 @@ TCAPIEXPORT tc_matrix parameterScan(copasi_model model, const char * parameter, 
 *
 TCAPIEXPORT tc_matrix getSteadyState(copasi_model model, const char * parameter, double startvalue, double endvalue);
 */
+/*! 
+ \brief Compile the model. This function is called internally by the simulate functions. This function is only needed for calling COPASI methods not found in this library.
+ \param copasi_model model
+ \ingroup copasi
+*/
+TCAPIEXPORT void compileCopasiModel(copasi_model model);
 END_C_DECLS
 #endif
 

@@ -384,3 +384,41 @@ tc_matrix tc_appendRows(tc_matrix A, tc_matrix B)
 	return C;
 }
 
+void tc_printMatrix(const char* s, tc_matrix output)
+{
+	int i,j;
+	FILE * outfile = fopen(s,"w+");
+	for (j=0; j < output.cols; ++j)
+		if (j < (output.cols-1))
+			fprintf(outfile, "%s\t", tc_getColumnName(output, j));
+		else
+			fprintf(outfile, "%s\n", tc_getColumnName(output, j));
+
+	for (i=0; i < output.rows; ++i)
+		for (j=0; j < output.cols; ++j)
+			if (j < (output.cols-1))
+				fprintf(outfile, "%lf\t", tc_getMatrixValue(output, i, j));
+			else
+				fprintf(outfile, "%lf\n", tc_getMatrixValue(output, i, j));
+	fclose(outfile);
+}
+
+TCAPIEXPORT void tc_printTable(const char* s, tc_table output)
+{
+	int i,j;
+	FILE * outfile = fopen(s,"w+");
+	for (j=0; j < output.cols; ++j)
+		if (j < (output.cols-1))
+			fprintf(outfile, "%s\t", tc_getString(output.colnames, j));
+		else
+			fprintf(outfile, "%s\n", tc_getString(output.colnames, j));
+
+	for (i=0; i < output.rows; ++i)
+		for (j=0; j < output.cols; ++j)
+			if (j < (output.cols-1))
+				fprintf(outfile, "%s\t", tc_getTableValue(output, i, j));
+			else
+				fprintf(outfile, "%s\n", tc_getTableValue(output, i, j));
+	fclose(outfile);
+}
+

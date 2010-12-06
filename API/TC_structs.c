@@ -403,6 +403,7 @@ void tc_printMatrix(const char* s, tc_matrix output)
 	fclose(outfile);
 }
 
+/*
 TCAPIEXPORT void tc_printTable(const char* s, tc_table output)
 {
 	int i,j;
@@ -421,4 +422,4 @@ TCAPIEXPORT void tc_printTable(const char* s, tc_table output)
 				fprintf(outfile, "%s\n", tc_getTableValue(output, i, j));
 	fclose(outfile);
 }
-
+*/

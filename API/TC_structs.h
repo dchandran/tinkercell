@@ -238,12 +238,6 @@ TCAPIEXPORT tc_matrix tc_appendRows(tc_matrix A, tc_matrix B);
  \ingroup Basic
 */
 TCAPIEXPORT void tc_printMatrix(const char* file, tc_matrix M);
-/*!\brief print a table to file
- \param char* file name
- \param tc_matrix new combined matrix
- \ingroup Basic
-*/
-TCAPIEXPORT void tc_printTable(const char* file, tc_table S);
 
 
 END_C_DECLS

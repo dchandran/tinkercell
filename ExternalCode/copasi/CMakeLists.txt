@@ -20,9 +20,9 @@ ELSE(WIN32)
 
 ENDIF(WIN32)
 
-#----------------------------
+#-----------------------------------
 #    INCLUDE DIRECTORIES
-#----------------------------
+#-----------------------------------
 
 INCLUDE_DIRECTORIES( 
 	BEFORE
@@ -140,7 +140,7 @@ ENDIF( WIN32 )
 OPTION( TEST_COPASI_API "test copasi api" OFF )
 
 IF (TEST_COPASI_API)
-  ADD_EXECUTABLE(copasi_api_test test_copasi.c)
+  ADD_EXECUTABLE(copasi_api_test /home/dee/test_copasi.cpp)
 
   TARGET_LINK_LIBRARIES( copasi_api_test
     copasi

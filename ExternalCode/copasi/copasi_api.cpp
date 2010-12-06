@@ -116,9 +116,23 @@ void setAssignmentRule(copasi_species species, const char * formula)
 	{
 		pSpecies->setStatus(CModelEntity::ASSIGNMENT);
 		pSpecies->setExpression(std::string(formula));
+		pSpecies->calculate();
+		std::cout << pSpecies->getValue() << std::endl;
 	}
 	else
 		pSpecies->setStatus(CModelEntity::REACTIONS);
+}
+
+void createVariable(copasi_model model, const char * name, const char * formula)
+{
+	CModel* pModel = (CModel*)(model.CopasiModelPtr);
+	CModelValue* pModelValue = pModel->createModelValue(std::string(name), 0.0);
+	pModelValue->setStatus(CModelValue::ASSIGNMENT);
+	pModelValue->setInitialExpression(formula);
+	pModelValue->setExpression(formula);
+	pModelValue->compile();
+	pModelValue->calculate();
+	std::cout << pModelValue->getValue() << std::endl;
 }
 
 copasi_reaction createReaction(copasi_model model, const char* name)

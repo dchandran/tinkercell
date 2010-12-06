@@ -115,6 +115,14 @@ TCAPIEXPORT void setGlobalParameter(copasi_model model, const char * name, doubl
  \ingroup copasi
 */
 TCAPIEXPORT void setAssignmentRule(copasi_species species, const char * formula);
+/*! 
+ \brief create a new variable that is not a constant by a formula
+ \param copasi_model model
+ \param char* name of new variable
+ \param char* formula
+ \ingroup copasi
+*/
+TCAPIEXPORT void createVariable(copasi_model model, const char * name, const char * formula);
 
 /*! 
  \brief simulate using LSODA numerical integrator

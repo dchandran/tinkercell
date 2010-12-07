@@ -43,7 +43,14 @@ namespace Tinkercell
 		if (!scene) return;
 
 		itemHandles = getHandle(scene->selected());
-		if (itemHandles.size() < 1) return;
+		if (itemHandles.isEmpty())
+				if (scene->localHandle())
+					itemHandles += scene->localHandle();
+				else
+					if (scene->globalHandle())
+						itemHandles += scene->globalHandle();
+
+		if (itemHandles.isEmpty()) return;
 
 		if (dockWidget && dockWidget->widget() != this)
 			dockWidget->setWidget(this);
@@ -386,7 +393,7 @@ namespace Tinkercell
 				if ((handle = getHandle(list[i])))
 					itemHandles += handle;
 			}
-
+			
 			updateTable();
 		}
 	}

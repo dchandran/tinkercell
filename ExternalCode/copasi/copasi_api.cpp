@@ -43,17 +43,19 @@ void copasi_end()
 	CCopasiRootContainer::destroy();
 }
 
-copasi_model createCopasiModel()
+copasi_model createCopasiModel(const char * name)
 {
 	CCopasiDataModel* pDataModel = CCopasiRootContainer::addDatamodel();
 	CModel* pModel = pDataModel->getModel();
+	copasi_model m = { (void*)(pModel) , (void*)(pDataModel) };
+	pModel->setSBMLId( std::string(name) );
+	pModel->setObjectName( std::string(name) );
 	//pModel->setTimeUnit(CModel::s);
 	//pModel->setVolumeUnit(CModel::microl);
 	//pModel->setQuantityUnit(CModel::nMol);
 	pModel->setTimeUnit(CModel::dimensionlessTime);
 	pModel->setVolumeUnit(CModel::dimensionlessVolume);
 	pModel->setQuantityUnit(CModel::dimensionlessQuantity);
-	copasi_model m = { (void*)(pModel) , (void*)(pDataModel) };
 	return m;
 }
 
@@ -80,24 +82,31 @@ void setConcentration(copasi_species species, double initialValue)
 	pSpecies->setConcentration(initialValue);
 }
 
-void setGlobalParameter(copasi_model model, const char * name, double value)
+copasi_parameter setGlobalParameter(copasi_model model, const char * name, double value)
 {
 	CModel* pModel = (CModel*)(model.CopasiModelPtr);
 	int i;
 	std::string s(name);
 	CCopasiVectorN< CModelValue > & params = pModel->getModelValues();
+	CModelValue * pValue = 0;
+	copasi_parameter p = { (void*)(pValue), (void*)(pModel) };
 	
 	for (i=0; i < params.size(); ++i)
 	{
 		if (params[i] && params[i]->getObjectName().compare( s ) == 0)
 		{
 			params[i]->setValue(value);
-			return;
+			pValue = params[i];
+			break;
 		}
 	}
 	
 	//parameter not found, so create it
-	pModel->createModelValue(s,value);
+	if (!pValue)
+		pValue = pModel->createModelValue(s,value);
+	
+	p.CopasiParameterPtr = (void*)pValue;
+	return p;
 }
 
 void setBoundarySpecies(copasi_species species, int isBoundary)
@@ -116,23 +125,20 @@ void setAssignmentRule(copasi_species species, const char * formula)
 	{
 		pSpecies->setStatus(CModelEntity::ASSIGNMENT);
 		pSpecies->setExpression(std::string(formula));
-		pSpecies->calculate();
-		std::cout << pSpecies->getValue() << std::endl;
 	}
 	else
 		pSpecies->setStatus(CModelEntity::REACTIONS);
 }
 
-void createVariable(copasi_model model, const char * name, const char * formula)
+copasi_parameter createVariable(copasi_model model, const char * name, const char * formula)
 {
 	CModel* pModel = (CModel*)(model.CopasiModelPtr);
 	CModelValue* pModelValue = pModel->createModelValue(std::string(name), 0.0);
+	copasi_parameter p = { (void*)(pModelValue), (void*)(pModel) };
 	pModelValue->setStatus(CModelValue::ASSIGNMENT);
 	pModelValue->setInitialExpression(formula);
 	pModelValue->setExpression(formula);
-	pModelValue->compile();
-	pModelValue->calculate();
-	std::cout << pModelValue->getValue() << std::endl;
+	return p;
 }
 
 copasi_reaction createReaction(copasi_model model, const char* name)
@@ -161,7 +167,7 @@ void addProduct(copasi_reaction reaction, copasi_species species, double stoichi
 
 int setReactionRate(copasi_reaction reaction, const char * formula)
 {
-	int i,j;
+	int i,j,k;
 	CReaction* pReaction = (CReaction*)(reaction.CopasiReactionPtr);
 	CModel* pModel = (CModel*)(reaction.CopasiModelPtr);
 	CFunctionDB* pFunDB = CCopasiRootContainer::getFunctionList();
@@ -172,13 +178,9 @@ int setReactionRate(copasi_reaction reaction, const char * formula)
 	
 	if (pFunDB)
 	{
-		CFunction * pFunction = dynamic_cast<CFunction*>(pFunDB->findFunction(std::string(formula))); //SBO rate law
-		if (pFunction)
-			return (int)(pReaction->setFunction(pFunction)) - 1;
-		
 		std::string rateLawName(pReaction->getObjectName() + std::string("_rate_law")); //existing rate law
 		
-		pFunction = dynamic_cast<CFunction*>(pFunDB->findFunction(rateLawName));
+		CFunction * pFunction = dynamic_cast<CFunction*>(pFunDB->findFunction(rateLawName));
 		if (pFunction)
 			return (int)(pReaction->setFunction(pFunction)) - 1;
 
@@ -224,7 +226,14 @@ int setReactionRate(copasi_reaction reaction, const char * formula)
 				for (j=0; j < species.size(); ++j)
 					if (species[j] && species[j]->getObjectName().compare(pParam->getObjectName())==0)
 					{
-						pParam->setUsage(CFunctionParameter::SUBSTRATE);
+						pParam->setUsage(CFunctionParameter::MODIFIER);
+						const CCopasiVector < CChemEqElement > & substrates = pReaction->getChemEq().getSubstrates();
+						for (k =0; k < substrates.size(); ++k)
+							if (substrates[k]->getMetabolite() == species[j])
+							{
+								pParam->setUsage(CFunctionParameter::SUBSTRATE);
+								break;
+							}
 						pReaction->setParameterMapping(pParam->getObjectName(), species[j]->getKey());
 						ok = true;
 						break;
@@ -249,6 +258,146 @@ int setReactionRate(copasi_reaction reaction, const char * formula)
 	return -1;
 	//const CFunction * function = pReaction->getFunction();
 	//CChemEq* pChemEq = &pReaction->getChemEq();
+}
+
+int setReactionRate_v2(copasi_reaction reaction, const char * formula, int sbo, char ** paramNames, copasi_parameter * paramMappings, char ** speciesNames, copasi_species * speciesMappings)
+{
+	int i,j,k;
+	CReaction* pReaction = (CReaction*)(reaction.CopasiReactionPtr);
+	CModel* pModel = (CModel*)(reaction.CopasiModelPtr);
+	CFunctionDB* pFunDB = CCopasiRootContainer::getFunctionList();
+	CMetab * pSpecies = 0;
+	CModelValue * pValue = 0;
+	CCopasiVectorNS < CCompartment > & compartments = pModel->getCompartments();
+	
+	if (pFunDB)
+	{
+		CFunction * pFunction = dynamic_cast<CFunction*>(pFunDB->findFunction(std::string(formula))); //SBO rate law
+		std::string rateLawName(pReaction->getObjectName() + std::string("_rate_law")); //existing rate law
+		
+		if (!pFunction)
+			pFunction = dynamic_cast<CFunction*>(pFunDB->findFunction(rateLawName));
+		
+		if (!pFunction)
+		{
+			CKinFunction* pKinFunction = new CKinFunction(rateLawName);
+			pFunDB->add(pKinFunction, true);
+			pFunction = pKinFunction;
+			pFunction->setReversible(TriFalse);
+		}
+		
+		if (!pFunction)
+			return -1;
+		
+		bool ok;
+		int retval = -1;
+
+		if (pFunction->setInfix(std::string(formula)))
+		{
+			retval = (int)(pReaction->setFunction(pFunction)) - 1;
+			CFunctionParameters& variables = pFunction->getVariables();
+			CFunctionParameter* pParam;
+
+			//TIME
+			unsigned C_INT32 index = pFunction->getVariableIndex("time");
+			if (index != C_INVALID_INDEX)
+			{
+				pParam = variables[index];
+				pParam->setUsage(CFunctionParameter::TIME);
+			}
+			index = pFunction->getVariableIndex("TIME");
+			if (index != C_INVALID_INDEX)
+			{
+				pParam = variables[index];
+				pParam->setUsage(CFunctionParameter::TIME);
+			}
+			index = pFunction->getVariableIndex("Time");
+			if (index != C_INVALID_INDEX)
+			{
+				pParam = variables[index];
+				pParam->setUsage(CFunctionParameter::TIME);
+			}
+			
+			//Compartments
+			for (i=0; i < variables.size(); ++i)
+			{
+				for (j=0; j < compartments.size(); ++j)
+					if (compartments[j] && compartments[j]->getObjectName().compare(pParam->getObjectName())==0)
+					{
+						pParam->setUsage(CFunctionParameter::VOLUME);
+						pReaction->setParameterMapping(pParam->getObjectName(), compartments[j]->getKey());
+						break;
+					}
+			}
+			
+			//given parameters
+			for (j=0; paramNames != 0 && paramMappings != 0 && paramNames[j] != 0; ++j)
+			{
+				index = pFunction->getVariableIndex(paramNames[j]);
+				if (index != C_INVALID_INDEX)
+				{
+					pParam = variables[index];
+					pParam->setUsage(CFunctionParameter::PARAMETER);
+					pValue = (CModelValue*)(paramMappings[j].CopasiParameterPtr);
+					pReaction->setParameterMapping(std::string(paramNames[j]), pValue->getKey());
+					break;
+				}
+			}
+			
+			//given species
+			for (j=0; speciesNames != 0 && speciesMappings != 0 && speciesNames[j] != 0; ++j)
+			{
+				index = pFunction->getVariableIndex(speciesNames[j]);
+				if (index != C_INVALID_INDEX)
+				{
+					pParam = variables[index];
+					pParam->setUsage(CFunctionParameter::MODIFIER);
+					pSpecies = (CMetab*)(speciesMappings[j].CopasiSpeciesPtr);
+					const CCopasiVector < CChemEqElement > & substrates = pReaction->getChemEq().getSubstrates();
+					for (k =0; k < substrates.size(); ++k)
+						if (substrates[k]->getMetabolite() == pSpecies)
+						{
+							pParam->setUsage(CFunctionParameter::SUBSTRATE);
+							break;
+						}
+					pReaction->setParameterMapping(std::string(speciesNames[j]), pSpecies->getKey());
+					break;
+				}
+			}
+			
+			pFunction->compile();
+			
+			return retval;
+		}
+	}
+
+	return -1;
+	//const CFunction * function = pReaction->getFunction();
+	//CChemEq* pChemEq = &pReaction->getChemEq();
+}
+
+const char * getCopasiSpeciesID(copasi_species species, int * stringSize )
+{
+	std::string id = ((CMetab*)species.CopasiSpeciesPtr)->getCN();
+	if (stringSize)
+		(*stringSize) = id.length();
+	
+	char * cstr = new char [id.size()+1];
+	strcpy (cstr, id.c_str());
+
+	return cstr;
+}
+
+const char * getCopasiParameterID(copasi_parameter param, int * stringSize )
+{
+	std::string id = ((CModelValue*)param.CopasiParameterPtr)->getCN();
+	if (stringSize)
+		(*stringSize) = id.length();
+	
+	char * cstr = new char [id.size()+1];
+	strcpy (cstr, id.c_str());
+
+	return cstr;
 }
 
 void compileCopasiModel(copasi_model model)

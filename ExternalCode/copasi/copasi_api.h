@@ -15,6 +15,9 @@ typedef struct  { 	void * CopasiReactionPtr; void * CopasiModelPtr;  } copasi_re
 /*!\brief this struct is used to contain a pointer to an instance of a COPASI class*/
 typedef struct  { 	void * CopasiCompartmentPtr; void * CopasiModelPtr;  } copasi_compartment;
 
+/*!\brief this struct is used to contain a pointer to an instance of a COPASI class*/
+typedef struct  { 	void * CopasiParameterPtr; void * CopasiModelPtr;  } copasi_parameter;
+
 BEGIN_C_DECLS
 
 /*! 
@@ -33,7 +36,7 @@ TCAPIEXPORT void copasi_end();
  \return copasi_model a new model
  \ingroup copasi
 */
-TCAPIEXPORT copasi_model createCopasiModel();
+TCAPIEXPORT copasi_model createCopasiModel(const char * name);
 /*! 
  \brief add a compartment to the model
  \param copasi_model model
@@ -52,6 +55,22 @@ TCAPIEXPORT copasi_compartment createCompartment(copasi_model model, const char*
  \ingroup copasi
 */
 TCAPIEXPORT copasi_species createSpecies(copasi_compartment model, const char* name, double initialValue);
+/*! 
+ \brief get the copasi species name, which is required for use in equations and other formulas
+ \param copasi_species species
+ \param int * (return value) size of the returned string
+ \return const char* copasi ID i.e. getCN()
+ \ingroup copasi
+*/
+TCAPIEXPORT const char * getCopasiSpeciesID(copasi_species species, int * stringSize );
+/*! 
+ \brief get the copasi parameter name, which is required for use in equations and other formulas
+ \param copasi_parameter parameter
+ \param int * (return value) size of the returned string
+ \return const char* copasi ID i.e. getCN()
+ \ingroup copasi
+*/
+TCAPIEXPORT const char * getCopasiParameterID(copasi_parameter param, int * stringSize );
 /*!
  \brief add a species or set an existing species as fixed
  \param copasi_model model
@@ -79,11 +98,24 @@ TCAPIEXPORT void addProduct(copasi_reaction reaction, copasi_species species, do
 /*! 
  \brief set reaction rate equation
  \param copasi_reaction reaction
- \param char* custom formula or SBO name, e.g. "Mass action (irreversible)"
+ \param char* custom formula
  \return int success=0 failure=-1
  \ingroup copasi
 */
 TCAPIEXPORT int setReactionRate(copasi_reaction reaction, const char * formula);
+/*! 
+ \brief set reaction rate equation
+ \param copasi_reaction reaction
+ \param char* custom formula or SBO name, e.g. "Mass action (irreversible)"
+ \param int 0=custom formula 1=SBO name
+ \param char ** name of all the paramters, NULL TERMINATED
+ \param copasi_parameter ** array of all the paramters, NULL TERMINATED
+ \param char ** name of all the species, NULL TERMINATED
+ \param copasi_species * array of all the species, NULL TERMINATED
+ \return int success=0 failure=-1
+ \ingroup copasi
+*/
+TCAPIEXPORT int setReactionRate_v2(copasi_reaction reaction, const char * formula, int sbo, char ** paramName, copasi_parameter * paramMappings, char ** speciesNames, copasi_species * speciesMappings);
 /*! 
  \brief set a species as boundary or floating (will remove any assignment rules)
  \param copasi_model model
@@ -107,7 +139,7 @@ TCAPIEXPORT void setConcentration(copasi_species species, double initialValue);
  \param double value
  \ingroup copasi
 */
-TCAPIEXPORT void setGlobalParameter(copasi_model model, const char * name, double value);
+TCAPIEXPORT copasi_parameter setGlobalParameter(copasi_model model, const char * name, double value);
 /*! 
  \brief set the assignment rule for a species (automatically assumes boundary species)
  \param copasi_model model
@@ -120,10 +152,10 @@ TCAPIEXPORT void setAssignmentRule(copasi_species species, const char * formula)
  \param copasi_model model
  \param char* name of new variable
  \param char* formula
+ \return copasi_parameter the new variable
  \ingroup copasi
 */
-TCAPIEXPORT void createVariable(copasi_model model, const char * name, const char * formula);
-
+TCAPIEXPORT copasi_parameter createVariable(copasi_model model, const char * name, const char * formula);
 /*! 
  \brief simulate using LSODA numerical integrator
  \param copasi_model model

@@ -4,9 +4,7 @@
  See COPYRIGHT.TXT
 
  Automatically manage gene regulatory network rates and parameters
-
 ****************************************************************************/
-
 #include <iostream>
 #include <QDebug>
 #include "UndoCommands.h"
@@ -1692,7 +1690,6 @@ namespace Tinkercell
 		
 		//here comes the real part....
 		
-		
 		QTransform t;
 
 		QList<QGraphicsItem*> itemsToMove;
@@ -1717,7 +1714,6 @@ namespace Tinkercell
 						angle = 3.14159/2.0;
 					else
 						angle = -3.14159/2.0;
-
 				else
 					angle = atan((p1.y()-center.y())/(p1.x()-center.x()));
 
@@ -1726,10 +1722,29 @@ namespace Tinkercell
 						angle -= 3.14159/2.0;
 					else
 						angle += 3.14159/2.0;
-					
-				p2.rx() = center.x() + sin(angle)*(radius-boundingRect.height()/2.0);
-				p2.ry() = center.y() + cos(angle)*(radius-boundingRect.height()/2.0);
-				
+
+				if (p1.x() > center.x())
+					if (p1.y() < center.y())
+					{
+						p2.rx() = center.x() + sin(angle)*(radius-boundingRect.height()/2.0);
+						p2.ry() = center.y() + cos(angle)*(radius-boundingRect.height()/2.0);
+					}
+					else
+					{
+						p2.rx() = center.x() + sin(angle)*(radius-boundingRect.height()/2.0);
+						p2.ry() = center.y() - cos(angle)*(radius-boundingRect.height()/2.0);
+					}
+				else
+					if (p1.y() < center.y())
+					{
+						p2.rx() = center.x() - sin(angle)*(radius-boundingRect.height()/2.0);
+						p2.ry() = center.y() + cos(angle)*(radius-boundingRect.height()/2.0);
+					}
+					else
+					{
+						p2.rx() = center.x() - sin(angle)*(radius-boundingRect.height()/2.0);
+						p2.ry() = center.y() - cos(angle)*(radius-boundingRect.height()/2.0);
+					}
 				angle = -angle;
 
 				itemsToMove += nodesInPlasmid[i];

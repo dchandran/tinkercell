@@ -1726,24 +1726,24 @@ namespace Tinkercell
 				if (p1.x() > center.x())
 					if (p1.y() < center.y())
 					{
-						p2.rx() = center.x() + sin(angle)*(radius-boundingRect.height()/2.0);
-						p2.ry() = center.y() + cos(angle)*(radius-boundingRect.height()/2.0);
+						p2.rx() = center.x() + cos(angle)*(radius-boundingRect.height()/2.0);
+						p2.ry() = center.y() + sin(angle)*(radius-boundingRect.height()/2.0);
 					}
 					else
 					{
-						p2.rx() = center.x() + sin(angle)*(radius-boundingRect.height()/2.0);
-						p2.ry() = center.y() - cos(angle)*(radius-boundingRect.height()/2.0);
+						p2.rx() = center.x() + cos(angle)*(radius-boundingRect.height()/2.0);
+						p2.ry() = center.y() + sin(angle)*(radius-boundingRect.height()/2.0);
 					}
 				else
 					if (p1.y() < center.y())
 					{
-						p2.rx() = center.x() - sin(angle)*(radius-boundingRect.height()/2.0);
-						p2.ry() = center.y() + cos(angle)*(radius-boundingRect.height()/2.0);
+						p2.rx() = center.x() - cos(angle)*(radius-boundingRect.height()/2.0);
+						p2.ry() = center.y() - sin(angle)*(radius-boundingRect.height()/2.0);
 					}
 					else
 					{
-						p2.rx() = center.x() - sin(angle)*(radius-boundingRect.height()/2.0);
-						p2.ry() = center.y() - cos(angle)*(radius-boundingRect.height()/2.0);
+						p2.rx() = center.x() + cos(angle)*(radius-boundingRect.height()/2.0);
+						p2.ry() = center.y() - sin(angle)*(radius-boundingRect.height()/2.0);
 					}
 				angle = -angle;
 

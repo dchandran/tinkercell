@@ -1677,7 +1677,7 @@ namespace Tinkercell
 			commands << new ChangeZCommand(tr("adjust z"), scene, vector, lowestZ);
 		}
 
-		QList<QGraphicsItem*> nodesInPlasmid;
+		QList<NodeGraphicsItem*> nodesInPlasmid;
 
 		for (int i=0; i < trueChildren.size(); ++i)
 			if (trueChildren[i])
@@ -1686,7 +1686,7 @@ namespace Tinkercell
 				for (int j=0; j < list.size(); ++j)
 					if (NodeGraphicsItem::cast(list[j]))
 					{
-						nodesInPlasmid << list[j];
+						nodesInPlasmid << NodeGraphicsItem::cast(list[j]);
 					}
 			}
 		
@@ -1707,24 +1707,52 @@ namespace Tinkercell
 			for (int i=0; i < nodesInPlasmid.size(); ++i)
 			{
 				t = nodesInPlasmid[i]->sceneTransform();
-				NodeGraphicsItem::cast(nodesInPlasmid[i])->resetToDefaults(); //not undo-able....
+				nodesInPlasmid[i]->resetToDefaults(); //not undo-able....
+				boundingRect = nodesInPlasmid[i]->sceneBoundingRect();
 
-				p1 = nodesInPlasmid[i]->scenePos();
-				angle = atan( ( p1.y()-center.y() )/( p1.x()-center.x() ));
-				p2.rx() = center.x() + sin( angle )*radius;
-				p2.ry() = center.y() + cos( angle )*radius;
+				p1 = boundingRect.center();
+				qreal angle;
+				if (p1.x() == center.x())
+					if (p1.y() < center.y())
+						angle = 3.14159/2.0;
+					else
+						angle = -3.14159/2.0;
+
+				else
+					angle = atan((p1.y()-center.y())/(p1.x()-center.x()));
+
+				if (p1.x() > center.x())
+					if (p1.y() < center.y())
+						angle -= 3.14159/2.0;
+					else
+						angle += 3.14159/2.0;
+					
+				p2.rx() = center.x() + sin(angle)*(radius-boundingRect.height()/2.0);
+				p2.ry() = center.y() + cos(angle)*(radius-boundingRect.height()/2.0);
+				
+				angle = -angle;
 
 				itemsToMove += nodesInPlasmid[i];
 				moveBy += (p2 - p1);
 				rotateBy += (angle * 180/3.14159);
-
+				
 				if ((t.m11() < 0) || (t.m22() < 0) || (t.m12() != 0) || (t.m21() != 0))
 					flips += true;
 				else
 					flips += false;
+				
+				QList<QGraphicsItem*> & graphicsItems = nodesInPlasmid[i]->handle()->graphicsItems;
+				for (int j=0; j < graphicsItems.size(); ++j)
+					if (graphicsItems[j]->sceneBoundingRect().intersects(boundingRect.adjusted(-10,-10,10,10)))
+					{
+						itemsToMove += graphicsItems[j];
+						moveBy += (p2 - p1);
+						rotateBy += 0.0;
+						flips += false;
+					}
 			}
 			commands << new MoveCommand(scene, itemsToMove, moveBy)
-							 << new TransformCommand(tr("rotate"), scene, itemsToMove, QList<QPointF>(), rotateBy, QList<bool>(), flips);
+					 << new TransformCommand(tr("rotate"), scene, itemsToMove, QList<QPointF>(), rotateBy, QList<bool>(), QList<bool>());
 		}
 		return new CompositeCommand(tr("plasmid adjusted"),commands);
 	}

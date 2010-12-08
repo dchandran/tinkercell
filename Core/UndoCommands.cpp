@@ -1707,8 +1707,8 @@ namespace Tinkercell
 				
 				if (angleChange.size() > i && angleChange[i] != 0.0)
 				{
-					double sinx = sin(angleChange[i] * 3.14/180.0),
-						   cosx = cos(angleChange[i] * 3.14/180.0);
+					double sinx = sin(angleChange[i] * 3.14159/180.0),
+						   cosx = cos(angleChange[i] * 3.14159/180.0);
 					QTransform rotate(cosx, sinx, -sinx, cosx, 0, 0);
 					t = (t * rotate);
 				}
@@ -1751,8 +1751,8 @@ namespace Tinkercell
 
 				if (angleChange.size() > i && angleChange[i] != 0.0)
 				{
-					double sinx = sin(-angleChange[i] * 3.14/180.0),
-						   cosx = cos(-angleChange[i] * 3.14/180.0);
+					double sinx = sin(-angleChange[i] * 3.14159/180.0),
+						   cosx = cos(-angleChange[i] * 3.14159/180.0);
 					QTransform rotate(cosx, sinx, -sinx, cosx, 0, 0);
 					t = (t * rotate);
 				}

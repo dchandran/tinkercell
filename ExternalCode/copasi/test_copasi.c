@@ -44,14 +44,16 @@ int main()
 	addProduct(R3, A, 2.0);
 	setReactionRate(R3, "k3*C*A");
 
+	/*get the full-names for each species*/
 	A_str = getCopasiSpeciesID(A, (&s1));
 	B_str = getCopasiSpeciesID(B, (&s2));
 	C_str = getCopasiSpeciesID(C, (&s3));
 	
+	/*create variable prod=A+B+C, but replace A,B,C with full-names*/
 	c = (char*)malloc((s1+s2+s3+10) * sizeof(char));
 	sprintf(c, "<%s>*<%s>*<%s>\0", A_str, B_str, C_str);
 	
-	createVariable(model, "prod",c);
+	createVariable(model, "prod",c);  //assignment rule "prod = A+B+C"
 	
 	free(c);
 	free(A_str);

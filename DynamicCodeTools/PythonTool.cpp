@@ -187,10 +187,6 @@ namespace Tinkercell
 		#endif
 			pythonInterpreter->initialize();
 
-			connect(pythonInterpreter,SIGNAL(started()),this,SIGNAL(pythonStarted()));
-			connect(pythonInterpreter,SIGNAL(finished()),this,SIGNAL(pythonFinished()));
-			connect(pythonInterpreter,SIGNAL(terminated()),this,SIGNAL(pythonFinished()));
-			
 			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
 
@@ -361,14 +357,6 @@ namespace Tinkercell
     /*******************
           PYTHON STUFF
     *********************/
-
-    void PythonTool::stopPython()
-    {
-        if (pythonInterpreter && pythonInterpreter->isRunning())
-        {
-            pythonInterpreter->terminate();
-        }
-    }
 
     void PythonTool::runPythonCode(QSemaphore* sem,const QString& code)
     {

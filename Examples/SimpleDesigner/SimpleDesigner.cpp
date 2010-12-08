@@ -18,6 +18,8 @@ This is an example application that uses the TinkerCell Core library
 #include "sbml/Rule.h"
 #include "sbml_sim.h"
 #include "BasicGraphicsToolbar.h"
+#include "ConsoleWindow.h"
+#include "OctaveInterpreterThread.h"
 #include "SimpleDesigner.h"
 
 using namespace Tinkercell;
@@ -627,28 +629,40 @@ void SimpleDesigner::simulate(bool stochastic)
 
 int main(int argc, char *argv[])
 {
-    MainWindow::PROJECTWEBSITE = QObject::tr("www.tinkercell.com");
-    MainWindow::ORGANIZATIONNAME = QObject::tr("Simple Designer");
-    MainWindow::PROJECTNAME = QObject::tr("Simple Designer");
+	//setup project name
+    MainWindow::PROJECTWEBSITE = "www.tinkercell.com";
+    MainWindow::ORGANIZATIONNAME = "Simple Designer";
+    MainWindow::PROJECTNAME = "Simple Designer";
 	
-	ConnectionGraphicsItem::DefaultMiddleItemFile = QString("");
-	ConnectionGraphicsItem::DefaultArrowHeadFile = QString(":/images/arrow.xml");
-    
+	//MUST DO
 	QApplication app(argc, argv);
-
-	QString appDir = QCoreApplication::applicationDirPath();
+	QString appDir = QCoreApplication::applicationDirPath();    
+	MainWindow mainWindow(true,true,true,true);  //@args: enable scene, text, console, history
+	mainWindow.readSettings();   //load settings such as window positions
+	
+	//optional
+	mainWindow.setWindowTitle("Simple Designer"); 
+    mainWindow.statusBar()->showMessage("Welcome to Simple Designer");  
     
-	MainWindow mainWindow(true,true,true,true);
-	mainWindow.readSettings();
-	mainWindow.setWindowTitle(QString("Simple Designer"));
-        mainWindow.statusBar()->showMessage(QString("Welcome to Simple Designer"));
-    
+	/*  install optional tools */
 	mainWindow.addTool(new PlotTool);
 	mainWindow.addTool(new BasicGraphicsToolbar);
+	
+	//This is our main tool
 	mainWindow.addTool(new SimpleDesigner);
 	
+	/*  setup an interpreter for the console (optional)  */
+	ConsoleWindow * console = mainWindow.console();
+	OctaveInterpreterThread * octaveInterpreter = new OctaveInterpreterThread("tinkercell.oct", "libtcoct", &mainWindow);
+	octaveInterpreter->initialize();
+	console->setInterpreter(octaveInterpreter);
+	
+	/*  optional  GUI configurations */
 	GraphicsScene::SelectionRectangleBrush = QBrush(QColor(5,5,5,40));
-
+	ConnectionGraphicsItem::DefaultMiddleItemFile = "";
+	ConnectionGraphicsItem::DefaultArrowHeadFile = ":/images/arrow.xml";
+	/*                                           */
+	
     mainWindow.newScene();
     mainWindow.show();
 

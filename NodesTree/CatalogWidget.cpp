@@ -634,7 +634,7 @@ namespace Tinkercell
 	QList<QToolButton*> CatalogWidget::addNewButtons(const QString& group, const QStringList& names, const QList<QIcon>& icons, const QStringList& tooltips)
 	{
 		QList<QToolButton*> newButtons;
-		if (!tabWidget || mainWindow->PROGRAM_MODE == tr("lite")) return newButtons;
+		if (!tabWidget || !mainWindow->PROGRAM_MODE.isEmpty()) return newButtons;
 		
 		int i = 0;
 
@@ -735,7 +735,7 @@ namespace Tinkercell
 
 		numNodeTabs = 4;
 		
-		if (mainWindow->PROGRAM_MODE == tr("lite"))
+		if (mainWindow->PROGRAM_MODE == tr("parts-only"))
 		{
 			tabGroups.clear();
 
@@ -751,6 +751,29 @@ namespace Tinkercell
 					<< QPair<QString, QStringList>(
 													tr("Regulation"),
 													QStringList() << "Regulation");
+
+			numNodeTabs = 3;
+		}
+		else
+		if (mainWindow->PROGRAM_MODE == tr("species-only"))
+		{
+			tabGroups.clear();
+
+			tabGroups	<< QPair<QString, QStringList>(
+													tr("Molecules"),
+													QStringList() << "Molecule" << "Empty")
+
+					<< QPair<QString, QStringList>(
+													tr("Compartments"),
+													QStringList() << "Compartment")
+
+					<< QPair<QString, QStringList>(
+													tr("Regulation"),
+													QStringList() << "Regulation")
+					
+					<< QPair<QString, QStringList>(
+													tr("Reaction"),
+													QStringList() << tr("Biochemical"));
 
 			numNodeTabs = 3;
 		}

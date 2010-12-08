@@ -59,18 +59,12 @@ namespace Tinkercell
 		void runPythonFile(const QString&);
 		void runPythonCode(QSemaphore*,const QString&);
 		void runPythonFile(QSemaphore*,const QString&);
-		void stopPython();
 		
 	protected slots:
 		void buttonPressed (int);	 
 		void actionTriggered(QAction *);
 		void addPythonPlugin(QSemaphore*,const QString&,const QString&,const QString&,const QString&, const QString&);
-			
-	signals:
 	
-		void pythonStarted();
-		void pythonFinished();
-
 	protected:
 		void connectTCFunctions();
 		QActionGroup actionsGroup;

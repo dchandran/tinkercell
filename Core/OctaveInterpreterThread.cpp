@@ -1,4 +1,3 @@
-
 /****************************************************************************
 
  Copyright (c) 2008 Deepak Chandran
@@ -25,6 +24,7 @@ namespace Tinkercell
     OctaveInterpreterThread::OctaveInterpreterThread(const QString & octname, const QString & dllname, MainWindow* main)
         : InterpreterThread(OCTAVE_FOLDER + QObject::tr("/") + dllname,main)
     {
+		fromTC = QRegExp("([A-Za-z0-9_]+)\\s*=\\s*fromTC\\s*\\(\\s*(\\s*[A-Za-z0-9_]+\\s*)\\)");
 		addpathDone = false;
     	f = 0;
 		swigLib = loadLibrary(OCTAVE_FOLDER + tr("/") + octname, mainWindow);
@@ -96,6 +96,18 @@ namespace Tinkercell
     void OctaveInterpreterThread::run()
     {
         if (!lib || !lib->isLoaded() || code.isEmpty()) return;
+		
+	#ifdef Q_WS_WIN
+		if (fromTC.indexIn(code) > -1) //hack
+		{
+			QString m2 = fromTC.cap(1), m1 = fromTC.cap(2);
+			QString s = m2 + QObject::tr(" = zeros(")+ m1 + QObject::tr(".rows,") + m1 + 
+							QObject::tr(".cols); for i=1:") + m1 + QObject::tr(".rows for j=1:") + m1 + 
+							QObject::tr(".cols ") + m2 + QObject::tr("(i,j) = tinkercell.tc_getMatrixValue(") + m1 + 
+							QObject::tr(",i-1,j-1); endfor endfor");
+			code.replace(fromTC,s);
+		}
+	#endif
        
         QString script;
 		
@@ -110,23 +122,33 @@ namespace Tinkercell
         		QString appDir = QCoreApplication::applicationDirPath();
 		        QString homeDir = MainWindow::homeDir();
         	#ifdef Q_WS_WIN
-        		appDir.replace("/","\\\\");
-        		homeDir.replace("/","\\\\");
-	        	script += QObject::tr("addpath(\"") + appDir + QObject::tr("\\\\") + OCTAVE_FOLDER + QObject::tr("\")\n");
-	        	script += QObject::tr("addpath(\"") + homeDir + QObject::tr("\\\\") + OCTAVE_FOLDER + QObject::tr("\")\n");
+        		appDir.replace("/","\\\\");  //MS Windows just works differently
+        		script += QObject::tr("addpath(\"") + appDir + QObject::tr("\\\\") + OCTAVE_FOLDER + QObject::tr("\")\n");
+				if (QDir(homeDir).exists(OCTAVE_FOLDER))
+				{
+					homeDir.replace("/","\\\\");
+					script += QObject::tr("addpath(\"") + homeDir + QObject::tr("\\\\") + OCTAVE_FOLDER + QObject::tr("\")\n");
+				}
 	        	script += QObject::tr("addpath(\"") + tempDir + QObject::tr("\")\n");
 	        #else
 	        	script += QObject::tr("addpath(\"") + appDir + QObject::tr("/") + OCTAVE_FOLDER + QObject::tr("\")\n");
-	        	script += QObject::tr("addpath(\"") + homeDir + QObject::tr("/") + OCTAVE_FOLDER + QObject::tr("\")\n");
+				if (QDir(homeDir).exists(OCTAVE_FOLDER))
+					script += QObject::tr("addpath(\"") + homeDir + QObject::tr("/") + OCTAVE_FOLDER + QObject::tr("\")\n");
 	        	script += QObject::tr("addpath(\"") + tempDir + QObject::tr("\")\n");
         	#endif
-	        	script += QObject::tr("tinkercell('global')\n");
+	        	script += QObject::tr("tinkercell\n");
 	        	addpathDone = true;
 	        	
 	        	f(script.toAscii().data(),"octav.out","octav.err");
 	        }
-			
+		
+		#ifdef Q_WS_WIN
+			script += QObject::tr("diary on\n\n");
+			script += code;
+			script += QObject::tr("\n\ndiary off\n");
+		#else
 			script = code;
+		#endif
 
             QString currentDir = QDir::currentPath();
             QDir::setCurrent(MainWindow::tempDir());
@@ -137,11 +159,20 @@ namespace Tinkercell
 			    sourcefile.write(script.toAscii());
 			    sourcefile.close();
 			}
-
-            f("source('temp.m')","octav.out","octav.err");
+      	#ifdef Q_WS_WIN
+			QFile outfile(tr("diary"));
+			if (outfile.open(QFile::WriteOnly))
+			{
+			    outfile.write(QString().toAscii());
+			    outfile.close();
+			}
+            f("source('temp.m')",0,"octav.err"); //MS Windows just works differently
+		#else
+			f("source('temp.m')","octav.out","octav.err");
+			QFile outfile(tr("octav.out"));
+		#endif
             if (mainWindow && mainWindow->console())
             {
-            	QFile outfile(tr("octav.out"));
             	if (outfile.open(QFile::ReadOnly | QFile::Text))
             	{
 		            QString allText(outfile.readAll());

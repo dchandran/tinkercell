@@ -608,6 +608,7 @@ namespace Tinkercell
 		GraphicsScene * scene = currentScene();
 		if (scene)
 		{
+			scene->fitAll();
 			QRectF viewport = scene->viewport();
 			QImage printer(w,h,QImage::Format_ARGB32);
 			scene->print(&printer);

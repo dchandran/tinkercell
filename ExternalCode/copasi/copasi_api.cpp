@@ -33,6 +33,12 @@
 #include "copasi/scan/CScanProblem.h"
 #include "copasi/trajectory/CTimeSeries.h"
 
+extern "C"
+{
+	#define LIB_EXPORTS 1 //for antimony
+	#include "src/antimony_api.h"
+}
+
 void copasi_init()
 {
 	CCopasiRootContainer::init(0, NULL);
@@ -549,12 +555,133 @@ tc_matrix simulateHybrid(copasi_model model, double startTime, double endTime, i
 	return simulate(model,startTime,endTime,numSteps,CCopasiMethod::hybridLSODA);
 }
 
-/*
-tc_matrix parameterScan(copasi_model model, const char * parameter, double startvalue, double endvalue)
+copasi_model loadModelFile(const char * filename)
 {
+	loadFile(filename); //load Antimony or SBML (from antimony_api.h)
+	char * s = getSBMLString("__main");  //Antimony -> SBML  (from antimony_api.h)
+	CCopasiDataModel* pDataModel = CCopasiRootContainer::addDatamodel();
+	pDataModel->importSBMLFromString(s); //SBML -> COPASI
+	CModel* pModel = pDataModel->getModel();
+	copasi_model m = { (void*)(pModel) , (void*)(pDataModel) };
+	freeAll(); //free Antimony  (from antimony_api.h)
+	return m;
 }
 
-tc_matrix getSteadyState(copasi_model model, const char * parameter, double startvalue, double endvalue)
+tc_matrix getSteadyStates(copasi_model model, const char * parameter, double startvalue, double endvalue)
 {
+	/*CModel* pModel = (CModel*)(model.CopasiModelPtr);
+	CCopasiDataModel* pDataModel = (CCopasiDataModel*)(model.CopasiDataModelPtr);
+	compileCopasiModel(model);
+	
+	// get the task list
+	CCopasiVectorN< CCopasiTask > & TaskList = * pDataModel->getTaskList();
+	// get the trajectory task object
+	CTrajectoryTask* pTask = dynamic_cast<CTrajectoryTask*>(TaskList["Time-Course"]);
+	// if there isn’t one
+	if (pTask == NULL)
+	{
+		// create a new one
+		pTask = new CTrajectoryTask();
+		// remove any existing trajectory task just to be sure since in
+		// theory only the cast might have failed above
+		TaskList.remove("Time-Course");
+		// add the new time course task to the task list
+		TaskList.add(pTask, true);
+	}
+	
+	if (startTime >= endTime)
+		endTime += startTime;
+	
+	if (pTask && pTask->setMethodType(method))
+	{
+		//set the start and end time, number of steps, and save output in memory
+		CTrajectoryProblem* pProblem=(CTrajectoryProblem*)pTask->getProblem();
+		pProblem->setModel(pModel);
+		pTask->setScheduled(true);
+		pProblem->setStepNumber(numSteps);
+		pProblem->setDuration(endTime-startTime);
+		pDataModel->getModel()->setInitialTime(startTime);
+		pProblem->setTimeSeriesRequested(true);
+		try
+		{
+			pTask->initialize(CCopasiTask::OUTPUT_COMPLETE, pDataModel, NULL);
+			pTask->process(true);
+			pTask->restore();
+		}
+		catch(...)
+		{
+			std::cerr << "Error. Running the simulation failed." << std::endl;
+			// check if there are additional error messages
+			if (CCopasiMessage::size() > 0)
+			{
+				// print the messages in chronological order
+				std::cerr << CCopasiMessage::getAllMessageText(true);
+			}
+			pTask = 0;
+		}
+	}
+	
+	if (pTask)
+	{
+		const CTimeSeries & timeSeries = pTask->getTimeSeries();
+		int rows = timeSeries.getRecordedSteps(), cols = timeSeries.getNumVariables();
+		int i,j;
+	
+		tc_matrix output = tc_createMatrix(rows, cols);
+	
+		for (j=0; j < cols; ++j)
+			tc_setColumnName( output, j, timeSeries.getTitle(j).c_str()  );
+	
+		for (i=0; i < rows; ++i)
+			for (j=0; j < cols; ++j)
+				tc_setMatrixValue( output, i, j, timeSeries.getConcentrationData(i,j) );
+	
+		return output;
+	}*/
+	return tc_createMatrix(0,0);
 }
-*/
+
+tc_matrix getSteadyState(copasi_model model)
+{
+	return tc_createMatrix(0,0);
+}
+
+tc_matrix getJacobian(copasi_model model)
+{
+	return tc_createMatrix(0,0);
+}
+
+tc_matrix getEigenvalues(copasi_model model)
+{
+	return tc_createMatrix(0,0);
+}
+
+tc_matrix getUnscaledElasticities(copasi_model model)
+{
+	return tc_createMatrix(0,0);
+}
+
+tc_matrix getUnscaledConcentrationCC(copasi_model model)
+{
+	return tc_createMatrix(0,0);
+}
+
+tc_matrix getUnscaledFluxCC(copasi_model model)
+{
+	return tc_createMatrix(0,0);
+}
+
+tc_matrix getScaledElasticities(copasi_model model)
+{
+	return tc_createMatrix(0,0);
+}
+
+tc_matrix getScaledConcentrationCC(copasi_model model)
+{
+	return tc_createMatrix(0,0);
+}
+
+tc_matrix getScaledFluxCC(copasi_model model)
+{
+	return tc_createMatrix(0,0);
+}

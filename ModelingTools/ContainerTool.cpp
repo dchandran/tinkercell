@@ -81,7 +81,7 @@ namespace Tinkercell
 			setWindowTitle(tr("Model summary"));
 			setWindowIcon(QIcon(tr(":/images/monitor.png")));
 			
-			if (mainWindow->PROGRAM_MODE != tr("lite"))
+			if (mainWindow->PROGRAM_MODE != tr("parts-only"))
 				mainWindow->addToolWindow(this, MainWindow::defaultToolWindowOption, Qt::RightDockWidgetArea);
 
             connectCollisionDetector();

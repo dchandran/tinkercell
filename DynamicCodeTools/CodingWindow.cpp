@@ -257,18 +257,12 @@ specific for:\n\"\"\"\n\n") + text;
 		{
 			OctaveTool * ocTool = static_cast<OctaveTool*>(widget);
     	    ConsoleWindow * outWin = console();
-			if (outWin)
+			if (outWin && ocTool->octaveInterpreter)
 			{
-				connect(outWin,SIGNAL(commandExecuted(const QString&)),ocTool,SLOT(runOctaveCode(const QString&)));
-				connect(outWin,SIGNAL(commandInterrupted()),ocTool,SLOT(stopOctave()));					
-				connect(ocTool,SIGNAL(octaveStarted()),outWin->editor(),SLOT(freeze()));
-				connect(ocTool,SIGNAL(octaveFinished()),outWin->editor(),SLOT(unfreeze()));
+				outWin->setInterpreter(ocTool->octaveInterpreter);
+				connect(ocTool->octaveInterpreter,SIGNAL(progress(int)),progressBar,SLOT(setValue(int)));
 			}
-			connect(ocTool->octaveInterpreter,SIGNAL(progress(int)),progressBar,SLOT(setValue(int)));
 		}
-		
-		//if (editor)
-	 		//editor->setPlainText(tr("tinkercell('global')\n"));
 	}
 	
 	void CodingWindow::disableOctave()
@@ -278,14 +272,11 @@ specific for:\n\"\"\"\n\n") + text;
 		{
 			OctaveTool * ocTool = static_cast<OctaveTool*>(widget);
     	    ConsoleWindow * outWin = console();
-			if (outWin)
+			if (outWin && ocTool->octaveInterpreter)
 			{
-				disconnect(outWin,SIGNAL(commandExecuted(const QString&)),ocTool,SLOT(runOctaveCode(const QString&)));
-				disconnect(outWin,SIGNAL(commandInterrupted()),ocTool,SLOT(stopOctave()));					
-				disconnect(ocTool,SIGNAL(octaveStarted()),outWin->editor(),SLOT(freeze()));
-				disconnect(ocTool,SIGNAL(octaveFinished()),outWin->editor(),SLOT(unfreeze()));
+				outWin->setInterpreter(0);
+				disconnect(ocTool->octaveInterpreter,SIGNAL(progress(int)),progressBar,SLOT(setValue(int)));
 			}
-			disconnect(ocTool->octaveInterpreter,SIGNAL(progress(int)),progressBar,SLOT(setValue(int)));
 		}
 	}
 	
@@ -308,19 +299,12 @@ specific for:\n\"\"\"\n\n") + text;
 		{
 			PythonTool * pyTool = static_cast<PythonTool*>(widget);
     	    ConsoleWindow * outWin = console();
-			if (outWin)
+			if (outWin && pyTool->pythonInterpreter)
 			{
-				connect(outWin,SIGNAL(commandExecuted(const QString&)),pyTool,SLOT(runPythonCode(const QString&)));
-				connect(outWin,SIGNAL(commandInterrupted()),pyTool,SLOT(stopPython()));					
-				connect(pyTool,SIGNAL(pythonStarted()),outWin->editor(),SLOT(freeze()));
-				connect(pyTool,SIGNAL(pythonFinished()),outWin->editor(),SLOT(unfreeze()));
+				outWin->setInterpreter(pyTool->pythonInterpreter);
+				connect(pyTool->pythonInterpreter,SIGNAL(progress(int)),progressBar,SLOT(setValue(int)));
 			}
-			connect(pyTool->pythonInterpreter,SIGNAL(progress(int)),progressBar,SLOT(setValue(int)));
 		}
-		
-	 	//if (editor)
-    		//editor->setPlainText(tr("from tinkercell import *\n"));
-	 	
 	}
 	
 	void CodingWindow::disablePython()
@@ -330,14 +314,11 @@ specific for:\n\"\"\"\n\n") + text;
 		{
 			PythonTool * pyTool = static_cast<PythonTool*>(widget);
     	    ConsoleWindow * outWin = console();
-			if (outWin)
+			if (outWin && pyTool->pythonInterpreter)
 			{
-				disconnect(outWin,SIGNAL(commandExecuted(const QString&)),pyTool,SLOT(runPythonCode(const QString&)));
-				disconnect(outWin,SIGNAL(commandInterrupted()),pyTool,SLOT(stopPython()));					
-				disconnect(pyTool,SIGNAL(pythonStarted()),outWin->editor(),SLOT(freeze()));
-				disconnect(pyTool,SIGNAL(pythonFinished()),outWin->editor(),SLOT(unfreeze()));
+				outWin->setInterpreter(0);
+				disconnect(pyTool->pythonInterpreter,SIGNAL(progress(int)),progressBar,SLOT(setValue(int)));
 			}
-			disconnect(pyTool->pythonInterpreter,SIGNAL(progress(int)),progressBar,SLOT(setValue(int)));
 		}
 	}
 	

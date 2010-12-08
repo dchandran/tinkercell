@@ -586,7 +586,7 @@ namespace Tinkercell
 	************************************/
 
 	ConsoleWindow::ConsoleWindow(MainWindow * main)
-		: Tool(tr("Console Window")), commandTextEdit(main)
+		: Tool(tr("Console Window")), commandTextEdit(main), interpreter(0)
 	{
 		setMainWindow(main);
 		if (mainWindow)
@@ -837,6 +837,29 @@ namespace Tinkercell
 		cursor.setCharFormat(normalFormat);
 		cursor.insertText(ConsoleWindow::Prompt);
 		alreadyInsertedPrompt = true;
+	}
+	
+	void ConsoleWindow::setInterpreter(InterpreterThread * newInterpreter)
+	{
+		if (interpreter)
+		{
+			disconnect(this,SIGNAL(commandExecuted(const QString&)),interpreter,SLOT(exec(const QString&)));
+			disconnect(this,SIGNAL(commandInterrupted()),interpreter,SLOT(terminate()));					
+			disconnect(interpreter,SIGNAL(started()),this->editor(),SLOT(freeze()));
+			disconnect(interpreter,SIGNAL(finished()),this->editor(),SLOT(unfreeze()));
+			disconnect(interpreter,SIGNAL(terminated()),this->editor(),SLOT(unfreeze()));
+		}
+		
+		interpreter = newInterpreter;
+		
+		if (interpreter)
+		{
+			connect(this,SIGNAL(commandExecuted(const QString&)),interpreter,SLOT(exec(const QString&)));
+			connect(this,SIGNAL(commandInterrupted()),interpreter,SLOT(terminate()));					
+			connect(interpreter,SIGNAL(started()),this->editor(),SLOT(freeze()));
+			connect(interpreter,SIGNAL(finished()),this->editor(),SLOT(unfreeze()));
+			connect(interpreter,SIGNAL(terminated()),this->editor(),SLOT(unfreeze()));
+		}
 	}
 
 }

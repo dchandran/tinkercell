@@ -10,7 +10,9 @@
 #ifndef TINKERCELL_OCTAVEINTERPRETERTHREAD_H
 #define TINKERCELL_OCTAVEINTERPRETERTHREAD_H
 
+#include <QRegExp>
 #include "InterpreterThread.h"
+
 
 namespace Tinkercell
 {
@@ -53,6 +55,7 @@ namespace Tinkercell
 		bool addpathDone;
 		/*! \brief library with all the C API functions */
 		QLibrary * swigLib;
+		QRegExp fromTC;
 	};
 }
 

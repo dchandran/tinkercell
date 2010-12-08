@@ -211,7 +211,7 @@ namespace Tinkercell
 			setWindowTitle(tr("Programs"));
 			setWindowIcon(QIcon(tr(":/images/play.png")));
 			
-			if (mainWindow->PROGRAM_MODE != tr("lite"))
+			if (mainWindow->PROGRAM_MODE != tr("parts-only"))
 			{
 				mainWindow->addToolWindow(this, MainWindow::defaultToolWindowOption, Qt::BottomDockWidgetArea);
 				QToolBar * toolBar = mainWindow->toolBarForTools;

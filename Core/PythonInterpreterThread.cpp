@@ -91,7 +91,8 @@ namespace Tinkercell
 			QString pydir3 = tempDir;
 		#endif
 			script += tr("sys.path.append(\"") + pydir1 + tr("\")\n");
-			script += tr("sys.path.append(\"") + pydir2 + tr("\")\n");
+			if (QDir(homeDir).exists(PYTHON_FOLDER))
+				script += tr("sys.path.append(\"") + pydir2 + tr("\")\n");
 			script += tr("sys.path.append(\"") + pydir3 + tr("\")\n");
 			addpathDone = true;
 		}

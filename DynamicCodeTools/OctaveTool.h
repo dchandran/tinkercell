@@ -58,16 +58,11 @@ namespace Tinkercell
 		void runOctaveFile(const QString&);
 		void runOctaveCode(QSemaphore*,const QString&);
 		void runOctaveFile(QSemaphore*,const QString&);
-		void stopOctave();
 		
 	protected slots:
 		void buttonPressed (int);	 
 		void actionTriggered(QAction *);
 		void addOctavePlugin(QSemaphore*,const QString&,const QString&,const QString&,const QString&, const QString&);
-			
-	signals:
-		void octaveStarted();
-		void octaveFinished();
 
 	protected:
 		void connectTCFunctions();

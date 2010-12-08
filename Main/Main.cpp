@@ -19,7 +19,6 @@
 #include <QBrush>
 
 using namespace Tinkercell;
-//#define LITE
 
 void LoadPluginsFromDir(const QString&,MainWindow *,QSplashScreen*);
 
@@ -53,18 +52,21 @@ int main(int argc, char *argv[])
     
     /*******  Main Window ***********/
     
-    // "lite" mode
-  #ifdef LITE
+    // "lite" modes
+    #if defined(LITE_V1) || defined(LITE_V2)
     	MainWindow mainWindow(true, false, false, true, true);
-	    MainWindow::PROGRAM_MODE = QString("lite");
-	    mainWindow.addTool(new BasicGraphicsToolbar());
-	    mainWindow.addTool(new PlotTool());
-  #else
+		#ifdef LITE_V1
+			MainWindow::PROGRAM_MODE = QString("parts-only");
+		#else
+			MainWindow::PROGRAM_MODE = QString("species-only");
+		#endif
+    #else
     	MainWindow mainWindow;
-    	mainWindow.addTool(new BasicGraphicsToolbar());
-	    mainWindow.addTool(new PlotTool());
-   	    mainWindow.addTool(new GnuplotTool());
 	#endif
+	
+	mainWindow.addTool(new BasicGraphicsToolbar());
+	mainWindow.addTool(new PlotTool());
+   	mainWindow.addTool(new GnuplotTool());
 
     /*******  title , etc ***********/
     mainWindow.setWindowTitle(QObject::tr("Tinkercell: synthetic biology CAD"));

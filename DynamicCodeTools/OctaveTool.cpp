@@ -182,10 +182,7 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
 
 			octaveInterpreter = new OctaveInterpreterThread(tr("tinkercell.oct"), tr("libtcoct"), mainWindow);
-			connect(octaveInterpreter,SIGNAL(started()),this,SIGNAL(octaveStarted()));
-			connect(octaveInterpreter,SIGNAL(finished()),this,SIGNAL(octaveFinished()));
-			connect(octaveInterpreter,SIGNAL(terminated()),this,SIGNAL(octaveFinished()));
-			
+
 			if (console())
 				console()->message(tr("Octave initializing (init.m) ...\n"));
 			
@@ -352,14 +349,6 @@ namespace Tinkercell
     /*******************
           OCTAVE STUFF
     *********************/
-
-    void OctaveTool::stopOctave()
-    {
-        if (octaveInterpreter && octaveInterpreter->isRunning())
-        {
-            octaveInterpreter->terminate();
-        }
-    }
 
     void OctaveTool::runOctaveCode(QSemaphore* sem,const QString& code)
     {

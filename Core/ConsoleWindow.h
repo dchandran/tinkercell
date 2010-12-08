@@ -25,6 +25,7 @@ scripting interface.
 #include <QCompleter>
 #include "DataTable.h"
 #include "Tool.h"
+#include "InterpreterThread.h"
 
 #ifdef Q_WS_WIN
 #define TINKERCELLEXPORT __declspec(dllexport)
@@ -166,23 +167,26 @@ namespace Tinkercell
 		ConsoleWindow(MainWindow * main = 0);
 
 		/*! \brief the command window's editor*/
-		CommandTextEdit * editor();
+		virtual CommandTextEdit * editor();
+		
+		/*! \brief set the interpreter for the console window, e.g. new PythonInterpreterThread*/
+		virtual void setInterpreter(InterpreterThread * );
 
     public slots:
 		/*! \brief send a command to the console window to be evaluated*/
-		void eval(const QString&);
+		virtual void eval(const QString&);
 		/*! \brief print a message in the output window*/
-		void message(const QString&);
+		virtual void message(const QString&);
 		/*! \brief print an error message in the output window*/
-		void error(const QString&);
+		virtual void error(const QString&);
 		/*! \brief print a data table (tab-delimited) in the output window*/
-		void printTable(const DataTable<qreal>& dataTable);
+		virtual void printTable(const DataTable<qreal>& dataTable);
 		/*! \brief clear the output window*/
-		void clear();
+		virtual void clear();
 		/*! \brief freeze the output window. Frozen window will not be responsive to commands*/
-		void freeze();
+		virtual void freeze();
 		/*! \brief unfreeze the output window. Frozen window will not be responsive to commands*/
-		void unfreeze();
+		virtual void unfreeze();
 
 	signals:
 		/*! \brief the user requested to execute the given command*/
@@ -193,6 +197,8 @@ namespace Tinkercell
 	protected:
 		/*! \brief the command window*/
 		CommandTextEdit commandTextEdit;
+		/*! \brief the optional interpreter for processing commands*/
+		InterpreterThread * interpreter;
 
 	};
 }

@@ -1,4 +1,3 @@
-
 SET(LIBRARY_OUTPUT_PATH ${EXECUTABLE_OUTPUT_PATH})
 
 #---------------------
@@ -34,6 +33,7 @@ INCLUDE_DIRECTORIES(
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor/src
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor/librdfa
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor/util
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/Antimony
 )
 
 #---------------------
@@ -121,6 +121,7 @@ TARGET_LINK_LIBRARIES( copasi
   lapack
   blas
   f2c
+  antimony
 )
 
 #----------------------------------
@@ -146,10 +147,7 @@ IF (TEST_COPASI_API)
     copasi
     sbml
     raptor
-    #expat
-    #lapack
-    #blas
-    #f2c
+	antimony
   )
 
 ENDIF (TEST_COPASI_API)

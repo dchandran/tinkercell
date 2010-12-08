@@ -125,11 +125,16 @@ extern "C"
 
 	OCTAVE_EXPORT void exec(const char * input, const char * outfile, const char * errfile)
 	{
-        FILE * f1 = freopen (errfile,"w+",stderr);
-        FILE * f2 = freopen (outfile,"w+",stdout);
-		  octave_call(input);
-		  fclose(f1);
-		  fclose(f2);
+        FILE * f1, * f2;
+		if (errfile)
+			f1 = freopen (errfile,"w+",stderr);
+		if (outfile)
+			f2 = freopen (outfile,"w+",stdout);
+		octave_call(input);
+		if (errfile)
+			fclose(f1);
+		if (outfile)
+			fclose(f2);
 	}
 
 	OCTAVE_EXPORT void finalize()

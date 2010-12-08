@@ -392,7 +392,7 @@ namespace Tinkercell
 			}
 			if (mainWindow != 0 && mainWindow->currentScene() != 0)
 			{
-				mainWindow->currentScene()->transform(tr("items rotated by ") + QString::number(totalRotated),list,scaleList,rotateList,false,false);
+				mainWindow->currentScene()->transform(tr("items rotated by ") + QString::number(totalRotated),list,scaleList,rotateList,QList<bool>(),QList<bool>());
 			}
 		}
 		moving = false;
@@ -446,7 +446,7 @@ namespace Tinkercell
 			}
 			if (mainWindow != 0 && mainWindow->currentScene() != 0)
 			{
-				mainWindow->currentScene()->transform(tr("items scaled by ") + QString::number(totalScaled),list,scaleList,rotateList,false,false);
+				mainWindow->currentScene()->transform(tr("items scaled by ") + QString::number(totalScaled),list,scaleList,rotateList,QList<bool>(),QList<bool>());
 				if (pens.size() > 0)
 					mainWindow->currentScene()->setPen(tr("line width changed"),penList,pens);
 			}
@@ -505,13 +505,20 @@ namespace Tinkercell
 			QList<QPointF> plist;
 			QList<qreal> dlist;
 			QList<QGraphicsItem*> items;
+			QList<bool> bools;
 			for (int i=0; i < targetItems.size(); ++i)
 			{
 				NodeGraphicsItem * item = NodeGraphicsItem::topLevelNodeItem(targetItems[i]);
-				if (item != 0) items += item;
+				if (item != 0)
+				{
+					items += item;
+					bools += true;
+				}
 			}
 			if (!items.isEmpty())
-				mainWindow->currentScene()->transform(tr("hortizontal flip"),items,plist,dlist,false,true);
+			{
+				mainWindow->currentScene()->transform(tr("hortizontal flip"),items,plist,dlist,QList<bool>(),bools);
+			}
 		}
 	}
 
@@ -522,13 +529,18 @@ namespace Tinkercell
 			QList<QPointF> plist;
 			QList<qreal> dlist;
 			QList<QGraphicsItem*> items;
+			QList<bool> bools;
 			for (int i=0; i < targetItems.size(); ++i)
 			{
 				NodeGraphicsItem * item = NodeGraphicsItem::topLevelNodeItem(targetItems[i]);
-				if (item != 0) items += item;
+				if (item != 0)
+				{
+					items += item;
+					bools += true;
+				}
 			}
 			if (!items.isEmpty())
-				mainWindow->currentScene()->transform(tr("vertical flip"),items,plist,dlist,true,false);
+				mainWindow->currentScene()->transform(tr("vertical flip"),items,plist,dlist,bools,QList<bool>());
 		}
 	}
 
@@ -763,7 +775,7 @@ namespace Tinkercell
 				list += targetItems[k];
 			}
 			QList<qreal> emptyList;
-			scene->transform(tr("changed width"),list,dw,emptyList,false,false);
+			scene->transform(tr("changed width"),list,dw,emptyList,QList<bool>(),QList<bool>());
 	}
 
 	void GraphicsTransformTool::hchanged(double value)
@@ -780,7 +792,7 @@ namespace Tinkercell
 				list += targetItems[k];
 			}
 			QList<qreal> emptyList;
-			scene->transform(tr("changed height"),list,dh,emptyList,false,false);
+			scene->transform(tr("changed height"),list,dh,emptyList,QList<bool>(),QList<bool>());
 	}
 
 	void GraphicsTransformTool::linewchanged(double value)

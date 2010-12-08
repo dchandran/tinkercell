@@ -294,7 +294,8 @@ namespace Tinkercell
 		virtual void transform(const QString& name, const QList<QGraphicsItem *>& items,
 			const QList<QPointF>& sizechange,
 			const QList<qreal>& anglechange=QList<qreal>(),
-			bool VFlip=false, bool HFlip=false);
+			const QList<bool>& verticalFlip=QList<bool>(), 
+			const QList<bool>& horizontalFlip=QList<bool>());
 		/*! \brief this command changes the parent of an item and also adds undo command to history window and emits associated signal(s)*/
 		virtual  void setParentItem(const QString& name, QGraphicsItem * item, QGraphicsItem * newParent);
 		/*! \brief this command changes the parent of an item and also adds undo command to history window and emits associated signal(s)*/

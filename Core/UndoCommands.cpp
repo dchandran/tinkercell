@@ -1661,13 +1661,13 @@ namespace Tinkercell
 
 		sizeFactor.append(sizeChange);
 		angleChange.append(changeInAngle);
-		vFlip = VFlip;
-		hFlip = HFlip;
+		vFlip.append(VFlip);
+		hFlip.append(HFlip);
 	}
 
 	TransformCommand::TransformCommand(const QString& name, QGraphicsScene * scene, const QList<QGraphicsItem *>& items,
 		const QList<QPointF>& sizeChange, const QList<qreal>& changeInAngle,
-		bool VFlip, bool HFlip)
+		const QList<bool>& VFlip, const QList<bool>& HFlip)
 		: QUndoCommand(name)
 	{
 		graphicsScene = scene;
@@ -1693,24 +1693,24 @@ namespace Tinkercell
 					t = (t * scale);
 				}
 
-				if (angleChange.size() > i)
-				{
-					double sinx = sin(angleChange[i] * 3.14/180.0),
-						   cosx = cos(angleChange[i] * 3.14/180.0);
-					QTransform rotate(cosx, sinx, -sinx, cosx, 0, 0);
-					t = (t * rotate);
-				}
-
-				if (hFlip)
+				if (hFlip.size() > i && hFlip[i])
 				{
 					QTransform scale(-1.0, 0, 0, 1.0, 0, 0);
 					t = (t * scale);
 				}
 
-				if (vFlip)
+				if (vFlip.size() > i && vFlip[i])
 				{
 					QTransform scale(1.0, 0, 0, -1.0, 0, 0);
 					t = (t * scale);
+				}
+				
+				if (angleChange.size() > i && angleChange[i] != 0.0)
+				{
+					double sinx = sin(angleChange[i] * 3.14/180.0),
+						   cosx = cos(angleChange[i] * 3.14/180.0);
+					QTransform rotate(cosx, sinx, -sinx, cosx, 0, 0);
+					t = (t * rotate);
 				}
 				
 				graphicsItems[i]->setTransform(t);
@@ -1736,25 +1736,25 @@ namespace Tinkercell
 					QTransform scale(1.0/sizeFactor[i].x(), 0, 0, 1.0/sizeFactor[i].y(), 0, 0);
 					t = (t * scale);
 				}
-
-				if (angleChange.size() > i)
-				{
-					double sinx = sin(-angleChange[i] * 3.14/180.0),
-						   cosx = cos(-angleChange[i] * 3.14/180.0);
-					QTransform rotate(cosx, sinx, -sinx, cosx, 0, 0);
-					t = (t * rotate);
-				}
-
-				if (hFlip)
+				
+				if (hFlip.size() > i && hFlip[i])
 				{
 					QTransform scale(-1.0, 0, 0, 1.0, 0, 0);
 					t = (t * scale);
 				}
 
-				if (vFlip)
+				if (vFlip.size() > i && vFlip[i])
 				{
 					QTransform scale(1.0, 0, 0, -1.0, 0, 0);
 					t = (t * scale);
+				}
+
+				if (angleChange.size() > i && angleChange[i] != 0.0)
+				{
+					double sinx = sin(-angleChange[i] * 3.14/180.0),
+						   cosx = cos(-angleChange[i] * 3.14/180.0);
+					QTransform rotate(cosx, sinx, -sinx, cosx, 0, 0);
+					t = (t * rotate);
 				}
 				
 				graphicsItems[i]->setTransform(t);

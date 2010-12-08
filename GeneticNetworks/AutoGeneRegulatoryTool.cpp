@@ -1625,8 +1625,13 @@ namespace Tinkercell
 		ItemHandle * vectorHandle = vector->handle();
 		ItemHandle * handle = 0;
 
+		QRectF boundingRect = vector->sceneBoundingRect();
 		QList<ItemHandle*> children, parents;
-		QList<QGraphicsItem*> intersectingItems = scene->items(vector->sceneBoundingRect());
+		QList<QGraphicsItem*> intersectingItems = scene->items(boundingRect);
+		bool flipped;
+		
+		qreal radius = boundingRect.width()/2.0;
+		QPointF center = boundingRect.center();
 		
 		qreal lowestZ = scene->ZValue();
 
@@ -1684,63 +1689,42 @@ namespace Tinkercell
 						nodesInPlasmid << list[j];
 					}
 			}
+		
+		//here comes the real part....
+		
+		
+		QTransform t;
+
+		QList<QGraphicsItem*> itemsToMove;
+		QList<QPointF> moveBy;
+		QList<qreal> rotateBy;
+		QList<bool> flips;
+		qreal angle;
+		QPointF p1, p2;
 
 		if (align && !nodesInPlasmid.isEmpty())
 		{
-			list = scene->selected();
-			scene->selected() = nodesInPlasmid;
-			
-			autoAlignEnabled = false;
-			emit alignCompactHorizontal();
-			autoAlignEnabled = true;
-			
-			scene->selected() = list;
-
-			QGraphicsItem * leftMost = nodesInPlasmid[0], * rightMost = nodesInPlasmid[0];
 			for (int i=0; i < nodesInPlasmid.size(); ++i)
 			{
-				if (nodesInPlasmid[i] && leftMost && nodesInPlasmid[i]->scenePos().x() < leftMost->scenePos().x())
-					leftMost = nodesInPlasmid[i];
-				if (nodesInPlasmid[i] && rightMost && nodesInPlasmid[i]->scenePos().x() > rightMost->scenePos().x())
-					rightMost = nodesInPlasmid[i];
-			}
+				t = nodesInPlasmid[i]->sceneTransform();
+				NodeGraphicsItem::cast(nodesInPlasmid[i])->resetToDefaults(); //not undo-able....
 
-			if (vector->boundaryControlPoints.size() > 1 && vector->boundaryControlPoints[0] && vector->boundaryControlPoints[1])
-			{
-				QList<QGraphicsItem*> controls;
-				controls << vector->boundaryControlPoints[0] << vector->boundaryControlPoints[1];
-				QList<QPointF> dist;
-				NodeGraphicsItem * leftMostNode = NodeGraphicsItem::cast(leftMost);
-				QPointF p1,p2;
-				QRectF rect = leftMost->sceneBoundingRect();
-				p1.rx() = rect.left();
-				p1.ry() = leftMost->scenePos().y();
-				if (leftMostNode)
-				{
-					qreal leftx = 0.0;
-					for (int i=0; i < leftMostNode->shapes.size(); ++i)
-						if (leftMostNode->shapes[i] &&
-							(leftx == 0.0 || leftMostNode->shapes[i]->boundingRect().left() <= leftx))
-						{
-							p1.ry() = leftMostNode->shapes[i]->sceneBoundingRect().y();
-							leftx = leftMostNode->shapes[i]->boundingRect().left();
-						}
-				}
-				p2 = rightMost->sceneBoundingRect().bottomRight();
+				p1 = nodesInPlasmid[i]->scenePos();
+				angle = atan( ( p1.y()-center.y() )/( p1.x()-center.x() ));
+				p2.rx() = center.x() + sin( angle )*radius;
+				p2.ry() = center.y() + cos( angle )*radius;
 
-				dist << (p1 - QPointF(100,0) - vector->boundaryControlPoints[0]->scenePos());
-				
-				QPointF p3(0,0);
-				
-				if (p2.y() > vector->boundaryControlPoints[1]->sceneBoundingRect().top())
-		  			p3.ry() = p2.y() + 200.0 - vector->boundaryControlPoints[1]->scenePos().y();
-				
-				if (p2.x() > vector->boundaryControlPoints[1]->sceneBoundingRect().left())
-		  			p3.rx() = p2.x() + 100.0 - vector->boundaryControlPoints[1]->scenePos().x();
-				
-				dist << p3;
-				commands << new MoveCommand(scene,controls,dist);
+				itemsToMove += nodesInPlasmid[i];
+				moveBy += (p2 - p1);
+				rotateBy += (angle * 180/3.14159);
+
+				if ((t.m11() < 0) || (t.m22() < 0) || (t.m12() != 0) || (t.m21() != 0))
+					flips += true;
+				else
+					flips += false;
 			}
+			commands << new MoveCommand(scene, itemsToMove, moveBy)
+							 << new TransformCommand(tr("rotate"), scene, itemsToMove, QList<QPointF>(), rotateBy, QList<bool>(), flips);
 		}
 		return new CompositeCommand(tr("plasmid adjusted"),commands);
 	}

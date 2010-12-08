@@ -390,7 +390,7 @@ namespace Tinkercell
 		TransformCommand(const QString& name, QGraphicsScene * scene, const QList<QGraphicsItem *>& items,
 			const QList<QPointF>& sizechange,
 			const QList<qreal>& anglechange,
-			bool VFlip, bool HFlip);
+			const QList<bool>& VFlip, const QList<bool>& HFlip);
 		void redo();
 		void undo();
 	private:
@@ -398,7 +398,7 @@ namespace Tinkercell
 		QList<QGraphicsItem*> graphicsItems;
 		QList<QPointF> sizeFactor;
 		QList<qreal> angleChange;
-		bool vFlip, hFlip;
+		QList<bool> vFlip, hFlip;
 	};
 
 	/*! \brief this command changes the parent of a graphics item (not handles)

@@ -1455,7 +1455,8 @@ namespace Tinkercell
 	void GraphicsScene::transform(const QString& name, const QList<QGraphicsItem*>& items,
 		const QList<QPointF>& sizechange,
 		const QList<qreal>& anglechange,
-		bool VFlip, bool HFlip)
+		const QList<bool>& VFlip,
+		const QList<bool>& HFlip)
 	{
 
 		QUndoCommand * command = new TransformCommand(name, this, items,

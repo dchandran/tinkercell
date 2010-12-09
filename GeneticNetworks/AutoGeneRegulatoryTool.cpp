@@ -1718,34 +1718,17 @@ namespace Tinkercell
 					angle = atan((p1.y()-center.y())/(p1.x()-center.x()));
 
 				if (p1.x() > center.x())
-					if (p1.y() < center.y())
-						angle -= 3.14159/2.0;
-					else
-						angle += 3.14159/2.0;
-
-				if (p1.x() > center.x())
-					if (p1.y() < center.y())
-					{
-						p2.rx() = center.x() + cos(angle)*(radius-boundingRect.height()/2.0);
-						p2.ry() = center.y() + sin(angle)*(radius-boundingRect.height()/2.0);
-					}
-					else
-					{
-						p2.rx() = center.x() + cos(angle)*(radius-boundingRect.height()/2.0);
-						p2.ry() = center.y() + sin(angle)*(radius-boundingRect.height()/2.0);
-					}
+				{
+					p2.rx() = center.x() + cos(angle)*(radius + boundingRect.height()/2.0);
+					p2.ry() = center.y() + sin(angle)*(radius + boundingRect.height()/2.0);				
+					angle += 3.14159/2.0;
+				}
 				else
-					if (p1.y() < center.y())
-					{
-						p2.rx() = center.x() + cos(angle)*(radius-boundingRect.height()/2.0);
-						p2.ry() = center.y() - sin(angle)*(radius-boundingRect.height()/2.0);
-					}
-					else
-					{
-						p2.rx() = center.x() - cos(angle)*(radius-boundingRect.height()/2.0);
-						p2.ry() = center.y() - sin(angle)*(radius-boundingRect.height()/2.0);
-					}
-				angle = -angle;
+				{
+					p2.rx() = center.x() - cos(angle)*(radius + boundingRect.height()/2.0);
+					p2.ry() = center.y() - sin(angle)*(radius + boundingRect.height()/2.0);
+					angle -= 3.14159/2.0;
+				}
 
 				itemsToMove += nodesInPlasmid[i];
 				moveBy += (p2 - p1);

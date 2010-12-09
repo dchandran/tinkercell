@@ -1772,7 +1772,6 @@ namespace Tinkercell
 						children << existingChildren[i];
 						parents << 0;
 						trueChildren.removeAll(existingChildren[i]);
-
 						break;
 					}
 			}
@@ -1812,7 +1811,7 @@ namespace Tinkercell
 			for (int i=0; i < nodesInPlasmid.size(); ++i)
 			{
 				t = nodesInPlasmid[i]->sceneTransform();
-				nodesInPlasmid[i]->resetToDefaults(); //not undo-able....
+				nodesInPlasmid[i]->resetToDefaults();
 				boundingRect = nodesInPlasmid[i]->sceneBoundingRect();
 
 				p1 = boundingRect.center();
@@ -1849,7 +1848,8 @@ namespace Tinkercell
 				
 				QList<QGraphicsItem*> & graphicsItems = nodesInPlasmid[i]->handle()->graphicsItems;
 				for (int j=0; j < graphicsItems.size(); ++j)
-					if (graphicsItems[j]->sceneBoundingRect().intersects(boundingRect.adjusted(-10,-10,10,10)))
+					if ( nodesInPlasmid[i] != graphicsItems[j] && 
+						graphicsItems[j]->sceneBoundingRect().intersects(boundingRect.adjusted(-10,-10,10,10)))
 					{
 						itemsToMove += graphicsItems[j];
 						moveBy += (p2 - p1);
@@ -1860,6 +1860,15 @@ namespace Tinkercell
 			commands << new MoveCommand(scene, itemsToMove, moveBy)
 					 << new TransformCommand(tr("rotate"), scene, itemsToMove, QList<QPointF>(), rotateBy, QList<bool>(), QList<bool>());
 		}
+		
+		for (int i=0; i < children.size(); ++i)
+		{
+			QList<QGraphicsItem*> & graphicsItems = children[i]->graphicsItems;
+			for (int j=0; j < graphicsItems.size(); ++j)
+				if (NodeGraphicsItem::cast(graphicsItems[j]))
+					NodeGraphicsItem::cast(graphicsItems[j])->resetToDefaults();
+		}
+		
 		return new CompositeCommand(tr("plasmid adjusted"),commands);
 	}
 

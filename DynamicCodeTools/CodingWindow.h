@@ -82,8 +82,7 @@ namespace Tinkercell
 		void runOctave(const QString&);
 		void loadOctFromDir( QDir& );
 		
-		void stopPython();
-		void stopOctave();
+		//void stop();
 		
 		void compileBuildLoadC(const QString&,const QString&,const QString&);
 		void compile(const QString&, QString&);
@@ -102,8 +101,8 @@ namespace Tinkercell
 		virtual void setVisible(bool);
 		void pyscesHelp();
 		void enablePython(bool b=true);
-        void enableOctave(bool b=true);
-        void enableC(bool b=true);
+        	void enableOctave(bool b=true);
+	        void enableC(bool b=true);
 
 	protected slots:
 		void convertCodeToButton();
@@ -118,12 +117,12 @@ namespace Tinkercell
 		void disablePython();
 		void disableOctave();
 
-        QProgressBar * progressBar;
+	        QProgressBar * progressBar;
 		QTimeLine timer;
 		QMainWindow * window;
 
-        enum Languages { C, Octave, Python };
-        Languages selectedLanguage;
+	        enum Languages { C, Octave, Python };
+	        Languages selectedLanguage;
 
 		QRadioButton * cButton, * octaveButton, *pythonButton;
 		QAction * cAction, * octaveAction, *pythonAction; 

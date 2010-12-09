@@ -599,7 +599,7 @@ namespace Tinkercell
 		QHBoxLayout * layout = new QHBoxLayout;
 		layout->addWidget(&commandTextEdit);
 		layout->setContentsMargins(0,0,0,0);
-        layout->setSpacing(0);
+	        layout->setSpacing(0);
 		setLayout(layout);
 
 		connect(&commandTextEdit,SIGNAL(commandExecuted(const QString&)),this,SIGNAL(commandExecuted(const QString&)));

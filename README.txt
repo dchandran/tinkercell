@@ -1,21 +1,21 @@
-===============================
+======================================
 HOW TO BUILD TINKERCELL PROJECT
-===============================
+======================================
 
+----------------------------------------------------------------------------------------
 YOU WILL NEED TO INSTALL THE FOLLOWING LIBRARIES/PACKAGES
 -----------------------------------------------------------------------------------------
 C and C++ Compiler (XCode on Mac,  MinGW in Windows, GCC in Linux)
 CMake (www.cmake.org)
 Qt 4.5 or higher
-libxml2
 python (optional)
 octave (optional)
 
-
+-------------------------------
 COMPILING TINKERCELL
 -------------------------------
-1. Install the following libraries: libxml2, libxml2-dev , libx11-dev, python-dev, subversion, octave
-      In Linux, just use apt-get install libxml2 libxml2-dev libx11-dev python-dev subversion octave octave-headers
+1. Install the following libraries: libx11-dev, python-dev, subversion, octave
+      In Linux, just use apt-get install libx11-dev python-dev subversion octave octave-headers
 
 2.  Install cmake, available from www.cmake.org
       In Linux, use apt-get install cmake cmake-qt-gui. 
@@ -34,23 +34,21 @@ COMPILING TINKERCELL
 
 5. Run cmake-gui
 
-6. In the cmake-gui, select the ~/tinkercell/trunk folder for the source folder and ~/tinkercell/trunk/BUILD as the binary folder
+6. In the cmake-gui, select the tinkercell/trunk folder for the source folder and tinkercell/trunk/BUILD as the binary folder
 
-7. Run "Configure". When you run the first time, you will be asked to select the compiler you want to use.
+7. Run "Configure". When you run the first time, you will be asked to select the compiler you want to use. Select the one that suits you. For Windows, MinGW seems to work best, but you are welcome to try Visual Studio.
 
-8. If libxml2 is not found, set the following manually (using the Add Entry button in cmake-gui):
-         1. LIBXML2_INCLUDE_DIR = /usr/include/libxml2
-         2. LIBXML2_LIBRARIES = /usr/lib/libxml2.so.2.7.5   (or whichever file you have)
-    In Windows, TinkerCell comes with libxml2 libraries, so this step will not be needed
+8. This step only applies if you want embedded Octave or Python.
+In the CMake window, change the "Simple View" to "Grouped View". This will help you identify whether or not all the directories or libraries that are needed were found. If you want embedded Python and Octave, enable them under the EMBED group. In the PYTHON group, check that the libraries and include directories are found. If they are not found, you will have to set them. Do that save for the OCTAVE group.
 
-9. Run "Configure" a few times until all the redness disappears
+9. If any of the entried in the CMake window are highlighted in red, run "Configure" again.
 
-10. Run "Generate". This will create the makefile or the project file, depending on the compiler you selected
+10. Run "Generate". This will create the makefile or the project file, depending on the compiler you selected in step 7.
 
 11. Go to the ~/tinkercell/trunk/BUILD folder
 
-12. Run "make package" or open the project file and compile (this will take time). 
-     MAC ONLY: Just do "make" because "make package" does not do package correctly. 
+12. Run "make package" or open the project file and build the "package" project (this will take time). 
+     MAC ONLY: Just do "make" because "make package" does not package correctly. 
      
 13. MAC ONLY: After performing make, go to the bin folder and do "source do_name_change.sh"
 
@@ -64,12 +62,17 @@ COMPILING TINKERCELL
 
       Mac:  open the TinkerCell.app file in the bin folder
 
-
+--------------------------
 WIN32 PROBLEMS
 --------------------------
 Problem: CMake is not able to find MinGW. 
 Solution: Look for a field in the CMake GUI called CMAKE_CXX_COMPILER. 
              Set the compiler manually by locating the mingw32-make.exe. 
+             Click "configure" again.
+
+Problem: CMake is not able to find qmake.
+Solution: Look for a field in the CMake GUI called QT_QMAKE_EXECUTABLE. 
+             Set the compiler manually by locating the qmake.exe. 
              Click "configure" again.
 
 Problem: Visual Studio is giving link errors

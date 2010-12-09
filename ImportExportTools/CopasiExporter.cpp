@@ -17,15 +17,16 @@
 #include "ConsoleWindow.h"
 
 using namespace Tinkercell;
-using namespace std;
 
 SBMLImportExport::SBMLImportExport() : Tool("SBML Tool","Export")
 {
 	modelNeedsUpdate = true;
 	sbmlDocument = 0;
+	
+	qRegisterMetaType< copasi_model >("copasi_model");
 
 	connect(&fToS,SIGNAL(exportSBML(QSemaphore*, const QString&)),this,SLOT(exportSBML(QSemaphore*, const QString&)));
-	connect(&fToS,SIGNAL(importSBML(QSemaphore*, const QString&)),this,SLOT(importSBML(QSemaphore*, const QString&)));
+	
 }
 
 SBMLImportExport::~SBMLImportExport()
@@ -99,14 +100,17 @@ bool SBMLImportExport::setMainWindow(MainWindow * main)
 
 typedef void (*tc_SBML_api)(
 		void (*exportSBMLFile)(const char *),
-		void (*importSBMLString)(const char*));
+		void (*importSBMLString)(const char*),
+		tc_matrix (*ODEsim)(double, double),
+		tc_matrix (*GillespieSim)(double),
+		tc_matrix (*steadyStateScan)(const char* , double , double ));
 
 void SBMLImportExport::setupFunctionPointers( QLibrary * library)
 {
 	tc_SBML_api f = (tc_SBML_api)library->resolve("tc_SBML_api");
 	if (f)
 	{
-		f(	&exportSBMLFile, &importSBMLString );
+		f(	&exportSBMLFile, &importSBMLString, &ODEsim, &GillespieSim, &ScanSS );
 	}
 }
 
@@ -153,6 +157,21 @@ void SBMLImportExport::importSBMLString(const char* s)
 	fToS.importSBMLString(s);
 }
 
+tc_matrix SBMLImportExport::ODEsim(double time, double dt)
+{
+	return fToS.ODEsim(time,dt);
+}
+
+tc_matrix SBMLImportExport::GillespieSim(double time)
+{
+	return fToS.GillespieSim(time);
+}
+
+tc_matrix SBMLImportExport::ScanSS(const char* var, double a, double b)
+{
+	return fToS.ScanSS(var,a,b);
+}
+
 void SBMLImportExport_FtoS::exportSBMLFile(const char * c)
 {
 	QSemaphore * s = new QSemaphore(1);
@@ -170,6 +189,42 @@ void SBMLImportExport_FtoS::importSBMLString(const char* c)
 	emit importSBML(s,ConvertValue(c));
 	s->acquire();
 	s->release();
+}
+
+tc_matrix SBMLImportExport_FtoS::ODEsim(double time, double dt)
+{
+	QSemaphore * s = new QSemaphore(1);
+	NumericalDataTable t;
+	s->acquire();
+	emit simulateODE(s,&t,time,dt);
+	s->acquire();
+	s->release();
+	delete s;
+	return ConvertValue(t);
+}
+
+tc_matrix SBMLImportExport_FtoS::GillespieSim(double time)
+{
+	QSemaphore * s = new QSemaphore(1);
+	NumericalDataTable t;
+	s->acquire();
+	emit simulateGillespie(s,&t,time);
+	s->acquire();
+	s->release();
+	delete s;
+	return ConvertValue(t);
+}
+
+tc_matrix SBMLImportExport_FtoS::ScanSS(const char* var, double a, double b)
+{
+	QSemaphore * s = new QSemaphore(1);
+	NumericalDataTable t;
+	s->acquire();
+	emit steadyStateScan(s,&t,ConvertValue(var),a,b);
+	s->acquire();
+	s->release();
+	delete s;
+	return ConvertValue(t);
 }
 
 void SBMLImportExport::exportSBML(QSemaphore * sem, const QString & str)
@@ -212,6 +267,37 @@ void SBMLImportExport::importSBML(QSemaphore * sem, const QString& str)
 
 	if (sem)
 		sem->release();
+}
+
+void SBMLImportExport::simulateODE(QSemaphore * sem, NumericalDataTable * dat, double time, double dt)
+{
+	if (modelNeedsUpdate)
+		updateSBMLModel();
+	SimulationThread * thread = new SimulationThread(sem, dat, sbmlDocument, SimulationThread::ODE, mainWindow);
+	thread->setTime(time);
+	thread->setStepSize(dt);
+	CThread::dialog(thread,"ODE simulation",QIcon(),true);
+	thread->start();
+}
+
+void SBMLImportExport::simulateGillespie(QSemaphore * sem, NumericalDataTable * dat, double time)
+{
+	if (modelNeedsUpdate)
+		updateSBMLModel();
+	SimulationThread * thread = new SimulationThread(sem, dat, sbmlDocument, SimulationThread::Gillespie, mainWindow);
+	thread->setTime(time);
+	CThread::dialog(thread,"Gillespie simulation",QIcon(),true);
+	thread->start();
+}
+
+void SBMLImportExport::steadyStateScan(QSemaphore* sem, NumericalDataTable* dat, const QString& var, double start, double end)
+{
+	if (modelNeedsUpdate)
+		updateSBMLModel();
+	SimulationThread * thread = new SimulationThread(sem, dat, sbmlDocument, SimulationThread::Scan, mainWindow);
+	thread->setScanVariable(var, start, end);
+	CThread::dialog(thread,"Steady state scan",QIcon(),true);
+	thread->start();
 }
 
 /***************************************************
@@ -693,6 +779,149 @@ SBMLDocument_t* SBMLImportExport::exportSBML(NetworkHandle * network)
 	
 	return 	SBMLDocument_create();
 }
+
+NumericalDataTable SBMLImportExport::integrateODEs(double time, double printstep)
+{
+	if (modelNeedsUpdate)
+		updateSBMLModel();
+	NumericalDataTable dat;
+	QSemaphore * s = new QSemaphore(1);
+	s->acquire();
+	SimulationThread * thread = new SimulationThread(s, &dat, sbmlDocument, SimulationThread::ODE, mainWindow);
+	thread->setTime(time);
+	thread->setStepSize(printstep);
+	thread->start();
+	s->acquire();
+	s->release();
+	delete s;
+	return dat;
+}
+
+NumericalDataTable SBMLImportExport::Gillespie(double time)
+{
+	if (modelNeedsUpdate)
+		updateSBMLModel();
+	NumericalDataTable dat;
+	QSemaphore * s = new QSemaphore(1);
+	s->acquire();
+	SimulationThread * thread = new SimulationThread(s, &dat, sbmlDocument, SimulationThread::Gillespie, mainWindow);
+	thread->setTime(time);
+	thread->start();
+	s->acquire();
+	s->release();
+	delete s;
+	return dat;
+}
+
+SimulationThread::SimulationThread(QSemaphore * sem, NumericalDataTable * dat, SBMLDocument_t * doc, SimulationType ty, MainWindow * parent) :
+ CThread(parent,0), semaphore(sem), dataTable(dat), sbmlDocument(doc), simType(ty)
+{
+	time = 100.0;
+	stepSize = 0.1;
+}
+
+void SimulationThread::setScanVariable(const QString& s, double a, double b)
+{
+	scanParam = s;
+	scanParam.replace(tr("."),tr("_"));
+	from = a;
+	to = b;
+}
+
+void SimulationThread::setTime(double d)
+{
+	time = d;
+}
+
+void SimulationThread::setStepSize(double d)
+{
+	stepSize = d;
+}
+
+void SimulationThread::run()
+{
+	SBMLDocument_t * d = sbmlDocument;
+	SBML_sim sim(d);
+	
+	vector<string> names = sim.getVariableNames();	
+	vector< vector<double> > output;	
+	NumericalDataTable results;
+	
+	if (simType == Scan && !scanParam.isEmpty())
+	{
+		int k1=-1,k2=-1;
+		vector<double> x0 = sim.getVariableValues();
+		vector<double> x = x0;
+		results.resize(100,names.size()+1);
+		for (int i=0; i < names.size(); ++i)
+		{
+			results.setColumnName(i+1,QString(names[i].c_str()));
+			if (names[i].compare( ConvertValue(scanParam) ) == 0)
+				k1 = i;
+		}
+		results.setColumnName(0, scanParam);
+		vector<double> params = sim.getParameterValues();
+		names = sim.getParameterNames();	
+		for (int i=0; i < names.size(); ++i)
+			if (names[i].compare( ConvertValue(scanParam) ) == 0)
+			{
+				k2 = i;
+				break;
+			}
+		if (k1 > -1 || k2 > -1)
+		{
+			for (int i=0; i < 100; ++i)
+			{
+				if (k1 > -1)
+					x0[k1] = from + (i/100.0) * (to-from);
+				else
+					params[k2] = from + (i/100.0) * (to-from);
+				sim.setParameters(params);
+				sim.setVariableValues(x0);
+				x = sim.steadyState();
+				if (k1 > -1)
+					results.value(i,0) = x0[k1];
+				else
+					results.value(i,0) = params[k2];
+				for (int j=0; j < x.size(); ++j)
+					results.value(i,j+1) = x[j];
+			}
+		}
+	}
+	else
+	{
+		try
+		{
+			if (simType == Gillespie)
+				output = sim.ssa(time);
+			else
+				output = sim.simulate(time,stepSize);
+		}
+		catch(...)
+		{
+		}
+
+		if (output.size() > 0)
+		{
+			int sz = output[0].size();
+	
+			results.resize(sz,output.size());
+			for (int i=0; i < names.size(); ++i)
+				results.setColumnName(i+1 , QString(names[i].c_str()));
+			results.setColumnName(0, tr("time"));
+	
+			for (int i=0; i < output.size(); ++i)
+				for (int j=0; j < sz; ++j)
+					results.value(j,i) = output[i][j];
+		}
+	}
+		
+	if (dataTable)
+		(*dataTable) = results;
+	if (semaphore)
+		semaphore->release();
+}
+
 
 extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)
 {

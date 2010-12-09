@@ -29,16 +29,9 @@ namespace Tinkercell
 		signals:
 			void exportSBML(QSemaphore*, const QString&);
 			void importSBML(QSemaphore*, const QString&);
-			void simulateODE(QSemaphore*, NumericalDataTable*, double, double);
-			void simulateGillespie(QSemaphore*, NumericalDataTable*, double);
-			void steadyStateScan(QSemaphore*, NumericalDataTable* , const QString&, double , double );
-			
 		public:
 			void exportSBMLFile(const char *);
 			void importSBMLString(const char*);
-			tc_matrix ODEsim(double, double);
-			tc_matrix GillespieSim(double);
-			tc_matrix ScanSS(const char* , double , double );
 	};
 	
 	/*! \brief This class imports and exports SBML file format
@@ -61,9 +54,6 @@ namespace Tinkercell
 		QList<ItemHandle*> importSBML(const QString&);
 		SBMLDocument_t* exportSBML(QList<ItemHandle*>&);
 		SBMLDocument_t* exportSBML(NetworkHandle * network = 0);
-		
-		NumericalDataTable integrateODEs(double time, double stepsize);
-		NumericalDataTable Gillespie(double time);
 	
 	signals:
 		void getTextVersion(const QList<ItemHandle*>&, QString*);
@@ -78,10 +68,6 @@ namespace Tinkercell
 		void saveSBMLFile();
 		void exportSBML(QSemaphore*, const QString&);
 		void importSBML(QSemaphore*, const QString&);
-		void simulateODE(QSemaphore*, NumericalDataTable*, double, double);
-		void simulateGillespie(QSemaphore*, NumericalDataTable*, double);
-		void steadyStateScan(QSemaphore*, NumericalDataTable* , const QString&, double , double );
-
 	private:
 
 		bool modelNeedsUpdate;
@@ -92,32 +78,6 @@ namespace Tinkercell
 		static SBMLImportExport_FtoS fToS;
 		static void exportSBMLFile(const char *);
 		static void importSBMLString(const char*);
-		static tc_matrix ODEsim(double, double);
-		static tc_matrix GillespieSim(double);
-		static tc_matrix ScanSS(const char* , double , double );
-	};
-
-	class SimulationThread : public CThread
-	{
-		public:
-
-			enum SimulationType { ODE, Gillespie, Scan };
-			SimulationThread(QSemaphore * sem, NumericalDataTable *, SBMLDocument_t *, SimulationType , MainWindow *);
-			void setScanVariable(const QString&, double from, double to);
-			void setTime(double);
-			void setStepSize(double);
-
-		protected:
-			void run();
-
-			QSemaphore * semaphore;
-			NumericalDataTable * dataTable;
-			SBMLDocument_t * sbmlDocument;
-			SimulationType simType;
-			QString scanParam;
-			double from, to;
-			double time;
-			double stepSize;
 	};
 }
 

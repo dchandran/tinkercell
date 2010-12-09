@@ -338,12 +338,12 @@ specific for:\n\"\"\"\n\n") + text;
 		QString appDir = QCoreApplication::applicationDirPath();
 
 		QSplitter * splitter = new QSplitter(Qt::Horizontal);
-        splitter->addWidget(editorWidget);
-        splitter->addWidget(new TCFunctionsListView(mainWindow, appDir + tr("/c"), editor));
-        splitter->setStretchFactor(0,2);
+	        splitter->addWidget(editorWidget);
+        	splitter->addWidget(new TCFunctionsListView(mainWindow, appDir + tr("/c"), editor));
+	        splitter->setStretchFactor(0,2);
 
-        window->setCentralWidget(splitter);
-        window->setWindowTitle(name);
+	        window->setCentralWidget(splitter);
+	        window->setWindowTitle(name);
 
 		if (mainWindow)
 		{
@@ -399,7 +399,6 @@ specific for:\n\"\"\"\n\n") + text;
 					PythonTool * pyTool = static_cast<PythonTool*>(widget);
 					
 					connect(this,SIGNAL(runPython(const QString&)),pyTool,SLOT(runPythonCode(const QString&)));
-					connect(this,SIGNAL(stopPython()),pyTool,SLOT(stopPython()));
 					connect(this,SIGNAL(loadPyFromDir( QDir& )),pyTool,SLOT(loadFromDir( QDir& )));
 				}
 			}
@@ -412,7 +411,6 @@ specific for:\n\"\"\"\n\n") + text;
 					OctaveTool * ocTool = static_cast<OctaveTool*>(widget);
 					
 					connect(this,SIGNAL(runOctave(const QString&)),ocTool,SLOT(runOctaveCode(const QString&)));
-					connect(this,SIGNAL(stopOctave()),ocTool,SLOT(stopOctave()));
 					connect(this,SIGNAL(loadOctFromDir( QDir& )),ocTool,SLOT(loadFromDir( QDir& )));
 				}
 			}
@@ -474,6 +472,9 @@ specific for:\n\"\"\"\n\n") + text;
 			}
 			
 			enablePython();
+			
+			//if (console())
+			//	connect(this,SIGNAL(stop()),console(),SIGNAL(commandInterrupted()));
 
 			return true;
 		}
@@ -558,9 +559,6 @@ specific for:\n\"\"\"\n\n") + text;
 
 		 action = toolBar->addAction(QIcon(":/images/play.png"),tr("Run"),this,SLOT(run()));
 		 action->setToolTip(tr("Run code"));
-
-		 //action = toolBar->addAction(QIcon(":/images/exit.png"),tr("Stop"),this,SIGNAL(stopPython()));
-		 //action->setToolTip(tr("Terminate (Python only)"));
 
 		 //action = toolBar->addAction(QIcon(":/images/function.png"),tr("Buttonize"),this,SLOT(convertCodeToButton()));
 		 //action->setToolTip(tr("Add code to the functions list"));

@@ -24,7 +24,7 @@ namespace Tinkercell
 
 		text = tr("TinkerCell\nVersion: ") + MainWindow::PROJECT_VERSION + tr("\n\n");
 		QString appDir = QCoreApplication::applicationDirPath();
-		QString filename = appDir + tr("/about.txt");
+		QString filename = appDir + tr("/ABOUT.txt");
 
 		QFile file;
 		file.setFileName( filename );

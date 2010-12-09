@@ -5,11 +5,11 @@ copasi_model (*_tc_CopasiModel)() = 0;
  \brief get the COPASI model from current TinkerCell model
  \ingroup Export
 */
-copasi_model tc_CopasiModel() = 0;
+copasi_model tc_CopasiModel()
 {
+	copasi_model m = {0,0};
 	if (_tc_CopasiModel)
 		return _tc_CopasiModel();
-	copasi_model m = {0,0};
 	return m;
 }
 /*!
@@ -19,6 +19,5 @@ copasi_model tc_CopasiModel() = 0;
 void tc_COPASI_api( copasi_model (*copasiModel)() )
 {
 	_tc_CopasiModel = copasiModel;
-	_tc_importSBML = importSBML;
 }
 

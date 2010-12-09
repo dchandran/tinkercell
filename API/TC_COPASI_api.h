@@ -2,6 +2,7 @@
 #define TINKERCELL_TC_COPASI_API_H
 
 #include "TC_structs.h"
+#include "copasi/copasi_api.h"
 BEGIN_C_DECLS
 
 /*!

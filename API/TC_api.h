@@ -16,6 +16,7 @@
 #include "TC_NameFamily_api.h"
 #include "TC_AutoGeneRegulatoryTool_api.h"
 #include "TC_SBML_api.h"
+#include "TC_COPASI_api.h"
 
 #endif
 

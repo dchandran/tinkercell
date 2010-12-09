@@ -165,7 +165,7 @@ copasi_parameter createVariable(copasi_model model, const char * name, const cha
 			ok = false;
 			pParam = variables[i];
 
-			QRegExp regexp(QString("(^[A-Za-z0-9_])") + QString(pParam->getObjectName()) + QString("(^[A-Za-z0-9_])"))
+			QRegExp regexp(QString("(^[A-Za-z0-9_])") + QString(pParam->getObjectName().c_str()) + QString("(^[A-Za-z0-9_])"));
 			
 			for (j=0; j < compartments.size(); ++j)
 					if (compartments[j] && compartments[j]->getObjectName().compare(pParam->getObjectName())==0)

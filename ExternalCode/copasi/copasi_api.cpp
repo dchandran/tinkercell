@@ -6,6 +6,9 @@
 #include <string>
 #include <set>
 #include <iostream>
+#include <QString>
+#include <QStringList>
+#include <QRegExp>
 
 #define COPASI_MAIN
 #include "copasi_api.h"
@@ -137,6 +140,76 @@ void setAssignmentRule(copasi_species species, const char * formula)
 }
 
 copasi_parameter createVariable(copasi_model model, const char * name, const char * formula)
+{
+	CModel* pModel = (CModel*)(model.CopasiModelPtr);
+	CModelValue* pModelValue = pModel->createModelValue(std::string(name), 0.0);
+	copasi_parameter p = { (void*)(pModelValue), (void*)(pModel) };
+	pModelValue->setStatus(CModelValue::ASSIGNMENT);
+	int i,j,k;
+
+	CCopasiVectorNS < CCompartment > & compartments = pModel->getCompartments();
+	CCopasiVector< CMetab > & species = pModel->getMetabolites();
+	CCopasiVectorN< CModelValue > & params = pModel->getModelValues();
+	
+	CFunction pFunction;
+	QString qFormula(formula);
+	bool ok;
+
+	if (pFunction.setInfix(std::string(formula)))
+	{
+		CFunctionParameters& variables = pFunction.getVariables();
+		CFunctionParameter* pParam;
+
+		for (i=0; i < variables.size(); ++i)
+		{
+			ok = false;
+			pParam = variables[i];
+
+			QRegExp regexp(QString("(^[A-Za-z0-9_])") + QString(pParam->getObjectName()) + QString("(^[A-Za-z0-9_])"))
+			
+			for (j=0; j < compartments.size(); ++j)
+					if (compartments[j] && compartments[j]->getObjectName().compare(pParam->getObjectName())==0)
+					{
+						QString s("<");
+						s += QString(compartments[j]->getCN().c_str());
+						s += QString(">");
+						qFormula.replace(regexp, QString("\\1")+ s+QString("\\2") );
+						ok = true;
+						break;
+					}
+			if (ok) continue;
+			for (j=0; j < species.size(); ++j)
+				if (species[j] && species[j]->getObjectName().compare(pParam->getObjectName())==0)
+				{
+					QString s("<");
+					s += QString(species[j]->getCN().c_str());
+					s += QString(">");
+					qFormula.replace(regexp, QString("\\1")+ s+QString("\\2") );
+					ok = true;
+					break;
+				}
+			if (ok) continue;
+			for (j=0; j < params.size(); ++j)
+				if (params[j] && params[j]->getObjectName().compare(pParam->getObjectName())==0)
+				{
+					QString s("<");
+					s += QString(params[j]->getCN().c_str());
+					s += QString(">");
+					qFormula.replace(regexp, QString("\\1")+ s+QString("\\2") );
+					ok = true;
+					break;
+				}
+		}
+	}
+
+	std::string sFormula( qFormula.toAscii().data() );
+	std::cout << sFormula << std::endl;
+	pModelValue->setInitialExpression(sFormula);
+	pModelValue->setExpression(sFormula);
+	return p;
+}
+
+copasi_parameter createVariable_v2(copasi_model model, const char * name, const char * formula)
 {
 	CModel* pModel = (CModel*)(model.CopasiModelPtr);
 	CModelValue* pModelValue = pModel->createModelValue(std::string(name), 0.0);

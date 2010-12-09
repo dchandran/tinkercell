@@ -122,6 +122,7 @@ TARGET_LINK_LIBRARIES( copasi
   blas
   f2c
   antimony
+  ${QT_QTCORE_LIBRARY}
 )
 
 #----------------------------------

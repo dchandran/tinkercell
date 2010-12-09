@@ -25,7 +25,7 @@ SBMLImportExport::SBMLImportExport() : Tool("SBML Tool","Export")
 	
 	qRegisterMetaType< copasi_model >("copasi_model");
 
-	connect(&fToS,SIGNAL(exportSBML(QSemaphore*, const QString&)),this,SLOT(exportSBML(QSemaphore*, const QString&)));
+	connect(&fToS,SIGNAL(getCopasiModel(QSemaphore*, copasi_model *)),this,SLOT(getCopasiModel(QSemaphore*, copasi_model *)));
 	
 }
 
@@ -40,8 +40,6 @@ bool SBMLImportExport::setMainWindow(MainWindow * main)
 	Tool::setMainWindow(main);	
 	if (!mainWindow) return false;
 	
-	MainWindow::OPEN_FILE_EXTENSIONS << "SBML" << "sbml";
-
 	if (mainWindow->fileMenu)
 	{
 		QList<QAction*> actions = mainWindow->fileMenu->actions();

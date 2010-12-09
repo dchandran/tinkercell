@@ -14,7 +14,7 @@ TCAPIEXPORT copasi_model tc_CopasiModel();
  \brief initializing function
  \ingroup init
 */
-TCAPIEXPORT void tc_SBML_api(copasi_model (*getCopasiModel)());
+TCAPIEXPORT void tc_COPASI_api(copasi_model (*getCopasiModel)());
 
 END_C_DECLS
 #endif

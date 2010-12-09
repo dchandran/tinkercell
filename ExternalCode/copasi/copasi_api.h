@@ -135,6 +135,15 @@ TCAPIEXPORT const char * getCopasiParameterID(copasi_parameter param, int * stri
  \ingroup copasi
 */
 TCAPIEXPORT copasi_parameter createVariable(copasi_model model, const char * name, const char * formula);
+/*! 
+ \brief create a new variable that is not a constant by a formula
+ \param copasi_model model
+ \param char* name of new variable
+ \param char* formula containing copasi full names (use getCopasiName)
+ \return copasi_parameter the new variable
+ \ingroup copasi
+*/
+TCAPIEXPORT copasi_parameter createVariable_v2(copasi_model model, const char * name, const char * formula);
 
 /** \} @name Reaction \{ */
 

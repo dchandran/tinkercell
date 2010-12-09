@@ -10,7 +10,7 @@ typedef struct  { void * CopasiModelPtr;  void * CopasiDataModelPtr; void * qHas
 typedef struct  { void * CopasiSpeciesPtr;  void * CopasiModelPtr;  } copasi_species;
 
 /*!\brief this struct is used to contain a pointer to an instance of a COPASI class*/
-typedef struct  { void * CopasiReactionPtr; void * CopasiModelPtr;  } copasi_reaction;
+typedef struct  { void * CopasiReactionPtr; void * CopasiModelPtr; void * qHash; } copasi_reaction;
 
 /*!\brief this struct is used to contain a pointer to an instance of a COPASI class*/
 typedef struct  { void * CopasiCompartmentPtr; void * CopasiModelPtr; void * qHash; } copasi_compartment;

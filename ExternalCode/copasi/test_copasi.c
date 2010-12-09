@@ -6,8 +6,6 @@ int main()
 {
 	int i, j;
 	FILE * outfile;
-	char * A_str, * B_str, * C_str, *c;
-	int s1, s2, s3;
 
 	copasi_init();
 	
@@ -47,13 +45,7 @@ int main()
 	//assignment rule -- make sure all parameters or species are defined BEFORE this step
 	createVariable(model, "prod","A*B*C");
 	createVariable(model, "prodPlus","prod*2");
-	
-	free(c);
-	free(A_str);
-	free(B_str);
-	free(C_str);
-	
-	compileCopasiModel(model);
+
 	//run
 	tc_matrix output = simulateDeterministic(model, 0, 30, 1000);  //model, start, end, num. points
 	

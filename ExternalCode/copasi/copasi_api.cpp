@@ -45,9 +45,17 @@ extern "C"
 	#include "src/antimony_api.h"
 }
 
-typedef QHash< QString,QPair<QString,long> > CQHash
+struct CopasiPtr 
+{ 
+	QString name; 
+	CMetab * species; 
+	CCompartment * compartment;
+	CModelValue * param;
+};
+
+typedef QHash< QString, CopasiPtr > CQHash;
 static void substituteString(QString& target, const QString& oldname,const QString& newname0);
-static QList< QHash* > hashTablesToCleanup;
+static QList< CQHash* > hashTablesToCleanup;
 
 void copasi_init()
 {
@@ -65,7 +73,11 @@ copasi_model createCopasiModel(const char * name)
 {
 	CCopasiDataModel* pDataModel = CCopasiRootContainer::addDatamodel();
 	CModel* pModel = pDataModel->getModel();
-	copasi_model m = { (void*)(pModel) , (void*)(pDataModel), (void*)(new CQHash()) };
+	CQHash * qHash = new CQHash();
+	
+	hashTablesToCleanup += qHash;
+	
+	copasi_model m = { (void*)(pModel) , (void*)(pDataModel), (void*)(qHash) };
 	pModel->setSBMLId( std::string(name) );
 	pModel->setObjectName( std::string(name) );
 	//pModel->setTimeUnit(CModel::s);
@@ -84,19 +96,20 @@ copasi_species createSpecies(copasi_compartment compartment, const char* name, d
 	CMetab* pSpecies = pModel->createMetabolite(name, pCompartment->getObjectName(), iv, CMetab::REACTIONS);
 	copasi_species s = { (void*)(pSpecies), (void*)(pModel) };
 	
-	CQHash * hash = (CQHash)(compartment.qHash);
+	CQHash * hash = (CQHash*)(compartment.qHash);
 
-	hash.insert(QString(pCompartment->getObjectName().c_str()) + QString(".") + QString(name),
-				QPair<QString,long>(
-					QString(pSpecies->getCN().c_str()),
-					(long)pSpecies)
+	CopasiPtr copasiPtr = { 
+			QString(pSpecies->getCN().c_str()),
+			pSpecies,
+			0,
+			0};
+
+	hash->insert(
+				QString(pCompartment->getObjectName().c_str()) + QString(".") + QString(name),
+				copasiPtr
 				);
 
-	hash.insert(QString(name),
-				QPair<QString,long>(
-					QString(pSpecies->getCN().c_str()),
-					(long)pSpecies)
-				); //for speedy lookup
+	hash->insert(QString(name), copasiPtr); //for speedy lookup
 	
 	return s;
 }
@@ -107,10 +120,16 @@ copasi_compartment createCompartment(copasi_model model, const char* name, doubl
 	CCompartment* pCompartment = pModel->createCompartment(name, volume);
 	copasi_compartment c = { (void*)(pCompartment), (void*)(pModel), model.qHash };
 	
-	CQHash * hash = (CQHash)(model.qHash);
-	hash.insert(QString(name),
-				QPair<QString,long>(pCompartment->getCN().c_str(),(long)(pCompartment))
-				); //for speedy lookup
+	CQHash * hash = (CQHash*)(model.qHash);
+	
+	CopasiPtr copasiPtr = { 
+			QString(pCompartment->getCN().c_str()),
+			0,
+			pCompartment,
+			0};
+
+	
+	hash->insert(QString(name),copasiPtr); //for speedy lookup
 	
 	return c;
 }
@@ -145,9 +164,16 @@ copasi_parameter setGlobalParameter(copasi_model model, const char * name, doubl
 		pValue = pModel->createModelValue(s,value);
 	
 	p.CopasiParameterPtr = (void*)pValue;
+	
+	CopasiPtr copasiPtr = { 
+			QString(pValue->getCN().c_str()),
+			0,
+			0,
+			pValue};
 
-	CQHash * hash = (CQHash)(model.qHash);
-	hash.insert(QString(name),QString(pValue->getCN().c_str())); //for speedy lookup
+
+	CQHash * hash = (CQHash*)(model.qHash);
+	hash->insert(QString(name), copasiPtr); //for speedy lookup
 
 	return p;
 }
@@ -176,7 +202,7 @@ void setAssignmentRule(copasi_species species, const char * formula)
 copasi_parameter createVariable(copasi_model model, const char * name, const char * formula)
 {
 	CModel* pModel = (CModel*)(model.CopasiModelPtr);
-	CQHash * hash = (CQHash)(model.qHash);
+	CQHash * hash = (CQHash*)(model.qHash);
 	CModelValue* pModelValue = pModel->createModelValue(std::string(name), 0.0);
 	copasi_parameter p = { (void*)(pModelValue), (void*)(pModel) };
 	pModelValue->setStatus(CModelValue::ASSIGNMENT);
@@ -198,10 +224,10 @@ copasi_parameter createVariable(copasi_model model, const char * name, const cha
 			pParam = variables[i];
 
 			QString s0(pParam->getObjectName().c_str());
-			if (hash.contains(s0))
+			if (hash->contains(s0))
 			{
 			 	QString s1("<");
-					s1 += hash[s0];
+					s1 += hash->value(s0).name;
 					s1 += QString(">");
 				substituteString(qFormula,s0,s1);
 			}
@@ -209,15 +235,16 @@ copasi_parameter createVariable(copasi_model model, const char * name, const cha
 	}
 
 	std::string sFormula( qFormula.toAscii().data() );
-	std::cout << sFormula << std::endl;
 	pModelValue->setInitialExpression(sFormula);
 	pModelValue->setExpression(sFormula);
 	
-	CQHash * hash = (CQHash)(model.qHash);
-	hash.insert(QString(name),
-				QPair<QString,long>(
-					QString(pValue->getCN().c_str()),
-					(long)pValue)); //for speedy lookup
+	CopasiPtr copasiPtr = { 
+			QString(pModelValue->getCN().c_str()),
+			0,
+			0,
+			pModelValue};
+
+	hash->insert(QString(name), copasiPtr); //for speedy lookup
 
 	return p;
 }
@@ -226,7 +253,7 @@ copasi_reaction createReaction(copasi_model model, const char* name)
 {
 	CModel* pModel = (CModel*)(model.CopasiModelPtr);
 	CReaction* pReaction = pModel->createReaction(name);
-	copasi_reaction r = { (void*)(pReaction), (void*)(pModel) };
+	copasi_reaction r = { (void*)(pReaction), (void*)(pModel), model.qHash };
 
 	return r;
 }
@@ -251,12 +278,9 @@ int setReactionRate(copasi_reaction reaction, const char * formula)
 {
 	int i,j,k;
 	CReaction* pReaction = (CReaction*)(reaction.CopasiReactionPtr);
+	CQHash * hash = (CQHash*)(reaction.qHash);
 	CModel* pModel = (CModel*)(reaction.CopasiModelPtr);
 	CFunctionDB* pFunDB = CCopasiRootContainer::getFunctionList();
-	
-	CCopasiVectorNS < CCompartment > & compartments = pModel->getCompartments();
-	CCopasiVector< CMetab > & species = pModel->getMetabolites();
-	CCopasiVectorN< CModelValue > & params = pModel->getModelValues();
 	
 	if (pFunDB)
 	{
@@ -296,39 +320,37 @@ int setReactionRate(copasi_reaction reaction, const char * formula)
 					ok = true;
 				}
 				if (ok) continue;
-				for (j=0; j < compartments.size(); ++j)
-					if (compartments[j] && compartments[j]->getObjectName().compare(pParam->getObjectName())==0)
+				
+				QString s(pParam->getObjectName().c_str());
+				
+				if (hash->contains(s))
+				{
+					CopasiPtr p = hash->value(s);
+					if (p.compartment)
 					{
 						pParam->setUsage(CFunctionParameter::VOLUME);
-						pReaction->setParameterMapping(pParam->getObjectName(), compartments[j]->getKey());
-						ok = true;
-						break;
+						pReaction->setParameterMapping(pParam->getObjectName(), p.compartment->getKey());
 					}
-				if (ok) continue;
-				for (j=0; j < species.size(); ++j)
-					if (species[j] && species[j]->getObjectName().compare(pParam->getObjectName())==0)
+					else
+					if (p.species)
 					{
 						pParam->setUsage(CFunctionParameter::MODIFIER);
 						const CCopasiVector < CChemEqElement > & substrates = pReaction->getChemEq().getSubstrates();
 						for (k =0; k < substrates.size(); ++k)
-							if (substrates[k]->getMetabolite() == species[j])
+							if (substrates[k]->getMetabolite() == p.species)
 							{
 								pParam->setUsage(CFunctionParameter::SUBSTRATE);
 								break;
 							}
-						pReaction->setParameterMapping(pParam->getObjectName(), species[j]->getKey());
-						ok = true;
-						break;
+						pReaction->setParameterMapping(pParam->getObjectName(), p.species->getKey());
 					}
-				if (ok) continue;
-				for (j=0; j < params.size(); ++j)
-					if (params[j] && params[j]->getObjectName().compare(pParam->getObjectName())==0)
+					else
+					if (p.param)
 					{
 						pParam->setUsage(CFunctionParameter::PARAMETER);
-						pReaction->setParameterMapping(pParam->getObjectName(), params[j]->getKey());
-						ok = true;
-						break;
+						pReaction->setParameterMapping(pParam->getObjectName(), p.param->getKey());
 					}
+				}
 			}
 			
 			pFunction->compile();

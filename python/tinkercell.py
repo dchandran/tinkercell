@@ -257,6 +257,10 @@ def tc_appendRows(*args):
   return _tinkercell.tc_appendRows(*args)
 tc_appendRows = _tinkercell.tc_appendRows
 
+def tc_printMatrix(*args):
+  return _tinkercell.tc_printMatrix(*args)
+tc_printMatrix = _tinkercell.tc_printMatrix
+
 def tc_allItems():
   return _tinkercell.tc_allItems()
 tc_allItems = _tinkercell.tc_allItems
@@ -940,18 +944,6 @@ tc_exportSBML = _tinkercell.tc_exportSBML
 def tc_importSBML(*args):
   return _tinkercell.tc_importSBML(*args)
 tc_importSBML = _tinkercell.tc_importSBML
-
-def tc_simulateODE(*args):
-  return _tinkercell.tc_simulateODE(*args)
-tc_simulateODE = _tinkercell.tc_simulateODE
-
-def tc_simulateSSA(*args):
-  return _tinkercell.tc_simulateSSA(*args)
-tc_simulateSSA = _tinkercell.tc_simulateSSA
-
-def tc_steadyStateScan(*args):
-  return _tinkercell.tc_steadyStateScan(*args)
-tc_steadyStateScan = _tinkercell.tc_steadyStateScan
 
 def tc_SBML_api(*args):
   return _tinkercell.tc_SBML_api(*args)

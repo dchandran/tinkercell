@@ -71,6 +71,7 @@ package tinkercell;
 *tc_deleteStringsArray = *tinkercellc::tc_deleteStringsArray;
 *tc_appendColumns = *tinkercellc::tc_appendColumns;
 *tc_appendRows = *tinkercellc::tc_appendRows;
+*tc_printMatrix = *tinkercellc::tc_printMatrix;
 *tc_allItems = *tinkercellc::tc_allItems;
 *tc_selectedItems = *tinkercellc::tc_selectedItems;
 *tc_itemsOfFamily = *tinkercellc::tc_itemsOfFamily;
@@ -242,9 +243,6 @@ package tinkercell;
 *tc_AutoGeneRegulatoryTool_api = *tinkercellc::tc_AutoGeneRegulatoryTool_api;
 *tc_exportSBML = *tinkercellc::tc_exportSBML;
 *tc_importSBML = *tinkercellc::tc_importSBML;
-*tc_simulateODE = *tinkercellc::tc_simulateODE;
-*tc_simulateSSA = *tinkercellc::tc_simulateSSA;
-*tc_steadyStateScan = *tinkercellc::tc_steadyStateScan;
 *tc_SBML_api = *tinkercellc::tc_SBML_api;
 
 ############# Class : tinkercell::tc_strings ##############

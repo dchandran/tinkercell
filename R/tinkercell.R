@@ -626,24 +626,6 @@ setClass('_p_f_long_tc_strings__void',
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_double_double__tc_matrix',
-        prototype = list(parameterTypes = c('_double', '_double'),
-                        returnType = '_p_f_double_double__tc_matrix'),
-        contains = 'CRoutinePointer')
-
-##
-setClass('_p_f_double__tc_matrix',
-        prototype = list(parameterTypes = c('_double'),
-                        returnType = '_p_f_double__tc_matrix'),
-        contains = 'CRoutinePointer')
-
-##
-setClass('_p_f_p_q_const__char_double_double__tc_matrix',
-        prototype = list(parameterTypes = c('_p_char', '_double', '_double'),
-                        returnType = '_p_f_p_q_const__char_double_double__tc_matrix'),
-        contains = 'CRoutinePointer')
-
-##
 
 
 
@@ -1887,6 +1869,20 @@ class(`tc_appendColumns`) = c("SWIGFunction", class('tc_appendColumns'))
 attr(`tc_appendRows`, 'returnType') = '_p_tc_matrix'
 attr(`tc_appendRows`, "inputTypes") = c('_p_tc_matrix', '_p_tc_matrix')
 class(`tc_appendRows`) = c("SWIGFunction", class('tc_appendRows'))
+
+# Start of tc_printMatrix
+
+`tc_printMatrix` = function(file, M)
+{
+  file = as(file, "character") 
+  
+  .Call('R_swig_tc_printMatrix', file, M, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_printMatrix`, 'returnType') = 'void'
+attr(`tc_printMatrix`, "inputTypes") = c('character', '_p_tc_matrix')
+class(`tc_printMatrix`) = c("SWIGFunction", class('tc_printMatrix'))
 
 # Start of tc_allItems
 
@@ -6130,57 +6126,9 @@ attr(`tc_importSBML`, 'returnType') = 'void'
 attr(`tc_importSBML`, "inputTypes") = c('character')
 class(`tc_importSBML`) = c("SWIGFunction", class('tc_importSBML'))
 
-# Start of tc_simulateODE
-
-`tc_simulateODE` = function(time, step_size, .copy = FALSE)
-{
-  ans = .Call('R_swig_tc_simulateODE', time, step_size, as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_tc_matrix"
-  
-  ans
-  
-}
-
-attr(`tc_simulateODE`, 'returnType') = '_p_tc_matrix'
-attr(`tc_simulateODE`, "inputTypes") = c('numeric', 'numeric')
-class(`tc_simulateODE`) = c("SWIGFunction", class('tc_simulateODE'))
-
-# Start of tc_simulateSSA
-
-`tc_simulateSSA` = function(time, .copy = FALSE)
-{
-  ans = .Call('R_swig_tc_simulateSSA', time, as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_tc_matrix"
-  
-  ans
-  
-}
-
-attr(`tc_simulateSSA`, 'returnType') = '_p_tc_matrix'
-attr(`tc_simulateSSA`, "inputTypes") = c('numeric')
-class(`tc_simulateSSA`) = c("SWIGFunction", class('tc_simulateSSA'))
-
-# Start of tc_steadyStateScan
-
-`tc_steadyStateScan` = function(variable, start, end, .copy = FALSE)
-{
-  variable = as(variable, "character") 
-  
-  
-  ans = .Call('R_swig_tc_steadyStateScan', variable, start, end, as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_tc_matrix"
-  
-  ans
-  
-}
-
-attr(`tc_steadyStateScan`, 'returnType') = '_p_tc_matrix'
-attr(`tc_steadyStateScan`, "inputTypes") = c('character', 'numeric', 'numeric')
-class(`tc_steadyStateScan`) = c("SWIGFunction", class('tc_steadyStateScan'))
-
 # Start of tc_SBML_api
 
-`tc_SBML_api` = function(exportSBML, importSBML, simulateODE, simulateSSA, steadyStateScan)
+`tc_SBML_api` = function(exportSBML, importSBML)
 {
   if(is.function(exportSBML)) {
     assert('...' %in% names(formals(exportSBML)) || length(formals(exportSBML)) >= 0)
@@ -6202,42 +6150,12 @@ class(`tc_steadyStateScan`) = c("SWIGFunction", class('tc_steadyStateScan'))
       importSBML = importSBML$address
     }
   }
-  if(is.function(simulateODE)) {
-    assert('...' %in% names(formals(simulateODE)) || length(formals(simulateODE)) >= 2)
-  } else {
-    if(is.character(simulateODE)) {
-      simulateODE = getNativeSymbolInfo(simulateODE)
-    }
-    if(is(simulateODE, "NativeSymbolInfo")) {
-      simulateODE = simulateODE$address
-    }
-  }
-  if(is.function(simulateSSA)) {
-    assert('...' %in% names(formals(simulateSSA)) || length(formals(simulateSSA)) >= 1)
-  } else {
-    if(is.character(simulateSSA)) {
-      simulateSSA = getNativeSymbolInfo(simulateSSA)
-    }
-    if(is(simulateSSA, "NativeSymbolInfo")) {
-      simulateSSA = simulateSSA$address
-    }
-  }
-  if(is.function(steadyStateScan)) {
-    assert('...' %in% names(formals(steadyStateScan)) || length(formals(steadyStateScan)) >= 3)
-  } else {
-    if(is.character(steadyStateScan)) {
-      steadyStateScan = getNativeSymbolInfo(steadyStateScan)
-    }
-    if(is(steadyStateScan, "NativeSymbolInfo")) {
-      steadyStateScan = steadyStateScan$address
-    }
-  }
-  .Call('R_swig_tc_SBML_api', exportSBML, importSBML, simulateODE, simulateSSA, steadyStateScan, PACKAGE='tinkercell')
+  .Call('R_swig_tc_SBML_api', exportSBML, importSBML, PACKAGE='tinkercell')
   
 }
 
 attr(`tc_SBML_api`, 'returnType') = 'void'
-attr(`tc_SBML_api`, "inputTypes") = c('_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void', '_p_f_double_double__tc_matrix', '_p_f_double__tc_matrix', '_p_f_p_q_const__char_double_double__tc_matrix')
+attr(`tc_SBML_api`, "inputTypes") = c('_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void')
 class(`tc_SBML_api`) = c("SWIGFunction", class('tc_SBML_api'))
 
 

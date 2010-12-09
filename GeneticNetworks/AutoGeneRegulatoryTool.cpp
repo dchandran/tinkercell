@@ -777,6 +777,10 @@ namespace Tinkercell
 
 			connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene *, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),
 						this,SLOT(itemsSelected(GraphicsScene *,const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
+						
+			
+			//connect(mainWindow,SIGNAL(parentHandleChanged(NetworkHandle * , const QList<ItemHandle*>&, const QList<ItemHandle*>&)),
+			//			this,SLOT(parentHandleChanged(NetworkHandle * , const QList<ItemHandle*>&, const QList<ItemHandle*>&)));
 
 			connectPlugins();
 
@@ -1055,6 +1059,7 @@ namespace Tinkercell
 			}
 		}
 	}
+	
 	void AutoGeneRegulatoryTool::itemsMoved(GraphicsScene* scene, QList<QGraphicsItem*>& items, QList<QPointF>& distance, QList<QUndoCommand*>& commands)
 	{
 		if (!scene || !autoAlignEnabled) return;
@@ -1145,6 +1150,18 @@ namespace Tinkercell
 				}
 			}
 		}
+		
+		for (int i=0; i < items.size(); ++i)
+			if (NodeGraphicsItem::cast(items[i]) && 
+				NodeGraphicsItem::cast(items[i])->handle() &&
+				NodeGraphicsItem::cast(items[i])->handle()->parent &&
+				NodeGraphicsItem::cast(items[i])->handle()->parent->isA(tr("Vector")))
+			{
+				QList<QGraphicsItem*> & graphicsItems = NodeGraphicsItem::cast(items[i])->handle()->parent->graphicsItems;
+				for (int j=0; j < graphicsItems.size(); ++j)			
+					if (NodeGraphicsItem::cast(graphicsItems[j]))
+						adjustPlasmid(scene, NodeGraphicsItem::cast(graphicsItems[j]));
+			}
 
 		for (int i=0; i < items.size(); ++i)
 		{
@@ -1325,6 +1342,84 @@ namespace Tinkercell
 	}
 
 	void AutoGeneRegulatoryTool::findAllParts(GraphicsScene* scene,NodeGraphicsItem * node, const QString& family,QList<ItemHandle*>& handles,bool upstream,const QStringList & until, bool stopIfElongation)
+	{
+		if (!scene || !node) return;
+		if (node->handle() && node->handle()->parent && node->handle()->parent->isA(tr("Vector")))
+		{
+			findAllPartsCircular(scene,node,family,handles,upstream,until,stopIfElongation);
+		}
+		else
+		{
+			findAllPartsLinear(scene,node,family,handles,upstream,until,stopIfElongation);
+		}
+	}
+	
+	void AutoGeneRegulatoryTool::findAllPartsCircular(GraphicsScene* scene,NodeGraphicsItem * node, const QString& family,QList<ItemHandle*>& handles,bool upstream,const QStringList & until, bool stopIfElongation)
+	{
+		if (!node || !scene || 
+			!(node->handle() && node->handle()->parent && node->handle()->parent->isA(tr("Vector")))) return;
+		
+		QList<QGraphicsItem*> & parentItems = node->handle()->parent->graphicsItems;
+		
+		NodeGraphicsItem * vector = 0;
+		for (int i=0; i < parentItems.size(); ++i)
+		{
+			if (NodeGraphicsItem::cast(parentItems[i]) && 
+				parentItems[i]->sceneBoundingRect().width() > node->sceneBoundingRect().width())
+			{
+				vector = NodeGraphicsItem::cast(parentItems[i]);
+			}
+		}
+		
+		if (!vector) return;
+		
+		QPointF center = vector->scenePos(), p1 = node->scenePos();
+		QPointF p2;
+		
+		qreal radius = vector->sceneBoundingRect().width()/2.0;
+
+		qreal angle;
+		if (p1.x() == center.x())
+			if (p1.y() < center.y())
+				angle = 3.14159/2.0;
+			else
+				angle = -3.14159/2.0;
+		else
+			angle = atan((p1.y()-center.y())/(p1.x()-center.x()));
+
+		if (p1.x() < center.x())
+			angle = -angle;
+		
+		bool stop = false;
+		int n = 100;
+		qreal da = (double)n/(2*3.14159);
+		if (upstream)
+			da = -da;
+		for (int i=0; i < n; ++i)
+		{
+			p2.rx() = center.x() + cos(angle)*(radius);
+			p2.ry() = center.y() + sin(angle)*(radius);
+			
+			NodeGraphicsItem * topItem = NodeGraphicsItem::cast(scene->itemAt(p2));
+			if (topItem && topItem->handle() && topItem->handle()->isA(family))
+			{
+				for (int j=0; j < until.size(); ++j)
+					if (topItem->handle()->isA(until[j]))
+					{
+						stop = true;
+						break;
+					}
+				if (!stop && !handles.contains(topItem->handle()))
+					handles += topItem->handle();
+			}
+			
+			angle += da;
+			if (stop)
+				break;
+		}
+	}
+	
+	void AutoGeneRegulatoryTool::findAllPartsLinear(GraphicsScene* scene,NodeGraphicsItem * node, const QString& family,QList<ItemHandle*>& handles,bool upstream,const QStringList & until, bool stopIfElongation)
 	{
 		if (!scene || !node) return;
 
@@ -1624,6 +1719,19 @@ namespace Tinkercell
 		ItemHandle * handle = 0;
 
 		QRectF boundingRect = vector->sceneBoundingRect();
+		
+		if (boundingRect.width() != boundingRect.height())
+		{
+			qreal w = (boundingRect.width() + boundingRect.height())/2.0;
+			commands << new TransformCommand(
+							tr("circularize"), 
+							scene, 
+							QList<QGraphicsItem*>() << vector, 
+							QList<QPointF>() << QPointF(w/boundingRect.width(),w/boundingRect.height()), 
+							QList<qreal>() , 
+							QList<bool>(), QList<bool>());
+		}
+
 		QList<ItemHandle*> children, parents;
 		QList<QGraphicsItem*> intersectingItems = scene->items(boundingRect);
 		bool flipped;
@@ -1719,14 +1827,14 @@ namespace Tinkercell
 
 				if (p1.x() > center.x())
 				{
-					p2.rx() = center.x() + cos(angle)*(radius + boundingRect.height()/2.0);
-					p2.ry() = center.y() + sin(angle)*(radius + boundingRect.height()/2.0);				
+					p2.rx() = center.x() + cos(angle)*(radius + boundingRect.height()/4.0);
+					p2.ry() = center.y() + sin(angle)*(radius + boundingRect.height()/4.0);				
 					angle += 3.14159/2.0;
 				}
 				else
 				{
-					p2.rx() = center.x() - cos(angle)*(radius + boundingRect.height()/2.0);
-					p2.ry() = center.y() - sin(angle)*(radius + boundingRect.height()/2.0);
+					p2.rx() = center.x() - cos(angle)*(radius + boundingRect.height()/4.0);
+					p2.ry() = center.y() - sin(angle)*(radius + boundingRect.height()/4.0);
 					angle -= 3.14159/2.0;
 				}
 

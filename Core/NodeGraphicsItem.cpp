@@ -155,6 +155,7 @@ namespace Tinkercell
 		resetBrush();
 		resetTransform();
         scale(defaultSize.width()/boundingRect().width(),defaultSize.height()/boundingRect().height());
+		adjustBoundaryControlPoints();
 	}
 
 	/*! reset of control points that control the bounding box of this figure */

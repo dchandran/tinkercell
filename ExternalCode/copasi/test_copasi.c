@@ -11,7 +11,7 @@ int main()
 
 	copasi_init();
 	
-	//model
+	//model named M
 	copasi_model model = createCopasiModel("M");
 	
 	//species
@@ -20,12 +20,12 @@ int main()
 	copasi_species B = createSpecies(cell, "B", 1);
 	copasi_species C = createSpecies(cell, "C", 3);
 	
-	//parameters
+	//parameters	
 	setGlobalParameter(model, "k1", 0.1);   //k1
 	setGlobalParameter(model, "k2", 0.2);   //k2
 	setGlobalParameter(model, "k3", 0.3);   //k3
 	
-	//reactions
+	//reactions -- make sure all parameters or species are defined BEFORE this step
 	copasi_reaction R1 = createReaction(model, "R1");  // A+B -> 2B
 	addReactant(R1, A, 1.0);
 	addReactant(R1, B, 1.0);
@@ -44,18 +44,9 @@ int main()
 	addProduct(R3, A, 2.0);
 	setReactionRate(R3, "k3*C*A");
 
-	/*get the full-names for each species
-	A_str = getCopasiSpeciesID(A, (&s1));
-	B_str = getCopasiSpeciesID(B, (&s2));
-	C_str = getCopasiSpeciesID(C, (&s3));
-	
-	/*create variable prod=A+B+C, but replace A,B,C with full-names
-	c = (char*)malloc((s1+s2+s3+10) * sizeof(char));
-	sprintf(c, "<%s>*<%s>*<%s>\0", A_str, B_str, C_str);
-	
-	createVariable(model, "prod",c);  //assignment rule "prod = A+B+C"
-	*/
-	createVariable(model, "prod","A+B+C");
+	//assignment rule -- make sure all parameters or species are defined BEFORE this step
+	createVariable(model, "prod","A*B*C");
+	createVariable(model, "prodPlus","prod*2");
 	
 	free(c);
 	free(A_str);

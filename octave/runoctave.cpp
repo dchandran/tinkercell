@@ -123,18 +123,20 @@ extern "C"
 		octave_main(argc,argv,1);
 	}
 
-	OCTAVE_EXPORT void exec(const char * input, const char * outfile, const char * errfile)
+	OCTAVE_EXPORT int exec(const char * input, const char * outfile, const char * errfile)
 	{
+		int retval;
         FILE * f1, * f2;
 		if (errfile)
 			f1 = freopen (errfile,"w+",stderr);
 		if (outfile)
 			f2 = freopen (outfile,"w+",stdout);
-		octave_call(input);
+		retval = octave_call(input);
 		if (errfile)
 			fclose(f1);
 		if (outfile)
 			fclose(f2);
+		return retval;
 	}
 
 	OCTAVE_EXPORT void finalize()

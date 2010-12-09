@@ -4,19 +4,19 @@
 #include "TC_structs.h"
 
 /*!\brief this struct is used to contain a pointer to an instance of a COPASI class*/
-typedef struct  { 	void * CopasiModelPtr;  void * CopasiDataModelPtr; } copasi_model;
+typedef struct  { void * CopasiModelPtr;  void * CopasiDataModelPtr; void * qHash; } copasi_model;
 
 /*!\brief this struct is used to contain a pointer to an instance of a COPASI class*/
-typedef struct  { 	void * CopasiSpeciesPtr;  void * CopasiModelPtr;  } copasi_species;
+typedef struct  { void * CopasiSpeciesPtr;  void * CopasiModelPtr;  } copasi_species;
 
 /*!\brief this struct is used to contain a pointer to an instance of a COPASI class*/
-typedef struct  { 	void * CopasiReactionPtr; void * CopasiModelPtr;  } copasi_reaction;
+typedef struct  { void * CopasiReactionPtr; void * CopasiModelPtr;  } copasi_reaction;
 
 /*!\brief this struct is used to contain a pointer to an instance of a COPASI class*/
-typedef struct  { 	void * CopasiCompartmentPtr; void * CopasiModelPtr;  } copasi_compartment;
+typedef struct  { void * CopasiCompartmentPtr; void * CopasiModelPtr; void * qHash; } copasi_compartment;
 
 /*!\brief this struct is used to contain a pointer to an instance of a COPASI class*/
-typedef struct  { 	void * CopasiParameterPtr; void * CopasiModelPtr;  } copasi_parameter;
+typedef struct  { void * CopasiParameterPtr; void * CopasiModelPtr;  } copasi_parameter;
 
 BEGIN_C_DECLS
 
@@ -135,15 +135,6 @@ TCAPIEXPORT const char * getCopasiParameterID(copasi_parameter param, int * stri
  \ingroup copasi
 */
 TCAPIEXPORT copasi_parameter createVariable(copasi_model model, const char * name, const char * formula);
-/*! 
- \brief create a new variable that is not a constant by a formula
- \param copasi_model model
- \param char* name of new variable
- \param char* formula containing copasi full names (use getCopasiName)
- \return copasi_parameter the new variable
- \ingroup copasi
-*/
-TCAPIEXPORT copasi_parameter createVariable_v2(copasi_model model, const char * name, const char * formula);
 
 /** \} @name Reaction \{ */
 
@@ -179,19 +170,6 @@ TCAPIEXPORT void addProduct(copasi_reaction reaction, copasi_species species, do
  \ingroup copasi
 */
 TCAPIEXPORT int setReactionRate(copasi_reaction reaction, const char * formula);
-/*! 
- \brief set reaction rate equation
- \param copasi_reaction reaction
- \param char* custom formula or SBO name, e.g. "Mass action (irreversible)"
- \param int 0=custom formula 1=SBO name
- \param char ** name of all the paramters, NULL TERMINATED
- \param copasi_parameter ** array of all the paramters, NULL TERMINATED
- \param char ** name of all the species, NULL TERMINATED
- \param copasi_species * array of all the species, NULL TERMINATED
- \return int success=0 failure=-1
- \ingroup copasi
-*/
-TCAPIEXPORT int setReactionRate_v2(copasi_reaction reaction, const char * formula, int sbo, char ** paramName, copasi_parameter * paramMappings, char ** speciesNames, copasi_species * speciesMappings);
 
 /** \} @name Time-Course Simulation \{ */
 

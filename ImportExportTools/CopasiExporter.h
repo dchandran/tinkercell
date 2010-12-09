@@ -18,6 +18,7 @@
 #include "Tool.h"
 #include "CThread.h"
 #include "common/sbmlfwd.h"
+#include "copasi_api.h"
 
 namespace Tinkercell
 {

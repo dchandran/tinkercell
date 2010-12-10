@@ -44,9 +44,11 @@ int main()
 
 	//assignment rule -- make sure all parameters or species are defined BEFORE this step
 	createVariable(model, "prod","A*B*C");
-	createVariable(model, "prodPlus","prod*2");
-	createEvent(model, "event1", "A > 2.5", "B", "B/2.0");
-
+	//createVariable(model, "prodPlus","prod*2");
+	compileCopasiModel(model);
+	createEvent(model, "event1", "<CN=Root,Model=M,Vector=Compartments[cell],Vector=Metabolites[B]> gt 1.8", "Metabolite_2", "<CN=Root,Model=M,Vector=Compartments[cell],Vector=Metabolites[B]>");
+	//createEvent(model, "event1", "A > 2.5", "B", "B/2.0");
+	compileCopasiModel(model);
 	//run
 	tc_matrix output = simulateDeterministic(model, 0, 30, 1000);  //model, start, end, num. points
 	

@@ -95,7 +95,6 @@ copasi_species createSpecies(copasi_compartment compartment, const char* name, d
 	CCompartment* pCompartment = (CCompartment*)(compartment.CopasiCompartmentPtr);
 	CMetab* pSpecies = pModel->createMetabolite(name, pCompartment->getObjectName(), iv, CMetab::REACTIONS);
 	copasi_species s = { (void*)(pSpecies), (void*)(pModel) };
-	
 	CQHash * hash = (CQHash*)(compartment.qHash);
 
 	CopasiPtr copasiPtr = { 
@@ -253,17 +252,17 @@ void createEvent(copasi_model model, const char * name, const char * trigger, co
 	CQHash * hash = (CQHash*)(model.qHash);
 	int i,j,k;
 
-	if (!hash->contains(QString(variable))) return;
-	CopasiPtr ptr = hash->value(QString(variable));
+	//if (!hash->contains(QString(variable))) return;
+	//CopasiPtr ptr = hash->value(QString(variable));
 	
-	if (!ptr.species && !ptr.param) return;
+	//if (!ptr.species && !ptr.param) return;
 
 	CEvent * pEvent = pModel->createEvent(std::string(name));
 
 	CFunction pFunction;
 	QString qFormula(trigger);
 
-	if (pFunction.setInfix(std::string(trigger)))  //parse trigger
+	/*if (pFunction.setInfix(std::string(trigger)))  //parse trigger
 	{
 		CFunctionParameters& variables = pFunction.getVariables();
 		CFunctionParameter* pParam;
@@ -281,12 +280,14 @@ void createEvent(copasi_model model, const char * name, const char * trigger, co
 				substituteString(qFormula,s0,s1);
 			}
 		}
-	}
+	}*/
 	
-	pEvent->setTriggerExpression(std::string( qFormula.toAscii().data() ));   //set trigger
+	std::cout << pEvent->setTriggerExpression(std::string( qFormula.toAscii().data() )) << std::endl;   //set trigger
+	std::cout << qFormula.toAscii().data() << std::endl;
+	
 	qFormula = QString(formula);
 	
-	if (pFunction.setInfix(std::string(formula)))   //parse response expression
+	/*if (pFunction.setInfix(std::string(formula)))   //parse response expression
 	{
 		CFunctionParameters& variables = pFunction.getVariables();
 		CFunctionParameter* pParam;
@@ -304,16 +305,18 @@ void createEvent(copasi_model model, const char * name, const char * trigger, co
 				substituteString(qFormula,s0,s1);
 			}
 		}
-	}
+	}*/
 	
 	CCopasiVectorN< CEventAssignment > & assignments = pEvent->getAssignments();
 	CEventAssignment * assgn = new CEventAssignment;
-	if (ptr.species)
+	std::cout << assgn->setTargetKey(variable) << std::endl;
+	/*if (ptr.species)
 		assgn->setTargetKey(ptr.name.toAscii().data());   //set target
 	else
-		assgn->setTargetKey(ptr.name.toAscii().data()); 
+		assgn->setTargetKey(ptr.name.toAscii().data()); */
 
-	assgn->setExpression(std::string( qFormula.toAscii().data() ));   //set expression
+	std::cout <<  assgn->setExpression(std::string( qFormula.toAscii().data() )) << std::endl;   //set expression
+	std::cout << qFormula.toAscii().data() << std::endl;
 	assignments.add(assgn); 
 }
 

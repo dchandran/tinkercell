@@ -24,7 +24,7 @@ namespace Tinkercell
     OctaveInterpreterThread::OctaveInterpreterThread(const QString & octname, const QString & dllname, MainWindow* main)
         : InterpreterThread(OCTAVE_FOLDER + QObject::tr("/") + dllname,main)
     {
-		fromTC = QRegExp("([A-Za-z0-9_]+)\\s*=\\s*fromTC\\s*\\(\\s*(\\s*[A-Za-z0-9_]+\\s*)\\)");
+    	fromTC = QRegExp("([A-Za-z0-9_]+)\\s*=\\s*fromTC\\s*\\(\\s*(\\s*[A-Za-z0-9_]+\\s*)\\)");
 		addpathDone = false;
     	f = 0;
 		swigLib = loadLibrary(OCTAVE_FOLDER + tr("/") + octname, mainWindow);
@@ -51,7 +51,7 @@ namespace Tinkercell
     void OctaveInterpreterThread::finalize()
     {
         if (!lib || !lib->isLoaded()) return;
-
+http://www.sciencemag.org/content/314/5805/1585.abstract
         finalFunc f = (finalFunc)lib->resolve("finalize");
         if (f)
         {
@@ -69,6 +69,8 @@ namespace Tinkercell
     {
         if (!mainWindow || !lib || !lib->isLoaded())
 		{
+			if (lib && mainWindow && mainWindow->console())
+				mainWindow->console()->message("Could not initialize Octave");
 			//qDebug() << "Octave interpreter: lib not loaded" << mainWindow << " " << lib;
 			return;
 		}
@@ -90,6 +92,11 @@ namespace Tinkercell
             QDir::setCurrent(currentDir);
             
             mainWindow->statusBar()->showMessage(tr("Octave initialized"));
+        }
+        else
+        {
+        	if (lib && mainWindow && mainWindow->console())
+    	 		mainWindow->console()->message("Cannot find initialize function in Octave library");
         }
     }
     

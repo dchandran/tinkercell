@@ -563,6 +563,8 @@ namespace Tinkercell
 			{
 				move(movingItems,change);
 			}
+			
+			movingItems.clear();
 		}
 		else
 		{
@@ -998,6 +1000,26 @@ namespace Tinkercell
 			delete command;
 		}
 		
+		NodeGraphicsItem::ControlPoint * nodePoint;
+		ConnectionGraphicsItem::ControlPoint * connectionPoint;
+		for (int i=0; i < items.size(); ++i)
+		{
+			nodePoint = qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(items[i]);
+			if (nodePoint && !items.contains(nodePoint->nodeItem))
+			{
+				items += nodePoint->nodeItem;
+				dists += QPointF(0,0);
+			}
+			else
+			{
+				connectionPoint = qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(items[i]);
+				if (connectionPoint && !items.contains(connectionPoint->connectionItem))
+				{
+					items += connectionPoint->connectionItem;
+					dists += QPointF(0,0);
+				}
+			}
+		}
 		emit itemsMoved(this,items,dists);
 
 		QPointF p = item->scenePos();
@@ -1042,7 +1064,27 @@ namespace Tinkercell
 			command->redo();
 			delete command;
 		}
-
+		
+		NodeGraphicsItem::ControlPoint * nodePoint;
+		ConnectionGraphicsItem::ControlPoint * connectionPoint;
+		for (int i=0; i < items.size(); ++i)
+		{
+			nodePoint = qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(items[i]);
+			if (nodePoint && !items.contains(nodePoint->nodeItem))
+			{
+				items += nodePoint->nodeItem;
+				dists += QPointF(0,0);
+			}
+			else
+			{
+				connectionPoint = qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(items[i]);
+				if (connectionPoint && !items.contains(connectionPoint->connectionItem))
+				{
+					items += connectionPoint->connectionItem;
+					dists += QPointF(0,0);
+				}
+			}
+		}
 		emit itemsMoved(this,items,dists);
 
 		QPointF p;
@@ -1095,6 +1137,26 @@ namespace Tinkercell
 
 		while (dists.size() < items.size()) dists << QPointF();
 
+		NodeGraphicsItem::ControlPoint * nodePoint;
+		ConnectionGraphicsItem::ControlPoint * connectionPoint;
+		for (int i=0; i < items.size(); ++i)
+		{
+			nodePoint = qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(items[i]);
+			if (nodePoint && !items.contains(nodePoint->nodeItem))
+			{
+				items += nodePoint->nodeItem;
+				dists += QPointF(0,0);
+			}
+			else
+			{
+				connectionPoint = qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(items[i]);
+				if (connectionPoint && !items.contains(connectionPoint->connectionItem))
+				{
+					items += connectionPoint->connectionItem;
+					dists += QPointF(0,0);
+				}
+			}
+		}
 		emit itemsMoved(this,items,dists);
 
 		QPointF p;

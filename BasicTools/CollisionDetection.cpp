@@ -159,19 +159,34 @@ namespace Tinkercell
 
 			if (selected.contains(connectionBelowCursor))
 				connectionBelowCursor = 0;
+			bool isControlPoint;
 
 			if (item == 0 && selected.size() == 1 && selected[0])
 			{
 				QPainterPath path = selected[0]->mapToScene(selected[0]->shape());
 				QList<QGraphicsItem*> itemsNearby = scene->items(path);
 				NodeGraphicsItem* itemHit = 0;
+				
 				for (int i=0; i < itemsNearby.size(); ++i)
 				{
 					itemHit = NodeGraphicsItem::topLevelNodeItem(itemsNearby[i]);
-					if (itemHit && itemHit->handle() && !movingItems.contains(itemHit) && !selected.contains(itemHit))
+					if (itemHit && 
+						 itemHit->handle() && 
+						!movingItems.contains(itemHit) && 
+						!selected.contains(itemHit))
 					{
-						item = itemHit;
-						break;
+						isControlPoint = false;
+						for (int i=0; i < itemHit->boundaryControlPoints.size(); ++i)
+							if (movingItems.contains(itemHit->boundaryControlPoints[i]))
+							{
+								isControlPoint = true;
+								break;
+							}
+						if (!isControlPoint)
+						{
+							item = itemHit;
+							break;
+						}
 					}
 				}
 			}
@@ -184,6 +199,19 @@ namespace Tinkercell
 			else
 			{
 				NodeGraphicsItem * nodeBelowCursor2 = NodeGraphicsItem::topLevelNodeItem(item);
+				
+				if (selected.contains(nodeBelowCursor2))
+					nodeBelowCursor2 = 0;
+
+				if (nodeBelowCursor2)
+				{
+					for (int i=0; i < nodeBelowCursor2->boundaryControlPoints.size(); ++i)
+						if (movingItems.contains(nodeBelowCursor2->boundaryControlPoints[i]))
+						{
+							nodeBelowCursor2 = 0;
+							break;
+						}
+				}
 
 				if (nodeBelowCursor2 != 0)
 				{

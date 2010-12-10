@@ -80,12 +80,12 @@ namespace Tinkercell
 
 			setWindowTitle(tr("Model summary"));
 			setWindowIcon(QIcon(tr(":/images/monitor.png")));
-			
+
 			if (MainWindow::PROGRAM_MODE != tr("parts-only"))
 				mainWindow->addToolWindow(this, MainWindow::defaultToolWindowOption, Qt::RightDockWidgetArea);
 
-            connectCollisionDetector();
-            connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
+          connectCollisionDetector();
+          connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
 
             return true;
         }
@@ -642,9 +642,9 @@ namespace Tinkercell
         QList<ItemHandle*> newParents;
 
         ItemHandle * child = 0, * parent = 0, * handle = 0;
-        bool outOfBox;
+         bool outOfBox;
 
-		QList<ItemHandle*> movedChildNodes, movedCompartmentNodes;
+	 	 QList<ItemHandle*> movedChildNodes, movedCompartmentNodes;
 
         QList<QGraphicsItem*> itemsToRename;
         QList<QString> newNames;
@@ -669,7 +669,7 @@ namespace Tinkercell
         {
             if (TextGraphicsItem::cast(items[i])) continue;
 
-            handle = getHandle(items[i]);
+          handle = getHandle(items[i]);
 
 			if (!handle || !handle->family() || visitedHandles.contains(handle)) continue;
 

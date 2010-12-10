@@ -663,10 +663,15 @@ namespace Tinkercell
 							}
 							else
 							{
-								color.setAlpha(brush.color().alpha());
-								QBrush newBrush(color);
-								items += aitem;
-								brushes += newBrush;
+								if (!( abs(brush.color().red() - brush.color().green()) < 10 &&
+									   abs(brush.color().blue() - brush.color().green()) < 10  &&
+									   abs(brush.color().red() - brush.color().blue()) < 10))
+								{
+									color.setAlpha(brush.color().alpha());
+									QBrush newBrush(color);
+									items += aitem;
+									brushes += newBrush;
+								}
 							}
 						}
 					}

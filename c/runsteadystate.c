@@ -75,9 +75,7 @@ TCAPIEXPORT void tc_main()
 	strcpy(selected_var,"\0");
 	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?
 	tc_addFunction(&setup1, "Steady state analysis", "uses Sundials library (compiles to C program)", "Steady state", "cvode.png", "", 1, 0, 0);
-	
-	if (!@MAC_WITHOUT_GCC@)
-		tc_addFunction(&setup2, "2-Parameter Steady state analysis", "uses Sundials library (compiles to C program)", "Steady state", "cvode.png", "", 1, 0, 0);
+	tc_addFunction(&setup2, "2-Parameter Steady state analysis", "uses Sundials library (compiles to C program)", "Steady state", "cvode.png", "", 1, 0, 0);
 
 	tc_callback(&callback);
 	tc_callWhenExiting(&unload);
@@ -103,20 +101,11 @@ void setup1()
 	m.rownames.strings = rows;
 	m.values = values;
 	
-	if (@MAC_WITHOUT_GCC@)
-	{
-		m.rows = 4;
-		options1[1] = "Not available in Mac";
-	}
-
 	tc_createInputWindow(m,"Steady state analysis",&run);
 	tc_addInputWindowOptions("Steady state analysis",0, 0, a1);
 	tc_addInputWindowOptions("Steady state analysis",1, 0, allNames);
-	if (!@MAC_WITHOUT_GCC@)
-	{
-		tc_addInputWindowOptions("Steady state analysis",5, 0, a2);
-		tc_addInputWindowOptions("Steady state analysis",6, 0, a3);
-	}
+	tc_addInputWindowOptions("Steady state analysis",5, 0, a2);
+	tc_addInputWindowOptions("Steady state analysis",6, 0, a3);
 }
 
 void setup2()
@@ -181,16 +170,6 @@ void run(tc_matrix input)
 	if (end < start) 
 	{
 		tc_errorReport("end value is less than start value");
-		return;
-	}
-	
-	if (@MAC_WITHOUT_GCC@)
-	{
-		param = tc_getString(allNames,index); //the parameter to vary
-		strcpy(selected_var,param);
-		N = tc_steadyStateScan(param,end,dt);
-		tc_plot(N,"Steady State Plot");
-		tc_deleteMatrix(&N);
 		return;
 	}
 	

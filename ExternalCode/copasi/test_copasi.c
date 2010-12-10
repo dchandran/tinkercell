@@ -45,6 +45,7 @@ int main()
 	//assignment rule -- make sure all parameters or species are defined BEFORE this step
 	createVariable(model, "prod","A*B*C");
 	createVariable(model, "prodPlus","prod*2");
+	createEvent(model, "event1", "A > 2.5", "B", "B/2.0");
 
 	//run
 	tc_matrix output = simulateDeterministic(model, 0, 30, 1000);  //model, start, end, num. points

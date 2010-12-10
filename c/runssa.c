@@ -49,14 +49,6 @@ void runSSA(tc_matrix input)
 		return;
 	}
 	
-	if (@MAC_WITHOUT_GCC@)
-	{
-		N = tc_simulateSSA(time);
-		tc_plot(N,"Stochastic Simulation");
-		tc_deleteMatrix(&N);
-		return;
-	}
-	
 	if (slider)
 		slider = 0;
 	else
@@ -422,10 +414,6 @@ void setupSSA()
 	tc_strings a3 = { 2, options3 };
 
 	m.rows = 5;
-	if (@MAC_WITHOUT_GCC@)
-	{
-		m.rows = 2;
-	}
 	m.cols = 1;
 	m.colnames.length = 1;
 	m.colnames.strings = cols;
@@ -434,12 +422,9 @@ void setupSSA()
 	m.values = values;
 
 	tc_createInputWindow(m,"Gillespie algorithm",&runSSA);
-	if (!@MAC_WITHOUT_GCC@)
-	{
-		tc_addInputWindowOptions("Gillespie algorithm",0, 0, a1);
-		tc_addInputWindowOptions("Gillespie algorithm",3, 0, a2);
-		tc_addInputWindowOptions("Gillespie algorithm",4, 0, a3);
-	}
+	tc_addInputWindowOptions("Gillespie algorithm",0, 0, a1);
+	tc_addInputWindowOptions("Gillespie algorithm",3, 0, a2);
+	tc_addInputWindowOptions("Gillespie algorithm",4, 0, a3);
 }
 
 void runLangevin(tc_matrix input)
@@ -755,9 +740,6 @@ TCAPIEXPORT void tc_main()
 {
 	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?
 	tc_addFunction(&setupSSA, "Stochastic simulation (Discrete)", "uses custom Gillespie algorithm (compiles to C program)", "Simulate", "stochastic.png", "", 1, 0, 0);
-	
-	//if (!@MAC_WITHOUT_GCC@)
-		//tc_addFunction(&setupLangevin, "Stochastic simulation (Continuous)", "uses Langevin method (compiles to C program)", "Simulate", "stochastic.png", "", 1, 0, 0);
 	
 	//tc_addFunction(&setupCellSSA, "Multi-cell stochastic simulation", "uses custom Gillespie algorithm (compiles to C program)", "Simulate", "cells.png", "", 1, 0, 0);
 }

@@ -211,7 +211,6 @@ copasi_parameter createVariable(copasi_model model, const char * name, const cha
 
 	CFunction pFunction;
 	QString qFormula(formula);
-	bool ok;
 
 	if (pFunction.setInfix(std::string(formula)))
 	{
@@ -220,7 +219,6 @@ copasi_parameter createVariable(copasi_model model, const char * name, const cha
 
 		for (i=0; i < variables.size(); ++i)
 		{
-			ok = false;
 			pParam = variables[i];
 
 			QString s0(pParam->getObjectName().c_str());
@@ -247,6 +245,76 @@ copasi_parameter createVariable(copasi_model model, const char * name, const cha
 	hash->insert(QString(name), copasiPtr); //for speedy lookup
 
 	return p;
+}
+
+void createEvent(copasi_model model, const char * name, const char * trigger, const char * variable, const char * formula)
+{
+	CModel* pModel = (CModel*)(model.CopasiModelPtr);
+	CQHash * hash = (CQHash*)(model.qHash);
+	int i,j,k;
+
+	if (!hash->contains(QString(variable))) return;
+	CopasiPtr ptr = hash->value(QString(variable));
+	
+	if (!ptr.species && !ptr.param) return;
+
+	CEvent * pEvent = pModel->createEvent(std::string(name));
+
+	CFunction pFunction;
+	QString qFormula(trigger);
+
+	if (pFunction.setInfix(std::string(trigger)))  //parse trigger
+	{
+		CFunctionParameters& variables = pFunction.getVariables();
+		CFunctionParameter* pParam;
+
+		for (i=0; i < variables.size(); ++i)
+		{
+			pParam = variables[i];
+
+			QString s0(pParam->getObjectName().c_str());
+			if (hash->contains(s0))
+			{
+			 	QString s1("<");
+					s1 += hash->value(s0).name;
+					s1 += QString(">");
+				substituteString(qFormula,s0,s1);
+			}
+		}
+	}
+	
+	pEvent->setTriggerExpression(std::string( qFormula.toAscii().data() ));   //set trigger
+	qFormula = QString(formula);
+	
+	if (pFunction.setInfix(std::string(formula)))   //parse response expression
+	{
+		CFunctionParameters& variables = pFunction.getVariables();
+		CFunctionParameter* pParam;
+
+		for (i=0; i < variables.size(); ++i)
+		{
+			pParam = variables[i];
+
+			QString s0(pParam->getObjectName().c_str());
+			if (hash->contains(s0))
+			{
+			 	QString s1("<");
+					s1 += hash->value(s0).name;
+					s1 += QString(">");
+				substituteString(qFormula,s0,s1);
+			}
+		}
+	}
+	
+	CCopasiVectorN< CEventAssignment > & assignments = pEvent->getAssignments();
+	CEventAssignment * assgn = new CEventAssignment;
+	if (ptr.species)
+		assgn->setTargetKey(ptr.name.toAscii().data());   //set target
+	else
+		assgn->setTargetKey(ptr.name.toAscii().data()); 
+
+	assgn->setExpression(std::string( qFormula.toAscii().data() ));   //set expression
+	assignments.add(assgn); 
 }
 
 copasi_reaction createReaction(copasi_model model, const char* name)

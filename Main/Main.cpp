@@ -53,24 +53,25 @@ int main(int argc, char *argv[])
     /*******  Main Window ***********/
     
     // "lite" modes
-    #if defined(LITE_V1) || defined(LITE_V2)
-    	MainWindow mainWindow(true, false, false, true, true);
-		#ifdef LITE_V1
-			MainWindow::PROGRAM_MODE = QString("parts-only");
-		#else
-			MainWindow::PROGRAM_MODE = QString("species-only");
-		#endif
-    #else
+  #ifdef TINKERCELL_LITE_PARTS
+  	    MainWindow mainWindow(true, false, false, true, true);
+	    MainWindow::PROGRAM_MODE = QString("parts-only");
+  #else
+  #ifdef TINKERCELL_LITE_TEXT
+   	   MainWindow mainWindow(false, true, true, false, false);
+ 	   MainWindow::PROGRAM_MODE = QString("text-only");
+  #else
     	MainWindow mainWindow;
-	#endif
+  #endif
+  #endif
 	
 	mainWindow.addTool(new BasicGraphicsToolbar());
 	mainWindow.addTool(new PlotTool());
    	mainWindow.addTool(new GnuplotTool());
 
     /*******  title , etc ***********/
-    mainWindow.setWindowTitle(QObject::tr("Tinkercell: synthetic biology CAD"));
-    mainWindow.statusBar()->showMessage(QObject::tr("Welcome to Tinkercell"));
+    mainWindow.setWindowTitle(QObject::tr("TinkerCell"));
+    mainWindow.statusBar()->showMessage(QObject::tr("Welcome to TinkerCell"));
 
     /*******  Splash screen ***********/
 

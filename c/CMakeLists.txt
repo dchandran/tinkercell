@@ -6,9 +6,9 @@ IF (APPLE)
 	SET(MAC_WITHOUT_GCC "0")
 ENDIF(APPLE)
 
-CONFIGURE_FILE( runcvode.c ${TINKERCELL_BINARY_DIR}/c/runcvode.c  @ONLY)
-CONFIGURE_FILE( runssa.c ${TINKERCELL_BINARY_DIR}/c/runssa.c  @ONLY)
-CONFIGURE_FILE( runsteadystate.c ${TINKERCELL_BINARY_DIR}/c/runsteadystate.c  @ONLY)
+#CONFIGURE_FILE( runcvode.c ${TINKERCELL_BINARY_DIR}/c/runcvode.c  @ONLY)
+#CONFIGURE_FILE( runssa.c ${TINKERCELL_BINARY_DIR}/c/runssa.c  @ONLY)
+#CONFIGURE_FILE( runsteadystate.c ${TINKERCELL_BINARY_DIR}/c/runsteadystate.c  @ONLY)
 
 IF ( UNIX )
     ADD_CUSTOM_COMMAND ( 
@@ -46,9 +46,11 @@ ENDIF( WIN32 )
 
 SET(LIBRARY_OUTPUT_PATH ${C_LIBRARY_OUTPUT_PATH})
 
+IF (NOT TINKERCELL_LITE_PARTS)
+
 ADD_LIBRARY( runsteadystate 
   SHARED
-  ${TINKERCELL_BINARY_DIR}/c/runsteadystate.c
+  runsteadystate.c
 )
 TARGET_LINK_LIBRARIES( runsteadystate runsteadystate tinkercellapi )
 
@@ -60,14 +62,14 @@ ENDIF( WIN32 )
 
 ADD_LIBRARY( runcvode 
   SHARED
-  ${TINKERCELL_BINARY_DIR}/c/runcvode.c
+  runcvode.c
 )
 
 TARGET_LINK_LIBRARIES( runcvode runcvode tinkercellapi )
 
 ADD_LIBRARY( runssa 
   SHARED
-  ${TINKERCELL_BINARY_DIR}/c/runssa.c
+  runssa.c
 )
 
 TARGET_LINK_LIBRARIES( runssa runssa tinkercellapi )
@@ -138,7 +140,7 @@ IF ( WIN32 )
 #  INSTALL(TARGETS runbistablega DESTINATION plugins/c)
 #  INSTALL(TARGETS runvaluesattime DESTINATION plugins/c)
 #  INSTALL(TARGETS parametercorrelation DESTINATION plugins/c)
-  INSTALL(TARGETS tabasco_like DESTINATION plugins/c)
+ # INSTALL(TARGETS tabasco_like DESTINATION plugins/c)
   INSTALL(TARGETS lpsolve DESTINATION plugins/c)
 ELSE ( WIN32 )
   INSTALL(TARGETS runssa LIBRARY DESTINATION plugins/c)
@@ -148,9 +150,11 @@ ELSE ( WIN32 )
 #  INSTALL(TARGETS runbistablega LIBRARY DESTINATION plugins/c)
 #  INSTALL(TARGETS runvaluesattime LIBRARY DESTINATION plugins/c)
 #  INSTALL(TARGETS parametercorrelation LIBRARY DESTINATION plugins/c)
-  INSTALL(TARGETS tabasco_like LIBRARY DESTINATION plugins/c)
+ # INSTALL(TARGETS tabasco_like LIBRARY DESTINATION plugins/c)
   INSTALL(TARGETS lpsolve LIBRARY DESTINATION plugins/c)
 ENDIF( WIN32 )
+
+ENDIF (NOT TINKERCELL_LITE_PARTS)
 
 FILE( GLOB C_SRC "*.c" "*.h" )
 

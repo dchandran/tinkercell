@@ -1207,7 +1207,7 @@ namespace Tinkercell
 
 	void MainWindow::popIn(NetworkWindow * win)
 	{
-		if (allowViewModeToChange && win && tabWidget)
+		if (/*allowViewModeToChange &&*/ win && tabWidget)
 		{
 			int i = tabWidget->indexOf(win);
 			if (i == -1)

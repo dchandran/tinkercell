@@ -754,29 +754,6 @@ namespace Tinkercell
 
 			numNodeTabs = 3;
 		}
-		else
-		if (mainWindow->PROGRAM_MODE == tr("species-only"))
-		{
-			tabGroups.clear();
-
-			tabGroups	<< QPair<QString, QStringList>(
-													tr("Molecules"),
-													QStringList() << "Molecule" << "Empty")
-
-					<< QPair<QString, QStringList>(
-													tr("Compartments"),
-													QStringList() << "Compartment")
-
-					<< QPair<QString, QStringList>(
-													tr("Regulation"),
-													QStringList() << "Regulation")
-					
-					<< QPair<QString, QStringList>(
-													tr("Reaction"),
-													QStringList() << tr("Biochemical"));
-
-			numNodeTabs = 3;
-		}
 
 		QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
 		settings.beginGroup("CatalogWidget");
@@ -1124,9 +1101,7 @@ namespace Tinkercell
 			makeTabWidget();
 		}
 	}
-
 }
-
 
 extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)
 {
@@ -1138,7 +1113,10 @@ extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)
      Tinkercell::ConnectionsTree * connectionsTree = new Tinkercell::ConnectionsTree;
 	 main->addTool(connectionsTree);
 
-	 Tinkercell::CatalogWidget * widget = new Tinkercell::CatalogWidget(nodesTree,connectionsTree);
-	 main->addTool(widget);
+	 if (Tinkercell::MainWindow::PROGRAM_MODE != QObject::tr("text-only"))
+	 {
+		 Tinkercell::CatalogWidget * widget = new Tinkercell::CatalogWidget(nodesTree,connectionsTree);
+		 main->addTool(widget);
+	 }
 }
 

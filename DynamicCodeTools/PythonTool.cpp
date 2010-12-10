@@ -212,6 +212,8 @@ namespace Tinkercell
     void PythonTool::toolLoaded(Tool*)
     {
         static bool connected = false;
+        
+        if (MainWindow::PROGRAM_MODE != tr("test-only")) return;
 
         if (!connected && mainWindow->tool(tr("Dynamic Library Menu")))
         {

@@ -36,10 +36,6 @@ void setup()
 	tc_strings a3 = {2,options3};
 
 	m.rows = m.rownames.length = 6;
-	if (@MAC_WITHOUT_GCC@)
-	{
-		m.rows = m.rownames.length = 3;
-	}
 	m.cols = m.colnames.length =  1;
 	m.colnames.strings = cols;
 	m.rownames.strings = rows;
@@ -47,12 +43,10 @@ void setup()
 
 	tc_createInputWindow(m,"Deterministic simulation (CVODE)",&run);
 	tc_addInputWindowOptions("Deterministic Simulation (CVODE)",0, 0,  a1);		
-	if (!@MAC_WITHOUT_GCC@)
-	{
-		tc_addInputWindowOptions("Deterministic Simulation (CVODE)",3, 0,  a2);
-		tc_addInputWindowOptions("Deterministic Simulation (CVODE)",4, 0,  a3);
-		tc_addInputWindowOptions("Deterministic Simulation (CVODE)",5, 0,  a3);
-	}
+	tc_addInputWindowOptions("Deterministic Simulation (CVODE)",3, 0,  a2);
+	tc_addInputWindowOptions("Deterministic Simulation (CVODE)",4, 0,  a3);
+	tc_addInputWindowOptions("Deterministic Simulation (CVODE)",5, 0,  a3);
+	
 	return;
 }
 
@@ -95,14 +89,6 @@ void run(tc_matrix input)
 	if (dt > end/2.0) 
 	{
 		tc_errorReport("step size is too small");
-		return;
-	}
-	
-	if (@MAC_WITHOUT_GCC@)
-	{
-		N = tc_simulateODE(end,dt);
-		tc_plot(N,"Time Course Simulation");
-		tc_deleteMatrix(&N);
 		return;
 	}
 	

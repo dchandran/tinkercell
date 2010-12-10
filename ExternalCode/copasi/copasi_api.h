@@ -107,7 +107,7 @@ TCAPIEXPORT void setConcentration(copasi_species species, double initialValue);
 */
 TCAPIEXPORT void setAssignmentRule(copasi_species species, const char * formula);
 
-/** \} @name Parameters \{ */
+/** \} @name Parameters and formulas\{ */
 
 /*! 
  \brief set the value of an existing global parameter or create a new global parameter
@@ -135,6 +135,18 @@ TCAPIEXPORT const char * getCopasiParameterID(copasi_parameter param, int * stri
  \ingroup copasi
 */
 TCAPIEXPORT copasi_parameter createVariable(copasi_model model, const char * name, const char * formula);
+
+/** \} @name Events\{ */
+/*! 
+ \brief add a trigger and a response, where the response is defined by a target variable and an assignment formula
+ \param copasi_model model
+ \param char * event name
+ \param char * trigger
+ \param char * response: name of variable or species
+ \param char* response: assignment formula
+ \ingroup copasi
+*/
+TCAPIEXPORT void createEvent(copasi_model model, const char * name, const char * trigger, const char * variable, const char * formula);
 
 /** \} @name Reaction \{ */
 

@@ -1160,7 +1160,7 @@ namespace Tinkercell
 				QList<QGraphicsItem*> & graphicsItems = NodeGraphicsItem::cast(items[i])->handle()->parent->graphicsItems;
 				for (int j=0; j < graphicsItems.size(); ++j)			
 					if (NodeGraphicsItem::cast(graphicsItems[j]))
-						adjustPlasmid(scene, NodeGraphicsItem::cast(graphicsItems[j]));
+						commands << adjustPlasmid(scene, NodeGraphicsItem::cast(graphicsItems[j]),false);
 			}
 
 		for (int i=0; i < items.size(); ++i)
@@ -1824,16 +1824,17 @@ namespace Tinkercell
 				else
 					angle = atan((p1.y()-center.y())/(p1.x()-center.x()));
 
+				qreal w = nodesInPlasmid[i]->leftMostShape()->sceneBoundingRect().center().y() - p1.y() ;
 				if (p1.x() > center.x())
 				{
-					p2.rx() = center.x() + cos(angle)*(radius + boundingRect.height()/4.0);
-					p2.ry() = center.y() + sin(angle)*(radius + boundingRect.height()/4.0);				
+					p2.rx() = center.x() + cos(angle)*(radius + w);
+					p2.ry() = center.y() + sin(angle)*(radius + w);
 					angle += 3.14159/2.0;
 				}
 				else
 				{
-					p2.rx() = center.x() - cos(angle)*(radius + boundingRect.height()/4.0);
-					p2.ry() = center.y() - sin(angle)*(radius + boundingRect.height()/4.0);
+					p2.rx() = center.x() - cos(angle)*(radius + w);
+					p2.ry() = center.y() - sin(angle)*(radius + w);
 					angle -= 3.14159/2.0;
 				}
 

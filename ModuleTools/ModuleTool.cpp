@@ -697,12 +697,13 @@ namespace Tinkercell
 			for (int i=0; i < handles.size(); ++i)
 				if ((ch = ConnectionHandle::cast(handles[i])) && !handles[i]->children.isEmpty())
 				{
-					for (int j=0; j < handles[i]->graphicsItems.size(); ++j)
-						if ((c = ConnectionGraphicsItem::cast(handles[i]->graphicsItems[j])) && (c->scene() == scene))
-						{
-							scene->showToolTip(c->centerLocation(),handles[i]->name + tr(" contains a model inside"));
-							break;
-						}
+					if (handles.size() == 1)
+						for (int j=0; j < handles[i]->graphicsItems.size(); ++j)
+							if ((c = ConnectionGraphicsItem::cast(handles[i]->graphicsItems[j])) && (c->scene() == scene))
+							{
+								scene->showToolTip(c->centerLocation(),handles[i]->name + tr(" contains a model inside"));
+								break;
+							}
 					modules << handles[i];
 
 					QList<QGraphicsItem*> items2;	

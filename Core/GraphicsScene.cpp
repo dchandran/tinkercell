@@ -404,11 +404,16 @@ namespace Tinkercell
 
 				if (selectedItems.size() > 0)
 				{
+					ArrowHeadItem * arrow;
+					QGraphicsItem * topLevelItem;
 					for (QList<QGraphicsItem*>::const_iterator i = selectedItems.constBegin(); i != selectedItems.constEnd(); ++i)
 						if (*i && *i != &selectionRect)
-						{
-							movingItems.append((*i)->topLevelItem());
-						}
+							if (topLevelItem = (*i)->topLevelItem())
+							{
+								arrow = ArrowHeadItem::cast(topLevelItem);
+								if (!arrow || selectedItems.contains(arrow->connectionItem))
+									movingItems.append(topLevelItem);
+							}
 
 						if (mouseEvent->button())// == Qt::LeftButton)
 						{

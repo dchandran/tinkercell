@@ -55,7 +55,9 @@ namespace Tinkercell
 	{
 		if (!(nodeBelowCursor != 0 || connectionBelowCursor != 0))
 		{
-			QList<QGraphicsItem*> existingItems = scene->items(scene->lastPoint());
+			QPointF & p = scene->lastPoint();
+			QRectF rect(p - QPointF(20,20), p + QPointF(20,20));
+			QList<QGraphicsItem*> existingItems = scene->items(rect);
 			
 			for (int i=0; i < existingItems.size(); ++i)
 				if ((nodeBelowCursor = NodeGraphicsItem::cast(existingItems[i])) && !items.contains(nodeBelowCursor))

@@ -470,11 +470,21 @@ namespace Tinkercell
 			fileName =
 				QFileDialog::getSaveFileName(this, tr("Save Current Network"),
 				previousFileName,
-				(PROJECTNAME + tr(" files (*.") + OPEN_FILE_EXTENSIONS.join(tr(" *.")) + tr(")")));
+				(PROJECTNAME + tr(" files (*.") + SAVE_FILE_EXTENSIONS.join(tr(" *.")) + tr(")")));
 			if (fileName.isNull() || fileName.isEmpty())
 				return;
-			else
+			
+			previousFileName = tr("");
+			for (int i=0; i < SAVE_FILE_EXTENSIONS.size(); ++i)
+				if (fileName.endsWith(tr(".") + SAVE_FILE_EXTENSIONS[i]))
+					currentNetworkWindow->filename = previousFileName = fileName;
+			
+			if (previousFileName.isEmpty())
+			{
+				if (!SAVE_FILE_EXTENSIONS.isEmpty())
+					fileName += tr(".") + SAVE_FILE_EXTENSIONS[0];
 				currentNetworkWindow->filename = previousFileName = fileName;
+			}
 		}
 		QFile file (fileName);
 
@@ -507,7 +517,18 @@ namespace Tinkercell
 		if (fileName.isEmpty())
 			return;
 
-		currentNetworkWindow->filename = previousFileName = fileName;
+		previousFileName = tr("");
+		for (int i=0; i < SAVE_FILE_EXTENSIONS.size(); ++i)
+			if (fileName.endsWith(tr(".") + SAVE_FILE_EXTENSIONS[i]))
+				currentNetworkWindow->filename = previousFileName = fileName;
+			
+		if (previousFileName.isEmpty())
+		{
+			if (!SAVE_FILE_EXTENSIONS.isEmpty())
+				fileName += tr(".") + SAVE_FILE_EXTENSIONS[0];
+			currentNetworkWindow->filename = previousFileName = fileName;
+		}
+
 		QFile file (fileName);
 
 		if (!file.open(QFile::WriteOnly | QFile::Text)) {

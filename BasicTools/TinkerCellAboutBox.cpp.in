@@ -25,7 +25,7 @@ namespace Tinkercell
 		text = tr("TinkerCell\nVersion: ") + MainWindow::PROJECT_VERSION + tr("\n\n");
 		QString appDir = QCoreApplication::applicationDirPath();
 		QString filename = appDir + tr("/ABOUT.TXT");
-		QString bugs = appDir + tr("/BUGS.TXT");
+		QString updates = appDir + tr("/UPDATES.TXT");
 
 		QFile file;
 		file.setFileName( filename );
@@ -36,7 +36,7 @@ namespace Tinkercell
 			file.close();
 		}
 		
-		file.setFileName( bugs );
+		file.setFileName( updates );
 		
 		if (file.open( QFile::ReadOnly | QFile::Text ) )
 		{

@@ -69,6 +69,10 @@ int main(int argc, char *argv[])
 	mainWindow.addTool(new PlotTool());
    	mainWindow.addTool(new GnuplotTool());
 
+    /*******  save and open extensions ***********/	   	
+   	MainWindow::OPEN_FILE_EXTENSIONS << "TIC" << "tic";
+	MainWindow::SAVE_FILE_EXTENSIONS << "TIC" << "tic";
+
     /*******  title , etc ***********/
     mainWindow.setWindowTitle(QObject::tr("TinkerCell"));
     mainWindow.statusBar()->showMessage(QObject::tr("Welcome to TinkerCell"));
@@ -121,7 +125,11 @@ int main(int argc, char *argv[])
 
     /*******  START TINKERCELL ***********/
     mainWindow.readSettings();
-    mainWindow.newScene();
+  #ifdef TINKERCELL_LITE_TEXT
+       mainWindow.newEditor();
+  #else    
+       mainWindow.newScene();
+  #endif
     mainWindow.show();
     splash.finish(&mainWindow);
 

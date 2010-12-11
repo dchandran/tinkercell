@@ -406,6 +406,8 @@ namespace Tinkercell
 				{
 					ArrowHeadItem * arrow;
 					QGraphicsItem * topLevelItem;
+					NodeGraphicsItem::ControlPoint * ncp;
+					ConnectionGraphicsItem::ControlPoint * ccp;
 					for (QList<QGraphicsItem*>::const_iterator i = selectedItems.constBegin(); i != selectedItems.constEnd(); ++i)
 						if (*i && *i != &selectionRect)
 							if (topLevelItem = (*i)->topLevelItem())
@@ -413,6 +415,46 @@ namespace Tinkercell
 								arrow = ArrowHeadItem::cast(topLevelItem);
 								if (!arrow || selectedItems.contains(arrow->connectionItem))
 									movingItems.append(topLevelItem);
+								
+								if (ncp = qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(topLevelItem))
+								{
+									if (ncp->nodeItem && ncp->nodeItem->handle())
+									{
+										QRectF rect = ncp->sceneBoundingRect();
+										QList<QGraphicsItem*> & ngraphics = ncp->nodeItem->handle()->graphicsItems;
+										for (int j=0; j < ngraphics.size(); ++j)
+											if (TextGraphicsItem::cast(ngraphics[j]) &&  
+												 !movingItems.contains(ngraphics[j]) &&
+												 (
+												 	abs(ngraphics[j]->scenePos().x() - rect.center().x()) < 1.5*rect.width() ||
+												 	abs(ngraphics[j]->scenePos().y() - rect.center().y()) < 1.5*rect.height()
+												))
+												{
+													movingItems += ngraphics[j];
+												}
+									}
+								}
+								if (ccp = qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(topLevelItem))
+								{
+									if (ccp->connectionItem && 
+										(ccp->connectionItem->centerPoint() == ccp) && 
+										ccp->connectionItem->handle())
+									{
+										QRectF rect = ccp->sceneBoundingRect();
+										rect.adjust(-20,-20,20,20);
+										QList<QGraphicsItem*> & ngraphics = ccp->connectionItem->handle()->graphicsItems;
+										for (int j=0; j < ngraphics.size(); ++j)
+											if (TextGraphicsItem::cast(ngraphics[j]) &&  
+												 !movingItems.contains(ngraphics[j]) &&
+												 (
+												 	abs(ngraphics[j]->scenePos().x() - rect.center().x()) < rect.width() ||
+												 	abs(ngraphics[j]->scenePos().y() - rect.center().y()) < rect.height()
+												))
+												{
+													movingItems += ngraphics[j];
+												}
+									}
+								}
 							}
 
 						if (mouseEvent->button())// == Qt::LeftButton)

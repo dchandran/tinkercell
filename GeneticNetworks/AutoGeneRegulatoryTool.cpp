@@ -1154,12 +1154,30 @@ namespace Tinkercell
 		for (int i=0; i < items.size(); ++i)
 			if (NodeGraphicsItem::cast(items[i]) && 
 				NodeGraphicsItem::cast(items[i])->handle() &&
+				NodeGraphicsItem::cast(items[i])->handle()->isA(tr("Vector")))
+			{
+				commands << adjustPlasmid(scene, NodeGraphicsItem::cast(items[i]),false);
+			}
+		
+		for (int i=0; i < items.size(); ++i)
+			if (qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(items[i]) && 
+				qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(items[i])->nodeItem &&
+				qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(items[i])->nodeItem->handle() &&
+				qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(items[i])->nodeItem->handle()->isA(tr("Vector")))
+			{
+				commands << adjustPlasmid(scene,qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(items[i])->nodeItem);
+				items[i] = 0;
+			}
+		
+		for (int i=0; i < items.size(); ++i)
+			if (NodeGraphicsItem::cast(items[i]) && 
+				NodeGraphicsItem::cast(items[i])->handle() &&
 				NodeGraphicsItem::cast(items[i])->handle()->parent &&
 				NodeGraphicsItem::cast(items[i])->handle()->parent->isA(tr("Vector")))
 			{
 				QList<QGraphicsItem*> & graphicsItems = NodeGraphicsItem::cast(items[i])->handle()->parent->graphicsItems;
 				for (int j=0; j < graphicsItems.size(); ++j)			
-					if (NodeGraphicsItem::cast(graphicsItems[j]))
+					if (NodeGraphicsItem::cast(graphicsItems[j]) && !items.contains(graphicsItems[j]))
 						commands << adjustPlasmid(scene, NodeGraphicsItem::cast(graphicsItems[j]),false);
 			}
 
@@ -1720,9 +1738,11 @@ namespace Tinkercell
 
 		QRectF boundingRect = vector->sceneBoundingRect();
 		
-		if (boundingRect.width() != boundingRect.height())
+		if (abs(boundingRect.width() - boundingRect.height()) > 2)
 		{
-			qreal w = (boundingRect.width() + boundingRect.height())/2.0;
+			qreal w = boundingRect.width();
+			if (boundingRect.height() > w)
+				w = boundingRect.height();
 			commands << new TransformCommand(
 							tr("circularize"), 
 							scene, 
@@ -1829,6 +1849,7 @@ namespace Tinkercell
 					angle = atan((p1.y()-center.y())/(p1.x()-center.x()));
 
 				qreal w = nodesInPlasmid[i]->leftMostShape()->sceneBoundingRect().center().y() - p1.y() ;
+
 				if (p1.x() > center.x())
 				{
 					p2.rx() = center.x() + cos(angle)*(radius + w);
@@ -1862,8 +1883,9 @@ namespace Tinkercell
 						flips += false;
 					}
 			}
-			commands << new MoveCommand(scene, itemsToMove, moveBy)
-					 << new TransformCommand(tr("rotate"), scene, itemsToMove, QList<QPointF>(), rotateBy, QList<bool>(), QList<bool>());
+			commands 
+					 << new TransformCommand(tr("rotate"), scene, itemsToMove, QList<QPointF>(), rotateBy, QList<bool>(), QList<bool>())
+					 << new MoveCommand(scene, itemsToMove, moveBy);
 		}
 		
 		for (int i=0; i < children.size(); ++i)

@@ -1546,7 +1546,7 @@ namespace Tinkercell
 	{
 		NodeGraphicsItem::Shape * shape = 0;
 		for (int i=0; i < shapes.size(); ++i)
-			if (!shape || shapes[i]->boundingRect().left() > shape->boundingRect().left())
+			if (!shape || shapes[i]->boundingRect().left() < shape->boundingRect().left())
 				shape = shapes[i];
 
 		return shape;

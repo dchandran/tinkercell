@@ -18,7 +18,6 @@ A GraphicsTool is also defined that brings up the transformations window
 #include "ConnectionSelection.h"
 #include "GraphicsReplaceTool.h"
 
-
 namespace Tinkercell
 {
 	void GraphicsTransformTool::select(int)

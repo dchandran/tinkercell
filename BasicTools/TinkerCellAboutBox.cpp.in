@@ -24,21 +24,27 @@ namespace Tinkercell
 
 		text = tr("TinkerCell\nVersion: ") + MainWindow::PROJECT_VERSION + tr("\n\n");
 		QString appDir = QCoreApplication::applicationDirPath();
-		QString filename = appDir + tr("/ABOUT.txt");
+		QString filename = appDir + tr("/ABOUT.TXT");
+		QString bugs = appDir + tr("/BUGS.TXT");
 
 		QFile file;
 		file.setFileName( filename );
-		bool opened = ( file.open( QFile::ReadOnly | QFile::Text ) );
-
-		if (!opened)
+		if (file.open( QFile::ReadOnly | QFile::Text ) )
 		{
+			QString allText(file.readAll());
+			text += allText + tr("\n\n");
+			file.close();
 		}
-		else
+		
+		file.setFileName( bugs );
+		
+		if (file.open( QFile::ReadOnly | QFile::Text ) )
 		{
 			QString allText(file.readAll());
 			text += allText + tr("\n");
 			file.close();
 		}
+		
 		QTextEdit * edit = new QTextEdit(this);
 		edit->setPlainText(text);
 		edit->setReadOnly(true);

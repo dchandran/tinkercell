@@ -35,31 +35,13 @@ namespace Tinkercell
 
 		ConnectionGraphicsItem * connection = 0;
 		NodeGraphicsItem * node = 0;
-		for (int i=0; i < items.size(); ++i)
-		{
-			if ((connection = ConnectionGraphicsItem::cast(items[i])))
+		
+		for (int i=0; i < items.size() && i < amounts.size(); ++i)
+			if (items[i] && !amounts[i].isNull())
 			{
-				QList<QGraphicsItem*> cps = connection->controlPointsAsGraphicsItems();
-				for (int j=0; j < cps.size(); ++j)
+				if ((connection = ConnectionGraphicsItem::cast(items[i])))
 				{
-					if (!graphicsItems.contains(cps[j]))
-					{
-						graphicsItems += cps[j];
-						change += amounts[i];
-					}
-				}
-			}
-			else
-			{
-				if (!graphicsItems.contains(items[i]))
-				{
-					graphicsItems += items[i];
-					change += amounts[i];
-				}
-
-				if ((node = NodeGraphicsItem::cast(items[i])))
-				{
-					QVector<NodeGraphicsItem::ControlPoint*> cps = node->boundaryControlPoints;
+					QList<QGraphicsItem*> cps = connection->controlPointsAsGraphicsItems();
 					for (int j=0; j < cps.size(); ++j)
 					{
 						if (!graphicsItems.contains(cps[j]))
@@ -69,8 +51,28 @@ namespace Tinkercell
 						}
 					}
 				}
+				else
+				{
+					if (!graphicsItems.contains(items[i]))
+					{
+						graphicsItems += items[i];
+						change += amounts[i];
+					}
+
+					if ((node = NodeGraphicsItem::cast(items[i])))
+					{
+						QVector<NodeGraphicsItem::ControlPoint*> cps = node->boundaryControlPoints;
+						for (int j=0; j < cps.size(); ++j)
+						{
+							if (!graphicsItems.contains(cps[j]))
+							{
+								graphicsItems += cps[j];
+								change += amounts[i];
+							}
+						}
+					}
+				}
 			}
-		}
 	}
 
 	MoveCommand::MoveCommand(GraphicsScene * scene, const QList<QGraphicsItem*>& items, const QPointF& amount)
@@ -81,8 +83,55 @@ namespace Tinkercell
 		ConnectionGraphicsItem * connection = 0;
 		NodeGraphicsItem * node = 0;
 		for (int i=0; i < items.size(); ++i)
+			if (items[i] && !amount.isNull())
+			{
+				if ((connection = ConnectionGraphicsItem::cast(items[i])))
+				{
+					QList<QGraphicsItem*> cps = connection->controlPointsAsGraphicsItems();
+					for (int j=0; j < cps.size(); ++j)
+					{
+						if (!graphicsItems.contains(cps[j]))
+						{
+							graphicsItems += cps[j];
+							change += amount;
+						}
+					}
+				}
+				else
+				{
+					if (!graphicsItems.contains(items[i]))
+					{
+						graphicsItems += items[i];
+						change += amount;
+					}
+					if ((node = NodeGraphicsItem::cast(items[i])))
+					{
+						QVector<NodeGraphicsItem::ControlPoint*> cps = node->boundaryControlPoints;
+						for (int j=0; j < cps.size(); ++j)
+						{
+							if (!graphicsItems.contains(cps[j]))
+							{
+								graphicsItems += cps[j];
+								change += amount;
+							}
+						}
+					}
+				}
+			}
+	}
+
+	MoveCommand::MoveCommand(GraphicsScene * scene, QGraphicsItem * item, const QPointF& amount)
+		: QUndoCommand(QObject::tr("items moved by (") + QString::number(amount.x()) + QObject::tr(",") + QString::number(amount.y()) + QObject::tr(")"))
+	{
+		graphicsScene = scene;
+		graphicsItems.clear();
+		change.clear();
+		ConnectionGraphicsItem * connection = 0;
+		NodeGraphicsItem * node = 0;
+		
+		if (item && !amount.isNull())
 		{
-			if ((connection = ConnectionGraphicsItem::cast(items[i])))
+			if ((connection = ConnectionGraphicsItem::cast(item)))
 			{
 				QList<QGraphicsItem*> cps = connection->controlPointsAsGraphicsItems();
 				for (int j=0; j < cps.size(); ++j)
@@ -96,12 +145,12 @@ namespace Tinkercell
 			}
 			else
 			{
-				if (!graphicsItems.contains(items[i]))
+				if (!graphicsItems.contains(item))
 				{
-					graphicsItems += items[i];
+					graphicsItems += item;
 					change += amount;
 				}
-				if ((node = NodeGraphicsItem::cast(items[i])))
+				if ((node = NodeGraphicsItem::cast(item)))
 				{
 					QVector<NodeGraphicsItem::ControlPoint*> cps = node->boundaryControlPoints;
 					for (int j=0; j < cps.size(); ++j)
@@ -111,49 +160,6 @@ namespace Tinkercell
 							graphicsItems += cps[j];
 							change += amount;
 						}
-					}
-				}
-			}
-		}
-	}
-
-	MoveCommand::MoveCommand(GraphicsScene * scene, QGraphicsItem * item, const QPointF& amount)
-		: QUndoCommand(QObject::tr("items moved by (") + QString::number(amount.x()) + QObject::tr(",") + QString::number(amount.y()) + QObject::tr(")"))
-	{
-		graphicsScene = scene;
-		graphicsItems.clear();
-		change.clear();
-		ConnectionGraphicsItem * connection = 0;
-		NodeGraphicsItem * node = 0;
-
-		if ((connection = ConnectionGraphicsItem::cast(item)))
-		{
-			QList<QGraphicsItem*> cps = connection->controlPointsAsGraphicsItems();
-			for (int j=0; j < cps.size(); ++j)
-			{
-				if (!graphicsItems.contains(cps[j]))
-				{
-					graphicsItems += cps[j];
-					change += amount;
-				}
-			}
-		}
-		else
-		{
-			if (!graphicsItems.contains(item))
-			{
-				graphicsItems += item;
-				change += amount;
-			}
-			if ((node = NodeGraphicsItem::cast(item)))
-			{
-				QVector<NodeGraphicsItem::ControlPoint*> cps = node->boundaryControlPoints;
-				for (int j=0; j < cps.size(); ++j)
-				{
-					if (!graphicsItems.contains(cps[j]))
-					{
-						graphicsItems += cps[j];
-						change += amount;
 					}
 				}
 			}

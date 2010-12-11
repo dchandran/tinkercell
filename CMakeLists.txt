@@ -192,7 +192,7 @@ ENDIF(WIN32)
 # Copyright and other files
 #----------------------------------------------------------------------------
 
-FILE(GLOB TINKERCELL_SUPPORTING_FILES about.txt COPYRIGHT.TXT *.py)
+FILE(GLOB TINKERCELL_SUPPORTING_FILES ABOUT.TXT COPYRIGHT.TXT *.py)
 INSTALL(FILES ${TINKERCELL_SUPPORTING_FILES} DESTINATION bin/../)  
 
 #----------------------------------------------------------------------------

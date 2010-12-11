@@ -22,6 +22,7 @@ node graphics item and is used to draw the arrow heads at the end of the connect
 #include "ItemHandle.h"
 #include "NodeGraphicsReader.h"
 #include "UndoCommands.h"
+#include "TextGraphicsItem.h"
 #include "Tool.h"
 
 namespace Tinkercell
@@ -912,6 +913,24 @@ namespace Tinkercell
 		}
 
 		QPainterPath path;
+		
+		//text items
+		QList<TextGraphicsItem*> textItems;
+		if (itemHandle)
+		{
+			TextGraphicsItem * textItem;
+			QList<QGraphicsItem*> & gitems = itemHandle->graphicsItems;
+			QPointF center = centerLocation();
+			for (int i=0; i < gitems.size(); ++i)
+				if ( !gitems[i]->parentItem() && 
+					 (textItem = TextGraphicsItem::cast(gitems[i])) &&
+					  textItem->sceneBoundingRect().intersects(pathBoundingRect.adjusted(-10,-10,10,10)))
+			{
+				textItem->relativePosition.first = this;
+				textItem->relativePosition.second = textItem->scenePos() - center;
+				textItems << textItem;
+			}
+		}
 
 		if (lineType == line)
 		{
@@ -1032,6 +1051,16 @@ namespace Tinkercell
 		pathBoundingRect = this->pathShape.controlPointRect().adjusted(-10,-10,10,10);
 		refreshBoundaryPath();
 		update();
+		
+		//text items
+		if (itemHandle && !textItems.isEmpty())
+		{
+			QPointF center = centerLocation();
+			for (int i=0; i < textItems.size(); ++i)
+			{
+				textItems[i]->setPos( center + textItems[i]->relativePosition.second );
+			}
+		}
 	}
 
 	/*! \brief update the boundary path*/

@@ -387,7 +387,10 @@ namespace Tinkercell
 				return;
 			}
 		
-		    scene->insert(tr("load"),items);
+		    //scene->insert(tr("load"),items);
+			QUndoCommand * command = new InsertGraphicsCommand(tr("insert"),scene,items);
+			command->redo();
+			loadCommands << command;
 
 			ConnectionGraphicsItem * connection = 0;
 
@@ -894,6 +897,12 @@ namespace Tinkercell
 			node->setPos(pos);
 		}
 		return node;
+	}
+
+	LoadSaveTool::~LoadSaveTool()
+	{
+		for (int i=0; i < loadCommands.size(); ++i)
+			delete loadCommands[i];
 	}
 }
 

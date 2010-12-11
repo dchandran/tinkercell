@@ -652,6 +652,7 @@ int main(int argc, char *argv[])
 	mainWindow.addTool(new SimpleDesigner);
 	
 	/*  setup an interpreter for the console (optional)  */
+	OctaveInterpreterThread::OCTAVE_FOLDER = "octave"; //this is where the libraries will be located
 	ConsoleWindow * console = mainWindow.console();
 	OctaveInterpreterThread * octaveInterpreter = new OctaveInterpreterThread("tinkercell.oct", "libtcoct", &mainWindow);
 	octaveInterpreter->initialize();

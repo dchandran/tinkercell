@@ -62,11 +62,11 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene*,const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),
 				this, SLOT(itemsSelected(GraphicsScene*,const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
 
-			connect(mainWindow,SIGNAL(itemsInserted(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)),
-				this, SLOT(itemsInserted(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)));
+			//connect(mainWindow,SIGNAL(itemsInserted(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)),
+			//	this, SLOT(itemsInserted(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)));
 
-			connect(mainWindow,SIGNAL(itemsMoved(GraphicsScene*,const QList<QGraphicsItem*>&, const QList<QPointF>&)),
-				this, SLOT(itemsMoved(GraphicsScene*,const QList<QGraphicsItem*>&, const QList<QPointF>&)));
+			//connect(mainWindow,SIGNAL(itemsAboutToBeMoved(GraphicsScene *, QList<QGraphicsItem*>& , QList<QPointF>&, QList<QUndoCommand*>&)),
+			//	this, SLOT(itemsAboutToBeMoved(GraphicsScene *, QList<QGraphicsItem*>& , QList<QPointF>&, QList<QUndoCommand*>&)));
 
 			connect(mainWindow,SIGNAL(mousePressed(GraphicsScene*,QPointF, Qt::MouseButton, Qt::KeyboardModifiers)),
 				this ,SLOT(mousePressed(GraphicsScene*,QPointF, Qt::MouseButton, Qt::KeyboardModifiers)));
@@ -150,7 +150,7 @@ namespace Tinkercell
 		}
 	}
 
-	void TextGraphicsTool::itemsMoved(GraphicsScene* scene,const QList<QGraphicsItem*>& items, const QList<QPointF>&)
+	void TextGraphicsTool::itemsAboutToBeMoved(GraphicsScene * scene, QList<QGraphicsItem*>& items, QList<QPointF>& dists, QList<QUndoCommand*>&)
 	{
 		static bool selfCall = false;
 
@@ -253,7 +253,9 @@ namespace Tinkercell
 			if (handle && !visited.contains(handle))
 				for (int j=0; j < handle->graphicsItems.size(); ++j)
 				{
-					if (TextGraphicsItem::cast(handle->graphicsItems[j]) && !itemsToMove.contains(handle->graphicsItems[j]))
+					if (TextGraphicsItem::cast(handle->graphicsItems[j]) && 
+						!items.contains(handle->graphicsItems[j]) &&
+						!itemsToMove.contains(handle->graphicsItems[j]))
 					{
 						QPointF p;
 						QPointF p0 = handle->graphicsItems[j]->scenePos();
@@ -282,7 +284,9 @@ namespace Tinkercell
 		if (!itemsToMove.isEmpty())
 		{
 			selfCall = true;
-			scene->move(itemsToMove,moveBy);
+			items += itemsToMove;
+			dists += moveBy;
+			//scene->move(itemsToMove,moveBy);
 		}
 		selfCall = false;
 	}

@@ -44,6 +44,7 @@ namespace Tinkercell
 
 	public:
 		LoadSaveTool();
+		~LoadSaveTool();
 		bool setMainWindow(MainWindow * main);
 
 	signals:
@@ -75,6 +76,7 @@ namespace Tinkercell
 		
 		QMessageBox * restoreDialog;
 		QPushButton * restoreButton;
+		QList<QUndoCommand*> loadCommands;
 	};
 
 }

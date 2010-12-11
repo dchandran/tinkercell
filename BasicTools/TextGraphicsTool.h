@@ -48,7 +48,7 @@ namespace Tinkercell
 		void itemsRenamed(NetworkHandle*, const QList<ItemHandle*>&, const QList<QString>&, const QList<QString>&);
 	public slots:
 		void itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>& handles);
-		void itemsMoved(GraphicsScene*,const QList<QGraphicsItem*>&, const QList<QPointF>&);
+		void itemsAboutToBeMoved(GraphicsScene *, QList<QGraphicsItem*>& , QList<QPointF>&, QList<QUndoCommand*>&);
 		void insertText();
 		void insertTextWith();
 		void mousePressed(GraphicsScene*,QPointF, Qt::MouseButton, Qt::KeyboardModifiers);

@@ -14,10 +14,10 @@ octave (optional)
 -------------------------------
 COMPILING TINKERCELL
 -------------------------------
-1. Install the following libraries: libx11-dev, python-dev, subversion, octave
+1. Install the following libraries or packages: python, subversion, octave
       In Linux, just use apt-get install libx11-dev python-dev subversion octave octave-headers
 
-2.  Install cmake, available from www.cmake.org
+2. Install cmake, available from www.cmake.org
       In Linux, use apt-get install cmake cmake-qt-gui. 
 
 3. Install Qt.
@@ -30,7 +30,7 @@ COMPILING TINKERCELL
                2. make  (this will take time)
                3. make install  (this will also take time)
 
-4. Download TinkerCell source: http://sourceforge.net/projects/tinkercell/files/TinkerCellSource.tgz/download
+4. Download TinkerCell source: svn co https://tinkercell.svn.sourceforge.net/svnroot/tinkercell tinkercell
 
 5. Run cmake-gui
 
@@ -53,7 +53,7 @@ In the CMake window, change the "Simple View" to "Grouped View". This will help 
 13. MAC ONLY: After performing make, go to the bin folder and do "source do_name_change.sh"
 
 14. Linux and Windows, go to _CPack_Packages/ folder and find the TinkerCell subfolder. 
-      Windows, run TinkerCell.exe
+      Windows: run TinkerCell.exe
       Linux: Go to the bin folder and create a script:
                     export LD_LIBRARY_PATH=<tinkercell folder>:<tinkercell folder>/plugins:<octave libraries folder>:<python libraries folder>
                     <tinkercell folder>/TinkerCell

@@ -1317,6 +1317,8 @@ namespace Tinkercell
 			QPushButton * cancelButton = new QPushButton("&Cancel");
 			connect(okButton,SIGNAL(pressed()),newModuleDialog,SLOT(accept()));
 			connect(cancelButton,SIGNAL(pressed()),newModuleDialog,SLOT(reject()));
+			if (mainWindow)
+				connect(cancelButton,SIGNAL(pressed()),mainWindow,SLOT(sendEscapeSignal()));
 			QGroupBox * group3 = new QGroupBox(tr(""));
 			QHBoxLayout * layout3 = new QHBoxLayout;
 			layout3->addStretch(1);

@@ -17,7 +17,7 @@ TCAPIEXPORT void initialize()
 	PyObject *mainmod;
 	PyObject *dlfl;
 #ifndef NODLOPEN
-	dlopen("@PYTHON_LIBRARIES@", RTLD_LAZY | RTLD_GLOBAL);	
+	dlopen("@PYTHON_LIBRARY@", RTLD_LAZY | RTLD_GLOBAL);	
 	Py_SetProgramName("Tinkercell");
 #endif
 	Py_Initialize();

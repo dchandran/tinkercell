@@ -181,9 +181,9 @@ namespace Tinkercell
 		{
 			QString appDir = QCoreApplication::applicationDirPath();
 		#ifdef Q_WS_WIN
-			pythonInterpreter = new PythonInterpreterThread(appDir + tr("/python/_tinkercell.pyd"), mainWindow);
+			pythonInterpreter = new PythonInterpreterThread(tr("python/_tinkercell.pyd"), mainWindow);
 		#else
-			pythonInterpreter = new PythonInterpreterThread(appDir + tr("/python/_tinkercell"), mainWindow);
+			pythonInterpreter = new PythonInterpreterThread(tr("python/_tinkercell"), mainWindow);
 		#endif
 			pythonInterpreter->initialize();
 

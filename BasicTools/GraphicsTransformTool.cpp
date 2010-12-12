@@ -43,7 +43,7 @@ namespace Tinkercell
 
 	void GraphicsTransformTool::deselect(int)
 	{
-		if (openedByUser)
+		/*if (openedByUser)
 		{
 			openedByUser = false;
 
@@ -51,7 +51,7 @@ namespace Tinkercell
 				parentWidget()->hide();
 			else
 				hide();
-		}
+		}*/
 	}
 
 

@@ -22,12 +22,12 @@ namespace Tinkercell
 	QString OctaveInterpreterThread::OCTAVE_FOLDER("octave");
 	
     OctaveInterpreterThread::OctaveInterpreterThread(const QString & octname, const QString & dllname, MainWindow* main)
-        : InterpreterThread(OCTAVE_FOLDER + QObject::tr("/") + dllname,main)
+        : InterpreterThread(dllname,main)
     {
     	fromTC = QRegExp("([A-Za-z0-9_]+)\\s*=\\s*fromTC\\s*\\(\\s*(\\s*[A-Za-z0-9_]+\\s*)\\)");
 		addpathDone = false;
     	f = 0;
-		swigLib = loadLibrary(OCTAVE_FOLDER + tr("/") + octname, mainWindow);
+		swigLib = loadLibrary(octname, mainWindow);
     }
 
     void OctaveInterpreterThread::setCPointers()

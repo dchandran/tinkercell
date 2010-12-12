@@ -652,6 +652,8 @@ tc_matrix simulate(copasi_model model, double startTime, double endTime, int num
 		TaskList.add(pTask, true);
 	}
 	
+	CCopasiMessage::clearDeque();
+	
 	if (startTime >= endTime)
 		endTime += startTime;
 	
@@ -736,81 +738,81 @@ copasi_model loadModelFile(const char * filename)
 	return m;
 }
 
-tc_matrix getSteadyStates(copasi_model model, const char * parameter, double startvalue, double endvalue)
+tc_matrix getSteadyState(copasi_model model)
 {
-	/*CModel* pModel = (CModel*)(model.CopasiModelPtr);
+	CModel* pModel = (CModel*)(model.CopasiModelPtr);
 	CCopasiDataModel* pDataModel = (CCopasiDataModel*)(model.CopasiDataModelPtr);
 	compileCopasiModel(model);
 	
 	// get the task list
 	CCopasiVectorN< CCopasiTask > & TaskList = * pDataModel->getTaskList();
-	// get the trajectory task object
-	CTrajectoryTask* pTask = dynamic_cast<CTrajectoryTask*>(TaskList["Time-Course"]);
+	// get the steady state task object
+	CSteadyStateTask* pTask = dynamic_cast<CSteadyStateTask*>(TaskList["Steady-State"]);
 	// if there isn’t one
 	if (pTask == NULL)
 	{
 		// create a new one
-		pTask = new CTrajectoryTask();
-		// remove any existing trajectory task just to be sure since in
+		pTask = new CSteadyStateTask();
+		// remove any existing steady state task just to be sure since in
 		// theory only the cast might have failed above
-		TaskList.remove("Time-Course");
+		TaskList.remove("Steady-State");
 		// add the new time course task to the task list
 		TaskList.add(pTask, true);
 	}
 	
+	CCopasiMessage::clearDeque();
+	
 	if (startTime >= endTime)
 		endTime += startTime;
 	
-	if (pTask && pTask->setMethodType(method))
+	try
 	{
-		//set the start and end time, number of steps, and save output in memory
-		CTrajectoryProblem* pProblem=(CTrajectoryProblem*)pTask->getProblem();
-		pProblem->setModel(pModel);
-		pTask->setScheduled(true);
-		pProblem->setStepNumber(numSteps);
-		pProblem->setDuration(endTime-startTime);
-		pDataModel->getModel()->setInitialTime(startTime);
-		pProblem->setTimeSeriesRequested(true);
-		try
-		{
-			pTask->initialize(CCopasiTask::OUTPUT_COMPLETE, pDataModel, NULL);
-			pTask->process(true);
-			pTask->restore();
-		}
-		catch(...)
-		{
-			std::cerr << "Error. Running the simulation failed." << std::endl;
-			// check if there are additional error messages
-			if (CCopasiMessage::size() > 0)
-			{
-				// print the messages in chronological order
-				std::cerr << CCopasiMessage::getAllMessageText(true);
-			}
-			pTask = 0;
-		}
+		// initialize the trajectory task
+		// we want complete output (HEADER, BODY and FOOTER)
+		pTask->initialize(CCopasiTask::OUTPUT_COMPLETE, pDataModel, NULL);
+		// now we run the actual trajectory
+		pTask->process(true);
+	}
+	catch (...)
+	{
+		std::cerr << "Error when computing steady state." << std::endl;
+		return tc_createMatrix(0,0);
 	}
 	
-	if (pTask)
+	const CArrayAnnotation* pAJ = pTask->getJacobianAnnotated();
+	//const CEigen & getEigenValues() const;
+	
+	if (pAJ && pAJ->dimensionality() == 2)
 	{
-		const CTimeSeries & timeSeries = pTask->getTimeSeries();
-		int rows = timeSeries.getRecordedSteps(), cols = timeSeries.getNumVariables();
-		int i,j;
-	
-		tc_matrix output = tc_createMatrix(rows, cols);
-	
-		for (j=0; j < cols; ++j)
-			tc_setColumnName( output, j, timeSeries.getTitle(j).c_str()  );
-	
-		for (i=0; i < rows; ++i)
-			for (j=0; j < cols; ++j)
-				tc_setMatrixValue( output, i, j, timeSeries.getConcentrationData(i,j) );
-	
-		return output;
-	}*/
+		std::vector<unsigned int> index(2);
+		const std::vector<std::string>& annotations = pAJ->getAnnotationsString(1);
+		
+		int n = annotations.size();
+		tc_matrix J = tc_createMatrix(n,n);
+		
+		for (int i=0; i < J.rows; ++i)
+		{
+			tc_setRowName(J, i, annotations[i].c_str());
+			tc_setColumnName(J, i, annotations[i].c_str());
+		}
+		
+		for (int i=0; i < n; ++i)
+		{
+			index[0] = i;
+			for (int j=0; j < n; ++j)
+			{
+				index[1] = j;
+				tc_setMatrixValue(J, i, j, (*pAJ->array())[index]);
+			}
+		}
+		
+		return J;
+	}
+
 	return tc_createMatrix(0,0);
 }
 
-tc_matrix getSteadyState(copasi_model model)
+tc_matrix getSteadyStates(copasi_model model, const char * parameter, double startvalue, double endvalue)
 {
 	return tc_createMatrix(0,0);
 }
@@ -822,7 +824,60 @@ tc_matrix getJacobian(copasi_model model)
 
 tc_matrix getEigenvalues(copasi_model model)
 {
-	return tc_createMatrix(0,0);
+	CModel* pModel = (CModel*)(model.CopasiModelPtr);
+	CCopasiDataModel* pDataModel = (CCopasiDataModel*)(model.CopasiDataModelPtr);
+	compileCopasiModel(model);
+	
+	// get the task list
+	CCopasiVectorN< CCopasiTask > & TaskList = * pDataModel->getTaskList();
+	// get the steady state task object
+	CSteadyStateTask* pTask = dynamic_cast<CSteadyStateTask*>(TaskList["Steady-State"]);
+	// if there isn’t one
+	if (!pTask)
+	{
+		// create a new one
+		pTask = new CSteadyStateTask();
+		// remove any existing steady state task just to be sure since in
+		// theory only the cast might have failed above
+		TaskList.remove("Steady-State");
+		// add the new time course task to the task list
+		TaskList.add(pTask, true);
+	}
+	
+	CCopasiMessage::clearDeque();
+	
+	if (startTime >= endTime)
+		endTime += startTime;
+	
+	try
+	{
+		// initialize the trajectory task
+		// we want complete output (HEADER, BODY and FOOTER)
+		pTask->initialize(CCopasiTask::OUTPUT_COMPLETE, pDataModel, NULL);
+		// now we run the actual trajectory
+		pTask->process(true);
+	}
+	catch (...)
+	{
+		std::cerr << "Error when computing steady state." << std::endl;
+		return tc_createMatrix(0,0);
+	}
+
+	const CEigen & eigen = pTask->getEigenValues() const;
+	const CVector< C_FLOAT64 > & im = eigen.getI(), 
+													& re = eigen.getR();
+
+	tc_matrix E = tc_createMatrix(im.size(),2);
+	
+	tc_setColumnName(E, 0, "real\0");
+	tc_setColumnName(E, 1, "imaginary\0");
+	for (int i=0; i < im.size() && i < re.size(); ++i)
+	{
+		tc_setMatrixValue(i,0,re.at(i));
+		tc_setMatrixValue(i,1,im.at(i));
+	}
+	
+	return E;
 }
 
 tc_matrix getUnscaledElasticities(copasi_model model)

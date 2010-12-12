@@ -437,6 +437,7 @@ namespace Tinkercell
 								if (ccp = qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(topLevelItem))
 								{
 									if (ccp->connectionItem && 
+										(ccp->connectionItem->centerPoint()->scenePos() == ccp->connectionItem->centerLocation()) &&
 										(ccp->connectionItem->centerPoint() == ccp) && 
 										ccp->connectionItem->handle())
 									{

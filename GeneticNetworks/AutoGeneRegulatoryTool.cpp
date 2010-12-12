@@ -1161,6 +1161,7 @@ namespace Tinkercell
 		
 		for (int i=0; i < items.size(); ++i)
 			if (qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(items[i]) && 
+				!items.contains(qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(items[i])->nodeItem) &&
 				qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(items[i])->nodeItem &&
 				qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(items[i])->nodeItem->handle() &&
 				qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(items[i])->nodeItem->handle()->isA(tr("Vector")))

@@ -17,6 +17,7 @@
 #include "ConnectionsTree.h"
 #include "NodesTree.h"
 #include "TreeButton.h"
+#include "LoadSaveTool.h"
 #include <QDialog>
 
 namespace Tinkercell
@@ -94,6 +95,8 @@ namespace Tinkercell
             }
         }		
 		settings.endGroup();    	
+		
+		LoadSaveTool::connectionFamilies = connectionFamilies;
     }
 
     ConnectionsTree::ConnectionsTree(QWidget * parent, const QString& filename) :
@@ -273,6 +276,8 @@ namespace Tinkercell
 		connectionFamilies[family->name()] = family;
 		if (button)
 			treeButtons[family->name()] = button;
+		
+		LoadSaveTool::connectionFamilies = connectionFamilies;
 		return true;
 	}
 	

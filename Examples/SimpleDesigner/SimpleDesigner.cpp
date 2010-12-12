@@ -20,6 +20,7 @@ This is an example application that uses the TinkerCell Core library
 #include "BasicGraphicsToolbar.h"
 #include "ConsoleWindow.h"
 #include "OctaveInterpreterThread.h"
+#include "LoadSaveTool.h"
 #include "SimpleDesigner.h"
 
 using namespace Tinkercell;
@@ -647,6 +648,7 @@ int main(int argc, char *argv[])
 	/*  install optional tools */
 	mainWindow.addTool(new PlotTool);
 	mainWindow.addTool(new BasicGraphicsToolbar);
+	mainWindow.addTool(new LoadSaveTool);
 	
 	//This is our main tool
 	mainWindow.addTool(new SimpleDesigner);

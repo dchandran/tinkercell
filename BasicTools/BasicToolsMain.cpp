@@ -48,9 +48,6 @@ extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)
 
 	Tinkercell::ConnectionMaker * connectionMaker = new Tinkercell::ConnectionMaker;
 	main->addTool(connectionMaker);
-	
-	Tinkercell::LoadSaveTool * loadSaveTool = new Tinkercell::LoadSaveTool;
-	main->addTool(loadSaveTool);
 
 }
 

@@ -38,7 +38,6 @@ SET(TINKERCELL_BASICTOOLS_SRC
   GraphicsReplaceTool.cpp
   GraphicsTransformTool.cpp
   GroupHandlerTool.cpp
-  LoadSaveTool.cpp
   NameFamilyDialog.cpp
   NodeInsertion.cpp
   NodeSelection.cpp
@@ -55,7 +54,6 @@ SET(TINKERCELL_BASICTOOLS_HDR
   GraphicsReplaceTool.h
   GraphicsTransformTool.h
   GroupHandlerTool.h
-  LoadSaveTool.h
   NameFamilyDialog.h
   NodeInsertion.h
   NodeSelection.h

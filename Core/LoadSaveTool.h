@@ -28,6 +28,7 @@ This tool allows the loading and saving of models.
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
 #include "Tool.h"
+#include "ItemFamily.h"
 #include "ModelWriter.h"
 #include "ModelReader.h"
 #include "NodeGraphicsWriter.h"
@@ -43,6 +44,11 @@ namespace Tinkercell
 		Q_OBJECT
 
 	public:
+		/*!\brief  if the program contains families, then this map should be set*/
+		static QMap<QString,NodeFamily*> nodeFamilies;
+		/*!\brief  if the program contains families, then this map should be set*/
+		static QMap<QString,ConnectionFamily*> connectionFamilies;
+		
 		LoadSaveTool();
 		~LoadSaveTool();
 		bool setMainWindow(MainWindow * main);
@@ -50,6 +56,9 @@ namespace Tinkercell
 	signals:
 		void networkSaved(NetworkHandle*);
 		void networkLoaded(NetworkHandle*);
+		void itemsAboutToBeInserted(GraphicsScene * scene, QList<QGraphicsItem*>& , QList<ItemHandle*>&, QList<QUndoCommand*>& );
+		void itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<ItemHandle*>& handles);
+		void historyChanged( int i=0);
 
 	public slots:
 		void prepareNetworkForSaving(NetworkHandle*,bool*);
@@ -58,7 +67,7 @@ namespace Tinkercell
 		void getItemsFromFile(QList<ItemHandle*>&, QList<QGraphicsItem*>&, const QString&,ItemHandle* root=0);
 		void saveNetwork(const QString& filename);
 		void loadNetwork(const QString& filename);
-		void historyChanged( int );
+		void historyChangedSlot( int );
 		void networkClosing(NetworkHandle *, bool * close);
 		void restore(int);
 
@@ -77,6 +86,9 @@ namespace Tinkercell
 		QMessageBox * restoreDialog;
 		QPushButton * restoreButton;
 		QList<QUndoCommand*> loadCommands;
+		
+		static NodeFamily * getNodeFamily(const QString& name);
+		static ConnectionFamily * getConnectionFamily(const QString& name);
 	};
 
 }

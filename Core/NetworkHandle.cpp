@@ -279,8 +279,8 @@ namespace Tinkercell
 		if (main && !main->allNetworks.contains(this))
 			main->allNetworks << this;
 
-		connect(&history, SIGNAL(indexChanged(int)), this, SLOT(updateSymbolsTable(int)));
 		connect(&history, SIGNAL(indexChanged(int)), mainWindow, SIGNAL(historyChanged(int)));
+		connect(mainWindow, SIGNAL(historyChanged(int)), this, SLOT(updateSymbolsTable(int)));
 		
 		connect(this,SIGNAL(parentHandleChanged(NetworkHandle *, const QList<ItemHandle*>&, const QList<ItemHandle*>&)),
 				main ,SIGNAL(parentHandleChanged(NetworkHandle *, const QList<ItemHandle*>&, const QList<ItemHandle*>&)));

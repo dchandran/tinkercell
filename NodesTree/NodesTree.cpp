@@ -16,6 +16,7 @@
 #include <QRegExp>
 #include <QScrollArea>
 #include "ConnectionsTree.h"
+#include "LoadSaveTool.h"
 
 namespace Tinkercell
 {
@@ -110,6 +111,8 @@ namespace Tinkercell
           }
 
           settings.endGroup();
+          
+          LoadSaveTool::nodeFamilies = nodeFamilies;
 	}
 
      NodesTree::NodesTree(QWidget * parent, const QString& filename) :
@@ -283,78 +286,78 @@ namespace Tinkercell
 
      void NodesTree::makeNodeSelectionDialog()
      {
-		QString appDir = QCoreApplication::applicationDirPath();
-		QString homeDir = MainWindow::homeDir();
-        QDir graphicsDir1(appDir + tr("/Graphics"));
-		QDir graphicsDir2(homeDir + tr("/Graphics"));
-		graphicsDir1.setFilter(QDir::AllDirs);
-		graphicsDir2.setFilter(QDir::AllDirs);
-		graphicsDir1.setSorting(QDir::Name);
-		graphicsDir2.setSorting(QDir::Name);
-		QFileInfoList subdirs;
+			QString appDir = QCoreApplication::applicationDirPath();
+			QString homeDir = MainWindow::homeDir();
+		    QDir graphicsDir1(appDir + tr("/Graphics"));
+			QDir graphicsDir2(homeDir + tr("/Graphics"));
+			graphicsDir1.setFilter(QDir::AllDirs);
+			graphicsDir2.setFilter(QDir::AllDirs);
+			graphicsDir1.setSorting(QDir::Name);
+			graphicsDir2.setSorting(QDir::Name);
+			QFileInfoList subdirs;
 		
-		if (graphicsDir1.exists())	
-			subdirs += graphicsDir1.entryInfoList();
+			if (graphicsDir1.exists())	
+				subdirs += graphicsDir1.entryInfoList();
 		
-		if (graphicsDir2.exists())
-			subdirs += graphicsDir2.entryInfoList();
+			if (graphicsDir2.exists())
+				subdirs += graphicsDir2.entryInfoList();
 		
-		QFileInfoList list;
+			QFileInfoList list;
 		
-		for (int j = 0; j < subdirs.size(); ++j) //for each theme file inside Graphics
-		{
-			QDir dir(subdirs.at(j).absoluteFilePath() + tr("/Nodes")); //get Grpahics/theme/Nodes dir
-			if (dir.exists())
+			for (int j = 0; j < subdirs.size(); ++j) //for each theme file inside Graphics
 			{
-				dir.setFilter(QDir::Files);
-				dir.setSorting(QDir::Name);
-				list += dir.entryInfoList();
+				QDir dir(subdirs.at(j).absoluteFilePath() + tr("/Nodes")); //get Grpahics/theme/Nodes dir
+				if (dir.exists())
+				{
+					dir.setFilter(QDir::Files);
+					dir.setSorting(QDir::Name);
+					list += dir.entryInfoList();
+				}
 			}
-		}
 
-		QListWidget * nodesListWidget = new QListWidget(mainWindow);
+			QListWidget * nodesListWidget = new QListWidget(mainWindow);
 
-		for (int j = 0; j < list.size(); ++j)
-		{
-			QFileInfo fileInfo = list.at(j);				
-			if (fileInfo.completeSuffix().toLower() == tr("png") &&
-				QFile::exists(fileInfo.baseName() + tr(".xml")))
+			for (int j = 0; j < list.size(); ++j)
 			{
-				QListWidgetItem * item = new QListWidgetItem(QIcon(fileInfo.absoluteFilePath()),
-					fileInfo.baseName(),nodesListWidget);
-                item->setData(3,fileInfo.absolutePath() + tr("/") + fileInfo.baseName() + tr(".xml"));
-				item->setSizeHint(QSize(20,20));
-				nodesListWidget->addItem(item);
-				nodesFilesList << item->data(3).toString();
+				QFileInfo fileInfo = list.at(j);				
+				if (fileInfo.completeSuffix().toLower() == tr("png") &&
+					QFile::exists(fileInfo.baseName() + tr(".xml")))
+				{
+					QListWidgetItem * item = new QListWidgetItem(QIcon(fileInfo.absoluteFilePath()),
+						fileInfo.baseName(),nodesListWidget);
+		            item->setData(3,fileInfo.absolutePath() + tr("/") + fileInfo.baseName() + tr(".xml"));
+					item->setSizeHint(QSize(20,20));
+					nodesListWidget->addItem(item);
+					nodesFilesList << item->data(3).toString();
+				}
 			}
-		}
-      
-      nodeSelectionDialog = new QDialog(this);
-      nodeSelectionDialog->setSizeGripEnabled(true);
-      QVBoxLayout * layout = new QVBoxLayout;
+		  
+		  nodeSelectionDialog = new QDialog(this);
+		  nodeSelectionDialog->setSizeGripEnabled(true);
+		  QVBoxLayout * layout = new QVBoxLayout;
 
-      layout->addWidget(nodesListWidget);
-	  connect(nodesListWidget,SIGNAL(itemActivated( QListWidgetItem * )),this,SLOT(itemActivated( QListWidgetItem * )));
+		  layout->addWidget(nodesListWidget);
+		  connect(nodesListWidget,SIGNAL(itemActivated( QListWidgetItem * )),this,SLOT(itemActivated( QListWidgetItem * )));
 
-      QHBoxLayout * buttonsLayout = new QHBoxLayout;
-      QPushButton * ok = new QPushButton(tr("Replace"));
-      QPushButton * cancel = new QPushButton(tr("Cancel"));
-      QPushButton * otherFile = new QPushButton(tr("File not listed..."));
+		  QHBoxLayout * buttonsLayout = new QHBoxLayout;
+		  QPushButton * ok = new QPushButton(tr("Replace"));
+		  QPushButton * cancel = new QPushButton(tr("Cancel"));
+		  QPushButton * otherFile = new QPushButton(tr("File not listed..."));
 
-      connect(ok,SIGNAL(released()),nodeSelectionDialog,SLOT(accept()));
-      connect(cancel,SIGNAL(released()),nodeSelectionDialog,SLOT(reject()));
-      connect(otherFile,SIGNAL(released()),this,SLOT(selectNewNodeFile()));
+		  connect(ok,SIGNAL(released()),nodeSelectionDialog,SLOT(accept()));
+		  connect(cancel,SIGNAL(released()),nodeSelectionDialog,SLOT(reject()));
+		  connect(otherFile,SIGNAL(released()),this,SLOT(selectNewNodeFile()));
 
-      connect(nodeSelectionDialog,SIGNAL(accepted()),this,SLOT(nodeFileAccepted()));
+		  connect(nodeSelectionDialog,SIGNAL(accepted()),this,SLOT(nodeFileAccepted()));
 
-	  buttonsLayout->addWidget(ok);
-      buttonsLayout->addWidget(cancel);
-	  buttonsLayout->addWidget(otherFile);
-      
+		  buttonsLayout->addWidget(ok);
+		  buttonsLayout->addWidget(cancel);
+		  buttonsLayout->addWidget(otherFile);
+		  
 
-      layout->addLayout(buttonsLayout);
+		  layout->addLayout(buttonsLayout);
 
-      nodeSelectionDialog->setLayout(layout);
+		  nodeSelectionDialog->setLayout(layout);
      }
 
      void NodesTree::selectNewNodeFile()
@@ -511,6 +514,8 @@ namespace Tinkercell
 		nodeFamilies [family->name()] = family;
 		if (button)
 			treeButtons [family->name()] = button;
+		
+		LoadSaveTool::nodeFamilies = nodeFamilies;
 		return true;
 	}
 	

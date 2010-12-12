@@ -15,6 +15,7 @@
 #include "DefaultPluginsMenu.h"
 #include "GraphicsScene.h"
 #include "ConsoleWindow.h"
+#include "LoadSaveTool.h"
 #include <QColor>
 #include <QBrush>
 
@@ -65,13 +66,10 @@ int main(int argc, char *argv[])
   #endif
   #endif
 	
-	mainWindow.addTool(new BasicGraphicsToolbar());
-	mainWindow.addTool(new PlotTool());
-   	mainWindow.addTool(new GnuplotTool());
-
-    /*******  save and open extensions ***********/	   	
-   	MainWindow::OPEN_FILE_EXTENSIONS << "TIC" << "tic";
-	MainWindow::SAVE_FILE_EXTENSIONS << "TIC" << "tic";
+	mainWindow.addTool(new BasicGraphicsToolbar);
+	mainWindow.addTool(new PlotTool);
+   	mainWindow.addTool(new GnuplotTool);
+	mainWindow.addTool(new LoadSaveTool);
 
     /*******  title , etc ***********/
     mainWindow.setWindowTitle(QObject::tr("TinkerCell"));

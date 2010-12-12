@@ -21,7 +21,6 @@ Function that loads dll into main window
 #include "ConnectionSelection.h"
 #include "NodeSelection.h"
 #include "TinkerCellAboutBox.h"
-#include "LoadSaveTool.h"
 
 extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main);
 

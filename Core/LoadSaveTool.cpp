@@ -7,8 +7,6 @@ See COPYRIGHT.TXT
 This tool allows the loading and saving of Networks.
 
 ****************************************************************************/
-#include "NodesTree.h"
-#include "ConnectionsTree.h"
 #include "LoadSaveTool.h"
 #include "CThread.h"
 #include "ConsoleWindow.h"
@@ -20,14 +18,18 @@ This tool allows the loading and saving of Networks.
 namespace Tinkercell
 {
 	LoadSaveTool::LoadSaveTool() : Tool(tr("Save and Load"),tr("Basic GUI"))
-	{
+	{	
+	    /*******  save and open extensions ***********/	   	
+   		MainWindow::OPEN_FILE_EXTENSIONS << "TIC" << "tic";
+		MainWindow::SAVE_FILE_EXTENSIONS << "TIC" << "tic";
 		countHistory = 0;
 		restoreDialog = 0;
 		restoreButton = 0;
 	}
 
-	void LoadSaveTool::historyChanged(int)
+	void LoadSaveTool::historyChangedSlot(int i)
 	{
+		if (i==-1) return;
 		GraphicsScene * scene = currentScene();
 		if (scene && scene->network)
 			savedNetworks[scene->network] = false;
@@ -70,11 +72,18 @@ namespace Tinkercell
 		Tool::setMainWindow(main);
 		if (mainWindow)
 		{
+			connect(this,SIGNAL(historyChanged( int )),mainWindow,SIGNAL(historyChanged( int )));
+			
 			connect(mainWindow,SIGNAL(saveNetwork(const QString&)),this,SLOT(saveNetwork(const QString&)));
 			connect(mainWindow,SIGNAL(loadNetwork(const QString&)),this,SLOT(loadNetwork(const QString&)));
+			
+			connect(this, SIGNAL(itemsAboutToBeInserted(GraphicsScene * , QList<QGraphicsItem*>& , QList<ItemHandle*>&, QList<QUndoCommand*>& )), mainWindow, SIGNAL(itemsAboutToBeInserted(GraphicsScene * , QList<QGraphicsItem*>& , QList<ItemHandle*>&, QList<QUndoCommand*>& )));
+
+			connect(this, SIGNAL(itemsInserted(GraphicsScene * , const QList<QGraphicsItem*>& , const QList<ItemHandle*>& )), mainWindow, SIGNAL(itemsInserted(GraphicsScene * , const QList<QGraphicsItem*>& , const QList<ItemHandle*>& )));
+			
 			connect(mainWindow,SIGNAL(getItemsFromFile(QList<ItemHandle*>&, QList<QGraphicsItem*>&, const QString&,ItemHandle*)),this,SLOT(getItemsFromFile(QList<ItemHandle*>&, QList<QGraphicsItem*>&, const QString&,ItemHandle*)));
 			connect(mainWindow,SIGNAL(networkClosing(NetworkHandle * , bool *)),this,SLOT(networkClosing(NetworkHandle * , bool *)));
-			connect(mainWindow,SIGNAL(historyChanged( int )),this,SLOT(historyChanged( int )));
+			connect(mainWindow,SIGNAL(historyChanged( int )),this,SLOT(historyChangedSlot( int )));
 
 			connect(mainWindow,SIGNAL(prepareNetworkForSaving(NetworkHandle*,bool*)),this,SLOT(prepareNetworkForSaving(NetworkHandle*,bool*)));
 			connect(this,SIGNAL(networkSaved(NetworkHandle*)),mainWindow,SIGNAL(networkSaved(NetworkHandle*)));
@@ -385,9 +394,17 @@ namespace Tinkercell
 			}
 		
 		    //scene->insert(tr("load"),items);
-			QUndoCommand * command = new InsertGraphicsCommand(tr("insert"),scene,items);
+		    QList<ItemHandle*> handles = getHandle(items);
+		    QList<QUndoCommand*> commands;
+		    emit itemsAboutToBeInserted(scene, items , handles, commands );
+			commands << new InsertGraphicsCommand(tr("insert"),scene,items);
+			QUndoCommand * command = new CompositeCommand(tr("load"), commands);
 			command->redo();
+			emit historyChanged(-1);
+			
+			emit itemsInserted(scene, items, handles);
 			loadCommands << command;
+			//
 
 			ConnectionGraphicsItem * connection = 0;
 
@@ -439,15 +456,6 @@ namespace Tinkercell
 
 	void LoadSaveTool::loadItems(QList<QGraphicsItem*>& itemsToInsert, const QString& filename)
 	{
-		if (!mainWindow->tool(tr("Nodes Tree")) || !mainWindow->tool(tr("Connections Tree")))
-		{
-			QMessageBox::information(this,tr("Error"),tr("No Nodes or Connections set available."));
-			return;
-		}
-
-		NodesTree * nodesTree = static_cast<NodesTree*>(mainWindow->tool(tr("Nodes Tree")));
-		ConnectionsTree * connectionsTree = static_cast<ConnectionsTree*>(mainWindow->tool(tr("Connections Tree")));
-
 		QFile file1 (filename);
 		
 		if (!file1.open(QFile::ReadOnly | QFile::Text))
@@ -504,20 +512,18 @@ namespace Tinkercell
 				if (handlesList[i].second->type == NodeHandle::TYPE)
 				{
 					nodeHandle = static_cast<NodeHandle*>(handlesList[i].second);
-					if (nodesTree->getFamily(handlesList[i].first))
-						nodeHandle->setFamily( nodesTree->getFamily(handlesList[i].first));
+					if (getNodeFamily(handlesList[i].first))
+						nodeHandle->setFamily(getNodeFamily(handlesList[i].first));
 				}
 				else
 					if (handlesList[i].second->type == ConnectionHandle::TYPE)
 					{
 						connectionHandle = static_cast<ConnectionHandle*>(handlesList[i].second);
-						if (connectionsTree->getFamily(handlesList[i].first))
-						{
-							connectionHandle->setFamily( connectionsTree->getFamily(handlesList[i].first));
-						}
+						if (getConnectionFamily(handlesList[i].first))
+							connectionHandle->setFamily( getConnectionFamily(handlesList[i].first));
 					}
-				if (handlesList[i].second->family())
-					handlesHash[handlesList[i].second->fullName()] = handlesList[i].second;
+				//if (handlesList[i].second->family())
+				handlesHash[handlesList[i].second->fullName()] = handlesList[i].second;
 			}
 
 		file1.close();
@@ -901,5 +907,45 @@ namespace Tinkercell
 		for (int i=0; i < loadCommands.size(); ++i)
 			delete loadCommands[i];
 	}
+	
+	NodeFamily * LoadSaveTool::getNodeFamily(const QString& name)
+	{
+		if (nodeFamilies.contains(name))
+			return nodeFamilies.value(name);
+		
+		QStringList words = name.split(" ");
+		for (int i=0; i < words.size(); ++i)
+		{
+			words[i] = words[i].toLower();
+			words[0] = words[0].toUpper();
+		}
+
+		QString s = words.join(" ");
+		
+		if (nodeFamilies.contains(s))
+			return nodeFamilies.value(s);
+		return 0;
+	}
+	
+	ConnectionFamily * LoadSaveTool::getConnectionFamily(const QString& name)
+	{
+		if (connectionFamilies.contains(name))
+			return connectionFamilies.value(name);
+		
+		QStringList words = name.split(" ");
+		for (int i=0; i < words.size(); ++i)
+		{
+			words[i] = words[i].toLower();
+			words[0] = words[0].toUpper();
+		}
+
+		QString s = words.join(" ");
+		if (connectionFamilies.contains(s))
+			return connectionFamilies.value(s);
+		return 0;
+	}
+	
+	QMap<QString,NodeFamily*> LoadSaveTool::nodeFamilies;
+	QMap<QString,ConnectionFamily*> LoadSaveTool::connectionFamilies;
 }
 

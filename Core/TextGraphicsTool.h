@@ -23,6 +23,7 @@ The tool also updates the name of a handle when the text item is changed (and vi
 #include <QGraphicsWidget>
 #include <QSlider>
 #include <QToolButton>
+#include <QToolBar>
 #include <QButtonGroup>
 #include <QTableView>
 
@@ -41,7 +42,7 @@ namespace Tinkercell
 		Q_OBJECT;
 
 	public:
-		TextGraphicsTool();
+		TextGraphicsTool(QToolBar*);
 		bool setMainWindow(MainWindow * main);
 		void setText(TextGraphicsItem* item, const QString& text);
 	signals:
@@ -66,6 +67,8 @@ namespace Tinkercell
 		bool inserting;
 		ChangeParentCommand * command;
 		QFont font;
+		QToolBar * toolBar;
+		QAction * fontAction;
 	};
 
 	/*! \brief this command changes the name of the handle of an item*/

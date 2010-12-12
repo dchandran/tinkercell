@@ -20,14 +20,15 @@ The tool also updates the name of a handle when the text item is changed (and vi
 
 namespace Tinkercell
 {
-	TextGraphicsTool::TextGraphicsTool() : Tool(tr("Text Insert Tool"),tr("Basic GUI"))
+	TextGraphicsTool::TextGraphicsTool(QToolBar * toolBar) : Tool(tr("Text Insert Tool"),tr("Basic GUI")), toolBar(toolBar)
 	{
 		inserting = false;
 		command = 0;
 		targetItem = 0;
+		fontAction = new QAction(tr("S&et font"),this);
+		connect(fontAction,SIGNAL(triggered()),this,SLOT(getFont()));
 		oldText = tr("");
 		font.setPointSize(22);
-
 	}
 
 	bool TextGraphicsTool::setMainWindow(MainWindow * main)
@@ -35,16 +36,15 @@ namespace Tinkercell
 		Tool::setMainWindow(main);
 		if (mainWindow)
 		{
-			QToolBar * toolBar = mainWindow->toolBarForTools;
 			if (toolBar)
 			{
 				QToolButton * insertText = new QToolButton(toolBar);
 				insertText->setIcon(QIcon(tr(":/images/text.png")));
-				insertText->setToolTip(tr("Insert text"));
+				insertText->setToolTip(tr("&Insert text"));
 				connect(insertText,SIGNAL(pressed()),this,SLOT(insertText()));
 
 				QMenu * fontMenu = new QMenu(toolBar);
-				fontMenu->addAction(tr("Set Font"),this,SLOT(getFont()));
+				fontMenu->addAction(tr("&Set font"),this,SLOT(getFont()));
 				insertText->setMenu(fontMenu);
 				insertText->setPopupMode(QToolButton::MenuButtonPopup);
 				toolBar->addWidget(insertText);
@@ -56,23 +56,17 @@ namespace Tinkercell
 			connect(insertText,SIGNAL(triggered()),this,SLOT(insertTextWith()));
 
 			mainWindow->contextItemsMenu.addAction(insertText);
+			
+			if (mainWindow->editMenu)
+				mainWindow->editMenu->addAction(tr("S&et font"),this,SLOT(getFont()));
 
 			connect(mainWindow,SIGNAL(escapeSignal(const QWidget*)),this, SLOT(escapeSignal(const QWidget*)));
 
 			connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene*,const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),
 				this, SLOT(itemsSelected(GraphicsScene*,const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
 
-			//connect(mainWindow,SIGNAL(itemsInserted(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)),
-			//	this, SLOT(itemsInserted(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)));
-
-			//connect(mainWindow,SIGNAL(itemsAboutToBeMoved(GraphicsScene *, QList<QGraphicsItem*>& , QList<QPointF>&, QList<QUndoCommand*>&)),
-			//	this, SLOT(itemsAboutToBeMoved(GraphicsScene *, QList<QGraphicsItem*>& , QList<QPointF>&, QList<QUndoCommand*>&)));
-
 			connect(mainWindow,SIGNAL(mousePressed(GraphicsScene*,QPointF, Qt::MouseButton, Qt::KeyboardModifiers)),
 				this ,SLOT(mousePressed(GraphicsScene*,QPointF, Qt::MouseButton, Qt::KeyboardModifiers)));
-
-			//connect(this,SIGNAL(itemsRenamed(NetworkHandle*, const QList<ItemHandle*>&, const QList<QString>&, const QList<QString>&)),
-			//       mainWindow,SIGNAL(itemsRenamed(NetworkHandle*, const QList<ItemHandle*>&, const QList<QString>&, const QList<QString>&)));
 
 			connect(mainWindow,SIGNAL(itemsAboutToBeRemoved(GraphicsScene*, QList<QGraphicsItem*>&, QList<ItemHandle*>&, QList<QUndoCommand*>&)),
 				this,SLOT(itemsRemoved(GraphicsScene*, QList<QGraphicsItem*>&, QList<ItemHandle*>&, QList<QUndoCommand*>&)));
@@ -475,10 +469,14 @@ namespace Tinkercell
 			if (targetItem)
 				clear();
 
-			if (!textItem)
+			if (!textItem && scene->contextItemsMenu)
 			{
+				scene->contextItemsMenu->removeAction(fontAction);
 				return;
 			}
+			
+			if (scene->contextItemsMenu)
+				scene->contextItemsMenu->addAction(fontAction);
 
 			ItemHandle * handle = getHandle(items[0]);
 			ItemHandle * handle2 = 0;

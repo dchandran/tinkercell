@@ -20,6 +20,7 @@ buttons for all these functions.
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
 #include "BasicGraphicsToolbar.h"
+#include "TextGraphicsTool.h"
 
 namespace Tinkercell
 {
@@ -27,11 +28,12 @@ namespace Tinkercell
 	BasicGraphicsToolbar::BasicGraphicsToolbar() : Tool(tr("Basic Graphics Toolbox"),tr("Basic GUI"))
 	{
 		mode = none;
+		toolBar = 0;
 	}
 	
 	void BasicGraphicsToolbar::init()
 	{
-		QToolBar * toolBar = new QToolBar(tr("Zoom, color, find toolbar"),mainWindow);//mainWindow->toolBarForTools;
+		toolBar = new QToolBar(tr("Zoom, color, find toolbar"),mainWindow);//mainWindow->toolBarForTools;
 		mainWindow->addToolBar(Qt::TopToolBarArea, toolBar);
 		toolBar->setObjectName(tr("Zoom, color, find toolbar"));
 		
@@ -292,6 +294,8 @@ namespace Tinkercell
 
 			connect(mainWindow,SIGNAL(mouseMoved(GraphicsScene*, QGraphicsItem*, QPointF, Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>&)),
 				this,SLOT(mouseMoved(GraphicsScene*, QGraphicsItem*, QPointF, Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>&)));
+
+			mainWindow->addTool(new TextGraphicsTool(toolBar));
 
 			return true;
 		}

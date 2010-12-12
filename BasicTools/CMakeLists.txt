@@ -41,7 +41,6 @@ SET(TINKERCELL_BASICTOOLS_SRC
   NameFamilyDialog.cpp
   NodeInsertion.cpp
   NodeSelection.cpp
-  TextGraphicsTool.cpp
   BasicToolsMain.cpp
 )
 
@@ -57,7 +56,6 @@ SET(TINKERCELL_BASICTOOLS_HDR
   NameFamilyDialog.h
   NodeInsertion.h
   NodeSelection.h
-  TextGraphicsTool.h
   TinkerCellAboutBox.h
   BasicToolsMain.cpp
 )

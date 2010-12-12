@@ -27,6 +27,7 @@ FILE(GLOB TINKERCELL_CORE_HDRS
 	TextGraphicsItem.h
 	TextParser.h
 	Tool.h
+	TextGraphicsTool.h
 	BasicGraphicsToolbar.h
 	LoadSaveTool.h
 )

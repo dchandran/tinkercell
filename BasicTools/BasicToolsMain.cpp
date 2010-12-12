@@ -40,9 +40,6 @@ extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)
 	Tinkercell::GroupHandlerTool * groupHandlerTool = new Tinkercell::GroupHandlerTool;
 	main->addTool(groupHandlerTool);
 
-	Tinkercell::TextGraphicsTool * textGraphicsTool = new Tinkercell::TextGraphicsTool;
-	main->addTool(textGraphicsTool);
-	
 	Tinkercell::NameFamilyDialog * nameFamilyDialog = new Tinkercell::NameFamilyDialog;
 	main->addTool(nameFamilyDialog);
 

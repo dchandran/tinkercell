@@ -117,6 +117,7 @@ namespace Tinkercell
 		QAction * alignButton;
 		enum AlignMode { left, right, bottom, top, centervertical, centerhorizontal, evenspacedvertical, evenspacedhorizontal, compactvertical, compacthorizontal };
 		AlignMode alignMode;
+		QToolBar * toolBar;
 	};
 
 

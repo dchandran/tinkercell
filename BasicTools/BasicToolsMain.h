@@ -16,7 +16,6 @@ Function that loads dll into main window
 #include "GraphicsReplaceTool.h"
 #include "GraphicsTransformTool.h"
 #include "GroupHandlerTool.h"
-#include "TextGraphicsTool.h"
 #include "NameFamilyDialog.h"
 #include "ConnectionSelection.h"
 #include "NodeSelection.h"

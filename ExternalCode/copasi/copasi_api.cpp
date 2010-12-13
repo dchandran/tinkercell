@@ -101,8 +101,12 @@ void createSpecies(copasi_compartment compartment, const char* name, double iv)
 {
 	CModel* pModel = (CModel*)(compartment.CopasiModelPtr);
 	CCompartment* pCompartment = (CCompartment*)(compartment.CopasiCompartmentPtr);
-	CMetab* pSpecies = pModel->createMetabolite(name, pCompartment->getObjectName(), iv, CMetab::REACTIONS);
 	CQHash * hash = (CQHash*)(compartment.qHash);
+	CMetab* pSpecies;
+	
+	if (!pModel || !hash || !pCompartment) return;
+	
+	pSpecies = pModel->createMetabolite(name, pCompartment->getObjectName(), iv, CMetab::REACTIONS);
 
 	CopasiPtr copasiPtr = { 
 			QString(pSpecies->getCN().c_str()),
@@ -122,9 +126,14 @@ copasi_compartment createCompartment(copasi_model model, const char* name, doubl
 {
 	CModel* pModel = (CModel*)(model.CopasiModelPtr);
 	CCompartment* pCompartment = pModel->createCompartment(name, volume);
-	copasi_compartment c = { (void*)(pCompartment), (void*)(pModel), model.qHash };
-	
 	CQHash * hash = (CQHash*)(model.qHash);
+	copasi_compartment c = { 0, 0 , 0};
+	
+	if (!pModel) return c;
+	
+	c.CopasiCompartmentPtr = (void*)(pCompartment);
+	c.CopasiModelPtr = (void*)(pModel);
+	c.qHash = model.qHash;
 	
 	CopasiPtr copasiPtr = { 
 			QString(pCompartment->getCN().c_str()),
@@ -141,6 +150,9 @@ int setValue(copasi_model model, const char * name, double value)
 {
 	CQHash * hash = (CQHash*)(model.qHash);
 	QString s(name);
+	
+	if (!hash) return 0;
+	
 	if (!hash->contains(s))
 	{
 		setGlobalParameter(model,name,value);
@@ -181,6 +193,9 @@ void setVolume(copasi_model model, const char * name, double vol)
 	CQHash * hash = (CQHash*)(model.qHash);
 	QString s(name);
 	CCompartment* pVol = 0;
+	
+	if (!hash) return;
+	
 	if (hash->contains(s) && 
 		(pVol = hash->value(s).compartment))
 	{
@@ -194,6 +209,9 @@ void setConcentration(copasi_model model, const char * name, double conc)
 	CQHash * hash = (CQHash*)(model.qHash);
 	QString s(name);
 	CMetab* pSpecies = 0;
+	
+	if (!hash) return;
+	
 	if (hash->contains(s) && 
 		(pSpecies = hash->value(s).species))
 	{
@@ -210,6 +228,8 @@ int setGlobalParameter(copasi_model model, const char * name, double value)
 	CQHash * hash = (CQHash*)(model.qHash);
 	QString s(name);
 	CModelValue * pValue = 0;
+	
+	if (!hash || !pModel) return 0;
 	
 	if (hash->contains(s) && 
 		(pValue = hash->value(s).param))
@@ -242,6 +262,9 @@ void setBoundarySpecies(copasi_model model, const char * name, int isBoundary)
 	CQHash * hash = (CQHash*)(model.qHash);
 	QString s(name);
 	CMetab* pSpecies = 0;
+	
+	if (!hash) return;
+	
 	if (hash->contains(s) && 
 		(pSpecies = hash->value(s).species))
 	{
@@ -259,6 +282,9 @@ int setAssignmentRule(copasi_model model, const char * name, const char * formul
 	CMetab* pSpecies = 0;
 	int i;
 	bool retval=true;
+	
+	if (!hash) return 0;
+	
 	if (hash->contains(s) && 
 		(pSpecies = hash->value(s).species))
 	{
@@ -271,7 +297,7 @@ int setAssignmentRule(copasi_model model, const char * name, const char * formul
 			{
 				CFunctionParameters& variables = pFunction.getVariables();
 				CFunctionParameter* pParam;
-return 1;
+
 				for (i=0; i < variables.size(); ++i)
 				{
 					pParam = variables[i];
@@ -303,6 +329,9 @@ int createVariable(copasi_model model, const char * name, const char * formula)
 {
 	CModel* pModel = (CModel*)(model.CopasiModelPtr);
 	CQHash * hash = (CQHash*)(model.qHash);
+	
+	if (!hash || !pModel) return 0;
+	
 	CModelValue* pModelValue = pModel->createModelValue(std::string(name), 0.0);
 	pModelValue->setStatus(CModelValue::ASSIGNMENT);
 	int i;
@@ -350,6 +379,9 @@ int createEvent(copasi_model model, const char * name, const char * trigger, con
 {
 	CModel* pModel = (CModel*)(model.CopasiModelPtr);
 	CQHash * hash = (CQHash*)(model.qHash);
+	
+	if (!hash || !pModel) return 0;
+	
 	int i;
 	bool retval = true;
 
@@ -429,6 +461,13 @@ int createEvent(copasi_model model, const char * name, const char * trigger, con
 copasi_reaction createReaction(copasi_model model, const char* name)
 {
 	CModel* pModel = (CModel*)(model.CopasiModelPtr);
+	
+	if (!pModel)
+	{
+		copasi_reaction r = { 0, 0 };
+		return r;
+	}
+	
 	CReaction* pReaction = pModel->createReaction(name);
 	copasi_reaction r = { (void*)(pReaction), (void*)(pModel), model.qHash };
 
@@ -439,6 +478,9 @@ void addReactant(copasi_reaction reaction, const char * species, double stoichio
 {
 	CReaction* pReaction = (CReaction*)(reaction.CopasiReactionPtr);
 	CQHash * hash = (CQHash*)(reaction.qHash);
+	
+	if (!pReaction || !hash) return;
+	
 	CMetab* pSpecies = 0;
 	
 	QString s(species);
@@ -455,6 +497,8 @@ void addProduct(copasi_reaction reaction, const char * species, double stoichiom
 	CQHash * hash = (CQHash*)(reaction.qHash);
 	CMetab* pSpecies = 0;
 	
+	if (!pReaction || !hash) return;
+	
 	QString s(species);
 	if (hash->contains(s) && (pSpecies = hash->value(s).species))
 	{
@@ -470,6 +514,8 @@ int setReactionRate(copasi_reaction reaction, const char * formula)
 	CQHash * hash = (CQHash*)(reaction.qHash);
 	CModel* pModel = (CModel*)(reaction.CopasiModelPtr);
 	CFunctionDB* pFunDB = CCopasiRootContainer::getFunctionList();
+	
+	if (!pReaction || !pModel || !hash) return 0;
 	
 	if (pFunDB)
 	{
@@ -554,6 +600,9 @@ int setReactionRate(copasi_reaction reaction, const char * formula)
 void compileCopasiModel(copasi_model model)
 {
 	CModel* pModel = (CModel*)(model.CopasiModelPtr);
+	
+	if (!pModel) return;
+	
 	CCopasiVectorNS < CCompartment > & compartments = pModel->getCompartments();
 	CCopasiVector< CMetab > & species = pModel->getMetabolites();
 	CCopasiVectorN< CModelValue > & params = pModel->getModelValues();
@@ -610,6 +659,8 @@ tc_matrix simulate(copasi_model model, double startTime, double endTime, int num
 {
 	CModel* pModel = (CModel*)(model.CopasiModelPtr);
 	CCopasiDataModel* pDataModel = (CCopasiDataModel*)(model.CopasiDataModelPtr);
+
+	if (!pModel || !pDataModel) return tc_createMatrix(0,0);
 	compileCopasiModel(model);
 	
 	// get the task list
@@ -719,6 +770,8 @@ tc_matrix getJacobian(copasi_model model)
 {
 	CModel* pModel = (CModel*)(model.CopasiModelPtr);
 	CCopasiDataModel* pDataModel = (CCopasiDataModel*)(model.CopasiDataModelPtr);
+	
+	if (!pModel || !pDataModel) return tc_createMatrix(0,0);
 	compileCopasiModel(model);
 	
 	// get the task list
@@ -790,6 +843,8 @@ tc_matrix getSteadyState(copasi_model model)
 {
 	CModel* pModel = (CModel*)(model.CopasiModelPtr);
 	CCopasiDataModel* pDataModel = (CCopasiDataModel*)(model.CopasiDataModelPtr);
+	
+	if (!pModel || !pDataModel) return tc_createMatrix(0,0);
 	compileCopasiModel(model);
 	
 	// get the task list
@@ -868,6 +923,8 @@ tc_matrix getEigenvalues(copasi_model model)
 {
 	CModel* pModel = (CModel*)(model.CopasiModelPtr);
 	CCopasiDataModel* pDataModel = (CCopasiDataModel*)(model.CopasiDataModelPtr);
+	
+	if (!pModel || !pDataModel) return tc_createMatrix(0,0);
 	compileCopasiModel(model);
 	
 	// get the task list
@@ -923,6 +980,8 @@ tc_matrix getUnscaledElasticities(copasi_model model)
 {
 	CModel* pModel = (CModel*)(model.CopasiModelPtr);
 	CCopasiDataModel* pDataModel = (CCopasiDataModel*)(model.CopasiDataModelPtr);
+	
+	if (!pModel || !pDataModel) return tc_createMatrix(0,0);
 	compileCopasiModel(model);
 	
 	// get the task list
@@ -989,6 +1048,8 @@ tc_matrix getUnscaledConcentrationCC(copasi_model model)
 {
 	CModel* pModel = (CModel*)(model.CopasiModelPtr);
 	CCopasiDataModel* pDataModel = (CCopasiDataModel*)(model.CopasiDataModelPtr);
+	
+	if (!pModel || !pDataModel) return tc_createMatrix(0,0);
 	compileCopasiModel(model);
 	
 	// get the task list
@@ -1053,22 +1114,274 @@ tc_matrix getUnscaledConcentrationCC(copasi_model model)
 
 tc_matrix getUnscaledFluxCC(copasi_model model)
 {
-	return tc_createMatrix(0,0);
+	CModel* pModel = (CModel*)(model.CopasiModelPtr);
+	CCopasiDataModel* pDataModel = (CCopasiDataModel*)(model.CopasiDataModelPtr);
+	
+	if (!pModel || !pDataModel) return tc_createMatrix(0,0);
+	compileCopasiModel(model);
+	
+	// get the task list
+	CCopasiVectorN< CCopasiTask > & TaskList = * pDataModel->getTaskList();
+	// get the MCA task object
+	CMCATask* pTask = dynamic_cast<CMCATask*>(TaskList["MCA"]);
+	// if there isn’t one
+	if (!pTask)
+	{
+		// create a new one
+		pTask = new CMCATask();
+		// remove any existing steady state task just to be sure since in
+		// theory only the cast might have failed above
+		TaskList.remove("MCA");
+		// add the new time course task to the task list
+		TaskList.add(pTask, true);
+	}
+	
+	CCopasiMessage::clearDeque();
+	
+	try
+	{
+		// initialize the trajectory task
+		// we want complete output (HEADER, BODY and FOOTER)
+		pTask->initialize(CCopasiTask::OUTPUT_COMPLETE, pDataModel, NULL);
+		pTask->process(true);
+	}
+	catch (...)
+	{
+		std::cerr << "Error when performing MCA" << std::endl;
+		return tc_createMatrix(0,0);
+	}
+	
+	CMCAMethod * mcaMethod = dynamic_cast<CMCAMethod*>(pTask->getMethod());
+	
+	if (!mcaMethod) return tc_createMatrix(0,0);
+	
+	const CMatrix<C_FLOAT64> & cmatrix = mcaMethod->getUnscaledFluxCC();
+	const CArrayAnnotation * annot = mcaMethod->getUnscaledFluxCCAnn();
+	const std::vector<std::string>& rownames = annot->getAnnotationsString(1),
+												   & colnames = annot->getAnnotationsString(2);
+
+	int rows = cmatrix.numRows(), cols = cmatrix.numCols();
+	if (rows > rownames.size()) rows = rownames.size();
+	if (cols > colnames.size()) cols = colnames.size();
+
+	tc_matrix M = tc_createMatrix(rows, cols);
+	
+	for (int i=0; i < rows; ++i)
+		tc_setRowName(M, i, rownames[i].c_str());
+	
+	for (int i=0; i < cols; ++i)
+		tc_setColumnName(M, i, colnames[i].c_str());
+	
+	for (int i=0; i < rows; ++i)
+		for (int j=0; i < cols; ++j)
+		{
+			tc_setMatrixValue(M, i, j, cmatrix(i,j));
+		}
+	return M;
 }
 
 tc_matrix getScaledElasticities(copasi_model model)
 {
-	return tc_createMatrix(0,0);
+	CModel* pModel = (CModel*)(model.CopasiModelPtr);
+	CCopasiDataModel* pDataModel = (CCopasiDataModel*)(model.CopasiDataModelPtr);
+	
+	if (!pModel || !pDataModel) return tc_createMatrix(0,0);
+	compileCopasiModel(model);
+	
+	// get the task list
+	CCopasiVectorN< CCopasiTask > & TaskList = * pDataModel->getTaskList();
+	// get the MCA task object
+	CMCATask* pTask = dynamic_cast<CMCATask*>(TaskList["MCA"]);
+	// if there isn’t one
+	if (!pTask)
+	{
+		// create a new one
+		pTask = new CMCATask();
+		// remove any existing steady state task just to be sure since in
+		// theory only the cast might have failed above
+		TaskList.remove("MCA");
+		// add the new time course task to the task list
+		TaskList.add(pTask, true);
+	}
+	
+	CCopasiMessage::clearDeque();
+	
+	try
+	{
+		// initialize the trajectory task
+		// we want complete output (HEADER, BODY and FOOTER)
+		pTask->initialize(CCopasiTask::OUTPUT_COMPLETE, pDataModel, NULL);
+		pTask->process(true);
+	}
+	catch (...)
+	{
+		std::cerr << "Error when performing MCA" << std::endl;
+		return tc_createMatrix(0,0);
+	}
+	
+	CMCAMethod * mcaMethod = dynamic_cast<CMCAMethod*>(pTask->getMethod());
+	
+	if (!mcaMethod) return tc_createMatrix(0,0);
+	
+	const CMatrix<C_FLOAT64> & cmatrix = mcaMethod->getScaledElasticities();
+	const CArrayAnnotation * annot = mcaMethod->getScaledElasticitiesAnn();
+	const std::vector<std::string>& rownames = annot->getAnnotationsString(1),
+												   & colnames = annot->getAnnotationsString(2);
+
+	int rows = cmatrix.numRows(), cols = cmatrix.numCols();
+	if (rows > rownames.size()) rows = rownames.size();
+	if (cols > colnames.size()) cols = colnames.size();
+
+	tc_matrix M = tc_createMatrix(rows, cols);
+	
+	for (int i=0; i < rows; ++i)
+		tc_setRowName(M, i, rownames[i].c_str());
+	
+	for (int i=0; i < cols; ++i)
+		tc_setColumnName(M, i, colnames[i].c_str());
+	
+	for (int i=0; i < rows; ++i)
+		for (int j=0; i < cols; ++j)
+		{
+			tc_setMatrixValue(M, i, j, cmatrix(i,j));
+		}
+	return M;
 }
 
 tc_matrix getScaledConcentrationCC(copasi_model model)
 {
-	return tc_createMatrix(0,0);
+	CModel* pModel = (CModel*)(model.CopasiModelPtr);
+	CCopasiDataModel* pDataModel = (CCopasiDataModel*)(model.CopasiDataModelPtr);
+	
+	if (!pModel || !pDataModel) return tc_createMatrix(0,0);
+	compileCopasiModel(model);
+	
+	// get the task list
+	CCopasiVectorN< CCopasiTask > & TaskList = * pDataModel->getTaskList();
+	// get the MCA task object
+	CMCATask* pTask = dynamic_cast<CMCATask*>(TaskList["MCA"]);
+	// if there isn’t one
+	if (!pTask)
+	{
+		// create a new one
+		pTask = new CMCATask();
+		// remove any existing steady state task just to be sure since in
+		// theory only the cast might have failed above
+		TaskList.remove("MCA");
+		// add the new time course task to the task list
+		TaskList.add(pTask, true);
+	}
+	
+	CCopasiMessage::clearDeque();
+	
+	try
+	{
+		// initialize the trajectory task
+		// we want complete output (HEADER, BODY and FOOTER)
+		pTask->initialize(CCopasiTask::OUTPUT_COMPLETE, pDataModel, NULL);
+		pTask->process(true);
+	}
+	catch (...)
+	{
+		std::cerr << "Error when performing MCA" << std::endl;
+		return tc_createMatrix(0,0);
+	}
+	
+	CMCAMethod * mcaMethod = dynamic_cast<CMCAMethod*>(pTask->getMethod());
+	
+	if (!mcaMethod) return tc_createMatrix(0,0);
+	
+	const CMatrix<C_FLOAT64> & cmatrix = mcaMethod->getScaledConcentrationCC();
+	const CArrayAnnotation * annot = mcaMethod->getScaledConcentrationCCAnn();
+	const std::vector<std::string>& rownames = annot->getAnnotationsString(1),
+												   & colnames = annot->getAnnotationsString(2);
+
+	int rows = cmatrix.numRows(), cols = cmatrix.numCols();
+	if (rows > rownames.size()) rows = rownames.size();
+	if (cols > colnames.size()) cols = colnames.size();
+
+	tc_matrix M = tc_createMatrix(rows, cols);
+	
+	for (int i=0; i < rows; ++i)
+		tc_setRowName(M, i, rownames[i].c_str());
+	
+	for (int i=0; i < cols; ++i)
+		tc_setColumnName(M, i, colnames[i].c_str());
+	
+	for (int i=0; i < rows; ++i)
+		for (int j=0; i < cols; ++j)
+		{
+			tc_setMatrixValue(M, i, j, cmatrix(i,j));
+		}
+	return M;
 }
 
 tc_matrix getScaledFluxCC(copasi_model model)
 {
-	return tc_createMatrix(0,0);
+	CModel* pModel = (CModel*)(model.CopasiModelPtr);
+	CCopasiDataModel* pDataModel = (CCopasiDataModel*)(model.CopasiDataModelPtr);
+	
+	if (!pModel || !pDataModel) return tc_createMatrix(0,0);
+	compileCopasiModel(model);
+	
+	// get the task list
+	CCopasiVectorN< CCopasiTask > & TaskList = * pDataModel->getTaskList();
+	// get the MCA task object
+	CMCATask* pTask = dynamic_cast<CMCATask*>(TaskList["MCA"]);
+	// if there isn’t one
+	if (!pTask)
+	{
+		// create a new one
+		pTask = new CMCATask();
+		// remove any existing steady state task just to be sure since in
+		// theory only the cast might have failed above
+		TaskList.remove("MCA");
+		// add the new time course task to the task list
+		TaskList.add(pTask, true);
+	}
+	
+	CCopasiMessage::clearDeque();
+	
+	try
+	{
+		// initialize the trajectory task
+		// we want complete output (HEADER, BODY and FOOTER)
+		pTask->initialize(CCopasiTask::OUTPUT_COMPLETE, pDataModel, NULL);
+		pTask->process(true);
+	}
+	catch (...)
+	{
+		std::cerr << "Error when performing MCA" << std::endl;
+		return tc_createMatrix(0,0);
+	}
+	
+	CMCAMethod * mcaMethod = dynamic_cast<CMCAMethod*>(pTask->getMethod());
+	
+	if (!mcaMethod) return tc_createMatrix(0,0);
+	
+	const CMatrix<C_FLOAT64> & cmatrix = mcaMethod->getScaledFluxCC();
+	const CArrayAnnotation * annot = mcaMethod->getScaledFluxCCAnn();
+	const std::vector<std::string>& rownames = annot->getAnnotationsString(1),
+												   & colnames = annot->getAnnotationsString(2);
+
+	int rows = cmatrix.numRows(), cols = cmatrix.numCols();
+	if (rows > rownames.size()) rows = rownames.size();
+	if (cols > colnames.size()) cols = colnames.size();
+
+	tc_matrix M = tc_createMatrix(rows, cols);
+	
+	for (int i=0; i < rows; ++i)
+		tc_setRowName(M, i, rownames[i].c_str());
+	
+	for (int i=0; i < cols; ++i)
+		tc_setColumnName(M, i, colnames[i].c_str());
+	
+	for (int i=0; i < rows; ++i)
+		for (int j=0; i < cols; ++j)
+		{
+			tc_setMatrixValue(M, i, j, cmatrix(i,j));
+		}
+	return M;
 }
 
 /** Sloten from TinkerCell  **/

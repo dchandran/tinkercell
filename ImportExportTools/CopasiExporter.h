@@ -47,14 +47,19 @@ namespace Tinkercell
 		~CopasiExporter();
 		bool setMainWindow(MainWindow * main);
 	
-	signals:
+	private slots:
 		void getCopasiModel(QSemaphore*, copasi_model *);
+		void setupFunctionPointers( QLibrary * library);
+		void historyChanged(int);
+		void windowChanged(NetworkWindow*,NetworkWindow*);
 
 	private:
 		static copasi_model getCopasiModel();
 		void updateModel();
 		bool modelNeedsUpdate;
 		copasi_model model;
+		
+		static CopasiExporter_FtoS fToS;
 	};
 }
 

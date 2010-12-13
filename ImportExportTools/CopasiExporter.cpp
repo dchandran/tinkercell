@@ -2,7 +2,7 @@
 #include <QFileDialog>
 #include "BasicInformationTool.h"
 #include "StoichiometryTool.h"
-#include "TextEditor.h"
+#include "CopasiExporter.h"
 #include "ConsoleWindow.h"
 
 using namespace Tinkercell;
@@ -10,7 +10,9 @@ using namespace Tinkercell;
 CopasiExporter::CopasiExporter() : Tool("COPASI","Export")
 {
 	copasi_init();	
-	model = {0,0,0};
+	model.CopasiModelPtr = 0;
+	model.CopasiDataModelPtr = 0;
+	model.qHash = 0;
 	modelNeedsUpdate = true;	
 	qRegisterMetaType< copasi_model >("copasi_model");
 	connect(&fToS,SIGNAL(getCopasiModel(QSemaphore*, copasi_model *)),this,SLOT(getCopasiModel(QSemaphore*, copasi_model *)));
@@ -95,19 +97,27 @@ void CopasiExporter::updateModel()
 {
 	if (model.CopasiDataModelPtr)
 		removeCopasiModel(model);
+		
+	model.CopasiModelPtr = 0;
+	model.CopasiDataModelPtr = 0;
+	model.qHash = 0;
+	
+	if (!currentNetwork()) return;
 	
 	model = createCopasiModel("tinkercell");
+	
+	QList<ItemHandle*> handles = currentNetwork()->handles(true);
 
 	NumericalDataTable params = BasicInformationTool::getUsedParameters(handles);
 	NumericalDataTable stoic_matrix = StoichiometryTool::getStoichiometry(handles);
 	QStringList rates = StoichiometryTool::getRates(handles);
-	QStringList species, compartments, eventTriggers, eventActions, assignmentNames,
+	QStringList species, eventTriggers, eventActions, assignmentNames,
 				assignmentDefs, fixedVars, functionNames, functionDefs, functionArgs;
 
 	species = stoic_matrix.rowNames();
 	QVector<double> initialValues(species.size(),0.0);
 	QVector<QString> speciesCompartments(species.size(),tr("DefaultCompartment"));
-	QList<double> fixedValues, compartmentVolumes;
+	QVector<double> compartmentVolumes(species.size(),1.0);
 	ItemHandle * parentHandle;
 
 	QRegExp regex(tr("\\.(?!\\d)"));	
@@ -118,14 +128,6 @@ void CopasiExporter::updateModel()
 	{
 		if (handles[i])// && handles[i]->family())
 		{
-			if (handles[i]->isA(tr("Compartment")))
-			{
-				compartments << handles[i]->fullName(tr("_"));
-				if (handles[i]->hasNumericalData(tr("Initial Value")))
-					compartmentVolumes += handles[i]->numericalData(tr("Initial Value"));
-				else
-					compartmentVolumes += 1.0;
-			}
 			if (handles[i]->children.isEmpty())
 			{
 				if (handles[i]->hasNumericalData(tr("Initial Value")))
@@ -135,19 +137,19 @@ void CopasiExporter::updateModel()
 					{
 						initialValues[k] = handles[i]->numericalData(tr("Initial Value"));
 						if (parentHandle = handles[i]->parentOfFamily(tr("Compartment")))
-							speciesCompartments[k] = parentHandle->fullName(tr("_"));
-						else
 						{
-							compartments << tr("DefaultCompartment");
-							compartmentVolumes << 1.0;
-						}	
+							speciesCompartments[k] = parentHandle->fullName(tr("_"));
+							if (parentHandle->hasNumericalData(tr("Initial Value")))
+								compartmentVolumes[k] = parentHandle->numericalData(tr("Initial Value"));
+							else
+								compartmentVolumes[k] = 1.0;
+						}
 					}
 
 					if (handles[i]->hasNumericalData(tr("Fixed")) &&
 						handles[i]->numericalData(tr("Fixed")) > 0)
 					{
-						fixedVars << handles[i]->fullName(tr("_"));						
-						fixedValues << handles[i]->numericalData(tr("Initial Value"));
+						fixedVars << handles[i]->fullName(tr("_"));
 					}
 				}
 			}
@@ -250,12 +252,12 @@ void CopasiExporter::updateModel()
 			c = compartmentHash[ speciesCompartments[i] ];
 		else
 		{
-			c = createCompartment(model, speciesCompartments[i]);
+			c = createCompartment(model, speciesCompartments[i].toAscii().data(), compartmentVolumes[i]);
 			compartmentHash[ speciesCompartments[i] ] = c;
 		}
-		createSpecies(c, species[i], initialValues[i]);
+		createSpecies(c, species[i].toAscii().data(), initialValues[i]);
 		if (fixedVars.contains(species[i]))
-			setBoundarySpecies(model, species[i], 1);
+			setBoundarySpecies(model, species[i].toAscii().data(), 1);
 	}
 	
 	//create list of parameters
@@ -289,7 +291,7 @@ void CopasiExporter::updateModel()
 	}
 	
 	//list of events
-	for (int i=0; i < eventTriggers.size(); ++i)
+/*	for (int i=0; i < eventTriggers.size(); ++i)
 	{
 		QStringList actions = eventActions[i].split(";");
 		for (int j=0; j < actions.size(); ++j)
@@ -297,11 +299,11 @@ void CopasiExporter::updateModel()
 			QStringList words = actions[j].split("=");
 			if (words.size() == 2)
 			{
-				createEvent(model, (QString("event") + QString::number(i)).toAscii().data(), eventTriggers[i].toAscii().data(), words[0].trimmed().toAcii().data(), words[1].trimmed().toAcii().data());
+				createEvent(model, (QString("event") + QString::number(i)).toAscii().data(), eventTriggers[i].toAscii().data(), words[0].trimmed().toAscii().data(), words[1].trimmed().toAscii().data());
 				break;
 			}
 		}
-	}
+	}*/
 }
 
 extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)

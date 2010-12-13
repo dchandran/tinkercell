@@ -164,8 +164,8 @@ TCAPIEXPORT void run(tc_matrix input) //first row = objective, rest = contraints
 
 	tc_printTable(output);
 
-	tc_deleteMatrix(&output);
-	tc_deleteMatrix(&input);
+	tc_deleteMatrix(output);
+	tc_deleteMatrix(input);
 	free(soln);
 	delete_lp(lp);
 

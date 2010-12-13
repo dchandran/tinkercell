@@ -71,7 +71,10 @@ package tinkercell;
 *tc_deleteStringsArray = *tinkercellc::tc_deleteStringsArray;
 *tc_appendColumns = *tinkercellc::tc_appendColumns;
 *tc_appendRows = *tinkercellc::tc_appendRows;
-*tc_printMatrix = *tinkercellc::tc_printMatrix;
+*tc_printMatrixToFile = *tinkercellc::tc_printMatrixToFile;
+*tc_printOutMatrix = *tinkercellc::tc_printOutMatrix;
+*tc_printTableToFile = *tinkercellc::tc_printTableToFile;
+*tc_printOutTable = *tinkercellc::tc_printOutTable;
 *tc_allItems = *tinkercellc::tc_allItems;
 *tc_selectedItems = *tinkercellc::tc_selectedItems;
 *tc_itemsOfFamily = *tinkercellc::tc_itemsOfFamily;
@@ -89,7 +92,7 @@ package tinkercell;
 *tc_isA = *tinkercellc::tc_isA;
 *tc_print = *tinkercellc::tc_print;
 *tc_errorReport = *tinkercellc::tc_errorReport;
-*tc_printTable = *tinkercellc::tc_printTable;
+*tc_printMatrix = *tinkercellc::tc_printMatrix;
 *tc_printFile = *tinkercellc::tc_printFile;
 *tc_clear = *tinkercellc::tc_clear;
 *tc_remove = *tinkercellc::tc_remove;
@@ -244,6 +247,40 @@ package tinkercell;
 *tc_exportSBML = *tinkercellc::tc_exportSBML;
 *tc_importSBML = *tinkercellc::tc_importSBML;
 *tc_SBML_api = *tinkercellc::tc_SBML_api;
+*tc_CopasiModel = *tinkercellc::tc_CopasiModel;
+*tc_COPASI_api = *tinkercellc::tc_COPASI_api;
+*copasi_init = *tinkercellc::copasi_init;
+*copasi_end = *tinkercellc::copasi_end;
+*compileCopasiModel = *tinkercellc::compileCopasiModel;
+*createCopasiModel = *tinkercellc::createCopasiModel;
+*loadModelFile = *tinkercellc::loadModelFile;
+*createCompartment = *tinkercellc::createCompartment;
+*setVolume = *tinkercellc::setVolume;
+*setValue = *tinkercellc::setValue;
+*createSpecies = *tinkercellc::createSpecies;
+*setBoundarySpecies = *tinkercellc::setBoundarySpecies;
+*setConcentration = *tinkercellc::setConcentration;
+*setAssignmentRule = *tinkercellc::setAssignmentRule;
+*setGlobalParameter = *tinkercellc::setGlobalParameter;
+*createVariable = *tinkercellc::createVariable;
+*createEvent = *tinkercellc::createEvent;
+*createReaction = *tinkercellc::createReaction;
+*addReactant = *tinkercellc::addReactant;
+*addProduct = *tinkercellc::addProduct;
+*setReactionRate = *tinkercellc::setReactionRate;
+*simulateDeterministic = *tinkercellc::simulateDeterministic;
+*simulateStochastic = *tinkercellc::simulateStochastic;
+*simulateHybrid = *tinkercellc::simulateHybrid;
+*simulateTauLeap = *tinkercellc::simulateTauLeap;
+*getSteadyState = *tinkercellc::getSteadyState;
+*getJacobian = *tinkercellc::getJacobian;
+*getEigenvalues = *tinkercellc::getEigenvalues;
+*getUnscaledElasticities = *tinkercellc::getUnscaledElasticities;
+*getUnscaledConcentrationCC = *tinkercellc::getUnscaledConcentrationCC;
+*getUnscaledFluxCC = *tinkercellc::getUnscaledFluxCC;
+*getScaledElasticities = *tinkercellc::getScaledElasticities;
+*getScaledConcentrationCC = *tinkercellc::getScaledConcentrationCC;
+*getScaledFluxCC = *tinkercellc::getScaledFluxCC;
 
 ############# Class : tinkercell::tc_strings ##############
 
@@ -404,6 +441,135 @@ sub DESTROY {
     delete $ITERATORS{$self};
     if (exists $OWNER{$self}) {
         tinkercellc::delete_tc_table($self);
+        delete $OWNER{$self};
+    }
+}
+
+sub DISOWN {
+    my $self = shift;
+    my $ptr = tied(%$self);
+    delete $OWNER{$ptr};
+}
+
+sub ACQUIRE {
+    my $self = shift;
+    my $ptr = tied(%$self);
+    $OWNER{$ptr} = 1;
+}
+
+
+############# Class : tinkercell::copasi_model ##############
+
+package tinkercell::copasi_model;
+use vars qw(@ISA %OWNER %ITERATORS %BLESSEDMEMBERS);
+@ISA = qw( tinkercell );
+%OWNER = ();
+%ITERATORS = ();
+*swig_CopasiModelPtr_get = *tinkercellc::copasi_model_CopasiModelPtr_get;
+*swig_CopasiModelPtr_set = *tinkercellc::copasi_model_CopasiModelPtr_set;
+*swig_CopasiDataModelPtr_get = *tinkercellc::copasi_model_CopasiDataModelPtr_get;
+*swig_CopasiDataModelPtr_set = *tinkercellc::copasi_model_CopasiDataModelPtr_set;
+*swig_qHash_get = *tinkercellc::copasi_model_qHash_get;
+*swig_qHash_set = *tinkercellc::copasi_model_qHash_set;
+sub new {
+    my $pkg = shift;
+    my $self = tinkercellc::new_copasi_model(@_);
+    bless $self, $pkg if defined($self);
+}
+
+sub DESTROY {
+    return unless $_[0]->isa('HASH');
+    my $self = tied(%{$_[0]});
+    return unless defined $self;
+    delete $ITERATORS{$self};
+    if (exists $OWNER{$self}) {
+        tinkercellc::delete_copasi_model($self);
+        delete $OWNER{$self};
+    }
+}
+
+sub DISOWN {
+    my $self = shift;
+    my $ptr = tied(%$self);
+    delete $OWNER{$ptr};
+}
+
+sub ACQUIRE {
+    my $self = shift;
+    my $ptr = tied(%$self);
+    $OWNER{$ptr} = 1;
+}
+
+
+############# Class : tinkercell::copasi_reaction ##############
+
+package tinkercell::copasi_reaction;
+use vars qw(@ISA %OWNER %ITERATORS %BLESSEDMEMBERS);
+@ISA = qw( tinkercell );
+%OWNER = ();
+%ITERATORS = ();
+*swig_CopasiReactionPtr_get = *tinkercellc::copasi_reaction_CopasiReactionPtr_get;
+*swig_CopasiReactionPtr_set = *tinkercellc::copasi_reaction_CopasiReactionPtr_set;
+*swig_CopasiModelPtr_get = *tinkercellc::copasi_reaction_CopasiModelPtr_get;
+*swig_CopasiModelPtr_set = *tinkercellc::copasi_reaction_CopasiModelPtr_set;
+*swig_qHash_get = *tinkercellc::copasi_reaction_qHash_get;
+*swig_qHash_set = *tinkercellc::copasi_reaction_qHash_set;
+sub new {
+    my $pkg = shift;
+    my $self = tinkercellc::new_copasi_reaction(@_);
+    bless $self, $pkg if defined($self);
+}
+
+sub DESTROY {
+    return unless $_[0]->isa('HASH');
+    my $self = tied(%{$_[0]});
+    return unless defined $self;
+    delete $ITERATORS{$self};
+    if (exists $OWNER{$self}) {
+        tinkercellc::delete_copasi_reaction($self);
+        delete $OWNER{$self};
+    }
+}
+
+sub DISOWN {
+    my $self = shift;
+    my $ptr = tied(%$self);
+    delete $OWNER{$ptr};
+}
+
+sub ACQUIRE {
+    my $self = shift;
+    my $ptr = tied(%$self);
+    $OWNER{$ptr} = 1;
+}
+
+
+############# Class : tinkercell::copasi_compartment ##############
+
+package tinkercell::copasi_compartment;
+use vars qw(@ISA %OWNER %ITERATORS %BLESSEDMEMBERS);
+@ISA = qw( tinkercell );
+%OWNER = ();
+%ITERATORS = ();
+*swig_CopasiCompartmentPtr_get = *tinkercellc::copasi_compartment_CopasiCompartmentPtr_get;
+*swig_CopasiCompartmentPtr_set = *tinkercellc::copasi_compartment_CopasiCompartmentPtr_set;
+*swig_CopasiModelPtr_get = *tinkercellc::copasi_compartment_CopasiModelPtr_get;
+*swig_CopasiModelPtr_set = *tinkercellc::copasi_compartment_CopasiModelPtr_set;
+*swig_qHash_get = *tinkercellc::copasi_compartment_qHash_get;
+*swig_qHash_set = *tinkercellc::copasi_compartment_qHash_set;
+sub new {
+    my $pkg = shift;
+    my $self = tinkercellc::new_copasi_compartment(@_);
+    bless $self, $pkg if defined($self);
+}
+
+sub DESTROY {
+    return unless $_[0]->isa('HASH');
+    my $self = tied(%{$_[0]});
+    return unless defined $self;
+    delete $ITERATORS{$self};
+    if (exists $OWNER{$self}) {
+        tinkercellc::delete_copasi_compartment($self);
         delete $OWNER{$self};
     }
 }

@@ -56,6 +56,37 @@ ELSE( WIN32 )
   )
 ENDIF( WIN32 )
 
+SET(COPASI_TOOL_HDRS CopasiExporter.h)
+SET(COPASI_TOOL_SRC CopasiExporter.cpp)
+
+QT4_WRAP_CPP( COPASI_TOOL_MOC ${COPASI_TOOL_HDRS})
+
+ADD_LIBRARY( CopasiExporter
+  SHARED
+  ${COPASI_TOOL_MOC}
+  ${TinkercellCore_MOC}
+  ${COPASI_TOOL_SRC}
+)
+
+TARGET_LINK_LIBRARIES( CopasiExporter
+  CopasiExporter
+  ModelingTools
+  NodesTree
+  TinkerCellCore
+  copasi
+)
+
+IF( WIN32 )
+  INSTALL(TARGETS CopasiExporter
+    DESTINATION plugins
+  )
+ELSE( WIN32 )
+  INSTALL(TARGETS CopasiExporter
+    LIBRARY DESTINATION plugins
+  )
+ENDIF( WIN32 )
+
+
 FILE( GLOB ANTIMONYEDITOR_HDRS AntimonyEditor.h AntimonySyntaxHighlighter.h )
 FILE( GLOB ANTIMONYEDITOR_SRC AntimonyEditor.cpp AntimonySyntaxHighlighter.cpp )
 QT4_WRAP_CPP( ANTIMONYEDITOR_MOC ${ANTIMONYEDITOR_HDRS})

@@ -144,12 +144,7 @@ OPTION( TEST_COPASI_API "test copasi api" OFF )
 IF (TEST_COPASI_API)
   ADD_EXECUTABLE(copasi_api_test test_copasi.c)
 
-  TARGET_LINK_LIBRARIES( copasi_api_test
-    copasi
-    sbml
-    raptor
-	antimony
-  )
+  TARGET_LINK_LIBRARIES( copasi_api_test   copasi )
 
 ENDIF (TEST_COPASI_API)
 

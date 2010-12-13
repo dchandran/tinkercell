@@ -109,7 +109,7 @@ void run(tc_matrix input)
 		A = tc_selectedItems();
 		if (tc_getItem(A,0) == 0)
 		{
-			tc_deleteItemsArray(&A);
+			tc_deleteItemsArray(A);
 			tc_errorReport("No Model Selected\0");
 			return;
 		}
@@ -124,7 +124,7 @@ void run(tc_matrix input)
 		params = tc_getParameters(A);
 		N = tc_getStoichiometry(A);
 		B = tc_findItems(N.rownames);
-		tc_deleteMatrix(&N);
+		tc_deleteMatrix(N);
 		initVals = tc_getInitialValues(B);
 
 		allParams = tc_createMatrix(initVals.rows+params.rows,2);
@@ -142,29 +142,29 @@ void run(tc_matrix input)
 			tc_setMatrixValue(allParams,i+params.rows,1, 2*tc_getMatrixValue(initVals,i,0) - tc_getMatrixValue(allParams,i+params.rows,0));
 		}
 		
-		tc_deleteMatrix(&initVals);
-		tc_deleteMatrix(&params);
-		tc_deleteItemsArray(&B);
+		tc_deleteMatrix(initVals);
+		tc_deleteMatrix(params);
+		tc_deleteItemsArray(B);
 		runfunc = runfuncInput;
 	}
 	
 	if (tc_getItem(A,0))
 	{
 		k = tc_writeModel( "ode", A );
-		tc_deleteItemsArray(&A);
+		tc_deleteItemsArray(A);
 		if (!k)
 		{
 			tc_errorReport("No Model\0");
 			if (slider)
-				tc_deleteMatrix(&allParams);
+				tc_deleteMatrix(allParams);
 			return;
 		}
 	}
 	else
 	{
-		tc_deleteItemsArray(&A);
+		tc_deleteItemsArray(A);
 		if (slider)
-			tc_deleteMatrix(&allParams);
+			tc_deleteMatrix(allParams);
 		tc_errorReport("No Model\0");
 		return;
 	}
@@ -173,9 +173,9 @@ void run(tc_matrix input)
 	
 	if (!out)
 	{
-		tc_deleteItemsArray(&A);
+		tc_deleteItemsArray(A);
 		if (slider)
-			tc_deleteMatrix(&allParams);
+			tc_deleteMatrix(allParams);
 		tc_errorReport("Cannot write to file ode.c in user directory\0");
 		return;
 	}
@@ -261,7 +261,7 @@ fprintf( out , "\
 	{\n\
 	   tc_setInitialValues(A,ss1);\n\
 	}\n\
-	tc_deleteItemsArray(&A);\n\
+	tc_deleteItemsArray(A);\n\
 	names.length = TCreactions;\n\
 	names.strings = TCreactionnames;\n\
 	A = tc_findItems(names);\n\
@@ -270,9 +270,9 @@ fprintf( out , "\
 	   x = tc_getItem(A,i);\n\
 	   tc_displayNumber(x,tc_getMatrixValue(ss2,i,0));\n\
 	}\n\
-	tc_deleteItemsArray(&A);\n\
-	tc_deleteMatrix(&ss1);\n\
-	tc_deleteMatrix(&ss2);\n\
+	tc_deleteItemsArray(A);\n\
+	tc_deleteMatrix(ss1);\n\
+	tc_deleteMatrix(ss2);\n\
 	names.length = TCvars;\n\
 	names.strings = TCvarnames;\n\
 	if (%i)\n\
@@ -294,12 +294,12 @@ fprintf( out , "\
 		tc_setColumnName(data,1+i,tc_getString(names,i));\n\
 	}\n\
 	tc_plot(data,\"Time Course Simulation\");\n\
-	tc_deleteMatrix(&data);\n\
+	tc_deleteMatrix(data);\n\
 	free(model);\n", start, end, dt, sz, update, rateplot);
 	
 
 	if (slider)
-		fprintf(out, "    tc_deleteMatrix(&input);\n    return;\n}\n");
+		fprintf(out, "    tc_deleteMatrix(input);\n    return;\n}\n");
 	else
 		fprintf(out, "    return;\n}\n");
 
@@ -308,7 +308,7 @@ fprintf( out , "\
 	if (slider)
 	{
 		tc_compileBuildLoadSliders("ode.c -lode -lssa\0","run\0","Deterministic simulation\0",allParams);
-		tc_deleteMatrix(&allParams);
+		tc_deleteMatrix(allParams);
 	}
 
 	else

@@ -17,7 +17,6 @@
 #include "ItemHandle.h"
 #include "Tool.h"
 #include "CThread.h"
-#include "common/sbmlfwd.h"
 #include "copasi_api.h"
 
 namespace Tinkercell
@@ -51,8 +50,11 @@ namespace Tinkercell
 	signals:
 		void getCopasiModel(QSemaphore*, copasi_model *);
 
-	private slots:
+	private:
 		static copasi_model getCopasiModel();
+		void updateModel();
+		bool modelNeedsUpdate;
+		copasi_model model;
 	};
 }
 

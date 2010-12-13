@@ -59,7 +59,7 @@ void runSSA(tc_matrix input)
 		A = tc_selectedItems();
 		if (tc_getItem(A,0) == 0)
 		{
-			tc_deleteItemsArray(&A);
+			tc_deleteItemsArray(A);
 			tc_errorReport("No Model Selected\0");
 			return;
 
@@ -75,7 +75,7 @@ void runSSA(tc_matrix input)
 		params = tc_getParameters(A);
 		N = tc_getStoichiometry(A);
 		B = tc_findItems(N.rownames);
-		tc_deleteMatrix(&N);
+		tc_deleteMatrix(N);
 		initVals = tc_getInitialValues(B);
 
 		allParams = tc_createMatrix(initVals.rows+params.rows,2);
@@ -93,29 +93,29 @@ void runSSA(tc_matrix input)
 			tc_setMatrixValue(allParams,i+params.rows,1, 2*tc_getMatrixValue(initVals,i,0) - tc_getMatrixValue(allParams,i+params.rows,0));
 		}
 		
-		tc_deleteMatrix(&initVals);
-		tc_deleteMatrix(&params);
-		tc_deleteItemsArray(&B);
+		tc_deleteMatrix(initVals);
+		tc_deleteMatrix(params);
+		tc_deleteItemsArray(B);
 		runfunc = runfuncInput;
 	}
 	
 	if (tc_getItem(A,0) != 0)
 	{
 		k = tc_writeModel( "runssa", A );
-		tc_deleteItemsArray(&A);
+		tc_deleteItemsArray(A);
 		if (!k)
 		{
 			tc_errorReport("No Model\0");
 			if (slider)
-				tc_deleteMatrix(&allParams);
+				tc_deleteMatrix(allParams);
 			return;
 		}
 	}
 	else
 	{
-		tc_deleteItemsArray(&A);
+		tc_deleteItemsArray(A);
 		if (slider)
-			tc_deleteMatrix(&allParams);
+			tc_deleteMatrix(allParams);
 		tc_errorReport("No Model\0");
 		return;
 	}
@@ -124,9 +124,9 @@ void runSSA(tc_matrix input)
 	
 	if (!out)
 	{
-		tc_deleteItemsArray(&A);
+		tc_deleteItemsArray(A);
 		if (slider)
-			tc_deleteMatrix(&allParams);
+			tc_deleteMatrix(allParams);
 		tc_errorReport("Cannot write to file runssa.c in user directory\0");
 		return;
 	}
@@ -220,7 +220,7 @@ fprintf(out, "\
 	   sprintf(s, \"mean=%%.3lf \\nsd=%%.3lf\",mu[i],sqrt(var[i]));\n\
 	   tc_displayText(tc_getItem(A,i),s);\n\
 	}\n\
-	tc_deleteItemsArray(&A);\n\
+	tc_deleteItemsArray(A);\n\
 	names.length = TCreactions;\n\
 	names.strings = TCreactionnames;\n\
 	A = tc_findItems(names);\n\
@@ -231,7 +231,7 @@ fprintf(out, "\
 	   sprintf(s, \"mean=%%.3lf \\nsd=%%.3lf\",mu[i+TCvars],sqrt(var[i+TCvars]));\n\
 	   tc_displayText(tc_getItem(A,i),s);\n\
 	}\n\
-	tc_deleteItemsArray(&A);\n\
+	tc_deleteItemsArray(A);\n\
 	names.length = TCvars;\n\
 	names.strings = TCvarnames;\n\
 	free(mu);\n\
@@ -253,11 +253,11 @@ fprintf(out, "\
 //	tc_multiplot(2,1);\n\
 	tc_plot(data,\"Stochastic Simulation\");\n\
 //	tc_hist(data,\"Histogram\");\n\
-	tc_deleteMatrix(&data);\n\
+	tc_deleteMatrix(data);\n\
 	free(model);\n",time,maxsz,rateplot);
 
 	if (slider)
-		fprintf(out, "    tc_deleteMatrix(&input);\n    return;\n}\n");
+		fprintf(out, "    tc_deleteMatrix(input);\n    return;\n}\n");
 	else
 		fprintf(out, "    return;\n}\n");
 
@@ -266,7 +266,7 @@ fprintf(out, "\
 	if (slider)
 	{
 		tc_compileBuildLoadSliders("runssa.c -lssa\0","run\0","Gillespie algorithm\0",allParams);
-		tc_deleteMatrix(&allParams);
+		tc_deleteMatrix(allParams);
 	}
 	else
 		tc_compileBuildLoad("runssa.c -lssa\0","run\0","Gillespie algorithm\0");
@@ -310,7 +310,7 @@ void runCellSSA(tc_matrix input)
 		A = tc_selectedItems();
 		if (tc_getItem(A,0) == 0)
 		{
-			tc_deleteItemsArray(&A);
+			tc_deleteItemsArray(A);
 			tc_errorReport("No Model Selected\0");
 			return;
 
@@ -324,7 +324,7 @@ void runCellSSA(tc_matrix input)
 	if (tc_getItem(A,0))
 	{
 		k = tc_writeModel( "cells_ssa", A );
-		tc_deleteItemsArray(&A);
+		tc_deleteItemsArray(A);
 		if (!k)
 		{
 			tc_errorReport("No Model\0");
@@ -333,7 +333,7 @@ void runCellSSA(tc_matrix input)
 	}
 	else
 	{
-		tc_deleteItemsArray(&A);
+		tc_deleteItemsArray(A);
 		tc_errorReport("No Model\0");
 		return;
 	}
@@ -474,7 +474,7 @@ void runLangevin(tc_matrix input)
 		A = tc_selectedItems();
 		if (tc_getItem(A,0) == 0)
 		{
-			tc_deleteItemsArray(&A);
+			tc_deleteItemsArray(A);
 			tc_errorReport("No Model Selected\0");
 			return;
 
@@ -490,7 +490,7 @@ void runLangevin(tc_matrix input)
 		params = tc_getParameters(A);
 		N = tc_getStoichiometry(A);
 		B = tc_findItems(N.rownames);
-		tc_deleteMatrix(&N);
+		tc_deleteMatrix(N);
 		initVals = tc_getInitialValues(B);
 
 		allParams = tc_createMatrix(initVals.rows+params.rows,2);
@@ -508,29 +508,29 @@ void runLangevin(tc_matrix input)
 			tc_setMatrixValue(allParams,i+params.rows,1, 2*tc_getMatrixValue(initVals,i,0) - tc_getMatrixValue(allParams,i+params.rows,0));
 		}
 		
-		tc_deleteMatrix(&initVals);
-		tc_deleteMatrix(&params);
-		tc_deleteItemsArray(&B);
+		tc_deleteMatrix(initVals);
+		tc_deleteMatrix(params);
+		tc_deleteItemsArray(B);
 		runfunc = runfuncInput;
 	}
 	
 	if (tc_getItem(A,0) != 0)
 	{
 		k = tc_writeModel( "runssa", A );
-		tc_deleteItemsArray(&A);
+		tc_deleteItemsArray(A);
 		if (!k)
 		{
 			tc_errorReport("No Model\0");
 			if (slider)
-				tc_deleteMatrix(&allParams);
+				tc_deleteMatrix(allParams);
 			return;
 		}
 	}
 	else
 	{
-		tc_deleteItemsArray(&A);
+		tc_deleteItemsArray(A);
 		if (slider)
-			tc_deleteMatrix(&allParams);
+			tc_deleteMatrix(allParams);
 		tc_errorReport("No Model\0");
 		return;
 	}
@@ -539,9 +539,9 @@ void runLangevin(tc_matrix input)
 	
 	if (!out)
 	{
-		tc_deleteItemsArray(&A);
+		tc_deleteItemsArray(A);
 		if (slider)
-			tc_deleteMatrix(&allParams);
+			tc_deleteMatrix(allParams);
 		tc_errorReport("Cannot write to file runssa.c in user directory\0");
 		return;
 	}
@@ -636,7 +636,7 @@ fprintf(out, "\
 	   sprintf(s, \"mean=%%.3lf \\nsd=%%.3lf\",mu[i],sqrt(var[i]));\n\
 	   tc_displayText(tc_getItem(A,i),s);\n\
 	}\n\
-	tc_deleteItemsArray(&A);\n\
+	tc_deleteItemsArray(A);\n\
 	names.length = TCreactions;\n\
 	names.strings = TCreactionnames;\n\
 	A = tc_findItems(names);\n\
@@ -647,7 +647,7 @@ fprintf(out, "\
 	   sprintf(s, \"mean=%%.3lf \\nsd=%%.3lf\",mu[i+TCvars],sqrt(var[i+TCvars]));\n\
 	   tc_displayText(tc_getItem(A,i),s);\n\
 	}\n\
-	tc_deleteItemsArray(&A);\n\
+	tc_deleteItemsArray(A);\n\
 	free(mu);\n\
 	free(var);\n\
 	names.length = TCvars;\n\
@@ -669,11 +669,11 @@ fprintf(out, "\
 //	tc_multiplot(2,1);\n\
 	tc_plot(data,\"Stochastic Simulation\");\n\
 //	tc_hist(data,\"Histogram\");\n\
-	tc_deleteMatrix(&data);\n\
+	tc_deleteMatrix(data);\n\
 	free(model);\n",time,dt,(int)(time/dt),rateplot);
 
 	if (slider)
-		fprintf(out, "    tc_deleteMatrix(&input);\n    return;\n}\n");
+		fprintf(out, "    tc_deleteMatrix(input);\n    return;\n}\n");
 	else
 		fprintf(out, "    return;\n}\n");
 
@@ -682,7 +682,7 @@ fprintf(out, "\
 	if (slider)
 	{
 		tc_compileBuildLoadSliders("runssa.c -lssa\0","run\0","Gillespie algorithm\0",allParams);
-		tc_deleteMatrix(&allParams);
+		tc_deleteMatrix(allParams);
 	}
 	else
 		tc_compileBuildLoad("runssa.c -lssa\0","run\0","Gillespie algorithm\0");

@@ -178,52 +178,46 @@ void tc_setItem(tc_items A, int i, long o)
 		A.items[ i ] = o;
 }
 
-void tc_deleteMatrix(tc_matrix * M)
+void tc_deleteMatrix(tc_matrix M)
 {
-	if (!M) return;
-	if (M->values)
-		free(M->values);
-	M->rows = M->cols = 0;	
-	M->values = 0;
-	tc_deleteStringsArray(&M->rownames);
-	tc_deleteStringsArray(&M->colnames);
-
+	if (M.values)
+		free(M.values);
+	M.rows = M.cols = 0;	
+	M.values = 0;
+	tc_deleteStringsArray(M.rownames);
+	tc_deleteStringsArray(M.colnames);
 }
 
-void tc_deleteTable(tc_table * M)
+void tc_deleteTable(tc_table M)
 {
-	if (!M) return;
-	if (M->strings)
-		free(M->strings);
-	M->rows = M->cols = 0;
-	M->strings = 0;
-	tc_deleteStringsArray(&M->rownames);
-	tc_deleteStringsArray(&M->colnames);
-
+	if (M.strings)
+		free(M.strings);
+	M.rows = M.cols = 0;
+	M.strings = 0;
+	tc_deleteStringsArray(M.rownames);
+	tc_deleteStringsArray(M.colnames);
 }
 
-void tc_deleteItemsArray(tc_items * A)
+void tc_deleteItemsArray(tc_items A)
 {
-	if (!A) return;
-	if (A->items) 
-		free(A->items);
-	A->length = 0;
-	A->items = 0;
+	if (A.items) 
+		free(A.items);
+	A.length = 0;
+	A.items = 0;
 }
 
-void tc_deleteStringsArray(tc_strings * C)
+void tc_deleteStringsArray(tc_strings C)
 {
 	int i;
-	if (!C) return;
-	if (C->strings)
+	if (C.strings)
 	{
-		for (i=0; i < C->length; ++i) 
-			if (C->strings[i]) 
-				free(C->strings[i]);
-		free(C->strings);
+		for (i=0; i < C.length; ++i) 
+			if (C.strings[i]) 
+				free(C.strings[i]);
+		free(C.strings);
 	}
-	C->length = 0;
-	C->strings = 0;
+	C.length = 0;
+	C.strings = 0;
 }
 
 tc_matrix tc_appendColumns(tc_matrix A, tc_matrix B)
@@ -384,42 +378,112 @@ tc_matrix tc_appendRows(tc_matrix A, tc_matrix B)
 	return C;
 }
 
-void tc_printMatrix(const char* s, tc_matrix output)
+void tc_printMatrixToFile(const char* s, tc_matrix output)
 {
 	int i,j;
 	FILE * outfile = fopen(s,"w+");
-	for (j=0; j < output.cols; ++j)
-		if (j < (output.cols-1))
-			fprintf(outfile, "%s\t", tc_getColumnName(output, j));
-		else
-			fprintf(outfile, "%s\n", tc_getColumnName(output, j));
-
+	if (output.colnames.strings)
+	{
+		fprintf(outfile, "#");
+		for (j=0; j < output.cols; ++j)
+			if (j < (output.cols-1))
+				fprintf(outfile, "%s\t", tc_getColumnName(output, j));
+			else
+				fprintf(outfile, "%s\n", tc_getColumnName(output, j));
+	}
 	for (i=0; i < output.rows; ++i)
+	{
+		if (tc_getRowName(output,i))
+			fprintf(outfile, "%s\t", tc_getRowName(output, i));
 		for (j=0; j < output.cols; ++j)
 			if (j < (output.cols-1))
 				fprintf(outfile, "%lf\t", tc_getMatrixValue(output, i, j));
 			else
 				fprintf(outfile, "%lf\n", tc_getMatrixValue(output, i, j));
+	}
+	
 	fclose(outfile);
 }
 
-/*
-TCAPIEXPORT void tc_printTable(const char* s, tc_table output)
+void tc_printOutMatrix(tc_matrix output)
+{
+	int i,j;
+	if (output.colnames.strings)
+	{
+		for (j=0; j < output.cols; ++j)
+			if (j < (output.cols-1))
+				printf("%s\t", tc_getColumnName(output, j));
+			else
+				printf("%s\n", tc_getColumnName(output, j));
+	}
+
+	for (i=0; i < output.rows; ++i)
+	{
+		if (tc_getRowName(output,i))
+			printf("%s\t", tc_getRowName(output, i));
+		for (j=0; j < output.cols; ++j)
+			if (j < (output.cols-1))
+				printf("%lf\t", tc_getMatrixValue(output, i, j));
+			else
+				printf("%lf\n", tc_getMatrixValue(output, i, j));
+	}
+}
+
+
+TCAPIEXPORT void tc_printTableToFile(const char* s, tc_table output)
 {
 	int i,j;
 	FILE * outfile = fopen(s,"w+");
-	for (j=0; j < output.cols; ++j)
-		if (j < (output.cols-1))
-			fprintf(outfile, "%s\t", tc_getString(output.colnames, j));
-		else
-			fprintf(outfile, "%s\n", tc_getString(output.colnames, j));
-
-	for (i=0; i < output.rows; ++i)
+	if (output.colnames.strings)
+	{
+		fprintf(outfile, "#");
 		for (j=0; j < output.cols; ++j)
 			if (j < (output.cols-1))
-				fprintf(outfile, "%s\t", tc_getTableValue(output, i, j));
+				fprintf(outfile, "%s\t", tc_getString(output.colnames, j));
 			else
-				fprintf(outfile, "%s\n", tc_getTableValue(output, i, j));
+				fprintf(outfile, "%s\n", tc_getString(output.colnames, j));
+	}
+
+	if (output.strings)
+	{
+		for (i=0; i < output.rows; ++i)
+		{
+			if (tc_getString(output.rownames,i))
+				fprintf(outfile, "%s\t", tc_getString(output.rownames,i));
+			for (j=0; j < output.cols; ++j)
+				if (j < (output.cols-1))
+					fprintf(outfile, "%s\t", tc_getTableValue(output, i, j));
+				else
+					fprintf(outfile, "%s\n", tc_getTableValue(output, i, j));
+		}
+	}
 	fclose(outfile);
 }
-*/
+
+TCAPIEXPORT void tc_printOutTable(tc_table output)
+{
+	int i,j;
+	if (output.colnames.strings)
+	{
+		for (j=0; j < output.cols; ++j)
+			if (j < (output.cols-1))
+				printf("%s\t", tc_getString(output.colnames, j));
+			else
+				printf("%s\n", tc_getString(output.colnames, j));
+	}
+	
+	if (output.strings)
+	{
+		for (i=0; i < output.rows; ++i)
+		{
+			if (tc_getString(output.rownames,i))
+				printf("%s\t", tc_getString(output.rownames,i));
+			for (j=0; j < output.cols; ++j)
+				if (j < (output.cols-1))
+					printf("%s\t", tc_getTableValue(output, i, j));
+				else
+					printf("%s\n", tc_getTableValue(output, i, j));
+		}
+	}
+}
+

@@ -17,7 +17,7 @@ static int selectedItemsOnly = 1;
 
 void unload()
 {
-	tc_deleteStringsArray(&allNames);
+	tc_deleteStringsArray(allNames);
 }
 
 void loadAllNames()
@@ -32,7 +32,7 @@ void loadAllNames()
 	if (A.length < 1 || !tc_getItem(A,0))
 		A = tc_allItems();
 
-	tc_deleteStringsArray(&allNames);
+	tc_deleteStringsArray(allNames);
 
 	if (tc_getItem(A,0))
 	{
@@ -46,9 +46,9 @@ void loadAllNames()
 			tc_setString(allNames,i+params.rows,tc_getRowName(N,i));
 		
 		params.rownames = tc_createStringsArray(0);
-		tc_deleteMatrix(&params);
-		tc_deleteMatrix(&N);
-		tc_deleteItemsArray(&A);
+		tc_deleteMatrix(params);
+		tc_deleteMatrix(N);
+		tc_deleteItemsArray(A);
 	}
 }
 
@@ -149,7 +149,7 @@ void run(tc_matrix input)
 		A = tc_selectedItems();
 		if (tc_getItem(A,0) == 0)
 		{
-			tc_deleteItemsArray(&A);
+			tc_deleteItemsArray(A);
 			A = tc_allItems();
 		}
 	}
@@ -166,14 +166,14 @@ void run(tc_matrix input)
 	}
 	else
 	{
-		tc_deleteItemsArray(&A);
+		tc_deleteItemsArray(A);
 		return;
 	}
 
 	if (index < 0)
 	{
 		tc_print("steady state: no variable selected\0");
-		tc_deleteItemsArray(&A);
+		tc_deleteItemsArray(A);
 		return;
 	}
 
@@ -185,7 +185,7 @@ void run(tc_matrix input)
 		params = tc_getParameters(A);
 		N = tc_getStoichiometry(A);
 		B = tc_findItems(N.rownames);
-		tc_deleteMatrix(&N);
+		tc_deleteMatrix(N);
 		initVals = tc_getInitialValues(B);
 
 		allParams = tc_createMatrix(initVals.rows+params.rows,2);
@@ -203,13 +203,13 @@ void run(tc_matrix input)
 			tc_setMatrixValue(allParams,i+params.rows,1, 2*tc_getMatrixValue(initVals,i,0) - tc_getMatrixValue(allParams,i+params.rows,0));
 		}
 		
-		tc_deleteMatrix(&initVals);
-		tc_deleteMatrix(&params);
-		tc_deleteItemsArray(&B);
+		tc_deleteMatrix(initVals);
+		tc_deleteMatrix(params);
+		tc_deleteItemsArray(B);
 		runfunc = runfuncInput;
 	}
 	
-	tc_deleteItemsArray(&A);
+	tc_deleteItemsArray(A);
 
 	out = fopen("timet.c","a");
 
@@ -298,7 +298,7 @@ TCAPIEXPORT void run(%s) \n\
     free(dat.values);\n",param,start,dt,param,time,doStochastic,time,time,rateplot,rateplot,time);
 
 	if (slider)
-		fprintf(out, "    tc_deleteMatrix(&input);\n    return;\n}\n");
+		fprintf(out, "    tc_deleteMatrix(input);\n    return;\n}\n");
 	else
 		fprintf(out, "    return;\n}\n");
 
@@ -307,7 +307,7 @@ TCAPIEXPORT void run(%s) \n\
 	if (slider)
 	{
 		tc_compileBuildLoadSliders("timet.c -lode -lssa\0","run\0","At Time T\0",allParams);
-		tc_deleteMatrix(&allParams);
+		tc_deleteMatrix(allParams);
 	}
 	else
 		tc_compileBuildLoad("timet.c -lode -lssa\0","run\0","At Time T\0");

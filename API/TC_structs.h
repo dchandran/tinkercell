@@ -196,25 +196,25 @@ TCAPIEXPORT void tc_setItem(tc_items A, int i, long o);
  \param &tc_matrix pointer to matrix
  \ingroup Basic
 */
-TCAPIEXPORT void tc_deleteMatrix(tc_matrix *M);
+TCAPIEXPORT void tc_deleteMatrix(tc_matrix M);
 
 /*!\brief delete a strings table
  \param &tc_table pointer to table
  \ingroup Basic
 */
-TCAPIEXPORT void tc_deleteTable(tc_table *M);
+TCAPIEXPORT void tc_deleteTable(tc_table M);
 
 /*!\brief delete an array of items
  \param &tc_items pointer to array
  \ingroup Basic
 */
-TCAPIEXPORT void tc_deleteItemsArray(tc_items *A);
+TCAPIEXPORT void tc_deleteItemsArray(tc_items A);
 
 /*!\brief delete an array of strings
  \param &tc_strings pointer to array
  \ingroup Basic
 */
-TCAPIEXPORT void tc_deleteStringsArray(tc_strings *C);
+TCAPIEXPORT void tc_deleteStringsArray(tc_strings C);
 
 /*!\brief combine two matrices by appending their columns. row size must be equal for both matrices
  \param tc_matrix first matrix
@@ -234,11 +234,30 @@ TCAPIEXPORT tc_matrix tc_appendRows(tc_matrix A, tc_matrix B);
 
 /*!\brief print a matrix to file
  \param char* file name
- \param tc_matrix new combined matrix
+ \param tc_matrix
  \ingroup Basic
 */
-TCAPIEXPORT void tc_printMatrix(const char* file, tc_matrix M);
+TCAPIEXPORT void tc_printMatrixToFile(const char* file, tc_matrix M);
 
+/*!\brief print a matrix to stdout
+ \param char* file name
+ \param tc_matrix
+ \ingroup Basic
+*/
+TCAPIEXPORT void tc_printOutMatrix(tc_matrix M);
+
+/*!\brief print a table to file
+ \param char* file name
+ \param tc_table
+ \ingroup Basic
+*/
+TCAPIEXPORT void tc_printTableToFile(const char* file, tc_table M);
+
+/*!\brief print a table to stdout
+ \param tc_table
+ \ingroup Basic
+*/
+TCAPIEXPORT void tc_printOutTable(tc_table M);
 
 END_C_DECLS
 #endif

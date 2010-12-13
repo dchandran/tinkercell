@@ -74,7 +74,7 @@ void run()
               ++k;
            }
         }
-        tc_deleteItemsArray(&parts);
+        tc_deleteItemsArray(parts);
      }
   }
   
@@ -91,12 +91,12 @@ void run()
   m.colnames = tc_createStringsArray(0);
   tc_setStoichiometry(js,m);
 
-  tc_deleteItemsArray(&js); 
-  tc_deleteItemsArray(&tfs);  
-  tc_deleteMatrix(&m);
+  tc_deleteItemsArray(js); 
+  tc_deleteItemsArray(tfs);  
+  tc_deleteMatrix(m);
 
-  tc_deleteStringsArray(&names);
-  tc_deleteStringsArray(&jnames);
-  tc_deleteItemsArray(&selected);
+  tc_deleteStringsArray(names);
+  tc_deleteStringsArray(jnames);
+  tc_deleteItemsArray(selected);
   return; 
 }

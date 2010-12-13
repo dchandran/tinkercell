@@ -94,7 +94,7 @@ void tc_setRate(long x, const char* r)
 	tc_setString(c,0,r);
 	_tc_setRates(A,c);
 
-	tc_deleteStringsArray(&c);
+	tc_deleteStringsArray(c);
 }
 /*!
 \brief set stoichiometry for the given items

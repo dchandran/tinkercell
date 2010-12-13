@@ -27,7 +27,7 @@ void run()
 	if (tc_getItem(A,0) != 0)
 	{
 	   k = tc_writeModel( "runloops", A );
-       tc_deleteItemsArray(&A);
+       tc_deleteItemsArray(A);
 	   if (!k)
 	   {
 			tc_errorReport("No Model\0");
@@ -36,7 +36,7 @@ void run()
 	}
 	else
 	{
-       tc_deleteItemsArray(&A);
+       tc_deleteItemsArray(A);
 	   tc_errorReport("No Model\0");
        return;  
 	}

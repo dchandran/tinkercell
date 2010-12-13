@@ -23,7 +23,7 @@ void setup2();
 
 void unload()
 {
-	tc_deleteStringsArray(&allNames);
+	tc_deleteStringsArray(allNames);
 }
 
 void loadAllNames()
@@ -39,7 +39,7 @@ void loadAllNames()
 	if (A.length < 1 || !tc_getItem(A,0))
 		A = tc_allItems();
 
-	tc_deleteStringsArray(&allNames);
+	tc_deleteStringsArray(allNames);
 
 	if (tc_getItem(A,0))
 	{
@@ -53,9 +53,9 @@ void loadAllNames()
 			tc_setString(allNames,i+params.rows,tc_getRowName(N,i));
 		
 		params.rownames = tc_createStringsArray(0);
-		tc_deleteMatrix(&params);
-		tc_deleteMatrix(&N);
-		tc_deleteItemsArray(&A);
+		tc_deleteMatrix(params);
+		tc_deleteMatrix(N);
+		tc_deleteItemsArray(A);
 	}
 }
 
@@ -196,7 +196,7 @@ void run(tc_matrix input)
 		A = tc_selectedItems();
 		if (tc_getItem(A,0) == 0)
 		{
-			tc_deleteItemsArray(&A);
+			tc_deleteItemsArray(A);
 			A = tc_allItems();
 		}
 	}
@@ -210,7 +210,7 @@ void run(tc_matrix input)
 		params = tc_getParameters(A);
 		N = tc_getStoichiometry(A);
 		B = tc_findItems(N.rownames);
-		tc_deleteMatrix(&N);
+		tc_deleteMatrix(N);
 		initVals = tc_getInitialValues(B);
 
 		allParams = tc_createMatrix(initVals.rows+params.rows,2);
@@ -228,9 +228,9 @@ void run(tc_matrix input)
 			tc_setMatrixValue(allParams,i+params.rows,1, 2*tc_getMatrixValue(initVals,i,0) - tc_getMatrixValue(allParams,i+params.rows,0));
 		}
 		
-		tc_deleteMatrix(&initVals);
-		tc_deleteMatrix(&params);
-		tc_deleteItemsArray(&B);
+		tc_deleteMatrix(initVals);
+		tc_deleteMatrix(params);
+		tc_deleteItemsArray(B);
 		runfunc = runfuncInput;
 	}
 
@@ -240,19 +240,19 @@ void run(tc_matrix input)
 	}
 	else
 	{
-		tc_deleteItemsArray(&A);
+		tc_deleteItemsArray(A);
 		if (slider)
-			tc_deleteMatrix(&allParams);
+			tc_deleteMatrix(allParams);
 		return;
 	}
 
-	tc_deleteItemsArray(&A);
+	tc_deleteItemsArray(A);
 
 	if (index < 0)
 	{
 		tc_print("steady state: no valid variable selected\0");
 		if (slider)
-			tc_deleteMatrix(&allParams);
+			tc_deleteMatrix(allParams);
 		return;
 	}
 
@@ -330,10 +330,10 @@ TCAPIEXPORT void run(%s) \n\
 				}\n\
 				free(model);\n\
 				tc_plot(dat,\"Steady State Plot\");\n\
-				tc_deleteMatrix(&dat);\n",param,start,dt,param,rateplot,rateplot);
+				tc_deleteMatrix(dat);\n",param,start,dt,param,rateplot,rateplot);
 
 	if (slider)
-		fprintf(out, "    tc_deleteMatrix(&input);\n    return;\n}\n");
+		fprintf(out, "    tc_deleteMatrix(input);\n    return;\n}\n");
 	else
 		fprintf(out, "    return;\n}\n");
 
@@ -342,7 +342,7 @@ TCAPIEXPORT void run(%s) \n\
 	if (slider)
 	{
 		tc_compileBuildLoadSliders("ss.c -lode\0","run\0","Steady state\0",allParams);
-		tc_deleteMatrix(&allParams);
+		tc_deleteMatrix(allParams);
 	}
 	else
 		tc_compileBuildLoad("ss.c -lode\0","run\0","Steady state\0");
@@ -421,7 +421,7 @@ void run2D(tc_matrix input)
 		A = tc_selectedItems();
 		if (tc_getItem(A,0) == 0)
 		{
-			tc_deleteItemsArray(&A);
+			tc_deleteItemsArray(A);
 			A = tc_allItems();
 		}
 	}
@@ -437,7 +437,7 @@ void run2D(tc_matrix input)
 	}
 	else
 	{
-		tc_deleteItemsArray(&A);
+		tc_deleteItemsArray(A);
 		return;
 	}
 
@@ -446,9 +446,9 @@ void run2D(tc_matrix input)
 
 	if (index1 >= 0 && index2 >= 0 && (index1 == index2))
 	{
-		tc_deleteItemsArray(&A);
-		tc_deleteStringsArray(&names);
-		tc_deleteMatrix(&params);
+		tc_deleteItemsArray(A);
+		tc_deleteStringsArray(names);
+		tc_deleteMatrix(params);
 		tc_errorReport("2D steady state: cannot choose the same variable twice\0");
 		return;
 	}
@@ -462,7 +462,7 @@ void run2D(tc_matrix input)
 	{
 		N = tc_getStoichiometry(A);
 		B = tc_findItems(N.rownames);
-		tc_deleteMatrix(&N);
+		tc_deleteMatrix(N);
 		initVals = tc_getInitialValues(B);
 
 		allParams = tc_createMatrix(initVals.rows+params.rows,2);
@@ -480,18 +480,18 @@ void run2D(tc_matrix input)
 			tc_setMatrixValue(allParams,i+params.rows,1, 2*tc_getMatrixValue(initVals,i,0) - tc_getMatrixValue(allParams,i+params.rows,0));
 		}
 		
-		tc_deleteMatrix(&initVals);
-		tc_deleteItemsArray(&B);
+		tc_deleteMatrix(initVals);
+		tc_deleteItemsArray(B);
 		runfunc = runfuncInput;
 	}
 
-	tc_deleteItemsArray(&A);
+	tc_deleteItemsArray(A);
 
 	if (index1 < 0 || index2 < 0 || index3 < 0)
 	{
-		tc_deleteMatrix(&params);
-		tc_deleteMatrix(&allParams);
-		tc_deleteStringsArray(&names);
+		tc_deleteMatrix(params);
+		tc_deleteMatrix(allParams);
+		tc_deleteStringsArray(names);
 		tc_print("2D steady state: no valid variable selected\0");
 		return;
 	}
@@ -554,7 +554,7 @@ void run2D(tc_matrix input)
       tc_surface(dat,\"Steady State Plot\");\n    free(dat.values);\n",param1,startx, dx, param2,starty, dy, target);
       
       if (slider)
-		fprintf(out, "    tc_deleteMatrix(&input);\n    return;\n}\n");
+		fprintf(out, "    tc_deleteMatrix(input);\n    return;\n}\n");
 	  else
 		fprintf(out, "    return;\n}\n");
 
@@ -563,13 +563,13 @@ void run2D(tc_matrix input)
 	  if (slider)
 	  {
 		  tc_compileBuildLoadSliders("ss2D.c -lode\0","run\0","2-parameter steady state\0",allParams);
-		  tc_deleteMatrix(&allParams);
+		  tc_deleteMatrix(allParams);
   	  }
 	  else
 		  tc_compileBuildLoad("ss2D.c -lode\0","run\0","2-parameter steady state\0");
 
 
-	tc_deleteMatrix(&params);
+	tc_deleteMatrix(params);
 	return;
 }
 

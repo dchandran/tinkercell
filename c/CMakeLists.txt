@@ -1,14 +1,6 @@
 SET(LIBRARY_OUTPUT_PATH ${C_LIBRARY_OUTPUT_PATH})
 
-SET(MAC_WITHOUT_GCC "0")
-IF (APPLE)
-	#change this for use on mac without gcc installed
-	SET(MAC_WITHOUT_GCC "0")
-ENDIF(APPLE)
-
-#CONFIGURE_FILE( runcvode.c ${TINKERCELL_BINARY_DIR}/c/runcvode.c  @ONLY)
-#CONFIGURE_FILE( runssa.c ${TINKERCELL_BINARY_DIR}/c/runssa.c  @ONLY)
-#CONFIGURE_FILE( runsteadystate.c ${TINKERCELL_BINARY_DIR}/c/runsteadystate.c  @ONLY)
+OPTION( USE_COPASI "Use COPASI for simulations" ON )
 
 IF ( UNIX )
     ADD_CUSTOM_COMMAND ( 
@@ -16,6 +8,8 @@ IF ( UNIX )
         COMMAND source doSwig.sh
     )
 ENDIF ( UNIX )
+
+##### Simple ODE and SSA libraries ########
 
 ADD_DEFINITIONS(-DNO_FPRINTF_OUTPUT)
 ADD_LIBRARY( ode
@@ -39,153 +33,32 @@ ADD_LIBRARY( ssa
 
 SET_TARGET_PROPERTIES(ssa PROPERTIES LINKER_LANGUAGE C)
 IF ( WIN32 )
-  INSTALL(TARGETS ssa ode DESTINATION lib)
+	  INSTALL(TARGETS ssa ode DESTINATION lib)
 ELSE ( WIN32 )
-  INSTALL(TARGETS ssa ode ARCHIVE DESTINATION lib)
+	  INSTALL(TARGETS ssa ode ARCHIVE DESTINATION lib)
 ENDIF( WIN32 )
 
-SET(LIBRARY_OUTPUT_PATH ${C_LIBRARY_OUTPUT_PATH})
+##############
 
-IF (NOT TINKERCELL_LITE_PARTS)
+IF (NOT TINKERCELL_LITE_PARTS)  #don't add any numerical packages in "parts" mode
 
-ADD_LIBRARY( runsteadystate 
-  SHARED
-  runsteadystate.c
-)
-TARGET_LINK_LIBRARIES( runsteadystate runsteadystate tinkercellapi )
+	IF (USE_COPASI)	 #use COPASI for the numerical analysis (more features)
+		ADD_LIBRARY( usecopasi  SHARED  usecopasi.c )
+		
+		TARGET_LINK_LIBRARIES( usecopasi usecopasi tinkercellapi copasi)
 
-IF ( WIN32 )
-  INSTALL(TARGETS runsteadystate DESTINATION plugins/c)
-ELSE ( WIN32 )
-  INSTALL(TARGETS runsteadystate LIBRARY DESTINATION plugins/c)
-ENDIF( WIN32 )
-
-ADD_LIBRARY( runcvode 
-  SHARED
-  runcvode.c
-)
-
-TARGET_LINK_LIBRARIES( runcvode runcvode tinkercellapi )
-
-ADD_LIBRARY( runssa 
-  SHARED
-  runssa.c
-)
-
-TARGET_LINK_LIBRARIES( runssa runssa tinkercellapi )
-
-ADD_LIBRARY( runloops 
-  SHARED
-  runLoops.c
-)
-
-TARGET_LINK_LIBRARIES( runloops runloops tinkercellapi )
-
-ADD_LIBRARY( loadFullBindingKinetics 
-  SHARED
-  loadFullBindingKinetics.c
-)
-
-TARGET_LINK_LIBRARIES( loadFullBindingKinetics loadFullBindingKinetics tinkercellapi )
-
-ADD_LIBRARY( runbistablega 
-  SHARED
-  runbistablega.c
-)
-
-TARGET_LINK_LIBRARIES( runbistablega runbistablega tinkercellapi )
-
-ADD_LIBRARY( runvaluesattime 
-  SHARED
-  runvaluesattime.c
-)
-
-TARGET_LINK_LIBRARIES( runvaluesattime runvaluesattime tinkercellapi )
-
-ADD_LIBRARY( tabasco_like 
-  SHARED
-  tabasco_like.c
-)
-
-TARGET_LINK_LIBRARIES( tabasco_like tabasco_like tinkercellapi )
-
-ADD_LIBRARY( parametercorrelation 
-  SHARED
-  parametercorrelation.c
-)
-
-TARGET_LINK_LIBRARIES( parametercorrelation parametercorrelation tinkercellapi )
-
-INCLUDE_DIRECTORIES( BEFORE
-    ${TINKERCELL_SOURCE_DIR}/ExternalCode/lpsolve
-)
-
-ADD_LIBRARY( lpsolve
-  SHARED
-  lpsolve.c
-)
-
-TARGET_LINK_LIBRARIES( lpsolve lpsolve lp_solve tinkercellapi )
-
-##
-## CPack
-##
-
-
-IF ( WIN32 )
-  INSTALL(TARGETS runssa DESTINATION plugins/c)
-  INSTALL(TARGETS runcvode DESTINATION plugins/c)
-  INSTALL(TARGETS runloops DESTINATION plugins/c)
-  INSTALL(TARGETS loadFullBindingKinetics DESTINATION plugins/c)
-#  INSTALL(TARGETS runbistablega DESTINATION plugins/c)
-#  INSTALL(TARGETS runvaluesattime DESTINATION plugins/c)
-#  INSTALL(TARGETS parametercorrelation DESTINATION plugins/c)
- # INSTALL(TARGETS tabasco_like DESTINATION plugins/c)
-  INSTALL(TARGETS lpsolve DESTINATION plugins/c)
-ELSE ( WIN32 )
-  INSTALL(TARGETS runssa LIBRARY DESTINATION plugins/c)
-  INSTALL(TARGETS runcvode LIBRARY DESTINATION plugins/c)
-  INSTALL(TARGETS runloops LIBRARY DESTINATION plugins/c)
-  INSTALL(TARGETS loadFullBindingKinetics LIBRARY DESTINATION plugins/c)
-#  INSTALL(TARGETS runbistablega LIBRARY DESTINATION plugins/c)
-#  INSTALL(TARGETS runvaluesattime LIBRARY DESTINATION plugins/c)
-#  INSTALL(TARGETS parametercorrelation LIBRARY DESTINATION plugins/c)
- # INSTALL(TARGETS tabasco_like LIBRARY DESTINATION plugins/c)
-  INSTALL(TARGETS lpsolve LIBRARY DESTINATION plugins/c)
-ENDIF( WIN32 )
+		IF ( WIN32 )
+			  INSTALL(TARGETS usecopasi DESTINATION plugins/c)
+		ELSE ( WIN32 )
+			  INSTALL(TARGETS usecopasi LIBRARY DESTINATION plugins/c)
+		ENDIF( WIN32 )
+	
+	
+	ELSE(USE_COPASI)   #use custom programs for the numerical analysis (less features, but faster)
+		INCLUDE( CustomSimulationPrograms.cmake )
+	ENDIF (USE_COPASI)
 
 ENDIF (NOT TINKERCELL_LITE_PARTS)
 
-FILE( GLOB C_SRC "*.c" "*.h" )
 
-INSTALL( FILES ${C_SRC}
-  DESTINATION c
-  COMPONENT C_SOURCE
-)
-
-FILE( GLOB CVODE_HDRS ${TINKERCELL_SOURCE_DIR}/ExternalCode/cvode260/include/cvode/*.h )
-
-INSTALL( FILES ${CVODE_HDRS}
-  DESTINATION c/cvode
-  COMPONENT CVODE
-)
-
-FILE( GLOB 
-SUNDIALS_HDRS ${TINKERCELL_SOURCE_DIR}/ExternalCode/cvode260/include/sundials/*.h 
-SUNDIALS_HDRS ${TINKERCELL_BINARY_DIR}/ExternalCode/cvode260/include/sundials/*.h 
-)
-
-INSTALL( FILES ${SUNDIALS_HDRS}
-  DESTINATION c/sundials
-  COMPONENT CVODE
-)
-
-FILE( GLOB NVECTOR_HDRS ${TINKERCELL_SOURCE_DIR}/ExternalCode/cvode260/include/nvector/*.h )
-
-INSTALL( FILES ${NVECTOR_HDRS}
-  DESTINATION c/nvector
-  COMPONENT CVODE
-)
-
-ADD_SUBDIRECTORY( sbml_sim )
 

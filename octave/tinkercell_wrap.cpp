@@ -2165,86 +2165,91 @@ SWIGRUNTIME void SWIG_Octave_SetModule(void *clientdata, swig_module_info *point
 /* -------- TYPES TABLE (BEGIN) -------- */
 
 #define SWIGTYPE_p_char swig_types[0]
-#define SWIGTYPE_p_double swig_types[1]
-#define SWIGTYPE_p_f___int swig_types[2]
-#define SWIGTYPE_p_f___p_char swig_types[3]
-#define SWIGTYPE_p_f___tc_items swig_types[4]
-#define SWIGTYPE_p_f___tc_strings swig_types[5]
-#define SWIGTYPE_p_f___void swig_types[6]
-#define SWIGTYPE_p_f_double__void swig_types[7]
-#define SWIGTYPE_p_f_double_double__void swig_types[8]
-#define SWIGTYPE_p_f_int__tc_matrix swig_types[9]
-#define SWIGTYPE_p_f_int__void swig_types[10]
-#define SWIGTYPE_p_f_int_int__void swig_types[11]
-#define SWIGTYPE_p_f_long__double swig_types[12]
-#define SWIGTYPE_p_f_long__long swig_types[13]
-#define SWIGTYPE_p_f_long__p_char swig_types[14]
-#define SWIGTYPE_p_f_long__tc_items swig_types[15]
-#define SWIGTYPE_p_f_long__tc_strings swig_types[16]
-#define SWIGTYPE_p_f_long__void swig_types[17]
-#define SWIGTYPE_p_f_long_double__void swig_types[18]
-#define SWIGTYPE_p_f_long_double_double__void swig_types[19]
-#define SWIGTYPE_p_f_long_double_double_int__void swig_types[20]
-#define SWIGTYPE_p_f_long_double_int__void swig_types[21]
-#define SWIGTYPE_p_f_long_int__void swig_types[22]
-#define SWIGTYPE_p_f_long_long_int__double swig_types[23]
-#define SWIGTYPE_p_f_long_long_int_double_double__void swig_types[24]
-#define SWIGTYPE_p_f_long_p_f_void__void__void swig_types[25]
-#define SWIGTYPE_p_f_long_p_q_const__char__double swig_types[26]
-#define SWIGTYPE_p_f_long_p_q_const__char__int swig_types[27]
-#define SWIGTYPE_p_f_long_p_q_const__char__p_char swig_types[28]
-#define SWIGTYPE_p_f_long_p_q_const__char__tc_items swig_types[29]
-#define SWIGTYPE_p_f_long_p_q_const__char__tc_matrix swig_types[30]
-#define SWIGTYPE_p_f_long_p_q_const__char__tc_table swig_types[31]
-#define SWIGTYPE_p_f_long_p_q_const__char__void swig_types[32]
-#define SWIGTYPE_p_f_long_p_q_const__char_double__void swig_types[33]
-#define SWIGTYPE_p_f_long_p_q_const__char_int__void swig_types[34]
-#define SWIGTYPE_p_f_long_p_q_const__char_p_q_const__char__void swig_types[35]
-#define SWIGTYPE_p_f_long_p_q_const__char_tc_matrix__void swig_types[36]
-#define SWIGTYPE_p_f_long_p_q_const__char_tc_table__void swig_types[37]
-#define SWIGTYPE_p_f_long_tc_matrix_p_f_tc_matrix__void__void swig_types[38]
-#define SWIGTYPE_p_f_long_tc_matrix_p_q_const__char_p_f_tc_matrix__void__void swig_types[39]
-#define SWIGTYPE_p_f_long_tc_strings__void swig_types[40]
-#define SWIGTYPE_p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void swig_types[41]
-#define SWIGTYPE_p_f_p_q_const__char__double swig_types[42]
-#define SWIGTYPE_p_f_p_q_const__char__int swig_types[43]
-#define SWIGTYPE_p_f_p_q_const__char__long swig_types[44]
-#define SWIGTYPE_p_f_p_q_const__char__p_char swig_types[45]
-#define SWIGTYPE_p_f_p_q_const__char__tc_items swig_types[46]
-#define SWIGTYPE_p_f_p_q_const__char__void swig_types[47]
-#define SWIGTYPE_p_f_p_q_const__char_int_int__void swig_types[48]
-#define SWIGTYPE_p_f_p_q_const__char_int_int_tc_strings__void swig_types[49]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__int swig_types[50]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__long swig_types[51]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__void swig_types[52]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char__int swig_types[53]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void swig_types[54]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_tc_matrix__int swig_types[55]
-#define SWIGTYPE_p_f_p_q_const__char_tc_items__int swig_types[56]
-#define SWIGTYPE_p_f_p_q_const__char_tc_items__tc_items swig_types[57]
-#define SWIGTYPE_p_f_p_q_const__char_tc_strings_p_q_const__char__int swig_types[58]
-#define SWIGTYPE_p_f_tc_items__tc_matrix swig_types[59]
-#define SWIGTYPE_p_f_tc_items__tc_strings swig_types[60]
-#define SWIGTYPE_p_f_tc_items__void swig_types[61]
-#define SWIGTYPE_p_f_tc_items_p_q_const__char_p_q_const__char__long swig_types[62]
-#define SWIGTYPE_p_f_tc_items_tc_matrix__void swig_types[63]
-#define SWIGTYPE_p_f_tc_items_tc_strings__tc_matrix swig_types[64]
-#define SWIGTYPE_p_f_tc_items_tc_strings__tc_strings swig_types[65]
-#define SWIGTYPE_p_f_tc_items_tc_strings__void swig_types[66]
-#define SWIGTYPE_p_f_tc_matrix__void swig_types[67]
-#define SWIGTYPE_p_f_tc_matrix_p_q_const__char__void swig_types[68]
-#define SWIGTYPE_p_f_tc_matrix_p_q_const__char_p_q_const__char_p_q_const__char__void swig_types[69]
-#define SWIGTYPE_p_f_tc_strings__tc_items swig_types[70]
-#define SWIGTYPE_p_f_tc_strings_p_double__void swig_types[71]
-#define SWIGTYPE_p_f_void__void swig_types[72]
-#define SWIGTYPE_p_long swig_types[73]
-#define SWIGTYPE_p_p_char swig_types[74]
-#define SWIGTYPE_p_tc_items swig_types[75]
-#define SWIGTYPE_p_tc_matrix swig_types[76]
-#define SWIGTYPE_p_tc_strings swig_types[77]
-#define SWIGTYPE_p_tc_table swig_types[78]
-static swig_type_info *swig_types[80];
-static swig_module_info swig_module = {swig_types, 79, 0, 0, 0, 0};
+#define SWIGTYPE_p_copasi_compartment swig_types[1]
+#define SWIGTYPE_p_copasi_model swig_types[2]
+#define SWIGTYPE_p_copasi_reaction swig_types[3]
+#define SWIGTYPE_p_double swig_types[4]
+#define SWIGTYPE_p_f___copasi_model swig_types[5]
+#define SWIGTYPE_p_f___int swig_types[6]
+#define SWIGTYPE_p_f___p_char swig_types[7]
+#define SWIGTYPE_p_f___tc_items swig_types[8]
+#define SWIGTYPE_p_f___tc_strings swig_types[9]
+#define SWIGTYPE_p_f___void swig_types[10]
+#define SWIGTYPE_p_f_double__void swig_types[11]
+#define SWIGTYPE_p_f_double_double__void swig_types[12]
+#define SWIGTYPE_p_f_int__tc_matrix swig_types[13]
+#define SWIGTYPE_p_f_int__void swig_types[14]
+#define SWIGTYPE_p_f_int_int__void swig_types[15]
+#define SWIGTYPE_p_f_long__double swig_types[16]
+#define SWIGTYPE_p_f_long__long swig_types[17]
+#define SWIGTYPE_p_f_long__p_char swig_types[18]
+#define SWIGTYPE_p_f_long__tc_items swig_types[19]
+#define SWIGTYPE_p_f_long__tc_strings swig_types[20]
+#define SWIGTYPE_p_f_long__void swig_types[21]
+#define SWIGTYPE_p_f_long_double__void swig_types[22]
+#define SWIGTYPE_p_f_long_double_double__void swig_types[23]
+#define SWIGTYPE_p_f_long_double_double_int__void swig_types[24]
+#define SWIGTYPE_p_f_long_double_int__void swig_types[25]
+#define SWIGTYPE_p_f_long_int__void swig_types[26]
+#define SWIGTYPE_p_f_long_long_int__double swig_types[27]
+#define SWIGTYPE_p_f_long_long_int_double_double__void swig_types[28]
+#define SWIGTYPE_p_f_long_p_f_void__void__void swig_types[29]
+#define SWIGTYPE_p_f_long_p_q_const__char__double swig_types[30]
+#define SWIGTYPE_p_f_long_p_q_const__char__int swig_types[31]
+#define SWIGTYPE_p_f_long_p_q_const__char__p_char swig_types[32]
+#define SWIGTYPE_p_f_long_p_q_const__char__tc_items swig_types[33]
+#define SWIGTYPE_p_f_long_p_q_const__char__tc_matrix swig_types[34]
+#define SWIGTYPE_p_f_long_p_q_const__char__tc_table swig_types[35]
+#define SWIGTYPE_p_f_long_p_q_const__char__void swig_types[36]
+#define SWIGTYPE_p_f_long_p_q_const__char_double__void swig_types[37]
+#define SWIGTYPE_p_f_long_p_q_const__char_int__void swig_types[38]
+#define SWIGTYPE_p_f_long_p_q_const__char_p_q_const__char__void swig_types[39]
+#define SWIGTYPE_p_f_long_p_q_const__char_tc_matrix__void swig_types[40]
+#define SWIGTYPE_p_f_long_p_q_const__char_tc_table__void swig_types[41]
+#define SWIGTYPE_p_f_long_tc_matrix_p_f_tc_matrix__void__void swig_types[42]
+#define SWIGTYPE_p_f_long_tc_matrix_p_q_const__char_p_f_tc_matrix__void__void swig_types[43]
+#define SWIGTYPE_p_f_long_tc_strings__void swig_types[44]
+#define SWIGTYPE_p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void swig_types[45]
+#define SWIGTYPE_p_f_p_q_const__char__double swig_types[46]
+#define SWIGTYPE_p_f_p_q_const__char__int swig_types[47]
+#define SWIGTYPE_p_f_p_q_const__char__long swig_types[48]
+#define SWIGTYPE_p_f_p_q_const__char__p_char swig_types[49]
+#define SWIGTYPE_p_f_p_q_const__char__tc_items swig_types[50]
+#define SWIGTYPE_p_f_p_q_const__char__void swig_types[51]
+#define SWIGTYPE_p_f_p_q_const__char_int_int__void swig_types[52]
+#define SWIGTYPE_p_f_p_q_const__char_int_int_tc_strings__void swig_types[53]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__int swig_types[54]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__long swig_types[55]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__void swig_types[56]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char__int swig_types[57]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void swig_types[58]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_tc_matrix__int swig_types[59]
+#define SWIGTYPE_p_f_p_q_const__char_tc_items__int swig_types[60]
+#define SWIGTYPE_p_f_p_q_const__char_tc_items__tc_items swig_types[61]
+#define SWIGTYPE_p_f_p_q_const__char_tc_strings_p_q_const__char__int swig_types[62]
+#define SWIGTYPE_p_f_tc_items__tc_matrix swig_types[63]
+#define SWIGTYPE_p_f_tc_items__tc_strings swig_types[64]
+#define SWIGTYPE_p_f_tc_items__void swig_types[65]
+#define SWIGTYPE_p_f_tc_items_p_q_const__char_p_q_const__char__long swig_types[66]
+#define SWIGTYPE_p_f_tc_items_tc_matrix__void swig_types[67]
+#define SWIGTYPE_p_f_tc_items_tc_strings__tc_matrix swig_types[68]
+#define SWIGTYPE_p_f_tc_items_tc_strings__tc_strings swig_types[69]
+#define SWIGTYPE_p_f_tc_items_tc_strings__void swig_types[70]
+#define SWIGTYPE_p_f_tc_matrix__void swig_types[71]
+#define SWIGTYPE_p_f_tc_matrix_p_q_const__char__void swig_types[72]
+#define SWIGTYPE_p_f_tc_matrix_p_q_const__char_p_q_const__char_p_q_const__char__void swig_types[73]
+#define SWIGTYPE_p_f_tc_strings__tc_items swig_types[74]
+#define SWIGTYPE_p_f_tc_strings_p_double__void swig_types[75]
+#define SWIGTYPE_p_f_void__void swig_types[76]
+#define SWIGTYPE_p_long swig_types[77]
+#define SWIGTYPE_p_p_char swig_types[78]
+#define SWIGTYPE_p_tc_items swig_types[79]
+#define SWIGTYPE_p_tc_matrix swig_types[80]
+#define SWIGTYPE_p_tc_strings swig_types[81]
+#define SWIGTYPE_p_tc_table swig_types[82]
+#define SWIGTYPE_p_void swig_types[83]
+static swig_type_info *swig_types[85];
+static swig_module_info swig_module = {swig_types, 84, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -2277,6 +2282,8 @@ static swig_module_info swig_module = {swig_types, 79, 0, 0, 0, 0};
 #include "TC_NameFamily_api.h"
 #include "TC_AutoGeneRegulatoryTool_api.h"
 #include "TC_SBML_api.h"
+#include "TC_COPASI_api.h"
+#include "copasi_api.h"
 
 
 #include <limits.h>
@@ -4076,8 +4083,8 @@ fail:
 
 
 static octave_value_list _wrap_tc_deleteMatrix (const octave_value_list& args, int nargout) {
-  tc_matrix *arg1 = (tc_matrix *) 0 ;
-  void *argp1 = 0 ;
+  tc_matrix arg1 ;
+  void *argp1 ;
   int res1 = 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
@@ -4086,11 +4093,17 @@ static octave_value_list _wrap_tc_deleteMatrix (const octave_value_list& args, i
   if (!SWIG_check_num_args("tc_deleteMatrix",args.length(),1,1,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0), &argp1,SWIGTYPE_p_tc_matrix, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_deleteMatrix" "', argument " "1"" of type '" "tc_matrix *""'"); 
+  {
+    res1 = SWIG_ConvertPtr(args(0), &argp1, SWIGTYPE_p_tc_matrix,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_deleteMatrix" "', argument " "1"" of type '" "tc_matrix""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_deleteMatrix" "', argument " "1"" of type '" "tc_matrix""'");
+    } else {
+      arg1 = *((tc_matrix *)(argp1));
+    }
   }
-  arg1 = (tc_matrix *)(argp1);
   tc_deleteMatrix(arg1);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -4100,8 +4113,8 @@ fail:
 
 
 static octave_value_list _wrap_tc_deleteTable (const octave_value_list& args, int nargout) {
-  tc_table *arg1 = (tc_table *) 0 ;
-  void *argp1 = 0 ;
+  tc_table arg1 ;
+  void *argp1 ;
   int res1 = 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
@@ -4110,11 +4123,17 @@ static octave_value_list _wrap_tc_deleteTable (const octave_value_list& args, in
   if (!SWIG_check_num_args("tc_deleteTable",args.length(),1,1,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0), &argp1,SWIGTYPE_p_tc_table, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_deleteTable" "', argument " "1"" of type '" "tc_table *""'"); 
+  {
+    res1 = SWIG_ConvertPtr(args(0), &argp1, SWIGTYPE_p_tc_table,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_deleteTable" "', argument " "1"" of type '" "tc_table""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_deleteTable" "', argument " "1"" of type '" "tc_table""'");
+    } else {
+      arg1 = *((tc_table *)(argp1));
+    }
   }
-  arg1 = (tc_table *)(argp1);
   tc_deleteTable(arg1);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -4124,8 +4143,8 @@ fail:
 
 
 static octave_value_list _wrap_tc_deleteItemsArray (const octave_value_list& args, int nargout) {
-  tc_items *arg1 = (tc_items *) 0 ;
-  void *argp1 = 0 ;
+  tc_items arg1 ;
+  void *argp1 ;
   int res1 = 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
@@ -4134,11 +4153,17 @@ static octave_value_list _wrap_tc_deleteItemsArray (const octave_value_list& arg
   if (!SWIG_check_num_args("tc_deleteItemsArray",args.length(),1,1,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0), &argp1,SWIGTYPE_p_tc_items, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_deleteItemsArray" "', argument " "1"" of type '" "tc_items *""'"); 
+  {
+    res1 = SWIG_ConvertPtr(args(0), &argp1, SWIGTYPE_p_tc_items,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_deleteItemsArray" "', argument " "1"" of type '" "tc_items""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_deleteItemsArray" "', argument " "1"" of type '" "tc_items""'");
+    } else {
+      arg1 = *((tc_items *)(argp1));
+    }
   }
-  arg1 = (tc_items *)(argp1);
   tc_deleteItemsArray(arg1);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -4148,8 +4173,8 @@ fail:
 
 
 static octave_value_list _wrap_tc_deleteStringsArray (const octave_value_list& args, int nargout) {
-  tc_strings *arg1 = (tc_strings *) 0 ;
-  void *argp1 = 0 ;
+  tc_strings arg1 ;
+  void *argp1 ;
   int res1 = 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
@@ -4158,11 +4183,17 @@ static octave_value_list _wrap_tc_deleteStringsArray (const octave_value_list& a
   if (!SWIG_check_num_args("tc_deleteStringsArray",args.length(),1,1,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0), &argp1,SWIGTYPE_p_tc_strings, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_deleteStringsArray" "', argument " "1"" of type '" "tc_strings *""'"); 
+  {
+    res1 = SWIG_ConvertPtr(args(0), &argp1, SWIGTYPE_p_tc_strings,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_deleteStringsArray" "', argument " "1"" of type '" "tc_strings""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_deleteStringsArray" "', argument " "1"" of type '" "tc_strings""'");
+    } else {
+      arg1 = *((tc_strings *)(argp1));
+    }
   }
-  arg1 = (tc_strings *)(argp1);
   tc_deleteStringsArray(arg1);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -4261,7 +4292,7 @@ fail:
 }
 
 
-static octave_value_list _wrap_tc_printMatrix (const octave_value_list& args, int nargout) {
+static octave_value_list _wrap_tc_printMatrixToFile (const octave_value_list& args, int nargout) {
   char *arg1 = (char *) 0 ;
   tc_matrix arg2 ;
   int res1 ;
@@ -4273,29 +4304,129 @@ static octave_value_list _wrap_tc_printMatrix (const octave_value_list& args, in
   octave_value_list *_outp=&_out;
   octave_value _outv;
   
-  if (!SWIG_check_num_args("tc_printMatrix",args.length(),2,2,0)) {
+  if (!SWIG_check_num_args("tc_printMatrixToFile",args.length(),2,2,0)) {
     SWIG_fail;
   }
   res1 = SWIG_AsCharPtrAndSize(args(0), &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_printMatrix" "', argument " "1"" of type '" "char const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_printMatrixToFile" "', argument " "1"" of type '" "char const *""'");
   }
   arg1 = (char *)(buf1);
   {
     res2 = SWIG_ConvertPtr(args(1), &argp2, SWIGTYPE_p_tc_matrix,  0 );
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_printMatrix" "', argument " "2"" of type '" "tc_matrix""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_printMatrixToFile" "', argument " "2"" of type '" "tc_matrix""'"); 
     }  
     if (!argp2) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_printMatrix" "', argument " "2"" of type '" "tc_matrix""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_printMatrixToFile" "', argument " "2"" of type '" "tc_matrix""'");
     } else {
       arg2 = *((tc_matrix *)(argp2));
     }
   }
-  tc_printMatrix((char const *)arg1,arg2);
+  tc_printMatrixToFile((char const *)arg1,arg2);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
   if (alloc1 == SWIG_NEWOBJ) delete[] buf1;
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_tc_printOutMatrix (const octave_value_list& args, int nargout) {
+  tc_matrix arg1 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  
+  if (!SWIG_check_num_args("tc_printOutMatrix",args.length(),1,1,0)) {
+    SWIG_fail;
+  }
+  {
+    res1 = SWIG_ConvertPtr(args(0), &argp1, SWIGTYPE_p_tc_matrix,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_printOutMatrix" "', argument " "1"" of type '" "tc_matrix""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_printOutMatrix" "', argument " "1"" of type '" "tc_matrix""'");
+    } else {
+      arg1 = *((tc_matrix *)(argp1));
+    }
+  }
+  tc_printOutMatrix(arg1);
+  _outv = octave_value();
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_tc_printTableToFile (const octave_value_list& args, int nargout) {
+  char *arg1 = (char *) 0 ;
+  tc_table arg2 ;
+  int res1 ;
+  char *buf1 = 0 ;
+  int alloc1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  
+  if (!SWIG_check_num_args("tc_printTableToFile",args.length(),2,2,0)) {
+    SWIG_fail;
+  }
+  res1 = SWIG_AsCharPtrAndSize(args(0), &buf1, NULL, &alloc1);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_printTableToFile" "', argument " "1"" of type '" "char const *""'");
+  }
+  arg1 = (char *)(buf1);
+  {
+    res2 = SWIG_ConvertPtr(args(1), &argp2, SWIGTYPE_p_tc_table,  0 );
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_printTableToFile" "', argument " "2"" of type '" "tc_table""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_printTableToFile" "', argument " "2"" of type '" "tc_table""'");
+    } else {
+      arg2 = *((tc_table *)(argp2));
+    }
+  }
+  tc_printTableToFile((char const *)arg1,arg2);
+  _outv = octave_value();
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+  if (alloc1 == SWIG_NEWOBJ) delete[] buf1;
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_tc_printOutTable (const octave_value_list& args, int nargout) {
+  tc_table arg1 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  
+  if (!SWIG_check_num_args("tc_printOutTable",args.length(),1,1,0)) {
+    SWIG_fail;
+  }
+  {
+    res1 = SWIG_ConvertPtr(args(0), &argp1, SWIGTYPE_p_tc_table,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_printOutTable" "', argument " "1"" of type '" "tc_table""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_printOutTable" "', argument " "1"" of type '" "tc_table""'");
+    } else {
+      arg1 = *((tc_table *)(argp1));
+    }
+  }
+  tc_printOutTable(arg1);
+  _outv = octave_value();
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
 fail:
   return _out;
 }
@@ -4759,7 +4890,7 @@ fail:
 }
 
 
-static octave_value_list _wrap_tc_printTable (const octave_value_list& args, int nargout) {
+static octave_value_list _wrap_tc_printMatrix (const octave_value_list& args, int nargout) {
   tc_matrix arg1 ;
   void *argp1 ;
   int res1 = 0 ;
@@ -4767,21 +4898,21 @@ static octave_value_list _wrap_tc_printTable (const octave_value_list& args, int
   octave_value_list *_outp=&_out;
   octave_value _outv;
   
-  if (!SWIG_check_num_args("tc_printTable",args.length(),1,1,0)) {
+  if (!SWIG_check_num_args("tc_printMatrix",args.length(),1,1,0)) {
     SWIG_fail;
   }
   {
     res1 = SWIG_ConvertPtr(args(0), &argp1, SWIGTYPE_p_tc_matrix,  0 );
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_printTable" "', argument " "1"" of type '" "tc_matrix""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_printMatrix" "', argument " "1"" of type '" "tc_matrix""'"); 
     }  
     if (!argp1) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_printTable" "', argument " "1"" of type '" "tc_matrix""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_printMatrix" "', argument " "1"" of type '" "tc_matrix""'");
     } else {
       arg1 = *((tc_matrix *)(argp1));
     }
   }
-  tc_printTable(arg1);
+  tc_printMatrix(arg1);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
 fail:
@@ -10550,6 +10681,1999 @@ fail:
 }
 
 
+static octave_value_list _wrap_tc_CopasiModel (const octave_value_list& args, int nargout) {
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  copasi_model result;
+  
+  if (!SWIG_check_num_args("tc_CopasiModel",args.length(),0,0,0)) {
+    SWIG_fail;
+  }
+  result = tc_CopasiModel();
+  _outv = SWIG_NewPointerObj((new copasi_model((const copasi_model&)(result))), SWIGTYPE_p_copasi_model, SWIG_POINTER_OWN |  0 );
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_tc_COPASI_api (const octave_value_list& args, int nargout) {
+  copasi_model (*arg1)() = (copasi_model (*)()) 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  
+  if (!SWIG_check_num_args("tc_COPASI_api",args.length(),1,1,0)) {
+    SWIG_fail;
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(args(0), (void**)(&arg1), SWIGTYPE_p_f___copasi_model);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "1"" of type '" "copasi_model (*)()""'"); 
+    }
+  }
+  tc_COPASI_api(arg1);
+  _outv = octave_value();
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_copasi_model_CopasiModelPtr_set (const octave_value_list& args, int nargout) {
+  copasi_model *arg1 = (copasi_model *) 0 ;
+  void *arg2 = (void *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int res2 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  
+  if (!SWIG_check_num_args("copasi_model_CopasiModelPtr_set",args.length(),2,2,0)) {
+    SWIG_fail;
+  }
+  res1 = SWIG_ConvertPtr(args(0), &argp1,SWIGTYPE_p_copasi_model, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "copasi_model_CopasiModelPtr_set" "', argument " "1"" of type '" "copasi_model *""'"); 
+  }
+  arg1 = (copasi_model *)(argp1);
+  res2 = SWIG_ConvertPtr(args(1),SWIG_as_voidptrptr(&arg2), 0, SWIG_POINTER_DISOWN);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "copasi_model_CopasiModelPtr_set" "', argument " "2"" of type '" "void *""'"); 
+  }
+  if (arg1) (arg1)->CopasiModelPtr = arg2;
+  _outv = octave_value();
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_copasi_model_CopasiModelPtr_get (const octave_value_list& args, int nargout) {
+  copasi_model *arg1 = (copasi_model *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  void *result = 0 ;
+  
+  if (!SWIG_check_num_args("copasi_model_CopasiModelPtr_get",args.length(),1,1,0)) {
+    SWIG_fail;
+  }
+  res1 = SWIG_ConvertPtr(args(0), &argp1,SWIGTYPE_p_copasi_model, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "copasi_model_CopasiModelPtr_get" "', argument " "1"" of type '" "copasi_model *""'"); 
+  }
+  arg1 = (copasi_model *)(argp1);
+  result = (void *) ((arg1)->CopasiModelPtr);
+  _outv = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_void, 0 |  0 );
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_copasi_model_CopasiDataModelPtr_set (const octave_value_list& args, int nargout) {
+  copasi_model *arg1 = (copasi_model *) 0 ;
+  void *arg2 = (void *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int res2 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  
+  if (!SWIG_check_num_args("copasi_model_CopasiDataModelPtr_set",args.length(),2,2,0)) {
+    SWIG_fail;
+  }
+  res1 = SWIG_ConvertPtr(args(0), &argp1,SWIGTYPE_p_copasi_model, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "copasi_model_CopasiDataModelPtr_set" "', argument " "1"" of type '" "copasi_model *""'"); 
+  }
+  arg1 = (copasi_model *)(argp1);
+  res2 = SWIG_ConvertPtr(args(1),SWIG_as_voidptrptr(&arg2), 0, SWIG_POINTER_DISOWN);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "copasi_model_CopasiDataModelPtr_set" "', argument " "2"" of type '" "void *""'"); 
+  }
+  if (arg1) (arg1)->CopasiDataModelPtr = arg2;
+  _outv = octave_value();
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_copasi_model_CopasiDataModelPtr_get (const octave_value_list& args, int nargout) {
+  copasi_model *arg1 = (copasi_model *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  void *result = 0 ;
+  
+  if (!SWIG_check_num_args("copasi_model_CopasiDataModelPtr_get",args.length(),1,1,0)) {
+    SWIG_fail;
+  }
+  res1 = SWIG_ConvertPtr(args(0), &argp1,SWIGTYPE_p_copasi_model, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "copasi_model_CopasiDataModelPtr_get" "', argument " "1"" of type '" "copasi_model *""'"); 
+  }
+  arg1 = (copasi_model *)(argp1);
+  result = (void *) ((arg1)->CopasiDataModelPtr);
+  _outv = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_void, 0 |  0 );
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_copasi_model_qHash_set (const octave_value_list& args, int nargout) {
+  copasi_model *arg1 = (copasi_model *) 0 ;
+  void *arg2 = (void *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int res2 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  
+  if (!SWIG_check_num_args("copasi_model_qHash_set",args.length(),2,2,0)) {
+    SWIG_fail;
+  }
+  res1 = SWIG_ConvertPtr(args(0), &argp1,SWIGTYPE_p_copasi_model, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "copasi_model_qHash_set" "', argument " "1"" of type '" "copasi_model *""'"); 
+  }
+  arg1 = (copasi_model *)(argp1);
+  res2 = SWIG_ConvertPtr(args(1),SWIG_as_voidptrptr(&arg2), 0, SWIG_POINTER_DISOWN);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "copasi_model_qHash_set" "', argument " "2"" of type '" "void *""'"); 
+  }
+  if (arg1) (arg1)->qHash = arg2;
+  _outv = octave_value();
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_copasi_model_qHash_get (const octave_value_list& args, int nargout) {
+  copasi_model *arg1 = (copasi_model *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  void *result = 0 ;
+  
+  if (!SWIG_check_num_args("copasi_model_qHash_get",args.length(),1,1,0)) {
+    SWIG_fail;
+  }
+  res1 = SWIG_ConvertPtr(args(0), &argp1,SWIGTYPE_p_copasi_model, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "copasi_model_qHash_get" "', argument " "1"" of type '" "copasi_model *""'"); 
+  }
+  arg1 = (copasi_model *)(argp1);
+  result = (void *) ((arg1)->qHash);
+  _outv = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_void, 0 |  0 );
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_new_copasi_model (const octave_value_list& args, int nargout) {
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  copasi_model *result = 0 ;
+  
+  if (!SWIG_check_num_args("new_copasi_model",args.length(),0,0,0)) {
+    SWIG_fail;
+  }
+  result = (copasi_model *)new copasi_model();
+  _outv = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_copasi_model, 1 |  0 );
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_delete_copasi_model (const octave_value_list& args, int nargout) {
+  copasi_model *arg1 = (copasi_model *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  
+  if (!SWIG_check_num_args("delete_copasi_model",args.length(),1,1,0)) {
+    SWIG_fail;
+  }
+  res1 = SWIG_ConvertPtr(args(0), &argp1,SWIGTYPE_p_copasi_model, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_copasi_model" "', argument " "1"" of type '" "copasi_model *""'"); 
+  }
+  arg1 = (copasi_model *)(argp1);
+  delete arg1;
+  _outv = octave_value();
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static swig_octave_member swig_copasi_model_members[] = {
+{"CopasiModelPtr",0,_wrap_copasi_model_CopasiModelPtr_get,_wrap_copasi_model_CopasiModelPtr_set,0,0},
+{"CopasiDataModelPtr",0,_wrap_copasi_model_CopasiDataModelPtr_get,_wrap_copasi_model_CopasiDataModelPtr_set,0,0},
+{"qHash",0,_wrap_copasi_model_qHash_get,_wrap_copasi_model_qHash_set,0,0},
+{0,0,0,0}
+};
+static const char *swig_copasi_model_base_names[] = {0};
+static const swig_type_info *swig_copasi_model_base[] = {0};
+static swig_octave_class _wrap_class_copasi_model = {"copasi_model", &SWIGTYPE_p_copasi_model,0,_wrap_new_copasi_model,0,_wrap_delete_copasi_model,swig_copasi_model_members,swig_copasi_model_base_names,swig_copasi_model_base };
+
+static octave_value_list _wrap_copasi_reaction_CopasiReactionPtr_set (const octave_value_list& args, int nargout) {
+  copasi_reaction *arg1 = (copasi_reaction *) 0 ;
+  void *arg2 = (void *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int res2 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  
+  if (!SWIG_check_num_args("copasi_reaction_CopasiReactionPtr_set",args.length(),2,2,0)) {
+    SWIG_fail;
+  }
+  res1 = SWIG_ConvertPtr(args(0), &argp1,SWIGTYPE_p_copasi_reaction, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "copasi_reaction_CopasiReactionPtr_set" "', argument " "1"" of type '" "copasi_reaction *""'"); 
+  }
+  arg1 = (copasi_reaction *)(argp1);
+  res2 = SWIG_ConvertPtr(args(1),SWIG_as_voidptrptr(&arg2), 0, SWIG_POINTER_DISOWN);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "copasi_reaction_CopasiReactionPtr_set" "', argument " "2"" of type '" "void *""'"); 
+  }
+  if (arg1) (arg1)->CopasiReactionPtr = arg2;
+  _outv = octave_value();
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_copasi_reaction_CopasiReactionPtr_get (const octave_value_list& args, int nargout) {
+  copasi_reaction *arg1 = (copasi_reaction *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  void *result = 0 ;
+  
+  if (!SWIG_check_num_args("copasi_reaction_CopasiReactionPtr_get",args.length(),1,1,0)) {
+    SWIG_fail;
+  }
+  res1 = SWIG_ConvertPtr(args(0), &argp1,SWIGTYPE_p_copasi_reaction, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "copasi_reaction_CopasiReactionPtr_get" "', argument " "1"" of type '" "copasi_reaction *""'"); 
+  }
+  arg1 = (copasi_reaction *)(argp1);
+  result = (void *) ((arg1)->CopasiReactionPtr);
+  _outv = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_void, 0 |  0 );
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_copasi_reaction_CopasiModelPtr_set (const octave_value_list& args, int nargout) {
+  copasi_reaction *arg1 = (copasi_reaction *) 0 ;
+  void *arg2 = (void *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int res2 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  
+  if (!SWIG_check_num_args("copasi_reaction_CopasiModelPtr_set",args.length(),2,2,0)) {
+    SWIG_fail;
+  }
+  res1 = SWIG_ConvertPtr(args(0), &argp1,SWIGTYPE_p_copasi_reaction, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "copasi_reaction_CopasiModelPtr_set" "', argument " "1"" of type '" "copasi_reaction *""'"); 
+  }
+  arg1 = (copasi_reaction *)(argp1);
+  res2 = SWIG_ConvertPtr(args(1),SWIG_as_voidptrptr(&arg2), 0, SWIG_POINTER_DISOWN);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "copasi_reaction_CopasiModelPtr_set" "', argument " "2"" of type '" "void *""'"); 
+  }
+  if (arg1) (arg1)->CopasiModelPtr = arg2;
+  _outv = octave_value();
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_copasi_reaction_CopasiModelPtr_get (const octave_value_list& args, int nargout) {
+  copasi_reaction *arg1 = (copasi_reaction *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  void *result = 0 ;
+  
+  if (!SWIG_check_num_args("copasi_reaction_CopasiModelPtr_get",args.length(),1,1,0)) {
+    SWIG_fail;
+  }
+  res1 = SWIG_ConvertPtr(args(0), &argp1,SWIGTYPE_p_copasi_reaction, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "copasi_reaction_CopasiModelPtr_get" "', argument " "1"" of type '" "copasi_reaction *""'"); 
+  }
+  arg1 = (copasi_reaction *)(argp1);
+  result = (void *) ((arg1)->CopasiModelPtr);
+  _outv = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_void, 0 |  0 );
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_copasi_reaction_qHash_set (const octave_value_list& args, int nargout) {
+  copasi_reaction *arg1 = (copasi_reaction *) 0 ;
+  void *arg2 = (void *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int res2 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  
+  if (!SWIG_check_num_args("copasi_reaction_qHash_set",args.length(),2,2,0)) {
+    SWIG_fail;
+  }
+  res1 = SWIG_ConvertPtr(args(0), &argp1,SWIGTYPE_p_copasi_reaction, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "copasi_reaction_qHash_set" "', argument " "1"" of type '" "copasi_reaction *""'"); 
+  }
+  arg1 = (copasi_reaction *)(argp1);
+  res2 = SWIG_ConvertPtr(args(1),SWIG_as_voidptrptr(&arg2), 0, SWIG_POINTER_DISOWN);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "copasi_reaction_qHash_set" "', argument " "2"" of type '" "void *""'"); 
+  }
+  if (arg1) (arg1)->qHash = arg2;
+  _outv = octave_value();
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_copasi_reaction_qHash_get (const octave_value_list& args, int nargout) {
+  copasi_reaction *arg1 = (copasi_reaction *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  void *result = 0 ;
+  
+  if (!SWIG_check_num_args("copasi_reaction_qHash_get",args.length(),1,1,0)) {
+    SWIG_fail;
+  }
+  res1 = SWIG_ConvertPtr(args(0), &argp1,SWIGTYPE_p_copasi_reaction, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "copasi_reaction_qHash_get" "', argument " "1"" of type '" "copasi_reaction *""'"); 
+  }
+  arg1 = (copasi_reaction *)(argp1);
+  result = (void *) ((arg1)->qHash);
+  _outv = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_void, 0 |  0 );
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_new_copasi_reaction (const octave_value_list& args, int nargout) {
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  copasi_reaction *result = 0 ;
+  
+  if (!SWIG_check_num_args("new_copasi_reaction",args.length(),0,0,0)) {
+    SWIG_fail;
+  }
+  result = (copasi_reaction *)new copasi_reaction();
+  _outv = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_copasi_reaction, 1 |  0 );
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_delete_copasi_reaction (const octave_value_list& args, int nargout) {
+  copasi_reaction *arg1 = (copasi_reaction *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  
+  if (!SWIG_check_num_args("delete_copasi_reaction",args.length(),1,1,0)) {
+    SWIG_fail;
+  }
+  res1 = SWIG_ConvertPtr(args(0), &argp1,SWIGTYPE_p_copasi_reaction, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_copasi_reaction" "', argument " "1"" of type '" "copasi_reaction *""'"); 
+  }
+  arg1 = (copasi_reaction *)(argp1);
+  delete arg1;
+  _outv = octave_value();
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static swig_octave_member swig_copasi_reaction_members[] = {
+{"CopasiReactionPtr",0,_wrap_copasi_reaction_CopasiReactionPtr_get,_wrap_copasi_reaction_CopasiReactionPtr_set,0,0},
+{"CopasiModelPtr",0,_wrap_copasi_reaction_CopasiModelPtr_get,_wrap_copasi_reaction_CopasiModelPtr_set,0,0},
+{"qHash",0,_wrap_copasi_reaction_qHash_get,_wrap_copasi_reaction_qHash_set,0,0},
+{0,0,0,0}
+};
+static const char *swig_copasi_reaction_base_names[] = {0};
+static const swig_type_info *swig_copasi_reaction_base[] = {0};
+static swig_octave_class _wrap_class_copasi_reaction = {"copasi_reaction", &SWIGTYPE_p_copasi_reaction,0,_wrap_new_copasi_reaction,0,_wrap_delete_copasi_reaction,swig_copasi_reaction_members,swig_copasi_reaction_base_names,swig_copasi_reaction_base };
+
+static octave_value_list _wrap_copasi_compartment_CopasiCompartmentPtr_set (const octave_value_list& args, int nargout) {
+  copasi_compartment *arg1 = (copasi_compartment *) 0 ;
+  void *arg2 = (void *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int res2 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  
+  if (!SWIG_check_num_args("copasi_compartment_CopasiCompartmentPtr_set",args.length(),2,2,0)) {
+    SWIG_fail;
+  }
+  res1 = SWIG_ConvertPtr(args(0), &argp1,SWIGTYPE_p_copasi_compartment, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "copasi_compartment_CopasiCompartmentPtr_set" "', argument " "1"" of type '" "copasi_compartment *""'"); 
+  }
+  arg1 = (copasi_compartment *)(argp1);
+  res2 = SWIG_ConvertPtr(args(1),SWIG_as_voidptrptr(&arg2), 0, SWIG_POINTER_DISOWN);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "copasi_compartment_CopasiCompartmentPtr_set" "', argument " "2"" of type '" "void *""'"); 
+  }
+  if (arg1) (arg1)->CopasiCompartmentPtr = arg2;
+  _outv = octave_value();
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_copasi_compartment_CopasiCompartmentPtr_get (const octave_value_list& args, int nargout) {
+  copasi_compartment *arg1 = (copasi_compartment *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  void *result = 0 ;
+  
+  if (!SWIG_check_num_args("copasi_compartment_CopasiCompartmentPtr_get",args.length(),1,1,0)) {
+    SWIG_fail;
+  }
+  res1 = SWIG_ConvertPtr(args(0), &argp1,SWIGTYPE_p_copasi_compartment, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "copasi_compartment_CopasiCompartmentPtr_get" "', argument " "1"" of type '" "copasi_compartment *""'"); 
+  }
+  arg1 = (copasi_compartment *)(argp1);
+  result = (void *) ((arg1)->CopasiCompartmentPtr);
+  _outv = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_void, 0 |  0 );
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_copasi_compartment_CopasiModelPtr_set (const octave_value_list& args, int nargout) {
+  copasi_compartment *arg1 = (copasi_compartment *) 0 ;
+  void *arg2 = (void *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int res2 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  
+  if (!SWIG_check_num_args("copasi_compartment_CopasiModelPtr_set",args.length(),2,2,0)) {
+    SWIG_fail;
+  }
+  res1 = SWIG_ConvertPtr(args(0), &argp1,SWIGTYPE_p_copasi_compartment, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "copasi_compartment_CopasiModelPtr_set" "', argument " "1"" of type '" "copasi_compartment *""'"); 
+  }
+  arg1 = (copasi_compartment *)(argp1);
+  res2 = SWIG_ConvertPtr(args(1),SWIG_as_voidptrptr(&arg2), 0, SWIG_POINTER_DISOWN);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "copasi_compartment_CopasiModelPtr_set" "', argument " "2"" of type '" "void *""'"); 
+  }
+  if (arg1) (arg1)->CopasiModelPtr = arg2;
+  _outv = octave_value();
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_copasi_compartment_CopasiModelPtr_get (const octave_value_list& args, int nargout) {
+  copasi_compartment *arg1 = (copasi_compartment *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  void *result = 0 ;
+  
+  if (!SWIG_check_num_args("copasi_compartment_CopasiModelPtr_get",args.length(),1,1,0)) {
+    SWIG_fail;
+  }
+  res1 = SWIG_ConvertPtr(args(0), &argp1,SWIGTYPE_p_copasi_compartment, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "copasi_compartment_CopasiModelPtr_get" "', argument " "1"" of type '" "copasi_compartment *""'"); 
+  }
+  arg1 = (copasi_compartment *)(argp1);
+  result = (void *) ((arg1)->CopasiModelPtr);
+  _outv = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_void, 0 |  0 );
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_copasi_compartment_qHash_set (const octave_value_list& args, int nargout) {
+  copasi_compartment *arg1 = (copasi_compartment *) 0 ;
+  void *arg2 = (void *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int res2 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  
+  if (!SWIG_check_num_args("copasi_compartment_qHash_set",args.length(),2,2,0)) {
+    SWIG_fail;
+  }
+  res1 = SWIG_ConvertPtr(args(0), &argp1,SWIGTYPE_p_copasi_compartment, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "copasi_compartment_qHash_set" "', argument " "1"" of type '" "copasi_compartment *""'"); 
+  }
+  arg1 = (copasi_compartment *)(argp1);
+  res2 = SWIG_ConvertPtr(args(1),SWIG_as_voidptrptr(&arg2), 0, SWIG_POINTER_DISOWN);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "copasi_compartment_qHash_set" "', argument " "2"" of type '" "void *""'"); 
+  }
+  if (arg1) (arg1)->qHash = arg2;
+  _outv = octave_value();
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_copasi_compartment_qHash_get (const octave_value_list& args, int nargout) {
+  copasi_compartment *arg1 = (copasi_compartment *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  void *result = 0 ;
+  
+  if (!SWIG_check_num_args("copasi_compartment_qHash_get",args.length(),1,1,0)) {
+    SWIG_fail;
+  }
+  res1 = SWIG_ConvertPtr(args(0), &argp1,SWIGTYPE_p_copasi_compartment, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "copasi_compartment_qHash_get" "', argument " "1"" of type '" "copasi_compartment *""'"); 
+  }
+  arg1 = (copasi_compartment *)(argp1);
+  result = (void *) ((arg1)->qHash);
+  _outv = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_void, 0 |  0 );
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_new_copasi_compartment (const octave_value_list& args, int nargout) {
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  copasi_compartment *result = 0 ;
+  
+  if (!SWIG_check_num_args("new_copasi_compartment",args.length(),0,0,0)) {
+    SWIG_fail;
+  }
+  result = (copasi_compartment *)new copasi_compartment();
+  _outv = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_copasi_compartment, 1 |  0 );
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_delete_copasi_compartment (const octave_value_list& args, int nargout) {
+  copasi_compartment *arg1 = (copasi_compartment *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  
+  if (!SWIG_check_num_args("delete_copasi_compartment",args.length(),1,1,0)) {
+    SWIG_fail;
+  }
+  res1 = SWIG_ConvertPtr(args(0), &argp1,SWIGTYPE_p_copasi_compartment, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_copasi_compartment" "', argument " "1"" of type '" "copasi_compartment *""'"); 
+  }
+  arg1 = (copasi_compartment *)(argp1);
+  delete arg1;
+  _outv = octave_value();
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static swig_octave_member swig_copasi_compartment_members[] = {
+{"CopasiCompartmentPtr",0,_wrap_copasi_compartment_CopasiCompartmentPtr_get,_wrap_copasi_compartment_CopasiCompartmentPtr_set,0,0},
+{"CopasiModelPtr",0,_wrap_copasi_compartment_CopasiModelPtr_get,_wrap_copasi_compartment_CopasiModelPtr_set,0,0},
+{"qHash",0,_wrap_copasi_compartment_qHash_get,_wrap_copasi_compartment_qHash_set,0,0},
+{0,0,0,0}
+};
+static const char *swig_copasi_compartment_base_names[] = {0};
+static const swig_type_info *swig_copasi_compartment_base[] = {0};
+static swig_octave_class _wrap_class_copasi_compartment = {"copasi_compartment", &SWIGTYPE_p_copasi_compartment,0,_wrap_new_copasi_compartment,0,_wrap_delete_copasi_compartment,swig_copasi_compartment_members,swig_copasi_compartment_base_names,swig_copasi_compartment_base };
+
+static octave_value_list _wrap_copasi_init (const octave_value_list& args, int nargout) {
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  
+  if (!SWIG_check_num_args("copasi_init",args.length(),0,0,0)) {
+    SWIG_fail;
+  }
+  copasi_init();
+  _outv = octave_value();
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_copasi_end (const octave_value_list& args, int nargout) {
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  
+  if (!SWIG_check_num_args("copasi_end",args.length(),0,0,0)) {
+    SWIG_fail;
+  }
+  copasi_end();
+  _outv = octave_value();
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_compileCopasiModel (const octave_value_list& args, int nargout) {
+  copasi_model arg1 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  
+  if (!SWIG_check_num_args("compileCopasiModel",args.length(),1,1,0)) {
+    SWIG_fail;
+  }
+  {
+    res1 = SWIG_ConvertPtr(args(0), &argp1, SWIGTYPE_p_copasi_model,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "compileCopasiModel" "', argument " "1"" of type '" "copasi_model""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "compileCopasiModel" "', argument " "1"" of type '" "copasi_model""'");
+    } else {
+      arg1 = *((copasi_model *)(argp1));
+    }
+  }
+  compileCopasiModel(arg1);
+  _outv = octave_value();
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_createCopasiModel (const octave_value_list& args, int nargout) {
+  char *arg1 = (char *) 0 ;
+  int res1 ;
+  char *buf1 = 0 ;
+  int alloc1 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  copasi_model result;
+  
+  if (!SWIG_check_num_args("createCopasiModel",args.length(),1,1,0)) {
+    SWIG_fail;
+  }
+  res1 = SWIG_AsCharPtrAndSize(args(0), &buf1, NULL, &alloc1);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "createCopasiModel" "', argument " "1"" of type '" "char const *""'");
+  }
+  arg1 = (char *)(buf1);
+  result = createCopasiModel((char const *)arg1);
+  _outv = SWIG_NewPointerObj((new copasi_model((const copasi_model&)(result))), SWIGTYPE_p_copasi_model, SWIG_POINTER_OWN |  0 );
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+  if (alloc1 == SWIG_NEWOBJ) delete[] buf1;
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_loadModelFile (const octave_value_list& args, int nargout) {
+  char *arg1 = (char *) 0 ;
+  int res1 ;
+  char *buf1 = 0 ;
+  int alloc1 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  copasi_model result;
+  
+  if (!SWIG_check_num_args("loadModelFile",args.length(),1,1,0)) {
+    SWIG_fail;
+  }
+  res1 = SWIG_AsCharPtrAndSize(args(0), &buf1, NULL, &alloc1);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "loadModelFile" "', argument " "1"" of type '" "char const *""'");
+  }
+  arg1 = (char *)(buf1);
+  result = loadModelFile((char const *)arg1);
+  _outv = SWIG_NewPointerObj((new copasi_model((const copasi_model&)(result))), SWIGTYPE_p_copasi_model, SWIG_POINTER_OWN |  0 );
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+  if (alloc1 == SWIG_NEWOBJ) delete[] buf1;
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_createCompartment (const octave_value_list& args, int nargout) {
+  copasi_model arg1 ;
+  char *arg2 = (char *) 0 ;
+  double arg3 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  double val3 ;
+  int ecode3 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  copasi_compartment result;
+  
+  if (!SWIG_check_num_args("createCompartment",args.length(),3,3,0)) {
+    SWIG_fail;
+  }
+  {
+    res1 = SWIG_ConvertPtr(args(0), &argp1, SWIGTYPE_p_copasi_model,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "createCompartment" "', argument " "1"" of type '" "copasi_model""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "createCompartment" "', argument " "1"" of type '" "copasi_model""'");
+    } else {
+      arg1 = *((copasi_model *)(argp1));
+    }
+  }
+  res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "createCompartment" "', argument " "2"" of type '" "char const *""'");
+  }
+  arg2 = (char *)(buf2);
+  ecode3 = SWIG_AsVal_double(args(2), &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "createCompartment" "', argument " "3"" of type '" "double""'");
+  } 
+  arg3 = (double)(val3);
+  result = createCompartment(arg1,(char const *)arg2,arg3);
+  _outv = SWIG_NewPointerObj((new copasi_compartment((const copasi_compartment&)(result))), SWIGTYPE_p_copasi_compartment, SWIG_POINTER_OWN |  0 );
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_setVolume (const octave_value_list& args, int nargout) {
+  copasi_model arg1 ;
+  char *arg2 = (char *) 0 ;
+  double arg3 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  double val3 ;
+  int ecode3 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  
+  if (!SWIG_check_num_args("setVolume",args.length(),3,3,0)) {
+    SWIG_fail;
+  }
+  {
+    res1 = SWIG_ConvertPtr(args(0), &argp1, SWIGTYPE_p_copasi_model,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "setVolume" "', argument " "1"" of type '" "copasi_model""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "setVolume" "', argument " "1"" of type '" "copasi_model""'");
+    } else {
+      arg1 = *((copasi_model *)(argp1));
+    }
+  }
+  res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "setVolume" "', argument " "2"" of type '" "char const *""'");
+  }
+  arg2 = (char *)(buf2);
+  ecode3 = SWIG_AsVal_double(args(2), &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "setVolume" "', argument " "3"" of type '" "double""'");
+  } 
+  arg3 = (double)(val3);
+  setVolume(arg1,(char const *)arg2,arg3);
+  _outv = octave_value();
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_setValue (const octave_value_list& args, int nargout) {
+  copasi_model arg1 ;
+  char *arg2 = (char *) 0 ;
+  double arg3 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  double val3 ;
+  int ecode3 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  int result;
+  
+  if (!SWIG_check_num_args("setValue",args.length(),3,3,0)) {
+    SWIG_fail;
+  }
+  {
+    res1 = SWIG_ConvertPtr(args(0), &argp1, SWIGTYPE_p_copasi_model,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "setValue" "', argument " "1"" of type '" "copasi_model""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "setValue" "', argument " "1"" of type '" "copasi_model""'");
+    } else {
+      arg1 = *((copasi_model *)(argp1));
+    }
+  }
+  res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "setValue" "', argument " "2"" of type '" "char const *""'");
+  }
+  arg2 = (char *)(buf2);
+  ecode3 = SWIG_AsVal_double(args(2), &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "setValue" "', argument " "3"" of type '" "double""'");
+  } 
+  arg3 = (double)(val3);
+  result = (int)setValue(arg1,(char const *)arg2,arg3);
+  _outv = SWIG_From_int((int)(result));
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_createSpecies (const octave_value_list& args, int nargout) {
+  copasi_compartment arg1 ;
+  char *arg2 = (char *) 0 ;
+  double arg3 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  double val3 ;
+  int ecode3 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  
+  if (!SWIG_check_num_args("createSpecies",args.length(),3,3,0)) {
+    SWIG_fail;
+  }
+  {
+    res1 = SWIG_ConvertPtr(args(0), &argp1, SWIGTYPE_p_copasi_compartment,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "createSpecies" "', argument " "1"" of type '" "copasi_compartment""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "createSpecies" "', argument " "1"" of type '" "copasi_compartment""'");
+    } else {
+      arg1 = *((copasi_compartment *)(argp1));
+    }
+  }
+  res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "createSpecies" "', argument " "2"" of type '" "char const *""'");
+  }
+  arg2 = (char *)(buf2);
+  ecode3 = SWIG_AsVal_double(args(2), &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "createSpecies" "', argument " "3"" of type '" "double""'");
+  } 
+  arg3 = (double)(val3);
+  createSpecies(arg1,(char const *)arg2,arg3);
+  _outv = octave_value();
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_setBoundarySpecies (const octave_value_list& args, int nargout) {
+  copasi_model arg1 ;
+  char *arg2 = (char *) 0 ;
+  int arg3 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  
+  if (!SWIG_check_num_args("setBoundarySpecies",args.length(),3,3,0)) {
+    SWIG_fail;
+  }
+  {
+    res1 = SWIG_ConvertPtr(args(0), &argp1, SWIGTYPE_p_copasi_model,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "setBoundarySpecies" "', argument " "1"" of type '" "copasi_model""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "setBoundarySpecies" "', argument " "1"" of type '" "copasi_model""'");
+    } else {
+      arg1 = *((copasi_model *)(argp1));
+    }
+  }
+  res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "setBoundarySpecies" "', argument " "2"" of type '" "char const *""'");
+  }
+  arg2 = (char *)(buf2);
+  ecode3 = SWIG_AsVal_int(args(2), &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "setBoundarySpecies" "', argument " "3"" of type '" "int""'");
+  } 
+  arg3 = (int)(val3);
+  setBoundarySpecies(arg1,(char const *)arg2,arg3);
+  _outv = octave_value();
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_setConcentration (const octave_value_list& args, int nargout) {
+  copasi_model arg1 ;
+  char *arg2 = (char *) 0 ;
+  double arg3 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  double val3 ;
+  int ecode3 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  
+  if (!SWIG_check_num_args("setConcentration",args.length(),3,3,0)) {
+    SWIG_fail;
+  }
+  {
+    res1 = SWIG_ConvertPtr(args(0), &argp1, SWIGTYPE_p_copasi_model,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "setConcentration" "', argument " "1"" of type '" "copasi_model""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "setConcentration" "', argument " "1"" of type '" "copasi_model""'");
+    } else {
+      arg1 = *((copasi_model *)(argp1));
+    }
+  }
+  res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "setConcentration" "', argument " "2"" of type '" "char const *""'");
+  }
+  arg2 = (char *)(buf2);
+  ecode3 = SWIG_AsVal_double(args(2), &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "setConcentration" "', argument " "3"" of type '" "double""'");
+  } 
+  arg3 = (double)(val3);
+  setConcentration(arg1,(char const *)arg2,arg3);
+  _outv = octave_value();
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_setAssignmentRule (const octave_value_list& args, int nargout) {
+  copasi_model arg1 ;
+  char *arg2 = (char *) 0 ;
+  char *arg3 = (char *) 0 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  int res3 ;
+  char *buf3 = 0 ;
+  int alloc3 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  int result;
+  
+  if (!SWIG_check_num_args("setAssignmentRule",args.length(),3,3,0)) {
+    SWIG_fail;
+  }
+  {
+    res1 = SWIG_ConvertPtr(args(0), &argp1, SWIGTYPE_p_copasi_model,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "setAssignmentRule" "', argument " "1"" of type '" "copasi_model""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "setAssignmentRule" "', argument " "1"" of type '" "copasi_model""'");
+    } else {
+      arg1 = *((copasi_model *)(argp1));
+    }
+  }
+  res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "setAssignmentRule" "', argument " "2"" of type '" "char const *""'");
+  }
+  arg2 = (char *)(buf2);
+  res3 = SWIG_AsCharPtrAndSize(args(2), &buf3, NULL, &alloc3);
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "setAssignmentRule" "', argument " "3"" of type '" "char const *""'");
+  }
+  arg3 = (char *)(buf3);
+  result = (int)setAssignmentRule(arg1,(char const *)arg2,(char const *)arg3);
+  _outv = SWIG_From_int((int)(result));
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
+  if (alloc3 == SWIG_NEWOBJ) delete[] buf3;
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_setGlobalParameter (const octave_value_list& args, int nargout) {
+  copasi_model arg1 ;
+  char *arg2 = (char *) 0 ;
+  double arg3 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  double val3 ;
+  int ecode3 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  int result;
+  
+  if (!SWIG_check_num_args("setGlobalParameter",args.length(),3,3,0)) {
+    SWIG_fail;
+  }
+  {
+    res1 = SWIG_ConvertPtr(args(0), &argp1, SWIGTYPE_p_copasi_model,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "setGlobalParameter" "', argument " "1"" of type '" "copasi_model""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "setGlobalParameter" "', argument " "1"" of type '" "copasi_model""'");
+    } else {
+      arg1 = *((copasi_model *)(argp1));
+    }
+  }
+  res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "setGlobalParameter" "', argument " "2"" of type '" "char const *""'");
+  }
+  arg2 = (char *)(buf2);
+  ecode3 = SWIG_AsVal_double(args(2), &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "setGlobalParameter" "', argument " "3"" of type '" "double""'");
+  } 
+  arg3 = (double)(val3);
+  result = (int)setGlobalParameter(arg1,(char const *)arg2,arg3);
+  _outv = SWIG_From_int((int)(result));
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_createVariable (const octave_value_list& args, int nargout) {
+  copasi_model arg1 ;
+  char *arg2 = (char *) 0 ;
+  char *arg3 = (char *) 0 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  int res3 ;
+  char *buf3 = 0 ;
+  int alloc3 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  int result;
+  
+  if (!SWIG_check_num_args("createVariable",args.length(),3,3,0)) {
+    SWIG_fail;
+  }
+  {
+    res1 = SWIG_ConvertPtr(args(0), &argp1, SWIGTYPE_p_copasi_model,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "createVariable" "', argument " "1"" of type '" "copasi_model""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "createVariable" "', argument " "1"" of type '" "copasi_model""'");
+    } else {
+      arg1 = *((copasi_model *)(argp1));
+    }
+  }
+  res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "createVariable" "', argument " "2"" of type '" "char const *""'");
+  }
+  arg2 = (char *)(buf2);
+  res3 = SWIG_AsCharPtrAndSize(args(2), &buf3, NULL, &alloc3);
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "createVariable" "', argument " "3"" of type '" "char const *""'");
+  }
+  arg3 = (char *)(buf3);
+  result = (int)createVariable(arg1,(char const *)arg2,(char const *)arg3);
+  _outv = SWIG_From_int((int)(result));
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
+  if (alloc3 == SWIG_NEWOBJ) delete[] buf3;
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_createEvent (const octave_value_list& args, int nargout) {
+  copasi_model arg1 ;
+  char *arg2 = (char *) 0 ;
+  char *arg3 = (char *) 0 ;
+  char *arg4 = (char *) 0 ;
+  char *arg5 = (char *) 0 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  int res3 ;
+  char *buf3 = 0 ;
+  int alloc3 = 0 ;
+  int res4 ;
+  char *buf4 = 0 ;
+  int alloc4 = 0 ;
+  int res5 ;
+  char *buf5 = 0 ;
+  int alloc5 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  int result;
+  
+  if (!SWIG_check_num_args("createEvent",args.length(),5,5,0)) {
+    SWIG_fail;
+  }
+  {
+    res1 = SWIG_ConvertPtr(args(0), &argp1, SWIGTYPE_p_copasi_model,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "createEvent" "', argument " "1"" of type '" "copasi_model""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "createEvent" "', argument " "1"" of type '" "copasi_model""'");
+    } else {
+      arg1 = *((copasi_model *)(argp1));
+    }
+  }
+  res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "createEvent" "', argument " "2"" of type '" "char const *""'");
+  }
+  arg2 = (char *)(buf2);
+  res3 = SWIG_AsCharPtrAndSize(args(2), &buf3, NULL, &alloc3);
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "createEvent" "', argument " "3"" of type '" "char const *""'");
+  }
+  arg3 = (char *)(buf3);
+  res4 = SWIG_AsCharPtrAndSize(args(3), &buf4, NULL, &alloc4);
+  if (!SWIG_IsOK(res4)) {
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "createEvent" "', argument " "4"" of type '" "char const *""'");
+  }
+  arg4 = (char *)(buf4);
+  res5 = SWIG_AsCharPtrAndSize(args(4), &buf5, NULL, &alloc5);
+  if (!SWIG_IsOK(res5)) {
+    SWIG_exception_fail(SWIG_ArgError(res5), "in method '" "createEvent" "', argument " "5"" of type '" "char const *""'");
+  }
+  arg5 = (char *)(buf5);
+  result = (int)createEvent(arg1,(char const *)arg2,(char const *)arg3,(char const *)arg4,(char const *)arg5);
+  _outv = SWIG_From_int((int)(result));
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
+  if (alloc3 == SWIG_NEWOBJ) delete[] buf3;
+  if (alloc4 == SWIG_NEWOBJ) delete[] buf4;
+  if (alloc5 == SWIG_NEWOBJ) delete[] buf5;
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_createReaction (const octave_value_list& args, int nargout) {
+  copasi_model arg1 ;
+  char *arg2 = (char *) 0 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  copasi_reaction result;
+  
+  if (!SWIG_check_num_args("createReaction",args.length(),2,2,0)) {
+    SWIG_fail;
+  }
+  {
+    res1 = SWIG_ConvertPtr(args(0), &argp1, SWIGTYPE_p_copasi_model,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "createReaction" "', argument " "1"" of type '" "copasi_model""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "createReaction" "', argument " "1"" of type '" "copasi_model""'");
+    } else {
+      arg1 = *((copasi_model *)(argp1));
+    }
+  }
+  res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "createReaction" "', argument " "2"" of type '" "char const *""'");
+  }
+  arg2 = (char *)(buf2);
+  result = createReaction(arg1,(char const *)arg2);
+  _outv = SWIG_NewPointerObj((new copasi_reaction((const copasi_reaction&)(result))), SWIGTYPE_p_copasi_reaction, SWIG_POINTER_OWN |  0 );
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_addReactant (const octave_value_list& args, int nargout) {
+  copasi_reaction arg1 ;
+  char *arg2 = (char *) 0 ;
+  double arg3 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  double val3 ;
+  int ecode3 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  
+  if (!SWIG_check_num_args("addReactant",args.length(),3,3,0)) {
+    SWIG_fail;
+  }
+  {
+    res1 = SWIG_ConvertPtr(args(0), &argp1, SWIGTYPE_p_copasi_reaction,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "addReactant" "', argument " "1"" of type '" "copasi_reaction""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "addReactant" "', argument " "1"" of type '" "copasi_reaction""'");
+    } else {
+      arg1 = *((copasi_reaction *)(argp1));
+    }
+  }
+  res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "addReactant" "', argument " "2"" of type '" "char const *""'");
+  }
+  arg2 = (char *)(buf2);
+  ecode3 = SWIG_AsVal_double(args(2), &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "addReactant" "', argument " "3"" of type '" "double""'");
+  } 
+  arg3 = (double)(val3);
+  addReactant(arg1,(char const *)arg2,arg3);
+  _outv = octave_value();
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_addProduct (const octave_value_list& args, int nargout) {
+  copasi_reaction arg1 ;
+  char *arg2 = (char *) 0 ;
+  double arg3 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  double val3 ;
+  int ecode3 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  
+  if (!SWIG_check_num_args("addProduct",args.length(),3,3,0)) {
+    SWIG_fail;
+  }
+  {
+    res1 = SWIG_ConvertPtr(args(0), &argp1, SWIGTYPE_p_copasi_reaction,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "addProduct" "', argument " "1"" of type '" "copasi_reaction""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "addProduct" "', argument " "1"" of type '" "copasi_reaction""'");
+    } else {
+      arg1 = *((copasi_reaction *)(argp1));
+    }
+  }
+  res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "addProduct" "', argument " "2"" of type '" "char const *""'");
+  }
+  arg2 = (char *)(buf2);
+  ecode3 = SWIG_AsVal_double(args(2), &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "addProduct" "', argument " "3"" of type '" "double""'");
+  } 
+  arg3 = (double)(val3);
+  addProduct(arg1,(char const *)arg2,arg3);
+  _outv = octave_value();
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_setReactionRate (const octave_value_list& args, int nargout) {
+  copasi_reaction arg1 ;
+  char *arg2 = (char *) 0 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  int result;
+  
+  if (!SWIG_check_num_args("setReactionRate",args.length(),2,2,0)) {
+    SWIG_fail;
+  }
+  {
+    res1 = SWIG_ConvertPtr(args(0), &argp1, SWIGTYPE_p_copasi_reaction,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "setReactionRate" "', argument " "1"" of type '" "copasi_reaction""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "setReactionRate" "', argument " "1"" of type '" "copasi_reaction""'");
+    } else {
+      arg1 = *((copasi_reaction *)(argp1));
+    }
+  }
+  res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "setReactionRate" "', argument " "2"" of type '" "char const *""'");
+  }
+  arg2 = (char *)(buf2);
+  result = (int)setReactionRate(arg1,(char const *)arg2);
+  _outv = SWIG_From_int((int)(result));
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_simulateDeterministic (const octave_value_list& args, int nargout) {
+  copasi_model arg1 ;
+  double arg2 ;
+  double arg3 ;
+  int arg4 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  double val3 ;
+  int ecode3 = 0 ;
+  int val4 ;
+  int ecode4 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  tc_matrix result;
+  
+  if (!SWIG_check_num_args("simulateDeterministic",args.length(),4,4,0)) {
+    SWIG_fail;
+  }
+  {
+    res1 = SWIG_ConvertPtr(args(0), &argp1, SWIGTYPE_p_copasi_model,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "simulateDeterministic" "', argument " "1"" of type '" "copasi_model""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "simulateDeterministic" "', argument " "1"" of type '" "copasi_model""'");
+    } else {
+      arg1 = *((copasi_model *)(argp1));
+    }
+  }
+  ecode2 = SWIG_AsVal_double(args(1), &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "simulateDeterministic" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = (double)(val2);
+  ecode3 = SWIG_AsVal_double(args(2), &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "simulateDeterministic" "', argument " "3"" of type '" "double""'");
+  } 
+  arg3 = (double)(val3);
+  ecode4 = SWIG_AsVal_int(args(3), &val4);
+  if (!SWIG_IsOK(ecode4)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "simulateDeterministic" "', argument " "4"" of type '" "int""'");
+  } 
+  arg4 = (int)(val4);
+  result = simulateDeterministic(arg1,arg2,arg3,arg4);
+  _outv = SWIG_NewPointerObj((new tc_matrix((const tc_matrix&)(result))), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_simulateStochastic (const octave_value_list& args, int nargout) {
+  copasi_model arg1 ;
+  double arg2 ;
+  double arg3 ;
+  int arg4 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  double val3 ;
+  int ecode3 = 0 ;
+  int val4 ;
+  int ecode4 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  tc_matrix result;
+  
+  if (!SWIG_check_num_args("simulateStochastic",args.length(),4,4,0)) {
+    SWIG_fail;
+  }
+  {
+    res1 = SWIG_ConvertPtr(args(0), &argp1, SWIGTYPE_p_copasi_model,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "simulateStochastic" "', argument " "1"" of type '" "copasi_model""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "simulateStochastic" "', argument " "1"" of type '" "copasi_model""'");
+    } else {
+      arg1 = *((copasi_model *)(argp1));
+    }
+  }
+  ecode2 = SWIG_AsVal_double(args(1), &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "simulateStochastic" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = (double)(val2);
+  ecode3 = SWIG_AsVal_double(args(2), &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "simulateStochastic" "', argument " "3"" of type '" "double""'");
+  } 
+  arg3 = (double)(val3);
+  ecode4 = SWIG_AsVal_int(args(3), &val4);
+  if (!SWIG_IsOK(ecode4)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "simulateStochastic" "', argument " "4"" of type '" "int""'");
+  } 
+  arg4 = (int)(val4);
+  result = simulateStochastic(arg1,arg2,arg3,arg4);
+  _outv = SWIG_NewPointerObj((new tc_matrix((const tc_matrix&)(result))), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_simulateHybrid (const octave_value_list& args, int nargout) {
+  copasi_model arg1 ;
+  double arg2 ;
+  double arg3 ;
+  int arg4 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  double val3 ;
+  int ecode3 = 0 ;
+  int val4 ;
+  int ecode4 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  tc_matrix result;
+  
+  if (!SWIG_check_num_args("simulateHybrid",args.length(),4,4,0)) {
+    SWIG_fail;
+  }
+  {
+    res1 = SWIG_ConvertPtr(args(0), &argp1, SWIGTYPE_p_copasi_model,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "simulateHybrid" "', argument " "1"" of type '" "copasi_model""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "simulateHybrid" "', argument " "1"" of type '" "copasi_model""'");
+    } else {
+      arg1 = *((copasi_model *)(argp1));
+    }
+  }
+  ecode2 = SWIG_AsVal_double(args(1), &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "simulateHybrid" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = (double)(val2);
+  ecode3 = SWIG_AsVal_double(args(2), &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "simulateHybrid" "', argument " "3"" of type '" "double""'");
+  } 
+  arg3 = (double)(val3);
+  ecode4 = SWIG_AsVal_int(args(3), &val4);
+  if (!SWIG_IsOK(ecode4)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "simulateHybrid" "', argument " "4"" of type '" "int""'");
+  } 
+  arg4 = (int)(val4);
+  result = simulateHybrid(arg1,arg2,arg3,arg4);
+  _outv = SWIG_NewPointerObj((new tc_matrix((const tc_matrix&)(result))), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_simulateTauLeap (const octave_value_list& args, int nargout) {
+  copasi_model arg1 ;
+  double arg2 ;
+  double arg3 ;
+  int arg4 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  double val3 ;
+  int ecode3 = 0 ;
+  int val4 ;
+  int ecode4 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  tc_matrix result;
+  
+  if (!SWIG_check_num_args("simulateTauLeap",args.length(),4,4,0)) {
+    SWIG_fail;
+  }
+  {
+    res1 = SWIG_ConvertPtr(args(0), &argp1, SWIGTYPE_p_copasi_model,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "simulateTauLeap" "', argument " "1"" of type '" "copasi_model""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "simulateTauLeap" "', argument " "1"" of type '" "copasi_model""'");
+    } else {
+      arg1 = *((copasi_model *)(argp1));
+    }
+  }
+  ecode2 = SWIG_AsVal_double(args(1), &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "simulateTauLeap" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = (double)(val2);
+  ecode3 = SWIG_AsVal_double(args(2), &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "simulateTauLeap" "', argument " "3"" of type '" "double""'");
+  } 
+  arg3 = (double)(val3);
+  ecode4 = SWIG_AsVal_int(args(3), &val4);
+  if (!SWIG_IsOK(ecode4)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "simulateTauLeap" "', argument " "4"" of type '" "int""'");
+  } 
+  arg4 = (int)(val4);
+  result = simulateTauLeap(arg1,arg2,arg3,arg4);
+  _outv = SWIG_NewPointerObj((new tc_matrix((const tc_matrix&)(result))), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_getSteadyState (const octave_value_list& args, int nargout) {
+  copasi_model arg1 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  tc_matrix result;
+  
+  if (!SWIG_check_num_args("getSteadyState",args.length(),1,1,0)) {
+    SWIG_fail;
+  }
+  {
+    res1 = SWIG_ConvertPtr(args(0), &argp1, SWIGTYPE_p_copasi_model,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "getSteadyState" "', argument " "1"" of type '" "copasi_model""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "getSteadyState" "', argument " "1"" of type '" "copasi_model""'");
+    } else {
+      arg1 = *((copasi_model *)(argp1));
+    }
+  }
+  result = getSteadyState(arg1);
+  _outv = SWIG_NewPointerObj((new tc_matrix((const tc_matrix&)(result))), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_getJacobian (const octave_value_list& args, int nargout) {
+  copasi_model arg1 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  tc_matrix result;
+  
+  if (!SWIG_check_num_args("getJacobian",args.length(),1,1,0)) {
+    SWIG_fail;
+  }
+  {
+    res1 = SWIG_ConvertPtr(args(0), &argp1, SWIGTYPE_p_copasi_model,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "getJacobian" "', argument " "1"" of type '" "copasi_model""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "getJacobian" "', argument " "1"" of type '" "copasi_model""'");
+    } else {
+      arg1 = *((copasi_model *)(argp1));
+    }
+  }
+  result = getJacobian(arg1);
+  _outv = SWIG_NewPointerObj((new tc_matrix((const tc_matrix&)(result))), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_getEigenvalues (const octave_value_list& args, int nargout) {
+  copasi_model arg1 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  tc_matrix result;
+  
+  if (!SWIG_check_num_args("getEigenvalues",args.length(),1,1,0)) {
+    SWIG_fail;
+  }
+  {
+    res1 = SWIG_ConvertPtr(args(0), &argp1, SWIGTYPE_p_copasi_model,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "getEigenvalues" "', argument " "1"" of type '" "copasi_model""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "getEigenvalues" "', argument " "1"" of type '" "copasi_model""'");
+    } else {
+      arg1 = *((copasi_model *)(argp1));
+    }
+  }
+  result = getEigenvalues(arg1);
+  _outv = SWIG_NewPointerObj((new tc_matrix((const tc_matrix&)(result))), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_getUnscaledElasticities (const octave_value_list& args, int nargout) {
+  copasi_model arg1 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  tc_matrix result;
+  
+  if (!SWIG_check_num_args("getUnscaledElasticities",args.length(),1,1,0)) {
+    SWIG_fail;
+  }
+  {
+    res1 = SWIG_ConvertPtr(args(0), &argp1, SWIGTYPE_p_copasi_model,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "getUnscaledElasticities" "', argument " "1"" of type '" "copasi_model""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "getUnscaledElasticities" "', argument " "1"" of type '" "copasi_model""'");
+    } else {
+      arg1 = *((copasi_model *)(argp1));
+    }
+  }
+  result = getUnscaledElasticities(arg1);
+  _outv = SWIG_NewPointerObj((new tc_matrix((const tc_matrix&)(result))), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_getUnscaledConcentrationCC (const octave_value_list& args, int nargout) {
+  copasi_model arg1 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  tc_matrix result;
+  
+  if (!SWIG_check_num_args("getUnscaledConcentrationCC",args.length(),1,1,0)) {
+    SWIG_fail;
+  }
+  {
+    res1 = SWIG_ConvertPtr(args(0), &argp1, SWIGTYPE_p_copasi_model,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "getUnscaledConcentrationCC" "', argument " "1"" of type '" "copasi_model""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "getUnscaledConcentrationCC" "', argument " "1"" of type '" "copasi_model""'");
+    } else {
+      arg1 = *((copasi_model *)(argp1));
+    }
+  }
+  result = getUnscaledConcentrationCC(arg1);
+  _outv = SWIG_NewPointerObj((new tc_matrix((const tc_matrix&)(result))), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_getUnscaledFluxCC (const octave_value_list& args, int nargout) {
+  copasi_model arg1 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  tc_matrix result;
+  
+  if (!SWIG_check_num_args("getUnscaledFluxCC",args.length(),1,1,0)) {
+    SWIG_fail;
+  }
+  {
+    res1 = SWIG_ConvertPtr(args(0), &argp1, SWIGTYPE_p_copasi_model,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "getUnscaledFluxCC" "', argument " "1"" of type '" "copasi_model""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "getUnscaledFluxCC" "', argument " "1"" of type '" "copasi_model""'");
+    } else {
+      arg1 = *((copasi_model *)(argp1));
+    }
+  }
+  result = getUnscaledFluxCC(arg1);
+  _outv = SWIG_NewPointerObj((new tc_matrix((const tc_matrix&)(result))), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_getScaledElasticities (const octave_value_list& args, int nargout) {
+  copasi_model arg1 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  tc_matrix result;
+  
+  if (!SWIG_check_num_args("getScaledElasticities",args.length(),1,1,0)) {
+    SWIG_fail;
+  }
+  {
+    res1 = SWIG_ConvertPtr(args(0), &argp1, SWIGTYPE_p_copasi_model,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "getScaledElasticities" "', argument " "1"" of type '" "copasi_model""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "getScaledElasticities" "', argument " "1"" of type '" "copasi_model""'");
+    } else {
+      arg1 = *((copasi_model *)(argp1));
+    }
+  }
+  result = getScaledElasticities(arg1);
+  _outv = SWIG_NewPointerObj((new tc_matrix((const tc_matrix&)(result))), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_getScaledConcentrationCC (const octave_value_list& args, int nargout) {
+  copasi_model arg1 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  tc_matrix result;
+  
+  if (!SWIG_check_num_args("getScaledConcentrationCC",args.length(),1,1,0)) {
+    SWIG_fail;
+  }
+  {
+    res1 = SWIG_ConvertPtr(args(0), &argp1, SWIGTYPE_p_copasi_model,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "getScaledConcentrationCC" "', argument " "1"" of type '" "copasi_model""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "getScaledConcentrationCC" "', argument " "1"" of type '" "copasi_model""'");
+    } else {
+      arg1 = *((copasi_model *)(argp1));
+    }
+  }
+  result = getScaledConcentrationCC(arg1);
+  _outv = SWIG_NewPointerObj((new tc_matrix((const tc_matrix&)(result))), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_getScaledFluxCC (const octave_value_list& args, int nargout) {
+  copasi_model arg1 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  tc_matrix result;
+  
+  if (!SWIG_check_num_args("getScaledFluxCC",args.length(),1,1,0)) {
+    SWIG_fail;
+  }
+  {
+    res1 = SWIG_ConvertPtr(args(0), &argp1, SWIGTYPE_p_copasi_model,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "getScaledFluxCC" "', argument " "1"" of type '" "copasi_model""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "getScaledFluxCC" "', argument " "1"" of type '" "copasi_model""'");
+    } else {
+      arg1 = *((copasi_model *)(argp1));
+    }
+  }
+  result = getScaledFluxCC(arg1);
+  _outv = SWIG_NewPointerObj((new tc_matrix((const tc_matrix&)(result))), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
 
 static const struct swig_octave_member swig_globals[] = {
 {"tc_strings_length_set",_wrap_tc_strings_length_set,0,0,2,0},
@@ -10610,7 +12734,10 @@ static const struct swig_octave_member swig_globals[] = {
 {"tc_deleteStringsArray",_wrap_tc_deleteStringsArray,0,0,2,0},
 {"tc_appendColumns",_wrap_tc_appendColumns,0,0,2,0},
 {"tc_appendRows",_wrap_tc_appendRows,0,0,2,0},
-{"tc_printMatrix",_wrap_tc_printMatrix,0,0,2,0},
+{"tc_printMatrixToFile",_wrap_tc_printMatrixToFile,0,0,2,0},
+{"tc_printOutMatrix",_wrap_tc_printOutMatrix,0,0,2,0},
+{"tc_printTableToFile",_wrap_tc_printTableToFile,0,0,2,0},
+{"tc_printOutTable",_wrap_tc_printOutTable,0,0,2,0},
 {"tc_allItems",_wrap_tc_allItems,0,0,2,0},
 {"tc_selectedItems",_wrap_tc_selectedItems,0,0,2,0},
 {"tc_itemsOfFamily",_wrap_tc_itemsOfFamily,0,0,2,0},
@@ -10628,7 +12755,7 @@ static const struct swig_octave_member swig_globals[] = {
 {"tc_isA",_wrap_tc_isA,0,0,2,0},
 {"tc_print",_wrap_tc_print,0,0,2,0},
 {"tc_errorReport",_wrap_tc_errorReport,0,0,2,0},
-{"tc_printTable",_wrap_tc_printTable,0,0,2,0},
+{"tc_printMatrix",_wrap_tc_printMatrix,0,0,2,0},
 {"tc_printFile",_wrap_tc_printFile,0,0,2,0},
 {"tc_clear",_wrap_tc_clear,0,0,2,0},
 {"tc_remove",_wrap_tc_remove,0,0,2,0},
@@ -10783,13 +12910,75 @@ static const struct swig_octave_member swig_globals[] = {
 {"tc_exportSBML",_wrap_tc_exportSBML,0,0,2,0},
 {"tc_importSBML",_wrap_tc_importSBML,0,0,2,0},
 {"tc_SBML_api",_wrap_tc_SBML_api,0,0,2,0},
+{"tc_CopasiModel",_wrap_tc_CopasiModel,0,0,2,0},
+{"tc_COPASI_api",_wrap_tc_COPASI_api,0,0,2,0},
+{"copasi_model_CopasiModelPtr_set",_wrap_copasi_model_CopasiModelPtr_set,0,0,2,0},
+{"copasi_model_CopasiModelPtr_get",_wrap_copasi_model_CopasiModelPtr_get,0,0,2,0},
+{"copasi_model_CopasiDataModelPtr_set",_wrap_copasi_model_CopasiDataModelPtr_set,0,0,2,0},
+{"copasi_model_CopasiDataModelPtr_get",_wrap_copasi_model_CopasiDataModelPtr_get,0,0,2,0},
+{"copasi_model_qHash_set",_wrap_copasi_model_qHash_set,0,0,2,0},
+{"copasi_model_qHash_get",_wrap_copasi_model_qHash_get,0,0,2,0},
+{"new_copasi_model",_wrap_new_copasi_model,0,0,2,0},
+{"delete_copasi_model",_wrap_delete_copasi_model,0,0,2,0},
+{"copasi_reaction_CopasiReactionPtr_set",_wrap_copasi_reaction_CopasiReactionPtr_set,0,0,2,0},
+{"copasi_reaction_CopasiReactionPtr_get",_wrap_copasi_reaction_CopasiReactionPtr_get,0,0,2,0},
+{"copasi_reaction_CopasiModelPtr_set",_wrap_copasi_reaction_CopasiModelPtr_set,0,0,2,0},
+{"copasi_reaction_CopasiModelPtr_get",_wrap_copasi_reaction_CopasiModelPtr_get,0,0,2,0},
+{"copasi_reaction_qHash_set",_wrap_copasi_reaction_qHash_set,0,0,2,0},
+{"copasi_reaction_qHash_get",_wrap_copasi_reaction_qHash_get,0,0,2,0},
+{"new_copasi_reaction",_wrap_new_copasi_reaction,0,0,2,0},
+{"delete_copasi_reaction",_wrap_delete_copasi_reaction,0,0,2,0},
+{"copasi_compartment_CopasiCompartmentPtr_set",_wrap_copasi_compartment_CopasiCompartmentPtr_set,0,0,2,0},
+{"copasi_compartment_CopasiCompartmentPtr_get",_wrap_copasi_compartment_CopasiCompartmentPtr_get,0,0,2,0},
+{"copasi_compartment_CopasiModelPtr_set",_wrap_copasi_compartment_CopasiModelPtr_set,0,0,2,0},
+{"copasi_compartment_CopasiModelPtr_get",_wrap_copasi_compartment_CopasiModelPtr_get,0,0,2,0},
+{"copasi_compartment_qHash_set",_wrap_copasi_compartment_qHash_set,0,0,2,0},
+{"copasi_compartment_qHash_get",_wrap_copasi_compartment_qHash_get,0,0,2,0},
+{"new_copasi_compartment",_wrap_new_copasi_compartment,0,0,2,0},
+{"delete_copasi_compartment",_wrap_delete_copasi_compartment,0,0,2,0},
+{"copasi_init",_wrap_copasi_init,0,0,2,0},
+{"copasi_end",_wrap_copasi_end,0,0,2,0},
+{"compileCopasiModel",_wrap_compileCopasiModel,0,0,2,0},
+{"createCopasiModel",_wrap_createCopasiModel,0,0,2,0},
+{"loadModelFile",_wrap_loadModelFile,0,0,2,0},
+{"createCompartment",_wrap_createCompartment,0,0,2,0},
+{"setVolume",_wrap_setVolume,0,0,2,0},
+{"setValue",_wrap_setValue,0,0,2,0},
+{"createSpecies",_wrap_createSpecies,0,0,2,0},
+{"setBoundarySpecies",_wrap_setBoundarySpecies,0,0,2,0},
+{"setConcentration",_wrap_setConcentration,0,0,2,0},
+{"setAssignmentRule",_wrap_setAssignmentRule,0,0,2,0},
+{"setGlobalParameter",_wrap_setGlobalParameter,0,0,2,0},
+{"createVariable",_wrap_createVariable,0,0,2,0},
+{"createEvent",_wrap_createEvent,0,0,2,0},
+{"createReaction",_wrap_createReaction,0,0,2,0},
+{"addReactant",_wrap_addReactant,0,0,2,0},
+{"addProduct",_wrap_addProduct,0,0,2,0},
+{"setReactionRate",_wrap_setReactionRate,0,0,2,0},
+{"simulateDeterministic",_wrap_simulateDeterministic,0,0,2,0},
+{"simulateStochastic",_wrap_simulateStochastic,0,0,2,0},
+{"simulateHybrid",_wrap_simulateHybrid,0,0,2,0},
+{"simulateTauLeap",_wrap_simulateTauLeap,0,0,2,0},
+{"getSteadyState",_wrap_getSteadyState,0,0,2,0},
+{"getJacobian",_wrap_getJacobian,0,0,2,0},
+{"getEigenvalues",_wrap_getEigenvalues,0,0,2,0},
+{"getUnscaledElasticities",_wrap_getUnscaledElasticities,0,0,2,0},
+{"getUnscaledConcentrationCC",_wrap_getUnscaledConcentrationCC,0,0,2,0},
+{"getUnscaledFluxCC",_wrap_getUnscaledFluxCC,0,0,2,0},
+{"getScaledElasticities",_wrap_getScaledElasticities,0,0,2,0},
+{"getScaledConcentrationCC",_wrap_getScaledConcentrationCC,0,0,2,0},
+{"getScaledFluxCC",_wrap_getScaledFluxCC,0,0,2,0},
 {0,0,0,0,0}
 };
 
 /* -------- TYPE CONVERSION AND EQUIVALENCE RULES (BEGIN) -------- */
 
 static swig_type_info _swigt__p_char = {"_p_char", "char *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_copasi_compartment = {"_p_copasi_compartment", "copasi_compartment *", 0, 0, (void*)&_wrap_class_copasi_compartment, 0};
+static swig_type_info _swigt__p_copasi_model = {"_p_copasi_model", "copasi_model *", 0, 0, (void*)&_wrap_class_copasi_model, 0};
+static swig_type_info _swigt__p_copasi_reaction = {"_p_copasi_reaction", "copasi_reaction *", 0, 0, (void*)&_wrap_class_copasi_reaction, 0};
 static swig_type_info _swigt__p_double = {"_p_double", "double *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f___copasi_model = {"_p_f___copasi_model", "copasi_model (*)()", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f___int = {"_p_f___int", "int (*)()", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f___p_char = {"_p_f___p_char", "char *(*)()", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f___tc_items = {"_p_f___tc_items", "tc_items (*)()", 0, 0, (void*)0, 0};
@@ -10867,10 +13056,15 @@ static swig_type_info _swigt__p_tc_items = {"_p_tc_items", "tc_items *", 0, 0, (
 static swig_type_info _swigt__p_tc_matrix = {"_p_tc_matrix", "tc_matrix *", 0, 0, (void*)&_wrap_class_tc_matrix, 0};
 static swig_type_info _swigt__p_tc_strings = {"_p_tc_strings", "tc_strings *", 0, 0, (void*)&_wrap_class_tc_strings, 0};
 static swig_type_info _swigt__p_tc_table = {"_p_tc_table", "tc_table *", 0, 0, (void*)&_wrap_class_tc_table, 0};
+static swig_type_info _swigt__p_void = {"_p_void", "void *", 0, 0, (void*)0, 0};
 
 static swig_type_info *swig_type_initial[] = {
   &_swigt__p_char,
+  &_swigt__p_copasi_compartment,
+  &_swigt__p_copasi_model,
+  &_swigt__p_copasi_reaction,
   &_swigt__p_double,
+  &_swigt__p_f___copasi_model,
   &_swigt__p_f___int,
   &_swigt__p_f___p_char,
   &_swigt__p_f___tc_items,
@@ -10948,10 +13142,15 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_tc_matrix,
   &_swigt__p_tc_strings,
   &_swigt__p_tc_table,
+  &_swigt__p_void,
 };
 
 static swig_cast_info _swigc__p_char[] = {  {&_swigt__p_char, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_copasi_compartment[] = {  {&_swigt__p_copasi_compartment, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_copasi_model[] = {  {&_swigt__p_copasi_model, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_copasi_reaction[] = {  {&_swigt__p_copasi_reaction, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_double[] = {  {&_swigt__p_double, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f___copasi_model[] = {  {&_swigt__p_f___copasi_model, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f___int[] = {  {&_swigt__p_f___int, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f___p_char[] = {  {&_swigt__p_f___p_char, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f___tc_items[] = {  {&_swigt__p_f___tc_items, 0, 0, 0},{0, 0, 0, 0}};
@@ -11029,10 +13228,15 @@ static swig_cast_info _swigc__p_tc_items[] = {  {&_swigt__p_tc_items, 0, 0, 0},{
 static swig_cast_info _swigc__p_tc_matrix[] = {  {&_swigt__p_tc_matrix, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_tc_strings[] = {  {&_swigt__p_tc_strings, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_tc_table[] = {  {&_swigt__p_tc_table, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_void[] = {  {&_swigt__p_void, 0, 0, 0},{0, 0, 0, 0}};
 
 static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_char,
+  _swigc__p_copasi_compartment,
+  _swigc__p_copasi_model,
+  _swigc__p_copasi_reaction,
   _swigc__p_double,
+  _swigc__p_f___copasi_model,
   _swigc__p_f___int,
   _swigc__p_f___p_char,
   _swigc__p_f___tc_items,
@@ -11110,6 +13314,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_tc_matrix,
   _swigc__p_tc_strings,
   _swigc__p_tc_table,
+  _swigc__p_void,
 };
 
 

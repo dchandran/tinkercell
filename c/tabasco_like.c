@@ -78,14 +78,14 @@ void run()
 	                 tc_setStoichiometry(flux , newN);
 	                 newN.colnames = rates;
 					 tc_setRates(flux,rates);
-	                 tc_deleteMatrix(&newN);
+	                 tc_deleteMatrix(newN);
 		        }
-		        tc_deleteItemsArray(&parts);
+		        tc_deleteItemsArray(parts);
 		    }
    	}
 
-  tc_deleteItemsArray(&A);
-  tc_deleteItemsArray(&flux);
+  tc_deleteItemsArray(A);
+  tc_deleteItemsArray(flux);
 
   return; 
 }

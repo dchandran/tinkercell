@@ -626,6 +626,39 @@ setClass('_p_f_long_tc_strings__void',
         contains = 'CRoutinePointer')
 
 ##
+setClass('_p_f___copasi_model',
+        prototype = list(parameterTypes = c(),
+                        returnType = '_p_f___copasi_model'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_copasi_model', contains = 'ExternalReference')
+setClass("copasi_model",
+    representation(
+),
+        contains = "RSWIGStruct")
+
+
+# End class copasi_model
+
+setClass('_p_copasi_reaction', contains = 'ExternalReference')
+setClass("copasi_reaction",
+    representation(
+),
+        contains = "RSWIGStruct")
+
+
+# End class copasi_reaction
+
+setClass('_p_copasi_compartment', contains = 'ExternalReference')
+setClass("copasi_compartment",
+    representation(
+),
+        contains = "RSWIGStruct")
+
+
+# End class copasi_compartment
+
 
 
 
@@ -1870,19 +1903,57 @@ attr(`tc_appendRows`, 'returnType') = '_p_tc_matrix'
 attr(`tc_appendRows`, "inputTypes") = c('_p_tc_matrix', '_p_tc_matrix')
 class(`tc_appendRows`) = c("SWIGFunction", class('tc_appendRows'))
 
-# Start of tc_printMatrix
+# Start of tc_printMatrixToFile
 
-`tc_printMatrix` = function(file, M)
+`tc_printMatrixToFile` = function(file, M)
 {
   file = as(file, "character") 
   
-  .Call('R_swig_tc_printMatrix', file, M, PACKAGE='tinkercell')
+  .Call('R_swig_tc_printMatrixToFile', file, M, PACKAGE='tinkercell')
   
 }
 
-attr(`tc_printMatrix`, 'returnType') = 'void'
-attr(`tc_printMatrix`, "inputTypes") = c('character', '_p_tc_matrix')
-class(`tc_printMatrix`) = c("SWIGFunction", class('tc_printMatrix'))
+attr(`tc_printMatrixToFile`, 'returnType') = 'void'
+attr(`tc_printMatrixToFile`, "inputTypes") = c('character', '_p_tc_matrix')
+class(`tc_printMatrixToFile`) = c("SWIGFunction", class('tc_printMatrixToFile'))
+
+# Start of tc_printOutMatrix
+
+`tc_printOutMatrix` = function(M)
+{
+  .Call('R_swig_tc_printOutMatrix', M, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_printOutMatrix`, 'returnType') = 'void'
+attr(`tc_printOutMatrix`, "inputTypes") = c('_p_tc_matrix')
+class(`tc_printOutMatrix`) = c("SWIGFunction", class('tc_printOutMatrix'))
+
+# Start of tc_printTableToFile
+
+`tc_printTableToFile` = function(file, M)
+{
+  file = as(file, "character") 
+  
+  .Call('R_swig_tc_printTableToFile', file, M, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_printTableToFile`, 'returnType') = 'void'
+attr(`tc_printTableToFile`, "inputTypes") = c('character', '_p_tc_table')
+class(`tc_printTableToFile`) = c("SWIGFunction", class('tc_printTableToFile'))
+
+# Start of tc_printOutTable
+
+`tc_printOutTable` = function(M)
+{
+  .Call('R_swig_tc_printOutTable', M, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_printOutTable`, 'returnType') = 'void'
+attr(`tc_printOutTable`, "inputTypes") = c('_p_tc_table')
+class(`tc_printOutTable`) = c("SWIGFunction", class('tc_printOutTable'))
 
 # Start of tc_allItems
 
@@ -2150,17 +2221,17 @@ attr(`tc_errorReport`, 'returnType') = 'void'
 attr(`tc_errorReport`, "inputTypes") = c('character')
 class(`tc_errorReport`) = c("SWIGFunction", class('tc_errorReport'))
 
-# Start of tc_printTable
+# Start of tc_printMatrix
 
-`tc_printTable` = function(data)
+`tc_printMatrix` = function(data)
 {
-  .Call('R_swig_tc_printTable', data, PACKAGE='tinkercell')
+  .Call('R_swig_tc_printMatrix', data, PACKAGE='tinkercell')
   
 }
 
-attr(`tc_printTable`, 'returnType') = 'void'
-attr(`tc_printTable`, "inputTypes") = c('_p_tc_matrix')
-class(`tc_printTable`) = c("SWIGFunction", class('tc_printTable'))
+attr(`tc_printMatrix`, 'returnType') = 'void'
+attr(`tc_printMatrix`, "inputTypes") = c('_p_tc_matrix')
+class(`tc_printMatrix`) = c("SWIGFunction", class('tc_printMatrix'))
 
 # Start of tc_printFile
 
@@ -6157,5 +6228,1064 @@ class(`tc_importSBML`) = c("SWIGFunction", class('tc_importSBML'))
 attr(`tc_SBML_api`, 'returnType') = 'void'
 attr(`tc_SBML_api`, "inputTypes") = c('_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void')
 class(`tc_SBML_api`) = c("SWIGFunction", class('tc_SBML_api'))
+
+# Start of tc_CopasiModel
+
+`tc_CopasiModel` = function(.copy = FALSE)
+{
+  ans = .Call('R_swig_tc_CopasiModel', as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_copasi_model"
+  
+  ans
+  
+}
+
+attr(`tc_CopasiModel`, 'returnType') = '_p_copasi_model'
+class(`tc_CopasiModel`) = c("SWIGFunction", class('tc_CopasiModel'))
+
+# Start of tc_COPASI_api
+
+`tc_COPASI_api` = function(getCopasiModel)
+{
+  if(is.function(getCopasiModel)) {
+    assert('...' %in% names(formals(getCopasiModel)) || length(formals(getCopasiModel)) >= 0)
+  } else {
+    if(is.character(getCopasiModel)) {
+      getCopasiModel = getNativeSymbolInfo(getCopasiModel)
+    }
+    if(is(getCopasiModel, "NativeSymbolInfo")) {
+      getCopasiModel = getCopasiModel$address
+    }
+  }
+  .Call('R_swig_tc_COPASI_api', getCopasiModel, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_COPASI_api`, 'returnType') = 'void'
+attr(`tc_COPASI_api`, "inputTypes") = c('_p_f___copasi_model')
+class(`tc_COPASI_api`) = c("SWIGFunction", class('tc_COPASI_api'))
+
+# Start of copasi_model_CopasiModelPtr_set
+
+`copasi_model_CopasiModelPtr_set` = function(self, s_CopasiModelPtr)
+{
+  .Call('R_swig_copasi_model_CopasiModelPtr_set', self, s_CopasiModelPtr, PACKAGE='tinkercell')
+  
+}
+
+attr(`copasi_model_CopasiModelPtr_set`, 'returnType') = 'void'
+attr(`copasi_model_CopasiModelPtr_set`, "inputTypes") = c('_p_copasi_model', '_p_void')
+class(`copasi_model_CopasiModelPtr_set`) = c("SWIGFunction", class('copasi_model_CopasiModelPtr_set'))
+
+# Start of copasi_model_CopasiModelPtr_get
+
+`copasi_model_CopasiModelPtr_get` = function(self)
+{
+  ans = .Call('R_swig_copasi_model_CopasiModelPtr_get', self, PACKAGE='tinkercell')
+  class(ans) <- "_p_void"
+  
+  ans
+  
+}
+
+attr(`copasi_model_CopasiModelPtr_get`, 'returnType') = '_p_void'
+attr(`copasi_model_CopasiModelPtr_get`, "inputTypes") = c('_p_copasi_model')
+class(`copasi_model_CopasiModelPtr_get`) = c("SWIGFunction", class('copasi_model_CopasiModelPtr_get'))
+
+# Start of copasi_model_CopasiDataModelPtr_set
+
+`copasi_model_CopasiDataModelPtr_set` = function(self, s_CopasiDataModelPtr)
+{
+  .Call('R_swig_copasi_model_CopasiDataModelPtr_set', self, s_CopasiDataModelPtr, PACKAGE='tinkercell')
+  
+}
+
+attr(`copasi_model_CopasiDataModelPtr_set`, 'returnType') = 'void'
+attr(`copasi_model_CopasiDataModelPtr_set`, "inputTypes") = c('_p_copasi_model', '_p_void')
+class(`copasi_model_CopasiDataModelPtr_set`) = c("SWIGFunction", class('copasi_model_CopasiDataModelPtr_set'))
+
+# Start of copasi_model_CopasiDataModelPtr_get
+
+`copasi_model_CopasiDataModelPtr_get` = function(self)
+{
+  ans = .Call('R_swig_copasi_model_CopasiDataModelPtr_get', self, PACKAGE='tinkercell')
+  class(ans) <- "_p_void"
+  
+  ans
+  
+}
+
+attr(`copasi_model_CopasiDataModelPtr_get`, 'returnType') = '_p_void'
+attr(`copasi_model_CopasiDataModelPtr_get`, "inputTypes") = c('_p_copasi_model')
+class(`copasi_model_CopasiDataModelPtr_get`) = c("SWIGFunction", class('copasi_model_CopasiDataModelPtr_get'))
+
+# Start of copasi_model_qHash_set
+
+`copasi_model_qHash_set` = function(self, s_qHash)
+{
+  .Call('R_swig_copasi_model_qHash_set', self, s_qHash, PACKAGE='tinkercell')
+  
+}
+
+attr(`copasi_model_qHash_set`, 'returnType') = 'void'
+attr(`copasi_model_qHash_set`, "inputTypes") = c('_p_copasi_model', '_p_void')
+class(`copasi_model_qHash_set`) = c("SWIGFunction", class('copasi_model_qHash_set'))
+
+# Start of copasi_model_qHash_get
+
+`copasi_model_qHash_get` = function(self)
+{
+  ans = .Call('R_swig_copasi_model_qHash_get', self, PACKAGE='tinkercell')
+  class(ans) <- "_p_void"
+  
+  ans
+  
+}
+
+attr(`copasi_model_qHash_get`, 'returnType') = '_p_void'
+attr(`copasi_model_qHash_get`, "inputTypes") = c('_p_copasi_model')
+class(`copasi_model_qHash_get`) = c("SWIGFunction", class('copasi_model_qHash_get'))
+
+# Start of new_copasi_model
+
+`copasi_model` = function()
+{
+  ans = .Call('R_swig_new_copasi_model', PACKAGE='tinkercell')
+  class(ans) <- "_p_copasi_model"
+  
+  ans
+  
+}
+
+attr(`copasi_model`, 'returnType') = '_p_copasi_model'
+class(`copasi_model`) = c("SWIGFunction", class('copasi_model'))
+
+# Start of delete_copasi_model
+
+`delete_copasi_model` = function(self)
+{
+  .Call('R_swig_delete_copasi_model', self, PACKAGE='tinkercell')
+  
+}
+
+attr(`delete_copasi_model`, 'returnType') = 'void'
+attr(`delete_copasi_model`, "inputTypes") = c('_p_copasi_model')
+class(`delete_copasi_model`) = c("SWIGFunction", class('delete_copasi_model'))
+
+# Start of accessor method for copasi_model
+setMethod('$', '_p_copasi_model', function(x, name)
+
+{
+  accessorFuns = list('CopasiModelPtr' = copasi_model_CopasiModelPtr_get, 'CopasiDataModelPtr' = copasi_model_CopasiDataModelPtr_get, 'qHash' = copasi_model_qHash_get)
+  vaccessors = c('CopasiModelPtr', 'CopasiDataModelPtr', 'qHash')
+  idx = pmatch(name, names(accessorFuns))
+  if(is.na(idx)) 
+  return(callNextMethod(x, name))
+  f = accessorFuns[[idx]]
+  formals(f)[[1]] = x
+  if (is.na(match(name, vaccessors))) f else f(x)
+}
+
+
+)
+# end of accessor method for copasi_model
+# Start of accessor method for copasi_model
+setMethod('$<-', '_p_copasi_model', function(x, name, value)
+
+{
+  accessorFuns = list('CopasiModelPtr' = copasi_model_CopasiModelPtr_set, 'CopasiDataModelPtr' = copasi_model_CopasiDataModelPtr_set, 'qHash' = copasi_model_qHash_set)
+  idx = pmatch(name, names(accessorFuns))
+  if(is.na(idx)) 
+  return(callNextMethod(x, name, value))
+  f = accessorFuns[[idx]]
+  f(x, value)
+  x
+}
+
+
+)
+setMethod('[[<-', c('_p_copasi_model', 'character'),function(x, i, j, ..., value)
+
+{
+  name = i
+  accessorFuns = list('CopasiModelPtr' = copasi_model_CopasiModelPtr_set, 'CopasiDataModelPtr' = copasi_model_CopasiDataModelPtr_set, 'qHash' = copasi_model_qHash_set)
+  idx = pmatch(name, names(accessorFuns))
+  if(is.na(idx)) 
+  return(callNextMethod(x, name, value))
+  f = accessorFuns[[idx]]
+  f(x, value)
+  x
+}
+
+
+)
+# end of accessor method for copasi_model
+setMethod('delete', '_p_copasi_model', function(obj) {delete_copasi_model(obj)})
+# Start definition of copy functions & methods for copasi_model
+CopyToR_copasi_model = function(value, obj = new("copasi_model"))
+{
+  obj
+}
+
+
+
+CopyToC_copasi_model = function(value, obj)
+{
+  obj
+}
+
+
+
+# Start definition of copy methods for copasi_model
+setMethod('copyToR', '_p_copasi_model', CopyToR_copasi_model)
+setMethod('copyToC', 'copasi_model', CopyToC_copasi_model)
+
+# End definition of copy methods for copasi_model
+# End definition of copy functions & methods for copasi_model
+# Start of copasi_reaction_CopasiReactionPtr_set
+
+`copasi_reaction_CopasiReactionPtr_set` = function(self, s_CopasiReactionPtr)
+{
+  .Call('R_swig_copasi_reaction_CopasiReactionPtr_set', self, s_CopasiReactionPtr, PACKAGE='tinkercell')
+  
+}
+
+attr(`copasi_reaction_CopasiReactionPtr_set`, 'returnType') = 'void'
+attr(`copasi_reaction_CopasiReactionPtr_set`, "inputTypes") = c('_p_copasi_reaction', '_p_void')
+class(`copasi_reaction_CopasiReactionPtr_set`) = c("SWIGFunction", class('copasi_reaction_CopasiReactionPtr_set'))
+
+# Start of copasi_reaction_CopasiReactionPtr_get
+
+`copasi_reaction_CopasiReactionPtr_get` = function(self)
+{
+  ans = .Call('R_swig_copasi_reaction_CopasiReactionPtr_get', self, PACKAGE='tinkercell')
+  class(ans) <- "_p_void"
+  
+  ans
+  
+}
+
+attr(`copasi_reaction_CopasiReactionPtr_get`, 'returnType') = '_p_void'
+attr(`copasi_reaction_CopasiReactionPtr_get`, "inputTypes") = c('_p_copasi_reaction')
+class(`copasi_reaction_CopasiReactionPtr_get`) = c("SWIGFunction", class('copasi_reaction_CopasiReactionPtr_get'))
+
+# Start of copasi_reaction_CopasiModelPtr_set
+
+`copasi_reaction_CopasiModelPtr_set` = function(self, s_CopasiModelPtr)
+{
+  .Call('R_swig_copasi_reaction_CopasiModelPtr_set', self, s_CopasiModelPtr, PACKAGE='tinkercell')
+  
+}
+
+attr(`copasi_reaction_CopasiModelPtr_set`, 'returnType') = 'void'
+attr(`copasi_reaction_CopasiModelPtr_set`, "inputTypes") = c('_p_copasi_reaction', '_p_void')
+class(`copasi_reaction_CopasiModelPtr_set`) = c("SWIGFunction", class('copasi_reaction_CopasiModelPtr_set'))
+
+# Start of copasi_reaction_CopasiModelPtr_get
+
+`copasi_reaction_CopasiModelPtr_get` = function(self)
+{
+  ans = .Call('R_swig_copasi_reaction_CopasiModelPtr_get', self, PACKAGE='tinkercell')
+  class(ans) <- "_p_void"
+  
+  ans
+  
+}
+
+attr(`copasi_reaction_CopasiModelPtr_get`, 'returnType') = '_p_void'
+attr(`copasi_reaction_CopasiModelPtr_get`, "inputTypes") = c('_p_copasi_reaction')
+class(`copasi_reaction_CopasiModelPtr_get`) = c("SWIGFunction", class('copasi_reaction_CopasiModelPtr_get'))
+
+# Start of copasi_reaction_qHash_set
+
+`copasi_reaction_qHash_set` = function(self, s_qHash)
+{
+  .Call('R_swig_copasi_reaction_qHash_set', self, s_qHash, PACKAGE='tinkercell')
+  
+}
+
+attr(`copasi_reaction_qHash_set`, 'returnType') = 'void'
+attr(`copasi_reaction_qHash_set`, "inputTypes") = c('_p_copasi_reaction', '_p_void')
+class(`copasi_reaction_qHash_set`) = c("SWIGFunction", class('copasi_reaction_qHash_set'))
+
+# Start of copasi_reaction_qHash_get
+
+`copasi_reaction_qHash_get` = function(self)
+{
+  ans = .Call('R_swig_copasi_reaction_qHash_get', self, PACKAGE='tinkercell')
+  class(ans) <- "_p_void"
+  
+  ans
+  
+}
+
+attr(`copasi_reaction_qHash_get`, 'returnType') = '_p_void'
+attr(`copasi_reaction_qHash_get`, "inputTypes") = c('_p_copasi_reaction')
+class(`copasi_reaction_qHash_get`) = c("SWIGFunction", class('copasi_reaction_qHash_get'))
+
+# Start of new_copasi_reaction
+
+`copasi_reaction` = function()
+{
+  ans = .Call('R_swig_new_copasi_reaction', PACKAGE='tinkercell')
+  class(ans) <- "_p_copasi_reaction"
+  
+  ans
+  
+}
+
+attr(`copasi_reaction`, 'returnType') = '_p_copasi_reaction'
+class(`copasi_reaction`) = c("SWIGFunction", class('copasi_reaction'))
+
+# Start of delete_copasi_reaction
+
+`delete_copasi_reaction` = function(self)
+{
+  .Call('R_swig_delete_copasi_reaction', self, PACKAGE='tinkercell')
+  
+}
+
+attr(`delete_copasi_reaction`, 'returnType') = 'void'
+attr(`delete_copasi_reaction`, "inputTypes") = c('_p_copasi_reaction')
+class(`delete_copasi_reaction`) = c("SWIGFunction", class('delete_copasi_reaction'))
+
+# Start of accessor method for copasi_reaction
+setMethod('$', '_p_copasi_reaction', function(x, name)
+
+{
+  accessorFuns = list('CopasiReactionPtr' = copasi_reaction_CopasiReactionPtr_get, 'CopasiModelPtr' = copasi_reaction_CopasiModelPtr_get, 'qHash' = copasi_reaction_qHash_get)
+  vaccessors = c('CopasiReactionPtr', 'CopasiModelPtr', 'qHash')
+  idx = pmatch(name, names(accessorFuns))
+  if(is.na(idx)) 
+  return(callNextMethod(x, name))
+  f = accessorFuns[[idx]]
+  formals(f)[[1]] = x
+  if (is.na(match(name, vaccessors))) f else f(x)
+}
+
+
+)
+# end of accessor method for copasi_reaction
+# Start of accessor method for copasi_reaction
+setMethod('$<-', '_p_copasi_reaction', function(x, name, value)
+
+{
+  accessorFuns = list('CopasiReactionPtr' = copasi_reaction_CopasiReactionPtr_set, 'CopasiModelPtr' = copasi_reaction_CopasiModelPtr_set, 'qHash' = copasi_reaction_qHash_set)
+  idx = pmatch(name, names(accessorFuns))
+  if(is.na(idx)) 
+  return(callNextMethod(x, name, value))
+  f = accessorFuns[[idx]]
+  f(x, value)
+  x
+}
+
+
+)
+setMethod('[[<-', c('_p_copasi_reaction', 'character'),function(x, i, j, ..., value)
+
+{
+  name = i
+  accessorFuns = list('CopasiReactionPtr' = copasi_reaction_CopasiReactionPtr_set, 'CopasiModelPtr' = copasi_reaction_CopasiModelPtr_set, 'qHash' = copasi_reaction_qHash_set)
+  idx = pmatch(name, names(accessorFuns))
+  if(is.na(idx)) 
+  return(callNextMethod(x, name, value))
+  f = accessorFuns[[idx]]
+  f(x, value)
+  x
+}
+
+
+)
+# end of accessor method for copasi_reaction
+setMethod('delete', '_p_copasi_reaction', function(obj) {delete_copasi_reaction(obj)})
+# Start definition of copy functions & methods for copasi_reaction
+CopyToR_copasi_reaction = function(value, obj = new("copasi_reaction"))
+{
+  obj
+}
+
+
+
+CopyToC_copasi_reaction = function(value, obj)
+{
+  obj
+}
+
+
+
+# Start definition of copy methods for copasi_reaction
+setMethod('copyToR', '_p_copasi_reaction', CopyToR_copasi_reaction)
+setMethod('copyToC', 'copasi_reaction', CopyToC_copasi_reaction)
+
+# End definition of copy methods for copasi_reaction
+# End definition of copy functions & methods for copasi_reaction
+# Start of copasi_compartment_CopasiCompartmentPtr_set
+
+`copasi_compartment_CopasiCompartmentPtr_set` = function(self, s_CopasiCompartmentPtr)
+{
+  .Call('R_swig_copasi_compartment_CopasiCompartmentPtr_set', self, s_CopasiCompartmentPtr, PACKAGE='tinkercell')
+  
+}
+
+attr(`copasi_compartment_CopasiCompartmentPtr_set`, 'returnType') = 'void'
+attr(`copasi_compartment_CopasiCompartmentPtr_set`, "inputTypes") = c('_p_copasi_compartment', '_p_void')
+class(`copasi_compartment_CopasiCompartmentPtr_set`) = c("SWIGFunction", class('copasi_compartment_CopasiCompartmentPtr_set'))
+
+# Start of copasi_compartment_CopasiCompartmentPtr_get
+
+`copasi_compartment_CopasiCompartmentPtr_get` = function(self)
+{
+  ans = .Call('R_swig_copasi_compartment_CopasiCompartmentPtr_get', self, PACKAGE='tinkercell')
+  class(ans) <- "_p_void"
+  
+  ans
+  
+}
+
+attr(`copasi_compartment_CopasiCompartmentPtr_get`, 'returnType') = '_p_void'
+attr(`copasi_compartment_CopasiCompartmentPtr_get`, "inputTypes") = c('_p_copasi_compartment')
+class(`copasi_compartment_CopasiCompartmentPtr_get`) = c("SWIGFunction", class('copasi_compartment_CopasiCompartmentPtr_get'))
+
+# Start of copasi_compartment_CopasiModelPtr_set
+
+`copasi_compartment_CopasiModelPtr_set` = function(self, s_CopasiModelPtr)
+{
+  .Call('R_swig_copasi_compartment_CopasiModelPtr_set', self, s_CopasiModelPtr, PACKAGE='tinkercell')
+  
+}
+
+attr(`copasi_compartment_CopasiModelPtr_set`, 'returnType') = 'void'
+attr(`copasi_compartment_CopasiModelPtr_set`, "inputTypes") = c('_p_copasi_compartment', '_p_void')
+class(`copasi_compartment_CopasiModelPtr_set`) = c("SWIGFunction", class('copasi_compartment_CopasiModelPtr_set'))
+
+# Start of copasi_compartment_CopasiModelPtr_get
+
+`copasi_compartment_CopasiModelPtr_get` = function(self)
+{
+  ans = .Call('R_swig_copasi_compartment_CopasiModelPtr_get', self, PACKAGE='tinkercell')
+  class(ans) <- "_p_void"
+  
+  ans
+  
+}
+
+attr(`copasi_compartment_CopasiModelPtr_get`, 'returnType') = '_p_void'
+attr(`copasi_compartment_CopasiModelPtr_get`, "inputTypes") = c('_p_copasi_compartment')
+class(`copasi_compartment_CopasiModelPtr_get`) = c("SWIGFunction", class('copasi_compartment_CopasiModelPtr_get'))
+
+# Start of copasi_compartment_qHash_set
+
+`copasi_compartment_qHash_set` = function(self, s_qHash)
+{
+  .Call('R_swig_copasi_compartment_qHash_set', self, s_qHash, PACKAGE='tinkercell')
+  
+}
+
+attr(`copasi_compartment_qHash_set`, 'returnType') = 'void'
+attr(`copasi_compartment_qHash_set`, "inputTypes") = c('_p_copasi_compartment', '_p_void')
+class(`copasi_compartment_qHash_set`) = c("SWIGFunction", class('copasi_compartment_qHash_set'))
+
+# Start of copasi_compartment_qHash_get
+
+`copasi_compartment_qHash_get` = function(self)
+{
+  ans = .Call('R_swig_copasi_compartment_qHash_get', self, PACKAGE='tinkercell')
+  class(ans) <- "_p_void"
+  
+  ans
+  
+}
+
+attr(`copasi_compartment_qHash_get`, 'returnType') = '_p_void'
+attr(`copasi_compartment_qHash_get`, "inputTypes") = c('_p_copasi_compartment')
+class(`copasi_compartment_qHash_get`) = c("SWIGFunction", class('copasi_compartment_qHash_get'))
+
+# Start of new_copasi_compartment
+
+`copasi_compartment` = function()
+{
+  ans = .Call('R_swig_new_copasi_compartment', PACKAGE='tinkercell')
+  class(ans) <- "_p_copasi_compartment"
+  
+  ans
+  
+}
+
+attr(`copasi_compartment`, 'returnType') = '_p_copasi_compartment'
+class(`copasi_compartment`) = c("SWIGFunction", class('copasi_compartment'))
+
+# Start of delete_copasi_compartment
+
+`delete_copasi_compartment` = function(self)
+{
+  .Call('R_swig_delete_copasi_compartment', self, PACKAGE='tinkercell')
+  
+}
+
+attr(`delete_copasi_compartment`, 'returnType') = 'void'
+attr(`delete_copasi_compartment`, "inputTypes") = c('_p_copasi_compartment')
+class(`delete_copasi_compartment`) = c("SWIGFunction", class('delete_copasi_compartment'))
+
+# Start of accessor method for copasi_compartment
+setMethod('$', '_p_copasi_compartment', function(x, name)
+
+{
+  accessorFuns = list('CopasiCompartmentPtr' = copasi_compartment_CopasiCompartmentPtr_get, 'CopasiModelPtr' = copasi_compartment_CopasiModelPtr_get, 'qHash' = copasi_compartment_qHash_get)
+  vaccessors = c('CopasiCompartmentPtr', 'CopasiModelPtr', 'qHash')
+  idx = pmatch(name, names(accessorFuns))
+  if(is.na(idx)) 
+  return(callNextMethod(x, name))
+  f = accessorFuns[[idx]]
+  formals(f)[[1]] = x
+  if (is.na(match(name, vaccessors))) f else f(x)
+}
+
+
+)
+# end of accessor method for copasi_compartment
+# Start of accessor method for copasi_compartment
+setMethod('$<-', '_p_copasi_compartment', function(x, name, value)
+
+{
+  accessorFuns = list('CopasiCompartmentPtr' = copasi_compartment_CopasiCompartmentPtr_set, 'CopasiModelPtr' = copasi_compartment_CopasiModelPtr_set, 'qHash' = copasi_compartment_qHash_set)
+  idx = pmatch(name, names(accessorFuns))
+  if(is.na(idx)) 
+  return(callNextMethod(x, name, value))
+  f = accessorFuns[[idx]]
+  f(x, value)
+  x
+}
+
+
+)
+setMethod('[[<-', c('_p_copasi_compartment', 'character'),function(x, i, j, ..., value)
+
+{
+  name = i
+  accessorFuns = list('CopasiCompartmentPtr' = copasi_compartment_CopasiCompartmentPtr_set, 'CopasiModelPtr' = copasi_compartment_CopasiModelPtr_set, 'qHash' = copasi_compartment_qHash_set)
+  idx = pmatch(name, names(accessorFuns))
+  if(is.na(idx)) 
+  return(callNextMethod(x, name, value))
+  f = accessorFuns[[idx]]
+  f(x, value)
+  x
+}
+
+
+)
+# end of accessor method for copasi_compartment
+setMethod('delete', '_p_copasi_compartment', function(obj) {delete_copasi_compartment(obj)})
+# Start definition of copy functions & methods for copasi_compartment
+CopyToR_copasi_compartment = function(value, obj = new("copasi_compartment"))
+{
+  obj
+}
+
+
+
+CopyToC_copasi_compartment = function(value, obj)
+{
+  obj
+}
+
+
+
+# Start definition of copy methods for copasi_compartment
+setMethod('copyToR', '_p_copasi_compartment', CopyToR_copasi_compartment)
+setMethod('copyToC', 'copasi_compartment', CopyToC_copasi_compartment)
+
+# End definition of copy methods for copasi_compartment
+# End definition of copy functions & methods for copasi_compartment
+# Start of copasi_init
+
+`copasi_init` = function()
+{
+  .Call('R_swig_copasi_init', PACKAGE='tinkercell')
+  
+}
+
+attr(`copasi_init`, 'returnType') = 'void'
+class(`copasi_init`) = c("SWIGFunction", class('copasi_init'))
+
+# Start of copasi_end
+
+`copasi_end` = function()
+{
+  .Call('R_swig_copasi_end', PACKAGE='tinkercell')
+  
+}
+
+attr(`copasi_end`, 'returnType') = 'void'
+class(`copasi_end`) = c("SWIGFunction", class('copasi_end'))
+
+# Start of compileCopasiModel
+
+`compileCopasiModel` = function(model)
+{
+  .Call('R_swig_compileCopasiModel', model, PACKAGE='tinkercell')
+  
+}
+
+attr(`compileCopasiModel`, 'returnType') = 'void'
+attr(`compileCopasiModel`, "inputTypes") = c('_p_copasi_model')
+class(`compileCopasiModel`) = c("SWIGFunction", class('compileCopasiModel'))
+
+# Start of createCopasiModel
+
+`createCopasiModel` = function(name, .copy = FALSE)
+{
+  name = as(name, "character") 
+  ans = .Call('R_swig_createCopasiModel', name, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_copasi_model"
+  
+  ans
+  
+}
+
+attr(`createCopasiModel`, 'returnType') = '_p_copasi_model'
+attr(`createCopasiModel`, "inputTypes") = c('character')
+class(`createCopasiModel`) = c("SWIGFunction", class('createCopasiModel'))
+
+# Start of loadModelFile
+
+`loadModelFile` = function(filename, .copy = FALSE)
+{
+  filename = as(filename, "character") 
+  ans = .Call('R_swig_loadModelFile', filename, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_copasi_model"
+  
+  ans
+  
+}
+
+attr(`loadModelFile`, 'returnType') = '_p_copasi_model'
+attr(`loadModelFile`, "inputTypes") = c('character')
+class(`loadModelFile`) = c("SWIGFunction", class('loadModelFile'))
+
+# Start of createCompartment
+
+`createCompartment` = function(model, name, volume, .copy = FALSE)
+{
+  name = as(name, "character") 
+  
+  ans = .Call('R_swig_createCompartment', model, name, volume, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_copasi_compartment"
+  
+  ans
+  
+}
+
+attr(`createCompartment`, 'returnType') = '_p_copasi_compartment'
+attr(`createCompartment`, "inputTypes") = c('_p_copasi_model', 'character', 'numeric')
+class(`createCompartment`) = c("SWIGFunction", class('createCompartment'))
+
+# Start of setVolume
+
+`setVolume` = function(s_arg1, compartment, volume)
+{
+  compartment = as(compartment, "character") 
+  
+  .Call('R_swig_setVolume', s_arg1, compartment, volume, PACKAGE='tinkercell')
+  
+}
+
+attr(`setVolume`, 'returnType') = 'void'
+attr(`setVolume`, "inputTypes") = c('_p_copasi_model', 'character', 'numeric')
+class(`setVolume`) = c("SWIGFunction", class('setVolume'))
+
+# Start of setValue
+
+`setValue` = function(s_arg1, name, value, .copy = FALSE)
+{
+  name = as(name, "character") 
+  
+  .Call('R_swig_setValue', s_arg1, name, value, as.logical(.copy), PACKAGE='tinkercell')
+  
+}
+
+attr(`setValue`, 'returnType') = 'integer'
+attr(`setValue`, "inputTypes") = c('_p_copasi_model', 'character', 'numeric')
+class(`setValue`) = c("SWIGFunction", class('setValue'))
+
+# Start of createSpecies
+
+`createSpecies` = function(compartment, name, initialValue)
+{
+  name = as(name, "character") 
+  
+  .Call('R_swig_createSpecies', compartment, name, initialValue, PACKAGE='tinkercell')
+  
+}
+
+attr(`createSpecies`, 'returnType') = 'void'
+attr(`createSpecies`, "inputTypes") = c('_p_copasi_compartment', 'character', 'numeric')
+class(`createSpecies`) = c("SWIGFunction", class('createSpecies'))
+
+# Start of setBoundarySpecies
+
+`setBoundarySpecies` = function(model, species, isBoundary)
+{
+  species = as(species, "character") 
+  isBoundary = as.integer(isBoundary) 
+  
+  if(length(isBoundary) > 1) {
+    warning("using only the first element of isBoundary")
+  }
+  
+  .Call('R_swig_setBoundarySpecies', model, species, isBoundary, PACKAGE='tinkercell')
+  
+}
+
+attr(`setBoundarySpecies`, 'returnType') = 'void'
+attr(`setBoundarySpecies`, "inputTypes") = c('_p_copasi_model', 'character', 'integer')
+class(`setBoundarySpecies`) = c("SWIGFunction", class('setBoundarySpecies'))
+
+# Start of setConcentration
+
+`setConcentration` = function(s_arg1, species, value)
+{
+  species = as(species, "character") 
+  
+  .Call('R_swig_setConcentration', s_arg1, species, value, PACKAGE='tinkercell')
+  
+}
+
+attr(`setConcentration`, 'returnType') = 'void'
+attr(`setConcentration`, "inputTypes") = c('_p_copasi_model', 'character', 'numeric')
+class(`setConcentration`) = c("SWIGFunction", class('setConcentration'))
+
+# Start of setAssignmentRule
+
+`setAssignmentRule` = function(model, species, formula, .copy = FALSE)
+{
+  species = as(species, "character") 
+  formula = as(formula, "character") 
+  .Call('R_swig_setAssignmentRule', model, species, formula, as.logical(.copy), PACKAGE='tinkercell')
+  
+}
+
+attr(`setAssignmentRule`, 'returnType') = 'integer'
+attr(`setAssignmentRule`, "inputTypes") = c('_p_copasi_model', 'character', 'character')
+class(`setAssignmentRule`) = c("SWIGFunction", class('setAssignmentRule'))
+
+# Start of setGlobalParameter
+
+`setGlobalParameter` = function(model, name, value, .copy = FALSE)
+{
+  name = as(name, "character") 
+  
+  .Call('R_swig_setGlobalParameter', model, name, value, as.logical(.copy), PACKAGE='tinkercell')
+  
+}
+
+attr(`setGlobalParameter`, 'returnType') = 'integer'
+attr(`setGlobalParameter`, "inputTypes") = c('_p_copasi_model', 'character', 'numeric')
+class(`setGlobalParameter`) = c("SWIGFunction", class('setGlobalParameter'))
+
+# Start of createVariable
+
+`createVariable` = function(model, name, formula, .copy = FALSE)
+{
+  name = as(name, "character") 
+  formula = as(formula, "character") 
+  .Call('R_swig_createVariable', model, name, formula, as.logical(.copy), PACKAGE='tinkercell')
+  
+}
+
+attr(`createVariable`, 'returnType') = 'integer'
+attr(`createVariable`, "inputTypes") = c('_p_copasi_model', 'character', 'character')
+class(`createVariable`) = c("SWIGFunction", class('createVariable'))
+
+# Start of createEvent
+
+`createEvent` = function(model, name, trigger, variable, formula, .copy = FALSE)
+{
+  name = as(name, "character") 
+  trigger = as(trigger, "character") 
+  variable = as(variable, "character") 
+  formula = as(formula, "character") 
+  .Call('R_swig_createEvent', model, name, trigger, variable, formula, as.logical(.copy), PACKAGE='tinkercell')
+  
+}
+
+attr(`createEvent`, 'returnType') = 'integer'
+attr(`createEvent`, "inputTypes") = c('_p_copasi_model', 'character', 'character', 'character', 'character')
+class(`createEvent`) = c("SWIGFunction", class('createEvent'))
+
+# Start of createReaction
+
+`createReaction` = function(model, name, .copy = FALSE)
+{
+  name = as(name, "character") 
+  ans = .Call('R_swig_createReaction', model, name, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_copasi_reaction"
+  
+  ans
+  
+}
+
+attr(`createReaction`, 'returnType') = '_p_copasi_reaction'
+attr(`createReaction`, "inputTypes") = c('_p_copasi_model', 'character')
+class(`createReaction`) = c("SWIGFunction", class('createReaction'))
+
+# Start of addReactant
+
+`addReactant` = function(reaction, species, stoichiometry)
+{
+  species = as(species, "character") 
+  
+  .Call('R_swig_addReactant', reaction, species, stoichiometry, PACKAGE='tinkercell')
+  
+}
+
+attr(`addReactant`, 'returnType') = 'void'
+attr(`addReactant`, "inputTypes") = c('_p_copasi_reaction', 'character', 'numeric')
+class(`addReactant`) = c("SWIGFunction", class('addReactant'))
+
+# Start of addProduct
+
+`addProduct` = function(reaction, species, stoichiometry)
+{
+  species = as(species, "character") 
+  
+  .Call('R_swig_addProduct', reaction, species, stoichiometry, PACKAGE='tinkercell')
+  
+}
+
+attr(`addProduct`, 'returnType') = 'void'
+attr(`addProduct`, "inputTypes") = c('_p_copasi_reaction', 'character', 'numeric')
+class(`addProduct`) = c("SWIGFunction", class('addProduct'))
+
+# Start of setReactionRate
+
+`setReactionRate` = function(reaction, formula, .copy = FALSE)
+{
+  formula = as(formula, "character") 
+  .Call('R_swig_setReactionRate', reaction, formula, as.logical(.copy), PACKAGE='tinkercell')
+  
+}
+
+attr(`setReactionRate`, 'returnType') = 'integer'
+attr(`setReactionRate`, "inputTypes") = c('_p_copasi_reaction', 'character')
+class(`setReactionRate`) = c("SWIGFunction", class('setReactionRate'))
+
+# Start of simulateDeterministic
+
+`simulateDeterministic` = function(model, startTime, endTime, numSteps, .copy = FALSE)
+{
+  numSteps = as.integer(numSteps) 
+  
+  if(length(numSteps) > 1) {
+    warning("using only the first element of numSteps")
+  }
+  
+  ans = .Call('R_swig_simulateDeterministic', model, startTime, endTime, numSteps, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_tc_matrix"
+  
+  ans
+  
+}
+
+attr(`simulateDeterministic`, 'returnType') = '_p_tc_matrix'
+attr(`simulateDeterministic`, "inputTypes") = c('_p_copasi_model', 'numeric', 'numeric', 'integer')
+class(`simulateDeterministic`) = c("SWIGFunction", class('simulateDeterministic'))
+
+# Start of simulateStochastic
+
+`simulateStochastic` = function(model, startTime, endTime, numSteps, .copy = FALSE)
+{
+  numSteps = as.integer(numSteps) 
+  
+  if(length(numSteps) > 1) {
+    warning("using only the first element of numSteps")
+  }
+  
+  ans = .Call('R_swig_simulateStochastic', model, startTime, endTime, numSteps, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_tc_matrix"
+  
+  ans
+  
+}
+
+attr(`simulateStochastic`, 'returnType') = '_p_tc_matrix'
+attr(`simulateStochastic`, "inputTypes") = c('_p_copasi_model', 'numeric', 'numeric', 'integer')
+class(`simulateStochastic`) = c("SWIGFunction", class('simulateStochastic'))
+
+# Start of simulateHybrid
+
+`simulateHybrid` = function(model, startTime, endTime, numSteps, .copy = FALSE)
+{
+  numSteps = as.integer(numSteps) 
+  
+  if(length(numSteps) > 1) {
+    warning("using only the first element of numSteps")
+  }
+  
+  ans = .Call('R_swig_simulateHybrid', model, startTime, endTime, numSteps, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_tc_matrix"
+  
+  ans
+  
+}
+
+attr(`simulateHybrid`, 'returnType') = '_p_tc_matrix'
+attr(`simulateHybrid`, "inputTypes") = c('_p_copasi_model', 'numeric', 'numeric', 'integer')
+class(`simulateHybrid`) = c("SWIGFunction", class('simulateHybrid'))
+
+# Start of simulateTauLeap
+
+`simulateTauLeap` = function(model, startTime, endTime, numSteps, .copy = FALSE)
+{
+  numSteps = as.integer(numSteps) 
+  
+  if(length(numSteps) > 1) {
+    warning("using only the first element of numSteps")
+  }
+  
+  ans = .Call('R_swig_simulateTauLeap', model, startTime, endTime, numSteps, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_tc_matrix"
+  
+  ans
+  
+}
+
+attr(`simulateTauLeap`, 'returnType') = '_p_tc_matrix'
+attr(`simulateTauLeap`, "inputTypes") = c('_p_copasi_model', 'numeric', 'numeric', 'integer')
+class(`simulateTauLeap`) = c("SWIGFunction", class('simulateTauLeap'))
+
+# Start of getSteadyState
+
+`getSteadyState` = function(model, .copy = FALSE)
+{
+  ans = .Call('R_swig_getSteadyState', model, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_tc_matrix"
+  
+  ans
+  
+}
+
+attr(`getSteadyState`, 'returnType') = '_p_tc_matrix'
+attr(`getSteadyState`, "inputTypes") = c('_p_copasi_model')
+class(`getSteadyState`) = c("SWIGFunction", class('getSteadyState'))
+
+# Start of getJacobian
+
+`getJacobian` = function(model, .copy = FALSE)
+{
+  ans = .Call('R_swig_getJacobian', model, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_tc_matrix"
+  
+  ans
+  
+}
+
+attr(`getJacobian`, 'returnType') = '_p_tc_matrix'
+attr(`getJacobian`, "inputTypes") = c('_p_copasi_model')
+class(`getJacobian`) = c("SWIGFunction", class('getJacobian'))
+
+# Start of getEigenvalues
+
+`getEigenvalues` = function(model, .copy = FALSE)
+{
+  ans = .Call('R_swig_getEigenvalues', model, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_tc_matrix"
+  
+  ans
+  
+}
+
+attr(`getEigenvalues`, 'returnType') = '_p_tc_matrix'
+attr(`getEigenvalues`, "inputTypes") = c('_p_copasi_model')
+class(`getEigenvalues`) = c("SWIGFunction", class('getEigenvalues'))
+
+# Start of getUnscaledElasticities
+
+`getUnscaledElasticities` = function(model, .copy = FALSE)
+{
+  ans = .Call('R_swig_getUnscaledElasticities', model, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_tc_matrix"
+  
+  ans
+  
+}
+
+attr(`getUnscaledElasticities`, 'returnType') = '_p_tc_matrix'
+attr(`getUnscaledElasticities`, "inputTypes") = c('_p_copasi_model')
+class(`getUnscaledElasticities`) = c("SWIGFunction", class('getUnscaledElasticities'))
+
+# Start of getUnscaledConcentrationCC
+
+`getUnscaledConcentrationCC` = function(model, .copy = FALSE)
+{
+  ans = .Call('R_swig_getUnscaledConcentrationCC', model, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_tc_matrix"
+  
+  ans
+  
+}
+
+attr(`getUnscaledConcentrationCC`, 'returnType') = '_p_tc_matrix'
+attr(`getUnscaledConcentrationCC`, "inputTypes") = c('_p_copasi_model')
+class(`getUnscaledConcentrationCC`) = c("SWIGFunction", class('getUnscaledConcentrationCC'))
+
+# Start of getUnscaledFluxCC
+
+`getUnscaledFluxCC` = function(model, .copy = FALSE)
+{
+  ans = .Call('R_swig_getUnscaledFluxCC', model, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_tc_matrix"
+  
+  ans
+  
+}
+
+attr(`getUnscaledFluxCC`, 'returnType') = '_p_tc_matrix'
+attr(`getUnscaledFluxCC`, "inputTypes") = c('_p_copasi_model')
+class(`getUnscaledFluxCC`) = c("SWIGFunction", class('getUnscaledFluxCC'))
+
+# Start of getScaledElasticities
+
+`getScaledElasticities` = function(model, .copy = FALSE)
+{
+  ans = .Call('R_swig_getScaledElasticities', model, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_tc_matrix"
+  
+  ans
+  
+}
+
+attr(`getScaledElasticities`, 'returnType') = '_p_tc_matrix'
+attr(`getScaledElasticities`, "inputTypes") = c('_p_copasi_model')
+class(`getScaledElasticities`) = c("SWIGFunction", class('getScaledElasticities'))
+
+# Start of getScaledConcentrationCC
+
+`getScaledConcentrationCC` = function(model, .copy = FALSE)
+{
+  ans = .Call('R_swig_getScaledConcentrationCC', model, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_tc_matrix"
+  
+  ans
+  
+}
+
+attr(`getScaledConcentrationCC`, 'returnType') = '_p_tc_matrix'
+attr(`getScaledConcentrationCC`, "inputTypes") = c('_p_copasi_model')
+class(`getScaledConcentrationCC`) = c("SWIGFunction", class('getScaledConcentrationCC'))
+
+# Start of getScaledFluxCC
+
+`getScaledFluxCC` = function(model, .copy = FALSE)
+{
+  ans = .Call('R_swig_getScaledFluxCC', model, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_tc_matrix"
+  
+  ans
+  
+}
+
+attr(`getScaledFluxCC`, 'returnType') = '_p_tc_matrix'
+attr(`getScaledFluxCC`, "inputTypes") = c('_p_copasi_model')
+class(`getScaledFluxCC`) = c("SWIGFunction", class('getScaledFluxCC'))
 
 

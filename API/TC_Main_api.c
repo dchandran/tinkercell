@@ -202,15 +202,15 @@ void tc_errorReport(const char* text)
 		_tc_errorReport(text);
 }
 
-void (*_tc_printTable)(tc_matrix data) = 0;
+void (*_tc_printMatrix)(tc_matrix data) = 0;
 /*! 
  \brief show table in the output window.
  \ingroup Input and Output
 */
-void tc_printTable(tc_matrix data)
+void tc_printMatrix(tc_matrix data)
 {
-	if (_tc_printTable)
-		_tc_printTable(data);
+	if (_tc_printMatrix)
+		_tc_printMatrix(data);
 }
 
 void (*_tc_printFile)(const char* filename) = 0;
@@ -938,7 +938,7 @@ void tc_Main_api_initialize(
 	_tc_clear = tc_clearText;
 	_tc_print = tc_outputText0;
 	_tc_errorReport = tc_errorReport0;
-	_tc_printTable = tc_outputTable0;
+	_tc_printMatrix = tc_outputTable0;
 	_tc_printFile = tc_printFile0;
 
 	_tc_remove = tc_removeItem0;

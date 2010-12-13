@@ -127,24 +127,49 @@ namespace Tinkercell
 		*/
 		virtual T& value (int i, int j=0) ;
 		
-		/*! \brief get the value using row and column names. can also be used to set the value. Slower than
-		using value(int,int)
+		/*! \brief get the value at the ith row and jth column. can also be used to set the value
+		\param int row number
+		\param int column number (defaults to 0)
+		\return T reference to value at ith row and jth column. returns value at 0 if i or j are not inside the table
+		*/
+		virtual T& operator() (int i, int j=0) ;
+		
+		/*! \brief get the value at the ith row and jth column. can also be used to set the value
+		\param int row number
+		\param int column number (defaults to 0)
+		\return T value at ith row and jth column. returns value at 0 if i or j are not inside the table
+		*/
+		virtual T operator() (int i, int j=0)  const;
+		
+		/*! \brief get the value using row and column names. can also be used to set the value. Fast lookup using hashtables.
 		\param QString row name
 		\param QString column name
 		\return T reference to value at given row and column. returns value at 0 if row and column are not in the table
 		*/
 		virtual T& value (const QString& r, const QString& c);
 		
-		/*! \brief get the value using row name. can also be used to set the value. Slower than
-		using value(int,int)
+		/*! \brief get the value using row and column names. can also be used to set the value. Fast lookup using hashtables.
+		\param QString row name
+		\param QString column name
+		\return T reference to value at given row and column. returns value at 0 if row and column are not in the table
+		*/
+		virtual T& operator() (const QString& r, const QString& c);
+		
+		/*! \brief get the value using row and column names. can also be used to set the value. Fast lookup using hashtables.
+		\param QString row name
+		\param QString column name
+		\return T value at given row and column. returns value at 0 if row and column are not in the table
+		*/
+		virtual T operator() (const QString& r, const QString& c) const;
+		
+		/*! \brief get the value using row name. can also be used to set the value. Fast lookup using hashtables.
 		\param QString row name
 		\param int column number (defaults to 0)
 		\return T reference to value at given row and column. returns value at 0 if row and column are not in the table
 		*/
 		virtual T& value (const QString& r, int j=0);
 		
-		/*! \brief get the value using column name. can also be used to set the value. Slower than
-		using value(int,int)
+		/*! \brief get the value using column name. can also be used to set the value. Fast lookup using hashtables.
 		\param int row number
 		\param QString column name
 		\return T reference to value at given row and column. returns value at 0 if row and column are not in the table
@@ -1079,7 +1104,26 @@ namespace Tinkercell
 		
 		return newTable;
 	}
+	
+	template <typename T> T& DataTable<T>::operator() (int r, int c)
+	{
+		return this->value(r,c);
+	}
+	
+	template <typename T> T DataTable<T>::operator() (int r, int c) const
+	{
+		return this->at(r,c);
+	}
+	
+	template <typename T> T& DataTable<T>::operator() (const QString& r, const QString& c)
+	{
+		return this->value(r,c);
+	}
 
+	template <typename T> T DataTable<T>::operator() (const QString& r, const QString& c) const
+	{
+		return this->at(r,c);
+	}
 
 	template <typename T>
 	ChangeDataCommand<T>::ChangeDataCommand(const QString& name, DataTable<T>* oldDataTable, const DataTable<T>* newDataTable)

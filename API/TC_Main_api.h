@@ -140,7 +140,7 @@ TCAPIEXPORT void tc_errorReport(const char* text);
  \param tc_matrix table
  \ingroup Input and Output
 */
-TCAPIEXPORT void tc_printTable(tc_matrix data);
+TCAPIEXPORT void tc_printMatrix(tc_matrix data);
 
 /*! 
  \brief show file contents in the output window 

@@ -38,6 +38,8 @@ ELSE ( WIN32 )
 	  INSTALL(TARGETS ssa ode ARCHIVE DESTINATION lib)
 ENDIF( WIN32 )
 
+ADD_SUBDIRECTORY( sbml_sim )
+
 ##############
 
 IF (NOT TINKERCELL_LITE_PARTS)  #don't add any numerical packages in "parts" mode

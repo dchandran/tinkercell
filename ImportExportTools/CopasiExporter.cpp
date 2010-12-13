@@ -212,9 +212,7 @@ void CopasiExporter::updateModel()
 						{
 							assignmentNames << name;
 							assignmentDefs << s2;
-
-							if (!fixedVars.contains(name))
-								fixedVars << name;
+							fixedVars << name;
 						}
 						else								
 						{
@@ -241,35 +239,47 @@ void CopasiExporter::updateModel()
 		}
 	}
 	
+	QFile fout("copasi.txt");
+	fout.open(QFile::WriteOnly | QFile::Text );
+	QString commands;
 	QHash<QString, copasi_compartment> compartmentHash;
-	
+
 	//create list of species
 	for (int i=0; i < species.size(); ++i)
 	{
 		copasi_compartment c;
 		
 		if (compartmentHash.contains(speciesCompartments[i]))
+		{
 			c = compartmentHash[ speciesCompartments[i] ];
+		}
 		else
 		{
 			c = createCompartment(model, speciesCompartments[i].toAscii().data(), compartmentVolumes[i]);
 			compartmentHash[ speciesCompartments[i] ] = c;
+			commands += speciesCompartments[i] + tr(" = createCompartment(model,") + speciesCompartments[i] + tr(",") + QString::number(compartmentVolumes[i]) + tr(");\n");
 		}
 		createSpecies(c, species[i].toAscii().data(), initialValues[i]);
+		commands += tr("createSpecies(") + speciesCompartments[i] + tr(",") + species[i] + tr(",") + QString::number(initialValues[i]) + tr(");\n");
 		if (fixedVars.contains(species[i]))
+		{
 			setBoundarySpecies(model, species[i].toAscii().data(), 1);
+			commands += tr("setBoundarySpecies(model, ") + species[i] + tr("1);\n");
+		}
 	}
 	
 	//create list of parameters
 	for (int i=0; i < params.rows(); ++i)
 	{
 		setGlobalParameter(model, params.rowName(i).toAscii().data(), params.value(i,0));
+		commands += tr("setGlobalParameter(model,") + params.rowName(i) + tr(",") + QString::number(params.value(i,0)) + tr(");\n");
 	}
 	
 	//list of assignments
 	for (int i=0; i < assignmentNames.size(); ++i)
 	{
 		createVariable(model, assignmentNames[i].toAscii().data(), assignmentDefs[i].toAscii().data());
+		commands += tr("createVariable(model, ") + assignmentNames[i] + tr(",") + assignmentDefs[i] + tr(");\n");
 	}
 
 	//create list of reactions
@@ -277,18 +287,26 @@ void CopasiExporter::updateModel()
 	{
 		copasi_reaction reac = createReaction(model, stoic_matrix.columnName(i).toAscii().data());
 		setReactionRate(reac, rates[i].toAscii().data());
+		
+		commands += tr("r") + QString::number(i) + tr(" = createReaction(model, ") + stoic_matrix.columnName(i) + tr(");\n");
+		commands += tr("setReactionRate(") + tr("r") + QString::number(i) + tr(",") + rates[i] + tr(");\n");
 
 		for (int j=0; j < stoic_matrix.rows(); ++j)
 			if (stoic_matrix.value(j,i) < 0)
 			{
 				addReactant(reac, stoic_matrix.rowName(j).toAscii().data(), -stoic_matrix.value(j,i));
+				commands += tr("addReactant(") + tr("r") + QString::number(i) + tr(",") + stoic_matrix.rowName(j) + tr(",") + QString::number(-stoic_matrix.value(j,i)) + tr(");\n");
 			}
 			else
 			if (stoic_matrix.value(j,i) > 0)
 			{
 				addProduct(reac, stoic_matrix.rowName(j).toAscii().data(), stoic_matrix.value(j,i));
-			}		
+				commands += tr("addProduct(") + tr("r") + QString::number(i) + tr(",") + stoic_matrix.rowName(j) + tr(",") + QString::number(stoic_matrix.value(j,i)) + tr(");\n");
+			}
 	}
+	
+	fout.write(commands.toAscii());
+	fout.close();
 	
 	//list of events
 /*	for (int i=0; i < eventTriggers.size(); ++i)

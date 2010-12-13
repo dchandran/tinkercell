@@ -4,6 +4,7 @@
 
 copasi_model model1(); //oscillation
 copasi_model model2(); //positive feebdack gene regulation
+copasi_model model3(); //testing
 void sim(copasi_model);
 void eigen(copasi_model, const char*);
 
@@ -11,7 +12,7 @@ int main()
 {
 	copasi_init();
 	
-	copasi_model m = model1();
+	copasi_model m = model3();
 	//eigen(m, "k1");
 	sim(m);
 	
@@ -162,4 +163,22 @@ void eigen(copasi_model model, const char* param)
 	tc_deleteMatrix(output);
 }
 
+copasi_model model3()
+{
+	copasi_model model = createCopasiModel("M");
+	copasi_compartment DefaultCompartment = createCompartment(model,"DefaultCompartment",1);
+	copasi_reaction r;
+	createSpecies(DefaultCompartment,"pro2",1);
+	createSpecies(DefaultCompartment,"pro1",1);
+	setGlobalParameter(model,"deg1_k0",1);
+	setGlobalParameter(model, "cc1_k0",1);
+	r = createReaction(model, "deg1");
+	setReactionRate(r,"deg1_k0*pro2");
+	addProduct(r,"pro2",1);
+	r = createReaction(model, "cc1");
+	setReactionRate(r,"cc1_k0*pro1");
+	addProduct(r,"pro2",1);
+	addProduct(r,"pro1",1);
+	return model;
+}
 

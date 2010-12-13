@@ -331,8 +331,24 @@ int createVariable(copasi_model model, const char * name, const char * formula)
 	CQHash * hash = (CQHash*)(model.qHash);
 	
 	if (!hash || !pModel) return 0;
-	
-	CModelValue* pModelValue = pModel->createModelValue(std::string(name), 0.0);
+
+	CModelValue* pModelValue;
+	QString qname(name);
+
+	if (hash->contains(qname))
+	{
+			CopasiPtr ptr = hash->value(qname);
+			if (ptr.species)
+				return setAssignmentRule(model, name, formula);
+			if (ptr.param)
+				pModelValue = ptr.param;
+			else
+				return 0;	
+	}
+	else
+	{
+		pModelValue = pModel->createModelValue(std::string(name), 0.0);
+	}
 	pModelValue->setStatus(CModelValue::ASSIGNMENT);
 	int i;
 	bool retval = true;
@@ -370,7 +386,7 @@ int createVariable(copasi_model model, const char * name, const char * formula)
 			0,
 			pModelValue};
 
-	hash->insert(QString(name), copasiPtr); //for speedy lookup
+	hash->insert(qname, copasiPtr); //for speedy lookup
 	
 	return (int)retval;
 }
@@ -587,7 +603,7 @@ int setReactionRate(copasi_reaction reaction, const char * formula)
 					}
 				}
 			}
-			
+
 			pFunction->compile();
 			
 			return retval;

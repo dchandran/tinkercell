@@ -83,9 +83,9 @@ void call_ode(tc_matrix input)
 	{
 		output = simulateDeterministic(model, start, end, numpoints);
 		tc_plot(output, "Time course simulation");
+		tc_deleteMatrix(output);
 	}
 	tc_deleteMatrix(input);
-	tc_deleteMatrix(output);
 }
 
 void ssa(tc_matrix params)
@@ -116,9 +116,9 @@ void call_ssa(tc_matrix input)
 	{
 		output = simulateStochastic(model, start, end, numpoints);
 		tc_plot(output, "Stochastic simulation");
+		tc_deleteMatrix(output);
 	}
 	tc_deleteMatrix(input);
-	tc_deleteMatrix(output);
 }
 
 void tauleap(tc_matrix params)
@@ -149,9 +149,9 @@ void call_tauleap(tc_matrix input)
 	{
 		output = simulateTauLeap(model, start, end, numpoints);
 		tc_plot(output, "Stochastic simulation");
+		tc_deleteMatrix(output);
 	}
 	tc_deleteMatrix(input);
-	tc_deleteMatrix(output);
 }
 
 void hybrid(tc_matrix params)
@@ -182,9 +182,9 @@ void call_hybrid(tc_matrix input)
 	{
 		output = simulateHybrid(model, start, end, numpoints);
 		tc_plot(output, "Hybrid simulation");
+		tc_deleteMatrix(output);
 	}
 	tc_deleteMatrix(input);
-	tc_deleteMatrix(output);
 }
 
 void state(tc_matrix params)

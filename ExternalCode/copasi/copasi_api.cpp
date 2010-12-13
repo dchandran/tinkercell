@@ -74,7 +74,7 @@ void copasi_end()
 
 void removeCopasiModel(copasi_model model)
 {
-	CCopasiRootContainer::removeModel((CCopasiDataModel*)model.CopasiDataModelPtr);
+	CCopasiRootContainer::removeDatamodel((CCopasiDataModel*)model.CopasiDataModelPtr);
 }
 
 copasi_model createCopasiModel(const char * name)

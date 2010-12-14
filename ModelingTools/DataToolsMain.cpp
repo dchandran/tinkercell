@@ -10,34 +10,20 @@ Function that loads dll into main window
 
 
 #include "DataToolsMain.h"
+/*
+using namespace Tinkercell;
 
-extern "C"  TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)
+extern "C"  TINKERCELLEXPORT void loadTCTool(MainWindow * main)
 {
 	if (!main) return;
 
-	Tinkercell::BasicInformationTool * basicInformationTool1 = new Tinkercell::BasicInformationTool(QString("text"));
-	main->addTool(basicInformationTool1);
-
-	Tinkercell::BasicInformationTool * basicInformationTool2 = new Tinkercell::BasicInformationTool(QString("numerical"));
-	main->addTool(basicInformationTool2);
-
-	Tinkercell::AssignmentFunctionsTool * functionsTool = new Tinkercell::AssignmentFunctionsTool;
-	main->addTool(functionsTool);
-
-	Tinkercell::StoichiometryTool * stoichiometryTool = new Tinkercell::StoichiometryTool;
-	main->addTool(stoichiometryTool);
-
-	Tinkercell::ModelSummaryTool * modelSummaryTool = new Tinkercell::ModelSummaryTool;
-	main->addTool(modelSummaryTool);
-	
-	Tinkercell::ModelFileGenerator * modelFileGenerator = new Tinkercell::ModelFileGenerator;
-	main->addTool(modelFileGenerator);
-	
-	Tinkercell::CompartmentTool * containerTool = new Tinkercell::CompartmentTool;
-	main->addTool(containerTool);
-	
-	Tinkercell::SimulationEventsTool * simulationEventsTool = new Tinkercell::SimulationEventsTool;
-	main->addTool(simulationEventsTool);
+	main->addTool(new BasicInformationTool(QString("text")));
+	main->addTool(new BasicInformationTool(QString("numerical")));
+	main->addTool(new AssignmentFunctionsTool);
+	main->addTool(new StoichiometryTool);
+	main->addTool(new ModelSummaryTool);
+	main->addTool(new ModelFileGenerator);
+	main->addTool(new CompartmentTool);
+	main->addTool(new SimulationEventsTool);
 }
-
-
+*/

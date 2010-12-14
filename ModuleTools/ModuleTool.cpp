@@ -1386,12 +1386,12 @@ namespace Tinkercell
 	}
 }
 
+/*
 extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)
 {
     if (!main) return;
 
-    Tinkercell::ModuleTool * tool = new Tinkercell::ModuleTool;
-    main->addTool(tool);
+    main->addTool(new Tinkercell::ModuleTool);
 
-}
+}*/
 

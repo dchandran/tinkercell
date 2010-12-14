@@ -6,8 +6,8 @@ INCLUDE_DIRECTORIES( BEFORE
     ${TINKERCELL_SOURCE_DIR}/DynamicCodeTools
  )
 
-CONFIGURE_FILE( DynamicCodeMain.cpp.in
-  ${TINKERCELL_BINARY_DIR}/DynamicCodeTools/DynamicCodeMain.cpp
+CONFIGURE_FILE( CodingWindow.cpp.in
+  ${TINKERCELL_BINARY_DIR}/DynamicCodeTools/CodingWindow.cpp
   @ONLY
 )
 
@@ -23,7 +23,7 @@ SET( TINKERCELL_CORE_HDRS
   )
 
 FILE( GLOB DYNAMICTOOLS_HDRS *.h )
-FILE( GLOB DYNAMICTOOLS_SRC *.cpp ${TINKERCELL_BINARY_DIR}/DynamicCodeTools/DynamicCodeMain.cpp )
+FILE( GLOB DYNAMICTOOLS_SRC *.cpp ${TINKERCELL_BINARY_DIR}/DynamicCodeTools/*.cpp )
 
 #CONFIGURE_FILE( PythonTool.cpp.in
 #  ${TINKERCELL_BINARY_DIR}/DynamicTools/PythonTool.cpp

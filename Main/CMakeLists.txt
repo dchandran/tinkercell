@@ -17,24 +17,40 @@ CONFIGURE_FILE(
 	@ONLY
 )
 
+CONFIGURE_FILE( 
+	${TINKERCELL_SOURCE_DIR}/DynamicCodeTools/CodingWindow.cpp.in
+	${TINKERCELL_BINARY_DIR}/DynamicCodeTools/CodingWindow.cpp
+	@ONLY
+)
+
 ####
 
 INCLUDE_DIRECTORIES( BEFORE
     ${TINKERCELL_SOURCE_DIR}/BasicTools
     ${TINKERCELL_SOURCE_DIR}/NodesTree
     ${TINKERCELL_SOURCE_DIR}/Main
+    ${TINKERCELL_SOURCE_DIR}/DynamicCodeTools
+    ${TINKERCELL_SOURCE_DIR}/ModelingTools
+    ${TINKERCELL_SOURCE_DIR}/ModuleTools
  )
 
 FILE( GLOB TINKERCELL_MAIN_SRC 
 	${TINKERCELL_SOURCE_DIR}/Main/*.cpp
+	${TINKERCELL_SOURCE_DIR}/NodesTree/*.cpp
     ${TINKERCELL_SOURCE_DIR}/BasicTools/*.cpp
     ${TINKERCELL_BINARY_DIR}/BasicTools/*.cpp
-    ${TINKERCELL_SOURCE_DIR}/NodesTree/*.cpp
+    ${TINKERCELL_SOURCE_DIR}/DynamicCodeTools/*.cpp
+    ${TINKERCELL_BINARY_DIR}/DynamicCodeTools/*.cpp
+    ${TINKERCELL_SOURCE_DIR}/ModelingTools/*.cpp
+    ${TINKERCELL_SOURCE_DIR}/ModuleTools/*.cpp
 )
 FILE( GLOB TINKERCELL_MAIN_HRDS
 	${TINKERCELL_SOURCE_DIR}/Main/*.h
     ${TINKERCELL_SOURCE_DIR}/BasicTools/*.h
     ${TINKERCELL_SOURCE_DIR}/NodesTree/*.h
+    ${TINKERCELL_SOURCE_DIR}/DynamicCodeTools/*.h
+    ${TINKERCELL_SOURCE_DIR}/ModelingTools/*.h
+    ${TINKERCELL_SOURCE_DIR}/ModuleTools/*.h
 )
 
 QT4_WRAP_CPP( TINKERCELL_MAIN_MOC ${TINKERCELL_MAIN_HRDS})

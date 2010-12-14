@@ -1108,10 +1108,10 @@ namespace Tinkercell
 		}
 	}
 }
-
+/*
 extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)
 {
 	if (!main) return;
 	main->addTool(new Tinkercell::CatalogWidget);
-}
+}*/
 

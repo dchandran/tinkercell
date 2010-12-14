@@ -27,6 +27,19 @@
 #include "ConnectionSelection.h"
 #include "NodeSelection.h"
 #include "TinkerCellAboutBox.h"
+#include "LoadCLibraries.h"
+#include "PythonTool.h"
+#include "OctaveTool.h"
+#include "CodingWindow.h"
+#include "DynamicLibraryMenu.h"
+#include "BasicInformationTool.h"
+#include "StoichiometryTool.h"
+#include "FunctionDeclarationsTool.h"
+#include "ModelSummaryTool.h"
+#include "ContainerTool.h"
+#include "ModelFileGenerator.h"
+#include "SimulationEventTool.h"
+#include "ModuleTool.h"
 
 #include <QColor>
 #include <QBrush>
@@ -83,6 +96,7 @@ int main(int argc, char *argv[])
 	mainWindow.addTool(new PlotTool);
    	mainWindow.addTool(new GnuplotTool);
 	mainWindow.addTool(new LoadSaveTool);
+	
 	mainWindow.addTool(new CatalogWidget);
 	mainWindow.addTool(new CollisionDetection);
 	mainWindow.addTool(new ConnectionInsertion);
@@ -95,6 +109,23 @@ int main(int argc, char *argv[])
 	mainWindow.addTool(new GroupHandlerTool);
 	mainWindow.addTool(new NameFamilyDialog);
 	mainWindow.addTool(new ConnectionMaker);
+	
+	mainWindow.addTool(new DynamicLibraryMenu);
+    mainWindow.addTool(new LoadCLibrariesTool);
+	mainWindow.addTool(new PythonTool);
+	mainWindow.addTool(new OctaveTool);
+	mainWindow.addTool(new CodingWindow);
+	
+	mainWindow.addTool(new BasicInformationTool(QString("text")));
+	mainWindow.addTool(new BasicInformationTool(QString("numerical")));
+	mainWindow.addTool(new AssignmentFunctionsTool);
+	mainWindow.addTool(new StoichiometryTool);
+	mainWindow.addTool(new ModelSummaryTool);
+	mainWindow.addTool(new ModelFileGenerator);
+	mainWindow.addTool(new CompartmentTool);
+	mainWindow.addTool(new SimulationEventsTool);
+	
+	mainWindow.addTool(new ModuleTool);
 
     /*******  title , etc ***********/
     mainWindow.setWindowTitle(QObject::tr("TinkerCell"));
@@ -123,7 +154,7 @@ int main(int argc, char *argv[])
 
     QString home = MainWindow::homeDir();
 
-    LoadPluginsFromDir(appDir + QString("/plugins"),&mainWindow, &splash);
+//    LoadPluginsFromDir(appDir + QString("/plugins"),&mainWindow, &splash);
 #ifdef Q_WS_WIN
 	LoadPluginsFromDir(home + QString("/plugins/windows"),&mainWindow, &splash);
 #else
@@ -133,8 +164,8 @@ int main(int argc, char *argv[])
 	LoadPluginsFromDir(home + QString("/plugins/ubuntu"),&mainWindow, &splash);
 #endif
 #endif
-/*
-    LoadPluginsFromDir(appDir + QString("/plugins/c"),&mainWindow, &splash);
+
+//    LoadPluginsFromDir(appDir + QString("/plugins/c"),&mainWindow, &splash);
 #ifdef Q_WS_WIN
 	LoadPluginsFromDir(home + QString("/plugins/c/windows"),&mainWindow, &splash);
 #else
@@ -145,19 +176,20 @@ int main(int argc, char *argv[])
 	LoadPluginsFromDir(home + QString("/plugins/c/ubuntu64"),&mainWindow, &splash);
 #endif
 #endif
-*/
+
     /*******  START TINKERCELL ***********/
+
     mainWindow.readSettings();
   #ifdef TINKERCELL_LITE_TEXT
        mainWindow.newEditor();
-  #else    
+  #else
        mainWindow.newScene();
   #endif
     mainWindow.show();
     splash.finish(&mainWindow);
 
     /*******  process command line arguments, if any ***********/
-	if (argc > 1) 
+	if (argc > 1)
 		for (int i=1; i < argc; ++i)
 			mainWindow.open(QString(argv[i]));
 

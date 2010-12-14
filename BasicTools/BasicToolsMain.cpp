@@ -8,7 +8,7 @@ Function that loads dll into main window
 
 ****************************************************************************/
 #include "BasicToolsMain.h"
-
+/*
 extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)
 {
 	if (!main) return;
@@ -24,4 +24,5 @@ extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)
 	main->addTool(new Tinkercell::NameFamilyDialog);
 	main->addTool(new Tinkercell::ConnectionMaker);
 }
+*/
 

@@ -9,14 +9,14 @@
 #include "copasi/copasi_api.h"
 #include "TC_api.h"
 
-copasi_model model;
-double start, end;
-int numpoints;
+static copasi_model model;
+static double start, end;
+static int numpoints;
 
 void setSliderValues(tc_matrix params)
 {
 	int i;
-	model = tc_CopasiModel();
+	tc_updateCopasiModel(model);
 	for (i=0; i < params.rows; ++i)
 		setValue(model, tc_getRowName(params,i), tc_getMatrixValue(params,i, 0));  //set values from slider
 }
@@ -68,12 +68,12 @@ void ode(tc_matrix params)
 void call_ode(tc_matrix input)
 {
 	tc_matrix allParams, output;
-	model = tc_CopasiModel();
+	tc_updateCopasiModel(model);
 	start = tc_getMatrixValue(input, 0, 0); //start time
 	end = tc_getMatrixValue(input, 1, 0); //end time
 	numpoints = 	tc_getMatrixValue(input, 2, 0); //num points
 	
-	if (tc_getMatrixValue(input, 4, 0) > 0) // sliders?
+	if (tc_getMatrixValue(input, 4, 0) == 0) // sliders?
 	{
 		allParams = getSliderTable();
 		tc_createSliders( allParams, &ode );
@@ -101,12 +101,12 @@ void ssa(tc_matrix params)
 void call_ssa(tc_matrix input)
 {
 	tc_matrix allParams, output;
-	model = tc_CopasiModel();
+	tc_updateCopasiModel(model);
 	start = tc_getMatrixValue(input, 0, 0); //start time
 	end = tc_getMatrixValue(input, 1, 0); //end time
 	numpoints = 	tc_getMatrixValue(input, 2, 0); //num points
 	
-	if (tc_getMatrixValue(input, 4, 0) > 0) // sliders?
+	if (tc_getMatrixValue(input, 4, 0) == 0) // sliders?
 	{
 		allParams = getSliderTable();
 		tc_createSliders( allParams, &ssa );
@@ -134,12 +134,12 @@ void tauleap(tc_matrix params)
 void call_tauleap(tc_matrix input)
 {
 	tc_matrix allParams, output;
-	model = tc_CopasiModel();
+	tc_updateCopasiModel(model);
 	start = tc_getMatrixValue(input, 0, 0); //start time
 	end = tc_getMatrixValue(input, 1, 0); //end time
 	numpoints = 	tc_getMatrixValue(input, 2, 0); //num points
 	
-	if (tc_getMatrixValue(input, 4, 0) > 0) // sliders?
+	if (tc_getMatrixValue(input, 4, 0) == 0) // sliders?
 	{
 		allParams = getSliderTable();
 		tc_createSliders( allParams, &tauleap );
@@ -167,12 +167,12 @@ void hybrid(tc_matrix params)
 void call_hybrid(tc_matrix input)
 {
 	tc_matrix allParams, output;
-	model = tc_CopasiModel();
+	tc_updateCopasiModel(model);
 	start = tc_getMatrixValue(input, 0, 0); //start time
 	end = tc_getMatrixValue(input, 1, 0); //end time
 	numpoints = 	tc_getMatrixValue(input, 2, 0); //num points
 	
-	if (tc_getMatrixValue(input, 4, 0) > 0) // sliders?
+	if (tc_getMatrixValue(input, 4, 0) == 0) // sliders?
 	{
 		allParams = getSliderTable();
 		tc_createSliders( allParams, &hybrid );
@@ -245,7 +245,7 @@ void setup_ode()
 	tc_matrix m;
 	char * cols[] = { "value",0 };
 	char * rows[] = { "start time", "end time", "num. points", "update model", "use sliders", 0 };
-	double values[] = { 0, 10, 100, 1, 1 };
+	double values[] = { 0, 10, 100, 1, 0 };
 	char * options[] = { "Yes", "No"};
 	tc_strings s = {2,options};
 
@@ -265,7 +265,7 @@ void setup_ssa()
 	tc_matrix m;
 	char * cols[] = { "value",0 };
 	char * rows[] = { "start time", "end time", "num. points", "update model", "use sliders", 0 };
-	double values[] = { 0, 10, 100, 1, 1 };
+	double values[] = { 0, 10, 100, 1, 0 };
 	char * options[] = { "Yes", "No"};
 	tc_strings s = {2,options};
 
@@ -285,7 +285,7 @@ void setup_tauleap()
 	tc_matrix m;
 	char * cols[] = { "value",0 };
 	char * rows[] = { "start time", "end time", "num. points", "update model", "use sliders", 0 };
-	double values[] = { 0, 10, 100, 1, 1 };
+	double values[] = { 0, 10, 100, 1, 0 };
 	char * options[] = { "Yes", "No"};
 	tc_strings s = {2,options};
 
@@ -305,7 +305,8 @@ void setup_hybrid()
 	tc_matrix m;
 	char * cols[] = { "value",0 };
 	char * rows[] = { "start time", "end time", "num. points", "update model", "use sliders", 0 };
-	double values[] = { 0, 10, 100, 1, 1 };
+
+	double values[] = { 0, 10, 100, 1, 0 };
 	char * options[] = { "Yes", "No"};
 	tc_strings s = {2,options};
 
@@ -397,10 +398,15 @@ void setup_eigen()
 	tc_deleteMatrix(allParams);
 }
 
+void finish()
+{
+	copasi_end();
+}
+
 TCAPIEXPORT void tc_main()
 {
 	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu? default?
-	tc_addFunction(&setup_ode, "Deterministic simulation", "uses COPASI", "Simulate", "cvode.png", "", 1, 0, 1);
+	/*tc_addFunction(&setup_ode, "Deterministic simulation", "uses COPASI", "Simulate", "cvode.png", "", 1, 0, 1);
 	tc_addFunction(&setup_ssa, "Stochastic simulation (exact)", "uses COPASI", "Simulate", "stochastic.png", "", 1, 0, 0);
 	tc_addFunction(&setup_tauleap, "Stochastic simulation (Tau-leap)", "uses COPASI", "Simulate", "stochastic.png", "", 1, 0, 0);
 	tc_addFunction(&setup_hybrid, "Hybrid simulation", "uses COPASI", "Simulate", "cvode.png", "", 1, 0, 0);
@@ -409,6 +415,10 @@ TCAPIEXPORT void tc_main()
 	tc_addFunction(&setup_eigen, "Eigenvalues", "uses COPASI", "Steady state", "tabasco_like.png", "", 1, 0, 0);
 	tc_addFunction(&setup_stateScan, "Parameter scan", "uses COPASI", "Steady state", "steadystate.png", "", 1, 0, 0);
 	tc_addFunction(&setup_stateScan2D, "2D Parameter scan", "uses COPASI", "Steady state", "steadystate.png", "", 1, 0, 0);
+	
+	tc_callWhenExiting(&finish);*/
+	
+	example();
 }
 
 

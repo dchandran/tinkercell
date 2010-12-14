@@ -626,9 +626,9 @@ setClass('_p_f_long_tc_strings__void',
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f___copasi_model',
-        prototype = list(parameterTypes = c(),
-                        returnType = '_p_f___copasi_model'),
+setClass('_p_f_copasi_model__void',
+        prototype = list(parameterTypes = c('_copasi_model'),
+                        returnType = '_p_f_copasi_model__void'),
         contains = 'CRoutinePointer')
 
 ##
@@ -6229,40 +6229,38 @@ attr(`tc_SBML_api`, 'returnType') = 'void'
 attr(`tc_SBML_api`, "inputTypes") = c('_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void')
 class(`tc_SBML_api`) = c("SWIGFunction", class('tc_SBML_api'))
 
-# Start of tc_CopasiModel
+# Start of tc_updateCopasiModel
 
-`tc_CopasiModel` = function(.copy = FALSE)
+`tc_updateCopasiModel` = function(s_arg1)
 {
-  ans = .Call('R_swig_tc_CopasiModel', as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_copasi_model"
-  
-  ans
+  .Call('R_swig_tc_updateCopasiModel', s_arg1, PACKAGE='tinkercell')
   
 }
 
-attr(`tc_CopasiModel`, 'returnType') = '_p_copasi_model'
-class(`tc_CopasiModel`) = c("SWIGFunction", class('tc_CopasiModel'))
+attr(`tc_updateCopasiModel`, 'returnType') = 'void'
+attr(`tc_updateCopasiModel`, "inputTypes") = c('_p_copasi_model')
+class(`tc_updateCopasiModel`) = c("SWIGFunction", class('tc_updateCopasiModel'))
 
 # Start of tc_COPASI_api
 
-`tc_COPASI_api` = function(getCopasiModel)
+`tc_COPASI_api` = function(updateCopasiModel)
 {
-  if(is.function(getCopasiModel)) {
-    assert('...' %in% names(formals(getCopasiModel)) || length(formals(getCopasiModel)) >= 0)
+  if(is.function(updateCopasiModel)) {
+    assert('...' %in% names(formals(updateCopasiModel)) || length(formals(updateCopasiModel)) >= 1)
   } else {
-    if(is.character(getCopasiModel)) {
-      getCopasiModel = getNativeSymbolInfo(getCopasiModel)
+    if(is.character(updateCopasiModel)) {
+      updateCopasiModel = getNativeSymbolInfo(updateCopasiModel)
     }
-    if(is(getCopasiModel, "NativeSymbolInfo")) {
-      getCopasiModel = getCopasiModel$address
+    if(is(updateCopasiModel, "NativeSymbolInfo")) {
+      updateCopasiModel = updateCopasiModel$address
     }
   }
-  .Call('R_swig_tc_COPASI_api', getCopasiModel, PACKAGE='tinkercell')
+  .Call('R_swig_tc_COPASI_api', updateCopasiModel, PACKAGE='tinkercell')
   
 }
 
 attr(`tc_COPASI_api`, 'returnType') = 'void'
-attr(`tc_COPASI_api`, "inputTypes") = c('_p_f___copasi_model')
+attr(`tc_COPASI_api`, "inputTypes") = c('_p_f_copasi_model__void')
 class(`tc_COPASI_api`) = c("SWIGFunction", class('tc_COPASI_api'))
 
 # Start of copasi_model_CopasiModelPtr_set
@@ -6818,18 +6816,6 @@ class(`copasi_init`) = c("SWIGFunction", class('copasi_init'))
 attr(`copasi_end`, 'returnType') = 'void'
 class(`copasi_end`) = c("SWIGFunction", class('copasi_end'))
 
-# Start of compileCopasiModel
-
-`compileCopasiModel` = function(model)
-{
-  .Call('R_swig_compileCopasiModel', model, PACKAGE='tinkercell')
-  
-}
-
-attr(`compileCopasiModel`, 'returnType') = 'void'
-attr(`compileCopasiModel`, "inputTypes") = c('_p_copasi_model')
-class(`compileCopasiModel`) = c("SWIGFunction", class('compileCopasiModel'))
-
 # Start of createCopasiModel
 
 `createCopasiModel` = function(name, .copy = FALSE)
@@ -6845,6 +6831,42 @@ class(`compileCopasiModel`) = c("SWIGFunction", class('compileCopasiModel'))
 attr(`createCopasiModel`, 'returnType') = '_p_copasi_model'
 attr(`createCopasiModel`, "inputTypes") = c('character')
 class(`createCopasiModel`) = c("SWIGFunction", class('createCopasiModel'))
+
+# Start of removeCopasiModel
+
+`removeCopasiModel` = function(s_arg1)
+{
+  .Call('R_swig_removeCopasiModel', s_arg1, PACKAGE='tinkercell')
+  
+}
+
+attr(`removeCopasiModel`, 'returnType') = 'void'
+attr(`removeCopasiModel`, "inputTypes") = c('_p_copasi_model')
+class(`removeCopasiModel`) = c("SWIGFunction", class('removeCopasiModel'))
+
+# Start of clearCopasiModel
+
+`clearCopasiModel` = function(s_arg1)
+{
+  .Call('R_swig_clearCopasiModel', s_arg1, PACKAGE='tinkercell')
+  
+}
+
+attr(`clearCopasiModel`, 'returnType') = 'void'
+attr(`clearCopasiModel`, "inputTypes") = c('_p_copasi_model')
+class(`clearCopasiModel`) = c("SWIGFunction", class('clearCopasiModel'))
+
+# Start of compileCopasiModel
+
+`compileCopasiModel` = function(model)
+{
+  .Call('R_swig_compileCopasiModel', model, PACKAGE='tinkercell')
+  
+}
+
+attr(`compileCopasiModel`, 'returnType') = 'void'
+attr(`compileCopasiModel`, "inputTypes") = c('_p_copasi_model')
+class(`compileCopasiModel`) = c("SWIGFunction", class('compileCopasiModel'))
 
 # Start of loadModelFile
 

@@ -10,13 +10,7 @@ void eigen(copasi_model, const char*);
 
 int main()
 {
-	copasi_init();
-	
-	copasi_model m = model3();
-	//eigen(m, "k1");
-	sim(m);
-	
-	copasi_end();
+	example();
 	return 0;
 }
 
@@ -174,11 +168,11 @@ copasi_model model3()
 	setGlobalParameter(model, "cc1_k0",1);
 	r = createReaction(model, "deg1");
 	setReactionRate(r,"deg1_k0*pro2");
-	addProduct(r,"pro2",1);
+	addReactant(r,"pro2",1);
 	r = createReaction(model, "cc1");
 	setReactionRate(r,"cc1_k0*pro1");
 	addProduct(r,"pro2",1);
-	addProduct(r,"pro1",1);
+	addReactant(r,"pro1",1);
 	return model;
 }
 

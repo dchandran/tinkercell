@@ -27,17 +27,17 @@ namespace Tinkercell
 {
 	CatalogWidget::MODE CatalogWidget::layoutMode = CatalogWidget::TabView;
 
-	CatalogWidget::CatalogWidget(NodesTree * nodesTree, ConnectionsTree * connectionsTree, QWidget * parent) :
+	CatalogWidget::CatalogWidget(QWidget * parent) :
 		Tool(tr("Parts and Connections Catalog"),tr("Parts Catalog"),parent),
 		nodesButtonGroup(this),
 		connectionsButtonGroup(this),
 		toolBox(0),
 		tabWidget(0),
-		nodesTree(nodesTree),
-		connectionsTree(connectionsTree),
 		selectFamilyWidget(0)
 	{
 		QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
+		nodesTree = new NodesTree;
+		connectionsTree = new ConnectionsTree;
 
 		settings.beginGroup("CatalogWidget");
 		CatalogWidget::layoutMode = (CatalogWidget::MODE)(settings.value(tr("Mode"),(int)layoutMode).toInt());
@@ -84,9 +84,13 @@ namespace Tinkercell
 	
 	bool CatalogWidget::setMainWindow(MainWindow * main)
 	{
+		if (!main) return false;
+		
+		main->addTool(nodesTree);
+		main->addTool(connectionsTree);
 		Tool::setMainWindow(main);
 
-		if (mainWindow)
+		if (mainWindow && (MainWindow::PROGRAM_MODE != QObject::tr("text-only")))
 		{
 			connect(&arrowButton,SIGNAL(pressed()),mainWindow,SLOT(sendEscapeSignal()));
 			connect(this,SIGNAL(sendEscapeSignal(const QWidget*)),mainWindow,SIGNAL(escapeSignal(const QWidget*)));
@@ -124,6 +128,8 @@ namespace Tinkercell
 
 			return true;
 		}
+
+		hide();
 		return false;
 	}
 
@@ -1106,17 +1112,6 @@ namespace Tinkercell
 extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)
 {
 	if (!main) return;
-
-     Tinkercell::NodesTree * nodesTree = new Tinkercell::NodesTree;
-     main->addTool(nodesTree);
-
-     Tinkercell::ConnectionsTree * connectionsTree = new Tinkercell::ConnectionsTree;
-	 main->addTool(connectionsTree);
-
-	 if (Tinkercell::MainWindow::PROGRAM_MODE != QObject::tr("text-only"))
-	 {
-		 Tinkercell::CatalogWidget * widget = new Tinkercell::CatalogWidget(nodesTree,connectionsTree);
-		 main->addTool(widget);
-	 }
+	main->addTool(new Tinkercell::CatalogWidget);
 }
 

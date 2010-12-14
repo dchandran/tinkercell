@@ -53,6 +53,7 @@ struct CopasiPtr
 	QString name; 
 	CMetab * species; 
 	CCompartment * compartment;
+	CReaction * reaction;
 	CModelValue * param;
 };
 
@@ -75,6 +76,35 @@ void copasi_end()
 void removeCopasiModel(copasi_model model)
 {
 	CCopasiRootContainer::removeDatamodel((CCopasiDataModel*)model.CopasiDataModelPtr);
+}
+
+void clearCopasiModel(copasi_model model)
+{
+	CModel* pModel = (CModel*)(model.CopasiModelPtr);
+	CCopasiDataModel* pDataModel = (CCopasiDataModel*)(model.CopasiDataModelPtr);
+	CQHash * hash = (CQHash*)(model.qHash);
+	
+	if (!pModel || !pDataModel || !hash) return;
+	
+	CopasiPtr p;
+	QStringList keys( hash->keys() );
+	for (int i=0; i < keys.size(); ++i)
+	{
+		p = hash->value(keys[i]);
+		if (p.species)
+			pModel->remove(p.species);
+		else
+		if (p.param)
+			pModel->remove(p.param);
+		else
+		if (p.compartment)
+			pModel->remove(p.compartment);
+		else
+		if (p.reaction)
+			pModel->remove(p.reaction);
+	}
+	
+	hash->clear();
 }
 
 copasi_model createCopasiModel(const char * name)
@@ -112,6 +142,7 @@ void createSpecies(copasi_compartment compartment, const char* name, double iv)
 			QString(pSpecies->getCN().c_str()),
 			pSpecies,
 			0,
+			0,
 			0};
 
 	hash->insert(
@@ -139,6 +170,7 @@ copasi_compartment createCompartment(copasi_model model, const char* name, doubl
 			QString(pCompartment->getCN().c_str()),
 			0,
 			pCompartment,
+			0,
 			0};
 
 	hash->insert(QString(name),copasiPtr); //for speedy lookup
@@ -247,6 +279,7 @@ int setGlobalParameter(copasi_model model, const char * name, double value)
 	
 		CopasiPtr copasiPtr = {
 				QString(pValue->getCN().c_str()),
+				0,
 				0,
 				0,
 				pValue};
@@ -384,6 +417,7 @@ int createVariable(copasi_model model, const char * name, const char * formula)
 			QString(pModelValue->getCN().c_str()),
 			0,
 			0,
+			0,
 			pModelValue};
 
 	hash->insert(qname, copasiPtr); //for speedy lookup
@@ -477,15 +511,25 @@ int createEvent(copasi_model model, const char * name, const char * trigger, con
 copasi_reaction createReaction(copasi_model model, const char* name)
 {
 	CModel* pModel = (CModel*)(model.CopasiModelPtr);
+	CQHash * hash = (CQHash*)(model.qHash);
 	
-	if (!pModel)
+	if (!pModel || !hash)
 	{
 		copasi_reaction r = { 0, 0 };
 		return r;
 	}
 	
 	CReaction* pReaction = pModel->createReaction(name);
-	copasi_reaction r = { (void*)(pReaction), (void*)(pModel), model.qHash };
+	copasi_reaction r = { (void*)(pReaction), (void*)(pModel), (void*)hash };
+	
+	CopasiPtr copasiPtr = { 
+			QString(pReaction->getCN().c_str()),
+			0,
+			0,
+			pReaction,
+			0};
+
+	hash->insert(QString(name), copasiPtr); //for speedy lookup
 
 	return r;
 }
@@ -1438,4 +1482,59 @@ static void substituteString(QString& target, const QString& oldname,const QStri
 	}
 	target.replace(newname,newname0);
 }
+
+void example()
+{
+	copasi_init();
+	//model named M
+	copasi_model model = createCopasiModel("M");
+	
+	//species
+	copasi_compartment cell = createCompartment(model, "cell", 1.0);
+	createSpecies(cell, "A", 2);
+	createSpecies(cell, "B", 1);
+	createSpecies(cell, "C", 3);
+	
+	//parameters	
+	setGlobalParameter(model, "k1", 0.1);   //k1
+	setGlobalParameter(model, "k2", 0.2);   //k2
+	setGlobalParameter(model, "k3", 0.3);   //k3
+	
+	//reactions -- make sure all parameters or species are defined BEFORE this step
+	copasi_reaction R1 = createReaction(model, "R1");  // A+B -> 2B
+	addReactant(R1, "A", 1.0);
+	addReactant(R1, "B", 1.0);
+	addProduct(R1, "B", 2.0);
+	setReactionRate(R1, "k1*A*B");
+
+	copasi_reaction R2 = createReaction(model, "R2");  //B+C -> 2C
+	addReactant(R2, "B", 1.0);
+	addReactant(R2, "C", 1.0);
+	addProduct(R2, "C", 2.0);
+	setReactionRate(R2, "k2*B*C");
+
+	copasi_reaction R3 = createReaction(model, "R3"); //C+A -> 2A
+	addReactant(R3, "C", 1.0);
+	addReactant(R3, "A", 1.0);
+	addProduct(R3, "A", 2.0);
+	setReactionRate(R3, "k3*C*A");
+
+	//assignment rule -- make sure all parameters or species are defined BEFORE this step
+	createVariable(model, "prod","A*B*C");
+	createVariable(model, "prodPlus","prod*2");
+	
+	int i, j;
+	//run
+	tc_matrix output = simulateDeterministic(model, 0, 30, 100);  //model, start, end, num. points
+	
+	//output
+	tc_printMatrixToFile("output.tab", output);
+	
+	printf("\noutput.tab contains the final output\n\n");
+
+	tc_deleteMatrix(output);
+	copasi_end();
+}
+
+
 

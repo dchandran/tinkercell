@@ -1791,12 +1791,12 @@ int SWIG_Ruby_arity( VALUE proc, int minimal )
 #define SWIGTYPE_p_copasi_model swig_types[2]
 #define SWIGTYPE_p_copasi_reaction swig_types[3]
 #define SWIGTYPE_p_double swig_types[4]
-#define SWIGTYPE_p_f___copasi_model swig_types[5]
-#define SWIGTYPE_p_f___int swig_types[6]
-#define SWIGTYPE_p_f___p_char swig_types[7]
-#define SWIGTYPE_p_f___tc_items swig_types[8]
-#define SWIGTYPE_p_f___tc_strings swig_types[9]
-#define SWIGTYPE_p_f___void swig_types[10]
+#define SWIGTYPE_p_f___int swig_types[5]
+#define SWIGTYPE_p_f___p_char swig_types[6]
+#define SWIGTYPE_p_f___tc_items swig_types[7]
+#define SWIGTYPE_p_f___tc_strings swig_types[8]
+#define SWIGTYPE_p_f___void swig_types[9]
+#define SWIGTYPE_p_f_copasi_model__void swig_types[10]
 #define SWIGTYPE_p_f_double__void swig_types[11]
 #define SWIGTYPE_p_f_double_double__void swig_types[12]
 #define SWIGTYPE_p_f_int__tc_matrix swig_types[13]
@@ -9952,16 +9952,27 @@ fail:
 
 
 SWIGINTERN VALUE
-_wrap_tc_CopasiModel(int argc, VALUE *argv, VALUE self) {
-  copasi_model result;
-  VALUE vresult = Qnil;
+_wrap_tc_updateCopasiModel(int argc, VALUE *argv, VALUE self) {
+  copasi_model arg1 ;
+  void *argp1 ;
+  int res1 = 0 ;
   
-  if ((argc < 0) || (argc > 0)) {
-    rb_raise(rb_eArgError, "wrong # of arguments(%d for 0)",argc); SWIG_fail;
+  if ((argc < 1) || (argc > 1)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 1)",argc); SWIG_fail;
   }
-  result = tc_CopasiModel();
-  vresult = SWIG_NewPointerObj((copasi_model *)memcpy((copasi_model *)malloc(sizeof(copasi_model)),&result,sizeof(copasi_model)), SWIGTYPE_p_copasi_model, SWIG_POINTER_OWN |  0 );
-  return vresult;
+  {
+    res1 = SWIG_ConvertPtr(argv[0], &argp1, SWIGTYPE_p_copasi_model,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "copasi_model","tc_updateCopasiModel", 1, argv[0] )); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, Ruby_Format_TypeError("invalid null reference ", "copasi_model","tc_updateCopasiModel", 1, argv[0]));
+    } else {
+      arg1 = *((copasi_model *)(argp1));
+    }
+  }
+  tc_updateCopasiModel(arg1);
+  return Qnil;
 fail:
   return Qnil;
 }
@@ -9969,15 +9980,15 @@ fail:
 
 SWIGINTERN VALUE
 _wrap_tc_COPASI_api(int argc, VALUE *argv, VALUE self) {
-  copasi_model (*arg1)() = (copasi_model (*)()) 0 ;
+  void (*arg1)(copasi_model) = (void (*)(copasi_model)) 0 ;
   
   if ((argc < 1) || (argc > 1)) {
     rb_raise(rb_eArgError, "wrong # of arguments(%d for 1)",argc); SWIG_fail;
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[0], (void**)(&arg1), SWIGTYPE_p_f___copasi_model);
+    int res = SWIG_ConvertFunctionPtr(argv[0], (void**)(&arg1), SWIGTYPE_p_f_copasi_model__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "copasi_model (*)()","tc_COPASI_api", 1, argv[0] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(copasi_model)","tc_COPASI_api", 1, argv[0] )); 
     }
   }
   tc_COPASI_api(arg1);
@@ -10588,33 +10599,6 @@ fail:
 
 
 SWIGINTERN VALUE
-_wrap_compileCopasiModel(int argc, VALUE *argv, VALUE self) {
-  copasi_model arg1 ;
-  void *argp1 ;
-  int res1 = 0 ;
-  
-  if ((argc < 1) || (argc > 1)) {
-    rb_raise(rb_eArgError, "wrong # of arguments(%d for 1)",argc); SWIG_fail;
-  }
-  {
-    res1 = SWIG_ConvertPtr(argv[0], &argp1, SWIGTYPE_p_copasi_model,  0 );
-    if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "copasi_model","compileCopasiModel", 1, argv[0] )); 
-    }  
-    if (!argp1) {
-      SWIG_exception_fail(SWIG_ValueError, Ruby_Format_TypeError("invalid null reference ", "copasi_model","compileCopasiModel", 1, argv[0]));
-    } else {
-      arg1 = *((copasi_model *)(argp1));
-    }
-  }
-  compileCopasiModel(arg1);
-  return Qnil;
-fail:
-  return Qnil;
-}
-
-
-SWIGINTERN VALUE
 _wrap_createCopasiModel(int argc, VALUE *argv, VALUE self) {
   char *arg1 = (char *) 0 ;
   int res1 ;
@@ -10637,6 +10621,87 @@ _wrap_createCopasiModel(int argc, VALUE *argv, VALUE self) {
   return vresult;
 fail:
   if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_removeCopasiModel(int argc, VALUE *argv, VALUE self) {
+  copasi_model arg1 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  
+  if ((argc < 1) || (argc > 1)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 1)",argc); SWIG_fail;
+  }
+  {
+    res1 = SWIG_ConvertPtr(argv[0], &argp1, SWIGTYPE_p_copasi_model,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "copasi_model","removeCopasiModel", 1, argv[0] )); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, Ruby_Format_TypeError("invalid null reference ", "copasi_model","removeCopasiModel", 1, argv[0]));
+    } else {
+      arg1 = *((copasi_model *)(argp1));
+    }
+  }
+  removeCopasiModel(arg1);
+  return Qnil;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_clearCopasiModel(int argc, VALUE *argv, VALUE self) {
+  copasi_model arg1 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  
+  if ((argc < 1) || (argc > 1)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 1)",argc); SWIG_fail;
+  }
+  {
+    res1 = SWIG_ConvertPtr(argv[0], &argp1, SWIGTYPE_p_copasi_model,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "copasi_model","clearCopasiModel", 1, argv[0] )); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, Ruby_Format_TypeError("invalid null reference ", "copasi_model","clearCopasiModel", 1, argv[0]));
+    } else {
+      arg1 = *((copasi_model *)(argp1));
+    }
+  }
+  clearCopasiModel(arg1);
+  return Qnil;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_compileCopasiModel(int argc, VALUE *argv, VALUE self) {
+  copasi_model arg1 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  
+  if ((argc < 1) || (argc > 1)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 1)",argc); SWIG_fail;
+  }
+  {
+    res1 = SWIG_ConvertPtr(argv[0], &argp1, SWIGTYPE_p_copasi_model,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "copasi_model","compileCopasiModel", 1, argv[0] )); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, Ruby_Format_TypeError("invalid null reference ", "copasi_model","compileCopasiModel", 1, argv[0]));
+    } else {
+      arg1 = *((copasi_model *)(argp1));
+    }
+  }
+  compileCopasiModel(arg1);
+  return Qnil;
+fail:
   return Qnil;
 }
 
@@ -11845,12 +11910,12 @@ static swig_type_info _swigt__p_copasi_compartment = {"_p_copasi_compartment", "
 static swig_type_info _swigt__p_copasi_model = {"_p_copasi_model", "copasi_model *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_copasi_reaction = {"_p_copasi_reaction", "copasi_reaction *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_double = {"_p_double", "double *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f___copasi_model = {"_p_f___copasi_model", "copasi_model (*)()", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f___int = {"_p_f___int", "int (*)()", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f___p_char = {"_p_f___p_char", "char *(*)()", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f___tc_items = {"_p_f___tc_items", "tc_items (*)()", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f___tc_strings = {"_p_f___tc_strings", "tc_strings (*)()", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f___void = {"_p_f___void", "void (*)()", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_copasi_model__void = {"_p_f_copasi_model__void", "void (*)(copasi_model)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_double__void = {"_p_f_double__void", "void (*)(double)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_double_double__void = {"_p_f_double_double__void", "void (*)(double,double)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_int__tc_matrix = {"_p_f_int__tc_matrix", "tc_matrix (*)(int)", 0, 0, (void*)0, 0};
@@ -11931,12 +11996,12 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_copasi_model,
   &_swigt__p_copasi_reaction,
   &_swigt__p_double,
-  &_swigt__p_f___copasi_model,
   &_swigt__p_f___int,
   &_swigt__p_f___p_char,
   &_swigt__p_f___tc_items,
   &_swigt__p_f___tc_strings,
   &_swigt__p_f___void,
+  &_swigt__p_f_copasi_model__void,
   &_swigt__p_f_double__void,
   &_swigt__p_f_double_double__void,
   &_swigt__p_f_int__tc_matrix,
@@ -12017,12 +12082,12 @@ static swig_cast_info _swigc__p_copasi_compartment[] = {  {&_swigt__p_copasi_com
 static swig_cast_info _swigc__p_copasi_model[] = {  {&_swigt__p_copasi_model, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_copasi_reaction[] = {  {&_swigt__p_copasi_reaction, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_double[] = {  {&_swigt__p_double, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f___copasi_model[] = {  {&_swigt__p_f___copasi_model, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f___int[] = {  {&_swigt__p_f___int, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f___p_char[] = {  {&_swigt__p_f___p_char, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f___tc_items[] = {  {&_swigt__p_f___tc_items, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f___tc_strings[] = {  {&_swigt__p_f___tc_strings, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f___void[] = {  {&_swigt__p_f___void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_copasi_model__void[] = {  {&_swigt__p_f_copasi_model__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_double__void[] = {  {&_swigt__p_f_double__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_double_double__void[] = {  {&_swigt__p_f_double_double__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_int__tc_matrix[] = {  {&_swigt__p_f_int__tc_matrix, 0, 0, 0},{0, 0, 0, 0}};
@@ -12103,12 +12168,12 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_copasi_model,
   _swigc__p_copasi_reaction,
   _swigc__p_double,
-  _swigc__p_f___copasi_model,
   _swigc__p_f___int,
   _swigc__p_f___p_char,
   _swigc__p_f___tc_items,
   _swigc__p_f___tc_strings,
   _swigc__p_f___void,
+  _swigc__p_f_copasi_model__void,
   _swigc__p_f_double__void,
   _swigc__p_f_double_double__void,
   _swigc__p_f_int__tc_matrix,
@@ -12700,7 +12765,7 @@ SWIGEXPORT void Init_tinkercell(void) {
   rb_define_module_function(mTinkercell, "tc_exportSBML", _wrap_tc_exportSBML, -1);
   rb_define_module_function(mTinkercell, "tc_importSBML", _wrap_tc_importSBML, -1);
   rb_define_module_function(mTinkercell, "tc_SBML_api", _wrap_tc_SBML_api, -1);
-  rb_define_module_function(mTinkercell, "tc_CopasiModel", _wrap_tc_CopasiModel, -1);
+  rb_define_module_function(mTinkercell, "tc_updateCopasiModel", _wrap_tc_updateCopasiModel, -1);
   rb_define_module_function(mTinkercell, "tc_COPASI_api", _wrap_tc_COPASI_api, -1);
   
   SwigClassCopasi_model.klass = rb_define_class_under(mTinkercell, "Copasi_model", rb_cObject);
@@ -12746,8 +12811,10 @@ SWIGEXPORT void Init_tinkercell(void) {
   SwigClassCopasi_compartment.trackObjects = 0;
   rb_define_module_function(mTinkercell, "copasi_init", _wrap_copasi_init, -1);
   rb_define_module_function(mTinkercell, "copasi_end", _wrap_copasi_end, -1);
-  rb_define_module_function(mTinkercell, "compileCopasiModel", _wrap_compileCopasiModel, -1);
   rb_define_module_function(mTinkercell, "createCopasiModel", _wrap_createCopasiModel, -1);
+  rb_define_module_function(mTinkercell, "removeCopasiModel", _wrap_removeCopasiModel, -1);
+  rb_define_module_function(mTinkercell, "clearCopasiModel", _wrap_clearCopasiModel, -1);
+  rb_define_module_function(mTinkercell, "compileCopasiModel", _wrap_compileCopasiModel, -1);
   rb_define_module_function(mTinkercell, "loadModelFile", _wrap_loadModelFile, -1);
   rb_define_module_function(mTinkercell, "createCompartment", _wrap_createCompartment, -1);
   rb_define_module_function(mTinkercell, "setVolume", _wrap_setVolume, -1);

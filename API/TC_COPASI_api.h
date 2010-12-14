@@ -6,16 +6,16 @@
 BEGIN_C_DECLS
 
 /*!
- \brief get the COPASI model from current TinkerCell model
- \return copasi_model
+ \brief update the COPASI model from current TinkerCell model
+ \return copasi_model pointer to an existing copasi model
  \ingroup Export
 */
-TCAPIEXPORT copasi_model tc_CopasiModel();
+TCAPIEXPORT void tc_updateCopasiModel(copasi_model);
 /*!
  \brief initializing function
  \ingroup init
 */
-TCAPIEXPORT void tc_COPASI_api(copasi_model (*getCopasiModel)());
+TCAPIEXPORT void tc_COPASI_api(void (*updateCopasiModel)(copasi_model));
 
 END_C_DECLS
 #endif

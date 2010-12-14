@@ -7,27 +7,57 @@
 
 using namespace Tinkercell;
 
+void model1(copasi_model model)
+{
+	//species
+	copasi_compartment cell = createCompartment(model, "cell", 1.0);
+	createSpecies(cell, "mRNA", 0);
+	createSpecies(cell, "Protein", 0);
+	
+	//parameters	
+	setGlobalParameter(model, "d1", 1.0);
+	setGlobalParameter(model, "d2", 0.2);  
+	setGlobalParameter(model, "k0", 2.0);
+	setGlobalParameter(model, "k1", 1.0);
+	setGlobalParameter(model, "h", 4.0);  
+	setGlobalParameter(model, "Kd", 1.0);
+	setGlobalParameter(model, "leak", 0.1);  
+	
+	//reactions -- make sure all parameters or species are defined BEFORE this step
+	copasi_reaction R1 = createReaction(model, "R1");  //  mRNA production
+	addProduct(R1, "mRNA", 1.0);
+	setReactionRate(R1, "leak + k0 * (Protein^h) / (Kd + (Protein^h))");
+
+	copasi_reaction R2 = createReaction(model, "R2");  // Protein production
+	addProduct(R2, "Protein", 1.0);
+	setReactionRate(R2, "k1*mRNA");
+
+	copasi_reaction R3 = createReaction(model, "R3"); // mRNA degradation
+	addReactant(R3, "mRNA", 1.0);
+	setReactionRate(R3, "d1*mRNA");
+	
+	copasi_reaction R4 = createReaction(model, "R4"); // Protein degradation
+	addReactant(R4, "Protein", 1.0);
+	setReactionRate(R4, "d2*Protein");
+}
+
+
 CopasiExporter::CopasiExporter() : Tool("COPASI","Export")
 {
-	copasi_init();	
-	model.CopasiModelPtr = 0;
-	model.CopasiDataModelPtr = 0;
-	model.qHash = 0;
 	modelNeedsUpdate = true;	
 	qRegisterMetaType< copasi_model >("copasi_model");
-	connect(&fToS,SIGNAL(getCopasiModel(QSemaphore*, copasi_model *)),this,SLOT(getCopasiModel(QSemaphore*, copasi_model *)));
+	qRegisterMetaType< copasi_model* >("copasi_model*");
+	connect(&fToS,SIGNAL(getCopasiModel(QSemaphore*, copasi_model)),this,SLOT(getCopasiModel(QSemaphore*, copasi_model)));
 }
 
 CopasiExporter::~CopasiExporter()
 {
-	copasi_end();
 }
 
 bool CopasiExporter::setMainWindow(MainWindow * main)
 {
 	Tool::setMainWindow(main);	
 	if (!mainWindow) return false;
-	
 	connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 	connect(main,SIGNAL(historyChanged(int)),this, SLOT(historyChanged(int)));
 	connect(main,SIGNAL(windowChanged(NetworkWindow*,NetworkWindow*)),this, SLOT(windowChanged(NetworkWindow*,NetworkWindow*)));
@@ -35,7 +65,7 @@ bool CopasiExporter::setMainWindow(MainWindow * main)
 	return true;
 }
 
-typedef void (*tc_COPASI_api)(copasi_model (*getCopasiModel)());
+typedef void (*tc_COPASI_api)(void (*getCopasiModel)(copasi_model));
 
 void CopasiExporter::setupFunctionPointers( QLibrary * library)
 {
@@ -60,30 +90,31 @@ void CopasiExporter::windowChanged(NetworkWindow*,NetworkWindow*)
 
 CopasiExporter_FtoS CopasiExporter::fToS;
 
-copasi_model CopasiExporter::getCopasiModel()
+void CopasiExporter::getCopasiModel(copasi_model m)
 {
-	return fToS.getCopasiModel();
+	model1(m);
+	//fToS.getCopasiModel(m);
 }
 
-copasi_model CopasiExporter_FtoS::getCopasiModel()
+void CopasiExporter_FtoS::getCopasiModel(copasi_model m)
 {
-	copasi_model m;
 	QSemaphore * s = new QSemaphore(1);
 	s->acquire();
-	emit getCopasiModel(s,&m);
+	emit getCopasiModel(s,m);
 	s->acquire();
 	s->release();
 	delete s;
-	return m;
 }
 
-void CopasiExporter::getCopasiModel(QSemaphore * sem, copasi_model * m)
+void CopasiExporter::getCopasiModel(QSemaphore * sem, copasi_model m)
 {
 	if (modelNeedsUpdate)
-		updateModel();
-
-	if (m)
-		(*m) = model;
+	{
+		//updateModel(m);
+		clearCopasiModel(m);
+		model1(m);
+		modelNeedsUpdate = false;
+	}
 
 	if (sem)
 		sem->release();
@@ -93,10 +124,9 @@ void CopasiExporter::getCopasiModel(QSemaphore * sem, copasi_model * m)
     Move SBML to TinkerCell format and vice versa
 *****************************************************/
 
-void CopasiExporter::updateModel()
+void CopasiExporter::updateModel(copasi_model model)
 {
-	if (model.CopasiDataModelPtr)
-		removeCopasiModel(model);
+	return;
 		
 	model.CopasiModelPtr = 0;
 	model.CopasiDataModelPtr = 0;

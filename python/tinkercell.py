@@ -961,9 +961,9 @@ def tc_SBML_api(*args):
   return _tinkercell.tc_SBML_api(*args)
 tc_SBML_api = _tinkercell.tc_SBML_api
 
-def tc_CopasiModel():
-  return _tinkercell.tc_CopasiModel()
-tc_CopasiModel = _tinkercell.tc_CopasiModel
+def tc_updateCopasiModel(*args):
+  return _tinkercell.tc_updateCopasiModel(*args)
+tc_updateCopasiModel = _tinkercell.tc_updateCopasiModel
 
 def tc_COPASI_api(*args):
   return _tinkercell.tc_COPASI_api(*args)
@@ -1049,13 +1049,21 @@ def copasi_end():
   return _tinkercell.copasi_end()
 copasi_end = _tinkercell.copasi_end
 
-def compileCopasiModel(*args):
-  return _tinkercell.compileCopasiModel(*args)
-compileCopasiModel = _tinkercell.compileCopasiModel
-
 def createCopasiModel(*args):
   return _tinkercell.createCopasiModel(*args)
 createCopasiModel = _tinkercell.createCopasiModel
+
+def removeCopasiModel(*args):
+  return _tinkercell.removeCopasiModel(*args)
+removeCopasiModel = _tinkercell.removeCopasiModel
+
+def clearCopasiModel(*args):
+  return _tinkercell.clearCopasiModel(*args)
+clearCopasiModel = _tinkercell.clearCopasiModel
+
+def compileCopasiModel(*args):
+  return _tinkercell.compileCopasiModel(*args)
+compileCopasiModel = _tinkercell.compileCopasiModel
 
 def loadModelFile(*args):
   return _tinkercell.loadModelFile(*args)

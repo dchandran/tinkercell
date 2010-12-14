@@ -16,6 +16,18 @@
 #include "GraphicsScene.h"
 #include "ConsoleWindow.h"
 #include "LoadSaveTool.h"
+#include "CollisionDetection.h"
+#include "ConnectionInsertion.h"
+#include "ConnectionMaker.h"
+#include "NodeInsertion.h"
+#include "GraphicsReplaceTool.h"
+#include "GraphicsTransformTool.h"
+#include "GroupHandlerTool.h"
+#include "NameFamilyDialog.h"
+#include "ConnectionSelection.h"
+#include "NodeSelection.h"
+#include "TinkerCellAboutBox.h"
+
 #include <QColor>
 #include <QBrush>
 
@@ -32,15 +44,15 @@ int main(int argc, char *argv[])
     	Optional configuration
     ***********************/
     
-    Tinkercell::MainWindow::PROJECTWEBSITE = QObject::tr("www.tinkercell.com");
-    Tinkercell::MainWindow::ORGANIZATIONNAME = QObject::tr("TinkerCell");
-    Tinkercell::MainWindow::PROJECTNAME = QObject::tr("TinkerCell");
-    Tinkercell::ConsoleWindow::Prompt = QObject::tr(">");	
-	Tinkercell::ConsoleWindow::BackgroundColor = QColor("#555555");
+    MainWindow::PROJECTWEBSITE = QObject::tr("www.tinkercell.com");
+    MainWindow::ORGANIZATIONNAME = QObject::tr("TinkerCell");
+    MainWindow::PROJECTNAME = QObject::tr("TinkerCell");
+    ConsoleWindow::Prompt = QObject::tr(">");	
+	ConsoleWindow::BackgroundColor = QColor("#555555");
 	
 	QColor color("#00EE00");
 	color.setAlpha(50);
-	Tinkercell::GraphicsScene::SelectionRectangleBrush = QBrush(color);
+	GraphicsScene::SelectionRectangleBrush = QBrush(color);
 
     QString appDir = QCoreApplication::applicationDirPath();	
     QFile styleFile(appDir + QString("/tinkercell.qss"));
@@ -66,10 +78,23 @@ int main(int argc, char *argv[])
   #endif
   #endif
 	
+	/**********  statically loaded plugins  ****************/
 	mainWindow.addTool(new BasicGraphicsToolbar);
 	mainWindow.addTool(new PlotTool);
    	mainWindow.addTool(new GnuplotTool);
 	mainWindow.addTool(new LoadSaveTool);
+	mainWindow.addTool(new CatalogWidget);
+	mainWindow.addTool(new CollisionDetection);
+	mainWindow.addTool(new ConnectionInsertion);
+	mainWindow.addTool(new NodeInsertion);
+	mainWindow.addTool(new NodeSelection);
+	mainWindow.addTool(new ConnectionSelection);
+	mainWindow.addTool(new TinkercellAboutBox);
+	mainWindow.addTool(new GraphicsReplaceTool);
+	mainWindow.addTool(new GraphicsTransformTool);
+	mainWindow.addTool(new GroupHandlerTool);
+	mainWindow.addTool(new NameFamilyDialog);
+	mainWindow.addTool(new ConnectionMaker);
 
     /*******  title , etc ***********/
     mainWindow.setWindowTitle(QObject::tr("TinkerCell"));
@@ -90,7 +115,7 @@ int main(int argc, char *argv[])
     splash.show();
 
 
-    /*******  Load plugins from folders ***********/
+    /*******  Dynamically load plugins from folders ***********/
     DefaultPluginsMenu menu(&mainWindow);
 
     mainWindow.optionsMenu->addMenu(&menu);
@@ -108,7 +133,7 @@ int main(int argc, char *argv[])
 	LoadPluginsFromDir(home + QString("/plugins/ubuntu"),&mainWindow, &splash);
 #endif
 #endif
-
+/*
     LoadPluginsFromDir(appDir + QString("/plugins/c"),&mainWindow, &splash);
 #ifdef Q_WS_WIN
 	LoadPluginsFromDir(home + QString("/plugins/c/windows"),&mainWindow, &splash);
@@ -120,7 +145,7 @@ int main(int argc, char *argv[])
 	LoadPluginsFromDir(home + QString("/plugins/c/ubuntu64"),&mainWindow, &splash);
 #endif
 #endif
-
+*/
     /*******  START TINKERCELL ***********/
     mainWindow.readSettings();
   #ifdef TINKERCELL_LITE_TEXT
@@ -131,11 +156,12 @@ int main(int argc, char *argv[])
     mainWindow.show();
     splash.finish(&mainWindow);
 
-    /*******  command line arguments ***********/
+    /*******  process command line arguments, if any ***********/
 	if (argc > 1) 
 		for (int i=1; i < argc; ++i)
 			mainWindow.open(QString(argv[i]));
 
+    /* main loop */
     int output = app.exec();	
 	app.closeAllWindows();
     return output;

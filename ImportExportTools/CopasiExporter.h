@@ -26,10 +26,10 @@ namespace Tinkercell
 		Q_OBJECT
 
 		signals:
-			void getCopasiModel(QSemaphore*, copasi_model *);
+			void getCopasiModel(QSemaphore*, copasi_model);
 
 		public:
-			copasi_model getCopasiModel();
+			void getCopasiModel(copasi_model);
 	};
 	
 	/*! \brief This class exports COPASI models. The models are exported as the class
@@ -48,17 +48,16 @@ namespace Tinkercell
 		bool setMainWindow(MainWindow * main);
 	
 	private slots:
-		void getCopasiModel(QSemaphore*, copasi_model *);
+		void getCopasiModel(QSemaphore*, copasi_model);
 		void setupFunctionPointers( QLibrary * library);
 		void historyChanged(int);
 		void windowChanged(NetworkWindow*,NetworkWindow*);
 
 	private:
-		static copasi_model getCopasiModel();
-		void updateModel();
+		static void getCopasiModel(copasi_model);
+		void updateModel(copasi_model);
 		bool modelNeedsUpdate;
-		copasi_model model;
-		
+
 		static CopasiExporter_FtoS fToS;
 	};
 }

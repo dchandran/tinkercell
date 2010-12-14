@@ -2663,12 +2663,12 @@ SWIG_Python_MustGetPtr(PyObject *obj, swig_type_info *ty, int argnum, int flags)
 #define SWIGTYPE_p_copasi_model swig_types[2]
 #define SWIGTYPE_p_copasi_reaction swig_types[3]
 #define SWIGTYPE_p_double swig_types[4]
-#define SWIGTYPE_p_f___copasi_model swig_types[5]
-#define SWIGTYPE_p_f___int swig_types[6]
-#define SWIGTYPE_p_f___p_char swig_types[7]
-#define SWIGTYPE_p_f___tc_items swig_types[8]
-#define SWIGTYPE_p_f___tc_strings swig_types[9]
-#define SWIGTYPE_p_f___void swig_types[10]
+#define SWIGTYPE_p_f___int swig_types[5]
+#define SWIGTYPE_p_f___p_char swig_types[6]
+#define SWIGTYPE_p_f___tc_items swig_types[7]
+#define SWIGTYPE_p_f___tc_strings swig_types[8]
+#define SWIGTYPE_p_f___void swig_types[9]
+#define SWIGTYPE_p_f_copasi_model__void swig_types[10]
 #define SWIGTYPE_p_f_double__void swig_types[11]
 #define SWIGTYPE_p_f_double_double__void swig_types[12]
 #define SWIGTYPE_p_f_int__tc_matrix swig_types[13]
@@ -10977,13 +10977,27 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_tc_CopasiModel(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_tc_updateCopasiModel(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
-  copasi_model result;
+  copasi_model arg1 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)":tc_CopasiModel")) SWIG_fail;
-  result = tc_CopasiModel();
-  resultobj = SWIG_NewPointerObj((copasi_model *)memcpy((copasi_model *)malloc(sizeof(copasi_model)),&result,sizeof(copasi_model)), SWIGTYPE_p_copasi_model, SWIG_POINTER_OWN |  0 );
+  if (!PyArg_ParseTuple(args,(char *)"O:tc_updateCopasiModel",&obj0)) SWIG_fail;
+  {
+    res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_copasi_model,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_updateCopasiModel" "', argument " "1"" of type '" "copasi_model""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_updateCopasiModel" "', argument " "1"" of type '" "copasi_model""'");
+    } else {
+      arg1 = *((copasi_model *)(argp1));
+    }
+  }
+  tc_updateCopasiModel(arg1);
+  resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
   return NULL;
@@ -10992,14 +11006,14 @@ fail:
 
 SWIGINTERN PyObject *_wrap_tc_COPASI_api(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
-  copasi_model (*arg1)() = (copasi_model (*)()) 0 ;
+  void (*arg1)(copasi_model) = (void (*)(copasi_model)) 0 ;
   PyObject * obj0 = 0 ;
   
   if (!PyArg_ParseTuple(args,(char *)"O:tc_COPASI_api",&obj0)) SWIG_fail;
   {
-    int res = SWIG_ConvertFunctionPtr(obj0, (void**)(&arg1), SWIGTYPE_p_f___copasi_model);
+    int res = SWIG_ConvertFunctionPtr(obj0, (void**)(&arg1), SWIGTYPE_p_f_copasi_model__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "1"" of type '" "copasi_model (*)()""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "1"" of type '" "void (*)(copasi_model)""'"); 
     }
   }
   tc_COPASI_api(arg1);
@@ -11607,6 +11621,85 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_createCopasiModel(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  char *arg1 = (char *) 0 ;
+  int res1 ;
+  char *buf1 = 0 ;
+  int alloc1 = 0 ;
+  PyObject * obj0 = 0 ;
+  copasi_model result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:createCopasiModel",&obj0)) SWIG_fail;
+  res1 = SWIG_AsCharPtrAndSize(obj0, &buf1, NULL, &alloc1);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "createCopasiModel" "', argument " "1"" of type '" "char const *""'");
+  }
+  arg1 = (char *)(buf1);
+  result = createCopasiModel((char const *)arg1);
+  resultobj = SWIG_NewPointerObj((copasi_model *)memcpy((copasi_model *)malloc(sizeof(copasi_model)),&result,sizeof(copasi_model)), SWIGTYPE_p_copasi_model, SWIG_POINTER_OWN |  0 );
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  return resultobj;
+fail:
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_removeCopasiModel(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  copasi_model arg1 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:removeCopasiModel",&obj0)) SWIG_fail;
+  {
+    res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_copasi_model,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "removeCopasiModel" "', argument " "1"" of type '" "copasi_model""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "removeCopasiModel" "', argument " "1"" of type '" "copasi_model""'");
+    } else {
+      arg1 = *((copasi_model *)(argp1));
+    }
+  }
+  removeCopasiModel(arg1);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_clearCopasiModel(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  copasi_model arg1 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:clearCopasiModel",&obj0)) SWIG_fail;
+  {
+    res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_copasi_model,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "clearCopasiModel" "', argument " "1"" of type '" "copasi_model""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "clearCopasiModel" "', argument " "1"" of type '" "copasi_model""'");
+    } else {
+      arg1 = *((copasi_model *)(argp1));
+    }
+  }
+  clearCopasiModel(arg1);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_compileCopasiModel(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   copasi_model arg1 ;
@@ -11630,31 +11723,6 @@ SWIGINTERN PyObject *_wrap_compileCopasiModel(PyObject *SWIGUNUSEDPARM(self), Py
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_createCopasiModel(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  char *arg1 = (char *) 0 ;
-  int res1 ;
-  char *buf1 = 0 ;
-  int alloc1 = 0 ;
-  PyObject * obj0 = 0 ;
-  copasi_model result;
-  
-  if (!PyArg_ParseTuple(args,(char *)"O:createCopasiModel",&obj0)) SWIG_fail;
-  res1 = SWIG_AsCharPtrAndSize(obj0, &buf1, NULL, &alloc1);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "createCopasiModel" "', argument " "1"" of type '" "char const *""'");
-  }
-  arg1 = (char *)(buf1);
-  result = createCopasiModel((char const *)arg1);
-  resultobj = SWIG_NewPointerObj((copasi_model *)memcpy((copasi_model *)malloc(sizeof(copasi_model)),&result,sizeof(copasi_model)), SWIGTYPE_p_copasi_model, SWIG_POINTER_OWN |  0 );
-  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
-  return resultobj;
-fail:
-  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
   return NULL;
 }
 
@@ -13091,7 +13159,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"tc_exportSBML", _wrap_tc_exportSBML, METH_VARARGS, NULL},
 	 { (char *)"tc_importSBML", _wrap_tc_importSBML, METH_VARARGS, NULL},
 	 { (char *)"tc_SBML_api", _wrap_tc_SBML_api, METH_VARARGS, NULL},
-	 { (char *)"tc_CopasiModel", _wrap_tc_CopasiModel, METH_VARARGS, NULL},
+	 { (char *)"tc_updateCopasiModel", _wrap_tc_updateCopasiModel, METH_VARARGS, NULL},
 	 { (char *)"tc_COPASI_api", _wrap_tc_COPASI_api, METH_VARARGS, NULL},
 	 { (char *)"copasi_model_CopasiModelPtr_set", _wrap_copasi_model_CopasiModelPtr_set, METH_VARARGS, NULL},
 	 { (char *)"copasi_model_CopasiModelPtr_get", _wrap_copasi_model_CopasiModelPtr_get, METH_VARARGS, NULL},
@@ -13122,8 +13190,10 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"copasi_compartment_swigregister", copasi_compartment_swigregister, METH_VARARGS, NULL},
 	 { (char *)"copasi_init", _wrap_copasi_init, METH_VARARGS, NULL},
 	 { (char *)"copasi_end", _wrap_copasi_end, METH_VARARGS, NULL},
-	 { (char *)"compileCopasiModel", _wrap_compileCopasiModel, METH_VARARGS, NULL},
 	 { (char *)"createCopasiModel", _wrap_createCopasiModel, METH_VARARGS, NULL},
+	 { (char *)"removeCopasiModel", _wrap_removeCopasiModel, METH_VARARGS, NULL},
+	 { (char *)"clearCopasiModel", _wrap_clearCopasiModel, METH_VARARGS, NULL},
+	 { (char *)"compileCopasiModel", _wrap_compileCopasiModel, METH_VARARGS, NULL},
 	 { (char *)"loadModelFile", _wrap_loadModelFile, METH_VARARGS, NULL},
 	 { (char *)"createCompartment", _wrap_createCompartment, METH_VARARGS, NULL},
 	 { (char *)"setVolume", _wrap_setVolume, METH_VARARGS, NULL},
@@ -13163,12 +13233,12 @@ static swig_type_info _swigt__p_copasi_compartment = {"_p_copasi_compartment", "
 static swig_type_info _swigt__p_copasi_model = {"_p_copasi_model", "copasi_model *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_copasi_reaction = {"_p_copasi_reaction", "copasi_reaction *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_double = {"_p_double", "double *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f___copasi_model = {"_p_f___copasi_model", "copasi_model (*)()", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f___int = {"_p_f___int", "int (*)()", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f___p_char = {"_p_f___p_char", "char *(*)()", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f___tc_items = {"_p_f___tc_items", "tc_items (*)()", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f___tc_strings = {"_p_f___tc_strings", "tc_strings (*)()", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f___void = {"_p_f___void", "void (*)()", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_copasi_model__void = {"_p_f_copasi_model__void", "void (*)(copasi_model)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_double__void = {"_p_f_double__void", "void (*)(double)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_double_double__void = {"_p_f_double_double__void", "void (*)(double,double)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_int__tc_matrix = {"_p_f_int__tc_matrix", "tc_matrix (*)(int)", 0, 0, (void*)0, 0};
@@ -13249,12 +13319,12 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_copasi_model,
   &_swigt__p_copasi_reaction,
   &_swigt__p_double,
-  &_swigt__p_f___copasi_model,
   &_swigt__p_f___int,
   &_swigt__p_f___p_char,
   &_swigt__p_f___tc_items,
   &_swigt__p_f___tc_strings,
   &_swigt__p_f___void,
+  &_swigt__p_f_copasi_model__void,
   &_swigt__p_f_double__void,
   &_swigt__p_f_double_double__void,
   &_swigt__p_f_int__tc_matrix,
@@ -13335,12 +13405,12 @@ static swig_cast_info _swigc__p_copasi_compartment[] = {  {&_swigt__p_copasi_com
 static swig_cast_info _swigc__p_copasi_model[] = {  {&_swigt__p_copasi_model, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_copasi_reaction[] = {  {&_swigt__p_copasi_reaction, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_double[] = {  {&_swigt__p_double, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f___copasi_model[] = {  {&_swigt__p_f___copasi_model, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f___int[] = {  {&_swigt__p_f___int, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f___p_char[] = {  {&_swigt__p_f___p_char, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f___tc_items[] = {  {&_swigt__p_f___tc_items, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f___tc_strings[] = {  {&_swigt__p_f___tc_strings, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f___void[] = {  {&_swigt__p_f___void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_copasi_model__void[] = {  {&_swigt__p_f_copasi_model__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_double__void[] = {  {&_swigt__p_f_double__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_double_double__void[] = {  {&_swigt__p_f_double_double__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_int__tc_matrix[] = {  {&_swigt__p_f_int__tc_matrix, 0, 0, 0},{0, 0, 0, 0}};
@@ -13421,12 +13491,12 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_copasi_model,
   _swigc__p_copasi_reaction,
   _swigc__p_double,
-  _swigc__p_f___copasi_model,
   _swigc__p_f___int,
   _swigc__p_f___p_char,
   _swigc__p_f___tc_items,
   _swigc__p_f___tc_strings,
   _swigc__p_f___void,
+  _swigc__p_f_copasi_model__void,
   _swigc__p_f_double__void,
   _swigc__p_f_double_double__void,
   _swigc__p_f_int__tc_matrix,

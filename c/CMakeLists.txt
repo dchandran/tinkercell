@@ -47,7 +47,14 @@ IF (NOT TINKERCELL_LITE_PARTS)  #don't add any numerical packages in "parts" mod
 	IF (USE_COPASI)	 #use COPASI for the numerical analysis (more features)
 		ADD_LIBRARY( usecopasi  SHARED  usecopasi.c )
 		
-		TARGET_LINK_LIBRARIES( usecopasi usecopasi tinkercellapi copasi)
+		TARGET_LINK_LIBRARIES( usecopasi 
+			usecopasi 
+			tinkercellapi 
+			copasi
+			sbml
+			raptor
+			antimony
+			${QT_QTCORE_LIBRARY})
 
 		IF ( WIN32 )
 			  INSTALL(TARGETS usecopasi DESTINATION plugins/c)

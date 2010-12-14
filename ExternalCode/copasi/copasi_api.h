@@ -37,6 +37,11 @@ TCAPIEXPORT copasi_model createCopasiModel(const char * name);
 */
 TCAPIEXPORT void removeCopasiModel(copasi_model);
 /*! 
+ \brief clear all contents of a model
+ \ingroup Simulation
+*/
+TCAPIEXPORT void clearCopasiModel(copasi_model);
+/*! 
  \brief This function is only needed for calling COPASI methods not found in this library. This function compiles the COPASI model; it is called internally by the simulate and other anlysis functions. 
  \param copasi_model model
  \ingroup Simulation
@@ -289,6 +294,7 @@ TCAPIEXPORT tc_matrix getScaledConcentrationCC(copasi_model model);
 */
 TCAPIEXPORT tc_matrix getScaledFluxCC(copasi_model model);
 
+TCAPIEXPORT void example();
 END_C_DECLS
 #endif
 

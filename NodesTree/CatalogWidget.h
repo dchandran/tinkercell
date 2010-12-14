@@ -56,7 +56,7 @@ namespace Tinkercell
         \param Widget* parent widget
         \param QString filename from which to load heirarchy of nodes. default = NodesTree/NodesTree.xml
          */
-        CatalogWidget(NodesTree * nodesTree=0, ConnectionsTree * connectionsTree=0, QWidget * parent=0);
+        CatalogWidget(QWidget * parent=0);
 
         /*! \brief destructor*/
         ~CatalogWidget();

@@ -1086,12 +1086,12 @@ SWIG_R_ConvertPacked(SEXP obj, void *ptr, size_t sz, swig_type_info *ty) {
 #define SWIGTYPE_p_copasi_model swig_types[2]
 #define SWIGTYPE_p_copasi_reaction swig_types[3]
 #define SWIGTYPE_p_double swig_types[4]
-#define SWIGTYPE_p_f___copasi_model swig_types[5]
-#define SWIGTYPE_p_f___int swig_types[6]
-#define SWIGTYPE_p_f___p_char swig_types[7]
-#define SWIGTYPE_p_f___tc_items swig_types[8]
-#define SWIGTYPE_p_f___tc_strings swig_types[9]
-#define SWIGTYPE_p_f___void swig_types[10]
+#define SWIGTYPE_p_f___int swig_types[5]
+#define SWIGTYPE_p_f___p_char swig_types[6]
+#define SWIGTYPE_p_f___tc_items swig_types[7]
+#define SWIGTYPE_p_f___tc_strings swig_types[8]
+#define SWIGTYPE_p_f___void swig_types[9]
+#define SWIGTYPE_p_f_copasi_model__void swig_types[10]
 #define SWIGTYPE_p_f_double__void swig_types[11]
 #define SWIGTYPE_p_f_double_double__void swig_types[12]
 #define SWIGTYPE_p_f_int__tc_matrix swig_types[13]
@@ -13233,15 +13233,28 @@ R_swig_tc_SBML_api ( SEXP exportSBML, SEXP importSBML)
 
 
 SWIGEXPORT SEXP
-R_swig_tc_CopasiModel ( SEXP s_swig_copy)
+R_swig_tc_updateCopasiModel ( SEXP s_arg1)
 {
-  copasi_model result;
+  copasi_model arg1 ;
+  void *argp1 ;
+  int res1 = 0 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  result = tc_CopasiModel();
-  r_ans = SWIG_R_NewPointerObj((copasi_model *)memcpy((copasi_model *)malloc(sizeof(copasi_model)),&result,sizeof(copasi_model)), SWIGTYPE_p_copasi_model, SWIG_POINTER_OWN |  0 );
+  {
+    res1 = SWIG_R_ConvertPtr(s_arg1, &argp1, SWIGTYPE_p_copasi_model,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_updateCopasiModel" "', argument " "1"" of type '" "copasi_model""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_updateCopasiModel" "', argument " "1"" of type '" "copasi_model""'");
+    } else {
+      arg1 = *((copasi_model *)(argp1));
+    }
+  }
+  tc_updateCopasiModel(arg1);
+  r_ans = R_NilValue;
   vmaxset(r_vmax);
   if(r_nprotect)  Rf_unprotect(r_nprotect);
   
@@ -13249,21 +13262,23 @@ R_swig_tc_CopasiModel ( SEXP s_swig_copy)
 }
 
 
-copasi_model _p_f___copasi_model() {
-  copasi_model result;
+void _p_f_copasi_model__void(copasi_model s_arg1) {
+  copasi_model arg1 ;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
   SEXP r_tmp;
   int r_nprotect = 0;
   char * r_vmax= 0;
   int ecode = 0;
-  void *argp ;
-  int res = 0 ;
   
-  Rf_protect(r_swig_cb_data->expr = Rf_allocVector(LANGSXP, 1));
+  Rf_protect(r_swig_cb_data->expr = Rf_allocVector(LANGSXP, 2));
   r_nprotect++;
   r_swig_cb_data->el = r_swig_cb_data->expr;
   
   SETCAR(r_swig_cb_data->el, r_swig_cb_data->fun);
+  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
+  
+  r_tmp = SWIG_R_NewPointerObj((copasi_model *)memcpy((copasi_model *)malloc(sizeof(copasi_model)),&s_arg1,sizeof(copasi_model)), SWIGTYPE_p_copasi_model, SWIG_POINTER_OWN |  0 );
+  SETCAR(r_swig_cb_data->el, r_tmp);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
   
@@ -13272,47 +13287,35 @@ copasi_model _p_f___copasi_model() {
   
   if(r_swig_cb_data->errorOccurred) {
     R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f___copasi_model)");
-  }
-  {
-    res = SWIG_R_ConvertPtr(r_swig_cb_data->retValue, &argp, SWIGTYPE_p_copasi_model,  0 );
-    if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "$symname" "', argument " "$argnum"" of type '" "copasi_model""'"); 
-    }  
-    if (!argp) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "$symname" "', argument " "$argnum"" of type '" "copasi_model""'");
-    } else {
-      result = *((copasi_model *)(argp));
-    }
+    Rf_error("error in calling R function as a function pointer (_p_f_copasi_model__void)");
   }
   R_SWIG_popCallbackFunctionData(1);
   
   vmaxset(r_vmax);
   if(r_nprotect)  Rf_unprotect(r_nprotect);
   
-  return result;
   
 }
 
 
 SWIGEXPORT SEXP
-R_swig_tc_COPASI_api ( SEXP getCopasiModel)
+R_swig_tc_COPASI_api ( SEXP updateCopasiModel)
 {
-  copasi_model (*arg1)() = (copasi_model (*)()) 0 ;
+  void (*arg1)(copasi_model) = (void (*)(copasi_model)) 0 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  if(TYPEOF(getCopasiModel) != CLOSXP) {
+  if(TYPEOF(updateCopasiModel) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(getCopasiModel, (void**)(&arg1), SWIGTYPE_p_f___copasi_model, 0);
+      int res = SWIG_R_ConvertPtr(updateCopasiModel, (void**)(&arg1), SWIGTYPE_p_f_copasi_model__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "1"" of type '" "copasi_model (*)()""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "1"" of type '" "void (*)(copasi_model)""'"); 
       }
     }
   } else {
-    arg1 = _p_f___copasi_model;
-    R_SWIG_pushCallbackFunctionData(getCopasiModel, NULL);
+    arg1 = _p_f_copasi_model__void;
+    R_SWIG_pushCallbackFunctionData(updateCopasiModel, NULL);
   }
   tc_COPASI_api(arg1);
   r_ans = R_NilValue;
@@ -14008,6 +14011,93 @@ R_swig_copasi_end ( )
 
 
 SWIGEXPORT SEXP
+R_swig_createCopasiModel ( SEXP name, SEXP s_swig_copy)
+{
+  copasi_model result;
+  char *arg1 = (char *) 0 ;
+  int res1 ;
+  char *buf1 = 0 ;
+  int alloc1 = 0 ;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  res1 = SWIG_AsCharPtrAndSize(name, &buf1, NULL, &alloc1);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "createCopasiModel" "', argument " "1"" of type '" "char const *""'");
+  }
+  arg1 = (char *)(buf1);
+  result = createCopasiModel((char const *)arg1);
+  r_ans = SWIG_R_NewPointerObj((copasi_model *)memcpy((copasi_model *)malloc(sizeof(copasi_model)),&result,sizeof(copasi_model)), SWIGTYPE_p_copasi_model, SWIG_POINTER_OWN |  0 );
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
+SWIGEXPORT SEXP
+R_swig_removeCopasiModel ( SEXP s_arg1)
+{
+  copasi_model arg1 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  {
+    res1 = SWIG_R_ConvertPtr(s_arg1, &argp1, SWIGTYPE_p_copasi_model,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "removeCopasiModel" "', argument " "1"" of type '" "copasi_model""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "removeCopasiModel" "', argument " "1"" of type '" "copasi_model""'");
+    } else {
+      arg1 = *((copasi_model *)(argp1));
+    }
+  }
+  removeCopasiModel(arg1);
+  r_ans = R_NilValue;
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
+SWIGEXPORT SEXP
+R_swig_clearCopasiModel ( SEXP s_arg1)
+{
+  copasi_model arg1 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  {
+    res1 = SWIG_R_ConvertPtr(s_arg1, &argp1, SWIGTYPE_p_copasi_model,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "clearCopasiModel" "', argument " "1"" of type '" "copasi_model""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "clearCopasiModel" "', argument " "1"" of type '" "copasi_model""'");
+    } else {
+      arg1 = *((copasi_model *)(argp1));
+    }
+  }
+  clearCopasiModel(arg1);
+  r_ans = R_NilValue;
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
+SWIGEXPORT SEXP
 R_swig_compileCopasiModel ( SEXP model)
 {
   copasi_model arg1 ;
@@ -14030,33 +14120,6 @@ R_swig_compileCopasiModel ( SEXP model)
   }
   compileCopasiModel(arg1);
   r_ans = R_NilValue;
-  vmaxset(r_vmax);
-  if(r_nprotect)  Rf_unprotect(r_nprotect);
-  
-  return r_ans;
-}
-
-
-SWIGEXPORT SEXP
-R_swig_createCopasiModel ( SEXP name, SEXP s_swig_copy)
-{
-  copasi_model result;
-  char *arg1 = (char *) 0 ;
-  int res1 ;
-  char *buf1 = 0 ;
-  int alloc1 = 0 ;
-  unsigned int r_nprotect = 0;
-  SEXP r_ans = R_NilValue ;
-  VMAXTYPE r_vmax = vmaxget() ;
-  
-  res1 = SWIG_AsCharPtrAndSize(name, &buf1, NULL, &alloc1);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "createCopasiModel" "', argument " "1"" of type '" "char const *""'");
-  }
-  arg1 = (char *)(buf1);
-  result = createCopasiModel((char const *)arg1);
-  r_ans = SWIG_R_NewPointerObj((copasi_model *)memcpy((copasi_model *)malloc(sizeof(copasi_model)),&result,sizeof(copasi_model)), SWIGTYPE_p_copasi_model, SWIG_POINTER_OWN |  0 );
-  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
   vmaxset(r_vmax);
   if(r_nprotect)  Rf_unprotect(r_nprotect);
   
@@ -15186,12 +15249,12 @@ static swig_type_info _swigt__p_copasi_compartment = {"_p_copasi_compartment", "
 static swig_type_info _swigt__p_copasi_model = {"_p_copasi_model", "copasi_model *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_copasi_reaction = {"_p_copasi_reaction", "copasi_reaction *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_double = {"_p_double", "double *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f___copasi_model = {"_p_f___copasi_model", "copasi_model (*)()", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f___int = {"_p_f___int", "int (*)()", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f___p_char = {"_p_f___p_char", "char *(*)()", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f___tc_items = {"_p_f___tc_items", "tc_items (*)()", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f___tc_strings = {"_p_f___tc_strings", "tc_strings (*)()", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f___void = {"_p_f___void", "void (*)()", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_copasi_model__void = {"_p_f_copasi_model__void", "void (*)(copasi_model)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_double__void = {"_p_f_double__void", "void (*)(double)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_double_double__void = {"_p_f_double_double__void", "void (*)(double,double)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_int__tc_matrix = {"_p_f_int__tc_matrix", "tc_matrix (*)(int)", 0, 0, (void*)0, 0};
@@ -15272,12 +15335,12 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_copasi_model,
   &_swigt__p_copasi_reaction,
   &_swigt__p_double,
-  &_swigt__p_f___copasi_model,
   &_swigt__p_f___int,
   &_swigt__p_f___p_char,
   &_swigt__p_f___tc_items,
   &_swigt__p_f___tc_strings,
   &_swigt__p_f___void,
+  &_swigt__p_f_copasi_model__void,
   &_swigt__p_f_double__void,
   &_swigt__p_f_double_double__void,
   &_swigt__p_f_int__tc_matrix,
@@ -15358,12 +15421,12 @@ static swig_cast_info _swigc__p_copasi_compartment[] = {  {&_swigt__p_copasi_com
 static swig_cast_info _swigc__p_copasi_model[] = {  {&_swigt__p_copasi_model, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_copasi_reaction[] = {  {&_swigt__p_copasi_reaction, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_double[] = {  {&_swigt__p_double, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f___copasi_model[] = {  {&_swigt__p_f___copasi_model, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f___int[] = {  {&_swigt__p_f___int, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f___p_char[] = {  {&_swigt__p_f___p_char, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f___tc_items[] = {  {&_swigt__p_f___tc_items, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f___tc_strings[] = {  {&_swigt__p_f___tc_strings, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f___void[] = {  {&_swigt__p_f___void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_copasi_model__void[] = {  {&_swigt__p_f_copasi_model__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_double__void[] = {  {&_swigt__p_f_double__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_double_double__void[] = {  {&_swigt__p_f_double_double__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_int__tc_matrix[] = {  {&_swigt__p_f_int__tc_matrix, 0, 0, 0},{0, 0, 0, 0}};
@@ -15444,12 +15507,12 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_copasi_model,
   _swigc__p_copasi_reaction,
   _swigc__p_double,
-  _swigc__p_f___copasi_model,
   _swigc__p_f___int,
   _swigc__p_f___p_char,
   _swigc__p_f___tc_items,
   _swigc__p_f___tc_strings,
   _swigc__p_f___void,
+  _swigc__p_f_copasi_model__void,
   _swigc__p_f_double__void,
   _swigc__p_f_double_double__void,
   _swigc__p_f_int__tc_matrix,
@@ -15890,9 +15953,11 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_compileAndRun", (DL_FUNC) &R_swig_tc_compileAndRun, 3},
    {"R_swig_tc_getTextDataNames", (DL_FUNC) &R_swig_tc_getTextDataNames, 2},
    {"R_swig_tc_getNumericalDataNames", (DL_FUNC) &R_swig_tc_getNumericalDataNames, 2},
-   {"R_swig_tc_CopasiModel", (DL_FUNC) &R_swig_tc_CopasiModel, 1},
-   {"R_swig_compileCopasiModel", (DL_FUNC) &R_swig_compileCopasiModel, 1},
+   {"R_swig_tc_updateCopasiModel", (DL_FUNC) &R_swig_tc_updateCopasiModel, 1},
    {"R_swig_createCopasiModel", (DL_FUNC) &R_swig_createCopasiModel, 2},
+   {"R_swig_removeCopasiModel", (DL_FUNC) &R_swig_removeCopasiModel, 1},
+   {"R_swig_clearCopasiModel", (DL_FUNC) &R_swig_clearCopasiModel, 1},
+   {"R_swig_compileCopasiModel", (DL_FUNC) &R_swig_compileCopasiModel, 1},
    {"R_swig_tc_compileBuildLoad", (DL_FUNC) &R_swig_tc_compileBuildLoad, 4},
    {"R_swig_tc_screenshot", (DL_FUNC) &R_swig_tc_screenshot, 3},
    {"R_swig_tc_callback", (DL_FUNC) &R_swig_tc_callback, 1},

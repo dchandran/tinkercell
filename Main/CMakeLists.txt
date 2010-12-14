@@ -1,15 +1,6 @@
-SET(LIBRARY_OUTPUT_PATH ${CPP_LIBRARY_OUTPUT_PATH})
-
-QT4_WRAP_CPP( DefaultPluginsMenu_MOC 
-  DefaultPluginsMenu.h)
-
-QT4_ADD_RESOURCES( TINKERCELL_QRC ../Core/Tinkercell.qrc )
-
 ##TinkerCell Lite##
-
 OPTION( TINKERCELL_LITE_PARTS "Enable part-only version" OFF )
 OPTION( TINKERCELL_LITE_TEXT "Enable species-only version" OFF )
-
 IF (${TINKERCELL_LITE_PARTS})
  ADD_DEFINITIONS(-DTINKERCELL_PARTS_ONLY)
 ELSEIF (${TINKERCELL_LITE_PARTS})
@@ -17,6 +8,38 @@ ELSEIF (${TINKERCELL_LITE_PARTS})
 	 ADD_DEFINITIONS(-DTINKERCELL_TEXT_ONLY)
  ENDIF (${TINKERCELL_LITE_TEXT})
 ENDIF (${TINKERCELL_LITE_PARTS})
+
+####
+
+CONFIGURE_FILE( 
+	${TINKERCELL_SOURCE_DIR}/BasicTools/TinkerCellAboutBox.cpp.in
+	${TINKERCELL_BINARY_DIR}/BasicTools/TinkerCellAboutBox.cpp
+	@ONLY
+)
+
+####
+
+INCLUDE_DIRECTORIES( BEFORE
+    ${TINKERCELL_SOURCE_DIR}/BasicTools
+    ${TINKERCELL_SOURCE_DIR}/NodesTree
+    ${TINKERCELL_SOURCE_DIR}/Main
+ )
+
+FILE( GLOB TINKERCELL_MAIN_SRC 
+	${TINKERCELL_SOURCE_DIR}/Main/*.cpp
+    ${TINKERCELL_SOURCE_DIR}/BasicTools/*.cpp
+    ${TINKERCELL_BINARY_DIR}/BasicTools/*.cpp
+    ${TINKERCELL_SOURCE_DIR}/NodesTree/*.cpp
+)
+FILE( GLOB TINKERCELL_MAIN_HRDS
+	${TINKERCELL_SOURCE_DIR}/Main/*.h
+    ${TINKERCELL_SOURCE_DIR}/BasicTools/*.h
+    ${TINKERCELL_SOURCE_DIR}/NodesTree/*.h
+)
+
+QT4_WRAP_CPP( TINKERCELL_MAIN_MOC ${TINKERCELL_MAIN_HRDS})
+QT4_ADD_RESOURCES( TINKERCELL_QRC ../Core/Tinkercell.qrc )
+
 
 ###
 
@@ -32,9 +55,8 @@ IF( APPLE AND BUILD_BUNDLE )
 
   ADD_EXECUTABLE( TinkerCell 
     MACOSX_BUNDLE
-    Main.cpp
-    ${DefaultPluginsMenu_MOC}
-    DefaultPluginsMenu.cpp
+    ${TINKERCELL_MAIN_SRC}
+    ${TINKERCELL_MAIN_MOC}
     ${TINKERCELL_QRC}
   )
 
@@ -53,9 +75,8 @@ IF( APPLE AND BUILD_BUNDLE )
 ELSE( APPLE AND BUILD_BUNDLE )
   IF( UNIX OR ( APPLE AND NOT BUILD_BUNDLE ) )
     ADD_EXECUTABLE( TinkerCell 
-      Main.cpp
-      ${DefaultPluginsMenu_MOC}
-      DefaultPluginsMenu.cpp
+      ${TINKERCELL_MAIN_SRC}
+      ${TINKERCELL_MAIN_MOC}
       ${TINKERCELL_QRC}
     )
 
@@ -82,9 +103,8 @@ ELSE( APPLE AND BUILD_BUNDLE )
 		  ENDIF( MINGW )
 	
     ADD_EXECUTABLE( TinkerCell WIN32
-      Main.cpp
-      ${DefaultPluginsMenu_MOC}
-      DefaultPluginsMenu.cpp
+      ${TINKERCELL_MAIN_SRC}
+      ${TINKERCELL_MAIN_MOC}
       ${TINKERCELL_QRC}
       ${TINKERCELL_RC}
     )
@@ -110,3 +130,4 @@ INSTALL(TARGETS TinkerCell
 FILE(GLOB TINKERCELL_EXAMPLES examples/*.tic examples/*.TIC examples/*.xml)
 INSTALL(FILES ${TINKERCELL_EXAMPLES} DESTINATION examples COMPONENT "examples")
 INSTALL(FILES tinkercell.qss DESTINATION bin/../ COMPONENT "stylesheet")
+

@@ -12,39 +12,16 @@ Function that loads dll into main window
 extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)
 {
 	if (!main) return;
-
-	Tinkercell::CollisionDetection * collisionDetection = new Tinkercell::CollisionDetection;
-	main->addTool(collisionDetection);
-
-	Tinkercell::ConnectionInsertion * connectionInsertion = new Tinkercell::ConnectionInsertion;
-	main->addTool(connectionInsertion);
-
-	Tinkercell::NodeInsertion * nodeInsertion = new Tinkercell::NodeInsertion;
-	main->addTool(nodeInsertion);
-	
-	Tinkercell::NodeSelection * partSelection = new Tinkercell::NodeSelection;
-	main->addTool(partSelection);
-
-	Tinkercell::ConnectionSelection * connectionSelection = new Tinkercell::ConnectionSelection;
-	main->addTool(connectionSelection);
-	
-	Tinkercell::TinkercellAboutBox * about = new Tinkercell::TinkercellAboutBox;
-	main->addTool(about);
-
-	Tinkercell::GraphicsReplaceTool * graphicsReplaceTool = new Tinkercell::GraphicsReplaceTool;	
-	main->addTool(graphicsReplaceTool);
-
-	Tinkercell::GraphicsTransformTool * graphicsTransformTool = new Tinkercell::GraphicsTransformTool;
-	main->addTool(graphicsTransformTool);
-
-	Tinkercell::GroupHandlerTool * groupHandlerTool = new Tinkercell::GroupHandlerTool;
-	main->addTool(groupHandlerTool);
-
-	Tinkercell::NameFamilyDialog * nameFamilyDialog = new Tinkercell::NameFamilyDialog;
-	main->addTool(nameFamilyDialog);
-
-	Tinkercell::ConnectionMaker * connectionMaker = new Tinkercell::ConnectionMaker;
-	main->addTool(connectionMaker);
-
+	main->addTool(new Tinkercell::CollisionDetection);
+	main->addTool(new Tinkercell::ConnectionInsertion);
+	main->addTool(new Tinkercell::NodeInsertion);
+	main->addTool(new Tinkercell::NodeSelection);
+	main->addTool(new Tinkercell::ConnectionSelection);
+	main->addTool(new Tinkercell::TinkercellAboutBox);
+	main->addTool(new Tinkercell::GraphicsReplaceTool);
+	main->addTool(new Tinkercell::GraphicsTransformTool);
+	main->addTool(new Tinkercell::GroupHandlerTool);
+	main->addTool(new Tinkercell::NameFamilyDialog);
+	main->addTool(new Tinkercell::ConnectionMaker);
 }
 

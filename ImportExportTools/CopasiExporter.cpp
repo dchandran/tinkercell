@@ -694,6 +694,10 @@ NumericalDataTable& SimulationThread::result()
 {
 }
 
+void SimulationThread::run()
+{
+}
+
 int SimulationThread::totalModelCount = 0;
 
 

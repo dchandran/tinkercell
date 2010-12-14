@@ -115,10 +115,6 @@ void CopasiExporter::windowChanged(NetworkWindow*,NetworkWindow*)
 	modelNeedsUpdate = true;
 }
 
-/*******************************************
-    C Interface
-********************************************/
-
 
 /***************************************************
       Copasi export
@@ -697,4 +693,8 @@ void SimulationThread::setParameterRange(const QString& param, double start, dou
 NumericalDataTable& SimulationThread::result()
 {
 }
+
+int SimulationThread::totalModelCount = 0;
+
+
 

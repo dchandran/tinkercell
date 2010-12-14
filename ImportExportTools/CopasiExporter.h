@@ -89,7 +89,6 @@ namespace Tinkercell
 	
 	private slots:
 
-		void getCopasiModel(QSemaphore*, copasi_model);
 		void setupFunctionPointers( QLibrary * library);
 		void historyChanged(int);
 		void windowChanged(NetworkWindow*,NetworkWindow*);

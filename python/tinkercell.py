@@ -961,9 +961,13 @@ def tc_SBML_api(*args):
   return _tinkercell.tc_SBML_api(*args)
 tc_SBML_api = _tinkercell.tc_SBML_api
 
-def tc_updateCopasiModel(*args):
-  return _tinkercell.tc_updateCopasiModel(*args)
-tc_updateCopasiModel = _tinkercell.tc_updateCopasiModel
+def steadyStateScan(*args):
+  return _tinkercell.steadyStateScan(*args)
+steadyStateScan = _tinkercell.steadyStateScan
+
+def steadyStateScan2D(*args):
+  return _tinkercell.steadyStateScan2D(*args)
+steadyStateScan2D = _tinkercell.steadyStateScan2D
 
 def tc_COPASI_api(*args):
   return _tinkercell.tc_COPASI_api(*args)
@@ -1125,6 +1129,11 @@ def setReactionRate(*args):
   return _tinkercell.setReactionRate(*args)
 setReactionRate = _tinkercell.setReactionRate
 
+def example():
+  return _tinkercell.example()
+example = _tinkercell.example
+
+
 def simulateDeterministic(*args):
   return _tinkercell.simulateDeterministic(*args)
 simulateDeterministic = _tinkercell.simulateDeterministic
@@ -1176,5 +1185,4 @@ getScaledConcentrationCC = _tinkercell.getScaledConcentrationCC
 def getScaledFluxCC(*args):
   return _tinkercell.getScaledFluxCC(*args)
 getScaledFluxCC = _tinkercell.getScaledFluxCC
-
 

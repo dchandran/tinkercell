@@ -247,7 +247,8 @@ package tinkercell;
 *tc_exportSBML = *tinkercellc::tc_exportSBML;
 *tc_importSBML = *tinkercellc::tc_importSBML;
 *tc_SBML_api = *tinkercellc::tc_SBML_api;
-*tc_updateCopasiModel = *tinkercellc::tc_updateCopasiModel;
+*steadyStateScan = *tinkercellc::steadyStateScan;
+*steadyStateScan2D = *tinkercellc::steadyStateScan2D;
 *tc_COPASI_api = *tinkercellc::tc_COPASI_api;
 *copasi_init = *tinkercellc::copasi_init;
 *copasi_end = *tinkercellc::copasi_end;
@@ -283,6 +284,7 @@ package tinkercell;
 *getScaledElasticities = *tinkercellc::getScaledElasticities;
 *getScaledConcentrationCC = *tinkercellc::getScaledConcentrationCC;
 *getScaledFluxCC = *tinkercellc::getScaledFluxCC;
+*example = *tinkercellc::example;
 
 ############# Class : tinkercell::tc_strings ##############
 

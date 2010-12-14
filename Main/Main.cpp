@@ -143,7 +143,7 @@ int main(int argc, char *argv[])
 	mainWindow.addTool(new CellPositionUpdateTool);
 
 	mainWindow.addTool(new OctaveExporter);
-//	mainWindow.addTool(new SBMLImportExport);
+	mainWindow.addTool(new SBMLImportExport);
 	mainWindow.addTool(new CopasiExporter);
 	mainWindow.addTool(new AntimonyEditor);
 	

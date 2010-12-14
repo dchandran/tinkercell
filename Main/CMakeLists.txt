@@ -1,4 +1,4 @@
-##TinkerCell Lite##
+## TinkerCell Lite ##
 OPTION( TINKERCELL_LITE_PARTS "Enable part-only version" OFF )
 OPTION( TINKERCELL_LITE_TEXT "Enable species-only version" OFF )
 IF (${TINKERCELL_LITE_PARTS})
@@ -35,6 +35,9 @@ INCLUDE_DIRECTORIES( BEFORE
     ${TINKERCELL_SOURCE_DIR}/GeneticNetworks
      ${TINKERCELL_SOURCE_DIR}/OtherTools
      ${TINKERCELL_SOURCE_DIR}/ImportExportTools
+     ${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi
+     ${TINKERCELL_SOURCE_DIR}/ExternalCode/libSBML/include
+     ${TINKERCELL_SOURCE_DIR}/ExternalCode/Antimony/src
  )
 
 FILE( GLOB TINKERCELL_MAIN_SRC 
@@ -50,6 +53,7 @@ FILE( GLOB TINKERCELL_MAIN_SRC
     ${TINKERCELL_SOURCE_DIR}/OtherTools/*.cpp
     ${TINKERCELL_SOURCE_DIR}/ImportExportTools/*.cpp
 )
+
 FILE( GLOB TINKERCELL_MAIN_HRDS
 	${TINKERCELL_SOURCE_DIR}/Main/*.h
     ${TINKERCELL_SOURCE_DIR}/BasicTools/*.h
@@ -87,6 +91,11 @@ IF( APPLE AND BUILD_BUNDLE )
 
   TARGET_LINK_LIBRARIES( TinkerCell
     TinkerCellCore
+     muparser
+	 sbml
+	 antimony
+	 sbml_sim
+	 copasi
     ${QT_LIBRARIES}
   )
 
@@ -107,6 +116,11 @@ ELSE( APPLE AND BUILD_BUNDLE )
 
     TARGET_LINK_LIBRARIES( TinkerCell
       TinkerCellCore
+       muparser
+	   sbml
+	   antimony
+  	   sbml_sim
+	   copasi
       ${QT_LIBRARIES}
     )
   ELSE( UNIX OR ( APPLE AND NOT BUILD_BUNDLE ) )
@@ -125,7 +139,7 @@ ELSE( APPLE AND BUILD_BUNDLE )
 
 	  		SET(TINKERCELL_RC tinkercell.rc)
 
-		  ENDIF( MINGW )
+		ENDIF( MINGW )
 	
     ADD_EXECUTABLE( TinkerCell WIN32
       ${TINKERCELL_MAIN_SRC}
@@ -136,6 +150,11 @@ ELSE( APPLE AND BUILD_BUNDLE )
 
     TARGET_LINK_LIBRARIES( TinkerCell
       TinkerCellCore
+       muparser
+	   sbml
+	   antimony
+	   sbml_sim
+	   copasi
       ${QT_LIBRARIES}
     )
     ENDIF( WIN32 )

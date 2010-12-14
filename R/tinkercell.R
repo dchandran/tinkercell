@@ -626,9 +626,27 @@ setClass('_p_f_long_tc_strings__void',
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_copasi_model__void',
-        prototype = list(parameterTypes = c('_copasi_model'),
-                        returnType = '_p_f_copasi_model__void'),
+setClass('_p_f_double_double_int__tc_matrix',
+        prototype = list(parameterTypes = c('_double', '_double', '_int'),
+                        returnType = '_p_f_double_double_int__tc_matrix'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f___tc_matrix',
+        prototype = list(parameterTypes = c(),
+                        returnType = '_p_f___tc_matrix'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_p_q_const__char_double_double_int__tc_matrix',
+        prototype = list(parameterTypes = c('_p_char', '_double', '_double', '_int'),
+                        returnType = '_p_f_p_q_const__char_double_double_int__tc_matrix'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_p_q_const__char_double_double_int_p_q_const__char_double_double_int__tc_matrix',
+        prototype = list(parameterTypes = c('_p_char', '_double', '_double', '_int', '_p_char', '_double', '_double', '_int'),
+                        returnType = '_p_f_p_q_const__char_double_double_int_p_q_const__char_double_double_int__tc_matrix'),
         contains = 'CRoutinePointer')
 
 ##
@@ -6229,38 +6247,433 @@ attr(`tc_SBML_api`, 'returnType') = 'void'
 attr(`tc_SBML_api`, "inputTypes") = c('_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void')
 class(`tc_SBML_api`) = c("SWIGFunction", class('tc_SBML_api'))
 
-# Start of tc_updateCopasiModel
+# Start of simulateDeterministic
 
-`tc_updateCopasiModel` = function(s_arg1)
+`simulateDeterministic__SWIG_0` = function(startTime, endTime, numSteps, .copy = FALSE)
 {
-  .Call('R_swig_tc_updateCopasiModel', s_arg1, PACKAGE='tinkercell')
+  numSteps = as.integer(numSteps) 
+  
+  if(length(numSteps) > 1) {
+    warning("using only the first element of numSteps")
+  }
+  
+  ans = .Call('R_swig_simulateDeterministic__SWIG_0', startTime, endTime, numSteps, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_tc_matrix"
+  
+  ans
   
 }
 
-attr(`tc_updateCopasiModel`, 'returnType') = 'void'
-attr(`tc_updateCopasiModel`, "inputTypes") = c('_p_copasi_model')
-class(`tc_updateCopasiModel`) = c("SWIGFunction", class('tc_updateCopasiModel'))
+attr(`simulateDeterministic__SWIG_0`, 'returnType') = '_p_tc_matrix'
+attr(`simulateDeterministic__SWIG_0`, "inputTypes") = c('numeric', 'numeric', 'integer')
+class(`simulateDeterministic__SWIG_0`) = c("SWIGFunction", class('simulateDeterministic__SWIG_0'))
+
+# Start of simulateStochastic
+
+`simulateStochastic__SWIG_0` = function(startTime, endTime, numSteps, .copy = FALSE)
+{
+  numSteps = as.integer(numSteps) 
+  
+  if(length(numSteps) > 1) {
+    warning("using only the first element of numSteps")
+  }
+  
+  ans = .Call('R_swig_simulateStochastic__SWIG_0', startTime, endTime, numSteps, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_tc_matrix"
+  
+  ans
+  
+}
+
+attr(`simulateStochastic__SWIG_0`, 'returnType') = '_p_tc_matrix'
+attr(`simulateStochastic__SWIG_0`, "inputTypes") = c('numeric', 'numeric', 'integer')
+class(`simulateStochastic__SWIG_0`) = c("SWIGFunction", class('simulateStochastic__SWIG_0'))
+
+# Start of simulateHybrid
+
+`simulateHybrid__SWIG_0` = function(startTime, endTime, numSteps, .copy = FALSE)
+{
+  numSteps = as.integer(numSteps) 
+  
+  if(length(numSteps) > 1) {
+    warning("using only the first element of numSteps")
+  }
+  
+  ans = .Call('R_swig_simulateHybrid__SWIG_0', startTime, endTime, numSteps, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_tc_matrix"
+  
+  ans
+  
+}
+
+attr(`simulateHybrid__SWIG_0`, 'returnType') = '_p_tc_matrix'
+attr(`simulateHybrid__SWIG_0`, "inputTypes") = c('numeric', 'numeric', 'integer')
+class(`simulateHybrid__SWIG_0`) = c("SWIGFunction", class('simulateHybrid__SWIG_0'))
+
+# Start of simulateTauLeap
+
+`simulateTauLeap__SWIG_0` = function(startTime, endTime, numSteps, .copy = FALSE)
+{
+  numSteps = as.integer(numSteps) 
+  
+  if(length(numSteps) > 1) {
+    warning("using only the first element of numSteps")
+  }
+  
+  ans = .Call('R_swig_simulateTauLeap__SWIG_0', startTime, endTime, numSteps, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_tc_matrix"
+  
+  ans
+  
+}
+
+attr(`simulateTauLeap__SWIG_0`, 'returnType') = '_p_tc_matrix'
+attr(`simulateTauLeap__SWIG_0`, "inputTypes") = c('numeric', 'numeric', 'integer')
+class(`simulateTauLeap__SWIG_0`) = c("SWIGFunction", class('simulateTauLeap__SWIG_0'))
+
+# Start of getSteadyState
+
+`getSteadyState__SWIG_0` = function(.copy = FALSE)
+{
+  ans = .Call('R_swig_getSteadyState__SWIG_0', as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_tc_matrix"
+  
+  ans
+  
+}
+
+attr(`getSteadyState__SWIG_0`, 'returnType') = '_p_tc_matrix'
+class(`getSteadyState__SWIG_0`) = c("SWIGFunction", class('getSteadyState__SWIG_0'))
+
+# Start of steadyStateScan
+
+`steadyStateScan` = function(param, start, end, numSteps, .copy = FALSE)
+{
+  param = as(param, "character") 
+  
+  
+  numSteps = as.integer(numSteps) 
+  
+  if(length(numSteps) > 1) {
+    warning("using only the first element of numSteps")
+  }
+  
+  ans = .Call('R_swig_steadyStateScan', param, start, end, numSteps, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_tc_matrix"
+  
+  ans
+  
+}
+
+attr(`steadyStateScan`, 'returnType') = '_p_tc_matrix'
+attr(`steadyStateScan`, "inputTypes") = c('character', 'numeric', 'numeric', 'integer')
+class(`steadyStateScan`) = c("SWIGFunction", class('steadyStateScan'))
+
+# Start of steadyStateScan2D
+
+`steadyStateScan2D` = function(param1, start1, end1, numSteps1, param2, start2, end2, numSteps2, .copy = FALSE)
+{
+  param1 = as(param1, "character") 
+  
+  
+  numSteps1 = as.integer(numSteps1) 
+  
+  if(length(numSteps1) > 1) {
+    warning("using only the first element of numSteps1")
+  }
+  
+  param2 = as(param2, "character") 
+  
+  
+  numSteps2 = as.integer(numSteps2) 
+  
+  if(length(numSteps2) > 1) {
+    warning("using only the first element of numSteps2")
+  }
+  
+  ans = .Call('R_swig_steadyStateScan2D', param1, start1, end1, numSteps1, param2, start2, end2, numSteps2, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_tc_matrix"
+  
+  ans
+  
+}
+
+attr(`steadyStateScan2D`, 'returnType') = '_p_tc_matrix'
+attr(`steadyStateScan2D`, "inputTypes") = c('character', 'numeric', 'numeric', 'integer', 'character', 'numeric', 'numeric', 'integer')
+class(`steadyStateScan2D`) = c("SWIGFunction", class('steadyStateScan2D'))
+
+# Start of getJacobian
+
+`getJacobian__SWIG_0` = function(.copy = FALSE)
+{
+  ans = .Call('R_swig_getJacobian__SWIG_0', as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_tc_matrix"
+  
+  ans
+  
+}
+
+attr(`getJacobian__SWIG_0`, 'returnType') = '_p_tc_matrix'
+class(`getJacobian__SWIG_0`) = c("SWIGFunction", class('getJacobian__SWIG_0'))
+
+# Start of getEigenvalues
+
+`getEigenvalues__SWIG_0` = function(.copy = FALSE)
+{
+  ans = .Call('R_swig_getEigenvalues__SWIG_0', as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_tc_matrix"
+  
+  ans
+  
+}
+
+attr(`getEigenvalues__SWIG_0`, 'returnType') = '_p_tc_matrix'
+class(`getEigenvalues__SWIG_0`) = c("SWIGFunction", class('getEigenvalues__SWIG_0'))
+
+# Start of getUnscaledElasticities
+
+`getUnscaledElasticities__SWIG_0` = function(.copy = FALSE)
+{
+  ans = .Call('R_swig_getUnscaledElasticities__SWIG_0', as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_tc_matrix"
+  
+  ans
+  
+}
+
+attr(`getUnscaledElasticities__SWIG_0`, 'returnType') = '_p_tc_matrix'
+class(`getUnscaledElasticities__SWIG_0`) = c("SWIGFunction", class('getUnscaledElasticities__SWIG_0'))
+
+# Start of getUnscaledConcentrationCC
+
+`getUnscaledConcentrationCC__SWIG_0` = function(.copy = FALSE)
+{
+  ans = .Call('R_swig_getUnscaledConcentrationCC__SWIG_0', as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_tc_matrix"
+  
+  ans
+  
+}
+
+attr(`getUnscaledConcentrationCC__SWIG_0`, 'returnType') = '_p_tc_matrix'
+class(`getUnscaledConcentrationCC__SWIG_0`) = c("SWIGFunction", class('getUnscaledConcentrationCC__SWIG_0'))
+
+# Start of getUnscaledFluxCC
+
+`getUnscaledFluxCC__SWIG_0` = function(.copy = FALSE)
+{
+  ans = .Call('R_swig_getUnscaledFluxCC__SWIG_0', as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_tc_matrix"
+  
+  ans
+  
+}
+
+attr(`getUnscaledFluxCC__SWIG_0`, 'returnType') = '_p_tc_matrix'
+class(`getUnscaledFluxCC__SWIG_0`) = c("SWIGFunction", class('getUnscaledFluxCC__SWIG_0'))
+
+# Start of getScaledElasticities
+
+`getScaledElasticities__SWIG_0` = function(.copy = FALSE)
+{
+  ans = .Call('R_swig_getScaledElasticities__SWIG_0', as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_tc_matrix"
+  
+  ans
+  
+}
+
+attr(`getScaledElasticities__SWIG_0`, 'returnType') = '_p_tc_matrix'
+class(`getScaledElasticities__SWIG_0`) = c("SWIGFunction", class('getScaledElasticities__SWIG_0'))
+
+# Start of getScaledConcentrationCC
+
+`getScaledConcentrationCC__SWIG_0` = function(.copy = FALSE)
+{
+  ans = .Call('R_swig_getScaledConcentrationCC__SWIG_0', as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_tc_matrix"
+  
+  ans
+  
+}
+
+attr(`getScaledConcentrationCC__SWIG_0`, 'returnType') = '_p_tc_matrix'
+class(`getScaledConcentrationCC__SWIG_0`) = c("SWIGFunction", class('getScaledConcentrationCC__SWIG_0'))
+
+# Start of getScaledFluxCC
+
+`getScaledFluxCC__SWIG_0` = function(.copy = FALSE)
+{
+  ans = .Call('R_swig_getScaledFluxCC__SWIG_0', as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_tc_matrix"
+  
+  ans
+  
+}
+
+attr(`getScaledFluxCC__SWIG_0`, 'returnType') = '_p_tc_matrix'
+class(`getScaledFluxCC__SWIG_0`) = c("SWIGFunction", class('getScaledFluxCC__SWIG_0'))
 
 # Start of tc_COPASI_api
 
-`tc_COPASI_api` = function(updateCopasiModel)
+`tc_COPASI_api` = function(simulateDeterministic, simulateStochastic, simulateHybrid, simulateTauLeap, getSteadyState, steadyStateScan, steadyStateScan2D, getJacobian, getEigenvalues, getUnscaledElasticities, getUnscaledConcentrationCC, getUnscaledFluxCC, getScaledElasticities, getScaledConcentrationCC, getScaledFluxCC)
 {
-  if(is.function(updateCopasiModel)) {
-    assert('...' %in% names(formals(updateCopasiModel)) || length(formals(updateCopasiModel)) >= 1)
+  if(is.function(simulateDeterministic)) {
+    assert('...' %in% names(formals(simulateDeterministic)) || length(formals(simulateDeterministic)) >= 3)
   } else {
-    if(is.character(updateCopasiModel)) {
-      updateCopasiModel = getNativeSymbolInfo(updateCopasiModel)
+    if(is.character(simulateDeterministic)) {
+      simulateDeterministic = getNativeSymbolInfo(simulateDeterministic)
     }
-    if(is(updateCopasiModel, "NativeSymbolInfo")) {
-      updateCopasiModel = updateCopasiModel$address
+    if(is(simulateDeterministic, "NativeSymbolInfo")) {
+      simulateDeterministic = simulateDeterministic$address
     }
   }
-  .Call('R_swig_tc_COPASI_api', updateCopasiModel, PACKAGE='tinkercell')
+  if(is.function(simulateStochastic)) {
+    assert('...' %in% names(formals(simulateStochastic)) || length(formals(simulateStochastic)) >= 0)
+  } else {
+    if(is.character(simulateStochastic)) {
+      simulateStochastic = getNativeSymbolInfo(simulateStochastic)
+    }
+    if(is(simulateStochastic, "NativeSymbolInfo")) {
+      simulateStochastic = simulateStochastic$address
+    }
+  }
+  if(is.function(simulateHybrid)) {
+    assert('...' %in% names(formals(simulateHybrid)) || length(formals(simulateHybrid)) >= 0)
+  } else {
+    if(is.character(simulateHybrid)) {
+      simulateHybrid = getNativeSymbolInfo(simulateHybrid)
+    }
+    if(is(simulateHybrid, "NativeSymbolInfo")) {
+      simulateHybrid = simulateHybrid$address
+    }
+  }
+  if(is.function(simulateTauLeap)) {
+    assert('...' %in% names(formals(simulateTauLeap)) || length(formals(simulateTauLeap)) >= 0)
+  } else {
+    if(is.character(simulateTauLeap)) {
+      simulateTauLeap = getNativeSymbolInfo(simulateTauLeap)
+    }
+    if(is(simulateTauLeap, "NativeSymbolInfo")) {
+      simulateTauLeap = simulateTauLeap$address
+    }
+  }
+  if(is.function(getSteadyState)) {
+    assert('...' %in% names(formals(getSteadyState)) || length(formals(getSteadyState)) >= 0)
+  } else {
+    if(is.character(getSteadyState)) {
+      getSteadyState = getNativeSymbolInfo(getSteadyState)
+    }
+    if(is(getSteadyState, "NativeSymbolInfo")) {
+      getSteadyState = getSteadyState$address
+    }
+  }
+  if(is.function(steadyStateScan)) {
+    assert('...' %in% names(formals(steadyStateScan)) || length(formals(steadyStateScan)) >= 4)
+  } else {
+    if(is.character(steadyStateScan)) {
+      steadyStateScan = getNativeSymbolInfo(steadyStateScan)
+    }
+    if(is(steadyStateScan, "NativeSymbolInfo")) {
+      steadyStateScan = steadyStateScan$address
+    }
+  }
+  if(is.function(steadyStateScan2D)) {
+    assert('...' %in% names(formals(steadyStateScan2D)) || length(formals(steadyStateScan2D)) >= 8)
+  } else {
+    if(is.character(steadyStateScan2D)) {
+      steadyStateScan2D = getNativeSymbolInfo(steadyStateScan2D)
+    }
+    if(is(steadyStateScan2D, "NativeSymbolInfo")) {
+      steadyStateScan2D = steadyStateScan2D$address
+    }
+  }
+  if(is.function(getJacobian)) {
+    assert('...' %in% names(formals(getJacobian)) || length(formals(getJacobian)) >= 0)
+  } else {
+    if(is.character(getJacobian)) {
+      getJacobian = getNativeSymbolInfo(getJacobian)
+    }
+    if(is(getJacobian, "NativeSymbolInfo")) {
+      getJacobian = getJacobian$address
+    }
+  }
+  if(is.function(getEigenvalues)) {
+    assert('...' %in% names(formals(getEigenvalues)) || length(formals(getEigenvalues)) >= 0)
+  } else {
+    if(is.character(getEigenvalues)) {
+      getEigenvalues = getNativeSymbolInfo(getEigenvalues)
+    }
+    if(is(getEigenvalues, "NativeSymbolInfo")) {
+      getEigenvalues = getEigenvalues$address
+    }
+  }
+  if(is.function(getUnscaledElasticities)) {
+    assert('...' %in% names(formals(getUnscaledElasticities)) || length(formals(getUnscaledElasticities)) >= 0)
+  } else {
+    if(is.character(getUnscaledElasticities)) {
+      getUnscaledElasticities = getNativeSymbolInfo(getUnscaledElasticities)
+    }
+    if(is(getUnscaledElasticities, "NativeSymbolInfo")) {
+      getUnscaledElasticities = getUnscaledElasticities$address
+    }
+  }
+  if(is.function(getUnscaledConcentrationCC)) {
+    assert('...' %in% names(formals(getUnscaledConcentrationCC)) || length(formals(getUnscaledConcentrationCC)) >= 0)
+  } else {
+    if(is.character(getUnscaledConcentrationCC)) {
+      getUnscaledConcentrationCC = getNativeSymbolInfo(getUnscaledConcentrationCC)
+    }
+    if(is(getUnscaledConcentrationCC, "NativeSymbolInfo")) {
+      getUnscaledConcentrationCC = getUnscaledConcentrationCC$address
+    }
+  }
+  if(is.function(getUnscaledFluxCC)) {
+    assert('...' %in% names(formals(getUnscaledFluxCC)) || length(formals(getUnscaledFluxCC)) >= 0)
+  } else {
+    if(is.character(getUnscaledFluxCC)) {
+      getUnscaledFluxCC = getNativeSymbolInfo(getUnscaledFluxCC)
+    }
+    if(is(getUnscaledFluxCC, "NativeSymbolInfo")) {
+      getUnscaledFluxCC = getUnscaledFluxCC$address
+    }
+  }
+  if(is.function(getScaledElasticities)) {
+    assert('...' %in% names(formals(getScaledElasticities)) || length(formals(getScaledElasticities)) >= 0)
+  } else {
+    if(is.character(getScaledElasticities)) {
+      getScaledElasticities = getNativeSymbolInfo(getScaledElasticities)
+    }
+    if(is(getScaledElasticities, "NativeSymbolInfo")) {
+      getScaledElasticities = getScaledElasticities$address
+    }
+  }
+  if(is.function(getScaledConcentrationCC)) {
+    assert('...' %in% names(formals(getScaledConcentrationCC)) || length(formals(getScaledConcentrationCC)) >= 0)
+  } else {
+    if(is.character(getScaledConcentrationCC)) {
+      getScaledConcentrationCC = getNativeSymbolInfo(getScaledConcentrationCC)
+    }
+    if(is(getScaledConcentrationCC, "NativeSymbolInfo")) {
+      getScaledConcentrationCC = getScaledConcentrationCC$address
+    }
+  }
+  if(is.function(getScaledFluxCC)) {
+    assert('...' %in% names(formals(getScaledFluxCC)) || length(formals(getScaledFluxCC)) >= 0)
+  } else {
+    if(is.character(getScaledFluxCC)) {
+      getScaledFluxCC = getNativeSymbolInfo(getScaledFluxCC)
+    }
+    if(is(getScaledFluxCC, "NativeSymbolInfo")) {
+      getScaledFluxCC = getScaledFluxCC$address
+    }
+  }
+  .Call('R_swig_tc_COPASI_api', simulateDeterministic, simulateStochastic, simulateHybrid, simulateTauLeap, getSteadyState, steadyStateScan, steadyStateScan2D, getJacobian, getEigenvalues, getUnscaledElasticities, getUnscaledConcentrationCC, getUnscaledFluxCC, getScaledElasticities, getScaledConcentrationCC, getScaledFluxCC, PACKAGE='tinkercell')
   
 }
 
 attr(`tc_COPASI_api`, 'returnType') = 'void'
-attr(`tc_COPASI_api`, "inputTypes") = c('_p_f_copasi_model__void')
+attr(`tc_COPASI_api`, "inputTypes") = c('_p_f_double_double_int__tc_matrix', '_p_f_double_double_int__tc_matrix', '_p_f_double_double_int__tc_matrix', '_p_f_double_double_int__tc_matrix', '_p_f___tc_matrix', '_p_f_p_q_const__char_double_double_int__tc_matrix', '_p_f_p_q_const__char_double_double_int_p_q_const__char_double_double_int__tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix')
 class(`tc_COPASI_api`) = c("SWIGFunction", class('tc_COPASI_api'))
 
 # Start of copasi_model_CopasiModelPtr_set
@@ -7093,7 +7506,7 @@ class(`setReactionRate`) = c("SWIGFunction", class('setReactionRate'))
 
 # Start of simulateDeterministic
 
-`simulateDeterministic` = function(model, startTime, endTime, numSteps, .copy = FALSE)
+`simulateDeterministic__SWIG_1` = function(model, startTime, endTime, numSteps, .copy = FALSE)
 {
   numSteps = as.integer(numSteps) 
   
@@ -7101,20 +7514,38 @@ class(`setReactionRate`) = c("SWIGFunction", class('setReactionRate'))
     warning("using only the first element of numSteps")
   }
   
-  ans = .Call('R_swig_simulateDeterministic', model, startTime, endTime, numSteps, as.logical(.copy), PACKAGE='tinkercell')
+  ans = .Call('R_swig_simulateDeterministic__SWIG_1', model, startTime, endTime, numSteps, as.logical(.copy), PACKAGE='tinkercell')
   class(ans) <- "_p_tc_matrix"
   
   ans
   
 }
 
-attr(`simulateDeterministic`, 'returnType') = '_p_tc_matrix'
-attr(`simulateDeterministic`, "inputTypes") = c('_p_copasi_model', 'numeric', 'numeric', 'integer')
-class(`simulateDeterministic`) = c("SWIGFunction", class('simulateDeterministic'))
+attr(`simulateDeterministic__SWIG_1`, 'returnType') = '_p_tc_matrix'
+attr(`simulateDeterministic__SWIG_1`, "inputTypes") = c('_p_copasi_model', 'numeric', 'numeric', 'integer')
+class(`simulateDeterministic__SWIG_1`) = c("SWIGFunction", class('simulateDeterministic__SWIG_1'))
 
+`simulateDeterministic` <- function(...) {
+  argtypes <- mapply(class, list(...))
+  argv <- list(...)
+  argc <- length(argtypes)
+# dispatch functions 2
+  if (argc == 3) {
+    if (is.numeric(argv[[1]]) && is.numeric(argv[[2]]) && extends(argtypes[3], 'integer')) {
+      f <- simulateDeterministic__SWIG_0 
+    }
+  } else if (argc == 4) {
+    if (extends(argtypes[1], '_p_copasi_model') && is.numeric(argv[[2]]) && is.numeric(argv[[3]]) && extends(argtypes[4], 'integer')) {
+      f <- simulateDeterministic__SWIG_1 
+    }
+  }
+  f(...)
+}
+
+# Dispatch function
 # Start of simulateStochastic
 
-`simulateStochastic` = function(model, startTime, endTime, numSteps, .copy = FALSE)
+`simulateStochastic__SWIG_1` = function(model, startTime, endTime, numSteps, .copy = FALSE)
 {
   numSteps = as.integer(numSteps) 
   
@@ -7122,20 +7553,38 @@ class(`simulateDeterministic`) = c("SWIGFunction", class('simulateDeterministic'
     warning("using only the first element of numSteps")
   }
   
-  ans = .Call('R_swig_simulateStochastic', model, startTime, endTime, numSteps, as.logical(.copy), PACKAGE='tinkercell')
+  ans = .Call('R_swig_simulateStochastic__SWIG_1', model, startTime, endTime, numSteps, as.logical(.copy), PACKAGE='tinkercell')
   class(ans) <- "_p_tc_matrix"
   
   ans
   
 }
 
-attr(`simulateStochastic`, 'returnType') = '_p_tc_matrix'
-attr(`simulateStochastic`, "inputTypes") = c('_p_copasi_model', 'numeric', 'numeric', 'integer')
-class(`simulateStochastic`) = c("SWIGFunction", class('simulateStochastic'))
+attr(`simulateStochastic__SWIG_1`, 'returnType') = '_p_tc_matrix'
+attr(`simulateStochastic__SWIG_1`, "inputTypes") = c('_p_copasi_model', 'numeric', 'numeric', 'integer')
+class(`simulateStochastic__SWIG_1`) = c("SWIGFunction", class('simulateStochastic__SWIG_1'))
 
+`simulateStochastic` <- function(...) {
+  argtypes <- mapply(class, list(...))
+  argv <- list(...)
+  argc <- length(argtypes)
+# dispatch functions 2
+  if (argc == 3) {
+    if (is.numeric(argv[[1]]) && is.numeric(argv[[2]]) && extends(argtypes[3], 'integer')) {
+      f <- simulateStochastic__SWIG_0 
+    }
+  } else if (argc == 4) {
+    if (extends(argtypes[1], '_p_copasi_model') && is.numeric(argv[[2]]) && is.numeric(argv[[3]]) && extends(argtypes[4], 'integer')) {
+      f <- simulateStochastic__SWIG_1 
+    }
+  }
+  f(...)
+}
+
+# Dispatch function
 # Start of simulateHybrid
 
-`simulateHybrid` = function(model, startTime, endTime, numSteps, .copy = FALSE)
+`simulateHybrid__SWIG_1` = function(model, startTime, endTime, numSteps, .copy = FALSE)
 {
   numSteps = as.integer(numSteps) 
   
@@ -7143,20 +7592,38 @@ class(`simulateStochastic`) = c("SWIGFunction", class('simulateStochastic'))
     warning("using only the first element of numSteps")
   }
   
-  ans = .Call('R_swig_simulateHybrid', model, startTime, endTime, numSteps, as.logical(.copy), PACKAGE='tinkercell')
+  ans = .Call('R_swig_simulateHybrid__SWIG_1', model, startTime, endTime, numSteps, as.logical(.copy), PACKAGE='tinkercell')
   class(ans) <- "_p_tc_matrix"
   
   ans
   
 }
 
-attr(`simulateHybrid`, 'returnType') = '_p_tc_matrix'
-attr(`simulateHybrid`, "inputTypes") = c('_p_copasi_model', 'numeric', 'numeric', 'integer')
-class(`simulateHybrid`) = c("SWIGFunction", class('simulateHybrid'))
+attr(`simulateHybrid__SWIG_1`, 'returnType') = '_p_tc_matrix'
+attr(`simulateHybrid__SWIG_1`, "inputTypes") = c('_p_copasi_model', 'numeric', 'numeric', 'integer')
+class(`simulateHybrid__SWIG_1`) = c("SWIGFunction", class('simulateHybrid__SWIG_1'))
 
+`simulateHybrid` <- function(...) {
+  argtypes <- mapply(class, list(...))
+  argv <- list(...)
+  argc <- length(argtypes)
+# dispatch functions 2
+  if (argc == 3) {
+    if (is.numeric(argv[[1]]) && is.numeric(argv[[2]]) && extends(argtypes[3], 'integer')) {
+      f <- simulateHybrid__SWIG_0 
+    }
+  } else if (argc == 4) {
+    if (extends(argtypes[1], '_p_copasi_model') && is.numeric(argv[[2]]) && is.numeric(argv[[3]]) && extends(argtypes[4], 'integer')) {
+      f <- simulateHybrid__SWIG_1 
+    }
+  }
+  f(...)
+}
+
+# Dispatch function
 # Start of simulateTauLeap
 
-`simulateTauLeap` = function(model, startTime, endTime, numSteps, .copy = FALSE)
+`simulateTauLeap__SWIG_1` = function(model, startTime, endTime, numSteps, .copy = FALSE)
 {
   numSteps = as.integer(numSteps) 
   
@@ -7164,150 +7631,323 @@ class(`simulateHybrid`) = c("SWIGFunction", class('simulateHybrid'))
     warning("using only the first element of numSteps")
   }
   
-  ans = .Call('R_swig_simulateTauLeap', model, startTime, endTime, numSteps, as.logical(.copy), PACKAGE='tinkercell')
+  ans = .Call('R_swig_simulateTauLeap__SWIG_1', model, startTime, endTime, numSteps, as.logical(.copy), PACKAGE='tinkercell')
   class(ans) <- "_p_tc_matrix"
   
   ans
   
 }
 
-attr(`simulateTauLeap`, 'returnType') = '_p_tc_matrix'
-attr(`simulateTauLeap`, "inputTypes") = c('_p_copasi_model', 'numeric', 'numeric', 'integer')
-class(`simulateTauLeap`) = c("SWIGFunction", class('simulateTauLeap'))
+attr(`simulateTauLeap__SWIG_1`, 'returnType') = '_p_tc_matrix'
+attr(`simulateTauLeap__SWIG_1`, "inputTypes") = c('_p_copasi_model', 'numeric', 'numeric', 'integer')
+class(`simulateTauLeap__SWIG_1`) = c("SWIGFunction", class('simulateTauLeap__SWIG_1'))
 
+`simulateTauLeap` <- function(...) {
+  argtypes <- mapply(class, list(...))
+  argv <- list(...)
+  argc <- length(argtypes)
+# dispatch functions 2
+  if (argc == 3) {
+    if (is.numeric(argv[[1]]) && is.numeric(argv[[2]]) && extends(argtypes[3], 'integer')) {
+      f <- simulateTauLeap__SWIG_0 
+    }
+  } else if (argc == 4) {
+    if (extends(argtypes[1], '_p_copasi_model') && is.numeric(argv[[2]]) && is.numeric(argv[[3]]) && extends(argtypes[4], 'integer')) {
+      f <- simulateTauLeap__SWIG_1 
+    }
+  }
+  f(...)
+}
+
+# Dispatch function
 # Start of getSteadyState
 
-`getSteadyState` = function(model, .copy = FALSE)
+`getSteadyState__SWIG_1` = function(model, .copy = FALSE)
 {
-  ans = .Call('R_swig_getSteadyState', model, as.logical(.copy), PACKAGE='tinkercell')
+  ans = .Call('R_swig_getSteadyState__SWIG_1', model, as.logical(.copy), PACKAGE='tinkercell')
   class(ans) <- "_p_tc_matrix"
   
   ans
   
 }
 
-attr(`getSteadyState`, 'returnType') = '_p_tc_matrix'
-attr(`getSteadyState`, "inputTypes") = c('_p_copasi_model')
-class(`getSteadyState`) = c("SWIGFunction", class('getSteadyState'))
+attr(`getSteadyState__SWIG_1`, 'returnType') = '_p_tc_matrix'
+attr(`getSteadyState__SWIG_1`, "inputTypes") = c('_p_copasi_model')
+class(`getSteadyState__SWIG_1`) = c("SWIGFunction", class('getSteadyState__SWIG_1'))
 
+`getSteadyState` <- function(...) {
+  argtypes <- mapply(class, list(...))
+  argv <- list(...)
+  argc <- length(argtypes)
+# dispatch functions 2
+  if (argc == 0) {
+    f <- getSteadyState__SWIG_0
+  } else if (argc == 1) {
+    if (extends(argtypes[1], '_p_copasi_model')) {
+      f <- getSteadyState__SWIG_1 
+    }
+  }
+  f(...)
+}
+
+# Dispatch function
 # Start of getJacobian
 
-`getJacobian` = function(model, .copy = FALSE)
+`getJacobian__SWIG_1` = function(model, .copy = FALSE)
 {
-  ans = .Call('R_swig_getJacobian', model, as.logical(.copy), PACKAGE='tinkercell')
+  ans = .Call('R_swig_getJacobian__SWIG_1', model, as.logical(.copy), PACKAGE='tinkercell')
   class(ans) <- "_p_tc_matrix"
   
   ans
   
 }
 
-attr(`getJacobian`, 'returnType') = '_p_tc_matrix'
-attr(`getJacobian`, "inputTypes") = c('_p_copasi_model')
-class(`getJacobian`) = c("SWIGFunction", class('getJacobian'))
+attr(`getJacobian__SWIG_1`, 'returnType') = '_p_tc_matrix'
+attr(`getJacobian__SWIG_1`, "inputTypes") = c('_p_copasi_model')
+class(`getJacobian__SWIG_1`) = c("SWIGFunction", class('getJacobian__SWIG_1'))
 
+`getJacobian` <- function(...) {
+  argtypes <- mapply(class, list(...))
+  argv <- list(...)
+  argc <- length(argtypes)
+# dispatch functions 2
+  if (argc == 0) {
+    f <- getJacobian__SWIG_0
+  } else if (argc == 1) {
+    if (extends(argtypes[1], '_p_copasi_model')) {
+      f <- getJacobian__SWIG_1 
+    }
+  }
+  f(...)
+}
+
+# Dispatch function
 # Start of getEigenvalues
 
-`getEigenvalues` = function(model, .copy = FALSE)
+`getEigenvalues__SWIG_1` = function(model, .copy = FALSE)
 {
-  ans = .Call('R_swig_getEigenvalues', model, as.logical(.copy), PACKAGE='tinkercell')
+  ans = .Call('R_swig_getEigenvalues__SWIG_1', model, as.logical(.copy), PACKAGE='tinkercell')
   class(ans) <- "_p_tc_matrix"
   
   ans
   
 }
 
-attr(`getEigenvalues`, 'returnType') = '_p_tc_matrix'
-attr(`getEigenvalues`, "inputTypes") = c('_p_copasi_model')
-class(`getEigenvalues`) = c("SWIGFunction", class('getEigenvalues'))
+attr(`getEigenvalues__SWIG_1`, 'returnType') = '_p_tc_matrix'
+attr(`getEigenvalues__SWIG_1`, "inputTypes") = c('_p_copasi_model')
+class(`getEigenvalues__SWIG_1`) = c("SWIGFunction", class('getEigenvalues__SWIG_1'))
 
+`getEigenvalues` <- function(...) {
+  argtypes <- mapply(class, list(...))
+  argv <- list(...)
+  argc <- length(argtypes)
+# dispatch functions 2
+  if (argc == 0) {
+    f <- getEigenvalues__SWIG_0
+  } else if (argc == 1) {
+    if (extends(argtypes[1], '_p_copasi_model')) {
+      f <- getEigenvalues__SWIG_1 
+    }
+  }
+  f(...)
+}
+
+# Dispatch function
 # Start of getUnscaledElasticities
 
-`getUnscaledElasticities` = function(model, .copy = FALSE)
+`getUnscaledElasticities__SWIG_1` = function(model, .copy = FALSE)
 {
-  ans = .Call('R_swig_getUnscaledElasticities', model, as.logical(.copy), PACKAGE='tinkercell')
+  ans = .Call('R_swig_getUnscaledElasticities__SWIG_1', model, as.logical(.copy), PACKAGE='tinkercell')
   class(ans) <- "_p_tc_matrix"
   
   ans
   
 }
 
-attr(`getUnscaledElasticities`, 'returnType') = '_p_tc_matrix'
-attr(`getUnscaledElasticities`, "inputTypes") = c('_p_copasi_model')
-class(`getUnscaledElasticities`) = c("SWIGFunction", class('getUnscaledElasticities'))
+attr(`getUnscaledElasticities__SWIG_1`, 'returnType') = '_p_tc_matrix'
+attr(`getUnscaledElasticities__SWIG_1`, "inputTypes") = c('_p_copasi_model')
+class(`getUnscaledElasticities__SWIG_1`) = c("SWIGFunction", class('getUnscaledElasticities__SWIG_1'))
 
+`getUnscaledElasticities` <- function(...) {
+  argtypes <- mapply(class, list(...))
+  argv <- list(...)
+  argc <- length(argtypes)
+# dispatch functions 2
+  if (argc == 0) {
+    f <- getUnscaledElasticities__SWIG_0
+  } else if (argc == 1) {
+    if (extends(argtypes[1], '_p_copasi_model')) {
+      f <- getUnscaledElasticities__SWIG_1 
+    }
+  }
+  f(...)
+}
+
+# Dispatch function
 # Start of getUnscaledConcentrationCC
 
-`getUnscaledConcentrationCC` = function(model, .copy = FALSE)
+`getUnscaledConcentrationCC__SWIG_1` = function(model, .copy = FALSE)
 {
-  ans = .Call('R_swig_getUnscaledConcentrationCC', model, as.logical(.copy), PACKAGE='tinkercell')
+  ans = .Call('R_swig_getUnscaledConcentrationCC__SWIG_1', model, as.logical(.copy), PACKAGE='tinkercell')
   class(ans) <- "_p_tc_matrix"
   
   ans
   
 }
 
-attr(`getUnscaledConcentrationCC`, 'returnType') = '_p_tc_matrix'
-attr(`getUnscaledConcentrationCC`, "inputTypes") = c('_p_copasi_model')
-class(`getUnscaledConcentrationCC`) = c("SWIGFunction", class('getUnscaledConcentrationCC'))
+attr(`getUnscaledConcentrationCC__SWIG_1`, 'returnType') = '_p_tc_matrix'
+attr(`getUnscaledConcentrationCC__SWIG_1`, "inputTypes") = c('_p_copasi_model')
+class(`getUnscaledConcentrationCC__SWIG_1`) = c("SWIGFunction", class('getUnscaledConcentrationCC__SWIG_1'))
 
+`getUnscaledConcentrationCC` <- function(...) {
+  argtypes <- mapply(class, list(...))
+  argv <- list(...)
+  argc <- length(argtypes)
+# dispatch functions 2
+  if (argc == 0) {
+    f <- getUnscaledConcentrationCC__SWIG_0
+  } else if (argc == 1) {
+    if (extends(argtypes[1], '_p_copasi_model')) {
+      f <- getUnscaledConcentrationCC__SWIG_1 
+    }
+  }
+  f(...)
+}
+
+# Dispatch function
 # Start of getUnscaledFluxCC
 
-`getUnscaledFluxCC` = function(model, .copy = FALSE)
+`getUnscaledFluxCC__SWIG_1` = function(model, .copy = FALSE)
 {
-  ans = .Call('R_swig_getUnscaledFluxCC', model, as.logical(.copy), PACKAGE='tinkercell')
+  ans = .Call('R_swig_getUnscaledFluxCC__SWIG_1', model, as.logical(.copy), PACKAGE='tinkercell')
   class(ans) <- "_p_tc_matrix"
   
   ans
   
 }
 
-attr(`getUnscaledFluxCC`, 'returnType') = '_p_tc_matrix'
-attr(`getUnscaledFluxCC`, "inputTypes") = c('_p_copasi_model')
-class(`getUnscaledFluxCC`) = c("SWIGFunction", class('getUnscaledFluxCC'))
+attr(`getUnscaledFluxCC__SWIG_1`, 'returnType') = '_p_tc_matrix'
+attr(`getUnscaledFluxCC__SWIG_1`, "inputTypes") = c('_p_copasi_model')
+class(`getUnscaledFluxCC__SWIG_1`) = c("SWIGFunction", class('getUnscaledFluxCC__SWIG_1'))
 
+`getUnscaledFluxCC` <- function(...) {
+  argtypes <- mapply(class, list(...))
+  argv <- list(...)
+  argc <- length(argtypes)
+# dispatch functions 2
+  if (argc == 0) {
+    f <- getUnscaledFluxCC__SWIG_0
+  } else if (argc == 1) {
+    if (extends(argtypes[1], '_p_copasi_model')) {
+      f <- getUnscaledFluxCC__SWIG_1 
+    }
+  }
+  f(...)
+}
+
+# Dispatch function
 # Start of getScaledElasticities
 
-`getScaledElasticities` = function(model, .copy = FALSE)
+`getScaledElasticities__SWIG_1` = function(model, .copy = FALSE)
 {
-  ans = .Call('R_swig_getScaledElasticities', model, as.logical(.copy), PACKAGE='tinkercell')
+  ans = .Call('R_swig_getScaledElasticities__SWIG_1', model, as.logical(.copy), PACKAGE='tinkercell')
   class(ans) <- "_p_tc_matrix"
   
   ans
   
 }
 
-attr(`getScaledElasticities`, 'returnType') = '_p_tc_matrix'
-attr(`getScaledElasticities`, "inputTypes") = c('_p_copasi_model')
-class(`getScaledElasticities`) = c("SWIGFunction", class('getScaledElasticities'))
+attr(`getScaledElasticities__SWIG_1`, 'returnType') = '_p_tc_matrix'
+attr(`getScaledElasticities__SWIG_1`, "inputTypes") = c('_p_copasi_model')
+class(`getScaledElasticities__SWIG_1`) = c("SWIGFunction", class('getScaledElasticities__SWIG_1'))
 
+`getScaledElasticities` <- function(...) {
+  argtypes <- mapply(class, list(...))
+  argv <- list(...)
+  argc <- length(argtypes)
+# dispatch functions 2
+  if (argc == 0) {
+    f <- getScaledElasticities__SWIG_0
+  } else if (argc == 1) {
+    if (extends(argtypes[1], '_p_copasi_model')) {
+      f <- getScaledElasticities__SWIG_1 
+    }
+  }
+  f(...)
+}
+
+# Dispatch function
 # Start of getScaledConcentrationCC
 
-`getScaledConcentrationCC` = function(model, .copy = FALSE)
+`getScaledConcentrationCC__SWIG_1` = function(model, .copy = FALSE)
 {
-  ans = .Call('R_swig_getScaledConcentrationCC', model, as.logical(.copy), PACKAGE='tinkercell')
+  ans = .Call('R_swig_getScaledConcentrationCC__SWIG_1', model, as.logical(.copy), PACKAGE='tinkercell')
   class(ans) <- "_p_tc_matrix"
   
   ans
   
 }
 
-attr(`getScaledConcentrationCC`, 'returnType') = '_p_tc_matrix'
-attr(`getScaledConcentrationCC`, "inputTypes") = c('_p_copasi_model')
-class(`getScaledConcentrationCC`) = c("SWIGFunction", class('getScaledConcentrationCC'))
+attr(`getScaledConcentrationCC__SWIG_1`, 'returnType') = '_p_tc_matrix'
+attr(`getScaledConcentrationCC__SWIG_1`, "inputTypes") = c('_p_copasi_model')
+class(`getScaledConcentrationCC__SWIG_1`) = c("SWIGFunction", class('getScaledConcentrationCC__SWIG_1'))
 
+`getScaledConcentrationCC` <- function(...) {
+  argtypes <- mapply(class, list(...))
+  argv <- list(...)
+  argc <- length(argtypes)
+# dispatch functions 2
+  if (argc == 0) {
+    f <- getScaledConcentrationCC__SWIG_0
+  } else if (argc == 1) {
+    if (extends(argtypes[1], '_p_copasi_model')) {
+      f <- getScaledConcentrationCC__SWIG_1 
+    }
+  }
+  f(...)
+}
+
+# Dispatch function
 # Start of getScaledFluxCC
 
-`getScaledFluxCC` = function(model, .copy = FALSE)
+`getScaledFluxCC__SWIG_1` = function(model, .copy = FALSE)
 {
-  ans = .Call('R_swig_getScaledFluxCC', model, as.logical(.copy), PACKAGE='tinkercell')
+  ans = .Call('R_swig_getScaledFluxCC__SWIG_1', model, as.logical(.copy), PACKAGE='tinkercell')
   class(ans) <- "_p_tc_matrix"
   
   ans
   
 }
 
-attr(`getScaledFluxCC`, 'returnType') = '_p_tc_matrix'
-attr(`getScaledFluxCC`, "inputTypes") = c('_p_copasi_model')
-class(`getScaledFluxCC`) = c("SWIGFunction", class('getScaledFluxCC'))
+attr(`getScaledFluxCC__SWIG_1`, 'returnType') = '_p_tc_matrix'
+attr(`getScaledFluxCC__SWIG_1`, "inputTypes") = c('_p_copasi_model')
+class(`getScaledFluxCC__SWIG_1`) = c("SWIGFunction", class('getScaledFluxCC__SWIG_1'))
+
+`getScaledFluxCC` <- function(...) {
+  argtypes <- mapply(class, list(...))
+  argv <- list(...)
+  argc <- length(argtypes)
+# dispatch functions 2
+  if (argc == 0) {
+    f <- getScaledFluxCC__SWIG_0
+  } else if (argc == 1) {
+    if (extends(argtypes[1], '_p_copasi_model')) {
+      f <- getScaledFluxCC__SWIG_1 
+    }
+  }
+  f(...)
+}
+
+# Dispatch function
+# Start of example
+
+`example` = function()
+{
+  .Call('R_swig_example', PACKAGE='tinkercell')
+  
+}
+
+attr(`example`, 'returnType') = 'void'
+class(`example`) = c("SWIGFunction", class('example'))
 
 

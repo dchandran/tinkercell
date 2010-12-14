@@ -1794,84 +1794,87 @@ int SWIG_Ruby_arity( VALUE proc, int minimal )
 #define SWIGTYPE_p_f___int swig_types[5]
 #define SWIGTYPE_p_f___p_char swig_types[6]
 #define SWIGTYPE_p_f___tc_items swig_types[7]
-#define SWIGTYPE_p_f___tc_strings swig_types[8]
-#define SWIGTYPE_p_f___void swig_types[9]
-#define SWIGTYPE_p_f_copasi_model__void swig_types[10]
+#define SWIGTYPE_p_f___tc_matrix swig_types[8]
+#define SWIGTYPE_p_f___tc_strings swig_types[9]
+#define SWIGTYPE_p_f___void swig_types[10]
 #define SWIGTYPE_p_f_double__void swig_types[11]
 #define SWIGTYPE_p_f_double_double__void swig_types[12]
-#define SWIGTYPE_p_f_int__tc_matrix swig_types[13]
-#define SWIGTYPE_p_f_int__void swig_types[14]
-#define SWIGTYPE_p_f_int_int__void swig_types[15]
-#define SWIGTYPE_p_f_long__double swig_types[16]
-#define SWIGTYPE_p_f_long__long swig_types[17]
-#define SWIGTYPE_p_f_long__p_char swig_types[18]
-#define SWIGTYPE_p_f_long__tc_items swig_types[19]
-#define SWIGTYPE_p_f_long__tc_strings swig_types[20]
-#define SWIGTYPE_p_f_long__void swig_types[21]
-#define SWIGTYPE_p_f_long_double__void swig_types[22]
-#define SWIGTYPE_p_f_long_double_double__void swig_types[23]
-#define SWIGTYPE_p_f_long_double_double_int__void swig_types[24]
-#define SWIGTYPE_p_f_long_double_int__void swig_types[25]
-#define SWIGTYPE_p_f_long_int__void swig_types[26]
-#define SWIGTYPE_p_f_long_long_int__double swig_types[27]
-#define SWIGTYPE_p_f_long_long_int_double_double__void swig_types[28]
-#define SWIGTYPE_p_f_long_p_f_void__void__void swig_types[29]
-#define SWIGTYPE_p_f_long_p_q_const__char__double swig_types[30]
-#define SWIGTYPE_p_f_long_p_q_const__char__int swig_types[31]
-#define SWIGTYPE_p_f_long_p_q_const__char__p_char swig_types[32]
-#define SWIGTYPE_p_f_long_p_q_const__char__tc_items swig_types[33]
-#define SWIGTYPE_p_f_long_p_q_const__char__tc_matrix swig_types[34]
-#define SWIGTYPE_p_f_long_p_q_const__char__tc_table swig_types[35]
-#define SWIGTYPE_p_f_long_p_q_const__char__void swig_types[36]
-#define SWIGTYPE_p_f_long_p_q_const__char_double__void swig_types[37]
-#define SWIGTYPE_p_f_long_p_q_const__char_int__void swig_types[38]
-#define SWIGTYPE_p_f_long_p_q_const__char_p_q_const__char__void swig_types[39]
-#define SWIGTYPE_p_f_long_p_q_const__char_tc_matrix__void swig_types[40]
-#define SWIGTYPE_p_f_long_p_q_const__char_tc_table__void swig_types[41]
-#define SWIGTYPE_p_f_long_tc_matrix_p_f_tc_matrix__void__void swig_types[42]
-#define SWIGTYPE_p_f_long_tc_matrix_p_q_const__char_p_f_tc_matrix__void__void swig_types[43]
-#define SWIGTYPE_p_f_long_tc_strings__void swig_types[44]
-#define SWIGTYPE_p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void swig_types[45]
-#define SWIGTYPE_p_f_p_q_const__char__double swig_types[46]
-#define SWIGTYPE_p_f_p_q_const__char__int swig_types[47]
-#define SWIGTYPE_p_f_p_q_const__char__long swig_types[48]
-#define SWIGTYPE_p_f_p_q_const__char__p_char swig_types[49]
-#define SWIGTYPE_p_f_p_q_const__char__tc_items swig_types[50]
-#define SWIGTYPE_p_f_p_q_const__char__void swig_types[51]
-#define SWIGTYPE_p_f_p_q_const__char_int_int__void swig_types[52]
-#define SWIGTYPE_p_f_p_q_const__char_int_int_tc_strings__void swig_types[53]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__int swig_types[54]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__long swig_types[55]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__void swig_types[56]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char__int swig_types[57]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void swig_types[58]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_tc_matrix__int swig_types[59]
-#define SWIGTYPE_p_f_p_q_const__char_tc_items__int swig_types[60]
-#define SWIGTYPE_p_f_p_q_const__char_tc_items__tc_items swig_types[61]
-#define SWIGTYPE_p_f_p_q_const__char_tc_strings_p_q_const__char__int swig_types[62]
-#define SWIGTYPE_p_f_tc_items__tc_matrix swig_types[63]
-#define SWIGTYPE_p_f_tc_items__tc_strings swig_types[64]
-#define SWIGTYPE_p_f_tc_items__void swig_types[65]
-#define SWIGTYPE_p_f_tc_items_p_q_const__char_p_q_const__char__long swig_types[66]
-#define SWIGTYPE_p_f_tc_items_tc_matrix__void swig_types[67]
-#define SWIGTYPE_p_f_tc_items_tc_strings__tc_matrix swig_types[68]
-#define SWIGTYPE_p_f_tc_items_tc_strings__tc_strings swig_types[69]
-#define SWIGTYPE_p_f_tc_items_tc_strings__void swig_types[70]
-#define SWIGTYPE_p_f_tc_matrix__void swig_types[71]
-#define SWIGTYPE_p_f_tc_matrix_p_q_const__char__void swig_types[72]
-#define SWIGTYPE_p_f_tc_matrix_p_q_const__char_p_q_const__char_p_q_const__char__void swig_types[73]
-#define SWIGTYPE_p_f_tc_strings__tc_items swig_types[74]
-#define SWIGTYPE_p_f_tc_strings_p_double__void swig_types[75]
-#define SWIGTYPE_p_f_void__void swig_types[76]
-#define SWIGTYPE_p_long swig_types[77]
-#define SWIGTYPE_p_p_char swig_types[78]
-#define SWIGTYPE_p_tc_items swig_types[79]
-#define SWIGTYPE_p_tc_matrix swig_types[80]
-#define SWIGTYPE_p_tc_strings swig_types[81]
-#define SWIGTYPE_p_tc_table swig_types[82]
-#define SWIGTYPE_p_void swig_types[83]
-static swig_type_info *swig_types[85];
-static swig_module_info swig_module = {swig_types, 84, 0, 0, 0, 0};
+#define SWIGTYPE_p_f_double_double_int__tc_matrix swig_types[13]
+#define SWIGTYPE_p_f_int__tc_matrix swig_types[14]
+#define SWIGTYPE_p_f_int__void swig_types[15]
+#define SWIGTYPE_p_f_int_int__void swig_types[16]
+#define SWIGTYPE_p_f_long__double swig_types[17]
+#define SWIGTYPE_p_f_long__long swig_types[18]
+#define SWIGTYPE_p_f_long__p_char swig_types[19]
+#define SWIGTYPE_p_f_long__tc_items swig_types[20]
+#define SWIGTYPE_p_f_long__tc_strings swig_types[21]
+#define SWIGTYPE_p_f_long__void swig_types[22]
+#define SWIGTYPE_p_f_long_double__void swig_types[23]
+#define SWIGTYPE_p_f_long_double_double__void swig_types[24]
+#define SWIGTYPE_p_f_long_double_double_int__void swig_types[25]
+#define SWIGTYPE_p_f_long_double_int__void swig_types[26]
+#define SWIGTYPE_p_f_long_int__void swig_types[27]
+#define SWIGTYPE_p_f_long_long_int__double swig_types[28]
+#define SWIGTYPE_p_f_long_long_int_double_double__void swig_types[29]
+#define SWIGTYPE_p_f_long_p_f_void__void__void swig_types[30]
+#define SWIGTYPE_p_f_long_p_q_const__char__double swig_types[31]
+#define SWIGTYPE_p_f_long_p_q_const__char__int swig_types[32]
+#define SWIGTYPE_p_f_long_p_q_const__char__p_char swig_types[33]
+#define SWIGTYPE_p_f_long_p_q_const__char__tc_items swig_types[34]
+#define SWIGTYPE_p_f_long_p_q_const__char__tc_matrix swig_types[35]
+#define SWIGTYPE_p_f_long_p_q_const__char__tc_table swig_types[36]
+#define SWIGTYPE_p_f_long_p_q_const__char__void swig_types[37]
+#define SWIGTYPE_p_f_long_p_q_const__char_double__void swig_types[38]
+#define SWIGTYPE_p_f_long_p_q_const__char_int__void swig_types[39]
+#define SWIGTYPE_p_f_long_p_q_const__char_p_q_const__char__void swig_types[40]
+#define SWIGTYPE_p_f_long_p_q_const__char_tc_matrix__void swig_types[41]
+#define SWIGTYPE_p_f_long_p_q_const__char_tc_table__void swig_types[42]
+#define SWIGTYPE_p_f_long_tc_matrix_p_f_tc_matrix__void__void swig_types[43]
+#define SWIGTYPE_p_f_long_tc_matrix_p_q_const__char_p_f_tc_matrix__void__void swig_types[44]
+#define SWIGTYPE_p_f_long_tc_strings__void swig_types[45]
+#define SWIGTYPE_p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void swig_types[46]
+#define SWIGTYPE_p_f_p_q_const__char__double swig_types[47]
+#define SWIGTYPE_p_f_p_q_const__char__int swig_types[48]
+#define SWIGTYPE_p_f_p_q_const__char__long swig_types[49]
+#define SWIGTYPE_p_f_p_q_const__char__p_char swig_types[50]
+#define SWIGTYPE_p_f_p_q_const__char__tc_items swig_types[51]
+#define SWIGTYPE_p_f_p_q_const__char__void swig_types[52]
+#define SWIGTYPE_p_f_p_q_const__char_double_double_int__tc_matrix swig_types[53]
+#define SWIGTYPE_p_f_p_q_const__char_double_double_int_p_q_const__char_double_double_int__tc_matrix swig_types[54]
+#define SWIGTYPE_p_f_p_q_const__char_int_int__void swig_types[55]
+#define SWIGTYPE_p_f_p_q_const__char_int_int_tc_strings__void swig_types[56]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__int swig_types[57]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__long swig_types[58]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__void swig_types[59]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char__int swig_types[60]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void swig_types[61]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_tc_matrix__int swig_types[62]
+#define SWIGTYPE_p_f_p_q_const__char_tc_items__int swig_types[63]
+#define SWIGTYPE_p_f_p_q_const__char_tc_items__tc_items swig_types[64]
+#define SWIGTYPE_p_f_p_q_const__char_tc_strings_p_q_const__char__int swig_types[65]
+#define SWIGTYPE_p_f_tc_items__tc_matrix swig_types[66]
+#define SWIGTYPE_p_f_tc_items__tc_strings swig_types[67]
+#define SWIGTYPE_p_f_tc_items__void swig_types[68]
+#define SWIGTYPE_p_f_tc_items_p_q_const__char_p_q_const__char__long swig_types[69]
+#define SWIGTYPE_p_f_tc_items_tc_matrix__void swig_types[70]
+#define SWIGTYPE_p_f_tc_items_tc_strings__tc_matrix swig_types[71]
+#define SWIGTYPE_p_f_tc_items_tc_strings__tc_strings swig_types[72]
+#define SWIGTYPE_p_f_tc_items_tc_strings__void swig_types[73]
+#define SWIGTYPE_p_f_tc_matrix__void swig_types[74]
+#define SWIGTYPE_p_f_tc_matrix_p_q_const__char__void swig_types[75]
+#define SWIGTYPE_p_f_tc_matrix_p_q_const__char_p_q_const__char_p_q_const__char__void swig_types[76]
+#define SWIGTYPE_p_f_tc_strings__tc_items swig_types[77]
+#define SWIGTYPE_p_f_tc_strings_p_double__void swig_types[78]
+#define SWIGTYPE_p_f_void__void swig_types[79]
+#define SWIGTYPE_p_long swig_types[80]
+#define SWIGTYPE_p_p_char swig_types[81]
+#define SWIGTYPE_p_tc_items swig_types[82]
+#define SWIGTYPE_p_tc_matrix swig_types[83]
+#define SWIGTYPE_p_tc_strings swig_types[84]
+#define SWIGTYPE_p_tc_table swig_types[85]
+#define SWIGTYPE_p_void swig_types[86]
+static swig_type_info *swig_types[88];
+static swig_module_info swig_module = {swig_types, 87, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -9952,27 +9955,441 @@ fail:
 
 
 SWIGINTERN VALUE
-_wrap_tc_updateCopasiModel(int argc, VALUE *argv, VALUE self) {
-  copasi_model arg1 ;
-  void *argp1 ;
-  int res1 = 0 ;
+_wrap_simulateDeterministic__SWIG_0(int argc, VALUE *argv, VALUE self) {
+  double arg1 ;
+  double arg2 ;
+  int arg3 ;
+  double val1 ;
+  int ecode1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  tc_matrix result;
+  VALUE vresult = Qnil;
   
-  if ((argc < 1) || (argc > 1)) {
-    rb_raise(rb_eArgError, "wrong # of arguments(%d for 1)",argc); SWIG_fail;
+  if ((argc < 3) || (argc > 3)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 3)",argc); SWIG_fail;
   }
-  {
-    res1 = SWIG_ConvertPtr(argv[0], &argp1, SWIGTYPE_p_copasi_model,  0 );
-    if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "copasi_model","tc_updateCopasiModel", 1, argv[0] )); 
-    }  
-    if (!argp1) {
-      SWIG_exception_fail(SWIG_ValueError, Ruby_Format_TypeError("invalid null reference ", "copasi_model","tc_updateCopasiModel", 1, argv[0]));
-    } else {
-      arg1 = *((copasi_model *)(argp1));
-    }
-  }
-  tc_updateCopasiModel(arg1);
+  ecode1 = SWIG_AsVal_double(argv[0], &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), Ruby_Format_TypeError( "", "double","simulateDeterministic", 1, argv[0] ));
+  } 
+  arg1 = (double)(val1);
+  ecode2 = SWIG_AsVal_double(argv[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), Ruby_Format_TypeError( "", "double","simulateDeterministic", 2, argv[1] ));
+  } 
+  arg2 = (double)(val2);
+  ecode3 = SWIG_AsVal_int(argv[2], &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), Ruby_Format_TypeError( "", "int","simulateDeterministic", 3, argv[2] ));
+  } 
+  arg3 = (int)(val3);
+  result = simulateDeterministic(arg1,arg2,arg3);
+  vresult = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
+  return vresult;
+fail:
   return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_simulateStochastic__SWIG_0(int argc, VALUE *argv, VALUE self) {
+  double arg1 ;
+  double arg2 ;
+  int arg3 ;
+  double val1 ;
+  int ecode1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  tc_matrix result;
+  VALUE vresult = Qnil;
+  
+  if ((argc < 3) || (argc > 3)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 3)",argc); SWIG_fail;
+  }
+  ecode1 = SWIG_AsVal_double(argv[0], &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), Ruby_Format_TypeError( "", "double","simulateStochastic", 1, argv[0] ));
+  } 
+  arg1 = (double)(val1);
+  ecode2 = SWIG_AsVal_double(argv[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), Ruby_Format_TypeError( "", "double","simulateStochastic", 2, argv[1] ));
+  } 
+  arg2 = (double)(val2);
+  ecode3 = SWIG_AsVal_int(argv[2], &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), Ruby_Format_TypeError( "", "int","simulateStochastic", 3, argv[2] ));
+  } 
+  arg3 = (int)(val3);
+  result = simulateStochastic(arg1,arg2,arg3);
+  vresult = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
+  return vresult;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_simulateHybrid__SWIG_0(int argc, VALUE *argv, VALUE self) {
+  double arg1 ;
+  double arg2 ;
+  int arg3 ;
+  double val1 ;
+  int ecode1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  tc_matrix result;
+  VALUE vresult = Qnil;
+  
+  if ((argc < 3) || (argc > 3)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 3)",argc); SWIG_fail;
+  }
+  ecode1 = SWIG_AsVal_double(argv[0], &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), Ruby_Format_TypeError( "", "double","simulateHybrid", 1, argv[0] ));
+  } 
+  arg1 = (double)(val1);
+  ecode2 = SWIG_AsVal_double(argv[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), Ruby_Format_TypeError( "", "double","simulateHybrid", 2, argv[1] ));
+  } 
+  arg2 = (double)(val2);
+  ecode3 = SWIG_AsVal_int(argv[2], &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), Ruby_Format_TypeError( "", "int","simulateHybrid", 3, argv[2] ));
+  } 
+  arg3 = (int)(val3);
+  result = simulateHybrid(arg1,arg2,arg3);
+  vresult = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
+  return vresult;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_simulateTauLeap__SWIG_0(int argc, VALUE *argv, VALUE self) {
+  double arg1 ;
+  double arg2 ;
+  int arg3 ;
+  double val1 ;
+  int ecode1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  tc_matrix result;
+  VALUE vresult = Qnil;
+  
+  if ((argc < 3) || (argc > 3)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 3)",argc); SWIG_fail;
+  }
+  ecode1 = SWIG_AsVal_double(argv[0], &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), Ruby_Format_TypeError( "", "double","simulateTauLeap", 1, argv[0] ));
+  } 
+  arg1 = (double)(val1);
+  ecode2 = SWIG_AsVal_double(argv[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), Ruby_Format_TypeError( "", "double","simulateTauLeap", 2, argv[1] ));
+  } 
+  arg2 = (double)(val2);
+  ecode3 = SWIG_AsVal_int(argv[2], &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), Ruby_Format_TypeError( "", "int","simulateTauLeap", 3, argv[2] ));
+  } 
+  arg3 = (int)(val3);
+  result = simulateTauLeap(arg1,arg2,arg3);
+  vresult = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
+  return vresult;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_getSteadyState__SWIG_0(int argc, VALUE *argv, VALUE self) {
+  tc_matrix result;
+  VALUE vresult = Qnil;
+  
+  if ((argc < 0) || (argc > 0)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 0)",argc); SWIG_fail;
+  }
+  result = getSteadyState();
+  vresult = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
+  return vresult;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_steadyStateScan(int argc, VALUE *argv, VALUE self) {
+  char *arg1 = (char *) 0 ;
+  double arg2 ;
+  double arg3 ;
+  int arg4 ;
+  int res1 ;
+  char *buf1 = 0 ;
+  int alloc1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  double val3 ;
+  int ecode3 = 0 ;
+  int val4 ;
+  int ecode4 = 0 ;
+  tc_matrix result;
+  VALUE vresult = Qnil;
+  
+  if ((argc < 4) || (argc > 4)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 4)",argc); SWIG_fail;
+  }
+  res1 = SWIG_AsCharPtrAndSize(argv[0], &buf1, NULL, &alloc1);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "char const *","steadyStateScan", 1, argv[0] ));
+  }
+  arg1 = (char *)(buf1);
+  ecode2 = SWIG_AsVal_double(argv[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), Ruby_Format_TypeError( "", "double","steadyStateScan", 2, argv[1] ));
+  } 
+  arg2 = (double)(val2);
+  ecode3 = SWIG_AsVal_double(argv[2], &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), Ruby_Format_TypeError( "", "double","steadyStateScan", 3, argv[2] ));
+  } 
+  arg3 = (double)(val3);
+  ecode4 = SWIG_AsVal_int(argv[3], &val4);
+  if (!SWIG_IsOK(ecode4)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode4), Ruby_Format_TypeError( "", "int","steadyStateScan", 4, argv[3] ));
+  } 
+  arg4 = (int)(val4);
+  result = steadyStateScan((char const *)arg1,arg2,arg3,arg4);
+  vresult = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  return vresult;
+fail:
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_steadyStateScan2D(int argc, VALUE *argv, VALUE self) {
+  char *arg1 = (char *) 0 ;
+  double arg2 ;
+  double arg3 ;
+  int arg4 ;
+  char *arg5 = (char *) 0 ;
+  double arg6 ;
+  double arg7 ;
+  int arg8 ;
+  int res1 ;
+  char *buf1 = 0 ;
+  int alloc1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  double val3 ;
+  int ecode3 = 0 ;
+  int val4 ;
+  int ecode4 = 0 ;
+  int res5 ;
+  char *buf5 = 0 ;
+  int alloc5 = 0 ;
+  double val6 ;
+  int ecode6 = 0 ;
+  double val7 ;
+  int ecode7 = 0 ;
+  int val8 ;
+  int ecode8 = 0 ;
+  tc_matrix result;
+  VALUE vresult = Qnil;
+  
+  if ((argc < 8) || (argc > 8)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 8)",argc); SWIG_fail;
+  }
+  res1 = SWIG_AsCharPtrAndSize(argv[0], &buf1, NULL, &alloc1);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "char const *","steadyStateScan2D", 1, argv[0] ));
+  }
+  arg1 = (char *)(buf1);
+  ecode2 = SWIG_AsVal_double(argv[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), Ruby_Format_TypeError( "", "double","steadyStateScan2D", 2, argv[1] ));
+  } 
+  arg2 = (double)(val2);
+  ecode3 = SWIG_AsVal_double(argv[2], &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), Ruby_Format_TypeError( "", "double","steadyStateScan2D", 3, argv[2] ));
+  } 
+  arg3 = (double)(val3);
+  ecode4 = SWIG_AsVal_int(argv[3], &val4);
+  if (!SWIG_IsOK(ecode4)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode4), Ruby_Format_TypeError( "", "int","steadyStateScan2D", 4, argv[3] ));
+  } 
+  arg4 = (int)(val4);
+  res5 = SWIG_AsCharPtrAndSize(argv[4], &buf5, NULL, &alloc5);
+  if (!SWIG_IsOK(res5)) {
+    SWIG_exception_fail(SWIG_ArgError(res5), Ruby_Format_TypeError( "", "char const *","steadyStateScan2D", 5, argv[4] ));
+  }
+  arg5 = (char *)(buf5);
+  ecode6 = SWIG_AsVal_double(argv[5], &val6);
+  if (!SWIG_IsOK(ecode6)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode6), Ruby_Format_TypeError( "", "double","steadyStateScan2D", 6, argv[5] ));
+  } 
+  arg6 = (double)(val6);
+  ecode7 = SWIG_AsVal_double(argv[6], &val7);
+  if (!SWIG_IsOK(ecode7)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode7), Ruby_Format_TypeError( "", "double","steadyStateScan2D", 7, argv[6] ));
+  } 
+  arg7 = (double)(val7);
+  ecode8 = SWIG_AsVal_int(argv[7], &val8);
+  if (!SWIG_IsOK(ecode8)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode8), Ruby_Format_TypeError( "", "int","steadyStateScan2D", 8, argv[7] ));
+  } 
+  arg8 = (int)(val8);
+  result = steadyStateScan2D((char const *)arg1,arg2,arg3,arg4,(char const *)arg5,arg6,arg7,arg8);
+  vresult = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  if (alloc5 == SWIG_NEWOBJ) free((char*)buf5);
+  return vresult;
+fail:
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  if (alloc5 == SWIG_NEWOBJ) free((char*)buf5);
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_getJacobian__SWIG_0(int argc, VALUE *argv, VALUE self) {
+  tc_matrix result;
+  VALUE vresult = Qnil;
+  
+  if ((argc < 0) || (argc > 0)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 0)",argc); SWIG_fail;
+  }
+  result = getJacobian();
+  vresult = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
+  return vresult;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_getEigenvalues__SWIG_0(int argc, VALUE *argv, VALUE self) {
+  tc_matrix result;
+  VALUE vresult = Qnil;
+  
+  if ((argc < 0) || (argc > 0)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 0)",argc); SWIG_fail;
+  }
+  result = getEigenvalues();
+  vresult = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
+  return vresult;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_getUnscaledElasticities__SWIG_0(int argc, VALUE *argv, VALUE self) {
+  tc_matrix result;
+  VALUE vresult = Qnil;
+  
+  if ((argc < 0) || (argc > 0)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 0)",argc); SWIG_fail;
+  }
+  result = getUnscaledElasticities();
+  vresult = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
+  return vresult;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_getUnscaledConcentrationCC__SWIG_0(int argc, VALUE *argv, VALUE self) {
+  tc_matrix result;
+  VALUE vresult = Qnil;
+  
+  if ((argc < 0) || (argc > 0)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 0)",argc); SWIG_fail;
+  }
+  result = getUnscaledConcentrationCC();
+  vresult = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
+  return vresult;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_getUnscaledFluxCC__SWIG_0(int argc, VALUE *argv, VALUE self) {
+  tc_matrix result;
+  VALUE vresult = Qnil;
+  
+  if ((argc < 0) || (argc > 0)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 0)",argc); SWIG_fail;
+  }
+  result = getUnscaledFluxCC();
+  vresult = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
+  return vresult;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_getScaledElasticities__SWIG_0(int argc, VALUE *argv, VALUE self) {
+  tc_matrix result;
+  VALUE vresult = Qnil;
+  
+  if ((argc < 0) || (argc > 0)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 0)",argc); SWIG_fail;
+  }
+  result = getScaledElasticities();
+  vresult = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
+  return vresult;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_getScaledConcentrationCC__SWIG_0(int argc, VALUE *argv, VALUE self) {
+  tc_matrix result;
+  VALUE vresult = Qnil;
+  
+  if ((argc < 0) || (argc > 0)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 0)",argc); SWIG_fail;
+  }
+  result = getScaledConcentrationCC();
+  vresult = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
+  return vresult;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_getScaledFluxCC__SWIG_0(int argc, VALUE *argv, VALUE self) {
+  tc_matrix result;
+  VALUE vresult = Qnil;
+  
+  if ((argc < 0) || (argc > 0)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 0)",argc); SWIG_fail;
+  }
+  result = getScaledFluxCC();
+  vresult = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
+  return vresult;
 fail:
   return Qnil;
 }
@@ -9980,18 +10397,116 @@ fail:
 
 SWIGINTERN VALUE
 _wrap_tc_COPASI_api(int argc, VALUE *argv, VALUE self) {
-  void (*arg1)(copasi_model) = (void (*)(copasi_model)) 0 ;
+  tc_matrix (*arg1)(double,double,int) = (tc_matrix (*)(double,double,int)) 0 ;
+  tc_matrix (*arg2)(double,double,int) = (tc_matrix (*)(double,double,int)) 0 ;
+  tc_matrix (*arg3)(double,double,int) = (tc_matrix (*)(double,double,int)) 0 ;
+  tc_matrix (*arg4)(double,double,int) = (tc_matrix (*)(double,double,int)) 0 ;
+  tc_matrix (*arg5)() = (tc_matrix (*)()) 0 ;
+  tc_matrix (*arg6)(char const *,double,double,int) = (tc_matrix (*)(char const *,double,double,int)) 0 ;
+  tc_matrix (*arg7)(char const *,double,double,int,char const *,double,double,int) = (tc_matrix (*)(char const *,double,double,int,char const *,double,double,int)) 0 ;
+  tc_matrix (*arg8)() = (tc_matrix (*)()) 0 ;
+  tc_matrix (*arg9)() = (tc_matrix (*)()) 0 ;
+  tc_matrix (*arg10)() = (tc_matrix (*)()) 0 ;
+  tc_matrix (*arg11)() = (tc_matrix (*)()) 0 ;
+  tc_matrix (*arg12)() = (tc_matrix (*)()) 0 ;
+  tc_matrix (*arg13)() = (tc_matrix (*)()) 0 ;
+  tc_matrix (*arg14)() = (tc_matrix (*)()) 0 ;
+  tc_matrix (*arg15)() = (tc_matrix (*)()) 0 ;
   
-  if ((argc < 1) || (argc > 1)) {
-    rb_raise(rb_eArgError, "wrong # of arguments(%d for 1)",argc); SWIG_fail;
+  if ((argc < 15) || (argc > 15)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 15)",argc); SWIG_fail;
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[0], (void**)(&arg1), SWIGTYPE_p_f_copasi_model__void);
+    int res = SWIG_ConvertFunctionPtr(argv[0], (void**)(&arg1), SWIGTYPE_p_f_double_double_int__tc_matrix);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(copasi_model)","tc_COPASI_api", 1, argv[0] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "tc_matrix (*)(double,double,int)","tc_COPASI_api", 1, argv[0] )); 
     }
   }
-  tc_COPASI_api(arg1);
+  {
+    int res = SWIG_ConvertFunctionPtr(argv[1], (void**)(&arg2), SWIGTYPE_p_f_double_double_int__tc_matrix);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "tc_matrix (*)(double,double,int)","tc_COPASI_api", 2, argv[1] )); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(argv[2], (void**)(&arg3), SWIGTYPE_p_f_double_double_int__tc_matrix);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "tc_matrix (*)(double,double,int)","tc_COPASI_api", 3, argv[2] )); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(argv[3], (void**)(&arg4), SWIGTYPE_p_f_double_double_int__tc_matrix);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "tc_matrix (*)(double,double,int)","tc_COPASI_api", 4, argv[3] )); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(argv[4], (void**)(&arg5), SWIGTYPE_p_f___tc_matrix);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "tc_matrix (*)()","tc_COPASI_api", 5, argv[4] )); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(argv[5], (void**)(&arg6), SWIGTYPE_p_f_p_q_const__char_double_double_int__tc_matrix);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "tc_matrix (*)(char const *,double,double,int)","tc_COPASI_api", 6, argv[5] )); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(argv[6], (void**)(&arg7), SWIGTYPE_p_f_p_q_const__char_double_double_int_p_q_const__char_double_double_int__tc_matrix);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "tc_matrix (*)(char const *,double,double,int,char const *,double,double,int)","tc_COPASI_api", 7, argv[6] )); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(argv[7], (void**)(&arg8), SWIGTYPE_p_f___tc_matrix);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "tc_matrix (*)()","tc_COPASI_api", 8, argv[7] )); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(argv[8], (void**)(&arg9), SWIGTYPE_p_f___tc_matrix);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "tc_matrix (*)()","tc_COPASI_api", 9, argv[8] )); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(argv[9], (void**)(&arg10), SWIGTYPE_p_f___tc_matrix);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "tc_matrix (*)()","tc_COPASI_api", 10, argv[9] )); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(argv[10], (void**)(&arg11), SWIGTYPE_p_f___tc_matrix);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "tc_matrix (*)()","tc_COPASI_api", 11, argv[10] )); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(argv[11], (void**)(&arg12), SWIGTYPE_p_f___tc_matrix);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "tc_matrix (*)()","tc_COPASI_api", 12, argv[11] )); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(argv[12], (void**)(&arg13), SWIGTYPE_p_f___tc_matrix);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "tc_matrix (*)()","tc_COPASI_api", 13, argv[12] )); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(argv[13], (void**)(&arg14), SWIGTYPE_p_f___tc_matrix);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "tc_matrix (*)()","tc_COPASI_api", 14, argv[13] )); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(argv[14], (void**)(&arg15), SWIGTYPE_p_f___tc_matrix);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "tc_matrix (*)()","tc_COPASI_api", 15, argv[14] )); 
+    }
+  }
+  tc_COPASI_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13,arg14,arg15);
   return Qnil;
 fail:
   return Qnil;
@@ -11417,7 +11932,7 @@ fail:
 
 
 SWIGINTERN VALUE
-_wrap_simulateDeterministic(int argc, VALUE *argv, VALUE self) {
+_wrap_simulateDeterministic__SWIG_1(int argc, VALUE *argv, VALUE self) {
   copasi_model arg1 ;
   double arg2 ;
   double arg3 ;
@@ -11470,8 +11985,77 @@ fail:
 }
 
 
+SWIGINTERN VALUE _wrap_simulateDeterministic(int nargs, VALUE *args, VALUE self) {
+  int argc;
+  VALUE argv[4];
+  int ii;
+  
+  argc = nargs;
+  if (argc > 4) SWIG_fail;
+  for (ii = 0; (ii < argc); ++ii) {
+    argv[ii] = args[ii];
+  }
+  if (argc == 3) {
+    int _v;
+    {
+      int res = SWIG_AsVal_double(argv[0], NULL);
+      _v = SWIG_CheckState(res);
+    }
+    if (_v) {
+      {
+        int res = SWIG_AsVal_double(argv[1], NULL);
+        _v = SWIG_CheckState(res);
+      }
+      if (_v) {
+        {
+          int res = SWIG_AsVal_int(argv[2], NULL);
+          _v = SWIG_CheckState(res);
+        }
+        if (_v) {
+          return _wrap_simulateDeterministic__SWIG_0(nargs, args, self);
+        }
+      }
+    }
+  }
+  if (argc == 4) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_copasi_model, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      {
+        int res = SWIG_AsVal_double(argv[1], NULL);
+        _v = SWIG_CheckState(res);
+      }
+      if (_v) {
+        {
+          int res = SWIG_AsVal_double(argv[2], NULL);
+          _v = SWIG_CheckState(res);
+        }
+        if (_v) {
+          {
+            int res = SWIG_AsVal_int(argv[3], NULL);
+            _v = SWIG_CheckState(res);
+          }
+          if (_v) {
+            return _wrap_simulateDeterministic__SWIG_1(nargs, args, self);
+          }
+        }
+      }
+    }
+  }
+  
+fail:
+  Ruby_Format_OverloadedError( argc, 4, "simulateDeterministic", 
+    "    tc_matrix simulateDeterministic(double startTime, double endTime, int numSteps)\n"
+    "    tc_matrix simulateDeterministic(copasi_model model, double startTime, double endTime, int numSteps)\n");
+  
+  return Qnil;
+}
+
+
 SWIGINTERN VALUE
-_wrap_simulateStochastic(int argc, VALUE *argv, VALUE self) {
+_wrap_simulateStochastic__SWIG_1(int argc, VALUE *argv, VALUE self) {
   copasi_model arg1 ;
   double arg2 ;
   double arg3 ;
@@ -11524,8 +12108,77 @@ fail:
 }
 
 
+SWIGINTERN VALUE _wrap_simulateStochastic(int nargs, VALUE *args, VALUE self) {
+  int argc;
+  VALUE argv[4];
+  int ii;
+  
+  argc = nargs;
+  if (argc > 4) SWIG_fail;
+  for (ii = 0; (ii < argc); ++ii) {
+    argv[ii] = args[ii];
+  }
+  if (argc == 3) {
+    int _v;
+    {
+      int res = SWIG_AsVal_double(argv[0], NULL);
+      _v = SWIG_CheckState(res);
+    }
+    if (_v) {
+      {
+        int res = SWIG_AsVal_double(argv[1], NULL);
+        _v = SWIG_CheckState(res);
+      }
+      if (_v) {
+        {
+          int res = SWIG_AsVal_int(argv[2], NULL);
+          _v = SWIG_CheckState(res);
+        }
+        if (_v) {
+          return _wrap_simulateStochastic__SWIG_0(nargs, args, self);
+        }
+      }
+    }
+  }
+  if (argc == 4) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_copasi_model, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      {
+        int res = SWIG_AsVal_double(argv[1], NULL);
+        _v = SWIG_CheckState(res);
+      }
+      if (_v) {
+        {
+          int res = SWIG_AsVal_double(argv[2], NULL);
+          _v = SWIG_CheckState(res);
+        }
+        if (_v) {
+          {
+            int res = SWIG_AsVal_int(argv[3], NULL);
+            _v = SWIG_CheckState(res);
+          }
+          if (_v) {
+            return _wrap_simulateStochastic__SWIG_1(nargs, args, self);
+          }
+        }
+      }
+    }
+  }
+  
+fail:
+  Ruby_Format_OverloadedError( argc, 4, "simulateStochastic", 
+    "    tc_matrix simulateStochastic(double startTime, double endTime, int numSteps)\n"
+    "    tc_matrix simulateStochastic(copasi_model model, double startTime, double endTime, int numSteps)\n");
+  
+  return Qnil;
+}
+
+
 SWIGINTERN VALUE
-_wrap_simulateHybrid(int argc, VALUE *argv, VALUE self) {
+_wrap_simulateHybrid__SWIG_1(int argc, VALUE *argv, VALUE self) {
   copasi_model arg1 ;
   double arg2 ;
   double arg3 ;
@@ -11578,8 +12231,77 @@ fail:
 }
 
 
+SWIGINTERN VALUE _wrap_simulateHybrid(int nargs, VALUE *args, VALUE self) {
+  int argc;
+  VALUE argv[4];
+  int ii;
+  
+  argc = nargs;
+  if (argc > 4) SWIG_fail;
+  for (ii = 0; (ii < argc); ++ii) {
+    argv[ii] = args[ii];
+  }
+  if (argc == 3) {
+    int _v;
+    {
+      int res = SWIG_AsVal_double(argv[0], NULL);
+      _v = SWIG_CheckState(res);
+    }
+    if (_v) {
+      {
+        int res = SWIG_AsVal_double(argv[1], NULL);
+        _v = SWIG_CheckState(res);
+      }
+      if (_v) {
+        {
+          int res = SWIG_AsVal_int(argv[2], NULL);
+          _v = SWIG_CheckState(res);
+        }
+        if (_v) {
+          return _wrap_simulateHybrid__SWIG_0(nargs, args, self);
+        }
+      }
+    }
+  }
+  if (argc == 4) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_copasi_model, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      {
+        int res = SWIG_AsVal_double(argv[1], NULL);
+        _v = SWIG_CheckState(res);
+      }
+      if (_v) {
+        {
+          int res = SWIG_AsVal_double(argv[2], NULL);
+          _v = SWIG_CheckState(res);
+        }
+        if (_v) {
+          {
+            int res = SWIG_AsVal_int(argv[3], NULL);
+            _v = SWIG_CheckState(res);
+          }
+          if (_v) {
+            return _wrap_simulateHybrid__SWIG_1(nargs, args, self);
+          }
+        }
+      }
+    }
+  }
+  
+fail:
+  Ruby_Format_OverloadedError( argc, 4, "simulateHybrid", 
+    "    tc_matrix simulateHybrid(double startTime, double endTime, int numSteps)\n"
+    "    tc_matrix simulateHybrid(copasi_model model, double startTime, double endTime, int numSteps)\n");
+  
+  return Qnil;
+}
+
+
 SWIGINTERN VALUE
-_wrap_simulateTauLeap(int argc, VALUE *argv, VALUE self) {
+_wrap_simulateTauLeap__SWIG_1(int argc, VALUE *argv, VALUE self) {
   copasi_model arg1 ;
   double arg2 ;
   double arg3 ;
@@ -11632,8 +12354,77 @@ fail:
 }
 
 
+SWIGINTERN VALUE _wrap_simulateTauLeap(int nargs, VALUE *args, VALUE self) {
+  int argc;
+  VALUE argv[4];
+  int ii;
+  
+  argc = nargs;
+  if (argc > 4) SWIG_fail;
+  for (ii = 0; (ii < argc); ++ii) {
+    argv[ii] = args[ii];
+  }
+  if (argc == 3) {
+    int _v;
+    {
+      int res = SWIG_AsVal_double(argv[0], NULL);
+      _v = SWIG_CheckState(res);
+    }
+    if (_v) {
+      {
+        int res = SWIG_AsVal_double(argv[1], NULL);
+        _v = SWIG_CheckState(res);
+      }
+      if (_v) {
+        {
+          int res = SWIG_AsVal_int(argv[2], NULL);
+          _v = SWIG_CheckState(res);
+        }
+        if (_v) {
+          return _wrap_simulateTauLeap__SWIG_0(nargs, args, self);
+        }
+      }
+    }
+  }
+  if (argc == 4) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_copasi_model, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      {
+        int res = SWIG_AsVal_double(argv[1], NULL);
+        _v = SWIG_CheckState(res);
+      }
+      if (_v) {
+        {
+          int res = SWIG_AsVal_double(argv[2], NULL);
+          _v = SWIG_CheckState(res);
+        }
+        if (_v) {
+          {
+            int res = SWIG_AsVal_int(argv[3], NULL);
+            _v = SWIG_CheckState(res);
+          }
+          if (_v) {
+            return _wrap_simulateTauLeap__SWIG_1(nargs, args, self);
+          }
+        }
+      }
+    }
+  }
+  
+fail:
+  Ruby_Format_OverloadedError( argc, 4, "simulateTauLeap", 
+    "    tc_matrix simulateTauLeap(double startTime, double endTime, int numSteps)\n"
+    "    tc_matrix simulateTauLeap(copasi_model model, double startTime, double endTime, int numSteps)\n");
+  
+  return Qnil;
+}
+
+
 SWIGINTERN VALUE
-_wrap_getSteadyState(int argc, VALUE *argv, VALUE self) {
+_wrap_getSteadyState__SWIG_1(int argc, VALUE *argv, VALUE self) {
   copasi_model arg1 ;
   void *argp1 ;
   int res1 = 0 ;
@@ -11662,8 +12453,40 @@ fail:
 }
 
 
+SWIGINTERN VALUE _wrap_getSteadyState(int nargs, VALUE *args, VALUE self) {
+  int argc;
+  VALUE argv[1];
+  int ii;
+  
+  argc = nargs;
+  if (argc > 1) SWIG_fail;
+  for (ii = 0; (ii < argc); ++ii) {
+    argv[ii] = args[ii];
+  }
+  if (argc == 0) {
+    return _wrap_getSteadyState__SWIG_0(nargs, args, self);
+  }
+  if (argc == 1) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_copasi_model, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      return _wrap_getSteadyState__SWIG_1(nargs, args, self);
+    }
+  }
+  
+fail:
+  Ruby_Format_OverloadedError( argc, 1, "getSteadyState", 
+    "    tc_matrix getSteadyState()\n"
+    "    tc_matrix getSteadyState(copasi_model model)\n");
+  
+  return Qnil;
+}
+
+
 SWIGINTERN VALUE
-_wrap_getJacobian(int argc, VALUE *argv, VALUE self) {
+_wrap_getJacobian__SWIG_1(int argc, VALUE *argv, VALUE self) {
   copasi_model arg1 ;
   void *argp1 ;
   int res1 = 0 ;
@@ -11692,8 +12515,40 @@ fail:
 }
 
 
+SWIGINTERN VALUE _wrap_getJacobian(int nargs, VALUE *args, VALUE self) {
+  int argc;
+  VALUE argv[1];
+  int ii;
+  
+  argc = nargs;
+  if (argc > 1) SWIG_fail;
+  for (ii = 0; (ii < argc); ++ii) {
+    argv[ii] = args[ii];
+  }
+  if (argc == 0) {
+    return _wrap_getJacobian__SWIG_0(nargs, args, self);
+  }
+  if (argc == 1) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_copasi_model, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      return _wrap_getJacobian__SWIG_1(nargs, args, self);
+    }
+  }
+  
+fail:
+  Ruby_Format_OverloadedError( argc, 1, "getJacobian", 
+    "    tc_matrix getJacobian()\n"
+    "    tc_matrix getJacobian(copasi_model model)\n");
+  
+  return Qnil;
+}
+
+
 SWIGINTERN VALUE
-_wrap_getEigenvalues(int argc, VALUE *argv, VALUE self) {
+_wrap_getEigenvalues__SWIG_1(int argc, VALUE *argv, VALUE self) {
   copasi_model arg1 ;
   void *argp1 ;
   int res1 = 0 ;
@@ -11722,8 +12577,40 @@ fail:
 }
 
 
+SWIGINTERN VALUE _wrap_getEigenvalues(int nargs, VALUE *args, VALUE self) {
+  int argc;
+  VALUE argv[1];
+  int ii;
+  
+  argc = nargs;
+  if (argc > 1) SWIG_fail;
+  for (ii = 0; (ii < argc); ++ii) {
+    argv[ii] = args[ii];
+  }
+  if (argc == 0) {
+    return _wrap_getEigenvalues__SWIG_0(nargs, args, self);
+  }
+  if (argc == 1) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_copasi_model, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      return _wrap_getEigenvalues__SWIG_1(nargs, args, self);
+    }
+  }
+  
+fail:
+  Ruby_Format_OverloadedError( argc, 1, "getEigenvalues", 
+    "    tc_matrix getEigenvalues()\n"
+    "    tc_matrix getEigenvalues(copasi_model model)\n");
+  
+  return Qnil;
+}
+
+
 SWIGINTERN VALUE
-_wrap_getUnscaledElasticities(int argc, VALUE *argv, VALUE self) {
+_wrap_getUnscaledElasticities__SWIG_1(int argc, VALUE *argv, VALUE self) {
   copasi_model arg1 ;
   void *argp1 ;
   int res1 = 0 ;
@@ -11752,8 +12639,40 @@ fail:
 }
 
 
+SWIGINTERN VALUE _wrap_getUnscaledElasticities(int nargs, VALUE *args, VALUE self) {
+  int argc;
+  VALUE argv[1];
+  int ii;
+  
+  argc = nargs;
+  if (argc > 1) SWIG_fail;
+  for (ii = 0; (ii < argc); ++ii) {
+    argv[ii] = args[ii];
+  }
+  if (argc == 0) {
+    return _wrap_getUnscaledElasticities__SWIG_0(nargs, args, self);
+  }
+  if (argc == 1) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_copasi_model, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      return _wrap_getUnscaledElasticities__SWIG_1(nargs, args, self);
+    }
+  }
+  
+fail:
+  Ruby_Format_OverloadedError( argc, 1, "getUnscaledElasticities", 
+    "    tc_matrix getUnscaledElasticities()\n"
+    "    tc_matrix getUnscaledElasticities(copasi_model model)\n");
+  
+  return Qnil;
+}
+
+
 SWIGINTERN VALUE
-_wrap_getUnscaledConcentrationCC(int argc, VALUE *argv, VALUE self) {
+_wrap_getUnscaledConcentrationCC__SWIG_1(int argc, VALUE *argv, VALUE self) {
   copasi_model arg1 ;
   void *argp1 ;
   int res1 = 0 ;
@@ -11782,8 +12701,40 @@ fail:
 }
 
 
+SWIGINTERN VALUE _wrap_getUnscaledConcentrationCC(int nargs, VALUE *args, VALUE self) {
+  int argc;
+  VALUE argv[1];
+  int ii;
+  
+  argc = nargs;
+  if (argc > 1) SWIG_fail;
+  for (ii = 0; (ii < argc); ++ii) {
+    argv[ii] = args[ii];
+  }
+  if (argc == 0) {
+    return _wrap_getUnscaledConcentrationCC__SWIG_0(nargs, args, self);
+  }
+  if (argc == 1) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_copasi_model, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      return _wrap_getUnscaledConcentrationCC__SWIG_1(nargs, args, self);
+    }
+  }
+  
+fail:
+  Ruby_Format_OverloadedError( argc, 1, "getUnscaledConcentrationCC", 
+    "    tc_matrix getUnscaledConcentrationCC()\n"
+    "    tc_matrix getUnscaledConcentrationCC(copasi_model model)\n");
+  
+  return Qnil;
+}
+
+
 SWIGINTERN VALUE
-_wrap_getUnscaledFluxCC(int argc, VALUE *argv, VALUE self) {
+_wrap_getUnscaledFluxCC__SWIG_1(int argc, VALUE *argv, VALUE self) {
   copasi_model arg1 ;
   void *argp1 ;
   int res1 = 0 ;
@@ -11812,8 +12763,40 @@ fail:
 }
 
 
+SWIGINTERN VALUE _wrap_getUnscaledFluxCC(int nargs, VALUE *args, VALUE self) {
+  int argc;
+  VALUE argv[1];
+  int ii;
+  
+  argc = nargs;
+  if (argc > 1) SWIG_fail;
+  for (ii = 0; (ii < argc); ++ii) {
+    argv[ii] = args[ii];
+  }
+  if (argc == 0) {
+    return _wrap_getUnscaledFluxCC__SWIG_0(nargs, args, self);
+  }
+  if (argc == 1) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_copasi_model, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      return _wrap_getUnscaledFluxCC__SWIG_1(nargs, args, self);
+    }
+  }
+  
+fail:
+  Ruby_Format_OverloadedError( argc, 1, "getUnscaledFluxCC", 
+    "    tc_matrix getUnscaledFluxCC()\n"
+    "    tc_matrix getUnscaledFluxCC(copasi_model model)\n");
+  
+  return Qnil;
+}
+
+
 SWIGINTERN VALUE
-_wrap_getScaledElasticities(int argc, VALUE *argv, VALUE self) {
+_wrap_getScaledElasticities__SWIG_1(int argc, VALUE *argv, VALUE self) {
   copasi_model arg1 ;
   void *argp1 ;
   int res1 = 0 ;
@@ -11842,8 +12825,40 @@ fail:
 }
 
 
+SWIGINTERN VALUE _wrap_getScaledElasticities(int nargs, VALUE *args, VALUE self) {
+  int argc;
+  VALUE argv[1];
+  int ii;
+  
+  argc = nargs;
+  if (argc > 1) SWIG_fail;
+  for (ii = 0; (ii < argc); ++ii) {
+    argv[ii] = args[ii];
+  }
+  if (argc == 0) {
+    return _wrap_getScaledElasticities__SWIG_0(nargs, args, self);
+  }
+  if (argc == 1) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_copasi_model, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      return _wrap_getScaledElasticities__SWIG_1(nargs, args, self);
+    }
+  }
+  
+fail:
+  Ruby_Format_OverloadedError( argc, 1, "getScaledElasticities", 
+    "    tc_matrix getScaledElasticities()\n"
+    "    tc_matrix getScaledElasticities(copasi_model model)\n");
+  
+  return Qnil;
+}
+
+
 SWIGINTERN VALUE
-_wrap_getScaledConcentrationCC(int argc, VALUE *argv, VALUE self) {
+_wrap_getScaledConcentrationCC__SWIG_1(int argc, VALUE *argv, VALUE self) {
   copasi_model arg1 ;
   void *argp1 ;
   int res1 = 0 ;
@@ -11872,8 +12887,40 @@ fail:
 }
 
 
+SWIGINTERN VALUE _wrap_getScaledConcentrationCC(int nargs, VALUE *args, VALUE self) {
+  int argc;
+  VALUE argv[1];
+  int ii;
+  
+  argc = nargs;
+  if (argc > 1) SWIG_fail;
+  for (ii = 0; (ii < argc); ++ii) {
+    argv[ii] = args[ii];
+  }
+  if (argc == 0) {
+    return _wrap_getScaledConcentrationCC__SWIG_0(nargs, args, self);
+  }
+  if (argc == 1) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_copasi_model, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      return _wrap_getScaledConcentrationCC__SWIG_1(nargs, args, self);
+    }
+  }
+  
+fail:
+  Ruby_Format_OverloadedError( argc, 1, "getScaledConcentrationCC", 
+    "    tc_matrix getScaledConcentrationCC()\n"
+    "    tc_matrix getScaledConcentrationCC(copasi_model model)\n");
+  
+  return Qnil;
+}
+
+
 SWIGINTERN VALUE
-_wrap_getScaledFluxCC(int argc, VALUE *argv, VALUE self) {
+_wrap_getScaledFluxCC__SWIG_1(int argc, VALUE *argv, VALUE self) {
   copasi_model arg1 ;
   void *argp1 ;
   int res1 = 0 ;
@@ -11902,6 +12949,50 @@ fail:
 }
 
 
+SWIGINTERN VALUE _wrap_getScaledFluxCC(int nargs, VALUE *args, VALUE self) {
+  int argc;
+  VALUE argv[1];
+  int ii;
+  
+  argc = nargs;
+  if (argc > 1) SWIG_fail;
+  for (ii = 0; (ii < argc); ++ii) {
+    argv[ii] = args[ii];
+  }
+  if (argc == 0) {
+    return _wrap_getScaledFluxCC__SWIG_0(nargs, args, self);
+  }
+  if (argc == 1) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_copasi_model, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      return _wrap_getScaledFluxCC__SWIG_1(nargs, args, self);
+    }
+  }
+  
+fail:
+  Ruby_Format_OverloadedError( argc, 1, "getScaledFluxCC", 
+    "    tc_matrix getScaledFluxCC()\n"
+    "    tc_matrix getScaledFluxCC(copasi_model model)\n");
+  
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_example(int argc, VALUE *argv, VALUE self) {
+  if ((argc < 0) || (argc > 0)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 0)",argc); SWIG_fail;
+  }
+  example();
+  return Qnil;
+fail:
+  return Qnil;
+}
+
+
 
 /* -------- TYPE CONVERSION AND EQUIVALENCE RULES (BEGIN) -------- */
 
@@ -11913,11 +13004,12 @@ static swig_type_info _swigt__p_double = {"_p_double", "double *", 0, 0, (void*)
 static swig_type_info _swigt__p_f___int = {"_p_f___int", "int (*)()", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f___p_char = {"_p_f___p_char", "char *(*)()", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f___tc_items = {"_p_f___tc_items", "tc_items (*)()", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f___tc_matrix = {"_p_f___tc_matrix", "tc_matrix (*)()", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f___tc_strings = {"_p_f___tc_strings", "tc_strings (*)()", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f___void = {"_p_f___void", "void (*)()", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_copasi_model__void = {"_p_f_copasi_model__void", "void (*)(copasi_model)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_double__void = {"_p_f_double__void", "void (*)(double)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_double_double__void = {"_p_f_double_double__void", "void (*)(double,double)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_double_double_int__tc_matrix = {"_p_f_double_double_int__tc_matrix", "tc_matrix (*)(double,double,int)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_int__tc_matrix = {"_p_f_int__tc_matrix", "tc_matrix (*)(int)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_int__void = {"_p_f_int__void", "void (*)(int)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_int_int__void = {"_p_f_int_int__void", "void (*)(int,int)", 0, 0, (void*)0, 0};
@@ -11957,6 +13049,8 @@ static swig_type_info _swigt__p_f_p_q_const__char__long = {"_p_f_p_q_const__char
 static swig_type_info _swigt__p_f_p_q_const__char__p_char = {"_p_f_p_q_const__char__p_char", "char *(*)(char const *)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_q_const__char__tc_items = {"_p_f_p_q_const__char__tc_items", "tc_items (*)(char const *)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_q_const__char__void = {"_p_f_p_q_const__char__void", "void (*)(char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char_double_double_int__tc_matrix = {"_p_f_p_q_const__char_double_double_int__tc_matrix", "tc_matrix (*)(char const *,double,double,int)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char_double_double_int_p_q_const__char_double_double_int__tc_matrix = {"_p_f_p_q_const__char_double_double_int_p_q_const__char_double_double_int__tc_matrix", "tc_matrix (*)(char const *,double,double,int,char const *,double,double,int)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_q_const__char_int_int__void = {"_p_f_p_q_const__char_int_int__void", "void (*)(char const *,int,int)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_q_const__char_int_int_tc_strings__void = {"_p_f_p_q_const__char_int_int_tc_strings__void", "void (*)(char const *,int,int,tc_strings)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_q_const__char_p_q_const__char__int = {"_p_f_p_q_const__char_p_q_const__char__int", "int (*)(char const *,char const *)", 0, 0, (void*)0, 0};
@@ -11999,11 +13093,12 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_f___int,
   &_swigt__p_f___p_char,
   &_swigt__p_f___tc_items,
+  &_swigt__p_f___tc_matrix,
   &_swigt__p_f___tc_strings,
   &_swigt__p_f___void,
-  &_swigt__p_f_copasi_model__void,
   &_swigt__p_f_double__void,
   &_swigt__p_f_double_double__void,
+  &_swigt__p_f_double_double_int__tc_matrix,
   &_swigt__p_f_int__tc_matrix,
   &_swigt__p_f_int__void,
   &_swigt__p_f_int_int__void,
@@ -12043,6 +13138,8 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_f_p_q_const__char__p_char,
   &_swigt__p_f_p_q_const__char__tc_items,
   &_swigt__p_f_p_q_const__char__void,
+  &_swigt__p_f_p_q_const__char_double_double_int__tc_matrix,
+  &_swigt__p_f_p_q_const__char_double_double_int_p_q_const__char_double_double_int__tc_matrix,
   &_swigt__p_f_p_q_const__char_int_int__void,
   &_swigt__p_f_p_q_const__char_int_int_tc_strings__void,
   &_swigt__p_f_p_q_const__char_p_q_const__char__int,
@@ -12085,11 +13182,12 @@ static swig_cast_info _swigc__p_double[] = {  {&_swigt__p_double, 0, 0, 0},{0, 0
 static swig_cast_info _swigc__p_f___int[] = {  {&_swigt__p_f___int, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f___p_char[] = {  {&_swigt__p_f___p_char, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f___tc_items[] = {  {&_swigt__p_f___tc_items, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f___tc_matrix[] = {  {&_swigt__p_f___tc_matrix, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f___tc_strings[] = {  {&_swigt__p_f___tc_strings, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f___void[] = {  {&_swigt__p_f___void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_copasi_model__void[] = {  {&_swigt__p_f_copasi_model__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_double__void[] = {  {&_swigt__p_f_double__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_double_double__void[] = {  {&_swigt__p_f_double_double__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_double_double_int__tc_matrix[] = {  {&_swigt__p_f_double_double_int__tc_matrix, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_int__tc_matrix[] = {  {&_swigt__p_f_int__tc_matrix, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_int__void[] = {  {&_swigt__p_f_int__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_int_int__void[] = {  {&_swigt__p_f_int_int__void, 0, 0, 0},{0, 0, 0, 0}};
@@ -12129,6 +13227,8 @@ static swig_cast_info _swigc__p_f_p_q_const__char__long[] = {  {&_swigt__p_f_p_q
 static swig_cast_info _swigc__p_f_p_q_const__char__p_char[] = {  {&_swigt__p_f_p_q_const__char__p_char, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char__tc_items[] = {  {&_swigt__p_f_p_q_const__char__tc_items, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char__void[] = {  {&_swigt__p_f_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_p_q_const__char_double_double_int__tc_matrix[] = {  {&_swigt__p_f_p_q_const__char_double_double_int__tc_matrix, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_p_q_const__char_double_double_int_p_q_const__char_double_double_int__tc_matrix[] = {  {&_swigt__p_f_p_q_const__char_double_double_int_p_q_const__char_double_double_int__tc_matrix, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char_int_int__void[] = {  {&_swigt__p_f_p_q_const__char_int_int__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char_int_int_tc_strings__void[] = {  {&_swigt__p_f_p_q_const__char_int_int_tc_strings__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char_p_q_const__char__int[] = {  {&_swigt__p_f_p_q_const__char_p_q_const__char__int, 0, 0, 0},{0, 0, 0, 0}};
@@ -12171,11 +13271,12 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_f___int,
   _swigc__p_f___p_char,
   _swigc__p_f___tc_items,
+  _swigc__p_f___tc_matrix,
   _swigc__p_f___tc_strings,
   _swigc__p_f___void,
-  _swigc__p_f_copasi_model__void,
   _swigc__p_f_double__void,
   _swigc__p_f_double_double__void,
+  _swigc__p_f_double_double_int__tc_matrix,
   _swigc__p_f_int__tc_matrix,
   _swigc__p_f_int__void,
   _swigc__p_f_int_int__void,
@@ -12215,6 +13316,8 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_f_p_q_const__char__p_char,
   _swigc__p_f_p_q_const__char__tc_items,
   _swigc__p_f_p_q_const__char__void,
+  _swigc__p_f_p_q_const__char_double_double_int__tc_matrix,
+  _swigc__p_f_p_q_const__char_double_double_int_p_q_const__char_double_double_int__tc_matrix,
   _swigc__p_f_p_q_const__char_int_int__void,
   _swigc__p_f_p_q_const__char_int_int_tc_strings__void,
   _swigc__p_f_p_q_const__char_p_q_const__char__int,
@@ -12765,7 +13868,8 @@ SWIGEXPORT void Init_tinkercell(void) {
   rb_define_module_function(mTinkercell, "tc_exportSBML", _wrap_tc_exportSBML, -1);
   rb_define_module_function(mTinkercell, "tc_importSBML", _wrap_tc_importSBML, -1);
   rb_define_module_function(mTinkercell, "tc_SBML_api", _wrap_tc_SBML_api, -1);
-  rb_define_module_function(mTinkercell, "tc_updateCopasiModel", _wrap_tc_updateCopasiModel, -1);
+  rb_define_module_function(mTinkercell, "steadyStateScan", _wrap_steadyStateScan, -1);
+  rb_define_module_function(mTinkercell, "steadyStateScan2D", _wrap_steadyStateScan2D, -1);
   rb_define_module_function(mTinkercell, "tc_COPASI_api", _wrap_tc_COPASI_api, -1);
   
   SwigClassCopasi_model.klass = rb_define_class_under(mTinkercell, "Copasi_model", rb_cObject);
@@ -12843,5 +13947,6 @@ SWIGEXPORT void Init_tinkercell(void) {
   rb_define_module_function(mTinkercell, "getScaledElasticities", _wrap_getScaledElasticities, -1);
   rb_define_module_function(mTinkercell, "getScaledConcentrationCC", _wrap_getScaledConcentrationCC, -1);
   rb_define_module_function(mTinkercell, "getScaledFluxCC", _wrap_getScaledFluxCC, -1);
+  rb_define_module_function(mTinkercell, "example", _wrap_example, -1);
 }
 

@@ -17,24 +17,64 @@
 #include "ItemHandle.h"
 #include "Tool.h"
 #include "CThread.h"
-#include "copasi_api.h"
+#include "copasi/copasi_api.h"
 
 namespace Tinkercell
 {
-	class TINKERCELLEXPORT CopasiExporter_FtoS : public QObject
+	class TINKERCELLEXPORT SimulationThread : public QThread
 	{
 		Q_OBJECT
-
-		signals:
-			void getCopasiModel(QSemaphore*, copasi_model);
-
-		public:
-			void getCopasiModel(copasi_model);
-	};
+		
+	public: 
+		
+		enum AnalysisMethod
+		{
+			DeterministicSimulation=0,
+			StochasticSimulation,
+			HybridSimulation,
+			TauLeapSimulation, 
+			SteadyState,
+			Jacobian,
+			Eigenvalues,
+			UnscaledElasticities,
+			UnscaledConcentrationCC,
+			UnscaledFluxCC,
+			ScaledElasticities,
+			ScaledConcentrationCC,
+			ScaledFluxCC
+		};
+		
+		void updateModel();
+		void setMethod(AnalysisMethod);
+		void setSemaphore(QSemaphore*);
+		void setStartTime(double);
+		void setEndTime(double);
+		void setNumPoints(int);
+		void setParameterRange(const QString& param, double start, double end, int numPoints);
+		NumericalDataTable& result();
 	
-	/*! \brief This class exports COPASI models. The models are exported as the class
-	structure so that simulating the model is simpler (as opposed to writing it to a file). See
-	copasi_api.h for details.
+	signals:
+		void getHandles( QSemaphore*, QList<ItemHandle*>&, bool * changed);
+		
+	protected:
+
+		virtual void run();
+		void updateModel(QList<ItemHandle*>&);
+		AnalysisMethod analysisMethod;
+		copasi_model model;
+		double startTime;
+		double endTime;
+		int numPoints;		
+		NumericalDataTable resultMatrix;
+		QSemaphore * semaphore;
+		
+		struct ScanItem { QString name; double start; double end; int numPoints; };
+		QList<ScanItem> scanItems;
+		
+		static int totalModelCount;
+	}; 
+	
+	/*! \brief This class links C programs to the SimulationThread, which uses COPASI
 	/ingrou plugins
 	*/
 	class TINKERCELLEXPORT CopasiExporter : public Tool
@@ -48,17 +88,36 @@ namespace Tinkercell
 		bool setMainWindow(MainWindow * main);
 	
 	private slots:
+
 		void getCopasiModel(QSemaphore*, copasi_model);
 		void setupFunctionPointers( QLibrary * library);
 		void historyChanged(int);
 		void windowChanged(NetworkWindow*,NetworkWindow*);
 
 	private:
-		static void getCopasiModel(copasi_model);
-		void updateModel(copasi_model);
 		bool modelNeedsUpdate;
-
-		static CopasiExporter_FtoS fToS;
+		
+		static SimulationThread * odeThread;
+		static SimulationThread * stochThread;
+		static SimulationThread * ssThread;
+		static SimulationThread * jacThread;
+		static SimulationThread * mcaThread;
+		
+		static tc_matrix simulateDeterministic(double startTime, double endTime, int numSteps);
+		static tc_matrix simulateStochastic(double startTime, double endTime, int numSteps);
+		static tc_matrix simulateHybrid(double startTime, double endTime, int numSteps);
+		static tc_matrix simulateTauLeap(double startTime, double endTime, int numSteps);
+		static tc_matrix getSteadyState();
+		static tc_matrix steadyStateScan(const char * param, double start, double end, int numSteps);
+		static tc_matrix steadyStateScan2D(const char * param1, double start1, double end1, int numSteps1,const char * param2, double start2, double end2, int numSteps2);
+		static tc_matrix getJacobian();
+		static tc_matrix getEigenvalues();
+		static tc_matrix getUnscaledElasticities();
+		static tc_matrix getUnscaledConcentrationCC();
+		static tc_matrix getUnscaledFluxCC();
+		static tc_matrix getScaledElasticities();
+		static tc_matrix getScaledConcentrationCC();
+		static tc_matrix getScaledFluxCC();
 	};
 }
 

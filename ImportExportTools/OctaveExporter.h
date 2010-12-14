@@ -8,8 +8,8 @@
 
 ****************************************************************************/
 
-#ifndef TINKERCELL_SBMLIMPORTEXPORTTOOL_H
-#define TINKERCELL_SBMLIMPORTEXPORTTOOL_H
+#ifndef TINKERCELL_OCTAVEEXPORTTOOL_H
+#define TINKERCELL_OCTAVEEXPORTTOOL_H
 
 #include <QThread>
 #include <QSemaphore>

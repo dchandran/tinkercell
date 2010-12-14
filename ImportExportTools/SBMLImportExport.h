@@ -18,7 +18,7 @@
 #include "ItemHandle.h"
 #include "Tool.h"
 #include "CThread.h"
-#include "common/sbmlfwd.h"
+#include "sbml/common/sbmlfwd.h"
 
 namespace Tinkercell
 {

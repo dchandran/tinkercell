@@ -1496,84 +1496,87 @@ SWIG_Perl_SetModule(swig_module_info *module) {
 #define SWIGTYPE_p_f___int swig_types[5]
 #define SWIGTYPE_p_f___p_char swig_types[6]
 #define SWIGTYPE_p_f___tc_items swig_types[7]
-#define SWIGTYPE_p_f___tc_strings swig_types[8]
-#define SWIGTYPE_p_f___void swig_types[9]
-#define SWIGTYPE_p_f_copasi_model__void swig_types[10]
+#define SWIGTYPE_p_f___tc_matrix swig_types[8]
+#define SWIGTYPE_p_f___tc_strings swig_types[9]
+#define SWIGTYPE_p_f___void swig_types[10]
 #define SWIGTYPE_p_f_double__void swig_types[11]
 #define SWIGTYPE_p_f_double_double__void swig_types[12]
-#define SWIGTYPE_p_f_int__tc_matrix swig_types[13]
-#define SWIGTYPE_p_f_int__void swig_types[14]
-#define SWIGTYPE_p_f_int_int__void swig_types[15]
-#define SWIGTYPE_p_f_long__double swig_types[16]
-#define SWIGTYPE_p_f_long__long swig_types[17]
-#define SWIGTYPE_p_f_long__p_char swig_types[18]
-#define SWIGTYPE_p_f_long__tc_items swig_types[19]
-#define SWIGTYPE_p_f_long__tc_strings swig_types[20]
-#define SWIGTYPE_p_f_long__void swig_types[21]
-#define SWIGTYPE_p_f_long_double__void swig_types[22]
-#define SWIGTYPE_p_f_long_double_double__void swig_types[23]
-#define SWIGTYPE_p_f_long_double_double_int__void swig_types[24]
-#define SWIGTYPE_p_f_long_double_int__void swig_types[25]
-#define SWIGTYPE_p_f_long_int__void swig_types[26]
-#define SWIGTYPE_p_f_long_long_int__double swig_types[27]
-#define SWIGTYPE_p_f_long_long_int_double_double__void swig_types[28]
-#define SWIGTYPE_p_f_long_p_f_void__void__void swig_types[29]
-#define SWIGTYPE_p_f_long_p_q_const__char__double swig_types[30]
-#define SWIGTYPE_p_f_long_p_q_const__char__int swig_types[31]
-#define SWIGTYPE_p_f_long_p_q_const__char__p_char swig_types[32]
-#define SWIGTYPE_p_f_long_p_q_const__char__tc_items swig_types[33]
-#define SWIGTYPE_p_f_long_p_q_const__char__tc_matrix swig_types[34]
-#define SWIGTYPE_p_f_long_p_q_const__char__tc_table swig_types[35]
-#define SWIGTYPE_p_f_long_p_q_const__char__void swig_types[36]
-#define SWIGTYPE_p_f_long_p_q_const__char_double__void swig_types[37]
-#define SWIGTYPE_p_f_long_p_q_const__char_int__void swig_types[38]
-#define SWIGTYPE_p_f_long_p_q_const__char_p_q_const__char__void swig_types[39]
-#define SWIGTYPE_p_f_long_p_q_const__char_tc_matrix__void swig_types[40]
-#define SWIGTYPE_p_f_long_p_q_const__char_tc_table__void swig_types[41]
-#define SWIGTYPE_p_f_long_tc_matrix_p_f_tc_matrix__void__void swig_types[42]
-#define SWIGTYPE_p_f_long_tc_matrix_p_q_const__char_p_f_tc_matrix__void__void swig_types[43]
-#define SWIGTYPE_p_f_long_tc_strings__void swig_types[44]
-#define SWIGTYPE_p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void swig_types[45]
-#define SWIGTYPE_p_f_p_q_const__char__double swig_types[46]
-#define SWIGTYPE_p_f_p_q_const__char__int swig_types[47]
-#define SWIGTYPE_p_f_p_q_const__char__long swig_types[48]
-#define SWIGTYPE_p_f_p_q_const__char__p_char swig_types[49]
-#define SWIGTYPE_p_f_p_q_const__char__tc_items swig_types[50]
-#define SWIGTYPE_p_f_p_q_const__char__void swig_types[51]
-#define SWIGTYPE_p_f_p_q_const__char_int_int__void swig_types[52]
-#define SWIGTYPE_p_f_p_q_const__char_int_int_tc_strings__void swig_types[53]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__int swig_types[54]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__long swig_types[55]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__void swig_types[56]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char__int swig_types[57]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void swig_types[58]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_tc_matrix__int swig_types[59]
-#define SWIGTYPE_p_f_p_q_const__char_tc_items__int swig_types[60]
-#define SWIGTYPE_p_f_p_q_const__char_tc_items__tc_items swig_types[61]
-#define SWIGTYPE_p_f_p_q_const__char_tc_strings_p_q_const__char__int swig_types[62]
-#define SWIGTYPE_p_f_tc_items__tc_matrix swig_types[63]
-#define SWIGTYPE_p_f_tc_items__tc_strings swig_types[64]
-#define SWIGTYPE_p_f_tc_items__void swig_types[65]
-#define SWIGTYPE_p_f_tc_items_p_q_const__char_p_q_const__char__long swig_types[66]
-#define SWIGTYPE_p_f_tc_items_tc_matrix__void swig_types[67]
-#define SWIGTYPE_p_f_tc_items_tc_strings__tc_matrix swig_types[68]
-#define SWIGTYPE_p_f_tc_items_tc_strings__tc_strings swig_types[69]
-#define SWIGTYPE_p_f_tc_items_tc_strings__void swig_types[70]
-#define SWIGTYPE_p_f_tc_matrix__void swig_types[71]
-#define SWIGTYPE_p_f_tc_matrix_p_q_const__char__void swig_types[72]
-#define SWIGTYPE_p_f_tc_matrix_p_q_const__char_p_q_const__char_p_q_const__char__void swig_types[73]
-#define SWIGTYPE_p_f_tc_strings__tc_items swig_types[74]
-#define SWIGTYPE_p_f_tc_strings_p_double__void swig_types[75]
-#define SWIGTYPE_p_f_void__void swig_types[76]
-#define SWIGTYPE_p_long swig_types[77]
-#define SWIGTYPE_p_p_char swig_types[78]
-#define SWIGTYPE_p_tc_items swig_types[79]
-#define SWIGTYPE_p_tc_matrix swig_types[80]
-#define SWIGTYPE_p_tc_strings swig_types[81]
-#define SWIGTYPE_p_tc_table swig_types[82]
-#define SWIGTYPE_p_void swig_types[83]
-static swig_type_info *swig_types[85];
-static swig_module_info swig_module = {swig_types, 84, 0, 0, 0, 0};
+#define SWIGTYPE_p_f_double_double_int__tc_matrix swig_types[13]
+#define SWIGTYPE_p_f_int__tc_matrix swig_types[14]
+#define SWIGTYPE_p_f_int__void swig_types[15]
+#define SWIGTYPE_p_f_int_int__void swig_types[16]
+#define SWIGTYPE_p_f_long__double swig_types[17]
+#define SWIGTYPE_p_f_long__long swig_types[18]
+#define SWIGTYPE_p_f_long__p_char swig_types[19]
+#define SWIGTYPE_p_f_long__tc_items swig_types[20]
+#define SWIGTYPE_p_f_long__tc_strings swig_types[21]
+#define SWIGTYPE_p_f_long__void swig_types[22]
+#define SWIGTYPE_p_f_long_double__void swig_types[23]
+#define SWIGTYPE_p_f_long_double_double__void swig_types[24]
+#define SWIGTYPE_p_f_long_double_double_int__void swig_types[25]
+#define SWIGTYPE_p_f_long_double_int__void swig_types[26]
+#define SWIGTYPE_p_f_long_int__void swig_types[27]
+#define SWIGTYPE_p_f_long_long_int__double swig_types[28]
+#define SWIGTYPE_p_f_long_long_int_double_double__void swig_types[29]
+#define SWIGTYPE_p_f_long_p_f_void__void__void swig_types[30]
+#define SWIGTYPE_p_f_long_p_q_const__char__double swig_types[31]
+#define SWIGTYPE_p_f_long_p_q_const__char__int swig_types[32]
+#define SWIGTYPE_p_f_long_p_q_const__char__p_char swig_types[33]
+#define SWIGTYPE_p_f_long_p_q_const__char__tc_items swig_types[34]
+#define SWIGTYPE_p_f_long_p_q_const__char__tc_matrix swig_types[35]
+#define SWIGTYPE_p_f_long_p_q_const__char__tc_table swig_types[36]
+#define SWIGTYPE_p_f_long_p_q_const__char__void swig_types[37]
+#define SWIGTYPE_p_f_long_p_q_const__char_double__void swig_types[38]
+#define SWIGTYPE_p_f_long_p_q_const__char_int__void swig_types[39]
+#define SWIGTYPE_p_f_long_p_q_const__char_p_q_const__char__void swig_types[40]
+#define SWIGTYPE_p_f_long_p_q_const__char_tc_matrix__void swig_types[41]
+#define SWIGTYPE_p_f_long_p_q_const__char_tc_table__void swig_types[42]
+#define SWIGTYPE_p_f_long_tc_matrix_p_f_tc_matrix__void__void swig_types[43]
+#define SWIGTYPE_p_f_long_tc_matrix_p_q_const__char_p_f_tc_matrix__void__void swig_types[44]
+#define SWIGTYPE_p_f_long_tc_strings__void swig_types[45]
+#define SWIGTYPE_p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void swig_types[46]
+#define SWIGTYPE_p_f_p_q_const__char__double swig_types[47]
+#define SWIGTYPE_p_f_p_q_const__char__int swig_types[48]
+#define SWIGTYPE_p_f_p_q_const__char__long swig_types[49]
+#define SWIGTYPE_p_f_p_q_const__char__p_char swig_types[50]
+#define SWIGTYPE_p_f_p_q_const__char__tc_items swig_types[51]
+#define SWIGTYPE_p_f_p_q_const__char__void swig_types[52]
+#define SWIGTYPE_p_f_p_q_const__char_double_double_int__tc_matrix swig_types[53]
+#define SWIGTYPE_p_f_p_q_const__char_double_double_int_p_q_const__char_double_double_int__tc_matrix swig_types[54]
+#define SWIGTYPE_p_f_p_q_const__char_int_int__void swig_types[55]
+#define SWIGTYPE_p_f_p_q_const__char_int_int_tc_strings__void swig_types[56]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__int swig_types[57]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__long swig_types[58]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__void swig_types[59]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char__int swig_types[60]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void swig_types[61]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_tc_matrix__int swig_types[62]
+#define SWIGTYPE_p_f_p_q_const__char_tc_items__int swig_types[63]
+#define SWIGTYPE_p_f_p_q_const__char_tc_items__tc_items swig_types[64]
+#define SWIGTYPE_p_f_p_q_const__char_tc_strings_p_q_const__char__int swig_types[65]
+#define SWIGTYPE_p_f_tc_items__tc_matrix swig_types[66]
+#define SWIGTYPE_p_f_tc_items__tc_strings swig_types[67]
+#define SWIGTYPE_p_f_tc_items__void swig_types[68]
+#define SWIGTYPE_p_f_tc_items_p_q_const__char_p_q_const__char__long swig_types[69]
+#define SWIGTYPE_p_f_tc_items_tc_matrix__void swig_types[70]
+#define SWIGTYPE_p_f_tc_items_tc_strings__tc_matrix swig_types[71]
+#define SWIGTYPE_p_f_tc_items_tc_strings__tc_strings swig_types[72]
+#define SWIGTYPE_p_f_tc_items_tc_strings__void swig_types[73]
+#define SWIGTYPE_p_f_tc_matrix__void swig_types[74]
+#define SWIGTYPE_p_f_tc_matrix_p_q_const__char__void swig_types[75]
+#define SWIGTYPE_p_f_tc_matrix_p_q_const__char_p_q_const__char_p_q_const__char__void swig_types[76]
+#define SWIGTYPE_p_f_tc_strings__tc_items swig_types[77]
+#define SWIGTYPE_p_f_tc_strings_p_double__void swig_types[78]
+#define SWIGTYPE_p_f_void__void swig_types[79]
+#define SWIGTYPE_p_long swig_types[80]
+#define SWIGTYPE_p_p_char swig_types[81]
+#define SWIGTYPE_p_tc_items swig_types[82]
+#define SWIGTYPE_p_tc_matrix swig_types[83]
+#define SWIGTYPE_p_tc_strings swig_types[84]
+#define SWIGTYPE_p_tc_table swig_types[85]
+#define SWIGTYPE_p_void swig_types[86]
+static swig_type_info *swig_types[88];
+static swig_module_info swig_module = {swig_types, 87, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -11079,30 +11082,512 @@ XS(_wrap_tc_SBML_api) {
 }
 
 
-XS(_wrap_tc_updateCopasiModel) {
+XS(_wrap_simulateDeterministic__SWIG_0) {
   {
-    copasi_model arg1 ;
-    void *argp1 ;
-    int res1 = 0 ;
+    double arg1 ;
+    double arg2 ;
+    int arg3 ;
+    double val1 ;
+    int ecode1 = 0 ;
+    double val2 ;
+    int ecode2 = 0 ;
+    int val3 ;
+    int ecode3 = 0 ;
     int argvi = 0;
+    tc_matrix result;
     dXSARGS;
     
-    if ((items < 1) || (items > 1)) {
-      SWIG_croak("Usage: tc_updateCopasiModel(copasi_model);");
+    if ((items < 3) || (items > 3)) {
+      SWIG_croak("Usage: simulateDeterministic(startTime,endTime,numSteps);");
     }
-    {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_copasi_model,  0 );
-      if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_updateCopasiModel" "', argument " "1"" of type '" "copasi_model""'"); 
-      }  
-      if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_updateCopasiModel" "', argument " "1"" of type '" "copasi_model""'");
-      } else {
-        arg1 = *((copasi_model *)(argp1));
-      }
+    ecode1 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    if (!SWIG_IsOK(ecode1)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "simulateDeterministic" "', argument " "1"" of type '" "double""'");
+    } 
+    arg1 = (double)(val1);
+    ecode2 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
+    if (!SWIG_IsOK(ecode2)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "simulateDeterministic" "', argument " "2"" of type '" "double""'");
+    } 
+    arg2 = (double)(val2);
+    ecode3 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(2), &val3);
+    if (!SWIG_IsOK(ecode3)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "simulateDeterministic" "', argument " "3"" of type '" "int""'");
+    } 
+    arg3 = (int)(val3);
+    result = simulateDeterministic(arg1,arg2,arg3);
+    ST(argvi) = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    
+    
+    
+    XSRETURN(argvi);
+  fail:
+    
+    
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_simulateStochastic__SWIG_0) {
+  {
+    double arg1 ;
+    double arg2 ;
+    int arg3 ;
+    double val1 ;
+    int ecode1 = 0 ;
+    double val2 ;
+    int ecode2 = 0 ;
+    int val3 ;
+    int ecode3 = 0 ;
+    int argvi = 0;
+    tc_matrix result;
+    dXSARGS;
+    
+    if ((items < 3) || (items > 3)) {
+      SWIG_croak("Usage: simulateStochastic(startTime,endTime,numSteps);");
     }
-    tc_updateCopasiModel(arg1);
-    ST(argvi) = sv_newmortal();
+    ecode1 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    if (!SWIG_IsOK(ecode1)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "simulateStochastic" "', argument " "1"" of type '" "double""'");
+    } 
+    arg1 = (double)(val1);
+    ecode2 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
+    if (!SWIG_IsOK(ecode2)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "simulateStochastic" "', argument " "2"" of type '" "double""'");
+    } 
+    arg2 = (double)(val2);
+    ecode3 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(2), &val3);
+    if (!SWIG_IsOK(ecode3)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "simulateStochastic" "', argument " "3"" of type '" "int""'");
+    } 
+    arg3 = (int)(val3);
+    result = simulateStochastic(arg1,arg2,arg3);
+    ST(argvi) = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    
+    
+    
+    XSRETURN(argvi);
+  fail:
+    
+    
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_simulateHybrid__SWIG_0) {
+  {
+    double arg1 ;
+    double arg2 ;
+    int arg3 ;
+    double val1 ;
+    int ecode1 = 0 ;
+    double val2 ;
+    int ecode2 = 0 ;
+    int val3 ;
+    int ecode3 = 0 ;
+    int argvi = 0;
+    tc_matrix result;
+    dXSARGS;
+    
+    if ((items < 3) || (items > 3)) {
+      SWIG_croak("Usage: simulateHybrid(startTime,endTime,numSteps);");
+    }
+    ecode1 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    if (!SWIG_IsOK(ecode1)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "simulateHybrid" "', argument " "1"" of type '" "double""'");
+    } 
+    arg1 = (double)(val1);
+    ecode2 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
+    if (!SWIG_IsOK(ecode2)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "simulateHybrid" "', argument " "2"" of type '" "double""'");
+    } 
+    arg2 = (double)(val2);
+    ecode3 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(2), &val3);
+    if (!SWIG_IsOK(ecode3)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "simulateHybrid" "', argument " "3"" of type '" "int""'");
+    } 
+    arg3 = (int)(val3);
+    result = simulateHybrid(arg1,arg2,arg3);
+    ST(argvi) = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    
+    
+    
+    XSRETURN(argvi);
+  fail:
+    
+    
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_simulateTauLeap__SWIG_0) {
+  {
+    double arg1 ;
+    double arg2 ;
+    int arg3 ;
+    double val1 ;
+    int ecode1 = 0 ;
+    double val2 ;
+    int ecode2 = 0 ;
+    int val3 ;
+    int ecode3 = 0 ;
+    int argvi = 0;
+    tc_matrix result;
+    dXSARGS;
+    
+    if ((items < 3) || (items > 3)) {
+      SWIG_croak("Usage: simulateTauLeap(startTime,endTime,numSteps);");
+    }
+    ecode1 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    if (!SWIG_IsOK(ecode1)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "simulateTauLeap" "', argument " "1"" of type '" "double""'");
+    } 
+    arg1 = (double)(val1);
+    ecode2 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
+    if (!SWIG_IsOK(ecode2)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "simulateTauLeap" "', argument " "2"" of type '" "double""'");
+    } 
+    arg2 = (double)(val2);
+    ecode3 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(2), &val3);
+    if (!SWIG_IsOK(ecode3)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "simulateTauLeap" "', argument " "3"" of type '" "int""'");
+    } 
+    arg3 = (int)(val3);
+    result = simulateTauLeap(arg1,arg2,arg3);
+    ST(argvi) = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    
+    
+    
+    XSRETURN(argvi);
+  fail:
+    
+    
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_getSteadyState__SWIG_0) {
+  {
+    int argvi = 0;
+    tc_matrix result;
+    dXSARGS;
+    
+    if ((items < 0) || (items > 0)) {
+      SWIG_croak("Usage: getSteadyState();");
+    }
+    result = getSteadyState();
+    ST(argvi) = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    XSRETURN(argvi);
+  fail:
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_steadyStateScan) {
+  {
+    char *arg1 = (char *) 0 ;
+    double arg2 ;
+    double arg3 ;
+    int arg4 ;
+    int res1 ;
+    char *buf1 = 0 ;
+    int alloc1 = 0 ;
+    double val2 ;
+    int ecode2 = 0 ;
+    double val3 ;
+    int ecode3 = 0 ;
+    int val4 ;
+    int ecode4 = 0 ;
+    int argvi = 0;
+    tc_matrix result;
+    dXSARGS;
+    
+    if ((items < 4) || (items > 4)) {
+      SWIG_croak("Usage: steadyStateScan(param,start,end,numSteps);");
+    }
+    res1 = SWIG_AsCharPtrAndSize(ST(0), &buf1, NULL, &alloc1);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "steadyStateScan" "', argument " "1"" of type '" "char const *""'");
+    }
+    arg1 = (char *)(buf1);
+    ecode2 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
+    if (!SWIG_IsOK(ecode2)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "steadyStateScan" "', argument " "2"" of type '" "double""'");
+    } 
+    arg2 = (double)(val2);
+    ecode3 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(2), &val3);
+    if (!SWIG_IsOK(ecode3)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "steadyStateScan" "', argument " "3"" of type '" "double""'");
+    } 
+    arg3 = (double)(val3);
+    ecode4 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(3), &val4);
+    if (!SWIG_IsOK(ecode4)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "steadyStateScan" "', argument " "4"" of type '" "int""'");
+    } 
+    arg4 = (int)(val4);
+    result = steadyStateScan((char const *)arg1,arg2,arg3,arg4);
+    ST(argvi) = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+    
+    
+    
+    XSRETURN(argvi);
+  fail:
+    if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+    
+    
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_steadyStateScan2D) {
+  {
+    char *arg1 = (char *) 0 ;
+    double arg2 ;
+    double arg3 ;
+    int arg4 ;
+    char *arg5 = (char *) 0 ;
+    double arg6 ;
+    double arg7 ;
+    int arg8 ;
+    int res1 ;
+    char *buf1 = 0 ;
+    int alloc1 = 0 ;
+    double val2 ;
+    int ecode2 = 0 ;
+    double val3 ;
+    int ecode3 = 0 ;
+    int val4 ;
+    int ecode4 = 0 ;
+    int res5 ;
+    char *buf5 = 0 ;
+    int alloc5 = 0 ;
+    double val6 ;
+    int ecode6 = 0 ;
+    double val7 ;
+    int ecode7 = 0 ;
+    int val8 ;
+    int ecode8 = 0 ;
+    int argvi = 0;
+    tc_matrix result;
+    dXSARGS;
+    
+    if ((items < 8) || (items > 8)) {
+      SWIG_croak("Usage: steadyStateScan2D(param1,start1,end1,numSteps1,param2,start2,end2,numSteps2);");
+    }
+    res1 = SWIG_AsCharPtrAndSize(ST(0), &buf1, NULL, &alloc1);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "steadyStateScan2D" "', argument " "1"" of type '" "char const *""'");
+    }
+    arg1 = (char *)(buf1);
+    ecode2 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
+    if (!SWIG_IsOK(ecode2)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "steadyStateScan2D" "', argument " "2"" of type '" "double""'");
+    } 
+    arg2 = (double)(val2);
+    ecode3 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(2), &val3);
+    if (!SWIG_IsOK(ecode3)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "steadyStateScan2D" "', argument " "3"" of type '" "double""'");
+    } 
+    arg3 = (double)(val3);
+    ecode4 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(3), &val4);
+    if (!SWIG_IsOK(ecode4)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "steadyStateScan2D" "', argument " "4"" of type '" "int""'");
+    } 
+    arg4 = (int)(val4);
+    res5 = SWIG_AsCharPtrAndSize(ST(4), &buf5, NULL, &alloc5);
+    if (!SWIG_IsOK(res5)) {
+      SWIG_exception_fail(SWIG_ArgError(res5), "in method '" "steadyStateScan2D" "', argument " "5"" of type '" "char const *""'");
+    }
+    arg5 = (char *)(buf5);
+    ecode6 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(5), &val6);
+    if (!SWIG_IsOK(ecode6)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode6), "in method '" "steadyStateScan2D" "', argument " "6"" of type '" "double""'");
+    } 
+    arg6 = (double)(val6);
+    ecode7 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(6), &val7);
+    if (!SWIG_IsOK(ecode7)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode7), "in method '" "steadyStateScan2D" "', argument " "7"" of type '" "double""'");
+    } 
+    arg7 = (double)(val7);
+    ecode8 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(7), &val8);
+    if (!SWIG_IsOK(ecode8)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode8), "in method '" "steadyStateScan2D" "', argument " "8"" of type '" "int""'");
+    } 
+    arg8 = (int)(val8);
+    result = steadyStateScan2D((char const *)arg1,arg2,arg3,arg4,(char const *)arg5,arg6,arg7,arg8);
+    ST(argvi) = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+    
+    
+    
+    if (alloc5 == SWIG_NEWOBJ) free((char*)buf5);
+    
+    
+    
+    XSRETURN(argvi);
+  fail:
+    if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+    
+    
+    
+    if (alloc5 == SWIG_NEWOBJ) free((char*)buf5);
+    
+    
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_getJacobian__SWIG_0) {
+  {
+    int argvi = 0;
+    tc_matrix result;
+    dXSARGS;
+    
+    if ((items < 0) || (items > 0)) {
+      SWIG_croak("Usage: getJacobian();");
+    }
+    result = getJacobian();
+    ST(argvi) = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    XSRETURN(argvi);
+  fail:
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_getEigenvalues__SWIG_0) {
+  {
+    int argvi = 0;
+    tc_matrix result;
+    dXSARGS;
+    
+    if ((items < 0) || (items > 0)) {
+      SWIG_croak("Usage: getEigenvalues();");
+    }
+    result = getEigenvalues();
+    ST(argvi) = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    XSRETURN(argvi);
+  fail:
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_getUnscaledElasticities__SWIG_0) {
+  {
+    int argvi = 0;
+    tc_matrix result;
+    dXSARGS;
+    
+    if ((items < 0) || (items > 0)) {
+      SWIG_croak("Usage: getUnscaledElasticities();");
+    }
+    result = getUnscaledElasticities();
+    ST(argvi) = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    XSRETURN(argvi);
+  fail:
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_getUnscaledConcentrationCC__SWIG_0) {
+  {
+    int argvi = 0;
+    tc_matrix result;
+    dXSARGS;
+    
+    if ((items < 0) || (items > 0)) {
+      SWIG_croak("Usage: getUnscaledConcentrationCC();");
+    }
+    result = getUnscaledConcentrationCC();
+    ST(argvi) = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    XSRETURN(argvi);
+  fail:
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_getUnscaledFluxCC__SWIG_0) {
+  {
+    int argvi = 0;
+    tc_matrix result;
+    dXSARGS;
+    
+    if ((items < 0) || (items > 0)) {
+      SWIG_croak("Usage: getUnscaledFluxCC();");
+    }
+    result = getUnscaledFluxCC();
+    ST(argvi) = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    XSRETURN(argvi);
+  fail:
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_getScaledElasticities__SWIG_0) {
+  {
+    int argvi = 0;
+    tc_matrix result;
+    dXSARGS;
+    
+    if ((items < 0) || (items > 0)) {
+      SWIG_croak("Usage: getScaledElasticities();");
+    }
+    result = getScaledElasticities();
+    ST(argvi) = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    XSRETURN(argvi);
+  fail:
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_getScaledConcentrationCC__SWIG_0) {
+  {
+    int argvi = 0;
+    tc_matrix result;
+    dXSARGS;
+    
+    if ((items < 0) || (items > 0)) {
+      SWIG_croak("Usage: getScaledConcentrationCC();");
+    }
+    result = getScaledConcentrationCC();
+    ST(argvi) = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    XSRETURN(argvi);
+  fail:
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_getScaledFluxCC__SWIG_0) {
+  {
+    int argvi = 0;
+    tc_matrix result;
+    dXSARGS;
+    
+    if ((items < 0) || (items > 0)) {
+      SWIG_croak("Usage: getScaledFluxCC();");
+    }
+    result = getScaledFluxCC();
+    ST(argvi) = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     XSRETURN(argvi);
   fail:
     SWIG_croak_null();
@@ -11112,24 +11597,150 @@ XS(_wrap_tc_updateCopasiModel) {
 
 XS(_wrap_tc_COPASI_api) {
   {
-    void (*arg1)(copasi_model) = (void (*)(copasi_model)) 0 ;
+    tc_matrix (*arg1)(double,double,int) = (tc_matrix (*)(double,double,int)) 0 ;
+    tc_matrix (*arg2)(double,double,int) = (tc_matrix (*)(double,double,int)) 0 ;
+    tc_matrix (*arg3)(double,double,int) = (tc_matrix (*)(double,double,int)) 0 ;
+    tc_matrix (*arg4)(double,double,int) = (tc_matrix (*)(double,double,int)) 0 ;
+    tc_matrix (*arg5)() = (tc_matrix (*)()) 0 ;
+    tc_matrix (*arg6)(char const *,double,double,int) = (tc_matrix (*)(char const *,double,double,int)) 0 ;
+    tc_matrix (*arg7)(char const *,double,double,int,char const *,double,double,int) = (tc_matrix (*)(char const *,double,double,int,char const *,double,double,int)) 0 ;
+    tc_matrix (*arg8)() = (tc_matrix (*)()) 0 ;
+    tc_matrix (*arg9)() = (tc_matrix (*)()) 0 ;
+    tc_matrix (*arg10)() = (tc_matrix (*)()) 0 ;
+    tc_matrix (*arg11)() = (tc_matrix (*)()) 0 ;
+    tc_matrix (*arg12)() = (tc_matrix (*)()) 0 ;
+    tc_matrix (*arg13)() = (tc_matrix (*)()) 0 ;
+    tc_matrix (*arg14)() = (tc_matrix (*)()) 0 ;
+    tc_matrix (*arg15)() = (tc_matrix (*)()) 0 ;
     int argvi = 0;
     dXSARGS;
     
-    if ((items < 1) || (items > 1)) {
-      SWIG_croak("Usage: tc_COPASI_api(updateCopasiModel);");
+    if ((items < 15) || (items > 15)) {
+      SWIG_croak("Usage: tc_COPASI_api(simulateDeterministic,simulateStochastic,simulateHybrid,simulateTauLeap,getSteadyState,steadyStateScan,steadyStateScan2D,getJacobian,getEigenvalues,getUnscaledElasticities,getUnscaledConcentrationCC,getUnscaledFluxCC,getScaledElasticities,getScaledConcentrationCC,getScaledFluxCC);");
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_copasi_model__void);
+      int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_double_double_int__tc_matrix);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "1"" of type '" "void (*)(copasi_model)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "1"" of type '" "tc_matrix (*)(double,double,int)""'"); 
       }
     }
-    tc_COPASI_api(arg1);
+    {
+      int res = SWIG_ConvertFunctionPtr(ST(1), (void**)(&arg2), SWIGTYPE_p_f_double_double_int__tc_matrix);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "2"" of type '" "tc_matrix (*)(double,double,int)""'"); 
+      }
+    }
+    {
+      int res = SWIG_ConvertFunctionPtr(ST(2), (void**)(&arg3), SWIGTYPE_p_f_double_double_int__tc_matrix);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "3"" of type '" "tc_matrix (*)(double,double,int)""'"); 
+      }
+    }
+    {
+      int res = SWIG_ConvertFunctionPtr(ST(3), (void**)(&arg4), SWIGTYPE_p_f_double_double_int__tc_matrix);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "4"" of type '" "tc_matrix (*)(double,double,int)""'"); 
+      }
+    }
+    {
+      int res = SWIG_ConvertFunctionPtr(ST(4), (void**)(&arg5), SWIGTYPE_p_f___tc_matrix);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "5"" of type '" "tc_matrix (*)()""'"); 
+      }
+    }
+    {
+      int res = SWIG_ConvertFunctionPtr(ST(5), (void**)(&arg6), SWIGTYPE_p_f_p_q_const__char_double_double_int__tc_matrix);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "6"" of type '" "tc_matrix (*)(char const *,double,double,int)""'"); 
+      }
+    }
+    {
+      int res = SWIG_ConvertFunctionPtr(ST(6), (void**)(&arg7), SWIGTYPE_p_f_p_q_const__char_double_double_int_p_q_const__char_double_double_int__tc_matrix);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "7"" of type '" "tc_matrix (*)(char const *,double,double,int,char const *,double,double,int)""'"); 
+      }
+    }
+    {
+      int res = SWIG_ConvertFunctionPtr(ST(7), (void**)(&arg8), SWIGTYPE_p_f___tc_matrix);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "8"" of type '" "tc_matrix (*)()""'"); 
+      }
+    }
+    {
+      int res = SWIG_ConvertFunctionPtr(ST(8), (void**)(&arg9), SWIGTYPE_p_f___tc_matrix);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "9"" of type '" "tc_matrix (*)()""'"); 
+      }
+    }
+    {
+      int res = SWIG_ConvertFunctionPtr(ST(9), (void**)(&arg10), SWIGTYPE_p_f___tc_matrix);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "10"" of type '" "tc_matrix (*)()""'"); 
+      }
+    }
+    {
+      int res = SWIG_ConvertFunctionPtr(ST(10), (void**)(&arg11), SWIGTYPE_p_f___tc_matrix);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "11"" of type '" "tc_matrix (*)()""'"); 
+      }
+    }
+    {
+      int res = SWIG_ConvertFunctionPtr(ST(11), (void**)(&arg12), SWIGTYPE_p_f___tc_matrix);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "12"" of type '" "tc_matrix (*)()""'"); 
+      }
+    }
+    {
+      int res = SWIG_ConvertFunctionPtr(ST(12), (void**)(&arg13), SWIGTYPE_p_f___tc_matrix);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "13"" of type '" "tc_matrix (*)()""'"); 
+      }
+    }
+    {
+      int res = SWIG_ConvertFunctionPtr(ST(13), (void**)(&arg14), SWIGTYPE_p_f___tc_matrix);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "14"" of type '" "tc_matrix (*)()""'"); 
+      }
+    }
+    {
+      int res = SWIG_ConvertFunctionPtr(ST(14), (void**)(&arg15), SWIGTYPE_p_f___tc_matrix);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "15"" of type '" "tc_matrix (*)()""'"); 
+      }
+    }
+    tc_COPASI_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13,arg14,arg15);
     ST(argvi) = sv_newmortal();
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     XSRETURN(argvi);
   fail:
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     SWIG_croak_null();
   }
@@ -12764,7 +13375,7 @@ XS(_wrap_setReactionRate) {
 }
 
 
-XS(_wrap_simulateDeterministic) {
+XS(_wrap_simulateDeterministic__SWIG_1) {
   {
     copasi_model arg1 ;
     double arg2 ;
@@ -12826,7 +13437,120 @@ XS(_wrap_simulateDeterministic) {
 }
 
 
-XS(_wrap_simulateStochastic) {
+XS(_wrap_simulateDeterministic) {
+  dXSARGS;
+  
+  {
+    unsigned long _index = 0;
+    SWIG_TypeRank _rank = 0; 
+    if (items == 3) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        {
+          int res = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(0), NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(1), NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(2), NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 1;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_1:
+    
+    if (items == 4) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        void *vptr = 0;
+        int res = SWIG_ConvertPtr(ST(0), &vptr, SWIGTYPE_p_copasi_model, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(1), NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(2), NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(3), NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 2;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_2:
+    
+  dispatch:
+    switch(_index) {
+    case 1:
+      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_simulateDeterministic__SWIG_0); return;
+    case 2:
+      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_simulateDeterministic__SWIG_1); return;
+    }
+  }
+  
+  croak("No matching function for overloaded 'simulateDeterministic'");
+  XSRETURN(0);
+}
+
+
+XS(_wrap_simulateStochastic__SWIG_1) {
   {
     copasi_model arg1 ;
     double arg2 ;
@@ -12888,7 +13612,120 @@ XS(_wrap_simulateStochastic) {
 }
 
 
-XS(_wrap_simulateHybrid) {
+XS(_wrap_simulateStochastic) {
+  dXSARGS;
+  
+  {
+    unsigned long _index = 0;
+    SWIG_TypeRank _rank = 0; 
+    if (items == 3) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        {
+          int res = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(0), NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(1), NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(2), NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 1;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_1:
+    
+    if (items == 4) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        void *vptr = 0;
+        int res = SWIG_ConvertPtr(ST(0), &vptr, SWIGTYPE_p_copasi_model, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(1), NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(2), NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(3), NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 2;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_2:
+    
+  dispatch:
+    switch(_index) {
+    case 1:
+      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_simulateStochastic__SWIG_0); return;
+    case 2:
+      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_simulateStochastic__SWIG_1); return;
+    }
+  }
+  
+  croak("No matching function for overloaded 'simulateStochastic'");
+  XSRETURN(0);
+}
+
+
+XS(_wrap_simulateHybrid__SWIG_1) {
   {
     copasi_model arg1 ;
     double arg2 ;
@@ -12950,7 +13787,120 @@ XS(_wrap_simulateHybrid) {
 }
 
 
-XS(_wrap_simulateTauLeap) {
+XS(_wrap_simulateHybrid) {
+  dXSARGS;
+  
+  {
+    unsigned long _index = 0;
+    SWIG_TypeRank _rank = 0; 
+    if (items == 3) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        {
+          int res = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(0), NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(1), NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(2), NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 1;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_1:
+    
+    if (items == 4) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        void *vptr = 0;
+        int res = SWIG_ConvertPtr(ST(0), &vptr, SWIGTYPE_p_copasi_model, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(1), NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(2), NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(3), NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 2;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_2:
+    
+  dispatch:
+    switch(_index) {
+    case 1:
+      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_simulateHybrid__SWIG_0); return;
+    case 2:
+      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_simulateHybrid__SWIG_1); return;
+    }
+  }
+  
+  croak("No matching function for overloaded 'simulateHybrid'");
+  XSRETURN(0);
+}
+
+
+XS(_wrap_simulateTauLeap__SWIG_1) {
   {
     copasi_model arg1 ;
     double arg2 ;
@@ -13012,7 +13962,120 @@ XS(_wrap_simulateTauLeap) {
 }
 
 
-XS(_wrap_getSteadyState) {
+XS(_wrap_simulateTauLeap) {
+  dXSARGS;
+  
+  {
+    unsigned long _index = 0;
+    SWIG_TypeRank _rank = 0; 
+    if (items == 3) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        {
+          int res = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(0), NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(1), NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(2), NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 1;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_1:
+    
+    if (items == 4) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        void *vptr = 0;
+        int res = SWIG_ConvertPtr(ST(0), &vptr, SWIGTYPE_p_copasi_model, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(1), NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(2), NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(3), NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 2;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_2:
+    
+  dispatch:
+    switch(_index) {
+    case 1:
+      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_simulateTauLeap__SWIG_0); return;
+    case 2:
+      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_simulateTauLeap__SWIG_1); return;
+    }
+  }
+  
+  croak("No matching function for overloaded 'simulateTauLeap'");
+  XSRETURN(0);
+}
+
+
+XS(_wrap_getSteadyState__SWIG_1) {
   {
     copasi_model arg1 ;
     void *argp1 ;
@@ -13044,7 +14107,56 @@ XS(_wrap_getSteadyState) {
 }
 
 
-XS(_wrap_getJacobian) {
+XS(_wrap_getSteadyState) {
+  dXSARGS;
+  
+  {
+    unsigned long _index = 0;
+    SWIG_TypeRank _rank = 0; 
+    if (items == 0) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 1;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+    if (items == 1) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        void *vptr = 0;
+        int res = SWIG_ConvertPtr(ST(0), &vptr, SWIGTYPE_p_copasi_model, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 2;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_2:
+    
+  dispatch:
+    switch(_index) {
+    case 1:
+      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_getSteadyState__SWIG_0); return;
+    case 2:
+      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_getSteadyState__SWIG_1); return;
+    }
+  }
+  
+  croak("No matching function for overloaded 'getSteadyState'");
+  XSRETURN(0);
+}
+
+
+XS(_wrap_getJacobian__SWIG_1) {
   {
     copasi_model arg1 ;
     void *argp1 ;
@@ -13076,7 +14188,56 @@ XS(_wrap_getJacobian) {
 }
 
 
-XS(_wrap_getEigenvalues) {
+XS(_wrap_getJacobian) {
+  dXSARGS;
+  
+  {
+    unsigned long _index = 0;
+    SWIG_TypeRank _rank = 0; 
+    if (items == 0) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 1;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+    if (items == 1) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        void *vptr = 0;
+        int res = SWIG_ConvertPtr(ST(0), &vptr, SWIGTYPE_p_copasi_model, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 2;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_2:
+    
+  dispatch:
+    switch(_index) {
+    case 1:
+      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_getJacobian__SWIG_0); return;
+    case 2:
+      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_getJacobian__SWIG_1); return;
+    }
+  }
+  
+  croak("No matching function for overloaded 'getJacobian'");
+  XSRETURN(0);
+}
+
+
+XS(_wrap_getEigenvalues__SWIG_1) {
   {
     copasi_model arg1 ;
     void *argp1 ;
@@ -13108,7 +14269,56 @@ XS(_wrap_getEigenvalues) {
 }
 
 
-XS(_wrap_getUnscaledElasticities) {
+XS(_wrap_getEigenvalues) {
+  dXSARGS;
+  
+  {
+    unsigned long _index = 0;
+    SWIG_TypeRank _rank = 0; 
+    if (items == 0) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 1;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+    if (items == 1) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        void *vptr = 0;
+        int res = SWIG_ConvertPtr(ST(0), &vptr, SWIGTYPE_p_copasi_model, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 2;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_2:
+    
+  dispatch:
+    switch(_index) {
+    case 1:
+      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_getEigenvalues__SWIG_0); return;
+    case 2:
+      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_getEigenvalues__SWIG_1); return;
+    }
+  }
+  
+  croak("No matching function for overloaded 'getEigenvalues'");
+  XSRETURN(0);
+}
+
+
+XS(_wrap_getUnscaledElasticities__SWIG_1) {
   {
     copasi_model arg1 ;
     void *argp1 ;
@@ -13140,7 +14350,56 @@ XS(_wrap_getUnscaledElasticities) {
 }
 
 
-XS(_wrap_getUnscaledConcentrationCC) {
+XS(_wrap_getUnscaledElasticities) {
+  dXSARGS;
+  
+  {
+    unsigned long _index = 0;
+    SWIG_TypeRank _rank = 0; 
+    if (items == 0) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 1;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+    if (items == 1) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        void *vptr = 0;
+        int res = SWIG_ConvertPtr(ST(0), &vptr, SWIGTYPE_p_copasi_model, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 2;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_2:
+    
+  dispatch:
+    switch(_index) {
+    case 1:
+      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_getUnscaledElasticities__SWIG_0); return;
+    case 2:
+      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_getUnscaledElasticities__SWIG_1); return;
+    }
+  }
+  
+  croak("No matching function for overloaded 'getUnscaledElasticities'");
+  XSRETURN(0);
+}
+
+
+XS(_wrap_getUnscaledConcentrationCC__SWIG_1) {
   {
     copasi_model arg1 ;
     void *argp1 ;
@@ -13172,7 +14431,56 @@ XS(_wrap_getUnscaledConcentrationCC) {
 }
 
 
-XS(_wrap_getUnscaledFluxCC) {
+XS(_wrap_getUnscaledConcentrationCC) {
+  dXSARGS;
+  
+  {
+    unsigned long _index = 0;
+    SWIG_TypeRank _rank = 0; 
+    if (items == 0) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 1;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+    if (items == 1) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        void *vptr = 0;
+        int res = SWIG_ConvertPtr(ST(0), &vptr, SWIGTYPE_p_copasi_model, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 2;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_2:
+    
+  dispatch:
+    switch(_index) {
+    case 1:
+      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_getUnscaledConcentrationCC__SWIG_0); return;
+    case 2:
+      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_getUnscaledConcentrationCC__SWIG_1); return;
+    }
+  }
+  
+  croak("No matching function for overloaded 'getUnscaledConcentrationCC'");
+  XSRETURN(0);
+}
+
+
+XS(_wrap_getUnscaledFluxCC__SWIG_1) {
   {
     copasi_model arg1 ;
     void *argp1 ;
@@ -13204,7 +14512,56 @@ XS(_wrap_getUnscaledFluxCC) {
 }
 
 
-XS(_wrap_getScaledElasticities) {
+XS(_wrap_getUnscaledFluxCC) {
+  dXSARGS;
+  
+  {
+    unsigned long _index = 0;
+    SWIG_TypeRank _rank = 0; 
+    if (items == 0) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 1;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+    if (items == 1) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        void *vptr = 0;
+        int res = SWIG_ConvertPtr(ST(0), &vptr, SWIGTYPE_p_copasi_model, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 2;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_2:
+    
+  dispatch:
+    switch(_index) {
+    case 1:
+      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_getUnscaledFluxCC__SWIG_0); return;
+    case 2:
+      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_getUnscaledFluxCC__SWIG_1); return;
+    }
+  }
+  
+  croak("No matching function for overloaded 'getUnscaledFluxCC'");
+  XSRETURN(0);
+}
+
+
+XS(_wrap_getScaledElasticities__SWIG_1) {
   {
     copasi_model arg1 ;
     void *argp1 ;
@@ -13236,7 +14593,56 @@ XS(_wrap_getScaledElasticities) {
 }
 
 
-XS(_wrap_getScaledConcentrationCC) {
+XS(_wrap_getScaledElasticities) {
+  dXSARGS;
+  
+  {
+    unsigned long _index = 0;
+    SWIG_TypeRank _rank = 0; 
+    if (items == 0) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 1;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+    if (items == 1) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        void *vptr = 0;
+        int res = SWIG_ConvertPtr(ST(0), &vptr, SWIGTYPE_p_copasi_model, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 2;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_2:
+    
+  dispatch:
+    switch(_index) {
+    case 1:
+      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_getScaledElasticities__SWIG_0); return;
+    case 2:
+      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_getScaledElasticities__SWIG_1); return;
+    }
+  }
+  
+  croak("No matching function for overloaded 'getScaledElasticities'");
+  XSRETURN(0);
+}
+
+
+XS(_wrap_getScaledConcentrationCC__SWIG_1) {
   {
     copasi_model arg1 ;
     void *argp1 ;
@@ -13268,7 +14674,56 @@ XS(_wrap_getScaledConcentrationCC) {
 }
 
 
-XS(_wrap_getScaledFluxCC) {
+XS(_wrap_getScaledConcentrationCC) {
+  dXSARGS;
+  
+  {
+    unsigned long _index = 0;
+    SWIG_TypeRank _rank = 0; 
+    if (items == 0) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 1;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+    if (items == 1) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        void *vptr = 0;
+        int res = SWIG_ConvertPtr(ST(0), &vptr, SWIGTYPE_p_copasi_model, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 2;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_2:
+    
+  dispatch:
+    switch(_index) {
+    case 1:
+      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_getScaledConcentrationCC__SWIG_0); return;
+    case 2:
+      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_getScaledConcentrationCC__SWIG_1); return;
+    }
+  }
+  
+  croak("No matching function for overloaded 'getScaledConcentrationCC'");
+  XSRETURN(0);
+}
+
+
+XS(_wrap_getScaledFluxCC__SWIG_1) {
   {
     copasi_model arg1 ;
     void *argp1 ;
@@ -13300,6 +14755,72 @@ XS(_wrap_getScaledFluxCC) {
 }
 
 
+XS(_wrap_getScaledFluxCC) {
+  dXSARGS;
+  
+  {
+    unsigned long _index = 0;
+    SWIG_TypeRank _rank = 0; 
+    if (items == 0) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 1;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+    if (items == 1) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        void *vptr = 0;
+        int res = SWIG_ConvertPtr(ST(0), &vptr, SWIGTYPE_p_copasi_model, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 2;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_2:
+    
+  dispatch:
+    switch(_index) {
+    case 1:
+      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_getScaledFluxCC__SWIG_0); return;
+    case 2:
+      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_getScaledFluxCC__SWIG_1); return;
+    }
+  }
+  
+  croak("No matching function for overloaded 'getScaledFluxCC'");
+  XSRETURN(0);
+}
+
+
+XS(_wrap_example) {
+  {
+    int argvi = 0;
+    dXSARGS;
+    
+    if ((items < 0) || (items > 0)) {
+      SWIG_croak("Usage: example();");
+    }
+    example();
+    ST(argvi) = sv_newmortal();
+    XSRETURN(argvi);
+  fail:
+    SWIG_croak_null();
+  }
+}
+
+
 
 /* -------- TYPE CONVERSION AND EQUIVALENCE RULES (BEGIN) -------- */
 
@@ -13311,11 +14832,12 @@ static swig_type_info _swigt__p_double = {"_p_double", "double *", 0, 0, (void*)
 static swig_type_info _swigt__p_f___int = {"_p_f___int", "int (*)()", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f___p_char = {"_p_f___p_char", "char *(*)()", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f___tc_items = {"_p_f___tc_items", "tc_items (*)()", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f___tc_matrix = {"_p_f___tc_matrix", "tc_matrix (*)()", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f___tc_strings = {"_p_f___tc_strings", "tc_strings (*)()", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f___void = {"_p_f___void", "void (*)()", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_copasi_model__void = {"_p_f_copasi_model__void", "void (*)(copasi_model)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_double__void = {"_p_f_double__void", "void (*)(double)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_double_double__void = {"_p_f_double_double__void", "void (*)(double,double)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_double_double_int__tc_matrix = {"_p_f_double_double_int__tc_matrix", "tc_matrix (*)(double,double,int)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_int__tc_matrix = {"_p_f_int__tc_matrix", "tc_matrix (*)(int)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_int__void = {"_p_f_int__void", "void (*)(int)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_int_int__void = {"_p_f_int_int__void", "void (*)(int,int)", 0, 0, (void*)0, 0};
@@ -13355,6 +14877,8 @@ static swig_type_info _swigt__p_f_p_q_const__char__long = {"_p_f_p_q_const__char
 static swig_type_info _swigt__p_f_p_q_const__char__p_char = {"_p_f_p_q_const__char__p_char", "char *(*)(char const *)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_q_const__char__tc_items = {"_p_f_p_q_const__char__tc_items", "tc_items (*)(char const *)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_q_const__char__void = {"_p_f_p_q_const__char__void", "void (*)(char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char_double_double_int__tc_matrix = {"_p_f_p_q_const__char_double_double_int__tc_matrix", "tc_matrix (*)(char const *,double,double,int)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char_double_double_int_p_q_const__char_double_double_int__tc_matrix = {"_p_f_p_q_const__char_double_double_int_p_q_const__char_double_double_int__tc_matrix", "tc_matrix (*)(char const *,double,double,int,char const *,double,double,int)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_q_const__char_int_int__void = {"_p_f_p_q_const__char_int_int__void", "void (*)(char const *,int,int)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_q_const__char_int_int_tc_strings__void = {"_p_f_p_q_const__char_int_int_tc_strings__void", "void (*)(char const *,int,int,tc_strings)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_q_const__char_p_q_const__char__int = {"_p_f_p_q_const__char_p_q_const__char__int", "int (*)(char const *,char const *)", 0, 0, (void*)0, 0};
@@ -13397,11 +14921,12 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_f___int,
   &_swigt__p_f___p_char,
   &_swigt__p_f___tc_items,
+  &_swigt__p_f___tc_matrix,
   &_swigt__p_f___tc_strings,
   &_swigt__p_f___void,
-  &_swigt__p_f_copasi_model__void,
   &_swigt__p_f_double__void,
   &_swigt__p_f_double_double__void,
+  &_swigt__p_f_double_double_int__tc_matrix,
   &_swigt__p_f_int__tc_matrix,
   &_swigt__p_f_int__void,
   &_swigt__p_f_int_int__void,
@@ -13441,6 +14966,8 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_f_p_q_const__char__p_char,
   &_swigt__p_f_p_q_const__char__tc_items,
   &_swigt__p_f_p_q_const__char__void,
+  &_swigt__p_f_p_q_const__char_double_double_int__tc_matrix,
+  &_swigt__p_f_p_q_const__char_double_double_int_p_q_const__char_double_double_int__tc_matrix,
   &_swigt__p_f_p_q_const__char_int_int__void,
   &_swigt__p_f_p_q_const__char_int_int_tc_strings__void,
   &_swigt__p_f_p_q_const__char_p_q_const__char__int,
@@ -13483,11 +15010,12 @@ static swig_cast_info _swigc__p_double[] = {  {&_swigt__p_double, 0, 0, 0},{0, 0
 static swig_cast_info _swigc__p_f___int[] = {  {&_swigt__p_f___int, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f___p_char[] = {  {&_swigt__p_f___p_char, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f___tc_items[] = {  {&_swigt__p_f___tc_items, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f___tc_matrix[] = {  {&_swigt__p_f___tc_matrix, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f___tc_strings[] = {  {&_swigt__p_f___tc_strings, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f___void[] = {  {&_swigt__p_f___void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_copasi_model__void[] = {  {&_swigt__p_f_copasi_model__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_double__void[] = {  {&_swigt__p_f_double__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_double_double__void[] = {  {&_swigt__p_f_double_double__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_double_double_int__tc_matrix[] = {  {&_swigt__p_f_double_double_int__tc_matrix, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_int__tc_matrix[] = {  {&_swigt__p_f_int__tc_matrix, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_int__void[] = {  {&_swigt__p_f_int__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_int_int__void[] = {  {&_swigt__p_f_int_int__void, 0, 0, 0},{0, 0, 0, 0}};
@@ -13527,6 +15055,8 @@ static swig_cast_info _swigc__p_f_p_q_const__char__long[] = {  {&_swigt__p_f_p_q
 static swig_cast_info _swigc__p_f_p_q_const__char__p_char[] = {  {&_swigt__p_f_p_q_const__char__p_char, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char__tc_items[] = {  {&_swigt__p_f_p_q_const__char__tc_items, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char__void[] = {  {&_swigt__p_f_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_p_q_const__char_double_double_int__tc_matrix[] = {  {&_swigt__p_f_p_q_const__char_double_double_int__tc_matrix, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_p_q_const__char_double_double_int_p_q_const__char_double_double_int__tc_matrix[] = {  {&_swigt__p_f_p_q_const__char_double_double_int_p_q_const__char_double_double_int__tc_matrix, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char_int_int__void[] = {  {&_swigt__p_f_p_q_const__char_int_int__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char_int_int_tc_strings__void[] = {  {&_swigt__p_f_p_q_const__char_int_int_tc_strings__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char_p_q_const__char__int[] = {  {&_swigt__p_f_p_q_const__char_p_q_const__char__int, 0, 0, 0},{0, 0, 0, 0}};
@@ -13569,11 +15099,12 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_f___int,
   _swigc__p_f___p_char,
   _swigc__p_f___tc_items,
+  _swigc__p_f___tc_matrix,
   _swigc__p_f___tc_strings,
   _swigc__p_f___void,
-  _swigc__p_f_copasi_model__void,
   _swigc__p_f_double__void,
   _swigc__p_f_double_double__void,
+  _swigc__p_f_double_double_int__tc_matrix,
   _swigc__p_f_int__tc_matrix,
   _swigc__p_f_int__void,
   _swigc__p_f_int_int__void,
@@ -13613,6 +15144,8 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_f_p_q_const__char__p_char,
   _swigc__p_f_p_q_const__char__tc_items,
   _swigc__p_f_p_q_const__char__void,
+  _swigc__p_f_p_q_const__char_double_double_int__tc_matrix,
+  _swigc__p_f_p_q_const__char_double_double_int_p_q_const__char_double_double_int__tc_matrix,
   _swigc__p_f_p_q_const__char_int_int__void,
   _swigc__p_f_p_q_const__char_int_int_tc_strings__void,
   _swigc__p_f_p_q_const__char_p_q_const__char__int,
@@ -13894,7 +15427,8 @@ static swig_command_info swig_commands[] = {
 {"tinkercellc::tc_exportSBML", _wrap_tc_exportSBML},
 {"tinkercellc::tc_importSBML", _wrap_tc_importSBML},
 {"tinkercellc::tc_SBML_api", _wrap_tc_SBML_api},
-{"tinkercellc::tc_updateCopasiModel", _wrap_tc_updateCopasiModel},
+{"tinkercellc::steadyStateScan", _wrap_steadyStateScan},
+{"tinkercellc::steadyStateScan2D", _wrap_steadyStateScan2D},
 {"tinkercellc::tc_COPASI_api", _wrap_tc_COPASI_api},
 {"tinkercellc::copasi_model_CopasiModelPtr_set", _wrap_copasi_model_CopasiModelPtr_set},
 {"tinkercellc::copasi_model_CopasiModelPtr_get", _wrap_copasi_model_CopasiModelPtr_get},
@@ -13954,6 +15488,7 @@ static swig_command_info swig_commands[] = {
 {"tinkercellc::getScaledElasticities", _wrap_getScaledElasticities},
 {"tinkercellc::getScaledConcentrationCC", _wrap_getScaledConcentrationCC},
 {"tinkercellc::getScaledFluxCC", _wrap_getScaledFluxCC},
+{"tinkercellc::example", _wrap_example},
 {0,0}
 };
 /* -----------------------------------------------------------------------------

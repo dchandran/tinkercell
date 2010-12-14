@@ -47,7 +47,6 @@ CopasiExporter::CopasiExporter() : Tool("COPASI","Export")
 	modelNeedsUpdate = true;	
 	qRegisterMetaType< copasi_model >("copasi_model");
 	qRegisterMetaType< copasi_model* >("copasi_model*");
-	connect(&fToS,SIGNAL(getCopasiModel(QSemaphore*, copasi_model)),this,SLOT(getCopasiModel(QSemaphore*, copasi_model)));
 }
 
 CopasiExporter::~CopasiExporter()
@@ -65,13 +64,45 @@ bool CopasiExporter::setMainWindow(MainWindow * main)
 	return true;
 }
 
-typedef void (*tc_COPASI_api)(void (*getCopasiModel)(copasi_model));
+typedef void (*tc_COPASI_api)(
+	tc_matrix (*simulateDeterministic)(double startTime, double endTime, int numSteps),
+	tc_matrix (*simulateStochastic)(double startTime, double endTime, int numSteps),
+	tc_matrix (*simulateHybrid)(double startTime, double endTime, int numSteps),
+	tc_matrix (*simulateTauLeap)(double startTime, double endTime, int numSteps),
+	tc_matrix (*getSteadyState)(),
+	tc_matrix (*steadyStateScan)(const char * param, double start, double end, int numSteps),
+	tc_matrix (*steadyStateScan2D)(const char * param1, double start1, double end1, int numSteps1,const char * param2, double start2, double end2, int numSteps2),
+	tc_matrix (*getJacobian)(),
+	tc_matrix (*getEigenvalues)(),
+	tc_matrix (*getUnscaledElasticities)(),
+	tc_matrix (*getUnscaledConcentrationCC)(),
+	tc_matrix (*getUnscaledFluxCC)(),
+	tc_matrix (*getScaledElasticities)(),
+	tc_matrix (*getScaledConcentrationCC)(),
+	tc_matrix (*getScaledFluxCC)()
+);
 
 void CopasiExporter::setupFunctionPointers( QLibrary * library)
 {
 	tc_COPASI_api f = (tc_COPASI_api)library->resolve("tc_COPASI_api");
 	if (f)
-		f(	&getCopasiModel );
+		f(
+			&simulateDeterministic,
+			&simulateStochastic,
+			&simulateHybrid,
+			&simulateTauLeap,
+			&getSteadyState,
+			&steadyStateScan,
+			&steadyStateScan2D,
+			&getJacobian,
+			&getEigenvalues,
+			&getUnscaledElasticities,
+			&getUnscaledConcentrationCC,
+			&getUnscaledFluxCC,
+			&getScaledElasticities,
+			&getScaledConcentrationCC,
+			&getScaledFluxCC
+		);
 }
 
 void CopasiExporter::historyChanged(int)
@@ -88,55 +119,20 @@ void CopasiExporter::windowChanged(NetworkWindow*,NetworkWindow*)
     C Interface
 ********************************************/
 
-CopasiExporter_FtoS CopasiExporter::fToS;
-
-void CopasiExporter::getCopasiModel(copasi_model m)
-{
-	model1(m);
-	//fToS.getCopasiModel(m);
-}
-
-void CopasiExporter_FtoS::getCopasiModel(copasi_model m)
-{
-	QSemaphore * s = new QSemaphore(1);
-	s->acquire();
-	emit getCopasiModel(s,m);
-	s->acquire();
-	s->release();
-	delete s;
-}
-
-void CopasiExporter::getCopasiModel(QSemaphore * sem, copasi_model m)
-{
-	if (modelNeedsUpdate)
-	{
-		//updateModel(m);
-		clearCopasiModel(m);
-		model1(m);
-		modelNeedsUpdate = false;
-	}
-
-	if (sem)
-		sem->release();
-}
 
 /***************************************************
-    Move SBML to TinkerCell format and vice versa
+      Copasi export
 *****************************************************/
 
-void CopasiExporter::updateModel(copasi_model model)
+void SimulationThread::updateModel(QList<ItemHandle*> & handles)
 {
-	return;
-		
 	model.CopasiModelPtr = 0;
 	model.CopasiDataModelPtr = 0;
 	model.qHash = 0;
 	
-	if (!currentNetwork()) return;
-	
-	model = createCopasiModel("tinkercell");
-	
-	QList<ItemHandle*> handles = currentNetwork()->handles(true);
+	++totalModelCount;
+	QString modelName = tr("tinkercell") + QString::number(totalModelCount);
+	model = createCopasiModel(modelName.toAscii().data());
 
 	NumericalDataTable params = BasicInformationTool::getUsedParameters(handles);
 	NumericalDataTable stoic_matrix = StoichiometryTool::getStoichiometry(handles);
@@ -152,7 +148,7 @@ void CopasiExporter::updateModel(copasi_model model)
 
 	QRegExp regex(tr("\\.(?!\\d)"));	
 	int i,j;
-	QString s1,s2;
+	QString s1,s2,name;
 
 	for (i=0; i < handles.size(); ++i)
 	{
@@ -354,12 +350,351 @@ void CopasiExporter::updateModel(copasi_model model)
 	}*/
 }
 
-/*
-extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)
-{
-	if (!main) return;
+SimulationThread * CopasiExporter::odeThread = 0;
+SimulationThread * CopasiExporter::stochThread = 0;
+SimulationThread * CopasiExporter::ssThread = 0;
+SimulationThread * CopasiExporter::jacThread = 0;
+SimulationThread * CopasiExporter::mcaThread = 0;
 
-	Tinkercell::CopasiExporter * copasiTool = new Tinkercell::CopasiExporter;
-	main->addTool(copasiTool);
-}*/
+tc_matrix CopasiExporter::simulateDeterministic(double startTime, double endTime, int numSteps)
+{
+	if (odeThread)
+	{
+		if (odeThread->isRunning())
+			odeThread->terminate();
+		odeThread->updateModel();
+		odeThread->setMethod(SimulationThread::DeterministicSimulation);
+		odeThread->setStartTime(startTime);
+		odeThread->setEndTime(endTime);
+		odeThread->setNumPoints(numSteps);
+		QSemaphore sem(1);
+		sem.acquire();
+		odeThread->setSemaphore(&sem);
+		odeThread->start();
+		sem.acquire();
+		sem.release();
+		return ConvertValue(odeThread->result());
+	}
+	return tc_createMatrix(0,0);
+}
+
+tc_matrix CopasiExporter::simulateStochastic(double startTime, double endTime, int numSteps)
+{
+	if (stochThread)
+	{
+		if (stochThread->isRunning())
+			stochThread->terminate();
+		stochThread->updateModel();
+		stochThread->setMethod(SimulationThread::StochasticSimulation);
+		stochThread->setStartTime(startTime);
+		stochThread->setEndTime(endTime);
+		stochThread->setNumPoints(numSteps);
+		QSemaphore sem(1);
+		sem.acquire();
+		stochThread->setSemaphore(&sem);
+		stochThread->start();
+		sem.acquire();
+		sem.release();
+		return ConvertValue(stochThread->result());
+	}
+	return tc_createMatrix(0,0);
+}
+
+tc_matrix CopasiExporter::simulateHybrid(double startTime, double endTime, int numSteps)
+{
+	if (odeThread)
+	{
+		if (odeThread->isRunning())
+			odeThread->terminate();
+		odeThread->updateModel();
+		odeThread->setMethod(SimulationThread::HybridSimulation);
+		odeThread->setStartTime(startTime);
+		odeThread->setEndTime(endTime);
+		odeThread->setNumPoints(numSteps);
+		QSemaphore sem(1);
+		sem.acquire();
+		odeThread->setSemaphore(&sem);
+		odeThread->start();
+		sem.acquire();
+		sem.release();
+		return ConvertValue(odeThread->result());
+	}
+	return tc_createMatrix(0,0);
+}
+
+tc_matrix CopasiExporter::simulateTauLeap(double startTime, double endTime, int numSteps)
+{
+	if (stochThread)
+	{
+		if (stochThread->isRunning())
+			stochThread->terminate();
+		stochThread->updateModel();
+		stochThread->setMethod(SimulationThread::TauLeapSimulation);
+		stochThread->setStartTime(startTime);
+		stochThread->setEndTime(endTime);
+		stochThread->setNumPoints(numSteps);
+		QSemaphore sem(1);
+		sem.acquire();
+		stochThread->setSemaphore(&sem);
+		stochThread->start();
+		sem.acquire();
+		sem.release();
+		return ConvertValue(stochThread->result());
+	}
+	return tc_createMatrix(0,0);
+}
+
+tc_matrix CopasiExporter::getSteadyState()
+{
+	if (ssThread)
+	{
+		if (ssThread->isRunning())
+			ssThread->terminate();
+		ssThread->updateModel();
+		ssThread->setMethod(SimulationThread::SteadyState);
+		QSemaphore sem(1);
+		sem.acquire();
+		ssThread->setSemaphore(&sem);
+		ssThread->start();
+		sem.acquire();
+		sem.release();
+		return ConvertValue(ssThread->result());
+	}
+	return tc_createMatrix(0,0);
+}
+
+tc_matrix CopasiExporter::steadyStateScan(const char * param, double start, double end, int numSteps)
+{
+	if (ssThread)
+	{
+		if (ssThread->isRunning())
+			ssThread->terminate();
+		ssThread->updateModel();
+		ssThread->setMethod(SimulationThread::SteadyState);
+		ssThread->setParameterRange(QString(param), start, end, numSteps);
+		QSemaphore sem(1);
+		sem.acquire();
+		ssThread->setSemaphore(&sem);
+		ssThread->start();
+		sem.acquire();
+		sem.release();
+		return ConvertValue(ssThread->result());
+	}
+	return tc_createMatrix(0,0);
+}
+
+tc_matrix CopasiExporter::steadyStateScan2D(const char * param1, double start1, double end1, int numSteps1,const char * param2, double start2, double end2, int numSteps2)
+{
+	if (ssThread)
+	{
+		if (ssThread->isRunning())
+			ssThread->terminate();
+		ssThread->updateModel();
+		ssThread->setMethod(SimulationThread::SteadyState);
+		ssThread->setParameterRange(QString(param1), start1, end1, numSteps1);
+		ssThread->setParameterRange(QString(param2), start2, end2, numSteps2);
+		QSemaphore sem(1);
+		sem.acquire();
+		ssThread->setSemaphore(&sem);
+		ssThread->start();
+		sem.acquire();
+		sem.release();
+		return ConvertValue(ssThread->result());
+	}
+	return tc_createMatrix(0,0);
+}
+
+tc_matrix CopasiExporter::getJacobian()
+{
+	if (ssThread)
+	{
+		if (ssThread->isRunning())
+			ssThread->terminate();
+		ssThread->updateModel();
+		ssThread->setMethod(SimulationThread::Jacobian);
+		QSemaphore sem(1);
+		sem.acquire();
+		ssThread->setSemaphore(&sem);
+		ssThread->start();
+		sem.acquire();
+		sem.release();
+		return ConvertValue(ssThread->result());
+	}
+	return tc_createMatrix(0,0);
+}
+
+tc_matrix CopasiExporter::getEigenvalues()
+{
+	if (ssThread)
+	{
+		if (ssThread->isRunning())
+			ssThread->terminate();
+		ssThread->updateModel();
+		ssThread->setMethod(SimulationThread::Eigenvalues);
+		QSemaphore sem(1);
+		sem.acquire();
+		ssThread->setSemaphore(&sem);
+		ssThread->start();
+		sem.acquire();
+		sem.release();
+		return ConvertValue(ssThread->result());
+	}
+	return tc_createMatrix(0,0);
+}
+
+tc_matrix CopasiExporter::getUnscaledElasticities()
+{
+	if (mcaThread)
+	{
+		if (mcaThread->isRunning())
+			mcaThread->terminate();
+		mcaThread->updateModel();
+		mcaThread->setMethod(SimulationThread::UnscaledElasticities);
+		QSemaphore sem(1);
+		sem.acquire();
+		mcaThread->setSemaphore(&sem);
+		mcaThread->start();
+		sem.acquire();
+		sem.release();
+		return ConvertValue(mcaThread->result());
+	}
+	return tc_createMatrix(0,0);
+}
+
+tc_matrix CopasiExporter::getUnscaledConcentrationCC()
+{
+	if (mcaThread)
+	{
+		if (mcaThread->isRunning())
+			mcaThread->terminate();
+		mcaThread->updateModel();
+		mcaThread->setMethod(SimulationThread::UnscaledConcentrationCC);
+		QSemaphore sem(1);
+		sem.acquire();
+		mcaThread->setSemaphore(&sem);
+		mcaThread->start();
+		sem.acquire();
+		sem.release();
+		return ConvertValue(mcaThread->result());
+	}
+	return tc_createMatrix(0,0);
+}
+
+tc_matrix CopasiExporter::getUnscaledFluxCC()
+{
+	if (mcaThread)
+	{
+		if (mcaThread->isRunning())
+			mcaThread->terminate();
+		mcaThread->updateModel();
+		mcaThread->setMethod(SimulationThread::UnscaledFluxCC);
+		QSemaphore sem(1);
+		sem.acquire();
+		mcaThread->setSemaphore(&sem);
+		mcaThread->start();
+		sem.acquire();
+		sem.release();
+		return ConvertValue(mcaThread->result());
+	}
+	return tc_createMatrix(0,0);
+}
+
+tc_matrix CopasiExporter::getScaledElasticities()
+{
+	if (mcaThread)
+	{
+		if (mcaThread->isRunning())
+			mcaThread->terminate();
+		mcaThread->updateModel();
+		mcaThread->setMethod(SimulationThread::ScaledElasticities);
+		QSemaphore sem(1);
+		sem.acquire();
+		mcaThread->setSemaphore(&sem);
+		mcaThread->start();
+		sem.acquire();
+		sem.release();
+		return ConvertValue(mcaThread->result());
+	}
+	return tc_createMatrix(0,0);
+}
+
+tc_matrix CopasiExporter::getScaledConcentrationCC()
+{
+	if (mcaThread)
+	{
+		if (mcaThread->isRunning())
+			mcaThread->terminate();
+		mcaThread->updateModel();
+		mcaThread->setMethod(SimulationThread::ScaledConcentrationCC);
+		QSemaphore sem(1);
+		sem.acquire();
+		mcaThread->setSemaphore(&sem);
+		mcaThread->start();
+		sem.acquire();
+		sem.release();
+		return ConvertValue(mcaThread->result());
+	}
+	return tc_createMatrix(0,0);
+}
+
+tc_matrix CopasiExporter::getScaledFluxCC()
+{
+	if (mcaThread)
+	{
+		if (mcaThread->isRunning())
+			mcaThread->terminate();
+		mcaThread->updateModel();
+		mcaThread->setMethod(SimulationThread::ScaledFluxCC);
+		QSemaphore sem(1);
+		sem.acquire();
+		mcaThread->setSemaphore(&sem);
+		mcaThread->start();
+		sem.acquire();
+		sem.release();
+		return ConvertValue(mcaThread->result());
+	}
+	return tc_createMatrix(0,0);
+}
+
+void SimulationThread::updateModel()
+{
+	QSemaphore sem(1);
+	bool changed = true;
+	QList<ItemHandle*> handles;
+	sem.acquire();
+	emit getHandles( &sem, handles, &changed);
+	sem.acquire();
+	sem.release();
+	
+	if (changed)
+		updateModel(handles);
+}
+
+void SimulationThread::setMethod(AnalysisMethod)
+{
+}
+
+void SimulationThread::setSemaphore(QSemaphore*)
+{
+}
+
+void SimulationThread::setStartTime(double)
+{
+}
+
+void SimulationThread::setEndTime(double)
+{
+}
+
+void SimulationThread::setNumPoints(int)
+{
+}
+
+void SimulationThread::setParameterRange(const QString& param, double start, double end, int numPoints)
+{
+}
+
+NumericalDataTable& SimulationThread::result()
+{
+}
 

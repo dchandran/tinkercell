@@ -22,7 +22,7 @@ SET( TINKERCELL_CORE_HDRS
 
 QT4_WRAP_CPP( TinkercellCore_MOC ${TINKERCELL_CORE_HDRS})
 
-QT4_WRAP_CPP( ModuleTool_MOC ModuleTool.h )#ModuleConnectionGraphicsItem.h)
+QT4_WRAP_CPP( ModuleTool_MOC ModuleTool.h )
 
 ADD_LIBRARY( ModuleTool 
   SHARED

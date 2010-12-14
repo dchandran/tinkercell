@@ -354,11 +354,12 @@ void CopasiExporter::updateModel(copasi_model model)
 	}*/
 }
 
+/*
 extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)
 {
 	if (!main) return;
 
 	Tinkercell::CopasiExporter * copasiTool = new Tinkercell::CopasiExporter;
 	main->addTool(copasiTool);
-}
+}*/
 

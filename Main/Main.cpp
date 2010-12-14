@@ -40,6 +40,16 @@
 #include "ModelFileGenerator.h"
 #include "SimulationEventTool.h"
 #include "ModuleTool.h"
+#include "AutoGeneRegulatoryTool.h"
+#include "CLabelsTool.h"
+#include "DNASequenceTool.h"
+#include "ViewTablesTool.h"
+#include "LPSolveInput.h"
+#include "CellPositionUpdatingTool.h"
+#include "OctaveExporter.h"
+#include "AntimonyEditor.h"
+#include "SBMLImportExport.h"
+#include "CopasiExporter.h"
 
 #include <QColor>
 #include <QBrush>
@@ -126,7 +136,18 @@ int main(int argc, char *argv[])
 	mainWindow.addTool(new SimulationEventsTool);
 	
 	mainWindow.addTool(new ModuleTool);
+	mainWindow.addTool(new AutoGeneRegulatoryTool);
+	mainWindow.addTool(new CLabelsTool);
+	mainWindow.addTool(new DNASequenceViewer);
+	mainWindow.addTool(new ViewTablesTool);
+	mainWindow.addTool(new LPSolveInputWindow);
+	mainWindow.addTool(new CellPositionUpdateTool);
 
+	mainWindow.addTool(new OctaveExporter);
+	mainWindow.addTool(new SBMLImportExport);
+	mainWindow.addTool(new CopasiExporter);
+	mainWindow.addTool(new AntimonyEditor);
+	
     /*******  title , etc ***********/
     mainWindow.setWindowTitle(QObject::tr("TinkerCell"));
     mainWindow.statusBar()->showMessage(QObject::tr("Welcome to TinkerCell"));

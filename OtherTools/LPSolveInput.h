@@ -137,7 +137,7 @@ private:
 
 }
 
-extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main);
+//extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main);
 
 #endif
 

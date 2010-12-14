@@ -352,6 +352,7 @@ namespace Tinkercell
 	}
 }
 
+/*
 extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)
 {
 	if (!main) return;
@@ -363,3 +364,5 @@ extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)
 	main->addTool(sequenceTool);
 
 }
+*/
+

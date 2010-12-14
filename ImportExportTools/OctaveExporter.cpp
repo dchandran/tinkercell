@@ -444,11 +444,12 @@ namespace Tinkercell
 	}
 }
 
+/*
 extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)
 {
 	if (!main) return;
 
 	Tinkercell::OctaveExporter * octaveTool = new Tinkercell::OctaveExporter;
 	main->addTool(octaveTool);
-}
+}*/
 

@@ -269,7 +269,7 @@ namespace Tinkercell
 		for (int i=0; i < selected.size(); ++i)
                         if (ConnectionHandle::cast(selected[i]))
 			{
-                                handle = selected[i];
+				handle = selected[i];
 				if (handle && rownames.contains(handle->fullName())) //get flux that are selected
 					targetFluxes << handle->fullName();
 			}
@@ -410,7 +410,7 @@ namespace Tinkercell
 	}
 
 }
-
+/*
 extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)
 {
 	if (!main) return;
@@ -428,4 +428,5 @@ extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)
 	{
 		main->addTool(tool);
 	}
-}
+}*/
+

@@ -694,6 +694,7 @@ SBMLDocument_t* SBMLImportExport::exportSBML(NetworkHandle * network)
 	return 	SBMLDocument_create();
 }
 
+/*
 extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)
 {
 	if (!main) return;
@@ -701,5 +702,5 @@ extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)
 	Tinkercell::SBMLImportExport * sbmlTool = new Tinkercell::SBMLImportExport;
 	main->addTool(sbmlTool);
 
-}
+}*/
 

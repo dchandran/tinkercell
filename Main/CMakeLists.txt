@@ -32,6 +32,9 @@ INCLUDE_DIRECTORIES( BEFORE
     ${TINKERCELL_SOURCE_DIR}/DynamicCodeTools
     ${TINKERCELL_SOURCE_DIR}/ModelingTools
     ${TINKERCELL_SOURCE_DIR}/ModuleTools
+    ${TINKERCELL_SOURCE_DIR}/GeneticNetworks
+     ${TINKERCELL_SOURCE_DIR}/OtherTools
+     ${TINKERCELL_SOURCE_DIR}/ImportExportTools
  )
 
 FILE( GLOB TINKERCELL_MAIN_SRC 
@@ -43,6 +46,9 @@ FILE( GLOB TINKERCELL_MAIN_SRC
     ${TINKERCELL_BINARY_DIR}/DynamicCodeTools/*.cpp
     ${TINKERCELL_SOURCE_DIR}/ModelingTools/*.cpp
     ${TINKERCELL_SOURCE_DIR}/ModuleTools/*.cpp
+    ${TINKERCELL_SOURCE_DIR}/GeneticNetworks/*.cpp
+    ${TINKERCELL_SOURCE_DIR}/OtherTools/*.cpp
+    ${TINKERCELL_SOURCE_DIR}/ImportExportTools/*.cpp
 )
 FILE( GLOB TINKERCELL_MAIN_HRDS
 	${TINKERCELL_SOURCE_DIR}/Main/*.h
@@ -51,6 +57,9 @@ FILE( GLOB TINKERCELL_MAIN_HRDS
     ${TINKERCELL_SOURCE_DIR}/DynamicCodeTools/*.h
     ${TINKERCELL_SOURCE_DIR}/ModelingTools/*.h
     ${TINKERCELL_SOURCE_DIR}/ModuleTools/*.h
+    ${TINKERCELL_SOURCE_DIR}/GeneticNetworks/*.h
+     ${TINKERCELL_SOURCE_DIR}/OtherTools/*.h
+     ${TINKERCELL_SOURCE_DIR}/ImportExportTools/*.h
 )
 
 QT4_WRAP_CPP( TINKERCELL_MAIN_MOC ${TINKERCELL_MAIN_HRDS})

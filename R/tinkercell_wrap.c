@@ -13236,7 +13236,7 @@ R_swig_tc_SBML_api ( SEXP exportSBML, SEXP importSBML)
 
 
 SWIGEXPORT SEXP
-R_swig_simulateDeterministic__SWIG_0 ( SEXP startTime, SEXP endTime, SEXP numSteps, SEXP s_swig_copy)
+R_swig_tc_simulateDeterministic ( SEXP startTime, SEXP endTime, SEXP numSteps, SEXP s_swig_copy)
 {
   tc_matrix result;
   double arg1 ;
@@ -13249,7 +13249,7 @@ R_swig_simulateDeterministic__SWIG_0 ( SEXP startTime, SEXP endTime, SEXP numSte
   arg1 = (double)(REAL(startTime)[0]);
   arg2 = (double)(REAL(endTime)[0]);
   arg3 = (int)(INTEGER(numSteps)[0]);
-  result = simulateDeterministic(arg1,arg2,arg3);
+  result = tc_simulateDeterministic(arg1,arg2,arg3);
   r_ans = SWIG_R_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
   
   
@@ -13262,7 +13262,7 @@ R_swig_simulateDeterministic__SWIG_0 ( SEXP startTime, SEXP endTime, SEXP numSte
 
 
 SWIGEXPORT SEXP
-R_swig_simulateStochastic__SWIG_0 ( SEXP startTime, SEXP endTime, SEXP numSteps, SEXP s_swig_copy)
+R_swig_tc_simulateStochastic ( SEXP startTime, SEXP endTime, SEXP numSteps, SEXP s_swig_copy)
 {
   tc_matrix result;
   double arg1 ;
@@ -13275,7 +13275,7 @@ R_swig_simulateStochastic__SWIG_0 ( SEXP startTime, SEXP endTime, SEXP numSteps,
   arg1 = (double)(REAL(startTime)[0]);
   arg2 = (double)(REAL(endTime)[0]);
   arg3 = (int)(INTEGER(numSteps)[0]);
-  result = simulateStochastic(arg1,arg2,arg3);
+  result = tc_simulateStochastic(arg1,arg2,arg3);
   r_ans = SWIG_R_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
   
   
@@ -13288,7 +13288,7 @@ R_swig_simulateStochastic__SWIG_0 ( SEXP startTime, SEXP endTime, SEXP numSteps,
 
 
 SWIGEXPORT SEXP
-R_swig_simulateHybrid__SWIG_0 ( SEXP startTime, SEXP endTime, SEXP numSteps, SEXP s_swig_copy)
+R_swig_tc_simulateHybrid ( SEXP startTime, SEXP endTime, SEXP numSteps, SEXP s_swig_copy)
 {
   tc_matrix result;
   double arg1 ;
@@ -13301,7 +13301,7 @@ R_swig_simulateHybrid__SWIG_0 ( SEXP startTime, SEXP endTime, SEXP numSteps, SEX
   arg1 = (double)(REAL(startTime)[0]);
   arg2 = (double)(REAL(endTime)[0]);
   arg3 = (int)(INTEGER(numSteps)[0]);
-  result = simulateHybrid(arg1,arg2,arg3);
+  result = tc_simulateHybrid(arg1,arg2,arg3);
   r_ans = SWIG_R_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
   
   
@@ -13314,7 +13314,7 @@ R_swig_simulateHybrid__SWIG_0 ( SEXP startTime, SEXP endTime, SEXP numSteps, SEX
 
 
 SWIGEXPORT SEXP
-R_swig_simulateTauLeap__SWIG_0 ( SEXP startTime, SEXP endTime, SEXP numSteps, SEXP s_swig_copy)
+R_swig_tc_simulateTauLeap ( SEXP startTime, SEXP endTime, SEXP numSteps, SEXP s_swig_copy)
 {
   tc_matrix result;
   double arg1 ;
@@ -13327,7 +13327,7 @@ R_swig_simulateTauLeap__SWIG_0 ( SEXP startTime, SEXP endTime, SEXP numSteps, SE
   arg1 = (double)(REAL(startTime)[0]);
   arg2 = (double)(REAL(endTime)[0]);
   arg3 = (int)(INTEGER(numSteps)[0]);
-  result = simulateTauLeap(arg1,arg2,arg3);
+  result = tc_simulateTauLeap(arg1,arg2,arg3);
   r_ans = SWIG_R_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
   
   
@@ -13340,14 +13340,14 @@ R_swig_simulateTauLeap__SWIG_0 ( SEXP startTime, SEXP endTime, SEXP numSteps, SE
 
 
 SWIGEXPORT SEXP
-R_swig_getSteadyState__SWIG_0 ( SEXP s_swig_copy)
+R_swig_tc_getSteadyState ( SEXP s_swig_copy)
 {
   tc_matrix result;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  result = getSteadyState();
+  result = tc_getSteadyState();
   r_ans = SWIG_R_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
   vmaxset(r_vmax);
   if(r_nprotect)  Rf_unprotect(r_nprotect);
@@ -13357,7 +13357,7 @@ R_swig_getSteadyState__SWIG_0 ( SEXP s_swig_copy)
 
 
 SWIGEXPORT SEXP
-R_swig_steadyStateScan ( SEXP param, SEXP start, SEXP end, SEXP numSteps, SEXP s_swig_copy)
+R_swig_tc_steadyStateScan ( SEXP param, SEXP start, SEXP end, SEXP numSteps, SEXP s_swig_copy)
 {
   tc_matrix result;
   char *arg1 = (char *) 0 ;
@@ -13373,13 +13373,13 @@ R_swig_steadyStateScan ( SEXP param, SEXP start, SEXP end, SEXP numSteps, SEXP s
   
   res1 = SWIG_AsCharPtrAndSize(param, &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "steadyStateScan" "', argument " "1"" of type '" "char const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_steadyStateScan" "', argument " "1"" of type '" "char const *""'");
   }
   arg1 = (char *)(buf1);
   arg2 = (double)(REAL(start)[0]);
   arg3 = (double)(REAL(end)[0]);
   arg4 = (int)(INTEGER(numSteps)[0]);
-  result = steadyStateScan((char const *)arg1,arg2,arg3,arg4);
+  result = tc_steadyStateScan((char const *)arg1,arg2,arg3,arg4);
   r_ans = SWIG_R_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
   if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
   
@@ -13393,7 +13393,7 @@ R_swig_steadyStateScan ( SEXP param, SEXP start, SEXP end, SEXP numSteps, SEXP s
 
 
 SWIGEXPORT SEXP
-R_swig_steadyStateScan2D ( SEXP param1, SEXP start1, SEXP end1, SEXP numSteps1, SEXP param2, SEXP start2, SEXP end2, SEXP numSteps2, SEXP s_swig_copy)
+R_swig_tc_steadyStateScan2D ( SEXP param1, SEXP start1, SEXP end1, SEXP numSteps1, SEXP param2, SEXP start2, SEXP end2, SEXP numSteps2, SEXP s_swig_copy)
 {
   tc_matrix result;
   char *arg1 = (char *) 0 ;
@@ -13416,7 +13416,7 @@ R_swig_steadyStateScan2D ( SEXP param1, SEXP start1, SEXP end1, SEXP numSteps1, 
   
   res1 = SWIG_AsCharPtrAndSize(param1, &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "steadyStateScan2D" "', argument " "1"" of type '" "char const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_steadyStateScan2D" "', argument " "1"" of type '" "char const *""'");
   }
   arg1 = (char *)(buf1);
   arg2 = (double)(REAL(start1)[0]);
@@ -13424,13 +13424,13 @@ R_swig_steadyStateScan2D ( SEXP param1, SEXP start1, SEXP end1, SEXP numSteps1, 
   arg4 = (int)(INTEGER(numSteps1)[0]);
   res5 = SWIG_AsCharPtrAndSize(param2, &buf5, NULL, &alloc5);
   if (!SWIG_IsOK(res5)) {
-    SWIG_exception_fail(SWIG_ArgError(res5), "in method '" "steadyStateScan2D" "', argument " "5"" of type '" "char const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res5), "in method '" "tc_steadyStateScan2D" "', argument " "5"" of type '" "char const *""'");
   }
   arg5 = (char *)(buf5);
   arg6 = (double)(REAL(start2)[0]);
   arg7 = (double)(REAL(end2)[0]);
   arg8 = (int)(INTEGER(numSteps2)[0]);
-  result = steadyStateScan2D((char const *)arg1,arg2,arg3,arg4,(char const *)arg5,arg6,arg7,arg8);
+  result = tc_steadyStateScan2D((char const *)arg1,arg2,arg3,arg4,(char const *)arg5,arg6,arg7,arg8);
   r_ans = SWIG_R_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
   if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
   
@@ -13448,14 +13448,14 @@ R_swig_steadyStateScan2D ( SEXP param1, SEXP start1, SEXP end1, SEXP numSteps1, 
 
 
 SWIGEXPORT SEXP
-R_swig_getJacobian__SWIG_0 ( SEXP s_swig_copy)
+R_swig_tc_getJacobian ( SEXP s_swig_copy)
 {
   tc_matrix result;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  result = getJacobian();
+  result = tc_getJacobian();
   r_ans = SWIG_R_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
   vmaxset(r_vmax);
   if(r_nprotect)  Rf_unprotect(r_nprotect);
@@ -13465,14 +13465,14 @@ R_swig_getJacobian__SWIG_0 ( SEXP s_swig_copy)
 
 
 SWIGEXPORT SEXP
-R_swig_getEigenvalues__SWIG_0 ( SEXP s_swig_copy)
+R_swig_tc_getEigenvalues ( SEXP s_swig_copy)
 {
   tc_matrix result;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  result = getEigenvalues();
+  result = tc_getEigenvalues();
   r_ans = SWIG_R_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
   vmaxset(r_vmax);
   if(r_nprotect)  Rf_unprotect(r_nprotect);
@@ -13482,14 +13482,14 @@ R_swig_getEigenvalues__SWIG_0 ( SEXP s_swig_copy)
 
 
 SWIGEXPORT SEXP
-R_swig_getUnscaledElasticities__SWIG_0 ( SEXP s_swig_copy)
+R_swig_tc_getUnscaledElasticities ( SEXP s_swig_copy)
 {
   tc_matrix result;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  result = getUnscaledElasticities();
+  result = tc_getUnscaledElasticities();
   r_ans = SWIG_R_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
   vmaxset(r_vmax);
   if(r_nprotect)  Rf_unprotect(r_nprotect);
@@ -13499,14 +13499,14 @@ R_swig_getUnscaledElasticities__SWIG_0 ( SEXP s_swig_copy)
 
 
 SWIGEXPORT SEXP
-R_swig_getUnscaledConcentrationCC__SWIG_0 ( SEXP s_swig_copy)
+R_swig_tc_getUnscaledConcentrationCC ( SEXP s_swig_copy)
 {
   tc_matrix result;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  result = getUnscaledConcentrationCC();
+  result = tc_getUnscaledConcentrationCC();
   r_ans = SWIG_R_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
   vmaxset(r_vmax);
   if(r_nprotect)  Rf_unprotect(r_nprotect);
@@ -13516,14 +13516,14 @@ R_swig_getUnscaledConcentrationCC__SWIG_0 ( SEXP s_swig_copy)
 
 
 SWIGEXPORT SEXP
-R_swig_getUnscaledFluxCC__SWIG_0 ( SEXP s_swig_copy)
+R_swig_tc_getUnscaledFluxCC ( SEXP s_swig_copy)
 {
   tc_matrix result;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  result = getUnscaledFluxCC();
+  result = tc_getUnscaledFluxCC();
   r_ans = SWIG_R_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
   vmaxset(r_vmax);
   if(r_nprotect)  Rf_unprotect(r_nprotect);
@@ -13533,14 +13533,14 @@ R_swig_getUnscaledFluxCC__SWIG_0 ( SEXP s_swig_copy)
 
 
 SWIGEXPORT SEXP
-R_swig_getScaledElasticities__SWIG_0 ( SEXP s_swig_copy)
+R_swig_tc_getScaledElasticities ( SEXP s_swig_copy)
 {
   tc_matrix result;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  result = getScaledElasticities();
+  result = tc_getScaledElasticities();
   r_ans = SWIG_R_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
   vmaxset(r_vmax);
   if(r_nprotect)  Rf_unprotect(r_nprotect);
@@ -13550,14 +13550,14 @@ R_swig_getScaledElasticities__SWIG_0 ( SEXP s_swig_copy)
 
 
 SWIGEXPORT SEXP
-R_swig_getScaledConcentrationCC__SWIG_0 ( SEXP s_swig_copy)
+R_swig_tc_getScaledConcentrationCC ( SEXP s_swig_copy)
 {
   tc_matrix result;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  result = getScaledConcentrationCC();
+  result = tc_getScaledConcentrationCC();
   r_ans = SWIG_R_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
   vmaxset(r_vmax);
   if(r_nprotect)  Rf_unprotect(r_nprotect);
@@ -13567,14 +13567,14 @@ R_swig_getScaledConcentrationCC__SWIG_0 ( SEXP s_swig_copy)
 
 
 SWIGEXPORT SEXP
-R_swig_getScaledFluxCC__SWIG_0 ( SEXP s_swig_copy)
+R_swig_tc_getScaledFluxCC ( SEXP s_swig_copy)
 {
   tc_matrix result;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  result = getScaledFluxCC();
+  result = tc_getScaledFluxCC();
   r_ans = SWIG_R_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
   vmaxset(r_vmax);
   if(r_nprotect)  Rf_unprotect(r_nprotect);
@@ -15526,7 +15526,7 @@ R_swig_setReactionRate ( SEXP reaction, SEXP formula, SEXP s_swig_copy)
 
 
 SWIGEXPORT SEXP
-R_swig_simulateDeterministic__SWIG_1 ( SEXP model, SEXP startTime, SEXP endTime, SEXP numSteps, SEXP s_swig_copy)
+R_swig_simulateDeterministic ( SEXP model, SEXP startTime, SEXP endTime, SEXP numSteps, SEXP s_swig_copy)
 {
   tc_matrix result;
   copasi_model arg1 ;
@@ -15566,7 +15566,7 @@ R_swig_simulateDeterministic__SWIG_1 ( SEXP model, SEXP startTime, SEXP endTime,
 
 
 SWIGEXPORT SEXP
-R_swig_simulateStochastic__SWIG_1 ( SEXP model, SEXP startTime, SEXP endTime, SEXP numSteps, SEXP s_swig_copy)
+R_swig_simulateStochastic ( SEXP model, SEXP startTime, SEXP endTime, SEXP numSteps, SEXP s_swig_copy)
 {
   tc_matrix result;
   copasi_model arg1 ;
@@ -15606,7 +15606,7 @@ R_swig_simulateStochastic__SWIG_1 ( SEXP model, SEXP startTime, SEXP endTime, SE
 
 
 SWIGEXPORT SEXP
-R_swig_simulateHybrid__SWIG_1 ( SEXP model, SEXP startTime, SEXP endTime, SEXP numSteps, SEXP s_swig_copy)
+R_swig_simulateHybrid ( SEXP model, SEXP startTime, SEXP endTime, SEXP numSteps, SEXP s_swig_copy)
 {
   tc_matrix result;
   copasi_model arg1 ;
@@ -15646,7 +15646,7 @@ R_swig_simulateHybrid__SWIG_1 ( SEXP model, SEXP startTime, SEXP endTime, SEXP n
 
 
 SWIGEXPORT SEXP
-R_swig_simulateTauLeap__SWIG_1 ( SEXP model, SEXP startTime, SEXP endTime, SEXP numSteps, SEXP s_swig_copy)
+R_swig_simulateTauLeap ( SEXP model, SEXP startTime, SEXP endTime, SEXP numSteps, SEXP s_swig_copy)
 {
   tc_matrix result;
   copasi_model arg1 ;
@@ -15686,7 +15686,7 @@ R_swig_simulateTauLeap__SWIG_1 ( SEXP model, SEXP startTime, SEXP endTime, SEXP 
 
 
 SWIGEXPORT SEXP
-R_swig_getSteadyState__SWIG_1 ( SEXP model, SEXP s_swig_copy)
+R_swig_getSteadyState ( SEXP model, SEXP s_swig_copy)
 {
   tc_matrix result;
   copasi_model arg1 ;
@@ -15717,7 +15717,7 @@ R_swig_getSteadyState__SWIG_1 ( SEXP model, SEXP s_swig_copy)
 
 
 SWIGEXPORT SEXP
-R_swig_getJacobian__SWIG_1 ( SEXP model, SEXP s_swig_copy)
+R_swig_getJacobian ( SEXP model, SEXP s_swig_copy)
 {
   tc_matrix result;
   copasi_model arg1 ;
@@ -15748,7 +15748,7 @@ R_swig_getJacobian__SWIG_1 ( SEXP model, SEXP s_swig_copy)
 
 
 SWIGEXPORT SEXP
-R_swig_getEigenvalues__SWIG_1 ( SEXP model, SEXP s_swig_copy)
+R_swig_getEigenvalues ( SEXP model, SEXP s_swig_copy)
 {
   tc_matrix result;
   copasi_model arg1 ;
@@ -15779,7 +15779,7 @@ R_swig_getEigenvalues__SWIG_1 ( SEXP model, SEXP s_swig_copy)
 
 
 SWIGEXPORT SEXP
-R_swig_getUnscaledElasticities__SWIG_1 ( SEXP model, SEXP s_swig_copy)
+R_swig_getUnscaledElasticities ( SEXP model, SEXP s_swig_copy)
 {
   tc_matrix result;
   copasi_model arg1 ;
@@ -15810,7 +15810,7 @@ R_swig_getUnscaledElasticities__SWIG_1 ( SEXP model, SEXP s_swig_copy)
 
 
 SWIGEXPORT SEXP
-R_swig_getUnscaledConcentrationCC__SWIG_1 ( SEXP model, SEXP s_swig_copy)
+R_swig_getUnscaledConcentrationCC ( SEXP model, SEXP s_swig_copy)
 {
   tc_matrix result;
   copasi_model arg1 ;
@@ -15841,7 +15841,7 @@ R_swig_getUnscaledConcentrationCC__SWIG_1 ( SEXP model, SEXP s_swig_copy)
 
 
 SWIGEXPORT SEXP
-R_swig_getUnscaledFluxCC__SWIG_1 ( SEXP model, SEXP s_swig_copy)
+R_swig_getUnscaledFluxCC ( SEXP model, SEXP s_swig_copy)
 {
   tc_matrix result;
   copasi_model arg1 ;
@@ -15872,7 +15872,7 @@ R_swig_getUnscaledFluxCC__SWIG_1 ( SEXP model, SEXP s_swig_copy)
 
 
 SWIGEXPORT SEXP
-R_swig_getScaledElasticities__SWIG_1 ( SEXP model, SEXP s_swig_copy)
+R_swig_getScaledElasticities ( SEXP model, SEXP s_swig_copy)
 {
   tc_matrix result;
   copasi_model arg1 ;
@@ -15903,7 +15903,7 @@ R_swig_getScaledElasticities__SWIG_1 ( SEXP model, SEXP s_swig_copy)
 
 
 SWIGEXPORT SEXP
-R_swig_getScaledConcentrationCC__SWIG_1 ( SEXP model, SEXP s_swig_copy)
+R_swig_getScaledConcentrationCC ( SEXP model, SEXP s_swig_copy)
 {
   tc_matrix result;
   copasi_model arg1 ;
@@ -15934,7 +15934,7 @@ R_swig_getScaledConcentrationCC__SWIG_1 ( SEXP model, SEXP s_swig_copy)
 
 
 SWIGEXPORT SEXP
-R_swig_getScaledFluxCC__SWIG_1 ( SEXP model, SEXP s_swig_copy)
+R_swig_getScaledFluxCC ( SEXP model, SEXP s_swig_copy)
 {
   tc_matrix result;
   copasi_model arg1 ;
@@ -16595,6 +16595,10 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_gnuplot", (DL_FUNC) &R_swig_tc_gnuplot, 1},
    {"R_swig_tc_exportSBML", (DL_FUNC) &R_swig_tc_exportSBML, 1},
    {"R_swig_tc_importSBML", (DL_FUNC) &R_swig_tc_importSBML, 1},
+   {"R_swig_tc_getUnscaledElasticities", (DL_FUNC) &R_swig_tc_getUnscaledElasticities, 1},
+   {"R_swig_tc_getScaledElasticities", (DL_FUNC) &R_swig_tc_getScaledElasticities, 1},
+   {"R_swig_getUnscaledElasticities", (DL_FUNC) &R_swig_getUnscaledElasticities, 2},
+   {"R_swig_getScaledElasticities", (DL_FUNC) &R_swig_getScaledElasticities, 2},
    {"R_swig_tc_getString", (DL_FUNC) &R_swig_tc_getString, 2},
    {"R_swig_tc_setString", (DL_FUNC) &R_swig_tc_setString, 3},
    {"R_swig_tc_setTextAttribute", (DL_FUNC) &R_swig_tc_setTextAttribute, 3},
@@ -16662,6 +16666,8 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_strings_length_set", (DL_FUNC) &R_swig_tc_strings_length_set, 2},
    {"R_swig_tc_items_length_set", (DL_FUNC) &R_swig_tc_items_length_set, 2},
    {"R_swig_tc_printFile", (DL_FUNC) &R_swig_tc_printFile, 1},
+   {"R_swig_tc_getSteadyState", (DL_FUNC) &R_swig_tc_getSteadyState, 1},
+   {"R_swig_getSteadyState", (DL_FUNC) &R_swig_getSteadyState, 2},
    {"R_swig_tc_getParametersExcept", (DL_FUNC) &R_swig_tc_getParametersExcept, 3},
    {"R_swig_tc_table_rows_set", (DL_FUNC) &R_swig_tc_table_rows_set, 2},
    {"R_swig_tc_matrix_rows_set", (DL_FUNC) &R_swig_tc_matrix_rows_set, 2},
@@ -16671,13 +16677,21 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_setNumericalData", (DL_FUNC) &R_swig_tc_setNumericalData, 3},
    {"R_swig_tc_getNumericalData", (DL_FUNC) &R_swig_tc_getNumericalData, 3},
    {"R_swig_tc_setCenterPoint", (DL_FUNC) &R_swig_tc_setCenterPoint, 3},
+   {"R_swig_tc_getEigenvalues", (DL_FUNC) &R_swig_tc_getEigenvalues, 1},
+   {"R_swig_getEigenvalues", (DL_FUNC) &R_swig_getEigenvalues, 2},
    {"R_swig_tc_displayNumber", (DL_FUNC) &R_swig_tc_displayNumber, 2},
    {"R_swig_tc_setAngle", (DL_FUNC) &R_swig_tc_setAngle, 3},
    {"R_swig_tc_getAngle", (DL_FUNC) &R_swig_tc_getAngle, 2},
    {"R_swig_tc_addInputWindowOptions", (DL_FUNC) &R_swig_tc_addInputWindowOptions, 4},
    {"R_swig_tc_moveSelected", (DL_FUNC) &R_swig_tc_moveSelected, 2},
    {"R_swig_tc_appDir", (DL_FUNC) &R_swig_tc_appDir, 0},
+   {"R_swig_tc_getUnscaledConcentrationCC", (DL_FUNC) &R_swig_tc_getUnscaledConcentrationCC, 1},
+   {"R_swig_tc_getScaledConcentrationCC", (DL_FUNC) &R_swig_tc_getScaledConcentrationCC, 1},
+   {"R_swig_getUnscaledConcentrationCC", (DL_FUNC) &R_swig_getUnscaledConcentrationCC, 2},
+   {"R_swig_getScaledConcentrationCC", (DL_FUNC) &R_swig_getScaledConcentrationCC, 2},
    {"R_swig_tc_rename", (DL_FUNC) &R_swig_tc_rename, 2},
+   {"R_swig_tc_simulateDeterministic", (DL_FUNC) &R_swig_tc_simulateDeterministic, 4},
+   {"R_swig_simulateDeterministic", (DL_FUNC) &R_swig_simulateDeterministic, 5},
    {"R_swig_new_tc_strings", (DL_FUNC) &R_swig_new_tc_strings, 0},
    {"R_swig_delete_tc_strings", (DL_FUNC) &R_swig_delete_tc_strings, 1},
    {"R_swig_tc_getMatrixValue", (DL_FUNC) &R_swig_tc_getMatrixValue, 4},
@@ -16698,7 +16712,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_setItem", (DL_FUNC) &R_swig_tc_setItem, 3},
    {"R_swig_tc_errorReport", (DL_FUNC) &R_swig_tc_errorReport, 1},
    {"R_swig_tc_compileAndRun", (DL_FUNC) &R_swig_tc_compileAndRun, 3},
-   {"R_swig_steadyStateScan2D", (DL_FUNC) &R_swig_steadyStateScan2D, 9},
+   {"R_swig_tc_steadyStateScan2D", (DL_FUNC) &R_swig_tc_steadyStateScan2D, 9},
    {"R_swig_tc_getTextDataNames", (DL_FUNC) &R_swig_tc_getTextDataNames, 2},
    {"R_swig_tc_getNumericalDataNames", (DL_FUNC) &R_swig_tc_getNumericalDataNames, 2},
    {"R_swig_createCopasiModel", (DL_FUNC) &R_swig_createCopasiModel, 2},
@@ -16730,6 +16744,10 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_itemsOfFamilyFrom", (DL_FUNC) &R_swig_tc_itemsOfFamilyFrom, 3},
    {"R_swig_tc_partsIn", (DL_FUNC) &R_swig_tc_partsIn, 2},
    {"R_swig_tc_changeArrowHead", (DL_FUNC) &R_swig_tc_changeArrowHead, 2},
+   {"R_swig_tc_getUnscaledFluxCC", (DL_FUNC) &R_swig_tc_getUnscaledFluxCC, 1},
+   {"R_swig_tc_getScaledFluxCC", (DL_FUNC) &R_swig_tc_getScaledFluxCC, 1},
+   {"R_swig_getUnscaledFluxCC", (DL_FUNC) &R_swig_getUnscaledFluxCC, 2},
+   {"R_swig_getScaledFluxCC", (DL_FUNC) &R_swig_getScaledFluxCC, 2},
    {"R_swig_copasi_end", (DL_FUNC) &R_swig_copasi_end, 0},
    {"R_swig_tc_DynamicLibraryMenu_api", (DL_FUNC) &R_swig_tc_DynamicLibraryMenu_api, 1},
    {"R_swig_tc_scatterplot", (DL_FUNC) &R_swig_tc_scatterplot, 2},
@@ -16738,46 +16756,22 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_partsDownstream", (DL_FUNC) &R_swig_tc_partsDownstream, 2},
    {"R_swig_tc_COPASI_api", (DL_FUNC) &R_swig_tc_COPASI_api, 15},
    {"R_swig_copasi_init", (DL_FUNC) &R_swig_copasi_init, 0},
+   {"R_swig_tc_getJacobian", (DL_FUNC) &R_swig_tc_getJacobian, 1},
+   {"R_swig_getJacobian", (DL_FUNC) &R_swig_getJacobian, 2},
    {"R_swig_tc_setTextData", (DL_FUNC) &R_swig_tc_setTextData, 3},
    {"R_swig_tc_getTextData", (DL_FUNC) &R_swig_tc_getTextData, 3},
    {"R_swig_tc_getUniqueName", (DL_FUNC) &R_swig_tc_getUniqueName, 1},
    {"R_swig_tc_getStringFromList", (DL_FUNC) &R_swig_tc_getStringFromList, 4},
    {"R_swig_tc_isMac", (DL_FUNC) &R_swig_tc_isMac, 1},
-   {"R_swig_steadyStateScan", (DL_FUNC) &R_swig_steadyStateScan, 5},
+   {"R_swig_tc_steadyStateScan", (DL_FUNC) &R_swig_tc_steadyStateScan, 5},
    {"R_swig_tc_CThread_api_initialize", (DL_FUNC) &R_swig_tc_CThread_api_initialize, 4},
    {"R_swig_tc_Main_api_initialize", (DL_FUNC) &R_swig_tc_Main_api_initialize, 70},
    {"R_swig_tc_setPos", (DL_FUNC) &R_swig_tc_setPos, 3},
    {"R_swig_tc_NameFamily_api_initialize", (DL_FUNC) &R_swig_tc_NameFamily_api_initialize, 2},
-   {"R_swig_simulateDeterministic__SWIG_0", (DL_FUNC) &R_swig_simulateDeterministic__SWIG_0, 4},
-   {"R_swig_simulateStochastic__SWIG_0", (DL_FUNC) &R_swig_simulateStochastic__SWIG_0, 4},
-   {"R_swig_simulateHybrid__SWIG_0", (DL_FUNC) &R_swig_simulateHybrid__SWIG_0, 4},
-   {"R_swig_simulateTauLeap__SWIG_0", (DL_FUNC) &R_swig_simulateTauLeap__SWIG_0, 4},
-   {"R_swig_getSteadyState__SWIG_0", (DL_FUNC) &R_swig_getSteadyState__SWIG_0, 1},
-   {"R_swig_getJacobian__SWIG_0", (DL_FUNC) &R_swig_getJacobian__SWIG_0, 1},
-   {"R_swig_getEigenvalues__SWIG_0", (DL_FUNC) &R_swig_getEigenvalues__SWIG_0, 1},
-   {"R_swig_getUnscaledElasticities__SWIG_0", (DL_FUNC) &R_swig_getUnscaledElasticities__SWIG_0, 1},
-   {"R_swig_getUnscaledConcentrationCC__SWIG_0", (DL_FUNC) &R_swig_getUnscaledConcentrationCC__SWIG_0, 1},
-   {"R_swig_getUnscaledFluxCC__SWIG_0", (DL_FUNC) &R_swig_getUnscaledFluxCC__SWIG_0, 1},
-   {"R_swig_getScaledElasticities__SWIG_0", (DL_FUNC) &R_swig_getScaledElasticities__SWIG_0, 1},
-   {"R_swig_getScaledConcentrationCC__SWIG_0", (DL_FUNC) &R_swig_getScaledConcentrationCC__SWIG_0, 1},
-   {"R_swig_getScaledFluxCC__SWIG_0", (DL_FUNC) &R_swig_getScaledFluxCC__SWIG_0, 1},
    {"R_swig_tc_callFunction", (DL_FUNC) &R_swig_tc_callFunction, 1},
    {"R_swig_tc_addFunction", (DL_FUNC) &R_swig_tc_addFunction, 9},
    {"R_swig_tc_getForcingFunctionNames", (DL_FUNC) &R_swig_tc_getForcingFunctionNames, 2},
    {"R_swig_tc_addForcingFunction", (DL_FUNC) &R_swig_tc_addForcingFunction, 3},
-   {"R_swig_simulateDeterministic__SWIG_1", (DL_FUNC) &R_swig_simulateDeterministic__SWIG_1, 5},
-   {"R_swig_simulateStochastic__SWIG_1", (DL_FUNC) &R_swig_simulateStochastic__SWIG_1, 5},
-   {"R_swig_simulateHybrid__SWIG_1", (DL_FUNC) &R_swig_simulateHybrid__SWIG_1, 5},
-   {"R_swig_simulateTauLeap__SWIG_1", (DL_FUNC) &R_swig_simulateTauLeap__SWIG_1, 5},
-   {"R_swig_getSteadyState__SWIG_1", (DL_FUNC) &R_swig_getSteadyState__SWIG_1, 2},
-   {"R_swig_getJacobian__SWIG_1", (DL_FUNC) &R_swig_getJacobian__SWIG_1, 2},
-   {"R_swig_getEigenvalues__SWIG_1", (DL_FUNC) &R_swig_getEigenvalues__SWIG_1, 2},
-   {"R_swig_getUnscaledElasticities__SWIG_1", (DL_FUNC) &R_swig_getUnscaledElasticities__SWIG_1, 2},
-   {"R_swig_getUnscaledConcentrationCC__SWIG_1", (DL_FUNC) &R_swig_getUnscaledConcentrationCC__SWIG_1, 2},
-   {"R_swig_getUnscaledFluxCC__SWIG_1", (DL_FUNC) &R_swig_getUnscaledFluxCC__SWIG_1, 2},
-   {"R_swig_getScaledElasticities__SWIG_1", (DL_FUNC) &R_swig_getScaledElasticities__SWIG_1, 2},
-   {"R_swig_getScaledConcentrationCC__SWIG_1", (DL_FUNC) &R_swig_getScaledConcentrationCC__SWIG_1, 2},
-   {"R_swig_getScaledFluxCC__SWIG_1", (DL_FUNC) &R_swig_getScaledFluxCC__SWIG_1, 2},
    {"R_swig_tc_askQuestion", (DL_FUNC) &R_swig_tc_askQuestion, 2},
    {"R_swig_tc_getFamily", (DL_FUNC) &R_swig_tc_getFamily, 1},
    {"R_swig_tc_itemsOfFamily", (DL_FUNC) &R_swig_tc_itemsOfFamily, 2},
@@ -16787,6 +16781,8 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_getY", (DL_FUNC) &R_swig_tc_getY, 2},
    {"R_swig_tc_findItems", (DL_FUNC) &R_swig_tc_findItems, 2},
    {"R_swig_tc_savePlot", (DL_FUNC) &R_swig_tc_savePlot, 1},
+   {"R_swig_tc_simulateHybrid", (DL_FUNC) &R_swig_tc_simulateHybrid, 4},
+   {"R_swig_simulateHybrid", (DL_FUNC) &R_swig_simulateHybrid, 5},
    {"R_swig_tc_getParameters", (DL_FUNC) &R_swig_tc_getParameters, 2},
    {"R_swig_tc_createInputWindow", (DL_FUNC) &R_swig_tc_createInputWindow, 3},
    {"R_swig_tc_printMatrix", (DL_FUNC) &R_swig_tc_printMatrix, 1},
@@ -16897,7 +16893,11 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_print", (DL_FUNC) &R_swig_tc_print, 1},
    {"R_swig_tc_getConnectionsWithRole", (DL_FUNC) &R_swig_tc_getConnectionsWithRole, 3},
    {"R_swig_tc_getConnectedNodesWithRole", (DL_FUNC) &R_swig_tc_getConnectedNodesWithRole, 3},
+   {"R_swig_tc_simulateTauLeap", (DL_FUNC) &R_swig_tc_simulateTauLeap, 4},
    {"R_swig_setAssignmentRule", (DL_FUNC) &R_swig_setAssignmentRule, 4},
+   {"R_swig_simulateTauLeap", (DL_FUNC) &R_swig_simulateTauLeap, 5},
+   {"R_swig_tc_simulateStochastic", (DL_FUNC) &R_swig_tc_simulateStochastic, 4},
+   {"R_swig_simulateStochastic", (DL_FUNC) &R_swig_simulateStochastic, 5},
    {"R_swig_tc_remove", (DL_FUNC) &R_swig_tc_remove, 1},
    {NULL, NULL, 0}
 };

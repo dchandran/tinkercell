@@ -11082,7 +11082,7 @@ XS(_wrap_tc_SBML_api) {
 }
 
 
-XS(_wrap_simulateDeterministic__SWIG_0) {
+XS(_wrap_tc_simulateDeterministic) {
   {
     double arg1 ;
     double arg2 ;
@@ -11098,24 +11098,24 @@ XS(_wrap_simulateDeterministic__SWIG_0) {
     dXSARGS;
     
     if ((items < 3) || (items > 3)) {
-      SWIG_croak("Usage: simulateDeterministic(startTime,endTime,numSteps);");
+      SWIG_croak("Usage: tc_simulateDeterministic(startTime,endTime,numSteps);");
     }
     ecode1 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "simulateDeterministic" "', argument " "1"" of type '" "double""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_simulateDeterministic" "', argument " "1"" of type '" "double""'");
     } 
     arg1 = (double)(val1);
     ecode2 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
     if (!SWIG_IsOK(ecode2)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "simulateDeterministic" "', argument " "2"" of type '" "double""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_simulateDeterministic" "', argument " "2"" of type '" "double""'");
     } 
     arg2 = (double)(val2);
     ecode3 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(2), &val3);
     if (!SWIG_IsOK(ecode3)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "simulateDeterministic" "', argument " "3"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "tc_simulateDeterministic" "', argument " "3"" of type '" "int""'");
     } 
     arg3 = (int)(val3);
-    result = simulateDeterministic(arg1,arg2,arg3);
+    result = tc_simulateDeterministic(arg1,arg2,arg3);
     ST(argvi) = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     
     
@@ -11130,7 +11130,7 @@ XS(_wrap_simulateDeterministic__SWIG_0) {
 }
 
 
-XS(_wrap_simulateStochastic__SWIG_0) {
+XS(_wrap_tc_simulateStochastic) {
   {
     double arg1 ;
     double arg2 ;
@@ -11146,24 +11146,24 @@ XS(_wrap_simulateStochastic__SWIG_0) {
     dXSARGS;
     
     if ((items < 3) || (items > 3)) {
-      SWIG_croak("Usage: simulateStochastic(startTime,endTime,numSteps);");
+      SWIG_croak("Usage: tc_simulateStochastic(startTime,endTime,numSteps);");
     }
     ecode1 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "simulateStochastic" "', argument " "1"" of type '" "double""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_simulateStochastic" "', argument " "1"" of type '" "double""'");
     } 
     arg1 = (double)(val1);
     ecode2 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
     if (!SWIG_IsOK(ecode2)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "simulateStochastic" "', argument " "2"" of type '" "double""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_simulateStochastic" "', argument " "2"" of type '" "double""'");
     } 
     arg2 = (double)(val2);
     ecode3 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(2), &val3);
     if (!SWIG_IsOK(ecode3)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "simulateStochastic" "', argument " "3"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "tc_simulateStochastic" "', argument " "3"" of type '" "int""'");
     } 
     arg3 = (int)(val3);
-    result = simulateStochastic(arg1,arg2,arg3);
+    result = tc_simulateStochastic(arg1,arg2,arg3);
     ST(argvi) = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     
     
@@ -11178,7 +11178,7 @@ XS(_wrap_simulateStochastic__SWIG_0) {
 }
 
 
-XS(_wrap_simulateHybrid__SWIG_0) {
+XS(_wrap_tc_simulateHybrid) {
   {
     double arg1 ;
     double arg2 ;
@@ -11194,24 +11194,24 @@ XS(_wrap_simulateHybrid__SWIG_0) {
     dXSARGS;
     
     if ((items < 3) || (items > 3)) {
-      SWIG_croak("Usage: simulateHybrid(startTime,endTime,numSteps);");
+      SWIG_croak("Usage: tc_simulateHybrid(startTime,endTime,numSteps);");
     }
     ecode1 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "simulateHybrid" "', argument " "1"" of type '" "double""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_simulateHybrid" "', argument " "1"" of type '" "double""'");
     } 
     arg1 = (double)(val1);
     ecode2 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
     if (!SWIG_IsOK(ecode2)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "simulateHybrid" "', argument " "2"" of type '" "double""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_simulateHybrid" "', argument " "2"" of type '" "double""'");
     } 
     arg2 = (double)(val2);
     ecode3 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(2), &val3);
     if (!SWIG_IsOK(ecode3)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "simulateHybrid" "', argument " "3"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "tc_simulateHybrid" "', argument " "3"" of type '" "int""'");
     } 
     arg3 = (int)(val3);
-    result = simulateHybrid(arg1,arg2,arg3);
+    result = tc_simulateHybrid(arg1,arg2,arg3);
     ST(argvi) = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     
     
@@ -11226,7 +11226,7 @@ XS(_wrap_simulateHybrid__SWIG_0) {
 }
 
 
-XS(_wrap_simulateTauLeap__SWIG_0) {
+XS(_wrap_tc_simulateTauLeap) {
   {
     double arg1 ;
     double arg2 ;
@@ -11242,24 +11242,24 @@ XS(_wrap_simulateTauLeap__SWIG_0) {
     dXSARGS;
     
     if ((items < 3) || (items > 3)) {
-      SWIG_croak("Usage: simulateTauLeap(startTime,endTime,numSteps);");
+      SWIG_croak("Usage: tc_simulateTauLeap(startTime,endTime,numSteps);");
     }
     ecode1 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "simulateTauLeap" "', argument " "1"" of type '" "double""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_simulateTauLeap" "', argument " "1"" of type '" "double""'");
     } 
     arg1 = (double)(val1);
     ecode2 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
     if (!SWIG_IsOK(ecode2)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "simulateTauLeap" "', argument " "2"" of type '" "double""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_simulateTauLeap" "', argument " "2"" of type '" "double""'");
     } 
     arg2 = (double)(val2);
     ecode3 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(2), &val3);
     if (!SWIG_IsOK(ecode3)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "simulateTauLeap" "', argument " "3"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "tc_simulateTauLeap" "', argument " "3"" of type '" "int""'");
     } 
     arg3 = (int)(val3);
-    result = simulateTauLeap(arg1,arg2,arg3);
+    result = tc_simulateTauLeap(arg1,arg2,arg3);
     ST(argvi) = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     
     
@@ -11274,16 +11274,16 @@ XS(_wrap_simulateTauLeap__SWIG_0) {
 }
 
 
-XS(_wrap_getSteadyState__SWIG_0) {
+XS(_wrap_tc_getSteadyState) {
   {
     int argvi = 0;
     tc_matrix result;
     dXSARGS;
     
     if ((items < 0) || (items > 0)) {
-      SWIG_croak("Usage: getSteadyState();");
+      SWIG_croak("Usage: tc_getSteadyState();");
     }
-    result = getSteadyState();
+    result = tc_getSteadyState();
     ST(argvi) = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     XSRETURN(argvi);
   fail:
@@ -11292,7 +11292,7 @@ XS(_wrap_getSteadyState__SWIG_0) {
 }
 
 
-XS(_wrap_steadyStateScan) {
+XS(_wrap_tc_steadyStateScan) {
   {
     char *arg1 = (char *) 0 ;
     double arg2 ;
@@ -11312,29 +11312,29 @@ XS(_wrap_steadyStateScan) {
     dXSARGS;
     
     if ((items < 4) || (items > 4)) {
-      SWIG_croak("Usage: steadyStateScan(param,start,end,numSteps);");
+      SWIG_croak("Usage: tc_steadyStateScan(param,start,end,numSteps);");
     }
     res1 = SWIG_AsCharPtrAndSize(ST(0), &buf1, NULL, &alloc1);
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "steadyStateScan" "', argument " "1"" of type '" "char const *""'");
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_steadyStateScan" "', argument " "1"" of type '" "char const *""'");
     }
     arg1 = (char *)(buf1);
     ecode2 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
     if (!SWIG_IsOK(ecode2)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "steadyStateScan" "', argument " "2"" of type '" "double""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_steadyStateScan" "', argument " "2"" of type '" "double""'");
     } 
     arg2 = (double)(val2);
     ecode3 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(2), &val3);
     if (!SWIG_IsOK(ecode3)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "steadyStateScan" "', argument " "3"" of type '" "double""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "tc_steadyStateScan" "', argument " "3"" of type '" "double""'");
     } 
     arg3 = (double)(val3);
     ecode4 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(3), &val4);
     if (!SWIG_IsOK(ecode4)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "steadyStateScan" "', argument " "4"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "tc_steadyStateScan" "', argument " "4"" of type '" "int""'");
     } 
     arg4 = (int)(val4);
-    result = steadyStateScan((char const *)arg1,arg2,arg3,arg4);
+    result = tc_steadyStateScan((char const *)arg1,arg2,arg3,arg4);
     ST(argvi) = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
     
@@ -11351,7 +11351,7 @@ XS(_wrap_steadyStateScan) {
 }
 
 
-XS(_wrap_steadyStateScan2D) {
+XS(_wrap_tc_steadyStateScan2D) {
   {
     char *arg1 = (char *) 0 ;
     double arg2 ;
@@ -11384,49 +11384,49 @@ XS(_wrap_steadyStateScan2D) {
     dXSARGS;
     
     if ((items < 8) || (items > 8)) {
-      SWIG_croak("Usage: steadyStateScan2D(param1,start1,end1,numSteps1,param2,start2,end2,numSteps2);");
+      SWIG_croak("Usage: tc_steadyStateScan2D(param1,start1,end1,numSteps1,param2,start2,end2,numSteps2);");
     }
     res1 = SWIG_AsCharPtrAndSize(ST(0), &buf1, NULL, &alloc1);
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "steadyStateScan2D" "', argument " "1"" of type '" "char const *""'");
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_steadyStateScan2D" "', argument " "1"" of type '" "char const *""'");
     }
     arg1 = (char *)(buf1);
     ecode2 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
     if (!SWIG_IsOK(ecode2)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "steadyStateScan2D" "', argument " "2"" of type '" "double""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_steadyStateScan2D" "', argument " "2"" of type '" "double""'");
     } 
     arg2 = (double)(val2);
     ecode3 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(2), &val3);
     if (!SWIG_IsOK(ecode3)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "steadyStateScan2D" "', argument " "3"" of type '" "double""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "tc_steadyStateScan2D" "', argument " "3"" of type '" "double""'");
     } 
     arg3 = (double)(val3);
     ecode4 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(3), &val4);
     if (!SWIG_IsOK(ecode4)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "steadyStateScan2D" "', argument " "4"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "tc_steadyStateScan2D" "', argument " "4"" of type '" "int""'");
     } 
     arg4 = (int)(val4);
     res5 = SWIG_AsCharPtrAndSize(ST(4), &buf5, NULL, &alloc5);
     if (!SWIG_IsOK(res5)) {
-      SWIG_exception_fail(SWIG_ArgError(res5), "in method '" "steadyStateScan2D" "', argument " "5"" of type '" "char const *""'");
+      SWIG_exception_fail(SWIG_ArgError(res5), "in method '" "tc_steadyStateScan2D" "', argument " "5"" of type '" "char const *""'");
     }
     arg5 = (char *)(buf5);
     ecode6 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(5), &val6);
     if (!SWIG_IsOK(ecode6)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode6), "in method '" "steadyStateScan2D" "', argument " "6"" of type '" "double""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode6), "in method '" "tc_steadyStateScan2D" "', argument " "6"" of type '" "double""'");
     } 
     arg6 = (double)(val6);
     ecode7 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(6), &val7);
     if (!SWIG_IsOK(ecode7)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode7), "in method '" "steadyStateScan2D" "', argument " "7"" of type '" "double""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode7), "in method '" "tc_steadyStateScan2D" "', argument " "7"" of type '" "double""'");
     } 
     arg7 = (double)(val7);
     ecode8 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(7), &val8);
     if (!SWIG_IsOK(ecode8)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode8), "in method '" "steadyStateScan2D" "', argument " "8"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode8), "in method '" "tc_steadyStateScan2D" "', argument " "8"" of type '" "int""'");
     } 
     arg8 = (int)(val8);
-    result = steadyStateScan2D((char const *)arg1,arg2,arg3,arg4,(char const *)arg5,arg6,arg7,arg8);
+    result = tc_steadyStateScan2D((char const *)arg1,arg2,arg3,arg4,(char const *)arg5,arg6,arg7,arg8);
     ST(argvi) = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
     
@@ -11451,16 +11451,16 @@ XS(_wrap_steadyStateScan2D) {
 }
 
 
-XS(_wrap_getJacobian__SWIG_0) {
+XS(_wrap_tc_getJacobian) {
   {
     int argvi = 0;
     tc_matrix result;
     dXSARGS;
     
     if ((items < 0) || (items > 0)) {
-      SWIG_croak("Usage: getJacobian();");
+      SWIG_croak("Usage: tc_getJacobian();");
     }
-    result = getJacobian();
+    result = tc_getJacobian();
     ST(argvi) = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     XSRETURN(argvi);
   fail:
@@ -11469,16 +11469,16 @@ XS(_wrap_getJacobian__SWIG_0) {
 }
 
 
-XS(_wrap_getEigenvalues__SWIG_0) {
+XS(_wrap_tc_getEigenvalues) {
   {
     int argvi = 0;
     tc_matrix result;
     dXSARGS;
     
     if ((items < 0) || (items > 0)) {
-      SWIG_croak("Usage: getEigenvalues();");
+      SWIG_croak("Usage: tc_getEigenvalues();");
     }
-    result = getEigenvalues();
+    result = tc_getEigenvalues();
     ST(argvi) = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     XSRETURN(argvi);
   fail:
@@ -11487,16 +11487,16 @@ XS(_wrap_getEigenvalues__SWIG_0) {
 }
 
 
-XS(_wrap_getUnscaledElasticities__SWIG_0) {
+XS(_wrap_tc_getUnscaledElasticities) {
   {
     int argvi = 0;
     tc_matrix result;
     dXSARGS;
     
     if ((items < 0) || (items > 0)) {
-      SWIG_croak("Usage: getUnscaledElasticities();");
+      SWIG_croak("Usage: tc_getUnscaledElasticities();");
     }
-    result = getUnscaledElasticities();
+    result = tc_getUnscaledElasticities();
     ST(argvi) = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     XSRETURN(argvi);
   fail:
@@ -11505,16 +11505,16 @@ XS(_wrap_getUnscaledElasticities__SWIG_0) {
 }
 
 
-XS(_wrap_getUnscaledConcentrationCC__SWIG_0) {
+XS(_wrap_tc_getUnscaledConcentrationCC) {
   {
     int argvi = 0;
     tc_matrix result;
     dXSARGS;
     
     if ((items < 0) || (items > 0)) {
-      SWIG_croak("Usage: getUnscaledConcentrationCC();");
+      SWIG_croak("Usage: tc_getUnscaledConcentrationCC();");
     }
-    result = getUnscaledConcentrationCC();
+    result = tc_getUnscaledConcentrationCC();
     ST(argvi) = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     XSRETURN(argvi);
   fail:
@@ -11523,16 +11523,16 @@ XS(_wrap_getUnscaledConcentrationCC__SWIG_0) {
 }
 
 
-XS(_wrap_getUnscaledFluxCC__SWIG_0) {
+XS(_wrap_tc_getUnscaledFluxCC) {
   {
     int argvi = 0;
     tc_matrix result;
     dXSARGS;
     
     if ((items < 0) || (items > 0)) {
-      SWIG_croak("Usage: getUnscaledFluxCC();");
+      SWIG_croak("Usage: tc_getUnscaledFluxCC();");
     }
-    result = getUnscaledFluxCC();
+    result = tc_getUnscaledFluxCC();
     ST(argvi) = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     XSRETURN(argvi);
   fail:
@@ -11541,16 +11541,16 @@ XS(_wrap_getUnscaledFluxCC__SWIG_0) {
 }
 
 
-XS(_wrap_getScaledElasticities__SWIG_0) {
+XS(_wrap_tc_getScaledElasticities) {
   {
     int argvi = 0;
     tc_matrix result;
     dXSARGS;
     
     if ((items < 0) || (items > 0)) {
-      SWIG_croak("Usage: getScaledElasticities();");
+      SWIG_croak("Usage: tc_getScaledElasticities();");
     }
-    result = getScaledElasticities();
+    result = tc_getScaledElasticities();
     ST(argvi) = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     XSRETURN(argvi);
   fail:
@@ -11559,16 +11559,16 @@ XS(_wrap_getScaledElasticities__SWIG_0) {
 }
 
 
-XS(_wrap_getScaledConcentrationCC__SWIG_0) {
+XS(_wrap_tc_getScaledConcentrationCC) {
   {
     int argvi = 0;
     tc_matrix result;
     dXSARGS;
     
     if ((items < 0) || (items > 0)) {
-      SWIG_croak("Usage: getScaledConcentrationCC();");
+      SWIG_croak("Usage: tc_getScaledConcentrationCC();");
     }
-    result = getScaledConcentrationCC();
+    result = tc_getScaledConcentrationCC();
     ST(argvi) = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     XSRETURN(argvi);
   fail:
@@ -11577,16 +11577,16 @@ XS(_wrap_getScaledConcentrationCC__SWIG_0) {
 }
 
 
-XS(_wrap_getScaledFluxCC__SWIG_0) {
+XS(_wrap_tc_getScaledFluxCC) {
   {
     int argvi = 0;
     tc_matrix result;
     dXSARGS;
     
     if ((items < 0) || (items > 0)) {
-      SWIG_croak("Usage: getScaledFluxCC();");
+      SWIG_croak("Usage: tc_getScaledFluxCC();");
     }
-    result = getScaledFluxCC();
+    result = tc_getScaledFluxCC();
     ST(argvi) = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
     XSRETURN(argvi);
   fail:
@@ -13375,7 +13375,7 @@ XS(_wrap_setReactionRate) {
 }
 
 
-XS(_wrap_simulateDeterministic__SWIG_1) {
+XS(_wrap_simulateDeterministic) {
   {
     copasi_model arg1 ;
     double arg2 ;
@@ -13437,120 +13437,7 @@ XS(_wrap_simulateDeterministic__SWIG_1) {
 }
 
 
-XS(_wrap_simulateDeterministic) {
-  dXSARGS;
-  
-  {
-    unsigned long _index = 0;
-    SWIG_TypeRank _rank = 0; 
-    if (items == 3) {
-      SWIG_TypeRank _ranki = 0;
-      SWIG_TypeRank _rankm = 0;
-      SWIG_TypeRank _pi = 1;
-      int _v = 0;
-      {
-        {
-          int res = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(0), NULL);
-          _v = SWIG_CheckState(res);
-        }
-      }
-      if (!_v) goto check_1;
-      _ranki += _v*_pi;
-      _rankm += _pi;
-      _pi *= SWIG_MAXCASTRANK;
-      {
-        {
-          int res = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(1), NULL);
-          _v = SWIG_CheckState(res);
-        }
-      }
-      if (!_v) goto check_1;
-      _ranki += _v*_pi;
-      _rankm += _pi;
-      _pi *= SWIG_MAXCASTRANK;
-      {
-        {
-          int res = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(2), NULL);
-          _v = SWIG_CheckState(res);
-        }
-      }
-      if (!_v) goto check_1;
-      _ranki += _v*_pi;
-      _rankm += _pi;
-      _pi *= SWIG_MAXCASTRANK;
-      if (!_index || (_ranki < _rank)) {
-        _rank = _ranki; _index = 1;
-        if (_rank == _rankm) goto dispatch;
-      }
-    }
-  check_1:
-    
-    if (items == 4) {
-      SWIG_TypeRank _ranki = 0;
-      SWIG_TypeRank _rankm = 0;
-      SWIG_TypeRank _pi = 1;
-      int _v = 0;
-      {
-        void *vptr = 0;
-        int res = SWIG_ConvertPtr(ST(0), &vptr, SWIGTYPE_p_copasi_model, 0);
-        _v = SWIG_CheckState(res);
-      }
-      if (!_v) goto check_2;
-      _ranki += _v*_pi;
-      _rankm += _pi;
-      _pi *= SWIG_MAXCASTRANK;
-      {
-        {
-          int res = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(1), NULL);
-          _v = SWIG_CheckState(res);
-        }
-      }
-      if (!_v) goto check_2;
-      _ranki += _v*_pi;
-      _rankm += _pi;
-      _pi *= SWIG_MAXCASTRANK;
-      {
-        {
-          int res = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(2), NULL);
-          _v = SWIG_CheckState(res);
-        }
-      }
-      if (!_v) goto check_2;
-      _ranki += _v*_pi;
-      _rankm += _pi;
-      _pi *= SWIG_MAXCASTRANK;
-      {
-        {
-          int res = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(3), NULL);
-          _v = SWIG_CheckState(res);
-        }
-      }
-      if (!_v) goto check_2;
-      _ranki += _v*_pi;
-      _rankm += _pi;
-      _pi *= SWIG_MAXCASTRANK;
-      if (!_index || (_ranki < _rank)) {
-        _rank = _ranki; _index = 2;
-        if (_rank == _rankm) goto dispatch;
-      }
-    }
-  check_2:
-    
-  dispatch:
-    switch(_index) {
-    case 1:
-      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_simulateDeterministic__SWIG_0); return;
-    case 2:
-      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_simulateDeterministic__SWIG_1); return;
-    }
-  }
-  
-  croak("No matching function for overloaded 'simulateDeterministic'");
-  XSRETURN(0);
-}
-
-
-XS(_wrap_simulateStochastic__SWIG_1) {
+XS(_wrap_simulateStochastic) {
   {
     copasi_model arg1 ;
     double arg2 ;
@@ -13612,120 +13499,7 @@ XS(_wrap_simulateStochastic__SWIG_1) {
 }
 
 
-XS(_wrap_simulateStochastic) {
-  dXSARGS;
-  
-  {
-    unsigned long _index = 0;
-    SWIG_TypeRank _rank = 0; 
-    if (items == 3) {
-      SWIG_TypeRank _ranki = 0;
-      SWIG_TypeRank _rankm = 0;
-      SWIG_TypeRank _pi = 1;
-      int _v = 0;
-      {
-        {
-          int res = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(0), NULL);
-          _v = SWIG_CheckState(res);
-        }
-      }
-      if (!_v) goto check_1;
-      _ranki += _v*_pi;
-      _rankm += _pi;
-      _pi *= SWIG_MAXCASTRANK;
-      {
-        {
-          int res = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(1), NULL);
-          _v = SWIG_CheckState(res);
-        }
-      }
-      if (!_v) goto check_1;
-      _ranki += _v*_pi;
-      _rankm += _pi;
-      _pi *= SWIG_MAXCASTRANK;
-      {
-        {
-          int res = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(2), NULL);
-          _v = SWIG_CheckState(res);
-        }
-      }
-      if (!_v) goto check_1;
-      _ranki += _v*_pi;
-      _rankm += _pi;
-      _pi *= SWIG_MAXCASTRANK;
-      if (!_index || (_ranki < _rank)) {
-        _rank = _ranki; _index = 1;
-        if (_rank == _rankm) goto dispatch;
-      }
-    }
-  check_1:
-    
-    if (items == 4) {
-      SWIG_TypeRank _ranki = 0;
-      SWIG_TypeRank _rankm = 0;
-      SWIG_TypeRank _pi = 1;
-      int _v = 0;
-      {
-        void *vptr = 0;
-        int res = SWIG_ConvertPtr(ST(0), &vptr, SWIGTYPE_p_copasi_model, 0);
-        _v = SWIG_CheckState(res);
-      }
-      if (!_v) goto check_2;
-      _ranki += _v*_pi;
-      _rankm += _pi;
-      _pi *= SWIG_MAXCASTRANK;
-      {
-        {
-          int res = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(1), NULL);
-          _v = SWIG_CheckState(res);
-        }
-      }
-      if (!_v) goto check_2;
-      _ranki += _v*_pi;
-      _rankm += _pi;
-      _pi *= SWIG_MAXCASTRANK;
-      {
-        {
-          int res = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(2), NULL);
-          _v = SWIG_CheckState(res);
-        }
-      }
-      if (!_v) goto check_2;
-      _ranki += _v*_pi;
-      _rankm += _pi;
-      _pi *= SWIG_MAXCASTRANK;
-      {
-        {
-          int res = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(3), NULL);
-          _v = SWIG_CheckState(res);
-        }
-      }
-      if (!_v) goto check_2;
-      _ranki += _v*_pi;
-      _rankm += _pi;
-      _pi *= SWIG_MAXCASTRANK;
-      if (!_index || (_ranki < _rank)) {
-        _rank = _ranki; _index = 2;
-        if (_rank == _rankm) goto dispatch;
-      }
-    }
-  check_2:
-    
-  dispatch:
-    switch(_index) {
-    case 1:
-      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_simulateStochastic__SWIG_0); return;
-    case 2:
-      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_simulateStochastic__SWIG_1); return;
-    }
-  }
-  
-  croak("No matching function for overloaded 'simulateStochastic'");
-  XSRETURN(0);
-}
-
-
-XS(_wrap_simulateHybrid__SWIG_1) {
+XS(_wrap_simulateHybrid) {
   {
     copasi_model arg1 ;
     double arg2 ;
@@ -13787,120 +13561,7 @@ XS(_wrap_simulateHybrid__SWIG_1) {
 }
 
 
-XS(_wrap_simulateHybrid) {
-  dXSARGS;
-  
-  {
-    unsigned long _index = 0;
-    SWIG_TypeRank _rank = 0; 
-    if (items == 3) {
-      SWIG_TypeRank _ranki = 0;
-      SWIG_TypeRank _rankm = 0;
-      SWIG_TypeRank _pi = 1;
-      int _v = 0;
-      {
-        {
-          int res = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(0), NULL);
-          _v = SWIG_CheckState(res);
-        }
-      }
-      if (!_v) goto check_1;
-      _ranki += _v*_pi;
-      _rankm += _pi;
-      _pi *= SWIG_MAXCASTRANK;
-      {
-        {
-          int res = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(1), NULL);
-          _v = SWIG_CheckState(res);
-        }
-      }
-      if (!_v) goto check_1;
-      _ranki += _v*_pi;
-      _rankm += _pi;
-      _pi *= SWIG_MAXCASTRANK;
-      {
-        {
-          int res = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(2), NULL);
-          _v = SWIG_CheckState(res);
-        }
-      }
-      if (!_v) goto check_1;
-      _ranki += _v*_pi;
-      _rankm += _pi;
-      _pi *= SWIG_MAXCASTRANK;
-      if (!_index || (_ranki < _rank)) {
-        _rank = _ranki; _index = 1;
-        if (_rank == _rankm) goto dispatch;
-      }
-    }
-  check_1:
-    
-    if (items == 4) {
-      SWIG_TypeRank _ranki = 0;
-      SWIG_TypeRank _rankm = 0;
-      SWIG_TypeRank _pi = 1;
-      int _v = 0;
-      {
-        void *vptr = 0;
-        int res = SWIG_ConvertPtr(ST(0), &vptr, SWIGTYPE_p_copasi_model, 0);
-        _v = SWIG_CheckState(res);
-      }
-      if (!_v) goto check_2;
-      _ranki += _v*_pi;
-      _rankm += _pi;
-      _pi *= SWIG_MAXCASTRANK;
-      {
-        {
-          int res = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(1), NULL);
-          _v = SWIG_CheckState(res);
-        }
-      }
-      if (!_v) goto check_2;
-      _ranki += _v*_pi;
-      _rankm += _pi;
-      _pi *= SWIG_MAXCASTRANK;
-      {
-        {
-          int res = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(2), NULL);
-          _v = SWIG_CheckState(res);
-        }
-      }
-      if (!_v) goto check_2;
-      _ranki += _v*_pi;
-      _rankm += _pi;
-      _pi *= SWIG_MAXCASTRANK;
-      {
-        {
-          int res = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(3), NULL);
-          _v = SWIG_CheckState(res);
-        }
-      }
-      if (!_v) goto check_2;
-      _ranki += _v*_pi;
-      _rankm += _pi;
-      _pi *= SWIG_MAXCASTRANK;
-      if (!_index || (_ranki < _rank)) {
-        _rank = _ranki; _index = 2;
-        if (_rank == _rankm) goto dispatch;
-      }
-    }
-  check_2:
-    
-  dispatch:
-    switch(_index) {
-    case 1:
-      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_simulateHybrid__SWIG_0); return;
-    case 2:
-      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_simulateHybrid__SWIG_1); return;
-    }
-  }
-  
-  croak("No matching function for overloaded 'simulateHybrid'");
-  XSRETURN(0);
-}
-
-
-XS(_wrap_simulateTauLeap__SWIG_1) {
+XS(_wrap_simulateTauLeap) {
   {
     copasi_model arg1 ;
     double arg2 ;
@@ -13962,120 +13623,7 @@ XS(_wrap_simulateTauLeap__SWIG_1) {
 }
 
 
-XS(_wrap_simulateTauLeap) {
-  dXSARGS;
-  
-  {
-    unsigned long _index = 0;
-    SWIG_TypeRank _rank = 0; 
-    if (items == 3) {
-      SWIG_TypeRank _ranki = 0;
-      SWIG_TypeRank _rankm = 0;
-      SWIG_TypeRank _pi = 1;
-      int _v = 0;
-      {
-        {
-          int res = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(0), NULL);
-          _v = SWIG_CheckState(res);
-        }
-      }
-      if (!_v) goto check_1;
-      _ranki += _v*_pi;
-      _rankm += _pi;
-      _pi *= SWIG_MAXCASTRANK;
-      {
-        {
-          int res = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(1), NULL);
-          _v = SWIG_CheckState(res);
-        }
-      }
-      if (!_v) goto check_1;
-      _ranki += _v*_pi;
-      _rankm += _pi;
-      _pi *= SWIG_MAXCASTRANK;
-      {
-        {
-          int res = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(2), NULL);
-          _v = SWIG_CheckState(res);
-        }
-      }
-      if (!_v) goto check_1;
-      _ranki += _v*_pi;
-      _rankm += _pi;
-      _pi *= SWIG_MAXCASTRANK;
-      if (!_index || (_ranki < _rank)) {
-        _rank = _ranki; _index = 1;
-        if (_rank == _rankm) goto dispatch;
-      }
-    }
-  check_1:
-    
-    if (items == 4) {
-      SWIG_TypeRank _ranki = 0;
-      SWIG_TypeRank _rankm = 0;
-      SWIG_TypeRank _pi = 1;
-      int _v = 0;
-      {
-        void *vptr = 0;
-        int res = SWIG_ConvertPtr(ST(0), &vptr, SWIGTYPE_p_copasi_model, 0);
-        _v = SWIG_CheckState(res);
-      }
-      if (!_v) goto check_2;
-      _ranki += _v*_pi;
-      _rankm += _pi;
-      _pi *= SWIG_MAXCASTRANK;
-      {
-        {
-          int res = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(1), NULL);
-          _v = SWIG_CheckState(res);
-        }
-      }
-      if (!_v) goto check_2;
-      _ranki += _v*_pi;
-      _rankm += _pi;
-      _pi *= SWIG_MAXCASTRANK;
-      {
-        {
-          int res = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(2), NULL);
-          _v = SWIG_CheckState(res);
-        }
-      }
-      if (!_v) goto check_2;
-      _ranki += _v*_pi;
-      _rankm += _pi;
-      _pi *= SWIG_MAXCASTRANK;
-      {
-        {
-          int res = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(3), NULL);
-          _v = SWIG_CheckState(res);
-        }
-      }
-      if (!_v) goto check_2;
-      _ranki += _v*_pi;
-      _rankm += _pi;
-      _pi *= SWIG_MAXCASTRANK;
-      if (!_index || (_ranki < _rank)) {
-        _rank = _ranki; _index = 2;
-        if (_rank == _rankm) goto dispatch;
-      }
-    }
-  check_2:
-    
-  dispatch:
-    switch(_index) {
-    case 1:
-      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_simulateTauLeap__SWIG_0); return;
-    case 2:
-      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_simulateTauLeap__SWIG_1); return;
-    }
-  }
-  
-  croak("No matching function for overloaded 'simulateTauLeap'");
-  XSRETURN(0);
-}
-
-
-XS(_wrap_getSteadyState__SWIG_1) {
+XS(_wrap_getSteadyState) {
   {
     copasi_model arg1 ;
     void *argp1 ;
@@ -14107,56 +13655,7 @@ XS(_wrap_getSteadyState__SWIG_1) {
 }
 
 
-XS(_wrap_getSteadyState) {
-  dXSARGS;
-  
-  {
-    unsigned long _index = 0;
-    SWIG_TypeRank _rank = 0; 
-    if (items == 0) {
-      SWIG_TypeRank _ranki = 0;
-      SWIG_TypeRank _rankm = 0;
-      if (!_index || (_ranki < _rank)) {
-        _rank = _ranki; _index = 1;
-        if (_rank == _rankm) goto dispatch;
-      }
-    }
-    if (items == 1) {
-      SWIG_TypeRank _ranki = 0;
-      SWIG_TypeRank _rankm = 0;
-      SWIG_TypeRank _pi = 1;
-      int _v = 0;
-      {
-        void *vptr = 0;
-        int res = SWIG_ConvertPtr(ST(0), &vptr, SWIGTYPE_p_copasi_model, 0);
-        _v = SWIG_CheckState(res);
-      }
-      if (!_v) goto check_2;
-      _ranki += _v*_pi;
-      _rankm += _pi;
-      _pi *= SWIG_MAXCASTRANK;
-      if (!_index || (_ranki < _rank)) {
-        _rank = _ranki; _index = 2;
-        if (_rank == _rankm) goto dispatch;
-      }
-    }
-  check_2:
-    
-  dispatch:
-    switch(_index) {
-    case 1:
-      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_getSteadyState__SWIG_0); return;
-    case 2:
-      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_getSteadyState__SWIG_1); return;
-    }
-  }
-  
-  croak("No matching function for overloaded 'getSteadyState'");
-  XSRETURN(0);
-}
-
-
-XS(_wrap_getJacobian__SWIG_1) {
+XS(_wrap_getJacobian) {
   {
     copasi_model arg1 ;
     void *argp1 ;
@@ -14188,56 +13687,7 @@ XS(_wrap_getJacobian__SWIG_1) {
 }
 
 
-XS(_wrap_getJacobian) {
-  dXSARGS;
-  
-  {
-    unsigned long _index = 0;
-    SWIG_TypeRank _rank = 0; 
-    if (items == 0) {
-      SWIG_TypeRank _ranki = 0;
-      SWIG_TypeRank _rankm = 0;
-      if (!_index || (_ranki < _rank)) {
-        _rank = _ranki; _index = 1;
-        if (_rank == _rankm) goto dispatch;
-      }
-    }
-    if (items == 1) {
-      SWIG_TypeRank _ranki = 0;
-      SWIG_TypeRank _rankm = 0;
-      SWIG_TypeRank _pi = 1;
-      int _v = 0;
-      {
-        void *vptr = 0;
-        int res = SWIG_ConvertPtr(ST(0), &vptr, SWIGTYPE_p_copasi_model, 0);
-        _v = SWIG_CheckState(res);
-      }
-      if (!_v) goto check_2;
-      _ranki += _v*_pi;
-      _rankm += _pi;
-      _pi *= SWIG_MAXCASTRANK;
-      if (!_index || (_ranki < _rank)) {
-        _rank = _ranki; _index = 2;
-        if (_rank == _rankm) goto dispatch;
-      }
-    }
-  check_2:
-    
-  dispatch:
-    switch(_index) {
-    case 1:
-      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_getJacobian__SWIG_0); return;
-    case 2:
-      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_getJacobian__SWIG_1); return;
-    }
-  }
-  
-  croak("No matching function for overloaded 'getJacobian'");
-  XSRETURN(0);
-}
-
-
-XS(_wrap_getEigenvalues__SWIG_1) {
+XS(_wrap_getEigenvalues) {
   {
     copasi_model arg1 ;
     void *argp1 ;
@@ -14269,56 +13719,7 @@ XS(_wrap_getEigenvalues__SWIG_1) {
 }
 
 
-XS(_wrap_getEigenvalues) {
-  dXSARGS;
-  
-  {
-    unsigned long _index = 0;
-    SWIG_TypeRank _rank = 0; 
-    if (items == 0) {
-      SWIG_TypeRank _ranki = 0;
-      SWIG_TypeRank _rankm = 0;
-      if (!_index || (_ranki < _rank)) {
-        _rank = _ranki; _index = 1;
-        if (_rank == _rankm) goto dispatch;
-      }
-    }
-    if (items == 1) {
-      SWIG_TypeRank _ranki = 0;
-      SWIG_TypeRank _rankm = 0;
-      SWIG_TypeRank _pi = 1;
-      int _v = 0;
-      {
-        void *vptr = 0;
-        int res = SWIG_ConvertPtr(ST(0), &vptr, SWIGTYPE_p_copasi_model, 0);
-        _v = SWIG_CheckState(res);
-      }
-      if (!_v) goto check_2;
-      _ranki += _v*_pi;
-      _rankm += _pi;
-      _pi *= SWIG_MAXCASTRANK;
-      if (!_index || (_ranki < _rank)) {
-        _rank = _ranki; _index = 2;
-        if (_rank == _rankm) goto dispatch;
-      }
-    }
-  check_2:
-    
-  dispatch:
-    switch(_index) {
-    case 1:
-      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_getEigenvalues__SWIG_0); return;
-    case 2:
-      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_getEigenvalues__SWIG_1); return;
-    }
-  }
-  
-  croak("No matching function for overloaded 'getEigenvalues'");
-  XSRETURN(0);
-}
-
-
-XS(_wrap_getUnscaledElasticities__SWIG_1) {
+XS(_wrap_getUnscaledElasticities) {
   {
     copasi_model arg1 ;
     void *argp1 ;
@@ -14350,56 +13751,7 @@ XS(_wrap_getUnscaledElasticities__SWIG_1) {
 }
 
 
-XS(_wrap_getUnscaledElasticities) {
-  dXSARGS;
-  
-  {
-    unsigned long _index = 0;
-    SWIG_TypeRank _rank = 0; 
-    if (items == 0) {
-      SWIG_TypeRank _ranki = 0;
-      SWIG_TypeRank _rankm = 0;
-      if (!_index || (_ranki < _rank)) {
-        _rank = _ranki; _index = 1;
-        if (_rank == _rankm) goto dispatch;
-      }
-    }
-    if (items == 1) {
-      SWIG_TypeRank _ranki = 0;
-      SWIG_TypeRank _rankm = 0;
-      SWIG_TypeRank _pi = 1;
-      int _v = 0;
-      {
-        void *vptr = 0;
-        int res = SWIG_ConvertPtr(ST(0), &vptr, SWIGTYPE_p_copasi_model, 0);
-        _v = SWIG_CheckState(res);
-      }
-      if (!_v) goto check_2;
-      _ranki += _v*_pi;
-      _rankm += _pi;
-      _pi *= SWIG_MAXCASTRANK;
-      if (!_index || (_ranki < _rank)) {
-        _rank = _ranki; _index = 2;
-        if (_rank == _rankm) goto dispatch;
-      }
-    }
-  check_2:
-    
-  dispatch:
-    switch(_index) {
-    case 1:
-      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_getUnscaledElasticities__SWIG_0); return;
-    case 2:
-      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_getUnscaledElasticities__SWIG_1); return;
-    }
-  }
-  
-  croak("No matching function for overloaded 'getUnscaledElasticities'");
-  XSRETURN(0);
-}
-
-
-XS(_wrap_getUnscaledConcentrationCC__SWIG_1) {
+XS(_wrap_getUnscaledConcentrationCC) {
   {
     copasi_model arg1 ;
     void *argp1 ;
@@ -14431,56 +13783,7 @@ XS(_wrap_getUnscaledConcentrationCC__SWIG_1) {
 }
 
 
-XS(_wrap_getUnscaledConcentrationCC) {
-  dXSARGS;
-  
-  {
-    unsigned long _index = 0;
-    SWIG_TypeRank _rank = 0; 
-    if (items == 0) {
-      SWIG_TypeRank _ranki = 0;
-      SWIG_TypeRank _rankm = 0;
-      if (!_index || (_ranki < _rank)) {
-        _rank = _ranki; _index = 1;
-        if (_rank == _rankm) goto dispatch;
-      }
-    }
-    if (items == 1) {
-      SWIG_TypeRank _ranki = 0;
-      SWIG_TypeRank _rankm = 0;
-      SWIG_TypeRank _pi = 1;
-      int _v = 0;
-      {
-        void *vptr = 0;
-        int res = SWIG_ConvertPtr(ST(0), &vptr, SWIGTYPE_p_copasi_model, 0);
-        _v = SWIG_CheckState(res);
-      }
-      if (!_v) goto check_2;
-      _ranki += _v*_pi;
-      _rankm += _pi;
-      _pi *= SWIG_MAXCASTRANK;
-      if (!_index || (_ranki < _rank)) {
-        _rank = _ranki; _index = 2;
-        if (_rank == _rankm) goto dispatch;
-      }
-    }
-  check_2:
-    
-  dispatch:
-    switch(_index) {
-    case 1:
-      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_getUnscaledConcentrationCC__SWIG_0); return;
-    case 2:
-      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_getUnscaledConcentrationCC__SWIG_1); return;
-    }
-  }
-  
-  croak("No matching function for overloaded 'getUnscaledConcentrationCC'");
-  XSRETURN(0);
-}
-
-
-XS(_wrap_getUnscaledFluxCC__SWIG_1) {
+XS(_wrap_getUnscaledFluxCC) {
   {
     copasi_model arg1 ;
     void *argp1 ;
@@ -14512,56 +13815,7 @@ XS(_wrap_getUnscaledFluxCC__SWIG_1) {
 }
 
 
-XS(_wrap_getUnscaledFluxCC) {
-  dXSARGS;
-  
-  {
-    unsigned long _index = 0;
-    SWIG_TypeRank _rank = 0; 
-    if (items == 0) {
-      SWIG_TypeRank _ranki = 0;
-      SWIG_TypeRank _rankm = 0;
-      if (!_index || (_ranki < _rank)) {
-        _rank = _ranki; _index = 1;
-        if (_rank == _rankm) goto dispatch;
-      }
-    }
-    if (items == 1) {
-      SWIG_TypeRank _ranki = 0;
-      SWIG_TypeRank _rankm = 0;
-      SWIG_TypeRank _pi = 1;
-      int _v = 0;
-      {
-        void *vptr = 0;
-        int res = SWIG_ConvertPtr(ST(0), &vptr, SWIGTYPE_p_copasi_model, 0);
-        _v = SWIG_CheckState(res);
-      }
-      if (!_v) goto check_2;
-      _ranki += _v*_pi;
-      _rankm += _pi;
-      _pi *= SWIG_MAXCASTRANK;
-      if (!_index || (_ranki < _rank)) {
-        _rank = _ranki; _index = 2;
-        if (_rank == _rankm) goto dispatch;
-      }
-    }
-  check_2:
-    
-  dispatch:
-    switch(_index) {
-    case 1:
-      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_getUnscaledFluxCC__SWIG_0); return;
-    case 2:
-      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_getUnscaledFluxCC__SWIG_1); return;
-    }
-  }
-  
-  croak("No matching function for overloaded 'getUnscaledFluxCC'");
-  XSRETURN(0);
-}
-
-
-XS(_wrap_getScaledElasticities__SWIG_1) {
+XS(_wrap_getScaledElasticities) {
   {
     copasi_model arg1 ;
     void *argp1 ;
@@ -14593,56 +13847,7 @@ XS(_wrap_getScaledElasticities__SWIG_1) {
 }
 
 
-XS(_wrap_getScaledElasticities) {
-  dXSARGS;
-  
-  {
-    unsigned long _index = 0;
-    SWIG_TypeRank _rank = 0; 
-    if (items == 0) {
-      SWIG_TypeRank _ranki = 0;
-      SWIG_TypeRank _rankm = 0;
-      if (!_index || (_ranki < _rank)) {
-        _rank = _ranki; _index = 1;
-        if (_rank == _rankm) goto dispatch;
-      }
-    }
-    if (items == 1) {
-      SWIG_TypeRank _ranki = 0;
-      SWIG_TypeRank _rankm = 0;
-      SWIG_TypeRank _pi = 1;
-      int _v = 0;
-      {
-        void *vptr = 0;
-        int res = SWIG_ConvertPtr(ST(0), &vptr, SWIGTYPE_p_copasi_model, 0);
-        _v = SWIG_CheckState(res);
-      }
-      if (!_v) goto check_2;
-      _ranki += _v*_pi;
-      _rankm += _pi;
-      _pi *= SWIG_MAXCASTRANK;
-      if (!_index || (_ranki < _rank)) {
-        _rank = _ranki; _index = 2;
-        if (_rank == _rankm) goto dispatch;
-      }
-    }
-  check_2:
-    
-  dispatch:
-    switch(_index) {
-    case 1:
-      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_getScaledElasticities__SWIG_0); return;
-    case 2:
-      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_getScaledElasticities__SWIG_1); return;
-    }
-  }
-  
-  croak("No matching function for overloaded 'getScaledElasticities'");
-  XSRETURN(0);
-}
-
-
-XS(_wrap_getScaledConcentrationCC__SWIG_1) {
+XS(_wrap_getScaledConcentrationCC) {
   {
     copasi_model arg1 ;
     void *argp1 ;
@@ -14674,56 +13879,7 @@ XS(_wrap_getScaledConcentrationCC__SWIG_1) {
 }
 
 
-XS(_wrap_getScaledConcentrationCC) {
-  dXSARGS;
-  
-  {
-    unsigned long _index = 0;
-    SWIG_TypeRank _rank = 0; 
-    if (items == 0) {
-      SWIG_TypeRank _ranki = 0;
-      SWIG_TypeRank _rankm = 0;
-      if (!_index || (_ranki < _rank)) {
-        _rank = _ranki; _index = 1;
-        if (_rank == _rankm) goto dispatch;
-      }
-    }
-    if (items == 1) {
-      SWIG_TypeRank _ranki = 0;
-      SWIG_TypeRank _rankm = 0;
-      SWIG_TypeRank _pi = 1;
-      int _v = 0;
-      {
-        void *vptr = 0;
-        int res = SWIG_ConvertPtr(ST(0), &vptr, SWIGTYPE_p_copasi_model, 0);
-        _v = SWIG_CheckState(res);
-      }
-      if (!_v) goto check_2;
-      _ranki += _v*_pi;
-      _rankm += _pi;
-      _pi *= SWIG_MAXCASTRANK;
-      if (!_index || (_ranki < _rank)) {
-        _rank = _ranki; _index = 2;
-        if (_rank == _rankm) goto dispatch;
-      }
-    }
-  check_2:
-    
-  dispatch:
-    switch(_index) {
-    case 1:
-      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_getScaledConcentrationCC__SWIG_0); return;
-    case 2:
-      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_getScaledConcentrationCC__SWIG_1); return;
-    }
-  }
-  
-  croak("No matching function for overloaded 'getScaledConcentrationCC'");
-  XSRETURN(0);
-}
-
-
-XS(_wrap_getScaledFluxCC__SWIG_1) {
+XS(_wrap_getScaledFluxCC) {
   {
     copasi_model arg1 ;
     void *argp1 ;
@@ -14752,55 +13908,6 @@ XS(_wrap_getScaledFluxCC__SWIG_1) {
   fail:
     SWIG_croak_null();
   }
-}
-
-
-XS(_wrap_getScaledFluxCC) {
-  dXSARGS;
-  
-  {
-    unsigned long _index = 0;
-    SWIG_TypeRank _rank = 0; 
-    if (items == 0) {
-      SWIG_TypeRank _ranki = 0;
-      SWIG_TypeRank _rankm = 0;
-      if (!_index || (_ranki < _rank)) {
-        _rank = _ranki; _index = 1;
-        if (_rank == _rankm) goto dispatch;
-      }
-    }
-    if (items == 1) {
-      SWIG_TypeRank _ranki = 0;
-      SWIG_TypeRank _rankm = 0;
-      SWIG_TypeRank _pi = 1;
-      int _v = 0;
-      {
-        void *vptr = 0;
-        int res = SWIG_ConvertPtr(ST(0), &vptr, SWIGTYPE_p_copasi_model, 0);
-        _v = SWIG_CheckState(res);
-      }
-      if (!_v) goto check_2;
-      _ranki += _v*_pi;
-      _rankm += _pi;
-      _pi *= SWIG_MAXCASTRANK;
-      if (!_index || (_ranki < _rank)) {
-        _rank = _ranki; _index = 2;
-        if (_rank == _rankm) goto dispatch;
-      }
-    }
-  check_2:
-    
-  dispatch:
-    switch(_index) {
-    case 1:
-      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_getScaledFluxCC__SWIG_0); return;
-    case 2:
-      ++PL_markstack_ptr; SWIG_CALLXS(_wrap_getScaledFluxCC__SWIG_1); return;
-    }
-  }
-  
-  croak("No matching function for overloaded 'getScaledFluxCC'");
-  XSRETURN(0);
 }
 
 
@@ -15427,8 +14534,21 @@ static swig_command_info swig_commands[] = {
 {"tinkercellc::tc_exportSBML", _wrap_tc_exportSBML},
 {"tinkercellc::tc_importSBML", _wrap_tc_importSBML},
 {"tinkercellc::tc_SBML_api", _wrap_tc_SBML_api},
-{"tinkercellc::steadyStateScan", _wrap_steadyStateScan},
-{"tinkercellc::steadyStateScan2D", _wrap_steadyStateScan2D},
+{"tinkercellc::tc_simulateDeterministic", _wrap_tc_simulateDeterministic},
+{"tinkercellc::tc_simulateStochastic", _wrap_tc_simulateStochastic},
+{"tinkercellc::tc_simulateHybrid", _wrap_tc_simulateHybrid},
+{"tinkercellc::tc_simulateTauLeap", _wrap_tc_simulateTauLeap},
+{"tinkercellc::tc_getSteadyState", _wrap_tc_getSteadyState},
+{"tinkercellc::tc_steadyStateScan", _wrap_tc_steadyStateScan},
+{"tinkercellc::tc_steadyStateScan2D", _wrap_tc_steadyStateScan2D},
+{"tinkercellc::tc_getJacobian", _wrap_tc_getJacobian},
+{"tinkercellc::tc_getEigenvalues", _wrap_tc_getEigenvalues},
+{"tinkercellc::tc_getUnscaledElasticities", _wrap_tc_getUnscaledElasticities},
+{"tinkercellc::tc_getUnscaledConcentrationCC", _wrap_tc_getUnscaledConcentrationCC},
+{"tinkercellc::tc_getUnscaledFluxCC", _wrap_tc_getUnscaledFluxCC},
+{"tinkercellc::tc_getScaledElasticities", _wrap_tc_getScaledElasticities},
+{"tinkercellc::tc_getScaledConcentrationCC", _wrap_tc_getScaledConcentrationCC},
+{"tinkercellc::tc_getScaledFluxCC", _wrap_tc_getScaledFluxCC},
 {"tinkercellc::tc_COPASI_api", _wrap_tc_COPASI_api},
 {"tinkercellc::copasi_model_CopasiModelPtr_set", _wrap_copasi_model_CopasiModelPtr_set},
 {"tinkercellc::copasi_model_CopasiModelPtr_get", _wrap_copasi_model_CopasiModelPtr_get},

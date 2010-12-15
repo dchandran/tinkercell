@@ -961,13 +961,65 @@ def tc_SBML_api(*args):
   return _tinkercell.tc_SBML_api(*args)
 tc_SBML_api = _tinkercell.tc_SBML_api
 
-def steadyStateScan(*args):
-  return _tinkercell.steadyStateScan(*args)
-steadyStateScan = _tinkercell.steadyStateScan
+def tc_simulateDeterministic(*args):
+  return _tinkercell.tc_simulateDeterministic(*args)
+tc_simulateDeterministic = _tinkercell.tc_simulateDeterministic
 
-def steadyStateScan2D(*args):
-  return _tinkercell.steadyStateScan2D(*args)
-steadyStateScan2D = _tinkercell.steadyStateScan2D
+def tc_simulateStochastic(*args):
+  return _tinkercell.tc_simulateStochastic(*args)
+tc_simulateStochastic = _tinkercell.tc_simulateStochastic
+
+def tc_simulateHybrid(*args):
+  return _tinkercell.tc_simulateHybrid(*args)
+tc_simulateHybrid = _tinkercell.tc_simulateHybrid
+
+def tc_simulateTauLeap(*args):
+  return _tinkercell.tc_simulateTauLeap(*args)
+tc_simulateTauLeap = _tinkercell.tc_simulateTauLeap
+
+def tc_getSteadyState():
+  return _tinkercell.tc_getSteadyState()
+tc_getSteadyState = _tinkercell.tc_getSteadyState
+
+def tc_steadyStateScan(*args):
+  return _tinkercell.tc_steadyStateScan(*args)
+tc_steadyStateScan = _tinkercell.tc_steadyStateScan
+
+def tc_steadyStateScan2D(*args):
+  return _tinkercell.tc_steadyStateScan2D(*args)
+tc_steadyStateScan2D = _tinkercell.tc_steadyStateScan2D
+
+def tc_getJacobian():
+  return _tinkercell.tc_getJacobian()
+tc_getJacobian = _tinkercell.tc_getJacobian
+
+def tc_getEigenvalues():
+  return _tinkercell.tc_getEigenvalues()
+tc_getEigenvalues = _tinkercell.tc_getEigenvalues
+
+def tc_getUnscaledElasticities():
+  return _tinkercell.tc_getUnscaledElasticities()
+tc_getUnscaledElasticities = _tinkercell.tc_getUnscaledElasticities
+
+def tc_getUnscaledConcentrationCC():
+  return _tinkercell.tc_getUnscaledConcentrationCC()
+tc_getUnscaledConcentrationCC = _tinkercell.tc_getUnscaledConcentrationCC
+
+def tc_getUnscaledFluxCC():
+  return _tinkercell.tc_getUnscaledFluxCC()
+tc_getUnscaledFluxCC = _tinkercell.tc_getUnscaledFluxCC
+
+def tc_getScaledElasticities():
+  return _tinkercell.tc_getScaledElasticities()
+tc_getScaledElasticities = _tinkercell.tc_getScaledElasticities
+
+def tc_getScaledConcentrationCC():
+  return _tinkercell.tc_getScaledConcentrationCC()
+tc_getScaledConcentrationCC = _tinkercell.tc_getScaledConcentrationCC
+
+def tc_getScaledFluxCC():
+  return _tinkercell.tc_getScaledFluxCC()
+tc_getScaledFluxCC = _tinkercell.tc_getScaledFluxCC
 
 def tc_COPASI_api(*args):
   return _tinkercell.tc_COPASI_api(*args)
@@ -1129,11 +1181,6 @@ def setReactionRate(*args):
   return _tinkercell.setReactionRate(*args)
 setReactionRate = _tinkercell.setReactionRate
 
-def example():
-  return _tinkercell.example()
-example = _tinkercell.example
-
-
 def simulateDeterministic(*args):
   return _tinkercell.simulateDeterministic(*args)
 simulateDeterministic = _tinkercell.simulateDeterministic
@@ -1185,4 +1232,9 @@ getScaledConcentrationCC = _tinkercell.getScaledConcentrationCC
 def getScaledFluxCC(*args):
   return _tinkercell.getScaledFluxCC(*args)
 getScaledFluxCC = _tinkercell.getScaledFluxCC
+
+def example():
+  return _tinkercell.example()
+example = _tinkercell.example
+
 

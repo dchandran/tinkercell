@@ -13,7 +13,7 @@ BEGIN_C_DECLS
  \return tc_matrix matrix of concentration or particles
  \ingroup Simulation
 */
-TCAPIEXPORT tc_matrix simulateDeterministic(double startTime, double endTime, int numSteps);
+TCAPIEXPORT tc_matrix tc_simulateDeterministic(double startTime, double endTime, int numSteps);
 /*! 
  \brief simulate using exact stochastic algorithm
   \param double start time
@@ -22,7 +22,7 @@ TCAPIEXPORT tc_matrix simulateDeterministic(double startTime, double endTime, in
  \return tc_matrix matrix of concentration or particles
  \ingroup Simulation
 */
-TCAPIEXPORT tc_matrix simulateStochastic(double startTime, double endTime, int numSteps);
+TCAPIEXPORT tc_matrix tc_simulateStochastic(double startTime, double endTime, int numSteps);
 /*! 
  \brief simulate using Hybrid algorithm/deterministic algorithmparam double start time
  \param double end time
@@ -30,7 +30,7 @@ TCAPIEXPORT tc_matrix simulateStochastic(double startTime, double endTime, int n
  \return tc_matrix matrix of concentration or particles
  \ingroup Simulation
 */
-TCAPIEXPORT tc_matrix simulateHybrid(double startTime, double endTime, int numSteps);
+TCAPIEXPORT tc_matrix tc_simulateHybrid(double startTime, double endTime, int numSteps);
 /*! 
  \brief simulate using Tau Leap stochastic algorithm
  \param double start time
@@ -39,14 +39,14 @@ TCAPIEXPORT tc_matrix simulateHybrid(double startTime, double endTime, int numSt
  \return tc_matrix matrix of concentration or particles
  \ingroup Simulation
 */
-TCAPIEXPORT tc_matrix simulateTauLeap(double startTime, double endTime, int numSteps);
+TCAPIEXPORT tc_matrix tc_simulateTauLeap(double startTime, double endTime, int numSteps);
 
 /*! 
  \brief bring the system to steady state
  \return tc_matrix matrix with 1 row and n columns, where n = number of species
  \ingroup Simulation
 */
-TCAPIEXPORT tc_matrix getSteadyState();
+TCAPIEXPORT tc_matrix tc_getSteadyState();
 
 /*! 
  \brief calculate steady state for each value of a parameter
@@ -57,7 +57,7 @@ TCAPIEXPORT tc_matrix getSteadyState();
  \return tc_matrix matrix of concentration or particles
  \ingroup Simulation
 */
-TCAPIEXPORT tc_matrix steadyStateScan(const char * param, double start, double end, int numSteps);
+TCAPIEXPORT tc_matrix tc_steadyStateScan(const char * param, double start, double end, int numSteps);
 
 /*! 
  \brief calculate steady state for each value of two parameters
@@ -72,7 +72,7 @@ TCAPIEXPORT tc_matrix steadyStateScan(const char * param, double start, double e
  \return tc_matrix matrix of concentration or particles
  \ingroup Simulation
 */
-TCAPIEXPORT tc_matrix steadyStateScan2D(const char * param1, double start1, double end1, int numSteps1,
+TCAPIEXPORT tc_matrix tc_steadyStateScan2D(const char * param1, double start1, double end1, int numSteps1,
 																			const char * param2, double start2, double end2, int numSteps2);
 
 /*! 
@@ -80,55 +80,55 @@ TCAPIEXPORT tc_matrix steadyStateScan2D(const char * param1, double start1, doub
  \return tc_matrix matrix with n rows and n columns, where n = number of species
  \ingroup Simulation
 */
-TCAPIEXPORT tc_matrix getJacobian();
+TCAPIEXPORT tc_matrix tc_getJacobian();
 /*! 
  \brief get the eigenvalues of the Jacobian at the current state
  \return tc_matrix matrix with 1 row and n columns, each containing an eigenvalue
  \ingroup Simulation
 */
-TCAPIEXPORT tc_matrix getEigenvalues();
+TCAPIEXPORT tc_matrix tc_getEigenvalues();
 
 /*! 
  \brief unscaled elasticities
  \return tc_matrix 
  \ingroup Simulation
 */
-TCAPIEXPORT tc_matrix getUnscaledElasticities();
+TCAPIEXPORT tc_matrix tc_getUnscaledElasticities();
 
 /*! unscaled concentration control coefficients
  \brief unscaled elasticities
  \return tc_matrix 
  \ingroup Simulation
 */
-TCAPIEXPORT tc_matrix getUnscaledConcentrationCC();
+TCAPIEXPORT tc_matrix tc_getUnscaledConcentrationCC();
 
 /*! 
  \brief unscaled flux control coefficients
  \return tc_matrix 
  \ingroup Simulation
 */
-TCAPIEXPORT tc_matrix getUnscaledFluxCC();
+TCAPIEXPORT tc_matrix tc_getUnscaledFluxCC();
 
 /*! 
  \brief scaled elasticities
  \return tc_matrix 
  \ingroup Simulation
 */
-TCAPIEXPORT tc_matrix getScaledElasticities();
+TCAPIEXPORT tc_matrix tc_getScaledElasticities();
 
 /*! 
  \brief scaled concentration control coefficients
  \return tc_matrix 
  \ingroup Simulation
 */
-TCAPIEXPORT tc_matrix getScaledConcentrationCC();
+TCAPIEXPORT tc_matrix tc_getScaledConcentrationCC();
 
 /*! 
  \brief scaled flux control coefficients
  \return tc_matrix 
  \ingroup Simulation
 */
-TCAPIEXPORT tc_matrix getScaledFluxCC();
+TCAPIEXPORT tc_matrix tc_getScaledFluxCC();
 
 /*!
  \brief initializing function

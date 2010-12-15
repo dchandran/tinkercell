@@ -9955,7 +9955,7 @@ fail:
 
 
 SWIGINTERN VALUE
-_wrap_simulateDeterministic__SWIG_0(int argc, VALUE *argv, VALUE self) {
+_wrap_tc_simulateDeterministic(int argc, VALUE *argv, VALUE self) {
   double arg1 ;
   double arg2 ;
   int arg3 ;
@@ -9973,20 +9973,20 @@ _wrap_simulateDeterministic__SWIG_0(int argc, VALUE *argv, VALUE self) {
   }
   ecode1 = SWIG_AsVal_double(argv[0], &val1);
   if (!SWIG_IsOK(ecode1)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode1), Ruby_Format_TypeError( "", "double","simulateDeterministic", 1, argv[0] ));
+    SWIG_exception_fail(SWIG_ArgError(ecode1), Ruby_Format_TypeError( "", "double","tc_simulateDeterministic", 1, argv[0] ));
   } 
   arg1 = (double)(val1);
   ecode2 = SWIG_AsVal_double(argv[1], &val2);
   if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), Ruby_Format_TypeError( "", "double","simulateDeterministic", 2, argv[1] ));
+    SWIG_exception_fail(SWIG_ArgError(ecode2), Ruby_Format_TypeError( "", "double","tc_simulateDeterministic", 2, argv[1] ));
   } 
   arg2 = (double)(val2);
   ecode3 = SWIG_AsVal_int(argv[2], &val3);
   if (!SWIG_IsOK(ecode3)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode3), Ruby_Format_TypeError( "", "int","simulateDeterministic", 3, argv[2] ));
+    SWIG_exception_fail(SWIG_ArgError(ecode3), Ruby_Format_TypeError( "", "int","tc_simulateDeterministic", 3, argv[2] ));
   } 
   arg3 = (int)(val3);
-  result = simulateDeterministic(arg1,arg2,arg3);
+  result = tc_simulateDeterministic(arg1,arg2,arg3);
   vresult = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
   return vresult;
 fail:
@@ -9995,7 +9995,7 @@ fail:
 
 
 SWIGINTERN VALUE
-_wrap_simulateStochastic__SWIG_0(int argc, VALUE *argv, VALUE self) {
+_wrap_tc_simulateStochastic(int argc, VALUE *argv, VALUE self) {
   double arg1 ;
   double arg2 ;
   int arg3 ;
@@ -10013,20 +10013,20 @@ _wrap_simulateStochastic__SWIG_0(int argc, VALUE *argv, VALUE self) {
   }
   ecode1 = SWIG_AsVal_double(argv[0], &val1);
   if (!SWIG_IsOK(ecode1)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode1), Ruby_Format_TypeError( "", "double","simulateStochastic", 1, argv[0] ));
+    SWIG_exception_fail(SWIG_ArgError(ecode1), Ruby_Format_TypeError( "", "double","tc_simulateStochastic", 1, argv[0] ));
   } 
   arg1 = (double)(val1);
   ecode2 = SWIG_AsVal_double(argv[1], &val2);
   if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), Ruby_Format_TypeError( "", "double","simulateStochastic", 2, argv[1] ));
+    SWIG_exception_fail(SWIG_ArgError(ecode2), Ruby_Format_TypeError( "", "double","tc_simulateStochastic", 2, argv[1] ));
   } 
   arg2 = (double)(val2);
   ecode3 = SWIG_AsVal_int(argv[2], &val3);
   if (!SWIG_IsOK(ecode3)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode3), Ruby_Format_TypeError( "", "int","simulateStochastic", 3, argv[2] ));
+    SWIG_exception_fail(SWIG_ArgError(ecode3), Ruby_Format_TypeError( "", "int","tc_simulateStochastic", 3, argv[2] ));
   } 
   arg3 = (int)(val3);
-  result = simulateStochastic(arg1,arg2,arg3);
+  result = tc_simulateStochastic(arg1,arg2,arg3);
   vresult = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
   return vresult;
 fail:
@@ -10035,7 +10035,7 @@ fail:
 
 
 SWIGINTERN VALUE
-_wrap_simulateHybrid__SWIG_0(int argc, VALUE *argv, VALUE self) {
+_wrap_tc_simulateHybrid(int argc, VALUE *argv, VALUE self) {
   double arg1 ;
   double arg2 ;
   int arg3 ;
@@ -10053,20 +10053,20 @@ _wrap_simulateHybrid__SWIG_0(int argc, VALUE *argv, VALUE self) {
   }
   ecode1 = SWIG_AsVal_double(argv[0], &val1);
   if (!SWIG_IsOK(ecode1)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode1), Ruby_Format_TypeError( "", "double","simulateHybrid", 1, argv[0] ));
+    SWIG_exception_fail(SWIG_ArgError(ecode1), Ruby_Format_TypeError( "", "double","tc_simulateHybrid", 1, argv[0] ));
   } 
   arg1 = (double)(val1);
   ecode2 = SWIG_AsVal_double(argv[1], &val2);
   if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), Ruby_Format_TypeError( "", "double","simulateHybrid", 2, argv[1] ));
+    SWIG_exception_fail(SWIG_ArgError(ecode2), Ruby_Format_TypeError( "", "double","tc_simulateHybrid", 2, argv[1] ));
   } 
   arg2 = (double)(val2);
   ecode3 = SWIG_AsVal_int(argv[2], &val3);
   if (!SWIG_IsOK(ecode3)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode3), Ruby_Format_TypeError( "", "int","simulateHybrid", 3, argv[2] ));
+    SWIG_exception_fail(SWIG_ArgError(ecode3), Ruby_Format_TypeError( "", "int","tc_simulateHybrid", 3, argv[2] ));
   } 
   arg3 = (int)(val3);
-  result = simulateHybrid(arg1,arg2,arg3);
+  result = tc_simulateHybrid(arg1,arg2,arg3);
   vresult = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
   return vresult;
 fail:
@@ -10075,7 +10075,7 @@ fail:
 
 
 SWIGINTERN VALUE
-_wrap_simulateTauLeap__SWIG_0(int argc, VALUE *argv, VALUE self) {
+_wrap_tc_simulateTauLeap(int argc, VALUE *argv, VALUE self) {
   double arg1 ;
   double arg2 ;
   int arg3 ;
@@ -10093,20 +10093,20 @@ _wrap_simulateTauLeap__SWIG_0(int argc, VALUE *argv, VALUE self) {
   }
   ecode1 = SWIG_AsVal_double(argv[0], &val1);
   if (!SWIG_IsOK(ecode1)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode1), Ruby_Format_TypeError( "", "double","simulateTauLeap", 1, argv[0] ));
+    SWIG_exception_fail(SWIG_ArgError(ecode1), Ruby_Format_TypeError( "", "double","tc_simulateTauLeap", 1, argv[0] ));
   } 
   arg1 = (double)(val1);
   ecode2 = SWIG_AsVal_double(argv[1], &val2);
   if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), Ruby_Format_TypeError( "", "double","simulateTauLeap", 2, argv[1] ));
+    SWIG_exception_fail(SWIG_ArgError(ecode2), Ruby_Format_TypeError( "", "double","tc_simulateTauLeap", 2, argv[1] ));
   } 
   arg2 = (double)(val2);
   ecode3 = SWIG_AsVal_int(argv[2], &val3);
   if (!SWIG_IsOK(ecode3)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode3), Ruby_Format_TypeError( "", "int","simulateTauLeap", 3, argv[2] ));
+    SWIG_exception_fail(SWIG_ArgError(ecode3), Ruby_Format_TypeError( "", "int","tc_simulateTauLeap", 3, argv[2] ));
   } 
   arg3 = (int)(val3);
-  result = simulateTauLeap(arg1,arg2,arg3);
+  result = tc_simulateTauLeap(arg1,arg2,arg3);
   vresult = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
   return vresult;
 fail:
@@ -10115,14 +10115,14 @@ fail:
 
 
 SWIGINTERN VALUE
-_wrap_getSteadyState__SWIG_0(int argc, VALUE *argv, VALUE self) {
+_wrap_tc_getSteadyState(int argc, VALUE *argv, VALUE self) {
   tc_matrix result;
   VALUE vresult = Qnil;
   
   if ((argc < 0) || (argc > 0)) {
     rb_raise(rb_eArgError, "wrong # of arguments(%d for 0)",argc); SWIG_fail;
   }
-  result = getSteadyState();
+  result = tc_getSteadyState();
   vresult = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
   return vresult;
 fail:
@@ -10131,7 +10131,7 @@ fail:
 
 
 SWIGINTERN VALUE
-_wrap_steadyStateScan(int argc, VALUE *argv, VALUE self) {
+_wrap_tc_steadyStateScan(int argc, VALUE *argv, VALUE self) {
   char *arg1 = (char *) 0 ;
   double arg2 ;
   double arg3 ;
@@ -10153,25 +10153,25 @@ _wrap_steadyStateScan(int argc, VALUE *argv, VALUE self) {
   }
   res1 = SWIG_AsCharPtrAndSize(argv[0], &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "char const *","steadyStateScan", 1, argv[0] ));
+    SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "char const *","tc_steadyStateScan", 1, argv[0] ));
   }
   arg1 = (char *)(buf1);
   ecode2 = SWIG_AsVal_double(argv[1], &val2);
   if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), Ruby_Format_TypeError( "", "double","steadyStateScan", 2, argv[1] ));
+    SWIG_exception_fail(SWIG_ArgError(ecode2), Ruby_Format_TypeError( "", "double","tc_steadyStateScan", 2, argv[1] ));
   } 
   arg2 = (double)(val2);
   ecode3 = SWIG_AsVal_double(argv[2], &val3);
   if (!SWIG_IsOK(ecode3)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode3), Ruby_Format_TypeError( "", "double","steadyStateScan", 3, argv[2] ));
+    SWIG_exception_fail(SWIG_ArgError(ecode3), Ruby_Format_TypeError( "", "double","tc_steadyStateScan", 3, argv[2] ));
   } 
   arg3 = (double)(val3);
   ecode4 = SWIG_AsVal_int(argv[3], &val4);
   if (!SWIG_IsOK(ecode4)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode4), Ruby_Format_TypeError( "", "int","steadyStateScan", 4, argv[3] ));
+    SWIG_exception_fail(SWIG_ArgError(ecode4), Ruby_Format_TypeError( "", "int","tc_steadyStateScan", 4, argv[3] ));
   } 
   arg4 = (int)(val4);
-  result = steadyStateScan((char const *)arg1,arg2,arg3,arg4);
+  result = tc_steadyStateScan((char const *)arg1,arg2,arg3,arg4);
   vresult = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
   if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
   return vresult;
@@ -10182,7 +10182,7 @@ fail:
 
 
 SWIGINTERN VALUE
-_wrap_steadyStateScan2D(int argc, VALUE *argv, VALUE self) {
+_wrap_tc_steadyStateScan2D(int argc, VALUE *argv, VALUE self) {
   char *arg1 = (char *) 0 ;
   double arg2 ;
   double arg3 ;
@@ -10217,45 +10217,45 @@ _wrap_steadyStateScan2D(int argc, VALUE *argv, VALUE self) {
   }
   res1 = SWIG_AsCharPtrAndSize(argv[0], &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "char const *","steadyStateScan2D", 1, argv[0] ));
+    SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "char const *","tc_steadyStateScan2D", 1, argv[0] ));
   }
   arg1 = (char *)(buf1);
   ecode2 = SWIG_AsVal_double(argv[1], &val2);
   if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), Ruby_Format_TypeError( "", "double","steadyStateScan2D", 2, argv[1] ));
+    SWIG_exception_fail(SWIG_ArgError(ecode2), Ruby_Format_TypeError( "", "double","tc_steadyStateScan2D", 2, argv[1] ));
   } 
   arg2 = (double)(val2);
   ecode3 = SWIG_AsVal_double(argv[2], &val3);
   if (!SWIG_IsOK(ecode3)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode3), Ruby_Format_TypeError( "", "double","steadyStateScan2D", 3, argv[2] ));
+    SWIG_exception_fail(SWIG_ArgError(ecode3), Ruby_Format_TypeError( "", "double","tc_steadyStateScan2D", 3, argv[2] ));
   } 
   arg3 = (double)(val3);
   ecode4 = SWIG_AsVal_int(argv[3], &val4);
   if (!SWIG_IsOK(ecode4)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode4), Ruby_Format_TypeError( "", "int","steadyStateScan2D", 4, argv[3] ));
+    SWIG_exception_fail(SWIG_ArgError(ecode4), Ruby_Format_TypeError( "", "int","tc_steadyStateScan2D", 4, argv[3] ));
   } 
   arg4 = (int)(val4);
   res5 = SWIG_AsCharPtrAndSize(argv[4], &buf5, NULL, &alloc5);
   if (!SWIG_IsOK(res5)) {
-    SWIG_exception_fail(SWIG_ArgError(res5), Ruby_Format_TypeError( "", "char const *","steadyStateScan2D", 5, argv[4] ));
+    SWIG_exception_fail(SWIG_ArgError(res5), Ruby_Format_TypeError( "", "char const *","tc_steadyStateScan2D", 5, argv[4] ));
   }
   arg5 = (char *)(buf5);
   ecode6 = SWIG_AsVal_double(argv[5], &val6);
   if (!SWIG_IsOK(ecode6)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode6), Ruby_Format_TypeError( "", "double","steadyStateScan2D", 6, argv[5] ));
+    SWIG_exception_fail(SWIG_ArgError(ecode6), Ruby_Format_TypeError( "", "double","tc_steadyStateScan2D", 6, argv[5] ));
   } 
   arg6 = (double)(val6);
   ecode7 = SWIG_AsVal_double(argv[6], &val7);
   if (!SWIG_IsOK(ecode7)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode7), Ruby_Format_TypeError( "", "double","steadyStateScan2D", 7, argv[6] ));
+    SWIG_exception_fail(SWIG_ArgError(ecode7), Ruby_Format_TypeError( "", "double","tc_steadyStateScan2D", 7, argv[6] ));
   } 
   arg7 = (double)(val7);
   ecode8 = SWIG_AsVal_int(argv[7], &val8);
   if (!SWIG_IsOK(ecode8)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode8), Ruby_Format_TypeError( "", "int","steadyStateScan2D", 8, argv[7] ));
+    SWIG_exception_fail(SWIG_ArgError(ecode8), Ruby_Format_TypeError( "", "int","tc_steadyStateScan2D", 8, argv[7] ));
   } 
   arg8 = (int)(val8);
-  result = steadyStateScan2D((char const *)arg1,arg2,arg3,arg4,(char const *)arg5,arg6,arg7,arg8);
+  result = tc_steadyStateScan2D((char const *)arg1,arg2,arg3,arg4,(char const *)arg5,arg6,arg7,arg8);
   vresult = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
   if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
   if (alloc5 == SWIG_NEWOBJ) free((char*)buf5);
@@ -10268,14 +10268,14 @@ fail:
 
 
 SWIGINTERN VALUE
-_wrap_getJacobian__SWIG_0(int argc, VALUE *argv, VALUE self) {
+_wrap_tc_getJacobian(int argc, VALUE *argv, VALUE self) {
   tc_matrix result;
   VALUE vresult = Qnil;
   
   if ((argc < 0) || (argc > 0)) {
     rb_raise(rb_eArgError, "wrong # of arguments(%d for 0)",argc); SWIG_fail;
   }
-  result = getJacobian();
+  result = tc_getJacobian();
   vresult = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
   return vresult;
 fail:
@@ -10284,14 +10284,14 @@ fail:
 
 
 SWIGINTERN VALUE
-_wrap_getEigenvalues__SWIG_0(int argc, VALUE *argv, VALUE self) {
+_wrap_tc_getEigenvalues(int argc, VALUE *argv, VALUE self) {
   tc_matrix result;
   VALUE vresult = Qnil;
   
   if ((argc < 0) || (argc > 0)) {
     rb_raise(rb_eArgError, "wrong # of arguments(%d for 0)",argc); SWIG_fail;
   }
-  result = getEigenvalues();
+  result = tc_getEigenvalues();
   vresult = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
   return vresult;
 fail:
@@ -10300,14 +10300,14 @@ fail:
 
 
 SWIGINTERN VALUE
-_wrap_getUnscaledElasticities__SWIG_0(int argc, VALUE *argv, VALUE self) {
+_wrap_tc_getUnscaledElasticities(int argc, VALUE *argv, VALUE self) {
   tc_matrix result;
   VALUE vresult = Qnil;
   
   if ((argc < 0) || (argc > 0)) {
     rb_raise(rb_eArgError, "wrong # of arguments(%d for 0)",argc); SWIG_fail;
   }
-  result = getUnscaledElasticities();
+  result = tc_getUnscaledElasticities();
   vresult = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
   return vresult;
 fail:
@@ -10316,14 +10316,14 @@ fail:
 
 
 SWIGINTERN VALUE
-_wrap_getUnscaledConcentrationCC__SWIG_0(int argc, VALUE *argv, VALUE self) {
+_wrap_tc_getUnscaledConcentrationCC(int argc, VALUE *argv, VALUE self) {
   tc_matrix result;
   VALUE vresult = Qnil;
   
   if ((argc < 0) || (argc > 0)) {
     rb_raise(rb_eArgError, "wrong # of arguments(%d for 0)",argc); SWIG_fail;
   }
-  result = getUnscaledConcentrationCC();
+  result = tc_getUnscaledConcentrationCC();
   vresult = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
   return vresult;
 fail:
@@ -10332,14 +10332,14 @@ fail:
 
 
 SWIGINTERN VALUE
-_wrap_getUnscaledFluxCC__SWIG_0(int argc, VALUE *argv, VALUE self) {
+_wrap_tc_getUnscaledFluxCC(int argc, VALUE *argv, VALUE self) {
   tc_matrix result;
   VALUE vresult = Qnil;
   
   if ((argc < 0) || (argc > 0)) {
     rb_raise(rb_eArgError, "wrong # of arguments(%d for 0)",argc); SWIG_fail;
   }
-  result = getUnscaledFluxCC();
+  result = tc_getUnscaledFluxCC();
   vresult = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
   return vresult;
 fail:
@@ -10348,14 +10348,14 @@ fail:
 
 
 SWIGINTERN VALUE
-_wrap_getScaledElasticities__SWIG_0(int argc, VALUE *argv, VALUE self) {
+_wrap_tc_getScaledElasticities(int argc, VALUE *argv, VALUE self) {
   tc_matrix result;
   VALUE vresult = Qnil;
   
   if ((argc < 0) || (argc > 0)) {
     rb_raise(rb_eArgError, "wrong # of arguments(%d for 0)",argc); SWIG_fail;
   }
-  result = getScaledElasticities();
+  result = tc_getScaledElasticities();
   vresult = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
   return vresult;
 fail:
@@ -10364,14 +10364,14 @@ fail:
 
 
 SWIGINTERN VALUE
-_wrap_getScaledConcentrationCC__SWIG_0(int argc, VALUE *argv, VALUE self) {
+_wrap_tc_getScaledConcentrationCC(int argc, VALUE *argv, VALUE self) {
   tc_matrix result;
   VALUE vresult = Qnil;
   
   if ((argc < 0) || (argc > 0)) {
     rb_raise(rb_eArgError, "wrong # of arguments(%d for 0)",argc); SWIG_fail;
   }
-  result = getScaledConcentrationCC();
+  result = tc_getScaledConcentrationCC();
   vresult = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
   return vresult;
 fail:
@@ -10380,14 +10380,14 @@ fail:
 
 
 SWIGINTERN VALUE
-_wrap_getScaledFluxCC__SWIG_0(int argc, VALUE *argv, VALUE self) {
+_wrap_tc_getScaledFluxCC(int argc, VALUE *argv, VALUE self) {
   tc_matrix result;
   VALUE vresult = Qnil;
   
   if ((argc < 0) || (argc > 0)) {
     rb_raise(rb_eArgError, "wrong # of arguments(%d for 0)",argc); SWIG_fail;
   }
-  result = getScaledFluxCC();
+  result = tc_getScaledFluxCC();
   vresult = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
   return vresult;
 fail:
@@ -11932,7 +11932,7 @@ fail:
 
 
 SWIGINTERN VALUE
-_wrap_simulateDeterministic__SWIG_1(int argc, VALUE *argv, VALUE self) {
+_wrap_simulateDeterministic(int argc, VALUE *argv, VALUE self) {
   copasi_model arg1 ;
   double arg2 ;
   double arg3 ;
@@ -11985,77 +11985,8 @@ fail:
 }
 
 
-SWIGINTERN VALUE _wrap_simulateDeterministic(int nargs, VALUE *args, VALUE self) {
-  int argc;
-  VALUE argv[4];
-  int ii;
-  
-  argc = nargs;
-  if (argc > 4) SWIG_fail;
-  for (ii = 0; (ii < argc); ++ii) {
-    argv[ii] = args[ii];
-  }
-  if (argc == 3) {
-    int _v;
-    {
-      int res = SWIG_AsVal_double(argv[0], NULL);
-      _v = SWIG_CheckState(res);
-    }
-    if (_v) {
-      {
-        int res = SWIG_AsVal_double(argv[1], NULL);
-        _v = SWIG_CheckState(res);
-      }
-      if (_v) {
-        {
-          int res = SWIG_AsVal_int(argv[2], NULL);
-          _v = SWIG_CheckState(res);
-        }
-        if (_v) {
-          return _wrap_simulateDeterministic__SWIG_0(nargs, args, self);
-        }
-      }
-    }
-  }
-  if (argc == 4) {
-    int _v;
-    void *vptr = 0;
-    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_copasi_model, 0);
-    _v = SWIG_CheckState(res);
-    if (_v) {
-      {
-        int res = SWIG_AsVal_double(argv[1], NULL);
-        _v = SWIG_CheckState(res);
-      }
-      if (_v) {
-        {
-          int res = SWIG_AsVal_double(argv[2], NULL);
-          _v = SWIG_CheckState(res);
-        }
-        if (_v) {
-          {
-            int res = SWIG_AsVal_int(argv[3], NULL);
-            _v = SWIG_CheckState(res);
-          }
-          if (_v) {
-            return _wrap_simulateDeterministic__SWIG_1(nargs, args, self);
-          }
-        }
-      }
-    }
-  }
-  
-fail:
-  Ruby_Format_OverloadedError( argc, 4, "simulateDeterministic", 
-    "    tc_matrix simulateDeterministic(double startTime, double endTime, int numSteps)\n"
-    "    tc_matrix simulateDeterministic(copasi_model model, double startTime, double endTime, int numSteps)\n");
-  
-  return Qnil;
-}
-
-
 SWIGINTERN VALUE
-_wrap_simulateStochastic__SWIG_1(int argc, VALUE *argv, VALUE self) {
+_wrap_simulateStochastic(int argc, VALUE *argv, VALUE self) {
   copasi_model arg1 ;
   double arg2 ;
   double arg3 ;
@@ -12108,77 +12039,8 @@ fail:
 }
 
 
-SWIGINTERN VALUE _wrap_simulateStochastic(int nargs, VALUE *args, VALUE self) {
-  int argc;
-  VALUE argv[4];
-  int ii;
-  
-  argc = nargs;
-  if (argc > 4) SWIG_fail;
-  for (ii = 0; (ii < argc); ++ii) {
-    argv[ii] = args[ii];
-  }
-  if (argc == 3) {
-    int _v;
-    {
-      int res = SWIG_AsVal_double(argv[0], NULL);
-      _v = SWIG_CheckState(res);
-    }
-    if (_v) {
-      {
-        int res = SWIG_AsVal_double(argv[1], NULL);
-        _v = SWIG_CheckState(res);
-      }
-      if (_v) {
-        {
-          int res = SWIG_AsVal_int(argv[2], NULL);
-          _v = SWIG_CheckState(res);
-        }
-        if (_v) {
-          return _wrap_simulateStochastic__SWIG_0(nargs, args, self);
-        }
-      }
-    }
-  }
-  if (argc == 4) {
-    int _v;
-    void *vptr = 0;
-    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_copasi_model, 0);
-    _v = SWIG_CheckState(res);
-    if (_v) {
-      {
-        int res = SWIG_AsVal_double(argv[1], NULL);
-        _v = SWIG_CheckState(res);
-      }
-      if (_v) {
-        {
-          int res = SWIG_AsVal_double(argv[2], NULL);
-          _v = SWIG_CheckState(res);
-        }
-        if (_v) {
-          {
-            int res = SWIG_AsVal_int(argv[3], NULL);
-            _v = SWIG_CheckState(res);
-          }
-          if (_v) {
-            return _wrap_simulateStochastic__SWIG_1(nargs, args, self);
-          }
-        }
-      }
-    }
-  }
-  
-fail:
-  Ruby_Format_OverloadedError( argc, 4, "simulateStochastic", 
-    "    tc_matrix simulateStochastic(double startTime, double endTime, int numSteps)\n"
-    "    tc_matrix simulateStochastic(copasi_model model, double startTime, double endTime, int numSteps)\n");
-  
-  return Qnil;
-}
-
-
 SWIGINTERN VALUE
-_wrap_simulateHybrid__SWIG_1(int argc, VALUE *argv, VALUE self) {
+_wrap_simulateHybrid(int argc, VALUE *argv, VALUE self) {
   copasi_model arg1 ;
   double arg2 ;
   double arg3 ;
@@ -12231,77 +12093,8 @@ fail:
 }
 
 
-SWIGINTERN VALUE _wrap_simulateHybrid(int nargs, VALUE *args, VALUE self) {
-  int argc;
-  VALUE argv[4];
-  int ii;
-  
-  argc = nargs;
-  if (argc > 4) SWIG_fail;
-  for (ii = 0; (ii < argc); ++ii) {
-    argv[ii] = args[ii];
-  }
-  if (argc == 3) {
-    int _v;
-    {
-      int res = SWIG_AsVal_double(argv[0], NULL);
-      _v = SWIG_CheckState(res);
-    }
-    if (_v) {
-      {
-        int res = SWIG_AsVal_double(argv[1], NULL);
-        _v = SWIG_CheckState(res);
-      }
-      if (_v) {
-        {
-          int res = SWIG_AsVal_int(argv[2], NULL);
-          _v = SWIG_CheckState(res);
-        }
-        if (_v) {
-          return _wrap_simulateHybrid__SWIG_0(nargs, args, self);
-        }
-      }
-    }
-  }
-  if (argc == 4) {
-    int _v;
-    void *vptr = 0;
-    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_copasi_model, 0);
-    _v = SWIG_CheckState(res);
-    if (_v) {
-      {
-        int res = SWIG_AsVal_double(argv[1], NULL);
-        _v = SWIG_CheckState(res);
-      }
-      if (_v) {
-        {
-          int res = SWIG_AsVal_double(argv[2], NULL);
-          _v = SWIG_CheckState(res);
-        }
-        if (_v) {
-          {
-            int res = SWIG_AsVal_int(argv[3], NULL);
-            _v = SWIG_CheckState(res);
-          }
-          if (_v) {
-            return _wrap_simulateHybrid__SWIG_1(nargs, args, self);
-          }
-        }
-      }
-    }
-  }
-  
-fail:
-  Ruby_Format_OverloadedError( argc, 4, "simulateHybrid", 
-    "    tc_matrix simulateHybrid(double startTime, double endTime, int numSteps)\n"
-    "    tc_matrix simulateHybrid(copasi_model model, double startTime, double endTime, int numSteps)\n");
-  
-  return Qnil;
-}
-
-
 SWIGINTERN VALUE
-_wrap_simulateTauLeap__SWIG_1(int argc, VALUE *argv, VALUE self) {
+_wrap_simulateTauLeap(int argc, VALUE *argv, VALUE self) {
   copasi_model arg1 ;
   double arg2 ;
   double arg3 ;
@@ -12354,77 +12147,8 @@ fail:
 }
 
 
-SWIGINTERN VALUE _wrap_simulateTauLeap(int nargs, VALUE *args, VALUE self) {
-  int argc;
-  VALUE argv[4];
-  int ii;
-  
-  argc = nargs;
-  if (argc > 4) SWIG_fail;
-  for (ii = 0; (ii < argc); ++ii) {
-    argv[ii] = args[ii];
-  }
-  if (argc == 3) {
-    int _v;
-    {
-      int res = SWIG_AsVal_double(argv[0], NULL);
-      _v = SWIG_CheckState(res);
-    }
-    if (_v) {
-      {
-        int res = SWIG_AsVal_double(argv[1], NULL);
-        _v = SWIG_CheckState(res);
-      }
-      if (_v) {
-        {
-          int res = SWIG_AsVal_int(argv[2], NULL);
-          _v = SWIG_CheckState(res);
-        }
-        if (_v) {
-          return _wrap_simulateTauLeap__SWIG_0(nargs, args, self);
-        }
-      }
-    }
-  }
-  if (argc == 4) {
-    int _v;
-    void *vptr = 0;
-    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_copasi_model, 0);
-    _v = SWIG_CheckState(res);
-    if (_v) {
-      {
-        int res = SWIG_AsVal_double(argv[1], NULL);
-        _v = SWIG_CheckState(res);
-      }
-      if (_v) {
-        {
-          int res = SWIG_AsVal_double(argv[2], NULL);
-          _v = SWIG_CheckState(res);
-        }
-        if (_v) {
-          {
-            int res = SWIG_AsVal_int(argv[3], NULL);
-            _v = SWIG_CheckState(res);
-          }
-          if (_v) {
-            return _wrap_simulateTauLeap__SWIG_1(nargs, args, self);
-          }
-        }
-      }
-    }
-  }
-  
-fail:
-  Ruby_Format_OverloadedError( argc, 4, "simulateTauLeap", 
-    "    tc_matrix simulateTauLeap(double startTime, double endTime, int numSteps)\n"
-    "    tc_matrix simulateTauLeap(copasi_model model, double startTime, double endTime, int numSteps)\n");
-  
-  return Qnil;
-}
-
-
 SWIGINTERN VALUE
-_wrap_getSteadyState__SWIG_1(int argc, VALUE *argv, VALUE self) {
+_wrap_getSteadyState(int argc, VALUE *argv, VALUE self) {
   copasi_model arg1 ;
   void *argp1 ;
   int res1 = 0 ;
@@ -12453,40 +12177,8 @@ fail:
 }
 
 
-SWIGINTERN VALUE _wrap_getSteadyState(int nargs, VALUE *args, VALUE self) {
-  int argc;
-  VALUE argv[1];
-  int ii;
-  
-  argc = nargs;
-  if (argc > 1) SWIG_fail;
-  for (ii = 0; (ii < argc); ++ii) {
-    argv[ii] = args[ii];
-  }
-  if (argc == 0) {
-    return _wrap_getSteadyState__SWIG_0(nargs, args, self);
-  }
-  if (argc == 1) {
-    int _v;
-    void *vptr = 0;
-    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_copasi_model, 0);
-    _v = SWIG_CheckState(res);
-    if (_v) {
-      return _wrap_getSteadyState__SWIG_1(nargs, args, self);
-    }
-  }
-  
-fail:
-  Ruby_Format_OverloadedError( argc, 1, "getSteadyState", 
-    "    tc_matrix getSteadyState()\n"
-    "    tc_matrix getSteadyState(copasi_model model)\n");
-  
-  return Qnil;
-}
-
-
 SWIGINTERN VALUE
-_wrap_getJacobian__SWIG_1(int argc, VALUE *argv, VALUE self) {
+_wrap_getJacobian(int argc, VALUE *argv, VALUE self) {
   copasi_model arg1 ;
   void *argp1 ;
   int res1 = 0 ;
@@ -12515,40 +12207,8 @@ fail:
 }
 
 
-SWIGINTERN VALUE _wrap_getJacobian(int nargs, VALUE *args, VALUE self) {
-  int argc;
-  VALUE argv[1];
-  int ii;
-  
-  argc = nargs;
-  if (argc > 1) SWIG_fail;
-  for (ii = 0; (ii < argc); ++ii) {
-    argv[ii] = args[ii];
-  }
-  if (argc == 0) {
-    return _wrap_getJacobian__SWIG_0(nargs, args, self);
-  }
-  if (argc == 1) {
-    int _v;
-    void *vptr = 0;
-    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_copasi_model, 0);
-    _v = SWIG_CheckState(res);
-    if (_v) {
-      return _wrap_getJacobian__SWIG_1(nargs, args, self);
-    }
-  }
-  
-fail:
-  Ruby_Format_OverloadedError( argc, 1, "getJacobian", 
-    "    tc_matrix getJacobian()\n"
-    "    tc_matrix getJacobian(copasi_model model)\n");
-  
-  return Qnil;
-}
-
-
 SWIGINTERN VALUE
-_wrap_getEigenvalues__SWIG_1(int argc, VALUE *argv, VALUE self) {
+_wrap_getEigenvalues(int argc, VALUE *argv, VALUE self) {
   copasi_model arg1 ;
   void *argp1 ;
   int res1 = 0 ;
@@ -12577,40 +12237,8 @@ fail:
 }
 
 
-SWIGINTERN VALUE _wrap_getEigenvalues(int nargs, VALUE *args, VALUE self) {
-  int argc;
-  VALUE argv[1];
-  int ii;
-  
-  argc = nargs;
-  if (argc > 1) SWIG_fail;
-  for (ii = 0; (ii < argc); ++ii) {
-    argv[ii] = args[ii];
-  }
-  if (argc == 0) {
-    return _wrap_getEigenvalues__SWIG_0(nargs, args, self);
-  }
-  if (argc == 1) {
-    int _v;
-    void *vptr = 0;
-    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_copasi_model, 0);
-    _v = SWIG_CheckState(res);
-    if (_v) {
-      return _wrap_getEigenvalues__SWIG_1(nargs, args, self);
-    }
-  }
-  
-fail:
-  Ruby_Format_OverloadedError( argc, 1, "getEigenvalues", 
-    "    tc_matrix getEigenvalues()\n"
-    "    tc_matrix getEigenvalues(copasi_model model)\n");
-  
-  return Qnil;
-}
-
-
 SWIGINTERN VALUE
-_wrap_getUnscaledElasticities__SWIG_1(int argc, VALUE *argv, VALUE self) {
+_wrap_getUnscaledElasticities(int argc, VALUE *argv, VALUE self) {
   copasi_model arg1 ;
   void *argp1 ;
   int res1 = 0 ;
@@ -12639,40 +12267,8 @@ fail:
 }
 
 
-SWIGINTERN VALUE _wrap_getUnscaledElasticities(int nargs, VALUE *args, VALUE self) {
-  int argc;
-  VALUE argv[1];
-  int ii;
-  
-  argc = nargs;
-  if (argc > 1) SWIG_fail;
-  for (ii = 0; (ii < argc); ++ii) {
-    argv[ii] = args[ii];
-  }
-  if (argc == 0) {
-    return _wrap_getUnscaledElasticities__SWIG_0(nargs, args, self);
-  }
-  if (argc == 1) {
-    int _v;
-    void *vptr = 0;
-    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_copasi_model, 0);
-    _v = SWIG_CheckState(res);
-    if (_v) {
-      return _wrap_getUnscaledElasticities__SWIG_1(nargs, args, self);
-    }
-  }
-  
-fail:
-  Ruby_Format_OverloadedError( argc, 1, "getUnscaledElasticities", 
-    "    tc_matrix getUnscaledElasticities()\n"
-    "    tc_matrix getUnscaledElasticities(copasi_model model)\n");
-  
-  return Qnil;
-}
-
-
 SWIGINTERN VALUE
-_wrap_getUnscaledConcentrationCC__SWIG_1(int argc, VALUE *argv, VALUE self) {
+_wrap_getUnscaledConcentrationCC(int argc, VALUE *argv, VALUE self) {
   copasi_model arg1 ;
   void *argp1 ;
   int res1 = 0 ;
@@ -12701,40 +12297,8 @@ fail:
 }
 
 
-SWIGINTERN VALUE _wrap_getUnscaledConcentrationCC(int nargs, VALUE *args, VALUE self) {
-  int argc;
-  VALUE argv[1];
-  int ii;
-  
-  argc = nargs;
-  if (argc > 1) SWIG_fail;
-  for (ii = 0; (ii < argc); ++ii) {
-    argv[ii] = args[ii];
-  }
-  if (argc == 0) {
-    return _wrap_getUnscaledConcentrationCC__SWIG_0(nargs, args, self);
-  }
-  if (argc == 1) {
-    int _v;
-    void *vptr = 0;
-    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_copasi_model, 0);
-    _v = SWIG_CheckState(res);
-    if (_v) {
-      return _wrap_getUnscaledConcentrationCC__SWIG_1(nargs, args, self);
-    }
-  }
-  
-fail:
-  Ruby_Format_OverloadedError( argc, 1, "getUnscaledConcentrationCC", 
-    "    tc_matrix getUnscaledConcentrationCC()\n"
-    "    tc_matrix getUnscaledConcentrationCC(copasi_model model)\n");
-  
-  return Qnil;
-}
-
-
 SWIGINTERN VALUE
-_wrap_getUnscaledFluxCC__SWIG_1(int argc, VALUE *argv, VALUE self) {
+_wrap_getUnscaledFluxCC(int argc, VALUE *argv, VALUE self) {
   copasi_model arg1 ;
   void *argp1 ;
   int res1 = 0 ;
@@ -12763,40 +12327,8 @@ fail:
 }
 
 
-SWIGINTERN VALUE _wrap_getUnscaledFluxCC(int nargs, VALUE *args, VALUE self) {
-  int argc;
-  VALUE argv[1];
-  int ii;
-  
-  argc = nargs;
-  if (argc > 1) SWIG_fail;
-  for (ii = 0; (ii < argc); ++ii) {
-    argv[ii] = args[ii];
-  }
-  if (argc == 0) {
-    return _wrap_getUnscaledFluxCC__SWIG_0(nargs, args, self);
-  }
-  if (argc == 1) {
-    int _v;
-    void *vptr = 0;
-    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_copasi_model, 0);
-    _v = SWIG_CheckState(res);
-    if (_v) {
-      return _wrap_getUnscaledFluxCC__SWIG_1(nargs, args, self);
-    }
-  }
-  
-fail:
-  Ruby_Format_OverloadedError( argc, 1, "getUnscaledFluxCC", 
-    "    tc_matrix getUnscaledFluxCC()\n"
-    "    tc_matrix getUnscaledFluxCC(copasi_model model)\n");
-  
-  return Qnil;
-}
-
-
 SWIGINTERN VALUE
-_wrap_getScaledElasticities__SWIG_1(int argc, VALUE *argv, VALUE self) {
+_wrap_getScaledElasticities(int argc, VALUE *argv, VALUE self) {
   copasi_model arg1 ;
   void *argp1 ;
   int res1 = 0 ;
@@ -12825,40 +12357,8 @@ fail:
 }
 
 
-SWIGINTERN VALUE _wrap_getScaledElasticities(int nargs, VALUE *args, VALUE self) {
-  int argc;
-  VALUE argv[1];
-  int ii;
-  
-  argc = nargs;
-  if (argc > 1) SWIG_fail;
-  for (ii = 0; (ii < argc); ++ii) {
-    argv[ii] = args[ii];
-  }
-  if (argc == 0) {
-    return _wrap_getScaledElasticities__SWIG_0(nargs, args, self);
-  }
-  if (argc == 1) {
-    int _v;
-    void *vptr = 0;
-    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_copasi_model, 0);
-    _v = SWIG_CheckState(res);
-    if (_v) {
-      return _wrap_getScaledElasticities__SWIG_1(nargs, args, self);
-    }
-  }
-  
-fail:
-  Ruby_Format_OverloadedError( argc, 1, "getScaledElasticities", 
-    "    tc_matrix getScaledElasticities()\n"
-    "    tc_matrix getScaledElasticities(copasi_model model)\n");
-  
-  return Qnil;
-}
-
-
 SWIGINTERN VALUE
-_wrap_getScaledConcentrationCC__SWIG_1(int argc, VALUE *argv, VALUE self) {
+_wrap_getScaledConcentrationCC(int argc, VALUE *argv, VALUE self) {
   copasi_model arg1 ;
   void *argp1 ;
   int res1 = 0 ;
@@ -12887,40 +12387,8 @@ fail:
 }
 
 
-SWIGINTERN VALUE _wrap_getScaledConcentrationCC(int nargs, VALUE *args, VALUE self) {
-  int argc;
-  VALUE argv[1];
-  int ii;
-  
-  argc = nargs;
-  if (argc > 1) SWIG_fail;
-  for (ii = 0; (ii < argc); ++ii) {
-    argv[ii] = args[ii];
-  }
-  if (argc == 0) {
-    return _wrap_getScaledConcentrationCC__SWIG_0(nargs, args, self);
-  }
-  if (argc == 1) {
-    int _v;
-    void *vptr = 0;
-    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_copasi_model, 0);
-    _v = SWIG_CheckState(res);
-    if (_v) {
-      return _wrap_getScaledConcentrationCC__SWIG_1(nargs, args, self);
-    }
-  }
-  
-fail:
-  Ruby_Format_OverloadedError( argc, 1, "getScaledConcentrationCC", 
-    "    tc_matrix getScaledConcentrationCC()\n"
-    "    tc_matrix getScaledConcentrationCC(copasi_model model)\n");
-  
-  return Qnil;
-}
-
-
 SWIGINTERN VALUE
-_wrap_getScaledFluxCC__SWIG_1(int argc, VALUE *argv, VALUE self) {
+_wrap_getScaledFluxCC(int argc, VALUE *argv, VALUE self) {
   copasi_model arg1 ;
   void *argp1 ;
   int res1 = 0 ;
@@ -12945,38 +12413,6 @@ _wrap_getScaledFluxCC__SWIG_1(int argc, VALUE *argv, VALUE self) {
   vresult = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
   return vresult;
 fail:
-  return Qnil;
-}
-
-
-SWIGINTERN VALUE _wrap_getScaledFluxCC(int nargs, VALUE *args, VALUE self) {
-  int argc;
-  VALUE argv[1];
-  int ii;
-  
-  argc = nargs;
-  if (argc > 1) SWIG_fail;
-  for (ii = 0; (ii < argc); ++ii) {
-    argv[ii] = args[ii];
-  }
-  if (argc == 0) {
-    return _wrap_getScaledFluxCC__SWIG_0(nargs, args, self);
-  }
-  if (argc == 1) {
-    int _v;
-    void *vptr = 0;
-    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_copasi_model, 0);
-    _v = SWIG_CheckState(res);
-    if (_v) {
-      return _wrap_getScaledFluxCC__SWIG_1(nargs, args, self);
-    }
-  }
-  
-fail:
-  Ruby_Format_OverloadedError( argc, 1, "getScaledFluxCC", 
-    "    tc_matrix getScaledFluxCC()\n"
-    "    tc_matrix getScaledFluxCC(copasi_model model)\n");
-  
   return Qnil;
 }
 
@@ -13868,8 +13304,21 @@ SWIGEXPORT void Init_tinkercell(void) {
   rb_define_module_function(mTinkercell, "tc_exportSBML", _wrap_tc_exportSBML, -1);
   rb_define_module_function(mTinkercell, "tc_importSBML", _wrap_tc_importSBML, -1);
   rb_define_module_function(mTinkercell, "tc_SBML_api", _wrap_tc_SBML_api, -1);
-  rb_define_module_function(mTinkercell, "steadyStateScan", _wrap_steadyStateScan, -1);
-  rb_define_module_function(mTinkercell, "steadyStateScan2D", _wrap_steadyStateScan2D, -1);
+  rb_define_module_function(mTinkercell, "tc_simulateDeterministic", _wrap_tc_simulateDeterministic, -1);
+  rb_define_module_function(mTinkercell, "tc_simulateStochastic", _wrap_tc_simulateStochastic, -1);
+  rb_define_module_function(mTinkercell, "tc_simulateHybrid", _wrap_tc_simulateHybrid, -1);
+  rb_define_module_function(mTinkercell, "tc_simulateTauLeap", _wrap_tc_simulateTauLeap, -1);
+  rb_define_module_function(mTinkercell, "tc_getSteadyState", _wrap_tc_getSteadyState, -1);
+  rb_define_module_function(mTinkercell, "tc_steadyStateScan", _wrap_tc_steadyStateScan, -1);
+  rb_define_module_function(mTinkercell, "tc_steadyStateScan2D", _wrap_tc_steadyStateScan2D, -1);
+  rb_define_module_function(mTinkercell, "tc_getJacobian", _wrap_tc_getJacobian, -1);
+  rb_define_module_function(mTinkercell, "tc_getEigenvalues", _wrap_tc_getEigenvalues, -1);
+  rb_define_module_function(mTinkercell, "tc_getUnscaledElasticities", _wrap_tc_getUnscaledElasticities, -1);
+  rb_define_module_function(mTinkercell, "tc_getUnscaledConcentrationCC", _wrap_tc_getUnscaledConcentrationCC, -1);
+  rb_define_module_function(mTinkercell, "tc_getUnscaledFluxCC", _wrap_tc_getUnscaledFluxCC, -1);
+  rb_define_module_function(mTinkercell, "tc_getScaledElasticities", _wrap_tc_getScaledElasticities, -1);
+  rb_define_module_function(mTinkercell, "tc_getScaledConcentrationCC", _wrap_tc_getScaledConcentrationCC, -1);
+  rb_define_module_function(mTinkercell, "tc_getScaledFluxCC", _wrap_tc_getScaledFluxCC, -1);
   rb_define_module_function(mTinkercell, "tc_COPASI_api", _wrap_tc_COPASI_api, -1);
   
   SwigClassCopasi_model.klass = rb_define_class_under(mTinkercell, "Copasi_model", rb_cObject);

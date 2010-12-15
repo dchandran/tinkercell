@@ -7,41 +7,6 @@
 
 using namespace Tinkercell;
 
-void model1(copasi_model model)
-{
-	//species
-	copasi_compartment cell = createCompartment(model, "cell", 1.0);
-	createSpecies(cell, "mRNA", 0);
-	createSpecies(cell, "Protein", 0);
-	
-	//parameters	
-	setGlobalParameter(model, "d1", 1.0);
-	setGlobalParameter(model, "d2", 0.2);  
-	setGlobalParameter(model, "k0", 2.0);
-	setGlobalParameter(model, "k1", 1.0);
-	setGlobalParameter(model, "h", 4.0);  
-	setGlobalParameter(model, "Kd", 1.0);
-	setGlobalParameter(model, "leak", 0.1);  
-	
-	//reactions -- make sure all parameters or species are defined BEFORE this step
-	copasi_reaction R1 = createReaction(model, "R1");  //  mRNA production
-	addProduct(R1, "mRNA", 1.0);
-	setReactionRate(R1, "leak + k0 * (Protein^h) / (Kd + (Protein^h))");
-
-	copasi_reaction R2 = createReaction(model, "R2");  // Protein production
-	addProduct(R2, "Protein", 1.0);
-	setReactionRate(R2, "k1*mRNA");
-
-	copasi_reaction R3 = createReaction(model, "R3"); // mRNA degradation
-	addReactant(R3, "mRNA", 1.0);
-	setReactionRate(R3, "d1*mRNA");
-	
-	copasi_reaction R4 = createReaction(model, "R4"); // Protein degradation
-	addReactant(R4, "Protein", 1.0);
-	setReactionRate(R4, "d2*Protein");
-}
-
-
 CopasiExporter::CopasiExporter() : Tool("COPASI","Export")
 {
 	modelNeedsUpdate = true;	
@@ -91,6 +56,12 @@ bool CopasiExporter::setMainWindow(MainWindow * main)
 	connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 	connect(main,SIGNAL(historyChanged(int)),this, SLOT(historyChanged(int)));
 	connect(main,SIGNAL(windowChanged(NetworkWindow*,NetworkWindow*)),this, SLOT(windowChanged(NetworkWindow*,NetworkWindow*)));
+
+	tc_matrix res = simulateDeterministic(0,10,100);
+	
+	tc_printMatrixToFile("output.tab",res);
+	
+	tc_deleteMatrix(res);
 
 	return true;
 }
@@ -685,7 +656,7 @@ tc_matrix CopasiExporter::getScaledFluxCC()
 
 void SimulationThread::updateModel()
 {
-	QSemaphore sem(1);
+	/*QSemaphore sem(1);
 	bool changed = true;
 	QList<ItemHandle*> handles;
 	sem.acquire();
@@ -693,8 +664,39 @@ void SimulationThread::updateModel()
 	sem.acquire();
 	sem.release();
 	
-	if (changed)
-		updateModel(handles);
+	if (changed)*/
+		//updateModel(handles);
+	//species
+	model = createCopasiModel("tinkercell");
+	copasi_compartment cell = createCompartment(model, "cell", 1.0);
+	createSpecies(cell, "mRNA", 0);
+	createSpecies(cell, "Protein", 0);
+	
+	//parameters	
+	setGlobalParameter(model, "d1", 1.0);
+	setGlobalParameter(model, "d2", 0.2);  
+	setGlobalParameter(model, "k0", 2.0);
+	setGlobalParameter(model, "k1", 1.0);
+	setGlobalParameter(model, "h", 4.0);  
+	setGlobalParameter(model, "Kd", 1.0);
+	setGlobalParameter(model, "leak", 0.1);  
+	
+	//reactions -- make sure all parameters or species are defined BEFORE this step
+	copasi_reaction R1 = createReaction(model, "R1");  //  mRNA production
+	addProduct(R1, "mRNA", 1.0);
+	setReactionRate(R1, "leak + k0 * (Protein^h) / (Kd + (Protein^h))");
+
+	copasi_reaction R2 = createReaction(model, "R2");  // Protein production
+	addProduct(R2, "Protein", 1.0);
+	setReactionRate(R2, "k1*mRNA");
+
+	copasi_reaction R3 = createReaction(model, "R3"); // mRNA degradation
+	addReactant(R3, "mRNA", 1.0);
+	setReactionRate(R3, "d1*mRNA");
+	
+	copasi_reaction R4 = createReaction(model, "R4"); // Protein degradation
+	addReactant(R4, "Protein", 1.0);
+	setReactionRate(R4, "d2*Protein");
 }
 
 SimulationThread::SimulationThread(QObject * parent) : QThread(parent)
@@ -754,7 +756,7 @@ tc_matrix SimulationThread::result()
 
 void SimulationThread::run()
 {
-	tc_deleteMatrix(resultMatrix);
+	//tc_deleteMatrix(resultMatrix);
 	switch (method)
 	{
 		case None:
@@ -838,6 +840,9 @@ void SimulationThread::run()
 			resultMatrix = getScaledFluxCC(model);
 			break;
 	}
+	
+	if (semaphore)
+		semaphore->release();
 }
 
 int SimulationThread::totalModelCount = 0;

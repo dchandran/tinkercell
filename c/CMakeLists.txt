@@ -45,23 +45,8 @@ ADD_SUBDIRECTORY( sbml_sim )
 IF (NOT TINKERCELL_LITE_PARTS)  #don't add any numerical packages in "parts" mode
 
 	IF (USE_COPASI)	 #use COPASI for the numerical analysis (more features)
-		ADD_LIBRARY( usecopasi  SHARED  usecopasi.c )
-		
-		TARGET_LINK_LIBRARIES( usecopasi 
-			usecopasi 
-			tinkercellapi 
-			copasi
-			sbml
-			raptor
-			antimony
-			${QT_QTCORE_LIBRARY})
-
-		IF ( WIN32 )
-			  INSTALL(TARGETS usecopasi DESTINATION plugins/c)
-		ELSE ( WIN32 )
-			  INSTALL(TARGETS usecopasi LIBRARY DESTINATION plugins/c)
-		ENDIF( WIN32 )
-	
+	     
+	      #done by C++ plugin
 	
 	ELSE(USE_COPASI)   #use custom programs for the numerical analysis (less features, but faster)
 		INCLUDE( CustomSimulationPrograms.cmake )

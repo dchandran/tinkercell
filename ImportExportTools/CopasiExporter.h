@@ -29,7 +29,8 @@ namespace Tinkercell
 		
 		enum AnalysisMethod
 		{
-			DeterministicSimulation=0,
+			None=0,
+			DeterministicSimulation,
 			StochasticSimulation,
 			HybridSimulation,
 			TauLeapSimulation, 
@@ -44,6 +45,7 @@ namespace Tinkercell
 			ScaledFluxCC
 		};
 		
+		SimulationThread(QObject * parent=0);
 		void updateModel();
 		void setMethod(AnalysisMethod);
 		void setSemaphore(QSemaphore*);
@@ -51,7 +53,7 @@ namespace Tinkercell
 		void setEndTime(double);
 		void setNumPoints(int);
 		void setParameterRange(const QString& param, double start, double end, int numPoints);
-		NumericalDataTable& result();
+		tc_matrix result();
 	
 	signals:
 		void getHandles( QSemaphore*, QList<ItemHandle*>&, bool * changed);
@@ -60,12 +62,12 @@ namespace Tinkercell
 
 		virtual void run();
 		void updateModel(QList<ItemHandle*>&);
-		AnalysisMethod analysisMethod;
+		AnalysisMethod method;
 		copasi_model model;
 		double startTime;
 		double endTime;
 		int numPoints;		
-		NumericalDataTable resultMatrix;
+		tc_matrix resultMatrix;
 		QSemaphore * semaphore;
 		
 		struct ScanItem { QString name; double start; double end; int numPoints; };
@@ -89,9 +91,11 @@ namespace Tinkercell
 	
 	private slots:
 
-		void setupFunctionPointers( QLibrary * library);
+		void setupFunctionPointers(QLibrary * library);
 		void historyChanged(int);
 		void windowChanged(NetworkWindow*,NetworkWindow*);
+		
+		void getHandles( QSemaphore*, QList<ItemHandle*>&, bool * changed);
 
 	private:
 		bool modelNeedsUpdate;

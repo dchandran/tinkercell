@@ -34,6 +34,7 @@ namespace Tinkercell
 	/*!
 	\brief A widget containing a data plot, legend and options. This class does not perform any plotting. 
 			This class serves as a template for other widgets that perform the plotting. 
+	\ingroup plugins
 	*/
 	class TINKERCELLEXPORT PlotWidget : public QWidget
 	{

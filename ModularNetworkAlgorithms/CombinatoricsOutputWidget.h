@@ -12,13 +12,18 @@ A widget displaying plots and controls from the output of the ModuleCombinatoric
 #define TINKERCELL_MODULECOMBINATORICSOUTPUTWIDGET_H
 
 #include <QSlider>
+#include <QPair>
+#include <QLabel>
 #include <QGroupBox>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QGridLayout>
-#include <QGroupBox>
+#include <QTabWidget>
+#include <QComboBox>
+#include <QDoubleSpinBox>
 #include "DataTable.h"
 #include "Plot2DWidget.h"
+#include "PlotTool.h"
 
 namespace Tinkercell
 {
@@ -28,11 +33,18 @@ namespace Tinkercell
 		
 		public:
 
-			ModuleCombinatoricsOutputWidget(const NumericalDataTable& population, const NumericalDataTable& modules, const QList<qreal>& scores);
+			ModuleCombinatoricsOutputWidget(const NumericalDataTable& population, const NumericalDataTable& modules, const QList< QList<qreal> >& scores);
 		
 		private slots:
 
-			void sliderMoved();
+			void update();
+		
+		private:
+
+			QList<QDoubleSpinBox*> spinBoxes;
+			QList<QSlider*> sliders;
+			Plot2DWidget * plot1, *plot2;
+			static QPair<double,double> findRange(const QList<qreal>&);
 	};
 }
 

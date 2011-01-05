@@ -296,29 +296,6 @@ namespace Tinkercell
 		*/
 		virtual DataTable<T> transpose() const;
 		
-		/*! \brief append another data table's columns to this data table
-		\param DataTable<T>* table to append
-		\return void
-		*/
-		void appendColumns(DataTable<T>*);
-		
-		/*! \brief append multiple data tables column-wise
-		\param QList< DataTable<T>* > list of tables
-		\return DataTable<T> new data table
-		*/
-		static DataTable<T> appendColumns(const QList< DataTable<T>* >&);
-		
-		/*! \brief append another data table's rows to this data table
-		\param DataTable<T>* table to append
-		\return void
-		*/
-		void appendRows(DataTable<T>*);
-		
-		/*! \brief append multiple data tables row-wise
-		\param QList< DataTable<T>* > list of tables to append
-		\return DataTable<T> new data table
-		*/
-		static DataTable<T> appendRows(const QList< DataTable<T>* >&);
 	};
 
 
@@ -950,9 +927,7 @@ namespace Tinkercell
 
 		return newTable;
 	}
-	
-	/*! \brief append another data table's rows
-	*/
+/*	
 	template <typename T> void DataTable<T>::appendRows(DataTable<T>* other)
 	{
 		QList< DataTable<T> * > list;
@@ -965,8 +940,6 @@ namespace Tinkercell
 		rowHash = A.rowHash;
 	}
 	
-	/*! \brief append multiple data tables' rows
-	*/
 	template <typename T>  DataTable<T> DataTable<T>::appendRows(const QList< DataTable<T>* >& list)
 	{
 		DataTable<T> newTable;
@@ -984,29 +957,34 @@ namespace Tinkercell
 				{
 					s = list[i]->rowName(j);
 					p = rows;
-					while (rowHash.contains(s))
-						s = QString("_") + QString::number(++p);
-					rowHeaders << s;
-					rowHash[rows] = s;
-					++rows;
+					if (s.isEmpty() || !rowHash.contains(s))
+					{
+						rowHeaders << s;
+						if (!s.isEmpty())
+							rowHash[s] = rows;
+						++rows;
+					}
 				}
 
 				for (int j=0; j < list[i]->columns(); ++j) //get all rows with unique names
 				{
 					s = list[i]->columnName(j);
-					if (!colHash.contains(s))
+					if (s.isEmpty() || !colHash.contains(s))
 					{
 						colHeaders << s;
-						colHash[cols] = s;
+						if (!s.isEmpty())
+							colHash[s] = rows;
 						++cols;
 					}
 				}
 			}
 
 		newTable.resize(rows,cols);
-		newTable.colHeaders = colHeaders;
+		for (int i=0; i < colHeaders.size(); ++i)
+			newTable.colHeaders[i] = colHeaders[i];
 		newTable.colHash = colHash;
-		newTable.rowHeaders = rowHeaders;
+		for (int i=0; i < rowHeaders.size(); ++i)
+			newTable.rowHeaders[i] = rowHeaders[i];
 		newTable.rowHash = rowHash;
 		
 		rows = 0;
@@ -1014,22 +992,22 @@ namespace Tinkercell
 			if (list[i])
 			{
 				for (int j=0; j < list[i]->columns(); ++j) //get all rows with unique names
-					if (colHash.contains(list[i]->colName(j)))
+				{
+					if (colHash.contains(list[i]->columnName(j)))
+						cols = colHash[ list[i]->columnName(j) ];
+					else
+						cols = j;
+					for (int k=0; k < list[i]->rows(); ++k)
 					{
-						cols = colHash[ list[i]->colName(j) ];
-						for (int k=0; k < list[i]->rows(); ++k)
-						{
-							newTable.value(rows, cols) = list[i]->value(k, j);
-							++rows;
-						}
+						newTable.value(rows, cols) = list[i]->value(k, j);
+						++rows;
 					}
+				}
 			}
 		
 		return newTable;
 	}
 	
-	/*! \brief append another data table's columns
-	*/
 	template <typename T> void DataTable<T>::appendColumns(DataTable<T>* other)
 	{
 		QList< DataTable<T> * > list;
@@ -1042,8 +1020,6 @@ namespace Tinkercell
 		rowHash = A.rowHash;
 	}
 	
-	/*! \brief append multiple data tables' columns
-	*/
 	template <typename T>  DataTable<T> DataTable<T>::appendColumns(const QList< DataTable<T>* >& list)
 	{
 		DataTable<T> newTable;
@@ -1060,10 +1036,11 @@ namespace Tinkercell
 				for (int j=0; j < list[i]->rows(); ++j) //get all rows with unique names
 				{
 					s = list[i]->rowName(j);
-					if (!rowHash.contains(s))
+					if (s.isEmpty() ||!rowHash.contains(s))
 					{
 						rowHeaders << s;
-						rowHash[rows] = s;
+						if (!s.isEmpty())
+							rowHash[s] = rows;
 						++rows;
 					}
 				}
@@ -1072,18 +1049,22 @@ namespace Tinkercell
 				{
 					s = list[i]->columnName(j);
 					p = cols;
-					while (colHash.contains(s))
-						s = QString("_") + QString::number(++p);
-					colHeaders << s;
-					colHash[cols] = s;
-					++cols;
+					if (s.isEmpty() || !colHash.contains(s))
+					{
+						colHeaders << s;
+						if (!s.isEmpty())
+							colHash[s] = cols;
+						++cols;
+					}
 				}
 			}
 
 		newTable.resize(rows,cols);
-		newTable.colHeaders = colHeaders;
+		for (int i=0; i < colHeaders.size(); ++i)
+			newTable.colHeaders[i] = colHeaders[i];
 		newTable.colHash = colHash;
-		newTable.rowHeaders = rowHeaders;
+		for (int i=0; i < rowHeaders.size(); ++i)
+			newTable.rowHeaders[i] = rowHeaders[i];
 		newTable.rowHash = rowHash;
 		
 		cols = 0;
@@ -1091,20 +1072,23 @@ namespace Tinkercell
 			if (list[i])
 			{
 				for (int j=0; j < list[i]->rows(); ++j) //get all rows with unique names
+				{
 					if (rowHash.contains(list[i]->rowName(j)))
-					{
 						rows = rowHash[ list[i]->rowName(j) ];
-						for (int k=0; k < list[i]->columns(); ++k)
-						{
-							newTable.value(rows, cols) = list[i]->value(j, k);
-							++cols;
-						}
+					else
+						rows = j;
+					for (int k=0; k < list[i]->columns(); ++k)
+					{
+						newTable.value(rows, cols) = list[i]->value(j, k);
+						++cols;
 					}
+				}
 			}
 		
 		return newTable;
 	}
-	
+*/
+
 	template <typename T> T& DataTable<T>::operator() (int r, int c)
 	{
 		return this->value(r,c);

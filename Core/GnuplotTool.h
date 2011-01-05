@@ -39,7 +39,7 @@ namespace Tinkercell
 
 	private slots:
 	
-		void gnuplotDataTable(DataTable<qreal>& m, int x, const QString& title, int all);
+		void gnuplotDataTable(DataTable<qreal>& m, int x, const QString& title);
 		
 		void gnuplotDataTable3D(DataTable<qreal>& m, const QString& title);
 		

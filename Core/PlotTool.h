@@ -58,7 +58,7 @@ namespace Tinkercell
 
 		signals:
 
-			void plotDataTable(QSemaphore*, DataTable<qreal>& m, int x, const QString& title, int all);
+			void plotDataTable(QSemaphore*, DataTable<qreal>& m, int x, const QString& title);
 			void plotDataTable3D(QSemaphore*,DataTable<qreal>& m, const QString& title);
 			void plotHist(QSemaphore*,DataTable<qreal>& m, double bins, const QString& title);
 			void plotErrorbars(QSemaphore*,DataTable<qreal>& m, int x, const QString& title);
@@ -70,7 +70,7 @@ namespace Tinkercell
 
 		private slots:
 
-			void plotMatrix(tc_matrix m, int x, const char* title, int all);
+			void plotMatrix(tc_matrix m, int x, const char* title);
 			void plotMatrix3D(tc_matrix m, const char * title);
 			void plotHistC(tc_matrix m, double bins, const char * title);
 			void plotErrorbarsC(tc_matrix m, int x, const char* title);
@@ -99,9 +99,8 @@ namespace Tinkercell
 		\param NumericalDataTable data
 		\param int column for the x-axis
 		\param QString title
-		\param int(bool) whether or not to graph all the columns or just the handles that exist in the network
 		*/
-		void plotDataTable(DataTable<qreal>& m, int x, const QString& title, int all);
+		void plotDataTable(DataTable<qreal>& m, int x, const QString& title);
 		
 		/*!	\brief plot  a 3D graph
 		\param NumericalDataTable data with 3 columns
@@ -143,7 +142,7 @@ namespace Tinkercell
 	public:
 	
 		/*! \brief available plot types*/
-		enum PlotType { Plot2D, SurfacePlot, HistogramPlot, ScatterPlot, Text };
+		enum PlotType { Plot2D, SurfacePlot, HistogramPlot, ScatterPlot, BarPlot, Text };
 	
 		/*! \brief default constructor*/
 		PlotTool();
@@ -175,9 +174,9 @@ namespace Tinkercell
 			\param DataTable<qreal> table
 			\param QString title
 			\param QString column in the table that will be used as x-axis
-			\param int 0 or 1, indicating whether to plot only those items that are visible on the screen
+			\param PlotType
 		*/
-		void plot(const DataTable<qreal>&,const QString& title,int xaxis=0,int all = 0, PlotType type = Plot2D);
+		void plot(const DataTable<qreal>&,const QString& title,int xaxis=0, PlotTool::PlotType type = Plot2D);
 
 		/*! \brief surface plot of the given data
 			\param DataTable<qreal> table where value(x,y) is the z value
@@ -256,7 +255,7 @@ namespace Tinkercell
 		void actionTriggered(QAction*);
 		void subWindowActivated(QMdiSubWindow *);
 		void setupFunctionPointers( QLibrary * );
-		void plotData(QSemaphore*, DataTable<qreal>&,int,const QString&,int);
+		void plotData(QSemaphore*, DataTable<qreal>&,int,const QString&);
 		void plotScatter(QSemaphore*, DataTable<qreal>&,const QString&);
 		void surface(QSemaphore*, DataTable<qreal>&,const QString&);
 		void getData(QSemaphore*, DataTable<qreal>*,int i);		

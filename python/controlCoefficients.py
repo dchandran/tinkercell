@@ -1,10 +1,3 @@
-"""
-category: Analysis
-name: Control coefficients
-description: compute control coefficients using PySCeS
-icon: pysces.png
-"""
-
 from tinkercell import *
 import numpy
 import pysces

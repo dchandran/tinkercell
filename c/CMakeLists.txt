@@ -51,6 +51,18 @@ IF (NOT TINKERCELL_LITE_PARTS)  #don't add any numerical packages in "parts" mod
 	ELSE(USE_COPASI)   #use custom programs for the numerical analysis (less features, but faster)
 		INCLUDE( CustomSimulationPrograms.cmake )
 	ENDIF (USE_COPASI)
+	
+	INCLUDE_DIRECTORIES( BEFORE
+		${TINKERCELL_SOURCE_DIR}/ExternalCode/lpsolve
+	)
+
+	ADD_LIBRARY( lpsolve
+	  SHARED
+	  lpsolve.c
+	)
+
+	TARGET_LINK_LIBRARIES( lpsolve lpsolve lp_solve tinkercellapi )
+
 
 ENDIF (NOT TINKERCELL_LITE_PARTS)
 

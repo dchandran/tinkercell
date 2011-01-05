@@ -163,7 +163,7 @@ namespace Tinkercell
 
         if (tool = mainWindow->tool(tr("Dynamic Library Menu")))
         {
-            DynamicLibraryMenu * libMenu = static_cast<DynamicLibraryMenu*>(tool);
+          DynamicLibraryMenu * libMenu = static_cast<DynamicLibraryMenu*>(tool);
             if (libMenu && this->dockWidget)
             {
                 alreadyConnected = true;

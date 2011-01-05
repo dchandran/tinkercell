@@ -11,27 +11,12 @@
 
 namespace Tinkercell
 {
-	void ModuleCombinatorics::getModelsFor(ItemFamily * root, QList< QPair< QString, QList<ItemHandle*> > >& listOfLists)
+	void ModuleCombinatorics::getModelsFor(ItemHandle * root, QList< QPair< QString, QList<ItemHandle*> > >& listOfLists)
 	{
-		if (!mainWindow) return;
-
-		if (!nodesTree)
-		{
-			QWidget * tool = mainWindow->tool("Nodes Tree");
-			if (tool)
-				nodesTree = static_cast<NodesTree*>(tool);
-		}
-		if (!connectionsTree)
-		{
-			QWidget * tool = mainWindow->tool("Connections Tree");
-			if (tool)
-				connectionsTree = static_cast<ConnectionsTree*>(tool);
-		}
-		
-		if (!nodesTree || !connectionsTree) return;
+		if (!mainWindow || !root) return;
 		
 		QList<ItemFamily*> families, children;
-		families << root;
+		families << root->family();
 		
 		for (int n=0; n < families.size(); ++n)
 		{
@@ -62,40 +47,19 @@ namespace Tinkercell
 			dir.setSorting(QDir::Time);
 			QFileInfoList list = dir.entryInfoList();
 
-			NodeFamily * nodeFamily;
-			ConnectionFamily * connectionFamily;
 			for (int i = 0; i < list.size(); ++i)
 			{
 				QFileInfo fileInfo = list.at(i);
 				if (MainWindow::OPEN_FILE_EXTENSIONS.contains(fileInfo.suffix()))
 				{
-					QFile file(fileInfo.absoluteFilePath());
-					if (file.open(QFile::ReadOnly | QFile::Text))
-					{
-						ModelReader reader;
-						QList< QPair<QString,ItemHandle*> > pairs = reader.readHandles(&file);
-						if (!pairs.isEmpty())
+						QPair< QList<ItemHandle*>, QList<QGraphicsItem*> > items = mainWindow-> getItemsFromFile(fileInfo.absoluteFilePath(), root);
+						if (!items.first.isEmpty())
 						{
-							QList<ItemHandle*> handles;
-							for (int j=0; j < pairs.size(); ++j)
-								if (!handles.contains(pairs[j].second))
-								{
-									if (nodeFamily = nodesTree->getFamily(pairs[j].first))
-									{
-										pairs[j].second->setFamily(nodeFamily,false);
-										handles << pairs[j].second;
-									}
-									else
-									if (connectionFamily = connectionsTree->getFamily(pairs[j].first))
-									{
-										pairs[j].second->setFamily(connectionFamily,false);
-										handles << pairs[j].second;
-									}
-								}
-							listOfLists << QPair<QString, QList<ItemHandle*> >(fileInfo.baseName(),handles);
+							for (int j=0; j < items.second.size(); ++j)
+								if (!getHandle(items.second[j]))
+									delete items.second[j];
+							listOfLists << QPair<QString, QList<ItemHandle*> >(fileInfo.baseName(),items.first);
 						}
-						file.close();
-					}
 				}
 			}
 		}
@@ -119,8 +83,7 @@ namespace Tinkercell
 				&& handles[i]->hasTextData("Participants"))
 			{
 				QList< QPair< QString, QList<ItemHandle*> > > list;
-				std::cout << handles[i]->fullName().toAscii().data() << "\n";
-				getModelsFor(handles[i]->family(), list);
+				getModelsFor(handles[i], list);
 
 				if (!list.isEmpty())
 				{
@@ -135,7 +98,7 @@ namespace Tinkercell
 							RenameCommand::findReplaceAllHandleData(list[k].second,participants.rowName(j),participants.at(j,0));
 						}
 					}
-
+					
 					for (int j=0; j < list.size(); ++j)
 						for (int k=0; k < list[j].second.size(); ++k)
 							if (list[j].second[k] && !list[j].second[k]->parent && list[j].second[k]->family())
@@ -145,7 +108,7 @@ namespace Tinkercell
 								list[j].second[k]->name = s;
 								list[j].second[k]->setParent(handles[i], false);
 							}
-				
+
 					handleReplacements[ handles[i] ] = list;
 				}
 			}
@@ -153,20 +116,21 @@ namespace Tinkercell
 			int k = 0;
 			QList<ItemHandle*> output;
 			QHash<QString, double> stats;
-			writeModels(k, stats, output, handles, handleReplacements);
 			
+			writeModels(k, stats, output, handles, handleReplacements);
+			QList<ItemHandle*> keys = handleReplacements.keys();
 			QList< QList< QPair< QString, QList<ItemHandle*> > > > lists = handleReplacements.values();
 			QList<ItemHandle*> visited;
 			
+			//cleanup
 			for (int i=0; i < lists.size(); ++i)
 				for (int j=0; j < lists[i].size(); ++j)
 					for (int k=0; k < lists[i][j].second.size(); ++k)
-						if (lists[i][j].second[k])
+						if (lists[i][j].second[k] && keys[i] == lists[i][j].second[k]->parent && !visited.contains(lists[i][j].second[k]))
 						{
-							lists[i][j].second[k]->children.clear();
-							delete lists[i][j].second[k];	
+							delete lists[i][j].second[k];
+							visited += lists[i][j].second[k];
 						}
-			std::cout << "end\n";
 			printStats(stats);
 	}
 	
@@ -209,8 +173,6 @@ namespace Tinkercell
 		if (output.size() >= handles.size())
 		{
 			++k;
-			ModelFileGenerator::generateModelFile(tempDir() + tr("/model") + QString::number(k), output);
-			
 			for (int i=0; i < output.size(); ++i)
 				if ((h = output[i]) && handleReplacements.contains(h))
 				{
@@ -242,7 +204,7 @@ namespace Tinkercell
 				h->children = newChildren[i].second;
 				writeModels(k, stats, output, handles, handleReplacements);
 			}
-		
+
 			h->children = originalChildren;
 		}
 	}
@@ -254,15 +216,15 @@ namespace Tinkercell
 	
 	ModuleCombinatorics::ModuleCombinatorics() : Tool("Module Combinatorics", "Module tools")
 	{
-		nodesTree = 0;
-		connectionsTree = 0;
 	}
 	
 	bool ModuleCombinatorics::setMainWindow(MainWindow * main)
 	{
 		Tool::setMainWindow(main);
 		
+		if (!main) return false;
 		QWidget * tool = main->tool(tr("Dynamic Library Menu"));
+
 		if (tool)
 		{
 			DynamicLibraryMenu * libTool = static_cast<DynamicLibraryMenu*>(tool);
@@ -277,7 +239,7 @@ namespace Tinkercell
 	}
 
 }
-
+/*
 extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)
 {
 	if (!main) return;
@@ -285,5 +247,5 @@ extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)
 	Tinkercell::ModuleCombinatorics * tool = new Tinkercell::ModuleCombinatorics();
 	main->addTool(tool);
 }
-
+*/
 

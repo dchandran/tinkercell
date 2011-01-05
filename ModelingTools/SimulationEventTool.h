@@ -119,7 +119,7 @@ namespace Tinkercell
 
     private:
 
-		enum Mode { none, addingEvent, addingStep, addingPulse, addingWave };
+		enum Mode { none, addingEvent, globalParams, addingStep, addingPulse, addingWave };
 		Mode mode;
 
         static SimulationEventsTool_FToS fToS;

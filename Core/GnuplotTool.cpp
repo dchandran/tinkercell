@@ -95,7 +95,7 @@ namespace Tinkercell
 		}
     }
 	
-    void GnuplotTool::gnuplotDataTable(DataTable<qreal>& m, int x, const QString& title, int all)
+    void GnuplotTool::gnuplotDataTable(DataTable<qreal>& m, int x, const QString& title)
     {
 		m.description() = title;
         
@@ -396,8 +396,8 @@ namespace Tinkercell
 			{
 				PlotTool * plotTool = static_cast<PlotTool*>(tool);
 				
-				connect(plotTool,SIGNAL(plotDataTable(DataTable<qreal>&, int, const QString& , int)),
-						this, SLOT(gnuplotDataTable(DataTable<qreal>&, int, const QString& , int)));
+				connect(plotTool,SIGNAL(plotDataTable(DataTable<qreal>&, int, const QString&)),
+						this, SLOT(gnuplotDataTable(DataTable<qreal>&, int, const QString&)));
 		
 				connect(plotTool,SIGNAL(plotDataTable3D(DataTable<qreal>&, const QString&)),
 						this, SLOT(gnuplotDataTable3D(DataTable<qreal>&, const QString&)));

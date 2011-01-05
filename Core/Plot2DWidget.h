@@ -31,6 +31,7 @@
 #include "qwt_plot_layout.h"
 #include "qwt_plot_zoomer.h"
 #include "qwt_legend_item.h"
+#include "qwt_scale_draw.h"
 
 namespace Tinkercell
 {
@@ -58,6 +59,16 @@ namespace Tinkercell
 		friend class Plot2DWidget;
 	};
 	
+	class DataAxisLabelDraw : public QwtScaleDraw
+	{
+		public:
+			DataAxisLabelDraw(const QStringList&);
+			virtual QwtText label(double v) const;
+			Qt::Orientation orientation() const;
+		protected:
+			QStringList labels;
+	};
+	
 	class DataPlot : public QwtPlot
 	{
 		Q_OBJECT
@@ -78,6 +89,7 @@ namespace Tinkercell
 		PlotTool::PlotType type;
 		void processData();
 		void replotUsingHideList();
+		bool usesRowNames() const;
 		
 	protected slots:
 		void itemChecked(QwtPlotItem *,	bool);

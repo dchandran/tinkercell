@@ -453,7 +453,9 @@ namespace Tinkercell
 	}
 	void C_API_Slots::addInputWindowCheckbox(QSemaphore* s,const QString& name, int i, int j)
 	{
-		SimpleInputWindow::AddOptions(name,i,j);
+		QStringList list;
+		list << "Yes" << "No";
+		SimpleInputWindow::AddOptions(name,i,j,list);
 		if (s)
 			s->release();
 	}

@@ -151,16 +151,18 @@ namespace Tinkercell
 		* \param QString function to run inside library
 		* \param DataTable<double> inputs
 		* \param QList<QStringList> options for the inputs (optional)
+		* \return SimpleInputWindow* pointer to the new or existing window
 		*/
-		static void CreateWindow(MainWindow * main, const QString& title, const QString& libraryFile, const QString& funcName, const DataTable<qreal>&);
+		static SimpleInputWindow * CreateWindow(MainWindow * main, const QString& title, const QString& libraryFile, const QString& funcName, const DataTable<qreal>&);
 		/*! \brief creates a docking window in Tinkercell's mainwindow that can receive inputs from user and
 		run a function in a separate thread
 		* \param CThread * existing thread with the library containing the function
 		* \param QString title
 		* \param inputtc_matrixFunction* function that is triggered by the run button in the input window
 		* \param QDataTable<qreal> input table and its default values
+		* \return SimpleInputWindow* pointer to the new or existing window
 		*/
-		static void CreateWindow(CThread * cthread, const QString& title, void (*f)(tc_matrix), const DataTable<qreal>&);
+		static SimpleInputWindow * CreateWindow(CThread * cthread, const QString& title, void (*f)(tc_matrix), const DataTable<qreal>&);
 		/*! \brief add a list of options (combo box) to an existing input window
 		* \param QString title
 		* \param int row
@@ -168,12 +170,13 @@ namespace Tinkercell
 		* \param QStringList options
 		*/
 		static void AddOptions(const QString& title, int i, int j, const QStringList& options);
-		/*! \brief add a check box to an existing input window
-		* \param QString title
+		/*! \brief add a list of options (combo box) to an existing input window
+		* \param SimpleInputWindow*
 		* \param int row
 		* \param int column
+		* \param QStringList options
 		*/
-		static void AddOptions(const QString& title, int i, int j);
+		static void AddOptions(SimpleInputWindow *, int i, int j, const QStringList& options);
 	public slots:
 		/*!
 		\brief Executes the CThread

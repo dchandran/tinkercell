@@ -1,6 +1,3 @@
-/**
-* This is an example on how to build models with the COPASI backend API.
-*/
 #include <iostream>
 #include <vector>
 #include <string>
@@ -109,6 +106,8 @@ void clearCopasiModel(copasi_model model)
 
 copasi_model createCopasiModel(const char * name)
 {
+	copasi_init();
+
 	CCopasiDataModel* pDataModel = CCopasiRootContainer::addDatamodel();
 	CModel* pModel = pDataModel->getModel();
 	CQHash * qHash = new CQHash();
@@ -539,8 +538,12 @@ void addReactant(copasi_reaction reaction, const char * species, double stoichio
 	CReaction* pReaction = (CReaction*)(reaction.CopasiReactionPtr);
 	CQHash * hash = (CQHash*)(reaction.qHash);
 	
-	if (!pReaction || !hash) return;
-	
+	if (!pReaction || !hash)
+	{
+		std::cout << ("React is null\n");
+		return;
+	}
+
 	CMetab* pSpecies = 0;
 	
 	QString s(species);
@@ -549,6 +552,8 @@ void addReactant(copasi_reaction reaction, const char * species, double stoichio
 		CChemEq* pChemEq = &pReaction->getChemEq();
 		pChemEq->addMetabolite(pSpecies->getKey(), stoichiometry, CChemEq::SUBSTRATE);
 	}
+	else
+		std::cout << ("No reactant\n");
 }
 
 void addProduct(copasi_reaction reaction, const char * species, double stoichiometry)
@@ -1483,58 +1488,32 @@ static void substituteString(QString& target, const QString& oldname,const QStri
 	target.replace(newname,newname0);
 }
 
-void example()
+tc_matrix getReducedStoichiometryMatrix(copasi_model model)
 {
-	copasi_init();
-	//model named M
-	copasi_model model = createCopasiModel("M");
+	CModel* pModel = (CModel*)(model.CopasiModelPtr);
+	CCopasiDataModel* pDataModel = (CCopasiDataModel*)(model.CopasiDataModelPtr);
 	
-	//species
-	copasi_compartment cell = createCompartment(model, "cell", 1.0);
-	createSpecies(cell, "A", 2);
-	createSpecies(cell, "B", 1);
-	createSpecies(cell, "C", 3);
+	if (!pModel || !pDataModel) return tc_createMatrix(0,0);
+	compileCopasiModel(model);
 	
-	//parameters	
-	setGlobalParameter(model, "k1", 0.1);   //k1
-	setGlobalParameter(model, "k2", 0.2);   //k2
-	setGlobalParameter(model, "k3", 0.3);   //k3
-	
-	//reactions -- make sure all parameters or species are defined BEFORE this step
-	copasi_reaction R1 = createReaction(model, "R1");  // A+B -> 2B
-	addReactant(R1, "A", 1.0);
-	addReactant(R1, "B", 1.0);
-	addProduct(R1, "B", 2.0);
-	setReactionRate(R1, "k1*A*B");
+	CCopasiVector< CMetab > & species = pModel->getMetabolitesX();
+	CCopasiVectorNS < CReaction > & reacs = pModel->getReactions();
+	CMatrix < C_FLOAT64 > stoi = pModel->getRedStoi();
 
-	copasi_reaction R2 = createReaction(model, "R2");  //B+C -> 2C
-	addReactant(R2, "B", 1.0);
-	addReactant(R2, "C", 1.0);
-	addProduct(R2, "C", 2.0);
-	setReactionRate(R2, "k2*B*C");
+	tc_matrix N = tc_createMatrix( stoi.numRows(), stoi.numCols() );
 
-	copasi_reaction R3 = createReaction(model, "R3"); //C+A -> 2A
-	addReactant(R3, "C", 1.0);
-	addReactant(R3, "A", 1.0);
-	addProduct(R3, "A", 2.0);
-	setReactionRate(R3, "k3*C*A");
+	for  (int i=0; i < N.rows && i < species.size(); ++i)
+		if (species[i])
+			tc_setRowName(N, i, species[i]->getObjectName().c_str());
 
-	//assignment rule -- make sure all parameters or species are defined BEFORE this step
-	createVariable(model, "prod","A*B*C");
-	createVariable(model, "prodPlus","prod*2");
-	
-	int i, j;
-	//run
-	tc_matrix output = simulateDeterministic(model, 0, 30, 100);  //model, start, end, num. points
-	
-	//output
-	tc_printMatrixToFile("output.tab", output);
-	
-	printf("\noutput.tab contains the final output\n\n");
+	for  (int i=0; i < N.cols && i < reacs.size(); ++i)
+		if (reacs[i])
+			tc_setColumnName(N, i, reacs[i]->getObjectName().c_str());
 
-	tc_deleteMatrix(output);
-	copasi_end();
+	for  (int i=0; i < N.rows; ++i)
+		for  (int j=0; j < N.cols; ++j)
+			tc_setMatrixValue(N, i, j, stoi(i,j));
+
+	return N;
 }
-
-
 

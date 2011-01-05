@@ -1,7 +1,5 @@
 SET(LIBRARY_OUTPUT_PATH ${C_LIBRARY_OUTPUT_PATH})
 
-SET(LIBRARY_OUTPUT_PATH ${C_LIBRARY_OUTPUT_PATH})
-
 ADD_LIBRARY( runsteadystate 
   SHARED
   runsteadystate.c
@@ -69,17 +67,6 @@ ADD_LIBRARY( parametercorrelation
 )
 
 TARGET_LINK_LIBRARIES( parametercorrelation parametercorrelation tinkercellapi )
-
-INCLUDE_DIRECTORIES( BEFORE
-    ${TINKERCELL_SOURCE_DIR}/ExternalCode/lpsolve
-)
-
-ADD_LIBRARY( lpsolve
-  SHARED
-  lpsolve.c
-)
-
-TARGET_LINK_LIBRARIES( lpsolve lpsolve lp_solve tinkercellapi )
 
 ##
 ## CPack

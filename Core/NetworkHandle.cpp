@@ -824,26 +824,10 @@ namespace Tinkercell
 				{
 					if (symbolsTable.uniqueDataWithDot.contains(str) && symbolsTable.uniqueDataWithDot[str].first)
 					{
-						/*
-						ItemHandle * handle = symbolsTable.uniqueDataWithDot[str].first;
-						if (handle != globalHandle() && !str.contains(QRegExp(tr("^")+handle->fullName())))
-						{
-							s.replace(QRegExp(tr("^")+str+tr("([^a-zA-Z0-9_])")),handle->fullName() + tr(".") + str + tr("\\1"));
-							s.replace(QRegExp(tr("([^a-zA-Z0-9_\\.])")+str+tr("([^a-zA-Z0-9_])")), tr("\\1") + handle->fullName() + tr(".") + str + tr("\\2"));
-							s.replace(QRegExp(tr("([^a-zA-Z0-9_\\.])")+str+tr("$")),tr("\\1") + handle->fullName() + tr(".")  + str);
-						}*/
 					}
 					else
 					if (symbolsTable.uniqueDataWithUnderscore.contains(str) && symbolsTable.uniqueDataWithUnderscore[str].first)
 					{
-						/*
-						ItemHandle * handle = symbolsTable.uniqueDataWithUnderscore[str].first;
-						if (handle != globalHandle() && !str.contains(QRegExp(tr("^")+handle->fullName())))
-						{
-							s.replace(QRegExp(tr("^")+str+tr("([^a-zA-Z0-9_])")),handle->fullName() + tr(".") + str + tr("\\1"));
-							s.replace(QRegExp(tr("([^a-zA-Z0-9_\\.])")+str+tr("([^a-zA-Z0-9_])")), tr("\\1") + handle->fullName() + tr(".") + str + tr("\\2"));
-							s.replace(QRegExp(tr("([^a-zA-Z0-9_\\.])")+str+tr("$")),tr("\\1") + handle->fullName() + tr(".")  + str);
-						}*/
 					}
 					else
 					if (symbolsTable.nonuniqueData.contains(str) && symbolsTable.nonuniqueData[str].first)
@@ -859,19 +843,7 @@ namespace Tinkercell
 					else
 					if (symbolsTable.uniqueDataWithDot.contains(str2) && symbolsTable.uniqueDataWithDot[str2].first)
 					{
-						/*if (! str2.contains(QRegExp(tr("^")+symbolsTable.uniqueDataWithDot[str2].first->fullName())) )
-						{
-							ItemHandle * handle = symbolsTable.uniqueDataWithDot[str2].first;
-							s.replace(QRegExp(tr("^")+str+tr("([^a-zA-Z0-9_])")),handle->fullName() + tr(".") + str2 + tr("\\1"));
-							s.replace(QRegExp(tr("([^a-zA-Z0-9_\\.])")+str+tr("([^a-zA-Z0-9_])")), tr("\\1") + handle->fullName() + tr(".") + str2 + tr("\\2"));
-							s.replace(QRegExp(tr("([^a-zA-Z0-9_\\.])")+str+tr("$")),tr("\\1") + handle->fullName() + tr(".")  + str2);
-						}
-						else
-						{
-							s.replace(QRegExp(tr("^")+str+tr("([^a-zA-Z0-9_])")),str2 + tr("\\1"));
-							s.replace(QRegExp(tr("([^a-zA-Z0-9_\\.])")+str+tr("([^a-zA-Z0-9_])")), tr("\\1") + str + tr("\\2"));
-							s.replace(QRegExp(tr("([^a-zA-Z0-9_\\.])")+str+tr("$")),tr("\\1") + str);
-						}*/
+						
 					}
 					else
 					{

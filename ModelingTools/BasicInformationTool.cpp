@@ -6,7 +6,10 @@ See COPYRIGHT.TXT
 
 This class adds the "attributes" data to each item in Tinkercell.
 Two types of attributes are added -- "Parameters" and "Text Attributes".
-Attributes are essentially a <name,value> pair that are used to characterize an item.
+Attributes are essentially <name,value> paiif (!itemHandles[i]->name.isEmpty())
+								headers << (itemHandles[i]->fullName() + tr("."));
+							else
+								headers << QString();rs that are used to characterize an item.
 
 The BasicInformationTool contains two tools, one for text attributes and one
 for parameters. The buttons are drawn as NodeGraphicsItems using the datasheet.xml and
@@ -42,7 +45,7 @@ namespace Tinkercell
 		GraphicsScene * scene = currentScene();
 		if (!scene) return;
 
-		itemHandles = getHandle(scene->selected());
+		itemHandles = getHandle(scene->selected(),false);
 		if (itemHandles.isEmpty())
 				if (scene->localHandle())
 					itemHandles += scene->localHandle();
@@ -255,7 +258,7 @@ namespace Tinkercell
 		itemHandles.clear();
 		tableItems.clear();
 		tableWidget.clear();
-
+		
 		QStringList eqns(equationsList.values());
 		QString equations = QStringList(equationsList.values()).join(" ");
 
@@ -299,9 +302,7 @@ namespace Tinkercell
 					for (int j=0; j < nDataTable->rows(); ++j)
 					{
 						QString str = itemHandles[i]->fullName() + tr(".") + nDataTable->rowName(j);
-						if (equations.isEmpty() ||
-							equations.contains(str) ||
-							(itemHandles[i]->family() && !itemHandles[i]->family()->numericalAttributes.contains(nDataTable->rowName(j))))
+						if (equations.isEmpty() || equations.contains(str))
 						{
 							tableItems << QPair<ItemHandle*,int>(itemHandles[i],j);
 							headers << (itemHandles[i]->fullName() + tr("."));
@@ -393,6 +394,13 @@ namespace Tinkercell
 				if ((handle = getHandle(list[i])))
 					itemHandles += handle;
 			}
+
+			if (itemHandles.isEmpty())
+				if (scene->localHandle())
+					itemHandles += scene->localHandle();
+				else
+					if (scene->globalHandle())
+						itemHandles += scene->globalHandle();
 			
 			updateTable();
 		}
@@ -427,21 +435,13 @@ namespace Tinkercell
 			{
 				if (rowNumber < nDat.rows())
 				{
-					/*if (handle->family() && handle->family()->numericalAttributes.contains(nDat.rowName(rowNumber)))
-					{
-						recursive = true;
-						tableWidget.item(row,col)->setText(nDat.rowName(rowNumber));
-						if (console())
-                            console()->message(nDat.rowName(rowNumber) + tr(" cannot be removed because it is a family attribute"));
-					}
-					else*/
-					{
 						QString name = tableWidget.item(row,col)->text();
 						name.replace(QRegExp(tr("[^a-zA-Z_0-9]")),tr(""));
 						if (name.isEmpty())
 						{
 							QString s = nDat.rowName(rowNumber);
 							QString s2 = handle->fullName() + tr(".") + s;
+							
 							bool beingUsed = false;
 							QString s3;
 							
@@ -463,26 +463,30 @@ namespace Tinkercell
 											}
 										if (beingUsed) break;
 									}
-									if (beingUsed) break;
+									if (beingUsed) 								if (beingUsed) break;
 								}
-								if (beingUsed) break;
-							}
-							if (beingUsed)
-							{
-								QMessageBox::information(this,tr("Cannot remove"),s2 + tr(" cannot be removed because it is being used inside ") + s3);
-							}
-							else
-							{
-								nDat.removeRow(rowNumber);
-								win->changeData(handle->fullName() + tr(".") + s + tr(" removed"),handle, this->name,&nDat);
+								if (beingUsed)
+								{
+									QMessageBox::information(this,tr("Cannot remove"),s2 + tr(" cannot be removed because it is being used inside ") + s3);
+								}
+								else
+								{
+									nDat.removeRow(rowNumber);
+									if (handle->name.isEmpty())
+										win->changeData(s + tr(" removed"),handle, this->name,&nDat);									
+									else
+										win->changeData(handle->fullName() + tr(".") + s + tr(" removed"),handle, this->name,&nDat);
+								}
 							}
 						}
 						else
 						{
 							QString oldname = nDat.rowName(rowNumber);
-							win->rename(handle->fullName() + tr(".") + oldname, handle->fullName() + tr(".") + name);
+							if (handle->name.isEmpty())
+								win->rename(oldname, name);
+							else
+								win->rename(handle->fullName() + tr(".") + oldname, handle->fullName() + tr(".") + name);
 						}
-					}
 				}
 			}
 			else
@@ -496,7 +500,10 @@ namespace Tinkercell
 					return;
 				}
 				nDat.value(rowNumber,col-1) = value;
-				win->changeData(handle->fullName() + tr(".") + nDat.rowName(rowNumber) + tr(" changed"),handle,this->name,&nDat);
+				if (handle->name.isEmpty())
+					win->changeData(nDat.rowName(rowNumber) + tr(" changed"),handle,this->name,&nDat);
+				else
+					win->changeData(handle->fullName() + tr(".") + nDat.rowName(rowNumber) + tr(" changed"),handle,this->name,&nDat);
 			}
 		}
 
@@ -523,21 +530,18 @@ namespace Tinkercell
 						{
 							QString s = sDat.rowName(rowNumber);
 							sDat.removeRow(rowNumber);
-							win->changeData(handle->fullName() + tr(".") + s + tr(" removed"),handle, this->name,&sDat);
+							if (handle->name.isEmpty())
+								win->changeData(s + tr(" removed"),handle, this->name,&sDat);
+							else
+								win->changeData(handle->fullName() + tr(".") + s + tr(" removed"),handle, this->name,&sDat);
 						}
 						else
 						{
 							QString oldname = sDat.rowName(rowNumber);
-							sDat.setRowName(rowNumber, name);
-							QList<QUndoCommand*> commands;
-							commands += new ChangeDataCommand<QString>(tr("change data"),&handle->textDataTable(this->name),&sDat);
-							commands += new RenameCommand(tr("rename"),win,handle->fullName() + tr(".") + oldname,handle->fullName() + tr(".") + name);
-							CompositeCommand * command = new CompositeCommand(
-								tr("renamed ") + oldname + tr(" to ") + name,
-								commands);
-
-							win->history.push(command);
-							emit dataChanged(QList<ItemHandle*>() << handle);
+							if (handle->name.isEmpty())
+								win->rename(oldname, name);
+							else
+								win->rename(handle->fullName() + tr(".") + oldname, handle->fullName() + tr(".") + name);
 						}
 					}
 				}
@@ -547,7 +551,10 @@ namespace Tinkercell
 			{
 				QString value = tableWidget.item(row,col)->text();
 				sDat.value(rowNumber,0) = value;
-				win->changeData(handle->fullName() + tr(".") + sDat.rowName(rowNumber) + tr(" changed"),handle,this->name,&sDat);
+				if (handle->name.isEmpty())
+					win->changeData(sDat.rowName(rowNumber) + tr(" changed"),handle,this->name,&sDat);
+				else
+					win->changeData(handle->fullName() + tr(".") + sDat.rowName(rowNumber) + tr(" changed"),handle,this->name,&sDat);
 			}
 		}
 	}
@@ -793,7 +800,11 @@ namespace Tinkercell
 						if (parentWidget() == dockWidget || !ignoredVarNames.contains(itemHandles[i]->fullName() + tr(".") + nDataTable->rowName(j)))
 						{
 							tableItems << QPair<ItemHandle*,int>(itemHandles[i],j);
-							headers << (itemHandles[i]->fullName() + tr("."));
+							
+							if (!itemHandles[i]->name.isEmpty())
+								headers << (itemHandles[i]->fullName() + tr("."));
+							else
+								headers << QString();
 							names += nDataTable->rowName(j);
 							values += QString::number(nDataTable->value(j,0));
 							lowerBounds += QString::number(nDataTable->value(j,1));
@@ -809,7 +820,10 @@ namespace Tinkercell
 						if (parentWidget() == dockWidget || !ignoredVarNames.contains(itemHandles[i]->fullName() + tr(".") + sDataTable->rowName(j)))
 						{
 							tableItems << QPair<ItemHandle*,int>(itemHandles[i],j);
-							headers << itemHandles[i]->fullName() + tr(".");
+							if (!itemHandles[i]->name.isEmpty())
+								headers << (itemHandles[i]->fullName() + tr("."));
+							else
+								headers << QString();
 							names += sDataTable->rowName(j);
 							values += (sDataTable->value(j,0));
 						}
@@ -826,8 +840,8 @@ namespace Tinkercell
 		}
 		else
 		{
-			tableWidget.setColumnCount(4);
-			tableWidget.setHorizontalHeaderLabels(QStringList() << "variable" << "value" << "min" << "max");
+				tableWidget.setColumnCount(4);
+				tableWidget.setHorizontalHeaderLabels(QStringList() << "variable" << "value" << "min" << "max");
 		}
 		tableWidget.setVerticalHeaderLabels(headers);
 
@@ -859,8 +873,14 @@ namespace Tinkercell
 
 		if (tableItems.size() < 1)
 		{
-			if (scene->selected().isEmpty()) return;
-			lastItem = getHandle(scene->selected())[0];
+			if (!scene->selected().isEmpty()) 
+				lastItem = getHandle(scene->selected())[0];
+			else
+			if (scene->localHandle())
+				lastItem = scene->localHandle();
+			else
+			if (scene->globalHandle())
+				lastItem = scene->globalHandle();
 		}
 		else
 		{
@@ -875,7 +895,11 @@ namespace Tinkercell
 
 		int n = tableWidget.rowCount();
 		tableWidget.insertRow(n);
-		tableWidget.setVerticalHeaderItem(n, new QTableWidgetItem(lastItem->fullName()));
+		
+		if (!lastItem->name.isEmpty())
+			tableWidget.setVerticalHeaderItem(n, new QTableWidgetItem(lastItem->fullName()));
+		else
+			tableWidget.setVerticalHeaderItem(n, new QTableWidgetItem(tr("")));
 
 		if (type == both || type == numerical)
 		{
@@ -884,8 +908,17 @@ namespace Tinkercell
 				DataTable<qreal> nDat(lastItem->numericalDataTable(this->name));
 				i = 0;
 				name = tr("k0");
-				while (win->symbolsTable.uniqueDataWithDot.contains(lastItem->fullName() + tr(".") + name))
-					name = tr("k") + QString::number(++i);
+				
+				if (!lastItem->name.isEmpty())
+				{
+					while (win->symbolsTable.uniqueDataWithDot.contains(lastItem->fullName() + tr(".") + name))
+						name = tr("k") + QString::number(++i);
+				}
+				else
+				{
+					while (win->symbolsTable.uniqueDataWithDot.contains(name))
+						name = tr("k") + QString::number(++i);
+				}
 				tableWidget.setItem(n,1,new QTableWidgetItem(tr("1.0")));
 				tableWidget.setItem(n,0,new QTableWidgetItem(name));
 				tableItems << QPair<ItemHandle*,int>(lastItem,nDat.rowNames().size());
@@ -894,7 +927,10 @@ namespace Tinkercell
 				nDat.value(nDat.rows()-1,0) = 1.0;
 				nDat.setRowName(nDat.rows()-1,name);
 
-				win->changeData(lastItem->fullName() + tr(".") + name + tr(" added"), lastItem,this->name,&nDat);
+				if (!lastItem->name.isEmpty())
+					win->changeData(lastItem->fullName() + tr(".") + name + tr(" added"), lastItem,this->name,&nDat);
+				else
+					win->changeData(name + tr(" added"), lastItem,this->name,&nDat);
 			}
 		}
 
@@ -906,8 +942,17 @@ namespace Tinkercell
 
 				i = 0;
 				name = tr("s0");
-				while (win->symbolsTable.uniqueDataWithDot.contains(lastItem->fullName() + tr(".") + name))
-					name = tr("s") + QString::number(++i);
+				
+				if (!lastItem->name.isEmpty())
+				{
+					while (win->symbolsTable.uniqueDataWithDot.contains(lastItem->fullName() + tr(".") + name))
+						name = tr("s") + QString::number(++i);
+				}
+				else
+				{
+					while (win->symbolsTable.uniqueDataWithDot.contains(name))
+						name = tr("s") + QString::number(++i);
+				}
 
 				tableWidget.setItem(n,1,new QTableWidgetItem(tr("1.0")));
 				tableWidget.setItem(n,0,new QTableWidgetItem(name));
@@ -917,7 +962,10 @@ namespace Tinkercell
 				sDat.value(sDat.rows()-1,0) = tr("hello world");
 				sDat.setRowName(sDat.rows()-1 , name);
 
-				win->changeData(lastItem->fullName() + tr(".") + name + tr(" added"),lastItem,this->name,&sDat);
+				if (!lastItem->name.isEmpty())
+					win->changeData(lastItem->fullName() + tr(".") + name + tr(" added"),lastItem,this->name,&sDat);
+				else
+					win->changeData(name + tr(" added"),lastItem,this->name,&sDat);
 			}
 		}
 

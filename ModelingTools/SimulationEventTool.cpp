@@ -25,6 +25,7 @@ textsheet.xml files that define the NodeGraphicsItems.
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
 #include "SimulationEventTool.h"
+#include "BasicInformationTool.h"
 #include "FunctionDeclarationsTool.h"
 #include "CatalogWidget.h"
 #include "muParserDef.h"
@@ -73,14 +74,17 @@ namespace Tinkercell
 			QList<QToolButton*> newButtons = catalog->addNewButtons(
 				tr("Inputs"),
 				QStringList() 	<< tr("New event") 
+								<< tr("Global parameters")
 								<< tr("Step input") 
 								<< tr("Impulse") 
 								<< tr("Wave input"),
 				QList<QIcon>() 	<< QIcon(QPixmap(tr(":/images/clock.png")))
+								<< QIcon(QPixmap(tr(":/images/scroll.png")))
 								<< QIcon(QPixmap(tr(":/images/stepFunc.png")))
 								<< QIcon(QPixmap(tr(":/images/pulseFunc.png")))
 								<< QIcon(QPixmap(tr(":/images/sinFunc.png"))),
-				QStringList() 	<< tr("An event is an action that occurs as a reponse to a given condition")
+				QStringList() 	<< tr("Add an event that occurs as a reponse to a given condition")
+								<< tr("Edit global parameters")
 								<< tr("Insert a step function as input for one of the variables in the model")
 								<< tr("Insert an delta function as as input for one of the variables in the model")
 								<< tr("Insert a sin function as as input for one of the variables in the model")
@@ -224,6 +228,9 @@ namespace Tinkercell
 		if (name.toLower() == tr("new event"))
 			mode = addingEvent;
 		
+		if (name.toLower() == tr("global parameters"))
+			mode = globalParams;
+		
 		if (name.toLower() == tr("step input"))
 			mode = addingStep;
 			
@@ -253,8 +260,9 @@ namespace Tinkercell
 			items = scene->items();
 			NodeGraphicsItem * image = 0;
 			ItemHandle * globalHandle = 0; 
-			if (scene->networkWindow)
-				globalHandle = scene->network->globalHandle();
+			globalHandle = scene->localHandle();
+			if (!globalHandle)
+				globalHandle = scene->globalHandle();
 			
 			if (globalHandle && !globalHandle->hasTextData(tr("Events")))
 			{
@@ -292,6 +300,62 @@ namespace Tinkercell
 			mainWindow->sendEscapeSignal(this);
 			
 			select(0);
+			return;
+		}
+		
+		if (mode == globalParams)
+		{
+			items = scene->items();
+			NodeGraphicsItem * image = 0;
+			ItemHandle * globalHandle = 0; 
+			globalHandle = scene->localHandle();
+			if (!globalHandle)
+				globalHandle = scene->globalHandle();
+			
+			if (globalHandle && !globalHandle->hasNumericalData(tr("Parameters")))
+			{
+				DataTable<double> params;
+				params.resize(0,3);
+				params.setColumnName(0,tr("value"));
+				params.setColumnName(1,tr("min"));
+				params.setColumnName(2,tr("max"));
+				params.description() =  tr("Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds.");
+				globalHandle->numericalDataTable(tr("Parameters")) = params;
+			}
+			
+			QWidget * widget = mainWindow->tool(tr("Parameters"));
+			if (!widget) return;
+			
+			BasicInformationTool * basicInfoTool = static_cast<BasicInformationTool*>(widget);
+		
+			for (int i=0; i < items.size(); ++i)
+			{
+				image = NodeGraphicsItem::cast(items[i]);
+				if (image && image->className == tr("Global parameters"))
+				{
+					mainWindow->sendEscapeSignal(this);
+					basicInfoTool->select(0);
+					return;
+				}
+			}
+			
+			QString appDir = QApplication::applicationDirPath();
+			image = new NodeGraphicsItem;
+			NodeGraphicsReader reader;
+			reader.readXml(image, appDir + tr("/icons/plainpaper.xml"));
+			image->normalize();
+			image->className = tr("Global parameters");
+			image->scale(image->defaultSize.width()/image->sceneBoundingRect().width(),
+			image->defaultSize.height()/image->sceneBoundingRect().height());
+
+			image->setPos(point);if (name.toLower() == tr("global parameters"))
+			mode = globalParams;
+			image->setToolTip(tr("List of global parameters in this model"));
+
+			scene->insert(tr("Global parameters icon added"),image);
+			mainWindow->sendEscapeSignal(this);
+			
+			basicInfoTool->select(0);
 			return;
 		}
 		
@@ -400,7 +464,12 @@ namespace Tinkercell
 		if (!scene || modifiers != 0 || button == Qt::RightButton || !scene->networkWindow) return;
 
 		NodeGraphicsItem * node = NodeGraphicsItem::cast(item);
-		ItemHandle * globalHandle = scene->network->globalHandle();
+		if (!node) 
+			return;
+
+		ItemHandle * globalHandle = scene->localHandle();
+		if (!globalHandle)
+			globalHandle = scene->globalHandle();
 
 		if (node && node->className == tr("Event function"))
 		{
@@ -413,6 +482,25 @@ namespace Tinkercell
 				globalHandle->textDataTable(tr("Events")) = events;
 			}
 			select(0);
+		}
+		else
+		if (node && node->className == tr("Global parameters"))
+		{
+			QWidget * widget = mainWindow->tool(tr("Parameters"));
+			if (!widget) return;
+			
+			BasicInformationTool * basicInfoTool = static_cast<BasicInformationTool*>(widget);
+			if (!globalHandle->hasNumericalData(tr("Parameters")))
+			{
+				DataTable<double> params;
+				params.resize(0,3);
+				params.setColumnName(0,tr("value"));
+				params.setColumnName(1,tr("min"));
+				params.setColumnName(2,tr("max"));
+				params.description() =  tr("Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds.");
+				globalHandle->numericalDataTable(tr("Parameters")) = params;
+			}
+			basicInfoTool->select(0);
 		}
 		else
 		if (node && node->className == tr("Forcing function"))
@@ -435,32 +523,7 @@ namespace Tinkercell
 			return;
 
 		QGraphicsItem * item = scene->selected()[0];
-
-		NodeGraphicsItem * node = NodeGraphicsItem::cast(item);
-		ItemHandle * globalHandle = scene->network->globalHandle();
-
-		if (node && node->className == tr("Event function"))
-		{
-			if (!globalHandle->hasTextData(tr("Events")))
-			{
-				DataTable<QString> events;
-				events.resize(0,1);
-				events.setColumnName(0, tr("event"));
-				events.description() = tr("Events: set of triggers and events. The row names are the triggers, and the first column contains a string describing one or more events, usually an assignment.");
-				globalHandle->textDataTable(tr("Events")) = events;
-			}
-			select(0);
-		}
-		else
-		if (node && node->className == tr("Forcing function"))
-		{
-			QList<NodeGraphicsItem*> nodes = node->connectedNodes();
-			for (int i=0; i < nodes.size(); ++i)
-				if (nodes[i])
-					scene->selected() += nodes[i];
-			scene->select(0);
-			emit showAssignments(0);
-		}
+		mouseDoubleClicked ( scene, QPointF(0,0), item, Qt::LeftButton, 0);
 	}
 
 	void SimulationEventsTool::itemsRemoved(GraphicsScene * scene, QList<QGraphicsItem*>& items, QList<ItemHandle*>&, QList<QUndoCommand*>& commands)
@@ -743,6 +806,9 @@ namespace Tinkercell
 
 		if (name.toLower() == tr("new event"))
 			mode = addingEvent;
+		
+		if (name.toLower() == tr("global parameters"))
+			mode = globalParams;
 		
 		if (name.toLower() == tr("step input"))
 			mode = addingStep;

@@ -4,7 +4,7 @@
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
  
- This tool exports COPASI models
+ This tool provides interface into COPASI's functions
 ****************************************************************************/
 
 #ifndef TINKERCELL_COPASIEXPORTTOOL_H
@@ -16,68 +16,12 @@
 #include "NetworkWindow.h"
 #include "ItemHandle.h"
 #include "Tool.h"
-#include "CThread.h"
-#include "copasi/copasi_api.h"
+#include "SimulationThread.h"
 
 namespace Tinkercell
 {
-	class TINKERCELLEXPORT SimulationThread : public QThread
-	{
-		Q_OBJECT
-		
-	public: 
-		
-		enum AnalysisMethod
-		{
-			None=0,
-			DeterministicSimulation,
-			StochasticSimulation,
-			HybridSimulation,
-			TauLeapSimulation, 
-			SteadyState,
-			Jacobian,
-			Eigenvalues,
-			UnscaledElasticities,
-			UnscaledConcentrationCC,
-			UnscaledFluxCC,
-			ScaledElasticities,
-			ScaledConcentrationCC,
-			ScaledFluxCC
-		};
-		
-		SimulationThread(QObject * parent=0);
-		void updateModel();
-		void setMethod(AnalysisMethod);
-		void setSemaphore(QSemaphore*);
-		void setStartTime(double);
-		void setEndTime(double);
-		void setNumPoints(int);
-		void setParameterRange(const QString& param, double start, double end, int numPoints);
-		tc_matrix result();
-	
-	signals:
-		void getHandles( QSemaphore*, QList<ItemHandle*>&, bool * changed);
-		
-	protected:
-
-		virtual void run();
-		void updateModel(QList<ItemHandle*>&);
-		AnalysisMethod method;
-		copasi_model model;
-		double startTime;
-		double endTime;
-		int numPoints;		
-		tc_matrix resultMatrix;
-		QSemaphore * semaphore;
-		
-		struct ScanItem { QString name; double start; double end; int numPoints; };
-		QList<ScanItem> scanItems;
-		
-		static int totalModelCount;
-	}; 
-	
 	/*! \brief This class links C programs to the SimulationThread, which uses COPASI
-	/ingrou plugins
+	/ingrou simulations
 	*/
 	class TINKERCELLEXPORT CopasiExporter : public Tool
 	{
@@ -91,15 +35,29 @@ namespace Tinkercell
 	
 	private slots:
 
+		void toolLoaded(Tool*);
 		void setupFunctionPointers(QLibrary * library);
-		void historyChanged(int);
+		void historyChanged(int);/*! \brief make the window transparent when mouse exits the window*/
 		void windowChanged(NetworkWindow*,NetworkWindow*);
+		void getHandles( QSemaphore*, QList<ItemHandle*>*, bool * changed);
 		
-		void getHandles( QSemaphore*, QList<ItemHandle*>&, bool * changed);
+		void getEig();
+		void getJac();
+		void scan2D();
+		void scan1D();
+		void getSS();
+		void hybridSim();
+		void tauleapSim();
+		void odeSim();
+		void ssaSim();
+		void scaledElasticities();
+		void scaledConcentrationCC();
+		void scaledFluxCC();
 
 	private:
 		bool modelNeedsUpdate;
 		
+		SimulationDialog * simDialog;
 		static SimulationThread * odeThread;
 		static SimulationThread * stochThread;
 		static SimulationThread * ssThread;
@@ -121,6 +79,7 @@ namespace Tinkercell
 		static tc_matrix getScaledElasticities();
 		static tc_matrix getScaledConcentrationCC();
 		static tc_matrix getScaledFluxCC();
+		static tc_matrix reducedStoichiometry();
 	};
 }
 

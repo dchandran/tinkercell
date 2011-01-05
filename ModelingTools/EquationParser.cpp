@@ -92,6 +92,8 @@ namespace Tinkercell
 					QString str2 = str;
 
 					if (handle && !reservedWords.contains(str) &&
+						!symbolsTable->uniqueDataWithDot.contains(str) &&
+						!symbolsTable->uniqueHandlesWithUnderscore.contains(str) &&
 						!symbolsTable->uniqueHandlesWithDot.contains(str) &&
 						!symbolsTable->uniqueHandlesWithUnderscore.contains(str)) //maybe new symbol in the formula
 					{

@@ -96,7 +96,7 @@ namespace Tinkercell
 		* \param QString the name of the dynamic library to load (optional)
 		* \param bool whether or not to automatically unload the library
 		*/
-		CThread(MainWindow * main, const QString & lib = tr(""), bool autoUnload=false);
+		CThread(MainWindow * main, const QString & lib, bool autoUnload=false);
 
 		/*! \brief destructor. unload and deletes the library*/
 		virtual ~CThread();

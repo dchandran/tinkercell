@@ -17,8 +17,13 @@ namespace Tinkercell
 	AbstractInputWindow::AbstractInputWindow(const QString& name, CThread * thread)
 		: Tool(name), cthread(thread), dockWidget(0), targetFunction(0)
 	{
+		if (mainWindow && cthread)
+				disconnect(mainWindow,SIGNAL(historyChanged()),cthread,SLOT(update()));
+
 		if (cthread)
 			connect(this,SIGNAL(updateThread()),cthread,SLOT(update()));
+		
+		setWindowFlags(Qt::Dialog);
 	}
 
 	void AbstractInputWindow::setThread(CThread * thread)
@@ -218,35 +223,35 @@ namespace Tinkercell
 		if (inputWindows.contains(title.toLower()))
 		{
 			SimpleInputWindow * win = inputWindows[title.toLower()];
-			if (!win) return;
-
-			QStringList options = options0;
-			
-			for (int k=0; k < options.size(); ++k)
-				options[k].replace(tr("_"),tr("."));
-
-			win->delegate.options.value(i,j) = options;
-
-			if (win->dataTable.value(i,j) >= options.size() || win->dataTable.value(i,j) < 0)
-				win->dataTable.value(i,j) = -1;
-			else
-			if (win->tableWidget.item(i,j) && !options.contains(win->tableWidget.item(i,j)->text()))
-				win->tableWidget.item(i,j)->setText(options[ (int)(win->dataTable.value(i,j)) ]);
+			AddOptions(win,i,j,options0);
 		}
 	}
-	
-	void SimpleInputWindow::AddOptions(const QString& title, int i, int j)
+
+	void SimpleInputWindow::AddOptions(SimpleInputWindow * win, int i, int j, const QStringList& options0)
 	{
-		SimpleInputWindow::AddOptions(title,i,j,QStringList() << tr(""));
+		if (!win) return;
+
+		QStringList options = options0;
+		
+		for (int k=0; k < options.size(); ++k)
+			options[k].replace(tr("_"),tr("."));
+
+		win->delegate.options.value(i,j) = options;
+
+		if (win->dataTable.value(i,j) >= options.size() || win->dataTable.value(i,j) < 0)
+			win->dataTable.value(i,j) = -1;
+		else
+		if (win->tableWidget.item(i,j) && !options.contains(win->tableWidget.item(i,j)->text()))
+			win->tableWidget.item(i,j)->setText(options[ (int)(win->dataTable.value(i,j)) ]);
 	}
 
 	SimpleInputWindow::SimpleInputWindow() : AbstractInputWindow() { }
 
 	SimpleInputWindow::SimpleInputWindow(const SimpleInputWindow&) : AbstractInputWindow() { }
 
-	void SimpleInputWindow::CreateWindow(MainWindow * main, const QString& title, const QString& lib, const QString& funcName, const DataTable<qreal>& data)
+	SimpleInputWindow * SimpleInputWindow::CreateWindow(MainWindow * main, const QString& title, const QString& lib, const QString& funcName, const DataTable<qreal>& data)
 	{
-		if (!main || lib.isEmpty() || funcName.isEmpty()) return;
+		if (!main || lib.isEmpty() || funcName.isEmpty()) return 0;
 
 		SimpleInputWindow * inputWindow = 0;
 		if (SimpleInputWindow::inputWindows.contains(title.toLower()))
@@ -264,11 +269,12 @@ namespace Tinkercell
 			else
 				inputWindow->show();
 		}
+		return inputWindow;
 	}
 
-	void SimpleInputWindow::CreateWindow(CThread * thread, const QString& title, void (*f)(tc_matrix), const DataTable<qreal>& data)
+	SimpleInputWindow * SimpleInputWindow::CreateWindow(CThread * thread, const QString& title, void (*f)(tc_matrix), const DataTable<qreal>& data)
 	{
-		if (!thread || title.isEmpty() || !f) return;
+		if (!thread || title.isEmpty() || !f) return 0;
 
 		SimpleInputWindow * inputWindow = 0;
 		if (SimpleInputWindow::inputWindows.contains(title.toLower()))
@@ -286,6 +292,7 @@ namespace Tinkercell
 			else
 				inputWindow->show();
 		}
+		return inputWindow;
 	}
 
 	void SimpleInputWindow::addRow()

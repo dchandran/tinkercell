@@ -1,12 +1,3 @@
-"""
-category: Steady state
-name: Compute steady state
-description: compute steady state and eigenvalues using PySCeS
-icon: pysces.png
-menu: yes
-"""
-
-
 import numpy
 import pysces
 from tc2py import *

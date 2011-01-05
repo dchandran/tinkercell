@@ -2001,7 +2001,7 @@ namespace Tinkercell
 
 		oldNames << oldname;
 		if (net && makeUnique)
-			newNames << net->makeUnique(newname);			
+			newNames << net->makeUnique(newname);
 		else
 			newNames << newname;
 	}
@@ -2199,10 +2199,13 @@ namespace Tinkercell
 		{
 			if (handles[i])  //go through each handles num data and text data
 			{
-				QString fullname = handles[i]->fullName();
+				QString fullname("");
 				QString s = newname, s2;
-				s.remove(fullname + QObject::tr("."));
-				
+				if (!handles[i]->name.isEmpty())
+				{
+					fullname = handles[i]->fullName() + QObject::tr(".");
+					s.remove(fullname);
+				}
 				QList< QString > keys = handles[i]->numericalDataNames();
 				for (int j=0; j < keys.size(); ++j)  //go through each num data
 				{
@@ -2216,7 +2219,7 @@ namespace Tinkercell
 							nDat->setRowName(k,s2);
 						}
 
-						if (fullname + QObject::tr(".") + nDat->rowName(k) == oldname)						
+						if (fullname + nDat->rowName(k) == oldname)						
 							nDat->setRowName(k,s);
 					}
 					for (int k=0; k < nDat->columns(); ++k)
@@ -2228,7 +2231,7 @@ namespace Tinkercell
 							nDat->setColumnName(k,s2);
 						}
 						
-						if (fullname + QObject::tr(".") + nDat->columnName(k) == oldname)
+						if (fullname + nDat->columnName(k) == oldname)
 							nDat->setColumnName(k,s);
 					}
 				}
@@ -2245,7 +2248,7 @@ namespace Tinkercell
 							sDat->setRowName(k,s2);
 						}
 
-						if (fullname + QObject::tr(".") + sDat->rowName(k) == oldname)						
+						if (fullname + sDat->rowName(k) == oldname)						
 							sDat->setRowName(k,s);
 					}
 					for (int k=0; k < sDat->columns(); ++k)
@@ -2257,7 +2260,7 @@ namespace Tinkercell
 							sDat->setColumnName(k,s2);
 						}
 						
-						if (fullname + QObject::tr(".") + sDat->columnName(k) == oldname)
+						if (fullname + sDat->columnName(k) == oldname)
 							sDat->setColumnName(k,s);
 					}
 					for (int k=0; k < sDat->rows(); ++k) //substitute each value in the table

@@ -76,8 +76,8 @@ namespace Tinkercell
 		addExportOption(QIcon(tr(":/images/copy.png")),tr("Clipboard"),tr("Copy data to clipboard"));
 
 		//C interface
-		connect(&fToS,SIGNAL(plotDataTable(QSemaphore*,DataTable<qreal>&, int, const QString& , int)),
-				this, SLOT(plotData(QSemaphore*,DataTable<qreal>&, int, const QString& , int)));
+		connect(&fToS,SIGNAL(plotDataTable(QSemaphore*,DataTable<qreal>&, int, const QString&)),
+				this, SLOT(plotData(QSemaphore*,DataTable<qreal>&, int, const QString&)));
 		
 		connect(&fToS,SIGNAL(plotDataTable3D(QSemaphore*,DataTable<qreal>&, const QString&)),
 				this, SLOT(surface(QSemaphore*,DataTable<qreal>&, const QString&)));
@@ -98,6 +98,8 @@ namespace Tinkercell
 		connect(&fToS,SIGNAL(gnuplot(QSemaphore*,const QString&)), this, SLOT(gnuplot(QSemaphore*,const QString&)));
 		
 		connect(&fToS,SIGNAL(savePlotImage(QSemaphore*, const QString&)), this, SLOT(savePlotImage(QSemaphore*, const QString&)));
+		
+		qRegisterMetaType< PlotTool::PlotType >("PlotTool::PlotType");
 	}
 
 	QSize PlotTool::sizeHint() const
@@ -200,10 +202,10 @@ namespace Tinkercell
 		multiplePlotsArea->setActiveSubWindow ( window );
 	}
 
-	void PlotTool::plot(const DataTable<qreal>& matrix,const QString& title,int x,int all,PlotTool::PlotType type)
+	void PlotTool::plot(const DataTable<qreal>& matrix,const QString& title,int x,PlotTool::PlotType type)
 	{
-		if (!all)
-			pruneDataTable(const_cast< DataTable<qreal>& >(matrix),x,mainWindow);
+		//if (!all)
+			//pruneDataTable(const_cast< DataTable<qreal>& >(matrix),x,mainWindow);
 		
 		if (dockWidget)
 		{
@@ -237,10 +239,22 @@ namespace Tinkercell
 				}
 			}
 		}
-		Plot2DWidget * newPlot = new Plot2DWidget(this);
-		newPlot->type = type;
 		
-		newPlot->plot(matrix,title,x);
+		PlotWidget * newPlot = 0;
+		
+		if  (type == SurfacePlot)
+		{
+			Plot3DWidget * newPlot3D = new Plot3DWidget(this);
+			newPlot3D->surface(matrix,title);
+			newPlot = newPlot3D;
+		}
+		else
+		{
+			Plot2DWidget * newPlot2D = new Plot2DWidget(this);
+			newPlot2D->type = type;
+			newPlot2D->plot(matrix,title,x);
+			newPlot = newPlot2D;
+		}
 
 		if (mainWindow && mainWindow->statusBar())
 			mainWindow->statusBar()->showMessage(tr("Finished plotting"));
@@ -250,47 +264,10 @@ namespace Tinkercell
 
 	void PlotTool::surfacePlot(const DataTable<qreal>& matrix,const QString& title)
 	{
-		if (dockWidget)
-		{
-			dockWidget->show();
-			dockWidget->raise();
-		}
-		else
-		{
-			show();
-			this->raise();
-		}
-		
-		if ((holdCurrentPlot && holdCurrentPlot->isChecked()) ||
-			!(keepOldPlots && keepOldPlots->isChecked()))
-		{
-			QList<QMdiSubWindow *>  list = multiplePlotsArea->subWindowList(QMdiArea::ActivationHistoryOrder);
-			for (int i=0; i < list.size(); ++i)
-			{
-				PlotWidget * widget = static_cast<PlotWidget*>(list[i]->widget());
-				if (widget && widget->type == SurfacePlot)
-				{
-					if (widget->canAppendData()  && holdCurrentPlot && holdCurrentPlot->isChecked())
-						widget->appendData(matrix);
-					else
-						widget->updateData(matrix);
-					if (mainWindow && mainWindow->statusBar())
-							mainWindow->statusBar()->showMessage(tr("Finished plotting"));
-					return;
-				}
-			}
-		}
-
-		Plot3DWidget * newPlot = new Plot3DWidget(this);
-		newPlot->surface(matrix,title);
-
-		if (mainWindow && mainWindow->statusBar())
-			mainWindow->statusBar()->showMessage(tr("Finished 3D plot"));
-
-		addWidget(newPlot);
+		plot(matrix, title, 0, SurfacePlot);
 	}
 
-	void PlotTool::plotData(QSemaphore * s, DataTable<qreal>& matrix,int x,const QString& title,int all)
+	void PlotTool::plotData(QSemaphore * s, DataTable<qreal>& matrix,int x,const QString& title)
 	{
 		QRegExp regexp(tr("(?!\\d)_(?!\\d)"));
 		for (int i=0; i < matrix.columns(); ++i)
@@ -301,9 +278,9 @@ namespace Tinkercell
 		}
 		
 		matrix.description() = title;
-		plot(matrix,title,x,all,Plot2D);
+		plot(matrix,title,x,Plot2D);
 		
-		emit plotDataTable(matrix, x, title, all);
+		emit plotDataTable(matrix, x, title);
 		
 		if (multiplePlotsArea && numMultiplots > 0 && numMultiplots <= multiplePlotsArea->subWindowList().size())
 		{
@@ -326,7 +303,7 @@ namespace Tinkercell
 		}
 
 		matrix.description() = title;
-		plot(matrix,title,0,1,ScatterPlot);
+		plot(matrix,title,0,ScatterPlot);
 		
 		emit plotScatterplot(matrix, title);
 		
@@ -351,7 +328,7 @@ namespace Tinkercell
 		}
 
 		data.description() = title;
-		plot(data,title,0,1,HistogramPlot);
+		plot(data,title,0,HistogramPlot);
 		
 		emit plotHist(data , binsz, title);
 		
@@ -658,12 +635,12 @@ namespace Tinkercell
 		}
 	}
 	
-	void PlotTool_FtoS::plotMatrix(tc_matrix m, int x, const char* title, int all)
+	void PlotTool_FtoS::plotMatrix(tc_matrix m, int x, const char* title)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		DataTable<qreal> * dat = ConvertValue(m);
 		s->acquire();
-		emit plotDataTable(s, *dat,x,QString(title),all);
+		emit plotDataTable(s, *dat,x,QString(title));
 		s->acquire();
 		s->release();
 		delete s;
@@ -764,7 +741,7 @@ namespace Tinkercell
 	void PlotTool::plotMatrix(tc_matrix m, const char* title)
 	{
 		int x = 0, all = 1;
-		fToS.plotMatrix(m,x,title,all);
+		fToS.plotMatrix(m,x,title);
 	}
 
 	void PlotTool::plotMatrix3D(tc_matrix m, const char * title)

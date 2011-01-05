@@ -13,7 +13,7 @@ static char selected_var[100];
 static char selected_var1[100];
 static char selected_var2[100];
 static char target_var[100];
-static tc_strings allNames;
+static tc_strings allNames = {0,0};
 static int selectAll = 1;
 
 void run(tc_matrix input);
@@ -53,7 +53,7 @@ void loadAllNames()
 			tc_setString(allNames,i+params.rows,tc_getRowName(N,i));
 		
 		params.rownames = tc_createStringsArray(0);
-		tc_deleteMatrix(params);
+		tc_deleteMatrix(params);tc_deleteMatr
 		tc_deleteMatrix(N);
 		tc_deleteItemsArray(A);
 	}

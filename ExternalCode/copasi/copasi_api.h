@@ -18,7 +18,7 @@ BEGIN_C_DECLS
  \brief initialize copasi -- MUST BE CALLED before calling any other functions
  \ingroup Simulation
 */
-TCAPIEXPORT void copasi_init();
+//TCAPIEXPORT void copasi_init();
 /*! 
  \brief destroy copasi -- MUST BE CALLED at the end of program
  \ingroup Simulation
@@ -35,12 +35,12 @@ TCAPIEXPORT copasi_model createCopasiModel(const char * name);
  \brief remove a model
  \ingroup Simulation
 */
-TCAPIEXPORT void removeCopasiModel(copasi_model);
+//TCAPIEXPORT void removeCopasiModel(copasi_model);
 /*! 
  \brief clear all contents of a model
  \ingroup Simulation
 */
-TCAPIEXPORT void clearCopasiModel(copasi_model);
+//TCAPIEXPORT void clearCopasiModel(copasi_model);
 /*! 
  \brief This function is only needed for calling COPASI methods not found in this library. This function compiles the COPASI model; it is called internally by the simulate and other anlysis functions. 
  \param copasi_model model
@@ -56,7 +56,15 @@ TCAPIEXPORT void compileCopasiModel(copasi_model model);
 TCAPIEXPORT copasi_model loadModelFile(const char * filename);
 /*! 
  \brief add a compartment to the model
+ \param copasi_model model/*! 
+ \brief scaled flux control coefficients
  \param copasi_model model
+ \return tc_matrix 
+ \ingroup Simulation
+*/
+TCAPIEXPORT tc_matrix getScaledFluxCC(copasi_model model);
+/*! 
+ \brief create compartment
  \param char* compartment name
  \param double volume
  \return copasi_compartment a new compartment
@@ -294,7 +302,14 @@ TCAPIEXPORT tc_matrix getScaledConcentrationCC(copasi_model model);
 */
 TCAPIEXPORT tc_matrix getScaledFluxCC(copasi_model model);
 
-TCAPIEXPORT void example();
+/*! 
+ \brief reduced stoichiometry matrix
+ \param copasi_model model
+ \return tc_matrix 
+ \ingroup Simulation
+*/
+TCAPIEXPORT tc_matrix getReducedStoichiometryMatrix(copasi_model model);
+
 END_C_DECLS
 #endif
 

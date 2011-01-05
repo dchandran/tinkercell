@@ -299,6 +299,8 @@ namespace Tinkercell
 		toggleFixedAction->setIcon(QIcon(tr(":/images/lock.png")));
 		toggleFixedAction->setToolTip(tr("toggle between fixed and floating species"));
 		connect(toggleFixedAction,SIGNAL(triggered()),this,SLOT(fixedAction()));
+		
+		setWindowFlags(Qt::Dialog);
 	}
 	
 	void ModelSummaryTool::fixedAction()

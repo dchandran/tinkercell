@@ -42,17 +42,17 @@ namespace Tinkercell
         if (widget)
         {
             DynamicLibraryMenu * libMenu = static_cast<DynamicLibraryMenu*>(widget);
-    		return loadFromDir(libMenu, dir);
+    		   return loadFromDir(libMenu, dir);
     	}
     	return false;
     }
-
+  
     bool PythonTool::loadFromDir(DynamicLibraryMenu * libMenu, QDir& dir)
     {
     	bool filesFound = false;
         if (!libMenu) return filesFound;
         
-        dir.setFilter(QDir::Files);
+      dir.setFilter(QDir::Files);
 		dir.setSorting(QDir::Name);
 
 		QFileInfoList list = dir.entryInfoList();
@@ -139,7 +139,7 @@ namespace Tinkercell
 				icon = tr(":/images/function.png");
 			QPixmap pixmap(icon);
 		
-            QToolButton * button = libMenu->addFunction(category, name, QIcon(pixmap));
+         QToolButton * button = libMenu->addFunction(category, name, QIcon(pixmap));
 		
 			if (button)
 			{
@@ -213,11 +213,9 @@ namespace Tinkercell
     {
         static bool connected = false;
         
-        if (MainWindow::PROGRAM_MODE != tr("test-only")) return;
-
         if (!connected && mainWindow->tool(tr("Dynamic Library Menu")))
         {
-            QWidget * widget = mainWindow->tool(tr("Dynamic Library Menu"));
+        	QWidget * widget = mainWindow->tool(tr("Dynamic Library Menu"));
             if (widget)
             {
                 connected = true;
@@ -236,18 +234,17 @@ namespace Tinkercell
                 bool opened = false;
                 for (int i=0; i < 4; ++i)
                 {
-                    QDir dir(name[i]);
+                QDir dir(name[i]);
                     if (dir.exists())
                     {
                         opened = loadFromDir(libMenu,dir) || opened;
                     }
                 }
-                /*
-                if (!opened)
+             	if (!opened)
                 {
                     if (console())
 						console()->message(tr("No python plugins found (located in the /python folder)"));
-                }*/
+                }
             }
         }
     }

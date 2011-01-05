@@ -70,6 +70,9 @@ namespace Tinkercell
 		/*! \brief set file name and window title
 		* \return void*/
 		virtual void setFileName(const QString&);
+		/*! \brief set window title
+		* \return void*/
+		virtual void setWindowTitle(const QString&);
 
 	protected:
 		/*! \brief close event sends signal to all tools asking for confirmation becore closing

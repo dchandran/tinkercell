@@ -50,6 +50,7 @@
 #include "AntimonyEditor.h"
 #include "SBMLImportExport.h"
 #include "CopasiExporter.h"
+#include "ModuleCombinatorics.h"
 #include <QColor>
 #include <QBrush>
 
@@ -99,7 +100,28 @@ int main(int argc, char *argv[])
     	MainWindow mainWindow;
   #endif
   #endif
+  
+   mainWindow.hide();
+  
+  /*******  title , etc ***********/
+    mainWindow.setWindowTitle(QObject::tr("TinkerCell"));
+    mainWindow.statusBar()->showMessage(QObject::tr("Welcome to TinkerCell"));
+
+    /*******  Splash screen ***********/
+
+    QString splashFile(":/images/Tinkercell.png");
+	QPixmap pixmap(splashFile);
+	QSplashScreen splash(pixmap,Qt::SplashScreen);//|Qt::WindowStaysOnTopHint);
 	
+    QSize sz = mainWindow.size();
+    QPoint pos = mainWindow.pos();
+    splash.move(pos + QPoint(sz.width()-pixmap.width(), sz.height()-pixmap.height())/2 );
+
+    splash.setWindowOpacity(0.75);
+
+    splash.show();
+    splash.showMessage(QString("loading ..."));
+
 	/**********  statically loaded plugins  ****************/
 	mainWindow.addTool(new BasicGraphicsToolbar);
 	mainWindow.addTool(new PlotTool);
@@ -119,12 +141,6 @@ int main(int argc, char *argv[])
 	mainWindow.addTool(new NameFamilyDialog);
 	mainWindow.addTool(new ConnectionMaker);
 	
-	mainWindow.addTool(new DynamicLibraryMenu);
-    mainWindow.addTool(new LoadCLibrariesTool);
-	mainWindow.addTool(new PythonTool);
-	mainWindow.addTool(new OctaveTool);
-	mainWindow.addTool(new CodingWindow);
-	
 	mainWindow.addTool(new BasicInformationTool(QString("text")));
 	mainWindow.addTool(new BasicInformationTool(QString("numerical")));
 	mainWindow.addTool(new AssignmentFunctionsTool);
@@ -134,6 +150,11 @@ int main(int argc, char *argv[])
 	mainWindow.addTool(new CompartmentTool);
 	mainWindow.addTool(new SimulationEventsTool);
 	
+	mainWindow.addTool(new OctaveExporter);
+	mainWindow.addTool(new SBMLImportExport);
+	mainWindow.addTool(new CopasiExporter);
+	mainWindow.addTool(new AntimonyEditor);
+	
 	mainWindow.addTool(new ModuleTool);
 	mainWindow.addTool(new AutoGeneRegulatoryTool);
 	mainWindow.addTool(new CLabelsTool);
@@ -142,29 +163,12 @@ int main(int argc, char *argv[])
 	mainWindow.addTool(new LPSolveInputWindow);
 	mainWindow.addTool(new CellPositionUpdateTool);
 
-	mainWindow.addTool(new OctaveExporter);
-	mainWindow.addTool(new SBMLImportExport);
-	mainWindow.addTool(new CopasiExporter);
-	mainWindow.addTool(new AntimonyEditor);
-	
-    /*******  title , etc ***********/
-    mainWindow.setWindowTitle(QObject::tr("TinkerCell"));
-    mainWindow.statusBar()->showMessage(QObject::tr("Welcome to TinkerCell"));
-
-    /*******  Splash screen ***********/
-
-    QString splashFile(":/images/Tinkercell.png");
-	QPixmap pixmap(splashFile);
-	QSplashScreen splash(pixmap,Qt::SplashScreen);//|Qt::WindowStaysOnTopHint);
-	
-    QSize sz = mainWindow.size();
-    QPoint pos = mainWindow.pos();
-    splash.move(pos + QPoint(sz.width()-pixmap.width(), sz.height()-pixmap.height())/2 );
-
-    splash.setWindowOpacity(0.75);
-
-    splash.show();
-
+	mainWindow.addTool(new DynamicLibraryMenu);
+    mainWindow.addTool(new LoadCLibrariesTool);
+	mainWindow.addTool(new PythonTool);
+	mainWindow.addTool(new OctaveTool);
+	mainWindow.addTool(new CodingWindow);
+	mainWindow.addTool(new ModuleCombinatorics);
 
     /*******  Dynamically load plugins from folders ***********/
     DefaultPluginsMenu menu(&mainWindow);

@@ -164,7 +164,7 @@ namespace Tinkercell
 				}
 		
 		width = (xmax-xmin)/(double)delta;
-				
+		
 		if (width <= 0.0)
 			width = xmax;
 		
@@ -211,14 +211,6 @@ namespace Tinkercell
 		
 		processData();
 	
-		QRegExp regex(tr("\\_(?!_)"));
-		for (int i=0; i < dataTable.rows(); ++i)
-		{
-			QString s = this->dataTable.rowName(i);
-			s.replace(regex,tr("."));
-			this->dataTable.setRowName(i,s);
-		}
-
 		this->clear();
 		if (dataTable.columns() > 2)
 		{
@@ -249,7 +241,7 @@ namespace Tinkercell
 						QwtSymbol( (QwtSymbol::Style)(i % 10), Qt::NoBrush, penList[c], QSize(5,5) ));
 				}
 				else
-				if (type == PlotTool::HistogramPlot)
+				if (type == PlotTool::HistogramPlot || type == PlotTool::BarPlot)
 				{
 					QColor col = penList[c].color();
 					col.setAlpha(100);
@@ -262,7 +254,18 @@ namespace Tinkercell
 			}
 		}
 		
-		//hideList.clear();
+		if (usesRowNames())
+		{
+			QRegExp regex(tr("\\_(?!_)"));
+			for (int i=0; i < dataTable.rows(); ++i)
+				if (!dataTable.rowName(i).isEmpty())
+				{
+					QString s = this->dataTable.rowName(i);
+					s.replace(regex,tr("."));
+					this->dataTable.setRowName(i,s);
+				}
+			setAxisScaleDraw(QwtPlot::xBottom, new DataAxisLabelDraw(dataTable.rowNames()));
+		}
 		
 		if (dataTable.columns() > x)
 			setAxisTitle(xBottom, dataTable.columnName(x));
@@ -270,7 +273,7 @@ namespace Tinkercell
 			if (x < 0)
 				setAxisTitle(xBottom, "Index");
 			else
-				setAxisTitle(xBottom, "Time");
+				setAxisTitle(xBottom, "");
 				
 		QString ylabel = axisTitle(QwtPlot::yLeft).text();
 		
@@ -287,7 +290,7 @@ namespace Tinkercell
 
 		setAxisAutoScale(xBottom);
 		setAxisAutoScale(yLeft);
-		setAutoReplot(true);
+		//setAutoReplot(true);
 		replot();
 		if (zoomer)
 		{
@@ -313,9 +316,15 @@ namespace Tinkercell
 		replot();
 	}
 	
+	bool DataPlot::usesRowNames() const
+	{
+		if (dataTable.rows() < 1) return false;
+		return (!dataTable.rowName(0).isEmpty());
+	}
 	
 	void DataPlot::setLogX(bool b)
 	{
+		if (usesRowNames()) return;
 		if (b)
 		{
 			setAxisMaxMajor(QwtPlot::xBottom, 6);
@@ -334,6 +343,7 @@ namespace Tinkercell
 	
 	void DataPlot::setLogY(bool b)
 	{
+		if (usesRowNames()) return;
 		if (b)
 		{
 			setAxisMaxMajor(QwtPlot::yLeft, 6);
@@ -348,6 +358,29 @@ namespace Tinkercell
 			setAxisScaleEngine(QwtPlot::yLeft, new QwtLinearScaleEngine);
 		}
 		replot();
+	}
+	
+	/*********************
+   		DataAxisLabelDraw
+	**********************/
+	
+	DataAxisLabelDraw::DataAxisLabelDraw(const QStringList& strings)
+	{
+		labels = strings;
+	}
+	
+	Qt::Orientation DataAxisLabelDraw::orientation() const
+	{
+		return Qt::Horizontal;
+	}
+	
+	QwtText DataAxisLabelDraw::label(double v) const
+	{
+		int i = (int)v;
+		QString s;
+		if (i < labels.size() && i >= 0) 
+			s = labels[i];
+		return QwtText(s);
 	}
 	
 	/*********************************

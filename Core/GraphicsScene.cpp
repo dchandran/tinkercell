@@ -989,6 +989,8 @@ namespace Tinkercell
 			parent = NodeGraphicsItem::cast(allItems[i]);
 			if (!parent)
 				parent = TextGraphicsItem::cast(allItems[i]);
+			if (!parent)
+				parent = ConnectionGraphicsItem::cast(allItems[i]);
 			if (parent)
 			{
 				rect = parent->sceneBoundingRect();

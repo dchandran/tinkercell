@@ -43,7 +43,7 @@ namespace Tinkercell
 	{
 		if (!network || !writer) return false;
 
-		QList<ItemHandle*> allItems = network->handles();
+		QList<ItemHandle*> allItems = network->handles(false,false);
 
 		QList<ItemHandle*> topLevelHandles, childHandles;
 
@@ -126,7 +126,7 @@ namespace Tinkercell
 			if (handle->family())
 				writer->writeAttribute("family",handle->family()->name());
 			else
-				writer->writeAttribute("family","Node");
+				writer->writeAttribute("family","");
 			
 			ConnectionHandle * connection = ConnectionHandle::cast(handle);
 			if (connection && !connection->nodesWithRoles.isEmpty())

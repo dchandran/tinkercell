@@ -130,6 +130,13 @@ TCAPIEXPORT tc_matrix tc_getScaledConcentrationCC();
 */
 TCAPIEXPORT tc_matrix tc_getScaledFluxCC();
 
+/*! 
+ \brief reduced stoichiometry
+ \return tc_matrix 
+ \ingroup Simulation
+*/
+TCAPIEXPORT tc_matrix tc_reducedStoichiometry();
+
 /*!
  \brief initializing function
  \ingroup init
@@ -149,7 +156,8 @@ tc_matrix (*getUnscaledConcentrationCC)(),
 tc_matrix (*getUnscaledFluxCC)(),
 tc_matrix (*getScaledElasticities)(),
 tc_matrix (*getScaledConcentrationCC)(),
-tc_matrix (*getScaledFluxCC)()
+tc_matrix (*getScaledFluxCC)(),
+tc_matrix (*tc_reducedStoichiometry)()
 );
 
 END_C_DECLS

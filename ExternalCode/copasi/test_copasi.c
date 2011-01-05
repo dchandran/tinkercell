@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "copasi_api.h"
 
-copasi_model model1(); //oscillation
+copasi_model model1(const char*); //oscillation
 copasi_model model2(); //positive feebdack gene regulation
 copasi_model model3(); //testing
 void sim(copasi_model);
@@ -10,14 +10,23 @@ void eigen(copasi_model, const char*);
 
 int main()
 {
-	example();
+	//example();
+	copasi_model m;
+	m = model1("model1");
+	sim(m);
+	//clearCopasiModel(m);
+	//eigen( model2() , "k0" );
+	m = model1("model2");
+	sim(m);
+	
+	copasi_end();
 	return 0;
 }
 
-copasi_model model1()
+copasi_model model1(const char* name)
 {
 	//model named M
-	copasi_model model = createCopasiModel("M");
+	copasi_model model = createCopasiModel(name);
 	
 	//species
 	copasi_compartment cell = createCompartment(model, "cell", 1.0);
@@ -27,16 +36,17 @@ copasi_model model1()
 	createSpecies(cell, "C", 3);
 	
 	//parameters	
-	setGlobalParameter(model, "k1", 0.1);   //k1
-	setGlobalParameter(model, "k2", 0.2);   //k2
-	setGlobalParameter(model, "k3", 0.3);   //k3
+	setValue(model, "k1", 0.1);   //k1
+	setValue(model, "k2", 0.2);   //k2
+	setValue(model, "k3", 0.3);   //k3
 	
 	//reactions -- make sure all parameters or species are defined BEFORE this step
 	copasi_reaction R1 = createReaction(model, "R1");  // A+B -> 2B
-	addReactant(R1, "A", 1.0);
+	
+	addReactant(R1, "cell_A", 1.0);
 	addReactant(R1, "out_A", 1.0);
 	addProduct(R1, "out_A", 2.0);
-	setReactionRate(R1, "k1*A*out_A");
+	setReactionRate(R1, "k1*cell_A*out_A");
 
 	copasi_reaction R2 = createReaction(model, "R2");  //B+C -> 2C
 	addReactant(R2, "out_A", 1.0);
@@ -46,12 +56,12 @@ copasi_model model1()
 
 	copasi_reaction R3 = createReaction(model, "R3"); //C+A -> 2A
 	addReactant(R3, "C", 1.0);
-	addReactant(R3, "A", 1.0);
-	addProduct(R3, "A", 2.0);
-	setReactionRate(R3, "k3*C*A");
+	addReactant(R3, "cell_A", 1.0);
+	addProduct(R3, "cell_A", 2.0);
+	setReactionRate(R3, "k3*C*cell_A");
 
 	//assignment rule -- make sure all parameters or species are defined BEFORE this step
-	createVariable(model, "prod","A*out_A*C");
+	createVariable(model, "prod","cell_A*out_A*C");
 	createVariable(model, "prodPlus","prod*2");
 	//createEvent(model, "event1", "A > 2.5", "B", "B/2.0");
 	return model;
@@ -68,13 +78,13 @@ copasi_model model2()
 	createSpecies(cell, "Protein", 0);
 	
 	//parameters	
-	setGlobalParameter(model, "d1", 1.0);
-	setGlobalParameter(model, "d2", 0.2);  
-	setGlobalParameter(model, "k0", 2.0);
-	setGlobalParameter(model, "k1", 1.0);
-	setGlobalParameter(model, "h", 4.0);  
-	setGlobalParameter(model, "Kd", 1.0);
-	setGlobalParameter(model, "leak", 0.1);  
+	setValue(model, "d1", 1.0);
+	setValue(model, "d2", 0.2);  
+	setValue(model, "k0", 2.0);
+	setValue(model, "k1", 1.0);
+	setValue(model, "h", 4.0);  
+	setValue(model, "Kd", 1.0);
+	setValue(model, "leak", 0.1);  
 	
 	//reactions -- make sure all parameters or species are defined BEFORE this step
 	copasi_reaction R1 = createReaction(model, "R1");  //  mRNA production
@@ -126,7 +136,7 @@ void eigen(copasi_model model, const char* param)
 	for (i=0; i < 100; ++i)
 	{
 		p = (double)(i + 1)/10.0;
-		k = setGlobalParameter( model, param, p );
+		k = setValue( model, param, p );
 		
 		if (k)
 			printf("calculating steady state for %s = %lf\n",param, p);
@@ -164,8 +174,8 @@ copasi_model model3()
 	copasi_reaction r;
 	createSpecies(DefaultCompartment,"pro2",1);
 	createSpecies(DefaultCompartment,"pro1",1);
-	setGlobalParameter(model,"deg1_k0",1);
-	setGlobalParameter(model, "cc1_k0",1);
+	setValue(model,"deg1_k0",1);
+	setValue(model, "cc1_k0",1);
 	r = createReaction(model, "deg1");
 	setReactionRate(r,"deg1_k0*pro2");
 	addReactant(r,"pro2",1);

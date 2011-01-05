@@ -31,8 +31,14 @@ namespace Tinkercell
 	{
 		if (i==-1) return;
 		GraphicsScene * scene = currentScene();
-		if (scene && scene->network)
+		if (scene && scene->network && scene->networkWindow)
+		{
 			savedNetworks[scene->network] = false;
+			if (!scene->networkWindow->windowTitle().contains(tr("*")))
+				scene->networkWindow->setWindowTitle(
+					tr("*") + scene->networkWindow->windowTitle()
+				);
+		}
 		++countHistory;
 		if (countHistory > 10)
 		{
@@ -369,7 +375,8 @@ namespace Tinkercell
 	void LoadSaveTool::loadNetwork(const QString& filename)
 	{
 		QList<QGraphicsItem*> items;
-		loadItems(items,filename);
+		ItemHandle globalHandle;
+		loadItems(items,filename, &globalHandle);
 
 		if (items.size() > 0)
 		{
@@ -392,7 +399,9 @@ namespace Tinkercell
 				}
 				return;
 			}
-		
+			
+			if (scene->globalHandle())
+				(*scene->globalHandle()) = globalHandle;
 		    //scene->insert(tr("load"),items);
 		    QList<ItemHandle*> handles = getHandle(items);
 		    QList<QUndoCommand*> commands;
@@ -436,34 +445,71 @@ namespace Tinkercell
 	void LoadSaveTool::getItemsFromFile(QList<ItemHandle*>& handles, QList<QGraphicsItem*>& items, const QString& filename,ItemHandle * root)
 	{
 		if (!handles.isEmpty()) return;
-		loadItems(items,filename);
-		ItemHandle * h;
-
+		
+		ItemHandle * h, * globalHandle = new ItemHandle;
+		loadItems(items,filename, globalHandle);
+		if (!root)
+			handles += globalHandle;
+		
 		for (int i=0; i < items.size(); ++i)
 			if ((h = getHandle(items[i])) && !handles.contains(h))
-			{
 				handles += h;
-			}
-		
+
 		if (root)
+		{
 			for (int i=0; i < handles.size(); ++i)
 				if ((h = handles[i]) && !h->parent)
 				{
 					h->setParent(root,false);
 					RenameCommand::findReplaceAllHandleData(handles,h->name,root->fullName() + tr(".") + h->name);
 				}
+
+			if (globalHandle)
+			{
+				h = globalHandle;
+				QStringList keys = h->numericalDataNames();
+				QString s;
+				for (int i=0; i < keys.size(); ++i)
+				{
+					NumericalDataTable & dat1 = (h->numericalDataTable(keys[i]));
+					NumericalDataTable & dat2 = (root->numericalDataTable(keys[i]));
+					
+					for (int j=0; j < dat1.rows(); ++j)
+					{
+						s = dat1.rowName(j);
+						if (!dat2.hasRow(s))
+							for (int k=0; k < dat2.columns() && k < dat1.columns(); ++k)
+								dat2.value(s,k) = dat1.value(s,k);
+						RenameCommand::findReplaceAllHandleData(handles,dat1.rowName(j),root->fullName() + tr(".") + dat1.rowName(j));
+					}
+				}
+			
+				keys = h->textDataNames();
+				for (int i=0; i < keys.size(); ++i)
+				{
+					TextDataTable & dat1 = (h->textDataTable(keys[i]));
+					TextDataTable & dat2 = (root->textDataTable(keys[i]));
+					
+					for (int j=0; j < dat1.rows(); ++j)
+					{
+						s = dat1.rowName(j);
+						if (!dat2.hasRow(s))
+							for (int k=0; k < dat2.columns() && k < dat1.columns(); ++k)
+								dat2.value(s,k) = dat1.value(s,k);
+						RenameCommand::findReplaceAllHandleData(handles,dat1.rowName(j),root->fullName() + tr(".") + dat1.rowName(j));
+					}
+				}
+			}
+		}	
 	}
 
-	void LoadSaveTool::loadItems(QList<QGraphicsItem*>& itemsToInsert, const QString& filename)
+	void LoadSaveTool::loadItems(QList<QGraphicsItem*>& itemsToInsert, const QString& filename, ItemHandle * globalHandle)
 	{
 		QFile file1 (filename);
 		
 		if (!file1.open(QFile::ReadOnly | QFile::Text))
 		{
-			mainWindow->statusBar()->showMessage(tr("file cannot be opened : ") + filename);
-			//if (console())
-              //  console()->error(tr("file cannot be opened : ") + filename);
-
+			//mainWindow->statusBar()->showMessage(tr("file cannot be opened : ") + filename);
 			QMessageBox::information(this,tr("Error"),tr("file cannot be opened : ") + filename);
 			return;
 		}
@@ -506,24 +552,29 @@ namespace Tinkercell
 		for (int i=0; i < handlesList.size(); ++i)
 			if (handlesList[i].second)
 			{
-				if (handlesList[i].first.isEmpty() && handlesList[i].second->name.isEmpty() && currentNetwork())
-					(*currentNetwork()->globalHandle()) = (*handlesList[i].second);
-
-				if (handlesList[i].second->type == NodeHandle::TYPE)
+				if (handlesList[i].first.isEmpty() && handlesList[i].second->name.isEmpty())
 				{
-					nodeHandle = static_cast<NodeHandle*>(handlesList[i].second);
-					if (getNodeFamily(handlesList[i].first))
-						nodeHandle->setFamily(getNodeFamily(handlesList[i].first));
+					if (globalHandle)
+						(*globalHandle) = (*handlesList[i].second);
 				}
 				else
-					if (handlesList[i].second->type == ConnectionHandle::TYPE)
+				{
+					if (handlesList[i].second->type == NodeHandle::TYPE)
 					{
-						connectionHandle = static_cast<ConnectionHandle*>(handlesList[i].second);
-						if (getConnectionFamily(handlesList[i].first))
-							connectionHandle->setFamily( getConnectionFamily(handlesList[i].first));
+						nodeHandle = static_cast<NodeHandle*>(handlesList[i].second);
+						if (getNodeFamily(handlesList[i].first))
+							nodeHandle->setFamily(getNodeFamily(handlesList[i].first));
 					}
-				//if (handlesList[i].second->family())
-				handlesHash[handlesList[i].second->fullName()] = handlesList[i].second;
+					else
+						if (handlesList[i].second->type == ConnectionHandle::TYPE)
+						{
+							connectionHandle = static_cast<ConnectionHandle*>(handlesList[i].second);
+							if (getConnectionFamily(handlesList[i].first))
+								connectionHandle->setFamily( getConnectionFamily(handlesList[i].first));
+						}
+					
+					handlesHash[handlesList[i].second->fullName()] = handlesList[i].second;
+				}
 			}
 
 		file1.close();

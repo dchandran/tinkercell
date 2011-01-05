@@ -38,6 +38,7 @@ INCLUDE_DIRECTORIES( BEFORE
      ${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi
      ${TINKERCELL_SOURCE_DIR}/ExternalCode/libSBML/include
      ${TINKERCELL_SOURCE_DIR}/ExternalCode/Antimony/src
+     ${TINKERCELL_SOURCE_DIR}/ModularNetworkAlgorithms
  )
 
 FILE( GLOB TINKERCELL_MAIN_SRC 
@@ -52,6 +53,7 @@ FILE( GLOB TINKERCELL_MAIN_SRC
     ${TINKERCELL_SOURCE_DIR}/GeneticNetworks/*.cpp
     ${TINKERCELL_SOURCE_DIR}/OtherTools/*.cpp
     ${TINKERCELL_SOURCE_DIR}/ImportExportTools/*.cpp
+    ${TINKERCELL_SOURCE_DIR}/ModularNetworkAlgorithms/*.cpp
 )
 
 FILE( GLOB TINKERCELL_MAIN_HRDS
@@ -62,8 +64,9 @@ FILE( GLOB TINKERCELL_MAIN_HRDS
     ${TINKERCELL_SOURCE_DIR}/ModelingTools/*.h
     ${TINKERCELL_SOURCE_DIR}/ModuleTools/*.h
     ${TINKERCELL_SOURCE_DIR}/GeneticNetworks/*.h
-     ${TINKERCELL_SOURCE_DIR}/OtherTools/*.h
-     ${TINKERCELL_SOURCE_DIR}/ImportExportTools/*.h
+    ${TINKERCELL_SOURCE_DIR}/OtherTools/*.h
+    ${TINKERCELL_SOURCE_DIR}/ImportExportTools/*.h
+    ${TINKERCELL_SOURCE_DIR}/ModularNetworkAlgorithms/*.h
 )
 
 QT4_WRAP_CPP( TINKERCELL_MAIN_MOC ${TINKERCELL_MAIN_HRDS})

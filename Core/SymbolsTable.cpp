@@ -98,10 +98,10 @@ namespace Tinkercell
 
 				handlesAddress[(void*)handle] = handle->fullName();
 
+				uniqueHandlesWithDot[handle->fullName()] = handle;
+				uniqueHandlesWithUnderscore[handle->fullName(QObject::tr("_"))] = handle;
 				if (handle != &globalHandle)
 				{
-					uniqueHandlesWithDot[handle->fullName()] = handle;
-					uniqueHandlesWithUnderscore[handle->fullName(QObject::tr("_"))] = handle;
 					nonuniqueHandles.insertMulti(handle->fullName(),handle);
 					nonuniqueHandles.insertMulti(handle->fullName(QObject::tr("_")),handle);
 					nonuniqueHandles.insertMulti(handle->name,handle);

@@ -336,20 +336,25 @@ namespace Tinkercell
 		return editor;
 	}
 	
+	void NetworkWindow::setWindowTitle(const QString& text)
+	{
+		QMainWindow::setWindowTitle(text);
+		if (network->mainWindow->tabWidget)
+		{
+			int k = network->mainWindow->tabWidget->indexOf(this);
+			if (k >= 0)
+				network->mainWindow->tabWidget->setTabText(k, text);
+		}
+	}
+	
 	void NetworkWindow::setFileName(const QString& text)
 	{
 		filename = text;
-		
+
 		QRegExp regex(tr("([^\\/]+$)"));
 		if (network && network->mainWindow && regex.indexIn(filename))
 		{
 			this->setWindowTitle(regex.cap(1));
-			if (network->mainWindow->tabWidget)
-			{
-				int k = network->mainWindow->tabWidget->indexOf(this);
-				if (k >= 0)
-					network->mainWindow->tabWidget->setTabText(k, regex.cap(1));
-			}
 		}
 	}
 

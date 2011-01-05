@@ -69,7 +69,7 @@ namespace Tinkercell
 		* \param CThread * the thread that is already setup with the correct library and function
 		* \param Qt::Orientation orientation
 		*/
-		MultithreadedSliderWidget(MainWindow * parent, CThread * thread, Qt::Orientation orientation = Qt::Horizontal);
+		MultithreadedSliderWidget(MainWindow * parent, CThread * thread=0, Qt::Orientation orientation = Qt::Horizontal);
 
 		/*!
 		* \brief constructor
@@ -84,6 +84,18 @@ namespace Tinkercell
 		* \brief the cthread that is run every time the sliders change
 		*/
 		virtual CThread * thread() const;
+		
+		/*!
+		* \brief the cthread that is run every time the sliders change
+		*/
+		virtual void setThread(CThread *);
+		
+		/*!
+		* \brief This is the data table that will be altered when no appropriate data is available. 
+						For example, if one of the sliders is labeled "A" and the default table is set to "bla", then
+						changing the slider for "A" will result in change to "A.bla[0,0]"
+		*/
+		virtual void setDefaultDataTable(const QString&);
 		
 		/*!
 		* \brief table containing the variables, current values, min and max
@@ -154,6 +166,12 @@ namespace Tinkercell
 		* \brief main window
 		*/
 		MainWindow * mainWindow;
+		/*!
+		* \brief This is the data table that will be altered when no appropriate data is available. 
+						For example, if one of the sliders is labeled "A" and the default table is set to "bla", then
+						changing the slider for "A" will result in change to "A.bla[0,0]"
+		*/
+		QString defaultDataTable;
 	};
 }
 

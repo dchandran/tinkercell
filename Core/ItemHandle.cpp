@@ -66,12 +66,16 @@ namespace Tinkercell
 		return 0;
 	}
 	
-	QList<ItemHandle*> getHandle(const QList<QGraphicsItem*>& items)
+	QList<ItemHandle*> getHandle(const QList<QGraphicsItem*>& items, bool includeNull)
 	{
 		QList<ItemHandle*> list;
 		ItemHandle * h = 0;
 		for (int i=0; i < items.size(); ++i)
-				list << getHandle(items[i]);
+		{
+			h = getHandle(items[i]);
+			if (h || includeNull)
+				list << h;
+		}
 		return list;
 	}
 

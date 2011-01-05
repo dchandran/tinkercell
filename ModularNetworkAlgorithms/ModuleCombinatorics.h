@@ -28,22 +28,21 @@ namespace Tinkercell
 
 			ModuleCombinatorics();
 			bool setMainWindow(MainWindow*);
+		
 		public slots:
 			
 			void run();
 		
 		private:
 
-			NodesTree * nodesTree;
-			ConnectionsTree * connectionsTree;
-			void getModelsFor(ItemFamily*, QList< QPair< QString, QList<ItemHandle*> > >&);
+			void getModelsFor(ItemHandle*, QList< QPair< QString, QList<ItemHandle*> > >&);
 			void writeModels();
 			void printStats(QHash<QString, double>& stats);
 			void writeModels(int& k, QHash<QString, double>& stats, QList<ItemHandle*>& output, const QList<ItemHandle*>& handles, const QHash< ItemHandle*, QList< QPair< QString, QList<ItemHandle*> > > >& handleReplacements);
 	};
 }
 
-extern "C"  TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main);
+//extern "C"  TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main);
 
 #endif
 

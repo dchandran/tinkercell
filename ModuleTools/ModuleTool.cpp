@@ -9,7 +9,6 @@
 ****************************************************************************/
 
 #include <math.h>
-#include <iostream>
 #include <QRegExp>
 #include "ItemFamily.h"
 #include "NetworkHandle.h"
@@ -568,13 +567,18 @@ namespace Tinkercell
 								if (QFile::exists(filename))
 								{
 									QPair< QList<ItemHandle*> , QList<QGraphicsItem*> > pair = mainWindow->getItemsFromFile(filename,0);
-
+									
 									items2 = pair.second;
 									QList<ItemHandle*> handles2 = pair.first;
 									QList<ItemHandle*> allChildren = handles2;
 									for (int j=0; j < handles2.size(); ++j)
 										if (handles2[j])
-											allChildren << handles2[j]->allChildren();
+										{
+											if (handles2[j]->family() && !handles2[j]->name.isEmpty())
+												allChildren << handles2[j]->allChildren();
+											else
+												commands << new MergeHandlesCommand(tr("merge"), scene->network, QList<ItemHandle*>() << handles[i] << handles2[j]);
+										}
 
 									loaded = !handles2.isEmpty();
 
@@ -1109,14 +1113,19 @@ namespace Tinkercell
 		if (!scene || !scene->network || !item || !mainWindow || modifiers || !(ArrowHeadItem::cast(item) || ConnectionGraphicsItem::cast(item))) return;
 
 		ItemHandle * handle = getHandle(item);
-
+		
 		if (!handle)
 		{
-			ArrowHeadItem * arrow = ArrowHeadItem::cast(item);
-			if (arrow)
+			if (qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(item))
+				handle = getHandle(qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(item)->connectionItem);
+			else
 			{
-				if (arrow->connectionItem && arrow->connectionItem->centerRegionItem == arrow)
-					handle = getHandle(arrow->connectionItem);
+				ArrowHeadItem * arrow = ArrowHeadItem::cast(item);
+				if (arrow)
+				{
+					if (arrow->connectionItem && arrow->connectionItem->centerRegionItem == arrow)
+						handle = getHandle(arrow->connectionItem);
+				}
 			}
 		}
 

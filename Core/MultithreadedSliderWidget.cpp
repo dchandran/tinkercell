@@ -37,17 +37,16 @@ namespace Tinkercell
 	MultithreadedSliderWidget::MultithreadedSliderWidget(MainWindow * parent, CThread * thread, Qt::Orientation orientation)
 		: QWidget(parent), orientation(orientation), mainWindow(parent)
 	{
-		setAttribute(Qt::WA_DeleteOnClose);
+		setAttribute(Qt::WA_DeleteOnClose,true);
 		cthread = thread;
 		setWindowFlags(Qt::Dialog);
 		slidersLayout = 0;
 		hide();
 	}
-
 	MultithreadedSliderWidget::MultithreadedSliderWidget(MainWindow * parent, const QString & lib, const QString & functionName, Qt::Orientation orientation)
 		: QWidget(parent), orientation(orientation), mainWindow(parent)
 	{
-		setAttribute(Qt::WA_DeleteOnClose);
+		setAttribute(Qt::WA_DeleteOnClose,true);
 		cthread = new CThread(parent, lib);
 		cthread->setMatrixFunction(functionName.toAscii().data());
 		setWindowFlags(Qt::Dialog);
@@ -58,6 +57,11 @@ namespace Tinkercell
 	CThread * MultithreadedSliderWidget::thread() const
 	{
 		return cthread;
+	}
+
+	void MultithreadedSliderWidget::setThread(CThread * t)
+	{
+		cthread = t;
 	}
 	
 	void MultithreadedSliderWidget::minmaxChanged()
@@ -139,10 +143,12 @@ namespace Tinkercell
 		
 		if (cthread->isRunning())
 		{
-			mainWindow->console()->message(tr("Previous run has not finished yet"));
+			if (mainWindow && mainWindow->console())
+				mainWindow->console()->message(tr("Previous run has not finished yet"));
 			return;
+			//cthread->terminate();
 		}
-		
+
 		cthread->start();
 	}
 
@@ -159,17 +165,7 @@ namespace Tinkercell
 				values.value(i,0) = min[i] + (range * sliders[i]->value())/100.0;
 				valueline[i]->setText(QString::number(values.value(i,0)).left(6));
 			}
-
 		valueChanged();
-		
-		/*if (cthread->isRunning())
-		{
-			mainWindow->console()->message(tr("Previous run has not finished yet"));
-			return;
-		}*/
-		
-		//cthread->setArg(values);		
-		//cthread->start();
 	}
 	
 	void MultithreadedSliderWidget::setSliders(const QStringList& options, const QList<double>& minValues, const QList<double>& maxValues)
@@ -279,7 +275,12 @@ namespace Tinkercell
 	{
 		return values;
 	}
-	
+
+	void MultithreadedSliderWidget::setDefaultDataTable(const QString& s)
+	{
+		defaultDataTable = s;
+	}
+
 	void MultithreadedSliderWidget::saveValues()
 	{
 		NetworkHandle * network = mainWindow->currentNetwork();
@@ -352,8 +353,31 @@ namespace Tinkercell
 							}
 						}
 					}
+					else
+					if (!defaultDataTable.isEmpty() && 
+							symbols.uniqueHandlesWithDot.contains(s))
+					{
+						ItemHandle * h = symbols.uniqueHandlesWithDot[s];
+						if (h->hasNumericalData(defaultDataTable))
+						{
+							oldTable = &(h->numericalDataTable(defaultDataTable));
+							if (oldTable->value(0,0) != d)
+							{
+								k = oldTables.indexOf(oldTable);
+								if (k > -1)							
+									newTable = newTables[k];
+								else
+								{
+									newTable = new NumericalDataTable(*oldTable);
+									oldTables << oldTable;
+									newTables << newTable;
+								}
+								newTable->value(0,0) = d;
+							}
+						}
+					}
 				}
-			}
+		}
 		
 		if (!newTables.isEmpty())
 		{
@@ -363,4 +387,5 @@ namespace Tinkercell
 		}
 	}
 }
+
 

@@ -7,7 +7,7 @@
  A tree model for storing the tree of handles
 
 ****************************************************************************/
-
+#include <iostream>
 #include "EquationParser.h"
 #include "ItemFamily.h"
 #include "ContainerTreeModel.h"
@@ -360,7 +360,7 @@ namespace Tinkercell
 			{
 				if (child = makeBranch(handle,item,params->rowName(i)))
 				{
-					item->appendChild(child);					
+					item->appendChild(child);
 				}
 			}
 		}
@@ -371,9 +371,11 @@ namespace Tinkercell
 			{
 				childHandle = handle->children[i];
 				if (childHandle && childHandle->family() && childHandle->parent == handle)
-				{					
+				{
 					if (child = makeBranch(handle->children[i],item))
+					{
 						item->appendChild(child);
+					}
 				}
 			}
 		}

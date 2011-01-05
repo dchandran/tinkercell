@@ -39,8 +39,8 @@ ModuleCombinatoricsOutputWidget::ModuleCombinatoricsOutputWidget(
 	}
 	
 	QTabWidget * tabs = new QTabWidget;
-	plot1 = new Plot2Dwidget;
-	plot2 = new Plot2Dwidget;
+	plot1 = new Plot2DWidget;
+	plot2 = new Plot2DWidget;
 	
 	plot1->type = PlotTool::BarPlot;
 	plot2->type = PlotTool::ScatterPlot;
@@ -55,11 +55,12 @@ ModuleCombinatoricsOutputWidget::ModuleCombinatoricsOutputWidget(
 	group1->setLayout(layout1);
 	group2->setLayout(layout2);
 	
+	QHBoxLayout * layout = new QHBoxLayout;
 	layout->addWidget(group1, 1);
 	layout->addWidget(group2, 1);		
 	setLayout(layout);
 	
-	sliderMoved();
+	update();
 }
 
 void ModuleCombinatoricsOutputWidget::update()
@@ -71,7 +72,7 @@ QPair<double,double> ModuleCombinatoricsOutputWidget::findRange(const QList<qrea
 	QPair<double,double> range;
 	if (!values.isEmpty())
 	{
-		range.fist = values[0];
+		range.first = values[0];
 		range.second = values[0];
 	
 		for (int i=0; i < values.size(); ++i)

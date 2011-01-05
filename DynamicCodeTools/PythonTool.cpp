@@ -193,7 +193,12 @@ namespace Tinkercell
 			toolLoaded(0);
 			
 			if (console())
-				console()->message(tr("Python initializing (init.py) ...\n"));
+			{
+				if (pythonInterpreter->library() && pythonInterpreter->library()->isLoaded())
+					console()->message(tr("Python initialized (init.py) ...\n"));
+				else
+					console()->message(tr("Python plugin not loaded\n"));
+			}
 			
 			QFile file(appDir + tr("/python/init.py"));
 			if (file.open(QFile::ReadOnly | QFile::Text))

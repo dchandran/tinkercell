@@ -24,8 +24,8 @@ namespace Tinkercell
     PythonInterpreterThread::PythonInterpreterThread(const QString & dllname, MainWindow* main)
         : InterpreterThread(dllname,main)
     {
-    	f = 0;
-    	addpathDone = false;
+		f = 0;
+	    addpathDone = false;
     }
     
     void PythonInterpreterThread::finalize()
@@ -35,13 +35,13 @@ namespace Tinkercell
         finalFunc f = (finalFunc)lib->resolve("finalize");
         if (f)
         {
-            QString currentDir = QDir::currentPath();
+		        QString currentDir = QDir::currentPath();
 
-            QDir::setCurrent(MainWindow::tempDir());
+		        QDir::setCurrent(MainWindow::tempDir());
 
-            f();
+		        f();
 
-            QDir::setCurrent(currentDir);
+		        QDir::setCurrent(currentDir);
         }
     }
 
@@ -65,8 +65,8 @@ namespace Tinkercell
             f();
 
             QDir::setCurrent(currentDir);
+            mainWindow->statusBar()->showMessage(tr("Python initialized"));
         }
-        mainWindow->statusBar()->showMessage(tr("Python initialized"));
     }
 
     void PythonInterpreterThread::run()

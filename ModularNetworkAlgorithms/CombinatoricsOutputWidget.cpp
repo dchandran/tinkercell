@@ -12,3 +12,7 @@ ModuleCombinatoricsOutputWidget::ModuleCombinatoricsOutputWidget(
 	
 }
 
+void ModuleCombinatoricsOutputWidget::sliderMoved()
+{
+}
+

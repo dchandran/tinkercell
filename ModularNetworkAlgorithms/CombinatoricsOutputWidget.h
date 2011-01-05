@@ -13,8 +13,8 @@ A widget displaying plots and controls from the output of the ModuleCombinatoric
 
 #include <QSlider>
 #include <QGroupBox>
-#include <QHorizontalLayout>
-#include <QVerticalLayout>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
 #include <QGridLayout>
 #include <QGroupBox>
 #include "DataTable.h"

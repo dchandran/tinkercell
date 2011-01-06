@@ -42,10 +42,10 @@ namespace Tinkercell
 
 		QToolButton * setColor = new QToolButton(toolBar);
 		setColor->setPopupMode(QToolButton::MenuButtonPopup);
-		setColor->setIcon(QIcon(tr(":/images/paint.png")));
-		setColor->setToolTip(tr("Set fill and outline color"));
+		setColor->setIcon(QIcon(tr(":/images/bucket.png")));
+		setColor->setToolTip(tr("Set color"));
 		 
-		QAction * changeBrush = new QAction(QIcon(tr(":/images/bucket.png")),tr("Set fill color"),toolBar);
+		QAction * changeBrush = new QAction(QIcon(tr(":/images/paint.png")),tr("Fill color"),toolBar);
 		connect(changeBrush,SIGNAL(triggered()),this,SLOT(changeBrush()));
 
 		gradientMenu = new QMenu(tr("Gradients"),setColor);
@@ -121,7 +121,7 @@ namespace Tinkercell
 		painter4.drawRect(0,0,20,20);
 		changeBrushAlpha2->setIcon(QIcon(balpha2));
 
-		QAction * changePen = new QAction(QIcon(tr(":/images/pencil.png")),tr("Set outline"),toolBar);
+		QAction * changePen = new QAction(QIcon(tr(":/images/pencil.png")),tr("Outline color"),toolBar);
 		connect(changePen,SIGNAL(triggered()),this,SLOT(changePen()));
 		changePenWidth = new QAction(tr("Outline width : ") + QString::number(penWidth),changeColorMenu);
 		connect(changePenWidth,SIGNAL(triggered()),this,SLOT(selectPenWidth()));
@@ -480,7 +480,7 @@ namespace Tinkercell
 		{
 			mainWindow->sendEscapeSignal(this);
 			mainWindow->currentScene()->useDefaultBehavior = false;
-			mainWindow->setCursor(QCursor(QPixmap(tr(":/images/bucket.png")).scaled(25,25)));
+			mainWindow->setCursor(QCursor(QPixmap(tr(":/images/target.png")).scaled(25,25)));
 			if (gradientType == QGradient::NoGradient)
 				mode = this->brush;
 			else
@@ -495,7 +495,7 @@ namespace Tinkercell
 		{
 			mainWindow->sendEscapeSignal(this);
 			mainWindow->currentScene()->useDefaultBehavior = false;
-			mainWindow->setCursor(QCursor(QPixmap(tr(":/images/pencil.png")).scaled(25,25)));
+			mainWindow->setCursor(QCursor(QPixmap(tr(":/images/target.png")).scaled(25,25)));
 			mode = this->pen;
 		}
 	}
@@ -689,8 +689,8 @@ namespace Tinkercell
 		
 		if (mode == pen && button == Qt::LeftButton)
 		{
-			to.rx() -= 1.0;
-			to.ry() += 0.5;
+			//to.rx() -= 1.0;
+			//to.ry() += 0.5;
 			
 			QGraphicsItem * item = scene->itemAt(to);
 			
@@ -716,8 +716,8 @@ namespace Tinkercell
 
 		if (mode == brush && button == Qt::LeftButton)
 		{
-			to.rx() += 1;
-			to.ry() += 0.5;
+			//to.rx() += 1;
+			//to.ry() += 0.5;
 
 			QGraphicsItem * item = scene->itemAt(to);
 			if (item == 0)
@@ -741,10 +741,10 @@ namespace Tinkercell
 		}
 		if (mode == gradient && button == Qt::LeftButton)
 		{
-			from.rx() += 1;
+			/*from.rx() += 1;
 			to.rx() += 1;
 			from.ry() += 0.5;
-			to.ry() += 0.5;
+			to.ry() += 0.5;*/
 
 			QGraphicsItem * item = scene->itemAt(from);
 			if (item == 0)

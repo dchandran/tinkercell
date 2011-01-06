@@ -18,7 +18,23 @@ namespace Tinkercell
 		QList<ItemFamily*> families, children;
 		families << root->family();
 		
-		for (int n=0; n < families.size(); ++n)
+		for (int n=0; n < families.size(); ++n)if (stochThread)
+	{
+		if (stochThread->isRunning())
+			stochThread->terminate();
+		stochThread->updateModel();
+		stochThread->setMethod(SimulationThread::StochasticSimulation);
+		stochThread->setStartTime(startTime);
+		stochThread->setEndTime(endTime);
+		stochThread->setNumPoints(numSteps);
+		QSemaphore sem(1);
+		sem.acquire();
+		stochThread->setSemaphore(&sem);
+		stochThread->start();
+		sem.acquire();
+		sem.release();
+		return (stochThread->result());
+	}
 		{
 			children = families[n]->children();
 			for (int j=0; j < children.size(); ++j)
@@ -173,16 +189,7 @@ namespace Tinkercell
 		if (output.size() >= handles.size())
 		{
 			++k;
-			for (int i=0; i < output.size(); ++i)
-				if ((h = output[i]) && handleReplacements.contains(h))
-				{
-					QList< QPair< QString, QList<ItemHandle*> > > list = handleReplacements[h];
-					for (int j=0; j < list.size(); ++j)
-						if (stats.contains(list[j].first))
-							stats[ list[j].first ] += 10.0;
-						else
-							stats[ list[j].first ] = 10.0;
-				}
+			MonteCarlo(k, output);
 			return;
 		}
 		
@@ -236,6 +243,45 @@ namespace Tinkercell
 		}
 		
 		return true;
+	}
+	
+	void MonteCarlo(int & index, QList<ItemHandle*>& handles, QList<int> & selectedModules)
+	{
+		if (simulationThreads.isEmpty()) return;
+		
+		for (int i=0; i < simulationThreads.size(); ++i)
+		{
+			if (simulationThreads[i]->isRunning())
+				simulationThreads[i]->terminate();
+			simulationThreads[i]->updateModel(handles);
+			simulationThreads[i]->setMethod(SimulationThread::Deterministic);
+			simulationThreads[i]->setStartTime(startTime);
+			simulationThreads[i]->setEndTime(endTime);
+			simulationThreads[i]->setNumPoints(numSteps);
+		}
+		
+		QSemaphore sem(simulationThreads.size());
+		for (int i=0; i < simulationThreads.size(); ++i)
+		{
+			sem.acquire();
+			simulationThreads[i]->setSemaphore(&sem);
+			simulationThread1->start();
+		}
+		for (int i=0; i < simulationThreads.size(); ++i)
+			sem.acquire();
+		
+		for (int i=0; i < simulationThreads.size(); ++i)
+			sem.release();
+		
+		
+		
+		NumericalDataTable * results1 = ConvertValue(simulationThread1->result() ),
+	 											  * results2 = ConvertValue(simulationThread2->result() );
+	 	
+	 	
+	 	
+	 	delete results1;
+	 	delete results2;
 	}
 
 }

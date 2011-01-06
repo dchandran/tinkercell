@@ -5,31 +5,34 @@ using namespace Tinkercell;
 ModuleCombinatoricsOutputWidget::ModuleCombinatoricsOutputWidget(
 	const NumericalDataTable& population, 
 	const NumericalDataTable& modules, 
-	const QList< QList<qreal> >& scores) : 
-	QDialog()
+	const NumericalDataTable& scores) : 
+	QDialog(),
+	population(population), 
+	modules(modules), 
+	scores(scores)
 {
 	setAttribute(Qt::WA_DeleteOnClose);
 	QHBoxLayout * layout1 = new QHBoxLayout;
 	QHBoxLayout * layout2 = new QHBoxLayout;
 	
-	for (int i=0; i < scores.size(); ++i)
+	for (int i=0; i < scores.rows(); ++i)
 	{
 		QVBoxLayout * vlayout = new QVBoxLayout;
 		
 		QSlider * slider = new QSlider(Qt::Vertical);
-		connect(slider,SIGNAL(sliderMoved()), this, SLOT(update()));
+		connect(slider,SIGNAL(sliderMoved()), this, SLOT(sliderMoved()));
 		
 		QDoubleSpinBox * spinBox = new QDoubleSpinBox;
-		connect(slider,SIGNAL(editingFinished()), this, SLOT(update()));
+		connect(slider,SIGNAL(editingFinished()), this, SLOT(spinBoxChanged()));
 		
 		vlayout->addWidget(new QLabel(tr("obj.") + QString::number(i+1)),0);
 		vlayout->addWidget(slider,1);
 		vlayout->addWidget(spinBox,0);
 		layout1->addLayout(layout1, 0);
 		
-		QPair<double,double> range = findRange(scores[i]);
-		slider->setRange(range.first,range.second);
-		slider->setValue((range.first + range.second)/2.0);
+		QPair<double,double> range = findRange(scores,i);
+		slider->setRange(0,100);
+		slider->setValue(50);
 		
 		spinBox->setRange(range.first,range.second);
 		spinBox->setSingleStep((range.second - range.first)/100.0);
@@ -63,24 +66,86 @@ ModuleCombinatoricsOutputWidget::ModuleCombinatoricsOutputWidget(
 	update();
 }
 
-void ModuleCombinatoricsOutputWidget::update()
+QList<int> ModuleCombinatoricsOutputWidget::rowsThatPassThreshold()
 {
+	QList<int> rows;
+	for (int i=0; i < scores.rows(); ++i)
+	{
+		bool pass = true;
+		for (int j=0; j < spinBoxes.size() && j < scores.columns(); ++j)
+			if (scores(i,j) < spinBoxes[j]->value())
+			{
+				pass = false;
+				break;
+			}
+		if (pass)
+			rows << i;
+	}
+	return rows;
 }
 
-QPair<double,double> ModuleCombinatoricsOutputWidget::findRange(const QList<qreal>& values)
+void ModuleCombinatoricsOutputWidget::sliderMoved()
+{
+	for (int i=0; i < sliders.size() && i < spinBoxes.size() && i < scores.columns(); ++i)
+		if (sliders[i] && spinBoxes[i])
+		{
+			QPair<double,double> range = findRange(scores,i);
+			spinBoxes[i]->setValue( sliders[i]->value()/100.0 * (range.second-range.first) + range.first );
+		}
+	update();
+}
+
+void ModuleCombinatoricsOutputWidget::spinBoxChanged()
+{
+	for (int i=0; i < sliders.size() && i < spinBoxes.size() && i < scores.columns(); ++i)
+		if (sliders[i] && spinBoxes[i])
+		{
+			QPair<double,double> range = findRange(scores,i);
+			sliders[i]->setValue( (spinBoxes[i]->value() - range.first)/(range.second-range.first) * 100.0 );
+		}
+	update();
+}
+
+void ModuleCombinatoricsOutputWidget::update()
+{
+	NumericalDataTable moduleCount, points;
+	
+	QList<int> selectRows = rowsThatPassThreshold();
+	
+	moduleCount.resize(modules.columns(),1);
+	moduleCount.setRowNames(modules.columnNames());
+	moduleCount.setColumnName(0,tr("Count"));
+	
+	points.resize(selectRows.size(), population.columns());
+	points.setColumnNames( population.columnNames() );
+
+	for (int i=0; selectRows.size(); ++i)
+	{
+		for (int j=0; j < modules.columns(); ++j)
+			moduleCount(j,0) += modules( selectRows[i] , j );
+		
+		for (int j=0; j < population.columns(); ++j)
+			points(i,j) = population( selectRows[i], j );
+	}
+	
+	plot1->updateData(moduleCount);
+	plot2->updateData(points);
+}
+
+QPair<double,double> ModuleCombinatoricsOutputWidget::findRange(const NumericalDataTable& values, int col)
 {
 	QPair<double,double> range;
-	if (!values.isEmpty())
+	if (values.rows() > 0)
 	{
-		range.first = values[0];
-		range.second = values[0];
+		range.first = values(0,col);
+		range.second = values(0,col);
 	
-		for (int i=0; i < values.size(); ++i)
+		for (int i=0; i < values.rows(); ++i)
 		{
-			if (values[i] < range.first)
-				range.first = values[i];
-			if (values[i] > range.second)
-				range.second = values[i];
+			if (values(i,col) < range.first)
+				range.first = values(i,col);
+			if (values(i,col) > range.second)
+				range.second = values(i,col);
 		}
 	}
 	return range;

@@ -33,18 +33,22 @@ namespace Tinkercell
 		
 		public:
 
-			ModuleCombinatoricsOutputWidget(const NumericalDataTable& population, const NumericalDataTable& modules, const QList< QList<qreal> >& scores);
+			ModuleCombinatoricsOutputWidget(const NumericalDataTable& population, const NumericalDataTable& modules, const NumericalDataTable& scores);
 		
 		private slots:
 
 			void update();
-		
+			void sliderMoved();
+			void spinBoxChanged();
+
 		private:
 
 			QList<QDoubleSpinBox*> spinBoxes;
 			QList<QSlider*> sliders;
+			NumericalDataTable population, modules, scores;
 			Plot2DWidget * plot1, *plot2;
-			static QPair<double,double> findRange(const QList<qreal>&);
+			static QPair<double,double> findRange(const NumericalDataTable&, int col=0);
+			QList<int> rowsThatPassThreshold();
 	};
 }
 

@@ -17,6 +17,7 @@ This tool generates multiple models by trying all available models for each proc
 #include "Tool.h"
 #include "NodesTree.h"
 #include "ConnectionsTree.h"
+#include "SimulationThread.h"
 
 namespace Tinkercell
 {
@@ -37,8 +38,12 @@ namespace Tinkercell
 
 			void getModelsFor(ItemHandle*, QList< QPair< QString, QList<ItemHandle*> > >&);
 			void writeModels();
-			void printStats(QHash<QString, double>& stats);
-			void writeModels(int& k, QHash<QString, double>& stats, QList<ItemHandle*>& output, const QList<ItemHandle*>& handles, const QHash< ItemHandle*, QList< QPair< QString, QList<ItemHandle*> > > >& handleReplacements);
+			void writeModels(int& index, QHash<QString, double>& stats, QList<ItemHandle*>& output, const QList<ItemHandle*>& handles, const QHash< ItemHandle*, QList< QPair< QString, QList<ItemHandle*> > > >& handleReplacements);
+			void MonteCarlo(int & index, QList<ItemHandle*>& handles, QList<int> & selectedModules); 
+			double computeScore(NumericalDataTable & results, NumericalDataTable & target);
+			
+			QList<SimulationThread*> simulationThreads;
+			NumericalDataTable population, scores, modules;
 	};
 }
 

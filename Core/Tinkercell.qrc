@@ -93,5 +93,6 @@
 		<file>images/switch.png</file>
 		<file>images/scroll.png</file>
 		<file>images/eject.png</file>
+		<file>images/target.png</file>
     </qresource>
 </RCC>

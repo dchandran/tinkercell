@@ -26,7 +26,7 @@ TCAPIEXPORT void run(tc_matrix input) //first row = objective, rest = contraints
 	return;
 	}*/
 
-	//tc_printTable(input);
+	//tc_printMatrix(input);
 
 	if (input.rows < 2 || input.cols < 3)
 	{
@@ -162,7 +162,7 @@ TCAPIEXPORT void run(tc_matrix input) //first row = objective, rest = contraints
 		}
 	}
 
-	tc_printTable(output);
+	tc_printMatrix(output);
 
 	tc_deleteMatrix(output);
 	tc_deleteMatrix(input);

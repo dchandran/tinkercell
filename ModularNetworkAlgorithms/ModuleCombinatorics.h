@@ -38,9 +38,9 @@ namespace Tinkercell
 
 			void getModelsFor(ItemHandle*, QList< QPair< QString, QList<ItemHandle*> > >&);
 			void writeModels();
-			void writeModels(int& index, QHash<QString, double>& stats, QList<ItemHandle*>& output, const QList<ItemHandle*>& handles, const QHash< ItemHandle*, QList< QPair< QString, QList<ItemHandle*> > > >& handleReplacements);
-			void MonteCarlo(int & index, QList<ItemHandle*>& handles, QList<int> & selectedModules); 
-			double computeScore(NumericalDataTable & results, NumericalDataTable & target);
+			void writeModels(int& index, QHash<QString, double>& stats, QList<ItemHandle*>& output, const QList<ItemHandle*>& handles, const QHash< ItemHandle*, QList< QPair< QString, QList<ItemHandle*> > > >& handleReplacements, QList<int>& selectedIndces);
+			void MonteCarlo(int & index, QList<ItemHandle*>& handles, QList<int> & selectedModules);
+			static double computeScore(NumericalDataTable & results, NumericalDataTable & target);
 			
 			QList<SimulationThread*> simulationThreads;
 			NumericalDataTable population, scores, modules;

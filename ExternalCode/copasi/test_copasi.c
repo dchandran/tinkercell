@@ -10,15 +10,9 @@ void eigen(copasi_model, const char*);
 
 int main()
 {
-	//example();
 	copasi_model m;
 	m = model1("model1");
 	sim(m);
-	//clearCopasiModel(m);
-	//eigen( model2() , "k0" );
-	m = model1("model2");
-	sim(m);
-	
 	copasi_end();
 	return 0;
 }

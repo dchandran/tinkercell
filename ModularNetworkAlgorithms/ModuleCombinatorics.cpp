@@ -116,8 +116,11 @@ namespace Tinkercell
 			int k = 0;
 			QList<ItemHandle*> output;
 			QHash<QString, double> stats;
+			QList<int> selectedModels;
+			for (int i=0; i < handles.size(); ++i)
+				selectedModels << 0;
 			
-			writeModels(k, stats, output, handles, handleReplacements);
+			writeModels(k, stats, output, handles, handleReplacements, selectedModels);
 			QList<ItemHandle*> keys = handleReplacements.keys();
 			QList< QList< QPair< QString, QList<ItemHandle*> > > > lists = handleReplacements.values();
 			QList<ItemHandle*> visited;

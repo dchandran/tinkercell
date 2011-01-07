@@ -8,7 +8,6 @@
  and loads a list of default plugins.
 
 ****************************************************************************/
-
 #include "PlotTool.h"
 #include "GnuplotTool.h"
 #include "BasicGraphicsToolbar.h"
@@ -89,11 +88,11 @@ int main(int argc, char *argv[])
     /*******  Main Window ***********/
     
     // "lite" modes
-  #ifdef TINKERCELL_LITE_PARTS
+  #ifdef TINKERCELL_PARTS_ONLY
   	    MainWindow mainWindow(true, false, false, true, true);
 	    MainWindow::PROGRAM_MODE = QString("parts-only");
   #else
-  #ifdef TINKERCELL_LITE_TEXT
+  #ifdef TINKERCELL_TEXT_ONLY
    	   MainWindow mainWindow(false, true, true, false, false);
  	   MainWindow::PROGRAM_MODE = QString("text-only");
   #else

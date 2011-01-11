@@ -123,6 +123,7 @@ copasi_model createCopasiModel(const char * name)
 	pModel->setTimeUnit(CModel::dimensionlessTime);
 	pModel->setVolumeUnit(CModel::dimensionlessVolume);
 	pModel->setQuantityUnit(CModel::dimensionlessQuantity);
+	
 	return m;
 }
 
@@ -335,6 +336,14 @@ int setAssignmentRule(copasi_model model, const char * name, const char * formul
 					pParam = variables[i];
 
 					QString s0(pParam->getObjectName().c_str());
+					
+					if (s0 == QString("time") || 
+						  s0 == QString("Time") ||
+				     	  s0 == QString("TIME"))
+				   {
+						pParam->setUsage(CFunctionParameter::TIME);
+					}
+					else
 					if (hash->contains(s0))
 					{
 					 	QString s1("<");

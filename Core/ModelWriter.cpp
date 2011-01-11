@@ -179,11 +179,18 @@ namespace Tinkercell
 	* \param NodeImage pointer to write as XML
 	* \param index of shape in NodeImage's shape vector
 	* \return void*/
-	void ModelWriter::writeDataTable(const DataTable<qreal>& table, QXmlStreamWriter * writer)
+	void ModelWriter::writeDataTable( DataTable<qreal>& table, QXmlStreamWriter * writer)
 	{
 		//writeStartElement("Table");
 		writer->writeAttribute("rows",QString::number(table.rows()));
 		writer->writeAttribute("cols",QString::number(table.columns()));
+		
+		for (int i=0; i < table.rows(); ++i)
+			table.rowName(i).replace(sep,sub);
+		
+		for (int i=0; i < table.columns(); ++i)
+			table.columnName(i).replace(sep,sub);
+		
 		writer->writeAttribute("rowNames",table.rowNames().join(sep));
 		writer->writeAttribute("columnNames",table.columnNames().join(sep));
 		writer->writeAttribute("desc",table.description());
@@ -204,11 +211,18 @@ namespace Tinkercell
 	* \param NodeImage pointer to write as XML
 	* \param index of shape in NodeImage's shape vector
 	* \return void*/
-	void ModelWriter::writeDataTable(const DataTable<QString>& table, QXmlStreamWriter * writer)
+	void ModelWriter::writeDataTable( DataTable<QString>& table, QXmlStreamWriter * writer)
 	{
 		//writeStartElement("tc_table");
 		writer->writeAttribute("rows",QString::number(table.rows()));
 		writer->writeAttribute("cols",QString::number(table.columns()));
+		
+		for (int i=0; i < table.rows(); ++i)
+			table.rowName(i).replace(sep,sub);
+		
+		for (int i=0; i < table.columns(); ++i)
+			table.columnName(i).replace(sep,sub);
+				
 		writer->writeAttribute("rowNames",table.rowNames().join(sep));
 		writer->writeAttribute("columnNames",table.columnNames().join(sep));
 
@@ -217,6 +231,7 @@ namespace Tinkercell
 		for (int i=0; i < table.rows(); ++i)
 			for (int j=0; j < table.columns(); ++j)
 			{
+				table.at(i,j).replace(sep,sub);
 				values << table.at(i,j);
 			}
 			writer->writeAttribute("values",values.join(sep));
@@ -225,4 +240,5 @@ namespace Tinkercell
 	}
 	
 	QString ModelWriter::sep(";;");
+	QString ModelWriter::sub(";");
 }

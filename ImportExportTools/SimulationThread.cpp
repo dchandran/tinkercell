@@ -525,6 +525,8 @@ void SimulationThread::run()
 
 SimulationDialog::SimulationDialog(MainWindow * parent) : QDialog(parent)
 {
+	sliderWidget = 0;
+
 	QVBoxLayout * layout1 = new QVBoxLayout;
 	QGridLayout * simLayout = new QGridLayout;
 	QGridLayout * box1Layout = new QGridLayout;
@@ -760,11 +762,29 @@ void SimulationDialog::run()
 		col2 += sliderValues(i) * 1.9;
 	}
 	
-	MultithreadedSliderWidget * sliderWidget = new MultithreadedSliderWidget(thread->mainWindow,thread);
+	if (sliderWidget)
+	{
+		sliderWidget->close();
+		delete sliderWidget;
+		sliderWidget = 0;
+	}
+
+	sliderWidget = new MultithreadedSliderWidget(thread->mainWindow,thread);
+	sliderWidget->setAttribute(Qt::WA_DeleteOnClose,false);
 	sliderWidget->setDefaultDataTable(tr("Initial value"));
 	sliderWidget->setSliders(rownames,col1,col2);
 	sliderWidget->show();
 	//thread->start();
+}
+
+SimulationDialog::~SimulationDialog()
+{
+	if (sliderWidget)
+	{
+		sliderWidget->close();
+		delete sliderWidget;
+		sliderWidget = 0;
+	}
 }
 
 void SimulationDialog::enterEvent ( QEvent * event )

@@ -139,7 +139,7 @@ QPair<double,double> ModuleCombinatoricsOutputWidget::findRange(const NumericalD
 	{
 		range.first = values(0,col);
 		range.second = values(0,col);
-	
+
 		for (int i=0; i < values.rows(); ++i)
 		{
 			if (values(i,col) < range.first)

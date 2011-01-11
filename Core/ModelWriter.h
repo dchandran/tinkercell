@@ -61,18 +61,19 @@ namespace Tinkercell
 		* \param DataTable<qreal> datatable
 		* \param QXmlStreamWriter* xml writer to use
 		* \return void*/
-		static void writeDataTable(const DataTable<qreal>&, QXmlStreamWriter *);
+		static void writeDataTable( DataTable<qreal>&, QXmlStreamWriter *);
 		/*! \brief Writes a data table of strings into an XML file
 		* \param DataTable<QString> datatable
 		* \param QXmlStreamWriter* xml writer to use
 		* \return void*/
-		static void writeDataTable(const DataTable<QString>&, QXmlStreamWriter *); 
+		static void writeDataTable( DataTable<QString>&, QXmlStreamWriter *); 
 		/*! \brief Writes a handle and all its children
 		* \param Item handle pointer to write as XML
 		* \return void*/
 		static void writeHandle(ItemHandle *, QXmlStreamWriter *);		
 		/*! \brief delimiter*/
 		static QString sep;
+		static QString sub;
 	};
 
 }

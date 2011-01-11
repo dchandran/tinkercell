@@ -56,7 +56,7 @@ copasi_model model1(const char* name)
 
 	//assignment rule -- make sure all parameters or species are defined BEFORE this step
 	createVariable(model, "prod","cell_A*out_A*C");
-	createVariable(model, "prodPlus","prod*2");
+	createVariable(model, "cell_A","5*time");
 	//createEvent(model, "event1", "A > 2.5", "B", "B/2.0");
 	return model;
 }

@@ -158,8 +158,10 @@ namespace Tinkercell
 		Q_OBJECT
 
 		public:
-			/*! \brief the analysis method*/
+			/*! \brief constructor*/
 			SimulationDialog(MainWindow * parent);
+			/*! \brief destructor*/
+			~SimulationDialog();
 		public slots:
 			/*! \brief set the simulation thread*/
 			void setThread(SimulationThread *);
@@ -179,6 +181,7 @@ namespace Tinkercell
 			QComboBox * menu1, * menu2, *menu3;
 			/*! \brief values for the sliders*/
 			NumericalDataTable sliderValues;
+			MultithreadedSliderWidget * sliderWidget;
 	};
 }
 

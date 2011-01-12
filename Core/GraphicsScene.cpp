@@ -311,7 +311,13 @@ namespace Tinkercell
 		if (contextMenuJustActivated)
 		{
 			contextMenuJustActivated = false;
-			deselect();
+			if (movingItemsGroup)
+			{
+				destroyItemGroup(movingItemsGroup);
+				movingItemsGroup = 0;
+			}
+			movingItems.clear();
+			//deselect();
 			return;
 		}
 		
@@ -506,7 +512,13 @@ namespace Tinkercell
 		if (contextMenuJustActivated)
 		{
 			contextMenuJustActivated = false;
-			deselect();
+			if (movingItemsGroup)
+			{
+				destroyItemGroup(movingItemsGroup);
+				movingItemsGroup = 0;
+			}
+			movingItems.clear();
+			//deselect();
 			return;
 		}
 
@@ -584,7 +596,13 @@ namespace Tinkercell
 		if (contextMenuJustActivated)
 		{
 			contextMenuJustActivated = false;
-			deselect();
+			if (movingItemsGroup)
+			{
+				destroyItemGroup(movingItemsGroup);
+				movingItemsGroup = 0;
+			}
+			movingItems.clear();
+			//deselect();
 			return;
 		}
 
@@ -685,6 +703,8 @@ namespace Tinkercell
 	void GraphicsScene::contextMenuEvent ( QGraphicsSceneContextMenuEvent * mouseEvent )
 	{
 		if (!toolTips.isEmpty()) hideToolTips();
+
+		clickedButton = Qt::RightButton;
 
 		if (useDefaultBehavior)
 		{

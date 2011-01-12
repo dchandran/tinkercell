@@ -47,7 +47,8 @@ extern "C"
 
 struct CopasiPtr 
 { 
-	QString name; 
+	QString name;
+	QString key;
 	CMetab * species; 
 	CCompartment * compartment;
 	CReaction * reaction;
@@ -140,6 +141,7 @@ void createSpecies(copasi_compartment compartment, const char* name, double iv)
 
 	CopasiPtr copasiPtr = { 
 			QString(pSpecies->getCN().c_str()),
+			QString(pSpecies->getKey().c_str()),
 			pSpecies,
 			0,
 			0,
@@ -168,6 +170,7 @@ copasi_compartment createCompartment(copasi_model model, const char* name, doubl
 	
 	CopasiPtr copasiPtr = { 
 			QString(pCompartment->getCN().c_str()),
+			QString(pCompartment->getKey().c_str()),
 			0,
 			pCompartment,
 			0,
@@ -279,6 +282,7 @@ int setGlobalParameter(copasi_model model, const char * name, double value)
 	
 		CopasiPtr copasiPtr = {
 				QString(pValue->getCN().c_str()),
+				QString(pValue->getKey().c_str()),
 				0,
 				0,
 				0,
@@ -310,6 +314,7 @@ void setBoundarySpecies(copasi_model model, const char * name, int isBoundary)
 
 int setAssignmentRule(copasi_model model, const char * name, const char * formula)
 {
+	CModel* pModel = (CModel*)(model.CopasiModelPtr);
 	CQHash * hash = (CQHash*)(model.qHash);
 	QString s(name);
 	CMetab* pSpecies = 0;
@@ -340,8 +345,11 @@ int setAssignmentRule(copasi_model model, const char * name, const char * formul
 					if (s0 == QString("time") || 
 						  s0 == QString("Time") ||
 				     	  s0 == QString("TIME"))
-				   {
-						pParam->setUsage(CFunctionParameter::TIME);
+					{
+						QString s1("<");
+							s1 += QString(pModel->getValueReference()->getCN().c_str());
+							s1 += QString(">");
+						substituteString(qFormula,s0,s1);
 					}
 					else
 					if (hash->contains(s0))
@@ -407,6 +415,16 @@ int createVariable(copasi_model model, const char * name, const char * formula)
 			pParam = variables[i];
 
 			QString s0(pParam->getObjectName().c_str());
+			if (s0 == QString("time") || 
+				  s0 == QString("Time") ||
+		     	  s0 == QString("TIME"))
+			{
+				QString s1("<");
+					s1 += QString(pModel->getValueReference()->getCN().c_str());
+					s1 += QString(">");
+				substituteString(qFormula,s0,s1);
+			}
+			else
 			if (hash->contains(s0))
 			{
 			 	QString s1("<");
@@ -423,6 +441,7 @@ int createVariable(copasi_model model, const char * name, const char * formula)
 	
 	CopasiPtr copasiPtr = { 
 			QString(pModelValue->getCN().c_str()),
+			QString(pModelValue->getKey().c_str()),
 			0,
 			0,
 			0,
@@ -438,15 +457,28 @@ int createEvent(copasi_model model, const char * name, const char * trigger, con
 	CModel* pModel = (CModel*)(model.CopasiModelPtr);
 	CQHash * hash = (CQHash*)(model.qHash);
 	
-	if (!hash || !pModel) return 0;
+	if (!hash || !pModel)
+	{
+		std::cout << "no model" << std::endl;
+		return 0;
+	}
 	
 	int i;
 	bool retval = true;
 
-	if (!hash->contains(QString(variable))) return 0;
+	if (!hash->contains(QString(variable)))
+	{
+		std::cout << "no hash val : " << variable << std::endl;
+		return 0;
+	}
+
 	CopasiPtr ptr = hash->value(QString(variable));
 	
-	if (!ptr.species && !ptr.param) return 0;
+	if (!ptr.species && !ptr.param)
+	{
+		std::cout << "no ptr" << std::endl;
+		return 0;
+	}
 
 	CEvent * pEvent = pModel->createEvent(std::string(name));
 
@@ -463,6 +495,16 @@ int createEvent(copasi_model model, const char * name, const char * trigger, con
 			pParam = variables[i];
 
 			QString s0(pParam->getObjectName().c_str());
+			if (s0 == QString("time") || 
+				  s0 == QString("Time") ||
+		     	  s0 == QString("TIME"))
+			{
+				QString s1("<");
+					s1 += QString(pModel->getValueReference()->getCN().c_str());
+					s1 += QString(">");
+				substituteString(qFormula,s0,s1);
+			}
+			else
 			if (hash->contains(s0))
 			{
 			 	QString s1("<");
@@ -472,8 +514,14 @@ int createEvent(copasi_model model, const char * name, const char * trigger, con
 			}
 		}
 	}
+	else
+	{
+		retval = false;
+	}
 	
-	retval = retval & pEvent->setTriggerExpression(std::string( qFormula.toAscii().data() ));   //set trigger
+	CExpression * expression = new CExpression(name,pModel);
+	retval = retval & expression->setInfix(std::string( qFormula.toAscii().data() ));
+	pEvent->setTriggerExpressionPtr(expression);   //set trigger
 	
 	qFormula = QString(formula);
 	
@@ -487,6 +535,16 @@ int createEvent(copasi_model model, const char * name, const char * trigger, con
 			pParam = variables[i];
 
 			QString s0(pParam->getObjectName().c_str());
+			if (s0 == QString("time") || 
+				  s0 == QString("Time") ||
+			 	  s0 == QString("TIME"))
+			{
+				QString s1("<");
+					s1 += QString(pModel->getValueReference()->getCN().c_str());
+					s1 += QString(">");
+				substituteString(qFormula,s0,s1);
+			}
+			else
 			if (hash->contains(s0))
 			{
 			 	QString s1("<");
@@ -503,14 +561,12 @@ int createEvent(copasi_model model, const char * name, const char * trigger, con
 	
 	CCopasiVectorN< CEventAssignment > & assignments = pEvent->getAssignments();
 	CEventAssignment * assgn = new CEventAssignment;
-	//std::cout << assgn->setTargetKey(variable) << std::endl;
 	if (ptr.species)
-		retval = retval & assgn->setTargetKey(ptr.species->getKey());   //set target
+		retval = retval & assgn->setTargetKey(ptr.species->getCN());   //set target
 	else
-		retval = retval & assgn->setTargetKey(ptr.param->getKey());
+		retval = retval & assgn->setTargetKey(ptr.param->getCN());
 
 	retval = retval & assgn->setExpression(std::string( qFormula.toAscii().data() ));   //set expression
-	//std::cout << qFormula.toAscii().data() << std::endl;
 	assignments.add(assgn); 
 	
 	return (int)retval;
@@ -532,6 +588,7 @@ copasi_reaction createReaction(copasi_model model, const char* name)
 	
 	CopasiPtr copasiPtr = { 
 			QString(pReaction->getCN().c_str()),
+			QString(pReaction->getKey().c_str()),
 			0,
 			0,
 			pReaction,

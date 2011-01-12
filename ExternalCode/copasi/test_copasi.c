@@ -2,25 +2,24 @@
 #include <stdio.h>
 #include "copasi_api.h"
 
-copasi_model model1(const char*); //oscillation
+copasi_model model1(); //oscillation
 copasi_model model2(); //positive feebdack gene regulation
-copasi_model model3(); //testing
 void sim(copasi_model);
 void eigen(copasi_model, const char*);
 
 int main()
 {
 	copasi_model m;
-	m = model1("model1");
+	m = model1();
 	sim(m);
 	copasi_end();
 	return 0;
 }
 
-copasi_model model1(const char* name)
+copasi_model model1()
 {
 	//model named M
-	copasi_model model = createCopasiModel(name);
+	copasi_model model = createCopasiModel("M");
 	
 	//species
 	copasi_compartment cell = createCompartment(model, "cell", 1.0);
@@ -56,8 +55,8 @@ copasi_model model1(const char* name)
 
 	//assignment rule -- make sure all parameters or species are defined BEFORE this step
 	createVariable(model, "prod","cell_A*out_A*C");
-	createVariable(model, "cell_A","5*time");
-	//createEvent(model, "event1", "A > 2.5", "B", "B/2.0");
+	createVariable(model, "cell_A","0.01*(time^2)");
+	//createEvent(model, "event1", "ge(Time,5)", "C", "C/2.0");
 	return model;
 }
 
@@ -159,24 +158,5 @@ void eigen(copasi_model model, const char* param)
 	printf("\noutput.tab contains the final output\n\n");
 
 	tc_deleteMatrix(output);
-}
-
-copasi_model model3()
-{
-	copasi_model model = createCopasiModel("M");
-	copasi_compartment DefaultCompartment = createCompartment(model,"DefaultCompartment",1);
-	copasi_reaction r;
-	createSpecies(DefaultCompartment,"pro2",1);
-	createSpecies(DefaultCompartment,"pro1",1);
-	setValue(model,"deg1_k0",1);
-	setValue(model, "cc1_k0",1);
-	r = createReaction(model, "deg1");
-	setReactionRate(r,"deg1_k0*pro2");
-	addReactant(r,"pro2",1);
-	r = createReaction(model, "cc1");
-	setReactionRate(r,"cc1_k0*pro1");
-	addProduct(r,"pro2",1);
-	addReactant(r,"pro1",1);
-	return model;
 }
 

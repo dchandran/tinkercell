@@ -2,12 +2,14 @@
 #include <QFile>
 #include <QDir>
 #include "UndoCommands.h"
+#include "BasicInformationTool.h"
 #include "ModelReader.h"
 #include "ModuleCombinatorics.h"
 #include "ModelFileGenerator.h"
 #include "DynamicLibraryMenu.h"
 #include "GnuplotTool.h"
 #include "ConsoleWindow.h"
+#include "CombinatoricsOutputWidget.h"
 
 namespace Tinkercell
 {
@@ -116,11 +118,8 @@ namespace Tinkercell
 			int k = 0;
 			QList<ItemHandle*> output;
 			QHash<QString, double> stats;
-			QList<int> selectedModels;
-			for (int i=0; i < handles.size(); ++i)
-				selectedModels << 0;
 			
-			writeModels(k, stats, output, handles, handleReplacements, selectedModels);
+			writeModels(k, stats, output, handles, handleReplacements, QStringList());
 			QList<ItemHandle*> keys = handleReplacements.keys();
 			QList< QList< QPair< QString, QList<ItemHandle*> > > > lists = handleReplacements.values();
 			QList<ItemHandle*> visited;
@@ -129,11 +128,18 @@ namespace Tinkercell
 			for (int i=0; i < lists.size(); ++i)
 				for (int j=0; j < lists[i].size(); ++j)
 					for (int k=0; k < lists[i][j].second.size(); ++k)
-						if (lists[i][j].second[k] && keys[i] == lists[i][j].second[k]->parent && !visited.contains(lists[i][j].second[k]))
+						if (lists[i][j].second[k] && !visited.contains(lists[i][j].second[k]) && keys[i] == lists[i][j].second[k]->parent)
 						{
-							delete lists[i][j].second[k];
+							//delete lists[i][j].second[k];
 							visited += lists[i][j].second[k];
 						}
+			
+			//output
+			console()->printTable(population);
+			console()->printTable(modules);
+			console()->printTable(scores);
+			ModuleCombinatoricsOutputWidget * dialog = new ModuleCombinatoricsOutputWidget(population, modules, scores, mainWindow);
+			dialog->show();
 	}
 	
 /*	void ModuleCombinatorics::printStats(QHash<QString, double>& stats)
@@ -169,13 +175,12 @@ namespace Tinkercell
 			}
 	}*/
 	
-	void ModuleCombinatorics::writeModels(int& k, QHash<QString, double>& stats, QList<ItemHandle*>& output, const QList<ItemHandle*>& handles, const QHash< ItemHandle*, QList< QPair< QString, QList<ItemHandle*> > > >& handleReplacements, QList<int> & selectedIndices)
+	void ModuleCombinatorics::writeModels(int& k, QHash<QString, double>& stats, QList<ItemHandle*>& output, const QList<ItemHandle*>& handles, const QHash< ItemHandle*, QList< QPair< QString, QList<ItemHandle*> > > >& handleReplacements, QStringList selectedModules)
 	{
 		ItemHandle * h;
 		if (output.size() >= handles.size())
 		{
-			++k;
-			MonteCarlo(k, output, selectedIndices);
+			MonteCarlo(k, output, selectedModules);
 			return;
 		}
 		
@@ -185,7 +190,7 @@ namespace Tinkercell
 
 		if (h->children.isEmpty() || !handleReplacements.contains(h))
 		{
-			writeModels(k, stats, output, handles, handleReplacements, selectedIndices);
+			writeModels(k, stats, output, handles, handleReplacements, selectedModules);
 		}
 		else
 		{
@@ -194,9 +199,10 @@ namespace Tinkercell
 			QList< QPair< QString, QList<ItemHandle*> > > newChildren = handleReplacements[h];
 			for (int i=0; i < newChildren.size(); ++i)
 			{
-				selectedIndices[output.size()-1] = i;
+				selectedModules.push_back(newChildren[i].first);
 				h->children = newChildren[i].second;
-				writeModels(k, stats, output, handles, handleReplacements, selectedIndices);
+				writeModels(k, stats, output, handles, handleReplacements, selectedModules);
+				selectedModules.pop_back();
 			}
 
 			h->children = originalChildren;
@@ -235,10 +241,12 @@ namespace Tinkercell
 		return true;
 	}
 	
-	void ModuleCombinatorics::MonteCarlo(int & index, QList<ItemHandle*>& handles, QList<int> & selectedModules)
+	void ModuleCombinatorics::MonteCarlo(int & index, QList<ItemHandle*>& handles, QStringList & selectedModules)
 	{
 		if (simulationThreads.isEmpty()) return;
 		double startTime = 0, endTime = 100, numSteps = 100;
+		
+		NumericalDataTable parameters = BasicInformationTool::getUsedParameters(handles);
 		
 		for (int i=0; i < simulationThreads.size(); ++i)
 		{
@@ -250,7 +258,7 @@ namespace Tinkercell
 			simulationThreads[i]->setEndTime(endTime);
 			simulationThreads[i]->setNumPoints(numSteps);
 		}
-		
+
 		QSemaphore sem(simulationThreads.size());
 		for (int i=0; i < simulationThreads.size(); ++i)
 		{
@@ -277,8 +285,17 @@ namespace Tinkercell
 		{
 			NumericalDataTable * results = ConvertValue(simulationThreads[i]->result() );
 			double score = computeScore(*results, target );  
+			scores(index,i) = score;
 			delete results;
 		}
+		
+		for (int i=0; i < selectedModules.size(); ++i)
+			modules.value(index, selectedModules[i]) += 1;
+		 
+		 for (int i=0; i < parameters.rows(); ++i)
+			 population.value( index, parameters.rowName(i) ) = parameters(i, 0);
+		 
+		++index;
 	}
 	
 	double ModuleCombinatorics::computeScore(NumericalDataTable & results, NumericalDataTable & target)

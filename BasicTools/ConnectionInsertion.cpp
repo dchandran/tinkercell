@@ -1402,11 +1402,11 @@ namespace Tinkercell
 				}
 				selectedFamily = savedFamily;
 			}
-			
+		
 		if (list.size() > 1)
 		{
 			for (int i=0; i < list.size(); ++i)
-				if (list[i]->children().isEmpty())
+				//if (list[i]->children().isEmpty())
 					leaves << list[i];
 		}
 		else
@@ -1417,8 +1417,8 @@ namespace Tinkercell
 				return true;
 			}
 		
-		if (leaves.size() < 2)
-			leaves = list;
+		//if (leaves.size() < 2)
+			//leaves = list;
 
 		QToolButton * button;
 		for (int i=0; i < leaves.size(); ++i)

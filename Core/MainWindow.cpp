@@ -919,9 +919,11 @@ namespace Tinkercell
 		addToolBar(Qt::TopToolBarArea, toolBarEdits);
 		addToolBar(Qt::TopToolBarArea, toolBarForTools);
 
-		contextScreenMenu.addAction(closeAction);
+		contextScreenMenu.addAction(pasteAction);
 		contextScreenMenu.addAction(undoAction);
 		contextScreenMenu.addAction(redoAction);
+		contextScreenMenu.addAction(closeAction);
+		contextScreenMenu.addAction(selectAllAction);
 
 		contextEditorMenu.addAction(undoAction);
 		contextEditorMenu.addAction(redoAction);
@@ -929,17 +931,11 @@ namespace Tinkercell
 
 		contextItemsMenu.addAction(copyAction);
 		contextItemsMenu.addAction(cutAction);
-		contextScreenMenu.addAction(pasteAction);
 		contextItemsMenu.addAction(deleteAction);
 
 		contextSelectionMenu.addAction(copyAction);
 		contextSelectionMenu.addAction(cutAction);
 		contextEditorMenu.addAction(pasteAction);
-
-		contextScreenMenu.addAction(closeAction);
-
-		contextScreenMenu.addAction(undoAction);
-		contextScreenMenu.addAction(redoAction);
 	}
 
 	void MainWindow::sendEscapeSignal(const QWidget * widget)

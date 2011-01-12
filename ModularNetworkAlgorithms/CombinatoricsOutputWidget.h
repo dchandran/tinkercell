@@ -33,12 +33,12 @@ namespace Tinkercell
 		
 		public:
 
-			ModuleCombinatoricsOutputWidget(const NumericalDataTable& population, const NumericalDataTable& modules, const NumericalDataTable& scores);
+			ModuleCombinatoricsOutputWidget(const NumericalDataTable& population, const NumericalDataTable& modules, const NumericalDataTable& scores, QWidget * parent=0);
 		
 		private slots:
 
 			void update();
-			void sliderMoved();
+			void sliderMoved(int);
 			void spinBoxChanged();
 
 		private:

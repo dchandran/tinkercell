@@ -400,7 +400,7 @@ namespace Tinkercell
 			reader.readXml(image, appDir + tr("/icons/stepFunc.xml"));
 			image->setToolTip(tr("Step function"));	
 			command = tr("Step function inserted");
-			assignments.value( handle->fullName() , 0 ) = name + tr(".step_height/(1.0 + exp(pow(") + name + tr(".step_time,") + name + tr(".step_steepness) - pow(time,") + name + tr(".step_steepness)))");
+			assignments.value( handle->fullName() , 0 ) = name + tr(".step_height/(1.0 + exp((") + name + tr(".step_time^") + name + tr(".step_steepness) - (time^") + name + tr(".step_steepness)))");
 			parameters.value( tr("step_height"), 0 ) = 1.0;
 			parameters.value( tr("step_time"), 0 ) = 2.0;
 			parameters.value( tr("step_steepness"), 0 ) = 4.0;
@@ -411,7 +411,7 @@ namespace Tinkercell
 			reader.readXml(image, appDir + tr("/icons/pulseFunc.xml"));
 			image->setToolTip(tr("Impulse function"));
 			command = tr("Impulse function inserted");
-			assignments.value( handle->fullName() , 0 ) = name + tr(".impulse_height*exp( - pow(") + name + tr(".impulse_width*(time - ") + name + tr(".impulse_time),2))");
+			assignments.value( handle->fullName() , 0 ) = name + tr(".impulse_height*exp( - ((") + name + tr(".impulse_width*(time - ") + name + tr(".impulse_time))^2))");
 			parameters.value( tr("impulse_height"), 0 ) = 1.0;
 			parameters.value( tr("impulse_width"), 0 ) = 2.0;
 			parameters.value( tr("impulse_time"), 0 ) = 4.0;

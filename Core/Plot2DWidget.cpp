@@ -378,8 +378,11 @@ namespace Tinkercell
 	{
 		int i = (int)v;
 		QString s;
-		if (i < labels.size() && i >= 0) 
-			s = labels[i];
+		if ((double)i == v)
+		{
+			if (i < labels.size() && i >= 0) 
+				s = labels[i];
+		}
 		return QwtText(s);
 	}
 	

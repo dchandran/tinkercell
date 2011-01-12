@@ -186,7 +186,7 @@ TCAPIEXPORT void addProduct(copasi_reaction reaction, const char * species, doub
  \brief set reaction rate equation
  \param copasi_reaction reaction
  \param char* custom formula
- \return int success=0 failure=-1
+ \return int success=1 failure=0
  \ingroup Simulation
 */
 TCAPIEXPORT int setReactionRate(copasi_reaction reaction, const char * formula);

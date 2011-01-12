@@ -1,3 +1,4 @@
+#include "ConsoleWindow.h"
 #include "CombinatoricsOutputWidget.h"
 
 using namespace Tinkercell;
@@ -5,30 +6,31 @@ using namespace Tinkercell;
 ModuleCombinatoricsOutputWidget::ModuleCombinatoricsOutputWidget(
 	const NumericalDataTable& population, 
 	const NumericalDataTable& modules, 
-	const NumericalDataTable& scores) : 
-	QDialog(),
+	const NumericalDataTable& scores,
+	QWidget * parent) : 
+	QDialog(parent), 
 	population(population), 
 	modules(modules), 
 	scores(scores)
 {
-	setAttribute(Qt::WA_DeleteOnClose);
+	//setAttribute(Qt::WA_DeleteOnClose);
 	QHBoxLayout * layout1 = new QHBoxLayout;
 	QHBoxLayout * layout2 = new QHBoxLayout;
 	
-	for (int i=0; i < scores.rows(); ++i)
+	for (int i=0; i < scores.columns(); ++i)
 	{
 		QVBoxLayout * vlayout = new QVBoxLayout;
 		
 		QSlider * slider = new QSlider(Qt::Vertical);
-		connect(slider,SIGNAL(sliderMoved()), this, SLOT(sliderMoved()));
+		connect(slider,SIGNAL(sliderMoved(int)), this, SLOT(sliderMoved(int)));
 		
 		QDoubleSpinBox * spinBox = new QDoubleSpinBox;
-		connect(slider,SIGNAL(editingFinished()), this, SLOT(spinBoxChanged()));
+		connect(spinBox,SIGNAL(editingFinished()), this, SLOT(spinBoxChanged()));
 		
 		vlayout->addWidget(new QLabel(tr("obj.") + QString::number(i+1)),0);
 		vlayout->addWidget(slider,1);
 		vlayout->addWidget(spinBox,0);
-		layout1->addLayout(layout1, 0);
+		layout1->addLayout(vlayout, 0);
 		
 		QPair<double,double> range = findRange(scores,i);
 		slider->setRange(0,100);
@@ -59,7 +61,7 @@ ModuleCombinatoricsOutputWidget::ModuleCombinatoricsOutputWidget(
 	group2->setLayout(layout2);
 	
 	QHBoxLayout * layout = new QHBoxLayout;
-	layout->addWidget(group1, 1);
+	layout->addWidget(group1, 0);
 	layout->addWidget(group2, 1);		
 	setLayout(layout);
 	
@@ -84,7 +86,7 @@ QList<int> ModuleCombinatoricsOutputWidget::rowsThatPassThreshold()
 	return rows;
 }
 
-void ModuleCombinatoricsOutputWidget::sliderMoved()
+void ModuleCombinatoricsOutputWidget::sliderMoved(int)
 {
 	for (int i=0; i < sliders.size() && i < spinBoxes.size() && i < scores.columns(); ++i)
 		if (sliders[i] && spinBoxes[i])
@@ -119,7 +121,7 @@ void ModuleCombinatoricsOutputWidget::update()
 	points.resize(selectRows.size(), population.columns());
 	points.setColumnNames( population.columnNames() );
 
-	for (int i=0; selectRows.size(); ++i)
+	for (int i=0; i < selectRows.size(); ++i)
 	{
 		for (int j=0; j < modules.columns(); ++j)
 			moduleCount(j,0) += modules( selectRows[i] , j );
@@ -128,8 +130,16 @@ void ModuleCombinatoricsOutputWidget::update()
 			points(i,j) = population( selectRows[i], j );
 	}
 	
-	plot1->updateData(moduleCount);
-	plot2->updateData(points);
+	if (plot1->data()->rows() == 0)
+	{
+		plot1->plot(moduleCount,tr("Module types"),-1);
+		plot2->plot(points,tr("Parameters"),0);
+	}
+	else
+	{
+		plot1->updateData(moduleCount);
+		plot2->updateData(points);
+	}
 }
 
 QPair<double,double> ModuleCombinatoricsOutputWidget::findRange(const NumericalDataTable& values, int col)

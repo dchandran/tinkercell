@@ -14,7 +14,7 @@ def fromItems(array):
     for i in range(0, n):
         A[i] = tc_getItem(array,i);
 
-    tc_deleteItemsArray(array);
+    #tc_deleteItemsArray(array);
     return A;
 
 def toStrings(array):
@@ -31,7 +31,7 @@ def fromStrings(array):
     for i in range(0, n):
         A[i] = tc_getString(array,i);
 
-    tc_deleteStringsArray(array);
+    #tc_deleteStringsArray(array);
     return A;
 
 def fromMatrix(matrix, row_wise = False):
@@ -52,7 +52,7 @@ def fromMatrix(matrix, row_wise = False):
             for j in range(0,n):
                 A[i][j] = tc_getMatrixValue(matrix,j,i);
 
-    tc_deleteMatrix(matrix);
+    #tc_deleteMatrix(matrix);
     return [rows, cols, A];
 
 def toMatrix(lists, row_wise = False , rows = [], cols = []):

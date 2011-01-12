@@ -13,7 +13,7 @@ def getPyscesModel():
     funcsAssign0 = fromTC( tc_getForcingFunctionAssignments(A) );
     triggers = fromTC(  tc_getEventTriggers() );
     events0 = fromTC( tc_getEventResponses() );
-    tc_deleteItemsArray(A);
+    #tc_deleteItemsArray(A);
     emptyExists = False;
     modelString = '';
     rates = [];

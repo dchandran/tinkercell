@@ -36,21 +36,21 @@ COMPILING TINKERCELL
 
 6. In the cmake-gui, select the tinkercell/trunk folder for the source folder and tinkercell/trunk/BUILD as the binary folder
 
-7. Run "Configure". When you run the first time, you will be asked to select the compiler you want to use. Select the one that suits you. For Windows, MinGW seems to work best, but you are welcome to try Visual Studio.
+7. Inside the cmake-gui, click the "Configure" button. When you run this for the first time, you will be asked to select a compiler. Select the one that suits you. For Windows, MinGW seems to work best, but you are welcome to try Visual Studio.
 
 8. This step only applies if you want embedded Octave or Python.
-In the CMake window, change the "Simple View" to "Grouped View". This will help you identify whether or not all the directories or libraries that are needed were found. If you want embedded Python and Octave, enable them under the EMBED group. In the PYTHON group, check that the libraries and include directories are found. If they are not found, you will have to set them. Do that save for the OCTAVE group.
+In the CMake window, change the "Simple View" to "Grouped View". This will help you identify whether or not all the directories or libraries that are needed were found. If you want embedded Python and Octave, enable them under the EMBED group. In the PYTHON group, check that the libraries and include directories are found. If they are not found, you will have to set them. Do that same for the OCTAVE group.
 
-9. If any of the entried in the CMake window are highlighted in red, run "Configure" again.
+9. If any of the entried in the CMake window are highlighted in red, click the "Configure" button again.
 
-10. Run "Generate". This will create the makefile or the project file, depending on the compiler you selected in step 7.
+10. After configure is done, click the "Generate" button. This will create the makefile or the project file, depending on the compiler you selected in step 7.
 
 11. Go to the ~/tinkercell/trunk/BUILD folder
 
-12. Run "make package" or open the project file and build the "package" project (this will take time). 
+12. Run "make package" or open the project file. Build the "package" project (this will take time), e.g. "make package"
      MAC ONLY: Just do "make" because "make package" does not package correctly. 
      
-13. MAC ONLY: After performing make, go to the bin folder and do "source do_name_change.sh"
+13. MAC ONLY: After performing make, go to the BUILD/bin folder and run "source do_name_change.sh"
 
 14. Linux and Windows, go to _CPack_Packages/ folder and find the TinkerCell subfolder. 
       Windows: run TinkerCell.exe
@@ -76,6 +76,6 @@ Solution: Look for a field in the CMake GUI called QT_QMAKE_EXECUTABLE.
              Click "configure" again.
 
 Problem: Visual Studio is giving link errors
-Solution: let me know if you find a solution!
+Solution: I do not know how to fix this. Let me know if you find a solution!
 
 

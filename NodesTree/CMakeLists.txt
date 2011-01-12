@@ -51,10 +51,5 @@ ELSE ( WIN32 )
   )
 ENDIF( WIN32 )
 
-FILE(GLOB NODESTREE_XML_FILES NodesTree.xml ConnectionsTree.xml)
 
-INSTALL( FILES ${NODESTREE_XML_FILES}
-  DESTINATION NodesTree
-  COMPONENT NodesAndConnections
-)
 

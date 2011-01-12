@@ -20,6 +20,16 @@ ADD_SUBDIRECTORY( R )
 
 #Compile enables plugins
 
+FILE(GLOB NODESTREE_XML_FILES 
+	${TINKERCELL_SOURCE_DIR}/NodesTree/NodesTree.xml
+	${TINKERCELL_SOURCE_DIR}/NodesTree/ConnectionsTree.xml
+	)
+
+INSTALL( FILES ${NODESTREE_XML_FILES}
+  DESTINATION NodesTree
+  COMPONENT NodesAndConnections
+)
+
 #IF( PLUGIN_BASIC )
 #   ADD_SUBDIRECTORY( BasicTools )
 #   ADD_SUBDIRECTORY( NodesTree )

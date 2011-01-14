@@ -377,9 +377,9 @@ specific for:\n\"\"\"\n\n") + text;
 			{
 				QString v = regex.cap(1);
 				if (v != QObject::tr("@TINKERCELL_WC_REVISION@"))
-					if (main && console())
+					if (main)
 						//QMessageBox::about(main, "New version", "A new version of TinkerCell is available for download  at <a href='http://www.tinkercell.com/downloads-2'>tinkercell.com</a>");
-					console()->message(QString("A new version of TinkerCell is available for download  at <a href='http://www.tinkercell.com/downloads-2'>tinkercell.com</a>"));
+						main->statusBar()->showMessage(QString("A new version of TinkerCell is available for download  at <a href='http://www.tinkercell.com/downloads-2'>tinkercell.com</a>"));
 			}
 			file.close();
 		}

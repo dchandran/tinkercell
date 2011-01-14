@@ -459,7 +459,7 @@ namespace Tinkercell
 	void ModuleTool::itemsAboutToBeInserted(GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>& commands)
 	{
 		if (!scene || !scene->network) return;
-		
+
 		aboutToBeRenamed.clear();
 
 		/*commands << moduleConnectionsInserted(items)
@@ -561,9 +561,10 @@ namespace Tinkercell
 						if (!list.isEmpty())
 						{
 							bool loaded = false;
-							while (!loaded)
+							while (!loaded && !list.isEmpty())
 							{
 								QString filename = list.last().absoluteFilePath();
+								list.pop_back();
 
 								if (QFile::exists(filename))
 								{
@@ -573,17 +574,16 @@ namespace Tinkercell
 									{
 										ItemHandle * oldparent = handles[i]->parent;
 										handles[i]->setParent(scene->localHandle(),false);
-										std::cout << "calling getItemsFromFile " << filename.toAscii().data() << std::endl;
 										pair = mainWindow->getItemsFromFile(filename,handles[i]);
 										handles[i]->setParent(oldparent,false);
 									}
 									else
 									{
-										std::cout << "calling getItemsFromFile " << filename.toAscii().data() << std::endl;
 										pair = mainWindow->getItemsFromFile(filename,handles[i]);
 									}
 									
 									items2 = pair.second;
+									loaded = !pair.first.isEmpty();
 								}
 							}
 						}

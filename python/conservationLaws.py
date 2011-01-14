@@ -1,11 +1,3 @@
-"""
-description: compute the conservation laws using PySCeS
-category: Network structure
-name: Conservation laws
-icon: pysces.png
-menu: yes
-"""
-
 from tinkercell import *
 import pysces
 from tc2pysces import *

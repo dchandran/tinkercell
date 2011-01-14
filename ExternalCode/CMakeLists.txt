@@ -20,3 +20,4 @@ ADD_SUBDIRECTORY( Antimony )   #human-readable test-based reaction networks
 ADD_SUBDIRECTORY( sbw )        #systems biology workbench (Core only)
 ADD_SUBDIRECTORY( copasi )     #simulation and analysis package
 ADD_SUBDIRECTORY( BioCoder )   #wet-lab protocol generator
+ADD_SUBDIRECTORY( galib )   #genetic algorithms library

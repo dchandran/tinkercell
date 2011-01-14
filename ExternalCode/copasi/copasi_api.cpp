@@ -1,15 +1,20 @@
+//std
 #include <iostream>
 #include <vector>
 #include <string>
 #include <set>
 #include <iostream>
+
+//Qt lib
 #include <QString>
 #include <QStringList>
 #include <QRegExp>
 #include <QHash>
 #include <QList>
 #include <QPair>
+#include <QFile>
 
+//copasi
 #define COPASI_MAIN
 #include "copasi_api.h"
 #include "copasi/copasi.h"
@@ -38,10 +43,25 @@
 #include "copasi/steadystate/CSteadyStateTask.h"
 #include "copasi/steadystate/CMCATask.h"
 #include "copasi/steadystate/CMCAMethod.h"
+#include "copasi/commandline/COptions.h"
+#include "copasi/report/CCopasiContainer.h"
+#include "copasi/parameterFitting/CFitTask.h"
+#include "copasi/parameterFitting/CFitMethod.h"
+#include "copasi/parameterFitting/CFitProblem.h"
+#include "copasi/parameterFitting/CFitItem.h"
+#include "copasi/parameterFitting/CExperimentSet.h"
+#include "copasi/parameterFitting/CExperiment.h"
+#include "copasi/parameterFitting/CExperimentObjectMap.h"
+#include "copasi/report/CKeyFactory.h"
 
+//GAlib (genetic algorithm)
+#include "GASStateGA.h"
+#include "GA1DArrayGenome.h"
+
+//Antimony lib
 extern "C"
 {
-	#define LIB_EXPORTS 1 //for antimony
+	#define LIB_EXPORTS 1
 	#include "src/antimony_api.h"
 }
 
@@ -1581,5 +1601,203 @@ tc_matrix getReducedStoichiometryMatrix(copasi_model model)
 			tc_setMatrixValue(N, i, j, stoi(i,j));
 
 	return N;
+}
+
+void fitModelToData(copasi_model model, const char * filename, tc_matrix params, const char * method)
+{
+	CModel* pModel = (CModel*)(model.CopasiModelPtr);
+	CCopasiDataModel* pDataModel = (CCopasiDataModel*)(model.CopasiDataModelPtr);
+	CQHash * hash = (CQHash*)(model.qHash);
+
+	if (!pModel || !pDataModel || !hash) return;
+
+	QFile file(filename);
+	QStringList words;
+	int numlines=1;
+	
+	if (file.open(QFile::ReadOnly | QFile::Text))
+	{
+		QString line(file.readLine());
+		line.remove("#");
+
+		if (line.contains("\t"))
+			words = line.trimmed().split("\t");
+		else
+		if (line.contains(","))
+			words = line.trimmed().split("\t");
+		else
+		if (line.contains(";"))
+			words = line.trimmed().split(";");
+		else
+		if (line.contains(" "))
+			words = line.trimmed().split(" ");
+		else
+			return; //no valid delimiter
+
+		while (!file.atEnd())
+		{
+			file.readLine();
+			++numlines;
+		}
+	}
+	
+	//find the species from the header of the data file
+	QList< QPair<int, CMetab*> > targetSpecies;
+	CopasiPtr copasiPtr;
+	for (int i=0; i < words.size(); ++i)
+	{
+		if (hash->contains(words[i]))
+		{
+			copasiPtr = hash->value(words[i]);
+			if (copasiPtr.species)
+				targetSpecies << QPair<int,CMetab*>(i, copasiPtr.species);
+		}
+	}
+	
+	//get the target parameters
+	QList< CModelValue* > targetParams;
+	for (int i=0; i < params.rows; ++i)
+	{
+		QString rowname(tc_getRowName(params, i));
+		if (hash->contains(rowname))
+		{
+			copasiPtr = hash->value(rowname);
+			if (copasiPtr.param && copasiPtr.param->getStatus() != CModelValue::ASSIGNMENT)
+				targetParams << copasiPtr.param;
+		}
+	}
+	
+	// get the task object
+	CCopasiVectorN< CCopasiTask > & TaskList = * pDataModel->getTaskList();
+
+
+	// get the optim task object
+	CFitTask* pFitTask = dynamic_cast<CFitTask*>(TaskList["Parameter Estimation"]);
+
+	// if there isn’t one
+	if (pFitTask == NULL)
+	{
+		// create a new one
+		pFitTask = new CFitTask();
+		// remove any existing task just to be sure since in
+		// theory only the cast might have failed above
+		TaskList.remove("Parameter Estimation");
+		// add the new task to the task list
+		TaskList.add(pFitTask, true);
+	}
+	
+	//set method
+	QString sMethod(method);
+	if (sMethod == QString("GeneticAlgorithm"))
+		pFitTask->setMethodType(CCopasiMethod::GeneticAlgorithm);
+	else
+	if (sMethod == QString("SimulatedAnnealing"))
+		pFitTask->setMethodType(CCopasiMethod::SimulatedAnnealing);
+	else
+	if (sMethod == QString("LevenbergMarquardt"))
+		pFitTask->setMethodType(CCopasiMethod::LevenbergMarquardt);
+	else
+	if (sMethod == QString("NelderMead"))
+		pFitTask->setMethodType(CCopasiMethod::NelderMead);
+	else
+	if (sMethod == QString("SRES"))
+		pFitTask->setMethodType(CCopasiMethod::SRES);
+	else
+	if (sMethod == QString("ParticleSwarm"))
+		pFitTask->setMethodType(CCopasiMethod::ParticleSwarm);
+	else
+	if (sMethod == QString("SteepestDescent"))
+		pFitTask->setMethodType(CCopasiMethod::SteepestDescent);
+	else
+	if (sMethod == QString("RandomSearch"))
+		pFitTask->setMethodType(CCopasiMethod::SteepestDescent);
+
+	// the method in a fit task is an instance of COptMethod or a subclass
+	COptMethod* pFitMethod = dynamic_cast<COptMethod*>(pFitTask->getMethod());
+	// the object must be an instance of COptMethod or a subclass 
+	CFitProblem* pFitProblem = dynamic_cast<CFitProblem*>(pFitTask->getProblem());
+	CExperimentSet* pExperimentSet = dynamic_cast<CExperimentSet*>(pFitProblem->getParameter("Experiment Set"));
+	// first experiment (we only have one here)
+	CExperiment* pExperiment = new CExperiment(pDataModel);
+	// tell COPASI where to find the data
+	// reading data from string is not possible with the current C++ API
+	pExperiment->setFileName(filename);
+	// we have to tell COPASI that the data for the experiment is ...
+	// separated list (the default is TAB separated)
+	//pExperiment->setSeparator(","); //use default
+	pExperiment->setFirstRow(1);
+	pExperiment->setLastRow(numlines);
+	pExperiment->setHeaderRow(1);
+	pExperiment->setExperimentType(CCopasiTask::timeCourse);
+	assert(pExperiment->getExperimentType() == CCopasiTask::timeCourse);
+	pExperiment->setNumColumns(targetSpecies.size() + 1);
+	CExperimentObjectMap* pObjectMap = &pExperiment->getObjectMap();
+
+	//assign index for time
+	pObjectMap->setNumCols(targetSpecies.size() + 1);
+	pObjectMap->setRole(0, CExperiment::time);
+	const CCopasiObject* pTimeReference = pModel->getObject(CCopasiObjectName("Reference=Time"));
+	pObjectMap->setObjectCN(0, pTimeReference->getCN());
+	
+	// now we tell COPASI which column contain the concentrations of metabolites and belong to dependent variables	
+	int k;
+	CMetab * pMetab;
+	for (int i=0; i < targetSpecies.size(); ++i)
+	{
+		k = targetSpecies[i].first;
+		pMetab = targetSpecies[i].second;
+		pObjectMap->setRole( k , CExperiment::dependent );
+		const CCopasiObject* pParticleReference = pMetab->getObject(CCopasiObjectName("Reference=Concentration"));
+		pObjectMap->setObjectCN(k, pParticleReference->getCN());
+	}
+
+	pExperimentSet->addExperiment(*pExperiment);
+	// addExperiment makes a copy, so we need to get the added experiment
+	delete pExperiment;
+	pExperiment = pExperimentSet->getExperiment(0);
+	// assign optimization parameters
+	// get the list where we have to add the fit items
+	CCopasiParameterGroup* pOptimizationItemGroup = dynamic_cast<CCopasiParameterGroup*>(pFitProblem->getParameter("OptimizationItemList"));
+
+	// define CFitItem for each param
+	for (int i=0; i < targetParams.size(); ++i)
+	{
+		const CCopasiObject* pParameterReference = targetParams[i]->getObject(CCopasiObjectName("Reference=Value"));
+		CFitItem* pFitItem = new CFitItem(pDataModel);
+		pFitItem->setObjectCN(pParameterReference->getCN());
+		pFitItem->setStartValue(tc_getMatrixValue(params,i,0));
+		pFitItem->setLowerBound(CCopasiObjectName(std::string(QString::number(tc_getMatrixValue(params,i,1)).toAscii().data())));
+		pFitItem->setUpperBound(CCopasiObjectName(std::string(QString::number(tc_getMatrixValue(params,i,2)).toAscii().data())));
+		pOptimizationItemGroup->addParameter(pFitItem);
+	}
+	
+	try
+	{
+		// initialize the fit task
+		// we want complete output (HEADER, BODY and FOOTER)
+		bool result = pFitTask->initialize(CCopasiTask::OUTPUT_COMPLETE, pDataModel, NULL);
+		if (result == true)
+		{
+			// running the task for this example will probably take some time
+			result = pFitTask->process(true);
+		}
+	}
+	catch (...)
+	{
+		// failed
+		return;
+	}
+	pFitTask->restore();
+	
+	//assign optimized values back into the model
+	for (int i=0; i < params.rows && i < pFitProblem->getSolutionVariables().size(); ++i)
+	{
+		setValue(model, tc_getRowName(params,i), pFitProblem->getSolutionVariables()[i]);
+	}
+}
+
+tc_matrix getParameterDistribution(copasi_model model, const char * objective, tc_matrix input)
+{
+	return tc_createMatrix(0,0);
 }
 

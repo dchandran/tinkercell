@@ -53,6 +53,7 @@ namespace Tinkercell
 		void scaledElasticities();
 		void scaledConcentrationCC();
 		void scaledFluxCC();
+		void redStoic();
 
 	private:
 		bool modelNeedsUpdate;

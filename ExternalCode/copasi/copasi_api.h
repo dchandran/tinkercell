@@ -1,5 +1,5 @@
-#ifndef COPASI_SIMPLE_API
-#define COPASI_SIMPLE_API
+#ifndef COPASI_SIMPLE_C_API
+#define COPASI_SIMPLE_C_API
 
 #include "TC_structs.h"
 
@@ -309,6 +309,25 @@ TCAPIEXPORT tc_matrix getScaledFluxCC(copasi_model model);
  \ingroup Simulation
 */
 TCAPIEXPORT tc_matrix getReducedStoichiometryMatrix(copasi_model model);
+
+/*! 
+ \brief fit the model parameters to data
+ \param copasi_model model
+ \param char * filename (tab separated)
+ \param tc_matrix parameters to optimize. rownames should contain parameter names, column 1 contains parameter min-values, and column 2 contains parameter max values
+ \param char * pick method. Use of of the following: "GeneticAlgorithm", "LevenbergMarquardt", "SimulatedAnnealing", "NelderMead", "SRES", "ParticleSwarm", "SteepestDescent", "RandomSearch"
+ \ingroup Simulation
+*/
+TCAPIEXPORT void fitModelToData(copasi_model model, const char * filename, tc_matrix params, const char * method);
+
+/*! 
+ \brief use genetic algorithms to generate a distribution of parameter values
+ \param copasi_model model
+ \param char * objective function
+ \param tc_matrix input matrix -- depends on the objective function. See optimization_functions.h 
+ \ingroup Simulation
+*/
+TCAPIEXPORT tc_matrix getParameterDistribution(copasi_model model, const char * objective, tc_matrix input);
 
 END_C_DECLS
 #endif

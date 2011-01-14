@@ -34,6 +34,8 @@ INCLUDE_DIRECTORIES(
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor/librdfa
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor/util
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/Antimony
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/galib/ga
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/galib
 )
 
 #---------------------
@@ -122,6 +124,7 @@ TARGET_LINK_LIBRARIES( copasi
   blas
   f2c
   antimony
+  galib
   ${QT_QTCORE_LIBRARY}
 )
 

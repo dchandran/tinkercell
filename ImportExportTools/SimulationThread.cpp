@@ -334,6 +334,13 @@ void SimulationThread::run()
 	PlotTool::PlotType plotType;
 	QString plotTitle;
 	tc_deleteMatrix(resultMatrix);
+	
+	if (method == SteadyStateScan1D || method == SteadyStateScan2D)
+	{
+		QWidget * widget = CThread::dialog(this, QString("Steady state scan"));
+		widget->show();
+	}
+	
 	switch (method)
 	{
 		case None:
@@ -372,8 +379,6 @@ void SimulationThread::run()
 		case SteadyStateScan1D:
 			if (scanItems.size() > 0)
 			{
-				//QWidget * widget = CThread::dialog(this, QString("Steady state scan"));
-				//widget->show();
 				int n = scanItems[0].numPoints;
 				double start = scanItems[0].start, 
 							end = scanItems[0].end;
@@ -523,6 +528,8 @@ void SimulationThread::run()
 	{
 		NumericalDataTable * dat = ConvertValue(resultMatrix);
 		emit graph(*dat, plotTitle, x, plotType);
+		if (method==Jacobian && mainWindow && mainWindow->console())
+				mainWindow->console()->printTable(*dat);
 		delete dat; 
 	}
 	

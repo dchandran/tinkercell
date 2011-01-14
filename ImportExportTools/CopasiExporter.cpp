@@ -205,6 +205,18 @@ void CopasiExporter::scaledFluxCC()
 	simDialog->setMethod(SimulationThread::ScaledFluxCC);
 }
 
+void CopasiExporter::redStoic()
+{
+	tc_matrix m = reducedStoichiometry();
+	NumericalDataTable * N = ConvertValue(m);
+
+	if (console())
+		console()->printTable(*N);
+	
+	tc_deleteMatrix(m);
+	delete N;
+}
+
 tc_matrix CopasiExporter::simulateDeterministic(double startTime, double endTime, int numSteps)
 {
 	if (odeThread)
@@ -540,6 +552,7 @@ void CopasiExporter::toolLoaded(Tool*)
 				QPixmap stochastic(appDir + tr("/icons/stochastic.png"));
 				QPixmap scan(appDir + tr("/icons/steadystate.png"));
 				QPixmap mcaicon(appDir + tr("/icons/fullBinding.png"));
+				QPixmap nodedges(appDir + tr("/icons/nodedges.png"));
 				QToolButton * button;
 				QAction * menuItem;
 				
@@ -721,6 +734,21 @@ void CopasiExporter::toolLoaded(Tool*)
 				{
 					menuItem->setToolTip(tr("using COPASI"));
 					connect(menuItem,SIGNAL(triggered()),this,SLOT(scaledFluxCC()));
+				}
+				
+				//Reduced Stoic
+				button = libMenu->addFunction(tr("Network Structure"), tr("Reduced Stoichiometry"), QIcon(nodedges));
+				if (button)
+				{
+					button->setToolTip(tr("using COPASI"));
+					connect(button,SIGNAL(pressed()),this,SLOT(redStoic()));
+				}
+
+				menuItem = libMenu->addMenuItem(tr("Network Structure"), tr("Reduced Stoichiometry"), QIcon(nodedges));
+				if (menuItem)
+				{
+					menuItem->setToolTip(tr("using COPASI"));
+					connect(menuItem,SIGNAL(triggered()),this,SLOT(redStoic()));
 				}
 		}
     }

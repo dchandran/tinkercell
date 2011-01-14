@@ -315,8 +315,7 @@ namespace Tinkercell
 				
 				if (newName == name)
 				{
-					item->handle()->name = newName;
-
+					//item->handle()->name = newName;
 					if (currentNetwork())
 						currentNetwork()->rename(getHandle(item),newName);
 					return;

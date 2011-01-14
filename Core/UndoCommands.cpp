@@ -474,10 +474,23 @@ namespace Tinkercell
 				QList< DataTable<qreal>* > oldData1, newData1;
 				QList< DataTable<QString>* > oldData2, newData2;
 
+				bool emptyHandle;
 				QStringList namesToKill;
 				for (int i=0; i < items.size(); ++i)
-					if (items[i] && items[i]->graphicsItems.isEmpty())
-						namesToKill << items[i]->fullName();
+					if (items[i])
+					{
+						emptyHandle = true;				
+						for (int j=0; j < items[i]->graphicsItems.size(); ++j)
+							if (items[i]->graphicsItems[j] && 
+								items[i]->graphicsItems[j]->scene() &&
+								static_cast<GraphicsScene*>(items[i]->graphicsItems[j]->scene())->networkWindow->isVisible())
+							{
+								emptyHandle = false;
+								break;
+							}
+						if (emptyHandle)
+							namesToKill << items[i]->fullName();
+					}
 
 				QList<ItemHandle*> affectedHandles = textEditor->items();
 
@@ -825,7 +838,7 @@ namespace Tinkercell
 		if (graphicsScene && graphicsScene->network == network)
 		{
 			//network->showScene(graphicsScene);
-
+			bool emptyHandle;
 			for (int i=0; i<graphicsItems.size(); ++i)
 			{
 				if (graphicsItems[i] && graphicsItems[i]->scene() == graphicsScene)
@@ -856,7 +869,16 @@ namespace Tinkercell
 					if (handles[i] && !handles[i]->parent)
 					{
 						setHandle(graphicsItems[i],0);
-						if (handles[i]->graphicsItems.isEmpty())
+						emptyHandle = true;				
+						for (int j=0; j < handles[i]->graphicsItems.size(); ++j)
+							if (handles[i]->graphicsItems[j] && 
+								handles[i]->graphicsItems[j]->scene() &&
+								static_cast<GraphicsScene*>(handles[i]->graphicsItems[j]->scene())->networkWindow->isVisible())
+							{
+								emptyHandle = false;
+								break;
+							}
+						if (emptyHandle)
 							handles[i]->network = 0;
 					}
 				}
@@ -868,7 +890,16 @@ namespace Tinkercell
 				if (handles[i])
 				{
 					parentHandles[i] = handles[i]->parent;
-					if (handles[i]->graphicsItems.isEmpty())
+					emptyHandle = true;				
+						for (int j=0; j < handles[i]->graphicsItems.size(); ++j)
+							if (handles[i]->graphicsItems[j] && 
+								handles[i]->graphicsItems[j]->scene() &&
+								static_cast<GraphicsScene*>(handles[i]->graphicsItems[j]->scene())->networkWindow->isVisible())
+							{
+								emptyHandle = false;
+								break;
+							}
+					if (emptyHandle)
 						handles[i]->setParent(0,false);
 				}
 			
@@ -1040,6 +1071,8 @@ namespace Tinkercell
 			}
 		}
 
+		bool emptyHandle;
+
 		for (int i=0; i<graphicsItems.size(); ++i)
 		{
 			if (graphicsItems[i] && graphicsScenes[i])
@@ -1070,7 +1103,17 @@ namespace Tinkercell
 
 			if (itemHandles.size() > i && itemHandles[i])
 			{
-				if (itemHandles[i]->graphicsItems.isEmpty())
+				emptyHandle = true;				
+				for (int j=0; j < itemHandles[i]->graphicsItems.size(); ++j)
+					if (itemHandles[i]->graphicsItems[j] && 
+						itemHandles[i]->graphicsItems[j]->scene() &&
+						static_cast<GraphicsScene*>(itemHandles[i]->graphicsItems[j]->scene())->networkWindow->isVisible())
+					{
+						emptyHandle = false;
+						break;
+					}
+				
+				if (emptyHandle)
 				{
 					itemHandles[i]->network = 0;
 					for (int j=0; j < itemHandles[i]->children.size(); ++j)
@@ -1272,7 +1315,16 @@ namespace Tinkercell
 			if (itemHandles[i] && (itemHandles.indexOf(itemHandles[i]) == i))
 			{
 				parentHandles[i] = itemHandles[i]->parent;
-				if (itemHandles[i]->graphicsItems.isEmpty())
+				emptyHandle = true;				
+				for (int j=0; j < itemHandles[i]->graphicsItems.size(); ++j)
+					if (itemHandles[i]->graphicsItems[j] && 
+						itemHandles[i]->graphicsItems[j]->scene() &&
+						static_cast<GraphicsScene*>(itemHandles[i]->graphicsItems[j]->scene())->networkWindow->isVisible())
+					{
+						emptyHandle = false;
+						break;
+					}
+				if (emptyHandle)
 					itemHandles[i]->setParent(0,false);
 			}
 	}

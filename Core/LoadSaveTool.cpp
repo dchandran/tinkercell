@@ -450,7 +450,7 @@ namespace Tinkercell
 		loadItems(items,filename, globalHandle);
 		if (!root)
 			handles += globalHandle;
-		
+
 		for (int i=0; i < items.size(); ++i)
 			if ((h = getHandle(items[i])) && !handles.contains(h))
 				handles += h;
@@ -458,7 +458,7 @@ namespace Tinkercell
 		if (root)
 		{
 			for (int i=0; i < handles.size(); ++i)
-				if ((h = handles[i]) && !h->parent)
+				if ((h = handles[i]) && !h->parent && !h->name.isEmpty())
 				{
 					h->setParent(root,false);
 					RenameCommand::findReplaceAllHandleData(handles,h->name,root->fullName() + tr(".") + h->name);
@@ -473,7 +473,7 @@ namespace Tinkercell
 				{
 					NumericalDataTable & dat1 = (h->numericalDataTable(keys[i]));
 					NumericalDataTable & dat2 = (root->numericalDataTable(keys[i]));
-					
+
 					for (int j=0; j < dat1.rows(); ++j)
 					{
 						s = dat1.rowName(j);
@@ -483,7 +483,7 @@ namespace Tinkercell
 						RenameCommand::findReplaceAllHandleData(handles,dat1.rowName(j),root->fullName() + tr(".") + dat1.rowName(j));
 					}
 				}
-			
+
 				keys = h->textDataNames();
 				for (int i=0; i < keys.size(); ++i)
 				{

@@ -737,14 +737,14 @@ void CopasiExporter::toolLoaded(Tool*)
 				}
 				
 				//Reduced Stoic
-				button = libMenu->addFunction(tr("Network Structure"), tr("Reduced Stoichiometry"), QIcon(nodedges));
+				button = libMenu->addFunction(tr("Network Structure"), tr("Reduced stoichiometry"), QIcon(nodedges));
 				if (button)
 				{
 					button->setToolTip(tr("using COPASI"));
 					connect(button,SIGNAL(pressed()),this,SLOT(redStoic()));
 				}
 
-				menuItem = libMenu->addMenuItem(tr("Network Structure"), tr("Reduced Stoichiometry"), QIcon(nodedges));
+				menuItem = libMenu->addMenuItem(tr("Network Structure"), tr("Reduced stoichiometry"), QIcon(nodedges));
 				if (menuItem)
 				{
 					menuItem->setToolTip(tr("using COPASI"));

@@ -8,6 +8,7 @@
 
 ****************************************************************************/
 
+#include <iostream>
 #include <math.h>
 #include <QRegExp>
 #include "ItemFamily.h"
@@ -558,7 +559,7 @@ namespace Tinkercell
 						QFileInfoList list = dir.entryInfoList();
 				
 						if (!list.isEmpty())
-						{	
+						{
 							bool loaded = false;
 							while (!loaded)
 							{
@@ -566,72 +567,57 @@ namespace Tinkercell
 
 								if (QFile::exists(filename))
 								{
-									QPair< QList<ItemHandle*> , QList<QGraphicsItem*> > pair = mainWindow->getItemsFromFile(filename,0);
+									QPair< QList<ItemHandle*> , QList<QGraphicsItem*> > pair;
+								
+									if (scene->localHandle() && handles[i]->parent != scene->localHandle())
+									{
+										ItemHandle * oldparent = handles[i]->parent;
+										handles[i]->setParent(scene->localHandle(),false);
+										std::cout << "calling getItemsFromFile " << filename.toAscii().data() << std::endl;
+										pair = mainWindow->getItemsFromFile(filename,handles[i]);
+										handles[i]->setParent(oldparent,false);
+									}
+									else
+									{
+										std::cout << "calling getItemsFromFile " << filename.toAscii().data() << std::endl;
+										pair = mainWindow->getItemsFromFile(filename,handles[i]);
+									}
 									
 									items2 = pair.second;
-									QList<ItemHandle*> handles2 = pair.first;
-									QList<ItemHandle*> allChildren = handles2;
-									for (int j=0; j < handles2.size(); ++j)
-										if (handles2[j])
-										{
-											if (handles2[j]->family() && !handles2[j]->name.isEmpty())
-												allChildren << handles2[j]->allChildren();
-											else
-												commands << new MergeHandlesCommand(tr("merge"), scene->network, QList<ItemHandle*>() << handles[i] << handles2[j]);
-										}
-
-									loaded = !handles2.isEmpty();
-
-									QList<ItemHandle*> visitedHandles;
-
-									for (int j=0; j < handles2.size(); ++j)
-										if (handles2[j] && !visitedHandles.contains(handles2[j]))
-										{
-											visitedHandles << handles2[j];
-											if (!handles2[j]->parent || handles2[j]->parent == handles[i])
-											{
-												handles2[j]->setParent(0,false);
-												commands << new SetParentHandleCommand(tr("set parent"),0,handles2[j],handles[i]);
-												if (scene->localHandle())
-													commands << new RenameCommand(tr("rename"),0,allChildren,handles2[j]->name,scene->localHandle()->fullName() + tr(".") + handles[i]->fullName() + tr(".") + handles2[j]->name);
-												else
-													commands << new RenameCommand(tr("rename"),0,allChildren,handles2[j]->name,handles[i]->fullName() + tr(".") + handles2[j]->name);
-											}
-										}
-									}
 								}
 							}
 						}
 					}
-					
-					aboutToBeRenamed << handles[i]->name;
-					
-					if (!items2.isEmpty())
-					{
-						NodeGraphicsItem * node;
-						ConnectionGraphicsItem * connection;
-						TextGraphicsItem * text;
-
-						for (int j=0; j < items2.size(); ++j)
-							if (node = NodeGraphicsItem::cast(items2[j]))
-							{
-								if (node->groupID.isEmpty())
-									node->groupID = groupName;
-							}
-							else
-							if (connection = ConnectionGraphicsItem::cast(items2[j]))
-							{
-								if (connection->groupID.isEmpty())
-									connection->groupID = groupName;
-							}
-							else
-							if (text = TextGraphicsItem::cast(items2[j]))
-							{
-								if (text->groupID.isEmpty())
-									text->groupID = groupName;
-							}
-					}
 				}
+					
+				aboutToBeRenamed << handles[i]->name;
+				
+				if (!items2.isEmpty())
+				{
+					NodeGraphicsItem * node;
+					ConnectionGraphicsItem * connection;
+					TextGraphicsItem * text;
+
+					for (int j=0; j < items2.size(); ++j)
+						if (node = NodeGraphicsItem::cast(items2[j]))
+						{
+							if (node->groupID.isEmpty())
+								node->groupID = groupName;
+						}
+						else
+						if (connection = ConnectionGraphicsItem::cast(items2[j]))
+						{
+							if (connection->groupID.isEmpty())
+								connection->groupID = groupName;
+						}
+						else
+						if (text = TextGraphicsItem::cast(items2[j]))
+						{
+							if (text->groupID.isEmpty())
+								text->groupID = groupName;
+						}
+				}
+			}
 	}
 
 	void ModuleTool::itemsAboutToBeRemoved(GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>& commands)

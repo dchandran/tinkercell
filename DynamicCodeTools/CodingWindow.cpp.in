@@ -84,22 +84,6 @@ namespace Tinkercell
 			s = QObject::tr("cd ") + homeDir + QObject::tr("; svn update");
 			if (err < 0 || system(s.toAscii().data()) < 0)
 					QMessageBox::information(Tinkercell::MainWindow::instance(), "Error", "Unable to call SVN for auto-update. Check that SVN is installed and located in the system path.");
-		
-			QFile file;
-			file.setFileName( Tinkercell::MainWindow::homeDir() + QObject::tr("/updates.txt") );
-			if (file.open( QFile::ReadOnly | QFile::Text ))
-			{
-				QString text(file.readAll());
-				QRegExp regex("current version:\\s*([\\.0-9]+)");
-				if (regex.indexIn(text) > -1)
-				{
-					QString v = regex.cap(1);
-					if (v != QObject::tr("@TINKERCELL_WC_REVISION@"))	
-						QMessageBox::about(Tinkercell::MainWindow::instance(), "New version", "A new version of TinkerCell is available for download  at <a href='http://www.tinkercell.com/downloads-2'>tinkercell.com</a>");
-						//main->statusBar()->showMessage(QString("A new version of TinkerCell is available for download  at <a href='http://www.tinkercell.com/downloads-2'>tinkercell.com</a>"));
-				}
-				file.close();
-			}
 		}
 	}
 	
@@ -382,6 +366,23 @@ specific for:\n\"\"\"\n\n") + text;
 	bool CodingWindow::setMainWindow(MainWindow* main)
 	{
 		Tool::setMainWindow(main);
+		
+		QFile file;
+		file.setFileName( Tinkercell::MainWindow::homeDir() + QObject::tr("/updates.txt") );
+		if (file.open( QFile::ReadOnly | QFile::Text ))
+		{
+			QString text(file.readAll());
+			QRegExp regex("current version:\\s*([\\.0-9]+)");
+			if (regex.indexIn(text) > -1)
+			{
+				QString v = regex.cap(1);
+				if (v != QObject::tr("@TINKERCELL_WC_REVISION@"))
+					if (main && console())
+						//QMessageBox::about(main, "New version", "A new version of TinkerCell is available for download  at <a href='http://www.tinkercell.com/downloads-2'>tinkercell.com</a>");
+					console()->message(QString("A new version of TinkerCell is available for download  at <a href='http://www.tinkercell.com/downloads-2'>tinkercell.com</a>"));
+			}
+			file.close();
+		}
 
 		QString appDir = QCoreApplication::applicationDirPath();
 

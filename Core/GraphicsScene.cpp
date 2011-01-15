@@ -239,6 +239,16 @@ namespace Tinkercell
 	void GraphicsScene::clearSelection()
 	{
 		if (!toolTips.isEmpty()) hideToolTips();
+		
+		for (int i=0; i < selectedItems.size(); ++i)
+			if (TextGraphicsItem::cast(selectedItems[i]))
+			{
+				TextGraphicsItem * textItem = TextGraphicsItem::cast(selectedItems[i]);
+				textItem->showBorder(false);
+				textItem->setSelected(false);
+				textItem->setTextInteractionFlags(Qt::NoTextInteraction);
+			}
+		
 		selectedItems.clear();
 		if (movingItemsGroup)
 		{
@@ -320,6 +330,15 @@ namespace Tinkercell
 			//deselect();
 			return;
 		}
+		
+		for (int i=0; i < selectedItems.size(); ++i)
+			if (TextGraphicsItem::cast(selectedItems[i]))
+			{
+				TextGraphicsItem * textItem = TextGraphicsItem::cast(selectedItems[i]);
+				textItem->showBorder(false);
+				textItem->setSelected(false);
+				textItem->setTextInteractionFlags(Qt::NoTextInteraction);
+			}
 		
 		if (!toolTips.isEmpty()) hideToolTips();
 
@@ -466,6 +485,17 @@ namespace Tinkercell
 
 						if (mouseEvent->button())// == Qt::LeftButton)
 						{
+							if (selectedItems.size() == 1 && TextGraphicsItem::cast(selectedItems[0]) && !mouseEvent->modifiers())
+							{
+								TextGraphicsItem * textItem = TextGraphicsItem::cast(selectedItems[0]);
+								textItem->showBorder(true);
+								textItem->setSelected(true);
+								textItem->setTextInteractionFlags(Qt::TextEditorInteraction);
+								QTextCursor c = textItem->textCursor();
+								c.movePosition(QTextCursor::EndOfLine);
+								c.movePosition(QTextCursor::StartOfLine,QTextCursor::KeepAnchor);
+								textItem->setTextCursor(c);
+							}
 							emit itemsSelected(this, selectedItems,clickedPoint,mouseEvent->modifiers());
 							showGraphicalTools();
 						}
@@ -727,6 +757,13 @@ namespace Tinkercell
 		}
 		else
 		{
+			if (selectedItems.size() == 1 && TextGraphicsItem::cast(selectedItems[0]))
+			{
+				TextGraphicsItem * textItem = TextGraphicsItem::cast(selectedItems[0]);
+				textItem->showBorder(false);
+				textItem->setSelected(false);
+				textItem->setTextInteractionFlags(Qt::NoTextInteraction);
+			}
 			emit escapeSignal(network->mainWindow->currentNetworkWindow);
 		}
 	}
@@ -792,10 +829,29 @@ namespace Tinkercell
 		keyEvent->setAccepted(false);
 
 		emit keyPressed(this, keyEvent);
+		
+		int key = keyEvent->key();
+		
+		if (selectedItems.size() == 1 && TextGraphicsItem::cast(selectedItems[0]))
+		{
+			QGraphicsScene::keyPressEvent(keyEvent);
+			if (!(key == Qt::Key_Escape || 
+				  ((key == Qt::Key_Return || key == Qt::Key_Enter) && (keyEvent->modifiers() & (Qt::ShiftModifier | Qt::ControlModifier)))
+				  ))
+				keyEvent->accept();
+		}
+		else
+		for (int i=0; i < selectedItems.size(); ++i)
+			if (TextGraphicsItem::cast(selectedItems[i]))
+			{
+				TextGraphicsItem * textItem = TextGraphicsItem::cast(selectedItems[i]);
+				textItem->showBorder(false);
+				textItem->setSelected(false);
+				textItem->setTextInteractionFlags(Qt::NoTextInteraction);
+			}
 
 		if (keyEvent->isAccepted())
 		{
-			QGraphicsScene::keyPressEvent(keyEvent);
 			return;
 		}
 
@@ -842,8 +898,6 @@ namespace Tinkercell
 			keyEvent->accept();
 			return;
 		}
-
-		int key = keyEvent->key();
 
 		if (key == Qt::Key_Escape || key == Qt::Key_Space)
 		{
@@ -963,6 +1017,13 @@ namespace Tinkercell
 	/*! \brief deselect items*/
 	void GraphicsScene::deselect(QGraphicsItem* item)
 	{
+		if (TextGraphicsItem::cast(item))
+		{
+			TextGraphicsItem * textItem = TextGraphicsItem::cast(item);
+			textItem->showBorder(false);
+			textItem->setSelected(false);
+			textItem->setTextInteractionFlags(Qt::NoTextInteraction);
+		}
 		if (selectedItems.contains(item))
 		{
 			selectedItems.removeAll(item);
@@ -974,6 +1035,14 @@ namespace Tinkercell
 	/*! \brief deselect items*/
 	void GraphicsScene::deselect()
 	{
+		for (int i=0; i < selectedItems.size(); ++i)
+			if (TextGraphicsItem::cast(selectedItems[i]))
+			{
+				TextGraphicsItem * textItem = TextGraphicsItem::cast(selectedItems[i]);
+				textItem->showBorder(false);
+				textItem->setSelected(false);
+				textItem->setTextInteractionFlags(Qt::NoTextInteraction);
+			}
 		selectedItems.clear();
 		movingItems.clear();
 		if (movingItemsGroup)

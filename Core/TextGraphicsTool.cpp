@@ -417,9 +417,6 @@ namespace Tinkercell
 			QString text = targetItem->toPlainText();
 			targetItem->setPlainText(oldText);
 			setText(targetItem,text);
-			targetItem->showBorder(false);
-			targetItem->setSelected(false);
-			targetItem->setTextInteractionFlags(Qt::NoTextInteraction);
 			targetItem = 0;
 		}
 		if (command)
@@ -505,13 +502,7 @@ namespace Tinkercell
 			}
 
 			oldText = textItem->toPlainText();
-			targetItem = textItem;			
-			targetItem->setSelected(true);
-			textItem->setTextInteractionFlags(Qt::TextEditorInteraction);
-			QTextCursor c = targetItem->textCursor();
-			c.movePosition(QTextCursor::EndOfLine);
-			c.movePosition(QTextCursor::StartOfLine,QTextCursor::KeepAnchor);
-			targetItem->setTextCursor(c);
+			targetItem = textItem;
 		}
 		else
 			if (targetItem)
@@ -528,40 +519,14 @@ namespace Tinkercell
 				if (textItem)
 				{
 					oldText = textItem->toPlainText();
-					targetItem = textItem;			
-					targetItem->setSelected(true);
-					textItem->setTextInteractionFlags(Qt::TextEditorInteraction);
-					QTextCursor c = targetItem->textCursor();
-					c.movePosition(QTextCursor::EndOfLine);
-					c.movePosition(QTextCursor::StartOfLine,QTextCursor::KeepAnchor);
-					targetItem->setTextCursor(c);
+					targetItem = textItem;
 				}
 			}
-
-			if (!targetItem) return;
-
-			int key = keyEvent->key();
-			if (key == Qt::Key_Enter || key == Qt::Key_Return || key == Qt::Key_Escape)
-				clear();	
-			keyEvent->accept();
 		}
 	}
 
 	void TextGraphicsTool::mouseDoubleClicked (GraphicsScene * scene, QPointF , QGraphicsItem * item, Qt::MouseButton , Qt::KeyboardModifiers )
 	{
-		if (!item || !scene) return;
-		TextGraphicsItem * textItem = TextGraphicsItem::cast(item->topLevelItem());
-		if (textItem)
-		{
-			oldText = textItem->toPlainText();
-			targetItem = textItem;			
-			targetItem->setSelected(true);
-			textItem->setTextInteractionFlags(Qt::TextEditorInteraction);
-			QTextCursor c = targetItem->textCursor();
-			c.movePosition(QTextCursor::EndOfLine);
-			c.movePosition(QTextCursor::StartOfLine,QTextCursor::KeepAnchor);
-			targetItem->setTextCursor(c);
-		}
 	}
 
 	void TextGraphicsTool::getFont()

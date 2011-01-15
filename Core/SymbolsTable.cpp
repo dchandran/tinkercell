@@ -8,7 +8,6 @@ This file defines the class that stores all symbols, such as node and
 connection names and data columns and rows, for each scene
 
 ****************************************************************************/
-#include <iostream>
 #include "MainWindow.h"
 #include "NetworkWindow.h"
 #include "NetworkHandle.h"
@@ -239,6 +238,7 @@ namespace Tinkercell
 			for (int i=0; i < children.size(); ++i)
 				expandLeftFirst(children[i],families); 
 
+
 		}
 	}
 	
@@ -252,15 +252,14 @@ namespace Tinkercell
 		
 		for (int i=0; i < allHandles.size(); ++i)
 		{
-			std::cout << "handle " << i << "   "  << keys[i].toAscii().data() << std::endl;
 			if (allHandles[i] && allHandles[i]->family())
 			{
-				/*root = allHandles[i]->family()->root();
+				root = allHandles[i]->family()->root();
 				if (!allRootFamilies.contains(root))
-					allRootFamilies << root;*/
+					allRootFamilies << root;
 			}
 		}
-			/*
+
 		QList<ItemFamily*> sortedFamilies;
 		
 		for (int i=0; i < allRootFamilies.size(); ++i)
@@ -268,10 +267,9 @@ namespace Tinkercell
 		
 		allHandles.clear();
 		for (int i=0; i < sortedFamilies.size(); ++i)
-			allHandles += handlesByFamily.values(sortedFamilies[i]->name());*/
+			allHandles += handlesByFamily.values(sortedFamilies[i]->name());
 		
 		return allHandles;
-
 	}
 	
 	QList<ItemHandle*> SymbolsTable::allHandlesSortedByName() const

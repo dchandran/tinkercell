@@ -283,6 +283,8 @@ namespace Tinkercell
 
 			connect(mainWindow,SIGNAL(escapeSignal(const QWidget*)),this,SLOT(escapeSlot(const QWidget*)));
 
+			connect(mainWindow,SIGNAL(keyPressed(GraphicsScene * , QKeyEvent *)),this,SLOT(keyPressed(GraphicsScene * , QKeyEvent *)));
+
 			connect(mainWindow,SIGNAL(mousePressed(GraphicsScene * , QPointF , Qt::MouseButton, Qt::KeyboardModifiers )),
 				this,SLOT(mousePressed(GraphicsScene * , QPointF , Qt::MouseButton, Qt::KeyboardModifiers )));
 
@@ -575,6 +577,21 @@ namespace Tinkercell
 			painter.setPen(Qt::NoPen);
 			painter.drawRect(0,0,20,20);
 			changeBrushAlpha2->setIcon(QIcon(balpha2));
+		}
+	}
+	
+	void BasicGraphicsToolbar::keyPressed(GraphicsScene * scene, QKeyEvent * keyEvent)
+	{
+		if (keyEvent->key() == Qt::Key_PageUp)
+		{
+			bringToFront();
+			keyEvent->accept();
+		}
+		else
+		if (keyEvent->key() == Qt::Key_PageDown)
+		{
+			sendToBack();
+			keyEvent->accept();
 		}
 	}
 

@@ -457,13 +457,6 @@ namespace Tinkercell
 
 		if (root)
 		{
-			for (int i=0; i < handles.size(); ++i)
-				if ((h = handles[i]) && !h->parent && !h->name.isEmpty())
-				{
-					h->setParent(root,false);
-					RenameCommand::findReplaceAllHandleData(handles,h->name,root->fullName() + tr(".") + h->name);
-				}
-
 			if (globalHandle)
 			{
 				h = globalHandle;
@@ -512,6 +505,22 @@ namespace Tinkercell
 						RenameCommand::findReplaceAllHandleData(handles,dat1.rowName(j),root->fullName() + tr(".") + dat1.rowName(j));
 				}
 			}
+			
+			QList<ItemHandle*> visited;
+			for (int i=0; i < handles.size(); ++i)
+				if ((h = handles[i]) && !h->parent && h->name == root->name)  //problem case -- do first
+				{
+					h->setParent(root,false);
+					RenameCommand::findReplaceAllHandleData(handles,h->name,root->fullName() + tr(".") + h->name);
+					visited += h;
+				}
+			
+			for (int i=0; i < handles.size(); ++i)
+				if ((h = handles[i]) && !h->parent && !h->name.isEmpty() && !visited.contains(h))
+				{
+					h->setParent(root,false);
+					RenameCommand::findReplaceAllHandleData(handles,h->name,root->fullName() + tr(".") + h->name);
+				}
 		}	
 	}
 

@@ -472,32 +472,44 @@ namespace Tinkercell
 				for (int i=0; i < keys.size(); ++i)
 				{
 					NumericalDataTable & dat1 = (h->numericalDataTable(keys[i]));
-					NumericalDataTable & dat2 = (root->numericalDataTable(keys[i]));
-
-					for (int j=0; j < dat1.rows(); ++j)
+					
+					if (!root->hasNumericalData(keys[i]))
+						root->numericalDataTable(keys[i]) = dat1;
+					else
 					{
-						s = dat1.rowName(j);
-						if (!dat2.hasRow(s))
-							for (int k=0; k < dat2.columns() && k < dat1.columns(); ++k)
-								dat2.value(s,k) = dat1.value(s,k);
-						RenameCommand::findReplaceAllHandleData(handles,dat1.rowName(j),root->fullName() + tr(".") + dat1.rowName(j));
+						NumericalDataTable & dat2 = (root->numericalDataTable(keys[i]));
+						for (int j=0; j < dat1.rows(); ++j)
+						{
+							s = dat1.rowName(j);
+							if (!dat2.hasRow(s))
+								for (int k=0; k < dat1.columns(); ++k)
+									dat2.value(s,k) = dat1.value(s,k);
+						}
 					}
+					for (int j=0; j < dat1.rows(); ++j)
+						RenameCommand::findReplaceAllHandleData(handles,dat1.rowName(j),root->fullName() + tr(".") + dat1.rowName(j));
 				}
 
 				keys = h->textDataNames();
 				for (int i=0; i < keys.size(); ++i)
 				{
 					TextDataTable & dat1 = (h->textDataTable(keys[i]));
-					TextDataTable & dat2 = (root->textDataTable(keys[i]));
 					
-					for (int j=0; j < dat1.rows(); ++j)
+					if (!root->hasTextData(keys[i]))
+						root->textDataTable(keys[i]) = dat1;
+					else
 					{
-						s = dat1.rowName(j);
-						if (!dat2.hasRow(s))
-							for (int k=0; k < dat2.columns() && k < dat1.columns(); ++k)
-								dat2.value(s,k) = dat1.value(s,k);
-						RenameCommand::findReplaceAllHandleData(handles,dat1.rowName(j),root->fullName() + tr(".") + dat1.rowName(j));
+						TextDataTable & dat2 = (root->textDataTable(keys[i]));					
+						for (int j=0; j < dat1.rows(); ++j)
+						{
+							s = dat1.rowName(j);
+							if (!dat2.hasRow(s))
+								for (int k=0; k < dat1.columns(); ++k)
+									dat2.value(s,k) = dat1.value(s,k);
+						}
 					}
+					for (int j=0; j < dat1.rows(); ++j)
+						RenameCommand::findReplaceAllHandleData(handles,dat1.rowName(j),root->fullName() + tr(".") + dat1.rowName(j));
 				}
 			}
 		}	

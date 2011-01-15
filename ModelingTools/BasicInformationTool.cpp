@@ -750,10 +750,6 @@ namespace Tinkercell
 
 		if ((type == both || type == text) && !(handle->hasTextData(name)))
 		{
-
-
-
-
 			QList<QString> sKeys = family->textAttributes.keys();
 			DataTable<QString> textAttributes;
 			textAttributes.description() = tr("Text Attributes: an Nx1 table storing all the string attributes for this item. Row names are the attribute names, and first column holds the values.");

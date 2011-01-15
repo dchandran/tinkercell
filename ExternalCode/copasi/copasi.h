@@ -124,7 +124,7 @@
 # define abs64 abs
 #endif
 
-#ifdef Darwin
+#ifdef _APPLE
 #include <cmath>
 # ifndef isnan
 #  define isnan(__x) ((__x == __x) != true)

@@ -125,6 +125,7 @@
 #endif
 
 #ifdef Darwin
+#include <cmath>
 # ifndef isnan
 #  define isnan(__x) ((__x == __x) != true)
 # endif

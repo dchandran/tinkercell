@@ -414,7 +414,6 @@ void SimulationThread::run()
 		
 					tc_deleteMatrix(ss);
 				}
-				tc_printOutMatrix(resultMatrix);
 				plotTitle = tr("Steady state scan");
 				plotType = PlotTool::Plot2D;
 				//widget->close();
@@ -532,7 +531,6 @@ void SimulationThread::run()
 	
 	if (plot)
 	{
-		tc_printOutMatrix(resultMatrix);
 		NumericalDataTable * dat = ConvertValue(resultMatrix);
 		emit graph(*dat, plotTitle, x, plotType);
 		if (method==Jacobian && mainWindow && mainWindow->console())

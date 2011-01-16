@@ -1017,7 +1017,8 @@ namespace Tinkercell
 		QString s;
 		int rows = plot->dataTable.columns();
 		QTableWidget * tableWidget = new QTableWidget(rows,1);
-		tableWidget->horizontalHeader()->hide();
+		//tableWidget->horizontalHeader()->hide();
+		tableWidget->setHorizontalHeaderLabels(QStringList() << "plot items");
 		tableWidget->verticalHeader()->hide();
 		
 		QPushButton * allButton = new QPushButton(tr("&All"));

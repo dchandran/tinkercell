@@ -2489,6 +2489,34 @@ namespace Tinkercell
 				changeDataCommand->undo();
 		}
 		
+		NodeGraphicsItem * node;
+		ConnectionGraphicsItem * connection;
+		TextGraphicsItem * text;
+		int k;
+		
+		for (int i=0; i < allhandles.size(); ++i)
+		{
+			QList<QGraphicsItem*> & items2 = allhandles[i]->graphicsItems;
+			for (int j=0; j < items2.size(); ++j)
+				if (node = NodeGraphicsItem::cast(items2[j]))
+				{
+					if ((k = oldNames.indexOf(node->groupID)) >= 0 && newNames.size() > k)
+						node->groupID = newNames[k];
+				}
+				else
+				if (connection = ConnectionGraphicsItem::cast(items2[j]))
+				{
+					if ((k = oldNames.indexOf(connection->groupID)) >= 0 && newNames.size() > k)
+						connection->groupID = newNames[k];
+				}
+				else
+				if (text = TextGraphicsItem::cast(items2[j]))
+				{
+					if ((k = oldNames.indexOf(text->groupID)) >= 0 && newNames.size() > k)
+						text->groupID = newNames[k];
+				}
+		}
+		
 		/*if (network)
 		{
 			QList<TextEditor*> editors = network->editors();
@@ -2512,6 +2540,34 @@ namespace Tinkercell
 		if (changeDataCommand)
 		{
 		    changeDataCommand->redo();
+		}
+		
+		NodeGraphicsItem * node;
+		ConnectionGraphicsItem * connection;
+		TextGraphicsItem * text;
+		int k;
+		
+		for (int i=0; i < allhandles.size(); ++i)
+		{
+			QList<QGraphicsItem*> & items2 = allhandles[i]->graphicsItems;
+			for (int j=0; j < items2.size(); ++j)
+				if (node = NodeGraphicsItem::cast(items2[j]))
+				{
+					if ((k = newNames.indexOf(node->groupID)) >= 0 && oldNames.size() > k)
+						node->groupID = oldNames[k];
+				}
+				else
+				if (connection = ConnectionGraphicsItem::cast(items2[j]))
+				{
+					if ((k = newNames.indexOf(connection->groupID)) >= 0 && oldNames.size() > k)
+						connection->groupID = oldNames[k];
+				}
+				else
+				if (text = TextGraphicsItem::cast(items2[j]))
+				{
+					if ((k = newNames.indexOf(text->groupID)) >= 0 && oldNames.size() > k)
+						text->groupID = oldNames[k];
+				}
 		}
 		
 		/*if (network)

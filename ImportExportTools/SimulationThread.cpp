@@ -808,7 +808,7 @@ void SimulationDialog::enterEvent ( QEvent * event )
 
 	if (!network) return;
 
-	QList<ItemHandle*> handles = network->handles(false), 
+	QList<ItemHandle*> handles = network->handles(false,true), 
 											  handles2;
 
 	sliderValues = BasicInformationTool::getUsedParameters(handles, tr("_"));

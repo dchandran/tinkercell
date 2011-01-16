@@ -460,8 +460,6 @@ namespace Tinkercell
 	{
 		if (!scene || !scene->network) return;
 
-		aboutToBeRenamed.clear();
-
 		/*commands << moduleConnectionsInserted(items)
 				 << substituteStrings(handles);
 		
@@ -589,8 +587,6 @@ namespace Tinkercell
 						}
 					}
 				}
-					
-				aboutToBeRenamed << handles[i]->name;
 				
 				if (!items2.isEmpty())
 				{
@@ -709,32 +705,6 @@ namespace Tinkercell
 						items2 << children[j]->graphicsItems;
 						
 					QString groupName = handles[i]->name;
-
-					if (!items2.isEmpty() && !aboutToBeRenamed.contains(groupName))
-					{
-						NodeGraphicsItem * node;
-						ConnectionGraphicsItem * connection;
-						TextGraphicsItem * text;
-
-						for (int j=0; j < items2.size(); ++j)
-							if (node = NodeGraphicsItem::cast(items2[j]))
-							{
-								if (node->groupID != groupName && aboutToBeRenamed.contains(node->groupID))
-									node->groupID = groupName;
-							}
-							else
-							if (connection = ConnectionGraphicsItem::cast(items2[j]))
-							{
-								if (connection->groupID != groupName && aboutToBeRenamed.contains(connection->groupID))
-									connection->groupID = groupName;
-							}
-							else
-							if (text = TextGraphicsItem::cast(items2[j]))
-							{
-								if (text->groupID != groupName && aboutToBeRenamed.contains(text->groupID))
-									text->groupID = groupName;
-							}
-					}
 				}
 
 			for (int i=0; i < modules.size(); ++i)

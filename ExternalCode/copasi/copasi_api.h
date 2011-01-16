@@ -311,6 +311,14 @@ TCAPIEXPORT tc_matrix getScaledFluxCC(copasi_model model);
 TCAPIEXPORT tc_matrix getReducedStoichiometryMatrix(copasi_model model);
 
 /*! 
+ \brief elementary flux modes
+ \param copasi_model model
+ \return tc_matrix matrix with reactions as rows (with rownames) and flux modes as columns (no column names)
+ \ingroup Simulation
+*/
+TCAPIEXPORT tc_matrix getElementaryFluxModes(copasi_model model);
+
+/*! 
  \brief fit the model parameters to data
  \param copasi_model model
  \param char * filename (tab separated)

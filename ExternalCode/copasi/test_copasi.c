@@ -9,9 +9,15 @@ void eigen(copasi_model, const char*);
 
 int main()
 {
+	tc_matrix efm;
 	copasi_model m;
-	m = model1();
-	sim(m);
+	m = model2();
+	//sim(m);
+	
+	efm = getElementaryFluxModes(m);
+	tc_printOutMatrix(efm);
+	
+	tc_deleteMatrix(efm);
 	copasi_end();
 	return 0;
 }

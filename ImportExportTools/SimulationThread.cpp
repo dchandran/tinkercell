@@ -335,11 +335,11 @@ void SimulationThread::run()
 	QString plotTitle;
 	tc_deleteMatrix(resultMatrix);
 	
-	if (method == SteadyStateScan1D || method == SteadyStateScan2D)
+	/*if (method == SteadyStateScan1D || method == SteadyStateScan2D)
 	{
 		QWidget * widget = CThread::dialog(this, QString("Steady state scan"));
 		widget->show();
-	}
+	}*/
 	
 	switch (method)
 	{
@@ -445,7 +445,7 @@ void SimulationThread::run()
 						
 						ss = getSteadyState(model);
 
-						if (i == 0 && j == 0)
+						if (l == -1)
 						{
 							resultMatrix = tc_createMatrix(n1*n2, 3);
 							tc_setColumnName(resultMatrix, 0, param1.toAscii().data());

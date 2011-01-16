@@ -43,6 +43,9 @@
 #include "copasi/steadystate/CSteadyStateTask.h"
 #include "copasi/steadystate/CMCATask.h"
 #include "copasi/steadystate/CMCAMethod.h"
+#include "copasi/elementaryFluxModes/CFluxMode.h"
+#include "copasi/elementaryFluxModes/CEFMTask.h"
+#include "copasi/elementaryFluxModes/CEFMProblem.h"
 #include "copasi/commandline/COptions.h"
 #include "copasi/report/CCopasiContainer.h"
 #include "copasi/parameterFitting/CFitTask.h"
@@ -1601,6 +1604,62 @@ tc_matrix getReducedStoichiometryMatrix(copasi_model model)
 			tc_setMatrixValue(N, i, j, stoi(i,j));
 
 	return N;
+}
+
+tc_matrix getElementaryFluxModes(copasi_model model)
+{
+	CModel* pModel = (CModel*)(model.CopasiModelPtr);
+	CCopasiDataModel* pDataModel = (CCopasiDataModel*)(model.CopasiDataModelPtr);
+	
+	if (!pModel || !pDataModel) return tc_createMatrix(0,0);
+	compileCopasiModel(model);
+	
+	CCopasiVectorN< CCopasiTask > & TaskList = * pDataModel->getTaskList();
+
+	CEFMTask* pTask = 0;
+	
+	if (TaskList["Elementary Flux Modes"])
+		pTask = dynamic_cast<CEFMTask*>(TaskList["Elementary Flux Modes"]);
+	
+	if (!pTask)
+	{
+		pTask = new CEFMTask();
+		TaskList.remove("Elementary Flux Modes");
+		TaskList.add(pTask, true);
+	}
+	
+	CCopasiMessage::clearDeque();
+	
+	try
+	{
+		pTask->initialize(CCopasiTask::OUTPUT_COMPLETE, pDataModel, NULL);
+		pTask->process(true);
+	}
+	catch (...)
+	{
+		std::cerr << "Error when computing EFM" << std::endl;
+		return tc_createMatrix(0,0);
+	}
+	
+	const std::vector< CFluxMode > & fluxModes = pTask->getFluxModes();
+	CEFMProblem* pProblem = dynamic_cast<CEFMProblem*>(pTask->getProblem());
+	
+	if (!pProblem)
+		return tc_createMatrix(0,0);
+
+	std::vector< const CReaction * > & reactions = pProblem->getReorderedReactions();
+	tc_matrix M = tc_createMatrix( reactions.size() , fluxModes.size() );
+	for (int i=0; i < reactions.size(); ++i)
+		tc_setRowName(M, i, reactions[i]->getObjectName().c_str());
+	
+	for (int i=0; i < fluxModes.size(); ++i)
+	{
+		CFluxMode::const_iterator itMode = fluxModes[i].begin();
+		CFluxMode::const_iterator endMode = fluxModes[i].end();
+		for (; itMode != endMode; ++itMode)
+			tc_setMatrixValue( M, itMode->first, i, itMode->second);
+	}
+	return M;
 }
 
 void fitModelToData(copasi_model model, const char * filename, tc_matrix params, const char * method)

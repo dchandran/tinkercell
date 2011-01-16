@@ -16,7 +16,7 @@ for parameters. The buttons are drawn as NodeGraphicsItems using the datasheet.x
 textsheet.xml files that define the NodeGraphicsItems.
 
 ****************************************************************************/
-
+#include <iostream>
 #include <QSettings>
 #include <QInputDialog>
 #include <QMessageBox>
@@ -1956,6 +1956,8 @@ namespace Tinkercell
 	{
 		int i,j;
 		DataTable<qreal> params = BasicInformationTool::getParameters(handles,QStringList(), QStringList(), replaceDot);
+		
+		std::cout << " rows = " << params.rows() << "\n";
 		params.insertColumn(1,tr("used"));
 
 		QRegExp regex(tr("\\.(?!\\d)"));
@@ -1970,17 +1972,19 @@ namespace Tinkercell
 			{
 				DataTable<QString>& dat = handles[i]->textDataTable(tr("Rate equations"));
 				if (dat.columns() == 1)
+				{
 					for (j=0; j < dat.rows(); ++j)
 					{
 						s2 =  dat.value(j,0);
 						s2.replace(regex,replaceDot);
-
+						
 						if (s2.isEmpty()) continue;
 
 						for (int k=0; k < params.rows(); ++k)
 							if (s2.contains(params.rowName(k)))
 								params.value(k,3) = 1.0;
 					}
+				}
 			}
 
 			if (handles[i]->hasTextData(tr("Events")))
@@ -2023,12 +2027,14 @@ namespace Tinkercell
 					}
 			}
 		}
-
+		
 		int count = 0;
 		for (int i=0; i < params.rows(); ++i)
 		{
 			if (params.value(i,3) > 0.0) ++count;
 		}
+		
+		std::cout << " rows red = " << count << "\n";
 
 		DataTable<qreal> params2;
 		params2.resize(count,3);

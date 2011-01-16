@@ -588,7 +588,7 @@ namespace Tinkercell
 			if (handles[i])
 			{
 				for (int j=0; j < handles[i]->children.size(); ++j)
-					if (!handles.contains(handles[i]->children[j]))
+					if (handles[i]->children[j] && !handles.contains(handles[i]->children[j]))
 						handles << handles[i]->children[j];
 			}
 		}

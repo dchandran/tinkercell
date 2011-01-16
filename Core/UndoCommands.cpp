@@ -2240,17 +2240,23 @@ namespace Tinkercell
 		target.replace(newname,newname0);
 	}
 
-	void RenameCommand::findReplaceAllHandleData(const QList<ItemHandle*>& handles,const QString& oldname,const QString& newname)
+	void RenameCommand::findReplaceAllHandleData(const QList<ItemHandle*>& handles0,const QString& oldname,const QString& newname)
 	{
 		if (oldname.isEmpty()) return; //impossible
 
 		DataTable<qreal> * nDat = 0;
 		DataTable<QString> * sDat = 0;
+		
+		QList<ItemHandle*> handles = handles0;
 
 		for (int i=0; i < handles.size(); ++i)
 		{
 			if (handles[i])  //go through each handles num data and text data
 			{
+				for (int j=0; j < handles[i]->children.size(); ++j)
+					if (!handles.contains(handles[i]->children[j]))
+						handles += handles[i]->children[j];
+				
 				QString fullname("");
 				QString s = newname, s2;
 				if (!handles[i]->name.isEmpty())

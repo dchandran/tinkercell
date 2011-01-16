@@ -214,8 +214,7 @@ void CopasiExporter::redStoic()
 
 	if (console())
 		console()->printTable(*N);
-	
-	tc_deleteMatrix(m);
+
 	delete N;
 }
 

@@ -334,8 +334,6 @@ void SimulationThread::run()
 	PlotTool::PlotType plotType;
 	QString plotTitle;
 
-	tc_deleteMatrix(resultMatrix);
-	
 	/*if (method == SteadyStateScan1D || method == SteadyStateScan2D)
 	{
 		QWidget * widget = CThread::dialog(this, QString("Steady state scan"));
@@ -345,43 +343,51 @@ void SimulationThread::run()
 	switch (method)
 	{
 		case None:
+			tc_deleteMatrix(resultMatrix);
 			resultMatrix = tc_createMatrix(0,0);
 			break;
 		case ReducedStoichiometry:
+			tc_deleteMatrix(resultMatrix);
 			resultMatrix = getReducedStoichiometryMatrix(model);
 			plot = false;
 			break;
 		case ElementaryFluxModes:
+			tc_deleteMatrix(resultMatrix);
 			resultMatrix = getElementaryFluxModes(model);
 			plot = false;
 			break;
 		case DeterministicSimulation:
+			tc_deleteMatrix(resultMatrix);
 			resultMatrix = simulateDeterministic(model, startTime, endTime, numPoints);
 			plotTitle = tr("Time-course");
 			plotType = PlotTool::Plot2D;
 			break;
 		case StochasticSimulation:
+			tc_deleteMatrix(resultMatrix);
 			resultMatrix = simulateStochastic(model, startTime, endTime, numPoints);
 			plotTitle = tr("Stochastic simulation");
 			plotType = PlotTool::Plot2D;
 			break;
 		case HybridSimulation:
+			tc_deleteMatrix(resultMatrix);
 			resultMatrix = simulateHybrid(model, startTime, endTime, numPoints);
 			plotTitle = tr("Hybrid simulation");
 			plotType = PlotTool::Plot2D;
 			break;
 		case TauLeapSimulation:
+			tc_deleteMatrix(resultMatrix);
 			resultMatrix = simulateTauLeap(model, startTime, endTime, numPoints);
 			plotTitle = tr("Stochastic simulation");
 			plotType = PlotTool::Plot2D;
 			break;
 		case SteadyState:
+			tc_deleteMatrix(resultMatrix);
 			resultMatrix = getSteadyState(model);
 			plotTitle = tr("Steady state");
 			plotType = PlotTool::BarPlot;
 			x = -1;
 			break;
-		case SteadyStateScan1D:
+		case SteadyStateScan1D:			
 			if (scanItems.size() > 0)
 			{
 				int n = scanItems[0].numPoints;
@@ -402,6 +408,7 @@ void SimulationThread::run()
 
 					if (i == 0)
 					{
+						tc_deleteMatrix(resultMatrix);
 						resultMatrix = tc_createMatrix(n, ss.rows+1);
 						tc_setColumnName(resultMatrix, 0, param.toAscii().data());
 						for (j=0; j < ss.rows; ++j)
@@ -452,6 +459,7 @@ void SimulationThread::run()
 
 						if (l == -1)
 						{
+							tc_deleteMatrix(resultMatrix);
 							resultMatrix = tc_createMatrix(n1*n2, 3);
 							tc_setColumnName(resultMatrix, 0, param1.toAscii().data());
 							tc_setColumnName(resultMatrix, 1, param2.toAscii().data());
@@ -480,48 +488,56 @@ void SimulationThread::run()
 			plotType = PlotTool::SurfacePlot;
 			break;
 		case Jacobian:
+			tc_deleteMatrix(resultMatrix);
 			resultMatrix = getJacobian(model);
 			plotTitle = tr("Jacobian");
 			plotType = PlotTool::BarPlot;
 			x = -1;
 			break;
 		case Eigenvalues:
+			tc_deleteMatrix(resultMatrix);
 			resultMatrix = getEigenvalues(model);
 			plotTitle = tr("Eigenvalues");
 			plotType = PlotTool::ScatterPlot;
 			x = -1;
 			break;
 		case UnscaledElasticities:
+			tc_deleteMatrix(resultMatrix);
 			resultMatrix = getUnscaledElasticities(model);
 			plotTitle = tr("Unscaled elasticities");
 			plotType = PlotTool::BarPlot;
 			x = -1;
 			break;
 		case UnscaledConcentrationCC:
+			tc_deleteMatrix(resultMatrix);
 			resultMatrix = getUnscaledConcentrationCC(model);
 			plotTitle = tr("Unscaled concentration control coefficients");
 			plotType = PlotTool::BarPlot;
 			x = -1;
 			break;
 		case UnscaledFluxCC:
+			tc_deleteMatrix(resultMatrix);
 			resultMatrix = getUnscaledFluxCC(model);
 			plotTitle = tr("Unscaled flux control coefficients");
 			plotType = PlotTool::BarPlot;
 			x = -1;
 			break;
 		case ScaledElasticities:
+			tc_deleteMatrix(resultMatrix);
 			resultMatrix = getScaledElasticities(model);
 			plotTitle = tr("Scaled elasticities");
 			plotType = PlotTool::BarPlot;
 			x = -1;
 			break;
 		case ScaledConcentrationCC:
+			tc_deleteMatrix(resultMatrix);
 			resultMatrix = getScaledConcentrationCC(model);
 			plotTitle = tr("Scaled concentration control coefficients");
 			plotType = PlotTool::BarPlot;
 			x = -1;
 			break;
 		case ScaledFluxCC:
+			tc_deleteMatrix(resultMatrix);
 			resultMatrix = getScaledFluxCC(model);
 			plotTitle = tr("Scaled flux control coefficients");
 			plotType = PlotTool::BarPlot;

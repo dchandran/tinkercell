@@ -90,7 +90,7 @@ namespace Tinkercell
 			return;
 		}
 
-		QList<ItemHandle*> handles = network->handles();
+		QList<ItemHandle*> handles = network->handles(true,true);
 		
 		QString name;
 		QString replaceDot("_");

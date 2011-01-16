@@ -7,7 +7,6 @@ See COPYRIGHT.TXT
 This tool allows the loading and saving of Networks.
 
 ****************************************************************************/
-#include <iostream>
 #include "LoadSaveTool.h"
 #include "CThread.h"
 #include "ConsoleWindow.h"
@@ -521,7 +520,6 @@ namespace Tinkercell
 				{
 					h->setParent(root,false);
 					RenameCommand::findReplaceAllHandleData(handles,h->name,root->fullName() + tr(".") + h->name);
-					std::cout << (h->name).toAscii().data() << "       " << (root->fullName() + tr(".") + h->name).toAscii().data() << "\n";
 				}
 		}	
 	}

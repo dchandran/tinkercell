@@ -81,6 +81,7 @@ namespace Tinkercell
 		static tc_matrix getScaledConcentrationCC();
 		static tc_matrix getScaledFluxCC();
 		static tc_matrix reducedStoichiometry();
+		static tc_matrix elementaryFluxModes();
 	};
 }
 

@@ -86,7 +86,8 @@ typedef void (*tc_COPASI_api)(
 	tc_matrix (*getScaledElasticities)(),
 	tc_matrix (*getScaledConcentrationCC)(),
 	tc_matrix (*getScaledFluxCC)(),
-	tc_matrix (*reducedStoichiometry)()
+	tc_matrix (*reducedStoichiometry)(),
+	tc_matrix (*elementaryFluxModes)()
 );
 
 void CopasiExporter::setupFunctionPointers( QLibrary * library)
@@ -109,7 +110,8 @@ void CopasiExporter::setupFunctionPointers( QLibrary * library)
 			&getScaledElasticities,
 			&getScaledConcentrationCC,
 			&getScaledFluxCC,
-			&reducedStoichiometry
+			&reducedStoichiometry,
+			&elementaryFluxModes
 		);
 }
 
@@ -525,6 +527,25 @@ tc_matrix CopasiExporter::reducedStoichiometry()
 			mcaThread->terminate();
 		mcaThread->updateModel();
 		mcaThread->setMethod(SimulationThread::ReducedStoichiometry);
+		QSemaphore sem(1);
+		sem.acquire();
+		mcaThread->setSemaphore(&sem);
+		mcaThread->start();
+		sem.acquire();
+		sem.release();
+		return (mcaThread->result());
+	}
+	return tc_createMatrix(0,0);
+}
+
+tc_matrix CopasiExporter::elementaryFluxModes()
+{
+	if (mcaThread)
+	{
+		if (mcaThread->isRunning())
+			mcaThread->terminate();
+		mcaThread->updateModel();
+		mcaThread->setMethod(SimulationThread::ElementaryFluxModes);
 		QSemaphore sem(1);
 		sem.acquire();
 		mcaThread->setSemaphore(&sem);

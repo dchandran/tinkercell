@@ -11149,6 +11149,23 @@ fail:
 }
 
 
+static octave_value_list _wrap_tc_elementaryFluxModes (const octave_value_list& args, int nargout) {
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  tc_matrix result;
+  
+  if (!SWIG_check_num_args("tc_elementaryFluxModes",args.length(),0,0,0)) {
+    SWIG_fail;
+  }
+  result = tc_elementaryFluxModes();
+  _outv = SWIG_NewPointerObj((new tc_matrix((const tc_matrix&)(result))), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
 static octave_value_list _wrap_tc_COPASI_api (const octave_value_list& args, int nargout) {
   tc_matrix (*arg1)(double,double,int) = (tc_matrix (*)(double,double,int)) 0 ;
   tc_matrix (*arg2)(double,double,int) = (tc_matrix (*)(double,double,int)) 0 ;
@@ -11166,11 +11183,12 @@ static octave_value_list _wrap_tc_COPASI_api (const octave_value_list& args, int
   tc_matrix (*arg14)() = (tc_matrix (*)()) 0 ;
   tc_matrix (*arg15)() = (tc_matrix (*)()) 0 ;
   tc_matrix (*arg16)() = (tc_matrix (*)()) 0 ;
+  tc_matrix (*arg17)() = (tc_matrix (*)()) 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
   
-  if (!SWIG_check_num_args("tc_COPASI_api",args.length(),16,16,0)) {
+  if (!SWIG_check_num_args("tc_COPASI_api",args.length(),17,17,0)) {
     SWIG_fail;
   }
   {
@@ -11269,7 +11287,13 @@ static octave_value_list _wrap_tc_COPASI_api (const octave_value_list& args, int
       SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "16"" of type '" "tc_matrix (*)()""'"); 
     }
   }
-  tc_COPASI_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13,arg14,arg15,arg16);
+  {
+    int res = SWIG_ConvertFunctionPtr(args(16), (void**)(&arg17), SWIGTYPE_p_f___tc_matrix);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "17"" of type '" "tc_matrix (*)()""'"); 
+    }
+  }
+  tc_COPASI_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13,arg14,arg15,arg16,arg17);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
 fail:
@@ -11529,6 +11553,7 @@ static const struct swig_octave_member swig_globals[] = {
 {"tc_getScaledConcentrationCC",_wrap_tc_getScaledConcentrationCC,0,0,2,0},
 {"tc_getScaledFluxCC",_wrap_tc_getScaledFluxCC,0,0,2,0},
 {"tc_reducedStoichiometry",_wrap_tc_reducedStoichiometry,0,0,2,0},
+{"tc_elementaryFluxModes",_wrap_tc_elementaryFluxModes,0,0,2,0},
 {"tc_COPASI_api",_wrap_tc_COPASI_api,0,0,2,0},
 {0,0,0,0,0}
 };

@@ -333,6 +333,7 @@ void SimulationThread::run()
 	int x = 0;
 	PlotTool::PlotType plotType;
 	QString plotTitle;
+
 	tc_deleteMatrix(resultMatrix);
 	
 	/*if (method == SteadyStateScan1D || method == SteadyStateScan2D)
@@ -348,6 +349,10 @@ void SimulationThread::run()
 			break;
 		case ReducedStoichiometry:
 			resultMatrix = getReducedStoichiometryMatrix(model);
+			plot = false;
+			break;
+		case ElementaryFluxModes:
+			resultMatrix = getElementaryFluxModes(model);
 			plot = false;
 			break;
 		case DeterministicSimulation:
@@ -393,22 +398,23 @@ void SimulationThread::run()
 					emit progress( (int)(100 * i)/n  );
 					p = start + (double)(i)*step;
 					setValue(model, param.toAscii().data(), p);
-					ss = getSteadyState(model);
+					ss = getSteadyState(model);					
 
 					if (i == 0)
 					{
 						resultMatrix = tc_createMatrix(n, ss.rows+1);
 						tc_setColumnName(resultMatrix, 0, param.toAscii().data());
-						for (j=0; j < resultMatrix.cols; ++j)
+						for (j=0; j < ss.rows; ++j)
 							tc_setColumnName(resultMatrix, j+1, tc_getRowName(ss, j));
 					}
 		
 					tc_setMatrixValue(resultMatrix, i, 0, p);
-					for (j=0; j < resultMatrix.cols; ++j)
+					for (j=0; j < ss.rows; ++j)
 						tc_setMatrixValue(resultMatrix, i, j+1, tc_getMatrixValue(ss, j, 0));
 		
 					tc_deleteMatrix(ss);
 				}
+				tc_printOutMatrix(resultMatrix);
 				plotTitle = tr("Steady state scan");
 				plotType = PlotTool::Plot2D;
 				//widget->close();
@@ -526,6 +532,7 @@ void SimulationThread::run()
 	
 	if (plot)
 	{
+		tc_printOutMatrix(resultMatrix);
 		NumericalDataTable * dat = ConvertValue(resultMatrix);
 		emit graph(*dat, plotTitle, x, plotType);
 		if (method==Jacobian && mainWindow && mainWindow->console())
@@ -641,7 +648,7 @@ SimulationDialog::SimulationDialog(MainWindow * parent) : QDialog(parent)
 	QHBoxLayout * layout2 = new QHBoxLayout;
 	QPushButton * playButton = new QPushButton;
 	playButton->setIcon(QIcon(tr(":/images/play.png")));
-	connect(playButton,SIGNAL(pressed()),this,SLOT(run()));
+	connect(playButton,SIGNAL(released()),this,SLOT(run()));
 	
 	layout2->addWidget(playButton, Qt::AlignRight);
 	QVBoxLayout * layout3 = new QVBoxLayout;
@@ -719,7 +726,7 @@ void SimulationDialog::setMethod(SimulationThread::AnalysisMethod method)
 
 void SimulationDialog::run()
 {
-	if (!thread) return;
+	if (!thread || thread->isRunning()) return;
 
 	if (sliderValues.rows() < 1)
 	{
@@ -732,11 +739,7 @@ void SimulationDialog::run()
 	thread->endTime = simEnd->value();
 	thread->numPoints = numPoints1->value();
 	thread->plot = true;
-	thread->scanItems.clear();thread->setParameterRange(
-										menu2->currentText(), 
-										param2Start->value(),
-										param2End->value(),
-										numPoints3->value() );
+	thread->scanItems.clear();
 	
 	if (param1Box->isVisible())
 	{

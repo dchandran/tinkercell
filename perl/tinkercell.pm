@@ -263,6 +263,7 @@ package tinkercell;
 *tc_getScaledConcentrationCC = *tinkercellc::tc_getScaledConcentrationCC;
 *tc_getScaledFluxCC = *tinkercellc::tc_getScaledFluxCC;
 *tc_reducedStoichiometry = *tinkercellc::tc_reducedStoichiometry;
+*tc_elementaryFluxModes = *tinkercellc::tc_elementaryFluxModes;
 *tc_COPASI_api = *tinkercellc::tc_COPASI_api;
 
 ############# Class : tinkercell::tc_strings ##############

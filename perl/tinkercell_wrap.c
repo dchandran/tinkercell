@@ -11608,6 +11608,24 @@ XS(_wrap_tc_reducedStoichiometry) {
 }
 
 
+XS(_wrap_tc_elementaryFluxModes) {
+  {
+    int argvi = 0;
+    tc_matrix result;
+    dXSARGS;
+    
+    if ((items < 0) || (items > 0)) {
+      SWIG_croak("Usage: tc_elementaryFluxModes();");
+    }
+    result = tc_elementaryFluxModes();
+    ST(argvi) = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    XSRETURN(argvi);
+  fail:
+    SWIG_croak_null();
+  }
+}
+
+
 XS(_wrap_tc_COPASI_api) {
   {
     tc_matrix (*arg1)(double,double,int) = (tc_matrix (*)(double,double,int)) 0 ;
@@ -11626,11 +11644,12 @@ XS(_wrap_tc_COPASI_api) {
     tc_matrix (*arg14)() = (tc_matrix (*)()) 0 ;
     tc_matrix (*arg15)() = (tc_matrix (*)()) 0 ;
     tc_matrix (*arg16)() = (tc_matrix (*)()) 0 ;
+    tc_matrix (*arg17)() = (tc_matrix (*)()) 0 ;
     int argvi = 0;
     dXSARGS;
     
-    if ((items < 16) || (items > 16)) {
-      SWIG_croak("Usage: tc_COPASI_api(simulateDeterministic,simulateStochastic,simulateHybrid,simulateTauLeap,getSteadyState,steadyStateScan,steadyStateScan2D,getJacobian,getEigenvalues,getUnscaledElasticities,getUnscaledConcentrationCC,getUnscaledFluxCC,getScaledElasticities,getScaledConcentrationCC,getScaledFluxCC,tc_reducedStoichiometry);");
+    if ((items < 17) || (items > 17)) {
+      SWIG_croak("Usage: tc_COPASI_api(simulateDeterministic,simulateStochastic,simulateHybrid,simulateTauLeap,getSteadyState,steadyStateScan,steadyStateScan2D,getJacobian,getEigenvalues,getUnscaledElasticities,getUnscaledConcentrationCC,getUnscaledFluxCC,getScaledElasticities,getScaledConcentrationCC,getScaledFluxCC,tc_reducedStoichiometry,tc_emf);");
     }
     {
       int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_double_double_int__tc_matrix);
@@ -11728,8 +11747,15 @@ XS(_wrap_tc_COPASI_api) {
         SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "16"" of type '" "tc_matrix (*)()""'"); 
       }
     }
-    tc_COPASI_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13,arg14,arg15,arg16);
+    {
+      int res = SWIG_ConvertFunctionPtr(ST(16), (void**)(&arg17), SWIGTYPE_p_f___tc_matrix);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "17"" of type '" "tc_matrix (*)()""'"); 
+      }
+    }
+    tc_COPASI_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13,arg14,arg15,arg16,arg17);
     ST(argvi) = sv_newmortal();
+    
     
     
     
@@ -11748,6 +11774,7 @@ XS(_wrap_tc_COPASI_api) {
     
     XSRETURN(argvi);
   fail:
+    
     
     
     
@@ -12375,6 +12402,7 @@ static swig_command_info swig_commands[] = {
 {"tinkercellc::tc_getScaledConcentrationCC", _wrap_tc_getScaledConcentrationCC},
 {"tinkercellc::tc_getScaledFluxCC", _wrap_tc_getScaledFluxCC},
 {"tinkercellc::tc_reducedStoichiometry", _wrap_tc_reducedStoichiometry},
+{"tinkercellc::tc_elementaryFluxModes", _wrap_tc_elementaryFluxModes},
 {"tinkercellc::tc_COPASI_api", _wrap_tc_COPASI_api},
 {0,0}
 };

@@ -16,6 +16,7 @@ tc_matrix (*_tc_getScaledElasticities)() = 0;
 tc_matrix (*_tc_getScaledConcentrationCC)() = 0;
 tc_matrix (*_tc_getScaledFluxCC)() = 0;
 tc_matrix (*_tc_reducedStoichiometry)() = 0;
+tc_matrix (*_tc_elementaryFluxModes)() = 0;
 
 tc_matrix tc_simulateDeterministic(double startTime, double endTime, int numSteps)
 {
@@ -130,6 +131,14 @@ tc_matrix tc_reducedStoichiometry()
 	return tc_createMatrix(0,0);
 }
 
+
+tc_matrix tc_elementaryFluxModes()
+{
+	if (_tc_elementaryFluxModes)
+		return _tc_elementaryFluxModes();
+	return tc_createMatrix(0,0);
+}
+
 void tc_COPASI_api( 
 tc_matrix (*simulateDeterministic)(double startTime, double endTime, int numSteps),
 tc_matrix (*simulateStochastic)(double startTime, double endTime, int numSteps),
@@ -146,7 +155,8 @@ tc_matrix (*getUnscaledFluxCC)(),
 tc_matrix (*getScaledElasticities)(),
 tc_matrix (*getScaledConcentrationCC)(),
 tc_matrix (*getScaledFluxCC)(),
-tc_matrix (*reducedStoichiometry)()
+tc_matrix (*reducedStoichiometry)(),
+tc_matrix (*emf)()
 )
 {
 	_tc_simulateDeterministic = simulateDeterministic;
@@ -165,5 +175,6 @@ tc_matrix (*reducedStoichiometry)()
 	_tc_steadyStateScan = steadyStateScan;
 	_tc_steadyStateScan2D = steadyStateScan2D;
 	_tc_reducedStoichiometry = reducedStoichiometry;
+	_tc_elementaryFluxModes = emf;
 }
 

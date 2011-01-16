@@ -158,10 +158,15 @@ void tc_setString(tc_strings S, int i, const char * s)
 	if (i >= 0 && i < S.length)
 	{
 		while (s && s[n]) ++n;
-		str = (char*)malloc((n+1)*sizeof(char));
-		sprintf(str,"%s\0",s);
-	
-		S.strings[ i ] = str;
+		
+		if (n > 0)
+		{
+			str = (char*)malloc((n+1)*sizeof(char));
+			sprintf(str,"%s\0",s);
+			if (S.strings[i])
+				free(S.strings[i]);
+			S.strings[ i ] = str;
+		}
 	}
 }
 

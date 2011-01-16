@@ -1025,6 +1025,10 @@ def tc_reducedStoichiometry():
   return _tinkercell.tc_reducedStoichiometry()
 tc_reducedStoichiometry = _tinkercell.tc_reducedStoichiometry
 
+def tc_elementaryFluxModes():
+  return _tinkercell.tc_elementaryFluxModes()
+tc_elementaryFluxModes = _tinkercell.tc_elementaryFluxModes
+
 def tc_COPASI_api(*args):
   return _tinkercell.tc_COPASI_api(*args)
 tc_COPASI_api = _tinkercell.tc_COPASI_api

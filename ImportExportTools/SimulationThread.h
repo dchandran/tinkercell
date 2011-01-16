@@ -60,7 +60,8 @@ namespace Tinkercell
 			ScaledElasticities,
 			ScaledConcentrationCC,
 			ScaledFluxCC,
-			ReducedStoichiometry
+			ReducedStoichiometry,
+			ElementaryFluxModes
 		};
 		
 		/*! \brief Constructor requires MainWindow pointer*/

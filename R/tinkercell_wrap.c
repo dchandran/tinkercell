@@ -13595,6 +13595,23 @@ R_swig_tc_reducedStoichiometry ( SEXP s_swig_copy)
 }
 
 
+SWIGEXPORT SEXP
+R_swig_tc_elementaryFluxModes ( SEXP s_swig_copy)
+{
+  tc_matrix result;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  result = tc_elementaryFluxModes();
+  r_ans = SWIG_R_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
 tc_matrix _p_f_double_double_int__tc_matrix(double s_arg1, double s_arg2, int s_arg3) {
   double arg1 ;
   double arg2 ;
@@ -13855,7 +13872,7 @@ tc_matrix _p_f_p_q_const__char_double_double_int_p_q_const__char_double_double_i
 
 
 SWIGEXPORT SEXP
-R_swig_tc_COPASI_api ( SEXP simulateDeterministic, SEXP simulateStochastic, SEXP simulateHybrid, SEXP simulateTauLeap, SEXP getSteadyState, SEXP steadyStateScan, SEXP steadyStateScan2D, SEXP getJacobian, SEXP getEigenvalues, SEXP getUnscaledElasticities, SEXP getUnscaledConcentrationCC, SEXP getUnscaledFluxCC, SEXP getScaledElasticities, SEXP getScaledConcentrationCC, SEXP getScaledFluxCC, SEXP tc_reducedStoichiometry)
+R_swig_tc_COPASI_api ( SEXP simulateDeterministic, SEXP simulateStochastic, SEXP simulateHybrid, SEXP simulateTauLeap, SEXP getSteadyState, SEXP steadyStateScan, SEXP steadyStateScan2D, SEXP getJacobian, SEXP getEigenvalues, SEXP getUnscaledElasticities, SEXP getUnscaledConcentrationCC, SEXP getUnscaledFluxCC, SEXP getScaledElasticities, SEXP getScaledConcentrationCC, SEXP getScaledFluxCC, SEXP tc_reducedStoichiometry, SEXP tc_emf)
 {
   tc_matrix (*arg1)(double,double,int) = (tc_matrix (*)(double,double,int)) 0 ;
   tc_matrix (*arg2)(double,double,int) = (tc_matrix (*)(double,double,int)) 0 ;
@@ -13873,6 +13890,7 @@ R_swig_tc_COPASI_api ( SEXP simulateDeterministic, SEXP simulateStochastic, SEXP
   tc_matrix (*arg14)() = (tc_matrix (*)()) 0 ;
   tc_matrix (*arg15)() = (tc_matrix (*)()) 0 ;
   tc_matrix (*arg16)() = (tc_matrix (*)()) 0 ;
+  tc_matrix (*arg17)() = (tc_matrix (*)()) 0 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
@@ -14053,8 +14071,20 @@ R_swig_tc_COPASI_api ( SEXP simulateDeterministic, SEXP simulateStochastic, SEXP
     arg16 = _p_f___tc_matrix;
     R_SWIG_pushCallbackFunctionData(tc_reducedStoichiometry, NULL);
   }
-  tc_COPASI_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13,arg14,arg15,arg16);
+  if(TYPEOF(tc_emf) != CLOSXP) {
+    {
+      int res = SWIG_R_ConvertPtr(tc_emf, (void**)(&arg17), SWIGTYPE_p_f___tc_matrix, 0);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "17"" of type '" "tc_matrix (*)()""'"); 
+      }
+    }
+  } else {
+    arg17 = _p_f___tc_matrix;
+    R_SWIG_pushCallbackFunctionData(tc_emf, NULL);
+  }
+  tc_COPASI_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13,arg14,arg15,arg16,arg17);
   r_ans = R_NilValue;
+  
   
   
   
@@ -14804,7 +14834,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_addPythonPlugin", (DL_FUNC) &R_swig_tc_addPythonPlugin, 5},
    {"R_swig_tc_partsUpstream", (DL_FUNC) &R_swig_tc_partsUpstream, 2},
    {"R_swig_tc_partsDownstream", (DL_FUNC) &R_swig_tc_partsDownstream, 2},
-   {"R_swig_tc_COPASI_api", (DL_FUNC) &R_swig_tc_COPASI_api, 16},
+   {"R_swig_tc_COPASI_api", (DL_FUNC) &R_swig_tc_COPASI_api, 17},
    {"R_swig_tc_getJacobian", (DL_FUNC) &R_swig_tc_getJacobian, 1},
    {"R_swig_tc_setTextData", (DL_FUNC) &R_swig_tc_setTextData, 3},
    {"R_swig_tc_getTextData", (DL_FUNC) &R_swig_tc_getTextData, 3},
@@ -14825,6 +14855,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_itemsOfFamily", (DL_FUNC) &R_swig_tc_itemsOfFamily, 2},
    {"R_swig_tc_find", (DL_FUNC) &R_swig_tc_find, 2},
    {"R_swig_tc_getChildren", (DL_FUNC) &R_swig_tc_getChildren, 2},
+   {"R_swig_tc_elementaryFluxModes", (DL_FUNC) &R_swig_tc_elementaryFluxModes, 1},
    {"R_swig_tc_getX", (DL_FUNC) &R_swig_tc_getX, 2},
    {"R_swig_tc_getY", (DL_FUNC) &R_swig_tc_getY, 2},
    {"R_swig_tc_findItems", (DL_FUNC) &R_swig_tc_findItems, 2},

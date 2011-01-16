@@ -6501,9 +6501,23 @@ class(`tc_getScaledFluxCC`) = c("SWIGFunction", class('tc_getScaledFluxCC'))
 attr(`tc_reducedStoichiometry`, 'returnType') = '_p_tc_matrix'
 class(`tc_reducedStoichiometry`) = c("SWIGFunction", class('tc_reducedStoichiometry'))
 
+# Start of tc_elementaryFluxModes
+
+`tc_elementaryFluxModes` = function(.copy = FALSE)
+{
+  ans = .Call('R_swig_tc_elementaryFluxModes', as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_tc_matrix"
+  
+  ans
+  
+}
+
+attr(`tc_elementaryFluxModes`, 'returnType') = '_p_tc_matrix'
+class(`tc_elementaryFluxModes`) = c("SWIGFunction", class('tc_elementaryFluxModes'))
+
 # Start of tc_COPASI_api
 
-`tc_COPASI_api` = function(simulateDeterministic, simulateStochastic, simulateHybrid, simulateTauLeap, getSteadyState, steadyStateScan, steadyStateScan2D, getJacobian, getEigenvalues, getUnscaledElasticities, getUnscaledConcentrationCC, getUnscaledFluxCC, getScaledElasticities, getScaledConcentrationCC, getScaledFluxCC, tc_reducedStoichiometry)
+`tc_COPASI_api` = function(simulateDeterministic, simulateStochastic, simulateHybrid, simulateTauLeap, getSteadyState, steadyStateScan, steadyStateScan2D, getJacobian, getEigenvalues, getUnscaledElasticities, getUnscaledConcentrationCC, getUnscaledFluxCC, getScaledElasticities, getScaledConcentrationCC, getScaledFluxCC, tc_reducedStoichiometry, tc_emf)
 {
   if(is.function(simulateDeterministic)) {
     assert('...' %in% names(formals(simulateDeterministic)) || length(formals(simulateDeterministic)) >= 3)
@@ -6665,12 +6679,22 @@ class(`tc_reducedStoichiometry`) = c("SWIGFunction", class('tc_reducedStoichiome
       tc_reducedStoichiometry = tc_reducedStoichiometry$address
     }
   }
-  .Call('R_swig_tc_COPASI_api', simulateDeterministic, simulateStochastic, simulateHybrid, simulateTauLeap, getSteadyState, steadyStateScan, steadyStateScan2D, getJacobian, getEigenvalues, getUnscaledElasticities, getUnscaledConcentrationCC, getUnscaledFluxCC, getScaledElasticities, getScaledConcentrationCC, getScaledFluxCC, tc_reducedStoichiometry, PACKAGE='tinkercell')
+  if(is.function(tc_emf)) {
+    assert('...' %in% names(formals(tc_emf)) || length(formals(tc_emf)) >= 0)
+  } else {
+    if(is.character(tc_emf)) {
+      tc_emf = getNativeSymbolInfo(tc_emf)
+    }
+    if(is(tc_emf, "NativeSymbolInfo")) {
+      tc_emf = tc_emf$address
+    }
+  }
+  .Call('R_swig_tc_COPASI_api', simulateDeterministic, simulateStochastic, simulateHybrid, simulateTauLeap, getSteadyState, steadyStateScan, steadyStateScan2D, getJacobian, getEigenvalues, getUnscaledElasticities, getUnscaledConcentrationCC, getUnscaledFluxCC, getScaledElasticities, getScaledConcentrationCC, getScaledFluxCC, tc_reducedStoichiometry, tc_emf, PACKAGE='tinkercell')
   
 }
 
 attr(`tc_COPASI_api`, 'returnType') = 'void'
-attr(`tc_COPASI_api`, "inputTypes") = c('_p_f_double_double_int__tc_matrix', '_p_f_double_double_int__tc_matrix', '_p_f_double_double_int__tc_matrix', '_p_f_double_double_int__tc_matrix', '_p_f___tc_matrix', '_p_f_p_q_const__char_double_double_int__tc_matrix', '_p_f_p_q_const__char_double_double_int_p_q_const__char_double_double_int__tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix')
+attr(`tc_COPASI_api`, "inputTypes") = c('_p_f_double_double_int__tc_matrix', '_p_f_double_double_int__tc_matrix', '_p_f_double_double_int__tc_matrix', '_p_f_double_double_int__tc_matrix', '_p_f___tc_matrix', '_p_f_p_q_const__char_double_double_int__tc_matrix', '_p_f_p_q_const__char_double_double_int_p_q_const__char_double_double_int__tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix')
 class(`tc_COPASI_api`) = c("SWIGFunction", class('tc_COPASI_api'))
 
 

@@ -180,3 +180,13 @@ FILE(GLOB TINKERCELL_EXAMPLES examples/*.tic examples/*.TIC examples/*.xml)
 INSTALL(FILES ${TINKERCELL_EXAMPLES} DESTINATION examples COMPONENT "examples")
 INSTALL(FILES tinkercell.qss DESTINATION bin/../ COMPONENT "stylesheet")
 
+#---------------------------------------------------------------------
+#  Updates.txt
+#---------------------------------------------------------------------
+
+IF (UNIX AND EXISTS $ENV{HOME}/Documents/TinkerCell/updates.txt)
+  ADD_CUSTOM_COMMAND( TARGET TinkerCell POST_BUILD
+  	  COMMAND echo 'updates.txt changed'
+      COMMAND perl -pi -e 's/current version: [0-9\\.]+/current version:   ${TINKERCELL_VERSION}/' $ENV{HOME}/Documents/TinkerCell/updates.txt
+)
+ENDIF (UNIX AND EXISTS $ENV{HOME}/Documents/TinkerCell/updates.txt)

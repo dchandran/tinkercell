@@ -110,7 +110,11 @@ namespace Tinkercell
 
 	void StoichiometryTool::historyUpdate(int )
 	{
-		if (connectionHandle && ratePlotWidget && stoichiometryWidget && (ratePlotWidget->isVisible() || stoichiometryWidget->isVisible()))
+		if (connectionHandle && ratePlotWidget && stoichiometryWidget && 
+				(ratePlotWidget->isVisible() || stoichiometryWidget->isVisible() ||
+					(ratePlotWidget->parentWidget() && ratePlotWidget->parentWidget()->isVisible()) ||
+					(stoichiometryWidget->parentWidget() && stoichiometryWidget->parentWidget()->isVisible()))
+			)
 		{
 			updateWidgets();
 		}
@@ -277,14 +281,23 @@ namespace Tinkercell
 	void StoichiometryTool::aboutToDisplayModel(const QList<ItemHandle*>& items, QHash<QString,qreal>& constants, QHash<QString,QString>& equations)
 	{
 		connectionHandle = 0;
+		ConnectionHandle * connection = 0;
 		for (int i=0; i < items.size(); ++i)
-			if (connectionHandle = ConnectionHandle::cast(items[i]))
-				break;
-		if (connectionHandle && connectionHandle->hasTextData(tr("Rate equations")))
-		{
-			updateWidgets();
-			equations[ connectionHandle->fullName() ] = connectionHandle->textData(tr("Rate equations"));
-		}
+			if (connection = ConnectionHandle::cast(items[i]))
+			{			
+				if (!connectionHandle)
+				{
+					connectionHandle = connection;
+					updateWidgets();
+				}
+				
+				if (connection && connection->hasTextData(tr("Rate equations")))
+				{
+					TextDataTable & eqns = connection->textDataTable(tr("Rate equations"));
+					for (int j=0; j < eqns.rows(); ++j)
+						equations[ connection->fullName() + tr(".row") + QString::number(j)  ] = eqns(j,0);
+				}
+			}
 	}
 	
 	void StoichiometryTool::displayModel(QTabWidget& widgets, const QList<ItemHandle*>& items, QHash<QString,qreal>& constants, QHash<QString,QString>& equations)

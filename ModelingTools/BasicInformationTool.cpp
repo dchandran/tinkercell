@@ -1175,6 +1175,7 @@ namespace Tinkercell
         combinedTable.resize(values.size(),1);
         for (int i=0; i < values.size() && i < rownames.size(); ++i)
         {
+
             combinedTable.setRowName(i,rownames[i]);
             combinedTable.value(i,0) = values[i];
             combinedTable.value(i,1) = minv[i];

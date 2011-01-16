@@ -1141,7 +1141,7 @@ tc_matrix getUnscaledElasticities(copasi_model model)
 	// get the task list
 	CCopasiVectorN< CCopasiTask > & TaskList = * pDataModel->getTaskList();
 	// get the MCA task object
-	CMCATask* pTask = dynamic_cast<CMCATask*>(TaskList["MCA"]);
+	CMCATask* pTask = dynamic_cast<CMCATask*>(TaskList["Metabolic Control Analysis"]);
 	// if there isn’t one
 	if (!pTask)
 	{
@@ -1149,7 +1149,7 @@ tc_matrix getUnscaledElasticities(copasi_model model)
 		pTask = new CMCATask();
 		// remove any existing steady state task just to be sure since in
 		// theory only the cast might have failed above
-		TaskList.remove("MCA");
+		TaskList.remove("Metabolic Control Analysis");
 		// add the new time course task to the task list
 		TaskList.add(pTask, true);
 	}
@@ -1176,7 +1176,7 @@ tc_matrix getUnscaledElasticities(copasi_model model)
 	const CMatrix<C_FLOAT64> & cmatrix = mcaMethod->getUnscaledElasticities();
 	const CArrayAnnotation * annot = mcaMethod->getUnscaledElasticitiesAnn();
 	const std::vector<std::string>& rownames = annot->getAnnotationsString(1),
-												   & colnames = annot->getAnnotationsString(2);
+												   & colnames = annot->getAnnotationsString(0);
 
 	int rows = cmatrix.numRows(), cols = cmatrix.numCols();
 	if (rows > rownames.size()) rows = rownames.size();
@@ -1191,7 +1191,7 @@ tc_matrix getUnscaledElasticities(copasi_model model)
 		tc_setColumnName(M, i, colnames[i].c_str());
 	
 	for (int i=0; i < rows; ++i)
-		for (int j=0; i < cols; ++j)
+		for (int j=0; j < cols; ++j)
 		{
 			tc_setMatrixValue(M, i, j, cmatrix(i,j));
 		}
@@ -1209,7 +1209,7 @@ tc_matrix getUnscaledConcentrationCC(copasi_model model)
 	// get the task list
 	CCopasiVectorN< CCopasiTask > & TaskList = * pDataModel->getTaskList();
 	// get the MCA task object
-	CMCATask* pTask = dynamic_cast<CMCATask*>(TaskList["MCA"]);
+	CMCATask* pTask = dynamic_cast<CMCATask*>(TaskList["Metabolic Control Analysis"]);
 	// if there isn’t one
 	if (!pTask)
 	{
@@ -1217,7 +1217,7 @@ tc_matrix getUnscaledConcentrationCC(copasi_model model)
 		pTask = new CMCATask();
 		// remove any existing steady state task just to be sure since in
 		// theory only the cast might have failed above
-		TaskList.remove("MCA");
+		TaskList.remove("Metabolic Control Analysis");
 		// add the new time course task to the task list
 		TaskList.add(pTask, true);
 	}
@@ -1244,7 +1244,7 @@ tc_matrix getUnscaledConcentrationCC(copasi_model model)
 	const CMatrix<C_FLOAT64> & cmatrix = mcaMethod->getUnscaledConcentrationCC();
 	const CArrayAnnotation * annot = mcaMethod->getUnscaledConcentrationCCAnn();
 	const std::vector<std::string>& rownames = annot->getAnnotationsString(1),
-												   & colnames = annot->getAnnotationsString(2);
+												   & colnames = annot->getAnnotationsString(0);
 
 	int rows = cmatrix.numRows(), cols = cmatrix.numCols();
 	if (rows > rownames.size()) rows = rownames.size();
@@ -1259,7 +1259,7 @@ tc_matrix getUnscaledConcentrationCC(copasi_model model)
 		tc_setColumnName(M, i, colnames[i].c_str());
 	
 	for (int i=0; i < rows; ++i)
-		for (int j=0; i < cols; ++j)
+		for (int j=0; j < cols; ++j)
 		{
 			tc_setMatrixValue(M, i, j, cmatrix(i,j));
 		}
@@ -1277,7 +1277,7 @@ tc_matrix getUnscaledFluxCC(copasi_model model)
 	// get the task list
 	CCopasiVectorN< CCopasiTask > & TaskList = * pDataModel->getTaskList();
 	// get the MCA task object
-	CMCATask* pTask = dynamic_cast<CMCATask*>(TaskList["MCA"]);
+	CMCATask* pTask = dynamic_cast<CMCATask*>(TaskList["Metabolic Control Analysis"]);
 	// if there isn’t one
 	if (!pTask)
 	{
@@ -1285,7 +1285,7 @@ tc_matrix getUnscaledFluxCC(copasi_model model)
 		pTask = new CMCATask();
 		// remove any existing steady state task just to be sure since in
 		// theory only the cast might have failed above
-		TaskList.remove("MCA");
+		TaskList.remove("Metabolic Control Analysis");
 		// add the new time course task to the task list
 		TaskList.add(pTask, true);
 	}
@@ -1312,7 +1312,7 @@ tc_matrix getUnscaledFluxCC(copasi_model model)
 	const CMatrix<C_FLOAT64> & cmatrix = mcaMethod->getUnscaledFluxCC();
 	const CArrayAnnotation * annot = mcaMethod->getUnscaledFluxCCAnn();
 	const std::vector<std::string>& rownames = annot->getAnnotationsString(1),
-												   & colnames = annot->getAnnotationsString(2);
+												   & colnames = annot->getAnnotationsString(0);
 
 	int rows = cmatrix.numRows(), cols = cmatrix.numCols();
 	if (rows > rownames.size()) rows = rownames.size();
@@ -1327,7 +1327,7 @@ tc_matrix getUnscaledFluxCC(copasi_model model)
 		tc_setColumnName(M, i, colnames[i].c_str());
 	
 	for (int i=0; i < rows; ++i)
-		for (int j=0; i < cols; ++j)
+		for (int j=0; j < cols; ++j)
 		{
 			tc_setMatrixValue(M, i, j, cmatrix(i,j));
 		}
@@ -1345,7 +1345,7 @@ tc_matrix getScaledElasticities(copasi_model model)
 	// get the task list
 	CCopasiVectorN< CCopasiTask > & TaskList = * pDataModel->getTaskList();
 	// get the MCA task object
-	CMCATask* pTask = dynamic_cast<CMCATask*>(TaskList["MCA"]);
+	CMCATask* pTask = dynamic_cast<CMCATask*>(TaskList["Metabolic Control Analysis"]);
 	// if there isn’t one
 	if (!pTask)
 	{
@@ -1353,7 +1353,7 @@ tc_matrix getScaledElasticities(copasi_model model)
 		pTask = new CMCATask();
 		// remove any existing steady state task just to be sure since in
 		// theory only the cast might have failed above
-		TaskList.remove("MCA");
+		TaskList.remove("Metabolic Control Analysis");
 		// add the new time course task to the task list
 		TaskList.add(pTask, true);
 	}
@@ -1380,7 +1380,7 @@ tc_matrix getScaledElasticities(copasi_model model)
 	const CMatrix<C_FLOAT64> & cmatrix = mcaMethod->getScaledElasticities();
 	const CArrayAnnotation * annot = mcaMethod->getScaledElasticitiesAnn();
 	const std::vector<std::string>& rownames = annot->getAnnotationsString(1),
-												   & colnames = annot->getAnnotationsString(2);
+												   & colnames = annot->getAnnotationsString(0);
 
 	int rows = cmatrix.numRows(), cols = cmatrix.numCols();
 	if (rows > rownames.size()) rows = rownames.size();
@@ -1395,7 +1395,7 @@ tc_matrix getScaledElasticities(copasi_model model)
 		tc_setColumnName(M, i, colnames[i].c_str());
 	
 	for (int i=0; i < rows; ++i)
-		for (int j=0; i < cols; ++j)
+		for (int j=0; j < cols; ++j)
 		{
 			tc_setMatrixValue(M, i, j, cmatrix(i,j));
 		}
@@ -1413,7 +1413,7 @@ tc_matrix getScaledConcentrationCC(copasi_model model)
 	// get the task list
 	CCopasiVectorN< CCopasiTask > & TaskList = * pDataModel->getTaskList();
 	// get the MCA task object
-	CMCATask* pTask = dynamic_cast<CMCATask*>(TaskList["MCA"]);
+	CMCATask* pTask = dynamic_cast<CMCATask*>(TaskList["Metabolic Control Analysis"]);
 	// if there isn’t one
 	if (!pTask)
 	{
@@ -1421,7 +1421,7 @@ tc_matrix getScaledConcentrationCC(copasi_model model)
 		pTask = new CMCATask();
 		// remove any existing steady state task just to be sure since in
 		// theory only the cast might have failed above
-		TaskList.remove("MCA");
+		TaskList.remove("Metabolic Control Analysis");
 		// add the new time course task to the task list
 		TaskList.add(pTask, true);
 	}
@@ -1448,7 +1448,7 @@ tc_matrix getScaledConcentrationCC(copasi_model model)
 	const CMatrix<C_FLOAT64> & cmatrix = mcaMethod->getScaledConcentrationCC();
 	const CArrayAnnotation * annot = mcaMethod->getScaledConcentrationCCAnn();
 	const std::vector<std::string>& rownames = annot->getAnnotationsString(1),
-												   & colnames = annot->getAnnotationsString(2);
+												   & colnames = annot->getAnnotationsString(0);
 
 	int rows = cmatrix.numRows(), cols = cmatrix.numCols();
 	if (rows > rownames.size()) rows = rownames.size();
@@ -1463,7 +1463,7 @@ tc_matrix getScaledConcentrationCC(copasi_model model)
 		tc_setColumnName(M, i, colnames[i].c_str());
 	
 	for (int i=0; i < rows; ++i)
-		for (int j=0; i < cols; ++j)
+		for (int j=0; j < cols; ++j)
 		{
 			tc_setMatrixValue(M, i, j, cmatrix(i,j));
 		}
@@ -1481,7 +1481,7 @@ tc_matrix getScaledFluxCC(copasi_model model)
 	// get the task list
 	CCopasiVectorN< CCopasiTask > & TaskList = * pDataModel->getTaskList();
 	// get the MCA task object
-	CMCATask* pTask = dynamic_cast<CMCATask*>(TaskList["MCA"]);
+	CMCATask* pTask = dynamic_cast<CMCATask*>(TaskList["Metabolic Control Analysis"]);
 	// if there isn’t one
 	if (!pTask)
 	{
@@ -1489,7 +1489,7 @@ tc_matrix getScaledFluxCC(copasi_model model)
 		pTask = new CMCATask();
 		// remove any existing steady state task just to be sure since in
 		// theory only the cast might have failed above
-		TaskList.remove("MCA");
+		TaskList.remove("Metabolic Control Analysis");
 		// add the new time course task to the task list
 		TaskList.add(pTask, true);
 	}
@@ -1516,22 +1516,22 @@ tc_matrix getScaledFluxCC(copasi_model model)
 	const CMatrix<C_FLOAT64> & cmatrix = mcaMethod->getScaledFluxCC();
 	const CArrayAnnotation * annot = mcaMethod->getScaledFluxCCAnn();
 	const std::vector<std::string>& rownames = annot->getAnnotationsString(1),
-												   & colnames = annot->getAnnotationsString(2);
+												   & colnames = annot->getAnnotationsString(0);
 
-	int rows = cmatrix.numRows(), cols = cmatrix.numCols();
+	size_t rows = cmatrix.numRows(), cols = cmatrix.numCols();
 	if (rows > rownames.size()) rows = rownames.size();
 	if (cols > colnames.size()) cols = colnames.size();
-
-	tc_matrix M = tc_createMatrix(rows, cols);
 	
+	tc_matrix M = tc_createMatrix(rows, cols);
+
 	for (int i=0; i < rows; ++i)
 		tc_setRowName(M, i, rownames[i].c_str());
 	
-	for (int i=0; i < cols; ++i)
+	for (int i=0; i < cols; ++i)	
 		tc_setColumnName(M, i, colnames[i].c_str());
 	
 	for (int i=0; i < rows; ++i)
-		for (int j=0; i < cols; ++j)
+		for (int j=0; j < cols; ++j)
 		{
 			tc_setMatrixValue(M, i, j, cmatrix(i,j));
 		}

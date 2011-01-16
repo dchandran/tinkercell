@@ -2264,6 +2264,7 @@ namespace Tinkercell
 					fullname = handles[i]->fullName() + QObject::tr(".");
 					s.remove(fullname);
 				}
+				RemoveDisallowedCharactersFromName(s);
 				QList< QString > keys = handles[i]->numericalDataNames();
 				for (int j=0; j < keys.size(); ++j)  //go through each num data
 				{
@@ -2274,11 +2275,13 @@ namespace Tinkercell
 						{
 							s2 = nDat->rowName(k);
 							substituteString(s2,oldname,newname);
-							nDat->setRowName(k,s2);
+							nDat->setRowName(k,RemoveDisallowedCharactersFromName(s2));
 						}
 
-						if (fullname + nDat->rowName(k) == oldname)						
+						if (fullname + nDat->rowName(k) == oldname)
+						{				
 							nDat->setRowName(k,s);
+						}
 					}
 					for (int k=0; k < nDat->columns(); ++k)
 					{
@@ -2286,7 +2289,7 @@ namespace Tinkercell
 						{
 							s2 = nDat->columnName(k);
 							substituteString(s2,oldname,newname);
-							nDat->setColumnName(k,s2);
+							nDat->setColumnName(k,RemoveDisallowedCharactersFromName(s2));
 						}
 						
 						if (fullname + nDat->columnName(k) == oldname)
@@ -2303,7 +2306,7 @@ namespace Tinkercell
 						{
 							s2 = sDat->rowName(k);
 							substituteString(s2,oldname,newname);
-							sDat->setRowName(k,s2);
+							sDat->setRowName(k,RemoveDisallowedCharactersFromName(s2));
 						}
 
 						if (fullname + sDat->rowName(k) == oldname)						
@@ -2315,7 +2318,7 @@ namespace Tinkercell
 						{
 							s2 = sDat->columnName(k);
 							substituteString(s2,oldname,newname);
-							sDat->setColumnName(k,s2);
+							sDat->setColumnName(k,RemoveDisallowedCharactersFromName(s2));
 						}
 						
 						if (fullname + sDat->columnName(k) == oldname)
@@ -2325,7 +2328,9 @@ namespace Tinkercell
 						for (int l=0; l < sDat->columns(); ++l)
 						{
 							if (sDat->value(k,l).contains(oldname))
+							{
 								substituteString(sDat->value(k,l),oldname,newname);
+							}
 						}
 				}
 			}
@@ -2405,9 +2410,9 @@ namespace Tinkercell
 								}
 							}
 							if (regexp.numCaptures() > 0 && !regexp.cap(1).isEmpty())
-								allhandles[j]->name = regexp.cap(1);
+								allhandles[j]->name = RemoveDisallowedCharactersFromName(regexp.cap(1));
 							else
-								allhandles[j]->name = newNames[i];
+								allhandles[j]->name = RemoveDisallowedCharactersFromName(newNames[i]);
 
 							newItemNames << QPair<ItemHandle*,QString>(allhandles[j],allhandles[j]->name);
 						}
@@ -2467,9 +2472,9 @@ namespace Tinkercell
 					oldItemNames << QPair<ItemHandle*,QString>(handle,handle->name);
 
 					if (regexp.numCaptures() > 0 && !regexp.cap(1).isEmpty())
-						handle->name = regexp.cap(1);
+						handle->name = RemoveDisallowedCharactersFromName(regexp.cap(1));
 					else
-						handle->name = newNames[i];
+						handle->name = RemoveDisallowedCharactersFromName(newNames[i]);
 
 					newItemNames << QPair<ItemHandle*,QString>(handle,handle->name);
 				}
@@ -2479,7 +2484,7 @@ namespace Tinkercell
 		{
 			for (int i=0; i < newItemNames.size(); ++i)
 				if (newItemNames[i].first)
-					newItemNames[i].first->name = newItemNames[i].second;
+					newItemNames[i].first->name = RemoveDisallowedCharactersFromName(newItemNames[i].second);
 
 			for (int i=0; i < newTextItemsNames.size(); ++i)
 				if (newTextItemsNames[i].first)
@@ -2531,7 +2536,7 @@ namespace Tinkercell
 	{
 		for (int i=0; i < oldItemNames.size(); ++i)
 				if (oldItemNames[i].first)
-					oldItemNames[i].first->name = oldItemNames[i].second;
+					oldItemNames[i].first->name = RemoveDisallowedCharactersFromName(oldItemNames[i].second);
 
 		for (int i=0; i < oldTextItemsNames.size(); ++i)
 			if (oldTextItemsNames[i].first)

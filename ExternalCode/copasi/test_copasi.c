@@ -15,6 +15,7 @@ int main()
 	//sim(m);
 	
 	efm = getElementaryFluxModes(m);
+	
 	tc_printOutMatrix(efm);
 	
 	tc_deleteMatrix(efm);

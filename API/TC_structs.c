@@ -389,7 +389,7 @@ void tc_printMatrixToFile(const char* s, tc_matrix output)
 	FILE * outfile = fopen(s,"w+");
 	if (output.colnames.strings)
 	{
-		fprintf(outfile, "#");
+		fprintf(outfile, "#\t");
 		for (j=0; j < output.cols; ++j)
 			if (j < (output.cols-1))
 				fprintf(outfile, "%s\t", tc_getColumnName(output, j));
@@ -415,6 +415,7 @@ void tc_printOutMatrix(tc_matrix output)
 	int i,j;
 	if (output.colnames.strings)
 	{
+		printf("\t");
 		for (j=0; j < output.cols; ++j)
 			if (j < (output.cols-1))
 				printf("%s\t", tc_getColumnName(output, j));
@@ -441,7 +442,7 @@ TCAPIEXPORT void tc_printTableToFile(const char* s, tc_table output)
 	FILE * outfile = fopen(s,"w+");
 	if (output.colnames.strings)
 	{
-		fprintf(outfile, "#");
+		fprintf(outfile, "#\t");
 		for (j=0; j < output.cols; ++j)
 			if (j < (output.cols-1))
 				fprintf(outfile, "%s\t", tc_getString(output.colnames, j));
@@ -470,6 +471,7 @@ TCAPIEXPORT void tc_printOutTable(tc_table output)
 	int i,j;
 	if (output.colnames.strings)
 	{
+		printf("\t");
 		for (j=0; j < output.cols; ++j)
 			if (j < (output.cols-1))
 				printf("%s\t", tc_getString(output.colnames, j));

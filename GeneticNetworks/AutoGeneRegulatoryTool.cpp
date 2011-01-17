@@ -684,8 +684,20 @@ namespace Tinkercell
 					
 					if (rate.isEmpty())
 						rate = tr("0.0");
+					
+					QString oldrate = parts[i]->textData(tr("Assignments"),parts[i]->name,0);					
+					bool isCustomEqn = false;
+					
+					for (int j=0; j < i; ++j)
+						if (oldrate.contains(parts[j]->fullName()) || oldrate.contains(parts[j]->fullName(tr("_"))))
+						{
+							isCustomEqn = true;
+							break;
+						}
+					
 					if (!parts[i]->textDataTable(tr("Assignments")).hasRow(parts[i]->name) ||
-						 parts[i]->textData(tr("Assignments"),parts[i]->name,0) != rate)
+							(!isCustomEqn && oldrate != rate)
+						)
 						 {
 							TextDataTable * sDat = new TextDataTable(parts[i]->textDataTable(tr("Assignments")));
 							sDat->value(parts[i]->name,0) = rate;

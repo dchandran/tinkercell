@@ -235,11 +235,27 @@ namespace Tinkercell
 			connect(line,SIGNAL(editingFinished()),this,SLOT(minmaxChanged()));
 
 			line = new QLineEdit;
-			line->setText(QString::number(maxValues[i]));
 			line->setMaximumWidth(80);
 			layout->addWidget(line);
 			maxline << line;
-			max << maxValues[i];
+			if (maxValues[i] == minValues[i])
+			{
+				if (minValues[i] == 0)
+				{
+					line->setText(QString::number(maxValues[i]+1.0));
+					max << maxValues[i] + 1.0;
+				}
+				else
+				{
+					line->setText(QString::number(maxValues[i]*2));
+					max << maxValues[i]*2;
+				}
+			}
+			else
+			{
+				line->setText(QString::number(maxValues[i]));
+				max << maxValues[i];
+			}
 			connect(line,SIGNAL(editingFinished()),this,SLOT(minmaxChanged()));
 			
 			QWidget * widget = new QWidget;

@@ -506,7 +506,7 @@ void SimulationThread::run()
 			resultMatrix = getEigenvalues(model);
 			plotTitle = tr("Eigenvalues");
 			plotType = PlotTool::ScatterPlot;
-			x = -1;
+			x = 0;
 			break;
 		case UnscaledElasticities:
 			tc_deleteMatrix(resultMatrix);

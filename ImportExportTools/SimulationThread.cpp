@@ -193,6 +193,13 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles)
 	//list of assignments
 	for (int i=0; i < assignmentNames.size(); ++i)
 	{
+		setGlobalParameter(model, assignmentNames[i].toAscii().data(), 1.0);
+		//commands += tr("setGlobalParameter(model,\"") + assignmentNames[i] + tr("\",1.0") + tr(");\n");
+	}
+	
+	//list of assignments
+	for (int i=0; i < assignmentNames.size(); ++i)
+	{
 		createVariable(model, assignmentNames[i].toAscii().data(), assignmentDefs[i].toAscii().data());
 		//commands += tr("createVariable(model, \"") + assignmentNames[i] + tr("\",\"") + assignmentDefs[i] + tr("\");\n");
 	}

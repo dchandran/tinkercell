@@ -686,15 +686,11 @@ namespace Tinkercell
 						rate = tr("0.0");
 					
 					QString oldrate = parts[i]->textData(tr("Assignments"),parts[i]->name,0);					
-					bool isCustomEqn = false;
-					
-					for (int j=0; j < i; ++j)
-						if (oldrate.contains(parts[j]->fullName()) || oldrate.contains(parts[j]->fullName(tr("_"))))
-						{
-							isCustomEqn = true;
-							break;
-						}
-					
+					bool isCustomEqn = oldrate.contains(tr("+")) ||
+													oldrate.contains(tr("/")) ||  
+													oldrate.contains(tr("(")) ||
+													(!oldrate.isEmpty() && oldrate != tr("0.0") && !oldrate.contains(tr(".strength * ")));
+
 					if (!parts[i]->textDataTable(tr("Assignments")).hasRow(parts[i]->name) ||
 							(!isCustomEqn && oldrate != rate)
 						)

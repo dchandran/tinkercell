@@ -448,12 +448,17 @@ int createVariable(copasi_model model, const char * name, const char * formula)
 				substituteString(qFormula,s0,s1);
 			}
 			else
-			if (hash->contains(s0))
 			{
-			 	QString s1("<");
-					s1 += hash->value(s0).name;
-					s1 += QString(">");
-				substituteString(qFormula,s0,s1);
+				if (!hash->contains(s0))				
+					setGlobalParameter(model,pParam->getObjectName().c_str(),1.0);				
+				
+				if (hash->contains(s0))
+				{
+				 	QString s1("<");
+						s1 += hash->value(s0).name;
+						s1 += QString(">");
+					substituteString(qFormula,s0,s1);
+				}
 			}
 		}
 	}
@@ -482,7 +487,6 @@ int createEvent(copasi_model model, const char * name, const char * trigger, con
 	
 	if (!hash || !pModel)
 	{
-		std::cout << "no model" << std::endl;
 		return 0;
 	}
 	
@@ -491,17 +495,14 @@ int createEvent(copasi_model model, const char * name, const char * trigger, con
 
 	if (!hash->contains(QString(variable)))
 	{
-		std::cout << "no hash val : " << variable << std::endl;
-		return 0;
+		setGlobalParameter(model,variable,1.0);
 	}
+	
+	if (!hash->contains(QString(variable))) return 0;
 
 	CopasiPtr ptr = hash->value(QString(variable));
 	
-	if (!ptr.species && !ptr.param)
-	{
-		std::cout << "no ptr" << std::endl;
-		return 0;
-	}
+	if (!ptr.species && !ptr.param) return 0;
 
 	CEvent * pEvent = pModel->createEvent(std::string(name));
 
@@ -528,12 +529,16 @@ int createEvent(copasi_model model, const char * name, const char * trigger, con
 				substituteString(qFormula,s0,s1);
 			}
 			else
-			if (hash->contains(s0))
 			{
-			 	QString s1("<");
-					s1 += hash->value(s0).name;
-					s1 += QString(">");
-				substituteString(qFormula,s0,s1);
+				if (!hash->contains(s0))
+					setGlobalParameter(model,pParam->getObjectName().c_str(),1.0);
+				if (hash->contains(s0))
+				{
+				 	QString s1("<");
+						s1 += hash->value(s0).name;
+						s1 += QString(">");
+					substituteString(qFormula,s0,s1);
+				}
 			}
 		}
 	}
@@ -568,12 +573,17 @@ int createEvent(copasi_model model, const char * name, const char * trigger, con
 				substituteString(qFormula,s0,s1);
 			}
 			else
-			if (hash->contains(s0))
 			{
-			 	QString s1("<");
-					s1 += hash->value(s0).name;
-					s1 += QString(">");
-				substituteString(qFormula,s0,s1);
+				if (!hash->contains(s0))
+					setGlobalParameter(model,pParam->getObjectName().c_str(),1.0);
+
+				if (hash->contains(s0))
+				{
+				 	QString s1("<");
+						s1 += hash->value(s0).name;
+						s1 += QString(">");
+					substituteString(qFormula,s0,s1);
+				}
 			}
 		}
 	}
@@ -711,6 +721,12 @@ int setReactionRate(copasi_reaction reaction, const char * formula)
 				if (ok) continue;
 				
 				QString s(pParam->getObjectName().c_str());
+				
+				if (!hash->contains(s))
+				{
+					copasi_model model = { (void*)(pModel) , (void*)(0), (void*)(hash) };
+					setGlobalParameter(model,pParam->getObjectName().c_str(),1.0);				
+				}
 				
 				if (hash->contains(s))
 				{

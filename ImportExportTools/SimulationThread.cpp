@@ -793,11 +793,11 @@ void SimulationDialog::run()
 	for (int i=0; i < sliderValues.rows(); ++i)
 	{
 		rownames += sliderValues.rowName(i);
-		if (sliderValues(i) == 0)
-			sliderValues(i) = 1.0;
-
 		col1 += sliderValues(i) * 0.1;
-		col2 += sliderValues(i) * 1.9;
+		if (sliderValues(i) == 0)
+			col2 += 1.0;
+		else
+			col2 += sliderValues(i) * 1.9;
 	}
 	
 	if (sliderWidget)

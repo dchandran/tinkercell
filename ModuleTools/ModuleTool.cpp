@@ -534,7 +534,7 @@ namespace Tinkercell
 				QString groupName = handles[i]->name;
 				QList<QGraphicsItem*> items2;
 				
-				if (handles[i]->children.isEmpty())
+				if (handles[i]->children.isEmpty() && !handles[i]->hasTextData("annotation")) //the "annotation" is to check that is was not loaded form a file (hack?)
 				{
 					QString s = handles[i]->family()->name();
 					s.replace(tr(" "),tr(""));
@@ -662,7 +662,7 @@ namespace Tinkercell
 			if (participants.hasRow(node->name.toLower()))
 			{
 				s = participants.value(node->name.toLower(),0);
-				if (nodes[i]->fullName().compare(s,Qt::CaseInsensitive) == 0)
+				if (nodes[i]->fullName().compare(s,Qt::CaseSensitive) == 0)
 					return nodes[i];
 			}
 		}

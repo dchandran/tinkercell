@@ -63,7 +63,7 @@
         </Handle>
         <Handle type="1" name="ComK" parent="" family="Transcription Factor">
             <tc_matrix>
-                <Table key="initial value" rows="1" cols="1" rowNames="concentration" columnNames="concentration" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="0"/>
+                <Table key="initial value" rows="1" cols="1" rowNames="concentration" columnNames="concentration" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="1.36"/>
                 <Table key="parameters" rows="1" cols="3" rowNames="molecularweight" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="50000;;5000;;500000"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
@@ -180,7 +180,7 @@
         </Handle>
         <Handle type="1" name="MekA" parent="" family="Enzyme">
             <tc_matrix>
-                <Table key="initial value" rows="1" cols="1" rowNames="concentration" columnNames="concentration" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="0"/>
+                <Table key="initial value" rows="1" cols="1" rowNames="concentration" columnNames="concentration" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="5"/>
                 <Table key="parameters" rows="1" cols="3" rowNames="molecularweight" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="50000;;5000;;500000"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>

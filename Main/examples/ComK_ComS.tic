@@ -63,7 +63,7 @@
         </Handle>
         <Handle type="1" name="ComK" parent="" family="Transcription Factor">
             <tc_matrix>
-                <Table key="initial value" rows="1" cols="1" rowNames="concentration" columnNames="concentration" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="1.36"/>
+                <Table key="initial value" rows="1" cols="1" rowNames="concentration" columnNames="concentration" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="0.9928"/>
                 <Table key="parameters" rows="1" cols="3" rowNames="molecularweight" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="50000;;5000;;500000"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
@@ -123,7 +123,7 @@
         <Handle type="1" name="p1" parent="" family="Inducible Promoter">
             <tc_matrix>
                 <Table key="initial value" rows="2" cols="2" rowNames="activity;;concentration" columnNames="activity;;concentration" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="0;;0;;0;;0"/>
-                <Table key="parameters" rows="3" cols="4" rowNames="strength;;length;;molecularweight" columnNames="value;;min;;max;;" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="5;;1;;10;;0;;0;;0;;0;;0;;50000;;5000;;500000;;0"/>
+                <Table key="parameters" rows="3" cols="4" rowNames="strength;;length;;molecularweight" columnNames="value;;min;;max;;" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="10;;1;;10;;0;;0;;0;;0;;0;;50000;;5000;;500000;;0"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
@@ -136,7 +136,7 @@
         <Handle type="1" name="p2" parent="" family="Repressible Promoter">
             <tc_matrix>
                 <Table key="initial value" rows="2" cols="2" rowNames="activity;;concentration" columnNames="activity;;concentration" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="0;;0;;0;;0"/>
-                <Table key="parameters" rows="3" cols="4" rowNames="strength;;length;;molecularweight" columnNames="value;;min;;max;;" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="5;;1;;10;;0;;300;;0;;0;;0;;50000;;5000;;500000;;0"/>
+                <Table key="parameters" rows="3" cols="4" rowNames="strength;;length;;molecularweight" columnNames="value;;min;;max;;" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="10;;1;;10;;0;;300;;0;;0;;0;;50000;;5000;;500000;;0"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
@@ -180,7 +180,7 @@
         </Handle>
         <Handle type="1" name="MekA" parent="" family="Enzyme">
             <tc_matrix>
-                <Table key="initial value" rows="1" cols="1" rowNames="concentration" columnNames="concentration" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="5"/>
+                <Table key="initial value" rows="1" cols="1" rowNames="concentration" columnNames="concentration" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="10"/>
                 <Table key="parameters" rows="1" cols="3" rowNames="molecularweight" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="50000;;5000;;500000"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
@@ -337,7 +337,7 @@
         <Handle type="2" name="protein_degradation" parent="pp1" family="Degradation">
             <tc_matrix>
                 <Table key="product stoichiometries" rows="0" cols="0" rowNames="" columnNames="" desc="Number of each product participating in this reaction" values=""/>
-                <Table key="parameters" rows="1" cols="3" rowNames="k0" columnNames="value;;;;" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1;;0;;0"/>
+                <Table key="parameters" rows="1" cols="3" rowNames="k0" columnNames="value;;;;" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="0.1;;0;;0"/>
                 <Table key="reactant stoichiometries" rows="1" cols="1" rowNames="stoichiometry" columnNames="ComK" desc="Number of each reactant participating in this reaction" values="1"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
@@ -438,7 +438,7 @@
         <Handle type="2" name="protein_degradation" parent="pp2" family="Degradation">
             <tc_matrix>
                 <Table key="product stoichiometries" rows="0" cols="0" rowNames="" columnNames="" desc="Number of each product participating in this reaction" values=""/>
-                <Table key="parameters" rows="1" cols="1" rowNames="k0" columnNames="value" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1"/>
+                <Table key="parameters" rows="1" cols="1" rowNames="k0" columnNames="value" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="0.1"/>
                 <Table key="reactant stoichiometries" rows="1" cols="1" rowNames="stoichiometry" columnNames="ComS" desc="Number of each reactant participating in this reaction" values="1"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
@@ -4249,7 +4249,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="5466.72" y="4812.19" angle="15.8432"/>
-                            <transform m11="0.0962013" m12="0.0273008" m21="-0.109202" m22="0.384805"/>
+                            <transform m11="0.0962013" m12="0.0273009" m21="-0.109202" m22="0.384805"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -4304,7 +4304,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="5386.98" y="5168.46" angle="89.8349"/>
-                            <transform m11="0.000288222" m12="0.0999996" m21="-0.399998" m22="0.0011529"/>
+                            <transform m11="0.000288221" m12="0.0999996" m21="-0.399998" m22="0.0011529"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -4514,7 +4514,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="5087.04" y="4866.08" angle="160.562"/>
-                            <transform m11="-0.0943001" m12="0.0332791" m21="-0.133117" m22="-0.377201"/>
+                            <transform m11="-0.0943" m12="0.0332793" m21="-0.133118" m22="-0.377201"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -4569,7 +4569,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="5081.15" y="4935.49" angle="-134.484"/>
-                            <transform m11="-0.280284" m12="-0.285379" m21="0.214034" m22="-0.210212"/>
+                            <transform m11="-0.280285" m12="-0.285378" m21="0.214033" m22="-0.210213"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -4642,10 +4642,10 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="-1" handle="tr1.rep1" z="117.9">
             <ConnectionGraphicsItem version="1.0" name="" color="#c30000" width="5" type="bezier" style="1" gap="10" group="tr1">
                 <ControlPoints>
-                    <ControlPoint x="13208.3" y="10603.8"/>
+                    <ControlPoint x="14456.8" y="11239.3"/>
                     <ControlPoint x="5328.2" y="4697.52"/>
                     <ControlPoint x="5502.48" y="4704.85"/>
-                    <ControlPoint x="22745.5" y="12256.1"/>
+                    <ControlPoint x="28446.6" y="13418.1"/>
                 </ControlPoints>
                 <CurveSegments>
                     <Path numPoints="4" NodeAtStart="ComK" NodeAtStartX="5210.98" NodeAtStartY="4877.03" NodeAtEnd="p2" NodeAtEndX="5701.14" NodeAtEndY="4838.79">
@@ -4697,10 +4697,10 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="-1" handle="pp2.protein_degradation" z="0">
             <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="bezier" style="1" gap="10" group="pp2">
                 <ControlPoints>
-                    <ControlPoint x="14920.4" y="11347.7"/>
+                    <ControlPoint x="15519.3" y="11571.1"/>
                     <ControlPoint x="4961.88" y="4637.46"/>
                     <ControlPoint x="4823.12" y="4639.12"/>
-                    <ControlPoint x="7809.96" y="7888"/>
+                    <ControlPoint x="7828.98" y="7907.7"/>
                 </ControlPoints>
                 <CurveSegments>
                     <Path numPoints="4" NodeAtStart="ComS" NodeAtStartX="5075" NodeAtStartY="4762.5" NodeAtEnd="pp2.emp2" NodeAtEndX="4705" NodeAtEndY="4752.5">
@@ -4821,10 +4821,10 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="-1" handle="ta1.act1" z="112">
             <ConnectionGraphicsItem version="1.0" name="" color="#049102" width="5" type="bezier" style="1" gap="10" group="ta1">
                 <ControlPoints>
-                    <ControlPoint x="13190.8" y="10494.8"/>
+                    <ControlPoint x="14435" y="11123.1"/>
                     <ControlPoint x="5362.89" y="4708.19"/>
                     <ControlPoint x="5548.35" y="4718.05"/>
-                    <ControlPoint x="22860.8" y="12221.8"/>
+                    <ControlPoint x="28591" y="13380.5"/>
                 </ControlPoints>
                 <CurveSegments>
                     <Path numPoints="4" NodeAtStart="ComK" NodeAtStartX="5201.47" NodeAtStartY="4826.23" NodeAtEnd="p1" NodeAtEndX="5730.24" NodeAtEndY="4825.24">
@@ -4893,7 +4893,7 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="-1" handle="pp2.translation" z="0">
             <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="line" style="2" gap="10" group="pp2">
                 <ControlPoints>
-                    <ControlPoint x="29310.9" y="25346"/>
+                    <ControlPoint x="34198.2" y="28573.4"/>
                     <ControlPoint x="4891.73" y="4980.31"/>
                     <ControlPoint x="4865.31" y="4923.5"/>
                     <ControlPoint x="4874.33" y="4895.47"/>
@@ -4965,10 +4965,10 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="-1" handle="pp2.translation" z="0">
             <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="bezier" style="1" gap="10" group="pp2">
                 <ControlPoints>
-                    <ControlPoint x="7809.81" y="7888.7"/>
+                    <ControlPoint x="7828.92" y="7907.98"/>
                     <ControlPoint x="4812.5" y="4878.51"/>
                     <ControlPoint x="4932.5" y="4876.72"/>
-                    <ControlPoint x="14917.2" y="11354.2"/>
+                    <ControlPoint x="15517" y="11575"/>
                 </ControlPoints>
                 <CurveSegments>
                     <Path numPoints="4" NodeAtStart="pp2.emp2" NodeAtStartX="4705" NodeAtStartY="4752.5" NodeAtEnd="ComS" NodeAtEndX="5075" NodeAtEndY="4762.5">
@@ -5048,13 +5048,13 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="-1" handle="rep2.v" z="9">
             <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="bezier" style="1" gap="10" group="rep2">
                 <ControlPoints>
-                    <ControlPoint x="7299.95" y="8393.42"/>
+                    <ControlPoint x="7413.84" y="8525.55"/>
                     <ControlPoint x="4702.72" y="5200.05"/>
                     <ControlPoint x="4751.53" y="5131.78"/>
                     <ControlPoint x="4721.92" y="5081.83"/>
-                    <ControlPoint x="11461.8" y="10910.4"/>
+                    <ControlPoint x="12239.9" y="11556.2"/>
                     <ControlPoint x="4952.37" y="5138.94"/>
-                    <ControlPoint x="7692.26" y="8360.56"/>
+                    <ControlPoint x="7835.14" y="8538.31"/>
                     <ControlPoint x="4617.59" y="5005.25"/>
                     <ControlPoint x="4669.37" y="5040.22"/>
                 </ControlPoints>
@@ -5132,10 +5132,10 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="-1" handle="pp1.mrna_degradation" z="13">
             <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="bezier" style="1" gap="10" group="pp1">
                 <ControlPoints>
-                    <ControlPoint x="19500.4" y="18120"/>
+                    <ControlPoint x="24387.7" y="21869.2"/>
                     <ControlPoint x="4768.2" y="4935.65"/>
                     <ControlPoint x="4576.56" y="4940.43"/>
-                    <ControlPoint x="7258.07" y="8209.78"/>
+                    <ControlPoint x="7371.01" y="8340.77"/>
                 </ControlPoints>
                 <CurveSegments>
                     <Path numPoints="4" NodeAtStart="pp1.mrna" NodeAtStartX="4887.33" NodeAtStartY="5057.57" NodeAtEnd="pp1.emp1" NodeAtEndX="4467.78" NodeAtEndY="5056.86">
@@ -5256,13 +5256,13 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="-1" handle="rep1.v" z="8">
             <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="bezier" style="1" gap="10" group="rep1">
                 <ControlPoints>
-                    <ControlPoint x="7413.84" y="8525.55"/>
+                    <ControlPoint x="7459.4" y="8578.4"/>
                     <ControlPoint x="4702.72" y="5200.05"/>
                     <ControlPoint x="4751.53" y="5131.78"/>
                     <ControlPoint x="4721.92" y="5081.83"/>
-                    <ControlPoint x="12239.9" y="11556.2"/>
+                    <ControlPoint x="12726.2" y="11943.7"/>
                     <ControlPoint x="4952.37" y="5138.94"/>
-                    <ControlPoint x="7835.14" y="8538.31"/>
+                    <ControlPoint x="7895.12" y="8616.2"/>
                     <ControlPoint x="4617.59" y="5005.25"/>
                     <ControlPoint x="4669.37" y="5040.22"/>
                 </ControlPoints>
@@ -5340,7 +5340,7 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="-1" handle="pp2.transcription" z="0">
             <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="line" style="2" gap="10" group="pp2">
                 <ControlPoints>
-                    <ControlPoint x="122523" y="7271.44"/>
+                    <ControlPoint x="200698" y="7273.44"/>
                     <ControlPoint x="4652.96" y="5242.36"/>
                     <ControlPoint x="4653.18" y="5206.28"/>
                     <ControlPoint x="4657.37" y="5186.67"/>
@@ -5412,9 +5412,9 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="-1" handle="pp2.transcription" z="0">
             <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="bezier" style="1" gap="10" group="pp2">
                 <ControlPoints>
-                    <ControlPoint x="7416.11" y="8393.88"/>
+                    <ControlPoint x="7434.22" y="8414.41"/>
                     <ControlPoint x="4578.4" y="5167.98"/>
-                    <ControlPoint x="19399.9" y="18234.8"/>
+                    <ControlPoint x="24287.2" y="21975.7"/>
                 </ControlPoints>
                 <CurveSegments>
                     <Path numPoints="3" NodeAtStart="pp2.emp1" NodeAtStartX="4467.78" NodeAtStartY="5056.86" NodeAtEnd="pp2.mrna" NodeAtEndX="4887.33" NodeAtEndY="5057.57">
@@ -5494,10 +5494,10 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="-1" handle="pp1.transcription" z="10">
             <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="bezier" style="1" gap="10" group="pp1">
                 <ControlPoints>
-                    <ControlPoint x="7257.59" y="8214.26"/>
+                    <ControlPoint x="7370.82" y="8342.56"/>
                     <ControlPoint x="4578.4" y="5167.98"/>
                     <ControlPoint x="4737.9" y="5172.96"/>
-                    <ControlPoint x="19490.4" y="18151.5"/>
+                    <ControlPoint x="24377.7" y="21898.4"/>
                 </ControlPoints>
                 <CurveSegments>
                     <Path numPoints="4" NodeAtStart="pp1.emp1" NodeAtStartX="4467.78" NodeAtStartY="5056.86" NodeAtEnd="pp1.mrna" NodeAtEndX="4887.33" NodeAtEndY="5057.57">
@@ -5577,7 +5577,7 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="-1" handle="pp1.transcription" z="8">
             <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="line" style="2" gap="10" group="pp1">
                 <ControlPoints>
-                    <ControlPoint x="43126.8" y="7236.19"/>
+                    <ControlPoint x="73663.8" y="7263.99"/>
                     <ControlPoint x="4652.96" y="5242.36"/>
                     <ControlPoint x="4653.18" y="5206.28"/>
                     <ControlPoint x="4657.37" y="5186.67"/>
@@ -5649,10 +5649,10 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="-1" handle="pp1.translation" z="17">
             <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="bezier" style="1" gap="10" group="pp1">
                 <ControlPoints>
-                    <ControlPoint x="7642.56" y="7719.98"/>
+                    <ControlPoint x="7762.02" y="7840.49"/>
                     <ControlPoint x="4812.5" y="4878.51"/>
                     <ControlPoint x="4932.5" y="4876.72"/>
-                    <ControlPoint x="12836.1" y="10372.7"/>
+                    <ControlPoint x="14060.3" y="10986.1"/>
                 </ControlPoints>
                 <CurveSegments>
                     <Path numPoints="4" NodeAtStart="pp1.emp2" NodeAtStartX="4705" NodeAtStartY="4752.5" NodeAtEnd="ComK" NodeAtEndX="5075" NodeAtEndY="4762.5">
@@ -5732,7 +5732,7 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="-1" handle="pp1.translation" z="15">
             <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="line" style="2" gap="10" group="pp1">
                 <ControlPoints>
-                    <ControlPoint x="19536.3" y="18118.1"/>
+                    <ControlPoint x="24423.6" y="21867.4"/>
                     <ControlPoint x="4891.73" y="4980.31"/>
                     <ControlPoint x="4865.31" y="4923.5"/>
                     <ControlPoint x="4874.33" y="4895.47"/>
@@ -5804,10 +5804,10 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="-1" handle="pp1.protein_degradation" z="20">
             <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="bezier" style="1" gap="10" group="pp1">
                 <ControlPoints>
-                    <ControlPoint x="12842.5" y="10354.6"/>
+                    <ControlPoint x="14064.8" y="10975.3"/>
                     <ControlPoint x="4961.88" y="4637.46"/>
                     <ControlPoint x="4823.12" y="4639.12"/>
-                    <ControlPoint x="7643.48" y="7715.6"/>
+                    <ControlPoint x="7762.39" y="7838.74"/>
                 </ControlPoints>
                 <CurveSegments>
                     <Path numPoints="4" NodeAtStart="ComK" NodeAtStartX="5075" NodeAtStartY="4762.5" NodeAtEnd="pp1.emp2" NodeAtEndX="4705" NodeAtEndY="4752.5">
@@ -5928,10 +5928,10 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="-1" handle="pp2.mrna_degradation" z="0">
             <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="bezier" style="1" gap="10" group="pp2">
                 <ControlPoints>
-                    <ControlPoint x="29275" y="25347.6"/>
+                    <ControlPoint x="34162.3" y="28574.9"/>
                     <ControlPoint x="4768.2" y="4935.65"/>
                     <ControlPoint x="4576.56" y="4940.43"/>
-                    <ControlPoint x="7416.18" y="8393.17"/>
+                    <ControlPoint x="7434.25" y="8414.13"/>
                 </ControlPoints>
                 <CurveSegments>
                     <Path numPoints="4" NodeAtStart="pp2.mrna" NodeAtStartX="4887.33" NodeAtStartY="5057.57" NodeAtEnd="pp2.emp1" NodeAtEndX="4467.78" NodeAtEndY="5056.86">
@@ -6052,10 +6052,10 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="-1" handle="rep1.deg" z="74">
             <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="bezier" style="1" gap="10" group="rep1">
                 <ControlPoints>
-                    <ControlPoint x="9679.53" y="9814.69"/>
+                    <ControlPoint x="9908.74" y="10009.3"/>
                     <ControlPoint x="4784.85" y="4720.62"/>
                     <ControlPoint x="5004.04" y="4796.51"/>
-                    <ControlPoint x="12243.1" y="11544.6"/>
+                    <ControlPoint x="12728.2" y="11936.8"/>
                 </ControlPoints>
                 <CurveSegments>
                     <Path numPoints="4" NodeAtStart="rep1.complex" NodeAtStartX="4585" NodeAtStartY="4856.6" NodeAtEnd="MekA" NodeAtEndX="5076.25" NodeAtEndY="5010">
@@ -6107,10 +6107,10 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="-1" handle="rep2.deg" z="6">
             <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="bezier" style="1" gap="10" group="rep2">
                 <ControlPoints>
-                    <ControlPoint x="9262.78" y="9443.99"/>
+                    <ControlPoint x="9679.53" y="9814.69"/>
                     <ControlPoint x="4784.85" y="4720.62"/>
                     <ControlPoint x="5004.04" y="4796.51"/>
-                    <ControlPoint x="11467" y="10891"/>
+                    <ControlPoint x="12243.1" y="11544.6"/>
                 </ControlPoints>
                 <CurveSegments>
                     <Path numPoints="4" NodeAtStart="rep2.complex" NodeAtStartX="4585" NodeAtStartY="4856.6" NodeAtEnd="MekA" NodeAtEndX="5076.25" NodeAtEndY="5010">

@@ -126,7 +126,7 @@ namespace Tinkercell
 	}
 
 	/*! \brief Constructor: sets 10000x10000 scene */
-	GraphicsScene::GraphicsScene(NetworkHandle * net) : QGraphicsScene(net), networkWindow(0), network(net)
+	GraphicsScene::GraphicsScene(NetworkHandle * net) : QGraphicsScene(0), networkWindow(0), network(net)
 	{
 		gridSz = GRID;
 		mouseDown = false;

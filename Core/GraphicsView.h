@@ -100,6 +100,8 @@ namespace Tinkercell
 		virtual void mousePressEvent ( QMouseEvent * event );
 		/*! \brief mouse event. sets the currentGraphicsView for NetworkWindow*/
 		virtual void keyPressEvent ( QKeyEvent * event );
+		/*! \brief when moved using right button or ctrl, mode switches to drag*/
+		virtual void mouseMoveEvent ( QMouseEvent * event );
 
 		friend class GraphicsScene;
 		friend class NetworkWindow;

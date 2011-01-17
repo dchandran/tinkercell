@@ -99,12 +99,24 @@ namespace Tinkercell
 
 	void GraphicsView::mousePressEvent ( QMouseEvent * event )
 	{
+		if (dragMode() != QGraphicsView::NoDrag && event->modifiers() != Qt::ControlModifier)
+			setDragMode(QGraphicsView::NoDrag);
+		
 		if (scene && scene->networkWindow)
 		{
 			scene->networkWindow->setAsCurrentWindow();
 		}
 		
 		QGraphicsView::mousePressEvent(event);
+	}
+	
+	void GraphicsView::mouseMoveEvent ( QMouseEvent * event )
+	{
+		if (	dragMode() == QGraphicsView::NoDrag &&
+				(event->button() == Qt::RightButton || event->modifiers() == Qt::ControlModifier) )
+			setDragMode(QGraphicsView::ScrollHandDrag);
+
+		QGraphicsView::mouseMoveEvent(event);
 	}
 
 	void GraphicsView::keyPressEvent ( QKeyEvent * event )

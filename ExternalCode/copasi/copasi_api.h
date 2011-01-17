@@ -35,7 +35,7 @@ TCAPIEXPORT copasi_model createCopasiModel(const char * name);
  \brief remove a model
  \ingroup Simulation
 */
-//TCAPIEXPORT void removeCopasiModel(copasi_model);
+TCAPIEXPORT void removeCopasiModel(copasi_model);
 /*! 
  \brief clear all contents of a model
  \ingroup Simulation

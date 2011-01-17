@@ -43,7 +43,6 @@ TARGET_LINK_LIBRARIES( SBMLImportExport
   TinkerCellCore
   muparser
   sbml
-  sbml_sim
 )
 
 IF( WIN32 )
@@ -98,7 +97,6 @@ QT4_WRAP_CPP( ANTIMONYEDITOR_MOC ${ANTIMONYEDITOR_HDRS})
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbw/include
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbw/include/SBW
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbw/include/libxml
-    ${TINKERCELL_SOURCE_DIR}/c/sbml_sim
     ${TINKERCELL_SOURCE_DIR}/Core
     ${TINKERCELL_SOURCE_DIR}/BasicTools
     ${TINKERCELL_SOURCE_DIR}/ModuleTools
@@ -118,7 +116,6 @@ TARGET_LINK_LIBRARIES( AntimonyEditor
   AntimonyEditor
   antimony
   sbml
-  sbml_sim
   ModelingTools
   SBMLImportExport
   NodesTree

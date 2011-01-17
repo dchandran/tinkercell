@@ -67,6 +67,9 @@ namespace Tinkercell
 		/*! \brief Constructor requires MainWindow pointer*/
 		SimulationThread(MainWindow * parent=0);
 		
+		/*! \brief destructor removes copasi model*/
+		~SimulationThread();
+		
 		/*! \brief Updates the COPASI model using the updateModel(QList<ItemHandle*>) function*/
 		void updateModel();
 		

@@ -34,11 +34,7 @@ namespace Tinkercell
 			void importSBMLString(const char*);
 	};
 	
-	/*! \brief This class imports and exports SBML file format
-	and can performs ODE and stochastic simulations. The ODE simulation
-	uses SOSlib and the stochastic uses a custom implementation of
-	Gillespie algorithm. The SBML document is updated whenever any data
-	in the model is changed or when items are inserted or removed.
+	/*! \brief This class imports and exports SBML file format.
 	/ingrou plugins
 	*/
 	class TINKERCELLEXPORT SBMLImportExport : public Tool

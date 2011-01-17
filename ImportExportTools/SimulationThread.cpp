@@ -6,6 +6,16 @@ using namespace Tinkercell;
 
 int SimulationThread::totalModelCount = 0;
 
+SimulationThread::~SimulationThread()
+{
+	if (model.CopasiDataModelPtr)
+		removeCopasiModel(model);
+	
+	model.CopasiModelPtr = 0;
+	model.CopasiDataModelPtr = 0;
+	model.qHash = 0;
+}
+
 void SimulationThread::updateModel(QList<ItemHandle*> & handles)
 {
 	//make sure all children are included
@@ -15,10 +25,12 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles)
 				if (!handles.contains( handles[i]->children[j] ))
 					handles += handles[i]->children[j];
 		
+	if (model.CopasiDataModelPtr)
+		removeCopasiModel(model);
+	
 	model.CopasiModelPtr = 0;
 	model.CopasiDataModelPtr = 0;
 	model.qHash = 0;
-
 	++totalModelCount;
 	QString modelName = tr("tinkercell") + QString::number(totalModelCount);
 	model = createCopasiModel(modelName.toAscii().data());
@@ -267,6 +279,9 @@ SimulationThread::SimulationThread(MainWindow * parent) : CThread(parent)
 	resultMatrix = tc_createMatrix(0,0);
 	semaphore = 0;
 	plot = false;
+	model.CopasiModelPtr = 0;
+	model.CopasiDataModelPtr = 0;
+	model.qHash = 0;
 	if (mainWindow)
 	{
 		QWidget * widget = mainWindow->tool("Default Plot Tool");

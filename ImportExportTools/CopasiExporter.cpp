@@ -29,6 +29,12 @@ void CopasiExporter::getHandles(QSemaphore * sem, QList<ItemHandle*>* handles, b
 
 CopasiExporter::~CopasiExporter()
 {
+	if (odeThread) 	delete odeThread;
+	if (stochThread) delete stochThread;
+	if (ssThread) delete ssThread;
+	if (jacThread) delete jacThread;
+	if (mcaThread) delete mcaThread;
+
 	copasi_end();
 }
 

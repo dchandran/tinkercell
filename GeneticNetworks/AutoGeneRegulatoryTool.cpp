@@ -1891,30 +1891,34 @@ namespace Tinkercell
 					angle -= 3.14159/2.0;
 				}
 
-				itemsToMove += nodesInPlasmid[i];
-				moveBy += (p2 - p1);
-				rotateBy += (angle * 180/3.14159);
-				scene->showToolTip(p2, QString::number(angle));
+				if (!itemsToMove.contains(nodesInPlasmid[i]))
+				{
+					itemsToMove += nodesInPlasmid[i];
+					moveBy += (p2 - p1);
+					rotateBy += (angle * 180/3.14159);
 				
-				if ((t.m11() < 0) || (t.m22() < 0) || (t.m12() != 0) || (t.m21() != 0))
-					flips += true;
-				else
-					flips += false;
-				
-				QList<QGraphicsItem*> & graphicsItems = nodesInPlasmid[i]->handle()->graphicsItems;
-				for (int j=0; j < graphicsItems.size(); ++j)
-					if ( nodesInPlasmid[i] != graphicsItems[j] && 
-						graphicsItems[j]->sceneBoundingRect().intersects(boundingRect.adjusted(-10,-10,10,10)))
-					{
-						itemsToMove += graphicsItems[j];
-						moveBy += (p2 - p1);
-						rotateBy += 0.0;
-						flips += false;
-					}
+					if ((t.m11() < 0) || (t.m22() < 0) || (t.m12() != 0) || (t.m21() != 0))
+						flips += true;
+					else
+						flips += false;				
+	
+					QList<QGraphicsItem*> & graphicsItems = nodesInPlasmid[i]->handle()->graphicsItems;
+					for (int j=0; j < graphicsItems.size(); ++j)
+						if ( nodesInPlasmid[i] != graphicsItems[j] && 
+							graphicsItems[j]->sceneBoundingRect().intersects(boundingRect.adjusted(-10,-10,10,10)))
+						{
+							itemsToMove += graphicsItems[j];
+							moveBy += (p2 - p1);
+							rotateBy += 0.0;
+							flips += false;
+						}
+				}
 			}
-			commands 
-					 << new TransformCommand(tr("rotate"), scene, itemsToMove, QList<QPointF>(), rotateBy, QList<bool>(), QList<bool>())
-					 << new MoveCommand(scene, itemsToMove, moveBy);
+			
+			if (!itemsToMove.isEmpty())
+				commands 
+						 << new TransformCommand(tr("rotate"), scene, itemsToMove, QList<QPointF>(), rotateBy, QList<bool>(), QList<bool>())
+						 << new MoveCommand(scene, itemsToMove, moveBy);
 		}
 		
 		for (int i=0; i < children.size(); ++i)

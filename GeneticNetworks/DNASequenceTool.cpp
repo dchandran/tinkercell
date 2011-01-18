@@ -288,6 +288,22 @@ namespace Tinkercell
 		{
 			if ((h = getHandle(selected[i])) && h->isA(tr("Part")) && (node = NodeGraphicsItem::cast(selected[i])))
 			{
+				if (!h->children.isEmpty())
+				{
+					node = 0;
+					for (int j=0; j < h->children.size(); ++j)
+						if (h->children[j]->isA(tr("Part")))
+						{
+							for (int k=0; k < h->children[j]->graphicsItems.size(); ++k)
+								if (node = NodeGraphicsItem::cast(h->children[j]->graphicsItems[k]))
+									break;
+							if (node)
+								break;
+						}
+				}
+				
+				if (!node) continue;
+				
 				handlesUp.clear();
 				AutoGeneRegulatoryTool::findAllParts(scene,node,tr("Part"),handlesUp,true,QStringList());
 				if (!handlesUp.isEmpty())

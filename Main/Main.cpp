@@ -204,7 +204,7 @@ int main(int argc, char *argv[])
 
     mainWindow.readSettings();
   #ifdef TINKERCELL_TEXT_ONLY
-       mainWindow.newEditor();
+       mainWindow.newTextEditor();
   #else
        mainWindow.newScene();
   #endif

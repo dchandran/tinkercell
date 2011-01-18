@@ -1,5 +1,9 @@
 #!/bin/bash
 
+#make
+cd @TINKERCELL_BINARY_DIR@
+make
+
 #run in the bin folder
 CURPATH=@TINKERCELL_BINARY_BIN_DIR@
 cd @TINKERCELL_BINARY_BIN_DIR@

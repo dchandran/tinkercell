@@ -156,11 +156,9 @@ SET(TINKERCELL_BINARY_BIN_DIR ${TINKERCELL_BINARY_DIR}/bin)
 
 ADD_SUBDIRECTORY( Core )   #C++ Core + API
 ADD_SUBDIRECTORY( API )   #C API + SWIG file
-ADD_SUBDIRECTORY( Main )   #main executable
 ADD_SUBDIRECTORY( ExternalCode )  #MuParser, QWT, cvODE, letc.
 ADD_SUBDIRECTORY( icons )   #icons
 ADD_SUBDIRECTORY( Graphics )   #graphics files
-ADD_SUBDIRECTORY( NodeGraphicsItem )   #program for drawing new graphics items
 IF (APPLE)
    ADD_SUBDIRECTORY( mac )   #Only for Mac
 ENDIF(APPLE)
@@ -196,10 +194,12 @@ FILE(GLOB TINKERCELL_SUPPORTING_FILES ABOUT.TXT UPDATES.TXT COPYRIGHT.TXT *.py)
 INSTALL(FILES ${TINKERCELL_SUPPORTING_FILES} DESTINATION bin/../)  
 
 #----------------------------------------------------------------------------
-#   TinkerCell plugins
+#   TinkerCell plugins and executables
 #----------------------------------------------------------------------------
 
 INCLUDE( CMake/TinkercellPlugins.cmake )
+ADD_SUBDIRECTORY( Main )   #main executable
+ADD_SUBDIRECTORY( NodeGraphicsItem )   #program for drawing new graphics items
   
 #----------------------------------------------------------------------------
 # CPack

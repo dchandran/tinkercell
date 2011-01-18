@@ -185,3 +185,28 @@ IF (NOT APPLE AND UNIX AND EXISTS $ENV{HOME}/Documents/TinkerCell/updates.txt)
       COMMAND perl -pi -e 's/current version: [0-9\\.]+/current version:   ${TINKERCELL_VERSION}/' $ENV{HOME}/Documents/TinkerCell/updates.txt
 )
 ENDIF (NOT APPLE AND UNIX AND EXISTS $ENV{HOME}/Documents/TinkerCell/updates.txt)
+
+#---------------------------------------------------------------------
+#  Run Inno setup and WinSCP for windows
+#---------------------------------------------------------------------
+
+IF (TINKERCELL_INSTALLER AND WIN32)
+   SET (TINKERCELL_EXE TinkerCellScript)
+
+   CONFIGURE_FILE( 
+		${TINKERCELL_SOURCE_DIR}/win32/TINKERCELLSETUP.iss.in
+		${TINKERCELL_BINARY_DIR}/win32/TINKERCELLSETUP.iss
+		@ONLY
+	)
+	CONFIGURE_FILE( 
+		${TINKERCELL_SOURCE_DIR}/win32/uploadTinkerCell.winscp.in
+		${TINKERCELL_BINARY_DIR}/win32/uploadTinkerCell.winscp
+		@ONLY
+	)
+	CONFIGURE_FILE( 
+		${TINKERCELL_SOURCE_DIR}/win32/makeWin32Installer.bat.in
+		${TINKERCELL_BINARY_DIR}/win32/makeWin32Installer.bat
+		@ONLY
+	)
+	MESSAGE("Run ${TINKERCELL_BINARY_DIR}/win32/makeWin32Installer.bat to build the program, the installer, and upload it to the sourceforge site")
+ENDIF (TINKERCELL_INSTALLER AND WIN32)

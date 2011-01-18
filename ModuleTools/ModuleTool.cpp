@@ -120,8 +120,8 @@ namespace Tinkercell
 			//connect(mainWindow, SIGNAL(itemsAboutToBeRemoved(GraphicsScene *, QList<QGraphicsItem*>& , QList<ItemHandle*>&, QList<QUndoCommand*>& )),
 			//		this, SLOT(itemsAboutToBeRemoved(GraphicsScene *, QList<QGraphicsItem*>& , QList<ItemHandle*>&, QList<QUndoCommand*>& )));
 			
-			connect(mainWindow, SIGNAL(itemsRenamed(NetworkHandle * , const QList<ItemHandle*>& , const QList<QString>& , const QList<QString>& )),
-					this, SLOT(itemsRenamed(NetworkHandle * , const QList<ItemHandle*>& , const QList<QString>& , const QList<QString>& )));
+			//connect(mainWindow, SIGNAL(itemsRenamed(NetworkHandle * , const QList<ItemHandle*>& , const QList<QString>& , const QList<QString>& )),
+			//		this, SLOT(itemsRenamed(NetworkHandle * , const QList<ItemHandle*>& , const QList<QString>& , const QList<QString>& )));
 
 			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
 

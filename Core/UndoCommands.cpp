@@ -2365,10 +2365,11 @@ namespace Tinkercell
 						oldData2 += new DataTable<QString>(allhandles[i]->textDataTable( keys2[j] ));
 				}
 		}
+		
+		QRegExp regexp("\\.([^\\.]+)$");
 
 		if (firstTime)
 		{
-			QRegExp regexp("\\.([^\\.]+)$");
 
 			for (int i=0; i < oldNames.size() && i < newNames.size(); ++i)
 			{
@@ -2506,19 +2507,37 @@ namespace Tinkercell
 				if (node = NodeGraphicsItem::cast(items2[j]))
 				{
 					if ((k = oldNames.indexOf(node->groupID)) >= 0 && newNames.size() > k)
-						node->groupID = newNames[k];
+					{
+						regexp.indexIn(newNames[k]);
+						if (regexp.numCaptures() > 0 && !regexp.cap(1).isEmpty())
+							node->groupID = regexp.cap(1);
+						else						
+							node->groupID = newNames[k];
+					}
 				}
 				else
 				if (connection = ConnectionGraphicsItem::cast(items2[j]))
 				{
 					if ((k = oldNames.indexOf(connection->groupID)) >= 0 && newNames.size() > k)
-						connection->groupID = newNames[k];
+					{
+						regexp.indexIn(newNames[k]);
+						if (regexp.numCaptures() > 0 && !regexp.cap(1).isEmpty())
+							connection->groupID = regexp.cap(1);
+						else						
+							connection->groupID = newNames[k];
+					}
 				}
 				else
 				if (text = TextGraphicsItem::cast(items2[j]))
 				{
 					if ((k = oldNames.indexOf(text->groupID)) >= 0 && newNames.size() > k)
-						text->groupID = newNames[k];
+					{
+						regexp.indexIn(newNames[k]);
+						if (regexp.numCaptures() > 0 && !regexp.cap(1).isEmpty())
+							text->groupID = regexp.cap(1);
+						else						
+							text->groupID = newNames[k];
+					}
 				}
 		}
 		
@@ -2552,6 +2571,7 @@ namespace Tinkercell
 		TextGraphicsItem * text;
 		int k;
 		
+		QRegExp regexp("\\.([^\\.]+)$");
 		for (int i=0; i < allhandles.size(); ++i)
 		{
 			QList<QGraphicsItem*> & items2 = allhandles[i]->graphicsItems;
@@ -2559,19 +2579,39 @@ namespace Tinkercell
 				if (node = NodeGraphicsItem::cast(items2[j]))
 				{
 					if ((k = newNames.indexOf(node->groupID)) >= 0 && oldNames.size() > k)
+					{
 						node->groupID = oldNames[k];
+						regexp.indexIn(oldNames[k]);
+						if (regexp.numCaptures() > 0 && !regexp.cap(1).isEmpty())
+							node->groupID = regexp.cap(1);
+						else						
+							node->groupID = oldNames[k];
+					}
 				}
 				else
 				if (connection = ConnectionGraphicsItem::cast(items2[j]))
 				{
 					if ((k = newNames.indexOf(connection->groupID)) >= 0 && oldNames.size() > k)
+					{
 						connection->groupID = oldNames[k];
+						regexp.indexIn(oldNames[k]);
+						if (regexp.numCaptures() > 0 && !regexp.cap(1).isEmpty())
+							connection->groupID = regexp.cap(1);
+						else						
+							connection->groupID = oldNames[k];
+					}
 				}
 				else
 				if (text = TextGraphicsItem::cast(items2[j]))
 				{
 					if ((k = newNames.indexOf(text->groupID)) >= 0 && oldNames.size() > k)
-						text->groupID = oldNames[k];
+					{
+						regexp.indexIn(oldNames[k]);
+						if (regexp.numCaptures() > 0 && !regexp.cap(1).isEmpty())
+							text->groupID = regexp.cap(1);
+						else						
+							text->groupID = oldNames[k];
+					}
 				}
 		}
 		

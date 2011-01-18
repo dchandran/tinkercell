@@ -11,7 +11,7 @@ AppName=@TINKERCELL_EXE@
 RestartIfNeededByRun=false
 AppVerName=1.1
 DefaultDirName={pf}\@TINKERCELL_EXE@
-OutputDir=@TINKERCELL_BINARY_DIR@
+OutputDir=@TINKERCELL_BINARY_DIR@/win32
 OutputBaseFilename=@TINKERCELL_EXE@Setup
 [Tasks]
 Name: desktopicon; Description: Create a &desktop icon; GroupDescription: Additional icons:

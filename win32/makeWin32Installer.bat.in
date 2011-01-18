@@ -1,4 +1,4 @@
 cd "@TINKERCELL_BINARY_DIR@"
 make package
-"@ISTOOL@" -compile @TINKERCELL_BINARY_DIR@\Main\TINKERCELLSETUP.iss
-"@WINSCP@" /script="@TINKERCELL_BINARY_DIR@\Main\uploadTinkerCell.winscp"
+"@ISTOOL@" -compile @TINKERCELL_BINARY_DIR@\win32\TINKERCELLSETUP.iss
+"@WINSCP@" /script="@TINKERCELL_BINARY_DIR@\win32\uploadTinkerCell.winscp"

@@ -191,7 +191,8 @@ ENDIF (NOT APPLE AND UNIX AND EXISTS $ENV{HOME}/Documents/TinkerCell/updates.txt
 #-------------------------------------------------------------------------------
 
 IF (TINKERCELL_INSTALLER AND WIN32)
-   SET (TINKERCELL_EXE TinkerCellScript)
+   SET (TINKERCELL_EXE TinkerCellScript CACHE STRING "TinkerCellScript.exe will be the name of the program"
+		FORCE)
 
    CONFIGURE_FILE( 
 		${TINKERCELL_SOURCE_DIR}/win32/TINKERCELLSETUP.iss.in
@@ -212,7 +213,8 @@ IF (TINKERCELL_INSTALLER AND WIN32)
 ENDIF (TINKERCELL_INSTALLER AND WIN32)
 
 IF(APPLE)
-	SET (TINKERCELL_EXE TinkerCellScript)
+	SET (TINKERCELL_EXE TinkerCellScript CACHE STRING "TinkerCellScript.exe will be the name of the program"
+		FORCE)
 	SET(QT_QTCORE Versions/4/QtCore)
 	SET(QT_QTGUI Versions/4/QtGui)
 	SET(QT_QTXML Versions/4/QtXml)

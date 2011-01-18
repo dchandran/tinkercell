@@ -46,7 +46,11 @@ IF (NOT TINKERCELL_LITE_PARTS)  #don't add any numerical packages in "parts" mod
 
 	IF (USE_COPASI)	 #use COPASI for the numerical analysis (more features)
 	     
-	      #done by C++ plugin
+	     #all the simulation work is handled by C++ plugins
+		INSTALL( FILES ${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/copasi_api.h
+		  DESTINATION c
+		  COMPONENT C_SOURCE
+		)
 	
 	ELSE(USE_COPASI)   #use custom programs for the numerical analysis (less features, but faster)
 		INCLUDE( CustomSimulationPrograms.cmake )

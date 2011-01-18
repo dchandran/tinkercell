@@ -208,3 +208,20 @@ IF (TINKERCELL_INSTALLER AND WIN32)
 	)
 	MESSAGE("Run ${TINKERCELL_BINARY_DIR}/win32/makeWin32Installer.bat to build the program, the installer, and upload it to the sourceforge site")
 ENDIF (TINKERCELL_INSTALLER AND WIN32)
+
+IF(APPLE)
+	SET (TINKERCELL_EXE TinkerCell)
+	SET(QT_QTCORE Versions/4/QtCore)
+	SET(QT_QTGUI Versions/4/QtGui)
+	SET(QT_QTXML Versions/4/QtXml)
+	SET(QT_QTOPENGL Versions/4/QtOpenGL)
+
+	CONFIGURE_FILE( 
+	  ${TINKERCELL_SOURCE_DIR}/mac/create_bundled_app.sh.in
+	  ${TINKERCELL_BINARY_DIR}/create_bundled_app.sh
+	  @ONLY
+	)
+
+	MESSAGE("run ${TINKERCELL_BINARY_DIR}/create_bundle_app.sh to make the app")
+ENDIF(APPLE)
+

@@ -194,8 +194,8 @@ do
   done
 done
 
-mkdir TinkerCell
-mv TinkerCell.app TinkerCell
-mv NodeGraphics.app TinkerCell
-ln -s /Applications TinkerCell
-
+#create disk image
+hdiutil create -megabytes 220 -fs HFS+ -volname @TINKERCELL_EXE@ ~/Desktop/@TINKERCELL_EXE@
+cp @TINKERCELL_EXE@.app ~/Desktop/@TINKERCELL_EXE@
+cp NodeGraphics.app ~/Desktop/@TINKERCELL_EXE@
+ln -s /Applications ~/Desktop/@TINKERCELL_EXE@

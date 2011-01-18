@@ -97,7 +97,7 @@ The API uses <b>six main data structures</b>:
 /*! \defgroup Export Import/Export
 \brief Import/Export different file formats*/
 
-/*! \defgroup copasi copasi
+/*! \defgroup Simulation Simulation
 \brief Simulations and other numerical analysis*/
 
 

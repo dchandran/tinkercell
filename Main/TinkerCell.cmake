@@ -185,7 +185,7 @@ IF (NOT APPLE AND UNIX AND EXISTS $ENV{HOME}/Documents/TinkerCell/updates.txt)
 ENDIF (NOT APPLE AND UNIX AND EXISTS $ENV{HOME}/Documents/TinkerCell/updates.txt)
 
 #---------------------------------------------------------------------
-#  Run Inno setup and WinSCP for windows
+#  Run Inno setup and WinSCP for windows  or create bundle for Mac
 #---------------------------------------------------------------------
 
 IF (TINKERCELL_INSTALLER AND WIN32)

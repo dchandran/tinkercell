@@ -1,5 +1,5 @@
 open dchandran1,tinkercell:May112008@frs.sourceforge.net:22
 cd /home/frs/project/t/ti/tinkercell
-lcd @TINKERCELL_BINARY_DIR@
+lcd @TINKERCELL_BINARY_DIR@/win32
 put @TINKERCELL_EXE@Setup.exe
 exit

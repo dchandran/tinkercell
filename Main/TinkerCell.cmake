@@ -168,10 +168,6 @@ INSTALL(TARGETS TinkerCell
    BUNDLE DESTINATION bin/../
    RUNTIME DESTINATION bin/../
    COMPONENT "TinkerCell")
-   
-FILE(GLOB TINKERCELL_EXAMPLES examples/*.tic examples/*.TIC examples/*.xml)
-INSTALL(FILES ${TINKERCELL_EXAMPLES} DESTINATION examples COMPONENT "examples")
-INSTALL(FILES tinkercell.qss DESTINATION bin/../ COMPONENT "stylesheet")
 
 #---------------------------------------------------------------------
 #  Updates.txt -- only done in Unix (just for my convenience)
@@ -220,10 +216,10 @@ IF(APPLE)
 
 	CONFIGURE_FILE( 
 	  ${TINKERCELL_SOURCE_DIR}/mac/create_bundled_app.sh.in
-	  ${TINKERCELL_BINARY_DIR}/create_bundled_app.sh
+	  ${TINKERCELL_BINARY_DIR}/mac/create_bundled_app.sh
 	  @ONLY
 	)
 
-	MESSAGE("run ${TINKERCELL_BINARY_DIR}/create_bundle_app.sh to make the app")
+	MESSAGE("run ${TINKERCELL_BINARY_DIR}/mac/create_bundle_app.sh to make the app")
 ENDIF(APPLE)
 

@@ -159,9 +159,7 @@ ADD_SUBDIRECTORY( API )   #C API + SWIG file
 ADD_SUBDIRECTORY( ExternalCode )  #MuParser, QWT, cvODE, letc.
 ADD_SUBDIRECTORY( icons )   #icons
 ADD_SUBDIRECTORY( Graphics )   #graphics files
-IF (APPLE)
-   ADD_SUBDIRECTORY( mac )   #Only for Mac
-ENDIF(APPLE)
+
 #---------------------------------------------------------------------------
 # documentation
 #---------------------------------------------------------------------------
@@ -179,12 +177,20 @@ IF( BUILD_EXAMPLE_PROGRAMS )
 ENDIF( BUILD_EXAMPLE_PROGRAMS )
 
 #--------------------------------------------------------------------------------------------
-# Windows only: include specific binaries that are usually already available on Unix systems
+# OS Specific
 #--------------------------------------------------------------------------------------------
 
 IF( WIN32 )
-    ADD_SUBDIRECTORY( win32 )
+    ADD_SUBDIRECTORY( win32 )  #for Windows (with MinGW)
 ENDIF(WIN32)
+
+IF (APPLE)
+   ADD_SUBDIRECTORY( mac )   #for Mac
+ENDIF(APPLE)
+
+IF (UNIX AND NOT APPLE)
+   ADD_SUBDIRECTORY( linux )   #for Linux (mainly for Ubuntu)
+ENDIF(UNIX AND NOT APPLE)
 
 #----------------------------------------------------------------------------
 # Copyright and other files

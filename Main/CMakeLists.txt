@@ -9,7 +9,15 @@ IF (WIN32)
 	IF ((NOT DEFINED WINSCP) AND TINKERCELL_INSTALLER_UPLOAD)
 		MESSAGE( "Please create a New Entry of type FILEPATH called WINSCP and point to the WinSCP.exe file")
 	ENDIF ((NOT DEFINED WINSCP) AND TINKERCELL_INSTALLER_UPLOAD)
-
+	
+	IF (NOT TINKERCELL_INSTALLER)
+		SET (ISTOOL "echo" CACHE STRING "not using Inno setup" FORCE)
+		SET (WINSCP "echo" CACHE STRING "not using WinScp" FORCE)
+	ENDIF (NOT TINKERCELL_INSTALLER)
+	
+	IF (NOT TINKERCELL_INSTALLER_UPLOAD)
+		SET (WINSCP "echo" CACHE STRING "not using WinScp" FORCE)
+	ENDIF (NOT TINKERCELL_INSTALLER_UPLOAD)
 ENDIF(WIN32)
 
 #-----------------------
@@ -32,3 +40,10 @@ ELSEIF (TINKERCELL_LITE_TEXT)
 	INCLUDE (TinkerCellScript.cmake)
 ENDIF (TINKERCELL_LITE_PARTS)
 
+#--------------------------------------------------------------------------
+#  Copy example files and stylesheet
+#--------------------------------------------------------------------------
+
+FILE(GLOB TINKERCELL_EXAMPLES examples/*.tic examples/*.TIC examples/*.xml)
+INSTALL(FILES ${TINKERCELL_EXAMPLES} DESTINATION examples COMPONENT "examples")
+INSTALL(FILES tinkercell.qss DESTINATION bin/../ COMPONENT "stylesheet")

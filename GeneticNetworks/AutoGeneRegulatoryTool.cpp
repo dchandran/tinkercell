@@ -689,7 +689,7 @@ namespace Tinkercell
 					bool isCustomEqn = oldrate.contains(tr("+")) ||
 													oldrate.contains(tr("/")) ||  
 													oldrate.contains(tr("(")) ||
-													(!oldrate.isEmpty() && oldrate != tr("0.0") && !oldrate.contains(tr(".strength * ")));
+													(oldrate.size() > 4 && !oldrate.contains(tr(".strength * ")));
 
 					if (!parts[i]->textDataTable(tr("Assignments")).hasRow(parts[i]->name) ||
 							(!isCustomEqn && oldrate != rate)

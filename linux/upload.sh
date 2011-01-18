@@ -16,7 +16,7 @@ expect sftp>
 send "cp /home/frs/project/t/ti/tinkercell\r"
 expect sftp>
 
-send "put TinkerCell*.tgz\r"
+send "put TinkerCell*.tar.gz\r"
 expect sftp>
 
 send "exit\r"

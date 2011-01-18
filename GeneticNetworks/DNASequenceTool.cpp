@@ -303,7 +303,7 @@ namespace Tinkercell
 
 		handlesDown.clear();
 		//get all upstream nodes
-		if (node && (h = getHandle(node)) && h->isA(tr("Part")))
+		if (node && (h = getHandle(node)) && h->isA(tr("Part")) && !(h->parent && h->parent->isA("Vector")))
 		{
 			handlesDown.push_back(h);
 			AutoGeneRegulatoryTool::findAllParts(scene,node,tr("Part"),handlesDown,false,QStringList());

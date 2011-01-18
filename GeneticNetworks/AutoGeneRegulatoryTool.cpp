@@ -1040,7 +1040,9 @@ namespace Tinkercell
 
 			QList<ItemHandle*> parts,upstream;
 
-			findAllParts(scene,startNode,tr("Part"),parts,false,QStringList() << "Terminator" << "Vector",true);
+			if (!handle->parent || !handle->parent->isA(tr("Vector")))  //no "up" and "down" stream for circular plasmids
+				findAllParts(scene,startNode,tr("Part"),parts,false,QStringList() << "Terminator" << "Vector",true);
+
 			findAllParts(scene,startNode,tr("Part"),upstream,true,QStringList() << "Terminator" << "Vector",true);
 
 			if (!parts.contains(handle))
@@ -1204,7 +1206,9 @@ namespace Tinkercell
 
 			QList<ItemHandle*> parts,upstream;
 
-			findAllParts(scene,startNode,tr("Part"),parts,false,QStringList() << "Terminator" << "Vector",true);
+			if (!handle->parent || !handle->parent->isA(tr("Vector")))  //no "up" and "down" stream for circular plasmids
+				findAllParts(scene,startNode,tr("Part"),parts,false,QStringList() << "Terminator" << "Vector",true);
+
 			findAllParts(scene,startNode,tr("Part"),upstream,true,QStringList() << "Terminator" << "Vector",true);
 			
 			if (distance.size() > i)
@@ -1274,7 +1278,9 @@ namespace Tinkercell
 				ItemHandle * handle = getHandle(startNode);
 				if (!startNode || !handle) continue;
 
-				findAllParts(scene,startNode,tr("Part"),parts,false,QStringList() << "Terminator" << "Vector",true);
+				if (!handle->parent || !handle->parent->isA(tr("Vector")))  //no "up" and "down" stream for circular plasmids
+					findAllParts(scene,startNode,tr("Part"),parts,false,QStringList() << "Terminator" << "Vector",true);
+
 				findAllParts(scene,startNode,tr("Part"),upstream,true,QStringList() << "Terminator" << "Vector",true);
 
 				if (!parts.contains(handle))
@@ -1400,11 +1406,12 @@ namespace Tinkercell
 		
 		if (!vector) return;
 		
-		QPointF center = vector->scenePos(), p1 = node->scenePos();
-		QPointF p2;
+		QPointF center = vector->sceneBoundingRect().center();
+		QPointF p1, p2;
 		
 		qreal radius = vector->sceneBoundingRect().width()/2.0;
-
+		
+		p1 = node->sceneBoundingRect().center();
 		qreal angle;
 		if (p1.x() == center.x())
 			if (p1.y() < center.y())
@@ -1415,20 +1422,32 @@ namespace Tinkercell
 			angle = atan((p1.y()-center.y())/(p1.x()-center.x()));
 
 		if (p1.x() < center.x())
-			angle = -angle;
-		
+		{
+			angle -= 3.14159;
+		}
+
 		bool stop = false;
 		int n = 100;
-		qreal da = (double)n/(2*3.14159);
+		qreal da = (2*3.14159)/(double)n;
 		if (upstream)
 			da = -da;
+		
 		for (int i=0; i < n; ++i)
 		{
 			p2.rx() = center.x() + cos(angle)*(radius);
 			p2.ry() = center.y() + sin(angle)*(radius);
 			
-			NodeGraphicsItem * topItem = NodeGraphicsItem::cast(scene->itemAt(p2));
-			if (topItem && topItem->handle() && topItem->handle()->isA(family))
+			QList<QGraphicsItem*> items = scene->items(QRectF(p2.rx() - 10.0, p2.ry() - 10.0, 20.0, 20.0));
+			NodeGraphicsItem * topItem = 0;
+			
+			for (int j=0; j < items.size(); ++j)
+				if ((topItem = NodeGraphicsItem::cast(items[j])) && 
+					 (topItem->handle() && topItem->handle()->isA(family) && topItem->handle()->parent == vector->handle()))
+					 break;
+				else
+					topItem = 0;
+			
+			if (topItem)
 			{
 				for (int j=0; j < until.size(); ++j)
 					if (topItem->handle()->isA(until[j]))
@@ -1875,6 +1894,7 @@ namespace Tinkercell
 				itemsToMove += nodesInPlasmid[i];
 				moveBy += (p2 - p1);
 				rotateBy += (angle * 180/3.14159);
+				scene->showToolTip(p2, QString::number(angle));
 				
 				if ((t.m11() < 0) || (t.m22() < 0) || (t.m12() != 0) || (t.m21() != 0))
 					flips += true;
@@ -2010,13 +2030,13 @@ namespace Tinkercell
 
 			node = topmost;
 
-			if (node)
+			if (node && node->handle())
 			{
 				QList<ItemHandle*> upstream, downstream;
 				findAllParts(scene,node,tr("Part"),upstream,true,QStringList());
 
 				downstream.clear();
-				if (node && node->handle())
+				if (!node->handle()->parent || !node->handle()->parent->isA(tr("Vector")))
 				{
 					downstream.push_front(node->handle());
 					findAllParts(scene,node,tr("Part"),downstream,false,QStringList());
@@ -2072,17 +2092,14 @@ namespace Tinkercell
 
 			node = topmost;
 
-			if (node)
+			if (node && node->handle())
 			{
 				QList<ItemHandle*> upstream, downstream;
 				findAllParts(scene,node,tr("Part"),upstream,true,QStringList());
 
 				downstream.clear();
-				if (node && node->handle())
-				{
-					downstream.push_back(node->handle());
-					//findAllParts(scene,node,tr("Part"),downstream,false,QStringList());
-				}
+				downstream.push_back(node->handle());
+				//findAllParts(scene,node,tr("Part"),downstream,false,QStringList());
 
 				while (!upstream.isEmpty())
 				{
@@ -2133,17 +2150,14 @@ namespace Tinkercell
 
 			node = topmost;
 
-			if (node)
+			if (node && node->handle())
 			{
 				QList<ItemHandle*> downstream;
 				//findAllParts(scene,node,tr("Part"),upstream,true,QStringList());
 
 				downstream.clear();
-				if (node && node->handle())
-				{
-					//downstream.push_back(node->handle());
-					findAllParts(scene,node,tr("Part"),downstream,false,QStringList());
-				}
+				//downstream.push_back(node->handle());
+				findAllParts(scene,node,tr("Part"),downstream,false,QStringList());
 
 				(*parts) += downstream;
 			}

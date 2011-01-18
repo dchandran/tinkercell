@@ -203,7 +203,7 @@ int main(int argc, char *argv[])
     /*******  START TINKERCELL ***********/
 
     mainWindow.readSettings();
-  #ifdef TINKERCELL_LITE_TEXT
+  #ifdef TINKERCELL_TEXT_ONLY
        mainWindow.newEditor();
   #else
        mainWindow.newScene();

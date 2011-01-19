@@ -9,4 +9,4 @@ CONFIGURE_FILE(
   @ONLY
 )
 
-MESSAGE("run ${TINKERCELL_BINARY_DIR}/mac/create_bundle_app.sh to make the app")
+MESSAGE("To make the app, source ${TINKERCELL_BINARY_DIR}/mac/create_bundle_app.sh")

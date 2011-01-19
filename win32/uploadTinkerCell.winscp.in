@@ -1,4 +1,4 @@
-open dchandran1,tinkercell:@TINKERCELL_SOURCEFORGE_PASSWORD@@frs.sourceforge.net:22
+open @TINKERCELL_SOURCEFORGE_USERNAME@,tinkercell:@TINKERCELL_SOURCEFORGE_PASSWORD@@frs.sourceforge.net:22
 cd /home/frs/project/t/ti/tinkercell
 lcd @TINKERCELL_BINARY_DIR@/win32
 put @TINKERCELL_EXE@Setup.exe

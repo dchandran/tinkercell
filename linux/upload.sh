@@ -13,7 +13,7 @@ expect *assword:
 send "May112008\r"
 expect sftp>
 
-send "cp /home/frs/project/t/ti/tinkercell\r"
+send "cd /home/frs/project/t/ti/tinkercell\r"
 expect sftp>
 
 send "put TinkerCell*.tar.gz\r"

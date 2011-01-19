@@ -567,7 +567,7 @@ namespace Tinkercell
 			if (type.toLower() == tr("save graph"))
 				fileName = QFileDialog::getSaveFileName(this, tr("Print to File"),
                                           MainWindow::previousFileName,
-                                          tr("PNG Files (*.png)"));
+                                          tr("PDF Files (*.pdf)"));
 
 			plotWidget->exportData(type,fileName);
 		}

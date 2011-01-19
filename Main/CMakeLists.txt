@@ -23,7 +23,7 @@ ENDIF(WIN32)
 
 IF (NOT DEFINED TINKERCELL_SOURCEFORGE_PASSWORD OR NOT DEFINED TINKERCELL_SOURCEFORGE_USERNAME)
 
-	MESSAGE( "If you want to enable automatic upload to Sourceforge, you must create two New Entries of type STRING, TINKERCELL_SOURCEFORGE_USERNAME and TINKERCELL_SOURCEFORGE_PASSWORD, and populate then with your Sourceforge username and password")
+	MESSAGE(STATUS "If you want to enable automatic upload to Sourceforge, you must create two New Entries of type STRING, TINKERCELL_SOURCEFORGE_USERNAME and TINKERCELL_SOURCEFORGE_PASSWORD, and populate then with your Sourceforge username and password")
 
 ENDIF (NOT DEFINED TINKERCELL_SOURCEFORGE_PASSWORD OR NOT DEFINED TINKERCELL_SOURCEFORGE_USERNAME)
 
@@ -35,15 +35,15 @@ OPTION( TINKERCELL_LITE_PARTS "Enable part-only version" OFF )
 OPTION( TINKERCELL_LITE_TEXT "Enable text-only version" OFF )
 
 IF (NOT TINKERCELL_LITE_PARTS AND NOT TINKERCELL_LITE_TEXT)
-	MESSAGE("Using TinkerCell normal version")
+	MESSAGE(STATUS "Using TinkerCell normal version")
 	INCLUDE (TinkerCell.cmake)
 ENDIF (NOT TINKERCELL_LITE_PARTS AND NOT TINKERCELL_LITE_TEXT)
 
 IF (TINKERCELL_LITE_PARTS)
-	MESSAGE("Using TinkerCell lite version")
+	MESSAGE(STATUS "Using TinkerCell lite version")
 	INCLUDE (TinkerCellLite.cmake)
 ELSEIF (TINKERCELL_LITE_TEXT)
-	MESSAGE("Using TinkerCell script version")
+	MESSAGE(STATUS "Using TinkerCell script version")
 	INCLUDE (TinkerCellScript.cmake)
 ENDIF (TINKERCELL_LITE_PARTS)
 

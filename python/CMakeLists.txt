@@ -23,7 +23,7 @@ IF(EMBED_PYTHON)
       MESSAGE(WARNING ": path PYTHON_INCLUDE_PATH and file-path PYTHON_LIB not found. Use Add Entry to add them")
   ELSE (NOT IS_DIRECTORY ${PYTHON_INCLUDE_PATH} OR NOT EXISTS ${PYTHON_LIBRARY})
 
-  MESSAGE("Using Pything library: ${PYTHON_LIBRARY}")
+  MESSAGE(STATUS "Using Python library: ${PYTHON_LIBRARY}")
 
   IF ( WIN32 )
       ADD_DEFINITIONS(-D_WIN32)

@@ -7,7 +7,7 @@ FILE(GLOB QT_DLL_FILES ${QT_LIBRARY_DIR}/../bin/QtCore4.*
 											  ${QT_LIBRARY_DIR}/../bin/libgcc*
 											  ${QT_LIBRARY_DIR}/../bin/mingw*)
 
-MESSAGE("Using Qt DLLs in ${QT_LIBRARY_DIR}/../bin/")
+MESSAGE(STATUS "Using Qt DLLs in ${QT_LIBRARY_DIR}/../bin/")
 											  
 FILE(GLOB WIN32_GCC_INCLUDE_FILES include/*.h)
 FILE(GLOB WIN32_GCC_INCLUDE_SYS_FILES include/sys/*.h)

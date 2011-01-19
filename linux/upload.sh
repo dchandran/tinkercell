@@ -1,5 +1,11 @@
 #!/bin/sh
 
+cd @TINKERCELL_SOURCE_DIR@
+cd ..
+svn export TinkerCell TinkerCellSource
+tar czvf @TINKERCELL_BINARY_DIR@/_CPack_Packages/Linux/TGZ/TinkerCellSource.tar.gz TinkerCellSource
+rm -Rf TinkerCellSource
+
 make package
 cd @TINKERCELL_BINARY_DIR@/_CPack_Packages/Linux/TGZ
 mv TinkerCell.tar.gz TinkerCell@TINKERCELL_BIT@.tar.gz

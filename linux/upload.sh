@@ -8,17 +8,15 @@ echo "renamed TinkerCell.tar.gz to @TINKERCELL_EXE@@TINKERCELL_BIT@.tar.gz"
 
 if [ @TINKERCELL_UPLOAD_SOURCE@ == ON ]
   then
-    cd @TINKERCELL_SOURCE_DIR@
-    cd ..
-	echo "extracting source code..."
-    svn export TinkerCell TinkerCellSource
-    echo "compressing source code..."
+	echo "\033[31m extracting source code... \033[0m"
+    svn export @TINKERCELL_SOURCE_DIR@ TinkerCellSource
+    echo "\033[33m compressing source code...\033[0m"
     tar czf @TINKERCELL_BINARY_DIR@/_CPack_Packages/Linux/TGZ/TinkerCellSource.tar.gz TinkerCellSource
     rm -Rf TinkerCellSource
-	echo "created @TINKERCELL_BINARY_DIR@/_CPack_Packages/Linux/TGZ/TinkerCellSource.tar.gz"
+	echo "\033[33m created @TINKERCELL_BINARY_DIR@/_CPack_Packages/Linux/TGZ/TinkerCellSource.tar.gz \033[0m"
 fi 
 
-echo "logging in to Sourceforge as @TINKERCELL_SOURCEFORGE_USERNAME@"
+echo "\033[31m logging in to Sourceforge as @TINKERCELL_SOURCEFORGE_USERNAME@ \033[0m"
 
 cd @TINKERCELL_BINARY_DIR@/_CPack_Packages/Linux/TGZ
 
@@ -41,4 +39,6 @@ send "exit\r"
 expect eof
 
 EOD
+
+echo "\033[32m all done \033[0m"
 

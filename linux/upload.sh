@@ -15,6 +15,8 @@ if [ @TINKERCELL_UPLOAD_SOURCE@ == ON ]
     rm -Rf TinkerCellSource
 fi 
 
+cd @TINKERCELL_BINARY_DIR@/_CPack_Packages/Linux/TGZ
+
 /usr/bin/expect <<EOD
 set timeout -1
 

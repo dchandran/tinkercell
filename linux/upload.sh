@@ -10,6 +10,7 @@ if [ @TINKERCELL_UPLOAD_SOURCE@ == ON ]
     rm -Rf TinkerCellSource
 fi 
 
+cd @TINKERCELL_BINARY_DIR@
 make package
 cd @TINKERCELL_BINARY_DIR@/_CPack_Packages/Linux/TGZ
 mv TinkerCell.tar.gz TinkerCell@TINKERCELL_BIT@.tar.gz

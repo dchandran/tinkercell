@@ -4,7 +4,7 @@ SET(QT_QTXML Versions/4/QtXml)
 SET(QT_QTOPENGL Versions/4/QtOpenGL)
 
 CONFIGURE_FILE( 
-  ${TINKERCELL_SOURCE_DIR}/mac/create_bundled_app.sh.in
+  ${TINKERCELL_SOURCE_DIR}/mac/create_bundled_app.sh
   ${TINKERCELL_BINARY_DIR}/mac/create_bundled_app.sh
   @ONLY
 )

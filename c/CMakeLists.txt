@@ -44,6 +44,11 @@ ADD_SUBDIRECTORY( sbml_sim )
 
 IF (NOT TINKERCELL_LITE_PARTS)  #don't add any numerical packages in "parts" mode
 
+	INSTALL( FILES ${TINKERCELL_SOURCE_DIR}/API/TC_structs.h
+		  DESTINATION c
+		  COMPONENT C_SOURCE
+		)
+
 	IF (USE_COPASI)	 #use COPASI for the numerical analysis (more features)
 	     
 	     #all the simulation work is handled by C++ plugins

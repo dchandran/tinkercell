@@ -225,5 +225,7 @@ expect eof
 
 EOD
 
-echo "all done"
+echo "cleaning up.."
+sudo umount -f /Volumes/@TINKERCELL_EXE@
+rm -f ~/Desktop/@TINKERCELL_EXE@.dmg
 

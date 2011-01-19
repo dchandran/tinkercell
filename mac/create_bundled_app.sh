@@ -201,7 +201,7 @@ sleep 10
 cd @TINKERCELL_BINARY_BIN_DIR@
 cp -R @TINKERCELL_EXE@.app /Volumes/@TINKERCELL_EXE@
 cp -R NodeGraphics.app /Volumes/@TINKERCELL_EXE@
-ln -s /Applications /Volumes/@TINKERCELL_EXE@/Applications
+ln -s /Applications /Volumes/@TINKERCELL_EXE@
 
 #upload to sourceforge
 

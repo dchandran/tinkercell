@@ -21,7 +21,7 @@ set timeout -1
 spawn sftp dchandran1,tinkercell@frs.sourceforge.net
 expect *assword:
 
-send "May112008\r"
+send "@TINKERCELL_SOURCEFORGE_PASSWORD@\r"
 expect sftp>
 
 send "cd /home/frs/project/t/ti/tinkercell\r"

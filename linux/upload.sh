@@ -40,5 +40,6 @@ expect eof
 
 EOD
 
-echo "all done"
+cd @TINKERCELL_BINARY_DIR@
+echo "To run TinkerCell, use: source run_tinkercell.sh dev"
 

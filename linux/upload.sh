@@ -1,5 +1,10 @@
 #!/bin/sh
 
+cd @TINKERCELL_BINARY_DIR@
+make package
+cd @TINKERCELL_BINARY_DIR@/_CPack_Packages/Linux/TGZ
+mv TinkerCell.tar.gz @TINKERCELL_EXE@@TINKERCELL_BIT@.tar.gz
+
 if [ @TINKERCELL_UPLOAD_SOURCE@ == ON ]
   then
     echo "creating source tarball..."
@@ -9,11 +14,6 @@ if [ @TINKERCELL_UPLOAD_SOURCE@ == ON ]
     tar czvf @TINKERCELL_BINARY_DIR@/_CPack_Packages/Linux/TGZ/TinkerCellSource.tar.gz TinkerCellSource
     rm -Rf TinkerCellSource
 fi 
-
-cd @TINKERCELL_BINARY_DIR@
-make package
-cd @TINKERCELL_BINARY_DIR@/_CPack_Packages/Linux/TGZ
-mv TinkerCell.tar.gz @TINKERCELL_EXE@@TINKERCELL_BIT@.tar.gz
 
 /usr/bin/expect <<EOD
 set timeout -1

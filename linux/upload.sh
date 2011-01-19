@@ -13,7 +13,7 @@ fi
 cd @TINKERCELL_BINARY_DIR@
 make package
 cd @TINKERCELL_BINARY_DIR@/_CPack_Packages/Linux/TGZ
-mv TinkerCell.tar.gz TinkerCell@TINKERCELL_BIT@.tar.gz
+mv TinkerCell.tar.gz @TINKERCELL_EXE@@TINKERCELL_BIT@.tar.gz
 
 /usr/bin/expect <<EOD
 set timeout -1

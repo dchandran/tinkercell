@@ -184,42 +184,17 @@ ENDIF (NOT APPLE AND UNIX AND EXISTS $ENV{HOME}/Documents/TinkerCell/updates.txt
 #  Run Inno setup and WinSCP for windows  or create bundle for Mac
 #-------------------------------------------------------------------------------
 
-IF (TINKERCELL_INSTALLER AND WIN32)
-   SET (TINKERCELL_EXE TinkerCell CACHE STRING "TinkerCell.exe will be the name of the program"
-		FORCE)
+SET (TINKERCELL_EXE TinkerCell CACHE STRING "TinkerCell.exe will be the name of the program"
+	FORCE)
 
-   CONFIGURE_FILE( 
-		${TINKERCELL_SOURCE_DIR}/win32/TINKERCELLSETUP.iss.in
-		${TINKERCELL_BINARY_DIR}/win32/TINKERCELLSETUP.iss
-		@ONLY
-	)
-	CONFIGURE_FILE( 
-		${TINKERCELL_SOURCE_DIR}/win32/uploadTinkerCell.winscp.in
-		${TINKERCELL_BINARY_DIR}/win32/uploadTinkerCell.winscp
-		@ONLY
-	)
-	CONFIGURE_FILE( 
-		${TINKERCELL_SOURCE_DIR}/win32/makeWin32Installer.bat.in
-		${TINKERCELL_BINARY_DIR}/win32/makeWin32Installer.bat
-		@ONLY
-	)
-	MESSAGE("Run ${TINKERCELL_BINARY_DIR}/win32/makeWin32Installer.bat to build the program, the installer, and upload it to the sourceforge site")
+IF (TINKERCELL_INSTALLER AND WIN32)
+    INCLUDE (${TINKERCELL_SOURCE_DIR}/win/WindowsUploader.cmake)
 ENDIF (TINKERCELL_INSTALLER AND WIN32)
 
 IF(APPLE)
-	SET (TINKERCELL_EXE TinkerCell CACHE STRING "TinkerCell.exe will be the name of the program"
-		FORCE)
-	SET(QT_QTCORE Versions/4/QtCore)
-	SET(QT_QTGUI Versions/4/QtGui)
-	SET(QT_QTXML Versions/4/QtXml)
-	SET(QT_QTOPENGL Versions/4/QtOpenGL)
-
-	CONFIGURE_FILE( 
-	  ${TINKERCELL_SOURCE_DIR}/mac/create_bundled_app.sh.in
-	  ${TINKERCELL_BINARY_DIR}/mac/create_bundled_app.sh
-	  @ONLY
-	)
-
-	MESSAGE("run ${TINKERCELL_BINARY_DIR}/mac/create_bundle_app.sh to make the app")
+    INCLUDE (${TINKERCELL_SOURCE_DIR}/mac/MacUploader.cmake)
 ENDIF(APPLE)
 
+IF(UNIX AND NOT APPLE)
+    INCLUDE (${TINKERCELL_SOURCE_DIR}/linux/LinuxUploader.cmake)
+ENDIF(UNIX AND NOT APPLE)

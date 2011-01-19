@@ -196,6 +196,8 @@ done
 
 #create disk image
 hdiutil create -megabytes 220 -fs HFS+ -volname @TINKERCELL_EXE@ ~/Desktop/@TINKERCELL_EXE@
-cp @TINKERCELL_EXE@.app ~/Desktop/@TINKERCELL_EXE@
-cp NodeGraphics.app ~/Desktop/@TINKERCELL_EXE@
-ln -s /Applications ~/Desktop/@TINKERCELL_EXE@
+open ~/Desktop/@TINKERCELL_EXE@.dmg
+cp -R @TINKERCELL_EXE@.app /Volumes/@TINKERCELL_EXE@
+cp -R NodeGraphics.app /Volumes/@TINKERCELL_EXE@
+ln -s /Applications /Volumes/@TINKERCELL_EXE@/Applications
+

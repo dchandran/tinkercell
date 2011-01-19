@@ -714,7 +714,9 @@ namespace Tinkercell
 					if (h)
 					{
 						commands << new MergeHandlesCommand(
-								tr("merge"), network, QList<ItemHandle*>() << h << modules[i]->children[j]);
+													tr("merge"), network, QList<ItemHandle*>() << h << modules[i]->children[j])
+										 << new ChangeTextDataCommand(
+													tr("participants"), &(h->textDataTable(tr("participants"))), &(h->textDataTable(tr("participants"))));
 					}
 				}
 

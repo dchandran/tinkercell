@@ -229,3 +229,5 @@ echo "cleaning up.."
 sudo umount -f /Volumes/@TINKERCELL_EXE@
 rm -f ~/Desktop/@TINKERCELL_EXE@.dmg
 
+cd @TINKERCELL_BINARY_DIR@
+

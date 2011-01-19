@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 #make
 cd @TINKERCELL_BINARY_DIR@
@@ -200,4 +200,30 @@ open ~/Desktop/@TINKERCELL_EXE@.dmg
 cp -R @TINKERCELL_EXE@.app /Volumes/@TINKERCELL_EXE@
 cp -R NodeGraphics.app /Volumes/@TINKERCELL_EXE@
 ln -s /Applications /Volumes/@TINKERCELL_EXE@/Applications
+
+#upload to sourceforge
+
+cd ~/Desktop
+
+/usr/bin/expect <<EOD
+set timeout -1
+
+spawn sftp @TINKERCELL_SOURCEFORGE_USERNAME@,tinkercell@frs.sourceforge.net
+expect *assword:
+
+send "@TINKERCELL_SOURCEFORGE_PASSWORD@\r"
+expect sftp>
+
+send "cd /home/frs/project/t/ti/tinkercell\r"
+expect sftp>
+
+send "put TinkerCell*.dmg\r"
+expect sftp>
+
+send "exit\r"
+expect eof
+
+EOD
+
+echo "all done"
 

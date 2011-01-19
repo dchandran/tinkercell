@@ -26,4 +26,4 @@ MESSAGE(STATUS "To upload TinkerCell, source ${TINKERCELL_BINARY_DIR}/upload.sh"
 	
 MESSAGE(STATUS "To run TinkerCell, source ${TINKERCELL_BINARY_DIR}/run_tinkercell.sh")	
 
-INSTALL(FILES ${TINKERCELL_BINARY_DIR}/linux/run_tinkercell.sh DESTINATION bin/../ COMPONENT "TinkerCell")
+INSTALL(FILES ${TINKERCELL_BINARY_DIR}/run_tinkercell.sh DESTINATION bin/../ COMPONENT "TinkerCell")

@@ -1,4 +1,5 @@
 OPTION( TINKERCELL_64BIT "Is this a 64-bit machine?" OFF )
+OPTION( TINKERCELL_UPLOAD_SOURCE "upload source tarball in upload.sh?" OFF )
 
 #the following is used to generate two different files with 32 or 64 in its name
 #see upload.sh

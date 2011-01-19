@@ -1,10 +1,14 @@
 #!/bin/sh
 
-cd @TINKERCELL_SOURCE_DIR@
-cd ..
-svn export TinkerCell TinkerCellSource
-tar czvf @TINKERCELL_BINARY_DIR@/_CPack_Packages/Linux/TGZ/TinkerCellSource.tar.gz TinkerCellSource
-rm -Rf TinkerCellSource
+if [ @TINKERCELL_UPLOAD_SOURCE@ == ON ]
+  then
+    echo "creating source tarball..."
+    cd @TINKERCELL_SOURCE_DIR@
+    cd ..
+   svn export TinkerCell TinkerCellSource
+    tar czvf @TINKERCELL_BINARY_DIR@/_CPack_Packages/Linux/TGZ/TinkerCellSource.tar.gz TinkerCellSource
+    rm -Rf TinkerCellSource
+fi 
 
 make package
 cd @TINKERCELL_BINARY_DIR@/_CPack_Packages/Linux/TGZ

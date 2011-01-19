@@ -708,20 +708,25 @@ namespace Tinkercell
 				}
 
 			for (int i=0; i < modules.size(); ++i)
+			{
+				TextDataTable oldParticipantsData (modules[i]->textDataTable(tr("participants")));
 				for (int j=0; j < modules[i]->children.size(); ++j)
 				{
 					h = findCorrespondingHandle(NodeHandle::cast(modules[i]->children[j]),ConnectionHandle::cast(modules[i]));
 					if (h)
 					{
 						commands << new MergeHandlesCommand(
-													tr("merge"), network, QList<ItemHandle*>() << h << modules[i]->children[j])
-										 << new ChangeTextDataCommand(
-													tr("participants"), &(h->textDataTable(tr("participants"))), &(h->textDataTable(tr("participants"))));
+													tr("merge"), network, QList<ItemHandle*>() << h << modules[i]->children[j]);
 					}
 				}
+				commands << new ChangeTextDataCommand(
+													tr("participants"), &(modules[i]->textDataTable(tr("participants"))), &(oldParticipantsData));
+			}
 
 			if (!commands.isEmpty())
+			{
 				network->push( new CompositeCommand(tr("merged models by roles"),commands) );
+			}
 	    }
     }
 
@@ -951,6 +956,8 @@ namespace Tinkercell
 				
 				QList<QUndoCommand*> commands;
 				ItemHandle * h;
+				
+				TextDataTable oldParticipantsData (parentHandle->textDataTable(tr("participants")));
 
 				for (int i=0; i < parentHandle->children.size(); ++i)
 				{
@@ -958,12 +965,16 @@ namespace Tinkercell
 					if (h)
 					{
 						commands << new MergeHandlesCommand(
-								tr("merge"), network, QList<ItemHandle*>() << h << parentHandle->children[i]);
+													tr("merge"), network, QList<ItemHandle*>() << h << parentHandle->children[i]);
 					}
 				}
 			
 				if (!commands.isEmpty())
+				{
+					commands << new ChangeTextDataCommand(
+											tr("participants"), &(parentHandle->textDataTable(tr("participants"))), &(oldParticipantsData));
 					network->push( new CompositeCommand(tr("Merged models"),commands) );
+				}
 			}
 		}
 	}

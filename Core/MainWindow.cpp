@@ -615,8 +615,8 @@ namespace Tinkercell
 		QString fileName =
 			QFileDialog::getSaveFileName(this, tr("Print to File"),
 			def,
-			//tr("PDF Files (*.pdf *.PDF)"));
-			tr("PNG Files (*.png *.PNG)"));
+			tr("PDF Files (*.pdf *.PDF)"));
+			//tr("PNG Files (*.png *.PNG)"));
 		if (fileName.isEmpty())
 			return;
 
@@ -630,7 +630,8 @@ namespace Tinkercell
 		//printer.setPageSize(QPrinter::A4);
 		printer.setPageSize(QPrinter::B0);
 		printer.setOutputFileName(fileName);
-		*/
+		scene->print(&printer);*/
+		
 		/*
 		QSvgGenerator printer;
 		printer.setFileName(fileName);

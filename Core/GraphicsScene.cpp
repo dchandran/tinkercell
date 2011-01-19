@@ -836,8 +836,8 @@ namespace Tinkercell
 		{
 			QGraphicsScene::keyPressEvent(keyEvent);
 			if (!(key == Qt::Key_Escape || 
-				  ((key == Qt::Key_Return || key == Qt::Key_Enter) && (keyEvent->modifiers() & (Qt::ShiftModifier | Qt::ControlModifier)))
-				  ))
+				  ((key == Qt::Key_Return || key == Qt::Key_Enter) && (keyEvent->modifiers() != 0)))
+				  )
 				keyEvent->accept();
 		}
 		else
@@ -1686,8 +1686,7 @@ namespace Tinkercell
 		QPainter painter(printer);
 		//painter.setBackgroundMode(Qt::OpaqueMode);
 		painter.setBackground(QBrush(Qt::white));
-		painter.setRenderHint(QPainter::Antialiasing);
-		painter.setRenderHints(QPainter::NonCosmeticDefaultPen | QPainter::SmoothPixmapTransform | QPainter::TextAntialiasing);
+		painter.setRenderHints(QPainter::Antialiasing | QPainter::NonCosmeticDefaultPen | QPainter::SmoothPixmapTransform | QPainter::TextAntialiasing);
 		/*
 		QList<QGraphicsItem*> itemsToDraw = items(rect);
 

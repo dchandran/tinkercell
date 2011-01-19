@@ -1,23 +1,19 @@
-IF (DEFINED TINKERCELL_SOURCEFORGE_PASSWORD AND DEFINED TINKERCELL_SOURCEFORGE_USERNAME)
-	CONFIGURE_FILE( 
-		${TINKERCELL_SOURCE_DIR}/win32/TINKERCELLSETUP.iss.in
-		${TINKERCELL_BINARY_DIR}/win32/TINKERCELLSETUP.iss
-		@ONLY
-	)
-	CONFIGURE_FILE( 
-		${TINKERCELL_SOURCE_DIR}/win32/uploadTinkerCell.winscp.in
-		${TINKERCELL_BINARY_DIR}/win32/uploadTinkerCell.winscp
-		@ONLY
-	)
-	CONFIGURE_FILE( 
-		${TINKERCELL_SOURCE_DIR}/win32/makeWin32Installer.bat.in
-		${TINKERCELL_BINARY_DIR}/win32/makeWin32Installer.bat
-		@ONLY
-	)
-	MESSAGE("Run ${TINKERCELL_BINARY_DIR}/win32/makeWin32Installer.bat to build the program, the installer, and upload it to the sourceforge site")
+CONFIGURE_FILE( 
+	${TINKERCELL_SOURCE_DIR}/win32/TINKERCELLSETUP.iss.in
+	${TINKERCELL_BINARY_DIR}/win32/TINKERCELLSETUP.iss
+	@ONLY
+)
 
-ELSE (DEFINED TINKERCELL_SOURCEFORGE_PASSWORD AND DEFINED TINKERCELL_SOURCEFORGE_USERNAME)
+CONFIGURE_FILE( 
+	${TINKERCELL_SOURCE_DIR}/win32/makeWin32Installer.bat.in
+	${TINKERCELL_BINARY_DIR}/win32/makeWin32Installer.bat
+	@ONLY
+)
 	
-	MESSAGE( "Please create two New Entries of type STRING called TINKERCELL_SOURCEFORGE_USERNAME and TINKERCELL_SOURCEFORGE_PASSWORD, and populate then with your Sourceforge username and password")
-	
-ENDIF (DEFINED TINKERCELL_SOURCEFORGE_PASSWORD AND DEFINED TINKERCELL_SOURCEFORGE_USERNAME)
+CONFIGURE_FILE( 
+	${TINKERCELL_SOURCE_DIR}/win32/uploadTinkerCell.winscp.in
+	${TINKERCELL_BINARY_DIR}/win32/uploadTinkerCell.winscp
+	@ONLY
+)
+
+MESSAGE("Run ${TINKERCELL_BINARY_DIR}/win32/makeWin32Installer.bat to build the program, the installer, and upload it to the sourceforge site")

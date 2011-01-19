@@ -20,6 +20,13 @@ IF (WIN32)
 	ENDIF (NOT TINKERCELL_INSTALLER_UPLOAD)
 ENDIF(WIN32)
 
+
+IF (NOT DEFINED TINKERCELL_SOURCEFORGE_PASSWORD OR NOT DEFINED TINKERCELL_SOURCEFORGE_USERNAME)
+
+	MESSAGE( "If you want to enable automatic upload to Sourceforge, you must create two New Entries of type STRING, TINKERCELL_SOURCEFORGE_USERNAME and TINKERCELL_SOURCEFORGE_PASSWORD, and populate then with your Sourceforge username and password")
+
+ENDIF (NOT DEFINED TINKERCELL_SOURCEFORGE_PASSWORD OR NOT DEFINED TINKERCELL_SOURCEFORGE_USERNAME)
+
 #-----------------------
 # TinkerCell variants
 #------------------------

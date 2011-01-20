@@ -27,25 +27,27 @@ QTOPENGL=@QT_QTOPENGL@
 cp -R plugins @TINKERCELL_EXE@.app/Contents/MacOS/
 mkdir @TINKERCELL_EXE@.app/Contents/MacOS/c
 mkdir @TINKERCELL_EXE@.app/Contents/MacOS/lib
-cp ../../API/*.h @TINKERCELL_EXE@.app/Contents/MacOS/c
-cp ../../c/*.h @TINKERCELL_EXE@.app/Contents/MacOS/c
-cp ../../c/*.c @TINKERCELL_EXE@.app/Contents/MacOS/c
-cp ../../Main/tinkercell.qss @TINKERCELL_EXE@.app/Contents/MacOS/
-cp -R ../../icons @TINKERCELL_EXE@.app/Contents/MacOS/
-cp plugins/c/*.a @TINKERCELL_EXE@.app/Contents/MacOS/lib/
-cp plugins/*.a @TINKERCELL_EXE@.app/Contents/MacOS/lib/
-cp *.a @TINKERCELL_EXE@.app/Contents/MacOS/lib/
-cp *.dylib @TINKERCELL_EXE@.app/Contents/Frameworks/
-cp *.dylib NodeGraphics.app/Contents/Frameworks/
-cp -R ../../Graphics @TINKERCELL_EXE@.app/Contents/MacOS/
+cp @TINKERCELL_SOURCE_DIR@/API/*.h @TINKERCELL_EXE@.app/Contents/MacOS/c
+cp @TINKERCELL_SOURCE_DIR@/ExternalCode/copasi/copasi_api.h @TINKERCELL_EXE@.app/Contents/MacOS/c
+cp @TINKERCELL_SOURCE_DIR@/Main/tinkercell.qss @TINKERCELL_EXE@.app/Contents/MacOS/
+cp -R @TINKERCELL_SOURCE_DIR@/icons @TINKERCELL_EXE@.app/Contents/MacOS/
+cp @TINKERCELL_BINARY_BIN_DIR@/plugins/c/*.a @TINKERCELL_EXE@.app/Contents/MacOS/lib/
+cp @TINKERCELL_BINARY_BIN_DIR@/plugins/*.a @TINKERCELL_EXE@.app/Contents/MacOS/lib/
+cp @TINKERCELL_BINARY_BIN_DIR@/*.a @TINKERCELL_EXE@.app/Contents/MacOS/lib/
+cp @TINKERCELL_BINARY_BIN_DIR@/*.dylib @TINKERCELL_EXE@.app/Contents/Frameworks/
+cp @TINKERCELL_BINARY_BIN_DIR@/*.dylib NodeGraphics.app/Contents/Frameworks/
+cp -R @TINKERCELL_SOURCE_DIR@/Graphics @TINKERCELL_EXE@.app/Contents/MacOS/
 mkdir @TINKERCELL_EXE@.app/Contents/MacOS/NodesTree/
-cp ../../NodesTree/*.xml @TINKERCELL_EXE@.app/Contents/MacOS/NodesTree/
-cp -R python @TINKERCELL_EXE@.app/Contents/MacOS/
-cp ../../python/*.py @TINKERCELL_EXE@.app/Contents/MacOS/python
-cp ../../*.txt @TINKERCELL_EXE@.app/Contents/MacOS/
+cp @TINKERCELL_SOURCE_DIR@/NodesTree/*.xml @TINKERCELL_EXE@.app/Contents/MacOS/NodesTree/
+cp -R @TINKERCELL_BINARY_BIN_DIR@/python @TINKERCELL_EXE@.app/Contents/MacOS/
+cp @TINKERCELL_SOURCE_DIR@/python/*.py @TINKERCELL_EXE@.app/Contents/MacOS/python
+cp @TINKERCELL_SOURCE_DIR@/*.txt @TINKERCELL_EXE@.app/Contents/MacOS/
 cp -R octave @TINKERCELL_EXE@.app/Contents/MacOS/
-cp ../../octave/*.m @TINKERCELL_EXE@.app/Contents/MacOS/octave/
-cp -R ../../Modules @TINKERCELL_EXE@.app/Contents/MacOS/
+cp @TINKERCELL_SOURCE_DIR@/octave/*.m @TINKERCELL_EXE@.app/Contents/MacOS/octave/
+cp -R @TINKERCELL_HOME_DIR@/Modules @TINKERCELL_EXE@.app/Contents/MacOS/
+cp -R @TINKERCELL_HOME_DIR@/octave/*.* @TINKERCELL_EXE@.app/Contents/MacOS/octave/
+cp -R @TINKERCELL_HOME_DIR@/python/ @TINKERCELL_EXE@.app/Contents/MacOS/python/
+cp -R @TINKERCELL_HOME_DIR@/plugins/ @TINKERCELL_EXE@.app/Contents/MacOS/plugins/
 
 #name change for all libraries used in @TINKERCELL_EXE@.app and NodeGraphics.app
 

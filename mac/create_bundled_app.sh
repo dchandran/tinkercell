@@ -78,7 +78,7 @@ do
   install_name_tool \
         -change $CURPATH/$f \
          @executable_path/../Frameworks/$f \
-         @TINKERCELL_EXE@.app/Contents/MacOS/Tinkercell
+         @TINKERCELL_EXE@.app/Contents/MacOS/@TINKERCELL_EXE@
 
   install_name_tool \
          -change $CURPATH/$f \

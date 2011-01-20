@@ -66,9 +66,10 @@ IF(EMBED_PYTHON)
      IF( APPLE )
         ADD_CUSTOM_COMMAND ( 
               TARGET tcpy POST_BUILD
+              COMMAND cp ${TINKERCELL_BINARY_DIR}/bin/python/libtcpy.dylib ${TINKERCELL_BINARY_DIR}/bin/python/_tinkercell.so
               COMMAND mv ${TINKERCELL_BINARY_DIR}/bin/python/libtcpy.dylib ${TINKERCELL_BINARY_DIR}/bin/python/_tinkercell.dylib
         )
-        FILE(GLOB PYTHON_LOADER ${TINKERCELL_BINARY_DIR}/bin/python/_tinkercell.dylib)
+        FILE(GLOB PYTHON_LOADER ${TINKERCELL_BINARY_DIR}/bin/python/_tinkercell.*)
     ELSE( APPLE )
         ADD_CUSTOM_COMMAND ( 
               TARGET tcpy POST_BUILD 

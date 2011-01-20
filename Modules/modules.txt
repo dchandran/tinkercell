@@ -1,1 +1,0 @@
-This folder contains modules (or sub-processes) organized into folder structure, where the folder name is the family name (or type) that is listed in modules.xml or ConnectionsTree.xml

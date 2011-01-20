@@ -15,15 +15,39 @@ ADD_SUBDIRECTORY( R )
 #The following options allow enabling or disabling of plugins from CMake GUI
 #OPTION( PLUGIN_BASIC "Plug-in for enabling basic features" ON )
 #OPTION( PLUGIN_MODELING "Plug-in for enabling modeling functions" ON )
-#OPTION( PLUGIN_MODULES "Plug-in for enabling modules" ON )
 #OPTION( PLUGIN_C_PLUGINS "Enable C plug-ins" ON )
 
-#Compile enables plugins
+OPTION( TINKERCELL_COPY_MODULES "Copy modules from TinkerCell home folder" ON )
+OPTION( TINKERCELL_3RD_PARTY_PLUGINS "Copy plugins in TinkerCell home folder" ON )
 
+#copy modules if enabled
+IF (TINKERCELL_COPY_MODULES)
+	IF (NOT DEFINED TINKERCELL_HOME_DIR)
+		MESSAGE("To copy the existing modules, please add entry for TINKERCELL_HOME_DIR")
+	ELSE (NOT DEFINED TINKERCELL_HOME_DIR)
+		MESSAGE(STATUS "Will copy ${TINKERCELL_HOME_DIR}/Modules")
+		INSTALL(DIRECTORY ${TINKERCELL_HOME_DIR}/Modules DESTINATION bin/../)
+	ENDIF (NOT DEFINED TINKERCELL_HOME_DIR)
+ENDIF (TINKERCELL_COPY_MODULES)
+
+#copy 3rd party plugins if enabled
+IF (TINKERCELL_3RD_PARTY_PLUGINS)
+	IF (NOT DEFINED TINKERCELL_HOME_DIR)
+		MESSAGE("To copy the 3rd party plugins, please add entry for TINKERCELL_HOME_DIR")
+	ELSE (NOT DEFINED TINKERCELL_HOME_DIR)
+		MESSAGE(STATUS "Will copy /python /octave and /plugins from ${TINKERCELL_HOME_DIR}")
+		INSTALL(DIRECTORY ${TINKERCELL_HOME_DIR}/python DESTINATION bin/../)
+		INSTALL(DIRECTORY ${TINKERCELL_HOME_DIR}/octave DESTINATION bin/../)
+		INSTALL(DIRECTORY ${TINKERCELL_HOME_DIR}/plugins DESTINATION bin/../)
+	ENDIF (NOT DEFINED TINKERCELL_HOME_DIR)
+ENDIF (TINKERCELL_3RD_PARTY_PLUGINS)
+
+
+#copy catalog of parts and connections
 FILE(GLOB NODESTREE_XML_FILES 
 	${TINKERCELL_SOURCE_DIR}/NodesTree/NodesTree.xml
 	${TINKERCELL_SOURCE_DIR}/NodesTree/ConnectionsTree.xml
-	)
+)
 
 INSTALL( FILES ${NODESTREE_XML_FILES}
   DESTINATION NodesTree

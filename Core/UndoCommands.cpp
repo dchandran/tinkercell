@@ -495,6 +495,7 @@ namespace Tinkercell
 				QList<ItemHandle*> affectedHandles = textEditor->items();
 
 				for (int i=0; i < affectedHandles.size(); ++i)
+				if (!items.contains(affectedHandles[i]))
 				{
 					QList<QString> keys1 = affectedHandles[i]->numericalDataNames();
 					QList<QString> keys2 = affectedHandles[i]->textDataNames();
@@ -510,6 +511,7 @@ namespace Tinkercell
 				DataTable<QString> * sDat = 0;
 
 				for (int i=0; i < affectedHandles.size(); ++i) //change all the handle data
+				if (!items.contains(affectedHandles[i]))
 				{
 					bool affected = false;
 					for (int i2=0; i2 < namesToKill.size(); ++i2)
@@ -617,6 +619,7 @@ namespace Tinkercell
 					}
 				}
 				for (int i=0; i < affectedHandles.size(); ++i)
+				if (!items.contains(affectedHandles[i]))
 				{
 					QList<QString> keys1 = affectedHandles[i]->numericalDataNames();
 					QList<QString> keys2 = affectedHandles[i]->textDataNames();
@@ -2278,7 +2281,11 @@ namespace Tinkercell
 						{
 							s2 = nDat->rowName(k);
 							substituteString(s2,oldname,newname);
-							nDat->setRowName(k,RemoveDisallowedCharactersFromName(s2));
+							s2 = RemoveDisallowedCharactersFromName(s2);
+							if (!nDat->hasRow(s2))
+								nDat->setRowName(k,RemoveDisallowedCharactersFromName(s2));
+							else
+								nDat->removeRow(k);
 						}
 
 						if (fullname + nDat->rowName(k) == oldname)
@@ -2292,7 +2299,11 @@ namespace Tinkercell
 						{
 							s2 = nDat->columnName(k);
 							substituteString(s2,oldname,newname);
-							nDat->setColumnName(k,RemoveDisallowedCharactersFromName(s2));
+							s2 = RemoveDisallowedCharactersFromName(s2);
+							if (!nDat->hasColumn(s2))
+								nDat->setColumnName(k,s2);
+							else
+								nDat->removeColumn(k);
 						}
 						
 						if (fullname + nDat->columnName(k) == oldname)
@@ -2309,7 +2320,11 @@ namespace Tinkercell
 						{
 							s2 = sDat->rowName(k);
 							substituteString(s2,oldname,newname);
-							sDat->setRowName(k,RemoveDisallowedCharactersFromName(s2));
+							s2 = RemoveDisallowedCharactersFromName(s2);
+							if (!sDat->hasRow(s2))
+								sDat->setRowName(k,s2);
+							else
+								sDat->removeRow(k);
 						}
 
 						if (fullname + sDat->rowName(k) == oldname)						
@@ -2321,7 +2336,11 @@ namespace Tinkercell
 						{
 							s2 = sDat->columnName(k);
 							substituteString(s2,oldname,newname);
-							sDat->setColumnName(k,RemoveDisallowedCharactersFromName(s2));
+							s2 = RemoveDisallowedCharactersFromName(s2);
+							if (!sDat->hasColumn(s2))
+								sDat->setColumnName(k,s2);
+							else
+								sDat->removeColumn(k);
 						}
 						
 						if (fullname + sDat->columnName(k) == oldname)

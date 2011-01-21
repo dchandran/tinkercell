@@ -405,14 +405,14 @@ namespace Tinkercell
 	{ 
 		if (colHash.contains(name))
 		{
-			if (colHash[name] != i)
+			/*if (colHash[name] != i)
 			{
 				int k = colHash[name];
 				removeColumn(i);
 				if (k > i)
 					--i;
 			}
-			else
+			else*/
 				return;
 		}
 		
@@ -456,15 +456,15 @@ namespace Tinkercell
 	{ 
 		if (rowHash.contains(name))
 		{
-			if (rowHash[name] != i)
+			/*if (rowHash[name] != i)
 			{
 				int k = rowHash[name];
 				removeRow(i);
 				if (k > i)
 					--i;
 			}
-			else
-				return;
+			else*/
+			return;
 		}
 		
 		if (i < 0)

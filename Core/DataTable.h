@@ -589,7 +589,7 @@ namespace Tinkercell
 		int m = rowHeaders.size(), n = colHeaders.size();
 		if (!rowHash.contains(r))
 			++m;
-		if (j > n)
+		if (j >= n)
 			n = j + 1;
 		if (m != rowHeaders.size() || n != colHeaders.size())
 		{
@@ -614,7 +614,7 @@ namespace Tinkercell
 		int m = rowHeaders.size(), n = colHeaders.size();
 		if (!colHash.contains(c))
 			++n;
-		if (i > m)
+		if (i >= m)
 			m = i + 1;
 		if (m != rowHeaders.size() || n != colHeaders.size())
 		{

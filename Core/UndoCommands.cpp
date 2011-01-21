@@ -1161,22 +1161,24 @@ namespace Tinkercell
 					affectedHandles += graphicsScenes[i]->network->handles();
 				}
 
-			for (int i=0; i < affectedHandles.size(); ++i)		
-			{
-				QList<QString> keys1 = affectedHandles[i]->numericalDataNames();
-				QList<QString> keys2 = affectedHandles[i]->textDataNames();
+			for (int i=0; i < affectedHandles.size(); ++i)
+				if (!visited.contains(affectedHandles[i]))
+				{
+					QList<QString> keys1 = affectedHandles[i]->numericalDataNames();
+					QList<QString> keys2 = affectedHandles[i]->textDataNames();
 
-				for (int j=0; j < keys1.size(); ++j)
-					oldData1 += new DataTable<qreal>(affectedHandles[i]->numericalDataTable( keys1[j] ));
+					for (int j=0; j < keys1.size(); ++j)
+						oldData1 += new DataTable<qreal>(affectedHandles[i]->numericalDataTable( keys1[j] ));
 
-				for (int j=0; j < keys2.size(); ++j)
-					oldData2 += new DataTable<QString>(affectedHandles[i]->textDataTable( keys2[j] ));
-			}
+					for (int j=0; j < keys2.size(); ++j)
+						oldData2 += new DataTable<QString>(affectedHandles[i]->textDataTable( keys2[j] ));
+				}
 
 			DataTable<qreal> * nDat = 0;
 			DataTable<QString> * sDat = 0;
 
 			for (int i=0; i < affectedHandles.size(); ++i) //change all the handle data
+			if (!visited.contains(affectedHandles[i]))
 			{
 				bool affected = false;
 				for (int i2=0; i2 < namesToKill.size(); ++i2)
@@ -1285,6 +1287,7 @@ namespace Tinkercell
 			}
 
 			for (int i=0; i < affectedHandles.size(); ++i)
+			if (!visited.contains(affectedHandles[i]))
 			{
 				QList<QString> keys1 = affectedHandles[i]->numericalDataNames();
 				QList<QString> keys2 = affectedHandles[i]->textDataNames();
@@ -3070,8 +3073,9 @@ namespace Tinkercell
 					{
 						NumericalDataTable & dat = handles[i]->numericalDataTable(keys[j]);
 						for (int r=0; r < dat.rows(); ++r)
-							for (int c=0; c < dat.columns(); ++c)
-								nDat->value(dat.rowName(r), dat.columnName(c)) = dat.value(r,c);
+							if (!nDat->hasRow(dat.rowName(r)))
+								for (int c=0; c < dat.columns(); ++c)
+									nDat->value(dat.rowName(r), c) = dat.value(r,c);
 					}
 			}
 			
@@ -3096,8 +3100,9 @@ namespace Tinkercell
 					{
 						TextDataTable & dat = handles[i]->textDataTable(keys[j]);
 						for (int r=0; r < dat.rows(); ++r)
-							for (int c=0; c < dat.columns(); ++c)
-								sDat->value(dat.rowName(r), dat.columnName(c)) = dat.value(r,c);
+							if (!sDat->hasRow(dat.rowName(r)))
+								for (int c=0; c < dat.columns(); ++c)
+									sDat->value(dat.rowName(r), dat.columnName(c)) = dat.value(r,c);
 					}
 			}
 			

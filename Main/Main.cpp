@@ -172,7 +172,7 @@ int main(int argc, char *argv[])
     /*******  Dynamically load plugins from folders ***********/
     DefaultPluginsMenu menu(&mainWindow);
 
-    mainWindow.optionsMenu->addMenu(&menu);
+    mainWindow.settingsMenu->addMenu(&menu);
 	mainWindow.setDockOptions(QMainWindow::AnimatedDocks|QMainWindow::AllowNestedDocks);
 
     QString home = MainWindow::homeDir();

@@ -179,7 +179,11 @@ namespace Tinkercell
 		QStringList familiesInCatalog;
 		
 		/*! \brief check boxes to select the families to show*/
-		QList<QCheckBox*> selectFamilyCheckBoxes;		
+		QList<QCheckBox*> selectFamilyCheckBoxes;
+		
+		/*! \brief combo boxes to select the families' units*/
+		QList<QComboBox*> selectFamilyComboBoxes;
+		
 		/*! \brief widget to select the families to show*/
 		QDialog * selectFamilyWidget;
     };

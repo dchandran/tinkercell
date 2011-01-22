@@ -233,12 +233,16 @@ namespace Tinkercell
 		
 		QList<GraphicsScene*> scenes = network->scenes();
 		QList<QGraphicsItem*> allitems, handleitems;
-		
+
 		for (int i=0; i < scenes.size(); ++i)
 			if (scenes[i])
 				allitems << scenes[i]->items();
 		
 		QList<ItemHandle*> allhandles = network->handles();
+		
+		if (network->globalHandle())
+			saveUnitsToTable(network->globalHandle()->textDataTable("Units"));
+		
 		for (int i=0; i < allhandles.size(); ++i)
 			if (allhandles[i])
 			{
@@ -378,6 +382,9 @@ namespace Tinkercell
 		ItemHandle globalHandle;
 		loadItems(items,filename, &globalHandle);
 
+		if (globalHandle.hasTextData("Units"))
+			readUnitsFromTable(globalHandle.textDataTable("Units"));
+		
 		if (items.size() > 0)
 		{
 			GraphicsScene * scene = currentScene();
@@ -1017,22 +1024,42 @@ namespace Tinkercell
 		return 0;
 	}
 
-	void LoadSaveTool::readInUnitsFromTable(const TextDataTable & units)
+	void LoadSaveTool::readUnitsFromTable(const TextDataTable & units)
 	{
 		if (units.columns() < 2) return;
 
 		for (int i=0; i < units.rows(); ++i)
 		{
 			if (nodeFamilies.contains(units.rowName(i)))
-				nodeFamilies[units.rowName(i))]->measurementUnit = Unit( units(i,0), units(i,1) );
-				
+				nodeFamilies[units.rowName(i)]->measurementUnit = Unit( units(i,0), units(i,1) );
+			else
 			if (connectionFamilies.contains(units.rowName(i)))
-				connectionFamilies[units.rowName(i))]->measurementUnit = Unit( units(i,0), units(i,1) );
+				connectionFamilies[units.rowName(i)]->measurementUnit = Unit( units(i,0), units(i,1) );
 		}
 	}
 	
 	void LoadSaveTool::saveUnitsToTable(TextDataTable & units)
 	{
+		units.description() = tr("Measurement units");
+		QStringList keys = nodeFamilies.keys();
+		
+		for (int i=0; i < keys.size(); ++i)
+			if (!nodeFamilies[ keys[i] ]->measurementUnit.name.isEmpty() && 
+				!nodeFamilies[ keys[i] ]->measurementUnit.property.isEmpty())
+			{
+				units(keys[i], "property") = nodeFamilies[ keys[i] ]->measurementUnit.property;
+				units(keys[i], "name") = nodeFamilies[ keys[i] ]->measurementUnit.name;
+			}
+		
+		keys = connectionFamilies.keys();
+		
+		for (int i=0; i < keys.size(); ++i)
+			if (!connectionFamilies[ keys[i] ]->measurementUnit.name.isEmpty() && 
+				!connectionFamilies[ keys[i] ]->measurementUnit.property.isEmpty())
+			{
+				units(keys[i], "property") = connectionFamilies[ keys[i] ]->measurementUnit.property;
+				units(keys[i], "name") = connectionFamilies[ keys[i] ]->measurementUnit.name;
+			}
 	}
 	
 	QMap<QString,NodeFamily*> LoadSaveTool::nodeFamilies;

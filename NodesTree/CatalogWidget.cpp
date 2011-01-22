@@ -104,7 +104,7 @@ namespace Tinkercell
 			{
 				setUpTreeView();
 				mainWindow->addToolWindow(this,MainWindow::DockWidget,Qt::LeftDockWidgetArea,Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-				QAction * setNumRows = mainWindow->optionsMenu->addAction(QIcon(tr(":/images/up.png")), tr("Number of recent items"));
+				QAction * setNumRows = mainWindow->settingsMenu->addAction(QIcon(tr(":/images/up.png")), tr("Number of recent items"));
 				connect (setNumRows, SIGNAL(triggered()),this,SLOT(setNumberOfRecentItems()));
 			}
 			else
@@ -113,15 +113,15 @@ namespace Tinkercell
 				mainWindow->addToolWindow(this,MainWindow::DockWidget,Qt::TopDockWidgetArea,Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
 			}
 
-			if (mainWindow->optionsMenu)
+			if (mainWindow->settingsMenu)
 			{				
-				QAction * treeViewAction = mainWindow->optionsMenu->addAction(tr("Tree-view catalog"));
+				QAction * treeViewAction = mainWindow->settingsMenu->addAction(tr("Tree-view catalog"));
 				treeViewAction->setCheckable(true);
 				treeViewAction->setChecked(CatalogWidget::layoutMode == CatalogWidget::TreeView);
 				connect(treeViewAction,SIGNAL(toggled(bool)),this,SLOT(setTreeMode(bool)));
 				if (layoutMode == TabView)
 				{
-					QAction * familyShowButton = mainWindow->optionsMenu->addAction(tr("Show/hide catalog items"));
+					QAction * familyShowButton = mainWindow->settingsMenu->addAction(tr("Show/hide catalog items"));
 					connect(familyShowButton,SIGNAL(triggered()),this,SLOT(selectFamiliesToShow()));
 				}
 			}
@@ -329,9 +329,9 @@ namespace Tinkercell
 		{
 			selectFamilyWidget = new QDialog(this);
 			QTableWidget * table = new QTableWidget;
-			table->setColumnCount(2);
+			table->setColumnCount(3);
 			table->setColumnWidth(0,50);
-			table->setHorizontalHeaderLabels( QStringList() << tr("show") << tr("family") );
+			table->setHorizontalHeaderLabels( QStringList() << tr("show") << tr("family") << tr("unit"));
 			table->setRowCount(allNames.size());
 			table->setWindowFlags(Qt::Window);
 			table->setWindowTitle(tr("Show/hide catalog items"));
@@ -344,20 +344,29 @@ namespace Tinkercell
 					family = nodesTree->nodeFamilies[ allNames[i] ];
 				else
 					if (connectionsTree && connectionsTree->connectionFamilies.contains(allNames[i]))
-					family = connectionsTree->connectionFamilies[ allNames[i] ];
+						family = connectionsTree->connectionFamilies[ allNames[i] ];
 				checkbox->setChecked(includeFamilyInCatalog(family));
 				selectFamilyCheckBoxes << checkbox;
-				table->setCellWidget(i,0,checkbox);
 				QToolButton * tempButton = new QToolButton;
+				QComboBox * comboBox = new QComboBox;
 				if (family)
 				{
 					tempButton->setIcon(QIcon(family->pixmap));
 					tempButton->setToolTip(family->description);
+					
+					QStringList units;
+					for (int j=0; j < family->measurementUnitOptions.size(); ++j)
+						units << family->measurementUnitOptions[j].name;
+					comboBox->addItems(units);
 				}
+				selectFamilyComboBoxes << comboBox;
 				connect(tempButton,SIGNAL(pressed()),checkbox,SLOT(toggle()));
 				tempButton->setText(allNames[i]);
 				tempButton->setToolButtonStyle ( Qt::ToolButtonTextBesideIcon );
+				
+				table->setCellWidget(i,0,checkbox);
 				table->setCellWidget(i,1,tempButton);
+				table->setCellWidget(i,2,comboBox);
 			}
 			
 			QHBoxLayout * hlayout = new QHBoxLayout;
@@ -390,6 +399,24 @@ namespace Tinkercell
 				showlist << allNames[i];
 			else
 				hidelist << allNames[i];
+			
+			if (selectFamilyComboBoxes.size() > i && 
+				selectFamilyComboBoxes[i] && 
+				selectFamilyComboBoxes[i]->count() > 1)
+			{
+				int k = selectFamilyComboBoxes[i]->currentIndex();
+				if (nodesTree->nodeFamilies.contains(allNames[i]) &&
+					nodesTree->nodeFamilies.value(allNames[i]) &&
+					k >= 0 && k < nodesTree->nodeFamilies.value(allNames[i])->measurementUnitOptions.size())
+					nodesTree->nodeFamilies.value(allNames[i])->measurementUnit = 
+						nodesTree->nodeFamilies.value(allNames[i])->measurementUnitOptions[k];
+				else
+				if (connectionsTree->connectionFamilies.contains(allNames[i]) &&
+					connectionsTree->connectionFamilies.value(allNames[i]) &&
+					k >= 0 && k < connectionsTree->connectionFamilies.value(allNames[i])->measurementUnitOptions.size())
+					connectionsTree->connectionFamilies.value(allNames[i])->measurementUnit = 
+						connectionsTree->connectionFamilies.value(allNames[i])->measurementUnitOptions[k];
+			}
 		}
 		showButtons(showlist);
 		hideButtons(hidelist);

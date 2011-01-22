@@ -29,7 +29,6 @@
 #include "copasi/function/CFunctionDB.h"
 #include "copasi/function/CFunction.h"
 #include "copasi/function/CEvaluationTree.h"
-#include "copasi/report/CCopasiRootContainer.h"
 #include "copasi/report/CReport.h"
 #include "copasi/report/CReportDefinition.h"
 #include "copasi/report/CReportDefinitionVector.h"
@@ -926,13 +925,26 @@ tc_matrix simulateHybrid(copasi_model model, double startTime, double endTime, i
 
 copasi_model loadModelFile(const char * filename)
 {
-	loadFile(filename); //load Antimony or SBML (from antimony_api.h)
-	char * s = getSBMLString("__main");  //Antimony -> SBML  (from antimony_api.h)
+	copasi_init();
 	CCopasiDataModel* pDataModel = CCopasiRootContainer::addDatamodel();
-	pDataModel->importSBMLFromString(s); //SBML -> COPASI
+	try 
+	{
+		pDataModel->importSBML(filename); //SBML -> COPASI
+	}
+	catch(...)
+	{
+		loadFile(filename); //load Antimony
+		char * s = getSBMLString("__main");  //Antimony -> SBML (at worst, an empty model)
+		pDataModel->importSBMLFromString(s); //SBML -> COPASI	
+		freeAll(); //free Antimony
+	}
+	
 	CModel* pModel = pDataModel->getModel();
-	copasi_model m = { (void*)(pModel) , (void*)(pDataModel) };
-	freeAll(); //free Antimony  (from antimony_api.h)
+	CQHash * qHash = new CQHash();
+	hashTablesToCleanup += qHash;
+	
+	copasi_model m = { (void*)(pModel) , (void*)(pDataModel), (void*)(qHash) };
+	
 	return m;
 }
 

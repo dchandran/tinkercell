@@ -259,9 +259,9 @@ namespace Tinkercell
 		if (enableConsoleWindow)
 		{
 			consoleWindow = new ConsoleWindow(this);
-			if (optionsMenu)
+			if (settingsMenu)
 			{
-				QMenu * consoleColorMenu = optionsMenu->addMenu(tr("Console window colors"));
+				QMenu * consoleColorMenu = settingsMenu->addMenu(tr("Console window colors"));
 
 				consoleColorMenu->addAction(tr("Background color"),this,SLOT(changeConsoleBgColor()));
 				consoleColorMenu->addAction(tr("Text color"),this,SLOT(changeConsoleTextColor()));
@@ -843,11 +843,11 @@ namespace Tinkercell
 
 		viewMenu = menuBar()->addMenu(tr("&View"));
 
-		optionsMenu = menuBar()->addMenu(tr("&Options"));
-		QAction * changeUserHome = optionsMenu->addAction(QIcon(tr(":/images/appicon.png")), tr("&Set Home Directory"));
+		settingsMenu = menuBar()->addMenu(tr("&Settings"));
+		QAction * changeUserHome = settingsMenu->addAction(QIcon(tr(":/images/appicon.png")), tr("&Set Home Directory"));
 		connect (changeUserHome, SIGNAL(triggered()),this,SLOT(setUserHome()));
 
-		QMenu * setGridModeMenu = optionsMenu->addMenu(tr("&Grid mode"));
+		QMenu * setGridModeMenu = settingsMenu->addMenu(tr("&Grid mode"));
 		QActionGroup * actionGroup = new QActionGroup(this);
 		
 		QAction * gridOn = setGridModeMenu->addAction(tr("Grid ON"),this,SLOT(gridOn()));

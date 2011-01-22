@@ -4,21 +4,22 @@
 
 copasi_model model1(); //oscillation
 copasi_model model2(); //positive feebdack gene regulation
-void sim(copasi_model);
-void eigen(copasi_model, const char*);
+void sim(copasi_model); //simulate and print
+void eigen(copasi_model, const char*); //compute eigenvalues by changing parameters (similar to root-locus)
 
 int main()
 {
 	tc_matrix efm;
 	copasi_model m;
-	m = model2();
+	
+	m = loadModelFile("brusselator.sbml");
+	sim(m);
+
+	//m = model2();
 	//sim(m);
-	
-	efm = getElementaryFluxModes(m);
-	
-	tc_printOutMatrix(efm);
-	
-	tc_deleteMatrix(efm);
+	//efm = getElementaryFluxModes(m);
+	//tc_printOutMatrix(efm);	
+	//tc_deleteMatrix(efm);
 	copasi_end();
 	return 0;
 }
@@ -112,7 +113,7 @@ void sim(copasi_model model)
 	FILE * outfile;
 
 	//run
-	tc_matrix output = simulateDeterministic(model, 0, 30, 100);  //model, start, end, num. points
+	tc_matrix output = simulateDeterministic(model, 0, 200, 100);  //model, start, end, num. points
 	
 	//output
 	tc_printMatrixToFile("output.tab", output);

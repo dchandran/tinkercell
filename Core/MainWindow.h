@@ -317,7 +317,7 @@ namespace Tinkercell
 		/*!
 		* \brief the menu for settings such as default plugins, Tinkercell home directory, etc.
 		*/
-		QMenu* optionsMenu;
+		QMenu* settingsMenu;
 		/*!
 		* \brief the menu for choosing one of the available parsers (will be 0 if there are no parsers)
 		*/

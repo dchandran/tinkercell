@@ -30,10 +30,10 @@ namespace Tinkercell
 	  
 	  toggleToolsLayoutAction = toggleHistoryLayoutAction = toggleConsoleLayoutAction = 0;
 	  
-	  if (main && main->optionsMenu)
+	  if (main && main->settingsMenu)
 	  {
-			QMenu * menu = new QMenu(tr("Change layout"),main->optionsMenu);
-			main->optionsMenu->addMenu(menu);
+			QMenu * menu = new QMenu(tr("Change layout"),main->settingsMenu);
+			main->settingsMenu->addMenu(menu);
 			
 			if (MainWindow::defaultToolWindowOption == MainWindow::TabWidget)			
 				toggleToolsLayoutAction = menu->addAction(tr("Use dock widgets for tools"));			

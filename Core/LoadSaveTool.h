@@ -110,7 +110,7 @@ namespace Tinkercell
 		static void writeText(TextGraphicsItem* text, QXmlStreamWriter& modelWriter,int sceneNumber);
 		
 		/*!\brief read a text table and assign the units for the Node and Connection families*/
-		static void readInUnitsFromTable(const TextDataTable & units);
+		static void readUnitsFromTable(const TextDataTable & units);
 		/*!\brief write all the units to a text table*/
 		static void saveUnitsToTable(TextDataTable & units);
 

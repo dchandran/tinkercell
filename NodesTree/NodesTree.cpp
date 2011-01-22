@@ -149,10 +149,10 @@ namespace Tinkercell
           {
                connect(this,SIGNAL(sendEscapeSignal(const QWidget*)),mainWindow,SIGNAL(escapeSignal(const QWidget*)));
                
-		       if (mainWindow->optionsMenu)
+		       if (mainWindow->settingsMenu)
 			   {
-					mainWindow->optionsMenu->addSeparator();
-					QAction * treeViewAction = mainWindow->optionsMenu->addAction(tr("Select Theme"),selectThemesDialog,SLOT(exec()));
+					mainWindow->settingsMenu->addSeparator();
+					QAction * treeViewAction = mainWindow->settingsMenu->addAction(tr("Select Theme"),selectThemesDialog,SLOT(exec()));
 			   }
 
             return true;

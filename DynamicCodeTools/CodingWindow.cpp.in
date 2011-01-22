@@ -421,10 +421,10 @@ specific for:\n\"\"\"\n\n") + text;
 				connect(action,SIGNAL(triggered()),this,SLOT(show()));
 			}
 			
-			if (mainWindow->optionsMenu)
+			if (mainWindow->settingsMenu)
 			{
-				mainWindow->optionsMenu->addSeparator();
-				QAction * svnupdate = mainWindow->optionsMenu->addAction(tr("SVN updates"));
+				mainWindow->settingsMenu->addSeparator();
+				QAction * svnupdate = mainWindow->settingsMenu->addAction(tr("SVN updates"));
 				svnupdate->setToolTip(tr("TinkerCell home folder will be updated with new models and plug-ins during startup"));					
 				svnupdate->setCheckable(true);
 				svnupdate->setChecked(true);
@@ -497,9 +497,9 @@ specific for:\n\"\"\"\n\n") + text;
 				}
 			}
 
-			if (mainWindow->optionsMenu && cButton && pythonButton && octaveButton)
+			if (mainWindow->settingsMenu && cButton && pythonButton && octaveButton)
 			{
-				QMenu * langMenu = mainWindow->optionsMenu->addMenu(tr("Console language"));
+				QMenu * langMenu = mainWindow->settingsMenu->addMenu(tr("Console language"));
 				QActionGroup * actionGroup = new QActionGroup(this);
 				
 				cAction = langMenu->addAction(tr("C"));

@@ -331,7 +331,9 @@ namespace Tinkercell
 			QTableWidget * table = new QTableWidget;
 			table->setColumnCount(3);
 			table->setColumnWidth(0,50);
-			table->setHorizontalHeaderLabels( QStringList() << tr("show") << tr("family") << tr("unit"));
+			table->setColumnWidth(1,80);
+			table->setColumnWidth(2,30);
+			table->setHorizontalHeaderLabels( QStringList() << tr("Show/hide") << tr("Family name") << tr("Units"));
 			table->setRowCount(allNames.size());
 			table->setWindowFlags(Qt::Window);
 			table->setWindowTitle(tr("Show/hide catalog items"));
@@ -348,16 +350,20 @@ namespace Tinkercell
 				checkbox->setChecked(includeFamilyInCatalog(family));
 				selectFamilyCheckBoxes << checkbox;
 				QToolButton * tempButton = new QToolButton;
-				QComboBox * comboBox = new QComboBox;
+				QComboBox * comboBox = 0;
+				QStringList units;
 				if (family)
 				{
 					tempButton->setIcon(QIcon(family->pixmap));
 					tempButton->setToolTip(family->description);
-					
-					QStringList units;
+
 					for (int j=0; j < family->measurementUnitOptions.size(); ++j)
 						units << family->measurementUnitOptions[j].name;
-					comboBox->addItems(units);
+					if (units.size() > 1)
+					{
+						comboBox = new QComboBox;
+						comboBox->addItems(units);
+					}
 				}
 				selectFamilyComboBoxes << comboBox;
 				connect(tempButton,SIGNAL(pressed()),checkbox,SLOT(toggle()));
@@ -366,7 +372,13 @@ namespace Tinkercell
 				
 				table->setCellWidget(i,0,checkbox);
 				table->setCellWidget(i,1,tempButton);
-				table->setCellWidget(i,2,comboBox);
+				if (comboBox)
+					table->setCellWidget(i,2,comboBox);
+				else
+					if (units.isEmpty())
+						table->setCellWidget(i,2,new QLabel("N/A"));
+					else
+						table->setCellWidget(i,2,new QLabel(units[0]));
 			}
 			
 			QHBoxLayout * hlayout = new QHBoxLayout;

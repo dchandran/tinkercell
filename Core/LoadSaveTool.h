@@ -107,7 +107,12 @@ namespace Tinkercell
 		/*!\brief read a single ConnectionGraphicsItem. Primarily uses NodeGraphicsWriter, but adds extra information regarding the handles*/
 		static void writeConnection(ConnectionGraphicsItem* connection, QXmlStreamWriter& modelWriter,int sceneNumber);
 		/*!\brief writes a single TextGraphicsItem*/
-		static void writeText(TextGraphicsItem* text, QXmlStreamWriter& modelWriter,int sceneNumber);	
+		static void writeText(TextGraphicsItem* text, QXmlStreamWriter& modelWriter,int sceneNumber);
+		
+		/*!\brief read a text table and assign the units for the Node and Connection families*/
+		static void readInUnitsFromTable(const TextDataTable & units);
+		/*!\brief write all the units to a text table*/
+		static void saveUnitsToTable(TextDataTable & units);
 
 		/*!\brief hash table that is used to record which networks were saved after making any changes*/		
 		QHash<NetworkHandle*,bool> savedNetworks;

@@ -106,7 +106,15 @@ namespace Tinkercell
                     {
                          QStringList units = vec.at(i).value().toString().split(",");
                          if (units.size() == 2)
-                              family->measurementUnit = Unit(units[0],units[1]);
+                         {
+                         	  QStringList terms = units[1].split(" ");
+                         	  if (terms.size() > 0)
+                         	  {
+	                         	  for (int j=0; j < terms.size(); ++j)
+    	                     	  		family->measurementUnitOptions += Unit(units[0],terms[j]);
+    	                          family->measurementUnit = family->measurementUnitOptions[0];
+    	                      }
+						 }
                     }
                     else
                     if (vec.at(i).name().toString().toLower() == QObject::tr("participant_types"))  //family types for nodes in this connection
@@ -178,8 +186,11 @@ namespace Tinkercell
                          if (!family->textAttributes.contains(skeys[i]))
                               family->textAttributes[ skeys[i] ] = parentFamily->textAttributes[ skeys[i] ];
 
-                    if (family->measurementUnit.name.isEmpty())
+                   if (family->measurementUnitOptions.isEmpty())
+                    {
+                         family->measurementUnitOptions = parentFamily->measurementUnitOptions;
                          family->measurementUnit = parentFamily->measurementUnit;
+					}
 
 					if (family->description.isEmpty())
 	                    family->description = parentFamily->description;

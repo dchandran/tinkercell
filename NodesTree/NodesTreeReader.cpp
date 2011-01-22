@@ -161,7 +161,15 @@ namespace Tinkercell
                     {
                          QStringList units = vec.at(i).value().toString().split(",");
                          if (units.size() == 2)
-                              node->measurementUnit = Unit(units[0],units[1]);
+                         {
+                         	  QStringList terms = units[1].split(" ");
+                         	  if (terms.size() > 0)
+                         	  {
+	                         	  for (int j=0; j < terms.size(); ++j)
+    	                     	  		node->measurementUnitOptions += Unit(units[0],terms[j]);
+    	                          node->measurementUnit = node->measurementUnitOptions[0];
+    	                      }
+						 }
                     }
                     else
                     if (vec.at(i).name().toString().toLower() == QObject::tr("description"))
@@ -261,9 +269,11 @@ namespace Tinkercell
                          if (!node->textAttributes.contains(skeys[i]))
                               node->textAttributes[ skeys[i] ] = parentNode->textAttributes[ skeys[i] ];
 
-                    if (node->measurementUnit.name.isEmpty())
+                    if (node->measurementUnitOptions.isEmpty())
+                    {
+                         node->measurementUnitOptions = parentNode->measurementUnitOptions;
                          node->measurementUnit = parentNode->measurementUnit;
-					
+					}
 					if (node->description.isEmpty())
 	                    node->description = parentNode->description;
                }

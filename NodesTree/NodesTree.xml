@@ -3,7 +3,7 @@
 <NodesGraph version="1.0">
 <node family="Node" description="Nodes can be connected to one another using one of the various types of connections. The two main divisions of nodes are DNA parts and molecular species.">
 
-  <node family="Molecule" units="concentration,uM" molecularweight="50000" description="Molecular species that diffuse through the cell, such as proteins, RNA, or metabolites.">
+  <node family="Molecule" units="concentration,uM nM mM" molecularweight="50000" description="Molecular species that diffuse through the cell, such as proteins, RNA, or metabolites.">
 
 	<node family="Small Molecule" description="Metabolites, ions, and other small molecules"></node>
 
@@ -37,7 +37,7 @@
 	<node family="Terminator" strength="1.0" description="Transcriptional terminator">	</node>
   </node>
 </node>
-<node family="Compartment" units="volume,fL" description="A region where the contained molecular species are localized and contained">
+<node family="Compartment" units="volume,fL nL mL" description="A region where the contained molecular species are localized and contained">
 	<node family="Subcellular compartment" x="0" y="0" description="A compartment inside a biological cell, e.g. nucleus"></node>
 	<node family="Cell" species="E.coli" count="1" x="0" y="0" description="A biological cell, e.g. a bacterium"></node>
 </node>

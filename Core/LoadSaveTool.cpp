@@ -1016,6 +1016,24 @@ namespace Tinkercell
 			return connectionFamilies.value(s);
 		return 0;
 	}
+
+	void LoadSaveTool::readInUnitsFromTable(const TextDataTable & units)
+	{
+		if (units.columns() < 2) return;
+
+		for (int i=0; i < units.rows(); ++i)
+		{
+			if (nodeFamilies.contains(units.rowName(i)))
+				nodeFamilies[units.rowName(i))]->measurementUnit = Unit( units(i,0), units(i,1) );
+				
+			if (connectionFamilies.contains(units.rowName(i)))
+				connectionFamilies[units.rowName(i))]->measurementUnit = Unit( units(i,0), units(i,1) );
+		}
+	}
+	
+	void LoadSaveTool::saveUnitsToTable(TextDataTable & units)
+	{
+	}
 	
 	QMap<QString,NodeFamily*> LoadSaveTool::nodeFamilies;
 	QMap<QString,ConnectionFamily*> LoadSaveTool::connectionFamilies;

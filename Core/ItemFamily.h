@@ -65,6 +65,8 @@ namespace Tinkercell
 	public:
 		/*! \brief description of this family*/
 		QString description;
+		/*! \brief the possible options for measurement name and unit for items in this family*/
+		QList<Unit> measurementUnitOptions;
 		/*! \brief the measurement name and unit for items in this family*/
 		Unit measurementUnit;
 		/*! \brief the list of numerical attributes that are common to all members of this family*/

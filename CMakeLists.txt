@@ -191,7 +191,7 @@ IF (APPLE)
 ENDIF(APPLE)
 
 IF (UNIX AND NOT APPLE)
-   ADD_SUBDIRECTORY( linux )   #for Linux (mainly for Ubuntu)
+   ADD_SUBDIRECTORY( linux )   #for Linux (tested on Ubuntu)
 ENDIF(UNIX AND NOT APPLE)
 
 #----------------------------------------------------------------------------
@@ -205,7 +205,7 @@ INSTALL(FILES ${TINKERCELL_SUPPORTING_FILES} DESTINATION bin/../)
 #   TinkerCell plugins and executables
 #----------------------------------------------------------------------------
 
-INCLUDE( CMake/TinkercellPlugins.cmake )
+INCLUDE( CMake/TinkercellPlugins.cmake ) #plugins
 ADD_SUBDIRECTORY( Main )   #main executable
 ADD_SUBDIRECTORY( NodeGraphicsItem )   #program for drawing new graphics items
   

@@ -4,6 +4,9 @@ CMAKE_MINIMUM_REQUIRED( VERSION 2.6 )
 
 SET(LIBRARY_OUTPUT_PATH ${EXECUTABLE_OUTPUT_PATH})
 
+OPTION( BUILD_SBWCORE "systems biology workbench core" OFF )
+OPTION( BUILD_BIOCODER "wet-lab protocol coder" OFF )
+
 ADD_SUBDIRECTORY( muparser )  #Math parser
 ADD_SUBDIRECTORY( curl )      #needed by raptor
 ADD_SUBDIRECTORY( expat )      #small XML parser
@@ -17,7 +20,11 @@ ADD_SUBDIRECTORY( lapack )     #linear algebra
 ADD_SUBDIRECTORY( lpsolve )    #linear programming
 ADD_SUBDIRECTORY( libSBML )    #systems biology markup language parser
 ADD_SUBDIRECTORY( Antimony )   #human-readable test-based reaction networks
-ADD_SUBDIRECTORY( sbw )        #systems biology workbench (Core only)
 ADD_SUBDIRECTORY( copasi )     #simulation and analysis package
-ADD_SUBDIRECTORY( BioCoder )   #wet-lab protocol generator
 ADD_SUBDIRECTORY( galib )   #genetic algorithms library
+IF (BUILD_SBWCORE)
+	ADD_SUBDIRECTORY( sbw )        #systems biology workbench (Core only)
+ENDIF (BUILD_SBWCORE)
+IF (BUILD_BIOCODER)	
+	ADD_SUBDIRECTORY( BioCoder )   #wet-lab protocol generator
+ENDIF (BUILD_BIOCODER)

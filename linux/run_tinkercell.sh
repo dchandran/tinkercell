@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ $1 == "dev" ]
+if [ $# -gt 0 ]
 then 
     TINKERCELL_PATH=@TINKERCELL_BINARY_DIR@/_CPack_Packages/Linux/TGZ/TinkerCell
 else

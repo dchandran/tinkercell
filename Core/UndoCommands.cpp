@@ -7,6 +7,7 @@ See COPYRIGHT.TXT
 This file contains a collection of commands that perform simple operations that can be redone and undone.
 
 ****************************************************************************/
+#include <iostream>
 #include "NodeGraphicsItem.h"
 #include "NodeGraphicsReader.h"
 #include "ConnectionGraphicsItem.h"
@@ -2282,10 +2283,13 @@ namespace Tinkercell
 							s2 = nDat->rowName(k);
 							substituteString(s2,oldname,newname);
 							s2 = RemoveDisallowedCharactersFromName(s2);
-							if (!nDat->hasRow(s2))
-								nDat->setRowName(k,RemoveDisallowedCharactersFromName(s2));
-							else
-								nDat->removeRow(k);
+							if (s2 != nDat->rowName(k))
+							{
+								if (!nDat->hasRow(s2))
+									nDat->setRowName(k,RemoveDisallowedCharactersFromName(s2));
+								else
+									nDat->removeRow(k);
+							}
 						}
 
 						if (fullname + nDat->rowName(k) == oldname)
@@ -2300,10 +2304,13 @@ namespace Tinkercell
 							s2 = nDat->columnName(k);
 							substituteString(s2,oldname,newname);
 							s2 = RemoveDisallowedCharactersFromName(s2);
-							if (!nDat->hasColumn(s2))
-								nDat->setColumnName(k,s2);
-							else
-								nDat->removeColumn(k);
+							if (s2 != nDat->columnName(k))
+							{
+								if (!nDat->hasColumn(s2))
+									nDat->setColumnName(k,s2);
+								else
+									nDat->removeColumn(k);
+							}
 						}
 						
 						if (fullname + nDat->columnName(k) == oldname)
@@ -2321,10 +2328,13 @@ namespace Tinkercell
 							s2 = sDat->rowName(k);
 							substituteString(s2,oldname,newname);
 							s2 = RemoveDisallowedCharactersFromName(s2);
-							if (!sDat->hasRow(s2))
-								sDat->setRowName(k,s2);
-							else
-								sDat->removeRow(k);
+							if (s2 != sDat->rowName(k))
+							{
+								if (!sDat->hasRow(s2))
+									sDat->setRowName(k,s2);
+								else
+									sDat->removeRow(k);
+							}
 						}
 
 						if (fullname + sDat->rowName(k) == oldname)						
@@ -2337,10 +2347,13 @@ namespace Tinkercell
 							s2 = sDat->columnName(k);
 							substituteString(s2,oldname,newname);
 							s2 = RemoveDisallowedCharactersFromName(s2);
-							if (!sDat->hasColumn(s2))
-								sDat->setColumnName(k,s2);
-							else
-								sDat->removeColumn(k);
+							if (s2 != sDat->columnName(k))
+							{
+								if (!sDat->hasColumn(s2))
+									sDat->setColumnName(k,s2);
+								else
+									sDat->removeColumn(k);
+							}
 						}
 						
 						if (fullname + sDat->columnName(k) == oldname)

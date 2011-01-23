@@ -1,6 +1,22 @@
 #ifndef COPASI_SIMPLE_C_API
 #define COPASI_SIMPLE_C_API
 
+/*
+This is a C API for the COPASI C++ library. Rate equations in COPASI require the "complete name",   
+e.g. instead of X, the rate must specify <model.compartment.X>. In this C API, those complete names
+are stored in a hash table. The API replaces the simple strings, i.e. "C", with the complete names by
+using the hash-table. This is mainly for speed; otherwise, every setReactionRate would be searching
+through the entire model for each of its variables. The hash-table idea is used for functions such
+as setValue, which can set the value of a parameter or that of a molecular species. Again, it uses the
+hash table to identify what a variable is. 
+
+The C API hides the C++ classes by casting some of the main classes into void pointers inside
+C structs. 
+
+QtCore is used for providing the hash-table feature and regular expression (QHash and QRegExp). This
+should be replaced with the boost library at some point. 
+*/
+
 #include "TC_structs.h"
 
 /*!\brief this struct is used to contain a pointer to an instance of a COPASI class*/

@@ -12,14 +12,15 @@ int main()
 	tc_matrix efm;
 	copasi_model m;
 	
-	m = loadModelFile("brusselator.sbml");
+	m = loadModelFile("branch.sbml");
+	efm = getElementaryFluxModes(m);
+	tc_printOutMatrix(efm);	
+	
+	m = model1();
 	sim(m);
-
-	//m = model2();
-	//sim(m);
-	//efm = getElementaryFluxModes(m);
-	//tc_printOutMatrix(efm);	
-	//tc_deleteMatrix(efm);
+	
+	//cleanup
+	tc_deleteMatrix(efm);
 	copasi_end();
 	return 0;
 }
@@ -28,6 +29,7 @@ copasi_model model1()
 {
 	//model named M
 	copasi_model model = createCopasiModel("M");
+	copasi_reaction R1, R2, R3;
 	
 	//species
 	copasi_compartment cell = createCompartment(model, "cell", 1.0);
@@ -42,20 +44,20 @@ copasi_model model1()
 	setValue(model, "k3", 0.3);   //k3
 	
 	//reactions -- make sure all parameters or species are defined BEFORE this step
-	copasi_reaction R1 = createReaction(model, "R1");  // A+B -> 2B
+	R1 = createReaction(model, "R1");  // A+B -> 2B
 	
 	addReactant(R1, "cell_A", 1.0);
 	addReactant(R1, "out_A", 1.0);
 	addProduct(R1, "out_A", 2.0);
 	setReactionRate(R1, "k1*cell_A*out_A");
 
-	copasi_reaction R2 = createReaction(model, "R2");  //B+C -> 2C
+	R2 = createReaction(model, "R2");  //B+C -> 2C
 	addReactant(R2, "out_A", 1.0);
 	addReactant(R2, "C", 1.0);
 	addProduct(R2, "C", 2.0);
 	setReactionRate(R2, "k2*out_A*C");
 
-	copasi_reaction R3 = createReaction(model, "R3"); //C+A -> 2A
+	R3 = createReaction(model, "R3"); //C+A -> 2A
 	addReactant(R3, "C", 1.0);
 	addReactant(R3, "cell_A", 1.0);
 	addProduct(R3, "cell_A", 2.0);
@@ -72,9 +74,11 @@ copasi_model model2()
 {
 	//model named M
 	copasi_model model = createCopasiModel("M");
+	copasi_compartment cell;
+	copasi_reaction R1, R2, R3, R4;
 	
 	//species
-	copasi_compartment cell = createCompartment(model, "cell", 1.0);
+	cell = createCompartment(model, "cell", 1.0);
 	createSpecies(cell, "mRNA", 0);
 	createSpecies(cell, "Protein", 0);
 	
@@ -88,19 +92,19 @@ copasi_model model2()
 	setValue(model, "leak", 0.1);  
 	
 	//reactions -- make sure all parameters or species are defined BEFORE this step
-	copasi_reaction R1 = createReaction(model, "R1");  //  mRNA production
+	R1 = createReaction(model, "R1");  //  mRNA production
 	addProduct(R1, "mRNA", 1.0);
 	setReactionRate(R1, "leak + k0 * (Protein^h) / (Kd + (Protein^h))");
 
-	copasi_reaction R2 = createReaction(model, "R2");  // Protein production
+	R2 = createReaction(model, "R2");  // Protein production
 	addProduct(R2, "Protein", 1.0);
 	setReactionRate(R2, "k1*mRNA");
 
-	copasi_reaction R3 = createReaction(model, "R3"); // mRNA degradation
+	R3 = createReaction(model, "R3"); // mRNA degradation
 	addReactant(R3, "mRNA", 1.0);
 	setReactionRate(R3, "d1*mRNA");
 	
-	copasi_reaction R4 = createReaction(model, "R4"); // Protein degradation
+	R4 = createReaction(model, "R4"); // Protein degradation
 	addReactant(R4, "Protein", 1.0);
 	setReactionRate(R4, "d2*Protein");
 	return model;

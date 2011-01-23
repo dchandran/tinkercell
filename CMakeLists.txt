@@ -214,7 +214,7 @@ ADD_SUBDIRECTORY( NodeGraphicsItem )   #program for drawing new graphics items
 #----------------------------------------------------------------------------
 
 INCLUDE( CMake/TinkercellCPack.cmake )
-
+MESSAGE(STATUS "Package will be placed in _CPack_Packages/.../${CPACK_PACKAGE_INSTALL_DIRECTORY}")
 # ---------------------
 # CTEST 
 # INCLUDE( CTest )

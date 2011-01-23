@@ -178,22 +178,6 @@ IF( BUILD_EXAMPLE_PROGRAMS )
      ADD_SUBDIRECTORY( Examples )
 ENDIF( BUILD_EXAMPLE_PROGRAMS )
 
-#--------------------------------------------------------------------------------------------
-# OS Specific
-#--------------------------------------------------------------------------------------------
-
-IF( WIN32 )
-    ADD_SUBDIRECTORY( win32 )  #for Windows (with MinGW)
-ENDIF(WIN32)
-
-IF (APPLE)
-   ADD_SUBDIRECTORY( mac )   #for Mac
-ENDIF(APPLE)
-
-IF (UNIX AND NOT APPLE)
-   ADD_SUBDIRECTORY( linux )   #for Linux (tested on Ubuntu)
-ENDIF(UNIX AND NOT APPLE)
-
 #----------------------------------------------------------------------------
 # Copyright and other files
 #----------------------------------------------------------------------------
@@ -214,7 +198,38 @@ ADD_SUBDIRECTORY( NodeGraphicsItem )   #program for drawing new graphics items
 #----------------------------------------------------------------------------
 
 INCLUDE( CMake/TinkercellCPack.cmake )
-MESSAGE(STATUS "Package will be placed in _CPack_Packages/.../${CPACK_PACKAGE_INSTALL_DIRECTORY}")
+
+IF (NOT DEFINED TINKERCELL_PACKAGE_FOLDER)
+	IF( WIN32 )
+		SET(TINKERCELL_PACKAGE_FOLDER win32/ZIP/TinkerCell)
+	ENDIF(WIN32)
+
+	IF (APPLE)
+	   SET(TINKERCELL_PACKAGE_FOLDER bin)
+	ENDIF(APPLE)
+
+	IF (UNIX AND NOT APPLE)
+	   SET(TINKERCELL_PACKAGE_FOLDER Linux/TGZ/TinkerCell)
+	ENDIF(UNIX AND NOT APPLE)
+ENDIF (NOT DEFINED TINKERCELL_PACKAGE_FOLDER)
+MESSAGE(STATUS "Package will be placed in ${TINKERCELL_BINARY_DIR}/_CPack_Packages/${TINKERCELL_PACKAGE_FOLDER}")
+
+#--------------------------------------------------------------------------------------------
+# OS Specific
+#--------------------------------------------------------------------------------------------
+
+IF( WIN32 )
+    ADD_SUBDIRECTORY( win32 )  #for Windows (with MinGW)
+ENDIF(WIN32)
+
+IF (APPLE)
+   ADD_SUBDIRECTORY( mac )   #for Mac
+ENDIF(APPLE)
+
+IF (UNIX AND NOT APPLE)
+   ADD_SUBDIRECTORY( linux )   #for Linux (tested on Ubuntu)
+ENDIF(UNIX AND NOT APPLE)
+
 # ---------------------
 # CTEST 
 # INCLUDE( CTest )

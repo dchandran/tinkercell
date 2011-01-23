@@ -1847,10 +1847,12 @@ namespace Tinkercell
 		
 		QTransform t;
 
-		QList<QGraphicsItem*> itemsToMove;
+		QList<QGraphicsItem*> itemsToMove, shapes;
 		QList<QPointF> moveBy;
 		QList<qreal> rotateBy;
 		QList<bool> flips;
+		QList<QBrush> noBrushes;
+		QList<QPen> noPens;
 		qreal angle;
 		QPointF p1, p2;
 
@@ -1891,11 +1893,16 @@ namespace Tinkercell
 					angle -= 3.14159/2.0;
 				}
 
-				if (!itemsToMove.contains(nodesInPlasmid[i]))
+				QPointF dx = p2 - p1;
+				if (!itemsToMove.contains(nodesInPlasmid[i]) && (abs(dx.rx()) > 1.0 || abs(dx.ry()) > 1.0))
 				{
 					itemsToMove += nodesInPlasmid[i];
-					moveBy += (p2 - p1);
+					moveBy += dx;
 					rotateBy += (angle * 180/3.14159);
+					
+					shapes << nodesInPlasmid[i]->rightMostShape() << nodesInPlasmid[i]->leftMostShape();
+					noBrushes << QBrush(QColor(0,0,0,0)) << QBrush(QColor(0,0,0,0));
+					noPens << QPen(QColor(0,0,0,0)) << QPen(QColor(0,0,0,0));
 				
 					if ((t.m11() < 0) || (t.m22() < 0) || (t.m12() != 0) || (t.m21() != 0))
 						flips += true;
@@ -1918,7 +1925,8 @@ namespace Tinkercell
 			if (!itemsToMove.isEmpty())
 				commands 
 						 << new TransformCommand(tr("rotate"), scene, itemsToMove, QList<QPointF>(), rotateBy, QList<bool>(), QList<bool>())
-						 << new MoveCommand(scene, itemsToMove, moveBy);
+						 << new MoveCommand(scene, itemsToMove, moveBy)
+						 << new ChangeBrushAndPenCommand(tr("invisible"),shapes, noBrushes, noPens);
 		}
 		
 		for (int i=0; i < children.size(); ++i)

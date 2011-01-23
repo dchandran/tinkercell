@@ -582,6 +582,8 @@ namespace Tinkercell
 	
 	void BasicGraphicsToolbar::keyPressed(GraphicsScene * scene, QKeyEvent * keyEvent)
 	{
+		if (!scene || scene->selected().isEmpty()) return;
+
 		if (keyEvent->key() == Qt::Key_PageUp)
 		{
 			bringToFront();

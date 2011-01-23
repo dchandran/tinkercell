@@ -1894,7 +1894,7 @@ namespace Tinkercell
 				}
 
 				QPointF dx = p2 - p1;
-				if (!itemsToMove.contains(nodesInPlasmid[i]) && (abs(dx.rx()) > 1.0 || abs(dx.ry()) > 1.0))
+				if (!itemsToMove.contains(nodesInPlasmid[i]))
 				{
 					itemsToMove += nodesInPlasmid[i];
 					moveBy += dx;

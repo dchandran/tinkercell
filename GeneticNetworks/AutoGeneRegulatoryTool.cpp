@@ -1900,9 +1900,16 @@ namespace Tinkercell
 					moveBy += dx;
 					rotateBy += (angle * 180/3.14159);
 					
-					shapes << nodesInPlasmid[i]->rightMostShape() << nodesInPlasmid[i]->leftMostShape();
-					noBrushes << QBrush(QColor(0,0,0,0)) << QBrush(QColor(0,0,0,0));
-					noPens << QPen(QColor(0,0,0,0)) << QPen(QColor(0,0,0,0));
+					NodeGraphicsItem::Shape * shape1 = nodesInPlasmid[i]->rightMostShape(),
+																* shape2 = nodesInPlasmid[i]->leftMostShape();
+					if (shape1 && shape2 &&
+						shape1->defaultBrush.color() == QColor(0,0,0) &&
+						 shape2->defaultBrush.color() == QColor(0,0,0))
+					{
+						shapes << shape1 << shape2;
+						noBrushes << QBrush(QColor(0,0,0,0)) << QBrush(QColor(0,0,0,0));
+						noPens << QPen(QColor(0,0,0,0)) << QPen(QColor(0,0,0,0));
+					}
 				
 					if ((t.m11() < 0) || (t.m22() < 0) || (t.m12() != 0) || (t.m21() != 0))
 						flips += true;
@@ -1931,10 +1938,20 @@ namespace Tinkercell
 		
 		for (int i=0; i < children.size(); ++i)
 		{
+			NodeGraphicsItem * node;
 			QList<QGraphicsItem*> & graphicsItems = children[i]->graphicsItems;
 			for (int j=0; j < graphicsItems.size(); ++j)
-				if (NodeGraphicsItem::cast(graphicsItems[j]))
-					NodeGraphicsItem::cast(graphicsItems[j])->resetToDefaults();
+				if (node = NodeGraphicsItem::cast(graphicsItems[j]))
+				{
+					node->resetToDefaults();
+					NodeGraphicsItem::Shape * shape1 = node->rightMostShape(),
+																* shape2 = node->leftMostShape();
+					if (shape1 && shape2)
+					{
+						shape1->defaultBrush = QBrush(QColor(0,0,0));
+						shape2->defaultBrush = QBrush(QColor(0,0,0));
+					}
+				}
 		}
 		
 		return new CompositeCommand(tr("plasmid adjusted"),commands);

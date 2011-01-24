@@ -362,8 +362,10 @@ namespace Tinkercell
 		QRegExp regex(tr(".*\\/([^\\/]+)\\.\\S+$"));
 		QString filename2 = filename;
 		if (regex.indexIn(filename) >= 0)
+		{
 			filename2 = regex.cap(1);
-
+			network->setWindowTitle(filename2);
+		}
 		emit networkSaved(network);
 
 		mainWindow->statusBar()->showMessage(tr("model saved in ") + filename);
@@ -443,7 +445,10 @@ namespace Tinkercell
 			QRegExp regex(tr(".*\\/([^\\/]+)\\.\\S+$"));
 			QString filename2 = filename;
 			if (regex.indexIn(filename) >= 0)
+			{
 				filename2 = regex.cap(1);
+				scene->network->setWindowTitle(filename2);
+			}
 
 			emit networkLoaded(scene->network);
 		}

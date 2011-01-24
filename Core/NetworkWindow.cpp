@@ -350,11 +350,14 @@ namespace Tinkercell
 	void NetworkWindow::setFileName(const QString& text)
 	{
 		filename = text;
+		
+		network->mainWindow->console()->message(text);
 
-		QRegExp regex(tr("([^\\/]+$)"));
-		if (network && network->mainWindow && regex.indexIn(filename))
+		QRegExp regex(tr("([^\\\\/]+$)"));
+		if (network && network->mainWindow && (regex.indexIn(filename) >= 0))
 		{
-			this->setWindowTitle(regex.cap(1));
+			network->mainWindow->console()->message(regex.cap(1));
+			setWindowTitle(regex.cap(1));
 		}
 	}
 

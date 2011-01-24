@@ -500,7 +500,10 @@ namespace Tinkercell
 		
 		QRegExp regex(tr("([^\\/]+$)"));
 		if (regex.indexIn(fileName))
+		{
+			console()->message(fileName);
 			currentNetworkWindow->setFileName(fileName);
+		}
 	}
 
 	void MainWindow::saveWindowAs()
@@ -540,10 +543,7 @@ namespace Tinkercell
 		}
 
 		emit saveNetwork(fileName);
-		
-		QRegExp regex(tr("([^\\/]+$)"));
-		if (regex.indexIn(fileName))
-			currentNetworkWindow->setFileName(fileName);
+		currentNetworkWindow->setFileName(fileName);
 	}
 
 	void MainWindow::open(const QString& fileName)
@@ -562,13 +562,7 @@ namespace Tinkercell
 		emit loadNetwork(fileName);
 		
 		if (currentNetworkWindow)
-		{
-			currentNetworkWindow->filename = fileName;
-		
-			QRegExp regex(tr("([^\\/]+$)"));
-			if (regex.indexIn(fileName))
-				currentNetworkWindow->setFileName(fileName);
-		}
+			currentNetworkWindow->setFileName(fileName);
 	}
 
 	void MainWindow::open()

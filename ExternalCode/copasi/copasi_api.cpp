@@ -80,6 +80,7 @@ struct CopasiPtr
 typedef QHash< QString, CopasiPtr > CQHash;
 static void substituteString(QString& target, const QString& oldname,const QString& newname0);
 static QList< CQHash* > hashTablesToCleanup;
+static QList< copasi_model > copasiModelsToCleanup;
 
 void copasi_init()
 {
@@ -88,14 +89,33 @@ void copasi_init()
 
 void copasi_end()
 {
-	CCopasiRootContainer::destroy();
 	for (int i=0; i < hashTablesToCleanup.size(); ++i)
 		delete hashTablesToCleanup[i];
+
+	QList< copasi_model > models = copasiModelsToCleanup;
+	copasiModelsToCleanup.clear();
+	
+	for (int i=0; i < models.size(); ++i)
+		removeCopasiModel(models[i]);
+
+	CCopasiRootContainer::destroy();
 }
 
 void removeCopasiModel(copasi_model model)
 {
-	CCopasiRootContainer::removeDatamodel((CCopasiDataModel*)model.CopasiDataModelPtr);
+	//remove from list
+	for (int i=0; i < copasiModelsToCleanup.size(); ++i)
+		if (copasiModelsToCleanup[i].CopasiDataModelPtr == model.CopasiDataModelPtr)
+		{
+			copasi_model m = { (void*)0, (void*)0, (void*)0, (char*)0 };
+			copasiModelsToCleanup[i] = m;
+		}
+
+	//delete model
+	if (model.errorMessage)
+		free(model.errorMessage);
+	if (model.CopasiDataModelPtr)
+		CCopasiRootContainer::removeDatamodel((CCopasiDataModel*)model.CopasiDataModelPtr);
 }
 
 void clearCopasiModel(copasi_model model)
@@ -134,10 +154,11 @@ copasi_model createCopasiModel(const char * name)
 	CCopasiDataModel* pDataModel = CCopasiRootContainer::addDatamodel();
 	CModel* pModel = pDataModel->getModel();
 	CQHash * qHash = new CQHash();
+	copasi_model m = { (void*)(pModel) , (void*)(pDataModel), (void*)(qHash), (char*)(0) };
 	
 	hashTablesToCleanup += qHash;
-	
-	copasi_model m = { (void*)(pModel) , (void*)(pDataModel), (void*)(qHash) };
+	copasiModelsToCleanup += m;
+
 	pModel->setSBMLId( std::string(name) );
 	pModel->setObjectName( std::string(name) );
 	//pModel->setTimeUnit(CModel::s);
@@ -934,6 +955,7 @@ copasi_model loadModelFile(const char * filename)
 {
 	copasi_init();
 	CCopasiDataModel* pDataModel = CCopasiRootContainer::addDatamodel();
+	char * error = 0;
 	try 
 	{
 		pDataModel->importSBML(filename); //SBML -> COPASI
@@ -941,16 +963,35 @@ copasi_model loadModelFile(const char * filename)
 	catch(...)
 	{
 		loadFile(filename); //load Antimony
-		char * s = getSBMLString("__main");  //Antimony -> SBML (at worst, an empty model)
+		
+		/*get the error message, if any*/
+		const char * err = getLastError();
+		int len = 0;
+		for (int i=0; err && err[i]; ++i) ++len;
+		
+		if (len > 1)
+		{
+			error = (char*)malloc((1+len) * sizeof(char));
+			if (error)
+			{
+				for (int i=0; i < len; ++i) error[i] = err[i];
+				error[len-1] = 0;
+			}
+		
+			/* */
+		}
+		const char * s = getSBMLString("__main");  //Antimony -> SBML (at worst, an empty model)
 		pDataModel->importSBMLFromString(s); //SBML -> COPASI	
 		freeAll(); //free Antimony
 	}
 	
 	CModel* pModel = pDataModel->getModel();
 	CQHash * qHash = new CQHash();
-	hashTablesToCleanup += qHash;
 	
-	copasi_model m = { (void*)(pModel) , (void*)(pDataModel), (void*)(qHash) };
+	copasi_model m = { (void*)(pModel) , (void*)(pDataModel), (void*)(qHash), (char*)error };
+	
+	hashTablesToCleanup += qHash;
+	copasiModelsToCleanup += m;
 	
 	return m;
 }

@@ -10,16 +10,24 @@ void eigen(copasi_model, const char*); //compute eigenvalues by changing paramet
 int main()
 {
 	tc_matrix efm = tc_createMatrix(0,0);
-	copasi_model m;
+	copasi_model m1, m2;
 	
-	m = loadModelFile("branch.sbml");
-	saveModelFile(m, "branch2.sbml");
-	efm = getElementaryFluxModes(m);
-	tc_printOutMatrix(efm);	
+	m1 = loadModelFile("branch.sbml");
+	if (m1.errorMessage)
+		printf("%s\n", m1.errorMessage);
+	else
+	{
+		saveModelFile(m1, "branch2.sbml");
+		efm = getElementaryFluxModes(m1);
+		tc_printOutMatrix(efm);	
+	}
 	
-	m = model1();
-	sim(m);
+	m2 = model1();
+	sim(m2);
 	
+	removeCopasiModel(m1);
+	removeCopasiModel(m2);
+
 	//cleanup
 	tc_deleteMatrix(efm);
 	copasi_end();

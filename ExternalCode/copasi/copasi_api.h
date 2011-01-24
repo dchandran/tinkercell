@@ -20,13 +20,29 @@ should be replaced with the boost library at some point.
 #include "TC_structs.h"
 
 /*!\brief this struct is used to contain a pointer to an instance of a COPASI class*/
-typedef struct  { void * CopasiModelPtr;  void * CopasiDataModelPtr; void * qHash; } copasi_model;
+typedef struct  
+{ 
+	void * CopasiModelPtr;
+	void * CopasiDataModelPtr;
+	void * qHash;
+	char * errorMessage; 
+} copasi_model;
 
 /*!\brief this struct is used to contain a pointer to an instance of a COPASI class*/
-typedef struct  { void * CopasiReactionPtr; void * CopasiModelPtr; void * qHash; } copasi_reaction;
+typedef struct  
+{
+	void * CopasiReactionPtr;
+	void * CopasiModelPtr;
+	void * qHash; 
+} copasi_reaction;
 
 /*!\brief this struct is used to contain a pointer to an instance of a COPASI class*/
-typedef struct  { void * CopasiCompartmentPtr; void * CopasiModelPtr; void * qHash; } copasi_compartment;
+typedef struct  
+{
+	void * CopasiCompartmentPtr;
+	void * CopasiModelPtr; 
+	void * qHash; 
+} copasi_compartment;
 
 BEGIN_C_DECLS
 

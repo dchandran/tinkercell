@@ -1864,9 +1864,9 @@ namespace Tinkercell
 				nodesInPlasmid[i]->resetToDefaults();
 				
 				boundingRect = nodesInPlasmid[i]->sceneBoundingRect();
-				boundingRect.setWidth(100.0);
-				nodesInPlasmid[i]->setBoundingRect(boundingRect.topLeft(), boundingRect.bottomRight());
-				boundingRect = nodesInPlasmid[i]->sceneBoundingRect();
+				//boundingRect.setWidth(100.0);
+				//nodesInPlasmid[i]->setBoundingRect(boundingRect.topLeft(), boundingRect.bottomRight());
+				//boundingRect = nodesInPlasmid[i]->sceneBoundingRect();
 
 				p1 = boundingRect.center();
 				qreal angle;

@@ -21,11 +21,10 @@ int main()
 		efm = getElementaryFluxModes(m1);
 		tc_printOutMatrix(efm);	
 	}
+	removeCopasiModel(m1);
 	
 	m2 = model1();
 	sim(m2);
-	
-	removeCopasiModel(m1);
 	removeCopasiModel(m2);
 
 	//cleanup

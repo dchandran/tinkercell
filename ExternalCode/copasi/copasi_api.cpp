@@ -923,6 +923,13 @@ tc_matrix simulateHybrid(copasi_model model, double startTime, double endTime, i
 	return simulate(model,startTime,endTime,numSteps,CCopasiMethod::hybridLSODA);
 }
 
+void saveModelFile(copasi_model model, const char * filename)
+{
+	CCopasiDataModel* pDataModel = (CCopasiDataModel*)(model.CopasiDataModelPtr);
+	if (pDataModel)
+		pDataModel->exportSBML(filename, true, 2, 3);
+}
+
 copasi_model loadModelFile(const char * filename)
 {
 	copasi_init();

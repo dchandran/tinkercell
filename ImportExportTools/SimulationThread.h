@@ -76,7 +76,13 @@ namespace Tinkercell
 		/*! \brief Updates the COPASI model using the list of handles provided
 		* \param QList<ItemHandle*> all items in the model
 		*/
+		static void updateModel(QList<ItemHandle*>&, copasi_model & model);
+		
+		/*! \brief Updates the COPASI model using the list of handles provided
+		* \param QList<ItemHandle*> all items in the model
+		*/
 		void updateModel(QList<ItemHandle*>&);
+		
 		/*! \brief Select the type of analysis this thread should run
 		* \param AnalysisMethod
 		*/

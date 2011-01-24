@@ -65,11 +65,18 @@ TCAPIEXPORT void removeCopasiModel(copasi_model);
 TCAPIEXPORT void compileCopasiModel(copasi_model model);
 /*! 
  \brief create a model from an Antimony or SBML file
- \param char* model name
+ \param char* file name
  \return copasi_model a new copasi model
  \ingroup Simulation
 */
 TCAPIEXPORT copasi_model loadModelFile(const char * filename);
+/*! 
+ \brief save a model as an SBML file
+ \param copasi_model copasi model
+ \param char* file name
+ \ingroup Simulation
+*/
+TCAPIEXPORT void saveModelFile(copasi_model model, const char * filename);
 /*! 
  \brief add a compartment to the model
  \param copasi_model model/*! 

@@ -18,6 +18,11 @@ SimulationThread::~SimulationThread()
 
 void SimulationThread::updateModel(QList<ItemHandle*> & handles)
 {
+	updateModel(handles, model);
+}
+
+void SimulationThread::updateModel(QList<ItemHandle*> & handles, copasi_model & model)
+{
 	//make sure all children are included
 	for (int i=0; i < handles.size(); ++i)
 		if (handles[i])
@@ -270,7 +275,7 @@ void SimulationThread::updateModel()
 	sem.release();
 
 	if (changed)
-		updateModel(handles);
+		updateModel(handles,this->model);
 }
 
 SimulationThread::SimulationThread(MainWindow * parent) : CThread(parent)

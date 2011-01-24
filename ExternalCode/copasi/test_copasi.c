@@ -13,6 +13,7 @@ int main()
 	copasi_model m;
 	
 	m = loadModelFile("branch.sbml");
+	saveModelFile(m, "branch2.sbml");
 	efm = getElementaryFluxModes(m);
 	tc_printOutMatrix(efm);	
 	

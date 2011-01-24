@@ -1,3 +1,4 @@
+#include <iostream>
 #include <QFileDialog>
 #include "sbml/SBMLReader.h"
 #include "sbml/SBMLWriter.h"
@@ -533,13 +534,16 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 	for (int i=0; i < families.size(); ++i)
 	{
 		SpeciesType_t * s = Model_createSpeciesType(model);
-		SpeciesType_setId(s, ConvertValue(families[i]->name()));
-		SpeciesType_setName(s, ConvertValue(families[i]->name()));
-		if (!families[i]->measurementUnit.name.isEmpty())
+		if (s)
 		{
-			UnitDefinition_t * unitDef = Model_createUnitDefinition(model);
-			UnitDefinition_setId(unitDef, ConvertValue(families[i]->measurementUnit.name)); 
-			UnitDefinition_setName(unitDef, ConvertValue(families[i]->measurementUnit.name));
+			SpeciesType_setId(s, ConvertValue(tr("family_") + families[i]->name()));
+			SpeciesType_setName(s, ConvertValue(families[i]->name()));
+			if (!families[i]->measurementUnit.name.isEmpty())
+			{
+				UnitDefinition_t * unitDef = Model_createUnitDefinition(model);
+				UnitDefinition_setId(unitDef, ConvertValue(families[i]->measurementUnit.name)); 
+				UnitDefinition_setName(unitDef, ConvertValue(families[i]->measurementUnit.name));
+			}
 		}
 	}
 	
@@ -547,27 +551,33 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 	for (int i=0; i < compartments.size(); ++i)
 	{
 		Compartment_t * comp = Model_createCompartment (model);
-		Compartment_setId(comp, ConvertValue(compartments[i]));
-		Compartment_setName(comp, ConvertValue(compartments[i]));
-		Compartment_setVolume(comp, compartmentVolumes[i]);
-		Compartment_setUnits(comp, "uL");
+		if (comp)
+		{
+			Compartment_setId(comp, ConvertValue(compartments[i]));
+			Compartment_setName(comp, ConvertValue(compartments[i]));
+			Compartment_setVolume(comp, compartmentVolumes[i]);
+			Compartment_setUnits(comp, "uL");
+		}
 	}
 
 	//create list of species
 	for (int i=0; i < species.size(); ++i)
 	{
 		Species_t * s = Model_createSpecies(model);
-		Species_setId(s,ConvertValue(species[i]));
-		Species_setName(s,ConvertValue(species[i]));
-		Species_setConstant(s,0);
-		Species_setInitialConcentration(s,initialValues[i]);
-		Species_setInitialAmount(s,initialValues[i]);		
-		Species_setCompartment(s, ConvertValue(speciesCompartments[i]));
-		if (speciesHandles[i] && speciesHandles[i]->family())
+		if (s)
 		{
-			Species_setSpeciesType(s,ConvertValue(speciesHandles[i]->family()->name()));
-			if (!speciesHandles[i]->family()->measurementUnit.name.isEmpty())
-				Species_setUnits(s, ConvertValue(speciesHandles[i]->family()->measurementUnit.name));
+			Species_setId(s,ConvertValue(species[i]));
+			Species_setName(s,ConvertValue(species[i]));
+			Species_setConstant(s,0);
+			Species_setInitialConcentration(s,initialValues[i]);
+			Species_setInitialAmount(s,initialValues[i]);		
+			Species_setCompartment(s, ConvertValue(speciesCompartments[i]));
+			if (speciesHandles[i] && speciesHandles[i]->family())
+			{
+				Species_setSpeciesType(s,ConvertValue(tr("family_") + speciesHandles[i]->family()->name()));
+				if (!speciesHandles[i]->family()->measurementUnit.name.isEmpty())
+					Species_setUnits(s, ConvertValue(speciesHandles[i]->family()->measurementUnit.name));
+			}
 		}
 	}
 
@@ -575,32 +585,39 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 	for (int i=0; i < fixedVars.size(); ++i)
 	{
 		Species_t * s = Model_createSpecies(model);
-		Species_setId(s,ConvertValue(fixedVars[i]));
-		Species_setName(s,ConvertValue(fixedVars[i]));
-		Species_setConstant(s,1);
-		Species_setInitialConcentration(s,fixedValues[i]);
-		Species_setInitialAmount(s,fixedValues[i]);
-		
-		for (int j=0; j < handles.size(); ++j)
-			if (handles[j] && 
-				handles[j]->family() && 
-				fixedVars[i] == handles[i]->fullName(tr("_")))
-			{
-				if (!families.contains(handles[j]->family()))
+		if (s)
+		{
+			Species_setId(s,ConvertValue(fixedVars[i]));
+			Species_setName(s,ConvertValue(fixedVars[i]));
+			Species_setConstant(s,1);
+			Species_setInitialConcentration(s,fixedValues[i]);
+			Species_setInitialAmount(s,fixedValues[i]);
+			Species_setCompartment(s, "DefaultCompartment");
+
+			for (int j=0; j < handles.size(); ++j)
+				if (handles[j] && 
+					handles[j]->family() && 
+					fixedVars[i] == handles[i]->fullName(tr("_")))
 				{
-					SpeciesType_t * s = Model_createSpeciesType(model);
-					SpeciesType_setId(s, ConvertValue(handles[j]->family()->name()));
-					SpeciesType_setName(s, ConvertValue(handles[j]->family()->name()));
-					if (!handles[j]->family()->measurementUnit.name.isEmpty())
+					if (!families.contains(handles[j]->family()))
 					{
-						UnitDefinition_t * unitDef = Model_createUnitDefinition(model);
-						UnitDefinition_setId(unitDef, ConvertValue(handles[j]->family()->measurementUnit.name)); 
-						UnitDefinition_setName(unitDef, ConvertValue(handles[j]->family()->measurementUnit.name));
+						SpeciesType_t * s = Model_createSpeciesType(model);
+						if (s)
+						{
+							SpeciesType_setId(s, ConvertValue(tr("family_") + handles[j]->family()->name()));
+							SpeciesType_setName(s, ConvertValue(handles[j]->family()->name()));
+							if (!handles[j]->family()->measurementUnit.name.isEmpty())
+							{
+								UnitDefinition_t * unitDef = Model_createUnitDefinition(model);
+								UnitDefinition_setId(unitDef, ConvertValue(handles[j]->family()->measurementUnit.name)); 
+								UnitDefinition_setName(unitDef, ConvertValue(handles[j]->family()->measurementUnit.name));
+							}
+						}
 					}
+					Species_setSpeciesType(s,ConvertValue(tr("family_") + handles[j]->family()->name()));
+					if (!handles[j]->family()->measurementUnit.name.isEmpty())
+						Species_setUnits(s, ConvertValue(handles[j]->family()->measurementUnit.name));
 				}
-				Species_setSpeciesType(s,ConvertValue(handles[j]->family()->name()));
-				if (!handles[j]->family()->measurementUnit.name.isEmpty())
-					Species_setUnits(s, ConvertValue(handles[j]->family()->measurementUnit.name));
 			}
 	}
 	
@@ -608,6 +625,8 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 	for (int i=0; i < stoictc_matrix.columns(); ++i)
 	{
 		Reaction_t * reac = Model_createReaction(model);
+		if (!reac)
+			continue;
 		Reaction_setId(reac, ConvertValue(stoictc_matrix.columnName(i)));
 		Reaction_setName(reac, ConvertValue(stoictc_matrix.columnName(i)));
 		Reaction_setId(reac, ConvertValue(stoictc_matrix.columnName(i)));
@@ -644,17 +663,23 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 	for (int i=0; i < params.rows(); ++i)
 	{
 		Parameter_t * p = Model_createParameter(model);
-		Parameter_setId(p, ConvertValue(params.rowName(i)));
-		Parameter_setName(p, ConvertValue(params.rowName(i)));
-		Parameter_setValue(p, params.value(i,0));
+		if (p)
+		{
+			Parameter_setId(p, ConvertValue(params.rowName(i)));
+			Parameter_setName(p, ConvertValue(params.rowName(i)));
+			Parameter_setValue(p, params.value(i,0));
+		}
 	}
 	
 	//list of assignments
 	for (int i=0; i < assignmentNames.size(); ++i)
 	{
 		Rule_t * rule = Model_createAssignmentRule(model);
-		Rule_setVariable(rule, ConvertValue(assignmentNames[i]));
-		Rule_setFormula(rule, ConvertValue(assignmentDefs[i]));		
+		if (rule)
+		{
+			Rule_setVariable(rule, ConvertValue(assignmentNames[i]));
+			Rule_setFormula(rule, ConvertValue(assignmentDefs[i]));		
+		}
 	}
 	
 	//list of events
@@ -662,16 +687,22 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 	{
 		Event_t * event = Model_createEvent(model);
 		Trigger_t * trigger = Event_createTrigger(event);
-		Trigger_setMath(trigger, SBML_parseFormula (ConvertValue(eventTriggers[i])));
-		QStringList actions = eventActions[i].split(";");
-		for (int j=0; j < actions.size(); ++j)
+		if (event && trigger)
 		{
-			QStringList words = actions[j].split("=");
-			if (words.size() == 2)
+			Trigger_setMath(trigger, SBML_parseFormula (ConvertValue(eventTriggers[i])));
+			QStringList actions = eventActions[i].split(";");
+			for (int j=0; j < actions.size(); ++j)
 			{
-				EventAssignment_t * assignment = Event_createEventAssignment(event);
-				EventAssignment_setVariable(assignment, ConvertValue(words[0].trimmed()));
-				EventAssignment_setMath(assignment, SBML_parseFormula (ConvertValue(words[1].trimmed())));
+				QStringList words = actions[j].split("=");
+				if (words.size() == 2)
+				{
+					EventAssignment_t * assignment = Event_createEventAssignment(event);
+					if (assignment)
+					{
+						EventAssignment_setVariable(assignment, ConvertValue(words[0].trimmed()));
+						EventAssignment_setMath(assignment, SBML_parseFormula (ConvertValue(words[1].trimmed())));
+					}
+				}
 			}
 		}
 	}

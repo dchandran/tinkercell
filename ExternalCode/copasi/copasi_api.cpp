@@ -933,7 +933,7 @@ void saveModelFile(copasi_model model, const char * filename)
 copasi_model loadModelFile(const char * filename)
 {
 	copasi_init();
-	/*CCopasiDataModel* pDataModel = CCopasiRootContainer::addDatamodel();
+	CCopasiDataModel* pDataModel = CCopasiRootContainer::addDatamodel();
 	try 
 	{
 		pDataModel->importSBML(filename); //SBML -> COPASI
@@ -949,9 +949,8 @@ copasi_model loadModelFile(const char * filename)
 	CModel* pModel = pDataModel->getModel();
 	CQHash * qHash = new CQHash();
 	hashTablesToCleanup += qHash;
-	*/
 	
-	copasi_model m = { (void*)(0) , (void*)(0), (void*)(0) };
+	copasi_model m = { (void*)(pModel) , (void*)(pDataModel), (void*)(qHash) };
 	
 	return m;
 }

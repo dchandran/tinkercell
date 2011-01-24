@@ -462,20 +462,23 @@ namespace Tinkercell
 											}
 										if (beingUsed) break;
 									}
-									if (beingUsed) 								if (beingUsed) break;
+									if (beingUsed) break;
 								}
-								if (beingUsed)
-								{
-									QMessageBox::information(this,tr("Cannot remove"),s2 + tr(" cannot be removed because it is being used inside ") + s3);
-								}
+							}
+							if (beingUsed)
+							{
+								QMessageBox::information(this,tr("Cannot remove"),s2 + tr(" cannot be removed because it is being used inside ") + s3);
+								recursive = true;
+								tableWidget.item(row,col)->setText(s);
+								return;
+							}
+							else
+							{
+								nDat.removeRow(rowNumber);
+								if (handle->name.isEmpty())
+									win->changeData(s + tr(" removed"),handle, this->name,&nDat);									
 								else
-								{
-									nDat.removeRow(rowNumber);
-									if (handle->name.isEmpty())
-										win->changeData(s + tr(" removed"),handle, this->name,&nDat);									
-									else
-										win->changeData(handle->fullName() + tr(".") + s + tr(" removed"),handle, this->name,&nDat);
-								}
+									win->changeData(handle->fullName() + tr(".") + s + tr(" removed"),handle, this->name,&nDat);
 							}
 						}
 						else
@@ -977,6 +980,7 @@ namespace Tinkercell
 		QList<ItemHandle*> handles1, handles2;
 		QList<DataTable<qreal>*> nDats;
 		QList<DataTable<QString>*> sDats;
+		QList<ItemHandle*> allHandles = win->handles();
 
 		for (int i=0; i < selectedItems.size(); ++i)
 		{
@@ -991,43 +995,63 @@ namespace Tinkercell
 
 			if ((type == both || type == numerical) && handle->hasNumericalData(this->name))
 			{
-				DataTable<qreal> * nDat = new DataTable<qreal>(handle->numericalDataTable(this->name));
+				DataTable<qreal> & nDat = handle->numericalDataTable(this->name);
 
-				if (rowNumber < nDat->rows())
+				if (rowNumber < nDat.rows())
 				{
-					if (handle->family() && handle->family()->numericalAttributes.contains(nDat->rowName(rowNumber)))
+					QString s = nDat.rowName(rowNumber);
+					QString s2 = handle->fullName() + tr(".") + s;
+					
+					bool beingUsed = false;
+					QString s3;
+
+					for (int j=0; j < allHandles.size(); ++j)
 					{
-					    if (console())
-                            console()->message(nDat->rowName(rowNumber) + tr(" cannot be removed because it is a family attribute"));
+						QStringList textKeys = allHandles[j]->textDataNames();
+						for (int k=0; k < textKeys.size(); ++k)
+						{
+							TextDataTable & textData = allHandles[j]->textDataTable(textKeys[k]);
+							for (int k1=0; k1 < textData.rows(); ++k1)
+							{
+								for (int k2=0; k2 < textData.columns(); ++k2)
+									if (textData.value(k1,k2).contains(s2))
+									{
+										s3 = allHandles[j]->fullName() + tr("'s ") + textKeys[k];
+										beingUsed = true;
+										break;
+									}
+								if (beingUsed) break;
+							}
+							if (beingUsed) break;
+						}
+					}
+					
+					if (beingUsed)
+					{
+					    QMessageBox::information(this, tr("Cannot remove"), s2 + tr(" cannot be removed because it is being used inside ") + s3);						
 					}
 					else
 					{
-						nDat->removeRow(rowNumber);
-						nDats << nDat;
+						DataTable<qreal> * nDat2 = new DataTable<qreal>(nDat);
+						nDat2->removeRow(rowNumber);
+						nDats << nDat2;
 						handles1 << handle;
 					}
 				}
 			}
 
 			if ((type == both || type == text) && handle->hasTextData(this->name))
-
 			{
 				DataTable<QString> * sDat = new DataTable<QString>(handle->textDataTable(this->name));
 
 				if (rowNumber < sDat->rows())
 				{
-					if (handle->family() && handle->family()->textAttributes.contains(sDat->rowName(rowNumber)))
-					{
-					    if (console())
-                            console()->message(sDat->rowName(rowNumber) + tr(" cannot be removed because it is a family attribute"));
-					}
-					else
-					{
-						sDat->removeRow(rowNumber);
-						sDats << sDat;
-						handles2 << handle;
-					}
+					sDat->removeRow(rowNumber);
+					sDats << sDat;
+					handles2 << handle;
 				}
+				else
+					delete sDat;
 			}
 		}
 

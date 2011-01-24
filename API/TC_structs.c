@@ -92,14 +92,14 @@ tc_items tc_createItemsArray(int len)
 
 double tc_getMatrixValue(tc_matrix M, int i, int j)
 { 
-	if (i >= 0 && j >= 0 && i < M.rows && j < M.cols)
+	if (M.values && i >= 0 && j >= 0 && i < M.rows && j < M.cols)
 		return M.values[ i*M.cols + j ];
 	return 0.0;
 }
 
 void tc_setMatrixValue(tc_matrix M, int i, int j, double d)
 { 
-	if (i >= 0 && j >= 0 && i < M.rows && j < M.cols)
+	if (M.values && i >= 0 && j >= 0 && i < M.rows && j < M.cols)
 		M.values[ i*M.cols + j ] = d;
 }
 
@@ -125,7 +125,7 @@ void tc_setColumnName(tc_matrix M, int i, const char * s)
 
 const char* tc_getTableValue(tc_table S, int i, int j)
 {
-	if (i >= 0 && j >= 0 && i < S.rows && j < S.cols)
+	if (S.strings && i >= 0 && j >= 0 && i < S.rows && j < S.cols)
 		return S.strings[ i*S.cols + j ];
 	return 0;
 }
@@ -146,7 +146,7 @@ void tc_setTableValue(tc_table S, int i, int j, const char * s)
 
 const char* tc_getString(tc_strings S, int i)
 {
-	if (i >= 0 && i < S.length)
+	if (S.strings && i >= 0 && i < S.length)
 		return S.strings[ i ];
 	return 0;
 }

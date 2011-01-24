@@ -9,7 +9,7 @@ void eigen(copasi_model, const char*); //compute eigenvalues by changing paramet
 
 int main()
 {
-	tc_matrix efm;
+	tc_matrix efm = tc_createMatrix(0,0);
 	copasi_model m;
 	
 	m = loadModelFile("branch.sbml");

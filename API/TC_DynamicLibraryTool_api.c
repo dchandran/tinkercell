@@ -82,11 +82,8 @@ void tc_runOctaveCode(const char* code)
 
 void  (*_tc_runOctaveFile)(const char* filename) = 0;
 /*! 
-
  \brief run the Octave code in the given file
-
  \ingroup Programming interface
-
 */ TCAPIEXPORT 
 void  tc_runOctaveFile(const char* filename)
 {
@@ -96,11 +93,8 @@ void  tc_runOctaveFile(const char* filename)
 
 void  (*_tc_addOctavePlugin)(const char*,const char*,const char*,const char*, const char*) = 0;
 /*! 
-
  \brief add a Octave script to the functions menu
-
  \ingroup Programming interface
-
 */ TCAPIEXPORT 
 void  tc_addOctavePlugin(const char* file,const char* name,const char* description,const char* category, const char* icon)
 {

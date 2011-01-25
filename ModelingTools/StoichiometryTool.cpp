@@ -1142,10 +1142,16 @@ namespace Tinkercell
 				}
 				if ((connection = ConnectionHandle::cast(connectionHandles[i])) &&
 					connection->hasNumericalData(QObject::tr("Reactant stoichiometries")) &&
-					connection->hasNumericalData(QObject::tr("Product stoichiometries")))
+					connection->hasNumericalData(QObject::tr("Product stoichiometries")) &&
+					connection->hasTextData(QObject::tr("Rate equations")))
 				{
 					nDataTable1 = &(connection->numericalDataTable(QObject::tr("Reactant stoichiometries")));
 					nDataTable2 = &(connection->numericalDataTable(QObject::tr("Product stoichiometries")));
+					sDataTable = &(connection->textDataTable(QObject::tr("Rate equations")));
+					
+					if (nDataTable1.rows() < 1 || nDataTable1.rows() != nDataTable2.rows() || nDataTable1.rows() != sDataTable.rows())
+						continue;
+					
 					//get unique species names in the stoichiometry matrix
 					for (int j=0; j < nDataTable1->columns(); ++j) 
 					{
@@ -1181,10 +1187,7 @@ namespace Tinkercell
 							if (!columnNames.contains(s))
 								columnNames << s;
 						}
-				}
-				if (connectionHandles[i]->hasTextData(QObject::tr("Rate equations")))
-				{
-					sDataTable = &(connectionHandles[i]->textDataTable(QObject::tr("Rate equations")));
+				
 					for (int j=0; j < sDataTable->rows(); ++j) //get rates and reaction names
 					{
 						if (sDataTable->value(j,0).isEmpty()) continue;

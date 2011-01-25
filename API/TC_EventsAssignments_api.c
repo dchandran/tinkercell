@@ -4,7 +4,7 @@ tc_strings (*_tc_getEventTriggers)() = 0;
 /*! 
  \brief get the event triggers for a set of items
  \ingroup Events and forcing functions
-*/
+*/ TCAPIEXPORT 
 tc_strings tc_getEventTriggers()
 {
 	if (_tc_getEventTriggers)
@@ -16,7 +16,7 @@ tc_strings (*_tc_getEventResponses)() = 0;
 /*! 
  \brief get the event responses for a set of items
  \ingroup Events and forcing functions
-*/
+*/ TCAPIEXPORT 
 tc_strings tc_getEventResponses()
 {
 	if (_tc_getEventResponses)
@@ -28,7 +28,7 @@ void (*_tc_addEvent)(const char* trigger, const char* event) = 0;
 /*! 
  \brief set the event trigger and response
  \ingroup Events and forcing functions
-*/
+*/ TCAPIEXPORT 
 void tc_addEvent(const char* trigger, const char* event)
 {
 	if (_tc_addEvent)
@@ -38,7 +38,7 @@ void tc_addEvent(const char* trigger, const char* event)
 /*! 
  \brief initialize
  \ingroup init
-*/
+*/ TCAPIEXPORT 
 void tc_SimulationEventsTool_api(
 		tc_strings (*getEventTriggers)(),
 		 tc_strings (*getEventResponses)(),
@@ -54,7 +54,7 @@ tc_strings (*_tc_getForcingFunctionNames)(tc_items) = 0;
 /*! 
  \brief get the forcing function names for a set of items
  \ingroup Events and forcing functions
-*/
+*/ TCAPIEXPORT 
 tc_strings tc_getForcingFunctionNames(tc_items a)
 {
 	if (_tc_getForcingFunctionNames)
@@ -66,7 +66,7 @@ tc_strings (*_tc_getForcingFunctionAssignments)(tc_items) = 0;
 /*! 
  \brief get the forcing function definitions for a set of items
  \ingroup Events and forcing functions
-*/
+*/ TCAPIEXPORT 
 tc_strings tc_getForcingFunctionAssignments(tc_items a)
 {
 	if (_tc_getForcingFunctionAssignments)
@@ -78,7 +78,7 @@ void (*_tc_addForcingFunction)(long item,const char* functionName, const char* a
 /*! 
  \brief set the forcing function for an item
  \ingroup Events and forcing functions
-*/
+*/ TCAPIEXPORT 
 void tc_addForcingFunction(long item,const char* functionName, const char* assignmentRule)
 {
 	if (_tc_addForcingFunction)
@@ -88,7 +88,7 @@ void tc_addForcingFunction(long item,const char* functionName, const char* assig
 /*! 
  \brief initialize
  \ingroup init
-*/
+*/ TCAPIEXPORT 
 void tc_AssignmentFunctionsTool_api(
 		tc_strings (*getForcingFunctionNames)(tc_items),
 		 tc_strings (*getForcingFunctionAssignments)(tc_items),
@@ -104,7 +104,7 @@ void (*_tc_displayText)(long item,const char* text) = 0;
 /*! 
  \brief displays the given text on the given item (the text is temporary)
  \ingroup Input and Output
-*/
+*/ TCAPIEXPORT 
 void tc_displayText(long item,const char* text)
 {
 	if (_tc_displayText)
@@ -115,7 +115,7 @@ void (*_tc_displayNumber)(long item,double number) = 0;
 /*! 
  \brief displays the given number on the given item (the text is temporary)
  \ingroup Input and Output
-*/
+*/ TCAPIEXPORT 
 void tc_displayNumber(long item,double number)
 {
 	if (_tc_displayNumber)
@@ -126,7 +126,7 @@ void (*_tc_setDisplayLabelColor)(const char *, const char *) = 0;
 /*! 
  \brief set the color for the number or text when using tc_displayNumber and tc_displayText
  \ingroup Input and Output
-*/
+*/ TCAPIEXPORT 
 void tc_setDisplayLabelColor(const char * a, const char * b)
 {
 	if (_tc_setDisplayLabelColor)
@@ -137,7 +137,7 @@ void (*_tc_highlight)(long item,const char*) = 0;
 /*! 
  \brief highlights an item (the highlight is temporary) with the given color (hex)
  \ingroup Input and Output
-*/
+*/ TCAPIEXPORT 
 void tc_highlight(long item,const char* color)
 {
 	if (_tc_highlight)
@@ -146,7 +146,7 @@ void tc_highlight(long item,const char* color)
 /*! 
  \brief initialize
  \ingroup init
-*/
+*/ TCAPIEXPORT 
 void tc_CLabelsTool_api(
 		void (*displayText)(long item,const char*),
 		void (*displayNumber)(long item,double),

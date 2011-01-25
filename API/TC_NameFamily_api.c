@@ -4,7 +4,7 @@ tc_strings (*_tc_getAnnotation)(long) = 0;
 /*! 
  \brief get annotation for this item, i.e. family, author, descriptions, etc.
  \ingroup Annotation
-*/
+*/ TCAPIEXPORT 
 tc_strings tc_getAnnotation(long o)
 {
 	if (_tc_getAnnotation)
@@ -16,7 +16,7 @@ void (*_tc_setAnnotation)(long,tc_strings) = 0;
 /*! 
  \brief set annotation for this item, i.e. family, author, descriptions, etc.
  \ingroup Annotation
-*/
+*/ TCAPIEXPORT 
 void tc_setAnnotation(long o,tc_strings annot)
 {
 	if (_tc_setAnnotation)
@@ -26,7 +26,7 @@ void tc_setAnnotation(long o,tc_strings annot)
 /*! 
  \brief initialize main
  \ingroup init
-*/
+*/ TCAPIEXPORT 
 void tc_NameFamily_api_initialize(
 	   tc_strings (*tc_getAnnotation0)(long),
 		void (*tc_setAnnotation0)(long,tc_strings)

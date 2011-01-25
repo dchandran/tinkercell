@@ -4,7 +4,7 @@ tc_items (*_tc_partsIn)(long) = 0;
 /*! 
  \brief Get all DNA parts inside the given container or module
  \ingroup Get items
-*/
+*/ TCAPIEXPORT 
 tc_items tc_partsIn(long o)
 {
 	if (_tc_partsIn)
@@ -16,7 +16,7 @@ tc_items (*_tc_partsUpstream)(long) = 0;
 /*! 
  \brief Get all DNA parts upstream of the given part
  \ingroup Get items
-*/
+*/ TCAPIEXPORT 
 tc_items tc_partsUpstream(long o)
 {
 	if (_tc_partsUpstream)
@@ -28,7 +28,7 @@ tc_items (*_tc_partsDownstream)(long) = 0;
 /*! 
  \brief Get all DNA parts downstream of the given part
  \ingroup Get items
-*/
+*/ TCAPIEXPORT 
 tc_items tc_partsDownstream(long o)
 {
 	if (_tc_partsDownstream)
@@ -40,7 +40,7 @@ void (*_tc_alignParts)(tc_items) = 0;
 /*! 
  \brief Align the given DNA parts in the order given
  \ingroup Get and set position
-*/
+*/ TCAPIEXPORT 
 void tc_alignParts(tc_items a)
 {
 	if (_tc_alignParts)
@@ -50,7 +50,7 @@ void tc_alignParts(tc_items a)
 /*! 
  \brief initialize grouping
  \ingroup init
-*/
+*/ TCAPIEXPORT 
 void tc_AutoGeneRegulatoryTool_api(
 		tc_items (*f1)(long), tc_items (*f2)(long), tc_items (*f3)(long), void (*f4)(tc_items)
 	)

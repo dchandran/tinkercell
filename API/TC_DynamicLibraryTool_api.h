@@ -80,14 +80,14 @@ TCAPIEXPORT void tc_addFunction(void (*f)(), const char* title, const char* desc
  \param string octave code
  \ingroup Programming interface
 */
-void tc_runOctaveCode(const char* code);
+TCAPIEXPORT void tc_runOctaveCode(const char* code);
 
 /*! 
  \brief run the Octave code in the given file
  \param string octave file
  \ingroup Programming interface
 */
-void  tc_runOctaveFile(const char* filename);
+TCAPIEXPORT void  tc_runOctaveFile(const char* filename);
 
 /*! 
  \brief add a Octave script to the functions menu
@@ -97,7 +97,7 @@ void  tc_runOctaveFile(const char* filename);
  \param string category where the program belongs (in the functione menu)
  \ingroup Programming interface
 */
-void  tc_addOctavePlugin(const char* file,const char* name,const char* description,const char* category, const char* icon);
+TCAPIEXPORT void  tc_addOctavePlugin(const char* file,const char* name,const char* description,const char* category, const char* icon);
 
 /*! 
  \brief initialize dialogs and c interface

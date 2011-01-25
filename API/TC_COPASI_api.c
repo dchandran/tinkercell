@@ -18,6 +18,7 @@ tc_matrix (*_tc_getScaledFluxCC)() = 0;
 tc_matrix (*_tc_reducedStoichiometry)() = 0;
 tc_matrix (*_tc_elementaryFluxModes)() = 0;
 
+TCAPIEXPORT 
 tc_matrix tc_simulateDeterministic(double startTime, double endTime, int numSteps)
 {
 	if (_tc_simulateDeterministic)
@@ -25,6 +26,7 @@ tc_matrix tc_simulateDeterministic(double startTime, double endTime, int numStep
 	return tc_createMatrix(0,0);
 }
 
+TCAPIEXPORT 
 tc_matrix tc_simulateStochastic(double startTime, double endTime, int numSteps)
 {
 	if (_tc_simulateStochastic)
@@ -32,6 +34,7 @@ tc_matrix tc_simulateStochastic(double startTime, double endTime, int numSteps)
 	return tc_createMatrix(0,0);
 }
 
+TCAPIEXPORT 
 tc_matrix tc_simulateHybrid(double startTime, double endTime, int numSteps)
 {
 	if (_tc_simulateHybrid)
@@ -39,6 +42,7 @@ tc_matrix tc_simulateHybrid(double startTime, double endTime, int numSteps)
 	return tc_createMatrix(0,0);
 }
 
+TCAPIEXPORT 
 tc_matrix tc_simulateTauLeap(double startTime, double endTime, int numSteps)
 {
 	if (_tc_simulateTauLeap)
@@ -46,6 +50,7 @@ tc_matrix tc_simulateTauLeap(double startTime, double endTime, int numSteps)
 	return tc_createMatrix(0,0);
 }
 
+TCAPIEXPORT 
 tc_matrix tc_getSteadyState()
 {
 	if (_tc_getSteadyState)
@@ -53,6 +58,7 @@ tc_matrix tc_getSteadyState()
 	return tc_createMatrix(0,0);
 }
 
+TCAPIEXPORT 
 tc_matrix tc_getJacobian()
 {
 	if (_tc_getJacobian)
@@ -60,6 +66,7 @@ tc_matrix tc_getJacobian()
 	return tc_createMatrix(0,0);
 }
 
+TCAPIEXPORT 
 tc_matrix tc_getEigenvalues()
 {
 	if (_tc_getEigenvalues)
@@ -67,6 +74,7 @@ tc_matrix tc_getEigenvalues()
 	return tc_createMatrix(0,0);
 }
 
+TCAPIEXPORT 
 tc_matrix tc_getUnscaledElasticities()
 {
 	if (_tc_getUnscaledElasticities)
@@ -74,6 +82,7 @@ tc_matrix tc_getUnscaledElasticities()
 	return tc_createMatrix(0,0);
 }
 
+TCAPIEXPORT 
 tc_matrix tc_getUnscaledConcentrationCC()
 {
 	if (_tc_getUnscaledConcentrationCC)
@@ -81,6 +90,7 @@ tc_matrix tc_getUnscaledConcentrationCC()
 	return tc_createMatrix(0,0);
 }
 
+TCAPIEXPORT 
 tc_matrix tc_getUnscaledFluxCC()
 {
 	if (_tc_getUnscaledFluxCC)
@@ -88,6 +98,7 @@ tc_matrix tc_getUnscaledFluxCC()
 	return tc_createMatrix(0,0);
 }
 
+TCAPIEXPORT 
 tc_matrix tc_getScaledElasticities()
 {
 	if (_tc_getScaledElasticities)
@@ -95,6 +106,7 @@ tc_matrix tc_getScaledElasticities()
 	return tc_createMatrix(0,0);
 }
 
+TCAPIEXPORT 
 tc_matrix tc_getScaledConcentrationCC()
 {
 	if (_tc_getScaledConcentrationCC)
@@ -102,6 +114,7 @@ tc_matrix tc_getScaledConcentrationCC()
 	return tc_createMatrix(0,0);
 }
 
+TCAPIEXPORT 
 tc_matrix tc_getScaledFluxCC()
 {
 	if (_tc_getScaledFluxCC)
@@ -109,6 +122,7 @@ tc_matrix tc_getScaledFluxCC()
 	return tc_createMatrix(0,0);
 }
 
+TCAPIEXPORT 
 tc_matrix tc_steadyStateScan(const char * param, double start, double end, int numSteps)
 {
 	if (_tc_steadyStateScan)
@@ -116,6 +130,7 @@ tc_matrix tc_steadyStateScan(const char * param, double start, double end, int n
 	return tc_createMatrix(0,0);
 }
 
+TCAPIEXPORT 
 tc_matrix tc_steadyStateScan2D(const char * param1, double start1, double end1, int numSteps1,
 																			const char * param2, double start2, double end2, int numSteps2)
 {
@@ -124,6 +139,7 @@ tc_matrix tc_steadyStateScan2D(const char * param1, double start1, double end1, 
 	return tc_createMatrix(0,0);
 }
 
+TCAPIEXPORT 
 tc_matrix tc_reducedStoichiometry()
 {
 	if (_tc_reducedStoichiometry)
@@ -132,6 +148,7 @@ tc_matrix tc_reducedStoichiometry()
 }
 
 
+TCAPIEXPORT 
 tc_matrix tc_elementaryFluxModes()
 {
 	if (_tc_elementaryFluxModes)
@@ -139,6 +156,7 @@ tc_matrix tc_elementaryFluxModes()
 	return tc_createMatrix(0,0);
 }
 
+TCAPIEXPORT 
 void tc_COPASI_api( 
 tc_matrix (*simulateDeterministic)(double startTime, double endTime, int numSteps),
 tc_matrix (*simulateStochastic)(double startTime, double endTime, int numSteps),

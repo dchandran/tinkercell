@@ -4,7 +4,7 @@ void (*_tc_merge)(tc_items parts) = 0;
 /*! 
  \brief merge an array of items
  \ingroup Merging
-*/
+*/ TCAPIEXPORT 
 void tc_merge(tc_items parts)
 {
 	if (_tc_merge)
@@ -15,7 +15,7 @@ void (*_tc_separate)(long part) = 0;
 /*! 
  \brief separate all the graphical items in the handle 
  \ingroup Merging
-*/
+*/ TCAPIEXPORT 
 void tc_separate(long part)
 {
 	if (_tc_separate)
@@ -24,7 +24,7 @@ void tc_separate(long part)
 /*! 
  \brief initialize grouping
  \ingroup init
-*/
+*/ TCAPIEXPORT 
 void tc_GroupHandlerTool_api(
 		void (*merge)(tc_items),
 		void (*separate)(long)

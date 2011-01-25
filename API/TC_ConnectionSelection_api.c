@@ -4,7 +4,7 @@ double (*_tc_getControlPointX)(long connection,long part,int whichPoint) = 0;
 /*! 
  \brief get x position of a control point
  \ingroup Control points
-*/
+*/ TCAPIEXPORT 
 double tc_getControlPointX(long connection,long part,int whichPoint)
 {
 	if (_tc_getControlPointX)
@@ -16,7 +16,7 @@ double (*_tc_getControlPointY)(long connection,long part,int whichPoint) = 0;
 /*! 
  \brief get y position of a control point
  \ingroup Control points
-*/
+*/ TCAPIEXPORT 
 double tc_getControlPointY(long connection,long part,int whichPoint)
 {
 	if (_tc_getControlPointY)
@@ -33,7 +33,7 @@ void (*_tc_setControlPoint)(long connection,long part,int whichPoint, double x,d
  \param double x value
  \param double y value
  \ingroup Control points
-*/
+*/ TCAPIEXPORT 
 void tc_setControlPoint(long connection,long part,int whichPoint, double x,double y)
 {
 	if (_tc_setControlPoint)
@@ -44,7 +44,7 @@ void (*_tc_setCenterPoint)(long connection,double y,double x) = 0;
 /*! 
  \brief set x and y position of the central control point
  \ingroup Control points
-*/
+*/ TCAPIEXPORT 
 void tc_setCenterPoint(long connection,double y,double x)
 {
 	if (_tc_setCenterPoint)
@@ -55,7 +55,7 @@ double (*_tc_getCenterPointX)(long connection) = 0;
 /*! 
  \brief get x position of the central control point
  \ingroup Control points
-*/
+*/ TCAPIEXPORT 
 double tc_getCenterPointX(long connection)
 {
 	if (_tc_getCenterPointX)
@@ -67,7 +67,7 @@ double (*_tc_getCenterPointY)(long connection) = 0;
 /*! 
  \brief get y position of the central control point
  \ingroup Control points
-*/
+*/ TCAPIEXPORT 
 double tc_getCenterPointY(long connection)
 {
 	if (_tc_getCenterPointY)
@@ -79,7 +79,7 @@ void (*_tc_setStraight)(long item,int straight) = 0;
 /*! 
  \brief switch between beziers and lines for drawing the connector, where 1 = line, 0 = bezier
  \ingroup Control points
-*/
+*/ TCAPIEXPORT 
 void tc_setStraight(long item,int straight)
 {
 	if (_tc_setStraight)
@@ -90,7 +90,7 @@ void (*_tc_setAllStraight)(int straight) = 0;
 /*! 
  \brief switch between beziers and lines for drawing the connector, where 1 = line, 0 = bezier
  \ingroup Control points
-*/
+*/ TCAPIEXPORT 
 void tc_setAllStraight(int straight)
 {
 	if (_tc_setAllStraight)
@@ -101,7 +101,7 @@ void (*_tc_setLineWidth)(long item,double width, int permanent) = 0;
 /*! 
  \brief set the line width. Indicate whether the change should be temporary or permanent.
  \ingroup Control points
-*/
+*/ TCAPIEXPORT 
 void tc_setLineWidth(long item,double width, int permanent)
 {
 	if (_tc_setLineWidth)
@@ -111,7 +111,7 @@ void tc_setLineWidth(long item,double width, int permanent)
 /*! 
  \brief initialize control point functions
  \ingroup init
-*/
+*/ TCAPIEXPORT 
 void tc_ConnectionSelection_api(
 		double (*getControlPointX)(long,long,int),
 		double (*getControlPointY)(long,long,int),

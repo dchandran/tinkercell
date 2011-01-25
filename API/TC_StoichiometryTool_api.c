@@ -5,7 +5,7 @@ tc_matrix (*_tc_getStoichiometry)(tc_items ) = 0;
 /*! 
 \brief get stoichiometry for the given items
 \ingroup Stoichiometry
-*/
+*/ TCAPIEXPORT 
 tc_matrix tc_getStoichiometry(tc_items A)
 {
 	if (_tc_getStoichiometry)
@@ -17,7 +17,7 @@ void (*_tc_setStoichiometry)(tc_items ,tc_matrix N) = 0;
 /*! 
 \brief set stoichiometry for the given items (must be labeled)
 \ingroup Stoichiometry
-*/
+*/ TCAPIEXPORT 
 void tc_setStoichiometry(tc_items A,tc_matrix N)
 {
 	if (_tc_setStoichiometry)
@@ -28,7 +28,7 @@ tc_strings (*_tc_getRates)(tc_items A) = 0;
 /*! 
 \brief get rates for the given items
 \ingroup Stoichiometry
-*/
+*/ TCAPIEXPORT 
 tc_strings tc_getRates(tc_items A)
 {
 	if (_tc_getRates)
@@ -40,7 +40,7 @@ void (*_tc_setRates)(tc_items ,tc_strings rates) = 0;
 /*! 
 \brief set rates for the given items (same order as N)
 \ingroup Stoichiometry
-*/
+*/ TCAPIEXPORT 
 void tc_setRates(tc_items A,tc_strings rates)
 {
 	if (_tc_setRates)
@@ -50,7 +50,7 @@ void tc_setRates(tc_items A,tc_strings rates)
 /*! 
 \brief get stoichiometry for the given items
 \ingroup init
-*/
+*/ TCAPIEXPORT 
 tc_matrix tc_getStoichiometryFor(long x)
 {
 	long a[] = { x };
@@ -62,7 +62,7 @@ tc_matrix tc_getStoichiometryFor(long x)
 /*! 
 \brief get rate for the given items
 \ingroup init
-*/
+*/ TCAPIEXPORT 
 const char* tc_getRate(long x)
 {
 	long a[] = { x };
@@ -76,7 +76,7 @@ const char* tc_getRate(long x)
 /*! 
 \brief set rate for the given items
 \ingroup init
-*/
+*/ TCAPIEXPORT 
 void tc_setRate(long x, const char* r)
 {
 	long a[] = { x };
@@ -99,7 +99,7 @@ void tc_setRate(long x, const char* r)
 /*!
 \brief set stoichiometry for the given items
 \ingroup init
-*/
+*/ TCAPIEXPORT 
 void tc_setStoichiometryFor(long x, tc_matrix N)
 {
 	long a[] = { x };
@@ -111,7 +111,7 @@ void tc_setStoichiometryFor(long x, tc_matrix N)
 /*! 
 \brief initialize stiochiometry functions
 \ingroup init
-*/
+*/ TCAPIEXPORT 
 void tc_StoichiometryTool_api(
 							  tc_matrix (*getStoichiometry)(tc_items ),
 							  void (*setStoichiometry)(tc_items ,tc_matrix ),

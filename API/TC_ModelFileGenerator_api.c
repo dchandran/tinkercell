@@ -4,7 +4,7 @@ int (*_tc_writeModel)(const char* file, tc_items items) = 0;
 /*! 
  \brief write the ODE, stoichiometry, and rates functions to a file
  \ingroup Modeling
-*/
+*/ TCAPIEXPORT 
 int tc_writeModel(const char* file, tc_items items)
 {
 	if (_tc_writeModel)
@@ -15,7 +15,7 @@ int tc_writeModel(const char* file, tc_items items)
 /*! 
  \brief initialize model generator functions
  \ingroup init
-*/
+*/ TCAPIEXPORT 
 void tc_ModelFileGenerator_api(		
 	int (*modelgen)(const char*, tc_items )
 )

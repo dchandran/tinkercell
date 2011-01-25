@@ -6,7 +6,7 @@ tc_items (*_tc_allItems)() = 0;
 /*! 
  \brief get all visible items
  \ingroup Get items
-*/
+*/ TCAPIEXPORT 
 tc_items tc_allItems()
 {
 	if (_tc_allItems)
@@ -18,7 +18,7 @@ tc_items (*_tc_selectedItems)() = 0;
 /*! 
  \brief get all selected items
  \ingroup Get items
-*/
+*/ TCAPIEXPORT 
 tc_items tc_selectedItems()
 {
 	if (_tc_selectedItems)
@@ -30,7 +30,7 @@ tc_items (*_tc_itemsOfFamily)(const char* family) = 0;
 /*!
  \brief get all items of the given family items
  \ingroup Get items
-*/
+*/ TCAPIEXPORT 
 tc_items tc_itemsOfFamily(const char* family)
 {
 	if (_tc_itemsOfFamily)
@@ -42,7 +42,7 @@ tc_items (*_tc_itemsOfFamilyFrom)(const char* family, tc_items itemsToSelectFrom
 /*! 
  \brief get subset of items that belong to the given family
  \ingroup Get items
-*/
+*/ TCAPIEXPORT 
 tc_items tc_itemsOfFamilyFrom(const char* family, tc_items itemsToSelectFrom)
 {
 	if (_tc_itemsOfFamilyFrom)
@@ -54,7 +54,7 @@ long (*_tc_find)(const char* fullname) = 0;
 /*! 
  \brief get the first item with the given name (full name)
  \ingroup Get items
-*/
+*/ TCAPIEXPORT 
 long tc_find(const char* fullname)
 {
 	if (_tc_find)
@@ -66,7 +66,7 @@ tc_items (*_tc_findItems)(tc_strings names) = 0;
 /*! 
  \brief get all items with the given names (full names)
  \ingroup Get items
-*/
+*/ TCAPIEXPORT 
 tc_items tc_findItems(tc_strings names)
 {
 	if (_tc_findItems)
@@ -78,7 +78,7 @@ void (*_tc_select)(long item) = 0;
 /*! 
  \brief select an item
  \ingroup Get items
-*/
+*/ TCAPIEXPORT 
 void tc_select(long item)
 {
 	if (_tc_select && item)
@@ -89,7 +89,7 @@ void (*_tc_deselect)() = 0;
 /*! 
  \brief deselect all items
  \ingroup Get items
-*/
+*/ TCAPIEXPORT 
 void tc_deselect()
 {
 	if (_tc_deselect)
@@ -100,7 +100,7 @@ const char* (*_tc_getName)(long item) = 0;
 /*! 
  \brief get the full name of an item
  \ingroup Annotation
-*/
+*/ TCAPIEXPORT 
 const char* tc_getName(long item)
 {
 	if (_tc_getName)
@@ -112,7 +112,7 @@ const char* (*_tc_getUniqueName)(long item) = 0;
 /*! 
  \brief get the full name of an item
  \ingroup Annotation
-*/
+*/ TCAPIEXPORT 
 const char* tc_getUniqueName(long item)
 {
 	if (_tc_getUniqueName)
@@ -124,7 +124,7 @@ void (*_tc_rename)(long item,const char* name) = 0;
 /*! 
  \brief set the name of an item (not full name)
  \ingroup Annotation
-*/
+*/ TCAPIEXPORT 
 void tc_rename(long item,const char* name)
 {
 	if (_tc_rename)
@@ -135,7 +135,7 @@ tc_strings (*_tc_getNames)(tc_items items) = 0;
 /*! 
  \brief get the full names of several items
  \ingroup Annotation
-*/
+*/ TCAPIEXPORT 
 tc_strings tc_getNames(tc_items items)
 {
 	if (_tc_getNames)
@@ -147,7 +147,7 @@ tc_strings (*_tc_getUniqueNames)(tc_items items) = 0;
 /*! 
  \brief get the full names of several items
  \ingroup Annotation
-*/
+*/ TCAPIEXPORT 
 tc_strings tc_getUniqueNames(tc_items items)
 {
 	if (_tc_getUniqueNames)
@@ -160,7 +160,7 @@ const char* (*_tc_getFamily)(long item) = 0;
 /*! 
  \brief get the family name of an item
  \ingroup Annotation
-*/
+*/ TCAPIEXPORT 
 const char* tc_getFamily(long item)
 {
 	if (_tc_getFamily)
@@ -172,7 +172,7 @@ int (*_tc_isA)(long item,const char* family) = 0;
 /*! 
  \brief check is an item belongs in a family (or in a sub-family)
  \ingroup Annotation
-*/
+*/ TCAPIEXPORT 
 int tc_isA(long item,const char* family)
 {
 	if (_tc_isA)
@@ -184,7 +184,7 @@ void (*_tc_print)(const char* text) = 0;
 /*! 
  \brief show text in the output window.
  \ingroup Input and Output
-*/
+*/ TCAPIEXPORT 
 void tc_print(const char* text)
 {
 	if (_tc_print && text)
@@ -195,7 +195,7 @@ void (*_tc_errorReport)(const char* text) = 0;
 /*! 
  \brief show error text in the output window.
  \ingroup Input and Output
-*/
+*/ TCAPIEXPORT 
 void tc_errorReport(const char* text)
 {
 	if (_tc_errorReport && text)
@@ -206,7 +206,7 @@ void (*_tc_printMatrix)(tc_matrix data) = 0;
 /*! 
  \brief show table in the output window.
  \ingroup Input and Output
-*/
+*/ TCAPIEXPORT 
 void tc_printMatrix(tc_matrix data)
 {
 	if (_tc_printMatrix)
@@ -217,7 +217,7 @@ void (*_tc_printFile)(const char* filename) = 0;
 /*! 
  \brief show file contents in the output window. 
  \ingroup Input and Output
-*/
+*/ TCAPIEXPORT 
 void tc_printFile(const char* filename)
 {
 	if (_tc_printFile)
@@ -228,7 +228,7 @@ void (*_tc_clear)() = 0;
 /*! 
  \brief cleat the contents in the output window. 
  \ingroup Input and Output
-*/
+*/ TCAPIEXPORT 
 void tc_clear()
 {
 	if (_tc_clear)
@@ -239,7 +239,7 @@ void (*_tc_remove)(long item) = 0;
 /*! 
  \brief delete an item
  \ingroup Insert and remove
-*/
+*/ TCAPIEXPORT 
 void tc_remove(long item)
 {
 	if (_tc_remove)
@@ -251,7 +251,7 @@ double (*_tc_getY)(long item) = 0;
 /*! 
  \brief get the x location of an item
  \ingroup Appearance
-*/
+*/ TCAPIEXPORT 
 double tc_getY(long item)
 {
 	if (_tc_getY && item)
@@ -263,7 +263,7 @@ double (*_tc_getX)(long item) = 0;
 /*! 
  \brief get the y location of an item
  \ingroup Appearance
-*/
+*/ TCAPIEXPORT 
 double tc_getX(long item)
 {
 	if (_tc_getX)
@@ -275,7 +275,7 @@ tc_matrix (*_tc_getPos)(tc_items items) = 0;
 /*! 
  \brief get the y location of a list item. Output is a N x 2 matrix
  \ingroup Appearance
-*/
+*/ TCAPIEXPORT 
 tc_matrix tc_getPos(tc_items items)
 {
 	if (_tc_getPos)
@@ -287,7 +287,7 @@ void (*_tc_setPos)(long item,double x,double y) = 0;
 /*! 
  \brief set the x and y location of an item
  \ingroup Appearance
-*/
+*/ TCAPIEXPORT 
 void tc_setPos(long item,double x,double y)
 {
 	if (_tc_setPos && item)
@@ -298,7 +298,7 @@ void (*_tc_setPosMulti)(tc_items items, tc_matrix positions) = 0;
 /*! 
  \brief set the x and y location of a list of N items. Input a matrix of positions, with N rows and 2 columns (x,y)
  \ingroup Appearance
-*/
+*/ TCAPIEXPORT 
 void tc_setPosMulti(tc_items items, tc_matrix positions)
 {
 	if (_tc_setPosMulti && items.length > 0 && items.items && positions.rows == items.length)
@@ -309,7 +309,7 @@ void (*_tc_moveSelected)(double dx,double dy) = 0;
 /*! 
  \brief move all the selected items by a given amount
  \ingroup Appearance
-*/
+*/ TCAPIEXPORT 
 void tc_moveSelected(double dx,double dy)
 {
 	if (_tc_moveSelected)
@@ -320,7 +320,7 @@ int (*_tc_isWindows)() = 0;
 /*! 
  \brief is this running in MS windows?
  \ingroup System information
-*/
+*/ TCAPIEXPORT 
 int tc_isWindows()
 {
 	if (_tc_isWindows)
@@ -332,7 +332,7 @@ int (*_tc_isMac)() = 0;
 /*! 
  \brief is this running in a Mac?
  \ingroup System information
-*/
+*/ TCAPIEXPORT 
 int tc_isMac()
 {
 	if (_tc_isMac)
@@ -344,7 +344,7 @@ int (*_tc_isLinux)() = 0;
 /*! 
  \brief is this running in Linux?
  \ingroup System information
-*/
+*/ TCAPIEXPORT 
 int tc_isLinux()
 {
 	if (_tc_isLinux)
@@ -356,7 +356,7 @@ const char* (*_tc_appDir)() = 0;
 /*! 
  \brief TinkerCell application folder
  \ingroup System information
-*/
+*/ TCAPIEXPORT 
 const char* tc_appDir()
 {
 	if (_tc_appDir)
@@ -368,7 +368,7 @@ const char* (*_tc_homeDir)() = 0;
 /*! 
  \brief TinkerCell home folder
  \ingroup System information
-*/
+*/ TCAPIEXPORT 
 const char* tc_homeDir()
 {
 	if (_tc_homeDir)
@@ -380,7 +380,7 @@ void (*_tc_createInputWindowFromFile)(tc_matrix input, const char* filename,cons
 /*! 
  \brief create an input window that can call a dynamic library
  \ingroup Input and Output
-*/
+*/ TCAPIEXPORT 
 void tc_createInputWindowFromFile(tc_matrix input, const char* filename,const char* functionname, const char* title)
 {
 	if (_tc_createInputWindowFromFile)
@@ -391,7 +391,7 @@ void (*_tc_createInputWindow)(long ptr, tc_matrix, const char* title, void (*f)(
 /*!
  \brief create an input window that can call a dynamic library
  \ingroup Input and Output
-*/
+*/ TCAPIEXPORT 
 void tc_createInputWindow(tc_matrix input, const char* title, void (*f)(tc_matrix))
 {
 	if (_tc_createInputWindow &&  _cthread_ptr)
@@ -402,7 +402,7 @@ void (*_tc_addInputWindowOptions)(const char*, int i, int j, tc_strings) = 0;
 /*! 
  \brief add options to an existing input window at the i,j-th cell. Options will appear in a list
  \ingroup Input and Output
-*/
+*/ TCAPIEXPORT 
 void tc_addInputWindowOptions(const char* title, int i, int j, tc_strings options)
 {
 	if (_tc_addInputWindowOptions)
@@ -413,7 +413,7 @@ void (*_tc_addInputWindowCheckbox)(const char*, int i, int j) = 0;
 /*! 
  \brief add a yes or no type of option to an existing input window at the i,j-th cell
  \ingroup Input and Output
-*/
+*/ TCAPIEXPORT 
 void tc_addInputWindowCheckbox(const char* title, int i, int j)
 {
 	if (_tc_addInputWindowCheckbox)
@@ -424,7 +424,7 @@ void (*_tc_openNewWindow)(const char* title) = 0;
 /*! 
  \brief open a new graphics window
  \ingroup Input and Output
-*/
+*/ TCAPIEXPORT 
 void tc_openNewWindow(const char* title)
 {
 	if (_tc_openNewWindow)
@@ -435,7 +435,7 @@ tc_items (*_tc_getChildren)(long) = 0;
 /*! 
  \brief get child items of the given item
  \ingroup Get items
-*/
+*/ TCAPIEXPORT 
 tc_items tc_getChildren(long o)
 {
 	if (_tc_getChildren)
@@ -447,7 +447,7 @@ long (*_tc_getParent)(long) = 0;
 /*! 
  \brief get parent item of the given item
  \ingroup Get items
-*/
+*/ TCAPIEXPORT 
 long tc_getParent(long o)
 {
 	if (_tc_getParent)
@@ -459,7 +459,7 @@ tc_matrix (*_tc_getNumericalData)(long item,const char* data) = 0;
 /*! 
  \brief get the entire data matrix for the given numerical data table of the given item
  \ingroup Data
-*/
+*/ TCAPIEXPORT 
 tc_matrix tc_getNumericalData(long item,const char* data)
 {
 	if (_tc_getNumericalData)
@@ -471,7 +471,7 @@ void (*_tc_setNumericalData)(long,const char*,tc_matrix) = 0;
 /*! 
  \brief set a new data matrix for an item. Use 0 for the global model item.
  \ingroup Data
-*/
+*/ TCAPIEXPORT 
 void tc_setNumericalData(long o,const char* title,tc_matrix data)
 {
 	if (_tc_setNumericalData)
@@ -482,7 +482,7 @@ tc_table (*_tc_getTextData)(long item,const char* data) = 0;
 /*! 
  \brief get the entire data matrix for the given strings data table of the given item
  \ingroup Data
-*/
+*/ TCAPIEXPORT 
 tc_table tc_getTextData(long item,const char* data)
 {
 	if (_tc_getTextData)
@@ -494,7 +494,7 @@ void (*_tc_setTextData)(long,const char*,tc_table) = 0;
 /*! 
  \brief set the entire data matrix for the given strings data table of the given item
  \ingroup Data
-*/
+*/ TCAPIEXPORT 
 void tc_setTextData(long o,const char* title,tc_table data)
 {
 	if (_tc_setTextData)
@@ -506,7 +506,7 @@ tc_strings (*_tc_getNumericalDataNames)(long) = 0;
 /*! 
  \brief get all the numeric data table names for the given item. Use 0 for the global tables.
  \ingroup Data
-*/
+*/ TCAPIEXPORT 
 tc_strings tc_getNumericalDataNames(long o)
 {
 	if (_tc_getNumericalDataNames)
@@ -518,7 +518,7 @@ tc_strings (*_tc_getTextDataNames)(long) = 0;
 /*! 
  \brief get all the text data table names for the given item. Use 0 for the global tables.
  \ingroup Data
-*/
+*/ TCAPIEXPORT 
 tc_strings tc_getTextDataNames(long o)
 {
 	if (_tc_getTextDataNames)
@@ -530,7 +530,7 @@ void (*_tc_zoom)(double factor) = 0;
 /*! 
  \brief zoom by the given factor (0 - 1)
  \ingroup Input and Output
-*/
+*/ TCAPIEXPORT 
 void tc_zoom(double factor)
 {
 	if (_tc_zoom)
@@ -541,7 +541,7 @@ const char* (*_tc_getStringDialog)(const char* title) = 0;
 /*! 
  \brief get a text from the user (dialog)
  \ingroup Input and Output
-*/
+*/ TCAPIEXPORT 
 const char* tc_getStringDialog(const char* title)
 {
 	if (_tc_getStringDialog)
@@ -553,7 +553,7 @@ const char* (*_tc_getFilename)() = 0;
 /*! 
  \brief get a file from the user (dialog)
  \ingroup Input and Output
-*/
+*/ TCAPIEXPORT 
 const char* tc_getFilename()
 {
 	if (_tc_getFilename)
@@ -565,7 +565,7 @@ int (*_tc_getStringFromList)(const char* title, tc_strings list,const char* sele
 /*! 
  \brief get a text from the user (dialog) from a list of selections
  \ingroup Input and Output
-*/
+*/ TCAPIEXPORT 
 int tc_getStringFromList(const char* title, tc_strings list,const char* selectedString)
 {
 	if (_tc_getStringFromList)
@@ -577,7 +577,7 @@ double (*_tc_getNumber)(const char* title) = 0;
 /*! 
  \brief get a number from the user (dialog)
  \ingroup Input and Output
-*/
+*/ TCAPIEXPORT 
 double tc_getNumber(const char* title)
 {
 	if (_tc_getNumber)
@@ -589,7 +589,7 @@ void (*_tc_getNumbers)(tc_strings labels, double* result) = 0;
 /*! 
  \brief get a list of numbers from the user (dialog) into the argument array
  \ingroup Input and Output
-*/
+*/ TCAPIEXPORT 
 void tc_getNumbers(tc_strings labels, double* result)
 {
 	if (_tc_getNumbers && result)
@@ -601,7 +601,7 @@ int (*_tc_askQuestion)(const char*) = 0;
  \brief display a dialog with a text and a yes and no button
  \param const char* displayed message or question
  \ingroup Input and Output
-*/
+*/ TCAPIEXPORT 
 int tc_askQuestion(const char* message)
 {
 	if (_tc_askQuestion && message)
@@ -614,7 +614,7 @@ void (*_tc_messageDialog)(const char*) = 0;
  \brief display a dialog with a text message and a close button
  \param const char* displayed message
  \ingroup Input and Output
-*/
+*/ TCAPIEXPORT 
 void tc_messageDialog(const char* message)
 {
 	if (_tc_messageDialog && message)
@@ -626,7 +626,7 @@ void (*_tc_openFile)(const char*) = 0;
  \brief open file
  \param const char* file
  \ingroup Input and Output
-*/
+*/ TCAPIEXPORT 
 void tc_openFile(const char* message)
 {
 	if (_tc_openFile && message)
@@ -638,7 +638,7 @@ void (*_tc_saveToFile)(const char*) = 0;
  \brief save to file
  \param const char* file
  \ingroup Input and Output
-*/
+*/ TCAPIEXPORT 
 void tc_saveToFile(const char* message)
 {
 	if (_tc_saveToFile && message)
@@ -648,7 +648,7 @@ void tc_saveToFile(const char* message)
 /*!
  \brief get pointer to the current thread
  \ingroup Programming interface
-*/
+*/ TCAPIEXPORT 
 long tc_thisThread()
 {
 	return _cthread_ptr;
@@ -659,7 +659,7 @@ void (*_tc_createSliders)(long, tc_matrix, void (*f)(tc_matrix)) = 0;
 /*!
  \brief create a window with several sliders. when the sliders change, the given function will be called with the values in the sliders
  \ingroup Input and Output
-*/
+*/ TCAPIEXPORT 
 void tc_createSliders(tc_matrix input, void (*f)(tc_matrix))
 {
 	if (_tc_createSliders && _cthread_ptr)
@@ -670,7 +670,7 @@ void (*_tc_setSize)(long,double,double,int) = 0;
 /*!
  \brief Change the size of an item
  \ingroup Appearance
-*/
+*/ TCAPIEXPORT 
 void tc_setSize(long item,double width,double height,int permanent)
 {
 	if (_tc_setSize)
@@ -681,7 +681,7 @@ double (*_tc_getWidth)(long) = 0;
 /*!
  \brief get the width of an item
  \ingroup Appearance
-*/
+*/ TCAPIEXPORT 
 double tc_getWidth(long item)
 {
 	if (_tc_getWidth)
@@ -693,7 +693,7 @@ double (*_tc_getHeight)(long) = 0;
 /*!
  \brief get the width of an item
  \ingroup Appearance
-*/
+*/ TCAPIEXPORT 
 double tc_getHeight(long item)
 {
 	if (_tc_getHeight)
@@ -705,7 +705,7 @@ void (*_tc_setAngle)(long,double,int) = 0;
 /*!
  \brief get the width of an item
  \ingroup Appearance
-*/
+*/ TCAPIEXPORT 
 void tc_setAngle(long item, double t,int permanent)
 {
 	if (_tc_setAngle)
@@ -716,7 +716,7 @@ double (*_tc_getAngle)(long) = 0;
 /*!
  \brief get the angle of an item
  \ingroup Appearance
-*/
+*/ TCAPIEXPORT 
 double tc_getAngle(long item)
 {
 	if (_tc_getAngle)
@@ -728,7 +728,7 @@ const char* (*_tc_getColor)(long item) = 0;
 /*! 
  \brief get the color of the item
  \ingroup Appearance
-*/
+*/ TCAPIEXPORT 
 const char* tc_getColor(long item)
 {
 	if (_tc_getColor)
@@ -740,7 +740,7 @@ void (*_tc_setColor)(long item,const char* name, int permanent) = 0;
 /*! 
  \brief set the color of the item and indicate whether or not the color is permanenet
  \ingroup Appearance
-*/
+*/ TCAPIEXPORT 
 void tc_setColor(long item,const char* name, int permanent)
 {
 	if (_tc_setColor)
@@ -751,7 +751,7 @@ void (*_tc_changeNodeImage)(long,const char*) = 0;
 /*! 
  \brief change the graphics file for drawing one of the nodes
  \ingroup Appearance
-*/
+*/ TCAPIEXPORT 
 void tc_changeNodeImage(long item,const char* filename)
 {
 	if (_tc_changeNodeImage)
@@ -762,7 +762,7 @@ void (*_tc_changeArrowHead)(long,const char*) = 0;
 /*! 
  \brief change the graphics file for drawing the arrowheads for the given connection
  \ingroup Appearance
-*/
+*/ TCAPIEXPORT 
 void tc_changeArrowHead(long connection,const char* filename)
 {
 	if (_tc_changeArrowHead)
@@ -773,7 +773,7 @@ void (*_tc_screenshot)(const char * filename, int width, int height) = 0;
 /*!
  \brief save screenshot in a file
  \ingroup Input and Output
-*/
+*/ TCAPIEXPORT 
 void tc_screenshot(const char * filename, int width, int height)
 {
 	if (_tc_screenshot)
@@ -783,7 +783,7 @@ void tc_screenshot(const char * filename, int width, int height)
 int (*_tc_screenWidth)(void) = 0;
 /*!
  \brief get width of current canvas
-*/
+*/ TCAPIEXPORT 
 int tc_screenWidth()
 {
 	if (_tc_screenWidth)
@@ -794,7 +794,7 @@ int tc_screenWidth()
 int (*_tc_screenHeight)(void) = 0;
 /*!
  \brief get height of current canvas
-*/
+*/ TCAPIEXPORT 
 int tc_screenHeight()
 {
 	if (_tc_screenHeight)
@@ -805,7 +805,7 @@ int tc_screenHeight()
 int (*_tc_screenX)(void) = 0;
 /*!
  \brief get x of current canvas
-*/
+*/ TCAPIEXPORT 
 int tc_screenX()
 {
 	if (_tc_screenX)
@@ -816,7 +816,7 @@ int tc_screenX()
 int (*_tc_screenY)(void) = 0;
 /*!
  \brief get y of current canvas
-*/
+*/ TCAPIEXPORT 
 int tc_screenY()
 {
 	if (_tc_screenY)
@@ -827,7 +827,7 @@ int tc_screenY()
 /*! 
  \brief initialize main
  \ingroup init
-*/
+*/ TCAPIEXPORT 
 void tc_Main_api_initialize(
 	    tc_items (*tc_allItems0)(),
 		tc_items (*tc_selectedItems0)(),
@@ -1011,7 +1011,7 @@ void (*_tc_showProgress)(long thread, int progress) = 0;
 /*! 
  \brief show progress of current operation
  \ingroup Input and Output
-*/
+*/ TCAPIEXPORT 
 void tc_showProgress(int progress)
 {
 	if (_tc_showProgress && _cthread_ptr)
@@ -1023,7 +1023,7 @@ void (*_tc_callback)(long, void (*f)(void)) = 0;
  \brief this function will be called whenever the model is changed
  \param void* callback function pointer
  \ingroup Programming
-*/
+*/ TCAPIEXPORT 
 void tc_callback(void (*f)(void))
 {
 	if (_tc_callback && _cthread_ptr)
@@ -1035,7 +1035,7 @@ void (*_tc_callWhenExiting)(long, void (*f)(void)) = 0;
  \brief this function will be called whenever Tinkercell exits. Use it to free memory.
  \param void* callback function pointer
  \ingroup Programming
-*/
+*/ TCAPIEXPORT 
 void tc_callWhenExiting(void (*f)(void))
 {
 	if (_tc_callWhenExiting && _cthread_ptr)
@@ -1045,7 +1045,7 @@ void tc_callWhenExiting(void (*f)(void))
 /*! 
  \brief initialize main
  \ingroup init
-*/
+*/ TCAPIEXPORT 
 void tc_CThread_api_initialize(
 	long cthread,
 	void (*callback)(long, void (*f)(void)),

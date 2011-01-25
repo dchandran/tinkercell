@@ -85,14 +85,28 @@ TCAPIEXPORT void compileCopasiModel(copasi_model model);
  \return copasi_model a new copasi model
  \ingroup Simulation
 */
-TCAPIEXPORT copasi_model loadModelFile(const char * filename);
+TCAPIEXPORT copasi_model readAntimonyFile(const char * filename);
+/*! 
+ \brief create a model from an SBML file
+ \param char* file name
+ \return copasi_model a new copasi model
+ \ingroup Simulation
+*/
+TCAPIEXPORT copasi_model readSBMLFile(const char * filename);
+/*! 
+ \brief create a model from an SBML string
+ \param char* SBML string
+ \return copasi_model a new copasi model
+ \ingroup Simulation
+*/
+TCAPIEXPORT copasi_model readSBMLString(const char * sbml);
 /*! 
  \brief save a model as an SBML file
  \param copasi_model copasi model
  \param char* file name
  \ingroup Simulation
 */
-TCAPIEXPORT void saveModelFile(copasi_model model, const char * filename);
+TCAPIEXPORT void writeSBML(copasi_model model, const char * filename);
 /*! 
  \brief add a compartment to the model
  \param copasi_model model/*! 

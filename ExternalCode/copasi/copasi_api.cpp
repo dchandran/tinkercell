@@ -944,55 +944,119 @@ tc_matrix simulateHybrid(copasi_model model, double startTime, double endTime, i
 	return simulate(model,startTime,endTime,numSteps,CCopasiMethod::hybridLSODA);
 }
 
-void saveModelFile(copasi_model model, const char * filename)
+void writeSBML(copasi_model model, const char * filename)
 {
 	CCopasiDataModel* pDataModel = (CCopasiDataModel*)(model.CopasiDataModelPtr);
 	if (pDataModel)
 		pDataModel->exportSBML(filename, true, 2, 3);
 }
 
-copasi_model loadModelFile(const char * filename)
+copasi_model readAntimonyFile(const char * filename)
 {
 	copasi_init();
 	
 	CCopasiDataModel* pDataModel = CCopasiRootContainer::addDatamodel();
 	char * error = NULL;
+
+	loadFile(filename); //load Antimony
+	//get the error message, if any
+	const char * err = getLastError();
+	int len = 0;
+	for (int i=0; err && err[i]; ++i) ++len;
+
+	if (len > 1)
+	{
+		error = (char*)malloc((1+len) * sizeof(char));
+		if (error)
+		{
+			for (int i=0; i < len; ++i) error[i] = err[i];
+			error[len-1] = 0;
+		}
+	}
+	const char * s = getSBMLString("__main");  //Antimony -> SBML (at worst, an empty model)
+	copasi_model m = readSBMLString(s);
+	freeAll(); //free Antimony
+	return m;
+}
+
+copasi_model readSBMLFile(const char * filename)
+{
+	copasi_init();
+	
+	CCopasiDataModel* pDataModel = CCopasiRootContainer::addDatamodel();
+	char * error = NULL;
+	std::string s;
 	try 
 	{
 		pDataModel->importSBML(filename); //SBML -> COPASI
+		s = CCopasiMessage::getAllMessageText();
+		if (s.length() == 0)
+		{
+			CModel* pModel = pDataModel->getModel();
+			CQHash * qHash = new CQHash();	
+			copasi_model m = { (void*)(pModel) , (void*)(pDataModel), (void*)(qHash), (char*)(error) };
+			hashTablesToCleanup += qHash;
+			copasiModelsToCleanup += m;
+			return m;
+		}
 	}
 	catch(...)
 	{
-		loadFile(filename); //load Antimony
-		
-		//get the error message, if any
-		const char * err = getLastError();
-		int len = 0;
-		for (int i=0; err && err[i]; ++i) ++len;
-		
-		if (len > 1)
-		{
-			error = (char*)malloc((1+len) * sizeof(char));
-			if (error)
-			{
-				for (int i=0; i < len; ++i) error[i] = err[i];
-				error[len-1] = 0;
-			}
-		}
-		const char * s = getSBMLString("__main");  //Antimony -> SBML (at worst, an empty model)
-		pDataModel->importSBMLFromString(s); //SBML -> COPASI	
-		freeAll(); //free Antimony
+		s = CCopasiMessage::getAllMessageText();
 	}
-	
-	CModel* pModel = pDataModel->getModel();
-	CQHash * qHash = new CQHash();
-	
-	copasi_model m = { (void*)(pModel) , (void*)(pDataModel), (void*)(qHash), (char*)error };
 
-	hashTablesToCleanup += qHash;
-	copasiModelsToCleanup += m;
+	int len = s.length();
+	if (len > 1)
+	{
+		error = (char*)malloc((1+len) * sizeof(char));
+		if (error)
+		{
+			for (int i=0; i < len; ++i) error[i] = s[i];
+			error[len-1] = 0;
+		}
+	}
+	copasi_model empty = { (void*)(0) , (void*)(0), (void*)(0), (char*)(error) };
+	return empty;
+}
 
-	return m;
+copasi_model readSBMLString(const char * sbml)
+{
+	copasi_init();
+	
+	CCopasiDataModel* pDataModel = CCopasiRootContainer::addDatamodel();
+	char * error = NULL;
+	std::string s;
+	try 
+	{
+		pDataModel->importSBMLFromString(sbml); //SBML -> COPASI	
+		s = CCopasiMessage::getAllMessageText();
+		if (s.length() == 0)
+		{
+			CModel* pModel = pDataModel->getModel();
+			CQHash * qHash = new CQHash();	
+			copasi_model m = { (void*)(pModel) , (void*)(pDataModel), (void*)(qHash), (char*)(error) };
+			hashTablesToCleanup += qHash;
+			copasiModelsToCleanup += m;
+			return m;
+		}
+	}
+	catch(...)
+	{
+		s = CCopasiMessage::getAllMessageText();
+	}
+
+	int len = s.length();
+	if (len > 1)
+	{
+		error = (char*)malloc((1+len) * sizeof(char));
+		if (error)
+		{
+			for (int i=0; i < len; ++i) error[i] = s[i];
+			error[len-1] = 0;
+		}
+	}
+	copasi_model empty = { (void*)(0) , (void*)(0), (void*)(0), (char*)(error) };
+	return empty;
 }
 
 tc_matrix getJacobian(copasi_model model)

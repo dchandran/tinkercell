@@ -60,6 +60,13 @@
 #include "GASStateGA.h"
 #include "GA1DArrayGenome.h"
 
+//libstruct
+#include "libstructural.h"
+#include "matrix.h"
+
+using namespace LIB_STRUCTURAL;
+using namespace LIB_LA;
+
 //Antimony lib
 extern "C"
 {
@@ -990,15 +997,12 @@ copasi_model readSBMLFile(const char * filename)
 	{
 		pDataModel->importSBML(filename); //SBML -> COPASI
 		s = CCopasiMessage::getAllMessageText();
-		if (s.length() == 0)
-		{
-			CModel* pModel = pDataModel->getModel();
-			CQHash * qHash = new CQHash();	
-			copasi_model m = { (void*)(pModel) , (void*)(pDataModel), (void*)(qHash), (char*)(error) };
-			hashTablesToCleanup += qHash;
-			copasiModelsToCleanup += m;
-			return m;
-		}
+		CModel* pModel = pDataModel->getModel();
+		CQHash * qHash = new CQHash();	
+		copasi_model m = { (void*)(pModel) , (void*)(pDataModel), (void*)(qHash), (char*)(error) };
+		hashTablesToCleanup += qHash;
+		copasiModelsToCleanup += m;
+		return m;
 	}
 	catch(...)
 	{
@@ -1030,15 +1034,12 @@ copasi_model readSBMLString(const char * sbml)
 	{
 		pDataModel->importSBMLFromString(sbml); //SBML -> COPASI	
 		s = CCopasiMessage::getAllMessageText();
-		if (s.length() == 0)
-		{
-			CModel* pModel = pDataModel->getModel();
-			CQHash * qHash = new CQHash();	
-			copasi_model m = { (void*)(pModel) , (void*)(pDataModel), (void*)(qHash), (char*)(error) };
-			hashTablesToCleanup += qHash;
-			copasiModelsToCleanup += m;
-			return m;
-		}
+		CModel* pModel = pDataModel->getModel();
+		CQHash * qHash = new CQHash();	
+		copasi_model m = { (void*)(pModel) , (void*)(pDataModel), (void*)(qHash), (char*)(error) };
+		hashTablesToCleanup += qHash;
+		copasiModelsToCleanup += m;
+		return m;
 	}
 	catch(...)
 	{
@@ -1745,6 +1746,35 @@ tc_matrix getReducedStoichiometryMatrix(copasi_model model)
 	return N;
 }
 
+tc_matrix getFullStoichiometryMatrix(copasi_model model)
+{
+	CModel* pModel = (CModel*)(model.CopasiModelPtr);
+	CCopasiDataModel* pDataModel = (CCopasiDataModel*)(model.CopasiDataModelPtr);
+	
+	if (!pModel || !pDataModel) return tc_createMatrix(0,0);
+	compileCopasiModel(model);
+	
+	CCopasiVector< CMetab > & species = pModel->getMetabolites();
+	CCopasiVectorNS < CReaction > & reacs = pModel->getReactions();
+	CMatrix < C_FLOAT64 > stoi = pModel->getStoi();
+
+	tc_matrix N = tc_createMatrix( stoi.numRows(), stoi.numCols() );
+
+	for  (int i=0; i < N.rows && i < species.size(); ++i)
+		if (species[i])
+			tc_setRowName(N, i, species[i]->getObjectName().c_str());
+
+	for  (int i=0; i < N.cols && i < reacs.size(); ++i)
+		if (reacs[i])
+			tc_setColumnName(N, i, reacs[i]->getObjectName().c_str());
+
+	for  (int i=0; i < N.rows; ++i)
+		for  (int j=0; j < N.cols; ++j)
+			tc_setMatrixValue(N, i, j, stoi(i,j));
+
+	return N;
+}
+
 tc_matrix getElementaryFluxModes(copasi_model model)
 {
 	CModel* pModel = (CModel*)(model.CopasiModelPtr);
@@ -1997,5 +2027,257 @@ void fitModelToData(copasi_model model, const char * filename, tc_matrix params,
 tc_matrix getParameterDistribution(copasi_model model, const char * objective, tc_matrix input)
 {
 	return tc_createMatrix(0,0);
+}
+
+/* LIBSTRUCTURAL */
+
+tc_matrix convertFromDoubleMatrix(DoubleMatrix& matrix, std::vector< std::string > &rowNames, std::vector< std::string > &colNames)
+{
+	tc_matrix m = tc_createMatrix(matrix.numRows(), matrix.numCols());
+	
+	for (int i=0; i < m.rows && i < rowNames.size(); ++i)
+		tc_setRowName(m, i, rowNames[i].c_str());
+
+	for (int i=0; i < m.cols && i < colNames.size(); ++i)
+		tc_setColumnName(m, i, colNames[i].c_str());
+
+	for (int i=0; i < m.rows; ++i)
+		for (int j=0; j < m.cols; ++j)
+			tc_setMatrixValue(m, i, j, matrix(i,j));
+	
+	return m;
+}
+
+void convertToDoubleMatrix(tc_matrix m, DoubleMatrix & matrix, std::vector< std::string > &rowNames, std::vector< std::string > &colNames)
+{
+	matrix.resize(m.rows, m.cols);
+	
+	rowNames.resize(m.rows);
+	colNames.resize(m.cols);
+	
+	for (int i=0; i < m.rows && i < rowNames.size(); ++i)
+		rowNames[i] = std::string(tc_getRowName(m, i));
+
+	for (int i=0; i < m.cols && i < colNames.size(); ++i)
+		colNames[i] = std::string(tc_getColumnName(m, i));
+	
+	for (int i=0; i < m.rows; ++i)
+		for (int j=0; j < m.cols; ++j)
+			matrix(i,j) = tc_getMatrixValue(m, i, j);
+}
+
+tc_matrix getGammaMatrix(copasi_model model)
+{
+	CModel* pModel = (CModel*)(model.CopasiModelPtr);
+	CCopasiDataModel* pDataModel = (CCopasiDataModel*)(model.CopasiDataModelPtr);
+	if (!pModel || !pDataModel) return tc_createMatrix(0,0);
+
+	//get stoichiometry
+	tc_matrix tc_N = getFullStoichiometryMatrix(model);
+	std::vector< std::string > rowNames, colNames;	
+	DoubleMatrix N;
+	
+	convertToDoubleMatrix( tc_N , N, rowNames, colNames );
+	
+	//use libstructural
+	LibStructural * instance = LibStructural::getInstance();
+	instance->loadStoichiometryMatrix (N);
+
+	CCopasiVector< CMetab > & metabolites = pModel->getMetabolites();
+	std::vector<double> iv(metabolites.size(), 0);  //species concentrations
+	for (int i=0; i < metabolites.size(); ++i)
+		if (metabolites[i] != NULL)
+			iv[i] = metabolites[i]->getInitialConcentration();
+	
+	instance->loadSpecies (rowNames, iv);
+	instance->loadReactionNames (colNames);
+	instance->analyzeWithQR();
+	
+	DoubleMatrix * matrix = instance->getGammaMatrix();
+	
+	rowNames.clear();
+	colNames.clear();
+	instance->getGammaMatrixLabels(rowNames, colNames);
+	
+	//convert
+	tc_matrix m = convertFromDoubleMatrix(*matrix, rowNames, colNames);
+	
+	//cleanup
+	delete matrix;
+	tc_deleteMatrix(tc_N);
+	
+	return m;
+}
+
+tc_matrix getKMatrix(copasi_model model)
+{
+	CModel* pModel = (CModel*)(model.CopasiModelPtr);
+	CCopasiDataModel* pDataModel = (CCopasiDataModel*)(model.CopasiDataModelPtr);
+	if (!pModel || !pDataModel) return tc_createMatrix(0,0);
+
+	//get stoichiometry
+	tc_matrix tc_N = getFullStoichiometryMatrix(model);
+	std::vector< std::string > rowNames, colNames;	
+	DoubleMatrix N;
+	
+	convertToDoubleMatrix( tc_N , N, rowNames, colNames );
+	
+	//use libstructural
+	LibStructural * instance = LibStructural::getInstance();
+	instance->loadStoichiometryMatrix (N);
+
+	CCopasiVector< CMetab > & metabolites = pModel->getMetabolites();
+	std::vector<double> iv(metabolites.size(), 0);  //species concentrations
+	for (int i=0; i < metabolites.size(); ++i)
+		if (metabolites[i] != NULL)
+			iv[i] = metabolites[i]->getInitialConcentration();
+	
+	instance->loadSpecies (rowNames, iv);
+	instance->loadReactionNames (colNames);
+	instance->analyzeWithQR();
+	
+	DoubleMatrix * matrix = instance->getKMatrix();
+	
+	rowNames.clear();
+	colNames.clear();
+	instance->getKMatrixLabels(rowNames, colNames);
+	
+	//convert
+	tc_matrix m = convertFromDoubleMatrix(*matrix, rowNames, colNames);
+	
+	//cleanup
+	delete matrix;
+	tc_deleteMatrix(tc_N);
+	
+	return m;
+}
+
+tc_matrix getLinkMatrix(copasi_model model)
+{
+	CModel* pModel = (CModel*)(model.CopasiModelPtr);
+	CCopasiDataModel* pDataModel = (CCopasiDataModel*)(model.CopasiDataModelPtr);
+	if (!pModel || !pDataModel) return tc_createMatrix(0,0);
+
+	//get stoichiometry
+	tc_matrix tc_N = getFullStoichiometryMatrix(model);
+	std::vector< std::string > rowNames, colNames;	
+	DoubleMatrix N;
+	
+	convertToDoubleMatrix( tc_N , N, rowNames, colNames );
+	
+	//use libstructural
+	LibStructural * instance = LibStructural::getInstance();
+	instance->loadStoichiometryMatrix (N);
+
+	CCopasiVector< CMetab > & metabolites = pModel->getMetabolites();
+	std::vector<double> iv(metabolites.size(), 0);  //species concentrations
+	for (int i=0; i < metabolites.size(); ++i)
+		if (metabolites[i] != NULL)
+			iv[i] = metabolites[i]->getInitialConcentration();
+	
+	instance->loadSpecies (rowNames, iv);
+	instance->loadReactionNames (colNames);
+	instance->analyzeWithQR();
+	
+	DoubleMatrix * matrix = instance->getLinkMatrix();
+	
+	rowNames.clear();
+	colNames.clear();
+	instance->getLinkMatrixLabels(rowNames, colNames);
+	
+	//convert
+	tc_matrix m = convertFromDoubleMatrix(*matrix, rowNames, colNames);
+	
+	//cleanup
+	delete matrix;
+	tc_deleteMatrix(tc_N);
+	
+	return m;
+}
+
+tc_matrix getK0Matrix(copasi_model model)
+{
+	CModel* pModel = (CModel*)(model.CopasiModelPtr);
+	CCopasiDataModel* pDataModel = (CCopasiDataModel*)(model.CopasiDataModelPtr);
+	if (!pModel || !pDataModel) return tc_createMatrix(0,0);
+
+	//get stoichiometry
+	tc_matrix tc_N = getFullStoichiometryMatrix(model);
+	std::vector< std::string > rowNames, colNames;	
+	DoubleMatrix N;
+	
+	convertToDoubleMatrix( tc_N , N, rowNames, colNames );
+	
+	//use libstructural
+	LibStructural * instance = LibStructural::getInstance();
+	instance->loadStoichiometryMatrix (N);
+
+	CCopasiVector< CMetab > & metabolites = pModel->getMetabolites();
+	std::vector<double> iv(metabolites.size(), 0);  //species concentrations
+	for (int i=0; i < metabolites.size(); ++i)
+		if (metabolites[i] != NULL)
+			iv[i] = metabolites[i]->getInitialConcentration();
+	
+	instance->loadSpecies (rowNames, iv);
+	instance->loadReactionNames (colNames);
+	instance->analyzeWithQR();
+	
+	DoubleMatrix * matrix = instance->getK0Matrix();
+	
+	rowNames.clear();
+	colNames.clear();
+	instance->getK0MatrixLabels(rowNames, colNames);
+	
+	//convert
+	tc_matrix m = convertFromDoubleMatrix(*matrix, rowNames, colNames);
+	
+	//cleanup
+	delete matrix;
+	tc_deleteMatrix(tc_N);
+	
+	return m;
+}
+
+tc_matrix getL0Matrix(copasi_model model)
+{
+	CModel* pModel = (CModel*)(model.CopasiModelPtr);
+	CCopasiDataModel* pDataModel = (CCopasiDataModel*)(model.CopasiDataModelPtr);
+	if (!pModel || !pDataModel) return tc_createMatrix(0,0);
+
+	//get stoichiometry
+	tc_matrix tc_N = getFullStoichiometryMatrix(model);
+	std::vector< std::string > rowNames, colNames;	
+	DoubleMatrix N;
+	
+	convertToDoubleMatrix( tc_N , N, rowNames, colNames );
+	
+	//use libstructural
+	LibStructural * instance = LibStructural::getInstance();
+	instance->loadStoichiometryMatrix (N);
+
+	CCopasiVector< CMetab > & metabolites = pModel->getMetabolites();
+	std::vector<double> iv(metabolites.size(), 0);  //species concentrations
+	for (int i=0; i < metabolites.size(); ++i)
+		if (metabolites[i] != NULL)
+			iv[i] = metabolites[i]->getInitialConcentration();
+	
+	instance->loadSpecies (rowNames, iv);
+	instance->loadReactionNames (colNames);
+	instance->analyzeWithQR();
+	
+	DoubleMatrix * matrix = instance->getL0Matrix();
+	
+	rowNames.clear();
+	colNames.clear();
+	instance->getL0MatrixLabels(rowNames, colNames);
+	
+	//convert
+	tc_matrix m = convertFromDoubleMatrix(*matrix, rowNames, colNames);
+	
+	//cleanup
+	delete matrix;
+	tc_deleteMatrix(tc_N);
+	
+	return m;
 }
 

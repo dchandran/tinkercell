@@ -1224,20 +1224,23 @@ namespace Tinkercell
 
 		int n = 0, j0;
 		for (int i=0; i < connectionHandles.size(); ++i) //build combined matrix for all selected reactions
-			if (connectionHandles[i] != 0 
-				&& connectionHandles[i]->children.isEmpty())
-				if (connectionHandles[i]->hasNumericalData(QObject::tr("Reactant stoichiometries")) &&
-					connectionHandles[i]->hasNumericalData(QObject::tr("Product stoichiometries")))
+			if (connectionHandles[i] != 0 && connectionHandles[i]->children.isEmpty() &&
+					connectionHandles[i]->hasNumericalData(QObject::tr("Reactant stoichiometries")) &&
+					connectionHandles[i]->hasNumericalData(QObject::tr("Product stoichiometries")) &&
+					connectionHandles[i]->hasTextData(QObject::tr("Rate equations")))
 				{
 					nDataTable1 = &(connectionHandles[i]->numericalDataTable(QObject::tr("Reactant stoichiometries")));
 					nDataTable2 = &(connectionHandles[i]->numericalDataTable(QObject::tr("Product stoichiometries")));
+					sDataTable = &(connection->textDataTable(QObject::tr("Rate equations")));
+					
+					if (nDataTable1.rows() < 1 || nDataTable1.rows() != nDataTable2.rows() || nDataTable1.rows() != sDataTable.rows())
+						continue;
 					
 					for (int k=0; k < nDataTable1->rows() || k < nDataTable2->rows(); ++k)
 					{
 						if (nDataTable1->rows() > k)
 							for (int j=0; j < nDataTable1->columns(); ++j)     //get unique species
 							{
-
 								QString s = nDataTable1->columnName(j);
 
 								j0 = columnNames.indexOf(s);

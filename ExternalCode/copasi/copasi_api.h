@@ -356,6 +356,14 @@ TCAPIEXPORT tc_matrix getScaledConcentrationCC(copasi_model model);
 TCAPIEXPORT tc_matrix getScaledFluxCC(copasi_model model);
 
 /*! 
+ \brief full stoichiometry matrix
+ \param copasi_model model
+ \return tc_matrix 
+ \ingroup Simulation
+*/
+TCAPIEXPORT tc_matrix getFullStoichiometryMatrix(copasi_model model);
+
+/*! 
  \brief reduced stoichiometry matrix
  \param copasi_model model
  \return tc_matrix 
@@ -370,6 +378,47 @@ TCAPIEXPORT tc_matrix getReducedStoichiometryMatrix(copasi_model model);
  \ingroup Simulation
 */
 TCAPIEXPORT tc_matrix getElementaryFluxModes(copasi_model model);
+
+/*! 
+ \brief get Gamma matrix (i.e. conservation laws)
+ \param copasi_model model
+ \return tc_matrix 
+ \ingroup Structural
+*/
+TCAPIEXPORT tc_matrix getGammaMatrix(copasi_model model);
+
+/*! 
+ \brief get K matrix (right nullspace)
+ \param copasi_model model
+ \return tc_matrix 
+ \ingroup Structural
+*/
+TCAPIEXPORT tc_matrix getKMatrix(copasi_model model);
+
+/*! 
+ \brief get K0 matrix
+ \param copasi_model model
+ \return tc_matrix 
+ \ingroup Structural
+*/
+TCAPIEXPORT tc_matrix getK0Matrix(copasi_model model);
+
+/*! 
+ \brief get L matrix (left nullspace)
+ \param copasi_model model
+ \return tc_matrix 
+ \ingroup Structural
+*/
+TCAPIEXPORT tc_matrix getLinkMatrix(copasi_model model);
+
+/*! 
+ \brief get L0 matrix
+ \param copasi_model model
+ \return tc_matrix 
+ \ingroup Structural
+*/
+TCAPIEXPORT tc_matrix getL0Matrix(copasi_model model);
+
 
 /*! 
  \brief fit the model parameters to data

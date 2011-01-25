@@ -12,15 +12,15 @@ int main()
 	tc_matrix efm = tc_createMatrix(0,0);
 	copasi_model m1, m2;
 	
-	m1 = readSBMLFile("bug.xml");
+	m1 = readSBMLFile("brusselator.sbml");
 	if (m1.errorMessage)
+	{
 		printf("%s\n", m1.errorMessage);
+	}
 	else
 	{
-		printf("no error\n");
-		writeSBML(m1, "branch2.sbml");
-		efm = getElementaryFluxModes(m1);
-		tc_printOutMatrix(efm);	
+		efm = getGammaMatrix(m1);
+		tc_printOutMatrix(efm);
 	}
 	removeCopasiModel(m1);
 	

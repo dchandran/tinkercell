@@ -15,7 +15,7 @@ else()
   set(DSECOND_SRC  ${CLAPACK_SOURCE_DIR}/INSTALL/dsecnd.c)
 endif()
 enable_testing()
-option(USE_BLAS_WRAP "pre-pend f2c_ to each function in blas" ON)
+option(USE_BLAS_WRAP "pre-pend f2c_ to each function in blas" OFF)
 if(NOT USE_BLAS_WRAP)
 # _zrotg_ seems to be missing in the wrap header
   add_definitions(-DNO_BLAS_WRAP)

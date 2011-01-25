@@ -400,17 +400,17 @@ LIB_EXTERN char* getNthReplacementSymbolNameBetween(const char* moduleName, cons
  * Returns the number of symbols of the given return type.  Useful when looping over the arrays in the subsequent functions.
  * @see get()
  */
-LIB_EXTERN unsigned long getNumSymbolsOfType(const char* moduleName, enum return_type rtype);
+LIB_EXTERN unsigned long getNumSymbolsOfType(const char* moduleName, return_type rtype);
 
 /**
  * Returns the names of the symbols of the given return type.  (In SBML, these are the 'id's.)
  */
-LIB_EXTERN char** getSymbolNamesOfType(const char* moduleName, enum return_type rtype);
+LIB_EXTERN char** getSymbolNamesOfType(const char* moduleName, return_type rtype);
 
 /**
  * Returns the 'display names' of the symbols of the given return type.  (In SBML, these are the 'name's.)
  */
-LIB_EXTERN char** getSymbolDisplayNamesOfType(const char* moduleName, enum return_type rtype);
+LIB_EXTERN char** getSymbolDisplayNamesOfType(const char* moduleName, return_type rtype);
 
 /**
  * Returns the equations associated with the symbols of the given return type.
@@ -426,7 +426,7 @@ LIB_EXTERN char** getSymbolDisplayNamesOfType(const char* moduleName, enum retur
  *
  * For elements that could have either initial assignments or assignment rules, use getTypeOfEquationForSymbol, or just use getSymbolInitialAssignmentsOfType and getSymbolAssignmentRulesOfType explicitly.
  */
-LIB_EXTERN char** getSymbolEquationsOfType(const char* moduleName, enum return_type rtype);
+LIB_EXTERN char** getSymbolEquationsOfType(const char* moduleName, return_type rtype);
 
 
 /**
@@ -441,7 +441,7 @@ LIB_EXTERN char** getSymbolEquationsOfType(const char* moduleName, enum return_t
  * - Interactions:            Nothing
  * - Modules:                 Nothing
  */
-LIB_EXTERN char** getSymbolInitialAssignmentsOfType(const char* moduleName, enum return_type rtype);
+LIB_EXTERN char** getSymbolInitialAssignmentsOfType(const char* moduleName, return_type rtype);
 
 /**
  * Returns the equations associated with the assignment rule for symbols of the given return type.
@@ -455,7 +455,7 @@ LIB_EXTERN char** getSymbolInitialAssignmentsOfType(const char* moduleName, enum
  * - Interactions:            Nothing
  * - Modules:                 Nothing
  */
-LIB_EXTERN char** getSymbolAssignmentRulesOfType(const char* moduleName, enum return_type rtype);
+LIB_EXTERN char** getSymbolAssignmentRulesOfType(const char* moduleName, return_type rtype);
 
 /**
  * Returns the equations associated with the rate rule for symbols of the given return type.
@@ -468,57 +468,57 @@ LIB_EXTERN char** getSymbolAssignmentRulesOfType(const char* moduleName, enum re
  * - Interactions:            Nothing
  * - Modules:                 Nothing
  */
-LIB_EXTERN char** getSymbolRateRulesOfType(const char* moduleName, enum return_type rtype);
+LIB_EXTERN char** getSymbolRateRulesOfType(const char* moduleName, return_type rtype);
 
 /**
  * Returns the compartments associated with the symbols of the given return type.  Note that unlike in SBML, any symbol of any type may have an associated compartment, including compartments themselves.  Rules about compartments in Antimony can be found in the <A class="el" target="_top" HREF="Tutorial.pdf">Tutorial.pdf</a> document included with this documentation.
  */
-LIB_EXTERN char** getSymbolCompartmentsOfType(const char* moduleName, enum return_type rtype);
+LIB_EXTERN char** getSymbolCompartmentsOfType(const char* moduleName, return_type rtype);
 
 /**
  * Returns the name of the Nth symbol of the given type.  If no such symbol exists, NULL is returned and an error is set.  (In SBML, this is the 'id' of the element.)
  */
-LIB_EXTERN char*  getNthSymbolNameOfType(const char* moduleName, enum return_type rtype, unsigned long n);
+LIB_EXTERN char*  getNthSymbolNameOfType(const char* moduleName, return_type rtype, unsigned long n);
 
 /**
  * Returns the 'display name' of the Nth symbol of the given type.  If no such symbol exists, NULL is returned and an error is set.  (In SBML, this is the 'name' of the element.)
  */
-LIB_EXTERN char*  getNthSymbolDisplayNameOfType(const char* moduleName, enum return_type rtype, unsigned long n);
+LIB_EXTERN char*  getNthSymbolDisplayNameOfType(const char* moduleName, return_type rtype, unsigned long n);
 
 /**
  * Returns the equation associated with the Nth symbol of the given type.  If no equation is set for the symbol in question, an empty string is returned.  If no symbol can be found, NULL is returned and an error is set.
  */
-LIB_EXTERN char*  getNthSymbolEquationOfType(const char* moduleName, enum return_type rtype, unsigned long n);
+LIB_EXTERN char*  getNthSymbolEquationOfType(const char* moduleName, return_type rtype, unsigned long n);
 
 /**
  * Returns the initial assignment associated with the Nth symbol of the given type.  If no initial assignment is set for the symbol in question, an empty string is returned.  If no symbol can be found, NULL is returned and an error is set.
  */
-LIB_EXTERN char*  getNthSymbolInitialAssignmentOfType(const char* moduleName, enum return_type rtype, unsigned long n);
+LIB_EXTERN char*  getNthSymbolInitialAssignmentOfType(const char* moduleName, return_type rtype, unsigned long n);
 
 /**
  * Returns the assignment rule associated with the Nth symbol of the given type.  If no assignment rule is set for the symbol in question, an empty string is returned.  If no symbol can be found, NULL is returned and an error is set.
  */
-LIB_EXTERN char*  getNthSymbolAssignmentRuleOfType(const char* moduleName, enum return_type rtype, unsigned long n);
+LIB_EXTERN char*  getNthSymbolAssignmentRuleOfType(const char* moduleName, return_type rtype, unsigned long n);
 
 /**
  * Returns the rate rule associated with the Nth symbol of the given type.  If no rate rule is set for the symbol in question, an empty string is returned.  If no symbol can be found, NULL is returned and an error is set.
  */
-LIB_EXTERN char*  getNthSymbolRateRuleOfType(const char* moduleName, enum return_type rtype, unsigned long n);
+LIB_EXTERN char*  getNthSymbolRateRuleOfType(const char* moduleName, return_type rtype, unsigned long n);
 
 /**
  * Returns the name of the compartment associated with the nth symbol of the given type.  If no compartment is explicitly set in the file, the string "default_compartment" is returned.  If no symbol can be found, NULL is returned and an error is set.
 */
-LIB_EXTERN char*  getNthSymbolCompartmentOfType(const char* moduleName, enum return_type rtype, unsigned long n);
+LIB_EXTERN char*  getNthSymbolCompartmentOfType(const char* moduleName, return_type rtype, unsigned long n);
 
 /**
  * Returns the most specific return type available for the given symbolName.  A symbol defined to be a gene, for example, will return 'allGenes' and not 'allReactions', though the symbol does indeed qualify as a reaction.
  */
-LIB_EXTERN enum return_type getTypeOfSymbol(const char* moduleName, const char* symbolName);
+LIB_EXTERN return_type getTypeOfSymbol(const char* moduleName, const char* symbolName);
 
 /**
  * Returns the type of the 'main' equation associated with the given symbolName.  All reactions will return 'formulaKINETIC', and all events will return 'formulaTRIGGER'.  All DNA elements that are not genes will return 'formulaASSIGNMENT', as DNA elements are defined by assignment rules and kinetic laws.  All other symbols will return 'formulaINITIAL' by default (i.e. in the case where no equation at all is associated with the symbol in question), and otherwise will return formulaINITIAL for symbols defined by initial assignments only, formulaASSIGNMENT for symbols defined by assignment rules, and formulaRATE for symbols defined by both initial assignments and rate rules (or just rate rules; it is valid though not simulatable to have a symbol with a rate rule but no initial assignment).  In the case of rate rules, the initial assignment is found in the 'Equation' associated with the symbol, and the rate rule is found in the 'RateRule' associated with the symbol.
  */
-LIB_EXTERN enum formula_type getTypeOfEquationForSymbol(const char* moduleName, const char* symbolName);
+LIB_EXTERN formula_type getTypeOfEquationForSymbol(const char* moduleName, const char* symbolName);
 
 /**
  * Returns the name of the compartment the given symbol is a member of.  In antimony, all symbols may have compartments, not just species.  If a symbol has no set compartment, and is not a member of a symbol with a set compartment, this will return "default_compartment"
@@ -662,12 +662,12 @@ LIB_EXTERN char**  getNthInteractionMthInteracteeName(const char* modulename, un
 /**
  * Returns an array of all the interaction dividers in the given module.  The length of the array can be obtained with 'getNumInteractions'.
  */
-LIB_EXTERN enum rd_type* getInteractionDividers(const char* moduleName);
+LIB_EXTERN rd_type* getInteractionDividers(const char* moduleName);
 
 /**
  * Returns the Nth interaction divider in the module.  If no such interaction is present, 0 is returned, which is 'rdBecomes, which is an invalid Interaction divider (since it's used for reactions instead).
  */
-LIB_EXTERN enum rd_type  getNthInteractionDivider(const char* moduleName, unsigned long n);
+LIB_EXTERN rd_type  getNthInteractionDivider(const char* moduleName, unsigned long n);
 
 /** \} */
 

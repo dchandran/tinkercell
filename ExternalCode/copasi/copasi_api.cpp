@@ -107,7 +107,7 @@ void removeCopasiModel(copasi_model model)
 	for (int i=0; i < copasiModelsToCleanup.size(); ++i)
 		if (copasiModelsToCleanup[i].CopasiDataModelPtr == model.CopasiDataModelPtr)
 		{
-			copasi_model m = { (void*)0, (void*)0, (void*)0, (char*)0 };
+			copasi_model m = { (void*)NULL, (void*)NULL, (void*)NULL, (char*)NULL };
 			copasiModelsToCleanup[i] = m;
 		}
 
@@ -154,7 +154,7 @@ copasi_model createCopasiModel(const char * name)
 	CCopasiDataModel* pDataModel = CCopasiRootContainer::addDatamodel();
 	CModel* pModel = pDataModel->getModel();
 	CQHash * qHash = new CQHash();
-	copasi_model m = { (void*)(pModel) , (void*)(pDataModel), (void*)(qHash), (char*)(0) };
+	copasi_model m = { (void*)(pModel) , (void*)(pDataModel), (void*)(qHash), (char*)(NULL) };
 	
 	hashTablesToCleanup += qHash;
 	copasiModelsToCleanup += m;
@@ -270,7 +270,7 @@ void setVolume(copasi_model model, const char * name, double vol)
 {
 	CQHash * hash = (CQHash*)(model.qHash);
 	QString s(name);
-	CCompartment* pVol = 0;
+	CCompartment* pVol = NULL;
 	
 	if (!hash) return;
 	
@@ -286,7 +286,7 @@ void setConcentration(copasi_model model, const char * name, double conc)
 {
 	CQHash * hash = (CQHash*)(model.qHash);
 	QString s(name);
-	CMetab* pSpecies = 0;
+	CMetab* pSpecies = NULL;
 	
 	if (!hash) return;
 	
@@ -305,7 +305,7 @@ int setGlobalParameter(copasi_model model, const char * name, double value)
 	CModel* pModel = (CModel*)(model.CopasiModelPtr);
 	CQHash * hash = (CQHash*)(model.qHash);
 	QString s(name);
-	CModelValue * pValue = 0;
+	CModelValue * pValue = NULL;
 	
 	if (!hash || !pModel) return 0;
 	
@@ -341,7 +341,7 @@ void setBoundarySpecies(copasi_model model, const char * name, int isBoundary)
 {
 	CQHash * hash = (CQHash*)(model.qHash);
 	QString s(name);
-	CMetab* pSpecies = 0;
+	CMetab* pSpecies = NULL;
 	
 	if (!hash) return;
 	
@@ -360,7 +360,7 @@ int setAssignmentRule(copasi_model model, const char * name, const char * formul
 	CModel* pModel = (CModel*)(model.CopasiModelPtr);
 	CQHash * hash = (CQHash*)(model.qHash);
 	QString s(name);
-	CMetab* pSpecies = 0;
+	CMetab* pSpecies = NULL;
 	int i;
 	bool retval=true;
 	
@@ -663,7 +663,7 @@ void addReactant(copasi_reaction reaction, const char * species, double stoichio
 		return;
 	}
 
-	CMetab* pSpecies = 0;
+	CMetab* pSpecies = NULL;
 	
 	QString s(species);
 	if (hash->contains(s) && (pSpecies = hash->value(s).species))
@@ -679,7 +679,7 @@ void addProduct(copasi_reaction reaction, const char * species, double stoichiom
 {
 	CReaction* pReaction = (CReaction*)(reaction.CopasiReactionPtr);
 	CQHash * hash = (CQHash*)(reaction.qHash);
-	CMetab* pSpecies = 0;
+	CMetab* pSpecies = NULL;
 	
 	if (!pReaction || !hash) return;
 	
@@ -796,7 +796,7 @@ void compileCopasiModel(copasi_model model)
 	CCopasiVectorNS < CCompartment > & compartments = pModel->getCompartments();
 	CCopasiVector< CMetab > & species = pModel->getMetabolites();
 	CCopasiVectorN< CModelValue > & params = pModel->getModelValues();
-	const CCopasiObject* pObject = 0;
+	const CCopasiObject* pObject = NULL;
 	std::set<const CCopasiObject*> changedObjects;
 	
 	for (int i=0; i < compartments.size(); ++i)
@@ -899,7 +899,7 @@ tc_matrix simulate(copasi_model model, double startTime, double endTime, int num
 				// print the messages in chronological order
 				std::cerr << CCopasiMessage::getAllMessageText(true);
 			}
-			pTask = 0;
+			pTask = NULL;
 		}
 	}
 	
@@ -954,8 +954,9 @@ void saveModelFile(copasi_model model, const char * filename)
 copasi_model loadModelFile(const char * filename)
 {
 	copasi_init();
+	
 	CCopasiDataModel* pDataModel = CCopasiRootContainer::addDatamodel();
-	char * error = 0;
+	char * error = NULL;
 	try 
 	{
 		pDataModel->importSBML(filename); //SBML -> COPASI
@@ -964,7 +965,7 @@ copasi_model loadModelFile(const char * filename)
 	{
 		loadFile(filename); //load Antimony
 		
-		/*get the error message, if any*/
+		//get the error message, if any
 		const char * err = getLastError();
 		int len = 0;
 		for (int i=0; err && err[i]; ++i) ++len;
@@ -977,8 +978,6 @@ copasi_model loadModelFile(const char * filename)
 				for (int i=0; i < len; ++i) error[i] = err[i];
 				error[len-1] = 0;
 			}
-		
-			/* */
 		}
 		const char * s = getSBMLString("__main");  //Antimony -> SBML (at worst, an empty model)
 		pDataModel->importSBMLFromString(s); //SBML -> COPASI	
@@ -989,10 +988,10 @@ copasi_model loadModelFile(const char * filename)
 	CQHash * qHash = new CQHash();
 	
 	copasi_model m = { (void*)(pModel) , (void*)(pDataModel), (void*)(qHash), (char*)error };
-	
+
 	hashTablesToCleanup += qHash;
 	copasiModelsToCleanup += m;
-	
+
 	return m;
 }
 

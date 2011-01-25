@@ -1,6 +1,7 @@
 #ifndef TINKERCELL_CSTRUCTS_H
 #define TINKERCELL_CSTRUCTS_H
 
+#ifndef BEGIN_C_DECLS
 #ifdef __cplusplus
 #        define BEGIN_C_DECLS extern "C" {
 #        define END_C_DECLS }
@@ -8,13 +9,14 @@
 #        define BEGIN_C_DECLS
 #        define END_C_DECLS
 #endif
+#endif
 
 # ifndef TCAPIEXPORT
 #  if defined(_WIN32) || defined(__WIN32__) || defined(__CYGWIN__)
 #    if defined(STATIC_LINKED)
 #      define TCAPIEXPORT
 #    else
-#      define TCAPIEXPORT __declspec(dllexport)
+#      define TCAPIEXPORT __stdcall __declspec(dllexport)
 #     endif
 #  else
 #    if defined(__GNUC__) && defined(GCC_HASCLASSVISIBILITY)

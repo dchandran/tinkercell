@@ -17,6 +17,7 @@ int main()
 		printf("%s\n", m1.errorMessage);
 	else
 	{
+		printf("no error\n");
 		saveModelFile(m1, "branch2.sbml");
 		efm = getElementaryFluxModes(m1);
 		tc_printOutMatrix(efm);	

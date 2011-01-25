@@ -4,7 +4,7 @@
 
 #include "TC_structs.h"
 
-tc_matrix tc_createMatrix(int rows, int cols)
+TCAPIEXPORT tc_matrix tc_createMatrix(int rows, int cols)
 {
 	int i;
 	tc_matrix M;
@@ -28,7 +28,7 @@ tc_matrix tc_createMatrix(int rows, int cols)
 	return M;
 }
 
-tc_table tc_createTable(int rows, int cols)
+TCAPIEXPORT tc_table tc_createTable(int rows, int cols)
 {
 	int i;
 	tc_table M;
@@ -52,7 +52,7 @@ tc_table tc_createTable(int rows, int cols)
 	return M;
 }
 
-tc_strings tc_createStringsArray(int len)
+TCAPIEXPORT tc_strings tc_createStringsArray(int len)
 {
 	int i;
 	tc_strings A;
@@ -71,7 +71,7 @@ tc_strings tc_createStringsArray(int len)
 	return A;
 }
 
-tc_items tc_createItemsArray(int len)
+TCAPIEXPORT tc_items tc_createItemsArray(int len)
 {
 	int i;
 	tc_items A;
@@ -90,47 +90,47 @@ tc_items tc_createItemsArray(int len)
 	return A;
 }
 
-double tc_getMatrixValue(tc_matrix M, int i, int j)
+TCAPIEXPORT double tc_getMatrixValue(tc_matrix M, int i, int j)
 { 
 	if (M.values && i >= 0 && j >= 0 && i < M.rows && j < M.cols)
 		return M.values[ i*M.cols + j ];
 	return 0.0;
 }
 
-void tc_setMatrixValue(tc_matrix M, int i, int j, double d)
+TCAPIEXPORT void tc_setMatrixValue(tc_matrix M, int i, int j, double d)
 { 
 	if (M.values && i >= 0 && j >= 0 && i < M.rows && j < M.cols)
 		M.values[ i*M.cols + j ] = d;
 }
 
-const char * tc_getRowName(tc_matrix M, int i)
+TCAPIEXPORT const char * tc_getRowName(tc_matrix M, int i)
 { 
 	return tc_getString(M.rownames,i);
 }
 
-void tc_setRowName(tc_matrix M, int i, const char * s)
+TCAPIEXPORT void tc_setRowName(tc_matrix M, int i, const char * s)
 {
 	tc_setString(M.rownames,i,s);
 }
 
-const char * tc_getColumnName(tc_matrix M, int i)
+TCAPIEXPORT const char * tc_getColumnName(tc_matrix M, int i)
 { 
 	return tc_getString(M.colnames,i);
 }
 
-void tc_setColumnName(tc_matrix M, int i, const char * s)
+TCAPIEXPORT void tc_setColumnName(tc_matrix M, int i, const char * s)
 {
 	tc_setString(M.colnames,i,s);
 }
 
-const char* tc_getTableValue(tc_table S, int i, int j)
+TCAPIEXPORT const char* tc_getTableValue(tc_table S, int i, int j)
 {
 	if (S.strings && i >= 0 && j >= 0 && i < S.rows && j < S.cols)
 		return S.strings[ i*S.cols + j ];
 	return 0;
 }
 
-void tc_setTableValue(tc_table S, int i, int j, const char * s)
+TCAPIEXPORT void tc_setTableValue(tc_table S, int i, int j, const char * s)
 {
 	int n=0;
 	char * str;
@@ -144,14 +144,14 @@ void tc_setTableValue(tc_table S, int i, int j, const char * s)
 	}
 }
 
-const char* tc_getString(tc_strings S, int i)
+TCAPIEXPORT const char* tc_getString(tc_strings S, int i)
 {
 	if (S.strings && i >= 0 && i < S.length)
 		return S.strings[ i ];
 	return 0;
 }
 
-void tc_setString(tc_strings S, int i, const char * s)
+TCAPIEXPORT void tc_setString(tc_strings S, int i, const char * s)
 {
 	int n=0;
 	char * str;
@@ -170,20 +170,20 @@ void tc_setString(tc_strings S, int i, const char * s)
 	}
 }
 
-long tc_getItem(tc_items A, int i)
+TCAPIEXPORT long tc_getItem(tc_items A, int i)
 {
 	if (i >= 0 && i < A.length)
 		return A.items[ i ];
 	return 0;
 }
 
-void tc_setItem(tc_items A, int i, long o)
+TCAPIEXPORT void tc_setItem(tc_items A, int i, long o)
 {
 	if (i >= 0 && i < A.length)
 		A.items[ i ] = o;
 }
 
-void tc_deleteMatrix(tc_matrix M)
+TCAPIEXPORT void tc_deleteMatrix(tc_matrix M)
 {
 	if (M.values)
 		free(M.values);
@@ -193,7 +193,7 @@ void tc_deleteMatrix(tc_matrix M)
 	tc_deleteStringsArray(M.colnames);
 }
 
-void tc_deleteTable(tc_table M)
+TCAPIEXPORT void tc_deleteTable(tc_table M)
 {
 	if (M.strings)
 		free(M.strings);
@@ -203,7 +203,7 @@ void tc_deleteTable(tc_table M)
 	tc_deleteStringsArray(M.colnames);
 }
 
-void tc_deleteItemsArray(tc_items A)
+TCAPIEXPORT void tc_deleteItemsArray(tc_items A)
 {
 	if (A.items) 
 		free(A.items);
@@ -211,7 +211,7 @@ void tc_deleteItemsArray(tc_items A)
 	A.items = 0;
 }
 
-void tc_deleteStringsArray(tc_strings C)
+TCAPIEXPORT void tc_deleteStringsArray(tc_strings C)
 {
 	int i;
 	if (C.strings)
@@ -225,7 +225,7 @@ void tc_deleteStringsArray(tc_strings C)
 	C.strings = 0;
 }
 
-tc_matrix tc_appendColumns(tc_matrix A, tc_matrix B)
+TCAPIEXPORT tc_matrix tc_appendColumns(tc_matrix A, tc_matrix B)
 {
 	int i,j,k=0;
 	tc_matrix C;
@@ -303,7 +303,7 @@ tc_matrix tc_appendColumns(tc_matrix A, tc_matrix B)
 	return C;
 }
 
-tc_matrix tc_appendRows(tc_matrix A, tc_matrix B)
+TCAPIEXPORT tc_matrix tc_appendRows(tc_matrix A, tc_matrix B)
 {
 	int i,j,k=0;
 	tc_matrix C;
@@ -383,7 +383,7 @@ tc_matrix tc_appendRows(tc_matrix A, tc_matrix B)
 	return C;
 }
 
-void tc_printMatrixToFile(const char* s, tc_matrix output)
+TCAPIEXPORT void tc_printMatrixToFile(const char* s, tc_matrix output)
 {
 	int i,j;
 	FILE * outfile = fopen(s,"w+");
@@ -410,7 +410,7 @@ void tc_printMatrixToFile(const char* s, tc_matrix output)
 	fclose(outfile);
 }
 
-void tc_printOutMatrix(tc_matrix output)
+TCAPIEXPORT void tc_printOutMatrix(tc_matrix output)
 {
 	int i,j;
 	if (output.colnames.strings)

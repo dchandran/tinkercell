@@ -54,6 +54,7 @@ namespace Tinkercell
 		void scaledConcentrationCC();
 		void scaledFluxCC();
 		void redStoic();
+		void getELM();
 
 	private:
 		bool modelNeedsUpdate;
@@ -82,6 +83,8 @@ namespace Tinkercell
 		static tc_matrix getScaledFluxCC();
 		static tc_matrix reducedStoichiometry();
 		static tc_matrix elementaryFluxModes();
+		static tc_matrix KMatrix();
+		static tc_matrix LMatrix();
 	};
 }
 

@@ -11421,6 +11421,32 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_tc_LMatrix(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  tc_matrix result;
+  
+  if (!PyArg_ParseTuple(args,(char *)":tc_LMatrix")) SWIG_fail;
+  result = tc_LMatrix();
+  resultobj = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tc_KMatrix(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  tc_matrix result;
+  
+  if (!PyArg_ParseTuple(args,(char *)":tc_KMatrix")) SWIG_fail;
+  result = tc_KMatrix();
+  resultobj = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_tc_COPASI_api(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   tc_matrix (*arg1)(double,double,int) = (tc_matrix (*)(double,double,int)) 0 ;
@@ -11440,6 +11466,8 @@ SWIGINTERN PyObject *_wrap_tc_COPASI_api(PyObject *SWIGUNUSEDPARM(self), PyObjec
   tc_matrix (*arg15)() = (tc_matrix (*)()) 0 ;
   tc_matrix (*arg16)() = (tc_matrix (*)()) 0 ;
   tc_matrix (*arg17)() = (tc_matrix (*)()) 0 ;
+  tc_matrix (*arg18)() = (tc_matrix (*)()) 0 ;
+  tc_matrix (*arg19)() = (tc_matrix (*)()) 0 ;
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   PyObject * obj2 = 0 ;
@@ -11457,8 +11485,10 @@ SWIGINTERN PyObject *_wrap_tc_COPASI_api(PyObject *SWIGUNUSEDPARM(self), PyObjec
   PyObject * obj14 = 0 ;
   PyObject * obj15 = 0 ;
   PyObject * obj16 = 0 ;
+  PyObject * obj17 = 0 ;
+  PyObject * obj18 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"OOOOOOOOOOOOOOOOO:tc_COPASI_api",&obj0,&obj1,&obj2,&obj3,&obj4,&obj5,&obj6,&obj7,&obj8,&obj9,&obj10,&obj11,&obj12,&obj13,&obj14,&obj15,&obj16)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"OOOOOOOOOOOOOOOOOOO:tc_COPASI_api",&obj0,&obj1,&obj2,&obj3,&obj4,&obj5,&obj6,&obj7,&obj8,&obj9,&obj10,&obj11,&obj12,&obj13,&obj14,&obj15,&obj16,&obj17,&obj18)) SWIG_fail;
   {
     int res = SWIG_ConvertFunctionPtr(obj0, (void**)(&arg1), SWIGTYPE_p_f_double_double_int__tc_matrix);
     if (!SWIG_IsOK(res)) {
@@ -11561,7 +11591,19 @@ SWIGINTERN PyObject *_wrap_tc_COPASI_api(PyObject *SWIGUNUSEDPARM(self), PyObjec
       SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "17"" of type '" "tc_matrix (*)()""'"); 
     }
   }
-  tc_COPASI_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13,arg14,arg15,arg16,arg17);
+  {
+    int res = SWIG_ConvertFunctionPtr(obj17, (void**)(&arg18), SWIGTYPE_p_f___tc_matrix);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "18"" of type '" "tc_matrix (*)()""'"); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(obj18, (void**)(&arg19), SWIGTYPE_p_f___tc_matrix);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "19"" of type '" "tc_matrix (*)()""'"); 
+    }
+  }
+  tc_COPASI_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13,arg14,arg15,arg16,arg17,arg18,arg19);
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -11826,6 +11868,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"tc_getScaledFluxCC", _wrap_tc_getScaledFluxCC, METH_VARARGS, NULL},
 	 { (char *)"tc_reducedStoichiometry", _wrap_tc_reducedStoichiometry, METH_VARARGS, NULL},
 	 { (char *)"tc_elementaryFluxModes", _wrap_tc_elementaryFluxModes, METH_VARARGS, NULL},
+	 { (char *)"tc_LMatrix", _wrap_tc_LMatrix, METH_VARARGS, NULL},
+	 { (char *)"tc_KMatrix", _wrap_tc_KMatrix, METH_VARARGS, NULL},
 	 { (char *)"tc_COPASI_api", _wrap_tc_COPASI_api, METH_VARARGS, NULL},
 	 { NULL, NULL, 0, NULL }
 };

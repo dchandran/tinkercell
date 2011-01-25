@@ -17,6 +17,8 @@ tc_matrix (*_tc_getScaledConcentrationCC)() = 0;
 tc_matrix (*_tc_getScaledFluxCC)() = 0;
 tc_matrix (*_tc_reducedStoichiometry)() = 0;
 tc_matrix (*_tc_elementaryFluxModes)() = 0;
+tc_matrix (*_tc_LMatrix)() = 0;
+tc_matrix (*_tc_KMatrix)() = 0;
 
 TCAPIEXPORT 
 tc_matrix tc_simulateDeterministic(double startTime, double endTime, int numSteps)
@@ -147,12 +149,27 @@ tc_matrix tc_reducedStoichiometry()
 	return tc_createMatrix(0,0);
 }
 
-
 TCAPIEXPORT 
 tc_matrix tc_elementaryFluxModes()
 {
 	if (_tc_elementaryFluxModes)
 		return _tc_elementaryFluxModes();
+	return tc_createMatrix(0,0);
+}
+
+TCAPIEXPORT 
+tc_matrix tc_LMatrix()
+{
+	if (_tc_LMatrix)
+		return _tc_LMatrix();
+	return tc_createMatrix(0,0);
+}
+
+TCAPIEXPORT 
+tc_matrix tc_KMatrix()
+{
+	if (_tc_KMatrix)
+		return _tc_KMatrix();
 	return tc_createMatrix(0,0);
 }
 
@@ -174,7 +191,9 @@ tc_matrix (*getScaledElasticities)(),
 tc_matrix (*getScaledConcentrationCC)(),
 tc_matrix (*getScaledFluxCC)(),
 tc_matrix (*reducedStoichiometry)(),
-tc_matrix (*emf)()
+tc_matrix (*emf)(),
+tc_matrix (*Lmat)(),
+tc_matrix (*Kmat)()
 )
 {
 	_tc_simulateDeterministic = simulateDeterministic;
@@ -194,5 +213,7 @@ tc_matrix (*emf)()
 	_tc_steadyStateScan2D = steadyStateScan2D;
 	_tc_reducedStoichiometry = reducedStoichiometry;
 	_tc_elementaryFluxModes = emf;
+	_tc_LMatrix = Lmat;
+	_tc_KMatrix = Kmat;
 }
 

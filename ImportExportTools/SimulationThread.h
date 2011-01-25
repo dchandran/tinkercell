@@ -61,7 +61,12 @@ namespace Tinkercell
 			ScaledConcentrationCC,
 			ScaledFluxCC,
 			ReducedStoichiometry,
-			ElementaryFluxModes
+			ElementaryFluxModes,
+			KMatrix,
+			LMatrix,
+			K0Matrix,
+			L0Matrix,
+			GammaMatrix
 		};
 		
 		/*! \brief Constructor requires MainWindow pointer*/

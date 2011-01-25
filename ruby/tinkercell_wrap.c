@@ -10423,6 +10423,38 @@ fail:
 
 
 SWIGINTERN VALUE
+_wrap_tc_LMatrix(int argc, VALUE *argv, VALUE self) {
+  tc_matrix result;
+  VALUE vresult = Qnil;
+  
+  if ((argc < 0) || (argc > 0)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 0)",argc); SWIG_fail;
+  }
+  result = tc_LMatrix();
+  vresult = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
+  return vresult;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_tc_KMatrix(int argc, VALUE *argv, VALUE self) {
+  tc_matrix result;
+  VALUE vresult = Qnil;
+  
+  if ((argc < 0) || (argc > 0)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 0)",argc); SWIG_fail;
+  }
+  result = tc_KMatrix();
+  vresult = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
+  return vresult;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
 _wrap_tc_COPASI_api(int argc, VALUE *argv, VALUE self) {
   tc_matrix (*arg1)(double,double,int) = (tc_matrix (*)(double,double,int)) 0 ;
   tc_matrix (*arg2)(double,double,int) = (tc_matrix (*)(double,double,int)) 0 ;
@@ -10441,9 +10473,11 @@ _wrap_tc_COPASI_api(int argc, VALUE *argv, VALUE self) {
   tc_matrix (*arg15)() = (tc_matrix (*)()) 0 ;
   tc_matrix (*arg16)() = (tc_matrix (*)()) 0 ;
   tc_matrix (*arg17)() = (tc_matrix (*)()) 0 ;
+  tc_matrix (*arg18)() = (tc_matrix (*)()) 0 ;
+  tc_matrix (*arg19)() = (tc_matrix (*)()) 0 ;
   
-  if ((argc < 17) || (argc > 17)) {
-    rb_raise(rb_eArgError, "wrong # of arguments(%d for 17)",argc); SWIG_fail;
+  if ((argc < 19) || (argc > 19)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 19)",argc); SWIG_fail;
   }
   {
     int res = SWIG_ConvertFunctionPtr(argv[0], (void**)(&arg1), SWIGTYPE_p_f_double_double_int__tc_matrix);
@@ -10547,7 +10581,19 @@ _wrap_tc_COPASI_api(int argc, VALUE *argv, VALUE self) {
       SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "tc_matrix (*)()","tc_COPASI_api", 17, argv[16] )); 
     }
   }
-  tc_COPASI_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13,arg14,arg15,arg16,arg17);
+  {
+    int res = SWIG_ConvertFunctionPtr(argv[17], (void**)(&arg18), SWIGTYPE_p_f___tc_matrix);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "tc_matrix (*)()","tc_COPASI_api", 18, argv[17] )); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(argv[18], (void**)(&arg19), SWIGTYPE_p_f___tc_matrix);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "tc_matrix (*)()","tc_COPASI_api", 19, argv[18] )); 
+    }
+  }
+  tc_COPASI_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13,arg14,arg15,arg16,arg17,arg18,arg19);
   return Qnil;
 fail:
   return Qnil;
@@ -11430,6 +11476,8 @@ SWIGEXPORT void Init_tinkercell(void) {
   rb_define_module_function(mTinkercell, "tc_getScaledFluxCC", _wrap_tc_getScaledFluxCC, -1);
   rb_define_module_function(mTinkercell, "tc_reducedStoichiometry", _wrap_tc_reducedStoichiometry, -1);
   rb_define_module_function(mTinkercell, "tc_elementaryFluxModes", _wrap_tc_elementaryFluxModes, -1);
+  rb_define_module_function(mTinkercell, "tc_LMatrix", _wrap_tc_LMatrix, -1);
+  rb_define_module_function(mTinkercell, "tc_KMatrix", _wrap_tc_KMatrix, -1);
   rb_define_module_function(mTinkercell, "tc_COPASI_api", _wrap_tc_COPASI_api, -1);
 }
 

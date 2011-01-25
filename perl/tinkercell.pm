@@ -264,6 +264,8 @@ package tinkercell;
 *tc_getScaledFluxCC = *tinkercellc::tc_getScaledFluxCC;
 *tc_reducedStoichiometry = *tinkercellc::tc_reducedStoichiometry;
 *tc_elementaryFluxModes = *tinkercellc::tc_elementaryFluxModes;
+*tc_LMatrix = *tinkercellc::tc_LMatrix;
+*tc_KMatrix = *tinkercellc::tc_KMatrix;
 *tc_COPASI_api = *tinkercellc::tc_COPASI_api;
 
 ############# Class : tinkercell::tc_strings ##############

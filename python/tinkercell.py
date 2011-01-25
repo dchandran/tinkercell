@@ -1029,6 +1029,14 @@ def tc_elementaryFluxModes():
   return _tinkercell.tc_elementaryFluxModes()
 tc_elementaryFluxModes = _tinkercell.tc_elementaryFluxModes
 
+def tc_LMatrix():
+  return _tinkercell.tc_LMatrix()
+tc_LMatrix = _tinkercell.tc_LMatrix
+
+def tc_KMatrix():
+  return _tinkercell.tc_KMatrix()
+tc_KMatrix = _tinkercell.tc_KMatrix
+
 def tc_COPASI_api(*args):
   return _tinkercell.tc_COPASI_api(*args)
 tc_COPASI_api = _tinkercell.tc_COPASI_api

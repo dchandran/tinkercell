@@ -93,7 +93,9 @@ typedef void (*tc_COPASI_api)(
 	tc_matrix (*getScaledConcentrationCC)(),
 	tc_matrix (*getScaledFluxCC)(),
 	tc_matrix (*reducedStoichiometry)(),
-	tc_matrix (*elementaryFluxModes)()
+	tc_matrix (*elementaryFluxModes)(),
+	tc_matrix (*LMat)(),
+	tc_matrix (*KMat)()
 );
 
 void CopasiExporter::setupFunctionPointers( QLibrary * library)
@@ -117,7 +119,9 @@ void CopasiExporter::setupFunctionPointers( QLibrary * library)
 			&getScaledConcentrationCC,
 			&getScaledFluxCC,
 			&reducedStoichiometry,
-			&elementaryFluxModes
+			&elementaryFluxModes,
+			&KMatrix,
+			&LMatrix
 		);
 }
 
@@ -220,6 +224,27 @@ void CopasiExporter::redStoic()
 
 	if (console())
 		console()->printTable(*N);
+	
+	if (currentScene())
+	{
+		currentScene()->find(N->rowNames());
+	}
+		
+	delete N;
+}
+
+void CopasiExporter::getELM()
+{
+	tc_matrix m = elementaryFluxModes();
+	NumericalDataTable * N = ConvertValue(m);
+
+	if (console())
+		console()->printTable(*N);
+
+	if (currentScene())
+	{
+		currentScene()->find(N->rowNames());
+	}
 
 	delete N;
 }
@@ -562,6 +587,44 @@ tc_matrix CopasiExporter::elementaryFluxModes()
 	return tc_createMatrix(0,0);
 }
 
+tc_matrix CopasiExporter::KMatrix()
+{
+	if (mcaThread)
+	{
+		if (mcaThread->isRunning())
+			mcaThread->terminate();
+		mcaThread->updateModel();
+		mcaThread->setMethod(SimulationThread::KMatrix);
+		QSemaphore sem(1);
+		sem.acquire();
+		mcaThread->setSemaphore(&sem);
+		mcaThread->start();
+		sem.acquire();
+		sem.release();
+		return (mcaThread->result());
+	}
+	return tc_createMatrix(0,0);
+}
+
+tc_matrix CopasiExporter::LMatrix()
+{
+	if (mcaThread)
+	{
+		if (mcaThread->isRunning())
+			mcaThread->terminate();
+		mcaThread->updateModel();
+		mcaThread->setMethod(SimulationThread::LMatrix);
+		QSemaphore sem(1);
+		sem.acquire();
+		mcaThread->setSemaphore(&sem);
+		mcaThread->start();
+		sem.acquire();
+		sem.release();
+		return (mcaThread->result());
+	}
+	return tc_createMatrix(0,0);
+}
+
 void CopasiExporter::toolLoaded(Tool*)
 {
     static bool connected = false;
@@ -775,6 +838,21 @@ void CopasiExporter::toolLoaded(Tool*)
 				{
 					menuItem->setToolTip(tr("using COPASI"));
 					connect(menuItem,SIGNAL(triggered()),this,SLOT(redStoic()));
+				}
+				
+				//elementary flux modes
+				button = libMenu->addFunction(tr("Network Structure"), tr("Elementary Flux Modes"), QIcon(nodedges));
+				if (button)
+				{
+					button->setToolTip(tr("using COPASI"));
+					connect(button,SIGNAL(pressed()),this,SLOT(getELM()));
+				}
+
+				menuItem = libMenu->addMenuItem(tr("Network Structure"), tr("Elementary Flux Modes"), QIcon(nodedges));
+				if (menuItem)
+				{
+					menuItem->setToolTip(tr("using COPASI"));
+					connect(menuItem,SIGNAL(triggered()),this,SLOT(getELM()));
 				}
 		}
     }

@@ -144,6 +144,20 @@ TCAPIEXPORT tc_matrix tc_reducedStoichiometry();
 */
 TCAPIEXPORT tc_matrix tc_elementaryFluxModes();
 
+/*! 
+ \brief left nullspace of the stoichiometry matrix
+ \return tc_matrix 
+ \ingroup Simulation
+*/
+TCAPIEXPORT tc_matrix tc_LMatrix();
+
+/*! 
+ \brief right nullspace of the stoichiometry matrix
+ \return tc_matrix 
+ \ingroup Simulation
+*/
+TCAPIEXPORT tc_matrix tc_KMatrix();
+
 /*!
  \brief initializing function
  \ingroup init
@@ -165,7 +179,9 @@ tc_matrix (*getScaledElasticities)(),
 tc_matrix (*getScaledConcentrationCC)(),
 tc_matrix (*getScaledFluxCC)(),
 tc_matrix (*tc_reducedStoichiometry)(),
-tc_matrix (*tc_emf)()
+tc_matrix (*tc_emf)(),
+tc_matrix (*tc_Lmat)(),
+tc_matrix (*tc_Kmat)()
 );
 
 END_C_DECLS

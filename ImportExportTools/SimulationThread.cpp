@@ -383,6 +383,31 @@ void SimulationThread::run()
 			resultMatrix = getElementaryFluxModes(model);
 			plot = false;
 			break;
+		case KMatrix:
+			tc_deleteMatrix(resultMatrix);
+			resultMatrix = getKMatrix(model);
+			plot = false;
+			break;
+		case LMatrix:
+			tc_deleteMatrix(resultMatrix);
+			resultMatrix = getLinkMatrix(model);
+			plot = false;
+			break;
+		case K0Matrix:
+			tc_deleteMatrix(resultMatrix);
+			resultMatrix = getK0Matrix(model);
+			plot = false;
+			break;
+		case L0Matrix:
+			tc_deleteMatrix(resultMatrix);
+			resultMatrix = getL0Matrix(model);
+			plot = false;
+			break;
+		case GammaMatrix:
+			tc_deleteMatrix(resultMatrix);
+			resultMatrix = getGammaMatrix(model);
+			plot = false;
+			break;
 		case DeterministicSimulation:
 			tc_deleteMatrix(resultMatrix);
 			resultMatrix = simulateDeterministic(model, startTime, endTime, numPoints);

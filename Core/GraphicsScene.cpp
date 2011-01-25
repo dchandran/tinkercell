@@ -1994,7 +1994,13 @@ namespace Tinkercell
 		select(items);
 	}
 
-	void GraphicsScene::find(const QString& text)
+	void GraphicsScene::find(const QStringList& textlist)
+	{
+		for (int i=0; i < textlist.size(); ++i)
+			find(textlist[i],false);
+	}
+
+	void GraphicsScene::find(const QString& text, bool clearSelected)
 	{
 		if (!network || text.isNull() || text.isEmpty()) return;
 		
@@ -2032,8 +2038,14 @@ namespace Tinkercell
 					}
 				if (!alreadySelected)
 				{
-					selectedItems.clear();
-					selectedItems = handle->graphicsItems;
+					if (clearSelected)
+						selectedItems.clear();
+
+					for (int j=0; j < handle->graphicsItems.size(); ++j)
+						if (handle->graphicsItems[j])
+							if (!selectedItems.contains(handle->graphicsItems[j]))
+								selectedItems += handle->graphicsItems[j];
+
 					QPointF p(0,0);
 					for (int j=0; j < handle->graphicsItems.size(); ++j)
 						p += handle->graphicsItems[j]->sceneBoundingRect().center();
@@ -2051,7 +2063,8 @@ namespace Tinkercell
 			symbolsTable->nonuniqueData.contains(text))
 		{
 
-			selectedItems.clear();
+			if (clearSelected)
+				selectedItems.clear();
 
 			QList<ItemHandle*> items;
 			

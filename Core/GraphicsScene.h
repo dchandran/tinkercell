@@ -226,7 +226,9 @@ namespace Tinkercell
 		/*! \brief select all items*/
 		virtual void selectAll();
 		/*! \brief select items with the given text */
-		virtual void find(const QString&);
+		virtual void find(const QString&, bool clearSelected = true);
+		/*! \brief select items with the given texts */
+		virtual void find(const QStringList&);
 		/*! \brief deselect all selected items
 		* \return void*/
 		virtual void deselect();

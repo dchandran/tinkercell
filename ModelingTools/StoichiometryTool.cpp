@@ -1231,7 +1231,7 @@ namespace Tinkercell
 				{
 					nDataTable1 = &(connectionHandles[i]->numericalDataTable(QObject::tr("Reactant stoichiometries")));
 					nDataTable2 = &(connectionHandles[i]->numericalDataTable(QObject::tr("Product stoichiometries")));
-					sDataTable = &(connection->textDataTable(QObject::tr("Rate equations")));
+					sDataTable = &(connectionHandles[i]->textDataTable(QObject::tr("Rate equations")));
 					
 					if (nDataTable1->rows() < 1 || nDataTable1->rows() != nDataTable2->rows() || nDataTable1->rows() != sDataTable->rows())
 						continue;

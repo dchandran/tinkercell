@@ -1149,7 +1149,7 @@ namespace Tinkercell
 					nDataTable2 = &(connection->numericalDataTable(QObject::tr("Product stoichiometries")));
 					sDataTable = &(connection->textDataTable(QObject::tr("Rate equations")));
 					
-					if (nDataTable1->rows() < 1 || nDataTable1->rows() != nDataTable2->rows() || nDataTable1->rows() != sDataTable->rows())
+					if ((nDataTable1->rows() < 1 && nDataTable2->rows() < 1) || sDataTable->rows() < 1)
 						continue;
 					
 					//get unique species names in the stoichiometry matrix
@@ -1233,7 +1233,7 @@ namespace Tinkercell
 					nDataTable2 = &(connectionHandles[i]->numericalDataTable(QObject::tr("Product stoichiometries")));
 					sDataTable = &(connectionHandles[i]->textDataTable(QObject::tr("Rate equations")));
 					
-					if (nDataTable1->rows() < 1 || nDataTable1->rows() != nDataTable2->rows() || nDataTable1->rows() != sDataTable->rows())
+					if ((nDataTable1->rows() < 1 && nDataTable2->rows() < 1) || sDataTable->rows() < 1)
 						continue;
 					
 					for (int k=0; k < nDataTable1->rows() || k < nDataTable2->rows(); ++k)

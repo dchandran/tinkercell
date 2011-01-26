@@ -9,9 +9,9 @@
 #include <string.h>
 
 #include "util.h"
-#include "f2c.h"
 extern "C" 
 {
+	#include "f2c.h"
 	#include "clapack.h"
 }
 

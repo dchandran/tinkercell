@@ -185,7 +185,17 @@ void createSpecies(copasi_compartment compartment, const char* name, double iv)
 	CQHash * hash = (CQHash*)(compartment.qHash);
 	CMetab* pSpecies;
 	
-	if (!pModel || !hash || !pCompartment) return;
+	if (!pModel || !hash || !pCompartment) return;	
+	if (hash->contains(QString(name)))
+	{
+		pSpecies = hash->value(QString(name)).species;
+		if (pSpecies)
+		{
+			pSpecies->setInitialValue(iv);
+			pSpecies->setInitialConcentration(iv);
+		}
+		return;
+	}
 	
 	pSpecies = pModel->createMetabolite(name, pCompartment->getObjectName(), iv, CMetab::REACTIONS);
 
@@ -212,11 +222,21 @@ copasi_compartment createCompartment(copasi_model model, const char* name, doubl
 	CQHash * hash = (CQHash*)(model.qHash);
 	copasi_compartment c = { 0, 0 , 0};
 	
-	if (!pModel) return c;
-	
-	c.CopasiCompartmentPtr = (void*)(pCompartment);
+	if (!pModel || !hash) return c;
 	c.CopasiModelPtr = (void*)(pModel);
 	c.qHash = model.qHash;
+	
+	if (hash->contains(QString(name)))
+	{
+		if (hash->value(QString(name)).compartment)
+			c.CopasiCompartmentPtr = (void*)(hash->value(QString(name)).compartment);
+		
+		return c;
+	}
+	else
+	{
+		c.CopasiCompartmentPtr = (void*)(pCompartment);
+	}	
 	
 	CopasiPtr copasiPtr = { 
 			QString(pCompartment->getCN().c_str()),
@@ -371,7 +391,26 @@ int setAssignmentRule(copasi_model model, const char * name, const char * formul
 	int i;
 	bool retval=true;
 	
-	if (!hash) return 0;
+	if (!pModel || !hash) return 0;
+	
+	if (!hash->contains(s))
+	{
+		CCopasiVectorNS < CCompartment > & compartments = pModel->getCompartments();
+		if (compartments.size() > 0 && compartments[0] != NULL)
+		{
+			CCompartment* pCompartment = compartments[0];
+			if (pCompartment)
+			{
+				QString s(pCompartment->getObjectName().c_str());
+				if	(hash->contains(s) &&
+					hash->value(s).compartment)
+					{
+						copasi_compartment c = { (void*)hash->value(s).compartment, model.CopasiModelPtr, model.qHash };
+						createSpecies(c,name,0.0);
+					}
+			}
+		}
+	}
 	
 	if (hash->contains(s) && 
 		(pSpecies = hash->value(s).species))
@@ -402,12 +441,16 @@ int setAssignmentRule(copasi_model model, const char * name, const char * formul
 						substituteString(qFormula,s0,s1);
 					}
 					else
-					if (hash->contains(s0))
 					{
-					 	QString s1("<");
-							s1 += hash->value(s0).name;
-							s1 += QString(">");
-						substituteString(qFormula,s0,s1);
+						if (!hash->contains(s0))
+							setGlobalParameter(model,pParam->getObjectName().c_str(),1.0);				
+						if (hash->contains(s0))
+						{
+						 	QString s1("<");
+								s1 += hash->value(s0).name;
+								s1 += QString(">");
+							substituteString(qFormula,s0,s1);
+						}
 					}
 				}
 			}
@@ -476,7 +519,7 @@ int createVariable(copasi_model model, const char * name, const char * formula)
 			}
 			else
 			{
-				if (!hash->contains(s0))				
+				if (!hash->contains(s0))
 					setGlobalParameter(model,pParam->getObjectName().c_str(),1.0);				
 				
 				if (hash->contains(s0))
@@ -491,6 +534,7 @@ int createVariable(copasi_model model, const char * name, const char * formula)
 	}
 
 	std::string sFormula( qFormula.toAscii().data() );
+	
 	retval = retval & pModelValue->setInitialExpression(sFormula);
 	retval = retval & pModelValue->setExpression(sFormula);
 	
@@ -666,7 +710,6 @@ void addReactant(copasi_reaction reaction, const char * species, double stoichio
 	
 	if (!pReaction || !hash)
 	{
-		std::cout << ("React is null\n");
 		return;
 	}
 
@@ -678,8 +721,6 @@ void addReactant(copasi_reaction reaction, const char * species, double stoichio
 		CChemEq* pChemEq = &pReaction->getChemEq();
 		pChemEq->addMetabolite(pSpecies->getKey(), stoichiometry, CChemEq::SUBSTRATE);
 	}
-	else
-		std::cout << ("No reactant\n");
 }
 
 void addProduct(copasi_reaction reaction, const char * species, double stoichiometry)
@@ -914,7 +955,7 @@ tc_matrix simulate(copasi_model model, double startTime, double endTime, int num
 	{
 		const CTimeSeries & timeSeries = pTask->getTimeSeries();
 		int rows = timeSeries.getRecordedSteps(), 
-			  cols =  (1+pModel->getNumMetabs());//timeSeries.getNumVariables();
+			  cols = (1+pModel->getNumMetabs());//timeSeries.getNumVariables();
 		int i,j;
 	
 		tc_matrix output = tc_createMatrix(rows, cols);
@@ -2103,7 +2144,7 @@ tc_matrix getGammaMatrix(copasi_model model)
 	tc_matrix m = convertFromDoubleMatrix(*matrix, rowNames, colNames);
 	
 	//cleanup
-	delete matrix;
+	//delete matrix;
 	tc_deleteMatrix(tc_N);
 	
 	return m;
@@ -2146,7 +2187,7 @@ tc_matrix getKMatrix(copasi_model model)
 	tc_matrix m = convertFromDoubleMatrix(*matrix, rowNames, colNames);
 	
 	//cleanup
-	delete matrix;
+	//delete matrix;
 	tc_deleteMatrix(tc_N);
 	
 	return m;
@@ -2189,7 +2230,7 @@ tc_matrix getLinkMatrix(copasi_model model)
 	tc_matrix m = convertFromDoubleMatrix(*matrix, rowNames, colNames);
 	
 	//cleanup
-	delete matrix;
+	//delete matrix;
 	tc_deleteMatrix(tc_N);
 	
 	return m;
@@ -2232,7 +2273,7 @@ tc_matrix getK0Matrix(copasi_model model)
 	tc_matrix m = convertFromDoubleMatrix(*matrix, rowNames, colNames);
 	
 	//cleanup
-	delete matrix;
+	//delete matrix;
 	tc_deleteMatrix(tc_N);
 	
 	return m;
@@ -2275,7 +2316,7 @@ tc_matrix getL0Matrix(copasi_model model)
 	tc_matrix m = convertFromDoubleMatrix(*matrix, rowNames, colNames);
 	
 	//cleanup
-	delete matrix;
+	//delete matrix;
 	tc_deleteMatrix(tc_N);
 	
 	return m;

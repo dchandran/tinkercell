@@ -12,7 +12,7 @@ int main()
 	tc_matrix efm = tc_createMatrix(0,0);
 	copasi_model m1, m2;
 	
-	m1 = readSBMLFile("brusselator.sbml");
+/*	m1 = readSBMLFile("brusselator.sbml");
 	if (m1.errorMessage)
 	{
 		printf("%s\n", m1.errorMessage);
@@ -23,7 +23,7 @@ int main()
 		tc_printOutMatrix(efm);
 	}
 	removeCopasiModel(m1);
-	
+	*/
 	m2 = model1();
 	sim(m2);
 	removeCopasiModel(m2);
@@ -73,8 +73,8 @@ copasi_model model1()
 	setReactionRate(R3, "k3*C*cell_A");
 
 	//assignment rule -- make sure all parameters or species are defined BEFORE this step
-	createVariable(model, "prod","cell_A*out_A*C");
-	createVariable(model, "cell_A","0.01*(time^2)");
+	createVariable(model, "prod1","sin(time)");
+	createVariable(model, "prod2","prod1 * prod1");
 	//createEvent(model, "event1", "ge(Time,5)", "C", "C/2.0");
 	return model;
 }

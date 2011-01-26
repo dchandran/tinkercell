@@ -9,7 +9,8 @@
 // Copyright © 2005 by Pedro Mendes, Virginia Tech Intellectual
 // Properties, Inc. and EML Research, gGmbH.
 // All rights reserved.
-
+extern "C"
+{
 /* Function */
 VOID cdotc_(complex *ret_val, integer *n, complex *cx, integer *incx, complex *cy, integer *incy);
 /* Function */
@@ -293,3 +294,5 @@ int ztrmv_(char *uplo, char *trans, char *diag, integer *n, doublecomplex *a, in
 int ztrsm_(char *side, char *uplo, char *transa, char *diag, integer *m, integer *n, doublecomplex *alpha, doublecomplex *a, integer *lda, doublecomplex *b, integer *ldb);
 /* Subroutine */
 int ztrsv_(char *uplo, char *trans, char *diag, integer *n, doublecomplex *a, integer *lda, doublecomplex *x, integer *incx);
+}
+

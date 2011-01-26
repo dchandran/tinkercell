@@ -2051,7 +2051,8 @@ namespace Tinkercell
 						p += handle->graphicsItems[j]->sceneBoundingRect().center();
 
 					p /= handle->graphicsItems.size();
-					centerOn(p);
+					if (clearSelected)
+						centerOn(p);
 
 					emit itemsSelected(this,selectedItems,QPointF(),Qt::NoModifier);
 					showGraphicalTools();

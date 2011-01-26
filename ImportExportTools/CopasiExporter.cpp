@@ -20,7 +20,7 @@ CopasiExporter::CopasiExporter() : Tool("COPASI","Export")
 void CopasiExporter::getHandles(QSemaphore * sem, QList<ItemHandle*>* handles, bool * b)
 {
 	if (currentNetwork() && handles)
-		(*handles) = currentNetwork()->handles(true,true);
+		(*handles) = currentNetwork()->handles(true);
 	if (b)
 		(*b) = modelNeedsUpdate;
 	if (sem)

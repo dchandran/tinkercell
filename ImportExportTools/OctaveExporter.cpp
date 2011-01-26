@@ -90,7 +90,7 @@ namespace Tinkercell
 			return;
 		}
 
-		QList<ItemHandle*> handles = network->handles(true,true);
+		QList<ItemHandle*> handles = network->handles(true);
 		
 		QString name;
 		QString replaceDot("_");
@@ -118,6 +118,7 @@ namespace Tinkercell
 		}
 
 		DataTable<qreal> params = BasicInformationTool::getParameters(handles,QStringList(), QStringList(), replaceDot);
+		
 		params.insertColumn(1,tr("used"));
 
 		bool used = false;

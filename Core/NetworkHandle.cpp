@@ -300,11 +300,9 @@ namespace Tinkercell
 		return &(symbolsTable.globalHandle);
 	}
 
-	QList<ItemHandle*> NetworkHandle::handles(bool includeGlobal, bool sort)
+	QList<ItemHandle*> NetworkHandle::handles(bool sort)
 	{
 		QList<ItemHandle*> handles;
-		if (includeGlobal)
-			handles << &(symbolsTable.globalHandle);
 
 		if (sort)
 		{

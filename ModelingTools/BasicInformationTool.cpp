@@ -1163,7 +1163,7 @@ namespace Tinkercell
 	{
 		QStringList rownames;
         QList<qreal> values, minv, maxv;
-
+        QString s;
         QString name("Parameters");
 
         ItemHandle * handle = 0;
@@ -1183,10 +1183,11 @@ namespace Tinkercell
                         && (exclude.isEmpty() || !(exclude.contains(dataTable->rowName(j).toLower()) || exclude.contains(dataTable->rowName(j)))))
 						{
 							if (handle->name.isEmpty())
-								rownames += dataTable->rowName(j);
+								s = dataTable->rowName(j);
 							else							
-								rownames += handle->fullName(sep) + sep + dataTable->rowName(j);
+								s = handle->fullName(sep) + sep + dataTable->rowName(j);
 
+							rownames += s;
 							values += dataTable->at(j,0);
 							minv += dataTable->at(j,1);
 							maxv += dataTable->at(j,2);
@@ -1199,7 +1200,6 @@ namespace Tinkercell
         combinedTable.resize(values.size(),1);
         for (int i=0; i < values.size() && i < rownames.size(); ++i)
         {
-
             combinedTable.setRowName(i,rownames[i]);
             combinedTable.value(i,0) = values[i];
             combinedTable.value(i,1) = minv[i];
@@ -1800,6 +1800,7 @@ namespace Tinkercell
 		emit getInitialValues(s,p,*list);
 		s->acquire();
 		s->release();
+
 		delete s;
 		delete list;
 		if (p)

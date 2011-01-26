@@ -566,9 +566,10 @@ namespace Tinkercell
 		QHash<QString,ItemHandle*> handlesHash;  //hash name->handle
 		NodeHandle * nodeHandle;
 		ConnectionHandle * connectionHandle;
+		QList<ItemHandle*> deleted;
 
 		for (int i=0; i < handlesList.size(); ++i)
-			if (handlesList[i].second)
+			if (handlesList[i].second && !deleted.contains(handlesList[i].second))
 			{
 				if (handlesList[i].first.isEmpty() && handlesList[i].second->name.isEmpty())
 				{
@@ -591,7 +592,13 @@ namespace Tinkercell
 								connectionHandle->setFamily( getConnectionFamily(handlesList[i].first));
 						}
 					
-					handlesHash[handlesList[i].second->fullName()] = handlesList[i].second;
+					if (!handlesList[i].second->name.isEmpty())
+						handlesHash[handlesList[i].second->fullName()] = handlesList[i].second;
+					else
+					{
+						deleted << handlesList[i].second;
+						delete handlesList[i].second;
+					}
 				}
 			}
 

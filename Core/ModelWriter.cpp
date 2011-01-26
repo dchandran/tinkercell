@@ -43,18 +43,22 @@ namespace Tinkercell
 	{
 		if (!network || !writer) return false;
 
-		QList<ItemHandle*> allItems = network->handles(false,false);
+		QList<ItemHandle*> allItems = network->handles(false);
 
 		QList<ItemHandle*> topLevelHandles, childHandles;
 
+		ItemHandle * globalHandle = 0;
 		if (network)
-			writeHandle(network->globalHandle(),writer);
+		{
+			globalHandle = network->globalHandle();
+			writeHandle(globalHandle,writer);
+		}
 
 		ItemHandle* handle = 0;
 		for (int i=0; i < allItems.size(); ++i)
 		{
 			handle = allItems[i];
-			if (handle && !topLevelHandles.contains(handle) && !handle->parent)
+			if (handle && !topLevelHandles.contains(handle) && !handle->parent && handle != globalHandle)
 			{
 				writeHandle(handle,writer);
 				topLevelHandles << handle;

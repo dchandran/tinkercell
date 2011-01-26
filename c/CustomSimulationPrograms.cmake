@@ -95,7 +95,7 @@ ELSE ( WIN32 )
   INSTALL(TARGETS lpsolve LIBRARY DESTINATION plugins/c)
 ENDIF( WIN32 )
 
-FILE( GLOB C_SRC "*.c" "*.h" )
+FILE( GLOB C_SRC "*.c" "*.h" ${TINKERCELL_SOURCE_DIR}/ExternalCode/lapack/INCLUDE/*.h )
 
 INSTALL( FILES ${C_SRC}
   DESTINATION c

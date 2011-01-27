@@ -1032,18 +1032,16 @@ copasi_model readSBMLFile(const char * filename)
 	copasi_init();
 	
 	CCopasiDataModel* pDataModel = CCopasiRootContainer::addDatamodel();
+	CModel* pModel = 0;
+	CQHash * qHash = 0;	
 	char * error = NULL;
 	std::string s;
 	try 
 	{
 		pDataModel->importSBML(filename); //SBML -> COPASI
 		s = CCopasiMessage::getAllMessageText();
-		CModel* pModel = pDataModel->getModel();
-		CQHash * qHash = new CQHash();	
-		copasi_model m = { (void*)(pModel) , (void*)(pDataModel), (void*)(qHash), (char*)(error) };
-		hashTablesToCleanup += qHash;
-		copasiModelsToCleanup += m;
-		return m;
+		pModel = pDataModel->getModel();
+		qHash = new CQHash();	
 	}
 	catch(...)
 	{
@@ -1060,8 +1058,13 @@ copasi_model readSBMLFile(const char * filename)
 			error[len-1] = 0;
 		}
 	}
-	copasi_model empty = { (void*)(0) , (void*)(0), (void*)(0), (char*)(error) };
-	return empty;
+	copasi_model m = { (void*)(pModel) , (void*)(pDataModel), (void*)(qHash), (char*)(error) };
+	if (pModel && qHash)
+	{
+		hashTablesToCleanup += qHash;
+		copasiModelsToCleanup += m;
+	}
+	return m;
 }
 
 copasi_model readSBMLString(const char * sbml)
@@ -1069,18 +1072,16 @@ copasi_model readSBMLString(const char * sbml)
 	copasi_init();
 	
 	CCopasiDataModel* pDataModel = CCopasiRootContainer::addDatamodel();
+	CModel* pModel = 0;
+	CQHash * qHash = 0;	
 	char * error = NULL;
 	std::string s;
 	try 
 	{
 		pDataModel->importSBMLFromString(sbml); //SBML -> COPASI	
 		s = CCopasiMessage::getAllMessageText();
-		CModel* pModel = pDataModel->getModel();
-		CQHash * qHash = new CQHash();	
-		copasi_model m = { (void*)(pModel) , (void*)(pDataModel), (void*)(qHash), (char*)(error) };
-		hashTablesToCleanup += qHash;
-		copasiModelsToCleanup += m;
-		return m;
+		pModel = pDataModel->getModel();
+		qHash = new CQHash();	
 	}
 	catch(...)
 	{
@@ -1097,8 +1098,13 @@ copasi_model readSBMLString(const char * sbml)
 			error[len-1] = 0;
 		}
 	}
-	copasi_model empty = { (void*)(0) , (void*)(0), (void*)(0), (char*)(error) };
-	return empty;
+	copasi_model m = { (void*)(pModel) , (void*)(pDataModel), (void*)(qHash), (char*)(error) };
+	if (pModel && qHash)
+	{
+		hashTablesToCleanup += qHash;
+		copasiModelsToCleanup += m;
+	}
+	return m;
 }
 
 tc_matrix getJacobian(copasi_model model)

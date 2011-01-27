@@ -2534,8 +2534,9 @@ namespace Tinkercell
 		ConnectionGraphicsItem * connection;
 		TextGraphicsItem * text;
 		int k;
-		
+
 		for (int i=0; i < allhandles.size(); ++i)
+		if (allhandles[i])
 		{
 			QList<QGraphicsItem*> & items2 = allhandles[i]->graphicsItems;
 			for (int j=0; j < items2.size(); ++j)
@@ -2575,7 +2576,6 @@ namespace Tinkercell
 					}
 				}
 		}
-		
 		/*if (network)
 		{
 			QList<TextEditor*> editors = network->editors();

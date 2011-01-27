@@ -40,7 +40,7 @@ namespace Tinkercell
 			{
 				QToolButton * insertText = new QToolButton(toolBar);
 				insertText->setIcon(QIcon(tr(":/images/text.png")));
-				insertText->setToolTip(tr("&Insert text"));
+				insertText->setToolTip(tr("Insert text"));
 				connect(insertText,SIGNAL(pressed()),this,SLOT(insertText()));
 
 				QMenu * fontMenu = new QMenu(toolBar);
@@ -58,7 +58,10 @@ namespace Tinkercell
 			mainWindow->contextItemsMenu.addAction(insertText);
 			
 			if (mainWindow->editMenu)
+			{
+				mainWindow->editMenu->addAction(insertText);
 				mainWindow->editMenu->addAction(tr("S&et font"),this,SLOT(getFont()));
+			}
 
 			connect(mainWindow,SIGNAL(escapeSignal(const QWidget*)),this, SLOT(escapeSignal(const QWidget*)));
 

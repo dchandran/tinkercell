@@ -1410,6 +1410,7 @@ namespace Tinkercell
 	{
 		QStringList rates;
 		TextDataTable * sDataTable = 0;
+		NumericalDataTable * nDataTable1, * nDataTable2;
 
 		if (connectionHandles.size() < 1)
 		{
@@ -1429,10 +1430,18 @@ namespace Tinkercell
 							
 					continue;
 				}
-
-			    if (connectionHandles[i]->hasTextData(QObject::tr("Rate equations")))
+				
+				if (connectionHandles[i]->hasNumericalData(QObject::tr("Reactant stoichiometries")) &&
+					connectionHandles[i]->hasNumericalData(QObject::tr("Product stoichiometries")) &&
+					connectionHandles[i]->hasTextData(QObject::tr("Rate equations")))
 				{
+					nDataTable1 = &(connectionHandles[i]->numericalDataTable(QObject::tr("Reactant stoichiometries")));
+					nDataTable2 = &(connectionHandles[i]->numericalDataTable(QObject::tr("Product stoichiometries")));
 					sDataTable = &(connectionHandles[i]->textDataTable(QObject::tr("Rate equations")));
+					
+					if ((nDataTable1->rows() < 1 && nDataTable2->rows() < 1) || sDataTable->rows() < 1)
+						continue;
+
 					for (int j=0; j < sDataTable->rows(); ++j) //get rates and reaction names
 					{
 						rates += sDataTable->value(j,0);

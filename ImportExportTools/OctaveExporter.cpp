@@ -272,7 +272,7 @@ namespace Tinkercell
 		
 		if (!assignmentNames.isEmpty())
 		{
-			code += tr("global");
+			//code += tr("global");
 			for (i=0; i < assignmentNames.size(); ++i)
 				if (!allSymbols.contains(assignmentNames[i]))
 				{
@@ -424,7 +424,7 @@ namespace Tinkercell
 		}
 		
 		code += tr("    rates = zeros(");
-		code += QString::number(rates.size());
+		code += QString::number(c);
 		code += tr(",1);\n");
 		//print the rates
 		for (i = 0; i < rates.size() && i < c; ++i)

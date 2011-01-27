@@ -191,6 +191,8 @@ void createSpecies(copasi_compartment compartment, const char* name, double iv)
 		pSpecies = hash->value(QString(name)).species;
 		if (pSpecies)
 		{
+			pSpecies->setConcentration(iv);
+			pSpecies->setValue(iv);
 			pSpecies->setInitialValue(iv);
 			pSpecies->setInitialConcentration(iv);
 		}
@@ -198,6 +200,10 @@ void createSpecies(copasi_compartment compartment, const char* name, double iv)
 	}
 	
 	pSpecies = pModel->createMetabolite(name, pCompartment->getObjectName(), iv, CMetab::REACTIONS);
+	pSpecies->setConcentration(iv);
+	pSpecies->setValue(iv);
+	pSpecies->setInitialValue(iv);
+	pSpecies->setInitialConcentration(iv);
 
 	CopasiPtr copasiPtr = { 
 			QString(pSpecies->getCN().c_str()),
@@ -375,10 +381,17 @@ void setBoundarySpecies(copasi_model model, const char * name, int isBoundary)
 	if (hash->contains(s) && 
 		(pSpecies = hash->value(s).species))
 	{
+		double iv = pSpecies->getConcentration();
+
 		if (isBoundary)
 			pSpecies->setStatus(CModelEntity::FIXED);
 		else
 			pSpecies->setStatus(CModelEntity::REACTIONS);
+		
+		pSpecies->setConcentration(iv);
+		pSpecies->setValue(iv);
+		pSpecies->setInitialValue(iv);
+		pSpecies->setInitialConcentration(iv);
 	}
 }
 

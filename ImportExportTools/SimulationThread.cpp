@@ -72,7 +72,8 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles, copasi_model & 
 
 					if (k < 0 || (	handles[i]->hasNumericalData(tr("Fixed")) && handles[i]->numericalData(tr("Fixed")) > 0 ))
 					{
-						fixedVars << handles[i]->fullName(tr("_"));
+						if (	handles[i]->hasNumericalData(tr("Fixed")) && handles[i]->numericalData(tr("Fixed")) > 0 )
+							fixedVars << handles[i]->fullName(tr("_"));
 						if (!species.contains(handles[i]->fullName(tr("_"))))
 						{
 							k = species.size() - 1;
@@ -152,7 +153,6 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles, copasi_model & 
 						{
 							assignmentNames << name;
 							assignmentDefs << s2;
-							fixedVars << name;
 						}
 						else								
 						{

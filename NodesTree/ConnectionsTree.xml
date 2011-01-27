@@ -29,7 +29,10 @@
 
      </process>
 
-    <process family="2 to 1" participant_types="Node" participant_roles="Reactant1,Reactant2,Product"></process>
+    <process family="2 to 1" participant_types="Node" participant_roles="Reactant1,Reactant2,Product">
+      <process family="Assisted degradation" participant_types="Node,Node,Empty" description="Degradation caused by the formation of a complex">
+      </process>
+    </process>
     <process family="3 to 1" participant_types="Node" participant_roles="Reactant1,Reactant2,Reactant3,Product"></process>
     <process family="1 to 2" participant_types="Node" participant_roles="Reactant1,Product2,Product"></process>
     <process family="2 to 2" participant_types="Node" participant_roles="Reactant1,Reactant2,Product1,Product2"></process>

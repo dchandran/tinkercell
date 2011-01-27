@@ -12,18 +12,16 @@ int main()
 	tc_matrix efm = tc_createMatrix(0,0);
 	copasi_model m1, m2;
 	
-/*	m1 = readSBMLFile("brusselator.sbml");
+	m1 = readSBMLFile("bug.xml");
 	if (m1.errorMessage)
 	{
 		printf("%s\n", m1.errorMessage);
 	}
-	else
-	{
-		efm = getGammaMatrix(m1);
-		tc_printOutMatrix(efm);
-	}
+	
+	efm = getGammaMatrix(m1);
+	tc_printOutMatrix(efm);
 	removeCopasiModel(m1);
-	*/
+	
 	m2 = model1();
 	sim(m2);
 	removeCopasiModel(m2);

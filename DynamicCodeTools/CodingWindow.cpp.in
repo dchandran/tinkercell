@@ -83,7 +83,7 @@ namespace Tinkercell
 
 			s = QObject::tr("cd ") + homeDir + QObject::tr("; svn update");
 			if (err < 0 || system(s.toAscii().data()) < 0)
-					QMessageBox::information(Tinkercell::MainWindow::instance(), "Error", "Unable to call SVN for auto-update. Check that SVN is installed and located in the system path.");
+					QMessageBox::information(Tinkercell::MainWindow::instance(), "Error", "Unable to update plugins. Check that Subversion is installed and located in the system path.");
 		}
 	}
 	

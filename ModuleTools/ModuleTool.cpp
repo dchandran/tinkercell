@@ -37,7 +37,7 @@ namespace Tinkercell
 	static QString connectionClassName("module connection item");
 
     ModuleTool::ModuleTool() : Tool(tr("Module Connection Tool"),tr("Module tools")), 
-    	newModuleDialog(0), newModuleTable(0), newModuleName(0), connectionsTree(0), nodesTree(0)
+    	newModuleDialog(0), newModuleTable(0), newModuleName(0), connectionsTree(0), nodesTree(0), exportModuleDialog(0)
     {
         setPalette(QPalette(QColor(255,255,255,255)));
         setAutoFillBackground(true);
@@ -93,7 +93,7 @@ namespace Tinkercell
 		Tool::setMainWindow(main);
         if (mainWindow != 0)
         {
-			connect(mainWindow,SIGNAL(itemsDropped(GraphicsScene *, const QString&, const QPointF&)),
+        	connect(mainWindow,SIGNAL(itemsDropped(GraphicsScene *, const QString&, const QPointF&)),
 				this, SLOT(itemsDropped(GraphicsScene *, const QString&, const QPointF&)));
         	
 			connect(mainWindow,SIGNAL(mousePressed(GraphicsScene *, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)),
@@ -116,6 +116,8 @@ namespace Tinkercell
 
 			connect(mainWindow,SIGNAL(itemsInserted(NetworkHandle*, const QList<ItemHandle*>&)),
                     this, SLOT(itemsInserted(NetworkHandle*, const QList<ItemHandle*>&)));
+                    
+             connect(this,SIGNAL(saveModel(const QString&)), mainWindow, SIGNAL(saveNetwork(const QString&)));
 
 			//connect(mainWindow, SIGNAL(itemsAboutToBeRemoved(GraphicsScene *, QList<QGraphicsItem*>& , QList<ItemHandle*>&, QList<QUndoCommand*>& )),
 			//		this, SLOT(itemsAboutToBeRemoved(GraphicsScene *, QList<QGraphicsItem*>& , QList<ItemHandle*>&, QList<QUndoCommand*>& )));
@@ -126,9 +128,186 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
 
 			toolLoaded(mainWindow->tool(tr("")));
+			
+			//export module
+			QList<QAction*> actions = mainWindow->fileMenu->actions();
+			QMenu * exportmenu = 0;
+		
+			for (int i=0; i < actions.size(); ++i)
+				if (actions[i] && actions[i]->menu() && actions[i]->text() == tr("&Export"))
+				{
+					exportmenu = actions[i]->menu();
+				}
+		
+			if (!exportmenu)
+			{
+				for (int i=0; i < actions.size(); ++i)
+					if (actions[i] && actions[i]->text() == tr("&Close page"))
+					{
+						exportmenu = new QMenu(tr("&Export"));
+						mainWindow->fileMenu->insertMenu(actions[i],exportmenu);
+					}
+			}
+
+			if (!exportmenu)
+			{
+				exportmenu = new QMenu(tr("&Export"));
+				mainWindow->fileMenu->addMenu(exportmenu);
+			}
+		
+			if (exportmenu)
+			{
+				exportmenu->addAction(tr("share model"),this,SLOT(exportModule()));
+			}
         }
 
         return true;
+    }
+    
+    void ModuleTool::exportModule()
+    {
+    	if (!exportModuleDialog || !modulesComboBox || !moduleNameEdit) 
+		{
+			QMessageBox::information(mainWindow, tr("Cannot export"), tr("Some necessary files or plug-ins for exporting sub-models are missing"));
+			return;
+		}
+		
+		exportModuleDialog->exec();
+		
+		if (exportModuleDialog->result() == QDialog::Accepted)
+		{
+			QString name = moduleNameEdit->text();
+			if (name.isEmpty())
+			{
+				QMessageBox::information(mainWindow, tr("Cannot export"), tr("Please enter a module name"));
+				exportModuleDialog->exec();
+				return;
+			}
+			
+			name.replace(QRegExp(tr("[^\\sA-Za-z0-9_]")),tr(""));
+			moduleNameEdit->setText(name);
+
+			if (MainWindow::SAVE_FILE_EXTENSIONS.isEmpty())
+				MainWindow::SAVE_FILE_EXTENSIONS << "TIC";
+
+			name += tr(".") + MainWindow::SAVE_FILE_EXTENSIONS[0];
+			QString s = modulesComboBox->currentText();
+			
+			if (s.isEmpty() || s.contains(tr("Custom...")))
+			{
+				QMessageBox::information(mainWindow, tr("Cannot export"), tr("Sorry, custom model families cannot be added through this interface at this point. If you are really interested, then take a look at Modules.xml in the TinkerCell home folder."));
+				return;
+			}
+			
+			QString appDir = QCoreApplication::applicationDirPath();
+			QString home = homeDir();
+			
+			s.replace(tr(" "),tr(""));
+			QString dirname = home + tr("/Modules/") + s;
+			QDir dir(dirname);
+	
+			if (!dir.exists())
+				dir.setPath(home + tr("/Modules/") + s.toLower());
+			
+			if (!dir.exists())
+					dir.setPath(appDir + tr("/Modules/") + s);
+				
+			if (!dir.exists())
+					dir.setPath(appDir + tr("/Modules/") + s.toLower());
+
+			if (dir.exists())
+			{
+				emit saveModel(dir.absoluteFilePath(name));
+				s = QObject::tr("cd ") + dir.absolutePath() + QObject::tr("; svn add ") + name + QObject::tr("; svn commit -m\"new model added\";");
+				moduleSavingStatus->setText(tr("Sending model to repository... please wait"));
+				exportModuleDialog->show();
+				
+				if (system(s.toAscii().data()) < 0)
+					QMessageBox::information(mainWindow, "Error", "Cannot find Subversion. Your model is saved, but it is not visible to other TinkerCell users. Check that Subversion is installed and that SVN is located in the system path.");
+				else
+					QMessageBox::information(mainWindow, "Success", "Your model has been submitted to the repository and is now available to other TinkerCell users.");
+				
+				exportModuleDialog->hide();
+				moduleSavingStatus->setText(tr(""));
+			}
+			else
+			{
+				QMessageBox::information(mainWindow, tr("Cannot export"), tr("The modules folder seems to be missing in TinkerCell home folder. Try installing Subversion."));
+			}
+		}
+    }
+    
+    void ModuleTool::initializeExportDialog()
+    {
+    	if (!connectionsTree) return;
+    	
+		QStringList allNames = connectionsTree->getAllFamilyNames();
+		QStringList moduleNames;
+
+		QString appDir = QCoreApplication::applicationDirPath();
+		QString home = homeDir();
+
+		for (int i=0; i < allNames.size(); ++i)
+		{
+			QString s = allNames[i];
+			
+			s.replace(tr(" "),tr(""));
+		
+			QString dirname = home + tr("/Modules/") + s;
+			QDir dir(dirname);
+	
+			if (!dir.exists())
+				dir.setPath(home + tr("/Modules/") + s.toLower());
+			
+			if (!dir.exists())
+					dir.setPath(appDir + tr("/Modules/") + s);
+				
+			if (!dir.exists())
+					dir.setPath(appDir + tr("/Modules/") + s.toLower());
+				
+			if (dir.exists())
+				moduleNames << allNames[i];
+		}
+		
+		exportModuleDialog = new QDialog(mainWindow);
+		QHBoxLayout * layout = new QHBoxLayout;
+
+		QGroupBox * nameGroupBox = new QGroupBox(tr(" name your model "));
+		QVBoxLayout * nameGroupLayout = new QVBoxLayout;
+		moduleNameEdit = new QLineEdit;
+		//nameGroupLayout->addWidget(new QLabel(tr(" model name : ")),0);
+		nameGroupLayout->addWidget(moduleNameEdit,1);
+		nameGroupBox->setLayout(nameGroupLayout);
+		
+		QGroupBox * familyGroupBox = new QGroupBox(tr(" set type of model "));
+		QVBoxLayout * familyGroupLayout = new QVBoxLayout;
+		modulesComboBox = new QComboBox;		
+		modulesComboBox->addItems(moduleNames);
+		//familyGroupLayout->addWidget(new QLabel(tr("model family : ")),0);
+		familyGroupLayout->addWidget(modulesComboBox,1);
+    	familyGroupBox->setLayout(familyGroupLayout);
+    	
+    	QVBoxLayout * okCancel = new QVBoxLayout;
+    	QPushButton * okButton = new QPushButton(tr("&Save"));
+    	QPushButton * cancelButton = new QPushButton(tr("&Cancel"));
+		okCancel->addStretch(2);
+    	okCancel->addWidget(okButton,1);
+    	okCancel->addWidget(cancelButton,1);
+    	okCancel->addStretch(2);
+    	
+    	layout->addWidget(nameGroupBox,1);
+    	layout->addWidget(familyGroupBox,1);
+    	layout->addLayout(okCancel,0);
+    	
+    	QVBoxLayout * layout2 = new QVBoxLayout;
+    	layout2->addLayout(layout,1);
+    	layout2->addWidget(moduleSavingStatus = new QLabel(tr("")),0);
+    	
+    	connect(cancelButton,SIGNAL(pressed()),exportModuleDialog,SLOT(reject()));
+    	connect(okButton,SIGNAL(pressed()),exportModuleDialog,SLOT(accept()));
+    	
+    	exportModuleDialog->setLayout(layout2);
+    	exportModuleDialog->hide();
     }
 
 	void ModuleTool::toolLoaded(Tool*)
@@ -168,22 +347,32 @@ namespace Tinkercell
 				else
 				if (QFile::exists(appDir + tr("/Modules/modules.xml")))				
 					connectionsTree->readTreeFile(appDir + tr("/Modules/modules.xml"));
-			}
 			
-			QList<ItemFamily*> childFamilies = moduleFamily->allChildren();
+				QList<ItemFamily*> childFamilies = moduleFamily->allChildren();
 			
-			for (int i=0; i < childFamilies.size(); ++i)
-			{
-				QString s = childFamilies[i]->name();
-				s.replace(tr(" "),tr(""));
-				QString dirname = home + tr("/Modules/") + s;
-				QDir dir(dirname);
-		
-				if (!dir.exists())
-					dir.setPath(home + tr("/Modules/") + s.toLower());
-
-				if (dir.exists())
-					moduleFamilyNames << childFamilies[i]->name();
+				for (int i=0; i < childFamilies.size(); ++i)
+				{
+					QString s = childFamilies[i]->name();
+					s.replace(tr(" "),tr(""));
+					QString dirname = home + tr("/Modules/") + s;
+					QDir dir(dirname);
+			
+					if (!dir.exists())
+						dir.setPath(home + tr("/Modules/") + s.toLower());
+				
+					if (!dir.exists())
+						dir.setPath(appDir + tr("/Modules/") + s);
+					
+					if (!dir.exists())
+						dir.setPath(appDir + tr("/Modules/") + s.toLower());
+				
+					if (dir.exists())
+						moduleFamilyNames << childFamilies[i]->name();
+				}
+			
+				console()->message(moduleFamilyNames.join(";"));
+				if (!exportModuleDialog)
+					initializeExportDialog();
 			}
 		}
 
@@ -201,7 +390,7 @@ namespace Tinkercell
 								//<< tr("Connect input/output"),
 				QList<QIcon>() 	<< QIcon(QPixmap(tr(":/images/module.png"))),
 								//<< QIcon(QPixmap(tr(":/images/merge.png"))),
-				QStringList() 	<< tr("A module is a self-contained subsystem that can be used to build larger systems")
+				QStringList() 	<< tr("Modules are sub-models that can be used to substitute parts of a larger model. Modules can be shared between multiple TinkerCell users automatically.")
 								//<< tr("Use this to connect inputs and ouputs of two modules")
 				);
 			
@@ -1205,11 +1394,11 @@ namespace Tinkercell
 		if (name == tr("New module"))
 		{
 			mainWindow->setCursor(Qt::ArrowCursor);
-			showNewModuleDialog();
+			//showNewModuleDialog();
+			exportModule();
 		}
 
-		//if (name == tr("Connect input/output"))
-		//	mode = connecting;
+		//if (name == tr("Connect input/output")) mode = connecting;
 
 		if (mode != none)
 			scene->useDefaultBehavior = false;

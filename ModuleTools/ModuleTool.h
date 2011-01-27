@@ -69,10 +69,12 @@ namespace Tinkercell
 	signals:
 
 		void getTextVersion(const QList<ItemHandle*>&, QString*);
+		void saveModel(const QString&);
 
 	public slots:
 
 		void select(int);
+		void exportModule();
 
 	private slots:		
 		void escapeSignal(const QWidget *);
@@ -98,31 +100,31 @@ namespace Tinkercell
 		Mode mode;
 
 		QGraphicsLineItem lineItem;
-		
-		QDockWidget * makeDockWidget(const QStringList&);
-		void makeNewModule();
-		
-		QDialog *
-		 newModuleDialog;
+		QDialog *	 newModuleDialog;
+		QDialog * exportModuleDialog;
+		QComboBox * modulesComboBox;
+		QLineEdit * moduleNameEdit;
+		QLabel * moduleSavingStatus;
 		QLineEdit * newModuleName;
 		QTableWidget * newModuleTable;
 		ConnectionsTree * connectionsTree;
 		NodesTree * nodesTree;
 		CatalogWidget * catalogWidget;
-
-		void makeModuleConnection(NodeGraphicsItem*,NodeGraphicsItem*,GraphicsScene*);
-		QUndoCommand * moduleConnectionsInserted(QList<QGraphicsItem*>& items);
-		QUndoCommand * substituteStrings(const QList<ItemHandle*> & items);
-		void removeSubnetworks(QList<QGraphicsItem*>& items, QList<ItemHandle*>& handles);
-		
-		static ItemHandle * findCorrespondingHandle(NodeHandle*,ConnectionHandle*);
-
 		QList<NodeGraphicsItem*> selectedItems;
 		QStringList substituteFrom, substituteWith;
 		QAction * viewModule;
 		NodeGraphicsItem image;
 		QStringList aboutToBeRenamed;
 
+		void makeModuleConnection(NodeGraphicsItem*,NodeGraphicsItem*,GraphicsScene*);
+		QUndoCommand * moduleConnectionsInserted(QList<QGraphicsItem*>& items);
+		QUndoCommand * substituteStrings(const QList<ItemHandle*> & items);
+		void removeSubnetworks(QList<QGraphicsItem*>& items, QList<ItemHandle*>& handles);
+		QDockWidget * makeDockWidget(const QStringList&);
+		void makeNewModule();
+		void initializeExportDialog();
+		
+		static ItemHandle * findCorrespondingHandle(NodeHandle*,ConnectionHandle*);
 		static QList<QPointF> pathAroundRect(QRectF,QRectF,QPointF,QPointF);
 	};
 

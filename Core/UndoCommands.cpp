@@ -2218,8 +2218,8 @@ namespace Tinkercell
 
 		QRegExp regexp1(QString("^") + oldname + QString("$")),  //just old name
 			regexp2(QString("^") + oldname + QString("([^A-Za-z0-9_])")),  //oldname+(!letter/num)
-			regexp3(QString("([^A-Za-z0-9_.])") + oldname + QString("$")), //(!letter/num)+oldname
-			regexp4(QString("([^A-Za-z0-9_.])") + oldname + QString("([^A-Za-z0-9_])")); //(!letter/num)+oldname+(!letter/num)
+			regexp3(QString("([^A-Za-z0-9_\\.])") + oldname + QString("$")), //(!letter/num)+oldname
+			regexp4(QString("([^A-Za-z0-9_\\.])") + oldname + QString("([^A-Za-z0-9_])")); //(!letter/num)+oldname+(!letter/num)
 		int n = regexp1.indexIn(target);
 		while (n != -1)
 		{

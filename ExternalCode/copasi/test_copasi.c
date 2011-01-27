@@ -4,7 +4,7 @@
 
 copasi_model model1(); //oscillation
 copasi_model model2(); //positive feebdack gene regulation
-void sim(copasi_model); //simulate and print
+copasi_model model3(); //from tinkercell
 void eigen(copasi_model, const char*); //compute eigenvalues by changing parameters (similar to root-locus)
 
 int main()
@@ -22,8 +22,12 @@ int main()
 	tc_printOutMatrix(efm);
 	removeCopasiModel(m1);
 	
-	m2 = model1();
-	sim(m2);
+	m2 = model3();
+	//tc_matrix output = simulateDeterministic(model, 0, 200, 100);  //model, start, end, num. points
+	tc_matrix output = simulateTauLeap(m2, 0, 20000, 1000);  //model, start, end, num. points
+	tc_printMatrixToFile("output.tab", output);	
+	tc_deleteMatrix(output);
+	printf("\noutput.tab contains the final output\n\n");
 	removeCopasiModel(m2);
 
 	//cleanup
@@ -117,23 +121,6 @@ copasi_model model2()
 	return model;
 }
 
-//simulation
-void sim(copasi_model model)
-{
-	int i, j;
-	FILE * outfile;
-
-	//run
-	tc_matrix output = simulateDeterministic(model, 0, 200, 100);  //model, start, end, num. points
-	
-	//output
-	tc_printMatrixToFile("output.tab", output);
-	
-	printf("\noutput.tab contains the final output\n\n");
-
-	tc_deleteMatrix(output);
-}
-
 // eigenvalues
 void eigen(copasi_model model, const char* param)
 {
@@ -179,3 +166,98 @@ void eigen(copasi_model model, const char* param)
 	tc_deleteMatrix(output);
 }
 
+copasi_model model3()
+{
+	copasi_reaction r0,r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11,r12,r13;
+	copasi_compartment DefaultCompartment;
+	copasi_model model = createCopasiModel("ComK");
+	DefaultCompartment = createCompartment(model,"DefaultCompartment",1);
+	createSpecies(DefaultCompartment,"comk_mrna",0);
+	createSpecies(DefaultCompartment,"ComK",1e4);
+	createSpecies(DefaultCompartment,"comk",0);
+	createSpecies(DefaultCompartment,"coms_mrna",0);
+	createSpecies(DefaultCompartment,"ComS",1e4);
+	createSpecies(DefaultCompartment,"coms",0);
+	createSpecies(DefaultCompartment,"rep1_complex",0);
+	createSpecies(DefaultCompartment,"MekA",500);
+	createSpecies(DefaultCompartment,"rep2_complex",0);
+	createSpecies(DefaultCompartment,"p1",0);
+	createSpecies(DefaultCompartment,"p2",0);
+	setGlobalParameter(model,"k1",0.00022);
+	setGlobalParameter(model,"k2",0.19);
+	setGlobalParameter(model,"k3",0.2);
+	setGlobalParameter(model,"k4",0);
+	setGlobalParameter(model,"k5",0.0015);
+	setGlobalParameter(model,"k6",0.2);
+	setGlobalParameter(model,"k7",0.005);
+	setGlobalParameter(model,"k8",0.0001);
+	setGlobalParameter(model,"k9",0.005);
+	setGlobalParameter(model,"k10",0.0001);
+	setGlobalParameter(model,"k11",2e-06);
+	setGlobalParameter(model,"k12",0.05);
+	setGlobalParameter(model,"k13",4.5e-06);
+	setGlobalParameter(model,"k14",4e-05);
+	setGlobalParameter(model,"k11n",0.0005);
+	setGlobalParameter(model,"k13n",5e-05);
+	setGlobalParameter(model,"kk",5000);
+	setGlobalParameter(model,"ks",833);
+	setGlobalParameter(model,"n",2);
+	setGlobalParameter(model,"p",5);
+	setAssignmentRule(model, "comk","k1+p1");
+	setAssignmentRule(model, "coms","k4+p2");
+	setAssignmentRule(model, "p1","k2*(ComK^n)/(kk^n+ComK^n)");
+	setAssignmentRule(model, "p2","k5/(1+((ComK/ks)^p))");
+	r0 = createReaction(model, "comk_mrna_degradation");
+	setReactionRate(r0,"k7*comk_mrna");
+	addReactant(r0,"comk_mrna",1);
+	r1 = createReaction(model, "comk_protein_degradation");
+	setReactionRate(r1,"k8*ComK");
+	addReactant(r1,"ComK",1);
+	r2 = createReaction(model, "comk_transcription");
+	setReactionRate(r2,"comk");
+	addProduct(r2,"comk_mrna",1);
+	r3 = createReaction(model, "comk_translation");
+	setReactionRate(r3,"k3*comk_mrna");
+	addProduct(r3,"ComK",1);
+	r4 = createReaction(model, "coms_mrna_degradation");
+	setReactionRate(r4,"k9*coms_mrna");
+	addReactant(r4,"coms_mrna",1);
+	r5 = createReaction(model, "coms_protein_degradation");
+	setReactionRate(r5,"k10*ComS");
+	addReactant(r5,"ComS",1);
+	r6 = createReaction(model, "coms_transcription");
+	setReactionRate(r6,"coms");
+	addProduct(r6,"coms_mrna",1);
+	r7 = createReaction(model, "coms_translation");
+	setReactionRate(r7,"k6*coms_mrna");
+	addProduct(r7,"ComS",1);
+	r8 = createReaction(model, "rep1_deg");
+	setReactionRate(r8,"k14*rep1_complex");
+	addReactant(r8,"rep1_complex",1);
+	addProduct(r8,"MekA",1);
+	r9 = createReaction(model, "rep1_v_forward");
+	setReactionRate(r9,"k13*ComS*MekA");
+	addReactant(r9,"ComS",1);
+	addProduct(r9,"rep1_complex",1);
+	addReactant(r9,"MekA",1);
+	r10 = createReaction(model, "rep1_v_reverse");
+	setReactionRate(r10,"k13n*rep1_complex");
+	addProduct(r10,"ComS",1);
+	addReactant(r10,"rep1_complex",1);
+	addProduct(r10,"MekA",1);
+	r11 = createReaction(model, "rep2_deg");
+	setReactionRate(r11,"k12*rep2_complex");
+	addProduct(r11,"MekA",1);
+	addReactant(r11,"rep2_complex",1);
+	r12 = createReaction(model, "rep2_v_forward");
+	setReactionRate(r12,"k11*ComK*MekA");
+	addReactant(r12,"ComK",1);
+	addReactant(r12,"MekA",1);
+	addProduct(r12,"rep2_complex",1);
+	r13 = createReaction(model, "rep2_v_reverse");
+	setReactionRate(r13,"k11n*rep2_complex");
+	addProduct(r13,"ComK",1);
+	addProduct(r13,"MekA",1);
+	addReactant(r13,"rep2_complex",1);
+	return model;
+}

@@ -77,7 +77,7 @@ namespace Tinkercell
 			int err = 0;
 			if (!QFile::exists(homeDir + QObject::tr("/.svn")))
 			{
-				s = QObject::tr("svn co https://tinkercellextra.svn.sourceforge.net/svnroot/tinkercellextra ") + homeDir;
+				s = QObject::tr("svn co --username tinkercelluser --password password https://tinkercellextra.svn.sourceforge.net/svnroot/tinkercellextra ") + homeDir;
 				err =system(s.toAscii().data());
 			}
 
@@ -515,6 +515,7 @@ specific for:\n\"\"\"\n\n") + text;
 				octaveAction->setCheckable(true);
 
 				actionGroup->addAction(cAction);
+
 				actionGroup->addAction(pythonAction);
 				actionGroup->addAction(octaveAction);
 				actionGroup->setExclusive(true);

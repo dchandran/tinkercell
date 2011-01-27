@@ -154,6 +154,8 @@ int main(int argc, char *argv[])
 	mainWindow.addTool(new CopasiExporter);
 	mainWindow.addTool(new AntimonyEditor);
 	
+	Tool * codingWindowPlugin = new CodingWindow; //do the svn update before loading python,octave, and modules
+	
 	mainWindow.addTool(new ModuleTool);
 	mainWindow.addTool(new AutoGeneRegulatoryTool);
 	mainWindow.addTool(new CLabelsTool);
@@ -166,7 +168,7 @@ int main(int argc, char *argv[])
     mainWindow.addTool(new LoadCLibrariesTool);
 	mainWindow.addTool(new PythonTool);
 	mainWindow.addTool(new OctaveTool);
-	mainWindow.addTool(new CodingWindow);
+	mainWindow.addTool(codingWindowPlugin);
 	mainWindow.addTool(new ModuleCombinatorics);
 
     /*******  Dynamically load plugins from folders ***********/

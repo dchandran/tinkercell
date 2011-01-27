@@ -607,9 +607,8 @@ namespace Tinkercell
 				}
 				
 				if ( handle &&
-					(handle->children.isEmpty() || handle->isA(tr("Compartment"))))
+					(handle->children.isEmpty() || NodeHandle::cast(handle)))
 					itemHandles += handle;
-
 			}
 
 		if (itemHandles.isEmpty()) return;

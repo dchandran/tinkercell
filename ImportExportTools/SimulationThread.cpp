@@ -68,20 +68,28 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles, copasi_model & 
 					if (k >= 0)
 					{
 						initialValues[k] = handles[i]->numericalData(tr("Initial Value"));
-						if (parentHandle = handles[i]->parentOfFamily(tr("Compartment")))
-						{
-							speciesCompartments[k] = parentHandle->fullName(tr("_"));
-							if (parentHandle->hasNumericalData(tr("Initial Value")))
-								compartmentVolumes[k] = parentHandle->numericalData(tr("Initial Value"));
-							else
-								compartmentVolumes[k] = 1.0;
-						}
 					}
 
-					if (handles[i]->hasNumericalData(tr("Fixed")) &&
-						handles[i]->numericalData(tr("Fixed")) > 0)
+					if (k < 0 || (	handles[i]->hasNumericalData(tr("Fixed")) && handles[i]->numericalData(tr("Fixed")) > 0 ))
 					{
 						fixedVars << handles[i]->fullName(tr("_"));
+						if (!species.contains(handles[i]->fullName(tr("_"))))
+						{
+							k = species.size() - 1;
+							species << handles[i]->fullName(tr("_"));
+							initialValues << handles[i]->numericalData(tr("Initial Value"));
+							compartmentVolumes << 1.0;
+							speciesCompartments << tr("DefaultCompartment");
+						}
+					}
+					
+					if (parentHandle = handles[i]->parentOfFamily(tr("Compartment")))
+					{
+						speciesCompartments[k] = parentHandle->fullName(tr("_"));
+						if (parentHandle->hasNumericalData(tr("Initial Value")))
+							compartmentVolumes[k] = parentHandle->numericalData(tr("Initial Value"));
+						else
+							compartmentVolumes[k] = 1.0;
 					}
 				}
 			}

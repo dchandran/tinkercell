@@ -456,9 +456,9 @@ namespace Tinkercell
 					updatedFunctions << sDataTable->value(j,0);
 					updatedFunctionNames << sDataTable->rowName(j);
 
-					if (sDataTable->rowName(j) == itemHandles[i]->fullName())
+					if (sDataTable->rowName(j) == itemHandles[i]->fullName() || sDataTable->rowName(j).isEmpty())
 					{
-						functions += sDataTable->rowName(j) + tr(" = ") + (sDataTable->value(j,0));
+						functions += itemHandles[i]->fullName() + tr(" = ") + (sDataTable->value(j,0));
 						assignmentVar = itemHandles[i]->fullName();
 						assignmentFormula = sDataTable->value(j,0);
 					}

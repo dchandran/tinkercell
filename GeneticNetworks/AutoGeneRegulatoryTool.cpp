@@ -621,10 +621,10 @@ namespace Tinkercell
 					if (!isProperReaction)
 					{
 						TextDataTable & sDat = parts[i]->textDataTable(tr("Assignments"));
-						if (sDat.hasRow(parts[i]->name))
+						if (sDat.hasRow(parts[i]->fullName()))
 						{
 							isProperReaction = true;
-							QString & s = sDat.value(parts[i]->name,0);
+							QString & s = sDat.value(parts[i]->fullName(),0);
 							for (int j=0; j < connections.size(); ++j)
 								if (connections[j] && !s.contains(connections[j]->fullName()))
 								{
@@ -666,7 +666,7 @@ namespace Tinkercell
 										commands << new ChangeNumericalDataCommand(tr("New parameters"),&params,params2);
 								}
 
-							sDat->value(parts[i]->name,0) = rate;
+							sDat->value(parts[i]->fullName(),0) = rate;
 							oldDataTables += &(parts[i]->textDataTable(tr("Assignments")));
 							newDataTables += sDat;
 						}
@@ -682,21 +682,27 @@ namespace Tinkercell
 						else
 							rate += tr(" * ") + promoters[k]->fullName() + tr(".strength * ") + promoters[k]->fullName();
 					
+					
 					if (rate.isEmpty())
 						rate = tr("0.0");
+					else
+						if (parts[i]->parent && parts[i]->parent->isA(tr("Vector")))
+						{
+							rate = parts[i]->parent->fullName() + tr(" * ") + rate;
+						}
 					
-					QString oldrate = parts[i]->textData(tr("Assignments"),parts[i]->name,0);					
+					QString oldrate = parts[i]->textData(tr("Assignments"),parts[i]->fullName(),0);					
 					bool isCustomEqn = oldrate.contains(tr("+")) ||
 													oldrate.contains(tr("/")) ||  
 													oldrate.contains(tr("(")) ||
 													(oldrate.size() > 4 && !oldrate.contains(tr(".strength * ")));
 
-					if (!parts[i]->textDataTable(tr("Assignments")).hasRow(parts[i]->name) ||
+					if (!parts[i]->textDataTable(tr("Assignments")).hasRow(parts[i]->fullName()) ||
 							(!isCustomEqn && oldrate != rate)
 						)
 						 {
 							TextDataTable * sDat = new TextDataTable(parts[i]->textDataTable(tr("Assignments")));
-							sDat->value(parts[i]->name,0) = rate;
+							sDat->value(parts[i]->fullName(),0) = rate;
 							oldDataTables += &(parts[i]->textDataTable(tr("Assignments")));
 							newDataTables += sDat;
 						}
@@ -1078,6 +1084,7 @@ namespace Tinkercell
 
 		QList<ItemHandle*> connections;
 		NodeHandle * handle = 0;
+		ItemHandle * h;
 		QString rate;
 		
 		for (int i=0; i < items.size(); ++i)
@@ -1133,7 +1140,17 @@ namespace Tinkercell
 								if (nodes[k])
 								{
 									rect1 = items[i]->sceneBoundingRect();
-									rect2 = nodes[k]->sceneBoundingRect();
+									
+									if ((h = nodes[k]->handle()) && h->parent && h->parent->isA(tr("Part")))
+									{
+										rect2 = QRectF(0,0,0,0);
+										for (int l=0; l < h->parent->graphicsItems.size(); ++l)
+											if (h->parent->graphicsItems[l] && 
+												h->parent->graphicsItems[l]->sceneBoundingRect().width() > rect2.width()) 
+											rect2 = h->parent->graphicsItems[l]->sceneBoundingRect();
+									}
+									else
+										rect2 = nodes[k]->sceneBoundingRect();
 
 									if (items.contains(nodes[k]) ||
 										rect1.adjusted(-10.0,-10.0,10.0,10.0).intersects(rect2))
@@ -1161,12 +1178,13 @@ namespace Tinkercell
 			}
 		}
 		
+		QList<QUndoCommand*> adjustPlasmidCommands;
 		for (int i=0; i < items.size(); ++i)
 			if (NodeGraphicsItem::cast(items[i]) && 
 				NodeGraphicsItem::cast(items[i])->handle() &&
 				NodeGraphicsItem::cast(items[i])->handle()->isA(tr("Vector")))
 			{
-				commands << adjustPlasmid(scene, NodeGraphicsItem::cast(items[i]),false);
+				adjustPlasmidCommands += adjustPlasmid(scene, NodeGraphicsItem::cast(items[i]),false);
 			}
 		
 		for (int i=0; i < items.size(); ++i)
@@ -1176,7 +1194,7 @@ namespace Tinkercell
 				qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(items[i])->nodeItem->handle() &&
 				qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(items[i])->nodeItem->handle()->isA(tr("Vector")))
 			{
-				commands << adjustPlasmid(scene,qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(items[i])->nodeItem);
+				adjustPlasmidCommands += adjustPlasmid(scene,qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(items[i])->nodeItem);
 				items[i] = 0;
 			}
 		
@@ -1189,9 +1207,17 @@ namespace Tinkercell
 				QList<QGraphicsItem*> & graphicsItems = NodeGraphicsItem::cast(items[i])->handle()->parent->graphicsItems;
 				for (int j=0; j < graphicsItems.size(); ++j)			
 					if (NodeGraphicsItem::cast(graphicsItems[j]) && !items.contains(graphicsItems[j]))
-						commands << adjustPlasmid(scene, NodeGraphicsItem::cast(graphicsItems[j]),false);
+					{
+						adjustPlasmidCommands += adjustPlasmid(scene, NodeGraphicsItem::cast(graphicsItems[j]),false);
+					}
 			}
 
+		if (!adjustPlasmidCommands.isEmpty())
+			for (int i=0; i < adjustPlasmidCommands.size(); ++i)
+			{
+				adjustPlasmidCommands[i]->redo();
+			}
+			
 		for (int i=0; i < items.size(); ++i)
 		{
 			NodeGraphicsItem * startNode = NodeGraphicsItem::topLevelNodeItem(items[i]);
@@ -1234,6 +1260,15 @@ namespace Tinkercell
 			if (!parts3.isEmpty())
 			{
 				commands << autoAssignRates(parts3);
+			}
+		}
+		
+		if (!adjustPlasmidCommands.isEmpty())
+		{
+			for (int i=0; i < adjustPlasmidCommands.size(); ++i)
+			{
+				adjustPlasmidCommands[i]->undo();
+				commands += adjustPlasmidCommands[i];
 			}
 		}
 	}
@@ -1814,14 +1849,19 @@ namespace Tinkercell
 			if (existingChildren[i])
 			{
 				list = existingChildren[i]->graphicsItems;
+				bool intersection = false;
 				for (int j=0; j < list.size(); ++j)
-					if (NodeGraphicsItem::cast(list[j]) && !intersectingItems.contains(list[j]))
+					if (NodeGraphicsItem::cast(list[j]) && intersectingItems.contains(list[j]))
 					{
-						children << existingChildren[i];
-						parents << 0;
-						trueChildren.removeAll(existingChildren[i]);
+						intersection = true;
 						break;
 					}
+				if (!intersection)
+				{
+					children << existingChildren[i];
+					parents << 0;
+					trueChildren.removeAll(existingChildren[i]);
+				}
 			}
 
 		if (!children.isEmpty())

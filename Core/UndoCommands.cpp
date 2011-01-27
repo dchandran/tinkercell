@@ -2264,21 +2264,14 @@ namespace Tinkercell
 					if (!handles.contains(handles[i]->children[j]))
 						handles += handles[i]->children[j];
 				
-				QString fullname("");
-				QString s = newname, s2;
-				if (!handles[i]->name.isEmpty())
-				{
-					fullname = handles[i]->fullName() + QObject::tr(".");
-					s.remove(fullname);
-				}
-				RemoveDisallowedCharactersFromName(s);
+				QString s2;
 				QList< QString > keys = handles[i]->numericalDataNames();
 				for (int j=0; j < keys.size(); ++j)  //go through each num data
 				{
 					nDat = &(handles[i]->numericalDataTable( keys[j] ));
 					for (int k=0; k < nDat->rows(); ++k)
 					{
-						if (nDat->rowName(k).contains(oldname))
+						/*if (nDat->rowName(k).contains(oldname))
 						{
 							s2 = nDat->rowName(k);
 							substituteString(s2,oldname,newname);
@@ -2290,31 +2283,31 @@ namespace Tinkercell
 								else
 									nDat->removeRow(k);
 							}
-						}
+						}*/
 
-						if (fullname + nDat->rowName(k) == oldname)
+						if (nDat->rowName(k) == oldname)
 						{				
-							nDat->setRowName(k,s);
+							nDat->setRowName(k,newname);
 						}
 					}
 					for (int k=0; k < nDat->columns(); ++k)
 					{
-						if (nDat->columnName(k).contains(oldname))
-						{
-							s2 = nDat->columnName(k);
-							substituteString(s2,oldname,newname);
-							s2 = RemoveDisallowedCharactersFromName(s2);
-							if (s2 != nDat->columnName(k))
+						if (nDat->columnName(k) == oldname)
+							nDat->setColumnName(k,newname);
+						else
+							if (nDat->columnName(k).contains(oldname))
 							{
-								if (!nDat->hasColumn(s2))
-									nDat->setColumnName(k,s2);
-								else
-									nDat->removeColumn(k);
+								s2 = nDat->columnName(k);
+								substituteString(s2,oldname,newname);
+								s2 = RemoveDisallowedCharactersFromName(s2);
+								if (s2 != nDat->columnName(k))
+								{
+									if (!nDat->hasColumn(s2))
+										nDat->setColumnName(k,s2);
+									else
+										nDat->removeColumn(k);
+								}
 							}
-						}
-						
-						if (fullname + nDat->columnName(k) == oldname)
-							nDat->setColumnName(k,s);
 					}
 				}
 				keys = handles[i]->textDataNames();
@@ -2323,7 +2316,7 @@ namespace Tinkercell
 					sDat = &(handles[i]->textDataTable (keys[j]));
 					for (int k=0; k < sDat->rows(); ++k)
 					{
-						if (sDat->rowName(k).contains(oldname))
+						/*if (sDat->rowName(k).contains(oldname))
 						{
 							s2 = sDat->rowName(k);
 							substituteString(s2,oldname,newname);
@@ -2335,29 +2328,29 @@ namespace Tinkercell
 								else
 									sDat->removeRow(k);
 							}
-						}
+						}*/
 
-						if (fullname + sDat->rowName(k) == oldname)						
-							sDat->setRowName(k,s);
+						if (sDat->rowName(k) == oldname)						
+							sDat->setRowName(k,newname);
 					}
 					for (int k=0; k < sDat->columns(); ++k)
 					{
-						if (sDat->columnName(k).contains(oldname))
-						{
-							s2 = sDat->columnName(k);
-							substituteString(s2,oldname,newname);
-							s2 = RemoveDisallowedCharactersFromName(s2);
-							if (s2 != sDat->columnName(k))
+						if (sDat->columnName(k) == oldname)
+							sDat->setColumnName(k,newname);
+						else
+							if (sDat->columnName(k).contains(oldname))
 							{
-								if (!sDat->hasColumn(s2))
-									sDat->setColumnName(k,s2);
-								else
-									sDat->removeColumn(k);
+								s2 = sDat->columnName(k);
+								substituteString(s2,oldname,newname);
+								s2 = RemoveDisallowedCharactersFromName(s2);
+								if (s2 != sDat->columnName(k))
+								{
+									if (!sDat->hasColumn(s2))
+										sDat->setColumnName(k,s2);
+									else
+										sDat->removeColumn(k);
+								}
 							}
-						}
-						
-						if (fullname + sDat->columnName(k) == oldname)
-							sDat->setColumnName(k,s);
 					}
 					for (int k=0; k < sDat->rows(); ++k) //substitute each value in the table
 						for (int l=0; l < sDat->columns(); ++l)

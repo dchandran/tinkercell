@@ -441,14 +441,14 @@ namespace Tinkercell
 	{
 		if (currentScene())
 		{
-			/*currentScene()->useDefaultBehavior = false;
+			currentScene()->useDefaultBehavior = false;
 			mainWindow->sendEscapeSignal(this);
 
 			mainWindow->setCursor(QCursor(QPixmap(tr(":/images/zoomin.png")).scaled(25,25)));
 
 			mode = zoom;
-			currentScene()->useDefaultBehavior = false;*/
-			currentScene()->zoomIn();
+			currentScene()->useDefaultBehavior = false;
+			//currentScene()->zoomIn();
 		}
 		else
 			if (currentTextEditor())

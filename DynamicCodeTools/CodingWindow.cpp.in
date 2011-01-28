@@ -157,8 +157,7 @@ namespace Tinkercell
 		QMessageBox::information(this,tr("Saved"),tr("Your program has been saved as ") + dllName);		
 		mainWindow->loadDynamicLibrary(dllName);
 	}
-		
-	
+
 	void CodingWindow::convertCodeToButtonPy()
 	{
 		if (!editor) return;

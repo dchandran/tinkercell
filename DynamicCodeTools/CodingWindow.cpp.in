@@ -187,7 +187,7 @@ specific for:\n\"\"\"\n\n") + text;
 			userHomeDir.mkdir(tr("python"));
 			if (!userHomeDir.cd(tr("python")))
 			{
-				QMessageBox::information(this,tr("Error"),tr("TinkerCell is not able to write to the Documents folder"));
+				QMessageBox::information(this,tr("Error"),tr("TinkerCell is not able to write to ") + userHomeDir.absolutePath());
 				return;
 			}
 		}
@@ -199,11 +199,28 @@ specific for:\n\"\"\"\n\n") + text;
 		if (!pyfile.open(QIODevice::WriteOnly | QIODevice::Text))
 			return;
 		else
-			QMessageBox::information(this,tr("Saved"),tr("Your program has been saved as ") + filename);
-
-		QTextStream outpy(&pyfile);
-		outpy << (editor->toPlainText());
-		pyfile.close();
+		{
+			QDialog * dialog = new QDialog(mainWindow);
+			dialog->setAttribute(Qt::WA_DeleteOnClose);
+			QHBoxLayout * layout = new QHBoxLayout;
+			layout->addWidget(new QLabel("Saving and uploading...please wait"));
+			dialog->setLayout(layout);
+			dialog->show();
+			
+			QTextStream outpy(&pyfile);
+			outpy << (editor->toPlainText());
+			pyfile.close();
+			QString s = QObject::tr("cd ") + userHomeDir.absolutePath() + QObject::tr("; svn add ") + filename + QObject::tr("; svn commit -m\"new code added\";");
+			QString msg = tr("Your program has been saved as ") + filename + tr("\n");
+			
+			if (system(s.toAscii().data()) < 0)
+				msg += tr("Your code is saved, but it is not visible to other TinkerCell users. Check that Subversion is installed and that SVN is located in the system path.");
+			else
+				msg += tr("Your code has been submitted to the repository and is now available to other TinkerCell users.");
+			
+			dialog->close();
+			QMessageBox::information(mainWindow, "Saved", msg);
+		}
 		
 		loadPyFromDir(userHomeDir);
 	}
@@ -234,7 +251,7 @@ specific for:\n\"\"\"\n\n") + text;
 			userHomeDir.mkdir(tr("octave"));
 			if (!userHomeDir.cd(tr("octave")))
 			{
-				QMessageBox::information(this,tr("Error"),tr("TinkerCell is not able to write to the Documents folder"));
+				QMessageBox::information(this,tr("Error"),tr("TinkerCell is not able to write to ") + userHomeDir.absolutePath());
 				return;
 			}
 		}
@@ -246,13 +263,32 @@ specific for:\n\"\"\"\n\n") + text;
 		if (!octfile.open(QIODevice::WriteOnly | QIODevice::Text))
 			return;
 		else
-			QMessageBox::information(this,tr("Saved"),tr("Your program has been saved as ") + filename);
+		{
+			QDialog * dialog = new QDialog(mainWindow);
+			dialog->setAttribute(Qt::WA_DeleteOnClose);
+			QHBoxLayout * layout = new QHBoxLayout;
+			layout->addWidget(new QLabel("Saving and uploading...please wait"));
+			dialog->setLayout(layout);
+			dialog->show();
+			
+			QTextStream outoct(&octfile);
+			outoct << (editor->toPlainText());
+			octfile.close();
+			QString s = QObject::tr("cd ") + userHomeDir.absolutePath() + QObject::tr("; svn add ") + filename + QObject::tr("; svn commit -m\"new code added\";");
+			QString msg = tr("Your program has been saved as ") + filename + tr("\n");
+			
+			if (system(s.toAscii().data()) < 0)
+				msg += tr("Your code is saved, but it is not visible to other TinkerCell users. Check that Subversion is installed and that SVN is located in the system path.");
+			else
+				msg += tr("Your code has been submitted to the repository and is now available to other TinkerCell users.");
+			
+			dialog->close();
+			QMessageBox::information(mainWindow, "Saved", msg);
+		}
 
-		QTextStream outoct(&octfile);
-		outoct << (editor->toPlainText());
-		octfile.close();
 		
-		loadPyFromDir(userHomeDir);
+		
+		loadOctFromDir(userHomeDir);
 	}
 	
 	void CodingWindow::enableC(bool b)

@@ -742,7 +742,7 @@ namespace Tinkercell
 					if (dir.exists())
 					{
 						dir.setFilter(QDir::Files);
-						dir.setSorting(QDir::Size | QDir::Reversed);
+						dir.setSorting(QDir::Size);
 						QFileInfoList list = dir.entryInfoList();
 				
 						if (!list.isEmpty())
@@ -1209,7 +1209,7 @@ namespace Tinkercell
 			}
 			
 			dir.setFilter(QDir::Files);
-			dir.setSorting(QDir::Size | QDir::Reversed);
+			dir.setSorting(QDir::Size);
 			QFileInfoList list = dir.entryInfoList();
 
 			for (int i = 0; i < list.size(); ++i)

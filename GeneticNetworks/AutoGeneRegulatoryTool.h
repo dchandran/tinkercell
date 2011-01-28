@@ -102,7 +102,7 @@ namespace Tinkercell
 		QUndoCommand * autoAssignRates(QList<NodeHandle*>&);
 		
 	public:
-		static void findAllParts(GraphicsScene*,NodeGraphicsItem*,const QString& family,QList<ItemHandle*>& ,bool upstream=true,const QStringList& stopIf=QStringList(), bool stopIfElongation = false);
+		static void findAllParts(NodeGraphicsItem*,const QString& family,QList<ItemHandle*>& ,bool upstream=true,const QStringList& stopIf=QStringList(), bool stopIfElongation = false);
 		static void findAllPartsLinear(GraphicsScene*,NodeGraphicsItem*,const QString& family,QList<ItemHandle*>& ,bool upstream=true,const QStringList& stopIf=QStringList(), bool stopIfElongation = false);
 		static void findAllPartsCircular(GraphicsScene*,NodeGraphicsItem*,const QString& family,QList<ItemHandle*>& ,bool upstream=true,const QStringList& stopIf=QStringList(), bool stopIfElongation = false);
 		static QString hillEquation(NodeHandle *,ItemHandle* exclude = 0);

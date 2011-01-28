@@ -305,7 +305,7 @@ namespace Tinkercell
 				if (!node) continue;
 				
 				handlesUp.clear();
-				AutoGeneRegulatoryTool::findAllParts(scene,node,tr("Part"),handlesUp,true,QStringList());
+				AutoGeneRegulatoryTool::findAllParts(node,tr("Part"),handlesUp,true,QStringList());
 				if (!handlesUp.isEmpty())
 				{
 					if (selected.size() > 1)
@@ -322,7 +322,7 @@ namespace Tinkercell
 		if (node && (h = getHandle(node)) && h->isA(tr("Part")) && !(h->parent && h->parent->isA("Vector")))
 		{
 			handlesDown.push_back(h);
-			AutoGeneRegulatoryTool::findAllParts(scene,node,tr("Part"),handlesDown,false,QStringList());
+			AutoGeneRegulatoryTool::findAllParts(node,tr("Part"),handlesDown,false,QStringList());
 		}
 
 		while (!handlesUp.isEmpty())

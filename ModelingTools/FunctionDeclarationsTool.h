@@ -121,6 +121,7 @@ namespace Tinkercell
 		static tc_strings _getForcingFunctionNames(tc_items);
 		static tc_strings _getForcingFunctionAssignments(tc_items);
 		static void _addForcingFunction(long,const char*, const char*);
+		static QString Self;
 	};
 
 

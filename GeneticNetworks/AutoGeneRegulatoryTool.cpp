@@ -621,10 +621,10 @@ namespace Tinkercell
 					if (!isProperReaction)
 					{
 						TextDataTable & sDat = parts[i]->textDataTable(tr("Assignments"));
-						if (sDat.hasRow(parts[i]->fullName()))
+						if (sDat.hasRow(tr("self")))
 						{
 							isProperReaction = true;
-							QString & s = sDat.value(parts[i]->fullName(),0);
+							QString & s = sDat.value(tr("self"),0);
 							for (int j=0; j < connections.size(); ++j)
 								if (connections[j] && !s.contains(connections[j]->fullName()))
 								{
@@ -666,7 +666,7 @@ namespace Tinkercell
 										commands << new ChangeNumericalDataCommand(tr("New parameters"),&params,params2);
 								}
 
-							sDat->value(parts[i]->fullName(),0) = rate;
+							sDat->value(tr("self"),0) = rate;
 							oldDataTables += &(parts[i]->textDataTable(tr("Assignments")));
 							newDataTables += sDat;
 						}
@@ -691,18 +691,18 @@ namespace Tinkercell
 							rate = parts[i]->parent->fullName() + tr(" * ") + rate;
 						}
 					
-					QString oldrate = parts[i]->textData(tr("Assignments"),parts[i]->fullName(),0);					
+					QString oldrate = parts[i]->textData(tr("Assignments"),tr("self"),0);
 					bool isCustomEqn = oldrate.contains(tr("+")) ||
 													oldrate.contains(tr("/")) ||  
 													oldrate.contains(tr("(")) ||
 													(oldrate.size() > 4 && !oldrate.contains(tr(".strength * ")));
 
-					if (!parts[i]->textDataTable(tr("Assignments")).hasRow(parts[i]->fullName()) ||
+					if (!parts[i]->textDataTable(tr("Assignments")).hasRow(tr("self")) ||
 							(!isCustomEqn && oldrate != rate)
 						)
 						 {
 							TextDataTable * sDat = new TextDataTable(parts[i]->textDataTable(tr("Assignments")));
-							sDat->value(parts[i]->fullName(),0) = rate;
+							sDat->value(tr("self"),0) = rate;
 							oldDataTables += &(parts[i]->textDataTable(tr("Assignments")));
 							newDataTables += sDat;
 						}
@@ -1047,9 +1047,9 @@ namespace Tinkercell
 			QList<ItemHandle*> parts,upstream;
 
 			if (!handle->parent || !handle->parent->isA(tr("Vector")))  //no "up" and "down" stream for circular plasmids
-				findAllParts(scene,startNode,tr("Part"),parts,false,QStringList() << "Terminator" << "Vector",true);
+				findAllParts(startNode,tr("Part"),parts,false,QStringList() << "Terminator" << "Vector",true);
 
-			findAllParts(scene,startNode,tr("Part"),upstream,true,QStringList() << "Terminator" << "Vector",true);
+			findAllParts(startNode,tr("Part"),upstream,true,QStringList() << "Terminator" << "Vector",true);
 
 			if (!parts.contains(handle))
 				parts.push_front(handle);
@@ -1233,9 +1233,9 @@ namespace Tinkercell
 			QList<ItemHandle*> parts,upstream;
 
 			if (!handle->parent || !handle->parent->isA(tr("Vector")))  //no "up" and "down" stream for circular plasmids
-				findAllParts(scene,startNode,tr("Part"),parts,false,QStringList() << "Terminator" << "Vector",true);
+				findAllParts(startNode,tr("Part"),parts,false,QStringList() << "Terminator" << "Vector",true);
 
-			findAllParts(scene,startNode,tr("Part"),upstream,true,QStringList() << "Terminator" << "Vector",true);
+			findAllParts(startNode,tr("Part"),upstream,true,QStringList() << "Terminator" << "Vector",true);
 			
 			if (distance.size() > i)
 				startNode->setPos( startNode->scenePos() - distance[i] );
@@ -1314,9 +1314,9 @@ namespace Tinkercell
 				if (!startNode || !handle) continue;
 
 				if (!handle->parent || !handle->parent->isA(tr("Vector")))  //no "up" and "down" stream for circular plasmids
-					findAllParts(scene,startNode,tr("Part"),parts,false,QStringList() << "Terminator" << "Vector",true);
+					findAllParts(startNode,tr("Part"),parts,false,QStringList() << "Terminator" << "Vector",true);
 
-				findAllParts(scene,startNode,tr("Part"),upstream,true,QStringList() << "Terminator" << "Vector",true);
+				findAllParts(startNode,tr("Part"),upstream,true,QStringList() << "Terminator" << "Vector",true);
 
 				if (!parts.contains(handle))
 					parts.push_front(handle);
@@ -1409,16 +1409,44 @@ namespace Tinkercell
 		}
 	}
 
-	void AutoGeneRegulatoryTool::findAllParts(GraphicsScene* scene,NodeGraphicsItem * node, const QString& family,QList<ItemHandle*>& handles,bool upstream,const QStringList & until, bool stopIfElongation)
+	void AutoGeneRegulatoryTool::findAllParts(NodeGraphicsItem * node, const QString& family,QList<ItemHandle*>& handles,bool upstream,const QStringList & until, bool stopIfElongation)
 	{
-		if (!scene || !node) return;
+		if (!node) return;
 		if (node->handle() && node->handle()->parent && node->handle()->parent->isA(tr("Vector")))
 		{
-			findAllPartsCircular(scene,node,family,handles,upstream,until,stopIfElongation);
+			QList<QGraphicsItem*> & graphicsItems = node->handle()->graphicsItems;			
+			QList<NodeGraphicsItem*> nodes;
+			for (int i=0; i < graphicsItems.size(); ++i)
+				if ((node = NodeGraphicsItem::cast(graphicsItems[i])) && !nodes.contains(node))
+					nodes << node;
+			
+			for (int i=0; i < nodes.size(); ++i)
+				if (nodes[i]->scene())
+				{
+					QList<ItemHandle*> list;
+					GraphicsScene* scene = static_cast<GraphicsScene*>(nodes[i]->scene());
+					findAllPartsCircular(scene,nodes[i],family,list,upstream,until,stopIfElongation);
+					if (list.size() > handles.size())
+						handles = list;
+				}
 		}
 		else
 		{
-			findAllPartsLinear(scene,node,family,handles,upstream,until,stopIfElongation);
+			QList<QGraphicsItem*> & graphicsItems = node->handle()->graphicsItems;			
+			QList<NodeGraphicsItem*> nodes;
+			for (int i=0; i < graphicsItems.size(); ++i)
+				if ((node = NodeGraphicsItem::cast(graphicsItems[i])) && !nodes.contains(node))
+					nodes << node;
+			
+			for (int i=0; i < nodes.size(); ++i)
+				if (nodes[i]->scene())
+				{
+					QList<ItemHandle*> list;
+					GraphicsScene* scene = static_cast<GraphicsScene*>(nodes[i]->scene());
+					findAllPartsLinear(scene,nodes[i],family,list,upstream,until,stopIfElongation);
+					if (list.size() > handles.size())
+						handles = list;
+				}
 		}
 	}
 	
@@ -2102,13 +2130,13 @@ namespace Tinkercell
 			if (node && node->handle())
 			{
 				QList<ItemHandle*> upstream, downstream;
-				findAllParts(scene,node,tr("Part"),upstream,true,QStringList());
+				findAllParts(node,tr("Part"),upstream,true,QStringList());
 
 				downstream.clear();
 				if (!node->handle()->parent || !node->handle()->parent->isA(tr("Vector")))
 				{
 					downstream.push_front(node->handle());
-					findAllParts(scene,node,tr("Part"),downstream,false,QStringList());
+					findAllParts(node,tr("Part"),downstream,false,QStringList());
 				}
 
 				while (!upstream.isEmpty())
@@ -2164,11 +2192,11 @@ namespace Tinkercell
 			if (node && node->handle())
 			{
 				QList<ItemHandle*> upstream, downstream;
-				findAllParts(scene,node,tr("Part"),upstream,true,QStringList());
+				findAllParts(node,tr("Part"),upstream,true,QStringList());
 
 				downstream.clear();
 				downstream.push_back(node->handle());
-				//findAllParts(scene,node,tr("Part"),downstream,false,QStringList());
+				//findAllParts(node,tr("Part"),downstream,false,QStringList());
 
 				while (!upstream.isEmpty())
 				{
@@ -2213,6 +2241,7 @@ namespace Tinkercell
 			for (int i=0; i < h->graphicsItems.size(); ++i)
 				if ((node = NodeGraphicsItem::topLevelNodeItem(h->graphicsItems[i]))
 						&& ((y < 0) || (node->scenePos().y() < y)))
+
 					{
 						topmost = node;
 					}
@@ -2222,11 +2251,11 @@ namespace Tinkercell
 			if (node && node->handle())
 			{
 				QList<ItemHandle*> downstream;
-				//findAllParts(scene,node,tr("Part"),upstream,true,QStringList());
+				//findAllParts(node,tr("Part"),upstream,true,QStringList());
 
 				downstream.clear();
 				//downstream.push_back(node->handle());
-				findAllParts(scene,node,tr("Part"),downstream,false,QStringList());
+				findAllParts(node,tr("Part"),downstream,false,QStringList());
 
 				(*parts) += downstream;
 			}

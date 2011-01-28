@@ -90,7 +90,7 @@
             <tc_table>
                 <Table key="text attributes" rows="1" cols="3" rowNames="sequence" columnNames="value;;min;;max" values="GSWTQHNMCP;;;;"/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="assignments" rows="1" cols="1" rowNames="enz3" columnNames="rule" values="enz3.step_height/(1.0 + exp((enz3.step_time^enz3.step_steepness) - (time^enz3.step_steepness)))"/>
+                <Table key="assignments" rows="1" cols="1" rowNames="self" columnNames="rule" values="enz3.step_height/(1.0 + exp((enz3.step_time^enz3.step_steepness) - (time^enz3.step_steepness)))"/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
         </Handle>

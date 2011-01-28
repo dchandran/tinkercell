@@ -997,7 +997,7 @@ tc_matrix simulateTauLeap(copasi_model model, double startTime, double endTime, 
 
 tc_matrix simulateStochastic(copasi_model model, double startTime, double endTime, int numSteps)
 {
-	return simulate(model,startTime,endTime,numSteps,CCopasiMethod::directMethod);
+	return simulate(model,startTime,endTime,numSteps,CCopasiMethod::stochastic);
 }
 
 tc_matrix simulateHybrid(copasi_model model, double startTime, double endTime, int numSteps)

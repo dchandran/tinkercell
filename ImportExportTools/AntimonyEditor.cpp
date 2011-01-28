@@ -617,12 +617,17 @@ namespace Tinkercell
 					{
 						QString rule = assigns.value(r,0);
 						rule.replace(regex,tr("_"));
-						if (!name.isEmpty())
-						{
+						if (assigns.rowName(r).isEmpty() || assigns.rowName(r) == tr("self"))
 							s += name;
-							s += tr("_");
+						else
+						{
+							if (!name.isEmpty())
+							{
+								s += name;
+								s += tr("_");
+							}
+							s += assigns.rowName(r);
 						}
-						s += assigns.rowName(r);
 						s += tr(" = ");
 						s += rule;
 						s += tr(";\n");

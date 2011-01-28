@@ -294,7 +294,7 @@ namespace Tinkercell
 
 							if (s1.isEmpty() || s2.isEmpty()) continue;
 
-							if (s1.isEmpty() || s1 == name)
+							if (s1.isEmpty() || s1 == tr("self"))
 							{
 								assignmentNames << name;
 								assignmentDefs << s2;

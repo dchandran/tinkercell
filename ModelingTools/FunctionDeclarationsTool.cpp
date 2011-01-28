@@ -30,6 +30,7 @@ Assignments are parameters that are defined as a function, eg. k1 = sin(time) + 
 
 namespace Tinkercell
 {
+	QString AssignmentFunctionsTool::Self("self");
 	void AssignmentFunctionsTool::select(int)
 	{
 		NetworkHandle * net = currentNetwork();
@@ -228,11 +229,11 @@ namespace Tinkercell
 				QString var = regex1.cap(1),
 						func = regex1.cap(2);
 
-				if (!EquationParser::validate(currentNetwork(), handle, func, QStringList() << "time"))
+				if (!EquationParser::validate(currentNetwork(), handle, func, QStringList() << "time" << "Time"))
 					return;
 
-				if (handle->name == var) 
-					var = handle->fullName();
+				if (handle->name == var || handle->fullName() == var) 
+					var = Self;
 				else
 				{
 					if (var.startsWith(handle->fullName() + tr(".")))
@@ -251,7 +252,6 @@ namespace Tinkercell
 			else
 				if (regex2.indexIn(text) > -1 && regex2.numCaptures() > 2)
 				{
-
 					if (!handle->hasTextData(tr("Functions")))
 						insertDataMatrix(handle);
 
@@ -296,6 +296,22 @@ namespace Tinkercell
 
 					win->changeData(handle->fullName() + tr(".") + var + tr("(") + newData.value(var,0) + tr("(") + tr(" = ") + s,handle,tr("Functions"),&newData);
 
+				}
+				else
+				{
+					if (!handle->hasTextData(tr("Assignments")))
+						insertDataMatrix(handle);
+
+					QString var = Self,
+								  func = text;
+
+					if (!EquationParser::validate(currentNetwork(), handle, func, QStringList() << "time" << "Time"))
+						return;
+
+					DataTable<QString> newData(handle->textDataTable(tr("Assignments")));
+					newData.value(var,0) = func;
+
+					win->changeData(handle->fullName() + tr(".") + var + tr(" = ") + func, handle,tr("Assignments"),&newData);
 				}
 				updateTable();
 		}
@@ -456,7 +472,9 @@ namespace Tinkercell
 					updatedFunctions << sDataTable->value(j,0);
 					updatedFunctionNames << sDataTable->rowName(j);
 
-					if (sDataTable->rowName(j) == itemHandles[i]->fullName() || sDataTable->rowName(j).isEmpty())
+					if (sDataTable->rowName(j) == itemHandles[i]->fullName() || 
+						sDataTable->rowName(j).toLower() == Self ||
+						sDataTable->rowName(j).isEmpty())
 					{
 						functions += itemHandles[i]->fullName() + tr(" = ") + (sDataTable->value(j,0));
 						assignmentVar = itemHandles[i]->fullName();
@@ -542,7 +560,7 @@ namespace Tinkercell
 
 		int n = tableWidget.rowCount();
 		tableWidget.insertRow(n);
-		tableWidget.setItem(n,0,new QTableWidgetItem(tr("enter function, e.g. f(x) = x^2 + 2*x or g = 1+sin(time)")));
+		tableWidget.setItem(n,0,new QTableWidgetItem(tr("enter function, e.g. f(x) = x^2 + 2*x or g = 1+sin(time) or simply 1+sin(time)")));
 		tableItems << lastItem;
 
 		connect(&tableWidget,SIGNAL(cellChanged(int,int)),this,SLOT(setValue(int,int)));
@@ -662,6 +680,9 @@ namespace Tinkercell
 						if (items[i]->name.isEmpty())
 							(*list) << s;
 						else
+						if (s == Self)
+							(*list) << items[i]->fullName(tr("_"));
+						else
 							(*list) << items[i]->fullName(tr("_")) + tr("_") + s;
 					}
 				}
@@ -727,6 +748,15 @@ namespace Tinkercell
 			QString s;
 			QString s0 = var;
 			
+			if (s0.startsWith(item->fullName() + tr("_")))
+				s0.remove(item->fullName() + tr("_"));
+			
+			if (s0.startsWith(item->fullName() + tr(".")))
+				s0.remove(item->fullName() + tr("."));
+			
+			if (s0 == item->fullName())
+				s0 = Self;
+
 			if (!item->name.isEmpty())
 				s0 = item->fullName() + tr(".") + s0;
 			
@@ -738,6 +768,7 @@ namespace Tinkercell
 				)
 				s = s0 + QString::number(++k);
 			
+			s.remove(item->fullName() + tr("."));
 			if (!dat.hasRow(s) || f != dat.value(s,0))
 			{
 				dat.value(s,0) = func;

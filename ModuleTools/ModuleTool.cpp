@@ -742,7 +742,7 @@ namespace Tinkercell
 					if (dir.exists())
 					{
 						dir.setFilter(QDir::Files);
-						dir.setSorting(QDir::Time);
+						dir.setSorting(QDir::Size | QDir::Reversed);
 						QFileInfoList list = dir.entryInfoList();
 				
 						if (!list.isEmpty())
@@ -1209,12 +1209,13 @@ namespace Tinkercell
 			}
 			
 			dir.setFilter(QDir::Files);
-			dir.setSorting(QDir::Time);
+			dir.setSorting(QDir::Size | QDir::Reversed);
 			QFileInfoList list = dir.entryInfoList();
 
 			for (int i = 0; i < list.size(); ++i)
 			{
 				QFileInfo fileInfo = list.at(i);
+				if (fileInfo.suffix().contains(tr("~"))) continue;
 				QToolButton * button = new QToolButton;
 				button->setToolButtonStyle ( Qt::ToolButtonTextUnderIcon );
 				QString base = fileInfo.baseName();

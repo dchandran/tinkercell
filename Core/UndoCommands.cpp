@@ -2269,9 +2269,9 @@ namespace Tinkercell
 				for (int j=0; j < keys.size(); ++j)  //go through each num data
 				{
 					nDat = &(handles[i]->numericalDataTable( keys[j] ));
-					for (int k=0; k < nDat->rows(); ++k)
+					/*for (int k=0; k < nDat->rows(); ++k)
 					{
-						/*if (nDat->rowName(k).contains(oldname))
+						if (nDat->rowName(k).contains(oldname))
 						{
 							s2 = nDat->rowName(k);
 							substituteString(s2,oldname,newname);
@@ -2283,13 +2283,13 @@ namespace Tinkercell
 								else
 									nDat->removeRow(k);
 							}
-						}*/
+						}
 
 						if (nDat->rowName(k) == oldname)
 						{				
 							nDat->setRowName(k,newname);
 						}
-					}
+					}*/
 					for (int k=0; k < nDat->columns(); ++k)
 					{
 						if (nDat->columnName(k) == oldname)
@@ -2314,9 +2314,9 @@ namespace Tinkercell
 				for (int j=0; j < keys.size(); ++j)  //go through each text data
 				{
 					sDat = &(handles[i]->textDataTable (keys[j]));
-					for (int k=0; k < sDat->rows(); ++k)
+					/*for (int k=0; k < sDat->rows(); ++k)
 					{
-						/*if (sDat->rowName(k).contains(oldname))
+						if (sDat->rowName(k).contains(oldname))
 						{
 							s2 = sDat->rowName(k);
 							substituteString(s2,oldname,newname);
@@ -2328,11 +2328,11 @@ namespace Tinkercell
 								else
 									sDat->removeRow(k);
 							}
-						}*/
+						}
 
 						if (sDat->rowName(k) == oldname)						
 							sDat->setRowName(k,newname);
-					}
+					}*/
 					for (int k=0; k < sDat->columns(); ++k)
 					{
 						if (sDat->columnName(k) == oldname)

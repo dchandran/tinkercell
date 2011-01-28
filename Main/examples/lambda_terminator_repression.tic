@@ -57,7 +57,7 @@
             <tc_table>
                 <Table key="text attributes" rows="2" cols="3" rowNames="sequence;;composite" columnNames="value;;min;;max" values="AAGCTGATGGCTAGAAT;;;;;;false;;;;"/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="assignments" rows="1" cols="1" rowNames="cod1" columnNames="rule" values="cp1.strength/(1+ter1)"/>
+                <Table key="assignments" rows="1" cols="1" rowNames="self" columnNames="rule" values="cp1.strength/(1+ter1)"/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
         </Handle>
@@ -70,7 +70,7 @@
             <tc_table>
                 <Table key="text attributes" rows="2" cols="3" rowNames="sequence;;composite" columnNames="value;;min;;max" values="AAGCTGATGGCTAGAAT;;;;;;false;;;;"/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="assignments" rows="1" cols="1" rowNames="cod2" columnNames="rule" values="cp1.strength * cp1"/>
+                <Table key="assignments" rows="1" cols="1" rowNames="self" columnNames="rule" values="cp1.strength * cp1"/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
         </Handle>

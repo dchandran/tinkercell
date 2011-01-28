@@ -370,7 +370,6 @@ namespace Tinkercell
 						moduleFamilyNames << childFamilies[i]->name();
 				}
 			
-				console()->message(moduleFamilyNames.join(";"));
 				if (!exportModuleDialog)
 					initializeExportDialog();
 			}

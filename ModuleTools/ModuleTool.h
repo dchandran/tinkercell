@@ -44,6 +44,7 @@
 #include <QButtonGroup>
 #include <QDockWidget>
 #include <QScrollArea>
+#include <QSplashScreen>
 
 #include "GraphicsScene.h"
 #include "NodeGraphicsItem.h"
@@ -99,7 +100,7 @@ namespace Tinkercell
 		Mode mode;
 
 		QGraphicsLineItem lineItem;
-		QDialog *	 newModuleDialog;
+		QDialog * newModuleDialog;
 		QDialog * exportModuleDialog;
 		QComboBox * modulesComboBox;
 		QLineEdit * moduleNameEdit;
@@ -124,7 +125,7 @@ namespace Tinkercell
 		void makeNewModule();
 		void initializeExportDialog();
 		QHash< ItemHandle *, QPixmap > moduleSnapshots;
-		QDialog * snapshotToolTip;
+		QSplashScreen * snapshotToolTip;
 		QToolButton * snapshotIcon;
 		
 		static ItemHandle * findCorrespondingHandle(NodeHandle*,ConnectionHandle*);

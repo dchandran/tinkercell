@@ -635,7 +635,8 @@ namespace Tinkercell
 		ConnectionGraphicsItem * item = new ConnectionGraphicsItem;
 		insertList += item;
 		
-		if (selectedFamily->graphicsItems.size() > 1 && selectedFamily->graphicsItems.last())
+		//center decorator
+		/*if (selectedFamily->graphicsItems.size() > 1 && selectedFamily->graphicsItems.last())
 		{
 			NodeGraphicsItem * node = NodeGraphicsItem::cast(selectedFamily->graphicsItems.last());
 			if (node && ArrowHeadItem::cast(node))
@@ -645,7 +646,7 @@ namespace Tinkercell
 					item->centerRegionItem->scale(node->defaultSize.width()/node->sceneBoundingRect().width(),node->defaultSize.height()/node->sceneBoundingRect().height());
 				insertList += item->centerRegionItem;
 			}
-		}
+		}*/
 
 		//making new connections
 		handle = new ConnectionHandle(selectedFamily,item);
@@ -953,6 +954,8 @@ namespace Tinkercell
 
 					ConnectionGraphicsItem * item = new ConnectionGraphicsItem;
 					
+					//center region decorator
+					/*
 					if (!createdCenterItem && selectedFamily->graphicsItems.size() > 1 && selectedFamily->graphicsItems.last())
 					{
 						NodeGraphicsItem * node0 = NodeGraphicsItem::cast(selectedFamily->graphicsItems.last());
@@ -963,7 +966,7 @@ namespace Tinkercell
 								node0->scale(node0->defaultSize.width()/node0->sceneBoundingRect().width(),node0->defaultSize.height()/node0->sceneBoundingRect().height());
 							insertList += item->centerRegionItem;
 						}
-					}
+					}*/
 					
 					//making new connections
 

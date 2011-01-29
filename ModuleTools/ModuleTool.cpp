@@ -163,7 +163,8 @@ namespace Tinkercell
 			}
 			
 			//module snapshot window
-			snapshotToolTip = new QDialog(mainWindow);
+			snapshotToolTip = new QSplashScreen(mainWindow);
+			snapshotToolTip->setPalette(QPalette(Qt::black));
 			snapshotToolTip->setFixedSize(256,256);
 			QRect rect = mainWindow->geometry();
 			snapshotToolTip->setGeometry (rect.right() - 280, rect.bottom() - 280, 256, 256 );
@@ -659,38 +660,6 @@ namespace Tinkercell
 	void ModuleTool::itemsAboutToBeInserted(GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>& commands)
 	{
 		if (!scene || !scene->network) return;
-
-		/*commands << moduleConnectionsInserted(items)
-				 << substituteStrings(handles);
-		
-		removeSubnetworks(items,handles);
-
-		ItemHandle * h1 = 0, * h2 = 0;
-
-		ConnectionGraphicsItem * connection = 0;
-		NodeGraphicsItem * node = 0;
-		QList<NodeGraphicsItem*> nodes;
-		QStringList oldNames, newNames;
-		QGraphicsItem* newLinker, * newLinkerText;
-		ItemHandle * nodeHandle;
-
-		for (int i=0; i < items.size(); ++i)
-		{
-			if ((connection = ConnectionGraphicsItem::cast(items[i])) && connection->className == connectionClassName)
-			{
-				nodes = connection->nodes();
-				if (nodes.size() == 2)
-				{
-					h1 = getHandle(nodes[0]);
-					h2 = getHandle(nodes[1]);
-					if (h1 && h2)
-					{
-						oldNames << h1->fullName();
-						newNames << h2->fullName();
-					}
-				}
-			}
-		}*/
 		
 		if (scene->localHandle())
 		{
@@ -726,6 +695,8 @@ namespace Tinkercell
 		}
 		
 		QList<ItemHandle*> visited;
+		
+		QList<ItemHandle*> modularConnections;
 
 		for (int i=0; i < handles.size(); ++i)
 			if (handles[i] && !visited.contains(handles[i]) && ConnectionFamily::cast(handles[i]->family()))
@@ -758,6 +729,7 @@ namespace Tinkercell
 				
 						if (!list.isEmpty())
 						{
+							modularConnections << handles[i];
 							bool loaded = false;
 							while (!loaded && !list.isEmpty())
 							{
@@ -787,6 +759,11 @@ namespace Tinkercell
 						}
 					}
 				}
+				else
+					if (!handles[i]->children.isEmpty())
+					{
+						modularConnections << handles[i];
+					}
 				
 				if (!items2.isEmpty())
 				{
@@ -814,6 +791,29 @@ namespace Tinkercell
 						}
 				}
 			}
+		
+		ConnectionGraphicsItem * connection = 0;
+		QList<QGraphicsItem*> items2 = items;
+		for (int i=0; i < items2.size(); ++i)
+			if (connection = ConnectionGraphicsItem::cast(items2[i]))
+			{
+				 if (modularConnections.contains(connection->handle()))
+				 {
+					QString filename = QCoreApplication::applicationDirPath() + tr("/icons/expand.xml");
+					if (QFile::exists(filename))
+					{
+						ArrowHeadItem * decorator = new ArrowHeadItem(filename,connection);
+						connection->centerRegionItem = decorator;
+						items += decorator;
+					}
+				 }
+				 else
+				 {
+						if (connection->centerRegionItem && items.contains(connection->centerRegionItem))
+							items.removeAll(connection->centerRegionItem);
+				 }
+			}
+				 
 	}
 
 	void ModuleTool::itemsAboutToBeRemoved(GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>& commands)
@@ -932,20 +932,30 @@ namespace Tinkercell
 				if (ch = ConnectionHandle::cast(modules[i]))
 				{
 					createNewWindow(ch,scene->network);
+					
 				}
 	    }
     }
 
     void ModuleTool::mouseMoved(GraphicsScene* scene, QGraphicsItem * hoverOverItem, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>& items)
     {
-		if (mainWindow && scene && hoverOverItem && snapshotToolTip)
+		if (mainWindow && scene && hoverOverItem && !TextGraphicsItem::cast(hoverOverItem) && snapshotToolTip)
 		{
 			ItemHandle * h = getHandle(hoverOverItem);
+			if (!h)
+			{
+				ArrowHeadItem * arrowHead = ArrowHeadItem::cast(hoverOverItem);
+				if (arrowHead)
+					h = getHandle(arrowHead->connectionItem);
+			}
+
 			ConnectionHandle * ch;
 			if (h && (ch = ConnectionHandle::cast(h)) && moduleSnapshots.contains(ch))
 			{
 				if (!snapshotIcon->isVisible())
 				{
+					QRect rect = mainWindow->geometry();
+					snapshotToolTip->setGeometry (rect.right() - 280, rect.bottom() - 280, 256, 256 );
 					snapshotIcon->setIcon(QIcon(moduleSnapshots[ch]));
 					snapshotIcon->setIconSize(QSize(256,256));
 					snapshotToolTip->show();
@@ -1147,9 +1157,13 @@ namespace Tinkercell
 				{
 					if (!items.isEmpty())
 					{
-						GraphicsScene * scene = window->newScene();
-						scene->insert(tr("new model"),items);
-						scene->fitAll();
+						GraphicsScene * newScene = window->newScene();
+						newScene->insert(tr("new model"),items);
+						newScene->fitAll();
+						QPixmap printer(256, 256);
+						printer.fill();
+						newScene->print(&printer);
+						moduleSnapshots[parentHandle] = printer;
 					}
 					else
 					{
@@ -1301,14 +1315,14 @@ namespace Tinkercell
 			for (int i=0; i < editors.size(); ++i)
 				if (editors[i]->localHandle() == chandle && !editors[i]->text().isEmpty())
 				{
-					editors[i]->popOut();
+					//editors[i]->popOut();
 					return;
 				}
 
 			for (int i=0; i < scenes.size(); ++i)
 				if (scenes[i]->localHandle() == chandle && !scenes[i]->items().isEmpty())
 				{
-					scenes[i]->popOut();
+					//scenes[i]->popOut();
 					return;
 				}
 
@@ -1365,8 +1379,7 @@ namespace Tinkercell
 							window->handle = chandle;	
 						}
 						newScene->insert(chandle->name + tr(" visible"),items);
-						QRectF rect = newScene->itemsBoundingRect();
-						QPixmap printer(512, (int)(512 * rect.height()/rect.width()));
+						QPixmap printer(256, 256);
 						printer.fill();
 						newScene->print(&printer);
 						moduleSnapshots[chandle] = printer;

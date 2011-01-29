@@ -810,7 +810,11 @@ namespace Tinkercell
 				 else
 				 {
 						if (connection->centerRegionItem && items.contains(connection->centerRegionItem))
+						{
+							connection->centerRegionItem = 0;
 							items.removeAll(connection->centerRegionItem);
+							delete connection->centerRegionItem;
+						}
 				 }
 			}
 				 

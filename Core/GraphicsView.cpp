@@ -82,7 +82,7 @@ namespace Tinkercell
 		//setOptimizationFlags(QGraphicsView::DontClipPainter | QGraphicsView::DontSavePainterState);
 
 		setMouseTracking (true);
-		setPalette(QPalette(QColor(255,255,255)));
+		setPalette(QPalette(GraphicsScene::BackgroundColor));
 		setAutoFillBackground(true);
 		setAcceptDrops(true);
 

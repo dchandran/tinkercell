@@ -45,7 +45,7 @@ TCAPIEXPORT tc_matrix tc_getParametersAndFixedVariables(tc_items a);
  \param int item in the model, e.g. something returned from tc_find
  \param string name of the attribute
  \return string attribute
- \ingroup Network data
+ \ingroup Annotation
 */
 TCAPIEXPORT const char* tc_getTextAttribute(long item,const char* attribute);
 /*! 
@@ -77,14 +77,14 @@ TCAPIEXPORT tc_matrix tc_getParametersExcept(tc_items a,tc_strings attributes);
  \param tc_items a list of items
  \param tc_strings a list of text attribute name that exists in each of the given items
  \return tc_strings the set of all text attribute values, one for each item in the input
- \ingroup Network data
+ \ingroup Annotation
 */
 TCAPIEXPORT tc_strings tc_getAllTextNamed(tc_items a,tc_strings attributes);
 /*! 
  \brief set text attribute for the given item
  \param int item in model
  \param string name of text attribute
- \ingroup Network data
+ \ingroup Annotation
 */
 TCAPIEXPORT void tc_setTextAttribute(long item,const char* attribute,const char* value);
 /*! 

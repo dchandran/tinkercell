@@ -37,7 +37,9 @@ namespace Tinkercell
 	static QString connectionClassName("module connection item");
 
     ModuleTool::ModuleTool() : Tool(tr("Module Connection Tool"),tr("Module tools")), 
-    	newModuleDialog(0), newModuleTable(0), newModuleName(0), connectionsTree(0), nodesTree(0), exportModuleDialog(0)
+    	newModuleDialog(0), newModuleTable(0), newModuleName(0), 
+		connectionsTree(0), nodesTree(0), exportModuleDialog(0), 
+		snapshotToolTip(0)
     {
         setPalette(QPalette(QColor(255,255,255,255)));
         setAutoFillBackground(true);
@@ -159,6 +161,16 @@ namespace Tinkercell
 			{
 				exportmenu->addAction(tr("share model"),this,SLOT(exportModule()));
 			}
+			
+			//module snapshot window
+			snapshotToolTip = new QDialog(mainWindow);
+			snapshotToolTip->setFixedSize(256,256);
+			QRect rect = mainWindow->geometry();
+			snapshotToolTip->setGeometry (rect.right() - 280, rect.bottom() - 280, 256, 256 );
+			QHBoxLayout * layout = new QHBoxLayout;
+			snapshotIcon = new QToolButton;
+			layout->addWidget(snapshotIcon);
+			snapshotToolTip->setLayout(layout);
         }
 
         return true;
@@ -871,14 +883,14 @@ namespace Tinkercell
 			for (int i=0; i < handles.size(); ++i)
 				if ((ch = ConnectionHandle::cast(handles[i])) && !handles[i]->children.isEmpty())
 				{
-					if (handles.size() == 1)
+					modules << handles[i];
+					/*if (handles.size() == 1)
 						for (int j=0; j < handles[i]->graphicsItems.size(); ++j)
 							if ((c = ConnectionGraphicsItem::cast(handles[i]->graphicsItems[j])) && (c->scene() == scene))
 							{
 								scene->showToolTip(c->centerLocation(),handles[i]->name + tr(" contains a model inside"));
 								break;
 							}
-					modules << handles[i];
 
 					QList<QGraphicsItem*> items2;	
 					
@@ -892,7 +904,7 @@ namespace Tinkercell
 					for (int j=0; j < children.size(); ++j)
 						items2 << children[j]->graphicsItems;
 						
-					QString groupName = handles[i]->name;
+					QString groupName = handles[i]->name;*/
 				}
 
 			for (int i=0; i < modules.size(); ++i)
@@ -915,12 +927,37 @@ namespace Tinkercell
 			{
 				network->push( new CompositeCommand(tr("merged models by roles"),commands) );
 			}
+			
+			for (int i=0; i < modules.size(); ++i)
+				if (ch = ConnectionHandle::cast(modules[i]))
+				{
+					createNewWindow(ch,scene->network);
+				}
 	    }
     }
 
-    void ModuleTool::mouseMoved(GraphicsScene* scene, QGraphicsItem*, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>& items)
+    void ModuleTool::mouseMoved(GraphicsScene* scene, QGraphicsItem * hoverOverItem, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>& items)
     {
-        if (mode == connecting && scene && selectedItems.size() == 1 && selectedItems[0])
+		if (mainWindow && scene && hoverOverItem && snapshotToolTip)
+		{
+			ItemHandle * h = getHandle(hoverOverItem);
+			ConnectionHandle * ch;
+			if (h && (ch = ConnectionHandle::cast(h)) && moduleSnapshots.contains(ch))
+			{
+				if (!snapshotIcon->isVisible())
+				{
+					snapshotIcon->setIcon(QIcon(moduleSnapshots[ch]));
+					snapshotIcon->setIconSize(QSize(256,256));
+					snapshotToolTip->show();
+				}
+			}
+		}
+		else
+		{
+			if (snapshotToolTip && snapshotToolTip->isVisible())
+				snapshotToolTip->hide();
+		}
+       /*if (mode == connecting && scene && selectedItems.size() == 1 && selectedItems[0])
         {
             if (lineItem.scene() != scene)
                 scene->addItem(&lineItem);
@@ -930,7 +967,7 @@ namespace Tinkercell
 
             lineItem.setLine(QLineF(selectedItems[0]->scenePos(),point));
             return;
-        }
+        }*/
     }
 
     QList<QPointF> ModuleTool::pathAroundRect(QRectF rect1, QRectF rect2, QPointF p1, QPointF p2)
@@ -1254,6 +1291,107 @@ namespace Tinkercell
 		return dock;
 	}
 	
+	void ModuleTool::createNewWindow(ConnectionHandle * chandle, NetworkHandle * network)
+	{
+		if (chandle && chandle->family() && !chandle->children.isEmpty() && network)
+		{
+			QList<TextEditor*> editors = network->editors();
+			QList<GraphicsScene*> scenes = network->scenes();
+
+			for (int i=0; i < editors.size(); ++i)
+				if (editors[i]->localHandle() == chandle && !editors[i]->text().isEmpty())
+				{
+					editors[i]->popOut();
+					return;
+				}
+
+			for (int i=0; i < scenes.size(); ++i)
+				if (scenes[i]->localHandle() == chandle && !scenes[i]->items().isEmpty())
+				{
+					scenes[i]->popOut();
+					return;
+				}
+
+			ItemFamily * family = chandle->family();
+			QList<ItemFamily*> children = family->children();
+			QStringList familynames;
+			familynames << family->name();
+			for (int i=0; i < children.size(); ++i)
+				familynames << children[i]->name();
+			
+			QDockWidget * dock = makeDockWidget(familynames);
+			if (dock)
+			{
+				if (!chandle->children.isEmpty())
+				{
+					ConnectionGraphicsItem * connection;
+					NodeGraphicsItem * node;
+					TextGraphicsItem * text;
+					QString groupID = chandle->name;
+					QList<QGraphicsItem*> items, items2;
+					for (int i=0; i < chandle->children.size(); ++i)
+						if (chandle->children[i])
+							items2 << chandle->children[i]->graphicsItems;
+					
+					QList<NodeHandle*> nodes = chandle->nodes();
+					for (int i=0; i < nodes.size(); ++i)
+						if (nodes[i])
+							items2 << nodes[i]->graphicsItems;
+					
+					for (int j=0; j < items2.size(); ++j)
+						if (!items2[j]->scene() &&
+							(
+								( (connection = ConnectionGraphicsItem::cast(items2[j])) &&
+									(groupID == connection->groupID))
+								||
+								( (node = NodeGraphicsItem::cast(items2[j]))  &&
+									(groupID  ==  node->groupID))
+								||	
+								( (text = TextGraphicsItem::cast(items2[j]))  &&
+									(groupID == text->groupID))
+							))
+							{
+								items << items2[j];
+							}
+
+					NetworkWindow * window = 0;
+					if (!items.isEmpty())
+					{
+						GraphicsScene * newScene = network->createScene();
+						window = newScene->networkWindow;
+						if (window)
+						{
+							window->addDockWidget(Qt::TopDockWidgetArea,dock);
+							window->handle = chandle;	
+						}
+						newScene->insert(chandle->name + tr(" visible"),items);
+						QRectF rect = newScene->itemsBoundingRect();
+						QPixmap printer(512, (int)(512 * rect.height()/rect.width()));
+						printer.fill();
+						newScene->print(&printer);
+						moduleSnapshots[chandle] = printer;
+					}
+					else
+					{
+						QString modelText;
+						emit getTextVersion(chandle->children, &modelText);
+						TextEditor * newEditor = network->createTextEditor(modelText);	
+						window = newEditor->networkWindow;
+						if (window)
+						{
+							window->addDockWidget(Qt::TopDockWidgetArea,dock);
+							window->handle = chandle;	
+						}
+						newEditor->insert(chandle->children);
+					}
+					
+					if (!window)
+						delete dock;
+				}
+			}
+		}
+	}
+	
 	void ModuleTool::keyPressed(GraphicsScene* scene,QKeyEvent * keyEvent)
 	{
 		if (!keyEvent || keyEvent->modifiers() || !scene || !scene->useDefaultBehavior) return;
@@ -1307,82 +1445,6 @@ namespace Tinkercell
 					scenes[i]->popOut();
 					return;
 				}
-
-			ItemFamily * family = handle->family();
-			QList<ItemFamily*> children = family->children();
-			QStringList familynames;
-			familynames << family->name();
-			for (int i=0; i < children.size(); ++i)
-				familynames << children[i]->name();
-			
-			QDockWidget * dock = makeDockWidget(familynames);
-			if (dock)
-			{
-				if (!handle->children.isEmpty())
-				{
-					ConnectionGraphicsItem * connection;
-					NodeGraphicsItem * node;
-					TextGraphicsItem * text;
-					QString groupID = handle->name;
-					QList<QGraphicsItem*> items, items2;
-					for (int i=0; i < handle->children.size(); ++i)
-						if (handle->children[i])
-							items2 << handle->children[i]->graphicsItems;
-					
-					QList<NodeHandle*> nodes = chandle->nodes();
-					for (int i=0; i < nodes.size(); ++i)
-						if (nodes[i])
-							items2 << nodes[i]->graphicsItems;
-					
-					for (int j=0; j < items2.size(); ++j)
-						if (!items2[j]->scene() &&
-							(
-								( (connection = ConnectionGraphicsItem::cast(items2[j])) &&
-									(groupID == connection->groupID))
-								||
-								( (node = NodeGraphicsItem::cast(items2[j]))  &&
-									(groupID  ==  node->groupID))
-								||	
-								( (text = TextGraphicsItem::cast(items2[j]))  &&
-									(groupID == text->groupID))
-							))
-							{
-								items << items2[j];
-							}
-				
-					
-					NetworkHandle * network = scene->network;
-					NetworkWindow * window = 0;
-					if (!items.isEmpty())
-					{
-						GraphicsScene * newScene = network->createScene();
-						window = newScene->networkWindow;
-						if (window)
-						{
-							window->addDockWidget(Qt::TopDockWidgetArea,dock);
-							window->handle = handle;	
-						}
-						newScene->insert(handle->name + tr(" visible"),items);
-						newScene->fitAll();
-					}
-					else
-					{
-						QString modelText;
-						emit getTextVersion(handle->children, &modelText);
-						TextEditor * newEditor = network->createTextEditor(modelText);	
-						window = newEditor->networkWindow;
-						if (window)
-						{
-							window->addDockWidget(Qt::TopDockWidgetArea,dock);
-							window->handle = handle;	
-						}
-						newEditor->insert(handle->children);
-					}
-					
-					if (!window)
-						delete dock;
-				}
-			}
 		}
     }
 

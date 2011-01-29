@@ -78,8 +78,10 @@ namespace Tinkercell
 		static QPen SelectionRectanglePen;
 		/*! \brief brush that is used to color the selection rectangle*/
 		static QBrush SelectionRectangleBrush;
-		/*! \brief brush used to draw the background for the scene*/
+		/*! \brief brush used to draw the background for all scenes*/
 		static QBrush BackgroundBrush;
+		/*! \brief background color for all scenes*/
+		static QColor BackgroundColor;
 		/*! \brief pen used to draw the grid for the scene*/
 		static QPen GridPen;
 		/*! \brief brush used to draw the foreground for the scene*/
@@ -118,7 +120,7 @@ namespace Tinkercell
 		/*! \brief Returns the currently visible window from the current graphics view
 		* \param void
 		* \return QRectF rectangle*/
-		virtual QRectF viewport() const;
+		virtual QRectF visibleRegion() const;
 		/*! \brief set the background image for the scene*/
 		virtual void setBackground(const QPixmap&) const;
 		/*! \brief set the foreground image for the scene*/
@@ -182,7 +184,7 @@ namespace Tinkercell
 		* \param QPaintDevice * printer
 		* \param  QRectF region to print
 		* \return void */
-		virtual void print(QPaintDevice* printer,const QRectF& rect = QRectF()) const;
+		virtual void print(QPaintDevice* printer,const QRectF& rect = QRectF());
 		/*! \brief select one item (does not deselect other items)
 		* \param QGraphicsItem* item to select
 		* \return void*/

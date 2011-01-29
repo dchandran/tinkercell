@@ -601,42 +601,64 @@ namespace Tinkercell
 	void MainWindow::printToFile()
 	{
 		GraphicsScene * scene = currentScene();
-		if (!scene) return;
+		TextEditor * textEditor = 0;
+		if (!scene)
+		{
+			textEditor = currentTextEditor();
+			if (!textEditor) return;
+		}
 
 		QString def = previousFileName;
 		def.replace(QRegExp("\\..*$"),tr(""));
-
+		
+		QString fileTypes;
+		if (scene)
+			fileTypes = tr("PDF Files (*.pdf *.PDF)");
+		else
+			fileTypes = tr("TXT Files(*.txt *.TXT)");
+		
 		QString fileName =
 			QFileDialog::getSaveFileName(this, tr("Print to File"),
 			def,
-			tr("PDF Files (*.pdf *.PDF)"));
-			//tr("PNG Files (*.png *.PNG)"));
+			fileTypes);
 		if (fileName.isEmpty())
 			return;
 
 		previousFileName = fileName;
+		if (textEditor)
+		{
+			QFile file(fileName);
+			if (file.open(QIODevice::WriteOnly | QIODevice::Text))
+			{
+				file.write(textEditor->text().toAscii());
+				file.close();
+			}
+			return;
+		}
 
-
-		/*QPrinter printer(QPrinter::HighResolution);
+		QPrinter printer(QPrinter::HighResolution);
 		//printer.setResolution(300);
 		printer.setOutputFormat(QPrinter::PdfFormat);
 		printer.setOrientation(QPrinter::Landscape);
-		//printer.setPageSize(QPrinter::A4);
-		printer.setPageSize(QPrinter::B0);
+		printer.setPageSize(QPrinter::A4);
+		//printer.setPageSize(QPrinter::B0);
 		printer.setOutputFileName(fileName);
-		scene->print(&printer);*/
+		scene->print(&printer);
 		
 		/*
 		QSvgGenerator printer;
 		printer.setFileName(fileName);
 		*/
 
-		QRectF viewport = scene->viewport();
-		int w = 2048;
+		/*QRectF viewport = scene->visibleRegion();
+		int w = 512;
 		int h = (int)(viewport.height() * w/viewport.width());
-		QImage printer(w,h,QImage::Format_ARGB32);
-		scene->print(&printer);
-		printer.save(fileName,"png");
+		QPixmap printer(w,h);//,QImage::Format_ARGB32);
+		QPainter painter(&printer);
+		painter.setBackground(QBrush(Qt::white));
+		painter.setRenderHint(QPainter::Antialiasing);
+		scene->render(&painter, QRectF(), scene->itemsBoundingRect());
+		printer.save(fileName,"png");*/
 	}
 	
 	void MainWindow::addToViewMenu(QWidget * widget)
@@ -704,14 +726,33 @@ namespace Tinkercell
 	Tool * MainWindow::tool(const QString& s0) const
 	{
 		QString s = s0.toLower();
+		Tool * p = 0;
 		if (toolsHash.contains(s))
-			return toolsHash.value(s);
-		return 0;
+			p = toolsHash.value(s);
+		else
+		if (toolsHashByCategory.contains(s))
+		{
+			QList<Tool*> list = toolsHashByCategory.values(s);
+			for (int i=0; i < list.size(); ++i)
+				if (list[i])
+				{
+					p = list[i];
+					break;
+				}
+		}
+		return p;
 	}
 
-	QList<Tool*> MainWindow::tools() const
+	QList<Tool*> MainWindow::tools(const QString& cat) const
 	{
-		return toolsHash.values();
+		QList<Tool*> list;
+		if (!cat.isNull() && !cat.isEmpty() && toolsHashByCategory.contains(cat))
+			list = toolsHashByCategory.values(cat);
+		
+		if (list.isEmpty())
+			list = toolsHash.values();
+		
+		return list;
 	}
 
 	void MainWindow::addTool(Tool * tool)

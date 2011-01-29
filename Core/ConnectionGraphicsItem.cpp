@@ -139,7 +139,7 @@ namespace Tinkercell
 
 
 	/*! Constructor: initialize everything */
-	ConnectionGraphicsItem::ConnectionGraphicsItem(QGraphicsItem * parent) : QGraphicsPathItem (parent), itemHandle(0)
+	ConnectionGraphicsItem::ConnectionGraphicsItem(QGraphicsItem * parent) : QGraphicsItemGroup (parent), itemHandle(0)
 	{
 		setCacheMode(QGraphicsItem::DeviceCoordinateCache);
 		setFlag(QGraphicsItem::ItemIsMovable, false);
@@ -152,13 +152,21 @@ namespace Tinkercell
 		centerRegion = QSizeF(20,20);
 		defaultPen = QPen(QColor(50,50,255,255),5.0);
 		defaultPen.setJoinStyle(Qt::RoundJoin);
-		setPen(defaultPen);
-		setBrush(defaultBrush = Qt::NoBrush);
+		
 		boundaryPathItem = new QGraphicsPathItem(this);
-
 		boundaryPathItem->setVisible(false);
 		boundaryPathItem->setPen(QPen(QColor(255,150,150,150),4.0,Qt::DotLine));
 		boundaryPathItem->setBrush(Qt::NoBrush);
+		
+		outerPathItem = new QGraphicsPathItem(this);
+		outerPathItem->setVisible(true);
+		outerPathItem->setPen(QPen(GraphicsScene::BackgroundColor,6.0,Qt::SolidLine));
+		outerPathItem->setBrush(Qt::NoBrush);
+		
+		mainPathItem = new QGraphicsPathItem(this);
+		mainPathItem->setVisible(true);
+		mainPathItem->setPen(defaultPen);
+		mainPathItem->setBrush(Qt::NoBrush);
 
 		/*ArrowHeadItem * node = new ArrowHeadItem;
 		node->connectionItem = this;
@@ -173,7 +181,7 @@ namespace Tinkercell
 	}
 
 	/*! Copy Constructor: deep copy of all pointers */
-	ConnectionGraphicsItem::ConnectionGraphicsItem(const ConnectionGraphicsItem& copy) : QGraphicsPathItem ()
+	ConnectionGraphicsItem::ConnectionGraphicsItem(const ConnectionGraphicsItem& copy) : QGraphicsItemGroup ()
 	{
 		setFlag(QGraphicsItem::ItemIsMovable, false);
 		setFlag(QGraphicsItem::ItemIsSelectable, false);
@@ -182,11 +190,23 @@ namespace Tinkercell
 		className = copy.className;
 		groupID = copy.groupID;
 		centerRegionItem = 0;
+		
+		defaultPen = copy.defaultPen;
 
 		boundaryPathItem = new QGraphicsPathItem(this);
 		boundaryPathItem->setVisible(false);
 		boundaryPathItem->setPen(QPen(QColor(255,150,150,150),4.0,Qt::DotLine));
 		boundaryPathItem->setBrush(Qt::NoBrush);
+		
+		outerPathItem = new QGraphicsPathItem(this);
+		outerPathItem->setVisible(true);
+		outerPathItem->setPen(QPen(GraphicsScene::BackgroundColor,6.0,Qt::SolidLine));
+		outerPathItem->setBrush(Qt::NoBrush);
+		
+		mainPathItem = new QGraphicsPathItem(this);
+		mainPathItem->setVisible(true);
+		mainPathItem->setPen(defaultPen);
+		mainPathItem->setBrush(Qt::NoBrush);
 
 		if (copy.centerRegionItem)
 		{
@@ -204,8 +224,6 @@ namespace Tinkercell
 		curveSegments = copy.curveSegments;
 		lineType = copy.lineType;
 		arrowHeadDistance = copy.arrowHeadDistance;
-		setPen(defaultPen = copy.defaultPen);
-		setBrush(defaultBrush = copy.defaultBrush);
 		setPos(copy.scenePos());
 		setTransform(copy.sceneTransform());
 
@@ -290,11 +308,6 @@ namespace Tinkercell
 	ConnectionGraphicsItem& ConnectionGraphicsItem::operator = (const ConnectionGraphicsItem& copy)
 	{
 		clear(true);
-		//className = copy.className;
-
-		//boundaryPathItem = new QGraphicsPathItem(this);
-		//boundaryPathItem->setVisible(false);
-		//boundaryPathItem->setPen(QPen(QColor(255,150,150,150),2.5,Qt::DotLine));
 
 		if (copy.centerRegionItem)
 		{
@@ -311,15 +324,6 @@ namespace Tinkercell
 		}
 		else
 		{
-			/*ArrowHeadItem * node = new ArrowHeadItem;
-			node->connectionItem = this;
-			NodeGraphicsReader imageReader;
-			imageReader.readXml(node,DefaultMiddleItemFile);
-			if (node->isValid())
-			{
-				node->normalize();
-				node->scale(5.0/node->sceneBoundingRect().height(),5.0/node->sceneBoundingRect().height());
-			}*/
 			centerRegionItem = 0;
 		}
 		centerRegion = copy.centerRegion;
@@ -332,7 +336,12 @@ namespace Tinkercell
 		curveSegments = copy.curveSegments;
 		lineType = copy.lineType;
 		arrowHeadDistance = copy.arrowHeadDistance;
-		setPen(defaultPen = copy.defaultPen);
+		if (mainPathItem && outerPathItem)
+		{
+			mainPathItem->setPen(defaultPen = copy.defaultPen);
+			outerPathItem->setPen( QPen(QBrush(defaultPen.color()), defaultPen.widthF() + 1.0 ) );
+		}
+
 		setPos(copy.scenePos());
 		setTransform(copy.sceneTransform());
 
@@ -405,6 +414,44 @@ namespace Tinkercell
 			}
 			return *this;
 	}
+	
+	 QPen ConnectionGraphicsItem::pen() const
+	 {
+		if (mainPathItem)
+			return mainPathItem->pen();
+		else
+			return QPen();
+	 }
+	
+	void ConnectionGraphicsItem::setPen(QPen pen, bool permanent)
+	{
+		if (permanent)
+			defaultPen = pen;
+		if (mainPathItem)
+			mainPathItem->setPen(pen);
+	}
+	
+	void ConnectionGraphicsItem::setPath(const QPainterPath& path)
+	{
+		if (mainPathItem && outerPathItem)
+		{
+			QPen pen = mainPathItem->pen();
+
+			if (pen.style() == Qt::SolidLine)
+			{
+				mainPathItem->setPath(this->pathShape);
+				outerPathItem->setPath(this->pathShape);
+			}
+			else
+			{
+				mainPathItem->setPath(path);
+				outerPathItem->setPath(path);
+			}
+
+			outerPathItem->setPen( QPen( QBrush(GraphicsScene::BackgroundColor), pen.widthF() + 2.0 ));
+		}
+	}
+	
 	/*! operator =: copy just the control point positions and pen */
 	ConnectionGraphicsItem& ConnectionGraphicsItem::copyPoints (const ConnectionGraphicsItem& copy)
 	{
@@ -443,21 +490,20 @@ namespace Tinkercell
 		return (curveSegments.size() > 0);
 	}
 
-	/*! \brief paint method. Call's parent's paint after setting antialiasing to true*/
+	/*
 	void ConnectionGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,QWidget *widget)
 	{
 		//painter->setClipRect( option->exposedRect );
-
 		//refresh();
 
 		painter->setBrush(Qt::NoBrush);
-		painter->setPen(QPen(QColor(255,255,255,255),pen().width()+4));
+		painter->setPen(QPen(GraphicsScene::BackgroundColor,pen().width()+4));
 		painter->drawPath(path());//this->pathShape);
 
 		painter->setBrush(brush());
 		painter->setPen(pen());
 		painter->drawPath(path());//this->pathShape);
-	}
+	}*/
 
 	/*! \brief Constructor: Setup colors and z value */
 	ConnectionGraphicsItem::ControlPoint::ControlPoint(ConnectionGraphicsItem * reaction_ptr, QGraphicsItem * parent) :
@@ -1079,9 +1125,15 @@ namespace Tinkercell
 						boundary.lineTo(curveSegments[i][j]->scenePos());
 			}
 		}
-		boundaryPathItem->setPath(boundary);
-		boundaryPathItem->setZValue(zValue() - 0.02);
-		boundaryPathItem->update();
+		
+		if (boundaryPathItem && mainPathItem && outerPathItem)
+		{
+			boundaryPathItem->setPath(boundary);
+			boundaryPathItem->update();
+			outerPathItem->setZValue(0.1);
+			boundaryPathItem->setZValue(0.5);
+			mainPathItem->setZValue(1.0);
+		}
 	}
 
 	/*! \brief Clear all shapes and control points
@@ -1151,8 +1203,10 @@ namespace Tinkercell
 	/*! \brief find slope at the given point (or closest point)*/
 	qreal ConnectionGraphicsItem::slopeAtPoint(const QPointF& point)
 	{
+		if (!mainPathItem) return 0.0;
+
 		qreal percent = 1, dpercent = 1;
-		QPainterPath path = this->path();
+		QPainterPath path = mainPathItem->path();
 		QPointF p1 = path.pointAtPercent(0), p2;
 
 		while (percent < 100)
@@ -1848,7 +1902,7 @@ namespace Tinkercell
 	}
 
 	ConnectionGraphicsItem::ConnectionGraphicsItem(const QList<NodeGraphicsItem*>& from, const QList<NodeGraphicsItem*>& to, QGraphicsItem * parent) :
-		QGraphicsPathItem (parent), itemHandle(0)
+		QGraphicsItemGroup (parent), itemHandle(0)
 	{
 		setCacheMode(QGraphicsItem::DeviceCoordinateCache);
 		setFlag(QGraphicsItem::ItemIsMovable, false);
@@ -1860,15 +1914,27 @@ namespace Tinkercell
 		arrowHeadDistance = 10.0;
 		centerRegionItem = 0;
 		centerRegion = QSizeF(20,20);
-		defaultPen = QPen(QColor(50,50,255,255),5.0);
+		defaultPen = QPen(QColor(50,50,255,255),5.0,Qt::SolidLine);
 		defaultPen.setJoinStyle(Qt::RoundJoin);
-		setPen(defaultPen);
-		setBrush(defaultBrush = Qt::NoBrush);
-		boundaryPathItem = new QGraphicsPathItem(this);
-
+		
+		boundaryPathItem = new QGraphicsPathItem(this);		
 		boundaryPathItem->setVisible(false);
 		boundaryPathItem->setPen(QPen(QColor(255,150,150,150),4.0,Qt::DotLine));
 		boundaryPathItem->setBrush(Qt::NoBrush);
+		
+		outerPathItem = new QGraphicsPathItem(this);
+		outerPathItem->setVisible(true);
+		outerPathItem->setPen(QPen(GraphicsScene::BackgroundColor,6.0,Qt::SolidLine));
+		outerPathItem->setBrush(Qt::NoBrush);
+		
+		mainPathItem = new QGraphicsPathItem(this);
+		mainPathItem->setVisible(true);
+		mainPathItem->setPen(defaultPen);
+		mainPathItem->setBrush(Qt::NoBrush);
+		
+		addToGroup(boundaryPathItem);
+		addToGroup(outerPathItem);
+		addToGroup(mainPathItem);
 
 		NodeGraphicsReader imageReader;
 		/*ArrowHeadItem * node = new ArrowHeadItem;
@@ -1911,7 +1977,7 @@ namespace Tinkercell
 			if (to[i])
 			{
 				CurveSegment cv;
-				cv 	<< new ControlPoint(to[i]->scenePos(),this,to[i])
+				cv << new ControlPoint(to[i]->scenePos(),this,to[i])
 					<< new ControlPoint((to[i]->scenePos() + center)/2.0,this,0)
 					<< new ControlPoint((to[i]->scenePos() + center)/2.0,this,0)
 					<< centerPoint;

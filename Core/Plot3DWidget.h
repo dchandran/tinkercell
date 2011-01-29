@@ -25,7 +25,8 @@ namespace Tinkercell
 	class PlotWidget;
 
 	/*!
-	\brief A widget containing a data plot, legend and options
+	\brief A widget that uses qwtplot3D to draw surface plots
+	\ingroup plugins
 	*/
 	class TINKERCELLEXPORT Plot3DWidget : public PlotWidget
 	{

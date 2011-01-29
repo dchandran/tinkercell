@@ -750,7 +750,7 @@ namespace Tinkercell
 		
 		if (graphicsScene && graphicsScene->network == network)
 		{
-			network->showScene(graphicsScene);
+			//network->showScene(graphicsScene);
 			QStringList newNames, oldNames, usedNames;
 			QList<ItemHandle*> nameChangeHandles = network->handles();
 			QString s0,s1;
@@ -1417,7 +1417,7 @@ namespace Tinkercell
 			if (connection != 0)
 			{
 				graphicsItems.append(connection);
-				oldBrush.append(connection->defaultBrush);
+				oldBrush.append(QBrush(connection->defaultPen.color()));
 			}
 			else
 				if (controlPoint != 0)
@@ -1456,7 +1456,7 @@ namespace Tinkercell
 				if (connection != 0)
 				{
 					graphicsItems.append(connection);
-					oldBrush.append(connection->defaultBrush);
+					oldBrush.append(QBrush(connection->defaultPen.color()));
 				}
 				else
 					if (controlPoint != 0)
@@ -1487,7 +1487,8 @@ namespace Tinkercell
 				shape->setBrush( shape->defaultBrush = newBrush[i] );
 			else
 				if (connection != 0)
-					connection->setBrush( connection->defaultBrush = newBrush[i] );
+					connection->setPen( connection->defaultPen = QPen(newBrush[i], connection->defaultPen.widthF()) );
+					//connection->setBrush( connection->defaultBrush = newBrush[i] );
 				else
 					if (controlPoint != 0)
 						controlPoint->setBrush( controlPoint->defaultBrush = newBrush[i] );
@@ -1510,7 +1511,8 @@ namespace Tinkercell
 				shape->setBrush( shape->defaultBrush = oldBrush[i] );
 			else
 				if (connection != 0)
-					connection->setBrush( connection->defaultBrush = oldBrush[i] );
+					connection->setPen( connection->defaultPen = QPen(oldBrush[i], connection->defaultPen.widthF()) );
+					//connection->setBrush( connection->defaultBrush = oldBrush[i] );
 				else
 					if (controlPoint != 0)
 						controlPoint->setBrush( controlPoint->defaultBrush = oldBrush[i] );

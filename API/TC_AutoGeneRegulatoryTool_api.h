@@ -29,6 +29,12 @@ TCAPIEXPORT tc_items tc_partsDownstream(long o);
  \ingroup Get and set position
 */
 TCAPIEXPORT void tc_alignParts(tc_items a);
+/*! 
+ \brief Align the given DNA parts in the order given
+ \param tc_items a list of items
+ \ingroup Annotation
+*/
+TCAPIEXPORT void tc_setSequence(long o, const char * );
 
 /*! 
  \brief initialize auto-gene regulatory plugin C API

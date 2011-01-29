@@ -10553,6 +10553,40 @@ fail:
 }
 
 
+static octave_value_list _wrap_tc_setSequence (const octave_value_list& args, int nargout) {
+  long arg1 ;
+  char *arg2 = (char *) 0 ;
+  long val1 ;
+  int ecode1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  
+  if (!SWIG_check_num_args("tc_setSequence",args.length(),2,2,0)) {
+    SWIG_fail;
+  }
+  ecode1 = SWIG_AsVal_long(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setSequence" "', argument " "1"" of type '" "long""'");
+  } 
+  arg1 = (long)(val1);
+  res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setSequence" "', argument " "2"" of type '" "char const *""'");
+  }
+  arg2 = (char *)(buf2);
+  tc_setSequence(arg1,(char const *)arg2);
+  _outv = octave_value();
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
+fail:
+  return _out;
+}
+
+
 static octave_value_list _wrap_tc_AutoGeneRegulatoryTool_api (const octave_value_list& args, int nargout) {
   tc_items (*arg1)(long) = (tc_items (*)(long)) 0 ;
   tc_items (*arg2)(long) = (tc_items (*)(long)) 0 ;
@@ -11581,6 +11615,7 @@ static const struct swig_octave_member swig_globals[] = {
 {"tc_partsUpstream",_wrap_tc_partsUpstream,0,0,2,0},
 {"tc_partsDownstream",_wrap_tc_partsDownstream,0,0,2,0},
 {"tc_alignParts",_wrap_tc_alignParts,0,0,2,0},
+{"tc_setSequence",_wrap_tc_setSequence,0,0,2,0},
 {"tc_AutoGeneRegulatoryTool_api",_wrap_tc_AutoGeneRegulatoryTool_api,0,0,2,0},
 {"tc_exportSBML",_wrap_tc_exportSBML,0,0,2,0},
 {"tc_importSBML",_wrap_tc_importSBML,0,0,2,0},

@@ -945,6 +945,10 @@ def tc_alignParts(*args):
   return _tinkercell.tc_alignParts(*args)
 tc_alignParts = _tinkercell.tc_alignParts
 
+def tc_setSequence(*args):
+  return _tinkercell.tc_setSequence(*args)
+tc_setSequence = _tinkercell.tc_setSequence
+
 def tc_AutoGeneRegulatoryTool_api(*args):
   return _tinkercell.tc_AutoGeneRegulatoryTool_api(*args)
 tc_AutoGeneRegulatoryTool_api = _tinkercell.tc_AutoGeneRegulatoryTool_api

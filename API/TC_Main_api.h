@@ -310,7 +310,7 @@ TCAPIEXPORT long tc_getParent(long o);
  \param int address of item. use 0 for the model item
  \param string name of numerical data table
  \return tc_matrix the numerical data table for the given item
- \ingroup Network data
+ \ingroup Data
 */
 TCAPIEXPORT tc_matrix tc_getNumericalData(long item,const char* data);
 
@@ -319,7 +319,7 @@ TCAPIEXPORT tc_matrix tc_getNumericalData(long item,const char* data);
  \param int address of item. use 0 for the model item
  \param string name of numerical data table
  \param tc_matrix the new numerical data table for the given item
- \ingroup Network data
+ \ingroup Data
 */
 TCAPIEXPORT void tc_setNumericalData(long o,const char* title,tc_matrix data);
 
@@ -328,7 +328,7 @@ TCAPIEXPORT void tc_setNumericalData(long o,const char* title,tc_matrix data);
  \param int address of item. use 0 for the model item
  \param string name of text data table
  \return tc_table the text data table for the given item
- \ingroup Network data
+ \ingroup Data
 */
 TCAPIEXPORT tc_table tc_getTextData(long item,const char* data);
 
@@ -337,7 +337,7 @@ TCAPIEXPORT tc_table tc_getTextData(long item,const char* data);
  \param int address of item. use 0 for the model item
  \param string name of text data table
  \return tc_table the new text data table for the given item
- \ingroup Network data
+ \ingroup Data
 */
 TCAPIEXPORT void tc_setTextData(long o,const char* title,tc_table data);
 
@@ -345,7 +345,7 @@ TCAPIEXPORT void tc_setTextData(long o,const char* title,tc_table data);
  \brief get all the numeric data table names for the given item
  \param int address of item. use 0 for the model item
  \return tc_string list of names of all numerical tables inside this item
- \ingroup Network data
+ \ingroup Data
 */
 TCAPIEXPORT tc_strings tc_getNumericalDataNames(long o);
 
@@ -353,7 +353,7 @@ TCAPIEXPORT tc_strings tc_getNumericalDataNames(long o);
  \brief get all the text data table names for the given item
  \param int address of item. use 0 for the model item
  \return tc_string list of names of all text tables inside this item
- \ingroup Network data
+ \ingroup Data
 */
 TCAPIEXPORT tc_strings tc_getTextDataNames(long o);
 

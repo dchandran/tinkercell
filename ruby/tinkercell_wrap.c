@@ -1928,7 +1928,7 @@ SWIG_ruby_failed(void)
 } 
 
 
-/*@SWIG:/usr/share/swig1.3/ruby/rubyprimtypes.swg,23,%ruby_aux_method@*/
+/*@SWIG:C:\\Swig\\Lib\\ruby\\rubyprimtypes.swg,23,%ruby_aux_method@*/
 SWIGINTERN VALUE SWIG_AUX_NUM2LONG(VALUE *args)
 {
   VALUE obj = args[0];
@@ -1986,7 +1986,7 @@ SWIG_From_int  (int value)
   #define SWIG_From_double   rb_float_new 
 
 
-/*@SWIG:/usr/share/swig1.3/ruby/rubyprimtypes.swg,23,%ruby_aux_method@*/
+/*@SWIG:C:\\Swig\\Lib\\ruby\\rubyprimtypes.swg,23,%ruby_aux_method@*/
 SWIGINTERN VALUE SWIG_AUX_NUM2DBL(VALUE *args)
 {
   VALUE obj = args[0];
@@ -9834,6 +9834,38 @@ fail:
 
 
 SWIGINTERN VALUE
+_wrap_tc_setSequence(int argc, VALUE *argv, VALUE self) {
+  long arg1 ;
+  char *arg2 = (char *) 0 ;
+  long val1 ;
+  int ecode1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  
+  if ((argc < 2) || (argc > 2)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 2)",argc); SWIG_fail;
+  }
+  ecode1 = SWIG_AsVal_long(argv[0], &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), Ruby_Format_TypeError( "", "long","tc_setSequence", 1, argv[0] ));
+  } 
+  arg1 = (long)(val1);
+  res2 = SWIG_AsCharPtrAndSize(argv[1], &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), Ruby_Format_TypeError( "", "char const *","tc_setSequence", 2, argv[1] ));
+  }
+  arg2 = (char *)(buf2);
+  tc_setSequence(arg1,(char const *)arg2);
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  return Qnil;
+fail:
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
 _wrap_tc_AutoGeneRegulatoryTool_api(int argc, VALUE *argv, VALUE self) {
   tc_items (*arg1)(long) = (tc_items (*)(long)) 0 ;
   tc_items (*arg2)(long) = (tc_items (*)(long)) 0 ;
@@ -11455,6 +11487,7 @@ SWIGEXPORT void Init_tinkercell(void) {
   rb_define_module_function(mTinkercell, "tc_partsUpstream", _wrap_tc_partsUpstream, -1);
   rb_define_module_function(mTinkercell, "tc_partsDownstream", _wrap_tc_partsDownstream, -1);
   rb_define_module_function(mTinkercell, "tc_alignParts", _wrap_tc_alignParts, -1);
+  rb_define_module_function(mTinkercell, "tc_setSequence", _wrap_tc_setSequence, -1);
   rb_define_module_function(mTinkercell, "tc_AutoGeneRegulatoryTool_api", _wrap_tc_AutoGeneRegulatoryTool_api, -1);
   rb_define_module_function(mTinkercell, "tc_exportSBML", _wrap_tc_exportSBML, -1);
   rb_define_module_function(mTinkercell, "tc_importSBML", _wrap_tc_importSBML, -1);

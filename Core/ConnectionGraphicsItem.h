@@ -102,7 +102,7 @@ namespace Tinkercell
 
 	/*! \brief A graphics nodes item that draws connection between two or more nodes and the arrow heads at the ends.
 	\ingroup core*/
-	class TINKERCELLEXPORT ConnectionGraphicsItem : public QGraphicsPathItem
+	class TINKERCELLEXPORT ConnectionGraphicsItem : public QGraphicsItemGroup
 	{
 	public:
 		/*! \brief cast a graphics item to a connection graphics item using qgraphicsitem_cast
@@ -125,8 +125,6 @@ namespace Tinkercell
 		QString name;
 		/*! \brief used for checking type before static casts */
 		QString className;
-		/*! \brief permanent brush for this control point*/
-		QBrush defaultBrush;
 		/*! \brief permanent pen for this control point*/
 		QPen defaultPen;
 		/*! \brief gets the connection graphics item from its child item
@@ -152,7 +150,7 @@ namespace Tinkercell
 		/*! \brief returns the bounding rectangle for this reaction figure*/
 		//virtual QRectF boundingRect() const;
 		/*! \brief paint method. Call's parent's after drawing boundary true*/
-		virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option=new QStyleOptionGraphicsItem() ,QWidget *widget=0);
+		//virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option=new QStyleOptionGraphicsItem() ,QWidget *widget=0);
 		/*! \brief checks that this is a valid drawable*/
 		virtual bool isValid();
 		/*! \brief number of different type of shapes available*/
@@ -227,8 +225,12 @@ namespace Tinkercell
 		virtual QList<ControlPoint*> controlPoints(bool includeEnds = false) const;
 		/*! \brief list of pointers to all the control points*/
 		virtual QList<QGraphicsItem*> controlPointsAsGraphicsItems(bool includeEnds = false) const;
-		/*! \brief gets a path that represents this reactionimage*/
+		/*! \brief gets a path that represents this reaction*/
 		virtual QPainterPath shape() const;
+		/*! \brief set the path for this connection
+		* \param QPainterPath path
+		* \return void*/
+		virtual void setPath(const QPainterPath& path);
 		/*! \brief Clear all shapes and control points
 		* \param void
 		* \return void*/
@@ -237,6 +239,14 @@ namespace Tinkercell
 		* \param bool tranform arrow heads
 		* \return void*/
 		virtual void refresh(bool arrows=true);
+		/*! \brief set the color and line width for drawing this connection
+		* \param QPen pen
+		* \param bool also set the default pen?
+		* \return void*/
+		virtual void setPen(QPen pen, bool permanently=false);
+		/*! \brief get the pen currently being used to draw this connection
+		* \return QPen pen*/
+		virtual QPen pen() const;
 		/*! \brief set visibility of control points
 		* \param visible = true, invisible = false
 		* \return void*/
@@ -329,8 +339,12 @@ namespace Tinkercell
 	protected:
 		/*! \brief Tinkercell object that this drawable belongs in */
 		ItemHandle * itemHandle;
-		/*! \brief path of the boundary region of the entire connection*/
+		/*! \brief path for drawing the boundary region*/
 		QGraphicsPathItem * boundaryPathItem;
+		/*! \brief path of the outline (usually white)*/
+		QGraphicsPathItem * outerPathItem;
+		/*! \brief path of the main curve*/
+		QGraphicsPathItem * mainPathItem;
 		/*! \brief path of the selection region of the entire connection*/
 		QPainterPath pathShape;
 		/*! \brief the boundary rectangle for this path. It is recomputed during each refresh.*/

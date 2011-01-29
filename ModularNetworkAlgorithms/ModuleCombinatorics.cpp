@@ -244,7 +244,8 @@ namespace Tinkercell
 	void ModuleCombinatorics::MonteCarlo(int & index, QList<ItemHandle*>& handles, QStringList & selectedModules)
 	{
 		if (simulationThreads.isEmpty()) return;
-		double startTime = 0, endTime = 100, numSteps = 100;
+		double startTime = 0, endTime = 100;
+		int numSteps = 100;
 		
 		NumericalDataTable parameters = BasicInformationTool::getUsedParameters(handles);
 		

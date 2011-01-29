@@ -343,7 +343,6 @@ namespace Tinkercell
 
 			}
 			connection->setPen(connection->defaultPen);
-			connection->setBrush(connection->defaultBrush);
 		}
 		else
 			return 0;

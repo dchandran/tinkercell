@@ -45,7 +45,6 @@
 #include <QDockWidget>
 #include <QScrollArea>
 
-
 #include "GraphicsScene.h"
 #include "NodeGraphicsItem.h"
 #include "NodeGraphicsReader.h"
@@ -121,8 +120,12 @@ namespace Tinkercell
 		QUndoCommand * substituteStrings(const QList<ItemHandle*> & items);
 		void removeSubnetworks(QList<QGraphicsItem*>& items, QList<ItemHandle*>& handles);
 		QDockWidget * makeDockWidget(const QStringList&);
+		void createNewWindow(ConnectionHandle * chandle, NetworkHandle * network);
 		void makeNewModule();
 		void initializeExportDialog();
+		QHash< ItemHandle *, QPixmap > moduleSnapshots;
+		QDialog * snapshotToolTip;
+		QToolButton * snapshotIcon;
 		
 		static ItemHandle * findCorrespondingHandle(NodeHandle*,ConnectionHandle*);
 		static QList<QPointF> pathAroundRect(QRectF,QRectF,QPointF,QPointF);

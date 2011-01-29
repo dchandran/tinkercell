@@ -103,7 +103,7 @@ void ModuleCombinatoricsOutputWidget::spinBoxChanged()
 		if (sliders[i] && spinBoxes[i])
 		{
 			QPair<double,double> range = findRange(scores,i);
-			sliders[i]->setValue( (spinBoxes[i]->value() - range.first)/(range.second-range.first) * 100.0 );
+			sliders[i]->setValue( (int)((spinBoxes[i]->value() - range.first)/(range.second-range.first) * 100.0));
 		}
 	update();
 }

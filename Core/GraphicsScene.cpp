@@ -39,6 +39,8 @@ namespace Tinkercell
 	QBrush GraphicsScene::SelectionRectangleBrush = QBrush(QColor(0,132,255,50));
 
 	QBrush GraphicsScene::BackgroundBrush = Qt::NoBrush; //QBrush(Qt::lightGray,Qt::CrossPattern);
+	
+	QColor GraphicsScene::BackgroundColor(QColor(255,255,255,255));
 
 	QPen GraphicsScene::GridPen = QPen(Qt::lightGray,2);
 
@@ -53,7 +55,7 @@ namespace Tinkercell
 	/*! \brief Returns the currently visible window
 	* \param void
 	* \return rectangle*/
-	QRectF GraphicsScene::viewport() const
+	QRectF GraphicsScene::visibleRegion() const
 	{
 		QGraphicsView * view = 0;
 		
@@ -451,8 +453,8 @@ namespace Tinkercell
 											if (TextGraphicsItem::cast(ngraphics[j]) &&  
 												 !movingItems.contains(ngraphics[j]) &&
 												 (
-												 	abs(ngraphics[j]->scenePos().x() - rect.center().x()) < 1.5*rect.width() ||
-												 	abs(ngraphics[j]->scenePos().y() - rect.center().y()) < 1.5*rect.height()
+												 	fabs(ngraphics[j]->scenePos().x() - rect.center().x()) < 1.5*rect.width() ||
+												 	fabs(ngraphics[j]->scenePos().y() - rect.center().y()) < 1.5*rect.height()
 												))
 												{
 													movingItems += ngraphics[j];
@@ -473,8 +475,8 @@ namespace Tinkercell
 											if (TextGraphicsItem::cast(ngraphics[j]) &&  
 												 !movingItems.contains(ngraphics[j]) &&
 												 (
-												 	abs(ngraphics[j]->scenePos().x() - rect.center().x()) < rect.width() ||
-												 	abs(ngraphics[j]->scenePos().y() - rect.center().y()) < rect.height()
+												 	fabs(ngraphics[j]->scenePos().x() - rect.center().x()) < rect.width() ||
+												 	fabs(ngraphics[j]->scenePos().y() - rect.center().y()) < rect.height()
 												))
 												{
 													movingItems += ngraphics[j];
@@ -1675,54 +1677,29 @@ namespace Tinkercell
 	}
 
 	/*! \brief prints the current scene*/
-	void GraphicsScene::print(QPaintDevice * printer, const QRectF& region) const
+	void GraphicsScene::print(QPaintDevice * printer, const QRectF& region)
 	{
 		if (!network) return;
-		
-		QList<QGraphicsView*> list = views();
-		
-		if (list.isEmpty() || !list[0]) return;
 		
 		QPainter painter(printer);
 		//painter.setBackgroundMode(Qt::OpaqueMode);
 		painter.setBackground(QBrush(Qt::white));
-		painter.setRenderHints(QPainter::Antialiasing | QPainter::NonCosmeticDefaultPen | QPainter::SmoothPixmapTransform | QPainter::TextAntialiasing);
-		/*
-		QList<QGraphicsItem*> itemsToDraw = items(rect);
-
-		QList<QGraphicsItem*> list1, list2;
-
-		for (int i=0; i < itemsToDraw.size(); ++i)
-		if (ConnectionGraphicsItem::cast(itemsToDraw[i]))
-		list2 << itemsToDraw[i];
-		else
-		list1 << itemsToDraw[i];
-
-
-		for (int i=0; i < list1.size(); ++i)
-		list1[i]->setVisible(false);
-
-		render(&painter,QRectF(),rect);
-
-		for (int i=0; i < list1.size(); ++i)
-		list1[i]->setVisible(true);
-
-		for (int i=0; i < list2.size(); ++i)
-		list2[i]->setVisible(false);
-
+		//painter.setRenderHints(QPainter::Antialiasing | QPainter::NonCosmeticDefaultPen | QPainter::SmoothPixmapTransform | QPainter::TextAntialiasing);
 		painter.setRenderHint(QPainter::Antialiasing);
+		if (region.isNull())
+			render(&painter, QRectF(), itemsBoundingRect());
+		else
+			render(&painter, QRectF(), region);
 
-		render(&painter,QRectF(),rect); */
+		//QList<QGraphicsView*> list = views();		
+		//if (list.isEmpty() || !list[0]) return;
 
-		QRectF rect( 0, 0, printer->width(), printer->height());
-
+		/*
 		painter.fillRect(rect,QBrush(Qt::white));
-
 		QGraphicsView * view = list[0];
-
 		QPointF p1 = view->mapFromScene(region.topLeft()),
 				p2 = view->mapFromScene(region.bottomRight());
-		view->render(&painter,QRectF(p1,p2));
+		view->render(&painter,QRectF(p1,p2));*/
 	}
 
 	void GraphicsScene::clearStaticItems()
@@ -1763,7 +1740,7 @@ namespace Tinkercell
 			}
 			else
 			{
-				QRectF viewport = this->viewport();
+				QRectF viewport = this->visibleRegion();
 				/*if (items.size() == 1 && items[0])
 					viewport = items[0]->sceneBoundingRect().normalized();
 				else
@@ -2381,7 +2358,7 @@ namespace Tinkercell
 	void GraphicsScene::scaleGraphicalTools()
 	{
 		qreal scalex = 1, scaley = 1;
-		QRectF viewport = this->viewport();
+		QRectF viewport = this->visibleRegion();
 		scalex = viewport.width();
 		scaley = viewport.height();
 		qreal maxx = viewport.right() - 0.05*scalex,
@@ -2495,7 +2472,7 @@ namespace Tinkercell
 		textItem->setPen(Qt::NoPen);
 		textItem->setBrush(ToolTipTextBrush);
 		
-		QRectF viewport = this->viewport();
+		QRectF viewport = this->visibleRegion();
 		qreal scale = 0.002 * (viewport.width());		
 		textItem->scale(scale,scale);
 		QGraphicsScene::addItem(textItem);

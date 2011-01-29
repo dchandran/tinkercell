@@ -243,6 +243,7 @@ package tinkercell;
 *tc_partsUpstream = *tinkercellc::tc_partsUpstream;
 *tc_partsDownstream = *tinkercellc::tc_partsDownstream;
 *tc_alignParts = *tinkercellc::tc_alignParts;
+*tc_setSequence = *tinkercellc::tc_setSequence;
 *tc_AutoGeneRegulatoryTool_api = *tinkercellc::tc_AutoGeneRegulatoryTool_api;
 *tc_exportSBML = *tinkercellc::tc_exportSBML;
 *tc_importSBML = *tinkercellc::tc_importSBML;

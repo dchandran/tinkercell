@@ -39,7 +39,6 @@ One of the main roles of MainWindow is to serve as a signal/slot hub for Tools.
 #include <QGridLayout>
 #include <QSemaphore>
 #include <QLibrary>
-#include <QHash>
 
 #include "HistoryWindow.h"
 #include "DataTable.h"
@@ -271,9 +270,10 @@ namespace Tinkercell
 		virtual Tool * tool(const QString&) const;
 		/*!
 		* \brief get all tools
+		* \param QString (optional) return only tools in this category, e.g. "plot"
 		* \return QList<Tool*>
 		*/
-		virtual QList<Tool*> tools() const;
+		virtual QList<Tool*> tools(const QString& category=QString()) const;
 		/*!
 		* \brief the set of all windows inseted in the main window using addToolWindow
 		*/
@@ -851,6 +851,8 @@ namespace Tinkercell
 		NetworkWindow * currentNetworkWindow;
 		/*! \brief all the tools (plug-ins) are stored here, indexed by their names*/
 		QHash<QString,Tool*> toolsHash;
+		/*! \brief this is a multiple hash. All the tool are stored here indexed by their category names (if they have a category)*/
+		QHash<QString,Tool*> toolsHashByCategory;
 		/*! \brief drag and drop */
 		virtual void dropEvent(QDropEvent *);
 		/*! \brief drag and drop*/

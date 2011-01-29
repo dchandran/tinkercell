@@ -1021,17 +1021,21 @@ specific for:\n\"\"\"\n\n") + text;
 
 				 if (currentItem && regexFunction.numCaptures() > 0 && regexFunction.capturedTexts().at(1).length() > 0)
 				 {
-					QString name, str;
+					QString name, args, ret, str;
 					name = regexFunction.capturedTexts().at(2);
 					if (visitedFunctions.contains(name)) continue;
 					visitedFunctions << name.trimmed();
-					if (regexFunction.capturedTexts().at(1) == tr("void"))
-						str = regexFunction.capturedTexts().at(2) + regexFunction.capturedTexts().at(3);
+					
+					ret = regexFunction.capturedTexts().at(1);
+					args = regexFunction.capturedTexts().at(3);
+					args.replace(tr("const char*"),tr("string"));
+					args.replace(tr("const char *"),tr("string"));
+					args.replace(tr("long"),tr("item"));
+					
+					if (ret == tr("void"))
+						str = name + args;
 					else
-						str = regexFunction.capturedTexts().at(1)
-								+ tr(" var = ")
-								+ regexFunction.capturedTexts().at(2)
-								+ regexFunction.capturedTexts().at(3);
+						str = ret + tr(" var = ") + name + args;
 
 					QTreeWidgetItem * childItem = new QTreeWidgetItem(QStringList() << name << str);
 					currentItem->addChild(childItem);

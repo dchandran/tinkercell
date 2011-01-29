@@ -6110,6 +6110,25 @@ attr(`tc_alignParts`, 'returnType') = 'void'
 attr(`tc_alignParts`, "inputTypes") = c('_p_tc_items')
 class(`tc_alignParts`) = c("SWIGFunction", class('tc_alignParts'))
 
+# Start of tc_setSequence
+
+`tc_setSequence` = function(o, s_arg2)
+{
+  o = as.integer(o) 
+  
+  if(length(o) > 1) {
+    warning("using only the first element of o")
+  }
+  
+  s_arg2 = as(s_arg2, "character") 
+  .Call('R_swig_tc_setSequence', o, s_arg2, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_setSequence`, 'returnType') = 'void'
+attr(`tc_setSequence`, "inputTypes") = c('integer', 'character')
+class(`tc_setSequence`) = c("SWIGFunction", class('tc_setSequence'))
+
 # Start of tc_AutoGeneRegulatoryTool_api
 
 `tc_AutoGeneRegulatoryTool_api` = function(f1, f2, f3, f4)

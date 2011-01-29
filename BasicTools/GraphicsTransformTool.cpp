@@ -679,7 +679,7 @@ namespace Tinkercell
 					ConnectionGraphicsItem * connection = ConnectionGraphicsItem::topLevelConnectionItem(targetItems[i]);
 					if (connection != 0)
 					{
-						color.setAlpha(connection->defaultBrush.color().alpha());
+						color.setAlpha(connection->defaultPen.color().alpha());
 						QBrush newBrush(color);
 						brushes += newBrush;
 						items += connection;
@@ -864,7 +864,7 @@ namespace Tinkercell
 				if (connection != 0)
 				{
 					list += connection;
-					brush = connection->defaultBrush;
+					brush = QBrush(connection->defaultPen.color());
 					color = brush.color();
 					color.setAlphaF(value);
 					brush.setColor(color);

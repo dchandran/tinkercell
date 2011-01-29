@@ -10933,6 +10933,44 @@ XS(_wrap_tc_alignParts) {
 }
 
 
+XS(_wrap_tc_setSequence) {
+  {
+    long arg1 ;
+    char *arg2 = (char *) 0 ;
+    long val1 ;
+    int ecode1 = 0 ;
+    int res2 ;
+    char *buf2 = 0 ;
+    int alloc2 = 0 ;
+    int argvi = 0;
+    dXSARGS;
+    
+    if ((items < 2) || (items > 2)) {
+      SWIG_croak("Usage: tc_setSequence(o,char const *);");
+    }
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    if (!SWIG_IsOK(ecode1)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setSequence" "', argument " "1"" of type '" "long""'");
+    } 
+    arg1 = (long)(val1);
+    res2 = SWIG_AsCharPtrAndSize(ST(1), &buf2, NULL, &alloc2);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setSequence" "', argument " "2"" of type '" "char const *""'");
+    }
+    arg2 = (char *)(buf2);
+    tc_setSequence(arg1,(char const *)arg2);
+    ST(argvi) = sv_newmortal();
+    
+    if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+    XSRETURN(argvi);
+  fail:
+    
+    if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+    SWIG_croak_null();
+  }
+}
+
+
 XS(_wrap_tc_AutoGeneRegulatoryTool_api) {
   {
     tc_items (*arg1)(long) = (tc_items (*)(long)) 0 ;
@@ -12436,6 +12474,7 @@ static swig_command_info swig_commands[] = {
 {"tinkercellc::tc_partsUpstream", _wrap_tc_partsUpstream},
 {"tinkercellc::tc_partsDownstream", _wrap_tc_partsDownstream},
 {"tinkercellc::tc_alignParts", _wrap_tc_alignParts},
+{"tinkercellc::tc_setSequence", _wrap_tc_setSequence},
 {"tinkercellc::tc_AutoGeneRegulatoryTool_api", _wrap_tc_AutoGeneRegulatoryTool_api},
 {"tinkercellc::tc_exportSBML", _wrap_tc_exportSBML},
 {"tinkercellc::tc_importSBML", _wrap_tc_importSBML},

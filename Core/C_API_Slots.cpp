@@ -610,11 +610,30 @@ namespace Tinkercell
 		GraphicsScene * scene = currentScene();
 		if (scene)
 		{
-			scene->fitAll();
-			QRectF viewport = scene->viewport();
-			QImage printer(w,h,QImage::Format_ARGB32);
-			scene->print(&printer);
-			printer.save(fileName,"png");
+			if (fileName.endsWith(tr("pdf"),Qt::CaseInsensitive))
+			{
+				QPrinter printer(QPrinter::HighResolution);
+				printer.setOutputFormat(QPrinter::PdfFormat);
+				printer.setOrientation(QPrinter::Landscape);
+				printer.setPageSize(QPrinter::A4);
+				printer.setOutputFileName(fileName);
+				scene->print(&printer);
+			}
+			else
+			if (fileName.endsWith(tr("jpg"),Qt::CaseInsensitive) || fileName.endsWith(tr("jpeg"),Qt::CaseInsensitive))
+			{
+				QPixmap printer(w,h);
+				printer.fill();
+				scene->print(&printer);
+				printer.save(fileName,"jpg");
+			}
+			else
+			{
+				QPixmap printer(w,h);
+				printer.fill();
+				scene->print(&printer);
+				printer.save(fileName,"png");
+			}
 		}
 		if (s)
 			s->release();
@@ -625,7 +644,7 @@ namespace Tinkercell
 		GraphicsScene * scene = currentScene();
 		if (scene && w)
 		{
-			QRectF viewport = scene->viewport();
+			QRectF viewport = scene->visibleRegion();
 			(*w) = (int)viewport.width();
 		}
 		if (s)
@@ -637,7 +656,7 @@ namespace Tinkercell
 		GraphicsScene * scene = currentScene();
 		if (scene && h)
 		{
-			QRectF viewport = scene->viewport();
+			QRectF viewport = scene->visibleRegion();
 			(*h) = (int)viewport.height();
 		}
 		if (s)
@@ -649,7 +668,7 @@ namespace Tinkercell
 		GraphicsScene * scene = currentScene();
 		if (scene && x)
 		{
-			QRectF viewport = scene->viewport();
+			QRectF viewport = scene->visibleRegion();
 			(*x) = (int)viewport.x();
 		}
 		if (s)
@@ -661,7 +680,7 @@ namespace Tinkercell
 		GraphicsScene * scene = currentScene();
 		if (scene && y)
 		{
-			QRectF viewport = scene->viewport();
+			QRectF viewport = scene->visibleRegion();
 			(*y) = (int)viewport.y();
 		}
 		if (s)
@@ -2320,7 +2339,6 @@ namespace Tinkercell
 					if (connection = ConnectionGraphicsItem::cast(temporarilyColorChanged[i]))
 					{
 						connection->setPen(connection->defaultPen);
-						connection->setBrush(connection->defaultBrush);
 					}
 			temporarilyColorChanged.clear();
 		}
@@ -2765,11 +2783,11 @@ namespace Tinkercell
 						if (connection != 0)
 						{
 							QPen newPen(color,connection->defaultPen.widthF());
-							color.setAlpha(connection->defaultBrush.color().alpha());
+							color.setAlpha(connection->defaultPen.color().alpha());
 							if (permanent)
 							{
 								pens += newPen;
-								brushes += connection->brush();
+								brushes += QBrush( newPen.color() );
 								items += connection;
 							}
 							else

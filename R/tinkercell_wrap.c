@@ -13069,6 +13069,35 @@ R_swig_tc_alignParts ( SEXP a)
 
 
 SWIGEXPORT SEXP
+R_swig_tc_setSequence ( SEXP o, SEXP s_arg2)
+{
+  long arg1 ;
+  char *arg2 = (char *) 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  arg1 = (long)(INTEGER(o)[0]);
+  res2 = SWIG_AsCharPtrAndSize(s_arg2, &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setSequence" "', argument " "2"" of type '" "char const *""'");
+  }
+  arg2 = (char *)(buf2);
+  tc_setSequence(arg1,(char const *)arg2);
+  r_ans = R_NilValue;
+  
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
+SWIGEXPORT SEXP
 R_swig_tc_AutoGeneRegulatoryTool_api ( SEXP f1, SEXP f2, SEXP f3, SEXP f4)
 {
   tc_items (*arg1)(long) = (tc_items (*)(long)) 0 ;
@@ -14771,6 +14800,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_getScaledElasticities", (DL_FUNC) &R_swig_tc_getScaledElasticities, 1},
    {"R_swig_tc_getString", (DL_FUNC) &R_swig_tc_getString, 2},
    {"R_swig_tc_setString", (DL_FUNC) &R_swig_tc_setString, 3},
+   {"R_swig_tc_setSequence", (DL_FUNC) &R_swig_tc_setSequence, 2},
    {"R_swig_tc_setTextAttribute", (DL_FUNC) &R_swig_tc_setTextAttribute, 3},
    {"R_swig_tc_getTextAttribute", (DL_FUNC) &R_swig_tc_getTextAttribute, 2},
    {"R_swig_tc_insertConnection", (DL_FUNC) &R_swig_tc_insertConnection, 4},

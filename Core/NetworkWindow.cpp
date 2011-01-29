@@ -124,7 +124,7 @@ namespace Tinkercell
 			//network->networkWindows += this;
 
 		MainWindow * main = network->mainWindow;
-		
+		setVisible(false);
 		setWindowFlags(Qt::Window);
 		
 		if (main)
@@ -138,10 +138,9 @@ namespace Tinkercell
 				setWindowTitle(network->networkWindows[0]->windowTitle());
 			else
 				setWindowTitle(tr("network ") + QString::number(main->allNetworks.size()));
-			main->setCurrentWindow(this);
+			//main->setCurrentWindow(this);
 		}
-		
-		show();
+
 		setFocusPolicy(Qt::StrongFocus);
 		setWindowIcon(QIcon(tr(":/images/newscene.png")));
 	}
@@ -161,9 +160,7 @@ namespace Tinkercell
 
 		MainWindow * main = network->mainWindow;
 		
-		//if (!network->networkWindows.contains(this))
-		//	network->networkWindows += this;
-		
+		setVisible(false);
 		setWindowFlags(Qt::Window);
 		
 		if (main)
@@ -177,10 +174,9 @@ namespace Tinkercell
 				setWindowTitle(network->networkWindows[0]->windowTitle());
 			else
 				setWindowTitle(tr("network ") + QString::number(main->allNetworks.size()));
-			main->setCurrentWindow(this);
+			//main->setCurrentWindow(this);
 		}
 
-		show();
 		setFocusPolicy(Qt::StrongFocus);
 		setWindowIcon(QIcon(tr(":/images/newtext.png")));
 	}

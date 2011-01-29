@@ -1829,7 +1829,7 @@ namespace Tinkercell
 
 		QRectF boundingRect = vector->sceneBoundingRect();
 		
-		if (abs(boundingRect.width() - boundingRect.height()) > 2)
+		if (fabs(boundingRect.width() - boundingRect.height()) > 2)
 		{
 			qreal w = boundingRect.width();
 			if (boundingRect.height() > w)

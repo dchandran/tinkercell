@@ -657,7 +657,6 @@ namespace Tinkercell
 			if (temporarilyChangedConnections[i])
 			{
 				temporarilyChangedConnections[i]->setPen(temporarilyChangedConnections[i]->defaultPen);
-				temporarilyChangedConnections[i]->setBrush(temporarilyChangedConnections[i]->defaultBrush);
 				temporarilyChangedConnections[i]->update();
 			}
 			temporarilyChangedConnections.clear();
@@ -669,7 +668,7 @@ namespace Tinkercell
 
 		if (keyEvent->modifiers() == (Qt::ControlModifier | Qt::ShiftModifier))
 		{
-			QList<QGraphicsItem*> items = scene->items( scene->viewport() );
+			QList<QGraphicsItem*> items = scene->items( scene->visibleRegion() );
 			NodeGraphicsItem * node = 0;
 			ConnectionGraphicsItem * connection = 0;
 
@@ -709,7 +708,7 @@ namespace Tinkercell
 	{
 		if (controlHeld && scene)
 		{
-			QList<QGraphicsItem*> items = scene->items( scene->viewport() );
+			QList<QGraphicsItem*> items = scene->items( scene->visibleRegion() );
 			NodeGraphicsItem * node = 0;
 			ConnectionGraphicsItem * connection = 0;
 
@@ -802,7 +801,7 @@ namespace Tinkercell
 		if (!controlHeld)
 			return;
 
-		QRectF viewport = scene->viewport();
+		QRectF viewport = scene->visibleRegion();
 		QList<QGraphicsItem*> items = scene->items( viewport );
 		NodeGraphicsItem * node = 0;
 		ConnectionGraphicsItem * connection = 0;

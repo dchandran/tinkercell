@@ -10855,6 +10855,39 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_tc_setSequence(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  long arg1 ;
+  char *arg2 = (char *) 0 ;
+  long val1 ;
+  int ecode1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:tc_setSequence",&obj0,&obj1)) SWIG_fail;
+  ecode1 = SWIG_AsVal_long(obj0, &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setSequence" "', argument " "1"" of type '" "long""'");
+  } 
+  arg1 = (long)(val1);
+  res2 = SWIG_AsCharPtrAndSize(obj1, &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setSequence" "', argument " "2"" of type '" "char const *""'");
+  }
+  arg2 = (char *)(buf2);
+  tc_setSequence(arg1,(char const *)arg2);
+  resultobj = SWIG_Py_Void();
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  return resultobj;
+fail:
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_tc_AutoGeneRegulatoryTool_api(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   tc_items (*arg1)(long) = (tc_items (*)(long)) 0 ;
@@ -11847,6 +11880,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"tc_partsUpstream", _wrap_tc_partsUpstream, METH_VARARGS, NULL},
 	 { (char *)"tc_partsDownstream", _wrap_tc_partsDownstream, METH_VARARGS, NULL},
 	 { (char *)"tc_alignParts", _wrap_tc_alignParts, METH_VARARGS, NULL},
+	 { (char *)"tc_setSequence", _wrap_tc_setSequence, METH_VARARGS, NULL},
 	 { (char *)"tc_AutoGeneRegulatoryTool_api", _wrap_tc_AutoGeneRegulatoryTool_api, METH_VARARGS, NULL},
 	 { (char *)"tc_exportSBML", _wrap_tc_exportSBML, METH_VARARGS, NULL},
 	 { (char *)"tc_importSBML", _wrap_tc_importSBML, METH_VARARGS, NULL},

@@ -1,4 +1,5 @@
 #include "TC_AutoGeneRegulatoryTool_api.h"
+#include "TC_BasicInformationTool_api.h"
 
 tc_items (*_tc_partsIn)(long) = 0;
 /*! 
@@ -45,6 +46,15 @@ void tc_alignParts(tc_items a)
 {
 	if (_tc_alignParts)
 		_tc_alignParts(a);
+}
+
+/*! 
+ \brief Assign DNA sequence to a part
+ \ingroup Get and set position
+*/ TCAPIEXPORT 
+void tc_setSequence(long o, const char * s)
+{
+	tc_setTextAttribute(o,"sequence",s);
 }
 
 /*! 

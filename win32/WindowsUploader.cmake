@@ -5,8 +5,8 @@ CONFIGURE_FILE(
 )
 
 CONFIGURE_FILE( 
-	${TINKERCELL_SOURCE_DIR}/win32/makeWin32Installer.bat.in
-	${TINKERCELL_BINARY_DIR}/win32/makeWin32Installer.bat
+	${TINKERCELL_SOURCE_DIR}/win32/CreateInstaller.bat.in
+	${TINKERCELL_BINARY_DIR}/win32/CreateInstaller.bat
 	@ONLY
 )
 	
@@ -16,4 +16,4 @@ CONFIGURE_FILE(
 	@ONLY
 )
 
-MESSAGE(STATUS "Run ${TINKERCELL_BINARY_DIR}/win32/makeWin32Installer.bat to build the program, the installer, and upload it to the sourceforge site")
+MESSAGE(STATUS "Run ${TINKERCELL_BINARY_DIR}/win32/CreateInstaller.bat to build the program, the installer, and upload it to the sourceforge site")

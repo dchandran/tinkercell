@@ -11,19 +11,19 @@ ENDIF(TINKERCELL_64BIT)
 
 
 CONFIGURE_FILE( 
-		${TINKERCELL_SOURCE_DIR}/linux/run_tinkercell.sh
+		${TINKERCELL_SOURCE_DIR}/linux/run_tinkercell.sh.in
 		${TINKERCELL_BINARY_DIR}/run_tinkercell.sh
 		@ONLY
 	)
 
 CONFIGURE_FILE( 
-		${TINKERCELL_SOURCE_DIR}/linux/upload.sh
-		${TINKERCELL_BINARY_DIR}/upload.sh
+		${TINKERCELL_SOURCE_DIR}/linux/CreatePackage.sh.in
+		${TINKERCELL_BINARY_DIR}/CreatePackage.sh
 		@ONLY
 	)
 
-MESSAGE(STATUS "To upload TinkerCell, source ${TINKERCELL_BINARY_DIR}/upload.sh")
+MESSAGE(STATUS "To upload TinkerCell: source ${TINKERCELL_BINARY_DIR}/CreatePackage.sh")
 	
-MESSAGE(STATUS "To run TinkerCell, source ${TINKERCELL_BINARY_DIR}/run_tinkercell.sh")	
+MESSAGE(STATUS "To run TinkerCell: source ${TINKERCELL_BINARY_DIR}/run_tinkercell.sh dev")	
 
 INSTALL(FILES ${TINKERCELL_BINARY_DIR}/run_tinkercell.sh DESTINATION bin/../ COMPONENT "TinkerCell")

@@ -11,6 +11,7 @@
 #include <iostream>
 #include <math.h>
 #include <QRegExp>
+#include <QProcess>
 #include "ItemFamily.h"
 #include "NetworkHandle.h"
 #include "ItemHandle.h"
@@ -232,17 +233,11 @@ namespace Tinkercell
 			if (dir.exists())
 			{
 				emit saveModel(dir.absoluteFilePath(name));
-				s = QObject::tr("cd ") + dir.absolutePath() + QObject::tr("; svn add ") + name + QObject::tr("; svn commit -m\"new model added\";");
-				moduleSavingStatus->setText(tr("Sending model to repository... please wait"));
-				exportModuleDialog->show();
-				
-				if (system(s.toAscii().data()) < 0)
-					QMessageBox::information(mainWindow, "Error", "Cannot find Subversion. Your model is saved, but it is not visible to other TinkerCell users. Check that Subversion is installed and that SVN is located in the system path.");
-				else
-					QMessageBox::information(mainWindow, "Success", "Your model has been submitted to the repository and is now available to other TinkerCell users.");
-				
-				exportModuleDialog->hide();
-				moduleSavingStatus->setText(tr(""));
+				s = tr("cd ") + dir.absolutePath() + tr("; svn add ") + name;// + tr("; svn commit -m\"new model added\";");
+				QMessageBox::information(mainWindow, "Success", 
+					tr("Model saved in ") + dir.absoluteFilePath(name) + 
+					tr("\nTo make the model available to other TinkerCell users, \nplease do svn commit in ") + dir.absolutePath());
+				QProcess::startDetached(s);
 			}
 			else
 			{

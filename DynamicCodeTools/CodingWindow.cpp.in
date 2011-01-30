@@ -77,13 +77,15 @@ namespace Tinkercell
 			int err = 0;
 			if (!QFile::exists(homeDir + QObject::tr("/.svn")))
 			{
-				s = QObject::tr("svn co --username tinkercelluser --password password https://tinkercellextra.svn.sourceforge.net/svnroot/tinkercellextra ") + homeDir;
-				err =system(s.toAscii().data());
+				s = QObject::tr("svn co https://tinkercellextra.svn.sourceforge.net/svnroot/tinkercellextra ") + homeDir;
+				err = system(s.toAscii().data());
+				if (err != -1)
+					QMessageBox::information(Tinkercell::MainWindow::instance(), "Downloaded", QString("Plugins have been downloaded to ") + homeDir);
 			}
 
 			s = QObject::tr("cd ") + homeDir + QObject::tr("; svn update");
 			if (err < 0 || system(s.toAscii().data()) < 0)
-					QMessageBox::information(Tinkercell::MainWindow::instance(), "Error", "Unable to update plugins. Check that Subversion is installed and located in the system path.");
+				QMessageBox::information(Tinkercell::MainWindow::instance(), "Error", "Unable to update plugins. Check that Subversion is installed and located in the system path.");
 		}
 	}
 	
@@ -199,26 +201,17 @@ specific for:\n\"\"\"\n\n") + text;
 			return;
 		else
 		{
-			QDialog * dialog = new QDialog(mainWindow);
-			dialog->setAttribute(Qt::WA_DeleteOnClose);
-			QHBoxLayout * layout = new QHBoxLayout;
-			layout->addWidget(new QLabel("Saving and uploading...please wait"));
-			dialog->setLayout(layout);
-			dialog->show();
-			
 			QTextStream outpy(&pyfile);
 			outpy << (editor->toPlainText());
 			pyfile.close();
-			QString s = QObject::tr("cd ") + userHomeDir.absolutePath() + QObject::tr("; svn add ") + filename + QObject::tr("; svn commit -m\"new code added\";");
+			QString s = QObject::tr("cd ") + userHomeDir.absolutePath() + QObject::tr("; svn add ") + filename;// + QObject::tr("; svn commit -m\"new code added\";");
 			QString msg = tr("Your program has been saved as ") + filename + tr("\n");
 			
-			if (system(s.toAscii().data()) < 0)
-				msg += tr("Your code is saved, but it is not visible to other TinkerCell users. Check that Subversion is installed and that SVN is located in the system path.");
-			else
-				msg += tr("Your code has been submitted to the repository and is now available to other TinkerCell users.");
+			msg += tr("To make the new code available to other TinkerCell users, \nplease do svn commit on ") + filename;
+			QProcess::startDetached(s);
 			
-			dialog->close();
 			QMessageBox::information(mainWindow, "Saved", msg);
+			
 		}
 		
 		loadPyFromDir(userHomeDir);
@@ -262,26 +255,16 @@ specific for:\n\"\"\"\n\n") + text;
 		if (!octfile.open(QIODevice::WriteOnly | QIODevice::Text))
 			return;
 		else
-		{
-			QDialog * dialog = new QDialog(mainWindow);
-			dialog->setAttribute(Qt::WA_DeleteOnClose);
-			QHBoxLayout * layout = new QHBoxLayout;
-			layout->addWidget(new QLabel("Saving and uploading...please wait"));
-			dialog->setLayout(layout);
-			dialog->show();
-			
+		{	
 			QTextStream outoct(&octfile);
 			outoct << (editor->toPlainText());
 			octfile.close();
-			QString s = QObject::tr("cd ") + userHomeDir.absolutePath() + QObject::tr("; svn add ") + filename + QObject::tr("; svn commit -m\"new code added\";");
+			QString s = QObject::tr("cd ") + userHomeDir.absolutePath() + QObject::tr("; svn add ") + filename;// + QObject::tr("; svn commit -m\"new code added\";");
 			QString msg = tr("Your program has been saved as ") + filename + tr("\n");
 			
-			if (system(s.toAscii().data()) < 0)
-				msg += tr("Your code is saved, but it is not visible to other TinkerCell users. Check that Subversion is installed and that SVN is located in the system path.");
-			else
-				msg += tr("Your code has been submitted to the repository and is now available to other TinkerCell users.");
+			msg += tr("To make the new code available to other TinkerCell users, \nplease do svn commit in ") + userHomeDir.absolutePath();
+			QProcess::startDetached(s);
 			
-			dialog->close();
 			QMessageBox::information(mainWindow, "Saved", msg);
 		}
 

@@ -231,6 +231,8 @@ Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\icons\UpCircle.PNG; 
 Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\icons\UpCircle.xml; DestDir: {app}\icons\
 Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\icons\v.PNG; DestDir: {app}\icons\
 Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\icons\v.xml; DestDir: {app}\icons\
+Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\icons\expand.xml; DestDir: {app}\icons\
+Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\icons\expand.PNG; DestDir: {app}\icons\
 Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\Graphics\Bio1\Arrows\Activation.PNG; DestDir: {app}\Graphics\Bio1\Arrows
 Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\Graphics\Bio1\Arrows\Activation.xml; DestDir: {app}\Graphics\Bio1\Arrows
 Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\Graphics\Bio1\Arrows\Biochemical.PNG; DestDir: {app}\Graphics\Bio1\Arrows

@@ -154,6 +154,8 @@ namespace Tinkercell
 		virtual void setVisible ( bool visible );
 		/*! \brief add a new plot to the window*/
 		virtual void addWidget(PlotWidget*);
+		/*! \brief get the list of plot widgets*/
+		virtual QList<PlotWidget*> plotWidgets() const;
 		/*! \brief show message at the bottom*/
 		virtual void setStatusBarMessage(const QString&);
 		/*! \brief add a dock widget to the plot area*/

@@ -441,6 +441,22 @@ namespace Tinkercell
 		if (s)
 			s->release();
 	}
+	
+	 QList<PlotWidget*> PlotTool::plotWidgets() const
+	 {
+	 	QList<PlotWidget*> widgets;
+	 	if (multiplePlotsArea)
+		{
+			QList<QMdiSubWindow*> list = multiplePlotsArea->subWindowList();
+			for (int i=0; i < list.size(); ++i)
+				if (list[i] && list[i]->widget())
+				{
+					PlotWidget * plotWidget = static_cast<PlotWidget*>(list[i]->widget());
+					widgets += plotWidget;
+				}
+		}
+		return widgets;
+	 }
 
 	void PlotTool::getData(QSemaphore* s, DataTable<qreal>* matrix,int index)
 	{

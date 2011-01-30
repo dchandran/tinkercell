@@ -169,6 +169,7 @@ namespace Tinkercell
 			QRect rect = mainWindow->geometry();
 			snapshotToolTip->setGeometry (rect.right() - 280, rect.bottom() - 280, 256, 256 );
 			QHBoxLayout * layout = new QHBoxLayout;
+			layout->setContentsMargins(1,1,1,1);
 			snapshotIcon = new QToolButton;
 			layout->addWidget(snapshotIcon);
 			snapshotToolTip->setLayout(layout);

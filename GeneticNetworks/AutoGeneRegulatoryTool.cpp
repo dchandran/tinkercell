@@ -1905,7 +1905,7 @@ namespace Tinkercell
 			{
 				list = trueChildren[i]->graphicsItems;
 				for (int j=0; j < list.size(); ++j)
-					if (NodeGraphicsItem::cast(list[j]))
+					if (NodeGraphicsItem::cast(list[j]) && list[j]->scene() == vector->scene())
 					{
 						nodesInPlasmid << NodeGraphicsItem::cast(list[j]);
 					}
@@ -2009,7 +2009,7 @@ namespace Tinkercell
 			NodeGraphicsItem * node;
 			QList<QGraphicsItem*> & graphicsItems = children[i]->graphicsItems;
 			for (int j=0; j < graphicsItems.size(); ++j)
-				if (node = NodeGraphicsItem::cast(graphicsItems[j]))
+				if ((node = NodeGraphicsItem::cast(graphicsItems[j])) && node->scene() == vector->scene())
 				{
 					node->resetToDefaults();
 					NodeGraphicsItem::Shape * shape1 = node->rightMostShape(),
@@ -2061,7 +2061,7 @@ namespace Tinkercell
 				if (items[i] && NodeHandle::cast(items[i]))
 				{
 					for (int j=0; j < items[i]->graphicsItems.size(); ++j)
-						if (NodeGraphicsItem::cast(items[i]->graphicsItems[j]))
+						if (NodeGraphicsItem::cast(items[i]->graphicsItems[j]) && items[i]->graphicsItems[j]->scene() == scene)
 						{
 							if (selected.isEmpty())
 							{

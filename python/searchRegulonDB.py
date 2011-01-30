@@ -102,7 +102,7 @@ else:
             list = RegulonDB.ECOLI_BINDING_SITES_SEQUENCE[key];
             tc_rename(p,key);
             tc_setTextAttribute(p,"RegulonID",list[0]);
-            tc_setTextAttribute(p,"Sequence",list[1]);
+            tc_setTextAttribute(p,"sequence",list[1]);
             tc_print(key + " has been updated with RegulonDB ID and sequence information");
             
     for i in range(0,len(tfs)): #for each selected transcription factor
@@ -170,7 +170,7 @@ else:
             list = RegulonDB.ECOLI_RBS[key];
             tc_rename(p,key);
             tc_setTextAttribute(p,"RegulonRB",list[0]);
-            tc_setTextAttribute(p,"Sequence",list[1]);
+            tc_setTextAttribute(p,"sequence",list[1]);
             tc_print(key + " has been updated with RegulonDB ID and sequence information");
     
     for i in range(0,len(terminators)): #for each selected promoter
@@ -191,7 +191,7 @@ else:
             tc_rename(p,key);
             tc_setTextAttribute(p,"RegulonRB",list[0]);
             tc_setTextAttribute(p,"Rho Factor",list[1]);
-            tc_setTextAttribute(p,"Sequence",list[2]);
+            tc_setTextAttribute(p,"sequence",list[2]);
             tc_print(key + " has been updated with RegulonDB ID, rho-factor, and sequence information");
     
     if len(ignoreList) > 0:

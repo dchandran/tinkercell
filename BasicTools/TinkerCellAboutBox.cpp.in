@@ -69,6 +69,7 @@ namespace Tinkercell
 				//mainWindow->helpMenu->addAction(QIcon(":/images/question.png"),tr("User's Guide"),this,SLOT(openDocumentation()));
 				mainWindow->helpMenu->addAction(QIcon(":/images/globe.png"),tr("TinkerCell Homepage"),this,SLOT(openHomePage()));
 				mainWindow->helpMenu->addAction(QIcon(":/images/globe.png"),tr("TinkerCell Blog"),this,SLOT(openBlog()));
+				mainWindow->helpMenu->addAction(QIcon(":/images/globe.png"),tr("Bugs / Comments"),this,SLOT(openFeedbackPage()));
 				mainWindow->helpMenu->addAction(tr("Write to us"),this,SLOT(emailAuthor()));
 				mainWindow->helpMenu->addSeparator();
 				mainWindow->helpMenu->addAction(QIcon(":/images/about.png"),tr("About"),this,SLOT(showAboutBox()));
@@ -101,6 +102,11 @@ namespace Tinkercell
 	void TinkercellAboutBox::openHomePage()
 	{
 		QDesktopServices::openUrl(QUrl("http://www.tinkercell.com/"));
+	}
+
+	void TinkercellAboutBox::openFeedbackPage()
+	{
+		QDesktopServices::openUrl(QUrl("http://www.tinkercell.com/suggestions-bugs"));
 	}
 
 	void TinkercellAboutBox::emailAuthor()

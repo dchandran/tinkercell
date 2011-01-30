@@ -35,6 +35,7 @@ namespace Tinkercell
 			void showAboutBox();
 			void openDocumentation();
 			void openHomePage();
+			void openFeedbackPage();
 			void openBlog();
 			void emailAuthor();
 	private:

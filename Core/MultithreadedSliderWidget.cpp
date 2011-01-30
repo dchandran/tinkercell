@@ -20,18 +20,50 @@ Uses CThread.
 
 namespace Tinkercell
 {
+	void MultithreadedSliderWidget::setVisibleSliders(const QString& substring)
+	{
+		if (substring.isNull() || substring.isEmpty()) return;
+
+		QStringList keys;
+		for (int j=0; j < labels.size() && j < minline.size() && j < maxline.size() && j < valueline.size(); ++j)
+		{
+			if (labels[j] && labels[j]->text().toLower().contains(substring.toLower()))
+				keys += labels[j]->text();
+		}
+		setVisibleSliders(keys);
+	}
+	
 	void MultithreadedSliderWidget::setVisibleSliders(const QStringList& options)
 	{
-		int k;
-		bool visible;
-		QList<QString> keys = sliderWidgets.keys();
-		
-		for (int i=0; i < keys.size(); ++i)
+		QVector<bool> showList(labels.size(),false);
+		for (int i=0; i < options.size(); ++i)
 		{
-			k = options.indexOf(keys[i]);
-			visible = (k > -1);
-			sliderWidgets[ keys[i] ]->setVisible(visible);
+			for (int j=0; j < labels.size() && j < minline.size() && j < maxline.size() && j < valueline.size(); ++j)
+			{
+				if (labels[j] && options.contains(labels[j]->text()))
+					showList[j] = true;
+			}
 		}
+		
+		for (int j=0; j < labels.size() && j < minline.size() && j < maxline.size() && j < valueline.size(); ++j)
+			if (!showList[j])
+			{
+				labels[j]->hide();
+				minline[j]->hide();
+				maxline[j]->hide();
+				valueline[j]->hide();
+				if (sliderWidgets.contains(labels[j]->text()))
+					sliderWidgets[labels[j]->text()]->hide();
+			}
+			else
+			{
+				labels[j]->show();
+				minline[j]->show();
+				maxline[j]->show();
+				valueline[j]->show();
+				if (sliderWidgets.contains(labels[j]->text()))
+					sliderWidgets[labels[j]->text()]->show();
+			}
 	}
 
 	MultithreadedSliderWidget::MultithreadedSliderWidget(MainWindow * parent, CThread * thread, Qt::Orientation orientation)
@@ -43,6 +75,7 @@ namespace Tinkercell
 		slidersLayout = 0;
 		hide();
 	}
+
 	MultithreadedSliderWidget::MultithreadedSliderWidget(MainWindow * parent, const QString & lib, const QString & functionName, Qt::Orientation orientation)
 		: QWidget(parent), orientation(orientation), mainWindow(parent)
 	{
@@ -185,6 +218,9 @@ namespace Tinkercell
 		values.setRowNames(options);
 		values.setColumnNames(QStringList() << "value");
 		
+		if (this->layout())
+			delete (layout());
+
 		QHBoxLayout* layout = new QHBoxLayout;
 		
 		layout->addWidget(new QLabel(tr("name")));
@@ -268,18 +304,31 @@ namespace Tinkercell
 		slidersWidget->setLayout(slidersLayout);		
 		
 		QVBoxLayout * mainlayout = new QVBoxLayout;
-		QHBoxLayout * buttonLayout = new QHBoxLayout;		
+		//search box
+		QHBoxLayout * searchLayout = new QHBoxLayout;
+		QLineEdit * searchLine = new QLineEdit;
+		searchLine->setText(tr(""));
+		searchLayout->addStretch(2);
+		searchLayout->addWidget(new QLabel(tr("Search")), 0);
+		searchLayout->addWidget(searchLine, 1);
+		connect(searchLine,SIGNAL(textEdited ( const QString &)),this,SLOT(setVisibleSliders(const QString&)));
+		
+		//cancel and save buttons
+		QHBoxLayout * buttonLayout = new QHBoxLayout;	
 		QPushButton * closeButton = new QPushButton(tr("&Close"));
 		QPushButton * saveValues = new QPushButton(tr("&Save values"));
 		buttonLayout->addStretch(1);
 		buttonLayout->addWidget(saveValues);
 		buttonLayout->addWidget(closeButton);
 		buttonLayout->addStretch(1);
+		
+		//main area
 		QScrollArea * scrollArea = new QScrollArea;
 		scrollArea->setWidget(slidersWidget);
 		scrollArea->setWidgetResizable(true);
-		mainlayout->addWidget(scrollArea);
-		mainlayout->addLayout(buttonLayout);
+		mainlayout->addLayout(searchLayout,0);
+		mainlayout->addWidget(scrollArea,1);
+		mainlayout->addLayout(buttonLayout,0);
 		connect(closeButton,SIGNAL(pressed()),this,SLOT(close()));
 		connect(saveValues,SIGNAL(pressed()),this,SLOT(saveValues()));
 		setLayout(mainlayout);

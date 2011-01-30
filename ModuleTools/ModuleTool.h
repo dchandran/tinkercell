@@ -65,6 +65,9 @@ namespace Tinkercell
 	public:
 		ModuleTool();
 		bool setMainWindow(MainWindow * main);
+		
+		static QStringList numericalTablesToBeReplaced;
+		static QStringList textTablesToBeReplaced;
 
 	signals:
 

@@ -24,6 +24,7 @@ Assignments are parameters that are defined as a function, eg. k1 = sin(time) + 
 #include "ModelSummaryTool.h"
 #include "FunctionDeclarationsTool.h"
 #include "EquationParser.h"
+#include "ModuleTools/ModuleTool.h"
 #include "muParserDef.h"
 #include "muParser.h"
 #include "muParserInt.h"
@@ -64,6 +65,8 @@ namespace Tinkercell
 
 		if (mainWindow)
 		{
+			ModuleTool::textTablesToBeReplaced << "assignments";
+			
 			connect(mainWindow,SIGNAL(itemsInserted(NetworkHandle*,const QList<ItemHandle*>&)),
 				this, SLOT(itemsInserted(NetworkHandle*,const QList<ItemHandle*>&)));
 

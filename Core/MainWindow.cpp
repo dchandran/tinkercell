@@ -486,6 +486,11 @@ namespace Tinkercell
 				currentNetworkWindow->filename = previousFileName = fileName;
 			}
 		}
+		else
+		{
+			console()->message(fileName);
+		}
+		
 		QFile file (fileName);
 
 		if (!file.open(QFile::WriteOnly | QFile::Text)) {

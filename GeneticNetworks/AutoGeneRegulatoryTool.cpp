@@ -1919,8 +1919,10 @@ namespace Tinkercell
 		QList<QPointF> moveBy;
 		QList<qreal> rotateBy;
 		QList<bool> flips;
+		bool flip;
 		QList<QBrush> noBrushes;
 		QList<QPen> noPens;
+
 		qreal angle;
 		QPointF p1, p2;
 
@@ -1932,9 +1934,11 @@ namespace Tinkercell
 				nodesInPlasmid[i]->resetToDefaults();
 				
 				boundingRect = nodesInPlasmid[i]->sceneBoundingRect();
-				//boundingRect.setWidth(100.0);
-				//nodesInPlasmid[i]->setBoundingRect(boundingRect.topLeft(), boundingRect.bottomRight());
-				//boundingRect = nodesInPlasmid[i]->sceneBoundingRect();
+				
+				if ((t.m11() < 0) && (t.m22() < 0))// || (t.m12() != 0) || (t.m21() != 0))
+					flip = true;
+				else
+					flip = false;
 
 				p1 = boundingRect.center();
 				qreal angle;
@@ -1946,7 +1950,11 @@ namespace Tinkercell
 				else
 					angle = atan((p1.y()-center.y())/(p1.x()-center.x()));
 
-				qreal w = nodesInPlasmid[i]->leftMostShape()->sceneBoundingRect().center().y() - p1.y() ;
+				qreal w;
+				if (flip)
+					w = p1.y() - nodesInPlasmid[i]->leftMostShape()->sceneBoundingRect().center().y();
+				else
+					w = nodesInPlasmid[i]->leftMostShape()->sceneBoundingRect().center().y() - p1.y() ;
 
 				if (p1.x() > center.x())
 				{
@@ -1970,7 +1978,7 @@ namespace Tinkercell
 					
 					NodeGraphicsItem::Shape * shape1 = nodesInPlasmid[i]->rightMostShape(),
 																* shape2 = nodesInPlasmid[i]->leftMostShape();
-					if (shape1 && shape2 &&
+					if (shape1 && shape2 && 
 						shape1->defaultBrush.color() == QColor(0,0,0) &&
 						 shape2->defaultBrush.color() == QColor(0,0,0))
 					{
@@ -1978,11 +1986,8 @@ namespace Tinkercell
 						noBrushes << QBrush(QColor(0,0,0,0)) << QBrush(QColor(0,0,0,0));
 						noPens << QPen(QColor(0,0,0,0)) << QPen(QColor(0,0,0,0));
 					}
-				
-					if ((t.m11() < 0) || (t.m22() < 0) || (t.m12() != 0) || (t.m21() != 0))
-						flips += true;
-					else
-						flips += false;				
+					
+					flips += flip;
 	
 					QList<QGraphicsItem*> & graphicsItems = nodesInPlasmid[i]->handle()->graphicsItems;
 					for (int j=0; j < graphicsItems.size(); ++j)
@@ -1999,7 +2004,7 @@ namespace Tinkercell
 			
 			if (!itemsToMove.isEmpty())
 				commands 
-						 << new TransformCommand(tr("rotate"), scene, itemsToMove, QList<QPointF>(), rotateBy, QList<bool>(), QList<bool>())
+						 << new TransformCommand(tr("rotate"), scene, itemsToMove, QList<QPointF>(), rotateBy, flips, flips)
 						 << new MoveCommand(scene, itemsToMove, moveBy)
 						 << new ChangeBrushAndPenCommand(tr("invisible"),shapes, noBrushes, noPens);
 		}
@@ -2014,7 +2019,9 @@ namespace Tinkercell
 					node->resetToDefaults();
 					NodeGraphicsItem::Shape * shape1 = node->rightMostShape(),
 																* shape2 = node->leftMostShape();
-					if (shape1 && shape2)
+					if (shape1 && shape2 &&
+						shape1->defaultBrush.color() == QColor(0,0,0,0) &&
+						 shape2->defaultBrush.color() == QColor(0,0,0,0))
 					{
 						shape1->defaultBrush = QBrush(QColor(0,0,0));
 						shape2->defaultBrush = QBrush(QColor(0,0,0));

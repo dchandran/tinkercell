@@ -922,6 +922,22 @@ namespace Tinkercell
 					{
 						commands << new MergeHandlesCommand(
 													tr("merge"), network, QList<ItemHandle*>() << h << modules[i]->children[j]);
+						
+						for (int k=0; k < textTablesToBeReplaced.size(); ++k)
+							if (h->hasTextData(textTablesToBeReplaced[k]) && 
+								modules[i]->children[j]->hasTextData(textTablesToBeReplaced[k]))
+								commands << new ChangeTextDataCommand(
+														tr("replace text table"), 
+														&(h->textDataTable(textTablesToBeReplaced[k])), 
+														&(modules[i]->children[j]->textDataTable(textTablesToBeReplaced[k])));
+						
+						for (int k=0; k < numericalTablesToBeReplaced.size(); ++k)
+							if (h->hasNumericalData(numericalTablesToBeReplaced[k]) && 
+								modules[i]->children[j]->hasNumericalData(numericalTablesToBeReplaced[k]))
+								commands << new ChangeNumericalDataCommand(
+														tr("replace num. table"), 
+														&(h->numericalDataTable(numericalTablesToBeReplaced[k])), 
+														&(modules[i]->children[j]->numericalDataTable(numericalTablesToBeReplaced[k])));
 					}
 				}
 				commands << new ChangeTextDataCommand(
@@ -1210,6 +1226,22 @@ namespace Tinkercell
 					{
 						commands << new MergeHandlesCommand(
 													tr("merge"), network, QList<ItemHandle*>() << h << parentHandle->children[i]);
+
+						for (int k=0; k < textTablesToBeReplaced.size(); ++k)
+							if (h->hasTextData(textTablesToBeReplaced[k]) && 
+								parentHandle->children[i]->hasTextData(textTablesToBeReplaced[k]))
+								commands << new ChangeTextDataCommand(
+														tr("replace text table"), 
+														&(h->textDataTable(textTablesToBeReplaced[k])), 
+														&(parentHandle->children[i]->textDataTable(textTablesToBeReplaced[k])));
+						
+						for (int k=0; k < numericalTablesToBeReplaced.size(); ++k)
+							if (h->hasNumericalData(numericalTablesToBeReplaced[k]) && 
+								parentHandle->children[i]->hasNumericalData(numericalTablesToBeReplaced[k]))
+								commands << new ChangeNumericalDataCommand(
+														tr("replace num. table"), 
+														&(h->numericalDataTable(numericalTablesToBeReplaced[k])), 
+														&(parentHandle->children[i]->numericalDataTable(numericalTablesToBeReplaced[k])));
 					}
 				}
 			
@@ -1631,6 +1663,9 @@ namespace Tinkercell
 			mode = none;
 		}
 	}
+	
+	QStringList ModuleTool::numericalTablesToBeReplaced;
+	QStringList ModuleTool::textTablesToBeReplaced;
 }
 
 /*

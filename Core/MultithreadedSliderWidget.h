@@ -61,6 +61,12 @@ namespace Tinkercell
 		*/
 		virtual void setVisibleSliders(const QStringList& options);
 		
+		/*!
+		* \brief set the sliders visible if the slider name has the given string as a substring
+		* \param QString substring for the slider names
+		*/
+		virtual void setVisibleSliders(const QString& substring);
+		
 	public:
 
 		/*!
@@ -119,7 +125,7 @@ namespace Tinkercell
 		*/
 		virtual void minmaxChanged();
 		
-				/*!
+		/*!
 		* \brief copy the values from the slider to the model
 		*/
 		virtual void saveValues();

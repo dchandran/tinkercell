@@ -22,8 +22,6 @@
   </node>
   <node family="Part" units="activity,PoPS" length="300"  sequence="AAGCTGATGGCTAGAAT" composite="false" description="DNA nodes represent components that belong on a DNA strand, such as promoter, genes, etc.">
 
-	<node family="Vector" units="copies,count" resitance="ampicillin" ori="" replication_rate="10.0" description="A vector backbone, which contains a selectable marker, and an insert constitute a plasmid."></node>
-
 	<node family="Coding"></node>
 	
 	<node family="Promoter" strength="1.0" description="RNA Polymerase binding site; may or may not include the operator sites, depending on the model">
@@ -32,9 +30,10 @@
 		<node family="Repressible Promoter" composite="true" description="A promoter that can be repressed by a transcription factor"></node>
 	</node>
 	
-	<node family="RBS" strength="1.0" description="Ribosome binding site"></node>
-	
+	<node family="RBS" strength="1.0" description="Ribosome binding site"></node>	
 	<node family="Terminator" strength="1.0" description="Transcriptional terminator">	</node>
+	<node family="Vector" units="copies,count" resitance="ampicillin" ori="" replication_rate="10.0" description="A vector backbone, which contains a selectable marker, and an insert constitute a plasmid."></node>
+	<node family="Sticky Ends" units="copies,count" description="Sticky ends used for cloning"></node>
   </node>
 </node>
 <node family="Compartment" units="volume,fL nL mL" description="A region where the contained molecular species are localized and contained">

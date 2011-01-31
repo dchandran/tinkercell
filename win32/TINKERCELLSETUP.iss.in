@@ -9,10 +9,11 @@ Name: {app}; Type: filesandordirs
 [Setup]
 AppName=@TINKERCELL_EXE@
 RestartIfNeededByRun=false
-AppVerName=1.1
+AppVerName=@TINKERCELL_EXE@ 1.1
 DefaultDirName={pf}\@TINKERCELL_EXE@
 OutputDir=@TINKERCELL_BINARY_DIR@/win32
 OutputBaseFilename=@TINKERCELL_EXE@Setup
+DefaultGroupName=Synthetic Biology
 [Tasks]
 Name: desktopicon; Description: Create a &desktop icon; GroupDescription: Additional icons:
 [Dirs]

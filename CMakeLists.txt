@@ -1,12 +1,32 @@
 PROJECT( TINKERCELL )
 
-SET(CMAKE_BUILD_TYPE "Release")
+#--------------------------------------------------------------------------
+#  Build type
+#--------------------------------------------------------------------------
+OPTION( USE_DEBUG_MODE "Release vs Debug mode" OFF)
+IF (USE_DEBUG_MODE)
+	SET(CMAKE_BUILD_TYPE "Release" CACHE STRING "Build type")
+ELSE(USE_DEBUG_MODE)
+	SET(CMAKE_BUILD_TYPE "Debug" CACHE STRING "Build type")
+ENDIF(USE_DEBUG_MODE)
+
+#--------------------------------------------------------------------------
+#  Special compile flags for Qt
+#--------------------------------------------------------------------------
 
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DQT_NO_DEBUG -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT")
 
+#--------------------------------------------------------------------------
+#  Special link flags for MS Windows
+#--------------------------------------------------------------------------
 IF ( WIN32 )
-   SET(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--enable-auto-import")
    SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--enable-auto-import")
+   OPTION( USE_STDCALL "Use this to enable stdcall instead of cdecl calling convention. Use this if you want to use a library in MS applications. This might cause issues in some libraries, such as embedded python" OFF)
+   IF (USE_STDCALL)
+		SET(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--enable-auto-import,--add-stdcall-alias,--out-implib")
+	ELSE(USE_STDCALL)
+		SET(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--enable-auto-import")
+	ENDIF(USE_STDCALL)
 ENDIF ( WIN32 )
 
 #--------------------------------------------------------------------------

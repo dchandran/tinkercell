@@ -33,6 +33,9 @@ namespace Tinkercell
 
 		/*! \brief the folder where tinkercell will look for python files, defaults to /python*/
 		static QString PYTHON_FOLDER;
+		/*! \brief the file where tinkercell will write outputs from python, defaults to tmp/py.out*/
+		static QString PYTHON_OUTPUT_FILE;
+
 	public slots:
 		virtual void initialize();
 		virtual void finalize();

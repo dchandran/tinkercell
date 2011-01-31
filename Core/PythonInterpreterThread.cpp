@@ -6,7 +6,6 @@
  
 The python interpreter that runs as a separate thread and can accept strings to parse and execute
 
-
 ****************************************************************************/
 
 #include "GraphicsScene.h"
@@ -20,9 +19,14 @@ The python interpreter that runs as a separate thread and can accept strings to 
 namespace Tinkercell
 {
 	QString PythonInterpreterThread::PYTHON_FOLDER("python");
+	QString PythonInterpreterThread::PYTHON_OUTPUT_FILE("py.out");
 
-    PythonInterpreterThread::PythonInterpreterThread(const QString & dllname, MainWindow* main)
-        : InterpreterThread(dllname,main)
+    PythonInterpreterThread::PythonInterpreterThread(const QString & dllname, MainWindow* main) :
+#ifdef Q_WS_WIN
+        InterpreterThread(dllname + QObject::tr(".pyd"),main)
+#else
+		InterpreterThread(dllname,main)
+#endif
     {
 		f = 0;
 	    addpathDone = false;
@@ -49,6 +53,11 @@ namespace Tinkercell
     {
         if (!mainWindow || !lib || !lib->isLoaded())
 		{
+			if (lib && mainWindow)
+				if (mainWindow->console())
+					mainWindow->console()->message("Could not initialize Python");
+				else
+					mainWindow->statusBar()->showMessage("Could not initialize Python");
 			return;
 		}
 
@@ -65,8 +74,20 @@ namespace Tinkercell
             f();
 
             QDir::setCurrent(currentDir);
-            mainWindow->statusBar()->showMessage(tr("Python initialized"));
+
+			if (mainWindow->console())
+	            mainWindow->console()->message(tr("Python initialized"));
+			else
+				mainWindow->statusBar()->showMessage(tr("Python initialized"));
         }
+		else
+		{
+			if (lib && mainWindow)
+				if (mainWindow->console())
+					mainWindow->console()->message("Cannot find initialize function in Python library");
+				else
+					mainWindow->statusBar()->showMessage("Cannot find initialize function in Python library");
+		}
     }
 
     void PythonInterpreterThread::run()
@@ -97,7 +118,7 @@ namespace Tinkercell
 			addpathDone = true;
 		}
         
-		script +=  QObject::tr("_outfile = open('py.out','w')\nsys.stdout = _outfile;\nsys.stderr = _outfile;\n");
+		script +=  QObject::tr("_outfile = open('") + PYTHON_OUTPUT_FILE + QObject::tr("','w')\nsys.stdout = _outfile;\nsys.stderr = _outfile;\n");
 		script += code;
 		script +=  QObject::tr("\n_outfile.close();\ntc_printFile('py.out');\n");
 

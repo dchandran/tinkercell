@@ -20,6 +20,7 @@ This is an example application that uses the TinkerCell Core library
 #include "BasicGraphicsToolbar.h"
 #include "ConsoleWindow.h"
 #include "OctaveInterpreterThread.h"
+#include "PythonInterpreterThread.h"
 #include "LoadSaveTool.h"
 #include "SimpleDesigner.h"
 
@@ -656,9 +657,10 @@ int main(int argc, char *argv[])
 	/*  setup an interpreter for the console (optional)  */
 	OctaveInterpreterThread::OCTAVE_FOLDER = "octave"; //this is where the libraries will be located
 	ConsoleWindow * console = mainWindow.console();
-	OctaveInterpreterThread * octaveInterpreter = new OctaveInterpreterThread("octave/tinkercell.oct", "octave/libtcoct", &mainWindow);
-	octaveInterpreter->initialize();
-	console->setInterpreter(octaveInterpreter);
+	//InterpreterThread * interpreter = new OctaveInterpreterThread("octave/tinkercell.oct", "octave/libtcoct", &mainWindow);
+	InterpreterThread * interpreter = new PythonInterpreterThread("python/_tinkercell", &mainWindow);
+	interpreter->initialize();
+	console->setInterpreter(interpreter);
 	
 	/*  optional  GUI configurations */
 	GraphicsScene::SelectionRectangleBrush = QBrush(QColor(5,5,5,40));

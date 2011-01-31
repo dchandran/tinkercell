@@ -180,11 +180,7 @@ namespace Tinkercell
 		if (mainWindow)
 		{
 			QString appDir = QCoreApplication::applicationDirPath();
-		#ifdef Q_WS_WIN
-			pythonInterpreter = new PythonInterpreterThread(tr("python/_tinkercell.pyd"), mainWindow);
-		#else
 			pythonInterpreter = new PythonInterpreterThread(tr("python/_tinkercell"), mainWindow);
-		#endif
 			pythonInterpreter->initialize();
 
 			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
@@ -195,7 +191,7 @@ namespace Tinkercell
 			if (console())
 			{
 				if (pythonInterpreter->library() && pythonInterpreter->library()->isLoaded())
-					console()->message(tr("Python initialized (init.py) ...\n"));
+					console()->message(tr("Running init.py ...\n"));
 				else
 					console()->message(tr("Python plugin not loaded\n"));
 			}

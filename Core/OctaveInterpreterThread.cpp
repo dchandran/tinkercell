@@ -27,7 +27,10 @@ namespace Tinkercell
     	fromTC = QRegExp("([A-Za-z0-9_]+)\\s*=\\s*fromTC\\s*\\(\\s*(\\s*[A-Za-z0-9_]+\\s*)\\)");
 		addpathDone = false;
     	f = 0;
-		swigLib = loadLibrary(octname, mainWindow);
+		if (octname.endsWith(QObject::tr(".oct")))
+			swigLib = loadLibrary(octname, mainWindow);
+		else
+			swigLib = loadLibrary(octname + QObject::tr(".oct"), mainWindow);
     }
 
     void OctaveInterpreterThread::setCPointers()
@@ -51,7 +54,7 @@ namespace Tinkercell
     void OctaveInterpreterThread::finalize()
     {
         if (!lib || !lib->isLoaded()) return;
-http://www.sciencemag.org/content/314/5805/1585.abstract
+
         finalFunc f = (finalFunc)lib->resolve("finalize");
         if (f)
         {
@@ -71,7 +74,8 @@ http://www.sciencemag.org/content/314/5805/1585.abstract
 		{
 			if (lib && mainWindow && mainWindow->console())
 				mainWindow->console()->message("Could not initialize Octave");
-			//qDebug() << "Octave interpreter: lib not loaded" << mainWindow << " " << lib;
+			else
+				mainWindow->statusBar()->showMessage("Could not initialize Octave");
 			return;
 		}
 
@@ -80,9 +84,7 @@ http://www.sciencemag.org/content/314/5805/1585.abstract
        initFunc f = (initFunc)lib->resolve("initialize");
         if (f)
         {
-        	if (mainWindow->console())
-	            mainWindow->console()->message(tr("Octave initialized"));
-            QString currentDir = QDir::currentPath();
+        	QString currentDir = QDir::currentPath();
 
             QDir::setCurrent(MainWindow::tempDir());
 
@@ -90,13 +92,19 @@ http://www.sciencemag.org/content/314/5805/1585.abstract
             f();
 
             QDir::setCurrent(currentDir);
-            
-            mainWindow->statusBar()->showMessage(tr("Octave initialized"));
+			
+            if (mainWindow->console())
+	            mainWindow->console()->message(tr("Octave initialized"));
+			else
+				mainWindow->statusBar()->showMessage(tr("Octave initialized"));
         }
         else
         {
-        	if (lib && mainWindow && mainWindow->console())
-    	 		mainWindow->console()->message("Cannot find initialize function in Octave library");
+			if (lib && mainWindow)
+				if (mainWindow->console())
+					mainWindow->console()->message("Cannot find initialize function in Octave library");
+				else
+					mainWindow->statusBar()->showMessage("Cannot find initialize function in Octave library");
         }
     }
     

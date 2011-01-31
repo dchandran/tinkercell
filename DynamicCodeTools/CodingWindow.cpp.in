@@ -75,7 +75,7 @@ namespace Tinkercell
 		{
 			QString s;
 			int err = 0;
-			if (!QFile::exists(homeDir + QObject::tr("/.svn")))
+			if (!QFile::exists(MainWindow::homeDir() + QObject::tr("/.svn")))
 			{
 				s = QObject::tr("svn co https://tinkercellextra.svn.sourceforge.net/svnroot/tinkercellextra ") + homeDir;
 				err = system(s.toAscii().data());

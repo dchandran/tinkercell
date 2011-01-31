@@ -16,7 +16,11 @@
 #    if defined(STATIC_LINKED)
 #      define TCAPIEXPORT
 #    else
-#      define TCAPIEXPORT __stdcall __declspec(dllexport)
+#            if defined(USE_STDCALL)
+#                 define TCAPIEXPORT __stdcall __declspec(dllexport)
+#            else
+#                 define TCAPIEXPORT __declspec(dllexport)
+#             endif
 #     endif
 #  else
 #    if defined(__GNUC__) && defined(GCC_HASCLASSVISIBILITY)

@@ -52,32 +52,32 @@
       <process family="Activation" participant_types="Node" participant_roles="Activator,Target">
           <process family="Allosteric Activation" participant_types="Molecule,Protein">
           </process>
-          <process family="Transcription Activation" participant_types="Transcription Factor,Inducible Promoter">
+          <process family="Transcription Activation" participant_types="Transcription Factor,Activator Binding Site">
           </process>
-          <process family="Direct Gene Activation" participant_types="Coding,Inducible Promoter" participant_roles="Activator,Target">
+          <process family="Direct Gene Activation" participant_types="Coding,Activator Binding Site" participant_roles="Activator,Target">
           </process>
       </process>
       
       <process family="Repression" participant_types="Node" participant_roles="Repressor,Target">
           <process family="Allosteric Inhibition" participant_types="Molecule,Protein" participant_roles="Inhibitor,Target">
           </process>
-          <process family="Transcription Repression" participant_types="Transcription Factor,Repressible Promoter">
+          <process family="Transcription Repression" participant_types="Transcription Factor,Repressor Binding Site">
           </process>
-          <process family="Direct Gene Repression" participant_types="Coding,Repressible Promoter">
+          <process family="Direct Gene Repression" participant_types="Coding,Repressor Binding Site">
           </process>
       </process>
       
-       <process family="Transcription Regulation" participant_types="Transcription Factor,Promoter">
-          <process family="Transcription Activation" participant_types="Transcription Factor,Inducible Promoter" participant_roles="Activator,Target">
+       <process family="Transcription Regulation" participant_types="Transcription Factor,Operator">
+          <process family="Transcription Activation" participant_types="Transcription Factor,Activator Binding Site" participant_roles="Activator,Target">
           </process>       	
-          <process family="Transcription Repression" participant_types="Transcription Factor,Repressible Promoter" participant_roles="Repressor,Target">
+          <process family="Transcription Repression" participant_types="Transcription Factor,Repressor Binding Site" participant_roles="Repressor,Target">
           </process>
       </process>
 
-      <process family="Direct Gene Regulation" participant_types="Coding,Promoter" participant_roles="Regulator,Target" description="This connection represents a gene regulating another gene.">
-        <process family="Direct Gene Activation" participant_types="Coding,Inducible Promoter" participant_roles="Activator,Target">
+      <process family="Direct Gene Regulation" participant_types="Coding,Operator" participant_roles="Regulator,Target" description="This connection represents a gene regulating another gene.">
+        <process family="Direct Gene Activation" participant_types="Coding,Activator Binding Site" participant_roles="Activator,Target">
         </process>
-  	    <process family="Direct Gene Repression" participant_types="Coding,Repressible Promoter" participant_roles="Repressor,Target">
+  	    <process family="Direct Gene Repression" participant_types="Coding,Repressor Binding Site" participant_roles="Repressor,Target">
         </process>
       </process>
     </process>

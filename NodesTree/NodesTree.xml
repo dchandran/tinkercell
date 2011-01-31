@@ -24,15 +24,18 @@
 
 	<node family="Coding"></node>
 	
-	<node family="Promoter" strength="1.0" description="RNA Polymerase binding site; may or may not include the operator sites, depending on the model">
-		<node family="Constitutive Promoter" description="A promoter that is always active"></node>
-		<node family="Inducible Promoter" description="A promoter that is requires a transcription factor for activation"></node>
-		<node family="Repressible Promoter" description="A promoter that can be repressed by a transcription factor"></node>
-	</node>
-	
 	<node family="Operator site" strength="1.0" description="Transcription factor binding site">
-		<node family="Activator Binding Site" description="A binding site that can be bound to activate the nearby promoter"></node>
-		<node family="Repressor Binding Site" description="A binding site that can be bound to repress the nearby promoter"></node>
+		<node family="Promoter" strength="1.0" description="RNA Polymerase binding site; may or may not include the operator sites, depending on the model">
+			<node family="Constitutive Promoter" description="A promoter that is always active"></node>
+			<node family="Inducible Promoter" description="A promoter that is requires a transcription factor for activation"></node>
+			<node family="Repressible Promoter" description="A promoter that can be repressed by a transcription factor"></node>
+		</node>
+		<node family="Activator Binding Site" description="A binding site that can be bound to activate the nearby promoter">
+			<node family="Inducible Promoter" description="A promoter with a binding site that requires a transcription factor for activation"></node>
+		</node>
+		<node family="Repressor Binding Site" description="A binding site that can be bound to repress the nearby promoter">
+			<node family="Repressible Promoter" description="A promoter with a binding site that can be repressed by a transcription factor"></node>
+		</node>
 	</node>
 	
 	<node family="RBS" strength="1.0" description="Ribosome binding site"></node>	

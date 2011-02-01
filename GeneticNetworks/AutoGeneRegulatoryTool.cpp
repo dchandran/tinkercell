@@ -1014,6 +1014,33 @@ namespace Tinkercell
 		QList<NodeGraphicsItem*> nodes;
 		QList<ItemHandle*> visited;
 		ItemHandle * handle;
+		QList<QGraphicsItem*> itemsToRemove;
+
+		for (int i=0; i < items.size(); ++i)
+		{
+			connection = ConnectionGraphicsItem::cast(items[i]);
+			if (connection 
+				&& (handle = connection->handle()) 
+				&& (handle->isA(tr("Regulation"))))
+				{
+					QList<NodeGraphicsItem*> nodes = connection->nodesWithArrows();
+					for (int j=0; j < nodes.size(); ++j)
+					{
+						if (nodes[j] && (handle = nodes[j]->handle()) && !handles.contains(handle) && handle->isA(tr("Operator")))
+						{
+							QList<QGraphicsItem*> connections = nodes[j]->connectionsAsGraphicsItems();
+							if (connections.size() > 1)
+							{
+								connections.removeAll(connection);
+								itemsToRemove += connections;
+							}
+						}
+					}
+				}
+		}
+		
+		if (!itemsToRemove.isEmpty())
+			scene->remove(tr("removed previous regulation"), itemsToRemove);
 		
 		for (int i=0; i < items.size(); ++i)
 		{

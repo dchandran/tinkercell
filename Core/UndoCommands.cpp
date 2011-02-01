@@ -1144,7 +1144,9 @@ namespace Tinkercell
 					visited << itemHandles[i];
 					exists = false;
 					for (int j=0; j < itemHandles[i]->graphicsItems.size(); ++j)
-						if (itemHandles[i]->graphicsItems[j]->scene())
+						if (itemHandles[i]->graphicsItems[j] && 
+							itemHandles[i]->graphicsItems[j]->scene() &&
+							static_cast<GraphicsScene*>(itemHandles[i]->graphicsItems[j]->scene())->networkWindow->isVisible())
 						{
 							h = (static_cast<GraphicsScene*>(itemHandles[i]->graphicsItems[j]->scene()))->localHandle();
 							if (!h || !itemHandles.contains(h))

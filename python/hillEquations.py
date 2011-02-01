@@ -31,10 +31,10 @@ if (len(genes) > 0):
 			for j in range(0,upstream.length):
 				p = tc_getItem(upstream,j);
 				if tc_isA(p,"Operator"):
+					opname = tc_getUniqueName(p);
 					if tc_isA(p,"Promoter"):
 						promoter = opname;
 					if tc_getConnections(p).length > 0:
-						opname = tc_getUniqueName(p);
 						opnames.append(opname);
 			rate = "0.0";	
 			if len(promoter) > 0:

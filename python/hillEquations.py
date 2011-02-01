@@ -37,13 +37,13 @@ if (len(genes) > 0):
 					opnames.append(opname);
 			rate = "0.0";	
 			if len(opnames) > 0 and len(promoter) > 0:
-				rate = promoter + ".strength * ";
 				if t == 0: #AND
 					rate = " * ".join(opnames);
 				elif t == 1: #OR
 					rate = " + ".join(opnames);
 				elif t == 2: #XOR
 					rate = " + ".join(opnames) - " * ".join(opnames);
+				rate = promoter + ".strength * (" + rate + ")";
 				name = tc_getUniqueName(i)
 				tc_print(name + " has rate : " + rate + "\n");
 				tc_addForcingFunction(i, name , rate);

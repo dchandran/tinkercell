@@ -610,6 +610,7 @@ namespace Tinkercell
 						promoter = parts[i];
 
 					operators += parts[i];
+					
 					bool isProperReaction = false;
 					QList<ConnectionHandle*> connections = NodeHandle::cast(parts[i])->connections();
 					for (int j=0; j < connections.size(); ++j)

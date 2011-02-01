@@ -757,21 +757,26 @@ namespace Tinkercell
 			if (s0.startsWith(item->fullName() + tr(".")))
 				s0.remove(item->fullName() + tr("."));
 			
-			if (s0 == item->fullName())
+			if (s0 == item->fullName() || s0.isEmpty())
 				s0 = Self;
-
-			if (!item->name.isEmpty())
-				s0 = item->fullName() + tr(".") + s0;
 			
-			s = s0;
-
-			while (
-				(win->symbolsTable.uniqueDataWithDot.contains(s)) &&
-				!(win->symbolsTable.uniqueDataWithDot[s].second == tr("Assignments"))
-				)
-				s = s0 + QString::number(++k);
+			if (dat.hasRow(s0))
+			{
+				s = s0;
+			}
+			else
+			{
+				if (!item->name.isEmpty())
+					s0 = item->fullName() + tr(".") + s0;
 			
-			s.remove(item->fullName() + tr("."));
+				s = s0;
+
+				while (win->symbolsTable.uniqueDataWithDot.contains(s))
+					s = s0 + QString::number(++k);
+			
+				s.remove(item->fullName() + tr("."));
+			}
+
 			if (!dat.hasRow(s) || f != dat.value(s,0))
 			{
 				dat.value(s,0) = func;

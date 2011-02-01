@@ -29,7 +29,7 @@ if items.length < 1:
 else:
 
     promoters = [];
-	operators = [];
+    operators = [];
     coding = [];
     rbs = [];
     terminators = [];
@@ -37,11 +37,11 @@ else:
 
     for n in range(0,items.length):
         i = tc_getItem(items,n);
-        
+
         if tc_isA(i,"Promoter"):
             promoters.append(i);
         
-		elif tc_isA(i,"Operator"):
+        elif tc_isA(i,"Operator"):
             operators.append(i);
 		
         elif tc_isA(i,"Coding"):
@@ -114,16 +114,16 @@ else:
         
         p = tfs[i]
         name = tfNames[i];
-        promoters = [];
+        operators = [];
         nodes = tc_getConnectedNodesWithRole(p,"Target");
         for k in range(0,nodes.length):
-            promoters.append( tc_getUniqueName( tc_getItems(nodes,k) ) );  #get its name
+            operators.append( tc_getUniqueName( tc_getItems(nodes,k) ) );  #get its name
         
         displayList = [];
         displayList0 = [];
-        targetPromoters = [];
+        targetOperators = [];
         
-        for j in promoters:  #get Regulon tfs for each regulatory element
+        for j in operators:  #get Regulon tfs for each regulatory element
             if RegulonDB.ECOLI_BINDING_SITES_INTERACTIONS2.has_key(j):
                 displayList0 = RegulonDB.ECOLI_BINDING_SITES_INTERACTIONS2[j].keys();
                 for k in displayList0:
@@ -143,7 +143,7 @@ else:
             if k > -1:
                 key = displayList[k];
         else:
-            k = tc_getStringFromList("Transcription factors known to bind " + ", ".join(promoters) + " : ", toStrings(displayList),"");
+            k = tc_getStringFromList("Transcription factors known to bind " + ", ".join(operators) + " : ", toStrings(displayList),"");
             if k > -1:
                 key = displayList0[k];
         
@@ -153,12 +153,12 @@ else:
                 regid = RegulonDB.ECOLI_TF[key];
                 if RegulonDB.ECOLI_BINDING_SITES_INTERACTIONS1.has_key(key):
                     s = ",".join(RegulonDB.ECOLI_BINDING_SITES_INTERACTIONS1[key].keys());
-                    tc_setTextAttribute(p,"targetPromoter",s);
+                    tc_setTextAttribute(p,"targetOperator",s);
                 tc_setTextAttribute(p,"RegulonID",regid);
                 tc_print(key + " has been updated with RegulonDB ID and target promoter(s) information");
     
-	for i in range(0,len(promoters)): #for each selected promoter
-        
+    for i in range(0,len(promoters)): #for each selected promoter
+
         p = promoters[i]
         name = promoterNames[i];
         

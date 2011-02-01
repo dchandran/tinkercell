@@ -31,19 +31,23 @@ if (len(genes) > 0):
 			for j in range(0,upstream.length):
 				p = tc_getItem(upstream,j);
 				if tc_isA(p,"Operator"):
-					opname = tc_getUniqueName(p);
 					if tc_isA(p,"Promoter"):
 						promoter = opname;
-					opnames.append(opname);
+					if tc_getConnections(p).length > 0:
+						opname = tc_getUniqueName(p);
+						opnames.append(opname);
 			rate = "0.0";	
-			if len(opnames) > 0 and len(promoter) > 0:
-				if t == 0: #AND
-					rate = " * ".join(opnames);
-				elif t == 1: #OR
-					rate = " + ".join(opnames);
-				elif t == 2: #XOR
-					rate = " + ".join(opnames) - " * ".join(opnames);
-				rate = promoter + ".strength * (" + rate + ")";
+			if len(promoter) > 0:
+				if len(opnames) < 1:
+					rate = promoter + ".strength";
+				else:
+					if t == 0: #AND
+						rate = " * ".join(opnames);
+					elif t == 1: #OR
+						rate = " + ".join(opnames);
+					elif t == 2: #XOR
+						rate = " + ".join(opnames) - " * ".join(opnames);
+					rate = promoter + ".strength * (" + rate + ")";
 				name = tc_getUniqueName(i)
 				tc_print(name + " has rate : " + rate + "\n");
 				tc_addForcingFunction(i, name , rate);

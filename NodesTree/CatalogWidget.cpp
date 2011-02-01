@@ -735,7 +735,7 @@ namespace Tinkercell
 		if (isFirstTime)
 		{
 			if (NodeFamily::cast(family))
-				b = family->children().isEmpty();
+				b = family->allChildren().size() < 2;
 		
 			if (ConnectionFamily::cast(family)) //ad-hoc
 				b = family->parent() && family->parent()->name() == tr("Biochemical");

@@ -188,7 +188,7 @@ namespace Tinkercell
 		for (int i=0; i < selected.size(); ++i)
 		{
 			handle = getHandle(selected[i]);
-			if (NodeGraphicsItem::cast(selected[i]) && handle && handle->isA("Promoter") && !visited.contains(handle))
+			if (NodeGraphicsItem::cast(selected[i]) && handle && handle->isA("Operator") && !visited.contains(handle))
 			{
 				regulatorNodes += NodeGraphicsItem::cast(selected[i]);
 				visited += handle;
@@ -591,7 +591,8 @@ namespace Tinkercell
 		ItemHandle * rbs = 0;
 		QString rate, s0;
 
-		QList<ItemHandle*> targetHandles, promoters;
+		QList<ItemHandle*> targetHandles, operators;
+		ItemHandle * promoter = 0;
 		QList<QString> hashStrings;
 		QList<DataTable<QString>*> oldDataTables, newDataTables;
 
@@ -603,9 +604,12 @@ namespace Tinkercell
 					rbs = parts[i];
 				}
 
-				if (parts[i]->isA(tr("Promoter")))
+				if (parts[i]->isA(tr("Operator")))
 				{
-					promoters += parts[i];
+					if (parts[i]->isA(tr("Promoter")))
+						promoter = parts[i];
+
+					operators += parts[i];
 					bool isProperReaction = false;
 					QList<ConnectionHandle*> connections = NodeHandle::cast(parts[i])->connections();
 					for (int j=0; j < connections.size(); ++j)
@@ -676,20 +680,23 @@ namespace Tinkercell
 				if (parts[i]->isA(tr("Coding")) && NodeHandle::cast(parts[i]))
 				{
 					rate = tr("");
-					for (int k=0; k < promoters.size(); ++k)
+					for (int k=0; k < operators.size(); ++k)
 						if (rate.isEmpty())
-							rate = promoters[k]->fullName() + tr(".strength * ") + promoters[k]->fullName();
+							rate = operators[k]->fullName();
 						else
-							rate += tr(" * ") + promoters[k]->fullName() + tr(".strength * ") + promoters[k]->fullName();
+							rate += tr(" * ") + operators[k]->fullName();
 					
 					
-					if (rate.isEmpty())
+					if (rate.isEmpty() || !promoter)
 						rate = tr("0.0");
 					else
+					{
+						if (promoter->hasNumericalData("Parameters") && promoter->numericalDataTable("Parameters").hasRow("strength"))
+							rate = promoter->fullName() + tr(".strength * ") + rate;
+
 						if (parts[i]->parent && parts[i]->parent->isA(tr("Vector")))
-						{
 							rate = parts[i]->parent->fullName() + tr(" * ") + rate;
-						}
+					}
 					
 					QString oldrate = parts[i]->textData(tr("Assignments"),tr("self"),0);
 					bool isCustomEqn = oldrate.contains(tr("+")) ||
@@ -751,7 +758,8 @@ namespace Tinkercell
 				
 						if ((parts[i]->isA(tr("Terminator")) || parts[i]->isA(tr("Vector")) ) && NodeHandle::cast(parts[i]))
 						{
-							promoters.clear();
+							operators.clear();
+							promoter = 0;
 						}
 					}
 				}
@@ -1032,7 +1040,7 @@ namespace Tinkercell
 				nodes = connection->nodes();
 				for (int j=0; j < nodes.size(); ++j)
 					if (nodes[j] && nodes[j]->handle() 
-						&& (nodes[j]->handle()->isA(tr("Promoter")) || nodes[j]->handle()->isA(tr("Coding"))))
+						&& (nodes[j]->handle()->isA(tr("Operator")) || nodes[j]->handle()->isA(tr("Coding"))))
 					{
 						startNode = nodes[j];
 						break;
@@ -1090,7 +1098,7 @@ namespace Tinkercell
 		for (int i=0; i < items.size(); ++i)
 		{
 			handle = NodeHandle::cast( getHandle(items[i]) );
-			if (NodeGraphicsItem::cast(items[i]) && handle && (handle->isA(tr("Promoter")) || handle->isA(tr("RBS"))))
+			if (NodeGraphicsItem::cast(items[i]) && handle && (handle->isA(tr("Operator")) || handle->isA(tr("RBS"))))
 			{
 				connections = scene->network->symbolsTable.handlesByFamily.values(tr("Transcription"));
 				connections += scene->network->symbolsTable.handlesByFamily.values(tr("Translation"));
@@ -1360,9 +1368,9 @@ namespace Tinkercell
 				containsSpecies = true;
 			if (!containsProteins && handle && handle->isA("Protein"))
 				containsProteins = true;
-			if (!containsRegulatorDown && handle && handle->isA("Repressible Promoter"))
+			if (!containsRegulatorDown && handle && handle->isA("Repressor Binding Site"))
 				containsRegulatorDown = true;
-			if (!containsRegulatorUp && handle && handle->isA("Inducible Promoter"))
+			if (!containsRegulatorUp && handle && handle->isA("Activator Binding Site"))
 				containsRegulatorUp = true;
 			if (!containsCoding && handle && handle->isA("Coding"))
 				containsCoding = true;
@@ -1738,7 +1746,7 @@ namespace Tinkercell
 
 	QString AutoGeneRegulatoryTool::hillEquation(NodeHandle * handle, ItemHandle * except)
 	{
-		if (!handle || !handle->isA(tr("Promoter"))) return QString();
+		if (!handle || !handle->isA(tr("Operator"))) return QString();
 
 		QList<ConnectionHandle*> connections = handle->connections();
 

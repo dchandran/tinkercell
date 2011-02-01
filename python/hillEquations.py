@@ -31,7 +31,7 @@ if (len(synthesis) > 0):
 				upstream = tc_partsUpstream( tc_getItem(genes,0) );
 				for j in range(0,upstream.length):
 					p = tc_getItem(upstream,j);
-					if tc_isA(p,"Promoter"):
+					if tc_isA(p,"Operator"):
 						promotername = tc_getUniqueName(p);
 						promoternames.append(promotername);
 					"""

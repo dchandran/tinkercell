@@ -29,6 +29,7 @@ if items.length < 1:
 else:
 
     promoters = [];
+	operators = [];
     coding = [];
     rbs = [];
     terminators = [];
@@ -39,7 +40,10 @@ else:
         
         if tc_isA(i,"Promoter"):
             promoters.append(i);
-            
+        
+		elif tc_isA(i,"Operator"):
+            operators.append(i);
+		
         elif tc_isA(i,"Coding"):
             coding.append(i);
             
@@ -52,18 +56,19 @@ else:
         elif tc_isA(i,"Transcription Factor"):
             tfs.append(i);
 
-	promoterNames = rbsNames = codingNames = terminatorNames = tfNames = [];
+	promoterNames = operatorNames = rbsNames = codingNames = terminatorNames = tfNames = [];
 	if len(promoters) > 0: promoterNames = fromTC( tc_getUniqueNames( toTC(promoters) ) );
+	if len(operators) > 0: operatorNames = fromTC( tc_getUniqueNames( toTC(operators) ) );
     if len(rbs) > 0: rbsNames = fromTC( tc_getUniqueNames( toTC(rbs) ) );
     if len(coding) > 0: codingNames = fromTC( tc_getUniqueNames( toTC(coding) ) );
     if len(terminators) > 0: terminatorNames = fromTC( tc_getUniqueNames( toTC(terminators) ) );
     if len(tfs) > 0: tfNames = fromTC( tc_getUniqueNames( toTC(tfs) ) );
     ignoreList = []; #list of names not found in the DB
 
-    for i in range(0,len(promoters)): #for each selected promoter
+    for i in range(0,len(operators)): #for each selected promoter
         
-        p = promoters[i]
-        name = promoterNames[i];
+        p = operators[i]
+        name = operatorNames[i];
         regulators = [];
         repressors = tc_getConnectedNodesWithRole(p,"Repressor");
         activators = tc_getConnectedNodesWithRole(p,"Activator");
@@ -152,6 +157,27 @@ else:
                 tc_setTextAttribute(p,"RegulonID",regid);
                 tc_print(key + " has been updated with RegulonDB ID and target promoter(s) information");
     
+	for i in range(0,len(promoters)): #for each selected promoter
+        
+        p = promoters[i]
+        name = promoterNames[i];
+        
+        displayList = [];
+        
+        k = -1;
+        key = "";
+        displayList = RegulonDB.ECOLI_PROMOTERS.keys();
+        k = tc_getStringFromList("Available Promoters from Regulon DB: ",toStrings(displayList),"");
+        if k > -1:
+            key = displayList[k];
+        
+        if k > -1 and len(key) > 0:
+            list = RegulonDB.ECOLI_PROMOTERS[key];
+            tc_rename(p,key);
+            tc_setTextAttribute(p,"RegulonRB",list[0]);
+            tc_setTextAttribute(p,"sequence",list[1]);
+            tc_print(key + " has been updated with RegulonDB ID and sequence information");
+
     for i in range(0,len(rbs)): #for each selected promoter
         
         p = rbs[i]

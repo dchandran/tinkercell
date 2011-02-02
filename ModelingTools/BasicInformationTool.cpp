@@ -629,7 +629,7 @@ namespace Tinkercell
 			QToolButton * removeAttribAction = new QToolButton(this);
 			removeAttribAction->setIcon(QIcon(":/images/minus.png"));
 
-			QPushButton * closeButton = new QPushButton(this, "Done");
+			QPushButton * closeButton = new QPushButton("Done", this);
 			
 			QString message;
 			if (type == BasicInformationTool::numerical)

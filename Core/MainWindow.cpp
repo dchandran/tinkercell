@@ -477,13 +477,13 @@ namespace Tinkercell
 			previousFileName = tr("");
 			for (int i=0; i < SAVE_FILE_EXTENSIONS.size(); ++i)
 				if (fileName.endsWith(tr(".") + SAVE_FILE_EXTENSIONS[i]))
-					currentNetworkWindow->filename = previousFileName = fileName;
+					 previousFileName = fileName;
 			
 			if (previousFileName.isEmpty())
 			{
 				if (!SAVE_FILE_EXTENSIONS.isEmpty())
 					fileName += tr(".") + SAVE_FILE_EXTENSIONS[0];
-				currentNetworkWindow->filename = previousFileName = fileName;
+				previousFileName = fileName;
 			}
 		}
 		else
@@ -506,7 +506,7 @@ namespace Tinkercell
 		QRegExp regex(tr("([^\\/]+$)"));
 		if (regex.indexIn(fileName))
 		{
-			console()->message(fileName);
+			//console()->message(fileName);
 			currentNetworkWindow->setFileName(fileName);
 		}
 	}
@@ -528,13 +528,13 @@ namespace Tinkercell
 		previousFileName = tr("");
 		for (int i=0; i < SAVE_FILE_EXTENSIONS.size(); ++i)
 			if (fileName.endsWith(tr(".") + SAVE_FILE_EXTENSIONS[i]))
-				currentNetworkWindow->filename = previousFileName = fileName;
+				previousFileName = fileName;
 			
 		if (previousFileName.isEmpty())
 		{
 			if (!SAVE_FILE_EXTENSIONS.isEmpty())
 				fileName += tr(".") + SAVE_FILE_EXTENSIONS[0];
-			currentNetworkWindow->filename = previousFileName = fileName;
+			previousFileName = fileName;
 		}
 
 		QFile file (fileName);

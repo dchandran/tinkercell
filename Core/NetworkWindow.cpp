@@ -186,9 +186,6 @@ namespace Tinkercell
 	{
 		if (network && network->networkWindows.contains(this))
 		{
-			if (network->mainWindow && network->mainWindow->currentNetworkWindow == this)
-				network->mainWindow->currentNetworkWindow = 0;
-
 			if (network->networkWindows.size() > 0 && network->networkWindows[0] == this)
 			{
 				bool b = true;
@@ -198,6 +195,8 @@ namespace Tinkercell
 		
 				if (b)
 				{
+					if (network->mainWindow && network->mainWindow->currentNetworkWindow == this)
+						network->mainWindow->currentNetworkWindow = 0;
 					emit networkClosed(network);
 					event->accept();
 					network->close();
@@ -350,6 +349,8 @@ namespace Tinkercell
 		QRegExp regex(tr("([^\\\\/]+$)"));
 		if (network && network->mainWindow && (regex.indexIn(filename) >= 0))
 		{
+			if (network->console())
+				network->console()->message(filename);
 			setWindowTitle(regex.cap(1));
 		}
 	}

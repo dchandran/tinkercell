@@ -629,6 +629,8 @@ namespace Tinkercell
 			QToolButton * removeAttribAction = new QToolButton(this);
 			removeAttribAction->setIcon(QIcon(":/images/minus.png"));
 
+			QPushButton * closeButton = new QPushButton(this, "Done");
+			
 			QString message;
 			if (type == BasicInformationTool::numerical)
 			{
@@ -656,6 +658,7 @@ namespace Tinkercell
 
 		connect(addAttribAction,SIGNAL(pressed()),this,SLOT(addAttribute()));
 		connect(removeAttribAction,SIGNAL(pressed()),this,SLOT(removeSelectedAttributes()));
+		connect(closeButton,SIGNAL(pressed()),this,SLOT(deselect()));
 
 		QToolButton * question = new QToolButton(this);
 		question->setIcon(QIcon(":/images/question.png"));
@@ -665,6 +668,8 @@ namespace Tinkercell
 
 		actionsLayout->addWidget(addAttribAction);
 		actionsLayout->addWidget(removeAttribAction);
+		actionsLayout->addStretch(1);
+		actionsLayout->addWidget(closeButton);
 		actionsLayout->addStretch(1);
 		actionsLayout->addWidget(question);
 

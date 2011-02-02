@@ -259,7 +259,7 @@ namespace Tinkercell
 		tabWidget = new QTabWidget(this);
 		layout->addWidget(tabWidget);
 		closeButton = new QPushButton;
-		closeButton->setText(tr("Close"));
+		closeButton->setText(tr("Done"));
 		QHBoxLayout * buttonLayout = new QHBoxLayout;
 		buttonLayout->addWidget(closeButton);
 		buttonLayout->addStretch(1);

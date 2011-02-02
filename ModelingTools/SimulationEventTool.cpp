@@ -400,7 +400,7 @@ namespace Tinkercell
 			reader.readXml(image, appDir + tr("/icons/stepFunc.xml"));
 			image->setToolTip(tr("Step function"));	
 			command = tr("Step function inserted");
-			assignments.value( handle->fullName() , 0 ) = name + tr(".step_height/(1.0 + exp((") + name + tr(".step_time^") + name + tr(".step_steepness) - (time^") + name + tr(".step_steepness)))");
+			assignments.value( "self" , 0 ) = name + tr(".step_height/(1.0 + exp((") + name + tr(".step_time^") + name + tr(".step_steepness) - (time^") + name + tr(".step_steepness)))");
 			parameters.value( tr("step_height"), 0 ) = 1.0;
 			parameters.value( tr("step_time"), 0 ) = 2.0;
 			parameters.value( tr("step_steepness"), 0 ) = 4.0;
@@ -411,7 +411,7 @@ namespace Tinkercell
 			reader.readXml(image, appDir + tr("/icons/pulseFunc.xml"));
 			image->setToolTip(tr("Impulse function"));
 			command = tr("Impulse function inserted");
-			assignments.value( handle->fullName() , 0 ) = name + tr(".impulse_height*exp( - ((") + name + tr(".impulse_width*(time - ") + name + tr(".impulse_time))^2))");
+			assignments.value( "self" , 0 ) = name + tr(".impulse_height*exp( - ((") + name + tr(".impulse_width*(time - ") + name + tr(".impulse_time))^2))");
 			parameters.value( tr("impulse_height"), 0 ) = 1.0;
 			parameters.value( tr("impulse_width"), 0 ) = 2.0;
 			parameters.value( tr("impulse_time"), 0 ) = 4.0;
@@ -422,7 +422,7 @@ namespace Tinkercell
 			reader.readXml(image, appDir + tr("/icons/sinFunc.xml"));
 			image->setToolTip(tr("Sine function"));
 			command = tr("Sine function inserted");
-			assignments.value( handle->fullName() , 0 ) = name + tr(".sin_amplitude + ") + name + tr(".sin_amplitude*sin(time*") + name + tr(".sin_frequency)");
+			assignments.value( "self" , 0 ) = name + tr(".sin_amplitude + ") + name + tr(".sin_amplitude*sin(time*") + name + tr(".sin_frequency)");
 			parameters.value( tr("sin_amplitude"), 0 ) = 1.0;
 			parameters.value( tr("sin_frequency"), 0 ) = 2.0;
 		}
@@ -582,8 +582,7 @@ namespace Tinkercell
 				handles << nodeHandle;
 			
 				DataTable<QString> * newData1 = new DataTable<QString>(nodeHandle->textDataTable(tr("Assignments")));
-				newData1->removeRow(nodeHandle->fullName());
-				newData1->removeRow(nodeHandle->name);
+				newData1->removeRow("self");
 				oldTextTables << &(nodeHandle->textDataTable(tr("Assignments")));
 				newTextTables << newData1;
 			

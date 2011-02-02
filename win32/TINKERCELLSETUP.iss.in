@@ -284,6 +284,10 @@ Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\Graphics\Bio1\Nodes\
 Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\Graphics\Bio1\Nodes\Node.xml; DestDir: {app}\Graphics\Bio1\Nodes
 Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\Graphics\Bio1\Nodes\Operator.PNG; DestDir: {app}\Graphics\Bio1\Nodes
 Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\Graphics\Bio1\Nodes\Operator.xml; DestDir: {app}\Graphics\Bio1\Nodes
+Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\Graphics\Bio1\Nodes\ActivatorBindingSite.PNG; DestDir: {app}\Graphics\Bio1\Nodes
+Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\Graphics\Bio1\Nodes\ActivatorBindingSite.xml; DestDir: {app}\Graphics\Bio1\Nodes
+Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\Graphics\Bio1\Nodes\RepressorBindingSite.PNG; DestDir: {app}\Graphics\Bio1\Nodes
+Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\Graphics\Bio1\Nodes\RepressorBindingSite.xml; DestDir: {app}\Graphics\Bio1\Nodes
 Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\Graphics\Bio1\Nodes\Part.PNG; DestDir: {app}\Graphics\Bio1\Nodes
 Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\Graphics\Bio1\Nodes\Part.xml; DestDir: {app}\Graphics\Bio1\Nodes
 Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\Graphics\Bio1\Nodes\Promoter.PNG; DestDir: {app}\Graphics\Bio1\Nodes
@@ -403,6 +407,10 @@ Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\Graphics\Fancy1\Node
 Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\Graphics\Fancy1\Nodes\Node.xml; DestDir: {app}\Graphics\Fancy1\Nodes
 Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\Graphics\Fancy1\Nodes\Operator.PNG; DestDir: {app}\Graphics\Fancy1\Nodes
 Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\Graphics\Fancy1\Nodes\Operator.xml; DestDir: {app}\Graphics\Fancy1\Nodes
+Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\Graphics\Fancy1\Nodes\ActivatorBindingSite.PNG; DestDir: {app}\Graphics\Fancy1\Nodes
+Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\Graphics\Fancy1\Nodes\ActivatorBindingSite.xml; DestDir: {app}\Graphics\Fancy1\Nodes
+Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\Graphics\Fancy1\Nodes\RepressorBindingSite.PNG; DestDir: {app}\Graphics\Fancy1\Nodes
+Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\Graphics\Fancy1\Nodes\RepressorBindingSite.xml; DestDir: {app}\Graphics\Fancy1\Nodes
 Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\Graphics\Fancy1\Nodes\Part.PNG; DestDir: {app}\Graphics\Fancy1\Nodes
 Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\Graphics\Fancy1\Nodes\Part.xml; DestDir: {app}\Graphics\Fancy1\Nodes
 Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\Graphics\Fancy1\Nodes\Promoter.PNG; DestDir: {app}\Graphics\Fancy1\Nodes

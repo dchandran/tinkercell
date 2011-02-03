@@ -59,6 +59,8 @@ namespace Tinkercell
 
 		openedByUser = true;
 		updateTable();
+		closeButton->setVisible(true);
+
 		if (dockWidget != 0)
 		{
 			if (dockWidget->isVisible())
@@ -260,6 +262,7 @@ namespace Tinkercell
 		
 		QStringList eqns(equationsList.values());
 		QString equations = QStringList(equationsList.values()).join(" ");
+		closeButton->setVisible(false);
 
 		for (int i=0; i < items.size(); ++i)
 		{
@@ -629,7 +632,7 @@ namespace Tinkercell
 			QToolButton * removeAttribAction = new QToolButton(this);
 			removeAttribAction->setIcon(QIcon(":/images/minus.png"));
 
-			QPushButton * closeButton = new QPushButton("Done", this);
+			closeButton = new QPushButton("Done", this);
 			
 			QString message;
 			if (type == BasicInformationTool::numerical)

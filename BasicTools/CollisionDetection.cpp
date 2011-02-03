@@ -45,7 +45,6 @@ namespace Tinkercell
 
 			connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene *, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),
 				this,SLOT(itemsSelected(GraphicsScene *,const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
-
 		}
 
 		return false;
@@ -53,6 +52,7 @@ namespace Tinkercell
 
 	void CollisionDetection::itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>& items, const QList<ItemHandle*>&)
 	{
+		
 		if (!(nodeBelowCursor != 0 || connectionBelowCursor != 0))
 		{
 			QPointF & p = scene->lastPoint();
@@ -72,7 +72,8 @@ namespace Tinkercell
 				}
 		}
 
-		if (nodeBelowCursor != 0 || connectionBelowCursor != 0)
+		if ((nodeBelowCursor && nodeBelowCursor->scene()==scene) || 
+			 (connectionBelowCursor && connectionBelowCursor->scene()==scene))
 		{
 			if (nodeBelowCursor != 0 && !ToolGraphicsItem::cast(nodeBelowCursor->topLevelItem()))
 				emit nodeCollided(items,nodeBelowCursor,QList<QPointF>());

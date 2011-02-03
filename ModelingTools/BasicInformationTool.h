@@ -169,6 +169,7 @@ namespace Tinkercell
 		NodeGraphicsItem item;
 		TextComboDoubleDelegate delegate;
 		QDockWidget * dockWidget;
+		QPushButton * closeButton;
 	
 	public:
 		static QHash<QString,double> initialValues;

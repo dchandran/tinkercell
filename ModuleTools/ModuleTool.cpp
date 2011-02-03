@@ -975,8 +975,8 @@ namespace Tinkercell
 					snapshotIcon->setIcon(QIcon(moduleSnapshots[ch]));
 					snapshotIcon->setIconSize(QSize(256,256));
 					snapshotToolTip->show();
-					return;
 				}
+				return;
 			}
 		}
 		

@@ -143,8 +143,8 @@ namespace Tinkercell
 						snapshotIcon->setIcon(QIcon(functionSnapshots[s]));
 						snapshotIcon->setIconSize(QSize(256,256));
 						snapshotToolTip->show();
-						return;
 					}
+					return;
 				}
 			}
 		}
@@ -735,6 +735,7 @@ namespace Tinkercell
 				{
 					QString s;
 					QStringList lst = items[i]->textDataTable(tr("Assignments")).rowNames();
+
 
 					for (int j=0; j < lst.size(); ++j)
 					{

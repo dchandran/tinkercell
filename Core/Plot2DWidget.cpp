@@ -647,6 +647,14 @@ namespace Tinkercell
 		}
 	}
 	
+	void Plot2DWidget::print(QPaintDevice& printer)
+	{
+		if (dataPlot)
+		{
+			dataPlot->print(printer);
+		}
+	}
+	
 	void Plot2DWidget::exportData(const QString& type, const QString& fileName)
 	{
 		if (!dataPlot) return;

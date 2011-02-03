@@ -72,6 +72,9 @@ namespace Tinkercell
 
 			connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),
 				this,SLOT(itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
+			
+			connect(mainWindow,SIGNAL(mouseMoved(GraphicsScene* , QGraphicsItem*, QPointF , Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>&)),
+                    this,SLOT(mouseMoved(GraphicsScene* , QGraphicsItem*, QPointF , Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>&)));
 
 			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 
@@ -87,6 +90,18 @@ namespace Tinkercell
 			setPalette(QPalette(QColor(255,255,255,255)));
 			setAutoFillBackground(true);
 			//setWindowOpacity(0.8);
+			
+			//module snapshot window
+			snapshotToolTip = new QSplashScreen(mainWindow);
+			snapshotToolTip->setPalette(QPalette(Qt::black));
+			snapshotToolTip->setFixedSize(256,256);
+			QRect rect = mainWindow->geometry();
+			snapshotToolTip->setGeometry (rect.right() - 280, rect.bottom() - 280, 256, 256 );
+			QHBoxLayout * layout = new QHBoxLayout;
+			layout->setContentsMargins(1,1,1,1);
+			snapshotIcon = new QToolButton;
+			layout->addWidget(snapshotIcon);
+			snapshotToolTip->setLayout(layout);
 
 			hide();
 			
@@ -94,6 +109,48 @@ namespace Tinkercell
 		}
 
 		return (mainWindow != 0);
+	}
+	
+	void AssignmentFunctionsTool::mouseMoved(GraphicsScene* scene, QGraphicsItem * hoverOverItem, QPointF , Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>& )
+	{
+		if (mainWindow && scene && scene->useDefaultBehavior && hoverOverItem && !TextGraphicsItem::cast(hoverOverItem) && snapshotToolTip)
+		{
+			ItemHandle * h = getHandle(hoverOverItem);
+			
+			if (h && h->hasTextData(tr("Assignments")) && graphWidget)
+			{
+				TextDataTable & assignments = h->textDataTable(tr("Assignments"));
+				if (assignments.hasRow(Self) || assignments.hasRow(h->fullName()))
+				{
+					QString s;
+					if (assignments.hasRow(Self))
+						s = assignments(Self,0);
+					else
+						s = assignments(h->fullName(),0);
+					if (!functionSnapshots.contains(s))
+					{
+						QPixmap printer(256, 256);
+						printer.fill();
+						graphWidget->setFormula(s,scene->network);
+						graphWidget->setTitle(tr("Function"));
+						graphWidget->print(printer);
+						functionSnapshots[s] = printer;
+					}
+					if (!snapshotToolTip->isVisible())
+					{
+						QRect rect = mainWindow->geometry();
+						snapshotToolTip->setGeometry (rect.right() - 280, rect.bottom() - 280, 256, 256 );
+						snapshotIcon->setIcon(QIcon(functionSnapshots[s]));
+						snapshotIcon->setIconSize(QSize(256,256));
+						snapshotToolTip->show();
+						return;
+					}
+				}
+			}
+		}
+		
+		if (snapshotToolTip && snapshotToolTip->isVisible())
+			snapshotToolTip->hide();
 	}
 
 	void AssignmentFunctionsTool::toolLoaded(Tool*)
@@ -399,6 +456,10 @@ namespace Tinkercell
 		toolButton->setIcon(QIcon(appDir + tr("/icons/func.xml")));
 		toolButton->setToolTip(name);
 		this->buttons.addButton(toolButton);*/
+		
+		//module snapshot window
+		snapshotToolTip = 0;
+		snapshotIcon = 0;
 
 		openedByUser = false;
 	}

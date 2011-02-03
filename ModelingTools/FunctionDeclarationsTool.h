@@ -31,6 +31,7 @@ textsheet.xml files that define the NodeGraphicsItems.
 #include <QToolButton>
 #include <QButtonGroup>
 #include <QTableView>
+#include <QSplashScreen>
 
 #include "EquationGraph.h"
 #include "NodeGraphicsItem.h"
@@ -92,6 +93,7 @@ namespace Tinkercell
 
 		void aboutToDisplayModel(const QList<ItemHandle*>& items, QHash<QString,qreal>& constants, QHash<QString,QString>& equations);
 		void displayModel(QTabWidget& widgets, const QList<ItemHandle*>& items, QHash<QString,qreal>& constants, QHash<QString,QString>& equations);
+		void mouseMoved(GraphicsScene* scene, QGraphicsItem*, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>& items);
 
 	private slots:
 		void getForcingFunctionNames(QSemaphore*,QStringList*,const QList<ItemHandle*>&);
@@ -117,6 +119,9 @@ namespace Tinkercell
 		bool openedByUser;
 		NodeGraphicsItem item;
 		EquationGraph * graphWidget;
+		QSplashScreen * snapshotToolTip;
+		QToolButton * snapshotIcon;
+		QHash<QString, QPixmap> functionSnapshots;
 
 		static tc_strings _getForcingFunctionNames(tc_items);
 		static tc_strings _getForcingFunctionAssignments(tc_items);

@@ -955,7 +955,7 @@ namespace Tinkercell
 
     void ModuleTool::mouseMoved(GraphicsScene* scene, QGraphicsItem * hoverOverItem, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>& items)
     {
-		if (mainWindow && scene && hoverOverItem && !TextGraphicsItem::cast(hoverOverItem) && snapshotToolTip)
+		if (mainWindow && scene && scene->useDefaultBehavior && hoverOverItem && !TextGraphicsItem::cast(hoverOverItem) && snapshotToolTip)
 		{
 			ItemHandle * h = getHandle(hoverOverItem);
 			if (!h)
@@ -968,22 +968,22 @@ namespace Tinkercell
 			ConnectionHandle * ch;
 			if (h && (ch = ConnectionHandle::cast(h)) && moduleSnapshots.contains(ch))
 			{
-				if (!snapshotIcon->isVisible())
+				if (!snapshotToolTip->isVisible())
 				{
 					QRect rect = mainWindow->geometry();
 					snapshotToolTip->setGeometry (rect.right() - 280, rect.bottom() - 280, 256, 256 );
 					snapshotIcon->setIcon(QIcon(moduleSnapshots[ch]));
 					snapshotIcon->setIconSize(QSize(256,256));
 					snapshotToolTip->show();
+					return;
 				}
 			}
 		}
-		else
-		{
-			if (snapshotToolTip && snapshotToolTip->isVisible())
-				snapshotToolTip->hide();
-		}
-       /*if (mode == connecting && scene && selectedItems.size() == 1 && selectedItems[0])
+		
+		if (snapshotToolTip && snapshotToolTip->isVisible())
+			snapshotToolTip->hide();
+		
+		/*if (mode == connecting && scene && selectedItems.size() == 1 && selectedItems[0])
         {
             if (lineItem.scene() != scene)
                 scene->addItem(&lineItem);

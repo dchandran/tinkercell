@@ -327,8 +327,8 @@ namespace Tinkercell
 					{
 						if (handle->hasNumericalData(QString("Initial Value")))
 						{
-							assignments += sd_pair(n,handle->numericalDataTable(QString("Initial Value")).value(0,0));
-							parser.DefineVar(item->first.data(), &(assignments.last().second));
+							assignments.push_front(sd_pair(n,handle->numericalDataTable(QString("Initial Value")).value(0,0)));
+							parser.DefineVar(item->first.data(), &(assignments.first().second));
 						}
 						continue;
 					}
@@ -345,13 +345,13 @@ namespace Tinkercell
 						if (handle && handle->hasNumericalData(p)
 							&& handle->numericalDataTable(p).hasRow(q))
 							{
-								assignments += sd_pair(n,handle->numericalDataTable(p).value(q,0));
+								assignments.push_back(sd_pair(n,handle->numericalDataTable(p).value(q,0)));
 								parser.DefineVar(item->first.data(), &(assignments.last().second));
 							}
 						continue;
 					}
 					
-					assignments += sd_pair(n,1.0);
+					assignments.push_back(sd_pair(n,1.0));
 					parser.DefineVar(item->first.data(), &(assignments.last().second));
 				}
 			}

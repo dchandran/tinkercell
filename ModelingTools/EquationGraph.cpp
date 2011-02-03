@@ -94,6 +94,12 @@ namespace Tinkercell
 			plotWidget->setYLabel(s);
 	}
 	
+	void EquationGraph::print(QPaintDevice& printer)
+	{
+		if (plotWidget)
+			plotWidget->print(printer);
+	}
+	
 	bool EquationGraph::replot(const QString& xaxis, qreal min, qreal max, QStringList & vars)
 	{
 		if (equation.isEmpty() || !currentNetwork) return false;

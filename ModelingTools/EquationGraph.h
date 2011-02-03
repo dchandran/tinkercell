@@ -17,6 +17,7 @@ This widget is used to plot an equation. It automatically looks up parameter val
 #include <QGroupBox>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <QPrinter>
 #include "Plot2DWidget.h"
 #include "ItemHandle.h"
 #include "EquationParser.h"
@@ -35,10 +36,12 @@ namespace Tinkercell
 			void setFormula(const QString& equation, NetworkHandle*);
 			void setTitle(const QString&);
 			void setYLabel(const QString&);
+			void print(QPaintDevice&);
 	
 		private slots:
 			void xaxisChanged(const QString&);
 			void startStopChanged(double);
+
 		private:
 			NetworkHandle * currentNetwork;
 			QComboBox * plotVar;

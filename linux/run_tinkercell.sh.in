@@ -1,11 +1,6 @@
 #!/bin/bash
 
-if [ $# -gt 0 ]
-then 
-    TINKERCELL_PATH=@TINKERCELL_BINARY_DIR@/_CPack_Packages/Linux/TGZ/TinkerCell
-else
-    TINKERCELL_PATH=@TINKERCELL_EXE@@TINKERCELL_BIT@
-fi
+TINKERCELL_PATH=.
 
 #library paths
 export LD_LIBRARY_PATH=$TINKERCELL_PATH:$TINKERCELL_PATH/plugins:@OCTAVE_LIB_DIR@

@@ -24,6 +24,6 @@ CONFIGURE_FILE(
 
 MESSAGE(STATUS "To upload TinkerCell: source ${TINKERCELL_BINARY_DIR}/CreatePackage.sh")
 	
-MESSAGE(STATUS "To run TinkerCell: source ${TINKERCELL_BINARY_DIR}/run_tinkercell.sh dev")	
+MESSAGE(STATUS "To run TinkerCell, source ${TINKERCELL_BINARY_DIR}/run_tinkercell.sh")	
 
 INSTALL(FILES ${TINKERCELL_BINARY_DIR}/run_tinkercell.sh DESTINATION bin/../ COMPONENT "TinkerCell")

@@ -48,6 +48,7 @@ ELSE( EXISTS ${CMAKE_SOURCE_DIR}/.svn )
 ENDIF( EXISTS ${CMAKE_SOURCE_DIR}/.svn )
 
 SET( TINKERCELL_VERSION ${TINKERCELL_WC_REVISION} )
+SET( USER_HOME_DIR $ENV{HOME} )
 
 #--------------------------------------------------------------------------
 # cmake policies

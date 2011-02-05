@@ -345,7 +345,7 @@ void SimulationThread::setNumPoints(int i)
 	numPoints = i;
 }
 
-void SimulationThread::setParameterRange(const QString& param, double start, double end, int numPoints)
+void SimulationThread::setParameterRange(const QString& param, double start, double end, int n)
 {
 	bool exists = false;
 	for (int i=0; i < scanItems.size(); ++i)
@@ -357,7 +357,7 @@ void SimulationThread::setParameterRange(const QString& param, double start, dou
 	
 	if (!exists)
 	{
-		ScanItem u = { param, start, end, numPoints };	
+		ScanItem u = { param, start, end, n };	
 		scanItems += u;
 	}
 }
@@ -719,7 +719,7 @@ SimulationDialog::SimulationDialog(MainWindow * parent) : QDialog(parent)
 	box2Layout->addWidget(menu2, 0, 1);
 	box2Layout->addWidget(param2Start, 1, 1);
 	box2Layout->addWidget(param2End, 2, 1);
-	box1Layout->addWidget(numPoints3, 3, 1);
+	box2Layout->addWidget(numPoints3, 3, 1);
 	box2Layout->addWidget(menu3, 4, 1);
 
 	simBox->setLayout(simLayout);

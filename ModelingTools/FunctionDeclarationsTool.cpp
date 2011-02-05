@@ -132,6 +132,7 @@ namespace Tinkercell
 						QPixmap printer(256, 256);
 						printer.fill();
 						graphWidget->setFormula(s,scene->network);
+						graphWidget->setYLabel(h->name);
 						graphWidget->setTitle(tr("Function"));
 						graphWidget->print(printer);
 						functionSnapshots[s] = printer;

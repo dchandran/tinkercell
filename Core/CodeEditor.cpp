@@ -175,7 +175,7 @@ namespace Tinkercell
 	CodeEditor::CodeEditor(QWidget *parent) : QPlainTextEdit(parent), c(0)
 	{
 		lineNumberArea = new LineNumberArea(this);
-		setTabStopWidth ( 4 );
+		setTabStopWidth ( 8 );
 		lineHighlightColor = QColor(tr("#FCFFAE"));
 		lineNumberBackground = QColor(tr("#E1E1E1"));
 		lineNumberText = QColor(tr("#002446"));

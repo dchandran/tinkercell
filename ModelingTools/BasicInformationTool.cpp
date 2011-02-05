@@ -80,7 +80,7 @@ namespace Tinkercell
 
 	void BasicInformationTool::deselect(int)
 	{
-		if (openedByUser && (!dockWidget || dockWidget->isFloating()))
+		/*if (openedByUser && (!dockWidget || dockWidget->isFloating()))
 		{
 			openedByUser = false;
 
@@ -88,7 +88,7 @@ namespace Tinkercell
 				dockWidget->hide();
 			else
 				hide();
-		}
+		}*/
 	}
 
 	void BasicInformationTool::loadInitialValues()
@@ -174,6 +174,8 @@ namespace Tinkercell
 				dockWidget->setAttribute(Qt::WA_ContentsPropagated);
 				dockWidget->setPalette(QPalette(QColor(255,255,255,255)));
 				dockWidget->setAutoFillBackground(true);
+				if (closeButton)
+					connect(closeButton,SIGNAL(pressed()),dockWidget,SLOT(hide()));
 				//dockWidget->setWindowOpacity(0.8);
 	
 				QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
@@ -661,8 +663,7 @@ namespace Tinkercell
 
 		connect(addAttribAction,SIGNAL(pressed()),this,SLOT(addAttribute()));
 		connect(removeAttribAction,SIGNAL(pressed()),this,SLOT(removeSelectedAttributes()));
-		connect(closeButton,SIGNAL(pressed()),this,SLOT(deselect()));
-
+		
 		QToolButton * question = new QToolButton(this);
 		question->setIcon(QIcon(":/images/question.png"));
 

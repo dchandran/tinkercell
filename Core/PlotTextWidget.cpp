@@ -25,24 +25,10 @@ namespace Tinkercell
 		return &dataTable;
 	}
 	
-	PlotTextWidget::PlotTextWidget(const DataTable<qreal>& table, PlotTool * parent, const QString& text) : PlotWidget(parent), dataTable(table)
+	void PlotTextWidget::updateData(const DataTable<qreal>& dat)
 	{
-		type = PlotTool::Text;
-		textEdit = new CodeEditor;
-		
-		QHBoxLayout * layout = new QHBoxLayout;
-		layout->addWidget(textEdit);
-		setLayout(layout);
-		
+		dataTable = dat;
 		textEdit->clear();
-		textEdit->setReadOnly(true);
-		
-		if (text.size() > 0)
-		{
-			textEdit->setPlainText(text);
-			return;
-		}
-	
 		QTextCursor cursor = textEdit->textCursor();
 	
 		QString outputs;
@@ -74,7 +60,8 @@ namespace Tinkercell
 		}
 	
 		cursor.insertText(outputs + tr("\n"));
-		
+		outputs = tr("");
+
 		for (int i=0; i < dataTable.rows(); ++i)
 		{
 			if (printRows)
@@ -92,7 +79,29 @@ namespace Tinkercell
 			
 			cursor.setCharFormat(regularFormat);
 			cursor.insertText(outputs + tr("\n"));
+			outputs = tr("");
 		}
+	}
+	
+	PlotTextWidget::PlotTextWidget(const DataTable<qreal>& table, PlotTool * parent, const QString& text) : PlotWidget(parent), dataTable(table)
+	{
+		type = PlotTool::Text;
+		textEdit = new CodeEditor;
+		
+		QHBoxLayout * layout = new QHBoxLayout;
+		layout->addWidget(textEdit);
+		setLayout(layout);
+		
+		textEdit->clear();
+		textEdit->setReadOnly(true);
+		
+		if (text.size() > 0)
+		{
+			textEdit->setPlainText(text);
+			return;
+		}
+		
+		updateData(table);
 	}
 	
 	void PlotTextWidget::keyPressEvent ( QKeyEvent * event )

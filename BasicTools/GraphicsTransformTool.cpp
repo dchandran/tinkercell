@@ -171,9 +171,9 @@ namespace Tinkercell
 		connect(hFlipButton,SIGNAL(pressed()),this,SLOT(flipHorizontally()));
 		flipGroup->setLayout(flipLayout);
 
-		layout->addWidget(scaleGroup);
-		layout->addWidget(rotateGroup);
-		layout->addWidget(flipGroup);
+		layout->addWidget(scaleGroup,0);
+		layout->addWidget(rotateGroup,0);
+		layout->addWidget(flipGroup,0);
 
 		QHBoxLayout * buttonsLayout = new QHBoxLayout;
 		QPushButton * fillButton = new QPushButton(this),
@@ -212,7 +212,7 @@ namespace Tinkercell
 		buttonsLayout->addWidget(replaceButton);
 		buttonsGroup->setLayout(buttonsLayout);
 
-		layout->addWidget(buttonsGroup);
+		layout->addWidget(buttonsGroup,0);
 
 		connect(&scaleSlider,SIGNAL(sliderPressed()),this,SLOT(scaleStart()));
 		connect(&scaleSlider,SIGNAL(sliderReleased()),this,SLOT(scaleEnd()));
@@ -241,8 +241,15 @@ namespace Tinkercell
 
 		connectionsGroup->setLayout(layout2);
 
-		layout->addWidget(sizeGroup);
-		layout->addWidget(connectionsGroup);
+		layout->addWidget(sizeGroup,1);
+		layout->addWidget(connectionsGroup,1);
+
+		QHBoxLayout * closeButtonLayout = new QHBoxLayout;
+		QPushButton * closeButton = new QPushButton("&Close");
+		closeButtonLayout->addStretch(1);
+		closeButtonLayout->addWidget(closeButton);
+		closeButtonLayout->addStretch(1);
+		layout->addLayout(closeButtonLayout,0);
 
 		setLayout(layout);
 		moving = false;
@@ -275,7 +282,8 @@ namespace Tinkercell
 			{
 				dockWidget->hide();
 				dockWidget->setFloating(true);
-
+				if (closeButton)
+					connect(closeButton,SIGNAL(pressed()),dockWidget,SLOT(hide()));
 				QAction * menuAction = new QAction(QIcon(tr(":/images/eye.png")),tr("Scale, color, rotate, etc."),this);
 				connect(menuAction,SIGNAL(triggered()),dockWidget,SLOT(show()));
 

@@ -44,7 +44,7 @@ namespace Tinkercell
 
 	void ModelSummaryTool::deselect(int)
 	{
-		if (openedByUser)
+		/*if (openedByUser)
 		{
 			openedByUser = false;
 
@@ -52,7 +52,7 @@ namespace Tinkercell
 				tabWidget->clear();
 
 			hide();
-		}
+		}*/
 	}
 
 	void ModelSummaryTool::keyPressed(GraphicsScene* scene,QKeyEvent * keyEvent)

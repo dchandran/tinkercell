@@ -111,6 +111,7 @@ namespace Tinkercell
 
 		NodeGraphicsItem eye;
 		bool openedByUser;
+		QPushButton * closeButton;
 	};
 
 

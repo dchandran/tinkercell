@@ -17,6 +17,7 @@
 #include "NetworkHandle.h"
 #include "ConsoleWindow.h"
 #include "PlotTool.h"
+#include "PlotTextWidget.h"
 #include "Plot2DWidget.h"
 #include "Plot3DWidget.h"
 #include "qwt_scale_engine.h"
@@ -229,12 +230,23 @@ namespace Tinkercell
 				PlotWidget * widget = static_cast<PlotWidget*>(list[i]->widget());
 				if (widget && widget->type == type)
 				{
-					if (widget->canAppendData()  && holdCurrentPlot && holdCurrentPlot->isChecked())
+					if (widget->canAppendData() && holdCurrentPlot && holdCurrentPlot->isChecked())
 						widget->appendData(matrix);
 					else
 						widget->updateData(matrix);
 					if (mainWindow && mainWindow->statusBar())
 						mainWindow->statusBar()->showMessage(tr("Finished plotting"));
+					
+					for (int j=0; j < list.size(); ++j)
+						if (i != j)
+						{ 	
+							widget = static_cast<PlotWidget*>(list[j]->widget());
+							if (widget && widget->type == Text)
+							{
+								widget->updateData(matrix);
+								break;
+							}
+						}
 					return;
 				}
 			}
@@ -247,6 +259,12 @@ namespace Tinkercell
 			Plot3DWidget * newPlot3D = new Plot3DWidget(this);
 			newPlot3D->surface(matrix,title);
 			newPlot = newPlot3D;
+		}
+		else
+		if (type == Text)
+		{
+			PlotTextWidget * text = new PlotTextWidget(matrix, this);
+			newPlot = text;
 		}
 		else
 		{

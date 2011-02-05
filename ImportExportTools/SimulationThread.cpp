@@ -456,7 +456,7 @@ void SimulationThread::run()
 			tc_deleteMatrix(resultMatrix);
 			resultMatrix = getSteadyState(model);
 			plotTitle = tr("Steady state");
-			plotType = PlotTool::BarPlot;
+			plotType = PlotTool::Text;
 			x = -1;
 			break;
 		case SteadyStateScan1D:			

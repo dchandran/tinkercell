@@ -44,6 +44,8 @@ namespace Tinkercell
 		PlotTextWidget(const DataTable<qreal>&, PlotTool * parent = 0, const QString& text=QString());
 		/*! \brief get the data*/
 		virtual DataTable<qreal>* data();
+		/*! \brief update displayed data*/
+		void updateData(const DataTable<qreal>&);
 		
 	private:
 		DataTable<qreal> dataTable;

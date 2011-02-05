@@ -711,7 +711,8 @@ copasi_reaction createReaction(copasi_model model, const char* name)
 			pReaction,
 			0};
 
-	hash->insert(QString(name), copasiPtr); //for speedy lookup
+	QString qname(name);
+	hash->insert(qname, copasiPtr); //for speedy lookup
 
 	return r;
 }
@@ -1223,7 +1224,7 @@ tc_matrix getSteadyState(copasi_model model)
 	{
 		// initialize the trajectory task
 		// we want complete output (HEADER, BODY and FOOTER)
-		pTask->initialize(CCopasiTask::OUTPUT_COMPLETE, pDataModel, NULL);
+		pTask->initialize(CCopasiTask::OUTPUT, pDataModel, NULL);
 		// now we run the actual trajectory
 		pTask->process(true);
 	}
@@ -1234,21 +1235,21 @@ tc_matrix getSteadyState(copasi_model model)
 	}
 	
 	const CArrayAnnotation* pAJ = pTask->getJacobianAnnotated();
-	const CState* state = pTask->getState();
+	const CState& state = pModel->getState();
 	
-	if (!state)
-		return tc_createMatrix(0,0);
+	//if (!state)
+	//	return tc_createMatrix(0,0);
 	
-	const C_FLOAT64 * pIndep = state->beginIndependent(), 
-								  * pDep = state->beginDependent();
+	const C_FLOAT64 * pIndep = state.beginIndependent(), 
+								  * pDep = state.beginDependent();
 
-	C_INT32 numIndep = state->getNumIndependent(),
-					 numDep = state->getNumDependent();
+	C_INT32 numIndep = state.getNumIndependent(),
+					 numDep = state.getNumDependent();
 
-	if (pAJ && state && pAJ->dimensionality() == 2)
+	if (pAJ && pAJ->dimensionality() == 2)
 	{
 		std::vector<unsigned int> index(2);
-		const std::vector<std::string>& annotations = pAJ->getAnnotationsString(1);
+		const std::vector<std::string>& annotations = pAJ->getAnnotationsString(0);
 		
 		int n = annotations.size();
 		int i;

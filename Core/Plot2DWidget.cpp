@@ -243,11 +243,11 @@ namespace Tinkercell
 				else
 				if (type == PlotTool::HistogramPlot || type == PlotTool::BarPlot)
 				{
-					QColor col = penList[c].color();
-					col.setAlpha(100);
+					QPen pen(penList[c]);
+					pen.setWidth(pen.widthF()*2.0);
 					curve->setStyle(QwtPlotCurve::Sticks);
 					curve->setSymbol ( 
-						QwtSymbol( QwtSymbol::Ellipse , QBrush(col), penList[c], QSize(5,5) ));
+						QwtSymbol( QwtSymbol::Ellipse , QBrush(pen.color()), pen, QSize(5,5) ));
 				}
 				
 				++c;
@@ -294,9 +294,10 @@ namespace Tinkercell
 		replot();
 		if (zoomer)
 		{
-			QwtDoubleRect rect = zoomer->zoomRect();
-			rect.adjust(-1.0,-1.0,1.0,1.0);
-			zoomer->setZoomBase(rect);
+			//QwtDoubleRect rect = zoomer->zoomRect();
+			//rect.adjust(-1.0,-1.0,1.0,1.0);
+			zoomer->setZoomBase();
+			zoomer->zoom(-0.5);
 		}
 	}
 	
@@ -977,9 +978,10 @@ namespace Tinkercell
 			if (i != dataPlot->xcolumn)
 			{
 				QString s = dataTable.columnName(i);
+				int k = 0;
 				while (columnNames.contains(dataTable.columnName(i)))
-					dataTable.setColumnName(i, dataTable.columnName(i) + tr("'"));
-					
+					 s += tr("_run") + QString(++k);
+				dataTable.setColumnName(i,s);
 				if (dataPlot->hideList.contains(s))
 					dataPlot->hideList << dataTable.columnName(i);
 			}
@@ -1004,11 +1006,7 @@ namespace Tinkercell
 				++k;
 			}
 		
-		dataPlot->type = type;
-		dataPlot->plot(	dataTable,
-						dataPlot->xcolumn,
-						dataPlot->title().text(),
-						dataPlot->delta);
+		updateData(dataTable);
 	}
 	
 	

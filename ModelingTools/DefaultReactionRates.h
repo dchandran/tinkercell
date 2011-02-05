@@ -37,7 +37,7 @@ namespace Tinkercell
 			rates.value(QObject::tr("rate"),QObject::tr("formula")) = QObject::tr("0.0");
 			if (handle->hasNumericalData(QObject::tr("Parameters")))
 			{
-				handle->numericalDataTable(QObject::tr("Parameters")).value(QObject::tr("k0"),0) = 1.0;
+				handle->numericalDataTable(QObject::tr("Parameters")).value(QObject::tr("k0"),0) = 0.1;
 				rates.value(QObject::tr("rate"),QObject::tr("formula")) = handle->fullName() + QObject::tr(".k0");
 			}
 

@@ -245,7 +245,7 @@ namespace Tinkercell
 		layout->addWidget(connectionsGroup,1);
 
 		QHBoxLayout * closeButtonLayout = new QHBoxLayout;
-		QPushButton * closeButton = new QPushButton("&Close");
+		closeButton = new QPushButton("&Close");
 		closeButtonLayout->addStretch(1);
 		closeButtonLayout->addWidget(closeButton);
 		closeButtonLayout->addStretch(1);

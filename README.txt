@@ -97,6 +97,13 @@ From here, the instructions will differ depending on your operating system
 15. Run run_tinkercell
 
 --------------------------
+ Automatic uploading
+--------------------------
+After running CMake, take a look at the BUILD folder. There will be a file called BuildAndUploadAll. 
+Take a look at that script. You just need to run this file to automate the build and upload (to sourceforge) process.
+The script works on Windows, Mac, and Linux
+
+--------------------------
 WIN32 PROBLEMS
 --------------------------
 Problem: CMake is not able to find MinGW. 

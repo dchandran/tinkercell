@@ -25,6 +25,7 @@ IF (WIN32)
 		${TINKERCELL_BINARY_DIR}/BuildAndUploadAll.bat
 		@ONLY
 	)
+	MESSAGE(STATUS "Run the BUILD/BuildAndUpload.bat to automate the entire uploading process.")
 ELSE(WIN32)
 	IF (APPLE)
 		SET(CREATE_TINKERCELL mac\\CreateApp.sh)
@@ -36,7 +37,9 @@ ELSE(WIN32)
 		${TINKERCELL_BINARY_DIR}/BuildAndUploadAll.sh
 		@ONLY
 	)
+	MESSAGE(STATUS "Run the BUILD/BuildAndUpload.sh to automate the entire uploading process.")
 ENDIF(WIN32)
+
 
 #------------------
 # include dirs

@@ -2,15 +2,11 @@
    Bugs
 ---------------------------
 
-Crashes upon undo/redo for some combination of events (report any specific combinations that you find)
-Parts align on circular plasmids only after multiple adjustments
-Removing parts from circular plasmids requires two moves
+The rate expression on the Coding Sequence sometimes revert to the default
 
 ---------------------------
   Upcoming features
 ---------------------------
 
-Sliders for MAC
-Tau-leap algorithm
-Improved steady state function
-Eigenvalue calculation with sliders
+Parameter fitting (to data)
+Model design assistant

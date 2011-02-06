@@ -140,8 +140,8 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles, copasi_model & 
 					for (j=0; j < dat.rows(); ++j)
 					{
                         name = handles[i]->fullName(tr("_"));
-
-						s1 =  dat.rowName(j);
+                        
+                        s1 =  dat.rowName(j);
 						s2 =  dat.value(j,0);
 
                         s1.replace(regex,tr("_"));

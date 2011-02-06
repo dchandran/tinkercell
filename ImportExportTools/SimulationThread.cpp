@@ -123,10 +123,12 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles, copasi_model & 
                         name = handles[i]->fullName(tr("_"));
 						s1 = dat.value(j,1);
 						s1.replace(regex,tr("_"));
-
 						s2 = dat.value(j,0);
 
 						functionNames << name + tr("_") + dat.rowName(j);
+						
+						if (s1.isEmpty() || s2.isEmpty()) continue;
+						
 						functionArgs << s2;
 						functionDefs << s1;
 					}
@@ -136,7 +138,7 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles, copasi_model & 
 			if (handles[i]->hasTextData(tr("Assignments")))
 			{
 				DataTable<QString>& dat = handles[i]->textDataTable(tr("Assignments"));
-				if (dat.columns() == 1)
+				if (dat.columns() > 0 && dat.rows() > 0)
 					for (j=0; j < dat.rows(); ++j)
 					{
                         name = handles[i]->fullName(tr("_"));
@@ -147,7 +149,7 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles, copasi_model & 
                         s1.replace(regex,tr("_"));
 						s2.replace(regex,tr("_"));
 
-						if (s1.isEmpty() || s2.isEmpty()) continue;
+						if (s2.isEmpty()) continue;
 
 						if (s1.isEmpty() || s1 == tr("self"))
 						{

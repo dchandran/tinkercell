@@ -28,9 +28,9 @@ IF (WIN32)
 	MESSAGE(STATUS "Run the BUILD/BuildAndUpload.bat to automate the entire uploading process.")
 ELSE(WIN32)
 	IF (APPLE)
-		SET(CREATE_TINKERCELL mac/CreateApp.sh)
+		SET(CREATE_TINKERCELL source mac/CreateApp.sh)
 	ELSE(APPLE)
-		SET(CREATE_TINKERCELL CreatePackage.sh)
+		SET(CREATE_TINKERCELL source CreatePackage.sh)
 	ENDIF(APPLE)
 	CONFIGURE_FILE( 
 		${TINKERCELL_SOURCE_DIR}/Main/BuildAndUploadAll.in

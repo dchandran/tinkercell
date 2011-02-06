@@ -19,7 +19,7 @@ CONFIGURE_FILE(
 #------------------------------------------------
 
 IF (WIN32)
-	SET(CREATE_TINKERCELL win32\\CreateInstaller.bat)
+	SET(CREATE_TINKERCELL "call win32\\CreateInstaller.bat")
 	CONFIGURE_FILE( 
 		${TINKERCELL_SOURCE_DIR}/Main/BuildAndUploadAll.in
 		${TINKERCELL_BINARY_DIR}/BuildAndUploadAll.bat

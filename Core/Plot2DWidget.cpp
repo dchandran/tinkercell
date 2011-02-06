@@ -979,8 +979,8 @@ namespace Tinkercell
 			{
 				QString s = dataTable.columnName(i);
 				int k = 0;
-				while (columnNames.contains(dataTable.columnName(i)))
-					 s += tr("_run") + QString(++k);
+				while (columnNames.contains(s))
+					 s = dataTable.columnName(i) + tr("_run") + QString(++k);
 				dataTable.setColumnName(i,s);
 				if (dataPlot->hideList.contains(s))
 					dataPlot->hideList << dataTable.columnName(i);

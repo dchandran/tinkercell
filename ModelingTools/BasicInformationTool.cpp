@@ -1454,7 +1454,7 @@ namespace Tinkercell
 				if (handles[i]->hasTextData(tr("Assignments")))
 				{
 					DataTable<QString>& dat = handles[i]->textDataTable(tr("Assignments"));
-					if (dat.columns() == 1)
+					if (dat.columns() > 0 && dat.rows() > 0)
 						for (j=0; j < dat.rows(); ++j)
 						{
 							s1 =  dat.rowName(j);
@@ -2044,7 +2044,7 @@ namespace Tinkercell
 			if (handles[i]->hasTextData(tr("Assignments")))
 			{
 				DataTable<QString>& dat = handles[i]->textDataTable(tr("Assignments"));
-				if (dat.columns() == 1)
+				if (dat.columns() > 0 && dat.rows() > 0)
 					for (j=0; j < dat.rows(); ++j)
 					{
 						s1 =  dat.rowName(j);

@@ -1,3 +1,67 @@
+#------------------------
+#  configure code
+#------------------------
+
+CONFIGURE_FILE( 
+	${TINKERCELL_SOURCE_DIR}/BasicTools/TinkerCellAboutBox.cpp.in
+	${TINKERCELL_BINARY_DIR}/BasicTools/TinkerCellAboutBox.cpp
+	@ONLY
+)
+
+CONFIGURE_FILE( 
+	${TINKERCELL_SOURCE_DIR}/DynamicCodeTools/CodingWindow.cpp.in
+	${TINKERCELL_BINARY_DIR}/DynamicCodeTools/CodingWindow.cpp
+	@ONLY
+)
+
+#------------------------------------------------
+#  configure the BuildAndUploadAll script
+#------------------------------------------------
+
+IF (WIN32)
+	SET(CREATE_TINKERCELL win32\\CreateInstaller.bat)
+	CONFIGURE_FILE( 
+		${TINKERCELL_SOURCE_DIR}/Main/BuildAndUploadAll.in
+		${TINKERCELL_BINARY_DIR}/BuildAndUploadAll.bat
+		@ONLY
+	)
+ELSE(WIN32)
+	IF (APPLE)
+		SET(CREATE_TINKERCELL mac\\CreateApp.sh)
+	ELSE(APPLE)
+		SET(CREATE_TINKERCELL CreatePackage.sh)
+	ENDIF(APPLE)
+	CONFIGURE_FILE( 
+		${TINKERCELL_SOURCE_DIR}/Main/BuildAndUploadAll.in
+		${TINKERCELL_BINARY_DIR}/BuildAndUploadAll.sh
+		@ONLY
+	)
+ENDIF(WIN32)
+
+#------------------
+# include dirs
+#------------------
+
+INCLUDE_DIRECTORIES( BEFORE
+    ${TINKERCELL_SOURCE_DIR}/BasicTools
+    ${TINKERCELL_SOURCE_DIR}/NodesTree
+    ${TINKERCELL_SOURCE_DIR}/Main
+    ${TINKERCELL_SOURCE_DIR}/DynamicCodeTools
+    ${TINKERCELL_SOURCE_DIR}/ModelingTools
+    ${TINKERCELL_SOURCE_DIR}/ModuleTools
+    ${TINKERCELL_SOURCE_DIR}/GeneticNetworks
+     ${TINKERCELL_SOURCE_DIR}/OtherTools
+     ${TINKERCELL_SOURCE_DIR}/ImportExportTools
+     ${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi
+     ${TINKERCELL_SOURCE_DIR}/ExternalCode/libSBML/include
+     ${TINKERCELL_SOURCE_DIR}/ExternalCode/Antimony/src
+     ${TINKERCELL_SOURCE_DIR}/ModularNetworkAlgorithms
+ )
+
+#--------------------------------------------------
+#  specify IStool and WinSCP for Windows 
+#--------------------------------------------------
+ 
 IF (WIN32)
 	OPTION( TINKERCELL_INSTALLER "Create installer using ISTool -- must have ISTool installed" OFF )
 	OPTION( TINKERCELL_INSTALLER_UPLOAD "Create installer using ISTool and upload it using WinSCP -- must have ISTool and WinSCP" OFF )
@@ -20,6 +84,9 @@ IF (WIN32)
 	ENDIF (NOT TINKERCELL_INSTALLER_UPLOAD)
 ENDIF(WIN32)
 
+#--------------------------------------------------
+#  get sourceforge password for uploading
+#--------------------------------------------------
 
 IF (NOT DEFINED TINKERCELL_SOURCEFORGE_PASSWORD OR NOT DEFINED TINKERCELL_SOURCEFORGE_USERNAME)
 

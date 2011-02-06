@@ -1,40 +1,6 @@
-ADD_DEFINITIONS(-DTINKERCELL_PARTS_ONLY)
-
-#------------------------
-#  configure code
-#------------------------
-
-CONFIGURE_FILE( 
-	${TINKERCELL_SOURCE_DIR}/BasicTools/TinkerCellAboutBox.cpp.in
-	${TINKERCELL_BINARY_DIR}/BasicTools/TinkerCellAboutBox.cpp
-	@ONLY
-)
-
-CONFIGURE_FILE( 
-	${TINKERCELL_SOURCE_DIR}/DynamicCodeTools/CodingWindow.cpp.in
-	${TINKERCELL_BINARY_DIR}/DynamicCodeTools/CodingWindow.cpp
-	@ONLY
-)
-
-#------------------
-# include dirs
-#------------------
-
-INCLUDE_DIRECTORIES( BEFORE
-    ${TINKERCELL_SOURCE_DIR}/BasicTools
-    ${TINKERCELL_SOURCE_DIR}/NodesTree
-    ${TINKERCELL_SOURCE_DIR}/Main
-    ${TINKERCELL_SOURCE_DIR}/DynamicCodeTools
-    ${TINKERCELL_SOURCE_DIR}/ModelingTools
-    ${TINKERCELL_SOURCE_DIR}/ModuleTools
-    ${TINKERCELL_SOURCE_DIR}/GeneticNetworks
-     ${TINKERCELL_SOURCE_DIR}/OtherTools
-     ${TINKERCELL_SOURCE_DIR}/ImportExportTools
-     ${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi
-     ${TINKERCELL_SOURCE_DIR}/ExternalCode/libSBML/include
-     ${TINKERCELL_SOURCE_DIR}/ExternalCode/Antimony/src
-     ${TINKERCELL_SOURCE_DIR}/ModularNetworkAlgorithms
- )
+#----------------------------------------------
+#  Define all the cpp files for the binary
+#----------------------------------------------
 
 FILE( GLOB TINKERCELL_MAIN_SRC 
 	${TINKERCELL_SOURCE_DIR}/Main/*.cpp

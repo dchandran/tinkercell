@@ -113,7 +113,9 @@ namespace Tinkercell
 	void GraphicsView::mouseMoveEvent ( QMouseEvent * event )
 	{
 		if (	dragMode() == QGraphicsView::NoDrag &&
-				(event->button() == Qt::RightButton || event->modifiers() == Qt::ControlModifier) )
+				scene->selectedItems.isEmpty() &&
+				(scene->clickedButton == Qt::RightButton || 
+					(scene->clickedButton == Qt::LeftButton && event->modifiers() == Qt::ControlModifier) ))
 			setDragMode(QGraphicsView::ScrollHandDrag);
 
 		QGraphicsView::mouseMoveEvent(event);

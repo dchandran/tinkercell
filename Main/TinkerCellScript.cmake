@@ -1,3 +1,5 @@
+ADD_DEFINITIONS(-DTINKERCELL_TEXT_ONLY)
+
 #----------------------------------------------
 #  Define all the cpp files for the binary
 #----------------------------------------------

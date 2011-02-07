@@ -120,13 +120,20 @@ namespace Tinkercell
 			if (h && h->hasTextData(tr("Assignments")) && graphWidget)
 			{
 				TextDataTable & assignments = h->textDataTable(tr("Assignments"));
-				if (assignments.hasRow(Self) || assignments.hasRow(h->fullName()))
+				if (assignments.columns() > 0 && (assignments.hasRow(Self) || assignments.hasRow(h->fullName())))
 				{
 					QString s;
 					if (assignments.hasRow(Self))
-						s = assignments(Self,0);
+						s = assignments.value(Self,0);
 					else
-						s = assignments(h->fullName(),0);
+						s = assignments.value(h->fullName(),0);
+					
+					if (s.isEmpty())
+						if (assignments.hasRow(Self))
+							s = assignments.value(Self, assignments.columns()-1);
+						else
+							s = assignments.value(h->fullName(),assignments.columns()-1);
+					
 					if (!s.isEmpty() && !functionSnapshots.contains(s))
 					{
 						QPixmap printer(256, 256);
@@ -237,6 +244,7 @@ namespace Tinkercell
 	{
 		NetworkHandle * win = currentNetwork();
 		if (!win) return;
+
 		
 		GraphicsScene * scene = win->currentScene();
 		if (!scene) return;

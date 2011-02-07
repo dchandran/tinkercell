@@ -58,7 +58,7 @@ namespace Tinkercell
 
             QString name[] = {  iconFilename,
             							appDir + tr("/") + iconFilename,
-                                         appDir + tr("/icons/") + iconFilename,
+                                         tr(":/images/") + iconFilename,
                                          home + tr("/icons/") + iconFilename,
                                          home + tr("/") + iconFilename,
                                          home + tr("/plugins/") + iconFilename,

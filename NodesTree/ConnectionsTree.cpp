@@ -213,7 +213,7 @@ namespace Tinkercell
 	
 	QString ConnectionsTree::iconFile(ConnectionFamily * family)
 	{
-		QString file = tr("icons/");
+		QString file = tr(":/images/");
 		file += family->name().toLower();
 		file.replace(tr(" "),tr(""));
 		file += tr(".png");

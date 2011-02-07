@@ -287,7 +287,7 @@ namespace Tinkercell
 			QString appDir = QApplication::applicationDirPath();
 			image = new NodeGraphicsItem;
 			NodeGraphicsReader reader;
-			reader.readXml(image, appDir + tr("/icons/clock.xml"));
+			reader.readXml(image, tr(":/images/clock.xml"));
 			image->normalize();
 			image->className = tr("Event function");
 			image->scale(image->defaultSize.width()/image->sceneBoundingRect().width(),
@@ -342,7 +342,7 @@ namespace Tinkercell
 			QString appDir = QApplication::applicationDirPath();
 			image = new NodeGraphicsItem;
 			NodeGraphicsReader reader;
-			reader.readXml(image, appDir + tr("/icons/plainpaper.xml"));
+			reader.readXml(image, tr(":/images/plainpaper.xml"));
 			image->normalize();
 			image->className = tr("Global parameters");
 			image->scale(image->defaultSize.width()/image->sceneBoundingRect().width(),
@@ -397,7 +397,7 @@ namespace Tinkercell
 		
 		if (mode == addingStep)
 		{
-			reader.readXml(image, appDir + tr("/icons/stepFunc.xml"));
+			reader.readXml(image, tr(":/images/stepFunc.xml"));
 			image->setToolTip(tr("Step function"));	
 			command = tr("Step function inserted");
 			assignments.value( "self" , 0 ) = name + tr(".step_height/(1.0 + exp((") + name + tr(".step_time^") + name + tr(".step_steepness) - (time^") + name + tr(".step_steepness)))");
@@ -408,7 +408,7 @@ namespace Tinkercell
 		else		
 		if (mode == addingPulse)
 		{
-			reader.readXml(image, appDir + tr("/icons/pulseFunc.xml"));
+			reader.readXml(image, tr(":/images/pulseFunc.xml"));
 			image->setToolTip(tr("Impulse function"));
 			command = tr("Impulse function inserted");
 			assignments.value( "self" , 0 ) = name + tr(".impulse_height*exp( - ((") + name + tr(".impulse_width*(time - ") + name + tr(".impulse_time))^2))");
@@ -419,7 +419,7 @@ namespace Tinkercell
 		else
 		if (mode == addingWave)
 		{
-			reader.readXml(image, appDir + tr("/icons/sinFunc.xml"));
+			reader.readXml(image, tr(":/images/sinFunc.xml"));
 			image->setToolTip(tr("Sine function"));
 			command = tr("Sine function inserted");
 			assignments.value( "self" , 0 ) = name + tr(".sin_amplitude + ") + name + tr(".sin_amplitude*sin(time*") + name + tr(".sin_frequency)");

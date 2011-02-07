@@ -595,20 +595,20 @@ namespace Tinkercell
 			
 			if (type == BasicInformationTool::both)
 			{
-				reader.readXml(&item,appDir + tr("/icons/textsheet.xml"));
+				reader.readXml(&item,tr(":/images/textsheet.xml"));
 				item.setToolTip(tr("Attributes"));
 				toolGraphicsItem->setToolTip(tr("Attributes"));
 			}
 			else
 				if (type == BasicInformationTool::numerical)
 				{
-					reader.readXml(&item,appDir + tr("/icons/datasheet.xml"));
+					reader.readXml(&item,tr(":/images/datasheet.xml"));
 					item.setToolTip(tr("Parameters"));
 					toolGraphicsItem->setToolTip(tr("Parameters"));
 				}
 				else
 				{
-					reader.readXml(&item,appDir + tr("/icons/textsheet.xml"));
+					reader.readXml(&item,tr(":/images/textsheet.xml"));
 					item.setToolTip(tr("Text attributes"));
 					toolGraphicsItem->setToolTip(tr("Text attributes"));
 				}

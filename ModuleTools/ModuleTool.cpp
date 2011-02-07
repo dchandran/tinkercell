@@ -30,9 +30,9 @@
 
 namespace Tinkercell
 {
-	static QString linkerFileName("/icons/moduleLinker.xml");
-	static QString interfaceFileName("/icons/moduleInterface.xml");
-	static QString moduleFileName("/icons/Module.xml");
+	static QString linkerFileName(":/images/moduleLinker.xml");
+	static QString interfaceFileName(":/images/moduleInterface.xml");
+	static QString moduleFileName(":/images/Module.xml");
 	static QString linkerClassName("module linker item");
 	static QString interfaceClassName("module interface item");
 	static QString connectionClassName("module connection item");
@@ -72,7 +72,7 @@ namespace Tinkercell
 					if ((node = NodeGraphicsItem::cast(h->graphicsItems[j])) && node->className == interfaceClassName)
 						continue;
 
-				node = new NodeGraphicsItem(appDir + interfaceFileName);
+				node = new NodeGraphicsItem(interfaceFileName);
 				node->setPos(
 					QPointF(selected[i]->sceneBoundingRect().left() - node->sceneBoundingRect().width()/2.0,selected[i]->scenePos().y())
 				);
@@ -565,8 +565,8 @@ namespace Tinkercell
 				moduleFamily->pixmap = QPixmap(tr(":/images/module.png"));
 				moduleFamily->description = tr("Self-contained subsystem that can be used to build larger systems");
 				moduleFamily->textAttributes[tr("Functional description")] = tr("");
-				moduleFamily->graphicsItems << new ArrowHeadItem(appDir + interfaceFileName)
-											 << new ArrowHeadItem(appDir + moduleFileName);				
+				moduleFamily->graphicsItems << new ArrowHeadItem(interfaceFileName)
+											 << new ArrowHeadItem(moduleFileName);				
 				connectionsTree->insertFamily(moduleFamily,0);
 				if (QFile::exists(home + tr("/Modules/modules.xml")))
 					connectionsTree->readTreeFile(home + tr("/Modules/modules.xml"));
@@ -670,7 +670,7 @@ namespace Tinkercell
 			}
 			else
 			{
-				image = new NodeGraphicsItem(appDir + tr("/icons/Module.xml"));
+				image = new NodeGraphicsItem(tr(":/images/Module.xml"));
 			}
 			
 			image->setPos(point);
@@ -1012,7 +1012,7 @@ namespace Tinkercell
 			{
 				 if (modularConnections.contains(connection->handle()))
 				 {
-					QString filename = QCoreApplication::applicationDirPath() + tr("/icons/expand.xml");
+					QString filename = tr(":/images/expand.xml");
 					if (QFile::exists(filename))
 					{
 						ArrowHeadItem * decorator = new ArrowHeadItem(filename,connection);
@@ -1716,8 +1716,8 @@ namespace Tinkercell
 		newModuleFamily->setParent(moduleFamily);
 		newModuleFamily->pixmap = moduleFamily->pixmap;
 		newModuleFamily->description = moduleFamily->description;
-		newModuleFamily->graphicsItems << new ArrowHeadItem(appDir + interfaceFileName)
-										<< new ArrowHeadItem(appDir + moduleFileName);
+		newModuleFamily->graphicsItems << new ArrowHeadItem(interfaceFileName)
+										<< new ArrowHeadItem(moduleFileName);
 
 		
 		FamilyTreeButton * button = new FamilyTreeButton(newModuleFamily);

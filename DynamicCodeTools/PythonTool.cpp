@@ -125,8 +125,8 @@ namespace Tinkercell
 				if (QFile(appDir + tr("/") + icon).exists())
 					icon = appDir + tr("/") + icon;
 				else
-				if (QFile(appDir + tr("/icons/") + icon).exists())
-					icon = appDir + tr("/icons/") + icon;
+				if (QFile(tr(":/images/") + icon).exists())
+					icon = tr(":/images/") + icon;
 				else
 				if (QFile(homeDir + tr("/") + icon).exists())
 					icon = homeDir + tr("/") + icon;
@@ -397,8 +397,8 @@ namespace Tinkercell
 			if (QFile(appDir + tr("/") + icon).exists())
 				icon = appDir + tr("/") + icon;
 			else
-			if (QFile(appDir + tr("/icons/") + icon).exists())
-				icon = appDir + tr("/icons/") + icon;
+			if (QFile(tr(":/images/") + icon).exists())
+				icon = tr(":/images/") + icon;
 			else
 			if (QFile(homeDir + tr("/") + icon).exists())
 				icon = homeDir + tr("/") + icon;

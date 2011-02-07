@@ -637,11 +637,11 @@ void CopasiExporter::toolLoaded(Tool*)
 				connected = true;
 				DynamicLibraryMenu * libMenu = static_cast<DynamicLibraryMenu*>(widget);
 				QString appDir = QCoreApplication::applicationDirPath();
-				QPixmap odepng(appDir + tr("/icons/cvode.png"));
-				QPixmap stochastic(appDir + tr("/icons/stochastic.png"));
-				QPixmap scan(appDir + tr("/icons/steadystate.png"));
-				QPixmap mcaicon(appDir + tr("/icons/fullBinding.png"));
-				QPixmap nodedges(appDir + tr("/icons/nodedges.png"));
+				QPixmap odepng(tr(":/images/cvode.png"));
+				QPixmap stochastic(tr(":/images/stochastic.png"));
+				QPixmap scan(tr(":/images/steadystate.png"));
+				QPixmap mcaicon(tr(":/images/fullBinding.png"));
+				QPixmap nodedges(tr(":/images/nodedges.png"));
 				QToolButton * button;
 				QAction * menuItem;
 				

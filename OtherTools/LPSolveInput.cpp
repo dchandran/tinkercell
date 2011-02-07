@@ -169,7 +169,7 @@ namespace Tinkercell
                 alreadyConnected = true;
 				QString appDir = QCoreApplication::applicationDirPath();
 
-				QIcon icon(appDir + tr("/icons/lpsolve.png"));
+				QIcon icon(tr(":/images/lpsolve.png"));
 
 				QToolButton * button = libMenu->addFunction(tr("Analysis"), tr("Flux Balance Analysis"), icon);
 				button->setToolTip(tr("uses LPsolve linear programming C library"));

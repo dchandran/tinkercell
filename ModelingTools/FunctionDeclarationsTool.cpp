@@ -452,7 +452,7 @@ namespace Tinkercell
 		QString appDir = QCoreApplication::applicationDirPath();
 
 		/*NodeGraphicsReader reader;
-		reader.readXml(&item,appDir + tr("/icons/func.xml"));
+		reader.readXml(&item,tr(":/images/func.xml"));
 
 		item.normalize();
 		item.scale(35.0/item.sceneBoundingRect().width(),35.0/item.sceneBoundingRect().height());
@@ -462,7 +462,7 @@ namespace Tinkercell
 		toolGraphicsItem->setToolTip(name);
 
 		QToolButton * toolButton = new QToolButton(this);
-		toolButton->setIcon(QIcon(appDir + tr("/icons/func.xml")));
+		toolButton->setIcon(QIcon(tr(":/images/func.xml")));
 		toolButton->setToolTip(name);
 		this->buttons.addButton(toolButton);*/
 		

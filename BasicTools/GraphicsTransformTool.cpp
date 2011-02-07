@@ -124,7 +124,7 @@ namespace Tinkercell
 	{
 		QString appDir = QCoreApplication::applicationDirPath();
 		NodeGraphicsReader reader;
-		reader.readXml(&eye,appDir + tr("/icons/eye.xml"));
+		reader.readXml(&eye,tr(":/images/eye.xml"));
 		eye.normalize();
 		eye.scale(40.0/eye.sceneBoundingRect().width(),30.0/eye.sceneBoundingRect().height());
 		eye.setToolTip(tr("Appearance"));

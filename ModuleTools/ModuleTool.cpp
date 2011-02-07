@@ -99,10 +99,11 @@ namespace Tinkercell
 		if (!family)
 			return fileNames;
 		
-		QList<ItemFamily*> childFamilies = family->allChildren();
+		QList<ItemFamily*> childFamilies;
+		childFamilies << family << family->allChildren();
 		QString appDir = QCoreApplication::applicationDirPath();
 		QString home = homeDir();
-		
+
 		for (int i=0; i < childFamilies.size(); ++i)
 		{
 			QString s = childFamilies[i]->name();
@@ -118,16 +119,18 @@ namespace Tinkercell
 			
 			if (!dir.exists())
 				dir.setPath(appDir + tr("/Modules/") + s.toLower());
-			
-			dir.setFilter(QDir::Files);
-			dir.setSorting(QDir::Size);
-			QFileInfoList list = dir.entryInfoList();
 
-			for (int i = 0; i < list.size(); ++i)
+			if (dir.exists())
 			{
-				QFileInfo fileInfo = list.at(i);
-				if (fileInfo.suffix().contains(tr("~"))) continue;
-				fileNames << fileInfo.absoluteFilePath();
+				dir.setFilter(QDir::Files);
+				dir.setSorting(QDir::Size);
+				QFileInfoList list = dir.entryInfoList();
+				for (int j = 0; j < list.size(); ++j)
+				{
+					QFileInfo fileInfo = list.at(j);
+					if (fileInfo.suffix().contains(tr("~"))) continue;
+					fileNames << fileInfo.absoluteFilePath();
+				}
 			}
 		}
 		return fileNames;
@@ -174,17 +177,19 @@ namespace Tinkercell
 		
 		if (QFile::exists(filename) && window && 
 			network && (parentHandle == window->handle) &&
-			(!window->handle || !window->handle->family())) 
+			window->handle->family()) 
 		{
 			QList<GraphicsScene*> scenes = network->scenes();
 			QList<TextEditor*> editors = network->editors();
 			
 			for (int i=0; i < scenes.size(); ++i)
-				if (scenes[i] && scenes[i]->networkWindow && scenes[i]->networkWindow->isVisible())
+				if (scenes[i] && scenes[i]->localHandle() && 
+					scenes[i]->networkWindow && scenes[i]->networkWindow->isVisible())
 					scenes[i]->networkWindow->close();
 			
 			for (int i=0; i < editors.size(); ++i)
-				if (editors[i] && editors[i]->networkWindow && editors[i]->networkWindow->isVisible())
+				if (editors[i] && editors[i]->localHandle() &&
+					editors[i]->networkWindow && editors[i]->networkWindow->isVisible())
 					editors[i]->networkWindow->close();
 			
 			QPair< QList<ItemHandle*> , QList<QGraphicsItem*> > pair = mainWindow->getItemsFromFile(filename,parentHandle);
@@ -1766,7 +1771,6 @@ namespace Tinkercell
 	
 	tc_strings ModuleTool::_listOfModels(long o)
 	{
-		MainWindow::instance()->console()->message("here");
 		ItemHandle * handle = ConvertValue(o);
 		QStringList list;
 		if (handle && handle->family())

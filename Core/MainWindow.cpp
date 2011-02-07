@@ -236,6 +236,7 @@ namespace Tinkercell
 
 		setCentralWidget(tabWidget);
 
+		setWindowIcon(QIcon(tr(":/images/Tinkercell.png")));
 		setWindowTitle(tr("TinkerCell"));
 		setStyleSheet("QMainWindow::separator { width: 0px; height: 0px; }");
 

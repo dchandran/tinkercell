@@ -169,12 +169,40 @@ namespace Tinkercell
 		*/
 		virtual T& value (const QString& r, int j=0);
 		
+		/*! \brief get the value using row name and column index. can also be used to set the value. Fast lookup using hashtables.
+		\param QString row name
+		\param QString column index
+		\return T reference to value at given row and column. returns value at 0 if row and column are not in the table
+		*/
+		virtual T& operator() (const QString& r, int j=0);
+		
+		/*! \brief get the value using row name and column index. can also be used to set the value. Fast lookup using hashtables.
+		\param QString row name
+		\param QString column index
+		\return T value at given row and column. returns value at 0 if row and column are not in the table
+		*/
+		virtual T operator() (const QString& r, int j=0) const;
+		
 		/*! \brief get the value using column name. can also be used to set the value. Fast lookup using hashtables.
 		\param int row number
 		\param QString column name
 		\return T reference to value at given row and column. returns value at 0 if row and column are not in the table
 		*/
 		virtual T& value (int i, const QString& c);
+		
+		/*! \brief get the value using row name and column index. can also be used to set the value. Fast lookup using hashtables.
+		\param QString row index
+		\param QString column name
+		\return T reference to value at given row and column. returns value at 0 if row and column are not in the table
+		*/
+		virtual T& operator() (int i, const QString& c);
+		
+		/*! \brief get the value using row index and column name. can also be used to set the value. Fast lookup using hashtables.
+		\param QString row index
+		\param QString column name
+		\return T value at given row and column. returns value at 0 if row and column are not in the table
+		*/
+		virtual T operator() (int i, const QString& c) const;
 		
 		/*! \brief checks if the two data table's headers and contents are the same
 		\param DataTable<T>
@@ -1119,6 +1147,26 @@ namespace Tinkercell
 	}
 
 	template <typename T> T DataTable<T>::operator() (const QString& r, const QString& c) const
+	{
+		return this->at(r,c);
+	}
+	
+	template <typename T> T& DataTable<T>::operator() (const QString& r, int c)
+	{
+		return this->value(r,c);
+	}
+
+	template <typename T> T DataTable<T>::operator() (const QString& r, int c) const
+	{
+		return this->at(r,c);
+	}
+	
+	template <typename T> T& DataTable<T>::operator() (int r, const QString& c)
+	{
+		return this->value(r,c);
+	}
+
+	template <typename T> T DataTable<T>::operator() (int r, const QString& c) const
 	{
 		return this->at(r,c);
 	}

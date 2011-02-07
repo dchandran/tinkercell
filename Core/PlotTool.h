@@ -196,9 +196,15 @@ namespace Tinkercell
 		void addExportOption(const QIcon&,const QString&,const QString& toolTip=QString());
 
 		/*! \brief export data in the given format
-			\param QString format
+			\param QString format: "Save graph", "LaTeX", "Text", "Clipboard"
 		*/
 		void exportData(const QString&);
+		
+		/*! \brief compute the values of a new column using values in the other columns
+			\param QString math formula (can only use names of other columns as variables)
+			\return QString error string (if empty, then no error)
+		*/
+		QString computeNewColumn(QString);
     public:
 
         /*! \brief remove all items in the data table that are not visible in any scene
@@ -254,6 +260,7 @@ namespace Tinkercell
 
 	private slots:
         //void toolAboutToBeLoaded( Tool * , bool * );
+        void plotCustomFormula();
 		void actionTriggered(QAction*);
 		void subWindowActivated(QMdiSubWindow *);
 		void setupFunctionPointers( QLibrary * );

@@ -384,9 +384,9 @@ namespace Tinkercell
             if (dockWidget)
             {
                 dockWidget->hide();
-                QToolBar * toolBar = mainWindow->toolBarForTools;
-                if (toolBar)
-                    toolBar->addAction(QIcon(tr(":/images/graph2.png")),tr("gnuplot"),dockWidget,SLOT(show()));
+                //QToolBar * toolBar = mainWindow->toolBarForTools;
+                //if (toolBar)
+                    //toolBar->addAction(QIcon(tr(":/images/graph2.png")),tr("gnuplot"),dockWidget,SLOT(show()));
 				dockWidget->setFloating(true);
             }
 			

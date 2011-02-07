@@ -10,6 +10,8 @@
 #include <math.h>
 #include <QGroupBox>
 #include <QLabel>
+#include <QInputDialog>
+#include <QMessageBox>
 #include <QRegExp>
 #include <QCheckBox>
 #include "GraphicsScene.h"
@@ -21,6 +23,9 @@
 #include "Plot2DWidget.h"
 #include "Plot3DWidget.h"
 #include "qwt_scale_engine.h"
+#include "muParserDef.h"
+#include "muParser.h"
+#include "muParserInt.h"
 
 namespace Tinkercell
 {
@@ -54,15 +59,22 @@ namespace Tinkercell
 		QToolButton * exportButton = new QToolButton(&toolBar);
 		exportButton->setIcon(QIcon(":/images/export.png"));
 		exportButton->setMenu(exportMenu);
-		exportButton->setText(tr("E&xport current graph"));
+		exportButton->setText(tr("E&xport"));
 		exportButton->setPopupMode(QToolButton::MenuButtonPopup);
 		exportButton->setToolButtonStyle ( Qt::ToolButtonTextUnderIcon );
 
 		toolBar.addWidget(exportButton);
-		toolBar.addWidget(keepOldPlots = new QCheckBox(tr("K&eep Previous Graphs"),&toolBar));
-		toolBar.addWidget(holdCurrentPlot = new QCheckBox(tr("A&ppend To Current Graph"),&toolBar));
+		toolBar.addWidget(keepOldPlots = new QCheckBox(tr("Keep Previous Graphs"),&toolBar));
+		toolBar.addWidget(holdCurrentPlot = new QCheckBox(tr("Append To Current Graph"),&toolBar));
 		keepOldPlots->setChecked(false);
 		holdCurrentPlot->setChecked(false);
+		
+		QToolButton * customColumn = new QToolButton(&toolBar);
+		customColumn->setIcon(QIcon(":/images/function.png"));
+		customColumn->setText(tr("Custom Formula"));
+		customColumn->setToolButtonStyle ( Qt::ToolButtonTextBesideIcon );
+		toolBar.addWidget(customColumn);
+		connect(customColumn,SIGNAL(pressed()),this,SLOT(plotCustomFormula()));
 
 		window->addToolBar(Qt::TopToolBarArea,&toolBar);
 		layout->addWidget(window);
@@ -116,11 +128,8 @@ namespace Tinkercell
 		{
 			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 
-			//connect(mainWindow, SIGNAL(toolAboutToBeLoaded( Tool * , bool * )),
-                //    this, SLOT(toolAboutToBeLoaded( Tool * , bool * )));
-
 			setWindowTitle(name);
-			setWindowIcon(QIcon(tr(":/images/graph.png")));
+			setWindowIcon(QIcon(tr(":/images/graph2.png")));
 			dockWidget = mainWindow->addToolWindow(this,MainWindow::DockWidget,Qt::BottomDockWidgetArea, Qt::BottomDockWidgetArea);
 
 			if (dockWidget)
@@ -131,13 +140,13 @@ namespace Tinkercell
 				dockWidget->setWindowFlags(Qt::Window);
 			}
 
-			//QToolBar * toolBar = mainWindow->toolBarForTools;
-			//QAction * action = new QAction(tr("Plot Window"),toolBar);
-			//action->setIcon(QIcon(tr(":/images/graph.png")));
+			QToolBar * toolBar = mainWindow->toolBarForTools;
+			QAction * action = new QAction(tr("Plot Window"),toolBar);
+			action->setIcon(QIcon(tr(":/images/graph2.png")));
 
 			if (dockWidget)
 			{
-				//connect(action,SIGNAL(triggered()),dockWidget,SLOT(show()));
+				connect(action,SIGNAL(triggered()),dockWidget,SLOT(show()));
 			}
 			else
 			{
@@ -147,9 +156,9 @@ namespace Tinkercell
 					toggle->setCheckable(true);
 					connect(toggle,SIGNAL(toggled(bool)),this,SLOT(setVisible(bool)));
 				}
-				//connect(action,SIGNAL(triggered()),this,SLOT(show()));
+				connect(action,SIGNAL(triggered()),this,SLOT(show()));
 			}
-			//toolBar->addAction(action);
+			toolBar->addAction(action);
 
 			return true;
 		}
@@ -191,7 +200,7 @@ namespace Tinkercell
 
 		QMdiSubWindow * window = multiplePlotsArea->addSubWindow(newPlot);
 		window->setAttribute(Qt::WA_DeleteOnClose);
-		window->setWindowIcon(QIcon(tr(":/images/graph.png")));
+		window->setWindowIcon(QIcon(tr(":/images/graph2.png")));
 		window->setVisible(true);
 		window->setWindowTitle( tr("plot ") + QString::number(1 + subWindowList.size()));
 
@@ -621,7 +630,8 @@ namespace Tinkercell
 				
 				if (otherToolBar)
 				{
-					window->addToolBar(Qt::TopToolBarArea,otherToolBar);
+					//window->addToolBar(Qt::TopToolBarArea,otherToolBar);
+					window->addToolBar(Qt::RightToolBarArea,otherToolBar);
 					otherToolBar->show();
 				}
 			}
@@ -818,6 +828,71 @@ namespace Tinkercell
 	void PlotTool::_savePlotImage(const char* s)
 	{
 		return fToS.savePlotImage(s);
+	}
+	
+	void PlotTool::plotCustomFormula()
+	{
+		QString s = QInputDialog::getText(this, tr("Enter formula"), tr("Enter formula using existing column names"));
+		if (!s.isNull() && !s.isEmpty())
+		{
+			QString error = computeNewColumn(s);
+			if (!error.isEmpty())
+				QMessageBox::information(this, tr("Error"), error);
+		}
+	}
+	
+	QString PlotTool::computeNewColumn(QString formula)
+	{
+		if (!multiplePlotsArea) return QString();
+		
+		QMdiSubWindow * subwindow = multiplePlotsArea->currentSubWindow();
+		if (!subwindow || !subwindow->widget()) return QString();
+		
+		PlotWidget * plotWidget = static_cast<PlotWidget*>(subwindow->widget());
+		
+		QRegExp regex(tr("\\.(?!\\d)"));
+		formula.replace(regex, tr("_"));
+		
+		NumericalDataTable * pData = plotWidget->data();
+		if (!pData)
+			return QString("No data to compute function");
+		
+		NumericalDataTable matrix(*pData);
+				
+		int k = 1;
+		QString newcol("formula_1");
+		while (matrix.hasColumn(newcol))
+			newcol = tr("formula_") + QString::number(++k);
+		
+		QStringList colnames = matrix.columnNames();				
+		QVector<double> params(colnames.size(), 0);
+		mu::Parser parser;
+		try
+		{
+			for (int i=0; i < colnames.size(); ++i)
+			{
+				double * dp = &(params[i]);
+				colnames[i].replace(tr("."), tr("_"));
+				parser.DefineVar(colnames[i].toAscii().data(), dp);
+			}
+				
+			parser.SetExpr(formula.toAscii().data());				
+
+			for (int i=0; i < matrix.rows(); ++i)
+			{
+				for (int j=0; j < matrix.columns(); ++j)
+					params[j] = matrix(i,j);
+
+				matrix(i,newcol) = parser.Eval();
+			}
+			
+			plotWidget->updateData(matrix);
+		}
+		catch(mu::Parser::exception_type &e)
+		{
+		    return QString(e.GetMsg().data()) + tr("\n");
+		}
+		return QString();
 	}
 	
 	PlotTool_FtoS PlotTool::fToS;

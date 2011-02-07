@@ -168,6 +168,8 @@ namespace Tinkercell
                //set icon
                if (family->pixmap.load(homeDir + QString("/") + ConnectionsTree::iconFile(family)))
                     family->pixmap.setMask(family->pixmap.createMaskFromColor(QColor(255,255,255)));
+               if (family->pixmap.load(ConnectionsTree::iconFile(family)))
+                    family->pixmap.setMask(family->pixmap.createMaskFromColor(QColor(255,255,255)));
                if (family->pixmap.load(appDir + QString("/") + ConnectionsTree::iconFile(family)))
                     family->pixmap.setMask(family->pixmap.createMaskFromColor(QColor(255,255,255)));
                else

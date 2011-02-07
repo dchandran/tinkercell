@@ -1909,6 +1909,7 @@ static VALUE mTinkercell;
 #include "TC_AutoGeneRegulatoryTool_api.h"
 #include "TC_SBML_api.h"
 #include "TC_COPASI_api.h"
+#include "TC_ModuleTool_api.h"
 
 
 #include <limits.h>
@@ -10632,6 +10633,89 @@ fail:
 }
 
 
+SWIGINTERN VALUE
+_wrap_tc_substituteModel(int argc, VALUE *argv, VALUE self) {
+  long arg1 ;
+  char *arg2 = (char *) 0 ;
+  long val1 ;
+  int ecode1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  
+  if ((argc < 2) || (argc > 2)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 2)",argc); SWIG_fail;
+  }
+  ecode1 = SWIG_AsVal_long(argv[0], &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), Ruby_Format_TypeError( "", "long","tc_substituteModel", 1, argv[0] ));
+  } 
+  arg1 = (long)(val1);
+  res2 = SWIG_AsCharPtrAndSize(argv[1], &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), Ruby_Format_TypeError( "", "char const *","tc_substituteModel", 2, argv[1] ));
+  }
+  arg2 = (char *)(buf2);
+  tc_substituteModel(arg1,(char const *)arg2);
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  return Qnil;
+fail:
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_tc_listOfPossibleModels(int argc, VALUE *argv, VALUE self) {
+  long arg1 ;
+  long val1 ;
+  int ecode1 = 0 ;
+  tc_strings result;
+  VALUE vresult = Qnil;
+  
+  if ((argc < 1) || (argc > 1)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 1)",argc); SWIG_fail;
+  }
+  ecode1 = SWIG_AsVal_long(argv[0], &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), Ruby_Format_TypeError( "", "long","tc_listOfPossibleModels", 1, argv[0] ));
+  } 
+  arg1 = (long)(val1);
+  result = tc_listOfPossibleModels(arg1);
+  vresult = SWIG_NewPointerObj((tc_strings *)memcpy((tc_strings *)malloc(sizeof(tc_strings)),&result,sizeof(tc_strings)), SWIGTYPE_p_tc_strings, SWIG_POINTER_OWN |  0 );
+  return vresult;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_tc_ModuleTool_api(int argc, VALUE *argv, VALUE self) {
+  void (*arg1)(long,char const *) = (void (*)(long,char const *)) 0 ;
+  tc_strings (*arg2)(long) = (tc_strings (*)(long)) 0 ;
+  
+  if ((argc < 2) || (argc > 2)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 2)",argc); SWIG_fail;
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(argv[0], (void**)(&arg1), SWIGTYPE_p_f_long_p_q_const__char__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(long,char const *)","tc_ModuleTool_api", 1, argv[0] )); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(argv[1], (void**)(&arg2), SWIGTYPE_p_f_long__tc_strings);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "tc_strings (*)(long)","tc_ModuleTool_api", 2, argv[1] )); 
+    }
+  }
+  tc_ModuleTool_api(arg1,arg2);
+  return Qnil;
+fail:
+  return Qnil;
+}
+
+
 
 /* -------- TYPE CONVERSION AND EQUIVALENCE RULES (BEGIN) -------- */
 
@@ -11512,5 +11596,8 @@ SWIGEXPORT void Init_tinkercell(void) {
   rb_define_module_function(mTinkercell, "tc_LMatrix", _wrap_tc_LMatrix, -1);
   rb_define_module_function(mTinkercell, "tc_KMatrix", _wrap_tc_KMatrix, -1);
   rb_define_module_function(mTinkercell, "tc_COPASI_api", _wrap_tc_COPASI_api, -1);
+  rb_define_module_function(mTinkercell, "tc_substituteModel", _wrap_tc_substituteModel, -1);
+  rb_define_module_function(mTinkercell, "tc_listOfPossibleModels", _wrap_tc_listOfPossibleModels, -1);
+  rb_define_module_function(mTinkercell, "tc_ModuleTool_api", _wrap_tc_ModuleTool_api, -1);
 }
 

@@ -268,6 +268,9 @@ package tinkercell;
 *tc_LMatrix = *tinkercellc::tc_LMatrix;
 *tc_KMatrix = *tinkercellc::tc_KMatrix;
 *tc_COPASI_api = *tinkercellc::tc_COPASI_api;
+*tc_substituteModel = *tinkercellc::tc_substituteModel;
+*tc_listOfPossibleModels = *tinkercellc::tc_listOfPossibleModels;
+*tc_ModuleTool_api = *tinkercellc::tc_ModuleTool_api;
 
 ############# Class : tinkercell::tc_strings ##############
 

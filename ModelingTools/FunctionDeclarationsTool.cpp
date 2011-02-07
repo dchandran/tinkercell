@@ -127,7 +127,7 @@ namespace Tinkercell
 						s = assignments(Self,0);
 					else
 						s = assignments(h->fullName(),0);
-					if (!functionSnapshots.contains(s))
+					if (!s.isEmpty() && !functionSnapshots.contains(s))
 					{
 						QPixmap printer(256, 256);
 						printer.fill();
@@ -137,7 +137,7 @@ namespace Tinkercell
 						graphWidget->print(printer);
 						functionSnapshots[s] = printer;
 					}
-					if (!snapshotToolTip->isVisible())
+					if (functionSnapshots.contains(s) && !snapshotToolTip->isVisible())
 					{
 						QRect rect = mainWindow->geometry();
 						snapshotToolTip->setGeometry (rect.right() - 280, rect.bottom() - 280, 256, 256 );

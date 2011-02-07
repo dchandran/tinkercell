@@ -417,6 +417,9 @@ namespace Tinkercell
 				if (command.trimmed().toLower() == tr("clear"))
 	            	clearText();
 	            else
+				if (mainWindow && QFile::exists(command.trimmed()))
+					mainWindow->open(command.trimmed());
+				else
 		            if (!printValue(cursor,command))
 						emit commandExecuted(command);
 			}

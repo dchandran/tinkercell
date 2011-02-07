@@ -58,6 +58,37 @@
 
 namespace Tinkercell
 {
+	/*!
+	\brief This class provides the C API for the ConnectionInsertion class
+	\ingroup capi
+	*/
+	class ModuleTool_FToS : public QObject
+	{
+		Q_OBJECT
+	signals:
+		void doSubstituteModel(QSemaphore*, ItemHandle*, const QString&);
+	public slots:
+		void substituteModel(long, const char*);
+	};
+	
+	/*! This class looks at connections that are inserted, checks whether there is a model that
+		can be used to fill in the internal steps of that connection. These models are obtained
+		from either the TinkerCell home folder. If no models are found in TinkerCell home folder, then
+		the application folder is searched for suitable models. The models are located in folders with
+		name corresponding to the family names (case insensitive).
+		
+		When a model is loaded inside a connection, a new scene is created for that model. The model
+		is merged with the connection using the "participants" table in that connection. All the tables
+		are merged because MergeHandlesCommand is used for the merge. Each connection's middle decorator
+		is replaced with the "expand.xml" node item.
+		
+		There are two important lists: numericalTablesToBeReplaced and textTablesToBeReplaced. 
+		These two lists can be used to indicate which tables should not be merged during model replacement.
+		
+		listOfModels and substituteModel are two useful functions. listOfModels returns the model files
+		associated with a particular family. substituteModel can be used to replace a model inside a
+		connection.
+	*/
 	class TINKERCELLEXPORT ModuleTool : public Tool
 	{
 		Q_OBJECT
@@ -68,6 +99,9 @@ namespace Tinkercell
 		
 		static QStringList numericalTablesToBeReplaced;
 		static QStringList textTablesToBeReplaced;
+		
+		static QStringList listOfModels(ItemFamily * family);
+		void substituteModel(ItemHandle * , const QString& , NetworkWindow * window=0);
 
 	signals:
 
@@ -78,8 +112,9 @@ namespace Tinkercell
 
 		void select(int);
 		void exportModule();
+		void setupFunctionPointers( QLibrary * );
 
-	private slots:		
+	private slots:
 		void escapeSignal(const QWidget *);
 		void itemsAboutToBeInserted (GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>&);
 		void itemsAboutToBeRemoved(GraphicsScene * scene, QList<QGraphicsItem*>& item, QList<ItemHandle*>& handles, QList<QUndoCommand*>&);
@@ -96,8 +131,14 @@ namespace Tinkercell
 		void modelButtonClicked (QAbstractButton *);
 		void showNewModuleDialog();
 		void updateNumberForNewModule(int);
+		
+		void doSubstituteModel(QSemaphore*, ItemHandle*, const QString&);
 
 	private:
+	
+		static ModuleTool_FToS fToS;
+		static tc_strings _listOfModels(long);
+		static void _substituteModel(long, const char *);
 
 		enum Mode { none, inserting, linking, connecting };
 		Mode mode;
@@ -124,7 +165,7 @@ namespace Tinkercell
 		QUndoCommand * substituteStrings(const QList<ItemHandle*> & items);
 		void removeSubnetworks(QList<QGraphicsItem*>& items, QList<ItemHandle*>& handles);
 		QDockWidget * makeDockWidget(const QStringList&);
-		void createNewWindow(ConnectionHandle * chandle, NetworkHandle * network);
+		NetworkWindow * createNewWindow(ConnectionHandle * chandle, NetworkHandle * network);
 		void makeNewModule();
 		void initializeExportDialog();
 		QHash< ItemHandle *, QPixmap > moduleSnapshots;

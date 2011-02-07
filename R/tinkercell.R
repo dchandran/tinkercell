@@ -6764,4 +6764,76 @@ attr(`tc_COPASI_api`, 'returnType') = 'void'
 attr(`tc_COPASI_api`, "inputTypes") = c('_p_f_double_double_int__tc_matrix', '_p_f_double_double_int__tc_matrix', '_p_f_double_double_int__tc_matrix', '_p_f_double_double_int__tc_matrix', '_p_f___tc_matrix', '_p_f_p_q_const__char_double_double_int__tc_matrix', '_p_f_p_q_const__char_double_double_int_p_q_const__char_double_double_int__tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix')
 class(`tc_COPASI_api`) = c("SWIGFunction", class('tc_COPASI_api'))
 
+# Start of tc_substituteModel
+
+`tc_substituteModel` = function(item, filename)
+{
+  item = as.integer(item) 
+  
+  if(length(item) > 1) {
+    warning("using only the first element of item")
+  }
+  
+  filename = as(filename, "character") 
+  .Call('R_swig_tc_substituteModel', item, filename, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_substituteModel`, 'returnType') = 'void'
+attr(`tc_substituteModel`, "inputTypes") = c('integer', 'character')
+class(`tc_substituteModel`) = c("SWIGFunction", class('tc_substituteModel'))
+
+# Start of tc_listOfPossibleModels
+
+`tc_listOfPossibleModels` = function(item, .copy = FALSE)
+{
+  item = as.integer(item) 
+  
+  if(length(item) > 1) {
+    warning("using only the first element of item")
+  }
+  
+  ans = .Call('R_swig_tc_listOfPossibleModels', item, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_tc_strings"
+  
+  ans
+  
+}
+
+attr(`tc_listOfPossibleModels`, 'returnType') = '_p_tc_strings'
+attr(`tc_listOfPossibleModels`, "inputTypes") = c('integer')
+class(`tc_listOfPossibleModels`) = c("SWIGFunction", class('tc_listOfPossibleModels'))
+
+# Start of tc_ModuleTool_api
+
+`tc_ModuleTool_api` = function(substituteModel, listOfModels)
+{
+  if(is.function(substituteModel)) {
+    assert('...' %in% names(formals(substituteModel)) || length(formals(substituteModel)) >= 0)
+  } else {
+    if(is.character(substituteModel)) {
+      substituteModel = getNativeSymbolInfo(substituteModel)
+    }
+    if(is(substituteModel, "NativeSymbolInfo")) {
+      substituteModel = substituteModel$address
+    }
+  }
+  if(is.function(listOfModels)) {
+    assert('...' %in% names(formals(listOfModels)) || length(formals(listOfModels)) >= 0)
+  } else {
+    if(is.character(listOfModels)) {
+      listOfModels = getNativeSymbolInfo(listOfModels)
+    }
+    if(is(listOfModels, "NativeSymbolInfo")) {
+      listOfModels = listOfModels$address
+    }
+  }
+  .Call('R_swig_tc_ModuleTool_api', substituteModel, listOfModels, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_ModuleTool_api`, 'returnType') = 'void'
+attr(`tc_ModuleTool_api`, "inputTypes") = c('_p_f_long_p_q_const__char__void', '_p_f_long__tc_strings')
+class(`tc_ModuleTool_api`) = c("SWIGFunction", class('tc_ModuleTool_api'))
+
 

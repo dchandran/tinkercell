@@ -1045,4 +1045,16 @@ def tc_COPASI_api(*args):
   return _tinkercell.tc_COPASI_api(*args)
 tc_COPASI_api = _tinkercell.tc_COPASI_api
 
+def tc_substituteModel(*args):
+  return _tinkercell.tc_substituteModel(*args)
+tc_substituteModel = _tinkercell.tc_substituteModel
+
+def tc_listOfPossibleModels(*args):
+  return _tinkercell.tc_listOfPossibleModels(*args)
+tc_listOfPossibleModels = _tinkercell.tc_listOfPossibleModels
+
+def tc_ModuleTool_api(*args):
+  return _tinkercell.tc_ModuleTool_api(*args)
+tc_ModuleTool_api = _tinkercell.tc_ModuleTool_api
+
 

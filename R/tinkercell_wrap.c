@@ -1323,6 +1323,7 @@ static swig_module_info swig_module = {swig_types, 83, 0, 0, 0, 0};
 #include "TC_AutoGeneRegulatoryTool_api.h"
 #include "TC_SBML_api.h"
 #include "TC_COPASI_api.h"
+#include "TC_ModuleTool_api.h"
 
 
 #include <limits.h>
@@ -14197,6 +14198,97 @@ R_swig_tc_COPASI_api ( SEXP simulateDeterministic, SEXP simulateStochastic, SEXP
 }
 
 
+SWIGEXPORT SEXP
+R_swig_tc_substituteModel ( SEXP item, SEXP filename)
+{
+  long arg1 ;
+  char *arg2 = (char *) 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  arg1 = (long)(INTEGER(item)[0]);
+  res2 = SWIG_AsCharPtrAndSize(filename, &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_substituteModel" "', argument " "2"" of type '" "char const *""'");
+  }
+  arg2 = (char *)(buf2);
+  tc_substituteModel(arg1,(char const *)arg2);
+  r_ans = R_NilValue;
+  
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
+SWIGEXPORT SEXP
+R_swig_tc_listOfPossibleModels ( SEXP item, SEXP s_swig_copy)
+{
+  tc_strings result;
+  long arg1 ;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  arg1 = (long)(INTEGER(item)[0]);
+  result = tc_listOfPossibleModels(arg1);
+  r_ans = SWIG_R_NewPointerObj((tc_strings *)memcpy((tc_strings *)malloc(sizeof(tc_strings)),&result,sizeof(tc_strings)), SWIGTYPE_p_tc_strings, SWIG_POINTER_OWN |  0 );
+  
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
+SWIGEXPORT SEXP
+R_swig_tc_ModuleTool_api ( SEXP substituteModel, SEXP listOfModels)
+{
+  void (*arg1)(long,char const *) = (void (*)(long,char const *)) 0 ;
+  tc_strings (*arg2)(long) = (tc_strings (*)(long)) 0 ;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  if(TYPEOF(substituteModel) != CLOSXP) {
+    {
+      int res = SWIG_R_ConvertPtr(substituteModel, (void**)(&arg1), SWIGTYPE_p_f_long_p_q_const__char__void, 0);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ModuleTool_api" "', argument " "1"" of type '" "void (*)(long,char const *)""'"); 
+      }
+    }
+  } else {
+    arg1 = _p_f_long_p_q_const__char__void;
+    R_SWIG_pushCallbackFunctionData(substituteModel, NULL);
+  }
+  if(TYPEOF(listOfModels) != CLOSXP) {
+    {
+      int res = SWIG_R_ConvertPtr(listOfModels, (void**)(&arg2), SWIGTYPE_p_f_long__tc_strings, 0);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ModuleTool_api" "', argument " "2"" of type '" "tc_strings (*)(long)""'"); 
+      }
+    }
+  } else {
+    arg2 = _p_f_long__tc_strings;
+    R_SWIG_pushCallbackFunctionData(listOfModels, NULL);
+  }
+  tc_ModuleTool_api(arg1,arg2);
+  r_ans = R_NilValue;
+  
+  
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
 #ifdef __cplusplus
 }
 #endif
@@ -14833,6 +14925,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_AssignmentFunctionsTool_api", (DL_FUNC) &R_swig_tc_AssignmentFunctionsTool_api, 3},
    {"R_swig_tc_CLabelsTool_api", (DL_FUNC) &R_swig_tc_CLabelsTool_api, 4},
    {"R_swig_tc_AutoGeneRegulatoryTool_api", (DL_FUNC) &R_swig_tc_AutoGeneRegulatoryTool_api, 4},
+   {"R_swig_tc_ModuleTool_api", (DL_FUNC) &R_swig_tc_ModuleTool_api, 2},
    {"R_swig_tc_getColumnName", (DL_FUNC) &R_swig_tc_getColumnName, 2},
    {"R_swig_tc_setColumnName", (DL_FUNC) &R_swig_tc_setColumnName, 3},
    {"R_swig_tc_getControlPointX", (DL_FUNC) &R_swig_tc_getControlPointX, 4},
@@ -15023,6 +15116,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_delete_tc_table", (DL_FUNC) &R_swig_delete_tc_table, 1},
    {"R_swig_tc_writeModel", (DL_FUNC) &R_swig_tc_writeModel, 3},
    {"R_swig_tc_alignParts", (DL_FUNC) &R_swig_tc_alignParts, 1},
+   {"R_swig_tc_substituteModel", (DL_FUNC) &R_swig_tc_substituteModel, 2},
    {"R_swig_tc_getRowName", (DL_FUNC) &R_swig_tc_getRowName, 2},
    {"R_swig_tc_setRowName", (DL_FUNC) &R_swig_tc_setRowName, 3},
    {"R_swig_tc_createInputWindowFromFile", (DL_FUNC) &R_swig_tc_createInputWindowFromFile, 4},
@@ -15035,6 +15129,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_runPythonCode", (DL_FUNC) &R_swig_tc_runPythonCode, 1},
    {"R_swig_tc_saveToFile", (DL_FUNC) &R_swig_tc_saveToFile, 1},
    {"R_swig_tc_printTableToFile", (DL_FUNC) &R_swig_tc_printTableToFile, 2},
+   {"R_swig_tc_listOfPossibleModels", (DL_FUNC) &R_swig_tc_listOfPossibleModels, 2},
    {"R_swig_tc_getConnections", (DL_FUNC) &R_swig_tc_getConnections, 2},
    {"R_swig_tc_BasicInformationTool_Numeric_api", (DL_FUNC) &R_swig_tc_BasicInformationTool_Numeric_api, 9},
    {"R_swig_tc_getRates", (DL_FUNC) &R_swig_tc_getRates, 2},

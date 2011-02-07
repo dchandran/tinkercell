@@ -2790,6 +2790,7 @@ static swig_module_info swig_module = {swig_types, 83, 0, 0, 0, 0};
 #include "TC_AutoGeneRegulatoryTool_api.h"
 #include "TC_SBML_api.h"
 #include "TC_COPASI_api.h"
+#include "TC_ModuleTool_api.h"
 
 
 #include <limits.h>
@@ -11644,6 +11645,89 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_tc_substituteModel(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  long arg1 ;
+  char *arg2 = (char *) 0 ;
+  long val1 ;
+  int ecode1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:tc_substituteModel",&obj0,&obj1)) SWIG_fail;
+  ecode1 = SWIG_AsVal_long(obj0, &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_substituteModel" "', argument " "1"" of type '" "long""'");
+  } 
+  arg1 = (long)(val1);
+  res2 = SWIG_AsCharPtrAndSize(obj1, &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_substituteModel" "', argument " "2"" of type '" "char const *""'");
+  }
+  arg2 = (char *)(buf2);
+  tc_substituteModel(arg1,(char const *)arg2);
+  resultobj = SWIG_Py_Void();
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  return resultobj;
+fail:
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tc_listOfPossibleModels(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  long arg1 ;
+  long val1 ;
+  int ecode1 = 0 ;
+  PyObject * obj0 = 0 ;
+  tc_strings result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:tc_listOfPossibleModels",&obj0)) SWIG_fail;
+  ecode1 = SWIG_AsVal_long(obj0, &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_listOfPossibleModels" "', argument " "1"" of type '" "long""'");
+  } 
+  arg1 = (long)(val1);
+  result = tc_listOfPossibleModels(arg1);
+  resultobj = SWIG_NewPointerObj((tc_strings *)memcpy((tc_strings *)malloc(sizeof(tc_strings)),&result,sizeof(tc_strings)), SWIGTYPE_p_tc_strings, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tc_ModuleTool_api(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  void (*arg1)(long,char const *) = (void (*)(long,char const *)) 0 ;
+  tc_strings (*arg2)(long) = (tc_strings (*)(long)) 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:tc_ModuleTool_api",&obj0,&obj1)) SWIG_fail;
+  {
+    int res = SWIG_ConvertFunctionPtr(obj0, (void**)(&arg1), SWIGTYPE_p_f_long_p_q_const__char__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ModuleTool_api" "', argument " "1"" of type '" "void (*)(long,char const *)""'"); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(obj1, (void**)(&arg2), SWIGTYPE_p_f_long__tc_strings);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ModuleTool_api" "', argument " "2"" of type '" "tc_strings (*)(long)""'"); 
+    }
+  }
+  tc_ModuleTool_api(arg1,arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 static PyMethodDef SwigMethods[] = {
 	 { (char *)"SWIG_PyInstanceMethod_New", (PyCFunction)SWIG_PyInstanceMethod_New, METH_O, NULL},
 	 { (char *)"tc_strings_length_set", _wrap_tc_strings_length_set, METH_VARARGS, NULL},
@@ -11905,6 +11989,9 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"tc_LMatrix", _wrap_tc_LMatrix, METH_VARARGS, NULL},
 	 { (char *)"tc_KMatrix", _wrap_tc_KMatrix, METH_VARARGS, NULL},
 	 { (char *)"tc_COPASI_api", _wrap_tc_COPASI_api, METH_VARARGS, NULL},
+	 { (char *)"tc_substituteModel", _wrap_tc_substituteModel, METH_VARARGS, NULL},
+	 { (char *)"tc_listOfPossibleModels", _wrap_tc_listOfPossibleModels, METH_VARARGS, NULL},
+	 { (char *)"tc_ModuleTool_api", _wrap_tc_ModuleTool_api, METH_VARARGS, NULL},
 	 { NULL, NULL, 0, NULL }
 };
 

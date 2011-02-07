@@ -2282,6 +2282,7 @@ static swig_module_info swig_module = {swig_types, 83, 0, 0, 0, 0};
 #include "TC_AutoGeneRegulatoryTool_api.h"
 #include "TC_SBML_api.h"
 #include "TC_COPASI_api.h"
+#include "TC_ModuleTool_api.h"
 
 
 #include <limits.h>
@@ -11383,6 +11384,95 @@ fail:
 }
 
 
+static octave_value_list _wrap_tc_substituteModel (const octave_value_list& args, int nargout) {
+  long arg1 ;
+  char *arg2 = (char *) 0 ;
+  long val1 ;
+  int ecode1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  
+  if (!SWIG_check_num_args("tc_substituteModel",args.length(),2,2,0)) {
+    SWIG_fail;
+  }
+  ecode1 = SWIG_AsVal_long(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_substituteModel" "', argument " "1"" of type '" "long""'");
+  } 
+  arg1 = (long)(val1);
+  res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_substituteModel" "', argument " "2"" of type '" "char const *""'");
+  }
+  arg2 = (char *)(buf2);
+  tc_substituteModel(arg1,(char const *)arg2);
+  _outv = octave_value();
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_tc_listOfPossibleModels (const octave_value_list& args, int nargout) {
+  long arg1 ;
+  long val1 ;
+  int ecode1 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  tc_strings result;
+  
+  if (!SWIG_check_num_args("tc_listOfPossibleModels",args.length(),1,1,0)) {
+    SWIG_fail;
+  }
+  ecode1 = SWIG_AsVal_long(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_listOfPossibleModels" "', argument " "1"" of type '" "long""'");
+  } 
+  arg1 = (long)(val1);
+  result = tc_listOfPossibleModels(arg1);
+  _outv = SWIG_NewPointerObj((new tc_strings((const tc_strings&)(result))), SWIGTYPE_p_tc_strings, SWIG_POINTER_OWN |  0 );
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_tc_ModuleTool_api (const octave_value_list& args, int nargout) {
+  void (*arg1)(long,char const *) = (void (*)(long,char const *)) 0 ;
+  tc_strings (*arg2)(long) = (tc_strings (*)(long)) 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  
+  if (!SWIG_check_num_args("tc_ModuleTool_api",args.length(),2,2,0)) {
+    SWIG_fail;
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(args(0), (void**)(&arg1), SWIGTYPE_p_f_long_p_q_const__char__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ModuleTool_api" "', argument " "1"" of type '" "void (*)(long,char const *)""'"); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(args(1), (void**)(&arg2), SWIGTYPE_p_f_long__tc_strings);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ModuleTool_api" "', argument " "2"" of type '" "tc_strings (*)(long)""'"); 
+    }
+  }
+  tc_ModuleTool_api(arg1,arg2);
+  _outv = octave_value();
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
 
 static const struct swig_octave_member swig_globals[] = {
 {"tc_strings_length_set",_wrap_tc_strings_length_set,0,0,2,0},
@@ -11640,6 +11730,9 @@ static const struct swig_octave_member swig_globals[] = {
 {"tc_LMatrix",_wrap_tc_LMatrix,0,0,2,0},
 {"tc_KMatrix",_wrap_tc_KMatrix,0,0,2,0},
 {"tc_COPASI_api",_wrap_tc_COPASI_api,0,0,2,0},
+{"tc_substituteModel",_wrap_tc_substituteModel,0,0,2,0},
+{"tc_listOfPossibleModels",_wrap_tc_listOfPossibleModels,0,0,2,0},
+{"tc_ModuleTool_api",_wrap_tc_ModuleTool_api,0,0,2,0},
 {0,0,0,0,0}
 };
 

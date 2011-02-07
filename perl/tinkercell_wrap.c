@@ -1621,6 +1621,7 @@ SWIGEXPORT void SWIG_init (CV *cv, CPerlObj *);
 #include "TC_AutoGeneRegulatoryTool_api.h"
 #include "TC_SBML_api.h"
 #include "TC_COPASI_api.h"
+#include "TC_ModuleTool_api.h"
 
 
 #include <limits.h>
@@ -11888,6 +11889,107 @@ XS(_wrap_tc_COPASI_api) {
 }
 
 
+XS(_wrap_tc_substituteModel) {
+  {
+    long arg1 ;
+    char *arg2 = (char *) 0 ;
+    long val1 ;
+    int ecode1 = 0 ;
+    int res2 ;
+    char *buf2 = 0 ;
+    int alloc2 = 0 ;
+    int argvi = 0;
+    dXSARGS;
+    
+    if ((items < 2) || (items > 2)) {
+      SWIG_croak("Usage: tc_substituteModel(item,filename);");
+    }
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    if (!SWIG_IsOK(ecode1)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_substituteModel" "', argument " "1"" of type '" "long""'");
+    } 
+    arg1 = (long)(val1);
+    res2 = SWIG_AsCharPtrAndSize(ST(1), &buf2, NULL, &alloc2);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_substituteModel" "', argument " "2"" of type '" "char const *""'");
+    }
+    arg2 = (char *)(buf2);
+    tc_substituteModel(arg1,(char const *)arg2);
+    ST(argvi) = sv_newmortal();
+    
+    if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+    XSRETURN(argvi);
+  fail:
+    
+    if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_tc_listOfPossibleModels) {
+  {
+    long arg1 ;
+    long val1 ;
+    int ecode1 = 0 ;
+    int argvi = 0;
+    tc_strings result;
+    dXSARGS;
+    
+    if ((items < 1) || (items > 1)) {
+      SWIG_croak("Usage: tc_listOfPossibleModels(item);");
+    }
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    if (!SWIG_IsOK(ecode1)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_listOfPossibleModels" "', argument " "1"" of type '" "long""'");
+    } 
+    arg1 = (long)(val1);
+    result = tc_listOfPossibleModels(arg1);
+    ST(argvi) = SWIG_NewPointerObj((tc_strings *)memcpy((tc_strings *)malloc(sizeof(tc_strings)),&result,sizeof(tc_strings)), SWIGTYPE_p_tc_strings, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    
+    XSRETURN(argvi);
+  fail:
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_tc_ModuleTool_api) {
+  {
+    void (*arg1)(long,char const *) = (void (*)(long,char const *)) 0 ;
+    tc_strings (*arg2)(long) = (tc_strings (*)(long)) 0 ;
+    int argvi = 0;
+    dXSARGS;
+    
+    if ((items < 2) || (items > 2)) {
+      SWIG_croak("Usage: tc_ModuleTool_api(substituteModel,listOfModels);");
+    }
+    {
+      int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_long_p_q_const__char__void);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ModuleTool_api" "', argument " "1"" of type '" "void (*)(long,char const *)""'"); 
+      }
+    }
+    {
+      int res = SWIG_ConvertFunctionPtr(ST(1), (void**)(&arg2), SWIGTYPE_p_f_long__tc_strings);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ModuleTool_api" "', argument " "2"" of type '" "tc_strings (*)(long)""'"); 
+      }
+    }
+    tc_ModuleTool_api(arg1,arg2);
+    ST(argvi) = sv_newmortal();
+    
+    
+    XSRETURN(argvi);
+  fail:
+    
+    
+    SWIG_croak_null();
+  }
+}
+
+
 
 /* -------- TYPE CONVERSION AND EQUIVALENCE RULES (BEGIN) -------- */
 
@@ -12499,6 +12601,9 @@ static swig_command_info swig_commands[] = {
 {"tinkercellc::tc_LMatrix", _wrap_tc_LMatrix},
 {"tinkercellc::tc_KMatrix", _wrap_tc_KMatrix},
 {"tinkercellc::tc_COPASI_api", _wrap_tc_COPASI_api},
+{"tinkercellc::tc_substituteModel", _wrap_tc_substituteModel},
+{"tinkercellc::tc_listOfPossibleModels", _wrap_tc_listOfPossibleModels},
+{"tinkercellc::tc_ModuleTool_api", _wrap_tc_ModuleTool_api},
 {0,0}
 };
 /* -----------------------------------------------------------------------------

@@ -46,6 +46,8 @@ namespace Tinkercell
         setAutoFillBackground(true);
         mode = none;
         lineItem.setPen(QPen(QColor(255,10,10,255),2.0,Qt::DotLine));
+		connect(&fToS, SIGNAL(doSubstituteModel(QSemaphore*, ItemHandle*, const QString&)),
+						this, SLOT(doSubstituteModel(QSemaphore*, ItemHandle*, const QString&)));
     }
 
 	//insert interface node
@@ -90,6 +92,214 @@ namespace Tinkercell
 				scene->insert(tr("Interfaces created"),itemsToInsert);
 		}
     }
+	
+	QStringList ModuleTool::listOfModels(ItemFamily * family)
+	{
+		QStringList fileNames;
+		if (!family)
+			return fileNames;
+		
+		QList<ItemFamily*> childFamilies = family->allChildren();
+		QString appDir = QCoreApplication::applicationDirPath();
+		QString home = homeDir();
+		
+		for (int i=0; i < childFamilies.size(); ++i)
+		{
+			QString s = childFamilies[i]->name();
+			s.replace(tr(" "),tr(""));
+			QString dirname = home + tr("/Modules/") + s;
+			QDir dir(dirname);
+	
+			if (!dir.exists())
+				dir.setPath(home + tr("/Modules/") + s.toLower());
+		
+			if (!dir.exists())
+				dir.setPath(appDir + tr("/Modules/") + s);
+			
+			if (!dir.exists())
+				dir.setPath(appDir + tr("/Modules/") + s.toLower());
+			
+			dir.setFilter(QDir::Files);
+			dir.setSorting(QDir::Size);
+			QFileInfoList list = dir.entryInfoList();
+
+			for (int i = 0; i < list.size(); ++i)
+			{
+				QFileInfo fileInfo = list.at(i);
+				if (fileInfo.suffix().contains(tr("~"))) continue;
+				fileNames << fileInfo.absoluteFilePath();
+			}
+		}
+		return fileNames;
+	}
+	
+	void ModuleTool::substituteModel(ItemHandle * parentHandle, const QString& filename, NetworkWindow * window)
+	{
+		if (!parentHandle) return;
+
+		NetworkHandle * network;
+		if (window && window->handle == parentHandle)
+		{
+			network = window->network;
+		}
+		else
+		{
+			network = currentNetwork();
+			if (!network) return;
+			
+			QList<GraphicsScene*> scenes = network->scenes();
+			for (int i=0; i < scenes.size(); ++i)
+				if (scenes[i] && scenes[i]->localHandle() == parentHandle)
+				{
+					window = scenes[i]->networkWindow;
+					break;
+				}
+			
+			if (!window)
+			{
+				QList<TextEditor*> editors = network->editors();
+				for (int i=0; i < editors.size(); ++i)
+					if (editors[i] && editors[i]->localHandle() == parentHandle)
+					{
+						window = editors[i]->networkWindow;
+						break;
+					}
+			}
+			
+			if (!window || window->handle != parentHandle)
+			{
+				window = createNewWindow(ConnectionHandle::cast(parentHandle), network);
+			}
+		}
+		
+		if (QFile::exists(filename) && window && 
+			network && (parentHandle == window->handle) &&
+			(!window->handle || !window->handle->family())) 
+		{
+			QList<GraphicsScene*> scenes = network->scenes();
+			QList<TextEditor*> editors = network->editors();
+			
+			for (int i=0; i < scenes.size(); ++i)
+				if (scenes[i] && scenes[i]->networkWindow && scenes[i]->networkWindow->isVisible())
+					scenes[i]->networkWindow->close();
+			
+			for (int i=0; i < editors.size(); ++i)
+				if (editors[i] && editors[i]->networkWindow && editors[i]->networkWindow->isVisible())
+					editors[i]->networkWindow->close();
+			
+			QPair< QList<ItemHandle*> , QList<QGraphicsItem*> > pair = mainWindow->getItemsFromFile(filename,parentHandle);
+			
+			QList<QGraphicsItem*> items = pair.second;
+			QList<ItemHandle*> handles = pair.first;
+			
+			NodeGraphicsItem * node;
+			ConnectionGraphicsItem * connection;
+			TextGraphicsItem * text;
+			QString groupName = parentHandle->name;
+			for (int i=0; i < items.size(); ++i)
+				if (node = NodeGraphicsItem::cast(items[i]))
+					node->groupID = groupName;
+				else
+				if (connection = ConnectionGraphicsItem::cast(items[i]))
+					connection->groupID = groupName;
+				else
+				if (text = TextGraphicsItem::cast(items[i]))
+					text->groupID = groupName;
+			
+			if (handles.isEmpty()) return;
+			
+			QList<ItemHandle*> visitedHandles;
+
+			if (items.isEmpty())
+			{
+				for (int i=0; i < handles.size(); ++i)
+					if (handles[i] && !visitedHandles.contains(handles[i]))
+					{
+						visitedHandles << handles[i];
+						if (!handles[i]->parent)							
+							items += handles[i]->graphicsItems;
+					}
+			}
+
+			if (window && window->scene)
+			{
+				if (!items.isEmpty())
+				{
+					GraphicsScene * newScene = window->newScene();
+					newScene->insert(tr("new model"),items);
+					newScene->fitAll();
+					QPixmap printer(256, 256);
+					printer.fill();
+					newScene->print(&printer);
+					moduleSnapshots[parentHandle] = printer;
+				}
+				else
+				{
+					QString modelText;
+					emit getTextVersion(handles, &modelText);
+					TextEditor * newEditor = window->newTextEditor();
+					newEditor->setText(modelText);
+					newEditor->insert(handles);
+				}
+			}
+			else
+			if (window && window->editor)
+			{
+				if (!items.isEmpty())
+				{
+					GraphicsScene * scene = window->newScene();
+					scene->insert(tr("new model"),items);
+					scene->fitAll();
+				}
+				else
+				{
+					QString modelText;
+					emit getTextVersion(handles, &modelText);
+					TextEditor * newEditor = window->newTextEditor();
+					newEditor->setText(modelText);
+					newEditor->insert(handles);
+				}
+			}
+			
+			QList<QUndoCommand*> commands;
+			ItemHandle * h;
+			
+			TextDataTable oldParticipantsData (parentHandle->textDataTable(tr("participants")));
+
+			for (int i=0; i < parentHandle->children.size(); ++i)
+			{
+				h = findCorrespondingHandle(NodeHandle::cast(parentHandle->children[i]),ConnectionHandle::cast(parentHandle));
+				if (h)
+				{
+					commands << new MergeHandlesCommand(
+												tr("merge"), network, QList<ItemHandle*>() << h << parentHandle->children[i]);
+
+					for (int k=0; k < textTablesToBeReplaced.size(); ++k)
+						if (h->hasTextData(textTablesToBeReplaced[k]) && 
+							parentHandle->children[i]->hasTextData(textTablesToBeReplaced[k]))
+							commands << new ChangeTextDataCommand(
+													tr("replace text table"), 
+													&(h->textDataTable(textTablesToBeReplaced[k])), 
+													&(parentHandle->children[i]->textDataTable(textTablesToBeReplaced[k])));
+					
+					for (int k=0; k < numericalTablesToBeReplaced.size(); ++k)
+						if (h->hasNumericalData(numericalTablesToBeReplaced[k]) && 
+							parentHandle->children[i]->hasNumericalData(numericalTablesToBeReplaced[k]))
+							commands << new ChangeNumericalDataCommand(
+													tr("replace num. table"), 
+													&(h->numericalDataTable(numericalTablesToBeReplaced[k])), 
+													&(parentHandle->children[i]->numericalDataTable(numericalTablesToBeReplaced[k])));
+				}
+			}
+		
+			if (!commands.isEmpty())
+			{
+				commands << new ChangeTextDataCommand(
+										tr("participants"), &(parentHandle->textDataTable(tr("participants"))), &(oldParticipantsData));
+				network->push( new CompositeCommand(tr("Merged models"),commands) );
+			}
+		}
+	}
 
 	bool ModuleTool::setMainWindow(MainWindow * main)
     {
@@ -121,6 +331,8 @@ namespace Tinkercell
                     this, SLOT(itemsInserted(NetworkHandle*, const QList<ItemHandle*>&)));
                     
              connect(this,SIGNAL(saveModel(const QString&)), mainWindow, SIGNAL(saveNetwork(const QString&)));
+			 
+			 connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 
 			//connect(mainWindow, SIGNAL(itemsAboutToBeRemoved(GraphicsScene *, QList<QGraphicsItem*>& , QList<ItemHandle*>&, QList<QUndoCommand*>& )),
 			//		this, SLOT(itemsAboutToBeRemoved(GraphicsScene *, QList<QGraphicsItem*>& , QList<ItemHandle*>&, QList<QUndoCommand*>& )));
@@ -356,16 +568,16 @@ namespace Tinkercell
 				else
 				if (QFile::exists(appDir + tr("/Modules/modules.xml")))				
 					connectionsTree->readTreeFile(appDir + tr("/Modules/modules.xml"));
-			
+				
 				QList<ItemFamily*> childFamilies = moduleFamily->allChildren();
-			
+				
 				for (int i=0; i < childFamilies.size(); ++i)
 				{
 					QString s = childFamilies[i]->name();
 					s.replace(tr(" "),tr(""));
 					QString dirname = home + tr("/Modules/") + s;
 					QDir dir(dirname);
-			
+
 					if (!dir.exists())
 						dir.setPath(home + tr("/Modules/") + s.toLower());
 				
@@ -884,27 +1096,6 @@ namespace Tinkercell
 				if ((ch = ConnectionHandle::cast(handles[i])) && !handles[i]->children.isEmpty())
 				{
 					modules << handles[i];
-					/*if (handles.size() == 1)
-						for (int j=0; j < handles[i]->graphicsItems.size(); ++j)
-							if ((c = ConnectionGraphicsItem::cast(handles[i]->graphicsItems[j])) && (c->scene() == scene))
-							{
-								scene->showToolTip(c->centerLocation(),handles[i]->name + tr(" contains a model inside"));
-								break;
-							}
-
-					QList<QGraphicsItem*> items2;	
-					
-					QList<ItemHandle*> children = handles[i]->allChildren();
-
-					children = handles[i]->children;
-					QList<NodeHandle*> nodes = ch->nodes();
-					for (int j=0; j < nodes.size(); ++j)
-						children << nodes[j];
-
-					for (int j=0; j < children.size(); ++j)
-						items2 << children[j]->graphicsItems;
-						
-					QString groupName = handles[i]->name;*/
 				}
 
 			for (int i=0; i < modules.size(); ++i)
@@ -947,8 +1138,7 @@ namespace Tinkercell
 			for (int i=0; i < modules.size(); ++i)
 				if (ch = ConnectionHandle::cast(modules[i]))
 				{
-					createNewWindow(ch,scene->network);
-					
+					createNewWindow(ch,scene->network);					
 				}
 	    }
     }
@@ -1135,117 +1325,7 @@ namespace Tinkercell
 				if (!window || !window->handle || !window->handle->family()) return;
 				ItemHandle * parentHandle = window->handle;
 				
-				QPair< QList<ItemHandle*> , QList<QGraphicsItem*> > pair = mainWindow->getItemsFromFile(filename,parentHandle);
-				
-				QList<QGraphicsItem*> items = pair.second;
-				QList<ItemHandle*> handles = pair.first;
-				
-				NodeGraphicsItem * node;
-				ConnectionGraphicsItem * connection;
-				TextGraphicsItem * text;
-				QString groupName = parentHandle->name;
-				for (int i=0; i < items.size(); ++i)
-					if (node = NodeGraphicsItem::cast(items[i]))
-						node->groupID = groupName;
-					else
-					if (connection = ConnectionGraphicsItem::cast(items[i]))
-						connection->groupID = groupName;
-					else
-					if (text = TextGraphicsItem::cast(items[i]))
-						text->groupID = groupName;
-				
-				if (handles.isEmpty()) return;
-				
-				QList<ItemHandle*> visitedHandles;
-
-				if (items.isEmpty())
-				{
-					for (int i=0; i < handles.size(); ++i)
-						if (handles[i] && !visitedHandles.contains(handles[i]))
-						{
-							visitedHandles << handles[i];
-							if (!handles[i]->parent)							
-								items += handles[i]->graphicsItems;
-						}
-				}
-
-				if (window && window->scene)
-				{
-					if (!items.isEmpty())
-					{
-						GraphicsScene * newScene = window->newScene();
-						newScene->insert(tr("new model"),items);
-						newScene->fitAll();
-						QPixmap printer(256, 256);
-						printer.fill();
-						newScene->print(&printer);
-						moduleSnapshots[parentHandle] = printer;
-					}
-					else
-					{
-						QString modelText;
-						emit getTextVersion(handles, &modelText);
-						TextEditor * newEditor = window->newTextEditor();
-						newEditor->setText(modelText);
-						newEditor->insert(handles);
-					}
-				}
-				else
-				if (window && window->editor)
-				{
-					if (!items.isEmpty())
-					{
-						GraphicsScene * scene = window->newScene();
-						scene->insert(tr("new model"),items);
-						scene->fitAll();
-					}
-					else
-					{
-						QString modelText;
-						emit getTextVersion(handles, &modelText);
-						TextEditor * newEditor = window->newTextEditor();
-						newEditor->setText(modelText);
-						newEditor->insert(handles);
-					}
-				}
-				
-				QList<QUndoCommand*> commands;
-				ItemHandle * h;
-				
-				TextDataTable oldParticipantsData (parentHandle->textDataTable(tr("participants")));
-
-				for (int i=0; i < parentHandle->children.size(); ++i)
-				{
-					h = findCorrespondingHandle(NodeHandle::cast(parentHandle->children[i]),ConnectionHandle::cast(parentHandle));
-					if (h)
-					{
-						commands << new MergeHandlesCommand(
-													tr("merge"), network, QList<ItemHandle*>() << h << parentHandle->children[i]);
-
-						for (int k=0; k < textTablesToBeReplaced.size(); ++k)
-							if (h->hasTextData(textTablesToBeReplaced[k]) && 
-								parentHandle->children[i]->hasTextData(textTablesToBeReplaced[k]))
-								commands << new ChangeTextDataCommand(
-														tr("replace text table"), 
-														&(h->textDataTable(textTablesToBeReplaced[k])), 
-														&(parentHandle->children[i]->textDataTable(textTablesToBeReplaced[k])));
-						
-						for (int k=0; k < numericalTablesToBeReplaced.size(); ++k)
-							if (h->hasNumericalData(numericalTablesToBeReplaced[k]) && 
-								parentHandle->children[i]->hasNumericalData(numericalTablesToBeReplaced[k]))
-								commands << new ChangeNumericalDataCommand(
-														tr("replace num. table"), 
-														&(h->numericalDataTable(numericalTablesToBeReplaced[k])), 
-														&(parentHandle->children[i]->numericalDataTable(numericalTablesToBeReplaced[k])));
-					}
-				}
-			
-				if (!commands.isEmpty())
-				{
-					commands << new ChangeTextDataCommand(
-											tr("participants"), &(parentHandle->textDataTable(tr("participants"))), &(oldParticipantsData));
-					network->push( new CompositeCommand(tr("Merged models"),commands) );
-				}
+				substituteModel(parentHandle, filename, window);
 			}
 		}
 	}
@@ -1337,7 +1417,7 @@ namespace Tinkercell
 		return dock;
 	}
 	
-	void ModuleTool::createNewWindow(ConnectionHandle * chandle, NetworkHandle * network)
+	NetworkWindow * ModuleTool::createNewWindow(ConnectionHandle * chandle, NetworkHandle * network)
 	{
 		if (chandle && chandle->family() && !chandle->children.isEmpty() && network)
 		{
@@ -1348,14 +1428,14 @@ namespace Tinkercell
 				if (editors[i]->localHandle() == chandle && !editors[i]->text().isEmpty())
 				{
 					//editors[i]->popOut();
-					return;
+					return 0;
 				}
 
 			for (int i=0; i < scenes.size(); ++i)
 				if (scenes[i]->localHandle() == chandle && !scenes[i]->items().isEmpty())
 				{
 					//scenes[i]->popOut();
-					return;
+					return 0;
 				}
 
 			ItemFamily * family = chandle->family();
@@ -1432,9 +1512,12 @@ namespace Tinkercell
 					
 					if (!window)
 						delete dock;
+					
+					return window;
 				}
 			}
 		}
+		return 0;
 	}
 	
 	void ModuleTool::keyPressed(GraphicsScene* scene,QKeyEvent * keyEvent)
@@ -1659,6 +1742,54 @@ namespace Tinkercell
 		}
 	}
 	
+	void ModuleTool::doSubstituteModel(QSemaphore * sem, ItemHandle * parent, const QString& filename)
+	{
+		substituteModel(parent, filename);
+		if (sem)
+			sem->release();
+	}
+	
+	typedef void (*tc_ModuleTool_api)(
+		void (*substituteModel)(long, const char*),
+		tc_strings (*listOfModels)(long));
+
+	void ModuleTool::setupFunctionPointers( QLibrary * library )
+	{
+		tc_ModuleTool_api f = (tc_ModuleTool_api)library->resolve("tc_ModuleTool_api");
+		if (f)
+		{
+			f(
+				&(_substituteModel),
+				&(_listOfModels));
+		}
+	}
+	
+	tc_strings ModuleTool::_listOfModels(long o)
+	{
+		MainWindow::instance()->console()->message("here");
+		ItemHandle * handle = ConvertValue(o);
+		QStringList list;
+		if (handle && handle->family())
+			list = listOfModels(handle->family());
+		return ConvertValue(list);
+	}
+
+	void ModuleTool::_substituteModel(long o, const char * s)
+	{
+		fToS.substituteModel(o, s);
+	}
+	
+	void ModuleTool_FToS::substituteModel(long o, const char * s)
+	{
+		QSemaphore * sem = new QSemaphore(1);
+		sem->acquire();
+		emit doSubstituteModel(sem, ConvertValue(o), ConvertValue(s));
+		sem->acquire();
+		sem->release();
+		delete sem;
+	}
+	
+	ModuleTool_FToS ModuleTool::fToS;
 	QStringList ModuleTool::numericalTablesToBeReplaced;
 	QStringList ModuleTool::textTablesToBeReplaced;
 }

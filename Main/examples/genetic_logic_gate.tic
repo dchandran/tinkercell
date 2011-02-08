@@ -4431,7 +4431,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="4440.24" y="4561.79" angle="0"/>
-                            <transform m11="0.1" m12="-7.89299e-17" m21="3.1572e-16" m22="0.4"/>
+                            <transform m11="0.1" m12="-7.97973e-17" m21="3.19189e-16" m22="0.4"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -4683,7 +4683,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="5213.36" y="4979.43" angle="-1.26967"/>
-                            <transform m11="0.399902" m12="-0.0088632" m21="0.00664739" m22="0.299926"/>
+                            <transform m11="0.399902" m12="-0.00886319" m21="0.00664738" m22="0.299926"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -5056,7 +5056,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="5031.72" y="4810.43" angle="-88.0488"/>
-                            <transform m11="0.0136203" m12="-0.399768" m21="0.299826" m22="0.0102153"/>
+                            <transform m11="0.0136204" m12="-0.399768" m21="0.299826" m22="0.0102154"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -5193,7 +5193,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="5217.16" y="4980.38" angle="-1.20182"/>
-                            <transform m11="0.399912" m12="-0.00838974" m21="0.00629229" m22="0.299934"/>
+                            <transform m11="0.399912" m12="-0.00838976" m21="0.0062923" m22="0.299934"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -5331,7 +5331,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="5547.5" y="5016.84" angle="-153.988"/>
-                            <transform m11="-0.35949" m12="-0.17541" m21="0.131558" m22="-0.269615"/>
+                            <transform m11="-0.359492" m12="-0.175407" m21="0.131556" m22="-0.269616"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -5452,7 +5452,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="5547.5" y="5016.84" angle="-153.988"/>
-                            <transform m11="-0.35949" m12="-0.17541" m21="0.131558" m22="-0.269615"/>
+                            <transform m11="-0.359492" m12="-0.175407" m21="0.131556" m22="-0.269616"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -5672,6 +5672,7 @@
         </ConnectionItem>
     </Connections>
     <Texts>
+        <TextItem text="Simulate the system and plot just&#10;GFP vs time. Use the sliders to adjust&#10;IPTG and aTc levels and see how they &#10;influence GFP" scene="0" handle="" x="5061.78" y="4423.62" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="92.3" font="Sans" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="pp1" scene="0" handle="pp1" x="5677.42" y="4853.6" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="86.3" font="Sans" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="GFP" scene="0" handle="GFP" x="5737.42" y="4686.03" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="84.3" font="Sans" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="p2" scene="0" handle="p2" x="5336.08" y="5113.94" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="82.1" font="Sans" size="22" bold="0" italics="0" underline="0"/>

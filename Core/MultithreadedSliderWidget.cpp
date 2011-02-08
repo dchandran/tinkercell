@@ -22,15 +22,17 @@ namespace Tinkercell
 {
 	void MultithreadedSliderWidget::setVisibleSliders(const QString& substring)
 	{
-		if (substring.isNull() || substring.isEmpty()) return;
-
-		QStringList keys;
+		QStringList keys, allkeys;
 		for (int j=0; j < labels.size() && j < minline.size() && j < maxline.size() && j < valueline.size(); ++j)
 		{
 			if (labels[j] && labels[j]->text().toLower().contains(substring.toLower()))
 				keys += labels[j]->text();
+			allkeys += labels[j]->text();
 		}
-		setVisibleSliders(keys);
+		if (substring.isEmpty() || keys.isEmpty())
+			setVisibleSliders(allkeys);
+		else
+			setVisibleSliders(keys);
 	}
 	
 	void MultithreadedSliderWidget::setVisibleSliders(const QStringList& options)

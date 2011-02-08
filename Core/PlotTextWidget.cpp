@@ -41,11 +41,11 @@ namespace Tinkercell
 		QStringList colnames = dataTable.columnNames(),
 					rownames = dataTable.rowNames();
 	
-		bool printRows = true;
+		bool printRows = false;
 		for (int i=0; i < rownames.size(); ++i)
-			if (rownames.at(i).size() <= 0)
+			if (!rownames.at(i).isEmpty())
 			{
-				printRows = false;
+				printRows = true;
 				break;
 			}
 		

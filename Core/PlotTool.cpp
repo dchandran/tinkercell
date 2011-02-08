@@ -858,14 +858,14 @@ namespace Tinkercell
 			return QString("No data to compute function");
 		
 		NumericalDataTable matrix(*pData);
-				
+		
 		int k = 1;
 		QString newcol("formula_1");
 		while (matrix.hasColumn(newcol))
 			newcol = tr("formula_") + QString::number(++k);
 		
 		QStringList colnames = matrix.columnNames();				
-		QVector<double> params(colnames.size(), 0);
+		double * params = new double[colnames.size()];
 		mu::Parser parser;
 		try
 		{
@@ -874,13 +874,15 @@ namespace Tinkercell
 				double * dp = &(params[i]);
 				colnames[i].replace(tr("."), tr("_"));
 				parser.DefineVar(colnames[i].toAscii().data(), dp);
+				if (!colnames[i].contains(colnames[i].toLower()))
+					parser.DefineVar(colnames[i].toLower().toAscii().data(), dp);
 			}
 				
 			parser.SetExpr(formula.toAscii().data());				
 
 			for (int i=0; i < matrix.rows(); ++i)
 			{
-				for (int j=0; j < matrix.columns(); ++j)
+				for (int j=0; j < colnames.size(); ++j)
 					params[j] = matrix(i,j);
 
 				matrix(i,newcol) = parser.Eval();

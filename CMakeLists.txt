@@ -203,7 +203,10 @@ ENDIF( BUILD_EXAMPLE_PROGRAMS )
 # Copyright and other files
 #----------------------------------------------------------------------------
 
-FILE(GLOB TINKERCELL_SUPPORTING_FILES ABOUT.TXT UPDATES.TXT COPYRIGHT.TXT *.py)
+FILE(GLOB TINKERCELL_SUPPORTING_FILES 
+         ${TINKERCELL_SOURCE_DIR}/ABOUT.TXT
+         ${TINKERCELL_SOURCE_DIR}/COPYRIGHT.TXT
+         ${TINKERCELL_SOURCE_DIR}/UPDATES.TXT)
 INSTALL(FILES ${TINKERCELL_SUPPORTING_FILES} DESTINATION bin/../)  
 
 #----------------------------------------------------------------------------

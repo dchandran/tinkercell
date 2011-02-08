@@ -312,6 +312,8 @@ Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\Graphics\Bio1\Nodes\
 Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\Graphics\Bio1\Nodes\tRNA.xml; DestDir: {app}\Graphics\Bio1\Nodes
 Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\Graphics\Bio1\Nodes\Vector.PNG; DestDir: {app}\Graphics\Bio1\Nodes
 Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\Graphics\Bio1\Nodes\Vector.xml; DestDir: {app}\Graphics\Bio1\Nodes
+Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\Graphics\Bio1\Nodes\StickyEnds.PNG; DestDir: {app}\Graphics\Bio1\Nodes
+Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\Graphics\Bio1\Nodes\StickyEnds.xml; DestDir: {app}\Graphics\Bio1\Nodes
 Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\Graphics\Bio1\Nodes\Vector2.PNG; DestDir: {app}\Graphics\Bio1\Nodes
 Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\Graphics\Bio1\Nodes\Vector2.xml; DestDir: {app}\Graphics\Bio1\Nodes
 Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\Graphics\Bio1\screenshot.png; DestDir: {app}\Graphics\Bio1

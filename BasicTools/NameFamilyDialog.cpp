@@ -39,12 +39,6 @@ namespace Tinkercell
 		addGraphicsItem(toolGraphicsItem);
 		toolGraphicsItem->addToGroup(&idcard);
 		toolGraphicsItem->setToolTip(tr("Name, family, and Annotation"));
-
-		/*QToolButton * toolButton = new QToolButton(this);
-		toolButton->setIcon(QIcon(appDir + tr("/BasicTools/monitor.PNG")));
-		toolButton->setToolTip(tr("Name, family, and Annotation"));
-		this->buttons.addButton(toolButton);*/
-
 	}
 	void NameFamilyDialog::makeDialog(QWidget* parent)
 	{

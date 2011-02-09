@@ -27,6 +27,7 @@
 
 namespace Tinkercell
 {
+	class DNASequenceViewer;
 	
 	class DNASequenceViewerTextEdit : public QTextEdit
 	{
@@ -37,6 +38,7 @@ namespace Tinkercell
 		DNASequenceViewerTextEdit(QWidget * parent = 0);
 		void updateText(const QList<ItemHandle*>& nodes);
 		void updateNodes();
+		
 	signals:
 		void highlight(ItemHandle*,QColor);
 		
@@ -48,6 +50,8 @@ namespace Tinkercell
 		int currentNodeIndex();
 		QList<ItemHandle*> nodes;
 		QList<QColor> colors;
+		
+		friend class DNASequenceViewer;
 	};
 
 	class TINKERCELLEXPORT DNASequenceViewer : public Tool
@@ -56,6 +60,7 @@ namespace Tinkercell
 	public:
 		DNASequenceViewer();
 		bool setMainWindow(MainWindow*);
+		
 	public slots:
 		void select(int i=0);
 		void deselect(int i=0);

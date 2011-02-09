@@ -84,14 +84,14 @@ namespace Tinkercell
 
 	/************************
 	Sequence Text Edit Widget
-	************************/
+	*************************/
 
 	DNASequenceViewerTextEdit::DNASequenceViewerTextEdit(QWidget * parent) : QTextEdit(parent)
 	{
 		QFont font = this->font();
 		font.setPointSize(16);
 		setFont(font);
-		this->setReadOnly(true);
+		//this->setReadOnly(true);
 	}
 
 	void DNASequenceViewerTextEdit::updateText(const QList<ItemHandle*> & nodes)
@@ -177,6 +177,10 @@ namespace Tinkercell
 			if (i > -1)
 				emit highlight(nodes[i],colors[i]);
 		}
+		else
+		{
+			QTextEdit::keyPressEvent(event);
+		}
 	}
 
 	/************************
@@ -189,7 +193,7 @@ namespace Tinkercell
 		QVBoxLayout * layout = new QVBoxLayout;
 		layout->addWidget(&textEdit);
 		setLayout(layout);
-		//connect(&textEdit,SIGNAL(textChanged()),this,SLOT(textChanged()));
+		connect(&textEdit,SIGNAL(textChanged()),this,SLOT(textChanged()));
 
 		QString appDir = QCoreApplication::applicationDirPath();
 		openedByUser = false;
@@ -254,15 +258,39 @@ namespace Tinkercell
 		if (!net || !net->currentScene()) return;
 
 		ItemHandle * handle = 0;
-		QList<QGraphicsItem*> & selected = net->currentScene()->selected();
 		
-		if (selected.size() == 1 &&
-			(handle = getHandle(selected[0])) &&
-			handle->isA(tr("Part")) && handle->hasTextData(tr("Text Attributes")))
+		int i = textEdit.currentNodeIndex();
+		if (i > -1)
 		{
-			DataTable<QString> data(handle->textDataTable(tr("Text Attributes")));
-			data.value(tr("sequence"),0) = textEdit.toPlainText();
-			net->changeData(handle->fullName() + tr("'s sequence changed"),handle,tr("Text Attributes"),&data);
+			int len1=0, len2=0;
+			for (int j=0; j < i; ++j)
+				if (textEdit.nodes[j] &&
+					textEdit.nodes[j]->hasTextData(tr("Text Attributes")) &&
+					textEdit.nodes[j]->textDataTable(tr("Text Attributes")).hasRow(tr("sequence")))
+					{
+						len1 += textEdit.nodes[j]->textData(tr("Text Attributes"),tr("sequence")).length();
+					}
+
+			for (int j=(textEdit.nodes.size()-1); j > i; --j)
+				if (textEdit.nodes[j] &&
+					textEdit.nodes[j]->hasTextData(tr("Text Attributes")) &&
+					textEdit.nodes[j]->textDataTable(tr("Text Attributes")).hasRow(tr("sequence")))
+					{
+						len2 += textEdit.nodes[j]->textData(tr("Text Attributes"),tr("sequence")).length();
+					}
+			
+			if ((handle = textEdit.nodes[i]) && handle->isA(tr("Part")) && handle->hasTextData(tr("Text Attributes")))
+			{
+				DataTable<QString> data(handle->textDataTable(tr("Text Attributes")));
+				QString s = textEdit.toPlainText();
+				QString s2;
+				for (int j=len1; j < len2; ++j)
+					s2 += s[j];
+				data.value(tr("sequence"),0) = s2;
+				net->changeData(handle->fullName() + tr("'s sequence changed"),handle,tr("Text Attributes"),&data);
+			}
+			
+			updateText(net->currentScene(),net->currentScene()->selected());
 		}
 	}
 
@@ -331,11 +359,11 @@ namespace Tinkercell
 			handlesUp.pop_front();
 		}
 
-		//disconnect(&textEdit,SIGNAL(textChanged()),this,SLOT(textChanged()));
+		disconnect(&textEdit,SIGNAL(textChanged()),this,SLOT(textChanged()));
 
 		textEdit.updateText(handlesDown);
 
-		//connect(&textEdit,SIGNAL(textChanged()),this,SLOT(textChanged()));
+		connect(&textEdit,SIGNAL(textChanged()),this,SLOT(textChanged()));
 
 		return handlesDown.size() > 0;
 	}

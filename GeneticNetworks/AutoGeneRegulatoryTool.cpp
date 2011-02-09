@@ -881,7 +881,7 @@ namespace Tinkercell
 		bool partCollided = false;
 
 		for (int i=0; i < items.size(); ++i)
-			if ((handle = getHandle(items[i])) && handle->isA(tr("Part")))
+			if ((handle = getHandle(items[i])) && handle->isA(tr("Part")) && !(handle->parent && handle->parent->isA(tr("Vector"))))
 			{
 				partCollided = true;
 				break;
@@ -1971,10 +1971,10 @@ namespace Tinkercell
 				
 				boundingRect = nodesInPlasmid[i]->sceneBoundingRect();
 				
-				if ((t.m11() < 0) && (t.m22() < 0))// || (t.m12() != 0) || (t.m21() != 0))
-					flip = true;
-				else
-					flip = false;
+				//if ((t.m11() < 0) && (t.m22() < 0))// || (t.m12() != 0) || (t.m21() != 0))
+				//	flip = true;
+				//else
+				flip = false;
 
 				p1 = boundingRect.center();
 				qreal angle;

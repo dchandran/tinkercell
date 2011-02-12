@@ -11870,6 +11870,25 @@ R_swig_tc_savePlot ( SEXP filename)
 }
 
 
+SWIGEXPORT SEXP
+R_swig_tc_setLogScale ( SEXP s_arg1)
+{
+  int arg1 ;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  arg1 = (int)(INTEGER(s_arg1)[0]);
+  tc_setLogScale(arg1);
+  r_ans = R_NilValue;
+  
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
 void _p_f_tc_matrix_p_q_const__char__void(tc_matrix s_arg1, char const * s_arg2) {
   tc_matrix arg1 ;
   char *arg2 = (char *) 0 ;
@@ -12004,7 +12023,7 @@ tc_matrix _p_f_int__tc_matrix(int s_arg1) {
 
 
 SWIGEXPORT SEXP
-R_swig_tc_PlotTool_api ( SEXP plot, SEXP surface, SEXP hist, SEXP errorBars, SEXP scatterplot, SEXP multiplot, SEXP plotData, SEXP gnuplot, SEXP savePlotImage)
+R_swig_tc_PlotTool_api ( SEXP plot, SEXP surface, SEXP hist, SEXP errorBars, SEXP scatterplot, SEXP multiplot, SEXP plotData, SEXP gnuplot, SEXP savePlotImage, SEXP logscale)
 {
   void (*arg1)(tc_matrix,char const *) = (void (*)(tc_matrix,char const *)) 0 ;
   void (*arg2)(tc_matrix,char const *) = (void (*)(tc_matrix,char const *)) 0 ;
@@ -12015,6 +12034,7 @@ R_swig_tc_PlotTool_api ( SEXP plot, SEXP surface, SEXP hist, SEXP errorBars, SEX
   tc_matrix (*arg7)(int) = (tc_matrix (*)(int)) 0 ;
   void (*arg8)(char const *) = (void (*)(char const *)) 0 ;
   void (*arg9)(char const *) = (void (*)(char const *)) 0 ;
+  void (*arg10)(int) = (void (*)(int)) 0 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
@@ -12118,8 +12138,20 @@ R_swig_tc_PlotTool_api ( SEXP plot, SEXP surface, SEXP hist, SEXP errorBars, SEX
     arg9 = _p_f_p_q_const__char__void;
     R_SWIG_pushCallbackFunctionData(savePlotImage, NULL);
   }
-  tc_PlotTool_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9);
+  if(TYPEOF(logscale) != CLOSXP) {
+    {
+      int res = SWIG_R_ConvertPtr(logscale, (void**)(&arg10), SWIGTYPE_p_f_int__void, 0);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "10"" of type '" "void (*)(int)""'"); 
+      }
+    }
+  } else {
+    arg10 = _p_f_int__void;
+    R_SWIG_pushCallbackFunctionData(logscale, NULL);
+  }
+  tc_PlotTool_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10);
   r_ans = R_NilValue;
+  
   
   
   
@@ -14920,7 +14952,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_StoichiometryTool_api", (DL_FUNC) &R_swig_tc_StoichiometryTool_api, 4},
    {"R_swig_tc_PythonTool_api", (DL_FUNC) &R_swig_tc_PythonTool_api, 3},
    {"R_swig_tc_OctaveTool_api", (DL_FUNC) &R_swig_tc_OctaveTool_api, 3},
-   {"R_swig_tc_PlotTool_api", (DL_FUNC) &R_swig_tc_PlotTool_api, 9},
+   {"R_swig_tc_PlotTool_api", (DL_FUNC) &R_swig_tc_PlotTool_api, 10},
    {"R_swig_tc_SimulationEventsTool_api", (DL_FUNC) &R_swig_tc_SimulationEventsTool_api, 3},
    {"R_swig_tc_AssignmentFunctionsTool_api", (DL_FUNC) &R_swig_tc_AssignmentFunctionsTool_api, 3},
    {"R_swig_tc_CLabelsTool_api", (DL_FUNC) &R_swig_tc_CLabelsTool_api, 4},
@@ -15028,6 +15060,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_CThread_api_initialize", (DL_FUNC) &R_swig_tc_CThread_api_initialize, 4},
    {"R_swig_tc_Main_api_initialize", (DL_FUNC) &R_swig_tc_Main_api_initialize, 70},
    {"R_swig_tc_setPos", (DL_FUNC) &R_swig_tc_setPos, 3},
+   {"R_swig_tc_setLogScale", (DL_FUNC) &R_swig_tc_setLogScale, 1},
    {"R_swig_tc_NameFamily_api_initialize", (DL_FUNC) &R_swig_tc_NameFamily_api_initialize, 2},
    {"R_swig_tc_callFunction", (DL_FUNC) &R_swig_tc_callFunction, 1},
    {"R_swig_tc_addFunction", (DL_FUNC) &R_swig_tc_addFunction, 9},

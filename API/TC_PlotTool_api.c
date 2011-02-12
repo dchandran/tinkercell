@@ -106,6 +106,17 @@ void tc_savePlot(const char * filename)
 		_tc_savePlot(filename);
 }
 
+void (*_tc_setLogScale)(int) = 0;
+/*!
+ \brief save plot
+ \ingroup Plotting
+*/ TCAPIEXPORT 
+void tc_setLogScale(int i)
+{
+	if (_tc_setLogScale)
+		_tc_setLogScale(i);
+}
+
 /*!
  \brief initializing function
  \ingroup init
@@ -119,7 +130,8 @@ void tc_PlotTool_api(
 	void (*multiplot)(int r, int c),
 	tc_matrix (*plotData)(int),
 	void (*gnuplot)(const char*),
-	void (*savePlotImage)(const char *))
+	void (*savePlotImage)(const char *),
+	void (*logscale)(int))
 {
 	_tc_plot = plot;
 	_tc_getPlotData = plotData;
@@ -130,5 +142,6 @@ void tc_PlotTool_api(
 	_tc_multiplot = multiplot;
 	_tc_gnuplot = gnuplot;
 	_tc_savePlot = savePlotImage;
+	_tc_setLogScale = logscale;
 }
 

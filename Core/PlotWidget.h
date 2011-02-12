@@ -59,6 +59,8 @@ namespace Tinkercell
 		virtual void updateData(const DataTable<qreal>&);
 		/*! \brief get the data inside this plot as teb-delimited text*/
 		virtual QString dataToString(const QString& delim=QString("\t"));
+		/*! \brief set log scale (if applicable)*/
+		virtual void setLogScale(int axis, bool set=true);
 		
 	protected:
 		/*! \brief the plot tool that contains this widget*/

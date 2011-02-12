@@ -5526,9 +5526,27 @@ attr(`tc_savePlot`, 'returnType') = 'void'
 attr(`tc_savePlot`, "inputTypes") = c('character')
 class(`tc_savePlot`) = c("SWIGFunction", class('tc_savePlot'))
 
+# Start of tc_setLogScale
+
+`tc_setLogScale` = function(s_arg1)
+{
+  s_arg1 = as.integer(s_arg1) 
+  
+  if(length(s_arg1) > 1) {
+    warning("using only the first element of s_arg1")
+  }
+  
+  .Call('R_swig_tc_setLogScale', s_arg1, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_setLogScale`, 'returnType') = 'void'
+attr(`tc_setLogScale`, "inputTypes") = c('integer')
+class(`tc_setLogScale`) = c("SWIGFunction", class('tc_setLogScale'))
+
 # Start of tc_PlotTool_api
 
-`tc_PlotTool_api` = function(plot, surface, hist, errorBars, scatterplot, multiplot, plotData, gnuplot, savePlotImage)
+`tc_PlotTool_api` = function(plot, surface, hist, errorBars, scatterplot, multiplot, plotData, gnuplot, savePlotImage, logscale)
 {
   if(is.function(plot)) {
     assert('...' %in% names(formals(plot)) || length(formals(plot)) >= 2)
@@ -5620,12 +5638,22 @@ class(`tc_savePlot`) = c("SWIGFunction", class('tc_savePlot'))
       savePlotImage = savePlotImage$address
     }
   }
-  .Call('R_swig_tc_PlotTool_api', plot, surface, hist, errorBars, scatterplot, multiplot, plotData, gnuplot, savePlotImage, PACKAGE='tinkercell')
+  if(is.function(logscale)) {
+    assert('...' %in% names(formals(logscale)) || length(formals(logscale)) >= 0)
+  } else {
+    if(is.character(logscale)) {
+      logscale = getNativeSymbolInfo(logscale)
+    }
+    if(is(logscale, "NativeSymbolInfo")) {
+      logscale = logscale$address
+    }
+  }
+  .Call('R_swig_tc_PlotTool_api', plot, surface, hist, errorBars, scatterplot, multiplot, plotData, gnuplot, savePlotImage, logscale, PACKAGE='tinkercell')
   
 }
 
 attr(`tc_PlotTool_api`, 'returnType') = 'void'
-attr(`tc_PlotTool_api`, "inputTypes") = c('_p_f_tc_matrix_p_q_const__char__void', '_p_f_tc_matrix_p_q_const__char__void', '_p_f_tc_matrix_p_q_const__char__void', '_p_f_tc_matrix_p_q_const__char__void', '_p_f_tc_matrix_p_q_const__char__void', '_p_f_int_int__void', '_p_f_int__tc_matrix', '_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void')
+attr(`tc_PlotTool_api`, "inputTypes") = c('_p_f_tc_matrix_p_q_const__char__void', '_p_f_tc_matrix_p_q_const__char__void', '_p_f_tc_matrix_p_q_const__char__void', '_p_f_tc_matrix_p_q_const__char__void', '_p_f_tc_matrix_p_q_const__char__void', '_p_f_int_int__void', '_p_f_int__tc_matrix', '_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void', '_p_f_int__void')
 class(`tc_PlotTool_api`) = c("SWIGFunction", class('tc_PlotTool_api'))
 
 # Start of tc_writeModel

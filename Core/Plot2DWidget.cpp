@@ -1009,6 +1009,15 @@ namespace Tinkercell
 		updateData(dataTable);
 	}
 	
+	void Plot2DWidget::setLogScale(int i, bool b)
+	{
+		if (i == 0 || i > 1)
+			logX(b);
+	
+		if (i > 0)
+			logY(b);
+	}
+	
 	
 	/***************************
 	Legend show-hide widget

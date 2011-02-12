@@ -9783,6 +9783,30 @@ fail:
 }
 
 
+static octave_value_list _wrap_tc_setLogScale (const octave_value_list& args, int nargout) {
+  int arg1 ;
+  int val1 ;
+  int ecode1 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  
+  if (!SWIG_check_num_args("tc_setLogScale",args.length(),1,1,0)) {
+    SWIG_fail;
+  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setLogScale" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
+  tc_setLogScale(arg1);
+  _outv = octave_value();
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
 static octave_value_list _wrap_tc_PlotTool_api (const octave_value_list& args, int nargout) {
   void (*arg1)(tc_matrix,char const *) = (void (*)(tc_matrix,char const *)) 0 ;
   void (*arg2)(tc_matrix,char const *) = (void (*)(tc_matrix,char const *)) 0 ;
@@ -9793,11 +9817,12 @@ static octave_value_list _wrap_tc_PlotTool_api (const octave_value_list& args, i
   tc_matrix (*arg7)(int) = (tc_matrix (*)(int)) 0 ;
   void (*arg8)(char const *) = (void (*)(char const *)) 0 ;
   void (*arg9)(char const *) = (void (*)(char const *)) 0 ;
+  void (*arg10)(int) = (void (*)(int)) 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
   
-  if (!SWIG_check_num_args("tc_PlotTool_api",args.length(),9,9,0)) {
+  if (!SWIG_check_num_args("tc_PlotTool_api",args.length(),10,10,0)) {
     SWIG_fail;
   }
   {
@@ -9854,7 +9879,13 @@ static octave_value_list _wrap_tc_PlotTool_api (const octave_value_list& args, i
       SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "9"" of type '" "void (*)(char const *)""'"); 
     }
   }
-  tc_PlotTool_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9);
+  {
+    int res = SWIG_ConvertFunctionPtr(args(9), (void**)(&arg10), SWIGTYPE_p_f_int__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "10"" of type '" "void (*)(int)""'"); 
+    }
+  }
+  tc_PlotTool_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
 fail:
@@ -11682,6 +11713,7 @@ static const struct swig_octave_member swig_globals[] = {
 {"tc_getPlotData",_wrap_tc_getPlotData,0,0,2,0},
 {"tc_gnuplot",_wrap_tc_gnuplot,0,0,2,0},
 {"tc_savePlot",_wrap_tc_savePlot,0,0,2,0},
+{"tc_setLogScale",_wrap_tc_setLogScale,0,0,2,0},
 {"tc_PlotTool_api",_wrap_tc_PlotTool_api,0,0,2,0},
 {"tc_writeModel",_wrap_tc_writeModel,0,0,2,0},
 {"tc_ModelFileGenerator_api",_wrap_tc_ModelFileGenerator_api,0,0,2,0},

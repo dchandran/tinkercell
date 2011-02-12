@@ -41,6 +41,7 @@ namespace Tinkercell
 		
 	signals:
 		void highlight(ItemHandle*,QColor);
+		void sequenceChanged(ItemHandle* , const QString&);
 		
 	protected:
 		virtual void contextMenuEvent ( QContextMenuEvent * event );
@@ -69,7 +70,7 @@ namespace Tinkercell
 		void itemsSelected(GraphicsScene *,const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers);
 		void toolLoaded(Tool*);
 		void displayModel(QTabWidget&, const QList<ItemHandle*>&, QHash<QString,qreal>&, QHash<QString,QString>&);
-		void textChanged();
+		void sequenceChanged(ItemHandle*, const QString&);
 		
 	private:
 	

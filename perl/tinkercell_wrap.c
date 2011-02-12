@@ -10067,6 +10067,33 @@ XS(_wrap_tc_savePlot) {
 }
 
 
+XS(_wrap_tc_setLogScale) {
+  {
+    int arg1 ;
+    int val1 ;
+    int ecode1 = 0 ;
+    int argvi = 0;
+    dXSARGS;
+    
+    if ((items < 1) || (items > 1)) {
+      SWIG_croak("Usage: tc_setLogScale(int);");
+    }
+    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    if (!SWIG_IsOK(ecode1)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setLogScale" "', argument " "1"" of type '" "int""'");
+    } 
+    arg1 = (int)(val1);
+    tc_setLogScale(arg1);
+    ST(argvi) = sv_newmortal();
+    
+    XSRETURN(argvi);
+  fail:
+    
+    SWIG_croak_null();
+  }
+}
+
+
 XS(_wrap_tc_PlotTool_api) {
   {
     void (*arg1)(tc_matrix,char const *) = (void (*)(tc_matrix,char const *)) 0 ;
@@ -10078,11 +10105,12 @@ XS(_wrap_tc_PlotTool_api) {
     tc_matrix (*arg7)(int) = (tc_matrix (*)(int)) 0 ;
     void (*arg8)(char const *) = (void (*)(char const *)) 0 ;
     void (*arg9)(char const *) = (void (*)(char const *)) 0 ;
+    void (*arg10)(int) = (void (*)(int)) 0 ;
     int argvi = 0;
     dXSARGS;
     
-    if ((items < 9) || (items > 9)) {
-      SWIG_croak("Usage: tc_PlotTool_api(plot,surface,hist,errorBars,scatterplot,multiplot,plotData,gnuplot,savePlotImage);");
+    if ((items < 10) || (items > 10)) {
+      SWIG_croak("Usage: tc_PlotTool_api(plot,surface,hist,errorBars,scatterplot,multiplot,plotData,gnuplot,savePlotImage,logscale);");
     }
     {
       int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_tc_matrix_p_q_const__char__void);
@@ -10138,8 +10166,15 @@ XS(_wrap_tc_PlotTool_api) {
         SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "9"" of type '" "void (*)(char const *)""'"); 
       }
     }
-    tc_PlotTool_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9);
+    {
+      int res = SWIG_ConvertFunctionPtr(ST(9), (void**)(&arg10), SWIGTYPE_p_f_int__void);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "10"" of type '" "void (*)(int)""'"); 
+      }
+    }
+    tc_PlotTool_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10);
     ST(argvi) = sv_newmortal();
+    
     
     
     
@@ -10151,6 +10186,7 @@ XS(_wrap_tc_PlotTool_api) {
     
     XSRETURN(argvi);
   fail:
+    
     
     
     
@@ -12553,6 +12589,7 @@ static swig_command_info swig_commands[] = {
 {"tinkercellc::tc_getPlotData", _wrap_tc_getPlotData},
 {"tinkercellc::tc_gnuplot", _wrap_tc_gnuplot},
 {"tinkercellc::tc_savePlot", _wrap_tc_savePlot},
+{"tinkercellc::tc_setLogScale", _wrap_tc_setLogScale},
 {"tinkercellc::tc_PlotTool_api", _wrap_tc_PlotTool_api},
 {"tinkercellc::tc_writeModel", _wrap_tc_writeModel},
 {"tinkercellc::tc_ModelFileGenerator_api", _wrap_tc_ModelFileGenerator_api},

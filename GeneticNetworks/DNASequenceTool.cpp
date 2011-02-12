@@ -171,11 +171,36 @@ namespace Tinkercell
 
 	void DNASequenceViewerTextEdit::keyPressEvent ( QKeyEvent * event )
 	{
-		if (event->key() == Qt::Key_Enter)
+		if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return || event->key() == Qt::Key_Space)
 		{
 			int i = currentNodeIndex();
 			if (i > -1)
-				emit highlight(nodes[i],colors[i]);
+			{
+				//	emit highlight(nodes[i],colors[i]);*/
+				int len1=0, len2=0;
+				for (int j=0; j < (i-1); ++j)
+					if (nodes[j] &&
+						nodes[j]->hasTextData(tr("Text Attributes")) &&
+						nodes[j]->textDataTable(tr("Text Attributes")).hasRow(tr("sequence")))
+						{
+							len1 += nodes[j]->textData(tr("Text Attributes"),tr("sequence")).length();
+						}
+
+				for (int j=(nodes.size()-1); j >= i; --j)
+					if (nodes[j] &&
+						nodes[j]->hasTextData(tr("Text Attributes")) &&
+						nodes[j]->textDataTable(tr("Text Attributes")).hasRow(tr("sequence")))
+						{
+							len2 += nodes[j]->textData(tr("Text Attributes"),tr("sequence")).length();
+						}
+				QString s = toPlainText();
+				len2 = s.length() - len2;
+				QString s2;
+				for (int j=len1; j < len2; ++j)
+					s2 += s[j];
+					
+				emit sequenceChanged(nodes[i], s2);
+			}
 		}
 		else
 		{
@@ -193,7 +218,7 @@ namespace Tinkercell
 		QVBoxLayout * layout = new QVBoxLayout;
 		layout->addWidget(&textEdit);
 		setLayout(layout);
-		connect(&textEdit,SIGNAL(textChanged()),this,SLOT(textChanged()));
+		connect(&textEdit,SIGNAL(sequenceChanged(ItemHandle*, const QString&)),this,SLOT(sequenceChanged(ItemHandle*, const QString&)));
 
 		QString appDir = QCoreApplication::applicationDirPath();
 		openedByUser = false;
@@ -252,44 +277,16 @@ namespace Tinkercell
 	{
 	}
 
-	void DNASequenceViewer::textChanged()
+	void DNASequenceViewer::sequenceChanged(ItemHandle * handle, const QString& s)
 	{
 		NetworkHandle * net = currentNetwork();
-		if (!net || !net->currentScene()) return;
+		if (!net || !handle || !net->currentScene()) return;
 
-		ItemHandle * handle = 0;
-		
-		int i = textEdit.currentNodeIndex();
-		if (i > -1)
+		if (handle->isA(tr("Part")) && handle->hasTextData(tr("Text Attributes")))
 		{
-			int len1=0, len2=0;
-			for (int j=0; j < i; ++j)
-				if (textEdit.nodes[j] &&
-					textEdit.nodes[j]->hasTextData(tr("Text Attributes")) &&
-					textEdit.nodes[j]->textDataTable(tr("Text Attributes")).hasRow(tr("sequence")))
-					{
-						len1 += textEdit.nodes[j]->textData(tr("Text Attributes"),tr("sequence")).length();
-					}
-
-			for (int j=(textEdit.nodes.size()-1); j > i; --j)
-				if (textEdit.nodes[j] &&
-					textEdit.nodes[j]->hasTextData(tr("Text Attributes")) &&
-					textEdit.nodes[j]->textDataTable(tr("Text Attributes")).hasRow(tr("sequence")))
-					{
-						len2 += textEdit.nodes[j]->textData(tr("Text Attributes"),tr("sequence")).length();
-					}
-			
-			if ((handle = textEdit.nodes[i]) && handle->isA(tr("Part")) && handle->hasTextData(tr("Text Attributes")))
-			{
-				DataTable<QString> data(handle->textDataTable(tr("Text Attributes")));
-				QString s = textEdit.toPlainText();
-				QString s2;
-				for (int j=len1; j < len2; ++j)
-					s2 += s[j];
-				data.value(tr("sequence"),0) = s2;
-				net->changeData(handle->fullName() + tr("'s sequence changed"),handle,tr("Text Attributes"),&data);
-			}
-			
+			DataTable<QString> data(handle->textDataTable(tr("Text Attributes")));
+			data.value(tr("sequence"),0) = s;
+			net->changeData(handle->fullName() + tr("'s sequence changed"),handle,tr("Text Attributes"),&data);
 			updateText(net->currentScene(),net->currentScene()->selected());
 		}
 	}
@@ -336,10 +333,10 @@ namespace Tinkercell
 				AutoGeneRegulatoryTool::findAllParts(node,tr("Part"),handlesUp,true,QStringList());
 				if (!handlesUp.isEmpty())
 				{
-					if (selected.size() > 1)
+					/*if (selected.size() > 1)
 						if (console())
                             console()->message(tr("displayed sequence is for DNA strand containing ") + h->fullName());
-
+					*/
 					break;
 				}
 			}
@@ -349,9 +346,11 @@ namespace Tinkercell
 		//get all upstream nodes
 		if (node && (h = getHandle(node)) && h->isA(tr("Part")) && !(h->parent && h->parent->isA("Vector")))
 		{
-			handlesDown.push_back(h);
 			AutoGeneRegulatoryTool::findAllParts(node,tr("Part"),handlesDown,false,QStringList());
 		}
+		
+		if (!handlesDown.contains(h))
+			handlesDown.push_front(h);
 
 		while (!handlesUp.isEmpty())
 		{
@@ -359,11 +358,7 @@ namespace Tinkercell
 			handlesUp.pop_front();
 		}
 
-		disconnect(&textEdit,SIGNAL(textChanged()),this,SLOT(textChanged()));
-
 		textEdit.updateText(handlesDown);
-
-		connect(&textEdit,SIGNAL(textChanged()),this,SLOT(textChanged()));
 
 		return handlesDown.size() > 0;
 	}

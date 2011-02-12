@@ -67,6 +67,7 @@ namespace Tinkercell
 			void plotScatter(QSemaphore*,DataTable<qreal>&,const QString& title);
 			void gnuplot(QSemaphore*,const QString& script);
 			void savePlotImage(QSemaphore*,const QString& filename);
+			void setLog(QSemaphore*,int);
 
 		private slots:
 
@@ -74,11 +75,12 @@ namespace Tinkercell
 			void plotMatrix3D(tc_matrix m, const char * title);
 			void plotHistC(tc_matrix m, double bins, const char * title);
 			void plotErrorbarsC(tc_matrix m, int x, const char* title);
-			void plotMultiplotC(int x, int y);
 			void plotScatterC(tc_matrix m, const char* title);
 			tc_matrix getDataMatrix(int index);
 			void gnuplot(const char * script);
 			void savePlotImage(const char * filename);
+			void setLogScale(int);
+			void plotMultiplotC(int x, int y);
 			
 			friend class PlotTool;
 	};
@@ -249,6 +251,9 @@ namespace Tinkercell
 		
 		/*! \brief save plotl*/
 		static void _savePlotImage(const char* filename);
+		
+		/*! \brief save plotl*/
+		static void _setLogScale(int);
 
 		friend class PlotWidget;
 		QStringList exportOptions;
@@ -273,6 +278,7 @@ namespace Tinkercell
 		void plotMultiplot(QSemaphore*,int x, int y);
 		void gnuplot(QSemaphore * , const QString& script);
 		void savePlotImage(QSemaphore*, const QString& filename);
+		void setLogScale(QSemaphore*, int);
 	protected:
 		virtual void keyPressEvent ( QKeyEvent * event );
 		virtual void mouseMoveEvent ( QMouseEvent * event );

@@ -143,6 +143,7 @@ namespace Tinkercell
 	class TINKERCELLEXPORT Plot2DWidget : public PlotWidget
 	{
 		Q_OBJECT
+		
 	public:
 		Plot2DWidget(PlotTool * parent = 0);
 		virtual DataTable<qreal>* data();
@@ -150,6 +151,7 @@ namespace Tinkercell
 		virtual void appendData(const DataTable<qreal>&);
 		virtual void plot(const DataTable<qreal>& matrix,const QString& title,int x=0);
 		virtual void updateData(const DataTable<qreal>&);
+		virtual void setLogScale(int index, bool set=true);
 		
 	public slots:
 		void print(QPaintDevice&);

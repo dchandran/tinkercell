@@ -853,6 +853,10 @@ def tc_savePlot(*args):
   return _tinkercell.tc_savePlot(*args)
 tc_savePlot = _tinkercell.tc_savePlot
 
+def tc_setLogScale(*args):
+  return _tinkercell.tc_setLogScale(*args)
+tc_setLogScale = _tinkercell.tc_setLogScale
+
 def tc_PlotTool_api(*args):
   return _tinkercell.tc_PlotTool_api(*args)
 tc_PlotTool_api = _tinkercell.tc_PlotTool_api

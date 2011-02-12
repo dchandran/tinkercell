@@ -112,6 +112,8 @@ namespace Tinkercell
 		
 		connect(&fToS,SIGNAL(savePlotImage(QSemaphore*, const QString&)), this, SLOT(savePlotImage(QSemaphore*, const QString&)));
 		
+		connect(&fToS,SIGNAL(setLog(QSemaphore*, int)), this, SLOT(setLogScale(QSemaphore*, int)));
+		
 		qRegisterMetaType< PlotTool::PlotType >("PlotTool::PlotType");
 	}
 
@@ -411,6 +413,20 @@ namespace Tinkercell
 			s->release();
 	}
 	
+	void PlotTool::setLogScale(QSemaphore * sem, int i)
+	{
+		if (multiplePlotsArea
+			&& multiplePlotsArea->currentSubWindow()
+			&& multiplePlotsArea->currentSubWindow()->widget())
+		{
+			PlotWidget * widget = static_cast<PlotWidget*>(multiplePlotsArea->currentSubWindow()->widget());
+			widget->setLogScale(i);
+		}
+		
+		if (sem)
+			sem->release();
+	}
+	
 	void PlotTool::hold(bool b)
 	{
 		if (keepOldPlots)
@@ -512,7 +528,8 @@ namespace Tinkercell
 		void (*multiplot)(int,int),
 		tc_matrix (*plotData)(int),
 		void (*gnuplot)(const char*),
-		void (*savePlotImage)(const char*)
+		void (*savePlotImage)(const char*),
+		void (*setlog)(int)
 	);
 
     void PlotTool::setupFunctionPointers( QLibrary * library )
@@ -529,7 +546,8 @@ namespace Tinkercell
 				&(plotMultiplotC),
 				&(getDataMatrix),
 				&(_gnuplot),
-				&(_savePlotImage)
+				&(_savePlotImage),
+				&(_setLogScale)
 			);
 		}
     }
@@ -781,6 +799,15 @@ namespace Tinkercell
 		delete s;
 	}
 
+	void PlotTool_FtoS::setLogScale(int i)
+	{
+		QSemaphore * s = new QSemaphore(1);
+		s->acquire();
+		emit setLog(s,i);
+		s->acquire();
+		s->release();
+		delete s;
+	}
 	
 	void PlotTool::plotMatrix(tc_matrix m, const char* title)
 	{
@@ -828,6 +855,11 @@ namespace Tinkercell
 	void PlotTool::_savePlotImage(const char* s)
 	{
 		return fToS.savePlotImage(s);
+	}
+	
+	void PlotTool::_setLogScale(int i)
+	{
+		return fToS.setLogScale(i);
 	}
 	
 	void PlotTool::plotCustomFormula()

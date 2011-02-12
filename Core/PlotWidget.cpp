@@ -33,6 +33,10 @@ namespace Tinkercell
 	{
 	}
 	
+	void PlotWidget::setLogScale(int , bool )
+	{
+	}
+	
 	void PlotWidget::exportData(const QString & type, const QString&)
 	{
 		QString output = dataToString();

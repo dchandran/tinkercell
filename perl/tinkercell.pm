@@ -220,6 +220,7 @@ package tinkercell;
 *tc_getPlotData = *tinkercellc::tc_getPlotData;
 *tc_gnuplot = *tinkercellc::tc_gnuplot;
 *tc_savePlot = *tinkercellc::tc_savePlot;
+*tc_setLogScale = *tinkercellc::tc_setLogScale;
 *tc_PlotTool_api = *tinkercellc::tc_PlotTool_api;
 *tc_writeModel = *tinkercellc::tc_writeModel;
 *tc_ModelFileGenerator_api = *tinkercellc::tc_ModelFileGenerator_api;

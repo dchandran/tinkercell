@@ -66,6 +66,12 @@ TCAPIEXPORT void tc_gnuplot(const char*);
 */
 TCAPIEXPORT void tc_savePlot(const char * filename);
 /*!
+ \brief set log scale for current plot; argument: 0=x-axis, 1=y-axis, 2=both
+ \param int 0=x-axis, 1=y-axis, 2=both
+ \ingroup Plotting
+*/
+TCAPIEXPORT void tc_setLogScale(int);
+/*!
  \brief initialize plot plug-in
  \ingroup init
 */
@@ -78,7 +84,8 @@ TCAPIEXPORT void tc_PlotTool_api(
 	void (*multiplot)(int, int),
 	tc_matrix (*plotData)(int),
 	void (*gnuplot)(const char*),
-	void (*savePlotImage)(const char *));
+	void (*savePlotImage)(const char *),
+	void (*logscale)(int));
 
 END_C_DECLS
 #endif

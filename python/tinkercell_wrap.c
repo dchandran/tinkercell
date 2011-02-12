@@ -10122,6 +10122,27 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_tc_setLogScale(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  int arg1 ;
+  int val1 ;
+  int ecode1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:tc_setLogScale",&obj0)) SWIG_fail;
+  ecode1 = SWIG_AsVal_int(obj0, &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setLogScale" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
+  tc_setLogScale(arg1);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_tc_PlotTool_api(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   void (*arg1)(tc_matrix,char const *) = (void (*)(tc_matrix,char const *)) 0 ;
@@ -10133,6 +10154,7 @@ SWIGINTERN PyObject *_wrap_tc_PlotTool_api(PyObject *SWIGUNUSEDPARM(self), PyObj
   tc_matrix (*arg7)(int) = (tc_matrix (*)(int)) 0 ;
   void (*arg8)(char const *) = (void (*)(char const *)) 0 ;
   void (*arg9)(char const *) = (void (*)(char const *)) 0 ;
+  void (*arg10)(int) = (void (*)(int)) 0 ;
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   PyObject * obj2 = 0 ;
@@ -10142,8 +10164,9 @@ SWIGINTERN PyObject *_wrap_tc_PlotTool_api(PyObject *SWIGUNUSEDPARM(self), PyObj
   PyObject * obj6 = 0 ;
   PyObject * obj7 = 0 ;
   PyObject * obj8 = 0 ;
+  PyObject * obj9 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"OOOOOOOOO:tc_PlotTool_api",&obj0,&obj1,&obj2,&obj3,&obj4,&obj5,&obj6,&obj7,&obj8)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"OOOOOOOOOO:tc_PlotTool_api",&obj0,&obj1,&obj2,&obj3,&obj4,&obj5,&obj6,&obj7,&obj8,&obj9)) SWIG_fail;
   {
     int res = SWIG_ConvertFunctionPtr(obj0, (void**)(&arg1), SWIGTYPE_p_f_tc_matrix_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
@@ -10198,7 +10221,13 @@ SWIGINTERN PyObject *_wrap_tc_PlotTool_api(PyObject *SWIGUNUSEDPARM(self), PyObj
       SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "9"" of type '" "void (*)(char const *)""'"); 
     }
   }
-  tc_PlotTool_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9);
+  {
+    int res = SWIG_ConvertFunctionPtr(obj9, (void**)(&arg10), SWIGTYPE_p_f_int__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "10"" of type '" "void (*)(int)""'"); 
+    }
+  }
+  tc_PlotTool_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10);
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -11941,6 +11970,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"tc_getPlotData", _wrap_tc_getPlotData, METH_VARARGS, NULL},
 	 { (char *)"tc_gnuplot", _wrap_tc_gnuplot, METH_VARARGS, NULL},
 	 { (char *)"tc_savePlot", _wrap_tc_savePlot, METH_VARARGS, NULL},
+	 { (char *)"tc_setLogScale", _wrap_tc_setLogScale, METH_VARARGS, NULL},
 	 { (char *)"tc_PlotTool_api", _wrap_tc_PlotTool_api, METH_VARARGS, NULL},
 	 { (char *)"tc_writeModel", _wrap_tc_writeModel, METH_VARARGS, NULL},
 	 { (char *)"tc_ModelFileGenerator_api", _wrap_tc_ModelFileGenerator_api, METH_VARARGS, NULL},

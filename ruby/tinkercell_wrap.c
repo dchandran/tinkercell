@@ -9106,6 +9106,27 @@ fail:
 
 
 SWIGINTERN VALUE
+_wrap_tc_setLogScale(int argc, VALUE *argv, VALUE self) {
+  int arg1 ;
+  int val1 ;
+  int ecode1 = 0 ;
+  
+  if ((argc < 1) || (argc > 1)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 1)",argc); SWIG_fail;
+  }
+  ecode1 = SWIG_AsVal_int(argv[0], &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), Ruby_Format_TypeError( "", "int","tc_setLogScale", 1, argv[0] ));
+  } 
+  arg1 = (int)(val1);
+  tc_setLogScale(arg1);
+  return Qnil;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
 _wrap_tc_PlotTool_api(int argc, VALUE *argv, VALUE self) {
   void (*arg1)(tc_matrix,char const *) = (void (*)(tc_matrix,char const *)) 0 ;
   void (*arg2)(tc_matrix,char const *) = (void (*)(tc_matrix,char const *)) 0 ;
@@ -9116,9 +9137,10 @@ _wrap_tc_PlotTool_api(int argc, VALUE *argv, VALUE self) {
   tc_matrix (*arg7)(int) = (tc_matrix (*)(int)) 0 ;
   void (*arg8)(char const *) = (void (*)(char const *)) 0 ;
   void (*arg9)(char const *) = (void (*)(char const *)) 0 ;
+  void (*arg10)(int) = (void (*)(int)) 0 ;
   
-  if ((argc < 9) || (argc > 9)) {
-    rb_raise(rb_eArgError, "wrong # of arguments(%d for 9)",argc); SWIG_fail;
+  if ((argc < 10) || (argc > 10)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 10)",argc); SWIG_fail;
   }
   {
     int res = SWIG_ConvertFunctionPtr(argv[0], (void**)(&arg1), SWIGTYPE_p_f_tc_matrix_p_q_const__char__void);
@@ -9174,7 +9196,13 @@ _wrap_tc_PlotTool_api(int argc, VALUE *argv, VALUE self) {
       SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(char const *)","tc_PlotTool_api", 9, argv[8] )); 
     }
   }
-  tc_PlotTool_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9);
+  {
+    int res = SWIG_ConvertFunctionPtr(argv[9], (void**)(&arg10), SWIGTYPE_p_f_int__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(int)","tc_PlotTool_api", 10, argv[9] )); 
+    }
+  }
+  tc_PlotTool_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10);
   return Qnil;
 fail:
   return Qnil;
@@ -11548,6 +11576,7 @@ SWIGEXPORT void Init_tinkercell(void) {
   rb_define_module_function(mTinkercell, "tc_getPlotData", _wrap_tc_getPlotData, -1);
   rb_define_module_function(mTinkercell, "tc_gnuplot", _wrap_tc_gnuplot, -1);
   rb_define_module_function(mTinkercell, "tc_savePlot", _wrap_tc_savePlot, -1);
+  rb_define_module_function(mTinkercell, "tc_setLogScale", _wrap_tc_setLogScale, -1);
   rb_define_module_function(mTinkercell, "tc_PlotTool_api", _wrap_tc_PlotTool_api, -1);
   rb_define_module_function(mTinkercell, "tc_writeModel", _wrap_tc_writeModel, -1);
   rb_define_module_function(mTinkercell, "tc_ModelFileGenerator_api", _wrap_tc_ModelFileGenerator_api, -1);

@@ -40,7 +40,7 @@ namespace Tinkercell
 	{
 		otherToolBar = 0;
 		dockWidget = 0;
-		organizerWidget = 0;
+		organizerToolBar = 0;
 		plotOrganizerEnabled = false;
 		setPalette(QPalette(QColor(255,255,255,255)));
 		setAutoFillBackground(true);
@@ -190,6 +190,7 @@ namespace Tinkercell
 		}
 
 		QList<QMdiSubWindow *> subWindowList = multiplePlotsArea->subWindowList();
+		QList<QMdiSubWindow *> subWindowList2;
 		if (newPlot->type == Text || (keepOldPlots && keepOldPlots->isChecked()))
 		{
 			for (int i=0; i < subWindowList.size(); ++i)
@@ -203,7 +204,18 @@ namespace Tinkercell
 				{
 					PlotWidget * plotWidget = static_cast<PlotWidget*>(subWindowList[i]->widget());
 					if (plotWidget && !plotWidget->category.isNull() && !plotWidget->category.isEmpty())
-						subWindowList[i]->showMinimized();
+					{
+						if (plotWidget->category != newPlot->category)
+						{
+							subWindowList[i]->hide();
+							subWindowList2 << subWindowList[i];
+						}
+						else
+						{
+							subWindowList[i]->show();
+							subWindowList[i]->showNormal();
+						}
+					}
 					else
 						subWindowList[i]->close();
 				}
@@ -216,8 +228,16 @@ namespace Tinkercell
 		window->setVisible(true);
 		window->setWindowTitle( tr("plot ") + QString::number(1 + subWindowList.size()));
 
-		if (keepOldPlots && keepOldPlots->isChecked())
+		if (!newPlot->category.isEmpty() || (keepOldPlots && keepOldPlots->isChecked()))
+		{
 			multiplePlotsArea->tileSubWindows();
+			for (int i=0; i < subWindowList2.size(); ++i)
+				if (subWindowList2[i])
+				{
+					subWindowList2[i]->show();
+					subWindowList2[i]->showMinimized();
+				}
+		}
 		else
 			window->showMaximized();
 
@@ -989,10 +1009,10 @@ namespace Tinkercell
 			category.isNull() || 
 			category.isEmpty() || 
 			!organizerButtonGroup || 
-			!organizerWidget) return;
+			!organizerToolBar) return;
 		
-		if (organizerWidget->parentWidget() && !organizerWidget->parentWidget()->isVisible())
-			organizerWidget->parentWidget()->show();
+		if (!organizerToolBar->isVisible())
+			organizerToolBar->show();
 			
 		widget->category = category;
 		
@@ -1009,32 +1029,28 @@ namespace Tinkercell
 		if (!exists)
 		{
 			QToolButton * button = new QToolButton;
+			button->setIcon(QIcon(":/images/graph2.png"));
 			button->setText(category);
+			button->setToolButtonStyle ( Qt::ToolButtonTextUnderIcon );
 			organizerButtonGroup->addButton(button);
-			int k = organizerWidget->columnCount();
-			organizerWidget->setColumnCount(k + 1);
-			organizerWidget->setCellWidget(0,k,button);
+			organizerToolBar->addWidget(button);
 			organizerButtonClicked(button);
-		}	
+		}
 	}
 	
 	void  PlotTool::enablePlotOrganizer(bool b)
 	{
 		plotOrganizerEnabled = b;
 
-		if (!organizerWidget && window)
+		if (plotOrganizerEnabled && !organizerToolBar && window)
 		{
-			organizerWidget = new QTableWidget(this);
-			organizerWidget->setColumnCount(0);
-			organizerWidget->setRowCount(1);
-			organizerWidget->setObjectName(tr("plot organizer widget"));
-			organizerWidget->setWindowIcon(QIcon(tr(":/images/graph2.png")));
-			QDockWidget * dock = addDockWidget(tr("plot organizer"),organizerWidget,Qt::BottomDockWidgetArea);
+			organizerToolBar = new QToolBar(this);
+			organizerToolBar->setObjectName(tr("plot organizer widget"));
 			organizerButtonGroup = new QButtonGroup(this);
 			connect(organizerButtonGroup,SIGNAL(buttonClicked ( QAbstractButton *  )),
 						 this, SLOT(organizerButtonClicked ( QAbstractButton *  )));
-			dock->setMaximumHeight(120);
-			dock->hide();
+			window->addToolBar(Qt::RightToolBarArea,organizerToolBar);
+			organizerToolBar->hide();
 		}
 	}
 	

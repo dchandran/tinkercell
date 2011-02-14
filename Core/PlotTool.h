@@ -241,7 +241,7 @@ namespace Tinkercell
 		QToolBar toolBar;
 		QMenu * exportMenu;
 		QToolBar * otherToolBar;
-		QTableWidget * organizerWidget;
+		QToolBar * organizerToolBar;
 		int numMultiplots;
 		QButtonGroup * organizerButtonGroup;
 		bool plotOrganizerEnabled;

@@ -239,7 +239,6 @@ namespace Tinkercell
 			{
 				category = parts[0].trimmed();
 				title = parts[1].trimmed();
-				console()->message(title);
 			}
 			else
 			{

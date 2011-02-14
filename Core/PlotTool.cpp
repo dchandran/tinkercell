@@ -1049,7 +1049,7 @@ namespace Tinkercell
 			organizerButtonGroup = new QButtonGroup(this);
 			connect(organizerButtonGroup,SIGNAL(buttonClicked ( QAbstractButton *  )),
 						 this, SLOT(organizerButtonClicked ( QAbstractButton *  )));
-			window->addToolBar(Qt::RightToolBarArea,organizerToolBar);
+			window->addToolBar(Qt::TopToolBarArea,organizerToolBar);
 			organizerToolBar->hide();
 		}
 	}

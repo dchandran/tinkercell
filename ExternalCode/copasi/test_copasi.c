@@ -8,26 +8,16 @@ void eigen(copasi_model, const char*); //compute eigenvalues by changing paramet
 
 int main()
 {
-	tc_matrix efm = tc_createMatrix(0,0);
+	tc_matrix efm, output;
 	copasi_model m1, m2;
 	
-	m1 = readSBMLFile("bug.xml");
-	if (m1.errorMessage)
-	{
-		printf("%s\n", m1.errorMessage);
-	}
+	m1 = 
 	
-	efm = getGammaMatrix(m1);
-	tc_printOutMatrix(efm);
-	removeCopasiModel(m1);
-	
-	m2 = model1();
-	//tc_matrix output = simulateDeterministic(m2, 0, 200, 100);  //model, start, end, num. points
-	tc_matrix output = simulateTauLeap(m2, 0, 200000, 5000);  //model, start, end, num. points
+	output = cSimulateTauLeap(m2, 0, 200000, 5000);  //model, start, end, num. points
 	tc_printMatrixToFile("output.tab", output);	
 	tc_deleteMatrix(output);
 	printf("\noutput.tab contains the final output\n\n");
-	removeCopasiModel(m2);
+	cRemoveModel(m2);
 
 	//cleanup
 	tc_deleteMatrix(efm);
@@ -38,85 +28,85 @@ int main()
 copasi_model model1()
 {
 	//model named M
-	copasi_model model = createCopasiModel("M");
+	copasi_model model = cCreateModel("M");
 	copasi_reaction R1, R2, R3;
 	
 	//species
-	copasi_compartment cell = createCompartment(model, "cell", 1.0);
-	copasi_compartment out = createCompartment(model, "out", 1.0);
-	createSpecies(cell, "A", 2);
-	createSpecies(out, "A", 1);
-	createSpecies(cell, "C", 3);
+	copasi_compartment cell = cCreateCompartment(model, "cell", 1.0);
+	copasi_compartment out = cCreateCompartment(model, "out", 1.0);
+	cCreateSpecies(cell, "A", 2);
+	cCreateSpecies(out, "A", 1);
+	cCreateSpecies(cell, "C", 3);
 	
 	//parameters	
-	setValue(model, "k1", 0.1);   //k1
-	setValue(model, "k2", 0.2);   //k2
-	setValue(model, "k3", 0.3);   //k3
+	cSetValue(model, "k1", 0.1);   //k1
+	cSetValue(model, "k2", 0.2);   //k2
+	cSetValue(model, "k3", 0.3);   //k3
 	
 	//reactions -- make sure all parameters or species are defined BEFORE this step
-	R1 = createReaction(model, "R1");  // A+B -> 2B
+	R1 = cCreateReaction(model, "R1");  // A+B -> 2B
 	
-	addReactant(R1, "cell_A", 1.0);
-	addReactant(R1, "out_A", 1.0);
-	addProduct(R1, "out_A", 2.0);
-	setReactionRate(R1, "k1*cell_A*out_A");
+	cAddReactant(R1, "cell_A", 1.0);
+	cAddReactant(R1, "out_A", 1.0);
+	cAddProduct(R1, "out_A", 2.0);
+	cSetReactionRate(R1, "k1*cell_A*out_A");
 
-	R2 = createReaction(model, "R2");  //B+C -> 2C
-	addReactant(R2, "out_A", 1.0);
-	addReactant(R2, "C", 1.0);
-	addProduct(R2, "C", 2.0);
-	setReactionRate(R2, "k2*out_A*C");
+	R2 = cCreateReaction(model, "R2");  //B+C -> 2C
+	cAddReactant(R2, "out_A", 1.0);
+	cAddReactant(R2, "C", 1.0);
+	cAddProduct(R2, "C", 2.0);
+	cSetReactionRate(R2, "k2*out_A*C");
 
-	R3 = createReaction(model, "R3"); //C+A -> 2A
-	addReactant(R3, "C", 1.0);
-	addReactant(R3, "cell_A", 1.0);
-	addProduct(R3, "cell_A", 2.0);
-	setReactionRate(R3, "k3*C*cell_A");
+	R3 = cCreateReaction(model, "R3"); //C+A -> 2A
+	cAddReactant(R3, "C", 1.0);
+	cAddReactant(R3, "cell_A", 1.0);
+	cAddProduct(R3, "cell_A", 2.0);
+	cSetReactionRate(R3, "k3*C*cell_A");
 
 	//assignment rule -- make sure all parameters or species are defined BEFORE this step
-	createVariable(model, "prod1","sin(time)");
-	createVariable(model, "prod2","prod1 * prod1");
-	//createEvent(model, "event1", "ge(Time,5)", "C", "C/2.0");
+	cCreateVariable(model, "prod1","sin(time)");
+	cCreateVariable(model, "prod2","prod1 * prod1");
+	//cCreateEvent(model, "event1", "ge(Time,5)", "C", "C/2.0");
 	return model;
 }
 
 copasi_model model2()
 {
 	//model named M
-	copasi_model model = createCopasiModel("M");
+	copasi_model model = cCreateModel("M");
 	copasi_compartment cell;
 	copasi_reaction R1, R2, R3, R4;
 	
 	//species
-	cell = createCompartment(model, "cell", 1.0);
-	createSpecies(cell, "mRNA", 0);
-	createSpecies(cell, "Protein", 0);
+	cell = cCreateCompartment(model, "cell", 1.0);
+	cCreateSpecies(cell, "mRNA", 0);
+	cCreateSpecies(cell, "Protein", 0);
 	
 	//parameters	
-	setValue(model, "d1", 1.0);
-	setValue(model, "d2", 0.2);  
-	setValue(model, "k0", 2.0);
-	setValue(model, "k1", 1.0);
-	setValue(model, "h", 4.0);  
-	setValue(model, "Kd", 1.0);
-	setValue(model, "leak", 0.1);  
+	cSetValue(model, "d1", 1.0);
+	cSetValue(model, "d2", 0.2);  
+	cSetValue(model, "k0", 2.0);
+	cSetValue(model, "k1", 1.0);
+	cSetValue(model, "h", 4.0);  
+	cSetValue(model, "Kd", 1.0);
+	cSetValue(model, "leak", 0.1);  
 	
 	//reactions -- make sure all parameters or species are defined BEFORE this step
-	R1 = createReaction(model, "R1");  //  mRNA production
-	addProduct(R1, "mRNA", 1.0);
-	setReactionRate(R1, "leak + k0 * (Protein^h) / (Kd + (Protein^h))");
+	R1 = cCreateReaction(model, "R1");  //  mRNA production
+	cAddProduct(R1, "mRNA", 1.0);
+	cSetReactionRate(R1, "leak + k0 * (Protein^h) / (Kd + (Protein^h))");
 
-	R2 = createReaction(model, "R2");  // Protein production
-	addProduct(R2, "Protein", 1.0);
-	setReactionRate(R2, "k1*mRNA");
+	R2 = cCreateReaction(model, "R2");  // Protein production
+	cAddProduct(R2, "Protein", 1.0);
+	cSetReactionRate(R2, "k1*mRNA");
 
-	R3 = createReaction(model, "R3"); // mRNA degradation
-	addReactant(R3, "mRNA", 1.0);
-	setReactionRate(R3, "d1*mRNA");
+	R3 = cCreateReaction(model, "R3"); // mRNA degradation
+	cAddReactant(R3, "mRNA", 1.0);
+	cSetReactionRate(R3, "d1*mRNA");
 	
-	R4 = createReaction(model, "R4"); // Protein degradation
-	addReactant(R4, "Protein", 1.0);
-	setReactionRate(R4, "d2*Protein");
+	R4 = cCreateReaction(model, "R4"); // Protein degradation
+	cAddReactant(R4, "Protein", 1.0);
+	cSetReactionRate(R4, "d2*Protein");
 	return model;
 }
 
@@ -134,13 +124,13 @@ void eigen(copasi_model model, const char* param)
 	for (i=0; i < 100; ++i)
 	{
 		p = (double)(i + 1)/10.0;
-		k = setValue( model, param, p );
+		k = cSetValue( model, param, p );
 		
 		if (k)
 			printf("calculating steady state for %s = %lf\n",param, p);
 		
-		ss = getEigenvalues(model);
-		//ss = getSteadyState(model);
+		ss = cGetEigenvalues(model);
+		//ss = cGetSteadyState(model);
 
 		if (i == 0)
 		{

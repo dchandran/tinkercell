@@ -9,7 +9,7 @@ int SimulationThread::totalModelCount = 0;
 SimulationThread::~SimulationThread()
 {
 	if (model.CopasiDataModelPtr)
-		removeCopasiModel(model);
+		cRemoveModel(model);
 	
 	model.CopasiModelPtr = 0;
 	model.CopasiDataModelPtr = 0;
@@ -31,14 +31,14 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles, copasi_model & 
 					handles += handles[i]->children[j];
 		
 	if (model.CopasiDataModelPtr)
-		removeCopasiModel(model);
+		cRemoveModel(model);
 	
 	model.CopasiModelPtr = 0;
 	model.CopasiDataModelPtr = 0;
 	model.qHash = 0;
 	++totalModelCount;
 	QString modelName = tr("tinkercell") + QString::number(totalModelCount);
-	model = createCopasiModel(modelName.toUtf8().data());
+	model = cCreateModel(modelName.toUtf8().data());
 
 	NumericalDataTable params = BasicInformationTool::getUsedParameters(handles);
 	NumericalDataTable stoic_matrix = StoichiometryTool::getStoichiometry(handles);
@@ -216,53 +216,53 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles, copasi_model & 
 		}
 		else
 		{
-			c = createCompartment(model, speciesCompartments[i].toUtf8().data(), compartmentVolumes[i]);
+			c = cCreateCompartment(model, speciesCompartments[i].toUtf8().data(), compartmentVolumes[i]);
 			compartmentHash[ speciesCompartments[i] ] = c;
-			//commands += speciesCompartments[i] + tr(" = createCompartment(model,\"") + speciesCompartments[i] + tr("\",") + QString::number(compartmentVolumes[i]) + tr(");\n");
+			//commands += speciesCompartments[i] + tr(" = cCreateCompartment(model,\"") + speciesCompartments[i] + tr("\",") + QString::number(compartmentVolumes[i]) + tr(");\n");
 		}
-		createSpecies(c, species[i].toUtf8().data(), initialValues[i]);
-		//commands += tr("createSpecies(") + speciesCompartments[i] + tr(",\"") + species[i] + tr("\",") + QString::number(initialValues[i]) + tr(");\n");
+		cCreateSpecies(c, species[i].toUtf8().data(), initialValues[i]);
+		//commands += tr("cCreateSpecies(") + speciesCompartments[i] + tr(",\"") + species[i] + tr("\",") + QString::number(initialValues[i]) + tr(");\n");
 		if (fixedVars.contains(species[i]))
 		{
-			setBoundarySpecies(model, species[i].toUtf8().data(), 1);
-			//commands += tr("setBoundarySpecies(model, \"") + species[i] + tr("\",1);\n");
+			cSetBoundarySpecies(model, species[i].toUtf8().data(), 1);
+			//commands += tr("cSetBoundarySpecies(model, \"") + species[i] + tr("\",1);\n");
 		}
 	}
 	
 	//create list of parameters
 	for (int i=0; i < params.rows(); ++i)
 	{
-		setGlobalParameter(model, params.rowName(i).toUtf8().data(), params.value(i,0));
-		//commands += tr("setGlobalParameter(model,\"") + params.rowName(i) + tr("\",") + QString::number(params.value(i,0)) + tr(");\n");
+		cSetGlobalParameter(model, params.rowName(i).toUtf8().data(), params.value(i,0));
+		//commands += tr("cSetGlobalParameter(model,\"") + params.rowName(i) + tr("\",") + QString::number(params.value(i,0)) + tr(");\n");
 	}
 
 	//list of assignments
 	for (int i=0; i < assignmentNames.size(); ++i)
 	{
-		setAssignmentRule(model, assignmentNames[i].toUtf8().data(), assignmentDefs[i].toUtf8().data());
-		//commands += tr("setAssignmentRule(model, \"") + assignmentNames[i] + tr("\",\"") + assignmentDefs[i] + tr("\");\n");
+		cSetAssignmentRule(model, assignmentNames[i].toUtf8().data(), assignmentDefs[i].toUtf8().data());
+		//commands += tr("cSetAssignmentRule(model, \"") + assignmentNames[i] + tr("\",\"") + assignmentDefs[i] + tr("\");\n");
 	}
 
 	//create list of reactions
 	for (int i=0; i < stoic_matrix.columns(); ++i)
 	{
-		copasi_reaction reac = createReaction(model, stoic_matrix.columnName(i).toUtf8().data());
-		setReactionRate(reac, rates[i].toUtf8().data());
+		copasi_reaction reac = cCreateReaction(model, stoic_matrix.columnName(i).toUtf8().data());
+		cSetReactionRate(reac, rates[i].toUtf8().data());
 		
-		//commands += tr("r") + QString::number(i) + tr(" = createReaction(model, \"") + stoic_matrix.columnName(i) + tr("\");\n");
-		//commands += tr("setReactionRate(") + tr("r") + QString::number(i) + tr(",\"") + rates[i] + tr("\");\n");
+		//commands += tr("r") + QString::number(i) + tr(" = cCreateReaction(model, \"") + stoic_matrix.columnName(i) + tr("\");\n");
+		//commands += tr("cSetReactionRate(") + tr("r") + QString::number(i) + tr(",\"") + rates[i] + tr("\");\n");
 
 		for (int j=0; j < stoic_matrix.rows(); ++j)
 			if (stoic_matrix.value(j,i) < 0)
 			{
-				addReactant(reac, stoic_matrix.rowName(j).toUtf8().data(), -stoic_matrix.value(j,i));
-				//commands += tr("addReactant(") + tr("r") + QString::number(i) + tr(",\"") + stoic_matrix.rowName(j) + tr("\",") + QString::number(-stoic_matrix.value(j,i)) + tr(");\n");
+				cAddReactant(reac, stoic_matrix.rowName(j).toUtf8().data(), -stoic_matrix.value(j,i));
+				//commands += tr("cAddReactant(") + tr("r") + QString::number(i) + tr(",\"") + stoic_matrix.rowName(j) + tr("\",") + QString::number(-stoic_matrix.value(j,i)) + tr(");\n");
 			}
 			else
 			if (stoic_matrix.value(j,i) > 0)
 			{
-				addProduct(reac, stoic_matrix.rowName(j).toUtf8().data(), stoic_matrix.value(j,i));
-				//commands += tr("addProduct(") + tr("r") + QString::number(i) + tr(",\"") + stoic_matrix.rowName(j) + tr("\",") + QString::number(stoic_matrix.value(j,i)) + tr(");\n");
+				cAddProduct(reac, stoic_matrix.rowName(j).toUtf8().data(), stoic_matrix.value(j,i));
+				//commands += tr("cAddProduct(") + tr("r") + QString::number(i) + tr(",\"") + stoic_matrix.rowName(j) + tr("\",") + QString::number(stoic_matrix.value(j,i)) + tr(");\n");
 			}
 	}
 	
@@ -278,7 +278,7 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles, copasi_model & 
 			QStringList words = actions[j].split("=");
 			if (words.size() == 2)
 			{
-				createEvent(model, (QString("event") + QString::number(i)).toUtf8().data(), eventTriggers[i].toUtf8().data(), words[0].trimmed().toUtf8().data(), words[1].trimmed().toUtf8().data());
+				cCreateEvent(model, (QString("event") + QString::number(i)).toUtf8().data(), eventTriggers[i].toUtf8().data(), words[0].trimmed().toUtf8().data(), words[1].trimmed().toUtf8().data());
 				break;
 			}
 		}
@@ -376,7 +376,7 @@ void SimulationThread::run()
 
 	for (int i=0; i < argMatrix.rows(); ++i) //values from slider
 	{
-		setValue(model, argMatrix.rowName(i).toUtf8().data() ,  argMatrix(i,0) );
+		cSetValue(model, argMatrix.rowName(i).toUtf8().data() ,  argMatrix(i,0) );
 	}
 
 	int x = 0;
@@ -397,66 +397,66 @@ void SimulationThread::run()
 			break;
 		case ReducedStoichiometry:
 			tc_deleteMatrix(resultMatrix);
-			resultMatrix = getReducedStoichiometryMatrix(model);
+			resultMatrix = cGetReducedStoichiometryMatrix(model);
 			plot = false;
 			break;
 		case ElementaryFluxModes:
 			tc_deleteMatrix(resultMatrix);
-			resultMatrix = getElementaryFluxModes(model);
+			resultMatrix = cGetElementaryFluxModes(model);
 			plot = false;
 			break;
 		case KMatrix:
 			tc_deleteMatrix(resultMatrix);
-			resultMatrix = getKMatrix(model);
+			resultMatrix = cGetKMatrix(model);
 			plot = false;
 			break;
 		case LMatrix:
 			tc_deleteMatrix(resultMatrix);
-			resultMatrix = getLinkMatrix(model);
+			resultMatrix = cGetLinkMatrix(model);
 			plot = false;
 			break;
 		case K0Matrix:
 			tc_deleteMatrix(resultMatrix);
-			resultMatrix = getK0Matrix(model);
+			resultMatrix = cGetK0Matrix(model);
 			plot = false;
 			break;
 		case L0Matrix:
 			tc_deleteMatrix(resultMatrix);
-			resultMatrix = getL0Matrix(model);
+			resultMatrix = cGetL0Matrix(model);
 			plot = false;
 			break;
 		case GammaMatrix:
 			tc_deleteMatrix(resultMatrix);
-			resultMatrix = getGammaMatrix(model);
+			resultMatrix = cGetGammaMatrix(model);
 			plot = false;
 			break;
 		case DeterministicSimulation:
 			tc_deleteMatrix(resultMatrix);
-			resultMatrix = simulateDeterministic(model, startTime, endTime, numPoints);
+			resultMatrix = cSimulateDeterministic(model, startTime, endTime, numPoints);
 			plotTitle = tr("Time-course");
 			plotType = PlotTool::Plot2D;
 			break;
 		case StochasticSimulation:
 			tc_deleteMatrix(resultMatrix);
-			resultMatrix = simulateStochastic(model, startTime, endTime, numPoints);
+			resultMatrix = cSimulateStochastic(model, startTime, endTime, numPoints);
 			plotTitle = tr("Stochastic simulation");
 			plotType = PlotTool::Plot2D;
 			break;
 		case HybridSimulation:
 			tc_deleteMatrix(resultMatrix);
-			resultMatrix = simulateHybrid(model, startTime, endTime, numPoints);
+			resultMatrix = cSimulateHybrid(model, startTime, endTime, numPoints);
 			plotTitle = tr("Hybrid simulation");
 			plotType = PlotTool::Plot2D;
 			break;
 		case TauLeapSimulation:
 			tc_deleteMatrix(resultMatrix);
-			resultMatrix = simulateTauLeap(model, startTime, endTime, numPoints);
+			resultMatrix = cSimulateTauLeap(model, startTime, endTime, numPoints);
 			plotTitle = tr("Stochastic simulation");
 			plotType = PlotTool::Plot2D;
 			break;
 		case SteadyState:
 			tc_deleteMatrix(resultMatrix);
-			resultMatrix = getSteadyState(model);
+			resultMatrix = cGetSteadyState(model);
 			plotTitle = tr("Steady state");
 			plotType = PlotTool::Text;
 			x = -1;
@@ -477,8 +477,8 @@ void SimulationThread::run()
 				{
 					emit progress( (int)(100 * i)/n  );
 					p = start + (double)(i)*step;
-					setValue(model, param.toUtf8().data(), p);
-					ss = getSteadyState(model);					
+					cSetValue(model, param.toUtf8().data(), p);
+					ss = cGetSteadyState(model);					
 
 					if (i == 0)
 					{
@@ -522,14 +522,14 @@ void SimulationThread::run()
 				{
 					emit progress( (int)(100 * i)/n1 );
 					p1 = start1 + (double)(i)*step1;
-					setValue(model, param1.toUtf8().data(), p1);
+					cSetValue(model, param1.toUtf8().data(), p1);
 					
 					for (j=0; j < n2; ++j)
 					{
 						p2 = start2 + (double)(i)*step2;
-						setValue(model, param2.toUtf8().data(), p2);
+						cSetValue(model, param2.toUtf8().data(), p2);
 						
-						ss = getSteadyState(model);
+						ss = cGetSteadyState(model);
 
 						if (l == -1)
 						{
@@ -563,56 +563,56 @@ void SimulationThread::run()
 			break;
 		case Jacobian:
 			tc_deleteMatrix(resultMatrix);
-			resultMatrix = getJacobian(model);
+			resultMatrix = cGetJacobian(model);
 			plotTitle = tr("Jacobian");
 			plotType = PlotTool::BarPlot;
 			x = -1;
 			break;
 		case Eigenvalues:
 			tc_deleteMatrix(resultMatrix);
-			resultMatrix = getEigenvalues(model);
+			resultMatrix = cGetEigenvalues(model);
 			plotTitle = tr("Eigenvalues");
 			plotType = PlotTool::ScatterPlot;
 			x = 0;
 			break;
 		case UnscaledElasticities:
 			tc_deleteMatrix(resultMatrix);
-			resultMatrix = getUnscaledElasticities(model);
+			resultMatrix = cGetUnscaledElasticities(model);
 			plotTitle = tr("Unscaled elasticities");
 			plotType = PlotTool::BarPlot;
 			x = -1;
 			break;
 		case UnscaledConcentrationCC:
 			tc_deleteMatrix(resultMatrix);
-			resultMatrix = getUnscaledConcentrationCC(model);
+			resultMatrix = cGetUnscaledConcentrationControlCoeffs(model);
 			plotTitle = tr("Unscaled concentration control coefficients");
 			plotType = PlotTool::BarPlot;
 			x = -1;
 			break;
 		case UnscaledFluxCC:
 			tc_deleteMatrix(resultMatrix);
-			resultMatrix = getUnscaledFluxCC(model);
+			resultMatrix = cGetUnscaledFluxControlCoeffs(model);
 			plotTitle = tr("Unscaled flux control coefficients");
 			plotType = PlotTool::BarPlot;
 			x = -1;
 			break;
 		case ScaledElasticities:
 			tc_deleteMatrix(resultMatrix);
-			resultMatrix = getScaledElasticities(model);
+			resultMatrix = cGetScaledElasticities(model);
 			plotTitle = tr("Scaled elasticities");
 			plotType = PlotTool::BarPlot;
 			x = -1;
 			break;
 		case ScaledConcentrationCC:
 			tc_deleteMatrix(resultMatrix);
-			resultMatrix = getScaledConcentrationCC(model);
+			resultMatrix = cGetScaledConcentrationConcentrationCoeffs(model);
 			plotTitle = tr("Scaled concentration control coefficients");
 			plotType = PlotTool::BarPlot;
 			x = -1;
 			break;
 		case ScaledFluxCC:
 			tc_deleteMatrix(resultMatrix);
-			resultMatrix = getScaledFluxCC(model);
+			resultMatrix = cGetScaledFluxControlCoeffs(model);
 			plotTitle = tr("Scaled flux control coefficients");
 			plotType = PlotTool::BarPlot;
 			x = -1;

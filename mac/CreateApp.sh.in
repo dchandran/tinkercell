@@ -221,7 +221,7 @@ expect sftp>
 send "cd /home/frs/project/t/ti/tinkercell\r"
 expect sftp>
 
-send "put TinkerCell*.dmg\r"
+send "put @TINKERCELL_EXE@.dmg\r"
 expect sftp>
 
 send "exit\r"

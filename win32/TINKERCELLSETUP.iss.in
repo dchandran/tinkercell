@@ -9,7 +9,7 @@ Name: {app}; Type: filesandordirs
 [Setup]
 AppName=@TINKERCELL_EXE@
 RestartIfNeededByRun=false
-AppVerName=@TINKERCELL_EXE@ 1.1
+AppVerName=@TINKERCELL_EXE@ 1.@TINKERCELL_VERSION@
 DefaultDirName={pf}\@TINKERCELL_EXE@
 OutputDir=@TINKERCELL_BINARY_DIR@/win32
 OutputBaseFilename=@TINKERCELL_EXE@Setup

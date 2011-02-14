@@ -439,7 +439,7 @@ namespace Tinkercell
 		//ODEs
 		code += tr("    DYDT = StoichiometryMatrix * rates;\nendfunction\n\n");
 
-		file.write(code.join("").toAscii());
+		file.write(code.join("").toUtf8());
 		file.close();
 		QDesktopServices::openUrl(QUrl(filename));
 	}

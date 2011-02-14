@@ -151,9 +151,9 @@ namespace Tinkercell
 		virtual void appendData(const DataTable<qreal>&);
 		virtual void plot(const DataTable<qreal>& matrix,const QString& title,int x=0);
 		virtual void updateData(const DataTable<qreal>&);
-		virtual void setLogScale(int index, bool set=true);
 		
 	public slots:
+		void setLogScale(int index, bool set=true);
 		void print(QPaintDevice&);
 		void exportData(const QString&, const QString &);
 		void logX(bool);

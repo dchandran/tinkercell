@@ -727,6 +727,8 @@ namespace Tinkercell
 	
 	void Plot2DWidget::setTitle(const QString& s)
 	{
+		title = s;
+		
 		if (!dataPlot) return;
 		
 		if (s.isNull()) return;

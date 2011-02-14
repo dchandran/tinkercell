@@ -793,7 +793,7 @@ namespace Tinkercell
 		mu::Parser parser;
 
 		s.replace(QRegExp(tr("\\.(?!\\d)")),tr("_@@@_"));
-		parser.SetExpr(s.toAscii().data());
+		parser.SetExpr(s.toUtf8().data());
 		s.replace(tr("_@@@_"),tr("."));
 		parser.SetVarFactory(AddVariable, 0);
 		QString str;

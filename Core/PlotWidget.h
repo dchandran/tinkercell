@@ -39,12 +39,14 @@ namespace Tinkercell
 	class TINKERCELLEXPORT PlotWidget : public QWidget
 	{
 		Q_OBJECT
-		
+	
+	protected:
+		/*! \brief tool bar containing all the options for this widget*/
+		QToolBar toolBar;
+	
 	public:
 		/*! \brief used for identifying the plot type*/
 		PlotTool::PlotType type;
-		/*! \brief tool bar containing all the options for this widget*/
-		QToolBar toolBar;
 		/*! \brief constructor with plot tool as parent*/
 		PlotWidget(PlotTool * parent = 0);
 		/*! \brief constructor with plot tool as parent*/
@@ -59,19 +61,25 @@ namespace Tinkercell
 		virtual void updateData(const DataTable<qreal>&);
 		/*! \brief get the data inside this plot as teb-delimited text*/
 		virtual QString dataToString(const QString& delim=QString("\t"));
-		/*! \brief set log scale (if applicable)*/
-		virtual void setLogScale(int axis, bool set=true);
-		
-	protected:
-		/*! \brief the plot tool that contains this widget*/
-		PlotTool * plotTool;
-		/*! \brief key events*/
-		virtual void keyPressEvent ( QKeyEvent * event );
-		
+
 	public slots:
 		/*! \brief export data is some format
 			\param QString format*/
 		virtual void exportData(const QString&, const QString & file);
+		/*! \brief set log scale (if applicable)*/
+		virtual void setLogScale(int axis, bool set=true);
+		/*! \brief set plot title*/
+		virtual void setTitle(const QString & title);
+		
+	protected:
+		/*! \brief the plot tool that contains this widget*/
+		PlotTool * plotTool;
+		/*! \brief title string*/
+		QString title;
+		/*! \brief category string*/
+		QString category;
+		/*! \brief key events*/
+		virtual void keyPressEvent ( QKeyEvent * event );
 		
 		friend class PlotTool;
 	};

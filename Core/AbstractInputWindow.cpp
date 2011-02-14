@@ -119,7 +119,7 @@ namespace Tinkercell
 		: AbstractInputWindow(title)
 	{
 		CThread * thread = new CThread(main, lib);
-		thread->setMatrixFunction(funcName.toAscii().data());
+		thread->setMatrixFunction(funcName.toUtf8().data());
 		this->dataTable = data;
 
 		setThread(thread);

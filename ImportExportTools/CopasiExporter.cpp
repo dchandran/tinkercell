@@ -363,7 +363,7 @@ tc_matrix CopasiExporter::steadyStateScan(const char * param, double start, doub
 		if (ssThread->isRunning())
 			ssThread->terminate();
 		ssThread->updateModel();
-		ssThread->setMethod(SimulationThread::SteadyState);
+		ssThread->setMethod(SimulationThread::SteadyStateScan1D);
 		ssThread->setParameterRange(QString(param), start, end, numSteps);
 		QSemaphore sem(1);
 		sem.acquire();
@@ -383,7 +383,7 @@ tc_matrix CopasiExporter::steadyStateScan2D(const char * param1, double start1, 
 		if (ssThread->isRunning())
 			ssThread->terminate();
 		ssThread->updateModel();
-		ssThread->setMethod(SimulationThread::SteadyState);
+		ssThread->setMethod(SimulationThread::SteadyStateScan2D);
 		ssThread->setParameterRange(QString(param1), start1, end1, numSteps1);
 		ssThread->setParameterRange(QString(param2), start2, end2, numSteps2);
 		QSemaphore sem(1);

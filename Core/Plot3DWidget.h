@@ -44,6 +44,10 @@ namespace Tinkercell
 	public slots:
 
 		void exportData(const QString&,const QString&);
+		virtual void setTitle(const QString&);
+		virtual void setXLabel(const QString&);
+		virtual void setYLabel(const QString&);
+		virtual void setZLabel(const QString&);
 
 	private slots:
 		void saveVector();
@@ -53,10 +57,6 @@ namespace Tinkercell
 		void setZLabel();
 		void setLowColor();
 		void setHighColor();
-		virtual void setTitle(const QString&);
-		virtual void setXLabel(const QString&);
-		virtual void setYLabel(const QString&);
-		virtual void setZLabel(const QString&);
 
 	protected:
 

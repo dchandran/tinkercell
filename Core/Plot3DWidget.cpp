@@ -298,6 +298,8 @@ namespace Tinkercell
 
 	void Plot3DWidget::setTitle(const QString& s)
 	{
+		title = s;
+
 		if (surfacePlot)
 		{
 			surfacePlot->setTitle(s);

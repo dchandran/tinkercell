@@ -130,7 +130,7 @@ namespace Tinkercell
             QString currentDir = QDir::currentPath();
             QDir::setCurrent(MainWindow::tempDir());
 
-            f(script.toAscii().data());
+            f(script.toUtf8().data());
 
             QDir::setCurrent(currentDir);
         }

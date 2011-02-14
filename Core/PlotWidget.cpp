@@ -37,6 +37,11 @@ namespace Tinkercell
 	{
 	}
 	
+	void PlotWidget::setTitle(const QString& s)
+	{
+		title = s;
+	}
+	
 	void PlotWidget::exportData(const QString & type, const QString&)
 	{
 		QString output = dataToString();

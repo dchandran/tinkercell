@@ -72,8 +72,7 @@ TCAPIEXPORT tc_matrix tc_steadyStateScan(const char * param, double start, doubl
  \return tc_matrix matrix of concentration or particles
  \ingroup Simulation
 */
-TCAPIEXPORT tc_matrix tc_steadyStateScan2D(const char * param1, double start1, double end1, int numSteps1,
-																			const char * param2, double start2, double end2, int numSteps2);
+TCAPIEXPORT tc_matrix tc_steadyStateScan2D(const char * param1, double start1, double end1, int numSteps1,const char * param2, double start2, double end2, int numSteps2);
 
 /*! 
  \brief get the Jacobian at the current state

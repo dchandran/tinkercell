@@ -80,19 +80,12 @@ namespace Tinkercell
 
 	QString ConvertValue(const char* c)
 	{
-		int sz = 0;
-		for (int i=0; c != 0 && c[i] != 0; ++i) ++sz;
-		return QString( QByteArray::fromRawData(c,sz) );
+		return QString(c);
 	}
 
 	const char* ConvertValue(const QString& s)
 	{
-		char * c = new char[s.length()+1];
-		//char * c = (char*)_aligned_malloc( (s.length()+1) * sizeof(char) , 16);
-		c[s.length()] = '\0';
-		for (int i=0; i < s.length(); ++i)
-			c[i] = s[i].toAscii();
-		return c;
+		return s.toUtf8().data();
 	}	
 
 	DataTable<qreal>* ConvertValue(tc_matrix m)
@@ -102,10 +95,10 @@ namespace Tinkercell
 		D->resize(m.rows,m.cols);
 
 		for (int i=0; i < m.rows && m.rownames.strings && m.rownames.strings[i]; ++i)
-			D->setRowName(i,QString(m.rownames.strings[i]));
+			D->setRowName(i,ConvertValue(m.rownames.strings[i]));
 
 		for (int i=0; i < m.cols && m.colnames.strings && m.colnames.strings[i]; ++i)
-			D->setColumnName(i,QString(m.colnames.strings[i]));
+			D->setColumnName(i,ConvertValue(m.colnames.strings[i]));
 
 		for (int i=0; i < m.rows; ++i)
 			for (int j=0; j < m.cols; ++j)
@@ -140,20 +133,12 @@ namespace Tinkercell
 
 		for (int i=0; i < m.rows; ++i)
 		{
-			QString s = D.rowName(i);			
-			m.rownames.strings[i] = new char[s.length()+1];
-			m.rownames.strings[i][s.length()] = '\0';
-			for (int j=0; j < s.length(); ++j)
-				m.rownames.strings[i][j] = s[j].toAscii();
+			m.rownames.strings[i] = (char*)ConvertValue(D.rowName(i));
 		}
 
 		for (int i=0; i < m.cols; ++i)
 		{
-			QString s = D.columnName(i);
-			m.colnames.strings[i] = new char[s.length()+1];
-			m.colnames.strings[i][s.length()] = '\0';
-			for (int j=0; j < s.length(); ++j)
-				m.colnames.strings[i][j] = s[j].toAscii();
+			m.colnames.strings[i] = (char*)ConvertValue(D.columnName(i));
 		}
 
 		for (int i=0; i < m.rows; ++i)
@@ -172,15 +157,15 @@ namespace Tinkercell
 		D->resize(m.rows,m.cols);
 
 		for (int i=0; i < m.rows && m.rownames.strings && m.rownames.strings[i]; ++i)
-			D->setRowName(i,QString(m.rownames.strings[i]));
+			D->setRowName(i,ConvertValue(m.rownames.strings[i]));
 
 		for (int i=0; i < m.cols && m.colnames.strings && m.colnames.strings[i]; ++i)
-			D->setColumnName(i,QString(m.colnames.strings[i]));
+			D->setColumnName(i,ConvertValue(m.colnames.strings[i]));
 
 		for (int i=0; i < m.rows; ++i)
 			for (int j=0; j < m.cols; ++j)
 			{
-				D->value(i,j) = QString(tc_getTableValue(m,i,j));
+				D->value(i,j) = ConvertValue(tc_getTableValue(m,i,j));
 			}
 
 		return D;
@@ -209,27 +194,19 @@ namespace Tinkercell
 			m.strings = 0;
 
 		for (int i=0; i < m.rows; ++i)
-		{
-			QString s = D.rowName(i);			
-			m.rownames.strings[i] = new char[s.length()+1];
-			m.rownames.strings[i][s.length()] = '\0';
-			for (int j=0; j < s.length(); ++j)
-				m.rownames.strings[i][j] = s[j].toAscii();
+		{			
+			m.rownames.strings[i] = (char*)ConvertValue(D.rowName(i));
 		}
 
 		for (int i=0; i < m.cols; ++i)
 		{
-			QString s = D.columnName(i);
-			m.colnames.strings[i] = new char[s.length()+1];
-			m.colnames.strings[i][s.length()] = '\0';
-			for (int j=0; j < s.length(); ++j)
-				m.colnames.strings[i][j] = s[j].toAscii();
+			m.colnames.strings[i] = (char*)ConvertValue(D.columnName(i));
 		}
 
 		for (int i=0; i < m.rows; ++i)
 			for (int j=0; j < m.cols; ++j)
 			{
-				tc_setTableValue(m,i,j,D.at(i,j).toAscii().data());
+				tc_setTableValue(m,i,j,(char*)ConvertValue(D.at(i,j)));
 			}
 
 		return m;
@@ -239,7 +216,7 @@ namespace Tinkercell
 	{
 		QStringList slist;
 		for (int i=0; i < c.length && c.strings && c.strings[i]; ++i)
-			slist += QString(c.strings[i]);
+			slist += ConvertValue(c.strings[i]);
 		return slist;
 	}
 
@@ -255,11 +232,7 @@ namespace Tinkercell
 		char ** cs = new char*[list.size()];
 		for (int i=0; i < list.size(); ++i)
 		{
-			QString s = list[i];
-			cs[i] = new char[s.length()+1];
-			cs[i][s.length()] = '\0';
-			for (int j=0; j < s.length(); ++j)
-				cs[i][j] = s[j].toAscii();
+			cs[i] = (char*)ConvertValue(list[i]);
 		}
 		A.length = list.size();
 		A.strings = cs;

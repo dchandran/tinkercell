@@ -210,7 +210,7 @@ namespace Tinkercell
         QFile file(dir.absoluteFilePath(tr("data") + QString::number(previousCommands.size()) + tr(".txt")));
         if (file.open(QFile::WriteOnly))
         {
-            file.write(s.toAscii());
+            file.write(s.toUtf8());
             file.close();
         }
 
@@ -438,7 +438,7 @@ namespace Tinkercell
 			QFile file(filename);
 			if (file.open(QIODevice::WriteOnly))
 			{
-				file.write(s.toAscii());
+				file.write(s.toUtf8());
 				file.close();
 				runScriptFile(filename);
 			}

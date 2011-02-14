@@ -38,7 +38,7 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles, copasi_model & 
 	model.qHash = 0;
 	++totalModelCount;
 	QString modelName = tr("tinkercell") + QString::number(totalModelCount);
-	model = createCopasiModel(modelName.toAscii().data());
+	model = createCopasiModel(modelName.toUtf8().data());
 
 	NumericalDataTable params = BasicInformationTool::getUsedParameters(handles);
 	NumericalDataTable stoic_matrix = StoichiometryTool::getStoichiometry(handles);
@@ -216,15 +216,15 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles, copasi_model & 
 		}
 		else
 		{
-			c = createCompartment(model, speciesCompartments[i].toAscii().data(), compartmentVolumes[i]);
+			c = createCompartment(model, speciesCompartments[i].toUtf8().data(), compartmentVolumes[i]);
 			compartmentHash[ speciesCompartments[i] ] = c;
 			//commands += speciesCompartments[i] + tr(" = createCompartment(model,\"") + speciesCompartments[i] + tr("\",") + QString::number(compartmentVolumes[i]) + tr(");\n");
 		}
-		createSpecies(c, species[i].toAscii().data(), initialValues[i]);
+		createSpecies(c, species[i].toUtf8().data(), initialValues[i]);
 		//commands += tr("createSpecies(") + speciesCompartments[i] + tr(",\"") + species[i] + tr("\",") + QString::number(initialValues[i]) + tr(");\n");
 		if (fixedVars.contains(species[i]))
 		{
-			setBoundarySpecies(model, species[i].toAscii().data(), 1);
+			setBoundarySpecies(model, species[i].toUtf8().data(), 1);
 			//commands += tr("setBoundarySpecies(model, \"") + species[i] + tr("\",1);\n");
 		}
 	}
@@ -232,22 +232,22 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles, copasi_model & 
 	//create list of parameters
 	for (int i=0; i < params.rows(); ++i)
 	{
-		setGlobalParameter(model, params.rowName(i).toAscii().data(), params.value(i,0));
+		setGlobalParameter(model, params.rowName(i).toUtf8().data(), params.value(i,0));
 		//commands += tr("setGlobalParameter(model,\"") + params.rowName(i) + tr("\",") + QString::number(params.value(i,0)) + tr(");\n");
 	}
 
 	//list of assignments
 	for (int i=0; i < assignmentNames.size(); ++i)
 	{
-		setAssignmentRule(model, assignmentNames[i].toAscii().data(), assignmentDefs[i].toAscii().data());
+		setAssignmentRule(model, assignmentNames[i].toUtf8().data(), assignmentDefs[i].toUtf8().data());
 		//commands += tr("setAssignmentRule(model, \"") + assignmentNames[i] + tr("\",\"") + assignmentDefs[i] + tr("\");\n");
 	}
 
 	//create list of reactions
 	for (int i=0; i < stoic_matrix.columns(); ++i)
 	{
-		copasi_reaction reac = createReaction(model, stoic_matrix.columnName(i).toAscii().data());
-		setReactionRate(reac, rates[i].toAscii().data());
+		copasi_reaction reac = createReaction(model, stoic_matrix.columnName(i).toUtf8().data());
+		setReactionRate(reac, rates[i].toUtf8().data());
 		
 		//commands += tr("r") + QString::number(i) + tr(" = createReaction(model, \"") + stoic_matrix.columnName(i) + tr("\");\n");
 		//commands += tr("setReactionRate(") + tr("r") + QString::number(i) + tr(",\"") + rates[i] + tr("\");\n");
@@ -255,18 +255,18 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles, copasi_model & 
 		for (int j=0; j < stoic_matrix.rows(); ++j)
 			if (stoic_matrix.value(j,i) < 0)
 			{
-				addReactant(reac, stoic_matrix.rowName(j).toAscii().data(), -stoic_matrix.value(j,i));
+				addReactant(reac, stoic_matrix.rowName(j).toUtf8().data(), -stoic_matrix.value(j,i));
 				//commands += tr("addReactant(") + tr("r") + QString::number(i) + tr(",\"") + stoic_matrix.rowName(j) + tr("\",") + QString::number(-stoic_matrix.value(j,i)) + tr(");\n");
 			}
 			else
 			if (stoic_matrix.value(j,i) > 0)
 			{
-				addProduct(reac, stoic_matrix.rowName(j).toAscii().data(), stoic_matrix.value(j,i));
+				addProduct(reac, stoic_matrix.rowName(j).toUtf8().data(), stoic_matrix.value(j,i));
 				//commands += tr("addProduct(") + tr("r") + QString::number(i) + tr(",\"") + stoic_matrix.rowName(j) + tr("\",") + QString::number(stoic_matrix.value(j,i)) + tr(");\n");
 			}
 	}
 	
-	//fout.write(commands.toAscii());
+	//fout.write(commands.toUtf8());
 	//fout.close();
 	
 	//list of events
@@ -278,7 +278,7 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles, copasi_model & 
 			QStringList words = actions[j].split("=");
 			if (words.size() == 2)
 			{
-				createEvent(model, (QString("event") + QString::number(i)).toAscii().data(), eventTriggers[i].toAscii().data(), words[0].trimmed().toAscii().data(), words[1].trimmed().toAscii().data());
+				createEvent(model, (QString("event") + QString::number(i)).toUtf8().data(), eventTriggers[i].toUtf8().data(), words[0].trimmed().toUtf8().data(), words[1].trimmed().toUtf8().data());
 				break;
 			}
 		}
@@ -376,7 +376,7 @@ void SimulationThread::run()
 
 	for (int i=0; i < argMatrix.rows(); ++i) //values from slider
 	{
-		setValue(model, argMatrix.rowName(i).toAscii().data() ,  argMatrix(i,0) );
+		setValue(model, argMatrix.rowName(i).toUtf8().data() ,  argMatrix(i,0) );
 	}
 
 	int x = 0;
@@ -477,14 +477,14 @@ void SimulationThread::run()
 				{
 					emit progress( (int)(100 * i)/n  );
 					p = start + (double)(i)*step;
-					setValue(model, param.toAscii().data(), p);
+					setValue(model, param.toUtf8().data(), p);
 					ss = getSteadyState(model);					
 
 					if (i == 0)
 					{
 						tc_deleteMatrix(resultMatrix);
 						resultMatrix = tc_createMatrix(n, ss.rows+1);
-						tc_setColumnName(resultMatrix, 0, param.toAscii().data());
+						tc_setColumnName(resultMatrix, 0, param.toUtf8().data());
 						for (j=0; j < ss.rows; ++j)
 							tc_setColumnName(resultMatrix, j+1, tc_getRowName(ss, j));
 					}
@@ -522,12 +522,12 @@ void SimulationThread::run()
 				{
 					emit progress( (int)(100 * i)/n1 );
 					p1 = start1 + (double)(i)*step1;
-					setValue(model, param1.toAscii().data(), p1);
+					setValue(model, param1.toUtf8().data(), p1);
 					
 					for (j=0; j < n2; ++j)
 					{
 						p2 = start2 + (double)(i)*step2;
-						setValue(model, param2.toAscii().data(), p2);
+						setValue(model, param2.toUtf8().data(), p2);
 						
 						ss = getSteadyState(model);
 
@@ -535,9 +535,9 @@ void SimulationThread::run()
 						{
 							tc_deleteMatrix(resultMatrix);
 							resultMatrix = tc_createMatrix(n1*n2, 3);
-							tc_setColumnName(resultMatrix, 0, param1.toAscii().data());
-							tc_setColumnName(resultMatrix, 1, param2.toAscii().data());
-							tc_setColumnName(resultMatrix, 2, param3.toAscii().data());
+							tc_setColumnName(resultMatrix, 0, param1.toUtf8().data());
+							tc_setColumnName(resultMatrix, 1, param2.toUtf8().data());
+							tc_setColumnName(resultMatrix, 2, param3.toUtf8().data());
 							
 							for (k=0; k < ss.rows; ++k)
 								if (QString(tc_getRowName(ss, k)) == param3)

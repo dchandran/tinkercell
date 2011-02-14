@@ -123,7 +123,7 @@ namespace Tinkercell
 
 	QList<ItemHandle*> AntimonyEditor::parse(const QString& modelString, ItemHandle * moduleHandle)
 	{
-		long ok = loadString(modelString.toAscii().data());
+		long ok = loadString(modelString.toUtf8().data());
 
 		if (ok < 0)
 		{

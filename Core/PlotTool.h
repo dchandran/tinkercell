@@ -32,6 +32,7 @@
 #include <QPlainTextEdit>
 #include <QLineEdit>
 #include <QDockWidget>
+#include <QToolButton>
 #include "TC_structs.h"
 #include "Tool.h"
 #include "DataTable.h"
@@ -94,6 +95,9 @@ namespace Tinkercell
 	class TINKERCELLEXPORT PlotTool : public Tool
 	{
 		Q_OBJECT
+	
+	public:
+		static QString ORGANIZER_DELIMITER;
 		
 	signals:
 	
@@ -207,6 +211,16 @@ namespace Tinkercell
 			\return QString error string (if empty, then no error)
 		*/
 		QString computeNewColumn(QString);
+		
+		/*!\brief 
+		Show a window that catergorizes all windows.
+		If title contains a colon, then the string before the colon is used as the category. 
+		If title contains a double colon, then the plot organizer is automatically enabled and the
+		string before the colon is used as the category. 
+		\param bool enable(true) or disable(false)
+		*/
+		void enablePlotOrganizer(bool b=true);
+
     public:
 
         /*! \brief remove all items in the data table that are not visible in any scene
@@ -221,7 +235,16 @@ namespace Tinkercell
 		QPlainTextEdit functionsTextEdit;
 		QDoubleSpinBox spinBox1, spinBox2;
 		QSpinBox spinBox3;
-		QLineEdit xaxisLine;
+		QLineEdit xaxisLine;		
+		QStringList exportOptions;
+		QActionGroup actionGroup;
+		QToolBar toolBar;
+		QMenu * exportMenu;
+		QToolBar * otherToolBar;
+		QTableWidget * organizerWidget;
+		int numMultiplots;
+		QButtonGroup * organizerButtonGroup;
+		bool plotOrganizerEnabled;
 		
 		static PlotTool_FtoS fToS;
 
@@ -256,16 +279,11 @@ namespace Tinkercell
 		static void _setLogScale(int);
 
 		friend class PlotWidget;
-		QStringList exportOptions;
-		QActionGroup actionGroup;
-		QToolBar toolBar;
-		QMenu * exportMenu;
-		QToolBar * otherToolBar;
-		int numMultiplots;
 
 	private slots:
         //void toolAboutToBeLoaded( Tool * , bool * );
         void plotCustomFormula();
+        void organizerButtonClicked(QAbstractButton * button);
 		void actionTriggered(QAction*);
 		void subWindowActivated(QMdiSubWindow *);
 		void setupFunctionPointers( QLibrary * );
@@ -279,6 +297,8 @@ namespace Tinkercell
 		void gnuplot(QSemaphore * , const QString& script);
 		void savePlotImage(QSemaphore*, const QString& filename);
 		void setLogScale(QSemaphore*, int);
+		void addWidgetToOrganizer(const QString& category, PlotWidget * widget);
+		
 	protected:
 		virtual void keyPressEvent ( QKeyEvent * event );
 		virtual void mouseMoveEvent ( QMouseEvent * event );

@@ -33,11 +33,15 @@ namespace Tinkercell
 	/***********************************
 		Plot Tool
 	************************************/
+		
+	QString PlotTool::ORGANIZER_DELIMITER = QString("::");
 
 	PlotTool::PlotTool() : Tool(tr("Default Plot Tool"),tr("Plot")), actionGroup(this)
 	{
 		otherToolBar = 0;
 		dockWidget = 0;
+		organizerWidget = 0;
+		plotOrganizerEnabled = false;
 		setPalette(QPalette(QColor(255,255,255,255)));
 		setAutoFillBackground(true);
 
@@ -87,6 +91,8 @@ namespace Tinkercell
 		addExportOption(QIcon(tr(":/images/new.png")),tr("Text"),tr("Show the data table"));
 		addExportOption(QIcon(tr(":/images/latex.png")),tr("LaTeX"),tr("Export data to LaTeX"));
 		addExportOption(QIcon(tr(":/images/copy.png")),tr("Clipboard"),tr("Copy data to clipboard"));
+		
+		enablePlotOrganizer(true);
 
 		//C interface
 		connect(&fToS,SIGNAL(plotDataTable(QSemaphore*,DataTable<qreal>&, int, const QString&)),
@@ -195,13 +201,17 @@ namespace Tinkercell
 			for (int i=0; i < subWindowList.size(); ++i)
 				if (subWindowList[i])
 				{
-					subWindowList[i]->close();
+					PlotWidget * plotWidget = static_cast<PlotWidget*>(subWindowList[i]->widget());
+					if (plotWidget && !plotWidget->category.isNull() && !plotWidget->category.isEmpty())
+						subWindowList[i]->showMinimized();
+					else
+						subWindowList[i]->close();
 				}
-			subWindowList.clear();
 		}
 
 		QMdiSubWindow * window = multiplePlotsArea->addSubWindow(newPlot);
-		window->setAttribute(Qt::WA_DeleteOnClose);
+		if (newPlot->category.isNull() || newPlot->category.isEmpty())
+			window->setAttribute(Qt::WA_DeleteOnClose);
 		window->setWindowIcon(QIcon(tr(":/images/graph2.png")));
 		window->setVisible(true);
 		window->setWindowTitle( tr("plot ") + QString::number(1 + subWindowList.size()));
@@ -214,10 +224,32 @@ namespace Tinkercell
 		multiplePlotsArea->setActiveSubWindow ( window );
 	}
 
-	void PlotTool::plot(const DataTable<qreal>& matrix,const QString& title,int x,PlotTool::PlotType type)
+	void PlotTool::plot(const DataTable<qreal>& matrix,const QString& title0,int x,PlotTool::PlotType type)
 	{
 		//if (!all)
 			//pruneDataTable(const_cast< DataTable<qreal>& >(matrix),x,mainWindow);
+		
+		QString title, category;
+		
+		//plot organizer uses
+		if (title0.contains(ORGANIZER_DELIMITER))
+		{
+			QStringList parts = title0.split(ORGANIZER_DELIMITER);
+			if (parts.size() > 1)
+			{
+				category = parts[0].trimmed();
+				title = parts[1].trimmed();
+				console()->message(title);
+			}
+			else
+			{
+				title = title0;
+			}
+		}
+		else
+		{
+			title = title0;
+		}
 		
 		if (dockWidget)
 		{
@@ -232,8 +264,9 @@ namespace Tinkercell
 			this->raise();
 		}
 
-		if ((holdCurrentPlot && holdCurrentPlot->isChecked()) ||
-			!(keepOldPlots && keepOldPlots->isChecked()))
+		if ((category.isNull() || category.isEmpty()) &&
+			((holdCurrentPlot && holdCurrentPlot->isChecked()) ||
+			 !(keepOldPlots && keepOldPlots->isChecked())))
 		{
 			QList<QMdiSubWindow *>  list = multiplePlotsArea->subWindowList(QMdiArea::ActivationHistoryOrder);
 			for (int i=0; i < list.size(); ++i)
@@ -245,8 +278,6 @@ namespace Tinkercell
 						widget->appendData(matrix);
 					else
 						widget->updateData(matrix);
-					if (mainWindow && mainWindow->statusBar())
-						mainWindow->statusBar()->showMessage(tr("Finished plotting"));
 					
 					for (int j=0; j < list.size(); ++j)
 						if (i != j)
@@ -258,6 +289,7 @@ namespace Tinkercell
 								break;
 							}
 						}
+					
 					return;
 				}
 			}
@@ -284,11 +316,12 @@ namespace Tinkercell
 			newPlot2D->plot(matrix,title,x);
 			newPlot = newPlot2D;
 		}
-
-		if (mainWindow && mainWindow->statusBar())
-			mainWindow->statusBar()->showMessage(tr("Finished plotting"));
-
+		
+		newPlot->category = category;
 		addWidget(newPlot);
+		
+		if (!category.isNull() && !category.isEmpty())
+			addWidgetToOrganizer(category, newPlot);
 	}
 
 	void PlotTool::surfacePlot(const DataTable<qreal>& matrix,const QString& title)
@@ -449,11 +482,15 @@ namespace Tinkercell
 			for (int i=0; i < subWindowList.size(); ++i)
 				if (subWindowList[i])
 				{
-					subWindowList[i]->close();
+					PlotWidget * plotWidget = static_cast<PlotWidget*>(subWindowList[i]->widget());
+					if (plotWidget && !plotWidget->category.isNull() && !plotWidget->category.isEmpty())
+						subWindowList[i]->showMinimized();
+					else
+						subWindowList[i]->close();
 				}
 			subWindowList.clear();
-			hold(true);		
-			emit plotMultiplot( x, y);
+			hold(true);
+			emit plotMultiplot(x, y);
 		}
 		
 		if (s)
@@ -905,12 +942,12 @@ namespace Tinkercell
 			{
 				double * dp = &(params[i]);
 				colnames[i].replace(tr("."), tr("_"));
-				parser.DefineVar(colnames[i].toAscii().data(), dp);
+				parser.DefineVar(colnames[i].toUtf8().data(), dp);
 				if (!colnames[i].contains(colnames[i].toLower()))
-					parser.DefineVar(colnames[i].toLower().toAscii().data(), dp);
+					parser.DefineVar(colnames[i].toLower().toUtf8().data(), dp);
 			}
 				
-			parser.SetExpr(formula.toAscii().data());				
+			parser.SetExpr(formula.toUtf8().data());				
 
 			for (int i=0; i < matrix.rows(); ++i)
 			{
@@ -927,6 +964,79 @@ namespace Tinkercell
 		    return QString(e.GetMsg().data()) + tr("\n");
 		}
 		return QString();
+	}
+	
+	void  PlotTool::organizerButtonClicked(QAbstractButton * button)
+	{
+		if (button)
+		{
+			QString category = button->text();			
+			QList<QMdiSubWindow *> subWindowList = multiplePlotsArea->subWindowList();
+			for (int i=0; i < subWindowList.size(); ++i)
+				if (subWindowList[i] && subWindowList[i]->widget())
+				{
+					PlotWidget * plotWidget = static_cast<PlotWidget*>(subWindowList[i]->widget());
+					if (plotWidget->category == category)
+						subWindowList[i]->showNormal();
+					else
+						subWindowList[i]->showMinimized();
+				}
+		}
+	}
+	
+	void PlotTool::addWidgetToOrganizer(const QString& category, PlotWidget * widget)
+	{
+		if (!widget || 
+			category.isNull() || 
+			category.isEmpty() || 
+			!organizerButtonGroup || 
+			!organizerWidget) return;
+		
+		if (organizerWidget->parentWidget() && !organizerWidget->parentWidget()->isVisible())
+			organizerWidget->parentWidget()->show();
+			
+		widget->category = category;
+		
+		QList<QAbstractButton *> buttons = organizerButtonGroup->buttons();
+
+		bool exists = false;		
+		for (int i=0; i < buttons.size(); ++i)
+			if (buttons[i] && buttons[i]->text() == category)
+			{
+				exists = true;
+				break;
+			}
+
+		if (!exists)
+		{
+			QToolButton * button = new QToolButton;
+			button->setText(category);
+			organizerButtonGroup->addButton(button);
+			int k = organizerWidget->columnCount();
+			organizerWidget->setColumnCount(k + 1);
+			organizerWidget->setCellWidget(0,k,button);
+			organizerButtonClicked(button);
+		}	
+	}
+	
+	void  PlotTool::enablePlotOrganizer(bool b)
+	{
+		plotOrganizerEnabled = b;
+
+		if (!organizerWidget && window)
+		{
+			organizerWidget = new QTableWidget(this);
+			organizerWidget->setColumnCount(0);
+			organizerWidget->setRowCount(1);
+			organizerWidget->setObjectName(tr("plot organizer widget"));
+			organizerWidget->setWindowIcon(QIcon(tr(":/images/graph2.png")));
+			QDockWidget * dock = addDockWidget(tr("plot organizer"),organizerWidget,Qt::BottomDockWidgetArea);
+			organizerButtonGroup = new QButtonGroup(this);
+			connect(organizerButtonGroup,SIGNAL(buttonClicked ( QAbstractButton *  )),
+						 this, SLOT(organizerButtonClicked ( QAbstractButton *  )));
+			dock->setMaximumHeight(120);
+			dock->hide();
+		}
 	}
 	
 	PlotTool_FtoS PlotTool::fToS;

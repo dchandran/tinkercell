@@ -11,6 +11,7 @@
 #include <QGroupBox>
 #include <QTextEdit>
 #include <QMessageBox>
+#include <QDesktopServices>
 #include "qwt_scale_engine.h"
 #include "GraphicsScene.h"
 #include "MainWindow.h"
@@ -67,18 +68,32 @@ namespace Tinkercell
 		if (plotTool && type.toLower() == tr("text"))
 		{
 			DataTable<qreal> table;
-			if (data()) table = *data();
-			bool b;
-			if (plotTool->keepOldPlots)
+			if (data()) 
 			{
-				b = plotTool->keepOldPlots->isChecked();
-				plotTool->keepOldPlots->setChecked(true);
+				table = *data();
+				QString filename = tempDir() + tr("/tinkercellmodel.m");
+				QFile file(filename);
+		
+				if (!file.open(QFile::WriteOnly | QFile::Text))
+				{
+					
+					QDesktopServices::openUrl(QUrl(filename));
+				}
+				/*
+				bool b;
+				if (plotTool->keepOldPlots)
+				{
+					b = plotTool->keepOldPlots->isChecked();
+					plotTool->keepOldPlots->setChecked(true);
+				}
+				plotTool->addWidget(new PlotTextWidget(table,plotTool,output));
+				if (plotTool->keepOldPlots)
+				{
+					plotTool->keepOldPlots->setChecked(b);
+				}
+				*/
 			}
-			plotTool->addWidget(new PlotTextWidget(table,plotTool,output));
-			if (plotTool->keepOldPlots)
-			{
-				plotTool->keepOldPlots->setChecked(b);
-			}
+			
 		}
 		else
 		{

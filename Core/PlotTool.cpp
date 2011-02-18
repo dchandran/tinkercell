@@ -228,18 +228,13 @@ namespace Tinkercell
 		window->setVisible(true);
 		window->setWindowTitle( tr("plot ") + QString::number(1 + subWindowList.size()));
 
-		if (!newPlot->category.isEmpty() || (keepOldPlots && keepOldPlots->isChecked()))
-		{
-			multiplePlotsArea->tileSubWindows();
-			for (int i=0; i < subWindowList2.size(); ++i)
-				if (subWindowList2[i])
-				{
-					subWindowList2[i]->show();
-					subWindowList2[i]->showMinimized();
-				}
-		}
-		else
-			window->showMaximized();
+		multiplePlotsArea->tileSubWindows();
+		for (int i=0; i < subWindowList2.size(); ++i)
+			if (subWindowList2[i])
+			{
+				subWindowList2[i]->show();
+				subWindowList2[i]->showMinimized();
+			}
 
 		multiplePlotsArea->setActiveSubWindow ( window );
 	}

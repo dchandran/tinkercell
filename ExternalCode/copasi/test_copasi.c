@@ -8,19 +8,39 @@ void eigen(copasi_model, const char*); //compute eigenvalues by changing paramet
 
 int main()
 {
-	tc_matrix efm, output;
+	tc_matrix efm, output, params;
 	copasi_model m1, m2;
 	
-	m1 = 
-	
-	output = cSimulateTauLeap(m2, 0, 200000, 5000);  //model, start, end, num. points
+	m1 = model1();
+	output = cSimulateTauLeap(m1, 0, 100, 200);  //model, start, end, num. points
 	tc_printMatrixToFile("output.tab", output);	
 	tc_deleteMatrix(output);
-	printf("\noutput.tab contains the final output\n\n");
-	cRemoveModel(m2);
+	
+	params = tc_createMatrix(3,3);
+	tc_setRowName(params,0,"k1");
+	tc_setRowName(params,1,"k2");
+	tc_setRowName(params,2,"k3");
+	tc_setMatrixValue(params, 0, 0, 0.1);
+	tc_setMatrixValue(params, 0, 1, 0.0);
+	tc_setMatrixValue(params, 0, 2, 1.0);
+	tc_setMatrixValue(params, 1, 0, 0.2);
+	tc_setMatrixValue(params, 1, 1, 0.0);
+	tc_setMatrixValue(params, 1, 2, 1.0);
+	tc_setMatrixValue(params, 2, 0, 0.3);
+	tc_setMatrixValue(params, 2, 1, 0.0);
+	tc_setMatrixValue(params, 2, 2, 1.0);
+	
+	cSetValue(m1,"k1",1.0);
+	cSetValue(m1,"k2",1.0);
+	cSetValue(m1,"k3",1.0);
+	
+	cFitModelToData(m1, "output.tab", params, "NelderMead");
+	
+	//tc_printMatrixToFile("params.out", params);
 
 	//cleanup
-	tc_deleteMatrix(efm);
+	tc_deleteMatrix(output);
+	cRemoveModel(m1);
 	copasi_end();
 	return 0;
 }
@@ -64,8 +84,8 @@ copasi_model model1()
 	cSetReactionRate(R3, "k3*C*cell_A");
 
 	//assignment rule -- make sure all parameters or species are defined BEFORE this step
-	cCreateVariable(model, "prod1","sin(time)");
-	cCreateVariable(model, "prod2","prod1 * prod1");
+	//cCreateVariable(model, "prod1","sin(time)");
+	//cCreateVariable(model, "prod2","prod1 * prod1");
 	//cCreateEvent(model, "event1", "ge(Time,5)", "C", "C/2.0");
 	return model;
 }

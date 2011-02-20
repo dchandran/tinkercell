@@ -421,7 +421,7 @@ TCAPIEXPORT tc_matrix cGetL0Matrix(copasi_model model);
 
 
 /*! 
- \brief fit the model parameters to data
+ \brief fit the model parameters to time-series data
  \param copasi_model model
  \param char * filename (tab separated)
  \param tc_matrix parameters to optimize. rownames should contain parameter names, column 1 contains parameter min-values, and column 2 contains parameter max values

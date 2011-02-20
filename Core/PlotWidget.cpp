@@ -71,7 +71,7 @@ namespace Tinkercell
 			if (data()) 
 			{
 				table = *data();
-				QString filename = tempDir() + tr("/tinkercellmodel.m");
+				QString filename = MainWindow::tempDir() + tr("/tinkercellmodel.m");
 				QFile file(filename);
 		
 				if (!file.open(QFile::WriteOnly | QFile::Text))

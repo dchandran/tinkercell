@@ -183,13 +183,19 @@ namespace Tinkercell
 			QList<TextEditor*> editors = network->editors();
 			
 			for (int i=0; i < scenes.size(); ++i)
-				if (scenes[i] && scenes[i]->localHandle() && 
-					scenes[i]->networkWindow && scenes[i]->networkWindow->isVisible())
+				if (scenes[i] && 
+					scenes[i]->localHandle() && 
+					editors[i]->localHandle() != parentHandle &&
+					scenes[i]->networkWindow && 
+					scenes[i]->networkWindow->isVisible())
 					scenes[i]->networkWindow->close();
 			
 			for (int i=0; i < editors.size(); ++i)
-				if (editors[i] && editors[i]->localHandle() &&
-					editors[i]->networkWindow && editors[i]->networkWindow->isVisible())
+				if (editors[i] && 
+					editors[i]->localHandle() &&
+					editors[i]->localHandle() != parentHandle && 					
+					editors[i]->networkWindow && 
+					editors[i]->networkWindow->isVisible())
 					editors[i]->networkWindow->close();
 			
 			QPair< QList<ItemHandle*> , QList<QGraphicsItem*> > pair = mainWindow->getItemsFromFile(filename,parentHandle);

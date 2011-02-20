@@ -6,10 +6,15 @@ except ImportError:
 
 try:
     from numpy import *
-    from scipy import *
-    print 'Python modules loaded: Numpy and Scipy'
+    print 'Python modules loaded: Numpy'
 except ImportError:
-    print 'Python modules not loaded: Numpy and Scipy'
+    print 'Python modules not loaded: Numpy'
+
+try:
+    from scipy import *
+    print 'Python modules loaded: Scipy'
+except ImportError:
+    print 'Python modules not loaded: Scipy'
 
 try:
     from pysces import *

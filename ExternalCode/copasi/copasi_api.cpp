@@ -1929,7 +1929,7 @@ void cFitModelToData(copasi_model model, const char * filename, tc_matrix params
 			++numlines;
 		}
 	}
-	
+
 	//find the species from the header of the data file
 	QList< QPair<int, CMetab*> > targetSpecies;
 	CopasiPtr copasiPtr;
@@ -1939,7 +1939,10 @@ void cFitModelToData(copasi_model model, const char * filename, tc_matrix params
 		{
 			copasiPtr = hash->value(words[i]);
 			if (copasiPtr.species)
+			{
 				targetSpecies << QPair<int,CMetab*>(i, copasiPtr.species);
+				std::cout << i << "  =  " << words[i].toAscii().data() << std::endl;
+			}
 		}
 	}
 	
@@ -1952,8 +1955,15 @@ void cFitModelToData(copasi_model model, const char * filename, tc_matrix params
 		{
 			copasiPtr = hash->value(rowname);
 			if (copasiPtr.param && copasiPtr.param->getStatus() != CModelValue::ASSIGNMENT)
+			{
 				targetParams << copasiPtr.param;
+				std::cout << "good  " << i << "  =  " << rowname.toAscii().data() << std::endl;
+			}
+			else
+				std::cout << "bad1 " << i << "  =  " << rowname.toAscii().data() << std::endl;
 		}
+		else
+			std::cout << "bad2 " << i << "  =  " << rowname.toAscii().data() << std::endl;
 	}
 	
 	// get the task object
@@ -1977,13 +1987,13 @@ void cFitModelToData(copasi_model model, const char * filename, tc_matrix params
 	
 	//set method
 	QString sMethod(method);
-	if (sMethod == QString("GeneticAlgorithm"))
+	if (sMethod.toLower() == QString("geneticalgorithm"))
 		pFitTask->setMethodType(CCopasiMethod::GeneticAlgorithm);
 	else
-	if (sMethod == QString("SimulatedAnnealing"))
+	if (sMethod.toLower() == QString("simulatedannealing"))
 		pFitTask->setMethodType(CCopasiMethod::SimulatedAnnealing);
 	else
-	if (sMethod == QString("LevenbergMarquardt"))
+	if (sMethod == QString("levenbergmarquardt"))
 		pFitTask->setMethodType(CCopasiMethod::LevenbergMarquardt);
 	else
 	if (sMethod == QString("NelderMead"))
@@ -1999,7 +2009,7 @@ void cFitModelToData(copasi_model model, const char * filename, tc_matrix params
 		pFitTask->setMethodType(CCopasiMethod::SteepestDescent);
 	else
 	if (sMethod == QString("RandomSearch"))
-		pFitTask->setMethodType(CCopasiMethod::SteepestDescent);
+		pFitTask->setMethodType(CCopasiMethod::RandomSearch);
 
 	// the method in a fit task is an instance of COptMethod or a subclass
 	COptMethod* pFitMethod = dynamic_cast<COptMethod*>(pFitTask->getMethod());
@@ -2031,6 +2041,7 @@ void cFitModelToData(copasi_model model, const char * filename, tc_matrix params
 	// now we tell COPASI which column contain the concentrations of metabolites and belong to dependent variables	
 	int k;
 	CMetab * pMetab;
+	std::cout <<" num = " << targetSpecies.size() << std::endl;
 	for (int i=0; i < targetSpecies.size(); ++i)
 	{
 		k = targetSpecies[i].first;
@@ -2038,6 +2049,7 @@ void cFitModelToData(copasi_model model, const char * filename, tc_matrix params
 		pObjectMap->setRole( k , CExperiment::dependent );
 		const CCopasiObject* pParticleReference = pMetab->getObject(CCopasiObjectName("Reference=Concentration"));
 		pObjectMap->setObjectCN(k, pParticleReference->getCN());
+		std::cout <<" k = " << k << "  => " << pParticleReference->getCN()  << std::endl;
 	}
 
 	pExperimentSet->addExperiment(*pExperiment);

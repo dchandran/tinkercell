@@ -20,7 +20,7 @@ these executables in the CMake GUI (details given in step 12 below)
 BUILDING TINKERCELL
 -------------------------------
 1. Install the following libraries or packages: python, subversion, octave (optional)
-      In Linux, just use apt-get install libx11-dev python-dev subversion octave octave-headers
+      In Linux, just use apt-get install libx11-dev libxext-dev python-dev subversion octave octave-headers
 
 2. Install cmake, available from www.cmake.org
       In Linux, use apt-get install cmake cmake-qt-gui. 

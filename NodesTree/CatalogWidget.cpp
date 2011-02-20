@@ -558,20 +558,23 @@ namespace Tinkercell
 					QToolButton * button = new QToolButton;
 					button->setIcon(QIcon(family->pixmap));
 					button->setText(family->name());
+					
+					int w,h;
 
 					if (family->pixmap.width() > family->pixmap.height())
 					{
-						int w = 20 * family->pixmap.width()/family->pixmap.height();
+						h = 20;
+						w = h * family->pixmap.width()/family->pixmap.height();
 						if (w > 50) w = 50;
-						button->setIconSize(QSize(w,20));
 					}
 					else
 					{
-						int h = 20 * family->pixmap.height()/family->pixmap.width();
+						w = 20;
+						h = w * family->pixmap.height()/family->pixmap.width();
 						if (h > 50) h = 50;
-						button->setIconSize(QSize(20, h));
 					}
-
+					
+					button->setIconSize(QSize(w, h));
 					button->setToolTip(family->name());
 					button->setPalette(QPalette(QColor(255,255,255)));
 					button->setAutoFillBackground (true);
@@ -731,6 +734,7 @@ namespace Tinkercell
 		if (!family) return false;
 		
 		bool b;
+		//isFirstTime = true;
 
 		if (isFirstTime)
 		{

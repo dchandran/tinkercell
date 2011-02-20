@@ -136,7 +136,7 @@ namespace Tinkercell
 	{
 		QString appDir = QCoreApplication::applicationDirPath();
 
-		ConnectionGraphicsItem::DefaultMiddleItemFile = QString(":/images/simplecircle.xml");
+		ConnectionGraphicsItem::DefaultMiddleItemFile = QString(":/images/Rect.xml");
 		ConnectionGraphicsItem::DefaultArrowHeadFile = appDir + QString("/Graphics/Bio1/Arrows/Biochemical.xml");
 
 		nodeInsertionTool = 0;
@@ -897,7 +897,9 @@ namespace Tinkercell
 							insertList = autoInsertNodes(scene,point);
 							for (int i=0; i < insertList.size(); ++i)
 								if (node = NodeGraphicsItem::cast(insertList[i]))
+								{
 									selectedNodes << node;
+								}
 						}
 				}
 
@@ -926,7 +928,10 @@ namespace Tinkercell
 										node = new ArrowHeadItem(*ArrowHeadItem::cast(node0));										
 								}
 								else
+								{
 									node = new ArrowHeadItem(ConnectionGraphicsItem::DefaultMiddleItemFile, selectedConnections[j]);
+								}
+								
 								if (node->isValid())
 								{
 									if (node->defaultSize.width() > 0 && node->defaultSize.height() > 0)
@@ -949,8 +954,11 @@ namespace Tinkercell
 								}
 							}
 						}
+
 					if (selectedNodes.size() < 2)
+					{
 						return;
+					}
 
 					ConnectionGraphicsItem * item = new ConnectionGraphicsItem;
 					
@@ -1048,10 +1056,12 @@ namespace Tinkercell
 						item->lineType = ConnectionGraphicsItem::line;
 					
 					if (handle->isA(tr("Repression")))
-							item->defaultPen.setColor(QColor(tr("#C30000")));
+						item->defaultPen.setColor(QColor(tr("#C30000")));
 
 					if (handle->isA(tr("Activation")))
 						item->defaultPen.setColor(QColor(tr("#049102")));
+
+					item->setPen(item->defaultPen);
 
 					QList<QUndoCommand*> commands;
 					QList<ItemFamily*> oldFamilies;
@@ -1357,16 +1367,21 @@ namespace Tinkercell
 		QList<NodeGraphicsItem*> nodeItems;
 		NodeHandle * h;
 		
+		QStringList lst;
 		for (int i=0; i < selectedNodes.size(); ++i)
 			if (h = NodeHandle::cast(selectedNodes[i]->handle()))
+			{
 				nodeHandles << h;
+			}
 		
 		for (int i=0; i < selectedConnections.size(); ++i)
 		{
 			nodeItems = selectedConnections[i]->nodes();
 			for (int j=0; j < nodeItems.size(); ++j)
 				if (h = NodeHandle::cast(nodeItems[j]->handle()))
+				{
 					nodeHandles << h;
+				}
 		}
 		
 		QList<ItemFamily*> childFamilies = selectedFamily->findValidChildFamilies(nodeHandles,all);

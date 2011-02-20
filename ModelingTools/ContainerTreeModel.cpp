@@ -96,7 +96,12 @@ namespace Tinkercell
 			else
 			{
 				if (itemHandle->hasNumericalData(QString("Initial Value")))
-					return QVariant(itemHandle->numericalData(QString("Initial Value")));
+					if (itemHandle->hasTextData(QString("Assignments")) &&
+						itemHandle->textDataTable(QString("Assignments")).hasRow(QString("self")))
+						return QVariant(
+							itemHandle->textData(QString("Assignments"), QString("self"), 0));
+					else	
+						return QVariant(itemHandle->numericalData(QString("Initial Value")));
 				else
 					if (itemHandle->hasTextData(QString("Rate equations")))
 						if (itemHandle->children.isEmpty())
@@ -483,20 +488,38 @@ namespace Tinkercell
 			{
 				if (handle->hasNumericalData(QString("Initial Value")))
 				{
-					NumericalDataTable newTable(handle->numericalDataTable( QString("Initial Value") ));
-					bool ok;
-					double d = value.toDouble(&ok);
-					if (ok && newTable.value(0,0) != d)
+					if (handle->hasTextData(QString("Assignments")) &&
+						handle->textDataTable(QString("Assignments")).hasRow(QString("self")))
 					{
-						newTable.value(0,0) = d;
-						
-						BasicInformationTool::initialValues[ handle->family()->measurementUnit.property ] = d;
-						
-                        network->changeData(handle->fullName() + tr(" = ") + QString::number(d),
+						QString s = value.toString();
+						if (EquationParser::validate(network, handle, s, QStringList() << "time"))
+						{
+							 TextDataTable newTable(handle->textDataTable( QString("Assignments") ));
+							 newTable.value("self",0) = s;
+							 network->changeData(handle->fullName() + tr(" = ") + s,
 											handle,
-											QString("Initial Value"),
+											QString("Assignments"),
 											&newTable);
-						return true;
+							return true;
+						}
+					}
+					else
+					{
+						NumericalDataTable newTable(handle->numericalDataTable( QString("Initial Value") ));
+						bool ok;
+						double d = value.toDouble(&ok);
+						if (ok && newTable.value(0,0) != d)
+						{
+							newTable.value(0,0) = d;
+						
+							BasicInformationTool::initialValues[ handle->family()->measurementUnit.property ] = d;
+						
+		                    network->changeData(handle->fullName() + tr(" = ") + QString::number(d),
+												handle,
+												QString("Initial Value"),
+												&newTable);
+							return true;
+						}
 					}
 				}
 				else
@@ -662,7 +685,11 @@ namespace Tinkercell
 					if (attributeName.isEmpty())
 					{
 						if (handle->hasNumericalData(QString("Initial Value")))
-							editor->setText( QString::number(handle->numericalData(QString("Initial Value"))) );
+							if (handle->hasTextData(QString("Assignments")) &&
+								handle->textDataTable(QString("Assignments")).hasRow(QString("self")))
+									editor->setText(handle->textData(QString("Assignments"), QString("self")));
+								else
+									editor->setText( QString::number(handle->numericalData(QString("Initial Value"))) );
 						else
 							if (handle->hasTextData(QString("Rate equations")))
 								editor->setText(handle->textData(QString("Rate equations")));

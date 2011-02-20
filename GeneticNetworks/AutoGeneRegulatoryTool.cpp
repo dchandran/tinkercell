@@ -682,10 +682,11 @@ namespace Tinkercell
 				{
 					rate = tr("");
 					for (int k=0; k < operators.size(); ++k)
-						if (rate.isEmpty())
-							rate = operators[k]->fullName();
-						else
-							rate += tr(" * ") + operators[k]->fullName();
+						if (operators[k] != promoter)
+							if (rate.isEmpty())
+								rate = operators[k]->fullName();
+							else
+								rate += tr(" * ") + operators[k]->fullName();
 					
 					
 					if (rate.isEmpty() || !promoter)
@@ -693,7 +694,13 @@ namespace Tinkercell
 					else
 					{
 						if (promoter->hasNumericalData("Parameters") && promoter->numericalDataTable("Parameters").hasRow("strength"))
-							rate = promoter->fullName() + tr(".strength * ") + rate;
+							if (rate.isEmpty())
+								rate = promoter->fullName() + tr(".strength");
+							else
+								rate = promoter->fullName() + tr(".strength * ") + rate;
+						else
+							if (rate.isEmpty())
+								rate = promoter->fullName();
 
 						if (parts[i]->parent && parts[i]->parent->isA(tr("Vector")))
 							rate = parts[i]->parent->fullName() + tr(" * ") + rate;

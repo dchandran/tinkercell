@@ -26,6 +26,7 @@ The MainWindow keeps a list of all plugins, and it is also responsible for loadi
 #include <QSvgGenerator>
 #include <QColorDialog>
 #include <QImage>
+#include <QDateTime>
 #include "TextEditor.h"
 #include "NetworkWindow.h"
 #include "NetworkHandle.h"
@@ -214,7 +215,7 @@ namespace Tinkercell
 
 		setMouseTracking(true);
 		RegisterDataTypes();
-		previousFileName = QDir::currentPath();
+		previousFileName = QCoreApplication::applicationDirPath();
 
 		consoleWindow = 0;
 		currentNetworkWindow = 0;
@@ -470,7 +471,7 @@ namespace Tinkercell
 		{
 			fileName =
 				QFileDialog::getSaveFileName(this, tr("Save Current Network"),
-				previousFileName,
+				previousFileName + tr("/") + QDateTime::	currentDateTime().toString("d_M_yy_h_m.tic"),
 				(PROJECTNAME + tr(" files (*.") + SAVE_FILE_EXTENSIONS.join(tr(" *.")) + tr(")")));
 			if (fileName.isNull() || fileName.isEmpty())
 				return;
@@ -486,10 +487,13 @@ namespace Tinkercell
 					fileName += tr(".") + SAVE_FILE_EXTENSIONS[0];
 				previousFileName = fileName;
 			}
+			
+			previousFileName = QFileInfo(fileName).absolutePath();
 		}
 		else
 		{
-			console()->message(fileName);
+			if (console())
+				console()->message(fileName);
 		}
 		
 		QFile file (fileName);
@@ -510,6 +514,8 @@ namespace Tinkercell
 			//console()->message(fileName);
 			currentNetworkWindow->setFileName(fileName);
 		}
+		
+		statusBar()->showMessage(tr("Saved ") + fileName);
 	}
 
 	void MainWindow::saveWindowAs()
@@ -535,12 +541,12 @@ namespace Tinkercell
 		{
 			if (!SAVE_FILE_EXTENSIONS.isEmpty())
 				fileName += tr(".") + SAVE_FILE_EXTENSIONS[0];
-			previousFileName = fileName;
 		}
-
+		
 		QFile file (fileName);
 
-		if (!file.open(QFile::WriteOnly | QFile::Text)) {
+		if (!file.open(QFile::WriteOnly | QFile::Text)) 
+		{
 			QMessageBox::warning(this, (PROJECTNAME + tr(" files")),
 				tr("Cannot write file %1:\n%2.")
 				.arg(fileName)
@@ -548,6 +554,7 @@ namespace Tinkercell
 			return;
 		}
 
+		previousFileName = QFileInfo(fileName).absolutePath();
 		emit saveNetwork(fileName);
 		currentNetworkWindow->setFileName(fileName);
 	}
@@ -564,7 +571,7 @@ namespace Tinkercell
 			return;
 		}
 
-		previousFileName = fileName;
+		previousFileName = QFileInfo(fileName).absolutePath();
 		emit loadNetwork(fileName);
 		
 		if (currentNetworkWindow)
@@ -630,7 +637,7 @@ namespace Tinkercell
 		if (fileName.isEmpty())
 			return;
 
-		previousFileName = fileName;
+		previousFileName = QFileInfo(fileName).absolutePath();
 		if (textEditor)
 		{
 			QFile file(fileName);
@@ -1119,7 +1126,7 @@ namespace Tinkercell
 				}
 				else
 				{
-					previousFileName = files[i].absoluteFilePath();
+					previousFileName = QFileInfo(files[i].absoluteFilePath()).absolutePath();
 					emit loadNetwork(files[i].absoluteFilePath());
 					if (currentNetworkWindow)
 						currentNetworkWindow->setFileName(previousFileName);

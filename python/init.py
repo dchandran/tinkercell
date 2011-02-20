@@ -1,32 +1,33 @@
 try:
     from tinkercell import *
     from tc2py import *
+    print '_tinkercell imported'
 except ImportError:
     print 'TinkerCell Python module not found'
 
 try:
     from numpy import *
-    print 'Python modules loaded: Numpy'
+    print 'Numpy imported'
 except ImportError:
-    print 'Python modules not loaded: Numpy'
+    print 'Numpy not loaded'
 
 try:
     from scipy import *
-    print 'Python modules loaded: Scipy'
+    print 'Scipy imported'
 except ImportError:
-    print 'Python modules not loaded: Scipy'
+    print 'Scipy not loaded'
 
 try:
     from pysces import *
     from tc2pysces import *
-    print 'Python module loaded: PySCeS'
+    print 'Pysces imported'
 except ImportError:
-    print 'Python module not loaded: PySCeS'
+    print 'Pysces not loaded'
 
 try:
     import networkx as nx
     from nxAutoLayout import *
-    print 'Python module loaded: NetworkX'
+    print 'NetworkX imported'
 except ImportError:
-    print 'Python module not loaded: NetworkX'
+    print 'NetworkX not loaded'
 

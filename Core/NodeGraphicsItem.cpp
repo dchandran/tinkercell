@@ -469,7 +469,7 @@ namespace Tinkercell
 	/*! \brief checks that this is a valid drawable*/
 	bool NodeGraphicsItem::isValid() const
 	{
-		return controlPoints.size() > 1 && shapes.size() > 0;
+		return shapes.size() > 0;
 	}
 
 	/*! set the top left and bottom right corners of this node item*/

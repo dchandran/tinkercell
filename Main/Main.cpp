@@ -140,14 +140,16 @@ int main(int argc, char *argv[])
 	mainWindow.addTool(new NameFamilyDialog);
 	mainWindow.addTool(new ConnectionMaker);
 	
+	mainWindow.addTool(new DynamicLibraryMenu);
+	
 	mainWindow.addTool(new BasicInformationTool(QString("text")));
 	mainWindow.addTool(new BasicInformationTool(QString("numerical")));
 	mainWindow.addTool(new AssignmentFunctionsTool);
 	mainWindow.addTool(new StoichiometryTool);
 	mainWindow.addTool(new ModelSummaryTool);
 	mainWindow.addTool(new ModelFileGenerator);
+	mainWindow.addTool(new SimulationEventsTool);	
 	mainWindow.addTool(new CompartmentTool);
-	mainWindow.addTool(new SimulationEventsTool);
 	
 	mainWindow.addTool(new OctaveExporter);
 	mainWindow.addTool(new SBMLImportExport);
@@ -164,7 +166,6 @@ int main(int argc, char *argv[])
 	mainWindow.addTool(new LPSolveInputWindow);
 	mainWindow.addTool(new CellPositionUpdateTool);
 
-	mainWindow.addTool(new DynamicLibraryMenu);
     mainWindow.addTool(new LoadCLibrariesTool);
 	mainWindow.addTool(new PythonTool);
 	mainWindow.addTool(new OctaveTool);

@@ -1,0 +1,32 @@
+Coding
+RBS
+Terminator
+Activator Binding Site
+Repressor Binding Site
+Vector
+Promoter
+Empty
+Small Molecule
+Enzyme
+Transcription Factor
+Reporter
+Receptor
+mRNA
+Compartment
+Cell
+Regulation
+Enzyme Catalysis
+Allosteric Inhibition
+Transcription Regulation
+Direct Gene Regulation
+1 to 1
+2 to 1
+3 to 1
+1 to 2
+2 to 2
+3 to 2
+1 to 3
+2 to 3
+3 to 3
+Protein Production
+

@@ -8,6 +8,7 @@
 
 ****************************************************************************/
 #include <QDialog>
+#include <QFile>
 #include <QStringList>
 #include <QPushButton>
 #include <QInputDialog>
@@ -347,7 +348,7 @@ namespace Tinkercell
 				else
 					if (connectionsTree && connectionsTree->connectionFamilies.contains(allNames[i]))
 						family = connectionsTree->connectionFamilies[ allNames[i] ];
-				checkbox->setChecked(includeFamilyInCatalog(family));
+				checkbox->setChecked(familiesInCatalog.contains(family->name()));
 				selectFamilyCheckBoxes << checkbox;
 				QToolButton * tempButton = new QToolButton;
 				QComboBox * comboBox = 0;
@@ -729,32 +730,6 @@ namespace Tinkercell
 		if (i < tabWidget->count()) tabWidget->setCurrentIndex(i);
 	}
 	
-	bool CatalogWidget::includeFamilyInCatalog(ItemFamily * family)
-	{
-		if (!family) return false;
-		
-		bool b;
-		//isFirstTime = true;
-
-		if (isFirstTime)
-		{
-			if (NodeFamily::cast(family))
-				b = family->allChildren().size() < 2;
-		
-			if (ConnectionFamily::cast(family)) //ad-hoc
-				b = family->parent() && family->parent()->name() == tr("Biochemical");
-	
-			if (b && !familiesInCatalog.contains(family->name()))
-				familiesInCatalog << family->name();
-		}
-		else 
-		{
-			b = familiesInCatalog.contains(family->name());
-		}
-
-		return b;
-	}
-	
 	void CatalogWidget::setUpTabView()
 	{
 		tabGroups.clear();
@@ -810,7 +785,16 @@ namespace Tinkercell
 		int currentIndex = settings.value(tr("currentIndex"),0).toInt();
 		settings.endGroup();
 		
-		isFirstTime = familiesInCatalog.size() < 10;
+		if (familiesInCatalog.size() < 10)
+		{
+			QString appDir = QCoreApplication::applicationDirPath();			
+			QFile defaultListFile(appDir + tr("/NodesTree/InitialCatalogList.txt"));
+			if (defaultListFile.open( QFile::ReadOnly | QFile::Text ))
+			{
+				QString readAll(defaultListFile.readAll());
+				familiesInCatalog = readAll.split("\n");
+			}
+		}
 
 		for (int i=0; i < tabGroups.size(); ++i)
 		{
@@ -840,7 +824,7 @@ namespace Tinkercell
 			for (int i=0; i < rootFamilies.size(); ++i)
 			{
 				QList<ItemFamily*> children = rootFamilies[i]->children();
-				if (includeFamilyInCatalog(rootFamilies[i]))
+				if (familiesInCatalog.contains(rootFamilies[i]->name()))
 					families << rootFamilies[i]->name();
 				rootFamilies << children;
 			}
@@ -859,7 +843,7 @@ namespace Tinkercell
 			for (int i=0; i < rootFamilies.size(); ++i)
 			{
 				QList<ItemFamily*> children = rootFamilies[i]->children();
-				if (includeFamilyInCatalog(rootFamilies[i]))
+				if (familiesInCatalog.contains(rootFamilies[i]->name()))
 					families << rootFamilies[i]->name();
 				rootFamilies << children;
 			}

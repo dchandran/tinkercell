@@ -159,9 +159,6 @@ namespace Tinkercell
 		
 		/*! \brief make the tab widget*/
 		void makeTabWidget();
-		
-		/*! \brief checks whether this family is too generic to include in the catalog*/
-		bool includeFamilyInCatalog(ItemFamily*);
 
 		/*! \brief checks whether this is the first time loading*/
 		bool isFirstTime;

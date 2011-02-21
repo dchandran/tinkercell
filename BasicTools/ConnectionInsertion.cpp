@@ -1001,12 +1001,12 @@ namespace Tinkercell
 						QStringList words = handle->name.split(tr(" "));
 						if (words.size() > 1)
 						{
-							handle->name = tr("");
-							for (int i=0; i < words.size(); ++i)
-								if (words[i][0].isLetter())
-									handle->name += words[i][0];
+							handle->name = words.first().left(1) + words.last().left(1);
 							handle->name += tr("1");
 						}
+						
+						if (!handle->name[0].isLetter())
+							handle->name = tr("J") + handle->name;
 
 						if (handle->name.length() > 3)
 							handle->name = handle->name.left( 3 ) + tr("1");

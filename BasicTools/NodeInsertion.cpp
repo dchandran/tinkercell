@@ -96,9 +96,7 @@ namespace Tinkercell
 				QStringList words = name.split(tr(" "));
 				if (words.size() > 1)
 				{
-					name = tr("");
-					for (int i=0; i < words.size(); ++i)
-						name += words[i].left(1);
+					name = words.first().left(1) + words.last().left(1);
 					name += tr("1");
 				}
 				

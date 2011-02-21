@@ -185,6 +185,8 @@ Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\Graphics\Bio1\Nodes\
 Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\Graphics\Bio1\Nodes\ActivatorBindingSite.xml; DestDir: {app}\Graphics\Bio1\Nodes
 Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\Graphics\Bio1\Nodes\RepressorBindingSite.PNG; DestDir: {app}\Graphics\Bio1\Nodes
 Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\Graphics\Bio1\Nodes\RepressorBindingSite.xml; DestDir: {app}\Graphics\Bio1\Nodes
+Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\Graphics\Bio1\Nodes\TranscriptionFactor.PNG; DestDir: {app}\Graphics\Bio1\Nodes
+Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\Graphics\Bio1\Nodes\TranscriptionFactor.xml; DestDir: {app}\Graphics\Bio1\Nodes
 Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\Graphics\Bio1\Nodes\Part.PNG; DestDir: {app}\Graphics\Bio1\Nodes
 Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\Graphics\Bio1\Nodes\Part.xml; DestDir: {app}\Graphics\Bio1\Nodes
 Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\Graphics\Bio1\Nodes\Promoter.PNG; DestDir: {app}\Graphics\Bio1\Nodes

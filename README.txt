@@ -54,6 +54,7 @@ BUILDING TINKERCELL
 	 If you want embedded Python and Octave, enable them under the EMBED group. 
 	 In the PYTHON group, check that the libraries and include directories are found. 
 	 If they are not found, you will have to set them. Do that same for the OCTAVE group.
+	 (see additional notes at the end)
 
 9. (optional) select one of the TinkerCell lite versions from the TINKERCELL group
 
@@ -119,4 +120,24 @@ Solution: Look for a field in the CMake GUI called QT_QMAKE_EXECUTABLE.
 Problem: Visual Studio is giving link errors
 Solution: I do not know how to fix this. Let me know if you find a solution!
 
+-----------------------------
+Enabling Python and Octave
+-----------------------------
+If you want to enable the embedded Python and Octave, 
+check the EMBED_PYTHON and EMBED_OCTAVE options in the CMake GUI window. 
+If you are lucky, CMake will automatically find the correct libraries and include folder for each. 
+On Linux, this is usually easy. On MS Windows, MinGW compilers would need to be pointed to 
+the .a files and Visual Studio compilers would need the .lib files. 
 
+Important note for Windows: the Octave include folder is NOT Octave/include; 
+it is Octave/include/octave-3.2.3 and similarly, the library files are 
+inside Octave/lib/octave-3.2.3
+
+For Octave in Mac and MS Windows, an additional step may be required: 
+open the config.h find in the Octave include folder and comment 
+the #define HAVE_HDF5 and HAVE_REGEX lines (unless you have these packages installed, 
+which is not included with MinGW). On a Mac, I don't think that embedded 
+Octave is possible (maybe). 
+
+The SimpleDesigner example program contains the code necessary for 
+embedding Octave (or Python) -- it is about 3 lines of code.

@@ -4,6 +4,7 @@ Name: {app}; Type: filesandordirs
 Filename: {app}\@TINKERCELL_EXE@.exe; WorkingDir: {app}; Flags: postinstall
 [Icons]
 Name: {group}\@TINKERCELL_EXE@; Filename: {app}\@TINKERCELL_EXE@.exe; WorkingDir: {app}; Comment: @TINKERCELL_EXE@; Flags: createonlyiffileexists
+Name: {userdesktop}\@TINKERCELL_EXE@; Filename: {app}\@TINKERCELL_EXE@.exe; WorkingDir: {app}; Comment: @TINKERCELL_EXE@; Flags: createonlyiffileexists; Tasks: desktopicon
 [UninstallDelete]
 Name: {app}; Type: filesandordirs
 [Setup]

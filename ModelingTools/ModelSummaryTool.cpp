@@ -115,7 +115,7 @@ namespace Tinkercell
 		if (!scene || !scene->useDefaultBehavior || !item || modifiers) return;
 
 		updateTables();
-		if (!tabWidget || tabWidget->count() < 1) return;
+		if (!tabWidget || itemHandles.isEmpty() || tabWidget->count() < 1) return;
 
 		openedByUser = true;
 		if (isVisible())
@@ -493,6 +493,7 @@ namespace Tinkercell
 							nDataTablesOld += &(itemHandles[i]->numericalDataTable(tr("Fixed")));
 							nDataTablesNew += nDataTable2;
 							handles += itemHandles[i];
+
 							
 							if (scene)
 							{

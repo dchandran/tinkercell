@@ -185,7 +185,7 @@ namespace Tinkercell
 			for (int i=0; i < scenes.size(); ++i)
 				if (scenes[i] && 
 					scenes[i]->localHandle() && 
-					editors[i]->localHandle() != parentHandle &&
+					scenes[i]->localHandle() != parentHandle &&
 					scenes[i]->networkWindow && 
 					scenes[i]->networkWindow->isVisible())
 					scenes[i]->networkWindow->close();

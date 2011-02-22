@@ -1015,16 +1015,24 @@ namespace Tinkercell
 		ConnectionGraphicsItem * connection = 0;
 		QList<QGraphicsItem*> items2 = items;
 		for (int i=0; i < items2.size(); ++i)
-			if ((connection = ConnectionGraphicsItem::cast(items2[i])) && !connection->centerRegionItem)
+			if (connection = ConnectionGraphicsItem::cast(items2[i]))
 			{
 				 if (modularConnections.contains(connection->handle()))
 				 {
 					QString filename = tr(":/images/expand.xml");
 					if (QFile::exists(filename))
 					{
-						ArrowHeadItem * decorator = new ArrowHeadItem(filename,connection);
-						connection->centerRegionItem = decorator;
-						items += decorator;
+						ArrowHeadItem * newDecorator = new ArrowHeadItem(filename,connection);
+						if (connection->centerRegionItem)
+						{
+							QList<ConnectionGraphicsItem*> connectionsOnDecorator = connection->centerRegionItem->connections();
+							for (int j=0; j < connectionsOnDecorator.size(); ++j)
+							{
+								connectionsOnDecorator[j]->replaceNode(connection->centerRegionItem, newDecorator);
+							}
+						}
+						connection->centerRegionItem = newDecorator;
+						items += newDecorator;
 					}
 				 }
 				 /*else

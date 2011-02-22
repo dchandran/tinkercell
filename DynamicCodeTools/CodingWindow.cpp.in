@@ -79,13 +79,16 @@ namespace Tinkercell
 			{
 				s = QObject::tr("svn co https://tinkercellextra.svn.sourceforge.net/svnroot/tinkercellextra ") + homeDir;
 				err = system(s.toAscii().data());
-				if (err != -1)
+				if (err == 0)
 					QMessageBox::information(Tinkercell::MainWindow::instance(), "Downloaded", QString("Plugins have been downloaded to ") + homeDir);
 			}
 
 			s = QObject::tr("cd ") + homeDir + QObject::tr("; svn update");
-			if (err < 0 || system(s.toAscii().data()) < 0)
-				QMessageBox::information(Tinkercell::MainWindow::instance(), "Error", "Unable to update plugins. Check that Subversion is installed and located in the system path.");
+			if (err != 0 || system(s.toAscii().data()) != 0)
+			{
+				QMessageBox::information(Tinkercell::MainWindow::instance(), "Error", "Unable to update plugins. Check that Subversion is installed and located in the system path. For now, the auto-update has been DISABLED");
+				DO_SVN_UPDATE = false;
+			}
 		}
 	}
 	
@@ -445,7 +448,8 @@ specific for:\n\"\"\"\n\n") + text;
 				QAction * svnupdate = mainWindow->settingsMenu->addAction(tr("SVN updates"));
 				svnupdate->setToolTip(tr("TinkerCell home folder will be updated with new models and plug-ins during startup"));					
 				svnupdate->setCheckable(true);
-				svnupdate->setChecked(true);
+				svnupdate->setChecked(DO_SVN_UPDATE);
+				toggleSVNupdate(DO_SVN_UPDATE);
 				connect(svnupdate,SIGNAL(toggled(bool)),this,SLOT(toggleSVNupdate(bool)));
 			}
 			

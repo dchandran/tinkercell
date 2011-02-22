@@ -1011,11 +1011,11 @@ namespace Tinkercell
 				}
 			}
 		
-		/*
+
 		ConnectionGraphicsItem * connection = 0;
 		QList<QGraphicsItem*> items2 = items;
 		for (int i=0; i < items2.size(); ++i)
-			if (connection = ConnectionGraphicsItem::cast(items2[i]))
+			if ((connection = ConnectionGraphicsItem::cast(items2[i])) && !connection->centerRegionItem)
 			{
 				 if (modularConnections.contains(connection->handle()))
 				 {
@@ -1027,7 +1027,7 @@ namespace Tinkercell
 						items += decorator;
 					}
 				 }
-				 else
+				 /*else
 				 {
 						if (connection->centerRegionItem && items.contains(connection->centerRegionItem))
 						{
@@ -1035,9 +1035,8 @@ namespace Tinkercell
 							items.removeAll(connection->centerRegionItem);							
 							delete connection->centerRegionItem;
 						}
-				 }
+				 }*/
 			}
-		*/
 	}
 
 	void ModuleTool::itemsAboutToBeRemoved(GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>& commands)

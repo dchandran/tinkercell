@@ -7,7 +7,6 @@ See COPYRIGHT.TXT
 This file defines an xml reader that reads a ConnectionGraphicsItem 
 
 ****************************************************************************/
-
 #include "ConnectionGraphicsReader.h"
 #include "ItemHandle.h"
 #include <QtDebug>
@@ -143,7 +142,9 @@ namespace Tinkercell
 										if (nodes.contains(s))
 											endNodeHandle = nodes[s];
 										if (connections.contains(s))
+										{
 											endConnectionHandle = connections[s];
+										}
 									}
 									else
 										if (attribs.at(i).name().toString() == "NodeAtEndX")
@@ -253,7 +254,7 @@ namespace Tinkercell
 								 (c->groupID == groupID))
 							{
 								NodeGraphicsItem * node = NodeGraphicsItem::cast(c->centerRegionItem);
-								if (node && (node->pos() == startPos))
+								if (node && (node->pos() == endPos))
 								{
 									pathVector[k]->setParentItem(node);
 									break;

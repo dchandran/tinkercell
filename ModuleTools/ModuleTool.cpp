@@ -1011,6 +1011,7 @@ namespace Tinkercell
 				}
 			}
 		
+		/*
 		ConnectionGraphicsItem * connection = 0;
 		QList<QGraphicsItem*> items2 = items;
 		for (int i=0; i < items2.size(); ++i)
@@ -1036,7 +1037,7 @@ namespace Tinkercell
 						}
 				 }
 			}
-				 
+		*/
 	}
 
 	void ModuleTool::itemsAboutToBeRemoved(GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>& commands)

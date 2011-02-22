@@ -13,7 +13,6 @@ This header file also contains the arrow head item class. The arrow head item in
 node graphics item and is used to draw the arrow heads at the end of the connection items.
 
 ****************************************************************************/
-
 #include <math.h>
 #include <QPainterPathStroker>
 #include "GraphicsScene.h"
@@ -931,9 +930,11 @@ namespace Tinkercell
 		qreal z = zValue();
 		
 		if (MainWindow::invalidPointers.contains(centerRegionItem))
+		{
 			centerRegionItem = 0;
+		}
 		
-		if (centerRegionItem && centerRegionItem->parentItem() == 0)
+		if (centerRegionItem)// && centerRegionItem->parentItem() == 0)
 		{
 			centerRegionItem->connectionItem = this;
 			if (centerRegionItem->scene() != this->scene() && this->scene())

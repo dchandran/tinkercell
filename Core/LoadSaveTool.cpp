@@ -407,7 +407,11 @@ namespace Tinkercell
 		    //scene->insert(tr("load"),items);
 		    QList<ItemHandle*> handles = getHandle(items);
 		    QList<QUndoCommand*> commands;
+		    
+		    ConnectionGraphicsItem * connection = 0;
+		    
 		    emit itemsAboutToBeInserted(scene, items , handles, commands );
+
 			commands << new InsertGraphicsCommand(tr("insert"),scene,items);
 			QUndoCommand * command = new CompositeCommand(tr("load"), commands);
 			command->redo();
@@ -416,8 +420,6 @@ namespace Tinkercell
 			emit itemsInserted(scene, items, handles);
 			loadCommands << command;
 			//
-
-			ConnectionGraphicsItem * connection = 0;
 
 			for (int i=0; i < items.size(); ++i)
 			{
@@ -694,7 +696,7 @@ namespace Tinkercell
 							<< connection->modifierArrowHeads();
 
 				if (connection->centerRegionItem)
-						arrowHeads << connection->centerRegionItem;
+					arrowHeads << connection->centerRegionItem;
 
 				for (int i=0; i < arrowHeads.size(); ++i)
 				{

@@ -166,35 +166,50 @@ namespace Tinkercell
 			if ((nodeHandle = getHandle(NodeGraphicsItem::topLevelNodeItem(pathVector[0]))))
 			{
 				writer->writeAttribute("NodeAtStart",nodeHandle->fullName());
-				writer->writeAttribute("NodeAtStartX",QString::number(NodeGraphicsItem::topLevelNodeItem(pathVector[0])->pos().x()));
-				writer->writeAttribute("NodeAtStartY",QString::number(NodeGraphicsItem::topLevelNodeItem(pathVector[0])->pos().y()));
+				writer->writeAttribute("NodeAtStartX",QString::number(NodeGraphicsItem::topLevelNodeItem(pathVector[0])->scenePos().x()));
+				writer->writeAttribute("NodeAtStartY",QString::number(NodeGraphicsItem::topLevelNodeItem(pathVector[0])->scenePos().y()));
 			}
 			else
 			{
-				writer->writeAttribute("NodeAtStart",QString());
-				writer->writeAttribute("NodeAtStartX",QString("0"));
-				writer->writeAttribute("NodeAtStartY",QString("0"));
+				NodeGraphicsItem * node = NodeGraphicsItem::topLevelNodeItem(pathVector[0]);
+				if (node && ArrowHeadItem::cast(node) && 
+					static_cast<ArrowHeadItem*>(node)->connectionItem && 
+					static_cast<ArrowHeadItem*>(node)->connectionItem->handle() && 
+					(node == (static_cast<ArrowHeadItem*>(node)->connectionItem->centerRegionItem)))
+				{
+					ConnectionGraphicsItem * arrowConnection = static_cast<ArrowHeadItem*>(node)->connectionItem;
+
+					writer->writeAttribute("NodeAtStart",arrowConnection->handle()->fullName());
+					writer->writeAttribute("NodeAtStartX",QString::number(node->scenePos().x()));
+					writer->writeAttribute("NodeAtStartY",QString::number(node->scenePos().y()));
+				}
+				else
+				{
+					writer->writeAttribute("NodeAtStart",QString());
+					writer->writeAttribute("NodeAtStartX",QString("0"));
+					writer->writeAttribute("NodeAtStartY",QString("0"));
+				}
 			}
 
 			if ((pathVector.size() > 1) && (nodeHandle = getHandle(NodeGraphicsItem::topLevelNodeItem(pathVector[pathVector.size()-1]))))
 			{
 				writer->writeAttribute("NodeAtEnd",nodeHandle->fullName());
-				writer->writeAttribute("NodeAtEndX",QString::number(NodeGraphicsItem::topLevelNodeItem(pathVector[pathVector.size()-1])->pos().x()));
-				writer->writeAttribute("NodeAtEndY",QString::number(NodeGraphicsItem::topLevelNodeItem(pathVector[pathVector.size()-1])->pos().y()));
+				writer->writeAttribute("NodeAtEndX",QString::number(NodeGraphicsItem::topLevelNodeItem(pathVector[pathVector.size()-1])->scenePos().x()));
+				writer->writeAttribute("NodeAtEndY",QString::number(NodeGraphicsItem::topLevelNodeItem(pathVector[pathVector.size()-1])->scenePos().y()));
 			}
 			else
 			{
 				NodeGraphicsItem * node = NodeGraphicsItem::topLevelNodeItem(pathVector[pathVector.size()-1]);
-				if (node && node->className == ArrowHeadItem::CLASSNAME && 
+				if (node && ArrowHeadItem::cast(node) && 
 					static_cast<ArrowHeadItem*>(node)->connectionItem && 
 					static_cast<ArrowHeadItem*>(node)->connectionItem->handle() && 
-					static_cast<ArrowHeadItem*>(node)->connectionItem->centerRegionItem)
+					(node == (static_cast<ArrowHeadItem*>(node)->connectionItem->centerRegionItem)))
 				{
 					ConnectionGraphicsItem * arrowConnection = static_cast<ArrowHeadItem*>(node)->connectionItem;
 
 					writer->writeAttribute("NodeAtEnd",arrowConnection->handle()->fullName());
-					writer->writeAttribute("NodeAtEndX",QString::number(arrowConnection->pos().x()));
-					writer->writeAttribute("NodeAtEndY",QString::number(arrowConnection->pos().y()));
+					writer->writeAttribute("NodeAtEndX",QString::number(node->scenePos().x()));
+					writer->writeAttribute("NodeAtEndY",QString::number(node->scenePos().y()));
 				}
 				else
 				{

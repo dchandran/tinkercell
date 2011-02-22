@@ -471,7 +471,7 @@ namespace Tinkercell
 		{
 			fileName =
 				QFileDialog::getSaveFileName(this, tr("Save Current Network"),
-				previousFileName + tr("/") + QDateTime::	currentDateTime().toString("d_M_yy_h_m.tic"),
+				previousFileName + tr("/model_") + QDateTime::	currentDateTime().toString("d-M-yy_h-m.tic"),
 				(PROJECTNAME + tr(" files (*.") + SAVE_FILE_EXTENSIONS.join(tr(" *.")) + tr(")")));
 			if (fileName.isNull() || fileName.isEmpty())
 				return;
@@ -506,14 +506,8 @@ namespace Tinkercell
 			return;
 		}
 
-		emit saveNetwork(fileName);
-		
-		QRegExp regex(tr("([^\\/]+$)"));
-		if (regex.indexIn(fileName))
-		{
-			//console()->message(fileName);
-			currentNetworkWindow->setFileName(fileName);
-		}
+		emit saveNetwork(fileName);		
+		currentNetworkWindow->setFileName(fileName);
 		
 		statusBar()->showMessage(tr("Saved ") + fileName);
 	}
@@ -575,7 +569,9 @@ namespace Tinkercell
 		emit loadNetwork(fileName);
 		
 		if (currentNetworkWindow)
+		{
 			currentNetworkWindow->setFileName(fileName);
+		}
 	}
 
 	void MainWindow::open()
@@ -1126,10 +1122,11 @@ namespace Tinkercell
 				}
 				else
 				{
-					previousFileName = QFileInfo(files[i].absoluteFilePath()).absolutePath();
-					emit loadNetwork(files[i].absoluteFilePath());
+					QString fileName = files[i].absoluteFilePath();
+					previousFileName = QFileInfo(fileName).absolutePath();
+					emit loadNetwork(fileName);
 					if (currentNetworkWindow)
-						currentNetworkWindow->setFileName(previousFileName);
+						currentNetworkWindow->setFileName(fileName);
 				}
 			}
 		}

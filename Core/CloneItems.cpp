@@ -145,7 +145,16 @@ namespace Tinkercell
 		        	connectedNodes = connection->nodes();
 		        	for (int j=0; j < connectedNodes.size(); ++j)
 		        		if (!items0.contains(connectedNodes[j]))
-		        			items0 += connectedNodes[j];
+		        		{
+		        			if (ArrowHeadItem::cast(connectedNodes[j]))
+		        			{
+		        				if (static_cast<ArrowHeadItem*>(connectedNodes[j])->connectionItem &&
+		        					!items0.contains(static_cast<ArrowHeadItem*>(connectedNodes[j])->connectionItem))
+		        					items0 += static_cast<ArrowHeadItem*>(connectedNodes[j])->connectionItem;
+							}
+							else
+			        			items0 += connectedNodes[j];
+		        		}
 		        }
 
                 if (handle = getHandle(items0[i]))

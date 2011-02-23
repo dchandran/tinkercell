@@ -423,101 +423,43 @@ Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\examples\lambda_term
 Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\examples\MapK.tic; DestDir: {app}\examples\
 Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\examples\p53_Synthetic.tic; DestDir: {app}\examples\
 Source: @TINKERCELL_BINARY_DIR@\@TINKERCELL_PACKAGE_FOLDER@\examples\toggle_switch.TIC; DestDir: {app}\examples\
-Source: @TINKERCELL_HOME_DIR@\Modules\.svn\text-base\modules.xml.svn-base; DestDir: {app}\Modules\.svn\text-base; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\.svn\all-wcprops; DestDir: {app}\Modules\.svn; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\.svn\entries; DestDir: {app}\Modules\.svn; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\Activation\.svn\text-base\SimpleMassAction.tic.svn-base; DestDir: {app}\Modules\Activation\.svn\text-base; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\Activation\.svn\all-wcprops; DestDir: {app}\Modules\Activation\.svn; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\Activation\.svn\entries; DestDir: {app}\Modules\Activation\.svn; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\Activation\SimpleMassAction.tic; DestDir: {app}\Modules\Activation
-Source: @TINKERCELL_HOME_DIR@\Modules\AllostericActivation\.svn\text-base\ReversibleBinding.tic.svn-base; DestDir: {app}\Modules\AllostericActivation\.svn\text-base; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\AllostericActivation\.svn\all-wcprops; DestDir: {app}\Modules\AllostericActivation\.svn; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\AllostericActivation\.svn\entries; DestDir: {app}\Modules\AllostericActivation\.svn; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\AllostericActivation\ReversibleBinding.tic; DestDir: {app}\Modules\AllostericActivation
-Source: @TINKERCELL_HOME_DIR@\Modules\AllostericInhibition\.svn\text-base\ReversibleBinding.tic.svn-base; DestDir: {app}\Modules\AllostericInhibition\.svn\text-base; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\AllostericInhibition\.svn\text-base\ReversibleBindingWithDegradation.tic.svn-base; DestDir: {app}\Modules\AllostericInhibition\.svn\text-base; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\AllostericInhibition\.svn\all-wcprops; DestDir: {app}\Modules\AllostericInhibition\.svn; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\AllostericInhibition\.svn\entries; DestDir: {app}\Modules\AllostericInhibition\.svn; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\AllostericInhibition\ReversibleBinding.tic; DestDir: {app}\Modules\AllostericInhibition
-Source: @TINKERCELL_HOME_DIR@\Modules\AllostericInhibition\ReversibleBindingWithDegradation.tic; DestDir: {app}\Modules\AllostericInhibition
-Source: @TINKERCELL_HOME_DIR@\Modules\DirectGeneActivation\.svn\text-base\EquilibriumModelWithDimer.tic.svn-base; DestDir: {app}\Modules\DirectGeneActivation\.svn\text-base; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\DirectGeneActivation\.svn\text-base\EquilibriumModelWithTetramer.tic.svn-base; DestDir: {app}\Modules\DirectGeneActivation\.svn\text-base; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\DirectGeneActivation\.svn\text-base\MassActionWithDimer.tic.svn-base; DestDir: {app}\Modules\DirectGeneActivation\.svn\text-base; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\DirectGeneActivation\.svn\text-base\MassActionWithTetramer.tic.svn-base; DestDir: {app}\Modules\DirectGeneActivation\.svn\text-base; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\DirectGeneActivation\.svn\text-base\SimpleMassAction.tic.svn-base; DestDir: {app}\Modules\DirectGeneActivation\.svn\text-base; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\DirectGeneActivation\.svn\all-wcprops; DestDir: {app}\Modules\DirectGeneActivation\.svn; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\DirectGeneActivation\.svn\entries; DestDir: {app}\Modules\DirectGeneActivation\.svn; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\DirectGeneActivation\EquilibriumModelWithDimer.tic; DestDir: {app}\Modules\DirectGeneActivation
-Source: @TINKERCELL_HOME_DIR@\Modules\DirectGeneActivation\EquilibriumModelWithTetramer.tic; DestDir: {app}\Modules\DirectGeneActivation
-Source: @TINKERCELL_HOME_DIR@\Modules\DirectGeneActivation\MassActionWithDimer.tic; DestDir: {app}\Modules\DirectGeneActivation
-Source: @TINKERCELL_HOME_DIR@\Modules\DirectGeneActivation\MassActionWithTetramer.tic; DestDir: {app}\Modules\DirectGeneActivation
-Source: @TINKERCELL_HOME_DIR@\Modules\DirectGeneActivation\SimpleMassAction.tic; DestDir: {app}\Modules\DirectGeneActivation
-Source: @TINKERCELL_HOME_DIR@\Modules\DirectGeneRepression\.svn\text-base\EquilibriumModelWithDimer.tic.svn-base; DestDir: {app}\Modules\DirectGeneRepression\.svn\text-base; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\DirectGeneRepression\.svn\text-base\EquilibriumModelWithTetramer.tic.svn-base; DestDir: {app}\Modules\DirectGeneRepression\.svn\text-base; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\DirectGeneRepression\.svn\text-base\MassActionWithDimer.tic.svn-base; DestDir: {app}\Modules\DirectGeneRepression\.svn\text-base; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\DirectGeneRepression\.svn\text-base\MassActionWithTetramer.tic.svn-base; DestDir: {app}\Modules\DirectGeneRepression\.svn\text-base; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\DirectGeneRepression\.svn\text-base\SimpleMassAction.tic.svn-base; DestDir: {app}\Modules\DirectGeneRepression\.svn\text-base; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\DirectGeneRepression\.svn\all-wcprops; DestDir: {app}\Modules\DirectGeneRepression\.svn; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\DirectGeneRepression\.svn\entries; DestDir: {app}\Modules\DirectGeneRepression\.svn; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\DirectGeneRepression\EquilibriumModelWithDimer.tic; DestDir: {app}\Modules\DirectGeneRepression
-Source: @TINKERCELL_HOME_DIR@\Modules\DirectGeneRepression\EquilibriumModelWithTetramer.tic; DestDir: {app}\Modules\DirectGeneRepression
-Source: @TINKERCELL_HOME_DIR@\Modules\DirectGeneRepression\MassActionWithDimer.tic; DestDir: {app}\Modules\DirectGeneRepression
-Source: @TINKERCELL_HOME_DIR@\Modules\DirectGeneRepression\MassActionWithTetramer.tic; DestDir: {app}\Modules\DirectGeneRepression
-Source: @TINKERCELL_HOME_DIR@\Modules\DirectGeneRepression\SimpleMassAction.tic; DestDir: {app}\Modules\DirectGeneRepression
-Source: @TINKERCELL_HOME_DIR@\Modules\EnzymeCatalysis\.svn\text-base\OneStateModel.tic.svn-base; DestDir: {app}\Modules\EnzymeCatalysis\.svn\text-base; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\EnzymeCatalysis\.svn\text-base\SteadyStateModel.tic.svn-base; DestDir: {app}\Modules\EnzymeCatalysis\.svn\text-base; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\EnzymeCatalysis\.svn\text-base\TwoStateModel.tic.svn-base; DestDir: {app}\Modules\EnzymeCatalysis\.svn\text-base; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\EnzymeCatalysis\.svn\all-wcprops; DestDir: {app}\Modules\EnzymeCatalysis\.svn; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\EnzymeCatalysis\.svn\entries; DestDir: {app}\Modules\EnzymeCatalysis\.svn; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\EnzymeCatalysis\OneStateModel.tic; DestDir: {app}\Modules\EnzymeCatalysis
-Source: @TINKERCELL_HOME_DIR@\Modules\EnzymeCatalysis\SteadyStateModel.tic; DestDir: {app}\Modules\EnzymeCatalysis
-Source: @TINKERCELL_HOME_DIR@\Modules\EnzymeCatalysis\TwoStateModel.tic; DestDir: {app}\Modules\EnzymeCatalysis
-Source: @TINKERCELL_HOME_DIR@\Modules\GeneticToggleSwitch\.svn\text-base\MassActionWithDimers.tic.svn-base; DestDir: {app}\Modules\GeneticToggleSwitch\.svn\text-base; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\GeneticToggleSwitch\.svn\all-wcprops; DestDir: {app}\Modules\GeneticToggleSwitch\.svn; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\GeneticToggleSwitch\.svn\entries; DestDir: {app}\Modules\GeneticToggleSwitch\.svn; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\GeneticToggleSwitch\MassActionWithDimers.tic; DestDir: {app}\Modules\GeneticToggleSwitch
-Source: @TINKERCELL_HOME_DIR@\Modules\IncoherentFeedforward\.svn\text-base\SimpleMassAction.tic.svn-base; DestDir: {app}\Modules\IncoherentFeedforward\.svn\text-base; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\IncoherentFeedforward\.svn\all-wcprops; DestDir: {app}\Modules\IncoherentFeedforward\.svn; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\IncoherentFeedforward\.svn\entries; DestDir: {app}\Modules\IncoherentFeedforward\.svn; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\IncoherentFeedforward\SimpleMassAction.tic; DestDir: {app}\Modules\IncoherentFeedforward
-Source: @TINKERCELL_HOME_DIR@\Modules\LinearChain\.svn\text-base\FiveSteps.tic.svn-base; DestDir: {app}\Modules\LinearChain\.svn\text-base; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\LinearChain\.svn\text-base\TenSteps.tic.svn-base; DestDir: {app}\Modules\LinearChain\.svn\text-base; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\LinearChain\.svn\all-wcprops; DestDir: {app}\Modules\LinearChain\.svn; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\LinearChain\.svn\entries; DestDir: {app}\Modules\LinearChain\.svn; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\LinearChain\FiveSteps.tic; DestDir: {app}\Modules\LinearChain
-Source: @TINKERCELL_HOME_DIR@\Modules\LinearChain\TenSteps.tic; DestDir: {app}\Modules\LinearChain
-Source: @TINKERCELL_HOME_DIR@\Modules\Phosphorylation\.svn\text-base\TwoEnzymeModel.tic.svn-base; DestDir: {app}\Modules\Phosphorylation\.svn\text-base; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\Phosphorylation\.svn\all-wcprops; DestDir: {app}\Modules\Phosphorylation\.svn; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\Phosphorylation\.svn\entries; DestDir: {app}\Modules\Phosphorylation\.svn; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\Phosphorylation\TwoEnzymeModel.tic; DestDir: {app}\Modules\Phosphorylation
-Source: @TINKERCELL_HOME_DIR@\Modules\PhosphorylationDephosphorylationCycle\.svn\text-base\TwoEnzymeModel.tic.svn-base; DestDir: {app}\Modules\PhosphorylationDephosphorylationCycle\.svn\text-base; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\PhosphorylationDephosphorylationCycle\.svn\all-wcprops; DestDir: {app}\Modules\PhosphorylationDephosphorylationCycle\.svn; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\PhosphorylationDephosphorylationCycle\.svn\entries; DestDir: {app}\Modules\PhosphorylationDephosphorylationCycle\.svn; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\PhosphorylationDephosphorylationCycle\TwoEnzymeModel.tic; DestDir: {app}\Modules\PhosphorylationDephosphorylationCycle
-Source: @TINKERCELL_HOME_DIR@\Modules\ProteinProduction\.svn\text-base\DelayedTranscription.tic.svn-base; DestDir: {app}\Modules\ProteinProduction\.svn\text-base; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\ProteinProduction\.svn\text-base\SingleStep.tic.svn-base; DestDir: {app}\Modules\ProteinProduction\.svn\text-base; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\ProteinProduction\.svn\text-base\TranscriptionAndTranslation.tic.svn-base; DestDir: {app}\Modules\ProteinProduction\.svn\text-base; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\ProteinProduction\.svn\all-wcprops; DestDir: {app}\Modules\ProteinProduction\.svn; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\ProteinProduction\.svn\entries; DestDir: {app}\Modules\ProteinProduction\.svn; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\ProteinProduction\DelayedTranscription.tic; DestDir: {app}\Modules\ProteinProduction
-Source: @TINKERCELL_HOME_DIR@\Modules\ProteinProduction\SingleStep.tic; DestDir: {app}\Modules\ProteinProduction
-Source: @TINKERCELL_HOME_DIR@\Modules\ProteinProduction\TranscriptionAndTranslation.tic; DestDir: {app}\Modules\ProteinProduction
-Source: @TINKERCELL_HOME_DIR@\Modules\Repression\.svn\text-base\SimpleMassAction.tic.svn-base; DestDir: {app}\Modules\Repression\.svn\text-base; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\Repression\.svn\text-base\WithDegradation.tic.svn-base; DestDir: {app}\Modules\Repression\.svn\text-base; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\Repression\.svn\all-wcprops; DestDir: {app}\Modules\Repression\.svn; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\Repression\.svn\entries; DestDir: {app}\Modules\Repression\.svn; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\Repression\SimpleMassAction.tic; DestDir: {app}\Modules\Repression
-Source: @TINKERCELL_HOME_DIR@\Modules\Repression\WithDegradation.tic; DestDir: {app}\Modules\Repression
-Source: @TINKERCELL_HOME_DIR@\Modules\TranscriptionActivation\.svn\text-base\EquilibriumModel.tic.svn-base; DestDir: {app}\Modules\TranscriptionActivation\.svn\text-base; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\TranscriptionActivation\.svn\text-base\ReversibleBinding.tic.svn-base; DestDir: {app}\Modules\TranscriptionActivation\.svn\text-base; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\TranscriptionActivation\.svn\all-wcprops; DestDir: {app}\Modules\TranscriptionActivation\.svn; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\TranscriptionActivation\.svn\entries; DestDir: {app}\Modules\TranscriptionActivation\.svn; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\TranscriptionActivation\EquilibriumModel.tic; DestDir: {app}\Modules\TranscriptionActivation
-Source: @TINKERCELL_HOME_DIR@\Modules\TranscriptionActivation\ReversibleBinding.tic; DestDir: {app}\Modules\TranscriptionActivation
-Source: @TINKERCELL_HOME_DIR@\Modules\TranscriptionRepression\.svn\text-base\EquilibriumModel.tic.svn-base; DestDir: {app}\Modules\TranscriptionRepression\.svn\text-base; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\TranscriptionRepression\.svn\text-base\ReversibleBinding.tic.svn-base; DestDir: {app}\Modules\TranscriptionRepression\.svn\text-base; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\TranscriptionRepression\.svn\all-wcprops; DestDir: {app}\Modules\TranscriptionRepression\.svn; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\TranscriptionRepression\.svn\entries; DestDir: {app}\Modules\TranscriptionRepression\.svn; Attribs: readonly
-Source: @TINKERCELL_HOME_DIR@\Modules\TranscriptionRepression\EquilibriumModel.tic; DestDir: {app}\Modules\TranscriptionRepression
-Source: @TINKERCELL_HOME_DIR@\Modules\TranscriptionRepression\ReversibleBinding.tic; DestDir: {app}\Modules\TranscriptionRepression
+Source: @TINKERCELL_HOME_DIR@\Modules\Activation\Simple_Mass_Action.tic; DestDir: {app}\Modules\Activation
+Source: @TINKERCELL_HOME_DIR@\Modules\Activation\Without_Consumption.tic; DestDir: {app}\Modules\Activation
+Source: @TINKERCELL_HOME_DIR@\Modules\AllostericActivation\Reversible_Binding.tic; DestDir: {app}\Modules\AllostericActivation
+Source: @TINKERCELL_HOME_DIR@\Modules\AllostericActivation\Without_Consumption.tic; DestDir: {app}\Modules\AllostericActivation
+Source: @TINKERCELL_HOME_DIR@\Modules\AllostericInhibition\Reversible_Binding.tic; DestDir: {app}\Modules\AllostericInhibition
+Source: @TINKERCELL_HOME_DIR@\Modules\AllostericInhibition\Reversible_Binding_Without_Consumption.tic; DestDir: {app}\Modules\AllostericInhibition
+Source: @TINKERCELL_HOME_DIR@\Modules\AllostericInhibition\Reversible_Binding_With_Degradation.tic; DestDir: {app}\Modules\AllostericInhibition
+Source: @TINKERCELL_HOME_DIR@\Modules\DirectGeneActivation\Equilibrium_Model_With_Dimer.tic; DestDir: {app}\Modules\DirectGeneActivation
+Source: @TINKERCELL_HOME_DIR@\Modules\DirectGeneActivation\Equilibrium_Model_With_Tetramer.tic; DestDir: {app}\Modules\DirectGeneActivation
+Source: @TINKERCELL_HOME_DIR@\Modules\DirectGeneActivation\Mass_Action_With_Dimer.tic; DestDir: {app}\Modules\DirectGeneActivation
+Source: @TINKERCELL_HOME_DIR@\Modules\DirectGeneActivation\Mass_Action_With_Tetramer.tic; DestDir: {app}\Modules\DirectGeneActivation
+Source: @TINKERCELL_HOME_DIR@\Modules\DirectGeneActivation\Simple_Mass_Action.tic; DestDir: {app}\Modules\DirectGeneActivation
+Source: @TINKERCELL_HOME_DIR@\Modules\DirectGeneRepression\Equilibrium_Model_With_Dimer.tic; DestDir: {app}\Modules\DirectGeneRepression
+Source: @TINKERCELL_HOME_DIR@\Modules\DirectGeneRepression\Equilibrium_Model_With_Tetramer.tic; DestDir: {app}\Modules\DirectGeneRepression
+Source: @TINKERCELL_HOME_DIR@\Modules\DirectGeneRepression\Mass_Action_With_Dimer.tic; DestDir: {app}\Modules\DirectGeneRepression
+Source: @TINKERCELL_HOME_DIR@\Modules\DirectGeneRepression\Mass_Action_With_Tetramer.tic; DestDir: {app}\Modules\DirectGeneRepression
+Source: @TINKERCELL_HOME_DIR@\Modules\DirectGeneRepression\Simple_Mass_Action.tic; DestDir: {app}\Modules\DirectGeneRepression
+Source: @TINKERCELL_HOME_DIR@\Modules\EnzymeCatalysis\One_State_Model.tic; DestDir: {app}\Modules\EnzymeCatalysis
+Source: @TINKERCELL_HOME_DIR@\Modules\EnzymeCatalysis\Steady_State_Model.tic; DestDir: {app}\Modules\EnzymeCatalysis
+Source: @TINKERCELL_HOME_DIR@\Modules\EnzymeCatalysis\Two_State_Model.tic; DestDir: {app}\Modules\EnzymeCatalysis
+Source: @TINKERCELL_HOME_DIR@\Modules\GeneticToggleSwitch\Two_Gene_Mutual_Repression.tic; DestDir: {app}\Modules\GeneticToggleSwitch
+Source: @TINKERCELL_HOME_DIR@\Modules\IncoherentFeedforward\Three_Gene_Model.tic; DestDir: {app}\Modules\IncoherentFeedforward
+Source: @TINKERCELL_HOME_DIR@\Modules\LinearChain\Five_Steps.tic; DestDir: {app}\Modules\LinearChain
+Source: @TINKERCELL_HOME_DIR@\Modules\LinearChain\Ten_Steps.tic; DestDir: {app}\Modules\LinearChain
+Source: @TINKERCELL_HOME_DIR@\Modules\Phosphorylation\Two_Enzyme_Cycle.tic; DestDir: {app}\Modules\Phosphorylation
+Source: @TINKERCELL_HOME_DIR@\Modules\PhosphorylationDephosphorylationCycle\Two_Enzyme_Cycle.tic; DestDir: {app}\Modules\PhosphorylationDephosphorylationCycle
+Source: @TINKERCELL_HOME_DIR@\Modules\ProteinProduction\Delayed_Transcription.tic; DestDir: {app}\Modules\ProteinProduction
+Source: @TINKERCELL_HOME_DIR@\Modules\ProteinProduction\Single_Step.tic; DestDir: {app}\Modules\ProteinProduction
+Source: @TINKERCELL_HOME_DIR@\Modules\ProteinProduction\Transcription_And_Translation.tic; DestDir: {app}\Modules\ProteinProduction
+Source: @TINKERCELL_HOME_DIR@\Modules\Repression\Causing_Degradation.tic; DestDir: {app}\Modules\Repression
+Source: @TINKERCELL_HOME_DIR@\Modules\Repression\Degradation_Without_Consumption.tic; DestDir: {app}\Modules\Repression
+Source: @TINKERCELL_HOME_DIR@\Modules\Repression\Dimer_Degradation.tic; DestDir: {app}\Modules\Repression
+Source: @TINKERCELL_HOME_DIR@\Modules\Repression\Only_Degradation.tic; DestDir: {app}\Modules\Repression
+Source: @TINKERCELL_HOME_DIR@\Modules\Repression\Simple_Binding.tic; DestDir: {app}\Modules\Repression
+Source: @TINKERCELL_HOME_DIR@\Modules\TranscriptionActivation\Equilibrium_Model.tic; DestDir: {app}\Modules\TranscriptionActivation
+Source: @TINKERCELL_HOME_DIR@\Modules\TranscriptionActivation\Reversible_Binding.tic; DestDir: {app}\Modules\TranscriptionActivation
+Source: @TINKERCELL_HOME_DIR@\Modules\TranscriptionRepression\Equilibrium_Model.tic; DestDir: {app}\Modules\TranscriptionRepression
+Source: @TINKERCELL_HOME_DIR@\Modules\TranscriptionRepression\Reversible_Binding.tic; DestDir: {app}\Modules\TranscriptionRepression
+Source: @TINKERCELL_HOME_DIR@\Modules\Empty_Model.tic; DestDir: {app}\Modules\
 Source: @TINKERCELL_HOME_DIR@\Modules\modules.xml; DestDir: {app}\Modules\

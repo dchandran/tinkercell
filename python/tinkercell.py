@@ -401,9 +401,9 @@ def tc_homeDir():
   return _tinkercell.tc_homeDir()
 tc_homeDir = _tinkercell.tc_homeDir
 
-def tc_createInputWindowFromFile(*args):
-  return _tinkercell.tc_createInputWindowFromFile(*args)
-tc_createInputWindowFromFile = _tinkercell.tc_createInputWindowFromFile
+def tc_createInputWindowForScript(*args):
+  return _tinkercell.tc_createInputWindowForScript(*args)
+tc_createInputWindowForScript = _tinkercell.tc_createInputWindowForScript
 
 def tc_createInputWindow(*args):
   return _tinkercell.tc_createInputWindow(*args)

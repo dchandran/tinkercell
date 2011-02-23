@@ -74,7 +74,7 @@ namespace Tinkercell
 		void printFile(QSemaphore*,const QString&);
 		void clearText(QSemaphore*);
 		void outputTable(QSemaphore*,const DataTable<qreal>&);
-		void createInputWindow(QSemaphore*,const DataTable<qreal>&, const QString&,const QString&,const QString&);
+		void createInputWindow(QSemaphore*,const DataTable<qreal>&, const QString&,const QString&);
 		void createInputWindow(QSemaphore*,long, const DataTable<qreal>&, const QString &, MatrixInputFunction);
 		void createSliders(QSemaphore*,CThread*, const DataTable<qreal>&, MatrixInputFunction);
 		void addInputWindowOptions(QSemaphore*, const QString&, int i, int j, const QStringList&);
@@ -157,7 +157,7 @@ namespace Tinkercell
 		void errorReport(const char*);
 		void clearText();
 		void printFile(const char*);
-		void createInputWindow(tc_matrix, const char*, const char*,const char*);
+		void createInputWindow(tc_matrix, const char*, const char*);
 		void createInputWindow(long, tc_matrix, const char*, MatrixInputFunction);
 		void createSliders(long, tc_matrix, MatrixInputFunction);
 		void addInputWindowOptions(const char*, int i, int j, tc_strings);
@@ -262,7 +262,7 @@ namespace Tinkercell
 		static void _clearText();
 		static void _printFile(const char*);
 
-		static void _createInputWindow1(tc_matrix, const char*, const char*,const char*);
+		static void _createInputWindow1(tc_matrix, const char*, const char*);
 		static void _createInputWindow2(long, tc_matrix, const char*, MatrixInputFunction);
 		static void _createSliders(long, tc_matrix, MatrixInputFunction);
 		static void _addInputWindowOptions(const char*, int i, int j, tc_strings);
@@ -561,7 +561,7 @@ namespace Tinkercell
 		* \param QSemaphore* semaphore
 		* \return void
 		*/
-		void createInputWindow(QSemaphore*,const DataTable<qreal>&,const QString&,const QString&,const QString&);
+		void createInputWindow(QSemaphore*,const DataTable<qreal>&,const QString&,const QString&);
 		/*!
 		* \brief make a new input window. This function is designed to be used with the C API framework
 		* \param QSemaphore* semaphore

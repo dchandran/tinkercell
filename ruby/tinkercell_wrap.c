@@ -1859,7 +1859,7 @@ int SWIG_Ruby_arity( VALUE proc, int minimal )
 #define SWIGTYPE_p_f_tc_items_tc_strings__void swig_types[70]
 #define SWIGTYPE_p_f_tc_matrix__void swig_types[71]
 #define SWIGTYPE_p_f_tc_matrix_p_q_const__char__void swig_types[72]
-#define SWIGTYPE_p_f_tc_matrix_p_q_const__char_p_q_const__char_p_q_const__char__void swig_types[73]
+#define SWIGTYPE_p_f_tc_matrix_p_q_const__char_p_q_const__char__void swig_types[73]
 #define SWIGTYPE_p_f_tc_strings__tc_items swig_types[74]
 #define SWIGTYPE_p_f_tc_strings_p_double__void swig_types[75]
 #define SWIGTYPE_p_f_void__void swig_types[76]
@@ -4764,11 +4764,10 @@ fail:
 
 
 SWIGINTERN VALUE
-_wrap_tc_createInputWindowFromFile(int argc, VALUE *argv, VALUE self) {
+_wrap_tc_createInputWindowForScript(int argc, VALUE *argv, VALUE self) {
   tc_matrix arg1 ;
   char *arg2 = (char *) 0 ;
   char *arg3 = (char *) 0 ;
-  char *arg4 = (char *) 0 ;
   void *argp1 ;
   int res1 = 0 ;
   int res2 ;
@@ -4777,48 +4776,38 @@ _wrap_tc_createInputWindowFromFile(int argc, VALUE *argv, VALUE self) {
   int res3 ;
   char *buf3 = 0 ;
   int alloc3 = 0 ;
-  int res4 ;
-  char *buf4 = 0 ;
-  int alloc4 = 0 ;
   
-  if ((argc < 4) || (argc > 4)) {
-    rb_raise(rb_eArgError, "wrong # of arguments(%d for 4)",argc); SWIG_fail;
+  if ((argc < 3) || (argc > 3)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 3)",argc); SWIG_fail;
   }
   {
     res1 = SWIG_ConvertPtr(argv[0], &argp1, SWIGTYPE_p_tc_matrix,  0 );
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "tc_matrix","tc_createInputWindowFromFile", 1, argv[0] )); 
+      SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "tc_matrix","tc_createInputWindowForScript", 1, argv[0] )); 
     }  
     if (!argp1) {
-      SWIG_exception_fail(SWIG_ValueError, Ruby_Format_TypeError("invalid null reference ", "tc_matrix","tc_createInputWindowFromFile", 1, argv[0]));
+      SWIG_exception_fail(SWIG_ValueError, Ruby_Format_TypeError("invalid null reference ", "tc_matrix","tc_createInputWindowForScript", 1, argv[0]));
     } else {
       arg1 = *((tc_matrix *)(argp1));
     }
   }
   res2 = SWIG_AsCharPtrAndSize(argv[1], &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), Ruby_Format_TypeError( "", "char const *","tc_createInputWindowFromFile", 2, argv[1] ));
+    SWIG_exception_fail(SWIG_ArgError(res2), Ruby_Format_TypeError( "", "char const *","tc_createInputWindowForScript", 2, argv[1] ));
   }
   arg2 = (char *)(buf2);
   res3 = SWIG_AsCharPtrAndSize(argv[2], &buf3, NULL, &alloc3);
   if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), Ruby_Format_TypeError( "", "char const *","tc_createInputWindowFromFile", 3, argv[2] ));
+    SWIG_exception_fail(SWIG_ArgError(res3), Ruby_Format_TypeError( "", "char const *","tc_createInputWindowForScript", 3, argv[2] ));
   }
   arg3 = (char *)(buf3);
-  res4 = SWIG_AsCharPtrAndSize(argv[3], &buf4, NULL, &alloc4);
-  if (!SWIG_IsOK(res4)) {
-    SWIG_exception_fail(SWIG_ArgError(res4), Ruby_Format_TypeError( "", "char const *","tc_createInputWindowFromFile", 4, argv[3] ));
-  }
-  arg4 = (char *)(buf4);
-  tc_createInputWindowFromFile(arg1,(char const *)arg2,(char const *)arg3,(char const *)arg4);
+  tc_createInputWindowForScript(arg1,(char const *)arg2,(char const *)arg3);
   if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
   if (alloc3 == SWIG_NEWOBJ) free((char*)buf3);
-  if (alloc4 == SWIG_NEWOBJ) free((char*)buf4);
   return Qnil;
 fail:
   if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
   if (alloc3 == SWIG_NEWOBJ) free((char*)buf3);
-  if (alloc4 == SWIG_NEWOBJ) free((char*)buf4);
   return Qnil;
 }
 
@@ -5991,7 +5980,7 @@ _wrap_tc_Main_api_initialize(int argc, VALUE *argv, VALUE self) {
   int (*arg30)() = (int (*)()) 0 ;
   char *(*arg31)() = (char *(*)()) 0 ;
   char *(*arg32)() = (char *(*)()) 0 ;
-  void (*arg33)(tc_matrix,char const *,char const *,char const *) = (void (*)(tc_matrix,char const *,char const *,char const *)) 0 ;
+  void (*arg33)(tc_matrix,char const *,char const *) = (void (*)(tc_matrix,char const *,char const *)) 0 ;
   void (*arg34)(long,tc_matrix,char const *,void (*)(tc_matrix)) = (void (*)(long,tc_matrix,char const *,void (*)(tc_matrix))) 0 ;
   void (*arg35)(long,tc_matrix,void (*)(tc_matrix)) = (void (*)(long,tc_matrix,void (*)(tc_matrix))) 0 ;
   void (*arg36)(char const *,int,int,tc_strings) = (void (*)(char const *,int,int,tc_strings)) 0 ;
@@ -6226,9 +6215,9 @@ _wrap_tc_Main_api_initialize(int argc, VALUE *argv, VALUE self) {
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[32], (void**)(&arg33), SWIGTYPE_p_f_tc_matrix_p_q_const__char_p_q_const__char_p_q_const__char__void);
+    int res = SWIG_ConvertFunctionPtr(argv[32], (void**)(&arg33), SWIGTYPE_p_f_tc_matrix_p_q_const__char_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(tc_matrix,char const *,char const *,char const *)","tc_Main_api_initialize", 33, argv[32] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(tc_matrix,char const *,char const *)","tc_Main_api_initialize", 33, argv[32] )); 
     }
   }
   {
@@ -10820,7 +10809,7 @@ static swig_type_info _swigt__p_f_tc_items_tc_strings__tc_strings = {"_p_f_tc_it
 static swig_type_info _swigt__p_f_tc_items_tc_strings__void = {"_p_f_tc_items_tc_strings__void", "void (*)(tc_items,tc_strings)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_tc_matrix__void = {"_p_f_tc_matrix__void", "void (*)(tc_matrix)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_tc_matrix_p_q_const__char__void = {"_p_f_tc_matrix_p_q_const__char__void", "void (*)(tc_matrix,char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_tc_matrix_p_q_const__char_p_q_const__char_p_q_const__char__void = {"_p_f_tc_matrix_p_q_const__char_p_q_const__char_p_q_const__char__void", "void (*)(tc_matrix,char const *,char const *,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_tc_matrix_p_q_const__char_p_q_const__char__void = {"_p_f_tc_matrix_p_q_const__char_p_q_const__char__void", "void (*)(tc_matrix,char const *,char const *)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_tc_strings__tc_items = {"_p_f_tc_strings__tc_items", "tc_items (*)(tc_strings)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_tc_strings_p_double__void = {"_p_f_tc_strings_p_double__void", "void (*)(tc_strings,double *)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_void__void = {"_p_f_void__void", "void (*)(void)", 0, 0, (void*)0, 0};
@@ -10905,7 +10894,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_f_tc_items_tc_strings__void,
   &_swigt__p_f_tc_matrix__void,
   &_swigt__p_f_tc_matrix_p_q_const__char__void,
-  &_swigt__p_f_tc_matrix_p_q_const__char_p_q_const__char_p_q_const__char__void,
+  &_swigt__p_f_tc_matrix_p_q_const__char_p_q_const__char__void,
   &_swigt__p_f_tc_strings__tc_items,
   &_swigt__p_f_tc_strings_p_double__void,
   &_swigt__p_f_void__void,
@@ -10990,7 +10979,7 @@ static swig_cast_info _swigc__p_f_tc_items_tc_strings__tc_strings[] = {  {&_swig
 static swig_cast_info _swigc__p_f_tc_items_tc_strings__void[] = {  {&_swigt__p_f_tc_items_tc_strings__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_tc_matrix__void[] = {  {&_swigt__p_f_tc_matrix__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_tc_matrix_p_q_const__char__void[] = {  {&_swigt__p_f_tc_matrix_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_tc_matrix_p_q_const__char_p_q_const__char_p_q_const__char__void[] = {  {&_swigt__p_f_tc_matrix_p_q_const__char_p_q_const__char_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_tc_matrix_p_q_const__char_p_q_const__char__void[] = {  {&_swigt__p_f_tc_matrix_p_q_const__char_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_tc_strings__tc_items[] = {  {&_swigt__p_f_tc_strings__tc_items, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_tc_strings_p_double__void[] = {  {&_swigt__p_f_tc_strings_p_double__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_void__void[] = {  {&_swigt__p_f_void__void, 0, 0, 0},{0, 0, 0, 0}};
@@ -11075,7 +11064,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_f_tc_items_tc_strings__void,
   _swigc__p_f_tc_matrix__void,
   _swigc__p_f_tc_matrix_p_q_const__char__void,
-  _swigc__p_f_tc_matrix_p_q_const__char_p_q_const__char_p_q_const__char__void,
+  _swigc__p_f_tc_matrix_p_q_const__char_p_q_const__char__void,
   _swigc__p_f_tc_strings__tc_items,
   _swigc__p_f_tc_strings_p_double__void,
   _swigc__p_f_void__void,
@@ -11463,7 +11452,7 @@ SWIGEXPORT void Init_tinkercell(void) {
   rb_define_module_function(mTinkercell, "tc_isLinux", _wrap_tc_isLinux, -1);
   rb_define_module_function(mTinkercell, "tc_appDir", _wrap_tc_appDir, -1);
   rb_define_module_function(mTinkercell, "tc_homeDir", _wrap_tc_homeDir, -1);
-  rb_define_module_function(mTinkercell, "tc_createInputWindowFromFile", _wrap_tc_createInputWindowFromFile, -1);
+  rb_define_module_function(mTinkercell, "tc_createInputWindowForScript", _wrap_tc_createInputWindowForScript, -1);
   rb_define_module_function(mTinkercell, "tc_createInputWindow", _wrap_tc_createInputWindow, -1);
   rb_define_module_function(mTinkercell, "tc_addInputWindowOptions", _wrap_tc_addInputWindowOptions, -1);
   rb_define_module_function(mTinkercell, "tc_addInputWindowCheckbox", _wrap_tc_addInputWindowCheckbox, -1);

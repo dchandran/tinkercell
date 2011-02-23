@@ -65,11 +65,18 @@ namespace Tinkercell
 		PopupListWidgetDelegate(QObject *parent = 0);
 		/*! \brief options for the combo boxes. Uses line edits if empty. Uses check boxes if just one item*/
 		DataTable<QStringList> options;
+		/*! \brief create the editor for the table widget delegate*/
 		QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+		/*! \brief set the data the editor for the table widget delegate*/
 		void setEditorData(QWidget *editor, const QModelIndex &index) const;
+		/*! \brief set the data the editor for the table widget delegate*/
 		void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const;
+		/*! \brief set geometry*/
 		void updateEditorGeometry(QWidget *editor,const QStyleOptionViewItem &option, const QModelIndex &index) const;
+		/*! \brief ask user to get a string from list of strings*/
 		static QString displayListWidget(const QStringList& list, const QString& current=QString());
+		/*! \brief editor event*/
+		bool editorEvent ( QEvent * event, QAbstractItemModel * model, const QStyleOptionViewItem & option, const QModelIndex & index );
 	};
 	/*!
 	\brief Classes that inherit from this class can be used as GUI windows that provide interface to C programs (library files).
@@ -106,6 +113,8 @@ namespace Tinkercell
 		
 		/*! \brief update the thread*/
 		void updateThread();
+		/*! \brief evaluate a command using command window's eval*/
+		void evalScript(const QString&);
 
 	public slots:
 
@@ -150,7 +159,6 @@ namespace Tinkercell
 		* \param QString dynamic library file (will first search if already loaded in MainWindow)
 		* \param QString function to run inside library
 		* \param DataTable<double> inputs
-		* \param QList<QStringList> options for the inputs (optional)
 		* \return SimpleInputWindow* pointer to the new or existing window
 		*/
 		static SimpleInputWindow * CreateWindow(MainWindow * main, const QString& title, const QString& libraryFile, const QString& funcName, const DataTable<qreal>&);
@@ -158,11 +166,21 @@ namespace Tinkercell
 		run a function in a separate thread
 		* \param CThread * existing thread with the library containing the function
 		* \param QString title
-		* \param inputtc_matrixFunction* function that is triggered by the run button in the input window
+		* \param itc_matrixFunction* function that is triggered by the run button in the input window
 		* \param QDataTable<qreal> input table and its default values
 		* \return SimpleInputWindow* pointer to the new or existing window
 		*/
 		static SimpleInputWindow * CreateWindow(CThread * cthread, const QString& title, void (*f)(tc_matrix), const DataTable<qreal>&);
+		/*! \brief Create a simple input window to run a script function. When the play button is pressed, this window will execute a command
+		in the command window. The command will be f(arg1,arg2...), where f is the function name and arg1,arg2... are the user provided arguments
+		in the input window
+		* \param MainWindow
+		* \param QString title
+		* \param QString function name
+		* \param DataTable<double> inputs
+		* \return SimpleInputWindow* pointer to the new or existing window
+		*/
+		static SimpleInputWindow * CreateWindow(MainWindow * main, const QString& title, const QString& funcName, const DataTable<qreal>&);
 		/*! \brief add a list of options (combo box) to an existing input window
 		* \param QString title
 		* \param int row
@@ -201,6 +219,12 @@ namespace Tinkercell
 		* \param QDataTable<qreal> input table and its default values
 		*/
 		SimpleInputWindow(CThread * thread, const QString& title, void (*f)(tc_matrix), const DataTable<qreal>&);
+		/*! \brief constructor that creates a docking window in Tinkercell's mainwindow that can receive inputs from user and
+		run a function in a separate thread
+		* \param QString title
+		* \param QDataTable<qreal> input table and its default values
+		*/
+		SimpleInputWindow(MainWindow * main, const QString& title, const DataTable<qreal>&);
 		/*! \brief constructor -- does nothing*/
 		SimpleInputWindow();
 		/*! \brief copy constructor*/
@@ -225,6 +249,8 @@ namespace Tinkercell
 	protected:
 		/*! \brief the item delegate that is used to change values in the input window*/
 		PopupListWidgetDelegate delegate;
+		/*! \brief command that will be run when the play button is pressed (might be empty if a C or C++ function is the target function)*/
+		QString scriptCommand;
 		/*! \brief make the window transparent when mouse exits the window*/
 		void leaveEvent ( QEvent * event );
 		/*! \brief make the window transparent when mouse exits the window*/

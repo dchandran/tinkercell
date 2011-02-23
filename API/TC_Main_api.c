@@ -376,15 +376,15 @@ const char* tc_homeDir()
 	return 0;
 }
 
-void (*_tc_createInputWindowFromFile)(tc_matrix input, const char* filename,const char* functionname, const char* title) = 0;
+void (*_tc_createInputWindowForScript)(tc_matrix input, const char* title,const char* functionname) = 0;
 /*! 
  \brief create an input window that can call a dynamic library
  \ingroup Input and Output
 */ TCAPIEXPORT 
-void tc_createInputWindowFromFile(tc_matrix input, const char* filename,const char* functionname, const char* title)
+void tc_createInputWindowForScript(tc_matrix input, const char* filename,const char* functionname)
 {
-	if (_tc_createInputWindowFromFile)
-		_tc_createInputWindowFromFile(input,filename,functionname,title);
+	if (_tc_createInputWindowForScript)
+		_tc_createInputWindowForScript(input,filename,functionname);
 }
 
 void (*_tc_createInputWindow)(long ptr, tc_matrix, const char* title, void (*f)(tc_matrix)) = 0;
@@ -867,7 +867,7 @@ void tc_Main_api_initialize(
 		const char* (*tc_appDir0)(),
 		const char* (*tc_homeDir0)(),
 
-		void (*tc_createInputWindow0)(tc_matrix,const char*,const char*, const char*),
+		void (*tc_createInputWindow0)(tc_matrix,const char*,const char*),
         void (*tc_createInputWindow1)(long ptr, tc_matrix, const char*, void (*f)(tc_matrix)),
 		void (*createSliders0)(long, tc_matrix, void (*f)(tc_matrix)),
 		
@@ -957,7 +957,7 @@ void tc_Main_api_initialize(
 	_tc_homeDir = tc_homeDir0;
 	
     _tc_createInputWindow = tc_createInputWindow1;
-    _tc_createInputWindowFromFile = tc_createInputWindow0;
+    _tc_createInputWindowForScript = tc_createInputWindow0;
 	_tc_addInputWindowOptions = tc_addInputWindowOptions0;
 	_tc_addInputWindowCheckbox = tc_addInputWindowCheckbox0;
 	

@@ -1357,6 +1357,23 @@ namespace Tinkercell
 		QScrollArea * scrollArea = 0;
 		QButtonGroup * group = 0;
 		
+		/* empty model*/
+		QString emptyModelFile = homeDir() + tr("/Modules/Empty_Model.tic");
+		
+		if (!QFile(emptyModelFile).exists())
+			emptyModelFile = homeDir() + tr("/Modules/Empty_Model.TIC");
+		
+		if (!QFile(emptyModelFile).exists())
+			emptyModelFile = QCoreApplication::applicationDirPath() + tr("/Modules/Empty_Model.tic");
+		
+		if (!QFile(emptyModelFile).exists())
+			emptyModelFile = QCoreApplication::applicationDirPath() + tr("/Modules/Empty_Model.TIC");
+		
+		if (!QFile(emptyModelFile).exists())
+			emptyModelFile = tr("");
+		
+		/* */
+		
 		for (int i=0; i < families.size(); ++i)
 		{
 			QString s = families[i];
@@ -1392,6 +1409,9 @@ namespace Tinkercell
 			dir.setFilter(QDir::Files);
 			dir.setSorting(QDir::Size);
 			QFileInfoList list = dir.entryInfoList();
+			
+			if (!emptyModelFile.isEmpty())
+				list += QFileInfo(emptyModelFile);
 
 			for (int i = 0; i < list.size(); ++i)
 			{
@@ -1400,7 +1420,9 @@ namespace Tinkercell
 				QToolButton * button = new QToolButton;
 				button->setToolButtonStyle ( Qt::ToolButtonTextUnderIcon );
 				QString base = fileInfo.baseName();
-				button->setText(base);
+				QString base2 = base;
+				base2.replace(tr("_"),tr(" "));
+				button->setText(base2);
 				button->setToolTip(fileInfo.absoluteFilePath());
 
 				if (QFile::exists(dirname + base + tr(".png")))

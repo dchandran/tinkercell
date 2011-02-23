@@ -186,13 +186,13 @@ namespace Tinkercell
 
 #ifdef Q_WS_WIN
 		appDir.replace(tr("/"),tr("\\"));
-		proc.start(tr("\"") + appDir + tr("\"\\win32\\gcc -I\"") + appDir + ("\"\\win32\\include -I\"") + appDir + ("\"\\win32\\include\\sys -I\"") + appDir + ("\"/c -L\"") + appDir + ("\"/c -L\"") + appDir + ("\"/lib -L\"") + appDir + ("\"\\win32\\lib -r -w ") + filename  + libs);
+		proc.start(tr("\"") + appDir + tr("\"\\win32\\gcc -I\"") + appDir + ("\"\\win32\\include -I\"") + appDir + ("\"\\win32\\include\\sys -I\"") + appDir + ("\"/c -L\"") + appDir + ("\" -L\"") + appDir + ("\"/c -L\"") + appDir + ("\"/lib -L\"") + appDir + ("\"\\win32\\lib -r -w ") + filename  + libs);
         proc.waitForFinished();
         QString exeName = tr("a.exe");
         QString errors(proc.readAllStandardError());
         QString output(proc.readAllStandardOutput());
 #else
-        proc.start(tr("gcc -o a.out -I") + appDir + tr("/c -L") + appDir + tr("/c -L") + appDir + tr("/lib ") + filename + libs);
+        proc.start(tr("gcc -o a.out -I") + appDir + tr("/c -L") + appDir + tr(" -L") + appDir + tr("/c -L") + appDir + tr("/lib ") + filename + libs);
         proc.waitForFinished();
         QString exeName = tr("a.out");
         QString errors(proc.readAllStandardError());
@@ -261,21 +261,21 @@ namespace Tinkercell
 		appDir.replace(tr("/"),tr("\\"));
 		homeDir.replace(tr("/"),tr("\\"));
 
-        proc.start(tr("\"") + appDir + tr("\"\\win32\\gcc -I\"") + appDir + ("\"\\win32\\include -I\"") + appDir + ("\"\\win32\\include\\sys -I\"") + appDir + ("\"/c -L\"") + appDir + ("\"/c -L\"") + appDir + ("\"\\win32\\lib -w --shared ") + filename + tr(" -o ") + dllName + tr(".dll") + libs);
+        proc.start(tr("\"") + appDir + tr("\"\\win32\\gcc -I\"") + appDir + ("\"\\win32\\include -I\"") + appDir + ("\"\\win32\\include\\sys -I\"") + appDir + ("\"/c -L\"") + appDir + ("\" -L\"") + appDir + ("\"/c -L\"") + appDir + ("\"\\win32\\lib -w --shared ") + filename + tr(" -o ") + dllName + tr(".dll") + libs);
         proc.waitForFinished();
         errors += (proc.readAllStandardError());
         output += tr("\n\n") + (proc.readAllStandardOutput());
 #else
 #ifdef Q_WS_MAC
 
-        proc.start(tr("gcc -bundle --shared -fPIC -I") + appDir + tr("/c -L") + appDir + tr("/c -L") + appDir + tr("/lib -o ") + dllName + tr(".dylib ") + filename + libs);
+        proc.start(tr("gcc -bundle --shared -fPIC -I") + appDir + tr("/c -L") + appDir + tr(" -L") + appDir + tr("/c -L") + appDir + tr("/lib -o ") + dllName + tr(".dylib ") + filename + libs);
         proc.waitForFinished();
         if (!errors.isEmpty())	errors += tr("\n\n");
         errors += (proc.readAllStandardError());
         if (!output.isEmpty())	output += tr("\n\n");
         output += tr("\n\n") + (proc.readAllStandardOutput());
 #else
-        proc.start(tr("gcc --shared -fPIC -I") + appDir + tr("/c -L") + appDir + tr("/c -L") + appDir + tr("/lib -o ") + dllName + tr(".so ") + filename + libs);
+        proc.start(tr("gcc --shared -fPIC -I") + appDir + tr("/c -L") + appDir + tr(" -L") + appDir + tr("/c -L") + appDir + tr("/lib -o ") + dllName + tr(".so ") + filename + libs);
         proc.waitForFinished();
         if (!errors.isEmpty())	errors += tr("\n\n");
         errors += (proc.readAllStandardError());

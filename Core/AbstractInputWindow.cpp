@@ -8,6 +8,7 @@ This file defines an abstract class that is used to create interfaces for C func
 LPSolveInputWindow is a good example.
 
 ****************************************************************************/
+#include "ConsoleWindow.h"
 #include "AbstractInputWindow.h"
 #include "CThread.h"
 
@@ -70,6 +71,9 @@ namespace Tinkercell
 			if (cthread)
 				disconnect(mainWindow,SIGNAL(historyChanged()),cthread,SLOT(update()));
 			
+			if (mainWindow->console())
+				connect(this,SIGNAL(evalScript(const QString&)), mainWindow->console(), SLOT(eval(const QString&)));
+			
 			connect(mainWindow,SIGNAL(escapeSignal(const QWidget*)),this,SLOT(escapeSignal(const QWidget*)));
 			
 			setWindowTitle(name);
@@ -128,13 +132,13 @@ namespace Tinkercell
 		runButton->setIcon(QIcon(":/images/play.png"));
 		connect(runButton,SIGNAL(released()),this,SLOT(exec()));
 
-		QToolButton * addButton = new QToolButton(this);
+		/*QToolButton * addButton = new QToolButton(this);
 		addButton->setIcon(QIcon(":/images/plus.png"));
 		connect(addButton,SIGNAL(released()),this,SLOT(addRow()));
 
 		QToolButton * removeButton = new QToolButton(this);
 		removeButton->setIcon(QIcon(":/images/minus.png"));
-		connect(removeButton,SIGNAL(released()),this,SLOT(removeRow()));
+		connect(removeButton,SIGNAL(released()),this,SLOT(removeRow()));*/
 
 		QVBoxLayout * layout = new QVBoxLayout;
 		layout->addWidget(&tableWidget,1);
@@ -142,8 +146,8 @@ namespace Tinkercell
 		QHBoxLayout * hlayout = new QHBoxLayout;
 		hlayout->addWidget(runButton,3);
 		hlayout->addStretch(6);
-		hlayout->addWidget(addButton,0);
-		hlayout->addWidget(removeButton,0);
+		//hlayout->addWidget(addButton,0);
+		//hlayout->addWidget(removeButton,0);
 		layout->addLayout(hlayout,0);
 
 		setLayout(layout);
@@ -172,7 +176,47 @@ namespace Tinkercell
 			cthread->setArg(dataTable);
 			cthread->start();
 		}
+		
+		if (console() && !scriptCommand.isNull() && !scriptCommand.isEmpty())
+		{
+			QStringList args;
+			for (int i=0; i < tableWidget.rowCount(); ++i)
+				for (int j=0; j < tableWidget.columnCount(); ++j)
+					if (delegate.options(i,j).size() > 0)
+						args << (tr("\"") + tableWidget.item(i,j)->text() + tr("\""));
+					else
+						args << tableWidget.item(i,j)->text();
+			emit evalScript(scriptCommand + tr("(") + args.join(tr(",")) + tr(")"));
+		}
+	}
 
+	SimpleInputWindow::SimpleInputWindow(MainWindow * main, const QString& title, const DataTable<qreal>& data)
+		: AbstractInputWindow(title)
+	{
+		this->dataTable = data;
+
+		QPushButton * runButton = new QPushButton(this);
+		runButton->setIcon(QIcon(":/images/play.png"));
+		connect(runButton,SIGNAL(released()),this,SLOT(exec()));
+
+		QVBoxLayout * layout = new QVBoxLayout;
+		layout->addWidget(&tableWidget,1);
+
+		QHBoxLayout * hlayout = new QHBoxLayout;
+		hlayout->addWidget(runButton,3);
+		hlayout->addStretch(6);
+		layout->addLayout(hlayout,0);
+
+		setLayout(layout);
+
+		tableWidget.setAlternatingRowColors(true);
+		tableWidget.setItemDelegate(&delegate);
+		tableWidget.setEditTriggers ( QAbstractItemView::CurrentChanged | QAbstractItemView::DoubleClicked | QAbstractItemView::SelectedClicked | QAbstractItemView::EditKeyPressed );
+
+		setupDisplay(data);
+
+		inputWindows[title.toLower()] = this;
+		setMainWindow(main);
 	}
 
 	SimpleInputWindow::SimpleInputWindow(CThread * thread, const QString& title, void (*f)(tc_matrix), const DataTable<qreal>& data)
@@ -284,6 +328,30 @@ namespace Tinkercell
 		else
 		{
 			inputWindow = new SimpleInputWindow(thread,title,f,data);
+		}
+		if (inputWindow)
+		{
+			if (inputWindow->dockWidget)
+				inputWindow->dockWidget->show();
+			else
+				inputWindow->show();
+		}
+		return inputWindow;
+	}
+	
+	SimpleInputWindow * SimpleInputWindow::CreateWindow(MainWindow * main, const QString& title, const QString& script, const DataTable<qreal>& data)
+	{
+		if (script.isNull() || script.isEmpty() || title.isEmpty()) return 0;
+
+		SimpleInputWindow * inputWindow = 0;
+		if (SimpleInputWindow::inputWindows.contains(title.toLower()))
+		{
+			inputWindow = SimpleInputWindow::inputWindows.value(title.toLower());
+		}
+		else
+		{
+			inputWindow = new SimpleInputWindow(main,title,data);
+			inputWindow->scriptCommand = script;
 		}
 		if (inputWindow)
 		{
@@ -470,23 +538,11 @@ namespace Tinkercell
 		QStringList strings = options.at(index.row(),index.column());
 		if (strings.size() > 0)
 		{
-			/*QComboBox *editor = new QComboBox(parent);
-			editor->addItems(strings);*/
-			QLineEdit * label = new QLineEdit(parent);
+			QLabel * label = new QLabel(parent);
 			return label;
 		}
-		/*else
-		if (strings.size() == 1)
-		{
-			QCheckBox * editor = new QCheckBox(tr(""),parent);
-			return editor;
-		}*/
 		else
 		{
-			/*QDoubleSpinBox *editor = new QDoubleSpinBox(parent);
-			editor->setMinimum(-1e300);
-			editor->setMaximum(1E300);
-			editor->setDecimals(10);*/
 			QLineEdit *editor = new QLineEdit(parent);
 			return editor;
 		}
@@ -497,21 +553,12 @@ namespace Tinkercell
 		QStringList strings = options.at(index.row(),index.column());
 		if (strings.size() > 0)
 		{
-			QLineEdit * label = static_cast<QLineEdit*>(editor);
+			QLabel * label = static_cast<QLabel*>(editor);
 			label->setText(index.model()->data(index, Qt::EditRole).toString());
 		}
-		/*else
-		if (strings.size() == 1) //checkbox
-		{
-			QString value = index.model()->data(index, Qt::EditRole).toString();
-			QCheckBox * check = static_cast<QCheckBox*>(editor);
-			check->setChecked(value.toLower().contains(tr("yes")));
-		}*/
 		else
 		{
 			double value = index.model()->data(index, Qt::EditRole).toDouble();
-			/*QDoubleSpinBox *spinBox = static_cast<QDoubleSpinBox*>(editor);
-			spinBox->setValue(value);*/
 			QLineEdit * lineEdit = static_cast<QLineEdit*>(editor);
 			lineEdit->setText(QString::number(value));
 		}
@@ -522,26 +569,11 @@ namespace Tinkercell
 		QStringList strings = options.at(index.row(),index.column());
 		if (strings.size() > 0)
 		{
-			QLineEdit * label = static_cast<QLineEdit*>(editor);
-			QString value = label->text();
-			if (!strings.contains(value))
-				value = displayListWidget(strings);
-			model->setData(index, value, Qt::EditRole);
+			QLabel * label = static_cast<QLabel*>(editor);
+			label->setText(model->data(index).toString());
 		}
-		/*else
-		if (strings.size() == 1)
-		{
-			QCheckBox * check = static_cast<QCheckBox*>(editor);
-			if (check->isChecked())
-				model->setData(index, tr("True"), Qt::EditRole);
-			else
-				model->setData(index, tr("False"), Qt::EditRole);
-		}*/
 		else
 		{
-			/*QDoubleSpinBox *spinBox = static_cast<QDoubleSpinBox*>(editor);
-			spinBox->interpretText();
-			double value = spinBox->value();*/
 			QLineEdit * lineEdit = static_cast<QLineEdit*>(editor);
 
 			bool ok;
@@ -551,6 +583,18 @@ namespace Tinkercell
 				model->setData(index, value, Qt::EditRole);
 			}
 		}
+	}
+	
+	bool PopupListWidgetDelegate::editorEvent ( QEvent * event, QAbstractItemModel * model, const QStyleOptionViewItem & option, const QModelIndex & index )
+	{
+		QStringList strings = options.at(index.row(),index.column());
+		if (strings.size() > 0)
+		{
+			QString value = displayListWidget(strings);
+			model->setData(index, value, Qt::EditRole);
+			return true;
+		}
+		QItemDelegate::editorEvent(event, model, option, index );
 	}
 
 	void PopupListWidgetDelegate::updateEditorGeometry(QWidget *editor,const QStyleOptionViewItem &option, const QModelIndex &/* index */) const

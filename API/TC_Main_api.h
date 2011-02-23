@@ -247,14 +247,13 @@ TCAPIEXPORT const char* tc_appDir();
 TCAPIEXPORT const char* tc_homeDir();
 
 /*! 
- \brief create an input window that will run a function inside a C library
+ \brief create an input window that will call a function in the console window with the arguments from the input matrix
  \param tc_matrix input window's arguments a default values
- \param string C library file
- \param string function inside the C library that takes tc_matrix argument
- \param string name of this program
+ \param string name of the program
+ \param string name of function
  \ingroup Input and Output
 */
-TCAPIEXPORT void tc_createInputWindowFromFile(tc_matrix input, const char* filename,const char* functionname, const char* title);
+TCAPIEXPORT void tc_createInputWindowForScript(tc_matrix input, const char* title, const char* functionname);
 
 /*!
  \brief create an input window that will call a function
@@ -598,7 +597,7 @@ TCAPIEXPORT void tc_Main_api_initialize(
 		const char* (*tc_appDir0)(),
 		const char* (*tc_homeDir0)(),
 
-		void (*tc_createInputWindow0)(tc_matrix,const char*,const char*, const char*),
+		void (*tc_createInputWindow0)(tc_matrix , const char* , const char* ),
         void (*tc_createInputWindow1)(long, tc_matrix, const char*, void (*f)(tc_matrix)),
 		void (*createSliders)(long, tc_matrix, void (*f)(tc_matrix)),
 		

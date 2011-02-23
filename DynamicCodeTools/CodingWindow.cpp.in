@@ -45,7 +45,7 @@ namespace Tinkercell
 		 QString appDir = QCoreApplication::applicationDirPath();
 		 QString homeDir = MainWindow::homeDir();
 		 QString tempDir = MainWindow::tempDir();
-		 fileName = homeDir + tr("/code.c");
+		 fileName = tempDir + tr("/code.c");
 		 
 		 toolBar = 0;
 		 progressBar = 0;
@@ -752,7 +752,6 @@ specific for:\n\"\"\"\n\n") + text;
 
 		QTextStream out(&qfile);
         if (code.contains( QRegExp(tr("TCAPIEXPORT void\\s+run\\s*\\(\\s*\\)")) ))
-
 		{
 			out << code;
 		}

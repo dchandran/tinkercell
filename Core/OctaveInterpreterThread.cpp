@@ -8,7 +8,7 @@ The octave interpreter that runs as a separate thread and can accept strings to 
 
 
 ****************************************************************************/
-
+#include <iostream>
 #include "GraphicsScene.h"
 #include "MainWindow.h"
 #include "NodeGraphicsItem.h"
@@ -27,10 +27,12 @@ namespace Tinkercell
     	fromTC = QRegExp("([A-Za-z0-9_]+)\\s*=\\s*fromTC\\s*\\(\\s*(\\s*[A-Za-z0-9_]+\\s*)\\)");
 		addpathDone = false;
     	f = 0;
+		std::cout << "load lib...";
 		if (octname.endsWith(QObject::tr(".oct")))
 			swigLib = loadLibrary(octname, mainWindow);
 		else
 			swigLib = loadLibrary(octname + QObject::tr(".oct"), mainWindow);
+		std::cout << "done\n";
     }
 
     void OctaveInterpreterThread::setCPointers()
@@ -70,6 +72,7 @@ namespace Tinkercell
 
     void OctaveInterpreterThread::initialize()
     {
+		std::cout << "init...";
         if (!mainWindow || !lib || !lib->isLoaded())
 		{
 			if (lib && mainWindow && mainWindow->console())
@@ -106,6 +109,7 @@ namespace Tinkercell
 				else
 					mainWindow->statusBar()->showMessage("Cannot find initialize function in Octave library");
         }
+		std::cout << "done\n";
     }
     
     void OctaveInterpreterThread::run()

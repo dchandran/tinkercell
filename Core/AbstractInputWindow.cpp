@@ -47,7 +47,7 @@ namespace Tinkercell
 
 	void AbstractInputWindow::loadAPI(Tool*)
 	{
-		/*	if (mainWindow && cthread && cthread->library())
+		/*if (mainWindow && cthread && cthread->library())
 		{
 			QSemaphore * s = new QSemaphore(1);
 			s->acquire();

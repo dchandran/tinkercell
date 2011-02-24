@@ -8,6 +8,7 @@ This is an example application that uses the TinkerCell Core library
 ****************************************************************************/
 
 #include <vector>
+#include <iostream>
 #include "sbml/SBMLReader.h"
 #include "sbml/SBMLWriter.h"
 #include "sbml/SBMLDocument.h"
@@ -657,8 +658,9 @@ int main(int argc, char *argv[])
 	/*  setup an interpreter for the console (optional)  */
 	OctaveInterpreterThread::OCTAVE_FOLDER = "octave"; //this is where the libraries will be located
 	ConsoleWindow * console = mainWindow.console();
-	//InterpreterThread * interpreter = new OctaveInterpreterThread("octave/tinkercell.oct", "octave/libtcoct", &mainWindow);
-	InterpreterThread * interpreter = new PythonInterpreterThread("python/_tinkercell", &mainWindow);
+	std::cout << "loading in simple de...\n";
+	InterpreterThread * interpreter = new OctaveInterpreterThread("octave/tinkercell.oct", "octave/libtcoct", &mainWindow);
+	//InterpreterThread * interpreter = new PythonInterpreterThread("python/_tinkercell", &mainWindow);
 	interpreter->initialize();
 	console->setInterpreter(interpreter);
 	

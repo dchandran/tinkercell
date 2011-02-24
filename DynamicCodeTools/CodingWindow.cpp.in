@@ -66,8 +66,8 @@ namespace Tinkercell
 		homeDir = QObject::tr("\"") + homeDir.replace(QObject::tr("/"),QObject::tr("\\")) + QObject::tr("\"");
 
 		QString s1(QObject::tr("copy \"") + appDir + QObject::tr("\"\\win32\\*.* \"") + tempDir + QObject::tr("\" /Y"));
-		if (system(s1.toAscii().data()) < 0)
-			QMessageBox::information(Tinkercell::MainWindow::instance(), "Error", "Unable to copy some needed GCC files to temporary folder");
+		//if (system(s1.toAscii().data()) < 0)
+			//QMessageBox::information(Tinkercell::MainWindow::instance(), "Error", "Unable to copy some needed GCC files to temporary folder");
 
 	#endif
 		
@@ -79,16 +79,16 @@ namespace Tinkercell
 			{
 				s = QObject::tr("svn co https://tinkercellextra.svn.sourceforge.net/svnroot/tinkercellextra ") + homeDir;
 				err = system(s.toAscii().data());
-				if (err == 0)
-					QMessageBox::information(Tinkercell::MainWindow::instance(), "Downloaded", QString("Plugins have been downloaded to ") + homeDir);
+				//if (err == 0)
+					//QMessageBox::information(Tinkercell::MainWindow::instance(), "Downloaded", QString("Plugins have been downloaded to ") + homeDir);
 			}
 
 			s = QObject::tr("cd ") + homeDir + QObject::tr("; svn update");
-			if (err != 0 || system(s.toAscii().data()) != 0)
+			/*if (err != 0 || system(s.toAscii().data()) != 0)
 			{
 				QMessageBox::information(Tinkercell::MainWindow::instance(), "Error", "Unable to update plugins. Check that Subversion is installed and located in the system path. For now, the auto-update has been DISABLED");
 				DO_SVN_UPDATE = false;
-			}
+			}*/
 		}
 	}
 	

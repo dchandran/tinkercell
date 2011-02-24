@@ -83,7 +83,7 @@ namespace Tinkercell
 	{
 		setAttribute(Qt::WA_DeleteOnClose,true);
 		cthread = new CThread(parent, lib);
-		cthread->setMatrixFunction(functionName.toUtf8().data());
+		cthread->setMatrixFunction(functionName.toAscii().data());
 		setWindowFlags(Qt::Dialog);
 		slidersLayout = 0;
 		hide();

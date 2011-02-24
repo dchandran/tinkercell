@@ -8,7 +8,6 @@ This class received signals from the ConnectionsTree class and provides the inte
 for connecting items using the connections in the ConnectionsTree
 
 ****************************************************************************/
-
 #include <math.h>
 #include "GraphicsScene.h"
 #include "UndoCommands.h"
@@ -1001,7 +1000,11 @@ namespace Tinkercell
 						QStringList words = handle->name.split(tr(" "));
 						if (words.size() > 1)
 						{
-							handle->name = words.first().left(1) + words.last().left(1);
+							handle->name = tr("");
+							if (words.first()[0].isLetter())
+								handle->name += words.first().left(1);
+							if (words.last()[0].isLetter())
+								handle->name += words.last().left(1);
 							handle->name += tr("1");
 						}
 						

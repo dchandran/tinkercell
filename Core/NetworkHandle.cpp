@@ -135,8 +135,6 @@ namespace Tinkercell
 	void NetworkHandle::close()
 	{
 		disconnect(&history);
-		//disconnect(&history, SIGNAL(indexChanged(int)), this, SLOT(updateSymbolsTable(int)));
-		//disconnect(&history, SIGNAL(indexChanged(int)), mainWindow, SIGNAL(historyChanged(int)));
 		
 		QList<NetworkWindow*> & list = networkWindows;
 		networkWindows.clear();
@@ -279,8 +277,8 @@ namespace Tinkercell
 		if (main && !main->allNetworks.contains(this))
 			main->allNetworks << this;
 
-		connect(&history, SIGNAL(indexChanged(int)), mainWindow, SIGNAL(historyChanged(int)));
-		connect(mainWindow, SIGNAL(historyChanged(int)), this, SLOT(updateSymbolsTable(int)));
+		connect(&history, SIGNAL(indexChanged(int)), this, SLOT(updateSymbolsTable(int)));
+		connect(this, SIGNAL(historyChanged(int)), mainWindow, SIGNAL(historyChanged(int)));
 		
 		connect(this,SIGNAL(parentHandleChanged(NetworkHandle *, const QList<ItemHandle*>&, const QList<ItemHandle*>&)),
 				main ,SIGNAL(parentHandleChanged(NetworkHandle *, const QList<ItemHandle*>&, const QList<ItemHandle*>&)));
@@ -769,13 +767,13 @@ namespace Tinkercell
 	/*! \brief update symbols table*/
 	void NetworkHandle::updateSymbolsTable()
 	{
-		symbolsTable.update();
+		symbolsTable.update(0);		
 	}
 
 	/*! \brief update symbols table*/
-	void NetworkHandle::updateSymbolsTable(int)
+	void NetworkHandle::updateSymbolsTable(int i)
 	{
-		symbolsTable.update();
+		symbolsTable.update(i);
 	}
 
 	static double d = 1.0;
@@ -793,7 +791,7 @@ namespace Tinkercell
 		mu::Parser parser;
 
 		s.replace(QRegExp(tr("\\.(?!\\d)")),tr("_@@@_"));
-		parser.SetExpr(s.toUtf8().data());
+		parser.SetExpr(s.toAscii().data());
 		s.replace(tr("_@@@_"),tr("."));
 		parser.SetVarFactory(AddVariable, 0);
 		QString str;
@@ -1088,6 +1086,11 @@ namespace Tinkercell
 		str = handle->fullName();
 		handle->name = saveName;
 		return str;
+	}
+	
+	void NetworkHandle::emitHistoryChanged(int i)
+	{
+		emit historyChanged(i);
 	}
 	
 }

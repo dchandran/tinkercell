@@ -154,7 +154,7 @@ namespace Tinkercell
 	        	script += QObject::tr("tinkercell\n");
 	        	addpathDone = true;
 	        	
-	        	f(script.toUtf8().data(),"octav.out","octav.err");
+	        	f(script.toAscii().data(),"octav.out","octav.err");
 	        }
 		
 		#ifdef Q_WS_WIN
@@ -171,14 +171,14 @@ namespace Tinkercell
             QFile sourcefile(tempDir + QObject::tr("/temp.m"));
 			if (sourcefile.open(QFile::WriteOnly))
 			{
-			    sourcefile.write(script.toUtf8());
+			    sourcefile.write(script.toAscii());
 			    sourcefile.close();
 			}
       	#ifdef Q_WS_WIN
 			QFile outfile(tr("diary"));
 			if (outfile.open(QFile::WriteOnly))
 			{
-			    outfile.write(QString().toUtf8());
+			    outfile.write(QString().toAscii());
 			    outfile.close();
 			}
             f("source('temp.m')",0,"octav.err"); //MS Windows just works differently

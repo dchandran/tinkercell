@@ -10,7 +10,9 @@ and QGraphicsItem.
 
 ****************************************************************************/
 
+#include <stdio.h>
 #include <math.h>
+#include <string.h>
 #include <QtDebug>
 #include "ItemHandle.h"
 #include "MainWindow.h"
@@ -85,7 +87,10 @@ namespace Tinkercell
 
 	const char* ConvertValue(const QString& s)
 	{
-		return s.toUtf8().data();
+		 QByteArray text = s.toLocal8Bit();
+		 char * data = new char[text.size() + 1];
+		 strcpy(data, text.data());
+		 return data;
 	}	
 
 	DataTable<qreal>* ConvertValue(tc_matrix m)

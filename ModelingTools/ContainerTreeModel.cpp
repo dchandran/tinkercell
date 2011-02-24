@@ -321,7 +321,7 @@ namespace Tinkercell
 
 			item->parentItem = parentItem;
 
-			if (!attribute.isEmpty())			
+			if (!attribute.isEmpty())	
 				return item;
 		}		
 	
@@ -339,7 +339,7 @@ namespace Tinkercell
 			}
 		}
 
-		if (!item || item->childItems.size() != k)
+		if (!item || params)
 		{
 			if (item)
 			{
@@ -471,14 +471,23 @@ namespace Tinkercell
 
 		if (index.column() == 0)
 		{
-            if (network && handle && !value.toString().isEmpty())
+            if (network && handle)
 			{
-				if (attributeName.isEmpty() && value.toString() != handle->name)
+				if (attributeName.isEmpty() && value.toString() != handle->name && !value.toString().isEmpty())
 					network->rename(handle, value.toString());
 				else
 				if (value.toString() != attributeName)
-					network->rename(handle->fullName() + tr(".") + attributeName, handle->fullName() + tr(".") + value.toString());
-				return true;
+				{
+					if (!value.toString().isEmpty())
+						network->rename(handle->fullName() + tr(".") + attributeName, handle->fullName() + tr(".") + value.toString());
+					else
+					{
+						QString err = BasicInformationTool::removeParameterFromModel(network, handle, attributeName);
+						if (!err.isEmpty())
+							QMessageBox::information(network->currentWindow(),tr("Cannot remove"), err);
+					}
+					return true;
+				}
 			}
 		}
 		else
@@ -500,6 +509,7 @@ namespace Tinkercell
 											handle,
 											QString("Assignments"),
 											&newTable);
+							BasicInformationTool::removeUnusedParametersInModel(network);
 							return true;
 						}
 					}
@@ -512,8 +522,7 @@ namespace Tinkercell
 						{
 							newTable.value(0,0) = d;
 						
-							BasicInformationTool::initialValues[ handle->family()->measurementUnit.property ] = d;
-						
+							BasicInformationTool::initialValues[ handle->family()->measurementUnit.property ] = d;						
 		                    network->changeData(handle->fullName() + tr(" = ") + QString::number(d),
 												handle,
 												QString("Initial Value"),
@@ -534,6 +543,7 @@ namespace Tinkercell
 											handle,
 											QString("Rate equations"),
 											&newTable);
+							BasicInformationTool::removeUnusedParametersInModel(network);
 							return true;
 						}
 					}

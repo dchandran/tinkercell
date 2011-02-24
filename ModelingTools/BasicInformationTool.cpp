@@ -270,23 +270,6 @@ namespace Tinkercell
 		{
 			if (!itemHandles.contains(items[i]) && items[i])
 				itemHandles += items[i];
-			/*
-			if (!equations.isEmpty())
-				if (items[i] && items[i]->type == NodeHandle::TYPE)
-				{
-					QList<ConnectionHandle*> connections = static_cast<NodeHandle*>(items[i])->connections();
-					for (int j=0; j < connections.size(); ++j)
-						if (connections[j] && !itemHandles.contains(connections[j]))
-							itemHandles += connections[j];
-				}
-				else
-					if (items[i] && items[i]->type == ConnectionHandle::TYPE)
-					{
-						QList<NodeHandle*> nodes = static_cast<ConnectionHandle*>(items[i])->nodes();
-						for (int j=0; j < nodes.size(); ++j)
-							if (nodes[j] && !itemHandles.contains(nodes[j]))
-								itemHandles += nodes[j];
-					}*/
 		}
 
 		QStringList names, values, min, max;
@@ -444,46 +427,13 @@ namespace Tinkercell
 						if (name.isEmpty())
 						{
 							QString s = nDat.rowName(rowNumber);
-							QString s2 = handle->fullName() + tr(".") + s;
-							
-							bool beingUsed = false;
-							QString s3;
-							
-							QList<ItemHandle*> allHandles = win->handles();
-							for (int i=0; i < allHandles.size(); ++i)
+							QString err = removeParameterFromModel(win, handle, s);
+							if (!err.isEmpty())
 							{
-								QStringList textKeys = allHandles[i]->textDataNames();
-								for (int j=0; j < textKeys.size(); ++j)
-								{
-									TextDataTable & textData = allHandles[i]->textDataTable(textKeys[j]);
-									for (int k1=0; k1 < textData.rows(); ++k1)
-									{
-										for (int k2=0; k2 < textData.columns(); ++k2)
-											if (textData.value(k1,k2).contains(s2))
-											{
-												s3 = allHandles[i]->fullName() + tr("'s ") + textKeys[j];
-												beingUsed = true;
-												break;
-											}
-										if (beingUsed) break;
-									}
-									if (beingUsed) break;
-								}
-							}
-							if (beingUsed)
-							{
-								QMessageBox::information(this,tr("Cannot remove"),s2 + tr(" cannot be removed because it is being used inside ") + s3);
+								QMessageBox::information(this,tr("Cannot remove"), err);
 								recursive = true;
 								tableWidget.item(row,col)->setText(s);
 								return;
-							}
-							else
-							{
-								nDat.removeRow(rowNumber);
-								if (handle->name.isEmpty())
-									win->changeData(s + tr(" removed"),handle, this->name,&nDat);									
-								else
-									win->changeData(handle->fullName() + tr(".") + s + tr(" removed"),handle, this->name,&nDat);
 							}
 						}
 						else
@@ -742,7 +692,7 @@ namespace Tinkercell
 
 		if ((type == both || type == numerical) && !(handle->hasNumericalData(name)))
 		{
-			QStringList nKeys = family->numericalAttributes.keys();
+			QStringList nKeys;// = family->numericalAttributes.keys();
 			DataTable<qreal> numericalAttributes;
 			numericalAttributes.resize(nKeys.size(),3);
 			numericalAttributes.description() = tr("Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds.");
@@ -2085,6 +2035,125 @@ namespace Tinkercell
 			}
 		}
 		return params2;
+	}
+	
+	QString BasicInformationTool::removeParameterFromModel(NetworkHandle * win, ItemHandle * handle, const QString& s)
+	{
+		if (!handle) return QString("No item");		
+		if (!handle->hasNumericalData("Parameters")) return QString("No parameters inside this item");
+		
+		NumericalDataTable nDat(handle->numericalDataTable("Parameters"));
+		if (!nDat.hasRow(s)) return QString("No such parameter inside this item");
+		
+		bool beingUsed = false;
+		QString s2;
+		
+		if (handle->name.isEmpty())
+			s2 = s;
+		else
+			s2 = handle->fullName() + tr(".") + s;
+		
+		QString s3;
+						
+		QList<ItemHandle*> allHandles = win->handles();
+		for (int i=0; i < allHandles.size(); ++i)
+		{
+			QStringList textKeys = allHandles[i]->textDataNames();
+			for (int j=0; j < textKeys.size(); ++j)
+			{
+				TextDataTable & textData = allHandles[i]->textDataTable(textKeys[j]);
+				for (int k1=0; k1 < textData.rows(); ++k1)
+				{
+					for (int k2=0; k2 < textData.columns(); ++k2)
+						if (textData.value(k1,k2).contains(s2))
+						{
+							s3 = allHandles[i]->fullName() + tr("'s ") + textKeys[j];
+							beingUsed = true;
+							break;
+						}
+					if (beingUsed) break;
+				}
+				if (beingUsed) break;
+			}
+		}
+
+		if (beingUsed)
+		{
+			return s2 + tr(" cannot be removed because it is being used inside ") + s3;
+		}
+		else
+		{
+			nDat.removeRow(s);
+			if (handle->name.isEmpty())
+				win->changeData(s + QObject::tr(" removed"),handle, QObject::tr("Parameters"), &nDat);
+			else
+				win->changeData(handle->fullName() + QObject::tr(".") + s + QObject::tr(" removed"),handle, QObject::tr("Parameters"), &nDat);
+		}
+		return QString();
+	}
+	
+	QString BasicInformationTool::removeUnusedParametersInModel(NetworkHandle * win)
+	{
+		return QString();
+
+		QString allFormulas;
+						
+		QList<ItemHandle*> allHandles = win->handles();
+		for (int i=0; i < allHandles.size(); ++i)
+		{
+			QStringList textKeys = allHandles[i]->textDataNames();
+			for (int j=0; j < textKeys.size(); ++j)
+			{
+				TextDataTable & textData = allHandles[i]->textDataTable(textKeys[j]);
+				for (int k1=0; k1 < textData.rows(); ++k1)
+				{
+					for (int k2=0; k2 < textData.columns(); ++k2)
+					{
+						allFormulas += textData.value(k1,k2);
+						allFormulas += QObject::tr(";");
+					}
+				}
+			}
+		}
+		
+		QList<ItemHandle*> changedHandles, handles = win->handles();
+		QList<NumericalDataTable*> oldData, newData;
+		
+		for (int i=0; i < handles.size(); ++i)
+		{
+			if (handles[i] && handles[i]->hasNumericalData(QObject::tr("Parameters")))
+			{
+				QString s;
+				if (!handles[i]->name.isEmpty())
+					s = handles[i]->fullName() + QObject::tr(".");
+				bool changes = false;
+				NumericalDataTable * oldDat = &(handles[i]->numericalDataTable(QObject::tr("Parameters")));
+				NumericalDataTable * newDat = new NumericalDataTable(*oldDat);
+				for (int j=0; j < newDat->rows(); ++j)
+				{
+					if (!allFormulas.contains(s + newDat->rowName(j)))
+					{
+						changes = true;
+						newDat->removeRow(j);
+						--j;
+					}
+				}
+				if (changes)
+				{
+					changedHandles << handles[i];
+					oldData << oldDat;
+					newData << newDat;
+				}
+			}
+		}
+		
+		if (!oldData.isEmpty())
+		{
+			win->changeData(QObject::tr("Unused parameters removed"), changedHandles, oldData, newData);
+			for (int i=0; i < newData.size(); ++i)
+				delete newData[i];
+		}
+		
 	}
 }
 

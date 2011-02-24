@@ -956,12 +956,12 @@ namespace Tinkercell
 			{
 				double * dp = &(params[i]);
 				colnames[i].replace(tr("."), tr("_"));
-				parser.DefineVar(colnames[i].toUtf8().data(), dp);
+				parser.DefineVar(colnames[i].toAscii().data(), dp);
 				if (!colnames[i].contains(colnames[i].toLower()))
-					parser.DefineVar(colnames[i].toLower().toUtf8().data(), dp);
+					parser.DefineVar(colnames[i].toLower().toAscii().data(), dp);
 			}
 				
-			parser.SetExpr(formula.toUtf8().data());				
+			parser.SetExpr(formula.toAscii().data());				
 
 			for (int i=0; i < matrix.rows(); ++i)
 			{

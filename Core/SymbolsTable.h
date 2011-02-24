@@ -48,7 +48,7 @@ namespace Tinkercell
 		*/
 		SymbolsTable(NetworkHandle *);
 		/*! \brief update the symbols table*/
-		virtual void update();
+		virtual void update(int n=0);
 		/*! \brief handle names and the corresponsing handles. This hash stores the unique full names, such a M.A and M_A
 		*/
 		QHash<QString,ItemHandle*> uniqueHandlesWithDot, uniqueHandlesWithUnderscore;

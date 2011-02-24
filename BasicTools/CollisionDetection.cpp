@@ -51,8 +51,7 @@ namespace Tinkercell
 	}
 
 	void CollisionDetection::itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>& items, const QList<ItemHandle*>&)
-	{
-		
+	{		
 		if (!(nodeBelowCursor != 0 || connectionBelowCursor != 0))
 		{
 			QPointF & p = scene->lastPoint();

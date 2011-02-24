@@ -530,7 +530,7 @@ namespace Tinkercell
 		* \param int number of changes (negative = undos, positive = redos)
 		* \return void
 		*/
-		void historyChanged( int i=0);
+		void historyChanged(int i=0);
 		/*!
 		* \brief used internally by MainWindow in order to move from a thread to the main thread
 		* \param QSemaphore* Sempahore that lets the thread run once C API is initialized

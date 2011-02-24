@@ -70,7 +70,7 @@ namespace Tinkercell
 	{
 		if (!lib) return;
 		
-		TinkercellCEntryFunction f = (TinkercellCEntryFunction)lib->resolve(MainWindow::C_ENTRY_FUNCTION.toUtf8().data());
+		TinkercellCEntryFunction f = (TinkercellCEntryFunction)lib->resolve(MainWindow::C_ENTRY_FUNCTION.toAscii().data());
 		if (f)
 			f();	
 	}

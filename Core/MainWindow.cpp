@@ -150,7 +150,7 @@ namespace Tinkercell
 		{
 			dynamicallyLoadedLibraries.insert(lib->fileName(),lib);
 			statusBar()->showMessage(lib->fileName() + tr(" loading ..."));
-			TinkercellPluginEntryFunction f1 = (TinkercellPluginEntryFunction)lib->resolve(CPP_ENTRY_FUNCTION.toUtf8().data());
+			TinkercellPluginEntryFunction f1 = (TinkercellPluginEntryFunction)lib->resolve(CPP_ENTRY_FUNCTION.toAscii().data());
 			if (f1)
 			{
 				try
@@ -167,7 +167,7 @@ namespace Tinkercell
 			}
 			else
 			{
-				TinkercellCEntryFunction f2 = (TinkercellCEntryFunction)lib->resolve(C_ENTRY_FUNCTION.toUtf8().data());
+				TinkercellCEntryFunction f2 = (TinkercellCEntryFunction)lib->resolve(C_ENTRY_FUNCTION.toAscii().data());
 				if (f2)
 				{
 					new CThread(this,lib);
@@ -357,7 +357,7 @@ namespace Tinkercell
 		cmd = tr("rm -R ") + tempDir;
 
 #endif
-		int r = system(cmd.toUtf8().data());
+		int r = system(cmd.toAscii().data());
 		
 		if (c_api_slots)
 			delete c_api_slots;
@@ -639,7 +639,7 @@ namespace Tinkercell
 			QFile file(fileName);
 			if (file.open(QIODevice::WriteOnly | QIODevice::Text))
 			{
-				file.write(textEditor->text().toUtf8());
+				file.write(textEditor->text().toAscii());
 				file.close();
 			}
 			return;

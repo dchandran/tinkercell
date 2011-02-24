@@ -599,7 +599,14 @@ namespace Tinkercell
 			}
 		}
 
-		QList<QGraphicsItem*> itemList = items(point1);
+		QSize sz(1,1);
+		if (mainWindow())
+		{
+			QCursor cursor = mainWindow()->cursor();
+			if (!cursor.pixmap().isNull())
+				sz = cursor.pixmap().size();
+		}
+		QList<QGraphicsItem*> itemList = items(QRectF(point1,sz));
 		QGraphicsItem * item = 0;
 
 		for (int i=0; i < itemList.size(); ++i)

@@ -78,8 +78,6 @@ namespace Tinkercell
 		Tool::setMainWindow(main);
 		if (mainWindow)
 		{
-			connect(this,SIGNAL(historyChanged( int )),mainWindow,SIGNAL(historyChanged( int )));
-			
 			connect(mainWindow,SIGNAL(saveNetwork(const QString&)),this,SLOT(saveNetwork(const QString&)));
 			connect(mainWindow,SIGNAL(loadNetwork(const QString&)),this,SLOT(loadNetwork(const QString&)));
 			
@@ -415,7 +413,7 @@ namespace Tinkercell
 			commands << new InsertGraphicsCommand(tr("insert"),scene,items);
 			QUndoCommand * command = new CompositeCommand(tr("load"), commands);
 			command->redo();
-			emit historyChanged(-1);
+			scene->network->updateSymbolsTable();
 			
 			emit itemsInserted(scene, items, handles);
 			loadCommands << command;

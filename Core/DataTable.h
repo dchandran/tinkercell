@@ -449,8 +449,7 @@ namespace Tinkercell
 			
 		if (i >= colHeaders.size())
 			resize(rowHeaders.size(), i+1);
-		else
-			colHash.remove(colHeaders[i]);
+		colHash.remove(colHeaders[i]);
 		colHeaders[i]= name;
 		colHash[name] = i;
 	}		
@@ -500,8 +499,7 @@ namespace Tinkercell
 		
 		if (i >= rowHeaders.size())
 			resize(i+1, colHeaders.size());
-		else
-			rowHash.remove(rowHeaders[i]);
+		rowHash.remove(rowHeaders[i]);
 		rowHeaders[i] = name;
 		rowHash[name] = i;
 	}

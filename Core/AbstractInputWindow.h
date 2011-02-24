@@ -74,9 +74,11 @@ namespace Tinkercell
 		/*! \brief set geometry*/
 		void updateEditorGeometry(QWidget *editor,const QStyleOptionViewItem &option, const QModelIndex &index) const;
 		/*! \brief ask user to get a string from list of strings*/
-		static QString displayListWidget(const QStringList& list, const QString& current=QString());
+		static QString displayListWidget(const QStringList& list, const QString& current=QString(), bool * dialogOpen=0);
 		/*! \brief editor event*/
 		bool editorEvent ( QEvent * event, QAbstractItemModel * model, const QStyleOptionViewItem & option, const QModelIndex & index );
+		/*! \brief dialog is open*/
+		bool dialogOpen;
 	};
 	/*!
 	\brief Classes that inherit from this class can be used as GUI windows that provide interface to C programs (library files).

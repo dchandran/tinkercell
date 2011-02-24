@@ -25,7 +25,7 @@ namespace Tinkercell
 		globalHandle.network = net;
 	}
 	
-	void SymbolsTable::update()
+	void SymbolsTable::update(int n)
 	{
 		if (!network) return;
 		
@@ -75,6 +75,8 @@ namespace Tinkercell
 			}
 
 		update(handles);
+		
+		network->emitHistoryChanged(n);
 	}
 
 	void SymbolsTable::update(const QList<ItemHandle*>& items)

@@ -997,6 +997,7 @@ namespace Tinkercell
 										connectionHandle,
 										tr("Rate equations"),
 										&newTable);
+					BasicInformationTool::removeUnusedParametersInModel(network);
 					updatePlotWidget();
 				}
 			}
@@ -1056,6 +1057,7 @@ namespace Tinkercell
 									QList<ItemHandle*>() << connectionHandle << connectionHandle,
 									QStringList() << tr("Reactant stoichiometries") << tr("Product stoichiometries"),
 									QList<NumericalDataTable*>() << &reactants << &products);
+				BasicInformationTool::removeUnusedParametersInModel(network);
 				updateStoichiometryWidget();
 			}
 		}
@@ -1398,6 +1400,7 @@ namespace Tinkercell
 		if (win)
 		{
 			win->changeData(tr("stoichiometry changed"),connectionHandles,nDataTablesOld,nDataTablesNew);
+			BasicInformationTool::removeUnusedParametersInModel(win);
 		}
 
 		for (int i=0; i < nDataTablesNew.size(); ++i)
@@ -1518,6 +1521,7 @@ namespace Tinkercell
 		if (win)
 		{
 			win->changeData(tr("Rate equations changed"),handles,QObject::tr("Rate equations"),sDataTablesNew);
+			BasicInformationTool::removeUnusedParametersInModel(win);
 		}
 
 		for (int i=0; i < sDataTablesNew.size(); ++i)

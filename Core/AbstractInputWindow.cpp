@@ -123,7 +123,7 @@ namespace Tinkercell
 		: AbstractInputWindow(title)
 	{
 		CThread * thread = new CThread(main, lib);
-		thread->setMatrixFunction(funcName.toUtf8().data());
+		thread->setMatrixFunction(funcName.toAscii().data());
 		this->dataTable = data;
 
 		setThread(thread);
@@ -277,8 +277,8 @@ namespace Tinkercell
 
 		QStringList options = options0;
 		
-		for (int k=0; k < options.size(); ++k)
-			options[k].replace(tr("_"),tr("."));
+		//for (int k=0; k < options.size(); ++k)
+		//	options[k].replace(tr("_"),tr("."));
 
 		win->delegate.options.value(i,j) = options;
 
@@ -301,8 +301,14 @@ namespace Tinkercell
 		if (SimpleInputWindow::inputWindows.contains(title.toLower()))
 		{
 			inputWindow = SimpleInputWindow::inputWindows.value(title.toLower());
+			if (data.rowNames() != inputWindow->dataTable.rowNames() || 
+				data.columnNames() != inputWindow->dataTable.columnNames())
+			{
+				inputWindow = 0;
+			}
 		}
-		else
+		
+		if (!inputWindow)
 		{
 			inputWindow = new SimpleInputWindow(main,title,lib,funcName,data);
 		}
@@ -324,8 +330,14 @@ namespace Tinkercell
 		if (SimpleInputWindow::inputWindows.contains(title.toLower()))
 		{
 			inputWindow = SimpleInputWindow::inputWindows.value(title.toLower());
+			if (data.rowNames() != inputWindow->dataTable.rowNames() || 
+				data.columnNames() != inputWindow->dataTable.columnNames())
+			{
+				inputWindow = 0;
+			}
 		}
-		else
+		
+		if (!inputWindow)
 		{
 			inputWindow = new SimpleInputWindow(thread,title,f,data);
 		}
@@ -347,8 +359,14 @@ namespace Tinkercell
 		if (SimpleInputWindow::inputWindows.contains(title.toLower()))
 		{
 			inputWindow = SimpleInputWindow::inputWindows.value(title.toLower());
+			if (data.rowNames() != inputWindow->dataTable.rowNames() || 
+				data.columnNames() != inputWindow->dataTable.columnNames())
+			{
+				inputWindow = 0;
+			}
 		}
-		else
+		
+		if (!inputWindow)
 		{
 			inputWindow = new SimpleInputWindow(main,title,data);
 			inputWindow->scriptCommand = script;
@@ -495,9 +513,10 @@ namespace Tinkercell
 
 	PopupListWidgetDelegate::PopupListWidgetDelegate(QObject *parent) : QItemDelegate(parent)
 	{
+		 dialogOpen = false;
 	}
 	
-	QString PopupListWidgetDelegate::displayListWidget(const QStringList& list, const QString& current)
+	QString PopupListWidgetDelegate::displayListWidget(const QStringList& list, const QString& current, bool * dialogOpen)
 	{
 		PopupListWidgetDelegateDialog * dialog = new PopupListWidgetDelegateDialog;
 		QListWidget * listWidget = new QListWidget;
@@ -519,7 +538,11 @@ namespace Tinkercell
 				listWidget->setCurrentRow(k);
 		}
 
-		dialog->exec();		
+		if (dialogOpen)
+			(*dialogOpen) = true;
+		dialog->exec();
+		if (dialogOpen)
+			(*dialogOpen) = false;
 		QString s;
 		
 		if (dialog->result() == QDialog::Accepted)
@@ -590,8 +613,11 @@ namespace Tinkercell
 		QStringList strings = options.at(index.row(),index.column());
 		if (strings.size() > 0)
 		{
-			QString value = displayListWidget(strings);
-			model->setData(index, value, Qt::EditRole);
+			if (!dialogOpen)
+			{
+				QString value = displayListWidget(strings, QString(), &dialogOpen);
+				model->setData(index, value, Qt::EditRole);
+			}
 			return true;
 		}
 		QItemDelegate::editorEvent(event, model, option, index );

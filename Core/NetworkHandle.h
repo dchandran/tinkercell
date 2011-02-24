@@ -346,8 +346,16 @@ namespace Tinkercell
 		* \return void*/
 		void handlesChanged(NetworkHandle * network, const QList<QGraphicsItem*>& items, const QList<ItemHandle*>& old);
 
+		/*!
+		* \brief one of more changed have occurred in the history window of the current scene
+		* \param int number of changes (negative = undos, positive = redos)
+		* \return void
+		*/
+		void historyChanged(int i=0);
 		
 	private:
+	
+		void emitHistoryChanged(int i=0);
 
 		friend class GraphicsView;
 		friend class GraphicsScene;

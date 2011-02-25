@@ -785,9 +785,9 @@ namespace Tinkercell
 		int currentIndex = settings.value(tr("currentIndex"),0).toInt();
 		settings.endGroup();
 		
-		if (familiesInCatalog.size() < 10)
+		if (familiesInCatalog.size() < 30)
 		{
-			QString appDir = QCoreApplication::applicationDirPath();			
+			QString appDir = QCoreApplication::applicationDirPath();
 			QFile defaultListFile(appDir + tr("/NodesTree/InitialCatalogList.txt"));
 			if (defaultListFile.open( QFile::ReadOnly | QFile::Text ))
 			{
@@ -795,7 +795,7 @@ namespace Tinkercell
 				familiesInCatalog = readAll.split("\n");
 			}
 		}
-
+		
 		for (int i=0; i < tabGroups.size(); ++i)
 		{
 			bool found = false;

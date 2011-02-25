@@ -44,9 +44,9 @@ if (len(genes) > 0):
 					if t == 0: #AND
 						rate = " * ".join(opnames);
 					elif t == 1: #OR
-						rate = " + ".join(opnames);
+						rate = " + ".join(opnames) + " - " + " * ".join(opnames);
 					elif t == 2: #XOR
-						rate = " + ".join(opnames) - " * ".join(opnames);
+						rate = " + ".join(opnames) + " - 2 * " + " * ".join(opnames);
 					rate = promoter + ".strength * (" + rate + ")";
 				name = tc_getUniqueName(i)
 				tc_print(name + " has rate : " + rate + "\n");

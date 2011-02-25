@@ -119,7 +119,7 @@ extern "C"
 	OCTAVE_EXPORT void initialize()
 	{
 		int argc = 0;
-		char * argv[0];
+		char * argv[] = { "octave\0" };
 		octave_main(argc,argv,1);
 	}
 

@@ -118,9 +118,8 @@ extern "C"
 
 	OCTAVE_EXPORT void initialize()
 	{
-		int argc = 0;
-		char * argv[] = { "octave\0" };
-		octave_main(argc,argv,1);
+		const char * argvv [] = {"" /* name of program, not relevant */, "--silent"};       
+		octave_main (2, (char **) argvv, true /* embedded */);
 	}
 
 	OCTAVE_EXPORT int exec(const char * input, const char * outfile, const char * errfile)

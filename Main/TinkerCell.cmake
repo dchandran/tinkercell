@@ -60,7 +60,6 @@ IF( APPLE AND BUILD_BUNDLE )
      muparser
 	 sbml
 	 antimony
-	 sbml_sim
 	 copasi
     ${QT_LIBRARIES}
   )
@@ -85,7 +84,6 @@ ELSE( APPLE AND BUILD_BUNDLE )
        muparser
 	   sbml
 	   antimony
-  	   sbml_sim
 	   copasi
       ${QT_LIBRARIES}
     )
@@ -119,7 +117,6 @@ ELSE( APPLE AND BUILD_BUNDLE )
        muparser
 	   sbml
 	   antimony
-	   sbml_sim
 	   copasi
       ${QT_LIBRARIES}
     )

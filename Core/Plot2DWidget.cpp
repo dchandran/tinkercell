@@ -297,7 +297,7 @@ namespace Tinkercell
 			//QwtDoubleRect rect = zoomer->zoomRect();
 			//rect.adjust(-1.0,-1.0,1.0,1.0);
 			zoomer->setZoomBase();
-			zoomer->zoom(-0.5);
+			zoomer->zoom(0);
 		}
 	}
 	
@@ -631,6 +631,8 @@ namespace Tinkercell
 			dataPlot->processData();
 			dataPlot->replot();
 			dataPlot->setTitle(newData.description());
+			if (dataPlot->zoomer)
+				dataPlot->zoomer->zoom(0);
 		}
 		else
 		{

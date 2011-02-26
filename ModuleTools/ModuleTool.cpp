@@ -902,16 +902,21 @@ namespace Tinkercell
 		if (!scene || !scene->network) return;
 		
 		bool loadedItems = true; //loaded or pasted items
-		if (handles.size() == 1)
-			loadedItems = false;
-		else
-			for (int i=0; i < handles.size(); ++i)
-				if (handles[i] && !handles[i]->hasTextData(tr("annotation")))
+		int count = 0;
+				
+		for (int i=0; i < handles.size(); ++i)
+			if (handles[i])
+			{
+				++count;
+				if (!handles[i]->hasTextData(tr("annotation")))
 				{
 					loadedItems = false;
 					break;
 				}
+			}
 		
+		loadedItems = (loadedItems && count > 1);
+			
 		if (scene->localHandle())
 		{
 			ItemHandle * parentHandle = scene->localHandle();
@@ -949,6 +954,8 @@ namespace Tinkercell
 		QList<ItemHandle*> modularConnections;
 		
 		if (loadedItems) return;
+		
+		std::cout << "loaded items = false \n";
 		
 		for (int i=0; i < handles.size(); ++i)
 			if (handles[i] && !visited.contains(handles[i]) && ConnectionFamily::cast(handles[i]->family()))

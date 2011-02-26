@@ -627,12 +627,18 @@ namespace Tinkercell
 		dataPlot->type = type;
 		if (same)
 		{
+			QwtDoubleRect rect;
+			if (dataPlot->zoomer)
+				rect = dataPlot->zoomer->zoomBase();
 			dataPlot->dataTable = newData;
 			dataPlot->processData();
 			dataPlot->replot();
 			dataPlot->setTitle(newData.description());
 			if (dataPlot->zoomer)
-				dataPlot->zoomer->zoom(0);
+			{
+				rect.setWidth(dataPlot->zoomer->zoomBase().width());
+				dataPlot->zoomer->zoom(rect);
+			}
 		}
 		else
 		{

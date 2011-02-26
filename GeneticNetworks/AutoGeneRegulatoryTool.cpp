@@ -591,7 +591,7 @@ namespace Tinkercell
 		QString rate, s0;
 
 		QList<ItemHandle*> targetHandles, operators;
-		ItemHandle * promoter = 0;
+		NodeHandle * promoter = 0;
 		QList<QString> hashStrings;
 		QList<DataTable<QString>*> oldDataTables, newDataTables;
 
@@ -606,7 +606,7 @@ namespace Tinkercell
 				if (parts[i]->isA(tr("Operator")))
 				{
 					if (parts[i]->isA(tr("Promoter")))
-						promoter = parts[i];
+						promoter = NodeHandle::cast(parts[i]);
 
 					operators += parts[i];
 					
@@ -683,12 +683,16 @@ namespace Tinkercell
 				if (parts[i]->isA(tr("Coding")) && NodeHandle::cast(parts[i]))
 				{
 					rate = tr("");
-					for (int k=0; k < operators.size(); ++k)
-						if (operators[k] != promoter)
-							if (rate.isEmpty())
-								rate = operators[k]->fullName();
-							else
-								rate += tr(" * ") + operators[k]->fullName();
+					if (promoter)
+					{
+						bool promoterOperator = !promoter->connections().isEmpty();
+						for (int k=0; k < operators.size(); ++k)
+							if (operators[k] != promoter || promoterOperator)
+								if (rate.isEmpty())
+									rate = operators[k]->fullName();
+								else
+									rate += tr(" * ") + operators[k]->fullName();
+					}
 
 					if (!promoter)
 						rate = tr("0.0");

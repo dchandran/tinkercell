@@ -360,10 +360,10 @@ namespace Tinkercell
 					for (int j=0; j < participants.rows(); ++j)
 					{
 						if (participants.rowName(j).toLower() == tr("catalyst"))
-							enz = participants.rowName(j);
+							enz = participants(j,0);
 						else
 						if (participants.rowName(j).toLower().contains(tr("substrate")) || participants.rowName(j).toLower().contains(tr("reactant")))
-							reacs += participants.rowName(j);
+							reacs += participants(j,0);
 					}
 					
 					if (!enz.isEmpty() && !reacs.isEmpty())

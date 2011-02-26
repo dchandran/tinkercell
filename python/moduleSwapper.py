@@ -10,7 +10,7 @@ from tinkercell import *
 
 listOfModules = []
 allItems = tc_allItems()
-homeDir = tc_homeDir() + "/Modules"
+homeDir = tc_homeDir() + "/Modules/"
 hsz = len(homeDir)
 
 for i in range(0, allItems.length):
@@ -32,6 +32,8 @@ for i in range( 0, len(listOfModules) ):
         if s[0:hsz] == homeDir:
             n = len(s)
             s = s[hsz:n]
+            s = s.replace("_"," ")
+            s = s.replace("/",": ")
             tc_setString(options, j, s)
     tc_addInputWindowOptions("Submodel Swapper", i, 0, options)
 
@@ -42,7 +44,10 @@ def substituteSubModel(*arg):
     if len(arg) < n:
         n = len(arg)
     for i in range(0,n):
-        s = homeDir + arg[i]
+        s = arg[i]
+        s = s.replace(" ","_")
+        s = s.replace(": ","/")
+        s = homeDir + s
         tc_substituteModel(listOfModules[i], s)
 
     m = tc_simulateDeterministic(0,100,200)

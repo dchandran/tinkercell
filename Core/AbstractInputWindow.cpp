@@ -521,7 +521,7 @@ namespace Tinkercell
 		PopupListWidgetDelegateDialog * dialog = new PopupListWidgetDelegateDialog;
 		QListWidget * listWidget = new QListWidget;
 		QVBoxLayout * layout = new QVBoxLayout;
-		layout->addWidget(listWidget,1,Qt::AlignCenter);
+		layout->addWidget(listWidget,1);
 		QPushButton * okButton = new QPushButton("&Select");
 		connect(okButton,SIGNAL(clicked()),dialog,SLOT(accept()));
 		connect(listWidget,SIGNAL(itemActivated(QListWidgetItem*)),dialog,SLOT(acceptListWidget(QListWidgetItem*)));

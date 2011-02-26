@@ -103,6 +103,23 @@ namespace Tinkercell
 		childFamilies << family << family->allChildren();
 		QString appDir = QCoreApplication::applicationDirPath();
 		QString home = homeDir();
+		
+		/* empty model*/
+		QString emptyModelFile = home + tr("/Modules/Empty_Model.tic");
+		
+		if (!QFile(emptyModelFile).exists())
+			emptyModelFile = home + tr("/Modules/Empty_Model.TIC");
+		
+		if (!QFile(emptyModelFile).exists())
+			emptyModelFile = appDir + tr("/Modules/Empty_Model.tic");
+		
+		if (!QFile(emptyModelFile).exists())
+			emptyModelFile = appDir + tr("/Modules/Empty_Model.TIC");
+		
+		if (!QFile(emptyModelFile).exists())
+			emptyModelFile = tr("");
+		
+		/* */
 
 		for (int i=0; i < childFamilies.size(); ++i)
 		{
@@ -884,6 +901,17 @@ namespace Tinkercell
 	{
 		if (!scene || !scene->network) return;
 		
+		bool loadedItems = true; //loaded or pasted items
+		if (handles.size() == 1)
+			loadedItems = false;
+		else
+			for (int i=0; i < handles.size(); ++i)
+				if (handles[i] && !handles[i]->hasTextData(tr("annotation")))
+				{
+					loadedItems = false;
+					break;
+				}
+		
 		if (scene->localHandle())
 		{
 			ItemHandle * parentHandle = scene->localHandle();
@@ -917,10 +945,11 @@ namespace Tinkercell
 				}
 		}
 		
-		QList<ItemHandle*> visited;
-		
+		QList<ItemHandle*> visited;		
 		QList<ItemHandle*> modularConnections;
-
+		
+		if (loadedItems) return;
+		
 		for (int i=0; i < handles.size(); ++i)
 			if (handles[i] && !visited.contains(handles[i]) && ConnectionFamily::cast(handles[i]->family()))
 			{
@@ -928,7 +957,7 @@ namespace Tinkercell
 				QString groupName = handles[i]->name;
 				QList<QGraphicsItem*> items2;
 				
-				if (handles[i]->children.isEmpty() && !handles[i]->hasTextData("annotation")) //the "annotation" is to check that is was not loaded form a file (hack?)
+				if (handles[i]->children.isEmpty()) //the "annotation" is to check that is was not loaded form a file (hack?)
 				{
 					QString s = handles[i]->family()->name();
 					s.replace(tr(" "),tr(""));

@@ -5,7 +5,6 @@
 
  Automatically manage gene regulatory network rates and parameters
 ****************************************************************************/
-#include <iostream>
 #include <QDebug>
 #include "UndoCommands.h"
 #include "ItemHandle.h"
@@ -668,7 +667,10 @@ namespace Tinkercell
 										params2->value("h",0) = 1.0;
 									}
 									if (params2)
+									{
 										commands << new ChangeNumericalDataCommand(tr("New parameters"),&params,params2);
+										delete params2;
+									}
 								}
 
 							sDat->value(tr("self"),0) = rate;
@@ -687,33 +689,47 @@ namespace Tinkercell
 								rate = operators[k]->fullName();
 							else
 								rate += tr(" * ") + operators[k]->fullName();
-					
-					
-					if (rate.isEmpty() || !promoter)
+
+					if (!promoter)
 						rate = tr("0.0");
 					else
 					{
-						if (promoter->hasNumericalData("Parameters") && promoter->numericalDataTable("Parameters").hasRow("strength"))
-							if (rate.isEmpty())
-								rate = promoter->fullName() + tr(".strength");
-							else
-								rate = promoter->fullName() + tr(".strength * ") + rate;
+						if (!promoter->hasNumericalData("Parameters") || !promoter->numericalDataTable("Parameters").hasRow("strength"))
+						{
+							NumericalDataTable & params = promoter->numericalDataTable(tr("Parameters"));
+							NumericalDataTable params2(params);
+							params2("strength",0) = 5.0;
+							commands << new ChangeNumericalDataCommand(tr("New parameters"),&params,&params2);
+						}
+						
+						if (rate.isEmpty())
+							rate = promoter->fullName() + tr(".strength");
 						else
-							if (rate.isEmpty())
-								rate = promoter->fullName();
+							rate = promoter->fullName() + tr(".strength * ") + rate;
 
 						if (parts[i]->parent && parts[i]->parent->isA(tr("Vector")))
 							rate = parts[i]->parent->fullName() + tr(" * ") + rate;
 					}
 					
 					QString oldrate = parts[i]->textData(tr("Assignments"),tr("self"),0);
+					
+					bool isMissing = false;
+					
+					for (int k=0; k < operators.size(); ++k)
+						if (!oldrate.contains(operators[k]->fullName()))
+						{
+							isMissing = true;
+							break;
+						}
+						
+					
 					bool isCustomEqn = oldrate.contains(tr("+")) ||
 													oldrate.contains(tr("/")) ||  
 													oldrate.contains(tr("(")) ||
 													(oldrate.size() > 4 && !oldrate.contains(tr(".strength * ")));
 
 					if (!parts[i]->textDataTable(tr("Assignments")).hasRow(tr("self")) ||
-							(!isCustomEqn && oldrate != rate)
+							(!isCustomEqn && oldrate != rate && isMissing)
 						)
 						 {
 							TextDataTable * sDat = new TextDataTable(parts[i]->textDataTable(tr("Assignments")));
@@ -735,6 +751,14 @@ namespace Tinkercell
 							{	
 								if (rbs)
 								{
+									if (!rbs->hasNumericalData("Parameters") || !rbs->numericalDataTable("Parameters").hasRow("strength"))
+									{
+										NumericalDataTable & params = rbs->numericalDataTable(tr("Parameters"));
+										NumericalDataTable params2(params);
+										params2("strength",0) = 5.0;
+										commands << new ChangeNumericalDataCommand(tr("New parameters"),&params,&params2);
+									}
+
 									QList<NodeHandle*> rna = connections[j]->nodes();
 										
 									for (int k=0; k < rna.size(); ++k)
@@ -745,19 +769,19 @@ namespace Tinkercell
 												if (connections2[l] &&
 													connections2[l]->isA(tr("Translation")) &&
 													connections2[l]->hasTextData(tr("Rate equations")))
-													{
-														DataTable<QString> * sDat2 = new DataTable<QString>(connections2[l]->textDataTable(tr("Rate equations")));
-														QString s = rbs->fullName() + tr(".strength * ") + rna[k]->fullName();
+												{
+													DataTable<QString> * sDat2 = new DataTable<QString>(connections2[l]->textDataTable(tr("Rate equations")));
+													QString s = rbs->fullName() + tr(".strength * ") + rna[k]->fullName();
 
-														if (!sDat2->value(0,0).contains(rbs->fullName()))
-														{
-															sDat2->value(0,0) = s;
-															oldDataTables += &(connections2[l]->textDataTable(tr("Rate equations")));
-															newDataTables += sDat2;
-														}
-														else
-															delete sDat2;
+													if (!sDat2->value(0,0).contains(rbs->fullName()))
+													{
+														sDat2->value(0,0) = s;
+														oldDataTables += &(connections2[l]->textDataTable(tr("Rate equations")));
+														newDataTables += sDat2;
 													}
+													else
+														delete sDat2;
+												}
 										}
 									}
 								}

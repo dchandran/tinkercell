@@ -461,5 +461,9 @@ Source: @TINKERCELL_HOME_DIR@\Modules\TranscriptionActivation\Equilibrium_Model.
 Source: @TINKERCELL_HOME_DIR@\Modules\TranscriptionActivation\Reversible_Binding.tic; DestDir: {app}\Modules\TranscriptionActivation
 Source: @TINKERCELL_HOME_DIR@\Modules\TranscriptionRepression\Equilibrium_Model.tic; DestDir: {app}\Modules\TranscriptionRepression
 Source: @TINKERCELL_HOME_DIR@\Modules\TranscriptionRepression\Reversible_Binding.tic; DestDir: {app}\Modules\TranscriptionRepression
+Source: @TINKERCELL_HOME_DIR@\Modules\InducedTranscriptionActivation\Activator_Activation_Equilibrium_Model.tic; DestDir: {app}\Modules\InducedTranscriptionActivation
+Source: @TINKERCELL_HOME_DIR@\Modules\InducedTranscriptionActivation\Activator_Activation_Mass_Action.tic; DestDir: {app}\Modules\InducedTranscriptionActivation
+Source: @TINKERCELL_HOME_DIR@\Modules\InducedTranscriptionActivation\Repressor_Repression_Equilibrium_Model.tic; DestDir: {app}\Modules\InducedTranscriptionActivation
+Source: @TINKERCELL_HOME_DIR@\Modules\InducedTranscriptionActivation\Repressor_Repression_Mass_Action.tic; DestDir: {app}\Modules\InducedTranscriptionActivation
 Source: @TINKERCELL_HOME_DIR@\Modules\Empty_Model.tic; DestDir: {app}\Modules\
 Source: @TINKERCELL_HOME_DIR@\Modules\modules.xml; DestDir: {app}\Modules\

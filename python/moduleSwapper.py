@@ -39,14 +39,14 @@ for i in range( 0, len(listOfModules) ):
 
 def substituteSubModel(*arg):
     global listOfModules
-    homeDir = tc_homeDir() + "/Modules"
+    homeDir = tc_homeDir() + "/Modules/"
     n = len(listOfModules)
     if len(arg) < n:
         n = len(arg)
     for i in range(0,n):
         s = arg[i]
-        s = s.replace(" ","_")
         s = s.replace(": ","/")
+        s = s.replace(" ","_")
         s = homeDir + s
         tc_substituteModel(listOfModules[i], s)
 

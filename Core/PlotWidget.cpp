@@ -73,10 +73,29 @@ namespace Tinkercell
 				table = *data();
 				QString filename = MainWindow::tempDir() + tr("/tinkercellmodel.m");
 				QFile file(filename);
-		
-				if (!file.open(QFile::WriteOnly | QFile::Text))
+				if (file.open(QFile::WriteOnly | QFile::Text))
 				{
-					
+					QTextStream out(&file);
+				
+					out << "#";
+					for (int i=0; i < table.columns(); ++i)
+						out << "\t" << table.columnName(i);
+					out << "\n";
+					for (int i=0; i < table.rows(); ++i)
+					{
+						if (!table.rowName(i).isEmpty())
+							out << table.rowName(i) << "\t";
+						for (int j=0; j < table.columns(); ++j)
+							if (j > 0)
+								out << "\t" << table(i,j);
+							else
+								out << table(i,j);
+						out << "\n";
+					}
+				
+					file.close();
+		
+				
 					QDesktopServices::openUrl(QUrl(filename));
 				}
 				/*

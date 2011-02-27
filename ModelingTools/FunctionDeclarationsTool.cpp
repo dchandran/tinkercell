@@ -305,7 +305,7 @@ namespace Tinkercell
 				QString var = regex1.cap(1),
 						func = regex1.cap(2);
 
-				if (!EquationParser::validate(currentNetwork(), handle, func, QStringList() << "time" << "Time"))
+				if (!EquationParser::validate(currentNetwork(), handle, func, QStringList() << "time" << "Time" << "TIME"))
 					return;
 
 				if (handle->name == var || handle->fullName() == var) 
@@ -381,7 +381,7 @@ namespace Tinkercell
 					QString var = Self,
 								  func = text;
 
-					if (!EquationParser::validate(currentNetwork(), handle, func, QStringList() << "time" << "Time"))
+					if (!EquationParser::validate(currentNetwork(), handle, func, QStringList() << "time" << "Time" << "TIME"))
 						return;
 
 					DataTable<QString> newData(handle->textDataTable(tr("Assignments")));

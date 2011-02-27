@@ -175,6 +175,8 @@ copasi_model cCreateModel(const char * name)
 	pModel->setVolumeUnit(CModel::dimensionlessVolume);
 	pModel->setQuantityUnit(CModel::dimensionlessQuantity);
 	
+	cCreateVariable(m, "time", "time");
+	
 	return m;
 }
 
@@ -779,8 +781,7 @@ int cSetReactionRate(copasi_reaction reaction, const char * formula)
 			return 0;
 		
 		pFunction->setReversible(TriFalse);
-		
-		bool ok;
+
 		int retval = 0;
 
 		if (pFunction->setInfix(std::string(formula)))
@@ -791,18 +792,12 @@ int cSetReactionRate(copasi_reaction reaction, const char * formula)
 
 			for (i=0; i < variables.size(); ++i)
 			{
-				ok = false;
 				pParam = variables[i];
-				if (pParam->getObjectName().compare(std::string("time"))==0 ||
-				     pParam->getObjectName().compare(std::string("Time"))==0 ||
-				     pParam->getObjectName().compare(std::string("TIME"))==0)
-				{
-					pParam->setUsage(CFunctionParameter::TIME);
-					ok = true;
-				}
-				if (ok) continue;
 				
 				QString s(pParam->getObjectName().c_str());
+				
+				if (s.toLower() == QString("time"))
+					s = QString("time");
 				
 				if (!hash->contains(s))
 				{

@@ -999,7 +999,7 @@ namespace Tinkercell
 
 	bool SimulationEventsTool::parseRateString(NetworkHandle * win, ItemHandle * handle, QString& s)
 	{
-		return EquationParser::validate(win, handle, s, QStringList() << "time");
+		return EquationParser::validate(win, handle, s, QStringList() << "time" << "Time" << "TIME");
 	}
 
 }

@@ -431,7 +431,7 @@ namespace Tinkercell
 
 	bool StoichiometryTool::parseRateString(NetworkHandle * win, ItemHandle * handle, QString& s)
 	{
-		return EquationParser::validate(win, handle, s, QStringList() << "time");
+		return EquationParser::validate(win, handle, s, QStringList() << "time" << "Time" << "TIME");
 	}
 
 	StoichiometryTool::StoichiometryTool() : Tool(tr("Stoichiometry and Rates"),tr("Modeling")),

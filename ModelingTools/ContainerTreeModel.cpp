@@ -501,7 +501,7 @@ namespace Tinkercell
 						handle->textDataTable(QString("Assignments")).hasRow(QString("self")))
 					{
 						QString s = value.toString();
-						if (EquationParser::validate(network, handle, s, QStringList() << "time"))
+						if (EquationParser::validate(network, handle, s, QStringList() << "time" << "Time" << "TIME"))
 						{
 							 TextDataTable newTable(handle->textDataTable( QString("Assignments") ));
 							 newTable.value("self",0) = s;
@@ -535,7 +535,7 @@ namespace Tinkercell
 					if (handle->hasTextData(QString("Rate equations")) && handle->children.isEmpty())
 					{
 						QString s = value.toString();
-						if (EquationParser::validate(network, handle, s, QStringList() << "time"))
+						if (EquationParser::validate(network, handle, s, QStringList() << "time" << "Time" << "TIME"))
 						{
 							 TextDataTable newTable(handle->textDataTable( QString("Rate equations") ));
 							 newTable.value(0,0) = s;

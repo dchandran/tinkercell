@@ -61,6 +61,8 @@ namespace Tinkercell
 
 		QList<QGraphicsItem*> & selected = scene->selected();
 		
+		if (getHandle(selected,false).isEmpty()) return;
+		
 		if (selected.size() == 1)
 		{
 			ItemHandle * h = getHandle(selected[0]);

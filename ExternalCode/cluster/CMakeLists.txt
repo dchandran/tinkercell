@@ -1,0 +1,14 @@
+INCLUDE_DIRECTORIES( 
+	BEFORE
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/cluster
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/cluster/src
+)
+
+FILE( GLOB CLUSTER_SRC *.c)
+
+ADD_LIBRARY( cluster
+#  SHARED
+  STATIC
+  ${CLUSTER_SRC} 
+)
+

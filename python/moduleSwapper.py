@@ -3,7 +3,7 @@ category: Simulation
 name: Module Swap
 descr: A convenient way to see the simulation result due to the affect of different submodels
 menu: yes
-icon: puzzle.png
+icon: module.png
 tool: no
 """
 from tinkercell import *

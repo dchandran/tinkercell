@@ -1,5 +1,9 @@
 SET(LIBRARY_OUTPUT_PATH ${EXECUTABLE_OUTPUT_PATH})
 
+INCLUDE_DIRECTORIES( BEFORE
+      ${TINKERCELL_SOURCE_DIR}/ExternalCode/cluster
+)
+
 FILE(GLOB TINKERCELL_CORE_HDRS 
 	AbstractInputWindow.h
 	C_API_Slots.h
@@ -53,9 +57,10 @@ ADD_LIBRARY( TinkerCellCore
 
 TARGET_LINK_LIBRARIES( TinkerCellCore
   TinkerCellCore
-  muparser
-  qwt
-  qwtplot3d
+  muparser  #for parsing math
+  qwt           #for plotting
+  qwtplot3d   #for plotting 3D
+  cluster      #for clustering plot data
   ${QT_LIBRARIES}
 )
 
@@ -68,3 +73,4 @@ ELSE( WIN32 )
     LIBRARY DESTINATION bin/../
   )
 ENDIF( WIN32 )
+

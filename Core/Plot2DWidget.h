@@ -46,13 +46,13 @@ namespace Tinkercell
 	class DataColumn : public QwtData
 	{
 	public:
-		DataColumn(DataTable<qreal>* data, int,int,int dt=1);
+		DataColumn(NumericalDataTable* data, int,int,int dt=1);
 		virtual QwtData * copy() const;
 		virtual size_t size() const;
 		virtual double x(size_t index) const;
 		virtual double y(size_t index) const;
 	private:
-		DataTable<qreal> * dataTable;
+		NumericalDataTable * dataTable;
 		int column, xaxis, dt;
 				
 		friend class DataPlot;
@@ -74,20 +74,20 @@ namespace Tinkercell
 		Q_OBJECT
 	public:
 		DataPlot(QWidget * parent = 0);
-		void plot(const DataTable<qreal>&,int x, const QString& title,  int dt=1);
+		void plot(const NumericalDataTable&,int x, const QString& title,  bool append = false);
 		virtual QSize minimumSizeHint() const;
 		virtual QSize sizeHint() const;
 		virtual void setLogX(bool);
 		virtual void setLogY(bool);
 		
 	protected:
-		DataTable<qreal> dataTable;
+		QList< NumericalDataTable > dataTables;
 		QwtPlotZoomer * zoomer;
 		QStringList hideList;
 		static QList<QPen> penList;
-		int xcolumn, delta;
+		int xcolumn, numBars;
 		PlotTool::PlotType type;
-		void processData();
+		void processData(NumericalDataTable&);
 		void replotUsingHideList();
 		bool usesRowNames() const;
 		
@@ -146,11 +146,11 @@ namespace Tinkercell
 		
 	public:
 		Plot2DWidget(PlotTool * parent = 0);
-		virtual DataTable<qreal>* data();
+		virtual NumericalDataTable* data();
 		virtual bool canAppendData() const;
-		virtual void appendData(const DataTable<qreal>&);
-		virtual void plot(const DataTable<qreal>& matrix,const QString& title,int x=0);
-		virtual void updateData(const DataTable<qreal>&);
+		virtual void appendData(const NumericalDataTable&);
+		virtual void plot(const NumericalDataTable& matrix,const QString& title,int x=0);
+		virtual void updateData(const NumericalDataTable&);
 		
 	public slots:
 		void setLogScale(int index, bool set=true);

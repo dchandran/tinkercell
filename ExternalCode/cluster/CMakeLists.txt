@@ -4,7 +4,7 @@ INCLUDE_DIRECTORIES(
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/cluster/src
 )
 
-FILE( GLOB CLUSTER_SRC *.c)
+FILE( GLOB CLUSTER_SRC src/*.c)
 
 ADD_LIBRARY( cluster
 #  SHARED

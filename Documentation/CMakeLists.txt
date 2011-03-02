@@ -1,4 +1,4 @@
-FILE(GLOB DOC_FILES *.html *.pdf *.htm)
+FILE(GLOB DOC_FILES *.html *.pdf *.htm *.PDF *.HTML *.HTM)
 
 INSTALL( FILES ${DOC_FILES} 
   DESTINATION Documentation

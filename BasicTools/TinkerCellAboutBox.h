@@ -33,7 +33,8 @@ namespace Tinkercell
 		bool setMainWindow(MainWindow * main);	
 		public slots:
 			void showAboutBox();
-			void openDocumentation();
+			void openWhatIsTinkerCell();
+			void openUserDocumentation();
 			void openHomePage();
 			void openFeedbackPage();
 			void openBlog();

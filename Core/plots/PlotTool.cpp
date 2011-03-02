@@ -22,6 +22,7 @@
 #include "PlotTextWidget.h"
 #include "Plot2DWidget.h"
 #include "Plot3DWidget.h"
+#include "ClusterPlots.h"
 #include "qwt_scale_engine.h"
 #include "muParserDef.h"
 #include "muParser.h"
@@ -66,12 +67,32 @@ namespace Tinkercell
 		exportButton->setText(tr("E&xport"));
 		exportButton->setPopupMode(QToolButton::MenuButtonPopup);
 		exportButton->setToolButtonStyle ( Qt::ToolButtonTextUnderIcon );
-
-		toolBar.addWidget(exportButton);
-		toolBar.addWidget(keepOldPlots = new QCheckBox(tr("Keep Previous Graphs"),&toolBar));
-		toolBar.addWidget(holdCurrentPlot = new QCheckBox(tr("Append To Current Graph"),&toolBar));
+		
+		QMenu * optionsMenu = new QMenu(tr("Options"),&toolBar);
+		
+		keepOldPlots = new QAction(tr("Keep Previous Graphs"),&toolBar);
+		holdCurrentPlot = new QAction(tr("Append To Current Graph"),&toolBar);
+		clusterPlots = new QAction(tr("Cluster Graphs"),&toolBar);
+		keepOldPlots->setCheckable(true);
+		holdCurrentPlot->setCheckable(true);
+		clusterPlots->setCheckable(true);
 		keepOldPlots->setChecked(false);
 		holdCurrentPlot->setChecked(false);
+		clusterPlots->setChecked(false);
+		connect(clusterPlots,SIGNAL(toggled(bool)),this,SLOT(clusteringToggled(bool)));
+		optionsMenu->addAction(keepOldPlots);
+		optionsMenu->addAction(holdCurrentPlot);
+		optionsMenu->addAction(clusterPlots);
+		
+		QToolButton * optionsButton = new QToolButton(&toolBar);
+		optionsButton->setIcon(QIcon(":/images/tools.png"));
+		optionsButton->setMenu(optionsMenu);
+		optionsButton->setText(tr("&Options"));
+		optionsButton->setPopupMode(QToolButton::MenuButtonPopup);
+		optionsButton->setToolButtonStyle ( Qt::ToolButtonTextUnderIcon );
+		
+		toolBar.addWidget(exportButton);
+		toolBar.addWidget(optionsButton);
 		
 		QToolButton * customColumn = new QToolButton(&toolBar);
 		customColumn->setIcon(QIcon(":/images/function.png"));
@@ -699,8 +720,8 @@ namespace Tinkercell
 				
 				if (otherToolBar)
 				{
-					//window->addToolBar(Qt::TopToolBarArea,otherToolBar);
-					window->addToolBar(Qt::RightToolBarArea,otherToolBar);
+					window->addToolBar(Qt::TopToolBarArea,otherToolBar);
+					//window->addToolBar(Qt::RightToolBarArea,otherToolBar);
 					otherToolBar->show();
 				}
 			}
@@ -1046,6 +1067,21 @@ namespace Tinkercell
 						 this, SLOT(organizerButtonClicked ( QAbstractButton *  )));
 			window->addToolBar(Qt::TopToolBarArea,organizerToolBar);
 			organizerToolBar->hide();
+		}
+	}
+	
+	void PlotTool::clusteringToggled(bool b)
+	{
+		if (b)
+		{
+			bool ok = false;
+			int n = QInputDialog::getInt(this, tr("Clusters"), tr("Number of clusters: "), 1, 1, 10, 1, &ok);
+			if (ok)
+				numClusters = n;
+		}
+		else
+		{
+			numClusters = 1;
 		}
 	}
 	

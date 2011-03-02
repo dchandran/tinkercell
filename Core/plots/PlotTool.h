@@ -168,7 +168,8 @@ namespace Tinkercell
 		virtual QDockWidget * addDockWidget(const QString& title, QWidget * widget, Qt::DockWidgetArea area = Qt::BottomDockWidgetArea);
 
 	private:
-		QCheckBox * keepOldPlots, *holdCurrentPlot;
+		//QCheckBox * keepOldPlots, *holdCurrentPlot;
+		QAction *keepOldPlots, *holdCurrentPlot, *clusterPlots;
 
 	public slots:
 	
@@ -281,7 +282,7 @@ namespace Tinkercell
 		friend class PlotWidget;
 
 	private slots:
-        //void toolAboutToBeLoaded( Tool * , bool * );
+        void clusteringToggled(bool);
         void plotCustomFormula();
         void organizerButtonClicked(QAbstractButton * button);
 		void actionTriggered(QAction*);
@@ -302,6 +303,8 @@ namespace Tinkercell
 	protected:
 		virtual void keyPressEvent ( QKeyEvent * event );
 		virtual void mouseMoveEvent ( QMouseEvent * event );
+		
+		int numClusters;
 	};
 }
 #endif

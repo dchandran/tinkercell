@@ -10,33 +10,33 @@ FILE(GLOB TINKERCELL_CORE_HDRS
 	CodeEditor.h
 	ConsoleWindow.h
 	CThread.h
-	GnuplotTool.h
+	plots/GnuplotTool.h
 	GraphicsScene.h
 	GraphicsView.h
 	HistoryWindow.h
-	InterpreterThread.h
+	interpreters/InterpreterThread.h
 	ItemHandle.h
 	MainWindow.h
-	MultithreadedSliderWidget.h
+	plugins/MultithreadedSliderWidget.h
 	NetworkHandle.h
 	NetworkWindow.h
-	OctaveInterpreterThread.h
-	Plot2DWidget.h
-	Plot3DWidget.h
-	PlotTextWidget.h
-	PlotTool.h
-	PlotWidget.h
-	PythonInterpreterThread.h
+	interpreters/OctaveInterpreterThread.h
+	plots/Plot2DWidget.h
+	plots/Plot3DWidget.h
+	plots/PlotTextWidget.h
+	plots/PlotTool.h
+	plots/PlotWidget.h
+	interpreters/PythonInterpreterThread.h
 	TextEditor.h
 	TextGraphicsItem.h
-	TextParser.h
+	plugins/TextParser.h
 	Tool.h
-	TextGraphicsTool.h
-	BasicGraphicsToolbar.h
-	LoadSaveTool.h
+	plugins/TextGraphicsTool.h
+	plugins/BasicGraphicsToolbar.h
+	fileIO/LoadSaveTool.h
 )
 
-FILE(GLOB TINKERCELL_CORE_SRC *.cpp)
+FILE(GLOB TINKERCELL_CORE_SRC *.cpp interpreters/*.cpp plots/*.cpp fileIO/*.cpp plugins/*.cpp)
 
 QT4_ADD_RESOURCES( TINKERCELL_QRC Tinkercell.qrc )
 

@@ -47,6 +47,12 @@ TCAPIEXPORT void tc_hist(tc_matrix data,const char* title);
 */
 TCAPIEXPORT void tc_multiplot(int rows, int cols);
 /*!
+ \brief enable clustering, i.e. as new plots are generated, they will be clustered and each cluster will be displayed separately. Use 0 or 1 as the argument to disable clustering.
+ \param int number of clusters (max 10). Use 0 or 1 to disable.
+ \ingroup Plotting
+*/
+TCAPIEXPORT void tc_enableClustering(int clusters);
+/*!
  \brief get the data in the plot window
  \param int index of the plot (if multiple plots are being displayed)
  \return tc_matrix data
@@ -82,6 +88,7 @@ TCAPIEXPORT void tc_PlotTool_api(
 	void (*errorBars)(tc_matrix,const char*),
 	void (*scatterplot)(tc_matrix,const char*) ,
 	void (*multiplot)(int, int),
+	void (*enableClustering)(int),
 	tc_matrix (*plotData)(int),
 	void (*gnuplot)(const char*),
 	void (*savePlotImage)(const char *),

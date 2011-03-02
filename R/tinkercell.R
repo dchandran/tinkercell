@@ -5478,6 +5478,24 @@ attr(`tc_multiplot`, 'returnType') = 'void'
 attr(`tc_multiplot`, "inputTypes") = c('integer', 'integer')
 class(`tc_multiplot`) = c("SWIGFunction", class('tc_multiplot'))
 
+# Start of tc_enableClustering
+
+`tc_enableClustering` = function(clusters)
+{
+  clusters = as.integer(clusters) 
+  
+  if(length(clusters) > 1) {
+    warning("using only the first element of clusters")
+  }
+  
+  .Call('R_swig_tc_enableClustering', clusters, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_enableClustering`, 'returnType') = 'void'
+attr(`tc_enableClustering`, "inputTypes") = c('integer')
+class(`tc_enableClustering`) = c("SWIGFunction", class('tc_enableClustering'))
+
 # Start of tc_getPlotData
 
 `tc_getPlotData` = function(whichPlot, .copy = FALSE)
@@ -5545,7 +5563,7 @@ class(`tc_setLogScale`) = c("SWIGFunction", class('tc_setLogScale'))
 
 # Start of tc_PlotTool_api
 
-`tc_PlotTool_api` = function(plot, surface, hist, errorBars, scatterplot, multiplot, plotData, gnuplot, savePlotImage, logscale)
+`tc_PlotTool_api` = function(plot, surface, hist, errorBars, scatterplot, multiplot, enableClustering, plotData, gnuplot, savePlotImage, logscale)
 {
   if(is.function(plot)) {
     assert('...' %in% names(formals(plot)) || length(formals(plot)) >= 2)
@@ -5607,6 +5625,16 @@ class(`tc_setLogScale`) = c("SWIGFunction", class('tc_setLogScale'))
       multiplot = multiplot$address
     }
   }
+  if(is.function(enableClustering)) {
+    assert('...' %in% names(formals(enableClustering)) || length(formals(enableClustering)) >= 0)
+  } else {
+    if(is.character(enableClustering)) {
+      enableClustering = getNativeSymbolInfo(enableClustering)
+    }
+    if(is(enableClustering, "NativeSymbolInfo")) {
+      enableClustering = enableClustering$address
+    }
+  }
   if(is.function(plotData)) {
     assert('...' %in% names(formals(plotData)) || length(formals(plotData)) >= 1)
   } else {
@@ -5647,12 +5675,12 @@ class(`tc_setLogScale`) = c("SWIGFunction", class('tc_setLogScale'))
       logscale = logscale$address
     }
   }
-  .Call('R_swig_tc_PlotTool_api', plot, surface, hist, errorBars, scatterplot, multiplot, plotData, gnuplot, savePlotImage, logscale, PACKAGE='tinkercell')
+  .Call('R_swig_tc_PlotTool_api', plot, surface, hist, errorBars, scatterplot, multiplot, enableClustering, plotData, gnuplot, savePlotImage, logscale, PACKAGE='tinkercell')
   
 }
 
 attr(`tc_PlotTool_api`, 'returnType') = 'void'
-attr(`tc_PlotTool_api`, "inputTypes") = c('_p_f_tc_matrix_p_q_const__char__void', '_p_f_tc_matrix_p_q_const__char__void', '_p_f_tc_matrix_p_q_const__char__void', '_p_f_tc_matrix_p_q_const__char__void', '_p_f_tc_matrix_p_q_const__char__void', '_p_f_int_int__void', '_p_f_int__tc_matrix', '_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void', '_p_f_int__void')
+attr(`tc_PlotTool_api`, "inputTypes") = c('_p_f_tc_matrix_p_q_const__char__void', '_p_f_tc_matrix_p_q_const__char__void', '_p_f_tc_matrix_p_q_const__char__void', '_p_f_tc_matrix_p_q_const__char__void', '_p_f_tc_matrix_p_q_const__char__void', '_p_f_int_int__void', '_p_f_int__void', '_p_f_int__tc_matrix', '_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void', '_p_f_int__void')
 class(`tc_PlotTool_api`) = c("SWIGFunction", class('tc_PlotTool_api'))
 
 # Start of tc_writeModel

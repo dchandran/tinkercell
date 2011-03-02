@@ -66,6 +66,17 @@ void tc_multiplot(int rows, int cols)
 		_tc_multiplot(rows,cols);
 }
 
+void (*_tc_enableClustering)(int c) = 0;
+/*!
+ \brief enable clustering
+ \ingroup Plotting
+*/ TCAPIEXPORT 
+void tc_enableClustering(int c)
+{
+	if (_tc_enableClustering)
+		_tc_enableClustering(c);
+}
+
 tc_matrix (*_tc_getPlotData)(int whichPlot) = 0;
 /*!
  \brief get the data that is currently in the plot window
@@ -128,6 +139,7 @@ void tc_PlotTool_api(
 	void (*errorBars)(tc_matrix data, const char* title),
 	void (*scatterplot)(tc_matrix data, const char* title) ,
 	void (*multiplot)(int r, int c),
+	void (*enableClustering)(int c),
 	tc_matrix (*plotData)(int),
 	void (*gnuplot)(const char*),
 	void (*savePlotImage)(const char *),
@@ -140,6 +152,7 @@ void tc_PlotTool_api(
 	_tc_errorBars = errorBars;
 	_tc_scatterplot = scatterplot;
 	_tc_multiplot = multiplot;
+	_tc_enableClustering = enableClustering;
 	_tc_gnuplot = gnuplot;
 	_tc_savePlot = savePlotImage;
 	_tc_setLogScale = logscale;

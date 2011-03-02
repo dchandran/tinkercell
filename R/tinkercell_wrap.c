@@ -11784,6 +11784,25 @@ R_swig_tc_multiplot ( SEXP rows, SEXP cols)
 
 
 SWIGEXPORT SEXP
+R_swig_tc_enableClustering ( SEXP clusters)
+{
+  int arg1 ;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  arg1 = (int)(INTEGER(clusters)[0]);
+  tc_enableClustering(arg1);
+  r_ans = R_NilValue;
+  
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
+SWIGEXPORT SEXP
 R_swig_tc_getPlotData ( SEXP whichPlot, SEXP s_swig_copy)
 {
   tc_matrix result;
@@ -12008,7 +12027,7 @@ tc_matrix _p_f_int__tc_matrix(int s_arg1) {
 
 
 SWIGEXPORT SEXP
-R_swig_tc_PlotTool_api ( SEXP plot, SEXP surface, SEXP hist, SEXP errorBars, SEXP scatterplot, SEXP multiplot, SEXP plotData, SEXP gnuplot, SEXP savePlotImage, SEXP logscale)
+R_swig_tc_PlotTool_api ( SEXP plot, SEXP surface, SEXP hist, SEXP errorBars, SEXP scatterplot, SEXP multiplot, SEXP enableClustering, SEXP plotData, SEXP gnuplot, SEXP savePlotImage, SEXP logscale)
 {
   void (*arg1)(tc_matrix,char const *) = (void (*)(tc_matrix,char const *)) 0 ;
   void (*arg2)(tc_matrix,char const *) = (void (*)(tc_matrix,char const *)) 0 ;
@@ -12016,10 +12035,11 @@ R_swig_tc_PlotTool_api ( SEXP plot, SEXP surface, SEXP hist, SEXP errorBars, SEX
   void (*arg4)(tc_matrix,char const *) = (void (*)(tc_matrix,char const *)) 0 ;
   void (*arg5)(tc_matrix,char const *) = (void (*)(tc_matrix,char const *)) 0 ;
   void (*arg6)(int,int) = (void (*)(int,int)) 0 ;
-  tc_matrix (*arg7)(int) = (tc_matrix (*)(int)) 0 ;
-  void (*arg8)(char const *) = (void (*)(char const *)) 0 ;
+  void (*arg7)(int) = (void (*)(int)) 0 ;
+  tc_matrix (*arg8)(int) = (tc_matrix (*)(int)) 0 ;
   void (*arg9)(char const *) = (void (*)(char const *)) 0 ;
-  void (*arg10)(int) = (void (*)(int)) 0 ;
+  void (*arg10)(char const *) = (void (*)(char const *)) 0 ;
+  void (*arg11)(int) = (void (*)(int)) 0 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
@@ -12090,52 +12110,64 @@ R_swig_tc_PlotTool_api ( SEXP plot, SEXP surface, SEXP hist, SEXP errorBars, SEX
     arg6 = _p_f_int_int__void;
     R_SWIG_pushCallbackFunctionData(multiplot, NULL);
   }
-  if(TYPEOF(plotData) != CLOSXP) {
+  if(TYPEOF(enableClustering) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(plotData, (void**)(&arg7), SWIGTYPE_p_f_int__tc_matrix, 0);
+      int res = SWIG_R_ConvertPtr(enableClustering, (void**)(&arg7), SWIGTYPE_p_f_int__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "7"" of type '" "tc_matrix (*)(int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "7"" of type '" "void (*)(int)""'"); 
       }
     }
   } else {
-    arg7 = _p_f_int__tc_matrix;
+    arg7 = _p_f_int__void;
+    R_SWIG_pushCallbackFunctionData(enableClustering, NULL);
+  }
+  if(TYPEOF(plotData) != CLOSXP) {
+    {
+      int res = SWIG_R_ConvertPtr(plotData, (void**)(&arg8), SWIGTYPE_p_f_int__tc_matrix, 0);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "8"" of type '" "tc_matrix (*)(int)""'"); 
+      }
+    }
+  } else {
+    arg8 = _p_f_int__tc_matrix;
     R_SWIG_pushCallbackFunctionData(plotData, NULL);
   }
   if(TYPEOF(gnuplot) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(gnuplot, (void**)(&arg8), SWIGTYPE_p_f_p_q_const__char__void, 0);
-      if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "8"" of type '" "void (*)(char const *)""'"); 
-      }
-    }
-  } else {
-    arg8 = _p_f_p_q_const__char__void;
-    R_SWIG_pushCallbackFunctionData(gnuplot, NULL);
-  }
-  if(TYPEOF(savePlotImage) != CLOSXP) {
-    {
-      int res = SWIG_R_ConvertPtr(savePlotImage, (void**)(&arg9), SWIGTYPE_p_f_p_q_const__char__void, 0);
+      int res = SWIG_R_ConvertPtr(gnuplot, (void**)(&arg9), SWIGTYPE_p_f_p_q_const__char__void, 0);
       if (!SWIG_IsOK(res)) {
         SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "9"" of type '" "void (*)(char const *)""'"); 
       }
     }
   } else {
     arg9 = _p_f_p_q_const__char__void;
+    R_SWIG_pushCallbackFunctionData(gnuplot, NULL);
+  }
+  if(TYPEOF(savePlotImage) != CLOSXP) {
+    {
+      int res = SWIG_R_ConvertPtr(savePlotImage, (void**)(&arg10), SWIGTYPE_p_f_p_q_const__char__void, 0);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "10"" of type '" "void (*)(char const *)""'"); 
+      }
+    }
+  } else {
+    arg10 = _p_f_p_q_const__char__void;
     R_SWIG_pushCallbackFunctionData(savePlotImage, NULL);
   }
   if(TYPEOF(logscale) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(logscale, (void**)(&arg10), SWIGTYPE_p_f_int__void, 0);
+      int res = SWIG_R_ConvertPtr(logscale, (void**)(&arg11), SWIGTYPE_p_f_int__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "10"" of type '" "void (*)(int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "11"" of type '" "void (*)(int)""'"); 
       }
     }
   } else {
-    arg10 = _p_f_int__void;
+    arg11 = _p_f_int__void;
     R_SWIG_pushCallbackFunctionData(logscale, NULL);
   }
-  tc_PlotTool_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10);
+  tc_PlotTool_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11);
   r_ans = R_NilValue;
+  
   
   
   
@@ -14937,7 +14969,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_StoichiometryTool_api", (DL_FUNC) &R_swig_tc_StoichiometryTool_api, 4},
    {"R_swig_tc_PythonTool_api", (DL_FUNC) &R_swig_tc_PythonTool_api, 3},
    {"R_swig_tc_OctaveTool_api", (DL_FUNC) &R_swig_tc_OctaveTool_api, 3},
-   {"R_swig_tc_PlotTool_api", (DL_FUNC) &R_swig_tc_PlotTool_api, 10},
+   {"R_swig_tc_PlotTool_api", (DL_FUNC) &R_swig_tc_PlotTool_api, 11},
    {"R_swig_tc_SimulationEventsTool_api", (DL_FUNC) &R_swig_tc_SimulationEventsTool_api, 3},
    {"R_swig_tc_AssignmentFunctionsTool_api", (DL_FUNC) &R_swig_tc_AssignmentFunctionsTool_api, 3},
    {"R_swig_tc_CLabelsTool_api", (DL_FUNC) &R_swig_tc_CLabelsTool_api, 4},
@@ -15084,6 +15116,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_getName", (DL_FUNC) &R_swig_tc_getName, 1},
    {"R_swig_tc_errorBars", (DL_FUNC) &R_swig_tc_errorBars, 2},
    {"R_swig_tc_getEventTriggers", (DL_FUNC) &R_swig_tc_getEventTriggers, 1},
+   {"R_swig_tc_enableClustering", (DL_FUNC) &R_swig_tc_enableClustering, 1},
    {"R_swig_tc_highlight", (DL_FUNC) &R_swig_tc_highlight, 2},
    {"R_swig_tc_table_cols_set", (DL_FUNC) &R_swig_tc_table_cols_set, 2},
    {"R_swig_tc_matrix_cols_set", (DL_FUNC) &R_swig_tc_matrix_cols_set, 2},

@@ -9023,6 +9023,27 @@ fail:
 
 
 SWIGINTERN VALUE
+_wrap_tc_enableClustering(int argc, VALUE *argv, VALUE self) {
+  int arg1 ;
+  int val1 ;
+  int ecode1 = 0 ;
+  
+  if ((argc < 1) || (argc > 1)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 1)",argc); SWIG_fail;
+  }
+  ecode1 = SWIG_AsVal_int(argv[0], &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), Ruby_Format_TypeError( "", "int","tc_enableClustering", 1, argv[0] ));
+  } 
+  arg1 = (int)(val1);
+  tc_enableClustering(arg1);
+  return Qnil;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
 _wrap_tc_getPlotData(int argc, VALUE *argv, VALUE self) {
   int arg1 ;
   int val1 ;
@@ -9123,13 +9144,14 @@ _wrap_tc_PlotTool_api(int argc, VALUE *argv, VALUE self) {
   void (*arg4)(tc_matrix,char const *) = (void (*)(tc_matrix,char const *)) 0 ;
   void (*arg5)(tc_matrix,char const *) = (void (*)(tc_matrix,char const *)) 0 ;
   void (*arg6)(int,int) = (void (*)(int,int)) 0 ;
-  tc_matrix (*arg7)(int) = (tc_matrix (*)(int)) 0 ;
-  void (*arg8)(char const *) = (void (*)(char const *)) 0 ;
+  void (*arg7)(int) = (void (*)(int)) 0 ;
+  tc_matrix (*arg8)(int) = (tc_matrix (*)(int)) 0 ;
   void (*arg9)(char const *) = (void (*)(char const *)) 0 ;
-  void (*arg10)(int) = (void (*)(int)) 0 ;
+  void (*arg10)(char const *) = (void (*)(char const *)) 0 ;
+  void (*arg11)(int) = (void (*)(int)) 0 ;
   
-  if ((argc < 10) || (argc > 10)) {
-    rb_raise(rb_eArgError, "wrong # of arguments(%d for 10)",argc); SWIG_fail;
+  if ((argc < 11) || (argc > 11)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 11)",argc); SWIG_fail;
   }
   {
     int res = SWIG_ConvertFunctionPtr(argv[0], (void**)(&arg1), SWIGTYPE_p_f_tc_matrix_p_q_const__char__void);
@@ -9168,15 +9190,15 @@ _wrap_tc_PlotTool_api(int argc, VALUE *argv, VALUE self) {
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[6], (void**)(&arg7), SWIGTYPE_p_f_int__tc_matrix);
+    int res = SWIG_ConvertFunctionPtr(argv[6], (void**)(&arg7), SWIGTYPE_p_f_int__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "tc_matrix (*)(int)","tc_PlotTool_api", 7, argv[6] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(int)","tc_PlotTool_api", 7, argv[6] )); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[7], (void**)(&arg8), SWIGTYPE_p_f_p_q_const__char__void);
+    int res = SWIG_ConvertFunctionPtr(argv[7], (void**)(&arg8), SWIGTYPE_p_f_int__tc_matrix);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(char const *)","tc_PlotTool_api", 8, argv[7] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "tc_matrix (*)(int)","tc_PlotTool_api", 8, argv[7] )); 
     }
   }
   {
@@ -9186,12 +9208,18 @@ _wrap_tc_PlotTool_api(int argc, VALUE *argv, VALUE self) {
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[9], (void**)(&arg10), SWIGTYPE_p_f_int__void);
+    int res = SWIG_ConvertFunctionPtr(argv[9], (void**)(&arg10), SWIGTYPE_p_f_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(int)","tc_PlotTool_api", 10, argv[9] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(char const *)","tc_PlotTool_api", 10, argv[9] )); 
     }
   }
-  tc_PlotTool_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10);
+  {
+    int res = SWIG_ConvertFunctionPtr(argv[10], (void**)(&arg11), SWIGTYPE_p_f_int__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(int)","tc_PlotTool_api", 11, argv[10] )); 
+    }
+  }
+  tc_PlotTool_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11);
   return Qnil;
 fail:
   return Qnil;
@@ -11562,6 +11590,7 @@ SWIGEXPORT void Init_tinkercell(void) {
   rb_define_module_function(mTinkercell, "tc_errorBars", _wrap_tc_errorBars, -1);
   rb_define_module_function(mTinkercell, "tc_hist", _wrap_tc_hist, -1);
   rb_define_module_function(mTinkercell, "tc_multiplot", _wrap_tc_multiplot, -1);
+  rb_define_module_function(mTinkercell, "tc_enableClustering", _wrap_tc_enableClustering, -1);
   rb_define_module_function(mTinkercell, "tc_getPlotData", _wrap_tc_getPlotData, -1);
   rb_define_module_function(mTinkercell, "tc_gnuplot", _wrap_tc_gnuplot, -1);
   rb_define_module_function(mTinkercell, "tc_savePlot", _wrap_tc_savePlot, -1);

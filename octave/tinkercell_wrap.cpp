@@ -9696,6 +9696,30 @@ fail:
 }
 
 
+static octave_value_list _wrap_tc_enableClustering (const octave_value_list& args, int nargout) {
+  int arg1 ;
+  int val1 ;
+  int ecode1 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  
+  if (!SWIG_check_num_args("tc_enableClustering",args.length(),1,1,0)) {
+    SWIG_fail;
+  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_enableClustering" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
+  tc_enableClustering(arg1);
+  _outv = octave_value();
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
 static octave_value_list _wrap_tc_getPlotData (const octave_value_list& args, int nargout) {
   int arg1 ;
   int val1 ;
@@ -9804,15 +9828,16 @@ static octave_value_list _wrap_tc_PlotTool_api (const octave_value_list& args, i
   void (*arg4)(tc_matrix,char const *) = (void (*)(tc_matrix,char const *)) 0 ;
   void (*arg5)(tc_matrix,char const *) = (void (*)(tc_matrix,char const *)) 0 ;
   void (*arg6)(int,int) = (void (*)(int,int)) 0 ;
-  tc_matrix (*arg7)(int) = (tc_matrix (*)(int)) 0 ;
-  void (*arg8)(char const *) = (void (*)(char const *)) 0 ;
+  void (*arg7)(int) = (void (*)(int)) 0 ;
+  tc_matrix (*arg8)(int) = (tc_matrix (*)(int)) 0 ;
   void (*arg9)(char const *) = (void (*)(char const *)) 0 ;
-  void (*arg10)(int) = (void (*)(int)) 0 ;
+  void (*arg10)(char const *) = (void (*)(char const *)) 0 ;
+  void (*arg11)(int) = (void (*)(int)) 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
   
-  if (!SWIG_check_num_args("tc_PlotTool_api",args.length(),10,10,0)) {
+  if (!SWIG_check_num_args("tc_PlotTool_api",args.length(),11,11,0)) {
     SWIG_fail;
   }
   {
@@ -9852,15 +9877,15 @@ static octave_value_list _wrap_tc_PlotTool_api (const octave_value_list& args, i
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(6), (void**)(&arg7), SWIGTYPE_p_f_int__tc_matrix);
+    int res = SWIG_ConvertFunctionPtr(args(6), (void**)(&arg7), SWIGTYPE_p_f_int__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "7"" of type '" "tc_matrix (*)(int)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "7"" of type '" "void (*)(int)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(7), (void**)(&arg8), SWIGTYPE_p_f_p_q_const__char__void);
+    int res = SWIG_ConvertFunctionPtr(args(7), (void**)(&arg8), SWIGTYPE_p_f_int__tc_matrix);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "8"" of type '" "void (*)(char const *)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "8"" of type '" "tc_matrix (*)(int)""'"); 
     }
   }
   {
@@ -9870,12 +9895,18 @@ static octave_value_list _wrap_tc_PlotTool_api (const octave_value_list& args, i
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(9), (void**)(&arg10), SWIGTYPE_p_f_int__void);
+    int res = SWIG_ConvertFunctionPtr(args(9), (void**)(&arg10), SWIGTYPE_p_f_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "10"" of type '" "void (*)(int)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "10"" of type '" "void (*)(char const *)""'"); 
     }
   }
-  tc_PlotTool_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10);
+  {
+    int res = SWIG_ConvertFunctionPtr(args(10), (void**)(&arg11), SWIGTYPE_p_f_int__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "11"" of type '" "void (*)(int)""'"); 
+    }
+  }
+  tc_PlotTool_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
 fail:
@@ -11700,6 +11731,7 @@ static const struct swig_octave_member swig_globals[] = {
 {"tc_errorBars",_wrap_tc_errorBars,0,0,2,0},
 {"tc_hist",_wrap_tc_hist,0,0,2,0},
 {"tc_multiplot",_wrap_tc_multiplot,0,0,2,0},
+{"tc_enableClustering",_wrap_tc_enableClustering,0,0,2,0},
 {"tc_getPlotData",_wrap_tc_getPlotData,0,0,2,0},
 {"tc_gnuplot",_wrap_tc_gnuplot,0,0,2,0},
 {"tc_savePlot",_wrap_tc_savePlot,0,0,2,0},

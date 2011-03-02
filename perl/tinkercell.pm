@@ -217,6 +217,7 @@ package tinkercell;
 *tc_errorBars = *tinkercellc::tc_errorBars;
 *tc_hist = *tinkercellc::tc_hist;
 *tc_multiplot = *tinkercellc::tc_multiplot;
+*tc_enableClustering = *tinkercellc::tc_enableClustering;
 *tc_getPlotData = *tinkercellc::tc_getPlotData;
 *tc_gnuplot = *tinkercellc::tc_gnuplot;
 *tc_savePlot = *tinkercellc::tc_savePlot;

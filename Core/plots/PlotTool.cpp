@@ -133,6 +133,8 @@ namespace Tinkercell
 		
 		connect(&fToS,SIGNAL(plotMultiplot(QSemaphore*,int, int)), this, SLOT(plotMultiplot(QSemaphore*,int, int)));
 		
+		connect(&fToS,SIGNAL(plotClustering(QSemaphore*,int)), this, SLOT(plotClustering(QSemaphore*,int)));
+		
 		connect(&fToS,SIGNAL(getDataTable(QSemaphore*,DataTable<qreal>*, int)), this, SLOT(getData(QSemaphore*, DataTable<qreal>*,int)));
 		
 		connect(&fToS,SIGNAL(gnuplot(QSemaphore*,const QString&)), this, SLOT(gnuplot(QSemaphore*,const QString&)));
@@ -507,6 +509,13 @@ namespace Tinkercell
 			holdCurrentPlot->setChecked(b);
 	}
 	
+	void PlotTool::plotClustering(QSemaphore* s, int n)
+	{
+		numClusters = n;
+		if (s)
+			s->release();
+	}
+	
 	void PlotTool::plotMultiplot(QSemaphore* s, int x, int y)
 	{
 		numMultiplots = x*y;
@@ -598,6 +607,7 @@ namespace Tinkercell
 		void (*errorbars)(tc_matrix,const char*) ,
 		void (*scatterplot)(tc_matrix data,const char* title) ,
 		void (*multiplot)(int,int),
+		void (*enableClustering)(int),
 		tc_matrix (*plotData)(int),
 		void (*gnuplot)(const char*),
 		void (*savePlotImage)(const char*),
@@ -616,6 +626,7 @@ namespace Tinkercell
 				&(plotErrorbarsC),
 				&(plotScatterC),
 				&(plotMultiplotC),
+				&(plotClusteringC),
 				&(getDataMatrix),
 				&(_gnuplot),
 				&(_savePlotImage),
@@ -838,6 +849,16 @@ namespace Tinkercell
 		s->release();
 		delete s;
 	}
+	
+	void PlotTool_FtoS::plotClusteringC(int n)
+	{
+		QSemaphore * s = new QSemaphore(1);
+		s->acquire();
+		emit plotClustering(s, n);
+		s->acquire();
+		s->release();
+		delete s;
+	}
 
 	tc_matrix PlotTool_FtoS::getDataMatrix(int index)
 	{
@@ -912,6 +933,11 @@ namespace Tinkercell
 	void PlotTool::plotMultiplotC(int x, int y)
 	{
 		fToS.plotMultiplotC(x,y);
+	}
+	
+	void PlotTool::plotClusteringC(int n)
+	{
+		fToS.plotClusteringC(n);
 	}
 
 	tc_matrix PlotTool::getDataMatrix(int index)

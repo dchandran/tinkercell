@@ -34,6 +34,7 @@ namespace Tinkercell
 
 	/*!
 	\brief A PlotWidget used to display tab delimited text
+	\ingroup plotting
 	*/
 	class PlotTextWidget : public PlotWidget
 	{

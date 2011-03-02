@@ -37,6 +37,10 @@ namespace Tinkercell
 
 	class ChangeParentCommand;
 
+	/*!
+	\brief A tool that provides GUI feature for placing and editing text objects
+	\ingroup plugins
+	*/
 	class TextGraphicsTool : public Tool
 	{
 		Q_OBJECT;

@@ -156,7 +156,7 @@ namespace Tinkercell
 	/*!
 	\brief A widget containing a data plot, legend and options. Can be used to plot
 		line-plots, bar-plots, or histograms
-	\ingroup plugins
+	\ingroup plotting
 	*/
 	class TINKERCELLEXPORT Plot2DWidget : public PlotWidget
 	{

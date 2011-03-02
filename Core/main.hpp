@@ -302,6 +302,11 @@ This class inherits from CThreads. It is used to embed Octave interpreter. This 
 /*! \defgroup CAPI C API
    \brief C functions that are provided by the TinkerCell Core library and Plug-ins (tools)
  */
+ 
+ /*! \defgroup plotting Plotting
+   \brief Classes that provide 2D and 3D plotting capabilities. Other tools can use signals and slots from these classes to generate plots. Also includes clustering capabilities.
+ */
+ 
 
 /*! \defgroup plugins TinkerCell plug-ins
    \brief Plug-ins, which are classes that inheir from Tool class, provide the large majority of the important features in TinkerCell

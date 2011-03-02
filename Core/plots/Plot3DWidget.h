@@ -26,7 +26,7 @@ namespace Tinkercell
 
 	/*!
 	\brief A widget that uses qwtplot3D to draw surface plots
-	\ingroup plugins
+	\ingroup plotting
 	*/
 	class TINKERCELLEXPORT Plot3DWidget : public PlotWidget
 	{

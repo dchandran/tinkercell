@@ -90,7 +90,7 @@ namespace Tinkercell
 	\brief A docking widget that can contains one or more PlotWidget instances. 
 		Each PlotWidget can either be a text output, 2D graph, or 3D graph. 
 		Alternatively, the PlotTool can use an separate Gnuplot window to generate plots.
-	\ingroup plugins
+	\ingroup plotting
 	*/
 	class TINKERCELLEXPORT PlotTool : public Tool
 	{

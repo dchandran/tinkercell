@@ -44,6 +44,10 @@ buttons for all these functions.
 
 namespace Tinkercell
 {
+	/*!
+	\brief A tool that provides GUI features such as alignment, zoom, and coloring
+	\ingroup plugins
+	*/
 	class TINKERCELLEXPORT BasicGraphicsToolbar : public Tool
 	{
 		Q_OBJECT

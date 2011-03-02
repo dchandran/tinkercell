@@ -42,21 +42,38 @@ namespace Tinkercell
 	class DataPlot;
 	class GetPenInfoDialog;
 	class ShowHideLegendItemsWidget;
+	class PlotCurve;
 
 	class DataColumn : public QwtData
 	{
 	public:
-		DataColumn(NumericalDataTable* data, int,int,int dt=1);
+		DataColumn(const NumericalDataTable * data, int,int,int dt=1);
 		virtual QwtData * copy() const;
 		virtual size_t size() const;
 		virtual double x(size_t index) const;
 		virtual double y(size_t index) const;
 	private:
-		NumericalDataTable * dataTable;
+		const NumericalDataTable * dataTable;
 		int column, xaxis, dt;
 				
 		friend class DataPlot;
 		friend class Plot2DWidget;
+		friend class PlotCurve;
+	};
+	
+	class PlotCurve: public QwtPlotCurve
+	{
+	public:
+		PlotCurve(const QString& title, DataPlot * dataplot, int xaxis, int index, int dt);
+	protected:
+		void drawCurve (QPainter *p, int style, const QwtScaleMap &xMap, const QwtScaleMap &yMap, int from, int to) const;
+		void 	drawSymbols (QPainter *p, const QwtSymbol &, const QwtScaleMap &xMap, const QwtScaleMap &yMap, int from, int to) const;
+		DataColumn dataColumn;
+		DataPlot * dataPlot;
+		
+		friend class DataPlot;
+		friend class Plot2DWidget;
+		friend class DataColumn;
 	};
 	
 	class DataAxisLabelDraw : public QwtScaleDraw
@@ -81,13 +98,13 @@ namespace Tinkercell
 		virtual void setLogY(bool);
 		
 	protected:
-		QList< NumericalDataTable > dataTables;
+		QList< NumericalDataTable* > dataTables;
 		QwtPlotZoomer * zoomer;
 		QStringList hideList;
 		static QList<QPen> penList;
 		int xcolumn, numBars;
 		PlotTool::PlotType type;
-		void processData(NumericalDataTable&);
+		void processData(NumericalDataTable *);
 		void replotUsingHideList();
 		bool usesRowNames() const;
 		
@@ -95,6 +112,7 @@ namespace Tinkercell
 		void itemChecked(QwtPlotItem *,	bool);
 		void setXAxis(int);
 		
+		friend class PlotCurve;
 		friend class Plot2DWidget;
 		friend class GetPenInfoDialog;
 		friend class ShowHideLegendItemsWidget;

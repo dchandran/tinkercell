@@ -42,7 +42,7 @@ namespace Tinkercell
 						mask[i][j] = 1;
 					}
 					
-					l = 0;
+					int l = 0;
 					
 					if (tables[i])
 						for (int j=0; j < n; ++j)

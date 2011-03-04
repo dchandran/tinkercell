@@ -2,7 +2,7 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  see COPYRIGHT.TXT
-
+ 
  This tool displays a plot based on the DataTable contained.
  
 ****************************************************************************/
@@ -433,7 +433,7 @@ namespace Tinkercell
 		replot();
 	}
 	
-	QStringList Plot2DWidget::hideList;
+	QStringList DataPlot::hideList;
 	
 	/*********************
    		DataAxisLabelDraw
@@ -1146,7 +1146,7 @@ namespace Tinkercell
 		QList<QMdiSubWindow*>  list = plotTool->multiplePlotsArea->subWindowList(QMdiArea::ActivationHistoryOrder);
 		
 		for (int i=0; i < list.size(); ++i)
-			if (lists[i]->widget())
+			if (list[i]->widget())
 			{
 				PlotWidget * widget = static_cast<PlotWidget*>(list[i]->widget());
 				if (widget && widget != this && widget->type == type)

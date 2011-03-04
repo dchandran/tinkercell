@@ -66,7 +66,8 @@ namespace Tinkercell
 			LMatrix,
 			K0Matrix,
 			L0Matrix,
-			GammaMatrix
+			GammaMatrix,
+			GA
 		};
 		
 		/*! \brief Constructor requires MainWindow pointer*/
@@ -81,7 +82,7 @@ namespace Tinkercell
 		/*! \brief Updates the COPASI model using the list of handles provided
 		* \param QList<ItemHandle*> all items in the model
 		*/
-		static void updateModel(QList<ItemHandle*>&, copasi_model & model);
+		static void updateModel(QList<ItemHandle*>&, copasi_model & model, NumericalDataTable &);
 		
 		/*! \brief Updates the COPASI model using the list of handles provided
 		* \param QList<ItemHandle*> all items in the model
@@ -119,6 +120,10 @@ namespace Tinkercell
 		* \param int number of points in the output
 		*/
 		void setParameterRange(const QString& param, double start, double end, int numPoints);
+		/*! \brief set objective function or filename for fitting the data
+		* \param QString objective function or filename for fitting the data
+		*/
+		void setObjective(const QString& );
 		/*! \brief get the results matrix. Use ConvertValue to convert it to a NumericalDataTable
 		* \return tc_matrix
 		*/
@@ -155,6 +160,10 @@ namespace Tinkercell
 		tc_matrix resultMatrix;
 		/*! \brief if a semaphore is set by calling thread*/
 		QSemaphore * semaphore;
+		/*! \brief for optimization*/
+		QString objective;
+		/*! \brief all params such that their min != max*/
+		NumericalDataTable optimizationParameters;
 		
 		/*! \brief this class is used for each parameter over which a scan needs to be performed*/
 		struct ScanItem { QString name; double start; double end; int numPoints; };

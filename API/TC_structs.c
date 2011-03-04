@@ -351,6 +351,7 @@ TCAPIEXPORT tc_matrix tc_appendRows(tc_matrix A, tc_matrix B)
 		}
 	}
 
+
 	if (A.colnames.strings && B.colnames.strings)
 	{
 		C.colnames.length = C.cols;

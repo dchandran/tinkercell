@@ -108,6 +108,7 @@ FILE( GLOB copasi_SRC_FILES
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/MIRIAM/WebServicesIssues/*.cpp
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/copasi_api.cpp
 	${TINKERCELL_SOURCE_DIR}/API/TC_structs.c
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/mtrand.c
 )
 
 #--------------------------
@@ -131,6 +132,7 @@ TARGET_LINK_LIBRARIES( copasi
   antimony
   galib
   structural
+  muparser
   ${QT_QTCORE_LIBRARY}
 )
 

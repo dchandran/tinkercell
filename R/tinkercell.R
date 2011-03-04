@@ -650,6 +650,12 @@ setClass('_p_f_p_q_const__char_double_double_int_p_q_const__char_double_double_i
         contains = 'CRoutinePointer')
 
 ##
+setClass('_p_f_p_q_const__char__tc_matrix',
+        prototype = list(parameterTypes = c('_p_char'),
+                        returnType = '_p_f_p_q_const__char__tc_matrix'),
+        contains = 'CRoutinePointer')
+
+##
 
 
 
@@ -6617,9 +6623,25 @@ class(`tc_LMatrix`) = c("SWIGFunction", class('tc_LMatrix'))
 attr(`tc_KMatrix`, 'returnType') = '_p_tc_matrix'
 class(`tc_KMatrix`) = c("SWIGFunction", class('tc_KMatrix'))
 
+# Start of tc_optimize
+
+`tc_optimize` = function(formulaOrFile, .copy = FALSE)
+{
+  formulaOrFile = as(formulaOrFile, "character") 
+  ans = .Call('R_swig_tc_optimize', formulaOrFile, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_tc_matrix"
+  
+  ans
+  
+}
+
+attr(`tc_optimize`, 'returnType') = '_p_tc_matrix'
+attr(`tc_optimize`, "inputTypes") = c('character')
+class(`tc_optimize`) = c("SWIGFunction", class('tc_optimize'))
+
 # Start of tc_COPASI_api
 
-`tc_COPASI_api` = function(simulateDeterministic, simulateStochastic, simulateHybrid, simulateTauLeap, getSteadyState, steadyStateScan, steadyStateScan2D, getJacobian, getEigenvalues, getUnscaledElasticities, getUnscaledConcentrationCC, getUnscaledFluxCC, getScaledElasticities, getScaledConcentrationCC, getScaledFluxCC, tc_reducedStoichiometry, tc_emf, tc_Lmat, tc_Kmat)
+`tc_COPASI_api` = function(simulateDeterministic, simulateStochastic, simulateHybrid, simulateTauLeap, getSteadyState, steadyStateScan, steadyStateScan2D, getJacobian, getEigenvalues, getUnscaledElasticities, getUnscaledConcentrationCC, getUnscaledFluxCC, getScaledElasticities, getScaledConcentrationCC, getScaledFluxCC, tc_reducedStoichiometry, tc_emf, tc_Lmat, tc_Kmat, gaoptim)
 {
   if(is.function(simulateDeterministic)) {
     assert('...' %in% names(formals(simulateDeterministic)) || length(formals(simulateDeterministic)) >= 3)
@@ -6811,12 +6833,22 @@ class(`tc_KMatrix`) = c("SWIGFunction", class('tc_KMatrix'))
       tc_Kmat = tc_Kmat$address
     }
   }
-  .Call('R_swig_tc_COPASI_api', simulateDeterministic, simulateStochastic, simulateHybrid, simulateTauLeap, getSteadyState, steadyStateScan, steadyStateScan2D, getJacobian, getEigenvalues, getUnscaledElasticities, getUnscaledConcentrationCC, getUnscaledFluxCC, getScaledElasticities, getScaledConcentrationCC, getScaledFluxCC, tc_reducedStoichiometry, tc_emf, tc_Lmat, tc_Kmat, PACKAGE='tinkercell')
+  if(is.function(gaoptim)) {
+    assert('...' %in% names(formals(gaoptim)) || length(formals(gaoptim)) >= 1)
+  } else {
+    if(is.character(gaoptim)) {
+      gaoptim = getNativeSymbolInfo(gaoptim)
+    }
+    if(is(gaoptim, "NativeSymbolInfo")) {
+      gaoptim = gaoptim$address
+    }
+  }
+  .Call('R_swig_tc_COPASI_api', simulateDeterministic, simulateStochastic, simulateHybrid, simulateTauLeap, getSteadyState, steadyStateScan, steadyStateScan2D, getJacobian, getEigenvalues, getUnscaledElasticities, getUnscaledConcentrationCC, getUnscaledFluxCC, getScaledElasticities, getScaledConcentrationCC, getScaledFluxCC, tc_reducedStoichiometry, tc_emf, tc_Lmat, tc_Kmat, gaoptim, PACKAGE='tinkercell')
   
 }
 
 attr(`tc_COPASI_api`, 'returnType') = 'void'
-attr(`tc_COPASI_api`, "inputTypes") = c('_p_f_double_double_int__tc_matrix', '_p_f_double_double_int__tc_matrix', '_p_f_double_double_int__tc_matrix', '_p_f_double_double_int__tc_matrix', '_p_f___tc_matrix', '_p_f_p_q_const__char_double_double_int__tc_matrix', '_p_f_p_q_const__char_double_double_int_p_q_const__char_double_double_int__tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix')
+attr(`tc_COPASI_api`, "inputTypes") = c('_p_f_double_double_int__tc_matrix', '_p_f_double_double_int__tc_matrix', '_p_f_double_double_int__tc_matrix', '_p_f_double_double_int__tc_matrix', '_p_f___tc_matrix', '_p_f_p_q_const__char_double_double_int__tc_matrix', '_p_f_p_q_const__char_double_double_int_p_q_const__char_double_double_int__tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f_p_q_const__char__tc_matrix')
 class(`tc_COPASI_api`) = c("SWIGFunction", class('tc_COPASI_api'))
 
 # Start of tc_substituteModel

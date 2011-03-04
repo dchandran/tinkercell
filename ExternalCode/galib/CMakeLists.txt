@@ -8,7 +8,7 @@ INCLUDE_DIRECTORIES(
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/galib/ga
 )
 
-FILE(GLOB GALIB_FILES ga/*.cpp )
+FILE(GLOB GALIB_FILES ga/*.cpp)
 
 ADD_LIBRARY( galib
   STATIC

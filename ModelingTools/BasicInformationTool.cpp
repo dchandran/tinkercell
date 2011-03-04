@@ -1941,7 +1941,7 @@ namespace Tinkercell
 		int i,j;
 		DataTable<qreal> params = BasicInformationTool::getParameters(handles,QStringList(), QStringList(), replaceDot);
 		
-		params.insertColumn(1,tr("used"));
+		params.insertColumn(3,tr("used"));
 
 		QRegExp regex(tr("\\.(?!\\d)"));
 		QString s1,s2;

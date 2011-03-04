@@ -1049,6 +1049,10 @@ def tc_KMatrix():
   return _tinkercell.tc_KMatrix()
 tc_KMatrix = _tinkercell.tc_KMatrix
 
+def tc_optimize(*args):
+  return _tinkercell.tc_optimize(*args)
+tc_optimize = _tinkercell.tc_optimize
+
 def tc_COPASI_api(*args):
   return _tinkercell.tc_COPASI_api(*args)
 tc_COPASI_api = _tinkercell.tc_COPASI_api

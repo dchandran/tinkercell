@@ -12,7 +12,7 @@ int main()
 	copasi_model m1, m2;
 	
 	m1 = model1();
-	output = cSimulateTauLeap(m1, 0, 100, 200);  //model, start, end, num. points
+	output = cSimulateDeterministic(m1, 0, 100, 200);  //model, start, end, num. points
 	tc_printMatrixToFile("output.tab", output);	
 	tc_deleteMatrix(output);
 	
@@ -20,26 +20,25 @@ int main()
 	tc_setRowName(params,0,"k1");
 	tc_setRowName(params,1,"k2");
 	tc_setRowName(params,2,"k3");
-	tc_setMatrixValue(params, 0, 0, 0.1);
+	tc_setMatrixValue(params, 0, 0, 1);
 	tc_setMatrixValue(params, 0, 1, 0.0);
-	tc_setMatrixValue(params, 0, 2, 1.0);
-	tc_setMatrixValue(params, 1, 0, 0.2);
+	tc_setMatrixValue(params, 0, 2, 5.0);
+	tc_setMatrixValue(params, 1, 0, 1);
 	tc_setMatrixValue(params, 1, 1, 0.0);
-	tc_setMatrixValue(params, 1, 2, 1.0);
-	tc_setMatrixValue(params, 2, 0, 0.3);
+	tc_setMatrixValue(params, 1, 2, 5.0);
+	tc_setMatrixValue(params, 2, 0, 1);
 	tc_setMatrixValue(params, 2, 1, 0.0);
-	tc_setMatrixValue(params, 2, 2, 1.0);
+	tc_setMatrixValue(params, 2, 2, 5.0);
 	
-	cSetValue(m1,"k1",1.0);
+	cSetValue(m1,"k1",2.0);
 	cSetValue(m1,"k2",1.0);
 	cSetValue(m1,"k3",1.0);
 	
-	cFitModelToData(m1, "output.tab", params, "NelderMead");
-	
-	//tc_printMatrixToFile("params.out", params);
-
-	//cleanup
+	output = cOptimize(m1, "output.tab", params);
+	tc_printMatrixToFile("params.out", output);
 	tc_deleteMatrix(output);
+
+	//cleanup	
 	cRemoveModel(m1);
 	copasi_end();
 	return 0;
@@ -53,9 +52,8 @@ copasi_model model1()
 	
 	//species
 	copasi_compartment cell = cCreateCompartment(model, "cell", 1.0);
-	copasi_compartment out = cCreateCompartment(model, "out", 1.0);
 	cCreateSpecies(cell, "A", 2);
-	cCreateSpecies(out, "A", 1);
+	cCreateSpecies(cell, "B", 1);
 	cCreateSpecies(cell, "C", 3);
 	
 	//parameters	
@@ -66,22 +64,22 @@ copasi_model model1()
 	//reactions -- make sure all parameters or species are defined BEFORE this step
 	R1 = cCreateReaction(model, "R1");  // A+B -> 2B
 	
-	cAddReactant(R1, "cell_A", 1.0);
-	cAddReactant(R1, "out_A", 1.0);
-	cAddProduct(R1, "out_A", 2.0);
-	cSetReactionRate(R1, "k1*cell_A*out_A");
+	cAddReactant(R1, "A", 1.0);
+	cAddReactant(R1, "B", 1.0);
+	cAddProduct(R1, "B", 2.0);
+	cSetReactionRate(R1, "k1*A*B");
 
 	R2 = cCreateReaction(model, "R2");  //B+C -> 2C
-	cAddReactant(R2, "out_A", 1.0);
+	cAddReactant(R2, "B", 1.0);
 	cAddReactant(R2, "C", 1.0);
 	cAddProduct(R2, "C", 2.0);
-	cSetReactionRate(R2, "k2*out_A*C");
+	cSetReactionRate(R2, "k2*B*C");
 
 	R3 = cCreateReaction(model, "R3"); //C+A -> 2A
 	cAddReactant(R3, "C", 1.0);
-	cAddReactant(R3, "cell_A", 1.0);
-	cAddProduct(R3, "cell_A", 2.0);
-	cSetReactionRate(R3, "k3*C*cell_A");
+	cAddReactant(R3, "A", 1.0);
+	cAddProduct(R3, "A", 2.0);
+	cSetReactionRate(R3, "k3*C*A");
 
 	//assignment rule -- make sure all parameters or species are defined BEFORE this step
 	//cCreateVariable(model, "prod1","sin(time)");

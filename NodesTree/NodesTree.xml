@@ -8,8 +8,9 @@
 	<node family="Small Molecule" description="Metabolites, ions, and other small molecules"></node>
 
 	<node family="Protein" sequence="GSWTQHNMCP" description="Chain of amino acids.">
-	    <node family="Enzyme" description="Proteins that catalyze a metabolic reaction."></node>
-		<node family="Transcription Factor" targetPromoter="promoterX" targetDNA="GGCCCGC" decription="proteins that bind to a regulatory site and influence the activity of the downstream promoter."></node>
+	    <node family="Enzyme" description="Proteins that catalyze a metabolic reaction.">
+ 		    <node family="Transcription Factor" targetPromoter="promoterX" targetDNA="GGCCCGC" decription="proteins that bind to a regulatory site and influence the activity of the downstream promoter."></node>
+		</node>
 		<node family="Receptor" transmembrane="1" description="Receptors usually have a binding domain and can be localized on the plasma membrane."></node>
 		<node family="Reporter" type="fluorescent" description="Molecules that are used as indicators, such as fluorescent molecules."></node>
 	</node>

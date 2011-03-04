@@ -1,4 +1,5 @@
 #include <string>
+#include <QInputDialog>
 #include <QFileDialog>
 #include "PlotTool.h"
 #include "BasicInformationTool.h"
@@ -67,6 +68,10 @@ bool CopasiExporter::setMainWindow(MainWindow * main)
 	mcaThread = new SimulationThread(mainWindow);
 	connect(mcaThread,SIGNAL(getHandles(QSemaphore*, QList<ItemHandle*>*, bool *)),
 					this, SLOT(getHandles(QSemaphore*, QList<ItemHandle*>*, bool *)));
+					
+	optimThread = new SimulationThread(mainWindow);
+	connect(optimThread,SIGNAL(getHandles(QSemaphore*, QList<ItemHandle*>*, bool *)),
+					this, SLOT(getHandles(QSemaphore*, QList<ItemHandle*>*, bool *)));
 
 	connect(mainWindow,SIGNAL(toolLoaded(Tool *)),
 					this, SLOT(toolLoaded(Tool*)));
@@ -95,7 +100,8 @@ typedef void (*tc_COPASI_api)(
 	tc_matrix (*reducedStoichiometry)(),
 	tc_matrix (*elementaryFluxModes)(),
 	tc_matrix (*LMat)(),
-	tc_matrix (*KMat)()
+	tc_matrix (*KMat)(),
+	tc_matrix (*Optimize)(const char * )
 );
 
 void CopasiExporter::setupFunctionPointers( QLibrary * library)
@@ -121,7 +127,8 @@ void CopasiExporter::setupFunctionPointers( QLibrary * library)
 			&reducedStoichiometry,
 			&elementaryFluxModes,
 			&KMatrix,
-			&LMatrix
+			&LMatrix,
+			&gaOptimize
 		);
 }
 
@@ -221,7 +228,7 @@ void CopasiExporter::redStoic()
 {
 	tc_matrix m = reducedStoichiometry();
 	NumericalDataTable * N = ConvertValue(m);
-
+	
 	if (console())
 		console()->printTable(*N);
 	
@@ -247,6 +254,27 @@ void CopasiExporter::getELM()
 	}
 
 	delete N;
+}
+
+void CopasiExporter::optimize()
+{
+	QString input = QInputDialog::getText(this, "Optimize", "Enter an objective function or a filename (least squares fit)");
+	if (input.isNull() || input.isEmpty()) return;
+
+	
+	if (optimThread)
+	{
+		if (optimThread->isRunning())
+			optimThread->terminate();
+		//optimThread->plot = true;
+		optimThread->updateModel();
+		optimThread->setObjective(input);
+		optimThread->setMethod(SimulationThread::GA);
+		optimThread->setSemaphore(0);
+		optimThread->start();
+		NumericalDataTable * N = ConvertValue(optimThread->result());
+		delete N;
+	}
 }
 
 tc_matrix CopasiExporter::simulateDeterministic(double startTime, double endTime, int numSteps)
@@ -621,6 +649,27 @@ tc_matrix CopasiExporter::LMatrix()
 		sem.acquire();
 		sem.release();
 		return (mcaThread->result());
+	}
+	return tc_createMatrix(0,0);
+}
+
+tc_matrix CopasiExporter::gaOptimize(const char * s)
+{
+	if (optimThread)
+	{
+		if (optimThread->isRunning())
+			optimThread->terminate();
+//		optimThread->plot = false;
+		optimThread->updateModel();
+		optimThread->setObjective(QString(s));
+		optimThread->setMethod(SimulationThread::GA);
+		QSemaphore sem(1);
+		sem.acquire();
+		optimThread->setSemaphore(&sem);
+		optimThread->start();
+		sem.acquire();
+		sem.release();
+		return (optimThread->result());
 	}
 	return tc_createMatrix(0,0);
 }

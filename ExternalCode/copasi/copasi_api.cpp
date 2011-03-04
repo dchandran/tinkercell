@@ -4,6 +4,7 @@
 #include <string>
 #include <set>
 #include <iostream>
+#include <limits> //get max and min for double
 
 //Qt lib
 #include <QString>
@@ -56,13 +57,22 @@
 #include "copasi/parameterFitting/CExperimentObjectMap.h"
 #include "copasi/report/CKeyFactory.h"
 
-//GAlib (genetic algorithm)
+//genetic algorithm (used for optimization)
 #include "GASStateGA.h"
 #include "GA1DArrayGenome.h"
 
 //libstruct
 #include "libstructural.h"
 #include "matrix.h"
+
+//parse math (used for optimization)
+#include "muParserDef.h"
+#include "muParser.h"
+#include "muParserInt.h"
+extern "C"
+{
+	#include "mtrand.h"
+}
 
 using namespace LIB_STRUCTURAL;
 using namespace LIB_LA;
@@ -1887,6 +1897,7 @@ tc_matrix cGetElementaryFluxModes(copasi_model model)
 	return M;
 }
 
+/*
 void cFitModelToData(copasi_model model, const char * filename, tc_matrix params, const char * method)
 {
 	CModel* pModel = (CModel*)(model.CopasiModelPtr);
@@ -1923,6 +1934,8 @@ void cFitModelToData(copasi_model model, const char * filename, tc_matrix params
 			file.readLine();
 			++numlines;
 		}
+		
+		file.close();
 	}
 
 	//find the species from the header of the data file
@@ -1954,11 +1967,7 @@ void cFitModelToData(copasi_model model, const char * filename, tc_matrix params
 				targetParams << copasiPtr.param;
 				std::cout << "good  " << i << "  =  " << rowname.toAscii().data() << std::endl;
 			}
-			else
-				std::cout << "bad1 " << i << "  =  " << rowname.toAscii().data() << std::endl;
 		}
-		else
-			std::cout << "bad2 " << i << "  =  " << rowname.toAscii().data() << std::endl;
 	}
 	
 	// get the task object
@@ -1988,22 +1997,22 @@ void cFitModelToData(copasi_model model, const char * filename, tc_matrix params
 	if (sMethod.toLower() == QString("simulatedannealing"))
 		pFitTask->setMethodType(CCopasiMethod::SimulatedAnnealing);
 	else
-	if (sMethod == QString("levenbergmarquardt"))
+	if (sMethod.toLower() == QString("levenbergmarquardt"))
 		pFitTask->setMethodType(CCopasiMethod::LevenbergMarquardt);
 	else
-	if (sMethod == QString("NelderMead"))
+	if (sMethod.toLower() == QString("neldermead"))
 		pFitTask->setMethodType(CCopasiMethod::NelderMead);
 	else
-	if (sMethod == QString("SRES"))
+	if (sMethod.toLower() == QString("sres"))
 		pFitTask->setMethodType(CCopasiMethod::SRES);
 	else
-	if (sMethod == QString("ParticleSwarm"))
+	if (sMethod.toLower() == QString("particleswarm"))
 		pFitTask->setMethodType(CCopasiMethod::ParticleSwarm);
 	else
-	if (sMethod == QString("SteepestDescent"))
+	if (sMethod.toLower() == QString("steepestdescent"))
 		pFitTask->setMethodType(CCopasiMethod::SteepestDescent);
 	else
-	if (sMethod == QString("RandomSearch"))
+	if (sMethod.toLower() == QString("randomsearch"))
 		pFitTask->setMethodType(CCopasiMethod::RandomSearch);
 
 	// the method in a fit task is an instance of COptMethod or a subclass
@@ -2046,8 +2055,7 @@ void cFitModelToData(copasi_model model, const char * filename, tc_matrix params
 		pObjectMap->setObjectCN(k, pParticleReference->getCN());
 		std::cout <<" k = " << k << "  => " << pParticleReference->getCN()  << std::endl;
 	}
-
-	pExperimentSet->addExperiment(*pExperiment);
+		pExperimentSet->addExperiment(*pExperiment);
 	// addExperiment makes a copy, so we need to get the added experiment
 	delete pExperiment;
 	pExperiment = pExperimentSet->getExperiment(0);
@@ -2058,7 +2066,7 @@ void cFitModelToData(copasi_model model, const char * filename, tc_matrix params
 	// define CFitItem for each param
 	for (int i=0; i < targetParams.size(); ++i)
 	{
-		const CCopasiObject* pParameterReference = targetParams[i]->getObject(CCopasiObjectName("Reference=Value"));
+		const CCopasiObject * pParameterReference = targetParams[i]->getObject(CCopasiObjectName("Reference=Value"));
 		CFitItem* pFitItem = new CFitItem(pDataModel);
 		pFitItem->setObjectCN(pParameterReference->getCN());
 		pFitItem->setStartValue(tc_getMatrixValue(params,i,0));
@@ -2076,11 +2084,13 @@ void cFitModelToData(copasi_model model, const char * filename, tc_matrix params
 		{
 			// running the task for this example will probably take some time
 			result = pFitTask->process(true);
+			std::cout << "result = " << result << "\n";
 		}
 	}
 	catch (...)
 	{
 		// failed
+		std::cout << "failed\n";
 		return;
 	}
 	pFitTask->restore();
@@ -2088,13 +2098,395 @@ void cFitModelToData(copasi_model model, const char * filename, tc_matrix params
 	//assign optimized values back into the model
 	for (int i=0; i < params.rows && i < pFitProblem->getSolutionVariables().size(); ++i)
 	{
-		cSetValue(model, tc_getRowName(params,i), pFitProblem->getSolutionVariables()[i]);
+		double x = pFitProblem->getSolutionVariables()[i];
+		cSetValue(model, tc_getRowName(params,i), x);
+		tc_setMatrixValue(params, i, 0, x);
+		std::cout << tc_getRowName(params,i) << " = " << x << std::endl;
 	}
 }
+*/
+/*****************************************************************
+   GENETIC ALGORITHM BASED OPTIMIZATION -- HELPER FUNCTIONS
+******************************************************************/
 
-tc_matrix cGetParameterDistribution(copasi_model model, const char * objective, tc_matrix input)
+typedef GA1DArrayGenome<float> RealGenome;
+
+struct GAData
 {
-	return tc_createMatrix(0,0);
+	mu::Parser * parser;
+	double * parserValues;
+	copasi_model * model;
+	tc_matrix * data;
+	tc_matrix * params;
+};
+
+static void InitializeGenome(GAGenome & x)
+{	
+	RealGenome & g = (RealGenome &)x;
+	GAData * data = (GAData*)(g.geneticAlgorithm()->userData());
+	tc_matrix * params = data->params;
+	for (int i=0; i < g.size() && params->rows; ++i)
+		g.gene(i,0) = tc_getMatrixValue(*params,i,1) + mtrand() * (tc_getMatrixValue(*params,i,2) - tc_getMatrixValue(*params,i,1));
+}
+
+static float EuclideanDistance(const GAGenome & c1, const GAGenome & c2)
+{
+  const RealGenome & a = (RealGenome &)c1;
+  const RealGenome & b = (RealGenome &)c2;
+
+  float x=0.0;
+  for(int i=0; i < b.length() && i < a.length(); ++i)
+	  x += (a.gene(i) - b.gene(i))*(a.gene(i) - b.gene(i));
+
+  return (float)(x);
+}
+
+static float MatrixDistance(tc_matrix * data1, tc_matrix * data2)
+{
+  int n = 0;
+  float x=0.0, total=0.0;
+  for(int i=1; i < data1->cols && i < data2->cols; ++i)
+  	for(int j=0; j < data1->rows && j < data2->rows; ++j)
+  	{
+  	   x = tc_getMatrixValue(*data1,i,j) - tc_getMatrixValue(*data2,i,j);
+	   total += (x*x);
+	   ++n;
+	}
+
+  return total/(float)(n);
+}
+
+static float ObjectiveForFittingTimeSeries(GAGenome & x)
+{
+	RealGenome & g = (RealGenome &)x;
+	
+	GAData * pData = (GAData*)(g.geneticAlgorithm()->userData());
+	copasi_model * model = pData->model;
+	tc_matrix * data = pData->data;
+	tc_matrix * params = pData->params;
+	double retval;
+	
+	for (int i=0; i < params->rows && i < g.length(); ++i)
+		cSetValue( *model, tc_getRowName(*params,i), g.gene(i) );
+	
+	double start = tc_getMatrixValue(*data, 0, 0),
+			   end = tc_getMatrixValue(*data, data->rows-1, 0);
+	tc_matrix output = cSimulateDeterministic(*model, start, end, data->rows);
+	
+	retval = MatrixDistance(data, &output);
+	
+	tc_deleteMatrix(output);
+	
+	for (int i=0; i < params->rows; ++i)
+	{
+		if (g.gene(i) < tc_getMatrixValue(*params, i, 1) || 
+			 g.gene(i) > tc_getMatrixValue(*params, i, 2))
+		 {
+		 	retval = std::numeric_limits<float>::max();
+		 	break;
+		 }
+	}
+	
+	return retval;
+}
+
+static float ObjectiveForFittingSteadyStateData(GAGenome & x)
+{
+	RealGenome & g = (RealGenome &)x;
+	
+	GAData * pData = (GAData*)(g.geneticAlgorithm()->userData());
+	copasi_model * model = pData->model;
+	tc_matrix * data = pData->data;
+	tc_matrix * params = pData->params;
+	
+	for (int i=0; i < params->rows && i < g.length(); ++i)
+		cSetValue( *model, tc_getRowName(*params,i), g.gene(i) );
+	
+	double retval;
+
+	tc_matrix output = tc_createMatrix(data->rows, data->cols);
+	const char * name = tc_getRowName(*data,0);
+	
+	for (int i=0; i < data->rows; ++i)
+	{
+		cSetValue(*model, name, tc_getMatrixValue(*data, i, 0));
+		tc_setMatrixValue(output, i, 0, tc_getMatrixValue(*data, i, 0));
+		tc_matrix ss = cGetSteadyState(*model);
+		for (int j=0; j < ss.rows; ++j)
+			for (int k=0; k < data->cols; ++k)
+				if (QString(tc_getRowName(ss, j)) == QString(tc_getColumnName(*data,k)))
+				{
+					tc_setMatrixValue(output, i, k+1, tc_getMatrixValue(ss, j, 0));
+					break;
+				}
+		tc_deleteMatrix(ss);
+	}
+	
+	retval = MatrixDistance(data, &output);
+	tc_deleteMatrix(output);
+	
+	for (int i=0; i < params->rows; ++i)
+	{
+		if (g.gene(i) < tc_getMatrixValue(*params, i, 1) || 
+			 g.gene(i) > tc_getMatrixValue(*params, i, 2))
+		 {
+		 	retval = std::numeric_limits<float>::max();
+		 	break;
+		 }
+	}
+
+	return retval;
+}
+
+static float ObjectiveForMaximizingFormula(GAGenome & x)
+{
+	RealGenome & g = (RealGenome &)x;
+	
+	GAData * pData = (GAData*)(g.geneticAlgorithm()->userData());
+	mu::Parser * parser = pData->parser;
+	copasi_model * model = pData->model;
+	tc_matrix * data = pData->data;
+	tc_matrix * params = pData->params;
+	double retval;
+	
+	for (int i=0; i < params->rows && i < g.length(); ++i)
+		cSetValue( *model, tc_getRowName(*params,i), g.gene(i) );
+	
+	if (parser)
+	{
+		tc_matrix ss = cGetSteadyState(*model);
+		for (int i=0; i < ss.rows; ++i)
+			pData->parserValues[i] = tc_getMatrixValue(ss, i, 0);
+		
+		retval = parser->Eval();
+		tc_deleteMatrix(ss);
+	}
+	else
+	{
+		retval = std::numeric_limits<float>::max();
+	}
+	
+	for (int i=0; i < params->rows; ++i)
+	{
+		if (g.gene(i) < tc_getMatrixValue(*params, i, 1) || 
+			 g.gene(i) > tc_getMatrixValue(*params, i, 2))
+		 {
+		 	retval = std::numeric_limits<float>::max();
+		 	break;
+		 }
+	}
+
+	return retval;
+}
+
+/**************************************************
+    GENETIC ALGORITHM BASED OPTIMIZATION
+***************************************************/
+static int _OPTIMIZATION_MAX_ITER = 100;
+static int _OPTIMIZATION_GENERATIONS = 1000;
+static double _OPTIMIZATION_MUTATION_RATE = 0.2;
+static double _OPTIMIZATION_CROSSOVER_RATE = 0.8;
+
+tc_matrix cOptimize(copasi_model model, const char * objective, tc_matrix params)
+{
+	QFile file(objective);
+	
+	mu::Parser parser;
+	GAData pData;
+	tc_matrix data;
+	
+	pData.parser = 0;
+	pData.model = &model;
+	pData.data = 0;
+	pData.params = &params;
+	
+	QStringList words;
+	if (file.open(QFile::ReadOnly | QFile::Text))
+	{
+		int numlines=0;
+		QString delim("\t");
+	
+		QString line(file.readLine());
+		line.remove("#");
+
+		if (line.contains(","))
+			delim = QString(",");
+
+		words = line.trimmed().split(delim);
+		
+		if (!words.isEmpty())
+		{
+			while (!file.atEnd())
+			{
+				file.readLine();
+				++numlines;
+			}
+		}
+		
+		file.close();
+		
+		if (words.isEmpty() || numlines < 1)
+		{
+			return tc_createMatrix(0,0);
+		}
+		else
+		{
+			if (file.open(QFile::ReadOnly | QFile::Text))
+			{
+				data = tc_createMatrix(numlines, words.size());
+				pData.data = &data;
+				QString line(file.readLine());
+				int i=0;
+				bool ok;
+				double d;
+				for (i=0; i < words.size(); ++i)
+					tc_setRowName(data, i, words[i].toAscii().data());
+				i = 0;
+				while (!file.atEnd() && i < numlines)
+				{
+					line = file.readLine();
+					words = line.trimmed().split(delim);
+					for (int j=0; j < words.size() && j < data.cols; ++j)
+					{
+						d = words[j].toDouble(&ok);
+						if (!ok)
+							d = 0.0;
+						tc_setMatrixValue(data, i, j, d); //set data
+					}
+					++i;
+				}
+				file.close();
+			}
+		}
+	}
+	else
+	{
+		tc_matrix ss = cGetSteadyState(model);
+		double * array = new double[ss.rows];
+		for (int i=0; i < ss.rows; ++i)
+		{
+			double * dp = &(array[i]);
+			parser.DefineVar(tc_getRowName(ss,i), dp);   //add all the model variables
+		}
+		pData.parserValues = array;
+		parser.SetExpr(objective);
+		
+		try
+		{
+			parser.Eval();  //just checking if the eq. is valid
+		}
+		catch(...)
+		{
+			delete pData.parserValues;
+			return tc_createMatrix(0,0);
+		}
+	}
+	
+	GAPopulation pop;	
+	
+	if (pData.parser)
+	{
+		RealGenome genome( params.rows , &ObjectiveForMaximizingFormula );
+		genome.initializer(&InitializeGenome);
+		GASteadyStateGA ga(genome);
+		ga.userData(&pData);
+		pop = ga.population();
+		GASharing dist(EuclideanDistance);
+		ga.scaling(dist);
+		ga.pReplacement(1.0);
+		ga.maximize();
+		ga.populationSize(_OPTIMIZATION_GENERATIONS);
+		ga.nGenerations(_OPTIMIZATION_MAX_ITER);
+		ga.pMutation(_OPTIMIZATION_MUTATION_RATE);
+		ga.pCrossover(_OPTIMIZATION_CROSSOVER_RATE);
+		ga.evolve();
+		pop = ga.population();
+		pop.order(GAPopulation::HIGH_IS_BEST);
+		pop.sort(gaTrue);
+		delete pData.parserValues;
+	}
+	else
+	if (pData.data)
+	{
+		if (QString(tc_getColumnName(data,0)).toLower() == QString("time"))
+		{
+			RealGenome genome( params.rows , &ObjectiveForFittingTimeSeries );
+			genome.initializer(&InitializeGenome);
+			GASteadyStateGA ga(genome);
+			ga.userData(&pData);
+			pop = ga.population();
+			GASharing dist(EuclideanDistance);
+			ga.scaling(dist);
+			ga.pReplacement(1.0);
+			ga.maximize();
+			ga.populationSize(_OPTIMIZATION_GENERATIONS);
+			ga.nGenerations(_OPTIMIZATION_MAX_ITER);
+			ga.pMutation(_OPTIMIZATION_MUTATION_RATE);
+			ga.pCrossover(_OPTIMIZATION_CROSSOVER_RATE);
+			ga.minimize();
+			ga.evolve();
+			pop = ga.population();
+			pop.order(GAPopulation::LOW_IS_BEST);
+			pop.sort(gaTrue);
+		}
+		else
+		{
+			RealGenome genome( params.rows , &ObjectiveForFittingSteadyStateData );
+			genome.initializer(&InitializeGenome);
+			GASteadyStateGA ga(genome);
+			ga.userData(&pData);
+			pop = ga.population();
+			GASharing dist(EuclideanDistance);
+			ga.scaling(dist);
+			ga.pReplacement(1.0);
+			ga.maximize();
+			ga.populationSize(_OPTIMIZATION_GENERATIONS);
+			ga.nGenerations(_OPTIMIZATION_MAX_ITER);
+			ga.pMutation(_OPTIMIZATION_MUTATION_RATE);
+			ga.pCrossover(_OPTIMIZATION_CROSSOVER_RATE);
+			ga.minimize();
+			ga.evolve();
+			pop = ga.population();
+			pop.order(GAPopulation::LOW_IS_BEST);
+			pop.sort(gaTrue);
+		}
+		tc_deleteMatrix(data);
+	}
+	else
+	{
+		return tc_createMatrix(0,0);
+	}
+	
+	tc_matrix result = tc_createMatrix( pop.size(), params.rows );
+	
+	for (int i=0; i < pop.size(); ++i)
+	{
+		RealGenome & g = (RealGenome &)(pop.individual(i));
+		for (int j=0; j < params.rows; ++j)
+			tc_setMatrixValue(params, i, j, g.gene(j));
+	}
+
+	return result;
+}
+
+tc_matrix cSetOptimizerGenerations(int n)
+{
+	_OPTIMIZATION_GENERATIONS = n;
+}
+
+tc_matrix cSetOptimizerIterations(int n)
+{
+	_OPTIMIZATION_MAX_ITER = n;
+}
+
+tc_matrix cSetOptimizerMutationRate(double q)
+{
+	_OPTIMIZATION_MUTATION_RATE = q;
+}
+
+tc_matrix cSetOptimizerCrossoverRate(double q)
+{
+	_OPTIMIZATION_CROSSOVER_RATE = q;
 }
 
 /* LIBSTRUCTURAL */
@@ -2348,4 +2740,5 @@ tc_matrix cGetL0Matrix(copasi_model model)
 	
 	return m;
 }
+
 

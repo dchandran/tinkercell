@@ -43,11 +43,13 @@
 
     <process family="Regulation" participant_types="Node" participant_roles="Regulator,Target" description="This connection represents a molecule regulating another.">
       
-      <process family="Enzyme Catalysis" participant_types="Protein,Molecule,Molecule" participant_roles="Catalyst,Substrate,Product" description="A protein catalyst converting a substrate to a product through an intermediate step">
-      </process>
-      
-      <process family="Phosphorylation" participant_types="Protein,Protein" participant_roles="Kinase,Target">
-          </process>
+      <process family="Catalysis" participant_types="Molecule,Molecule,Molecule" participant_roles="Catalyst,Substrate,Product" description="A catalyst converting a substrate to a product">
+
+        <process family="Enzyme Catalysis" participant_types="Enzyme,Molecule,Molecule" description="A protein catalyst converting a substrate to a product through an intermediate step">
+           <process family="Phosphorylation" participant_types="Enzyme,Molecule,Molecule,Enzyme" participant_roles="Kinase, Substrate, Product,Phosphatase">
+           </process>
+        </process>
+     </process>
       
       <process family="Activation" participant_types="Node" participant_roles="Activator,Target">
           <process family="Allosteric Activation" participant_types="Molecule,Protein">

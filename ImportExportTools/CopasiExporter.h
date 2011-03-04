@@ -55,6 +55,7 @@ namespace Tinkercell
 		void scaledFluxCC();
 		void redStoic();
 		void getELM();
+		void optimize();
 
 	private:
 		bool modelNeedsUpdate;
@@ -65,6 +66,7 @@ namespace Tinkercell
 		static SimulationThread * ssThread;
 		static SimulationThread * jacThread;
 		static SimulationThread * mcaThread;
+		static SimulationThread * optimThread;
 		
 		static tc_matrix simulateDeterministic(double startTime, double endTime, int numSteps);
 		static tc_matrix simulateStochastic(double startTime, double endTime, int numSteps);
@@ -85,6 +87,7 @@ namespace Tinkercell
 		static tc_matrix elementaryFluxModes();
 		static tc_matrix KMatrix();
 		static tc_matrix LMatrix();
+		static tc_matrix gaOptimize(const char*);
 	};
 }
 

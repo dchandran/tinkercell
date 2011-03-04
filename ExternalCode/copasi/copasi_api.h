@@ -428,16 +428,24 @@ TCAPIEXPORT tc_matrix cGetL0Matrix(copasi_model model);
  \param char * pick method. Use of of the following: "GeneticAlgorithm", "LevenbergMarquardt", "SimulatedAnnealing", "NelderMead", "SRES", "ParticleSwarm", "SteepestDescent", "RandomSearch"
  \ingroup Simulation
 */
-TCAPIEXPORT void cFitModelToData(copasi_model model, const char * filename, tc_matrix params, const char * method);
+//TCAPIEXPORT void cFitModelToData(copasi_model model, const char * filename, tc_matrix params, const char * method);
 
 /*! 
- \brief use genetic algorithms to generate a distribution of parameter values
+ \brief use genetic algorithms to generate a distribution of parameter values that satisfy an objective function or fit a data file
  \param copasi_model model
- \param char * objective function
- \param tc_matrix input matrix -- depends on the objective function. See optimization_functions.h 
+ \param char * objective function or filename
+ \param tc_matrix parameter initial values and min and max values (3 columns)
  \ingroup Simulation
 */
-TCAPIEXPORT tc_matrix cGetParameterDistribution(copasi_model model, const char * objective, tc_matrix input);
+TCAPIEXPORT tc_matrix cOptimize(copasi_model model, const char * objective, tc_matrix input);
+
+TCAPIEXPORT tc_matrix cSetOptimizerIterations(int);
+
+TCAPIEXPORT tc_matrix cSetOptimizerGenerations(int);
+
+TCAPIEXPORT tc_matrix cSetOptimizerMutationRate(double);
+
+TCAPIEXPORT tc_matrix cSetOptimizerCrossoverRate(double);
 
 END_C_DECLS
 #endif

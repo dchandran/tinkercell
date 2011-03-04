@@ -18,10 +18,10 @@ SimulationThread::~SimulationThread()
 
 void SimulationThread::updateModel(QList<ItemHandle*> & handles)
 {
-	updateModel(handles, model);
+	updateModel(handles, model, optimizationParameters);
 }
 
-void SimulationThread::updateModel(QList<ItemHandle*> & handles, copasi_model & model)
+void SimulationThread::updateModel(QList<ItemHandle*> & handles, copasi_model & model, NumericalDataTable & optimizationParameters)
 {
 	//make sure all children are included
 	for (int i=0; i < handles.size(); ++i)
@@ -30,6 +30,7 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles, copasi_model & 
 				if (!handles.contains( handles[i]->children[j] ))
 					handles += handles[i]->children[j];
 		
+	optimizationParameters.resize(0,0);
 	if (model.CopasiDataModelPtr)
 		cRemoveModel(model);
 	
@@ -41,6 +42,10 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles, copasi_model & 
 	model = cCreateModel(modelName.toUtf8().data());
 
 	NumericalDataTable params = BasicInformationTool::getUsedParameters(handles);
+	for (int i=0; i < params.rows(); ++i)
+		if (params(i,1) < params(i,2))
+			optimizationParameters.value(params.rowName(i)) = params(i,0);
+	
 	NumericalDataTable stoic_matrix = StoichiometryTool::getStoichiometry(handles);
 	QStringList rates = StoichiometryTool::getRates(handles);
 	QStringList species, eventTriggers, eventActions, assignmentNames,
@@ -297,7 +302,7 @@ void SimulationThread::updateModel()
 	sem.release();
 
 	if (changed)
-		updateModel(handles,this->model);
+		updateModel(handles,this->model, optimizationParameters);
 }
 
 SimulationThread::SimulationThread(MainWindow * parent) : CThread(parent)
@@ -617,6 +622,15 @@ void SimulationThread::run()
 			plotType = PlotTool::BarPlot;
 			x = -1;
 			break;
+		case GA:
+			tc_deleteMatrix(resultMatrix);
+			tc_matrix params = ConvertValue(optimizationParameters);
+			resultMatrix = cOptimize(model, objective.toAscii().data(), params);
+			plotTitle = tr("Optimized parameter distribution");
+			plotType = PlotTool::ScatterPlot;
+			tc_deleteMatrix(params);
+			x = 0;
+			break;
 	}
 	
 	if (plot)
@@ -750,6 +764,11 @@ SimulationDialog::SimulationDialog(MainWindow * parent) : QDialog(parent)
 	param1Box->hide();
 	param2Box->hide();
 	hide();
+}
+
+void SimulationThread::setObjective(const QString& s)
+{
+	objective = s;
 }
 
 void SimulationDialog::setThread(SimulationThread * t)

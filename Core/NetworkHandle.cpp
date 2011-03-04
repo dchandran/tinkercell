@@ -786,7 +786,7 @@ namespace Tinkercell
 	{
 		static QStringList reservedWords;
 		if (reservedWords.isEmpty())
-			reservedWords << "time";
+			reservedWords << "time" << "TIME" << "Time";
 
 		mu::Parser parser;
 

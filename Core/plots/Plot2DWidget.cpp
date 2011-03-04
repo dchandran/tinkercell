@@ -433,6 +433,8 @@ namespace Tinkercell
 		replot();
 	}
 	
+	QStringList Plot2DWidget::hideList;
+	
 	/*********************
    		DataAxisLabelDraw
 	**********************/
@@ -1137,18 +1139,40 @@ namespace Tinkercell
 				checkBoxes[i]->setChecked(false);
 	}
 	
+	void Plot2DWidget::replotAllOther2DWidgets()
+	{
+		if (!plotTool || !plotTool->multiplePlotsArea) return;
+		
+		QList<QMdiSubWindow*>  list = plotTool->multiplePlotsArea->subWindowList(QMdiArea::ActivationHistoryOrder);
+		
+		for (int i=0; i < list.size(); ++i)
+			if (lists[i]->widget())
+			{
+				PlotWidget * widget = static_cast<PlotWidget*>(list[i]->widget());
+				if (widget && widget != this && widget->type == type)
+				{
+					Plot2DWidget * plot = static_cast<Plot2DWidget*>(widget);
+					plot->plot(NumericalDataTable(),
+										plot->xcolumn,
+										plot->title().text());
+				}
+			}
+	}
+	
 	void ShowHideLegendItemsWidget::updatePlot()
 	{
 		if (!plot) return;
 		
-		plot->hideList.clear();
+		hideList.clear();
 		for (int i=0; i < checkBoxes.size() && i < names.size(); ++i)
 			if (checkBoxes[i] && !checkBoxes[i]->isChecked())			
 				plot->hideList << names[i];
 		
 		plot->plot(NumericalDataTable(),
-					plot->xcolumn,
-					plot->title().text());
+							plot->xcolumn,
+							plot->title().text());
+		
+		plot->replotAllOther2DWidgets();
 	}
 	
 	void Plot2DWidget::legendConfigure()

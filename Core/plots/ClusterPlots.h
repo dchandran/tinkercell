@@ -9,7 +9,9 @@ namespace Tinkercell
 	class ClusterPlot
 	{
 		public:
-			static int* getClusters(int nclusters, const QList<NumericalDataTable*> & tables)
+			static QList<NumericalDataTable> tables;
+
+			static int* getClusters(int nclusters)
 			{
 				int nrows = tables.size();
 				int ncols = -1;
@@ -19,11 +21,11 @@ namespace Tinkercell
 				for (int i=0; i < tables.size(); ++i)
 					if (tables[i])
 					{ 
-						if (m < 0 || m > tables[i]->rows())
-							m = tables[i]->rows();
+						if (m < 0 || m > tables[i].rows())
+							m = tables[i].rows();
 							
-						if (n < 0 || n > tables[i]->columns())
-							n = tables[i]->columns();
+						if (n < 0 || n > tables[i].columns())
+							n = tables[i].columns();
 					}
 				
 				ncols = m*n;
@@ -48,7 +50,7 @@ namespace Tinkercell
 						for (int j=0; j < n; ++j)
 							for (int k=0; k < m; ++k, ++l)
 							{
-								data[i][l] = tables[i]->at(k,j);
+								data[i][l] = tables[i].at(k,j);
 							}
 				}
 
@@ -79,5 +81,7 @@ namespace Tinkercell
 				return clusterid;
 			}
 	};
+	
+	QList<NumericalDataTable> ClusterPlot::tables;
 }
 

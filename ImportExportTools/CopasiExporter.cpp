@@ -151,6 +151,7 @@ SimulationThread * CopasiExporter::stochThread = 0;
 SimulationThread * CopasiExporter::ssThread = 0;
 SimulationThread * CopasiExporter::jacThread = 0;
 SimulationThread * CopasiExporter::mcaThread = 0;
+SimulationThread * CopasiExporter::optimThread = 0;
 
 void CopasiExporter::odeSim()
 {

@@ -37,7 +37,7 @@
 #include "Tool.h"
 #include "DataTable.h"
 #include "qwt_plot.h"
-#include "qwt_color_map.h"
+#include "qwt_color_map.h"friend class PlotWidget;
 #include "qwt_plot_marker.h"
 #include "qwt_plot_curve.h"
 #include "qwt_legend.h"
@@ -50,6 +50,7 @@
 namespace Tinkercell
 {
 
+	class Plot2DWidget;
 	class PlotWidget;
 	class PlotTool;
 
@@ -285,6 +286,7 @@ namespace Tinkercell
 		static void _setLogScale(int);
 
 		friend class PlotWidget;
+		friend class Plot2DWidget;
 
 	private slots:
         void clusteringToggled(bool);
@@ -311,6 +313,7 @@ namespace Tinkercell
 		virtual void mouseMoveEvent ( QMouseEvent * event );
 		
 		int numClusters;
+		QList<NumericalDataTable> clusteringData;
 	};
 }
 #endif

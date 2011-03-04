@@ -300,6 +300,59 @@ namespace Tinkercell
 			showNormal();
 			this->raise();
 		}
+		
+		if (numClusters > 1)
+		{
+			if (!keepOldPlots->isChecked())
+					keepOldPlots->setChecked(true);
+			
+			QList<QMdiSubWindow *>  list = multiplePlotsArea->subWindowList(QMdiArea::ActivationHistoryOrder);
+			for (int i=0; i < list.size(); ++i)
+				list[i]->close();
+			
+			ClusterPlot::tables << matrix;
+			if (ClusterPlot::tables.size() > numClusters)
+			{
+				int * clusters = ClusterPlot::getClusters(numClusters);
+				QList<Plot2DWidget*> clusterWidgets;
+				for (int i=0; i < numClusters; ++i)
+				{
+					Plot2DWidget * newPlot2D = new Plot2DWidget(this);
+					newPlot2D->type = type;
+					newPlot2D->plot(NumericalDataTable(),tr("Cluster ") + QString::number(i+1), x);
+					QMdiSubWindow * window = multiplePlotsArea->addSubWindow(newPlot2D);
+					window->setAttribute(Qt::WA_DeleteOnClose);
+					window->setWindowIcon(QIcon(tr(":/images/graph2.png")));
+					window->setVisible(true);
+					window->setWindowTitle( tr("plot ") + QString::number(i+1));
+					
+					clusterWidgets << newPlot2D;
+				}
+				
+				for (int i=0; i < ClusterPlot::tables.size(); ++i)
+				{
+					int j = clusters[i];
+					clusterWidgets[j]->appendData(ClusterPlot::tables[i]);
+				}
+				delete clusters;
+			}
+			else
+			{
+				for (int i=0; i < ClusterPlot::tables.size(); ++i)
+				{
+					Plot2DWidget * newPlot2D = new Plot2DWidget(this);
+					newPlot2D->type = type;
+					newPlot2D->plot(ClusterPlot::tables[i],tr("Cluster ") + QString::number(i+1), x);
+					QMdiSubWindow * window = multiplePlotsArea->addSubWindow(newPlot2D);
+					window->setAttribute(Qt::WA_DeleteOnClose);
+					window->setWindowIcon(QIcon(tr(":/images/graph2.png")));
+					window->setVisible(true);
+					window->setWindowTitle( tr("plot ") + QString::number(clusters[i]+1));
+				}
+			}
+			multiplePlotsArea->tileSubWindows();
+			return;
+		}
 
 		if ((category.isNull() || category.isEmpty()) &&
 			((holdCurrentPlot && holdCurrentPlot->isChecked()) ||
@@ -307,29 +360,30 @@ namespace Tinkercell
 		{
 			QList<QMdiSubWindow *>  list = multiplePlotsArea->subWindowList(QMdiArea::ActivationHistoryOrder);
 			for (int i=0; i < list.size(); ++i)
-			{
-				PlotWidget * widget = static_cast<PlotWidget*>(list[i]->widget());
-				if (widget && widget->type == type)
+				if (lists[i]->widget())
 				{
-					if (widget->canAppendData() && holdCurrentPlot && holdCurrentPlot->isChecked())
-						widget->appendData(matrix);
-					else
-						widget->updateData(matrix);
+					PlotWidget * widget = static_cast<PlotWidget*>(list[i]->widget());
+					if (widget && widget->type == type)
+					{
+						if (widget->canAppendData() && holdCurrentPlot && holdCurrentPlot->isChecked())
+							widget->appendData(matrix);
+						else
+							widget->updateData(matrix);
 					
-					for (int j=0; j < list.size(); ++j)
-						if (i != j)
-						{ 	
-							widget = static_cast<PlotWidget*>(list[j]->widget());
-							if (widget && widget->type == Text)
-							{
-								widget->updateData(matrix);
-								break;
+						for (int j=0; j < list.size(); ++j)
+							if (i != j)
+							{ 	
+								widget = static_cast<PlotWidget*>(list[j]->widget());
+								if (widget && widget->type == Text)
+								{
+									widget->updateData(matrix);
+									break;
+								}
 							}
-						}
 					
-					return;
+						return;
+					}
 				}
-			}
 		}
 		
 		PlotWidget * newPlot = 0;
@@ -512,6 +566,8 @@ namespace Tinkercell
 	void PlotTool::plotClustering(QSemaphore* s, int n)
 	{
 		numClusters = n;
+		if (n < 2)
+			ClusterPlot::tables.clear();
 		if (s)
 			s->release();
 	}
@@ -1108,6 +1164,7 @@ namespace Tinkercell
 		else
 		{
 			numClusters = 1;
+			ClusterPlot::tables.clear();
 		}
 	}
 	

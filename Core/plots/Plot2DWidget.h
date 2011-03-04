@@ -100,7 +100,7 @@ namespace Tinkercell
 	protected:
 		QList< NumericalDataTable* > dataTables;
 		QwtPlotZoomer * zoomer;
-		QStringList hideList;
+		static QStringList hideList;
 		static QList<QPen> penList;
 		int xcolumn, numBars;
 		PlotTool::PlotType type;
@@ -184,6 +184,8 @@ namespace Tinkercell
 		void setTitle(const QString&);
 		void setXLabel(const QString&);
 		void setYLabel(const QString&);
+		
+		void replotAllOther2DWidgets();
 	
 	private slots:
 		void buttonPressed(int);

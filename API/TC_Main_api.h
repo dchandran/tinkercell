@@ -166,7 +166,7 @@ TCAPIEXPORT void tc_remove(long item);
  \brief get the x location of an item
  \param int address of item
  \return double x position
- \ingroup Appearance
+ \ingroup Get and set position
 */
 TCAPIEXPORT double tc_getY(long item);
 
@@ -174,7 +174,7 @@ TCAPIEXPORT double tc_getY(long item);
  \brief get the y location of an item
  \param int address of item
  \return double y position
- \ingroup Appearance
+ \ingroup Get and set position
 */
 TCAPIEXPORT double tc_getX(long item);
 
@@ -182,7 +182,7 @@ TCAPIEXPORT double tc_getX(long item);
  \brief get the y location of a list item. Output is a N x 2 matrix
  \param tc_items addresses of items
  \return tc_matrix x,y positions of items
- \ingroup Appearance
+ \ingroup Get and set position
 */
 TCAPIEXPORT tc_matrix tc_getPos(tc_items items);
 
@@ -191,7 +191,7 @@ TCAPIEXPORT tc_matrix tc_getPos(tc_items items);
  \param int address of item
  \param double x position
  \param double y position
- \ingroup Appearance
+ \ingroup Get and set position
 */
 TCAPIEXPORT void tc_setPos(long item,double x,double y);
 
@@ -199,7 +199,7 @@ TCAPIEXPORT void tc_setPos(long item,double x,double y);
  \brief set the x and y location of a list of N items. Input a matrix of positions, with N rows and 2 columns (x,y)
  \param tc_items addresses of items
  \param tc_matrix x,y positions
- \ingroup Appearance
+ \ingroup Get and set position
 */
 TCAPIEXPORT void tc_setPosMulti(tc_items items, tc_matrix positions);
 
@@ -207,7 +207,7 @@ TCAPIEXPORT void tc_setPosMulti(tc_items items, tc_matrix positions);
  \brief move all the selected items by a given amount
  \param double change in x
  \param double change in y
- \ingroup Appearance
+ \ingroup Get and set position
 */
 TCAPIEXPORT void tc_moveSelected(double dx,double dy);
 
@@ -570,6 +570,7 @@ TCAPIEXPORT void tc_Main_api_initialize(
 		void (*tc_deselect0)(),
 		const char* (*tc_getName0)(long),
 		const char* (*tc_getUniqueName0)(long),
+
 		void (*tc_setName0)(long item,const char* name),
 		tc_strings (*tc_getNames0)(tc_items),
 		tc_strings (*tc_getUniqueNames0)(tc_items),

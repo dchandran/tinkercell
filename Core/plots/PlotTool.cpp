@@ -347,7 +347,7 @@ namespace Tinkercell
 					window->setAttribute(Qt::WA_DeleteOnClose);
 					window->setWindowIcon(QIcon(tr(":/images/graph2.png")));
 					window->setVisible(true);
-					window->setWindowTitle( tr("plot ") + QString::number(clusters[i]+1));
+					window->setWindowTitle( tr("plot ") + QString::number(i+1));
 				}
 			}
 			multiplePlotsArea->tileSubWindows();
@@ -360,7 +360,7 @@ namespace Tinkercell
 		{
 			QList<QMdiSubWindow *>  list = multiplePlotsArea->subWindowList(QMdiArea::ActivationHistoryOrder);
 			for (int i=0; i < list.size(); ++i)
-				if (lists[i]->widget())
+				if (list[i]->widget())
 				{
 					PlotWidget * widget = static_cast<PlotWidget*>(list[i]->widget());
 					if (widget && widget->type == type)

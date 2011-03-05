@@ -55,7 +55,7 @@ namespace Tinkercell
 	private:
 		const NumericalDataTable * dataTable;
 		int column, xaxis, dt;
-				
+		
 		friend class DataPlot;
 		friend class Plot2DWidget;
 		friend class PlotCurve;
@@ -140,7 +140,7 @@ namespace Tinkercell
 	{
 		Q_OBJECT
 	public:
-		ShowHideLegendItemsWidget(DataPlot * plot, QWidget * parent);
+		ShowHideLegendItemsWidget(Plot2DWidget * plot);
 		
 	private slots:
 		void updatePlot();
@@ -148,6 +148,7 @@ namespace Tinkercell
 		void checkNone();
 		
 	private:
+		Plot2DWidget * plotWidget;
 		DataPlot * plot;
 		QStringList names;
 		QList<QCheckBox*> checkBoxes;
@@ -201,6 +202,8 @@ namespace Tinkercell
 		QComboBox * axisNames;
 		QComboBox * lineTypes;
 		QButtonGroup buttonsGroup;
+		
+		friend class ShowHideLegendItemsWidget;
 	};
 
 }

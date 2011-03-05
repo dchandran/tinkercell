@@ -1063,11 +1063,12 @@ namespace Tinkercell
 	Legend show-hide widget
 	***************************/
 	
-	ShowHideLegendItemsWidget::ShowHideLegendItemsWidget(DataPlot * plot, QWidget * parent) : QDialog(parent)
+	ShowHideLegendItemsWidget::ShowHideLegendItemsWidget(Plot2DWidget * parent) : QDialog(parent)
 	{
-		this->plot = plot;
+		plotWidget = parent;
+		plot = parent->dataPlot;
 		
-		if (!plot || plot->dataTables.isEmpty()) return;
+		if (!plotWidget || !plot || plot->dataTables.isEmpty()) return;
 		
 		QString s;
 		NumericalDataTable * dataTable = plot->dataTables.last();
@@ -1091,7 +1092,7 @@ namespace Tinkercell
 			tableWidget->setCellWidget(i,0,button);
 			checkBoxes << button;
 			names << s;
-			button->setChecked ( !plot->hideList.contains(s) );
+			button->setChecked ( !DataPlot::hideList.contains(s) );
 		}
 		
 		QHBoxLayout * layout0 = new QHBoxLayout;
@@ -1152,33 +1153,33 @@ namespace Tinkercell
 				if (widget && widget != this && widget->type == type)
 				{
 					Plot2DWidget * plot = static_cast<Plot2DWidget*>(widget);
-					plot->plot(NumericalDataTable(),
-										plot->xcolumn,
-										plot->title().text());
+					plot->dataPlot->plot(NumericalDataTable(),
+										plot->dataPlot->xcolumn,
+										plot->dataPlot->title().text());
 				}
 			}
 	}
 	
 	void ShowHideLegendItemsWidget::updatePlot()
 	{
-		if (!plot) return;
+		if (!plotWidget) return;
 		
-		hideList.clear();
+		DataPlot::hideList.clear();
 		for (int i=0; i < checkBoxes.size() && i < names.size(); ++i)
 			if (checkBoxes[i] && !checkBoxes[i]->isChecked())			
-				plot->hideList << names[i];
+				DataPlot::hideList << names[i];
 		
 		plot->plot(NumericalDataTable(),
 							plot->xcolumn,
 							plot->title().text());
 		
-		plot->replotAllOther2DWidgets();
+		plotWidget->replotAllOther2DWidgets();
 	}
 	
 	void Plot2DWidget::legendConfigure()
 	{
 		if (!dataPlot) return;
-		ShowHideLegendItemsWidget * dialog = new ShowHideLegendItemsWidget(dataPlot,this);
+		ShowHideLegendItemsWidget * dialog = new ShowHideLegendItemsWidget(this);
 		dialog->exec();
 	}
 }

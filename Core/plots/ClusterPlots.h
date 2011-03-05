@@ -19,14 +19,13 @@ namespace Tinkercell
 				int m = -1, n = -1;
 				
 				for (int i=0; i < tables.size(); ++i)
-					if (tables[i])
-					{ 
-						if (m < 0 || m > tables[i].rows())
-							m = tables[i].rows();
-							
-						if (n < 0 || n > tables[i].columns())
-							n = tables[i].columns();
-					}
+				{ 
+					if (m < 0 || m > tables[i].rows())
+						m = tables[i].rows();
+						
+					if (n < 0 || n > tables[i].columns())
+						n = tables[i].columns();
+				}
 				
 				ncols = m*n;
 				
@@ -46,12 +45,11 @@ namespace Tinkercell
 					
 					int l = 0;
 					
-					if (tables[i])
-						for (int j=0; j < n; ++j)
-							for (int k=0; k < m; ++k, ++l)
-							{
-								data[i][l] = tables[i].at(k,j);
-							}
+					for (int j=0; j < n; ++j)
+						for (int k=0; k < m; ++k, ++l)
+						{
+							data[i][l] = tables[i].at(k,j);
+						}
 				}
 
 				int transpose = 0;

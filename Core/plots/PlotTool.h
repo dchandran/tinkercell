@@ -37,7 +37,7 @@
 #include "Tool.h"
 #include "DataTable.h"
 #include "qwt_plot.h"
-#include "qwt_color_map.h"friend class PlotWidget;
+#include "qwt_color_map.h"
 #include "qwt_plot_marker.h"
 #include "qwt_plot_curve.h"
 #include "qwt_legend.h"
@@ -279,7 +279,7 @@ namespace Tinkercell
 		/*! \brief gnuplot*/
 		static void _gnuplot(const char* script);
 		
-		/*! \brief save plotl*/
+		/*! \brief save plot*/
 		static void _savePlotImage(const char* filename);
 		
 		/*! \brief save plotl*/

@@ -2160,6 +2160,9 @@ static float ObjectiveForFittingTimeSeries(GAGenome & x)
 {
 	RealGenome & g = (RealGenome &)x;
 	
+	if (!g.geneticAlgorithm())
+		return std::numeric_limits<float>::max();
+	
 	GAData * pData = (GAData*)(g.geneticAlgorithm()->userData());
 	copasi_model * model = pData->model;
 	tc_matrix * data = pData->data;
@@ -2280,7 +2283,7 @@ static float ObjectiveForMaximizingFormula(GAGenome & x)
 }
 
 /**************************************************
-    GENETIC ALGORITHM BASED OPTIMIZATION
+   GENETIC ALGORITHM BASED OPTIMIZATION
 ***************************************************/
 static int _OPTIMIZATION_MAX_ITER = 100;
 static int _OPTIMIZATION_GENERATIONS = 1000;
@@ -2339,8 +2342,12 @@ tc_matrix cOptimize(copasi_model model, const char * objective, tc_matrix params
 				int i=0;
 				bool ok;
 				double d;
+
 				for (i=0; i < words.size(); ++i)
-					tc_setRowName(data, i, words[i].toAscii().data());
+				{
+					tc_setColumnName(data, i, words[i].toAscii().data());
+				}
+				
 				i = 0;
 				while (!file.atEnd() && i < numlines)
 				{
@@ -2399,7 +2406,13 @@ tc_matrix cOptimize(copasi_model model, const char * objective, tc_matrix params
 		ga.nGenerations(_OPTIMIZATION_MAX_ITER);
 		ga.pMutation(_OPTIMIZATION_MUTATION_RATE);
 		ga.pCrossover(_OPTIMIZATION_CROSSOVER_RATE);
-		ga.evolve();
+		int k=0;
+		while (ga.done() != gaTrue)
+		{
+			ga.step();
+			std::cout << "gen " << ++k << "\n";
+		}
+		//ga.evolve();
 		pop = ga.population();
 		pop.order(GAPopulation::HIGH_IS_BEST);
 		pop.sort(gaTrue);
@@ -2424,7 +2437,12 @@ tc_matrix cOptimize(copasi_model model, const char * objective, tc_matrix params
 			ga.pMutation(_OPTIMIZATION_MUTATION_RATE);
 			ga.pCrossover(_OPTIMIZATION_CROSSOVER_RATE);
 			ga.minimize();
-			ga.evolve();
+			int k=0;
+			while (ga.done() != gaTrue)
+			{
+				ga.step();
+				std::cout << "gen " << ++k << "\n";
+			}
 			pop = ga.population();
 			pop.order(GAPopulation::LOW_IS_BEST);
 			pop.sort(gaTrue);
@@ -2445,7 +2463,12 @@ tc_matrix cOptimize(copasi_model model, const char * objective, tc_matrix params
 			ga.pMutation(_OPTIMIZATION_MUTATION_RATE);
 			ga.pCrossover(_OPTIMIZATION_CROSSOVER_RATE);
 			ga.minimize();
-			ga.evolve();
+			int k=0;
+			while (ga.done() != gaTrue)
+			{
+				ga.step();
+				std::cout << "gen " << ++k << "\n";
+			}
 			pop = ga.population();
 			pop.order(GAPopulation::LOW_IS_BEST);
 			pop.sort(gaTrue);
@@ -2463,7 +2486,7 @@ tc_matrix cOptimize(copasi_model model, const char * objective, tc_matrix params
 	{
 		RealGenome & g = (RealGenome &)(pop.individual(i));
 		for (int j=0; j < params.rows; ++j)
-			tc_setMatrixValue(params, i, j, g.gene(j));
+			tc_setMatrixValue(result, i, j, g.gene(j));
 	}
 
 	return result;

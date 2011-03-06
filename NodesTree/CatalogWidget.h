@@ -77,11 +77,11 @@ namespace Tinkercell
 		/*! \brief show button for one or more families
 		* \param QStringList names of the families
 		*/
-        void showButtons(const QStringList&);
+        void showButtons(QStringList&);
 		/*! \brief hide button for one or more families
 		* \param QStringList names of the families
 		*/
-        void hideButtons(const QStringList&);
+        void hideButtons(QStringList&);
 	signals:
         /*! \brief key pressed inside this widget*/
         void keyPressed(int, Qt::KeyboardModifiers);

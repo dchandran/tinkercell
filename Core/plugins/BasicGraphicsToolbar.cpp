@@ -1028,10 +1028,13 @@ namespace Tinkercell
 			if ((node = NodeGraphicsItem::cast(items[i])) && node->handle())
 			{
 				rect = node->sceneBoundingRect();
-				for (int j=0; j < node->handle()->graphicsItems.size(); ++j)
+				QList<QGraphicsItem*> & graphicsItems = node->handle()->graphicsItems;
+				for (int j=0; j < graphicsItems.size(); ++j)
 				{
-					if ((text = TextGraphicsItem::cast(node->handle()->graphicsItems[j]))
-						&& !items.contains(text))
+					if ((text = TextGraphicsItem::cast(graphicsItems[j])) && 
+						!items.contains(text) &&
+						node->scene() == text->scene() &&
+						rect.adjusted(-50,-50,50,50).intersects(text->sceneBoundingRect()))
 					{
 						items += text;
 						p = points[i];

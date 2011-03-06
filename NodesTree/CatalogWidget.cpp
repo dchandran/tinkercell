@@ -343,11 +343,11 @@ namespace Tinkercell
 			{
 				QCheckBox * checkbox = new QCheckBox;
 				ItemFamily * family = 0;
-				if (nodesTree && nodesTree->nodeFamilies.contains(allNames[i]))
-					family = nodesTree->nodeFamilies[ allNames[i] ];
+				if (nodesTree && nodesTree->getFamily(allNames[i]))
+					family = nodesTree->getFamily( allNames[i] );
 				else
-					if (connectionsTree && connectionsTree->connectionFamilies.contains(allNames[i]))
-						family = connectionsTree->connectionFamilies[ allNames[i] ];
+					if (connectionsTree && connectionsTree->getFamily(allNames[i]))
+						family = connectionsTree->getFamily(allNames[i]);
 				checkbox->setChecked(familiesInCatalog.contains(family->name()));
 				selectFamilyCheckBoxes << checkbox;
 				QToolButton * tempButton = new QToolButton;
@@ -418,17 +418,17 @@ namespace Tinkercell
 				selectFamilyComboBoxes[i]->count() > 1)
 			{
 				int k = selectFamilyComboBoxes[i]->currentIndex();
-				if (nodesTree->nodeFamilies.contains(allNames[i]) &&
-					nodesTree->nodeFamilies.value(allNames[i]) &&
-					k >= 0 && k < nodesTree->nodeFamilies.value(allNames[i])->measurementUnitOptions.size())
-					nodesTree->nodeFamilies.value(allNames[i])->measurementUnit = 
-						nodesTree->nodeFamilies.value(allNames[i])->measurementUnitOptions[k];
+				if (nodesTree->getFamily(allNames[i]) &&
+					nodesTree->getFamily(allNames[i]) &&
+					k >= 0 && k < nodesTree->getFamily(allNames[i])->measurementUnitOptions.size())
+					nodesTree->getFamily(allNames[i])->measurementUnit = 
+						nodesTree->getFamily(allNames[i])->measurementUnitOptions[k];
 				else
-				if (connectionsTree->connectionFamilies.contains(allNames[i]) &&
-					connectionsTree->connectionFamilies.value(allNames[i]) &&
-					k >= 0 && k < connectionsTree->connectionFamilies.value(allNames[i])->measurementUnitOptions.size())
-					connectionsTree->connectionFamilies.value(allNames[i])->measurementUnit = 
-						connectionsTree->connectionFamilies.value(allNames[i])->measurementUnitOptions[k];
+				if (connectionsTree->getFamily(allNames[i]) &&
+					connectionsTree->getFamily(allNames[i]) &&
+					k >= 0 && k < connectionsTree->getFamily(allNames[i])->measurementUnitOptions.size())
+					connectionsTree->getFamily(allNames[i])->measurementUnit = 
+						connectionsTree->getFamily(allNames[i])->measurementUnitOptions[k];
 			}
 		}
 		showButtons(showlist);
@@ -499,7 +499,7 @@ namespace Tinkercell
 			{
 				QString s = settings.value(QString::number(i),keys[i]).toString();
 
-				if (nodesTree->nodeFamilies.contains(s) && (family = nodesTree->nodeFamilies[s]))
+				if (nodesTree->getFamily(s) && (family = nodesTree->nodeFamilies[s]))
 				{
 					nodes << family;
 					allFamilyNames << family->name();
@@ -550,7 +550,7 @@ namespace Tinkercell
 			{
 				QString s = settings.value(QString::number(i),keys[i]).toString();
 
-				if (connectionsTree->connectionFamilies.contains(s) &&
+				if (connectionsTree->getFamily(s) &&
 					(family = connectionsTree->connectionFamilies[s]))
 				{
 					connections << family;
@@ -739,23 +739,23 @@ namespace Tinkercell
 
 		tabGroups	<< QPair<QString, QStringList>(
 													tr("Molecules"),
-													QStringList() << "Molecule" << "Empty")
+													QStringList() << "molecule" << "empty")
 
 					<< QPair<QString, QStringList>(
 													tr("Parts"),
-													QStringList() << "Part")
+													QStringList() << "part")
 
 					<< QPair<QString, QStringList>(
 													tr("Compartments"),
-													QStringList() << "Compartment")
+													QStringList() << "compartment")
 
 					<< QPair<QString, QStringList>(
 													tr("Regulation"),
-													QStringList() << "Regulation")
+													QStringList() << "regulation")
 					
 					<< QPair<QString, QStringList>(
 													tr("Reaction"),
-													QStringList() << tr("Biochemical"));
+													QStringList() << tr("biochemical"));
 
 		numNodeTabs = 4;
 		
@@ -766,15 +766,15 @@ namespace Tinkercell
 			tabGroups
 					<< QPair<QString, QStringList>(
 													tr("Parts"),
-													QStringList() << "Part")
+													QStringList() << "part")
 
 					<< QPair<QString, QStringList>(
 													tr("Compartments"),
-													QStringList() << "Compartment")
+													QStringList() << "compartment")
 
 					<< QPair<QString, QStringList>(
 													tr("Regulation"),
-													QStringList() << "Regulation");
+													QStringList() << "regulation");
 
 			numNodeTabs = 3;
 		}
@@ -795,6 +795,9 @@ namespace Tinkercell
 				familiesInCatalog = readAll.split("\n");
 			}
 		}
+		
+		for (int i=0; i < familiesInCatalog.size(); ++i)
+			familiesInCatalog[i] = familiesInCatalog[i].toLower();
 		
 		for (int i=0; i < tabGroups.size(); ++i)
 		{
@@ -861,22 +864,25 @@ namespace Tinkercell
 			tabWidget->setCurrentIndex(currentIndex);
 	}
 		
-	void CatalogWidget::showButtons(const QStringList& familyNames)
+	void CatalogWidget::showButtons(QStringList& familyNames)
 	{
 		if (!tabWidget) return;
 				
 		bool widgetChanged = false;
 
 		for (int i=0; i < familyNames.size(); ++i)
+		{
+			familyNames[i] = familyNames[i].toLower();
 			if (!familiesInCatalog.contains(familyNames[i]))
 				familiesInCatalog << familyNames[i];
+		}
 
 		if (nodesTree)
 		{
 			QList<NodeFamily*> families;
 			for (int i=0; i < familyNames.size(); ++i)
-				if (nodesTree->nodeFamilies.contains(familyNames[i]))
-					families << nodesTree->nodeFamilies.value(familyNames[i]);
+				if (nodesTree->getFamily(familyNames[i]))
+					families << nodesTree->getFamily(familyNames[i]);
 
 			for (int i=0; i < families.size(); ++i)
 			{
@@ -940,9 +946,9 @@ namespace Tinkercell
 		if (connectionsTree)
 		{
 			QList<ConnectionFamily*> families;
-				for (int i=0; i < familyNames.size(); ++i)
-					if (connectionsTree->connectionFamilies.contains(familyNames[i]))
-						families << connectionsTree->connectionFamilies.value(familyNames[i]);
+			for (int i=0; i < familyNames.size(); ++i)
+				if (connectionsTree->getFamily(familyNames[i]))
+					families << connectionsTree->getFamily(familyNames[i]);
 
 			for (int i=0; i < families.size(); ++i)
 			{
@@ -1008,21 +1014,24 @@ namespace Tinkercell
 		}
 	}
 
-	void CatalogWidget::hideButtons(const QStringList& familyNames)
+	void CatalogWidget::hideButtons(QStringList& familyNames)
 	{
 		if (!tabWidget) return;
 				
 		bool widgetChanged = false;
 		
 		for (int i=0; i < familyNames.size(); ++i)
+		{
+			familyNames[i] = familyNames[i].toLower();
 			familiesInCatalog.removeAll(familyNames[i]);
+		}
 
 		if (nodesTree)
 		{
 			QList<NodeFamily*> families;
 			for (int i=0; i < familyNames.size(); ++i)
-				if (nodesTree->nodeFamilies.contains(familyNames[i]))
-					families << nodesTree->nodeFamilies.value(familyNames[i]);
+				if (nodesTree->getFamily(familyNames[i]))
+					families << nodesTree->getFamily(familyNames[i]);
 
 			for (int i=0; i < families.size(); ++i)
 			{
@@ -1077,8 +1086,8 @@ namespace Tinkercell
 		{
 			QList<ConnectionFamily*> families;
 				for (int i=0; i < familyNames.size(); ++i)
-					if (connectionsTree->connectionFamilies.contains(familyNames[i]))
-						families << connectionsTree->connectionFamilies.value(familyNames[i]);
+					if (connectionsTree->getFamily(familyNames[i]))
+						families << connectionsTree->getFamily(familyNames[i]);
 
 			for (int i=0; i < families.size(); ++i)
 			{

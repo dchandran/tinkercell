@@ -139,6 +139,7 @@ namespace Tinkercell
 		static ModuleTool_FToS fToS;
 		static tc_strings _listOfModels(long);
 		static void _substituteModel(long, const char *);
+		static QString emptyModel();
 
 		enum Mode { none, inserting, linking, connecting };
 		Mode mode;

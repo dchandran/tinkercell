@@ -12,7 +12,6 @@ Each item in Tinkercell has an associated family.
 #include <QtDebug>
 #include "ItemFamily.h"
 #include "ItemHandle.h"
-#include "ConsoleWindow.h"
 
 namespace Tinkercell
 {
@@ -58,15 +57,15 @@ namespace Tinkercell
 
 		if (NAMETOID.contains(s.toLower()))
 		{
-			_name = s;
-			ID = NAMETOID[ s.toLower() ];
+			_name = s.toLower();
+			ID = NAMETOID[ _name ];
 			return;
 		}
 
-		_name = s;
+		_name = s.toLower();
 		ID = ALLNAMES.size();
 		ALLNAMES += _name;
-		NAMETOID.insert( _name.toLower() , ID );
+		NAMETOID.insert( _name , ID );
 	}
 	
 	bool ItemFamily::isA(int ID) const
@@ -308,7 +307,8 @@ namespace Tinkercell
 	
 	bool ConnectionFamily::isValidSet(const QList<NodeHandle*>& nodes, bool full)
 	{
-		if (nodes.isEmpty()) return !full;
+		if (nodes.isEmpty())
+			return !full;
 
 		NodeHandle * h;
 		
@@ -318,23 +318,27 @@ namespace Tinkercell
 			return false;
 		}
 		
-		bool b;
 		QVector<bool> allIncluded(nodeRoles.size());
-		for (int i=0; i < nodeRoles.size(); ++i)
+		bool b;
+		int boolean1 = 0, boolean2 = 1;
+		
+		/*for (int i=0; i < nodeRoles.size(); ++i)
+		{
 			allIncluded[i] = false;
+		}*/
 		
 		for (int i=0; i < nodes.size(); ++i)  //for each node in this connection
 		{
 			b = false;
+			boolean2 = boolean2 | (1 << i);
 			for (int j=0; j < nodeRoles.size(); ++j)   //check of the family allows it
 			{
-				if (!allIncluded[j] && nodes[i] && 
+				if (nodes[i] && 
 					nodes[i]->family() && 
 					nodes[i]->family()->isA(nodeRoles[j].second))
 				{
-					allIncluded[j] = true;
+					boolean1 = (boolean1  | (1 << j));
 					b = true;
-					break;
 				}
 			}
 			
@@ -342,13 +346,11 @@ namespace Tinkercell
 				return false;
 		}
 		
-		if (full)
+		if (full && (boolean1 != boolean2))
 		{
-			for (int i=0; i < allIncluded.size(); ++i)
-				if (!allIncluded[i])
-					return false;
+			return false;
 		}
-
+		
 		return true;
 	}
 
@@ -359,9 +361,12 @@ namespace Tinkercell
 		//breadth first search starting from current family
 
 		ConnectionFamily * connection;
+		
+		
 
 		if (isValidSet(nodes,full))
 			validFamilies << this;
+
 
 		childFamilies << this;
 

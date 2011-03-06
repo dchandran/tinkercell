@@ -749,7 +749,7 @@ namespace Tinkercell
 
 			QStringList alltypes;
 			alltypes << typeIn << typeOut;
-
+	
 			double dtheta = 2*3.14159 / alltypes.size();
 			QPointF p;
 			bool alreadyPresent;
@@ -898,12 +898,15 @@ namespace Tinkercell
 								if (node = NodeGraphicsItem::cast(insertList[i]))
 								{
 									selectedNodes << node;
+									console()->message(node->handle()->family()->name());
 								}
 						}
 				}
 
 				QString appDir = QCoreApplication::applicationDirPath();
 				bool valid = pickFamily(true,true);
+				if (!valid)
+					console()->message("not valid");
 				//check if enough items have been selected to make the connection
 				if (selectedNodes.size() > 0 && 
 					selectedNodes.size() >= (numRequiredIn + numRequiredOut) && 
@@ -1389,8 +1392,9 @@ namespace Tinkercell
 		
 		QList<ItemFamily*> childFamilies = selectedFamily->findValidChildFamilies(nodeHandles,all);
 		
-		if (childFamilies.isEmpty() || !ConnectionFamily::cast(childFamilies.first()))
+		if (childFamilies.isEmpty())// || !ConnectionFamily::cast(childFamilies.first()))
 		{
+			console()->message(selectedFamily->name() + tr(" - no valid child family"));
 			return false;
 		}
 		

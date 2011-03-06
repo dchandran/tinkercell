@@ -986,18 +986,7 @@ namespace Tinkercell
 	
 	NodeFamily * LoadSaveTool::getNodeFamily(const QString& name)
 	{
-		if (nodeFamilies.contains(name))
-			return nodeFamilies.value(name);
-		
-		QStringList words = name.split(" ");
-		for (int i=0; i < words.size(); ++i)
-		{
-			words[i] = words[i].toLower();
-			words[0] = words[0].toUpper();
-		}
-
-		QString s = words.join(" ");
-		
+		QString s = name.toLower();		
 		if (nodeFamilies.contains(s))
 			return nodeFamilies.value(s);
 		return 0;
@@ -1005,17 +994,7 @@ namespace Tinkercell
 	
 	ConnectionFamily * LoadSaveTool::getConnectionFamily(const QString& name)
 	{
-		if (connectionFamilies.contains(name))
-			return connectionFamilies.value(name);
-		
-		QStringList words = name.split(" ");
-		for (int i=0; i < words.size(); ++i)
-		{
-			words[i] = words[i].toLower();
-			words[0] = words[0].toUpper();
-		}
-
-		QString s = words.join(" ");
+		QString s = name.toLower();
 		if (connectionFamilies.contains(s))
 			return connectionFamilies.value(s);
 		return 0;
@@ -1027,11 +1006,12 @@ namespace Tinkercell
 
 		for (int i=0; i < units.rows(); ++i)
 		{
-			if (nodeFamilies.contains(units.rowName(i)))
-				nodeFamilies[units.rowName(i)]->measurementUnit = Unit( units(i,0), units(i,1) );
+			QString s = units.rowName(i).toLower();
+			if (nodeFamilies.contains(s))
+				nodeFamilies[s]->measurementUnit = Unit( units(i,0), units(i,1) );
 			else
-			if (connectionFamilies.contains(units.rowName(i)))
-				connectionFamilies[units.rowName(i)]->measurementUnit = Unit( units(i,0), units(i,1) );
+			if (connectionFamilies.contains(s))
+				connectionFamilies[s]->measurementUnit = Unit( units(i,0), units(i,1) );
 		}
 	}
 	

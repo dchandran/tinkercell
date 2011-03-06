@@ -7,8 +7,6 @@
  This tool handles module connections that merge items from two modules
 
 ****************************************************************************/
-
-#include <iostream>
 #include <math.h>
 #include <QRegExp>
 #include <QProcess>
@@ -104,27 +102,12 @@ namespace Tinkercell
 		QString appDir = QCoreApplication::applicationDirPath();
 		QString home = homeDir();
 		
-		/* empty model*/
-		QString emptyModelFile = home + tr("/Modules/Empty_Model.tic");
-		
-		if (!QFile(emptyModelFile).exists())
-			emptyModelFile = home + tr("/Modules/Empty_Model.TIC");
-		
-		if (!QFile(emptyModelFile).exists())
-			emptyModelFile = appDir + tr("/Modules/Empty_Model.tic");
-		
-		if (!QFile(emptyModelFile).exists())
-			emptyModelFile = appDir + tr("/Modules/Empty_Model.TIC");
-		
-		if (!QFile(emptyModelFile).exists())
-			emptyModelFile = tr("");
-		
-		/* */
+		QString emptyModelFile = emptyModel();
 
 		for (int i=0; i < childFamilies.size(); ++i)
 		{
 			QString s = childFamilies[i]->name();
-			s.replace(tr(" "),tr(""));
+			s.replace(tr(" "),tr("_"));
 			QString dirname = home + tr("/Modules/") + s;
 			QDir dir(dirname);
 	
@@ -150,12 +133,19 @@ namespace Tinkercell
 				}
 			}
 		}
+		fileNames << emptyModelFile;
 		return fileNames;
 	}
 	
-	void ModuleTool::substituteModel(ItemHandle * parentHandle, const QString& filename, NetworkWindow * window)
+	void ModuleTool::substituteModel(ItemHandle * parentHandle, const QString& filename0, NetworkWindow * window)
 	{
 		if (!parentHandle) return;
+		
+		QString filename;
+		if (filename0.isEmpty())
+			filename = emptyModel();
+		else
+			filename = filename0;
 
 		NetworkHandle * network;
 		if (window && window->handle == parentHandle)
@@ -461,7 +451,7 @@ namespace Tinkercell
 			QString appDir = QCoreApplication::applicationDirPath();
 			QString home = homeDir();
 			
-			s.replace(tr(" "),tr(""));
+			s.replace(tr(" "),tr("_"));
 			QString dirname = home + tr("/Modules/") + s;
 			QDir dir(dirname);
 	
@@ -504,7 +494,7 @@ namespace Tinkercell
 		{
 			QString s = allNames[i];
 			
-			s.replace(tr(" "),tr(""));
+			s.replace(tr(" "),tr("_"));
 		
 			QString dirname = home + tr("/Modules/") + s;
 			QDir dir(dirname);
@@ -606,7 +596,7 @@ namespace Tinkercell
 				for (int i=0; i < childFamilies.size(); ++i)
 				{
 					QString s = childFamilies[i]->name();
-					s.replace(tr(" "),tr(""));
+					s.replace(tr(" "),tr("_"));
 					QString dirname = home + tr("/Modules/") + s;
 					QDir dir(dirname);
 
@@ -955,8 +945,6 @@ namespace Tinkercell
 		
 		if (loadedItems) return;
 		
-		std::cout << "loaded items = false \n";
-		
 		for (int i=0; i < handles.size(); ++i)
 			if (handles[i] && !visited.contains(handles[i]) && ConnectionFamily::cast(handles[i]->family()))
 			{
@@ -967,7 +955,7 @@ namespace Tinkercell
 				if (handles[i]->children.isEmpty()) //the "annotation" is to check that is was not loaded form a file (hack?)
 				{
 					QString s = handles[i]->family()->name();
-					s.replace(tr(" "),tr(""));
+					s.replace(tr(" "),tr("_"));
 					QString dirname = homeDir() + tr("/Modules/") + s;
 					QDir dir(dirname);
 		
@@ -1389,15 +1377,8 @@ namespace Tinkercell
 		}
 	}
 	
-	QDockWidget * ModuleTool::makeDockWidget(const QStringList & families)
+	QString ModuleTool::emptyModel()
 	{
-		QDockWidget * dock = 0;
-		QWidget * widget = 0;
-		QHBoxLayout * layout = 0;
-		QScrollArea * scrollArea = 0;
-		QButtonGroup * group = 0;
-		
-		/* empty model*/
 		QString emptyModelFile = homeDir() + tr("/Modules/Empty_Model.tic");
 		
 		if (!QFile(emptyModelFile).exists())
@@ -1412,12 +1393,23 @@ namespace Tinkercell
 		if (!QFile(emptyModelFile).exists())
 			emptyModelFile = tr("");
 		
-		/* */
+		return emptyModelFile;
+	}
+	
+	QDockWidget * ModuleTool::makeDockWidget(const QStringList & families)
+	{
+		QDockWidget * dock = 0;
+		QWidget * widget = 0;
+		QHBoxLayout * layout = 0;
+		QScrollArea * scrollArea = 0;
+		QButtonGroup * group = 0;
+		
+		QString emptyModelFile = emptyModel();
 		
 		for (int i=0; i < families.size(); ++i)
 		{
 			QString s = families[i];
-			s.replace(tr(" "),tr(""));
+			s.replace(tr(" "),tr("_"));
 
 			QString dirname = homeDir() + tr("/Modules/") + s;
 			QDir dir(dirname);
@@ -1451,7 +1443,10 @@ namespace Tinkercell
 			QFileInfoList list = dir.entryInfoList();
 			
 			if (!emptyModelFile.isEmpty())
+			{
 				list += QFileInfo(emptyModelFile);
+				emptyModelFile = tr("");
+			}
 
 			for (int i = 0; i < list.size(); ++i)
 			{
@@ -1809,8 +1804,10 @@ namespace Tinkercell
 			comboBox = static_cast<QComboBox*>(newModuleTable->cellWidget(i,1));			
 			newModuleFamily->addParticipant(lineEdit->text(), comboBox->currentText());
 		}
-
-		catalogWidget->showButtons(QStringList() << newModuleFamily->name());
+		
+		QStringList newModuleNames;
+		newModuleNames << newModuleFamily->name();
+		catalogWidget->showButtons(newModuleNames);
 	}
 
 	void ModuleTool::itemsDropped(GraphicsScene * scene, const QString& family, const QPointF& point)

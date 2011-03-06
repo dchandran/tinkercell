@@ -866,26 +866,84 @@ namespace Tinkercell
 
 	void C_API_Slots::getX(QSemaphore * s, qreal * returnPtr, ItemHandle * item)
 	{
-		if (item == 0 || item->graphicsItems.isEmpty() || item->graphicsItems[0] == 0)
+		if (item == 0 || item->graphicsItems.isEmpty() || !returnPtr)
 		{
 			if (s) s->release();
 			return;
 		}
-		if (returnPtr)
-			(*returnPtr) = item->graphicsItems[0]->scenePos().x();
+		
+		bool found = false;
+		for (int i=0; i < item->graphicsItems.size(); ++i)
+			if (NodeGraphicsItem::cast(item->graphicsItems[i]))
+			{
+				(*returnPtr) = item->graphicsItems[i]->scenePos().x();
+				found = true;
+				break;
+			}
+		
+		if (!found)
+		{
+			for (int i=0; i < item->graphicsItems.size(); ++i)
+				if (ConnectionGraphicsItem::cast(item->graphicsItems[i]))
+				{
+					(*returnPtr) = item->graphicsItems[i]->scenePos().x();
+					found = true;
+					break;
+				}
+		}
+		
+		if (!found)
+		{
+			for (int i=0; i < item->graphicsItems.size(); ++i)
+				if (item->graphicsItems[i])
+				{
+					(*returnPtr) = item->graphicsItems[i]->scenePos().x();
+					found = true;
+					break;
+				}
+		}
+
 		if (s)
 			s->release();
 	}
 
 	void C_API_Slots::getY(QSemaphore * s, qreal * returnPtr, ItemHandle * item)
 	{
-		if (item == 0 || item->graphicsItems.isEmpty() || item->graphicsItems[0] == 0)
+		if (item == 0 || item->graphicsItems.isEmpty() || !returnPtr)
 		{
 			if (s) s->release();
 			return;
 		}
-		if (returnPtr)
-			(*returnPtr) = item->graphicsItems[0]->scenePos().y();
+		bool found = false;
+		for (int i=0; i < item->graphicsItems.size(); ++i)
+			if (NodeGraphicsItem::cast(item->graphicsItems[i]))
+			{
+				(*returnPtr) = item->graphicsItems[i]->scenePos().y();
+				found = true;
+				break;
+			}
+		
+		if (!found)
+		{
+			for (int i=0; i < item->graphicsItems.size(); ++i)
+				if (ConnectionGraphicsItem::cast(item->graphicsItems[i]))
+				{
+					(*returnPtr) = item->graphicsItems[i]->scenePos().y();
+					found = true;
+					break;
+				}
+		}
+		
+		if (!found)
+		{
+			for (int i=0; i < item->graphicsItems.size(); ++i)
+				if (item->graphicsItems[i])
+				{
+					(*returnPtr) = item->graphicsItems[i]->scenePos().y();
+					found = true;
+					break;
+				}
+		}
 		if (s)
 			s->release();
 	}

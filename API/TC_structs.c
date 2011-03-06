@@ -16,11 +16,7 @@ TCAPIEXPORT tc_matrix tc_createMatrix(int rows, int cols)
 	if (rows > 0 && cols > 0)
 	{
 		M.values = (double*)malloc( rows * cols * sizeof(double) );
-		for (i=0; i < cols; ++i)
-			M.colnames.strings[i] = 0;
-		for (i=0; i < rows; ++i)
-			M.rownames.strings[i] = 0;
-		for (i=0; i < rows*cols; ++i)
+		for (i=0; i < (rows*cols); ++i)
 			M.values[i] = 0.0;
 	}
 	else
@@ -40,11 +36,7 @@ TCAPIEXPORT tc_table tc_createTable(int rows, int cols)
 	if (rows > 0 && cols > 0)
 	{
 		M.strings = (char**)malloc( rows * cols * sizeof(char*) );
-		for (i=0; i < cols; ++i)
-			M.colnames.strings[i] = 0;
-		for (i=0; i < rows; ++i)
-			M.rownames.strings[i] = 0;
-		for (i=0; i < rows*cols; ++i)
+		for (i=0; i < (rows*cols); ++i)
 			M.strings[i] = 0;
 	}
 	else
@@ -350,6 +342,7 @@ TCAPIEXPORT tc_matrix tc_appendRows(tc_matrix A, tc_matrix B)
 				C.rownames.strings[i+A.cols][j] = B.rownames.strings[i][j];
 		}
 	}
+
 
 
 	if (A.colnames.strings && B.colnames.strings)

@@ -8,7 +8,6 @@
  This tool also stores the tree of node families as a hashtable of <name,family> pairs.
 
 ****************************************************************************/
-
 #include "NodesTree.h"
 #include <QtDebug>
 #include <QButtonGroup>
@@ -26,13 +25,14 @@ namespace Tinkercell
      {
 		  networkClosing(0,0);
 
-          QList<NodeFamily*> list = nodeFamilies.values();
+          QList<NodeFamily*> list = nodeFamilies.values(), visited;
 
           for (int i=0; i < list.size(); ++i)
           {
                NodeFamily * node = list[i];
-               if (node)
+               if (node && !visited.contains(node))
                {
+               		visited << node;
                     delete node;
                     node = 0;
                }
@@ -281,7 +281,7 @@ namespace Tinkercell
 
 	 void NodesTree::itemActivated( QListWidgetItem * )
 	 {
-		nodeFileAccepted();
+			nodeFileAccepted();
 	 }
 
      void NodesTree::makeNodeSelectionDialog()
@@ -442,6 +442,10 @@ namespace Tinkercell
 	 QString NodesTree::iconFile(QString name)
 	 {
 	 	QString file;
+	 	
+	 	name = name.toLower();
+	 	name.replace(" ","");
+
 		if (nodeGraphicsFileNames.contains(name) && QFile::exists(nodeGraphicsFileNames[name]))
 		{
 			file = nodeGraphicsFileNames[name];
@@ -452,7 +456,6 @@ namespace Tinkercell
 		{
 			file = tr("/Graphics/") + themeDirectory + tr("/Nodes/");
 			file += name;
-			file.replace(tr(" "),tr(""));
 			file += tr(".PNG");
 		}
 		return  file;
@@ -461,6 +464,10 @@ namespace Tinkercell
 	 QString NodesTree::nodeImageFile(QString name)
 	 {
 		QString file;
+		
+		name = name.toLower();
+	 	name.replace(" ","");
+
 		if (nodeGraphicsFileNames.contains(name) && QFile::exists(nodeGraphicsFileNames[name]))
 		{
 			file = nodeGraphicsFileNames[name];
@@ -469,7 +476,6 @@ namespace Tinkercell
 		{
 			file = tr("/Graphics/") + themeDirectory + tr("/Nodes/");
 			file += name;
-			file.replace(tr(" "),tr(""));
 			file += tr(".xml");
 		}
 		return  file;
@@ -482,17 +488,7 @@ namespace Tinkercell
 	
 	NodeFamily * NodesTree::getFamily(const QString& name) const
 	{
-		if (nodeFamilies.contains(name))
-			return nodeFamilies.value(name);
-		
-		QStringList words = name.split(" ");
-		for (int i=0; i < words.size(); ++i)
-		{
-			words[i] = words[i].toLower();
-			words[0] = words[0].toUpper();
-		}
-
-		QString s = words.join(" ");
+		QString s = name.toLower();
 		
 		if (nodeFamilies.contains(s))
 			return nodeFamilies.value(s);
@@ -502,18 +498,11 @@ namespace Tinkercell
 	bool NodesTree::insertFamily(NodeFamily * family, FamilyTreeButton * button)
 	{
 		if (name.isEmpty() || !family) return false;
-		QStringList words = family->name().split(" ");
-		for (int i=0; i < words.size(); ++i)
-		{
-			words[i] = words[i].toLower();
-			words[0] = words[0].toUpper();
-		}
-
-		family->name() = words.join(" ");
-
-		nodeFamilies [family->name()] = family;
+		
+		QString s = family->name().toLower();
+		nodeFamilies [s] = family;
 		if (button)
-			treeButtons [family->name()] = button;
+			treeButtons [s] = button;
 		
 		LoadSaveTool::nodeFamilies = nodeFamilies;
 		return true;

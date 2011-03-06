@@ -5,7 +5,7 @@
 BEGIN_C_DECLS
 
 /*!
- \brief load a sub-model to represent the processes inside an existing connection
+ \brief load a sub-model to represent the processes inside an existing connection. use an empty string to substitude the empty model.
  \param long connection that will be the parent of the new model
  \param const char* file name of new model
  \ingroup Module

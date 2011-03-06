@@ -27,13 +27,14 @@ namespace Tinkercell
 		networkClosing(0,0);
         if (connectionFamilies.size() > 0)
         {
-            QList<ConnectionFamily*> list = connectionFamilies.values();
+            QList<ConnectionFamily*> list = connectionFamilies.values(), visited;
 
             for (int i=0; i < list.size(); ++i)
             {
                 ConnectionFamily * family = list[i];
-                if (family)
+                if (family && !visited.contains(family))
                 {
+                	visited << family;
                     delete family;
                     family = 0;
                 }
@@ -94,7 +95,7 @@ namespace Tinkercell
                 }
             }
         }		
-		settings.endGroup();    	
+		settings.endGroup();
 		
 		LoadSaveTool::connectionFamilies = connectionFamilies;
     }
@@ -245,17 +246,7 @@ namespace Tinkercell
 
 	ConnectionFamily * ConnectionsTree::getFamily(const QString& name) const
 	{
-		if (connectionFamilies.contains(name))
-			return connectionFamilies.value(name);
-		
-		QStringList words = name.split(" ");
-		for (int i=0; i < words.size(); ++i)
-		{
-			words[i] = words[i].toLower();
-			words[0] = words[0].toUpper();
-		}
-
-		QString s = words.join(" ");
+		QString s = name.toLower();
 		if (connectionFamilies.contains(s))
 			return connectionFamilies.value(s);
 		return 0;
@@ -264,18 +255,12 @@ namespace Tinkercell
 	bool ConnectionsTree::insertFamily(ConnectionFamily * family, FamilyTreeButton * button)
 	{
 		if (!family) return false;
-		QStringList words = family->name().split(" ");
-		for (int i=0; i < words.size(); ++i)
-		{
-			words[i] = words[i].toLower();
-			words[0] = words[0].toUpper();
-		}
 		
-		family->name() = words.join(" ");
+		QString s = family->name().toLower();
 		
-		connectionFamilies[family->name()] = family;
+		connectionFamilies[s] = family;
 		if (button)
-			treeButtons[family->name()] = button;
+			treeButtons[s] = button;
 		
 		LoadSaveTool::connectionFamilies = connectionFamilies;
 		return true;

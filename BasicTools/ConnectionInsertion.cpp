@@ -692,6 +692,8 @@ namespace Tinkercell
 		handle->name = scene->network->makeUnique(name);
 
 		TextGraphicsItem * nameItem = new TextGraphicsItem(handle,0);
+		if (item)
+			nameItem->relativePosition = QPair<QGraphicsItem*,QPointF>(item,QPointF(0,0));
 		insertList += nameItem;
 		nameItem->setPos(center);
 		QFont font = nameItem->font();
@@ -898,15 +900,12 @@ namespace Tinkercell
 								if (node = NodeGraphicsItem::cast(insertList[i]))
 								{
 									selectedNodes << node;
-									console()->message(node->handle()->family()->name());
 								}
 						}
 				}
 
 				QString appDir = QCoreApplication::applicationDirPath();
 				bool valid = pickFamily(true,true);
-				if (!valid)
-					console()->message("not valid");
 				//check if enough items have been selected to make the connection
 				if (selectedNodes.size() > 0 && 
 					selectedNodes.size() >= (numRequiredIn + numRequiredOut) && 
@@ -1023,6 +1022,8 @@ namespace Tinkercell
 						handle->name = scene->network->makeUnique(handle->name);
 
 						TextGraphicsItem * nameItem = new TextGraphicsItem(handle,0);
+						if (item)
+							nameItem->relativePosition = QPair<QGraphicsItem*,QPointF>(item,QPointF(0,0));
 						insertList += nameItem;
 						nameItem->setPos(center);
 						QFont font = nameItem->font();
@@ -1394,7 +1395,6 @@ namespace Tinkercell
 		
 		if (childFamilies.isEmpty())// || !ConnectionFamily::cast(childFamilies.first()))
 		{
-			console()->message(selectedFamily->name() + tr(" - no valid child family"));
 			return false;
 		}
 		

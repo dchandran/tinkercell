@@ -134,10 +134,12 @@ namespace Tinkercell
 				if (!handle->name[0].isLetter())
 						handle->name = tr("S") + handle->name;
 				handle->name = scene->network->makeUnique(handle->name,usedNames);
+				
+				NodeGraphicsItem * image = 0;
 
 				for (int i=0; i < nodeFamily->graphicsItems.size(); ++i)
 				{
-					NodeGraphicsItem * image = (NodeGraphicsItem::topLevelNodeItem(nodeFamily->graphicsItems[i]));
+					image = (NodeGraphicsItem::topLevelNodeItem(nodeFamily->graphicsItems[i]));
 					if (image)
 					{
 						image = image->clone();
@@ -166,6 +168,8 @@ namespace Tinkercell
 					if (handle->family() && !handle->family()->isA("Empty"))
 					{
 						TextGraphicsItem * nameItem = new TextGraphicsItem(handle,0);
+						if (image)
+							nameItem->relativePosition = QPair<QGraphicsItem*,QPointF>(image,QPointF(0,0));
 						QFont font = nameItem->font();
 						font.setPointSize(22);
 						nameItem->setFont(font);

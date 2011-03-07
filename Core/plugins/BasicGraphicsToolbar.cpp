@@ -1017,37 +1017,54 @@ namespace Tinkercell
 			return cplist;
 	}
 
-	void BasicGraphicsToolbar::moveTextGraphicsItems(QList<QGraphicsItem*> & items,QList<QPointF> & points)
+	void BasicGraphicsToolbar::moveTextGraphicsItems(QList<QGraphicsItem*> & items,QList<QPointF> & points, int dir)
 	{
 		NodeGraphicsItem* node = 0;
 		TextGraphicsItem* text = 0;
-		QPointF textPos, p;
-		QRectF rect;
+		QPointF textPos, p1, p2;
+		QRectF rect1, rect2;
 		for (int i=0; i < items.size() && i < points.size(); ++i)
 		{
 			if ((node = NodeGraphicsItem::cast(items[i])) && node->handle())
 			{
-				rect = node->sceneBoundingRect();
+				rect1 = node->sceneBoundingRect();
 				QList<QGraphicsItem*> & graphicsItems = node->handle()->graphicsItems;
 				for (int j=0; j < graphicsItems.size(); ++j)
 				{
+					rect2 = graphicsItems[j]->sceneBoundingRect();
 					if ((text = TextGraphicsItem::cast(graphicsItems[j])) && 
 						!items.contains(text) &&
 						node->scene() == text->scene() &&
-						rect.adjusted(-50,-50,50,50).intersects(text->sceneBoundingRect()))
+						(text->relativePosition.first == node || 
+							node->boundaryControlPoints.contains((NodeGraphicsItem::ControlPoint*)text->relativePosition.first))
+						)
 					{
 						items += text;
-						p = points[i];
-
-						textPos = text->sceneBoundingRect().center();
-
-						if (textPos.rx() > rect.left() && textPos.rx() < rect.right())
-							p += QPointF( rect.center().x() - textPos.rx() , 0.0 );
-						else
-							if (textPos.ry() > rect.top() && textPos.ry() < rect.bottom())
-								p += QPointF( 0.0, rect.center().y() - textPos.ry() );
-
-						points += p; //move text along with nodes
+						p1 = rect1.center() + points[i];
+						switch (dir)
+						{
+							case 0: //below
+								p2 = p1;
+								p2.ry() += 0.5*rect1.height() + 2;
+								p2.rx() -= 0.5*rect2.width();
+								break;
+							case 1: //above
+								p2 = p1;
+								p2.ry() -= 0.5*rect1.height() + rect2.height() + 2;
+								p2.rx() -= 0.5*rect2.width();
+								break;
+							case 2: //left
+								p2 = p1;
+								p2.rx() -= 0.5*rect1.width() + rect2.width() + 2;
+								p2.ry() -= 0.5*rect2.height();
+								break;
+							case 3: //right
+								p2 = p1;
+								p2.rx() += 0.5*rect1.width() + 2;
+								p2.ry() -= 0.5*rect2.height();
+								break;
+						}
+						points += (p2 - text->scenePos()); //move text along with nodes
 					}
 				}
 			}
@@ -1134,7 +1151,7 @@ namespace Tinkercell
 					newPositions += QPointF();
 			}
 			//moveChildItems(list,newPositions);
-			moveTextGraphicsItems(list,newPositions);
+			moveTextGraphicsItems(list,newPositions, 3);
 			scene->move(list,newPositions);
 		}
 
@@ -1174,7 +1191,7 @@ namespace Tinkercell
 					newPositions += QPointF();
 			}
 			//moveChildItems(list,newPositions);
-			moveTextGraphicsItems(list,newPositions);
+			moveTextGraphicsItems(list,newPositions, 2);
 			scene->move(list,newPositions);
 		}
 	}
@@ -1213,7 +1230,7 @@ namespace Tinkercell
 					newPositions += QPointF();
 			}
 			//moveChildItems(list,newPositions);
-			moveTextGraphicsItems(list,newPositions);
+			moveTextGraphicsItems(list,newPositions, 0);
 			scene->move(list,newPositions);
 		}
 	}
@@ -1252,7 +1269,7 @@ namespace Tinkercell
 					newPositions += QPointF();
 			}
 			//moveChildItems(list,newPositions);
-			moveTextGraphicsItems(list,newPositions);
+			moveTextGraphicsItems(list,newPositions, 0);
 			scene->move(list,newPositions);
 		}
 	}
@@ -1315,7 +1332,7 @@ namespace Tinkercell
 			{
 				QPointF pos;
 				node = NodeGraphicsItem::cast(list[i]);
-				if (node && (shape = node->rightMostShape()))
+				if (node && (shape = node->leftMostShape()))
 					pos.setX(x - shape->sceneBoundingRect().left());
 				else
 					pos.setX(x - list[i]->sceneBoundingRect().left());
@@ -1327,7 +1344,7 @@ namespace Tinkercell
 				newPositions += QPointF();
 		}
 		//moveChildItems(list,newPositions);
-		moveTextGraphicsItems(list,newPositions);
+		moveTextGraphicsItems(list,newPositions, 3);
 		scene->move(list,newPositions);
 
 		/*QList<QPointF> changeWidth;
@@ -1407,7 +1424,7 @@ namespace Tinkercell
 				newPositions += QPointF();
 		}
 		//moveChildItems(list,newPositions);
-		moveTextGraphicsItems(list,newPositions);
+		moveTextGraphicsItems(list,newPositions, 0);
 		scene->move(list,newPositions);
 		/*
 		QList<QPointF> changeHeight;
@@ -1490,7 +1507,7 @@ namespace Tinkercell
 				newPositions += QPointF();
 		}
 		//moveChildItems(list,newPositions);
-		moveTextGraphicsItems(list,newPositions);
+		moveTextGraphicsItems(list,newPositions, 3);
 		scene->move(list,newPositions);
 	}
 	void BasicGraphicsToolbar::alignEvenSpacedHorizontal()
@@ -1565,7 +1582,7 @@ namespace Tinkercell
 				newPositions += QPointF();
 		}
 		//moveChildItems(list,newPositions);
-		moveTextGraphicsItems(list,newPositions);
+		moveTextGraphicsItems(list,newPositions, 0);
 		scene->move(list,newPositions);
 	}
 

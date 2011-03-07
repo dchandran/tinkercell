@@ -85,6 +85,10 @@ namespace Tinkercell
 		/*! \brief relative position with a target item
 		*/
 		QPair<QGraphicsItem*,QPointF> relativePosition;
+		/*! \brief get the closest item inside the same handle's graphics items list
+		\return QGraphicsItem graphics item
+		*/
+		QGraphicsItem* closestItem() const;
 
 		/*! \brief for enabling dynamic_cast*/
 		enum { Type = UserType + 8};

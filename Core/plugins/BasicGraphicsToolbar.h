@@ -99,7 +99,7 @@ namespace Tinkercell
 
 		QList<QGraphicsItem*> itemsToAlign ( QList< QGraphicsItem*>&);
 
-		void moveTextGraphicsItems(QList<QGraphicsItem*> &, QList<QPointF> &);
+		void moveTextGraphicsItems(QList<QGraphicsItem*> &, QList<QPointF> &, int);
 		void moveChildItems(QList<QGraphicsItem*> &, QList<QPointF> &);
 		void init();
 

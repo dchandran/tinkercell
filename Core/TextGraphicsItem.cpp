@@ -12,6 +12,8 @@ a handle
 #include <QPainter>
 #include "MainWindow.h"
 #include "TextGraphicsItem.h"
+#include "NodeGraphicsItem.h"
+#include "ConnectionGraphicsItem.h"
 
 namespace Tinkercell
 {
@@ -146,6 +148,34 @@ TextGraphicsItem* TextGraphicsItem::cast(QGraphicsItem * q)
 {
 	//if (MainWindow::invalidPointers.contains( (void*)q )) return 0;
 	return qgraphicsitem_cast<TextGraphicsItem*>(q);
+}
+
+QGraphicsItem* TextGraphicsItem::closestItem() const
+{
+	if (!itemHandle) return 0;
+	
+	QList<QGraphicsItem*> & graphicsItems = itemHandle->graphicsItems;
+	QPointF p1, p2;
+	p1 = this->scenePos();
+	
+	QGraphicsItem * closest = 0;
+	double dist1 = -1, dist2;
+	
+	for (int i=0; i < graphicsItems.size(); ++i)
+	{
+		if (NodeGraphicsItem::cast(graphicsItems[i]) || ConnectionGraphicsItem::cast(graphicsItems[i]))
+		{
+			p2 = p1 - graphicsItems[i]->scenePos();
+			dist2 = p2.x()*p2.x() + p2.y()*p2.y();
+			if (dist1 < 0 || dist1 > dist2)
+			{
+				closest = graphicsItems[i];
+				dist1 = dist2;
+			}
+		}
+	}
+	
+	return closest;
 }
 
 }

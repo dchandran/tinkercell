@@ -687,7 +687,7 @@ namespace Tinkercell
 					{
 						bool promoterOperator = !promoter->connections().isEmpty();
 						for (int k=0; k < operators.size(); ++k)
-							if (operators[k] != promoter || promoterOperator)
+							if (!operators[k]->isA(tr("promoter")) || promoterOperator)
 								if (rate.isEmpty())
 									rate = operators[k]->fullName();
 								else
@@ -733,7 +733,8 @@ namespace Tinkercell
 													(oldrate.size() > 4 && !oldrate.contains(tr(".strength * ")));
 
 					if (!parts[i]->textDataTable(tr("Assignments")).hasRow(tr("self")) ||
-							(!isCustomEqn && oldrate != rate && isMissing)
+						isMissing ||
+						(!isCustomEqn && oldrate != rate)
 						)
 						 {
 							TextDataTable * sDat = new TextDataTable(parts[i]->textDataTable(tr("Assignments")));
@@ -1650,6 +1651,7 @@ namespace Tinkercell
 								|| !connections[j]->handle()->hasNumericalData(tr("Product stoichiometries"))
 								|| connections[j]->handle()->numericalDataTable(tr("Product stoichiometries")).rows() < 1)
 							)
+
 							{
 								visited += connectedNodes[0];
 								handle = h;

@@ -12,10 +12,8 @@
 
            <process family="Transcription" participant_types="Coding,Empty,mRNA" participant_roles="Template,Reactant,Product" description="Production of mRNA from DNA template.">
            </process>
-
            <process family="Translation" participant_types="mRNA,Empty,Protein" participant_roles="Template,Reactant,Product" description="Production of protein from mRNA template.">
-           </process>
-      
+           </process>      
            <process family="Protein Production" participant_types="Coding,Protein" participant_roles="Template,Product" description="The complete process of producing a protein from the template DNA.">
            </process>
 
@@ -52,6 +50,12 @@
      </process>
       
       <process family="Activation" participant_types="Node" participant_roles="Activator,Target">
+          <process family="Transcription" participant_types="Coding,Empty,mRNA" participant_roles="Template,Reactant,Product" description="Production of mRNA from DNA template.">
+           </process>
+           <process family="Translation" participant_types="mRNA,Empty,Protein" participant_roles="Template,Reactant,Product" description="Production of protein from mRNA template.">
+           </process>      
+           <process family="Protein Production" participant_types="Coding,Protein" participant_roles="Template,Product" description="The complete process of producing a protein from the template DNA.">
+           </process>
           <process family="Allosteric Activation" participant_types="Molecule,Protein">
           </process>
           <process family="Transcription Activation" participant_types="Transcription Factor,Activator Binding Site">

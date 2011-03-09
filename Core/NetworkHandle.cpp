@@ -20,6 +20,7 @@ This class provides functions for inserting items, removing items, and changing 
 #include "ItemHandle.h"
 #include "Tool.h"
 #include "GraphicsScene.h"
+#include "TextGraphicsItem.h"
 #include "TextEditor.h"
 #include "UndoCommands.h"
 #include "NetworkHandle.h"
@@ -1091,6 +1092,21 @@ namespace Tinkercell
 	void NetworkHandle::emitHistoryChanged(int i)
 	{
 		emit historyChanged(i);
+	}
+	
+	QString NetworkHandle::annotations() const
+	{
+		QString s;
+		TextGraphicsItem * textItem = 0;
+		QList<GraphicsScene*> scenes = this->scenes();
+		for (int i=0; i < scenes.size(); ++i)
+		{
+			QList<QGraphicsItem*> items = scenes[i]->items();
+			for (int j=0; j < items.size(); ++j)
+				if ((textItem = TextGraphicsItem::cast(items[j])) && !textItem->handle())
+					s += textItem->text() + tr("\n");
+		}
+		return s;
 	}
 	
 }

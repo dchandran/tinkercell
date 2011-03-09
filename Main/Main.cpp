@@ -46,6 +46,7 @@
 #include "LPSolveInput.h"
 #include "CellPositionUpdatingTool.h"
 #include "OctaveExporter.h"
+#include "EnglishExporter.h"
 #include "AntimonyEditor.h"
 #include "SBMLImportExport.h"
 #include "CopasiExporter.h"
@@ -155,6 +156,7 @@ int main(int argc, char *argv[])
 	mainWindow.addTool(new SBMLImportExport);
 	mainWindow.addTool(new CopasiExporter);
 	mainWindow.addTool(new AntimonyEditor);
+	mainWindow.addTool(new EnglishExporter);
 	
 	Tool * codingWindowPlugin = new CodingWindow; //do the svn update before loading python,octave, and modules
 	

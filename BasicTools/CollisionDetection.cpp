@@ -55,6 +55,8 @@ namespace Tinkercell
 		if (!(nodeBelowCursor != 0 || connectionBelowCursor != 0))
 		{
 			QPointF & p = scene->lastPoint();
+			if (p.isNull()) return;
+			
 			QRectF rect(p - QPointF(20,20), p + QPointF(20,20));
 			QList<QGraphicsItem*> existingItems = scene->items(rect);
 			

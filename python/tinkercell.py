@@ -529,13 +529,9 @@ def tc_getHeight(*args):
   return _tinkercell.tc_getHeight(*args)
 tc_getHeight = _tinkercell.tc_getHeight
 
-def tc_getAngle(*args):
-  return _tinkercell.tc_getAngle(*args)
-tc_getAngle = _tinkercell.tc_getAngle
-
-def tc_setAngle(*args):
-  return _tinkercell.tc_setAngle(*args)
-tc_setAngle = _tinkercell.tc_setAngle
+def tc_rotate(*args):
+  return _tinkercell.tc_rotate(*args)
+tc_rotate = _tinkercell.tc_rotate
 
 def tc_screenshot(*args):
   return _tinkercell.tc_screenshot(*args)
@@ -556,6 +552,14 @@ tc_screenX = _tinkercell.tc_screenX
 def tc_screenY():
   return _tinkercell.tc_screenY()
 tc_screenY = _tinkercell.tc_screenY
+
+def tc_annotations():
+  return _tinkercell.tc_annotations()
+tc_annotations = _tinkercell.tc_annotations
+
+def tc_insertAnnotations(*args):
+  return _tinkercell.tc_insertAnnotations(*args)
+tc_insertAnnotations = _tinkercell.tc_insertAnnotations
 
 def tc_Main_api_initialize(*args):
   return _tinkercell.tc_Main_api_initialize(*args)

@@ -130,7 +130,6 @@ namespace Tinkercell
 		double (*getWidth)(long),
 		double (*getHeight)(long),
 		void (*setAngle)(long,double,int),
-		double (*getAngle)(long),
 		const char* (*getColor)(long),
 		void (*setColor)(long,const char*,int),
 		
@@ -141,7 +140,10 @@ namespace Tinkercell
 		int (*screenWidth)(),
 		int (*screenHeight)(),
 		int (*screenX)(),
-		int (*screenY)()
+		int (*screenY)(),
+		
+		const char * (*annotations)(),
+		void (*insertAnno)(const char *, double, double)
 	);
 	
 	void C_API_Slots::setupFunctionPointers(QLibrary * library)
@@ -210,7 +212,6 @@ namespace Tinkercell
 				&(_getWidth),
 				&(_getHeight),
 				&(_setAngle),
-				&(_getAngle),
 				&(_getColor),
 				&(_setColor),
 				&(_changeGraphics),
@@ -219,7 +220,9 @@ namespace Tinkercell
 				&(_screenWidth),
 				&(_screenHeight),
 				&(_screenX),
-				&(_screenY)
+				&(_screenY),
+				&(_annotations),
+				&(_insertAnnotation)
 			);
 		}
 	}
@@ -308,7 +311,6 @@ namespace Tinkercell
 		connect(&fToS,SIGNAL(getWidth(QSemaphore*, ItemHandle*, double*)),this,SLOT(getWidth(QSemaphore*, ItemHandle*, double*)));
 		connect(&fToS,SIGNAL(getHeight(QSemaphore*, ItemHandle*,double*)),this,SLOT(getHeight(QSemaphore*, ItemHandle*,double*)));
 		connect(&fToS,SIGNAL(setAngle(QSemaphore*, ItemHandle*,double,int)),this,SLOT(setAngle(QSemaphore*, ItemHandle*,double,int)));
-		connect(&fToS,SIGNAL(getAngle(QSemaphore*, ItemHandle*, double*)),this,SLOT(getAngle(QSemaphore*, ItemHandle*, double*)));
 		
 		connect(&fToS,SIGNAL(getColor(QSemaphore*,QString*,ItemHandle*)),this,SLOT(getColor(QSemaphore*,QString*,ItemHandle*)));
 		connect(&fToS,SIGNAL(setColor(QSemaphore*,ItemHandle*,const QString&,int)),this,SLOT(setColor(QSemaphore*,ItemHandle*,const QString&,int)));
@@ -320,6 +322,9 @@ namespace Tinkercell
 		connect(&fToS,SIGNAL(screenWidth(QSemaphore*, int*)),this,SLOT(screenWidth(QSemaphore*, int*)));
 		connect(&fToS,SIGNAL(screenX(QSemaphore*, int*)),this,SLOT(screenX(QSemaphore*, int*)));
 		connect(&fToS,SIGNAL(screenY(QSemaphore*, int*)),this,SLOT(screenY(QSemaphore*, int*)));
+		
+		connect(&fToS,SIGNAL(annotations(QSemaphore*, QString*)),this,SLOT(annotations(QSemaphore*, QString*)));
+		connect(&fToS,SIGNAL(insertAnnotation(QSemaphore*, const QString&, double, double)),this,SLOT(insertAnnotation(QSemaphore*, const QString&, double, double)));
 	}
 	
 	void C_API_Slots::zoom(QSemaphore* sem, qreal factor)
@@ -1433,6 +1438,16 @@ namespace Tinkercell
 	{
 		return fToS.getParent(o);
 	}
+	
+	const char * C_API_Slots::_annotations()
+	{
+		return fToS.annotation();
+	}
+	
+	void C_API_Slots::_insertAnnotation(const char * c, double x, double y)
+	{
+		fToS.insertAnnotation(c,x,y);
+	}
 
 	void Core_FtoS::zoom(double x)
 	{
@@ -2019,6 +2034,29 @@ namespace Tinkercell
 		delete s;
 		return ConvertValue(p);
 	}
+	
+	const char * Core_FtoS::annotation()
+	{
+		QSemaphore * s = new QSemaphore(1);
+		QString a;
+		s->acquire();
+		emit annotations(s,&a);
+		s->acquire();
+		s->release();
+		delete s;
+		return ConvertValue(a);
+	}
+	
+	void Core_FtoS::insertAnnotation(const char * c, double x, double y)
+	{
+		QSemaphore * s = new QSemaphore(1);
+		QString a = ConvertValue(c);
+		s->acquire();
+		emit insertAnnotation(s,a,x,y);
+		s->acquire();
+		s->release();
+		delete s;
+	}
 
 	void C_API_Slots::getNumber(QSemaphore* s,double* p,const QString& name)
     {
@@ -2543,22 +2581,6 @@ namespace Tinkercell
 		s->release();
 		return d;
 	}
-	
-	double C_API_Slots::_getAngle(long o)
-	{
-		return fToS.getAngle(o);
-	}
-
-	double Core_FtoS::getAngle(long o)
-	{
-		double d=0.0;
-		QSemaphore * s = new QSemaphore(1);
-		s->acquire();
-		emit getAngle(s,ConvertValue(o),&d);
-		s->acquire();
-		s->release();
-		return d;
-	}
 
 	const char* C_API_Slots::_getColor(long o)
 	{
@@ -2986,14 +3008,30 @@ namespace Tinkercell
 			s->release();
 	}
 	
-	void C_API_Slots::getAngle(QSemaphore* s, ItemHandle* item, double* angle)
+	void C_API_Slots::annotations(QSemaphore * sem, QString * s)
 	{
-		if (item && angle)
+		if (currentNetwork() && s)
+			(*s) = currentNetwork()->annotations();
+		
+		if (sem)
+			sem->release();
+	}
+	
+	void C_API_Slots::insertAnnotation(QSemaphore * sem, const QString& s, double x, double y)
+	{
+		if (!s.isNull() && !s.isEmpty())
 		{
-			(*angle) = 0.0;
+			GraphicsScene * scene = currentScene();
+			if (scene)
+			{
+				QGraphicsItem * item = new TextGraphicsItem(s);
+				item->setPos(scene->visibleRegion().center());
+				scene->insert(tr("annotation inserted"),item);
+			}
 		}
-		if (s)
-			s->release();
+		
+		if (sem)
+			sem->release();
 	}
 }
 

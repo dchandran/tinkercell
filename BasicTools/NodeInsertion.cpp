@@ -197,7 +197,8 @@ namespace Tinkercell
 				(*item) = 0;
 			if (nodeFamily && scene)
 			{
-				QList<QGraphicsItem*> list = createNewNode(scene, scene->lastPoint(), name, nodeFamily);
+				scene->lastPoint().rx() = scene->lastPoint().ry() = 0.0; //make null
+				QList<QGraphicsItem*> list = createNewNode(scene, scene->visibleRegion().center(), name, nodeFamily);
 				if (!list.isEmpty())
 				{
 					scene->insert(name + tr("inserted"),list);

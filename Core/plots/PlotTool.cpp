@@ -42,6 +42,7 @@ namespace Tinkercell
 		otherToolBar = 0;
 		dockWidget = 0;
 		organizerToolBar = 0;
+		numClusters = 0;
 		plotOrganizerEnabled = false;
 		setPalette(QPalette(QColor(255,255,255,255)));
 		setAutoFillBackground(true);

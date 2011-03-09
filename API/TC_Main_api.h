@@ -503,20 +503,13 @@ TCAPIEXPORT double tc_getWidth(long item);
 TCAPIEXPORT double tc_getHeight(long item);
 
 /*!
- \brief get the angle of an item
+ \brief rotate and item by the given number of degrees
  \param int address of item, e.g. obtained using tc_find
- \return double angle
+ \param double angle in degrees
+ \param int permanent or not (1 or 0)
  \ingroup Appearance
 */
-TCAPIEXPORT double tc_getAngle(long item);
-
-/*!
- \brief set the angle of an item
- \param int address of item, e.g. obtained using tc_find
- \param double angle
- \ingroup Appearance
-*/
-TCAPIEXPORT void tc_setAngle(long item, double t,int permanent);
+TCAPIEXPORT void tc_rotate(long item, double t,int permanent);
 
 /*!
  \brief save screenshot in a file
@@ -554,7 +547,20 @@ TCAPIEXPORT int tc_screenX();
  \ingroup Input and Output
 */
 TCAPIEXPORT int tc_screenY();
-
+/*! 
+ \brief get text displayed on the canvas
+ \return const char *
+ \ingroup Annotation
+*/
+TCAPIEXPORT const char * tc_annotations();
+/*! 
+ \brief show text displayed on the canvas at the given position
+ \param double x
+ \param double y
+ \param const char *
+ \ingroup Annotation
+*/
+TCAPIEXPORT void tc_insertAnnotations(const char *, double, double);
 /*! 
  \brief initialize core C api
  \ingroup init
@@ -634,7 +640,6 @@ TCAPIEXPORT void tc_Main_api_initialize(
 		double (*getWidth0)(long),
 		double (*getHeight0)(long),
 		void (*setAngle0)(long,double,int),
-		double (*getAngle0)(long),
 		const char* (*getColor)(long),
 		void (*setColor0)(long,const char*,int),
 		
@@ -645,7 +650,10 @@ TCAPIEXPORT void tc_Main_api_initialize(
 		int (*screenHeight)(),
 		int (*screenWidth)(),
 		int (*screenX)(),
-		int (*screenY)()
+		int (*screenY)(),
+
+		const char * (*tc_annotations)(),
+		void (*insertAnnotations)(const char *, double, double)
 	);
 
 /*! 

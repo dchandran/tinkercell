@@ -706,22 +706,10 @@ void (*_tc_setAngle)(long,double,int) = 0;
  \brief get the width of an item
  \ingroup Appearance
 */ TCAPIEXPORT 
-void tc_setAngle(long item, double t,int permanent)
+void tc_rotate(long item, double t,int permanent)
 {
 	if (_tc_setAngle)
 		_tc_setAngle(item,t,permanent);
-}
-
-double (*_tc_getAngle)(long) = 0;
-/*!
- \brief get the angle of an item
- \ingroup Appearance
-*/ TCAPIEXPORT 
-double tc_getAngle(long item)
-{
-	if (_tc_getAngle)
-		return _tc_getAngle(item);
-	return 0.0;
 }
 
 const char* (*_tc_getColor)(long item) = 0;
@@ -824,6 +812,27 @@ int tc_screenY()
 	return 0;
 }
 
+const char * (*_tc_annotations)() = 0;
+/*! 
+ \brief get text displayed on the canvas
+*/ TCAPIEXPORT 
+const char * tc_annotations()
+{
+	if (_tc_annotations)
+		return _tc_annotations();
+	return "";
+}
+
+void (*_tc_insertAnnotations)(const char *, double, double) = 0;
+/*! 
+ \brief show text displayed on the canvas at the given position
+*/ TCAPIEXPORT
+void tc_insertAnnotations(const char * s, double x, double y)
+{
+	if (_tc_insertAnnotations)
+		_tc_insertAnnotations(s,x,y);
+}
+
 /*! 
  \brief initialize main
  \ingroup init
@@ -903,7 +912,6 @@ void tc_Main_api_initialize(
 		double (*getWidth0)(long),
 		double (*getHeight0)(long),
 		void (*setAngle0)(long,double,int),
-		double (*getAngle0)(long),
 		const char* (*getColor0)(long),
 		void (*setColor0)(long,const char*,int),
 		
@@ -914,7 +922,10 @@ void tc_Main_api_initialize(
 		int (*screenWidth)(),
 		int (*screenHeight)(),
 		int (*screenX)(),
-		int (*screenY)()
+		int (*screenY)(),
+		
+		const char * (*annotations)(),
+		void (*insertAnnotations)(const char *, double, double)
 	)
 {
 	_tc_allItems = tc_allItems0;
@@ -992,7 +1003,6 @@ void tc_Main_api_initialize(
 	_tc_getWidth = getWidth0;
 	_tc_getHeight = getHeight0;
 	_tc_setAngle = setAngle0;
-	_tc_getAngle = getAngle0;
 	_tc_getColor = getColor0;
 	_tc_setColor = setColor0;
 	
@@ -1005,6 +1015,9 @@ void tc_Main_api_initialize(
 	
 	_tc_screenX = screenX;
 	_tc_screenY = screenY;
+	
+	_tc_annotations = annotations;
+	_tc_insertAnnotations = insertAnnotations;
 }
 
 void (*_tc_showProgress)(long thread, int progress) = 0;

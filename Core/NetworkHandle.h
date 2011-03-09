@@ -94,6 +94,10 @@ namespace Tinkercell
 		virtual QList<ItemHandle*> handlesSortedByFamily() const;
 		/*! \brief the model global item*/
 		virtual ItemHandle* globalHandle();
+		/*! \brief all free floating text in the visual diagram
+		* \return QString
+		*/
+		virtual QString annotations() const;
 
 		/*!
 		* \brief gets the current scene that is active

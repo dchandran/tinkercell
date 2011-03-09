@@ -113,7 +113,6 @@ namespace Tinkercell
 		void getWidth(QSemaphore*, ItemHandle*, double*);
 		void getHeight(QSemaphore*, ItemHandle*,double*);
 		void setAngle(QSemaphore*, ItemHandle*,double,int);
-		void getAngle(QSemaphore*, ItemHandle*, double*);
 		void getColor(QSemaphore*,QString*,ItemHandle*);
 		void setColor(QSemaphore*,ItemHandle*,const QString&,int);
 		
@@ -125,6 +124,9 @@ namespace Tinkercell
 		void screenWidth(QSemaphore*, int*);
 		void screenX(QSemaphore*, int*);
 		void screenY(QSemaphore*, int*);
+		
+		void annotations(QSemaphore*, QString*);
+		void insertAnnotation(QSemaphore*, const QString&, double, double);
 
 	public:
 		void zoom(double);
@@ -196,7 +198,6 @@ namespace Tinkercell
 		double getWidth(long);
 		double getHeight(long);
 		void setAngle(long,double,int);
-		double getAngle(long);
 		const char* getColor(long);
 		void setColor(long,const char*,int);
 		
@@ -208,6 +209,9 @@ namespace Tinkercell
 		int screenWidth();
 		int screenX();
 		int screenY();
+		
+		const char * annotation();
+		void insertAnnotation(const char *, double, double);
 	};
 
 	/*! \brief A set of slots that are called by C libraries
@@ -293,7 +297,6 @@ namespace Tinkercell
 		static double _getWidth(long);
 		static double _getHeight(long);
 		static void _setAngle(long,double,int);
-		static double _getAngle(long);
 		static const char* _getColor(long);
 		static void _setColor(long,const char *,int);
 		static void _changeGraphics(long,const char*);
@@ -308,6 +311,9 @@ namespace Tinkercell
 		static int _screenWidth();
 		static int _screenX();
 		static int _screenY();
+		
+		static const char * _annotations();
+		static void _insertAnnotation(const char *, double, double);
 		/*! 
 		* \brief Dialog for selecting strings. 
 		*/
@@ -742,7 +748,6 @@ namespace Tinkercell
 		void getWidth(QSemaphore*, ItemHandle*, double*);
 		void getHeight(QSemaphore*, ItemHandle*,double*);
 		void setAngle(QSemaphore*, ItemHandle*,double,int);
-		void getAngle(QSemaphore*, ItemHandle*, double*);
 		void getColor(QSemaphore*,QString*,ItemHandle*);
 		void setColor(QSemaphore*,ItemHandle*,const QString&,int);
 		void changeGraphics(QSemaphore*,ItemHandle*,const QString&);
@@ -752,6 +757,8 @@ namespace Tinkercell
 		void screenWidth(QSemaphore*, int*);
 		void screenX(QSemaphore*, int*);
 		void screenY(QSemaphore*, int*);
+		void annotations(QSemaphore*, QString*);
+		void insertAnnotation(QSemaphore*, const QString&, double, double);
 	private:
 		QList<QGraphicsItem*> temporarilyColorChanged;
 		QList< QPair<NodeGraphicsItem*,QPointF> > temporarilyChangedSize; 

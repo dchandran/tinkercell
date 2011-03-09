@@ -140,9 +140,9 @@ INSTALL(TARGETS TinkerCell
 
 IF (NOT APPLE AND UNIX AND EXISTS $ENV{HOME}/Documents/TinkerCell/updates.txt)
   ADD_CUSTOM_COMMAND( TARGET TinkerCell POST_BUILD
-  	  COMMAND echo 'updates.txt changed'
-      COMMAND perl -pi -e 's/current version: [0-9\\.]+/current version:   ${TINKERCELL_VERSION}/' $ENV{HOME}/Documents/TinkerCell/updates.txt
-)
+	COMMAND echo 'updates.txt changed'
+      	COMMAND perl -pi -e 's/current version: [0-9\\.]+/current version:   ${TINKERCELL_VERSION}/' $ENV{HOME}/Documents/TinkerCell/updates.txt
+	)
 ENDIF (NOT APPLE AND UNIX AND EXISTS $ENV{HOME}/Documents/TinkerCell/updates.txt)
 
 #-------------------------------------------------------------------------------
@@ -154,6 +154,9 @@ SET (TINKERCELL_EXE TinkerCell CACHE STRING "TinkerCell.exe will be the name of 
 
 IF (TINKERCELL_INSTALLER AND WIN32)
     INCLUDE (${TINKERCELL_SOURCE_DIR}/win32/WindowsUploader.cmake)
+    ADD_CUSTOM_COMMAND( TARGET TinkerCell POST_BUILD
+  	  	COMMAND python ${TINKERCELL_SOURCE_DIR}/' $ENV{HOME}/Documents/TinkerCell/updates.txt
+	)
 ENDIF (TINKERCELL_INSTALLER AND WIN32)
 
 IF(APPLE)

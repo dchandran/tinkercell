@@ -46,7 +46,7 @@ IF(WIN32 AND NOT UNIX)
   # There is a bug in NSI that does not handle full unix paths properly. Make
   # sure there is at least one set of four (4) backlasshes.
   SET(CPACK_NSIS_MUI_ICON "${TINKERCELL_SOURCE_DIR}/Main\\\\tinkercell.ico")
-  SET(CPACK_PACKAGE_ICON "${TINKERCELL_SOURCE_DIR}/Main\\\\images\\\\tinkercell.png")
+  SET(CPACK_PACKAGE_ICON "${TINKERCELL_SOURCE_DIR}/icons\\\\Tinkercell.png")
   SET(CPACK_NSIS_INSTALLED_ICON_NAME "bin\\\\TinkerCellSetup.exe")
   SET(CPACK_NSIS_DISPLAY_NAME "${TINKERCELL_INSTALL_DIRECTORY} TinkerCell")
   SET(CPACK_NSIS_HELP_LINK "http:\\\\\\\\www.tinkercell.com")

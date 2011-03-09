@@ -66,12 +66,12 @@ INCLUDE_DIRECTORIES( BEFORE
 #--------------------------------------------------
  
 IF (WIN32)
-	OPTION( TINKERCELL_INSTALLER "Create installer using ISTool -- must have ISTool installed" OFF )
-	OPTION( TINKERCELL_INSTALLER_UPLOAD "Create installer using ISTool and upload it using WinSCP -- must have ISTool and WinSCP" OFF )
+	OPTION( TINKERCELL_INSTALLER "Create installer using Inno setup -- must have Inno setup installed" OFF )
+	OPTION( TINKERCELL_INSTALLER_UPLOAD "Create installer using Inno setup and upload it using WinSCP -- must have ISTool and WinSCP" OFF )
 	
-	IF ((NOT DEFINED ISTOOL) AND TINKERCELL_INSTALLER)
-		MESSAGE( "Please create a New Entry of type FILEPATH called ISTOOL and point to the ISTool.exe file")
-	ENDIF ((NOT DEFINED ISTOOL) AND TINKERCELL_INSTALLER)
+	IF ((NOT DEFINED INNO) AND TINKERCELL_INSTALLER)
+		MESSAGE( "Please create a New Entry of type FILEPATH called INNO and point to the ISTool.exe file")
+	ENDIF ((NOT DEFINED INNO) AND TINKERCELL_INSTALLER)
 	
 	IF ((NOT DEFINED WINSCP) AND TINKERCELL_INSTALLER_UPLOAD)
 		MESSAGE( "Please create a New Entry of type FILEPATH called WINSCP and point to the WinSCP.exe file")

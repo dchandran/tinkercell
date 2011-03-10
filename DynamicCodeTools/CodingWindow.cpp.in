@@ -208,9 +208,9 @@ specific for:\n\"\"\"\n\n") + text;
 			outpy << (editor->toPlainText());
 			pyfile.close();
 			QString s = QObject::tr("cd ") + userHomeDir.absolutePath() + QObject::tr("; svn add ") + filename;// + QObject::tr("; svn commit -m\"new code added\";");
-			QString msg = tr("Your program has been saved as ") + filename + tr("\n");
-			
-			msg += tr("To make the new code available to other TinkerCell users, \nplease do svn commit on ") + filename;
+			QString msg = 
+				//tr("Your program has been saved as ") + filename + tr("\n") + 			
+				tr("To make the new code available to other TinkerCell users, \nplease do svn commit on ") + filename;
 			QProcess::startDetached(s);
 			
 			QMessageBox::information(mainWindow, "Saved", msg);
@@ -263,9 +263,9 @@ specific for:\n\"\"\"\n\n") + text;
 			outoct << (editor->toPlainText());
 			octfile.close();
 			QString s = QObject::tr("cd ") + userHomeDir.absolutePath() + QObject::tr("; svn add ") + filename;// + QObject::tr("; svn commit -m\"new code added\";");
-			QString msg = tr("Your program has been saved as ") + filename + tr("\n");
-			
-			msg += tr("To make the new code available to other TinkerCell users, \nplease do svn commit in ") + userHomeDir.absolutePath();
+			QString msg = 
+				//tr("Your program has been saved as ") + filename + tr("\n") +
+				tr("To make the new code available to other TinkerCell users, \nplease do 'svn commit' in ") + userHomeDir.absolutePath();
 			QProcess::startDetached(s);
 			
 			QMessageBox::information(mainWindow, "Saved", msg);

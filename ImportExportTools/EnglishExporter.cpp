@@ -96,7 +96,8 @@ namespace Tinkercell
 		QList<ConnectionHandle*> connectionHandles;
 		
 		for (int i=0; i < handles.size(); ++i)
-			if (!handles[i]->name.isEmpty() && 
+			if (handles[i] &&
+				!handles[i]->name.isEmpty() && 
 				!handles[i]->parent && 
 				handles[i]->family() &&
 				ConnectionHandle::cast(handles[i]) &&
@@ -110,41 +111,52 @@ namespace Tinkercell
 			TextDataTable & participants = connectionHandles[i]->textDataTable("participants");
 			QStringList words = family.split(" ");
 			QString verb = words.last();
+			if (verb.endsWith("ation"))
+				verb.replace("ation","es to");
+			if (verb.endsWith("sion"))
+				verb.replace("sion","ses");
 			if (verb.endsWith("ction"))
 				verb.replace("ction","ces");
 			if (verb.endsWith("tion"))
-				verb.replace("tion","es");
-			if (verb.endsWith("sys"))
-				verb.replace("sys","ses");
+				verb.replace("tion","ts");
+			if (verb.endsWith("sis"))
+				verb.replace("sis","ses");
 			
 			QList<NodeHandle*> nodesIn = connectionHandles[i]->nodesIn(),
 											nodesOut = connectionHandles[i]->nodesOut();
 			
-			QStringList rowNames = participants.rowNames();
+			QStringList itemNames;
+			for (int i=0; i < participants.rows(); ++i)
+				itemNames += participants(i,0);
+			
+			QString in,out;
 			for (int i=0; i < nodesIn.size(); ++i)
-				if (rowNames.contains(nodesIn[i]->fullName()))
+				if (itemNames.contains(nodesIn[i]->fullName()))
 				{
+					if (!nodesIn[i]->family() || nodesIn[i]->family()->isA("empty"))
+						continue;
 					if (i != 0)
-						txt += " and ";
-					if (nodesIn[i]->family())
-						txt += nodesIn[i]->family()->name() + tr(" ");
-					int k = rowNames.indexOf(nodesIn[i]->fullName());
-					txt += participants.rowName(k) + tr(" ");
-					txt += nodesIn[i]->name;
+						in += " and ";
+					in += nodesIn[i]->family()->name() + tr(" ");
+					int k = itemNames.indexOf(nodesIn[i]->fullName());
+					in += tr("(") + participants.rowName(k) + tr(") ");
+					in += nodesIn[i]->name;
 				}
-			txt += verb;
+			
 			for (int i=0; i < nodesOut.size(); ++i)
-				if (rowNames.contains(nodesOut[i]->fullName()))
+				if (itemNames.contains(nodesOut[i]->fullName()))
 				{
+					if (!nodesOut[i]->family() || nodesOut[i]->family()->isA("empty"))
+						continue;
 					if (i != 0)
-						txt += " and ";
-					if (nodesOut[i]->family())
-						txt += nodesOut[i]->family()->name() + tr(" ");
-					int k = rowNames.indexOf(nodesOut[i]->fullName());
-					txt += participants.rowName(k) + tr(" ");
-					txt += nodesOut[i]->name;
+						out += " and ";
+					out += nodesOut[i]->family()->name() + tr(" ");
+					int k = itemNames.indexOf(nodesOut[i]->fullName());
+					out += tr("(") + participants.rowName(k) + tr(") ");
+					out += nodesOut[i]->name;
 				}
-			txt += "\n";
+			if (!in.isEmpty() || !out.isEmpty())
+				txt += in + tr("   ") + verb + tr("   ") + out + tr("\n");
 		}
 		
 		file.write(txt.toUtf8());

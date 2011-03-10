@@ -25,15 +25,16 @@ def runAll(*arg):
     items = tc_allItems()
     listOfModules = []
     time = arg[2]
-    #tc_enableClustering(4)
-    total = 0
+    tc_enableClustering(4)
+    #tc_holdPlot(1)
+    total = 1
     for i in range(0, items.length):
         item = tc_getItem(items, i)
         if tc_getParent(item) == 0:
             submodels = tc_listOfPossibleModels(item)
             if submodels.length > 0:
                 listOfModules.append(item)
-                total += submodels.length
+                total *= submodels.length
     n = len(listOfModules)
     if n > 0:
         if tc_askQuestion(str(n) + " submodels and " + str(total) + " possible models ... continue?") > 0:

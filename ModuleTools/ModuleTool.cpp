@@ -98,11 +98,11 @@ namespace Tinkercell
 			return fileNames;
 		
 		QList<ItemFamily*> childFamilies;
-		childFamilies << family << family->allChildren();
+		childFamilies << family;// << family->allChildren();
 		QString appDir = QCoreApplication::applicationDirPath();
 		QString home = homeDir();
 		
-		QString emptyModelFile = emptyModel();
+		//QString emptyModelFile = emptyModel();
 
 		for (int i=0; i < childFamilies.size(); ++i)
 		{

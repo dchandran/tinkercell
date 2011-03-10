@@ -133,7 +133,7 @@ namespace Tinkercell
 				}
 			}
 		}
-		fileNames << emptyModelFile;
+		//fileNames << emptyModelFile;
 		return fileNames;
 	}
 	

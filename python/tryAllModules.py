@@ -38,7 +38,7 @@ def runAll(*arg):
     if n > 0:
         if tc_askQuestion(str(n) + " submodels and " + str(total) + " possible models ... continue?") > 0:
             runAllHelper(listOfModules, 0, time)
-            tc_clusterPlots( int(round(total/10) ) )
+            tc_clusterPlots( 4 )
     else:
         m = tc_simulateDeterministic(0,time,100)
         tc_plot(m, "simulation")

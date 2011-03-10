@@ -571,10 +571,7 @@ namespace Tinkercell
 	
 	void PlotTool::plotClustering(QSemaphore* s, int n)
 	{
-		if (n < 2)
-			ClusterPlot::tables.clear();
-		else
-			cluster(n);
+		cluster(n);
 		if (s)
 			s->release();
 	}

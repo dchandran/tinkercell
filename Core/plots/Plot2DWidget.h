@@ -167,9 +167,9 @@ namespace Tinkercell
 		Plot2DWidget(PlotTool * parent = 0);
 		virtual NumericalDataTable* data();
 		virtual bool canAppendData() const;
-		virtual void appendData(const NumericalDataTable&);
+		virtual void appendData(const NumericalDataTable&, const QString& title, int x = 0);
 		virtual void plot(const NumericalDataTable& matrix,const QString& title,int x=0);
-		virtual void updateData(const NumericalDataTable&);
+		virtual void updateData(const NumericalDataTable&, const QString& title, int x = 0);
 		
 	public slots:
 		void setLogScale(int index, bool set=true);

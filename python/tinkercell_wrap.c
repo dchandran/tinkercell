@@ -10083,6 +10083,27 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_tc_holdPlot(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  int arg1 ;
+  int val1 ;
+  int ecode1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:tc_holdPlot",&obj0)) SWIG_fail;
+  ecode1 = SWIG_AsVal_int(obj0, &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_holdPlot" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
+  tc_holdPlot(arg1);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_tc_enableClustering(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   int arg1 ;
@@ -10204,10 +10225,11 @@ SWIGINTERN PyObject *_wrap_tc_PlotTool_api(PyObject *SWIGUNUSEDPARM(self), PyObj
   void (*arg5)(tc_matrix,char const *) = (void (*)(tc_matrix,char const *)) 0 ;
   void (*arg6)(int,int) = (void (*)(int,int)) 0 ;
   void (*arg7)(int) = (void (*)(int)) 0 ;
-  tc_matrix (*arg8)(int) = (tc_matrix (*)(int)) 0 ;
-  void (*arg9)(char const *) = (void (*)(char const *)) 0 ;
+  void (*arg8)(int) = (void (*)(int)) 0 ;
+  tc_matrix (*arg9)(int) = (tc_matrix (*)(int)) 0 ;
   void (*arg10)(char const *) = (void (*)(char const *)) 0 ;
-  void (*arg11)(int) = (void (*)(int)) 0 ;
+  void (*arg11)(char const *) = (void (*)(char const *)) 0 ;
+  void (*arg12)(int) = (void (*)(int)) 0 ;
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   PyObject * obj2 = 0 ;
@@ -10219,8 +10241,9 @@ SWIGINTERN PyObject *_wrap_tc_PlotTool_api(PyObject *SWIGUNUSEDPARM(self), PyObj
   PyObject * obj8 = 0 ;
   PyObject * obj9 = 0 ;
   PyObject * obj10 = 0 ;
+  PyObject * obj11 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"OOOOOOOOOOO:tc_PlotTool_api",&obj0,&obj1,&obj2,&obj3,&obj4,&obj5,&obj6,&obj7,&obj8,&obj9,&obj10)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"OOOOOOOOOOOO:tc_PlotTool_api",&obj0,&obj1,&obj2,&obj3,&obj4,&obj5,&obj6,&obj7,&obj8,&obj9,&obj10,&obj11)) SWIG_fail;
   {
     int res = SWIG_ConvertFunctionPtr(obj0, (void**)(&arg1), SWIGTYPE_p_f_tc_matrix_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
@@ -10264,15 +10287,15 @@ SWIGINTERN PyObject *_wrap_tc_PlotTool_api(PyObject *SWIGUNUSEDPARM(self), PyObj
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(obj7, (void**)(&arg8), SWIGTYPE_p_f_int__tc_matrix);
+    int res = SWIG_ConvertFunctionPtr(obj7, (void**)(&arg8), SWIGTYPE_p_f_int__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "8"" of type '" "tc_matrix (*)(int)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "8"" of type '" "void (*)(int)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(obj8, (void**)(&arg9), SWIGTYPE_p_f_p_q_const__char__void);
+    int res = SWIG_ConvertFunctionPtr(obj8, (void**)(&arg9), SWIGTYPE_p_f_int__tc_matrix);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "9"" of type '" "void (*)(char const *)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "9"" of type '" "tc_matrix (*)(int)""'"); 
     }
   }
   {
@@ -10282,12 +10305,18 @@ SWIGINTERN PyObject *_wrap_tc_PlotTool_api(PyObject *SWIGUNUSEDPARM(self), PyObj
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(obj10, (void**)(&arg11), SWIGTYPE_p_f_int__void);
+    int res = SWIG_ConvertFunctionPtr(obj10, (void**)(&arg11), SWIGTYPE_p_f_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "11"" of type '" "void (*)(int)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "11"" of type '" "void (*)(char const *)""'"); 
     }
   }
-  tc_PlotTool_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11);
+  {
+    int res = SWIG_ConvertFunctionPtr(obj11, (void**)(&arg12), SWIGTYPE_p_f_int__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "12"" of type '" "void (*)(int)""'"); 
+    }
+  }
+  tc_PlotTool_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12);
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -12061,6 +12090,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"tc_errorBars", _wrap_tc_errorBars, METH_VARARGS, NULL},
 	 { (char *)"tc_hist", _wrap_tc_hist, METH_VARARGS, NULL},
 	 { (char *)"tc_multiplot", _wrap_tc_multiplot, METH_VARARGS, NULL},
+	 { (char *)"tc_holdPlot", _wrap_tc_holdPlot, METH_VARARGS, NULL},
 	 { (char *)"tc_enableClustering", _wrap_tc_enableClustering, METH_VARARGS, NULL},
 	 { (char *)"tc_getPlotData", _wrap_tc_getPlotData, METH_VARARGS, NULL},
 	 { (char *)"tc_gnuplot", _wrap_tc_gnuplot, METH_VARARGS, NULL},

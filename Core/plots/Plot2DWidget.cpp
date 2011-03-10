@@ -670,7 +670,7 @@ namespace Tinkercell
 		return dataPlot->dataTables.last();
 	}
 	
-	void Plot2DWidget::updateData(const NumericalDataTable & newData)
+	void Plot2DWidget::updateData(const NumericalDataTable & newData, const QString& title, int x)
 	{
 		if (!dataPlot || dataPlot->dataTables.isEmpty()) return;
 		
@@ -697,7 +697,7 @@ namespace Tinkercell
 			(*dataPlot->dataTables.last()) = newData;
 			dataPlot->processData(dataPlot->dataTables.last());
 			dataPlot->replot();
-			dataPlot->setTitle(newData.description());
+			dataPlot->setTitle(title);
 			if (dataPlot->zoomer)
 			{
 				rect.setWidth(dataPlot->zoomer->zoomBase().width());
@@ -707,8 +707,8 @@ namespace Tinkercell
 		else
 		{
 			dataPlot->plot(newData,
-					dataPlot->xcolumn,
-					dataPlot->title().text(),
+					x,
+					title,
 					false);
 		}
 		
@@ -803,12 +803,14 @@ namespace Tinkercell
 	void Plot2DWidget::setTitle(const QString& s)
 	{
 		title = s;
+		setWindowTitle(s);
 		
 		if (!dataPlot) return;
 		
 		if (s.isNull()) return;
 		
 		dataPlot->setTitle(s);
+		
 	}
 	
 	void Plot2DWidget::setXLabel()
@@ -1039,13 +1041,13 @@ namespace Tinkercell
 		return true;
 	}
 	
-	void Plot2DWidget::appendData(const NumericalDataTable& newData)
+	void Plot2DWidget::appendData(const NumericalDataTable& newData, const QString& title, int x)
 	{
 		if (!dataPlot) return;
 		
 		dataPlot->plot(newData,
-					dataPlot->xcolumn,
-					dataPlot->title().text(),
+					x,
+					title,
 					true);
 	}
 	

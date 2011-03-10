@@ -845,6 +845,10 @@ def tc_multiplot(*args):
   return _tinkercell.tc_multiplot(*args)
 tc_multiplot = _tinkercell.tc_multiplot
 
+def tc_holdPlot(*args):
+  return _tinkercell.tc_holdPlot(*args)
+tc_holdPlot = _tinkercell.tc_holdPlot
+
 def tc_enableClustering(*args):
   return _tinkercell.tc_enableClustering(*args)
 tc_enableClustering = _tinkercell.tc_enableClustering

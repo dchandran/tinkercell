@@ -44,7 +44,7 @@
       <process family="Catalysis" participant_types="Molecule,Molecule,Molecule" participant_roles="Catalyst,Substrate,Product" description="A catalyst converting a substrate to a product">
 
         <process family="Enzyme Catalysis" participant_types="Enzyme,Molecule,Molecule" description="A protein catalyst converting a substrate to a product through an intermediate step">
-           <process family="Phosphorylation" participant_types="Enzyme,Molecule,Molecule,Enzyme" participant_roles="Kinase, Substrate, Product,Phosphatase">
+           <process family="Phosphorylation" participant_types="Enzyme,Molecule,Molecule,Enzyme" participant_roles="Catalyst, Substrate, Product,Phosphatase">
            </process>
         </process>
      </process>

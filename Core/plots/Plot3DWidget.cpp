@@ -171,10 +171,10 @@ namespace Tinkercell
 		surfacePlot->updateGL();
 	}
 	
-	void Plot3DWidget::updateData(const DataTable<qreal>& data)
+	void Plot3DWidget::updateData(const DataTable<qreal>& data, const QString& title, int x)
 	{
 		if (surfacePlot)
-			surface(data,surfacePlot->title);
+			surface(data,title);
 	}
 
 	DataTable<qreal>* Plot3DWidget::data()
@@ -299,6 +299,7 @@ namespace Tinkercell
 	void Plot3DWidget::setTitle(const QString& s)
 	{
 		title = s;
+		setWindowTitle(s);
 
 		if (surfacePlot)
 		{
@@ -321,6 +322,7 @@ namespace Tinkercell
 
 	void Plot3DWidget::setZLabel(const QString& s)
 	{
+
 		if (surfacePlot)
 			surfacePlot->coordinates()->axes[Z1].setLabelString(s);
 	}

@@ -30,7 +30,7 @@ namespace Tinkercell
 		return 0;
 	}
 	
-	void PlotWidget::updateData(const DataTable<qreal>&)
+	void PlotWidget::updateData(const DataTable<qreal>&, const QString& , int)
 	{
 	}
 	
@@ -41,6 +41,7 @@ namespace Tinkercell
 	void PlotWidget::setTitle(const QString& s)
 	{
 		title = s;
+		setWindowTitle(s);
 	}
 	
 	void PlotWidget::exportData(const QString & type, const QString&)
@@ -178,7 +179,7 @@ namespace Tinkercell
 		return false;
 	}
 	
-	void PlotWidget::appendData(const DataTable<qreal>&)
+	void PlotWidget::appendData(const DataTable<qreal>&, const QString& , int)
 	{
 	}
 	

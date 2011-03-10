@@ -38,7 +38,7 @@ namespace Tinkercell
 		
 		Plot3DWidget(PlotTool * parent = 0);
 		DataTable<qreal>* data();
-		void updateData(const DataTable<qreal>&);
+		void updateData(const DataTable<qreal>&, const QString& title, int x = 0);
 		void surface(const DataTable<qreal>& matrix,const QString& title=QString());
 
 	public slots:

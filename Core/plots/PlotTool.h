@@ -65,6 +65,7 @@ namespace Tinkercell
 			void plotHist(QSemaphore*,DataTable<qreal>& m, double bins, const QString& title);
 			void plotErrorbars(QSemaphore*,DataTable<qreal>& m, int x, const QString& title);
 			void plotMultiplot(QSemaphore*,int x, int y);
+			void plotHold(QSemaphore*,int z);
 			void plotClustering(QSemaphore*, int n);
 			void getDataTable(QSemaphore*,DataTable<qreal>*, int index);
 			void plotScatter(QSemaphore*,DataTable<qreal>&,const QString& title);
@@ -84,6 +85,7 @@ namespace Tinkercell
 			void savePlotImage(const char * filename);
 			void setLogScale(int);
 			void plotMultiplotC(int x, int y);
+			void plotHoldC(int z);
 			void plotClusteringC(int n);
 			
 			friend class PlotTool;
@@ -266,6 +268,9 @@ namespace Tinkercell
 		
 		/*! \brief rows and columns for multiple  plots*/
 		static void plotMultiplotC(int x, int y);
+		
+		/*! \brief hold plot*/
+		static void plotHoldC(int z);
 
 		/*! \brief set clustering*/
 		static void plotClusteringC(int n);
@@ -302,6 +307,7 @@ namespace Tinkercell
 		void plotHist(QSemaphore*,DataTable<qreal>& m, double bins, const QString& title);
 		void plotErrorbars(QSemaphore*,DataTable<qreal>& m, int x, const QString& title);
 		void plotMultiplot(QSemaphore*,int x, int y);
+		void plotHold(QSemaphore*,int z);
 		void plotClustering(QSemaphore*, int n);
 		void gnuplot(QSemaphore * , const QString& script);
 		void savePlotImage(QSemaphore*, const QString& filename);

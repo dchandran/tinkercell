@@ -10021,6 +10021,33 @@ XS(_wrap_tc_multiplot) {
 }
 
 
+XS(_wrap_tc_holdPlot) {
+  {
+    int arg1 ;
+    int val1 ;
+    int ecode1 = 0 ;
+    int argvi = 0;
+    dXSARGS;
+    
+    if ((items < 1) || (items > 1)) {
+      SWIG_croak("Usage: tc_holdPlot(on);");
+    }
+    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    if (!SWIG_IsOK(ecode1)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_holdPlot" "', argument " "1"" of type '" "int""'");
+    } 
+    arg1 = (int)(val1);
+    tc_holdPlot(arg1);
+    ST(argvi) = sv_newmortal();
+    
+    XSRETURN(argvi);
+  fail:
+    
+    SWIG_croak_null();
+  }
+}
+
+
 XS(_wrap_tc_enableClustering) {
   {
     int arg1 ;
@@ -10168,15 +10195,16 @@ XS(_wrap_tc_PlotTool_api) {
     void (*arg5)(tc_matrix,char const *) = (void (*)(tc_matrix,char const *)) 0 ;
     void (*arg6)(int,int) = (void (*)(int,int)) 0 ;
     void (*arg7)(int) = (void (*)(int)) 0 ;
-    tc_matrix (*arg8)(int) = (tc_matrix (*)(int)) 0 ;
-    void (*arg9)(char const *) = (void (*)(char const *)) 0 ;
+    void (*arg8)(int) = (void (*)(int)) 0 ;
+    tc_matrix (*arg9)(int) = (tc_matrix (*)(int)) 0 ;
     void (*arg10)(char const *) = (void (*)(char const *)) 0 ;
-    void (*arg11)(int) = (void (*)(int)) 0 ;
+    void (*arg11)(char const *) = (void (*)(char const *)) 0 ;
+    void (*arg12)(int) = (void (*)(int)) 0 ;
     int argvi = 0;
     dXSARGS;
     
-    if ((items < 11) || (items > 11)) {
-      SWIG_croak("Usage: tc_PlotTool_api(plot,surface,hist,errorBars,scatterplot,multiplot,enableClustering,plotData,gnuplot,savePlotImage,logscale);");
+    if ((items < 12) || (items > 12)) {
+      SWIG_croak("Usage: tc_PlotTool_api(plot,surface,hist,errorBars,scatterplot,multiplot,hold,enableClustering,plotData,gnuplot,savePlotImage,logscale);");
     }
     {
       int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_tc_matrix_p_q_const__char__void);
@@ -10221,15 +10249,15 @@ XS(_wrap_tc_PlotTool_api) {
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(7), (void**)(&arg8), SWIGTYPE_p_f_int__tc_matrix);
+      int res = SWIG_ConvertFunctionPtr(ST(7), (void**)(&arg8), SWIGTYPE_p_f_int__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "8"" of type '" "tc_matrix (*)(int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "8"" of type '" "void (*)(int)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(8), (void**)(&arg9), SWIGTYPE_p_f_p_q_const__char__void);
+      int res = SWIG_ConvertFunctionPtr(ST(8), (void**)(&arg9), SWIGTYPE_p_f_int__tc_matrix);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "9"" of type '" "void (*)(char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "9"" of type '" "tc_matrix (*)(int)""'"); 
       }
     }
     {
@@ -10239,13 +10267,20 @@ XS(_wrap_tc_PlotTool_api) {
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(10), (void**)(&arg11), SWIGTYPE_p_f_int__void);
+      int res = SWIG_ConvertFunctionPtr(ST(10), (void**)(&arg11), SWIGTYPE_p_f_p_q_const__char__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "11"" of type '" "void (*)(int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "11"" of type '" "void (*)(char const *)""'"); 
       }
     }
-    tc_PlotTool_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11);
+    {
+      int res = SWIG_ConvertFunctionPtr(ST(11), (void**)(&arg12), SWIGTYPE_p_f_int__void);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "12"" of type '" "void (*)(int)""'"); 
+      }
+    }
+    tc_PlotTool_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12);
     ST(argvi) = sv_newmortal();
+    
     
     
     
@@ -10259,6 +10294,7 @@ XS(_wrap_tc_PlotTool_api) {
     
     XSRETURN(argvi);
   fail:
+    
     
     
     
@@ -12707,6 +12743,7 @@ static swig_command_info swig_commands[] = {
 {"tinkercellc::tc_errorBars", _wrap_tc_errorBars},
 {"tinkercellc::tc_hist", _wrap_tc_hist},
 {"tinkercellc::tc_multiplot", _wrap_tc_multiplot},
+{"tinkercellc::tc_holdPlot", _wrap_tc_holdPlot},
 {"tinkercellc::tc_enableClustering", _wrap_tc_enableClustering},
 {"tinkercellc::tc_getPlotData", _wrap_tc_getPlotData},
 {"tinkercellc::tc_gnuplot", _wrap_tc_gnuplot},

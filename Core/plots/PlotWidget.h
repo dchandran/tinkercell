@@ -56,9 +56,9 @@ namespace Tinkercell
 		/*! \brief indicates whether or not this plot widget is capable of plotting one graph on top of another*/
 		virtual bool canAppendData() const;
 		/*! \brief append more data to the currently existing plot*/
-		virtual void appendData(const DataTable<qreal>&);
+		virtual void appendData(const DataTable<qreal>&, const QString& title, int x = 0);
 		/*! \brief update data for the current plot*/
-		virtual void updateData(const DataTable<qreal>&);
+		virtual void updateData(const DataTable<qreal>&, const QString& title, int x = 0);
 		/*! \brief get the data inside this plot as teb-delimited text*/
 		virtual QString dataToString(const QString& delim=QString("\t"));
 

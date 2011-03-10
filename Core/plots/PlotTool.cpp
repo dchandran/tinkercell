@@ -134,6 +134,8 @@ namespace Tinkercell
 		
 		connect(&fToS,SIGNAL(plotMultiplot(QSemaphore*,int, int)), this, SLOT(plotMultiplot(QSemaphore*,int, int)));
 		
+		connect(&fToS,SIGNAL(plotHold(QSemaphore*,int)), this, SLOT(plotHold(QSemaphore*,int)));
+		
 		connect(&fToS,SIGNAL(plotClustering(QSemaphore*,int)), this, SLOT(plotClustering(QSemaphore*,int)));
 		
 		connect(&fToS,SIGNAL(getDataTable(QSemaphore*,DataTable<qreal>*, int)), this, SLOT(getData(QSemaphore*, DataTable<qreal>*,int)));
@@ -305,35 +307,59 @@ namespace Tinkercell
 		if (numClusters > 1)
 		{
 			if (!keepOldPlots->isChecked())
-					keepOldPlots->setChecked(true);
+				keepOldPlots->setChecked(true);
 			
-			QList<QMdiSubWindow *>  list = multiplePlotsArea->subWindowList(QMdiArea::ActivationHistoryOrder);
-			for (int i=0; i < list.size(); ++i)
-				list[i]->close();
+			QList<QMdiSubWindow *>  oldlist = multiplePlotsArea->subWindowList(QMdiArea::ActivationHistoryOrder);
+			
+			QList<QMdiSubWindow *>  list;
+			for (int i=0; i < oldlist.size(); ++i)
+				if (oldlist[i]->widget())
+				{
+					PlotWidget * widget = static_cast<PlotWidget*>(oldlist[i]->widget());
+					if (widget && widget->type == type)
+					{
+						list << oldlist[i];
+						oldlist[i] = 0;
+					}
+				}
+			
+			for (int i=0; i < oldlist.size(); ++i)
+				if (oldlist[i])
+					oldlist[i]->close();
 			
 			ClusterPlot::tables << matrix;
+			bool newplots = false;
 			if (ClusterPlot::tables.size() > numClusters)
 			{
 				int * clusters = ClusterPlot::getClusters(numClusters);
 				QList<Plot2DWidget*> clusterWidgets;
 				for (int i=0; i < numClusters; ++i)
 				{
-					Plot2DWidget * newPlot2D = new Plot2DWidget(this);
-					newPlot2D->type = type;
+					Plot2DWidget * newPlot2D = 0;
+					if (list.size() > i)
+					{
+						newPlot2D = static_cast<Plot2DWidget*>(list[i]->widget());
+					}
+					else
+					{
+						newplots = true;
+						newPlot2D = new Plot2DWidget(this);
+						newPlot2D->type = type;
+						QMdiSubWindow * window = multiplePlotsArea->addSubWindow(newPlot2D);
+						window->setAttribute(Qt::WA_DeleteOnClose);
+						window->setWindowIcon(QIcon(tr(":/images/graph2.png")));
+						window->setVisible(true);
+						window->setWindowTitle( tr("plot ") + QString::number(i+1));
+					}
+
 					newPlot2D->plot(NumericalDataTable(),tr("Cluster ") + QString::number(i+1), x);
-					QMdiSubWindow * window = multiplePlotsArea->addSubWindow(newPlot2D);
-					window->setAttribute(Qt::WA_DeleteOnClose);
-					window->setWindowIcon(QIcon(tr(":/images/graph2.png")));
-					window->setVisible(true);
-					window->setWindowTitle( tr("plot ") + QString::number(i+1));
-					
 					clusterWidgets << newPlot2D;
 				}
 				
 				for (int i=0; i < ClusterPlot::tables.size(); ++i)
 				{
 					int j = clusters[i];
-					clusterWidgets[j]->appendData(ClusterPlot::tables[i]);
+					clusterWidgets[j]->appendData(ClusterPlot::tables[i],title,x);
 				}
 				delete clusters;
 			}
@@ -341,17 +367,28 @@ namespace Tinkercell
 			{
 				for (int i=0; i < ClusterPlot::tables.size(); ++i)
 				{
-					Plot2DWidget * newPlot2D = new Plot2DWidget(this);
-					newPlot2D->type = type;
+					Plot2DWidget * newPlot2D = 0;
+					if (list.size() > i)
+					{
+						newPlot2D = static_cast<Plot2DWidget*>(list[i]->widget());
+					}
+					else
+					{
+						newplots = true;
+						newPlot2D = new Plot2DWidget(this);
+						newPlot2D->type = type;
+						QMdiSubWindow * window = multiplePlotsArea->addSubWindow(newPlot2D);
+						window->setAttribute(Qt::WA_DeleteOnClose);
+						window->setWindowIcon(QIcon(tr(":/images/graph2.png")));
+						window->setVisible(true);
+						window->setWindowTitle( tr("plot ") + QString::number(i+1));
+					}
 					newPlot2D->plot(ClusterPlot::tables[i],tr("Cluster ") + QString::number(i+1), x);
-					QMdiSubWindow * window = multiplePlotsArea->addSubWindow(newPlot2D);
-					window->setAttribute(Qt::WA_DeleteOnClose);
-					window->setWindowIcon(QIcon(tr(":/images/graph2.png")));
-					window->setVisible(true);
-					window->setWindowTitle( tr("plot ") + QString::number(i+1));
 				}
 			}
-			multiplePlotsArea->tileSubWindows();
+			
+			if (newplots)
+				multiplePlotsArea->tileSubWindows();
 			return;
 		}
 
@@ -367,9 +404,9 @@ namespace Tinkercell
 					if (widget && widget->type == type)
 					{
 						if (widget->canAppendData() && holdCurrentPlot && holdCurrentPlot->isChecked())
-							widget->appendData(matrix);
+							widget->appendData(matrix,title);
 						else
-							widget->updateData(matrix);
+							widget->updateData(matrix,title,x);
 					
 						for (int j=0; j < list.size(); ++j)
 							if (i != j)
@@ -377,7 +414,7 @@ namespace Tinkercell
 								widget = static_cast<PlotWidget*>(list[j]->widget());
 								if (widget && widget->type == Text)
 								{
-									widget->updateData(matrix);
+									widget->updateData(matrix,title,x);
 									break;
 								}
 							}
@@ -573,6 +610,13 @@ namespace Tinkercell
 			s->release();
 	}
 	
+	void PlotTool::plotHold(QSemaphore* s, int x)
+	{
+		overplot(x > 0);
+		if (s)
+			s->release();
+	}
+	
 	void PlotTool::plotMultiplot(QSemaphore* s, int x, int y)
 	{
 		numMultiplots = x*y;
@@ -664,6 +708,7 @@ namespace Tinkercell
 		void (*errorbars)(tc_matrix,const char*) ,
 		void (*scatterplot)(tc_matrix data,const char* title) ,
 		void (*multiplot)(int,int),
+		void (*hold)(int),
 		void (*enableClustering)(int),
 		tc_matrix (*plotData)(int),
 		void (*gnuplot)(const char*),
@@ -683,6 +728,7 @@ namespace Tinkercell
 				&(plotErrorbarsC),
 				&(plotScatterC),
 				&(plotMultiplotC),
+				&(plotHoldC),
 				&(plotClusteringC),
 				&(getDataMatrix),
 				&(_gnuplot),
@@ -907,6 +953,16 @@ namespace Tinkercell
 		delete s;
 	}
 	
+	void PlotTool_FtoS::plotHoldC(int x)
+	{
+		QSemaphore * s = new QSemaphore(1);
+		s->acquire();
+		emit plotHold(s, x);
+		s->acquire();
+		s->release();
+		delete s;
+	}
+	
 	void PlotTool_FtoS::plotClusteringC(int n)
 	{
 		QSemaphore * s = new QSemaphore(1);
@@ -992,6 +1048,11 @@ namespace Tinkercell
 		fToS.plotMultiplotC(x,y);
 	}
 	
+	void PlotTool::plotHoldC(int x)
+	{
+		fToS.plotHoldC(x);
+	}
+	
 	void PlotTool::plotClusteringC(int n)
 	{
 		fToS.plotClusteringC(n);
@@ -1075,7 +1136,7 @@ namespace Tinkercell
 				matrix(i,newcol) = parser.Eval();
 			}
 			
-			plotWidget->updateData(matrix);
+			plotWidget->updateData(matrix,plotWidget->windowTitle());
 		}
 		catch(mu::Parser::exception_type &e)
 		{

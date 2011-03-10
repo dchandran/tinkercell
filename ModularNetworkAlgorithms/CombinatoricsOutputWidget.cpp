@@ -137,8 +137,8 @@ void ModuleCombinatoricsOutputWidget::update()
 	}
 	else
 	{
-		plot1->updateData(moduleCount);
-		plot2->updateData(points);
+		plot1->updateData(moduleCount,tr("Module types"),-1);
+		plot2->updateData(points,tr("Parameters"),0);
 	}
 }
 

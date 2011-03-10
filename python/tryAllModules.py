@@ -11,7 +11,7 @@ from tinkercell import *
 def runAllHelper( listOfModules, n , time):
     if n >= len(listOfModules):
         m = tc_simulateDeterministic(0,time,100)
-        tc_plot(m, "simulation")
+        tc_plot(m, "")
         return
     item = listOfModules[n]
     submodels = tc_listOfPossibleModels(item)
@@ -25,15 +25,19 @@ def runAll(*arg):
     items = tc_allItems()
     listOfModules = []
     time = arg[2]
-    tc_enableClustering(4)
+    #tc_enableClustering(4)
+    total = 0
     for i in range(0, items.length):
         item = tc_getItem(items, i)
         if tc_getParent(item) == 0:
             submodels = tc_listOfPossibleModels(item)
             if submodels.length > 0:
                 listOfModules.append(item)
-    if len(listOfModules) > 0:
-        runAllHelper(listOfModules, 0, time)
+                total += submodels.length
+    n = len(listOfModules)
+    if n > 0:
+        if tc_askQuestion(str(n) + " submodels and " + str(total) + " possible models ... continue?") > 0:
+            runAllHelper(listOfModules, 0, time)
     else:
         m = tc_simulateDeterministic(0,time,100)
         tc_plot(m, "simulation")

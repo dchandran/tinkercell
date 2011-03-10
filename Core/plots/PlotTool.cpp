@@ -266,10 +266,8 @@ namespace Tinkercell
 	
 	void PlotTool::cluster(int numClusters)
 	{
-		if (multiplePlotsArea && numClusters > 1)
+		if (multiplePlotsArea && numClusters > 1 && ClusterPlot::tables.size() > 1)
 		{
-			ClusterPlot::tables.clear();
-			
 			QList<QMdiSubWindow *>  list = multiplePlotsArea->subWindowList(QMdiArea::ActivationHistoryOrder);
 			PlotType type;
 			for (int i=0; i < list.size(); ++i)
@@ -279,7 +277,7 @@ namespace Tinkercell
 					PlotWidget * widget = static_cast<PlotWidget*>(list[i]->widget());
 					if (widget)
 					{
-						ClusterPlot::tables << (*widget->data());
+						//ClusterPlot::tables << (*widget->data());
 						type = widget->type;
 					}
 				}
@@ -350,6 +348,17 @@ namespace Tinkercell
 			showNormal();
 			this->raise();
 		}
+		
+		if ((holdCurrentPlot && holdCurrentPlot->isChecked()) ||
+			 (keepOldPlots && keepOldPlots->isChecked()))
+			 {
+				ClusterPlot::tables << matrix;
+			}
+			else
+			{
+				if (!ClusterPlot::tables.isEmpty())
+					ClusterPlot::tables.clear();
+			}
 		
 		if ((category.isNull() || category.isEmpty()) &&
 			((holdCurrentPlot && holdCurrentPlot->isChecked()) ||

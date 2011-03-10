@@ -24,9 +24,8 @@ def runAllHelper( listOfModules, n , time):
 def runAll(*arg):
     items = tc_allItems()
     listOfModules = []
-    time = arg[2]
-    tc_enableClustering(4)
-    #tc_holdPlot(1)
+    time = arg[2]    
+    tc_holdPlot(1)
     total = 1
     for i in range(0, items.length):
         item = tc_getItem(items, i)
@@ -39,6 +38,7 @@ def runAll(*arg):
     if n > 0:
         if tc_askQuestion(str(n) + " submodels and " + str(total) + " possible models ... continue?") > 0:
             runAllHelper(listOfModules, 0, time)
+            tc_clusterPlots( round(total/10) )
     else:
         m = tc_simulateDeterministic(0,time,100)
         tc_plot(m, "simulation")

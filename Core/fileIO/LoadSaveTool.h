@@ -18,6 +18,7 @@ This tool allows the loading and saving of models.
 #include <QAction>
 #include <QFile>
 #include <QHash>
+#include <QDateTime>
 #include <QUndoCommand>
 #include <QMessageBox>
 #include <QPushButton>
@@ -128,6 +129,18 @@ namespace Tinkercell
 		static NodeFamily * getNodeFamily(const QString& name);
 		/*!\brief lookup family from its name*/
 		static ConnectionFamily * getConnectionFamily(const QString& name);
+		
+		/*!\brief A simple struct used to store loaded models. 
+		             This is used to speed up reloads by caching the models*/
+		struct CachedModel
+		{
+			QDateTime time;
+			ItemHandle * globalHandle;
+			QList<QGraphicsItem*> items;
+		};
+		
+		/*!\brief cache loaded files quick reload*/
+		static QHash< QString, CachedModel* > cachedModels;
 	};
 
 }

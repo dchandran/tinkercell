@@ -5010,12 +5010,11 @@ R_swig_tc_changeArrowHead ( SEXP connection, SEXP filename)
 
 
 SWIGEXPORT SEXP
-R_swig_tc_setSize ( SEXP item, SEXP width, SEXP height, SEXP permanent)
+R_swig_tc_setSize ( SEXP item, SEXP width, SEXP height)
 {
   long arg1 ;
   double arg2 ;
   double arg3 ;
-  int arg4 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
@@ -5023,10 +5022,8 @@ R_swig_tc_setSize ( SEXP item, SEXP width, SEXP height, SEXP permanent)
   arg1 = (long)(INTEGER(item)[0]);
   arg2 = (double)(REAL(width)[0]);
   arg3 = (double)(REAL(height)[0]);
-  arg4 = (int)(INTEGER(permanent)[0]);
-  tc_setSize(arg1,arg2,arg3,arg4);
+  tc_setSize(arg1,arg2,arg3);
   r_ans = R_NilValue;
-  
   
   
   
@@ -5078,21 +5075,18 @@ R_swig_tc_getHeight ( SEXP item, SEXP s_swig_copy)
 
 
 SWIGEXPORT SEXP
-R_swig_tc_rotate ( SEXP item, SEXP t, SEXP permanent)
+R_swig_tc_rotate ( SEXP item, SEXP t)
 {
   long arg1 ;
   double arg2 ;
-  int arg3 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
   arg1 = (long)(INTEGER(item)[0]);
   arg2 = (double)(REAL(t)[0]);
-  arg3 = (int)(INTEGER(permanent)[0]);
-  tc_rotate(arg1,arg2,arg3);
+  tc_rotate(arg1,arg2);
   r_ans = R_NilValue;
-  
   
   
   vmaxset(r_vmax);
@@ -14490,6 +14484,44 @@ R_swig_tc_substituteModel ( SEXP item, SEXP filename)
 
 
 SWIGEXPORT SEXP
+R_swig_tc_substituteEmptyModel ( SEXP item)
+{
+  long arg1 ;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  arg1 = (long)(INTEGER(item)[0]);
+  tc_substituteEmptyModel(arg1);
+  r_ans = R_NilValue;
+  
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
+SWIGEXPORT SEXP
+R_swig_tc_substituteOriginalModel ( SEXP item)
+{
+  long arg1 ;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  arg1 = (long)(INTEGER(item)[0]);
+  tc_substituteOriginalModel(arg1);
+  r_ans = R_NilValue;
+  
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
+SWIGEXPORT SEXP
 R_swig_tc_listOfPossibleModels ( SEXP item, SEXP s_swig_copy)
 {
   tc_strings result;
@@ -15214,6 +15246,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_getInitialValues", (DL_FUNC) &R_swig_tc_getInitialValues, 2},
    {"R_swig_tc_printOutTable", (DL_FUNC) &R_swig_tc_printOutTable, 1},
    {"R_swig_tc_getNumber", (DL_FUNC) &R_swig_tc_getNumber, 2},
+   {"R_swig_tc_substituteEmptyModel", (DL_FUNC) &R_swig_tc_substituteEmptyModel, 1},
    {"R_swig_tc_isWindows", (DL_FUNC) &R_swig_tc_isWindows, 1},
    {"R_swig_tc_items_items_set", (DL_FUNC) &R_swig_tc_items_items_set, 2},
    {"R_swig_tc_ModelFileGenerator_api", (DL_FUNC) &R_swig_tc_ModelFileGenerator_api, 1},
@@ -15318,6 +15351,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_savePlot", (DL_FUNC) &R_swig_tc_savePlot, 1},
    {"R_swig_tc_simulateHybrid", (DL_FUNC) &R_swig_tc_simulateHybrid, 4},
    {"R_swig_tc_getParameters", (DL_FUNC) &R_swig_tc_getParameters, 2},
+   {"R_swig_tc_substituteOriginalModel", (DL_FUNC) &R_swig_tc_substituteOriginalModel, 1},
    {"R_swig_tc_createInputWindow", (DL_FUNC) &R_swig_tc_createInputWindow, 3},
    {"R_swig_tc_printMatrix", (DL_FUNC) &R_swig_tc_printMatrix, 1},
    {"R_swig_delete_tc_matrix", (DL_FUNC) &R_swig_delete_tc_matrix, 1},
@@ -15330,8 +15364,8 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_compileBuildLoadSliders", (DL_FUNC) &R_swig_tc_compileBuildLoadSliders, 5},
    {"R_swig_tc_getTableValue", (DL_FUNC) &R_swig_tc_getTableValue, 3},
    {"R_swig_tc_setTableValue", (DL_FUNC) &R_swig_tc_setTableValue, 4},
-   {"R_swig_tc_setSize", (DL_FUNC) &R_swig_tc_setSize, 4},
-   {"R_swig_tc_rotate", (DL_FUNC) &R_swig_tc_rotate, 3},
+   {"R_swig_tc_setSize", (DL_FUNC) &R_swig_tc_setSize, 3},
+   {"R_swig_tc_rotate", (DL_FUNC) &R_swig_tc_rotate, 2},
    {"R_swig_tc_addOctavePlugin", (DL_FUNC) &R_swig_tc_addOctavePlugin, 5},
    {"R_swig_tc_displayText", (DL_FUNC) &R_swig_tc_displayText, 2},
    {"R_swig_tc_merge", (DL_FUNC) &R_swig_tc_merge, 1},

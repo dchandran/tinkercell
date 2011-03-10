@@ -6610,21 +6610,17 @@ SWIGINTERN PyObject *_wrap_tc_setSize(PyObject *SWIGUNUSEDPARM(self), PyObject *
   long arg1 ;
   double arg2 ;
   double arg3 ;
-  int arg4 ;
   long val1 ;
   int ecode1 = 0 ;
   double val2 ;
   int ecode2 = 0 ;
   double val3 ;
   int ecode3 = 0 ;
-  int val4 ;
-  int ecode4 = 0 ;
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   PyObject * obj2 = 0 ;
-  PyObject * obj3 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"OOOO:tc_setSize",&obj0,&obj1,&obj2,&obj3)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"OOO:tc_setSize",&obj0,&obj1,&obj2)) SWIG_fail;
   ecode1 = SWIG_AsVal_long(obj0, &val1);
   if (!SWIG_IsOK(ecode1)) {
     SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setSize" "', argument " "1"" of type '" "long""'");
@@ -6640,12 +6636,7 @@ SWIGINTERN PyObject *_wrap_tc_setSize(PyObject *SWIGUNUSEDPARM(self), PyObject *
     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "tc_setSize" "', argument " "3"" of type '" "double""'");
   } 
   arg3 = (double)(val3);
-  ecode4 = SWIG_AsVal_int(obj3, &val4);
-  if (!SWIG_IsOK(ecode4)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "tc_setSize" "', argument " "4"" of type '" "int""'");
-  } 
-  arg4 = (int)(val4);
-  tc_setSize(arg1,arg2,arg3,arg4);
+  tc_setSize(arg1,arg2,arg3);
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -6701,18 +6692,14 @@ SWIGINTERN PyObject *_wrap_tc_rotate(PyObject *SWIGUNUSEDPARM(self), PyObject *a
   PyObject *resultobj = 0;
   long arg1 ;
   double arg2 ;
-  int arg3 ;
   long val1 ;
   int ecode1 = 0 ;
   double val2 ;
   int ecode2 = 0 ;
-  int val3 ;
-  int ecode3 = 0 ;
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
-  PyObject * obj2 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"OOO:tc_rotate",&obj0,&obj1,&obj2)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"OO:tc_rotate",&obj0,&obj1)) SWIG_fail;
   ecode1 = SWIG_AsVal_long(obj0, &val1);
   if (!SWIG_IsOK(ecode1)) {
     SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_rotate" "', argument " "1"" of type '" "long""'");
@@ -6723,12 +6710,7 @@ SWIGINTERN PyObject *_wrap_tc_rotate(PyObject *SWIGUNUSEDPARM(self), PyObject *a
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_rotate" "', argument " "2"" of type '" "double""'");
   } 
   arg2 = (double)(val2);
-  ecode3 = SWIG_AsVal_int(obj2, &val3);
-  if (!SWIG_IsOK(ecode3)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "tc_rotate" "', argument " "3"" of type '" "int""'");
-  } 
-  arg3 = (int)(val3);
-  tc_rotate(arg1,arg2,arg3);
+  tc_rotate(arg1,arg2);
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -11829,6 +11811,48 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_tc_substituteEmptyModel(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  long arg1 ;
+  long val1 ;
+  int ecode1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:tc_substituteEmptyModel",&obj0)) SWIG_fail;
+  ecode1 = SWIG_AsVal_long(obj0, &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_substituteEmptyModel" "', argument " "1"" of type '" "long""'");
+  } 
+  arg1 = (long)(val1);
+  tc_substituteEmptyModel(arg1);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tc_substituteOriginalModel(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  long arg1 ;
+  long val1 ;
+  int ecode1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:tc_substituteOriginalModel",&obj0)) SWIG_fail;
+  ecode1 = SWIG_AsVal_long(obj0, &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_substituteOriginalModel" "', argument " "1"" of type '" "long""'");
+  } 
+  arg1 = (long)(val1);
+  tc_substituteOriginalModel(arg1);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_tc_listOfPossibleModels(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   long arg1 ;
@@ -12146,6 +12170,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"tc_optimize", _wrap_tc_optimize, METH_VARARGS, NULL},
 	 { (char *)"tc_COPASI_api", _wrap_tc_COPASI_api, METH_VARARGS, NULL},
 	 { (char *)"tc_substituteModel", _wrap_tc_substituteModel, METH_VARARGS, NULL},
+	 { (char *)"tc_substituteEmptyModel", _wrap_tc_substituteEmptyModel, METH_VARARGS, NULL},
+	 { (char *)"tc_substituteOriginalModel", _wrap_tc_substituteOriginalModel, METH_VARARGS, NULL},
 	 { (char *)"tc_listOfPossibleModels", _wrap_tc_listOfPossibleModels, METH_VARARGS, NULL},
 	 { (char *)"tc_ModuleTool_api", _wrap_tc_ModuleTool_api, METH_VARARGS, NULL},
 	 { NULL, NULL, 0, NULL }

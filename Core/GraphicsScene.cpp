@@ -1712,9 +1712,10 @@ namespace Tinkercell
 	void GraphicsScene::clearStaticItems()
 	{
 		ConnectionGraphicsItem * connection = 0;
+		QList<QGraphicsItem*> list = duplicateItems;
 
-		for (int i=0; i < duplicateItems.size(); ++i)
-			if ((connection = ConnectionGraphicsItem::cast(duplicateItems[i])))
+		for (int i=0; i < list.size(); ++i)
+			if ((connection = ConnectionGraphicsItem::cast(list[i])))
 			{
 				QList<ArrowHeadItem*> arrowHeads = connection->arrowHeads();
 				for (int j=0; j < arrowHeads.size(); ++j)

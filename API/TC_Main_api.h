@@ -481,10 +481,9 @@ TCAPIEXPORT void tc_changeArrowHead(long connection,const char* filename);
  \param int address of item, e.g. obtained using tc_find
  \param double width
  \param double height
- \param int 0 (temporary size change) or 1 (permanent size change)
  \ingroup Appearance
 */
-TCAPIEXPORT void tc_setSize(long item,double width,double height,int permanent);
+TCAPIEXPORT void tc_setSize(long item,double width,double height);
 
 /*!
  \brief get the width of an item
@@ -506,10 +505,9 @@ TCAPIEXPORT double tc_getHeight(long item);
  \brief rotate and item by the given number of degrees
  \param int address of item, e.g. obtained using tc_find
  \param double angle in degrees
- \param int permanent or not (1 or 0)
  \ingroup Appearance
 */
-TCAPIEXPORT void tc_rotate(long item, double t,int permanent);
+TCAPIEXPORT void tc_rotate(long item, double t);
 
 /*!
  \brief save screenshot in a file

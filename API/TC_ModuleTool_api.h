@@ -13,6 +13,20 @@ BEGIN_C_DECLS
 TCAPIEXPORT void tc_substituteModel(long item, const char* filename);
 
 /*!
+ \brief load an empty sub-model to represent the processes inside an existing connection, i.e removed that process from the model
+ \param long connection that will be the parent of the new model
+ \ingroup Module
+*/
+TCAPIEXPORT void tc_substituteEmptyModel(long item);
+
+/*!
+ \brief load the original sub-model for the processes inside an existing connection
+ \param long connection that will be the parent of the new model
+ \ingroup Module
+*/
+TCAPIEXPORT void tc_substituteOriginalModel(long item);
+
+/*!
  \brief get the list of possible model files that can be used as a sub-model to represent the processes inside an existing connection
  \param long connection that will be the parent of the new model
   \return tc_list list of file names

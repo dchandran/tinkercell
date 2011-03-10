@@ -9,6 +9,7 @@ This tool allows the loading and saving of Networks.
 ****************************************************************************/
 #include "LoadSaveTool.h"
 #include "CThread.h"
+#include "CloneItems.h"
 #include "ConsoleWindow.h"
 #include "UndoCommands.h"
 #include <QtDebug>
@@ -439,12 +440,38 @@ namespace Tinkercell
 		}
 	}
 	
+	QHash< QString, LoadSaveTool::CachedModel* > LoadSaveTool::cachedModels;
+	
 	void LoadSaveTool::getItemsFromFile(QList<ItemHandle*>& handles, QList<QGraphicsItem*>& items, const QString& filename,ItemHandle * root)
 	{
 		if (!handles.isEmpty()) return;
+		QFileInfo fileInfo(filename);
 		
-		ItemHandle * h, * globalHandle = new ItemHandle;
-		loadItems(items,filename, globalHandle);
+		if (!fileInfo.exists()) return;
+		CachedModel * cache;
+		
+		ItemHandle * globalHandle = 0;
+
+		bool cacheExists = false;
+		/*if (cachedModels.contains(filename) )
+		{
+			cache = cachedModels[ filename ];
+			if (cache && fileInfo.lastModified() == cache->time)
+			{
+				items = cache->items;
+				globalHandle = cache->globalHandle;
+				cacheExists = true;
+				console()->message("loaded from cache");
+			}
+		}*/
+		
+		ItemHandle * h;
+		//if (!cacheExists)
+		{
+			globalHandle = new ItemHandle;
+			loadItems(items,filename, globalHandle);
+		}
+
 		if (!root)
 			handles += globalHandle;
 
@@ -454,6 +481,9 @@ namespace Tinkercell
 
 		if (root)
 		{
+			if (!root->hasTextData(tr("original model file")))
+				root->textData(tr("original model file")) = filename;
+
 			if (globalHandle)
 			{
 				h = globalHandle;
@@ -518,7 +548,15 @@ namespace Tinkercell
 					h->setParent(root,false);
 					RenameCommand::findReplaceAllHandleData(handles,h->name,root->fullName() + tr(".") + h->name);
 				}
-		}	
+		}
+
+		/*cache = new CachedModel;
+		cache->time = fileInfo.lastModified();
+		cache->globalHandle = globalHandle->clone();
+		QList<ItemHandle*> newHandles;
+		QList<QGraphicsItem*> items2 = items;
+		cloneGraphicsItems(items2, newHandles);*/
+		//cachedModels[filename] = cache;
 	}
 
 	void LoadSaveTool::loadItems(QList<QGraphicsItem*>& itemsToInsert, const QString& filename, ItemHandle * globalHandle)
@@ -982,6 +1020,20 @@ namespace Tinkercell
 	{
 		for (int i=0; i < loadCommands.size(); ++i)
 			delete loadCommands[i];
+	
+		//cleanup cached models
+		QList<CachedModel*> cached = cachedModels.values();
+		cachedModels.clear();
+		for (int i=0; i < cached.size(); ++i)
+			if (cached[i])
+			{
+				if (cached[i]->globalHandle)
+					delete cached[i]->globalHandle;
+				for (int j=0; j < cached[i]->items.size(); ++j)
+					if (cached[i]->items[j])
+						delete cached[i]->items[j];
+				delete cached[i];
+			}
 	}
 	
 	NodeFamily * LoadSaveTool::getNodeFamily(const QString& name)

@@ -1069,6 +1069,14 @@ def tc_substituteModel(*args):
   return _tinkercell.tc_substituteModel(*args)
 tc_substituteModel = _tinkercell.tc_substituteModel
 
+def tc_substituteEmptyModel(*args):
+  return _tinkercell.tc_substituteEmptyModel(*args)
+tc_substituteEmptyModel = _tinkercell.tc_substituteEmptyModel
+
+def tc_substituteOriginalModel(*args):
+  return _tinkercell.tc_substituteOriginalModel(*args)
+tc_substituteOriginalModel = _tinkercell.tc_substituteOriginalModel
+
 def tc_listOfPossibleModels(*args):
   return _tinkercell.tc_listOfPossibleModels(*args)
 tc_listOfPossibleModels = _tinkercell.tc_listOfPossibleModels

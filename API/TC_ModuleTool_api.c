@@ -9,6 +9,18 @@ void tc_substituteModel(long item, const char* filename)
 		_tc_substituteModel(item,filename);
 }
 
+TCAPIEXPORT void tc_substituteEmptyModel(long item)
+{
+	if (_tc_substituteModel)
+		_tc_substituteModel(item,"empty");
+}
+
+TCAPIEXPORT void tc_substituteOriginalModel(long item)
+{
+	if (_tc_substituteModel)
+		_tc_substituteModel(item,"original");
+}
+
 tc_strings (*_tc_listOfPossibleModels)(long) = 0;
 
 TCAPIEXPORT

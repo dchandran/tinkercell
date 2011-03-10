@@ -671,10 +671,10 @@ void (*_tc_setSize)(long,double,double,int) = 0;
  \brief Change the size of an item
  \ingroup Appearance
 */ TCAPIEXPORT 
-void tc_setSize(long item,double width,double height,int permanent)
+void tc_setSize(long item,double width,double height)
 {
 	if (_tc_setSize)
-		_tc_setSize(item,width,height,permanent);
+		_tc_setSize(item,width,height,1);
 }
 
 double (*_tc_getWidth)(long) = 0;
@@ -706,10 +706,10 @@ void (*_tc_setAngle)(long,double,int) = 0;
  \brief get the width of an item
  \ingroup Appearance
 */ TCAPIEXPORT 
-void tc_rotate(long item, double t,int permanent)
+void tc_rotate(long item, double t)
 {
 	if (_tc_setAngle)
-		_tc_setAngle(item,t,permanent);
+		_tc_setAngle(item,t, 1);
 }
 
 const char* (*_tc_getColor)(long item) = 0;

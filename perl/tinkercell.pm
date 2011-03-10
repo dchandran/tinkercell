@@ -274,6 +274,8 @@ package tinkercell;
 *tc_optimize = *tinkercellc::tc_optimize;
 *tc_COPASI_api = *tinkercellc::tc_COPASI_api;
 *tc_substituteModel = *tinkercellc::tc_substituteModel;
+*tc_substituteEmptyModel = *tinkercellc::tc_substituteEmptyModel;
+*tc_substituteOriginalModel = *tinkercellc::tc_substituteOriginalModel;
 *tc_listOfPossibleModels = *tinkercellc::tc_listOfPossibleModels;
 *tc_ModuleTool_api = *tinkercellc::tc_ModuleTool_api;
 

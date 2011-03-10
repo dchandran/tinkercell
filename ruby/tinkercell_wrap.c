@@ -5695,18 +5695,15 @@ _wrap_tc_setSize(int argc, VALUE *argv, VALUE self) {
   long arg1 ;
   double arg2 ;
   double arg3 ;
-  int arg4 ;
   long val1 ;
   int ecode1 = 0 ;
   double val2 ;
   int ecode2 = 0 ;
   double val3 ;
   int ecode3 = 0 ;
-  int val4 ;
-  int ecode4 = 0 ;
   
-  if ((argc < 4) || (argc > 4)) {
-    rb_raise(rb_eArgError, "wrong # of arguments(%d for 4)",argc); SWIG_fail;
+  if ((argc < 3) || (argc > 3)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 3)",argc); SWIG_fail;
   }
   ecode1 = SWIG_AsVal_long(argv[0], &val1);
   if (!SWIG_IsOK(ecode1)) {
@@ -5723,12 +5720,7 @@ _wrap_tc_setSize(int argc, VALUE *argv, VALUE self) {
     SWIG_exception_fail(SWIG_ArgError(ecode3), Ruby_Format_TypeError( "", "double","tc_setSize", 3, argv[2] ));
   } 
   arg3 = (double)(val3);
-  ecode4 = SWIG_AsVal_int(argv[3], &val4);
-  if (!SWIG_IsOK(ecode4)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode4), Ruby_Format_TypeError( "", "int","tc_setSize", 4, argv[3] ));
-  } 
-  arg4 = (int)(val4);
-  tc_setSize(arg1,arg2,arg3,arg4);
+  tc_setSize(arg1,arg2,arg3);
   return Qnil;
 fail:
   return Qnil;
@@ -5787,16 +5779,13 @@ SWIGINTERN VALUE
 _wrap_tc_rotate(int argc, VALUE *argv, VALUE self) {
   long arg1 ;
   double arg2 ;
-  int arg3 ;
   long val1 ;
   int ecode1 = 0 ;
   double val2 ;
   int ecode2 = 0 ;
-  int val3 ;
-  int ecode3 = 0 ;
   
-  if ((argc < 3) || (argc > 3)) {
-    rb_raise(rb_eArgError, "wrong # of arguments(%d for 3)",argc); SWIG_fail;
+  if ((argc < 2) || (argc > 2)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 2)",argc); SWIG_fail;
   }
   ecode1 = SWIG_AsVal_long(argv[0], &val1);
   if (!SWIG_IsOK(ecode1)) {
@@ -5808,12 +5797,7 @@ _wrap_tc_rotate(int argc, VALUE *argv, VALUE self) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), Ruby_Format_TypeError( "", "double","tc_rotate", 2, argv[1] ));
   } 
   arg2 = (double)(val2);
-  ecode3 = SWIG_AsVal_int(argv[2], &val3);
-  if (!SWIG_IsOK(ecode3)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode3), Ruby_Format_TypeError( "", "int","tc_rotate", 3, argv[2] ));
-  } 
-  arg3 = (int)(val3);
-  tc_rotate(arg1,arg2,arg3);
+  tc_rotate(arg1,arg2);
   return Qnil;
 fail:
   return Qnil;
@@ -10814,6 +10798,48 @@ fail:
 
 
 SWIGINTERN VALUE
+_wrap_tc_substituteEmptyModel(int argc, VALUE *argv, VALUE self) {
+  long arg1 ;
+  long val1 ;
+  int ecode1 = 0 ;
+  
+  if ((argc < 1) || (argc > 1)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 1)",argc); SWIG_fail;
+  }
+  ecode1 = SWIG_AsVal_long(argv[0], &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), Ruby_Format_TypeError( "", "long","tc_substituteEmptyModel", 1, argv[0] ));
+  } 
+  arg1 = (long)(val1);
+  tc_substituteEmptyModel(arg1);
+  return Qnil;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_tc_substituteOriginalModel(int argc, VALUE *argv, VALUE self) {
+  long arg1 ;
+  long val1 ;
+  int ecode1 = 0 ;
+  
+  if ((argc < 1) || (argc > 1)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 1)",argc); SWIG_fail;
+  }
+  ecode1 = SWIG_AsVal_long(argv[0], &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), Ruby_Format_TypeError( "", "long","tc_substituteOriginalModel", 1, argv[0] ));
+  } 
+  arg1 = (long)(val1);
+  tc_substituteOriginalModel(arg1);
+  return Qnil;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
 _wrap_tc_listOfPossibleModels(int argc, VALUE *argv, VALUE self) {
   long arg1 ;
   long val1 ;
@@ -11758,6 +11784,8 @@ SWIGEXPORT void Init_tinkercell(void) {
   rb_define_module_function(mTinkercell, "tc_optimize", _wrap_tc_optimize, -1);
   rb_define_module_function(mTinkercell, "tc_COPASI_api", _wrap_tc_COPASI_api, -1);
   rb_define_module_function(mTinkercell, "tc_substituteModel", _wrap_tc_substituteModel, -1);
+  rb_define_module_function(mTinkercell, "tc_substituteEmptyModel", _wrap_tc_substituteEmptyModel, -1);
+  rb_define_module_function(mTinkercell, "tc_substituteOriginalModel", _wrap_tc_substituteOriginalModel, -1);
   rb_define_module_function(mTinkercell, "tc_listOfPossibleModels", _wrap_tc_listOfPossibleModels, -1);
   rb_define_module_function(mTinkercell, "tc_ModuleTool_api", _wrap_tc_ModuleTool_api, -1);
 }

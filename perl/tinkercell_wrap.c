@@ -6035,20 +6035,17 @@ XS(_wrap_tc_setSize) {
     long arg1 ;
     double arg2 ;
     double arg3 ;
-    int arg4 ;
     long val1 ;
     int ecode1 = 0 ;
     double val2 ;
     int ecode2 = 0 ;
     double val3 ;
     int ecode3 = 0 ;
-    int val4 ;
-    int ecode4 = 0 ;
     int argvi = 0;
     dXSARGS;
     
-    if ((items < 4) || (items > 4)) {
-      SWIG_croak("Usage: tc_setSize(item,width,height,permanent);");
+    if ((items < 3) || (items > 3)) {
+      SWIG_croak("Usage: tc_setSize(item,width,height);");
     }
     ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
@@ -6065,20 +6062,13 @@ XS(_wrap_tc_setSize) {
       SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "tc_setSize" "', argument " "3"" of type '" "double""'");
     } 
     arg3 = (double)(val3);
-    ecode4 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(3), &val4);
-    if (!SWIG_IsOK(ecode4)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "tc_setSize" "', argument " "4"" of type '" "int""'");
-    } 
-    arg4 = (int)(val4);
-    tc_setSize(arg1,arg2,arg3,arg4);
+    tc_setSize(arg1,arg2,arg3);
     ST(argvi) = sv_newmortal();
-    
     
     
     
     XSRETURN(argvi);
   fail:
-    
     
     
     
@@ -6147,18 +6137,15 @@ XS(_wrap_tc_rotate) {
   {
     long arg1 ;
     double arg2 ;
-    int arg3 ;
     long val1 ;
     int ecode1 = 0 ;
     double val2 ;
     int ecode2 = 0 ;
-    int val3 ;
-    int ecode3 = 0 ;
     int argvi = 0;
     dXSARGS;
     
-    if ((items < 3) || (items > 3)) {
-      SWIG_croak("Usage: tc_rotate(item,t,permanent);");
+    if ((items < 2) || (items > 2)) {
+      SWIG_croak("Usage: tc_rotate(item,t);");
     }
     ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
@@ -6170,19 +6157,12 @@ XS(_wrap_tc_rotate) {
       SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_rotate" "', argument " "2"" of type '" "double""'");
     } 
     arg2 = (double)(val2);
-    ecode3 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(2), &val3);
-    if (!SWIG_IsOK(ecode3)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "tc_rotate" "', argument " "3"" of type '" "int""'");
-    } 
-    arg3 = (int)(val3);
-    tc_rotate(arg1,arg2,arg3);
+    tc_rotate(arg1,arg2);
     ST(argvi) = sv_newmortal();
-    
     
     
     XSRETURN(argvi);
   fail:
-    
     
     
     SWIG_croak_null();
@@ -12111,6 +12091,60 @@ XS(_wrap_tc_substituteModel) {
 }
 
 
+XS(_wrap_tc_substituteEmptyModel) {
+  {
+    long arg1 ;
+    long val1 ;
+    int ecode1 = 0 ;
+    int argvi = 0;
+    dXSARGS;
+    
+    if ((items < 1) || (items > 1)) {
+      SWIG_croak("Usage: tc_substituteEmptyModel(item);");
+    }
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    if (!SWIG_IsOK(ecode1)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_substituteEmptyModel" "', argument " "1"" of type '" "long""'");
+    } 
+    arg1 = (long)(val1);
+    tc_substituteEmptyModel(arg1);
+    ST(argvi) = sv_newmortal();
+    
+    XSRETURN(argvi);
+  fail:
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_tc_substituteOriginalModel) {
+  {
+    long arg1 ;
+    long val1 ;
+    int ecode1 = 0 ;
+    int argvi = 0;
+    dXSARGS;
+    
+    if ((items < 1) || (items > 1)) {
+      SWIG_croak("Usage: tc_substituteOriginalModel(item);");
+    }
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    if (!SWIG_IsOK(ecode1)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_substituteOriginalModel" "', argument " "1"" of type '" "long""'");
+    } 
+    arg1 = (long)(val1);
+    tc_substituteOriginalModel(arg1);
+    ST(argvi) = sv_newmortal();
+    
+    XSRETURN(argvi);
+  fail:
+    
+    SWIG_croak_null();
+  }
+}
+
+
 XS(_wrap_tc_listOfPossibleModels) {
   {
     long arg1 ;
@@ -12799,6 +12833,8 @@ static swig_command_info swig_commands[] = {
 {"tinkercellc::tc_optimize", _wrap_tc_optimize},
 {"tinkercellc::tc_COPASI_api", _wrap_tc_COPASI_api},
 {"tinkercellc::tc_substituteModel", _wrap_tc_substituteModel},
+{"tinkercellc::tc_substituteEmptyModel", _wrap_tc_substituteEmptyModel},
+{"tinkercellc::tc_substituteOriginalModel", _wrap_tc_substituteOriginalModel},
 {"tinkercellc::tc_listOfPossibleModels", _wrap_tc_listOfPossibleModels},
 {"tinkercellc::tc_ModuleTool_api", _wrap_tc_ModuleTool_api},
 {0,0}

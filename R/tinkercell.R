@@ -2938,7 +2938,7 @@ class(`tc_changeArrowHead`) = c("SWIGFunction", class('tc_changeArrowHead'))
 
 # Start of tc_setSize
 
-`tc_setSize` = function(item, width, height, permanent)
+`tc_setSize` = function(item, width, height)
 {
   item = as.integer(item) 
   
@@ -2948,18 +2948,12 @@ class(`tc_changeArrowHead`) = c("SWIGFunction", class('tc_changeArrowHead'))
   
   
   
-  permanent = as.integer(permanent) 
-  
-  if(length(permanent) > 1) {
-    warning("using only the first element of permanent")
-  }
-  
-  .Call('R_swig_tc_setSize', item, width, height, permanent, PACKAGE='tinkercell')
+  .Call('R_swig_tc_setSize', item, width, height, PACKAGE='tinkercell')
   
 }
 
 attr(`tc_setSize`, 'returnType') = 'void'
-attr(`tc_setSize`, "inputTypes") = c('integer', 'numeric', 'numeric', 'integer')
+attr(`tc_setSize`, "inputTypes") = c('integer', 'numeric', 'numeric')
 class(`tc_setSize`) = c("SWIGFunction", class('tc_setSize'))
 
 # Start of tc_getWidth
@@ -3000,7 +2994,7 @@ class(`tc_getHeight`) = c("SWIGFunction", class('tc_getHeight'))
 
 # Start of tc_rotate
 
-`tc_rotate` = function(item, t, permanent)
+`tc_rotate` = function(item, t)
 {
   item = as.integer(item) 
   
@@ -3009,18 +3003,12 @@ class(`tc_getHeight`) = c("SWIGFunction", class('tc_getHeight'))
   }
   
   
-  permanent = as.integer(permanent) 
-  
-  if(length(permanent) > 1) {
-    warning("using only the first element of permanent")
-  }
-  
-  .Call('R_swig_tc_rotate', item, t, permanent, PACKAGE='tinkercell')
+  .Call('R_swig_tc_rotate', item, t, PACKAGE='tinkercell')
   
 }
 
 attr(`tc_rotate`, 'returnType') = 'void'
-attr(`tc_rotate`, "inputTypes") = c('integer', 'numeric', 'integer')
+attr(`tc_rotate`, "inputTypes") = c('integer', 'numeric')
 class(`tc_rotate`) = c("SWIGFunction", class('tc_rotate'))
 
 # Start of tc_screenshot
@@ -6921,6 +6909,42 @@ class(`tc_COPASI_api`) = c("SWIGFunction", class('tc_COPASI_api'))
 attr(`tc_substituteModel`, 'returnType') = 'void'
 attr(`tc_substituteModel`, "inputTypes") = c('integer', 'character')
 class(`tc_substituteModel`) = c("SWIGFunction", class('tc_substituteModel'))
+
+# Start of tc_substituteEmptyModel
+
+`tc_substituteEmptyModel` = function(item)
+{
+  item = as.integer(item) 
+  
+  if(length(item) > 1) {
+    warning("using only the first element of item")
+  }
+  
+  .Call('R_swig_tc_substituteEmptyModel', item, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_substituteEmptyModel`, 'returnType') = 'void'
+attr(`tc_substituteEmptyModel`, "inputTypes") = c('integer')
+class(`tc_substituteEmptyModel`) = c("SWIGFunction", class('tc_substituteEmptyModel'))
+
+# Start of tc_substituteOriginalModel
+
+`tc_substituteOriginalModel` = function(item)
+{
+  item = as.integer(item) 
+  
+  if(length(item) > 1) {
+    warning("using only the first element of item")
+  }
+  
+  .Call('R_swig_tc_substituteOriginalModel', item, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_substituteOriginalModel`, 'returnType') = 'void'
+attr(`tc_substituteOriginalModel`, "inputTypes") = c('integer')
+class(`tc_substituteOriginalModel`) = c("SWIGFunction", class('tc_substituteOriginalModel'))
 
 # Start of tc_listOfPossibleModels
 

@@ -142,8 +142,12 @@ namespace Tinkercell
 		if (!parentHandle) return;
 		
 		QString filename;
-		if (filename0.isEmpty())
+		if (filename0.isEmpty() || filename0.toLower() == tr("empty"))
 			filename = emptyModel();
+		else
+		if (parentHandle->hasTextData("original model file") && 
+			filename0.toLower() == tr("original"))
+			filename = parentHandle->textData("original model file");
 		else
 			filename = filename0;
 

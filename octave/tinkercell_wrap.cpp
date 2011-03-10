@@ -6238,20 +6238,17 @@ static octave_value_list _wrap_tc_setSize (const octave_value_list& args, int na
   long arg1 ;
   double arg2 ;
   double arg3 ;
-  int arg4 ;
   long val1 ;
   int ecode1 = 0 ;
   double val2 ;
   int ecode2 = 0 ;
   double val3 ;
   int ecode3 = 0 ;
-  int val4 ;
-  int ecode4 = 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
   
-  if (!SWIG_check_num_args("tc_setSize",args.length(),4,4,0)) {
+  if (!SWIG_check_num_args("tc_setSize",args.length(),3,3,0)) {
     SWIG_fail;
   }
   ecode1 = SWIG_AsVal_long(args(0), &val1);
@@ -6269,12 +6266,7 @@ static octave_value_list _wrap_tc_setSize (const octave_value_list& args, int na
     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "tc_setSize" "', argument " "3"" of type '" "double""'");
   } 
   arg3 = (double)(val3);
-  ecode4 = SWIG_AsVal_int(args(3), &val4);
-  if (!SWIG_IsOK(ecode4)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "tc_setSize" "', argument " "4"" of type '" "int""'");
-  } 
-  arg4 = (int)(val4);
-  tc_setSize(arg1,arg2,arg3,arg4);
+  tc_setSize(arg1,arg2,arg3);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
 fail:
@@ -6335,18 +6327,15 @@ fail:
 static octave_value_list _wrap_tc_rotate (const octave_value_list& args, int nargout) {
   long arg1 ;
   double arg2 ;
-  int arg3 ;
   long val1 ;
   int ecode1 = 0 ;
   double val2 ;
   int ecode2 = 0 ;
-  int val3 ;
-  int ecode3 = 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
   
-  if (!SWIG_check_num_args("tc_rotate",args.length(),3,3,0)) {
+  if (!SWIG_check_num_args("tc_rotate",args.length(),2,2,0)) {
     SWIG_fail;
   }
   ecode1 = SWIG_AsVal_long(args(0), &val1);
@@ -6359,12 +6348,7 @@ static octave_value_list _wrap_tc_rotate (const octave_value_list& args, int nar
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_rotate" "', argument " "2"" of type '" "double""'");
   } 
   arg2 = (double)(val2);
-  ecode3 = SWIG_AsVal_int(args(2), &val3);
-  if (!SWIG_IsOK(ecode3)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "tc_rotate" "', argument " "3"" of type '" "int""'");
-  } 
-  arg3 = (int)(val3);
-  tc_rotate(arg1,arg2,arg3);
+  tc_rotate(arg1,arg2);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
 fail:
@@ -11578,6 +11562,54 @@ fail:
 }
 
 
+static octave_value_list _wrap_tc_substituteEmptyModel (const octave_value_list& args, int nargout) {
+  long arg1 ;
+  long val1 ;
+  int ecode1 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  
+  if (!SWIG_check_num_args("tc_substituteEmptyModel",args.length(),1,1,0)) {
+    SWIG_fail;
+  }
+  ecode1 = SWIG_AsVal_long(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_substituteEmptyModel" "', argument " "1"" of type '" "long""'");
+  } 
+  arg1 = (long)(val1);
+  tc_substituteEmptyModel(arg1);
+  _outv = octave_value();
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_tc_substituteOriginalModel (const octave_value_list& args, int nargout) {
+  long arg1 ;
+  long val1 ;
+  int ecode1 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  
+  if (!SWIG_check_num_args("tc_substituteOriginalModel",args.length(),1,1,0)) {
+    SWIG_fail;
+  }
+  ecode1 = SWIG_AsVal_long(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_substituteOriginalModel" "', argument " "1"" of type '" "long""'");
+  } 
+  arg1 = (long)(val1);
+  tc_substituteOriginalModel(arg1);
+  _outv = octave_value();
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
 static octave_value_list _wrap_tc_listOfPossibleModels (const octave_value_list& args, int nargout) {
   long arg1 ;
   long val1 ;
@@ -11896,6 +11928,8 @@ static const struct swig_octave_member swig_globals[] = {
 {"tc_optimize",_wrap_tc_optimize,0,0,2,0},
 {"tc_COPASI_api",_wrap_tc_COPASI_api,0,0,2,0},
 {"tc_substituteModel",_wrap_tc_substituteModel,0,0,2,0},
+{"tc_substituteEmptyModel",_wrap_tc_substituteEmptyModel,0,0,2,0},
+{"tc_substituteOriginalModel",_wrap_tc_substituteOriginalModel,0,0,2,0},
 {"tc_listOfPossibleModels",_wrap_tc_listOfPossibleModels,0,0,2,0},
 {"tc_ModuleTool_api",_wrap_tc_ModuleTool_api,0,0,2,0},
 {0,0,0,0,0}

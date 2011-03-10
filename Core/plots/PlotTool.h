@@ -294,7 +294,8 @@ namespace Tinkercell
 		friend class Plot2DWidget;
 
 	private slots:
-        void clusteringToggled(bool);
+        void clusteringToggled();
+        void cluster(int n);
         void plotCustomFormula();
         void organizerButtonClicked(QAbstractButton * button);
 		void actionTriggered(QAction*);
@@ -317,9 +318,6 @@ namespace Tinkercell
 	protected:
 		virtual void keyPressEvent ( QKeyEvent * event );
 		virtual void mouseMoveEvent ( QMouseEvent * event );
-		
-		int numClusters;
-		QList<NumericalDataTable> clusteringData;
 	};
 }
 #endif

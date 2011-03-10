@@ -219,7 +219,7 @@ package tinkercell;
 *tc_hist = *tinkercellc::tc_hist;
 *tc_multiplot = *tinkercellc::tc_multiplot;
 *tc_holdPlot = *tinkercellc::tc_holdPlot;
-*tc_enableClustering = *tinkercellc::tc_enableClustering;
+*tc_clusterPlots = *tinkercellc::tc_clusterPlots;
 *tc_getPlotData = *tinkercellc::tc_getPlotData;
 *tc_gnuplot = *tinkercellc::tc_gnuplot;
 *tc_savePlot = *tinkercellc::tc_savePlot;

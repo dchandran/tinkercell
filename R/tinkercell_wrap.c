@@ -11893,7 +11893,7 @@ R_swig_tc_holdPlot ( SEXP on)
 
 
 SWIGEXPORT SEXP
-R_swig_tc_enableClustering ( SEXP clusters)
+R_swig_tc_clusterPlots ( SEXP clusters)
 {
   int arg1 ;
   unsigned int r_nprotect = 0;
@@ -11901,7 +11901,7 @@ R_swig_tc_enableClustering ( SEXP clusters)
   VMAXTYPE r_vmax = vmaxget() ;
   
   arg1 = (int)(INTEGER(clusters)[0]);
-  tc_enableClustering(arg1);
+  tc_clusterPlots(arg1);
   r_ans = R_NilValue;
   
   vmaxset(r_vmax);
@@ -15167,6 +15167,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_getTextAttribute", (DL_FUNC) &R_swig_tc_getTextAttribute, 2},
    {"R_swig_tc_insertConnection", (DL_FUNC) &R_swig_tc_insertConnection, 4},
    {"R_swig_tc_loadLibrary", (DL_FUNC) &R_swig_tc_loadLibrary, 1},
+   {"R_swig_tc_clusterPlots", (DL_FUNC) &R_swig_tc_clusterPlots, 1},
    {"R_swig_tc_getNames", (DL_FUNC) &R_swig_tc_getNames, 2},
    {"R_swig_tc_separate", (DL_FUNC) &R_swig_tc_separate, 1},
    {"R_swig_tc_plot", (DL_FUNC) &R_swig_tc_plot, 2},
@@ -15339,7 +15340,6 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_getName", (DL_FUNC) &R_swig_tc_getName, 1},
    {"R_swig_tc_errorBars", (DL_FUNC) &R_swig_tc_errorBars, 2},
    {"R_swig_tc_getEventTriggers", (DL_FUNC) &R_swig_tc_getEventTriggers, 1},
-   {"R_swig_tc_enableClustering", (DL_FUNC) &R_swig_tc_enableClustering, 1},
    {"R_swig_tc_highlight", (DL_FUNC) &R_swig_tc_highlight, 2},
    {"R_swig_tc_table_cols_set", (DL_FUNC) &R_swig_tc_table_cols_set, 2},
    {"R_swig_tc_matrix_cols_set", (DL_FUNC) &R_swig_tc_matrix_cols_set, 2},

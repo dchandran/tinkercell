@@ -10104,20 +10104,20 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_tc_enableClustering(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_tc_clusterPlots(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   int arg1 ;
   int val1 ;
   int ecode1 = 0 ;
   PyObject * obj0 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"O:tc_enableClustering",&obj0)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"O:tc_clusterPlots",&obj0)) SWIG_fail;
   ecode1 = SWIG_AsVal_int(obj0, &val1);
   if (!SWIG_IsOK(ecode1)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_enableClustering" "', argument " "1"" of type '" "int""'");
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_clusterPlots" "', argument " "1"" of type '" "int""'");
   } 
   arg1 = (int)(val1);
-  tc_enableClustering(arg1);
+  tc_clusterPlots(arg1);
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -12091,7 +12091,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"tc_hist", _wrap_tc_hist, METH_VARARGS, NULL},
 	 { (char *)"tc_multiplot", _wrap_tc_multiplot, METH_VARARGS, NULL},
 	 { (char *)"tc_holdPlot", _wrap_tc_holdPlot, METH_VARARGS, NULL},
-	 { (char *)"tc_enableClustering", _wrap_tc_enableClustering, METH_VARARGS, NULL},
+	 { (char *)"tc_clusterPlots", _wrap_tc_clusterPlots, METH_VARARGS, NULL},
 	 { (char *)"tc_getPlotData", _wrap_tc_getPlotData, METH_VARARGS, NULL},
 	 { (char *)"tc_gnuplot", _wrap_tc_gnuplot, METH_VARARGS, NULL},
 	 { (char *)"tc_savePlot", _wrap_tc_savePlot, METH_VARARGS, NULL},

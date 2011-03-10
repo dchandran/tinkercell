@@ -77,15 +77,15 @@ void tc_holdPlot(int z)
 		_tc_holdPlot(z);
 }
 
-void (*_tc_enableClustering)(int c) = 0;
+void (*_tc_clusterPlots)(int c) = 0;
 /*!
  \brief enable clustering
  \ingroup Plotting
 */ TCAPIEXPORT 
-void tc_enableClustering(int c)
+void tc_clusterPlots(int c)
 {
-	if (_tc_enableClustering)
-		_tc_enableClustering(c);
+	if (_tc_clusterPlots)
+		_tc_clusterPlots(c);
 }
 
 tc_matrix (*_tc_getPlotData)(int whichPlot) = 0;
@@ -165,7 +165,7 @@ void tc_PlotTool_api(
 	_tc_scatterplot = scatterplot;
 	_tc_multiplot = multiplot;
 	_tc_holdPlot = hold;
-	_tc_enableClustering = enableClustering;
+	_tc_clusterPlots = enableClustering;
 	_tc_gnuplot = gnuplot;
 	_tc_savePlot = savePlotImage;
 	_tc_setLogScale = logscale;

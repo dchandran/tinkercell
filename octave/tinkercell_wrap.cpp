@@ -9763,7 +9763,7 @@ fail:
 }
 
 
-static octave_value_list _wrap_tc_enableClustering (const octave_value_list& args, int nargout) {
+static octave_value_list _wrap_tc_clusterPlots (const octave_value_list& args, int nargout) {
   int arg1 ;
   int val1 ;
   int ecode1 = 0 ;
@@ -9771,15 +9771,15 @@ static octave_value_list _wrap_tc_enableClustering (const octave_value_list& arg
   octave_value_list *_outp=&_out;
   octave_value _outv;
   
-  if (!SWIG_check_num_args("tc_enableClustering",args.length(),1,1,0)) {
+  if (!SWIG_check_num_args("tc_clusterPlots",args.length(),1,1,0)) {
     SWIG_fail;
   }
   ecode1 = SWIG_AsVal_int(args(0), &val1);
   if (!SWIG_IsOK(ecode1)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_enableClustering" "', argument " "1"" of type '" "int""'");
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_clusterPlots" "', argument " "1"" of type '" "int""'");
   } 
   arg1 = (int)(val1);
-  tc_enableClustering(arg1);
+  tc_clusterPlots(arg1);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
 fail:
@@ -11841,7 +11841,7 @@ static const struct swig_octave_member swig_globals[] = {
 {"tc_hist",_wrap_tc_hist,0,0,2,0},
 {"tc_multiplot",_wrap_tc_multiplot,0,0,2,0},
 {"tc_holdPlot",_wrap_tc_holdPlot,0,0,2,0},
-{"tc_enableClustering",_wrap_tc_enableClustering,0,0,2,0},
+{"tc_clusterPlots",_wrap_tc_clusterPlots,0,0,2,0},
 {"tc_getPlotData",_wrap_tc_getPlotData,0,0,2,0},
 {"tc_gnuplot",_wrap_tc_gnuplot,0,0,2,0},
 {"tc_savePlot",_wrap_tc_savePlot,0,0,2,0},

@@ -10048,7 +10048,7 @@ XS(_wrap_tc_holdPlot) {
 }
 
 
-XS(_wrap_tc_enableClustering) {
+XS(_wrap_tc_clusterPlots) {
   {
     int arg1 ;
     int val1 ;
@@ -10057,14 +10057,14 @@ XS(_wrap_tc_enableClustering) {
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
-      SWIG_croak("Usage: tc_enableClustering(clusters);");
+      SWIG_croak("Usage: tc_clusterPlots(clusters);");
     }
     ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_enableClustering" "', argument " "1"" of type '" "int""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_clusterPlots" "', argument " "1"" of type '" "int""'");
     } 
     arg1 = (int)(val1);
-    tc_enableClustering(arg1);
+    tc_clusterPlots(arg1);
     ST(argvi) = sv_newmortal();
     
     XSRETURN(argvi);
@@ -12744,7 +12744,7 @@ static swig_command_info swig_commands[] = {
 {"tinkercellc::tc_hist", _wrap_tc_hist},
 {"tinkercellc::tc_multiplot", _wrap_tc_multiplot},
 {"tinkercellc::tc_holdPlot", _wrap_tc_holdPlot},
-{"tinkercellc::tc_enableClustering", _wrap_tc_enableClustering},
+{"tinkercellc::tc_clusterPlots", _wrap_tc_clusterPlots},
 {"tinkercellc::tc_getPlotData", _wrap_tc_getPlotData},
 {"tinkercellc::tc_gnuplot", _wrap_tc_gnuplot},
 {"tinkercellc::tc_savePlot", _wrap_tc_savePlot},

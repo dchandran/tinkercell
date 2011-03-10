@@ -42,7 +42,6 @@ namespace Tinkercell
 		otherToolBar = 0;
 		dockWidget = 0;
 		organizerToolBar = 0;
-		numClusters = 0;
 		plotOrganizerEnabled = false;
 		setPalette(QPalette(QColor(255,255,255,255)));
 		setAutoFillBackground(true);
@@ -76,11 +75,11 @@ namespace Tinkercell
 		clusterPlots = new QAction(tr("Cluster Graphs"),&toolBar);
 		keepOldPlots->setCheckable(true);
 		holdCurrentPlot->setCheckable(true);
-		clusterPlots->setCheckable(true);
+		//clusterPlots->setCheckable(true);
 		keepOldPlots->setChecked(false);
 		holdCurrentPlot->setChecked(false);
-		clusterPlots->setChecked(false);
-		connect(clusterPlots,SIGNAL(toggled(bool)),this,SLOT(clusteringToggled(bool)));
+		//clusterPlots->setChecked(false);
+		connect(clusterPlots,SIGNAL(triggered()),this,SLOT(clusteringToggled()));
 		optionsMenu->addAction(keepOldPlots);
 		optionsMenu->addAction(holdCurrentPlot);
 		optionsMenu->addAction(clusterPlots);
@@ -264,6 +263,54 @@ namespace Tinkercell
 
 		multiplePlotsArea->setActiveSubWindow ( window );
 	}
+	
+	void PlotTool::cluster(int numClusters)
+	{
+		if (multiplePlotsArea && numClusters > 1)
+		{
+			ClusterPlot::tables.clear();
+			
+			QList<QMdiSubWindow *>  list = multiplePlotsArea->subWindowList(QMdiArea::ActivationHistoryOrder);
+			PlotType type;
+			for (int i=0; i < list.size(); ++i)
+			{
+				if (list[i]->widget())
+				{
+					PlotWidget * widget = static_cast<PlotWidget*>(list[i]->widget());
+					if (widget)
+					{
+						ClusterPlot::tables << (*widget->data());
+						type = widget->type;
+					}
+				}
+				list[i]->close();
+			}
+			
+			int * clusters = ClusterPlot::getClusters(numClusters);
+			
+			QList<Plot2DWidget*> clusterWidgets;
+			for (int i=0; i < numClusters; ++i)
+			{
+				Plot2DWidget * newPlot2D = new Plot2DWidget(this);
+				newPlot2D->type = type;
+				QMdiSubWindow * window = multiplePlotsArea->addSubWindow(newPlot2D);
+				window->setAttribute(Qt::WA_DeleteOnClose);
+				window->setWindowIcon(QIcon(tr(":/images/graph2.png")));
+				window->setVisible(true);
+				window->setWindowTitle( tr("plot ") + QString::number(i+1));
+				newPlot2D->plot(NumericalDataTable(),tr("Cluster ") + QString::number(i+1));
+				clusterWidgets << newPlot2D;
+			}
+				
+			for (int i=0; i < ClusterPlot::tables.size(); ++i)
+			{
+				int j = clusters[i];
+				clusterWidgets[j]->appendData(ClusterPlot::tables[i],tr("Cluster ") + QString::number(j+1));
+			}
+			delete clusters;
+			multiplePlotsArea->tileSubWindows();
+		}
+	}
 
 	void PlotTool::plot(const DataTable<qreal>& matrix,const QString& title0,int x,PlotTool::PlotType type)
 	{
@@ -304,94 +351,6 @@ namespace Tinkercell
 			this->raise();
 		}
 		
-		if (numClusters > 1)
-		{
-			if (!keepOldPlots->isChecked())
-				keepOldPlots->setChecked(true);
-			
-			QList<QMdiSubWindow *>  oldlist = multiplePlotsArea->subWindowList(QMdiArea::ActivationHistoryOrder);
-			
-			QList<QMdiSubWindow *>  list;
-			for (int i=0; i < oldlist.size(); ++i)
-				if (oldlist[i]->widget())
-				{
-					PlotWidget * widget = static_cast<PlotWidget*>(oldlist[i]->widget());
-					if (widget && widget->type == type)
-					{
-						list << oldlist[i];
-						oldlist[i] = 0;
-					}
-				}
-			
-			for (int i=0; i < oldlist.size(); ++i)
-				if (oldlist[i])
-					oldlist[i]->close();
-			
-			ClusterPlot::tables << matrix;
-			bool newplots = false;
-			if (ClusterPlot::tables.size() > numClusters)
-			{
-				int * clusters = ClusterPlot::getClusters(numClusters);
-				QList<Plot2DWidget*> clusterWidgets;
-				for (int i=0; i < numClusters; ++i)
-				{
-					Plot2DWidget * newPlot2D = 0;
-					if (list.size() > i)
-					{
-						newPlot2D = static_cast<Plot2DWidget*>(list[i]->widget());
-					}
-					else
-					{
-						newplots = true;
-						newPlot2D = new Plot2DWidget(this);
-						newPlot2D->type = type;
-						QMdiSubWindow * window = multiplePlotsArea->addSubWindow(newPlot2D);
-						window->setAttribute(Qt::WA_DeleteOnClose);
-						window->setWindowIcon(QIcon(tr(":/images/graph2.png")));
-						window->setVisible(true);
-						window->setWindowTitle( tr("plot ") + QString::number(i+1));
-					}
-
-					newPlot2D->plot(NumericalDataTable(),tr("Cluster ") + QString::number(i+1), x);
-					clusterWidgets << newPlot2D;
-				}
-				
-				for (int i=0; i < ClusterPlot::tables.size(); ++i)
-				{
-					int j = clusters[i];
-					clusterWidgets[j]->appendData(ClusterPlot::tables[i],title,x);
-				}
-				delete clusters;
-			}
-			else
-			{
-				for (int i=0; i < ClusterPlot::tables.size(); ++i)
-				{
-					Plot2DWidget * newPlot2D = 0;
-					if (list.size() > i)
-					{
-						newPlot2D = static_cast<Plot2DWidget*>(list[i]->widget());
-					}
-					else
-					{
-						newplots = true;
-						newPlot2D = new Plot2DWidget(this);
-						newPlot2D->type = type;
-						QMdiSubWindow * window = multiplePlotsArea->addSubWindow(newPlot2D);
-						window->setAttribute(Qt::WA_DeleteOnClose);
-						window->setWindowIcon(QIcon(tr(":/images/graph2.png")));
-						window->setVisible(true);
-						window->setWindowTitle( tr("plot ") + QString::number(i+1));
-					}
-					newPlot2D->plot(ClusterPlot::tables[i],tr("Cluster ") + QString::number(i+1), x);
-				}
-			}
-			
-			if (newplots)
-				multiplePlotsArea->tileSubWindows();
-			return;
-		}
-
 		if ((category.isNull() || category.isEmpty()) &&
 			((holdCurrentPlot && holdCurrentPlot->isChecked()) ||
 			 !(keepOldPlots && keepOldPlots->isChecked())))
@@ -603,9 +562,10 @@ namespace Tinkercell
 	
 	void PlotTool::plotClustering(QSemaphore* s, int n)
 	{
-		numClusters = n;
 		if (n < 2)
 			ClusterPlot::tables.clear();
+		else
+			cluster(n);
 		if (s)
 			s->release();
 	}
@@ -1214,20 +1174,12 @@ namespace Tinkercell
 		}
 	}
 	
-	void PlotTool::clusteringToggled(bool b)
+	void PlotTool::clusteringToggled()
 	{
-		if (b)
-		{
-			bool ok = false;
-			int n = QInputDialog::getInt(this, tr("Clusters"), tr("Number of clusters: "), 1, 1, 10, 1, &ok);
-			if (ok)
-				numClusters = n;
-		}
-		else
-		{
-			numClusters = 1;
-			ClusterPlot::tables.clear();
-		}
+		bool ok = false;
+		int n = QInputDialog::getInt(this, tr("Clusters"), tr("Number of clusters: "), 1, 1, 10, 1, &ok);
+		if (ok)
+			cluster(n);
 	}
 	
 	PlotTool_FtoS PlotTool::fToS;

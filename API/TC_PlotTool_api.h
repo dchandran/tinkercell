@@ -53,11 +53,11 @@ TCAPIEXPORT void tc_multiplot(int rows, int cols);
 */
 TCAPIEXPORT void tc_holdPlot(int on);
 /*!
- \brief enable clustering, i.e. as new plots are generated, they will be clustered and each cluster will be displayed separately. Use 0 or 1 as the argument to disable clustering.
- \param int number of clusters (max 10). Use 0 or 1 to disable.
+ \brief perform clustering on plots
+ \param int number of clusters (must be > 1)
  \ingroup Plotting
 */
-TCAPIEXPORT void tc_enableClustering(int clusters);
+TCAPIEXPORT void tc_clusterPlots(int clusters);
 /*!
  \brief get the data in the plot window
  \param int index of the plot (if multiple plots are being displayed)

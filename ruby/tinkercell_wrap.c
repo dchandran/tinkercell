@@ -9085,7 +9085,7 @@ fail:
 
 
 SWIGINTERN VALUE
-_wrap_tc_enableClustering(int argc, VALUE *argv, VALUE self) {
+_wrap_tc_clusterPlots(int argc, VALUE *argv, VALUE self) {
   int arg1 ;
   int val1 ;
   int ecode1 = 0 ;
@@ -9095,10 +9095,10 @@ _wrap_tc_enableClustering(int argc, VALUE *argv, VALUE self) {
   }
   ecode1 = SWIG_AsVal_int(argv[0], &val1);
   if (!SWIG_IsOK(ecode1)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode1), Ruby_Format_TypeError( "", "int","tc_enableClustering", 1, argv[0] ));
+    SWIG_exception_fail(SWIG_ArgError(ecode1), Ruby_Format_TypeError( "", "int","tc_clusterPlots", 1, argv[0] ));
   } 
   arg1 = (int)(val1);
-  tc_enableClustering(arg1);
+  tc_clusterPlots(arg1);
   return Qnil;
 fail:
   return Qnil;
@@ -11703,7 +11703,7 @@ SWIGEXPORT void Init_tinkercell(void) {
   rb_define_module_function(mTinkercell, "tc_hist", _wrap_tc_hist, -1);
   rb_define_module_function(mTinkercell, "tc_multiplot", _wrap_tc_multiplot, -1);
   rb_define_module_function(mTinkercell, "tc_holdPlot", _wrap_tc_holdPlot, -1);
-  rb_define_module_function(mTinkercell, "tc_enableClustering", _wrap_tc_enableClustering, -1);
+  rb_define_module_function(mTinkercell, "tc_clusterPlots", _wrap_tc_clusterPlots, -1);
   rb_define_module_function(mTinkercell, "tc_getPlotData", _wrap_tc_getPlotData, -1);
   rb_define_module_function(mTinkercell, "tc_gnuplot", _wrap_tc_gnuplot, -1);
   rb_define_module_function(mTinkercell, "tc_savePlot", _wrap_tc_savePlot, -1);

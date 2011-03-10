@@ -849,9 +849,9 @@ def tc_holdPlot(*args):
   return _tinkercell.tc_holdPlot(*args)
 tc_holdPlot = _tinkercell.tc_holdPlot
 
-def tc_enableClustering(*args):
-  return _tinkercell.tc_enableClustering(*args)
-tc_enableClustering = _tinkercell.tc_enableClustering
+def tc_clusterPlots(*args):
+  return _tinkercell.tc_clusterPlots(*args)
+tc_clusterPlots = _tinkercell.tc_clusterPlots
 
 def tc_getPlotData(*args):
   return _tinkercell.tc_getPlotData(*args)

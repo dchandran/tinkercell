@@ -5526,9 +5526,9 @@ attr(`tc_holdPlot`, 'returnType') = 'void'
 attr(`tc_holdPlot`, "inputTypes") = c('integer')
 class(`tc_holdPlot`) = c("SWIGFunction", class('tc_holdPlot'))
 
-# Start of tc_enableClustering
+# Start of tc_clusterPlots
 
-`tc_enableClustering` = function(clusters)
+`tc_clusterPlots` = function(clusters)
 {
   clusters = as.integer(clusters) 
   
@@ -5536,13 +5536,13 @@ class(`tc_holdPlot`) = c("SWIGFunction", class('tc_holdPlot'))
     warning("using only the first element of clusters")
   }
   
-  .Call('R_swig_tc_enableClustering', clusters, PACKAGE='tinkercell')
+  .Call('R_swig_tc_clusterPlots', clusters, PACKAGE='tinkercell')
   
 }
 
-attr(`tc_enableClustering`, 'returnType') = 'void'
-attr(`tc_enableClustering`, "inputTypes") = c('integer')
-class(`tc_enableClustering`) = c("SWIGFunction", class('tc_enableClustering'))
+attr(`tc_clusterPlots`, 'returnType') = 'void'
+attr(`tc_clusterPlots`, "inputTypes") = c('integer')
+class(`tc_clusterPlots`) = c("SWIGFunction", class('tc_clusterPlots'))
 
 # Start of tc_getPlotData
 

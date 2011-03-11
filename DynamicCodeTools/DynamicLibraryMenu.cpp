@@ -193,8 +193,8 @@ namespace Tinkercell
 	QAction * DynamicLibraryMenu::addContextMenuItem(const QString& familyName,const QString& functionName, const QPixmap& icon0, bool showTool)
 	{
 		for (int i=0; i < graphicalTools.size(); ++i)
-			if (graphicalTools[i] && graphicalTools[i]->targetAction && graphicalTools[i]->targetAction->text()==functionName)
-				return graphicalTools[i]->targetAction;
+			if (graphicalTools[i].second && graphicalTools[i].second->targetAction && graphicalTools[i].second->targetAction->text()==functionName)
+				return graphicalTools[i].second->targetAction;
 
 		QPixmap icon = icon0;
 		if (icon.isNull())

@@ -194,7 +194,7 @@ namespace Tinkercell
 	{
 		for (int i=0; i < graphicalTools.size(); ++i)
 			if (graphicalTools[i].second && graphicalTools[i].second->targetAction.text()==functionName)
-				return graphicalTools[i].second->targetAction;
+				return &(graphicalTools[i].second->targetAction);
 
 		QPixmap icon = icon0;
 		if (icon.isNull())

@@ -10,40 +10,40 @@
         <listOfStyles>
             <style idList="circle with question" width="40" height="40">
                 <g>
-                    <ellipse cx="46.4371%" cy="50%" rx="46.4371%" ry="50%" angleStart="0" angleEnd="360" fill="shape0color" stroke="#315300" stroke-width="3" stroke-alpha="1"/>
+                    <ellipse cx="50%" cy="50%" rx="50%" ry="50%" angleStart="0" angleEnd="360" fill="shape0color" stroke="#315300" stroke-width="3" stroke-alpha="1"/>
                     <polygon fill="shape1color" stroke="#646464" stroke-width="0" stroke-alpha="1">
                         <listOfCurveSegments>
                             <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                <start x="71.6656%" y="41.8386%"/>
-                                <end x="78.9035%" y="37.9455%"/>
+                                <start x="12.5197%" y="63.9836%"/>
+                                <end x="22.0483%" y="64.5011%"/>
                             </curveSegment>
                             <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                <start x="78.9035%" y="37.9455%"/>
-                                <basePoint1 x="100%" y="86.5854%"/>
-                                <basePoint2 x="33.2037%" y="99.4371%"/>
-                                <end x="36.5414%" y="52.392%"/>
+                                <start x="22.0483%" y="64.5011%"/>
+                                <basePoint1 x="12.1534%" y="9.5782%"/>
+                                <basePoint2 x="56.2435%" y="26.1449%"/>
+                                <end x="50.0701%" y="63.1964%"/>
                             </curveSegment>
                             <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                <start x="36.5414%" y="52.392%"/>
-                                <end x="19.51%" y="53.1895%"/>
+                                <start x="50.0701%" y="63.1964%"/>
+                                <end x="72.6117%" y="62.4492%"/>
                             </curveSegment>
                             <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                <start x="19.51%" y="53.1895%"/>
-                                <end x="18.7344%" y="44.8874%"/>
+                                <start x="72.6117%" y="62.4492%"/>
+                                <end x="73.1615%" y="53.6918%"/>
                             </curveSegment>
                             <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                <start x="18.7344%" y="44.8874%"/>
-                                <end x="46.2887%" y="42.9174%"/>
+                                <start x="73.1615%" y="53.6918%"/>
+                                <end x="56.5307%" y="52.0878%"/>
                             </curveSegment>
                             <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                <start x="46.2887%" y="42.9174%"/>
-                                <basePoint1 x="31.1294%" y="86.9606%"/>
-                                <basePoint2 x="89.2881%" y="79.9718%"/>
-                                <end x="71.6656%" y="41.8386%"/>
+                                <start x="56.5307%" y="52.0878%"/>
+                                <basePoint1 x="52.9347%" y="3.15144%"/>
+                                <basePoint2 x="8.5365%" y="11.1881%"/>
+                                <end x="12.5197%" y="63.9836%"/>
                             </curveSegment>
                         </listOfCurveSegments>
                     </polygon>
-                    <rectangle x="5.29334%" y="45.3095%" width="8.18062" height="8.25517" rx="0" ry="0" fill="shape2color" stroke="#646464" stroke-width="0" stroke-alpha="1"/>
+                    <rectangle x="79.7621%" y="52.6138%" width="12.6535" height="10.7999" rx="0" ry="0" fill="shape2color" stroke="#646464" stroke-width="0" stroke-alpha="1"/>
                 </g>
             </style>
         </listOfStyles>

@@ -453,7 +453,7 @@ namespace Tinkercell
 		ItemHandle * globalHandle = 0;
 
 		bool cacheExists = false;
-		/*if (cachedModels.contains(filename) )
+		if (cachedModels.contains(filename) )
 		{
 			cache = cachedModels[ filename ];
 			if (cache && fileInfo.lastModified() == cache->time)
@@ -461,12 +461,11 @@ namespace Tinkercell
 				items = cache->items;
 				globalHandle = cache->globalHandle;
 				cacheExists = true;
-				console()->message("loaded from cache");
 			}
-		}*/
+		}
 		
 		ItemHandle * h;
-		//if (!cacheExists)
+		if (!cacheExists)
 		{
 			globalHandle = new ItemHandle;
 			loadItems(items,filename, globalHandle);
@@ -550,13 +549,13 @@ namespace Tinkercell
 				}
 		}
 
-		/*cache = new CachedModel;
+		cache = new CachedModel;
 		cache->time = fileInfo.lastModified();
 		cache->globalHandle = globalHandle->clone();
 		QList<ItemHandle*> newHandles;
 		QList<QGraphicsItem*> items2 = items;
-		cloneGraphicsItems(items2, newHandles);*/
-		//cachedModels[filename] = cache;
+		cache->items = cloneGraphicsItems(items2, newHandles);
+		cachedModels[filename] = cache;
 	}
 
 	void LoadSaveTool::loadItems(QList<QGraphicsItem*>& itemsToInsert, const QString& filename, ItemHandle * globalHandle)

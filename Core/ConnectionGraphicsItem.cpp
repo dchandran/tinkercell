@@ -276,7 +276,7 @@ namespace Tinkercell
 
 						if (copy.curveSegments[i][j]->parentItem())
 						{
-							parentNode = qgraphicsitem_cast<NodeGraphicsItem*>(copy.curveSegments[i][j]->parentItem());
+							parentNode = NodeGraphicsItem::cast(copy.curveSegments[i][j]->parentItem());
 							if (parentNode == copy.curveSegments[i].arrowEnd)
 								curveSegments[i][j]->setParentItem(curveSegments[i].arrowEnd);
 							else
@@ -394,7 +394,7 @@ namespace Tinkercell
 
 						if (copy.curveSegments[i][j]->parentItem())
 						{
-							parentNode = qgraphicsitem_cast<NodeGraphicsItem*>(copy.curveSegments[i][j]->parentItem());
+							parentNode = NodeGraphicsItem::cast(copy.curveSegments[i][j]->parentItem());
 							if (parentNode == copy.curveSegments[i].arrowEnd)
 								curveSegments[i][j]->setParentItem(curveSegments[i].arrowEnd);
 							else
@@ -577,7 +577,7 @@ namespace Tinkercell
 	{
 		for (int i=0; i < curveSegments.size(); ++i)
 		{
-			if (curveSegments[i].last() && (qgraphicsitem_cast<NodeGraphicsItem*>(curveSegments[i].last()->parentItem()) == 0)
+			if (curveSegments[i].last() && (NodeGraphicsItem::cast(curveSegments[i].last()->parentItem()) == 0)
 				&& curveSegments.size() > 1 && curveSegments[i].arrowEnd == 0)
 				return curveSegments[i].last();
 		}

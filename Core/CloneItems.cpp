@@ -172,7 +172,9 @@ namespace Tinkercell
 
         //top level handles
 		for (int i=0; i < items.size(); ++i)
-            if (!visited.contains(items[i]) && !ArrowHeadItem::cast(items[i]))
+            if (!visited.contains(items[i]) && 
+            	!ArrowHeadItem::cast(items[i]) &&
+            	!ControlPoint::cast(items[i]))
             {
                 visited << items[i];
                 handle = getHandle(items[i]);

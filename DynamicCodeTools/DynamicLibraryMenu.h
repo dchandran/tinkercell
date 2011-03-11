@@ -138,23 +138,25 @@ namespace Tinkercell
         QActionGroup actionGroup;
         /*! \brief Hash table that stores the functions in the tree widget indexed by their name. Used for callFunction method*/
         QHash<QString,QToolButton*> hashFunctionButtons;
+	/*! \brief Hash table that stores the menu functions in the tree widget indexed by their name. Used for callFunction method*/
+        QHash<QString,QAction*> hashFunctionActions;
 
         /*! \brief A generic graphical tool class that triggers an action when selected.
                                 This graphical tool is meant to serve as a user interface for C and other (Python, etc.) functions*/
         class GraphicalActionTool : public ToolGraphicsItem
         {
         public:
-            /*! \brief constructor
-                \param QPixmap icon for the tool*/
-            GraphicalActionTool(const QString& family, const QString& name, const QPixmap& pixmap, Tool*);
-            /*! \brief triggered when user selects this graphical tool*/
-            void select();
-			/*! \brief show this graphics item if the selected items belong in the corresponding family*/
-			void visible(bool);
-            /*! \brief action triggered by this graphical tool*/
-            QAction targetAction;
-			/*! \brief the target family for this graphics item*/
-			QString targetFamily;
+		/*! \brief constructor
+			\param QPixmap icon for the tool*/
+		GraphicalActionTool(const QString& family, const QString& name, const QPixmap& pixmap, Tool*);
+		/*! \brief triggered when user selects this graphical tool*/
+		void select();
+		/*! \brief show this graphics item if the selected items belong in the corresponding family*/
+		void visible(bool);
+		/*! \brief action triggered by this graphical tool*/
+		QAction targetAction;
+		/*! \brief the target family for this graphics item*/
+		QString targetFamily;
         };
         /*! \brief list of all graphical tools and their target families (also used for context menu)*/
         QList< QPair<QString,GraphicalActionTool*> > graphicalTools;

@@ -84,6 +84,9 @@ namespace Tinkercell
 
 	QToolButton * DynamicLibraryMenu::addFunction(const QString& category, const QString& functionName, const QIcon& icon0)
 	{
+		if (hashFunctionButtons.contains(functionName))
+			return hashFunctionButtons[functionName];
+
 		QIcon icon = icon0;
 		if (icon.isNull())
 			icon = QIcon(tr(":/images/function.png"));
@@ -118,6 +121,9 @@ namespace Tinkercell
 
 	QAction * DynamicLibraryMenu::addMenuItem(const QString& category, const QString& functionName, const QIcon& icon0, bool defaultAction)
 	{
+		if (hashFunctionActions.contains(functionName))
+			return hashFunctionActions[functionName];
+
 		QIcon icon = icon0;
 		if (icon.isNull())
 			icon = QIcon(tr(":/images/function.png"));
@@ -161,6 +167,7 @@ namespace Tinkercell
 			}
 
 			actionGroup.addAction(action);
+			hashFunctionActions.insert(functionName,action);
 			return action;
 	}
 
@@ -185,9 +192,14 @@ namespace Tinkercell
 
 	QAction * DynamicLibraryMenu::addContextMenuItem(const QString& familyName,const QString& functionName, const QPixmap& icon0, bool showTool)
 	{
+		for (int i=0; i < graphicalTools.size(); ++i)
+			if (graphicalTools[i] && graphicalTools[i]->targetAction && graphicalTools[i]->targetAction->text()==functionName)
+				return graphicalTools[i]->targetAction;
+
 		QPixmap icon = icon0;
 		if (icon.isNull())
 			icon.load(tr(":/images/function.png"));
+
 		GraphicalActionTool * gtool = new GraphicalActionTool(familyName, functionName,icon,this);
 		graphicalTools += QPair<QString,GraphicalActionTool*>(familyName,gtool);
 		showGraphicalTool += showTool;
@@ -356,6 +368,13 @@ namespace Tinkercell
 
 	void DynamicLibraryMenu::callFunction(QSemaphore* s, const QString& functionName)
 	{
+		if (hashFunctionActions.contains(functionName))
+		{
+			QAction * action = hashFunctionActions[functionName];
+			if (action)
+				action->trigger();
+		}
+		else
 		if (hashFunctionButtons.contains(functionName))
 		{
 			QToolButton * button = hashFunctionButtons[functionName];

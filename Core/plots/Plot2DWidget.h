@@ -44,6 +44,10 @@ namespace Tinkercell
 	class ShowHideLegendItemsWidget;
 	class PlotCurve;
 
+	/*!
+	\brief This class represents the data for one curve in a Plot2DWidget graph
+	\ingroup plotting
+	*/
 	class DataColumn : public QwtData
 	{
 	public:
@@ -61,6 +65,11 @@ namespace Tinkercell
 		friend class PlotCurve;
 	};
 	
+	/*!
+	\brief This class represents a set of curves in a Plot2DWidget graph. However, the entire set is represented as a single plot item (i.e. one legend entry) in the main plot
+	         The set of curves are plotted by pointing to different DataColumn objects and calling drawCurve again.
+	\ingroup plotting
+	*/
 	class PlotCurve: public QwtPlotCurve
 	{
 	public:
@@ -76,6 +85,10 @@ namespace Tinkercell
 		friend class DataColumn;
 	};
 	
+	/*!
+	\brief This class is used to draw the axis labels when the plot has text as axis labels
+	\ingroup plotting
+	*/
 	class DataAxisLabelDraw : public QwtScaleDraw
 	{
 		public:
@@ -86,6 +99,11 @@ namespace Tinkercell
 			QStringList labels;
 	};
 	
+	/*!
+	\brief This is the main plottigng widget. It is contained inside the Plot2DWidget. It uses PlotCurve to render the curves. 
+		The "type" variable determines what symbols to use when plotting (e.g. scatterplot uses dots instead of continuous curves)
+	\ingroup plotting
+	*/
 	class DataPlot : public QwtPlot
 	{
 		Q_OBJECT
@@ -118,6 +136,10 @@ namespace Tinkercell
 		friend class ShowHideLegendItemsWidget;
 	};
 	
+	/*!
+	\brief A widget that is used to set the pen color and size
+	\ingroup plotting
+	*/
 	class GetPenInfoDialog : public QDialog
 	{	
 		Q_OBJECT
@@ -136,6 +158,10 @@ namespace Tinkercell
 		QComboBox comboBox;
 	};
 	
+	/*!
+	\brief A widget that is used to select the curves to show/hide in all Plot2DWidgets
+	\ingroup plotting
+	*/
 	class ShowHideLegendItemsWidget : public QDialog
 	{
 		Q_OBJECT
@@ -156,7 +182,7 @@ namespace Tinkercell
 
 	/*!
 	\brief A widget containing a data plot, legend and options. Can be used to plot
-		line-plots, bar-plots, or histograms
+		line-plots, scatterplots, bar-plots, or histograms
 	\ingroup plotting
 	*/
 	class TINKERCELLEXPORT Plot2DWidget : public PlotWidget
@@ -164,28 +190,46 @@ namespace Tinkercell
 		Q_OBJECT
 		
 	public:
+		/*! \brief Default constructor*/
 		Plot2DWidget(PlotTool * parent = 0);
+		/*! \brief Get the data in the plot. If the plot contains multiple layers, then the last plot data is returned*/
 		virtual NumericalDataTable* data();
+		/*! \brief Returns true because Plot2DWidget can append data to existing plots*/
 		virtual bool canAppendData() const;
+		/*! \brief Append new data to existing plot.  The new plot will contain all plots with the same columns in same color.
+			    The new data must have the same column names*/
 		virtual void appendData(const NumericalDataTable&, const QString& title, int x = 0);
+		/*! \brief plot data with the given title and x-axis*/
 		virtual void plot(const NumericalDataTable& matrix,const QString& title,int x=0);
+		/*! \brief update the current plot's data with the new data, title and x-axis*/
 		virtual void updateData(const NumericalDataTable&, const QString& title, int x = 0);
 		
 	public slots:
+		/*! \brief set log scale for an axis*/
 		void setLogScale(int index, bool set=true);
+		/*! \brief print the current graph to file or other device*/
 		void print(QPaintDevice&);
+		/*! \brief export data. see PlotTool*/
 		void exportData(const QString&, const QString &);
+		/*! \brief set log scale for x*/
 		void logX(bool);
+		/*! \brief set log scale for y*/
 		void logY(bool);
+		/*! \brief set log scale for x or y*/
 		void logAxis(int,bool);
+		/*! \brief set title with popup asking for text*/
 		void setTitle();
+		/*! \brief set label for x-axis with popup asking for text*/
 		void setXLabel();
+		/*! \brief set label for y-axis with popup asking for text*/
 		void setYLabel();
-		
+		/*! \brief set plot title*/
 		void setTitle(const QString&);
+		/*! \brief set label for x-axis*/
 		void setXLabel(const QString&);
+		/*! \brief set label for y-axis*/
 		void setYLabel(const QString&);
-		
+		/*! \brief replot all the other Plot2DWidget that are visible in the PlotTool window*/
 		void replotAllOther2DWidgets();
 	
 	private slots:

@@ -80,7 +80,10 @@ namespace Tinkercell
 		const DataColumn & dat =  static_cast<const DataColumn &>(this->data());
 		DataColumn & col = const_cast<DataColumn&>(dat);
 		const QList<NumericalDataTable*> & list = dataPlot->dataTables;
-		for (int i=0; i < list.size(); ++i)
+		int i0 = 0;
+		if (list.size() > 10)
+			i0 = list.size() - 10;
+		for (int i=i0; i < list.size(); ++i)
 		{
 			col.dataTable = list.at(i);
 			QwtPlotCurve::drawCurve (p, style, xMap, yMap, from, to);
@@ -93,7 +96,10 @@ namespace Tinkercell
 		const DataColumn & dat =  static_cast<const DataColumn &>(this->data());
 		DataColumn & col = const_cast<DataColumn&>(dat);
 		const QList<NumericalDataTable*> & list = dataPlot->dataTables;
-		for (int i=0; i < list.size(); ++i)
+		int i0 = 0;
+		if (list.size() > 10)
+			i0 = list.size() - 10;
+		for (int i=i0; i < list.size(); ++i)
 		{
 			col.dataTable = list.at(i);
 			QwtPlotCurve::drawSymbols (p, symbol, xMap, yMap, from, to);
@@ -281,11 +287,11 @@ namespace Tinkercell
 				curve->setRenderHint(QwtPlotItem::RenderAntialiased);
 				QPen pen = penList[c];
 				
-				/*if (dataTables.size() > 1)
+				if (dataTables.size() > 1)
 				{
 					QColor color = pen.color();
 					pen.setColor(QColor(color.redF(),color.blueF(),color.greenF(),0.75));
-				}*/
+				}
 				
 				curve->setPen(pen);
 				curve->attach(this);

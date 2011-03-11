@@ -401,11 +401,7 @@ namespace Tinkercell
 			snapshotToolTip = new QSplashScreen(mainWindow);
 			snapshotToolTip->setPalette(QPalette(Qt::black));
 			snapshotToolTip->setFixedSize(256,256);
-			QRect rect;
-			if (mainWindow->currentWindow())
-				rect = mainWindow->currentWindow()->geometry();
-			else
-				rect = mainWindow->geometry();
+			QRect rect = mainWindow->geometry();
 			snapshotToolTip->setGeometry (rect.right() - 280, rect.bottom() - 280, 256, 256 );
 			QHBoxLayout * layout = new QHBoxLayout;
 			layout->setContentsMargins(1,1,1,1);

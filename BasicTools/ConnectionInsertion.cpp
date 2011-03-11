@@ -23,6 +23,8 @@ for connecting items using the connections in the ConnectionsTree
 namespace Tinkercell
 {
 	
+	QStringList ConnectionInsertion::excludeList;
+	
 	bool ConnectionInsertion::isReactant(const QString& s)
 	{
 		return !(s.toLower().contains(tr("target")) || s.toLower().contains(tr("product")));
@@ -144,6 +146,8 @@ namespace Tinkercell
 		connectionsTree = tree;
 		catalogWidget = 0;
 		selectedFamily = 0;
+		excludeList << "1 to 1" << "regulation" << "activation" << "repression";
+		
 
 		connectTCFunctions();
 		pickFamilyDialog = new QDialog(this);
@@ -1432,6 +1436,7 @@ namespace Tinkercell
 		{
 			for (int i=0; i < list.size(); ++i)
 				//if (list[i]->children().isEmpty())
+				if (!excludeList.contains(list[i]->name()))
 					leaves << list[i];
 		}
 		else

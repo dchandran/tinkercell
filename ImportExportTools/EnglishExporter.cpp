@@ -111,16 +111,6 @@ namespace Tinkercell
 			TextDataTable & participants = connectionHandles[i]->textDataTable("participants");
 			QStringList words = family.split(" ");
 			QString verb = words.last();
-			if (verb.endsWith("ation"))
-				verb.replace("ation","es to");
-			if (verb.endsWith("sion"))
-				verb.replace("sion","ses");
-			if (verb.endsWith("ction"))
-				verb.replace("ction","ces");
-			if (verb.endsWith("tion"))
-				verb.replace("tion","ts");
-			if (verb.endsWith("sis"))
-				verb.replace("sis","ses");
 			
 			QList<NodeHandle*> nodesIn = connectionHandles[i]->nodesIn(),
 											nodesOut = connectionHandles[i]->nodesOut();
@@ -155,8 +145,44 @@ namespace Tinkercell
 					out += tr("(") + participants.rowName(k) + tr(") ");
 					out += nodesOut[i]->name;
 				}
+			
+			if (nodesIn.size() == 1)
+			{
+				if (verb.endsWith("ation"))
+					verb.replace("ation","es to");
+				if (verb.endsWith("sion"))
+					verb.replace("sion","ses");
+				if (verb.endsWith("ction"))
+					verb.replace("ction","ces");
+				if (verb.endsWith("tion"))
+					verb.replace("tion","ts");
+				if (verb.endsWith("sis"))
+					verb.replace("sis","ses");
+			}
+			else
+			{
+				if (verb.endsWith("ation"))
+					verb.replace("ation","e to");
+				if (verb.endsWith("sion"))
+					verb.replace("sion","se");
+				if (verb.endsWith("ction"))
+					verb.replace("ction","ce");
+				if (verb.endsWith("tion"))
+					verb.replace("tion","t");
+				if (verb.endsWith("sis"))
+					verb.replace("sis","se");
+			}
+			
 			if (!in.isEmpty() || !out.isEmpty())
-				txt += in + tr("   ") + verb + tr("   ") + out + tr("\n");
+			{
+				if (!in.isEmpty())
+					txt += in + tr("   ");
+				txt += verb;
+				if (!out.isEmpty())
+					txt += tr("   ") + out + tr("\n");
+				else
+					txt += tr(" nothing");
+			}
 		}
 		
 		file.write(txt.toUtf8());

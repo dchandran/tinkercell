@@ -147,11 +147,7 @@ namespace Tinkercell
 					}
 					if (functionSnapshots.contains(s) && !snapshotToolTip->isVisible())
 					{
-						QRect rect;
-						if (mainWindow->currentWindow())
-							rect = mainWindow->currentWindow()->geometry();
-						else
-							rect = mainWindow->geometry();
+						QRect rect = mainWindow->geometry();
 						snapshotToolTip->setGeometry (rect.right() - 280, rect.bottom() - 280, 256, 256 );
 						snapshotIcon->setIcon(QIcon(functionSnapshots[s]));
 						snapshotIcon->setIconSize(QSize(256,256));

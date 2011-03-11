@@ -197,6 +197,8 @@ namespace Tinkercell
 		QList<QToolButton*> visibleButtons;
 		
 		static bool isReactant(const QString&);
+		
+		static QStringList excludeList;
 	};
 
 }

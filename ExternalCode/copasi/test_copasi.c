@@ -34,6 +34,7 @@ int main()
 	cSetValue(m1,"k2",1.0);
 	cSetValue(m1,"k3",1.0);
 	
+	cSetOptimizerIterations(10);
 	output = cOptimize(m1, "output.tab", params);
 	tc_printMatrixToFile("params.out", output);
 	tc_deleteMatrix(output);

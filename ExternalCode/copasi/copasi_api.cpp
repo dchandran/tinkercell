@@ -2125,7 +2125,7 @@ static void InitializeGenome(GAGenome & x)
 	RealGenome & g = (RealGenome &)x;
 	GAData * data = (GAData*)(g.geneticAlgorithm()->userData());
 	tc_matrix * params = data->params;
-	for (int i=0; i < g.size() && params->rows; ++i)
+	for (int i=0; i < g.size() && i < params->rows; ++i)
 		g.gene(i,0) = tc_getMatrixValue(*params,i,1) + mtrand() * (tc_getMatrixValue(*params,i,2) - tc_getMatrixValue(*params,i,1));
 }
 
@@ -2189,7 +2189,6 @@ static float ObjectiveForFittingTimeSeries(GAGenome & x)
 		 	break;
 		 }
 	}
-	
 	return retval;
 }
 
@@ -2286,7 +2285,7 @@ static float ObjectiveForMaximizingFormula(GAGenome & x)
    GENETIC ALGORITHM BASED OPTIMIZATION
 ***************************************************/
 static int _OPTIMIZATION_MAX_ITER = 100;
-static int _OPTIMIZATION_GENERATIONS = 1000;
+static int _OPTIMIZATION_POPULATION_SIZE = 1000;
 static double _OPTIMIZATION_MUTATION_RATE = 0.2;
 static double _OPTIMIZATION_CROSSOVER_RATE = 0.8;
 
@@ -2402,10 +2401,11 @@ tc_matrix cOptimize(copasi_model model, const char * objective, tc_matrix params
 		ga.scaling(dist);
 		ga.pReplacement(1.0);
 		ga.maximize();
-		ga.populationSize(_OPTIMIZATION_GENERATIONS);
+		ga.populationSize(_OPTIMIZATION_POPULATION_SIZE);
 		ga.nGenerations(_OPTIMIZATION_MAX_ITER);
 		ga.pMutation(_OPTIMIZATION_MUTATION_RATE);
 		ga.pCrossover(_OPTIMIZATION_CROSSOVER_RATE);
+		ga.initialize();
 		int k=0;
 		while (ga.done() != gaTrue)
 		{
@@ -2432,16 +2432,17 @@ tc_matrix cOptimize(copasi_model model, const char * objective, tc_matrix params
 			ga.scaling(dist);
 			ga.pReplacement(1.0);
 			ga.maximize();
-			ga.populationSize(_OPTIMIZATION_GENERATIONS);
+			ga.populationSize(_OPTIMIZATION_POPULATION_SIZE);
 			ga.nGenerations(_OPTIMIZATION_MAX_ITER);
 			ga.pMutation(_OPTIMIZATION_MUTATION_RATE);
 			ga.pCrossover(_OPTIMIZATION_CROSSOVER_RATE);
 			ga.minimize();
+			ga.initialize();
 			int k=0;
 			while (ga.done() != gaTrue)
 			{
 				ga.step();
-				std::cout << "gen " << ++k << "\n";
+				std::cout << "\n\ngen " << ++k << "\n";
 			}
 			pop = ga.population();
 			pop.order(GAPopulation::LOW_IS_BEST);
@@ -2458,11 +2459,12 @@ tc_matrix cOptimize(copasi_model model, const char * objective, tc_matrix params
 			ga.scaling(dist);
 			ga.pReplacement(1.0);
 			ga.maximize();
-			ga.populationSize(_OPTIMIZATION_GENERATIONS);
+			ga.populationSize(_OPTIMIZATION_POPULATION_SIZE);
 			ga.nGenerations(_OPTIMIZATION_MAX_ITER);
 			ga.pMutation(_OPTIMIZATION_MUTATION_RATE);
 			ga.pCrossover(_OPTIMIZATION_CROSSOVER_RATE);
 			ga.minimize();
+			ga.initialize();
 			int k=0;
 			while (ga.done() != gaTrue)
 			{
@@ -2492,9 +2494,9 @@ tc_matrix cOptimize(copasi_model model, const char * objective, tc_matrix params
 	return result;
 }
 
-tc_matrix cSetOptimizerGenerations(int n)
+tc_matrix cSetOptimizerSize(int n)
 {
-	_OPTIMIZATION_GENERATIONS = n;
+	_OPTIMIZATION_POPULATION_SIZE = n;
 }
 
 tc_matrix cSetOptimizerIterations(int n)

@@ -441,7 +441,7 @@ TCAPIEXPORT tc_matrix cOptimize(copasi_model model, const char * objective, tc_m
 
 TCAPIEXPORT tc_matrix cSetOptimizerIterations(int);
 
-TCAPIEXPORT tc_matrix cSetOptimizerGenerations(int);
+TCAPIEXPORT tc_matrix cSetOptimizerSize(int);
 
 TCAPIEXPORT tc_matrix cSetOptimizerMutationRate(double);
 

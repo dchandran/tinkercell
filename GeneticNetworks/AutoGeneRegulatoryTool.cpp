@@ -590,7 +590,7 @@ namespace Tinkercell
 		ItemHandle * rbs = 0;
 		QString rate, s0;
 
-		QList<ItemHandle*> targetHandles, operators;
+		QList<ItemHandle*> targetHandles, operators, repressibleOperators;
 		NodeHandle * promoter = 0;
 		QList<QString> hashStrings;
 		QList<DataTable<QString>*> oldDataTables, newDataTables;
@@ -612,6 +612,12 @@ namespace Tinkercell
 					
 					bool isProperReaction = false;
 					QList<ConnectionHandle*> connections = NodeHandle::cast(parts[i])->connections();
+					for (int j=0; j < connections.size(); ++j)
+						if (connections[j] && connections[j]->isA(tr("repression")))
+						{
+							repressibleOperators += parts[i];
+							break;
+						}
 					for (int j=0; j < connections.size(); ++j)
 						if (connections[j] &&
 							(!connections[j]->children.isEmpty() ||
@@ -687,11 +693,31 @@ namespace Tinkercell
 					{
 						bool promoterOperator = !promoter->connections().isEmpty();
 						for (int k=0; k < operators.size(); ++k)
-							if (!operators[k]->isA(tr("promoter")) || promoterOperator)
+							if (!repressibleOperators.contains(operators[k]) &&
+								(!operators[k]->isA(tr("promoter")) || 
+								operators[k] != promoter ||
+								promoterOperator))
 								if (rate.isEmpty())
 									rate = operators[k]->fullName();
 								else
 									rate += tr(" * ") + operators[k]->fullName();
+
+						for (int k=0; k < repressibleOperators.size(); ++k)
+							if (!repressibleOperators[k]->isA(tr("promoter")) || 
+								repressibleOperators[k] != promoter ||
+								promoterOperator)
+							{
+								if (k == 0)
+								{
+									if (!rate.isEmpty())
+										rate += tr("*");
+									rate += tr("(") + repressibleOperators[k]->fullName();
+								}
+								else
+									rate += tr(" + ") + repressibleOperators[k]->fullName();
+								if (k == (repressibleOperators.size()-1))
+									rate += tr(")");
+							}
 					}
 
 					if (!promoter)

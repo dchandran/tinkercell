@@ -80,10 +80,10 @@ namespace Tinkercell
 		const DataColumn & dat =  static_cast<const DataColumn &>(this->data());
 		DataColumn & col = const_cast<DataColumn&>(dat);
 		const QList<NumericalDataTable*> & list = dataPlot->dataTables;
-		int i0 = 0;
-		if (list.size() > 10)
-			i0 = list.size() - 10;
-		for (int i=i0; i < list.size(); ++i)
+		//int i0 = 0;
+		//if (list.size() > 10)
+		//	i0 = list.size() - 10;
+		for (int i=0; i < list.size(); ++i)
 		{
 			col.dataTable = list.at(i);
 			QwtPlotCurve::drawCurve (p, style, xMap, yMap, from, to);
@@ -96,10 +96,10 @@ namespace Tinkercell
 		const DataColumn & dat =  static_cast<const DataColumn &>(this->data());
 		DataColumn & col = const_cast<DataColumn&>(dat);
 		const QList<NumericalDataTable*> & list = dataPlot->dataTables;
-		int i0 = 0;
-		if (list.size() > 10)
-			i0 = list.size() - 10;
-		for (int i=i0; i < list.size(); ++i)
+		//int i0 = 0;
+		//if (list.size() > 10)
+		//	i0 = list.size() - 10;
+		for (int i=0; i < list.size(); ++i)
 		{
 			col.dataTable = list.at(i);
 			QwtPlotCurve::drawSymbols (p, symbol, xMap, yMap, from, to);

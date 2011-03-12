@@ -11,3 +11,6 @@ mv tinkercell_wrap.c ../ruby
 swig -r tinkercell.i
 mv tinkercell_wrap.c ../R
 mv tinkercell.R ../R
+swig -java tinkercell.i
+mv tinkercell_wrap.c ../java
+mv *.java ../java

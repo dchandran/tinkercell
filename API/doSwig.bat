@@ -11,3 +11,6 @@ move /Y tinkercell_wrap.c ..\ruby
 swig -r tinkercell.i
 move /Y tinkercell_wrap.c ..\R
 move /Y tinkercell.R ..\R
+swig -java tinkercell.i
+move /Y tinkercell_wrap.c ..\java
+move /Y *.java ..\java

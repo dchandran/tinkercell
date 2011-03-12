@@ -11,30 +11,25 @@ FILE(GLOB TINKERCELL_CORE_HDRS
 	CodeEditor.h
 	ConsoleWindow.h
 	CThread.h
-	plots/GnuplotTool.h
 	GraphicsScene.h
 	GraphicsView.h
 	HistoryWindow.h
-	interpreters/InterpreterThread.h
 	ItemHandle.h
 	MainWindow.h
-	plugins/MultithreadedSliderWidget.h
 	NetworkHandle.h
 	NetworkWindow.h
-	interpreters/OctaveInterpreterThread.h
+	plots/GnuplotTool.h
 	plots/Plot2DWidget.h
 	plots/Plot3DWidget.h
 	plots/PlotTextWidget.h
 	plots/PlotTool.h
 	plots/PlotWidget.h
-	interpreters/PythonInterpreterThread.h
 	TextEditor.h
 	TextGraphicsItem.h
-	plugins/TextParser.h
 	Tool.h
-	plugins/TextGraphicsTool.h
-	plugins/BasicGraphicsToolbar.h
 	fileIO/LoadSaveTool.h
+	interpreters/*.h
+	plugins/*.h
 )
 
 FILE(GLOB TINKERCELL_CORE_SRC *.cpp interpreters/*.cpp plots/*.cpp fileIO/*.cpp plugins/*.cpp)

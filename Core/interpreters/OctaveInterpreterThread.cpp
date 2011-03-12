@@ -6,14 +6,10 @@
  
 The octave interpreter that runs as a separate thread and can accept strings to parse and execute
 
-
 ****************************************************************************/
 #include <iostream>
 #include "GraphicsScene.h"
 #include "MainWindow.h"
-#include "NodeGraphicsItem.h"
-#include "ConnectionGraphicsItem.h"
-#include "TextGraphicsItem.h"
 #include "ConsoleWindow.h"
 #include "OctaveInterpreterThread.h"
 
@@ -21,16 +17,16 @@ namespace Tinkercell
 {
 	QString OctaveInterpreterThread::OCTAVE_FOLDER("octave");
 	
-    OctaveInterpreterThread::OctaveInterpreterThread(const QString & octname, const QString & dllname, MainWindow* main)
+    OctaveInterpreterThread::OctaveInterpreterThread(const QString & swiglibname, const QString & dllname, MainWindow* main)
         : InterpreterThread(dllname,main)
     {
     	fromTC = QRegExp("([A-Za-z0-9_]+)\\s*=\\s*fromTC\\s*\\(\\s*(\\s*[A-Za-z0-9_]+\\s*)\\)");
 		addpathDone = false;
     	f = 0;
-		if (octname.endsWith(QObject::tr(".oct")))
-			swigLib = loadLibrary(octname, mainWindow);
+		if (swiglibname.endsWith(QObject::tr(".oct")))
+			swigLib = loadLibrary(swiglibname, mainWindow);
 		else
-			swigLib = loadLibrary(octname + QObject::tr(".oct"), mainWindow);
+			swigLib = loadLibrary(swiglibname + QObject::tr(".oct"), mainWindow);
     }
 
     void OctaveInterpreterThread::setCPointers()
@@ -73,9 +69,9 @@ namespace Tinkercell
         if (!mainWindow || !lib || !lib->isLoaded())
 		{
 			if (lib && mainWindow && mainWindow->console())
-				mainWindow->console()->message("Could not initialize Octave");
+				mainWindow->console()->message("Failed to initialize Octave");
 			else
-				mainWindow->statusBar()->showMessage("Could not initialize Octave");
+				mainWindow->statusBar()->showMessage("Failed to initialize Octave");
 			return;
 		}
 
@@ -135,30 +131,29 @@ namespace Tinkercell
         	if (!addpathDone)
         	{
         		QString appDir = QCoreApplication::applicationDirPath();
-		        QString homeDir = MainWindow::homeDir();
-        	#ifdef Q_WS_WIN
-        		appDir.replace("/","\\\\");  //MS Windows just works differently
-        		script += QObject::tr("addpath(\"") + appDir + QObject::tr("\\\\") + OCTAVE_FOLDER + QObject::tr("\")\n");
-				if (QDir(homeDir).exists(OCTAVE_FOLDER))
+				QString homeDir = MainWindow::homeDir();
+				QString tempDir = MainWindow::tempDir();
+			
+				QStringList subdirs;
+				subdirs << allSubdirectories(appDir + tr("/") + OCTAVE_FOLDER)
+							<< allSubdirectories(homeDir + tr("/") + OCTAVE_FOLDER)
+							<< tempDir;
+			
+				for (int i=0; i < subdirs.size(); ++i)
 				{
-					homeDir.replace("/","\\\\");
-					script += QObject::tr("addpath(\"") + homeDir + QObject::tr("\\\\") + OCTAVE_FOLDER + QObject::tr("\")\n");
+					QString dir = subdirs[i];
+					#ifdef Q_WS_WIN
+						dir = dir.replace("/","\\\\");
+					#endif
+					script += tr("addpath(\"") + dir + tr("\")\n");
 				}
-	        	script += QObject::tr("addpath(\"") + tempDir + QObject::tr("\")\n");
-	        #else
-	        	script += QObject::tr("addpath(\"") + appDir + QObject::tr("/") + OCTAVE_FOLDER + QObject::tr("\")\n");
-				if (QDir(homeDir).exists(OCTAVE_FOLDER))
-					script += QObject::tr("addpath(\"") + homeDir + QObject::tr("/") + OCTAVE_FOLDER + QObject::tr("\")\n");
-	        	script += QObject::tr("addpath(\"") + tempDir + QObject::tr("\")\n");
-        	#endif
-	        	script += QObject::tr("tinkercell\n");
-	        	addpathDone = true;
-	        	
+				addpathDone = true;
+
 	        	f(script.toAscii().data(),"octav.out","octav.err");
 	        }
 		
 		#ifdef Q_WS_WIN
-			script += QObject::tr("diary on\n\n");
+			script = QObject::tr("diary on\n\n");
 			script += code;
 			script += QObject::tr("\n\ndiary off\n");
 		#else

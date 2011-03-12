@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include <jni.h>
-#include <string.h>
+#include <string>
+#include "TC_api.h"
 
 static JNIEnv * JAVAENV = 0;
 static JavaVM * JAVAVM = 0;
-static string previousClassName;
-static string previousMethodName;
+static std::string previousClassName;
+static std::string previousMethodName;
 static jclass previousClass = NULL;
 static jmethodID previousMethod = NULL;
 
@@ -29,51 +30,50 @@ extern "C"
 {
 	TCAPIEXPORT int initialize()
 	{
-	    JAVAENV = create_vm(&JAVAVM);
-	    if (JAVAENV == NULL) return 0;
+		JAVAENV = create_java_vm(&JAVAVM);
+		if (JAVAENV == NULL) return 0;
+		return 1;
 	}
 
 	TCAPIEXPORT int exec(const char * classname, const char * methodname, const char * arg)
 	{
-	    if (JAVAENV == NULL) return 0;
+		if (JAVAENV == NULL) return 0;
 
-	    jclass currentClass = NULL;
-	    jmethodID currentMethod = NULL;
-	    string currentClassName(classname);
-	    string currentMethodName(methodname);
+		jclass currentClass = NULL;
+		jmethodID currentMethod = NULL;
+		std::string currentClassName(classname);
+		std::string currentMethodName(methodname);
 
-	    if ((previousClassName == currentClassName) &&
-		(previousClass != NULL))
-	    {
-		currentClass = previousClass;
-		if ((previousMethodName == currentMethodName) &&
-		    (previousMethod != NULL))
-		    currentMethod = previousMethod;
-	    }
+		if ((previousClassName.compare(currentClassName)==0) && (previousClass != NULL))
+		{
+			currentClass = previousClass;
+			if ((previousMethodName.compare(currentMethodName)==0) && (previousMethod != NULL))
+				currentMethod = previousMethod;
+		}
 	    
-	    //Obtaining Classes
-	    if (currentClass == NULL)
-		currentClass = JAVAENV->FindClass(classname);
+		//Obtaining Classes
+		if (currentClass == NULL)
+			currentClass = JAVAENV->FindClass(classname);
 	    
-	    //Obtaining Method IDs
-	    if (currentClass != NULL && currentMethod == NULL)
-		currentMethod = env->GetStaticMethodID(currentClass,methodname,"(Ljava/lang/String;)V");
+		//Obtaining Method IDs
+		if (currentClass != NULL && currentMethod == NULL)
+			currentMethod = JAVAENV->GetStaticMethodID(currentClass,methodname,"(Ljava/lang/String;)V");
 
-	    if (currentClass != NULL && currentMethod != NULL)
-	    {
-		jstring StringArg = env->NewStringUTF("\nabcdefg\n");
-		//Calling another static method and passing string type parameter
-		env->CallStaticVoidMethod(currentClass,currentMethod,StringArg);
-		return 1;
-	    }
+		if (currentClass != NULL && currentMethod != NULL)
+		{
+			jstring StringArg = JAVAENV->NewStringUTF("\nabcdefg\n");
+			//Calling another static method and passing string type parameter
+			JAVAENV->CallStaticVoidMethod(currentClass,currentMethod,StringArg);
+			return 1;
+		}
 
-	    return 0;
+		return 0;
 	}
 
-	TCAPIEXPORT int finalize()
+	TCAPIEXPORT void finalize()
 	{
-	    int n = jvm->DestroyJavaVM();
-	    return 1;
+		if (JAVAVM)
+			int n = JAVAVM->DestroyJavaVM();
 	}
 }
 

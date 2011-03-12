@@ -7,6 +7,7 @@ ADD_SUBDIRECTORY( ruby )
 ADD_SUBDIRECTORY( perl )
 ADD_SUBDIRECTORY( octave )
 ADD_SUBDIRECTORY( R )
+ADD_SUBDIRECTORY( java )
 
 #---------------------------------------------------------------------------------------
 #   TinkerCell plugins  -- all these plugins are now loaded staticall in Main.cpp

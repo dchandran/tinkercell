@@ -51,6 +51,9 @@ namespace Tinkercell
 		/*! \brief requests main window to load all the C pointers for the C API inside the embedded library
 		*/
 		virtual void setCPointers();
+		/*! \brief get all subdirectories of the given directory, including itself
+		*/
+		static QStringList allSubdirectories(const QString& dir);
 		
 	public slots:
 		virtual void initialize();

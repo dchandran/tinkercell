@@ -10,9 +10,6 @@ The python interpreter that runs as a separate thread and can accept strings to 
 
 #include "GraphicsScene.h"
 #include "MainWindow.h"
-#include "NodeGraphicsItem.h"
-#include "ConnectionGraphicsItem.h"
-#include "TextGraphicsItem.h"
 #include "ConsoleWindow.h"
 #include "PythonInterpreterThread.h"
 
@@ -55,9 +52,9 @@ namespace Tinkercell
 		{
 			if (lib && mainWindow)
 				if (mainWindow->console())
-					mainWindow->console()->message("Could not initialize Python");
+					mainWindow->console()->message("Failed to initialize Python");
 				else
-					mainWindow->statusBar()->showMessage("Could not initialize Python");
+					mainWindow->statusBar()->showMessage("Failed to initialize Python");
 			return;
 		}
 
@@ -101,20 +98,20 @@ namespace Tinkercell
 			QString appDir = QCoreApplication::applicationDirPath();
 			QString homeDir = MainWindow::homeDir();
 			QString tempDir = MainWindow::tempDir();
-
-		#ifdef Q_WS_WIN
-			QString pydir1 = appDir.replace("/","\\\\") + tr("\\\\") + PYTHON_FOLDER;
-			QString pydir2 = homeDir.replace("/","\\\\") + tr("\\\\") + PYTHON_FOLDER;
-			QString pydir3 = tempDir.replace("/","\\\\");
-		#else
-			QString pydir1 = appDir + tr("/") + PYTHON_FOLDER;
-			QString pydir2 = homeDir + tr("/") + PYTHON_FOLDER;
-			QString pydir3 = tempDir;
-		#endif
-			script += tr("sys.path.append(\"") + pydir1 + tr("\")\n");
-			if (QDir(homeDir).exists(PYTHON_FOLDER))
-				script += tr("sys.path.append(\"") + pydir2 + tr("\")\n");
-			script += tr("sys.path.append(\"") + pydir3 + tr("\")\n");
+			
+			QStringList subdirs;
+			subdirs << allSubdirectories(appDir + tr("/") + PYTHON_FOLDER)
+						<< allSubdirectories(homeDir + tr("/") + PYTHON_FOLDER)
+						<< tempDir;
+			
+			for (int i=0; i < subdirs.size(); ++i)
+			{
+				QString dir = subdirs[i];
+				#ifdef Q_WS_WIN
+					dir = dir.replace("/","\\\\");
+				#endif
+				script += tr("sys.path.append(\"") + dir + tr("\")\n");
+			}
 			addpathDone = true;
 		}
         

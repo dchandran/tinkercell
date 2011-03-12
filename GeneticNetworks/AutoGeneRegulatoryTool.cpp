@@ -612,12 +612,16 @@ namespace Tinkercell
 					
 					bool isProperReaction = false;
 					QList<ConnectionHandle*> connections = NodeHandle::cast(parts[i])->connections();
-					for (int j=0; j < connections.size(); ++j)
-						if (connections[j] && connections[j]->isA(tr("repression")))
-						{
-							repressibleOperators += parts[i];
-							break;
-						}
+					
+					if (parts[i]->isA(tr("repressor binding site")))
+						repressibleOperators += parts[i];
+					else
+						for (int j=0; j < connections.size(); ++j)
+							if (connections[j] && connections[j]->isA(tr("repression")))
+							{
+								repressibleOperators += parts[i];
+								break;
+							}
 					for (int j=0; j < connections.size(); ++j)
 						if (connections[j] &&
 							(!connections[j]->children.isEmpty() ||

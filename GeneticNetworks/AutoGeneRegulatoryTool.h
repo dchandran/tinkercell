@@ -36,12 +36,14 @@ namespace Tinkercell
 			void partsUpstream(QSemaphore*, ItemHandle*, QList<ItemHandle*>* parts);
 			void partsDownstream(QSemaphore*, ItemHandle*, QList<ItemHandle*>* parts);
 			void alignParts(QSemaphore*,const QList<ItemHandle*>&);
+			void alignPartsOnPlasmid(QSemaphore*,ItemHandle* plasmid, const QList<ItemHandle*>& parts);
 			
 		public slots:
 			tc_items partsIn(long);
 			tc_items partsUpstream(long);
 			tc_items partsDownstream(long);
 			void alignParts(tc_items);
+			void alignPartsOnPlasmid(long, tc_items);
 	};
 
 
@@ -79,6 +81,7 @@ namespace Tinkercell
 		void partsUpstream(QSemaphore*, ItemHandle*, QList<ItemHandle*>* parts);
 		void partsDownstream(QSemaphore*, ItemHandle*, QList<ItemHandle*>* parts);
 		void alignParts(QSemaphore*,const QList<ItemHandle*>&);
+		void alignPartsOnPlasmid(QSemaphore*, ItemHandle*, const QList<ItemHandle*>&);
 		
 	private:
 		QTimeLine glowTimer;
@@ -95,6 +98,7 @@ namespace Tinkercell
 		static tc_items _partsUpstream(long);
 		static tc_items _partsDownstream(long);
 		static void _alignParts(tc_items);
+		static void _alignPartsOnPlasmid(long, tc_items);
 		
 		static AutoGeneRegulatoryTool_FtoS fToS;
 		

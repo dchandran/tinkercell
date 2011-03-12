@@ -2057,7 +2057,7 @@ namespace Tinkercell
 				if (flip)
 					w = p1.y() - nodesInPlasmid[i]->leftMostShape()->sceneBoundingRect().center().y();
 				else
-					w = nodesInPlasmid[i]->leftMostShape()->sceneBoundingRect().center().y() - p1.y() ;
+					w = nodesInPlasmid[i]->leftMostShape()->sceneBoundingRect().center().y() - p1.y();
 
 				if (p1.x() > center.x())
 				{
@@ -2391,6 +2391,136 @@ namespace Tinkercell
         tc_items A = ConvertValue(*p);
         delete p;
         return A;
+    }
+    
+    void AutoGeneRegulatoryTool::alignPartOnPlasmid(QSemaphore * sem, ItemHandle * plasmid, const QList<ItemHandle*>& partHandles)
+    {
+    	if (!plasmid || partHandles.isEmpty()) return;
+
+    	QGraphicsScene * scene = currentScene();
+    	NodeGraphicsItem * plasmidNode = 0;
+    	QList<NodeGraphicsItem*> partNodes;
+    	
+    	for (int i=0; i < plasmid->graphicsItems.size(); ++i)
+    		if (NodeGraphicsItem::cast(plasmid->graphicsItems[i]) &&
+    			plasmid->graphicsItems[i]->scene() == scene)
+    			{
+    				if (!plasmidNode)
+    					plasmidNode = NodeGraphicsItem::cast(plasmid->graphicsItems[i]);
+    				else
+    				{
+	    				QRectF rect1 = plasmidNode->sceneBoundingRect(),
+	    							 rect2 = plasmid->graphicsItems[i]->sceneBoundingRect();
+    					if ((rect1.width() * rect1.height()) < (rect2.width() * rect2.height()))
+    						plasmidNode = NodeGraphicsItem::cast(plasmid->graphicsItems[i]);
+    				}
+    			}
+
+		if (!plasmidNode) return;
+
+    	for (int i=0; i < partHandles.size(); ++i)
+			if (partHandles[i])
+			{
+				ItemHandle * part = partHandles[i];
+				NodeGraphicsItem * partNode = 0;
+				for (int j=0; j < part->graphicsItems.size(); ++j)
+					if (NodeGraphicsItem::cast(part->graphicsItems[j]) &&
+						part->graphicsItems[j]->scene() == scene)
+						{
+							if (!partNode)
+								partNode = NodeGraphicsItem::cast(part->graphicsItems[j]);
+							else
+							{
+								QRectF rect1 = partNode->sceneBoundingRect(),
+											 rect2 = part->graphicsItems[j]->sceneBoundingRect();
+								if ((rect1.width() * rect1.height()) < (rect2.width() * rect2.height()))
+									partNode = NodeGraphicsItem::cast(part->graphicsItems[j]);
+							}
+						}
+			}
+
+		if (partNodes.isEmpty()) return;
+
+    	for (int i=0; i < partNodes.size(); ++i)
+			{
+				t = partNodes[i]->sceneTransform();
+				partNodes[i]->resetToDefaults();
+				
+				boundingRect = partNodes[i]->sceneBoundingRect();
+				
+				//if ((t.m11() < 0) && (t.m22() < 0))// || (t.m12() != 0) || (t.m21() != 0))
+				//	flip = true;
+				//else
+				flip = false;
+
+				p1 = boundingRect.center();
+				qreal angle;
+				if (p1.x() == center.x())
+					if (p1.y() < center.y())
+						angle = 3.14159/2.0;
+					else
+						angle = -3.14159/2.0;
+				else
+					angle = atan((p1.y()-center.y())/(p1.x()-center.x()));
+
+				qreal w;
+				if (flip)
+					w = p1.y() - nodesInPlasmid[i]->leftMostShape()->sceneBoundingRect().center().y();
+				else
+					w = nodesInPlasmid[i]->leftMostShape()->sceneBoundingRect().center().y() - p1.y();
+
+				if (p1.x() > center.x())
+				{
+					p2.rx() = center.x() + cos(angle)*(radius + w);
+					p2.ry() = center.y() + sin(angle)*(radius + w);
+					angle += 3.14159/2.0;
+				}
+				else
+				{
+					p2.rx() = center.x() - cos(angle)*(radius + w);
+					p2.ry() = center.y() - sin(angle)*(radius + w);
+					angle -= 3.14159/2.0;
+				}
+
+				QPointF dx = p2 - p1;
+				if (!itemsToMove.contains(nodesInPlasmid[i]))
+				{
+					itemsToMove += nodesInPlasmid[i];
+					moveBy += dx;
+					rotateBy += (angle * 180/3.14159);
+					
+					NodeGraphicsItem::Shape * shape1 = nodesInPlasmid[i]->rightMostShape(),
+																* shape2 = nodesInPlasmid[i]->leftMostShape();
+					if (shape1 && shape2 && 
+						shape1->defaultBrush.color() == QColor(0,0,0) &&
+						 shape2->defaultBrush.color() == QColor(0,0,0))
+					{
+						shapes << shape1 << shape2;
+						noBrushes << QBrush(QColor(0,0,0,0)) << QBrush(QColor(0,0,0,0));
+						noPens << QPen(QColor(0,0,0,0)) << QPen(QColor(0,0,0,0));
+					}
+					
+					flips += flip;
+	
+					QList<QGraphicsItem*> & graphicsItems = nodesInPlasmid[i]->handle()->graphicsItems;
+					for (int j=0; j < graphicsItems.size(); ++j)
+						if ( nodesInPlasmid[i] != graphicsItems[j] && 
+							graphicsItems[j]->sceneBoundingRect().intersects(boundingRect.adjusted(-10,-10,10,10)))
+						{
+							itemsToMove += graphicsItems[j];
+							moveBy += (p2 - p1);
+							rotateBy += 0.0;
+							flips += false;
+						}
+				}
+			}
+			
+			if (!itemsToMove.isEmpty())
+				commands 
+						 << new TransformCommand(tr("rotate"), scene, itemsToMove, QList<QPointF>(), rotateBy, flips, flips)
+						 << new MoveCommand(scene, itemsToMove, moveBy)
+						 << new ChangeBrushAndPenCommand(tr("invisible"),shapes, noBrushes, noPens);
+		}
     }
 
 }

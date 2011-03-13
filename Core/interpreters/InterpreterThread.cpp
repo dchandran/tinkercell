@@ -84,13 +84,14 @@ namespace Tinkercell
     	QList<QDir> dirs;
     	dirs << QDir(dir);
     	for (int i=0; i < dirs.size(); ++i)
-    		if (dirs[i].exists())
+    		if (dirs[i].exists() && 
+    			dirs[i].absolutePath().contains(dir) &&
+    			!subdirs.contains(dirs[i].absolutePath()))
 	    	{
 	    		subdirs << dirs[i].absolutePath();
-    			QFileInfoList list = dirs[i].entryInfoList ( QDir::Dirs );
+    			QFileInfoList list = dirs[i].entryInfoList();
     			for (int j=0; j < list.size(); ++j)
-    				if (list[j].isDir())
-    					dirs << list[j].absoluteDir();
+    				dirs << QDir(list[j].absoluteFilePath());
     		}
     	return subdirs;
 	}

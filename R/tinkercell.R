@@ -632,6 +632,12 @@ setClass('_p_f_long_tc_strings__void',
         contains = 'CRoutinePointer')
 
 ##
+setClass('_p_f_long_tc_items__void',
+        prototype = list(parameterTypes = c('_long', '_tc_items'),
+                        returnType = '_p_f_long_tc_items__void'),
+        contains = 'CRoutinePointer')
+
+##
 setClass('_p_f_double_double_int__tc_matrix',
         prototype = list(parameterTypes = c('_double', '_double', '_int'),
                         returnType = '_p_f_double_double_int__tc_matrix'),
@@ -6211,6 +6217,25 @@ attr(`tc_alignParts`, 'returnType') = 'void'
 attr(`tc_alignParts`, "inputTypes") = c('_p_tc_items')
 class(`tc_alignParts`) = c("SWIGFunction", class('tc_alignParts'))
 
+# Start of tc_alignPartsOnPlasmid
+
+`tc_alignPartsOnPlasmid` = function(s_arg1, s_arg2)
+{
+  s_arg1 = as.integer(s_arg1) 
+  
+  if(length(s_arg1) > 1) {
+    warning("using only the first element of s_arg1")
+  }
+  
+  
+  .Call('R_swig_tc_alignPartsOnPlasmid', s_arg1, s_arg2, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_alignPartsOnPlasmid`, 'returnType') = 'void'
+attr(`tc_alignPartsOnPlasmid`, "inputTypes") = c('integer', '_p_tc_items')
+class(`tc_alignPartsOnPlasmid`) = c("SWIGFunction", class('tc_alignPartsOnPlasmid'))
+
 # Start of tc_setSequence
 
 `tc_setSequence` = function(o, s_arg2)
@@ -6232,7 +6257,7 @@ class(`tc_setSequence`) = c("SWIGFunction", class('tc_setSequence'))
 
 # Start of tc_AutoGeneRegulatoryTool_api
 
-`tc_AutoGeneRegulatoryTool_api` = function(f1, f2, f3, f4)
+`tc_AutoGeneRegulatoryTool_api` = function(f1, f2, f3, f4, f5)
 {
   if(is.function(f1)) {
     assert('...' %in% names(formals(f1)) || length(formals(f1)) >= 0)
@@ -6274,12 +6299,22 @@ class(`tc_setSequence`) = c("SWIGFunction", class('tc_setSequence'))
       f4 = f4$address
     }
   }
-  .Call('R_swig_tc_AutoGeneRegulatoryTool_api', f1, f2, f3, f4, PACKAGE='tinkercell')
+  if(is.function(f5)) {
+    assert('...' %in% names(formals(f5)) || length(formals(f5)) >= 2)
+  } else {
+    if(is.character(f5)) {
+      f5 = getNativeSymbolInfo(f5)
+    }
+    if(is(f5, "NativeSymbolInfo")) {
+      f5 = f5$address
+    }
+  }
+  .Call('R_swig_tc_AutoGeneRegulatoryTool_api', f1, f2, f3, f4, f5, PACKAGE='tinkercell')
   
 }
 
 attr(`tc_AutoGeneRegulatoryTool_api`, 'returnType') = 'void'
-attr(`tc_AutoGeneRegulatoryTool_api`, "inputTypes") = c('_p_f_long__tc_items', '_p_f_long__tc_items', '_p_f_long__tc_items', '_p_f_tc_items__void')
+attr(`tc_AutoGeneRegulatoryTool_api`, "inputTypes") = c('_p_f_long__tc_items', '_p_f_long__tc_items', '_p_f_long__tc_items', '_p_f_tc_items__void', '_p_f_long_tc_items__void')
 class(`tc_AutoGeneRegulatoryTool_api`) = c("SWIGFunction", class('tc_AutoGeneRegulatoryTool_api'))
 
 # Start of tc_exportSBML

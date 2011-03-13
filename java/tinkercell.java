@@ -800,12 +800,16 @@ public class tinkercell {
     tinkercellJNI.tc_alignParts(tc_items.getCPtr(a), a);
   }
 
+  public static void tc_alignPartsOnPlasmid(int arg0, tc_items arg1) {
+    tinkercellJNI.tc_alignPartsOnPlasmid(arg0, tc_items.getCPtr(arg1), arg1);
+  }
+
   public static void tc_setSequence(int o, String arg1) {
     tinkercellJNI.tc_setSequence(o, arg1);
   }
 
-  public static void tc_AutoGeneRegulatoryTool_api(SWIGTYPE_p_f_long__tc_items f1, SWIGTYPE_p_f_long__tc_items f2, SWIGTYPE_p_f_long__tc_items f3, SWIGTYPE_p_f_tc_items__void f4) {
-    tinkercellJNI.tc_AutoGeneRegulatoryTool_api(SWIGTYPE_p_f_long__tc_items.getCPtr(f1), SWIGTYPE_p_f_long__tc_items.getCPtr(f2), SWIGTYPE_p_f_long__tc_items.getCPtr(f3), SWIGTYPE_p_f_tc_items__void.getCPtr(f4));
+  public static void tc_AutoGeneRegulatoryTool_api(SWIGTYPE_p_f_long__tc_items f1, SWIGTYPE_p_f_long__tc_items f2, SWIGTYPE_p_f_long__tc_items f3, SWIGTYPE_p_f_tc_items__void f4, SWIGTYPE_p_f_long_tc_items__void f5) {
+    tinkercellJNI.tc_AutoGeneRegulatoryTool_api(SWIGTYPE_p_f_long__tc_items.getCPtr(f1), SWIGTYPE_p_f_long__tc_items.getCPtr(f2), SWIGTYPE_p_f_long__tc_items.getCPtr(f3), SWIGTYPE_p_f_tc_items__void.getCPtr(f4), SWIGTYPE_p_f_long_tc_items__void.getCPtr(f5));
   }
 
   public static void tc_exportSBML(String file) {

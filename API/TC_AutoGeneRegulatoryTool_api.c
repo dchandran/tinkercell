@@ -48,6 +48,17 @@ void tc_alignParts(tc_items a)
 		_tc_alignParts(a);
 }
 
+void (*_tc_alignPartsOnPlasmid)(long,tc_items) = 0;
+/*! 
+ \brief Align the given DNA parts in the order given
+ \ingroup Get and set position
+*/ TCAPIEXPORT 
+void tc_alignPartsOnPlasmid(long o, tc_items a)
+{
+	if (_tc_alignPartsOnPlasmid)
+		_tc_alignPartsOnPlasmid(o, a);
+}
+
 /*! 
  \brief Assign DNA sequence to a part
  \ingroup Get and set position
@@ -62,12 +73,17 @@ void tc_setSequence(long o, const char * s)
  \ingroup init
 */ TCAPIEXPORT 
 void tc_AutoGeneRegulatoryTool_api(
-		tc_items (*f1)(long), tc_items (*f2)(long), tc_items (*f3)(long), void (*f4)(tc_items)
+		tc_items (*f1)(long), 
+		tc_items (*f2)(long), 
+		tc_items (*f3)(long), 
+		void (*f4)(tc_items),
+		void (*f5)(long,tc_items)
 	)
 {
 	_tc_partsIn = f1;
 	_tc_partsUpstream = f2;
 	_tc_partsDownstream = f3;
 	_tc_alignParts = f4;
+	_tc_alignPartsOnPlasmid = f5;
 }
 

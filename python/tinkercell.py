@@ -961,6 +961,10 @@ def tc_alignParts(*args):
   return _tinkercell.tc_alignParts(*args)
 tc_alignParts = _tinkercell.tc_alignParts
 
+def tc_alignPartsOnPlasmid(*args):
+  return _tinkercell.tc_alignPartsOnPlasmid(*args)
+tc_alignPartsOnPlasmid = _tinkercell.tc_alignPartsOnPlasmid
+
 def tc_setSequence(*args):
   return _tinkercell.tc_setSequence(*args)
 tc_setSequence = _tinkercell.tc_setSequence

@@ -242,8 +242,9 @@ class tinkercellJNI {
   public final static native long tc_partsUpstream(int jarg1);
   public final static native long tc_partsDownstream(int jarg1);
   public final static native void tc_alignParts(long jarg1, tc_items jarg1_);
+  public final static native void tc_alignPartsOnPlasmid(int jarg1, long jarg2, tc_items jarg2_);
   public final static native void tc_setSequence(int jarg1, String jarg2);
-  public final static native void tc_AutoGeneRegulatoryTool_api(long jarg1, long jarg2, long jarg3, long jarg4);
+  public final static native void tc_AutoGeneRegulatoryTool_api(long jarg1, long jarg2, long jarg3, long jarg4, long jarg5);
   public final static native void tc_exportSBML(String jarg1);
   public final static native void tc_importSBML(String jarg1);
   public final static native void tc_SBML_api(long jarg1, long jarg2);

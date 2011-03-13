@@ -4650,6 +4650,25 @@ SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1alignParts(JNIEnv *jenv, jclass j
 }
 
 
+SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1alignPartsOnPlasmid(JNIEnv *jenv, jclass jcls, jint jarg1, jlong jarg2, jobject jarg2_) {
+  long arg1 ;
+  tc_items arg2 ;
+  tc_items *argp2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg2_;
+  arg1 = (long)jarg1; 
+  argp2 = *(tc_items **)&jarg2; 
+  if (!argp2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null tc_items");
+    return ;
+  }
+  arg2 = *argp2; 
+  tc_alignPartsOnPlasmid(arg1,arg2);
+}
+
+
 SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1setSequence(JNIEnv *jenv, jclass jcls, jint jarg1, jstring jarg2) {
   long arg1 ;
   char *arg2 = (char *) 0 ;
@@ -4667,11 +4686,12 @@ SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1setSequence(JNIEnv *jenv, jclass 
 }
 
 
-SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1AutoGeneRegulatoryTool_1api(JNIEnv *jenv, jclass jcls, jlong jarg1, jlong jarg2, jlong jarg3, jlong jarg4) {
+SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1AutoGeneRegulatoryTool_1api(JNIEnv *jenv, jclass jcls, jlong jarg1, jlong jarg2, jlong jarg3, jlong jarg4, jlong jarg5) {
   tc_items (*arg1)(long) = (tc_items (*)(long)) 0 ;
   tc_items (*arg2)(long) = (tc_items (*)(long)) 0 ;
   tc_items (*arg3)(long) = (tc_items (*)(long)) 0 ;
   void (*arg4)(tc_items) = (void (*)(tc_items)) 0 ;
+  void (*arg5)(long,tc_items) = (void (*)(long,tc_items)) 0 ;
   
   (void)jenv;
   (void)jcls;
@@ -4679,7 +4699,8 @@ SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1AutoGeneRegulatoryTool_1api(JNIEn
   arg2 = *(tc_items (**)(long))&jarg2; 
   arg3 = *(tc_items (**)(long))&jarg3; 
   arg4 = *(void (**)(tc_items))&jarg4; 
-  tc_AutoGeneRegulatoryTool_api(arg1,arg2,arg3,arg4);
+  arg5 = *(void (**)(long,tc_items))&jarg5; 
+  tc_AutoGeneRegulatoryTool_api(arg1,arg2,arg3,arg4,arg5);
 }
 
 

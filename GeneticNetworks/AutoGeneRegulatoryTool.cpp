@@ -55,6 +55,7 @@ namespace Tinkercell
 		connect(&fToS,SIGNAL(partsUpstream(QSemaphore*, ItemHandle*, QList<ItemHandle*>*)),this,SLOT(partsUpstream(QSemaphore*, ItemHandle*, QList<ItemHandle*>*)));
 		connect(&fToS,SIGNAL(partsDownstream(QSemaphore*, ItemHandle*, QList<ItemHandle*>*)),this,SLOT(partsDownstream(QSemaphore*, ItemHandle*, QList<ItemHandle*>*)));
 		connect(&fToS,SIGNAL(alignParts(QSemaphore*,const QList<ItemHandle*>&)),this,SLOT(alignParts(QSemaphore*,const QList<ItemHandle*>&)));
+		connect(&fToS,SIGNAL(alignPartsOnPlasmid(QSemaphore*,ItemHandle*, const QList<ItemHandle*>&)), this, SLOT(alignPartsOnPlasmid(QSemaphore*,ItemHandle*, const QList<ItemHandle*>&)));
 	}
 
 	void AutoGeneRegulatoryTool::autoPhosphateTriggered()
@@ -2139,7 +2140,13 @@ namespace Tinkercell
 	            C API
 	******************************************/
 
-	typedef void (*tc_GRN_api) (tc_items (*f1)(long), tc_items (*f2)(long), tc_items (*f3)(long), void (*f4)(tc_items) );
+	typedef void (*tc_GRN_api) (
+		tc_items (*f1)(long), 
+		tc_items (*f2)(long), 
+		tc_items (*f3)(long), 
+		void (*f4)(tc_items),
+		void (*f5)(long, tc_items)
+	);
 
 	void AutoGeneRegulatoryTool::setupFunctionPointers( QLibrary * library )
 	{
@@ -2150,7 +2157,8 @@ namespace Tinkercell
 				&(_partsIn),
 				&(_partsUpstream),
 				&(_partsDownstream),
-				&(_alignParts)
+				&(_alignParts),
+				&(_alignPartsOnPlasmid)
 			);
 		}
 	}
@@ -2198,6 +2206,23 @@ namespace Tinkercell
 		}
 		if (s)
 			s->release();
+	}
+	
+	void AutoGeneRegulatoryTool::_alignPartsOnPlasmid(long o, tc_items A)
+	{
+		fToS.alignPartsOnPlasmid(o,A);
+	}
+	
+	void AutoGeneRegulatoryTool_FtoS::alignPartsOnPlasmid(long o, tc_items A)
+	{
+        QList<ItemHandle*> * list = ConvertValue(A);
+		QSemaphore * s = new QSemaphore(1);
+		s->acquire();
+		emit alignPartsOnPlasmid(s, ConvertValue(o), *list);
+		s->acquire();
+		s->release();
+		delete s;
+		delete list;
 	}
 
 	void AutoGeneRegulatoryTool::_alignParts(tc_items A)
@@ -2397,7 +2422,9 @@ namespace Tinkercell
     {
     	if (!plasmid || partHandles.isEmpty()) return;
 
-    	QGraphicsScene * scene = currentScene();
+    	GraphicsScene * scene = currentScene();
+    	if (!scene || !scene->network) return;
+    	
     	NodeGraphicsItem * plasmidNode = 0;
     	QList<NodeGraphicsItem*> partNodes;
     	
@@ -2442,88 +2469,114 @@ namespace Tinkercell
 			}
 
 		if (partNodes.isEmpty()) return;
-
-    	for (int i=0; i < partNodes.size(); ++i)
-			{
-				t = partNodes[i]->sceneTransform();
-				partNodes[i]->resetToDefaults();
-				
-				boundingRect = partNodes[i]->sceneBoundingRect();
-				
-				//if ((t.m11() < 0) && (t.m22() < 0))// || (t.m12() != 0) || (t.m21() != 0))
-				//	flip = true;
-				//else
-				flip = false;
-
-				p1 = boundingRect.center();
-				qreal angle;
-				if (p1.x() == center.x())
-					if (p1.y() < center.y())
-						angle = 3.14159/2.0;
-					else
-						angle = -3.14159/2.0;
-				else
-					angle = atan((p1.y()-center.y())/(p1.x()-center.x()));
-
-				qreal w;
-				if (flip)
-					w = p1.y() - nodesInPlasmid[i]->leftMostShape()->sceneBoundingRect().center().y();
-				else
-					w = nodesInPlasmid[i]->leftMostShape()->sceneBoundingRect().center().y() - p1.y();
-
-				if (p1.x() > center.x())
-				{
-					p2.rx() = center.x() + cos(angle)*(radius + w);
-					p2.ry() = center.y() + sin(angle)*(radius + w);
-					angle += 3.14159/2.0;
-				}
-				else
-				{
-					p2.rx() = center.x() - cos(angle)*(radius + w);
-					p2.ry() = center.y() - sin(angle)*(radius + w);
-					angle -= 3.14159/2.0;
-				}
-
-				QPointF dx = p2 - p1;
-				if (!itemsToMove.contains(nodesInPlasmid[i]))
-				{
-					itemsToMove += nodesInPlasmid[i];
-					moveBy += dx;
-					rotateBy += (angle * 180/3.14159);
-					
-					NodeGraphicsItem::Shape * shape1 = nodesInPlasmid[i]->rightMostShape(),
-																* shape2 = nodesInPlasmid[i]->leftMostShape();
-					if (shape1 && shape2 && 
-						shape1->defaultBrush.color() == QColor(0,0,0) &&
-						 shape2->defaultBrush.color() == QColor(0,0,0))
-					{
-						shapes << shape1 << shape2;
-						noBrushes << QBrush(QColor(0,0,0,0)) << QBrush(QColor(0,0,0,0));
-						noPens << QPen(QColor(0,0,0,0)) << QPen(QColor(0,0,0,0));
-					}
-					
-					flips += flip;
-	
-					QList<QGraphicsItem*> & graphicsItems = nodesInPlasmid[i]->handle()->graphicsItems;
-					for (int j=0; j < graphicsItems.size(); ++j)
-						if ( nodesInPlasmid[i] != graphicsItems[j] && 
-							graphicsItems[j]->sceneBoundingRect().intersects(boundingRect.adjusted(-10,-10,10,10)))
-						{
-							itemsToMove += graphicsItems[j];
-							moveBy += (p2 - p1);
-							rotateBy += 0.0;
-							flips += false;
-						}
-				}
-			}
-			
-			if (!itemsToMove.isEmpty())
-				commands 
-						 << new TransformCommand(tr("rotate"), scene, itemsToMove, QList<QPointF>(), rotateBy, flips, flips)
-						 << new MoveCommand(scene, itemsToMove, moveBy)
-						 << new ChangeBrushAndPenCommand(tr("invisible"),shapes, noBrushes, noPens);
+		
+		QList<QUndoCommand*> commands;
+		QList<QGraphicsItem*> itemsToMove, shapes;
+		QList<QPointF> moveBy;
+		QList<qreal> rotateBy;
+		QList<bool> flips;
+		QList<QBrush> noBrushes;
+		QList<QPen> noPens;
+		
+		qreal w = 0, radius;
+		for (int i=0; i < partNodes.size(); ++i)
+			w += partNodes[i]->sceneBoundingRect().width();
+		
+		//make sure plasmid is large enough
+		QRectF boundingRect = plasmidNode->sceneBoundingRect();
+		if (boundingRect.width() < w)
+		{
+			commands << new TransformCommand(tr("plasmid size change"),  scene, plasmidNode,
+				QPointF(w/boundingRect.width(), w/boundingRect.height()),
+				0, false, false);
+			radius = w/2.0;
 		}
-    }
+		else
+		{
+			radius = boundingRect.width()/2.0;
+		}
+		
+		QPointF center = boundingRect.center();
+		QPointF p1, p2;
+		
+		//main loop for all nodes
+		qreal xpos = boundingRect.left();
+    	for (int i=0; i < partNodes.size(); ++i)
+		{
+			p1.rx() = xpos;
+			p1.ry() = boundingRect.center().y();
+			xpos += partNodes[i]->sceneBoundingRect().width();
+			
+			qreal angle;
+			if (p1.x() == center.x())
+				if (p1.y() < center.y())
+					angle = 3.14159/2.0;
+				else
+					angle = -3.14159/2.0;
+			else
+				angle = atan((p1.y()-center.y())/(p1.x()-center.x()));
+
+			w = partNodes[i]->leftMostShape()->sceneBoundingRect().center().y() - p1.y();
+
+			if (p1.x() > center.x())
+			{
+				p2.rx() = center.x() + cos(angle)*(radius + w);
+				p2.ry() = center.y() + sin(angle)*(radius + w);
+				angle += 3.14159/2.0;
+			}
+			else
+			{
+				p2.rx() = center.x() - cos(angle)*(radius + w);
+				p2.ry() = center.y() - sin(angle)*(radius + w);
+				angle -= 3.14159/2.0;
+			}
+
+			QPointF dx = p2 - p1;
+			if (!itemsToMove.contains(partNodes[i]))
+			{
+				itemsToMove += partNodes[i];
+				moveBy += dx;
+				rotateBy += (angle * 180/3.14159);
+					
+				NodeGraphicsItem::Shape * shape1 = partNodes[i]->rightMostShape(),
+											  			 * shape2 = partNodes[i]->leftMostShape();
+				if (shape1 && shape2 && 
+					shape1->defaultBrush.color() == QColor(0,0,0) &&
+					 shape2->defaultBrush.color() == QColor(0,0,0))
+				{
+					shapes << shape1 << shape2;
+					noBrushes << QBrush(QColor(0,0,0,0)) << QBrush(QColor(0,0,0,0));
+					noPens << QPen(QColor(0,0,0,0)) << QPen(QColor(0,0,0,0));
+				}
+					
+				flips += false;
+	
+				QList<QGraphicsItem*> & graphicsItems = partNodes[i]->handle()->graphicsItems;
+				for (int j=0; j < graphicsItems.size(); ++j)
+					if ( partNodes[i] != graphicsItems[j] && 
+						graphicsItems[j]->sceneBoundingRect().intersects(boundingRect.adjusted(-10,-10,10,10)))
+					{
+						itemsToMove += graphicsItems[j];
+						moveBy += (p2 - p1);
+						rotateBy += 0.0;
+						flips += false;
+					}
+			}
+		}
+
+		if (!itemsToMove.isEmpty())
+		{
+			commands 
+					 << new TransformCommand(tr("rotate"), scene, itemsToMove, QList<QPointF>(), rotateBy, flips, flips)
+					 << new MoveCommand(scene, itemsToMove, moveBy)
+					 << new ChangeBrushAndPenCommand(tr("invisible"),shapes, noBrushes, noPens);
+			
+			scene->network->push(new CompositeCommand(tr("parts aligned on plasmid"), commands));
+		}
+		
+		if (sem)
+			sem->release();
+	}
 
 }
 

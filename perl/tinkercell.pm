@@ -247,6 +247,7 @@ package tinkercell;
 *tc_partsUpstream = *tinkercellc::tc_partsUpstream;
 *tc_partsDownstream = *tinkercellc::tc_partsDownstream;
 *tc_alignParts = *tinkercellc::tc_alignParts;
+*tc_alignPartsOnPlasmid = *tinkercellc::tc_alignPartsOnPlasmid;
 *tc_setSequence = *tinkercellc::tc_setSequence;
 *tc_AutoGeneRegulatoryTool_api = *tinkercellc::tc_AutoGeneRegulatoryTool_api;
 *tc_exportSBML = *tinkercellc::tc_exportSBML;

@@ -1075,15 +1075,45 @@ namespace Tinkercell
 					item->setPen(item->defaultPen);
 
 					QList<QUndoCommand*> commands;
+					QList<ItemHandle*> handlesWithNewFamilies;
 					QList<ItemFamily*> oldFamilies;
 					
 					if (handle->family() != selectedFamily)
 					{
+						handlesWithNewFamilies << handle;
 						oldFamilies << handle->family();
 						commands << new SetHandleFamilyCommand(tr("new family"),handle,selectedFamily);
 						handle->setFamily(selectedFamily,false);
 					}
-										
+					
+					QStringList participantTypes = selectedFamily->participantTypes();
+					for (int i=0; i < selectedNodes.size(); ++i)
+					{
+						bool b = false;
+						ItemHandle * nodeHandle = selectedNodes[i]->handle();
+						if (!nodeHandle) continue;
+						
+						for (int j=0; j < participantTypes.size(); ++j)
+							if (nodeHandle->isA(participantTypes[j]))
+							{
+								b = true;
+								break;
+							}
+						if (!b)
+						{
+							for (int j=0; j < participantTypes.size(); ++j)
+								if (nodeHandle->family() && 
+										nodeHandle->family()->isParentOf(participantTypes[j]) &&
+										nodesTree->getFamily(participantTypes[j]))
+								{
+									handlesWithNewFamilies << nodeHandle;
+									
+									commands << new SetHandleFamilyCommand(tr("new family"),nodeHandle,nodesTree->getFamily(participantTypes[j]));
+									break;
+								}
+						}
+					}
+					
 					QList<ItemHandle*> handles = getHandle(insertList);
 					
 					emit aboutToInsertItems(scene, insertList, handles,commands);
@@ -1097,7 +1127,7 @@ namespace Tinkercell
 					emit insertedItems( scene, insertList, handles);
 					
 					if (!oldFamilies.isEmpty())
-						emit handleFamilyChanged(scene->network, QList<ItemHandle*>() << handle, oldFamilies);
+						emit handleFamilyChanged(scene->network, handlesWithNewFamilies, oldFamilies);
 
 					//if (catalogWidget && selectedFamily->children().isEmpty())
 						//catalogWidget->showButtons(QStringList() << selectedFamily->name());

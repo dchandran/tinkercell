@@ -32,6 +32,7 @@ namespace Tinkercell
 	**********************************/
 	
 	QStringList ItemFamily::ALLNAMES;
+	QList<const ItemFamily*> ItemFamily::ALLFAMILIES;
 	QHash<QString,int> ItemFamily::NAMETOID;
 
 	ItemFamily::ItemFamily(const QString& s): type(0)
@@ -65,6 +66,7 @@ namespace Tinkercell
 		_name = s.toLower();
 		ID = ALLNAMES.size();
 		ALLNAMES += _name;
+		ALLFAMILIES += this;
 		NAMETOID.insert( _name , ID );
 	}
 	
@@ -93,6 +95,25 @@ namespace Tinkercell
 	{
 		if (!family) return false;
 		return isA(family->ID);
+	}
+	
+	bool ItemFamily::isParentOf(const QString& name) const
+	{
+		if (!NAMETOID.contains(name)) return false;
+		int id = NAMETOID.value(name);
+		
+		if (ALLFAMILIES.size() <= id) return false;
+		
+		const ItemFamily * family = ALLFAMILIES[id];
+		
+		if (!family) return false;
+		return family->isA(ID);
+	}
+
+	bool ItemFamily::isParentOf(const ItemFamily* family) const
+	{
+		if (!family) return false;
+		return family->isA(ID);
 	}
 
 	ItemFamily * ItemFamily::root() const
@@ -335,7 +356,10 @@ namespace Tinkercell
 			{
 				if (nodes[i] && 
 					nodes[i]->family() && 
-					nodes[i]->family()->isA(nodeRoles[j].second))
+						(nodes[i]->family()->isA(nodeRoles[j].second) || 
+							(nodeRoles[j].second < ALLFAMILIES.size() && ALLFAMILIES.at(nodeRoles[j].second)->isA(nodes[i]->family()))
+						)
+					)
 				{
 					boolean1 = (boolean1  | (1 << j));
 					b = true;
@@ -361,12 +385,9 @@ namespace Tinkercell
 		//breadth first search starting from current family
 
 		ConnectionFamily * connection;
-		
-		
 
 		if (isValidSet(nodes,full))
 			validFamilies << this;
-
 
 		childFamilies << this;
 

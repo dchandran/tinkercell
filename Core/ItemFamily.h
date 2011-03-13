@@ -85,6 +85,10 @@ namespace Tinkercell
 		virtual bool isA(const QString& ) const;
 		/*! \brief indicates whether or not the given family is the name of this family or any of its parent families*/
 		virtual bool isA(const ItemFamily*) const;
+		/*! \brief indicates whether or not the given string is the name of this family or any of its child families*/
+		virtual bool isParentOf(const QString& ) const;
+		/*! \brief indicates whether or not the given family is the name of this family or any of its child families*/
+		virtual bool isParentOf(const ItemFamily*) const;
 		/*! \brief get the top-most family*/
 		virtual ItemFamily * root() const;
 		/*! \brief checks if the given family shares its root family with this family*/
@@ -115,6 +119,8 @@ namespace Tinkercell
 		int ID;
 		/*! \brief all family names. This list's lenth is used to assign the next ID*/
 		static QStringList ALLNAMES;
+		/*! \brief all families by index*/
+		static QList<const ItemFamily*> ALLFAMILIES;
 		/*! \brief the hash stores names for each ID*/
 		static QHash<QString,int> NAMETOID;
 		
@@ -157,7 +163,7 @@ namespace Tinkercell
 		/*! \brief all the parents*/
 		QList<NodeFamily*> parentFamilies;
 		/*! \brief all the families that are under this family*/
-		QList<NodeFamily*> childFamilies;;
+		QList<NodeFamily*> childFamilies;
 		
 		friend class ConnectionFamily;
 	};

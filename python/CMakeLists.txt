@@ -67,10 +67,17 @@ IF (EMBED_PYTHON)
   )
   
   IF ( WIN32 )
-    ADD_CUSTOM_COMMAND ( 
-          TARGET tcpy POST_BUILD
-          COMMAND move /Y ..\\bin\\python\\libtcpy.dll ..\\bin\\python\\_tinkercell.pyd
-     )
+     IF (MINGW)
+        ADD_CUSTOM_COMMAND ( 
+            TARGET tcpy POST_BUILD
+            COMMAND move /Y ..\\bin\\python\\libtcpy.dll ..\\bin\\python\\_tinkercell.pyd
+        )
+     ELSE (MINGW)
+        ADD_CUSTOM_COMMAND ( 
+            TARGET tcpy POST_BUILD
+            COMMAND move /Y ..\\bin\\python\\tcpy.dll ..\\bin\\python\\_tinkercell.pyd
+        )
+     ENDIF (MINGW)
      FILE(GLOB PYTHON_LOADER ${TINKERCELL_BINARY_DIR}/bin/python/_tinkercell.pyd)
   ELSE ( WIN32 )
      IF( APPLE )

@@ -10,7 +10,7 @@ IF(JAVA_JVM_LIBRARY AND JAVA_INCLUDE_PATH)
 
    MESSAGE(STATUS "Using Java library: ${JAVA_JVM_LIBRARY}")
    IF ( JAVA_INCLUDE_PATH2 )
-      INCLUDE_DIRECTORIES( BEFORE "${JAVA_INCLUDE_PATH} ${JAVA_INCLUDE_PATH2}")
+      INCLUDE_DIRECTORIES( BEFORE ${JAVA_INCLUDE_PATH} ${JAVA_INCLUDE_PATH2})
    ELSE ( JAVA_INCLUDE_PATH2 )
       INCLUDE_DIRECTORIES( BEFORE ${JAVA_INCLUDE_PATH})
    ENDIF ( JAVA_INCLUDE_PATH2 )
@@ -32,7 +32,7 @@ IF(JAVA_JVM_LIBRARY AND JAVA_INCLUDE_PATH)
    ADD_LIBRARY( tcjava
       SHARED
       runjava.cpp
-      tinkercell_wrap.c
+      #tinkercell_wrap.c
   )
 
    TARGET_LINK_LIBRARIES( tcjava
@@ -55,10 +55,17 @@ IF(JAVA_JVM_LIBRARY AND JAVA_INCLUDE_PATH)
   INSTALL(TARGETS tcjava DESTINATION java)
   
   IF ( WIN32 )    
-    ADD_CUSTOM_COMMAND (
-          TARGET swigtcjava POST_BUILD
-          COMMAND move /Y ..\\bin\\octave\\swigtcjava.dll ..\\bin\\octave\\tinkercell.dll
-      )
+    IF ( MINGW )
+       ADD_CUSTOM_COMMAND (
+             TARGET swigtcjava POST_BUILD
+             COMMAND move /Y ..\\bin\\java\\libswigtcjava.dll ..\\bin\\java\\tinkercell.dll
+         )
+    ELSE ( MINGW )
+       ADD_CUSTOM_COMMAND (
+           TARGET swigtcjava POST_BUILD
+           COMMAND move /Y ..\\bin\\java\\swigtcjava.dll ..\\bin\\java\\tinkercell.dll
+       )
+    ENDIF ( MINGW )
   ELSE ( WIN32 )
   IF( APPLE )
     ADD_CUSTOM_COMMAND (

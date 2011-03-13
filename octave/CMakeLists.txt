@@ -79,10 +79,17 @@ IF(OCTAVE_CRUFT_LIBRARY AND OCTAVE_OCTAVE_LIBRARY AND OCTAVE_OCTAVEINTERP_LIBRAR
   INSTALL(TARGETS tcoct DESTINATION octave)
   
   IF ( WIN32 )    
-    ADD_CUSTOM_COMMAND (
-          TARGET swigtcoct POST_BUILD
-          COMMAND move /Y ..\\bin\\octave\\libswigtcoct.dll ..\\bin\\octave\\tinkercell.oct
-      )
+     IF (MINGW)
+        ADD_CUSTOM_COMMAND (
+             TARGET swigtcoct POST_BUILD
+             COMMAND move /Y ..\\bin\\octave\\libswigtcoct.dll ..\\bin\\octave\\tinkercell.oct
+         )
+     ELSE (MINGW)
+	 ADD_CUSTOM_COMMAND (
+             TARGET swigtcoct POST_BUILD
+             COMMAND move /Y ..\\bin\\octave\\swigtcoct.dll ..\\bin\\octave\\tinkercell.oct
+         )
+     ENDIF (MINGW)
   ELSE ( WIN32 )
   IF( APPLE )
     ADD_CUSTOM_COMMAND (

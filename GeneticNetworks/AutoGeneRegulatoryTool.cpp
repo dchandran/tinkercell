@@ -2393,7 +2393,7 @@ namespace Tinkercell
         return A;
     }
     
-    void AutoGeneRegulatoryTool::alignPartOnPlasmid(QSemaphore * sem, ItemHandle * plasmid, const QList<ItemHandle*>& partHandles)
+    void AutoGeneRegulatoryTool::alignPartsOnPlasmid(QSemaphore * sem, ItemHandle * plasmid, const QList<ItemHandle*>& partHandles)
     {
     	if (!plasmid || partHandles.isEmpty()) return;
 
@@ -2437,6 +2437,8 @@ namespace Tinkercell
 									partNode = NodeGraphicsItem::cast(part->graphicsItems[j]);
 							}
 						}
+				if (partNode)
+					partNodes << partNode;
 			}
 
 		if (partNodes.isEmpty()) return;

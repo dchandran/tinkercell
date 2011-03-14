@@ -45,7 +45,7 @@ TCAPIEXPORT void tc_runPythonFile(const char* filename);
  \param string python script file
  \param string name of program
  \param string description of program
- \param string category where the program belongs (in the functione menu)
+ \param string category where the program belongs (in the function menu)
  \ingroup Programming
 */
 TCAPIEXPORT void tc_addPythonPlugin(const char* file,const char* name,const char* description,const char* category, const char* icon);
@@ -72,7 +72,16 @@ TCAPIEXPORT void tc_loadLibrary(const char* filename);
  \param int 0 or 1 (show in tool's menu)
  \param int 0 or 1 (make the default function when tinkercell loads)
  \ingroup Programming
+*//*! 
+ \brief initialize octave plug-in
+
+ \ingroup init
 */
+TCAPIEXPORT void tc_OctaveTool_api(
+		void (*runOctaveCode)(const char*),
+		void (*runOctaveFile)(const char*),
+		void (*addOctavePlugin)(const char*,const char*,const char*,const char*,const char*)
+);
 TCAPIEXPORT void tc_addFunction(void (*f)(), const char* title, const char* description, const char* category, const char* iconFile, const char* target_family, int show_menu, int in_tool_menu, int make_default);
 
 /*! 
@@ -91,13 +100,30 @@ TCAPIEXPORT void  tc_runOctaveFile(const char* filename);
 
 /*! 
  \brief add a Octave script to the functions menu
- \param string python script file
+ \param string octave script file
  \param string name of program
  \param string description of program
- \param string category where the program belongs (in the functione menu)
+ \param string category where the program belongs (in the function menu)
  \ingroup Programming interface
 */
 TCAPIEXPORT void  tc_addOctavePlugin(const char* file,const char* name,const char* description,const char* category, const char* icon);
+
+/*! 
+ \brief run the Java code given by the string
+ \param string java code in the form of class.method(arg)
+ \ingroup Programming interface
+*/
+TCAPIEXPORT void tc_runJavaCode(const char* code);
+
+/*! 
+ \brief add a Java method call to the functions menu
+ \param string java code in the form of class.method(arg)
+ \param string name of program
+ \param string description of program
+ \param string category where the program belongs (in the function menu)
+ \ingroup Programming interface
+*/
+TCAPIEXPORT void  tc_addJavaPlugin(const char* file,const char* name,const char* description,const char* category, const char* icon);
 
 /*! 
  \brief initialize dialogs and c interface
@@ -135,6 +161,15 @@ TCAPIEXPORT void tc_OctaveTool_api(
 		void (*runOctaveCode)(const char*),
 		void (*runOctaveFile)(const char*),
 		void (*addOctavePlugin)(const char*,const char*,const char*,const char*,const char*)
+);
+
+/*! 
+ \brief initialize java plug-in
+ \ingroup init
+*/
+TCAPIEXPORT void tc_JavaTool_api(
+		void (*runJavaCode)(const char*),
+		void (*addJavaPlugin)(const char*,const char*,const char*,const char*,const char*)
 );
 
 END_C_DECLS

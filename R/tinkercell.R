@@ -554,6 +554,12 @@ setClass('_p_f_tc_items_tc_strings__void',
         contains = 'CRoutinePointer')
 
 ##
+setClass('_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void',
+        prototype = list(parameterTypes = c('_p_char', '_p_char', '_p_char', '_p_char', '_p_char'),
+                        returnType = '_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void'),
+        contains = 'CRoutinePointer')
+
+##
 setClass('_p_f_p_q_const__char_p_q_const__char__int',
         prototype = list(parameterTypes = c('_p_char', '_p_char'),
                         returnType = '_p_f_p_q_const__char_p_q_const__char__int'),
@@ -575,12 +581,6 @@ setClass('_p_f_p_q_const__char_p_q_const__char_p_q_const__char_tc_matrix__int',
 setClass('_p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void',
         prototype = list(parameterTypes = c('_p_f___void', '_p_char', '_p_char', '_p_char', '_p_char', '_p_char', '_int', '_int', '_int'),
                         returnType = '_p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void'),
-        contains = 'CRoutinePointer')
-
-##
-setClass('_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void',
-        prototype = list(parameterTypes = c('_p_char', '_p_char', '_p_char', '_p_char', '_p_char'),
-                        returnType = '_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void'),
         contains = 'CRoutinePointer')
 
 ##
@@ -5157,6 +5157,48 @@ attr(`tc_loadLibrary`, 'returnType') = 'void'
 attr(`tc_loadLibrary`, "inputTypes") = c('character')
 class(`tc_loadLibrary`) = c("SWIGFunction", class('tc_loadLibrary'))
 
+# Start of tc_OctaveTool_api
+
+`tc_OctaveTool_api` = function(runOctaveCode, runOctaveFile, addOctavePlugin)
+{
+  if(is.function(runOctaveCode)) {
+    assert('...' %in% names(formals(runOctaveCode)) || length(formals(runOctaveCode)) >= 0)
+  } else {
+    if(is.character(runOctaveCode)) {
+      runOctaveCode = getNativeSymbolInfo(runOctaveCode)
+    }
+    if(is(runOctaveCode, "NativeSymbolInfo")) {
+      runOctaveCode = runOctaveCode$address
+    }
+  }
+  if(is.function(runOctaveFile)) {
+    assert('...' %in% names(formals(runOctaveFile)) || length(formals(runOctaveFile)) >= 0)
+  } else {
+    if(is.character(runOctaveFile)) {
+      runOctaveFile = getNativeSymbolInfo(runOctaveFile)
+    }
+    if(is(runOctaveFile, "NativeSymbolInfo")) {
+      runOctaveFile = runOctaveFile$address
+    }
+  }
+  if(is.function(addOctavePlugin)) {
+    assert('...' %in% names(formals(addOctavePlugin)) || length(formals(addOctavePlugin)) >= 5)
+  } else {
+    if(is.character(addOctavePlugin)) {
+      addOctavePlugin = getNativeSymbolInfo(addOctavePlugin)
+    }
+    if(is(addOctavePlugin, "NativeSymbolInfo")) {
+      addOctavePlugin = addOctavePlugin$address
+    }
+  }
+  .Call('R_swig_tc_OctaveTool_api', runOctaveCode, runOctaveFile, addOctavePlugin, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_OctaveTool_api`, 'returnType') = 'void'
+attr(`tc_OctaveTool_api`, "inputTypes") = c('_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void', '_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void')
+class(`tc_OctaveTool_api`) = c("SWIGFunction", class('tc_OctaveTool_api'))
+
 # Start of tc_addFunction
 
 `tc_addFunction` = function(f, title, description, category, iconFile, target_family, show_menu, in_tool_menu, make_default)
@@ -5244,6 +5286,36 @@ class(`tc_runOctaveFile`) = c("SWIGFunction", class('tc_runOctaveFile'))
 attr(`tc_addOctavePlugin`, 'returnType') = 'void'
 attr(`tc_addOctavePlugin`, "inputTypes") = c('character', 'character', 'character', 'character', 'character')
 class(`tc_addOctavePlugin`) = c("SWIGFunction", class('tc_addOctavePlugin'))
+
+# Start of tc_runJavaCode
+
+`tc_runJavaCode` = function(code)
+{
+  code = as(code, "character") 
+  .Call('R_swig_tc_runJavaCode', code, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_runJavaCode`, 'returnType') = 'void'
+attr(`tc_runJavaCode`, "inputTypes") = c('character')
+class(`tc_runJavaCode`) = c("SWIGFunction", class('tc_runJavaCode'))
+
+# Start of tc_addJavaPlugin
+
+`tc_addJavaPlugin` = function(file, name, description, category, icon)
+{
+  file = as(file, "character") 
+  name = as(name, "character") 
+  description = as(description, "character") 
+  category = as(category, "character") 
+  icon = as(icon, "character") 
+  .Call('R_swig_tc_addJavaPlugin', file, name, description, category, icon, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_addJavaPlugin`, 'returnType') = 'void'
+attr(`tc_addJavaPlugin`, "inputTypes") = c('character', 'character', 'character', 'character', 'character')
+class(`tc_addJavaPlugin`) = c("SWIGFunction", class('tc_addJavaPlugin'))
 
 # Start of tc_DynamicLibraryMenu_api
 
@@ -5354,7 +5426,7 @@ class(`tc_LoadCLibraries_api`) = c("SWIGFunction", class('tc_LoadCLibraries_api'
     }
   }
   if(is.function(addPythonPlugin)) {
-    assert('...' %in% names(formals(addPythonPlugin)) || length(formals(addPythonPlugin)) >= 5)
+    assert('...' %in% names(formals(addPythonPlugin)) || length(formals(addPythonPlugin)) >= 0)
   } else {
     if(is.character(addPythonPlugin)) {
       addPythonPlugin = getNativeSymbolInfo(addPythonPlugin)
@@ -5371,47 +5443,37 @@ attr(`tc_PythonTool_api`, 'returnType') = 'void'
 attr(`tc_PythonTool_api`, "inputTypes") = c('_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void', '_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void')
 class(`tc_PythonTool_api`) = c("SWIGFunction", class('tc_PythonTool_api'))
 
-# Start of tc_OctaveTool_api
+# Start of tc_JavaTool_api
 
-`tc_OctaveTool_api` = function(runOctaveCode, runOctaveFile, addOctavePlugin)
+`tc_JavaTool_api` = function(runJavaCode, addJavaPlugin)
 {
-  if(is.function(runOctaveCode)) {
-    assert('...' %in% names(formals(runOctaveCode)) || length(formals(runOctaveCode)) >= 0)
+  if(is.function(runJavaCode)) {
+    assert('...' %in% names(formals(runJavaCode)) || length(formals(runJavaCode)) >= 0)
   } else {
-    if(is.character(runOctaveCode)) {
-      runOctaveCode = getNativeSymbolInfo(runOctaveCode)
+    if(is.character(runJavaCode)) {
+      runJavaCode = getNativeSymbolInfo(runJavaCode)
     }
-    if(is(runOctaveCode, "NativeSymbolInfo")) {
-      runOctaveCode = runOctaveCode$address
+    if(is(runJavaCode, "NativeSymbolInfo")) {
+      runJavaCode = runJavaCode$address
     }
   }
-  if(is.function(runOctaveFile)) {
-    assert('...' %in% names(formals(runOctaveFile)) || length(formals(runOctaveFile)) >= 0)
+  if(is.function(addJavaPlugin)) {
+    assert('...' %in% names(formals(addJavaPlugin)) || length(formals(addJavaPlugin)) >= 0)
   } else {
-    if(is.character(runOctaveFile)) {
-      runOctaveFile = getNativeSymbolInfo(runOctaveFile)
+    if(is.character(addJavaPlugin)) {
+      addJavaPlugin = getNativeSymbolInfo(addJavaPlugin)
     }
-    if(is(runOctaveFile, "NativeSymbolInfo")) {
-      runOctaveFile = runOctaveFile$address
+    if(is(addJavaPlugin, "NativeSymbolInfo")) {
+      addJavaPlugin = addJavaPlugin$address
     }
   }
-  if(is.function(addOctavePlugin)) {
-    assert('...' %in% names(formals(addOctavePlugin)) || length(formals(addOctavePlugin)) >= 0)
-  } else {
-    if(is.character(addOctavePlugin)) {
-      addOctavePlugin = getNativeSymbolInfo(addOctavePlugin)
-    }
-    if(is(addOctavePlugin, "NativeSymbolInfo")) {
-      addOctavePlugin = addOctavePlugin$address
-    }
-  }
-  .Call('R_swig_tc_OctaveTool_api', runOctaveCode, runOctaveFile, addOctavePlugin, PACKAGE='tinkercell')
+  .Call('R_swig_tc_JavaTool_api', runJavaCode, addJavaPlugin, PACKAGE='tinkercell')
   
 }
 
-attr(`tc_OctaveTool_api`, 'returnType') = 'void'
-attr(`tc_OctaveTool_api`, "inputTypes") = c('_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void', '_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void')
-class(`tc_OctaveTool_api`) = c("SWIGFunction", class('tc_OctaveTool_api'))
+attr(`tc_JavaTool_api`, 'returnType') = 'void'
+attr(`tc_JavaTool_api`, "inputTypes") = c('_p_f_p_q_const__char__void', '_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void')
+class(`tc_JavaTool_api`) = c("SWIGFunction", class('tc_JavaTool_api'))
 
 # Start of tc_surface
 

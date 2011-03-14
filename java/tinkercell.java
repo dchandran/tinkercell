@@ -628,6 +628,10 @@ public class tinkercell {
     tinkercellJNI.tc_loadLibrary(filename);
   }
 
+  public static void tc_OctaveTool_api(SWIGTYPE_p_f_p_q_const__char__void runOctaveCode, SWIGTYPE_p_f_p_q_const__char__void runOctaveFile, SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void addOctavePlugin) {
+    tinkercellJNI.tc_OctaveTool_api(SWIGTYPE_p_f_p_q_const__char__void.getCPtr(runOctaveCode), SWIGTYPE_p_f_p_q_const__char__void.getCPtr(runOctaveFile), SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void.getCPtr(addOctavePlugin));
+  }
+
   public static void tc_addFunction(SWIGTYPE_p_f___void f, String title, String description, String category, String iconFile, String target_family, int show_menu, int in_tool_menu, int make_default) {
     tinkercellJNI.tc_addFunction(SWIGTYPE_p_f___void.getCPtr(f), title, description, category, iconFile, target_family, show_menu, in_tool_menu, make_default);
   }
@@ -644,6 +648,14 @@ public class tinkercell {
     tinkercellJNI.tc_addOctavePlugin(file, name, description, category, icon);
   }
 
+  public static void tc_runJavaCode(String code) {
+    tinkercellJNI.tc_runJavaCode(code);
+  }
+
+  public static void tc_addJavaPlugin(String file, String name, String description, String category, String icon) {
+    tinkercellJNI.tc_addJavaPlugin(file, name, description, category, icon);
+  }
+
   public static void tc_DynamicLibraryMenu_api(SWIGTYPE_p_f_p_q_const__char__void callFunction) {
     tinkercellJNI.tc_DynamicLibraryMenu_api(SWIGTYPE_p_f_p_q_const__char__void.getCPtr(callFunction));
   }
@@ -656,8 +668,8 @@ public class tinkercell {
     tinkercellJNI.tc_PythonTool_api(SWIGTYPE_p_f_p_q_const__char__void.getCPtr(runPythonCode), SWIGTYPE_p_f_p_q_const__char__void.getCPtr(runPythonFile), SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void.getCPtr(addPythonPlugin));
   }
 
-  public static void tc_OctaveTool_api(SWIGTYPE_p_f_p_q_const__char__void runOctaveCode, SWIGTYPE_p_f_p_q_const__char__void runOctaveFile, SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void addOctavePlugin) {
-    tinkercellJNI.tc_OctaveTool_api(SWIGTYPE_p_f_p_q_const__char__void.getCPtr(runOctaveCode), SWIGTYPE_p_f_p_q_const__char__void.getCPtr(runOctaveFile), SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void.getCPtr(addOctavePlugin));
+  public static void tc_JavaTool_api(SWIGTYPE_p_f_p_q_const__char__void runJavaCode, SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void addJavaPlugin) {
+    tinkercellJNI.tc_JavaTool_api(SWIGTYPE_p_f_p_q_const__char__void.getCPtr(runJavaCode), SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void.getCPtr(addJavaPlugin));
   }
 
   public static void tc_surface(tc_matrix z, String title) {

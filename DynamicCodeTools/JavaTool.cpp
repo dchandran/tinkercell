@@ -2,7 +2,7 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  see COPYRIGHT.TXT
- 
+
 ****************************************************************************/
 #include <QVBoxLayout>
 #include <QDockWidget>
@@ -20,21 +20,20 @@
 #include "NodeGraphicsItem.h"
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
-#include "OctaveTool.h"
-#include <QtDebug>
+#include "JavaTool.h"
 
 namespace Tinkercell
 {
-    OctaveTool::OctaveTool() : Tool(tr("Octave Interpreter"),tr("Coding")), actionsGroup(this), buttonsGroup(this)
+    JavaTool::JavaTool() : Tool(tr("Java Interpreter"),tr("Coding")), actionsGroup(this), buttonsGroup(this)
     {
-        octaveInterpreter = 0;
+        javaInterpreter = 0;
 
         connect(&actionsGroup,SIGNAL(triggered ( QAction *  )),this,SLOT(actionTriggered ( QAction *  )));
         connect(&buttonsGroup,SIGNAL(buttonPressed ( int  )),this,SLOT(buttonPressed ( int  )));
         connectTCFunctions();
     }
     
-    bool OctaveTool::loadFromDir(QDir& dir)
+    bool JavaTool::loadFromDir(QDir& dir)
     {
         QWidget * widget = mainWindow->tool(tr("Dynamic Library Menu"));
         if (widget)
@@ -45,7 +44,7 @@ namespace Tinkercell
     	return false;
     }
 
-    bool OctaveTool::loadFromDir(DynamicLibraryMenu * libMenu, QDir& dir)
+    bool JavaTool::loadFromDir(DynamicLibraryMenu * libMenu, QDir& dir)
     {
     	bool filesFound = false;
         if (!libMenu) return filesFound;
@@ -62,24 +61,25 @@ namespace Tinkercell
 		{
 			QFileInfo fileInfo = list.at(i);
 			
-			QString octFile = fileInfo.absoluteFilePath();
-			if (octFileNames.contains(octFile)) continue;
+			QString javaFile = fileInfo.absoluteFilePath();
+			if (javaFileNames.contains(javaFile)) continue;
 			
-			QFile file(octFile);
+			QFile file(javaFile);
 			if (fileInfo.completeSuffix().toLower() != tr("m") || !file.open(QFile::ReadOnly)) continue;
 			
 			QString category, name, descr, icon, specific;
 			bool menu = true, tool = true;
 			bool commentsLine = false;
 
-			while (!file.atEnd()) //inside octave script file
+			while (!file.atEnd()) //inside java script file
 			{
 				QString line(file.readLine());
 				commentsLine = line.toLower().contains(tr("#")) || line.toLower().contains(tr("%"));				
 				if (!commentsLine) continue;
 				
-				line.remove(tr("#"));
-				line.remove(tr("%"));
+				line.remove(tr("//"));
+				line.remove(tr("/*"));
+				line.remove(tr("*/"));
 				
 				QStringList words = line.split(tr(":"));
 				if (words.size() == 2)
@@ -127,8 +127,8 @@ namespace Tinkercell
 				if (QFile(homeDir + tr("/") + icon).exists())
 					icon = homeDir + tr("/") + icon;
 				else
-				if (QFile(homeDir + tr("/octave/") + icon).exists())
-					icon = homeDir + tr("/octave/") + icon;
+				if (QFile(homeDir + tr("/java/") + icon).exists())
+					icon = homeDir + tr("/java/") + icon;
 			}
 			if (icon.isEmpty() || !QFile(icon).exists())
 				icon = tr(":/images/function.png");
@@ -139,8 +139,8 @@ namespace Tinkercell
 			if (button)
 			{
 				button->setToolTip(descr);
-				buttonsGroup.addButton(button,octFileNames.size());
-				octFileNames << octFile;
+				buttonsGroup.addButton(button,javaFileNames.size());
+				javaFileNames << javaFile;
 			}
 
 			if (menu)
@@ -150,7 +150,7 @@ namespace Tinkercell
 				{
 					menuItem->setToolTip(descr);
 					actionsGroup.addAction(menuItem);
-					hashOctFile[menuItem] = octFile;
+					hashJavaCode[menuItem] = javaFile;
 				}
 			}
 
@@ -161,15 +161,15 @@ namespace Tinkercell
 				{
 					contextAction->setToolTip(descr);
 					actionsGroup.addAction(contextAction);
-					hashOctFile[contextAction] = octFile;
+					hashJavaCode[contextAction] = javaFile;
 				}
 			}
-		} //done reading one oct script file
+		} //done reading one java script file
 
 		return filesFound;
     }
 
-    bool OctaveTool::setMainWindow(MainWindow * main)
+    bool JavaTool::setMainWindow(MainWindow * main)
     {
 		Tool::setMainWindow(main);
 		if (mainWindow)
@@ -179,25 +179,25 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
 
-			octaveInterpreter = new OctaveInterpreterThread(tr("octave/tinkercell"), tr("octave/libtcoct"), mainWindow);
+			javaInterpreter = new JavaInterpreterThread(tr("java/tinkercell"), tr("java/libtcjava"), mainWindow);
 
 			if (console())
 				console()->message(tr("Running init.m...\n"));
 			
-			octaveInterpreter->initialize();
+			javaInterpreter->initialize();
 			
 			toolLoaded(0);
 
 			QString s;
 			
-			QFile file(appDir + tr("/octave/init.m"));
+			QFile file(appDir + tr("/java/init.m"));
 			if (file.open(QFile::ReadOnly | QFile::Text))
             {
                 s += file.readAll();
                 file.close();
             }
 			
-			runOctaveCode(s);
+			runJavaCode(s);
 			
 			return true;
 		}
@@ -205,7 +205,7 @@ namespace Tinkercell
 		return false;
     }
 
-    void OctaveTool::toolLoaded(Tool*)
+    void JavaTool::toolLoaded(Tool*)
     {
         static bool connected = false;
 
@@ -221,10 +221,10 @@ namespace Tinkercell
                 QString appDir = QCoreApplication::applicationDirPath();
 
                 QString name[] = {
-				  MainWindow::tempDir() + tr("/octave"),
-                  MainWindow::homeDir() + tr("/octave"),
-                  QDir::currentPath() + tr("/octave"),
-                  appDir + tr("/octave")
+					  MainWindow::tempDir() + tr("/java"),
+                  MainWindow::homeDir() + tr("/java"),
+                  QDir::currentPath() + tr("/java"),
+                  appDir + tr("/java")
                };
 
                 bool opened = false;
@@ -240,105 +240,86 @@ namespace Tinkercell
         }
     }
 
-    void OctaveTool::buttonPressed ( int id )
+    void JavaTool::buttonPressed ( int id )
     {
-        if (octFileNames.size() <= id)
+        if (javaFileNames.size() <= id)
             return;
 
-        QString octfile = octFileNames[id];
+        QString java = javaFileNames[id];
 
-        if (!octfile.isEmpty())
+        if (!java.isEmpty())
         {
-            runOctaveFile(octfile); //go
+            runJavaCode(java); //go
         }
     }
 
-    void OctaveTool::actionTriggered(QAction * item)
+    void JavaTool::actionTriggered(QAction * item)
     {
-        if (!item || !hashOctFile.contains(item))
+        if (!item || !hashJavaCode.contains(item))
             return;
 
-        QString octfile = hashOctFile[item];
+        QString java = hashJavaCode[item];
 
-        if (!octfile.isEmpty())
+        if (!java.isEmpty())
         {
-            runOctaveFile(octfile); //go
+            runJavaCode(java); //go
         }
     }
 
-    void OctaveTool::connectTCFunctions()
+    void JavaTool::connectTCFunctions()
     {
-        connect(&fToS,SIGNAL(runOctaveCode(QSemaphore*,const QString&)),this,SLOT(runOctaveCode(QSemaphore*,const QString&)));
-        connect(&fToS,SIGNAL(runOctaveFile(QSemaphore*,const QString&)),this,SLOT(runOctaveFile(QSemaphore*,const QString&)));
-        connect(&fToS,SIGNAL(addOctavePlugin(QSemaphore*,const QString&,const QString&,const QString&,const QString&, const QString&)),
-        		this,SLOT(addOctavePlugin(QSemaphore*,const QString&,const QString&,const QString&,const QString&, const QString&)));
+        connect(&fToS,SIGNAL(runJavaCode(QSemaphore*,const QString&)),this,SLOT(runJavaCode(QSemaphore*,const QString&)));
+        connect(&fToS,SIGNAL(addJavaPlugin(QSemaphore*,const QString&,const QString&,const QString&,const QString&, const QString&)),
+        		this,SLOT(addJavaPlugin(QSemaphore*,const QString&,const QString&,const QString&,const QString&, const QString&)));
     }
 
-    typedef void (*tc_OctaveTool_api)(
-            void (*runOctaveCode)(const char*),
-            void (*runOctaveFile)(const char*),
-            void (*addOctavePlugin)(const char*,const char*,const char*,const char*,const char*)
+    typedef void (*tc_JavaTool_api)(
+            void (*runJavaCode)(const char*),
+            void (*addJavaPlugin)(const char*,const char*,const char*,const char*,const char*)
             );
 
-    void OctaveTool::setupFunctionPointers( QLibrary * library)
+    void JavaTool::setupFunctionPointers( QLibrary * library)
     {
-        tc_OctaveTool_api f = (tc_OctaveTool_api)library->resolve("tc_OctaveTool_api");
+        tc_JavaTool_api f = (tc_JavaTool_api)library->resolve("tc_JavaTool_api");
         if (f)
         {
-            //qDebug() << "tc_OctaveTool_api resolved";
             f(
-                &(_runOctaveCode),
-                &(_runOctaveFile),
-                &(_addOctavePlugin)
+                &(_runJavaCode),
+                &(_addJavaPlugin)
                 );
         }
     }
 
     /******************************************************/
 
-    OctaveTool_FToS OctaveTool::fToS;
+    JavaTool_FToS JavaTool::fToS;
 
 
-    void OctaveTool::_runOctaveCode(const char* c)
+    void JavaTool::_runJavaCode(const char* c)
     {
-        return fToS.runOctaveCode(c);
-    }
-
-    void OctaveTool::_runOctaveFile(const char* c)
-    {
-        return fToS.runOctaveFile(c);
+        return fToS.runJavaCode(c);
     }
     
-    void OctaveTool::_addOctavePlugin(const char* file,const char* name,const char* descr,const char* category,const char* icon)
+    void JavaTool::_addJavaPlugin(const char* file,const char* name,const char* descr,const char* category,const char* icon)
     {
-        return fToS.addOctavePlugin(file,name,descr,category,icon);
+        return fToS.addJavaPlugin(file,name,descr,category,icon);
     }
 
-    void OctaveTool_FToS::runOctaveCode(const char* c)
+    void JavaTool_FToS::runJavaCode(const char* c)
     {
         QSemaphore * s = new QSemaphore(1);
         s->acquire();
-        emit runOctaveCode(s,ConvertValue(c));
-        s->acquire();
-        s->release();
-        delete s;
-    }
-
-    void OctaveTool_FToS::runOctaveFile(const char* c)
-    {
-        QSemaphore * s = new QSemaphore(1);
-        s->acquire();
-        emit runOctaveFile(s,ConvertValue(c));
+        emit runJavaCode(s,ConvertValue(c));
         s->acquire();
         s->release();
         delete s;
     }
     
-    void OctaveTool_FToS::addOctavePlugin(const char* file,const char* name,const char* descr,const char* category,const char* icon)
+    void JavaTool_FToS::addJavaPlugin(const char* file,const char* name,const char* descr,const char* category,const char* icon)
     {
         QSemaphore * s = new QSemaphore(1);
         s->acquire();
-        emit addOctavePlugin(s,tr(file),tr(name),tr(descr),tr(category),tr(icon));
+        emit addJavaPlugin(s,tr(file),tr(name),tr(descr),tr(category),tr(icon));
         s->acquire();
         s->release();
         delete s;
@@ -348,21 +329,14 @@ namespace Tinkercell
           OCTAVE STUFF
     *********************/
 
-    void OctaveTool::runOctaveCode(QSemaphore* sem,const QString& code)
+    void JavaTool::runJavaCode(QSemaphore* sem,const QString& code)
     {
-        runOctaveCode(code);
-        if (sem)
-            sem->release();
-    }
-
-    void OctaveTool::runOctaveFile(QSemaphore* sem,const QString& file)
-    {
-        runOctaveFile(file);
+        runJavaCode(code);
         if (sem)
             sem->release();
     }
     
-    void OctaveTool::addOctavePlugin(QSemaphore * sem,const QString& octFile,const QString& name,const QString& descr,const QString& category, const QString& icon0)
+    void JavaTool::addJavaPlugin(QSemaphore * sem,const QString& javaFile,const QString& name,const QString& descr,const QString& category, const QString& icon0)
     {
     	QWidget * widget = mainWindow->tool(tr("Dynamic Library Menu"));
         
@@ -393,8 +367,8 @@ namespace Tinkercell
 			if (QFile(homeDir + tr("/") + icon).exists())
 				icon = homeDir + tr("/") + icon;
 			else
-			if (QFile(homeDir + tr("/octave/") + icon).exists())
-				icon = homeDir + tr("/octave/") + icon;
+			if (QFile(homeDir + tr("/java/") + icon).exists())
+				icon = homeDir + tr("/java/") + icon;
 		}
 		if (icon.isEmpty() || !QFile(icon).exists())
 			icon = tr(":/images/function.png");
@@ -405,8 +379,8 @@ namespace Tinkercell
 		if (button)
 		{
 			button->setToolTip(descr);
-			buttonsGroup.addButton(button,octFileNames.size());
-			octFileNames << octFile;
+			buttonsGroup.addButton(button,javaFileNames.size());
+			javaFileNames << javaFile;
 		}
 
 		QAction * menuItem = libMenu->addMenuItem(category, name, QIcon(pixmap));
@@ -414,7 +388,7 @@ namespace Tinkercell
 		{
 			menuItem->setToolTip(descr);
 			actionsGroup.addAction(menuItem);
-			hashOctFile[menuItem] = octFile;
+			hashJavaCode[menuItem] = javaFile;
 		}
 		
 		/*
@@ -425,7 +399,7 @@ namespace Tinkercell
 			{
 				contextAction->setToolTip(descr);
 				actionsGroup.addAction(contextAction);
-				hashOctFile[contextAction] = octFile;
+				hashJavaCode[contextAction] = javaFile;
 			}
 		}*/
 			
@@ -433,50 +407,10 @@ namespace Tinkercell
     		sem->release();
     }
 
-    void OctaveTool::runOctaveCode(const QString& code)
+    void JavaTool::runJavaCode(const QString& code)
     {	
-        if (octaveInterpreter)
-            octaveInterpreter->exec(code);
-    }
-
-    void OctaveTool::runOctaveFile(const QString& filename)
-    {
-        if (octaveInterpreter)
-        {
-            QString appDir = QCoreApplication::applicationDirPath();
-
-            QString name[] = {	MainWindow::homeDir() + tr("/") + filename,
-                                MainWindow::homeDir() + tr("/octave/") + filename,
-								MainWindow::tempDir() + tr("/") + filename,
-                                MainWindow::tempDir() + tr("/octave/") + filename,
-                                filename,
-                                QDir::currentPath() + tr("/") + filename,
-                                appDir + tr("/octave/") + filename ,
-                                appDir + tr("/") + filename };
-
-            QFile file;
-            bool opened = false;
-            for (int i=0; i < 8; ++i)
-            {
-                file.setFileName(name[i]);
-                if (file.open(QFile::ReadOnly | QFile::Text))
-                {
-                    opened = true;
-                    break;
-                }
-            }
-            if (!opened)
-            {
-                if (console())
-					console()->error( filename + tr("file not found"));
-            }
-            else
-            {
-                QString code(file.readAll());
-                runOctaveCode(code);
-                file.close();
-            }
-        }
+        if (javaInterpreter)
+            javaInterpreter->exec(code);
     }
 
 }

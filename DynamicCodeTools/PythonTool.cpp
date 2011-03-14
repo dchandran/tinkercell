@@ -3,8 +3,6 @@
  Contact: Deepak Chandran (dchandran1@gmail.com)
  see COPYRIGHT.TXT
  
- Provides a toolbar with buttons that call C functions (run of separate threads)
- 
 ****************************************************************************/
 #include <QVBoxLayout>
 #include <QDockWidget>

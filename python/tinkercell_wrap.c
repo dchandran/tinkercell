@@ -9470,6 +9470,42 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_tc_OctaveTool_api(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  void (*arg1)(char const *) = (void (*)(char const *)) 0 ;
+  void (*arg2)(char const *) = (void (*)(char const *)) 0 ;
+  void (*arg3)(char const *,char const *,char const *,char const *,char const *) = (void (*)(char const *,char const *,char const *,char const *,char const *)) 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:tc_OctaveTool_api",&obj0,&obj1,&obj2)) SWIG_fail;
+  {
+    int res = SWIG_ConvertFunctionPtr(obj0, (void**)(&arg1), SWIGTYPE_p_f_p_q_const__char__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_OctaveTool_api" "', argument " "1"" of type '" "void (*)(char const *)""'"); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(obj1, (void**)(&arg2), SWIGTYPE_p_f_p_q_const__char__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_OctaveTool_api" "', argument " "2"" of type '" "void (*)(char const *)""'"); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(obj2, (void**)(&arg3), SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_OctaveTool_api" "', argument " "3"" of type '" "void (*)(char const *,char const *,char const *,char const *,char const *)""'"); 
+    }
+  }
+  tc_OctaveTool_api(arg1,arg2,arg3);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_tc_addFunction(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   void (*arg1)() = (void (*)()) 0 ;
@@ -9697,6 +9733,102 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_tc_runJavaCode(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  char *arg1 = (char *) 0 ;
+  int res1 ;
+  char *buf1 = 0 ;
+  int alloc1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:tc_runJavaCode",&obj0)) SWIG_fail;
+  res1 = SWIG_AsCharPtrAndSize(obj0, &buf1, NULL, &alloc1);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_runJavaCode" "', argument " "1"" of type '" "char const *""'");
+  }
+  arg1 = (char *)(buf1);
+  tc_runJavaCode((char const *)arg1);
+  resultobj = SWIG_Py_Void();
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  return resultobj;
+fail:
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tc_addJavaPlugin(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  char *arg1 = (char *) 0 ;
+  char *arg2 = (char *) 0 ;
+  char *arg3 = (char *) 0 ;
+  char *arg4 = (char *) 0 ;
+  char *arg5 = (char *) 0 ;
+  int res1 ;
+  char *buf1 = 0 ;
+  int alloc1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  int res3 ;
+  char *buf3 = 0 ;
+  int alloc3 = 0 ;
+  int res4 ;
+  char *buf4 = 0 ;
+  int alloc4 = 0 ;
+  int res5 ;
+  char *buf5 = 0 ;
+  int alloc5 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  PyObject * obj4 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOOOO:tc_addJavaPlugin",&obj0,&obj1,&obj2,&obj3,&obj4)) SWIG_fail;
+  res1 = SWIG_AsCharPtrAndSize(obj0, &buf1, NULL, &alloc1);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_addJavaPlugin" "', argument " "1"" of type '" "char const *""'");
+  }
+  arg1 = (char *)(buf1);
+  res2 = SWIG_AsCharPtrAndSize(obj1, &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_addJavaPlugin" "', argument " "2"" of type '" "char const *""'");
+  }
+  arg2 = (char *)(buf2);
+  res3 = SWIG_AsCharPtrAndSize(obj2, &buf3, NULL, &alloc3);
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_addJavaPlugin" "', argument " "3"" of type '" "char const *""'");
+  }
+  arg3 = (char *)(buf3);
+  res4 = SWIG_AsCharPtrAndSize(obj3, &buf4, NULL, &alloc4);
+  if (!SWIG_IsOK(res4)) {
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "tc_addJavaPlugin" "', argument " "4"" of type '" "char const *""'");
+  }
+  arg4 = (char *)(buf4);
+  res5 = SWIG_AsCharPtrAndSize(obj4, &buf5, NULL, &alloc5);
+  if (!SWIG_IsOK(res5)) {
+    SWIG_exception_fail(SWIG_ArgError(res5), "in method '" "tc_addJavaPlugin" "', argument " "5"" of type '" "char const *""'");
+  }
+  arg5 = (char *)(buf5);
+  tc_addJavaPlugin((char const *)arg1,(char const *)arg2,(char const *)arg3,(char const *)arg4,(char const *)arg5);
+  resultobj = SWIG_Py_Void();
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  if (alloc3 == SWIG_NEWOBJ) free((char*)buf3);
+  if (alloc4 == SWIG_NEWOBJ) free((char*)buf4);
+  if (alloc5 == SWIG_NEWOBJ) free((char*)buf5);
+  return resultobj;
+fail:
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  if (alloc3 == SWIG_NEWOBJ) free((char*)buf3);
+  if (alloc4 == SWIG_NEWOBJ) free((char*)buf4);
+  if (alloc5 == SWIG_NEWOBJ) free((char*)buf5);
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_tc_DynamicLibraryMenu_api(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   void (*arg1)(char const *) = (void (*)(char const *)) 0 ;
@@ -9805,35 +9937,27 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_tc_OctaveTool_api(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_tc_JavaTool_api(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   void (*arg1)(char const *) = (void (*)(char const *)) 0 ;
-  void (*arg2)(char const *) = (void (*)(char const *)) 0 ;
-  void (*arg3)(char const *,char const *,char const *,char const *,char const *) = (void (*)(char const *,char const *,char const *,char const *,char const *)) 0 ;
+  void (*arg2)(char const *,char const *,char const *,char const *,char const *) = (void (*)(char const *,char const *,char const *,char const *,char const *)) 0 ;
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
-  PyObject * obj2 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"OOO:tc_OctaveTool_api",&obj0,&obj1,&obj2)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"OO:tc_JavaTool_api",&obj0,&obj1)) SWIG_fail;
   {
     int res = SWIG_ConvertFunctionPtr(obj0, (void**)(&arg1), SWIGTYPE_p_f_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_OctaveTool_api" "', argument " "1"" of type '" "void (*)(char const *)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_JavaTool_api" "', argument " "1"" of type '" "void (*)(char const *)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(obj1, (void**)(&arg2), SWIGTYPE_p_f_p_q_const__char__void);
+    int res = SWIG_ConvertFunctionPtr(obj1, (void**)(&arg2), SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_OctaveTool_api" "', argument " "2"" of type '" "void (*)(char const *)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_JavaTool_api" "', argument " "2"" of type '" "void (*)(char const *,char const *,char const *,char const *,char const *)""'"); 
     }
   }
-  {
-    int res = SWIG_ConvertFunctionPtr(obj2, (void**)(&arg3), SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void);
-    if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_OctaveTool_api" "', argument " "3"" of type '" "void (*)(char const *,char const *,char const *,char const *,char const *)""'"); 
-    }
-  }
-  tc_OctaveTool_api(arg1,arg2,arg3);
+  tc_JavaTool_api(arg1,arg2);
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -12145,14 +12269,17 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"tc_addPythonPlugin", _wrap_tc_addPythonPlugin, METH_VARARGS, NULL},
 	 { (char *)"tc_callFunction", _wrap_tc_callFunction, METH_VARARGS, NULL},
 	 { (char *)"tc_loadLibrary", _wrap_tc_loadLibrary, METH_VARARGS, NULL},
+	 { (char *)"tc_OctaveTool_api", _wrap_tc_OctaveTool_api, METH_VARARGS, NULL},
 	 { (char *)"tc_addFunction", _wrap_tc_addFunction, METH_VARARGS, NULL},
 	 { (char *)"tc_runOctaveCode", _wrap_tc_runOctaveCode, METH_VARARGS, NULL},
 	 { (char *)"tc_runOctaveFile", _wrap_tc_runOctaveFile, METH_VARARGS, NULL},
 	 { (char *)"tc_addOctavePlugin", _wrap_tc_addOctavePlugin, METH_VARARGS, NULL},
+	 { (char *)"tc_runJavaCode", _wrap_tc_runJavaCode, METH_VARARGS, NULL},
+	 { (char *)"tc_addJavaPlugin", _wrap_tc_addJavaPlugin, METH_VARARGS, NULL},
 	 { (char *)"tc_DynamicLibraryMenu_api", _wrap_tc_DynamicLibraryMenu_api, METH_VARARGS, NULL},
 	 { (char *)"tc_LoadCLibraries_api", _wrap_tc_LoadCLibraries_api, METH_VARARGS, NULL},
 	 { (char *)"tc_PythonTool_api", _wrap_tc_PythonTool_api, METH_VARARGS, NULL},
-	 { (char *)"tc_OctaveTool_api", _wrap_tc_OctaveTool_api, METH_VARARGS, NULL},
+	 { (char *)"tc_JavaTool_api", _wrap_tc_JavaTool_api, METH_VARARGS, NULL},
 	 { (char *)"tc_surface", _wrap_tc_surface, METH_VARARGS, NULL},
 	 { (char *)"tc_plot", _wrap_tc_plot, METH_VARARGS, NULL},
 	 { (char *)"tc_scatterplot", _wrap_tc_scatterplot, METH_VARARGS, NULL},

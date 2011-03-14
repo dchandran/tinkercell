@@ -10941,6 +10941,117 @@ R_swig_tc_loadLibrary ( SEXP filename)
 }
 
 
+void _p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void(char const * s_arg1, char const * s_arg2, char const * s_arg3, char const * s_arg4, char const * s_arg5) {
+  char *arg1 = (char *) 0 ;
+  char *arg2 = (char *) 0 ;
+  char *arg3 = (char *) 0 ;
+  char *arg4 = (char *) 0 ;
+  char *arg5 = (char *) 0 ;
+  RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
+  SEXP r_tmp;
+  int r_nprotect = 0;
+  char * r_vmax= 0;
+  int ecode = 0;
+  
+  Rf_protect(r_swig_cb_data->expr = Rf_allocVector(LANGSXP, 6));
+  r_nprotect++;
+  r_swig_cb_data->el = r_swig_cb_data->expr;
+  
+  SETCAR(r_swig_cb_data->el, r_swig_cb_data->fun);
+  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
+  
+  r_tmp = SWIG_FromCharPtr((const char *)s_arg1);
+  SETCAR(r_swig_cb_data->el, r_tmp);
+  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
+  
+  r_tmp = SWIG_FromCharPtr((const char *)s_arg2);
+  SETCAR(r_swig_cb_data->el, r_tmp);
+  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
+  
+  r_tmp = SWIG_FromCharPtr((const char *)s_arg3);
+  SETCAR(r_swig_cb_data->el, r_tmp);
+  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
+  
+  r_tmp = SWIG_FromCharPtr((const char *)s_arg4);
+  SETCAR(r_swig_cb_data->el, r_tmp);
+  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
+  
+  r_tmp = SWIG_FromCharPtr((const char *)s_arg5);
+  SETCAR(r_swig_cb_data->el, r_tmp);
+  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
+  
+  
+  
+  r_swig_cb_data->retValue = R_tryEval(r_swig_cb_data->expr, R_GlobalEnv, &r_swig_cb_data->errorOccurred);
+  
+  if(r_swig_cb_data->errorOccurred) {
+    R_SWIG_popCallbackFunctionData(1);
+    Rf_error("error in calling R function as a function pointer (_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void)");
+  }
+  R_SWIG_popCallbackFunctionData(1);
+  
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  
+}
+
+
+SWIGEXPORT SEXP
+R_swig_tc_OctaveTool_api ( SEXP runOctaveCode, SEXP runOctaveFile, SEXP addOctavePlugin)
+{
+  void (*arg1)(char const *) = (void (*)(char const *)) 0 ;
+  void (*arg2)(char const *) = (void (*)(char const *)) 0 ;
+  void (*arg3)(char const *,char const *,char const *,char const *,char const *) = (void (*)(char const *,char const *,char const *,char const *,char const *)) 0 ;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  if(TYPEOF(runOctaveCode) != CLOSXP) {
+    {
+      int res = SWIG_R_ConvertPtr(runOctaveCode, (void**)(&arg1), SWIGTYPE_p_f_p_q_const__char__void, 0);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_OctaveTool_api" "', argument " "1"" of type '" "void (*)(char const *)""'"); 
+      }
+    }
+  } else {
+    arg1 = _p_f_p_q_const__char__void;
+    R_SWIG_pushCallbackFunctionData(runOctaveCode, NULL);
+  }
+  if(TYPEOF(runOctaveFile) != CLOSXP) {
+    {
+      int res = SWIG_R_ConvertPtr(runOctaveFile, (void**)(&arg2), SWIGTYPE_p_f_p_q_const__char__void, 0);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_OctaveTool_api" "', argument " "2"" of type '" "void (*)(char const *)""'"); 
+      }
+    }
+  } else {
+    arg2 = _p_f_p_q_const__char__void;
+    R_SWIG_pushCallbackFunctionData(runOctaveFile, NULL);
+  }
+  if(TYPEOF(addOctavePlugin) != CLOSXP) {
+    {
+      int res = SWIG_R_ConvertPtr(addOctavePlugin, (void**)(&arg3), SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void, 0);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_OctaveTool_api" "', argument " "3"" of type '" "void (*)(char const *,char const *,char const *,char const *,char const *)""'"); 
+      }
+    }
+  } else {
+    arg3 = _p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void;
+    R_SWIG_pushCallbackFunctionData(addOctavePlugin, NULL);
+  }
+  tc_OctaveTool_api(arg1,arg2,arg3);
+  r_ans = R_NilValue;
+  
+  
+  
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
 SWIGEXPORT SEXP
 R_swig_tc_addFunction ( SEXP f, SEXP title, SEXP description, SEXP category, SEXP iconFile, SEXP target_family, SEXP show_menu, SEXP in_tool_menu, SEXP make_default)
 {
@@ -11134,6 +11245,98 @@ R_swig_tc_addOctavePlugin ( SEXP file, SEXP name, SEXP description, SEXP categor
   }
   arg5 = (char *)(buf5);
   tc_addOctavePlugin((char const *)arg1,(char const *)arg2,(char const *)arg3,(char const *)arg4,(char const *)arg5);
+  r_ans = R_NilValue;
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  if (alloc3 == SWIG_NEWOBJ) free((char*)buf3);
+  if (alloc4 == SWIG_NEWOBJ) free((char*)buf4);
+  if (alloc5 == SWIG_NEWOBJ) free((char*)buf5);
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
+SWIGEXPORT SEXP
+R_swig_tc_runJavaCode ( SEXP code)
+{
+  char *arg1 = (char *) 0 ;
+  int res1 ;
+  char *buf1 = 0 ;
+  int alloc1 = 0 ;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  res1 = SWIG_AsCharPtrAndSize(code, &buf1, NULL, &alloc1);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_runJavaCode" "', argument " "1"" of type '" "char const *""'");
+  }
+  arg1 = (char *)(buf1);
+  tc_runJavaCode((char const *)arg1);
+  r_ans = R_NilValue;
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
+SWIGEXPORT SEXP
+R_swig_tc_addJavaPlugin ( SEXP file, SEXP name, SEXP description, SEXP category, SEXP icon)
+{
+  char *arg1 = (char *) 0 ;
+  char *arg2 = (char *) 0 ;
+  char *arg3 = (char *) 0 ;
+  char *arg4 = (char *) 0 ;
+  char *arg5 = (char *) 0 ;
+  int res1 ;
+  char *buf1 = 0 ;
+  int alloc1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  int res3 ;
+  char *buf3 = 0 ;
+  int alloc3 = 0 ;
+  int res4 ;
+  char *buf4 = 0 ;
+  int alloc4 = 0 ;
+  int res5 ;
+  char *buf5 = 0 ;
+  int alloc5 = 0 ;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  res1 = SWIG_AsCharPtrAndSize(file, &buf1, NULL, &alloc1);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_addJavaPlugin" "', argument " "1"" of type '" "char const *""'");
+  }
+  arg1 = (char *)(buf1);
+  res2 = SWIG_AsCharPtrAndSize(name, &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_addJavaPlugin" "', argument " "2"" of type '" "char const *""'");
+  }
+  arg2 = (char *)(buf2);
+  res3 = SWIG_AsCharPtrAndSize(description, &buf3, NULL, &alloc3);
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_addJavaPlugin" "', argument " "3"" of type '" "char const *""'");
+  }
+  arg3 = (char *)(buf3);
+  res4 = SWIG_AsCharPtrAndSize(category, &buf4, NULL, &alloc4);
+  if (!SWIG_IsOK(res4)) {
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "tc_addJavaPlugin" "', argument " "4"" of type '" "char const *""'");
+  }
+  arg4 = (char *)(buf4);
+  res5 = SWIG_AsCharPtrAndSize(icon, &buf5, NULL, &alloc5);
+  if (!SWIG_IsOK(res5)) {
+    SWIG_exception_fail(SWIG_ArgError(res5), "in method '" "tc_addJavaPlugin" "', argument " "5"" of type '" "char const *""'");
+  }
+  arg5 = (char *)(buf5);
+  tc_addJavaPlugin((char const *)arg1,(char const *)arg2,(char const *)arg3,(char const *)arg4,(char const *)arg5);
   r_ans = R_NilValue;
   if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
   if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
@@ -11480,62 +11683,6 @@ R_swig_tc_LoadCLibraries_api ( SEXP compileAndRun, SEXP compileBuildLoad, SEXP c
 }
 
 
-void _p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void(char const * s_arg1, char const * s_arg2, char const * s_arg3, char const * s_arg4, char const * s_arg5) {
-  char *arg1 = (char *) 0 ;
-  char *arg2 = (char *) 0 ;
-  char *arg3 = (char *) 0 ;
-  char *arg4 = (char *) 0 ;
-  char *arg5 = (char *) 0 ;
-  RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
-  SEXP r_tmp;
-  int r_nprotect = 0;
-  char * r_vmax= 0;
-  int ecode = 0;
-  
-  Rf_protect(r_swig_cb_data->expr = Rf_allocVector(LANGSXP, 6));
-  r_nprotect++;
-  r_swig_cb_data->el = r_swig_cb_data->expr;
-  
-  SETCAR(r_swig_cb_data->el, r_swig_cb_data->fun);
-  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
-  
-  r_tmp = SWIG_FromCharPtr((const char *)s_arg1);
-  SETCAR(r_swig_cb_data->el, r_tmp);
-  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
-  
-  r_tmp = SWIG_FromCharPtr((const char *)s_arg2);
-  SETCAR(r_swig_cb_data->el, r_tmp);
-  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
-  
-  r_tmp = SWIG_FromCharPtr((const char *)s_arg3);
-  SETCAR(r_swig_cb_data->el, r_tmp);
-  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
-  
-  r_tmp = SWIG_FromCharPtr((const char *)s_arg4);
-  SETCAR(r_swig_cb_data->el, r_tmp);
-  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
-  
-  r_tmp = SWIG_FromCharPtr((const char *)s_arg5);
-  SETCAR(r_swig_cb_data->el, r_tmp);
-  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
-  
-  
-  
-  r_swig_cb_data->retValue = R_tryEval(r_swig_cb_data->expr, R_GlobalEnv, &r_swig_cb_data->errorOccurred);
-  
-  if(r_swig_cb_data->errorOccurred) {
-    R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void)");
-  }
-  R_SWIG_popCallbackFunctionData(1);
-  
-  vmaxset(r_vmax);
-  if(r_nprotect)  Rf_unprotect(r_nprotect);
-  
-  
-}
-
-
 SWIGEXPORT SEXP
 R_swig_tc_PythonTool_api ( SEXP runPythonCode, SEXP runPythonFile, SEXP addPythonPlugin)
 {
@@ -11592,51 +11739,38 @@ R_swig_tc_PythonTool_api ( SEXP runPythonCode, SEXP runPythonFile, SEXP addPytho
 
 
 SWIGEXPORT SEXP
-R_swig_tc_OctaveTool_api ( SEXP runOctaveCode, SEXP runOctaveFile, SEXP addOctavePlugin)
+R_swig_tc_JavaTool_api ( SEXP runJavaCode, SEXP addJavaPlugin)
 {
   void (*arg1)(char const *) = (void (*)(char const *)) 0 ;
-  void (*arg2)(char const *) = (void (*)(char const *)) 0 ;
-  void (*arg3)(char const *,char const *,char const *,char const *,char const *) = (void (*)(char const *,char const *,char const *,char const *,char const *)) 0 ;
+  void (*arg2)(char const *,char const *,char const *,char const *,char const *) = (void (*)(char const *,char const *,char const *,char const *,char const *)) 0 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  if(TYPEOF(runOctaveCode) != CLOSXP) {
+  if(TYPEOF(runJavaCode) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(runOctaveCode, (void**)(&arg1), SWIGTYPE_p_f_p_q_const__char__void, 0);
+      int res = SWIG_R_ConvertPtr(runJavaCode, (void**)(&arg1), SWIGTYPE_p_f_p_q_const__char__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_OctaveTool_api" "', argument " "1"" of type '" "void (*)(char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_JavaTool_api" "', argument " "1"" of type '" "void (*)(char const *)""'"); 
       }
     }
   } else {
     arg1 = _p_f_p_q_const__char__void;
-    R_SWIG_pushCallbackFunctionData(runOctaveCode, NULL);
+    R_SWIG_pushCallbackFunctionData(runJavaCode, NULL);
   }
-  if(TYPEOF(runOctaveFile) != CLOSXP) {
+  if(TYPEOF(addJavaPlugin) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(runOctaveFile, (void**)(&arg2), SWIGTYPE_p_f_p_q_const__char__void, 0);
+      int res = SWIG_R_ConvertPtr(addJavaPlugin, (void**)(&arg2), SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_OctaveTool_api" "', argument " "2"" of type '" "void (*)(char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_JavaTool_api" "', argument " "2"" of type '" "void (*)(char const *,char const *,char const *,char const *,char const *)""'"); 
       }
     }
   } else {
-    arg2 = _p_f_p_q_const__char__void;
-    R_SWIG_pushCallbackFunctionData(runOctaveFile, NULL);
+    arg2 = _p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void;
+    R_SWIG_pushCallbackFunctionData(addJavaPlugin, NULL);
   }
-  if(TYPEOF(addOctavePlugin) != CLOSXP) {
-    {
-      int res = SWIG_R_ConvertPtr(addOctavePlugin, (void**)(&arg3), SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void, 0);
-      if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_OctaveTool_api" "', argument " "3"" of type '" "void (*)(char const *,char const *,char const *,char const *,char const *)""'"); 
-      }
-    }
-  } else {
-    arg3 = _p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void;
-    R_SWIG_pushCallbackFunctionData(addOctavePlugin, NULL);
-  }
-  tc_OctaveTool_api(arg1,arg2,arg3);
+  tc_JavaTool_api(arg1,arg2);
   r_ans = R_NilValue;
-  
   
   
   vmaxset(r_vmax);
@@ -15313,8 +15447,9 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_getParent", (DL_FUNC) &R_swig_tc_getParent, 2},
    {"R_swig_tc_GroupHandlerTool_api", (DL_FUNC) &R_swig_tc_GroupHandlerTool_api, 2},
    {"R_swig_tc_StoichiometryTool_api", (DL_FUNC) &R_swig_tc_StoichiometryTool_api, 4},
-   {"R_swig_tc_PythonTool_api", (DL_FUNC) &R_swig_tc_PythonTool_api, 3},
    {"R_swig_tc_OctaveTool_api", (DL_FUNC) &R_swig_tc_OctaveTool_api, 3},
+   {"R_swig_tc_PythonTool_api", (DL_FUNC) &R_swig_tc_PythonTool_api, 3},
+   {"R_swig_tc_JavaTool_api", (DL_FUNC) &R_swig_tc_JavaTool_api, 2},
    {"R_swig_tc_PlotTool_api", (DL_FUNC) &R_swig_tc_PlotTool_api, 12},
    {"R_swig_tc_SimulationEventsTool_api", (DL_FUNC) &R_swig_tc_SimulationEventsTool_api, 3},
    {"R_swig_tc_AssignmentFunctionsTool_api", (DL_FUNC) &R_swig_tc_AssignmentFunctionsTool_api, 3},
@@ -15459,6 +15594,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_setSize", (DL_FUNC) &R_swig_tc_setSize, 3},
    {"R_swig_tc_rotate", (DL_FUNC) &R_swig_tc_rotate, 2},
    {"R_swig_tc_addOctavePlugin", (DL_FUNC) &R_swig_tc_addOctavePlugin, 5},
+   {"R_swig_tc_addJavaPlugin", (DL_FUNC) &R_swig_tc_addJavaPlugin, 5},
    {"R_swig_tc_displayText", (DL_FUNC) &R_swig_tc_displayText, 2},
    {"R_swig_tc_merge", (DL_FUNC) &R_swig_tc_merge, 1},
    {"R_swig_tc_getParametersNamed", (DL_FUNC) &R_swig_tc_getParametersNamed, 3},
@@ -15511,6 +15647,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_setPosMulti", (DL_FUNC) &R_swig_tc_setPosMulti, 2},
    {"R_swig_tc_screenY", (DL_FUNC) &R_swig_tc_screenY, 1},
    {"R_swig_tc_getUniqueNames", (DL_FUNC) &R_swig_tc_getUniqueNames, 2},
+   {"R_swig_tc_runJavaCode", (DL_FUNC) &R_swig_tc_runJavaCode, 1},
    {"R_swig_tc_runPythonFile", (DL_FUNC) &R_swig_tc_runPythonFile, 1},
    {"R_swig_tc_getEventResponses", (DL_FUNC) &R_swig_tc_getEventResponses, 1},
    {"R_swig_tc_allItems", (DL_FUNC) &R_swig_tc_allItems, 1},

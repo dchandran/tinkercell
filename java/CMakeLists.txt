@@ -70,12 +70,12 @@ IF(JAVA_JVM_LIBRARY AND JAVA_INCLUDE_PATH)
   IF( APPLE )
     ADD_CUSTOM_COMMAND (
          TARGET swigtcjava POST_BUILD
-         COMMAND cp ${TINKERCELL_BINARY_DIR}/bin/java/libswigtcjava.dylib ${TINKERCELL_BINARY_DIR}/bin/octave/tinkercell.so
+         COMMAND cp ${TINKERCELL_BINARY_DIR}/bin/java/libswigtcjava.dylib ${TINKERCELL_BINARY_DIR}/bin/java/tinkercell.so
     )
   ELSE ( APPLE )
     ADD_CUSTOM_COMMAND (
          TARGET swigtcjava POST_BUILD
-         COMMAND cp ${TINKERCELL_BINARY_DIR}/bin/java/libswigtcjava.so ${TINKERCELL_BINARY_DIR}/bin/octave/tinkercell.so
+         COMMAND cp ${TINKERCELL_BINARY_DIR}/bin/java/libswigtcjava.so ${TINKERCELL_BINARY_DIR}/bin/java/tinkercell.so
     )
   ENDIF( APPLE )
   ENDIF( WIN32 )

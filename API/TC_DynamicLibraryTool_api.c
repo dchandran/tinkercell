@@ -102,6 +102,21 @@ void  tc_addOctavePlugin(const char* file,const char* name,const char* descripti
 		_tc_addOctavePlugin(file,name,description,category,icon);
 }
 
+void (*_tc_runJavaCode)(const char* code) = 0;
+TCAPIEXPORT 
+void tc_runJavaCode(const char* code)
+{
+	if (_tc_runJavaCode)
+		_tc_runJavaCode(code);
+}
+
+void  (*_tc_addJavaPlugin)(const char* file,const char* name,const char* description,const char* category, const char* icon) = 0;
+TCAPIEXPORT 
+void  tc_addJavaPlugin(const char* file,const char* name,const char* description,const char* category, const char* icon)
+{
+	if (_tc_addJavaPlugin)
+		_tc_addJavaPlugin(file, name, description, category, icon);
+}
 
 void (*_tc_callFunction)(const char* functionTitle) = 0;
 /*! 
@@ -195,6 +210,19 @@ void tc_OctaveTool_api(
 	_tc_runOctaveCode = runOctaveCode;
 	_tc_runOctaveFile = runOctaveFile;
 	_tc_addOctavePlugin = addOctavePlugin;
+}
+
+/*! 
+ \brief initialize dialogs and c interface
+ \ingroup init
+*/ TCAPIEXPORT 
+void tc_JavaTool_api(
+		void (*runJavaCode)(const char*),
+		void (*addJavaPlugin)(const char*,const char*,const char*,const char*,const char*)
+)
+{
+	_tc_runJavaCode = runJavaCode;
+	_tc_addJavaPlugin = addJavaPlugin;
 }
 
 

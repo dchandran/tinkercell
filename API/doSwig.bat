@@ -14,3 +14,4 @@ move /Y tinkercell.R ..\R
 swig -java tinkercell.i
 move /Y tinkercell_wrap.c ..\java
 move /Y *.java ..\java
+javac ..\java\*.java

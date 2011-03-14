@@ -53,7 +53,7 @@ IF(JAVA_JVM_LIBRARY AND JAVA_INCLUDE_PATH)
   )
  
   INSTALL(TARGETS tcjava DESTINATION java)
-  
+
   IF ( WIN32 )    
     IF ( MINGW )
        ADD_CUSTOM_COMMAND (
@@ -70,18 +70,19 @@ IF(JAVA_JVM_LIBRARY AND JAVA_INCLUDE_PATH)
   IF( APPLE )
     ADD_CUSTOM_COMMAND (
          TARGET swigtcjava POST_BUILD
-         COMMAND cp ${TINKERCELL_BINARY_DIR}/bin/java/libswigtcjava.dylib ${TINKERCELL_BINARY_DIR}/bin/java/tinkercell.so
+         COMMAND cp ${TINKERCELL_BINARY_DIR}/bin/java/libswigtcjava.dylib ${TINKERCELL_BINARY_DIR}/bin/java/libtinkercell.so
+         COMMAND cp ${TINKERCELL_BINARY_DIR}/bin/java/libswigtcjava.dylib ${TINKERCELL_BINARY_DIR}/bin/java/libtinkercell.dylib
     )
   ELSE ( APPLE )
     ADD_CUSTOM_COMMAND (
          TARGET swigtcjava POST_BUILD
-         COMMAND cp ${TINKERCELL_BINARY_DIR}/bin/java/libswigtcjava.so ${TINKERCELL_BINARY_DIR}/bin/java/tinkercell.so
+         COMMAND cp ${TINKERCELL_BINARY_DIR}/bin/java/libswigtcjava.so ${TINKERCELL_BINARY_DIR}/bin/java/libtinkercell.so
     )
   ENDIF( APPLE )
   ENDIF( WIN32 )
 
-  FILE(GLOB JAVA_LOADER ${TINKERCELL_BINARY_DIR}/bin/java/tinkercell.*)
-  FILE(GLOB JAVA_FILES *.java ${TINKERCELL_BINARY_DIR}/java/*.java)
+  FILE(GLOB JAVA_LOADER ${TINKERCELL_BINARY_DIR}/bin/java/tinkercell.* ${TINKERCELL_BINARY_DIR}/bin/java/libtinkercell.*)
+  FILE(GLOB JAVA_FILES *.java *.class)
 
   INSTALL(FILES ${JAVA_FILES}
      DESTINATION java

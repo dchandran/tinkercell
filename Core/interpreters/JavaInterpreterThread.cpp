@@ -162,7 +162,6 @@ namespace Tinkercell
 							  argval = regexp.cap(3);
 
 				int k = f(classname.toAscii().data(), methodname.toAscii().data(), argval.toAscii().data());
-				mainWindow->console()->message(QString::number(k));
 			}
 			else
 			{

@@ -1386,7 +1386,7 @@ namespace Tinkercell
      	QWidget * widget = new QWidget;
 		QHBoxLayout * layout = new QHBoxLayout;
 		for (int i=0; i < buttons.size(); ++i)
-			layout->addWidget(buttons[i]);
+			layout->addWidget(buttons[i],1,Qt::AlignCenter);
 		
 		widget->setLayout(layout);
 		widget->setPalette(QColor(255,255,255));
@@ -1397,6 +1397,7 @@ namespace Tinkercell
 		pickFamilyDialogLayout->setContentsMargins(0,0,0,0);
 		pickFamilyDialogLayout->addWidget(new QLabel(tr("Which process did you mean?")),0);
 		pickFamilyDialogLayout->addWidget(scrollArea,1);
+		pickFamilyDialog->setPalette(QColor(255,255,255));
 		pickFamilyDialog->setLayout(pickFamilyDialogLayout);
      }
 	

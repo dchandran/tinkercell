@@ -44,24 +44,24 @@ extern "C"
 		std::string currentClassName(classname);
 		std::string currentMethodName(methodname);
 
-		/*if ((previousClassName.compare(currentClassName)==0) && (previousClass != NULL))
+		if ((previousClassName.compare(currentClassName)==0) && (previousClass != NULL))
 		{
 			currentClass = previousClass;
 			if ((previousMethodName.compare(currentMethodName)==0) && (previousMethod != NULL))
 				currentMethod = previousMethod;
-		}*/
+		}
 	    
 		//Obtaining Classes
-		//if (currentClass == NULL)
-			currentClass = JAVAENV->FindClass("HelloWorld");
+		if (currentClass == NULL)
+			currentClass = JAVAENV->FindClass(classname);
 	    
 		//Obtaining Method IDs
-		if (currentClass != NULL)// && currentMethod == NULL)
-			currentMethod = JAVAENV->GetStaticMethodID(currentClass,"TestCall","(Ljava/lang/String;)V");
+		if (currentClass != NULL && currentMethod == NULL)
+			currentMethod = JAVAENV->GetStaticMethodID(currentClass,methodname,"(Ljava/lang/String;)V");
 
 		if (currentClass != NULL && currentMethod != NULL)
 		{
-			jstring StringArg = JAVAENV->NewStringUTF("\nabcdefg\n");
+			jstring StringArg = JAVAENV->NewStringUTF(arg);
 			//Calling another static method and passing string type parameter
 			JAVAENV->CallStaticVoidMethod(currentClass,currentMethod,StringArg);
 			return 1;

@@ -14,3 +14,4 @@ mv tinkercell.R ../R
 swig -java tinkercell.i
 mv tinkercell_wrap.c ../java
 mv *.java ../java
+javac ../java/*.java

@@ -4,9 +4,6 @@
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
  
-The octave interpreter that runs as a separate thread and can accept strings to parse and execute
-
-
 ****************************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
@@ -20,7 +17,7 @@ namespace Tinkercell
 	QString JavaInterpreterThread::JAVA_FOLDER("java");
 	
     JavaInterpreterThread::JavaInterpreterThread(const QString & swiglibname, const QString & dllname, MainWindow* main)
-        : InterpreterThread(dllname,main), regexp(QString("(\\S+)\\.(\\S+)\\(\"(\\S+)\"\\)"))
+        : InterpreterThread(dllname,main), regexp(QString("(\\S+)\\.(\\S+)\\(\\S+\\)"))
     {
     	addpathDone = false;
     	f = 0;
@@ -109,7 +106,13 @@ namespace Tinkercell
     
     void JavaInterpreterThread::run()
     {
-        if (!lib || !lib->isLoaded() || code.isEmpty()) return;
+        if (!lib || !lib->isLoaded())
+        {
+        	mainWindow->console()->error("JVM not loaded properly");
+        	return;
+        }
+       
+       if (code.isEmpty()) return;
        
         QString script;
 		
@@ -158,8 +161,17 @@ namespace Tinkercell
 							  methodname = regexp.cap(2), 
 							  argval = regexp.cap(3);
 
-				f(classname.toAscii().data(), methodname.toAscii().data(), argval.toAscii().data());
+				int k = f(classname.toAscii().data(), methodname.toAscii().data(), argval.toAscii().data());
+				mainWindow->console()->message(QString::number(k));
 			}
+			else
+			{
+				mainWindow->console()->error("Code can only contain one line: class.method(string)");
+			}
+		}
+		else
+		{
+			mainWindow->console()->error("Cannot find some functions in Java loader library");
 		}
 		
 		if (!codeQueue.isEmpty())

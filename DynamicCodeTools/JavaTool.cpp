@@ -438,8 +438,6 @@ namespace Tinkercell
            // javaInterpreter->exec(code);
         if (!exec(classname.toAscii().data(), method.toAscii().data() , arg.toAscii().data()))
         	console()->error(tr("Cannot find Java method ") + classname + tr(".") + method);
-        else
-        	console()->message("Ran code");
     }
 
 }

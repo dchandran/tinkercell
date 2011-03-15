@@ -648,8 +648,8 @@ public class tinkercell {
     tinkercellJNI.tc_addOctavePlugin(file, name, description, category, icon);
   }
 
-  public static void tc_runJavaCode(String code) {
-    tinkercellJNI.tc_runJavaCode(code);
+  public static void tc_runJavaCode(String code, String method, String arg) {
+    tinkercellJNI.tc_runJavaCode(code, method, arg);
   }
 
   public static void tc_addJavaPlugin(String file, String name, String description, String category, String icon) {
@@ -668,8 +668,8 @@ public class tinkercell {
     tinkercellJNI.tc_PythonTool_api(SWIGTYPE_p_f_p_q_const__char__void.getCPtr(runPythonCode), SWIGTYPE_p_f_p_q_const__char__void.getCPtr(runPythonFile), SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void.getCPtr(addPythonPlugin));
   }
 
-  public static void tc_JavaTool_api(SWIGTYPE_p_f_p_q_const__char__void runJavaCode, SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void addJavaPlugin) {
-    tinkercellJNI.tc_JavaTool_api(SWIGTYPE_p_f_p_q_const__char__void.getCPtr(runJavaCode), SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void.getCPtr(addJavaPlugin));
+  public static void tc_JavaTool_api(SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char__void runJavaCode, SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void addJavaPlugin) {
+    tinkercellJNI.tc_JavaTool_api(SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char__void.getCPtr(runJavaCode), SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void.getCPtr(addJavaPlugin));
   }
 
   public static void tc_surface(tc_matrix z, String title) {

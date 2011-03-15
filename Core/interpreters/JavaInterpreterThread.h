@@ -26,7 +26,7 @@ namespace Tinkercell
 	{
 		Q_OBJECT
 		
-		typedef int (*initFunc)();
+		typedef int (*initFunc)(const char *);
 		typedef int (*execFunc)(const char*,const char*,const char*);
 		typedef void (*finalFunc)();
 		
@@ -51,7 +51,6 @@ namespace Tinkercell
 	protected:
 		virtual void run();
 		execFunc f;
-		bool addpathDone;
 		/*! \brief library with all the C API functions */
 		QLibrary * swigLib;
 		QRegExp regexp;

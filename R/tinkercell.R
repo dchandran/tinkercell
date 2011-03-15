@@ -584,6 +584,12 @@ setClass('_p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_co
         contains = 'CRoutinePointer')
 
 ##
+setClass('_p_f_p_q_const__char_p_q_const__char_p_q_const__char__void',
+        prototype = list(parameterTypes = c('_p_char', '_p_char', '_p_char'),
+                        returnType = '_p_f_p_q_const__char_p_q_const__char_p_q_const__char__void'),
+        contains = 'CRoutinePointer')
+
+##
 setClass('_p_f_tc_matrix_p_q_const__char__void',
         prototype = list(parameterTypes = c('_tc_matrix', '_p_char'),
                         returnType = '_p_f_tc_matrix_p_q_const__char__void'),
@@ -5289,15 +5295,17 @@ class(`tc_addOctavePlugin`) = c("SWIGFunction", class('tc_addOctavePlugin'))
 
 # Start of tc_runJavaCode
 
-`tc_runJavaCode` = function(code)
+`tc_runJavaCode` = function(code, method, s_arg)
 {
   code = as(code, "character") 
-  .Call('R_swig_tc_runJavaCode', code, PACKAGE='tinkercell')
+  method = as(method, "character") 
+  s_arg = as(s_arg, "character") 
+  .Call('R_swig_tc_runJavaCode', code, method, s_arg, PACKAGE='tinkercell')
   
 }
 
 attr(`tc_runJavaCode`, 'returnType') = 'void'
-attr(`tc_runJavaCode`, "inputTypes") = c('character')
+attr(`tc_runJavaCode`, "inputTypes") = c('character', 'character', 'character')
 class(`tc_runJavaCode`) = c("SWIGFunction", class('tc_runJavaCode'))
 
 # Start of tc_addJavaPlugin
@@ -5448,7 +5456,7 @@ class(`tc_PythonTool_api`) = c("SWIGFunction", class('tc_PythonTool_api'))
 `tc_JavaTool_api` = function(runJavaCode, addJavaPlugin)
 {
   if(is.function(runJavaCode)) {
-    assert('...' %in% names(formals(runJavaCode)) || length(formals(runJavaCode)) >= 0)
+    assert('...' %in% names(formals(runJavaCode)) || length(formals(runJavaCode)) >= 3)
   } else {
     if(is.character(runJavaCode)) {
       runJavaCode = getNativeSymbolInfo(runJavaCode)
@@ -5472,7 +5480,7 @@ class(`tc_PythonTool_api`) = c("SWIGFunction", class('tc_PythonTool_api'))
 }
 
 attr(`tc_JavaTool_api`, 'returnType') = 'void'
-attr(`tc_JavaTool_api`, "inputTypes") = c('_p_f_p_q_const__char__void', '_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void')
+attr(`tc_JavaTool_api`, "inputTypes") = c('_p_f_p_q_const__char_p_q_const__char_p_q_const__char__void', '_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void')
 class(`tc_JavaTool_api`) = c("SWIGFunction", class('tc_JavaTool_api'))
 
 # Start of tc_surface

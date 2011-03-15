@@ -1,4 +1,4 @@
-SET(LIBRARY_OUTPUT_PATH ${EXECUTABLE_OUTPUT_PATH}/java)
+SET(LIBRARY_OUTPUT_PATH ${EXECUTABLE_OUTPUT_PATH})
 
 OPTION( EMBED_JAVA "Embed Java in TinkerCell" OFF )
 
@@ -52,36 +52,36 @@ IF(JAVA_JVM_LIBRARY AND JAVA_INCLUDE_PATH)
       ${JAVA_JVM_LIBRARY}
   )
  
-  INSTALL(TARGETS tcjava DESTINATION java)
+  INSTALL(TARGETS tcjava DESTINATION bin/../)
 
-  IF ( WIN32 )    
+  IF ( WIN32 )
     IF ( MINGW )
        ADD_CUSTOM_COMMAND (
              TARGET swigtcjava POST_BUILD
-             COMMAND move /Y ..\\bin\\java\\libswigtcjava.dll ..\\bin\\java\\tinkercell.dll
+             COMMAND move /Y ..\\bin\\libswigtcjava.dll ..\\bin\\tinkercell.dll
          )
     ELSE ( MINGW )
        ADD_CUSTOM_COMMAND (
            TARGET swigtcjava POST_BUILD
-           COMMAND move /Y ..\\bin\\java\\swigtcjava.dll ..\\bin\\java\\tinkercell.dll
+           COMMAND move /Y ..\\bin\\swigtcjava.dll ..\\bin\\tinkercell.dll
        )
     ENDIF ( MINGW )
   ELSE ( WIN32 )
   IF( APPLE )
     ADD_CUSTOM_COMMAND (
          TARGET swigtcjava POST_BUILD
-         COMMAND cp ${TINKERCELL_BINARY_DIR}/bin/java/libswigtcjava.dylib ${TINKERCELL_BINARY_DIR}/bin/java/libtinkercell.so
-         COMMAND cp ${TINKERCELL_BINARY_DIR}/bin/java/libswigtcjava.dylib ${TINKERCELL_BINARY_DIR}/bin/java/libtinkercell.dylib
+         COMMAND cp ${TINKERCELL_BINARY_DIR}/bin/libswigtcjava.dylib ${TINKERCELL_BINARY_DIR}/bin/libtinkercell.so
+         COMMAND cp ${TINKERCELL_BINARY_DIR}/bin/libswigtcjava.dylib ${TINKERCELL_BINARY_DIR}/bin/tinkercell.dylib
     )
   ELSE ( APPLE )
     ADD_CUSTOM_COMMAND (
          TARGET swigtcjava POST_BUILD
-         COMMAND cp ${TINKERCELL_BINARY_DIR}/bin/java/libswigtcjava.so ${TINKERCELL_BINARY_DIR}/bin/java/libtinkercell.so
+         COMMAND cp ${TINKERCELL_BINARY_DIR}/bin/libswigtcjava.so ${TINKERCELL_BINARY_DIR}/bin/libtinkercell.so
     )
   ENDIF( APPLE )
   ENDIF( WIN32 )
 
-  FILE(GLOB JAVA_LOADER ${TINKERCELL_BINARY_DIR}/bin/java/tinkercell.* ${TINKERCELL_BINARY_DIR}/bin/java/libtinkercell.*)
+  FILE(GLOB JAVA_LOADER ${TINKERCELL_BINARY_DIR}/bin/tinkercell.* ${TINKERCELL_BINARY_DIR}/bin/libtinkercell.*)
   FILE(GLOB JAVA_FILES *.java *.class)
 
   INSTALL(FILES ${JAVA_FILES}
@@ -90,7 +90,7 @@ IF(JAVA_JVM_LIBRARY AND JAVA_INCLUDE_PATH)
    )
 
   INSTALL(FILES ${JAVA_LOADER}
-     DESTINATION java
+     DESTINATION bin/../
      COMPONENT Java
    )
 

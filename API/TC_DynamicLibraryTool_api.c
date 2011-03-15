@@ -102,12 +102,12 @@ void  tc_addOctavePlugin(const char* file,const char* name,const char* descripti
 		_tc_addOctavePlugin(file,name,description,category,icon);
 }
 
-void (*_tc_runJavaCode)(const char* code) = 0;
+void (*_tc_runJavaCode)(const char*, const char*, const char*) = 0;
 TCAPIEXPORT 
-void tc_runJavaCode(const char* code)
+void tc_runJavaCode(const char* code, const char* met, const char* arg)
 {
 	if (_tc_runJavaCode)
-		_tc_runJavaCode(code);
+		_tc_runJavaCode(code, met, arg);
 }
 
 void  (*_tc_addJavaPlugin)(const char* file,const char* name,const char* description,const char* category, const char* icon) = 0;
@@ -217,7 +217,7 @@ void tc_OctaveTool_api(
  \ingroup init
 */ TCAPIEXPORT 
 void tc_JavaTool_api(
-		void (*runJavaCode)(const char*),
+		void (*runJavaCode)(const char*,const char*,const char*),
 		void (*addJavaPlugin)(const char*,const char*,const char*,const char*,const char*)
 )
 {

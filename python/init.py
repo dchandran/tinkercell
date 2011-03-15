@@ -1,7 +1,7 @@
 try:
     from tinkercell import *
     from tc2py import *
-    print '_tinkercell imported'
+    print 'TinkerCell Python module imported'
 except ImportError:
     print 'TinkerCell Python module not found'
 

@@ -4,6 +4,8 @@
  see COPYRIGHT.TXT
 
 ****************************************************************************/
+
+#include <iostream>
 #include <QVBoxLayout>
 #include <QDockWidget>
 #include <QProcess>
@@ -20,14 +22,18 @@
 #include "NodeGraphicsItem.h"
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
+#include "InterpreterThread.h"
 #include "JavaTool.h"
+
+extern "C" int initialize(const char*);
+extern "C" int exec(const char * classname, const char * methodname, const char * arg);
+extern "C" void finalize();
 
 namespace Tinkercell
 {
     JavaTool::JavaTool() : Tool(tr("Java Interpreter"),tr("Coding")), actionsGroup(this), buttonsGroup(this)
     {
-        javaInterpreter = 0;
-
+        //javaInterpreter = 0;
         connect(&actionsGroup,SIGNAL(triggered ( QAction *  )),this,SLOT(actionTriggered ( QAction *  )));
         connect(&buttonsGroup,SIGNAL(buttonPressed ( int  )),this,SLOT(buttonPressed ( int  )));
         connectTCFunctions();
@@ -179,30 +185,50 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
 
-			javaInterpreter = new JavaInterpreterThread(tr("java/tinkercell"), tr("java/libtcjava"), mainWindow);
+			//javaInterpreter = new JavaInterpreterThread(tr("java/tinkercell"), tr("java/tcjava"), mainWindow);
+			
+			//javaInterpreter->initialize();
+			
+			QStringList paths;
+			QString homeDir = MainWindow::homeDir();
+			QString tempDir = MainWindow::tempDir();
+		
+			QStringList subdirs;
+			subdirs << InterpreterThread::allSubdirectories(appDir + tr("/java"))
+						<< InterpreterThread::allSubdirectories(homeDir + tr("/java"))
+						<< tempDir;
+		
+			for (int i=0; i < subdirs.size(); ++i)
+			{
+				QString dir = subdirs[i];
+				#ifdef Q_WS_WIN
+					dir = dir.replace("/","\\\\");
+				#endif
+				paths << dir;
+			}
+			
+			if (!initialize(paths.join(";").toAscii().data()))
+			{
+				if (console())
+					console()->message("JVM failed to load");
+			}
+			else
+			{
+				if (console())
+					console()->message("JVM loaded successfully");
+			}
 
-			if (console())
-				console()->message(tr("Running init.m...\n"));
-			
-			javaInterpreter->initialize();
-			
 			toolLoaded(0);
 
-			QString s;
-			
-			QFile file(appDir + tr("/java/init.m"));
-			if (file.open(QFile::ReadOnly | QFile::Text))
-            {
-                s += file.readAll();
-                file.close();
-            }
-			
-			runJavaCode(s);
-			
 			return true;
 		}
         
 		return false;
+    }
+    
+    JavaTool::~JavaTool()
+    {
+    	finalize();
     }
 
     void JavaTool::toolLoaded(Tool*)
@@ -249,7 +275,7 @@ namespace Tinkercell
 
         if (!java.isEmpty())
         {
-            runJavaCode(java); //go
+            runJavaCode(java, "main", ""); //go
         }
     }
 
@@ -262,19 +288,19 @@ namespace Tinkercell
 
         if (!java.isEmpty())
         {
-            runJavaCode(java); //go
+            runJavaCode(java, "main", ""); //go
         }
     }
 
     void JavaTool::connectTCFunctions()
     {
-        connect(&fToS,SIGNAL(runJavaCode(QSemaphore*,const QString&)),this,SLOT(runJavaCode(QSemaphore*,const QString&)));
+        connect(&fToS,SIGNAL(runJavaCode(QSemaphore*,const QString&,const QString&,const QString&)),this,SLOT(runJavaCode(QSemaphore*,const QString&,const QString&,const QString&)));
         connect(&fToS,SIGNAL(addJavaPlugin(QSemaphore*,const QString&,const QString&,const QString&,const QString&, const QString&)),
         		this,SLOT(addJavaPlugin(QSemaphore*,const QString&,const QString&,const QString&,const QString&, const QString&)));
     }
 
     typedef void (*tc_JavaTool_api)(
-            void (*runJavaCode)(const char*),
+            void (*runJavaCode)(const char*,const char*,const char*),
             void (*addJavaPlugin)(const char*,const char*,const char*,const char*,const char*)
             );
 
@@ -286,7 +312,7 @@ namespace Tinkercell
             f(
                 &(_runJavaCode),
                 &(_addJavaPlugin)
-                );
+              );
         }
     }
 
@@ -294,10 +320,9 @@ namespace Tinkercell
 
     JavaTool_FToS JavaTool::fToS;
 
-
-    void JavaTool::_runJavaCode(const char* c)
+    void JavaTool::_runJavaCode(const char* a, const char* b, const char* c)
     {
-        return fToS.runJavaCode(c);
+        return fToS.runJavaCode(a,b,c);
     }
     
     void JavaTool::_addJavaPlugin(const char* file,const char* name,const char* descr,const char* category,const char* icon)
@@ -305,11 +330,11 @@ namespace Tinkercell
         return fToS.addJavaPlugin(file,name,descr,category,icon);
     }
 
-    void JavaTool_FToS::runJavaCode(const char* c)
+    void JavaTool_FToS::runJavaCode(const char* a, const char* b, const char* c)
     {
         QSemaphore * s = new QSemaphore(1);
         s->acquire();
-        emit runJavaCode(s,ConvertValue(c));
+        emit runJavaCode(s,ConvertValue(a),ConvertValue(b),ConvertValue(c));
         s->acquire();
         s->release();
         delete s;
@@ -329,9 +354,9 @@ namespace Tinkercell
           OCTAVE STUFF
     *********************/
 
-    void JavaTool::runJavaCode(QSemaphore* sem,const QString& code)
+    void JavaTool::runJavaCode(QSemaphore* sem,const QString& code,const QString& met,const QString& arg)
     {
-        runJavaCode(code);
+        runJavaCode(code,met,arg);
         if (sem)
             sem->release();
     }
@@ -407,10 +432,14 @@ namespace Tinkercell
     		sem->release();
     }
 
-    void JavaTool::runJavaCode(const QString& code)
-    {	
-        if (javaInterpreter)
-            javaInterpreter->exec(code);
+    void JavaTool::runJavaCode(const QString& classname, const QString& method, const QString& arg)
+    {
+        //if (javaInterpreter)
+           // javaInterpreter->exec(code);
+        if (!exec(classname.toAscii().data(), method.toAscii().data() , arg.toAscii().data()))
+        	console()->error(tr("Cannot find Java method ") + classname + tr(".") + method);
+        else
+        	console()->message("Ran code");
     }
 
 }

@@ -25,7 +25,7 @@ namespace Tinkercell
 		return &dataTable;
 	}
 	
-	void PlotTextWidget::updateData(const DataTable<qreal>& dat)
+	void PlotTextWidget::updateData(const DataTable<qreal>& dat, const QString& , int )
 	{
 		dataTable = dat;
 		textEdit->clear();
@@ -101,7 +101,7 @@ namespace Tinkercell
 			return;
 		}
 		
-		updateData(table);
+		updateData(table,"",0);
 	}
 	
 	void PlotTextWidget::keyPressEvent ( QKeyEvent * event )

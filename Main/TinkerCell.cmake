@@ -33,6 +33,7 @@ FILE( GLOB TINKERCELL_MAIN_HRDS
 QT4_WRAP_CPP( TINKERCELL_MAIN_MOC ${TINKERCELL_MAIN_HRDS})
 QT4_ADD_RESOURCES( TINKERCELL_QRC ../Core/Tinkercell.qrc )
 
+LINK_DIRECTORIES( BEFORE ${EXECUTABLE_OUTPUT_PATH}/java )
 
 #--------------------------------------------
 #      Make the binary
@@ -61,6 +62,7 @@ IF( APPLE AND BUILD_BUNDLE )
 	 sbml
 	 antimony
 	 copasi
+	 tcjava
     ${QT_LIBRARIES}
   )
 
@@ -85,6 +87,7 @@ ELSE( APPLE AND BUILD_BUNDLE )
 	   sbml
 	   antimony
 	   copasi
+	   tcjava
       ${QT_LIBRARIES}
     )
   ELSE( UNIX OR ( APPLE AND NOT BUILD_BUNDLE ) )
@@ -118,6 +121,7 @@ ELSE( APPLE AND BUILD_BUNDLE )
 	   sbml
 	   antimony
 	   copasi
+	   tcjava
       ${QT_LIBRARIES}
     )
     ENDIF( WIN32 )
@@ -166,3 +170,4 @@ ENDIF(APPLE)
 IF(UNIX AND NOT APPLE)
     INCLUDE (${TINKERCELL_SOURCE_DIR}/linux/LinuxUploader.cmake)
 ENDIF(UNIX AND NOT APPLE)
+

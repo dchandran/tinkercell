@@ -109,11 +109,13 @@ TCAPIEXPORT void  tc_runOctaveFile(const char* filename);
 TCAPIEXPORT void  tc_addOctavePlugin(const char* file,const char* name,const char* description,const char* category, const char* icon);
 
 /*! 
- \brief run the Java code given by the string
- \param string java code in the form of class.method(arg)
+ \brief run a Java static method
+ \param string java class name
+ \param string java method name
+  \param string argument
  \ingroup Programming interface
 */
-TCAPIEXPORT void tc_runJavaCode(const char* code);
+TCAPIEXPORT void tc_runJavaCode(const char* code, const char* method, const char* arg);
 
 /*! 
  \brief add a Java method call to the functions menu
@@ -168,7 +170,7 @@ TCAPIEXPORT void tc_OctaveTool_api(
  \ingroup init
 */
 TCAPIEXPORT void tc_JavaTool_api(
-		void (*runJavaCode)(const char*),
+		void (*runJavaCode)(const char*,const char*,const char*),
 		void (*addJavaPlugin)(const char*,const char*,const char*,const char*,const char*)
 );
 

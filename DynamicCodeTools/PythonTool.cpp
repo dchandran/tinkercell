@@ -188,10 +188,8 @@ namespace Tinkercell
 			
 			if (console())
 			{
-				if (pythonInterpreter->library() && pythonInterpreter->library()->isLoaded())
-					console()->message(tr("Running init.py ...\n"));
-				else
-					console()->message(tr("Python plugin not loaded\n"));
+				if (!(pythonInterpreter->library() && pythonInterpreter->library()->isLoaded()))
+					console()->message(tr("Python not loaded\n"));
 			}
 			
 			QFile file(appDir + tr("/python/init.py"));

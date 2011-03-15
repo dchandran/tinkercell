@@ -63,6 +63,7 @@ IF( APPLE AND BUILD_BUNDLE )
 	 sbml
 	 antimony
 	 copasi
+	 tcjava
     ${QT_LIBRARIES}
   )
 
@@ -87,6 +88,7 @@ ELSE( APPLE AND BUILD_BUNDLE )
 	   sbml
 	   antimony
 	   copasi
+	   tcjava
       ${QT_LIBRARIES}
     )
   ELSE( UNIX OR ( APPLE AND NOT BUILD_BUNDLE ) )
@@ -120,6 +122,7 @@ ELSE( APPLE AND BUILD_BUNDLE )
 	   sbml
 	   antimony
 	   copasi
+	   tcjava
       ${QT_LIBRARIES}
     )
     ENDIF( WIN32 )

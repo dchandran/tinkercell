@@ -46,7 +46,7 @@ namespace Tinkercell
 		/*! \brief get the data*/
 		virtual DataTable<qreal>* data();
 		/*! \brief update displayed data*/
-		void updateData(const DataTable<qreal>&);
+		void updateData(const DataTable<qreal>&, const QString& title, int x = 0);
 		
 	private:
 		DataTable<qreal> dataTable;

@@ -180,9 +180,6 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
 
 			octaveInterpreter = new OctaveInterpreterThread(tr("octave/tinkercell"), tr("octave/libtcoct"), mainWindow);
-
-			if (console())
-				console()->message(tr("Running init.m...\n"));
 			
 			octaveInterpreter->initialize();
 			

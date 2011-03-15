@@ -7,6 +7,7 @@
 ****************************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
+#include <iostream>
 #include "GraphicsScene.h"
 #include "MainWindow.h"
 #include "ConsoleWindow.h"
@@ -19,9 +20,18 @@ namespace Tinkercell
     JavaInterpreterThread::JavaInterpreterThread(const QString & swiglibname, const QString & dllname, MainWindow* main)
         : InterpreterThread(dllname,main), regexp(QString("(\\S+)\\.(\\S+)\\(\\S+\\)"))
     {
-    	addpathDone = false;
     	f = 0;
 		swigLib = loadLibrary(swiglibname, mainWindow);
+		if (!swigLib)
+		{
+			if (main && main->console())
+				main->console()->error("Could not load Java TinkerCell module");
+		}
+		else
+		{
+			if (main && main->console())
+				main->console()->message("Java TinkerCell module loaded");
+		}
     }
 
     void JavaInterpreterThread::setCPointers()
@@ -68,14 +78,40 @@ namespace Tinkercell
 		}
 
        QString appDir = QCoreApplication::applicationDirPath();
+       
+       std::cout << "finding init...\n\n";
 
        initFunc f = (initFunc)lib->resolve("initialize");
         if (f)
         {
+        	std::cout << "found init...\n\n";
         	QString currentDir = QDir::currentPath();
             QDir::setCurrent(MainWindow::tempDir());
             setCPointers();
-            int out = f();
+            
+            QStringList paths;
+    		QString appDir = QCoreApplication::applicationDirPath();
+			QString homeDir = MainWindow::homeDir();
+			QString tempDir = MainWindow::tempDir();
+		
+			QStringList subdirs;
+			subdirs << allSubdirectories(appDir + tr("/") + JAVA_FOLDER)
+						<< allSubdirectories(homeDir + tr("/") + JAVA_FOLDER)
+						<< tempDir;
+		
+			for (int i=0; i < subdirs.size(); ++i)
+			{
+				QString dir = subdirs[i];
+				#ifdef Q_WS_WIN
+					dir = dir.replace("/","\\\\");
+				#endif
+				paths << dir;
+			}
+			
+			QString classpath(";");
+			classpath += paths.join(";");
+            
+            int out = f(classpath.toAscii().data());
 
             QDir::setCurrent(currentDir);			
             if (out)
@@ -102,6 +138,21 @@ namespace Tinkercell
 				else
 					mainWindow->statusBar()->showMessage("Cannot find initialize function in JVM loading library");
         }
+        
+         if (!this->f)
+            this->f = (execFunc)lib->resolve("exec");
+
+        if (this->f)
+        {
+        	int k = this->f("HelloWorld", "TestCall", "echo ba > out.txt");
+       		std::cout << "k = " << k << "\n";
+        }
+        else
+        {
+        	std::cout << "\nf not found\n\n";
+        }
+        
+        std::cout << "done with init\n\n";
     }
     
     void JavaInterpreterThread::run()
@@ -112,7 +163,7 @@ namespace Tinkercell
         	return;
         }
        
-       if (code.isEmpty()) return;
+       //if (code.isEmpty()) return;
        
         QString script;
 		
@@ -121,52 +172,20 @@ namespace Tinkercell
 
         if (f)
         {
-        	if (!addpathDone)
-        	{
-        		QStringList classpath;
-        		QString appDir = QCoreApplication::applicationDirPath();
-				QString homeDir = MainWindow::homeDir();
-				QString tempDir = MainWindow::tempDir();
-			
-				QStringList subdirs;
-				subdirs << allSubdirectories(appDir + tr("/") + JAVA_FOLDER)
-							<< allSubdirectories(homeDir + tr("/") + JAVA_FOLDER)
-							<< tempDir;
-			
-				for (int i=0; i < subdirs.size(); ++i)
-				{
-					QString dir = subdirs[i];
-					#ifdef Q_WS_WIN
-						dir = dir.replace("/","\\\\");
-					#endif
-					classpath << dir;
-				}
-				addpathDone = true;
-				
-				#ifdef Q_WS_WIN
-					QString cmd("set CLASSPATH=$CLASSPATH;");
-					cmd += classpath.join(";");
-				#else
-					QString cmd("export CLASSPATH=$CLASSPATH:");
-					cmd += classpath.join(":");
-				#endif
-				system(cmd.toAscii().data());
-	        }
-	        
 			script = code.trimmed();
 		
-			if (regexp.indexIn(script) > -1)
+			/*if (regexp.indexIn(script) > -1)
 			{
 				QString classname = regexp.cap(1), 
 							  methodname = regexp.cap(2), 
-							  argval = regexp.cap(3);
+							  argval = regexp.cap(3);*/
 
-				int k = f(classname.toAscii().data(), methodname.toAscii().data(), argval.toAscii().data());
-			}
+				//int k = f("HelloWorld", "TestCall", "hello"); //classname.toAscii().data(), methodname.toAscii().data(), argval.toAscii().data());
+			/*}
 			else
 			{
 				mainWindow->console()->error("Code can only contain one line: class.method(string)");
-			}
+			}*/
 		}
 		else
 		{

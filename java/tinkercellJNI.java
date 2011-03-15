@@ -204,7 +204,7 @@ class tinkercellJNI {
   public final static native void tc_runOctaveCode(String jarg1);
   public final static native void tc_runOctaveFile(String jarg1);
   public final static native void tc_addOctavePlugin(String jarg1, String jarg2, String jarg3, String jarg4, String jarg5);
-  public final static native void tc_runJavaCode(String jarg1);
+  public final static native void tc_runJavaCode(String jarg1, String jarg2, String jarg3);
   public final static native void tc_addJavaPlugin(String jarg1, String jarg2, String jarg3, String jarg4, String jarg5);
   public final static native void tc_DynamicLibraryMenu_api(long jarg1);
   public final static native void tc_LoadCLibraries_api(long jarg1, long jarg2, long jarg3, long jarg4, long jarg5);

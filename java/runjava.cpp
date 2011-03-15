@@ -10,12 +10,19 @@ static std::string previousMethodName;
 static jclass previousClass = NULL;
 static jmethodID previousMethod = NULL;
 
-JNIEnv* create_java_vm(JavaVM ** jvm)
+JNIEnv* create_java_vm(JavaVM ** jvm, const char * classpath)
 {
     JNIEnv *env;
     JavaVMInitArgs vm_args;
     JavaVMOption options;
-    options.optionString = "-Djava.class.path=."; //Path to the java source code
+    std::string path1("-Djava.class.path=."), 
+    				 path2(classpath);
+    if (!path2.empty())
+    {
+    	path1.append(";");
+    	path1.append(path2);
+    }
+    options.optionString = const_cast<char*>(path1.c_str()); //Path to the java source code
     vm_args.version = JNI_VERSION_1_6; //JDK version. This indicates version 1.6
     vm_args.nOptions = 1;
     vm_args.options = &options;
@@ -28,9 +35,9 @@ JNIEnv* create_java_vm(JavaVM ** jvm)
 
 extern "C"
 {
-	TCAPIEXPORT int initialize()
+	TCAPIEXPORT int initialize(const char * classpath)
 	{
-		JAVAENV = create_java_vm(&JAVAVM);
+		JAVAENV = create_java_vm(&JAVAVM, classpath);
 		if (JAVAENV == NULL) return 0;
 		return 1;
 	}

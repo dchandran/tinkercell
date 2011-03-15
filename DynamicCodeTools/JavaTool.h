@@ -20,7 +20,6 @@
 #include <QButtonGroup>
 #include "Tool.h"
 #include "DynamicLibraryMenu.h"
-#include "JavaInterpreterThread.h"
 
 namespace Tinkercell
 {
@@ -29,10 +28,10 @@ namespace Tinkercell
 	{
 		Q_OBJECT
 		signals:
-			void runJavaCode(QSemaphore*,const QString&);
+			void runJavaCode(QSemaphore*,const QString&,const QString&,const QString&);
 			void addJavaPlugin(QSemaphore*,const QString&,const QString&,const QString&,const QString&, const QString&);
 		public slots:
-			void runJavaCode(const char*);
+			void runJavaCode(const char*,const char*,const char*);
 			void addJavaPlugin(const char*,const char*,const char*,const char*,const char*);
 	};
 
@@ -42,16 +41,16 @@ namespace Tinkercell
 
 	public:
 		JavaTool();
+		~JavaTool();
 		bool setMainWindow(MainWindow*);
-		JavaInterpreterThread * javaInterpreter;
 
 	public slots:
 		void setupFunctionPointers( QLibrary * );
 		bool loadFromDir( QDir& );
 		bool loadFromDir(DynamicLibraryMenu* , QDir& );
 		void toolLoaded(Tool*);
-		void runJavaCode(const QString&);
-		void runJavaCode(QSemaphore*,const QString&);
+		void runJavaCode(const QString&, const QString&, const QString&);
+		void runJavaCode(QSemaphore*, const QString&, const QString&, const QString&);
 		
 	protected slots:
 		void buttonPressed (int);	 
@@ -67,8 +66,8 @@ namespace Tinkercell
 		
 	private:
 		static JavaTool_FToS fToS;
-		static void _runJavaCode(const char*);
-        static void _addJavaPlugin(const char*,const char*,const char*,const char*,const char*);
+		static void _runJavaCode(const char*, const char*, const char*);
+        static void _addJavaPlugin(const char*,const char*,const char*,const char*,const char*);        
 	};
 }
 

@@ -32,9 +32,9 @@ namespace Tinkercell
 	
 	bool ConnectionInsertion::isReactant(NodeHandle * node)
 	{
-		if (!node) return false;
+		if (!node || !node->family()) return false;
 		for (int i=0; i < typeIn.size(); ++i)
-			if (node->isA(typeIn[i]))
+			if (node->family()->isA(typeIn[i]) || node->family()->isParentOf(typeIn[i]))
 				return true;
 		return false;
 	}

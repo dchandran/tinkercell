@@ -189,6 +189,9 @@ namespace Tinkercell
 			
 			//javaInterpreter->initialize();
 			
+			QLibrary * lib = CThread::loadLibrary("tinkercell", mainWindow);
+		   mainWindow->setupNewThread(0,lib);
+			
 			QStringList paths;
 			QString homeDir = MainWindow::homeDir();
 			QString tempDir = MainWindow::tempDir();
@@ -216,6 +219,7 @@ namespace Tinkercell
 			{
 				if (console())
 					console()->message("JVM loaded successfully");
+				console()->message( QString::number(exec("HelloWorld", "TestCall", "abcde")));
 			}
 
 			toolLoaded(0);
@@ -436,8 +440,14 @@ namespace Tinkercell
     {
         //if (javaInterpreter)
            // javaInterpreter->exec(code);
-        if (!exec(classname.toAscii().data(), method.toAscii().data() , arg.toAscii().data()))
+        int k = exec(classname.toAscii().data(), method.toAscii().data() , arg.toAscii().data());
+
+        if (k == -1)
+        	console()->error(tr("Cannot find Java class ") + classname);
+        
+        if (k == -2)
         	console()->error(tr("Cannot find Java method ") + classname + tr(".") + method);
+        
     }
 
 }

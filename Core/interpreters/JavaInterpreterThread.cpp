@@ -144,8 +144,7 @@ namespace Tinkercell
 
         if (this->f)
         {
-        	int k = this->f("HelloWorld", "TestCall", "echo ba > out.txt");
-       		std::cout << "k = " << k << "\n";
+        	this->f("HelloWorld", "TestCall", "echo ba > out.txt");
         }
         else
         {
@@ -180,7 +179,7 @@ namespace Tinkercell
 							  methodname = regexp.cap(2), 
 							  argval = regexp.cap(3);*/
 
-				//int k = f("HelloWorld", "TestCall", "hello"); //classname.toAscii().data(), methodname.toAscii().data(), argval.toAscii().data());
+				int k = f("HelloWorld", "TestCall", "hello"); //classname.toAscii().data(), methodname.toAscii().data(), argval.toAscii().data());
 			/*}
 			else
 			{

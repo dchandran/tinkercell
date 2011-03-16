@@ -171,14 +171,14 @@ int main(int argc, char *argv[])
 
     mainWindow.addTool(new LoadCLibrariesTool);
 	mainWindow.addTool(new PythonTool);
-	mainWindow.addTool(new OctaveTool);
+	//mainWindow.addTool(new OctaveTool);
 	mainWindow.addTool(new JavaTool);
+
 	mainWindow.addTool(codingWindowPlugin);
 	mainWindow.addTool(new ModuleCombinatorics);
 
     /*******  Dynamically load plugins from folders ***********/
     DefaultPluginsMenu menu(&mainWindow);
-
     mainWindow.settingsMenu->addMenu(&menu);
 	mainWindow.setDockOptions(QMainWindow::AnimatedDocks|QMainWindow::AllowNestedDocks);
 
@@ -221,7 +221,12 @@ int main(int argc, char *argv[])
     /*******  process command line arguments, if any ***********/
 	if (argc > 1)
 		for (int i=1; i < argc; ++i)
-			mainWindow.open(QString(argv[i]));
+		{
+			if (mainWindow.console())
+				mainWindow.console()->eval(QString(argv[i]));
+			else
+				mainWindow.open(QString(argv[i]));
+		}
 
     /* main loop */
     int output = app.exec();	

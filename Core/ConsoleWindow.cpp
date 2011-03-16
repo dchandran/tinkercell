@@ -326,7 +326,13 @@ namespace Tinkercell
             currentHistoryIndex = historyStack.size();
         }
         
-        emit commandExecuted(command);
+        if (command.trimmed().toLower() == tr("clear"))
+        	clearText();
+		else
+			if (mainWindow && QFile::exists(command.trimmed()))
+				mainWindow->open(command.trimmed());
+			else
+				emit commandExecuted(command);
     
         if (!alreadyInsertedPrompt)
         {
@@ -640,13 +646,13 @@ namespace Tinkercell
 	{
 		commandTextEdit.eval(s);
 
-		if (!s.isEmpty())
+		/*if (!s.isEmpty())
 		{
 			if (parentWidget())
 				parentWidget()->show();
 			else
 				show();
-		}
+		}*/
 	}
 
 	void ConsoleWindow::printTable(const DataTable<qreal>& table)

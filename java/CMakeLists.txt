@@ -29,67 +29,23 @@ IF(JAVA_JVM_LIBRARY AND JAVA_INCLUDE_PATH)
    FILE(GLOB TCAPI_SRC ${TINKERCELL_SOURCE_DIR}/API/*.c)
 
    #embed
-   ADD_LIBRARY( tcjava
+   ADD_LIBRARY( tinkercell
       SHARED
       runjava.cpp
-      #tinkercell_wrap.c
-  )
-
-   TARGET_LINK_LIBRARIES( tcjava
-      tcjava
-      ${JAVA_JVM_LIBRARY}
-  )
- 
-  #extend
-  ADD_LIBRARY( swigtcjava
-      SHARED
       tinkercell_wrap.c
       ${TCAPI_SRC}
   )
 
-   TARGET_LINK_LIBRARIES( swigtcjava
-      swigtcjava
+   TARGET_LINK_LIBRARIES( tinkercell
+      tinkercell
       ${JAVA_JVM_LIBRARY}
   )
  
-  INSTALL(TARGETS tcjava DESTINATION bin/../)
+  INSTALL(TARGETS tinkercell DESTINATION bin/../)
 
-  IF ( WIN32 )
-    IF ( MINGW )
-       ADD_CUSTOM_COMMAND (
-             TARGET swigtcjava POST_BUILD
-             COMMAND move /Y ..\\bin\\libswigtcjava.dll ..\\bin\\tinkercell.dll
-         )
-    ELSE ( MINGW )
-       ADD_CUSTOM_COMMAND (
-           TARGET swigtcjava POST_BUILD
-           COMMAND move /Y ..\\bin\\swigtcjava.dll ..\\bin\\tinkercell.dll
-       )
-    ENDIF ( MINGW )
-  ELSE ( WIN32 )
-  IF( APPLE )
-    ADD_CUSTOM_COMMAND (
-         TARGET swigtcjava POST_BUILD
-         COMMAND cp ${TINKERCELL_BINARY_DIR}/bin/libswigtcjava.dylib ${TINKERCELL_BINARY_DIR}/bin/libtinkercell.so
-         COMMAND cp ${TINKERCELL_BINARY_DIR}/bin/libswigtcjava.dylib ${TINKERCELL_BINARY_DIR}/bin/tinkercell.dylib
-    )
-  ELSE ( APPLE )
-    ADD_CUSTOM_COMMAND (
-         TARGET swigtcjava POST_BUILD
-         COMMAND cp ${TINKERCELL_BINARY_DIR}/bin/libswigtcjava.so ${TINKERCELL_BINARY_DIR}/bin/libtinkercell.so
-    )
-  ENDIF( APPLE )
-  ENDIF( WIN32 )
-
-  FILE(GLOB JAVA_LOADER ${TINKERCELL_BINARY_DIR}/bin/tinkercell.* ${TINKERCELL_BINARY_DIR}/bin/libtinkercell.*)
   FILE(GLOB JAVA_FILES *.java *.class)
 
   INSTALL(FILES ${JAVA_FILES}
-     DESTINATION java
-     COMPONENT Java
-   )
-
-  INSTALL(FILES ${JAVA_LOADER}
      DESTINATION bin/../
      COMPONENT Java
    )

@@ -1,4 +1,6 @@
+#include <iostream>
 #include <stdio.h>
+#include <string.h>
 #include <jni.h>
 #include <string>
 #include "TC_api.h"
@@ -14,21 +16,36 @@ JNIEnv* create_java_vm(JavaVM ** jvm, const char * classpath)
 {
     JNIEnv *env;
     JavaVMInitArgs vm_args;
-    JavaVMOption options;
+    JavaVMOption options[3];
     std::string path1("-Djava.class.path=."), 
-    				 path2(classpath);
-    if (!path2.empty())
+    				 extra(classpath),
+    				 path2("-Djava.library.path=.");
+    if (!extra.empty())
     {
-    	path1.append(";");
-    	path1.append(path2);
+    	path1.append(":");
+    	path1.append(extra);
+    	path2.append(":");
+    	path2.append(extra);
     }
-    options.optionString = const_cast<char*>(path1.c_str()); //Path to the java source code
+    
+    char * c1 = new char[ path1.size() ];
+    char * c2 = new char[ path2.size() ];
+    
+    strcpy(c1, path1.c_str());
+    strcpy(c2, path2.c_str());
+    
+    options[0].optionString = c1;
+    options[1].optionString = c2;
     vm_args.version = JNI_VERSION_1_6; //JDK version. This indicates version 1.6
-    vm_args.nOptions = 1;
-    vm_args.options = &options;
-    vm_args.ignoreUnrecognized = 0;
+    vm_args.options = options;
+    vm_args.nOptions = 2;
+    vm_args.ignoreUnrecognized = JNI_TRUE;
     
     int ret = JNI_CreateJavaVM(jvm, (void**)&env, &vm_args);
+    
+    delete c1;
+    delete c2;
+
     if(ret < 0) return 0; //error
     return env;
 }
@@ -73,8 +90,12 @@ extern "C"
 			JAVAENV->CallStaticVoidMethod(currentClass,currentMethod,StringArg);
 			return 1;
 		}
-
-		return 0;
+		
+		if (currentClass == NULL)
+			return -1;
+		
+		if (currentMethod == NULL)
+			return -2;
 	}
 
 	TCAPIEXPORT void finalize()

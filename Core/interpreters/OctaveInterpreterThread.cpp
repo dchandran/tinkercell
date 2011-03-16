@@ -169,7 +169,7 @@ namespace Tinkercell
 			    sourcefile.write(script.toAscii());
 			    sourcefile.close();
 			}
-      	#ifdef Q_WS_WIN
+     	#ifdef Q_WS_WIN
 			QFile outfile(tr("diary"));
 			if (outfile.open(QFile::WriteOnly))
 			{

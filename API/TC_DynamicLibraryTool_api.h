@@ -28,18 +28,21 @@ TCAPIEXPORT int tc_compileBuildLoad(const char* filename,const char* function,co
  \ingroup Programming
 */
 TCAPIEXPORT int tc_compileBuildLoadSliders(const char* filename,const char* function,const char* title, tc_matrix inputs);
+
 /*! 
  \brief run the Python code given by the string
  \param string python code
  \ingroup Programming
 */
 TCAPIEXPORT void tc_runPythonCode(const char* code);
+
 /*! 
  \brief run the Python code in the given file
  \param string python script file
  \ingroup Programming
 */
 TCAPIEXPORT void tc_runPythonFile(const char* filename);
+
 /*! 
  \brief add a python script to the functions menu
  \param string python script file
@@ -49,18 +52,21 @@ TCAPIEXPORT void tc_runPythonFile(const char* filename);
  \ingroup Programming
 */
 TCAPIEXPORT void tc_addPythonPlugin(const char* file,const char* name,const char* description,const char* category, const char* icon);
+
 /*! 
  \brief call a function listed in the functions menu, e.g. "Deterministic simulation"
  \param string name of function
  \ingroup Programming
 */
 TCAPIEXPORT void tc_callFunction(const char* functionTitle);
+
 /*! 
  \brief run a dynamic C library that contains the function "tc_main"
  \param string name of C library
  \ingroup Programming
 */
 TCAPIEXPORT void tc_loadLibrary(const char* filename);
+
 /*! 
  \brief add a function to the menu of functions
  \param void* pointer to function
@@ -74,7 +80,6 @@ TCAPIEXPORT void tc_loadLibrary(const char* filename);
  \ingroup Programming
 *//*! 
  \brief initialize octave plug-in
-
  \ingroup init
 */
 TCAPIEXPORT void tc_OctaveTool_api(
@@ -107,25 +112,6 @@ TCAPIEXPORT void  tc_runOctaveFile(const char* filename);
  \ingroup Programming interface
 */
 TCAPIEXPORT void  tc_addOctavePlugin(const char* file,const char* name,const char* description,const char* category, const char* icon);
-
-/*! 
- \brief run a Java static method
- \param string java class name
- \param string java method name
-  \param string argument
- \ingroup Programming interface
-*/
-TCAPIEXPORT void tc_runJavaCode(const char* code, const char* method, const char* arg);
-
-/*! 
- \brief add a Java method call to the functions menu
- \param string java code in the form of class.method(arg)
- \param string name of program
- \param string description of program
- \param string category where the program belongs (in the function menu)
- \ingroup Programming interface
-*/
-TCAPIEXPORT void  tc_addJavaPlugin(const char* file,const char* name,const char* description,const char* category, const char* icon);
 
 /*! 
  \brief initialize dialogs and c interface
@@ -163,15 +149,6 @@ TCAPIEXPORT void tc_OctaveTool_api(
 		void (*runOctaveCode)(const char*),
 		void (*runOctaveFile)(const char*),
 		void (*addOctavePlugin)(const char*,const char*,const char*,const char*,const char*)
-);
-
-/*! 
- \brief initialize java plug-in
- \ingroup init
-*/
-TCAPIEXPORT void tc_JavaTool_api(
-		void (*runJavaCode)(const char*,const char*,const char*),
-		void (*addJavaPlugin)(const char*,const char*,const char*,const char*,const char*)
 );
 
 END_C_DECLS

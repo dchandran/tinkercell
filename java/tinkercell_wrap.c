@@ -3968,78 +3968,6 @@ SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1addOctavePlugin(JNIEnv *jenv, jcl
 }
 
 
-SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1runJavaCode(JNIEnv *jenv, jclass jcls, jstring jarg1, jstring jarg2, jstring jarg3) {
-  char *arg1 = (char *) 0 ;
-  char *arg2 = (char *) 0 ;
-  char *arg3 = (char *) 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  arg1 = 0;
-  if (jarg1) {
-    arg1 = (char *)(*jenv)->GetStringUTFChars(jenv, jarg1, 0);
-    if (!arg1) return ;
-  }
-  arg2 = 0;
-  if (jarg2) {
-    arg2 = (char *)(*jenv)->GetStringUTFChars(jenv, jarg2, 0);
-    if (!arg2) return ;
-  }
-  arg3 = 0;
-  if (jarg3) {
-    arg3 = (char *)(*jenv)->GetStringUTFChars(jenv, jarg3, 0);
-    if (!arg3) return ;
-  }
-  tc_runJavaCode((char const *)arg1,(char const *)arg2,(char const *)arg3);
-  if (arg1) (*jenv)->ReleaseStringUTFChars(jenv, jarg1, (const char *)arg1);
-  if (arg2) (*jenv)->ReleaseStringUTFChars(jenv, jarg2, (const char *)arg2);
-  if (arg3) (*jenv)->ReleaseStringUTFChars(jenv, jarg3, (const char *)arg3);
-}
-
-
-SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1addJavaPlugin(JNIEnv *jenv, jclass jcls, jstring jarg1, jstring jarg2, jstring jarg3, jstring jarg4, jstring jarg5) {
-  char *arg1 = (char *) 0 ;
-  char *arg2 = (char *) 0 ;
-  char *arg3 = (char *) 0 ;
-  char *arg4 = (char *) 0 ;
-  char *arg5 = (char *) 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  arg1 = 0;
-  if (jarg1) {
-    arg1 = (char *)(*jenv)->GetStringUTFChars(jenv, jarg1, 0);
-    if (!arg1) return ;
-  }
-  arg2 = 0;
-  if (jarg2) {
-    arg2 = (char *)(*jenv)->GetStringUTFChars(jenv, jarg2, 0);
-    if (!arg2) return ;
-  }
-  arg3 = 0;
-  if (jarg3) {
-    arg3 = (char *)(*jenv)->GetStringUTFChars(jenv, jarg3, 0);
-    if (!arg3) return ;
-  }
-  arg4 = 0;
-  if (jarg4) {
-    arg4 = (char *)(*jenv)->GetStringUTFChars(jenv, jarg4, 0);
-    if (!arg4) return ;
-  }
-  arg5 = 0;
-  if (jarg5) {
-    arg5 = (char *)(*jenv)->GetStringUTFChars(jenv, jarg5, 0);
-    if (!arg5) return ;
-  }
-  tc_addJavaPlugin((char const *)arg1,(char const *)arg2,(char const *)arg3,(char const *)arg4,(char const *)arg5);
-  if (arg1) (*jenv)->ReleaseStringUTFChars(jenv, jarg1, (const char *)arg1);
-  if (arg2) (*jenv)->ReleaseStringUTFChars(jenv, jarg2, (const char *)arg2);
-  if (arg3) (*jenv)->ReleaseStringUTFChars(jenv, jarg3, (const char *)arg3);
-  if (arg4) (*jenv)->ReleaseStringUTFChars(jenv, jarg4, (const char *)arg4);
-  if (arg5) (*jenv)->ReleaseStringUTFChars(jenv, jarg5, (const char *)arg5);
-}
-
-
 SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1DynamicLibraryMenu_1api(JNIEnv *jenv, jclass jcls, jlong jarg1) {
   void (*arg1)(char const *) = (void (*)(char const *)) 0 ;
   
@@ -4079,18 +4007,6 @@ SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1PythonTool_1api(JNIEnv *jenv, jcl
   arg2 = *(void (**)(char const *))&jarg2; 
   arg3 = *(void (**)(char const *,char const *,char const *,char const *,char const *))&jarg3; 
   tc_PythonTool_api(arg1,arg2,arg3);
-}
-
-
-SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1JavaTool_1api(JNIEnv *jenv, jclass jcls, jlong jarg1, jlong jarg2) {
-  void (*arg1)(char const *,char const *,char const *) = (void (*)(char const *,char const *,char const *)) 0 ;
-  void (*arg2)(char const *,char const *,char const *,char const *,char const *) = (void (*)(char const *,char const *,char const *,char const *,char const *)) 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  arg1 = *(void (**)(char const *,char const *,char const *))&jarg1; 
-  arg2 = *(void (**)(char const *,char const *,char const *,char const *,char const *))&jarg2; 
-  tc_JavaTool_api(arg1,arg2);
 }
 
 

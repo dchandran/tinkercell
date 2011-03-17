@@ -219,7 +219,6 @@ namespace Tinkercell
 			{
 				if (console())
 					console()->message("JVM loaded successfully");
-				console()->message( QString::number(exec("HelloWorld", "TestCall", "abcde")));
 			}
 
 			toolLoaded(0);

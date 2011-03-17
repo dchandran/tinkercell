@@ -29,7 +29,7 @@
 #include "LoadCLibraries.h"
 #include "PythonTool.h"
 #include "OctaveTool.h"
-#include "JavaTool.h"
+//#include "JavaTool.h"
 #include "CodingWindow.h"
 #include "DynamicLibraryMenu.h"
 #include "BasicInformationTool.h"
@@ -171,8 +171,8 @@ int main(int argc, char *argv[])
 
     mainWindow.addTool(new LoadCLibrariesTool);
 	mainWindow.addTool(new PythonTool);
-	//mainWindow.addTool(new OctaveTool);
-	mainWindow.addTool(new JavaTool);
+	mainWindow.addTool(new OctaveTool);
+	//mainWindow.addTool(new JavaTool);
 
 	mainWindow.addTool(codingWindowPlugin);
 	mainWindow.addTool(new ModuleCombinatorics);

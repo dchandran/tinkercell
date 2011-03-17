@@ -809,14 +809,6 @@ def tc_addOctavePlugin(*args):
   return _tinkercell.tc_addOctavePlugin(*args)
 tc_addOctavePlugin = _tinkercell.tc_addOctavePlugin
 
-def tc_runJavaCode(*args):
-  return _tinkercell.tc_runJavaCode(*args)
-tc_runJavaCode = _tinkercell.tc_runJavaCode
-
-def tc_addJavaPlugin(*args):
-  return _tinkercell.tc_addJavaPlugin(*args)
-tc_addJavaPlugin = _tinkercell.tc_addJavaPlugin
-
 def tc_DynamicLibraryMenu_api(*args):
   return _tinkercell.tc_DynamicLibraryMenu_api(*args)
 tc_DynamicLibraryMenu_api = _tinkercell.tc_DynamicLibraryMenu_api
@@ -828,10 +820,6 @@ tc_LoadCLibraries_api = _tinkercell.tc_LoadCLibraries_api
 def tc_PythonTool_api(*args):
   return _tinkercell.tc_PythonTool_api(*args)
 tc_PythonTool_api = _tinkercell.tc_PythonTool_api
-
-def tc_JavaTool_api(*args):
-  return _tinkercell.tc_JavaTool_api(*args)
-tc_JavaTool_api = _tinkercell.tc_JavaTool_api
 
 def tc_surface(*args):
   return _tinkercell.tc_surface(*args)

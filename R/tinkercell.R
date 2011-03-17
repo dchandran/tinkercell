@@ -584,12 +584,6 @@ setClass('_p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_co
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_p_q_const__char_p_q_const__char_p_q_const__char__void',
-        prototype = list(parameterTypes = c('_p_char', '_p_char', '_p_char'),
-                        returnType = '_p_f_p_q_const__char_p_q_const__char_p_q_const__char__void'),
-        contains = 'CRoutinePointer')
-
-##
 setClass('_p_f_tc_matrix_p_q_const__char__void',
         prototype = list(parameterTypes = c('_tc_matrix', '_p_char'),
                         returnType = '_p_f_tc_matrix_p_q_const__char__void'),
@@ -5293,38 +5287,6 @@ attr(`tc_addOctavePlugin`, 'returnType') = 'void'
 attr(`tc_addOctavePlugin`, "inputTypes") = c('character', 'character', 'character', 'character', 'character')
 class(`tc_addOctavePlugin`) = c("SWIGFunction", class('tc_addOctavePlugin'))
 
-# Start of tc_runJavaCode
-
-`tc_runJavaCode` = function(code, method, s_arg)
-{
-  code = as(code, "character") 
-  method = as(method, "character") 
-  s_arg = as(s_arg, "character") 
-  .Call('R_swig_tc_runJavaCode', code, method, s_arg, PACKAGE='tinkercell')
-  
-}
-
-attr(`tc_runJavaCode`, 'returnType') = 'void'
-attr(`tc_runJavaCode`, "inputTypes") = c('character', 'character', 'character')
-class(`tc_runJavaCode`) = c("SWIGFunction", class('tc_runJavaCode'))
-
-# Start of tc_addJavaPlugin
-
-`tc_addJavaPlugin` = function(file, name, description, category, icon)
-{
-  file = as(file, "character") 
-  name = as(name, "character") 
-  description = as(description, "character") 
-  category = as(category, "character") 
-  icon = as(icon, "character") 
-  .Call('R_swig_tc_addJavaPlugin', file, name, description, category, icon, PACKAGE='tinkercell')
-  
-}
-
-attr(`tc_addJavaPlugin`, 'returnType') = 'void'
-attr(`tc_addJavaPlugin`, "inputTypes") = c('character', 'character', 'character', 'character', 'character')
-class(`tc_addJavaPlugin`) = c("SWIGFunction", class('tc_addJavaPlugin'))
-
 # Start of tc_DynamicLibraryMenu_api
 
 `tc_DynamicLibraryMenu_api` = function(callFunction)
@@ -5450,38 +5412,6 @@ class(`tc_LoadCLibraries_api`) = c("SWIGFunction", class('tc_LoadCLibraries_api'
 attr(`tc_PythonTool_api`, 'returnType') = 'void'
 attr(`tc_PythonTool_api`, "inputTypes") = c('_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void', '_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void')
 class(`tc_PythonTool_api`) = c("SWIGFunction", class('tc_PythonTool_api'))
-
-# Start of tc_JavaTool_api
-
-`tc_JavaTool_api` = function(runJavaCode, addJavaPlugin)
-{
-  if(is.function(runJavaCode)) {
-    assert('...' %in% names(formals(runJavaCode)) || length(formals(runJavaCode)) >= 3)
-  } else {
-    if(is.character(runJavaCode)) {
-      runJavaCode = getNativeSymbolInfo(runJavaCode)
-    }
-    if(is(runJavaCode, "NativeSymbolInfo")) {
-      runJavaCode = runJavaCode$address
-    }
-  }
-  if(is.function(addJavaPlugin)) {
-    assert('...' %in% names(formals(addJavaPlugin)) || length(formals(addJavaPlugin)) >= 0)
-  } else {
-    if(is.character(addJavaPlugin)) {
-      addJavaPlugin = getNativeSymbolInfo(addJavaPlugin)
-    }
-    if(is(addJavaPlugin, "NativeSymbolInfo")) {
-      addJavaPlugin = addJavaPlugin$address
-    }
-  }
-  .Call('R_swig_tc_JavaTool_api', runJavaCode, addJavaPlugin, PACKAGE='tinkercell')
-  
-}
-
-attr(`tc_JavaTool_api`, 'returnType') = 'void'
-attr(`tc_JavaTool_api`, "inputTypes") = c('_p_f_p_q_const__char_p_q_const__char_p_q_const__char__void', '_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void')
-class(`tc_JavaTool_api`) = c("SWIGFunction", class('tc_JavaTool_api'))
 
 # Start of tc_surface
 

@@ -73,7 +73,7 @@ namespace Tinkercell
 		for (int i=0; i < items.size(); ++i)
 		{
 			h = getHandle(items[i]);
-			if (h || includeNull)
+			if (includeNull || (h && !list.contains(h)))
 				list << h;
 		}
 		return list;
@@ -168,7 +168,7 @@ namespace Tinkercell
 			if (children[i] && !MainWindow::invalidPointers.contains((void*)children[i]))
 			{
 				children[i]->parent = 0;
-			    MainWindow::invalidPointers[ (void*)children[i] ] = true;
+				MainWindow::invalidPointers[ (void*)children[i] ] = true;
 				delete children[i];
 			}
 		}

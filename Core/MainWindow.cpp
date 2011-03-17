@@ -1095,7 +1095,7 @@ namespace Tinkercell
 		{
 			if (toolsHash[i])
 			{
-				if (toolsHash[i]->parentWidget() == 0)
+				if (!toolsHash[i]->parent() == 0)
 				{
 					for (int j=0; j < toolsHash.size(); ++j)
 						if (i != j && toolsHash[j] == toolsHash[i])

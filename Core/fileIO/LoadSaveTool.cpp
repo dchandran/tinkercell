@@ -1023,14 +1023,29 @@ namespace Tinkercell
 		//cleanup cached models
 		QList<CachedModel*> cached = cachedModels.values();
 		cachedModels.clear();
+		
+		QList<ItemHandle*> handles;
+		
 		for (int i=0; i < cached.size(); ++i)
 			if (cached[i])
 			{
 				if (cached[i]->globalHandle)
-					delete cached[i]->globalHandle;
-				for (int j=0; j < cached[i]->items.size(); ++j)
-					if (cached[i]->items[j])
-						delete cached[i]->items[j];
+					if (!MainWindow::invalidPointers.contains((void*)cached[i]->globalHandle))
+					{
+						MainWindow::invalidPointers[ cached[i]->globalHandle ] = true;
+						delete cached[i]->globalHandle;
+					}
+				
+				handles = getHandle(cached[i]->items,true);
+				
+				for (int j=0; j < handles.size(); ++j)
+					if (!MainWindow::invalidPointers.contains((void*)handles[j]))
+					{
+						MainWindow::invalidPointers[ (void*)handles[j] ] = true;
+						delete handles[j];
+					}
+				cached[i]->items.clear();
+				cached[i]->globalHandle= 0;
 				delete cached[i];
 			}
 	}

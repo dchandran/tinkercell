@@ -41,9 +41,9 @@ namespace Tinkercell
 	
 	bool ConnectionInsertion::isProduct(NodeHandle * node)
 	{
-		if (!node) return false;
+		if (!node || !node->family()) return false;
 		for (int i=0; i < typeOut.size(); ++i)
-			if (node->isA(typeOut[i]))
+			if (node->family()->isA(typeOut[i]) || node->family()->isParentOf(typeOut[i]))
 				return true;
 		return false;
 	}
@@ -1107,8 +1107,9 @@ namespace Tinkercell
 										nodesTree->getFamily(participantTypes[j]))
 								{
 									handlesWithNewFamilies << nodeHandle;
-									
+									oldFamilies << nodeHandle->family();
 									commands << new SetHandleFamilyCommand(tr("new family"),nodeHandle,nodesTree->getFamily(participantTypes[j]));
+									nodeHandle->setFamily(nodesTree->getFamily(participantTypes[j]), false);
 									break;
 								}
 						}

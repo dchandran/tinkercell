@@ -199,6 +199,7 @@ done
 #create disk image
 hdiutil create -megabytes 220 -fs HFS+ -volname @TINKERCELL_EXE@ ~/Desktop/@TINKERCELL_EXE@
 open ~/Desktop/@TINKERCELL_EXE@.dmg
+echo "waiting 20 secs for hutil to finish"
 sleep 10
 cd @TINKERCELL_BINARY_BIN_DIR@
 cp -R @TINKERCELL_EXE@.app /Volumes/@TINKERCELL_EXE@

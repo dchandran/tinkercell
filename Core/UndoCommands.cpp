@@ -1104,28 +1104,6 @@ namespace Tinkercell
 			}
 
 			setHandle(graphicsItems[i],0);
-
-			if (itemHandles.size() > i && itemHandles[i])
-			{
-				emptyHandle = true;				
-				for (int j=0; j < itemHandles[i]->graphicsItems.size(); ++j)
-					if (itemHandles[i]->graphicsItems[j] && 
-						itemHandles[i]->graphicsItems[j]->scene() &&
-						static_cast<GraphicsScene*>(itemHandles[i]->graphicsItems[j]->scene())->networkWindow->isVisible())
-					{
-						emptyHandle = false;
-						break;
-					}
-				
-				if (emptyHandle)
-				{
-					itemHandles[i]->network = 0;
-					for (int j=0; j < itemHandles[i]->children.size(); ++j)
-						if (itemHandles[i]->children[j])
-							itemHandles[i]->children[j]->parent = 0;
-				}
-			}
-
 		}
 
 		bool firstTime = (changeDataCommand == 0);
@@ -1334,7 +1312,13 @@ namespace Tinkercell
 						break;
 					}
 				if (emptyHandle)
+				{
+					itemHandles[i]->network = 0;
+					for (int j=0; j < itemHandles[i]->children.size(); ++j)
+						if (itemHandles[i]->children[j])
+							itemHandles[i]->children[j]->parent = 0;
 					itemHandles[i]->setParent(0,false);
+				}
 			}
 	}
 

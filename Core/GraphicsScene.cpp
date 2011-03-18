@@ -1176,6 +1176,7 @@ namespace Tinkercell
 			setSceneRect(0,0,this->width()*2, this->height()*2);
 		}
 	}
+
 	/*! \brief a simple move operation with undo*/
 	void GraphicsScene::move(const QList<QGraphicsItem*>& items0, const QPointF& distance0)
 	{
@@ -1734,9 +1735,18 @@ namespace Tinkercell
 
 	void GraphicsScene::copy()
 	{
-		GraphicsScene * scene = this;
+		QList<QGraphicsItem*> items = selectedItems;
 
-		QList<QGraphicsItem*> items = scene->selected();
+		if (items.size() < 1) return;
+
+		clearStaticItems();
+
+		QList<ItemHandle*> allNewHandles;
+		GraphicsScene::duplicateItems = cloneGraphicsItems(items,allNewHandles);
+
+		emit copyItems(this,duplicateItems,allNewHandles);
+		
+		deselect();
 
 		TextGraphicsItem* textItem = 0;
 		QClipboard * clipboard = QApplication::clipboard();
@@ -1748,30 +1758,17 @@ namespace Tinkercell
 			}
 			else
 			{
-				QRectF viewport = this->visibleRegion();
-				/*if (items.size() == 1 && items[0])
-					viewport = items[0]->sceneBoundingRect().normalized();
-				else
-					viewport = QRectF( clickedPoint, selectionRect.sceneBoundingRect().normalized().size() );*/
-				int w = 640;
-				int h = (int)(viewport.height() * w/viewport.width());
+				QRectF rect = visibleRegion();
+				int w = 800;
+				int h = (int)(rect.height() * w/rect.width());
 				QImage image(w,h,QImage::Format_ARGB32);
-				scene->print(&image);
+				print(&image,rect);
 				clipboard->setImage(image);
 			}
 		}
-
-		if (items.size() < 1) return;
-
-		clearStaticItems();
-
-
-		QList<ItemHandle*> allNewHandles;
-		GraphicsScene::duplicateItems = cloneGraphicsItems(items,allNewHandles);
-
-		emit copyItems(this,duplicateItems,allNewHandles);	
-
-		GraphicsScene::copiedFromScene = scene;
+		
+		select(items);
+		GraphicsScene::copiedFromScene = this;
 	}
 
 	void GraphicsScene::cut()

@@ -649,10 +649,12 @@ namespace Tinkercell
 		//printer.setResolution(300);
 		printer.setOutputFormat(QPrinter::PdfFormat);
 		printer.setOrientation(QPrinter::Landscape);
-		printer.setPageSize(QPrinter::A4);
-		//printer.setPageSize(QPrinter::B0);
+		
+		QRectF rect = scene->visibleRegion();
+		QSizeF sz( 1000.0 , 1000.0 * rect.height() / rect.width() );
+		printer.setPaperSize(sz,QPrinter::Millimeter);
 		printer.setOutputFileName(fileName);
-		scene->print(&printer);
+		scene->print(&printer, rect);
 		
 		/*
 		QSvgGenerator printer;

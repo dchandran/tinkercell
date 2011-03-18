@@ -1758,7 +1758,11 @@ namespace Tinkercell
 			}
 			else
 			{
-				QRectF rect = visibleRegion();
+				QRectF rect;
+				
+				for (int i=0; i < items.size(); ++i)
+					rect.unite(items[i]->sceneBoundingRect());
+				
 				int w = 800;
 				int h = (int)(rect.height() * w/rect.width());
 				QImage image(w,h,QImage::Format_ARGB32);

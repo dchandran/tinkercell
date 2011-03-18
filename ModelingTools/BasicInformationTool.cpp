@@ -280,7 +280,7 @@ namespace Tinkercell
 
 		for (int i=0; i < itemHandles.size(); ++i) //build combined matrix for all selected reactions
 		{
-			bool remove = true;
+			//bool remove = true;
 			if (itemHandles[i] != 0)
 			{
 				if (itemHandles[i]->hasNumericalData(this->name))
@@ -289,7 +289,7 @@ namespace Tinkercell
 					for (int j=0; j < nDataTable->rows(); ++j)
 					{
 						QString str = itemHandles[i]->fullName() + tr(".") + nDataTable->rowName(j);
-						if (equations.isEmpty() || equations.contains(str))
+						//if (equations.isEmpty() || equations.contains(str))
 						{
 							tableItems << QPair<ItemHandle*,int>(itemHandles[i],j);
 							headers << (itemHandles[i]->fullName() + tr("."));
@@ -298,20 +298,20 @@ namespace Tinkercell
 							min += QString::number(nDataTable->value(j,1));
 							max += QString::number(nDataTable->value(j,2));
 							constants.insert(str,nDataTable->value(j,0));
-							remove = false;
+							//remove = false;
 						}
-						else
+						/*else
 						{
 							ignoredVarNames << (itemHandles[i]->fullName() + tr(".") + nDataTable->rowName(j));
-						}
+						}*/
 					}
 				}
 			}
-			if (remove)
+			/*if (remove)
 			{
 				itemHandles.removeAt(i);
 				--i;
-			}
+			}*/
 		}
 
 		if (names.size() > 0)

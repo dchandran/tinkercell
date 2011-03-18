@@ -440,7 +440,7 @@ namespace Tinkercell
 							if (topLevelItem = (*i)->topLevelItem())
 							{
 								arrow = ArrowHeadItem::cast(topLevelItem);
-								if (!arrow || selectedItems.contains(arrow->connectionItem))
+								if (!arrow)// || selectedItems.contains(arrow->connectionItem))
 									movingItems.append(topLevelItem);
 								
 								if (ncp = qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(topLevelItem))

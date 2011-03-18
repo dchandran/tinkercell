@@ -649,7 +649,7 @@ namespace Tinkercell
 						}
 					}
 					
-					if (!isProperReaction)
+					/*if (!isProperReaction)
 					{
 						QString rate = hillEquation(NodeHandle::cast(parts[i]));
 						if (!rate.isEmpty())
@@ -688,7 +688,7 @@ namespace Tinkercell
 							oldDataTables += &(parts[i]->textDataTable(tr("Assignments")));
 							newDataTables += sDat;
 						}
-					}
+					}*/
 				}
 
 				if (parts[i]->isA(tr("Coding")) && NodeHandle::cast(parts[i]))
@@ -1908,6 +1908,7 @@ namespace Tinkercell
 			if (nodeHandle)
 			{
 				QString s0 = nodeHandle->fullName();
+
 				QString s1 = tr("(1+ ((") + s0 + tr("/") + cname + tr(".Kd)^") + cname + tr(".h))");
 				allTFs << s1;
 			}

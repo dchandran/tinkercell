@@ -505,7 +505,7 @@ namespace Tinkercell
 		RenameCommand(const QString& name, NetworkHandle *, const QList<ItemHandle*>& allItems, const QList<ItemHandle*>& itemhandles, const QList<QString>& newnames, bool forceUnique=true);
 		void redo();
 		void undo();
-		static void findReplaceAllHandleData(const QList<ItemHandle*>& allItems,const QString& oldName,const QString& newName);
+		static void findReplaceAllHandleData(QList<ItemHandle*>& allItems,const QString& oldName,const QString& newName);
 		static void substituteString(QString& targetValue, const QString& oldName,const QString& newName);
 	private:
 		QList<ItemHandle*> allhandles;
@@ -630,6 +630,7 @@ namespace Tinkercell
 		QList<ItemHandle*> oldHandles;
 		ItemHandle* newHandle;
 	private:
+		NetworkHandle * network;
 		QHash< ItemHandle*, QList<QGraphicsItem*> > oldGraphicsItems;
 		QHash< ItemHandle*, QList<ItemHandle*> > oldChildren;
 		QHash< ItemHandle*, ItemHandle* > oldParents;

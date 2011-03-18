@@ -2251,14 +2251,12 @@ namespace Tinkercell
 		target.replace(newname,newname0);
 	}
 
-	void RenameCommand::findReplaceAllHandleData(const QList<ItemHandle*>& handles0,const QString& oldname,const QString& newname)
+	void RenameCommand::findReplaceAllHandleData(QList<ItemHandle*>& handles,const QString& oldname,const QString& newname)
 	{
 		if (oldname.isEmpty()) return; //impossible
 
 		DataTable<qreal> * nDat = 0;
 		DataTable<QString> * sDat = 0;
-		
-		QList<ItemHandle*> handles = handles0;
 
 		for (int i=0; i < handles.size(); ++i)
 		{
@@ -2273,7 +2271,7 @@ namespace Tinkercell
 				if (!handles[i]->name.isEmpty() && s1.startsWith(handles[i]->fullName()))
 				{
 					s1.replace(handles[i]->fullName() + QObject::tr("."), QObject::tr(""));
-					s1.replace(handles[i]->fullName() + QObject::tr("_"), QObject::tr(""));
+					s1.replace(handles[i]->fullName() + QObject::tr("_"), QObject::tr(""));					
 				}
 				QList< QString > keys = handles[i]->numericalDataNames();
 				for (int j=0; j < keys.size(); ++j)  //go through each num data
@@ -3051,7 +3049,7 @@ namespace Tinkercell
 	}
 
 	MergeHandlesCommand::MergeHandlesCommand(const QString& text, NetworkHandle * net, const QList<ItemHandle*>& handles) :
-		QUndoCommand(text)
+		QUndoCommand(text), network(net)
 	{
 		newHandle = 0;
 		oldHandles = handles;

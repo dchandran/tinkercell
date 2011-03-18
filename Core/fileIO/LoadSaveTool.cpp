@@ -470,13 +470,22 @@ namespace Tinkercell
 			globalHandle = new ItemHandle;
 			loadItems(items,filename, globalHandle);
 		}
+		
+		cache = new CachedModel;
+		cache->time = fileInfo.lastModified();
+		cache->globalHandle = globalHandle->clone();
+		QList<ItemHandle*> newHandles;
+		cache->items = cloneGraphicsItems(items, newHandles);
+		cachedModels[filename] = cache;
 
 		if (!root)
 			handles += globalHandle;
 
 		for (int i=0; i < items.size(); ++i)
 			if ((h = getHandle(items[i])) && !handles.contains(h))
+			{
 				handles += h;
+			}
 
 		if (root)
 		{
@@ -548,14 +557,6 @@ namespace Tinkercell
 					RenameCommand::findReplaceAllHandleData(handles,h->name,root->fullName() + tr(".") + h->name);
 				}
 		}
-
-		cache = new CachedModel;
-		cache->time = fileInfo.lastModified();
-		cache->globalHandle = globalHandle->clone();
-		QList<ItemHandle*> newHandles;
-		QList<QGraphicsItem*> items2 = items;
-		cache->items = cloneGraphicsItems(items2, newHandles);
-		cachedModels[filename] = cache;
 	}
 
 	void LoadSaveTool::loadItems(QList<QGraphicsItem*>& itemsToInsert, const QString& filename, ItemHandle * globalHandle)

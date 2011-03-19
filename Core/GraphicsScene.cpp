@@ -1758,7 +1758,7 @@ namespace Tinkercell
 			}
 			else
 			{
-				QRectF rect;
+				QRectF rect(0,0,0,0);
 				
 				for (int i=0; i < items.size(); ++i)
 					rect.unite(items[i]->sceneBoundingRect());

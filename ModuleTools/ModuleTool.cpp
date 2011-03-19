@@ -1044,19 +1044,19 @@ namespace Tinkercell
 		ConnectionGraphicsItem * connection = 0;
 		QList<QGraphicsItem*> items2 = items;
 		for (int i=0; i < items2.size(); ++i)
-			if (connection = ConnectionGraphicsItem::cast(items2[i]))
+			if ((connection = ConnectionGraphicsItem::cast(items2[i])) && connection->handle())
 			{
 				 if (modularConnections.contains(connection->handle()))
 				 {
 					QString filename;
-					if (connection->isA(tr("Module")))
+					if (connection->handle()->isA(tr("Module")))
 					{
-						ItemFamily * family = connection->family();
-						filename = homeDir + tr("/Graphics/") + NodesTree::themeDirectory + tr("/Decorators/") + ConnectionsTree::decoratorImageFile(family));
+						QString family = connection->handle()->family()->name();
+						filename = homeDir + tr("/Graphics/") + NodesTree::themeDirectory + tr("/Decorators/") + ConnectionsTree::decoratorImageFile(family);
 						if (!QFile(filename).exists())
-							filename = tr(":/images/") + ConnectionsTree::decoratorImageFile(family));
+							filename = tr(":/images/") + ConnectionsTree::decoratorImageFile(family);
 						if (!QFile(filename).exists())
-							filename = (appDir + tr("/Graphics/") + NodesTree::themeDirectory + tr("/Decorators/") + ConnectionsTree::decoratorImageFile(family));
+							filename = appDir + tr("/Graphics/") + NodesTree::themeDirectory + tr("/Decorators/") + ConnectionsTree::decoratorImageFile(family);
 						if (!QFile(filename).exists())
 							filename = tr(":/images/Module.xml");
 					}

@@ -942,6 +942,8 @@ namespace Tinkercell
 		
 		QList<ItemHandle*> visited;		
 		QList<ItemHandle*> modularConnections;
+		QString appDir = QCoreApplication::applicationDirPath();
+		QString homeDir = MainWindow::homeDir();
 		
 		if (loadedItems) return;
 		
@@ -956,17 +958,17 @@ namespace Tinkercell
 				{
 					QString s = handles[i]->family()->name();
 					s.replace(tr(" "),tr("_"));
-					QString dirname = homeDir() + tr("/Modules/") + s;
+					QString dirname = homeDir + tr("/Modules/") + s;
 					QDir dir(dirname);
 		
 					if (!dir.exists())
-						dir.setPath(homeDir() + tr("/Modules/") + s.toLower());
+						dir.setPath(homeDir + tr("/Modules/") + s.toLower());
 		
 					if (!dir.exists())
-						dir.setPath(QCoreApplication::applicationDirPath() + tr("/Modules/") + s);
+						dir.setPath(appDir + tr("/Modules/") + s);
 		
 					if (!dir.exists())
-						dir.setPath(QCoreApplication::applicationDirPath() + tr("/Modules/") + s.toLower());
+						dir.setPath(appDir + tr("/Modules/") + s.toLower());
 				
 					if (dir.exists())
 					{
@@ -1046,7 +1048,22 @@ namespace Tinkercell
 			{
 				 if (modularConnections.contains(connection->handle()))
 				 {
-					QString filename = tr(":/images/expand.xml");
+					QString filename;
+					if (connection->isA(tr("Module")))
+					{
+						ItemFamily * family = connection->family();
+						filename = homeDir + tr("/Graphics/") + NodesTree::themeDirectory + tr("/Decorators/") + ConnectionsTree::decoratorImageFile(family));
+						if (!QFile(filename).exists())
+							filename = tr(":/images/") + ConnectionsTree::decoratorImageFile(family));
+						if (!QFile(filename).exists())
+							filename = (appDir + tr("/Graphics/") + NodesTree::themeDirectory + tr("/Decorators/") + ConnectionsTree::decoratorImageFile(family));
+						if (!QFile(filename).exists())
+							filename = tr(":/images/Module.xml");
+					}
+					else
+					{
+						filename = tr(":/images/expand.xml");
+					}
 					if (QFile::exists(filename))
 					{
 						ArrowHeadItem * newDecorator = new ArrowHeadItem(filename,connection);

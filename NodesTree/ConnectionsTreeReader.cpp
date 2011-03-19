@@ -166,13 +166,13 @@ namespace Tinkercell
                QString homeDir = MainWindow::homeDir();
                QString appDir = QCoreApplication::applicationDirPath();
                //set icon
-               if (family->pixmap.load(homeDir + QString("/") + ConnectionsTree::iconFile(family)))
+               if (family->pixmap.load(homeDir + QString("/Graphics/") + NodesTree::themeDirectory + QString("/Decorators/") + ConnectionsTree::iconFile(family)))
                     family->pixmap.setMask(family->pixmap.createMaskFromColor(QColor(255,255,255)));
                else
-               if (family->pixmap.load(ConnectionsTree::iconFile(family)))
+               if (family->pixmap.load(QString(":/images/") + ConnectionsTree::iconFile(family)))
                     family->pixmap.setMask(family->pixmap.createMaskFromColor(QColor(255,255,255)));
                else
-               if (family->pixmap.load(appDir + QString("/") + ConnectionsTree::iconFile(family)))
+               if (family->pixmap.load(appDir + tr("/Graphics/") + NodesTree::themeDirectory + tr("/Decorators/") + ConnectionsTree::iconFile(family)))
                     family->pixmap.setMask(family->pixmap.createMaskFromColor(QColor(255,255,255)));
                else
                     if (parentFamily)		//if no icon file, same as parent's icon

@@ -1761,7 +1761,7 @@ namespace Tinkercell
 				QRectF rect(0,0,0,0);
 				
 				for (int i=0; i < items.size(); ++i)
-					rect.unite(items[i]->sceneBoundingRect());
+					rect = rect.united(items[i]->sceneBoundingRect());
 				
 				int w = 800;
 				int h = (int)(rect.height() * w/rect.width());

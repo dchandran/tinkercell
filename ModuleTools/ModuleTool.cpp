@@ -1225,7 +1225,7 @@ namespace Tinkercell
 				if (!snapshotToolTip->isVisible())
 				{
 					QRect rect = scene->mapToWidget( hoverOverItem->sceneBoundingRect() );
-					snapshotToolTip->setGeometry (rect.right(), rect.top() - 256, 256, 256 );
+					snapshotToolTip->setGeometry (rect.right(), rect.top(), 256, 256 );
 					snapshotIcon->setIcon(QIcon(moduleSnapshots[ch]));
 					snapshotIcon->setIconSize(QSize(256,256));
 					snapshotToolTip->show();

@@ -145,7 +145,7 @@ namespace Tinkercell
 						graphWidget->print(printer);
 						functionSnapshots[s] = printer;
 					}
-					if (functionSnapshots.contains(s) && !snapshotToolTip->isVisible())
+					if (!s.isEmpty() && functionSnapshots.contains(s) && !snapshotToolTip->isVisible())
 					{
 						QRect rect = scene->mapToWidget( hoverOverItem->sceneBoundingRect() );
 						snapshotToolTip->setGeometry (rect.right(), rect.top(), 256, 256 );

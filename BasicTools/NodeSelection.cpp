@@ -486,7 +486,7 @@ namespace Tinkercell
 							selectedHandleNodes.removeAll(ptr);
 
 						if (!(modifiers & Qt::ControlModifier))
-							selectNearByItems(scene,ptrh,ptr,20.0);
+							selectNearByItems(scene,ptrh,ptr,100.0);
 					}
 					else
 					{

@@ -398,7 +398,7 @@ namespace Tinkercell
 			}
 			
 			//module snapshot window
-			snapshotToolTip = new QSplashScreen(mainWindow);
+			snapshotToolTip = new QSplashScreen(this);
 			snapshotToolTip->setPalette(QPalette(Qt::black));
 			snapshotToolTip->setFixedSize(256,256);
 			QRect rect = mainWindow->geometry();
@@ -1211,6 +1211,7 @@ namespace Tinkercell
 		if (mainWindow && scene && scene->useDefaultBehavior && hoverOverItem && !TextGraphicsItem::cast(hoverOverItem) && snapshotToolTip)
 		{
 			ItemHandle * h = getHandle(hoverOverItem);
+
 			if (!h)
 			{
 				ArrowHeadItem * arrowHead = ArrowHeadItem::cast(hoverOverItem);
@@ -1223,8 +1224,8 @@ namespace Tinkercell
 			{
 				if (!snapshotToolTip->isVisible())
 				{
-					QRect rect = mainWindow->geometry();
-					snapshotToolTip->setGeometry (rect.right() - 280, rect.bottom() - 280, 256, 256 );
+					QRect rect = scene->mapToWidget( hoverOverItem->sceneBoundingRect() );
+					snapshotToolTip->setGeometry (rect.right(), rect.top() - 256, 256, 256 );
 					snapshotIcon->setIcon(QIcon(moduleSnapshots[ch]));
 					snapshotIcon->setIconSize(QSize(256,256));
 					snapshotToolTip->show();
@@ -1618,7 +1619,7 @@ namespace Tinkercell
 
 		QList<QGraphicsItem*> & selected = scene->selected();
 		
-		if (selected.size() == 1 && keyEvent->key() == Qt::Key_Enter || keyEvent->key() == Qt::Key_Return)
+		if (selected.size() == 1 && keyEvent->key() == Qt::Key_Enter || keyEvent->key() == Qt::Key_Return || keyEvent->key() == Qt::Key_Space)
 		{
 			mouseDoubleClicked(scene,QPointF(),selected[0],Qt::LeftButton,(Qt::KeyboardModifiers)0);
 		}

@@ -787,12 +787,14 @@ namespace Tinkercell
 		
 		if (familiesInCatalog.size() < 30)
 		{
+			console()->message("default familiesInCatalog");
 			QString appDir = QCoreApplication::applicationDirPath();
 			QFile defaultListFile(appDir + tr("/NodesTree/InitialCatalogList.txt"));
 			if (defaultListFile.open( QFile::ReadOnly | QFile::Text ))
 			{
 				QString readAll(defaultListFile.readAll());
 				familiesInCatalog = readAll.split("\n");
+				defaultListFile.close();
 			}
 		}
 		
@@ -811,8 +813,8 @@ namespace Tinkercell
 			if (!found)
 				tabGroupButtons << QPair< QString,QList<QToolButton*> >(tabGroups[i].first,QList<QToolButton*>());
 		}
-		QStringList families;
-		if (nodesTree)
+		QStringList families = familiesInCatalog;
+		/*if (nodesTree)
 		{
 			connect(nodesTree,SIGNAL(nodeSelected(NodeFamily*)),this,SLOT(nodeSelectedSlot(NodeFamily*)));
 			QList<NodeFamily*> allFamilies = nodesTree->nodeFamilies.values();
@@ -820,15 +822,14 @@ namespace Tinkercell
 
 			for (int i=0; i < allFamilies.size(); ++i)
 				if (allFamilies[i] && !allFamilies[i]->parent())
-				{
 					rootFamilies << allFamilies[i];
-				}
 
 			for (int i=0; i < rootFamilies.size(); ++i)
 			{
 				QList<ItemFamily*> children = rootFamilies[i]->children();
 				if (familiesInCatalog.contains(rootFamilies[i]->name()))
 					families << rootFamilies[i]->name();
+
 				rootFamilies << children;
 			}
 		}
@@ -850,7 +851,7 @@ namespace Tinkercell
 					families << rootFamilies[i]->name();
 				rootFamilies << children;
 			}
-		}
+		}*/
 
 		showButtons(families);
 		QVBoxLayout * layout = new QVBoxLayout;
@@ -1035,7 +1036,8 @@ namespace Tinkercell
 
 			for (int i=0; i < families.size(); ++i)
 			{
-				if (!families[i] || !nodes.contains(families[i])) continue;
+				if (!families[i] || !nodes.contains(families[i])) 
+					continue;
 				
 				nodes.removeAll(families[i]);
 

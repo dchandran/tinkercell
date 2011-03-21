@@ -208,6 +208,10 @@ namespace Tinkercell
 		* \param QRectF
 		* \return void*/
 		virtual void fitInView(const QRectF&) const;
+		/*! \brief map a rect from the scene coordinates to the view coordinates
+		* \param QRectF if left blank, the visible rect will be used
+		* \return void*/
+		virtual QRect mapToWidget(QRectF rect=QRectF(0,0,0,0)) const;
 		/*! \brief calls main window's popOut
 		* \return void*/
 		virtual void popOut();

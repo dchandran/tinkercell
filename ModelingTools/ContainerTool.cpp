@@ -186,7 +186,7 @@ namespace Tinkercell
         {
             if (NodeGraphicsItem::cast(items[i])
                 && (handle = getHandle(items[i]))
-                && handle->isA(tr("Compartment")))
+                && handle->isA(tr("Container")))
             {
 				QRectF sceneBoundingRect = items[i]->sceneBoundingRect().adjusted(-10,-10,10,10);
                 QList<ItemHandle*> list = handle->children;
@@ -262,7 +262,7 @@ namespace Tinkercell
 				        handle = nodes[j]->handle();
 				        if (handle)
 				        {
-				            parentHandle = handle->parentOfFamily(tr("Compartment"));
+				            parentHandle = handle->parentOfFamily(tr("Container"));
 				            if (parentHandle && !handles.contains(parentHandle))
 				            {
 				                handles << parentHandle;
@@ -276,7 +276,7 @@ namespace Tinkercell
             handle = handleList[i];
 
             if (handle && handle->family() && !handles.contains(handle) &&
-                handle->family()->isA(tr("Compartment")))
+                handle->family()->isA(tr("Container")))
                 handles << handle;
         }
 
@@ -393,7 +393,7 @@ namespace Tinkercell
         ItemHandle * handle = getHandle(nodeHit);
 
         //if items are placed into a Compartment or module...
-        if (!handle || !handle->isA(tr("Compartment")))
+        if (!handle || !handle->isA(tr("Container")))
             return;
 
 		ConnectionGraphicsItem::ControlPoint * cpt = 0;
@@ -605,7 +605,7 @@ namespace Tinkercell
         {
             if (NodeGraphicsItem::cast(items0[i]) &&
                 (handle = getHandle(items0[i])) && !visited.contains(handle) &&
-                handle->isA(tr("Compartment")) &&
+                handle->isA(tr("Container")) &&
                 handle->children.size() > 0)
             {
                 visited += handle;
@@ -685,10 +685,10 @@ namespace Tinkercell
                 items << node->connectionsAsGraphicsItems();
             }
 
-			if (handle->parent && handle->parent->isA(tr("Compartment")))
+			if (handle->parent && handle->parent->isA(tr("Container")))
 				movedChildNodes << handle;
 			else
-				if (handle->isA(tr("Compartment")))
+				if (handle->isA(tr("Container")))
 				{
 					movedCompartmentNodes << handle;
 					movedChildNodes << handle->children;

@@ -93,7 +93,7 @@ namespace Tinkercell
 			//setWindowOpacity(0.8);
 			
 			//module snapshot window
-			snapshotToolTip = new QSplashScreen(mainWindow);
+			snapshotToolTip = new QSplashScreen(this);
 			snapshotToolTip->setPalette(QPalette(Qt::black));
 			snapshotToolTip->setFixedSize(256,256);
 			QRect rect = mainWindow->geometry();
@@ -147,8 +147,8 @@ namespace Tinkercell
 					}
 					if (functionSnapshots.contains(s) && !snapshotToolTip->isVisible())
 					{
-						QRect rect = mainWindow->geometry();
-						snapshotToolTip->setGeometry (rect.right() - 280, rect.bottom() - 280, 256, 256 );
+						QRect rect = scene->mapToWidget( hoverOverItem->sceneBoundingRect() );
+						snapshotToolTip->setGeometry (rect.right(), rect.top() - 256, 256, 256 );
 						snapshotIcon->setIcon(QIcon(functionSnapshots[s]));
 						snapshotIcon->setIconSize(QSize(256,256));
 						snapshotToolTip->show();

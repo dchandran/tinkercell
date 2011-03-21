@@ -171,35 +171,28 @@ namespace Tinkercell
 
 	void DNASequenceViewerTextEdit::keyPressEvent ( QKeyEvent * event )
 	{
-		if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return || event->key() == Qt::Key_Space)
+		int key = event->key();
+		if (key == Qt::Key_Enter || key == Qt::Key_Return || key == Qt::Key_Space || 
+			 key == Qt::Key_Up || key == Qt::Key_Down || key == Qt::Key_Right || key == Qt::Key_Left ||
+			 key == Qt::Key_PageUp || key == Qt::Key_PageDown)
 		{
 			int i = currentNodeIndex();
+			QTextCursor cursor = textCursor();
+			QTextCharFormat currentFormat = cursor.charFormat();
+			
+			int k = cursor.position();
+			while (cursor.charFormat() == currentFormat)
+					cursor.movePosition(QTextCursor::Left);
+
+			while (cursor.charFormat() == currentFormat)
+					cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor);
+					
+			QString text = cursor.selectedText();
+			
 			if (i > -1)
 			{
-				//	emit highlight(nodes[i],colors[i]);*/
-				int len1=0, len2=0;
-				for (int j=0; j < (i-1); ++j)
-					if (nodes[j] &&
-						nodes[j]->hasTextData(tr("Text Attributes")) &&
-						nodes[j]->textDataTable(tr("Text Attributes")).hasRow(tr("sequence")))
-						{
-							len1 += nodes[j]->textData(tr("Text Attributes"),tr("sequence")).length();
-						}
-
-				for (int j=(nodes.size()-1); j >= i; --j)
-					if (nodes[j] &&
-						nodes[j]->hasTextData(tr("Text Attributes")) &&
-						nodes[j]->textDataTable(tr("Text Attributes")).hasRow(tr("sequence")))
-						{
-							len2 += nodes[j]->textData(tr("Text Attributes"),tr("sequence")).length();
-						}
-				QString s = toPlainText();
-				len2 = s.length() - len2;
-				QString s2;
-				for (int j=len1; j < len2; ++j)
-					s2 += s[j];
-					
-				emit sequenceChanged(nodes[i], s2);
+				emit highlight(nodes[i],colors[i]);
+				emit sequenceChanged(nodes[i], text);
 			}
 		}
 		else

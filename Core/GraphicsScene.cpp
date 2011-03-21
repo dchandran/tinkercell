@@ -1073,6 +1073,28 @@ namespace Tinkercell
 				list[i]->fitInView(rect,Qt::KeepAspectRatio);
 			}
 	}
+	
+	QRect GraphicsScene::mapToWidget(QRectF rect) const
+	{
+		if (rect.isNull())
+			rect = this->visibleRegion();
+
+		QList<QGraphicsView*> list = views();
+		
+		for (int i=0; i < list.size(); ++i)
+			if (list[i] && list[i]->isVisible())
+			{
+				QPointF p1 = rect.topLeft(), p2 = rect.bottomRight();
+				
+				QPoint pp1 = list[i]->mapFromScene( QPoint((int)p1.x(), (int)p1.y()) ), 
+							pp2 = list[i]->mapFromScene( QPoint((int)p2.x(), (int)p1.y()) );
+				
+				
+				return QRect(pp1,pp2);
+			}
+		
+		return QRect();
+	}
 
 	/*! \brief adjusts view to include all items*/
 	void GraphicsScene::fitAll() const

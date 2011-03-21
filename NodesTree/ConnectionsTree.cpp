@@ -214,8 +214,7 @@ namespace Tinkercell
 	
 	QString ConnectionsTree::iconFile(ConnectionFamily * family)
 	{
-		QString file = tr(":/images/");
-		file += family->name().toLower();
+		QString file = family->name().toLower();
 		file.replace(tr(" "),tr(""));
 		file += tr(".png");
 		return  file;

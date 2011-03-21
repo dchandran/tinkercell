@@ -1076,6 +1076,8 @@ namespace Tinkercell
 	
 	QRect GraphicsScene::mapToWidget(QRectF rect) const
 	{
+		if (!network || !network->mainWindow) return QRect();
+		
 		if (rect.isNull())
 			rect = this->visibleRegion();
 
@@ -1089,6 +1091,8 @@ namespace Tinkercell
 				QPoint pp1 = list[i]->mapFromScene( QPoint((int)p1.x(), (int)p1.y()) ), 
 							pp2 = list[i]->mapFromScene( QPoint((int)p2.x(), (int)p1.y()) );
 				
+				pp1 = network->mainWindow->mapToGlobal(pp1);
+				pp2 = network->mainWindow->mapToGlobal(pp2);
 				
 				return QRect(pp1,pp2);
 			}

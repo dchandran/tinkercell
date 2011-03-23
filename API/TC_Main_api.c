@@ -478,6 +478,28 @@ void tc_setNumericalData(long o,const char* title,tc_matrix data)
 		_tc_setNumericalData(o, title, data);
 }
 
+void (*_tc_setNumericalValues)(tc_matrix) = 0;
+/*! 
+ \brief set multiple values in a model. The input matrix row names correspond to data names.
+ \ingroup Data
+*/ TCAPIEXPORT 
+void tc_setNumericalValues(tc_matrix data)
+{
+	if (_tc_setNumericalValues)
+		_tc_setNumericalValues(data);
+}
+
+void (*_tc_setNumericalValue)(const char *, double) = 0;
+/*! 
+ \brief set a single value in a model
+ \ingroup Data
+*/ TCAPIEXPORT 
+void tc_setNumericalValue(const char * name, double value)
+{
+	if (_tc_setNumericalValue)
+		_tc_setNumericalValue(name, value);
+}
+
 tc_table (*_tc_getTextData)(long item,const char* data) = 0;
 /*! 
  \brief get the entire data matrix for the given strings data table of the given item
@@ -501,6 +523,27 @@ void tc_setTextData(long o,const char* title,tc_table data)
 		_tc_setTextData(o, title, data);
 }
 
+void (*_tc_setTextValues)(tc_table) = 0;
+/*! 
+ \brief set multiple values in a model. The input matrix row names correspond to data names.
+ \ingroup Data
+*/ TCAPIEXPORT 
+void tc_setTextValues(tc_table data)
+{
+	if (_tc_setTextValues)
+		_tc_setTextValues(o, title, data);
+}
+
+void (*_tc_setTextValue)(const char * , const char * ) = 0;
+/*! 
+ \brief set a single value in a model
+ \ingroup Data
+*/ TCAPIEXPORT 
+void tc_setTextValue(const char * name, const char * value)
+{
+	if (_tc_setTextValue)
+		_tc_setTextValue(name, value);
+}
 
 tc_strings (*_tc_getNumericalDataNames)(long) = 0;
 /*! 
@@ -925,7 +968,12 @@ void tc_Main_api_initialize(
 		int (*screenY)(),
 		
 		const char * (*annotations)(),
-		void (*insertAnnotations)(const char *, double, double)
+		void (*insertAnnotations)(const char *, double, double),
+
+		void (*setNumericalValues)(tc_matrix),
+		void (*setNumericalValue)(const char *, double),
+		void (*setTextValues)(tc_table),
+		void (*setTextValue)(const char *, const char *)
 	)
 {
 	_tc_allItems = tc_allItems0;
@@ -977,6 +1025,7 @@ void tc_Main_api_initialize(
 	_tc_getNumericalData = tc_getNumericalData0;
 	_tc_getTextData = tc_getTextData0;
 	_tc_setNumericalData = tc_setNumericalData0;
+	
 	_tc_setTextData = tc_setTextData0;
 	_tc_getChildren = tc_getChildren0;
 	_tc_getParent = tc_getParent0;
@@ -1018,6 +1067,11 @@ void tc_Main_api_initialize(
 	
 	_tc_annotations = annotations;
 	_tc_insertAnnotations = insertAnnotations;
+	
+	_tc_setNumericalValue = setNumericalValue;
+	_tc_setTextValue = setTextValue;
+	_tc_setNumericalValues = setNumericalValues;
+	_tc_setTextValues = setTextValues;
 }
 
 void (*_tc_showProgress)(long thread, int progress) = 0;

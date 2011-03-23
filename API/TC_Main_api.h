@@ -323,6 +323,21 @@ TCAPIEXPORT tc_matrix tc_getNumericalData(long item,const char* data);
 TCAPIEXPORT void tc_setNumericalData(long o,const char* title,tc_matrix data);
 
 /*! 
+ \brief set multiple values in a model. The input matrix row names correspond to data names.
+ \param tc_matrix matrix with rownames with the names of the variables and columns with values
+ \ingroup Data
+*/ 
+TCAPIEXPORT void tc_setNumericalValues(tc_matrix data);
+
+/*! 
+ \brief set a single value in a model
+ \param string name of variable
+ \param double new value of variable
+ \ingroup Data
+*/
+TCAPIEXPORT void tc_setNumericalValue(const char * name, double value);
+
+/*! 
  \brief get the entire data table for the given strings data table of the given item
  \param int address of item. use 0 for the model item
  \param string name of text data table
@@ -339,6 +354,21 @@ TCAPIEXPORT tc_table tc_getTextData(long item,const char* data);
  \ingroup Data
 */
 TCAPIEXPORT void tc_setTextData(long o,const char* title,tc_table data);
+
+/*! 
+ \brief set multiple values in a model. The input matrix row names correspond to data names.
+ \param tc_table table with rownames with the names of the variables and columns with values
+ \ingroup Data
+*/ 
+TCAPIEXPORT void tc_setTextValues(tc_table data);
+
+/*! 
+ \brief set a single text value in a model
+ \param string name of variable
+ \param string new value of variable
+ \ingroup Data
+*/
+TCAPIEXPORT void tc_setTextValue(const char * name, const char * value);
 
 /*! 
  \brief get all the numeric data table names for the given item
@@ -650,8 +680,13 @@ TCAPIEXPORT void tc_Main_api_initialize(
 		int (*screenX)(),
 		int (*screenY)(),
 
-		const char * (*tc_annotations)(),
-		void (*insertAnnotations)(const char *, double, double)
+		const char * (*annotations)(),
+		void (*insertAnnotations)(const char *, double, double),
+
+		void (*setNumericalValues)(tc_matrix),
+		void (*setNumericalValue)(const char *, double),
+		void (*setTextValues)(tc_table),
+		void (*setTextValue)(const char *, const char *)
 	);
 
 /*! 

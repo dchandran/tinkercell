@@ -143,7 +143,12 @@ namespace Tinkercell
 		int (*screenY)(),
 		
 		const char * (*annotations)(),
-		void (*insertAnno)(const char *, double, double)
+		void (*insertAnno)(const char *, double, double),
+		
+		void (*setNumericalValues)(tc_matrix),
+		void (*setNumericalValue)(const char *, double),
+		void (*setTextValues)(tc_table),
+		void (*setTextValue)(const char *, const char *)
 	);
 	
 	void C_API_Slots::setupFunctionPointers(QLibrary * library)
@@ -222,7 +227,11 @@ namespace Tinkercell
 				&(_screenX),
 				&(_screenY),
 				&(_annotations),
-				&(_insertAnnotation)
+				&(_insertAnnotation),
+				&(_setNumericalValues),
+				&(_setNumericalValue),
+				&(_setTextValues),
+				&(_setTextValue)
 			);
 		}
 	}
@@ -325,6 +334,11 @@ namespace Tinkercell
 		
 		connect(&fToS,SIGNAL(annotations(QSemaphore*, QString*)),this,SLOT(annotations(QSemaphore*, QString*)));
 		connect(&fToS,SIGNAL(insertAnnotation(QSemaphore*, const QString&, double, double)),this,SLOT(insertAnnotation(QSemaphore*, const QString&, double, double)));
+		
+		connect(&fToS,SIGNAL(setNumericalValues(QSemaphore*, const NumericalDataTable&)),this,SLOT(setNumericalValues(QSemaphore*, const NumericalDataTable&)));
+		connect(&fToS,SIGNAL(setNumericalValue(QSemaphore*, const QString&, double)),this,SLOT(setNumericalValue(QSemaphore*, const QString&, double)));
+		connect(&fToS,SIGNAL(setTextValues(QSemaphore*, const TextDataTable&)),this,SLOT(setTextValues(QSemaphore*, const TextDataTable&)));
+		connect(&fToS,SIGNAL(setTextValue(QSemaphore*, const QString&, const QString&)),this,SLOT(setTextValue(QSemaphore*, const QString&, const QString&)));
 	}
 	
 	void C_API_Slots::zoom(QSemaphore* sem, qreal factor)
@@ -3033,5 +3047,27 @@ namespace Tinkercell
 		if (sem)
 			sem->release();
 	}
+	
+	void setNumericalValues(QSemaphore* sem, const NumericalDataTable& data)
+	{
+		NetworkHandle * network = currentNetwork();
+		if (network)
+			network->setModelValues(data);
+		if (sem)
+			sem->release();
+	}
+	
+	void setNumericalValue(QSemaphore* sem, const QString& s, double x),
+	{
+	}
+
+	void setTextValues(QSemaphore* sem, const TextDataTable& table),
+	{
+	}
+
+	void setTextValue(QSemaphore* sem, const QString& s, const QString& x);
+	{
+	}
+
 }
 

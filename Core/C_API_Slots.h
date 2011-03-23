@@ -127,6 +127,11 @@ namespace Tinkercell
 		
 		void annotations(QSemaphore*, QString*);
 		void insertAnnotation(QSemaphore*, const QString&, double, double);
+		
+		void setNumericalValues(QSemaphore*, const NumericalDataTable&),
+		void setNumericalValue(QSemaphore*, const QString&, double),
+		void setTextValues(QSemaphore*, const TextDataTable&),
+		void setTextValue(QSemaphore*, const QString&, const QString&);
 
 	public:
 		void zoom(double);
@@ -212,6 +217,11 @@ namespace Tinkercell
 		
 		const char * annotation();
 		void insertAnnotation(const char *, double, double);
+		
+		void setNumericalValues(tc_matrix);
+		void setNumericalValue(const char *, double);
+		void setTextValues(tc_table);
+		void setTextValue(const char *, const char *);
 	};
 
 	/*! \brief A set of slots that are called by C libraries
@@ -314,6 +324,12 @@ namespace Tinkercell
 		
 		static const char * _annotations();
 		static void _insertAnnotation(const char *, double, double);
+		
+		static void _setNumericalValues(tc_matrix);
+		static void _setNumericalValue(const char *, double);
+		static void _setTextValues(tc_table);
+		static void _setTextValue(const char *, const char *);
+		
 		/*! 
 		* \brief Dialog for selecting strings. 
 		*/
@@ -759,6 +775,10 @@ namespace Tinkercell
 		void screenY(QSemaphore*, int*);
 		void annotations(QSemaphore*, QString*);
 		void insertAnnotation(QSemaphore*, const QString&, double, double);
+		void setNumericalValues(QSemaphore*, const NumericalDataTable&),
+		void setNumericalValue(QSemaphore*, const QString&, double),
+		void setTextValues(QSemaphore*, const TextDataTable&),
+		void setTextValue(QSemaphore*, const QString&, const QString&);
 	private:
 		QList<QGraphicsItem*> temporarilyColorChanged;
 		QList< QPair<NodeGraphicsItem*,QPointF> > temporarilyChangedSize; 

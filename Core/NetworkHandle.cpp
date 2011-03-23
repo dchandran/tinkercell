@@ -1109,5 +1109,201 @@ namespace Tinkercell
 		return s;
 	}
 	
+	void NetworkHandle::setValues(const QStringList& names, const QList<double>& values, int column, const QString& defaultDataTable)
+	{
+		NumericalDataTable dat;
+		dat.resize(names.size(), 1);
+		for (int i=0; i < values.size() && i < dat.rows(); ++i)
+			dat(i,0) = values[i];
+		setValues(dat,defaultDataTable);
+	}
+	
+	void NetworkHandle::setValues(const NumericalDataTable& newvalues, const QString& defaultDataTable)
+	{
+		SymbolsTable & symbols = symbolsTable;
+		QString s;
+		QList<NumericalDataTable*> newTables, oldTables;
+		NumericalDataTable * newTable, * oldTable;
+		QPair<ItemHandle*,QString> pair;
+		int k;
+		for (int i=0; i < newvalues.rows(); ++i)
+			{
+				s = newvalues.rowName(i);
+
+				if (symbols.uniqueDataWithDot.contains(s))
+				{
+					pair = symbols.uniqueDataWithDot.value(s);
+					if (pair.first && pair.first->hasNumericalData(pair.second))
+					{
+						oldTable = &(pair.first->numericalDataTable(pair.second));
+						s.remove(pair.first->fullName() + tr("."));
+						if (oldTable->hasRow(s))
+						{
+							k = oldTables.indexOf(oldTable);
+							if (k > -1)
+								newTable = newTables[k];
+							else
+							{
+								newTable = new NumericalDataTable(*oldTable);
+								oldTables << oldTable;
+								newTables << newTable;
+							}
+							for (int j=0; j < newTable->columns() && j < newvalues.columns(); ++j)
+								newTable->value(s,j) = newvalues(i,j);
+						}
+					}
+				}
+				else
+				{
+					s.replace(tr("."),tr("_"));
+					if (symbols.uniqueDataWithUnderscore.contains(s))
+					{
+						pair = symbols.uniqueDataWithUnderscore.value(s);
+						if (pair.first && pair.first->hasNumericalData(pair.second))
+						{
+							oldTable = &(pair.first->numericalDataTable(pair.second));
+							s.remove(pair.first->fullName(tr("_")) + tr("_"));
+							if (oldTable->hasRow(s))
+							{
+								k = oldTables.indexOf(oldTable);
+								if (k > -1)							
+									newTable = newTables[k];
+								else
+								{
+									newTable = new NumericalDataTable(*oldTable);
+									oldTables << oldTable;
+									newTables << newTable;
+								}
+								for (int j=0; j < newTable->columns() && j < newvalues.columns(); ++j)
+									newTable->value(s,j) = newvalues(i,j);
+							}
+						}
+					}
+					else
+					if (!defaultDataTable.isNull() &&
+							!defaultDataTable.isEmpty() &&  
+							symbols.uniqueHandlesWithDot.contains(s))
+					{
+						ItemHandle * h = symbols.uniqueHandlesWithDot[s];
+						if (h->hasNumericalData(defaultDataTable))
+						{
+							oldTable = &(h->numericalDataTable(defaultDataTable));
+							{
+								k = oldTables.indexOf(oldTable);
+								if (k > -1)							
+									newTable = newTables[k];
+								else
+								{
+									newTable = new NumericalDataTable(*oldTable);
+									oldTables << oldTable;
+									newTables << newTable;
+								}
+								for (int j=0; j < newTable->columns() && j < newvalues.columns(); ++j)
+									newTable->value(0,j) = newvalues(i,j);
+							}
+						}
+					}
+				}
+		}
+		
+		if (!newTables.isEmpty())
+		{
+			push(new ChangeNumericalDataCommand(tr("Updated model values"), oldTables, newTables));
+			for (int i=0; i < newTables.size(); ++i)
+				delete newTables[i];
+		}
+	}
+	
+	void NetworkHandle::setValues(const TextDataTable& newvalues, const QString& defaultDataTable)
+	{
+		SymbolsTable & symbols = symbolsTable;
+		QString s;
+		QList<TextDataTable*> newTables, oldTables;
+		TextDataTable * newTable, * oldTable;
+		QPair<ItemHandle*,QString> pair;
+		int k;
+		for (int i=0; i < newvalues.rows(); ++i)
+			{
+				s = newvalues.rowName(i);
+
+				if (symbols.uniqueDataWithDot.contains(s))
+				{
+					pair = symbols.uniqueDataWithDot.value(s);
+					if (pair.first && pair.first->hasTextData(pair.second))
+					{
+						oldTable = &(pair.first->textDataTable(pair.second));
+						s.remove(pair.first->fullName() + tr("."));
+						if (oldTable->hasRow(s))
+						{
+							k = oldTables.indexOf(oldTable);
+							if (k > -1)
+								newTable = newTables[k];
+							else
+							{
+								newTable = new TextDataTable(*oldTable);
+								oldTables << oldTable;
+								newTables << newTable;
+							}
+							for (int j=0; j < newTable->columns() && j < newvalues.columns(); ++j)
+								newTable->value(s,j) = newvalues(i,j);
+						}
+					}
+				}
+				else
+				{
+					s.replace(tr("."),tr("_"));
+					if (symbols.uniqueDataWithUnderscore.contains(s))
+					{
+						pair = symbols.uniqueDataWithUnderscore.value(s);
+						if (pair.first && pair.first->hasTextData(pair.second))
+						{
+							oldTable = &(pair.first->textDataTable(pair.second));
+							s.remove(pair.first->fullName(tr("_")) + tr("_"));
+							k = oldTables.indexOf(oldTable);
+							if (k > -1)							
+								newTable = newTables[k];
+							else
+							{
+								newTable = new TextDataTable(*oldTable);
+								oldTables << oldTable;
+								newTables << newTable;
+							}
+							for (int j=0; j < newTable->columns() && j < newvalues.columns(); ++j)
+								newTable->value(s,j) = newvalues(i,j);						
+						}
+					}
+					else
+					if (!defaultDataTable.isNull() &&
+							!defaultDataTable.isEmpty() &&  
+							symbols.uniqueHandlesWithDot.contains(s))
+					{
+						ItemHandle * h = symbols.uniqueHandlesWithDot[s];
+						if (h->hasTextData(defaultDataTable))
+						{
+							oldTable = &(h->textDataTable(defaultDataTable));
+							k = oldTables.indexOf(oldTable);
+							if (k > -1)							
+								newTable = newTables[k];
+							else
+							{
+								newTable = new TextDataTable(*oldTable);
+								oldTables << oldTable;
+								newTables << newTable;
+							}
+							for (int j=0; j < newTable->columns() && j < newvalues.columns(); ++j)
+								newTable->value(0,j) = newvalues(i,j);
+						}
+					}
+				}
+		}
+		
+		if (!newTables.isEmpty())
+		{
+			push(new ChangeTextDataCommand(tr("Updated model values"), oldTables, newTables));
+			for (int i=0; i < newTables.size(); ++i)
+				delete newTables[i];
+		}
+	}
+	
 }
 

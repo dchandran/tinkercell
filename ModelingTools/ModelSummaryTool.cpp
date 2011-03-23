@@ -196,6 +196,7 @@ namespace Tinkercell
 				this ,SLOT(keyPressed(GraphicsScene*,QKeyEvent *)));
 
 			setWindowTitle(name);
+			setWindowFlags(Qt::Dialog);
 			setWindowIcon(QIcon(tr(":/images/monitor.png")));
 			mainWindow->addToViewMenu(this);
 

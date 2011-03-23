@@ -145,6 +145,7 @@ namespace Tinkercell
 			toolLoaded(mainWindow->tool(tr("Functions and Assignments")));
 
 			setWindowTitle(name);
+			setWindowFlags(Qt::Dialog);
 
 			mainWindow->addToViewMenu(this);
 

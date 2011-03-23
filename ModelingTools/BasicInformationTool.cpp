@@ -161,6 +161,7 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(pluginLoaded(Tool*)));
 
 			setWindowTitle(name);
+			setWindowFlags(Qt::Dialog);
 			dockWidget = mainWindow->addToolWindow(this,MainWindow::DockWidget,Qt::BottomDockWidgetArea,Qt::NoDockWidgetArea);
 
 			if (dockWidget)
@@ -170,7 +171,7 @@ namespace Tinkercell
 				else
 					dockWidget->move(mainWindow->geometry().bottomRight() - QPoint(sizeHint().width()*2,sizeHint().height()*2));
 
-				dockWidget->setWindowFlags(Qt::Tool);
+				dockWidget->setWindowFlags(Qt::Dialog);
 				dockWidget->setAttribute(Qt::WA_ContentsPropagated);
 				dockWidget->setPalette(QPalette(QColor(255,255,255,255)));
 				dockWidget->setAutoFillBackground(true);

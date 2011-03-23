@@ -73,6 +73,7 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(historyChanged(int)),this,SLOT(historyUpdate(int)));
 
 			setWindowTitle(name);
+			setWindowFlags(Qt::Dialog);
 			
 		}
 		return (mainWindow != 0);

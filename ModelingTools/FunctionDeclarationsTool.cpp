@@ -84,6 +84,7 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
 
 			setWindowTitle(name);
+			setWindowFlags(Qt::Dialog);
 			setWindowIcon(QIcon(":/images/function.png"));
 			mainWindow->addToViewMenu(this);
 			move(mainWindow->geometry().bottomRight() - QPoint(sizeHint().width()*2,sizeHint().height()*3));

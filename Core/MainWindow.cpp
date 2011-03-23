@@ -680,7 +680,7 @@ namespace Tinkercell
 			widget->setParent(this);
 		toolWindows << widget;
 		
-		widget->setWindowFlags(Qt::Window);
+		widget->setWindowFlags(Qt::Dialog);
 		
 		QAction * action = viewMenu->addAction(widget->windowTitle());
 		action->setCheckable(true);
@@ -1263,7 +1263,7 @@ namespace Tinkercell
 					tabWidget->removeTab(i);
 					win->setParent(this);
 				}
-				win->setWindowFlags(Qt::Window);
+				win->setWindowFlags(Qt::Dialog);
 				setCurrentWindow(win);
 			}
 			win->raise();

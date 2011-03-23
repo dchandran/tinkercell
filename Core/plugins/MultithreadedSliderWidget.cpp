@@ -421,7 +421,8 @@ namespace Tinkercell
 						}
 					}
 					else
-					if (!defaultDataTable.isEmpty() && 
+					if (!defaultDataTable.isNull() &&
+							!defaultDataTable.isEmpty() &&  
 							symbols.uniqueHandlesWithDot.contains(s))
 					{
 						ItemHandle * h = symbols.uniqueHandlesWithDot[s];

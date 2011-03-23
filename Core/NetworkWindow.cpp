@@ -125,7 +125,7 @@ namespace Tinkercell
 
 		MainWindow * main = network->mainWindow;
 		setVisible(false);
-		setWindowFlags(Qt::Window);
+		setWindowFlags(Qt::Dialog);
 		
 		if (main)
 		{
@@ -161,7 +161,7 @@ namespace Tinkercell
 		MainWindow * main = network->mainWindow;
 		
 		setVisible(false);
-		setWindowFlags(Qt::Window);
+		setWindowFlags(Qt::Dialog);
 		
 		if (main)
 		{
@@ -201,7 +201,7 @@ namespace Tinkercell
 					event->accept();
 					network->close();
 					setParent(network->mainWindow);
-					setWindowFlags(Qt::Window);
+					setWindowFlags(Qt::Dialog);
 					hide();
 					event->accept();
 				}

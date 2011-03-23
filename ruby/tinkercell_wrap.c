@@ -6497,6 +6497,30 @@ fail:
 
 
 SWIGINTERN VALUE
+_wrap_tc_setProgessBarTitle(int argc, VALUE *argv, VALUE self) {
+  char *arg1 = (char *) 0 ;
+  int res1 ;
+  char *buf1 = 0 ;
+  int alloc1 = 0 ;
+  
+  if ((argc < 1) || (argc > 1)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 1)",argc); SWIG_fail;
+  }
+  res1 = SWIG_AsCharPtrAndSize(argv[0], &buf1, NULL, &alloc1);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "char const *","tc_setProgessBarTitle", 1, argv[0] ));
+  }
+  arg1 = (char *)(buf1);
+  tc_setProgessBarTitle((char const *)arg1);
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  return Qnil;
+fail:
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
 _wrap_tc_callback(int argc, VALUE *argv, VALUE self) {
   void (*arg1)(void) = (void (*)(void)) 0 ;
   
@@ -6542,11 +6566,12 @@ _wrap_tc_CThread_api_initialize(int argc, VALUE *argv, VALUE self) {
   void (*arg2)(long,void (*)(void)) = (void (*)(long,void (*)(void))) 0 ;
   void (*arg3)(long,void (*)(void)) = (void (*)(long,void (*)(void))) 0 ;
   void (*arg4)(long,int) = (void (*)(long,int)) 0 ;
+  void (*arg5)(long,char const *) = (void (*)(long,char const *)) 0 ;
   long val1 ;
   int ecode1 = 0 ;
   
-  if ((argc < 4) || (argc > 4)) {
-    rb_raise(rb_eArgError, "wrong # of arguments(%d for 4)",argc); SWIG_fail;
+  if ((argc < 5) || (argc > 5)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 5)",argc); SWIG_fail;
   }
   ecode1 = SWIG_AsVal_long(argv[0], &val1);
   if (!SWIG_IsOK(ecode1)) {
@@ -6571,7 +6596,13 @@ _wrap_tc_CThread_api_initialize(int argc, VALUE *argv, VALUE self) {
       SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(long,int)","tc_CThread_api_initialize", 4, argv[3] )); 
     }
   }
-  tc_CThread_api_initialize(arg1,arg2,arg3,arg4);
+  {
+    int res = SWIG_ConvertFunctionPtr(argv[4], (void**)(&arg5), SWIGTYPE_p_f_long_p_q_const__char__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(long,char const *)","tc_CThread_api_initialize", 5, argv[4] )); 
+    }
+  }
+  tc_CThread_api_initialize(arg1,arg2,arg3,arg4,arg5);
   return Qnil;
 fail:
   return Qnil;
@@ -11706,6 +11737,7 @@ SWIGEXPORT void Init_tinkercell(void) {
   rb_define_module_function(mTinkercell, "tc_insertAnnotations", _wrap_tc_insertAnnotations, -1);
   rb_define_module_function(mTinkercell, "tc_Main_api_initialize", _wrap_tc_Main_api_initialize, -1);
   rb_define_module_function(mTinkercell, "tc_showProgress", _wrap_tc_showProgress, -1);
+  rb_define_module_function(mTinkercell, "tc_setProgessBarTitle", _wrap_tc_setProgessBarTitle, -1);
   rb_define_module_function(mTinkercell, "tc_callback", _wrap_tc_callback, -1);
   rb_define_module_function(mTinkercell, "tc_callWhenExiting", _wrap_tc_callWhenExiting, -1);
   rb_define_module_function(mTinkercell, "tc_CThread_api_initialize", _wrap_tc_CThread_api_initialize, -1);

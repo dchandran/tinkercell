@@ -56,6 +56,9 @@ namespace Tinkercell
 		to a slot in ProgressBarSignalItem*/
 		void progress(int);
 		
+		/*! \brieg set title of the dialog for this thread that shows the progress bar and kill button*/
+		void title(const QString&);
+		
 	public slots:
 	
 		/*! \brief uload the C library*/
@@ -70,8 +73,11 @@ namespace Tinkercell
 		/*! \brief style sheet for the dialog*/
 		static QString style;
 
-		/*! \brief emits the progress signal*/
-		virtual void emitSignal(int i) { emit progress(i); }
+		/*! \brief show progress in the dialog*/
+		virtual void emitProgress(int i) { emit progress(i); }
+		
+		/*! \brief set title in the dialog*/
+		virtual void emitTitle(const QString& s) { emit title(s); }
 		
 		/*! \brief search the default tinkercell folders for the library and load it
 		* \param QString name of library (with or without full path)
@@ -79,7 +85,7 @@ namespace Tinkercell
 		* \return QLibrary* the loaded library. 0 if cannot be loaded.*/
 		static QLibrary * loadLibrary(const QString& name, QObject * parent = 0);
 
-		/*! \brief hash stores the name and progress bar pointers for updating progress on different threads*/
+		/*! \brief list stores pointers to different threads*/
 		static QList<CThread*> cthreads;
 
 		/*!
@@ -201,6 +207,8 @@ namespace Tinkercell
 
 	protected:
 		
+		bool hasDialog;
+		
 		/*!
 		* \brief setup the C pointers in TC_Main.h
 		*/
@@ -266,7 +274,13 @@ namespace Tinkercell
 		
 	private:
 		/*! 
-		\brief set progress on a thread. the first arg is the id returned from createProgressMeter
+		\brief set title on a thread dialog
+		\param long pointer to thread
+		*/
+		static void setTitle(long ptr, const char * title);
+		/*! 
+		\brief set progress on a thread
+		\param long pointer to thread
 		*/
 		static void setProgress(long ptr, int progress);
 		/*! 

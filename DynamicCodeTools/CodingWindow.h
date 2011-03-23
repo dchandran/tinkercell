@@ -117,12 +117,11 @@ namespace Tinkercell
 		void disablePython();
 		void disableOctave();
 
-	        QProgressBar * progressBar;
 		QTimeLine timer;
 		QMainWindow * window;
 
-	        enum Languages { C, Octave, Python };
-	        Languages selectedLanguage;
+		enum Languages { C, Octave, Python };
+		Languages selectedLanguage;
 
 		QRadioButton * cButton, * octaveButton, *pythonButton;
 		QAction * cAction, * octaveAction, *pythonAction; 

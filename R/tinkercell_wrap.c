@@ -8049,6 +8049,32 @@ R_swig_tc_showProgress ( SEXP progress)
 }
 
 
+SWIGEXPORT SEXP
+R_swig_tc_setProgessBarTitle ( SEXP s_arg1)
+{
+  char *arg1 = (char *) 0 ;
+  int res1 ;
+  char *buf1 = 0 ;
+  int alloc1 = 0 ;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  res1 = SWIG_AsCharPtrAndSize(s_arg1, &buf1, NULL, &alloc1);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setProgessBarTitle" "', argument " "1"" of type '" "char const *""'");
+  }
+  arg1 = (char *)(buf1);
+  tc_setProgessBarTitle((char const *)arg1);
+  r_ans = R_NilValue;
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
 void _p_f_void__void(void ) {
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
   SEXP r_tmp;
@@ -8225,12 +8251,13 @@ void _p_f_long_int__void(long s_arg1, int s_arg2) {
 
 
 SWIGEXPORT SEXP
-R_swig_tc_CThread_api_initialize ( SEXP cthread, SEXP callback, SEXP callWhenExiting, SEXP showProgress)
+R_swig_tc_CThread_api_initialize ( SEXP cthread, SEXP callback, SEXP callWhenExiting, SEXP showProgress, SEXP setTitle)
 {
   long arg1 ;
   void (*arg2)(long,void (*)(void)) = (void (*)(long,void (*)(void))) 0 ;
   void (*arg3)(long,void (*)(void)) = (void (*)(long,void (*)(void))) 0 ;
   void (*arg4)(long,int) = (void (*)(long,int)) 0 ;
+  void (*arg5)(long,char const *) = (void (*)(long,char const *)) 0 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
@@ -8269,8 +8296,20 @@ R_swig_tc_CThread_api_initialize ( SEXP cthread, SEXP callback, SEXP callWhenExi
     arg4 = _p_f_long_int__void;
     R_SWIG_pushCallbackFunctionData(showProgress, NULL);
   }
-  tc_CThread_api_initialize(arg1,arg2,arg3,arg4);
+  if(TYPEOF(setTitle) != CLOSXP) {
+    {
+      int res = SWIG_R_ConvertPtr(setTitle, (void**)(&arg5), SWIGTYPE_p_f_long_p_q_const__char__void, 0);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CThread_api_initialize" "', argument " "5"" of type '" "void (*)(long,char const *)""'"); 
+      }
+    }
+  } else {
+    arg5 = _p_f_long_p_q_const__char__void;
+    R_SWIG_pushCallbackFunctionData(setTitle, NULL);
+  }
+  tc_CThread_api_initialize(arg1,arg2,arg3,arg4,arg5);
   r_ans = R_NilValue;
+  
   
   
   
@@ -15422,7 +15461,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_getStringFromList", (DL_FUNC) &R_swig_tc_getStringFromList, 4},
    {"R_swig_tc_isMac", (DL_FUNC) &R_swig_tc_isMac, 1},
    {"R_swig_tc_steadyStateScan", (DL_FUNC) &R_swig_tc_steadyStateScan, 5},
-   {"R_swig_tc_CThread_api_initialize", (DL_FUNC) &R_swig_tc_CThread_api_initialize, 4},
+   {"R_swig_tc_CThread_api_initialize", (DL_FUNC) &R_swig_tc_CThread_api_initialize, 5},
    {"R_swig_tc_Main_api_initialize", (DL_FUNC) &R_swig_tc_Main_api_initialize, 71},
    {"R_swig_tc_setPos", (DL_FUNC) &R_swig_tc_setPos, 3},
    {"R_swig_tc_setLogScale", (DL_FUNC) &R_swig_tc_setLogScale, 1},
@@ -15443,6 +15482,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_savePlot", (DL_FUNC) &R_swig_tc_savePlot, 1},
    {"R_swig_tc_simulateHybrid", (DL_FUNC) &R_swig_tc_simulateHybrid, 4},
    {"R_swig_tc_getParameters", (DL_FUNC) &R_swig_tc_getParameters, 2},
+   {"R_swig_tc_setProgessBarTitle", (DL_FUNC) &R_swig_tc_setProgessBarTitle, 1},
    {"R_swig_tc_substituteOriginalModel", (DL_FUNC) &R_swig_tc_substituteOriginalModel, 1},
    {"R_swig_tc_createInputWindow", (DL_FUNC) &R_swig_tc_createInputWindow, 3},
    {"R_swig_tc_printMatrix", (DL_FUNC) &R_swig_tc_printMatrix, 1},
@@ -15537,8 +15577,8 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_setRates", (DL_FUNC) &R_swig_tc_setRates, 2},
    {"R_swig_tc_addEvent", (DL_FUNC) &R_swig_tc_addEvent, 2},
    {"R_swig_tc_print", (DL_FUNC) &R_swig_tc_print, 1},
-   {"R_swig_tc_getConnectionsWithRole", (DL_FUNC) &R_swig_tc_getConnectionsWithRole, 3},
    {"R_swig_tc_getConnectedNodesWithRole", (DL_FUNC) &R_swig_tc_getConnectedNodesWithRole, 3},
+   {"R_swig_tc_getConnectionsWithRole", (DL_FUNC) &R_swig_tc_getConnectionsWithRole, 3},
    {"R_swig_tc_simulateTauLeap", (DL_FUNC) &R_swig_tc_simulateTauLeap, 4},
    {"R_swig_tc_simulateStochastic", (DL_FUNC) &R_swig_tc_simulateStochastic, 4},
    {"R_swig_tc_optimize", (DL_FUNC) &R_swig_tc_optimize, 2},

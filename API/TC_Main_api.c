@@ -1031,6 +1031,17 @@ void tc_showProgress(int progress)
 		_tc_showProgress(_cthread_ptr,progress);
 }
 
+void (*_tc_setProgessBarTitle)(long thread, const char * s) = 0;
+/*! 
+ \brief set title for progress bar
+ \ingroup Input and Output
+*/ TCAPIEXPORT 
+void tc_setProgessBarTitle(const char * s)
+{
+	if (_tc_setProgessBarTitle && _cthread_ptr)
+		_tc_setProgessBarTitle(_cthread_ptr,s);
+}
+
 void (*_tc_callback)(long, void (*f)(void)) = 0;
 /*! 
  \brief this function will be called whenever the model is changed
@@ -1063,11 +1074,13 @@ void tc_CThread_api_initialize(
 	long cthread,
 	void (*callback)(long, void (*f)(void)),
 	void (*callWhenExiting)(long, void (*f)(void)),
-	void (*showProgress)(long, int))
+	void (*showProgress)(long, int),
+	void (*setTitle)(long,const char*))
 {
 	_tc_showProgress = showProgress;
 	_tc_callback = callback;
 	_tc_callWhenExiting = callWhenExiting;
+	_tc_setProgessBarTitle = setTitle;
 	_cthread_ptr = cthread;
 }
 

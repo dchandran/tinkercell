@@ -26,7 +26,6 @@
 #include <QDockWidget>
 #include <QProcess>
 #include <QLibrary>
-#include <QProgressBar>
 #include <QDir>
 #include <QtDebug>
 #include <QDesktopServices>
@@ -48,7 +47,6 @@ namespace Tinkercell
 		 fileName = tempDir + tr("/code.c");
 		 
 		 toolBar = 0;
-		 progressBar = 0;
 		 window = new QMainWindow(this);
 
 		 setupEditor();
@@ -313,7 +311,6 @@ specific for:\n\"\"\"\n\n") + text;
 			if (outWin && ocTool->octaveInterpreter)
 			{
 				outWin->setInterpreter(ocTool->octaveInterpreter);
-				connect(ocTool->octaveInterpreter,SIGNAL(progress(int)),progressBar,SLOT(setValue(int)));
 			}
 		}
 	}
@@ -328,7 +325,6 @@ specific for:\n\"\"\"\n\n") + text;
 			if (outWin && ocTool->octaveInterpreter)
 			{
 				outWin->setInterpreter(0);
-				disconnect(ocTool->octaveInterpreter,SIGNAL(progress(int)),progressBar,SLOT(setValue(int)));
 			}
 		}
 	}
@@ -355,7 +351,6 @@ specific for:\n\"\"\"\n\n") + text;
 			if (outWin && pyTool->pythonInterpreter)
 			{
 				outWin->setInterpreter(pyTool->pythonInterpreter);
-				connect(pyTool->pythonInterpreter,SIGNAL(progress(int)),progressBar,SLOT(setValue(int)));
 			}
 		}
 	}
@@ -370,7 +365,6 @@ specific for:\n\"\"\"\n\n") + text;
 			if (outWin && pyTool->pythonInterpreter)
 			{
 				outWin->setInterpreter(0);
-				disconnect(pyTool->pythonInterpreter,SIGNAL(progress(int)),progressBar,SLOT(setValue(int)));
 			}
 		}
 	}
@@ -454,13 +448,6 @@ specific for:\n\"\"\"\n\n") + text;
 			}
 			
 			toolBar->addAction(action);
-			if (this->toolBar)
-			{
-			    progressBar = new QProgressBar(this->toolBar);
-				progressBar->setRange(0,100);
-				this->toolBar->addWidget(progressBar);
-				progressBar->setToolTip("Progress meter for running code");
-			}
 
 			if (mainWindow->tool(tr("Python Interpreter")))
 			{

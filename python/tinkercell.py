@@ -569,6 +569,10 @@ def tc_showProgress(*args):
   return _tinkercell.tc_showProgress(*args)
 tc_showProgress = _tinkercell.tc_showProgress
 
+def tc_setProgessBarTitle(*args):
+  return _tinkercell.tc_setProgessBarTitle(*args)
+tc_setProgessBarTitle = _tinkercell.tc_setProgessBarTitle
+
 def tc_callback(*args):
   return _tinkercell.tc_callback(*args)
 tc_callback = _tinkercell.tc_callback

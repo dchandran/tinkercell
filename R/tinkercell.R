@@ -3852,6 +3852,19 @@ attr(`tc_showProgress`, 'returnType') = 'void'
 attr(`tc_showProgress`, "inputTypes") = c('integer')
 class(`tc_showProgress`) = c("SWIGFunction", class('tc_showProgress'))
 
+# Start of tc_setProgessBarTitle
+
+`tc_setProgessBarTitle` = function(s_arg1)
+{
+  s_arg1 = as(s_arg1, "character") 
+  .Call('R_swig_tc_setProgessBarTitle', s_arg1, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_setProgessBarTitle`, 'returnType') = 'void'
+attr(`tc_setProgessBarTitle`, "inputTypes") = c('character')
+class(`tc_setProgessBarTitle`) = c("SWIGFunction", class('tc_setProgessBarTitle'))
+
 # Start of tc_callback
 
 `tc_callback` = function(f)
@@ -3898,7 +3911,7 @@ class(`tc_callWhenExiting`) = c("SWIGFunction", class('tc_callWhenExiting'))
 
 # Start of tc_CThread_api_initialize
 
-`tc_CThread_api_initialize` = function(cthread, callback, callWhenExiting, showProgress)
+`tc_CThread_api_initialize` = function(cthread, callback, callWhenExiting, showProgress, setTitle)
 {
   cthread = as.integer(cthread) 
   
@@ -3936,12 +3949,22 @@ class(`tc_callWhenExiting`) = c("SWIGFunction", class('tc_callWhenExiting'))
       showProgress = showProgress$address
     }
   }
-  .Call('R_swig_tc_CThread_api_initialize', cthread, callback, callWhenExiting, showProgress, PACKAGE='tinkercell')
+  if(is.function(setTitle)) {
+    assert('...' %in% names(formals(setTitle)) || length(formals(setTitle)) >= 0)
+  } else {
+    if(is.character(setTitle)) {
+      setTitle = getNativeSymbolInfo(setTitle)
+    }
+    if(is(setTitle, "NativeSymbolInfo")) {
+      setTitle = setTitle$address
+    }
+  }
+  .Call('R_swig_tc_CThread_api_initialize', cthread, callback, callWhenExiting, showProgress, setTitle, PACKAGE='tinkercell')
   
 }
 
 attr(`tc_CThread_api_initialize`, 'returnType') = 'void'
-attr(`tc_CThread_api_initialize`, "inputTypes") = c('integer', '_p_f_long_p_f_void__void__void', '_p_f_long_p_f_void__void__void', '_p_f_long_int__void')
+attr(`tc_CThread_api_initialize`, "inputTypes") = c('integer', '_p_f_long_p_f_void__void__void', '_p_f_long_p_f_void__void__void', '_p_f_long_int__void', '_p_f_long_p_q_const__char__void')
 class(`tc_CThread_api_initialize`) = c("SWIGFunction", class('tc_CThread_api_initialize'))
 
 # Start of tc_getParameters

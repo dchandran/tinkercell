@@ -7040,6 +7040,34 @@ XS(_wrap_tc_showProgress) {
 }
 
 
+XS(_wrap_tc_setProgessBarTitle) {
+  {
+    char *arg1 = (char *) 0 ;
+    int res1 ;
+    char *buf1 = 0 ;
+    int alloc1 = 0 ;
+    int argvi = 0;
+    dXSARGS;
+    
+    if ((items < 1) || (items > 1)) {
+      SWIG_croak("Usage: tc_setProgessBarTitle(char const *);");
+    }
+    res1 = SWIG_AsCharPtrAndSize(ST(0), &buf1, NULL, &alloc1);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setProgessBarTitle" "', argument " "1"" of type '" "char const *""'");
+    }
+    arg1 = (char *)(buf1);
+    tc_setProgessBarTitle((char const *)arg1);
+    ST(argvi) = sv_newmortal();
+    if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+    XSRETURN(argvi);
+  fail:
+    if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+    SWIG_croak_null();
+  }
+}
+
+
 XS(_wrap_tc_callback) {
   {
     void (*arg1)(void) = (void (*)(void)) 0 ;
@@ -7098,13 +7126,14 @@ XS(_wrap_tc_CThread_api_initialize) {
     void (*arg2)(long,void (*)(void)) = (void (*)(long,void (*)(void))) 0 ;
     void (*arg3)(long,void (*)(void)) = (void (*)(long,void (*)(void))) 0 ;
     void (*arg4)(long,int) = (void (*)(long,int)) 0 ;
+    void (*arg5)(long,char const *) = (void (*)(long,char const *)) 0 ;
     long val1 ;
     int ecode1 = 0 ;
     int argvi = 0;
     dXSARGS;
     
-    if ((items < 4) || (items > 4)) {
-      SWIG_croak("Usage: tc_CThread_api_initialize(cthread,callback,callWhenExiting,showProgress);");
+    if ((items < 5) || (items > 5)) {
+      SWIG_croak("Usage: tc_CThread_api_initialize(cthread,callback,callWhenExiting,showProgress,setTitle);");
     }
     ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
     if (!SWIG_IsOK(ecode1)) {
@@ -7129,14 +7158,22 @@ XS(_wrap_tc_CThread_api_initialize) {
         SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CThread_api_initialize" "', argument " "4"" of type '" "void (*)(long,int)""'"); 
       }
     }
-    tc_CThread_api_initialize(arg1,arg2,arg3,arg4);
+    {
+      int res = SWIG_ConvertFunctionPtr(ST(4), (void**)(&arg5), SWIGTYPE_p_f_long_p_q_const__char__void);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CThread_api_initialize" "', argument " "5"" of type '" "void (*)(long,char const *)""'"); 
+      }
+    }
+    tc_CThread_api_initialize(arg1,arg2,arg3,arg4,arg5);
     ST(argvi) = sv_newmortal();
+    
     
     
     
     
     XSRETURN(argvi);
   fail:
+    
     
     
     
@@ -12763,6 +12800,7 @@ static swig_command_info swig_commands[] = {
 {"tinkercellc::tc_insertAnnotations", _wrap_tc_insertAnnotations},
 {"tinkercellc::tc_Main_api_initialize", _wrap_tc_Main_api_initialize},
 {"tinkercellc::tc_showProgress", _wrap_tc_showProgress},
+{"tinkercellc::tc_setProgessBarTitle", _wrap_tc_setProgessBarTitle},
 {"tinkercellc::tc_callback", _wrap_tc_callback},
 {"tinkercellc::tc_callWhenExiting", _wrap_tc_callWhenExiting},
 {"tinkercellc::tc_CThread_api_initialize", _wrap_tc_CThread_api_initialize},

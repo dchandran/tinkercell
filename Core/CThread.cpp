@@ -42,6 +42,7 @@ namespace Tinkercell
 		callWhenExitPtr = 0;
 		setLibrary(libPtr);
 		connect(this,SIGNAL(terminated()),this,SLOT(cleanupAfterTerminated()));
+		hasDialog = false;
 		
 		cthreads << this;
 		
@@ -60,7 +61,8 @@ namespace Tinkercell
 		this->lib = 0;
 		setLibrary(libName);
 		connect(this,SIGNAL(terminated()),this,SLOT(cleanupAfterTerminated()));
-		
+		hasDialog = false;
+
 		cthreads << this;
 		
 		call_tc_main();
@@ -138,7 +140,8 @@ namespace Tinkercell
 		long cthread,
 		void (*callback)(long, void (*f)(void)),
 		void (*callWhenExiting)(long, void (*f)(void)),
-		void (*showProgress)(long , int) );
+		void (*showProgress)(long , int),
+		void (*setTitle)(long , const char *) );
 		
 	void CThread::setupCFunctionPointers()
 	{
@@ -152,7 +155,8 @@ namespace Tinkercell
 					(long)(p),
 					&(setCallback),
 					&(setCallWhenExiting),
-					&(setProgress)
+					&(setProgress),
+					&(setTitle)
 				);
 			}
 		}
@@ -293,6 +297,7 @@ namespace Tinkercell
 			layout->addWidget(progressbar);
 			progressbar->setRange(0,100);
 			connect(newThread,SIGNAL(progress(int)),progressbar,SLOT(setValue(int)));
+			connect(newThread,SIGNAL(title(const QString&)),label1,SLOT(title(const QString&)));
 		}
 
 		layout->addWidget(killButton);
@@ -304,6 +309,8 @@ namespace Tinkercell
 		connect(newThread,SIGNAL(finished()),dialog,SLOT(close()));
 		connect(newThread,SIGNAL(terminated()),dialog,SLOT(close()));
 		connect(newThread,SIGNAL(started()),dialog,SLOT(show()));
+		newThread->hasDialog = true;
+		
 		return dialog;
 	}
 
@@ -327,13 +334,38 @@ namespace Tinkercell
 		if (cthreads.contains(thread))
 			thread->callWhenExitPtr = f;
 	}
+	
+	void CThread::setTitle(long address, const char * s)
+	{
+		void * ptr = (void*)address;
+		CThread * thread = static_cast<CThread*>(ptr);
+		if (cthreads.contains(thread))
+		{
+			if (!thread->hasDialog)
+			{
+				QWidget * widget = dialog(thread, QString(s), QIcon(":/image/play.png"));
+				if (widget)
+					widget->show();
+			}
+			else
+				thread->emitTitle(QString(s));
+		}
+	}
 
 	void CThread::setProgress(long address, int progress)
 	{
 		void * ptr = (void*)address;
 		CThread * thread = static_cast<CThread*>(ptr);
 		if (cthreads.contains(thread))
-			thread->emitSignal(progress);
+		{
+			if (!thread->hasDialog)
+			{
+				QWidget * widget = dialog(thread, "progress", QIcon(":/image/play.png"));
+				if (widget)
+					widget->show();
+			}
+			thread->emitProgress(progress);
+		}
 	}
 
 	QLibrary * CThread::loadLibrary(const QString& libname, QObject * parent)

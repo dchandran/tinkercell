@@ -408,6 +408,10 @@ public class tinkercell {
     tinkercellJNI.tc_showProgress(progress);
   }
 
+  public static void tc_setProgessBarTitle(String arg0) {
+    tinkercellJNI.tc_setProgessBarTitle(arg0);
+  }
+
   public static void tc_callback(SWIGTYPE_p_f_void__void f) {
     tinkercellJNI.tc_callback(SWIGTYPE_p_f_void__void.getCPtr(f));
   }
@@ -416,8 +420,8 @@ public class tinkercell {
     tinkercellJNI.tc_callWhenExiting(SWIGTYPE_p_f_void__void.getCPtr(f));
   }
 
-  public static void tc_CThread_api_initialize(int cthread, SWIGTYPE_p_f_long_p_f_void__void__void callback, SWIGTYPE_p_f_long_p_f_void__void__void callWhenExiting, SWIGTYPE_p_f_long_int__void showProgress) {
-    tinkercellJNI.tc_CThread_api_initialize(cthread, SWIGTYPE_p_f_long_p_f_void__void__void.getCPtr(callback), SWIGTYPE_p_f_long_p_f_void__void__void.getCPtr(callWhenExiting), SWIGTYPE_p_f_long_int__void.getCPtr(showProgress));
+  public static void tc_CThread_api_initialize(int cthread, SWIGTYPE_p_f_long_p_f_void__void__void callback, SWIGTYPE_p_f_long_p_f_void__void__void callWhenExiting, SWIGTYPE_p_f_long_int__void showProgress, SWIGTYPE_p_f_long_p_q_const__char__void setTitle) {
+    tinkercellJNI.tc_CThread_api_initialize(cthread, SWIGTYPE_p_f_long_p_f_void__void__void.getCPtr(callback), SWIGTYPE_p_f_long_p_f_void__void__void.getCPtr(callWhenExiting), SWIGTYPE_p_f_long_int__void.getCPtr(showProgress), SWIGTYPE_p_f_long_p_q_const__char__void.getCPtr(setTitle));
   }
 
   public static tc_matrix tc_getParameters(tc_items a) {

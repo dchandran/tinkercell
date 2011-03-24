@@ -467,6 +467,31 @@ tc_matrix tc_getNumericalData(long item,const char* data)
 	return tc_createMatrix(0,0);
 }
 
+double (*_tc_getNumericalValue)(const char* ) = 0;
+/*! 
+ \brief get a value from its full name
+ \ingroup Data
+*/ 
+TCAPIEXPORT 
+double tc_getNumericalValue(const char* name)
+{
+	if (_tc_getNumericalValue)
+		return _tc_getNumericalValue(name);
+	return 0.0;
+}
+
+const char* (*_tc_getTextValue)(const char* name) = 0;
+/*! 
+ \brief get a text value from its full name
+ \ingroup Data
+*/ 
+TCAPIEXPORT const char* tc_getTextValue(const char* name)
+{
+	if (_tc_getTextValue)
+		return _tc_getTextValue(name);
+	return 0;
+}
+
 void (*_tc_setNumericalData)(long,const char*,tc_matrix) = 0;
 /*! 
  \brief set a new data matrix for an item. Use 0 for the global model item.
@@ -973,7 +998,10 @@ void tc_Main_api_initialize(
 		void (*setNumericalValues)(tc_matrix),
 		void (*setNumericalValue)(const char *, double),
 		void (*setTextValues)(tc_table),
-		void (*setTextValue)(const char *, const char *)
+		void (*setTextValue)(const char *, const char *),
+		
+		double (*getNumericalValue)(const char*),
+		const char* (*getTextValue)(const char*)
 	)
 {
 	_tc_allItems = tc_allItems0;
@@ -1073,6 +1101,9 @@ void tc_Main_api_initialize(
 	_tc_setTextValue = setTextValue;
 	_tc_setNumericalValues = setNumericalValues;
 	_tc_setTextValues = setTextValues;
+	
+	_tc_getNumericalValue = getNumericalValue;
+	_tc_getTextValue = getTextValue;
 }
 
 void (*_tc_showProgress)(long thread, int progress) = 0;

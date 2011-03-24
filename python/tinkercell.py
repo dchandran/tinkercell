@@ -457,6 +457,14 @@ def tc_setTextValues(*args):
   return _tinkercell.tc_setTextValues(*args)
 tc_setTextValues = _tinkercell.tc_setTextValues
 
+def tc_getNumericalValue(*args):
+  return _tinkercell.tc_getNumericalValue(*args)
+tc_getNumericalValue = _tinkercell.tc_getNumericalValue
+
+def tc_getTextValue(*args):
+  return _tinkercell.tc_getTextValue(*args)
+tc_getTextValue = _tinkercell.tc_getTextValue
+
 def tc_setTextValue(*args):
   return _tinkercell.tc_setTextValue(*args)
 tc_setTextValue = _tinkercell.tc_setTextValue

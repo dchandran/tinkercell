@@ -121,6 +121,8 @@ package tinkercell;
 *tc_getTextData = *tinkercellc::tc_getTextData;
 *tc_setTextData = *tinkercellc::tc_setTextData;
 *tc_setTextValues = *tinkercellc::tc_setTextValues;
+*tc_getNumericalValue = *tinkercellc::tc_getNumericalValue;
+*tc_getTextValue = *tinkercellc::tc_getTextValue;
 *tc_setTextValue = *tinkercellc::tc_setTextValue;
 *tc_getNumericalDataNames = *tinkercellc::tc_getNumericalDataNames;
 *tc_getTextDataNames = *tinkercellc::tc_getTextDataNames;

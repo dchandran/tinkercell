@@ -5803,6 +5803,60 @@ fail:
 }
 
 
+static octave_value_list _wrap_tc_getNumericalValue (const octave_value_list& args, int nargout) {
+  char *arg1 = (char *) 0 ;
+  int res1 ;
+  char *buf1 = 0 ;
+  int alloc1 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  double result;
+  
+  if (!SWIG_check_num_args("tc_getNumericalValue",args.length(),1,1,0)) {
+    SWIG_fail;
+  }
+  res1 = SWIG_AsCharPtrAndSize(args(0), &buf1, NULL, &alloc1);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getNumericalValue" "', argument " "1"" of type '" "char const *""'");
+  }
+  arg1 = (char *)(buf1);
+  result = (double)tc_getNumericalValue((char const *)arg1);
+  _outv = SWIG_From_double((double)(result));
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+  if (alloc1 == SWIG_NEWOBJ) delete[] buf1;
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_tc_getTextValue (const octave_value_list& args, int nargout) {
+  char *arg1 = (char *) 0 ;
+  int res1 ;
+  char *buf1 = 0 ;
+  int alloc1 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  char *result = 0 ;
+  
+  if (!SWIG_check_num_args("tc_getTextValue",args.length(),1,1,0)) {
+    SWIG_fail;
+  }
+  res1 = SWIG_AsCharPtrAndSize(args(0), &buf1, NULL, &alloc1);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getTextValue" "', argument " "1"" of type '" "char const *""'");
+  }
+  arg1 = (char *)(buf1);
+  result = (char *)tc_getTextValue((char const *)arg1);
+  _outv = SWIG_FromCharPtr((const char *)result);
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+  if (alloc1 == SWIG_NEWOBJ) delete[] buf1;
+fail:
+  return _out;
+}
+
+
 static octave_value_list _wrap_tc_setTextValue (const octave_value_list& args, int nargout) {
   char *arg1 = (char *) 0 ;
   char *arg2 = (char *) 0 ;
@@ -6734,11 +6788,13 @@ static octave_value_list _wrap_tc_Main_api_initialize (const octave_value_list& 
   void (*arg73)(char const *,double) = (void (*)(char const *,double)) 0 ;
   void (*arg74)(tc_table) = (void (*)(tc_table)) 0 ;
   void (*arg75)(char const *,char const *) = (void (*)(char const *,char const *)) 0 ;
+  double (*arg76)(char const *) = (double (*)(char const *)) 0 ;
+  char *(*arg77)(char const *) = (char *(*)(char const *)) 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
   
-  if (!SWIG_check_num_args("tc_Main_api_initialize",args.length(),75,75,0)) {
+  if (!SWIG_check_num_args("tc_Main_api_initialize",args.length(),77,77,0)) {
     SWIG_fail;
   }
   {
@@ -7191,7 +7247,19 @@ static octave_value_list _wrap_tc_Main_api_initialize (const octave_value_list& 
       SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "75"" of type '" "void (*)(char const *,char const *)""'"); 
     }
   }
-  tc_Main_api_initialize(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,(char const *(*)(long))arg9,(char const *(*)(long))arg10,arg11,arg12,arg13,(char const *(*)(long))arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23,arg24,arg25,arg26,arg27,arg28,arg29,arg30,(char const *(*)())arg31,(char const *(*)())arg32,arg33,arg34,arg35,arg36,arg37,arg38,arg39,arg40,arg41,arg42,arg43,arg44,arg45,arg46,arg47,(char const *(*)(char const *))arg48,arg49,arg50,arg51,(char const *(*)())arg52,arg53,arg54,arg55,arg56,arg57,arg58,arg59,arg60,(char const *(*)(long))arg61,arg62,arg63,arg64,arg65,arg66,arg67,arg68,arg69,(char const *(*)())arg70,arg71,arg72,arg73,arg74,arg75);
+  {
+    int res = SWIG_ConvertFunctionPtr(args(75), (void**)(&arg76), SWIGTYPE_p_f_p_q_const__char__double);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "76"" of type '" "double (*)(char const *)""'"); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(args(76), (void**)(&arg77), SWIGTYPE_p_f_p_q_const__char__p_char);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "77"" of type '" "char const *(*)(char const *)""'"); 
+    }
+  }
+  tc_Main_api_initialize(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,(char const *(*)(long))arg9,(char const *(*)(long))arg10,arg11,arg12,arg13,(char const *(*)(long))arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23,arg24,arg25,arg26,arg27,arg28,arg29,arg30,(char const *(*)())arg31,(char const *(*)())arg32,arg33,arg34,arg35,arg36,arg37,arg38,arg39,arg40,arg41,arg42,arg43,arg44,arg45,arg46,arg47,(char const *(*)(char const *))arg48,arg49,arg50,arg51,(char const *(*)())arg52,arg53,arg54,arg55,arg56,arg57,arg58,arg59,arg60,(char const *(*)(long))arg61,arg62,arg63,arg64,arg65,arg66,arg67,arg68,arg69,(char const *(*)())arg70,arg71,arg72,arg73,arg74,arg75,arg76,(char const *(*)(char const *))arg77);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
 fail:
@@ -12144,6 +12212,8 @@ static const struct swig_octave_member swig_globals[] = {
 {"tc_getTextData",_wrap_tc_getTextData,0,0,2,0},
 {"tc_setTextData",_wrap_tc_setTextData,0,0,2,0},
 {"tc_setTextValues",_wrap_tc_setTextValues,0,0,2,0},
+{"tc_getNumericalValue",_wrap_tc_getNumericalValue,0,0,2,0},
+{"tc_getTextValue",_wrap_tc_getTextValue,0,0,2,0},
 {"tc_setTextValue",_wrap_tc_setTextValue,0,0,2,0},
 {"tc_getNumericalDataNames",_wrap_tc_getNumericalDataNames,0,0,2,0},
 {"tc_getTextDataNames",_wrap_tc_getTextDataNames,0,0,2,0},

@@ -45,6 +45,7 @@
 #include <QDockWidget>
 #include <QScrollArea>
 #include <QSplashScreen>
+#include <QDialog>
 
 #include "GraphicsScene.h"
 #include "NodeGraphicsItem.h"
@@ -170,7 +171,7 @@ namespace Tinkercell
 		void makeNewModule();
 		void initializeExportDialog();
 		QHash< ItemHandle *, QPixmap > moduleSnapshots;
-		QSplashScreen * snapshotToolTip;
+		QDialog * snapshotToolTip;
 		QToolButton * snapshotIcon;
 		
 		static ItemHandle * findCorrespondingHandle(NodeHandle*,ConnectionHandle*);

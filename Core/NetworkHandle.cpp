@@ -1113,8 +1113,11 @@ namespace Tinkercell
 	{
 		NumericalDataTable dat;
 		dat.resize(names.size(), 1);
-		for (int i=0; i < values.size() && i < dat.rows(); ++i)
+		for (int i=0; i < names.size() && i < values.size() && i < dat.rows(); ++i)
+		{
+			dat.setRowName(i, names[i]);
 			dat(i,0) = values[i];
+		}
 		setModelValues(dat,defaultDataTable);
 	}
 
@@ -1122,8 +1125,11 @@ namespace Tinkercell
 	{
 		TextDataTable dat;
 		dat.resize(names.size(), 1);
-		for (int i=0; i < values.size() && i < dat.rows(); ++i)
+		for (int i=0; i < names.size() && i < values.size() && i < dat.rows(); ++i)
+		{
+			dat.setRowName(i, names[i]);
 			dat(i,0) = values[i];
+		}
 		setModelValues(dat,defaultDataTable);
 	}
 

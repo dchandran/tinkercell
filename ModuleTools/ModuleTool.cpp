@@ -249,7 +249,7 @@ namespace Tinkercell
 				{
 					GraphicsScene * newScene = window->newScene();
 					newScene->insert(tr("new model"),items);
-					newScene->fitAll();
+					//newScene->fitAll();
 					QPixmap printer(256, 256);
 					printer.fill();
 					newScene->print(&printer);
@@ -271,7 +271,7 @@ namespace Tinkercell
 				{
 					GraphicsScene * scene = window->newScene();
 					scene->insert(tr("new model"),items);
-					scene->fitAll();
+					//scene->fitAll();
 				}
 				else
 				{
@@ -398,8 +398,8 @@ namespace Tinkercell
 			}
 			
 			//module snapshot window
-			snapshotToolTip = new QSplashScreen(this);
-			snapshotToolTip->setPalette(QPalette(Qt::black));
+			snapshotToolTip = new QDialog(mainWindow);
+			snapshotToolTip->setPalette(QPalette(Qt::white));
 			snapshotToolTip->setFixedSize(256,256);
 			QRect rect = mainWindow->geometry();
 			snapshotToolTip->setGeometry (rect.right() - 280, rect.bottom() - 280, 256, 256 );
@@ -408,6 +408,7 @@ namespace Tinkercell
 			snapshotIcon = new QToolButton;
 			layout->addWidget(snapshotIcon);
 			snapshotToolTip->setLayout(layout);
+			snapshotToolTip->hide();
         }
 
         return true;
@@ -1229,6 +1230,7 @@ namespace Tinkercell
 					snapshotIcon->setIcon(QIcon(moduleSnapshots[ch]));
 					snapshotIcon->setIconSize(QSize(256,256));
 					snapshotToolTip->show();
+					snapshotToolTip->raise();
 				}
 				return;
 			}
@@ -1664,6 +1666,7 @@ namespace Tinkercell
 				if (scenes[i]->localHandle() == handle && !scenes[i]->items().isEmpty())
 				{
 					scenes[i]->popOut();
+					scenes[i]->fitAll();
 					return;
 				}
 		}

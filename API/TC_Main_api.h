@@ -363,6 +363,20 @@ TCAPIEXPORT void tc_setTextData(long o,const char* title,tc_table data);
 TCAPIEXPORT void tc_setTextValues(tc_table data);
 
 /*! 
+ \brief get a numerical value from its full name
+ \param string full name
+ \ingroup Data
+*/ 
+TCAPIEXPORT double tc_getNumericalValue(const char* name);
+
+/*! 
+ \brief get a text value from its full name
+ \param string full name
+ \ingroup Data
+*/ 
+TCAPIEXPORT const char* tc_getTextValue(const char* name);
+
+/*! 
  \brief set a single text value in a model
  \param string name of variable
  \param string new value of variable
@@ -686,7 +700,10 @@ TCAPIEXPORT void tc_Main_api_initialize(
 		void (*setNumericalValues)(tc_matrix),
 		void (*setNumericalValue)(const char *, double),
 		void (*setTextValues)(tc_table),
-		void (*setTextValue)(const char *, const char *)
+		void (*setTextValue)(const char *, const char *),
+		
+		double (*getNumericalValue)(const char*),
+		const char* (*getTextValue)(const char*)
 	);
 
 /*! 

@@ -5277,6 +5277,60 @@ fail:
 
 
 SWIGINTERN VALUE
+_wrap_tc_getNumericalValue(int argc, VALUE *argv, VALUE self) {
+  char *arg1 = (char *) 0 ;
+  int res1 ;
+  char *buf1 = 0 ;
+  int alloc1 = 0 ;
+  double result;
+  VALUE vresult = Qnil;
+  
+  if ((argc < 1) || (argc > 1)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 1)",argc); SWIG_fail;
+  }
+  res1 = SWIG_AsCharPtrAndSize(argv[0], &buf1, NULL, &alloc1);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "char const *","tc_getNumericalValue", 1, argv[0] ));
+  }
+  arg1 = (char *)(buf1);
+  result = (double)tc_getNumericalValue((char const *)arg1);
+  vresult = SWIG_From_double((double)(result));
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  return vresult;
+fail:
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_tc_getTextValue(int argc, VALUE *argv, VALUE self) {
+  char *arg1 = (char *) 0 ;
+  int res1 ;
+  char *buf1 = 0 ;
+  int alloc1 = 0 ;
+  char *result = 0 ;
+  VALUE vresult = Qnil;
+  
+  if ((argc < 1) || (argc > 1)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 1)",argc); SWIG_fail;
+  }
+  res1 = SWIG_AsCharPtrAndSize(argv[0], &buf1, NULL, &alloc1);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "char const *","tc_getTextValue", 1, argv[0] ));
+  }
+  arg1 = (char *)(buf1);
+  result = (char *)tc_getTextValue((char const *)arg1);
+  vresult = SWIG_FromCharPtr((const char *)result);
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  return vresult;
+fail:
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
 _wrap_tc_setTextValue(int argc, VALUE *argv, VALUE self) {
   char *arg1 = (char *) 0 ;
   char *arg2 = (char *) 0 ;
@@ -6165,9 +6219,11 @@ _wrap_tc_Main_api_initialize(int argc, VALUE *argv, VALUE self) {
   void (*arg73)(char const *,double) = (void (*)(char const *,double)) 0 ;
   void (*arg74)(tc_table) = (void (*)(tc_table)) 0 ;
   void (*arg75)(char const *,char const *) = (void (*)(char const *,char const *)) 0 ;
+  double (*arg76)(char const *) = (double (*)(char const *)) 0 ;
+  char *(*arg77)(char const *) = (char *(*)(char const *)) 0 ;
   
-  if ((argc < 75) || (argc > 75)) {
-    rb_raise(rb_eArgError, "wrong # of arguments(%d for 75)",argc); SWIG_fail;
+  if ((argc < 77) || (argc > 77)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 77)",argc); SWIG_fail;
   }
   {
     int res = SWIG_ConvertFunctionPtr(argv[0], (void**)(&arg1), SWIGTYPE_p_f___tc_items);
@@ -6619,7 +6675,19 @@ _wrap_tc_Main_api_initialize(int argc, VALUE *argv, VALUE self) {
       SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(char const *,char const *)","tc_Main_api_initialize", 75, argv[74] )); 
     }
   }
-  tc_Main_api_initialize(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,(char const *(*)(long))arg9,(char const *(*)(long))arg10,arg11,arg12,arg13,(char const *(*)(long))arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23,arg24,arg25,arg26,arg27,arg28,arg29,arg30,(char const *(*)())arg31,(char const *(*)())arg32,arg33,arg34,arg35,arg36,arg37,arg38,arg39,arg40,arg41,arg42,arg43,arg44,arg45,arg46,arg47,(char const *(*)(char const *))arg48,arg49,arg50,arg51,(char const *(*)())arg52,arg53,arg54,arg55,arg56,arg57,arg58,arg59,arg60,(char const *(*)(long))arg61,arg62,arg63,arg64,arg65,arg66,arg67,arg68,arg69,(char const *(*)())arg70,arg71,arg72,arg73,arg74,arg75);
+  {
+    int res = SWIG_ConvertFunctionPtr(argv[75], (void**)(&arg76), SWIGTYPE_p_f_p_q_const__char__double);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "double (*)(char const *)","tc_Main_api_initialize", 76, argv[75] )); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(argv[76], (void**)(&arg77), SWIGTYPE_p_f_p_q_const__char__p_char);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "char const *(*)(char const *)","tc_Main_api_initialize", 77, argv[76] )); 
+    }
+  }
+  tc_Main_api_initialize(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,(char const *(*)(long))arg9,(char const *(*)(long))arg10,arg11,arg12,arg13,(char const *(*)(long))arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23,arg24,arg25,arg26,arg27,arg28,arg29,arg30,(char const *(*)())arg31,(char const *(*)())arg32,arg33,arg34,arg35,arg36,arg37,arg38,arg39,arg40,arg41,arg42,arg43,arg44,arg45,arg46,arg47,(char const *(*)(char const *))arg48,arg49,arg50,arg51,(char const *(*)())arg52,arg53,arg54,arg55,arg56,arg57,arg58,arg59,arg60,(char const *(*)(long))arg61,arg62,arg63,arg64,arg65,arg66,arg67,arg68,arg69,(char const *(*)())arg70,arg71,arg72,arg73,arg74,arg75,arg76,(char const *(*)(char const *))arg77);
   return Qnil;
 fail:
   return Qnil;
@@ -11989,6 +12057,8 @@ SWIGEXPORT void Init_tinkercell(void) {
   rb_define_module_function(mTinkercell, "tc_getTextData", _wrap_tc_getTextData, -1);
   rb_define_module_function(mTinkercell, "tc_setTextData", _wrap_tc_setTextData, -1);
   rb_define_module_function(mTinkercell, "tc_setTextValues", _wrap_tc_setTextValues, -1);
+  rb_define_module_function(mTinkercell, "tc_getNumericalValue", _wrap_tc_getNumericalValue, -1);
+  rb_define_module_function(mTinkercell, "tc_getTextValue", _wrap_tc_getTextValue, -1);
   rb_define_module_function(mTinkercell, "tc_setTextValue", _wrap_tc_setTextValue, -1);
   rb_define_module_function(mTinkercell, "tc_getNumericalDataNames", _wrap_tc_getNumericalDataNames, -1);
   rb_define_module_function(mTinkercell, "tc_getTextDataNames", _wrap_tc_getTextDataNames, -1);

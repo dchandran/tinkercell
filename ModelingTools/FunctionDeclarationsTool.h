@@ -119,7 +119,7 @@ namespace Tinkercell
 		bool openedByUser;
 		NodeGraphicsItem item;
 		EquationGraph * graphWidget;
-		QSplashScreen * snapshotToolTip;
+		QDialog * snapshotToolTip;
 		QToolButton * snapshotIcon;
 		QHash<QString, QPixmap> functionSnapshots;
 

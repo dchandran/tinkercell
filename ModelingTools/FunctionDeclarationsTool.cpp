@@ -94,7 +94,7 @@ namespace Tinkercell
 			//setWindowOpacity(0.8);
 			
 			//module snapshot window
-			snapshotToolTip = new QSplashScreen(this);
+			snapshotToolTip = new QDialog(mainWindow);
 			snapshotToolTip->setPalette(QPalette(Qt::black));
 			snapshotToolTip->setFixedSize(256,256);
 			QRect rect = mainWindow->geometry();
@@ -153,6 +153,7 @@ namespace Tinkercell
 						snapshotIcon->setIcon(QIcon(functionSnapshots[s]));
 						snapshotIcon->setIconSize(QSize(256,256));
 						snapshotToolTip->show();
+						snapshotToolTip->raise();
 					}
 					return;
 				}

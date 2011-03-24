@@ -287,12 +287,6 @@ namespace Tinkercell
 				curve->setRenderHint(QwtPlotItem::RenderAntialiased);
 				QPen pen = penList[c];
 				
-				if (dataTables.size() > 1)
-				{
-					QColor color = pen.color();
-					pen.setColor(QColor(color.redF(),color.blueF(),color.greenF(),0.75));
-				}
-				
 				curve->setPen(pen);
 				curve->attach(this);
 				

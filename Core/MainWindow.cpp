@@ -651,7 +651,8 @@ namespace Tinkercell
 		printer.setOrientation(QPrinter::Landscape);
 		
 		QRectF rect = scene->visibleRegion();
-		QSizeF sz( 1000.0 , 1000.0 * rect.width() / rect.height() );
+		qreal w = 360;
+		QSizeF sz( w , w * rect.width() / rect.height() );
 		printer.setPaperSize(sz,QPrinter::Millimeter);
 		printer.setOutputFileName(fileName);
 		scene->print(&printer, rect);

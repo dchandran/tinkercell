@@ -1,4 +1,5 @@
 #include "TC_BasicInformationTool_api.h"
+#include "TC_Main_api.h"
 
 tc_matrix (*_tc_getParameters)(tc_items) = 0;
 /*! 
@@ -142,6 +143,27 @@ void tc_setParameter(long item,const char* attribute,double value)
 	if (_tc_setParameter)
 		_tc_setParameter(item,attribute,value);
 }
+
+TCAPIEXPORT void tc_setTextAttributeByName(const char* attribute,const char* value)
+{
+	tc_setTextValue(attribute, value);
+}
+
+TCAPIEXPORT void tc_setParameterByName(const char* attribute,double value)
+{
+	tc_setNumericalValue(attribute, value);
+}
+
+TCAPIEXPORT void tc_setTextAttributes(tc_table t)
+{
+	tc_setTextValues(t);
+}
+
+TCAPIEXPORT void tc_setParameters(tc_matrix t)
+{
+	tc_setNumericalValues(t);
+}
+
 
 /*! 
  \brief initialize attribute functions

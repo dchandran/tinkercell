@@ -111,8 +111,12 @@ class tinkercellJNI {
   public final static native int tc_getParent(int jarg1);
   public final static native long tc_getNumericalData(int jarg1, String jarg2);
   public final static native void tc_setNumericalData(int jarg1, String jarg2, long jarg3, tc_matrix jarg3_);
+  public final static native void tc_setNumericalValues(long jarg1, tc_matrix jarg1_);
+  public final static native void tc_setNumericalValue(String jarg1, double jarg2);
   public final static native long tc_getTextData(int jarg1, String jarg2);
   public final static native void tc_setTextData(int jarg1, String jarg2, long jarg3, tc_table jarg3_);
+  public final static native void tc_setTextValues(long jarg1, tc_table jarg1_);
+  public final static native void tc_setTextValue(String jarg1, String jarg2);
   public final static native long tc_getNumericalDataNames(int jarg1);
   public final static native long tc_getTextDataNames(int jarg1);
   public final static native void tc_zoom(double jarg1);
@@ -142,7 +146,7 @@ class tinkercellJNI {
   public final static native int tc_screenY();
   public final static native String tc_annotations();
   public final static native void tc_insertAnnotations(String jarg1, double jarg2, double jarg3);
-  public final static native void tc_Main_api_initialize(long jarg1, long jarg2, long jarg3, long jarg4, long jarg5, long jarg6, long jarg7, long jarg8, long jarg9, long jarg10, long jarg11, long jarg12, long jarg13, long jarg14, long jarg15, long jarg16, long jarg17, long jarg18, long jarg19, long jarg20, long jarg21, long jarg22, long jarg23, long jarg24, long jarg25, long jarg26, long jarg27, long jarg28, long jarg29, long jarg30, long jarg31, long jarg32, long jarg33, long jarg34, long jarg35, long jarg36, long jarg37, long jarg38, long jarg39, long jarg40, long jarg41, long jarg42, long jarg43, long jarg44, long jarg45, long jarg46, long jarg47, long jarg48, long jarg49, long jarg50, long jarg51, long jarg52, long jarg53, long jarg54, long jarg55, long jarg56, long jarg57, long jarg58, long jarg59, long jarg60, long jarg61, long jarg62, long jarg63, long jarg64, long jarg65, long jarg66, long jarg67, long jarg68, long jarg69, long jarg70, long jarg71);
+  public final static native void tc_Main_api_initialize(long jarg1, long jarg2, long jarg3, long jarg4, long jarg5, long jarg6, long jarg7, long jarg8, long jarg9, long jarg10, long jarg11, long jarg12, long jarg13, long jarg14, long jarg15, long jarg16, long jarg17, long jarg18, long jarg19, long jarg20, long jarg21, long jarg22, long jarg23, long jarg24, long jarg25, long jarg26, long jarg27, long jarg28, long jarg29, long jarg30, long jarg31, long jarg32, long jarg33, long jarg34, long jarg35, long jarg36, long jarg37, long jarg38, long jarg39, long jarg40, long jarg41, long jarg42, long jarg43, long jarg44, long jarg45, long jarg46, long jarg47, long jarg48, long jarg49, long jarg50, long jarg51, long jarg52, long jarg53, long jarg54, long jarg55, long jarg56, long jarg57, long jarg58, long jarg59, long jarg60, long jarg61, long jarg62, long jarg63, long jarg64, long jarg65, long jarg66, long jarg67, long jarg68, long jarg69, long jarg70, long jarg71, long jarg72, long jarg73, long jarg74, long jarg75);
   public final static native void tc_showProgress(int jarg1);
   public final static native void tc_setProgessBarTitle(String jarg1);
   public final static native void tc_callback(long jarg1);
@@ -160,6 +164,10 @@ class tinkercellJNI {
   public final static native long tc_getAllTextNamed(long jarg1, tc_items jarg1_, long jarg2, tc_strings jarg2_);
   public final static native void tc_setTextAttribute(int jarg1, String jarg2, String jarg3);
   public final static native void tc_setParameter(int jarg1, String jarg2, double jarg3);
+  public final static native void tc_setTextAttributeByName(String jarg1, String jarg2);
+  public final static native void tc_setParameterByName(String jarg1, double jarg2);
+  public final static native void tc_setTextAttributes(long jarg1, tc_table jarg1_);
+  public final static native void tc_setParameters(long jarg1, tc_matrix jarg1_);
   public final static native void tc_BasicInformationTool_Text_api(long jarg1, long jarg2, long jarg3);
   public final static native void tc_BasicInformationTool_Numeric_api(long jarg1, long jarg2, long jarg3, long jarg4, long jarg5, long jarg6, long jarg7, long jarg8, long jarg9);
   public final static native int tc_insertConnection(long jarg1, tc_items jarg1_, String jarg2, String jarg3);

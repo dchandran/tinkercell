@@ -531,7 +531,7 @@ void (*_tc_setTextValues)(tc_table) = 0;
 void tc_setTextValues(tc_table data)
 {
 	if (_tc_setTextValues)
-		_tc_setTextValues(o, title, data);
+		_tc_setTextValues(data);
 }
 
 void (*_tc_setTextValue)(const char * , const char * ) = 0;
@@ -1008,6 +1008,7 @@ void tc_Main_api_initialize(
 	_tc_setPos = tc_setPos0;
 	_tc_setPosMulti = tc_setPos1;
 	_tc_moveSelected = tc_moveSelected0;
+
 
 	_tc_isWindows = tc_isWindows0;
 	_tc_isMac = tc_isMac0;

@@ -437,6 +437,14 @@ def tc_setNumericalData(*args):
   return _tinkercell.tc_setNumericalData(*args)
 tc_setNumericalData = _tinkercell.tc_setNumericalData
 
+def tc_setNumericalValues(*args):
+  return _tinkercell.tc_setNumericalValues(*args)
+tc_setNumericalValues = _tinkercell.tc_setNumericalValues
+
+def tc_setNumericalValue(*args):
+  return _tinkercell.tc_setNumericalValue(*args)
+tc_setNumericalValue = _tinkercell.tc_setNumericalValue
+
 def tc_getTextData(*args):
   return _tinkercell.tc_getTextData(*args)
 tc_getTextData = _tinkercell.tc_getTextData
@@ -444,6 +452,14 @@ tc_getTextData = _tinkercell.tc_getTextData
 def tc_setTextData(*args):
   return _tinkercell.tc_setTextData(*args)
 tc_setTextData = _tinkercell.tc_setTextData
+
+def tc_setTextValues(*args):
+  return _tinkercell.tc_setTextValues(*args)
+tc_setTextValues = _tinkercell.tc_setTextValues
+
+def tc_setTextValue(*args):
+  return _tinkercell.tc_setTextValue(*args)
+tc_setTextValue = _tinkercell.tc_setTextValue
 
 def tc_getNumericalDataNames(*args):
   return _tinkercell.tc_getNumericalDataNames(*args)
@@ -632,6 +648,22 @@ tc_setTextAttribute = _tinkercell.tc_setTextAttribute
 def tc_setParameter(*args):
   return _tinkercell.tc_setParameter(*args)
 tc_setParameter = _tinkercell.tc_setParameter
+
+def tc_setTextAttributeByName(*args):
+  return _tinkercell.tc_setTextAttributeByName(*args)
+tc_setTextAttributeByName = _tinkercell.tc_setTextAttributeByName
+
+def tc_setParameterByName(*args):
+  return _tinkercell.tc_setParameterByName(*args)
+tc_setParameterByName = _tinkercell.tc_setParameterByName
+
+def tc_setTextAttributes(*args):
+  return _tinkercell.tc_setTextAttributes(*args)
+tc_setTextAttributes = _tinkercell.tc_setTextAttributes
+
+def tc_setParameters(*args):
+  return _tinkercell.tc_setParameters(*args)
+tc_setParameters = _tinkercell.tc_setParameters
 
 def tc_BasicInformationTool_Text_api(*args):
   return _tinkercell.tc_BasicInformationTool_Text_api(*args)

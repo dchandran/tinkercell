@@ -1109,16 +1109,25 @@ namespace Tinkercell
 		return s;
 	}
 	
-	void NetworkHandle::setValues(const QStringList& names, const QList<double>& values, int column, const QString& defaultDataTable)
+	void NetworkHandle::setModelValues(const QStringList& names, const QList<double>& values, int column, const QString& defaultDataTable)
 	{
 		NumericalDataTable dat;
 		dat.resize(names.size(), 1);
 		for (int i=0; i < values.size() && i < dat.rows(); ++i)
 			dat(i,0) = values[i];
-		setValues(dat,defaultDataTable);
+		setModelValues(dat,defaultDataTable);
 	}
-	
-	void NetworkHandle::setValues(const NumericalDataTable& newvalues, const QString& defaultDataTable)
+
+	void NetworkHandle::setModelValues(const QStringList& names, const QStringList& values, int column, const QString& defaultDataTable)
+	{
+		TextDataTable dat;
+		dat.resize(names.size(), 1);
+		for (int i=0; i < values.size() && i < dat.rows(); ++i)
+			dat(i,0) = values[i];
+		setModelValues(dat,defaultDataTable);
+	}
+
+	void NetworkHandle::setModelValues(const NumericalDataTable& newvalues, const QString& defaultDataTable)
 	{
 		SymbolsTable & symbols = symbolsTable;
 		QString s;
@@ -1214,7 +1223,7 @@ namespace Tinkercell
 		}
 	}
 	
-	void NetworkHandle::setValues(const TextDataTable& newvalues, const QString& defaultDataTable)
+	void NetworkHandle::setModelValues(const TextDataTable& newvalues, const QString& defaultDataTable)
 	{
 		SymbolsTable & symbols = symbolsTable;
 		QString s;
@@ -1304,6 +1313,5 @@ namespace Tinkercell
 				delete newTables[i];
 		}
 	}
-	
 }
 

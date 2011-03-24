@@ -293,15 +293,20 @@ namespace Tinkercell
 		\param QStringList names of variables
 		\param QList<double> values
 		\param int column number (default=0)*/
-		virtual void setValues(const QStringList& names, const QList<double>& values, int column=0, const QString& defaultDataTable=QString());
+		virtual void setModelValues(const QStringList& names, const QList<double>& values, int column=0, const QString& defaultDataTable=QString());
+		/*! \brief assign the values for the given strings. if data table has multiple columns, provide the column number in the argument
+		\param QStringList names of variables
+		\param QStringList values
+		\param int column number (default=0)*/
+		virtual void setModelValues(const QStringList& names, const QStringList& values, int column=0, const QString& defaultDataTable=QString());
 		/*! \brief assign the values for the given strings. if data table has multiple columns, provide the column number in the argument
 		\param NumericalDataTable names (rows) and values
 		\param int column number (default=0)*/
-		virtual void setValues(const NumericalDataTable& newvalues, const QString& defaultDataTable=QString());
+		virtual void setModelValues(const NumericalDataTable& newvalues, const QString& defaultDataTable=QString());
 		/*! \brief assign the values for the given strings. if data table has multiple columns, provide the column number in the argument
 		\param NumericalDataTable names (rows) and values
 		\param int column number (default=0)*/
-		virtual void setValues(const TextDataTable& newvalues, const QString& defaultDataTable=QString());
+		virtual void setModelValues(const TextDataTable& newvalues, const QString& defaultDataTable=QString());
 		/*! \}
 			\name slots
 			update the symbols table that stores all the symbols in the network

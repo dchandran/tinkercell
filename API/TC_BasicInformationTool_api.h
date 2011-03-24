@@ -55,7 +55,7 @@ TCAPIEXPORT const char* tc_getTextAttribute(long item,const char* attribute);
  \return double value
  \ingroup Modeling
 */
-TCAPIEXPORT double tc_getParameter(const char* attribute);
+TCAPIEXPORT double tc_getParameter(long item, const char* attribute);
 /*! 
  \brief get all numerical Modeling with the given names for the given items
  \param tc_items a list of items
@@ -93,7 +93,33 @@ TCAPIEXPORT void tc_setTextAttribute(long item,const char* attribute,const char*
  \param string name of parameter
  \ingroup Modeling
 */
-TCAPIEXPORT void tc_setParameter(const char* attribute,double value);
+TCAPIEXPORT void tc_setParameter(long item, const char* attribute,double value);
+/*! 
+ \brief set text attribute 
+ \param string full name of text attribute, e.g. A.sequence or A_sequence
+ \param string value
+ \ingroup Annotation
+*/
+TCAPIEXPORT void tc_setTextAttributeByName(const char* attribute,const char* value);
+/*! 
+ \brief set a parameter value 
+ \param string full name of parameter, e.g. A.k0 or A_k0
+ \param double value
+ \ingroup Modeling
+*/
+TCAPIEXPORT void tc_setParameterByName(const char* attribute,double value);
+/*! 
+ \brief set text attributes for multiple items
+ \param tc_table table with rownames as the attribute full names
+ \ingroup Annotation
+*/
+TCAPIEXPORT void tc_setTextAttributes(tc_table);
+/*! 
+ \brief set parameter for multiple items
+ \param tc_table table with rownames as the parameter full names
+ \ingroup Modeling
+*/
+TCAPIEXPORT void tc_setParameters(tc_matrix);
 /*! 
  \brief initialize the parameters and attributes plug-in
  \ingroup init

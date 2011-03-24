@@ -2710,42 +2710,44 @@ SWIG_Python_MustGetPtr(PyObject *obj, swig_type_info *ty, int argnum, int flags)
 #define SWIGTYPE_p_f_p_q_const__char__tc_items swig_types[49]
 #define SWIGTYPE_p_f_p_q_const__char__tc_matrix swig_types[50]
 #define SWIGTYPE_p_f_p_q_const__char__void swig_types[51]
-#define SWIGTYPE_p_f_p_q_const__char_double_double__void swig_types[52]
-#define SWIGTYPE_p_f_p_q_const__char_double_double_int__tc_matrix swig_types[53]
-#define SWIGTYPE_p_f_p_q_const__char_double_double_int_p_q_const__char_double_double_int__tc_matrix swig_types[54]
-#define SWIGTYPE_p_f_p_q_const__char_int_int__void swig_types[55]
-#define SWIGTYPE_p_f_p_q_const__char_int_int_tc_strings__void swig_types[56]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__int swig_types[57]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__long swig_types[58]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__void swig_types[59]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char__int swig_types[60]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void swig_types[61]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_tc_matrix__int swig_types[62]
-#define SWIGTYPE_p_f_p_q_const__char_tc_items__int swig_types[63]
-#define SWIGTYPE_p_f_p_q_const__char_tc_items__tc_items swig_types[64]
-#define SWIGTYPE_p_f_p_q_const__char_tc_strings_p_q_const__char__int swig_types[65]
-#define SWIGTYPE_p_f_tc_items__tc_matrix swig_types[66]
-#define SWIGTYPE_p_f_tc_items__tc_strings swig_types[67]
-#define SWIGTYPE_p_f_tc_items__void swig_types[68]
-#define SWIGTYPE_p_f_tc_items_p_q_const__char_p_q_const__char__long swig_types[69]
-#define SWIGTYPE_p_f_tc_items_tc_matrix__void swig_types[70]
-#define SWIGTYPE_p_f_tc_items_tc_strings__tc_matrix swig_types[71]
-#define SWIGTYPE_p_f_tc_items_tc_strings__tc_strings swig_types[72]
-#define SWIGTYPE_p_f_tc_items_tc_strings__void swig_types[73]
-#define SWIGTYPE_p_f_tc_matrix__void swig_types[74]
-#define SWIGTYPE_p_f_tc_matrix_p_q_const__char__void swig_types[75]
-#define SWIGTYPE_p_f_tc_matrix_p_q_const__char_p_q_const__char__void swig_types[76]
-#define SWIGTYPE_p_f_tc_strings__tc_items swig_types[77]
-#define SWIGTYPE_p_f_tc_strings_p_double__void swig_types[78]
-#define SWIGTYPE_p_f_void__void swig_types[79]
-#define SWIGTYPE_p_long swig_types[80]
-#define SWIGTYPE_p_p_char swig_types[81]
-#define SWIGTYPE_p_tc_items swig_types[82]
-#define SWIGTYPE_p_tc_matrix swig_types[83]
-#define SWIGTYPE_p_tc_strings swig_types[84]
-#define SWIGTYPE_p_tc_table swig_types[85]
-static swig_type_info *swig_types[87];
-static swig_module_info swig_module = {swig_types, 86, 0, 0, 0, 0};
+#define SWIGTYPE_p_f_p_q_const__char_double__void swig_types[52]
+#define SWIGTYPE_p_f_p_q_const__char_double_double__void swig_types[53]
+#define SWIGTYPE_p_f_p_q_const__char_double_double_int__tc_matrix swig_types[54]
+#define SWIGTYPE_p_f_p_q_const__char_double_double_int_p_q_const__char_double_double_int__tc_matrix swig_types[55]
+#define SWIGTYPE_p_f_p_q_const__char_int_int__void swig_types[56]
+#define SWIGTYPE_p_f_p_q_const__char_int_int_tc_strings__void swig_types[57]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__int swig_types[58]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__long swig_types[59]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__void swig_types[60]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char__int swig_types[61]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void swig_types[62]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_tc_matrix__int swig_types[63]
+#define SWIGTYPE_p_f_p_q_const__char_tc_items__int swig_types[64]
+#define SWIGTYPE_p_f_p_q_const__char_tc_items__tc_items swig_types[65]
+#define SWIGTYPE_p_f_p_q_const__char_tc_strings_p_q_const__char__int swig_types[66]
+#define SWIGTYPE_p_f_tc_items__tc_matrix swig_types[67]
+#define SWIGTYPE_p_f_tc_items__tc_strings swig_types[68]
+#define SWIGTYPE_p_f_tc_items__void swig_types[69]
+#define SWIGTYPE_p_f_tc_items_p_q_const__char_p_q_const__char__long swig_types[70]
+#define SWIGTYPE_p_f_tc_items_tc_matrix__void swig_types[71]
+#define SWIGTYPE_p_f_tc_items_tc_strings__tc_matrix swig_types[72]
+#define SWIGTYPE_p_f_tc_items_tc_strings__tc_strings swig_types[73]
+#define SWIGTYPE_p_f_tc_items_tc_strings__void swig_types[74]
+#define SWIGTYPE_p_f_tc_matrix__void swig_types[75]
+#define SWIGTYPE_p_f_tc_matrix_p_q_const__char__void swig_types[76]
+#define SWIGTYPE_p_f_tc_matrix_p_q_const__char_p_q_const__char__void swig_types[77]
+#define SWIGTYPE_p_f_tc_strings__tc_items swig_types[78]
+#define SWIGTYPE_p_f_tc_strings_p_double__void swig_types[79]
+#define SWIGTYPE_p_f_tc_table__void swig_types[80]
+#define SWIGTYPE_p_f_void__void swig_types[81]
+#define SWIGTYPE_p_long swig_types[82]
+#define SWIGTYPE_p_p_char swig_types[83]
+#define SWIGTYPE_p_tc_items swig_types[84]
+#define SWIGTYPE_p_tc_matrix swig_types[85]
+#define SWIGTYPE_p_tc_strings swig_types[86]
+#define SWIGTYPE_p_tc_table swig_types[87]
+static swig_type_info *swig_types[89];
+static swig_module_info swig_module = {swig_types, 88, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -6033,6 +6035,66 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_tc_setNumericalValues(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  tc_matrix arg1 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:tc_setNumericalValues",&obj0)) SWIG_fail;
+  {
+    res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_tc_matrix,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setNumericalValues" "', argument " "1"" of type '" "tc_matrix""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_setNumericalValues" "', argument " "1"" of type '" "tc_matrix""'");
+    } else {
+      arg1 = *((tc_matrix *)(argp1));
+    }
+  }
+  tc_setNumericalValues(arg1);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tc_setNumericalValue(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  char *arg1 = (char *) 0 ;
+  double arg2 ;
+  int res1 ;
+  char *buf1 = 0 ;
+  int alloc1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:tc_setNumericalValue",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_AsCharPtrAndSize(obj0, &buf1, NULL, &alloc1);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setNumericalValue" "', argument " "1"" of type '" "char const *""'");
+  }
+  arg1 = (char *)(buf1);
+  ecode2 = SWIG_AsVal_double(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_setNumericalValue" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = (double)(val2);
+  tc_setNumericalValue((char const *)arg1,arg2);
+  resultobj = SWIG_Py_Void();
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  return resultobj;
+fail:
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_tc_getTextData(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   long arg1 ;
@@ -6110,6 +6172,69 @@ SWIGINTERN PyObject *_wrap_tc_setTextData(PyObject *SWIGUNUSEDPARM(self), PyObje
   if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
   return resultobj;
 fail:
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tc_setTextValues(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  tc_table arg1 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:tc_setTextValues",&obj0)) SWIG_fail;
+  {
+    res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_tc_table,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setTextValues" "', argument " "1"" of type '" "tc_table""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_setTextValues" "', argument " "1"" of type '" "tc_table""'");
+    } else {
+      arg1 = *((tc_table *)(argp1));
+    }
+  }
+  tc_setTextValues(arg1);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tc_setTextValue(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  char *arg1 = (char *) 0 ;
+  char *arg2 = (char *) 0 ;
+  int res1 ;
+  char *buf1 = 0 ;
+  int alloc1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:tc_setTextValue",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_AsCharPtrAndSize(obj0, &buf1, NULL, &alloc1);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setTextValue" "', argument " "1"" of type '" "char const *""'");
+  }
+  arg1 = (char *)(buf1);
+  res2 = SWIG_AsCharPtrAndSize(obj1, &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setTextValue" "', argument " "2"" of type '" "char const *""'");
+  }
+  arg2 = (char *)(buf2);
+  tc_setTextValue((char const *)arg1,(char const *)arg2);
+  resultobj = SWIG_Py_Void();
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  return resultobj;
+fail:
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
   if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
   return NULL;
 }
@@ -6941,6 +7066,10 @@ SWIGINTERN PyObject *_wrap_tc_Main_api_initialize(PyObject *SWIGUNUSEDPARM(self)
   int (*arg69)() = (int (*)()) 0 ;
   char *(*arg70)() = (char *(*)()) 0 ;
   void (*arg71)(char const *,double,double) = (void (*)(char const *,double,double)) 0 ;
+  void (*arg72)(tc_matrix) = (void (*)(tc_matrix)) 0 ;
+  void (*arg73)(char const *,double) = (void (*)(char const *,double)) 0 ;
+  void (*arg74)(tc_table) = (void (*)(tc_table)) 0 ;
+  void (*arg75)(char const *,char const *) = (void (*)(char const *,char const *)) 0 ;
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   PyObject * obj2 = 0 ;
@@ -7012,8 +7141,12 @@ SWIGINTERN PyObject *_wrap_tc_Main_api_initialize(PyObject *SWIGUNUSEDPARM(self)
   PyObject * obj68 = 0 ;
   PyObject * obj69 = 0 ;
   PyObject * obj70 = 0 ;
+  PyObject * obj71 = 0 ;
+  PyObject * obj72 = 0 ;
+  PyObject * obj73 = 0 ;
+  PyObject * obj74 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO:tc_Main_api_initialize",&obj0,&obj1,&obj2,&obj3,&obj4,&obj5,&obj6,&obj7,&obj8,&obj9,&obj10,&obj11,&obj12,&obj13,&obj14,&obj15,&obj16,&obj17,&obj18,&obj19,&obj20,&obj21,&obj22,&obj23,&obj24,&obj25,&obj26,&obj27,&obj28,&obj29,&obj30,&obj31,&obj32,&obj33,&obj34,&obj35,&obj36,&obj37,&obj38,&obj39,&obj40,&obj41,&obj42,&obj43,&obj44,&obj45,&obj46,&obj47,&obj48,&obj49,&obj50,&obj51,&obj52,&obj53,&obj54,&obj55,&obj56,&obj57,&obj58,&obj59,&obj60,&obj61,&obj62,&obj63,&obj64,&obj65,&obj66,&obj67,&obj68,&obj69,&obj70)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO:tc_Main_api_initialize",&obj0,&obj1,&obj2,&obj3,&obj4,&obj5,&obj6,&obj7,&obj8,&obj9,&obj10,&obj11,&obj12,&obj13,&obj14,&obj15,&obj16,&obj17,&obj18,&obj19,&obj20,&obj21,&obj22,&obj23,&obj24,&obj25,&obj26,&obj27,&obj28,&obj29,&obj30,&obj31,&obj32,&obj33,&obj34,&obj35,&obj36,&obj37,&obj38,&obj39,&obj40,&obj41,&obj42,&obj43,&obj44,&obj45,&obj46,&obj47,&obj48,&obj49,&obj50,&obj51,&obj52,&obj53,&obj54,&obj55,&obj56,&obj57,&obj58,&obj59,&obj60,&obj61,&obj62,&obj63,&obj64,&obj65,&obj66,&obj67,&obj68,&obj69,&obj70,&obj71,&obj72,&obj73,&obj74)) SWIG_fail;
   {
     int res = SWIG_ConvertFunctionPtr(obj0, (void**)(&arg1), SWIGTYPE_p_f___tc_items);
     if (!SWIG_IsOK(res)) {
@@ -7440,7 +7573,31 @@ SWIGINTERN PyObject *_wrap_tc_Main_api_initialize(PyObject *SWIGUNUSEDPARM(self)
       SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "71"" of type '" "void (*)(char const *,double,double)""'"); 
     }
   }
-  tc_Main_api_initialize(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,(char const *(*)(long))arg9,(char const *(*)(long))arg10,arg11,arg12,arg13,(char const *(*)(long))arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23,arg24,arg25,arg26,arg27,arg28,arg29,arg30,(char const *(*)())arg31,(char const *(*)())arg32,arg33,arg34,arg35,arg36,arg37,arg38,arg39,arg40,arg41,arg42,arg43,arg44,arg45,arg46,arg47,(char const *(*)(char const *))arg48,arg49,arg50,arg51,(char const *(*)())arg52,arg53,arg54,arg55,arg56,arg57,arg58,arg59,arg60,(char const *(*)(long))arg61,arg62,arg63,arg64,arg65,arg66,arg67,arg68,arg69,(char const *(*)())arg70,arg71);
+  {
+    int res = SWIG_ConvertFunctionPtr(obj71, (void**)(&arg72), SWIGTYPE_p_f_tc_matrix__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "72"" of type '" "void (*)(tc_matrix)""'"); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(obj72, (void**)(&arg73), SWIGTYPE_p_f_p_q_const__char_double__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "73"" of type '" "void (*)(char const *,double)""'"); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(obj73, (void**)(&arg74), SWIGTYPE_p_f_tc_table__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "74"" of type '" "void (*)(tc_table)""'"); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(obj74, (void**)(&arg75), SWIGTYPE_p_f_p_q_const__char_p_q_const__char__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "75"" of type '" "void (*)(char const *,char const *)""'"); 
+    }
+  }
+  tc_Main_api_initialize(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,(char const *(*)(long))arg9,(char const *(*)(long))arg10,arg11,arg12,arg13,(char const *(*)(long))arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23,arg24,arg25,arg26,arg27,arg28,arg29,arg30,(char const *(*)())arg31,(char const *(*)())arg32,arg33,arg34,arg35,arg36,arg37,arg38,arg39,arg40,arg41,arg42,arg43,arg44,arg45,arg46,arg47,(char const *(*)(char const *))arg48,arg49,arg50,arg51,(char const *(*)())arg52,arg53,arg54,arg55,arg56,arg57,arg58,arg59,arg60,(char const *(*)(long))arg61,arg62,arg63,arg64,arg65,arg66,arg67,arg68,arg69,(char const *(*)())arg70,arg71,arg72,arg73,arg74,arg75);
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -8020,6 +8177,129 @@ SWIGINTERN PyObject *_wrap_tc_setParameter(PyObject *SWIGUNUSEDPARM(self), PyObj
   return resultobj;
 fail:
   if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tc_setTextAttributeByName(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  char *arg1 = (char *) 0 ;
+  char *arg2 = (char *) 0 ;
+  int res1 ;
+  char *buf1 = 0 ;
+  int alloc1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:tc_setTextAttributeByName",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_AsCharPtrAndSize(obj0, &buf1, NULL, &alloc1);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setTextAttributeByName" "', argument " "1"" of type '" "char const *""'");
+  }
+  arg1 = (char *)(buf1);
+  res2 = SWIG_AsCharPtrAndSize(obj1, &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setTextAttributeByName" "', argument " "2"" of type '" "char const *""'");
+  }
+  arg2 = (char *)(buf2);
+  tc_setTextAttributeByName((char const *)arg1,(char const *)arg2);
+  resultobj = SWIG_Py_Void();
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  return resultobj;
+fail:
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tc_setParameterByName(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  char *arg1 = (char *) 0 ;
+  double arg2 ;
+  int res1 ;
+  char *buf1 = 0 ;
+  int alloc1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:tc_setParameterByName",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_AsCharPtrAndSize(obj0, &buf1, NULL, &alloc1);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setParameterByName" "', argument " "1"" of type '" "char const *""'");
+  }
+  arg1 = (char *)(buf1);
+  ecode2 = SWIG_AsVal_double(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_setParameterByName" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = (double)(val2);
+  tc_setParameterByName((char const *)arg1,arg2);
+  resultobj = SWIG_Py_Void();
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  return resultobj;
+fail:
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tc_setTextAttributes(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  tc_table arg1 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:tc_setTextAttributes",&obj0)) SWIG_fail;
+  {
+    res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_tc_table,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setTextAttributes" "', argument " "1"" of type '" "tc_table""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_setTextAttributes" "', argument " "1"" of type '" "tc_table""'");
+    } else {
+      arg1 = *((tc_table *)(argp1));
+    }
+  }
+  tc_setTextAttributes(arg1);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tc_setParameters(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  tc_matrix arg1 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:tc_setParameters",&obj0)) SWIG_fail;
+  {
+    res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_tc_matrix,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setParameters" "', argument " "1"" of type '" "tc_matrix""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_setParameters" "', argument " "1"" of type '" "tc_matrix""'");
+    } else {
+      arg1 = *((tc_matrix *)(argp1));
+    }
+  }
+  tc_setParameters(arg1);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
   return NULL;
 }
 
@@ -12089,8 +12369,12 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"tc_getParent", _wrap_tc_getParent, METH_VARARGS, NULL},
 	 { (char *)"tc_getNumericalData", _wrap_tc_getNumericalData, METH_VARARGS, NULL},
 	 { (char *)"tc_setNumericalData", _wrap_tc_setNumericalData, METH_VARARGS, NULL},
+	 { (char *)"tc_setNumericalValues", _wrap_tc_setNumericalValues, METH_VARARGS, NULL},
+	 { (char *)"tc_setNumericalValue", _wrap_tc_setNumericalValue, METH_VARARGS, NULL},
 	 { (char *)"tc_getTextData", _wrap_tc_getTextData, METH_VARARGS, NULL},
 	 { (char *)"tc_setTextData", _wrap_tc_setTextData, METH_VARARGS, NULL},
+	 { (char *)"tc_setTextValues", _wrap_tc_setTextValues, METH_VARARGS, NULL},
+	 { (char *)"tc_setTextValue", _wrap_tc_setTextValue, METH_VARARGS, NULL},
 	 { (char *)"tc_getNumericalDataNames", _wrap_tc_getNumericalDataNames, METH_VARARGS, NULL},
 	 { (char *)"tc_getTextDataNames", _wrap_tc_getTextDataNames, METH_VARARGS, NULL},
 	 { (char *)"tc_zoom", _wrap_tc_zoom, METH_VARARGS, NULL},
@@ -12138,6 +12422,10 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"tc_getAllTextNamed", _wrap_tc_getAllTextNamed, METH_VARARGS, NULL},
 	 { (char *)"tc_setTextAttribute", _wrap_tc_setTextAttribute, METH_VARARGS, NULL},
 	 { (char *)"tc_setParameter", _wrap_tc_setParameter, METH_VARARGS, NULL},
+	 { (char *)"tc_setTextAttributeByName", _wrap_tc_setTextAttributeByName, METH_VARARGS, NULL},
+	 { (char *)"tc_setParameterByName", _wrap_tc_setParameterByName, METH_VARARGS, NULL},
+	 { (char *)"tc_setTextAttributes", _wrap_tc_setTextAttributes, METH_VARARGS, NULL},
+	 { (char *)"tc_setParameters", _wrap_tc_setParameters, METH_VARARGS, NULL},
 	 { (char *)"tc_BasicInformationTool_Text_api", _wrap_tc_BasicInformationTool_Text_api, METH_VARARGS, NULL},
 	 { (char *)"tc_BasicInformationTool_Numeric_api", _wrap_tc_BasicInformationTool_Numeric_api, METH_VARARGS, NULL},
 	 { (char *)"tc_insertConnection", _wrap_tc_insertConnection, METH_VARARGS, NULL},
@@ -12311,6 +12599,7 @@ static swig_type_info _swigt__p_f_p_q_const__char__p_char = {"_p_f_p_q_const__ch
 static swig_type_info _swigt__p_f_p_q_const__char__tc_items = {"_p_f_p_q_const__char__tc_items", "tc_items (*)(char const *)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_q_const__char__tc_matrix = {"_p_f_p_q_const__char__tc_matrix", "tc_matrix (*)(char const *)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_q_const__char__void = {"_p_f_p_q_const__char__void", "void (*)(char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char_double__void = {"_p_f_p_q_const__char_double__void", "void (*)(char const *,double)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_q_const__char_double_double__void = {"_p_f_p_q_const__char_double_double__void", "void (*)(char const *,double,double)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_q_const__char_double_double_int__tc_matrix = {"_p_f_p_q_const__char_double_double_int__tc_matrix", "tc_matrix (*)(char const *,double,double,int)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_q_const__char_double_double_int_p_q_const__char_double_double_int__tc_matrix = {"_p_f_p_q_const__char_double_double_int_p_q_const__char_double_double_int__tc_matrix", "tc_matrix (*)(char const *,double,double,int,char const *,double,double,int)", 0, 0, (void*)0, 0};
@@ -12338,6 +12627,7 @@ static swig_type_info _swigt__p_f_tc_matrix_p_q_const__char__void = {"_p_f_tc_ma
 static swig_type_info _swigt__p_f_tc_matrix_p_q_const__char_p_q_const__char__void = {"_p_f_tc_matrix_p_q_const__char_p_q_const__char__void", "void (*)(tc_matrix,char const *,char const *)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_tc_strings__tc_items = {"_p_f_tc_strings__tc_items", "tc_items (*)(tc_strings)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_tc_strings_p_double__void = {"_p_f_tc_strings_p_double__void", "void (*)(tc_strings,double *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_tc_table__void = {"_p_f_tc_table__void", "void (*)(tc_table)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_void__void = {"_p_f_void__void", "void (*)(void)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_long = {"_p_long", "long *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_p_char = {"_p_p_char", "char **", 0, 0, (void*)0, 0};
@@ -12399,6 +12689,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_f_p_q_const__char__tc_items,
   &_swigt__p_f_p_q_const__char__tc_matrix,
   &_swigt__p_f_p_q_const__char__void,
+  &_swigt__p_f_p_q_const__char_double__void,
   &_swigt__p_f_p_q_const__char_double_double__void,
   &_swigt__p_f_p_q_const__char_double_double_int__tc_matrix,
   &_swigt__p_f_p_q_const__char_double_double_int_p_q_const__char_double_double_int__tc_matrix,
@@ -12426,6 +12717,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_f_tc_matrix_p_q_const__char_p_q_const__char__void,
   &_swigt__p_f_tc_strings__tc_items,
   &_swigt__p_f_tc_strings_p_double__void,
+  &_swigt__p_f_tc_table__void,
   &_swigt__p_f_void__void,
   &_swigt__p_long,
   &_swigt__p_p_char,
@@ -12487,6 +12779,7 @@ static swig_cast_info _swigc__p_f_p_q_const__char__p_char[] = {  {&_swigt__p_f_p
 static swig_cast_info _swigc__p_f_p_q_const__char__tc_items[] = {  {&_swigt__p_f_p_q_const__char__tc_items, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char__tc_matrix[] = {  {&_swigt__p_f_p_q_const__char__tc_matrix, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char__void[] = {  {&_swigt__p_f_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_p_q_const__char_double__void[] = {  {&_swigt__p_f_p_q_const__char_double__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char_double_double__void[] = {  {&_swigt__p_f_p_q_const__char_double_double__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char_double_double_int__tc_matrix[] = {  {&_swigt__p_f_p_q_const__char_double_double_int__tc_matrix, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char_double_double_int_p_q_const__char_double_double_int__tc_matrix[] = {  {&_swigt__p_f_p_q_const__char_double_double_int_p_q_const__char_double_double_int__tc_matrix, 0, 0, 0},{0, 0, 0, 0}};
@@ -12514,6 +12807,7 @@ static swig_cast_info _swigc__p_f_tc_matrix_p_q_const__char__void[] = {  {&_swig
 static swig_cast_info _swigc__p_f_tc_matrix_p_q_const__char_p_q_const__char__void[] = {  {&_swigt__p_f_tc_matrix_p_q_const__char_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_tc_strings__tc_items[] = {  {&_swigt__p_f_tc_strings__tc_items, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_tc_strings_p_double__void[] = {  {&_swigt__p_f_tc_strings_p_double__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_tc_table__void[] = {  {&_swigt__p_f_tc_table__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_void__void[] = {  {&_swigt__p_f_void__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_long[] = {  {&_swigt__p_long, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_p_char[] = {  {&_swigt__p_p_char, 0, 0, 0},{0, 0, 0, 0}};
@@ -12575,6 +12869,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_f_p_q_const__char__tc_items,
   _swigc__p_f_p_q_const__char__tc_matrix,
   _swigc__p_f_p_q_const__char__void,
+  _swigc__p_f_p_q_const__char_double__void,
   _swigc__p_f_p_q_const__char_double_double__void,
   _swigc__p_f_p_q_const__char_double_double_int__tc_matrix,
   _swigc__p_f_p_q_const__char_double_double_int_p_q_const__char_double_double_int__tc_matrix,
@@ -12602,6 +12897,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_f_tc_matrix_p_q_const__char_p_q_const__char__void,
   _swigc__p_f_tc_strings__tc_items,
   _swigc__p_f_tc_strings_p_double__void,
+  _swigc__p_f_tc_table__void,
   _swigc__p_f_void__void,
   _swigc__p_long,
   _swigc__p_p_char,

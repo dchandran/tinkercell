@@ -148,7 +148,10 @@ namespace Tinkercell
 		void (*setNumericalValues)(tc_matrix),
 		void (*setNumericalValue)(const char *, double),
 		void (*setTextValues)(tc_table),
-		void (*setTextValue)(const char *, const char *)
+		void (*setTextValue)(const char *, const char *),
+		
+		double (*getNumericalValue)(const char*),
+		const char* (*getTextValue)(const char*)
 	);
 	
 	void C_API_Slots::setupFunctionPointers(QLibrary * library)
@@ -231,7 +234,9 @@ namespace Tinkercell
 				&(_setNumericalValues),
 				&(_setNumericalValue),
 				&(_setTextValues),
-				&(_setTextValue)
+				&(_setTextValue),
+				&(_getNumericalValue),
+				&(_getTextValue)
 			);
 		}
 	}
@@ -339,6 +344,9 @@ namespace Tinkercell
 		connect(&fToS,SIGNAL(setNumericalValue(QSemaphore*, const QString&, double)),this,SLOT(setNumericalValue(QSemaphore*, const QString&, double)));
 		connect(&fToS,SIGNAL(setTextValues(QSemaphore*, const TextDataTable&)),this,SLOT(setTextValues(QSemaphore*, const TextDataTable&)));
 		connect(&fToS,SIGNAL(setTextValue(QSemaphore*, const QString&, const QString&)),this,SLOT(setTextValue(QSemaphore*, const QString&, const QString&)));
+		
+		connect(&fToS,SIGNAL(getNumericalValue(QSemaphore*, const QString&, double*)),this,SLOT(getNumericalValue(QSemaphore*, const QString&, double*)));
+		connect(&fToS,SIGNAL(getTextValue(QSemaphore*, const QString&, QString*)),this,SLOT(getTextValue(QSemaphore*, const QString&, QString*)));
 	}
 	
 	void C_API_Slots::zoom(QSemaphore* sem, qreal factor)
@@ -1461,6 +1469,104 @@ namespace Tinkercell
 	void C_API_Slots::_insertAnnotation(const char * c, double x, double y)
 	{
 		fToS.insertAnnotation(c,x,y);
+	}
+	
+	void C_API_Slots::_setNumericalValues(tc_matrix t)
+	{
+		fToS.setNumericalValues(t);
+	}
+	
+	void Core_FtoS::setNumericalValues(tc_matrix t)
+	{
+		QSemaphore * s = new QSemaphore(1);
+		NumericalDataTable * dat = ConvertValue(t);
+		s->acquire();
+		emit setNumericalValues(s,*dat);
+		delete dat;
+		s->acquire();
+		s->release();
+		delete s;
+	}
+	
+	void C_API_Slots::_setNumericalValue(const char * s, double v)
+	{
+		fToS.setNumericalValue(s,v);
+	}
+	
+	void Core_FtoS::setNumericalValue(const char * c, double v)
+	{
+		QSemaphore * s = new QSemaphore(1);
+		s->acquire();
+		emit setNumericalValue(s,ConvertValue(c),v);
+		s->acquire();
+		s->release();
+		delete s;
+	}
+	
+	void C_API_Slots::_setTextValues(tc_table t)
+	{
+		fToS.setTextValues(t);
+	}
+
+	void Core_FtoS::setTextValues(tc_table t)
+	{
+		QSemaphore * s = new QSemaphore(1);
+		TextDataTable * dat = ConvertValue(t);
+		s->acquire();
+		emit setTextValues(s,*dat);
+		delete dat;
+		s->acquire();
+		s->release();
+		delete s;
+	}
+	
+	void C_API_Slots::_setTextValue(const char * s, const char *v)
+	{
+		fToS.setTextValue(s,v);
+	}
+
+	void Core_FtoS::setTextValue(const char * c, const char *v)
+	{
+		QSemaphore * s = new QSemaphore(1);
+		s->acquire();
+		emit setTextValue(s,ConvertValue(c),ConvertValue(v));
+		s->acquire();
+		s->release();
+		delete s;
+	}
+	
+	double C_API_Slots::_getNumericalValue(const char* s)
+	{
+		return fToS.getNumericalValue(s);
+	}
+
+	double Core_FtoS::getNumericalValue(const char* c)
+	{
+		QSemaphore * s = new QSemaphore(1);
+		double d;
+		s->acquire();
+		emit getNumericalValue(s, ConvertValue(c), &d);
+		s->acquire();
+		s->release();
+		delete s;
+		return d;
+	}
+
+	const char* C_API_Slots::_getTextValue(const char* s)
+	{
+		return fToS.getTextValue(s);
+	}
+
+	const char* Core_FtoS::getTextValue(const char* c)
+	{
+		QSemaphore * s = new QSemaphore(1);
+		QString d;
+		s->acquire();
+		emit getTextValue(s, ConvertValue(c), &d);
+		s->acquire();
+		s->release();
+		delete s;
+		return ConvertValue(d);
 	}
 
 	void Core_FtoS::zoom(double x)
@@ -3048,7 +3154,7 @@ namespace Tinkercell
 			sem->release();
 	}
 	
-	void setNumericalValues(QSemaphore* sem, const NumericalDataTable& data)
+	void C_API_Slots::setNumericalValues(QSemaphore* sem, const NumericalDataTable& data)
 	{
 		NetworkHandle * network = currentNetwork();
 		if (network)
@@ -3057,16 +3163,83 @@ namespace Tinkercell
 			sem->release();
 	}
 	
-	void setNumericalValue(QSemaphore* sem, const QString& s, double x),
+	void C_API_Slots::setNumericalValue(QSemaphore* sem, const QString& s, double x)
 	{
+		NetworkHandle * network = currentNetwork();
+		if (network)
+			network->setModelValues(QStringList() << s, QList<double>() << x);
+		if (sem)
+			sem->release();
 	}
 
-	void setTextValues(QSemaphore* sem, const TextDataTable& table),
+	void C_API_Slots::setTextValues(QSemaphore* sem, const TextDataTable& table)
 	{
+		NetworkHandle * network = currentNetwork();
+		if (network)
+			network->setModelValues(table);
+		if (sem)
+			sem->release();
 	}
 
-	void setTextValue(QSemaphore* sem, const QString& s, const QString& x);
+	void C_API_Slots::setTextValue(QSemaphore* sem, const QString& s, const QString& x)
 	{
+		NetworkHandle * network = currentNetwork();
+		if (network)
+			network->setModelValues(QStringList() << s, QStringList() << x);			
+		if (sem)
+			sem->release();
+	}
+	
+	void C_API_Slots::getNumericalValue(QSemaphore * sem, const QString& s, double * v)
+	{
+		NetworkHandle * network = currentNetwork();
+		if (network && v)
+		{
+			QList< QPair<ItemHandle*,QString> > pairs = network->findData(s);
+			if (!pairs.isEmpty() && pairs[0].first && !pairs[0].second.isEmpty())
+			{
+				ItemHandle * h = pairs[0].first;
+				QString id = pairs[0].second;
+				if (h->hasNumericalData(id))
+				{
+					QString s2 = s;
+					if (s2.startsWith(h->fullName(tr("."))))
+						s2.remove(h->fullName(tr(".")));
+					if (s2.startsWith(h->fullName(tr("_"))))
+						s2.remove(h->fullName(tr("_")));
+					(*v) = h->numericalData(id, s2);
+				}
+			}
+		}
+		
+		if (sem)
+			sem->release();
+	}
+
+	void C_API_Slots::getTextValue(QSemaphore * sem, const QString& s, QString * v)
+	{
+		NetworkHandle * network = currentNetwork();
+		if (network && v)
+		{
+			QList< QPair<ItemHandle*,QString> > pairs = network->findData(s);
+			if (!pairs.isEmpty() && pairs[0].first && !pairs[0].second.isEmpty())
+			{
+				ItemHandle * h = pairs[0].first;
+				QString id = pairs[0].second;
+				if (h->hasTextData(id))
+				{
+					QString s2 = s;
+					if (s2.startsWith(h->fullName(tr("."))))
+						s2.remove(h->fullName(tr(".")));
+					if (s2.startsWith(h->fullName(tr("_"))))
+						s2.remove(h->fullName(tr("_")));
+					(*v) = h->textData(id, s2);
+				}
+			}
+		}
+		
+		if (sem)
+			sem->release();
 	}
 
 }

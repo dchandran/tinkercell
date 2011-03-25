@@ -27,6 +27,8 @@ namespace Tinkercell
 			swigLib = loadLibrary(swiglibname, mainWindow);
 		else
 			swigLib = loadLibrary(swiglibname + QObject::tr(".oct"), mainWindow);
+		
+		setupCFunctionPointers(swigLib);
     }
 
     void OctaveInterpreterThread::setCPointers()
@@ -84,7 +86,7 @@ namespace Tinkercell
 
             QDir::setCurrent(MainWindow::tempDir());
 
-            setCPointers();
+               setCPointers();
             f();
 
             QDir::setCurrent(currentDir);

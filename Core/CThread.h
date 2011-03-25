@@ -203,7 +203,7 @@ namespace Tinkercell
 		/*!
 		* \brief setup the C pointers in TC_Main.h
 		*/
-		virtual void setupCFunctionPointers();
+		virtual void setupCFunctionPointers(QLibrary * lib = 0);
 		/*!
 		* \brief whether or not to automatically unload the library when the thread is done running
 		*/

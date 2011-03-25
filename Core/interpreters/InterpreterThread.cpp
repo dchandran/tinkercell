@@ -20,9 +20,9 @@ namespace Tinkercell
     InterpreterThread::InterpreterThread(const QString & dllname, MainWindow* main)
         : CThread(main,dllname,false)
     {
-        disconnect(this);
-        CThread::cthreads << this;
-        connect(main,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
+		disconnect(this,SIGNAL(terminated()));
+		CThread::cthreads << this;
+		connect(main,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
     }
     
     void InterpreterThread::toolLoaded(Tool*)

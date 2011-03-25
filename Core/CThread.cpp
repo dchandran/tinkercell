@@ -164,8 +164,10 @@ namespace Tinkercell
 		void (*callWhenExiting)(long, void (*f)(void)),
 		void (*showProgress)(long , const char *, int) );
 		
-	void CThread::setupCFunctionPointers()
+	void CThread::setupCFunctionPointers(QLibrary * lib)
 	{
+		if (lib == 0)
+			lib = this->lib;
 		if (lib)
 		{
 			cthread_api_initialize f0 = (cthread_api_initialize)lib->resolve("tc_CThread_api_initialize");

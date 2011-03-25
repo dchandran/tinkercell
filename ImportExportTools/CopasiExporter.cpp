@@ -20,7 +20,7 @@ CopasiExporter::CopasiExporter() : Tool("COPASI","Export")
 
 void CopasiExporter::getHandles(QSemaphore * sem, QList<ItemHandle*>* handles, bool * b)
 {
-	if (currentNetwork() && handles)
+	if (currentNetwork() && handles && modelNeedsUpdate)
 		(*handles) = currentNetwork()->handles(true);
 	if (b)
 		(*b) = modelNeedsUpdate;
@@ -151,7 +151,7 @@ SimulationThread * CopasiExporter::stochThread = 0;
 SimulationThread * CopasiExporter::ssThread = 0;
 SimulationThread * CopasiExporter::jacThread = 0;
 SimulationThread * CopasiExporter::mcaThread = 0;
-SimulationThread * CopasiExporter::optimThread = 0;
+SimulationThread * CopasiExporter::optimgThread = 0;
 
 void CopasiExporter::odeSim()
 {

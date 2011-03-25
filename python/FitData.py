@@ -9,6 +9,7 @@ tool: no
 from tinkercell import *
 from tc2py import *
 from numpy import *
+from CrossEntropy import *
 
 fname = tc_getFilename()
 indx = []
@@ -18,7 +19,7 @@ numpts = 0
 params = tc_createMatrix(0,0)
 trueData = array([])
 
-def leastSquares(x)
+def leastSquares(x):
     for i in range(0,len(x)):
         tc_setMatrixValue(params, i, 0, x[i])
     tc_setParameters(params)
@@ -44,8 +45,8 @@ def leastSquares(x)
 def fcallback(t, mu, sigma2):
     tc_showProgress("Fitting data",int(t/2))
 
-if len(filename) > 0:
-     tfile = open(filename, "r")
+if len(fname) > 0:
+    tfile = open(fname, "r")
     line  = tfile.readline()
     line = line.replace('\n','')
     line = line.replace('#','')
@@ -71,4 +72,17 @@ if len(filename) > 0:
             sigma2[j] = ((tc_getMatrixValue(allparams, i, 2) - tc_getMatrixValue(allparams, i, 1))/3.0)**2
             j += 1
     res = CrossEntropy(leastSquares, mu, diag(sigma2), 200, 100, 0.5, fcallback)
+    mu = res[0]
+    sigma2 = res[1]
+    X = random.multivariate_normal(mu,sigma2,100)
+    n = len(mu)
+    m = tc_createMatrix(100, n)
+    for i in range(0,100):
+        for j in range(0,n):
+            tc_setMatrixValue(i,j, X[i][j])
+    for i in range(0,n):
+        tc_setMatrixValue(params, i, 0, mu[i])
+        tc_setColumnName(m, i, tc_getRowName(params,i))
+    tc_setParameters(params)
+    tc_scatterplot(m, "Optimized parameters")
 

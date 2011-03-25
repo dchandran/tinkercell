@@ -7673,40 +7673,28 @@ fail:
 
 SWIGINTERN PyObject *_wrap_tc_showProgress(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
-  int arg1 ;
-  int val1 ;
-  int ecode1 = 0 ;
-  PyObject * obj0 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"O:tc_showProgress",&obj0)) SWIG_fail;
-  ecode1 = SWIG_AsVal_int(obj0, &val1);
-  if (!SWIG_IsOK(ecode1)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_showProgress" "', argument " "1"" of type '" "int""'");
-  } 
-  arg1 = (int)(val1);
-  tc_showProgress(arg1);
-  resultobj = SWIG_Py_Void();
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_tc_setProgessBarTitle(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
   char *arg1 = (char *) 0 ;
+  int arg2 ;
   int res1 ;
   char *buf1 = 0 ;
   int alloc1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
   PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"O:tc_setProgessBarTitle",&obj0)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"OO:tc_showProgress",&obj0,&obj1)) SWIG_fail;
   res1 = SWIG_AsCharPtrAndSize(obj0, &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setProgessBarTitle" "', argument " "1"" of type '" "char const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_showProgress" "', argument " "1"" of type '" "char const *""'");
   }
   arg1 = (char *)(buf1);
-  tc_setProgessBarTitle((char const *)arg1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_showProgress" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = (int)(val2);
+  tc_showProgress((char const *)arg1,arg2);
   resultobj = SWIG_Py_Void();
   if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
   return resultobj;
@@ -7761,17 +7749,15 @@ SWIGINTERN PyObject *_wrap_tc_CThread_api_initialize(PyObject *SWIGUNUSEDPARM(se
   long arg1 ;
   void (*arg2)(long,void (*)(void)) = (void (*)(long,void (*)(void))) 0 ;
   void (*arg3)(long,void (*)(void)) = (void (*)(long,void (*)(void))) 0 ;
-  void (*arg4)(long,int) = (void (*)(long,int)) 0 ;
-  void (*arg5)(long,char const *) = (void (*)(long,char const *)) 0 ;
+  void (*arg4)(long,char const *,int) = (void (*)(long,char const *,int)) 0 ;
   long val1 ;
   int ecode1 = 0 ;
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   PyObject * obj2 = 0 ;
   PyObject * obj3 = 0 ;
-  PyObject * obj4 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"OOOOO:tc_CThread_api_initialize",&obj0,&obj1,&obj2,&obj3,&obj4)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"OOOO:tc_CThread_api_initialize",&obj0,&obj1,&obj2,&obj3)) SWIG_fail;
   ecode1 = SWIG_AsVal_long(obj0, &val1);
   if (!SWIG_IsOK(ecode1)) {
     SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_CThread_api_initialize" "', argument " "1"" of type '" "long""'");
@@ -7790,18 +7776,12 @@ SWIGINTERN PyObject *_wrap_tc_CThread_api_initialize(PyObject *SWIGUNUSEDPARM(se
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(obj3, (void**)(&arg4), SWIGTYPE_p_f_long_int__void);
+    int res = SWIG_ConvertFunctionPtr(obj3, (void**)(&arg4), SWIGTYPE_p_f_long_p_q_const__char_int__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CThread_api_initialize" "', argument " "4"" of type '" "void (*)(long,int)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CThread_api_initialize" "', argument " "4"" of type '" "void (*)(long,char const *,int)""'"); 
     }
   }
-  {
-    int res = SWIG_ConvertFunctionPtr(obj4, (void**)(&arg5), SWIGTYPE_p_f_long_p_q_const__char__void);
-    if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CThread_api_initialize" "', argument " "5"" of type '" "void (*)(long,char const *)""'"); 
-    }
-  }
-  tc_CThread_api_initialize(arg1,arg2,arg3,arg4,arg5);
+  tc_CThread_api_initialize(arg1,arg2,arg3,arg4);
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -12474,7 +12454,6 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"tc_insertAnnotations", _wrap_tc_insertAnnotations, METH_VARARGS, NULL},
 	 { (char *)"tc_Main_api_initialize", _wrap_tc_Main_api_initialize, METH_VARARGS, NULL},
 	 { (char *)"tc_showProgress", _wrap_tc_showProgress, METH_VARARGS, NULL},
-	 { (char *)"tc_setProgessBarTitle", _wrap_tc_setProgessBarTitle, METH_VARARGS, NULL},
 	 { (char *)"tc_callback", _wrap_tc_callback, METH_VARARGS, NULL},
 	 { (char *)"tc_callWhenExiting", _wrap_tc_callWhenExiting, METH_VARARGS, NULL},
 	 { (char *)"tc_CThread_api_initialize", _wrap_tc_CThread_api_initialize, METH_VARARGS, NULL},

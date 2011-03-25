@@ -290,7 +290,7 @@ TCAPIEXPORT void run(%s) \n\
 				for (j=0; j<TCvars; ++j)\n\
 				   tc_setMatrixValue(dat,i,j+1,0.0);\n\
         }\n\
-        tc_showProgress((100*i)/dat.rows);\n\
+        tc_showProgress(\"Parameter scan\",(100*i)/dat.rows);\n\
     }\n\
     free(model);\n\
     tc_plot(dat,\"At time=%lf\");\n\

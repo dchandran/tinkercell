@@ -8408,28 +8408,10 @@ R_swig_tc_Main_api_initialize ( SEXP tc_allItems0, SEXP tc_selectedItems0, SEXP 
 
 
 SWIGEXPORT SEXP
-R_swig_tc_showProgress ( SEXP progress)
-{
-  int arg1 ;
-  unsigned int r_nprotect = 0;
-  SEXP r_ans = R_NilValue ;
-  VMAXTYPE r_vmax = vmaxget() ;
-  
-  arg1 = (int)(INTEGER(progress)[0]);
-  tc_showProgress(arg1);
-  r_ans = R_NilValue;
-  
-  vmaxset(r_vmax);
-  if(r_nprotect)  Rf_unprotect(r_nprotect);
-  
-  return r_ans;
-}
-
-
-SWIGEXPORT SEXP
-R_swig_tc_setProgessBarTitle ( SEXP s_arg1)
+R_swig_tc_showProgress ( SEXP title, SEXP progress)
 {
   char *arg1 = (char *) 0 ;
+  int arg2 ;
   int res1 ;
   char *buf1 = 0 ;
   int alloc1 = 0 ;
@@ -8437,14 +8419,16 @@ R_swig_tc_setProgessBarTitle ( SEXP s_arg1)
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_AsCharPtrAndSize(s_arg1, &buf1, NULL, &alloc1);
+  res1 = SWIG_AsCharPtrAndSize(title, &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setProgessBarTitle" "', argument " "1"" of type '" "char const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_showProgress" "', argument " "1"" of type '" "char const *""'");
   }
   arg1 = (char *)(buf1);
-  tc_setProgessBarTitle((char const *)arg1);
+  arg2 = (int)(INTEGER(progress)[0]);
+  tc_showProgress((char const *)arg1,arg2);
   r_ans = R_NilValue;
   if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  
   vmaxset(r_vmax);
   if(r_nprotect)  Rf_unprotect(r_nprotect);
   
@@ -8586,55 +8570,13 @@ void _p_f_long_p_f_void__void__void(long s_arg1, void (*)(void) s_arg2) {
 }
 
 
-void _p_f_long_int__void(long s_arg1, int s_arg2) {
-  long arg1 ;
-  int arg2 ;
-  RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
-  SEXP r_tmp;
-  int r_nprotect = 0;
-  char * r_vmax= 0;
-  int ecode = 0;
-  
-  Rf_protect(r_swig_cb_data->expr = Rf_allocVector(LANGSXP, 3));
-  r_nprotect++;
-  r_swig_cb_data->el = r_swig_cb_data->expr;
-  
-  SETCAR(r_swig_cb_data->el, r_swig_cb_data->fun);
-  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
-  
-  r_tmp = Rf_ScalarInteger(s_arg1);
-  SETCAR(r_swig_cb_data->el, r_tmp);
-  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
-  
-  r_tmp = Rf_ScalarInteger(s_arg2);
-  SETCAR(r_swig_cb_data->el, r_tmp);
-  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
-  
-  
-  
-  r_swig_cb_data->retValue = R_tryEval(r_swig_cb_data->expr, R_GlobalEnv, &r_swig_cb_data->errorOccurred);
-  
-  if(r_swig_cb_data->errorOccurred) {
-    R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_long_int__void)");
-  }
-  R_SWIG_popCallbackFunctionData(1);
-  
-  vmaxset(r_vmax);
-  if(r_nprotect)  Rf_unprotect(r_nprotect);
-  
-  
-}
-
-
 SWIGEXPORT SEXP
-R_swig_tc_CThread_api_initialize ( SEXP cthread, SEXP callback, SEXP callWhenExiting, SEXP showProgress, SEXP setTitle)
+R_swig_tc_CThread_api_initialize ( SEXP cthread, SEXP callback, SEXP callWhenExiting, SEXP showProgress)
 {
   long arg1 ;
   void (*arg2)(long,void (*)(void)) = (void (*)(long,void (*)(void))) 0 ;
   void (*arg3)(long,void (*)(void)) = (void (*)(long,void (*)(void))) 0 ;
-  void (*arg4)(long,int) = (void (*)(long,int)) 0 ;
-  void (*arg5)(long,char const *) = (void (*)(long,char const *)) 0 ;
+  void (*arg4)(long,char const *,int) = (void (*)(long,char const *,int)) 0 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
@@ -8664,29 +8606,17 @@ R_swig_tc_CThread_api_initialize ( SEXP cthread, SEXP callback, SEXP callWhenExi
   }
   if(TYPEOF(showProgress) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(showProgress, (void**)(&arg4), SWIGTYPE_p_f_long_int__void, 0);
+      int res = SWIG_R_ConvertPtr(showProgress, (void**)(&arg4), SWIGTYPE_p_f_long_p_q_const__char_int__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CThread_api_initialize" "', argument " "4"" of type '" "void (*)(long,int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CThread_api_initialize" "', argument " "4"" of type '" "void (*)(long,char const *,int)""'"); 
       }
     }
   } else {
-    arg4 = _p_f_long_int__void;
+    arg4 = _p_f_long_p_q_const__char_int__void;
     R_SWIG_pushCallbackFunctionData(showProgress, NULL);
   }
-  if(TYPEOF(setTitle) != CLOSXP) {
-    {
-      int res = SWIG_R_ConvertPtr(setTitle, (void**)(&arg5), SWIGTYPE_p_f_long_p_q_const__char__void, 0);
-      if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CThread_api_initialize" "', argument " "5"" of type '" "void (*)(long,char const *)""'"); 
-      }
-    }
-  } else {
-    arg5 = _p_f_long_p_q_const__char__void;
-    R_SWIG_pushCallbackFunctionData(setTitle, NULL);
-  }
-  tc_CThread_api_initialize(arg1,arg2,arg3,arg4,arg5);
+  tc_CThread_api_initialize(arg1,arg2,arg3,arg4);
   r_ans = R_NilValue;
-  
   
   
   
@@ -10390,6 +10320,47 @@ void _p_f_long_long_int_double_double__void(long s_arg1, long s_arg2, int s_arg3
   if(r_swig_cb_data->errorOccurred) {
     R_SWIG_popCallbackFunctionData(1);
     Rf_error("error in calling R function as a function pointer (_p_f_long_long_int_double_double__void)");
+  }
+  R_SWIG_popCallbackFunctionData(1);
+  
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  
+}
+
+
+void _p_f_long_int__void(long s_arg1, int s_arg2) {
+  long arg1 ;
+  int arg2 ;
+  RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
+  SEXP r_tmp;
+  int r_nprotect = 0;
+  char * r_vmax= 0;
+  int ecode = 0;
+  
+  Rf_protect(r_swig_cb_data->expr = Rf_allocVector(LANGSXP, 3));
+  r_nprotect++;
+  r_swig_cb_data->el = r_swig_cb_data->expr;
+  
+  SETCAR(r_swig_cb_data->el, r_swig_cb_data->fun);
+  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
+  
+  r_tmp = Rf_ScalarInteger(s_arg1);
+  SETCAR(r_swig_cb_data->el, r_tmp);
+  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
+  
+  r_tmp = Rf_ScalarInteger(s_arg2);
+  SETCAR(r_swig_cb_data->el, r_tmp);
+  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
+  
+  
+  
+  r_swig_cb_data->retValue = R_tryEval(r_swig_cb_data->expr, R_GlobalEnv, &r_swig_cb_data->errorOccurred);
+  
+  if(r_swig_cb_data->errorOccurred) {
+    R_SWIG_popCallbackFunctionData(1);
+    Rf_error("error in calling R function as a function pointer (_p_f_long_int__void)");
   }
   R_SWIG_popCallbackFunctionData(1);
   
@@ -15936,7 +15907,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_getStringFromList", (DL_FUNC) &R_swig_tc_getStringFromList, 4},
    {"R_swig_tc_isMac", (DL_FUNC) &R_swig_tc_isMac, 1},
    {"R_swig_tc_steadyStateScan", (DL_FUNC) &R_swig_tc_steadyStateScan, 5},
-   {"R_swig_tc_CThread_api_initialize", (DL_FUNC) &R_swig_tc_CThread_api_initialize, 5},
+   {"R_swig_tc_CThread_api_initialize", (DL_FUNC) &R_swig_tc_CThread_api_initialize, 4},
    {"R_swig_tc_Main_api_initialize", (DL_FUNC) &R_swig_tc_Main_api_initialize, 77},
    {"R_swig_tc_setPos", (DL_FUNC) &R_swig_tc_setPos, 3},
    {"R_swig_tc_setLogScale", (DL_FUNC) &R_swig_tc_setLogScale, 1},
@@ -15957,7 +15928,6 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_savePlot", (DL_FUNC) &R_swig_tc_savePlot, 1},
    {"R_swig_tc_simulateHybrid", (DL_FUNC) &R_swig_tc_simulateHybrid, 4},
    {"R_swig_tc_getParameters", (DL_FUNC) &R_swig_tc_getParameters, 2},
-   {"R_swig_tc_setProgessBarTitle", (DL_FUNC) &R_swig_tc_setProgessBarTitle, 1},
    {"R_swig_tc_setParameters", (DL_FUNC) &R_swig_tc_setParameters, 1},
    {"R_swig_tc_substituteOriginalModel", (DL_FUNC) &R_swig_tc_substituteOriginalModel, 1},
    {"R_swig_tc_createInputWindow", (DL_FUNC) &R_swig_tc_createInputWindow, 3},
@@ -15978,7 +15948,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_displayText", (DL_FUNC) &R_swig_tc_displayText, 2},
    {"R_swig_tc_merge", (DL_FUNC) &R_swig_tc_merge, 1},
    {"R_swig_tc_getParametersNamed", (DL_FUNC) &R_swig_tc_getParametersNamed, 3},
-   {"R_swig_tc_showProgress", (DL_FUNC) &R_swig_tc_showProgress, 1},
+   {"R_swig_tc_showProgress", (DL_FUNC) &R_swig_tc_showProgress, 2},
    {"R_swig_tc_getName", (DL_FUNC) &R_swig_tc_getName, 1},
    {"R_swig_tc_errorBars", (DL_FUNC) &R_swig_tc_errorBars, 2},
    {"R_swig_tc_getEventTriggers", (DL_FUNC) &R_swig_tc_getEventTriggers, 1},

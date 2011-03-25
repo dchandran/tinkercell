@@ -54,10 +54,16 @@ namespace Tinkercell
 	signals:
 		/*! \brief display progress of this thread (0-100). This signal is usually connected
 		to a slot in ProgressBarSignalItem*/
-		void progress(int);
+		void setProgress(int);
 		
 		/*! \brieg set title of the dialog for this thread that shows the progress bar and kill button*/
-		void title(const QString&);
+		void setTitle(const QString&);
+		
+		/*! \brief hide the progress bar*/
+		void hideProgressBar();
+		
+		/*! \brief show the progress bar*/
+		void showProgressBar();
 		
 	public slots:
 	
@@ -70,14 +76,10 @@ namespace Tinkercell
 
 	public:
 
-		/*! \brief style sheet for the dialog*/
-		static QString style;
-
-		/*! \brief show progress in the dialog*/
-		virtual void emitProgress(int i) { emit progress(i); }
-		
-		/*! \brief set title in the dialog*/
-		virtual void emitTitle(const QString& s) { emit title(s); }
+		/*! \brief show progress in a progress dialog
+		\param QString title of the progress bar
+		\param int progress in range 0-100*/
+		virtual void showProgress(const QString &, int);
 		
 		/*! \brief search the default tinkercell folders for the library and load it
 		* \param QString name of library (with or without full path)
@@ -189,17 +191,6 @@ namespace Tinkercell
 		* \param DataTable
 		*/
 		virtual void setArg(const DataTable<qreal>&);
-
-		/*!
-		* \brief Creates a dialog with a progress bar for running a new thread. The dialog allows
-		the user to terminate the thread.
-		* \param CThread * target thread
-		* \param QString display text for the dialog
-		* \param QIcon display icon for the dialog
-		* \param bool whether or not to show a progress bar
-		*/
-		static QWidget * dialog(CThread * , const QString& title, const QIcon& icon = QIcon(), bool progressBar = true);
-
 		/*!
 		* \brief main window
 		*/
@@ -273,24 +264,24 @@ namespace Tinkercell
 		virtual void cleanupAfterTerminated();
 		
 	private:
+		QString _prevProgressBarTitle;
+		int _prevProgress;
+		void createProgressBarDialog();
 		/*! 
-		\brief set title on a thread dialog
+		\brief show progress in a dialog
 		\param long pointer to thread
+		\param char * title of dialog
+		\param int progress in range 0-100
 		*/
-		static void setTitle(long ptr, const char * title);
-		/*! 
-		\brief set progress on a thread
-		\param long pointer to thread
-		*/
-		static void setProgress(long ptr, int progress);
+		static void _setProgress(long ptr, const char * title, int progress);
 		/*! 
 		\brief set callback function on a thread. the first arg is the id returned from createProgressMeter
 		*/
-		static void setCallback(long ptr,  void (*f)(void) );
+		static void _setCallback(long ptr,  void (*f)(void) );
 		/*! 
 		\brief set destructor function on a thread. the first arg is the id returned from createProgressMeter
 		*/
-		static void setCallWhenExiting(long ptr,  void (*f)(void) );
+		static void _setCallWhenExiting(long ptr,  void (*f)(void) );
 	};
 
 	/*! \brief This class is used to run a process (command + args) as a separate thread as a separate thread

@@ -7268,47 +7268,31 @@ fail:
 
 
 static octave_value_list _wrap_tc_showProgress (const octave_value_list& args, int nargout) {
-  int arg1 ;
-  int val1 ;
-  int ecode1 = 0 ;
-  octave_value_list _out;
-  octave_value_list *_outp=&_out;
-  octave_value _outv;
-  
-  if (!SWIG_check_num_args("tc_showProgress",args.length(),1,1,0)) {
-    SWIG_fail;
-  }
-  ecode1 = SWIG_AsVal_int(args(0), &val1);
-  if (!SWIG_IsOK(ecode1)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_showProgress" "', argument " "1"" of type '" "int""'");
-  } 
-  arg1 = (int)(val1);
-  tc_showProgress(arg1);
-  _outv = octave_value();
-  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
-fail:
-  return _out;
-}
-
-
-static octave_value_list _wrap_tc_setProgessBarTitle (const octave_value_list& args, int nargout) {
   char *arg1 = (char *) 0 ;
+  int arg2 ;
   int res1 ;
   char *buf1 = 0 ;
   int alloc1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
   
-  if (!SWIG_check_num_args("tc_setProgessBarTitle",args.length(),1,1,0)) {
+  if (!SWIG_check_num_args("tc_showProgress",args.length(),2,2,0)) {
     SWIG_fail;
   }
   res1 = SWIG_AsCharPtrAndSize(args(0), &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setProgessBarTitle" "', argument " "1"" of type '" "char const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_showProgress" "', argument " "1"" of type '" "char const *""'");
   }
   arg1 = (char *)(buf1);
-  tc_setProgessBarTitle((char const *)arg1);
+  ecode2 = SWIG_AsVal_int(args(1), &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_showProgress" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = (int)(val2);
+  tc_showProgress((char const *)arg1,arg2);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
   if (alloc1 == SWIG_NEWOBJ) delete[] buf1;
@@ -7367,15 +7351,14 @@ static octave_value_list _wrap_tc_CThread_api_initialize (const octave_value_lis
   long arg1 ;
   void (*arg2)(long,void (*)(void)) = (void (*)(long,void (*)(void))) 0 ;
   void (*arg3)(long,void (*)(void)) = (void (*)(long,void (*)(void))) 0 ;
-  void (*arg4)(long,int) = (void (*)(long,int)) 0 ;
-  void (*arg5)(long,char const *) = (void (*)(long,char const *)) 0 ;
+  void (*arg4)(long,char const *,int) = (void (*)(long,char const *,int)) 0 ;
   long val1 ;
   int ecode1 = 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
   
-  if (!SWIG_check_num_args("tc_CThread_api_initialize",args.length(),5,5,0)) {
+  if (!SWIG_check_num_args("tc_CThread_api_initialize",args.length(),4,4,0)) {
     SWIG_fail;
   }
   ecode1 = SWIG_AsVal_long(args(0), &val1);
@@ -7396,18 +7379,12 @@ static octave_value_list _wrap_tc_CThread_api_initialize (const octave_value_lis
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(3), (void**)(&arg4), SWIGTYPE_p_f_long_int__void);
+    int res = SWIG_ConvertFunctionPtr(args(3), (void**)(&arg4), SWIGTYPE_p_f_long_p_q_const__char_int__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CThread_api_initialize" "', argument " "4"" of type '" "void (*)(long,int)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CThread_api_initialize" "', argument " "4"" of type '" "void (*)(long,char const *,int)""'"); 
     }
   }
-  {
-    int res = SWIG_ConvertFunctionPtr(args(4), (void**)(&arg5), SWIGTYPE_p_f_long_p_q_const__char__void);
-    if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CThread_api_initialize" "', argument " "5"" of type '" "void (*)(long,char const *)""'"); 
-    }
-  }
-  tc_CThread_api_initialize(arg1,arg2,arg3,arg4,arg5);
+  tc_CThread_api_initialize(arg1,arg2,arg3,arg4);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
 fail:
@@ -12246,7 +12223,6 @@ static const struct swig_octave_member swig_globals[] = {
 {"tc_insertAnnotations",_wrap_tc_insertAnnotations,0,0,2,0},
 {"tc_Main_api_initialize",_wrap_tc_Main_api_initialize,0,0,2,0},
 {"tc_showProgress",_wrap_tc_showProgress,0,0,2,0},
-{"tc_setProgessBarTitle",_wrap_tc_setProgessBarTitle,0,0,2,0},
 {"tc_callback",_wrap_tc_callback,0,0,2,0},
 {"tc_callWhenExiting",_wrap_tc_callWhenExiting,0,0,2,0},
 {"tc_CThread_api_initialize",_wrap_tc_CThread_api_initialize,0,0,2,0},

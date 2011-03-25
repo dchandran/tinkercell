@@ -2792,18 +2792,9 @@ SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1Main_1api_1initialize(JNIEnv *jen
 }
 
 
-SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1showProgress(JNIEnv *jenv, jclass jcls, jint jarg1) {
-  int arg1 ;
-  
-  (void)jenv;
-  (void)jcls;
-  arg1 = (int)jarg1; 
-  tc_showProgress(arg1);
-}
-
-
-SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1setProgessBarTitle(JNIEnv *jenv, jclass jcls, jstring jarg1) {
+SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1showProgress(JNIEnv *jenv, jclass jcls, jstring jarg1, jint jarg2) {
   char *arg1 = (char *) 0 ;
+  int arg2 ;
   
   (void)jenv;
   (void)jcls;
@@ -2812,7 +2803,8 @@ SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1setProgessBarTitle(JNIEnv *jenv, 
     arg1 = (char *)(*jenv)->GetStringUTFChars(jenv, jarg1, 0);
     if (!arg1) return ;
   }
-  tc_setProgessBarTitle((char const *)arg1);
+  arg2 = (int)jarg2; 
+  tc_showProgress((char const *)arg1,arg2);
   if (arg1) (*jenv)->ReleaseStringUTFChars(jenv, jarg1, (const char *)arg1);
 }
 
@@ -2837,21 +2829,19 @@ SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1callWhenExiting(JNIEnv *jenv, jcl
 }
 
 
-SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1CThread_1api_1initialize(JNIEnv *jenv, jclass jcls, jint jarg1, jlong jarg2, jlong jarg3, jlong jarg4, jlong jarg5) {
+SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1CThread_1api_1initialize(JNIEnv *jenv, jclass jcls, jint jarg1, jlong jarg2, jlong jarg3, jlong jarg4) {
   long arg1 ;
   void (*arg2)(long,void (*)(void)) = (void (*)(long,void (*)(void))) 0 ;
   void (*arg3)(long,void (*)(void)) = (void (*)(long,void (*)(void))) 0 ;
-  void (*arg4)(long,int) = (void (*)(long,int)) 0 ;
-  void (*arg5)(long,char const *) = (void (*)(long,char const *)) 0 ;
+  void (*arg4)(long,char const *,int) = (void (*)(long,char const *,int)) 0 ;
   
   (void)jenv;
   (void)jcls;
   arg1 = (long)jarg1; 
   arg2 = *(void (**)(long,void (*)(void)))&jarg2; 
   arg3 = *(void (**)(long,void (*)(void)))&jarg3; 
-  arg4 = *(void (**)(long,int))&jarg4; 
-  arg5 = *(void (**)(long,char const *))&jarg5; 
-  tc_CThread_api_initialize(arg1,arg2,arg3,arg4,arg5);
+  arg4 = *(void (**)(long,char const *,int))&jarg4; 
+  tc_CThread_api_initialize(arg1,arg2,arg3,arg4);
 }
 
 

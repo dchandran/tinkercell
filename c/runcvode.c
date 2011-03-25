@@ -203,7 +203,7 @@ void odeFunc( double time, double * u, double * du, void * udata )\n\
 	}\n\
 	if (time > _time0_)\n\
 	{\n\
-		tc_showProgress((int)(100 * time/%lf));\n\
+		tc_showProgress(\"Simulation\",(int)(100 * time/%lf));\n\
 		_time0_ += %lf;\n\
 	}\n\
 }\n\

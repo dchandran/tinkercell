@@ -31,6 +31,25 @@ namespace Tinkercell
 	*******************/
 	typedef void (*TinkercellCEntryFunction)();
 	
+	void CThread::createProgressBarDialog()
+	{
+		QDialog * dialog = new QDialog(mainWindow);
+		QHBoxLayout * layout = new QHBoxLayout;
+		QLabel * label = new QLabel();
+		QProgressBar * progressbar = new QProgressBar;
+		layout->addWidget(label);
+		layout->addWidget(progressbar);
+		progressbar->setRange(0,100);
+		dialog->setLayout(layout);
+		dialog->hide();
+		
+		/*signals to control progress bar dialog*/
+		connect(this,SIGNAL(setProgress(int)),progressbar,SLOT(setValue(int)));
+		connect(this,SIGNAL(setTitle(const QString&)),label,SLOT(setText(const QString&)));
+		connect(this,SIGNAL(showProgressBar()),dialog,SLOT(show()));
+		connect(this,SIGNAL(hideProgressBar()),dialog,SLOT(hide()));
+	}
+	
 	CThread::CThread(MainWindow * main, QLibrary * libPtr, bool autoUnload)
 		: QThread(main), mainWindow(main), autoUnloadLibrary(autoUnload)
 	{
@@ -41,10 +60,12 @@ namespace Tinkercell
 		callbackPtr = 0;
 		callWhenExitPtr = 0;
 		setLibrary(libPtr);
+
 		connect(this,SIGNAL(terminated()),this,SLOT(cleanupAfterTerminated()));
-		hasDialog = false;
 		
 		cthreads << this;
+		
+		createProgressBarDialog();
 		
 		call_tc_main();
 	}
@@ -61,9 +82,10 @@ namespace Tinkercell
 		this->lib = 0;
 		setLibrary(libName);
 		connect(this,SIGNAL(terminated()),this,SLOT(cleanupAfterTerminated()));
-		hasDialog = false;
 
 		cthreads << this;
+		
+		createProgressBarDialog();
 		
 		call_tc_main();
 	}
@@ -140,8 +162,7 @@ namespace Tinkercell
 		long cthread,
 		void (*callback)(long, void (*f)(void)),
 		void (*callWhenExiting)(long, void (*f)(void)),
-		void (*showProgress)(long , int),
-		void (*setTitle)(long , const char *) );
+		void (*showProgress)(long , const char *, int) );
 		
 	void CThread::setupCFunctionPointers()
 	{
@@ -153,10 +174,9 @@ namespace Tinkercell
 			{
 				f0( 
 					(long)(p),
-					&(setCallback),
-					&(setCallWhenExiting),
-					&(setProgress),
-					&(setTitle)
+					&(_setCallback),
+					&(_setCallWhenExiting),
+					&(_setProgress)
 				);
 			}
 		}
@@ -269,6 +289,7 @@ namespace Tinkercell
 		}
 	}
 
+	/*
 	QString CThread::style = QString("background-color: qlineargradient(x1: 0, y1: 1, x2: 0, y2: 0, stop: 1.0 #585858, stop: 0.5 #0E0E0E, stop: 0.5 #9A9A9A, stop: 1.0 #E2E2E2);");
 
 	QWidget * CThread::dialog(CThread * newThread, const QString& title, const QIcon& icon, bool progressBar)
@@ -297,7 +318,7 @@ namespace Tinkercell
 			layout->addWidget(progressbar);
 			progressbar->setRange(0,100);
 			connect(newThread,SIGNAL(progress(int)),progressbar,SLOT(setValue(int)));
-			connect(newThread,SIGNAL(title(const QString&)),label1,SLOT(title(const QString&)));
+			connect(newThread,SIGNAL(title(const QString&)),label1,SLOT(setText(const QString&)));
 		}
 
 		layout->addWidget(killButton);
@@ -306,17 +327,17 @@ namespace Tinkercell
 		dialog->setLayout(layout);
 
 		connect(killButton,SIGNAL(released()),newThread,SLOT(terminate()));
-		connect(newThread,SIGNAL(finished()),dialog,SLOT(close()));
-		connect(newThread,SIGNAL(terminated()),dialog,SLOT(close()));
+		connect(newThread,SIGNAL(finished()),dialog,SLOT(hide()));
+		connect(newThread,SIGNAL(terminated()),dialog,SLOT(hide()));
 		connect(newThread,SIGNAL(started()),dialog,SLOT(show()));
 		newThread->hasDialog = true;
 		
 		return dialog;
-	}
+	}*/
 
 	QList<CThread*> CThread::cthreads;
 
-	void CThread::setCallback(long address,  void (*f)(void) )
+	void CThread::_setCallback(long address,  void (*f)(void) )
 	{
 		void * ptr = (void*)address;
 		CThread * thread = static_cast<CThread*>(ptr);
@@ -327,44 +348,45 @@ namespace Tinkercell
 		}
 	}
 
-	void CThread::setCallWhenExiting(long address,  void (*f)(void) )
+	void CThread::_setCallWhenExiting(long address,  void (*f)(void) )
 	{
 		void * ptr = (void*)address;
 		CThread * thread = static_cast<CThread*>(ptr);
 		if (cthreads.contains(thread))
 			thread->callWhenExitPtr = f;
 	}
-	
-	void CThread::setTitle(long address, const char * s)
+
+	void CThread::_setProgress(long address, const char * title, int progress)
 	{
 		void * ptr = (void*)address;
 		CThread * thread = static_cast<CThread*>(ptr);
 		if (cthreads.contains(thread))
 		{
-			if (!thread->hasDialog)
-			{
-				QWidget * widget = dialog(thread, QString(s), QIcon(":/image/play.png"));
-				if (widget)
-					widget->show();
-			}
-			else
-				thread->emitTitle(QString(s));
+			thread->showProgress(QString(title), progress);
 		}
 	}
-
-	void CThread::setProgress(long address, int progress)
+	
+	void CThread::showProgress(const QString & title, int progress)
 	{
-		void * ptr = (void*)address;
-		CThread * thread = static_cast<CThread*>(ptr);
-		if (cthreads.contains(thread))
+		if (progress > 99)
 		{
-			if (!thread->hasDialog)
-			{
-				QWidget * widget = dialog(thread, "progress", QIcon(":/image/play.png"));
-				if (widget)
-					widget->show();
-			}
-			thread->emitProgress(progress);
+			emit hideProgressBar();
+			return;
+		}
+		
+		if (progress < 2)
+			emit showProgressBar();
+		
+		if (title != _prevProgressBarTitle)
+		{
+			_prevProgressBarTitle = title;
+			emit setTitle(title);
+		}
+		
+		if (progress != _prevProgress)
+		{
+			_prevProgress = progress;
+			emit setProgress(progress);
 		}
 	}
 
@@ -414,7 +436,6 @@ namespace Tinkercell
 	{
 		QWidget * dialog = new QDialog(mainWindow);
 		
-		dialog->setStyleSheet(CThread::style);
 		dialog->hide();
 
 		dialog->move(newThread->mainWindow->pos() + QPoint(10,10));

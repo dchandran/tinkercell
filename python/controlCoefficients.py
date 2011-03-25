@@ -7,13 +7,13 @@ import display
 mod = getPyscesModel();
 mod.doMca();
 
-tc_showProgress(60);
+tc_showProgress("control coefficients",60);
 
 #get selected nodes, if any, and reactions
 selected = tc_selectedItems();
 N = tc_getStoichiometry(tc_allItems());
 
-tc_showProgress(90);
+tc_showProgress("control coefficients",90);
 mod.showCC();
 names = [];
 

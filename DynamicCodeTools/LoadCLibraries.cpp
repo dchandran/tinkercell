@@ -88,7 +88,6 @@ namespace Tinkercell
 
             CThread * thread = new CThread(mainWindow,0);
             thread->setFunction(f);
-            CThread::dialog(thread,title,icon,true);
 
             connect(button,SIGNAL(pressed()),thread,SLOT(start()));
 
@@ -319,7 +318,6 @@ namespace Tinkercell
         CThread * newThread = new CThread(mainWindow,dllName,true);
         newThread->setVoidFunction(funcname.toAscii().data());
 
-        CThread::dialog(newThread,title,QIcon(),true);
         newThread->start();
 
         if (r) (*r) = 1;

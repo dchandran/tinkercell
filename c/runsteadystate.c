@@ -326,7 +326,7 @@ TCAPIEXPORT void run(%s) \n\
 							for (j=0; j<TCvars; ++j)\n\
 							   tc_setMatrixValue(dat,i,j+1,tc_getMatrixValue(dat,i-1,j+1));\n\
 					}\n\
-					tc_showProgress((100*i)/dat.rows);\n\
+					tc_showProgress(\"Steady state scan\",(100*i)/dat.rows);\n\
 				}\n\
 				free(model);\n\
 				tc_plot(dat,\"Steady State Plot\");\n\
@@ -548,7 +548,7 @@ void run2D(tc_matrix input)
 		   if (y)\n\
 			  free(y);\n\
         }\n\
-		tc_showProgress((100*i)/rows);\n\
+		tc_showProgress(\"Steady state scan\",(100*i)/rows);\n\
       }\n\
 	  free(model);\n\
       tc_surface(dat,\"Steady State Plot\");\n    free(dat.values);\n",param1,startx, dx, param2,starty, dy, target);

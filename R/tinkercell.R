@@ -482,12 +482,6 @@ setClass('_p_f_long_p_f_void__void__void',
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_long_int__void',
-        prototype = list(parameterTypes = c('_long', '_int'),
-                        returnType = '_p_f_long_int__void'),
-        contains = 'CRoutinePointer')
-
-##
 setClass('_p_f_long_p_q_const__char__p_char',
         prototype = list(parameterTypes = c('_long', '_p_char'),
                         returnType = '_p_f_long_p_q_const__char__p_char'),
@@ -545,6 +539,12 @@ setClass('_p_f_long_long_int__double',
 setClass('_p_f_long_long_int_double_double__void',
         prototype = list(parameterTypes = c('_long', '_long', '_int', '_double', '_double'),
                         returnType = '_p_f_long_long_int_double_double__void'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_long_int__void',
+        prototype = list(parameterTypes = c('_long', '_int'),
+                        returnType = '_p_f_long_int__void'),
         contains = 'CRoutinePointer')
 
 ##
@@ -3986,34 +3986,22 @@ class(`tc_Main_api_initialize`) = c("SWIGFunction", class('tc_Main_api_initializ
 
 # Start of tc_showProgress
 
-`tc_showProgress` = function(progress)
+`tc_showProgress` = function(title, progress)
 {
+  title = as(title, "character") 
   progress = as.integer(progress) 
   
   if(length(progress) > 1) {
     warning("using only the first element of progress")
   }
   
-  .Call('R_swig_tc_showProgress', progress, PACKAGE='tinkercell')
+  .Call('R_swig_tc_showProgress', title, progress, PACKAGE='tinkercell')
   
 }
 
 attr(`tc_showProgress`, 'returnType') = 'void'
-attr(`tc_showProgress`, "inputTypes") = c('integer')
+attr(`tc_showProgress`, "inputTypes") = c('character', 'integer')
 class(`tc_showProgress`) = c("SWIGFunction", class('tc_showProgress'))
-
-# Start of tc_setProgessBarTitle
-
-`tc_setProgessBarTitle` = function(s_arg1)
-{
-  s_arg1 = as(s_arg1, "character") 
-  .Call('R_swig_tc_setProgessBarTitle', s_arg1, PACKAGE='tinkercell')
-  
-}
-
-attr(`tc_setProgessBarTitle`, 'returnType') = 'void'
-attr(`tc_setProgessBarTitle`, "inputTypes") = c('character')
-class(`tc_setProgessBarTitle`) = c("SWIGFunction", class('tc_setProgessBarTitle'))
 
 # Start of tc_callback
 
@@ -4061,7 +4049,7 @@ class(`tc_callWhenExiting`) = c("SWIGFunction", class('tc_callWhenExiting'))
 
 # Start of tc_CThread_api_initialize
 
-`tc_CThread_api_initialize` = function(cthread, callback, callWhenExiting, showProgress, setTitle)
+`tc_CThread_api_initialize` = function(cthread, callback, callWhenExiting, showProgress)
 {
   cthread = as.integer(cthread) 
   
@@ -4090,7 +4078,7 @@ class(`tc_callWhenExiting`) = c("SWIGFunction", class('tc_callWhenExiting'))
     }
   }
   if(is.function(showProgress)) {
-    assert('...' %in% names(formals(showProgress)) || length(formals(showProgress)) >= 2)
+    assert('...' %in% names(formals(showProgress)) || length(formals(showProgress)) >= 0)
   } else {
     if(is.character(showProgress)) {
       showProgress = getNativeSymbolInfo(showProgress)
@@ -4099,22 +4087,12 @@ class(`tc_callWhenExiting`) = c("SWIGFunction", class('tc_callWhenExiting'))
       showProgress = showProgress$address
     }
   }
-  if(is.function(setTitle)) {
-    assert('...' %in% names(formals(setTitle)) || length(formals(setTitle)) >= 0)
-  } else {
-    if(is.character(setTitle)) {
-      setTitle = getNativeSymbolInfo(setTitle)
-    }
-    if(is(setTitle, "NativeSymbolInfo")) {
-      setTitle = setTitle$address
-    }
-  }
-  .Call('R_swig_tc_CThread_api_initialize', cthread, callback, callWhenExiting, showProgress, setTitle, PACKAGE='tinkercell')
+  .Call('R_swig_tc_CThread_api_initialize', cthread, callback, callWhenExiting, showProgress, PACKAGE='tinkercell')
   
 }
 
 attr(`tc_CThread_api_initialize`, 'returnType') = 'void'
-attr(`tc_CThread_api_initialize`, "inputTypes") = c('integer', '_p_f_long_p_f_void__void__void', '_p_f_long_p_f_void__void__void', '_p_f_long_int__void', '_p_f_long_p_q_const__char__void')
+attr(`tc_CThread_api_initialize`, "inputTypes") = c('integer', '_p_f_long_p_f_void__void__void', '_p_f_long_p_f_void__void__void', '_p_f_long_p_q_const__char_int__void')
 class(`tc_CThread_api_initialize`) = c("SWIGFunction", class('tc_CThread_api_initialize'))
 
 # Start of tc_getParameters
@@ -4950,7 +4928,7 @@ class(`tc_setLineWidth`) = c("SWIGFunction", class('tc_setLineWidth'))
     }
   }
   if(is.function(setStraight)) {
-    assert('...' %in% names(formals(setStraight)) || length(formals(setStraight)) >= 0)
+    assert('...' %in% names(formals(setStraight)) || length(formals(setStraight)) >= 2)
   } else {
     if(is.character(setStraight)) {
       setStraight = getNativeSymbolInfo(setStraight)

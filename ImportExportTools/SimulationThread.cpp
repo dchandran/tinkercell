@@ -478,9 +478,10 @@ void SimulationThread::run()
 				tc_matrix ss;
 				int i,j;
 				
+				QString title("steady state scan");
 				for (i=0; i < n; ++i)
 				{
-					emit progress( (int)(100 * i)/n  );
+					showProgress( title, (int)(100 * i)/n  );
 					p = start + (double)(i)*step;
 					cSetValue(model, param.toUtf8().data(), p);
 					ss = cGetSteadyState(model);					
@@ -500,9 +501,9 @@ void SimulationThread::run()
 		
 					tc_deleteMatrix(ss);
 				}
+				showProgress(title, 100);
 				plotTitle = tr("Steady state scan");
 				plotType = PlotTool::Plot2D;
-				//widget->close();
 			}
 			break;
 		case SteadyStateScan2D:
@@ -523,9 +524,10 @@ void SimulationThread::run()
 				tc_matrix ss;
 				int i,j,k,l=-1;
 				
+				QString title("steady state scan 2D");
 				for (i=0; i < n1; ++i)
 				{
-					emit progress( (int)(100 * i)/n1 );
+					showProgress( title, (int)(100 * i)/n1  );
 					p1 = start1 + (double)(i)*step1;
 					cSetValue(model, param1.toUtf8().data(), p1);
 					
@@ -562,6 +564,7 @@ void SimulationThread::run()
 						tc_deleteMatrix(ss);
 					}
 				}
+				showProgress(title, 100);
 			}
 			plotTitle = tr("Steady state scan");
 			plotType = PlotTool::SurfacePlot;

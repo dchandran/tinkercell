@@ -155,7 +155,6 @@ package tinkercell;
 *tc_insertAnnotations = *tinkercellc::tc_insertAnnotations;
 *tc_Main_api_initialize = *tinkercellc::tc_Main_api_initialize;
 *tc_showProgress = *tinkercellc::tc_showProgress;
-*tc_setProgessBarTitle = *tinkercellc::tc_setProgessBarTitle;
 *tc_callback = *tinkercellc::tc_callback;
 *tc_callWhenExiting = *tinkercellc::tc_callWhenExiting;
 *tc_CThread_api_initialize = *tinkercellc::tc_CThread_api_initialize;

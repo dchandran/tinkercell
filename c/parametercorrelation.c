@@ -239,7 +239,7 @@ void run(tc_matrix input)
 						  if (__X)\n\
 							free(__X);\n\
 						}\n\
-						tc_showProgress((100*i)/dat.rows);\n\
+						tc_showProgress(\"Parameter correlation\",(100*i)/dat.rows);\n\
 				  }\n\
 				  FILE * out = fopen(\"corr.tab\",\"w\");\n\
 				  fprintf( out, \"\\n\");\n\

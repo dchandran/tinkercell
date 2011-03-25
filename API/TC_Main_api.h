@@ -708,14 +708,11 @@ TCAPIEXPORT void tc_Main_api_initialize(
 
 /*! 
  \brief show progress of current operation
+ \param string label for the progress bar
+ \param int progress in range 0-100
  \ingroup Input and Output
 */
-TCAPIEXPORT void tc_showProgress(int progress);
-/*! 
- \brief set title for progress bar
- \ingroup Input and Output
-*/
-TCAPIEXPORT void tc_setProgessBarTitle(const char*);
+TCAPIEXPORT void tc_showProgress(const char * title, int progress);
 /*! 
  \brief this function will be called whenever the model is changed
  \param void* callback function pointer
@@ -736,8 +733,7 @@ TCAPIEXPORT void tc_CThread_api_initialize(
 	long cthread,
 	void (*callback)(long, void (*f)(void)),
 	void (*callWhenExiting)(long, void (*f)(void)),
-	void (*showProgress)(long, int),
-	void (*setTitle)(long,const char*));
+	void (*showProgress)(long, const char*, int));
 
 END_C_DECLS
 #endif

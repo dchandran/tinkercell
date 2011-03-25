@@ -1,7 +1,7 @@
 from numpy import *
 #Takes an objective function along with an intial guess of the distribution of parameters and returns the final
 #best fit distribution of parameters. Assumes that the distributions are Gaussian.
-def CrossEntropy(objective, mu, sigma2, maxits=200, N=100, Ne=0.5):
+def CrossEntropy(objective, mu, sigma2, maxits=200, N=100, Ne=0.5, callback = None):
     t = 0
     if Ne >= 1 or Ne <= 0:
         Ne = 0.5
@@ -25,6 +25,8 @@ def CrossEntropy(objective, mu, sigma2, maxits=200, N=100, Ne=0.5):
         for i in range(0,n):
             mu[i] = mean(X2[i])      #Update mean of sampling distribution
         sigma2 = cov(X2)             #Update variance of sampling distribution
+        if not (callback is None):
+            callback(t, mu, sigma2)
         t = t+1;                                 #Increment iteration counter
     return (mu, sigma2) #Return mean and covariance
 

@@ -12,14 +12,63 @@ from numpy import *
 
 fname = tc_getFilename()
 indx = []
+headers = []
+time = 0
+numpts = 0
+params = tc_createMatrix(0,0)
+trueData = array([])
 
-def leastSquares(params)
-     
-    sim = tc_simulate(
+def leastSquares(x)
+    for i in range(0,len(x)):
+        tc_setMatrixValue(params, i, 0, x[i])
+    tc_setParameters(params)
+    sim = tc_simulate(0,time,numpts)
+    if len(indx) == 0:
+        indx = range(0,sim.cols)
+        for i in range(0,sim.cols):
+            indx[i] = -1
+            for j in range(0,len(headers)):
+                if tc_getColumnName(sim, i) == headers[j]:
+                    indx[i] = j
+    total = 0
+    n = 0
+    for i in range(0,sim.cols):
+        if indx[i] > -1:
+            n += 1
+            k = indx[i]
+            for j in range(0,sim.rows):
+                total += (dat[j,k] - tc_getMatrixValue(sim, j, i))**2
+    total /= (n*sim.rows)
+    return total
+
+def fcallback(t, mu, sigma2):
+    tc_showProgress("Fitting data",int(t/2))
 
 if len(filename) > 0:
-    delim = '\t'
-    if fname.count('csv') > 0:
-        delim = ','
-    dat = genfromtxt(fname, dtype=<type 'float'>, comments='#', delimiter=delim)
-    
+     tfile = open(filename, "r")
+    line  = tfile.readline()
+    line = line.replace('\n','')
+    line = line.replace('#','')
+    tfile.close()
+    headers = line.split(',')
+    trueData = genfromtxt(fname, type(0.0), comments='#', delimiter=',')
+    numpts = len(dat) #rows
+    time = dat[ numpts-1, 0 ]  #last time point
+    allparams  = tc_getParameters(tc_allItems())
+    n = 0
+    for i in range(0,allparams.rows):
+        if tc_getMatrixValue(allparams, i, 1) != tc_getMatrixValue(allparams, i, 2):
+            n += 1
+    params = tc_createMatrix(n,1)
+    mu = range(0,n)
+    sigma2 = range(0,n)
+    j = 0
+    for i in range(0,n):
+        if tc_getMatrixValue(allparams, i, 1) != tc_getMatrixValue(allparams, i, 2):
+            d = tc_getMatrixValue(allparams, i, 0)
+            tc_setMatrixValue(params, j, 0, d)
+            mu[j] = d
+            sigma2[j] = ((tc_getMatrixValue(allparams, i, 2) - tc_getMatrixValue(allparams, i, 1))/3.0)**2
+            j += 1
+    res = CrossEntropy(leastSquares, mu, diag(sigma2), 200, 100, 0.5, fcallback)
+

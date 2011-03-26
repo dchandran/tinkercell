@@ -3,7 +3,7 @@ from tinkercell import *
 
 #Takes an objective function along with an intial guess of the distribution of parameters and returns the final
 #best fit distribution of parameters. Assumes that the distributions are Gaussian.
-def CrossEntropy(objective, title="optimizing", maxits=200, N=100, Ne=0.5, logscale=False):
+def OptimizeParameters(objective, title="optimizing", maxits=200, N=100, Ne=0.5, logscale=False):
     t = 0
     if Ne >= 1 or Ne <= 0:
         Ne = 0.5
@@ -12,14 +12,28 @@ def CrossEntropy(objective, title="optimizing", maxits=200, N=100, Ne=0.5, logsc
     epsilon = 1e-5
     oldmax = 0
     curmax = 0
-    params = tc_getParameters( tc_allItems() )
-    n = params.rows
-    minmax = range(0,n)
-    for i in range(0,n)
-        mu[i] = tc_getMatrixValue(params, i, 0)
-        minmax[i] = ((tc_getMatrixValue(params, i, 2) - tc_getMatrixValue(params, i, 1))/3.0)**2
-    sigma2 = diag(minmax)
+    allparams = tc_getParameters( tc_allItems() )
+    n = 0;
+    for i in range(0,allparams.rows):
+        if tc_getMatrixValue(allparams, i, 2) != tc_getMatrixValue(allparams, i, 1): 
+            n += 1
+    if n == 0:
+        return tc_createMatrix(0,0)
 
+    params = tc_createMatrix(n,3)
+    minmax = range(0,n)
+    mu = range(0,n)
+    j = 0
+    for i in range(0,allparams.rows):
+        if tc_getMatrixValue(allparams, i, 2) != tc_getMatrixValue(allparams, i, 1):
+            tc_setMatrixValue(params, j, 0, tc_getMatrixValue(allparams, i, 0))
+            tc_setMatrixValue(params, j, 1, tc_getMatrixValue(allparams, i, 1))
+            tc_setMatrixValue(params, j, 2, tc_getMatrixValue(allparams, i, 2))
+            mu[j] = tc_getMatrixValue(params, i, 0)
+            minmax[j] = ((tc_getMatrixValue(allparams, i, 2) - tc_getMatrixValue(allparams, i, 1))/3.0)**2
+            j += 1
+
+    sigma2 = diag(minmax)
     while t < maxits and (t<2 or (oldmax - curmax) > epsilon):     #While not converged and maxits not exceeded
         X = random.multivariate_normal(mu,sigma2,N)         #Obtain N samples from current sampling distribution
         indx = range(0,N)
@@ -56,4 +70,5 @@ def CrossEntropy(objective, title="optimizing", maxits=200, N=100, Ne=0.5, logsc
         sigma2 = cov(X2)               #Update variance of sampling distribution
         tc_showProgress(title, int( 100 * t/maxits ))
         t = t+1;                              #Increment iteration counter
+    tc_setParameters(params,1)
     return (mu, sigma2)               #Return mean and covariance

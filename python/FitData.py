@@ -22,7 +22,7 @@ trueData = array([])
 def leastSquares(x):
     for i in range(0,len(x)):
         tc_setMatrixValue(params, i, 0, x[i])
-    tc_setParameters(params)
+    tc_setParameters(params,0)
     sim = tc_simulate(0,time,numpts)
     if len(indx) == 0:
         indx = range(0,sim.cols)

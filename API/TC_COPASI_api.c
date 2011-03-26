@@ -23,6 +23,7 @@ tc_matrix (*_tc_elementaryFluxModes)() = 0;
 tc_matrix (*_tc_LMatrix)() = 0;
 tc_matrix (*_tc_KMatrix)() = 0;
 tc_matrix (*_tc_optimize)(const char * ) = 0;
+void (*_tc_updateParams)(tc_matrix) = 0;
 
 /******************************************
    The actual functions defined in the API
@@ -190,6 +191,13 @@ tc_matrix tc_optimize(const char * s)
 	return tc_createMatrix(0,0);
 }
 
+TCAPIEXPORT
+void tc_updateParameters(tc_matrix params)
+{
+	if (_tc_updateParams)
+		_tc_updateParams(params);
+}
+
 TCAPIEXPORT 
 void tc_COPASI_api( 
 tc_matrix (*simulateDeterministic)(double startTime, double endTime, int numSteps),
@@ -211,7 +219,8 @@ tc_matrix (*reducedStoichiometry)(),
 tc_matrix (*emf)(),
 tc_matrix (*Lmat)(),
 tc_matrix (*Kmat)(),
-tc_matrix (*gaoptim)(const char *)
+tc_matrix (*gaoptim)(const char *),
+void (*update)(tc_matrix)
 )
 {
 	_tc_simulateDeterministic = simulateDeterministic;
@@ -234,5 +243,6 @@ tc_matrix (*gaoptim)(const char *)
 	_tc_LMatrix = Lmat;
 	_tc_KMatrix = Kmat;
 	_tc_optimize = gaoptim;
+	_tc_updateParams = update;
 }
 

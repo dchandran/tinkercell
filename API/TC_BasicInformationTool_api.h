@@ -117,9 +117,10 @@ TCAPIEXPORT void tc_setTextAttributes(tc_table);
 /*! 
  \brief set parameter for multiple items
  \param tc_table table with rownames as the parameter full names
+ \param int 0=temporarily (just for simulation, fast), 1 = permanent (slower)
  \ingroup Modeling
 */
-TCAPIEXPORT void tc_setParameters(tc_matrix);
+TCAPIEXPORT void tc_setParameters(tc_matrix, int);
 /*! 
  \brief initialize the parameters and attributes plug-in
  \ingroup init

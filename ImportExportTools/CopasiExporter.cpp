@@ -101,7 +101,8 @@ typedef void (*tc_COPASI_api)(
 	tc_matrix (*elementaryFluxModes)(),
 	tc_matrix (*LMat)(),
 	tc_matrix (*KMat)(),
-	tc_matrix (*Optimize)(const char * )
+	tc_matrix (*Optimize)(const char * ),
+	void (*update)(tc_matrix)
 );
 
 void CopasiExporter::setupFunctionPointers( QLibrary * library)
@@ -128,7 +129,8 @@ void CopasiExporter::setupFunctionPointers( QLibrary * library)
 			&elementaryFluxModes,
 			&KMatrix,
 			&LMatrix,
-			&gaOptimize
+			&gaOptimize,
+			&updateParams
 		);
 }
 
@@ -151,7 +153,7 @@ SimulationThread * CopasiExporter::stochThread = 0;
 SimulationThread * CopasiExporter::ssThread = 0;
 SimulationThread * CopasiExporter::jacThread = 0;
 SimulationThread * CopasiExporter::mcaThread = 0;
-SimulationThread * CopasiExporter::optimgThread = 0;
+SimulationThread * CopasiExporter::optimThread = 0;
 
 void CopasiExporter::odeSim()
 {
@@ -673,6 +675,27 @@ tc_matrix CopasiExporter::gaOptimize(const char * s)
 		return (optimThread->result());
 	}
 	return tc_createMatrix(0,0);
+}
+
+void CopasiExporter::updateParams(tc_matrix params)
+{
+	if (odeThread)
+		odeThread->updateModelParameters(params);
+
+	if (stochThread)
+		stochThread->updateModelParameters(params);
+
+	if (ssThread)
+		ssThread->updateModelParameters(params);
+
+	if (jacThread)
+		jacThread->updateModelParameters(params);
+
+	if (mcaThread)
+		mcaThread->updateModelParameters(params);
+
+	if (optimThread)
+		optimThread->updateModelParameters(params);
 }
 
 void CopasiExporter::toolLoaded(Tool*)

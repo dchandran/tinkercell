@@ -158,6 +158,15 @@ TCAPIEXPORT tc_matrix tc_LMatrix();
 TCAPIEXPORT tc_matrix tc_KMatrix();
 
 /*! 
+ \brief update the model parameters just for simulation purposes, i.e. not the actual model itself
+            this function will be much faster than using tc_setParameters
+\param const char * formula to maximize or filename with data (csv or tab-delimited)
+ \return tc_matrix a population of parameters
+ \ingroup Simulation
+*/
+TCAPIEXPORT void tc_updateParameters(tc_matrix params);
+
+/*! 
  \brief Maximize the given formula or fit the data is the given filename, depending on whether or not the input is a filename.
             The optimization is done using genetic algorithms, so a distribution of optimal parameters is generated.
             All parameters in the model will be used where the parameter's min and max values are different (i.e. parameter is variable)
@@ -191,7 +200,8 @@ tc_matrix (*tc_reducedStoichiometry)(),
 tc_matrix (*tc_emf)(),
 tc_matrix (*tc_Lmat)(),
 tc_matrix (*tc_Kmat)(),
-tc_matrix (*gaoptim)(const char *)
+tc_matrix (*gaoptim)(const char *),
+void (*update)(tc_matrix)
 );
 
 END_C_DECLS

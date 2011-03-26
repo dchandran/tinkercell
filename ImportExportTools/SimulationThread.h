@@ -79,6 +79,12 @@ namespace Tinkercell
 		/*! \brief Updates the COPASI model using the updateModel(QList<ItemHandle*>) function*/
 		void updateModel();
 		
+		/*! \brief Updates the COPASI model parameters */
+		void updateModelParameters(tc_matrix params);
+		
+		/*! \brief Updates the COPASI model parameters */
+		void updateModelParameters(const NumericalDataTable & params);
+		
 		/*! \brief Updates the COPASI model using the list of handles provided
 		* \param QList<ItemHandle*> all items in the model
 		*/

@@ -16,6 +16,18 @@ SimulationThread::~SimulationThread()
 	model.qHash = 0;
 }
 
+void SimulationThread::updateModelParameters(tc_matrix params)
+{
+	for (int i=0; i < params.rows; ++i)
+		cSetGlobalParameter(model, tc_getRowName(params,i), tc_getMatrixValue(params,i,0));
+}
+
+void SimulationThread::updateModelParameters(const NumericalDataTable & params)
+{
+	for (int i=0; i < params.rows(); ++i)
+		cSetGlobalParameter(model, params.rowName(i).toUtf8().data(), params.at(i,0));
+}
+
 void SimulationThread::updateModel(QList<ItemHandle*> & handles)
 {
 	updateModel(handles, model, optimizationParameters);

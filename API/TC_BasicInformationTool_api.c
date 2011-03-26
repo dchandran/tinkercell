@@ -1,5 +1,6 @@
 #include "TC_BasicInformationTool_api.h"
 #include "TC_Main_api.h"
+#include "TC_COPASI_api.h"
 
 tc_matrix (*_tc_getParameters)(tc_items) = 0;
 /*! 
@@ -159,9 +160,12 @@ TCAPIEXPORT void tc_setTextAttributes(tc_table t)
 	tc_setTextValues(t);
 }
 
-TCAPIEXPORT void tc_setParameters(tc_matrix t)
+TCAPIEXPORT void tc_setParameters(tc_matrix t, int permanent)
 {
-	tc_setNumericalValues(t);
+	if (permanent > 0)
+		tc_setNumericalValues(t);
+	else
+		tc_updateParameters(t);
 }
 
 

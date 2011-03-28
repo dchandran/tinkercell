@@ -39,7 +39,7 @@ namespace Tinkercell
 		void setupFunctionPointers(QLibrary * library);
 		void historyChanged(int);/*! \brief make the window transparent when mouse exits the window*/
 		void windowChanged(NetworkWindow*,NetworkWindow*);
-		void getHandles( QSemaphore*, QList<ItemHandle*>*, bool * changed);
+		void getHandles( const SimulationThread *, QSemaphore*, QList<ItemHandle*>*, bool * changed);
 		
 		void getEig();
 		void getJac();
@@ -58,7 +58,7 @@ namespace Tinkercell
 		void optimize();
 
 	private:
-		bool modelNeedsUpdate;
+		QHash<const SimulationThread*, bool> updatedThreads;
 		
 		SimulationDialog * simDialog;
 		static SimulationThread * odeThread;

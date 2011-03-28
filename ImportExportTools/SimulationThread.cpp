@@ -16,12 +16,6 @@ SimulationThread::~SimulationThread()
 	model.qHash = 0;
 }
 
-void SimulationThread::updateModelParameters(tc_matrix params)
-{
-	for (int i=0; i < params.rows; ++i)
-		cSetGlobalParameter(model, tc_getRowName(params,i), tc_getMatrixValue(params,i,0));
-}
-
 void SimulationThread::updateModelParameters(const NumericalDataTable & params)
 {
 	for (int i=0; i < params.rows(); ++i)
@@ -304,17 +298,21 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles, copasi_model & 
 
 void SimulationThread::updateModel()
 {
-	QSemaphore sem(1);
+	QSemaphore * sem = new QSemaphore(1);
 	bool changed = true;
 	QList<ItemHandle*> handles;
-	argMatrix.resize(0,0);
-	sem.acquire();
-	emit getHandles( &sem, &handles, &changed);
-	sem.acquire();
-	sem.release();
+	sem->acquire();
+	emit getHandles( this, sem, &handles, &changed);
+	sem->acquire();
+	sem->release();
 
 	if (changed)
+	{
+		argMatrix.resize(0,0);
 		updateModel(handles,this->model, optimizationParameters);
+	}
+	
+	delete sem;
 }
 
 SimulationThread::SimulationThread(MainWindow * parent) : CThread(parent)
@@ -648,7 +646,7 @@ void SimulationThread::run()
 			break;
 	}
 	
-	if (plot)
+	if (plot && !semaphore)
 	{
 		NumericalDataTable * dat = ConvertValue(resultMatrix);
 		emit graph(*dat, plotTitle, x, plotType);
@@ -677,10 +675,10 @@ SimulationDialog::SimulationDialog(MainWindow * parent) : QDialog(parent)
 	simStart->setSingleStep(0.1);
 
 	simEnd = new QDoubleSpinBox;
-	simEnd->setValue(100.0);
 	simEnd->setRange(0.0,1.0E5);
 	simEnd->setDecimals(5);
 	simEnd->setSingleStep(0.1);
+	simEnd->setValue(100.0);
 
 	param1Start = new QDoubleSpinBox;
 	param1Start->setValue(0.0);
@@ -794,7 +792,10 @@ void SimulationDialog::setThread(SimulationThread * t)
 void SimulationDialog::setMethod(SimulationThread::AnalysisMethod method)
 {
 	if (thread)
+	{
 		thread->setMethod(method);
+		thread->setSemaphore(0);
+	}
 	
 	if (	method == SimulationThread::DeterministicSimulation ||
 			method == SimulationThread::StochasticSimulation ||
@@ -862,6 +863,7 @@ void SimulationDialog::run()
 	thread->numPoints = numPoints1->value();
 	thread->plot = true;
 	thread->scanItems.clear();
+	thread->setSemaphore(0);
 	
 	if (param1Box->isVisible())
 	{
@@ -950,8 +952,6 @@ void SimulationDialog::enterEvent ( QEvent * event )
 		sliderValues(i+r,0) = handles2[i]->numericalData(tr("Initial value"));
 		handleNames += handles2[i]->fullName(tr("_"));
 	}
-	
-	
 	
 	if (param1Box->isVisible())
 	{

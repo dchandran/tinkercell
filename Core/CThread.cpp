@@ -114,48 +114,64 @@ namespace Tinkercell
 
 	typedef void (*MatrixFunction)(tc_matrix);
 
-	void CThread::setFunction( void (*f)(void) )
+	void CThread::setFunction( void (*f)(void) , QSemaphore * sem)
 	{
 		f1 = f;
+		if (sem)
+			sem->release();
 	}
 
-	void CThread::setVoidFunction( const char* f)
+	void CThread::setVoidFunction( const char* f, QSemaphore * sem)
 	{
 		if (!lib) return;
 		f1 = (VoidFunction)lib->resolve(f);
+		if (sem)
+			sem->release();
 	}
 
-	void CThread::setFunction( void (*f)(double) )
+	void CThread::setFunction( void (*f)(double) , QSemaphore * sem)
 	{
 		f2 = f;
+		if (sem)
+			sem->release();
 	}
 
-	void CThread::setDoubleFunction(const char* f)
+	void CThread::setDoubleFunction(const char* f, QSemaphore * sem)
 	{
 		if (!lib) return;
 		f2 = (DoubleFunction)lib->resolve(f);
+		if (sem)
+			sem->release();
 	}
 
-	void CThread::setFunction( void (*f)(const char*) )
+	void CThread::setFunction( void (*f)(const char*) , QSemaphore * sem)
 	{
 		f3 = f;
+		if (sem)
+			sem->release();
 	}
 
-	void CThread::setCharFunction( const char* f )
+	void CThread::setCharFunction( const char* f , QSemaphore * sem)
 	{
 		if (!lib) return;
 		f3 = (CharFunction)lib->resolve(f);
+		if (sem)
+			sem->release();
 	}
 
-	void CThread::setFunction( void (*f)(tc_matrix) )
+	void CThread::setFunction( void (*f)(tc_matrix) , QSemaphore * sem)
 	{
 		f4 = f;
+		if (sem)
+			sem->release();
 	}
 
-	void CThread::setMatrixFunction( const char* f )
+	void CThread::setMatrixFunction( const char* f , QSemaphore * sem)
 	{
 		if (!lib) return;
 		f4 = (MatrixFunction)lib->resolve(f);
+		if (sem)
+			sem->release();
 	}
 
 	typedef void (*cthread_api_initialize)(
@@ -251,27 +267,31 @@ namespace Tinkercell
 		}
 	}
 
-	void CThread::setArg(double d)
+	void CThread::setArg(double d, QSemaphore * sem)
 	{
 		argDouble = d;
+		if (sem)
+			sem->release();
 	}
 
-	void CThread::setArg(const QString& s)
+	void CThread::setArg(const QString& s, QSemaphore * sem)
 	{
 		argString = s;
+		if (sem)
+			sem->release();
 	}
 
-	void CThread::setArg(const DataTable<qreal>& dat)
+	void CThread::setArg(const DataTable<qreal>& dat, QSemaphore * sem)
 	{
 		argMatrix = dat;
+		if (sem)
+			sem->release();
 	}
 
 	void CThread::cleanupAfterTerminated()
 	{
 		if (autoUnloadLibrary)
-		{
 			unload();
-		}
 	}
 	
 	void CThread::update()

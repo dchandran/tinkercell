@@ -67,7 +67,7 @@ namespace Tinkercell
 		
 	public slots:
 	
-		/*! \brief uload the C library*/
+		/*! \brief unload the C library*/
 		virtual void unload();
 		/*!
 		* \brief call the callback function, if one exists
@@ -113,42 +113,42 @@ namespace Tinkercell
 		* \brief set the function to run inside this threads
 		* \param void function pointer
 		*/
-		virtual void setFunction( void (*f)(void) );
+		virtual void setFunction( void (*f)(void), QSemaphore * sem=0);
 		/*!
 		* \brief set the function to run inside this threads
 		* \param void function pointer
 		*/
-		virtual void setFunction( void (*f)(double) );
+		virtual void setFunction( void (*f)(double), QSemaphore * sem=0 );
 		/*!
 		* \brief set the function to run inside this threads
 		* \param void function pointer
 		*/
-		virtual void setFunction( void (*f)(const char*) );
+		virtual void setFunction( void (*f)(const char*), QSemaphore * sem=0 );
 		/*!
 		* \brief set the function to run inside this threads
 		* \param void function pointer
 		*/
-		virtual void setFunction( void (*f)(tc_matrix) );
+		virtual void setFunction( void (*f)(tc_matrix), QSemaphore * sem=0 );
 		/*!
 		* \brief set the function to run inside this threads
 		* \param void name of the function inside the library that has been loaded in this thread.
 		*/
-		virtual void setVoidFunction(const char*);
+		virtual void setVoidFunction(const char*, QSemaphore * sem=0);
 		/*!
 		* \brief set the function to run inside this threads
 		* \param void name of the function inside the library that has been loaded in this thread.
 		*/
-		virtual void setDoubleFunction(const char*);
+		virtual void setDoubleFunction(const char*, QSemaphore * sem=0);
 		/*!
 		* \brief set the function to run inside this threads
 		* \param void name of the function inside the library that has been loaded in this thread.
 		*/
-		virtual void setCharFunction(const char*);
+		virtual void setCharFunction(const char*, QSemaphore * sem=0);
 		/*!
 		* \brief set the function to run inside this threads
 		* \param void name of the function inside the library that has been loaded in this thread.
 		*/
-		virtual void setMatrixFunction(const char*);
+		virtual void setMatrixFunction(const char*, QSemaphore * sem=0);
 		/*!
 		* \brief set the dynamic library for this threads. 
 		The library will be loaded if it has not already been loaded
@@ -180,17 +180,17 @@ namespace Tinkercell
 		* \brief set the argument for the target function
 		* \param double
 		*/
-		virtual void setArg(double);
+		virtual void setArg(double, QSemaphore * sem=0);
 		/*!
 		* \brief set the argument for the target function
 		* \param QString
 		*/
-		virtual void setArg(const QString&);
+		virtual void setArg(const QString&, QSemaphore * sem=0);
 		/*!
 		* \brief set the argument for the target function
 		* \param DataTable
 		*/
-		virtual void setArg(const DataTable<qreal>&);
+		virtual void setArg(const DataTable<qreal>&, QSemaphore * sem=0);
 		/*!
 		* \brief main window
 		*/

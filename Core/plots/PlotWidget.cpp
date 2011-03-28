@@ -46,7 +46,7 @@ namespace Tinkercell
 	
 	void PlotWidget::exportData(const QString & type, const QString&)
 	{
-		QString output = dataToString();
+		QString output = dataToString("\t");
 		
 		if (type.toLower() == tr("clipboard"))
 		{
@@ -72,46 +72,15 @@ namespace Tinkercell
 			if (data()) 
 			{
 				table = *data();
-				QString filename = MainWindow::tempDir() + tr("/plot.tab");
+				QString filename = MainWindow::tempDir() + tr("/plot.csv");
 				QFile file(filename);
 				if (file.open(QFile::WriteOnly | QFile::Text))
 				{
 					QTextStream out(&file);
-				
-					out << "#";
-					for (int i=0; i < table.columns(); ++i)
-						out << "\t" << table.columnName(i);
-					out << "\n";
-					for (int i=0; i < table.rows(); ++i)
-					{
-						if (!table.rowName(i).isEmpty())
-							out << table.rowName(i) << "\t";
-						for (int j=0; j < table.columns(); ++j)
-							if (j > 0)
-								out << "\t" << table(i,j);
-							else
-								out << table(i,j);
-						out << "\n";
-					}
-				
+					out << dataToString(",");
 					file.close();
-		
-				
 					QDesktopServices::openUrl(QUrl(filename));
 				}
-				/*
-				bool b;
-				if (plotTool->keepOldPlots)
-				{
-					b = plotTool->keepOldPlots->isChecked();
-					plotTool->keepOldPlots->setChecked(true);
-				}
-				plotTool->addWidget(new PlotTextWidget(table,plotTool,output));
-				if (plotTool->keepOldPlots)
-				{
-					plotTool->keepOldPlots->setChecked(b);
-				}
-				*/
 			}
 			
 		}
@@ -142,12 +111,13 @@ namespace Tinkercell
 					break;
 				}
 		
+			output += tr("#");
 			for (int i=0; i < colnames.size(); ++i)
 			{
 				if (i == 0 && !printRows)
 					output += colnames.at(i);
 				else
-					output += tr("\t") + colnames.at(i);
+					output += delim + colnames.at(i);
 			}
 			
 			output += tr("\n");
@@ -156,7 +126,7 @@ namespace Tinkercell
 			{
 				if (printRows)
 				{
-					output += rownames.at(i) + tr("\t");
+					output += rownames.at(i) + delim;
 				}
 			
 				for (int j=0; j < table.columns(); ++j)
@@ -164,7 +134,7 @@ namespace Tinkercell
 					if (j == 0)
 						output += QString::number(table.at(i,j));
 					else
-						output += tr("\t") + QString::number(table.at(i,j));
+						output += delim + QString::number(table.at(i,j));
 				}
 			
 				output += tr("\n");

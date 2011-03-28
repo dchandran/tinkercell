@@ -80,9 +80,6 @@ namespace Tinkercell
 		void updateModel();
 		
 		/*! \brief Updates the COPASI model parameters */
-		void updateModelParameters(tc_matrix params);
-		
-		/*! \brief Updates the COPASI model parameters */
 		void updateModelParameters(const NumericalDataTable & params);
 		
 		/*! \brief Updates the COPASI model using the list of handles provided
@@ -137,11 +134,12 @@ namespace Tinkercell
 	
 	signals:
 		/*! \brief get the item handles in the model
+		* \param SimulationThread * this thread
 		* \param QSemaphore * semaphore that should be released by the thread recieving this signal
 		* \param QList<ItemHandle> reference to list of handles
 		* \param bool receiving thread should set this to true is any changes to the model is made
 		*/
-		void getHandles( QSemaphore*, QList<ItemHandle*>*, bool * changed);
+		void getHandles( const SimulationThread *, QSemaphore*, QList<ItemHandle*>*, bool * changed);
 		/*! \brief graph the results matrix. This signal is connected to the PlotTool's slot
 		*/
 		void graph(const DataTable<qreal>&,const QString& title,int xaxis, PlotTool::PlotType type);

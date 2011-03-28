@@ -1,15 +1,15 @@
-import scipy
 from numpy import *
 from tinkercell import *
 from tc2py import *
 import numpy.random
+import numpy.linalg
 
 def mvnrand(mu, sigma, n):
     p = len(mu)
     x = ndarray((n,p))
     for i in range(0,p):
         x[:,i] = numpy.random.normal(0,1,n)
-    e,v = scipy.linalg.eig(sigma)
+    e,v = numpy.linalg.eig(sigma)
     x2 = x * ( diag( sqrt(e) ) * v.T )
     for i in range(0,p):
         x2[:,i] += mu[i]

@@ -6,9 +6,9 @@
             <colorDefinition id="shape0color" value="#ffffff" alpha="255"/>
         </listOfColorDefinitions>
         <listOfStyles>
-            <style idList="rectangle" width="30" height="30">
+            <style idList="rectangle" width="200" height="50">
                 <g>
-                    <rectangle x="0%" y="0%" width="100" height="100" rx="10" ry="10" fill="shape0color" stroke="#3f3f43" stroke-width="13" stroke-alpha="1"/>
+                    <rectangle x="0%" y="0%" width="100" height="100" rx="10" ry="10" fill="shape0color" stroke="#3f3f43" stroke-width="3" stroke-alpha="1"/>
                 </g>
             </style>
         </listOfStyles>

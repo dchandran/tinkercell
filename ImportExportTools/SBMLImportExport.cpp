@@ -127,6 +127,7 @@ void SBMLImportExport::saveSBMLFile()
 	if (file.isNull() || file.isEmpty()) return;
 	
 	exportSBML(0, file);
+	QDesktopServices::openUrl(QUrl(file));
 }
 
 void SBMLImportExport::historyChanged(int)
@@ -201,7 +202,6 @@ void SBMLImportExport::exportSBML(QSemaphore * sem, const QString & str)
 			file.write(antimony.toUtf8());
 			file.close();
 		}
-		QDesktopServices::openUrl(QUrl(str));
 	}
 	if (sem)
 		sem->release();

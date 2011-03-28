@@ -230,6 +230,7 @@ namespace Tinkercell
 					 {
 					 	   for (int i=0; i < node->graphicsItems.size(); ++i)
 		                     	delete node->graphicsItems[i];
+		                   node->graphicsItems.clear();
 						   for (int i=0; i < parentNode->graphicsItems.size(); ++i)
 						        if (NodeGraphicsItem::topLevelNodeItem(parentNode->graphicsItems[i]))
 						             node->graphicsItems += (NodeGraphicsItem::topLevelNodeItem(parentNode->graphicsItems[i]))->clone();

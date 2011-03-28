@@ -10,9 +10,7 @@ def mvnrand(mu, sigma, n):
     for i in range(0,p):
         x[:,i] = numpy.random.normal(0,1,n)
     e,v = numpy.linalg.eig(sigma)
-    x2 = x * ( diag( sqrt(e) ) * v.T )
-    for i in range(0,p):
-        x2[:,i] += mu[i]
+    x2 = x * ( v.T )
     return x2
     
 #Takes an objective function along with an intial guess of the distribution of parameters and returns the final

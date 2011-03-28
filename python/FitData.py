@@ -40,9 +40,6 @@ def leastSquares():
         if j > -1:
             for k in range(0,sim.rows):
                 total += (tc_getMatrixValue(sim,k,i) - trueData[k,j])**2
-                s += str(tc_getMatrixValue(sim,k,i)) + " - " + str(trueData[k,j]) + "\n"
-
-    tc_print(s)
     total /= (sim.rows * n)
     return sqrt(total)
 
@@ -56,7 +53,7 @@ if len(fname) > 0:
     trueData = genfromtxt(fname, type(0.0), comments='#', delimiter=',')
     numpts = len(trueData) - 1     #rows
     time = trueData[ numpts, 0 ]  #last time point
-    res = OptimizeParameters(leastSquares, "Data fitting", 100, 10)
+    res = OptimizeParameters(leastSquares, "Data fitting", 100, 100)
     mu = res[0]
     sigma2 = res[1]
     paramnames = res[2]

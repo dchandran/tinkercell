@@ -8,7 +8,7 @@ def mvnrand(mu, sigma, n):
     p = len(mu)
     x = ndarray((n,p))
     for i in range(0,p):
-        x[:,i] = normal(0,1,n)
+        x[:,i] = numpy.random.normal(0,1,n)
     e,v = scipy.linalg.eig(sigma)
     x2 = x * ( diag( sqrt(e) ) * v.T )
     for i in range(0,p):

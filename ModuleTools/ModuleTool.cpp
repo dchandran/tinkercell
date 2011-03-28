@@ -28,6 +28,7 @@
 
 namespace Tinkercell
 {
+	#define WINDOW_WIDTH 200
 	static QString linkerFileName(":/images/moduleLinker.xml");
 	static QString interfaceFileName(":/images/moduleInterface.xml");
 	static QString moduleFileName(":/images/Module.xml");
@@ -250,7 +251,7 @@ namespace Tinkercell
 					GraphicsScene * newScene = window->newScene();
 					newScene->insert(tr("new model"),items);
 					//newScene->fitAll();
-					QPixmap printer(256, 256);
+					QPixmap printer(WINDOW_WIDTH, WINDOW_WIDTH);
 					printer.fill();
 					newScene->print(&printer);
 					moduleSnapshots[parentHandle] = printer;
@@ -399,10 +400,11 @@ namespace Tinkercell
 			
 			//module snapshot window
 			snapshotToolTip = new QDialog(mainWindow);
+			//snapshotToolTip->setWindowFlags(Qt::Dialog | Qt::FramelessWindowHint);
 			snapshotToolTip->setPalette(QPalette(Qt::white));
-			snapshotToolTip->setFixedSize(256,256);
+			snapshotToolTip->setFixedSize(WINDOW_WIDTH,WINDOW_WIDTH);
 			QRect rect = mainWindow->geometry();
-			snapshotToolTip->setGeometry (rect.right() - 280, rect.bottom() - 280, 256, 256 );
+			snapshotToolTip->setGeometry (rect.right() - WINDOW_WIDTH, rect.bottom() - WINDOW_WIDTH, WINDOW_WIDTH, WINDOW_WIDTH );
 			QHBoxLayout * layout = new QHBoxLayout;
 			layout->setContentsMargins(1,1,1,1);
 			snapshotIcon = new QToolButton;
@@ -1226,9 +1228,9 @@ namespace Tinkercell
 				if (!snapshotToolTip->isVisible())
 				{
 					QRect rect = scene->mapToWidget( hoverOverItem->sceneBoundingRect() );
-					snapshotToolTip->setGeometry (rect.right(), rect.top(), 256, 256 );
+					snapshotToolTip->setGeometry (rect.right(), rect.top(), WINDOW_WIDTH, WINDOW_WIDTH );
 					snapshotIcon->setIcon(QIcon(moduleSnapshots[ch]));
-					snapshotIcon->setIconSize(QSize(256,256));
+					snapshotIcon->setIconSize(QSize(WINDOW_WIDTH,WINDOW_WIDTH));
 					snapshotToolTip->show();
 					snapshotToolTip->raise();
 				}
@@ -1586,7 +1588,7 @@ namespace Tinkercell
 							window->handle = chandle;	
 						}
 						newScene->insert(chandle->name + tr(" visible"),items);
-						QPixmap printer(256, 256);
+						QPixmap printer(WINDOW_WIDTH, WINDOW_WIDTH);
 						printer.fill();
 						newScene->print(&printer);
 						moduleSnapshots[chandle] = printer;

@@ -32,7 +32,9 @@ Assignments are parameters that are defined as a function, eg. k1 = sin(time) + 
 
 namespace Tinkercell
 {
+	#define WINDOW_WIDTH 200
 	QString AssignmentFunctionsTool::Self("self");
+	
 	void AssignmentFunctionsTool::select(int)
 	{
 		NetworkHandle * net = currentNetwork();
@@ -96,9 +98,9 @@ namespace Tinkercell
 			//module snapshot window
 			snapshotToolTip = new QDialog(mainWindow);
 			snapshotToolTip->setPalette(QPalette(Qt::black));
-			snapshotToolTip->setFixedSize(256,256);
+			snapshotToolTip->setFixedSize(WINDOW_WIDTH,WINDOW_WIDTH);
 			QRect rect = mainWindow->geometry();
-			snapshotToolTip->setGeometry (rect.right() - 280, rect.bottom() - 280, 256, 256 );
+			snapshotToolTip->setGeometry (rect.right() - WINDOW_WIDTH, rect.bottom() - WINDOW_WIDTH, WINDOW_WIDTH, WINDOW_WIDTH );
 			QHBoxLayout * layout = new QHBoxLayout;
 			layout->setContentsMargins(1,1,1,1);
 			snapshotIcon = new QToolButton;
@@ -138,7 +140,7 @@ namespace Tinkercell
 					
 					if (!s.isEmpty() && !functionSnapshots.contains(s))
 					{
-						QPixmap printer(256, 256);
+						QPixmap printer(WINDOW_WIDTH, WINDOW_WIDTH);
 						printer.fill();
 						graphWidget->setFormula(s,scene->network);
 						graphWidget->setYLabel(h->name);
@@ -149,9 +151,9 @@ namespace Tinkercell
 					if (!s.isEmpty() && functionSnapshots.contains(s) && !snapshotToolTip->isVisible())
 					{
 						QRect rect = scene->mapToWidget( hoverOverItem->sceneBoundingRect() );
-						snapshotToolTip->setGeometry (rect.right(), rect.top(), 256, 256 );
+						snapshotToolTip->setGeometry (rect.right(), rect.top(), WINDOW_WIDTH, WINDOW_WIDTH );
 						snapshotIcon->setIcon(QIcon(functionSnapshots[s]));
-						snapshotIcon->setIconSize(QSize(256,256));
+						snapshotIcon->setIconSize(QSize(WINDOW_WIDTH,WINDOW_WIDTH));
 						snapshotToolTip->show();
 						snapshotToolTip->raise();
 					}

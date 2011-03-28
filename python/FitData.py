@@ -60,7 +60,7 @@ if len(fname) > 0:
     mu = res[0]
     sigma2 = res[1]
     paramnames = res[2]
-    X = numpy.random.multivariate_normal(mu,sigma2,100)
+    X = mvnrand(mu,sigma2,100)
     n = len(mu)
     params = tc_createMatrix(n, 1)
     m = tc_createMatrix(100, n)

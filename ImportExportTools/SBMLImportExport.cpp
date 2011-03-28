@@ -1,4 +1,5 @@
 #include <iostream>
+#include <QDesktopServices>
 #include <QFileDialog>
 #include "sbml/SBMLReader.h"
 #include "sbml/SBMLWriter.h"
@@ -15,6 +16,8 @@
 #include "NodesTree.h"
 #include "ConnectionsTree.h"
 #include "ConsoleWindow.h"
+#include "SimulationThread.h"
+#include "AntimonyEditor.h"
 
 using namespace Tinkercell;
 using namespace std;
@@ -174,11 +177,32 @@ void SBMLImportExport_FtoS::importSBMLString(const char* c)
 
 void SBMLImportExport::exportSBML(QSemaphore * sem, const QString & str)
 {
-	if (modelNeedsUpdate)
+	/*if (modelNeedsUpdate)
 		updateSBMLModel();
 
 	if (sbmlDocument)
-		writeSBML (sbmlDocument, ConvertValue(str) );
+		writeSBML (sbmlDocument, ConvertValue(str) );*/
+	if (currentNetwork())
+	{
+		QList<ItemHandle*> handles = currentNetwork()->handles();
+		/*copasi_model model;
+		model.CopasiModelPtr = 0;
+		model.CopasiDataModelPtr = 0;
+		model.qHash = 0;
+		NumericalDataTable table;
+		SimulationThread::updateModel(handles, model, table);		
+		cWriteSBMLFile(model, str.toAscii().data());		
+		cRemoveModel(model);*/
+		
+		QString antimony = AntimonyEditor::getAntimonyScript(handles);
+		QFile file(str);
+		if (file.open(QFile::WriteOnly | QFile::Text))
+		{
+			file.write(antimony.toUtf8());
+			file.close();
+		}
+		QDesktopServices::openUrl(QUrl(str));
+	}
 	if (sem)
 		sem->release();
 }

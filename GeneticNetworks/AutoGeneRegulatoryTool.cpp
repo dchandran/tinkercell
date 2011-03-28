@@ -1158,6 +1158,7 @@ namespace Tinkercell
 				parts.push_front(handle);
 
 			while (!upstream.isEmpty())
+
 			{
 				parts.push_front(upstream.first());
 				upstream.pop_front();
@@ -1659,7 +1660,7 @@ namespace Tinkercell
 		for (int i=0; i < items.size(); ++i)
 		{
 			handle = getHandle(items[i]);
-			if (handle && handle->isA(family) && handle->children.isEmpty() &&
+			if (handle && handle->isA(family) && //handle->children.isEmpty() &&
 				( (flipped && items[i]->transform().m11() < 0) || (!flipped && items[i]->transform().m11() > 0) ))
 				break;
 			else
@@ -1677,7 +1678,7 @@ namespace Tinkercell
 					{
 						QList<NodeGraphicsItem*> connectedNodes = connections[j]->nodesWithoutArrows();
 						if (connectedNodes.size() > 0 && connectedNodes[0] && (h = connectedNodes[0]->handle())
-							&& h->isA(family) && h->children.isEmpty() && !visited.contains(connectedNodes[0])
+							&& h->isA(family) && /*h->children.isEmpty() &&*/ !visited.contains(connectedNodes[0])
 							&& (!stopIfElongation
 								|| !connections[j]->handle()->hasNumericalData(tr("Product stoichiometries"))
 								|| connections[j]->handle()->numericalDataTable(tr("Product stoichiometries")).rows() < 1)
@@ -1700,7 +1701,7 @@ namespace Tinkercell
 					{
 						QList<NodeGraphicsItem*> connectedNodes = connections[j]->nodesWithArrows();
 						if (connectedNodes.size() > 0 && connectedNodes[0] && (h = connectedNodes[0]->handle())
-							&& h->isA(family) && h->children.isEmpty() && !visited.contains(connectedNodes[0])
+							&& h->isA(family) && /*h->children.isEmpty() &&*/ !visited.contains(connectedNodes[0])
 							&& (!stopIfElongation
 								|| !connections[j]->handle()->hasNumericalData(tr("Product stoichiometries"))
 								|| connections[j]->handle()->numericalDataTable(tr("Product stoichiometries")).rows() < 1)
@@ -1763,7 +1764,7 @@ namespace Tinkercell
 					{
 						h = node->handle();
 
-						if (!h || !h->isA(family) || !h->children.isEmpty()) continue;
+						if (!h || !h->isA(family)/* || !h->children.isEmpty()*/) continue;
 
 						if ((flipped && (node->transform().m11() > 0)) ||
 							(!flipped && (node->transform().m11() < 0))) continue; //wrong orientation
@@ -1794,7 +1795,7 @@ namespace Tinkercell
 							{
 								QList<NodeGraphicsItem*> connectedNodes = connections[j]->nodesWithoutArrows();
 								if (connectedNodes.size() > 0 && connectedNodes[0] && (h = connectedNodes[0]->handle())
-									&& h->isA(family) && h->children.isEmpty() &&!visited.contains(connectedNodes[0]))
+									&& h->isA(family) && /*h->children.isEmpty() &&*/ !visited.contains(connectedNodes[0]))
 									{
 										visited << connectedNodes[0];
 										handles << h;
@@ -1814,7 +1815,7 @@ namespace Tinkercell
 							{
 								QList<NodeGraphicsItem*> connectedNodes = connections[j]->nodesWithArrows();
 								if (connectedNodes.size() > 0 && connectedNodes[0] && (h = connectedNodes[0]->handle())
-									&& h->isA(family) && h->children.isEmpty() && !visited.contains(connectedNodes[0]))
+									&& h->isA(family) && /*h->children.isEmpty() &&*/ !visited.contains(connectedNodes[0]))
 									{
 										visited << connectedNodes[0];
 										handles << h;

@@ -206,53 +206,44 @@ namespace Tinkercell
 			   if (!QFile::exists(iconFile) && QFile::exists(appDir + QString("/") + iconFile))
 			   		iconFile = appDir + QString("/") + iconFile;
 
-               if (node->graphicsItems.isEmpty())
-               {
-               		QString nodeImageFile = tree->nodeImageFile(node->name()); 
+               QString nodeImageFile = tree->nodeImageFile(node->name()); 
 
-               		if (!QFile::exists(nodeImageFile) && QFile::exists(homeDir + QString("/") + nodeImageFile))
-						nodeImageFile = homeDir + QString("/") + nodeImageFile;
-				    else
-				    if (!QFile::exists(nodeImageFile) && QFile::exists(appDir + QString("/") + nodeImageFile))
-						nodeImageFile = appDir + QString("/") + nodeImageFile;
+           		if (!QFile::exists(nodeImageFile) && QFile::exists(homeDir + QString("/") + nodeImageFile))
+					nodeImageFile = homeDir + QString("/") + nodeImageFile;
+			    else
+			    if (!QFile::exists(nodeImageFile) && QFile::exists(appDir + QString("/") + nodeImageFile))
+					nodeImageFile = appDir + QString("/") + nodeImageFile;
 
-                    NodeGraphicsReader imageReader;
-                    NodeGraphicsItem * nodeitem = new NodeGraphicsItem;
-                    imageReader.readXml(nodeitem,nodeImageFile);
-                    if (nodeitem && nodeitem->isValid())
-                    {
-                         nodeitem->normalize();
-                         node->graphicsItems += nodeitem;
-                    }
-                    else
-                    {
-                         if (nodeitem) delete nodeitem;
-                    }
-               }
+                NodeGraphicsReader imageReader;
+                NodeGraphicsItem * nodeitem = new NodeGraphicsItem;
+                imageReader.readXml(nodeitem,nodeImageFile);
+                if (nodeitem && nodeitem->isValid())
+                {
+                     nodeitem->normalize();
+                     node->graphicsItems += nodeitem;
+                }
+                else
+                {
+                     if (nodeitem) delete nodeitem;
+                     
+                     if (parentNode)
+					 {
+					 	   for (int i=0; i < node->graphicsItems.size(); ++i)
+		                     	delete node->graphicsItems[i];
+						   for (int i=0; i < parentNode->graphicsItems.size(); ++i)
+						        if (NodeGraphicsItem::topLevelNodeItem(parentNode->graphicsItems[i]))
+						             node->graphicsItems += (NodeGraphicsItem::topLevelNodeItem(parentNode->graphicsItems[i]))->clone();
+					 }
+                }
+               
+               
+               
                //set icon
-
                if (node->pixmap.load(iconFile))
                     node->pixmap.setMask(node->pixmap.createMaskFromColor(QColor(255,255,255)));
                else
                     if (parentNode)
                          node->pixmap = parentNode->pixmap;
-
-               //get pixmap from node file -- doesn't work
-               /*
-               if (nodeitem && nodeitem->isValid())
-               {
-                    QPixmap pixmap(50, 50);
-                    pixmap.fill(Qt::transparent);
-
-                    QPainter painter(&pixmap);
-                    painter.translate(25, 25);
-                    nodeitem->scale( 25.0/nodeitem->boundingRect().width(), 25.0/nodeitem->boundingRect().height() );
-
-                    painter.setRenderHint(QPainter::Antialiasing);
-                    nodeitem->paint(&painter);
-                    node->pixmap = pixmap;
-               }
-               */
 
                if (parentNode)
                     node->setParent(parentNode);
@@ -290,35 +281,10 @@ namespace Tinkercell
                               childNode = readNode(tree, node);
                               treeItem->addChild(childNode.second);
                          }
-                         /*else
-                             if (name().toString().toLower() == QObject::tr("subnode"))
-                              {
-                              text = readElementText();
-                              compositeNodes += QPair<NodeFamily*,QString>(node,text);
-                              isComposite = true;
-                         }*/
                     }
                     readNext();
                }
                readNext();
-          }
-
-          /*if (isComposite)
-          {
-               if (node != 0 && node->graphicsItems.size() > 0)
-               {
-                    for (int i=0; i < node->graphicsItems.size(); ++i)
-                         if (node->graphicsItems[i])
-                              delete node->graphicsItems[i];
-                    node->graphicsItems.clear();
-               }
-          }
-          else //if no image file, same as parent's image*/
-          if (node != 0 && node->graphicsItems.isEmpty() && parentNode)
-          {
-               for (int i=0; i < parentNode->graphicsItems.size(); ++i)
-                    if (NodeGraphicsItem::topLevelNodeItem(parentNode->graphicsItems[i]))
-                         node->graphicsItems += (NodeGraphicsItem::topLevelNodeItem(parentNode->graphicsItems[i]))->clone();
           }
 
           return QPair<NodeFamily*,QTreeWidgetItem*>(node,treeItem);

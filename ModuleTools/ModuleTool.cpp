@@ -250,7 +250,6 @@ namespace Tinkercell
 				{
 					GraphicsScene * newScene = window->newScene();
 					newScene->insert(tr("new model"),items);
-					//newScene->fitAll();
 					QPixmap printer(WINDOW_WIDTH, WINDOW_WIDTH);
 					printer.fill();
 					newScene->print(&printer);
@@ -272,7 +271,6 @@ namespace Tinkercell
 				{
 					GraphicsScene * scene = window->newScene();
 					scene->insert(tr("new model"),items);
-					//scene->fitAll();
 				}
 				else
 				{
@@ -1394,6 +1392,8 @@ namespace Tinkercell
 				ItemHandle * parentHandle = window->handle;
 				
 				substituteModel(parentHandle, filename, window);
+				if (currentScene())
+					currentScene()->fitAll();
 			}
 		}
 	}

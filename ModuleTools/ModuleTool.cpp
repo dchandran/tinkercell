@@ -1211,14 +1211,11 @@ namespace Tinkercell
     {
 		if (mainWindow && scene && scene->useDefaultBehavior && hoverOverItem && !TextGraphicsItem::cast(hoverOverItem) && snapshotToolTip)
 		{
-			ItemHandle * h = getHandle(hoverOverItem);
-
-			if (!h)
-			{
-				ArrowHeadItem * arrowHead = ArrowHeadItem::cast(hoverOverItem);
-				if (arrowHead)
-					h = getHandle(arrowHead->connectionItem);
-			}
+			ItemHandle * h = 0;
+			ArrowHeadItem * arrowHead = ArrowHeadItem::cast(hoverOverItem);
+			if (arrowHead && arrowHead->connectionItem && 
+				arrowHead == arrowHead->connectionItem->centerRegionItem)
+				h = getHandle(arrowHead->connectionItem);
 
 			ConnectionHandle * ch;
 			if (h && (ch = ConnectionHandle::cast(h)) && moduleSnapshots.contains(ch))

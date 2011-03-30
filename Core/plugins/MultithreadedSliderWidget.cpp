@@ -423,9 +423,9 @@ namespace Tinkercell
 					else
 					if (!defaultDataTable.isNull() &&
 							!defaultDataTable.isEmpty() &&  
-							symbols.uniqueHandlesWithDot.contains(s))
+							symbols.uniqueHandlesWithUnderscore.contains(s))
 					{
-						ItemHandle * h = symbols.uniqueHandlesWithDot[s];
+						ItemHandle * h = symbols.uniqueHandlesWithUnderscore[s];
 						if (h->hasNumericalData(defaultDataTable))
 						{
 							oldTable = &(h->numericalDataTable(defaultDataTable));

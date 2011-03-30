@@ -14,9 +14,9 @@ print "    <qresource prefix=\"/images\" >\n";
 
 foreach my $file(@FILES)
 {
-	if ($file =~ /[A-Za-z0-9]\.[A-Za-z0-9]/ && $file !~ /~/ && $file !~ /.pl/)
+	if ($file =~ /[A-Za-z0-9]\.[A-Za-z0-9]/ && $file !~ /~/ && $file !~ /\.pl/)
 	{
-		print "        <file alias=\"$file\">$dir/$file</file>\n";
+		print "        <file alias=\"$file\">$dir$file</file>\n";
 	}
 }
 

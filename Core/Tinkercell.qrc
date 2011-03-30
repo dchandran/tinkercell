@@ -62,6 +62,7 @@
         <file alias="globe.png">../icons/globe.png</file>
         <file alias="verticalFlip.png">../icons/verticalFlip.png</file>
         <file alias="CMakeLists.txt">../icons/CMakeLists.txt</file>
+        <file alias="replace.png">../icons/replace.png</file>
         <file alias="sendBack.png">../icons/sendBack.png</file>
         <file alias="moduleInterface.xml">../icons/moduleInterface.xml</file>
         <file alias="curve.xml">../icons/curve.xml</file>
@@ -162,6 +163,7 @@
         <file alias="nodedges.png">../icons/nodedges.png</file>
         <file alias="moduleLinker.PNG">../icons/moduleLinker.PNG</file>
         <file alias="greenFlag.png">../icons/greenFlag.png</file>
+        <file alias="simplecircle.xml">../icons/simplecircle.xml</file>
         <file alias="image.png">../icons/image.png</file>
         <file alias="upArrow.png">../icons/upArrow.png</file>
         <file alias="pulseFunc.xml">../icons/pulseFunc.xml</file>
@@ -193,5 +195,6 @@
         <file alias="connection.png">../icons/connection.png</file>
         <file alias="open.png">../icons/open.png</file>
         <file alias="grid2.PNG">../icons/grid2.PNG</file>
+        <file alias="simplecircle.PNG">../icons/simplecircle.PNG</file>
     </qresource>
 </RCC>

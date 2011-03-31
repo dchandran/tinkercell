@@ -98,7 +98,7 @@ namespace Tinkercell
 		for (int i=0; i < handles.size(); ++i)
 			if (handles[i] &&
 				!handles[i]->name.isEmpty() && 
-				!handles[i]->parent && 
+				!ConnectionHandle::cast(handles[i]->parent) && 
 				handles[i]->family() &&
 				ConnectionHandle::cast(handles[i]) &&
 				handles[i]->hasTextData("Participants")
@@ -113,7 +113,15 @@ namespace Tinkercell
 			QString verb = words.last();
 			
 			QList<NodeHandle*> nodesIn = connectionHandles[i]->nodesIn(),
-											nodesOut = connectionHandles[i]->nodesOut();
+											nodesOut = connectionHandles[i]->nodesOut(),
+											nodes = connectionHandles[i]->nodes();
+			
+			for (int i=0; i < nodesOut.size(); ++i)
+				nodes.removeAll(nodesOut[i]);
+			for (int i=0; i < nodesIn.size(); ++i)
+				nodes.removeAll(nodesIn[i]);
+			
+			nodesIn += nodes;
 			
 			QStringList itemNames;
 			for (int i=0; i < participants.rows(); ++i)

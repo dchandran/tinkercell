@@ -924,7 +924,7 @@ void SimulationDialog::run()
 
 void SimulationDialog::historyChanged(int)
 {
-	if (sliderWidget && sliderWidget->visible())
+	if (sliderWidget && sliderWidget->isVisible())
 		this->run();
 }
 

@@ -197,6 +197,8 @@ namespace Tinkercell
 			void setMethod(SimulationThread::AnalysisMethod);
 			/*! \brief run the analysis*/
 			void run();
+			/*! \brief update thread*/
+			void historyChanged(int);
 		protected:
 			/*! \brief whenever the mouse enters the dialog, it updates the list of parameters inside the combo boxes*/
 			void enterEvent ( QEvent * event );

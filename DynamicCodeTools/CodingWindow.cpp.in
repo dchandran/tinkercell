@@ -1021,6 +1021,7 @@ specific for:\n\"\"\"\n\n") + text;
 		 
 		 if (console && console->editor() && !console->editor()->completer())
 		 {
+		 	visitedFunctions << "clear";
 			QCompleter * completer = new QCompleter(visitedFunctions,this);			
 			//completer->setModel(new QStringListModel(visitedFunctions, completer));
 			//completer->setModelSorting(QCompleter::CaseInsensitivelySortedModel);

@@ -771,6 +771,8 @@ SimulationDialog::SimulationDialog(MainWindow * parent) : QDialog(parent)
 	layout3->addLayout(layout2,0);
 	setLayout(layout3);
 	
+	connect(parent,SIGNAL(historyChanged(int)),this,SLOT(historyChanged(int)));
+	
 	thread = 0;
 
 	simBox->show();
@@ -900,19 +902,30 @@ void SimulationDialog::run()
 		col2 += sliderValues(i) * 1.9;
 	}
 	
+	QRect rect;
+	
 	if (sliderWidget)
 	{
+		rect = sliderWidget->geometry();
 		sliderWidget->close();
 		delete sliderWidget;
 		sliderWidget = 0;
 	}
 
 	sliderWidget = new MultithreadedSliderWidget(thread->mainWindow,thread);
+	if (!rect.isNull())
+		sliderWidget->setGeometry(rect);
 	sliderWidget->setAttribute(Qt::WA_DeleteOnClose,false);
 	sliderWidget->setDefaultDataTable(tr("Initial value"));
 	sliderWidget->setSliders(rownames,col1,col2);
 	sliderWidget->show();
 	//thread->start();
+}
+
+void SimulationDialog::historyChanged(int)
+{
+	if (sliderWidget && sliderWidget->visible())
+		this->run();
 }
 
 SimulationDialog::~SimulationDialog()

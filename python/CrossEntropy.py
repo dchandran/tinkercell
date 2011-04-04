@@ -10,7 +10,9 @@ def mvnrand(mu, sigma, n):
     for i in range(0,p):
         x[:,i] = numpy.random.normal(0,1,n)
     e,v = numpy.linalg.eig(sigma)
-    x2 = x * ( v.T )
+    x2 = x * ( v.T )    
+    for i in range(0,p):
+        x2[:,i] = x2[:,i] + mu[i]
     return x2
     
 #Takes an objective function along with an intial guess of the distribution of parameters and returns the final
@@ -53,10 +55,8 @@ def OptimizeParameters(objective, title="optimizing", maxits=200, N=100, Ne=0.5,
         X = mvnrand(mu,sigma2,N)         #Obtain N samples from current sampling distribution
         indx = range(0,N)
         for i in indx:
-            s = ""
             for j in range(0,params.rows):
                 d0 = X[i,j]
-                s += "  " + str(d0)
                 if logscale:
                     d0 = exp(X[i,j])
                 d1 = tc_getMatrixValue(params, j, 1)
@@ -72,7 +72,7 @@ def OptimizeParameters(objective, title="optimizing", maxits=200, N=100, Ne=0.5,
                 tc_setMatrixValue(params, j, 0, d0)
             tc_updateParameters(params)
             S[i] = objective()
-        tc_print(s)
+            tc_print(str(S[i]))
         oldmax = curmax
         curmax = max(S)
         indx.sort(lambda x,y: int(S[x] - S[y]))

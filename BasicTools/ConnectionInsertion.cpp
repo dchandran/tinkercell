@@ -704,6 +704,9 @@ namespace Tinkercell
 		font.setPointSize(22);
 		nameItem->setFont(font);
 
+		if (handle->family()->name().contains(tr("gene")) || handle->family()->name().contains(tr("transcription")))
+			item->lineType = ConnectionGraphicsItem::line;
+
 		scene->insert(handle->name + tr(" inserted"), insertList);
 		
 		selectedNodes = saveSelectedNodes;
@@ -1063,7 +1066,7 @@ namespace Tinkercell
 						insertList += arrow;
 					}
 					
-					if (handle->family()->name().contains(tr("Gene")) || handle->family()->name().contains(tr("Transcription")))
+					if (handle->family()->name().contains(tr("gene")) || handle->family()->name().contains(tr("transcription")))
 						item->lineType = ConnectionGraphicsItem::line;
 					
 					if (handle->isA(tr("Repression")))

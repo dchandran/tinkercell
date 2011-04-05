@@ -215,7 +215,7 @@ specific for:\n\"\"\"\n\n") + text;
 			QString password = passwordLine->text();
 			QString s = QObject::tr("cd ") + userHomeDir.absolutePath() + QObject::tr("; svn add ") + filename + QObject::tr("; svn commit -m\"new code added\" --username ") + username + QObject::tr(" --password ") + password + QObject::tr("--no-auth-cache --non-interactive;");
 			QProcess::startDetached(s);
-			QMessageBox::information(mainWindow, "Saved", msg);
+			QMessageBox::information(mainWindow, "Saved", "Saved");
 		}
 		
 		loadPyFromDir(userHomeDir);
@@ -271,7 +271,7 @@ specific for:\n\"\"\"\n\n") + text;
 			QString password = passwordLine->text();
 			QString s = QObject::tr("cd ") + userHomeDir.absolutePath() + QObject::tr("; svn add ") + filename + QObject::tr("; svn commit -m\"new code added\" --username ") + username + QObject::tr(" --password ") + password + QObject::tr("--no-auth-cache --non-interactive;");
 			QProcess::startDetached(s);			
-			QMessageBox::information(mainWindow, "Saved", msg);
+			QMessageBox::information(mainWindow, "Saved", "Saved");
 		}
 		
 		loadOctFromDir(userHomeDir);

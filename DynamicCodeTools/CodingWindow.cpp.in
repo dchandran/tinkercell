@@ -88,6 +88,10 @@ namespace Tinkercell
 				DO_SVN_UPDATE = false;
 			}*/
 		}
+		
+		usernameDialog = 0;
+		usernameLine = 0;
+		passwordLine = 0;
 	}
 	
 	void CodingWindow::convertCodeToButton()
@@ -163,7 +167,7 @@ namespace Tinkercell
 
 	void CodingWindow::convertCodeToButtonPy()
 	{
-		if (!editor) return;
+		if (!editor || !usernameDialog || !usernameLine || !passwordLine) return;
 		
 		QString text = editor->toPlainText();
 		if (!text.startsWith("\"\"\""))
@@ -205,14 +209,13 @@ specific for:\n\"\"\"\n\n") + text;
 			QTextStream outpy(&pyfile);
 			outpy << (editor->toPlainText());
 			pyfile.close();
-			QString s = QObject::tr("cd ") + userHomeDir.absolutePath() + QObject::tr("; svn add ") + filename;// + QObject::tr("; svn commit -m\"new code added\";");
-			QString msg = 
-				//tr("Your program has been saved as ") + filename + tr("\n") + 			
-				tr("To make the new code available to other TinkerCell users, \nplease do svn commit on ") + filename;
+			
+			usernameDialog->exec();
+			QString username = usernameLine->text();
+			QString password = passwordLine->text();
+			QString s = QObject::tr("cd ") + userHomeDir.absolutePath() + QObject::tr("; svn add ") + filename + QObject::tr("; svn commit -m\"new code added\" --username ") + username + QObject::tr(" --password ") + password + QObject::tr("--no-auth-cache --non-interactive;");
 			QProcess::startDetached(s);
-			
 			QMessageBox::information(mainWindow, "Saved", msg);
-			
 		}
 		
 		loadPyFromDir(userHomeDir);
@@ -220,6 +223,8 @@ specific for:\n\"\"\"\n\n") + text;
 	
 	void CodingWindow::convertCodeToButtonOctave()
 	{
+		if (!editor || !usernameDialog || !usernameLine || !passwordLine) return;
+		
 		QString text = editor->toPlainText();
 		if (!text.contains("#category") || !text.contains("#name"))
 		{
@@ -260,16 +265,14 @@ specific for:\n\"\"\"\n\n") + text;
 			QTextStream outoct(&octfile);
 			outoct << (editor->toPlainText());
 			octfile.close();
-			QString s = QObject::tr("cd ") + userHomeDir.absolutePath() + QObject::tr("; svn add ") + filename;// + QObject::tr("; svn commit -m\"new code added\";");
-			QString msg = 
-				//tr("Your program has been saved as ") + filename + tr("\n") +
-				tr("To make the new code available to other TinkerCell users, \nplease do 'svn commit' in ") + userHomeDir.absolutePath();
-			QProcess::startDetached(s);
 			
+			usernameDialog->exec();				
+			QString username = usernameLine->text();
+			QString password = passwordLine->text();
+			QString s = QObject::tr("cd ") + userHomeDir.absolutePath() + QObject::tr("; svn add ") + filename + QObject::tr("; svn commit -m\"new code added\" --username ") + username + QObject::tr(" --password ") + password + QObject::tr("--no-auth-cache --non-interactive;");
+			QProcess::startDetached(s);			
 			QMessageBox::information(mainWindow, "Saved", msg);
 		}
-
-		
 		
 		loadOctFromDir(userHomeDir);
 	}
@@ -532,9 +535,30 @@ specific for:\n\"\"\"\n\n") + text;
 			
 			enablePython();
 			
-			//if (console())
-			//	connect(this,SIGNAL(stop()),console(),SIGNAL(commandInterrupted()));
+			usernameDialog = new QDialog(mainWindow);
+			QVBoxLayout * layout = new QVBoxLayout;
+			QHBoxLayout * layout1 = new QHBoxLayout;
+			QHBoxLayout * layout2 = new QHBoxLayout;
+			QHBoxLayout * layout3 = new QHBoxLayout;
+			layout1->addWidget(new QLabel("Username : "),0);
+			layout2->addWidget(new QLabel("Password : "),0);
+			usernameLine = new QLineEdit("");
+			passwordLine = new QLineEdit("");
+			passwordLine->setEchoMode(QLineEdit::Password);
 
+			layout1->addWidget(usernameLine,1);
+			layout2->addWidget(passwordLine,1);
+			
+			QPushButton * okButton = new QPushButton;
+			layout3->addStretch(3);
+			layout3->addWidget(okButton,1);
+			layout3->addStretch(3);
+			
+			layout->addLayout(layout1);
+			layout->addLayout(layout2);
+			layout->addLayout(layout3);
+			usernameDialog->setLayout(layout);
+			
 			return true;
 		}
 		return false;

@@ -16,6 +16,7 @@
 #include <QMenu>
 #include <QTextCharFormat>
 #include <QDialog>
+#include <QLabel>
 #include <QCompleter>
 #include <QListWidget>
 #include <QTabWidget>
@@ -26,6 +27,7 @@
 #include <QAction>
 #include <QActionGroup>
 #include <QLineEdit>
+#include <QPushButton>
 #include <QHash>
 #include <QRadioButton>
 #include "CodeEditor.h"
@@ -133,7 +135,8 @@ namespace Tinkercell
 		CandPythonSyntaxHighlighter *highlighter;
 
 		QString fileName;
-		//QDialog commandDialog;
+		QDialog * usernameDialog;
+		QLineEdit * usernameLine, *passwordLine;
 
 	};
 

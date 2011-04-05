@@ -173,7 +173,7 @@ int main(int argc, char *argv[])
 	mainWindow.addTool(new OctaveTool);
 
 	mainWindow.addTool(codingWindowPlugin);
-	mainWindow.addTool(new ModuleCombinatorics);
+//	mainWindow.addTool(new ModuleCombinatorics);
 
     /*******  Dynamically load plugins from folders ***********/
     DefaultPluginsMenu menu(&mainWindow);

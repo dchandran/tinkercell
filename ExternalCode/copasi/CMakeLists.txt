@@ -50,6 +50,8 @@ ADD_DEFINITIONS(-DUSE_CLAPACK)
 #ADD_DEFINITIONS(-DCOPASI_DEBUG)
 #ADD_DEFINITIONS(-DDEBUG_MATRIX)
 
+SET(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -fvisibility=hidden")
+
 #------------------------------------------
 #  DEFINITIONS FOR WINDOWS
 #------------------------------------------

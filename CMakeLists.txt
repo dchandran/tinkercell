@@ -80,10 +80,21 @@ SET(EXECUTABLE_OUTPUT_PATH
  ${TINKERCELL_BINARY_DIR}/bin
  CACHE PATH "Single output directory for building all executables."
 )
-SET(CPP_LIBRARY_OUTPUT_PATH
- ${TINKERCELL_BINARY_DIR}/bin/plugins/
- CACHE PATH "Single output directory for building all cpp libraries."
-)
+IF (WIN32)
+   SET(CPP_LIBRARY_OUTPUT_PATH 
+         ${TINKERCELL_BINARY_DIR}/bin/plugins/windows 
+         CACHE PATH "Single output directory for building all cpp libraries.")
+ELSE(WIN32)
+   IF (APPLE)
+   ELSE(APPLE)
+        IF( ${HAVE_64_BIT} )
+                MESSAGE(STATUS "64-bit OS")
+       ELSE( ${HAVE_64_BIT} )
+                MESSAGE(STATUS "32-bit OS")
+       ENDIF( ${HAVE_64_BIT} )
+   ENDIF(APPLE)
+ENDIF(WIN32)
+
 SET(C_LIBRARY_OUTPUT_PATH
  ${TINKERCELL_BINARY_DIR}/bin/plugins/c/
  CACHE PATH "Single output directory for building all c libraries."

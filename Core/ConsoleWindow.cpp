@@ -390,7 +390,7 @@ namespace Tinkercell
 		
 		if (event->modifiers() == Qt::ControlModifier)
 		{
-			if (key == Qt::Key_Plus)
+			if (key == Qt::Key_Equal || key == Qt::Key_Plus)
 			{
 				zoomIn();
 				return;
@@ -520,11 +520,10 @@ namespace Tinkercell
 							cursor.insertText(ConsoleWindow::Prompt + text);
 							alreadyInsertedPrompt = false;
 						}
-					}
-					
+					}					
 				}
 				else
-					if (frozen && event->modifiers() == Qt::ControlModifier && (key == Qt::Key_C))
+					if (frozen && event->modifiers() == Qt::ControlModifier && (key == Qt::Key_Z))
 					{
 						emit commandInterrupted();
 					}

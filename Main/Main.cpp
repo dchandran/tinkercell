@@ -31,26 +31,26 @@
 #include "OctaveTool.h"
 #include "CodingWindow.h"
 #include "DynamicLibraryMenu.h"
-#include "BasicInformationTool.h"
-#include "StoichiometryTool.h"
-#include "FunctionDeclarationsTool.h"
-#include "ModelSummaryTool.h"
-#include "ContainerTool.h"
-#include "ModelFileGenerator.h"
-#include "SimulationEventTool.h"
-#include "ModuleTool.h"
-#include "AutoGeneRegulatoryTool.h"
-#include "CLabelsTool.h"
-#include "DNASequenceTool.h"
-#include "ViewTablesTool.h"
-#include "LPSolveInput.h"
-#include "CellPositionUpdatingTool.h"
-#include "OctaveExporter.h"
-#include "EnglishExporter.h"
-#include "AntimonyEditor.h"
-#include "SBMLImportExport.h"
-#include "CopasiExporter.h"
-#include "ModuleCombinatorics.h"
+//#include "BasicInformationTool.h"
+//#include "StoichiometryTool.h"
+//#include "FunctionDeclarationsTool.h"
+//#include "ModelSummaryTool.h"
+//#include "ContainerTool.h"
+//#include "ModelFileGenerator.h"
+//#include "SimulationEventTool.h"
+//#include "ModuleTool.h"
+//#include "AutoGeneRegulatoryTool.h"
+//#include "CLabelsTool.h"
+//#include "DNASequenceTool.h"
+//#include "ViewTablesTool.h"
+//#include "LPSolveInput.h"
+//#include "CellPositionUpdatingTool.h"
+//#include "OctaveExporter.h"
+//#include "EnglishExporter.h"
+//#include "AntimonyEditor.h"
+//#include "SBMLImportExport.h"
+//#include "CopasiExporter.h"
+//#include "ModuleCombinatorics.h"
 #include <QColor>
 #include <QBrush>
 
@@ -142,7 +142,7 @@ int main(int argc, char *argv[])
 	mainWindow.addTool(new ConnectionMaker);
 	
 	mainWindow.addTool(new DynamicLibraryMenu);
-	
+/*	
 	mainWindow.addTool(new BasicInformationTool(QString("text")));
 	mainWindow.addTool(new BasicInformationTool(QString("numerical")));
 	mainWindow.addTool(new AssignmentFunctionsTool);
@@ -157,9 +157,10 @@ int main(int argc, char *argv[])
 	mainWindow.addTool(new CopasiExporter);
 	mainWindow.addTool(new AntimonyEditor);
 	mainWindow.addTool(new EnglishExporter);
-	
+*/	
 	Tool * codingWindowPlugin = new CodingWindow; //do the svn update before loading python,octave, and modules
-	
+
+/*	
 	mainWindow.addTool(new ModuleTool);
 	mainWindow.addTool(new AutoGeneRegulatoryTool);
 	mainWindow.addTool(new CLabelsTool);
@@ -167,13 +168,14 @@ int main(int argc, char *argv[])
 	mainWindow.addTool(new ViewTablesTool);
 	mainWindow.addTool(new LPSolveInputWindow);
 	mainWindow.addTool(new CellPositionUpdateTool);
+*/
 
     mainWindow.addTool(new LoadCLibrariesTool);
 	mainWindow.addTool(new PythonTool);
 	mainWindow.addTool(new OctaveTool);
 
 	mainWindow.addTool(codingWindowPlugin);
-//	mainWindow.addTool(new ModuleCombinatorics);
+
 
     /*******  Dynamically load plugins from folders ***********/
     DefaultPluginsMenu menu(&mainWindow);
@@ -182,28 +184,12 @@ int main(int argc, char *argv[])
 
     QString home = MainWindow::homeDir();
 
-//    LoadPluginsFromDir(appDir + QString("/plugins"),&mainWindow, &splash);
-#ifdef Q_WS_WIN
-	LoadPluginsFromDir(home + QString("/plugins/windows"),&mainWindow, &splash);
-#else
-#ifdef Q_WS_MAC
-	LoadPluginsFromDir(home + QString("/plugins/mac"),&mainWindow, &splash);
-#else
-	LoadPluginsFromDir(home + QString("/plugins/ubuntu"),&mainWindow, &splash);
-#endif
-#endif
+    LoadPluginsFromDir(appDir + QString("/") + QString(TINKERCELL_CPP_PLUGINS_FOLDER),&mainWindow, &splash);
+	LoadPluginsFromDir(home + QString("/") + QString(TINKERCELL_CPP_PLUGINS_FOLDER),&mainWindow, &splash);
 
-//    LoadPluginsFromDir(appDir + QString("/plugins/c"),&mainWindow, &splash);
-#ifdef Q_WS_WIN
-	LoadPluginsFromDir(home + QString("/plugins/c/windows"),&mainWindow, &splash);
-#else
-#ifdef Q_WS_MAC
-	LoadPluginsFromDir(home + QString("/plugins/c/mac"),&mainWindow, &splash);
-#else
-	LoadPluginsFromDir(home + QString("/plugins/c/ubuntu32"),&mainWindow, &splash);
-	LoadPluginsFromDir(home + QString("/plugins/c/ubuntu64"),&mainWindow, &splash);
-#endif
-#endif
+	LoadPluginsFromDir(appDir + QString("/") + QString(TINKERCELL_C_PLUGINS_FOLDER),&mainWindow, &splash);
+	LoadPluginsFromDir(home + QString("/") +  QString(TINKERCELL_CPP_PLUGINS_FOLDER),&mainWindow, &splash);
+	
 
     /*******  START TINKERCELL ***********/
 

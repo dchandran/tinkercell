@@ -61,6 +61,9 @@ INCLUDE_DIRECTORIES( BEFORE
      ${TINKERCELL_SOURCE_DIR}/ModularNetworkAlgorithms
  )
 
+ADD_DEFINITIONS(-DTINKERCELL_CPP_PLUGINS_FOLDER="${TINKERCELL_CPP_PLUGINS_FOLDER}")
+ADD_DEFINITIONS(-DTINKERCELL_C_PLUGINS_FOLDER="${TINKERCELL_C_PLUGINS_FOLDER}")
+
 #--------------------------------------------------
 #  specify IStool and WinSCP for Windows 
 #--------------------------------------------------
@@ -104,6 +107,10 @@ ENDIF (NOT DEFINED TINKERCELL_SOURCEFORGE_PASSWORD OR NOT DEFINED TINKERCELL_SOU
 OPTION( TINKERCELL_LITE_PARTS "Enable part-only version" OFF )
 OPTION( TINKERCELL_LITE_TEXT "Enable text-only version" OFF )
 
+IF( HAVE_64_BIT )
+    ADD_DEFINITIONS(-DHAVE_64_BIT)
+ENDIF( HAVE_64_BIT )
+
 IF (NOT TINKERCELL_LITE_PARTS AND NOT TINKERCELL_LITE_TEXT)
 	MESSAGE(STATUS "Using TinkerCell normal version")
 	INCLUDE (TinkerCell.cmake)
@@ -116,6 +123,12 @@ ELSEIF (TINKERCELL_LITE_TEXT)
 	MESSAGE(STATUS "Using TinkerCell script version")
 	INCLUDE (TinkerCellScript.cmake)
 ENDIF (TINKERCELL_LITE_PARTS)
+
+#--------------------------------------------------------------------------
+#  Plugins
+#--------------------------------------------------------------------------
+
+INCLUDE (TinkerCellPlugins.cmake)
 
 #--------------------------------------------------------------------------
 #  Copy example files and stylesheet

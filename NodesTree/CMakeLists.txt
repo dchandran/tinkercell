@@ -1,3 +1,15 @@
+#copy catalog of parts and connections
+FILE(GLOB NODESTREE_XML_FILES 
+	${TINKERCELL_SOURCE_DIR}/NodesTree/NodesTree.xml
+	${TINKERCELL_SOURCE_DIR}/NodesTree/ConnectionsTree.xml
+	${TINKERCELL_SOURCE_DIR}/NodesTree/InitialCatalogList.txt
+)
+
+INSTALL( FILES ${NODESTREE_XML_FILES}
+  DESTINATION NodesTree
+  COMPONENT NodesAndConnections
+)
+
 SET(LIBRARY_OUTPUT_PATH ${CPP_LIBRARY_OUTPUT_PATH})
 
 INCLUDE_DIRECTORIES( BEFORE

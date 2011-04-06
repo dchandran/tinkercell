@@ -2,11 +2,11 @@ OPTION( TINKERCELL_UPLOAD_SOURCE "upload source tarball in upload.sh?" OFF )
 
 #the following is used to generate two different files with 32 or 64 in its name
 #see upload.sh
-IF (${HAVE_64_BIT})
+IF (HAVE_64_BIT)
      SET(TINKERCELL_BIT 64)
-ELSE(${HAVE_64_BIT})
+ELSE(HAVE_64_BIT)
      SET(TINKERCELL_BIT 32)
-ENDIF(${HAVE_64_BIT})
+ENDIF(HAVE_64_BIT)
 
 
 CONFIGURE_FILE( 

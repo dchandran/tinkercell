@@ -146,9 +146,8 @@ namespace Tinkercell
 				break;
 		}
 
-		if (loaded)
+		if (loaded && !dynamicallyLoadedLibraries.contains(lib->fileName()))
 		{
-			dynamicallyLoadedLibraries.insert(lib->fileName(),lib);
 			statusBar()->showMessage(lib->fileName() + tr(" loading ..."));
 			TinkercellPluginEntryFunction f1 = (TinkercellPluginEntryFunction)lib->resolve(CPP_ENTRY_FUNCTION.toAscii().data());
 			if (f1)
@@ -182,6 +181,7 @@ namespace Tinkercell
 			}
 		}
 		else
+		if (!dynamicallyLoadedLibraries.contains(lib->fileName()))
 		{
 			if (consoleWindow)
 				consoleWindow->message(dllFile + tr(" could not be opened"));

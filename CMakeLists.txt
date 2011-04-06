@@ -81,24 +81,48 @@ SET(EXECUTABLE_OUTPUT_PATH
  CACHE PATH "Single output directory for building all executables."
 )
 IF (WIN32)
-   SET(CPP_LIBRARY_OUTPUT_PATH 
+   SET(TINKERCELL_CPP_PLUGINS_FOLDER 
          ${TINKERCELL_BINARY_DIR}/bin/plugins/windows 
-         CACHE PATH "Single output directory for building all cpp libraries.")
+         CACHE PATH "Single output directory for building all cpp libraries." FORCE)
+   SET(TINKERCELL_C_PLUGINS_FOLDER 
+         ${TINKERCELL_BINARY_DIR}/bin/plugins/c/windows 
+         CACHE PATH "Single output directory for building all c libraries." FORCE)
 ELSE(WIN32)
    IF (APPLE)
+        SET(TINKERCELL_CPP_PLUGINS_FOLDER 
+                    ${TINKERCELL_BINARY_DIR}/bin/plugins/mac
+                    CACHE PATH "Single output directory for building all cpp libraries." FORCE)
+        SET(TINKERCELL_C_PLUGINS_FOLDER 
+                    ${TINKERCELL_BINARY_DIR}/bin/plugins/c/mac
+                    CACHE PATH "Single output directory for building all c libraries." FORCE)
    ELSE(APPLE)
-        IF( ${HAVE_64_BIT} )
+        OPTION(HAVE_64_BIT "64 bit OS" OFF)
+        IF( HAVE_64_BIT )
                 MESSAGE(STATUS "64-bit OS")
-       ELSE( ${HAVE_64_BIT} )
+                SET(TINKERCELL_CPP_PLUGINS_FOLDER 
+                             plugins/ubuntu64
+                              CACHE STRING "Single output directory for building all cpp libraries." FORCE)
+                SET(TINKERCELL_C_PLUGINS_FOLDER
+                             plugins/c/ubuntu64
+                              CACHE STRING "Single output directory for building all c libraries." FORCE)
+       ELSE( HAVE_64_BIT )
                 MESSAGE(STATUS "32-bit OS")
-       ENDIF( ${HAVE_64_BIT} )
+                SET(TINKERCELL_CPP_PLUGINS_FOLDER
+                             plugins/ubuntu32
+                              CACHE STRING "Single output directory for building all cpp libraries." FORCE)
+                SET(TINKERCELL_C_PLUGINS_FOLDER
+                             plugins/c/ubuntu32
+                              CACHE STRING "Single output directory for building all c libraries." FORCE)
+       ENDIF( HAVE_64_BIT )
    ENDIF(APPLE)
 ENDIF(WIN32)
 
-SET(C_LIBRARY_OUTPUT_PATH
- ${TINKERCELL_BINARY_DIR}/bin/plugins/c/
- CACHE PATH "Single output directory for building all c libraries."
-)
+SET(CPP_LIBRARY_OUTPUT_PATH 
+         ${TINKERCELL_BINARY_DIR}/bin/${TINKERCELL_CPP_PLUGINS_FOLDER}
+         CACHE PATH "Single output directory for building all cpp libraries." FORCE)
+SET(C_LIBRARY_OUTPUT_PATH 
+         ${TINKERCELL_BINARY_DIR}/bin/${TINKERCELL_C_PLUGINS_FOLDER}
+         CACHE PATH "Single output directory for building all c libraries." FORCE)
 
 #----------------
 # BOOST library
@@ -225,12 +249,23 @@ FILE(GLOB TINKERCELL_SUPPORTING_FILES
 INSTALL(FILES ${TINKERCELL_SUPPORTING_FILES} DESTINATION bin/../)  
 
 #----------------------------------------------------------------------------
-#   TinkerCell plugins and executables
+#   TinkerCell main executable
 #----------------------------------------------------------------------------
 
-INCLUDE( CMake/TinkercellPlugins.cmake ) #plugins
 ADD_SUBDIRECTORY( Main )   #main executable
 ADD_SUBDIRECTORY( NodeGraphicsItem )   #program for drawing new graphics items
+
+#----------------------------------------------------------------------------
+#   Embedding other languages
+#----------------------------------------------------------------------------
+
+ADD_SUBDIRECTORY( python )
+ADD_SUBDIRECTORY( ruby )
+ADD_SUBDIRECTORY( perl )
+ADD_SUBDIRECTORY( octave )
+ADD_SUBDIRECTORY( R )
+ADD_SUBDIRECTORY( DB )
+ADD_SUBDIRECTORY( c )
   
 #----------------------------------------------------------------------------
 # CPack

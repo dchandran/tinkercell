@@ -63,10 +63,10 @@ TARGET_LINK_LIBRARIES( TinkerCellCore
 IF( WIN32 )
   INSTALL(TARGETS TinkerCellCore
     DESTINATION bin/../
-  )
+)
 ELSE( WIN32 )
   INSTALL(TARGETS TinkerCellCore
     LIBRARY DESTINATION bin/../
-  )
+)
 ENDIF( WIN32 )
 

@@ -488,5 +488,60 @@ namespace Tinkercell
 					break;
 				}
 	}
+	
+	QStringList ConnectionFamily::synonyms(const QString& rolename) const
+	{
+		int roleid = ALLROLENAMES.indexOf(rolename.toLower());
+		if (roleid < 0) return QStringList();
+		
+		int index = -1;
+		
+		for (int i=0; i < nodeRoles.size(); ++i)
+			if (nodeRoles.at(i).first == roleid)
+			{
+				index = i;
+				break;
+			}
+
+		if (index == -1)
+		{
+			for (int i=0; i < childFamilies.size(); ++i)
+			{
+				const ConnectionFamily * child = childFamilies.at(i);
+				for (int j=0; j < child->nodeRoles.size(); ++j)
+					if (child->nodeRoles.at(j).first == roleid)
+					{
+						index = j;
+						break;
+					}
+				if (index > -1) break;
+			}
+		}
+		
+		QStringList rolelist;
+		QList<int> roleids;
+		
+		if (index == -1) return rolelist;
+		
+		if (nodeRoles.size() > index)
+			if (ALLROLENAMES.size() > nodeRoles[index].first && !roleids.contains(nodeRoles[index].first))
+			{
+				roleids += nodeRoles[index].first;
+				rolelist += ALLROLENAMES[ nodeRoles[index].first ];
+			}
+		
+		for (int i=0; i < childFamilies.size(); ++i)
+		{
+			const ConnectionFamily * child = childFamilies.at(i);
+			if (child->nodeRoles.size() > index)
+				if (ALLROLENAMES.size() > child->nodeRoles[index].first && !roleids.contains(child->nodeRoles[index].first))
+				{
+					roleids += child->nodeRoles[index].first;
+					rolelist += ALLROLENAMES[ child->nodeRoles[index].first ];			
+				}
+		}
+		
+		return rolelist;
+	}
 }
 

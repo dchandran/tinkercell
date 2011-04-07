@@ -226,12 +226,14 @@ namespace Tinkercell
 		\param bool use false here if the list of nodes is a partial list
 		\return QList<ItemFamily*> valid connection families*/
 		virtual QList<ItemFamily*> findValidChildFamilies(const QList<NodeHandle*>&, bool checkFull=true);		
-		/*! \brief finds the number of node families that are common between the two connections 
-			(exactly the same, not using isA)
+		/*! \brief finds the number of node families that are common between the two connections  (the node families should be exactly the same, not isA)
 		\param ConnectionFamily * 
 		\return bool*/
 		virtual int numberOfIdenticalNodesFamilies(ConnectionFamily *) const;
-		
+		/*! \brief finds possible role synonyms by looking at child families and finding roles with the same index
+		\param QString role name
+		\return QStringList synonyms for the input role*/
+		virtual QStringList synonyms(const QString& role) const;
 		/*!  \} */
 		
 	protected:

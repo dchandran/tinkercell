@@ -4,15 +4,6 @@ from tc2py import *
 import numpy.random
 import numpy.linalg
 
-def mvnrand(mu, sigma, n):
-    p = len(mu)
-    x = ndarray((n,p))
-    for i in range(0,p):
-        x[:,i] = numpy.random.normal(0,1,n)
-    e,v = numpy.linalg.eig(sigma)
-    x2 = dot(x , v.T )
-    return x2
-    
 #Takes an objective function along with an intial guess of the distribution of parameters and returns the final
 #best fit distribution of parameters. Assumes that the distributions are Gaussian.
 def OptimizeParameters(objective, title="optimizing", maxits=200, N=100, Ne=0.5, logscale=False,epsilon = 1e-5):
@@ -50,7 +41,7 @@ def OptimizeParameters(objective, title="optimizing", maxits=200, N=100, Ne=0.5,
     sigma2 = diag(minmax)
     while t < maxits and (t<2 or (oldmax - curmax) > epsilon):     #While not converged and maxits not exceeded
         tc_showProgress(title, int( 100 * t/maxits ))
-        X = mvnrand(mu,sigma2,N)         #Obtain N samples from current sampling distribution
+        X = numpy.random.multivariate_random(mu,sigma2,N)         #Obtain N samples from current sampling distribution
         indx = range(0,N)
         for i in indx:
             for j in range(0,params.rows):
@@ -69,8 +60,7 @@ def OptimizeParameters(objective, title="optimizing", maxits=200, N=100, Ne=0.5,
                     X[i,j] = d0
                 tc_setMatrixValue(params, j, 0, d0)
             tc_updateParameters(params)
-            S[i] = numpy.random.normal(0,1,1) #objective()
-            tc_print(str(S[i]))
+            S[i] = objective()
         oldmax = curmax
         curmax = max(S)
         indx.sort(lambda x,y: int(S[x] - S[y]))

@@ -7,8 +7,8 @@ s = "\
 [InstallDelete]\n\
 Name: {app}; Type: filesandordirs\n\
 [Run]\n\
-Filename: {app}/Slik-Subversion-1.6.16-win32.msi; Description: \"Install Python\"; WorkingDir: {app}; Flags: postinstall\n\
-Filename: {app}/python-2.5.4.msi; Description: \"Install Python\"; WorkingDir: {app}; Flags: postinstall\n\
+Filename: \"msiexec.exe\"; Parameters: \"/i \"\"{app}/Slik-Subversion-1.6.16-win32.msi\"\"\"; Description: \"Install Subversion (for updating plugins)\"; WorkingDir: {app}; Flags: postinstall\n\
+Filename: \"msiexec.exe\"; Parameters: \"/i \"\"{app}/python-2.5.4.msi\"\"\"; Description: \"Install Python\"; WorkingDir: {app}; Flags: postinstall\n\
 Filename: {app}/numpy-1.3.0-win32-superpack-python2.5.exe; Description: \"Install Python Numerical Pack\"; WorkingDir: {app}; Flags: postinstall\n\
 Filename: {app}/scipy-0.7.1-win32-superpack-python2.5.exe; Description: \"Install Python Scientific Pack\"; WorkingDir: {app}; Flags: postinstall\n\
 Filename: {app}/pysces-0.7.0.win32-py2.5.exe; Description: \"Install PySCeS\"; WorkingDir: {app}; Flags: postinstall\n\

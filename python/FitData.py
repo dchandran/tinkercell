@@ -34,7 +34,6 @@ def leastSquares():
                     break
     #compute error
     total = 0
-    s = ""
     for i in range(0,sim.cols):
         j = indx[i]
         if j > -1:
@@ -57,7 +56,7 @@ if len(fname) > 0:
     mu = res[0]
     sigma2 = res[1]
     paramnames = res[2]
-    X = mvnrand(mu,sigma2,100)
+    X = numpy.random.multivariate_random(mu,sigma2,100)
     n = len(mu)
     params = tc_createMatrix(n, 1)
     m = tc_createMatrix(100, n)

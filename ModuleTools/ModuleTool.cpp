@@ -187,11 +187,6 @@ namespace Tinkercell
 			}
 		}
 		
-		if (QFile::exists(filename)) console()->message("file exists");
-		if (window) console()->message("window is");
-		if (window && parentHandle == window->handle)  console()->message("parent match");
-		if (window && window->handle->family())  console()->message("handle family check");
-		
 		if (QFile::exists(filename) && window && 
 			network && (parentHandle == window->handle) &&
 			window->handle->family()) 
@@ -1150,7 +1145,6 @@ namespace Tinkercell
 		for (int i=0; i < nodes.size(); ++i)
 		{
 			QStringList candidates = family->synonyms(node->name.toLower());
-			MainWindow::instance()->console()->message(candidates.join(" | "));
 			for (int j=0; j < candidates.size(); ++j)
 			{
 				if (participants.hasRow(candidates[j]))

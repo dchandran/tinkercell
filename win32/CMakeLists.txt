@@ -1,6 +1,6 @@
 FILE(GLOB WIN32_GCC_FILES *.o gcc.exe cc1.exe ld.exe as.exe)
 FILE(GLOB WIN32_DLL_FILES *.dll *.DLL)
-FILE(GLOB INSTALLATION_FILES *.msi numpy*.exe scipy*.exe pysces*.exe networkx*.exe)
+FILE(GLOB INSTALLATION_FILES *.msi numpy* scipy* pysces* networkx*)
 FILE(GLOB QT_DLL_FILES ${QT_LIBRARY_DIR}/../bin/QtCore4.* 
 											  ${QT_LIBRARY_DIR}/../bin/QtGui4.*
 											  ${QT_LIBRARY_DIR}/../bin/QtOpenGL4.*

@@ -9,7 +9,9 @@ IF ( UNIX )
     )
 ENDIF ( UNIX )
 
-##### Simple ODE and SSA libraries ########
+#***************************************
+#    ODE and SSA libraries
+#***************************************
 
 ADD_DEFINITIONS(-DNO_FPRINTF_OUTPUT)
 ADD_LIBRARY( ode
@@ -40,7 +42,7 @@ ENDIF( WIN32 )
 
 ADD_SUBDIRECTORY( sbml_sim )
 
-##############
+#*******************************************************************************
 
 IF (NOT TINKERCELL_LITE_PARTS)  #don't add any numerical packages in "parts" mode
 

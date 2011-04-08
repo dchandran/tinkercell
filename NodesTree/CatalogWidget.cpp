@@ -755,7 +755,9 @@ namespace Tinkercell
 					
 					<< QPair<QString, QStringList>(
 													tr("Reaction"),
-													QStringList() << tr("biochemical"));
+													QStringList() << tr("1 to 1")  << tr("1 to 2")  << tr("1 to 3")
+																		  << tr("2 to 1") << tr("2 to 2") << tr("2 to 3")
+																		  << tr("3 to 1") << tr("3 to 2") << tr("3 to 3")    );
 
 		numNodeTabs = 4;
 		
@@ -781,7 +783,7 @@ namespace Tinkercell
 
 		QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
 		settings.beginGroup("CatalogWidget");
-		familiesInCatalog = settings.value(tr("familiesInCatalog"),QStringList()).toStringList();
+		//familiesInCatalog = settings.value(tr("familiesInCatalog"),QStringList()).toStringList();
 		int currentIndex = settings.value(tr("currentIndex"),0).toInt();
 		settings.endGroup();
 		
@@ -981,6 +983,7 @@ namespace Tinkercell
 					if (isA)
 					{
 						QList<QToolButton*> buttons = connectionsTree->treeButtons.values(families[i]->name());
+						console()->message(families[i]->name() + tr(" is in ") + tabGroups[j].first + tr("  " ) + QString::number(buttons.size()));
 						if (buttons.size()>0 && buttons[0] && !usedButtons.contains(buttons[0]))
 						{
 							usedButtons << buttons[0];

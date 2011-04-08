@@ -217,7 +217,7 @@ namespace Tinkercell
                 NodeGraphicsReader imageReader;
                 NodeGraphicsItem * nodeitem = new NodeGraphicsItem;
                 imageReader.readXml(nodeitem,nodeImageFile);
-                if (nodeitem && nodeitem->isValid())
+                if (nodeitem && nodeitem->isValid() && node->graphicsItems.isEmpty())
                 {
                      nodeitem->normalize();
                      node->graphicsItems += nodeitem;
@@ -236,8 +236,6 @@ namespace Tinkercell
 						             node->graphicsItems += (NodeGraphicsItem::topLevelNodeItem(parentNode->graphicsItems[i]))->clone();
 					 }
                 }
-               
-               
                
                //set icon
                if (node->pixmap.load(iconFile))

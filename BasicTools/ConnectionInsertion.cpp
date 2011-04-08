@@ -1472,7 +1472,12 @@ namespace Tinkercell
 			for (int i=0; i < list.size(); ++i)
 				//if (list[i]->children().isEmpty())
 				if (!excludeList.contains(list[i]->name()))
+				{
 					leaves << list[i];
+					QList<ItemFamily*> parents = list[i]->parents();
+					for (int j=0; j < parents.size(); ++j)
+						leaves.removeAll(ConnectionFamily::cast(parents[j]));
+				}
 		}
 		else
 			if (list.size() > 0)

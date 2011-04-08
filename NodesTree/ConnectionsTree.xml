@@ -1,93 +1,74 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE ProcessGraph>
 <ProcessGraph version="1.0">
-<process family="Biochemical" participant_types="Node,Node" participant_roles="Reactant,Product" description="This is a generic class representing any biological reaction with reactant(s) and/or product(s)">
-  
-    <process family="1 to 1" participant_types="Node,Node" participant_roles="Reactant,Product">
 
-      <process family="Degradation" participant_types="Molecule,Empty" description="This connection represents degradation, dilution, or secretion of a molecular species."></process>
-
-      <process family="Production" participant_types="Empty,Molecule" description="This connection represents production or influx of a molecular species.">
-
-           <process family="Transcription" participant_types="Coding,mRNA,Empty" participant_roles="Template,Product,Reactant" description="Production of mRNA from DNA template."></process>
-           <process family="Translation" participant_types="mRNA,Protein,Empty" participant_roles="Template,Product,Reactant" description="Production of protein from mRNA template."></process>      
-           <process family="Protein Production" participant_types="Coding,Protein" participant_roles="Template,Product" description="The complete process of producing a protein from the template DNA."></process>
-
-       </process>
-
-       <process family="Multimerization" participant_types="Protein" monomers="2.0" description="The formation of a multimer from monomers."></process>  
-       <process family="Conformation or location change" participant_types="Molecule"  description="Change in a molecule's location or structure.">
-               <process family="Conformation change" description="Change in molecular structure."></process>
-               <process family="Location change" description="Change in the location of a molecule."></process>
-        </process>
-     </process>
-
-    <process family="2 to 1" participant_types="Node" participant_roles="Reactant1,Reactant2,Product">
-      <process family="Assisted degradation" participant_types="Node,Node,Empty" description="Degradation caused by the formation of a complex">
-      </process>
-    </process>
-    <process family="3 to 1" participant_types="Node" participant_roles="Reactant,Reactant2,Reactant3,Product"></process>
-    <process family="1 to 2" participant_types="Node" participant_roles="Reactant,Product2,Product"></process>
-    <process family="2 to 2" participant_types="Node" participant_roles="Reactant,Reactant2,Product,Product2"></process>
-    <process family="3 to 2" participant_types="Node" participant_roles="Reactant,Reactant2,Reactant3,Product,Product2"></process>
-    <process family="1 to 3" participant_types="Node" participant_roles="Reactant,Product2,Product,Product1"></process>
-    <process family="2 to 3" participant_types="Node" participant_roles="Reactant,Reactant2,Product,Product2,Product3"></process>
-    <process family="3 to 3" participant_types="Node" participant_roles="Reactant,Reactant2,Reactant3,Product,Product2,Product3"></process>
-
-    <process family="Regulation" participant_types="Node" participant_roles="Regulator,Target" description="This connection represents a molecule regulating another.">
-      
-      <process family="Catalysis" participant_types="Molecule,Molecule,Molecule" participant_roles="Catalyst,Substrate,Product" description="A catalyst converting a substrate to a product">
-
-        <process family="Enzyme Catalysis" participant_types="Enzyme,Molecule,Molecule" description="A protein catalyst converting a substrate to a product through an intermediate step">
-           <process family="Non-Competetive Inhibition" participant_types="Enzyme,Molecule,Molecule,Molecule" participant_roles="Catalyst, Substrate, Product,Inhibitor">
-           </process>
-           <process family="Competetive Inhibition" participant_types="Enzyme,Molecule,Molecule,Molecule" participant_roles="Catalyst, Substrate, Product,Inhibitor">
-           </process>
-           <process family="Phosphorylation" participant_types="Enzyme,Molecule,Molecule,Enzyme" participant_roles="Catalyst, Substrate, Product,Phosphatase">
-           </process>
-        </process>
-     </process>
-      
-      <process family="Activation" participant_types="Node" participant_roles="Activator,Target">
-          <process family="Transcription" participant_types="Coding,mRNA,Empty" participant_roles="Template,Product,Reactant" description="Production of mRNA from DNA template.">
-           </process>
-           <process family="Translation" participant_types="mRNA,Protein,Empty" participant_roles="Template,Product,Reactant" description="Production of protein from mRNA template.">
-           </process>      
-           <process family="Protein Production" participant_types="Coding,Protein" participant_roles="Template,Product" description="The complete process of producing a protein from the template DNA.">
-           </process>
-          <process family="Allosteric Activation" participant_types="Molecule,Protein">
-          </process>
-          <process family="Transcription Activation" participant_types="Transcription Factor,Activator Binding Site">
-          </process>
-          <process family="Direct Gene Activation" participant_types="Coding,Activator Binding Site" participant_roles="Activator,Target">
-          </process>
-      </process>
-      
-      <process family="Repression" participant_types="Node" participant_roles="Repressor,Target">
-          <process family="Allosteric Inhibition" participant_types="Molecule,Protein" participant_roles="Inhibitor,Target">
-          </process>
-          <process family="Transcription Repression" participant_types="Transcription Factor,Repressor Binding Site">
-          </process>
-          <process family="Direct Gene Repression" participant_types="Coding,Repressor Binding Site">
-          </process>
-      </process>
-      
-       <process family="Transcription Regulation" participant_types="Transcription Factor,Operator">
-          <process family="Transcription Activation" participant_types="Transcription Factor,Activator Binding Site" participant_roles="Activator,Target">
-          </process>       	
-          <process family="Transcription Repression" participant_types="Transcription Factor,Repressor Binding Site" participant_roles="Repressor,Target">
-          </process>
-      </process>
-
-      <process family="Direct Gene Regulation" participant_types="Coding,Operator" participant_roles="Regulator,Target" description="This connection represents a gene regulating another gene.">
-        <process family="Direct Gene Activation" participant_types="Coding,Activator Binding Site" participant_roles="Activator,Target">
-        </process>
-  	    <process family="Direct Gene Repression" participant_types="Coding,Repressor Binding Site" participant_roles="Repressor,Target">
-        </process>
-      </process>
-    </process>
-  <process family="PoPS" participant_types="Part,Part" participant_roles="Upstream,Downstream" description="This connection represents the movement of RNA polymerase along a strand of DNA.">
-  </process>  
+<process family="1 to 1" participant_types="Node,Node" participant_roles="Reactant,Product">
+	<process family="Biochemical reaction" participant_types="Molecule,Molecule" participant_roles="Reactant,Product" description="This is a generic class representing any biological reaction with reactant(s) and/or product(s)"></process>
+	<process family="Degradation" participant_types="Molecule,Empty" description="This connection represents degradation, dilution, or secretion of a molecular species."></process>
+	<process family="Production" participant_types="Empty,Molecule" description="This connection represents production or influx of a molecular species.">
+		<process family="Transcription" participant_types="Coding,mRNA,Empty" participant_roles="Template,Product,Reactant" description="Production of mRNA from DNA template."></process>
+		<process family="Translation" participant_types="mRNA,Protein,Empty" participant_roles="Template,Product,Reactant" description="Production of protein from mRNA template."></process>
+	</process>
+	<process family="Protein Production" participant_types="Coding,Protein" participant_roles="Template,Product" description="The complete process of producing a protein from the template DNA."></process>
+	<process family="Multimerization" participant_types="Molecule" monomers="2.0" description="The formation of a multimer from monomers of the same kind"></process>
+	<process family="PoPS" participant_types="Part,Part" participant_roles="Upstream,Downstream" description="This connection represents the movement of RNA polymerase along a strand of DNA."></process>
+	<process family="Protein Production" participant_types="Coding,Protein" participant_roles="Template,Product" description="The complete process of producing a protein from the template DNA."></process>
+	<process family="Allosteric Regulation" participant_types="Molecule,Protein" participant_roles="Regulator,Target"></process>
+	<process family="Transcription Regulation" participant_types="Transcription Factor,Operator" participant_roles="Regulator,Target"></process>
+	<process family="Direct Gene Regulation" participant_types="Coding,Operator" participant_roles="Regulator,Target"></process>
 </process>
+
+<process family="2 to 1" participant_types="Node" participant_roles="Reactant1,Reactant2,Product">
+	<process family="Dimerize" participant_types="Molecule" monomers="2.0" description="The formation of a dimer from monomers"></process>
+	<process family="Transcription" participant_types="Coding,mRNA,Empty" participant_roles="Template,Product,Reactant" description="Production of mRNA from DNA template."></process>
+	<process family="Translation" participant_types="mRNA,Protein,Empty" participant_roles="Template,Product,Reactant" description="Production of protein from mRNA template."></process>      
+</process>
+<process family="3 to 1" participant_types="Node" participant_roles="Reactant,Reactant2,Reactant3,Product"></process>
+<process family="1 to 2" participant_types="Node" participant_roles="Reactant,Product2,Product"></process>
+<process family="2 to 2" participant_types="Node" participant_roles="Reactant,Reactant2,Product,Product2"></process>
+<process family="3 to 2" participant_types="Node" participant_roles="Reactant,Reactant2,Reactant3,Product,Product2"></process>
+<process family="1 to 3" participant_types="Node" participant_roles="Reactant,Product2,Product,Product1"></process>
+<process family="2 to 3" participant_types="Node" participant_roles="Reactant,Reactant2,Product,Product2,Product3"></process>
+<process family="3 to 3" participant_types="Node" participant_roles="Reactant,Reactant2,Reactant3,Product,Product2,Product3"></process>
+
+<process family="Regulation" participant_types="Node" participant_roles="Regulator,Target" description="This connection represents a molecule regulating another.">
+	<process family="Catalysis" participant_types="Molecule,Molecule,Molecule" participant_roles="Catalyst,Substrate,Product" description="A catalyst converting a substrate to a product">
+		<process family="Enzyme Catalysis" participant_types="Enzyme,Molecule,Molecule" description="A protein catalyst converting a substrate to a product through an intermediate step">
+			<process family="Non-Competetive Inhibition" participant_types="Enzyme,Molecule,Molecule,Molecule" participant_roles="Catalyst, Substrate, Product,Inhibitor"></process>
+			<process family="Competetive Inhibition" participant_types="Enzyme,Molecule,Molecule,Molecule" participant_roles="Catalyst, Substrate, Product,Inhibitor"></process>
+		</process>
+	</process>
+      
+	<process family="Activation" participant_types="Node" participant_roles="Activator,Target">
+		<process family="Transcription" participant_types="Coding,mRNA,Empty" participant_roles="Template,Product,Reactant" description="Production of mRNA from DNA template."></process>
+		<process family="Translation" participant_types="mRNA,Protein,Empty" participant_roles="Template,Product,Reactant" description="Production of protein from mRNA template."></process>      
+		<process family="Protein Production" participant_types="Coding,Protein" participant_roles="Template,Product" description="The complete process of producing a protein from the template DNA."></process>
+		<process family="Allosteric Activation" participant_types="Molecule,Protein"></process>
+		<process family="Transcription Activation" participant_types="Transcription Factor,Activator Binding Site"></process>
+		<process family="Direct Gene Activation" participant_types="Coding,Activator Binding Site" participant_roles="Activator,Target"></process>
+	</process>
+      
+	<process family="Repression" participant_types="Node" participant_roles="Repressor,Target">
+		<process family="Allosteric Inhibition" participant_types="Molecule,Protein" participant_roles="Inhibitor,Target"></process>
+		<process family="Transcription Repression" participant_types="Transcription Factor,Repressor Binding Site"></process>
+		<process family="Direct Gene Repression" participant_types="Coding,Repressor Binding Site"></process>
+	</process>
+
+	<process family="Allosteric Regulation" participant_types="Molecule,Protein">
+		<process family="Allosteric Activation" participant_types="Molecule,Protein" participant_roles="Activator,Target"></process>
+		<process family="Allosteric Inhibition" participant_types="Molecule,Protein" participant_roles="Inhibitor,Target"></process>
+	</process>
+	
+	<process family="Transcription Regulation" participant_types="Transcription Factor,Operator">
+		<process family="Transcription Activation" participant_types="Transcription Factor,Activator Binding Site" participant_roles="Activator,Target"></process>       	
+		<process family="Transcription Repression" participant_types="Transcription Factor,Repressor Binding Site" participant_roles="Repressor,Target"></process>
+	</process>
+
+	<process family="Direct Gene Regulation" participant_types="Coding,Operator" participant_roles="Regulator,Target" description="This connection represents a gene regulating another gene.">
+        <process family="Direct Gene Activation" participant_types="Coding,Activator Binding Site" participant_roles="Activator,Target"></process>
+  	    <process family="Direct Gene Repression" participant_types="Coding,Repressor Binding Site" participant_roles="Repressor,Target"></process>
+	</process>
+</process>
+
 </ProcessGraph>
 

@@ -45,6 +45,7 @@
 	<node family="Vector" units="copies,count" resitance="ampicillin" ori="" replication_rate="10.0" description="A vector backbone, which contains a selectable marker, and an insert constitute a plasmid."></node>
 	<node family="Sticky Ends" units="copies,count" description="Sticky ends used for cloning"></node>
   </node>
+  <node family="Empty" description="Used for representing degradation, dilution, or other forms of exit from the system"></node>
 </node>
 <node family="Container" description="A generic component that can contain other components inside it">
 	<node family="Composite Part" description="A part that composed of other parts"></node>
@@ -53,6 +54,5 @@
 		<node family="Cell" species="E.coli" count="1" x="0" y="0" description="A biological cell, e.g. a bacterium"></node>
 	</node>
 </node>
-<node family="Empty" description="Degradation or dilution"></node>
 </NodesGraph>
 

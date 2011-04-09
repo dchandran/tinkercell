@@ -1497,6 +1497,7 @@ namespace Tinkercell
 		for (int i=0; i < leaves.size(); ++i)
 		{
 			button = new QToolButton;
+			button->setToolTip(leaves[i]->description);
 			button->setCheckable(true);
 			connect(button,SIGNAL(clicked()),pickFamilyDialog,SLOT(accept()));
 			button->setIcon(QIcon(leaves[i]->pixmap));

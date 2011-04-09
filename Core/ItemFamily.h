@@ -65,6 +65,8 @@ namespace Tinkercell
 	public:
 		/*! \brief description of this family*/
 		QString description;
+		/*! \brief restrictions that apply to this family*/
+		QStringList restrictions;
 		/*! \brief the possible options for measurement name and unit for items in this family*/
 		QList<Unit> measurementUnitOptions;
 		/*! \brief the measurement name and unit for items in this family*/
@@ -239,6 +241,8 @@ namespace Tinkercell
 	protected:
 		/*! \brief indicates whether or not the given ID is this family or any of its parent families*/
 		virtual bool isA(int) const;
+		/*! \brief check for restrictions. RESTRICTIONS ARE HARD CODED. SEE FUNCTION CODE*/
+		static bool checkRestrictions(const QString & restriction, const QList<NodeHandle*>&, bool checkFull=true);
 		/*! \brief all the parents*/
 		QList<ConnectionFamily*> parentFamilies;
 		/*! \brief all the families that are under this family*/

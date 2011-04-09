@@ -227,6 +227,8 @@ namespace Tinkercell
 
 
 			text += tr("Description: ") + family->description + tr("\n\n");
+			if (!family->restrictions.isEmpty())
+				text += tr("Restrictions: ") + family->restrictions.join(tr(", ")) + tr("\n\n");
 
 			if (!family->measurementUnit.name.isEmpty() && !family->measurementUnit.property.isEmpty())
 				text += tr("Unit of measurement: ") + family->measurementUnit.name + tr("\n\n");

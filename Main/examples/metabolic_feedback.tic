@@ -397,7 +397,7 @@
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
         </Handle>
-        <Handle type="2" name="back" parent="ai1" family="conformation change">
+        <Handle type="2" name="back" parent="ai1" family="biochemical reaction">
             <tc_matrix>
                 <Table key="product stoichiometries" rows="1" cols="2" rowNames="stoichiometry" columnNames="ai1.Inactive;;enz" desc="Number of each product participating in this reaction" values="0;;1"/>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>

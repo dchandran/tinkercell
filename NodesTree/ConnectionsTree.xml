@@ -16,6 +16,7 @@
 	<process family="Allosteric Regulation" participant_types="Molecule,Protein" participant_roles="Regulator,Target"></process>
 	<process family="Transcription Regulation" participant_types="Transcription Factor,Operator" participant_roles="Regulator,Target"></process>
 	<process family="Direct Gene Regulation" participant_types="Coding,Operator" participant_roles="Regulator,Target"></process>
+	<process family="Transport" description="A particle moving in or out of a compartment" conditions="different compartments"></process>
 </process>
 
 <process family="2 to 1" participant_types="Node" participant_roles="Reactant1,Reactant2,Product">

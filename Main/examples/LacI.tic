@@ -7,7 +7,7 @@
                 <Table key="units" rows="27" cols="2" rowNames="activator binding site;;cell;;coding;;compartment;;composite part;;constitutive promoter;;enzyme;;inducible promoter;;molecule;;mrna;;operator;;part;;promoter;;protein;;rbs;;receptor;;reporter;;repressible promoter;;repressor binding site;;ribozyme;;rna;;small molecule;;sticky ends;;subcellular compartment;;terminator;;transcription factor;;vector" columnNames="property;;name" values="activity;;PoPS;;volume;;fL;;activity;;PoPS;;volume;;fL;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;concentration;;uM;;concentration;;uM;;copies;;count;;volume;;fL;;activity;;PoPS;;concentration;;uM;;copies;;count"/>
             </tc_table>
         </Handle>
-        <Handle type="2" name="cc1" parent="" family="conformation change">
+        <Handle type="2" name="cc1" parent="" family="biochemical reaction">
             <tc_matrix>
                 <Table key="product stoichiometries" rows="1" cols="2" rowNames="stoichiometry" columnNames="cel1.lac;;lac" desc="Number of each product participating in this reaction" values="0;;1"/>
                 <Table key="parameters" rows="1" cols="3" rowNames="k0" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="0.0072;;0;;0"/>
@@ -223,7 +223,7 @@
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
         </Handle>
-        <Handle type="2" name="back" parent="cel1.ai1" family="conformation change">
+        <Handle type="2" name="back" parent="cel1.ai1" family="biochemical reaction">
             <tc_matrix>
                 <Table key="product stoichiometries" rows="1" cols="2" rowNames="stoichiometry" columnNames="cel1.ai1.Inactive;;cel1.LacI" desc="Number of each product participating in this reaction" values="0;;1"/>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
@@ -311,7 +311,7 @@
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
         </Handle>
-        <Handle type="2" name="v1" parent="cel1.pp1" family="assisted degradation">
+        <Handle type="2" name="v1" parent="cel1.pp1" family="2 to 1">
             <tc_matrix>
                 <Table key="product stoichiometries" rows="1" cols="1" rowNames="stoichiometry" columnNames="cel1.LacZ" desc="Number of each product participating in this reaction" values="1"/>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>

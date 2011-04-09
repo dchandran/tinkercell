@@ -866,7 +866,7 @@
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
         </Handle>
-        <Handle type="2" name="v1" parent="cf1.pp2" family="assisted degradation">
+        <Handle type="2" name="v1" parent="cf1.pp2" family="2 to 1">
             <tc_matrix>
                 <Table key="product stoichiometries" rows="1" cols="1" rowNames="stoichiometry" columnNames="tf4" desc="Number of each product participating in this reaction" values="1"/>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
@@ -938,7 +938,7 @@
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
         </Handle>
-        <Handle type="2" name="v1" parent="cf1.pp1" family="assisted degradation">
+        <Handle type="2" name="v1" parent="cf1.pp1" family="2 to 1">
             <tc_matrix>
                 <Table key="product stoichiometries" rows="1" cols="1" rowNames="stoichiometry" columnNames="cf1.tf2" desc="Number of each product participating in this reaction" values="1"/>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
@@ -1026,7 +1026,7 @@
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
         </Handle>
-        <Handle type="2" name="v1" parent="cf2.pp2" family="assisted degradation">
+        <Handle type="2" name="v1" parent="cf2.pp2" family="2 to 1">
             <tc_matrix>
                 <Table key="product stoichiometries" rows="1" cols="1" rowNames="stoichiometry" columnNames="Y" desc="Number of each product participating in this reaction" values="1"/>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
@@ -1098,7 +1098,7 @@
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
         </Handle>
-        <Handle type="2" name="v1" parent="cf2.pp1" family="assisted degradation">
+        <Handle type="2" name="v1" parent="cf2.pp1" family="2 to 1">
             <tc_matrix>
                 <Table key="product stoichiometries" rows="1" cols="1" rowNames="stoichiometry" columnNames="cf2.tf2" desc="Number of each product participating in this reaction" values="1"/>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
@@ -1186,7 +1186,7 @@
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
         </Handle>
-        <Handle type="2" name="v1" parent="cf3.pp2" family="assisted degradation">
+        <Handle type="2" name="v1" parent="cf3.pp2" family="2 to 1">
             <tc_matrix>
                 <Table key="product stoichiometries" rows="1" cols="1" rowNames="stoichiometry" columnNames="tf1" desc="Number of each product participating in this reaction" values="1"/>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
@@ -1258,7 +1258,7 @@
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
         </Handle>
-        <Handle type="2" name="v1" parent="cf3.pp1" family="assisted degradation">
+        <Handle type="2" name="v1" parent="cf3.pp1" family="2 to 1">
             <tc_matrix>
                 <Table key="product stoichiometries" rows="1" cols="1" rowNames="stoichiometry" columnNames="cf3.tf2" desc="Number of each product participating in this reaction" values="1"/>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>

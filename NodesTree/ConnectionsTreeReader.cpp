@@ -133,6 +133,11 @@ namespace Tinkercell
                     	family->description = vec.at(i).value().toString();
                     }
                     else
+                    if (vec.at(i).name().toString().toLower() == QObject::tr("conditions"))
+                    {
+                    	family->restrictions += vec.at(i).value().toString();
+                    }
+                    else
                     {
                          atrib = vec.at(i).name().toString();         //get other attributes
                          value = vec.at(i).value().toString();

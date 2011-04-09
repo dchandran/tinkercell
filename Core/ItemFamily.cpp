@@ -330,6 +330,10 @@ namespace Tinkercell
 	{
 		if (nodes.isEmpty())
 			return !full;
+		
+		for (int i=0; i < restrictions.size(); ++i)
+			if (!checkRestrictions(restrictions[i],nodes,full))
+				return false;
 
 		NodeHandle * h;
 		
@@ -542,6 +546,23 @@ namespace Tinkercell
 		}
 		
 		return rolelist;
+	}
+	
+	bool ConnectionFamily::checkRestrictions(const QString & restriction, const QList<NodeHandle*>& nodes, bool checkFull)
+	{
+		if (checkFull && restriction.toLower() == QString("different compartments"))
+		{
+			if (nodes.size() < 2 || !nodes[0]) return false;
+
+			ItemHandle * parent = nodes[0]->parent;
+			for (int i=1; i < nodes.size(); ++i)
+			{
+				if (nodes[i] && nodes[i]->parent != parent)
+					return true;
+			}
+			return false;
+		}
+		return true;
 	}
 }
 

@@ -31,26 +31,26 @@
 #include "OctaveTool.h"
 #include "CodingWindow.h"
 #include "DynamicLibraryMenu.h"
-//#include "BasicInformationTool.h"
-//#include "StoichiometryTool.h"
-//#include "FunctionDeclarationsTool.h"
-//#include "ModelSummaryTool.h"
-//#include "ContainerTool.h"
-//#include "ModelFileGenerator.h"
-//#include "SimulationEventTool.h"
-//#include "ModuleTool.h"
-//#include "AutoGeneRegulatoryTool.h"
-//#include "CLabelsTool.h"
-//#include "DNASequenceTool.h"
-//#include "ViewTablesTool.h"
-//#include "LPSolveInput.h"
-//#include "CellPositionUpdatingTool.h"
-//#include "OctaveExporter.h"
-//#include "EnglishExporter.h"
-//#include "AntimonyEditor.h"
-//#include "SBMLImportExport.h"
-//#include "CopasiExporter.h"
-//#include "ModuleCombinatorics.h"
+#include "BasicInformationTool.h"
+#include "StoichiometryTool.h"
+#include "FunctionDeclarationsTool.h"
+#include "ModelSummaryTool.h"
+#include "ContainerTool.h"
+#include "ModelFileGenerator.h"
+#include "SimulationEventTool.h"
+#include "ModuleTool.h"
+#include "AutoGeneRegulatoryTool.h"
+#include "CLabelsTool.h"
+#include "DNASequenceTool.h"
+#include "ViewTablesTool.h"
+#include "LPSolveInput.h"
+#include "CellPositionUpdatingTool.h"
+#include "OctaveExporter.h"
+#include "EnglishExporter.h"
+#include "AntimonyEditor.h"
+#include "SBMLImportExport.h"
+#include "CopasiExporter.h"
+#include "ModuleCombinatorics.h"
 #include <QColor>
 #include <QBrush>
 
@@ -123,6 +123,8 @@ int main(int argc, char *argv[])
     splash.showMessage(QString("loading ..."));
 
 	/**********  statically loaded plugins  ****************/
+
+	//basic plugins
 	mainWindow.addTool(new BasicGraphicsToolbar);
 	mainWindow.addTool(new PlotTool);
    	mainWindow.addTool(new GnuplotTool);
@@ -142,7 +144,9 @@ int main(int argc, char *argv[])
 	mainWindow.addTool(new ConnectionMaker);
 	
 	mainWindow.addTool(new DynamicLibraryMenu);
-/*	
+
+	//all the major plugins
+/*
 	mainWindow.addTool(new BasicInformationTool(QString("text")));
 	mainWindow.addTool(new BasicInformationTool(QString("numerical")));
 	mainWindow.addTool(new AssignmentFunctionsTool);
@@ -150,17 +154,12 @@ int main(int argc, char *argv[])
 	mainWindow.addTool(new ModelSummaryTool);
 	mainWindow.addTool(new ModelFileGenerator);
 	mainWindow.addTool(new SimulationEventsTool);	
-	mainWindow.addTool(new CompartmentTool);
-	
+	mainWindow.addTool(new CompartmentTool);	
 	mainWindow.addTool(new OctaveExporter);
 	mainWindow.addTool(new SBMLImportExport);
 	mainWindow.addTool(new CopasiExporter);
 	mainWindow.addTool(new AntimonyEditor);
 	mainWindow.addTool(new EnglishExporter);
-*/	
-	Tool * codingWindowPlugin = new CodingWindow; //do the svn update before loading python,octave, and modules
-
-/*	
 	mainWindow.addTool(new ModuleTool);
 	mainWindow.addTool(new AutoGeneRegulatoryTool);
 	mainWindow.addTool(new CLabelsTool);
@@ -169,10 +168,10 @@ int main(int argc, char *argv[])
 	mainWindow.addTool(new LPSolveInputWindow);
 	mainWindow.addTool(new CellPositionUpdateTool);
 */
-
+	Tool * codingWindowPlugin = new CodingWindow; //do the svn update before loading python,octave, and modules
     mainWindow.addTool(new LoadCLibrariesTool);
 	mainWindow.addTool(new PythonTool);
-	mainWindow.addTool(new OctaveTool);
+	//mainWindow.addTool(new OctaveTool);
 
 	mainWindow.addTool(codingWindowPlugin);
 

@@ -55,6 +55,10 @@ namespace Tinkercell
 		static QMap<QString,NodeFamily*> nodeFamilies;
 		/*!\brief  if the program contains families, then this map should be set*/
 		static QMap<QString,ConnectionFamily*> connectionFamilies;
+		/*!\brief lookup family from its name*/
+		static NodeFamily * getNodeFamily(const QString& name);
+		/*!\brief lookup family from its name*/
+		static ConnectionFamily * getConnectionFamily(const QString& name);
 		
 		/*!\brief default constructor*/
 		LoadSaveTool();
@@ -125,10 +129,6 @@ namespace Tinkercell
 		QPushButton * restoreButton;
 		/*!\brief commands to be deleted at the end*/
 		QList<QUndoCommand*> loadCommands;
-		/*!\brief lookup family from its name*/
-		static NodeFamily * getNodeFamily(const QString& name);
-		/*!\brief lookup family from its name*/
-		static ConnectionFamily * getConnectionFamily(const QString& name);
 		
 		/*!\brief A simple struct used to store loaded models. 
 		             This is used to speed up reloads by caching the models*/

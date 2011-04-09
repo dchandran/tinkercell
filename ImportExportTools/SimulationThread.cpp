@@ -924,8 +924,11 @@ void SimulationDialog::run()
 
 void SimulationDialog::historyChanged(int)
 {
-	if (sliderWidget && sliderWidget->isVisible() && !sliderWidget->hasFocus())
+	if (sliderWidget && sliderWidget->isVisible())
+	{
+		updateParameterList();
 		this->run();
+	}
 }
 
 SimulationDialog::~SimulationDialog()
@@ -939,6 +942,11 @@ SimulationDialog::~SimulationDialog()
 }
 
 void SimulationDialog::enterEvent ( QEvent * event )
+{
+	updateParameterList();
+}
+
+void SimulationDialog::updateParameterList()
 {
 	if (!thread || !thread->mainWindow)  return;
 	NetworkHandle * network = thread->mainWindow->currentNetwork();

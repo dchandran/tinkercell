@@ -4,6 +4,7 @@ CMAKE_MINIMUM_REQUIRED( VERSION 2.6 )
 
 SET(LIBRARY_OUTPUT_PATH ${EXECUTABLE_OUTPUT_PATH})
 
+OPTION( BUILD_LAPACK "check this if your system does not have lapack library" ON )
 OPTION( BUILD_SBWCORE "systems biology workbench core" OFF )
 OPTION( BUILD_BIOCODER "wet-lab protocol coder" OFF )
 
@@ -16,7 +17,9 @@ ADD_SUBDIRECTORY( qwt )       #plot drawing using Qt
 ADD_SUBDIRECTORY( qwtplot3d )  #drawing 3D plots using Qt
 ADD_SUBDIRECTORY( optim )      #Nelder-Mead optimization
 ADD_SUBDIRECTORY( cvode260 )   #numerical integration (stiff solver)
-ADD_SUBDIRECTORY( lapack )     #linear algebra
+IF (BUILD_LAPACK)
+	ADD_SUBDIRECTORY( lapack )     #linear algebra
+ENDIF(BUILD_LAPACK)
 ADD_SUBDIRECTORY( lpsolve )    #linear programming
 ADD_SUBDIRECTORY( libSBML )    #systems biology markup language parser
 ADD_SUBDIRECTORY( Antimony )   #human-readable test-based reaction networks

@@ -39,6 +39,5 @@ extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * mainWindow)
 	mainWindow->addTool(new LPSolveInputWindow);
 	mainWindow->addTool(new CellPositionUpdateTool);
 //	mainWindow->addTool(new ModuleCombinatorics);
-
 }
 

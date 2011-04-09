@@ -16,8 +16,7 @@
 #include "NodeGraphicsItem.h"
 #include "TextGraphicsItem.h"
 #include "ConsoleWindow.h"
-#include "NodesTree.h"
-#include "ConnectionsTree.h"
+#include "LoadSaveTool.h"
 #include "AntimonyEditor.h"
 #include "ModelSummaryTool.h"
 #include "ModuleTool.h"
@@ -139,21 +138,11 @@ namespace Tinkercell
 
 		QString appDir = QCoreApplication::applicationDirPath();
 
-		ConnectionFamily * biochemicalFamily = 0;
-		NodeFamily * speciesFamily = 0;
-
-		if (mainWindow->tool(tr("Nodes Tree")) && mainWindow->tool(tr("Connections Tree")))
-		{
-			NodesTree * partsTree = static_cast<NodesTree*>(mainWindow->tool(tr("Nodes Tree")));
-			ConnectionsTree * connectionsTree = static_cast<ConnectionsTree*>(mainWindow->tool(tr("Connections Tree")));
-			biochemicalFamily = connectionsTree->getFamily(tr("Biochemical"));
-			speciesFamily = partsTree->getFamily(tr("Molecule"));
-		}
+		ConnectionFamily * biochemicalFamily = LoadSaveTool::getConnectionFamily(tr("biochemical reaction"));
+		NodeFamily * speciesFamily = LoadSaveTool::getNodeFamily(tr("molecule"));
 
 		if (!biochemicalFamily || !speciesFamily)
 		{
-			if (console())
-                console()->error(tr("No parts and connection information"));
 			return QList<ItemHandle*>();
 		}
 
@@ -491,6 +480,7 @@ namespace Tinkercell
 			QWidget * widget = mainWindow->tool(tr("Module Connection Tool"));
 			ModuleTool * moduleTool = static_cast<ModuleTool*>(widget);
 			connect(moduleTool,SIGNAL(getTextVersion(const QList<ItemHandle*>&, QString*)),
+
 					this,SLOT(getTextVersion(const QList<ItemHandle*>&, QString*)));
 		}
 	}

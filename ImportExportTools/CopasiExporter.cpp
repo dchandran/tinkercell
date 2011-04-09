@@ -781,7 +781,7 @@ void CopasiExporter::toolLoaded(Tool*)
 					connect(button,SIGNAL(pressed()),this,SLOT(odeSim()));
 				}
 
-				menuItem = libMenu->addMenuItem(tr("Simulation"), tr("Deterministic"), QIcon(odepng));
+				menuItem = libMenu->addMenuItem(tr("Simulation"), tr("Deterministic"), QIcon(odepng), true);
 				if (menuItem)
 				{
 					menuItem->setToolTip(tr("using COPASI"));

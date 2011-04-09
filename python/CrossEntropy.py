@@ -41,7 +41,7 @@ def OptimizeParameters(objective, title="optimizing", maxits=200, N=100, Ne=0.5,
     sigma2 = diag(minmax)
     while t < maxits and (t<2 or (oldmax - curmax) > epsilon):     #While not converged and maxits not exceeded
         tc_showProgress(title, int( 100 * t/maxits ))
-        X = numpy.random.multivariate_random(mu,sigma2,N)         #Obtain N samples from current sampling distribution
+        X = numpy.random.multivariate_normal(mu,sigma2,N)         #Obtain N samples from current sampling distribution
         indx = range(0,N)
         for i in indx:
             for j in range(0,params.rows):

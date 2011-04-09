@@ -238,7 +238,7 @@ namespace Tinkercell
 		(*dataTable) = histData;
 	}
 
-	void DataPlot::plot(const NumericalDataTable& dat, int x, const QString& title, bool append)
+	void DataPlot::plot(const NumericalDataTable& newdat, int x, const QString& title, bool append)
 	{
 		int dt = 1;
 		xcolumn = x;
@@ -254,7 +254,7 @@ namespace Tinkercell
 		setAutoReplot(false);
 		this->clear();
 		
-		if ((dat.rows() + dat.columns()) > 0)
+		if ((newdat.rows() * newdat.columns()) > 0)
 		{
 			if (!append)
 			{
@@ -263,12 +263,13 @@ namespace Tinkercell
 				dataTables.clear();
 			}
 		
-			dataTables += new NumericalDataTable(dat);
+			dataTables += new NumericalDataTable(newdat);
 		}
 
-		if (dataTables.isEmpty()) return;
+		if (dataTables.isEmpty() || !dataTables.last()) return;
 
-		processData(dataTables.last());					
+		processData(dataTables.last());
+		const NumericalDataTable & dat = *(dataTables.last());
 
 		if (dat.columns() > 2)
 		{
@@ -333,7 +334,7 @@ namespace Tinkercell
 			setAxisScaleDraw(QwtPlot::xBottom, new DataAxisLabelDraw(dat.rowNames()));
 		}
 		
-		if (dat.columns() > x)
+		if (x >= 0 && dat.columns() > x)
 			setAxisTitle(xBottom, dat.columnName(x));
 		else
 			if (x < 0)
@@ -712,11 +713,11 @@ namespace Tinkercell
 					false);
 		}
 		
-		if (newData.columns() > dataPlot->xcolumn)
+		if (x >= 0 && newData.columns() > x)
 		{
-			dataPlot->setAxisTitle(QwtPlot::xBottom, newData.columnName(dataPlot->xcolumn));
+			dataPlot->setAxisTitle(QwtPlot::xBottom, newData.columnName(x));
 			if (newData.columns() == 2)
-				if (dataPlot->xcolumn == 0)
+				if (x == 0)
 					dataPlot->setAxisTitle(QwtPlot::yLeft, newData.columnName(1));
 				else
 					dataPlot->setAxisTitle(QwtPlot::yLeft, newData.columnName(0));

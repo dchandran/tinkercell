@@ -13,8 +13,7 @@
 #include "BasicInformationTool.h"
 #include "StoichiometryTool.h"
 #include "TextEditor.h"
-#include "NodesTree.h"
-#include "ConnectionsTree.h"
+#include "LoadSaveTool.h"
 #include "ConsoleWindow.h"
 #include "SimulationThread.h"
 #include "AntimonyEditor.h"
@@ -255,21 +254,11 @@ QList<ItemHandle*> SBMLImportExport::importSBML(const QString& sbml_text)
 {
 	QList<ItemHandle*> handles;
 	
-	ConnectionFamily * defaultReactionFamily = 0;
-	NodeFamily * defaultSpeciesFamily = 0;
-
-	if (mainWindow->tool(tr("Nodes Tree")) && mainWindow->tool(tr("Connections Tree")))
-	{
-		NodesTree * partsTree = static_cast<NodesTree*>(mainWindow->tool(tr("Nodes Tree")));
-		ConnectionsTree * connectionsTree = static_cast<ConnectionsTree*>(mainWindow->tool(tr("Connections Tree")));
-		defaultReactionFamily = connectionsTree->getFamily(tr("Biochemical"));
-		defaultSpeciesFamily = partsTree->getFamily(tr("Molecule"));
-	}
+	ConnectionFamily * defaultReactionFamily = LoadSaveTool::getConnectionFamily(tr("biochemical reaction"));
+	NodeFamily * defaultSpeciesFamily = LoadSaveTool::getNodeFamily(tr("molecule"));
 
 	if (!defaultSpeciesFamily || !defaultReactionFamily)
 	{
-		if (console())
-            console()->error(tr("No parts and connection information"));
 		return QList<ItemHandle*>();
 	}
 

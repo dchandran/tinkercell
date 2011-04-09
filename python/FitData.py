@@ -52,11 +52,11 @@ if len(fname) > 0:
     trueData = genfromtxt(fname, type(0.0), comments='#', delimiter=',')
     numpts = len(trueData) - 1     #rows
     time = trueData[ numpts, 0 ]  #last time point
-    res = OptimizeParameters(leastSquares, "Data fitting", 100, 100)
+    res = OptimizeParameters(leastSquares, "Data fitting", 10, 10)
     mu = res[0]
     sigma2 = res[1]
     paramnames = res[2]
-    X = numpy.random.multivariate_random(mu,sigma2,100)
+    X = numpy.random.multivariate_normal(mu,sigma2,100)
     n = len(mu)
     params = tc_createMatrix(n, 1)
     m = tc_createMatrix(100, n)

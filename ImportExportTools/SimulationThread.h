@@ -202,6 +202,8 @@ namespace Tinkercell
 		protected:
 			/*! \brief whenever the mouse enters the dialog, it updates the list of parameters inside the combo boxes*/
 			void enterEvent ( QEvent * event );
+			/*! \brief updates the list of parameters inside the combo boxes*/
+			void updateParameterList();
 			/*! \brief the thread*/
 			SimulationThread * thread;
 			QLabel * methodLabel;

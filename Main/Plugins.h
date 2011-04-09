@@ -27,6 +27,8 @@ load plugins as separate library
 #include "SBMLImportExport.h"
 #include "CopasiExporter.h"
 #include "ModuleCombinatorics.h"
+#include "PythonTool.h"
+#include "OctaveTool.h"
 #include <QColor>
 #include <QBrush>
 

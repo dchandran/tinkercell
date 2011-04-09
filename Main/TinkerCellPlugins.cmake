@@ -88,18 +88,4 @@ IF (TINKERCELL_3RD_PARTY_PLUGINS)
 	ENDIF (NOT DEFINED TINKERCELL_HOME_DIR)
 ENDIF (TINKERCELL_3RD_PARTY_PLUGINS)
 
-#-----------------------------------
-#  Parts catalog
-#-----------------------------------
-
-FILE(GLOB NODESTREE_XML_FILES 
-	${TINKERCELL_SOURCE_DIR}/NodesTree/NodesTree.xml
-	${TINKERCELL_SOURCE_DIR}/NodesTree/ConnectionsTree.xml
-	${TINKERCELL_SOURCE_DIR}/NodesTree/InitialCatalogList.txt
-)
-
-INSTALL( FILES ${NODESTREE_XML_FILES}
-  DESTINATION NodesTree
-  COMPONENT NodesAndConnections
-)
 

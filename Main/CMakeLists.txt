@@ -128,7 +128,22 @@ ENDIF (TINKERCELL_LITE_PARTS)
 #  Plugins
 #--------------------------------------------------------------------------
 
-INCLUDE (TinkerCellPlugins.cmake)
+INCLUDE (TinkerCellPlugins.cmake) #commented out if plugins are statically loaded
+
+#-----------------------------------
+#  Parts catalog
+#-----------------------------------
+
+FILE(GLOB NODESTREE_XML_FILES 
+	${TINKERCELL_SOURCE_DIR}/NodesTree/NodesTree.xml
+	${TINKERCELL_SOURCE_DIR}/NodesTree/ConnectionsTree.xml
+	${TINKERCELL_SOURCE_DIR}/NodesTree/InitialCatalogList.txt
+)
+
+INSTALL( FILES ${NODESTREE_XML_FILES}
+  DESTINATION NodesTree
+  COMPONENT NodesAndConnections
+)
 
 #--------------------------------------------------------------------------
 #  Copy example files and stylesheet

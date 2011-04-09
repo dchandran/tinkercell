@@ -325,7 +325,7 @@ namespace Tinkercell
 		if (!p->childFamilies.contains(this))
 			p->childFamilies.append(this);
 	}
-	
+
 	bool ConnectionFamily::isValidSet(const QList<NodeHandle*>& nodes, bool full)
 	{
 		if (nodes.isEmpty())

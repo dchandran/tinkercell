@@ -3,12 +3,12 @@
 <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
     <renderInformation id="TinkerCell_Style" programName="TinkerCell">
         <listOfColorDefinitions>
-            <colorDefinition id="shape0color" value="#09b600" alpha="255"/>
+            <colorDefinition id="shape0color" value="#6464ff" alpha="255"/>
         </listOfColorDefinitions>
         <listOfStyles>
             <style idList="arrow" width="40" height="30">
                 <g>
-                    <polygon fill="shape0color" stroke="#00557f" stroke-width="8" stroke-alpha="1">
+                    <polygon fill="shape0color" stroke="#515151" stroke-width="5" stroke-alpha="1">
                         <listOfCurveSegments>
                             <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                                 <start x="27.933%" y="47.3333%"/>

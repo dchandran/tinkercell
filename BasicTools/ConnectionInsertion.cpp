@@ -146,7 +146,10 @@ namespace Tinkercell
 		connectionsTree = tree;
 		catalogWidget = 0;
 		selectedFamily = 0;
-		excludeList << "1 to 1" << "regulation" << "activation" << "repression";
+		excludeList << tr("1 to 1")  << tr("1 to 2")  << tr("1 to 3")
+						  << tr("2 to 1") << tr("2 to 2") << tr("2 to 3")
+						  << tr("3 to 1") << tr("3 to 2") << tr("3 to 3")
+						  << tr( "1 to 1") << tr("regulation") << tr("activation") << tr("repression");
 		
 
 		connectTCFunctions();
@@ -1502,7 +1505,14 @@ namespace Tinkercell
 			button->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 			toolButtons << button;
 		}
-
+		
+		if (leaves.size() == 1)
+		{
+			selectedFamily = leaves[0];
+			setRequirements();
+			return true;
+		}
+		
 		setupPickFamilyDialog(toolButtons);
 		
 		pickFamilyDialog->exec();

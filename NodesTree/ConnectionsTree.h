@@ -93,10 +93,10 @@ namespace Tinkercell
         static QString iconFile(ConnectionFamily * family);
         /*! \brief gets the arrow file name for a family
          \param QString family name*/
-        static QString arrowImageFile(QString name);
+        static QString arrowImageFile(const QString& name, const QString& dir = QString());
          /*! \brief gets the decorator file name for a family
          \param QString family name*/
-        static QString decoratorImageFile(QString name);
+        static QString decoratorImageFile(const QString& name, const QString& dir = QString());
         /*! \brief gets the tree widget that displays the connections*/
         QTreeWidget & widget();
         /*! \brief destructor -- removes all the families from memory*/

@@ -8,7 +8,7 @@
  This tool also stores the tree of connection families as a hashtable of <name,family> pairs.
 
 ****************************************************************************/
-
+#include "ConsoleWindow.h"
 #include "GraphicsScene.h"
 #include "MainWindow.h"
 #include "NodeGraphicsItem.h"
@@ -220,22 +220,27 @@ namespace Tinkercell
 		return  file;
 	}
 	
-	QString ConnectionsTree::arrowImageFile(QString name)
+	QString ConnectionsTree::arrowImageFile(const QString& name, const QString& dir)
 	{
 		QString file = tr("/Graphics/") + NodesTree::themeDirectory + tr("/Arrows/");
 		file += name;
 		file.replace(tr(" "),tr(""));
 		file += tr(".xml");
-		return  file;
+		if (!QFile::exists(dir + file))
+			file = tr("/Graphics/") + NodesTree::themeDirectory + tr("/Arrows/default.xml");
+
+		return  dir + file;
 	}
 	
-	QString ConnectionsTree::decoratorImageFile(QString name)
+	QString ConnectionsTree::decoratorImageFile(const QString& name, const QString& dir)
 	{
 		QString file = tr("/Graphics/") + NodesTree::themeDirectory + tr("/Decorators/");
 		file += name;
 		file.replace(tr(" "),tr(""));
 		file += tr(".xml");
-		return  file;
+		if (!QFile::exists(dir + file))
+			file = tr("/Graphics/") + NodesTree::themeDirectory + tr("/Arrows/default.xml");
+		return  dir + file;
 	}
 	
 	QTreeWidget & ConnectionsTree::widget()

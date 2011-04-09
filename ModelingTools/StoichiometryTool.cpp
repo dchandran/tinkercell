@@ -725,6 +725,7 @@ namespace Tinkercell
 					font.setPointSize(22);
 					nameItem->setFont(font);
 
+
 					//make the rates and stoichiometry table
 					NumericalDataTable reactants, products;
 					TextDataTable rates;
@@ -800,8 +801,7 @@ namespace Tinkercell
 
 	void StoichiometryTool::insertDataMatrix(ConnectionHandle * handle)
 	{
-		if (!ConnectionHandle::cast(handle) || !handle->isA(tr("Biochemical"))) return;
-
+		if (!ConnectionHandle::cast(handle)) return;
 		DefaultRateAndStoichiometry::setDefault(handle);
 	}
 	

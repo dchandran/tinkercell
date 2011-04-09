@@ -983,7 +983,6 @@ namespace Tinkercell
 					if (isA)
 					{
 						QList<QToolButton*> buttons = connectionsTree->treeButtons.values(families[i]->name());
-						console()->message(families[i]->name() + tr(" is in ") + tabGroups[j].first + tr("  " ) + QString::number(buttons.size()));
 						if (buttons.size()>0 && buttons[0] && !usedButtons.contains(buttons[0]))
 						{
 							usedButtons << buttons[0];

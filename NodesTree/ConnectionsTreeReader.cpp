@@ -55,6 +55,7 @@ namespace Tinkercell
                {
                     tree->widget().addTopLevelItem(treeItem);
                     treeItem->setExpanded(true);
+                    newFamilies << family->name();
                     QList<ItemFamily*> children = family->allChildren();
                     for (int i=0; i < children.size(); ++i)
                     	if (!newFamilies.contains(children[i]->name()))
@@ -207,14 +208,14 @@ namespace Tinkercell
                {
                	   QString arrowImageFile;
                	   nodeitem = 0;
-               	   arrowImageFile = homeDir + QString("/") + ConnectionsTree::arrowImageFile(family->name());
+               	   arrowImageFile = ConnectionsTree::arrowImageFile(family->name(),homeDir);
                	   if (QFile::exists(arrowImageFile))
                	   {
                	   	   nodeitem = new ArrowHeadItem(arrowImageFile);
                	   }
                	   else
                	   {
-                 	   arrowImageFile = appDir + QString("/") + ConnectionsTree::arrowImageFile(family->name());
+                 	   arrowImageFile = QString("/") + ConnectionsTree::arrowImageFile(family->name(),appDir);
 	               	   if (QFile::exists(arrowImageFile))
 				           nodeitem = new ArrowHeadItem(arrowImageFile);
 				   }

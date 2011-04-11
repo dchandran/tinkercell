@@ -1,6 +1,17 @@
 PROJECT( TINKERCELL )
 
 #--------------------------------------------------------------------------
+#  CMake not supporting Win32 MinGW?
+#--------------------------------------------------------------------------
+
+IF( WIN32 AND MINGW)
+  set(CMAKE_RC_COMPILER_INIT windres)
+  ENABLE_LANGUAGE(RC)
+  SET(CMAKE_RC_COMPILE_OBJECT
+    "<CMAKE_RC_COMPILER> <FLAGS> -O coff <DEFINES> -i <SOURCE> -o <OBJECT>")
+ENDIF( WIN32 AND MINGW)
+
+#--------------------------------------------------------------------------
 #  Build type
 #--------------------------------------------------------------------------
 OPTION( USE_DEBUG_MODE "Release vs Debug mode" OFF)

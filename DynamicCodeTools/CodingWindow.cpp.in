@@ -213,8 +213,11 @@ specific for:\n\"\"\"\n\n") + text;
 			usernameDialog->exec();
 			QString username = usernameLine->text();
 			QString password = passwordLine->text();
-			QString s = QObject::tr("cd ") + userHomeDir.absolutePath() + QObject::tr("; svn add ") + filename + QObject::tr("; svn commit -m\"new code added\" --username ") + username + QObject::tr(" --password ") + password + QObject::tr("--no-auth-cache --non-interactive;");
-			QProcess::startDetached(s);
+			if (!username.isEmpty() && !password.isEmpty())
+			{
+				QString s = QObject::tr("cd ") + userHomeDir.absolutePath() + QObject::tr("; svn add ") + filename + QObject::tr("; svn commit -m\"new code added\" --username ") + username + QObject::tr(" --password ") + password + QObject::tr("--no-auth-cache --non-interactive;");
+				QProcess::startDetached(s);
+			}
 			QMessageBox::information(mainWindow, "Saved", "Saved");
 		}
 		
@@ -269,8 +272,11 @@ specific for:\n\"\"\"\n\n") + text;
 			usernameDialog->exec();				
 			QString username = usernameLine->text();
 			QString password = passwordLine->text();
-			QString s = QObject::tr("cd ") + userHomeDir.absolutePath() + QObject::tr("; svn add ") + filename + QObject::tr("; svn commit -m\"new code added\" --username ") + username + QObject::tr(" --password ") + password + QObject::tr("--no-auth-cache --non-interactive;");
-			QProcess::startDetached(s);			
+			if (!username.isEmpty() && !password.isEmpty())
+			{
+				QString s = QObject::tr("cd ") + userHomeDir.absolutePath() + QObject::tr("; svn add ") + filename + QObject::tr("; svn commit -m\"new code added\" --username ") + username + QObject::tr(" --password ") + password + QObject::tr("--no-auth-cache --non-interactive;");
+				QProcess::startDetached(s);			
+			}
 			QMessageBox::information(mainWindow, "Saved", "Saved");
 		}
 		
@@ -549,7 +555,7 @@ specific for:\n\"\"\"\n\n") + text;
 			layout1->addWidget(usernameLine,1);
 			layout2->addWidget(passwordLine,1);
 			
-			QPushButton * okButton = new QPushButton;
+			QPushButton * okButton = new QPushButton("&OK");
 			layout3->addStretch(3);
 			layout3->addWidget(okButton,1);
 			layout3->addStretch(3);
@@ -557,6 +563,7 @@ specific for:\n\"\"\"\n\n") + text;
 			layout->addLayout(layout1);
 			layout->addLayout(layout2);
 			layout->addLayout(layout3);
+			connect(okButton,SIGNAL(released()),usernameDialog,SLOT(accept()));
 			usernameDialog->setLayout(layout);
 			
 			return true;

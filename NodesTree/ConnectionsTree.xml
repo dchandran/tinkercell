@@ -40,19 +40,19 @@
 		</process>
 	</process>
       
-	<process family="Activation" participant_types="Node" participant_roles="Activator,Target">
+	<process family="Activation" participant_types="Node" participant_roles="Activator,Target" description="A molecule positively regulating another">
 		<process family="Transcription" participant_types="Coding,mRNA,Empty" participant_roles="Template,Product,Reactant" description="Production of mRNA from DNA template."></process>
 		<process family="Translation" participant_types="mRNA,Protein,Empty" participant_roles="Template,Product,Reactant" description="Production of protein from mRNA template."></process>      
 		<process family="Protein Production" participant_types="Coding,Protein" participant_roles="Template,Product" description="The complete process of producing a protein from the template DNA."></process>
-		<process family="Allosteric Activation" participant_types="Molecule,Protein"></process>
-		<process family="Transcription Activation" participant_types="Transcription Factor,Activator Binding Site"></process>
-		<process family="Direct Gene Activation" participant_types="Coding,Activator Binding Site" participant_roles="Activator,Target"></process>
+		<process family="Allosteric Activation" participant_types="Molecule,Protein" description="A small molecule positively regulating the activity of a protein"></process>
+		<process family="Transcription Activation" participant_types="Transcription Factor,Activator Binding Site" description="A transcription factor positively regulating gene(s) downstream of an operator site"></process>
+		<process family="Direct Gene Activation" participant_types="Coding,Activator Binding Site" participant_roles="Activator,Target" description="A gene positively regulating another gene downstream of an operator site"></process>
 	</process>
       
-	<process family="Repression" participant_types="Node" participant_roles="Repressor,Target">
-		<process family="Allosteric Inhibition" participant_types="Molecule,Protein" participant_roles="Inhibitor,Target"></process>
-		<process family="Transcription Repression" participant_types="Transcription Factor,Repressor Binding Site"></process>
-		<process family="Direct Gene Repression" participant_types="Coding,Repressor Binding Site"></process>
+	<process family="Repression" participant_types="Node" participant_roles="Repressor,Target" description="A molecule negatively regulating another">
+		<process family="Allosteric Inhibition" participant_types="Molecule,Protein" participant_roles="Inhibitor,Target" description="A small molecule negatively regulating the activity of a protein"></process>
+		<process family="Transcription Repression" participant_types="Transcription Factor,Repressor Binding Site" description="A transcription factor negatively regulating gene(s) downstream of an operator site"></process>
+		<process family="Direct Gene Repression" participant_types="Coding,Repressor Binding Site" description="A gene negatively regulating another gene downstream of an operator site"></process>
 	</process>
 
 	<process family="Allosteric Regulation" participant_types="Molecule,Protein">
@@ -65,7 +65,7 @@
 		<process family="Transcription Repression" participant_types="Transcription Factor,Repressor Binding Site" participant_roles="Repressor,Target"></process>
 	</process>
 
-	<process family="Direct Gene Regulation" participant_types="Coding,Operator" participant_roles="Regulator,Target" description="This connection represents a gene regulating another gene.">
+	<process family="Direct Gene Regulation" participant_types="Coding,Operator" participant_roles="Regulator,Target" description="A gene regulating another gene">
         <process family="Direct Gene Activation" participant_types="Coding,Activator Binding Site" participant_roles="Activator,Target"></process>
   	    <process family="Direct Gene Repression" participant_types="Coding,Repressor Binding Site" participant_roles="Repressor,Target"></process>
 	</process>

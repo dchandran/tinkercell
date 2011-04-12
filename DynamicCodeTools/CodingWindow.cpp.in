@@ -661,6 +661,7 @@ specific for:\n\"\"\"\n\n") + text;
 		 
 		 QToolButton * findButton = new QToolButton;
 		 findButton->setIcon(QIcon(tr(":/images/find.png")));
+		 findButton->setToolTip("Find or replace text");
 		 connect(findButton, SIGNAL(pressed()), editor, SLOT(showFindReplaceDialog()));
 		 toolBar->addWidget(findButton);
 		 window->addToolBar(toolBar);

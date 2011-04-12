@@ -1051,7 +1051,7 @@ namespace Tinkercell
 					{
 						ArrowHeadItem * arrow = 0, * arrow0 = 0;
 						if (!selectedFamily->graphicsItems.isEmpty() &&
-							(arrow0 = qgraphicsitem_cast<ArrowHeadItem*>(handle->family()->graphicsItems.first())) &&
+							(arrow0 = qgraphicsitem_cast<ArrowHeadItem*>(selectedFamily->graphicsItems.first())) &&
 							arrow0->isValid())
 						{
 							arrow = new ArrowHeadItem(*arrow0);

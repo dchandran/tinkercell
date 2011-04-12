@@ -277,13 +277,14 @@ namespace Tinkercell
 		{
 			setWindowTitle(name);
 			setWindowIcon(QIcon(tr(":/images/eye.png")));
-			setWindowFlags(Qt::Dialog);
+			//setWindowFlags(Qt::Dialog);
 			dockWidget = mainWindow->addToolWindow(this,MainWindow::DockWidget,Qt::RightDockWidgetArea,Qt::NoDockWidgetArea);
 			if (dockWidget != 0)
 			{
 				dockWidget->hide();
 				dockWidget->setFloating(true);
 				dockWidget->setWindowFlags(Qt::Dialog);
+				dockWidget->move( main->geometry().center() );
 				if (closeButton)
 					connect(closeButton,SIGNAL(pressed()),dockWidget,SLOT(hide()));
 				QAction * menuAction = new QAction(QIcon(tr(":/images/eye.png")),tr("Scale, color, rotate, etc."),this);

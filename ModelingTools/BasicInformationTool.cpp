@@ -654,7 +654,11 @@ namespace Tinkercell
 		if (handle == 0 || handle->family() == 0) return;
 
 		QStringList columnNames;
-		columnNames << "value" << "min" << "max";
+		
+		if (type = BasicInformationTool::text)
+			columnNames << "value";
+		else
+			columnNames << "value" << "min" << "max";
 
 		ItemFamily* family = handle->family();
 
@@ -984,6 +988,7 @@ namespace Tinkercell
 							}
 							if (beingUsed) break;
 						}
+
 					}
 					
 					if (beingUsed)
@@ -2130,6 +2135,7 @@ namespace Tinkercell
 				bool changes = false;
 				NumericalDataTable * oldDat = &(handles[i]->numericalDataTable(QObject::tr("Parameters")));
 				NumericalDataTable * newDat = new NumericalDataTable(*oldDat);
+
 				for (int j=0; j < newDat->rows(); ++j)
 				{
 					if (!allFormulas.contains(s + newDat->rowName(j)))

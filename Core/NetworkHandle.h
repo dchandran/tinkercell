@@ -154,8 +154,10 @@ namespace Tinkercell
 			\{
 		*/
 		
-		/*! \brief this command performs an removal and also adds undo command to history window and emits associated signal(s)*/
+		/*! \brief this command performs a removal and also adds undo command to history window and emits associated signal(s)*/
 		virtual void remove(const QString& name, const QList<QGraphicsItem*>& items);
+		/*! \brief this command performs a removal and also adds undo command to history window and emits associated signal(s)*/
+		virtual void remove(const QString& name, const QList<ItemHandle*>& items);
 		/*! \brief get all the graphics scenes used to illustrate this network
 		* \return QList<GraphicsScene*>
 		*/

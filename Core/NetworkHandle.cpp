@@ -947,6 +947,8 @@ namespace Tinkercell
 	
 	void NetworkHandle::remove(const QString& name, const QList<QGraphicsItem*>& items)
 	{
+		if (items.isEmpty()) return;
+		
 		QHash< GraphicsScene*, QList<QGraphicsItem*> > hash;
 		GraphicsScene * scene;
 		
@@ -963,6 +965,40 @@ namespace Tinkercell
 		for (int i=0; i < scenes.size(); ++i)
 		{
 			scenes[i]->remove(name,hash[ scenes[i] ]);
+		}
+	}
+	
+	void NetworkHandle::remove(const QString& name, const QList<ItemHandle*>& items)
+	{
+		if (items.isEmpty()) return;
+
+		QList<QGraphicsItem*> gitems;
+		for (int i=0; i < items.size(); ++i)
+			if (items[i])
+				gitems += items[i]->graphicsItems;
+		
+		if (!gitems.isEmpty())
+		{
+			remove(name,gitems);
+			return;
+		}
+		
+		QHash< TextEditor*, QList<ItemHandle*> > hash;
+		QList<TextEditor*> editors = this->editors();
+		
+		for (int i=0; i < items.size(); ++i)
+			for (int j=0; j < editors.size(); ++j)
+				if (items[i] && editors[j] && editors[j]->allItems.contains(items[i]))
+				{
+					if (!hash.contains(editors[j]))
+						hash[ editors[j] ] = QList<ItemHandle*>();
+					hash[ editors[j] ] += items[i];				
+				}
+		
+		editors = hash.keys();
+		for (int i=0; i < editors.size(); ++i)
+		{
+			editors[i]->remove(hash[ editors[i] ]);
 		}
 	}
 	

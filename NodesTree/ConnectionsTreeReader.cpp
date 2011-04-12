@@ -10,6 +10,8 @@
 
 #include "MainWindow.h"
 #include "ConnectionsTreeReader.h"
+#include "NodesTree.h"
+
 namespace Tinkercell
 {
 
@@ -213,14 +215,14 @@ namespace Tinkercell
                {
                	   QString arrowImageFile;
                	   nodeitem = 0;
-               	   arrowImageFile = ConnectionsTree::arrowImageFile(family->name(),homeDir);
+               	   arrowImageFile = homeDir + QString("/") + ConnectionsTree::arrowImageFile(family->name());
                	   if (QFile::exists(arrowImageFile))
                	   {
                	   	   nodeitem = new ArrowHeadItem(arrowImageFile);
                	   }
                	   else
                	   {
-                 	   arrowImageFile = QString("/") + ConnectionsTree::arrowImageFile(family->name(),appDir);
+                 	   arrowImageFile = appDir + QString("/") + ConnectionsTree::arrowImageFile(family->name());
 	               	   if (QFile::exists(arrowImageFile))
 				           nodeitem = new ArrowHeadItem(arrowImageFile);
 				   }
@@ -296,5 +298,5 @@ namespace Tinkercell
           return QPair<ConnectionFamily*,QTreeWidgetItem*>(family,treeItem);
 
      }
-
 }
+

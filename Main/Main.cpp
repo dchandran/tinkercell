@@ -31,6 +31,7 @@
 #include "OctaveTool.h"
 #include "CodingWindow.h"
 #include "DynamicLibraryMenu.h"
+/*
 #include "BasicInformationTool.h"
 #include "StoichiometryTool.h"
 #include "FunctionDeclarationsTool.h"
@@ -51,6 +52,7 @@
 #include "SBMLImportExport.h"
 #include "CopasiExporter.h"
 #include "ModuleCombinatorics.h"
+*/
 #include <QColor>
 #include <QBrush>
 

@@ -55,6 +55,7 @@ namespace Tinkercell
     {
         ConnectionsTreeReader reader;
         QString appDir = QCoreApplication::applicationDirPath();
+		QString homeDir = MainWindow::homeDir();
 		QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
         settings.beginGroup("ConnectionsTree");
         NodesTree::themeDirectory = settings.value("theme",tr("Bio1")).toString();
@@ -68,6 +69,29 @@ namespace Tinkercell
         {
             ConnectionFamily * family = connectionFamilies.value(keys[i]);
             if (!family) continue;
+            
+            if (family->graphicsItems.isEmpty())
+            {
+            	QString file;
+            	file = homeDir + tr("/Graphics/") + NodesTree::themeDirectory + tr("/Arrows/default.xml");
+            	if (!QFile::exists(file))
+	            	file = appDir + tr("/Graphics/") + NodesTree::themeDirectory + tr("/Arrows/default.xml");
+            	if (QFile::exists(file))
+           	    {
+           	   	    NodeGraphicsItem * node = new ArrowHeadItem(file);
+           	   	    if (node->isValid())
+           	   	        family->graphicsItems += node;
+           	    }
+           	    file = homeDir + tr("/Graphics/") + NodesTree::themeDirectory + tr("/Decorators/default.xml");
+           	    if (!QFile::exists(file))
+	            	file = appDir + tr("/Graphics/") + NodesTree::themeDirectory + tr("/Decorators/default.xml");
+            	if (QFile::exists(file))
+           	    {
+           	   	    NodeGraphicsItem * node = new ArrowHeadItem(file);
+           	   	    if (node->isValid())
+           	   	        family->graphicsItems += node;
+           	    }
+            }
 
             QList<QTreeWidgetItem*> treeItem = treeItems.values(keys[i]);
             if (family && !treeItem.isEmpty())
@@ -220,27 +244,22 @@ namespace Tinkercell
 		return  file;
 	}
 	
-	QString ConnectionsTree::arrowImageFile(const QString& name, const QString& dir)
+	QString ConnectionsTree::arrowImageFile(const QString& name)
 	{
 		QString file = tr("/Graphics/") + NodesTree::themeDirectory + tr("/Arrows/");
 		file += name;
 		file.replace(tr(" "),tr(""));
 		file += tr(".xml");
-		if (!QFile::exists(dir + file))
-			file = tr("/Graphics/") + NodesTree::themeDirectory + tr("/Arrows/default.xml");
-
-		return  dir + file;
+		return  file;
 	}
 	
-	QString ConnectionsTree::decoratorImageFile(const QString& name, const QString& dir)
+	QString ConnectionsTree::decoratorImageFile(const QString& name)
 	{
 		QString file = tr("/Graphics/") + NodesTree::themeDirectory + tr("/Decorators/");
 		file += name;
 		file.replace(tr(" "),tr(""));
 		file += tr(".xml");
-		if (!QFile::exists(dir + file))
-			file = tr("/Graphics/") + NodesTree::themeDirectory + tr("/Arrows/default.xml");
-		return  dir + file;
+		return  file;
 	}
 	
 	QTreeWidget & ConnectionsTree::widget()
@@ -377,6 +396,31 @@ namespace Tinkercell
 			                family->graphicsItems += (NodeGraphicsItem::topLevelNodeItem(parentFamily->graphicsItems.last()))->clone();
 			            }
 			   }
+			   
+			   if (family && family->graphicsItems.isEmpty())
+ 		       {
+		        	QString file;
+		        	file = homeDir + tr("/Graphics/") + NodesTree::themeDirectory + tr("/Arrows/default.xml");
+		        	if (!QFile::exists(file))
+		        		file = appDir + tr("/Graphics/") + NodesTree::themeDirectory + tr("/Arrows/default.xml");
+
+		        	if (QFile::exists(file))
+		       	    {
+		       	   	    NodeGraphicsItem * node = new ArrowHeadItem(file);
+		       	   	    if (node->isValid())
+		       	   	        family->graphicsItems += node;
+		       	    }
+		       	    file = homeDir + tr("/Graphics/") + NodesTree::themeDirectory + tr("/Decorators/default.xml");
+		        	if (!QFile::exists(file))
+			        	file = appDir + tr("/Graphics/") + NodesTree::themeDirectory + tr("/Decorators/default.xml");
+		        	
+		        	if (QFile::exists(file))
+		       	    {
+		       	   	    NodeGraphicsItem * node = new ArrowHeadItem(file);
+		       	   	    if (node->isValid())
+		       	   	        family->graphicsItems += node;
+		       	    }
+		      }
 
  			   QList<QToolButton*> buttons = treeButtons.values(family->name());
 

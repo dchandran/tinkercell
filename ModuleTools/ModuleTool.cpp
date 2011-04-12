@@ -291,12 +291,18 @@ namespace Tinkercell
 			ItemHandle * h;
 			
 			TextDataTable oldParticipantsData (parentHandle->textDataTable(tr("participants")));
-
+			
+			QList<NodeHandle*> nodes;
+			if (ConnectionHandle::cast(parentHandle))
+				nodes = ConnectionHandle::cast(parentHandle)->nodes();
+			
 			for (int i=0; i < parentHandle->children.size(); ++i)
 			{
 				h = findCorrespondingHandle(NodeHandle::cast(parentHandle->children[i]),ConnectionHandle::cast(parentHandle));
 				if (h)
 				{
+					nodes.removeAll(NodeHandle::cast(h));	
+					
 					commands << new MergeHandlesCommand(
 												tr("merge"), network, QList<ItemHandle*>() << h << parentHandle->children[i]);
 
@@ -316,6 +322,28 @@ namespace Tinkercell
 													&(h->numericalDataTable(numericalTablesToBeReplaced[k])), 
 													&(parentHandle->children[i]->numericalDataTable(numericalTablesToBeReplaced[k])));
 				}
+			}
+			
+			for (int i=0; i < nodes.size(); ++i)
+			{
+				h = nodes[i];
+				
+				TextDataTable textTable;
+				NumericalDataTable numericalTable;
+				
+				for (int k=0; k < textTablesToBeReplaced.size(); ++k)
+					if (h->hasTextData(textTablesToBeReplaced[k]))
+						commands << new ChangeTextDataCommand(
+												tr("replace text table"), 
+												&(h->textDataTable(textTablesToBeReplaced[k])), 
+												&(textTable));
+				
+				for (int k=0; k < numericalTablesToBeReplaced.size(); ++k)
+					if (h->hasNumericalData(numericalTablesToBeReplaced[k]))
+						commands << new ChangeNumericalDataCommand(
+												tr("replace num. table"), 
+												&(h->numericalDataTable(numericalTablesToBeReplaced[k])), 
+												&(numericalTable));
 			}
 		
 			if (!commands.isEmpty())

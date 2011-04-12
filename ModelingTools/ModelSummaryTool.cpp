@@ -153,7 +153,8 @@ namespace Tinkercell
 			{
 				QString s;
 				
-				if (handles[i]->hasTextData(tr("Rate equations")) && 
+				if (handles[i]->children.isEmpty() &&
+					handles[i]->hasTextData(tr("Rate equations")) && 
 					handles[i]->textDataTable(tr("Rate equations")).rows() > 0 && 
 					handles[i]->textDataTable(tr("Rate equations")).columns() > 0)
 					s = handles[i]->family()->name() + tr(": ") + handles[i]->fullName() + tr("\n") + tr("Rate = ") 

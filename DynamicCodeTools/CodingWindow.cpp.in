@@ -659,7 +659,8 @@ specific for:\n\"\"\"\n\n") + text;
 		 //new QShortcut(tr("Ctrl+N"),this,SLOT(newDoc()),SLOT(newDoc()),Qt::WidgetShortcut);
 		 //new QShortcut(tr("Ctrl+A"),this,SLOT(selectAll()),SLOT(selectAll()),Qt::WidgetShortcut);
 		 
-		 QPushButton * findButton = new QPushButton("&Find");
+		 QToolButton * findButton = new QToolButton;
+		 findButton->setIcon(QIcon(tr(":/images/find.png")));
 		 connect(findButton, SIGNAL(pressed()), editor, SLOT(showFindReplaceDialog()));
 		 toolBar->addWidget(findButton);
 		 window->addToolBar(toolBar);

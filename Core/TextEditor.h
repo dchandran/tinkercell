@@ -175,13 +175,6 @@ namespace Tinkercell
 		virtual void cut();
 		/*! \brief paste text from clipboard*/
 		virtual void paste();
-		/*! \brief find specified text
-		\param QString text to find */
-		void find(const QString&);
-		/*! \brief find and replace specified text
-		\param QRegExp text to find
-		\param QString text to replace */
-		void replace(const QString& old_string, const QString& new_string);
 		/*! \brief print text
 		\param QPrinter */
 		virtual void print(QPrinter * printer);

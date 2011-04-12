@@ -658,7 +658,10 @@ specific for:\n\"\"\"\n\n") + text;
 		 //new QShortcut(tr("Ctrl+S"),this,SLOT(save()),SLOT(save()),Qt::WidgetShortcut);
 		 //new QShortcut(tr("Ctrl+N"),this,SLOT(newDoc()),SLOT(newDoc()),Qt::WidgetShortcut);
 		 //new QShortcut(tr("Ctrl+A"),this,SLOT(selectAll()),SLOT(selectAll()),Qt::WidgetShortcut);
-
+		 
+		 QLineEdit * lineEdit = new QLineEdit;
+		 connect(lineEdit, SIGNAL(editingFinished ()), editor, SLOT(find()));
+		 toolBar->addWidget(lineEdit);
 		 window->addToolBar(toolBar);
 
 		 //editorC->grabShortcut(tr("Ctrl+S"));
@@ -805,6 +808,7 @@ specific for:\n\"\"\"\n\n") + text;
 			 QFile file(fileName);
 			 if (file.open(QFile::ReadOnly | QFile::Text))
 				 setPlainText(file.readAll());
+
 		 }
 	 }
 

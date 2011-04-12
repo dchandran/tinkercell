@@ -148,3 +148,32 @@ Click "configure" again.
 
 Problem: Visual Studio is giving link errors
 Solution: ... Let me know if you find a solution!
+
+
+=====================================
+   WHAT EACH FOLDER CONTAINS
+=====================================
+Main: the main executable and qss style file
+
+icons: all icons used inside the Core library. The qrc file in Core is generated using the perl script in icons/
+
+Core = TinkerCellCore library
+Core/plots = plotting classes in the Core library
+Core/plugins = some basic plugins such as alignment tools and slider windows
+Core/fileIO = classes for reading and writing TinkerCell files (generic)
+Core/interpreters = classes for embedding Python or Octave inside TinkerCell
+
+plugins folders:
+DynamicCodeTools = classes that use the Core/interpreters to enable C, Python, and Octave within TinkerCell and provide a nice coding window
+BasicTools = inserting, selecting, appearance dialog, etc.
+NodesTree = nodes and connections catalog files and supporting classes
+GeneticNetwork = classes that are specific for genetic networks and aligning parts (linear or circular)
+ImportExportTools = classes that import or export TinkerCell models (SBML, Copasi, Antimony, plain English, Matlab)
+OtherTools = classes which don't belong to any other category
+
+NodeGraphics = graphics drawing program used to generate everything in Graphics
+
+Graphics = folder containing all graphical files used in TinkerCell
+
+
+

@@ -92,6 +92,8 @@ namespace Tinkercell
 	
 	public slots:
 		void setText(const QString&);
+		bool find(const QString&);
+		bool replace(const QString&,const QString&);
 
 	protected:
 		void resizeEvent(QResizeEvent *event);

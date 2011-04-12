@@ -39,11 +39,12 @@ def OptimizeParameters(objective, title="optimizing", maxits=200, N=100, Ne=0.5,
 
     paramnames = fromTC(params.rownames)
     sigma2 = diag(minmax)
+    tc_showProgress(title, int(0))
     while t < maxits and (t<2 or (oldmax - curmax) > epsilon):     #While not converged and maxits not exceeded
-        tc_showProgress(title, int( 100 * t/maxits ))
         X = numpy.random.multivariate_normal(mu,sigma2,N)         #Obtain N samples from current sampling distribution
         indx = range(0,N)
         for i in indx:
+            tc_showProgress(title, int( (100 * i)/(len(indx)) ))
             for j in range(0,params.rows):
                 d0 = X[i,j]
                 if logscale:
@@ -60,7 +61,9 @@ def OptimizeParameters(objective, title="optimizing", maxits=200, N=100, Ne=0.5,
                     X[i,j] = d0
                 tc_setMatrixValue(params, j, 0, d0)
             tc_updateParameters(params)
-            S[i] = objective()
+            S[i] = numpy.random.normal(0,1)#objective()
+        t = t+1                              #Increment iteration counter
+        tc_showProgress(title, int( 100 * t/maxits ))
         oldmax = curmax
         curmax = max(S)
         indx.sort(lambda x,y: int(S[x] - S[y]))
@@ -70,7 +73,6 @@ def OptimizeParameters(objective, title="optimizing", maxits=200, N=100, Ne=0.5,
         for i in range(0,n):
             mu[i] = mean(X2[i])      #Update mean of sampling distribution
         sigma2 = cov(X2)               #Update variance of sampling distribution
-        t = t+1;                              #Increment iteration counter
-    tc_setParameters(params,1)
     tc_showProgress(title, 100)
+    tc_setParameters(params,1)
     return (mu, sigma2,paramnames)               #Return mean and covariance

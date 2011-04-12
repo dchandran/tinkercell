@@ -101,28 +101,6 @@ namespace Tinkercell
 		CodeEditor::print(printer);
 	}
 
-	void TextEditor::find(const QString& s)
-	{
-		CodeEditor::find(s);
-	}
-
-	void TextEditor::replace(const QString& old_string, const QString& new_string)
-	{
-		QString text = toPlainText();
-		QString oldText = text;
-		/*QRegExp regex1(tr("[^A-Za-z_]") + old_string + tr("[^A-Za-z_0-9]"));
-		QRegExp regex2(tr("^") + old_string + tr("[^A-Za-z_0-9]"));
-		QRegExp regex3(tr("[^A-Za-z_]") + old_string + tr("$"));
-		QRegExp regex4(tr("^") + old_string + tr("$"));
-		text.replace(regex1,new_string);
-		text.replace(regex2,new_string);
-		text.replace(regex3,new_string);
-		text.replace(regex4,new_string);*/
-		text.replace(old_string,new_string);
-		setPlainText(text);
-		//emit textChanged(this, tr(""), tr(""), oldText);
-	}
-
 	TextEditor::TextEditor( NetworkHandle * network, QWidget * parent) : CodeEditor(parent), network(network), networkWindow(0)
 	{
 		contextEditorMenu = 0;

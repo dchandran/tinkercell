@@ -215,10 +215,10 @@ specific for:\n\"\"\"\n\n") + text;
 			QString password = passwordLine->text();
 			if (!username.isEmpty() && !password.isEmpty())
 			{
-				QString s = QObject::tr("cd ") + userHomeDir.absolutePath() + QObject::tr("; svn add ") + filename + QObject::tr("; svn commit -m\"new code added\" --username ") + username + QObject::tr(" --password ") + password + QObject::tr("--no-auth-cache --non-interactive;");
-				QProcess::startDetached(s);
+				QString s = QObject::tr("cd ") + userHomeDir.absolutePath() + QObject::tr("; svn add ") + filename + QObject::tr("; svn commit -m\"new code added\" --username ") + username + QObject::tr(" --password ") + password + QObject::tr(" --no-auth-cache --non-interactive;");
+				system(s.toAscii().data());
 			}
-			QMessageBox::information(mainWindow, "Saved", "Saved");
+			QMessageBox::information(mainWindow, "Saved", "Saved and Uploaded");
 		}
 		
 		loadPyFromDir(userHomeDir);
@@ -274,10 +274,10 @@ specific for:\n\"\"\"\n\n") + text;
 			QString password = passwordLine->text();
 			if (!username.isEmpty() && !password.isEmpty())
 			{
-				QString s = QObject::tr("cd ") + userHomeDir.absolutePath() + QObject::tr("; svn add ") + filename + QObject::tr("; svn commit -m\"new code added\" --username ") + username + QObject::tr(" --password ") + password + QObject::tr("--no-auth-cache --non-interactive;");
-				QProcess::startDetached(s);			
+				QString s = QObject::tr("cd ") + userHomeDir.absolutePath() + QObject::tr("; svn add ") + filename + QObject::tr("; svn commit -m\"new code added\" --username ") + username + QObject::tr(" --password ") + password + QObject::tr(" --no-auth-cache --non-interactive;");
+				system(s.toAscii().data());
 			}
-			QMessageBox::information(mainWindow, "Saved", "Saved");
+			QMessageBox::information(mainWindow, "Saved", "Saved and Uploaded");
 		}
 		
 		loadOctFromDir(userHomeDir);
@@ -574,7 +574,6 @@ specific for:\n\"\"\"\n\n") + text;
 	 void CodingWindow::pyscesHelp()
 	 {
 		QString appDir = QCoreApplication::applicationDirPath();
-		//QProcess::execute(appDir + tr("/Documentation/pysces_userguide.pdf"));
 		QDesktopServices::openUrl(QUrl(appDir + tr("/Documentation/pysces_userguide.pdf")));
 	 }
 
@@ -1083,6 +1082,7 @@ specific for:\n\"\"\"\n\n") + text;
 			QTreeWidgetItem * item = this->currentItem();
 			 if (item && indexOfTopLevelItem(item) == -1)
 			 {
+
 				emit insertText(item->text(1));
 			 }
 		 }

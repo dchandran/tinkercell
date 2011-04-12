@@ -659,9 +659,9 @@ specific for:\n\"\"\"\n\n") + text;
 		 //new QShortcut(tr("Ctrl+N"),this,SLOT(newDoc()),SLOT(newDoc()),Qt::WidgetShortcut);
 		 //new QShortcut(tr("Ctrl+A"),this,SLOT(selectAll()),SLOT(selectAll()),Qt::WidgetShortcut);
 		 
-		 QLineEdit * lineEdit = new QLineEdit;
-		 connect(lineEdit, SIGNAL(editingFinished ()), editor, SLOT(find()));
-		 toolBar->addWidget(lineEdit);
+		 QPushButton * findButton = new QPushButton("&Find");
+		 connect(findButton, SIGNAL(pressed()), editor, SLOT(showFindReplaceDialog()));
+		 toolBar->addWidget(findButton);
 		 window->addToolBar(toolBar);
 
 		 //editorC->grabShortcut(tr("Ctrl+S"));

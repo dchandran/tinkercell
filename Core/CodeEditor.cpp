@@ -5,6 +5,9 @@ demo programs
 ****************************************************************************/
 
 #include <QtGui>
+#include <QPushButton>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
 
 #include "CodeEditor.h"
 
@@ -149,9 +152,42 @@ namespace Tinkercell
 
 		updateLineNumberAreaWidth(0);
 		highlightCurrentLine();
+		
+		/* create find replace dialog */
+		findReplaceDialog = new QDialog(this);
+		findLineEdit = new QLineEdit;
+		replaceLineEdit = new QLineEdit;
+		QPushButton * findButton = new QPushButton("&Find");
+		QPushButton * replaceButton = new QPushButton("&Replace");
+		QPushButton * closeButton = new QPushButton("&Cancel");
+		
+		QHBoxLayout * hlayout; 
+		QVBoxLayout * vlayout = new QVBoxLayout;
+		
+		hlayout = new QHBoxLayout;
+		hlayout->addWidget(new QLabel("   find: "));
+		hlayout->addWidget(findLineEdit);
+		vlayout->addLayout(hlayout,0);
+		
+		hlayout = new QHBoxLayout;
+		hlayout->addWidget(new QLabel("replace: "));
+		hlayout->addWidget(replaceLineEdit);
+		vlayout->addLayout(hlayout,0);
+		
+		hlayout = new QHBoxLayout;
+		hlayout->addSpacing(1);
+		hlayout->addWidget(findButton);
+		hlayout->addWidget(replaceButton);
+		hlayout->addWidget(closeButton);
+		hlayout->addSpacing(1);
+		vlayout->addLayout(hlayout,0);
+		
+		findReplaceDialog->setLayout(vlayout);
+		
+		connect(findButton, SIGNAL(pressed()), this, SLOT(find()));
+		connect(replaceButton, SIGNAL(pressed()), this, SLOT(replace()));
+		connect(closeButton, SIGNAL(pressed()), findReplaceDialog, SLOT(reject()));
 	}
-
-
 
 	int CodeEditor::lineNumberAreaWidth()
 	{
@@ -321,4 +357,23 @@ namespace Tinkercell
 		setPlainText(text);
 		return true;
 	}
+	
+	void CodeEditor::find()
+	{
+		if (findLineEdit)
+			find(findLineEdit->text());
+	}
+
+	void CodeEditor::replace()
+	{
+		if (findLineEdit && replaceLineEdit)
+			replace(findLineEdit->text(),replaceLineEdit->text());
+	}
+	
+	void CodeEditor::showFindReplaceDialog()
+	{
+		if (findReplaceDialog)
+			findReplaceDialog->show();
+	}
 }
+

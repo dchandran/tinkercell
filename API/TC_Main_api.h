@@ -129,6 +129,13 @@ TCAPIEXPORT int tc_isA(long item,const char* family);
 TCAPIEXPORT void tc_print(const char* text);
 
 /*! 
+ \brief open any file or URL using the default app
+ \param string file name
+ \ingroup Input and Output
+*/
+TCAPIEXPORT void tc_openUrl(const char* url);
+
+/*! 
  \brief show error text in the output window
  \param string error message
  \ingroup Input and Output
@@ -703,7 +710,9 @@ TCAPIEXPORT void tc_Main_api_initialize(
 		void (*setTextValue)(const char *, const char *),
 		
 		double (*getNumericalValue)(const char*),
-		const char* (*getTextValue)(const char*)
+		const char* (*getTextValue)(const char*),
+		
+		void (*openUrl)()
 	);
 
 /*! 

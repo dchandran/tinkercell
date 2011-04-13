@@ -163,6 +163,10 @@ Core/plugins = some basic plugins such as alignment tools and slider windows
 Core/fileIO = classes for reading and writing TinkerCell files (generic)
 Core/interpreters = classes for embedding Python or Octave inside TinkerCell
 
+python = contains C code for embedding python (required by Python interpreter in Core library)
+             also contains all the python scripts used in the final program (not as important)
+octave = contains C++ code for embedding Octave (required by Octave interpreter in Core library)
+             also contains all the octave scripts used in the final program (not as important)
 plugins folders:
 DynamicCodeTools = classes that use the Core/interpreters to enable C, Python, and Octave within TinkerCell and provide a nice coding window
 BasicTools = inserting, selecting, appearance dialog, etc.

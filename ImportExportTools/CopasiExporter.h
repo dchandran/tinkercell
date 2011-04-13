@@ -59,14 +59,11 @@ namespace Tinkercell
 
 	private:
 		QHash<const SimulationThread*, bool> updatedThreads;
+		static CopasiExporter * _instance;
 		
 		SimulationDialog * simDialog;
-		static SimulationThread * odeThread;
-		static SimulationThread * stochThread;
-		static SimulationThread * ssThread;
-		static SimulationThread * jacThread;
-		static SimulationThread * mcaThread;
-		static SimulationThread * optimThread;
+		static QList<SimulationThread*> runningThreads;
+		static SimulationThread * getSimulationThread();
 		
 		static tc_matrix simulateDeterministic(double startTime, double endTime, int numSteps);
 		static tc_matrix simulateStochastic(double startTime, double endTime, int numSteps);

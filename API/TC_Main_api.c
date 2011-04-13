@@ -191,6 +191,17 @@ void tc_print(const char* text)
 		_tc_print(text);
 }
 
+void (*_tc_openUrl)(const char * file) = 0;
+/*! 
+ \brief show text in the output window.
+ \ingroup Input and Output
+*/ TCAPIEXPORT 
+void tc_openUrl(const char * s)
+{
+	if (_tc_openUrl && s)
+		_tc_openUrl(s);
+}
+
 void (*_tc_errorReport)(const char* text) = 0;
 /*! 
  \brief show error text in the output window.
@@ -1001,7 +1012,9 @@ void tc_Main_api_initialize(
 		void (*setTextValue)(const char *, const char *),
 		
 		double (*getNumericalValue)(const char*),
-		const char* (*getTextValue)(const char*)
+		const char* (*getTextValue)(const char*),
+		
+		void (*openUrl)()
 	)
 {
 	_tc_allItems = tc_allItems0;
@@ -1104,6 +1117,8 @@ void tc_Main_api_initialize(
 	
 	_tc_getNumericalValue = getNumericalValue;
 	_tc_getTextValue = getTextValue;
+	
+	_tc_openUrl = openUrl;
 }
 
 void (*_tc_showProgress)(long thread, const char * title, int progress) = 0;

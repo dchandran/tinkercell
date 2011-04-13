@@ -4,7 +4,7 @@
     <Handles>
         <Handle type="0" name="" parent="" family="">
             <tc_table>
-                <Table key="units" rows="52" cols="2" rowNames="Activator Binding Site;;Cell;;Coding;;Compartment;;Constitutive Promoter;;Enzyme;;Inducible Promoter;;Molecule;;Operator;;Part;;Promoter;;Protein;;RBS;;RNA;;Receptor;;Reporter;;Repressible Promoter;;Repressor Binding Site;;Ribozyme;;Small Molecule;;Sticky Ends;;Subcellular compartment;;Terminator;;Transcription Factor;;Vector;;mRNA;;activator binding site;;cell;;coding;;compartment;;constitutive promoter;;enzyme;;inducible promoter;;molecule;;mrna;;operator;;part;;promoter;;protein;;rbs;;receptor;;reporter;;repressible promoter;;repressor binding site;;ribozyme;;rna;;small molecule;;sticky ends;;subcellular compartment;;terminator;;transcription factor;;vector" columnNames="property;;name" values="activity;;PoPS;;volume;;fL;;activity;;PoPS;;volume;;fL;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;concentration;;uM;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;concentration;;uM;;copies;;count;;volume;;fL;;activity;;PoPS;;concentration;;uM;;copies;;count;;concentration;;uM;;activity;;PoPS;;volume;;fL;;activity;;PoPS;;volume;;fL;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;concentration;;uM;;concentration;;uM;;copies;;count;;volume;;fL;;activity;;PoPS;;concentration;;uM;;copies;;count"/>
+                <Table key="units" rows="53" cols="2" rowNames="Activator Binding Site;;Cell;;Coding;;Compartment;;Constitutive Promoter;;Enzyme;;Inducible Promoter;;Molecule;;Operator;;Part;;Promoter;;Protein;;RBS;;RNA;;Receptor;;Reporter;;Repressible Promoter;;Repressor Binding Site;;Ribozyme;;Small Molecule;;Sticky Ends;;Subcellular compartment;;Terminator;;Transcription Factor;;Vector;;mRNA;;activator binding site;;cell;;coding;;compartment;;constitutive promoter;;enzyme;;inducible promoter;;molecule;;mrna;;operator;;part;;promoter;;protein;;rbs;;receptor;;reporter;;repressible promoter;;repressor binding site;;ribozyme;;rna;;small molecule;;sticky ends;;subcellular compartment;;terminator;;transcription factor;;vector;;composite part" columnNames="property;;name" values="activity;;PoPS;;volume;;fL;;activity;;PoPS;;volume;;fL;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;concentration;;uM;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;concentration;;uM;;copies;;count;;volume;;fL;;activity;;PoPS;;concentration;;uM;;copies;;count;;concentration;;uM;;activity;;PoPS;;volume;;fL;;activity;;PoPS;;volume;;fL;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;concentration;;uM;;concentration;;uM;;copies;;count;;volume;;fL;;activity;;PoPS;;concentration;;uM;;copies;;count;;activity;;PoPS"/>
             </tc_table>
         </Handle>
         <Handle type="1" name="dimer" parent="" family="enzyme">
@@ -16,6 +16,7 @@
             <tc_table>
                 <Table key="text attributes" rows="1" cols="3" rowNames="sequence" columnNames="value;;min;;max" values="GSWTQHNMCP;;;;"/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="parameters" rows="1" cols="1" rowNames="sequence" columnNames="value" values="GSWTQHNMCP"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
@@ -30,6 +31,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="parameters" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="participants" rows="2" cols="1" rowNames="reactant;;product" columnNames="" values="enz;;dimer"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
@@ -46,6 +48,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="parameters" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="units" rows="26" cols="2" rowNames="Activator Binding Site;;Cell;;Coding;;Compartment;;Constitutive Promoter;;Enzyme;;Inducible Promoter;;Molecule;;Operator;;Part;;Promoter;;Protein;;RBS;;RNA;;Receptor;;Reporter;;Repressible Promoter;;Repressor Binding Site;;Ribozyme;;Small Molecule;;Sticky Ends;;Subcellular compartment;;Terminator;;Transcription Factor;;Vector;;mRNA" columnNames="property;;name" values="activity;;PoPS;;volume;;fL;;activity;;PoPS;;volume;;fL;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;concentration;;uM;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;concentration;;uM;;copies;;count;;volume;;fL;;activity;;PoPS;;concentration;;uM;;copies;;count;;concentration;;uM"/>
                 <Table key="participants" rows="4" cols="1" rowNames="reactant;;product;;substrate;;catalyst" columnNames="" values="X;;Y;;X;;dimer"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
@@ -55,15 +58,19 @@
         </Handle>
         <Handle type="2" name="lc1" parent="" family="linear chain">
             <tc_matrix>
-                <Table key="parameters" rows="1" cols="3" rowNames="k0" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="0.46;;0.0001;;100"/>
+                <Table key="product stoichiometries" rows="0" cols="0" rowNames="" columnNames="" desc="Number of each product participating in this reaction" values=""/>
+                <Table key="parameters" rows="1" cols="3" rowNames="k0" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="0.1;;0.0001;;100"/>
+                <Table key="reactant stoichiometries" rows="0" cols="0" rowNames="" columnNames="" desc="Number of each reactant participating in this reaction" values=""/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
                 <Table key="text attributes" rows="1" cols="3" rowNames="Functional description" columnNames="value;;min;;max" values=";;;;"/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="parameters" rows="1" cols="1" rowNames="Functional description" columnNames="value" values=""/>
                 <Table key="participants" rows="2" cols="1" rowNames="input;;output" columnNames="" values="Y;;Z"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
+                <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="lc1.k0"/>
             </tc_table>
         </Handle>
         <Handle type="1" name="X" parent="" family="molecule">
@@ -75,6 +82,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="parameters" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
@@ -88,6 +96,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="parameters" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
@@ -101,6 +110,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="parameters" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
@@ -114,6 +124,7 @@
             <tc_table>
                 <Table key="text attributes" rows="1" cols="3" rowNames="sequence" columnNames="value;;min;;max" values="GSWTQHNMCP;;;;"/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="parameters" rows="1" cols="1" rowNames="sequence" columnNames="value" values="GSWTQHNMCP"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
@@ -128,6 +139,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="parameters" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="participants" rows="2" cols="1" rowNames="reactant;;product" columnNames="" values="emp1;;X"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
@@ -144,6 +156,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="parameters" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="units" rows="23" cols="2" rowNames="Cell;;Coding;;Compartment;;Constitutive_Promoter;;Enzyme;;Inducible Promoter;;Molecule;;Part;;Promoter;;Protein;;RBS;;RNA;;Receptor;;Reporter;;Repressible Promoter;;Ribozyme;;Small Molecule;;Subcellular compartment;;Terminator;;Transcription Factor;;Vector;;mRNA;;Constitutive Promoter" columnNames="property;;name" values="volume;;fL;;activity;;PoPS;;volume;;fL;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;concentration;;uM;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;concentration;;uM;;concentration;;uM;;volume;;fL;;activity;;PoPS;;concentration;;uM;;copies;;count;;concentration;;uM;;activity;;PoPS"/>
                 <Table key="participants" rows="2" cols="1" rowNames="inhibitor;;target" columnNames="" values="Z;;enz"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
@@ -159,6 +172,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="parameters" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
@@ -171,6 +185,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="parameters" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
@@ -185,6 +200,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="parameters" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="participants" rows="2" cols="1" rowNames="reactant;;product" columnNames="" values="Z;;emp2"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
@@ -217,6 +233,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="parameters" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="participants" rows="3" cols="1" rowNames="reactant1;;product;;reactant2" columnNames="t1_t1" values="dimer;;Y;;X"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
@@ -232,6 +249,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="parameters" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
@@ -245,6 +263,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="parameters" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
@@ -258,6 +277,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="parameters" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
@@ -271,6 +291,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="parameters" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
@@ -284,6 +305,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="parameters" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
@@ -298,6 +320,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="parameters" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="participants" rows="2" cols="1" rowNames="reactant;;product" columnNames="" values="lc1.mol5;;Z"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
@@ -314,6 +337,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="parameters" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="participants" rows="2" cols="1" rowNames="reactant;;product" columnNames="" values="Y;;lc1.mol1"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
@@ -330,6 +354,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="parameters" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="participants" rows="2" cols="1" rowNames="reactant;;product" columnNames="" values="lc1.mol4;;lc1.mol5"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
@@ -346,6 +371,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="parameters" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="participants" rows="2" cols="1" rowNames="reactant;;product" columnNames="t3_t3" values="lc1.mol3;;lc1.mol4"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
@@ -362,6 +388,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="parameters" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="participants" rows="2" cols="1" rowNames="reactant;;product" columnNames="" values="lc1.mol2;;lc1.mol3"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
@@ -378,6 +405,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="parameters" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="participants" rows="2" cols="1" rowNames="reactant;;product" columnNames="" values="lc1.mol1;;lc1.mol2"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
@@ -393,6 +421,7 @@
             <tc_table>
                 <Table key="text attributes" rows="1" cols="3" rowNames="sequence" columnNames="value;;min;;max" values="GSWTQHNMCP;;;;"/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="parameters" rows="1" cols="1" rowNames="sequence" columnNames="value" values="GSWTQHNMCP"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
@@ -407,6 +436,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="parameters" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="participants" rows="2" cols="1" rowNames="reactant;;product" columnNames="" values="ai1.Inactive;;enz"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
@@ -423,6 +453,7 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="parameters" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="participants" rows="3" cols="1" rowNames="reactant1;;reactant2;;product" columnNames="" values="enz;;Z;;ai1.Inactive"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
@@ -1323,7 +1354,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="5045" y="5169.51" angle="165.311"/>
-                            <transform m11="-0.386925" m12="0.101433" m21="-0.0760745" m22="-0.290195"/>
+                            <transform m11="-0.386924" m12="0.101435" m21="-0.0760762" m22="-0.290195"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -1369,88 +1400,11 @@
                             <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                 <listOfColorDefinitions>
                                     <colorDefinition id="shape0color" value="#ffffff" alpha="255"/>
-                                    <colorDefinition id="shape1color" value="#6464ff" alpha="255"/>
-                                    <colorDefinition id="shape2color" value="#6464ff" alpha="255"/>
                                 </listOfColorDefinitions>
                                 <listOfStyles>
-                                    <style idList="reversible reaction" width="40" height="30">
+                                    <style idList="rectangle" width="30" height="30">
                                         <g>
-                                            <polygon fill="shape0color" stroke="#7a7a7a" stroke-width="8" stroke-alpha="1">
-                                                <listOfCurveSegments>
-                                                    <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                                        <start x="-50" y="50"/>
-                                                        <end x="-50" y="-50"/>
-                                                    </curveSegment>
-                                                    <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                                        <start x="-50" y="-50"/>
-                                                        <end x="50" y="-50"/>
-                                                    </curveSegment>
-                                                    <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                                        <start x="50" y="-50"/>
-                                                        <end x="50" y="50"/>
-                                                    </curveSegment>
-                                                    <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                                        <start x="50" y="50"/>
-                                                        <end x="-50" y="50"/>
-                                                    </curveSegment>
-                                                </listOfCurveSegments>
-                                            </polygon>
-                                            <polygon fill="shape1color" stroke="#646464" stroke-width="0" stroke-alpha="1">
-                                                <listOfCurveSegments>
-                                                    <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                                        <start x="-19.7211" y="-37.2727"/>
-                                                        <end x="-10.9562" y="-37.2727"/>
-                                                    </curveSegment>
-                                                    <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                                        <start x="-10.9562" y="-37.2727"/>
-                                                        <end x="-32.0717" y="-16.6667"/>
-                                                    </curveSegment>
-                                                    <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                                        <start x="-32.0717" y="-16.6667"/>
-                                                        <end x="34.4622" y="-17.2727"/>
-                                                    </curveSegment>
-                                                    <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                                        <start x="34.4622" y="-17.2727"/>
-                                                        <end x="34.4622" y="-10.6061"/>
-                                                    </curveSegment>
-                                                    <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                                        <start x="34.4622" y="-10.6061"/>
-                                                        <end x="-43.2271" y="-10.6061"/>
-                                                    </curveSegment>
-                                                    <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                                        <start x="-43.2271" y="-10.6061"/>
-                                                        <end x="-19.7211" y="-37.2727"/>
-                                                    </curveSegment>
-                                                </listOfCurveSegments>
-                                            </polygon>
-                                            <polygon fill="shape2color" stroke="#646464" stroke-width="0" stroke-alpha="1">
-                                                <listOfCurveSegments>
-                                                    <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                                        <start x="-34.0637" y="-1.5152"/>
-                                                        <end x="41.6335" y="-1.5152"/>
-                                                    </curveSegment>
-                                                    <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                                        <start x="41.6335" y="-1.5152"/>
-                                                        <end x="17.7291" y="33.6364"/>
-                                                    </curveSegment>
-                                                    <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                                        <start x="17.7291" y="33.6364"/>
-                                                        <end x="9.761" y="33.6364"/>
-                                                    </curveSegment>
-                                                    <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                                        <start x="9.761" y="33.6364"/>
-                                                        <end x="31.6733" y="4.5455"/>
-                                                    </curveSegment>
-                                                    <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                                        <start x="31.6733" y="4.5455"/>
-                                                        <end x="-34.0637" y="6.3636"/>
-                                                    </curveSegment>
-                                                    <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                                        <start x="-34.0637" y="6.3636"/>
-                                                        <end x="-34.0637" y="-1.5152"/>
-                                                    </curveSegment>
-                                                </listOfCurveSegments>
-                                            </polygon>
+                                            <rectangle x="-50" y="-50" width="100" height="100" rx="10" ry="10" fill="shape0color" stroke="#3f3f43" stroke-width="13" stroke-alpha="1"/>
                                         </g>
                                     </style>
                                 </listOfStyles>
@@ -1634,7 +1588,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="4966.26" y="4855.98" angle="-15.2798"/>
-                            <transform m11="0.38586" m12="-0.105414" m21="0.0790599" m22="0.289395"/>
+                            <transform m11="0.38586" m12="-0.105414" m21="0.0790601" m22="0.289395"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -1689,7 +1643,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="5230.84" y="5113.58" angle="95.8038"/>
-                            <transform m11="-0.040449" m12="0.397949" m21="-0.298462" m22="-0.0303367"/>
+                            <transform m11="-0.0404493" m12="0.397949" m21="-0.298462" m22="-0.0303369"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -1770,8 +1724,8 @@
                     <Path numPoints="4" NodeAtStart="Z" NodeAtStartX="4730" NodeAtStartY="5272.5" NodeAtEnd="emp2" NodeAtEndX="4430" NodeAtEndY="5252.99">
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
-                            <pos x="4470" y="5273.91" angle="-152.388"/>
-                            <transform m11="-0.35444" m12="-0.185397" m21="0.139049" m22="-0.26583"/>
+                            <pos x="4470" y="5273.91" angle="-152.389"/>
+                            <transform m11="-0.354443" m12="-0.185391" m21="0.139044" m22="-0.265833"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -1816,10 +1770,10 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="0" handle="lc1" z="32.6">
             <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="bezier" style="1" gap="10">
                 <ControlPoints>
-                    <ControlPoint x="4975" y="5185.94"/>
-                    <ControlPoint x="4916.88" y="5197.46"/>
-                    <ControlPoint x="4815.63" y="5225.04"/>
-                    <ControlPoint x="4760" y="5255.87"/>
+                    <ControlPoint x="4975" y="5185.41"/>
+                    <ControlPoint x="4918.79" y="5195.55"/>
+                    <ControlPoint x="4817.54" y="5223.13"/>
+                    <ControlPoint x="4760" y="5255.58"/>
                 </ControlPoints>
                 <CurveSegments>
                     <Path numPoints="4" NodeAtStart="Y" NodeAtStartX="5005" NodeAtStartY="5180" NodeAtEnd="Z" NodeAtEndX="4730" NodeAtEndY="5272.5">
@@ -1829,7 +1783,7 @@
                 <CenterRegion>
                     <Rect width="20" height="20"/>
                     <Decorator>
-                        <pos x="4865.81" y="5214.42" angle="0"/>
+                        <pos x="4867.24" y="5212.88" angle="0"/>
                         <transform m11="0.3" m12="0" m21="0" m22="0.3"/>
                         <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                             <renderInformation id="TinkerCell_Style" programName="TinkerCell">
@@ -1871,7 +1825,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="5482.5" y="5164.8" angle="179.719"/>
-                            <transform m11="-0.399995" m12="0.00196432" m21="-0.00147321" m22="-0.299996"/>
+                            <transform m11="-0.399995" m12="0.00196385" m21="-0.00147285" m22="-0.299996"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -1926,7 +1880,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="5283.48" y="4900.47" angle="96.5202"/>
-                            <transform m11="-0.0454215" m12="0.397412" m21="-0.29806" m22="-0.0340662"/>
+                            <transform m11="-0.0454217" m12="0.397412" m21="-0.29806" m22="-0.0340664"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -1981,7 +1935,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="5547.5" y="5016.84" angle="-153.988"/>
-                            <transform m11="-0.359486" m12="-0.175416" m21="0.131562" m22="-0.269613"/>
+                            <transform m11="-0.359488" m12="-0.175413" m21="0.13156" m22="-0.269614"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -2157,7 +2111,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="4347.5" y="4749.88" angle="-1.26543"/>
-                            <transform m11="0.399902" m12="-0.00883377" m21="0.00662536" m22="0.299927"/>
+                            <transform m11="0.399902" m12="-0.00883379" m21="0.00662538" m22="0.299927"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -2426,7 +2380,7 @@
         <TextItem text="enz" scene="0" handle="enz" x="4718.08" y="4906.23" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="324.5" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="The dimer formation is essential &#10;for this model to oscillate. &#10;However, it is not necessary if &#10;simulated stochastically." scene="0" handle="" x="5228.02" y="4632.32" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="313.4" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="deg1" scene="0" handle="deg1" x="4581.46" y="5328.29" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="37.9" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="lc1" scene="0" handle="lc1" x="4863.96" y="5238.51" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="33.6" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="lc1" scene="0" handle="lc1" x="4865.87" y="5236.6" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="33.6" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="pro1" scene="0" handle="pro1" x="5614.82" y="5210.2" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="30.3" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="Z" scene="0" handle="Z" x="4719.5" y="5300" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="27.9" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="dimer" scene="0" handle="dimer" x="5002.31" y="4746.68" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="10" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>

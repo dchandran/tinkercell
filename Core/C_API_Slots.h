@@ -339,6 +339,8 @@ namespace Tinkercell
 		static double _getNumericalValue(const char*);
 		static const char* _getTextValue(const char*);
 		
+		static void _openUrl(const char*);
+		
 		/*! 
 		* \brief Dialog for selecting strings. 
 		*/

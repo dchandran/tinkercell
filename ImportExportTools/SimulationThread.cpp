@@ -387,7 +387,11 @@ tc_matrix SimulationThread::result()
 void SimulationThread::run()
 {
 	if (!model.CopasiModelPtr)
+	{
+		if (semaphore)
+			semaphore->release();
 		return;
+	}
 
 	for (int i=0; i < argMatrix.rows(); ++i) //values from slider
 	{

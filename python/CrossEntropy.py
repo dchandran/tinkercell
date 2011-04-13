@@ -6,13 +6,13 @@ import numpy.linalg
 
 #Takes an objective function along with an intial guess of the distribution of parameters and returns the final
 #best fit distribution of parameters. Assumes that the distributions are Gaussian.
-def OptimizeParameters(objective, title="optimizing", maxits=200, N=100, Ne=0.5, logscale=False,epsilon = 1e-5):
+def OptimizeParameters(objective, title="optimizing", maxits=200, N=100, minimize=True, Ne=0.5, logscale=False,epsilon = 1e-5):
     t = 0
     if Ne >= 1 or Ne <= 0:
         Ne = 0.5
     Ne = Ne * N
     S = range(0,N)
-    
+    lasterr = 0
     oldmax = 0
     curmax = 0
     allparams = tc_getParameters( tc_allItems() )
@@ -21,7 +21,14 @@ def OptimizeParameters(objective, title="optimizing", maxits=200, N=100, Ne=0.5,
         if tc_getMatrixValue(allparams, i, 2) != tc_getMatrixValue(allparams, i, 1): 
             n += 1
     if n < 1:
-        return tc_createMatrix(0,0)
+        n = allparams.rows
+        for i in range(0,allparams.rows):
+            x = tc_getMatrixValue(allparams, i, 0)
+            tc_setMatrixValue(allparams, i, 1, x/10.0)
+            if x > 0:
+                tc_setMatrixValue(allparams, i, 2, x*10.0)
+            else:
+                tc_setMatrixValue(allparams, i, 2, 1.0)
 
     params = tc_createMatrix(n,3)
     minmax = range(0,n)
@@ -44,7 +51,6 @@ def OptimizeParameters(objective, title="optimizing", maxits=200, N=100, Ne=0.5,
         X = numpy.random.multivariate_normal(mu,sigma2,N)         #Obtain N samples from current sampling distribution
         indx = range(0,N)
         for i in indx:
-            tc_showProgress(title, int( (100 * i)/(len(indx)) ))
             for j in range(0,params.rows):
                 d0 = X[i,j]
                 if logscale:
@@ -59,14 +65,25 @@ def OptimizeParameters(objective, title="optimizing", maxits=200, N=100, Ne=0.5,
                     X[i,j] = log(d0)
                 else:
                     X[i,j] = d0
-                tc_setMatrixValue(params, j, 0, d0)
+                tc_setMatrixValue(params, j, 0, d0)                
             tc_updateParameters(params)
-            S[i] = numpy.random.normal(0,1)#objective()
+            S[i] = objective()
         t = t+1                              #Increment iteration counter
-        tc_showProgress(title, int( 100 * t/maxits ))
         oldmax = curmax
         curmax = max(S)
-        indx.sort(lambda x,y: int(S[x] - S[y]))
+        t1 = 100 * t / maxits
+        t2 = 100 * epsilon/(oldmax - curmax)
+        if t2 > lasterr:
+            lasterr = t2
+        if t < 2 or t1 > lasterr: 
+            tc_showProgress(title, int(t1))
+        else:
+            tc_showProgress(title, int(lasterr))
+        
+        if minimize:
+            indx.sort(lambda x,y: int(S[x] - S[y]))
+        else:
+            indx.sort(lambda x,y: int(S[y] - S[x]))
         X = X[indx]                     #Sort X by objective function values
         X1 = matrix(X[0:Ne])      #select top
         X2 = X1.transpose()
@@ -74,5 +91,32 @@ def OptimizeParameters(objective, title="optimizing", maxits=200, N=100, Ne=0.5,
             mu[i] = mean(X2[i])      #Update mean of sampling distribution
         sigma2 = cov(X2)               #Update variance of sampling distribution
     tc_showProgress(title, 100)
-    tc_setParameters(params,1)
     return (mu, sigma2,paramnames)               #Return mean and covariance
+
+def DoPCA(mu, sigma2, paramnames):
+    e,v = numpy.linalg.eig(sigma2)
+    props = 100.0 * e/numpy.sum(e)
+    fout = open("crossentropy.out","w")
+    s = "=====================================\n"
+    s += "Optimized parameters (mean)\n"
+    s += "=====================================\n\n"
+    for i in range(0,len(mu)):
+        s += "    " + paramnames[i]
+    s += "\n"
+    for i in range(0,len(mu)):
+        s += "    " + str(mu[i])
+    s += "\n\n=====================================\n"
+    s += "Global sensitivity (assuming normality)\nOrdered from least to most sensitive\n"
+    s += "=====================================\n\n"
+    for i in range(0,len(e)):
+	    s += str(int(props[i])) + "% of the variability can be attributed to the following linear combination:\n"
+	    for j in range(0,len(paramnames)):
+	        if j > 0:
+	            s += "\n" + str( round(v[i,j],3) ) + " * " + paramnames[j]
+	        else:
+	            s += str( round(v[i,j],3) ) + " * " + paramnames[j]
+	    s += "\n\n"
+    fout.write(s)
+    fout.close()
+    tc_openUrl("crossentropy.out")
+

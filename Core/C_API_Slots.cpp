@@ -151,7 +151,9 @@ namespace Tinkercell
 		void (*setTextValue)(const char *, const char *),
 		
 		double (*getNumericalValue)(const char*),
-		const char* (*getTextValue)(const char*)
+		const char* (*getTextValue)(const char*),
+		
+		void (*openUrl)(const char*)
 	);
 	
 	void C_API_Slots::setupFunctionPointers(QLibrary * library)
@@ -236,7 +238,8 @@ namespace Tinkercell
 				&(_setTextValues),
 				&(_setTextValue),
 				&(_getNumericalValue),
-				&(_getTextValue)
+				&(_getTextValue),
+				&(_openUrl)
 			);
 		}
 	}
@@ -3241,6 +3244,10 @@ namespace Tinkercell
 		if (sem)
 			sem->release();
 	}
-
+	
+	void C_API_Slots::_openUrl(const char* file)
+	{
+		QDesktopServices::openUrl(QUrl(QString(file)));
+	}
 }
 

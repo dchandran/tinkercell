@@ -1,7 +1,7 @@
 """
 category: Optimization
 name: Fit time-series data
-description: fit model parameters to time-series data
+description: fit model parameters to time-series data and approximate sensitivities of parameters
 icon: graph3.png
 menu: yes
 tool: no
@@ -9,7 +9,7 @@ tool: no
 from tinkercell import *
 from tc2py import *
 from numpy import *
-from CrossEntropy import *
+import CrossEntropy
 import numpy.random
 
 fname = tc_getFilename()
@@ -19,12 +19,12 @@ time = 0
 numpts = 0
 trueData = array([])
 
-def leastSquares():
+def FitData_Objective():
     global indx, headers, time, numpts, trueData
     sim = tc_simulateDeterministic(0, time, numpts)
     n = len(headers)
     #identify index mappings
-    if len(indx) == 0:
+    if n != len(indx):
         indx = range(0, sim.cols)
         for i in range(0, sim.cols):
             indx[i] = -1
@@ -52,20 +52,15 @@ if len(fname) > 0:
     trueData = genfromtxt(fname, type(0.0), comments='#', delimiter=',')
     numpts = len(trueData) - 1     #rows
     time = trueData[ numpts, 0 ]  #last time point
-    res = OptimizeParameters(leastSquares, "Data fitting", 1, 100)
+    res = CrossEntropy.OptimizeParameters(FitData_Objective, "Data fitting", 100, 100)
     mu = res[0]
     sigma2 = res[1]
     paramnames = res[2]
-    X = numpy.random.multivariate_normal(mu,sigma2,1000)
+    CrossEntropy.DoPCA(mu, sigma2, paramnames)
     n = len(mu)
     params = tc_createMatrix(n, 1)
-    m = tc_createMatrix(1000, n)
-    for i in range(0,1000):
-        for j in range(0,n):
-            tc_setMatrixValue(m, i, j, X[i][j])
     for i in range(0,n):
         tc_setMatrixValue(params, i, 0, mu[i])
-        tc_setColumnName(m, i, paramnames[i])
+        tc_setRowName(params, i, paramnames[i])
     tc_setParameters(params,1)
-    tc_scatterplot(m, "Optimized parameters")
 

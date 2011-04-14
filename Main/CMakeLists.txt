@@ -8,12 +8,6 @@ CONFIGURE_FILE(
 	@ONLY
 )
 
-CONFIGURE_FILE( 
-	${TINKERCELL_SOURCE_DIR}/DynamicCodeTools/CodingWindow.cpp.in
-	${TINKERCELL_BINARY_DIR}/DynamicCodeTools/CodingWindow.cpp
-	@ONLY
-)
-
 #------------------------------------------------
 #  configure the BuildAndUploadAll script
 #------------------------------------------------
@@ -49,7 +43,6 @@ INCLUDE_DIRECTORIES( BEFORE
     ${TINKERCELL_SOURCE_DIR}/BasicTools
     ${TINKERCELL_SOURCE_DIR}/NodesTree
     ${TINKERCELL_SOURCE_DIR}/Main
-    ${TINKERCELL_SOURCE_DIR}/DynamicCodeTools
     ${TINKERCELL_SOURCE_DIR}/ModelingTools
     ${TINKERCELL_SOURCE_DIR}/ModuleTools
     ${TINKERCELL_SOURCE_DIR}/GeneticNetworks

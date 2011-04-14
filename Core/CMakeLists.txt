@@ -61,6 +61,12 @@ INCLUDE_DIRECTORIES(
       ${TINKERCELL_SOURCE_DIR}/ExternalCode/cluster/src
 )
 
+CONFIGURE_FILE( 
+	${TINKERCELL_SOURCE_DIR}/Core/coding/CodingWindow.cpp.in
+	${TINKERCELL_BINARY_DIR}/Core/coding/CodingWindow.cpp
+	@ONLY
+)
+
 #header files
 FILE(GLOB TINKERCELL_CORE_HDRS 
 	AbstractInputWindow.h
@@ -98,6 +104,7 @@ FILE(GLOB TINKERCELL_CORE_SRC
 	fileIO/*.cpp 
 	plugins/*.cpp 
 	coding/*.cpp
+	${TINKERCELL_BINARY_DIR}/Core/coding/*.cpp
 )
 
 #-------------------------------------------------------------------------------------------------------------

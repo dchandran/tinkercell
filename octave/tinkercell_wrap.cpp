@@ -7425,6 +7425,225 @@ fail:
 }
 
 
+static octave_value_list _wrap_tc_displayText (const octave_value_list& args, int nargout) {
+  long arg1 ;
+  char *arg2 = (char *) 0 ;
+  long val1 ;
+  int ecode1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  
+  if (!SWIG_check_num_args("tc_displayText",args.length(),2,2,0)) {
+    SWIG_fail;
+  }
+  ecode1 = SWIG_AsVal_long(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_displayText" "', argument " "1"" of type '" "long""'");
+  } 
+  arg1 = (long)(val1);
+  res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_displayText" "', argument " "2"" of type '" "char const *""'");
+  }
+  arg2 = (char *)(buf2);
+  tc_displayText(arg1,(char const *)arg2);
+  _outv = octave_value();
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_tc_displayNumber (const octave_value_list& args, int nargout) {
+  long arg1 ;
+  double arg2 ;
+  long val1 ;
+  int ecode1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  
+  if (!SWIG_check_num_args("tc_displayNumber",args.length(),2,2,0)) {
+    SWIG_fail;
+  }
+  ecode1 = SWIG_AsVal_long(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_displayNumber" "', argument " "1"" of type '" "long""'");
+  } 
+  arg1 = (long)(val1);
+  ecode2 = SWIG_AsVal_double(args(1), &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_displayNumber" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = (double)(val2);
+  tc_displayNumber(arg1,arg2);
+  _outv = octave_value();
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_tc_setDisplayLabelColor (const octave_value_list& args, int nargout) {
+  char *arg1 = (char *) 0 ;
+  char *arg2 = (char *) 0 ;
+  int res1 ;
+  char *buf1 = 0 ;
+  int alloc1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  
+  if (!SWIG_check_num_args("tc_setDisplayLabelColor",args.length(),2,2,0)) {
+    SWIG_fail;
+  }
+  res1 = SWIG_AsCharPtrAndSize(args(0), &buf1, NULL, &alloc1);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setDisplayLabelColor" "', argument " "1"" of type '" "char const *""'");
+  }
+  arg1 = (char *)(buf1);
+  res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setDisplayLabelColor" "', argument " "2"" of type '" "char const *""'");
+  }
+  arg2 = (char *)(buf2);
+  tc_setDisplayLabelColor((char const *)arg1,(char const *)arg2);
+  _outv = octave_value();
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+  if (alloc1 == SWIG_NEWOBJ) delete[] buf1;
+  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_tc_highlight (const octave_value_list& args, int nargout) {
+  long arg1 ;
+  char *arg2 = (char *) 0 ;
+  long val1 ;
+  int ecode1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  
+  if (!SWIG_check_num_args("tc_highlight",args.length(),2,2,0)) {
+    SWIG_fail;
+  }
+  ecode1 = SWIG_AsVal_long(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_highlight" "', argument " "1"" of type '" "long""'");
+  } 
+  arg1 = (long)(val1);
+  res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_highlight" "', argument " "2"" of type '" "char const *""'");
+  }
+  arg2 = (char *)(buf2);
+  tc_highlight(arg1,(char const *)arg2);
+  _outv = octave_value();
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_tc_burn (const octave_value_list& args, int nargout) {
+  long arg1 ;
+  double arg2 ;
+  long val1 ;
+  int ecode1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  
+  if (!SWIG_check_num_args("tc_burn",args.length(),2,2,0)) {
+    SWIG_fail;
+  }
+  ecode1 = SWIG_AsVal_long(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_burn" "', argument " "1"" of type '" "long""'");
+  } 
+  arg1 = (long)(val1);
+  ecode2 = SWIG_AsVal_double(args(1), &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_burn" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = (double)(val2);
+  tc_burn(arg1,arg2);
+  _outv = octave_value();
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_tc_LabelingTool_api (const octave_value_list& args, int nargout) {
+  void (*arg1)(long,char const *) = (void (*)(long,char const *)) 0 ;
+  void (*arg2)(long,double) = (void (*)(long,double)) 0 ;
+  void (*arg3)(char const *,char const *) = (void (*)(char const *,char const *)) 0 ;
+  void (*arg4)(long,char const *) = (void (*)(long,char const *)) 0 ;
+  void (*arg5)(long,double) = (void (*)(long,double)) 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  
+  if (!SWIG_check_num_args("tc_LabelingTool_api",args.length(),5,5,0)) {
+    SWIG_fail;
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(args(0), (void**)(&arg1), SWIGTYPE_p_f_long_p_q_const__char__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_LabelingTool_api" "', argument " "1"" of type '" "void (*)(long,char const *)""'"); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(args(1), (void**)(&arg2), SWIGTYPE_p_f_long_double__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_LabelingTool_api" "', argument " "2"" of type '" "void (*)(long,double)""'"); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(args(2), (void**)(&arg3), SWIGTYPE_p_f_p_q_const__char_p_q_const__char__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_LabelingTool_api" "', argument " "3"" of type '" "void (*)(char const *,char const *)""'"); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(args(3), (void**)(&arg4), SWIGTYPE_p_f_long_p_q_const__char__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_LabelingTool_api" "', argument " "4"" of type '" "void (*)(long,char const *)""'"); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(args(4), (void**)(&arg5), SWIGTYPE_p_f_long_double__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_LabelingTool_api" "', argument " "5"" of type '" "void (*)(long,double)""'"); 
+    }
+  }
+  tc_LabelingTool_api(arg1,arg2,arg3,arg4,arg5);
+  _outv = octave_value();
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
 static octave_value_list _wrap_tc_getParameters (const octave_value_list& args, int nargout) {
   tc_items arg1 ;
   void *argp1 ;
@@ -10696,186 +10915,6 @@ fail:
 }
 
 
-static octave_value_list _wrap_tc_displayText (const octave_value_list& args, int nargout) {
-  long arg1 ;
-  char *arg2 = (char *) 0 ;
-  long val1 ;
-  int ecode1 = 0 ;
-  int res2 ;
-  char *buf2 = 0 ;
-  int alloc2 = 0 ;
-  octave_value_list _out;
-  octave_value_list *_outp=&_out;
-  octave_value _outv;
-  
-  if (!SWIG_check_num_args("tc_displayText",args.length(),2,2,0)) {
-    SWIG_fail;
-  }
-  ecode1 = SWIG_AsVal_long(args(0), &val1);
-  if (!SWIG_IsOK(ecode1)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_displayText" "', argument " "1"" of type '" "long""'");
-  } 
-  arg1 = (long)(val1);
-  res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_displayText" "', argument " "2"" of type '" "char const *""'");
-  }
-  arg2 = (char *)(buf2);
-  tc_displayText(arg1,(char const *)arg2);
-  _outv = octave_value();
-  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
-  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
-fail:
-  return _out;
-}
-
-
-static octave_value_list _wrap_tc_displayNumber (const octave_value_list& args, int nargout) {
-  long arg1 ;
-  double arg2 ;
-  long val1 ;
-  int ecode1 = 0 ;
-  double val2 ;
-  int ecode2 = 0 ;
-  octave_value_list _out;
-  octave_value_list *_outp=&_out;
-  octave_value _outv;
-  
-  if (!SWIG_check_num_args("tc_displayNumber",args.length(),2,2,0)) {
-    SWIG_fail;
-  }
-  ecode1 = SWIG_AsVal_long(args(0), &val1);
-  if (!SWIG_IsOK(ecode1)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_displayNumber" "', argument " "1"" of type '" "long""'");
-  } 
-  arg1 = (long)(val1);
-  ecode2 = SWIG_AsVal_double(args(1), &val2);
-  if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_displayNumber" "', argument " "2"" of type '" "double""'");
-  } 
-  arg2 = (double)(val2);
-  tc_displayNumber(arg1,arg2);
-  _outv = octave_value();
-  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
-fail:
-  return _out;
-}
-
-
-static octave_value_list _wrap_tc_setDisplayLabelColor (const octave_value_list& args, int nargout) {
-  char *arg1 = (char *) 0 ;
-  char *arg2 = (char *) 0 ;
-  int res1 ;
-  char *buf1 = 0 ;
-  int alloc1 = 0 ;
-  int res2 ;
-  char *buf2 = 0 ;
-  int alloc2 = 0 ;
-  octave_value_list _out;
-  octave_value_list *_outp=&_out;
-  octave_value _outv;
-  
-  if (!SWIG_check_num_args("tc_setDisplayLabelColor",args.length(),2,2,0)) {
-    SWIG_fail;
-  }
-  res1 = SWIG_AsCharPtrAndSize(args(0), &buf1, NULL, &alloc1);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setDisplayLabelColor" "', argument " "1"" of type '" "char const *""'");
-  }
-  arg1 = (char *)(buf1);
-  res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setDisplayLabelColor" "', argument " "2"" of type '" "char const *""'");
-  }
-  arg2 = (char *)(buf2);
-  tc_setDisplayLabelColor((char const *)arg1,(char const *)arg2);
-  _outv = octave_value();
-  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
-  if (alloc1 == SWIG_NEWOBJ) delete[] buf1;
-  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
-fail:
-  return _out;
-}
-
-
-static octave_value_list _wrap_tc_highlight (const octave_value_list& args, int nargout) {
-  long arg1 ;
-  char *arg2 = (char *) 0 ;
-  long val1 ;
-  int ecode1 = 0 ;
-  int res2 ;
-  char *buf2 = 0 ;
-  int alloc2 = 0 ;
-  octave_value_list _out;
-  octave_value_list *_outp=&_out;
-  octave_value _outv;
-  
-  if (!SWIG_check_num_args("tc_highlight",args.length(),2,2,0)) {
-    SWIG_fail;
-  }
-  ecode1 = SWIG_AsVal_long(args(0), &val1);
-  if (!SWIG_IsOK(ecode1)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_highlight" "', argument " "1"" of type '" "long""'");
-  } 
-  arg1 = (long)(val1);
-  res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_highlight" "', argument " "2"" of type '" "char const *""'");
-  }
-  arg2 = (char *)(buf2);
-  tc_highlight(arg1,(char const *)arg2);
-  _outv = octave_value();
-  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
-  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
-fail:
-  return _out;
-}
-
-
-static octave_value_list _wrap_tc_CLabelsTool_api (const octave_value_list& args, int nargout) {
-  void (*arg1)(long,char const *) = (void (*)(long,char const *)) 0 ;
-  void (*arg2)(long,double) = (void (*)(long,double)) 0 ;
-  void (*arg3)(char const *,char const *) = (void (*)(char const *,char const *)) 0 ;
-  void (*arg4)(long,char const *) = (void (*)(long,char const *)) 0 ;
-  octave_value_list _out;
-  octave_value_list *_outp=&_out;
-  octave_value _outv;
-  
-  if (!SWIG_check_num_args("tc_CLabelsTool_api",args.length(),4,4,0)) {
-    SWIG_fail;
-  }
-  {
-    int res = SWIG_ConvertFunctionPtr(args(0), (void**)(&arg1), SWIGTYPE_p_f_long_p_q_const__char__void);
-    if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CLabelsTool_api" "', argument " "1"" of type '" "void (*)(long,char const *)""'"); 
-    }
-  }
-  {
-    int res = SWIG_ConvertFunctionPtr(args(1), (void**)(&arg2), SWIGTYPE_p_f_long_double__void);
-    if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CLabelsTool_api" "', argument " "2"" of type '" "void (*)(long,double)""'"); 
-    }
-  }
-  {
-    int res = SWIG_ConvertFunctionPtr(args(2), (void**)(&arg3), SWIGTYPE_p_f_p_q_const__char_p_q_const__char__void);
-    if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CLabelsTool_api" "', argument " "3"" of type '" "void (*)(char const *,char const *)""'"); 
-    }
-  }
-  {
-    int res = SWIG_ConvertFunctionPtr(args(3), (void**)(&arg4), SWIGTYPE_p_f_long_p_q_const__char__void);
-    if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CLabelsTool_api" "', argument " "4"" of type '" "void (*)(long,char const *)""'"); 
-    }
-  }
-  tc_CLabelsTool_api(arg1,arg2,arg3,arg4);
-  _outv = octave_value();
-  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
-fail:
-  return _out;
-}
-
-
 static octave_value_list _wrap_tc_getAnnotation (const octave_value_list& args, int nargout) {
   long arg1 ;
   long val1 ;
@@ -12305,6 +12344,12 @@ static const struct swig_octave_member swig_globals[] = {
 {"tc_callback",_wrap_tc_callback,0,0,2,0},
 {"tc_callWhenExiting",_wrap_tc_callWhenExiting,0,0,2,0},
 {"tc_CThread_api_initialize",_wrap_tc_CThread_api_initialize,0,0,2,0},
+{"tc_displayText",_wrap_tc_displayText,0,0,2,0},
+{"tc_displayNumber",_wrap_tc_displayNumber,0,0,2,0},
+{"tc_setDisplayLabelColor",_wrap_tc_setDisplayLabelColor,0,0,2,0},
+{"tc_highlight",_wrap_tc_highlight,0,0,2,0},
+{"tc_burn",_wrap_tc_burn,0,0,2,0},
+{"tc_LabelingTool_api",_wrap_tc_LabelingTool_api,0,0,2,0},
 {"tc_getParameters",_wrap_tc_getParameters,0,0,2,0},
 {"tc_getInitialValues",_wrap_tc_getInitialValues,0,0,2,0},
 {"tc_setInitialValues",_wrap_tc_setInitialValues,0,0,2,0},
@@ -12392,11 +12437,6 @@ static const struct swig_octave_member swig_globals[] = {
 {"tc_getForcingFunctionAssignments",_wrap_tc_getForcingFunctionAssignments,0,0,2,0},
 {"tc_addForcingFunction",_wrap_tc_addForcingFunction,0,0,2,0},
 {"tc_AssignmentFunctionsTool_api",_wrap_tc_AssignmentFunctionsTool_api,0,0,2,0},
-{"tc_displayText",_wrap_tc_displayText,0,0,2,0},
-{"tc_displayNumber",_wrap_tc_displayNumber,0,0,2,0},
-{"tc_setDisplayLabelColor",_wrap_tc_setDisplayLabelColor,0,0,2,0},
-{"tc_highlight",_wrap_tc_highlight,0,0,2,0},
-{"tc_CLabelsTool_api",_wrap_tc_CLabelsTool_api,0,0,2,0},
 {"tc_getAnnotation",_wrap_tc_getAnnotation,0,0,2,0},
 {"tc_setAnnotation",_wrap_tc_setAnnotation,0,0,2,0},
 {"tc_NameFamily_api_initialize",_wrap_tc_NameFamily_api_initialize,0,0,2,0},

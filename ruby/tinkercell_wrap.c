@@ -6840,6 +6840,211 @@ fail:
 
 
 SWIGINTERN VALUE
+_wrap_tc_displayText(int argc, VALUE *argv, VALUE self) {
+  long arg1 ;
+  char *arg2 = (char *) 0 ;
+  long val1 ;
+  int ecode1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  
+  if ((argc < 2) || (argc > 2)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 2)",argc); SWIG_fail;
+  }
+  ecode1 = SWIG_AsVal_long(argv[0], &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), Ruby_Format_TypeError( "", "long","tc_displayText", 1, argv[0] ));
+  } 
+  arg1 = (long)(val1);
+  res2 = SWIG_AsCharPtrAndSize(argv[1], &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), Ruby_Format_TypeError( "", "char const *","tc_displayText", 2, argv[1] ));
+  }
+  arg2 = (char *)(buf2);
+  tc_displayText(arg1,(char const *)arg2);
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  return Qnil;
+fail:
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_tc_displayNumber(int argc, VALUE *argv, VALUE self) {
+  long arg1 ;
+  double arg2 ;
+  long val1 ;
+  int ecode1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  
+  if ((argc < 2) || (argc > 2)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 2)",argc); SWIG_fail;
+  }
+  ecode1 = SWIG_AsVal_long(argv[0], &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), Ruby_Format_TypeError( "", "long","tc_displayNumber", 1, argv[0] ));
+  } 
+  arg1 = (long)(val1);
+  ecode2 = SWIG_AsVal_double(argv[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), Ruby_Format_TypeError( "", "double","tc_displayNumber", 2, argv[1] ));
+  } 
+  arg2 = (double)(val2);
+  tc_displayNumber(arg1,arg2);
+  return Qnil;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_tc_setDisplayLabelColor(int argc, VALUE *argv, VALUE self) {
+  char *arg1 = (char *) 0 ;
+  char *arg2 = (char *) 0 ;
+  int res1 ;
+  char *buf1 = 0 ;
+  int alloc1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  
+  if ((argc < 2) || (argc > 2)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 2)",argc); SWIG_fail;
+  }
+  res1 = SWIG_AsCharPtrAndSize(argv[0], &buf1, NULL, &alloc1);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "char const *","tc_setDisplayLabelColor", 1, argv[0] ));
+  }
+  arg1 = (char *)(buf1);
+  res2 = SWIG_AsCharPtrAndSize(argv[1], &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), Ruby_Format_TypeError( "", "char const *","tc_setDisplayLabelColor", 2, argv[1] ));
+  }
+  arg2 = (char *)(buf2);
+  tc_setDisplayLabelColor((char const *)arg1,(char const *)arg2);
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  return Qnil;
+fail:
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_tc_highlight(int argc, VALUE *argv, VALUE self) {
+  long arg1 ;
+  char *arg2 = (char *) 0 ;
+  long val1 ;
+  int ecode1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  
+  if ((argc < 2) || (argc > 2)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 2)",argc); SWIG_fail;
+  }
+  ecode1 = SWIG_AsVal_long(argv[0], &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), Ruby_Format_TypeError( "", "long","tc_highlight", 1, argv[0] ));
+  } 
+  arg1 = (long)(val1);
+  res2 = SWIG_AsCharPtrAndSize(argv[1], &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), Ruby_Format_TypeError( "", "char const *","tc_highlight", 2, argv[1] ));
+  }
+  arg2 = (char *)(buf2);
+  tc_highlight(arg1,(char const *)arg2);
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  return Qnil;
+fail:
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_tc_burn(int argc, VALUE *argv, VALUE self) {
+  long arg1 ;
+  double arg2 ;
+  long val1 ;
+  int ecode1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  
+  if ((argc < 2) || (argc > 2)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 2)",argc); SWIG_fail;
+  }
+  ecode1 = SWIG_AsVal_long(argv[0], &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), Ruby_Format_TypeError( "", "long","tc_burn", 1, argv[0] ));
+  } 
+  arg1 = (long)(val1);
+  ecode2 = SWIG_AsVal_double(argv[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), Ruby_Format_TypeError( "", "double","tc_burn", 2, argv[1] ));
+  } 
+  arg2 = (double)(val2);
+  tc_burn(arg1,arg2);
+  return Qnil;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_tc_LabelingTool_api(int argc, VALUE *argv, VALUE self) {
+  void (*arg1)(long,char const *) = (void (*)(long,char const *)) 0 ;
+  void (*arg2)(long,double) = (void (*)(long,double)) 0 ;
+  void (*arg3)(char const *,char const *) = (void (*)(char const *,char const *)) 0 ;
+  void (*arg4)(long,char const *) = (void (*)(long,char const *)) 0 ;
+  void (*arg5)(long,double) = (void (*)(long,double)) 0 ;
+  
+  if ((argc < 5) || (argc > 5)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 5)",argc); SWIG_fail;
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(argv[0], (void**)(&arg1), SWIGTYPE_p_f_long_p_q_const__char__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(long,char const *)","tc_LabelingTool_api", 1, argv[0] )); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(argv[1], (void**)(&arg2), SWIGTYPE_p_f_long_double__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(long,double)","tc_LabelingTool_api", 2, argv[1] )); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(argv[2], (void**)(&arg3), SWIGTYPE_p_f_p_q_const__char_p_q_const__char__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(char const *,char const *)","tc_LabelingTool_api", 3, argv[2] )); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(argv[3], (void**)(&arg4), SWIGTYPE_p_f_long_p_q_const__char__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(long,char const *)","tc_LabelingTool_api", 4, argv[3] )); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(argv[4], (void**)(&arg5), SWIGTYPE_p_f_long_double__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(long,double)","tc_LabelingTool_api", 5, argv[4] )); 
+    }
+  }
+  tc_LabelingTool_api(arg1,arg2,arg3,arg4,arg5);
+  return Qnil;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
 _wrap_tc_getParameters(int argc, VALUE *argv, VALUE self) {
   tc_items arg1 ;
   void *argp1 ;
@@ -9970,175 +10175,6 @@ fail:
 
 
 SWIGINTERN VALUE
-_wrap_tc_displayText(int argc, VALUE *argv, VALUE self) {
-  long arg1 ;
-  char *arg2 = (char *) 0 ;
-  long val1 ;
-  int ecode1 = 0 ;
-  int res2 ;
-  char *buf2 = 0 ;
-  int alloc2 = 0 ;
-  
-  if ((argc < 2) || (argc > 2)) {
-    rb_raise(rb_eArgError, "wrong # of arguments(%d for 2)",argc); SWIG_fail;
-  }
-  ecode1 = SWIG_AsVal_long(argv[0], &val1);
-  if (!SWIG_IsOK(ecode1)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode1), Ruby_Format_TypeError( "", "long","tc_displayText", 1, argv[0] ));
-  } 
-  arg1 = (long)(val1);
-  res2 = SWIG_AsCharPtrAndSize(argv[1], &buf2, NULL, &alloc2);
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), Ruby_Format_TypeError( "", "char const *","tc_displayText", 2, argv[1] ));
-  }
-  arg2 = (char *)(buf2);
-  tc_displayText(arg1,(char const *)arg2);
-  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
-  return Qnil;
-fail:
-  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
-  return Qnil;
-}
-
-
-SWIGINTERN VALUE
-_wrap_tc_displayNumber(int argc, VALUE *argv, VALUE self) {
-  long arg1 ;
-  double arg2 ;
-  long val1 ;
-  int ecode1 = 0 ;
-  double val2 ;
-  int ecode2 = 0 ;
-  
-  if ((argc < 2) || (argc > 2)) {
-    rb_raise(rb_eArgError, "wrong # of arguments(%d for 2)",argc); SWIG_fail;
-  }
-  ecode1 = SWIG_AsVal_long(argv[0], &val1);
-  if (!SWIG_IsOK(ecode1)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode1), Ruby_Format_TypeError( "", "long","tc_displayNumber", 1, argv[0] ));
-  } 
-  arg1 = (long)(val1);
-  ecode2 = SWIG_AsVal_double(argv[1], &val2);
-  if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), Ruby_Format_TypeError( "", "double","tc_displayNumber", 2, argv[1] ));
-  } 
-  arg2 = (double)(val2);
-  tc_displayNumber(arg1,arg2);
-  return Qnil;
-fail:
-  return Qnil;
-}
-
-
-SWIGINTERN VALUE
-_wrap_tc_setDisplayLabelColor(int argc, VALUE *argv, VALUE self) {
-  char *arg1 = (char *) 0 ;
-  char *arg2 = (char *) 0 ;
-  int res1 ;
-  char *buf1 = 0 ;
-  int alloc1 = 0 ;
-  int res2 ;
-  char *buf2 = 0 ;
-  int alloc2 = 0 ;
-  
-  if ((argc < 2) || (argc > 2)) {
-    rb_raise(rb_eArgError, "wrong # of arguments(%d for 2)",argc); SWIG_fail;
-  }
-  res1 = SWIG_AsCharPtrAndSize(argv[0], &buf1, NULL, &alloc1);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "char const *","tc_setDisplayLabelColor", 1, argv[0] ));
-  }
-  arg1 = (char *)(buf1);
-  res2 = SWIG_AsCharPtrAndSize(argv[1], &buf2, NULL, &alloc2);
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), Ruby_Format_TypeError( "", "char const *","tc_setDisplayLabelColor", 2, argv[1] ));
-  }
-  arg2 = (char *)(buf2);
-  tc_setDisplayLabelColor((char const *)arg1,(char const *)arg2);
-  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
-  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
-  return Qnil;
-fail:
-  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
-  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
-  return Qnil;
-}
-
-
-SWIGINTERN VALUE
-_wrap_tc_highlight(int argc, VALUE *argv, VALUE self) {
-  long arg1 ;
-  char *arg2 = (char *) 0 ;
-  long val1 ;
-  int ecode1 = 0 ;
-  int res2 ;
-  char *buf2 = 0 ;
-  int alloc2 = 0 ;
-  
-  if ((argc < 2) || (argc > 2)) {
-    rb_raise(rb_eArgError, "wrong # of arguments(%d for 2)",argc); SWIG_fail;
-  }
-  ecode1 = SWIG_AsVal_long(argv[0], &val1);
-  if (!SWIG_IsOK(ecode1)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode1), Ruby_Format_TypeError( "", "long","tc_highlight", 1, argv[0] ));
-  } 
-  arg1 = (long)(val1);
-  res2 = SWIG_AsCharPtrAndSize(argv[1], &buf2, NULL, &alloc2);
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), Ruby_Format_TypeError( "", "char const *","tc_highlight", 2, argv[1] ));
-  }
-  arg2 = (char *)(buf2);
-  tc_highlight(arg1,(char const *)arg2);
-  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
-  return Qnil;
-fail:
-  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
-  return Qnil;
-}
-
-
-SWIGINTERN VALUE
-_wrap_tc_CLabelsTool_api(int argc, VALUE *argv, VALUE self) {
-  void (*arg1)(long,char const *) = (void (*)(long,char const *)) 0 ;
-  void (*arg2)(long,double) = (void (*)(long,double)) 0 ;
-  void (*arg3)(char const *,char const *) = (void (*)(char const *,char const *)) 0 ;
-  void (*arg4)(long,char const *) = (void (*)(long,char const *)) 0 ;
-  
-  if ((argc < 4) || (argc > 4)) {
-    rb_raise(rb_eArgError, "wrong # of arguments(%d for 4)",argc); SWIG_fail;
-  }
-  {
-    int res = SWIG_ConvertFunctionPtr(argv[0], (void**)(&arg1), SWIGTYPE_p_f_long_p_q_const__char__void);
-    if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(long,char const *)","tc_CLabelsTool_api", 1, argv[0] )); 
-    }
-  }
-  {
-    int res = SWIG_ConvertFunctionPtr(argv[1], (void**)(&arg2), SWIGTYPE_p_f_long_double__void);
-    if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(long,double)","tc_CLabelsTool_api", 2, argv[1] )); 
-    }
-  }
-  {
-    int res = SWIG_ConvertFunctionPtr(argv[2], (void**)(&arg3), SWIGTYPE_p_f_p_q_const__char_p_q_const__char__void);
-    if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(char const *,char const *)","tc_CLabelsTool_api", 3, argv[2] )); 
-    }
-  }
-  {
-    int res = SWIG_ConvertFunctionPtr(argv[3], (void**)(&arg4), SWIGTYPE_p_f_long_p_q_const__char__void);
-    if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(long,char const *)","tc_CLabelsTool_api", 4, argv[3] )); 
-    }
-  }
-  tc_CLabelsTool_api(arg1,arg2,arg3,arg4);
-  return Qnil;
-fail:
-  return Qnil;
-}
-
-
-SWIGINTERN VALUE
 _wrap_tc_getAnnotation(int argc, VALUE *argv, VALUE self) {
   long arg1 ;
   long val1 ;
@@ -12148,6 +12184,12 @@ SWIGEXPORT void Init_tinkercell(void) {
   rb_define_module_function(mTinkercell, "tc_callback", _wrap_tc_callback, -1);
   rb_define_module_function(mTinkercell, "tc_callWhenExiting", _wrap_tc_callWhenExiting, -1);
   rb_define_module_function(mTinkercell, "tc_CThread_api_initialize", _wrap_tc_CThread_api_initialize, -1);
+  rb_define_module_function(mTinkercell, "tc_displayText", _wrap_tc_displayText, -1);
+  rb_define_module_function(mTinkercell, "tc_displayNumber", _wrap_tc_displayNumber, -1);
+  rb_define_module_function(mTinkercell, "tc_setDisplayLabelColor", _wrap_tc_setDisplayLabelColor, -1);
+  rb_define_module_function(mTinkercell, "tc_highlight", _wrap_tc_highlight, -1);
+  rb_define_module_function(mTinkercell, "tc_burn", _wrap_tc_burn, -1);
+  rb_define_module_function(mTinkercell, "tc_LabelingTool_api", _wrap_tc_LabelingTool_api, -1);
   rb_define_module_function(mTinkercell, "tc_getParameters", _wrap_tc_getParameters, -1);
   rb_define_module_function(mTinkercell, "tc_getInitialValues", _wrap_tc_getInitialValues, -1);
   rb_define_module_function(mTinkercell, "tc_setInitialValues", _wrap_tc_setInitialValues, -1);
@@ -12235,11 +12277,6 @@ SWIGEXPORT void Init_tinkercell(void) {
   rb_define_module_function(mTinkercell, "tc_getForcingFunctionAssignments", _wrap_tc_getForcingFunctionAssignments, -1);
   rb_define_module_function(mTinkercell, "tc_addForcingFunction", _wrap_tc_addForcingFunction, -1);
   rb_define_module_function(mTinkercell, "tc_AssignmentFunctionsTool_api", _wrap_tc_AssignmentFunctionsTool_api, -1);
-  rb_define_module_function(mTinkercell, "tc_displayText", _wrap_tc_displayText, -1);
-  rb_define_module_function(mTinkercell, "tc_displayNumber", _wrap_tc_displayNumber, -1);
-  rb_define_module_function(mTinkercell, "tc_setDisplayLabelColor", _wrap_tc_setDisplayLabelColor, -1);
-  rb_define_module_function(mTinkercell, "tc_highlight", _wrap_tc_highlight, -1);
-  rb_define_module_function(mTinkercell, "tc_CLabelsTool_api", _wrap_tc_CLabelsTool_api, -1);
   rb_define_module_function(mTinkercell, "tc_getAnnotation", _wrap_tc_getAnnotation, -1);
   rb_define_module_function(mTinkercell, "tc_setAnnotation", _wrap_tc_setAnnotation, -1);
   rb_define_module_function(mTinkercell, "tc_NameFamily_api_initialize", _wrap_tc_NameFamily_api_initialize, -1);

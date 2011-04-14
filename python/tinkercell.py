@@ -609,6 +609,30 @@ def tc_CThread_api_initialize(*args):
   return _tinkercell.tc_CThread_api_initialize(*args)
 tc_CThread_api_initialize = _tinkercell.tc_CThread_api_initialize
 
+def tc_displayText(*args):
+  return _tinkercell.tc_displayText(*args)
+tc_displayText = _tinkercell.tc_displayText
+
+def tc_displayNumber(*args):
+  return _tinkercell.tc_displayNumber(*args)
+tc_displayNumber = _tinkercell.tc_displayNumber
+
+def tc_setDisplayLabelColor(*args):
+  return _tinkercell.tc_setDisplayLabelColor(*args)
+tc_setDisplayLabelColor = _tinkercell.tc_setDisplayLabelColor
+
+def tc_highlight(*args):
+  return _tinkercell.tc_highlight(*args)
+tc_highlight = _tinkercell.tc_highlight
+
+def tc_burn(*args):
+  return _tinkercell.tc_burn(*args)
+tc_burn = _tinkercell.tc_burn
+
+def tc_LabelingTool_api(*args):
+  return _tinkercell.tc_LabelingTool_api(*args)
+tc_LabelingTool_api = _tinkercell.tc_LabelingTool_api
+
 def tc_getParameters(*args):
   return _tinkercell.tc_getParameters(*args)
 tc_getParameters = _tinkercell.tc_getParameters
@@ -956,26 +980,6 @@ tc_addForcingFunction = _tinkercell.tc_addForcingFunction
 def tc_AssignmentFunctionsTool_api(*args):
   return _tinkercell.tc_AssignmentFunctionsTool_api(*args)
 tc_AssignmentFunctionsTool_api = _tinkercell.tc_AssignmentFunctionsTool_api
-
-def tc_displayText(*args):
-  return _tinkercell.tc_displayText(*args)
-tc_displayText = _tinkercell.tc_displayText
-
-def tc_displayNumber(*args):
-  return _tinkercell.tc_displayNumber(*args)
-tc_displayNumber = _tinkercell.tc_displayNumber
-
-def tc_setDisplayLabelColor(*args):
-  return _tinkercell.tc_setDisplayLabelColor(*args)
-tc_setDisplayLabelColor = _tinkercell.tc_setDisplayLabelColor
-
-def tc_highlight(*args):
-  return _tinkercell.tc_highlight(*args)
-tc_highlight = _tinkercell.tc_highlight
-
-def tc_CLabelsTool_api(*args):
-  return _tinkercell.tc_CLabelsTool_api(*args)
-tc_CLabelsTool_api = _tinkercell.tc_CLabelsTool_api
 
 def tc_getAnnotation(*args):
   return _tinkercell.tc_getAnnotation(*args)

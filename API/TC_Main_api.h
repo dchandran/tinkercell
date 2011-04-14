@@ -744,6 +744,53 @@ TCAPIEXPORT void tc_CThread_api_initialize(
 	void (*callWhenExiting)(long, void (*f)(void)),
 	void (*showProgress)(long, const char*, int));
 
+/*! 
+ \brief displays the given text on the given item (the text is temporary)
+ \param int address of item
+ \param string text to display
+ \ingroup Input and Output
+*/
+TCAPIEXPORT void tc_displayText(long item,const char* text);
+/*! 
+ \brief displays the given number on the given item (the text is temporary)
+ \param int address of item in model, e.g. obtained from tc_find
+ \param double number to display
+ \ingroup Input and Output
+*/
+TCAPIEXPORT void tc_displayNumber(long item,double number);
+/*! 
+ \brief set the color for the number or text when using tc_displayNumber and tc_displayText
+ \param string HEX code for text color
+ \param string HEX code for background color
+ \ingroup Input and Output
+*/
+TCAPIEXPORT void tc_setDisplayLabelColor(const char* color1, const char* color2);
+/*! 
+ \brief highlights an item (the highlight is temporary) with the given color
+ \param int address of item in model, e.g. obtained from tc_find
+ \param string HEX code for color
+ \ingroup Input and Output
+*/
+TCAPIEXPORT void tc_highlight(long item,const char* color);
+/*! 
+ \brief shows a fire icon next to the item
+ \param int address of item in model, e.g. obtained from tc_find
+ \param double intensity of the fire (0-1)
+ \ingroup Input and Output
+*/
+TCAPIEXPORT void tc_burn(long item,double intensity);
+/*! 
+ \brief initialize highlighting plug-in
+ \ingroup init
+*/
+TCAPIEXPORT void tc_LabelingTool_api(
+		void (*displayText)(long item,const char*),
+		void (*displayNumber)(long item,double),
+		void (*setDisplayLabelColor)(const char* color1,const char* color2),
+		void (*highlight)(long,const char* color),
+		void (*burn)(long,double)
+	);
+
 END_C_DECLS
 #endif
 

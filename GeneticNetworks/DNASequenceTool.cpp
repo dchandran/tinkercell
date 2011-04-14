@@ -248,9 +248,9 @@ namespace Tinkercell
 			dockWidget->hide();
 			dockWidget->setFloating(true);
 			
-			if (mainWindow->tool(tr("C Labels Tool")))
+			if (mainWindow->tool(tr("Labeling Tool")))
 			{
-				CLabelsTool * labelsTool = static_cast<CLabelsTool*>(mainWindow->tool(tr("C Labels Tool")));
+				LabelingTool * labelsTool = static_cast<LabelingTool*>(mainWindow->tool(tr("Labeling Tool")));
 				connect(&textEdit,SIGNAL(highlight(ItemHandle*,QColor)),labelsTool,SLOT(highlightItem(ItemHandle*,QColor)));
 			}
 		}

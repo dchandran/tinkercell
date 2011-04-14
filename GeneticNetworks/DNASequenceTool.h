@@ -22,7 +22,7 @@
 #include "NodeGraphicsItem.h"
 #include "ItemHandle.h"
 #include "Tool.h"
-#include "CLabelsTool.h"
+#include "LabelingTool.h"
 
 
 namespace Tinkercell

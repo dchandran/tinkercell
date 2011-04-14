@@ -482,6 +482,12 @@ setClass('_p_f_long_p_f_void__void__void',
         contains = 'CRoutinePointer')
 
 ##
+setClass('_p_f_long_double__void',
+        prototype = list(parameterTypes = c('_long', '_double'),
+                        returnType = '_p_f_long_double__void'),
+        contains = 'CRoutinePointer')
+
+##
 setClass('_p_f_long_p_q_const__char__p_char',
         prototype = list(parameterTypes = c('_long', '_p_char'),
                         returnType = '_p_f_long_p_q_const__char__p_char'),
@@ -629,12 +635,6 @@ setClass('_p_f_p_q_const__char_tc_items__int',
 setClass('_p_f___tc_strings',
         prototype = list(parameterTypes = c(),
                         returnType = '_p_f___tc_strings'),
-        contains = 'CRoutinePointer')
-
-##
-setClass('_p_f_long_double__void',
-        prototype = list(parameterTypes = c('_long', '_double'),
-                        returnType = '_p_f_long_double__void'),
         contains = 'CRoutinePointer')
 
 ##
@@ -4118,6 +4118,158 @@ attr(`tc_CThread_api_initialize`, 'returnType') = 'void'
 attr(`tc_CThread_api_initialize`, "inputTypes") = c('integer', '_p_f_long_p_f_void__void__void', '_p_f_long_p_f_void__void__void', '_p_f_long_p_q_const__char_int__void')
 class(`tc_CThread_api_initialize`) = c("SWIGFunction", class('tc_CThread_api_initialize'))
 
+# Start of tc_displayText
+
+`tc_displayText` = function(item, text)
+{
+  item = as.integer(item) 
+  
+  if(length(item) > 1) {
+    warning("using only the first element of item")
+  }
+  
+  text = as(text, "character") 
+  .Call('R_swig_tc_displayText', item, text, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_displayText`, 'returnType') = 'void'
+attr(`tc_displayText`, "inputTypes") = c('integer', 'character')
+class(`tc_displayText`) = c("SWIGFunction", class('tc_displayText'))
+
+# Start of tc_displayNumber
+
+`tc_displayNumber` = function(item, number)
+{
+  item = as.integer(item) 
+  
+  if(length(item) > 1) {
+    warning("using only the first element of item")
+  }
+  
+  
+  .Call('R_swig_tc_displayNumber', item, number, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_displayNumber`, 'returnType') = 'void'
+attr(`tc_displayNumber`, "inputTypes") = c('integer', 'numeric')
+class(`tc_displayNumber`) = c("SWIGFunction", class('tc_displayNumber'))
+
+# Start of tc_setDisplayLabelColor
+
+`tc_setDisplayLabelColor` = function(color1, color2)
+{
+  color1 = as(color1, "character") 
+  color2 = as(color2, "character") 
+  .Call('R_swig_tc_setDisplayLabelColor', color1, color2, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_setDisplayLabelColor`, 'returnType') = 'void'
+attr(`tc_setDisplayLabelColor`, "inputTypes") = c('character', 'character')
+class(`tc_setDisplayLabelColor`) = c("SWIGFunction", class('tc_setDisplayLabelColor'))
+
+# Start of tc_highlight
+
+`tc_highlight` = function(item, color)
+{
+  item = as.integer(item) 
+  
+  if(length(item) > 1) {
+    warning("using only the first element of item")
+  }
+  
+  color = as(color, "character") 
+  .Call('R_swig_tc_highlight', item, color, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_highlight`, 'returnType') = 'void'
+attr(`tc_highlight`, "inputTypes") = c('integer', 'character')
+class(`tc_highlight`) = c("SWIGFunction", class('tc_highlight'))
+
+# Start of tc_burn
+
+`tc_burn` = function(item, intensity)
+{
+  item = as.integer(item) 
+  
+  if(length(item) > 1) {
+    warning("using only the first element of item")
+  }
+  
+  
+  .Call('R_swig_tc_burn', item, intensity, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_burn`, 'returnType') = 'void'
+attr(`tc_burn`, "inputTypes") = c('integer', 'numeric')
+class(`tc_burn`) = c("SWIGFunction", class('tc_burn'))
+
+# Start of tc_LabelingTool_api
+
+`tc_LabelingTool_api` = function(displayText, displayNumber, setDisplayLabelColor, highlight, burn)
+{
+  if(is.function(displayText)) {
+    assert('...' %in% names(formals(displayText)) || length(formals(displayText)) >= 0)
+  } else {
+    if(is.character(displayText)) {
+      displayText = getNativeSymbolInfo(displayText)
+    }
+    if(is(displayText, "NativeSymbolInfo")) {
+      displayText = displayText$address
+    }
+  }
+  if(is.function(displayNumber)) {
+    assert('...' %in% names(formals(displayNumber)) || length(formals(displayNumber)) >= 2)
+  } else {
+    if(is.character(displayNumber)) {
+      displayNumber = getNativeSymbolInfo(displayNumber)
+    }
+    if(is(displayNumber, "NativeSymbolInfo")) {
+      displayNumber = displayNumber$address
+    }
+  }
+  if(is.function(setDisplayLabelColor)) {
+    assert('...' %in% names(formals(setDisplayLabelColor)) || length(formals(setDisplayLabelColor)) >= 0)
+  } else {
+    if(is.character(setDisplayLabelColor)) {
+      setDisplayLabelColor = getNativeSymbolInfo(setDisplayLabelColor)
+    }
+    if(is(setDisplayLabelColor, "NativeSymbolInfo")) {
+      setDisplayLabelColor = setDisplayLabelColor$address
+    }
+  }
+  if(is.function(highlight)) {
+    assert('...' %in% names(formals(highlight)) || length(formals(highlight)) >= 0)
+  } else {
+    if(is.character(highlight)) {
+      highlight = getNativeSymbolInfo(highlight)
+    }
+    if(is(highlight, "NativeSymbolInfo")) {
+      highlight = highlight$address
+    }
+  }
+  if(is.function(burn)) {
+    assert('...' %in% names(formals(burn)) || length(formals(burn)) >= 0)
+  } else {
+    if(is.character(burn)) {
+      burn = getNativeSymbolInfo(burn)
+    }
+    if(is(burn, "NativeSymbolInfo")) {
+      burn = burn$address
+    }
+  }
+  .Call('R_swig_tc_LabelingTool_api', displayText, displayNumber, setDisplayLabelColor, highlight, burn, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_LabelingTool_api`, 'returnType') = 'void'
+attr(`tc_LabelingTool_api`, "inputTypes") = c('_p_f_long_p_q_const__char__void', '_p_f_long_double__void', '_p_f_p_q_const__char_p_q_const__char__void', '_p_f_long_p_q_const__char__void', '_p_f_long_double__void')
+class(`tc_LabelingTool_api`) = c("SWIGFunction", class('tc_LabelingTool_api'))
+
 # Start of tc_getParameters
 
 `tc_getParameters` = function(a, .copy = FALSE)
@@ -6178,129 +6330,6 @@ class(`tc_addForcingFunction`) = c("SWIGFunction", class('tc_addForcingFunction'
 attr(`tc_AssignmentFunctionsTool_api`, 'returnType') = 'void'
 attr(`tc_AssignmentFunctionsTool_api`, "inputTypes") = c('_p_f_tc_items__tc_strings', '_p_f_tc_items__tc_strings', '_p_f_long_p_q_const__char_p_q_const__char__void')
 class(`tc_AssignmentFunctionsTool_api`) = c("SWIGFunction", class('tc_AssignmentFunctionsTool_api'))
-
-# Start of tc_displayText
-
-`tc_displayText` = function(item, text)
-{
-  item = as.integer(item) 
-  
-  if(length(item) > 1) {
-    warning("using only the first element of item")
-  }
-  
-  text = as(text, "character") 
-  .Call('R_swig_tc_displayText', item, text, PACKAGE='tinkercell')
-  
-}
-
-attr(`tc_displayText`, 'returnType') = 'void'
-attr(`tc_displayText`, "inputTypes") = c('integer', 'character')
-class(`tc_displayText`) = c("SWIGFunction", class('tc_displayText'))
-
-# Start of tc_displayNumber
-
-`tc_displayNumber` = function(item, number)
-{
-  item = as.integer(item) 
-  
-  if(length(item) > 1) {
-    warning("using only the first element of item")
-  }
-  
-  
-  .Call('R_swig_tc_displayNumber', item, number, PACKAGE='tinkercell')
-  
-}
-
-attr(`tc_displayNumber`, 'returnType') = 'void'
-attr(`tc_displayNumber`, "inputTypes") = c('integer', 'numeric')
-class(`tc_displayNumber`) = c("SWIGFunction", class('tc_displayNumber'))
-
-# Start of tc_setDisplayLabelColor
-
-`tc_setDisplayLabelColor` = function(color1, color2)
-{
-  color1 = as(color1, "character") 
-  color2 = as(color2, "character") 
-  .Call('R_swig_tc_setDisplayLabelColor', color1, color2, PACKAGE='tinkercell')
-  
-}
-
-attr(`tc_setDisplayLabelColor`, 'returnType') = 'void'
-attr(`tc_setDisplayLabelColor`, "inputTypes") = c('character', 'character')
-class(`tc_setDisplayLabelColor`) = c("SWIGFunction", class('tc_setDisplayLabelColor'))
-
-# Start of tc_highlight
-
-`tc_highlight` = function(item, color)
-{
-  item = as.integer(item) 
-  
-  if(length(item) > 1) {
-    warning("using only the first element of item")
-  }
-  
-  color = as(color, "character") 
-  .Call('R_swig_tc_highlight', item, color, PACKAGE='tinkercell')
-  
-}
-
-attr(`tc_highlight`, 'returnType') = 'void'
-attr(`tc_highlight`, "inputTypes") = c('integer', 'character')
-class(`tc_highlight`) = c("SWIGFunction", class('tc_highlight'))
-
-# Start of tc_CLabelsTool_api
-
-`tc_CLabelsTool_api` = function(displayText, displayNumber, setDisplayLabelColor, highlight)
-{
-  if(is.function(displayText)) {
-    assert('...' %in% names(formals(displayText)) || length(formals(displayText)) >= 0)
-  } else {
-    if(is.character(displayText)) {
-      displayText = getNativeSymbolInfo(displayText)
-    }
-    if(is(displayText, "NativeSymbolInfo")) {
-      displayText = displayText$address
-    }
-  }
-  if(is.function(displayNumber)) {
-    assert('...' %in% names(formals(displayNumber)) || length(formals(displayNumber)) >= 2)
-  } else {
-    if(is.character(displayNumber)) {
-      displayNumber = getNativeSymbolInfo(displayNumber)
-    }
-    if(is(displayNumber, "NativeSymbolInfo")) {
-      displayNumber = displayNumber$address
-    }
-  }
-  if(is.function(setDisplayLabelColor)) {
-    assert('...' %in% names(formals(setDisplayLabelColor)) || length(formals(setDisplayLabelColor)) >= 0)
-  } else {
-    if(is.character(setDisplayLabelColor)) {
-      setDisplayLabelColor = getNativeSymbolInfo(setDisplayLabelColor)
-    }
-    if(is(setDisplayLabelColor, "NativeSymbolInfo")) {
-      setDisplayLabelColor = setDisplayLabelColor$address
-    }
-  }
-  if(is.function(highlight)) {
-    assert('...' %in% names(formals(highlight)) || length(formals(highlight)) >= 0)
-  } else {
-    if(is.character(highlight)) {
-      highlight = getNativeSymbolInfo(highlight)
-    }
-    if(is(highlight, "NativeSymbolInfo")) {
-      highlight = highlight$address
-    }
-  }
-  .Call('R_swig_tc_CLabelsTool_api', displayText, displayNumber, setDisplayLabelColor, highlight, PACKAGE='tinkercell')
-  
-}
-
-attr(`tc_CLabelsTool_api`, 'returnType') = 'void'
-attr(`tc_CLabelsTool_api`, "inputTypes") = c('_p_f_long_p_q_const__char__void', '_p_f_long_double__void', '_p_f_p_q_const__char_p_q_const__char__void', '_p_f_long_p_q_const__char__void')
-class(`tc_CLabelsTool_api`) = c("SWIGFunction", class('tc_CLabelsTool_api'))
 
 # Start of tc_getAnnotation
 

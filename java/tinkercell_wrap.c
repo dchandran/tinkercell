@@ -2862,6 +2862,104 @@ SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1CThread_1api_1initialize(JNIEnv *
 }
 
 
+SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1displayText(JNIEnv *jenv, jclass jcls, jint jarg1, jstring jarg2) {
+  long arg1 ;
+  char *arg2 = (char *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = (long)jarg1; 
+  arg2 = 0;
+  if (jarg2) {
+    arg2 = (char *)(*jenv)->GetStringUTFChars(jenv, jarg2, 0);
+    if (!arg2) return ;
+  }
+  tc_displayText(arg1,(char const *)arg2);
+  if (arg2) (*jenv)->ReleaseStringUTFChars(jenv, jarg2, (const char *)arg2);
+}
+
+
+SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1displayNumber(JNIEnv *jenv, jclass jcls, jint jarg1, jdouble jarg2) {
+  long arg1 ;
+  double arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = (long)jarg1; 
+  arg2 = (double)jarg2; 
+  tc_displayNumber(arg1,arg2);
+}
+
+
+SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1setDisplayLabelColor(JNIEnv *jenv, jclass jcls, jstring jarg1, jstring jarg2) {
+  char *arg1 = (char *) 0 ;
+  char *arg2 = (char *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = 0;
+  if (jarg1) {
+    arg1 = (char *)(*jenv)->GetStringUTFChars(jenv, jarg1, 0);
+    if (!arg1) return ;
+  }
+  arg2 = 0;
+  if (jarg2) {
+    arg2 = (char *)(*jenv)->GetStringUTFChars(jenv, jarg2, 0);
+    if (!arg2) return ;
+  }
+  tc_setDisplayLabelColor((char const *)arg1,(char const *)arg2);
+  if (arg1) (*jenv)->ReleaseStringUTFChars(jenv, jarg1, (const char *)arg1);
+  if (arg2) (*jenv)->ReleaseStringUTFChars(jenv, jarg2, (const char *)arg2);
+}
+
+
+SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1highlight(JNIEnv *jenv, jclass jcls, jint jarg1, jstring jarg2) {
+  long arg1 ;
+  char *arg2 = (char *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = (long)jarg1; 
+  arg2 = 0;
+  if (jarg2) {
+    arg2 = (char *)(*jenv)->GetStringUTFChars(jenv, jarg2, 0);
+    if (!arg2) return ;
+  }
+  tc_highlight(arg1,(char const *)arg2);
+  if (arg2) (*jenv)->ReleaseStringUTFChars(jenv, jarg2, (const char *)arg2);
+}
+
+
+SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1burn(JNIEnv *jenv, jclass jcls, jint jarg1, jdouble jarg2) {
+  long arg1 ;
+  double arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = (long)jarg1; 
+  arg2 = (double)jarg2; 
+  tc_burn(arg1,arg2);
+}
+
+
+SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1LabelingTool_1api(JNIEnv *jenv, jclass jcls, jlong jarg1, jlong jarg2, jlong jarg3, jlong jarg4, jlong jarg5) {
+  void (*arg1)(long,char const *) = (void (*)(long,char const *)) 0 ;
+  void (*arg2)(long,double) = (void (*)(long,double)) 0 ;
+  void (*arg3)(char const *,char const *) = (void (*)(char const *,char const *)) 0 ;
+  void (*arg4)(long,char const *) = (void (*)(long,char const *)) 0 ;
+  void (*arg5)(long,double) = (void (*)(long,double)) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(void (**)(long,char const *))&jarg1; 
+  arg2 = *(void (**)(long,double))&jarg2; 
+  arg3 = *(void (**)(char const *,char const *))&jarg3; 
+  arg4 = *(void (**)(long,char const *))&jarg4; 
+  arg5 = *(void (**)(long,double))&jarg5; 
+  tc_LabelingTool_api(arg1,arg2,arg3,arg4,arg5);
+}
+
+
 SWIGEXPORT jlong JNICALL Java_tinkercellJNI_tc_1getParameters(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jlong jresult = 0 ;
   tc_items arg1 ;
@@ -4665,90 +4763,6 @@ SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1AssignmentFunctionsTool_1api(JNIE
   arg2 = *(tc_strings (**)(tc_items))&jarg2; 
   arg3 = *(void (**)(long,char const *,char const *))&jarg3; 
   tc_AssignmentFunctionsTool_api(arg1,arg2,arg3);
-}
-
-
-SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1displayText(JNIEnv *jenv, jclass jcls, jint jarg1, jstring jarg2) {
-  long arg1 ;
-  char *arg2 = (char *) 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  arg1 = (long)jarg1; 
-  arg2 = 0;
-  if (jarg2) {
-    arg2 = (char *)(*jenv)->GetStringUTFChars(jenv, jarg2, 0);
-    if (!arg2) return ;
-  }
-  tc_displayText(arg1,(char const *)arg2);
-  if (arg2) (*jenv)->ReleaseStringUTFChars(jenv, jarg2, (const char *)arg2);
-}
-
-
-SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1displayNumber(JNIEnv *jenv, jclass jcls, jint jarg1, jdouble jarg2) {
-  long arg1 ;
-  double arg2 ;
-  
-  (void)jenv;
-  (void)jcls;
-  arg1 = (long)jarg1; 
-  arg2 = (double)jarg2; 
-  tc_displayNumber(arg1,arg2);
-}
-
-
-SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1setDisplayLabelColor(JNIEnv *jenv, jclass jcls, jstring jarg1, jstring jarg2) {
-  char *arg1 = (char *) 0 ;
-  char *arg2 = (char *) 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  arg1 = 0;
-  if (jarg1) {
-    arg1 = (char *)(*jenv)->GetStringUTFChars(jenv, jarg1, 0);
-    if (!arg1) return ;
-  }
-  arg2 = 0;
-  if (jarg2) {
-    arg2 = (char *)(*jenv)->GetStringUTFChars(jenv, jarg2, 0);
-    if (!arg2) return ;
-  }
-  tc_setDisplayLabelColor((char const *)arg1,(char const *)arg2);
-  if (arg1) (*jenv)->ReleaseStringUTFChars(jenv, jarg1, (const char *)arg1);
-  if (arg2) (*jenv)->ReleaseStringUTFChars(jenv, jarg2, (const char *)arg2);
-}
-
-
-SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1highlight(JNIEnv *jenv, jclass jcls, jint jarg1, jstring jarg2) {
-  long arg1 ;
-  char *arg2 = (char *) 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  arg1 = (long)jarg1; 
-  arg2 = 0;
-  if (jarg2) {
-    arg2 = (char *)(*jenv)->GetStringUTFChars(jenv, jarg2, 0);
-    if (!arg2) return ;
-  }
-  tc_highlight(arg1,(char const *)arg2);
-  if (arg2) (*jenv)->ReleaseStringUTFChars(jenv, jarg2, (const char *)arg2);
-}
-
-
-SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1CLabelsTool_1api(JNIEnv *jenv, jclass jcls, jlong jarg1, jlong jarg2, jlong jarg3, jlong jarg4) {
-  void (*arg1)(long,char const *) = (void (*)(long,char const *)) 0 ;
-  void (*arg2)(long,double) = (void (*)(long,double)) 0 ;
-  void (*arg3)(char const *,char const *) = (void (*)(char const *,char const *)) 0 ;
-  void (*arg4)(long,char const *) = (void (*)(long,char const *)) 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  arg1 = *(void (**)(long,char const *))&jarg1; 
-  arg2 = *(void (**)(long,double))&jarg2; 
-  arg3 = *(void (**)(char const *,char const *))&jarg3; 
-  arg4 = *(void (**)(long,char const *))&jarg4; 
-  tc_CLabelsTool_api(arg1,arg2,arg3,arg4);
 }
 
 

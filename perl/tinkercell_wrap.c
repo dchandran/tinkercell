@@ -7447,6 +7447,257 @@ XS(_wrap_tc_CThread_api_initialize) {
 }
 
 
+XS(_wrap_tc_displayText) {
+  {
+    long arg1 ;
+    char *arg2 = (char *) 0 ;
+    long val1 ;
+    int ecode1 = 0 ;
+    int res2 ;
+    char *buf2 = 0 ;
+    int alloc2 = 0 ;
+    int argvi = 0;
+    dXSARGS;
+    
+    if ((items < 2) || (items > 2)) {
+      SWIG_croak("Usage: tc_displayText(item,text);");
+    }
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    if (!SWIG_IsOK(ecode1)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_displayText" "', argument " "1"" of type '" "long""'");
+    } 
+    arg1 = (long)(val1);
+    res2 = SWIG_AsCharPtrAndSize(ST(1), &buf2, NULL, &alloc2);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_displayText" "', argument " "2"" of type '" "char const *""'");
+    }
+    arg2 = (char *)(buf2);
+    tc_displayText(arg1,(char const *)arg2);
+    ST(argvi) = sv_newmortal();
+    
+    if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+    XSRETURN(argvi);
+  fail:
+    
+    if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_tc_displayNumber) {
+  {
+    long arg1 ;
+    double arg2 ;
+    long val1 ;
+    int ecode1 = 0 ;
+    double val2 ;
+    int ecode2 = 0 ;
+    int argvi = 0;
+    dXSARGS;
+    
+    if ((items < 2) || (items > 2)) {
+      SWIG_croak("Usage: tc_displayNumber(item,number);");
+    }
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    if (!SWIG_IsOK(ecode1)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_displayNumber" "', argument " "1"" of type '" "long""'");
+    } 
+    arg1 = (long)(val1);
+    ecode2 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
+    if (!SWIG_IsOK(ecode2)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_displayNumber" "', argument " "2"" of type '" "double""'");
+    } 
+    arg2 = (double)(val2);
+    tc_displayNumber(arg1,arg2);
+    ST(argvi) = sv_newmortal();
+    
+    
+    XSRETURN(argvi);
+  fail:
+    
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_tc_setDisplayLabelColor) {
+  {
+    char *arg1 = (char *) 0 ;
+    char *arg2 = (char *) 0 ;
+    int res1 ;
+    char *buf1 = 0 ;
+    int alloc1 = 0 ;
+    int res2 ;
+    char *buf2 = 0 ;
+    int alloc2 = 0 ;
+    int argvi = 0;
+    dXSARGS;
+    
+    if ((items < 2) || (items > 2)) {
+      SWIG_croak("Usage: tc_setDisplayLabelColor(color1,color2);");
+    }
+    res1 = SWIG_AsCharPtrAndSize(ST(0), &buf1, NULL, &alloc1);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setDisplayLabelColor" "', argument " "1"" of type '" "char const *""'");
+    }
+    arg1 = (char *)(buf1);
+    res2 = SWIG_AsCharPtrAndSize(ST(1), &buf2, NULL, &alloc2);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setDisplayLabelColor" "', argument " "2"" of type '" "char const *""'");
+    }
+    arg2 = (char *)(buf2);
+    tc_setDisplayLabelColor((char const *)arg1,(char const *)arg2);
+    ST(argvi) = sv_newmortal();
+    if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+    if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+    XSRETURN(argvi);
+  fail:
+    if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+    if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_tc_highlight) {
+  {
+    long arg1 ;
+    char *arg2 = (char *) 0 ;
+    long val1 ;
+    int ecode1 = 0 ;
+    int res2 ;
+    char *buf2 = 0 ;
+    int alloc2 = 0 ;
+    int argvi = 0;
+    dXSARGS;
+    
+    if ((items < 2) || (items > 2)) {
+      SWIG_croak("Usage: tc_highlight(item,color);");
+    }
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    if (!SWIG_IsOK(ecode1)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_highlight" "', argument " "1"" of type '" "long""'");
+    } 
+    arg1 = (long)(val1);
+    res2 = SWIG_AsCharPtrAndSize(ST(1), &buf2, NULL, &alloc2);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_highlight" "', argument " "2"" of type '" "char const *""'");
+    }
+    arg2 = (char *)(buf2);
+    tc_highlight(arg1,(char const *)arg2);
+    ST(argvi) = sv_newmortal();
+    
+    if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+    XSRETURN(argvi);
+  fail:
+    
+    if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_tc_burn) {
+  {
+    long arg1 ;
+    double arg2 ;
+    long val1 ;
+    int ecode1 = 0 ;
+    double val2 ;
+    int ecode2 = 0 ;
+    int argvi = 0;
+    dXSARGS;
+    
+    if ((items < 2) || (items > 2)) {
+      SWIG_croak("Usage: tc_burn(item,intensity);");
+    }
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    if (!SWIG_IsOK(ecode1)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_burn" "', argument " "1"" of type '" "long""'");
+    } 
+    arg1 = (long)(val1);
+    ecode2 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
+    if (!SWIG_IsOK(ecode2)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_burn" "', argument " "2"" of type '" "double""'");
+    } 
+    arg2 = (double)(val2);
+    tc_burn(arg1,arg2);
+    ST(argvi) = sv_newmortal();
+    
+    
+    XSRETURN(argvi);
+  fail:
+    
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_tc_LabelingTool_api) {
+  {
+    void (*arg1)(long,char const *) = (void (*)(long,char const *)) 0 ;
+    void (*arg2)(long,double) = (void (*)(long,double)) 0 ;
+    void (*arg3)(char const *,char const *) = (void (*)(char const *,char const *)) 0 ;
+    void (*arg4)(long,char const *) = (void (*)(long,char const *)) 0 ;
+    void (*arg5)(long,double) = (void (*)(long,double)) 0 ;
+    int argvi = 0;
+    dXSARGS;
+    
+    if ((items < 5) || (items > 5)) {
+      SWIG_croak("Usage: tc_LabelingTool_api(displayText,displayNumber,setDisplayLabelColor,highlight,burn);");
+    }
+    {
+      int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_long_p_q_const__char__void);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_LabelingTool_api" "', argument " "1"" of type '" "void (*)(long,char const *)""'"); 
+      }
+    }
+    {
+      int res = SWIG_ConvertFunctionPtr(ST(1), (void**)(&arg2), SWIGTYPE_p_f_long_double__void);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_LabelingTool_api" "', argument " "2"" of type '" "void (*)(long,double)""'"); 
+      }
+    }
+    {
+      int res = SWIG_ConvertFunctionPtr(ST(2), (void**)(&arg3), SWIGTYPE_p_f_p_q_const__char_p_q_const__char__void);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_LabelingTool_api" "', argument " "3"" of type '" "void (*)(char const *,char const *)""'"); 
+      }
+    }
+    {
+      int res = SWIG_ConvertFunctionPtr(ST(3), (void**)(&arg4), SWIGTYPE_p_f_long_p_q_const__char__void);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_LabelingTool_api" "', argument " "4"" of type '" "void (*)(long,char const *)""'"); 
+      }
+    }
+    {
+      int res = SWIG_ConvertFunctionPtr(ST(4), (void**)(&arg5), SWIGTYPE_p_f_long_double__void);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_LabelingTool_api" "', argument " "5"" of type '" "void (*)(long,double)""'"); 
+      }
+    }
+    tc_LabelingTool_api(arg1,arg2,arg3,arg4,arg5);
+    ST(argvi) = sv_newmortal();
+    
+    
+    
+    
+    
+    XSRETURN(argvi);
+  fail:
+    
+    
+    
+    
+    
+    SWIG_croak_null();
+  }
+}
+
+
 XS(_wrap_tc_getParameters) {
   {
     tc_items arg1 ;
@@ -11087,211 +11338,6 @@ XS(_wrap_tc_AssignmentFunctionsTool_api) {
 }
 
 
-XS(_wrap_tc_displayText) {
-  {
-    long arg1 ;
-    char *arg2 = (char *) 0 ;
-    long val1 ;
-    int ecode1 = 0 ;
-    int res2 ;
-    char *buf2 = 0 ;
-    int alloc2 = 0 ;
-    int argvi = 0;
-    dXSARGS;
-    
-    if ((items < 2) || (items > 2)) {
-      SWIG_croak("Usage: tc_displayText(item,text);");
-    }
-    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
-    if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_displayText" "', argument " "1"" of type '" "long""'");
-    } 
-    arg1 = (long)(val1);
-    res2 = SWIG_AsCharPtrAndSize(ST(1), &buf2, NULL, &alloc2);
-    if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_displayText" "', argument " "2"" of type '" "char const *""'");
-    }
-    arg2 = (char *)(buf2);
-    tc_displayText(arg1,(char const *)arg2);
-    ST(argvi) = sv_newmortal();
-    
-    if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
-    XSRETURN(argvi);
-  fail:
-    
-    if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
-    SWIG_croak_null();
-  }
-}
-
-
-XS(_wrap_tc_displayNumber) {
-  {
-    long arg1 ;
-    double arg2 ;
-    long val1 ;
-    int ecode1 = 0 ;
-    double val2 ;
-    int ecode2 = 0 ;
-    int argvi = 0;
-    dXSARGS;
-    
-    if ((items < 2) || (items > 2)) {
-      SWIG_croak("Usage: tc_displayNumber(item,number);");
-    }
-    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
-    if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_displayNumber" "', argument " "1"" of type '" "long""'");
-    } 
-    arg1 = (long)(val1);
-    ecode2 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
-    if (!SWIG_IsOK(ecode2)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_displayNumber" "', argument " "2"" of type '" "double""'");
-    } 
-    arg2 = (double)(val2);
-    tc_displayNumber(arg1,arg2);
-    ST(argvi) = sv_newmortal();
-    
-    
-    XSRETURN(argvi);
-  fail:
-    
-    
-    SWIG_croak_null();
-  }
-}
-
-
-XS(_wrap_tc_setDisplayLabelColor) {
-  {
-    char *arg1 = (char *) 0 ;
-    char *arg2 = (char *) 0 ;
-    int res1 ;
-    char *buf1 = 0 ;
-    int alloc1 = 0 ;
-    int res2 ;
-    char *buf2 = 0 ;
-    int alloc2 = 0 ;
-    int argvi = 0;
-    dXSARGS;
-    
-    if ((items < 2) || (items > 2)) {
-      SWIG_croak("Usage: tc_setDisplayLabelColor(color1,color2);");
-    }
-    res1 = SWIG_AsCharPtrAndSize(ST(0), &buf1, NULL, &alloc1);
-    if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setDisplayLabelColor" "', argument " "1"" of type '" "char const *""'");
-    }
-    arg1 = (char *)(buf1);
-    res2 = SWIG_AsCharPtrAndSize(ST(1), &buf2, NULL, &alloc2);
-    if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setDisplayLabelColor" "', argument " "2"" of type '" "char const *""'");
-    }
-    arg2 = (char *)(buf2);
-    tc_setDisplayLabelColor((char const *)arg1,(char const *)arg2);
-    ST(argvi) = sv_newmortal();
-    if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
-    if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
-    XSRETURN(argvi);
-  fail:
-    if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
-    if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
-    SWIG_croak_null();
-  }
-}
-
-
-XS(_wrap_tc_highlight) {
-  {
-    long arg1 ;
-    char *arg2 = (char *) 0 ;
-    long val1 ;
-    int ecode1 = 0 ;
-    int res2 ;
-    char *buf2 = 0 ;
-    int alloc2 = 0 ;
-    int argvi = 0;
-    dXSARGS;
-    
-    if ((items < 2) || (items > 2)) {
-      SWIG_croak("Usage: tc_highlight(item,color);");
-    }
-    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
-    if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_highlight" "', argument " "1"" of type '" "long""'");
-    } 
-    arg1 = (long)(val1);
-    res2 = SWIG_AsCharPtrAndSize(ST(1), &buf2, NULL, &alloc2);
-    if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_highlight" "', argument " "2"" of type '" "char const *""'");
-    }
-    arg2 = (char *)(buf2);
-    tc_highlight(arg1,(char const *)arg2);
-    ST(argvi) = sv_newmortal();
-    
-    if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
-    XSRETURN(argvi);
-  fail:
-    
-    if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
-    SWIG_croak_null();
-  }
-}
-
-
-XS(_wrap_tc_CLabelsTool_api) {
-  {
-    void (*arg1)(long,char const *) = (void (*)(long,char const *)) 0 ;
-    void (*arg2)(long,double) = (void (*)(long,double)) 0 ;
-    void (*arg3)(char const *,char const *) = (void (*)(char const *,char const *)) 0 ;
-    void (*arg4)(long,char const *) = (void (*)(long,char const *)) 0 ;
-    int argvi = 0;
-    dXSARGS;
-    
-    if ((items < 4) || (items > 4)) {
-      SWIG_croak("Usage: tc_CLabelsTool_api(displayText,displayNumber,setDisplayLabelColor,highlight);");
-    }
-    {
-      int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_long_p_q_const__char__void);
-      if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CLabelsTool_api" "', argument " "1"" of type '" "void (*)(long,char const *)""'"); 
-      }
-    }
-    {
-      int res = SWIG_ConvertFunctionPtr(ST(1), (void**)(&arg2), SWIGTYPE_p_f_long_double__void);
-      if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CLabelsTool_api" "', argument " "2"" of type '" "void (*)(long,double)""'"); 
-      }
-    }
-    {
-      int res = SWIG_ConvertFunctionPtr(ST(2), (void**)(&arg3), SWIGTYPE_p_f_p_q_const__char_p_q_const__char__void);
-      if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CLabelsTool_api" "', argument " "3"" of type '" "void (*)(char const *,char const *)""'"); 
-      }
-    }
-    {
-      int res = SWIG_ConvertFunctionPtr(ST(3), (void**)(&arg4), SWIGTYPE_p_f_long_p_q_const__char__void);
-      if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CLabelsTool_api" "', argument " "4"" of type '" "void (*)(long,char const *)""'"); 
-      }
-    }
-    tc_CLabelsTool_api(arg1,arg2,arg3,arg4);
-    ST(argvi) = sv_newmortal();
-    
-    
-    
-    
-    XSRETURN(argvi);
-  fail:
-    
-    
-    
-    
-    SWIG_croak_null();
-  }
-}
-
-
 XS(_wrap_tc_getAnnotation) {
   {
     long arg1 ;
@@ -13271,6 +13317,12 @@ static swig_command_info swig_commands[] = {
 {"tinkercellc::tc_callback", _wrap_tc_callback},
 {"tinkercellc::tc_callWhenExiting", _wrap_tc_callWhenExiting},
 {"tinkercellc::tc_CThread_api_initialize", _wrap_tc_CThread_api_initialize},
+{"tinkercellc::tc_displayText", _wrap_tc_displayText},
+{"tinkercellc::tc_displayNumber", _wrap_tc_displayNumber},
+{"tinkercellc::tc_setDisplayLabelColor", _wrap_tc_setDisplayLabelColor},
+{"tinkercellc::tc_highlight", _wrap_tc_highlight},
+{"tinkercellc::tc_burn", _wrap_tc_burn},
+{"tinkercellc::tc_LabelingTool_api", _wrap_tc_LabelingTool_api},
 {"tinkercellc::tc_getParameters", _wrap_tc_getParameters},
 {"tinkercellc::tc_getInitialValues", _wrap_tc_getInitialValues},
 {"tinkercellc::tc_setInitialValues", _wrap_tc_setInitialValues},
@@ -13358,11 +13410,6 @@ static swig_command_info swig_commands[] = {
 {"tinkercellc::tc_getForcingFunctionAssignments", _wrap_tc_getForcingFunctionAssignments},
 {"tinkercellc::tc_addForcingFunction", _wrap_tc_addForcingFunction},
 {"tinkercellc::tc_AssignmentFunctionsTool_api", _wrap_tc_AssignmentFunctionsTool_api},
-{"tinkercellc::tc_displayText", _wrap_tc_displayText},
-{"tinkercellc::tc_displayNumber", _wrap_tc_displayNumber},
-{"tinkercellc::tc_setDisplayLabelColor", _wrap_tc_setDisplayLabelColor},
-{"tinkercellc::tc_highlight", _wrap_tc_highlight},
-{"tinkercellc::tc_CLabelsTool_api", _wrap_tc_CLabelsTool_api},
 {"tinkercellc::tc_getAnnotation", _wrap_tc_getAnnotation},
 {"tinkercellc::tc_setAnnotation", _wrap_tc_setAnnotation},
 {"tinkercellc::tc_NameFamily_api_initialize", _wrap_tc_NameFamily_api_initialize},

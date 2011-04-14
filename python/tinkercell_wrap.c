@@ -7821,6 +7821,220 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_tc_displayText(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  long arg1 ;
+  char *arg2 = (char *) 0 ;
+  long val1 ;
+  int ecode1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:tc_displayText",&obj0,&obj1)) SWIG_fail;
+  ecode1 = SWIG_AsVal_long(obj0, &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_displayText" "', argument " "1"" of type '" "long""'");
+  } 
+  arg1 = (long)(val1);
+  res2 = SWIG_AsCharPtrAndSize(obj1, &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_displayText" "', argument " "2"" of type '" "char const *""'");
+  }
+  arg2 = (char *)(buf2);
+  tc_displayText(arg1,(char const *)arg2);
+  resultobj = SWIG_Py_Void();
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  return resultobj;
+fail:
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tc_displayNumber(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  long arg1 ;
+  double arg2 ;
+  long val1 ;
+  int ecode1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:tc_displayNumber",&obj0,&obj1)) SWIG_fail;
+  ecode1 = SWIG_AsVal_long(obj0, &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_displayNumber" "', argument " "1"" of type '" "long""'");
+  } 
+  arg1 = (long)(val1);
+  ecode2 = SWIG_AsVal_double(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_displayNumber" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = (double)(val2);
+  tc_displayNumber(arg1,arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tc_setDisplayLabelColor(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  char *arg1 = (char *) 0 ;
+  char *arg2 = (char *) 0 ;
+  int res1 ;
+  char *buf1 = 0 ;
+  int alloc1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:tc_setDisplayLabelColor",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_AsCharPtrAndSize(obj0, &buf1, NULL, &alloc1);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setDisplayLabelColor" "', argument " "1"" of type '" "char const *""'");
+  }
+  arg1 = (char *)(buf1);
+  res2 = SWIG_AsCharPtrAndSize(obj1, &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setDisplayLabelColor" "', argument " "2"" of type '" "char const *""'");
+  }
+  arg2 = (char *)(buf2);
+  tc_setDisplayLabelColor((char const *)arg1,(char const *)arg2);
+  resultobj = SWIG_Py_Void();
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  return resultobj;
+fail:
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tc_highlight(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  long arg1 ;
+  char *arg2 = (char *) 0 ;
+  long val1 ;
+  int ecode1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:tc_highlight",&obj0,&obj1)) SWIG_fail;
+  ecode1 = SWIG_AsVal_long(obj0, &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_highlight" "', argument " "1"" of type '" "long""'");
+  } 
+  arg1 = (long)(val1);
+  res2 = SWIG_AsCharPtrAndSize(obj1, &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_highlight" "', argument " "2"" of type '" "char const *""'");
+  }
+  arg2 = (char *)(buf2);
+  tc_highlight(arg1,(char const *)arg2);
+  resultobj = SWIG_Py_Void();
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  return resultobj;
+fail:
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tc_burn(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  long arg1 ;
+  double arg2 ;
+  long val1 ;
+  int ecode1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:tc_burn",&obj0,&obj1)) SWIG_fail;
+  ecode1 = SWIG_AsVal_long(obj0, &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_burn" "', argument " "1"" of type '" "long""'");
+  } 
+  arg1 = (long)(val1);
+  ecode2 = SWIG_AsVal_double(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_burn" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = (double)(val2);
+  tc_burn(arg1,arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tc_LabelingTool_api(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  void (*arg1)(long,char const *) = (void (*)(long,char const *)) 0 ;
+  void (*arg2)(long,double) = (void (*)(long,double)) 0 ;
+  void (*arg3)(char const *,char const *) = (void (*)(char const *,char const *)) 0 ;
+  void (*arg4)(long,char const *) = (void (*)(long,char const *)) 0 ;
+  void (*arg5)(long,double) = (void (*)(long,double)) 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  PyObject * obj4 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOOOO:tc_LabelingTool_api",&obj0,&obj1,&obj2,&obj3,&obj4)) SWIG_fail;
+  {
+    int res = SWIG_ConvertFunctionPtr(obj0, (void**)(&arg1), SWIGTYPE_p_f_long_p_q_const__char__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_LabelingTool_api" "', argument " "1"" of type '" "void (*)(long,char const *)""'"); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(obj1, (void**)(&arg2), SWIGTYPE_p_f_long_double__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_LabelingTool_api" "', argument " "2"" of type '" "void (*)(long,double)""'"); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(obj2, (void**)(&arg3), SWIGTYPE_p_f_p_q_const__char_p_q_const__char__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_LabelingTool_api" "', argument " "3"" of type '" "void (*)(char const *,char const *)""'"); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(obj3, (void**)(&arg4), SWIGTYPE_p_f_long_p_q_const__char__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_LabelingTool_api" "', argument " "4"" of type '" "void (*)(long,char const *)""'"); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(obj4, (void**)(&arg5), SWIGTYPE_p_f_long_double__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_LabelingTool_api" "', argument " "5"" of type '" "void (*)(long,double)""'"); 
+    }
+  }
+  tc_LabelingTool_api(arg1,arg2,arg3,arg4,arg5);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_tc_getParameters(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   tc_items arg1 ;
@@ -11001,182 +11215,6 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_tc_displayText(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  long arg1 ;
-  char *arg2 = (char *) 0 ;
-  long val1 ;
-  int ecode1 = 0 ;
-  int res2 ;
-  char *buf2 = 0 ;
-  int alloc2 = 0 ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"OO:tc_displayText",&obj0,&obj1)) SWIG_fail;
-  ecode1 = SWIG_AsVal_long(obj0, &val1);
-  if (!SWIG_IsOK(ecode1)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_displayText" "', argument " "1"" of type '" "long""'");
-  } 
-  arg1 = (long)(val1);
-  res2 = SWIG_AsCharPtrAndSize(obj1, &buf2, NULL, &alloc2);
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_displayText" "', argument " "2"" of type '" "char const *""'");
-  }
-  arg2 = (char *)(buf2);
-  tc_displayText(arg1,(char const *)arg2);
-  resultobj = SWIG_Py_Void();
-  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
-  return resultobj;
-fail:
-  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_tc_displayNumber(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  long arg1 ;
-  double arg2 ;
-  long val1 ;
-  int ecode1 = 0 ;
-  double val2 ;
-  int ecode2 = 0 ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"OO:tc_displayNumber",&obj0,&obj1)) SWIG_fail;
-  ecode1 = SWIG_AsVal_long(obj0, &val1);
-  if (!SWIG_IsOK(ecode1)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_displayNumber" "', argument " "1"" of type '" "long""'");
-  } 
-  arg1 = (long)(val1);
-  ecode2 = SWIG_AsVal_double(obj1, &val2);
-  if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_displayNumber" "', argument " "2"" of type '" "double""'");
-  } 
-  arg2 = (double)(val2);
-  tc_displayNumber(arg1,arg2);
-  resultobj = SWIG_Py_Void();
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_tc_setDisplayLabelColor(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  char *arg1 = (char *) 0 ;
-  char *arg2 = (char *) 0 ;
-  int res1 ;
-  char *buf1 = 0 ;
-  int alloc1 = 0 ;
-  int res2 ;
-  char *buf2 = 0 ;
-  int alloc2 = 0 ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"OO:tc_setDisplayLabelColor",&obj0,&obj1)) SWIG_fail;
-  res1 = SWIG_AsCharPtrAndSize(obj0, &buf1, NULL, &alloc1);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setDisplayLabelColor" "', argument " "1"" of type '" "char const *""'");
-  }
-  arg1 = (char *)(buf1);
-  res2 = SWIG_AsCharPtrAndSize(obj1, &buf2, NULL, &alloc2);
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setDisplayLabelColor" "', argument " "2"" of type '" "char const *""'");
-  }
-  arg2 = (char *)(buf2);
-  tc_setDisplayLabelColor((char const *)arg1,(char const *)arg2);
-  resultobj = SWIG_Py_Void();
-  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
-  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
-  return resultobj;
-fail:
-  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
-  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_tc_highlight(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  long arg1 ;
-  char *arg2 = (char *) 0 ;
-  long val1 ;
-  int ecode1 = 0 ;
-  int res2 ;
-  char *buf2 = 0 ;
-  int alloc2 = 0 ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"OO:tc_highlight",&obj0,&obj1)) SWIG_fail;
-  ecode1 = SWIG_AsVal_long(obj0, &val1);
-  if (!SWIG_IsOK(ecode1)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_highlight" "', argument " "1"" of type '" "long""'");
-  } 
-  arg1 = (long)(val1);
-  res2 = SWIG_AsCharPtrAndSize(obj1, &buf2, NULL, &alloc2);
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_highlight" "', argument " "2"" of type '" "char const *""'");
-  }
-  arg2 = (char *)(buf2);
-  tc_highlight(arg1,(char const *)arg2);
-  resultobj = SWIG_Py_Void();
-  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
-  return resultobj;
-fail:
-  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_tc_CLabelsTool_api(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  void (*arg1)(long,char const *) = (void (*)(long,char const *)) 0 ;
-  void (*arg2)(long,double) = (void (*)(long,double)) 0 ;
-  void (*arg3)(char const *,char const *) = (void (*)(char const *,char const *)) 0 ;
-  void (*arg4)(long,char const *) = (void (*)(long,char const *)) 0 ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  PyObject * obj2 = 0 ;
-  PyObject * obj3 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"OOOO:tc_CLabelsTool_api",&obj0,&obj1,&obj2,&obj3)) SWIG_fail;
-  {
-    int res = SWIG_ConvertFunctionPtr(obj0, (void**)(&arg1), SWIGTYPE_p_f_long_p_q_const__char__void);
-    if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CLabelsTool_api" "', argument " "1"" of type '" "void (*)(long,char const *)""'"); 
-    }
-  }
-  {
-    int res = SWIG_ConvertFunctionPtr(obj1, (void**)(&arg2), SWIGTYPE_p_f_long_double__void);
-    if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CLabelsTool_api" "', argument " "2"" of type '" "void (*)(long,double)""'"); 
-    }
-  }
-  {
-    int res = SWIG_ConvertFunctionPtr(obj2, (void**)(&arg3), SWIGTYPE_p_f_p_q_const__char_p_q_const__char__void);
-    if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CLabelsTool_api" "', argument " "3"" of type '" "void (*)(char const *,char const *)""'"); 
-    }
-  }
-  {
-    int res = SWIG_ConvertFunctionPtr(obj3, (void**)(&arg4), SWIGTYPE_p_f_long_p_q_const__char__void);
-    if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CLabelsTool_api" "', argument " "4"" of type '" "void (*)(long,char const *)""'"); 
-    }
-  }
-  tc_CLabelsTool_api(arg1,arg2,arg3,arg4);
-  resultobj = SWIG_Py_Void();
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
 SWIGINTERN PyObject *_wrap_tc_getAnnotation(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   long arg1 ;
@@ -12534,6 +12572,12 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"tc_callback", _wrap_tc_callback, METH_VARARGS, NULL},
 	 { (char *)"tc_callWhenExiting", _wrap_tc_callWhenExiting, METH_VARARGS, NULL},
 	 { (char *)"tc_CThread_api_initialize", _wrap_tc_CThread_api_initialize, METH_VARARGS, NULL},
+	 { (char *)"tc_displayText", _wrap_tc_displayText, METH_VARARGS, NULL},
+	 { (char *)"tc_displayNumber", _wrap_tc_displayNumber, METH_VARARGS, NULL},
+	 { (char *)"tc_setDisplayLabelColor", _wrap_tc_setDisplayLabelColor, METH_VARARGS, NULL},
+	 { (char *)"tc_highlight", _wrap_tc_highlight, METH_VARARGS, NULL},
+	 { (char *)"tc_burn", _wrap_tc_burn, METH_VARARGS, NULL},
+	 { (char *)"tc_LabelingTool_api", _wrap_tc_LabelingTool_api, METH_VARARGS, NULL},
 	 { (char *)"tc_getParameters", _wrap_tc_getParameters, METH_VARARGS, NULL},
 	 { (char *)"tc_getInitialValues", _wrap_tc_getInitialValues, METH_VARARGS, NULL},
 	 { (char *)"tc_setInitialValues", _wrap_tc_setInitialValues, METH_VARARGS, NULL},
@@ -12621,11 +12665,6 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"tc_getForcingFunctionAssignments", _wrap_tc_getForcingFunctionAssignments, METH_VARARGS, NULL},
 	 { (char *)"tc_addForcingFunction", _wrap_tc_addForcingFunction, METH_VARARGS, NULL},
 	 { (char *)"tc_AssignmentFunctionsTool_api", _wrap_tc_AssignmentFunctionsTool_api, METH_VARARGS, NULL},
-	 { (char *)"tc_displayText", _wrap_tc_displayText, METH_VARARGS, NULL},
-	 { (char *)"tc_displayNumber", _wrap_tc_displayNumber, METH_VARARGS, NULL},
-	 { (char *)"tc_setDisplayLabelColor", _wrap_tc_setDisplayLabelColor, METH_VARARGS, NULL},
-	 { (char *)"tc_highlight", _wrap_tc_highlight, METH_VARARGS, NULL},
-	 { (char *)"tc_CLabelsTool_api", _wrap_tc_CLabelsTool_api, METH_VARARGS, NULL},
 	 { (char *)"tc_getAnnotation", _wrap_tc_getAnnotation, METH_VARARGS, NULL},
 	 { (char *)"tc_setAnnotation", _wrap_tc_setAnnotation, METH_VARARGS, NULL},
 	 { (char *)"tc_NameFamily_api_initialize", _wrap_tc_NameFamily_api_initialize, METH_VARARGS, NULL},

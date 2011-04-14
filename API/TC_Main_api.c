@@ -1173,3 +1173,78 @@ void tc_CThread_api_initialize(
 }
 
 
+void (*_tc_displayText)(long item,const char* text) = 0;
+/*! 
+ \brief displays the given text on the given item (the text is temporary)
+ \ingroup Input and Output
+*/ TCAPIEXPORT 
+void tc_displayText(long item,const char* text)
+{
+	if (_tc_displayText)
+		_tc_displayText(item,text);
+}
+
+void (*_tc_displayNumber)(long item,double number) = 0;
+/*! 
+ \brief displays the given number on the given item (the text is temporary)
+ \ingroup Input and Output
+*/ TCAPIEXPORT 
+void tc_displayNumber(long item,double number)
+{
+	if (_tc_displayNumber)
+		_tc_displayNumber(item,number);
+}
+
+void (*_tc_setDisplayLabelColor)(const char *, const char *) = 0;
+/*! 
+ \brief set the color for the number or text when using tc_displayNumber and tc_displayText
+ \ingroup Input and Output
+*/ TCAPIEXPORT 
+void tc_setDisplayLabelColor(const char * a, const char * b)
+{
+	if (_tc_setDisplayLabelColor)
+		_tc_setDisplayLabelColor(a,b);
+}
+
+void (*_tc_highlight)(long item,const char*) = 0;
+/*! 
+ \brief highlights an item (the highlight is temporary) with the given color (hex)
+ \ingroup Input and Output
+*/ TCAPIEXPORT 
+void tc_highlight(long item,const char* color)
+{
+	if (_tc_highlight)
+		_tc_highlight(item,color);
+}
+
+void (*_tc_burn)(long item,double intensity) = 0;
+/*! 
+ \brief burn
+ \ingroup Input and Output
+*/ TCAPIEXPORT 
+void tc_burn(long item, double intensity)
+{
+	if (_tc_burn)
+		_tc_burn(item,intensity);
+}
+
+/*! 
+ \brief initialize
+ \ingroup init
+*/ TCAPIEXPORT 
+void tc_LabelingTool_api(
+		void (*displayText)(long item,const char*),
+		void (*displayNumber)(long item,double),
+		void (*setDisplayLabelColor)(const char *, const char *),
+		void (*highlight)(long,const char*),
+		void (*burn)(long,double)
+	)
+{
+	_tc_displayText = displayText;
+	_tc_displayNumber = displayNumber;
+	_tc_setDisplayLabelColor = setDisplayLabelColor;
+	_tc_highlight = highlight;
+	_tc_burn = burn;
+}
+
+

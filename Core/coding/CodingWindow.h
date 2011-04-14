@@ -10,6 +10,7 @@
 #ifndef TINKERCELL_CSCRIPT_H
 #define TINKERCELL_CSCRIPT_H
 
+#include <QPair>
 #include <QMainWindow>
 #include <QTextEdit>
 #include <QSyntaxHighlighter>
@@ -113,6 +114,7 @@ namespace Tinkercell
 	protected:
 		void setupEditor();
 		void setupMenu();
+		QPair<QString,QString> requestLoginInfo();
 		void runC(const QString&);
 		void convertCodeToButtonOctave();
 		void convertCodeToButtonPy();

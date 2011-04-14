@@ -640,7 +640,7 @@ int main(int argc, char *argv[])
 	//MUST DO
 	QApplication app(argc, argv);
 	QString appDir = QCoreApplication::applicationDirPath();    
-	MainWindow mainWindow(true,true,true,true);  //@args: enable scene, text, console, history
+	MainWindow mainWindow(true,false,false);  //@args: enable scene, text
 	mainWindow.readSettings();   //load settings such as window positions
 	
 	//optional

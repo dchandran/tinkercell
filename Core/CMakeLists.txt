@@ -81,6 +81,7 @@ FILE(GLOB TINKERCELL_CORE_HDRS
 	MainWindow.h
 	NetworkHandle.h
 	NetworkWindow.h
+	MultithreadedSliderWidget.h
 	plots/GnuplotTool.h
 	plots/Plot2DWidget.h
 	plots/Plot3DWidget.h

@@ -144,25 +144,44 @@ namespace Tinkercell
 		out << code;
 		qfile.close();
 
-		QDir userHomeDir(homeDir);
+		QDir pluginsDir(homeDir + tr("/") +  tr("@TINKERCELL_C_PLUGINS_FOLDER@"));
 
-		if (!userHomeDir.cd(tr("plugins")))
-		{
-			userHomeDir.mkdir(tr("plugins"));
-			userHomeDir.cd(tr("plugins"));
-		}
+		if (!pluginsDir.exists()) return;
 		
-		if (!userHomeDir.cd(tr("c")))
-		{
-			userHomeDir.mkdir(tr("c"));
-			userHomeDir.cd(tr("c"));
-		}
-
-		dllName = homeDir + tr("/plugins/c/") + dllName;
+		dllName = homeDir + tr("/") +  tr("@TINKERCELL_C_PLUGINS_FOLDER@") + tr("/") + dllName;
 		emit compile(tr("code.c"),dllName);
 		
-		QMessageBox::information(this,tr("Saved"),tr("Your program has been saved as ") + dllName);		
+		QPair<QString,QString> login = requestLoginInfo();
+		QString username = login.first;
+		QString password = login.second;
+
+		if (!username.isEmpty() && !password.isEmpty())
+		{
+			QString s = QObject::tr("cd ") + homeDir + QObject::tr("; svn add ") + dllName + QObject::tr("; svn commit -m\"new code added\" --username ") + username + QObject::tr(" --password ") + password + QObject::tr(" --no-auth-cache --non-interactive;");
+			system(s.toAscii().data());
+		}
+		
+		QMessageBox::information(this,tr("Saved"),tr("The program ") + dllName + tr(" has been saved and uploaded"));		
+		
 		mainWindow->loadDynamicLibrary(dllName);
+	}
+	
+	QPair<QString,QString> CodingWindow::requestLoginInfo()
+	{
+		QSettings settings(MainWindow::ORGANIZATIONNAME,MainWindow::ORGANIZATIONNAME);
+		settings.beginGroup("Subversion");
+		QString username = settings.value(tr("svn-username")).toString();
+		QString password = settings.value(tr("svn-password")).toString();
+		usernameLine->setText(username);
+		passwordLine->setText(password);
+		usernameDialog->exec();
+		username = usernameLine->text();
+		password = passwordLine->text();
+		settings.setValue(tr("svn-username"),username);
+		settings.setValue(tr("svn-password"),password);
+		settings.endGroup();
+		
+		return QPair<QString,QString>( username, password);
 	}
 
 	void CodingWindow::convertCodeToButtonPy()
@@ -210,15 +229,16 @@ specific for:\n\"\"\"\n\n") + text;
 			outpy << (editor->toPlainText());
 			pyfile.close();
 			
-			usernameDialog->exec();
-			QString username = usernameLine->text();
-			QString password = passwordLine->text();
+			QPair<QString,QString> login = requestLoginInfo();
+			QString username = login.first;
+			QString password = login.second;
+
 			if (!username.isEmpty() && !password.isEmpty())
 			{
 				QString s = QObject::tr("cd ") + userHomeDir.absolutePath() + QObject::tr("; svn add ") + filename + QObject::tr("; svn commit -m\"new code added\" --username ") + username + QObject::tr(" --password ") + password + QObject::tr(" --no-auth-cache --non-interactive;");
 				system(s.toAscii().data());
 			}
-			QMessageBox::information(mainWindow, "Saved", "Saved and Uploaded");
+			QMessageBox::information(mainWindow, "Saved", tr("Saved and uploaded ") + filename);
 		}
 		
 		loadPyFromDir(userHomeDir);
@@ -269,15 +289,16 @@ specific for:\n\"\"\"\n\n") + text;
 			outoct << (editor->toPlainText());
 			octfile.close();
 			
-			usernameDialog->exec();				
-			QString username = usernameLine->text();
-			QString password = passwordLine->text();
+			QPair<QString,QString> login = requestLoginInfo();
+			QString username = login.first;
+			QString password = login.second;
+
 			if (!username.isEmpty() && !password.isEmpty())
 			{
 				QString s = QObject::tr("cd ") + userHomeDir.absolutePath() + QObject::tr("; svn add ") + filename + QObject::tr("; svn commit -m\"new code added\" --username ") + username + QObject::tr(" --password ") + password + QObject::tr(" --no-auth-cache --non-interactive;");
 				system(s.toAscii().data());
 			}
-			QMessageBox::information(mainWindow, "Saved", "Saved and Uploaded");
+			QMessageBox::information(mainWindow, "Saved", tr("Saved and uploaded ") + filename);
 		}
 		
 		loadOctFromDir(userHomeDir);
@@ -607,10 +628,19 @@ specific for:\n\"\"\"\n\n") + text;
 		highlighter = new CandPythonSyntaxHighlighter(editor->document());
 		
 		cAction = octaveAction = pythonAction = 0;
-		 
-		cButton = new QRadioButton("C"),
-        octaveButton = new QRadioButton("Octave"),
-        pythonButton = new QRadioButton("Python");
+
+		cButton = new QRadioButton("C");
+		#ifdef ENABLE_OCTAVE
+	        octaveButton = new QRadioButton("Octave");
+	    #else
+	        octaveButton = 0;
+	    #endif
+	    
+	    #ifdef ENABLE_PYTHON
+            pythonButton = new QRadioButton("Python");
+        #else
+        	pythonButton = 0;
+        #endif
 		
 		connect(cButton,SIGNAL(toggled(bool)),this,SLOT(enableC(bool)));
 		connect(pythonButton,SIGNAL(toggled(bool)),this,SLOT(enablePython(bool)));

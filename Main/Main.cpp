@@ -93,7 +93,7 @@ int main(int argc, char *argv[])
 	LoadPluginsFromDir(home + QString("/") + QString(TINKERCELL_CPP_PLUGINS_FOLDER),&mainWindow, &splash);
 
 	LoadPluginsFromDir(appDir + QString("/") + QString(TINKERCELL_C_PLUGINS_FOLDER),&mainWindow, &splash);
-	LoadPluginsFromDir(home + QString("/") +  QString(TINKERCELL_CPP_PLUGINS_FOLDER),&mainWindow, &splash);
+	LoadPluginsFromDir(home + QString("/") +  QString(TINKERCELL_C_PLUGINS_FOLDER),&mainWindow, &splash);
 	
 
     /*******  START TINKERCELL ***********/

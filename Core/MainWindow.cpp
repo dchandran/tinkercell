@@ -48,6 +48,9 @@ The MainWindow keeps a list of all plugins, and it is also responsible for loadi
 #include "GnuplotTool.h"
 #include "BasicGraphicsToolbar.h"
 #include "LoadSaveTool.h"
+#include "LoadCLibraries.h"
+#include "CodingWindow.h"
+#include "DynamicLibraryMenu.h"
 #include "PythonTool.h"
 #include "OctaveTool.h"
 
@@ -211,7 +214,7 @@ namespace Tinkercell
 		return globalInstance;
 	}
 
-	MainWindow::MainWindow(bool enableScene, bool enableText, bool enableConsoleWindow, bool allowViews)
+	MainWindow::MainWindow(bool enableScene, bool enableText, bool allowViews)
 	{
 		MainWindow::globalInstance = this;
 
@@ -302,11 +305,11 @@ namespace Tinkercell
 		#endif
 		
 		#ifdef ENABLE_PYTHON
-			mainWindow.addTool(new PythonTool);
+			addTool(new PythonTool);
 		#endif
 		
 		#ifdef ENABLE_OCTAVE
-			mainWindow.addTool(new OctaveTool);
+			addTool(new OctaveTool);
 		#endif
 	}
 

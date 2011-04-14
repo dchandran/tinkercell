@@ -16,7 +16,6 @@ load plugins as separate library
 #include "SimulationEventTool.h"
 #include "ModuleTool.h"
 #include "AutoGeneRegulatoryTool.h"
-#include "CLabelsTool.h"
 #include "DNASequenceTool.h"
 #include "ViewTablesTool.h"
 #include "LPSolveInput.h"

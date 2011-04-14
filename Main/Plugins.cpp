@@ -45,7 +45,6 @@ extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * mainWindow)
 	
 	mainWindow->addTool(new ModuleTool);
 	mainWindow->addTool(new AutoGeneRegulatoryTool);
-	mainWindow->addTool(new CLabelsTool);
 	mainWindow->addTool(new DNASequenceViewer);
 	mainWindow->addTool(new ViewTablesTool);
 	mainWindow->addTool(new LPSolveInputWindow);

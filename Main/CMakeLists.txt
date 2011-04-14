@@ -70,10 +70,10 @@ ADD_DEFINITIONS(-DTINKERCELL_C_PLUGINS_FOLDER="${TINKERCELL_C_PLUGINS_FOLDER}")
  
 IF (WIN32)
 	OPTION( TINKERCELL_INSTALLER "Create installer using Inno setup -- must have Inno setup installed" OFF )
-	OPTION( TINKERCELL_INSTALLER_UPLOAD "Create installer using Inno setup and upload it using WinSCP -- must have ISTool and WinSCP" OFF )
+	OPTION( TINKERCELL_INSTALLER_UPLOAD "Create installer using Inno setup and upload it using WinSCP -- must have Inno Setup and WinSCP installed" OFF )
 	
 	IF ((NOT DEFINED INNO) AND TINKERCELL_INSTALLER)
-		MESSAGE( "Please create a New Entry of type FILEPATH called INNO and point to the ISTool.exe file")
+		MESSAGE( "Please create a New Entry of type FILEPATH called INNO and point to the Inno Setup exe file")
 	ENDIF ((NOT DEFINED INNO) AND TINKERCELL_INSTALLER)
 	
 	IF ((NOT DEFINED WINSCP) AND TINKERCELL_INSTALLER_UPLOAD)

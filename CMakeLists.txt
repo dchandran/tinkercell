@@ -268,11 +268,25 @@ ADD_SUBDIRECTORY( NodeGraphicsItem )   #program for drawing new graphics items
 #   Embedding other languages
 #----------------------------------------------------------------------------
 
-ADD_SUBDIRECTORY( python )
-ADD_SUBDIRECTORY( ruby )
-ADD_SUBDIRECTORY( perl )
-ADD_SUBDIRECTORY( octave )
-ADD_SUBDIRECTORY( R )
+OPTION( EMBED_PYTHON "Embed Python in TinkerCell" OFF )
+OPTION( EMBED_OCTAVE "Embed Octave in TinkerCell" OFF )
+
+IF (EMBED_PYTHON)
+	ADD_SUBDIRECTORY( python )
+ENDIF (EMBED_PYTHON)
+
+IF (EMBED_OCTAVE)
+	ADD_SUBDIRECTORY( octave )
+ENDIF (EMBED_OCTAVE)
+
+#the following languages are not supported yet
+#ADD_SUBDIRECTORY( perl )
+#ADD_SUBDIRECTORY( ruby )
+#ADD_SUBDIRECTORY( R )
+
+#----------------------------------------------------------------------------
+#   Required
+#----------------------------------------------------------------------------
 ADD_SUBDIRECTORY( DB )
 ADD_SUBDIRECTORY( c )
   

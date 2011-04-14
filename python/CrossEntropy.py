@@ -97,17 +97,23 @@ def DoPCA(mu, sigma2, paramnames):
     e,v = numpy.linalg.eig(sigma2)
     props = 100.0 * e/numpy.sum(e)
     fout = open("crossentropy.out","w")
-    s = "=====================================\n"
-    s += "Optimized parameters (mean)\n"
-    s += "=====================================\n\n"
-    for i in range(0,len(mu)):
+    s = "===============================================\n"
+    s += "Optimized parameters (mean and st.dev)\n"
+    s += "==============================================\n\nnames: "
+	for i in range(0,len(mu)):
         s += "    " + paramnames[i]
+    s += "\nmean:  "
+    for i in range(0,len(mu)):
+        s += "    " + str(mu[i])
+    s += "\nst.dev:"
+    for i in range(0,len(mu)):
+        s += "    " + sqrt(sigma2[i,i])
     s += "\n"
     for i in range(0,len(mu)):
         s += "    " + str(mu[i])
-    s += "\n\n=====================================\n"
+    s += "\n============================================\n"
     s += "Global sensitivity (assuming normality)\nOrdered from least to most sensitive\n"
-    s += "=====================================\n\n"
+    s += "==============================================\n\n"
     for i in range(0,len(e)):
 	    s += str(int(props[i])) + "% of the variability can be attributed to the following linear combination:\n"
 	    for j in range(0,len(paramnames)):

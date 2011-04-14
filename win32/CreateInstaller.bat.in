@@ -2,5 +2,5 @@ cd "@TINKERCELL_BINARY_DIR@"
 mingw32-make package
 cd "@TINKERCELL_BINARY_DIR@\win32"
 python Generate_Inno_Script.py
-"@INNO@" -compile "@TINKERCELL_BINARY_DIR@"\win32\TINKERCELLSETUP.iss
+"@INNO@" -compile "@TINKERCELL_BINARY_DIR@"\win32\TinkerCellSetup.iss
 "@WINSCP@" /script="@TINKERCELL_BINARY_DIR@\win32\uploadTinkerCell.winscp"

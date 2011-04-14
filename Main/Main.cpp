@@ -15,44 +15,8 @@
 #include "GraphicsScene.h"
 #include "ConsoleWindow.h"
 #include "LoadSaveTool.h"
-#include "CollisionDetection.h"
-#include "ConnectionInsertion.h"
-#include "ConnectionMaker.h"
-#include "NodeInsertion.h"
-#include "GraphicsReplaceTool.h"
-#include "GraphicsTransformTool.h"
-#include "GroupHandlerTool.h"
-#include "NameFamilyDialog.h"
-#include "ConnectionSelection.h"
-#include "NodeSelection.h"
-#include "TinkerCellAboutBox.h"
-#include "LoadCLibraries.h"
 #include "PythonTool.h"
 #include "OctaveTool.h"
-#include "CodingWindow.h"
-#include "DynamicLibraryMenu.h"
-/*
-#include "BasicInformationTool.h"
-#include "StoichiometryTool.h"
-#include "FunctionDeclarationsTool.h"
-#include "ModelSummaryTool.h"
-#include "ContainerTool.h"
-#include "ModelFileGenerator.h"
-#include "SimulationEventTool.h"
-#include "ModuleTool.h"
-#include "AutoGeneRegulatoryTool.h"
-#include "CLabelsTool.h"
-#include "DNASequenceTool.h"
-#include "ViewTablesTool.h"
-#include "LPSolveInput.h"
-#include "CellPositionUpdatingTool.h"
-#include "OctaveExporter.h"
-#include "EnglishExporter.h"
-#include "AntimonyEditor.h"
-#include "SBMLImportExport.h"
-#include "CopasiExporter.h"
-#include "ModuleCombinatorics.h"
-*/
 #include <QColor>
 #include <QBrush>
 
@@ -131,52 +95,12 @@ int main(int argc, char *argv[])
 	mainWindow.addTool(new PlotTool);
    	mainWindow.addTool(new GnuplotTool);
 	mainWindow.addTool(new LoadSaveTool);
-	
-	mainWindow.addTool(new CatalogWidget);
-	mainWindow.addTool(new CollisionDetection);
-	mainWindow.addTool(new ConnectionInsertion);
-	mainWindow.addTool(new NodeInsertion);
-	mainWindow.addTool(new NodeSelection);
-	mainWindow.addTool(new ConnectionSelection);
-	mainWindow.addTool(new TinkercellAboutBox);
-	mainWindow.addTool(new GraphicsReplaceTool);
-	mainWindow.addTool(new GraphicsTransformTool);
-	mainWindow.addTool(new GroupHandlerTool);
-	mainWindow.addTool(new NameFamilyDialog);
-	mainWindow.addTool(new ConnectionMaker);
-	
-	mainWindow.addTool(new DynamicLibraryMenu);
+	mainWindow->addTool(new DynamicLibraryMenu);
+	mainWindow->addTool(new LoadCLibrariesTool);
+	mainWindow->addTool(new CodingWindow);
 
-	//all the major plugins
-/*
-	mainWindow.addTool(new BasicInformationTool(QString("text")));
-	mainWindow.addTool(new BasicInformationTool(QString("numerical")));
-	mainWindow.addTool(new AssignmentFunctionsTool);
-	mainWindow.addTool(new StoichiometryTool);
-	mainWindow.addTool(new ModelSummaryTool);
-	mainWindow.addTool(new ModelFileGenerator);
-	mainWindow.addTool(new SimulationEventsTool);	
-	mainWindow.addTool(new CompartmentTool);	
-	mainWindow.addTool(new OctaveExporter);
-	mainWindow.addTool(new SBMLImportExport);
-	mainWindow.addTool(new CopasiExporter);
-	mainWindow.addTool(new AntimonyEditor);
-	mainWindow.addTool(new EnglishExporter);
-	mainWindow.addTool(new ModuleTool);
-	mainWindow.addTool(new AutoGeneRegulatoryTool);
-	mainWindow.addTool(new CLabelsTool);
-	mainWindow.addTool(new DNASequenceViewer);
-	mainWindow.addTool(new ViewTablesTool);
-	mainWindow.addTool(new LPSolveInputWindow);
-	mainWindow.addTool(new CellPositionUpdateTool);
-*/
-	Tool * codingWindowPlugin = new CodingWindow; //do the svn update before loading python,octave, and modules
-    mainWindow.addTool(new LoadCLibrariesTool);
 	mainWindow.addTool(new PythonTool);
 	//mainWindow.addTool(new OctaveTool);
-
-	mainWindow.addTool(codingWindowPlugin);
-
 
     /*******  Dynamically load plugins from folders ***********/
     DefaultPluginsMenu menu(&mainWindow);

@@ -9,7 +9,7 @@ CONFIGURE_FILE(
 	${TINKERCELL_BINARY_DIR}/win32/CreateInstaller.bat
 	@ONLY
 )
-	
+
 CONFIGURE_FILE( 
 	${TINKERCELL_SOURCE_DIR}/win32/uploadTinkerCell.winscp.in
 	${TINKERCELL_BINARY_DIR}/win32/uploadTinkerCell.winscp

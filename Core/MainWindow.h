@@ -833,6 +833,9 @@ namespace Tinkercell
 		/*! \brief save initial settings to settingsFileName
 		* \return void*/
 		void saveSettings();
+		/*! \brief load default plugins
+		* \return void*/
+		void loadDefaultPlugins();
 		/*! \brief close window event -- asks whether to save file
 		* \param QCloseEvent * event
 		* \return void*/

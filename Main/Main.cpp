@@ -8,15 +8,9 @@
  and loads a list of default plugins.
 
 ****************************************************************************/
-#include "PlotTool.h"
-#include "GnuplotTool.h"
-#include "BasicGraphicsToolbar.h"
 #include "DefaultPluginsMenu.h"
 #include "GraphicsScene.h"
 #include "ConsoleWindow.h"
-#include "LoadSaveTool.h"
-#include "PythonTool.h"
-#include "OctaveTool.h"
 #include <QColor>
 #include <QBrush>
 

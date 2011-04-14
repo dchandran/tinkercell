@@ -46,6 +46,10 @@ The MainWindow keeps a list of all plugins, and it is also responsible for loadi
 #include "C_API_Slots.h"
 #include "PlotTool.h"
 #include "GnuplotTool.h"
+#include "BasicGraphicsToolbar.h"
+#include "LoadSaveTool.h"
+#include "PythonTool.h"
+#include "OctaveTool.h"
 
 namespace Tinkercell
 {
@@ -251,6 +255,14 @@ namespace Tinkercell
 		
 		readSettings();
 
+		loadDefaultPlugins();
+
+		parsersMenu = 0;
+		c_api_slots = new C_API_Slots(this);
+	}
+	
+	void MainWindow::loadDefaultPlugins()
+	{
 		#ifdef ENABLE_HISTORY_WINDOW
 			historyWindow.setWindowTitle(tr("History"));
 			historyWindow.setWindowIcon(QIcon(tr(":/images/scroll.png")));
@@ -269,9 +281,33 @@ namespace Tinkercell
 				consoleColorMenu->addAction(tr("Error message color"),this,SLOT(changeConsoleErrorMsgColor()));
 			}
 		#endif
+		
+		#ifdef ENABLE_LOADSAVE_TOOL
+			addTool(new LoadSaveTool);
+		#endif
+		
+		#ifdef ENABLE_ALIGNMENT_TOOL
+			addTool(new BasicGraphicsToolbar);
+		#endif
+	
+		#ifdef ENABLE_GRAPHING_TOOLS
+			addTool(new PlotTool);
+   			addTool(new GnuplotTool);
+		#endif
 
-		parsersMenu = 0;
-		c_api_slots = new C_API_Slots(this);
+		#ifdef ENABLE_CODING_TOOLS
+			addTool(new DynamicLibraryMenu);
+			addTool(new LoadCLibrariesTool);
+			addTool(new CodingWindow);
+		#endif
+		
+		#ifdef ENABLE_PYTHON
+			mainWindow.addTool(new PythonTool);
+		#endif
+		
+		#ifdef ENABLE_OCTAVE
+			mainWindow.addTool(new OctaveTool);
+		#endif
 	}
 
 	ConsoleWindow * MainWindow::console() const

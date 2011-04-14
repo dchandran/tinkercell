@@ -44,7 +44,6 @@ IF( APPLE AND BUILD_BUNDLE )
 
   TARGET_LINK_LIBRARIES( TinkerCellLite
     TinkerCellCore
-	CodingPlugins
     ${QT_LIBRARIES}
   )
 
@@ -65,7 +64,6 @@ ELSE( APPLE AND BUILD_BUNDLE )
 
     TARGET_LINK_LIBRARIES( TinkerCellLite
       TinkerCellCore
-	  CodingPlugins
       ${QT_LIBRARIES}
     )
   ELSE( UNIX OR ( APPLE AND NOT BUILD_BUNDLE ) )
@@ -95,7 +93,6 @@ ELSE( APPLE AND BUILD_BUNDLE )
 
     TARGET_LINK_LIBRARIES( TinkerCellLite
       TinkerCellCore
-	  CodingPlugins
       ${QT_LIBRARIES}
     )
     ENDIF( WIN32 )

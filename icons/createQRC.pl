@@ -9,6 +9,11 @@ $dir = $ARGV[0];
 opendir(DIR,$dir );
 @FILES= readdir(DIR);
 
+if ($dir !~ /\/$/)
+{
+	$dir = $dir."/";
+}
+
 print "<RCC>\n";
 print "    <qresource prefix=\"/images\" >\n";
 

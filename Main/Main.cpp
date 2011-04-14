@@ -56,11 +56,11 @@ int main(int argc, char *argv[])
     
     // "lite" modes
   #ifdef TINKERCELL_PARTS_ONLY
-  	    MainWindow mainWindow(true, false, false, true, true);
+  	    MainWindow mainWindow(true, false, false);
 	    MainWindow::PROGRAM_MODE = QString("parts-only");
   #else
   #ifdef TINKERCELL_TEXT_ONLY
-   	   MainWindow mainWindow(false, true, true, false, false);
+   	   MainWindow mainWindow(false, true, true);
  	   MainWindow::PROGRAM_MODE = QString("text-only");
   #else
     	MainWindow mainWindow;
@@ -87,20 +87,6 @@ int main(int argc, char *argv[])
 
     splash.show();
     splash.showMessage(QString("loading ..."));
-
-	/**********  statically loaded plugins  ****************/
-
-	//basic plugins
-	mainWindow.addTool(new BasicGraphicsToolbar);
-	mainWindow.addTool(new PlotTool);
-   	mainWindow.addTool(new GnuplotTool);
-	mainWindow.addTool(new LoadSaveTool);
-	mainWindow->addTool(new DynamicLibraryMenu);
-	mainWindow->addTool(new LoadCLibrariesTool);
-	mainWindow->addTool(new CodingWindow);
-
-	mainWindow.addTool(new PythonTool);
-	//mainWindow.addTool(new OctaveTool);
 
     /*******  Dynamically load plugins from folders ***********/
     DefaultPluginsMenu menu(&mainWindow);

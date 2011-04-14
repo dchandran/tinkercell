@@ -207,7 +207,7 @@ namespace Tinkercell
 		return globalInstance;
 	}
 
-	MainWindow::MainWindow(bool enableScene, bool enableText, bool enableConsoleWindow, bool showHistory, bool allowViews)
+	MainWindow::MainWindow(bool enableScene, bool enableText, bool enableConsoleWindow, bool allowViews)
 	{
 		MainWindow::globalInstance = this;
 
@@ -251,15 +251,13 @@ namespace Tinkercell
 		
 		readSettings();
 
-		if (showHistory)
-		{
+		#ifdef ENABLE_HISTORY_WINDOW
 			historyWindow.setWindowTitle(tr("History"));
 			historyWindow.setWindowIcon(QIcon(tr(":/images/scroll.png")));
 			addToolWindow(&historyWindow,MainWindow::defaultHistoryWindowOption,Qt::RightDockWidgetArea);
-		}
+		#endif
 
-		if (enableConsoleWindow)
-		{
+		#ifdef ENABLE_CONSOLE_WINDOW
 			consoleWindow = new ConsoleWindow(this);
 			if (settingsMenu)
 			{
@@ -270,7 +268,7 @@ namespace Tinkercell
 				consoleColorMenu->addAction(tr("Output color"),this,SLOT(changeConsoleMsgColor()));
 				consoleColorMenu->addAction(tr("Error message color"),this,SLOT(changeConsoleErrorMsgColor()));
 			}
-		}
+		#endif
 
 		parsersMenu = 0;
 		c_api_slots = new C_API_Slots(this);

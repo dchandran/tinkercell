@@ -146,11 +146,9 @@ namespace Tinkercell
 		* \brief 5-arg (optional) constructor allows disabling of text/graphics modes
 		* \param bool enable text-based network construction (default = true)
 		* \param bool enable graphics-based network construction (default = true)
-		* \param bool enable command-line (default = true)
-		* \param bool enable history window (default = true)
 		* \param bool allow tabbed and windowed view modes (default = true)
 		*/
-		MainWindow(bool enableScene = true, bool enableText = true, bool enableConsoleWindow = true, bool showHistory = true, bool views = true);
+		MainWindow(bool enableScene = true, bool enableText = true, bool views = true);
 		/*!
 		* \brief allow or disallow changing between different views
 		* \param bool

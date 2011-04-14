@@ -226,6 +226,10 @@ SET(TINKERCELL_BINARY_BIN_DIR ${TINKERCELL_BINARY_DIR}/bin)
 MESSAGE( STATUS "======  configuring external code  ====== ")
 ADD_SUBDIRECTORY( ExternalCode )  #MuParser, QWT, cvODE, letc.
 MESSAGE( STATUS "==== done configuring external code =====\n")
+
+OPTION( EMBED_PYTHON "Embed Python in TinkerCell" ON ) #integrate python or not?
+OPTION( EMBED_OCTAVE "Embed Octave in TinkerCell" ON ) #octave?
+
 ADD_SUBDIRECTORY( Core )   #C++ Core + API
 ADD_SUBDIRECTORY( API )   #C API + SWIG file
 ADD_SUBDIRECTORY( icons )   #icons
@@ -267,9 +271,6 @@ ADD_SUBDIRECTORY( NodeGraphicsItem )   #program for drawing new graphics items
 #----------------------------------------------------------------------------
 #   Embedding other languages
 #----------------------------------------------------------------------------
-
-OPTION( EMBED_PYTHON "Embed Python in TinkerCell" OFF )
-OPTION( EMBED_OCTAVE "Embed Octave in TinkerCell" OFF )
 
 IF (EMBED_PYTHON)
 	ADD_SUBDIRECTORY( python )

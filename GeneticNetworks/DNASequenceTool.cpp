@@ -19,7 +19,6 @@
 #include "ConsoleWindow.h"
 #include "DNASequenceTool.h"
 #include "AutoGeneRegulatoryTool.h"
-#include "CLabelsTool.h"
 #include "ModelSummaryTool.h"
 
 namespace Tinkercell

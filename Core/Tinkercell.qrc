@@ -145,7 +145,6 @@
         <file alias="Tinkercell.png">../icons/Tinkercell.png</file>
         <file alias="fitAll.png">../icons/fitAll.png</file>
         <file alias="lock.xml">../icons/lock.xml</file>
-        <file alias="icons.qrc">../icons/icons.qrc</file>
         <file alias="puzzle.png">../icons/puzzle.png</file>
         <file alias="graph.png">../icons/graph.png</file>
         <file alias="redo.png">../icons/redo.png</file>

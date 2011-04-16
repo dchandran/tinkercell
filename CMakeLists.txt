@@ -93,18 +93,18 @@ SET(EXECUTABLE_OUTPUT_PATH
 )
 IF (WIN32)
    SET(TINKERCELL_CPP_PLUGINS_FOLDER 
-         ${TINKERCELL_BINARY_DIR}/bin/plugins/windows 
+         plugins/windows 
          CACHE PATH "Single output directory for building all cpp libraries." FORCE)
    SET(TINKERCELL_C_PLUGINS_FOLDER 
-         ${TINKERCELL_BINARY_DIR}/bin/plugins/c/windows 
+         plugins/c/windows 
          CACHE PATH "Single output directory for building all c libraries." FORCE)
 ELSE(WIN32)
    IF (APPLE)
         SET(TINKERCELL_CPP_PLUGINS_FOLDER 
-                    ${TINKERCELL_BINARY_DIR}/bin/plugins/mac
+                   plugins/mac
                     CACHE PATH "Single output directory for building all cpp libraries." FORCE)
         SET(TINKERCELL_C_PLUGINS_FOLDER 
-                    ${TINKERCELL_BINARY_DIR}/bin/plugins/c/mac
+                    plugins/c/mac
                     CACHE PATH "Single output directory for building all c libraries." FORCE)
    ELSE(APPLE)
         OPTION(HAVE_64_BIT "64 bit OS" OFF)
@@ -128,9 +128,9 @@ ELSE(WIN32)
    ENDIF(APPLE)
 ENDIF(WIN32)
 
-SET(CPP_LIBRARY_OUTPUT_PATH ${TINKERCELL_CPP_PLUGINS_FOLDER}
+SET(CPP_LIBRARY_OUTPUT_PATH ${TINKERCELL_BINARY_DIR}/bin/${TINKERCELL_CPP_PLUGINS_FOLDER}
          CACHE PATH "Single output directory for building all cpp libraries." FORCE)
-SET(C_LIBRARY_OUTPUT_PATH ${TINKERCELL_C_PLUGINS_FOLDER}
+SET(C_LIBRARY_OUTPUT_PATH ${TINKERCELL_BINARY_DIR}/bin/${TINKERCELL_C_PLUGINS_FOLDER}
          CACHE PATH "Single output directory for building all c libraries." FORCE)
 
 #----------------

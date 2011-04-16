@@ -125,7 +125,7 @@ namespace Tinkercell
 		QTimeLine timer;
 		QMainWindow * window;
 
-		enum Languages { C, Octave, Python };
+		enum Languages { None, C, Octave, Python };
 		Languages selectedLanguage;
 
 		QRadioButton * cButton, * octaveButton, *pythonButton;

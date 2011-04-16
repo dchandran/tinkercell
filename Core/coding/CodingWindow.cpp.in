@@ -41,6 +41,8 @@ namespace Tinkercell
 	CodingWindow::CodingWindow()
 		 : Tool(tr("Coding Window"),tr("Coding"))
 	{
+	 	 selectedLanguage = None;
+		
 		 QString appDir = QCoreApplication::applicationDirPath();
 		 QString homeDir = MainWindow::homeDir();
 		 QString tempDir = MainWindow::tempDir();
@@ -324,18 +326,19 @@ specific for:\n\"\"\"\n\n") + text;
 	{  
 	    if (!b || selectedLanguage == Octave) return;
 	    
-	    selectedLanguage = Octave;
-	    disablePython();
-	    
-  	    if (octaveButton)
-	        octaveButton->setChecked(true);
-	    
-	    if (octaveAction)
-	        octaveAction->setChecked(true);
-
 	    QWidget * widget = mainWindow->tool(tr("Octave Interpreter"));
-		if (widget)
-		{
+	    
+	    if (widget)
+	    {
+			selectedLanguage = Octave;
+			disablePython();
+			
+	  	    if (octaveButton)
+			    octaveButton->setChecked(true);
+			
+			if (octaveAction)
+			    octaveAction->setChecked(true);
+
 			OctaveTool * ocTool = static_cast<OctaveTool*>(widget);
     	    ConsoleWindow * outWin = console();
 			if (outWin && ocTool->octaveInterpreter)
@@ -362,22 +365,23 @@ specific for:\n\"\"\"\n\n") + text;
 	void CodingWindow::enablePython(bool b)
 	{
 	    if (!b || selectedLanguage == Python) return;
-	    
-	    selectedLanguage = Python;
-	    
-   	    if (pythonButton)
-	        pythonButton->setChecked(true);
-	    
-	    if (pythonAction)
-	        pythonAction->setChecked(true);
-	    
-	    disableOctave();
 
 	    QWidget * widget = mainWindow->tool(tr("Python Interpreter"));
-		if (widget)
-		{
+	    
+	    if (widget)
+	    {    
+			selectedLanguage = Python;
+			
+	   	    if (pythonButton)
+			    pythonButton->setChecked(true);
+			
+			if (pythonAction)
+			    pythonAction->setChecked(true);
+			
+			disableOctave();
+
 			PythonTool * pyTool = static_cast<PythonTool*>(widget);
-    	    ConsoleWindow * outWin = console();
+		    ConsoleWindow * outWin = console();
 			if (outWin && pyTool->pythonInterpreter)
 			{
 				outWin->setInterpreter(pyTool->pythonInterpreter);
@@ -417,12 +421,13 @@ specific for:\n\"\"\"\n\n") + text;
 			QWidget * widget = mainWindow->tool(tr("Python Interpreter"));
 			if (widget)
 			{
-				PythonTool * pyTool = static_cast<PythonTool*>(widget);
-				
+				PythonTool * pyTool = static_cast<PythonTool*>(widget);				
 				connect(this,SIGNAL(runPython(const QString&)),pyTool,SLOT(runPythonCode(const QString&)));
-				connect(this,SIGNAL(loadPyFromDir( QDir& )),pyTool,SLOT(loadFromDir( QDir& )));
-				
+				connect(this,SIGNAL(loadPyFromDir( QDir& )),pyTool,SLOT(loadFromDir( QDir& )));				
 				pyLoaded = true;
+
+				if (selectedLanguage == None)
+					enablePython();
 			}
 		}
 		
@@ -431,12 +436,13 @@ specific for:\n\"\"\"\n\n") + text;
 			QWidget * widget = mainWindow->tool(tr("Octave Interpreter"));
 			if (widget)
 			{
-				OctaveTool * ocTool = static_cast<OctaveTool*>(widget);
-				
+				OctaveTool * ocTool = static_cast<OctaveTool*>(widget);				
 				connect(this,SIGNAL(runOctave(const QString&)),ocTool,SLOT(runOctaveCode(const QString&)));
-				connect(this,SIGNAL(loadOctFromDir( QDir& )),ocTool,SLOT(loadFromDir( QDir& )));
-				
+				connect(this,SIGNAL(loadOctFromDir( QDir& )),ocTool,SLOT(loadFromDir( QDir& )));				
 				ocLoaded = true;
+				
+				if (selectedLanguage == None)
+					enableOctave();
 			}
 		}
 
@@ -507,6 +513,7 @@ specific for:\n\"\"\"\n\n") + text;
 			{
 				if (mainWindow->viewMenu)
 				{
+
 					QAction * toggle = mainWindow->viewMenu->addAction(tr("Coding Window"));
 					toggle->setCheckable(true);
 					connect(toggle,SIGNAL(toggled(bool)),this,SLOT(setVisible(bool)));
@@ -571,8 +578,6 @@ specific for:\n\"\"\"\n\n") + text;
 				actionGroup->setExclusive(true);
 			}
 			
-			enablePython();
-			
 			usernameDialog = new QDialog(mainWindow);
 			QVBoxLayout * layout = new QVBoxLayout;
 			QHBoxLayout * layout1 = new QHBoxLayout;
@@ -597,6 +602,8 @@ specific for:\n\"\"\"\n\n") + text;
 			layout->addLayout(layout3);
 			connect(okButton,SIGNAL(released()),usernameDialog,SLOT(accept()));
 			usernameDialog->setLayout(layout);
+			
+			connect(mainWindow, SIGNAL(toolLoaded(Tool*)), this, SLOT(toolLoaded(Tool*)));
 			
 			return true;
 		}

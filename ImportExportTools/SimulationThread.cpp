@@ -29,7 +29,6 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles)
 
 void SimulationThread::updateModel(QList<ItemHandle*> & handles, copasi_model & model, NumericalDataTable & optimizationParameters)
 {
-	MainWindow::instance()->console()->message("update model");
 	//make sure all children are included
 	for (int i=0; i < handles.size(); ++i)
 		if (handles[i])
@@ -409,7 +408,7 @@ void SimulationThread::run()
 		widget->show();
 	}*/
 	
-	/*
+
 	switch (method)
 	{
 		case None:
@@ -660,10 +659,6 @@ void SimulationThread::run()
 				mainWindow->console()->printTable(*dat);
 		delete dat; 
 	}
-	*/
-	
-	tc_deleteMatrix(resultMatrix);
-	resultMatrix = tc_createMatrix(0,0);
 	
 	if (semaphore)
 		semaphore->release();

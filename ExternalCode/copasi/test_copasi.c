@@ -4,6 +4,7 @@
 
 copasi_model model1(); //oscillation
 copasi_model model2(); //positive feebdack gene regulation
+copasi_model model3();
 void eigen(copasi_model, const char*); //compute eigenvalues by changing parameters (similar to root-locus)
 
 int main()
@@ -11,12 +12,12 @@ int main()
 	tc_matrix efm, output, params;
 	copasi_model m1, m2;
 	
-	m1 = model1();
+	m1 = model3();
 	output = cSimulateDeterministic(m1, 0, 100, 200);  //model, start, end, num. points
 	tc_printMatrixToFile("output.tab", output);	
 	tc_deleteMatrix(output);
 	
-	params = tc_createMatrix(3,3);
+	/*params = tc_createMatrix(3,3);
 	tc_setRowName(params,0,"k1");
 	tc_setRowName(params,1,"k2");
 	tc_setRowName(params,2,"k3");
@@ -32,12 +33,12 @@ int main()
 	
 	cSetValue(m1,"k1",2.0);
 	cSetValue(m1,"k2",1.0);
-	cSetValue(m1,"k3",1.0);
+	cSetValue(m1,"k3",1.0);*/
 	
-	cSetOptimizerIterations(10);
-	output = cOptimize(m1, "output.tab", params);
-	tc_printMatrixToFile("params.out", output);
-	tc_deleteMatrix(output);
+	//cSetOptimizerIterations(10);
+	//output = cOptimize(m1, "output.tab", params);
+	//tc_printMatrixToFile("params.out", output);
+	//tc_deleteMatrix(output);
 
 	//cleanup	
 	cRemoveModel(m1);
@@ -173,3 +174,24 @@ void eigen(copasi_model model, const char* param)
 
 	tc_deleteMatrix(output);
 }
+
+copasi_model model3()
+{
+	copasi_model model = cCreateModel("M");
+	copasi_compartment DefaultCompartment;
+	copasi_reaction r0;
+	DefaultCompartment = cCreateCompartment(model,"DefaultCompartment",1);
+	cCreateSpecies(DefaultCompartment,"mol2",10);
+	cCreateSpecies(DefaultCompartment,"mol1",10);
+	cCreateSpecies(DefaultCompartment,"mol3",10);
+	cSetGlobalParameter(model,"dim1_k0",0.1);
+	r0 = cCreateReaction(model, "dim1");
+	cSetReactionRate(r0,"dim1_k0*mol2*mol1");
+	cAddReactant(r0,"mol2",1);
+	cAddReactant(r0,"mol1",1);
+	cAddProduct(r0,"mol3",1);
+	return model;
+}
+
+
+

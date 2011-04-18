@@ -53,6 +53,7 @@ The MainWindow keeps a list of all plugins, and it is also responsible for loadi
 #include "DynamicLibraryMenu.h"
 #include "PythonTool.h"
 #include "OctaveTool.h"
+#include "LabelingTool.h"
 
 namespace Tinkercell
 {
@@ -291,6 +292,7 @@ namespace Tinkercell
 		
 		#ifdef ENABLE_ALIGNMENT_TOOL
 			addTool(new BasicGraphicsToolbar);
+			addTool(new LabelingTool);
 		#endif
 	
 		#ifdef ENABLE_GRAPHING_TOOLS

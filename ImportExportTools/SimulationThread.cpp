@@ -29,6 +29,7 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles)
 
 void SimulationThread::updateModel(QList<ItemHandle*> & handles, copasi_model & model, NumericalDataTable & optimizationParameters)
 {
+	MainWindow::instance()->console()->message("update model");
 	//make sure all children are included
 	for (int i=0; i < handles.size(); ++i)
 		if (handles[i])
@@ -211,9 +212,9 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles, copasi_model & 
 		}
 	}
 	
-	//QFile fout("copasi.txt");
-	//fout.open(QFile::WriteOnly | QFile::Text );
-	//QString commands;
+	QFile fout("copasi.txt");
+	fout.open(QFile::WriteOnly | QFile::Text );
+	QString commands;
 	QHash<QString, copasi_compartment> compartmentHash;
 
 	//create list of species
@@ -229,14 +230,14 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles, copasi_model & 
 		{
 			c = cCreateCompartment(model, speciesCompartments[i].toUtf8().data(), compartmentVolumes[i]);
 			compartmentHash[ speciesCompartments[i] ] = c;
-			//commands += speciesCompartments[i] + tr(" = cCreateCompartment(model,\"") + speciesCompartments[i] + tr("\",") + QString::number(compartmentVolumes[i]) + tr(");\n");
+			commands += speciesCompartments[i] + tr(" = cCreateCompartment(model,\"") + speciesCompartments[i] + tr("\",") + QString::number(compartmentVolumes[i]) + tr(");\n");
 		}
 		cCreateSpecies(c, species[i].toUtf8().data(), initialValues[i]);
-		//commands += tr("cCreateSpecies(") + speciesCompartments[i] + tr(",\"") + species[i] + tr("\",") + QString::number(initialValues[i]) + tr(");\n");
+		commands += tr("cCreateSpecies(") + speciesCompartments[i] + tr(",\"") + species[i] + tr("\",") + QString::number(initialValues[i]) + tr(");\n");
 		if (fixedVars.contains(species[i]))
 		{
 			cSetBoundarySpecies(model, species[i].toUtf8().data(), 1);
-			//commands += tr("cSetBoundarySpecies(model, \"") + species[i] + tr("\",1);\n");
+			commands += tr("cSetBoundarySpecies(model, \"") + species[i] + tr("\",1);\n");
 		}
 	}
 	
@@ -244,14 +245,14 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles, copasi_model & 
 	for (int i=0; i < params.rows(); ++i)
 	{
 		cSetGlobalParameter(model, params.rowName(i).toUtf8().data(), params.value(i,0));
-		//commands += tr("cSetGlobalParameter(model,\"") + params.rowName(i) + tr("\",") + QString::number(params.value(i,0)) + tr(");\n");
+		commands += tr("cSetGlobalParameter(model,\"") + params.rowName(i) + tr("\",") + QString::number(params.value(i,0)) + tr(");\n");
 	}
 
 	//list of assignments
 	for (int i=0; i < assignmentNames.size(); ++i)
 	{
 		cSetAssignmentRule(model, assignmentNames[i].toUtf8().data(), assignmentDefs[i].toUtf8().data());
-		//commands += tr("cSetAssignmentRule(model, \"") + assignmentNames[i] + tr("\",\"") + assignmentDefs[i] + tr("\");\n");
+		commands += tr("cSetAssignmentRule(model, \"") + assignmentNames[i] + tr("\",\"") + assignmentDefs[i] + tr("\");\n");
 	}
 
 	//create list of reactions
@@ -260,25 +261,25 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles, copasi_model & 
 		copasi_reaction reac = cCreateReaction(model, stoic_matrix.columnName(i).toUtf8().data());
 		cSetReactionRate(reac, rates[i].toUtf8().data());
 		
-		//commands += tr("r") + QString::number(i) + tr(" = cCreateReaction(model, \"") + stoic_matrix.columnName(i) + tr("\");\n");
-		//commands += tr("cSetReactionRate(") + tr("r") + QString::number(i) + tr(",\"") + rates[i] + tr("\");\n");
+		commands += tr("r") + QString::number(i) + tr(" = cCreateReaction(model, \"") + stoic_matrix.columnName(i) + tr("\");\n");
+		commands += tr("cSetReactionRate(") + tr("r") + QString::number(i) + tr(",\"") + rates[i] + tr("\");\n");
 
 		for (int j=0; j < stoic_matrix.rows(); ++j)
 			if (stoic_matrix.value(j,i) < 0)
 			{
 				cAddReactant(reac, stoic_matrix.rowName(j).toUtf8().data(), -stoic_matrix.value(j,i));
-				//commands += tr("cAddReactant(") + tr("r") + QString::number(i) + tr(",\"") + stoic_matrix.rowName(j) + tr("\",") + QString::number(-stoic_matrix.value(j,i)) + tr(");\n");
+				commands += tr("cAddReactant(") + tr("r") + QString::number(i) + tr(",\"") + stoic_matrix.rowName(j) + tr("\",") + QString::number(-stoic_matrix.value(j,i)) + tr(");\n");
 			}
 			else
 			if (stoic_matrix.value(j,i) > 0)
 			{
 				cAddProduct(reac, stoic_matrix.rowName(j).toUtf8().data(), stoic_matrix.value(j,i));
-				//commands += tr("cAddProduct(") + tr("r") + QString::number(i) + tr(",\"") + stoic_matrix.rowName(j) + tr("\",") + QString::number(stoic_matrix.value(j,i)) + tr(");\n");
+				commands += tr("cAddProduct(") + tr("r") + QString::number(i) + tr(",\"") + stoic_matrix.rowName(j) + tr("\",") + QString::number(stoic_matrix.value(j,i)) + tr(");\n");
 			}
 	}
 	
-	//fout.write(commands.toUtf8());
-	//fout.close();
+	fout.write(commands.toUtf8());
+	fout.close();
 	
 	//list of events
 /*	for (int i=0; i < eventTriggers.size(); ++i)
@@ -408,6 +409,7 @@ void SimulationThread::run()
 		widget->show();
 	}*/
 	
+	/*
 	switch (method)
 	{
 		case None:
@@ -658,6 +660,10 @@ void SimulationThread::run()
 				mainWindow->console()->printTable(*dat);
 		delete dat; 
 	}
+	*/
+	
+	tc_deleteMatrix(resultMatrix);
+	resultMatrix = tc_createMatrix(0,0);
 	
 	if (semaphore)
 		semaphore->release();

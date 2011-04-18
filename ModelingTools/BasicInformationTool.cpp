@@ -655,7 +655,7 @@ namespace Tinkercell
 
 		QStringList columnNames;
 		
-		if (type = BasicInformationTool::text)
+		if (type == BasicInformationTool::text)
 			columnNames << "value";
 		else
 			columnNames << "value" << "min" << "max";

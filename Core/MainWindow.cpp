@@ -293,16 +293,27 @@ namespace Tinkercell
 			addTool(new LoadSaveTool);
 		}
 		
+		LabelingTool * labelingTool = 0;
 		if (ENABLE_ALIGNMENT_TOOL)
 		{
 			addTool(new BasicGraphicsToolbar);
-			addTool(new LabelingTool);
+			labelingTool = new LabelingTool;
+			addTool(labelingTool);
 		}
 	
 		if (ENABLE_GRAPHING_TOOLS)
 		{
-			addTool(new PlotTool);
+			PlotTool * plotTool = new PlotTool;
+			addTool(plotTool);
    			addTool(new GnuplotTool);
+   			
+   			if (labelingTool && LabelingTool::ENABLE_FIRE_IN_GRAPHS)
+   			{
+   				connect(plotTool,SIGNAL(displayFire(ItemHandle*,double)), 
+   							labelingTool, SLOT(displayFire(ItemHandle*,double)));
+   				connect(plotTool,SIGNAL(hideFire()), 
+   							labelingTool, SLOT(clearLabels()));
+   			}
 		}
 
 		if (ENABLE_CODING_TOOLS)

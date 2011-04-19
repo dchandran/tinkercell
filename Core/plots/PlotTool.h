@@ -106,6 +106,12 @@ namespace Tinkercell
 		
 	signals:
 	
+		/*!	\brief show fire on the scene. only enabled in LabelingTool is enabled*/
+		void displayFire(ItemHandle*, double);
+		
+		/*!	\brief hide all fires on the scene. only enabled in LabelingTool is enabled*/
+		void hideFire();
+	
 		/*!	\brief plot  a 2D graph
 		\param NumericalDataTable data
 		\param int column for the x-axis

@@ -4,10 +4,10 @@
     <Handles>
         <Handle type="0" name="" parent="" family="">
             <tc_table>
-                <Table key="units" rows="26" cols="2" rowNames="Activator Binding Site;;Cell;;Coding;;Compartment;;Constitutive Promoter;;Enzyme;;Inducible Promoter;;Molecule;;Operator;;Part;;Promoter;;Protein;;RBS;;RNA;;Receptor;;Reporter;;Repressible Promoter;;Repressor Binding Site;;Ribozyme;;Small Molecule;;Sticky Ends;;Subcellular compartment;;Terminator;;Transcription Factor;;Vector;;mRNA" columnNames="property;;name" values="activity;;PoPS;;volume;;fL;;activity;;PoPS;;volume;;fL;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;concentration;;uM;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;concentration;;uM;;copies;;count;;volume;;fL;;activity;;PoPS;;concentration;;uM;;copies;;count;;concentration;;uM"/>
+                <Table key="units" rows="53" cols="2" rowNames="Activator Binding Site;;Cell;;Coding;;Compartment;;Constitutive Promoter;;Enzyme;;Inducible Promoter;;Molecule;;Operator;;Part;;Promoter;;Protein;;RBS;;RNA;;Receptor;;Reporter;;Repressible Promoter;;Repressor Binding Site;;Ribozyme;;Small Molecule;;Sticky Ends;;Subcellular compartment;;Terminator;;Transcription Factor;;Vector;;mRNA;;activator binding site;;cell;;coding;;compartment;;composite part;;constitutive promoter;;enzyme;;inducible promoter;;molecule;;mrna;;operator;;part;;promoter;;protein;;rbs;;receptor;;reporter;;repressible promoter;;repressor binding site;;ribozyme;;rna;;small molecule;;sticky ends;;subcellular compartment;;terminator;;transcription factor;;vector" columnNames="property;;name" values="activity;;PoPS;;volume;;fL;;activity;;PoPS;;volume;;fL;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;concentration;;uM;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;concentration;;uM;;copies;;count;;volume;;fL;;activity;;PoPS;;concentration;;uM;;copies;;count;;concentration;;uM;;activity;;PoPS;;volume;;fL;;activity;;PoPS;;volume;;fL;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;concentration;;uM;;concentration;;uM;;copies;;count;;volume;;fL;;activity;;PoPS;;concentration;;uM;;copies;;count"/>
             </tc_table>
         </Handle>
-        <Handle type="1" name="TetR" parent="" family="Transcription Factor">
+        <Handle type="1" name="TetR" parent="" family="transcription factor">
             <tc_matrix>
                 <Table key="initial value" rows="1" cols="1" rowNames="concentration" columnNames="concentration" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="100"/>
                 <Table key="parameters" rows="1" cols="3" rowNames="molecularweight" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="50000;;5000;;500000"/>
@@ -20,9 +20,9 @@
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
         </Handle>
-        <Handle type="1" name="aTc" parent="" family="Molecule">
+        <Handle type="1" name="aTc" parent="" family="molecule">
             <tc_matrix>
-                <Table key="initial value" rows="1" cols="1" rowNames="concentration" columnNames="concentration" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="5"/>
+                <Table key="initial value" rows="1" cols="1" rowNames="concentration" columnNames="concentration" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="4.01"/>
                 <Table key="parameters" rows="1" cols="3" rowNames="molecularweight" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="50000;;5000;;500000"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
@@ -33,7 +33,7 @@
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
         </Handle>
-        <Handle type="2" name="tr1" parent="" family="Transcription Repression">
+        <Handle type="2" name="tr1" parent="" family="transcription repression">
             <tc_matrix>
                 <Table key="product stoichiometries" rows="0" cols="0" rowNames="" columnNames="" desc="Number of each product participating in this reaction" values=""/>
                 <Table key="parameters" rows="3" cols="3" rowNames="Kd;;h;;k0" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1;;0.0001;;10;;2;;1;;8;;0.1;;0;;0"/>
@@ -49,7 +49,7 @@
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="tr1.k0"/>
             </tc_table>
         </Handle>
-        <Handle type="2" name="tr2" parent="" family="Transcription Repression">
+        <Handle type="2" name="tr2" parent="" family="transcription repression">
             <tc_matrix>
                 <Table key="product stoichiometries" rows="0" cols="0" rowNames="" columnNames="" desc="Number of each product participating in this reaction" values=""/>
                 <Table key="parameters" rows="3" cols="3" rowNames="Kd;;h;;k0" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1;;0.0001;;10;;2;;1;;8;;0.1;;0;;0"/>
@@ -65,7 +65,7 @@
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="tr2.k0"/>
             </tc_table>
         </Handle>
-        <Handle type="1" name="GFP" parent="" family="Reporter">
+        <Handle type="1" name="GFP" parent="" family="reporter">
             <tc_matrix>
                 <Table key="initial value" rows="1" cols="1" rowNames="concentration" columnNames="concentration" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="0"/>
                 <Table key="parameters" rows="1" cols="3" rowNames="molecularweight" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="50000;;5000;;500000"/>
@@ -78,7 +78,7 @@
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
         </Handle>
-        <Handle type="1" name="gfp_gene" parent="" family="Coding">
+        <Handle type="1" name="gfp_gene" parent="" family="coding">
             <tc_matrix>
                 <Table key="initial value" rows="1" cols="1" rowNames="activity" columnNames="activity" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="10"/>
                 <Table key="parameters" rows="1" cols="3" rowNames="length" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="300;;30;;3000"/>
@@ -87,11 +87,11 @@
             <tc_table>
                 <Table key="text attributes" rows="2" cols="3" rowNames="sequence;;composite" columnNames="value;;min;;max" values="AAGCTGATGGCTAGAAT;;;;;;false;;;;"/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="assignments" rows="1" cols="1" rowNames="self" columnNames="rule" values="p2.strength * p2 * op3"/>
+                <Table key="assignments" rows="1" cols="1" rowNames="self" columnNames="rule" values="p2.strength * (op3)"/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
         </Handle>
-        <Handle type="2" name="pp1" parent="" family="Protein Production">
+        <Handle type="2" name="pp1" parent="" family="protein production">
             <tc_matrix>
                 <Table key="product stoichiometries" rows="1" cols="1" rowNames="stoichiometry" columnNames="GFP" desc="Number of each product participating in this reaction" values="1"/>
                 <Table key="parameters" rows="1" cols="3" rowNames="k0" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="0.1;;0;;0"/>
@@ -107,7 +107,7 @@
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="pp1.k0"/>
             </tc_table>
         </Handle>
-        <Handle type="2" name="ai1" parent="" family="Allosteric Inhibition">
+        <Handle type="2" name="ai1" parent="" family="allosteric inhibition">
             <tc_matrix>
                 <Table key="product stoichiometries" rows="0" cols="0" rowNames="" columnNames="" desc="Number of each product participating in this reaction" values=""/>
                 <Table key="parameters" rows="2" cols="3" rowNames="Kd;;k0" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="0.1;;1e-05;;1;;0.1;;0;;0"/>
@@ -124,7 +124,7 @@
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="ai1.k0"/>
             </tc_table>
         </Handle>
-        <Handle type="2" name="ai2" parent="" family="Allosteric Inhibition">
+        <Handle type="2" name="ai2" parent="" family="allosteric inhibition">
             <tc_matrix>
                 <Table key="product stoichiometries" rows="0" cols="0" rowNames="" columnNames="" desc="Number of each product participating in this reaction" values=""/>
                 <Table key="parameters" rows="2" cols="3" rowNames="Kd;;k0" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="0.1;;1e-05;;1;;0.1;;0;;0"/>
@@ -141,9 +141,22 @@
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="ai2.k0"/>
             </tc_table>
         </Handle>
-        <Handle type="1" name="p1" parent="" family="Constitutive Promoter">
+        <Handle type="1" name="p1" parent="" family="constitutive promoter">
             <tc_matrix>
                 <Table key="initial value" rows="1" cols="1" rowNames="activity" columnNames="activity" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="1"/>
+                <Table key="parameters" rows="2" cols="3" rowNames="strength;;length" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="2;;0.1;;10;;300;;30;;3000"/>
+                <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
+            </tc_matrix>
+            <tc_table>
+                <Table key="text attributes" rows="2" cols="3" rowNames="sequence;;composite" columnNames="value;;min;;max" values="AAGCTGATGGCTAGAAT;;;;;;false;;;;"/>
+                <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
+                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
+            </tc_table>
+        </Handle>
+        <Handle type="1" name="p2" parent="" family="constitutive promoter">
+            <tc_matrix>
+                <Table key="initial value" rows="1" cols="1" rowNames="activity" columnNames="activity" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="10"/>
                 <Table key="parameters" rows="2" cols="3" rowNames="strength;;length" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="10;;0.1;;10;;300;;30;;3000"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
@@ -154,20 +167,7 @@
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
         </Handle>
-        <Handle type="1" name="p2" parent="" family="Constitutive Promoter">
-            <tc_matrix>
-                <Table key="initial value" rows="1" cols="1" rowNames="activity" columnNames="activity" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="10"/>
-                <Table key="parameters" rows="2" cols="3" rowNames="strength;;length" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1;;0.1;;10;;300;;30;;3000"/>
-                <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
-            </tc_matrix>
-            <tc_table>
-                <Table key="text attributes" rows="2" cols="3" rowNames="sequence;;composite" columnNames="value;;min;;max" values="AAGCTGATGGCTAGAAT;;;;;;false;;;;"/>
-                <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
-                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
-            </tc_table>
-        </Handle>
-        <Handle type="1" name="gene" parent="" family="Coding">
+        <Handle type="1" name="gene" parent="" family="coding">
             <tc_matrix>
                 <Table key="initial value" rows="1" cols="1" rowNames="activity" columnNames="activity" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="10"/>
                 <Table key="parameters" rows="1" cols="3" rowNames="length" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="300;;30;;3000"/>
@@ -176,11 +176,11 @@
             <tc_table>
                 <Table key="text attributes" rows="2" cols="3" rowNames="sequence;;composite" columnNames="value;;min;;max" values="AAGCTGATGGCTAGAAT;;;;;;false;;;;"/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="assignments" rows="1" cols="1" rowNames="self" columnNames="rule" values="p1.strength * tet_op * p1 * lac_op"/>
+                <Table key="assignments" rows="1" cols="1" rowNames="self" columnNames="rule" values="p1.strength * (tet_op + lac_op)"/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
         </Handle>
-        <Handle type="1" name="LacI" parent="" family="Transcription Factor">
+        <Handle type="1" name="LacI" parent="" family="transcription factor">
             <tc_matrix>
                 <Table key="initial value" rows="1" cols="1" rowNames="concentration" columnNames="concentration" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="100"/>
                 <Table key="parameters" rows="1" cols="3" rowNames="molecularweight" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="50000;;5000;;500000"/>
@@ -193,9 +193,9 @@
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
         </Handle>
-        <Handle type="1" name="IPTG" parent="" family="Molecule">
+        <Handle type="1" name="IPTG" parent="" family="molecule">
             <tc_matrix>
-                <Table key="initial value" rows="1" cols="1" rowNames="concentration" columnNames="concentration" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="5"/>
+                <Table key="initial value" rows="1" cols="1" rowNames="concentration" columnNames="concentration" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="4.01"/>
                 <Table key="parameters" rows="1" cols="3" rowNames="molecularweight" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="50000;;5000;;500000"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
@@ -206,7 +206,7 @@
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
         </Handle>
-        <Handle type="1" name="op3" parent="" family="Repressor Binding Site">
+        <Handle type="1" name="op3" parent="" family="repressor binding site">
             <tc_matrix>
                 <Table key="initial value" rows="1" cols="1" rowNames="activity" columnNames="activity" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="10"/>
                 <Table key="parameters" rows="2" cols="3" rowNames="strength;;length" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1;;0.1;;10;;300;;30;;3000"/>
@@ -219,7 +219,7 @@
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
         </Handle>
-        <Handle type="1" name="tet_op" parent="" family="Repressor Binding Site">
+        <Handle type="1" name="tet_op" parent="" family="repressor binding site">
             <tc_matrix>
                 <Table key="initial value" rows="1" cols="1" rowNames="activity" columnNames="activity" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="10"/>
                 <Table key="parameters" rows="3" cols="5" rowNames="strength;;length;;molecularweight" columnNames="value;;min;;max;;;;" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1;;0.1;;10;;0;;0;;300;;30;;3000;;0;;0;;50000;;0;;0;;5000;;500000"/>
@@ -232,7 +232,7 @@
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
         </Handle>
-        <Handle type="1" name="lac_op" parent="" family="Repressor Binding Site">
+        <Handle type="1" name="lac_op" parent="" family="repressor binding site">
             <tc_matrix>
                 <Table key="initial value" rows="2" cols="2" rowNames="activity;;concentration" columnNames="activity;;" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="10;;0;;0;;0"/>
                 <Table key="parameters" rows="3" cols="5" rowNames="strength;;length;;molecularweight" columnNames="value;;min;;max;;;;" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1;;0.1;;10;;0;;0;;300;;30;;3000;;0;;0;;50000;;0;;0;;5000;;500000"/>
@@ -245,7 +245,7 @@
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
         </Handle>
-        <Handle type="2" name="dgr1" parent="" family="Direct Gene Repression">
+        <Handle type="2" name="dgr1" parent="" family="direct gene repression">
             <tc_matrix>
                 <Table key="product stoichiometries" rows="0" cols="0" rowNames="" columnNames="" desc="Number of each product participating in this reaction" values=""/>
                 <Table key="parameters" rows="1" cols="3" rowNames="k0" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="0.1;;0;;0"/>
@@ -261,7 +261,7 @@
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="dgr1.k0"/>
             </tc_table>
         </Handle>
-        <Handle type="1" name="rbs1" parent="" family="RBS">
+        <Handle type="1" name="rbs1" parent="" family="rbs">
             <tc_matrix>
                 <Table key="initial value" rows="1" cols="1" rowNames="activity" columnNames="activity" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="10"/>
                 <Table key="parameters" rows="2" cols="3" rowNames="strength;;length" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1;;0.1;;10;;300;;30;;3000"/>
@@ -274,7 +274,7 @@
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
         </Handle>
-        <Handle type="1" name="rbs2" parent="" family="RBS">
+        <Handle type="1" name="rbs2" parent="" family="rbs">
             <tc_matrix>
                 <Table key="initial value" rows="1" cols="1" rowNames="activity" columnNames="activity" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="10"/>
                 <Table key="parameters" rows="2" cols="3" rowNames="strength;;length" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1;;0.1;;10;;300;;30;;3000"/>
@@ -287,7 +287,7 @@
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
         </Handle>
-        <Handle type="2" name="rep1" parent="tr1" family="Repression">
+        <Handle type="2" name="rep1" parent="tr1" family="repression">
             <tc_matrix>
                 <Table key="product stoichiometries" rows="0" cols="0" rowNames="" columnNames="" desc="Number of each product participating in this reaction" values=""/>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
@@ -303,7 +303,7 @@
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="0"/>
             </tc_table>
         </Handle>
-        <Handle type="2" name="rep1" parent="tr2" family="Repression">
+        <Handle type="2" name="rep1" parent="tr2" family="repression">
             <tc_matrix>
                 <Table key="product stoichiometries" rows="0" cols="0" rowNames="" columnNames="" desc="Number of each product participating in this reaction" values=""/>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
@@ -319,7 +319,7 @@
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="0"/>
             </tc_table>
         </Handle>
-        <Handle type="1" name="emp2" parent="pp1" family="Empty">
+        <Handle type="1" name="emp2" parent="pp1" family="empty">
             <tc_matrix>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
@@ -331,7 +331,7 @@
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
         </Handle>
-        <Handle type="1" name="emp1" parent="pp1" family="Empty">
+        <Handle type="1" name="emp1" parent="pp1" family="empty">
             <tc_matrix>
                 <Table key="parameters" rows="0" cols="1" rowNames="" columnNames="value" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
@@ -343,7 +343,7 @@
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
         </Handle>
-        <Handle type="2" name="degrade" parent="pp1" family="Degradation">
+        <Handle type="2" name="degrade" parent="pp1" family="degradation">
             <tc_matrix>
                 <Table key="product stoichiometries" rows="1" cols="1" rowNames="stoichiometry" columnNames="GFP" desc="Number of each product participating in this reaction" values="0"/>
                 <Table key="parameters" rows="1" cols="3" rowNames="k0" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1;;0;;0"/>
@@ -359,7 +359,7 @@
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="pp1.degrade.k0*GFP"/>
             </tc_table>
         </Handle>
-        <Handle type="2" name="production" parent="pp1" family="Production">
+        <Handle type="2" name="production" parent="pp1" family="production">
             <tc_matrix>
                 <Table key="product stoichiometries" rows="1" cols="1" rowNames="stoichiometry" columnNames="GFP" desc="Number of each product participating in this reaction" values="1"/>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
@@ -375,7 +375,7 @@
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="gfp_gene"/>
             </tc_table>
         </Handle>
-        <Handle type="1" name="Inactive" parent="ai1" family="Protein">
+        <Handle type="1" name="Inactive" parent="ai1" family="protein">
             <tc_matrix>
                 <Table key="initial value" rows="1" cols="1" rowNames="concentration" columnNames="concentration" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="0"/>
                 <Table key="parameters" rows="1" cols="3" rowNames="molecularweight" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="50000;;5000;;500000"/>
@@ -388,7 +388,7 @@
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
         </Handle>
-        <Handle type="2" name="back" parent="ai1" family="Conformation change">
+        <Handle type="2" name="back" parent="ai1" family="">
             <tc_matrix>
                 <Table key="product stoichiometries" rows="1" cols="2" rowNames="stoichiometry" columnNames="ai1.Inactive;;LacI" desc="Number of each product participating in this reaction" values="0;;1"/>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
@@ -420,7 +420,7 @@
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="1/ai1.Kd * LacI*IPTG"/>
             </tc_table>
         </Handle>
-        <Handle type="1" name="Inactive" parent="ai2" family="Protein">
+        <Handle type="1" name="Inactive" parent="ai2" family="protein">
             <tc_matrix>
                 <Table key="initial value" rows="1" cols="1" rowNames="concentration" columnNames="concentration" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="0"/>
                 <Table key="parameters" rows="1" cols="3" rowNames="molecularweight" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="50000;;5000;;500000"/>
@@ -433,7 +433,7 @@
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
         </Handle>
-        <Handle type="2" name="back" parent="ai2" family="Conformation change">
+        <Handle type="2" name="back" parent="ai2" family="">
             <tc_matrix>
                 <Table key="product stoichiometries" rows="1" cols="2" rowNames="stoichiometry" columnNames="ai2.Inactive;;TetR" desc="Number of each product participating in this reaction" values="0;;1"/>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
@@ -465,7 +465,7 @@
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="1/ai2.Kd * TetR*aTc"/>
             </tc_table>
         </Handle>
-        <Handle type="1" name="dimer" parent="dgr1" family="Transcription Factor">
+        <Handle type="1" name="dimer" parent="dgr1" family="transcription factor">
             <tc_matrix>
                 <Table key="initial value" rows="1" cols="1" rowNames="concentration" columnNames="concentration" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="0"/>
                 <Table key="parameters" rows="1" cols="3" rowNames="molecularweight" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="50000;;5000;;500000"/>
@@ -478,7 +478,7 @@
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
         </Handle>
-        <Handle type="1" name="monomer" parent="dgr1" family="Transcription Factor">
+        <Handle type="1" name="monomer" parent="dgr1" family="transcription factor">
             <tc_matrix>
                 <Table key="initial value" rows="1" cols="1" rowNames="concentration" columnNames="concentration" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="0"/>
                 <Table key="parameters" rows="1" cols="3" rowNames="molecularweight" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="50000;;5000;;500000"/>
@@ -491,7 +491,7 @@
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
         </Handle>
-        <Handle type="2" name="dimerize" parent="dgr1" family="Multimerization">
+        <Handle type="2" name="dimerize" parent="dgr1" family="multimerization">
             <tc_matrix>
                 <Table key="product stoichiometries" rows="3" cols="2" rowNames="forward;;reverse;;diffuse" columnNames="dgr1.monomer;;dgr1.dimer" desc="Number of each product participating in this reaction" values="0;;1;;2;;0;;0;;0"/>
                 <Table key="parameters" rows="5" cols="3" rowNames="monomers;;k0;;kf;;kb;;deg" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="2;;0.2;;20;;1;;0;;0;;1;;0;;100;;0.1;;0;;100;;0.1;;0;;1"/>
@@ -507,7 +507,7 @@
                 <Table key="rate equations" rows="3" cols="1" rowNames="forward;;reverse;;diffuse" columnNames="formula" values="dgr1.dimerize.kf * dgr1.monomer^2;;dgr1.dimerize.kb * dgr1.dimer;;dgr1.dimerize.deg * dgr1.dimer"/>
             </tc_table>
         </Handle>
-        <Handle type="2" name="repression" parent="dgr1" family="Transcription Repression">
+        <Handle type="2" name="repression" parent="dgr1" family="transcription repression">
             <tc_matrix>
                 <Table key="product stoichiometries" rows="0" cols="0" rowNames="" columnNames="" desc="Number of each product participating in this reaction" values=""/>
                 <Table key="parameters" rows="3" cols="3" rowNames="Kd;;k0;;h" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="0.01;;0.0001;;10;;1;;0;;0;;2;;1;;8"/>
@@ -523,7 +523,7 @@
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="dgr1.repression.k0"/>
             </tc_table>
         </Handle>
-        <Handle type="2" name="production" parent="dgr1" family="Protein Production">
+        <Handle type="2" name="production" parent="dgr1" family="protein production">
             <tc_matrix>
                 <Table key="product stoichiometries" rows="1" cols="1" rowNames="stoichiometry" columnNames="dgr1.monomer" desc="Number of each product participating in this reaction" values="1"/>
                 <Table key="parameters" rows="1" cols="3" rowNames="k0" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1;;0;;0"/>
@@ -539,7 +539,7 @@
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="pp1.k0"/>
             </tc_table>
         </Handle>
-        <Handle type="2" name="rep1" parent="dgr1.repression" family="Repression">
+        <Handle type="2" name="rep1" parent="dgr1.repression" family="repression">
             <tc_matrix>
                 <Table key="product stoichiometries" rows="0" cols="0" rowNames="" columnNames="" desc="Number of each product participating in this reaction" values=""/>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
@@ -555,7 +555,7 @@
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="0"/>
             </tc_table>
         </Handle>
-        <Handle type="2" name="production" parent="dgr1.production" family="Production">
+        <Handle type="2" name="production" parent="dgr1.production" family="production">
             <tc_matrix>
                 <Table key="product stoichiometries" rows="1" cols="1" rowNames="stoichiometry" columnNames="dgr1.monomer" desc="Number of each product participating in this reaction" values="1"/>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
@@ -571,7 +571,7 @@
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="gene"/>
             </tc_table>
         </Handle>
-        <Handle type="1" name="emp2" parent="dgr1.production" family="Empty">
+        <Handle type="1" name="emp2" parent="dgr1.production" family="empty">
             <tc_matrix>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
@@ -583,7 +583,7 @@
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
         </Handle>
-        <Handle type="1" name="emp1" parent="dgr1.production" family="Empty">
+        <Handle type="1" name="emp1" parent="dgr1.production" family="empty">
             <tc_matrix>
                 <Table key="parameters" rows="0" cols="1" rowNames="" columnNames="value" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
@@ -595,7 +595,7 @@
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
         </Handle>
-        <Handle type="2" name="degrade" parent="dgr1.production" family="Degradation">
+        <Handle type="2" name="degrade" parent="dgr1.production" family="degradation">
             <tc_matrix>
                 <Table key="product stoichiometries" rows="1" cols="1" rowNames="stoichiometry" columnNames="dgr1.monomer" desc="Number of each product participating in this reaction" values="0"/>
                 <Table key="parameters" rows="1" cols="3" rowNames="k0" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1;;0;;0"/>
@@ -4219,7 +4219,7 @@
                 <CenterRegion>
                     <Rect width="20" height="20"/>
                     <Decorator>
-                        <pos x="5646.42" y="4884.97" angle="0"/>
+                        <pos x="5642.43" y="4885.89" angle="0"/>
                         <transform m11="0.3" m12="0" m21="0" m22="0.3"/>
                         <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                             <renderInformation id="TinkerCell_Style" programName="TinkerCell">
@@ -4431,7 +4431,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="4440.24" y="4561.79" angle="0"/>
-                            <transform m11="0.1" m12="-7.97973e-17" m21="3.19189e-16" m22="0.4"/>
+                            <transform m11="0.1" m12="-8.06646e-17" m21="3.22659e-16" m22="0.4"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -4683,7 +4683,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="5213.36" y="4979.43" angle="-1.26967"/>
-                            <transform m11="0.399902" m12="-0.00886319" m21="0.00664738" m22="0.299926"/>
+                            <transform m11="0.399902" m12="-0.00886318" m21="0.00664737" m22="0.299926"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -5056,7 +5056,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="5031.72" y="4810.43" angle="-88.0488"/>
-                            <transform m11="0.0136204" m12="-0.399768" m21="0.299826" m22="0.0102154"/>
+                            <transform m11="0.0136205" m12="-0.399768" m21="0.299826" m22="0.0102155"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -5193,7 +5193,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="5217.16" y="4980.38" angle="-1.20182"/>
-                            <transform m11="0.399912" m12="-0.00838976" m21="0.0062923" m22="0.299934"/>
+                            <transform m11="0.399912" m12="-0.00838978" m21="0.00629231" m22="0.299934"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -5331,7 +5331,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="5547.5" y="5016.84" angle="-153.988"/>
-                            <transform m11="-0.359492" m12="-0.175407" m21="0.131556" m22="-0.269616"/>
+                            <transform m11="-0.359494" m12="-0.175404" m21="0.131554" m22="-0.269617"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -5452,7 +5452,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="5547.5" y="5016.84" angle="-153.988"/>
-                            <transform m11="-0.359492" m12="-0.175407" m21="0.131556" m22="-0.269616"/>
+                            <transform m11="-0.359494" m12="-0.175404" m21="0.131554" m22="-0.269617"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -5677,7 +5677,7 @@
         <TextItem text="GFP" scene="0" handle="GFP" x="5737.42" y="4686.03" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="84.3" font="Sans" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="p2" scene="0" handle="p2" x="5336.08" y="5113.94" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="82.1" font="Sans" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="rbs2" scene="0" handle="rbs2" x="5500.58" y="5114.08" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="79.8" font="Sans" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="gfp_gene" scene="0" handle="gfp_gene" x="5617.08" y="5113.95" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="77.7" font="Sans" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="gfp_gene" scene="0" handle="gfp_gene" x="5600.43" y="5122.27" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="77.7" font="Sans" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="dgr1" scene="0" handle="dgr1" x="5285.18" y="4702.98" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="73.3" font="Sans" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="op3" scene="0" handle="op3" x="5420.58" y="5113.95" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="71.3" font="Sans" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="ai2" scene="0" handle="ai2" x="4281.71" y="4698.36" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="65.1" font="Sans" size="22" bold="0" italics="0" underline="0"/>
@@ -5692,7 +5692,7 @@
         <TextItem text="p1" scene="0" handle="p1" x="4771.79" y="4936.71" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="20.7" font="Sans" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="lac_op" scene="0" handle="lac_op" x="4833.79" y="4939.62" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="18.6" font="Sans" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="rbs1" scene="0" handle="rbs1" x="4928.29" y="4938.94" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="5" font="Sans" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="gene" scene="0" handle="gene" x="5043.79" y="4936.72" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="3" font="Sans" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="gene" scene="0" handle="gene" x="5018.82" y="4938.8" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="3" font="Sans" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="degrade" scene="1" handle="pp1.degrade" x="5011.51" y="4909.95" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="298.3" font="Sans" size="22" bold="0" italics="0" underline="0" group="pp1"/>
         <TextItem text="production" scene="1" handle="pp1.production" x="4644.69" y="4896" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="296" font="Sans" size="22" bold="0" italics="0" underline="0" group="pp1"/>
         <TextItem text="GFP" scene="1" handle="GFP" x="4871.5" y="4896.94" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="6" font="Sans" size="22" bold="0" italics="0" underline="0" group="pp1"/>

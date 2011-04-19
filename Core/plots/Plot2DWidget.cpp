@@ -21,6 +21,7 @@
 #include "qwt_scale_engine.h"
 #include "qwt_symbol.h"
 #include "GraphicsScene.h"
+#include "NetworkHandle.h"
 #include "MainWindow.h"
 #include "ConsoleWindow.h"
 #include "PlotTool.h"
@@ -468,6 +469,9 @@ namespace Tinkercell
 	
 	Plot2DWidget::Plot2DWidget(PlotTool * parent) : PlotWidget(parent), buttonsGroup(this)
 	{
+		connect(this, SIGNAL(displayFire(ItemHandle*, double)), plotTool, SIGNAL(displayFire(ItemHandle*, double)));
+		connect(this, SIGNAL(hideFire()), plotTool, SIGNAL(hideFire()));
+		
 		type = PlotTool::Plot2D;
 		dataPlot = new DataPlot();
 		
@@ -648,6 +652,7 @@ namespace Tinkercell
 					NumericalDataTable(),
 					dataPlot->xcolumn,
 					dataPlot->title().text());
+		displayFire();
 	}
 	
 	void Plot2DWidget::plot(const NumericalDataTable& matrix,const QString& title,int x)
@@ -656,6 +661,7 @@ namespace Tinkercell
 		
 		dataPlot->type = type;
 		dataPlot->plot(matrix,x,title);
+		displayFire();
 		if (axisNames)
 		{
 			axisNames->clear();
@@ -704,6 +710,7 @@ namespace Tinkercell
 				rect.setWidth(dataPlot->zoomer->zoomBase().width());
 				dataPlot->zoomer->zoom(rect);
 			}
+			
 		}
 		else
 		{
@@ -712,6 +719,8 @@ namespace Tinkercell
 					title,
 					false);
 		}
+		
+		displayFire();
 		
 		if (x >= 0 && newData.columns() > x)
 		{
@@ -1050,6 +1059,8 @@ namespace Tinkercell
 					x,
 					title,
 					true);
+		
+		displayFire();
 	}
 	
 	void Plot2DWidget::setLogScale(int i, bool b)
@@ -1059,6 +1070,47 @@ namespace Tinkercell
 	
 		if (i > 0)
 			logY(b);
+	}
+	
+	void Plot2DWidget::displayFire()
+	{
+		if (!plotTool || !plotTool->currentNetwork()) return;
+		
+		NetworkHandle * network = plotTool->currentNetwork();
+		
+		NumericalDataTable * dat = data();
+		
+		if (!dat) return;
+		
+		QStringList names = dat->columnNames();
+		
+		for (int i=0; i < DataPlot::hideList.size(); ++i)
+			names.removeAll(DataPlot::hideList[i]);
+		
+		int last = dat->rows() - 1;
+		QList<double> values;
+		QList<ItemHandle*> items;
+		double max = 0;
+		
+		for (int i=0; i < names.size(); ++i)
+		{
+			QList<ItemHandle*> foundItems = network->findItem(names[i]);
+			if (!foundItems.isEmpty() && foundItems[0])
+			{
+				double x = dat->at(last, names[i]);
+				if (x > max)
+					max = x;
+				
+				items << foundItems[0];
+				values << x;
+			}
+		}
+		
+		emit hideFire();
+		for (int i=0; i < items.size(); ++i)
+		{
+			emit displayFire(items[i], values[i]/max);
+		}
 	}
 	
 	
@@ -1165,7 +1217,7 @@ namespace Tinkercell
 	
 	void ShowHideLegendItemsWidget::updatePlot()
 	{
-		if (!plotWidget) return;
+		if (!plotWidget || !plot) return;
 		
 		DataPlot::hideList.clear();
 		for (int i=0; i < checkBoxes.size() && i < names.size(); ++i)
@@ -1176,6 +1228,7 @@ namespace Tinkercell
 							plot->xcolumn,
 							plot->title().text());
 		
+		plotWidget->displayFire();
 		plotWidget->replotAllOther2DWidgets();
 	}
 	

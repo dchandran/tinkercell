@@ -386,37 +386,6 @@ tc_matrix SimulationThread::result()
 	return resultMatrix;
 }
 
-void SimulationThread::displayFire()
-{
-	if (mainWindow && mainWindow->currentNetwork())
-	{
-		NumericalDataTable * dat = ConvertValue(result());
-		QList<ItemHandle*> items = mainWindow->currentNetwork()->findItem(dat->rowNames());
-		QList<ItemHandle*> displayItems;
-		QList<double> intensity;
-
-		double max = 0.0;
-		for (int i=0; i < items.size() && i < dat->rows(); ++i)
-			if (items[i] && !ConnectionHandle::cast(items[i]->parent))
-			{
-				if (dat->at(i,0) > max)
-					max = dat->at(i,0);
-			}
-		
-		for (int i=0; i < items.size() && i < dat->rows(); ++i)
-			if (items[i] && !ConnectionHandle::cast(items[i]->parent))
-			{
-				displayItems << items[i];
-				intensity << (dat->at(i,0)/max);
-			}
-	
-		for (int i=0; i < displayItems.size() && i < intensity.size(); ++i)
-			emit displayFire( displayItems[i], intensity[i]);
-
-		delete dat;
-	}
-}
-
 void SimulationThread::run()
 {
 	if (!model.CopasiModelPtr)
@@ -688,9 +657,8 @@ void SimulationThread::run()
 	{
 		NumericalDataTable * dat = ConvertValue(resultMatrix);
 		emit graph(*dat, plotTitle, x, plotType);
-		if (method==SteadyState && mainWindow)
-			displayFire();
-		if (method==Jacobian && mainWindow && mainWindow->console())
+
+		if (method == Jacobian && mainWindow && mainWindow->console())
 				mainWindow->console()->printTable(*dat);
 		delete dat; 
 	}

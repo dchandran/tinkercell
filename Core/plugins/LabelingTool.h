@@ -56,6 +56,8 @@ namespace Tinkercell
 		Q_OBJECT;
 
 	public:
+	
+		static bool ENABLE_FIRE_IN_GRAPHS;
 
 		LabelingTool();
 		virtual ~LabelingTool();

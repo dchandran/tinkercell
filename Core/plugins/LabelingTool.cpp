@@ -9,10 +9,13 @@
  
 ****************************************************************************/
 
+#include "ConsoleWindow.h"
 #include "LabelingTool.h"
 
 namespace Tinkercell
 {	
+
+	bool LabelingTool::ENABLE_FIRE_IN_GRAPHS = true;
 	
 	LabelingTool::LabelingTool() : Tool(tr("Labeling Tool"))
 	{
@@ -170,7 +173,10 @@ namespace Tinkercell
 		if (!fireNode) return;
 
 		if (handle)
+		{
+			console()->message(handle->name + tr(" = ") + QString::number(intensity));
 			clearLabels(handle);
+		}
 		
 		GraphicsScene * scene = currentScene();
 		if (!handle || !scene) return;

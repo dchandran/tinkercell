@@ -188,6 +188,13 @@ namespace Tinkercell
 	class TINKERCELLEXPORT Plot2DWidget : public PlotWidget
 	{
 		Q_OBJECT
+	
+	signals:
+	
+		/*!	\brief show fire on the scene. only enabled in LabelingTool is enabled*/
+		void displayFire(ItemHandle*, double);
+		/*!	\brief hide fire on the scene. only enabled in LabelingTool is enabled*/
+		void hideFire();
 		
 	public:
 		/*! \brief Default constructor*/
@@ -239,6 +246,7 @@ namespace Tinkercell
 		void mouseMoved(const QPoint&);
 	
 	private:
+		void displayFire();
 		QWidget * dialogWidget();
 		GetPenInfoDialog * dialog;
 		QString latex();

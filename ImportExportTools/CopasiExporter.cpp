@@ -7,7 +7,6 @@
 #include "CopasiExporter.h"
 #include "ConsoleWindow.h"
 #include "DynamicLibraryMenu.h"
-#include "LabelingTool.h"
 
 using namespace Tinkercell;
 
@@ -79,13 +78,6 @@ bool CopasiExporter::setMainWindow(MainWindow * main)
 	connect(main,SIGNAL(historyChanged(int)),this, SLOT(historyChanged(int)));
 	connect(main,SIGNAL(windowChanged(NetworkWindow*,NetworkWindow*)),this, SLOT(windowChanged(NetworkWindow*,NetworkWindow*)));
 	connect(mainWindow,SIGNAL(toolLoaded(Tool *)),this, SLOT(toolLoaded(Tool*)));
-	
-	Tool * tool = mainWindow->tool(tr("Labeling Tool"));
-	if (tool)
-	{
-		LabelingTool * labelingTool = static_cast<LabelingTool*>(tool);
-		connect(this, SIGNAL(displayFire(ItemHandle*, double)), labelingTool, SLOT(displayFire(ItemHandle*, double)));
-	}
 
 	toolLoaded(0);
 
@@ -195,7 +187,6 @@ void CopasiExporter::scan1D()
 
 void CopasiExporter::getSS()
 {
-
 	simDialog->setThread(getSimulationThread());
 	simDialog->setMethod(SimulationThread::SteadyState);
 }

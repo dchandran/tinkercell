@@ -199,19 +199,6 @@
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="pp1.degradation_rate*GFP"/>
             </tc_table>
         </Handle>
-        <Handle type="1" name="BBa_B0017" parent="vec1" family="terminator">
-            <tc_matrix>
-                <Table key="initial value" rows="1" cols="1" rowNames="activity" columnNames="activity" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="0"/>
-                <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
-                <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
-            </tc_matrix>
-            <tc_table>
-                <Table key="text attributes" rows="2" cols="1" rowNames="sequence;;composite" columnNames="value" values="AAGCTGATGGCTAGAAT;;false"/>
-                <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
-                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
-            </tc_table>
-        </Handle>
         <Handle type="1" name="cod1" parent="vec1" family="coding">
             <tc_matrix>
                 <Table key="initial value" rows="1" cols="1" rowNames="activity" columnNames="activity" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="0"/>
@@ -221,7 +208,7 @@
             <tc_table>
                 <Table key="text attributes" rows="2" cols="1" rowNames="sequence;;composite" columnNames="value" values="AAGCTGATGGCTAGAAT;;false"/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="assignments" rows="1" cols="1" rowNames="self" columnNames="rule" values="vec1 * vec1.pro1.strength * (vec1.rs1 + vec1.rs2)"/>
+                <Table key="assignments" rows="1" cols="1" rowNames="self" columnNames="rule" values="vec1 * vec1.pro1.strength * (vec1.rs1 * vec1.rs2)"/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
         </Handle>
@@ -277,11 +264,24 @@
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
         </Handle>
+        <Handle type="1" name="BBa_B0017" parent="vec1" family="terminator">
+            <tc_matrix>
+                <Table key="initial value" rows="1" cols="1" rowNames="activity" columnNames="activity" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="0"/>
+                <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
+                <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
+            </tc_matrix>
+            <tc_table>
+                <Table key="text attributes" rows="2" cols="1" rowNames="sequence;;composite" columnNames="value" values="AAGCTGATGGCTAGAAT;;false"/>
+                <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
+                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
+            </tc_table>
+        </Handle>
     </Handles>
     <Nodes>
-        <NodeItem className="NodeGraphicsItem" scene="0" handle="GFP" z="211.3">
-            <pos x="5314.85" y="4615.99"/>
-            <transform m11="1.28863" m12="0" m21="0" m22="1.34772"/>
+        <NodeItem className="NodeGraphicsItem" scene="0" handle="GFP" z="293.3">
+            <pos x="5262.56" y="4527.75"/>
+            <transform m11="1.45738" m12="0" m21="0" m22="1.49262"/>
             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                     <listOfColorDefinitions>
@@ -463,8 +463,8 @@
                 </renderInformation>
             </listOfRenderInformation>
         </NodeItem>
-        <NodeItem className="NodeGraphicsItem" scene="0" handle="tf2" z="204.9">
-            <pos x="4500.2" y="4674.06"/>
+        <NodeItem className="NodeGraphicsItem" scene="0" handle="tf2" z="286.9">
+            <pos x="4449.43" y="4609.18"/>
             <transform m11="0.803865" m12="0" m21="0" m22="0.7"/>
             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
@@ -576,8 +576,8 @@
                 </renderInformation>
             </listOfRenderInformation>
         </NodeItem>
-        <NodeItem className="NodeGraphicsItem" scene="0" handle="tf1" z="198.6">
-            <pos x="4500.2" y="4877.69"/>
+        <NodeItem className="NodeGraphicsItem" scene="0" handle="tf1" z="280.3">
+            <pos x="4434.55" y="4770.12"/>
             <transform m11="0.803865" m12="0" m21="0" m22="0.7"/>
             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
@@ -689,9 +689,9 @@
                 </renderInformation>
             </listOfRenderInformation>
         </NodeItem>
-        <NodeItem className="NodeGraphicsItem" scene="0" handle="vec1.BBa_B0017" z="192.5">
-            <pos x="5267.14" y="4898.67"/>
-            <transform m11="0.850236" m12="0.526401" m21="-0.284257" m22="0.459128"/>
+        <NodeItem className="NodeGraphicsItem" scene="0" handle="vec1.BBa_B0017" z="277.2">
+            <pos x="5122.4" y="4879.24"/>
+            <transform m11="0.845746" m12="0.533586" m21="-0.288136" m22="0.456703"/>
             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                     <listOfColorDefinitions>
@@ -776,9 +776,9 @@
                 </renderInformation>
             </listOfRenderInformation>
         </NodeItem>
-        <NodeItem className="NodeGraphicsItem" scene="0" handle="vec1.cod1" z="190.3">
-            <pos x="5107.55" y="4873.04"/>
-            <transform m11="1.59903" m12="0.0558426" m21="-0.00935364" m22="0.267837"/>
+        <NodeItem className="NodeGraphicsItem" scene="0" handle="vec1.cod1" z="272.9">
+            <pos x="5017.01" y="4859.55"/>
+            <transform m11="1.55972" m12="0.356755" m21="-0.0597565" m22="0.261253"/>
             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                     <listOfColorDefinitions>
@@ -876,9 +876,9 @@
                 </renderInformation>
             </listOfRenderInformation>
         </NodeItem>
-        <NodeItem className="NodeGraphicsItem" scene="0" handle="vec1.clpb" z="188.3">
-            <pos x="4981.96" y="4895.79"/>
-            <transform m11="0.738987" m12="-0.306428" m21="0.102653" m22="0.247561"/>
+        <NodeItem className="NodeGraphicsItem" scene="0" handle="vec1.clpb" z="270.9">
+            <pos x="4911.12" y="4854.52"/>
+            <transform m11="0.793276" m12="-0.103506" m21="0.0346745" m22="0.265747"/>
             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                     <listOfColorDefinitions>
@@ -941,9 +941,9 @@
                 </renderInformation>
             </listOfRenderInformation>
         </NodeItem>
-        <NodeItem className="NodeGraphicsItem" scene="0" handle="vec1.pro1" z="186.3">
-            <pos x="4781.54" y="5108.41"/>
-            <transform m11="0.201668" m12="-0.979454" m21="0.685618" m22="0.141168"/>
+        <NodeItem className="NodeGraphicsItem" scene="0" handle="vec1.pro1" z="268.9">
+            <pos x="4684.22" y="4970.47"/>
+            <transform m11="0.565053" m12="-0.825055" m21="0.577538" m22="0.395537"/>
             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                     <listOfColorDefinitions>
@@ -1099,8 +1099,8 @@
             </listOfRenderInformation>
         </NodeItem>
         <NodeItem className="NodeGraphicsItem" scene="0" handle="vec1.rs2" z="4">
-            <pos x="4919.88" y="4930.65"/>
-            <transform m11="0.646169" m12="-0.471662" m21="0.158007" m22="0.216467"/>
+            <pos x="4813.52" y="4884.76"/>
+            <transform m11="0.712739" m12="-0.363322" m21="0.121713" m22="0.238768"/>
             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                     <listOfColorDefinitions>
@@ -1228,8 +1228,8 @@
             </listOfRenderInformation>
         </NodeItem>
         <NodeItem className="NodeGraphicsItem" scene="0" handle="vec1.rs1" z="2">
-            <pos x="4846.76" y="5007.06"/>
-            <transform m11="0.442753" m12="-0.666311" m21="0.223214" m22="0.148322"/>
+            <pos x="4750.32" y="4927.91"/>
+            <transform m11="0.597863" m12="-0.531564" m21="0.178074" m22="0.200284"/>
             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                     <listOfColorDefinitions>
@@ -1357,7 +1357,7 @@
             </listOfRenderInformation>
         </NodeItem>
         <NodeItem className="NodeGraphicsItem" scene="0" handle="vec1" z="0">
-            <pos x="5097.06" y="5173.38"/>
+            <pos x="4950" y="5152.5"/>
             <transform m11="6" m12="0" m21="0" m22="6"/>
             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
@@ -2127,20 +2127,20 @@
                 </CenterRegion>
             </ConnectionGraphicsItem>
         </ConnectionItem>
-        <ConnectionItem className="ConnectionGraphicsItem" scene="0" handle="pp1" z="213.3">
+        <ConnectionItem className="ConnectionGraphicsItem" scene="0" handle="pp1" z="295.3">
             <ConnectionGraphicsItem version="1.0" name="" color="#049102" width="5" type="bezier" style="1" gap="10">
                 <ControlPoints>
-                    <ControlPoint x="5110.64" y="4847.95"/>
-                    <ControlPoint x="5123.61" y="4790.79"/>
-                    <ControlPoint x="5124.15" y="4704.94"/>
-                    <ControlPoint x="5230.42" y="4656.35"/>
+                    <ControlPoint x="5013.94" y="4825.63"/>
+                    <ControlPoint x="5012.39" y="4730.45"/>
+                    <ControlPoint x="5073.16" y="4632.37"/>
+                    <ControlPoint x="5169.69" y="4576.71"/>
                 </ControlPoints>
                 <CurveSegments>
-                    <Path numPoints="4" NodeAtStart="vec1.cod1" NodeAtStartX="5107.55" NodeAtStartY="4873.04" NodeAtEnd="GFP" NodeAtEndX="5314.85" NodeAtEndY="4615.99">
+                    <Path numPoints="4" NodeAtStart="vec1.cod1" NodeAtStartX="5017.01" NodeAtStartY="4859.55" NodeAtEnd="GFP" NodeAtEndX="5262.56" NodeAtEndY="4527.75">
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
-                            <pos x="5230.42" y="4656.35" angle="-24.5714"/>
-                            <transform m11="0.318305" m12="-0.145539" m21="0.166331" m22="0.363777"/>
+                            <pos x="5169.69" y="4576.71" angle="-29.9652"/>
+                            <transform m11="0.303215" m12="-0.174816" m21="0.19979" m22="0.346532"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -2197,7 +2197,7 @@
                 <CenterRegion>
                     <Rect width="20" height="20"/>
                     <Decorator>
-                        <pos x="5135.3" y="4748.21" angle="0"/>
+                        <pos x="5054.9" y="4685.66" angle="0"/>
                         <transform m11="0.3" m12="0" m21="0" m22="0.3"/>
                         <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                             <renderInformation id="TinkerCell_Style" programName="TinkerCell">
@@ -2226,23 +2226,23 @@
                 </CenterRegion>
             </ConnectionGraphicsItem>
         </ConnectionItem>
-        <ConnectionItem className="ConnectionGraphicsItem" scene="0" handle="tr2" z="206.9">
+        <ConnectionItem className="ConnectionGraphicsItem" scene="0" handle="tr2" z="288.9">
             <ConnectionGraphicsItem version="1.0" name="" color="#c30000" width="5" type="line" style="1" gap="10">
                 <ControlPoints>
-                    <ControlPoint x="4550.39" y="4672.47"/>
-                    <ControlPoint x="4668.75" y="4672.47"/>
-                    <ControlPoint x="4718.75" y="4672.47"/>
-                    <ControlPoint x="4768.75" y="4672.47"/>
-                    <ControlPoint x="4832.9" y="4744.38"/>
-                    <ControlPoint x="4873.93" y="4832.29"/>
-                    <ControlPoint x="4896.22" y="4891.31"/>
+                    <ControlPoint x="4499.62" y="4601.07"/>
+                    <ControlPoint x="4568.81" y="4601.07"/>
+                    <ControlPoint x="4618.81" y="4601.07"/>
+                    <ControlPoint x="4668.81" y="4601.07"/>
+                    <ControlPoint x="4773.74" y="4693.61"/>
+                    <ControlPoint x="4793.29" y="4787.64"/>
+                    <ControlPoint x="4793.25" y="4846.26"/>
                 </ControlPoints>
                 <CurveSegments>
-                    <Path numPoints="7" NodeAtStart="tf2" NodeAtStartX="4500.2" NodeAtStartY="4674.06" NodeAtEnd="vec1.rs2" NodeAtEndX="4919.88" NodeAtEndY="4930.65">
+                    <Path numPoints="7" NodeAtStart="tf2" NodeAtStartX="4449.43" NodeAtStartY="4609.18" NodeAtEnd="vec1.rs2" NodeAtEndX="4813.52" NodeAtEndY="4884.76">
                         <ControlPoints indices="0,1,2,3,4,5,6"/>
                         <ArrowAtEnd>
-                            <pos x="4896.22" y="4891.31" angle="59.779"/>
-                            <transform m11="0.0503337" m12="0.086409" m21="-0.345636" m22="0.201335"/>
+                            <pos x="4793.25" y="4846.26" angle="63.0902"/>
+                            <transform m11="0.0452588" m12="0.089172" m21="-0.356688" m22="0.181035"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -2282,7 +2282,7 @@
                 <CenterRegion>
                     <Rect width="20" height="20"/>
                     <Decorator>
-                        <pos x="4768.75" y="4672.47" angle="0"/>
+                        <pos x="4668.81" y="4601.07" angle="0"/>
                         <transform m11="0.3" m12="0" m21="0" m22="0.3"/>
                         <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                             <renderInformation id="TinkerCell_Style" programName="TinkerCell">
@@ -2311,23 +2311,23 @@
                 </CenterRegion>
             </ConnectionGraphicsItem>
         </ConnectionItem>
-        <ConnectionItem className="ConnectionGraphicsItem" scene="0" handle="tr1" z="200.6">
+        <ConnectionItem className="ConnectionGraphicsItem" scene="0" handle="tr1" z="282.3">
             <ConnectionGraphicsItem version="1.0" name="" color="#c30000" width="5" type="line" style="1" gap="10">
                 <ControlPoints>
-                    <ControlPoint x="4550.39" y="4872.92"/>
-                    <ControlPoint x="4747.52" y="4938.08"/>
-                    <ControlPoint x="4778.15" y="4959.38"/>
-                    <ControlPoint x="4700.4" y="4872.92"/>
-                    <ControlPoint x="4750.4" y="4872.92"/>
-                    <ControlPoint x="4800.4" y="4872.92"/>
-                    <ControlPoint x="4806.89" y="4971.15"/>
+                    <ControlPoint x="4484.74" y="4766.07"/>
+                    <ControlPoint x="4536.71" y="4766.07"/>
+                    <ControlPoint x="4586.71" y="4766.07"/>
+                    <ControlPoint x="4636.71" y="4766.07"/>
+                    <ControlPoint x="4723.96" y="4767.7"/>
+                    <ControlPoint x="4735.3" y="4836.78"/>
+                    <ControlPoint x="4721.92" y="4888.3"/>
                 </ControlPoints>
                 <CurveSegments>
-                    <Path numPoints="7" NodeAtStart="tf1" NodeAtStartX="4500.2" NodeAtStartY="4877.69" NodeAtEnd="vec1.rs1" NodeAtEndX="4846.76" NodeAtEndY="5007.06">
+                    <Path numPoints="7" NodeAtStart="tf1" NodeAtStartX="4434.55" NodeAtStartY="4770.12" NodeAtEnd="vec1.rs1" NodeAtEndX="4750.32" NodeAtEndY="4927.91">
                         <ControlPoints indices="0,1,2,3,4,5,6"/>
                         <ArrowAtEnd>
-                            <pos x="4806.89" y="4971.15" angle="42.6892"/>
-                            <transform m11="0.0735043" m12="0.0678021" m21="-0.271208" m22="0.294017"/>
+                            <pos x="4721.92" y="4888.3" angle="55.1199"/>
+                            <transform m11="0.0571862" m12="0.082035" m21="-0.32814" m22="0.228745"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -2367,7 +2367,7 @@
                 <CenterRegion>
                     <Rect width="20" height="20"/>
                     <Decorator>
-                        <pos x="4700.4" y="4872.92" angle="0"/>
+                        <pos x="4636.71" y="4766.07" angle="0"/>
                         <transform m11="0.3" m12="0" m21="0" m22="0.3"/>
                         <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                             <renderInformation id="TinkerCell_Style" programName="TinkerCell">
@@ -2618,19 +2618,19 @@
         </ConnectionItem>
     </Connections>
     <Texts>
-        <TextItem text="pp1" scene="0" handle="pp1" x="5156.01" y="4749.38" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="214.3" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="GFP" scene="0" handle="GFP" x="5301.33" y="4685.2" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="212.3" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="tr2" scene="0" handle="tr2" x="4681.4" y="4690.99" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="207.9" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="tf2" scene="0" handle="tf2" x="4492.2" y="4714.06" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="205.9" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="tr1" scene="0" handle="tr1" x="4606.66" y="4879.54" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="201.6" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="tf1" scene="0" handle="tf1" x="4492.2" y="4917.69" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="199.6" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="vec1" scene="0" handle="vec1" x="5041.99" y="5492.13" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="196.5" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="BBa_B0017" scene="0" handle="vec1.BBa_B0017" x="5234.64" y="4927.67" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="193.5" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="cod1" scene="0" handle="vec1.cod1" x="5071.05" y="4888.44" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="191.3" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="clpb" scene="0" handle="vec1.clpb" x="4948.96" y="4911.19" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="189.3" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="pro1" scene="0" handle="vec1.pro1" x="4746.54" y="5145.41" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="187.3" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="rs2" scene="0" handle="vec1.rs2" x="4895.38" y="4946.05" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="5" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="rs1" scene="0" handle="vec1.rs1" x="4822.26" y="5022.46" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="3" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="pp1" scene="0" handle="pp1" x="5024.39" y="4550.32" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="296.3" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="GFP" scene="0" handle="GFP" x="5235.68" y="4615.5" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="294.3" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="tr2" scene="0" handle="tr2" x="4608.48" y="4635.39" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="289.9" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="tf2" scene="0" handle="tf2" x="4441.43" y="4649.18" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="287.9" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="tr1" scene="0" handle="tr1" x="4547.13" y="4771.93" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="283.3" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="tf1" scene="0" handle="tf1" x="4426.55" y="4810.12" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="281.3" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="BBa_B0017" scene="0" handle="vec1.BBa_B0017" x="5107.4" y="4911.24" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="278.2" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="vec1" scene="0" handle="vec1" x="5179" y="5457.5" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="275.9" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="cod1" scene="0" handle="vec1.cod1" x="4980.51" y="4874.95" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="273.9" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="clpb" scene="0" handle="vec1.clpb" x="4878.12" y="4869.92" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="271.9" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="pro1" scene="0" handle="vec1.pro1" x="4649.22" y="5007.47" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="269.9" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="rs2" scene="0" handle="vec1.rs2" x="4789.02" y="4900.16" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="5" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="rs1" scene="0" handle="vec1.rs1" x="4725.82" y="4943.31" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="3" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="rs1" scene="1" handle="vec1.rs1" x="5650.64" y="4758.79" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="8" font="Sans" size="22" bold="0" italics="0" underline="0" group="tr1"/>
         <TextItem text="tf1" scene="1" handle="tf1" x="5119.48" y="4922.03" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="6" font="Sans" size="22" bold="0" italics="0" underline="0" group="tr1"/>
         <TextItem text="rep1" scene="1" handle="tr1.rep1" x="5385.27" y="4739.64" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="4" font="Sans" size="22" bold="0" italics="0" underline="0" group="tr1"/>

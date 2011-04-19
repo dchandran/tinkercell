@@ -8,8 +8,6 @@
  of items.
  
 ****************************************************************************/
-
-#include "ConsoleWindow.h"
 #include "LabelingTool.h"
 
 namespace Tinkercell
@@ -174,7 +172,6 @@ namespace Tinkercell
 
 		if (handle)
 		{
-			console()->message(handle->name + tr(" = ") + QString::number(intensity));
 			clearLabels(handle);
 		}
 		

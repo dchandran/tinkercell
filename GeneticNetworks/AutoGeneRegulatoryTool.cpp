@@ -705,7 +705,7 @@ namespace Tinkercell
 								if (rate.isEmpty())
 									rate = operators[k]->fullName();
 								else
-									rate += tr(" * ") + operators[k]->fullName();
+									rate += tr(" + ") + operators[k]->fullName();
 
 						for (int k=0; k < repressibleOperators.size(); ++k)
 							if (!repressibleOperators[k]->isA(tr("promoter")) || 
@@ -715,11 +715,11 @@ namespace Tinkercell
 								if (k == 0)
 								{
 									if (!rate.isEmpty())
-										rate += tr("*");
+										rate = tr("( ") + rate + tr(") *");
 									rate += tr("(") + repressibleOperators[k]->fullName();
 								}
 								else
-									rate += tr(" + ") + repressibleOperators[k]->fullName();
+									rate += tr(" * ") + repressibleOperators[k]->fullName();
 								if (k == (repressibleOperators.size()-1))
 									rate += tr(")");
 							}
@@ -1158,6 +1158,7 @@ namespace Tinkercell
 				parts.push_front(handle);
 
 			while (!upstream.isEmpty())
+
 
 			{
 				parts.push_front(upstream.first());

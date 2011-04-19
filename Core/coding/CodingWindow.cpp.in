@@ -331,7 +331,6 @@ specific for:\n\"\"\"\n\n") + text;
 	    if (widget)
 	    {
 			selectedLanguage = Octave;
-			disablePython();
 			
 	  	    if (octaveButton)
 			    octaveButton->setChecked(true);
@@ -377,8 +376,6 @@ specific for:\n\"\"\"\n\n") + text;
 			
 			if (pythonAction)
 			    pythonAction->setChecked(true);
-			
-			disableOctave();
 
 			PythonTool * pyTool = static_cast<PythonTool*>(widget);
 		    ConsoleWindow * outWin = console();
@@ -637,17 +634,15 @@ specific for:\n\"\"\"\n\n") + text;
 		cAction = octaveAction = pythonAction = 0;
 
 		cButton = new QRadioButton("C");
-		#ifdef ENABLE_OCTAVE
+		if (MainWindow::ENABLE_OCTAVE)
 	        octaveButton = new QRadioButton("Octave");
-	    #else
+		else
 	        octaveButton = 0;
-	    #endif
-	    
-	    #ifdef ENABLE_PYTHON
+	   
+	    if (MainWindow::ENABLE_PYTHON)
             pythonButton = new QRadioButton("Python");
-        #else
+		else
         	pythonButton = 0;
-        #endif
 		
 		connect(cButton,SIGNAL(toggled(bool)),this,SLOT(enableC(bool)));
 		connect(pythonButton,SIGNAL(toggled(bool)),this,SLOT(enablePython(bool)));

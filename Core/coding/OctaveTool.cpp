@@ -196,6 +196,12 @@ namespace Tinkercell
 			
 			runOctaveCode(s);
 			
+			ConsoleWindow * outWin = console();
+			if (outWin && !outWin->interpreter() && octaveInterpreter)
+			{
+				outWin->setInterpreter(octaveInterpreter);
+			}
+			
 			return true;
 		}
         

@@ -640,29 +640,34 @@ int main(int argc, char *argv[])
 	//MUST DO
 	QApplication app(argc, argv);
 	QString appDir = QCoreApplication::applicationDirPath();    
-	MainWindow mainWindow(true,false,false);  //@args: enable scene, text
+	
+	//enable features -- must do before creating MainWindow
+	MainWindow::ENABLE_HISTORY_WINDOW = false;
+	MainWindow::ENABLE_CONSOLE_WINDOW = true;
+	MainWindow::ENABLE_GRAPHING_TOOLS = true;
+	MainWindow::ENABLE_CODING_TOOLS = false;
+	MainWindow::ENABLE_ALIGNMENT_TOOL = false;
+	MainWindow::ENABLE_PYTHON = false;
+	MainWindow::ENABLE_OCTAVE = true;
+	MainWindow::ENABLE_LOADSAVE_TOOL = true;
+	
+	MainWindow mainWindow(true,false,false);  //@args: enable scene, text, allow pop-out windows
 	mainWindow.readSettings();   //load settings such as window positions
 	
 	//optional
 	mainWindow.setWindowTitle("Simple Designer"); 
     mainWindow.statusBar()->showMessage("Welcome to Simple Designer");  
-    
-	/*  install optional tools */
-	mainWindow.addTool(new PlotTool);
-	mainWindow.addTool(new BasicGraphicsToolbar);
-	mainWindow.addTool(new LoadSaveTool);
 	
 	//This is our main tool
 	mainWindow.addTool(new SimpleDesigner);
 	
-	/*  setup an interpreter for the console (optional)  */
+	/*  setup an interpreter for the console (optional) 
 	OctaveInterpreterThread::OCTAVE_FOLDER = "octave"; //this is where the libraries will be located
 	ConsoleWindow * console = mainWindow.console();
-	std::cout << "loading in simple de...\n";
 	InterpreterThread * interpreter = new OctaveInterpreterThread("octave/tinkercell.oct", "octave/libtcoct", &mainWindow);
 	//InterpreterThread * interpreter = new PythonInterpreterThread("python/_tinkercell", &mainWindow);
 	interpreter->initialize();
-	console->setInterpreter(interpreter);
+	console->setInterpreter(interpreter);*/
 	
 	/*  optional  GUI configurations */
 	GraphicsScene::SelectionRectangleBrush = QBrush(QColor(5,5,5,40));

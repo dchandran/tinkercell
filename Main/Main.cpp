@@ -8,6 +8,35 @@
  and loads a list of default plugins.
 
 ****************************************************************************/
+#include "BasicInformationTool.h"
+#include "StoichiometryTool.h"
+#include "FunctionDeclarationsTool.h"
+#include "ModelSummaryTool.h"
+#include "ContainerTool.h"
+#include "ModelFileGenerator.h"
+#include "SimulationEventTool.h"
+#include "ModuleTool.h"
+#include "AutoGeneRegulatoryTool.h"
+#include "DNASequenceTool.h"
+#include "ViewTablesTool.h"
+#include "LPSolveInput.h"
+#include "CellPositionUpdatingTool.h"
+#include "OctaveExporter.h"
+#include "EnglishExporter.h"
+#include "AntimonyEditor.h"
+#include "SBMLImportExport.h"
+#include "CopasiExporter.h"
+#include "TinkerCellAboutBox.h"
+#include "CollisionDetection.h"
+#include "ConnectionInsertion.h"
+#include "ConnectionMaker.h"
+#include "NodeInsertion.h"
+#include "GraphicsReplaceTool.h"
+#include "GraphicsTransformTool.h"
+#include "GroupHandlerTool.h"
+#include "NameFamilyDialog.h"
+#include "ConnectionSelection.h"
+#include "NodeSelection.h"
 #include "DefaultPluginsMenu.h"
 #include "GraphicsScene.h"
 #include "ConsoleWindow.h"
@@ -20,12 +49,23 @@ void LoadPluginsFromDir(const QString&,MainWindow *,QSplashScreen*);
 
 int main(int argc, char *argv[])
 {
+	//these two lines are required by all QT apps
     QApplication::setColorSpec (QApplication::ManyColor);
     QApplication app(argc, argv);
+    
+    /*****************************************	
+           Optional configuration
+    (must be done before creating MainWindow)
+    ******************************************/
 
-    /***********************	
-    	Optional configuration
-    ***********************/
+	MainWindow::ENABLE_HISTORY_WINDOW = true;
+	MainWindow::ENABLE_CONSOLE_WINDOW = true;
+	MainWindow::ENABLE_GRAPHING_TOOLS = true;
+	MainWindow::ENABLE_CODING_TOOLS = true;
+	MainWindow::ENABLE_ALIGNMENT_TOOL = true;
+	MainWindow::ENABLE_PYTHON = true;
+	MainWindow::ENABLE_OCTAVE = true;
+	MainWindow::ENABLE_LOADSAVE_TOOL = true;
     
     MainWindow::PROJECTWEBSITE = QObject::tr("www.tinkercell.com");
     MainWindow::ORGANIZATIONNAME = QObject::tr("TinkerCell");
@@ -66,6 +106,42 @@ int main(int argc, char *argv[])
   /*******  title , etc ***********/
     mainWindow.setWindowTitle(QObject::tr("TinkerCell"));
     mainWindow.statusBar()->showMessage(QObject::tr("Welcome to TinkerCell"));
+    
+   	mainWindow.addTool(new CatalogWidget);
+	mainWindow.addTool(new CollisionDetection);
+	mainWindow.addTool(new ConnectionInsertion);
+	mainWindow.addTool(new NodeInsertion);
+	mainWindow.addTool(new NodeSelection);
+	mainWindow.addTool(new ConnectionSelection);
+	mainWindow.addTool(new TinkercellAboutBox);
+	mainWindow.addTool(new GraphicsReplaceTool);
+	mainWindow.addTool(new GraphicsTransformTool);
+	mainWindow.addTool(new GroupHandlerTool);
+	mainWindow.addTool(new NameFamilyDialog);
+	mainWindow.addTool(new ConnectionMaker);
+	
+	mainWindow.addTool(new BasicInformationTool(QString("text")));
+	mainWindow.addTool(new BasicInformationTool(QString("numerical")));
+	mainWindow.addTool(new AssignmentFunctionsTool);
+	mainWindow.addTool(new StoichiometryTool);
+	mainWindow.addTool(new ModelSummaryTool);
+	mainWindow.addTool(new ModelFileGenerator);
+	mainWindow.addTool(new SimulationEventsTool);	
+	mainWindow.addTool(new CompartmentTool);
+	
+	mainWindow.addTool(new OctaveExporter);
+	mainWindow.addTool(new SBMLImportExport);
+	mainWindow.addTool(new CopasiExporter);
+	mainWindow.addTool(new AntimonyEditor);
+	mainWindow.addTool(new EnglishExporter);
+	
+	mainWindow.addTool(new ModuleTool);
+	mainWindow.addTool(new AutoGeneRegulatoryTool);
+	mainWindow.addTool(new DNASequenceViewer);
+	mainWindow.addTool(new ViewTablesTool);
+	mainWindow.addTool(new LPSolveInputWindow);
+	mainWindow.addTool(new CellPositionUpdateTool);
+
 
     /*******  Splash screen ***********/
 

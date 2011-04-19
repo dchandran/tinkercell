@@ -7,6 +7,7 @@
 #include "CopasiExporter.h"
 #include "ConsoleWindow.h"
 #include "DynamicLibraryMenu.h"
+#include "LabelingTool.h"
 
 using namespace Tinkercell;
 
@@ -77,8 +78,13 @@ bool CopasiExporter::setMainWindow(MainWindow * main)
 	connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 	connect(main,SIGNAL(historyChanged(int)),this, SLOT(historyChanged(int)));
 	connect(main,SIGNAL(windowChanged(NetworkWindow*,NetworkWindow*)),this, SLOT(windowChanged(NetworkWindow*,NetworkWindow*)));
-
 	connect(mainWindow,SIGNAL(toolLoaded(Tool *)),this, SLOT(toolLoaded(Tool*)));
+	
+	Tool * tool = mainWindow->tool(tr("Labeling Tool"));
+	if (tool)
+	{
+		connect(this, SIGNAL(displayFire(ItemHandle*, double)), tool, SLOT(displayFire(ItemHandle*, double)));
+	}
 
 	toolLoaded(0);
 
@@ -188,8 +194,25 @@ void CopasiExporter::scan1D()
 
 void CopasiExporter::getSS()
 {
-	simDialog->setThread(getSimulationThread());
+	SimulationThread * thread = getSimulationThread();
+	simDialog->setThread(thread);
 	simDialog->setMethod(SimulationThread::SteadyState);
+	
+	if (currentNetwork())
+	{
+		NumericalDataTable * dat = ConvertValue(thread->result());
+		QList<ItemHandle*> items = currentNetwork()->findItem(dat->rowNames());
+		
+		double max = 0.0;
+		for (int i=0; i < dat->rows(); ++i)
+			if (dat->at(i,0) > max)
+				max = dat->at(i,0);
+		
+		for (int i=0; i < items.size(); ++i)
+			emit displayFire( items[i], dat->at(i,0)/max);
+	
+		delete dat;
+	}
 }
 
 void CopasiExporter::hybridSim()

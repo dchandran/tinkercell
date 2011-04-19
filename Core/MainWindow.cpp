@@ -267,13 +267,15 @@ namespace Tinkercell
 	
 	void MainWindow::loadDefaultPlugins()
 	{
-		#ifdef ENABLE_HISTORY_WINDOW
+		if (ENABLE_HISTORY_WINDOW)
+		{
 			historyWindow.setWindowTitle(tr("History"));
 			historyWindow.setWindowIcon(QIcon(tr(":/images/scroll.png")));
 			addToolWindow(&historyWindow,MainWindow::defaultHistoryWindowOption,Qt::RightDockWidgetArea);
-		#endif
+		}
 
-		#ifdef ENABLE_CONSOLE_WINDOW
+		if (ENABLE_CONSOLE_WINDOW)
+		{
 			consoleWindow = new ConsoleWindow(this);
 			if (settingsMenu)
 			{
@@ -284,35 +286,41 @@ namespace Tinkercell
 				consoleColorMenu->addAction(tr("Output color"),this,SLOT(changeConsoleMsgColor()));
 				consoleColorMenu->addAction(tr("Error message color"),this,SLOT(changeConsoleErrorMsgColor()));
 			}
-		#endif
+		}
 		
-		#ifdef ENABLE_LOADSAVE_TOOL
+		if (ENABLE_LOADSAVE_TOOL)
+		{
 			addTool(new LoadSaveTool);
-		#endif
+		}
 		
-		#ifdef ENABLE_ALIGNMENT_TOOL
+		if (ENABLE_ALIGNMENT_TOOL)
+		{
 			addTool(new BasicGraphicsToolbar);
 			addTool(new LabelingTool);
-		#endif
+		}
 	
-		#ifdef ENABLE_GRAPHING_TOOLS
+		if (ENABLE_GRAPHING_TOOLS)
+		{
 			addTool(new PlotTool);
    			addTool(new GnuplotTool);
-		#endif
+		}
 
-		#ifdef ENABLE_CODING_TOOLS
+		if (ENABLE_CODING_TOOLS)
+		{
 			addTool(new DynamicLibraryMenu);
 			addTool(new LoadCLibrariesTool);
 			addTool(new CodingWindow);
-		#endif
+		}
 		
-		#ifdef ENABLE_PYTHON
+		if (ENABLE_PYTHON)
+		{
 			addTool(new PythonTool);
-		#endif
+		}
 		
-		#ifdef ENABLE_OCTAVE
+		if (ENABLE_OCTAVE)
+		{
 			addTool(new OctaveTool);
-		#endif
+		}
 	}
 
 	ConsoleWindow * MainWindow::console() const
@@ -1434,4 +1442,28 @@ namespace Tinkercell
 		emit getItemsFromFile(items,gitems,filename,root);
 		return QPair< QList<ItemHandle*>, QList<QGraphicsItem*> >(items, gitems);
 	}
+	
+	/*!\brief enable history window -- defaults to true*/
+	bool MainWindow::ENABLE_HISTORY_WINDOW = true;
+		
+	/*!\brief enable console window -- defaults to true*/
+	bool MainWindow::ENABLE_CONSOLE_WINDOW = true;
+		
+	/*!\brief enable plot2d, plot3d, and gnuplot -- defaults to false*/
+	bool MainWindow::ENABLE_GRAPHING_TOOLS = false;
+		
+	/*!\brief enable coding window and interpreters -- defaults to false*/
+	bool MainWindow::ENABLE_CODING_TOOLS = false;
+		
+	/*!\brief enable alignment and other basic GUI -- defaults to true*/
+	bool MainWindow::ENABLE_ALIGNMENT_TOOL = true;
+		
+	/*!\brief enable python interpreter -- defaults to false*/
+	bool MainWindow::ENABLE_PYTHON = false;
+		
+	/*!\brief enable octave interpreter -- defaults to false*/
+	bool MainWindow::ENABLE_OCTAVE = false;
+		
+	/*!\brief enable loading and saving -- defaults to true*/
+	bool MainWindow::ENABLE_LOADSAVE_TOOL = true;
 }

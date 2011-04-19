@@ -121,7 +121,7 @@ ENDIF (TINKERCELL_LITE_PARTS)
 #  Plugins
 #--------------------------------------------------------------------------
 
-INCLUDE (TinkerCellPlugins.cmake) #commented out if plugins are statically loaded
+#INCLUDE (TinkerCellPlugins.cmake) #commented out if plugins are statically loaded
 
 #-----------------------------------
 #  Parts catalog

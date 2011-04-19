@@ -74,8 +74,16 @@ namespace Tinkercell
 	/*! \brief 
 	MainWindow is the parent container for all the other widgets in TinkerCell
 	The central widget in MainWindow is a tab widget. Each tab widget can hold
-	a GraphicsView or a TextEditor.
-	One of the main roles of MainWindow is to serve as a signal/slot hub for Tools. 
+	a GraphicsView or a TextEditor. One of the main roles of MainWindow is to serve as a signal/slot hub for Tools. 
+	Use the following static bools to enable or disable features:
+	ENABLE_HISTORY_WINDOW
+	ENABLE_CONSOLE_WINDOW
+	ENABLE_GRAPHING_TOOLS
+	ENABLE_CODING_TOOLS
+	ENABLE_ALIGNMENT_TOOL
+	ENABLE_PYTHON
+	ENABLE_OCTAVE
+	ENABLE_LOADSAVE_TOOL
 	\ingroup core
 	*/
 	class TINKERCELLEXPORT MainWindow : public QMainWindow
@@ -101,6 +109,30 @@ namespace Tinkercell
 					 WindowView = each documents in a separate subwindow
 		*/
 		enum VIEW_MODE { TabView , WindowView };
+		
+		/*!\brief enable history window -- defaults to true*/
+		static bool ENABLE_HISTORY_WINDOW;
+		
+		/*!\brief enable console window -- defaults to true*/
+		static bool ENABLE_CONSOLE_WINDOW;
+		
+		/*!\brief enable plot2d, plot3d, and gnuplot -- defaults to false*/
+		static bool ENABLE_GRAPHING_TOOLS;
+		
+		/*!\brief enable coding window and interpreters -- defaults to false*/
+		static bool ENABLE_CODING_TOOLS;
+		
+		/*!\brief enable alignment and other basic GUI -- defaults to true*/
+		static bool ENABLE_ALIGNMENT_TOOL;
+		
+		/*!\brief enable python interpreter -- defaults to false*/
+		static bool ENABLE_PYTHON;
+		
+		/*!\brief enable octave interpreter -- defaults to false*/
+		static bool ENABLE_OCTAVE;
+		
+		/*!\brief enable loading and saving -- defaults to true*/
+		static bool ENABLE_LOADSAVE_TOOL;
 
 		/*! \brief the default option to use for tools (optional)*/
 		static TOOL_WINDOW_OPTION defaultToolWindowOption;

@@ -193,7 +193,7 @@ namespace Tinkercell
 			{	
 				QPointF p;
 				if ((node =  NodeGraphicsItem::cast(handle->graphicsItems[i])))
-					p = node->scenePos();				
+					p = node->sceneBoundingRect().topRight();
 				else
 				{
 					if ((connection = ConnectionGraphicsItem::cast(handle->graphicsItems[i])))
@@ -212,7 +212,7 @@ namespace Tinkercell
 											);
 					if (glowTimer.state() == QTimeLine::NotRunning)
 					{
-						glowTimer.setFrameRange(155,255);
+						glowTimer.setFrameRange(0,254);
 						glowTimer.setDirection(QTimeLine::Backward);
 						//glowTimer.setUpdateInterval(100);
 						glowTimer.setDuration(2000);
@@ -387,18 +387,14 @@ namespace Tinkercell
 	
 	void LabelingTool::makeNodeGlow(int alpha)
 	{
-		int f = abs(alpha - 205);
+		int f = abs(alpha - 127);
 		for (int i=0; i < fireItems.size(); ++i)
 		{
 			NodeGraphicsItem * node = fireItems[i].second.first;
 			double intensity = fireItems[i].second.second;
 			if (node && !node->shapes.isEmpty() && node->shapes[0])
 			{
-				NodeGraphicsItem::Shape * shape = node->shapes[0];
-				QPen pen(QColor(255, 10, 10), f*intensity*intensity/20.0);
-				shape->setPen(pen);
-				QBrush brush(QColor(255, 10, 10, 2*f*intensity));
-				shape->setBrush(brush);
+				node->setAlpha(2*f*intensity);
 			}
 		}
 	}

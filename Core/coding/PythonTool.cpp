@@ -199,6 +199,12 @@ namespace Tinkercell
                 file.close();
                 runPythonCode(s);
             }
+            
+            ConsoleWindow * outWin = console();
+			if (outWin && !outWin->interpreter() && pythonInterpreter)
+			{
+				outWin->setInterpreter(pythonInterpreter);
+			}
 			
 			return true;
 		}

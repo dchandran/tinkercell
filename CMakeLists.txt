@@ -228,8 +228,8 @@ MESSAGE( STATUS "======  configuring external code  ====== ")
 ADD_SUBDIRECTORY( ExternalCode )  #MuParser, QWT, cvODE, letc.
 MESSAGE( STATUS "==== done configuring external code =====\n")
 
-OPTION( PLUGINS_ENABLE_PYTHON "Embed Python in TinkerCell" ON ) #integrate python or not?
-OPTION( PLUGINS_ENABLE_OCTAVE "Embed Octave in TinkerCell" ON ) #octave?
+OPTION( PYTHON_ENABLE "Embed Python in TinkerCell" ON ) #integrate python or not?
+OPTION( OCTAVE_ENABLE "Embed Octave in TinkerCell" ON ) #octave?
 
 ADD_SUBDIRECTORY( Core )   #C++ Core + API
 ADD_SUBDIRECTORY( API )   #C API + SWIG file
@@ -273,13 +273,13 @@ ADD_SUBDIRECTORY( NodeGraphicsItem )   #program for drawing new graphics items
 #   Embedding other languages
 #----------------------------------------------------------------------------
 
-IF (PLUGINS_ENABLE_PYTHON)
+IF (PYTHON_ENABLE)
 	ADD_SUBDIRECTORY( python )
-ENDIF (PLUGINS_ENABLE_PYTHON)
+ENDIF (PYTHON_ENABLE)
 
-IF (PLUGINS_ENABLE_OCTAVE)
+IF (OCTAVE_ENABLE)
 	ADD_SUBDIRECTORY( octave )
-ENDIF (PLUGINS_ENABLE_OCTAVE)
+ENDIF (OCTAVE_ENABLE)
 
 #the following languages are not supported yet
 #ADD_SUBDIRECTORY( perl )

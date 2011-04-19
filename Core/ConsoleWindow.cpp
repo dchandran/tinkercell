@@ -594,7 +594,7 @@ namespace Tinkercell
 	************************************/
 
 	ConsoleWindow::ConsoleWindow(MainWindow * main)
-		: Tool(tr("Console Window")), commandTextEdit(main), interpreter(0)
+		: Tool(tr("Console Window")), commandTextEdit(main), _interpreter(0)
 	{
 		setMainWindow(main);
 		if (mainWindow)
@@ -847,26 +847,31 @@ namespace Tinkercell
 		alreadyInsertedPrompt = true;
 	}
 	
+	InterpreterThread * ConsoleWindow::interpreter() const
+	{
+		return _interpreter;
+	}
+	
 	void ConsoleWindow::setInterpreter(InterpreterThread * newInterpreter)
 	{
-		if (interpreter)
+		if (_interpreter)
 		{
-			disconnect(this,SIGNAL(commandExecuted(const QString&)),interpreter,SLOT(exec(const QString&)));
-			disconnect(this,SIGNAL(commandInterrupted()),interpreter,SLOT(terminate()));					
-			disconnect(interpreter,SIGNAL(started()),this->editor(),SLOT(freeze()));
-			disconnect(interpreter,SIGNAL(finished()),this->editor(),SLOT(unfreeze()));
-			disconnect(interpreter,SIGNAL(terminated()),this->editor(),SLOT(unfreeze()));
+			disconnect(this,SIGNAL(commandExecuted(const QString&)),_interpreter,SLOT(exec(const QString&)));
+			disconnect(this,SIGNAL(commandInterrupted()),_interpreter,SLOT(terminate()));					
+			disconnect(_interpreter,SIGNAL(started()),this->editor(),SLOT(freeze()));
+			disconnect(_interpreter,SIGNAL(finished()),this->editor(),SLOT(unfreeze()));
+			disconnect(_interpreter,SIGNAL(terminated()),this->editor(),SLOT(unfreeze()));
 		}
 		
-		interpreter = newInterpreter;
+		_interpreter = newInterpreter;
 		
-		if (interpreter)
+		if (_interpreter)
 		{
-			connect(this,SIGNAL(commandExecuted(const QString&)),interpreter,SLOT(exec(const QString&)));
-			connect(this,SIGNAL(commandInterrupted()),interpreter,SLOT(terminate()));					
-			connect(interpreter,SIGNAL(started()),this->editor(),SLOT(freeze()));
-			connect(interpreter,SIGNAL(finished()),this->editor(),SLOT(unfreeze()));
-			connect(interpreter,SIGNAL(terminated()),this->editor(),SLOT(unfreeze()));
+			connect(this,SIGNAL(commandExecuted(const QString&)),_interpreter,SLOT(exec(const QString&)));
+			connect(this,SIGNAL(commandInterrupted()),_interpreter,SLOT(terminate()));					
+			connect(_interpreter,SIGNAL(started()),this->editor(),SLOT(freeze()));
+			connect(_interpreter,SIGNAL(finished()),this->editor(),SLOT(unfreeze()));
+			connect(_interpreter,SIGNAL(terminated()),this->editor(),SLOT(unfreeze()));
 		}
 	}
 

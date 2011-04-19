@@ -171,6 +171,9 @@ namespace Tinkercell
 		
 		/*! \brief set the interpreter for the console window, e.g. new PythonInterpreterThread*/
 		virtual void setInterpreter(InterpreterThread * );
+		
+		/*! \brief get the interpreter for the console window*/
+		InterpreterThread * interpreter() const;
 
     public slots:
 		/*! \brief send a command to the console window to be evaluated*/
@@ -198,7 +201,7 @@ namespace Tinkercell
 		/*! \brief the command window*/
 		CommandTextEdit commandTextEdit;
 		/*! \brief the optional interpreter for processing commands*/
-		InterpreterThread * interpreter;
+		InterpreterThread * _interpreter;
 
 	};
 }

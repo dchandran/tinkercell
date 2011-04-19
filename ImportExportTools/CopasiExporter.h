@@ -32,7 +32,9 @@ namespace Tinkercell
 		CopasiExporter();
 		~CopasiExporter();
 		bool setMainWindow(MainWindow * main);
-	
+	signals:
+		void displayFire(ItemHandle*,double);
+
 	private slots:
 
 		void toolLoaded(Tool*);

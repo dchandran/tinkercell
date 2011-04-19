@@ -82,34 +82,29 @@ namespace Tinkercell
 	
 	void LabelingTool::sceneDoubleClicked (GraphicsScene * scene, QPointF point, QGraphicsItem *, Qt::MouseButton, Qt::KeyboardModifiers modifiers)
 	{
-		if (!textItems.isEmpty() || !rectItems.isEmpty() || !ellipseItems.isEmpty())
-			clearLabels();
+		clearLabels();
 	}
 
 	void LabelingTool::keyPressed(GraphicsScene * scene, QKeyEvent *)
 	{
-		if (!textItems.isEmpty() || !rectItems.isEmpty() || !ellipseItems.isEmpty())
-			clearLabels();
+		clearLabels();
 	}
 	
 	void LabelingTool::itemsSelected(GraphicsScene *scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers modifiers)
 	{
-		if (!textItems.isEmpty() || !rectItems.isEmpty() || !ellipseItems.isEmpty())
-			clearLabels();
+		clearLabels();
 	}
 	
 	void LabelingTool::escapeSignal(const QWidget*)
 	{
 		if (!currentScene() || !currentScene()->useDefaultBehavior)
 			return;
-		if (!textItems.isEmpty() || !rectItems.isEmpty() || !ellipseItems.isEmpty())
-			clearLabels();
+		clearLabels();
 	}
 
 	void LabelingTool::networkClosing(NetworkHandle * , bool *)
 	{
-		if (!textItems.isEmpty() || !rectItems.isEmpty() || !ellipseItems.isEmpty())
-			clearLabels();
+		clearLabels();
 	}
 
 	void LabelingTool::clearLabels(ItemHandle * h)
@@ -394,7 +389,10 @@ namespace Tinkercell
 			double intensity = fireItems[i].second.second;
 			if (node && !node->shapes.isEmpty() && node->shapes[0])
 			{
-				node->setAlpha(2*f*intensity);
+				//node->setAlpha(2*f*intensity);
+				QPointF p2(node->sceneBoundingRect().bottomRight());
+				QPointF p1(p2.x() - 50.0, p2.y() - 20.0 - f*intensity);
+				node->setBoundingRect( p1, p2 );
 			}
 		}
 	}

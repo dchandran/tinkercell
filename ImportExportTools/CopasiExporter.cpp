@@ -83,7 +83,8 @@ bool CopasiExporter::setMainWindow(MainWindow * main)
 	Tool * tool = mainWindow->tool(tr("Labeling Tool"));
 	if (tool)
 	{
-		connect(this, SIGNAL(displayFire(ItemHandle*, double)), tool, SLOT(displayFire(ItemHandle*, double)));
+		LabelingTool * labelingTool = static_cast<LabelingTool*>(tool);
+		connect(this, SIGNAL(displayFire(ItemHandle*, double)), labelingTool, SLOT(displayFire(ItemHandle*, double)));
 	}
 
 	toolLoaded(0);
@@ -194,25 +195,9 @@ void CopasiExporter::scan1D()
 
 void CopasiExporter::getSS()
 {
-	SimulationThread * thread = getSimulationThread();
-	simDialog->setThread(thread);
+
+	simDialog->setThread(getSimulationThread());
 	simDialog->setMethod(SimulationThread::SteadyState);
-	
-	if (currentNetwork())
-	{
-		NumericalDataTable * dat = ConvertValue(thread->result());
-		QList<ItemHandle*> items = currentNetwork()->findItem(dat->rowNames());
-		
-		double max = 0.0;
-		for (int i=0; i < dat->rows(); ++i)
-			if (dat->at(i,0) > max)
-				max = dat->at(i,0);
-		
-		for (int i=0; i < items.size(); ++i)
-			emit displayFire( items[i], dat->at(i,0)/max);
-	
-		delete dat;
-	}
 }
 
 void CopasiExporter::hybridSim()

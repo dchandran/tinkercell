@@ -143,11 +143,15 @@ namespace Tinkercell
 		/*! \brief graph the results matrix. This signal is connected to the PlotTool's slot
 		*/
 		void graph(const DataTable<qreal>&,const QString& title,int xaxis, PlotTool::PlotType type);
+		/*! \brief just for fun*/
+		void displayFire(ItemHandle*, double);
 		
 	protected:
 
 		/*! \brief perform the analysis*/
 		virtual void run();
+		/*! \brief ha ha*/
+		void displayFire();
 		/*! \brief the analysis method*/
 		AnalysisMethod method;
 		/*! \brief the copasi model*/

@@ -65,21 +65,18 @@ namespace Tinkercell
 			
 			if (mainWindow->settingsMenu)
 			{
-				QAction * enableFire = mainWindow->settingsMenu->addAction(tr("Enable fire effect for plots"));
+				QAction * enableFire = mainWindow->settingsMenu->addAction(tr("Enable fire effect"));
 				enableFire->setCheckable(true);
 				connect(enableFire, SIGNAL(toggled(bool)), this, SLOT(enableFire(bool)));
-				enableFire->setChecked(ENABLE_FIRE);
+				enableFire->setChecked(LabelingTool::ENABLE_FIRE);
 			}
 			
 			Tool * tool = mainWindow->tool("Default Plot Tool");
 			if (tool)
 			{
 				PlotTool * plotTool = static_cast<PlotTool*>(tool);
-				if (LabelingTool::ENABLE_FIRE)
-	   			{
-	   				connect(plotTool,SIGNAL(displayFire(ItemHandle*,double)), this, SLOT(displayFire(ItemHandle*,double)));
-	   				connect(plotTool,SIGNAL(hideFire()), this, SLOT(clearLabels()));
-	   			}
+				connect(plotTool,SIGNAL(displayFire(ItemHandle*,double)), this, SLOT(displayFire(ItemHandle*,double)));
+	   			connect(plotTool,SIGNAL(hideFire()), this, SLOT(clearLabels()));
 			}
 		}
 		return (mainWindow != 0);
@@ -88,21 +85,6 @@ namespace Tinkercell
 	void LabelingTool::enableFire(bool b)
 	{
 		LabelingTool::ENABLE_FIRE = b;
-		Tool * tool = mainWindow->tool("Default Plot Tool");
-		if (tool)
-		{
-			PlotTool * plotTool = static_cast<PlotTool*>(tool);
-			if (ENABLE_FIRE)
-   			{
-   				connect(plotTool,SIGNAL(displayFire(ItemHandle*,double)), this, SLOT(displayFire(ItemHandle*,double)));
-   				connect(plotTool,SIGNAL(hideFire()), this, SLOT(clearLabels()));
-   			}
-   			else
-   			{
-   				disconnect(plotTool,SIGNAL(displayFire(ItemHandle*,double)), this, SLOT(displayFire(ItemHandle*,double)));
-   				disconnect(plotTool,SIGNAL(hideFire()), this, SLOT(clearLabels()));
-   			}
-		}
 	}
 	
 	typedef void (*tc_LabelingTool_api)(
@@ -220,7 +202,7 @@ namespace Tinkercell
 	
 	void LabelingTool::displayFire(ItemHandle * handle, double intensity)
 	{
-		if (!fireNode) return;
+		if (!fireNode || !LabelingTool::ENABLE_FIRE) return;
 
 		if (handle)
 		{
@@ -432,7 +414,10 @@ namespace Tinkercell
 	
 	void LabelingTool_FToS::displayFire(long o, double d)
 	{
+		bool b = LabelingTool::ENABLE_FIRE; //turn on fire temporarily
+		LabelingTool::ENABLE_FIRE = true;
 		emit displayFire(ConvertValue(o),d);
+		LabelingTool::ENABLE_FIRE = b;
 	}
 	
 	void LabelingTool::makeNodeGlow(int alpha)

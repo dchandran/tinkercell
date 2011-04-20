@@ -231,7 +231,7 @@ namespace Tinkercell
 		{
 			handle = getHandle(list[i]);
 			
-			if (ConnectionHandle::cast(handle) && handle->isA(tr("Biochemical")))
+			if (ConnectionHandle::cast(handle))
 				reactions = true;
 			
 			if (NodeHandle::cast(handle) && handle->isA(tr("Molecule")))
@@ -724,6 +724,7 @@ namespace Tinkercell
 					font = nameItem->font();
 					font.setPointSize(22);
 					nameItem->setFont(font);
+
 
 
 					//make the rates and stoichiometry table

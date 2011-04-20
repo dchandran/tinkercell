@@ -349,8 +349,8 @@ namespace Tinkercell
 		QRegExp regex(tr("([^\\\\/]+$)"));
 		if (network && network->mainWindow && (regex.indexIn(filename) >= 0))
 		{
-			if (network->console())
-				network->console()->message(filename);
+			//if (network->console())
+				//network->console()->message(filename);
 			setWindowTitle(regex.cap(1));
 		}
 	}

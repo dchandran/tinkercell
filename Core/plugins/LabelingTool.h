@@ -57,7 +57,7 @@ namespace Tinkercell
 
 	public:
 	
-		static bool ENABLE_FIRE_IN_GRAPHS;
+		static bool ENABLE_FIRE;
 
 		LabelingTool();
 		virtual ~LabelingTool();
@@ -76,6 +76,7 @@ namespace Tinkercell
 		void highlightItem(ItemHandle*,QColor);
 		void displayFire(ItemHandle*,double);
 		void setDisplayLabelColor(QColor, QColor);
+		void enableFire(bool);
 		
 	protected:
 		QList< QPair<ItemHandle*,QGraphicsSimpleTextItem*> > textItems;

@@ -9,11 +9,12 @@
  
 ****************************************************************************/
 #include "LabelingTool.h"
+#include "PlotTool.h"
 
 namespace Tinkercell
 {	
 
-	bool LabelingTool::ENABLE_FIRE_IN_GRAPHS = true;
+	bool LabelingTool::ENABLE_FIRE = true;
 	
 	LabelingTool::LabelingTool() : Tool(tr("Labeling Tool"))
 	{
@@ -25,6 +26,13 @@ namespace Tinkercell
 	
 	LabelingTool::~LabelingTool()
 	{
+		QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
+
+		settings.beginGroup("LabelingTool");
+		settings.setValue("enableFire", ENABLE_FIRE);
+
+		settings.endGroup();
+		
 		delete fireNode;
 	}
 	
@@ -49,8 +57,52 @@ namespace Tinkercell
 			connect(&fToS,SIGNAL(highlightItem(ItemHandle*,QColor)),this,SLOT(highlightItem(ItemHandle*,QColor)));
 			
 			connect(&fToS,SIGNAL(displayFire(ItemHandle*,double)),this,SLOT(displayFire(ItemHandle*,double)));
+			
+			QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
+			settings.beginGroup("LabelingTool");
+			LabelingTool::ENABLE_FIRE = settings.value("enableFire").toBool();
+			settings.endGroup();
+			
+			if (mainWindow->settingsMenu)
+			{
+				QAction * enableFire = mainWindow->settingsMenu->addAction(tr("Enable fire effect for plots"));
+				enableFire->setCheckable(true);
+				connect(enableFire, SIGNAL(toggled(bool)), this, SLOT(enableFire(bool)));
+				enableFire->setChecked(ENABLE_FIRE);
+			}
+			
+			Tool * tool = mainWindow->tool("Default Plot Tool");
+			if (tool)
+			{
+				PlotTool * plotTool = static_cast<PlotTool*>(tool);
+				if (LabelingTool::ENABLE_FIRE)
+	   			{
+	   				connect(plotTool,SIGNAL(displayFire(ItemHandle*,double)), this, SLOT(displayFire(ItemHandle*,double)));
+	   				connect(plotTool,SIGNAL(hideFire()), this, SLOT(clearLabels()));
+	   			}
+			}
 		}
 		return (mainWindow != 0);
+	}
+	
+	void LabelingTool::enableFire(bool b)
+	{
+		LabelingTool::ENABLE_FIRE = b;
+		Tool * tool = mainWindow->tool("Default Plot Tool");
+		if (tool)
+		{
+			PlotTool * plotTool = static_cast<PlotTool*>(tool);
+			if (ENABLE_FIRE)
+   			{
+   				connect(plotTool,SIGNAL(displayFire(ItemHandle*,double)), this, SLOT(displayFire(ItemHandle*,double)));
+   				connect(plotTool,SIGNAL(hideFire()), this, SLOT(clearLabels()));
+   			}
+   			else
+   			{
+   				disconnect(plotTool,SIGNAL(displayFire(ItemHandle*,double)), this, SLOT(displayFire(ItemHandle*,double)));
+   				disconnect(plotTool,SIGNAL(hideFire()), this, SLOT(clearLabels()));
+   			}
+		}
 	}
 	
 	typedef void (*tc_LabelingTool_api)(

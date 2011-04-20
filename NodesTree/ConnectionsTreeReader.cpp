@@ -242,7 +242,7 @@ namespace Tinkercell
 			   }
 
 			   //decorator
-               if (family->graphicsItems.size() < 2)
+               if (family->graphicsItems.size() == 1 )
                {
 		           QString decoratorImageFile;
 		           decoratorImageFile = homeDir + QString("/") + ConnectionsTree::decoratorImageFile(family->name());

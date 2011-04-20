@@ -77,6 +77,10 @@ namespace Tinkercell
 			int err = 0;
 			if (!QFile::exists(MainWindow::homeDir() + QObject::tr("/.svn")))
 			{
+			#ifdef Q_WS_WIN
+				homeDir.replace(tr("/"),tr("\\"));
+				homeDir = tr("\"") + homeDir + tr("\"");
+			#endif
 				s = QObject::tr("svn co https://tinkercellextra.svn.sourceforge.net/svnroot/tinkercellextra ") + homeDir;
 				err = system(s.toAscii().data());
 				//if (err == 0)
@@ -159,6 +163,10 @@ namespace Tinkercell
 
 		if (!username.isEmpty() && !password.isEmpty())
 		{
+		#ifdef Q_WS_WIN
+			homeDir.replace(tr("/"),tr("\\"));
+			homeDir = tr("\"") + homeDir + tr("\"");
+		#endif
 			QString s = QObject::tr("cd ") + homeDir + QObject::tr("; svn add ") + dllName + QObject::tr("; svn commit -m\"new code added\" --username ") + username + QObject::tr(" --password ") + password + QObject::tr(" --no-auth-cache --non-interactive;");
 			system(s.toAscii().data());
 		}
@@ -237,6 +245,10 @@ specific for:\n\"\"\"\n\n") + text;
 
 			if (!username.isEmpty() && !password.isEmpty())
 			{
+			#ifdef Q_WS_WIN
+				homeDir.replace(tr("/"),tr("\\"));
+				homeDir = tr("\"") + homeDir + tr("\"");
+			#endif
 				QString s = QObject::tr("cd ") + userHomeDir.absolutePath() + QObject::tr("; svn add ") + filename + QObject::tr("; svn commit -m\"new code added\" --username ") + username + QObject::tr(" --password ") + password + QObject::tr(" --no-auth-cache --non-interactive;");
 				system(s.toAscii().data());
 			}
@@ -297,6 +309,10 @@ specific for:\n\"\"\"\n\n") + text;
 
 			if (!username.isEmpty() && !password.isEmpty())
 			{
+			#ifdef Q_WS_WIN
+				homeDir.replace(tr("/"),tr("\\"));
+				homeDir = tr("\"") + homeDir + tr("\"");
+			#endif
 				QString s = QObject::tr("cd ") + userHomeDir.absolutePath() + QObject::tr("; svn add ") + filename + QObject::tr("; svn commit -m\"new code added\" --username ") + username + QObject::tr(" --password ") + password + QObject::tr(" --no-auth-cache --non-interactive;");
 				system(s.toAscii().data());
 			}

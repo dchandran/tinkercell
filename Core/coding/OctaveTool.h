@@ -70,7 +70,7 @@ namespace Tinkercell
 		QHash<QAction*,QString> hashOctFile;
 		
 	private:
-		static OctaveTool_FToS fToS;
+		static OctaveTool_FToS * fToS;
 		static void _runOctaveCode(const char*);
         static void _runOctaveFile(const char*);
         static void _addOctavePlugin(const char*,const char*,const char*,const char*,const char*);

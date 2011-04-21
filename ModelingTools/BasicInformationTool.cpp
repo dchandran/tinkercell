@@ -519,6 +519,9 @@ namespace Tinkercell
 
 	BasicInformationTool::BasicInformationTool(const QString& typ) : Tool(tr("Attributes"),tr("Modeling")), delegate(QStringList())
 	{
+		BasicInformationTool::fToS = new BasicInformationTool_FToS;
+		BasicInformationTool::fToS->setParent(this);
+		
 		QString appDir = QCoreApplication::applicationDirPath();
 		delegate.textColumn = 0;
 		if (typ == tr("both"))
@@ -1090,21 +1093,21 @@ namespace Tinkercell
 	{
 		if (type == both || type == text)
 		{
-			connect(&fToS,SIGNAL(getTextData(QSemaphore*,QString*,ItemHandle*,const QString&)),this,SLOT(getTextData(QSemaphore*,QString*,ItemHandle*,const QString&)));
-			connect(&fToS,SIGNAL(setTextData(QSemaphore*,ItemHandle*,const QString&,const QString&)),this,SLOT(setTextData(QSemaphore*,ItemHandle*,const QString&,const QString&)));
-			connect(&fToS,SIGNAL(getAllTextDataNamed(QSemaphore*,QStringList*,const QList<ItemHandle*>&,const QStringList&)),this,SLOT(getAllTextDataNamed(QSemaphore*,QStringList*,const QList<ItemHandle*>&,const QStringList&)));
+			connect(fToS,SIGNAL(getTextData(QSemaphore*,QString*,ItemHandle*,const QString&)),this,SLOT(getTextData(QSemaphore*,QString*,ItemHandle*,const QString&)));
+			connect(fToS,SIGNAL(setTextData(QSemaphore*,ItemHandle*,const QString&,const QString&)),this,SLOT(setTextData(QSemaphore*,ItemHandle*,const QString&,const QString&)));
+			connect(fToS,SIGNAL(getAllTextDataNamed(QSemaphore*,QStringList*,const QList<ItemHandle*>&,const QStringList&)),this,SLOT(getAllTextDataNamed(QSemaphore*,QStringList*,const QList<ItemHandle*>&,const QStringList&)));
 		}
 		if (type == both || type == numerical)
 		{
-			connect(&fToS,SIGNAL(getInitialValues(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&)),this,SLOT(getInitialValues(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&)));
-			connect(&fToS,SIGNAL(setInitialValues(QSemaphore*,const QList<ItemHandle*>&,const DataTable<qreal>&)),this,SLOT(setInitialValues(QSemaphore*,const QList<ItemHandle*>&,const DataTable<qreal>&)));
-			connect(&fToS,SIGNAL(getParameters(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&)),this,SLOT(getParameters(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&)));
-			connect(&fToS,SIGNAL(getFixedVars(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&)),this,SLOT(getFixedVars(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&)));
-			connect(&fToS,SIGNAL(getFixedAndParameters(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&)),this,SLOT(getFixedAndParameters(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&)));
-			connect(&fToS,SIGNAL(getNumericalData(QSemaphore*,qreal*,ItemHandle*,const QString&)),this,SLOT(getNumericalData(QSemaphore*,qreal*,ItemHandle*,const QString&)));
-			connect(&fToS,SIGNAL(setNumericalData(QSemaphore*,ItemHandle*,const QString&,qreal)),this,SLOT(setNumericalData(QSemaphore*,ItemHandle*,const QString&,qreal)));
-			connect(&fToS,SIGNAL(getParametersNamed(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&,const QStringList&)),this,SLOT(getParametersNamed(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&,const QStringList&)));
-			connect(&fToS,SIGNAL(getParametersExcept(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&,const QStringList&)),this,SLOT(getParametersExcept(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&,const QStringList&)));
+			connect(fToS,SIGNAL(getInitialValues(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&)),this,SLOT(getInitialValues(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&)));
+			connect(fToS,SIGNAL(setInitialValues(QSemaphore*,const QList<ItemHandle*>&,const DataTable<qreal>&)),this,SLOT(setInitialValues(QSemaphore*,const QList<ItemHandle*>&,const DataTable<qreal>&)));
+			connect(fToS,SIGNAL(getParameters(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&)),this,SLOT(getParameters(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&)));
+			connect(fToS,SIGNAL(getFixedVars(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&)),this,SLOT(getFixedVars(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&)));
+			connect(fToS,SIGNAL(getFixedAndParameters(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&)),this,SLOT(getFixedAndParameters(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&)));
+			connect(fToS,SIGNAL(getNumericalData(QSemaphore*,qreal*,ItemHandle*,const QString&)),this,SLOT(getNumericalData(QSemaphore*,qreal*,ItemHandle*,const QString&)));
+			connect(fToS,SIGNAL(setNumericalData(QSemaphore*,ItemHandle*,const QString&,qreal)),this,SLOT(setNumericalData(QSemaphore*,ItemHandle*,const QString&,qreal)));
+			connect(fToS,SIGNAL(getParametersNamed(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&,const QStringList&)),this,SLOT(getParametersNamed(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&,const QStringList&)));
+			connect(fToS,SIGNAL(getParametersExcept(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&,const QStringList&)),this,SLOT(getParametersExcept(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&,const QStringList&)));
 		}
 	}
 
@@ -1674,66 +1677,66 @@ namespace Tinkercell
 
 	/********************************************************/
 
-	BasicInformationTool_FToS BasicInformationTool::fToS;
+	BasicInformationTool_FToS * BasicInformationTool::fToS;
 
 	tc_matrix BasicInformationTool::_getParameters(tc_items A)
 	{
-		return fToS.getParameters(A);
+		return fToS->getParameters(A);
 	}
 
 	tc_matrix BasicInformationTool::_getInitialValues(tc_items A)
 	{
-		return fToS.getInitialValues(A);
+		return fToS->getInitialValues(A);
 	}
 
 	void BasicInformationTool::_setInitialValues(tc_items A, tc_matrix M)
 	{
-		fToS.setInitialValues(A,M);
+		fToS->setInitialValues(A,M);
 	}
 
 	tc_matrix BasicInformationTool::_getFixedVars(tc_items A)
 	{
-		return fToS.getFixedVars(A);
+		return fToS->getFixedVars(A);
 	}
 
 	tc_matrix BasicInformationTool::_getFixedAndParameters(tc_items A)
 	{
-		return fToS.getFixedAndParameters(A);
+		return fToS->getFixedAndParameters(A);
 	}
 
 	char* BasicInformationTool::_getTextData(long o,const char* c)
 	{
-		return fToS.getTextData(o,c);
+		return fToS->getTextData(o,c);
 	}
 
 	double BasicInformationTool::_getNumericalData(long o,const char* c)
 	{
-		return fToS.getNumericalData(o,c);
+		return fToS->getNumericalData(o,c);
 	}
 
 	tc_matrix BasicInformationTool::_getParametersNamed(tc_items A, tc_strings c)
 	{
-		return fToS.getParametersNamed(A,c);
+		return fToS->getParametersNamed(A,c);
 	}
 
 	tc_matrix BasicInformationTool::_getParametersExcept(tc_items A, tc_strings c)
 	{
-		return fToS.getParametersExcept(A,c);
+		return fToS->getParametersExcept(A,c);
 	}
 
 	tc_strings BasicInformationTool::_getAllTextDataNamed(tc_items A, tc_strings c)
 	{
-		return fToS.getAllTextDataNamed(A,c);
+		return fToS->getAllTextDataNamed(A,c);
 	}
 
 	void BasicInformationTool::_setTextData(long o,const char* a,const char* b)
 	{
-		return fToS.setTextData(o,a,b);
+		return fToS->setTextData(o,a,b);
 	}
 
 	void BasicInformationTool::_setNumericalData(long o,const char* a,double b)
 	{
-		return fToS.setNumericalData(o,a,b);
+		return fToS->setNumericalData(o,a,b);
 	}
 
 	tc_matrix BasicInformationTool_FToS::getParameters(tc_items a0)

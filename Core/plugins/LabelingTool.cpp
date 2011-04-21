@@ -18,6 +18,8 @@ namespace Tinkercell
 	
 	LabelingTool::LabelingTool() : Tool(tr("Labeling Tool"))
 	{
+		LabelingTool::fToS = new LabelingTool_FToS;
+		LabelingTool::fToS->setParent(this);
 		bgColor = QColor(0,0,0);
 		textColor = QColor(10,255,10);
 		fireNode = new NodeGraphicsItem(tr(":/images/fire.xml"));
@@ -50,13 +52,13 @@ namespace Tinkercell
 
 			connect(mainWindow,SIGNAL(mouseDoubleClicked(GraphicsScene*, QPointF, QGraphicsItem*, Qt::MouseButton, Qt::KeyboardModifiers)),this,SLOT(sceneDoubleClicked(GraphicsScene*, QPointF, QGraphicsItem*, Qt::MouseButton, Qt::KeyboardModifiers)));
 			
-			connect(&fToS,SIGNAL(displayText(ItemHandle*,const QString&)),this,SLOT(displayText(ItemHandle*,const QString&)));
+			connect(fToS,SIGNAL(displayText(ItemHandle*,const QString&)),this,SLOT(displayText(ItemHandle*,const QString&)));
 			
-			connect(&fToS,SIGNAL(setLabelColor(QColor,QColor)),this,SLOT(setDisplayLabelColor(QColor,QColor)));
+			connect(fToS,SIGNAL(setLabelColor(QColor,QColor)),this,SLOT(setDisplayLabelColor(QColor,QColor)));
 			
-			connect(&fToS,SIGNAL(highlightItem(ItemHandle*,QColor)),this,SLOT(highlightItem(ItemHandle*,QColor)));
+			connect(fToS,SIGNAL(highlightItem(ItemHandle*,QColor)),this,SLOT(highlightItem(ItemHandle*,QColor)));
 			
-			connect(&fToS,SIGNAL(displayFire(ItemHandle*,double)),this,SLOT(displayFire(ItemHandle*,double)));
+			connect(fToS,SIGNAL(displayFire(ItemHandle*,double)),this,SLOT(displayFire(ItemHandle*,double)));
 			
 			QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
 			settings.beginGroup("LabelingTool");
@@ -365,26 +367,26 @@ namespace Tinkercell
 		}
 	}
 	
-	LabelingTool_FToS LabelingTool::fToS;
+	LabelingTool_FToS * LabelingTool::fToS = 0;
 	
 	void LabelingTool::_displayText(long o,const char* c)
 	{
-		fToS.displayText(o,c);
+		fToS->displayText(o,c);
 	}
 	
 	void LabelingTool::_displayNumber(long o,double d)
 	{
-		fToS.displayNumber(o,d);
+		fToS->displayNumber(o,d);
 	}
 	
 	void LabelingTool::_setDisplayLabelColor(const char * a, const char * b)
 	{
-		fToS.setDisplayLabelColor(a,b);
+		fToS->setDisplayLabelColor(a,b);
 	}
 	
 	void LabelingTool::_highlightItem(long o, const char * c)
 	{
-		fToS.highlightItem(o,c);
+		fToS->highlightItem(o,c);
 	}
 	
 	void LabelingTool_FToS::displayText(long o,const char* c)
@@ -409,7 +411,7 @@ namespace Tinkercell
 	
 	void LabelingTool::_displayFire(long o,double d)
 	{
-		fToS.displayFire(o,d);
+		fToS->displayFire(o,d);
 	}
 	
 	void LabelingTool_FToS::displayFire(long o, double d)

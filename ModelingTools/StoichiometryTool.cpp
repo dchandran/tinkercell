@@ -123,10 +123,10 @@ namespace Tinkercell
 
 	void StoichiometryTool::connectCFuntions()
 	{
-		connect(&fToS,SIGNAL(getStoichiometry(QSemaphore*,NumericalDataTable*,QList<ItemHandle*>&)),this,SLOT(getStoichiometrySlot(QSemaphore*,NumericalDataTable*,QList<ItemHandle*>&)));
-		connect(&fToS,SIGNAL(setStoichiometry(QSemaphore*,QList<ItemHandle*>&,const NumericalDataTable&)),this,SLOT(setStoichiometrySlot(QSemaphore*,QList<ItemHandle*>&,const NumericalDataTable&)));
-		connect(&fToS,SIGNAL(getRates(QSemaphore*,QStringList*,QList<ItemHandle*>&)),this,SLOT(getRatesSlot(QSemaphore*,QStringList*,QList<ItemHandle*>&)));
-		connect(&fToS,SIGNAL(setRates(QSemaphore*,QList<ItemHandle*>&,const QStringList&)),this,SLOT(setRatesSlot(QSemaphore*,QList<ItemHandle*>&,const QStringList&)));
+		connect(fToS,SIGNAL(getStoichiometry(QSemaphore*,NumericalDataTable*,QList<ItemHandle*>&)),this,SLOT(getStoichiometrySlot(QSemaphore*,NumericalDataTable*,QList<ItemHandle*>&)));
+		connect(fToS,SIGNAL(setStoichiometry(QSemaphore*,QList<ItemHandle*>&,const NumericalDataTable&)),this,SLOT(setStoichiometrySlot(QSemaphore*,QList<ItemHandle*>&,const NumericalDataTable&)));
+		connect(fToS,SIGNAL(getRates(QSemaphore*,QStringList*,QList<ItemHandle*>&)),this,SLOT(getRatesSlot(QSemaphore*,QStringList*,QList<ItemHandle*>&)));
+		connect(fToS,SIGNAL(setRates(QSemaphore*,QList<ItemHandle*>&,const QStringList&)),this,SLOT(setRatesSlot(QSemaphore*,QList<ItemHandle*>&,const QStringList&)));
 	}
 
 	typedef void (*tc_StoichiometryTool_api)(
@@ -442,6 +442,9 @@ namespace Tinkercell
 		currentRow(0),
 		pickRow1(0), pickRow2(0)
 	{
+		StoichiometryTool::fToS = new StoichiometryTool_FToS;
+		StoichiometryTool::fToS->setParent(this);
+		
 		QString appDir = QCoreApplication::applicationDirPath();
 	
 		setPalette(QPalette(QColor(255,255,255,255)));
@@ -1229,6 +1232,7 @@ namespace Tinkercell
 		int n = 0, j0;
 		for (int i=0; i < connectionHandles.size(); ++i) //build combined matrix for all selected reactions
 			if (connectionHandles[i] != 0 && connectionHandles[i]->children.isEmpty() &&
+
 					connectionHandles[i]->hasNumericalData(QObject::tr("Reactant stoichiometries")) &&
 					connectionHandles[i]->hasNumericalData(QObject::tr("Product stoichiometries")) &&
 					connectionHandles[i]->hasTextData(QObject::tr("Rate equations")))
@@ -1534,11 +1538,11 @@ namespace Tinkercell
 
 	/************************************************************/
 
-	StoichiometryTool_FToS StoichiometryTool::fToS;
+	StoichiometryTool_FToS * StoichiometryTool::fToS;
 
 	tc_matrix StoichiometryTool::_getStoichiometry(tc_items a0)
 	{
-		return fToS.getStoichiometry(a0);
+		return fToS->getStoichiometry(a0);
 	}
 
 	tc_matrix StoichiometryTool_FToS::getStoichiometry(tc_items a0)
@@ -1563,7 +1567,7 @@ namespace Tinkercell
 
 	void StoichiometryTool::_setStoichiometry(tc_items a0,tc_matrix a1)
 	{
-		return fToS.setStoichiometry(a0,a1);
+		return fToS->setStoichiometry(a0,a1);
 	}
 
 	void StoichiometryTool_FToS::setStoichiometry(tc_items a0,tc_matrix a1)
@@ -1582,7 +1586,7 @@ namespace Tinkercell
 
 	tc_strings StoichiometryTool::_getRates(tc_items a0)
 	{
-		return fToS.getRates(a0);
+		return fToS->getRates(a0);
 	}
 
 	tc_strings StoichiometryTool_FToS::getRates(tc_items a0)
@@ -1601,7 +1605,7 @@ namespace Tinkercell
 
 	void StoichiometryTool::_setRates(tc_items a0,tc_strings a1)
 	{
-		return fToS.setRates(a0,a1);
+		return fToS->setRates(a0,a1);
 	}
 
 	void StoichiometryTool_FToS::setRates(tc_items a0,tc_strings a1)

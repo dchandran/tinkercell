@@ -397,6 +397,9 @@ namespace Tinkercell
 
 	AssignmentFunctionsTool::AssignmentFunctionsTool() : Tool(tr("Functions and Assignments"),tr("Modeling"))
 	{
+		AssignmentFunctionsTool::fToS = new AssignmentFunctionsTool_FToS;
+		AssignmentFunctionsTool::fToS->setParent(this);
+		
 		tableWidget.setEditTriggers ( QAbstractItemView::CurrentChanged | QAbstractItemView::DoubleClicked | QAbstractItemView::SelectedClicked | QAbstractItemView::EditKeyPressed );
 		connect(&tableWidget,SIGNAL(cellChanged(int,int)),this,SLOT(setValue(int,int)));
 
@@ -710,13 +713,13 @@ namespace Tinkercell
 	/******************
 	C API
 	******************/
-	AssignmentFunctionsTool_FToS AssignmentFunctionsTool::fToS;
+	AssignmentFunctionsTool_FToS * AssignmentFunctionsTool::fToS;
 
 	void AssignmentFunctionsTool::connectTCFunctions()
 	{
-		connect(&fToS,SIGNAL(getForcingFunctionNames(QSemaphore*,QStringList*,const QList<ItemHandle*>&)),this,SLOT(getForcingFunctionNames(QSemaphore*,QStringList*,const QList<ItemHandle*>&)));
-		connect(&fToS,SIGNAL(getForcingFunctionAssignments(QSemaphore*,QStringList*,const QList<ItemHandle*>&)),this,SLOT(getForcingFunctionAssignments(QSemaphore*,QStringList*,const QList<ItemHandle*>&)));
-		connect(&fToS,SIGNAL(addForcingFunction(QSemaphore*,ItemHandle*,const QString&, const QString&)),this,SLOT(addForcingFunction(QSemaphore*,ItemHandle*,const QString&, const QString&)));
+		connect(fToS,SIGNAL(getForcingFunctionNames(QSemaphore*,QStringList*,const QList<ItemHandle*>&)),this,SLOT(getForcingFunctionNames(QSemaphore*,QStringList*,const QList<ItemHandle*>&)));
+		connect(fToS,SIGNAL(getForcingFunctionAssignments(QSemaphore*,QStringList*,const QList<ItemHandle*>&)),this,SLOT(getForcingFunctionAssignments(QSemaphore*,QStringList*,const QList<ItemHandle*>&)));
+		connect(fToS,SIGNAL(addForcingFunction(QSemaphore*,ItemHandle*,const QString&, const QString&)),this,SLOT(addForcingFunction(QSemaphore*,ItemHandle*,const QString&, const QString&)));
 	}
 
 	typedef void (*tc_AssignmentFunctionsTool_api)(
@@ -881,7 +884,7 @@ namespace Tinkercell
 
 	tc_strings AssignmentFunctionsTool::_getForcingFunctionNames(tc_items a0)
 	{
-		return fToS.getForcingFunctionNames(a0);
+		return fToS->getForcingFunctionNames(a0);
 	}
 
 	tc_strings AssignmentFunctionsTool_FToS::getForcingFunctionNames(tc_items a0)
@@ -900,7 +903,7 @@ namespace Tinkercell
 
 	tc_strings AssignmentFunctionsTool::_getForcingFunctionAssignments(tc_items a0)
 	{
-		return fToS.getForcingFunctionAssignments(a0);
+		return fToS->getForcingFunctionAssignments(a0);
 	}
 
 	tc_strings AssignmentFunctionsTool_FToS::getForcingFunctionAssignments(tc_items a0)
@@ -919,7 +922,7 @@ namespace Tinkercell
 
 	void AssignmentFunctionsTool::_addForcingFunction(long o, const char* a, const char* b)
 	{
-		return fToS.addForcingFunction(o,a,b);
+		return fToS->addForcingFunction(o,a,b);
 	}
 
 	void AssignmentFunctionsTool_FToS::addForcingFunction(long o, const char* a, const char* b)

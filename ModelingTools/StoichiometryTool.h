@@ -161,7 +161,7 @@ namespace Tinkercell
 
 	protected:
 		/*! \brief used for the C API*/
-		static StoichiometryTool_FToS fToS;
+		static StoichiometryTool_FToS * fToS;
 		/*! \brief connect to the the C API static class*/
 		void connectCFuntions();
 		/*! \brief used for the C API*/

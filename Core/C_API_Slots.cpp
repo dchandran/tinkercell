@@ -22,10 +22,12 @@
 
 namespace Tinkercell
 {
-	Core_FtoS C_API_Slots::fToS;
+	Core_FtoS * C_API_Slots::fToS = 0;
 	
 	C_API_Slots::C_API_Slots(MainWindow * main) : mainWindow(main), getStringDialog(0)
 	{ 
+		C_API_Slots::fToS = new Core_FtoS;
+		C_API_Slots::fToS->setParent(this);
 		connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 		connect(mainWindow,SIGNAL(escapeSignal(const QWidget*)),this,SLOT(escapeSlot(const QWidget*)));
 		connect(this,SIGNAL(saveNetwork(const QString&)), mainWindow, SIGNAL(saveNetwork(const QString&)));
@@ -246,110 +248,110 @@ namespace Tinkercell
 	
 	void C_API_Slots::connectTCFunctions()
 	{
-		connect(&fToS,SIGNAL(find(QSemaphore*,ItemHandle**,const QString&)),this,SLOT(findItem(QSemaphore*,ItemHandle**,const QString&)));
-		connect(&fToS,SIGNAL(findItems(QSemaphore*,QList<ItemHandle*>*,const QStringList&)),
+		connect(fToS,SIGNAL(find(QSemaphore*,ItemHandle**,const QString&)),this,SLOT(findItem(QSemaphore*,ItemHandle**,const QString&)));
+		connect(fToS,SIGNAL(findItems(QSemaphore*,QList<ItemHandle*>*,const QStringList&)),
 				this,SLOT(findItems(QSemaphore*,QList<ItemHandle*>*,const QStringList&)));
 
-		connect(&fToS,SIGNAL(select(QSemaphore*,ItemHandle*)),this,SLOT(select(QSemaphore*,ItemHandle*)));
-		connect(&fToS,SIGNAL(deselect(QSemaphore*)),this,SLOT(deselect(QSemaphore*)));
-		connect(&fToS,SIGNAL(allItems(QSemaphore*,QList<ItemHandle*>*)),this,SLOT(allItems(QSemaphore*,QList<ItemHandle*>*)));
-		connect(&fToS,SIGNAL(selectedItems(QSemaphore*,QList<ItemHandle*>*)),this,SLOT(selectedItems(QSemaphore*,QList<ItemHandle*>*)));
-		connect(&fToS,SIGNAL(itemsOfFamily(QSemaphore*,QList<ItemHandle*>*,const QString&)),this,SLOT(itemsOfFamily(QSemaphore*,QList<ItemHandle*>*,const QString&)));
-		connect(&fToS,SIGNAL(itemsOfFamily(QSemaphore*,QList<ItemHandle*>*,const QList<ItemHandle*>&, const QString&)),this,SLOT(itemsOfFamily(QSemaphore*,QList<ItemHandle*>*,const QList<ItemHandle*>&, const QString&)));
-		connect(&fToS,SIGNAL(getX(QSemaphore*,qreal*,ItemHandle*)),this,SLOT(getX(QSemaphore*,qreal*,ItemHandle*)));
-		connect(&fToS,SIGNAL(getY(QSemaphore*,qreal*,ItemHandle*)),this,SLOT(getY(QSemaphore*,qreal*,ItemHandle*)));
+		connect(fToS,SIGNAL(select(QSemaphore*,ItemHandle*)),this,SLOT(select(QSemaphore*,ItemHandle*)));
+		connect(fToS,SIGNAL(deselect(QSemaphore*)),this,SLOT(deselect(QSemaphore*)));
+		connect(fToS,SIGNAL(allItems(QSemaphore*,QList<ItemHandle*>*)),this,SLOT(allItems(QSemaphore*,QList<ItemHandle*>*)));
+		connect(fToS,SIGNAL(selectedItems(QSemaphore*,QList<ItemHandle*>*)),this,SLOT(selectedItems(QSemaphore*,QList<ItemHandle*>*)));
+		connect(fToS,SIGNAL(itemsOfFamily(QSemaphore*,QList<ItemHandle*>*,const QString&)),this,SLOT(itemsOfFamily(QSemaphore*,QList<ItemHandle*>*,const QString&)));
+		connect(fToS,SIGNAL(itemsOfFamily(QSemaphore*,QList<ItemHandle*>*,const QList<ItemHandle*>&, const QString&)),this,SLOT(itemsOfFamily(QSemaphore*,QList<ItemHandle*>*,const QList<ItemHandle*>&, const QString&)));
+		connect(fToS,SIGNAL(getX(QSemaphore*,qreal*,ItemHandle*)),this,SLOT(getX(QSemaphore*,qreal*,ItemHandle*)));
+		connect(fToS,SIGNAL(getY(QSemaphore*,qreal*,ItemHandle*)),this,SLOT(getY(QSemaphore*,qreal*,ItemHandle*)));
 
-		connect(&fToS,SIGNAL(setPos(QSemaphore*,ItemHandle*,qreal,qreal)),this,SLOT(setPos(QSemaphore*,ItemHandle*,qreal,qreal)));
-		connect(&fToS,SIGNAL(setPos(QSemaphore*,const QList<ItemHandle*>&,DataTable<qreal>&)),this,SLOT(setPos(QSemaphore*,const QList<ItemHandle*>&,DataTable<qreal>&)));
-		connect(&fToS,SIGNAL(getPos(QSemaphore*,const QList<ItemHandle*>&,DataTable<qreal>*)),this,SLOT(getPos(QSemaphore*,const QList<ItemHandle*>&,DataTable<qreal>*)));
+		connect(fToS,SIGNAL(setPos(QSemaphore*,ItemHandle*,qreal,qreal)),this,SLOT(setPos(QSemaphore*,ItemHandle*,qreal,qreal)));
+		connect(fToS,SIGNAL(setPos(QSemaphore*,const QList<ItemHandle*>&,DataTable<qreal>&)),this,SLOT(setPos(QSemaphore*,const QList<ItemHandle*>&,DataTable<qreal>&)));
+		connect(fToS,SIGNAL(getPos(QSemaphore*,const QList<ItemHandle*>&,DataTable<qreal>*)),this,SLOT(getPos(QSemaphore*,const QList<ItemHandle*>&,DataTable<qreal>*)));
 
-		connect(&fToS,SIGNAL(removeItem(QSemaphore*,ItemHandle*)),this,SLOT(removeItem(QSemaphore*,ItemHandle*)));
-		connect(&fToS,SIGNAL(moveSelected(QSemaphore*,qreal,qreal)),this,SLOT(moveSelected(QSemaphore*,qreal,qreal)));
-		connect(&fToS,SIGNAL(getName(QSemaphore*,QString*,ItemHandle*)),this,SLOT(itemName(QSemaphore*,QString*,ItemHandle*)));
-		connect(&fToS,SIGNAL(getUniqueName(QSemaphore*,QString*,ItemHandle*)),this,SLOT(uniqueName(QSemaphore*,QString*,ItemHandle*)));
-		connect(&fToS,SIGNAL(setName(QSemaphore*,ItemHandle*,const QString&)),this,SLOT(setName(QSemaphore*,ItemHandle*,const QString&)));
+		connect(fToS,SIGNAL(removeItem(QSemaphore*,ItemHandle*)),this,SLOT(removeItem(QSemaphore*,ItemHandle*)));
+		connect(fToS,SIGNAL(moveSelected(QSemaphore*,qreal,qreal)),this,SLOT(moveSelected(QSemaphore*,qreal,qreal)));
+		connect(fToS,SIGNAL(getName(QSemaphore*,QString*,ItemHandle*)),this,SLOT(itemName(QSemaphore*,QString*,ItemHandle*)));
+		connect(fToS,SIGNAL(getUniqueName(QSemaphore*,QString*,ItemHandle*)),this,SLOT(uniqueName(QSemaphore*,QString*,ItemHandle*)));
+		connect(fToS,SIGNAL(setName(QSemaphore*,ItemHandle*,const QString&)),this,SLOT(setName(QSemaphore*,ItemHandle*,const QString&)));
 
-		connect(&fToS,SIGNAL(getNames(QSemaphore*,QStringList*,const QList<ItemHandle*>&)),this,SLOT(itemNames(QSemaphore*,QStringList*,const QList<ItemHandle*>&)));
-		connect(&fToS,SIGNAL(getUniqueNames(QSemaphore*,QStringList*,const QList<ItemHandle*>&)),this,SLOT(uniqueNames(QSemaphore*,QStringList*,const QList<ItemHandle*>&)));
-		connect(&fToS,SIGNAL(getFamily(QSemaphore*,QString*,ItemHandle*)),this,SLOT(itemFamily(QSemaphore*,QString*,ItemHandle*)));
-		connect(&fToS,SIGNAL(isA(QSemaphore*,int*,ItemHandle*,const QString&)),this,SLOT(isA(QSemaphore*,int*,ItemHandle*,const QString&)));
-		connect(&fToS,SIGNAL(clearText(QSemaphore*)),this,SLOT(clearText(QSemaphore*)));
-		connect(&fToS,SIGNAL(outputText(QSemaphore*,const QString&)),this,SLOT(outputText(QSemaphore*,const QString&)));
-		connect(&fToS,SIGNAL(errorReport(QSemaphore*,const QString&)),this,SLOT(errorReport(QSemaphore*,const QString&)));
-		connect(&fToS,SIGNAL(printFile(QSemaphore*,const QString&)),this,SLOT(printFile(QSemaphore*,const QString&)));
-		connect(&fToS,SIGNAL(outputTable(QSemaphore*,const DataTable<qreal>&)),this,SLOT(outputTable(QSemaphore*,const DataTable<qreal>&)));
+		connect(fToS,SIGNAL(getNames(QSemaphore*,QStringList*,const QList<ItemHandle*>&)),this,SLOT(itemNames(QSemaphore*,QStringList*,const QList<ItemHandle*>&)));
+		connect(fToS,SIGNAL(getUniqueNames(QSemaphore*,QStringList*,const QList<ItemHandle*>&)),this,SLOT(uniqueNames(QSemaphore*,QStringList*,const QList<ItemHandle*>&)));
+		connect(fToS,SIGNAL(getFamily(QSemaphore*,QString*,ItemHandle*)),this,SLOT(itemFamily(QSemaphore*,QString*,ItemHandle*)));
+		connect(fToS,SIGNAL(isA(QSemaphore*,int*,ItemHandle*,const QString&)),this,SLOT(isA(QSemaphore*,int*,ItemHandle*,const QString&)));
+		connect(fToS,SIGNAL(clearText(QSemaphore*)),this,SLOT(clearText(QSemaphore*)));
+		connect(fToS,SIGNAL(outputText(QSemaphore*,const QString&)),this,SLOT(outputText(QSemaphore*,const QString&)));
+		connect(fToS,SIGNAL(errorReport(QSemaphore*,const QString&)),this,SLOT(errorReport(QSemaphore*,const QString&)));
+		connect(fToS,SIGNAL(printFile(QSemaphore*,const QString&)),this,SLOT(printFile(QSemaphore*,const QString&)));
+		connect(fToS,SIGNAL(outputTable(QSemaphore*,const DataTable<qreal>&)),this,SLOT(outputTable(QSemaphore*,const DataTable<qreal>&)));
 
-		connect(&fToS,SIGNAL(createInputWindow(QSemaphore*,const DataTable<qreal>&,const QString&,const QString&)),
+		connect(fToS,SIGNAL(createInputWindow(QSemaphore*,const DataTable<qreal>&,const QString&,const QString&)),
 			this,SLOT(createInputWindow(QSemaphore*,const DataTable<qreal>&,const QString&,const QString&)));
 
-		connect(&fToS,SIGNAL(createInputWindow(QSemaphore*,long, const DataTable<qreal>&,const QString&,MatrixInputFunction)),
+		connect(fToS,SIGNAL(createInputWindow(QSemaphore*,long, const DataTable<qreal>&,const QString&,MatrixInputFunction)),
 			this,SLOT(createInputWindow(QSemaphore*,long, const DataTable<qreal>&,const QString&,MatrixInputFunction)));
 		
-		connect(&fToS,SIGNAL(createSliders(QSemaphore*,CThread*,const DataTable<qreal>&,MatrixInputFunction)),
+		connect(fToS,SIGNAL(createSliders(QSemaphore*,CThread*,const DataTable<qreal>&,MatrixInputFunction)),
 			this,SLOT(createSliders(QSemaphore*,CThread*,const DataTable<qreal>&,MatrixInputFunction)));
 
-		connect(&fToS,SIGNAL(addInputWindowOptions(QSemaphore*,const QString&, int, int, const QStringList&)),
+		connect(fToS,SIGNAL(addInputWindowOptions(QSemaphore*,const QString&, int, int, const QStringList&)),
 			this,SLOT(addInputWindowOptions(QSemaphore*,const QString&, int, int, const QStringList&)));
 
-		connect(&fToS,SIGNAL(addInputWindowCheckbox(QSemaphore*,const QString&, int, int)),
+		connect(fToS,SIGNAL(addInputWindowCheckbox(QSemaphore*,const QString&, int, int)),
 			this,SLOT(addInputWindowCheckbox(QSemaphore*,const QString&, int, int)));
 
-		connect(&fToS,SIGNAL(openNewWindow(QSemaphore*,const QString&)),this,SLOT(openNewWindow(QSemaphore*,const QString&)));
-		connect(&fToS,SIGNAL(isWindows(QSemaphore*,int*)),this,SLOT(isWindows(QSemaphore*,int*)));
-		connect(&fToS,SIGNAL(isMac(QSemaphore*,int*)),this,SLOT(isMac(QSemaphore*,int*)));
-		connect(&fToS,SIGNAL(isLinux(QSemaphore*,int*)),this,SLOT(isLinux(QSemaphore*,int*)));
-		connect(&fToS,SIGNAL(appDir(QSemaphore*,QString*)),this,SLOT(appDir(QSemaphore*,QString*)));
-		connect(&fToS,SIGNAL(homeDir(QSemaphore*,QString*)),this,SLOT(homeDir(QSemaphore*,QString*)));
-		connect(&fToS,SIGNAL(getChildren(QSemaphore*,QList<ItemHandle*>*,ItemHandle*)),this,SLOT(getChildren(QSemaphore*,QList<ItemHandle*>*,ItemHandle*)));
-		connect(&fToS,SIGNAL(getParent(QSemaphore*,ItemHandle**,ItemHandle*)),this,SLOT(getParent(QSemaphore*,ItemHandle**,ItemHandle*)));
+		connect(fToS,SIGNAL(openNewWindow(QSemaphore*,const QString&)),this,SLOT(openNewWindow(QSemaphore*,const QString&)));
+		connect(fToS,SIGNAL(isWindows(QSemaphore*,int*)),this,SLOT(isWindows(QSemaphore*,int*)));
+		connect(fToS,SIGNAL(isMac(QSemaphore*,int*)),this,SLOT(isMac(QSemaphore*,int*)));
+		connect(fToS,SIGNAL(isLinux(QSemaphore*,int*)),this,SLOT(isLinux(QSemaphore*,int*)));
+		connect(fToS,SIGNAL(appDir(QSemaphore*,QString*)),this,SLOT(appDir(QSemaphore*,QString*)));
+		connect(fToS,SIGNAL(homeDir(QSemaphore*,QString*)),this,SLOT(homeDir(QSemaphore*,QString*)));
+		connect(fToS,SIGNAL(getChildren(QSemaphore*,QList<ItemHandle*>*,ItemHandle*)),this,SLOT(getChildren(QSemaphore*,QList<ItemHandle*>*,ItemHandle*)));
+		connect(fToS,SIGNAL(getParent(QSemaphore*,ItemHandle**,ItemHandle*)),this,SLOT(getParent(QSemaphore*,ItemHandle**,ItemHandle*)));
 
-		connect(&fToS,SIGNAL(getNumericalData(QSemaphore*,DataTable<qreal>*,ItemHandle*,const QString&)),this,SLOT(getNumericalData(QSemaphore*,DataTable<qreal>*,ItemHandle*,const QString&)));
-		connect(&fToS,SIGNAL(setNumericalData(QSemaphore*,ItemHandle*,const QString&,const DataTable<qreal>&)),this,SLOT(setNumericalData(QSemaphore*,ItemHandle*,const QString&,const DataTable<qreal>&)));
-		connect(&fToS,SIGNAL(getTextData(QSemaphore*,DataTable<QString>*,ItemHandle*,const QString&)),this,SLOT(getTextData(QSemaphore*,DataTable<QString>*,ItemHandle*,const QString&)));
-		connect(&fToS,SIGNAL(setTextData(QSemaphore*,ItemHandle*,const QString&,const DataTable<QString>&)),this,SLOT(setTextData(QSemaphore*,ItemHandle*,const QString&,const DataTable<QString>&)));
+		connect(fToS,SIGNAL(getNumericalData(QSemaphore*,DataTable<qreal>*,ItemHandle*,const QString&)),this,SLOT(getNumericalData(QSemaphore*,DataTable<qreal>*,ItemHandle*,const QString&)));
+		connect(fToS,SIGNAL(setNumericalData(QSemaphore*,ItemHandle*,const QString&,const DataTable<qreal>&)),this,SLOT(setNumericalData(QSemaphore*,ItemHandle*,const QString&,const DataTable<qreal>&)));
+		connect(fToS,SIGNAL(getTextData(QSemaphore*,DataTable<QString>*,ItemHandle*,const QString&)),this,SLOT(getTextData(QSemaphore*,DataTable<QString>*,ItemHandle*,const QString&)));
+		connect(fToS,SIGNAL(setTextData(QSemaphore*,ItemHandle*,const QString&,const DataTable<QString>&)),this,SLOT(setTextData(QSemaphore*,ItemHandle*,const QString&,const DataTable<QString>&)));
 
-		connect(&fToS,SIGNAL(getTextDataNames(QSemaphore*,QStringList*,ItemHandle*)),this,SLOT(getTextDataNames(QSemaphore*,QStringList*,ItemHandle*)));
-		connect(&fToS,SIGNAL(getNumericalDataNames(QSemaphore*,QStringList*,ItemHandle*)),this,SLOT(getNumericalDataNames(QSemaphore*,QStringList*,ItemHandle*)));
+		connect(fToS,SIGNAL(getTextDataNames(QSemaphore*,QStringList*,ItemHandle*)),this,SLOT(getTextDataNames(QSemaphore*,QStringList*,ItemHandle*)));
+		connect(fToS,SIGNAL(getNumericalDataNames(QSemaphore*,QStringList*,ItemHandle*)),this,SLOT(getNumericalDataNames(QSemaphore*,QStringList*,ItemHandle*)));
 
-		connect(&fToS,SIGNAL(zoom(QSemaphore*,qreal)),this,SLOT(zoom(QSemaphore*,qreal)));
+		connect(fToS,SIGNAL(zoom(QSemaphore*,qreal)),this,SLOT(zoom(QSemaphore*,qreal)));
 
-		connect(&fToS,SIGNAL(getString(QSemaphore*,QString*,const QString&)),this,SLOT(getString(QSemaphore*,QString*,const QString&)));
-        connect(&fToS,SIGNAL(getSelectedString(QSemaphore*,int*,const QString&,const QStringList&,const QString&)),this,SLOT(getSelectedString(QSemaphore*,int*,const QString&,const QStringList&,const QString&)));
-        connect(&fToS,SIGNAL(getNumber(QSemaphore*,qreal*,const QString&)),this,SLOT(getNumber(QSemaphore*,qreal*,const QString&)));
-        connect(&fToS,SIGNAL(getNumbers(QSemaphore*,const QStringList&,qreal*)),this,SLOT(getNumbers(QSemaphore*,const QStringList&,qreal*)));
-        connect(&fToS,SIGNAL(getFilename(QSemaphore*,QString*)),this,SLOT(getFilename(QSemaphore*,QString*)));
+		connect(fToS,SIGNAL(getString(QSemaphore*,QString*,const QString&)),this,SLOT(getString(QSemaphore*,QString*,const QString&)));
+        connect(fToS,SIGNAL(getSelectedString(QSemaphore*,int*,const QString&,const QStringList&,const QString&)),this,SLOT(getSelectedString(QSemaphore*,int*,const QString&,const QStringList&,const QString&)));
+        connect(fToS,SIGNAL(getNumber(QSemaphore*,qreal*,const QString&)),this,SLOT(getNumber(QSemaphore*,qreal*,const QString&)));
+        connect(fToS,SIGNAL(getNumbers(QSemaphore*,const QStringList&,qreal*)),this,SLOT(getNumbers(QSemaphore*,const QStringList&,qreal*)));
+        connect(fToS,SIGNAL(getFilename(QSemaphore*,QString*)),this,SLOT(getFilename(QSemaphore*,QString*)));
 
-		connect(&fToS,SIGNAL(askQuestion(QSemaphore*,const QString&, int*)),this,SLOT(askQuestion(QSemaphore*,const QString&, int*)));
-		connect(&fToS,SIGNAL(messageDialog(QSemaphore*,const QString&)),this,SLOT(messageDialog(QSemaphore*,const QString&)));
-		connect(&fToS,SIGNAL(openFile(QSemaphore*,const QString&)),this,SLOT(openFile(QSemaphore*,const QString&)));
-		connect(&fToS,SIGNAL(saveToFile(QSemaphore*,const QString&)),this,SLOT(saveToFile(QSemaphore*,const QString&)));
+		connect(fToS,SIGNAL(askQuestion(QSemaphore*,const QString&, int*)),this,SLOT(askQuestion(QSemaphore*,const QString&, int*)));
+		connect(fToS,SIGNAL(messageDialog(QSemaphore*,const QString&)),this,SLOT(messageDialog(QSemaphore*,const QString&)));
+		connect(fToS,SIGNAL(openFile(QSemaphore*,const QString&)),this,SLOT(openFile(QSemaphore*,const QString&)));
+		connect(fToS,SIGNAL(saveToFile(QSemaphore*,const QString&)),this,SLOT(saveToFile(QSemaphore*,const QString&)));
 
-		connect(&fToS,SIGNAL(setSize(QSemaphore*, ItemHandle*,double,double,int)),this,SLOT(setSize(QSemaphore*, ItemHandle*,double,double,int)));
-		connect(&fToS,SIGNAL(getWidth(QSemaphore*, ItemHandle*, double*)),this,SLOT(getWidth(QSemaphore*, ItemHandle*, double*)));
-		connect(&fToS,SIGNAL(getHeight(QSemaphore*, ItemHandle*,double*)),this,SLOT(getHeight(QSemaphore*, ItemHandle*,double*)));
-		connect(&fToS,SIGNAL(setAngle(QSemaphore*, ItemHandle*,double,int)),this,SLOT(setAngle(QSemaphore*, ItemHandle*,double,int)));
+		connect(fToS,SIGNAL(setSize(QSemaphore*, ItemHandle*,double,double,int)),this,SLOT(setSize(QSemaphore*, ItemHandle*,double,double,int)));
+		connect(fToS,SIGNAL(getWidth(QSemaphore*, ItemHandle*, double*)),this,SLOT(getWidth(QSemaphore*, ItemHandle*, double*)));
+		connect(fToS,SIGNAL(getHeight(QSemaphore*, ItemHandle*,double*)),this,SLOT(getHeight(QSemaphore*, ItemHandle*,double*)));
+		connect(fToS,SIGNAL(setAngle(QSemaphore*, ItemHandle*,double,int)),this,SLOT(setAngle(QSemaphore*, ItemHandle*,double,int)));
 		
-		connect(&fToS,SIGNAL(getColor(QSemaphore*,QString*,ItemHandle*)),this,SLOT(getColor(QSemaphore*,QString*,ItemHandle*)));
-		connect(&fToS,SIGNAL(setColor(QSemaphore*,ItemHandle*,const QString&,int)),this,SLOT(setColor(QSemaphore*,ItemHandle*,const QString&,int)));
-		connect(&fToS,SIGNAL(changeGraphics(QSemaphore*,ItemHandle*,const QString&)),this,SLOT(changeGraphics(QSemaphore*,ItemHandle*,const QString&)));
-		connect(&fToS,SIGNAL(changeArrowHead(QSemaphore*,ItemHandle*,const QString&)),this,SLOT(changeArrowHead(QSemaphore*,ItemHandle*,const QString&)));
+		connect(fToS,SIGNAL(getColor(QSemaphore*,QString*,ItemHandle*)),this,SLOT(getColor(QSemaphore*,QString*,ItemHandle*)));
+		connect(fToS,SIGNAL(setColor(QSemaphore*,ItemHandle*,const QString&,int)),this,SLOT(setColor(QSemaphore*,ItemHandle*,const QString&,int)));
+		connect(fToS,SIGNAL(changeGraphics(QSemaphore*,ItemHandle*,const QString&)),this,SLOT(changeGraphics(QSemaphore*,ItemHandle*,const QString&)));
+		connect(fToS,SIGNAL(changeArrowHead(QSemaphore*,ItemHandle*,const QString&)),this,SLOT(changeArrowHead(QSemaphore*,ItemHandle*,const QString&)));
 
-		connect(&fToS,SIGNAL(screenshot(QSemaphore*, const QString&, int, int)),this,SLOT(screenshot(QSemaphore*, const QString&, int, int)));
-		connect(&fToS,SIGNAL(screenHeight(QSemaphore*, int*)),this,SLOT(screenHeight(QSemaphore*, int*)));
-		connect(&fToS,SIGNAL(screenWidth(QSemaphore*, int*)),this,SLOT(screenWidth(QSemaphore*, int*)));
-		connect(&fToS,SIGNAL(screenX(QSemaphore*, int*)),this,SLOT(screenX(QSemaphore*, int*)));
-		connect(&fToS,SIGNAL(screenY(QSemaphore*, int*)),this,SLOT(screenY(QSemaphore*, int*)));
+		connect(fToS,SIGNAL(screenshot(QSemaphore*, const QString&, int, int)),this,SLOT(screenshot(QSemaphore*, const QString&, int, int)));
+		connect(fToS,SIGNAL(screenHeight(QSemaphore*, int*)),this,SLOT(screenHeight(QSemaphore*, int*)));
+		connect(fToS,SIGNAL(screenWidth(QSemaphore*, int*)),this,SLOT(screenWidth(QSemaphore*, int*)));
+		connect(fToS,SIGNAL(screenX(QSemaphore*, int*)),this,SLOT(screenX(QSemaphore*, int*)));
+		connect(fToS,SIGNAL(screenY(QSemaphore*, int*)),this,SLOT(screenY(QSemaphore*, int*)));
 		
-		connect(&fToS,SIGNAL(annotations(QSemaphore*, QString*)),this,SLOT(annotations(QSemaphore*, QString*)));
-		connect(&fToS,SIGNAL(insertAnnotation(QSemaphore*, const QString&, double, double)),this,SLOT(insertAnnotation(QSemaphore*, const QString&, double, double)));
+		connect(fToS,SIGNAL(annotations(QSemaphore*, QString*)),this,SLOT(annotations(QSemaphore*, QString*)));
+		connect(fToS,SIGNAL(insertAnnotation(QSemaphore*, const QString&, double, double)),this,SLOT(insertAnnotation(QSemaphore*, const QString&, double, double)));
 		
-		connect(&fToS,SIGNAL(setNumericalValues(QSemaphore*, const NumericalDataTable&)),this,SLOT(setNumericalValues(QSemaphore*, const NumericalDataTable&)));
-		connect(&fToS,SIGNAL(setNumericalValue(QSemaphore*, const QString&, double)),this,SLOT(setNumericalValue(QSemaphore*, const QString&, double)));
-		connect(&fToS,SIGNAL(setTextValues(QSemaphore*, const TextDataTable&)),this,SLOT(setTextValues(QSemaphore*, const TextDataTable&)));
-		connect(&fToS,SIGNAL(setTextValue(QSemaphore*, const QString&, const QString&)),this,SLOT(setTextValue(QSemaphore*, const QString&, const QString&)));
+		connect(fToS,SIGNAL(setNumericalValues(QSemaphore*, const NumericalDataTable&)),this,SLOT(setNumericalValues(QSemaphore*, const NumericalDataTable&)));
+		connect(fToS,SIGNAL(setNumericalValue(QSemaphore*, const QString&, double)),this,SLOT(setNumericalValue(QSemaphore*, const QString&, double)));
+		connect(fToS,SIGNAL(setTextValues(QSemaphore*, const TextDataTable&)),this,SLOT(setTextValues(QSemaphore*, const TextDataTable&)));
+		connect(fToS,SIGNAL(setTextValue(QSemaphore*, const QString&, const QString&)),this,SLOT(setTextValue(QSemaphore*, const QString&, const QString&)));
 		
-		connect(&fToS,SIGNAL(getNumericalValue(QSemaphore*, const QString&, double*)),this,SLOT(getNumericalValue(QSemaphore*, const QString&, double*)));
-		connect(&fToS,SIGNAL(getTextValue(QSemaphore*, const QString&, QString*)),this,SLOT(getTextValue(QSemaphore*, const QString&, QString*)));
+		connect(fToS,SIGNAL(getNumericalValue(QSemaphore*, const QString&, double*)),this,SLOT(getNumericalValue(QSemaphore*, const QString&, double*)));
+		connect(fToS,SIGNAL(getTextValue(QSemaphore*, const QString&, QString*)),this,SLOT(getTextValue(QSemaphore*, const QString&, QString*)));
 	}
 	
 	void C_API_Slots::zoom(QSemaphore* sem, qreal factor)
@@ -1229,254 +1231,254 @@ namespace Tinkercell
 
 	void C_API_Slots::_zoom(double x)
 	{
-		fToS.zoom(x);
+		fToS->zoom(x);
 	}
 
 	long C_API_Slots::_find(const char* c)
 	{
-		return fToS.find(c);
+		return fToS->find(c);
 	}
 
 	tc_items C_API_Slots::_findItems(tc_strings c)
 	{
-		return fToS.findItems(c);
+		return fToS->findItems(c);
 	}
 
 	void C_API_Slots::_select(long o)
 	{
-		return fToS.select(o);
+		return fToS->select(o);
 	}
 
 	void C_API_Slots::_deselect()
 	{
-		return fToS.deselect();
+		return fToS->deselect();
 	}
 
 	tc_items C_API_Slots::_allItems()
 	{
-		return fToS.allItems();
+		return fToS->allItems();
 	}
 
 	tc_items C_API_Slots::_itemsOfFamily(const char* f)
 	{
-		return fToS.itemsOfFamily(f);
+		return fToS->itemsOfFamily(f);
 	}
 
 	tc_items C_API_Slots::_itemsOfFamily2(const char* f, tc_items a)
 	{
-		return fToS.itemsOfFamily(f,a);
+		return fToS->itemsOfFamily(f,a);
 	}
 
 	tc_items C_API_Slots::_selectedItems()
 	{
-		return fToS.selectedItems();
+		return fToS->selectedItems();
 	}
 
 	const char* C_API_Slots::_getName(long o)
 	{
-		return fToS.getName(o);
+		return fToS->getName(o);
 	}
 
 	const char* C_API_Slots::_getUniqueName(long o)
 	{
-		return fToS.getUniqueName(o);
+		return fToS->getUniqueName(o);
 	}
 
 
 	void C_API_Slots::_setName(long o,const char* c)
 	{
-		return fToS.setName(o,c);
+		return fToS->setName(o,c);
 	}
 
 	tc_strings C_API_Slots::_getNames(tc_items a)
 	{
-		return fToS.getNames(a);
+		return fToS->getNames(a);
 	}
 
 	tc_strings C_API_Slots::_getUniqueNames(tc_items a)
 	{
-		return fToS.getUniqueNames(a);
+		return fToS->getUniqueNames(a);
 	}
 
 	const char* C_API_Slots::_getFamily(long o)
 	{
-		return fToS.getFamily(o);
+		return fToS->getFamily(o);
 	}
 
 	int C_API_Slots::_isA(long o,const char* c)
 	{
-		return fToS.isA(o,c);
+		return fToS->isA(o,c);
 	}
 
 	void C_API_Slots::_removeItem(long o)
 	{
-		return fToS.removeItem(o);
+		return fToS->removeItem(o);
 	}
 
 	void C_API_Slots::_setPos(long o,double x,double y)
 	{
-		return fToS.setPos(o,x,y);
+		return fToS->setPos(o,x,y);
 	}
 
 	void C_API_Slots::_setPos2(tc_items a,tc_matrix m)
 	{
-		return fToS.setPos(a,m);
+		return fToS->setPos(a,m);
 	}
 
 	tc_matrix C_API_Slots::_getPos(tc_items a)
 	{
-		return fToS.getPos(a);
+		return fToS->getPos(a);
 	}
 
 	double C_API_Slots::_getY(long o)
 	{
-		return fToS.getY(o);
+		return fToS->getY(o);
 	}
 
 	double C_API_Slots::_getX(long o)
 	{
-		return fToS.getX(o);
+		return fToS->getX(o);
 	}
 
 	void C_API_Slots::_moveSelected(double dx,double dy)
 	{
-		return fToS.moveSelected(dx,dy);
+		return fToS->moveSelected(dx,dy);
 	}
 
 	void C_API_Slots::_clearText()
 	{
-		return fToS.clearText();
+		return fToS->clearText();
 	}
 
 	void C_API_Slots::_outputTable(tc_matrix m)
 	{
-		return fToS.outputTable(m);
+		return fToS->outputTable(m);
 	}
 
 	void C_API_Slots::_outputText(const char * c)
 	{
-		return fToS.outputText(c);
+		return fToS->outputText(c);
 	}
 
 	void C_API_Slots::_errorReport(const char * c)
 	{
-		return fToS.errorReport(c);
+		return fToS->errorReport(c);
 	}
 
 	void C_API_Slots::_printFile(const char* c)
 	{
-		return fToS.printFile(c);
+		return fToS->printFile(c);
 	}
 
 	void  C_API_Slots::_createInputWindow1(tc_matrix m,const char* a,const char* b)
 	{
-		return fToS.createInputWindow(m,a,b);
+		return fToS->createInputWindow(m,a,b);
 	}
 
 	void  C_API_Slots::_createInputWindow2(long ptr, tc_matrix m,const char* a, MatrixInputFunction f)
 	{
-		return fToS.createInputWindow(ptr, m,a,f);
+		return fToS->createInputWindow(ptr, m,a,f);
 	}
 	
 	void  C_API_Slots::_createSliders(long c, tc_matrix m,MatrixInputFunction f)
 	{
-		return fToS.createSliders(c,m,f);
+		return fToS->createSliders(c,m,f);
 	}
 
 	void  C_API_Slots::_addInputWindowOptions(const char* a,int i, int j, tc_strings c)
 	{
-		return fToS.addInputWindowOptions(a,i,j,c);
+		return fToS->addInputWindowOptions(a,i,j,c);
 	}
 
 	void  C_API_Slots::_addInputWindowCheckbox(const char* a,int i, int j)
 	{
-		return fToS.addInputWindowCheckbox(a,i,j);
+		return fToS->addInputWindowCheckbox(a,i,j);
 	}
 
 	void  C_API_Slots::_openNewWindow(const char* c)
 	{
-		return fToS.openNewWindow(c);
+		return fToS->openNewWindow(c);
 	}
 
 	int  C_API_Slots::_isWindows()
 	{
-		return fToS.isWindows();
+		return fToS->isWindows();
 	}
 
 	int  C_API_Slots::_isMac()
 	{
-		return fToS.isMac();
+		return fToS->isMac();
 	}
 
 	int  C_API_Slots::_isLinux()
 	{
-		return fToS.isLinux();
+		return fToS->isLinux();
 	}
 
 	const char*  C_API_Slots::_appDir()
 	{
-		return fToS.appDir();
+		return fToS->appDir();
 	}
 
 	const char*  C_API_Slots::_homeDir()
 	{
-		return fToS.homeDir();
+		return fToS->homeDir();
 	}
 
 
 	tc_matrix C_API_Slots::_getNumericalData(long o,const char* a)
 	{
-		return fToS.getNumericalData(o,a);
+		return fToS->getNumericalData(o,a);
 	}
 
 	void C_API_Slots::_setNumericalData(long o ,const char* a,tc_matrix m)
 	{
-		return fToS.setNumericalData(o,a,m);
+		return fToS->setNumericalData(o,a,m);
 	}
 	
 	tc_table C_API_Slots::_getTextData(long o,const char* a)
 	{
-		return fToS.getTextData(o,a);
+		return fToS->getTextData(o,a);
 	}
 
 	void C_API_Slots::_setTextData(long o ,const char* a,tc_table m)
 	{
-		return fToS.setTextData(o,a,m);
+		return fToS->setTextData(o,a,m);
 	}
 	
 	tc_strings C_API_Slots::_getTextDataNames(long o)
 	{
-		return fToS.getTextDataNames(o);
+		return fToS->getTextDataNames(o);
 	}
 	
 	tc_strings C_API_Slots::_getNumericalDataNames(long o)
 	{
-		return fToS.getNumericalDataNames(o);
+		return fToS->getNumericalDataNames(o);
 	}
 
 	tc_items C_API_Slots::_getChildren(long o)
 	{
-		return fToS.getChildren(o);
+		return fToS->getChildren(o);
 	}
 
 	long C_API_Slots::_getParent(long o)
 	{
-		return fToS.getParent(o);
+		return fToS->getParent(o);
 	}
 	
 	const char * C_API_Slots::_annotations()
 	{
-		return fToS.annotation();
+		return fToS->annotation();
 	}
 	
 	void C_API_Slots::_insertAnnotation(const char * c, double x, double y)
 	{
-		fToS.insertAnnotation(c,x,y);
+		fToS->insertAnnotation(c,x,y);
 	}
 	
 	void C_API_Slots::_setNumericalValues(tc_matrix t)
 	{
-		fToS.setNumericalValues(t);
+		fToS->setNumericalValues(t);
 	}
 	
 	void Core_FtoS::setNumericalValues(tc_matrix t)
@@ -1493,7 +1495,7 @@ namespace Tinkercell
 	
 	void C_API_Slots::_setNumericalValue(const char * s, double v)
 	{
-		fToS.setNumericalValue(s,v);
+		fToS->setNumericalValue(s,v);
 	}
 	
 	void Core_FtoS::setNumericalValue(const char * c, double v)
@@ -1508,7 +1510,7 @@ namespace Tinkercell
 	
 	void C_API_Slots::_setTextValues(tc_table t)
 	{
-		fToS.setTextValues(t);
+		fToS->setTextValues(t);
 	}
 
 	void Core_FtoS::setTextValues(tc_table t)
@@ -1525,7 +1527,7 @@ namespace Tinkercell
 	
 	void C_API_Slots::_setTextValue(const char * s, const char *v)
 	{
-		fToS.setTextValue(s,v);
+		fToS->setTextValue(s,v);
 	}
 
 	void Core_FtoS::setTextValue(const char * c, const char *v)
@@ -1540,7 +1542,7 @@ namespace Tinkercell
 	
 	double C_API_Slots::_getNumericalValue(const char* s)
 	{
-		return fToS.getNumericalValue(s);
+		return fToS->getNumericalValue(s);
 	}
 
 	double Core_FtoS::getNumericalValue(const char* c)
@@ -1557,7 +1559,7 @@ namespace Tinkercell
 
 	const char* C_API_Slots::_getTextValue(const char* s)
 	{
-		return fToS.getTextValue(s);
+		return fToS->getTextValue(s);
 	}
 
 	const char* Core_FtoS::getTextValue(const char* c)
@@ -2395,47 +2397,47 @@ namespace Tinkercell
 
     const char* C_API_Slots::_getString(const char* title)
     {
-        return fToS.getString(title);
+        return fToS->getString(title);
     }
 
     const char* C_API_Slots::_getFilename()
     {
-        return fToS.getFilename();
+        return fToS->getFilename();
     }
 
     int C_API_Slots::_getSelectedString(const char* title,tc_strings list,const char* c)
     {
-        return fToS.getSelectedString(title,list,c);
+        return fToS->getSelectedString(title,list,c);
     }
 
     double C_API_Slots::_getNumber(const char* title)
     {
-        return fToS.getNumber(title);
+        return fToS->getNumber(title);
     }
 
     void C_API_Slots::_getNumbers(tc_strings names, double * res)
     {
-        return fToS.getNumbers(names,res);
+        return fToS->getNumbers(names,res);
     }
 
 	int C_API_Slots::_askQuestion(const char* msg)
     {
-        return fToS.askQuestion(msg);
+        return fToS->askQuestion(msg);
     }
 
 	void C_API_Slots::_messageDialog(const char* msg)
     {
-        return fToS.messageDialog(msg);
+        return fToS->messageDialog(msg);
     }
     
     void C_API_Slots::_openFile(const char* file)
     {
-    	return fToS.openFile(file);
+    	return fToS->openFile(file);
     }
     
      void C_API_Slots::_saveToFile(const char* file)
     {
-    	return fToS.saveToFile(file);
+    	return fToS->saveToFile(file);
     }
 
     double Core_FtoS::getNumber(const char* c)
@@ -2647,7 +2649,7 @@ namespace Tinkercell
 	
 	void C_API_Slots::_setSize(long o, double w, double h, int p)
 	{
-		fToS.setSize(o,w,h,p);
+		fToS->setSize(o,w,h,p);
 	}
 
 	void Core_FtoS::setSize(long o,double w, double h,int p)
@@ -2661,7 +2663,7 @@ namespace Tinkercell
 	
 	void C_API_Slots::_setAngle(long o, double t,int p)
 	{
-		fToS.setAngle(o,t,p);
+		fToS->setAngle(o,t,p);
 	}
 
 	void Core_FtoS::setAngle(long o,double t,int p)
@@ -2675,7 +2677,7 @@ namespace Tinkercell
 
 	double C_API_Slots::_getWidth(long o)
 	{
-		return fToS.getWidth(o);
+		return fToS->getWidth(o);
 	}
 
 	double Core_FtoS::getWidth(long o)
@@ -2691,7 +2693,7 @@ namespace Tinkercell
 	
 	double C_API_Slots::_getHeight(long o)
 	{
-		return fToS.getHeight(o);
+		return fToS->getHeight(o);
 	}
 
 	double Core_FtoS::getHeight(long o)
@@ -2707,7 +2709,7 @@ namespace Tinkercell
 
 	const char* C_API_Slots::_getColor(long o)
 	{
-		return fToS.getColor(o);
+		return fToS->getColor(o);
 	}
 
 	const char* Core_FtoS::getColor(long o)
@@ -2723,7 +2725,7 @@ namespace Tinkercell
 
 	void C_API_Slots::_setColor(long o,const char * c, int p)
 	{
-		return fToS.setColor(o,c,p);
+		return fToS->setColor(o,c,p);
 	}
 
 	void Core_FtoS::setColor(long o,const char * c, int p)
@@ -2738,7 +2740,7 @@ namespace Tinkercell
 
 	void C_API_Slots::_changeGraphics(long o,const char* f)
 	{
-		fToS.changeGraphics(o,f);
+		fToS->changeGraphics(o,f);
 	}
 
 	void Core_FtoS::changeGraphics(long o,const char* f)
@@ -2753,7 +2755,7 @@ namespace Tinkercell
 
 	void C_API_Slots::_changeArrowHead(long o,const char* f)
 	{
-		fToS.changeArrowHead(o,f);
+		fToS->changeArrowHead(o,f);
 	}
 
 	void Core_FtoS::changeArrowHead(long o,const char* f)
@@ -2768,7 +2770,7 @@ namespace Tinkercell
 	
 	void C_API_Slots::_screenshot(const char* s, int w, int h)
 	{
-		fToS.screenshot(s,w,h);
+		fToS->screenshot(s,w,h);
 	}
 
 	void Core_FtoS::screenshot(const char * file, int w, int h)
@@ -2782,7 +2784,7 @@ namespace Tinkercell
 	
 	int C_API_Slots::_screenHeight()
 	{
-		return fToS.screenHeight();
+		return fToS->screenHeight();
 	}
 
 	int Core_FtoS::screenHeight()
@@ -2798,7 +2800,7 @@ namespace Tinkercell
 	
 	int C_API_Slots::_screenWidth()
 	{
-		return fToS.screenWidth();
+		return fToS->screenWidth();
 	}
 
 	int Core_FtoS::screenWidth()
@@ -2814,7 +2816,7 @@ namespace Tinkercell
 	
 	int C_API_Slots::_screenX()
 	{
-		return fToS.screenX();
+		return fToS->screenX();
 	}
 
 	int Core_FtoS::screenX()
@@ -2830,7 +2832,7 @@ namespace Tinkercell
 	
 	int C_API_Slots::_screenY()
 	{
-		return fToS.screenY();
+		return fToS->screenY();
 	}
 
 	int Core_FtoS::screenY()

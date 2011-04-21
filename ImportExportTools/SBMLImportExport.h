@@ -71,7 +71,7 @@ namespace Tinkercell
 
 		SBMLDocument_t * sbmlDocument;
 		
-		static SBMLImportExport_FtoS fToS;
+		static SBMLImportExport_FtoS * fToS;
 		static void exportSBMLFile(const char *);
 		static void importSBMLString(const char*);
 	};

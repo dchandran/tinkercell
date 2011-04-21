@@ -25,9 +25,10 @@ SBMLImportExport::SBMLImportExport() : Tool("SBML Tool","Export")
 {
 	modelNeedsUpdate = true;
 	sbmlDocument = 0;
-
-	connect(&fToS,SIGNAL(exportSBML(QSemaphore*, const QString&)),this,SLOT(exportSBML(QSemaphore*, const QString&)));
-	connect(&fToS,SIGNAL(importSBML(QSemaphore*, const QString&)),this,SLOT(importSBML(QSemaphore*, const QString&)));
+	SBMLImportExport::fToS = new SBMLImportExport_FtoS;
+	SBMLImportExport::fToS->setParent(this);
+	connect(fToS,SIGNAL(exportSBML(QSemaphore*, const QString&)),this,SLOT(exportSBML(QSemaphore*, const QString&)));
+	connect(fToS,SIGNAL(importSBML(QSemaphore*, const QString&)),this,SLOT(importSBML(QSemaphore*, const QString&)));
 }
 
 SBMLImportExport::~SBMLImportExport()
@@ -144,16 +145,16 @@ void SBMLImportExport::windowChanged(NetworkWindow*,NetworkWindow*)
     C Interface
 ********************************************/
 
-SBMLImportExport_FtoS SBMLImportExport::fToS;
+SBMLImportExport_FtoS * SBMLImportExport::fToS = 0;
 
 void SBMLImportExport::exportSBMLFile(const char * s)
 {
-	return fToS.exportSBMLFile(s);
+	return fToS->exportSBMLFile(s);
 }
 
 void SBMLImportExport::importSBMLString(const char* s)
 {
-	fToS.importSBMLString(s);
+	fToS->importSBMLString(s);
 }
 
 void SBMLImportExport_FtoS::exportSBMLFile(const char * c)

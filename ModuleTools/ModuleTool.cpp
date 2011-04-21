@@ -40,12 +40,15 @@ namespace Tinkercell
     	newModuleDialog(0), newModuleTable(0), newModuleName(0), 
 		connectionsTree(0), nodesTree(0), exportModuleDialog(0), 
 		snapshotToolTip(0)
-    {
+    {	
+    	ModuleTool::fToS = new ModuleTool_FToS;
+    	ModuleTool::fToS->setParent(this);
+    	
         setPalette(QPalette(QColor(255,255,255,255)));
         setAutoFillBackground(true);
         mode = none;
         lineItem.setPen(QPen(QColor(255,10,10,255),2.0,Qt::DotLine));
-		connect(&fToS, SIGNAL(doSubstituteModel(QSemaphore*, ItemHandle*, const QString&)),
+		connect(fToS, SIGNAL(doSubstituteModel(QSemaphore*, ItemHandle*, const QString&)),
 						this, SLOT(doSubstituteModel(QSemaphore*, ItemHandle*, const QString&)));
     }
 
@@ -1910,7 +1913,7 @@ namespace Tinkercell
 
 	void ModuleTool::_substituteModel(long o, const char * s)
 	{
-		fToS.substituteModel(o, s);
+		fToS->substituteModel(o, s);
 	}
 	
 	void ModuleTool_FToS::substituteModel(long o, const char * s)
@@ -1923,7 +1926,7 @@ namespace Tinkercell
 		delete sem;
 	}
 	
-	ModuleTool_FToS ModuleTool::fToS;
+	ModuleTool_FToS * ModuleTool::fToS;
 	QStringList ModuleTool::numericalTablesToBeReplaced;
 	QStringList ModuleTool::textTablesToBeReplaced;
 }

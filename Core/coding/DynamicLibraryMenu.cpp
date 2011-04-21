@@ -32,6 +32,9 @@ namespace Tinkercell
 	DynamicLibraryMenu::DynamicLibraryMenu() : Tool(tr("Dynamic Library Menu"),tr("Coding")), 
 	    actionGroup(this), functionsMenu(tr("&Run")), functionsToolbarMenu(tr("Run"))
 	{
+		DynamicLibraryMenu::fToS = new DynamicLibraryMenu_FToS;
+		DynamicLibraryMenu::fToS->setParent(this);
+		
 	    functionsToolbarMenu.setToolTip(tr("Select analysis program"));
 		treeWidget.setHeaderHidden(true);
 		treeWidget.setColumnCount(1);
@@ -347,7 +350,7 @@ namespace Tinkercell
 
 	void DynamicLibraryMenu::connectTCFunctions()
 	{
-		connect(&fToS,SIGNAL(callFunction(QSemaphore*,const QString&)),this,SLOT(callFunction(QSemaphore*,const QString&)));
+		connect(fToS,SIGNAL(callFunction(QSemaphore*,const QString&)),this,SLOT(callFunction(QSemaphore*,const QString&)));
 	}
 
 	typedef void (*tc_DynamicLibraryMenu_api)(
@@ -387,7 +390,7 @@ namespace Tinkercell
 
 	/******************************************************/
 
-	DynamicLibraryMenu_FToS DynamicLibraryMenu::fToS;
+	DynamicLibraryMenu_FToS * DynamicLibraryMenu::fToS = 0;
 
 	void DynamicLibraryMenu_FToS::callFunction(const char * c)
 	{
@@ -401,6 +404,6 @@ namespace Tinkercell
 
 	void DynamicLibraryMenu::_callFunction(const char * c)
 	{
-		return fToS.callFunction(c);
+		return fToS->callFunction(c);
 	}
 }

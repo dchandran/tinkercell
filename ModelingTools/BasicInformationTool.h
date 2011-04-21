@@ -150,7 +150,7 @@ namespace Tinkercell
 		QGroupBox * groupBox;
 
 		void updateTable();
-		static BasicInformationTool_FToS fToS;
+		static BasicInformationTool_FToS * fToS;
 		void connectTCFunctions();
 		static tc_matrix _getInitialValues(tc_items );
 		static void _setInitialValues(tc_items,tc_matrix);

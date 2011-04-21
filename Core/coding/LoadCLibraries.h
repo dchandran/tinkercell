@@ -83,7 +83,7 @@ namespace Tinkercell
 		
 	private:
 		int numLibFiles;
-		static LoadCLibrariesTool_FToS fToS;		
+		static LoadCLibrariesTool_FToS * fToS;		
 		static int _compileAndRun(const char * cfile,const char* args);
         static int _compileBuildLoad(const char * cfile,const char* f,const char* title);
 		static int _compileBuildLoadSliders(const char * cfile,const char* f,const char* title, tc_matrix);

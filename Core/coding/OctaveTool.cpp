@@ -27,6 +27,8 @@ namespace Tinkercell
 {
     OctaveTool::OctaveTool() : Tool(tr("Octave Interpreter"),tr("Coding")), actionsGroup(this), buttonsGroup(this)
     {
+    	OctaveTool::fToS = new OctaveTool_FToS;
+    	OctaveTool::fToS->setParent(this);
         octaveInterpreter = 0;
 
         connect(&actionsGroup,SIGNAL(triggered ( QAction *  )),this,SLOT(actionTriggered ( QAction *  )));
@@ -271,9 +273,9 @@ namespace Tinkercell
 
     void OctaveTool::connectTCFunctions()
     {
-        connect(&fToS,SIGNAL(runOctaveCode(QSemaphore*,const QString&)),this,SLOT(runOctaveCode(QSemaphore*,const QString&)));
-        connect(&fToS,SIGNAL(runOctaveFile(QSemaphore*,const QString&)),this,SLOT(runOctaveFile(QSemaphore*,const QString&)));
-        connect(&fToS,SIGNAL(addOctavePlugin(QSemaphore*,const QString&,const QString&,const QString&,const QString&, const QString&)),
+        connect(fToS,SIGNAL(runOctaveCode(QSemaphore*,const QString&)),this,SLOT(runOctaveCode(QSemaphore*,const QString&)));
+        connect(fToS,SIGNAL(runOctaveFile(QSemaphore*,const QString&)),this,SLOT(runOctaveFile(QSemaphore*,const QString&)));
+        connect(fToS,SIGNAL(addOctavePlugin(QSemaphore*,const QString&,const QString&,const QString&,const QString&, const QString&)),
         		this,SLOT(addOctavePlugin(QSemaphore*,const QString&,const QString&,const QString&,const QString&, const QString&)));
     }
 
@@ -299,22 +301,22 @@ namespace Tinkercell
 
     /******************************************************/
 
-    OctaveTool_FToS OctaveTool::fToS;
+    OctaveTool_FToS * OctaveTool::fToS;
 
 
     void OctaveTool::_runOctaveCode(const char* c)
     {
-        return fToS.runOctaveCode(c);
+        return fToS->runOctaveCode(c);
     }
 
     void OctaveTool::_runOctaveFile(const char* c)
     {
-        return fToS.runOctaveFile(c);
+        return fToS->runOctaveFile(c);
     }
     
     void OctaveTool::_addOctavePlugin(const char* file,const char* name,const char* descr,const char* category,const char* icon)
     {
-        return fToS.addOctavePlugin(file,name,descr,category,icon);
+        return fToS->addOctavePlugin(file,name,descr,category,icon);
     }
 
     void OctaveTool_FToS::runOctaveCode(const char* c)

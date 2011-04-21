@@ -27,6 +27,8 @@ namespace Tinkercell
 {
     PythonTool::PythonTool() : Tool(tr("Python Interpreter"),tr("Coding")), actionsGroup(this), buttonsGroup(this)
     {
+    	PythonTool::fToS = new PythonTool_FToS;
+    	PythonTool::fToS->setParent(this);
         pythonInterpreter = 0;
 
         connect(&actionsGroup,SIGNAL(triggered ( QAction *  )),this,SLOT(actionTriggered ( QAction *  )));
@@ -280,9 +282,9 @@ namespace Tinkercell
 
     void PythonTool::connectTCFunctions()
     {
-        connect(&fToS,SIGNAL(runPythonCode(QSemaphore*,const QString&)),this,SLOT(runPythonCode(QSemaphore*,const QString&)));
-        connect(&fToS,SIGNAL(runPythonFile(QSemaphore*,const QString&)),this,SLOT(runPythonFile(QSemaphore*,const QString&)));
-        connect(&fToS,SIGNAL(addPythonPlugin(QSemaphore*,const QString&,const QString&,const QString&,const QString&, const QString&)),
+        connect(fToS,SIGNAL(runPythonCode(QSemaphore*,const QString&)),this,SLOT(runPythonCode(QSemaphore*,const QString&)));
+        connect(fToS,SIGNAL(runPythonFile(QSemaphore*,const QString&)),this,SLOT(runPythonFile(QSemaphore*,const QString&)));
+        connect(fToS,SIGNAL(addPythonPlugin(QSemaphore*,const QString&,const QString&,const QString&,const QString&, const QString&)),
         		this,SLOT(addPythonPlugin(QSemaphore*,const QString&,const QString&,const QString&,const QString&, const QString&)));
     }
 
@@ -308,22 +310,22 @@ namespace Tinkercell
 
     /******************************************************/
 
-    PythonTool_FToS PythonTool::fToS;
+    PythonTool_FToS * PythonTool::fToS;
 
 
     void PythonTool::_runPythonCode(const char* c)
     {
-        return fToS.runPythonCode(c);
+        return fToS->runPythonCode(c);
     }
 
     void PythonTool::_runPythonFile(const char* c)
     {
-        return fToS.runPythonFile(c);
+        return fToS->runPythonFile(c);
     }
     
     void PythonTool::_addPythonPlugin(const char* file,const char* name,const char* descr,const char* category,const char* icon)
     {
-        return fToS.addPythonPlugin(file,name,descr,category,icon);
+        return fToS->addPythonPlugin(file,name,descr,category,icon);
     }
 
     void PythonTool_FToS::runPythonCode(const char* c)

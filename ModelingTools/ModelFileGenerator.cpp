@@ -26,6 +26,8 @@ namespace Tinkercell
 
 	ModelFileGenerator::ModelFileGenerator() : Tool(tr("Model File Generator"),tr("Modeling"))
 	{
+		ModelFileGenerator::fToS = new ModelFileGenerator_FToS;
+		ModelFileGenerator::fToS->setParent(this);
 		connectCFuntions();
 	}
 
@@ -57,14 +59,14 @@ namespace Tinkercell
 
 	void ModelFileGenerator::connectCFuntions()
 	{
-		connect(&fToS,SIGNAL(generateModelFile(QSemaphore*,int*, const QString&,QList<ItemHandle*>&)),this,SLOT(generateModelFile(QSemaphore*,int*,const QString&,QList<ItemHandle*>&)));
+		connect(fToS,SIGNAL(generateModelFile(QSemaphore*,int*, const QString&,QList<ItemHandle*>&)),this,SLOT(generateModelFile(QSemaphore*,int*,const QString&,QList<ItemHandle*>&)));
 	}
 
-	ModelFileGenerator_FToS ModelFileGenerator::fToS;
+	ModelFileGenerator_FToS * ModelFileGenerator::fToS;
 
 	int ModelFileGenerator::_generateModelFile(const char* filename, tc_items a0)
 	{
-		return fToS.generateModelFile(filename,a0);
+		return fToS->generateModelFile(filename,a0);
 	}
 
 	int ModelFileGenerator_FToS::generateModelFile(const char* filename, tc_items a0)

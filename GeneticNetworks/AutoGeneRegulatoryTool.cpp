@@ -27,7 +27,7 @@
 
 namespace Tinkercell
 {
-	AutoGeneRegulatoryTool_FtoS AutoGeneRegulatoryTool::fToS;
+	AutoGeneRegulatoryTool_FtoS * AutoGeneRegulatoryTool::fToS;
 
 	AutoGeneRegulatoryTool::AutoGeneRegulatoryTool() :
 		Tool(tr("Auto Gene Regulatory Tool"),tr("Modeling")),
@@ -38,6 +38,9 @@ namespace Tinkercell
 		mRNAstep("Add mRNA stage",this),
 		autoPhosphate("Insert phosphate",this)
 	{
+		AutoGeneRegulatoryTool::fToS = new AutoGeneRegulatoryTool_FtoS;
+		AutoGeneRegulatoryTool::fToS->setParent(this);
+		
 		separator = 0;
 		autoAlignEnabled = true;
 		setPalette(QPalette(QColor(255,255,255,255)));
@@ -51,11 +54,11 @@ namespace Tinkercell
 		//autoPhosphate.setIcon(QIcon(":/images/phosphate.png"));
 		mRNAstep.setIcon(QIcon(":/images/upArrow.png"));
 
-		connect(&fToS,SIGNAL(partsIn(QSemaphore*, ItemHandle*, QList<ItemHandle*>*)),this,SLOT(partsIn(QSemaphore*, ItemHandle*, QList<ItemHandle*>*)));
-		connect(&fToS,SIGNAL(partsUpstream(QSemaphore*, ItemHandle*, QList<ItemHandle*>*)),this,SLOT(partsUpstream(QSemaphore*, ItemHandle*, QList<ItemHandle*>*)));
-		connect(&fToS,SIGNAL(partsDownstream(QSemaphore*, ItemHandle*, QList<ItemHandle*>*)),this,SLOT(partsDownstream(QSemaphore*, ItemHandle*, QList<ItemHandle*>*)));
-		connect(&fToS,SIGNAL(alignParts(QSemaphore*,const QList<ItemHandle*>&)),this,SLOT(alignParts(QSemaphore*,const QList<ItemHandle*>&)));
-		connect(&fToS,SIGNAL(alignPartsOnPlasmid(QSemaphore*,ItemHandle*, const QList<ItemHandle*>&)), this, SLOT(alignPartsOnPlasmid(QSemaphore*,ItemHandle*, const QList<ItemHandle*>&)));
+		connect(fToS,SIGNAL(partsIn(QSemaphore*, ItemHandle*, QList<ItemHandle*>*)),this,SLOT(partsIn(QSemaphore*, ItemHandle*, QList<ItemHandle*>*)));
+		connect(fToS,SIGNAL(partsUpstream(QSemaphore*, ItemHandle*, QList<ItemHandle*>*)),this,SLOT(partsUpstream(QSemaphore*, ItemHandle*, QList<ItemHandle*>*)));
+		connect(fToS,SIGNAL(partsDownstream(QSemaphore*, ItemHandle*, QList<ItemHandle*>*)),this,SLOT(partsDownstream(QSemaphore*, ItemHandle*, QList<ItemHandle*>*)));
+		connect(fToS,SIGNAL(alignParts(QSemaphore*,const QList<ItemHandle*>&)),this,SLOT(alignParts(QSemaphore*,const QList<ItemHandle*>&)));
+		connect(fToS,SIGNAL(alignPartsOnPlasmid(QSemaphore*,ItemHandle*, const QList<ItemHandle*>&)), this, SLOT(alignPartsOnPlasmid(QSemaphore*,ItemHandle*, const QList<ItemHandle*>&)));
 	}
 
 	void AutoGeneRegulatoryTool::autoPhosphateTriggered()
@@ -911,6 +914,7 @@ namespace Tinkercell
 			QWidget * widget = mainWindow->tool(tr("Basic Graphics Toolbox"));
 			BasicGraphicsToolbar * basicToolBox = static_cast<BasicGraphicsToolbar*>(widget);
 			if (basicToolBox)
+
 			{
 				alreadyConnected2 = true;
 				connect(this,SIGNAL(alignCompactHorizontal()),basicToolBox, SLOT(alignCompactHorizontal()));
@@ -2213,7 +2217,7 @@ namespace Tinkercell
 	
 	void AutoGeneRegulatoryTool::_alignPartsOnPlasmid(long o, tc_items A)
 	{
-		fToS.alignPartsOnPlasmid(o,A);
+		fToS->alignPartsOnPlasmid(o,A);
 	}
 	
 	void AutoGeneRegulatoryTool_FtoS::alignPartsOnPlasmid(long o, tc_items A)
@@ -2230,7 +2234,7 @@ namespace Tinkercell
 
 	void AutoGeneRegulatoryTool::_alignParts(tc_items A)
     {
-        fToS.alignParts(A);
+        fToS->alignParts(A);
     }
 
     void AutoGeneRegulatoryTool_FtoS::alignParts(tc_items A)
@@ -2293,7 +2297,7 @@ namespace Tinkercell
 
 	tc_items AutoGeneRegulatoryTool::_partsIn(long o)
     {
-        return fToS.partsIn(o);
+        return fToS->partsIn(o);
     }
 
     tc_items AutoGeneRegulatoryTool_FtoS::partsIn(long o)
@@ -2351,7 +2355,7 @@ namespace Tinkercell
 
 	tc_items AutoGeneRegulatoryTool::_partsUpstream(long o)
     {
-        return fToS.partsUpstream(o);
+        return fToS->partsUpstream(o);
     }
 
     tc_items AutoGeneRegulatoryTool_FtoS::partsUpstream(long o)
@@ -2404,7 +2408,7 @@ namespace Tinkercell
 
 	tc_items AutoGeneRegulatoryTool::_partsDownstream(long o)
     {
-        return fToS.partsDownstream(o);
+        return fToS->partsDownstream(o);
     }
 
     tc_items AutoGeneRegulatoryTool_FtoS::partsDownstream(long o)

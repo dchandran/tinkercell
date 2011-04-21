@@ -137,7 +137,7 @@ namespace Tinkercell
 
 	private:
 	
-		static ModuleTool_FToS fToS;
+		static ModuleTool_FToS * fToS;
 		static tc_strings _listOfModels(long);
 		static void _substituteModel(long, const char *);
 		static QString emptyModel();

@@ -100,7 +100,7 @@ namespace Tinkercell
 		static void _alignParts(tc_items);
 		static void _alignPartsOnPlasmid(long, tc_items);
 		
-		static AutoGeneRegulatoryTool_FtoS fToS;
+		static AutoGeneRegulatoryTool_FtoS * fToS;
 		
 		QUndoCommand * adjustPlasmid(GraphicsScene * , NodeGraphicsItem*, bool align=true);
 		QUndoCommand * autoAssignRates(QList<NodeHandle*>&);

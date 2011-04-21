@@ -30,6 +30,8 @@ namespace Tinkercell
 
     LoadCLibrariesTool::LoadCLibrariesTool() : Tool(tr("Load C Libraries"),tr("Coding")), actionsGroup(this), buttonsGroup(this)
     {
+    	LoadCLibrariesTool::fToS = new LoadCLibrariesTool_FToS;
+    	LoadCLibrariesTool::fToS->setParent(this);
 		numLibFiles = 0;
         connectTCFunctions();
         libMenu = 0;
@@ -132,11 +134,11 @@ namespace Tinkercell
 
     void LoadCLibrariesTool::connectTCFunctions()
     {
-        connect(&fToS,SIGNAL(compileAndRun(QSemaphore*,int*,const QString&,const QString&)),this,SLOT(compileAndRunC(QSemaphore*,int*,const QString&,const QString&)));
-        connect(&fToS,SIGNAL(compileBuildLoad(QSemaphore*,int*,const QString&,const QString&,const QString&)),this,SLOT(compileBuildLoadC(QSemaphore*,int*,const QString&,const QString&,const QString&)));
-		connect(&fToS,SIGNAL(compileBuildLoadSliders(QSemaphore*,int*,const QString&,const QString&,const QString&,DataTable<qreal>&)),this,SLOT(compileBuildLoadSliders(QSemaphore*,int*,const QString&,const QString&,const QString&,DataTable<qreal>&)));
-        connect(&fToS,SIGNAL(loadLibrary(QSemaphore*,const QString&)),this,SLOT(loadLibrary(QSemaphore*,const QString&)));
-        connect(&fToS,SIGNAL(addFunction(QSemaphore*,VoidFunction, const QString& , const QString& , const QString& , const QString& ,const QString& , int, int,int)),
+        connect(fToS,SIGNAL(compileAndRun(QSemaphore*,int*,const QString&,const QString&)),this,SLOT(compileAndRunC(QSemaphore*,int*,const QString&,const QString&)));
+        connect(fToS,SIGNAL(compileBuildLoad(QSemaphore*,int*,const QString&,const QString&,const QString&)),this,SLOT(compileBuildLoadC(QSemaphore*,int*,const QString&,const QString&,const QString&)));
+		connect(fToS,SIGNAL(compileBuildLoadSliders(QSemaphore*,int*,const QString&,const QString&,const QString&,DataTable<qreal>&)),this,SLOT(compileBuildLoadSliders(QSemaphore*,int*,const QString&,const QString&,const QString&,DataTable<qreal>&)));
+        connect(fToS,SIGNAL(loadLibrary(QSemaphore*,const QString&)),this,SLOT(loadLibrary(QSemaphore*,const QString&)));
+        connect(fToS,SIGNAL(addFunction(QSemaphore*,VoidFunction, const QString& , const QString& , const QString& , const QString& ,const QString& , int, int,int)),
                    this,SLOT(addFunction(QSemaphore*,VoidFunction,QString,QString,QString,QString,QString,int,int,int)));
     }
 
@@ -374,31 +376,31 @@ namespace Tinkercell
 
     /******************************************************/
 
-    LoadCLibrariesTool_FToS LoadCLibrariesTool::fToS;
+    LoadCLibrariesTool_FToS * LoadCLibrariesTool::fToS;
 
     int LoadCLibrariesTool::_compileAndRun(const char * cfile,const char* args)
     {
-        return fToS.compileAndRun(cfile,args);
+        return fToS->compileAndRun(cfile,args);
     }
 
     int LoadCLibrariesTool::_compileBuildLoad(const char * cfile,const char* f,const char* t)
     {
-        return fToS.compileBuildLoad(cfile,f,t);
+        return fToS->compileBuildLoad(cfile,f,t);
     }
 	
 	int LoadCLibrariesTool::_compileBuildLoadSliders(const char * cfile,const char* f,const char* t, tc_matrix m)
 	{
-		return fToS.compileBuildLoadSliders(cfile,f,t,m);
+		return fToS->compileBuildLoadSliders(cfile,f,t,m);
 	}
 
     void LoadCLibrariesTool::_loadLibrary(const char * c)
     {
-        return fToS.loadLibrary(c);
+        return fToS->loadLibrary(c);
     }
 
     void  LoadCLibrariesTool::_addFunction(void (*f)(), const char * title, const char* desc, const char* cat, const char* icon, const char * family, int inMenu, int inTool, int deft)
     {
-        fToS.addFunction(f, title, desc, cat, icon, family, inMenu, inTool, deft);
+        fToS->addFunction(f, title, desc, cat, icon, family, inMenu, inTool, deft);
     }
 
     int LoadCLibrariesTool_FToS::compileAndRun(const char * cfile,const char* args)

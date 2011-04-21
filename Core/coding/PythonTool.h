@@ -69,7 +69,7 @@ namespace Tinkercell
 		QHash<QAction*,QString> hashPyFile;
 		
 	private:
-		static PythonTool_FToS fToS;
+		static PythonTool_FToS * fToS;
 		static void _runPythonCode(const char*);
         static void _runPythonFile(const char*);
         static void _addPythonPlugin(const char*,const char*,const char*,const char*,const char*);

@@ -122,7 +122,7 @@ namespace Tinkercell
 		enum Mode { none, addingEvent, globalParams, addingStep, addingPulse, addingWave };
 		Mode mode;
 
-        static SimulationEventsTool_FToS fToS;
+        static SimulationEventsTool_FToS * fToS;
 
         void select(int i=0);
         void deselect(int i=0);

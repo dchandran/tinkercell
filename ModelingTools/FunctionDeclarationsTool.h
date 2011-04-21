@@ -107,7 +107,7 @@ namespace Tinkercell
 
 		void updateTable();
 
-		static AssignmentFunctionsTool_FToS fToS;
+		static AssignmentFunctionsTool_FToS * fToS;
 		void connectTCFunctions();
 
 		virtual void keyPressEvent ( QKeyEvent * event );

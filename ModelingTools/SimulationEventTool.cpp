@@ -166,6 +166,9 @@ namespace Tinkercell
 
 	SimulationEventsTool::SimulationEventsTool() : Tool(tr("Events and Inputs"),tr("Modeling"))
 	{
+		SimulationEventsTool::fToS = new SimulationEventsTool_FToS;
+		SimulationEventsTool::fToS->setParent(this);
+		
 		mode = none;
 		QString appDir = QCoreApplication::applicationDirPath();
 		openedByUser = false;
@@ -827,13 +830,13 @@ namespace Tinkercell
 	/******************
 	C API
 	******************/
-	SimulationEventsTool_FToS SimulationEventsTool::fToS;
+	SimulationEventsTool_FToS * SimulationEventsTool::fToS;
 
 	void SimulationEventsTool::connectTCFunctions()
 	{
-		connect(&fToS,SIGNAL(getEventTriggers(QSemaphore*,QStringList*)),this,SLOT(getEventTriggers(QSemaphore*,QStringList*)));
-		connect(&fToS,SIGNAL(getEventResponses(QSemaphore*,QStringList*)),this,SLOT(getEventResponses(QSemaphore*,QStringList*)));
-		connect(&fToS,SIGNAL(addEvent(QSemaphore*,const QString&, const QString&)),this,SLOT(addEvent(QSemaphore*,const QString&, const QString&)));
+		connect(fToS,SIGNAL(getEventTriggers(QSemaphore*,QStringList*)),this,SLOT(getEventTriggers(QSemaphore*,QStringList*)));
+		connect(fToS,SIGNAL(getEventResponses(QSemaphore*,QStringList*)),this,SLOT(getEventResponses(QSemaphore*,QStringList*)));
+		connect(fToS,SIGNAL(addEvent(QSemaphore*,const QString&, const QString&)),this,SLOT(addEvent(QSemaphore*,const QString&, const QString&)));
 	}
 
 	typedef void (*tc_SimulationEventsTool_api)(
@@ -951,7 +954,7 @@ namespace Tinkercell
 
 	tc_strings SimulationEventsTool::_getEventTriggers()
 	{
-		return fToS.getEventTriggers();
+		return fToS->getEventTriggers();
 	}
 
 	tc_strings SimulationEventsTool_FToS::getEventTriggers()
@@ -968,7 +971,7 @@ namespace Tinkercell
 
 	tc_strings SimulationEventsTool::_getEventResponses()
 	{
-		return fToS.getEventResponses();
+		return fToS->getEventResponses();
 	}
 
 	tc_strings SimulationEventsTool_FToS::getEventResponses()
@@ -985,7 +988,7 @@ namespace Tinkercell
 
 	void SimulationEventsTool::_addEvent( const char* a, const char* b)
 	{
-		return fToS.addEvent(a,b);
+		return fToS->addEvent(a,b);
 	}
 
 	void SimulationEventsTool_FToS::addEvent(const char* a, const char* b)

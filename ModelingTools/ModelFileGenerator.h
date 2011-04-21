@@ -56,7 +56,7 @@ namespace Tinkercell
 		void generateModelFile(QSemaphore*, int*, const QString&, QList<ItemHandle*>&);
 		
 	protected:
-		static ModelFileGenerator_FToS fToS;
+		static ModelFileGenerator_FToS * fToS;
 		void connectCFuntions();
 		static int _generateModelFile(const char*,tc_items);
 		

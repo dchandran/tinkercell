@@ -244,7 +244,7 @@ namespace Tinkercell
 		void saveNetwork(const QString&);
 	private:
 	
-		static Core_FtoS fToS;
+		static Core_FtoS * fToS;
 	
 		MainWindow * mainWindow;
 		ConsoleWindow * console() const;

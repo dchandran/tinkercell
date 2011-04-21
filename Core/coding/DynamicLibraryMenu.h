@@ -117,7 +117,7 @@ namespace Tinkercell
 
     private:
         /*! \brief Part of the TinkerCell C interface. */
-        static DynamicLibraryMenu_FToS fToS;
+        static DynamicLibraryMenu_FToS * fToS;
         /*! \brief Part of the TinkerCell C interface. */
         static void _callFunction(const char*);
 

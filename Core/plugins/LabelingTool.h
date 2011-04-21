@@ -86,7 +86,7 @@ namespace Tinkercell
 		NodeGraphicsItem * fireNode;
 		QColor bgColor, textColor;
 		
-		static LabelingTool_FToS fToS;
+		static LabelingTool_FToS * fToS;
 		static void _highlightItem(long,const char *);
 		static void _displayText(long,const char*);
 		static void _displayNumber(long,double);

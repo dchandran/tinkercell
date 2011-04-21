@@ -783,7 +783,7 @@ namespace Tinkercell
 
 		QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
 		settings.beginGroup("CatalogWidget");
-		//familiesInCatalog = settings.value(tr("familiesInCatalog"),QStringList()).toStringList();
+		familiesInCatalog = settings.value(tr("familiesInCatalog"),QStringList()).toStringList();
 		int currentIndex = settings.value(tr("currentIndex"),0).toInt();
 		settings.endGroup();
 		
@@ -794,7 +794,11 @@ namespace Tinkercell
 			if (defaultListFile.open( QFile::ReadOnly | QFile::Text ))
 			{
 				QString readAll(defaultListFile.readAll());
-				familiesInCatalog = readAll.split("\n");
+				QStringList defaultList = readAll.split("\n");
+				for (int i=0; i < defaultList.size(); ++i)
+					if (!familiesInCatalog.contains(defaultList[i]))
+						familiesInCatalog << defaultList[i];
+				
 				defaultListFile.close();
 			}
 		}

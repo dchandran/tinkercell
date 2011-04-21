@@ -39,6 +39,7 @@ cp @TINKERCELL_BINARY_BIN_DIR@/*.dylib NodeGraphics.app/Contents/Frameworks/
 cp -R @TINKERCELL_SOURCE_DIR@/Graphics @TINKERCELL_EXE@.app/Contents/MacOS/
 mkdir @TINKERCELL_EXE@.app/Contents/MacOS/NodesTree/
 cp @TINKERCELL_SOURCE_DIR@/NodesTree/*.xml @TINKERCELL_EXE@.app/Contents/MacOS/NodesTree/
+cp @TINKERCELL_SOURCE_DIR@/NodesTree/*.txt @TINKERCELL_EXE@.app/Contents/MacOS/NodesTree/
 cp -R @TINKERCELL_BINARY_BIN_DIR@/python @TINKERCELL_EXE@.app/Contents/MacOS/
 cp @TINKERCELL_SOURCE_DIR@/python/*.py @TINKERCELL_EXE@.app/Contents/MacOS/python
 cp @TINKERCELL_SOURCE_DIR@/*.txt @TINKERCELL_EXE@.app/Contents/MacOS/

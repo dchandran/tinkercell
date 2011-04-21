@@ -24,7 +24,7 @@ QTOPENGL=@QT_QTOPENGL@
 @QT_LIBRARY_DIR@/../bin/macdeployqt NodeGraphics.app
 
 #copy supporting files
-cp -R plugins @TINKERCELL_EXE@.app/Contents/MacOS/
+cp -R @TINKERCELL_SOURCE_DIR@/plugins @TINKERCELL_EXE@.app/Contents/MacOS/
 mkdir @TINKERCELL_EXE@.app/Contents/MacOS/c
 mkdir @TINKERCELL_EXE@.app/Contents/MacOS/lib
 cp @TINKERCELL_SOURCE_DIR@/API/*.h @TINKERCELL_EXE@.app/Contents/MacOS/c

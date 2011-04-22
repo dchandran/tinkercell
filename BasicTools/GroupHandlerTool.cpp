@@ -27,6 +27,8 @@ namespace Tinkercell
 {
 	GroupHandlerTool::GroupHandlerTool() : Tool(tr("Merge Handles"),tr("Basic GUI"))
 	{
+		GroupHandlerTool::fToS = new GroupHandlerTool_FToS;
+		GroupHandlerTool::fToS->setParent(this);
 		connectTCFunctions();
 	}
 
@@ -432,10 +434,10 @@ namespace Tinkercell
 
 	void GroupHandlerTool::connectTCFunctions()
 	{
-		connect(&fToS,SIGNAL(merge(QSemaphore*, QList<ItemHandle*>&)),
+		connect(fToS,SIGNAL(merge(QSemaphore*, QList<ItemHandle*>&)),
 			this,SLOT(merge(QSemaphore*, QList<ItemHandle*>&)));
 
-		connect(&fToS,SIGNAL(separate(QSemaphore*,ItemHandle*)),
+		connect(fToS,SIGNAL(separate(QSemaphore*,ItemHandle*)),
 			this,SLOT(separate(QSemaphore*,ItemHandle*)));
 	}
 
@@ -687,16 +689,16 @@ namespace Tinkercell
 
 	/************************************************/
 
-	GroupHandlerTool_FToS  GroupHandlerTool::fToS;
+	GroupHandlerTool_FToS *  GroupHandlerTool::fToS;
 
 	void GroupHandlerTool::_merge( tc_items A)
 	{
-		return fToS.merge(A);
+		return fToS->merge(A);
 	}
 
 	void GroupHandlerTool::_separate(long o)
 	{
-		return fToS.separate(o);
+		return fToS->separate(o);
 	}
 
 	void GroupHandlerTool_FToS::merge(tc_items a0)

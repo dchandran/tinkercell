@@ -173,7 +173,7 @@ namespace Tinkercell
 		/*!\brief connect the C API functions and signals*/
 		void connectTCFunctions();
 		/*!\brief the C API function to signal converter*/
-		static ConnectionInsertion_FToS fToS;
+		static ConnectionInsertion_FToS * fToS;
 
 		/*!\brief C API function*/
 		static long _insertConnection(tc_items, const char*, const char*);

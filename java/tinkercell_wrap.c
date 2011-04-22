@@ -199,7 +199,6 @@ static void SWIGUNUSED SWIG_JavaThrowException(JNIEnv *jenv, SWIG_JavaExceptionC
 #include "TC_PlotTool_api.h"
 #include "TC_ModelFileGenerator_api.h"
 #include "TC_EventsAssignments_api.h"
-#include "TC_NameFamily_api.h"
 #include "TC_AutoGeneRegulatoryTool_api.h"
 #include "TC_SBML_api.h"
 #include "TC_COPASI_api.h"
@@ -4763,55 +4762,6 @@ SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1AssignmentFunctionsTool_1api(JNIE
   arg2 = *(tc_strings (**)(tc_items))&jarg2; 
   arg3 = *(void (**)(long,char const *,char const *))&jarg3; 
   tc_AssignmentFunctionsTool_api(arg1,arg2,arg3);
-}
-
-
-SWIGEXPORT jlong JNICALL Java_tinkercellJNI_tc_1getAnnotation(JNIEnv *jenv, jclass jcls, jint jarg1) {
-  jlong jresult = 0 ;
-  long arg1 ;
-  tc_strings result;
-  
-  (void)jenv;
-  (void)jcls;
-  arg1 = (long)jarg1; 
-  result = tc_getAnnotation(arg1);
-  {
-    tc_strings * resultptr = (tc_strings *) malloc(sizeof(tc_strings));
-    memmove(resultptr, &result, sizeof(tc_strings));
-    *(tc_strings **)&jresult = resultptr;
-  }
-  return jresult;
-}
-
-
-SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1setAnnotation(JNIEnv *jenv, jclass jcls, jint jarg1, jlong jarg2, jobject jarg2_) {
-  long arg1 ;
-  tc_strings arg2 ;
-  tc_strings *argp2 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg2_;
-  arg1 = (long)jarg1; 
-  argp2 = *(tc_strings **)&jarg2; 
-  if (!argp2) {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null tc_strings");
-    return ;
-  }
-  arg2 = *argp2; 
-  tc_setAnnotation(arg1,arg2);
-}
-
-
-SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1NameFamily_1api_1initialize(JNIEnv *jenv, jclass jcls, jlong jarg1, jlong jarg2) {
-  tc_strings (*arg1)(long) = (tc_strings (*)(long)) 0 ;
-  void (*arg2)(long,tc_strings) = (void (*)(long,tc_strings)) 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  arg1 = *(tc_strings (**)(long))&jarg1; 
-  arg2 = *(void (**)(long,tc_strings))&jarg2; 
-  tc_NameFamily_api_initialize(arg1,arg2);
 }
 
 

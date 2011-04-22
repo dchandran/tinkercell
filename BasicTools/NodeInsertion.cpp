@@ -24,6 +24,8 @@ namespace Tinkercell
 
 	NodeInsertion::NodeInsertion(NodesTree * tree) : Tool(tr("Node Insertion"),tr("Basic GUI")), selectedNodeFamily(0)
 	{
+		NodeInsertion::fToS = new NodeInsertion_FToS;
+		NodeInsertion::fToS->setParent(this);
 		mainWindow = 0;
 		nodesTree = tree;
 		selectedNodeFamily = 0;
@@ -69,7 +71,7 @@ namespace Tinkercell
 
 	void NodeInsertion::connectTCFunctions( )
 	{
-		connect(&fToS,SIGNAL(insertItem(QSemaphore*,ItemHandle**,const QString&,const QString&)),this,SLOT(insertItem(QSemaphore*,ItemHandle**,const QString&,const QString&)));
+		connect(fToS,SIGNAL(insertItem(QSemaphore*,ItemHandle**,const QString&,const QString&)),this,SLOT(insertItem(QSemaphore*,ItemHandle**,const QString&,const QString&)));
 	}
 
 	typedef void (*tc_NodeInsertion_api)(long (*insertItem)(const char* , const char* ));
@@ -290,11 +292,11 @@ namespace Tinkercell
 
 	/**************************************************/
 
-	NodeInsertion_FToS NodeInsertion::fToS;
+	NodeInsertion_FToS * NodeInsertion::fToS;
 
 	long NodeInsertion::_insertItem(const char* a, const char* b)
 	{
-		return fToS.insertItem(a,b);
+		return fToS->insertItem(a,b);
 	}
 
 	long NodeInsertion_FToS::insertItem(const char* a0, const char* a1)

@@ -135,6 +135,9 @@ namespace Tinkercell
 
 	ConnectionInsertion::ConnectionInsertion(ConnectionsTree * tree) : Tool(tr("Connection Insertion"),tr("Basic GUI")), selectedFamily(0)
 	{
+		ConnectionInsertion::fToS = new ConnectionInsertion_FToS;
+		ConnectionInsertion::fToS->setParent(this);
+		
 		QString appDir = QCoreApplication::applicationDirPath();
 
 		ConnectionGraphicsItem::DefaultMiddleItemFile = QString(":/images/Rect.xml");
@@ -205,19 +208,19 @@ namespace Tinkercell
 
 	void ConnectionInsertion::connectTCFunctions()
 	{
-		connect(&fToS,SIGNAL(insertConnection(QSemaphore*,ItemHandle**,const QList<ItemHandle*>&,const QString&, const QString&)),
+		connect(fToS,SIGNAL(insertConnection(QSemaphore*,ItemHandle**,const QList<ItemHandle*>&,const QString&, const QString&)),
 			this,SLOT(insertConnection(QSemaphore*,ItemHandle**,const QList<ItemHandle*>&,const QString&, const QString&)));
 
-		connect(&fToS,SIGNAL(getConnectedNodes(QSemaphore*,QList<ItemHandle*>*,ItemHandle*)),
+		connect(fToS,SIGNAL(getConnectedNodes(QSemaphore*,QList<ItemHandle*>*,ItemHandle*)),
 			this,SLOT(getConnectedNodes(QSemaphore*,QList<ItemHandle*>*,ItemHandle*)));
 
-		connect(&fToS,SIGNAL(getConnectedNodesWithRole(QSemaphore*,QList<ItemHandle*>*,ItemHandle*,const QString&)),
+		connect(fToS,SIGNAL(getConnectedNodesWithRole(QSemaphore*,QList<ItemHandle*>*,ItemHandle*,const QString&)),
 			this,SLOT(getConnectedNodesWithRole(QSemaphore*,QList<ItemHandle*>*,ItemHandle*,const QString&)));
 
-		connect(&fToS,SIGNAL(getConnections(QSemaphore*,QList<ItemHandle*>*,ItemHandle*)),
+		connect(fToS,SIGNAL(getConnections(QSemaphore*,QList<ItemHandle*>*,ItemHandle*)),
 			this,SLOT(getConnections(QSemaphore*,QList<ItemHandle*>*,ItemHandle*)));
 
-		connect(&fToS,SIGNAL(getConnectionsWithRole(QSemaphore*,QList<ItemHandle*>*,ItemHandle*,const QString&)),
+		connect(fToS,SIGNAL(getConnectionsWithRole(QSemaphore*,QList<ItemHandle*>*,ItemHandle*,const QString&)),
 			this,SLOT(getConnectionsWithRole(QSemaphore*,QList<ItemHandle*>*,ItemHandle*,const QString&)));
 	}
 
@@ -1286,11 +1289,11 @@ namespace Tinkercell
 
 	/***************************************************/
 
-	ConnectionInsertion_FToS ConnectionInsertion::fToS;
+	ConnectionInsertion_FToS * ConnectionInsertion::fToS = 0;
 
 	long ConnectionInsertion::_insertConnection(tc_items A, const char* a0, const char* a1)
 	{
-		return fToS.insertConnection(A, a0, a1);
+		return fToS->insertConnection(A, a0, a1);
 	}
 
 	long ConnectionInsertion_FToS::insertConnection(tc_items A, const char* a0, const char* a1)
@@ -1309,7 +1312,7 @@ namespace Tinkercell
 
 	tc_items ConnectionInsertion::_getConnectedNodes(long x)
 	{
-		return fToS.getConnectedNodes(x);
+		return fToS->getConnectedNodes(x);
 	}
 
 	tc_items ConnectionInsertion_FToS::getConnectedNodes(long x)
@@ -1328,7 +1331,7 @@ namespace Tinkercell
 
 	tc_items ConnectionInsertion::_getConnectedNodesWithRole(long x, const char * s)
 	{
-		return fToS.getConnectedNodesWithRole(x,s);
+		return fToS->getConnectedNodesWithRole(x,s);
 	}
 
 	tc_items ConnectionInsertion_FToS::getConnectedNodesWithRole(long x, const char * c)
@@ -1348,7 +1351,7 @@ namespace Tinkercell
 
 	tc_items ConnectionInsertion::_getConnections(long x)
 	{
-		return fToS.getConnections(x);
+		return fToS->getConnections(x);
 	}
 
 	tc_items ConnectionInsertion_FToS::getConnections(long x)
@@ -1367,7 +1370,7 @@ namespace Tinkercell
 
 	tc_items ConnectionInsertion::_getConnectionsWithRole(long x, const char * c)
 	{
-		return fToS.getConnectionsWithRole(x,c);
+		return fToS->getConnectionsWithRole(x,c);
 	}
 
 	tc_items ConnectionInsertion_FToS::getConnectionsWithRole(long x, const char * c)

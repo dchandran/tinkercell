@@ -638,12 +638,6 @@ setClass('_p_f___tc_strings',
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_long_tc_strings__void',
-        prototype = list(parameterTypes = c('_long', '_tc_strings'),
-                        returnType = '_p_f_long_tc_strings__void'),
-        contains = 'CRoutinePointer')
-
-##
 setClass('_p_f_long_tc_items__void',
         prototype = list(parameterTypes = c('_long', '_tc_items'),
                         returnType = '_p_f_long_tc_items__void'),
@@ -6330,78 +6324,6 @@ class(`tc_addForcingFunction`) = c("SWIGFunction", class('tc_addForcingFunction'
 attr(`tc_AssignmentFunctionsTool_api`, 'returnType') = 'void'
 attr(`tc_AssignmentFunctionsTool_api`, "inputTypes") = c('_p_f_tc_items__tc_strings', '_p_f_tc_items__tc_strings', '_p_f_long_p_q_const__char_p_q_const__char__void')
 class(`tc_AssignmentFunctionsTool_api`) = c("SWIGFunction", class('tc_AssignmentFunctionsTool_api'))
-
-# Start of tc_getAnnotation
-
-`tc_getAnnotation` = function(o, .copy = FALSE)
-{
-  o = as.integer(o) 
-  
-  if(length(o) > 1) {
-    warning("using only the first element of o")
-  }
-  
-  ans = .Call('R_swig_tc_getAnnotation', o, as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_tc_strings"
-  
-  ans
-  
-}
-
-attr(`tc_getAnnotation`, 'returnType') = '_p_tc_strings'
-attr(`tc_getAnnotation`, "inputTypes") = c('integer')
-class(`tc_getAnnotation`) = c("SWIGFunction", class('tc_getAnnotation'))
-
-# Start of tc_setAnnotation
-
-`tc_setAnnotation` = function(o, annot)
-{
-  o = as.integer(o) 
-  
-  if(length(o) > 1) {
-    warning("using only the first element of o")
-  }
-  
-  
-  .Call('R_swig_tc_setAnnotation', o, annot, PACKAGE='tinkercell')
-  
-}
-
-attr(`tc_setAnnotation`, 'returnType') = 'void'
-attr(`tc_setAnnotation`, "inputTypes") = c('integer', '_p_tc_strings')
-class(`tc_setAnnotation`) = c("SWIGFunction", class('tc_setAnnotation'))
-
-# Start of tc_NameFamily_api_initialize
-
-`tc_NameFamily_api_initialize` = function(tc_getAnnotation0, tc_setAnnotation0)
-{
-  if(is.function(tc_getAnnotation0)) {
-    assert('...' %in% names(formals(tc_getAnnotation0)) || length(formals(tc_getAnnotation0)) >= 0)
-  } else {
-    if(is.character(tc_getAnnotation0)) {
-      tc_getAnnotation0 = getNativeSymbolInfo(tc_getAnnotation0)
-    }
-    if(is(tc_getAnnotation0, "NativeSymbolInfo")) {
-      tc_getAnnotation0 = tc_getAnnotation0$address
-    }
-  }
-  if(is.function(tc_setAnnotation0)) {
-    assert('...' %in% names(formals(tc_setAnnotation0)) || length(formals(tc_setAnnotation0)) >= 2)
-  } else {
-    if(is.character(tc_setAnnotation0)) {
-      tc_setAnnotation0 = getNativeSymbolInfo(tc_setAnnotation0)
-    }
-    if(is(tc_setAnnotation0, "NativeSymbolInfo")) {
-      tc_setAnnotation0 = tc_setAnnotation0$address
-    }
-  }
-  .Call('R_swig_tc_NameFamily_api_initialize', tc_getAnnotation0, tc_setAnnotation0, PACKAGE='tinkercell')
-  
-}
-
-attr(`tc_NameFamily_api_initialize`, 'returnType') = 'void'
-attr(`tc_NameFamily_api_initialize`, "inputTypes") = c('_p_f_long__tc_strings', '_p_f_long_tc_strings__void')
-class(`tc_NameFamily_api_initialize`) = c("SWIGFunction", class('tc_NameFamily_api_initialize'))
 
 # Start of tc_partsIn
 

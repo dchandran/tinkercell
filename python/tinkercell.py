@@ -981,18 +981,6 @@ def tc_AssignmentFunctionsTool_api(*args):
   return _tinkercell.tc_AssignmentFunctionsTool_api(*args)
 tc_AssignmentFunctionsTool_api = _tinkercell.tc_AssignmentFunctionsTool_api
 
-def tc_getAnnotation(*args):
-  return _tinkercell.tc_getAnnotation(*args)
-tc_getAnnotation = _tinkercell.tc_getAnnotation
-
-def tc_setAnnotation(*args):
-  return _tinkercell.tc_setAnnotation(*args)
-tc_setAnnotation = _tinkercell.tc_setAnnotation
-
-def tc_NameFamily_api_initialize(*args):
-  return _tinkercell.tc_NameFamily_api_initialize(*args)
-tc_NameFamily_api_initialize = _tinkercell.tc_NameFamily_api_initialize
-
 def tc_partsIn(*args):
   return _tinkercell.tc_partsIn(*args)
 tc_partsIn = _tinkercell.tc_partsIn

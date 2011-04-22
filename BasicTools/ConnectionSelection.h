@@ -164,7 +164,7 @@ namespace Tinkercell
 		
 		//QMenu connectorsMenu;
 		void connectTCFunctions();
-		static ConnectionSelection_FToS fToS;
+		static ConnectionSelection_FToS * fToS;
 		static double _getControlPointX(long ,long ,int );
 		static double _getControlPointY(long ,long ,int );
 		static void _setControlPoint(long ,long ,int i, double ,double );

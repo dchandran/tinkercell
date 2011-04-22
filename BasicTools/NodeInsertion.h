@@ -117,7 +117,7 @@ namespace Tinkercell
 		/*! \brief connect the C API signals and slots*/
 		void connectTCFunctions();
 		/*! \brief the C API function to signal converter*/
-		static NodeInsertion_FToS fToS;
+		static NodeInsertion_FToS * fToS;
 		/*! \brief the C API function*/
 		static long _insertItem(const char* , const char* );
 

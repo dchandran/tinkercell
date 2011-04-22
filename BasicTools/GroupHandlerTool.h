@@ -74,7 +74,7 @@ namespace Tinkercell
 		void connectCollisionDetector();
 		static QString findUniqueName(const QStringList&);
 		void connectTCFunctions();
-		static GroupHandlerTool_FToS fToS;
+		static GroupHandlerTool_FToS * fToS;
 		static void _merge( tc_items );
 		static void _separate(long );
 		static ItemFamily* findBestFamilyOption(QList<ItemFamily*>&);

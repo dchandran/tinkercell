@@ -27,7 +27,6 @@ namespace Tinkercell
 	NameFamilyDialog::NameFamilyDialog() : Tool(tr("Name and Family Dialog"),tr("Basic GUI"))
 	{
 		selectedItem = 0;
-		connectTCFunctions();
 
 		QString appDir = QCoreApplication::applicationDirPath();
 		NodeGraphicsReader reader;
@@ -48,34 +47,6 @@ namespace Tinkercell
 		connect(okButton,SIGNAL(released()),dialog,SLOT(accept()));
 		QPushButton * cancelButton = new QPushButton("Cancel");
 		connect(cancelButton,SIGNAL(released()),dialog,SLOT(reject()));
-		/*QLabel * label1 = new QLabel(tr("Name :"));
-		QLabel * label2 = new QLabel(tr("Family : "));
-		QLabel * label3 = new QLabel(tr("Author(s) :"));
-		QLabel * label4 = new QLabel(tr("Date : "));
-		QLabel * label5 = new QLabel(tr("Description : "));
-
-		layout->addWidget(label1,0,0);
-		layout->addWidget(label2,1,0);
-		layout->addWidget(label3,2,0);
-		layout->addWidget(label4,3,0);
-		layout->addWidget(label5,4,0);
-
-		for (int i=0; i < 5; ++i)
-		{
-			QLineEdit * edit = new QLineEdit(tr(""));
-			edit->setFixedHeight(20);
-			connect(edit,SIGNAL(returnPressed()),dialog,SLOT(accept()));
-			lineEdits << edit;
-			layout->addWidget(edit,i,1);
-		}
-
-		QHBoxLayout * buttonsLayout = new QHBoxLayout;
-		buttonsLayout->addWidget(okButton);
-		buttonsLayout->addWidget(cancelButton);
-		layout->addLayout(buttonsLayout,5,1,Qt::AlignRight);
-
-		layout->setColumnStretch(0,0);
-		layout->setColumnStretch(1,1);*/
 
 		QVBoxLayout * layout = new QVBoxLayout;
 		QHBoxLayout * layout2 = new QHBoxLayout;
@@ -109,7 +80,7 @@ namespace Tinkercell
 		{
 			makeDialog(mainWindow);
 
-			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
+//			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 
 			connect(mainWindow,SIGNAL(itemsInserted(NetworkHandle*, const QList<ItemHandle*>&)),
 				this, SLOT(itemsInsertedSlot(NetworkHandle*, const QList<ItemHandle*>&)));
@@ -118,7 +89,6 @@ namespace Tinkercell
 			connect(this,SIGNAL(itemsAboutToBeInserted(GraphicsScene*, QList<QGraphicsItem *>&, QList<ItemHandle*>&, QList<QUndoCommand*>&)),
 				mainWindow,SIGNAL(itemsAboutToBeInserted(GraphicsScene*,QList<QGraphicsItem *>&, QList<ItemHandle*>&, QList<QUndoCommand*>&)));
 
-			//connect(this,SIGNAL(dataChanged(QList<ItemHandle*>&)),mainWindow,SIGNAL(dataChanged(QList<ItemHandle*>&)));
 		}
 		return (mainWindow != 0);
 	}
@@ -312,110 +282,6 @@ namespace Tinkercell
 		{
 			closeDialog();
 			hide();
-		}
-	}
-	/*********************
-	C API
-	*********************/
-
-	NameFamilyDialog_FtoS NameFamilyDialog::fToS;
-
-
-	void NameFamilyDialog::getAnnotation(QSemaphore* sem, QStringList* list, ItemHandle* item)
-	{
-		if (mainWindow->isValidHandlePointer(item) && list)
-		{
-			(*list).clear();
-
-			if (item->hasTextData(tr("Annotation")))
-			{
-				DataTable<QString> data = item->textDataTable(tr("Annotation"));
-
-				//(*list) << data.rowNames();
-
-				for (int i=0; i < data.rows(); ++i)
-					(*list) << data.rowName(i) << data.value(i,0);
-			}
-		}
-		if (sem)
-			sem->release();
-	}
-
-	void NameFamilyDialog::setAnnotation(QSemaphore* sem, ItemHandle* item, const QStringList& list)
-	{
-		if (mainWindow->isValidHandlePointer(item))
-		{
-			DataTable<QString> data;
-
-			if (item->hasTextData(tr("Annotation")))
-				data = item->textDataTable(tr("Annotation"));
-			else
-				item->textDataTable(tr("Annotation")) = data;
-
-			for (int i=0; i < (list.size()-1); i+=2)
-				data.value( list[i] ,0) = list[i+1];
-
-			if (currentNetwork())
-				currentNetwork()->changeData(item->fullName() + tr("'s annotation changed"),item,tr("Annotation"),&data);
-		}
-		if (sem)
-			sem->release();
-	}
-
-	tc_strings NameFamilyDialog::_getAnnotation(long o)
-	{
-		return fToS.getAnnotation(o);
-	}
-
-	void NameFamilyDialog::_setAnnotation(long o, tc_strings a)
-	{
-		return fToS.setAnnotation(o,a);
-	}
-
-	tc_strings NameFamilyDialog_FtoS::getAnnotation(long o)
-	{
-		QSemaphore * s = new QSemaphore(1);
-		QStringList p;
-		s->acquire();
-		emit getAnnotation(s,&p,ConvertValue(o));
-		s->acquire();
-		s->release();
-		delete s;
-		return ConvertValue(p);
-	}
-
-	void NameFamilyDialog_FtoS::setAnnotation(long o, tc_strings a)
-	{
-		QSemaphore * s = new QSemaphore(1);
-		s->acquire();
-		emit setAnnotation(s,ConvertValue(o),ConvertValue(a));
-		s->acquire();
-		s->release();
-		delete s;
-	}
-
-	void NameFamilyDialog::connectTCFunctions()
-	{
-
-		connect(&fToS,SIGNAL(getAnnotation(QSemaphore*, QStringList*, ItemHandle*)),this,SLOT(getAnnotation(QSemaphore*, QStringList*, ItemHandle*)));
-		connect(&fToS,SIGNAL(setAnnotation(QSemaphore*, ItemHandle*, const QStringList&)),this,SLOT(setAnnotation(QSemaphore*, ItemHandle*, const QStringList&)));
-
-	}
-
-	typedef void (*tc_NameFamily_api_func)(
-		tc_strings (*tc_getAnnotation)(long),
-		void (*tc_setAnnotation)(long,tc_strings)
-		);
-
-	void NameFamilyDialog::setupFunctionPointers(QLibrary * library)
-	{
-		tc_NameFamily_api_func f = (tc_NameFamily_api_func)library->resolve("tc_NameFamily_api_initialize");
-		if (f)
-		{
-			f(
-				&(_getAnnotation),
-				&(_setAnnotation)
-				);
 		}
 	}
 

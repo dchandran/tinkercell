@@ -749,33 +749,38 @@ namespace Tinkercell
 							rate = parts[i]->parent->fullName() + tr(" * ") + rate;
 					}
 					
-					QString oldrate = parts[i]->textData(tr("Assignments"),tr("self"),0);
+					if (parts[i]->hasTextData("Assignments") && 
+						 parts[i]->textDataTable("Assignments").hasRow("self") &&
+						 rate != tr("0.0"))
+					{
+						QString oldrate = parts[i]->textData(tr("Assignments"),tr("self"),0);
 					
-					bool isMissing = false;
+						bool isMissing = false;
 					
-					for (int k=0; k < operators.size(); ++k)
-						if (!oldrate.contains(operators[k]->fullName()))
-						{
-							isMissing = true;
-							break;
-						}
+						for (int k=0; k < operators.size(); ++k)
+							if (!oldrate.contains(operators[k]->fullName()))
+							{
+								isMissing = true;
+								break;
+							}
 						
 					
-					bool isCustomEqn = oldrate.contains(tr("+")) ||
-													oldrate.contains(tr("/")) ||  
-													oldrate.contains(tr("(")) ||
-													(oldrate.size() > 4 && !oldrate.contains(tr(".strength * ")));
+						bool isCustomEqn = oldrate.contains(tr("+")) ||
+														oldrate.contains(tr("/")) ||  
+														oldrate.contains(tr("(")) ||
+														(oldrate.size() > 4 && !oldrate.contains(tr(".strength * ")));
 
-					if (!parts[i]->textDataTable(tr("Assignments")).hasRow(tr("self")) ||
-						isMissing ||
-						(!isCustomEqn && oldrate != rate)
-						)
-						 {
-							TextDataTable * sDat = new TextDataTable(parts[i]->textDataTable(tr("Assignments")));
-							sDat->value(tr("self"),0) = rate;
-							oldDataTables += &(parts[i]->textDataTable(tr("Assignments")));
-							newDataTables += sDat;
-						}
+						if (!parts[i]->textDataTable(tr("Assignments")).hasRow(tr("self")) ||
+							isMissing ||
+							(!isCustomEqn && oldrate != rate)
+							)
+							 {
+								TextDataTable * sDat = new TextDataTable(parts[i]->textDataTable(tr("Assignments")));
+								sDat->value(tr("self"),0) = rate;
+								oldDataTables += &(parts[i]->textDataTable(tr("Assignments")));
+								newDataTables += sDat;
+							}
+					}
 				
 					QList<ConnectionHandle*> connections = NodeHandle::cast(parts[i])->connections();
 					

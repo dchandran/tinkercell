@@ -3209,9 +3209,9 @@ namespace Tinkercell
 				{
 					QString s2 = s;
 					if (s2.startsWith(h->fullName(tr("."))))
-						s2.remove(h->fullName(tr(".")));
+						s2.remove(h->fullName(tr(".")) + tr("."));
 					if (s2.startsWith(h->fullName(tr("_"))))
-						s2.remove(h->fullName(tr("_")));
+						s2.remove(h->fullName(tr("_")) + tr("_"));
 					(*v) = h->numericalData(id, s2);
 				}
 			}
@@ -3230,14 +3230,14 @@ namespace Tinkercell
 			if (!pairs.isEmpty() && pairs[0].first && !pairs[0].second.isEmpty())
 			{
 				ItemHandle * h = pairs[0].first;
-				QString id = pairs[0].second;
+				QString id = pairs[0].second;				
 				if (h->hasTextData(id))
 				{
 					QString s2 = s;
 					if (s2.startsWith(h->fullName(tr("."))))
-						s2.remove(h->fullName(tr(".")));
+						s2.remove(h->fullName(tr(".")) + tr("."));
 					if (s2.startsWith(h->fullName(tr("_"))))
-						s2.remove(h->fullName(tr("_")));
+						s2.remove(h->fullName(tr("_")) + tr("_"));
 					(*v) = h->textData(id, s2);
 				}
 			}

@@ -249,7 +249,7 @@ ADD_SUBDIRECTORY( Documentation )
 OPTION( BUILD_EXAMPLE_PROGRAMS "SimpleDesigner, Multicell, SegmentationAnimation" OFF )
 
 IF( BUILD_EXAMPLE_PROGRAMS )
-     ADD_SUBDIRECTORY( Examples )
+     ADD_SUBDIRECTORY( OtherAppsUsingCore )
 ENDIF( BUILD_EXAMPLE_PROGRAMS )
 
 #----------------------------------------------------------------------------

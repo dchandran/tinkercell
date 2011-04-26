@@ -729,7 +729,7 @@ namespace Tinkercell
 					}
 
 					if (!promoter)
-						rate = tr("0.0");
+						rate = tr("0");
 					else
 					{
 						if (!promoter->hasNumericalData("Parameters") || !promoter->numericalDataTable("Parameters").hasRow("strength"))
@@ -751,7 +751,7 @@ namespace Tinkercell
 					
 					if (parts[i]->hasTextData("Assignments") && 
 						 parts[i]->textDataTable("Assignments").hasRow("self") &&
-						 rate != tr("0.0"))
+						 rate != tr("0"))
 					{
 						QString oldrate = parts[i]->textData(tr("Assignments"),tr("self"),0);
 					
@@ -1281,7 +1281,7 @@ namespace Tinkercell
 							if (!intersects && beforeIntersected)
 							{
 								DataTable<QString> newRates(connections[j]->textDataTable(tr("Rate equations")));
-								newRates.value(0,0) = tr("0.0");
+								newRates.value(0,0) = tr("0");
 								QString s = connections[j]->fullName() + tr(" rate = 0.0");
 								
 								commands << new ChangeTextDataCommand(s,&(connections[j]->textDataTable(tr("Rate equations"))),&newRates);

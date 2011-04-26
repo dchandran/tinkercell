@@ -312,18 +312,28 @@ namespace Tinkercell
 					for (int k=0; k < textTablesToBeReplaced.size(); ++k)
 						if (h->hasTextData(textTablesToBeReplaced[k]) && 
 							parentHandle->children[i]->hasTextData(textTablesToBeReplaced[k]))
-							commands << new ChangeTextDataCommand(
-													tr("replace text table"), 
-													&(h->textDataTable(textTablesToBeReplaced[k])), 
-													&(parentHandle->children[i]->textDataTable(textTablesToBeReplaced[k])));
+						{
+							TextDataTable * table1 = &(h->textDataTable(textTablesToBeReplaced[k]));
+							TextDataTable * table2 = &(parentHandle->children[i]->textDataTable(textTablesToBeReplaced[k]));
+							TextDataTable table3(*table1);
+							for (int j1=0; j1 < table2->rows(); ++j1)
+								for (int j2=0; j2 < table2->columns(); ++j2)
+									table3.value(table2->rowName(j1), table2->columnName(j2)) = table2->value(j1,j2);
+							commands << new ChangeTextDataCommand( tr("replace text table"), table1, &(table3));
+						}
 					
 					for (int k=0; k < numericalTablesToBeReplaced.size(); ++k)
 						if (h->hasNumericalData(numericalTablesToBeReplaced[k]) && 
 							parentHandle->children[i]->hasNumericalData(numericalTablesToBeReplaced[k]))
-							commands << new ChangeNumericalDataCommand(
-													tr("replace num. table"), 
-													&(h->numericalDataTable(numericalTablesToBeReplaced[k])), 
-													&(parentHandle->children[i]->numericalDataTable(numericalTablesToBeReplaced[k])));
+						{
+							NumericalDataTable * table1 = &(h->numericalDataTable(numericalTablesToBeReplaced[k]));
+							NumericalDataTable * table2 = &(parentHandle->children[i]->numericalDataTable(numericalTablesToBeReplaced[k]));
+							NumericalDataTable table3(*table1);
+							for (int j1=0; j1 < table2->rows(); ++j1)
+								for (int j2=0; j2 < table2->columns(); ++j2)
+									table3.value(table2->rowName(j1), table2->columnName(j2)) = table2->value(j1,j2);
+							commands << new ChangeNumericalDataCommand( tr("replace num table"), table1, &(table3));
+						}
 				}
 			}
 			

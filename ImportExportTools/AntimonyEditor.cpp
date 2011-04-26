@@ -607,6 +607,9 @@ namespace Tinkercell
 					{
 						QString rule = assigns.value(r,0);
 						rule.replace(regex,tr("_"));
+						
+						if (rule.size() < 2) continue;
+						
 						if (assigns.rowName(r).isEmpty() || assigns.rowName(r) == tr("self"))
 							s += name;
 						else

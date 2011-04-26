@@ -504,7 +504,7 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
                         s1.replace(regex,tr("_"));
 						s2.replace(regex,tr("_"));
 
-						if (s1.isEmpty() || s2.isEmpty()) continue;
+						if (s2.isEmpty() || s2.size() < 2) continue;
 
 						if (s1.isEmpty() || s1 == tr("self"))
 						{

@@ -582,7 +582,7 @@ namespace Tinkercell
 							for (int k=0; k < sDat->rows(); ++k) //substitute each value in the table
 								for (int l=0; l < sDat->columns(); ++l)
 								{
-									QString & target = sDat->value(k,l);// = QString("0.0");
+									QString & target = sDat->value(k,l);// = QString("0");
 
 									int n = regexp1.indexIn(target);
 									if (n != -1)
@@ -1232,7 +1232,7 @@ namespace Tinkercell
 						for (int k=0; k < sDat->rows(); ++k) //substitute each value in the table
 							for (int l=0; l < sDat->columns(); ++l)
 							{
-								QString & target = sDat->value(k,l);// = QString("0.0");
+								QString & target = sDat->value(k,l);// = QString("0");
 
 								int n = regexp1.indexIn(target);
 								if (n != -1)

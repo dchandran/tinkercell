@@ -9,9 +9,9 @@ Overview
    Raptor is a free software / Open Source C library that provides a set
    of parsers and serializers that generate Resource Description Framework
    (RDF) triples by parsing syntaxes or serialize the triples into a
-   syntax. The supported parsing syntaxes are RDF/XML, N-Triples, TRiG,
-   Turtle, RSS tag soup including all versions of RSS, Atom 1.0 and 0.3,
-   GRDDL and microformats for HTML, XHTML and XML and RDFa. The
+   syntax. The supported parsing syntaxes are RDF/XML, N-Quads, N-Triples,
+   TRiG, Turtle, RSS tag soup including all versions of RSS, Atom 1.0 and
+   0.3, GRDDL and microformats for HTML, XHTML and XML and RDFa. The
    serializing syntaxes are RDF/XML (regular, and abbreviated), Atom 1.0,
    GraphViz, JSON, N-Quads, N-Triples, RSS 1.0 and XMP.
 
@@ -51,6 +51,12 @@ Parsers
      * Handles rdf:resource / resource attributes
      * Uses expat and/or (GNOME) libxml XML parsers as available or
        required
+
+  N-Quads Parser
+
+   A parser for the N-Quads extension to N-Triples, providing an optional
+   4th context graph term at the end of the line when a triple is
+   associated with a named graph.
 
   N-Triples Parser
 
@@ -117,10 +123,8 @@ Serializers
   N-Quads Serializer
 
    A serializer to the N-Quads extension to N-Triples, providing an
-   optional 4th context graph term at the end of the line when a named
-   graph is associated with a triple (the triple is contained in a named
-   graph). This is useful for seeing the output of named graphs or dealing
-   with SPARQL Datasets.
+   optional 4th context graph term at the end of the line when a triple is
+   associated with a named graph.
 
   N-Triples Serializer
 
@@ -186,5 +190,5 @@ Mailing Lists
    and Redland as well as future plans and announcement of releases.
      __________________________________________________________________
 
-   Copyright (C) 2000-2010 Dave Beckett
+   Copyright (C) 2000-2011 Dave Beckett
    Copyright (C) 2000-2005 University of Bristol

@@ -11,7 +11,7 @@
    COPYING.LIB for the full LGPL 2.1 license text.
      __________________________________________________________________
 
-     Copyright (C) 2000-2010 David Beckett
+     Copyright (C) 2000-2011 David Beckett
      Copyright (C) 2000-2005 University of Bristol. All Rights Reserved.
 
      This package is free software; you can redistribute it and/or modify
@@ -30,18 +30,20 @@
      MA 02110-1301 USA
      __________________________________________________________________
 
-   NOTE - under Term 3 of the LGPL Version 2.1, you may choose to license
-   the entire package under the GPL. If that option is chosen, then this
+2. GNU General Public License (GPL) V2 or any newer version
+
+   Under Term 3 of the LGPL Version 2.1, you may choose to license the
+   entire package under the GPL. If that option is chosen, then this
    package is licensed under the terms of the GPL Version 2 or
    alternatively, any newer version of the GPL. See COPYING for the full
    GPL 2.0 license text.
 
-2. The Apache License V2.0 or any newer version
+3. The Apache License V2.0 or any newer version
 
    See http://www.apache.org/licenses/LICENSE-2.0 or LICENSE-2.0.txt for
    the full ASL 2.0 license text.
 
-     Copyright (C) 2000-2010 David Beckett
+     Copyright (C) 2000-2011 David Beckett
      Copyright (C) 2000-2005 University of Bristol.
 
      Licensed under the Apache License, Version 2.0 (the "License"); you
@@ -60,5 +62,5 @@
    section 4(d) of the Apache License, Version 2.0.
      __________________________________________________________________
 
-   Copyright (C) 2000-2010 David Beckett
+   Copyright (C) 2000-2011 David Beckett
    Copyright (C) 2000-2005 University of Bristol

@@ -168,7 +168,7 @@
 #define PACKAGE_NAME "Raptor RDF Parser and Serializer library"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "Raptor RDF Parser and Serializer library 1.9.0"
+#define PACKAGE_STRING "Raptor RDF Parser and Serializer library 2.0.2"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "raptor2"
@@ -177,7 +177,7 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.9.0"
+#define PACKAGE_VERSION "2.0.2"
 
 /* does libxml struct xmlEntity have a field etype */
 //#define RAPTOR_LIBXML_ENTITY_ETYPE 1
@@ -186,28 +186,34 @@
 /* #undef RAPTOR_LIBXML_ENTITY_NAME_LENGTH */
 
 /* does libxml have HTML_PARSE_NONET */
-//#define RAPTOR_LIBXML_HTML_PARSE_NONET 1
+#define RAPTOR_LIBXML_HTML_PARSE_NONET 1
 
 /* does libxml xmlSAXHandler have externalSubset field */
-//#define RAPTOR_LIBXML_XMLSAXHANDLER_EXTERNALSUBSET 1
+#define RAPTOR_LIBXML_XMLSAXHANDLER_EXTERNALSUBSET 1
 
 /* does libxml xmlSAXHandler have initialized field */
-//#define RAPTOR_LIBXML_XMLSAXHANDLER_INITIALIZED 1
+#define RAPTOR_LIBXML_XMLSAXHANDLER_INITIALIZED 1
 
 /* does libxml have XML_PARSE_NONET */
-//#define RAPTOR_LIBXML_XML_PARSE_NONET 1
+#define RAPTOR_LIBXML_XML_PARSE_NONET 1
+
+/* Minimum supported package version */
+#define RAPTOR_MIN_VERSION_DECIMAL 20000
 
 /* Provide a Unicode NFC check */
 #define RAPTOR_NFC_CHECK 1
 
 /* Building GRDDL parser */
-/* #undef RAPTOR_PARSER_GRDDL */
+#undef RAPTOR_PARSER_GRDDL 
 
 /* Building guess parser */
 #define RAPTOR_PARSER_GUESS 1
 
 /* Building JSON parser */
-/* #undef RAPTOR_PARSER_JSON */
+#undef RAPTOR_PARSER_JSON
+
+/* Building N-Quads parser */
+#define RAPTOR_PARSER_NQUADS 1
 
 /* Building N-Triples parser */
 #define RAPTOR_PARSER_NTRIPLES 1
@@ -237,7 +243,7 @@
 #define RAPTOR_SERIALIZER_HTML 1
 
 /* Building JSON serializer */
-#define RAPTOR_SERIALIZER_JSON 1
+//#define RAPTOR_SERIALIZER_JSON 1
 
 /* Building N-Quads serializer */
 #define RAPTOR_SERIALIZER_NQUADS 1
@@ -258,16 +264,16 @@
 #define RAPTOR_SERIALIZER_TURTLE 1
 
 /* Release version as a decimal */
-#define RAPTOR_VERSION_DECIMAL 10900
+#define RAPTOR_VERSION_DECIMAL 20002
 
 /* Major version number */
-#define RAPTOR_VERSION_MAJOR 1
+#define RAPTOR_VERSION_MAJOR 2
 
 /* Minor version number */
-#define RAPTOR_VERSION_MINOR 9
+#define RAPTOR_VERSION_MINOR 0
 
 /* Release version number */
-#define RAPTOR_VERSION_RELEASE 0
+#define RAPTOR_VERSION_RELEASE 2
 
 /* Have libcurl WWW library */
 /* #undef RAPTOR_WWW_LIBCURL */
@@ -285,10 +291,11 @@
 /* #undef RAPTOR_XML_1_1 */
 
 /* Use expat XML parser */
-#define RAPTOR_XML_EXPAT */
+/* #undef RAPTOR_XML_EXPAT */
 
 /* Use libxml XML parser */
 //#define RAPTOR_XML_LIBXML 1
+#undef RAPTOR_XML_LIBXML
 
 /* The size of `unsigned char', as computed by sizeof. */
 #define SIZEOF_UNSIGNED_CHAR 1
@@ -297,7 +304,7 @@
 #define SIZEOF_UNSIGNED_INT 4
 
 /* The size of `unsigned long', as computed by sizeof. */
-#define SIZEOF_UNSIGNED_LONG 8
+#define SIZEOF_UNSIGNED_LONG 4
 
 /* The size of `unsigned short', as computed by sizeof. */
 #define SIZEOF_UNSIGNED_SHORT 2
@@ -309,7 +316,7 @@
 #define TIME_WITH_SYS_TIME 1
 
 /* Version number of package */
-#define VERSION "1.9.0"
+#define VERSION "2.0.2"
 
 /* Define WORDS_BIGENDIAN to 1 if your processor stores words with the most
    significant byte first (like Motorola and SPARC, unlike Intel). */
@@ -328,7 +335,7 @@
 /* #undef YYTEXT_POINTER */
 
 /* Number of bits in a file offset, on hosts where this is settable. */
-/* #undef _FILE_OFFSET_BITS */
+#define _FILE_OFFSET_BITS 64
 
 /* Define for large files, on AIX-style hosts. */
 /* #undef _LARGE_FILES */

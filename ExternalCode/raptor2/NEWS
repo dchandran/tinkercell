@@ -1,5 +1,55 @@
                         Raptor RDF Syntax Library - News
 
+2011-03-20 Raptor2 Version 2.0.2 Released
+
+   Fixed a too strict version checking bug in raptor_new_world()
+
+   See the Raptor2 2.0.2 Release Notes for the full details of the
+   changes.
+
+2011-03-20 Raptor Version 2.0.1 Released
+
+   DO NOT USE. Use 2.0.2 which fixes a too strict version checking bug in
+   raptor_new_world()
+   Some minor fixes:
+   The N-Quads serializer was fixed to output the graph name correctly
+   The RDFa parser built with librdfa can now be linked with the standard
+   librdfa
+   Fixed reported issues: #0000416.
+
+   See the Raptor 2.0.1 Release Notes for the full details of the changes.
+
+2011-01-03 Raptor Version 2.0.0 Released
+
+   Raptor 2 final release
+   Some minor API changes since the last beta.
+   Fixed reported issue: 0000405.
+
+   The Raptor 2 API reference manual section on Changes between raptor
+   1.4.21 and 2.0.0 provides detailed function, macro, enum and type
+   changes. The upgrading document explains how to upgrade existing Raptor
+   V1 code to the new APIs.
+
+   See the Raptor 2.0.0 Release Notes for the full details of the changes.
+
+2010-12-01 Raptor Version 1.9.1 Released
+
+   Raptor 2 second beta release with some API changes. 2.0.0 final
+   expected next.
+   Improved the V1 to V2 upgrading script
+   raptor_new_world() checks Raptor header and library are consistent
+   Constructors now validate the world pointer is from Raptor V2
+   Added an N-Quads parser
+   Added and removed a few API calls
+   Fixed a few bugs including reported issue 0000402
+
+   The Raptor 2 API reference manual section on Changes between raptor
+   1.4.21 and 1.9.1 provides detailed function, macro, enum and type
+   changes. The upgrading document explains how to upgrade existing Raptor
+   V1 code to the new APIs.
+
+   See the Raptor 1.9.1 Release Notes for the full details of the changes.
+
 2010-08-16 Raptor Version 1.9.0 Released
 
    Raptor 2 first beta release. There may be changes before a stable 2.0.0
@@ -537,5 +587,5 @@
    First release
      __________________________________________________________________
 
-   Copyright (C) 2001-2010 Dave Beckett
+   Copyright (C) 2001-2011 Dave Beckett
    Copyright (C) 2001-2005 University of Bristol

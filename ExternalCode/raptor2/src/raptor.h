@@ -47,6 +47,43 @@ extern "C" {
 
 
 /**
+ * RAPTOR_VERSION:
+ *
+ * Raptor library version number
+ *
+ * Format: major * 10000 + minor * 100 + release
+ */
+#define RAPTOR_VERSION 20002
+
+/**
+ * RAPTOR_VERSION_STRING:
+ *
+ * Raptor library version string
+ */
+#define RAPTOR_VERSION_STRING "2.0.2"
+
+/**
+ * RAPTOR_VERSION_MAJOR:
+ *
+ * Raptor library major version
+ */
+#define RAPTOR_VERSION_MAJOR 2
+
+/**
+ * RAPTOR_VERSION_MINOR:
+ *
+ * Raptor library minor version
+ */
+#define RAPTOR_VERSION_MINOR 0
+
+/**
+ * RAPTOR_VERSION_RELEASE:
+ *
+ * Raptor library release
+ */
+#define RAPTOR_VERSION_RELEASE 2
+
+/**
  * RAPTOR_API:
  *
  * Macro for wrapping API function call declarations.
@@ -76,12 +113,7 @@ extern "C" {
  * This gives a warning during compiling.
  */
 #if( __GNUC__ == 3 && __GNUC_MINOR__ > 0 ) || __GNUC__ > 3
-#ifdef __APPLE_CC__
-/* OSX gcc cpp-precomp is broken */
-#define RAPTOR_DEPRECATED
-#else
 #define RAPTOR_DEPRECATED __attribute__((deprecated))
-#endif
 #else
 #define RAPTOR_DEPRECATED
 #endif
@@ -259,10 +291,12 @@ typedef enum {
 /**
  * raptor_syntax_description:
  * @names: array of syntax names - the first one (required) is the public name, the rest are aliases.  The array is NULL terminated.
+ * @names_count: size of @names array
  * @label: long descriptive label for syntax
  * @mime_types: Array of (MIME type, Q) values associated with the syntax (or NULL).  If present the array is NULL terminated.
- * @mime_types_count: size of @mime_types array (or 0)
- * @uri_string: URI identifying the syntax (or NULL)
+ * @mime_types_count: size of @mime_types array
+ * @uri_strings: array of URIs identifying the syntax (or NULL). The first one if present is the main URI, the rest are aliases.  The array is NULL terminated.
+ * @uri_strings_count: size of @uri_strings array
  * @flags: See #raptor_syntax_bitflags for the bits
  *
  * Description of a syntax or file format.
@@ -270,13 +304,15 @@ typedef enum {
  */
 typedef struct {
   const char* const* names;
+  unsigned int names_count;
 
   const char* label;
 
   const raptor_type_q* mime_types;
   unsigned int mime_types_count;
 
-  const char* uri_string;
+  const char* const* uri_strings;
+  unsigned int uri_strings_count;
 
   unsigned int flags;
 } raptor_syntax_description;
@@ -604,10 +640,10 @@ typedef enum {
 
 /**
  * raptor_log_message:
- * @code: error code or <0
- * @domain: message domain or RAPTOR_DOMAIN_NONE
- * @level: log level
- * @locator: location associated with message or NULL
+ * @code: error code or < 0 if not used or known
+ * @domain: message domain or #RAPTOR_DOMAIN_NONE if not used or known
+ * @level: log message level
+ * @locator: location associated with message or NULL if not known
  * @text: message string
  *
  * Log message.
@@ -642,6 +678,12 @@ typedef void (*raptor_log_handler)(void *user_data, raptor_log_message *message)
  * @statement: statement to report
  *
  * Statement (triple) reporting handler function.
+ *
+ * This handler function set with
+ * raptor_parser_set_statement_handler() on a parser receives
+ * statements as the parsing proceeds. The @statement argument to the
+ * handler is shared and must be copied by the caller with
+ * raptor_statement_copy().
  */
 typedef void (*raptor_statement_handler)(void *user_data, raptor_statement *statement);
 
@@ -858,11 +900,20 @@ typedef int (*raptor_data_print_handler)(void *object, FILE *fh);
  */
 typedef int (*raptor_data_context_print_handler)(void *context, void *object, FILE *fh);
 
+/**
+ * raptor_stringbuffer:
+ *
+ * Raptor string buffer class
+ */
+typedef struct raptor_stringbuffer_s raptor_stringbuffer;
+
 
 /* Public functions */
 
+#define raptor_new_world() raptor_new_world_internal(RAPTOR_VERSION)
+/* The real target of the raptor_new_world() macro */
 RAPTOR_API
-raptor_world* raptor_new_world(void);
+raptor_world *raptor_new_world_internal(unsigned int version_decimal);
 RAPTOR_API
 int raptor_world_open(raptor_world* world);
 RAPTOR_API
@@ -884,18 +935,22 @@ const char* raptor_log_level_get_label(raptor_log_level level);
 RAPTOR_API
 const char* raptor_domain_get_label(raptor_domain domain);
 
-/* Parser names */
-RAPTOR_API
-const raptor_syntax_description* raptor_world_get_parser_description(raptor_world* world, unsigned int counter);
+/* Names */
 RAPTOR_API
 int raptor_world_is_parser_name(raptor_world* world, const char *name);
 RAPTOR_API
 const char* raptor_world_guess_parser_name(raptor_world* world, raptor_uri *uri, const char *mime_type, const unsigned char *buffer, size_t len, const unsigned char *identifier);
+RAPTOR_API
+int raptor_world_is_serializer_name(raptor_world* world, const char *name);
 
+/* Syntax descriptions */
+RAPTOR_API
+const raptor_syntax_description* raptor_world_get_parser_description(raptor_world* world, unsigned int counter);
 RAPTOR_API
 const raptor_syntax_description* raptor_world_get_serializer_description(raptor_world* world, unsigned int counter);
 RAPTOR_API
-int raptor_world_is_serializer_name(raptor_world* world, const char *name);
+int raptor_syntax_description_validate(raptor_syntax_description* desc);
+
 RAPTOR_API
 raptor_option raptor_world_get_option_from_uri(raptor_world* world, raptor_uri *uri);
 
@@ -903,6 +958,10 @@ raptor_option raptor_world_get_option_from_uri(raptor_world* world, raptor_uri *
 /* Term Class */
 RAPTOR_API
 raptor_term* raptor_new_term_from_uri(raptor_world* world, raptor_uri* uri);
+RAPTOR_API
+raptor_term* raptor_new_term_from_counted_uri_string(raptor_world* world,  const unsigned char *uri_string, size_t length);
+RAPTOR_API
+raptor_term* raptor_new_term_from_uri_string(raptor_world* world, const unsigned char *uri_string);
 RAPTOR_API
 raptor_term* raptor_new_term_from_literal(raptor_world* world, const unsigned char* literal, raptor_uri* datatype, const unsigned char* language);
 RAPTOR_API
@@ -921,9 +980,9 @@ RAPTOR_API
 void raptor_free_term(raptor_term *term);
 
 RAPTOR_API
-unsigned char* raptor_term_as_counted_string(raptor_term *term, size_t* len_p);
+unsigned char* raptor_term_to_counted_string(raptor_term *term, size_t* len_p);
 RAPTOR_API
-unsigned char* raptor_term_as_string(raptor_term *term);
+unsigned char* raptor_term_to_string(raptor_term *term);
 RAPTOR_API
 int raptor_term_ntriples_write(const raptor_term *term, raptor_iostream* iostr);
 
@@ -1157,7 +1216,8 @@ RAPTOR_API
 char* raptor_uri_uri_string_to_filename_fragment(const unsigned char *uri_string, unsigned char **fragment_p);
 RAPTOR_API
 int raptor_uri_uri_string_is_file_uri(const unsigned char* uri_string);
-
+RAPTOR_API
+int raptor_stringbuffer_append_uri_escaped_counted_string(raptor_stringbuffer* sb, const char* string, size_t length, int space_is_plus);
 
 
 /**
@@ -1317,13 +1377,6 @@ int raptor_namespace_write(raptor_namespace *ns, raptor_iostream* iostr);
 RAPTOR_API
 int raptor_xml_namespace_string_parse(const unsigned char *string, unsigned char **prefix, unsigned char **uri_string);
 
-/**
- * raptor_stringbuffer:
- *
- * Raptor string buffer class
- */
-typedef struct raptor_stringbuffer_s raptor_stringbuffer;
-
 /* Sequence class */
 /**
  * raptor_sequence:
@@ -1405,6 +1458,8 @@ RAPTOR_API
 int raptor_stringbuffer_append_string(raptor_stringbuffer* stringbuffer, const unsigned char *string, int do_copy);
 RAPTOR_API
 int raptor_stringbuffer_append_decimal(raptor_stringbuffer* stringbuffer, int integer);
+RAPTOR_API
+int raptor_stringbuffer_append_hexadecimal(raptor_stringbuffer* stringbuffer, int hex);
 RAPTOR_API
 int raptor_stringbuffer_append_stringbuffer(raptor_stringbuffer* stringbuffer, raptor_stringbuffer* append);
 RAPTOR_API

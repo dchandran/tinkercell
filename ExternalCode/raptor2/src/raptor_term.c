@@ -60,11 +60,11 @@ raptor_new_term_from_uri(raptor_world* world, raptor_uri* uri)
 {
   raptor_term *t;
 
+  RAPTOR_CHECK_CONSTRUCTOR_WORLD(world);
+
   if(!uri)
     return NULL;
   
-  RAPTOR_ASSERT_OBJECT_POINTER_RETURN_VALUE(world, raptor_world, NULL);
-
   raptor_world_open(world);
 
   t = (raptor_term*)RAPTOR_CALLOC(raptor_term, 1, sizeof(*t));
@@ -81,15 +81,80 @@ raptor_new_term_from_uri(raptor_world* world, raptor_uri* uri)
 
 
 /**
+ * raptor_new_term_from_counted_uri_string:
+ * @world: raptor world
+ * @uri_string: UTF-8 encoded URI string.
+ * @length: length of URI string
+ *
+ * Constructor - create a new URI statement term from a UTF-8 encoded Unicode string
+ *
+ * Note: The @uri_string need not be NULL terminated - a NULL will be
+ * added to the copied string used.
+ *
+ * Return value: new term or NULL on failure
+*/
+raptor_term*
+raptor_new_term_from_counted_uri_string(raptor_world* world, 
+                                        const unsigned char *uri_string,
+                                        size_t length)
+{
+  raptor_term *t;
+  raptor_uri* uri;
+
+  RAPTOR_CHECK_CONSTRUCTOR_WORLD(world);
+
+  uri = raptor_new_uri_from_counted_string(world, uri_string, length);
+  if(!uri)
+    return NULL;
+
+  t = raptor_new_term_from_uri(world, uri);
+  
+  raptor_free_uri(uri);
+  
+  return t;
+}
+
+
+/**
+ * raptor_new_term_from_uri_string:
+ * @world: raptor world
+ * @uri_string: UTF-8 encoded URI string.
+ *
+ * Constructor - create a new URI statement term from a UTF-8 encoded Unicode string
+ *
+ * Return value: new term or NULL on failure
+*/
+raptor_term*
+raptor_new_term_from_uri_string(raptor_world* world, 
+                                const unsigned char *uri_string)
+{
+  raptor_term *t;
+  raptor_uri* uri;
+
+  RAPTOR_CHECK_CONSTRUCTOR_WORLD(world);
+
+  uri = raptor_new_uri(world, uri_string);
+  if(!uri)
+    return NULL;
+
+  t = raptor_new_term_from_uri(world, uri);
+  
+  raptor_free_uri(uri);
+  
+  return t;
+}
+
+
+/**
  * raptor_new_term_from_counted_literal:
  * @world: raptor world
- * @literal: literal data (or NULL for empty literal)
+ * @literal: UTF-8 encoded literal string (or NULL for empty literal)
  * @literal_len: length of literal
  * @datatype: literal datatype URI (or NULL)
  * @language: literal language (or NULL for no language)
  * @language_len: literal language length
  *
- * Constructor - create a new literal statement term from a counted length literal.
+ * Constructor - create a new literal statement term from a counted UTF-8 encoded literal string
  *
  * Takes copies of the passed in @literal, @datatype, @language
  *
@@ -114,7 +179,7 @@ raptor_new_term_from_counted_literal(raptor_world* world,
   unsigned char* new_literal = NULL;
   unsigned char* new_language = NULL;
 
-  RAPTOR_ASSERT_OBJECT_POINTER_RETURN_VALUE(world, raptor_world, NULL);
+  RAPTOR_CHECK_CONSTRUCTOR_WORLD(world);
 
   raptor_world_open(world);
 
@@ -179,7 +244,7 @@ raptor_new_term_from_counted_literal(raptor_world* world,
 /**
  * raptor_new_term_from_literal:
  * @world: raptor world
- * @literal: literal data (or NULL for empty literal)
+ * @literal: UTF-8 encoded literal string (or NULL for empty literal)
  * @datatype: literal datatype URI (or NULL)
  * @language: literal language (or NULL)
  *
@@ -202,7 +267,7 @@ raptor_new_term_from_literal(raptor_world* world,
   size_t literal_len = 0;
   unsigned char language_len = 0;
   
-  RAPTOR_ASSERT_OBJECT_POINTER_RETURN_VALUE(world, raptor_world, NULL);
+  RAPTOR_CHECK_CONSTRUCTOR_WORLD(world);
 
   raptor_world_open(world);
 
@@ -220,14 +285,16 @@ raptor_new_term_from_literal(raptor_world* world,
 /**
  * raptor_new_term_from_counted_blank:
  * @world: raptor world
- * @blank: blank node identifier (or NULL)
+ * @blank: UTF-8 encoded blank node identifier (or NULL)
  * @length: length of identifier (or 0)
  *
- * Constructor - create a new blank node statement term from counted string ID
+ * Constructor - create a new blank node statement term from a counted UTF-8 encoded blank node ID
  *
  * Takes a copy of the passed in @blank
  *
- * If @blank is NULL, creates a new internal identifier and assigns it.
+ * If @blank is NULL, creates a new internal identifier and uses it.
+ * This will use the handler set with
+ * raptor_world_set_generate_bnodeid_parameters()
  *
  * Note: The @blank need not be NULL terminated - a NULL will be
  * added to the copied string used.
@@ -241,7 +308,7 @@ raptor_new_term_from_counted_blank(raptor_world* world,
   raptor_term *t;
   unsigned char* new_id;
 
-  RAPTOR_ASSERT_OBJECT_POINTER_RETURN_VALUE(world, raptor_world, NULL);
+  RAPTOR_CHECK_CONSTRUCTOR_WORLD(world);
 
   raptor_world_open(world);
 
@@ -275,13 +342,15 @@ raptor_new_term_from_counted_blank(raptor_world* world,
 /**
  * raptor_new_term_from_blank:
  * @world: raptor world
- * @blank: blank node identifier (or NULL)
+ * @blank: UTF-8 encoded blank node identifier (or NULL)
  *
- * Constructor - create a new blank node statement term
+ * Constructor - create a new blank node statement term from a UTF-8 encoded blank node ID
  *
  * Takes a copy of the passed in @blank
  *
- * If @blank is NULL, creates a new internal identifier and assigns it.
+ * If @blank is NULL, creates a new internal identifier and uses it.
+ * This will use the handler set with
+ * raptor_world_set_generate_bnodeid_parameters()
  *
  * Return value: new term or NULL on failure
 */
@@ -290,7 +359,7 @@ raptor_new_term_from_blank(raptor_world* world, const unsigned char* blank)
 {
   size_t length = 0;
   
-  RAPTOR_ASSERT_OBJECT_POINTER_RETURN_VALUE(world, raptor_world, NULL);
+  RAPTOR_CHECK_CONSTRUCTOR_WORLD(world);
 
   raptor_world_open(world);
 
@@ -378,7 +447,7 @@ raptor_free_term(raptor_term *term)
 
 
 /**
- * raptor_term_as_counted_string:
+ * raptor_term_to_counted_string:
  * @term: #raptor_term
  * @len_p: Pointer to location to store length of new string (if not NULL)
  *
@@ -395,7 +464,7 @@ raptor_free_term(raptor_term *term)
  * the new string is returned in *@len_p if len_p is not NULL.
  **/
 unsigned char*
-raptor_term_as_counted_string(raptor_term *term, size_t* len_p)
+raptor_term_to_counted_string(raptor_term *term, size_t* len_p)
 {
   raptor_iostream *iostr;
   void *string = NULL;
@@ -422,7 +491,7 @@ raptor_term_as_counted_string(raptor_term *term, size_t* len_p)
 
 
 /**
- * raptor_term_as_string:
+ * raptor_term_to_string:
  * @term: #raptor_term
  *
  * Turns part of raptor statement into a N-Triples format string.
@@ -433,11 +502,11 @@ raptor_term_as_counted_string(raptor_term *term, size_t* len_p)
  * Return value: the new string or NULL on failure.
  **/
 unsigned char*
-raptor_term_as_string(raptor_term *term)
+raptor_term_to_string(raptor_term *term)
 {
   RAPTOR_ASSERT_OBJECT_POINTER_RETURN_VALUE(term, raptor_term, NULL);
   
-  return raptor_term_as_counted_string(term, NULL);
+  return raptor_term_to_counted_string(term, NULL);
 }
 
 
@@ -681,6 +750,7 @@ main(int argc, char *argv[])
     rc = 1;
     goto tidy;
   }
+  raptor_free_uri(uri1); uri1 = NULL;
   if(term1->type != uri_string1_type) {
     fprintf(stderr, "%s: raptor term 1 is of type %d expected %d\n",
             program, term1->type, uri_string1_type);
@@ -727,9 +797,16 @@ main(int argc, char *argv[])
   raptor_free_term(term2);
 
   /* check a literal with language and datatype fails */
+  uri1 = raptor_new_uri(world, uri_string1);
+  if(!uri1) {
+    fprintf(stderr, "%s: raptor_new_uri(%s) failed\n", program, uri_string1);
+    rc = 1;
+    goto tidy;
+  }
   term2 = raptor_new_term_from_counted_literal(world, literal_string1,
                                                literal_string1_len, 
                                                uri1, language1, 0);
+  raptor_free_uri(uri1); uri1 = NULL;
   if(term2) {
     fprintf(stderr, "%s: raptor_new_term_from_counted_literal() with language and datatype returned object rather than failing\n", program);
     rc = 1;
@@ -786,15 +863,11 @@ main(int argc, char *argv[])
 
 
   /* check a different URI term succeeds */
-  uri1 = raptor_new_uri(world, uri_string2);
-  if(!uri1) {
-    fprintf(stderr, "%s: raptor_new_uri(%s) failed\n", program, uri_string2);
-    rc = 1;
-    goto tidy;
-  }
-  term4 = raptor_new_term_from_uri(world, uri1);
+  term4 = raptor_new_term_from_counted_uri_string(world, uri_string2,
+                                                  uri_string2_len);
   if(!term4) {
-    fprintf(stderr, "%s: raptor_new_term_from_uri_string(URI %s) failed\n",
+    fprintf(stderr,
+            "%s: raptor_new_term_from_counted_uri_string(URI %s) failed\n",
             program, uri_string2);
     rc = 1;
     goto tidy;
@@ -823,13 +896,7 @@ main(int argc, char *argv[])
 
 
   /* check the same URI term as term1 succeeds */
-  uri1 = raptor_new_uri(world, uri_string1);
-  if(!uri1) {
-    fprintf(stderr, "%s: raptor_new_uri(%s) failed\n", program, uri_string1);
-    rc = 1;
-    goto tidy;
-  }
-  term5 = raptor_new_term_from_uri(world, uri1);
+  term5 = raptor_new_term_from_uri_string(world, uri_string1);
   if(!term5) {
     fprintf(stderr, "%s: raptor_new_term_from_uri_string(URI %s) failed\n",
             program, uri_string1);

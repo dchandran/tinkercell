@@ -3,7 +3,7 @@
  * raptor_abbrev.c - Code common to abbreviating serializers (ttl/rdfxmla)
  *
  * Copyright (C) 2006, Dave Robillard
- * Copyright (C) 2004-2008, David Beckett http://www.dajobe.org/
+ * Copyright (C) 2004-2011, David Beckett http://www.dajobe.org/
  * Copyright (C) 2004-2005, University of Bristol, UK http://www.bristol.ac.uk/
  * Copyright (C) 2005, Steve Shepard steveshep@gmail.com
  * 
@@ -53,6 +53,8 @@
  *
  */
 
+
+static raptor_abbrev_subject* raptor_new_abbrev_subject(raptor_abbrev_node* node);
 
 /**
  * raptor_new_abbrev_node:
@@ -149,7 +151,6 @@ raptor_abbrev_node_equals(raptor_abbrev_node* node1, raptor_abbrev_node* node2)
  * raptor_abbrev_node_lookup:
  * @nodes: Tree of nodes to search
  * @node: Node value to search for
- * @created_p: (output parameter) set to non-0 if a node was created
  *
  * INTERNAL - Look in an avltree of nodes for a node described by parameters
  *   and if present create it, add it and return it
@@ -157,8 +158,7 @@ raptor_abbrev_node_equals(raptor_abbrev_node* node1, raptor_abbrev_node* node2)
  * Return value: the node found/created or NULL on failure
  */
 raptor_abbrev_node* 
-raptor_abbrev_node_lookup(raptor_avltree* nodes,
-                          raptor_term* term, int* created_p)
+raptor_abbrev_node_lookup(raptor_avltree* nodes, raptor_term* term)
 {
   raptor_abbrev_node *lookup_node;
   raptor_abbrev_node *rv_node;
@@ -170,9 +170,6 @@ raptor_abbrev_node_lookup(raptor_avltree* nodes,
     return NULL;
 
   rv_node = (raptor_abbrev_node*)raptor_avltree_search(nodes, lookup_node);
-  
-  if(created_p)
-    *created_p=(!rv_node);
   
   /* If not found, insert/return a new one */
   if(!rv_node) {
@@ -260,14 +257,15 @@ raptor_print_abbrev_po(raptor_abbrev_node** nodes, FILE* handle)
  **/
 
 
-raptor_abbrev_subject*
+static raptor_abbrev_subject*
 raptor_new_abbrev_subject(raptor_abbrev_node* node)
 {
   raptor_abbrev_subject* subject;
   
   if(!(node->term->type == RAPTOR_TERM_TYPE_URI ||
        node->term->type == RAPTOR_TERM_TYPE_BLANK)) {
-    RAPTOR_FATAL1("Subject node must be a resource or blank\n");
+    raptor_log_error(node->world, RAPTOR_LOG_LEVEL_ERROR, NULL,
+                     "Subject node is type %d not a uri or blank node");
     return NULL;
   }  
   
@@ -410,6 +408,15 @@ raptor_abbrev_subject_compare(raptor_abbrev_subject* subject1,
 }
 
 
+/**
+ * raptor_abbrev_subject_find:
+ * @subjects: AVL-Tree of subject nodes
+ * @term: node to find
+ *
+ * INTERNAL - Find a subject node in an AVL-Tree of subject nodes
+ *
+ * Return value: node or NULL if not found or failure
+ */
 raptor_abbrev_subject*
 raptor_abbrev_subject_find(raptor_avltree *subjects, raptor_term* node)
 {
@@ -417,7 +424,7 @@ raptor_abbrev_subject_find(raptor_avltree *subjects, raptor_term* node)
   raptor_abbrev_node* lookup_node = NULL;
   raptor_abbrev_subject* lookup = NULL;
 
-  /* datatype and language both null for a subject node */
+  /* datatype and language are both NULL for a subject node */
   
   lookup_node = raptor_new_abbrev_node(node->world, node);
   if(!lookup_node)
@@ -438,11 +445,21 @@ raptor_abbrev_subject_find(raptor_avltree *subjects, raptor_term* node)
 }
 
 
+/**
+ * raptor_abbrev_subject_lookup:
+ * @nodes: AVL-Tree of subject nodes
+ * @subjects: AVL-Tree of URI-subject nodes
+ * @blanks: AVL-Tree of blank-subject nodes
+ * @term: node to find
+ *
+ * INTERNAL - Find a subject node in the appropriate uri/blank AVL-Tree of subject nodes or add it
+ *
+ * Return value: node or NULL on failure
+ */
 raptor_abbrev_subject* 
 raptor_abbrev_subject_lookup(raptor_avltree* nodes,
                              raptor_avltree* subjects, raptor_avltree* blanks,
-                             raptor_term* term,
-                             int* created_p)
+                             raptor_term* term)
 {
   raptor_avltree *tree;
   raptor_abbrev_subject* rv_subject;
@@ -451,12 +468,9 @@ raptor_abbrev_subject_lookup(raptor_avltree* nodes,
   tree = (term->type == RAPTOR_TERM_TYPE_BLANK) ? blanks : subjects;
   rv_subject = raptor_abbrev_subject_find(tree, term);
 
-  if(created_p)
-    *created_p = (!rv_subject);
-  
   /* If not found, create one and insert it */
   if(!rv_subject) {
-    raptor_abbrev_node* node = raptor_abbrev_node_lookup(nodes, term, NULL);
+    raptor_abbrev_node* node = raptor_abbrev_node_lookup(nodes, term);
     if(node) {      
       rv_subject = raptor_new_abbrev_subject(node);
       if(rv_subject) {
@@ -482,15 +496,15 @@ raptor_print_subject(raptor_abbrev_subject* subject)
   raptor_avltree_iterator* iter = NULL;
 
   /* Note: The raptor_abbrev_node field passed as the first argument for
-   * raptor_term_as_string() is somewhat arbitrary, since as
+   * raptor_term_to_string() is somewhat arbitrary, since as
    * the data structure is designed, the first word in the value union
    * is what was passed as the subject/predicate/object of the
    * statement.
    */
-  subj = raptor_term_as_string(subject);
+  subj = raptor_term_to_string(subject);
 
   if(subject->type) {
-    obj = raptor_term_as_string(subject);
+    obj = raptor_term_to_string(subject);
     fprintf(stderr,"[%s, http://www.w3.org/1999/02/22-rdf-syntax-ns#type, %s]\n", subj, obj);      
     RAPTOR_FREE(cstring, obj);
   }
@@ -499,7 +513,7 @@ raptor_print_subject(raptor_abbrev_subject* subject)
 
     raptor_abbrev_node* o = raptor_sequence_get_at(subject->elements, i);
     if(o) {
-      obj = raptor_term_as_string(o);
+      obj = raptor_term_to_string(o);
       fprintf(stderr,"[%s, [rdf:_%d], %s]\n", subj, i, obj);      
       RAPTOR_FREE(cstring, obj);
     }
@@ -558,7 +572,9 @@ raptor_new_qname_from_resource(raptor_sequence* namespaces,
   size_t ns_uri_string_len;
   
   if(node->term->type != RAPTOR_TERM_TYPE_URI) {
-    RAPTOR_FATAL1("Node must be a resource\n");
+#ifdef RAPTOR_DEBUG
+    RAPTOR_FATAL1("Node must be a URI\n");
+#endif
     return NULL;
   }
 

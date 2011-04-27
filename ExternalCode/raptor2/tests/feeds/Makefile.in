@@ -97,7 +97,6 @@ DEFS = @DEFS@
 DEPDIR = @DEPDIR@
 DSYMUTIL = @DSYMUTIL@
 DUMPBIN = @DUMPBIN@
-ECHO = @ECHO@
 ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
@@ -154,9 +153,16 @@ RAPTOR_LIBTOOLLIBS = @RAPTOR_LIBTOOLLIBS@
 RAPTOR_LIBTOOL_VERSION = @RAPTOR_LIBTOOL_VERSION@
 RAPTOR_PARSERS = @RAPTOR_PARSERS@
 RAPTOR_SERIALIZERS = @RAPTOR_SERIALIZERS@
+RAPTOR_VERSION = @RAPTOR_VERSION@
 RAPTOR_VERSION_DECIMAL = @RAPTOR_VERSION_DECIMAL@
+RAPTOR_VERSION_MAJOR = @RAPTOR_VERSION_MAJOR@
+RAPTOR_VERSION_MINOR = @RAPTOR_VERSION_MINOR@
+RAPTOR_VERSION_RELEASE = @RAPTOR_VERSION_RELEASE@
 RAPTOR_WWW_LIBRARY = @RAPTOR_WWW_LIBRARY@
 RAPTOR_XML_PARSER = @RAPTOR_XML_PARSER@
+RECHO = @RECHO@
+RECHO_C = @RECHO_C@
+RECHO_N = @RECHO_N@
 RPM_RELEASE = @RPM_RELEASE@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
@@ -445,7 +451,7 @@ check-local: build-rapper $(FEED_TESTS)
 # Parse from RDF/XML and Serialize to Turtle
 check-rdfxml-to-turtle: $(TEST_IN_RDF_ATOMS)
 	@set +e; result=0; \
-	$(ECHO) "Testing RDF/XML to Turtle"; \
+	$(RECHO) "Testing RDF/XML to Turtle"; \
 	for test in $?; do \
 	  parser=rdfxml; \
 	  name=`basename $$test .rdf` ; \
@@ -460,19 +466,19 @@ check-rdfxml-to-turtle: $(TEST_IN_RDF_ATOMS)
 	    baseuri="http://example.org"; \
 	  fi; \
 	  opts="-q -i $$parser -o turtle $$opts -O $$baseuri"; \
-	  $(ECHO) $(ECHO_N) "Checking $$test $(ECHO_C)"; \
+	  $(RECHO) $(RECHO_N) "Checking $$test $(RECHO_C)"; \
 	  $(RAPPER) $$opts file:$(srcdir)/$$test > $$turtle 2> errors.log; \
 	  status=$$?; \
 	  if test $$status != 0; then \
-	    $(ECHO) "FAILED with code $$status"; \
-	    $(ECHO) "$(RAPPER) $$opts file:$(srcdir)/$$test"; \
+	    $(RECHO) "FAILED with code $$status"; \
+	    $(RECHO) "$(RAPPER) $$opts file:$(srcdir)/$$test"; \
 	    cat errors.log ; \
 	    result=1 ; \
 	  elif cmp $(srcdir)/$$expected $$turtle >/dev/null 2>&1; then \
-	    $(ECHO) "ok"; \
+	    $(RECHO) "ok"; \
 	  else \
-	    $(ECHO) "FAILED"; \
-	    $(ECHO) "$(RAPPER) $$opts file:$(srcdir)/$$test"; \
+	    $(RECHO) "FAILED"; \
+	    $(RECHO) "$(RAPPER) $$opts file:$(srcdir)/$$test"; \
 	    diff -u $(srcdir)/$$expected $$turtle; result=1; \
 	  fi; \
 	  rm -f errors.log ; \
@@ -482,7 +488,7 @@ check-rdfxml-to-turtle: $(TEST_IN_RDF_ATOMS)
 # Parser from Atom and Serialize to Turtle
 check-atom-to-turtle: $(TEST_IN_ATOMS)
 	@set +e; result=0; \
-	$(ECHO) "Testing Atom to Turtle"; \
+	$(RECHO) "Testing Atom to Turtle"; \
 	for test in $?; do \
 	  parser=rss-tag-soup; \
 	  name=`basename $$test .atom` ; \
@@ -494,19 +500,19 @@ check-atom-to-turtle: $(TEST_IN_ATOMS)
 	    baseuri="http://www.example.org/blog/"; \
 	  fi; \
 	  opts="-q -i $$parser -o turtle $$opts -O $$baseuri"; \
-	  $(ECHO) $(ECHO_N) "Checking $$test $(ECHO_C)"; \
+	  $(RECHO) $(RECHO_N) "Checking $$test $(RECHO_C)"; \
 	  $(RAPPER) $$opts file:$(srcdir)/$$test > $$turtle 2> errors.log; \
 	  status=$$?; \
 	  if test $$status != 0; then \
-	    $(ECHO) "FAILED with code $$status"; \
-	    $(ECHO) "$(RAPPER) $$opts file:$(srcdir)/$$test"; \
+	    $(RECHO) "FAILED with code $$status"; \
+	    $(RECHO) "$(RAPPER) $$opts file:$(srcdir)/$$test"; \
 	    cat errors.log ; \
 	    result=1 ; \
 	  elif cmp $(srcdir)/$$expected $$turtle >/dev/null 2>&1; then \
-	    $(ECHO) "ok"; \
+	    $(RECHO) "ok"; \
 	  else \
-	    $(ECHO) "FAILED"; \
-	    $(ECHO) "$(RAPPER) $$opts file:$(srcdir)/$$test"; \
+	    $(RECHO) "FAILED"; \
+	    $(RECHO) "$(RAPPER) $$opts file:$(srcdir)/$$test"; \
 	    diff -u $(srcdir)/$$expected $$turtle; result=1; \
 	  fi; \
 	  rm -f errors.log ; \
@@ -516,7 +522,7 @@ check-atom-to-turtle: $(TEST_IN_ATOMS)
 # Parser from Turtle and Serialize to Atom
 check-serialize-atom: $(OUT_RDF_TTLS)
 	@set +e; result=0; \
-	$(ECHO) "Testing Turtle to Atom XML"; \
+	$(RECHO) "Testing Turtle to Atom XML"; \
 	for test in $(OUT_RDF_TTLS); do \
 	  name=`basename $$test .ttl` ; \
 	  atom="$$name.atom"; \
@@ -531,19 +537,19 @@ check-serialize-atom: $(OUT_RDF_TTLS)
 	    baseuri="http://example.org"; \
 	  fi; \
 	  opts="-q -i turtle -o atom $$opts -I $$baseuri -O $$baseuri"; \
-	  $(ECHO) $(ECHO_N) "Checking $$test $(ECHO_C)"; \
+	  $(RECHO) $(RECHO_N) "Checking $$test $(RECHO_C)"; \
 	  $(RAPPER) $$opts file:$$test > $$atom 2> errors.log; \
 	  status=$$?; \
 	  if test $$status != 0; then \
-	    $(ECHO) "FAILED with code $$status"; \
-	    $(ECHO) "$(RAPPER) $$opts file:$$test"; \
+	    $(RECHO) "FAILED with code $$status"; \
+	    $(RECHO) "$(RAPPER) $$opts file:$$test"; \
 	    cat errors.log ; \
 	    result=1 ; \
 	  elif cmp $(srcdir)/$$expected $$atom >/dev/null 2>&1; then \
-	    $(ECHO) "ok"; \
+	    $(RECHO) "ok"; \
 	  else \
-	    $(ECHO) "FAILED"; \
-	    $(ECHO) "$(RAPPER) $$opts file:$(srcdir)/$$test"; \
+	    $(RECHO) "FAILED"; \
+	    $(RECHO) "$(RAPPER) $$opts file:$(srcdir)/$$test"; \
 	    diff -u $(srcdir)/$$expected $$atom; result=1; \
 	  fi; \
 	  rm -f errors.log ; \
@@ -555,18 +561,18 @@ check-serialize-atom: $(OUT_RDF_TTLS)
 
 @MAINTAINER_MODE_TRUE@check-validate-atom: $(srcdir)/atom.rng $(OUT_ATOMS) $(TEST_IN_ATOMS)
 @MAINTAINER_MODE_TRUE@	@set +e; result=0; \
-@MAINTAINER_MODE_TRUE@	$(ECHO) "Validating Atom XML with RelaxNG"; \
+@MAINTAINER_MODE_TRUE@	$(RECHO) "Validating Atom XML with RelaxNG"; \
 @MAINTAINER_MODE_TRUE@	for atom in $(OUT_ATOMS) $(TEST_IN_ATOMS); do \
-@MAINTAINER_MODE_TRUE@	  $(ECHO) $(ECHO_N) "Validating $$atom $(ECHO_C)"; \
+@MAINTAINER_MODE_TRUE@	  $(RECHO) $(RECHO_N) "Validating $$atom $(RECHO_C)"; \
 @MAINTAINER_MODE_TRUE@	  jing $(srcdir)/atom.rng $$atom > errors.log 2>&1; \
 @MAINTAINER_MODE_TRUE@	  status=$$?; \
 @MAINTAINER_MODE_TRUE@	  if test $$status != 0; then \
-@MAINTAINER_MODE_TRUE@	    $(ECHO) "FAILED with code $$status"; result=1; \
-@MAINTAINER_MODE_TRUE@	    $(ECHO) jing $(srcdir)/atom.rng $$atom; \
+@MAINTAINER_MODE_TRUE@	    $(RECHO) "FAILED with code $$status"; result=1; \
+@MAINTAINER_MODE_TRUE@	    $(RECHO) jing $(srcdir)/atom.rng $$atom; \
 @MAINTAINER_MODE_TRUE@	    sed -e "s,^.*$$atom,$$atom," errors.log ; \
 @MAINTAINER_MODE_TRUE@	    result=1 ; \
 @MAINTAINER_MODE_TRUE@	  else \
-@MAINTAINER_MODE_TRUE@	    $(ECHO) "ok"; \
+@MAINTAINER_MODE_TRUE@	    $(RECHO) "ok"; \
 @MAINTAINER_MODE_TRUE@          fi; \
 @MAINTAINER_MODE_TRUE@          rm -f errors.log; \
 @MAINTAINER_MODE_TRUE@	done; \

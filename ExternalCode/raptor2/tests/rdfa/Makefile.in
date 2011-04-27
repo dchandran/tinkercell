@@ -93,7 +93,6 @@ DEFS = @DEFS@
 DEPDIR = @DEPDIR@
 DSYMUTIL = @DSYMUTIL@
 DUMPBIN = @DUMPBIN@
-ECHO = @ECHO@
 ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
@@ -150,9 +149,16 @@ RAPTOR_LIBTOOLLIBS = @RAPTOR_LIBTOOLLIBS@
 RAPTOR_LIBTOOL_VERSION = @RAPTOR_LIBTOOL_VERSION@
 RAPTOR_PARSERS = @RAPTOR_PARSERS@
 RAPTOR_SERIALIZERS = @RAPTOR_SERIALIZERS@
+RAPTOR_VERSION = @RAPTOR_VERSION@
 RAPTOR_VERSION_DECIMAL = @RAPTOR_VERSION_DECIMAL@
+RAPTOR_VERSION_MAJOR = @RAPTOR_VERSION_MAJOR@
+RAPTOR_VERSION_MINOR = @RAPTOR_VERSION_MINOR@
+RAPTOR_VERSION_RELEASE = @RAPTOR_VERSION_RELEASE@
 RAPTOR_WWW_LIBRARY = @RAPTOR_WWW_LIBRARY@
 RAPTOR_XML_PARSER = @RAPTOR_XML_PARSER@
+RECHO = @RECHO@
+RECHO_C = @RECHO_C@
+RECHO_N = @RECHO_N@
 RPM_RELEASE = @RPM_RELEASE@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
@@ -469,22 +475,22 @@ build-rdfdiff:
 
 check-rdfa: build-rdfdiff build-rapper $(TEST_FILES)
 	@set +e; result=0; failures=; failure_count=0; \
-	$(ECHO) "Testing RDFA"; \
+	$(RECHO) "Testing RDFA"; \
 	for test in $(TEST_FILES); do \
 	  name=`basename $$test .xhtml` ; \
-	  $(ECHO) $(ECHO_N) "Checking $$test $(ECHO_C)"; \
+	  $(RECHO) $(RECHO_N) "Checking $$test $(RECHO_C)"; \
 	  baseuri=$(BASE_URI)$$test; \
 	  $(top_builddir)/utils/rapper -f noNet -q -i rdfa -I $$baseuri -o ntriples $(srcdir)/$$test > $$name-res.nt 2> $$name.err; \
 	  status1=$$?; \
 	  $(top_builddir)/utils/rdfdiff -f ntriples -u $$baseuri -t ntriples $(srcdir)/$$name.out $$name-res.nt > $$name.res 2> $$name.err; \
 	  status2=$$?; \
 	  if test $$status1 = 0 -a $$status2 = 0; then \
-	    $(ECHO) "ok"; \
+	    $(RECHO) "ok"; \
 	  else \
-	    $(ECHO) "FAILED"; \
-	    $(ECHO) "Triple counts: expected: `wc -l < $(srcdir)/$$name.out` got: `wc -l < $$name-res.nt` "; \
-	    $(ECHO) $(top_builddir)/utils/rapper -f noNet -q -i rdfa -I $$baseuri -o ntriples $(srcdir)/$$test '>' $$name-res.nt; \
-	    $(ECHO) $(top_builddir)/utils/rdfdiff -f ntriples -u $$baseuri -t ntriples $(srcdir)/$$name.out $$name-res.nt '>' $$name.res; \
+	    $(RECHO) "FAILED"; \
+	    $(RECHO) "Triple counts: expected: `wc -l < $(srcdir)/$$name.out` got: `wc -l < $$name-res.nt` "; \
+	    $(RECHO) $(top_builddir)/utils/rapper -f noNet -q -i rdfa -I $$baseuri -o ntriples $(srcdir)/$$test '>' $$name-res.nt; \
+	    $(RECHO) $(top_builddir)/utils/rdfdiff -f ntriples -u $$baseuri -t ntriples $(srcdir)/$$name.out $$name-res.nt '>' $$name.res; \
 	    cat $$name.err $$name.res; \
 	    failures="$$failures $$test"; \
 	    failure_count=`expr $$failure_count + 1`; \
@@ -502,22 +508,22 @@ check-rdfa: build-rdfdiff build-rapper $(TEST_FILES)
 
 check-unapproved-rdfa: build-rdfdiff build-rapper $(TEST_UNAPPROVED_FILES)
 	@set +e; result=0; failures=; failure_count=0; \
-	$(ECHO) "Testing unapproved RDFA"; \
+	$(RECHO) "Testing unapproved RDFA"; \
 	for test in $(TEST_UNAPPROVED_FILES); do \
 	  name=`basename $$test .xhtml` ; \
-	  $(ECHO) $(ECHO_N) "Checking $$test $(ECHO_C)"; \
+	  $(RECHO) $(RECHO_N) "Checking $$test $(RECHO_C)"; \
 	  baseuri=$(BASE_URI)$$test; \
 	  $(top_builddir)/utils/rapper -f noNet -q -i rdfa -I $$baseuri -o ntriples $(srcdir)/$$test > $$name-res.nt 2> $$name.err; \
 	  status1=$$?; \
 	  $(top_builddir)/utils/rdfdiff -f ntriples -u $$baseuri -t ntriples $(srcdir)/$$name.out $$name-res.nt > $$name.res 2> $$name.err; \
 	  status2=$$?; \
 	  if test $$status1 = 0 -a $$status2 = 0; then \
-	    $(ECHO) "ok"; \
+	    $(RECHO) "ok"; \
 	  else \
-	    $(ECHO) "FAILED"; \
-	    $(ECHO) "Triple counts: expected: `wc -l < $(srcdir)/$$name.out` got: `wc -l < $$name-res.nt` "; \
-	    $(ECHO) $(top_builddir)/utils/rapper -f noNet -q -i rdfa -I $$baseuri -o ntriples $(srcdir)/$$test '>' $$name-res.nt; \
-	    $(ECHO) $(top_builddir)/utils/rdfdiff -f ntriples -u $$baseuri -t ntriples $(srcdir)/$$name.out $$name-res.nt '>' $$name.res; \
+	    $(RECHO) "FAILED"; \
+	    $(RECHO) "Triple counts: expected: `wc -l < $(srcdir)/$$name.out` got: `wc -l < $$name-res.nt` "; \
+	    $(RECHO) $(top_builddir)/utils/rapper -f noNet -q -i rdfa -I $$baseuri -o ntriples $(srcdir)/$$test '>' $$name-res.nt; \
+	    $(RECHO) $(top_builddir)/utils/rdfdiff -f ntriples -u $$baseuri -t ntriples $(srcdir)/$$name.out $$name-res.nt '>' $$name.res; \
 	    cat $$name.err $$name.res; \
 	    failures="$$failures $$test"; \
 	    failure_count=`expr $$failure_count + 1`; \

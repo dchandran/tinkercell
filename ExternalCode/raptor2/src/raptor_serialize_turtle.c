@@ -339,7 +339,9 @@ raptor_turtle_emit_subject_list_items(raptor_serializer* serializer,
 
       case RAPTOR_TERM_TYPE_UNKNOWN:
       default:
-        RAPTOR_FATAL1("Unsupported identifier type\n");
+        raptor_log_error_formatted(serializer->world, RAPTOR_LOG_LEVEL_ERROR,
+                                   NULL, "Triple has unsupported term type %d", 
+                                   object->term->type);
         break;
 
     }
@@ -422,7 +424,9 @@ raptor_turtle_emit_subject_collection_items(raptor_serializer* serializer,
 
       case RAPTOR_TERM_TYPE_UNKNOWN:
       default:
-        RAPTOR_FATAL1("Unsupported identifier type\n");
+        raptor_log_error_formatted(serializer->world, RAPTOR_LOG_LEVEL_ERROR,
+                                   NULL, "Triple has unsupported term type %d", 
+                                   object->term->type);
         break;
     }
 
@@ -562,7 +566,9 @@ raptor_turtle_emit_subject_properties(raptor_serializer* serializer,
           
       case RAPTOR_TERM_TYPE_UNKNOWN:
       default:
-        RAPTOR_FATAL1("Unsupported identifier type\n");
+        raptor_log_error_formatted(serializer->world, RAPTOR_LOG_LEVEL_ERROR,
+                                   NULL, "Triple has unsupported term type %d", 
+                                   object->term->type);
         break;
     }    
     
@@ -1043,9 +1049,6 @@ raptor_turtle_serialize_statement(raptor_serializer* serializer,
   raptor_abbrev_node* object = NULL;
   int rv;
   raptor_term_type object_type;
-  int subject_created = 0;
-  int predicate_created = 0;
-  int object_created = 0;
 
   if(!(statement->subject->type == RAPTOR_TERM_TYPE_URI ||
        statement->subject->type == RAPTOR_TERM_TYPE_BLANK)) {
@@ -1057,8 +1060,7 @@ raptor_turtle_serialize_statement(raptor_serializer* serializer,
 
   subject = raptor_abbrev_subject_lookup(context->nodes, context->subjects,
                                          context->blanks,
-                                         statement->subject,
-                                         &subject_created);
+                                         statement->subject);
   if(!subject) {
     return 1;
   }
@@ -1074,17 +1076,13 @@ raptor_turtle_serialize_statement(raptor_serializer* serializer,
     return 1;
   }
 
-  object = raptor_abbrev_node_lookup(context->nodes,
-                                     statement->object,
-                                     &object_created);
+  object = raptor_abbrev_node_lookup(context->nodes, statement->object);
   if(!object)
     return 1;          
 
 
   if(statement->predicate->type == RAPTOR_TERM_TYPE_URI) {
-    predicate = raptor_abbrev_node_lookup(context->nodes,
-                                          statement->predicate,
-                                          &predicate_created);
+    predicate = raptor_abbrev_node_lookup(context->nodes, statement->predicate);
     if(!predicate)
       return 1;
 	      
@@ -1138,6 +1136,11 @@ raptor_turtle_serialize_finish_factory(raptor_serializer_factory* factory)
 
 static const char* const turtle_names[2] = { "turtle", NULL};
 
+static const char* const turtle_uri_strings[2] = {
+  "http://www.dajobe.org/2004/01/turtle/",
+  NULL
+};
+  
 #define TURTLE_TYPES_COUNT 5
 static const raptor_type_q turtle_types[TURTLE_TYPES_COUNT + 1] = {
   { "application/turtle", 18, 10},
@@ -1153,10 +1156,9 @@ raptor_turtle_serializer_register_factory(raptor_serializer_factory *factory)
 {
   factory->desc.names = turtle_names;
   factory->desc.mime_types = turtle_types;
-  factory->desc.mime_types_count = TURTLE_TYPES_COUNT;
 
   factory->desc.label = "Turtle Terse RDF Triple Language";
-  factory->desc.uri_string = "http://www.dajobe.org/2004/01/turtle";
+  factory->desc.uri_strings = turtle_uri_strings;
   
   factory->context_length     = sizeof(raptor_turtle_context);
   

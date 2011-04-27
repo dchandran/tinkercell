@@ -57,7 +57,8 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 EXTRA_PROGRAMS = raptor_abort$(EXEEXT) grapper$(EXEEXT) \
-	rdfcat$(EXEEXT) rdfprint$(EXEEXT) rdfserialize$(EXEEXT)
+	rdfcat$(EXEEXT) rdfprint$(EXEEXT) rdfserialize$(EXEEXT) \
+	rdfguess$(EXEEXT)
 subdir = examples
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -80,6 +81,8 @@ am_raptor_abort_OBJECTS = raptor_abort.$(OBJEXT)
 raptor_abort_OBJECTS = $(am_raptor_abort_OBJECTS)
 am_rdfcat_OBJECTS = rdfcat.$(OBJEXT)
 rdfcat_OBJECTS = $(am_rdfcat_OBJECTS)
+am_rdfguess_OBJECTS = rdfguess.$(OBJEXT)
+rdfguess_OBJECTS = $(am_rdfguess_OBJECTS)
 am_rdfprint_OBJECTS = rdfprint.$(OBJEXT)
 rdfprint_OBJECTS = $(am_rdfprint_OBJECTS)
 am_rdfserialize_OBJECTS = rdfserialize.$(OBJEXT)
@@ -111,9 +114,11 @@ AM_V_GEN = $(am__v_GEN_$(V))
 am__v_GEN_ = $(am__v_GEN_$(AM_DEFAULT_VERBOSITY))
 am__v_GEN_0 = @echo "  GEN   " $@;
 SOURCES = $(grapper_SOURCES) $(raptor_abort_SOURCES) $(rdfcat_SOURCES) \
-	$(rdfprint_SOURCES) $(rdfserialize_SOURCES)
+	$(rdfguess_SOURCES) $(rdfprint_SOURCES) \
+	$(rdfserialize_SOURCES)
 DIST_SOURCES = $(grapper_SOURCES) $(raptor_abort_SOURCES) \
-	$(rdfcat_SOURCES) $(rdfprint_SOURCES) $(rdfserialize_SOURCES)
+	$(rdfcat_SOURCES) $(rdfguess_SOURCES) $(rdfprint_SOURCES) \
+	$(rdfserialize_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -136,7 +141,6 @@ DEFS = @DEFS@
 DEPDIR = @DEPDIR@
 DSYMUTIL = @DSYMUTIL@
 DUMPBIN = @DUMPBIN@
-ECHO = @ECHO@
 ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
@@ -193,9 +197,16 @@ RAPTOR_LIBTOOLLIBS = @RAPTOR_LIBTOOLLIBS@
 RAPTOR_LIBTOOL_VERSION = @RAPTOR_LIBTOOL_VERSION@
 RAPTOR_PARSERS = @RAPTOR_PARSERS@
 RAPTOR_SERIALIZERS = @RAPTOR_SERIALIZERS@
+RAPTOR_VERSION = @RAPTOR_VERSION@
 RAPTOR_VERSION_DECIMAL = @RAPTOR_VERSION_DECIMAL@
+RAPTOR_VERSION_MAJOR = @RAPTOR_VERSION_MAJOR@
+RAPTOR_VERSION_MINOR = @RAPTOR_VERSION_MINOR@
+RAPTOR_VERSION_RELEASE = @RAPTOR_VERSION_RELEASE@
 RAPTOR_WWW_LIBRARY = @RAPTOR_WWW_LIBRARY@
 RAPTOR_XML_PARSER = @RAPTOR_XML_PARSER@
+RECHO = @RECHO@
+RECHO_C = @RECHO_C@
+RECHO_N = @RECHO_N@
 RPM_RELEASE = @RPM_RELEASE@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
@@ -280,6 +291,9 @@ rdfprint_DEPENDENCIES = $(top_builddir)/src/libraptor2.la
 rdfserialize_SOURCES = rdfserialize.c
 rdfserialize_LDADD = $(top_builddir)/src/libraptor2.la
 rdfserialize_DEPENDENCIES = $(top_builddir)/src/libraptor2.la
+rdfguess_SOURCES = rdfguess.c
+rdfguess_LDADD = $(top_builddir)/src/libraptor2.la
+rdfguess_DEPENDENCIES = $(top_builddir)/src/libraptor2.la
 all: all-am
 
 .SUFFIXES:
@@ -323,6 +337,9 @@ raptor_abort$(EXEEXT): $(raptor_abort_OBJECTS) $(raptor_abort_DEPENDENCIES)
 rdfcat$(EXEEXT): $(rdfcat_OBJECTS) $(rdfcat_DEPENDENCIES) 
 	@rm -f rdfcat$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(rdfcat_OBJECTS) $(rdfcat_LDADD) $(LIBS)
+rdfguess$(EXEEXT): $(rdfguess_OBJECTS) $(rdfguess_DEPENDENCIES) 
+	@rm -f rdfguess$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(rdfguess_OBJECTS) $(rdfguess_LDADD) $(LIBS)
 rdfprint$(EXEEXT): $(rdfprint_OBJECTS) $(rdfprint_DEPENDENCIES) 
 	@rm -f rdfprint$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(rdfprint_OBJECTS) $(rdfprint_LDADD) $(LIBS)
@@ -339,6 +356,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/grapper-grapper.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/raptor_abort.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rdfcat.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rdfguess.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rdfprint.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rdfserialize.Po@am__quote@
 

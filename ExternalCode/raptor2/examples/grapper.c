@@ -411,9 +411,9 @@ grapper_model_statements_handler(void *data, raptor_statement *statement)
   grapper_state* state = (grapper_state*)data;
   unsigned char* nodes[3];
   
-  nodes[0] = raptor_term_as_string(statement->subject);
-  nodes[1] = raptor_term_as_string(statement->predicate);
-  nodes[2] = raptor_term_as_string(statement->object);
+  nodes[0] = raptor_term_to_string(statement->subject);
+  nodes[1] = raptor_term_to_string(statement->predicate);
+  nodes[2] = raptor_term_to_string(statement->object);
   
   grapper_model_add_triple(state, nodes);
   free(nodes[0]);
@@ -462,7 +462,7 @@ grapper_model_parse(grapper_state *state)
 
   for(i = 0; i <= RAPTOR_OPTION_LAST; i++) {
     if(state->options_set[i])
-      raptor_parser_set_option(rdf_parser, i, NULL, state->options[i]);
+      raptor_parser_set_option(rdf_parser, (raptor_option)i, NULL, state->options[i]);
   }
 
   raptor_world_set_log_handler(state->world, state, grapper_model_log_handler);

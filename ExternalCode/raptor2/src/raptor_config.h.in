@@ -22,7 +22,7 @@
 #undef HAVE_ERRNO_H
 
 /* Define to 1 if you have the <expat.h> header file. */
-#define HAVE_EXPAT_H
+#undef HAVE_EXPAT_H
 
 /* Define to 1 if you have the <fcntl.h> header file. */
 #undef HAVE_FCNTL_H
@@ -196,6 +196,9 @@
 /* does libxml have XML_PARSE_NONET */
 #undef RAPTOR_LIBXML_XML_PARSE_NONET
 
+/* Minimum supported package version */
+#undef RAPTOR_MIN_VERSION_DECIMAL
+
 /* Provide a Unicode NFC check */
 #undef RAPTOR_NFC_CHECK
 
@@ -207,6 +210,9 @@
 
 /* Building JSON parser */
 #undef RAPTOR_PARSER_JSON
+
+/* Building N-Quads parser */
+#undef RAPTOR_PARSER_NQUADS
 
 /* Building N-Triples parser */
 #undef RAPTOR_PARSER_NTRIPLES
@@ -284,7 +290,7 @@
 #undef RAPTOR_XML_1_1
 
 /* Use expat XML parser */
-#define RAPTOR_XML_EXPAT 1
+#undef RAPTOR_XML_EXPAT
 
 /* Use libxml XML parser */
 #undef RAPTOR_XML_LIBXML

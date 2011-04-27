@@ -202,6 +202,8 @@ raptor_rss_parse_init(raptor_parser* rdf_parser, const char *name)
   raptor_sax2_set_comment_handler(sax2, raptor_rss_comment_handler);
   raptor_sax2_set_namespace_handler(sax2, raptor_rss_sax2_new_namespace_handler);
 
+  raptor_statement_init(&rss_parser->statement, rdf_parser->world);
+  
   return 0;
 }
 
@@ -526,14 +528,22 @@ raptor_rss_start_element_handler(void *user_data,
     raptor_rss_type block_type;
     raptor_rss_item* update_item;
     const unsigned char *id;
-
+    raptor_term* block_term;
+    
     block_type = raptor_rss_fields_info[rss_parser->current_field].block_type;
 
     RAPTOR_DEBUG3("FOUND new block type %d - %s\n", block_type,
                   raptor_rss_items_info[block_type].name);
+
     update_item = raptor_rss_get_current_item(rss_parser);
+
     id = raptor_world_generate_bnodeid(rdf_parser->world);
-    block = raptor_new_rss_block(rdf_parser->world, block_type, id);
+    block_term = raptor_new_term_from_blank(rdf_parser->world, id);
+    RAPTOR_FREE(cstring, id);
+
+    block = raptor_new_rss_block(rdf_parser->world, block_type, block_term);
+    raptor_free_term(block_term);
+
     raptor_rss_item_add_block(update_item, block);
     rss_parser->current_block = block;
 
@@ -1662,8 +1672,8 @@ static const char* const rss_tag_soup_names[2] = { "rss-tag-soup", NULL };
 
 #define RSS_TAG_SOUP_TYPES_COUNT 6
 static const raptor_type_q rss_tag_soup_types[RSS_TAG_SOUP_TYPES_COUNT + 1] = {
-  { "application/rss", 15, 10},
-  { "application/rss+xml", 19, 10},
+  { "application/rss", 15, 8},
+  { "application/rss+xml", 19, 8},
   { "text/rss", 8, 8},
   { "application/xml", 15, 3},
   { "text/xml", 8, 3},
@@ -1679,10 +1689,9 @@ raptor_rss_parser_register_factory(raptor_parser_factory *factory)
   factory->desc.names = rss_tag_soup_names;
 
   factory->desc.mime_types = rss_tag_soup_types;
-  factory->desc.mime_types_count = RSS_TAG_SOUP_TYPES_COUNT;
 
   factory->desc.label = "RSS Tag Soup";
-  factory->desc.uri_string = NULL;
+  factory->desc.uri_strings = NULL;
 
   factory->desc.flags = RAPTOR_SYNTAX_NEED_BASE_URI;
   

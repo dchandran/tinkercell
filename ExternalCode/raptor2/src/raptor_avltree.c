@@ -81,7 +81,7 @@ struct raptor_avltree_s {
   /* node print function (optional) */
   raptor_data_print_handler print_handler;
 
-  /* tree flags (none defined at present) */
+  /* tree bitflags - bitmask of #raptor_avltree_bitflags flags */
   unsigned int flags;
 
   /* number of nodes in tree */
@@ -1358,7 +1358,7 @@ raptor_avltree_print(raptor_avltree* tree, FILE* stream)
 {
   int i;
   int rv = 0;
-  raptor_avltree_iterator* iter;
+  raptor_avltree_iterator* iter = NULL;
 
   fprintf(stream, "AVL Tree size %u\n", tree->size);
   for(i = 0, (iter = raptor_new_avltree_iterator(tree, NULL, NULL, 1));
@@ -1374,6 +1374,9 @@ raptor_avltree_print(raptor_avltree* tree, FILE* stream)
       fprintf(stream, "Data Node %p\n", data);
   }
   /*assert(i == tree->size);*/
+
+  if(iter)
+    raptor_free_avltree_iterator(iter);
 
   return 0;
 }

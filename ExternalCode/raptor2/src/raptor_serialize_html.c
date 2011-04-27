@@ -157,7 +157,9 @@ raptor_term_html_write(const raptor_term *term, raptor_iostream* iostr)
 
     case RAPTOR_TERM_TYPE_UNKNOWN:
     default:
-      RAPTOR_FATAL2("Unknown raptor_term type %d", term->type);
+      raptor_log_error_formatted(term->world, RAPTOR_LOG_LEVEL_ERROR, NULL,
+                                 "Triple has unsupported term type %d",
+                                 term->type);
       return 1;
   }
 
@@ -232,6 +234,11 @@ raptor_html_serialize_finish_factory(raptor_serializer_factory* factory)
 
 static const char* const html_names[2] = { "html", NULL};
 
+static const char* const html_uri_strings[2] = {
+  "http://www.w3.org/1999/xhtml",
+  NULL
+};
+
 #define HTML_TYPES_COUNT 2
 static const raptor_type_q html_types[HTML_TYPES_COUNT + 1] = {
   { "application/xhtml+xml", 21, 10},
@@ -244,10 +251,9 @@ raptor_html_serializer_register_factory(raptor_serializer_factory *factory)
 {
   factory->desc.names = html_names;
   factory->desc.mime_types = html_types;
-  factory->desc.mime_types_count = HTML_TYPES_COUNT;
 
   factory->desc.label = "HTML Table";
-  factory->desc.uri_string = "http://www.w3.org/1999/xhtml";
+  factory->desc.uri_strings = html_uri_strings;
 
   factory->context_length      = sizeof(raptor_html_context);
 

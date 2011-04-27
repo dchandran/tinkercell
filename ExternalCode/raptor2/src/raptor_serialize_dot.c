@@ -257,7 +257,9 @@ raptor_dot_serializer_write_term(raptor_serializer * serializer,
       
     case RAPTOR_TERM_TYPE_UNKNOWN:
     default:
-      RAPTOR_FATAL2("Unknown type %d", term->type);
+      raptor_log_error_formatted(serializer->world, RAPTOR_LOG_LEVEL_ERROR,
+                                 NULL, "Triple has unsupported term type %d",
+                                 term->type);
   }
 }
 
@@ -543,6 +545,11 @@ raptor_dot_serializer_statement(raptor_serializer* serializer,
 
 static const char* const dot_names[2] = { "dot", NULL};
 
+static const char* const dot_uri_strings[2] = {
+  "http://www.graphviz.org/doc/info/lang.html",
+  NULL
+};
+
 #define DOT_TYPES_COUNT 1
 static const raptor_type_q dot_types[DOT_TYPES_COUNT + 1] = {
   { "text/x-graphviz", 15, 5},
@@ -554,10 +561,9 @@ raptor_dot_serializer_register_factory(raptor_serializer_factory *factory)
 {
   factory->desc.names = dot_names;
   factory->desc.mime_types = dot_types;
-  factory->desc.mime_types_count = DOT_TYPES_COUNT;
 
   factory->desc.label = "GraphViz DOT format";
-  factory->desc.uri_string = "http://www.graphviz.org/doc/info/lang.html";
+  factory->desc.uri_strings = dot_uri_strings;;
 
   factory->context_length = sizeof(raptor_dot_context);
 

@@ -21,10 +21,10 @@
 # 
 
 TEST_FILES=\
-example1.json example2.json example3.json
+example1.json example2.json example3.json example4.json
 
 TEST_OUT_FILES=\
-example1.nt example2.nt example3.nt
+example1.nt example2.nt example3.nt example4.nt
 
 JSON_BAD_TEST_FILES=bad-00.json bad-01.json bad-02.json bad-03.json \
 bad-04.json bad-05.json bad-06.json bad-07.json bad-08.json bad-09.json \
@@ -49,23 +49,23 @@ endif
 
 check-json: build-rapper $(TEST_FILES)
 	@result=0; \
-	$(ECHO) "Testing legal JSON"; \
+	$(RECHO) "Testing legal JSON"; \
 	for test in $(TEST_FILES); do \
 	  name=`basename $$test .json` ; \
 	  baseuri=$(BASE_URI)$$test; \
-	  $(ECHO) $(ECHO_N) "Checking $$test $(ECHO_C)"; \
+	  $(RECHO) $(RECHO_N) "Checking $$test $(RECHO_C)"; \
 	  $(top_builddir)/utils/rapper -q -i json -o ntriples $(srcdir)/$$test $$baseuri > $$name.res 2> $$name.err; \
 	  status=$$?; \
 	  if test $$status != 0 -a $$status != 2 ; then \
-	    $(ECHO) FAILED returned status $$status; result=1; \
+	    $(RECHO) FAILED returned status $$status; result=1; \
 	  elif cmp $(srcdir)/$$name.nt $$name.res >/dev/null 2>&1; then \
 	    if test $$status = 2 ; then \
-	      $(ECHO) "ok with warnings"; grep Warning $$name.err; \
+	      $(RECHO) "ok with warnings"; grep Warning $$name.err; \
 	    else \
-	      $(ECHO) "ok"; \
+	      $(RECHO) "ok"; \
 	    fi; \
 	  else \
-	    $(ECHO) "FAILED"; \
+	    $(RECHO) "FAILED"; \
 	    cat $$name.err; \
 	    diff $(srcdir)/$$name.nt $$name.res; result=1; \
 	  fi; \
@@ -75,23 +75,23 @@ check-json: build-rapper $(TEST_FILES)
 
 check-bad-json: build-rapper $(JSON_BAD_TEST_FILES)
 	@set +e; result=0; \
-	$(ECHO) "Testing that bad JSON fails"; \
+	$(RECHO) "Testing that bad JSON fails"; \
 	for test in $(JSON_BAD_TEST_FILES); do \
 	  name=`basename $$test .json` ; \
 	  baseuri=$(BASE_URI)$$name.json; \
-	  $(ECHO) $(ECHO_N) "Checking $$test $(ECHO_C)"; \
+	  $(RECHO) $(RECHO_N) "Checking $$test $(RECHO_C)"; \
 	  $(top_builddir)/utils/rapper -q -i json -o ntriples file:$(srcdir)/$$test $$baseuri > $$name.res 2> $$name.err; \
 	  status=$$?; \
 	  if test $$status -eq 1 ; then \
-	    $(ECHO) "ok"; \
+	    $(RECHO) "ok"; \
 	  elif test $$status -eq 2 ; then \
-	    $(ECHO) "FAILED - parsing succeeded with a warning"; \
+	    $(RECHO) "FAILED - parsing succeeded with a warning"; \
 	    cat $$name.res; grep Warning $$name.err; result=1; \
 	  elif test $$status -eq 0 ; then \
-	    $(ECHO) "FAILED - parsing succeeded but should have failed"; \
+	    $(RECHO) "FAILED - parsing succeeded but should have failed"; \
 	    cat $$name.res; result=1; \
 	  else \
-	    $(ECHO) "FAILED - parsing failed with unknown status $$status"; \
+	    $(RECHO) "FAILED - parsing failed with unknown status $$status"; \
 	    cat $$name.res; result=1; \
 	  fi; \
 	  rm -f $$name.res $$name.err ; \

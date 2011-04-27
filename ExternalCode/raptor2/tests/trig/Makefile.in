@@ -93,7 +93,6 @@ DEFS = @DEFS@
 DEPDIR = @DEPDIR@
 DSYMUTIL = @DSYMUTIL@
 DUMPBIN = @DUMPBIN@
-ECHO = @ECHO@
 ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
@@ -150,9 +149,16 @@ RAPTOR_LIBTOOLLIBS = @RAPTOR_LIBTOOLLIBS@
 RAPTOR_LIBTOOL_VERSION = @RAPTOR_LIBTOOL_VERSION@
 RAPTOR_PARSERS = @RAPTOR_PARSERS@
 RAPTOR_SERIALIZERS = @RAPTOR_SERIALIZERS@
+RAPTOR_VERSION = @RAPTOR_VERSION@
 RAPTOR_VERSION_DECIMAL = @RAPTOR_VERSION_DECIMAL@
+RAPTOR_VERSION_MAJOR = @RAPTOR_VERSION_MAJOR@
+RAPTOR_VERSION_MINOR = @RAPTOR_VERSION_MINOR@
+RAPTOR_VERSION_RELEASE = @RAPTOR_VERSION_RELEASE@
 RAPTOR_WWW_LIBRARY = @RAPTOR_WWW_LIBRARY@
 RAPTOR_XML_PARSER = @RAPTOR_XML_PARSER@
+RECHO = @RECHO@
+RECHO_C = @RECHO_C@
+RECHO_N = @RECHO_N@
 RPM_RELEASE = @RPM_RELEASE@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
@@ -423,23 +429,23 @@ check-local: check-trig
 
 check-trig: build-rapper $(TEST_FILES)
 	@result=0; \
-	$(ECHO) "Testing legal TRiG"; \
+	$(RECHO) "Testing legal TRiG"; \
 	for test in $(TEST_FILES); do \
 	  name=`basename $$test .trig` ; \
 	  baseuri=$(BASE_URI)$$test; \
-	  $(ECHO) $(ECHO_N) "Checking $$test $(ECHO_C)"; \
+	  $(RECHO) $(RECHO_N) "Checking $$test $(RECHO_C)"; \
 	  $(top_builddir)/utils/rapper -q -i trig -o nquads $(srcdir)/$$test $$baseuri > $$name.res 2> $$name.err; \
 	  status=$$?; \
 	  if test $$status != 0 -a $$status != 2 ; then \
-	    $(ECHO) FAILED returned status $$status; result=1; \
+	    $(RECHO) FAILED returned status $$status; result=1; \
 	  elif cmp $(srcdir)/$$name.out $$name.res >/dev/null 2>&1; then \
 	    if test $$status = 2 ; then \
-	      $(ECHO) "ok with warnings"; grep Warning $$name.err; \
+	      $(RECHO) "ok with warnings"; grep Warning $$name.err; \
 	    else \
-	      $(ECHO) "ok"; \
+	      $(RECHO) "ok"; \
 	    fi; \
 	  else \
-	    $(ECHO) "FAILED"; \
+	    $(RECHO) "FAILED"; \
 	    diff $(srcdir)/$$name.out $$name.res; result=1; \
 	  fi; \
 	  rm -f $$name.res $$name.err; \

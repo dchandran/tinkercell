@@ -464,7 +464,9 @@ raptor_rdfxmla_emit_subject_list_items(raptor_serializer* serializer,
 
       case RAPTOR_TERM_TYPE_UNKNOWN:
       default:
-        RAPTOR_FATAL1("Unsupported identifier type\n");
+        raptor_log_error_formatted(serializer->world, RAPTOR_LOG_LEVEL_ERROR,
+                                   NULL, "Triple has unsupported term type %d", 
+                                   object->term->type);
         break;
 
     }
@@ -600,7 +602,9 @@ raptor_rdfxmla_emit_subject_properties(raptor_serializer* serializer,
           
       case RAPTOR_TERM_TYPE_UNKNOWN:
       default:
-        RAPTOR_FATAL1("Unsupported identifier type\n");
+        raptor_log_error_formatted(serializer->world, RAPTOR_LOG_LEVEL_ERROR,
+                                   NULL, "Triple has unsupported term type %d", 
+                                   object->term->type);
         break;
     }    
 
@@ -879,7 +883,7 @@ raptor_rdfxmla_serialize_init(raptor_serializer* serializer, const char *name)
     raptor_new_avltree((raptor_data_compare_handler)raptor_abbrev_node_compare,
                        (raptor_data_free_handler)raptor_free_abbrev_node, 0);
 
-  type_term = raptor_term_copy(RAPTOR_RDF_type_term(serializer->world));
+  type_term = RAPTOR_RDF_type_term(serializer->world);
   context->rdf_type = raptor_new_abbrev_node(serializer->world, type_term);
 
   if(!context->xml_nspace || !context->rdf_nspace || !context->namespaces ||
@@ -1310,9 +1314,6 @@ raptor_rdfxmla_serialize_statement(raptor_serializer* serializer,
   raptor_abbrev_node* object = NULL;
   int rv = 0;
   raptor_term_type object_type;
-  int subject_created = 0;
-  int predicate_created = 0;
-  int object_created = 0;
   
   if(!(statement->subject->type == RAPTOR_TERM_TYPE_URI ||
        statement->subject->type == RAPTOR_TERM_TYPE_BLANK)) {
@@ -1324,8 +1325,7 @@ raptor_rdfxmla_serialize_statement(raptor_serializer* serializer,
 
   subject = raptor_abbrev_subject_lookup(context->nodes, context->subjects,
                                          context->blanks,
-                                         statement->subject,
-                                         &subject_created);
+                                         statement->subject);
   if(!subject)
     return 1;
   
@@ -1341,16 +1341,13 @@ raptor_rdfxmla_serialize_statement(raptor_serializer* serializer,
   }
   
   object = raptor_abbrev_node_lookup(context->nodes,
-                                     statement->object,
-                                     &object_created);
+                                     statement->object);
   if(!object)
     return 1;          
 
 
   if(statement->predicate->type == RAPTOR_TERM_TYPE_URI) {
-    predicate = raptor_abbrev_node_lookup(context->nodes,
-                                          statement->predicate,
-                                          &predicate_created);
+    predicate = raptor_abbrev_node_lookup(context->nodes, statement->predicate);
     if(!predicate)
       return 1;
 
@@ -1363,8 +1360,7 @@ raptor_rdfxmla_serialize_statement(raptor_serializer* serializer,
        * multiple type definitions.  All definitions after the
        * first go in the property list */
       subject->node_type = raptor_abbrev_node_lookup(context->nodes,
-                                                     statement->object,
-                                                     NULL);
+                                                     statement->object);
       if(!subject->node_type)
         return 1;
       subject->node_type->ref_count++;
@@ -1486,6 +1482,11 @@ raptor_rdfxmla_serialize_finish_factory(raptor_serializer_factory* factory)
 
 static const char* const rdfxml_xmp_names[2] = { "rdfxml-xmp", NULL};
 
+static const char* const rdfxml_xmp_uri_strings[2] = {
+  "http://www.w3.org/TR/rdf-syntax-grammar",
+  NULL
+};
+  
 #define RDFXML_XMP_TYPES_COUNT 1
 static const raptor_type_q rdfxml_xmp_types[RDFXML_XMP_TYPES_COUNT + 1] = {
   { "application/rdf+xml", 19, 0},
@@ -1497,10 +1498,9 @@ raptor_rdfxml_xmp_serializer_register_factory(raptor_serializer_factory *factory
 {
   factory->desc.names = rdfxml_xmp_names;
   factory->desc.mime_types = rdfxml_xmp_types;
-  factory->desc.mime_types_count = RDFXML_XMP_TYPES_COUNT;
 
   factory->desc.label = "RDF/XML (XMP Profile)";
-  factory->desc.uri_string = "http://www.w3.org/TR/rdf-syntax-grammar";
+  factory->desc.uri_strings = rdfxml_xmp_uri_strings;
 
   factory->context_length     = sizeof(raptor_rdfxmla_context);
   
@@ -1519,6 +1519,11 @@ raptor_rdfxml_xmp_serializer_register_factory(raptor_serializer_factory *factory
 
 static const char* const rdfxmla_names[2] = { "rdfxml-abbrev", NULL};
 
+static const char* const rdfxml_uri_strings[2] = {
+  "http://www.w3.org/TR/rdf-syntax-grammar",
+  NULL
+};
+
 #define RDFXMLA_TYPES_COUNT 1
 static const raptor_type_q rdfxmla_types[RDFXMLA_TYPES_COUNT + 1] = {
   { "application/rdf+xml", 19, 0},
@@ -1530,10 +1535,9 @@ raptor_rdfxmla_serializer_register_factory(raptor_serializer_factory *factory)
 {
   factory->desc.names = rdfxmla_names;
   factory->desc.mime_types = rdfxmla_types;
-  factory->desc.mime_types_count = RDFXMLA_TYPES_COUNT;
 
   factory->desc.label = "RDF/XML (Abbreviated)";
-  factory->desc.uri_string = "http://www.w3.org/TR/rdf-syntax-grammar";
+  factory->desc.uri_strings = rdfxml_uri_strings;
 
   factory->context_length     = sizeof(raptor_rdfxmla_context);
   

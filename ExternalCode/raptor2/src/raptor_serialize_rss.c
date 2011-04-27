@@ -639,10 +639,11 @@ raptor_rss10_remove_mapped_fields(raptor_rss10_serializer_context *rss_serialize
   return 0;
 }
 
+
 /**
  * raptor_rss10_store_statement:
  * @rss_serializer: serializer object
- * @s: statement
+ * @s: statement (shared - do not become owner of this)
  *
  * INTERNAL - decide where to store a statement in an item or keep pending
  *
@@ -657,16 +658,22 @@ raptor_rss10_store_statement(raptor_rss10_serializer_context *rss_serializer,
   int is_atom = rss_serializer->is_atom;
   
   item = raptor_rss10_get_group_item(rss_serializer, s->subject);
-  if(item && s->object->type != RAPTOR_TERM_TYPE_BLANK) {
+
+  if(item &&
+     s->predicate->type == RAPTOR_TERM_TYPE_URI &&
+     (s->object->type == RAPTOR_TERM_TYPE_URI ||
+      s->object->type == RAPTOR_TERM_TYPE_LITERAL)) {
     int f;
+    raptor_uri* predicate_uri = s->predicate->value.uri;
+    
+    /* scan triples (? <predicate-uri> <uri or literal>) */
 
     for(f = 0; f < RAPTOR_RSS_FIELDS_SIZE; f++) {
       raptor_rss_field* field;
       if(!rss_serializer->world->rss_fields_info_uris[f])
         continue;
 
-      if(s->predicate->type == RAPTOR_TERM_TYPE_URI &&
-         raptor_uri_equals(s->predicate->value.uri,
+      if(raptor_uri_equals(predicate_uri,
                            rss_serializer->world->rss_fields_info_uris[f])) {
         /* found field this triple to go in 'item' so move the
          * object value over 
@@ -677,6 +684,7 @@ raptor_rss10_store_statement(raptor_rss10_serializer_context *rss_serializer,
           field->uri = s->object->value.uri;
           s->object->value.uri = NULL;
         } else {
+          /* must be literal - checked above */
           field->value = s->object->value.literal.string;
 
           if(s->object->value.literal.datatype &&
@@ -723,7 +731,6 @@ raptor_rss10_store_statement(raptor_rss10_serializer_context *rss_serializer,
 
         RAPTOR_DEBUG1("Adding field\n");
         raptor_rss_item_add_field(item, f, field);
-        raptor_free_statement(s);
 #if RAPTOR_DEBUG > 1
         RAPTOR_DEBUG2("Stored statement under typed node %p\n", item);
 #endif
@@ -735,13 +742,20 @@ raptor_rss10_store_statement(raptor_rss10_serializer_context *rss_serializer,
   }
   
   if(!handled) {
-    raptor_sequence_push(rss_serializer->triples, s);
+    raptor_statement *t;
+
+    /* Need to handle this later so copy it */
+    t = raptor_statement_copy(s);
+    if(t) {
+      raptor_sequence_push(rss_serializer->triples, t);
+
 #if RAPTOR_DEBUG > 1
-    fprintf(stderr,"Stored statement: ");
-    raptor_statement_print_as_ntriples(s, stderr);
-    fprintf(stderr,"\n");
+      fprintf(stderr,"Stored statement: ");
+      raptor_statement_print_as_ntriples(s, stderr);
+      fprintf(stderr,"\n");
 #endif
-    handled = 1;
+      handled = 1;
+    }
   }
 
   return handled;
@@ -776,7 +790,7 @@ raptor_rss10_serialize_start(raptor_serializer* serializer)
 /**
  * raptor_rss10_serialize_statement:
  * @serializer: serializer object
- * @statement: statement
+ * @statement: statement (shared - am not owner of this)
  *
  * INTERNAL (raptor_serializer_factory API) - Serialize a statement
  *
@@ -815,36 +829,52 @@ raptor_rss10_serialize_statement(raptor_serializer* serializer,
     goto savetriple;
   
 
-  /* Look for triple (?resource rdf:type rdf:Seq) */
-  if(statement->object->type == RAPTOR_TERM_TYPE_URI &&
-     raptor_uri_equals(statement->object->value.uri,
-                       RAPTOR_RDF_Seq_URI(serializer->world))) {
-    
-    rss_serializer->seq_term = raptor_term_copy(statement->subject);
-    
-    handled = 1;
-    goto savetriple;
-  }
-
-
-  /* look for triple: (? rdf:type ?) to find containers and blocks */
   type = RAPTOR_RSS_NONE;
-  for(i = 0; i < RAPTOR_RSS_COMMON_SIZE; i++) {
-    raptor_uri *item_uri = serializer->world->rss_types_info_uris[i];
 
-    if(item_uri &&
-       raptor_uri_equals(statement->object->value.uri, item_uri)) {
-      type = (raptor_rss_type)i;
-      RAPTOR_DEBUG4("Found typed node %i - %s with URI <%s>\n", type,
-                    raptor_rss_items_info[type].name,
-                    raptor_uri_as_string(statement->subject->value.uri));
-      break;
+  if(statement->object->type == RAPTOR_TERM_TYPE_URI) {
+    raptor_uri* object_uri = statement->object->value.uri;
+    
+    /* look for triple: (? rdf:type ?class-uri) to find containers and blocks */
+
+    /* Look for triple (? rdf:type rdf:Seq) */
+    if(raptor_uri_equals(object_uri, RAPTOR_RDF_Seq_URI(serializer->world))) {
+      
+      rss_serializer->seq_term = raptor_term_copy(statement->subject);
+      
+      handled = 1;
+      goto savetriple;
+    }
+
+    /* look for triple: (? rdf:type ?class-uri) to find containers and blocks */
+    for(i = 0; i < RAPTOR_RSS_COMMON_SIZE; i++) {
+      raptor_uri *item_uri = serializer->world->rss_types_info_uris[i];
+      
+      if(item_uri && raptor_uri_equals(object_uri, item_uri)) {
+        type = (raptor_rss_type)i;
+
+#ifdef RAPTOR_DEBUG
+        if(1) {
+          unsigned char* ts;
+          ts = raptor_term_to_string(statement->subject);
+          RAPTOR_DEBUG4("Found typed node %i - %s with term %s\n", type,
+                        raptor_rss_items_info[type].name, ts);
+          RAPTOR_FREE(cstring, ts);
+        }
+#endif
+        break;
+      }
     }
   }
 
   if(type == RAPTOR_RSS_NONE) {
-    RAPTOR_DEBUG2("UNKNOWN typed node with type URI <%s>\n",
-                  raptor_uri_as_string(statement->object->value.uri));
+#ifdef RAPTOR_DEBUG
+    if(1) {
+      unsigned char* ts;
+      ts = raptor_term_to_string(statement->object);
+      RAPTOR_DEBUG2("UNKNOWN typed node with type term %s\n", ts);
+      RAPTOR_FREE(cstring, ts);
+    }
+#endif
     goto savetriple;
   }
 
@@ -861,8 +891,15 @@ raptor_rss10_serialize_statement(raptor_serializer* serializer,
     if(i < size) {
       RAPTOR_DEBUG2("Found RSS item at entry %d in sequence of items\n", i);
     } else {
-      RAPTOR_DEBUG2("RSS item URI <%s> is not in sequence of items\n",
-                    raptor_uri_as_string(statement->subject->value.uri));
+#ifdef RAPTOR_DEBUG
+      if(1) {
+        unsigned char* ts;
+        ts = raptor_term_to_string(statement->subject);
+          
+        RAPTOR_DEBUG2("RSS item term %s is not in sequence of items\n", ts);
+        RAPTOR_FREE(cstring, ts);
+      }
+#endif
       item = NULL;
     }
   } else if(type == RAPTOR_RSS_ENCLOSURE) {
@@ -876,8 +913,14 @@ raptor_rss10_serialize_statement(raptor_serializer* serializer,
     if(i < size) {
       RAPTOR_DEBUG2("Found enclosure at entry %d in sequence of enclosures\n", i);
     } else {
-      RAPTOR_DEBUG2("Add new enclosure to sequence with URI <%s>\n",
-                    raptor_uri_as_string(statement->subject->value.uri));
+#ifdef RAPTOR_DEBUG
+      if(1) {
+        unsigned char* ts;
+        ts = raptor_term_to_string(statement->subject);
+        RAPTOR_DEBUG2("Add new enclosure to sequence with term %s\n", ts);
+        RAPTOR_FREE(cstring, ts);
+      }
+#endif
       
       item = raptor_new_rss_item(rss_serializer->world);
       raptor_sequence_push(rss_serializer->enclosures, item);
@@ -887,7 +930,7 @@ raptor_rss10_serialize_statement(raptor_serializer* serializer,
   }
   
 
-  if(item) {
+  if(item && statement->subject->type == RAPTOR_TERM_TYPE_URI) {
     raptor_rss_item_set_uri(item, statement->subject->value.uri);
     
     /* Move any existing statements to the newly discovered item */
@@ -900,12 +943,8 @@ raptor_rss10_serialize_statement(raptor_serializer* serializer,
 
 
   savetriple:
-  if(!handled) {
-    raptor_statement *t;
-    t = raptor_statement_copy(statement);
-    if(t)
-      handled = raptor_rss10_store_statement(rss_serializer, t);
-  }
+  if(!handled)
+    handled = raptor_rss10_store_statement(rss_serializer, statement);
 
   return 0;
 }
@@ -954,8 +993,14 @@ raptor_rss10_build_items(raptor_rss10_serializer_context *rss_serializer)
                   "http://www.w3.org/1999/02/22-rdf-syntax-ns#_", 44))
         ordinal= raptor_check_ordinal(uri_str + 44);
 
-      RAPTOR_DEBUG3("Found RSS 1.0 item %d with URI <%s>\n", ordinal,
-                    raptor_uri_as_string(s->object->value.uri));
+#ifdef RAPTOR_DEBUG
+      if(1) {
+        unsigned char* ts;
+        ts = raptor_term_to_string(s->object);
+        RAPTOR_DEBUG3("Found RSS 1.0 item %d with term %s\n", ordinal, ts);
+        RAPTOR_FREE(cstring, ts);
+      }
+#endif
 
       if(ordinal >= 0) {
         raptor_rss_item *item;
@@ -2295,6 +2340,11 @@ raptor_rss10_serialize_finish_factory(raptor_serializer_factory* factory)
 
 static const char* rss10_names[3] = { "rss-1.0", NULL};
 
+static const char* const rss10_uri_strings[2] = {
+"http://purl.org/rss/1.0/spec",
+  NULL
+};
+
 #define RSS10_TYPES_COUNT 5
 static const raptor_type_q rss10_types[RSS10_TYPES_COUNT + 1] = {
   { "application/rss+xml", 19, 10},
@@ -2310,10 +2360,9 @@ raptor_rss10_serializer_register_factory(raptor_serializer_factory *factory)
 {
   factory->desc.names = rss10_names;
   factory->desc.mime_types = rss10_types;
-  factory->desc.mime_types_count = RSS10_TYPES_COUNT;
 
   factory->desc.label = "RSS 1.0";
-  factory->desc.uri_string = "http://purl.org/rss/1.0/spec";
+  factory->desc.uri_strings = rss10_uri_strings;
 
   factory->context_length     = sizeof(raptor_rss10_serializer_context);
   
@@ -2333,6 +2382,11 @@ raptor_rss10_serializer_register_factory(raptor_serializer_factory *factory)
 
 static const char* atom_names[3] = { "atom", NULL};
 
+static const char* const atom_uri_strings[2] = {
+  "http://www.ietf.org/rfc/rfc4287.txt",
+  NULL
+};
+  
 #define ATOM_TYPES_COUNT 1
 static const raptor_type_q atom_types[ATOM_TYPES_COUNT + 1] = {
   { "application/atom+xml", 20, 10},
@@ -2344,10 +2398,9 @@ raptor_atom_serializer_register_factory(raptor_serializer_factory *factory)
 {
   factory->desc.names = atom_names;
   factory->desc.mime_types = atom_types;
-  factory->desc.mime_types_count = ATOM_TYPES_COUNT;
 
   factory->desc.label = "Atom 1.0";
-  factory->desc.uri_string = NULL;
+  factory->desc.uri_strings = atom_uri_strings;
 
   factory->context_length     = sizeof(raptor_rss10_serializer_context);
   

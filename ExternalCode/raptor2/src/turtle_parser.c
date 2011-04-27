@@ -574,9 +574,9 @@ static const yytype_uint16 yyrline[] =
      260,   261,   265,   267,   269,   272,   275,   276,   279,   280,
      281,   284,   325,   329,   369,   413,   453,   497,   507,   520,
      581,   614,   620,   631,   631,   634,   675,   686,   690,   697,
-     704,   708,   712,   725,   738,   762,   787,   804,   820,   832,
-     850,   868,   886,   901,   919,   933,   950,   967,  1018,  1025,
-    1127
+     704,   708,   712,   725,   738,   762,   786,   803,   819,   831,
+     849,   867,   885,   900,   918,   932,   949,   966,  1017,  1024,
+    1126
 };
 #endif
 
@@ -1789,7 +1789,7 @@ yyreduce:
   raptor_parser* parser = (raptor_parser *)rdf_parser;
   raptor_turtle_parser* turtle_parser = (raptor_turtle_parser*)parser->context;
   if(!turtle_parser->trig)
-    turtle_parser_error((raptor_parser*)rdf_parser, ":- is not allowed in Turtle");
+    turtle_parser_error(rdf_parser, ":- is not allowed in Turtle");
 }
     break;
 
@@ -2403,7 +2403,7 @@ yyreduce:
 
   if((yyvsp[(5) - (5)].uri)) {
     if((yyvsp[(3) - (5)].string)) {
-      raptor_parser_warning(rdf_parser, 
+      raptor_parser_warning((raptor_parser*)rdf_parser, 
                             "Ignoring language used with datatyped literal");
       RAPTOR_FREE(cstring, (yyvsp[(3) - (5)].string));
       (yyvsp[(3) - (5)].string) = NULL;
@@ -2411,7 +2411,7 @@ yyreduce:
   
     (yyval.identifier) = raptor_new_term_from_literal(((raptor_parser*)rdf_parser)->world,
                                       (yyvsp[(1) - (5)].string), (yyvsp[(5) - (5)].uri), NULL);
-    RAPTOR_FREE(cstring, (yyvsp[(3) - (5)].string));
+    RAPTOR_FREE(cstring, (yyvsp[(1) - (5)].string));
     raptor_free_uri((yyvsp[(5) - (5)].uri));
     if(!(yyval.identifier))
       YYERROR;
@@ -2432,7 +2432,7 @@ yyreduce:
 
   if((yyvsp[(5) - (5)].uri)) {
     if((yyvsp[(3) - (5)].string)) {
-      raptor_parser_warning(rdf_parser, 
+      raptor_parser_warning((raptor_parser*)rdf_parser, 
                             "Ignoring language used with datatyped literal");
       RAPTOR_FREE(cstring, (yyvsp[(3) - (5)].string));
       (yyvsp[(3) - (5)].string) = NULL;
@@ -2441,7 +2441,6 @@ yyreduce:
     (yyval.identifier) = raptor_new_term_from_literal(((raptor_parser*)rdf_parser)->world,
                                       (yyvsp[(1) - (5)].string), (yyvsp[(5) - (5)].uri), NULL);
     RAPTOR_FREE(cstring, (yyvsp[(1) - (5)].string));
-    RAPTOR_FREE(cstring, (yyvsp[(3) - (5)].string));
     raptor_free_uri((yyvsp[(5) - (5)].uri));
     if(!(yyval.identifier))
       YYERROR;
@@ -2454,7 +2453,7 @@ yyreduce:
   case 46:
 
 /* Line 1455 of yacc.c  */
-#line 788 "./turtle_parser.y"
+#line 787 "./turtle_parser.y"
     {
 #if RAPTOR_DEBUG > 1  
   printf("literal + datatype string=\"%s\" uri=\"%s\"\n", (yyvsp[(1) - (3)].string), raptor_uri_as_string((yyvsp[(3) - (3)].uri)));
@@ -2476,7 +2475,7 @@ yyreduce:
   case 47:
 
 /* Line 1455 of yacc.c  */
-#line 805 "./turtle_parser.y"
+#line 804 "./turtle_parser.y"
     {
 #if RAPTOR_DEBUG > 1  
   printf("literal + datatype string=\"%s\" qname URI=<%s>\n", (yyvsp[(1) - (3)].string), raptor_uri_as_string((yyvsp[(3) - (3)].uri)));
@@ -2497,7 +2496,7 @@ yyreduce:
   case 48:
 
 /* Line 1455 of yacc.c  */
-#line 821 "./turtle_parser.y"
+#line 820 "./turtle_parser.y"
     {
 #if RAPTOR_DEBUG > 1  
   printf("literal string=\"%s\"\n", (yyvsp[(1) - (1)].string));
@@ -2514,7 +2513,7 @@ yyreduce:
   case 49:
 
 /* Line 1455 of yacc.c  */
-#line 833 "./turtle_parser.y"
+#line 832 "./turtle_parser.y"
     {
   raptor_uri *uri;
 #if RAPTOR_DEBUG > 1  
@@ -2537,7 +2536,7 @@ yyreduce:
   case 50:
 
 /* Line 1455 of yacc.c  */
-#line 851 "./turtle_parser.y"
+#line 850 "./turtle_parser.y"
     {
   raptor_uri *uri;
 #if RAPTOR_DEBUG > 1  
@@ -2560,7 +2559,7 @@ yyreduce:
   case 51:
 
 /* Line 1455 of yacc.c  */
-#line 869 "./turtle_parser.y"
+#line 868 "./turtle_parser.y"
     {
   raptor_uri *uri;
 #if RAPTOR_DEBUG > 1  
@@ -2583,7 +2582,7 @@ yyreduce:
   case 52:
 
 /* Line 1455 of yacc.c  */
-#line 887 "./turtle_parser.y"
+#line 886 "./turtle_parser.y"
     {
   raptor_uri *uri;
 #if RAPTOR_DEBUG > 1  
@@ -2603,7 +2602,7 @@ yyreduce:
   case 53:
 
 /* Line 1455 of yacc.c  */
-#line 902 "./turtle_parser.y"
+#line 901 "./turtle_parser.y"
     {
   raptor_uri *uri;
 #if RAPTOR_DEBUG > 1  
@@ -2623,7 +2622,7 @@ yyreduce:
   case 54:
 
 /* Line 1455 of yacc.c  */
-#line 920 "./turtle_parser.y"
+#line 919 "./turtle_parser.y"
     {
 #if RAPTOR_DEBUG > 1  
   printf("resource URI=<%s>\n", raptor_uri_as_string((yyvsp[(1) - (1)].uri)));
@@ -2642,7 +2641,7 @@ yyreduce:
   case 55:
 
 /* Line 1455 of yacc.c  */
-#line 934 "./turtle_parser.y"
+#line 933 "./turtle_parser.y"
     {
 #if RAPTOR_DEBUG > 1  
   printf("resource qname URI=<%s>\n", raptor_uri_as_string((yyvsp[(1) - (1)].uri)));
@@ -2661,7 +2660,7 @@ yyreduce:
   case 56:
 
 /* Line 1455 of yacc.c  */
-#line 951 "./turtle_parser.y"
+#line 950 "./turtle_parser.y"
     {
   const unsigned char *id;
 #if RAPTOR_DEBUG > 1  
@@ -2683,7 +2682,7 @@ yyreduce:
   case 57:
 
 /* Line 1455 of yacc.c  */
-#line 968 "./turtle_parser.y"
+#line 967 "./turtle_parser.y"
     {
   int i;
   const unsigned char *id;
@@ -2739,7 +2738,7 @@ yyreduce:
   case 58:
 
 /* Line 1455 of yacc.c  */
-#line 1019 "./turtle_parser.y"
+#line 1018 "./turtle_parser.y"
     {
   (yyval.identifier) = (yyvsp[(1) - (1)].identifier);
 }
@@ -2748,7 +2747,7 @@ yyreduce:
   case 59:
 
 /* Line 1455 of yacc.c  */
-#line 1026 "./turtle_parser.y"
+#line 1025 "./turtle_parser.y"
     {
   int i;
   raptor_world* world = ((raptor_parser*)rdf_parser)->world;
@@ -2855,7 +2854,7 @@ yyreduce:
   case 60:
 
 /* Line 1455 of yacc.c  */
-#line 1128 "./turtle_parser.y"
+#line 1127 "./turtle_parser.y"
     {
   raptor_world* world = ((raptor_parser*)rdf_parser)->world;
 
@@ -2872,7 +2871,7 @@ yyreduce:
 
 
 /* Line 1455 of yacc.c  */
-#line 2876 "turtle_parser.c"
+#line 2875 "turtle_parser.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -3084,7 +3083,7 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 1142 "./turtle_parser.y"
+#line 1141 "./turtle_parser.y"
 
 
 
@@ -3494,6 +3493,11 @@ raptor_trig_parse_recognise_syntax(raptor_parser_factory* factory,
 
 #ifdef RAPTOR_PARSER_TURTLE
 static const char* const turtle_names[4] = { "turtle", "ntriples-plus", "n3", NULL };
+
+static const char* const turtle_uri_strings[2] = {
+  "http://www.dajobe.org/2004/01/turtle/",
+  NULL
+};
   
 #define TURTLE_TYPES_COUNT 5
 static const raptor_type_q turtle_types[TURTLE_TYPES_COUNT + 1] = {
@@ -3514,10 +3518,9 @@ raptor_turtle_parser_register_factory(raptor_parser_factory *factory)
   factory->desc.names = turtle_names;
 
   factory->desc.mime_types = turtle_types;
-  factory->desc.mime_types_count = TURTLE_TYPES_COUNT;
 
   factory->desc.label = "Turtle Terse RDF Triple Language";
-  factory->desc.uri_string = "http://www.dajobe.org/2004/01/turtle/";
+  factory->desc.uri_strings = turtle_uri_strings;
 
   factory->desc.flags = RAPTOR_SYNTAX_NEED_BASE_URI;
   
@@ -3538,6 +3541,11 @@ raptor_turtle_parser_register_factory(raptor_parser_factory *factory)
 #ifdef RAPTOR_PARSER_TRIG
 static const char* const trig_names[2] = { "trig", NULL };
   
+static const char* const trig_uri_strings[2] = {
+  "http://www.wiwiss.fu-berlin.de/suhl/bizer/TriG/Spec/",
+  NULL
+};
+  
 #define TRIG_TYPES_COUNT 1
 static const raptor_type_q trig_types[TRIG_TYPES_COUNT + 1] = {
   /* first one is the default */
@@ -3553,10 +3561,9 @@ raptor_trig_parser_register_factory(raptor_parser_factory *factory)
   factory->desc.names = trig_names;
 
   factory->desc.mime_types = trig_types;
-  factory->desc.mime_types_count = TRIG_TYPES_COUNT;
 
   factory->desc.label = "TriG - Turtle with Named Graphs";
-  factory->desc.uri_string = "http://www.wiwiss.fu-berlin.de/suhl/bizer/TriG/Spec/";
+  factory->desc.uri_strings = trig_uri_strings;
 
   factory->desc.flags = RAPTOR_SYNTAX_NEED_BASE_URI;
   

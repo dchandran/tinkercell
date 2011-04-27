@@ -141,7 +141,7 @@ raptor_json_serialize_start(raptor_serializer* serializer)
   }
 
   /* start callback */
-  value = RAPTOR_OPTIONS_GET_STRING(serializer, RAPTOR_OPTION_RELATIVE_URIS);
+  value = RAPTOR_OPTIONS_GET_STRING(serializer, RAPTOR_OPTION_JSON_CALLBACK);
   if(value) {
     raptor_iostream_string_write(value, serializer->iostream);
     raptor_iostream_write_byte('(', serializer->iostream);
@@ -202,7 +202,10 @@ raptor_json_serialize_statement(raptor_serializer* serializer,
     case RAPTOR_TERM_TYPE_LITERAL:
     case RAPTOR_TERM_TYPE_UNKNOWN:
       default:
-        RAPTOR_FATAL1("Unsupported identifier type\n");
+        raptor_log_error_formatted(serializer->world, RAPTOR_LOG_LEVEL_ERROR,
+                                   NULL, 
+                                   "Triple has unsupported subject term type %d", 
+                                   statement->subject->type);
         break;
   }
   raptor_iostream_write_byte(',', serializer->iostream);
@@ -240,7 +243,10 @@ raptor_json_serialize_statement(raptor_serializer* serializer,
 
     case RAPTOR_TERM_TYPE_UNKNOWN:
       default:
-        RAPTOR_FATAL1("Unsupported identifier type\n");
+        raptor_log_error_formatted(serializer->world, RAPTOR_LOG_LEVEL_ERROR,
+                                   NULL,
+                                   "Triple has unsupported object term type %d", 
+                                   statement->object->type);
         break;
   }
   raptor_json_writer_newline(context->json_writer);
@@ -313,8 +319,10 @@ raptor_json_serialize_avltree_visit(int depth, void* data, void *user_data)
       case RAPTOR_TERM_TYPE_LITERAL:
       case RAPTOR_TERM_TYPE_UNKNOWN:
       default:
-        RAPTOR_FATAL2("Unsupported statement subject identifier type %d\n",
-                      s1->subject->type);
+        raptor_log_error_formatted(serializer->world, RAPTOR_LOG_LEVEL_ERROR,
+                                   NULL,
+                                   "Triple has unsupported subject term type %d", 
+                                   s1->subject->type);
         break;
     }
 
@@ -384,8 +392,10 @@ raptor_json_serialize_avltree_visit(int depth, void* data, void *user_data)
 
     case RAPTOR_TERM_TYPE_UNKNOWN:
       default:
-        RAPTOR_FATAL2("Unsupported statement object identifier type %d\n",
-                      s1->object->type);
+        raptor_log_error_formatted(serializer->world, RAPTOR_LOG_LEVEL_ERROR,
+                                   NULL,
+                                   "Triple has unsupported object term type %d", 
+                                   s1->object->type);
         break;
   }
 
@@ -475,10 +485,9 @@ raptor_json_triples_serializer_register_factory(raptor_serializer_factory *facto
 {
   factory->desc.names = json_triples_names;
   factory->desc.mime_types = json_triples_types;
-  factory->desc.mime_types_count = JSON_TRIPLES_TYPES_COUNT;
 
   factory->desc.label = "RDF/JSON Triples";
-  factory->desc.uri_string = NULL;
+  factory->desc.uri_strings = NULL;
 
   factory->context_length     = sizeof(raptor_json_context);
   
@@ -497,6 +506,11 @@ raptor_json_triples_serializer_register_factory(raptor_serializer_factory *facto
 
 static const char* const json_resource_names[2] = { "json", NULL};
 
+static const char* const json_resource_uri_strings[2] = {
+  "http://n2.talis.com/wiki/RDF_JSON_Specification",
+  NULL
+};
+
 #define JSON_RESOURCE_TYPES_COUNT 2
 static const raptor_type_q json_resource_types[JSON_RESOURCE_TYPES_COUNT + 1] = {
   { "application/json", 16, 10},
@@ -509,10 +523,9 @@ raptor_json_resource_serializer_register_factory(raptor_serializer_factory *fact
 {
   factory->desc.names = json_resource_names;
   factory->desc.mime_types = json_resource_types;
-  factory->desc.mime_types_count = JSON_RESOURCE_TYPES_COUNT;
 
   factory->desc.label = "RDF/JSON Resource-Centric";
-  factory->desc.uri_string = "http://n2.talis.com/wiki/RDF_JSON_Specification";
+  factory->desc.uri_strings = json_resource_uri_strings;
   
   factory->context_length     = sizeof(raptor_json_context);
   

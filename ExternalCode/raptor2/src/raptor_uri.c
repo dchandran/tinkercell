@@ -81,7 +81,7 @@ struct raptor_uri_s {
  * raptor_new_uri_from_counted_string:
  * @world: raptor_world object
  * @uri_string: URI string.
- * @length: lenght of URI string
+ * @length: length of URI string
  * 
  * Constructor - create a raptor URI from a UTF-8 encoded Unicode string.
  * 
@@ -98,10 +98,10 @@ raptor_new_uri_from_counted_string(raptor_world* world,
   raptor_uri* new_uri;
   unsigned char *new_string;
   
+  RAPTOR_CHECK_CONSTRUCTOR_WORLD(world);
+
   if(!uri_string || !*uri_string)
     return NULL;
-
-  RAPTOR_ASSERT_OBJECT_POINTER_RETURN_VALUE(world, raptor_world, NULL);
 
   raptor_world_open(world);
 
@@ -187,11 +187,11 @@ raptor_new_uri_from_counted_string(raptor_world* world,
 raptor_uri*
 raptor_new_uri(raptor_world* world, const unsigned char *uri_string) 
 {
+  RAPTOR_CHECK_CONSTRUCTOR_WORLD(world);
+
   if(!uri_string)
     return NULL;
   
-  RAPTOR_ASSERT_OBJECT_POINTER_RETURN_VALUE(world, raptor_world, NULL);
-
   raptor_world_open(world);
 
   return raptor_new_uri_from_counted_string(world, uri_string,
@@ -222,11 +222,11 @@ raptor_new_uri_from_uri_local_name(raptor_world* world, raptor_uri *uri,
   raptor_uri* new_uri;
   size_t local_name_length;
 
+  RAPTOR_CHECK_CONSTRUCTOR_WORLD(world);
+
   if(!uri)
     return NULL;
   
-  RAPTOR_ASSERT_OBJECT_POINTER_RETURN_VALUE(world, raptor_world, NULL);
-
   raptor_world_open(world);
 
   local_name_length = strlen((const char*)local_name);
@@ -267,10 +267,10 @@ raptor_new_uri_relative_to_base(raptor_world* world,
   raptor_uri* new_uri;
   size_t actual_length;
   
+  RAPTOR_CHECK_CONSTRUCTOR_WORLD(world);
+
   if(!base_uri || !uri_string)
     return NULL;
-
-  RAPTOR_ASSERT_OBJECT_POINTER_RETURN_VALUE(world, raptor_world, NULL);
 
   raptor_world_open(world);
 
@@ -314,10 +314,10 @@ raptor_new_uri_from_id(raptor_world *world, raptor_uri *base_uri,
   unsigned char *local_name;
   int len;
 
+  RAPTOR_CHECK_CONSTRUCTOR_WORLD(world);
+
   if(!base_uri || !id)
     return NULL;
-
-  RAPTOR_ASSERT_OBJECT_POINTER_RETURN_VALUE(world, raptor_world, NULL);
 
   raptor_world_open(world);
 
@@ -362,11 +362,11 @@ raptor_new_uri_for_rdf_concept(raptor_world* world, const unsigned char *name)
   unsigned int new_uri_string_len;
   size_t name_len;
   
+  RAPTOR_CHECK_CONSTRUCTOR_WORLD(world);
+
   if(!name)
     return NULL;
   
-  RAPTOR_ASSERT_OBJECT_POINTER_RETURN_VALUE(world, raptor_world, NULL);
-
   raptor_world_open(world);
 
   name_len = strlen((const char*)name);
@@ -438,8 +438,13 @@ raptor_uri_equals(raptor_uri* uri1, raptor_uri* uri2)
     /* Both not-NULL - compare for equality */
     if(uri1 == uri2)
       return 1;
+    else if (uri1->length != uri2->length)
+      /* Different if lengths are different */
+      return 0;
     else
-      return strcmp((const char*)uri1->string, (const char*)uri2->string) == 0;
+      /* Same length compare: do not need strncmp() NUL checking */
+      return memcmp((const char*)uri1->string, (const char*)uri2->string,
+                    uri1->length) == 0;
   } else if(uri1 || uri2)
     /* Only one is NULL - not equal */
     return 0;
@@ -466,8 +471,19 @@ raptor_uri_compare(raptor_uri* uri1, raptor_uri* uri2)
   if(uri1 == uri2)
     return 0;
 
-  if(uri1 && uri2)
-    return strcmp((const char*)uri1->string, (const char*)uri2->string);
+  if(uri1 && uri2)  {
+    /* compare common (shortest) prefix */
+    unsigned int len = (uri1->length > uri2->length) ?
+                       uri2->length : uri1->length;
+
+    /* Same length compare: Do not need the strncmp() NUL checking */
+    int result = memcmp((const char*)uri1->string, (const char*)uri2->string,
+                        len);
+    if(!result)
+      /* if prefix is the same, the shorter is earlier */
+      result = uri1->length - uri2->length;
+    return result;
+  }
 
   /* One arg is NULL - sort that first */
   return (!uri1) ? -1 : 1;
@@ -975,8 +991,15 @@ raptor_uri_init(raptor_world* world)
   if(world->uri_interning && !world->uris_tree) {
     world->uris_tree = raptor_new_avltree((raptor_data_compare_handler)raptor_uri_compare,
                                           /* free */ NULL, 0);
-    if(!world->uris_tree)
-      RAPTOR_FATAL1("Failed to create URI avltree");
+    if(!world->uris_tree) {
+#ifdef RAPTOR_DEBUG
+      RAPTOR_FATAL1("Failed to create raptor URI avltree");
+#else
+      raptor_log_error(world, RAPTOR_LOG_LEVEL_ERROR, NULL,
+                       "Failed to create raptor URI avltree");
+#endif
+    }
+    
   }
 
   return 0;

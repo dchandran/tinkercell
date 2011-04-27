@@ -68,11 +68,12 @@ typedef struct raptor_librdfa_parser_context_s raptor_librdfa_parser_context;
 static int
 raptor_librdfa_parse_init(raptor_parser* rdf_parser, const char *name)
 {
-/*
   raptor_librdfa_parser_context *librdfa_parser;
 
   librdfa_parser = (raptor_librdfa_parser_context*)rdf_parser->context;
-*/
+
+  raptor_statement_init(&rdf_parser->statement, rdf_parser->world);
+  
   return 0;
 }
 
@@ -111,13 +112,17 @@ raptor_librdfa_generate_statement(rdftriple* triple, void* callback_data)
     goto cleanup;
 
   if(!triple->subject || !triple->predicate || !triple->object) {
+#ifdef RAPTOR_DEBUG
     RAPTOR_FATAL1("Triple has NULL parts\n");
+#endif
     rdfa_free_triple(triple);
     return;
   }
   
   if(triple->object_type == RDF_TYPE_NAMESPACE_PREFIX) {
+#ifdef RAPTOR_DEBUG
     RAPTOR_FATAL1("Triple has namespace object type\n");
+#endif
     rdfa_free_triple(triple);
     return;
   }
@@ -197,7 +202,9 @@ raptor_librdfa_generate_statement(rdftriple* triple, void* callback_data)
                                                language);
     raptor_free_uri(datatype_uri);
   } else {
-    RAPTOR_FATAL2("Triple has unknown object type %d\n", s->object->type);
+    raptor_log_error_formatted(parser->world, RAPTOR_LOG_LEVEL_ERROR, NULL,
+                               "Triple has unknown object term type %d", 
+                               s->object->type);
     goto cleanup;
   }
   s->object = object_term;
@@ -257,8 +264,12 @@ raptor_librdfa_parse_start(raptor_parser* rdf_parser)
   librdfa_parser->context->locator = &rdf_parser->locator;
   
   librdfa_parser->context->callback_data = rdf_parser;
-  rdfa_set_triple_handler(librdfa_parser->context, 
-                          raptor_librdfa_generate_statement);
+  /* returns triples */
+  rdfa_set_default_graph_triple_handler(librdfa_parser->context, 
+                                        raptor_librdfa_generate_statement);
+
+  /* returns RDFa Processing Graph error triples - not used by raptor */
+  rdfa_set_processor_graph_triple_handler(librdfa_parser->context, NULL);
 
   rc = rdfa_parse_start(librdfa_parser->context);
   if(rc != RDFA_PARSE_SUCCESS)
@@ -317,6 +328,11 @@ raptor_librdfa_parse_recognise_syntax(raptor_parser_factory* factory,
 
 static const char* const rdfa_names[2] = { "rdfa", NULL };
 
+static const char* const rdfa_uri_strings[2] = {
+  "http://www.w3.org/TR/rdfa/",
+  NULL
+};
+  
 #define RDFA_TYPES_COUNT 2
 static const raptor_type_q html_types[RDFA_TYPES_COUNT + 1] = {
   { "text/html", 9, 6},
@@ -332,10 +348,9 @@ raptor_librdfa_parser_register_factory(raptor_parser_factory *factory)
   factory->desc.names = rdfa_names;
 
   factory->desc.mime_types = html_types;
-  factory->desc.mime_types_count = RDFA_TYPES_COUNT;
   
   factory->desc.label = "RDF/A via librdfa";
-  factory->desc.uri_string = "http://www.w3.org/TR/rdfa/";
+  factory->desc.uri_strings = rdfa_uri_strings;
   
   factory->desc.flags = 0;
   

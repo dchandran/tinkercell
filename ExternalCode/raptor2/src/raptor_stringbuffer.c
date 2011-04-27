@@ -205,13 +205,13 @@ raptor_stringbuffer_append_string_common(raptor_stringbuffer* stringbuffer,
  * @length: length of string
  * @do_copy: non-0 to copy the string
  *
+ * Add a counted string to the stringbuffer.
+ *
  * If @string is NULL or @length is 0, no work is performed.
  *
  * If @do_copy is non-0, the passed-in string is copied into new memory
  * otherwise the stringbuffer becomes the owner of the string pointer
  * and will free it when the stringbuffer is destroyed.
- *
- * Add a string to the stringbuffer.
  *
  * Return value: non-0 on failure
  **/
@@ -546,6 +546,99 @@ raptor_stringbuffer_copy_to_string(raptor_stringbuffer* stringbuffer,
   *p='\0';
   return 0;
 }
+
+
+
+/**
+ * raptor_stringbuffer_append_hexadecimal:
+ * @stringbuffer: raptor stringbuffer
+ * @hex: integer to format
+ *
+ * Add an integer formatted in hexdecimal (base 16) to the stringbuffer.
+ * 
+ * Return value: non-0 on failure
+ **/
+int
+raptor_stringbuffer_append_hexadecimal(raptor_stringbuffer* stringbuffer, 
+                                       int hex)
+{
+  unsigned char buf[2];
+  
+  if(hex < 0 || hex > 0xF)
+     return 1;
+
+  *buf = (hex < 10) ? ('0' + hex) : ('A' + hex - 10);
+  buf[1] = '\0';
+
+  return raptor_stringbuffer_append_counted_string(stringbuffer, buf, 1, 1);
+}
+
+
+/* RFC3986 Unreserved */
+#define IS_URI_UNRESERVED(c) ( (c >= 'A' && c <= 'F') || \
+                               (c >= 'a' && c <= 'f') || \
+                               (c >= '0' && c <= '9') || \
+                               (c == '-' || c == '.' || c == '_' || c == '~') )
+#define IS_URI_SAFE(c) (IS_URI_UNRESERVED(c))
+    
+
+/**
+ * raptor_stringbuffer_append_uri_escaped_counted_string:
+ * @sb: raptor stringbuffer
+ * @string: string
+ * @length: length of string
+ * @space_is_plus: if non-0, escape spaces as '+' otherwise percent-encode them
+ *
+ * Add a URI-escaped version of @string to the stringbuffer.
+ *
+ * If @string is NULL or @length is 0, no work is performed.
+ *
+ * Return value: non-0 on failure
+ **/
+int
+raptor_stringbuffer_append_uri_escaped_counted_string(raptor_stringbuffer* sb,
+                                                      const char* string,
+                                                      size_t length,
+                                                      int space_is_plus)
+{
+  unsigned int i;
+  unsigned char buf[2];
+  buf[1] = '\0';
+
+  if(!string || !length)
+    return 0;
+  
+  for(i = 0; i < length; i++) {
+    int c = string[i];
+    if(!c)
+      break;
+    
+    if(IS_URI_SAFE(c)) {
+      *buf = c;
+
+      if(raptor_stringbuffer_append_counted_string(sb, buf, 1, 1))
+        return 1;
+    } else if (c == ' ' && space_is_plus) {
+      *buf = '+';
+
+      if(raptor_stringbuffer_append_counted_string(sb, buf, 1, 1))
+        return 1;
+    } else {
+      *buf = '%';
+      if(raptor_stringbuffer_append_counted_string(sb, buf, 1, 1))
+        return 1;
+
+      if(raptor_stringbuffer_append_hexadecimal(sb, (c & 0xf0) >> 4))
+        return 1;
+
+      if(raptor_stringbuffer_append_hexadecimal(sb, (c & 0x0f)))
+        return 1;
+    }
+  }
+
+  return 0;
+}
+
 
 #endif
 

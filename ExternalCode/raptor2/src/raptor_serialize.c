@@ -169,39 +169,11 @@ raptor_serializer_register_factory(raptor_world* world,
   if(factory(serializer))
     return NULL; /* serializer is owned and freed by the serializers sequence */
   
-  if(!serializer->desc.names || !serializer->desc.names[0] || 
-     !serializer->desc.label) {
+  if(raptor_syntax_description_validate(&serializer->desc)) {
     raptor_log_error(world, RAPTOR_LOG_LEVEL_ERROR, NULL,
-                     "Serializer failed to register required names and label fields\n");
+                     "Serializer description failed to validate\n");
     goto tidy;
   }
-
-#ifdef RAPTOR_DEBUG
-  /* Maintainer only check of static data */
-  if(serializer->desc.mime_types) {
-    unsigned int i;
-    const raptor_type_q* type_q = NULL;
-
-    for(i = 0; 
-        (type_q = &serializer->desc.mime_types[i]) && type_q->mime_type;
-        i++) {
-      size_t len = strlen(type_q->mime_type);
-      if(len != type_q->mime_type_len) {
-        fprintf(stderr,
-                "Serializer %s  mime type %s  actual len %d  static len %d\n",
-                serializer->desc.names[0], type_q->mime_type,
-                (int)len, (int)type_q->mime_type_len);
-      }
-    }
-
-    if(i != serializer->desc.mime_types_count) {
-        fprintf(stderr,
-                "Serializer %s  saw %d mime types  static count %d\n",
-                serializer->desc.names[0], i,
-                serializer->desc.mime_types_count);
-    }
-  }
-#endif
 
 #if defined(RAPTOR_DEBUG) && RAPTOR_DEBUG > 1
   RAPTOR_DEBUG3("Registered serializer %s with context size %d\n",
@@ -331,7 +303,7 @@ raptor_new_serializer(raptor_world* world, const char *name)
   raptor_serializer_factory* factory;
   raptor_serializer* rdf_serializer;
 
-  RAPTOR_ASSERT_OBJECT_POINTER_RETURN_VALUE(world, raptor_world, NULL);
+  RAPTOR_CHECK_CONSTRUCTOR_WORLD(world);
 
   raptor_world_open(world);
 
@@ -390,7 +362,7 @@ raptor_new_serializer(raptor_world* world, const char *name)
  * 
  * Start serialization to an iostream with given base URI
  *
- * The passed in @iostream does not becomes owned by the serializer
+ * The passed in @iostream does not become owned by the serializer
  * and can be used by the caller after serializing is done.  It
  * must be destroyed by the caller.
  *
@@ -414,6 +386,8 @@ raptor_serializer_start_to_iostream(raptor_serializer *rdf_serializer,
   rdf_serializer->locator.line = rdf_serializer->locator.column = 0;
 
   rdf_serializer->iostream = iostream;
+
+  rdf_serializer->free_iostream_on_end = 0;
 
   if(rdf_serializer->factory->serialize_start)
     return rdf_serializer->factory->serialize_start(rdf_serializer);

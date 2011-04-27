@@ -65,29 +65,30 @@ host_triplet = @host@
 @RAPTOR_PARSER_TURTLE_TRUE@am__append_5 = turtle_lexer.c turtle_lexer.h turtle_parser.c turtle_parser.h turtle_common.h
 @RAPTOR_PARSER_TRIG_TRUE@@RAPTOR_PARSER_TURTLE_FALSE@am__append_6 = turtle_lexer.c turtle_lexer.h turtle_parser.c turtle_parser.h turtle_common.h
 @RAPTOR_PARSER_NTRIPLES_TRUE@am__append_7 = ntriples_parse.c
-@RAPTOR_RSS_COMMON_TRUE@am__append_8 = raptor_rss_common.c raptor_rss.h
-@RAPTOR_PARSER_RSS_TRUE@am__append_9 = raptor_rss.c
-@RAPTOR_PARSER_GRDDL_TRUE@am__append_10 = raptor_grddl.c
-@RAPTOR_PARSER_GUESS_TRUE@am__append_11 = raptor_guess.c
-@RAPTOR_PARSER_RDFA_TRUE@am__append_12 = raptor_librdfa.c
-@RAPTOR_PARSER_JSON_TRUE@am__append_13 = raptor_json.c
-@RAPTOR_SERIALIZER_RDFXML_TRUE@am__append_14 = raptor_serialize_rdfxml.c
-@RAPTOR_SERIALIZER_NTRIPLES_TRUE@am__append_15 = raptor_serialize_ntriples.c
-@RAPTOR_SERIALIZER_NQUADS_TRUE@@RAPTOR_SERIALIZER_NTRIPLES_FALSE@am__append_16 = raptor_serialize_ntriples.c
+@RAPTOR_PARSER_NQUADS_TRUE@@RAPTOR_PARSER_NTRIPLES_FALSE@am__append_8 = ntriples_parse.c
+@RAPTOR_RSS_COMMON_TRUE@am__append_9 = raptor_rss_common.c raptor_rss.h
+@RAPTOR_PARSER_RSS_TRUE@am__append_10 = raptor_rss.c
+@RAPTOR_PARSER_GRDDL_TRUE@am__append_11 = raptor_grddl.c
+@RAPTOR_PARSER_GUESS_TRUE@am__append_12 = raptor_guess.c
+@RAPTOR_PARSER_RDFA_TRUE@am__append_13 = raptor_librdfa.c
+@RAPTOR_PARSER_JSON_TRUE@am__append_14 = raptor_json.c
+@RAPTOR_SERIALIZER_RDFXML_TRUE@am__append_15 = raptor_serialize_rdfxml.c
+@RAPTOR_SERIALIZER_NTRIPLES_TRUE@am__append_16 = raptor_serialize_ntriples.c
+@RAPTOR_SERIALIZER_NQUADS_TRUE@@RAPTOR_SERIALIZER_NTRIPLES_FALSE@am__append_17 = raptor_serialize_ntriples.c
 
 #raptor_abbrev.c required by both turtle and xml-abbrev
-@RAPTOR_SERIALIZER_RDFXML_ABBREV_TRUE@am__append_17 = raptor_abbrev.c
-@RAPTOR_SERIALIZER_RDFXML_ABBREV_FALSE@@RAPTOR_SERIALIZER_TURTLE_TRUE@am__append_18 = raptor_abbrev.c
-@RAPTOR_SERIALIZER_RDFXML_ABBREV_TRUE@am__append_19 = raptor_serialize_rdfxmla.c
-@RAPTOR_SERIALIZER_TURTLE_TRUE@am__append_20 = raptor_serialize_turtle.c
-@RAPTOR_SERIALIZER_RSS_1_0_TRUE@am__append_21 = raptor_serialize_rss.c
-@RAPTOR_SERIALIZER_DOT_TRUE@am__append_22 = raptor_serialize_dot.c
-@RAPTOR_SERIALIZER_HTML_TRUE@am__append_23 = raptor_serialize_html.c
-@RAPTOR_SERIALIZER_JSON_TRUE@am__append_24 = raptor_serialize_json.c
-@RAPTOR_NFC_CHECK_TRUE@am__append_25 = raptor_nfc_data.c raptor_nfc.c raptor_nfc.h
-@STRCASECMP_TRUE@am__append_26 = strcasecmp.c
-@PARSEDATE_TRUE@am__append_27 = parsedate.c
-@LIBRDFA_TRUE@am__append_28 = \
+@RAPTOR_SERIALIZER_RDFXML_ABBREV_TRUE@am__append_18 = raptor_abbrev.c
+@RAPTOR_SERIALIZER_RDFXML_ABBREV_FALSE@@RAPTOR_SERIALIZER_TURTLE_TRUE@am__append_19 = raptor_abbrev.c
+@RAPTOR_SERIALIZER_RDFXML_ABBREV_TRUE@am__append_20 = raptor_serialize_rdfxmla.c
+@RAPTOR_SERIALIZER_TURTLE_TRUE@am__append_21 = raptor_serialize_turtle.c
+@RAPTOR_SERIALIZER_RSS_1_0_TRUE@am__append_22 = raptor_serialize_rss.c
+@RAPTOR_SERIALIZER_DOT_TRUE@am__append_23 = raptor_serialize_dot.c
+@RAPTOR_SERIALIZER_HTML_TRUE@am__append_24 = raptor_serialize_html.c
+@RAPTOR_SERIALIZER_JSON_TRUE@am__append_25 = raptor_serialize_json.c
+@RAPTOR_NFC_CHECK_TRUE@am__append_26 = raptor_nfc_data.c raptor_nfc.c raptor_nfc.h
+@STRCASECMP_TRUE@am__append_27 = strcasecmp.c
+@PARSEDATE_TRUE@am__append_28 = parsedate.c
+@LIBRDFA_TRUE@am__append_29 = \
 @LIBRDFA_TRUE@$(top_srcdir)/librdfa/curie.c \
 @LIBRDFA_TRUE@$(top_srcdir)/librdfa/iri.c \
 @LIBRDFA_TRUE@$(top_srcdir)/librdfa/language.c\
@@ -98,11 +99,12 @@ host_triplet = @host@
 @LIBRDFA_TRUE@$(top_srcdir)/librdfa/rdfa.h \
 @LIBRDFA_TRUE@$(top_srcdir)/librdfa/rdfa_utils.h 
 
-@LIBRDFA_TRUE@am__append_29 = -DLIBRDFA_IN_RAPTOR -I$(top_srcdir)/librdfa
+@LIBRDFA_TRUE@am__append_30 = -DLIBRDFA_IN_RAPTOR -I$(top_srcdir)/librdfa
 subdir = src
-DIST_COMMON = $(noinst_HEADERS) $(pkginclude_HEADERS) \
-	$(srcdir)/Makefile.am $(srcdir)/Makefile.in \
-	$(srcdir)/raptor_config.h.in raptor_www_curl.c \
+DIST_COMMON = $(noinst_HEADERS) $(srcdir)/Makefile.am \
+	$(srcdir)/Makefile.in $(srcdir)/raptor.h.in \
+	$(srcdir)/raptor_config.h.in \
+	$(srcdir)/win32_raptor_config.h.in raptor_www_curl.c \
 	raptor_www_libfetch.c raptor_www_libxml.c
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
@@ -110,7 +112,7 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = raptor_config.h
-CONFIG_CLEAN_FILES =
+CONFIG_CLEAN_FILES = raptor.h win32_raptor_config.h
 CONFIG_CLEAN_VPATH_FILES =
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
@@ -145,19 +147,19 @@ am__libraptor2_la_SOURCES_DIST = raptor_parse.c raptor_serialize.c \
 	raptor_xml_writer.c raptor_set.c turtle_common.c \
 	raptor_turtle_writer.c raptor_avltree.c snprintf.c \
 	raptor_json_writer.c raptor_memstr.c raptor_concepts.c \
-	raptor_libxml.c raptor_expat.c raptor_rdfxml.c raptor_sax2.c \
-	turtle_lexer.c turtle_lexer.h turtle_parser.c turtle_parser.h \
-	turtle_common.h ntriples_parse.c raptor_rss_common.c \
-	raptor_rss.h raptor_rss.c raptor_grddl.c raptor_guess.c \
-	raptor_librdfa.c raptor_json.c raptor_serialize_rdfxml.c \
-	raptor_serialize_ntriples.c raptor_abbrev.c \
-	raptor_serialize_rdfxmla.c raptor_serialize_turtle.c \
-	raptor_serialize_rss.c raptor_serialize_dot.c \
-	raptor_serialize_html.c raptor_serialize_json.c \
-	raptor_nfc_data.c raptor_nfc.c raptor_nfc.h strcasecmp.c \
-	parsedate.c $(top_srcdir)/librdfa/curie.c \
-	$(top_srcdir)/librdfa/iri.c $(top_srcdir)/librdfa/language.c \
-	$(top_srcdir)/librdfa/rdfa.c \
+	raptor_syntax_description.c raptor_libxml.c raptor_expat.c \
+	raptor_rdfxml.c raptor_sax2.c turtle_lexer.c turtle_lexer.h \
+	turtle_parser.c turtle_parser.h turtle_common.h \
+	ntriples_parse.c raptor_rss_common.c raptor_rss.h raptor_rss.c \
+	raptor_grddl.c raptor_guess.c raptor_librdfa.c raptor_json.c \
+	raptor_serialize_rdfxml.c raptor_serialize_ntriples.c \
+	raptor_abbrev.c raptor_serialize_rdfxmla.c \
+	raptor_serialize_turtle.c raptor_serialize_rss.c \
+	raptor_serialize_dot.c raptor_serialize_html.c \
+	raptor_serialize_json.c raptor_nfc_data.c raptor_nfc.c \
+	raptor_nfc.h strcasecmp.c parsedate.c \
+	$(top_srcdir)/librdfa/curie.c $(top_srcdir)/librdfa/iri.c \
+	$(top_srcdir)/librdfa/language.c $(top_srcdir)/librdfa/rdfa.c \
 	$(top_srcdir)/librdfa/rdfa_utils.c \
 	$(top_srcdir)/librdfa/subject.c $(top_srcdir)/librdfa/triple.c \
 	$(top_srcdir)/librdfa/rdfa.h \
@@ -171,35 +173,36 @@ am__libraptor2_la_SOURCES_DIST = raptor_parse.c raptor_serialize.c \
 @RAPTOR_PARSER_TRIG_TRUE@@RAPTOR_PARSER_TURTLE_FALSE@am__objects_5 = turtle_lexer.lo \
 @RAPTOR_PARSER_TRIG_TRUE@@RAPTOR_PARSER_TURTLE_FALSE@	turtle_parser.lo
 @RAPTOR_PARSER_NTRIPLES_TRUE@am__objects_6 = ntriples_parse.lo
-@RAPTOR_RSS_COMMON_TRUE@am__objects_7 = raptor_rss_common.lo
-@RAPTOR_PARSER_RSS_TRUE@am__objects_8 = raptor_rss.lo
-@RAPTOR_PARSER_GRDDL_TRUE@am__objects_9 = raptor_grddl.lo
-@RAPTOR_PARSER_GUESS_TRUE@am__objects_10 = raptor_guess.lo
-@RAPTOR_PARSER_RDFA_TRUE@am__objects_11 = raptor_librdfa.lo
-@RAPTOR_PARSER_JSON_TRUE@am__objects_12 = raptor_json.lo
-@RAPTOR_SERIALIZER_RDFXML_TRUE@am__objects_13 =  \
+@RAPTOR_PARSER_NQUADS_TRUE@@RAPTOR_PARSER_NTRIPLES_FALSE@am__objects_7 = ntriples_parse.lo
+@RAPTOR_RSS_COMMON_TRUE@am__objects_8 = raptor_rss_common.lo
+@RAPTOR_PARSER_RSS_TRUE@am__objects_9 = raptor_rss.lo
+@RAPTOR_PARSER_GRDDL_TRUE@am__objects_10 = raptor_grddl.lo
+@RAPTOR_PARSER_GUESS_TRUE@am__objects_11 = raptor_guess.lo
+@RAPTOR_PARSER_RDFA_TRUE@am__objects_12 = raptor_librdfa.lo
+@RAPTOR_PARSER_JSON_TRUE@am__objects_13 = raptor_json.lo
+@RAPTOR_SERIALIZER_RDFXML_TRUE@am__objects_14 =  \
 @RAPTOR_SERIALIZER_RDFXML_TRUE@	raptor_serialize_rdfxml.lo
-@RAPTOR_SERIALIZER_NTRIPLES_TRUE@am__objects_14 =  \
+@RAPTOR_SERIALIZER_NTRIPLES_TRUE@am__objects_15 =  \
 @RAPTOR_SERIALIZER_NTRIPLES_TRUE@	raptor_serialize_ntriples.lo
-@RAPTOR_SERIALIZER_NQUADS_TRUE@@RAPTOR_SERIALIZER_NTRIPLES_FALSE@am__objects_15 = raptor_serialize_ntriples.lo
-@RAPTOR_SERIALIZER_RDFXML_ABBREV_TRUE@am__objects_16 =  \
+@RAPTOR_SERIALIZER_NQUADS_TRUE@@RAPTOR_SERIALIZER_NTRIPLES_FALSE@am__objects_16 = raptor_serialize_ntriples.lo
+@RAPTOR_SERIALIZER_RDFXML_ABBREV_TRUE@am__objects_17 =  \
 @RAPTOR_SERIALIZER_RDFXML_ABBREV_TRUE@	raptor_abbrev.lo
-@RAPTOR_SERIALIZER_RDFXML_ABBREV_FALSE@@RAPTOR_SERIALIZER_TURTLE_TRUE@am__objects_17 = raptor_abbrev.lo
-@RAPTOR_SERIALIZER_RDFXML_ABBREV_TRUE@am__objects_18 = raptor_serialize_rdfxmla.lo
-@RAPTOR_SERIALIZER_TURTLE_TRUE@am__objects_19 =  \
+@RAPTOR_SERIALIZER_RDFXML_ABBREV_FALSE@@RAPTOR_SERIALIZER_TURTLE_TRUE@am__objects_18 = raptor_abbrev.lo
+@RAPTOR_SERIALIZER_RDFXML_ABBREV_TRUE@am__objects_19 = raptor_serialize_rdfxmla.lo
+@RAPTOR_SERIALIZER_TURTLE_TRUE@am__objects_20 =  \
 @RAPTOR_SERIALIZER_TURTLE_TRUE@	raptor_serialize_turtle.lo
-@RAPTOR_SERIALIZER_RSS_1_0_TRUE@am__objects_20 =  \
+@RAPTOR_SERIALIZER_RSS_1_0_TRUE@am__objects_21 =  \
 @RAPTOR_SERIALIZER_RSS_1_0_TRUE@	raptor_serialize_rss.lo
-@RAPTOR_SERIALIZER_DOT_TRUE@am__objects_21 = raptor_serialize_dot.lo
-@RAPTOR_SERIALIZER_HTML_TRUE@am__objects_22 =  \
+@RAPTOR_SERIALIZER_DOT_TRUE@am__objects_22 = raptor_serialize_dot.lo
+@RAPTOR_SERIALIZER_HTML_TRUE@am__objects_23 =  \
 @RAPTOR_SERIALIZER_HTML_TRUE@	raptor_serialize_html.lo
-@RAPTOR_SERIALIZER_JSON_TRUE@am__objects_23 =  \
+@RAPTOR_SERIALIZER_JSON_TRUE@am__objects_24 =  \
 @RAPTOR_SERIALIZER_JSON_TRUE@	raptor_serialize_json.lo
-@RAPTOR_NFC_CHECK_TRUE@am__objects_24 = raptor_nfc_data.lo \
+@RAPTOR_NFC_CHECK_TRUE@am__objects_25 = raptor_nfc_data.lo \
 @RAPTOR_NFC_CHECK_TRUE@	raptor_nfc.lo
-@STRCASECMP_TRUE@am__objects_25 = strcasecmp.lo
-@PARSEDATE_TRUE@am__objects_26 = parsedate.lo
-@LIBRDFA_TRUE@am__objects_27 = curie.lo iri.lo language.lo rdfa.lo \
+@STRCASECMP_TRUE@am__objects_26 = strcasecmp.lo
+@PARSEDATE_TRUE@am__objects_27 = parsedate.lo
+@LIBRDFA_TRUE@am__objects_28 = curie.lo iri.lo language.lo rdfa.lo \
 @LIBRDFA_TRUE@	rdfa_utils.lo subject.lo triple.lo
 am_libraptor2_la_OBJECTS = raptor_parse.lo raptor_serialize.lo \
 	raptor_rfc2396.lo raptor_uri.lo raptor_log.lo \
@@ -210,16 +213,17 @@ am_libraptor2_la_OBJECTS = raptor_parse.lo raptor_serialize.lo \
 	raptor_xml.lo raptor_xml_writer.lo raptor_set.lo \
 	turtle_common.lo raptor_turtle_writer.lo raptor_avltree.lo \
 	snprintf.lo raptor_json_writer.lo raptor_memstr.lo \
-	raptor_concepts.lo $(am__objects_1) $(am__objects_2) \
-	$(am__objects_3) $(am__objects_4) $(am__objects_5) \
-	$(am__objects_6) $(am__objects_7) $(am__objects_8) \
-	$(am__objects_9) $(am__objects_10) $(am__objects_11) \
-	$(am__objects_12) $(am__objects_13) $(am__objects_14) \
-	$(am__objects_15) $(am__objects_16) $(am__objects_17) \
-	$(am__objects_18) $(am__objects_19) $(am__objects_20) \
-	$(am__objects_21) $(am__objects_22) $(am__objects_23) \
-	$(am__objects_24) $(am__objects_25) $(am__objects_26) \
-	$(am__objects_27)
+	raptor_concepts.lo raptor_syntax_description.lo \
+	$(am__objects_1) $(am__objects_2) $(am__objects_3) \
+	$(am__objects_4) $(am__objects_5) $(am__objects_6) \
+	$(am__objects_7) $(am__objects_8) $(am__objects_9) \
+	$(am__objects_10) $(am__objects_11) $(am__objects_12) \
+	$(am__objects_13) $(am__objects_14) $(am__objects_15) \
+	$(am__objects_16) $(am__objects_17) $(am__objects_18) \
+	$(am__objects_19) $(am__objects_20) $(am__objects_21) \
+	$(am__objects_22) $(am__objects_23) $(am__objects_24) \
+	$(am__objects_25) $(am__objects_26) $(am__objects_27) \
+	$(am__objects_28)
 libraptor2_la_OBJECTS = $(am_libraptor2_la_OBJECTS)
 AM_V_lt = $(am__v_lt_$(V))
 am__v_lt_ = $(am__v_lt_$(AM_DEFAULT_VERBOSITY))
@@ -255,7 +259,7 @@ am__v_GEN_ = $(am__v_GEN_$(AM_DEFAULT_VERBOSITY))
 am__v_GEN_0 = @echo "  GEN   " $@;
 SOURCES = $(libraptor2_la_SOURCES)
 DIST_SOURCES = $(am__libraptor2_la_SOURCES_DIST)
-HEADERS = $(noinst_HEADERS) $(pkginclude_HEADERS)
+HEADERS = $(nodist_pkginclude_HEADERS) $(noinst_HEADERS)
 ETAGS = etags
 CTAGS = ctags
 am__tty_colors = \
@@ -280,7 +284,6 @@ DEFS = @DEFS@
 DEPDIR = @DEPDIR@
 DSYMUTIL = @DSYMUTIL@
 DUMPBIN = @DUMPBIN@
-ECHO = @ECHO@
 ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
@@ -339,9 +342,16 @@ RAPTOR_LIBTOOLLIBS = @RAPTOR_LIBTOOLLIBS@
 RAPTOR_LIBTOOL_VERSION = @RAPTOR_LIBTOOL_VERSION@
 RAPTOR_PARSERS = @RAPTOR_PARSERS@
 RAPTOR_SERIALIZERS = @RAPTOR_SERIALIZERS@
+RAPTOR_VERSION = @RAPTOR_VERSION@
 RAPTOR_VERSION_DECIMAL = @RAPTOR_VERSION_DECIMAL@
+RAPTOR_VERSION_MAJOR = @RAPTOR_VERSION_MAJOR@
+RAPTOR_VERSION_MINOR = @RAPTOR_VERSION_MINOR@
+RAPTOR_VERSION_RELEASE = @RAPTOR_VERSION_RELEASE@
 RAPTOR_WWW_LIBRARY = @RAPTOR_WWW_LIBRARY@
 RAPTOR_XML_PARSER = @RAPTOR_XML_PARSER@
+RECHO = @RECHO@
+RECHO_C = @RECHO_C@
+RECHO_N = @RECHO_N@
 RPM_RELEASE = @RPM_RELEASE@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
@@ -406,7 +416,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 lib_LTLIBRARIES = libraptor2.la
-pkginclude_HEADERS = raptor.h
+nodist_pkginclude_HEADERS = raptor.h
 noinst_HEADERS = raptor_internal.h win32_raptor_config.h
 TESTS = raptor_parse_test raptor_rfc2396_test raptor_uri_test \
 	raptor_namespace_test strcasecmp_test raptor_www_test \
@@ -421,7 +431,7 @@ rdfdiff
 MAINTAINERCLEANFILES = turtle_lexer.c turtle_lexer.h \
 turtle_parser.c turtle_parser.h turtle_parser.output
 
-AM_CPPFLAGS = $(MEM) $(am__append_29)
+AM_CPPFLAGS = $(MEM) $(am__append_30)
 libraptor2_la_SOURCES = raptor_parse.c raptor_serialize.c \
 	raptor_rfc2396.c raptor_uri.c raptor_log.c raptor_locator.c \
 	raptor_namespace.c raptor_qname.c raptor_option.c \
@@ -431,15 +441,16 @@ libraptor2_la_SOURCES = raptor_parse.c raptor_serialize.c \
 	raptor_xml_writer.c raptor_set.c turtle_common.c \
 	raptor_turtle_writer.c raptor_avltree.c snprintf.c \
 	raptor_json_writer.c raptor_memstr.c raptor_concepts.c \
-	$(am__append_2) $(am__append_3) $(am__append_4) \
-	$(am__append_5) $(am__append_6) $(am__append_7) \
-	$(am__append_8) $(am__append_9) $(am__append_10) \
-	$(am__append_11) $(am__append_12) $(am__append_13) \
-	$(am__append_14) $(am__append_15) $(am__append_16) \
-	$(am__append_17) $(am__append_18) $(am__append_19) \
-	$(am__append_20) $(am__append_21) $(am__append_22) \
-	$(am__append_23) $(am__append_24) $(am__append_25) \
-	$(am__append_26) $(am__append_27) $(am__append_28)
+	raptor_syntax_description.c $(am__append_2) $(am__append_3) \
+	$(am__append_4) $(am__append_5) $(am__append_6) \
+	$(am__append_7) $(am__append_8) $(am__append_9) \
+	$(am__append_10) $(am__append_11) $(am__append_12) \
+	$(am__append_13) $(am__append_14) $(am__append_15) \
+	$(am__append_16) $(am__append_17) $(am__append_18) \
+	$(am__append_19) $(am__append_20) $(am__append_21) \
+	$(am__append_22) $(am__append_23) $(am__append_24) \
+	$(am__append_25) $(am__append_26) $(am__append_27) \
+	$(am__append_28) $(am__append_29)
 libraptor2_la_LDFLAGS = -version-info @RAPTOR_LIBTOOL_VERSION@ \
 @RAPTOR_LDFLAGS@ $(MEM_LIBS)
 
@@ -504,6 +515,10 @@ $(srcdir)/raptor_config.h.in: @MAINTAINER_MODE_TRUE@ $(am__configure_deps)
 
 distclean-hdr:
 	-rm -f raptor_config.h stamp-h1
+raptor.h: $(top_builddir)/config.status $(srcdir)/raptor.h.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+win32_raptor_config.h: $(top_builddir)/config.status $(srcdir)/win32_raptor_config.h.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 install-libLTLIBRARIES: $(lib_LTLIBRARIES)
 	@$(NORMAL_INSTALL)
 	test -z "$(libdir)" || $(MKDIR_P) "$(DESTDIR)$(libdir)"
@@ -591,6 +606,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/raptor_set.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/raptor_statement.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/raptor_stringbuffer.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/raptor_syntax_description.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/raptor_term.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/raptor_turtle_writer.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/raptor_unicode.Plo@am__quote@
@@ -693,10 +709,10 @@ mostlyclean-libtool:
 
 clean-libtool:
 	-rm -rf .libs _libs
-install-pkgincludeHEADERS: $(pkginclude_HEADERS)
+install-nodist_pkgincludeHEADERS: $(nodist_pkginclude_HEADERS)
 	@$(NORMAL_INSTALL)
 	test -z "$(pkgincludedir)" || $(MKDIR_P) "$(DESTDIR)$(pkgincludedir)"
-	@list='$(pkginclude_HEADERS)'; test -n "$(pkgincludedir)" || list=; \
+	@list='$(nodist_pkginclude_HEADERS)'; test -n "$(pkgincludedir)" || list=; \
 	for p in $$list; do \
 	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
 	  echo "$$d$$p"; \
@@ -706,9 +722,9 @@ install-pkgincludeHEADERS: $(pkginclude_HEADERS)
 	  $(INSTALL_HEADER) $$files "$(DESTDIR)$(pkgincludedir)" || exit $$?; \
 	done
 
-uninstall-pkgincludeHEADERS:
+uninstall-nodist_pkgincludeHEADERS:
 	@$(NORMAL_UNINSTALL)
-	@list='$(pkginclude_HEADERS)'; test -n "$(pkgincludedir)" || list=; \
+	@list='$(nodist_pkginclude_HEADERS)'; test -n "$(pkgincludedir)" || list=; \
 	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
 	test -n "$$files" || exit 0; \
 	echo " ( cd '$(DESTDIR)$(pkgincludedir)' && rm -f" $$files ")"; \
@@ -946,7 +962,7 @@ info: info-am
 
 info-am:
 
-install-data-am: install-pkgincludeHEADERS
+install-data-am: install-nodist_pkgincludeHEADERS
 
 install-dvi: install-dvi-am
 
@@ -992,7 +1008,8 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-libLTLIBRARIES uninstall-pkgincludeHEADERS
+uninstall-am: uninstall-libLTLIBRARIES \
+	uninstall-nodist_pkgincludeHEADERS
 
 .MAKE: all check-am install-am install-strip
 
@@ -1003,14 +1020,14 @@ uninstall-am: uninstall-libLTLIBRARIES uninstall-pkgincludeHEADERS
 	html-am info info-am install install-am install-data \
 	install-data-am install-dvi install-dvi-am install-exec \
 	install-exec-am install-html install-html-am install-info \
-	install-info-am install-libLTLIBRARIES install-man install-pdf \
-	install-pdf-am install-pkgincludeHEADERS install-ps \
-	install-ps-am install-strip installcheck installcheck-am \
-	installdirs maintainer-clean maintainer-clean-generic \
-	mostlyclean mostlyclean-compile mostlyclean-generic \
-	mostlyclean-libtool pdf pdf-am ps ps-am tags uninstall \
-	uninstall-am uninstall-libLTLIBRARIES \
-	uninstall-pkgincludeHEADERS
+	install-info-am install-libLTLIBRARIES install-man \
+	install-nodist_pkgincludeHEADERS install-pdf install-pdf-am \
+	install-ps install-ps-am install-strip installcheck \
+	installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-compile \
+	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
+	tags uninstall uninstall-am uninstall-libLTLIBRARIES \
+	uninstall-nodist_pkgincludeHEADERS
 
 
 # Actually it needs turtle_parser.h but nevermind

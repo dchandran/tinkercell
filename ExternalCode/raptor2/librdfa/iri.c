@@ -33,11 +33,10 @@
  * @param iri the IRI that should be stripped of anything after the iquery
  *            and fragment, if they exist.
  */
-char* rdfa_iri_get_base(const char* s)
+char* rdfa_iri_get_base(const char* iri)
 {
    char* rval = NULL;
-   char* eindex = 0;
-   char * iri = (char*)s;
+   const char* eindex = 0;
 
    // search to see if there is iquery separator
    eindex = strchr(iri, '?');

@@ -129,6 +129,10 @@ raptor_parsers_init(raptor_world *world)
   rc+= raptor_init_parser_json(world) != 0;
 #endif
 
+#ifdef RAPTOR_PARSER_NQUADS
+  rc+= raptor_init_parser_nquads(world) != 0;
+#endif
+
   return rc;
 }
 
@@ -184,37 +188,13 @@ raptor_world_register_parser_factory(raptor_world* world,
   if(factory(parser))
     return NULL; /* parser is owned and freed by the parsers sequence */
   
-  if(!parser->desc.names || !parser->desc.names[0] || !parser->desc.label) {
+  if(raptor_syntax_description_validate(&parser->desc)) {
     raptor_log_error(world, RAPTOR_LOG_LEVEL_ERROR, NULL,
-                     "Parser failed to register required names and label fields\n");
+                     "Parser description failed to validate\n");
     goto tidy;
   }
+  
 
-#ifdef RAPTOR_DEBUG
-  /* Maintainer only check of static data */
-  if(parser->desc.mime_types) {
-    unsigned int i;
-    const raptor_type_q* type_q = NULL;
-
-    for(i = 0; 
-        (type_q = &parser->desc.mime_types[i]) && type_q->mime_type;
-        i++) {
-      size_t len = strlen(type_q->mime_type);
-      if(len != type_q->mime_type_len) {
-        fprintf(stderr,
-                "Parser %s  mime type %s  actual len %d  static len %d\n",
-                parser->desc.names[0], type_q->mime_type,
-                (int)len, (int)type_q->mime_type_len);
-      }
-    }
-
-    if(i != parser->desc.mime_types_count) {
-        fprintf(stderr,
-                "Parser %s  saw %d mime types  static count %d\n",
-                parser->desc.names[0], i, parser->desc.mime_types_count);
-    }
-  }
-#endif
 
 #if defined(RAPTOR_DEBUG) && RAPTOR_DEBUG > 1
   RAPTOR_DEBUG3("Registered parser %s with context size %d\n",
@@ -340,7 +320,7 @@ raptor_new_parser(raptor_world* world, const char *name)
   raptor_parser_factory* factory;
   raptor_parser* rdf_parser;
 
-  RAPTOR_ASSERT_OBJECT_POINTER_RETURN_VALUE(world, raptor_world, NULL);
+  RAPTOR_CHECK_CONSTRUCTOR_WORLD(world);
 
   raptor_world_open(world);
   
@@ -413,7 +393,7 @@ raptor_new_parser_for_content(raptor_world* world,
 {
   const char* name;
 
-  RAPTOR_ASSERT_OBJECT_POINTER_RETURN_VALUE(world, raptor_world, NULL);
+  RAPTOR_CHECK_CONSTRUCTOR_WORLD(world);
 
   raptor_world_open(world);
 
@@ -925,7 +905,10 @@ raptor_parser_warning(raptor_parser* parser, const char *message, ...)
  * @handler: new statement callback function
  *
  * Set the statement handler function for the parser.
- * 
+ *
+ * Use this to set the function to receive statements as the parsing
+ * proceeds. The statement argument to @handler is shared and must be
+ * copied by the caller with raptor_statement_copy().
  **/
 void
 raptor_parser_set_statement_handler(raptor_parser* parser,
@@ -1297,12 +1280,22 @@ raptor_world_guess_parser_name(raptor_world* world,
     if(score >= 10)
       break;
     
-    if(uri && factory->desc.uri_string &&
-       !strcmp((const char*)raptor_uri_as_string(uri), 
-               (const char*)factory->desc.uri_string))
-      /* got an exact match syntax for URI - return result */
-      break;
-
+    if(uri && factory->desc.uri_strings) {
+      int j;
+      const char* uri_string = (const char*)raptor_uri_as_string(uri);
+      const char* factory_uri_string = NULL;
+      
+      for(j = 0;
+          (factory_uri_string = factory->desc.uri_strings[j]);
+          j++) {
+        if(!strcmp(uri_string, factory_uri_string))
+          break;
+      }
+      if(factory_uri_string)
+        /* got an exact match syntax for URI - return result */
+        break;
+    }
+    
     if(factory->recognise_syntax) {
       int c = -1;
     

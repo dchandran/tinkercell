@@ -805,8 +805,57 @@ int raptor_init_parser_guess(raptor_world* world);
 int raptor_init_parser_rss(raptor_world* world);
 int raptor_init_parser_rdfa(raptor_world* world);
 int raptor_init_parser_json(raptor_world* world);
+int raptor_init_parser_nquads(raptor_world* world);
 
 void raptor_terminate_parser_grddl_common(raptor_world *world);
+
+#ifdef RAPTOR_PARSER_RDFA
+#define rdfa_add_item raptor_librdfa_rdfa_add_item
+#define rdfa_canonicalize_string raptor_librdfa_rdfa_canonicalize_string
+#define rdfa_complete_incomplete_triples raptor_librdfa_rdfa_complete_incomplete_triples
+#define rdfa_complete_object_literal_triples raptor_librdfa_rdfa_complete_object_literal_triples
+#define rdfa_complete_relrev_triples raptor_librdfa_rdfa_complete_relrev_triples
+#define rdfa_complete_type_triples raptor_librdfa_rdfa_complete_type_triples
+#define rdfa_copy_list raptor_librdfa_rdfa_copy_list
+#define rdfa_create_bnode raptor_librdfa_rdfa_create_bnode
+#define rdfa_create_context raptor_librdfa_rdfa_create_context
+#define rdfa_create_list raptor_librdfa_rdfa_create_list
+#define rdfa_create_new_element_context raptor_librdfa_rdfa_create_new_element_context
+#define rdfa_create_triple raptor_librdfa_rdfa_create_triple
+#define rdfa_establish_new_subject raptor_librdfa_rdfa_establish_new_subject
+#define rdfa_establish_new_subject_with_relrev raptor_librdfa_rdfa_establish_new_subject_with_relrev
+#define rdfa_free_context raptor_librdfa_rdfa_free_context
+#define rdfa_free_context_stack raptor_librdfa_rdfa_free_context_stack
+#define rdfa_free_list raptor_librdfa_rdfa_free_list
+#define rdfa_free_triple raptor_librdfa_rdfa_free_triple
+#define rdfa_get_buffer raptor_librdfa_rdfa_get_buffer
+#define rdfa_get_curie_type raptor_librdfa_get_curie_type
+#define rdfa_init_base raptor_librdfa_rdfa_init_base
+#define rdfa_init_context raptor_librdfa_rdfa_init_context
+#define rdfa_iri_get_base raptor_librdfa_rdfa_iri_get_base
+#define rdfa_join_string raptor_librdfa_rdfa_join_string
+#define rdfa_n_append_string raptor_librdfa_rdfa_n_append_string
+#define rdfa_parse raptor_librdfa_rdfa_parse
+#define rdfa_parse_buffer raptor_librdfa_rdfa_parse_buffer
+#define rdfa_parse_chunk raptor_librdfa_rdfa_parse_chunk
+#define rdfa_parse_end raptor_librdfa_rdfa_parse_end
+#define rdfa_parse_start raptor_librdfa_rdfa_parse_start
+#define rdfa_pop_item raptor_librdfa_rdfa_pop_item
+#define rdfa_print_list raptor_librdfa_rdfa_print_list
+#define rdfa_print_triple raptor_librdfa_rdfa_print_triple
+#define rdfa_process_doctype raptor_librdfa_rdfa_process_doctype
+#define rdfa_push_item raptor_librdfa_rdfa_push_item
+#define rdfa_replace_string raptor_librdfa_rdfa_replace_string
+#define rdfa_resolve_curie raptor_librdfa_rdfa_resolve_curie
+#define rdfa_resolve_curie_list raptor_librdfa_rdfa_resolve_curie_list
+#define rdfa_resolve_relrev_curie raptor_librdfa_rdfa_resolve_relrev_curie
+#define rdfa_resolve_uri raptor_librdfa_rdfa_resolve_uri
+#define rdfa_save_incomplete_triples raptor_librdfa_rdfa_save_incomplete_triples
+#define rdfa_set_buffer_filler raptor_librdfa_rdfa_set_buffer_filler
+#define rdfa_set_default_graph_triple_handler raptor_librdfa_rdfa_set_default_graph_triple_handler
+#define rdfa_set_processor_graph_triple_handler raptor_librdfa_rdfa_set_processor_graph_triple_handler
+#define rdfa_update_language raptor_librdfa_rdfa_update_language
+#endif
 
 /* raptor_parse.c */
 int raptor_parsers_init(raptor_world* world);
@@ -814,8 +863,8 @@ void raptor_parsers_finish(raptor_world *world);
 
 void raptor_parser_save_content(raptor_parser* rdf_parser, int save);
 const unsigned char* raptor_parser_get_content(raptor_parser* rdf_parser, size_t* length_p);
-void raptor_parser_start_graph(raptor_parser* parser, raptor_uri* uri, int _explicit);
-void raptor_parser_end_graph(raptor_parser* parser, raptor_uri* uri, int _explicit);
+void raptor_parser_start_graph(raptor_parser* parser, raptor_uri* uri, int is_declared);
+void raptor_parser_end_graph(raptor_parser* parser, raptor_uri* uri, int is_declared);
 
 /* raptor_rss.c */
 int raptor_init_serializer_rss10(raptor_world* world);
@@ -1186,14 +1235,13 @@ raptor_abbrev_node* raptor_new_abbrev_node(raptor_world* world, raptor_term* ter
 void raptor_free_abbrev_node(raptor_abbrev_node* node);
 int raptor_abbrev_node_compare(raptor_abbrev_node* node1, raptor_abbrev_node* node2);
 int raptor_abbrev_node_equals(raptor_abbrev_node* node1, raptor_abbrev_node* node2);
-raptor_abbrev_node* raptor_abbrev_node_lookup(raptor_avltree* nodes, raptor_term* term, int* created_p);
+raptor_abbrev_node* raptor_abbrev_node_lookup(raptor_avltree* nodes, raptor_term* term);
 
-raptor_abbrev_subject* raptor_new_abbrev_subject(raptor_abbrev_node* node);
 void raptor_free_abbrev_subject(raptor_abbrev_subject* subject);
 int raptor_abbrev_subject_add_property(raptor_abbrev_subject* subject, raptor_abbrev_node* predicate, raptor_abbrev_node* object);
 int raptor_abbrev_subject_compare(raptor_abbrev_subject* subject1, raptor_abbrev_subject* subject2);
 raptor_abbrev_subject* raptor_abbrev_subject_find(raptor_avltree *subjects, raptor_term* node);
-raptor_abbrev_subject* raptor_abbrev_subject_lookup(raptor_avltree* nodes, raptor_avltree* subjects, raptor_avltree* blanks, raptor_term* term, int* created_p);
+raptor_abbrev_subject* raptor_abbrev_subject_lookup(raptor_avltree* nodes, raptor_avltree* subjects, raptor_avltree* blanks, raptor_term* term);
 int raptor_abbrev_subject_valid(raptor_abbrev_subject *subject);
 int raptor_abbrev_subject_invalidate(raptor_abbrev_subject *subject);
 
@@ -1269,7 +1317,20 @@ int raptor_rdfxmla_serialize_set_write_typed_nodes(raptor_serializer* serializer
 char* raptor_format_float(char *buffer, size_t *currlen, size_t maxlen, double fvalue, unsigned int min, unsigned int max, int flags);
 
 /* raptor_world structure */
-#define RAPTOR_WORLD_MAGIC 0xF00DD00D
+#define RAPTOR1_WORLD_MAGIC_1 0
+#define RAPTOR1_WORLD_MAGIC_2 1
+#define RAPTOR2_WORLD_MAGIC 0xC4129CEF
+
+#define RAPTOR_CHECK_CONSTRUCTOR_WORLD(world)                           \
+  do {                                                                  \
+    if(raptor_check_world_internal(world, __func__))                 \
+       return NULL;                                                     \
+  } while(0)  
+    
+
+int raptor_check_world_internal(raptor_world* world, const char* name);
+
+
 
 struct raptor_world_s {
   /* signature to check this is a world object */

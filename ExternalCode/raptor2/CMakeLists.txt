@@ -16,7 +16,7 @@ IF(WIN32)
 	ADD_DEFINITIONS(-DWIN32)
 ENDIF(WIN32)
 
-FILE( GLOB RAPTOR_SRC src/*.c src/*.y utils/*.c) #librdfa/*.c 
+FILE( GLOB RAPTOR_SRC src/*.c src/*.y utils/*.c librdfa/*.c)
 
 #SET_SOURCE_FILES_PROPERTIES(${RAPTOR_SRC}  PROPERTIES LANGUAGE CXX)
 

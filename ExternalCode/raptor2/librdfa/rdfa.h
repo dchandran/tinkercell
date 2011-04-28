@@ -93,7 +93,7 @@
 #include "raptor.h"
 #include "raptor_internal.h"
 #else
-#include "expat.h"
+#include <expat.h>
 #endif
 
 #ifdef __cplusplus

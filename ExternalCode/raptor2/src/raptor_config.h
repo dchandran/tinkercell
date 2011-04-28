@@ -183,19 +183,19 @@
 //#define RAPTOR_LIBXML_ENTITY_ETYPE 1
 
 /* does libxml struct xmlEntity have a field name_length */
-/* #undef RAPTOR_LIBXML_ENTITY_NAME_LENGTH */
+#undef RAPTOR_LIBXML_ENTITY_NAME_LENGTH
 
 /* does libxml have HTML_PARSE_NONET */
-#define RAPTOR_LIBXML_HTML_PARSE_NONET 1
+//#define RAPTOR_LIBXML_HTML_PARSE_NONET 1
 
 /* does libxml xmlSAXHandler have externalSubset field */
-#define RAPTOR_LIBXML_XMLSAXHANDLER_EXTERNALSUBSET 1
+//#define RAPTOR_LIBXML_XMLSAXHANDLER_EXTERNALSUBSET 1
 
 /* does libxml xmlSAXHandler have initialized field */
-#define RAPTOR_LIBXML_XMLSAXHANDLER_INITIALIZED 1
+//#define RAPTOR_LIBXML_XMLSAXHANDLER_INITIALIZED 1
 
 /* does libxml have XML_PARSE_NONET */
-#define RAPTOR_LIBXML_XML_PARSE_NONET 1
+//#define RAPTOR_LIBXML_XML_PARSE_NONET 1
 
 /* Minimum supported package version */
 #define RAPTOR_MIN_VERSION_DECIMAL 20000
@@ -204,13 +204,13 @@
 #define RAPTOR_NFC_CHECK 1
 
 /* Building GRDDL parser */
-#undef RAPTOR_PARSER_GRDDL 
+/* #undef RAPTOR_PARSER_GRDDL */
 
 /* Building guess parser */
 #define RAPTOR_PARSER_GUESS 1
 
 /* Building JSON parser */
-#undef RAPTOR_PARSER_JSON
+/* #undef RAPTOR_PARSER_JSON */
 
 /* Building N-Quads parser */
 #define RAPTOR_PARSER_NQUADS 1
@@ -243,7 +243,7 @@
 #define RAPTOR_SERIALIZER_HTML 1
 
 /* Building JSON serializer */
-//#define RAPTOR_SERIALIZER_JSON 1
+#define RAPTOR_SERIALIZER_JSON 1
 
 /* Building N-Quads serializer */
 #define RAPTOR_SERIALIZER_NQUADS 1
@@ -295,7 +295,6 @@
 
 /* Use libxml XML parser */
 //#define RAPTOR_XML_LIBXML 1
-#undef RAPTOR_XML_LIBXML
 
 /* The size of `unsigned char', as computed by sizeof. */
 #define SIZEOF_UNSIGNED_CHAR 1

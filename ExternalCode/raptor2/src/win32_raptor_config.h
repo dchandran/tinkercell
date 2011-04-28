@@ -45,8 +45,8 @@ extern "C" {
 
 #else
 /* For using libxml2 on win32 */
-#define RAPTOR_XML_LIBXML
-#define HAVE_LIBXML_XMLREADER_H
+//#define RAPTOR_XML_LIBXML
+//#define HAVE_LIBXML_XMLREADER_H
 /* does libxml struct xmlEntity have a field etype */
 /*#define RAPTOR_LIBXML_ENTITY_ETYPE*/
 

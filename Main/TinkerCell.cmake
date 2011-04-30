@@ -134,7 +134,7 @@ ENDIF( APPLE AND BUILD_BUNDLE )
 INSTALL(TARGETS TinkerCell 
    BUNDLE DESTINATION bin/../
    RUNTIME DESTINATION bin/../
-   COMPONENT "TinkerCell")
+   )
 
 #---------------------------------------------------------------------
 #  Updates.txt -- only done in Unix (just for my convenience)

@@ -35,9 +35,9 @@ ADD_LIBRARY( ssa
 
 SET_TARGET_PROPERTIES(ssa PROPERTIES LINKER_LANGUAGE C)
 IF ( WIN32 )
-	  INSTALL(TARGETS ssa ode DESTINATION lib)
+	  INSTALL(TARGETS ssa ode DESTINATION lib )
 ELSE ( WIN32 )
-	  INSTALL(TARGETS ssa ode ARCHIVE DESTINATION lib)
+	  INSTALL(TARGETS ssa ode ARCHIVE DESTINATION lib )
 ENDIF( WIN32 )
 
 ADD_SUBDIRECTORY( sbml_sim )
@@ -56,7 +56,6 @@ IF (NOT TINKERCELL_LITE_PARTS)  #don't add any numerical packages in "parts" mod
 				${TINKERCELL_SOURCE_DIR}/ExternalCode/lapack/INCLUDE/clapack.h
 				${TINKERCELL_SOURCE_DIR}/ExternalCode/lapack/INCLUDE/blaswrap.h
 		  DESTINATION c
-		  COMPONENT C_SOURCE
 		)
 	
 	ELSE(USE_COPASI)   #use custom programs for the numerical analysis (less features, but faster)

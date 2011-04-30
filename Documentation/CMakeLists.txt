@@ -1,8 +1,6 @@
 FILE(GLOB DOC_FILES *.html *.pdf *.htm *.PDF *.HTML *.HTM)
 
-INSTALL( FILES ${DOC_FILES} 
-  DESTINATION Documentation
-)
+INSTALL( FILES ${DOC_FILES} DESTINATION Documentation )
 
 #IF( DOXYGENDOC )
 

@@ -133,16 +133,13 @@ FILE(GLOB NODESTREE_XML_FILES
 	${TINKERCELL_SOURCE_DIR}/NodesTree/InitialCatalogList.txt
 )
 
-INSTALL( FILES ${NODESTREE_XML_FILES}
-  DESTINATION NodesTree
-  COMPONENT NodesAndConnections
-)
+INSTALL( FILES ${NODESTREE_XML_FILES} DESTINATION NodesTree )
 
 #--------------------------------------------------------------------------
 #  Copy example files and stylesheet
 #--------------------------------------------------------------------------
 
 FILE(GLOB TINKERCELL_EXAMPLES examples/*.tic examples/*.TIC examples/*.xml)
-INSTALL(FILES ${TINKERCELL_EXAMPLES} DESTINATION examples COMPONENT "examples")
-INSTALL(FILES tinkercell.qss DESTINATION bin/../ COMPONENT "stylesheet")
+INSTALL(FILES ${TINKERCELL_EXAMPLES} DESTINATION examples )
+INSTALL(FILES tinkercell.qss DESTINATION bin/../ )
 

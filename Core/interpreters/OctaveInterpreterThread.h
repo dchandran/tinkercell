@@ -55,6 +55,7 @@ namespace Tinkercell
 		/*! \brief library with all the C API functions */
 		QLibrary * swigLib;
 		QRegExp fromTC;
+		QRegExp toTC;
 	};
 }
 

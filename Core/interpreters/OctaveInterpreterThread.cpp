@@ -20,7 +20,8 @@ namespace Tinkercell
     OctaveInterpreterThread::OctaveInterpreterThread(const QString & swiglibname, const QString & dllname, MainWindow* main)
         : InterpreterThread(dllname,main)
     {
-    	fromTC = QRegExp("([A-Za-z0-9_]+)\\s*=\\s*fromTC\\s*\\(\\s*(\\s*[A-Za-z0-9_]+\\s*)\\)");
+    	fromTC = QRegExp("([A-Za-z][A-Za-z0-9_]*)\\s*=\\s*fromTC\\s*\\(\\s*(\\s*[A-Za-z][A-Za-z0-9_]*\\s*)\\)");
+		toTC = QRegExp("([A-Za-z][A-Za-z0-9_]*)\\s*=\\s*toTC\\s*\\(\\s*(\\s*[A-Za-z][A-Za-z0-9_]*\\s*)\\)");
 		addpathDone = false;
     	f = 0;
 		if (swiglibname.endsWith(QObject::tr(".oct")))
@@ -43,12 +44,12 @@ namespace Tinkercell
    	   s->acquire();
        s->release();
     }
-    
+
     void OctaveInterpreterThread::toolLoaded(Tool*)
     {
     	setCPointers();
     }
-    
+
     void OctaveInterpreterThread::finalize()
     {
         if (!lib || !lib->isLoaded()) return;
@@ -57,11 +58,8 @@ namespace Tinkercell
         if (f)
         {
             QString currentDir = QDir::currentPath();
-
             QDir::setCurrent(MainWindow::tempDir());
-
             f();
-
             QDir::setCurrent(currentDir);
         }
     }
@@ -83,10 +81,9 @@ namespace Tinkercell
         if (f)
         {
         	QString currentDir = QDir::currentPath();
-
             QDir::setCurrent(MainWindow::tempDir());
 
-               setCPointers();
+			setCPointers();
             f();
 
             QDir::setCurrent(currentDir);
@@ -110,7 +107,6 @@ namespace Tinkercell
     {
         if (!lib || !lib->isLoaded() || code.isEmpty()) return;
 		
-	#ifdef Q_WS_WIN
 		if (fromTC.indexIn(code) > -1) //hack
 		{
 			QString m2 = fromTC.cap(1), m1 = fromTC.cap(2);
@@ -120,7 +116,16 @@ namespace Tinkercell
 							QObject::tr(",i-1,j-1); endfor endfor");
 			code.replace(fromTC,s);
 		}
-	#endif
+
+		if (toTC.indexIn(code) > -1) //hack
+		{
+			QString m2 = toTC.cap(1), m1 = toTC.cap(2);
+			QString s = m2 + QObject::tr(" = tinkercell.tc_createMatrix(size(")+ m1 + QObject::tr(",1), size(") + m1 + QObject::tr(",2)); ") + 
+							QObject::tr("for i=1:size(") + m1 + QObject::tr(",1) for j=1:size(") + m1 + 
+							QObject::tr(",2) tinkercell.tc_setMatrixValue(") + m2 + QObject::tr(",i-1,j-1,") + m1 + 
+							QObject::tr("(i,j)); endfor endfor");
+			code.replace(toTC,s);
+		}
        
         QString script;
 		

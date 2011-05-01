@@ -198,5 +198,6 @@
         <file alias="aligncompactvertical.png">../icons/aligncompactvertical.png</file>
         <file alias="bucket.png">../icons/bucket.png</file>
         <file alias="clipboard.png">../icons/clipboard.png</file>
+        <file alias="octave.png">../icons/octave.png</file>
     </qresource>
 </RCC>

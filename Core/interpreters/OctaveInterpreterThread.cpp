@@ -149,9 +149,9 @@ namespace Tinkercell
 				for (int i=0; i < subdirs.size(); ++i)
 				{
 					QString dir = subdirs[i];
-					#ifdef Q_WS_WIN
+				//	#ifdef Q_WS_WIN
 						dir = dir.replace("/","\\\\");
-					#endif
+				//	#endif
 					script += tr("addpath(\"") + dir + tr("\")\n");
 				}
 				addpathDone = true;
@@ -159,13 +159,13 @@ namespace Tinkercell
 	        	f(script.toAscii().data(),"octav.out","octav.err");
 	        }
 		
-		#ifdef Q_WS_WIN
+	//	#ifdef Q_WS_WIN
 			script = QObject::tr("diary on\n\n");
 			script += code;
 			script += QObject::tr("\n\ndiary off\n");
-		#else
-			script = code;
-		#endif
+	//	#else
+	//		script = code;
+	//	#endif
 
             QString currentDir = QDir::currentPath();
             QDir::setCurrent(MainWindow::tempDir());
@@ -176,18 +176,18 @@ namespace Tinkercell
 			    sourcefile.write(script.toAscii());
 			    sourcefile.close();
 			}
-     	#ifdef Q_WS_WIN
+    // 	#ifdef Q_WS_WIN
 			QFile outfile(tr("diary"));
 			if (outfile.open(QFile::WriteOnly))
 			{
 			    outfile.write(QString().toAscii());
 			    outfile.close();
 			}
-            f("source('temp.m')",0,"octav.err"); //MS Windows just works differently
-		#else
+            f("source('temp.m')",0,"octav.err");
+	/*	#else
 			f("source('temp.m')","octav.out","octav.err");
 			QFile outfile(tr("octav.out"));
-		#endif
+		#endif*/
             if (mainWindow && mainWindow->console())
             {
             	if (outfile.open(QFile::ReadOnly | QFile::Text))
@@ -218,3 +218,4 @@ namespace Tinkercell
     }
 
 }
+

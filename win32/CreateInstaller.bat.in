@@ -6,4 +6,3 @@ python Generate_Inno_Script.py
 Timeout 10
 "@WINSCP@" /script="@TINKERCELL_BINARY_DIR@\win32\uploadTinkerCell.winscp"
 Timeout 10
-del "@TINKERCELL_BINARY_DIR@"\win32\*.exe

@@ -50,7 +50,11 @@
 <Repressible Promoter>		<description>		"A promoter with a binding site that can be repressed by a transcription factor" .
 <RBS>									<a>							<Part> .
 <RBS>									<description>		"Ribosome binding site"@en .
-<Terminator>						<description>		"Ribosome binding site"@en .
+<Terminator>						<a>							<Part> .
+<Terminator>						<description>		"Transcriptional terminator"@en .
+<Sticky Ends>						<a>							<Part> .
+<Sticky Ends>						<units>							"copies,count"@en .
+<Sticky Ends>						<description>		"Transcriptional terminator"@en .
 
 	<node family="" strength="1.0" description=></node>	
 	<node family="Terminator" strength="1.0" description="Transcriptional terminator">	</node>

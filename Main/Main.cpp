@@ -90,10 +90,17 @@ int main(int argc, char *argv[])
     
     // "lite" modes
   #ifdef TINKERCELL_PARTS_ONLY
+		MainWindow::ENABLE_HISTORY_WINDOW = false;
+		MainWindow::ENABLE_CONSOLE_WINDOW = false;
+		MainWindow::ENABLE_GRAPHING_TOOLS = false;
+		MainWindow::ENABLE_CODING_TOOLS = false;
+		MainWindow::ENABLE_PYTHON = false;
+		MainWindow::ENABLE_OCTAVE = false;
   	    MainWindow mainWindow(true, false, false);
 	    MainWindow::PROGRAM_MODE = QString("parts-only");
   #else
   #ifdef TINKERCELL_TEXT_ONLY
+		MainWindow::ENABLE_HISTORY_WINDOW = false;
    	   MainWindow mainWindow(false, true, true);
  	   MainWindow::PROGRAM_MODE = QString("text-only");
   #else
@@ -118,8 +125,7 @@ int main(int argc, char *argv[])
 	mainWindow.addTool(new GraphicsTransformTool);
 	mainWindow.addTool(new GroupHandlerTool);
 	mainWindow.addTool(new NameFamilyDialog);
-	mainWindow.addTool(new ConnectionMaker);
-	
+	mainWindow.addTool(new ConnectionMaker);	
 	mainWindow.addTool(new BasicInformationTool(QString("text")));
 	mainWindow.addTool(new BasicInformationTool(QString("numerical")));
 	mainWindow.addTool(new AssignmentFunctionsTool);
@@ -127,14 +133,12 @@ int main(int argc, char *argv[])
 	mainWindow.addTool(new ModelSummaryTool);
 	mainWindow.addTool(new ModelFileGenerator);
 	mainWindow.addTool(new SimulationEventsTool);	
-	mainWindow.addTool(new CompartmentTool);
-	
+	mainWindow.addTool(new CompartmentTool);	
 	mainWindow.addTool(new OctaveExporter);
 	mainWindow.addTool(new SBMLImportExport);
 	mainWindow.addTool(new CopasiExporter);
 	mainWindow.addTool(new AntimonyEditor);
-	mainWindow.addTool(new EnglishExporter);
-	
+	mainWindow.addTool(new EnglishExporter);	
 	mainWindow.addTool(new ModuleTool);
 	mainWindow.addTool(new AutoGeneRegulatoryTool);
 	mainWindow.addTool(new DNASequenceViewer);

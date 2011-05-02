@@ -226,16 +226,13 @@ namespace Tinkercell
 			setWindowTitle(tr("Programs"));
 			setWindowIcon(QIcon(tr(":/images/play.png")));
 			
-			if (mainWindow->PROGRAM_MODE != tr("parts-only"))
-			{
-				mainWindow->addToolWindow(this, MainWindow::defaultToolWindowOption, Qt::BottomDockWidgetArea);
-				QToolBar * toolBar = mainWindow->toolBarForTools;
-				menuButton = new QToolButton(toolBar);
-				menuButton->setIcon(QIcon(":/images/play.png"));
-				menuButton->setMenu(&functionsToolbarMenu);
-				menuButton->setPopupMode(QToolButton::MenuButtonPopup);
-				toolBar->addWidget(menuButton);
-			}
+			mainWindow->addToolWindow(this, MainWindow::defaultToolWindowOption, Qt::BottomDockWidgetArea);
+			QToolBar * toolBar = mainWindow->toolBarForTools;
+			menuButton = new QToolButton(toolBar);
+			menuButton->setIcon(QIcon(":/images/play.png"));
+			menuButton->setMenu(&functionsToolbarMenu);
+			menuButton->setPopupMode(QToolButton::MenuButtonPopup);
+			toolBar->addWidget(menuButton);
 			
 			if (mainWindow->menuBar())
     			mainWindow->menuBar()->insertMenu(mainWindow->helpMenu->menuAction(),&functionsMenu);

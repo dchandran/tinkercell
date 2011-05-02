@@ -20,6 +20,10 @@ IF you want to automatically create the Windows installer and/or upload the inst
 then you will also need to install Inno Setup and WinSCP. You will also need to specify the location of
 these executables in the CMake GUI (details given in step 12 below)
 
+UBUNTU NATTY NARWHAL ISSUES:
+Apparently, the following libraries have been moved out of /usr/lib and not found in the library path:
+libSM.* libz.* libICE.* libX11.*
+Copy them from /usr/lib/i386-linux-gnu or /usr/lib/x86_64-linux-gnu into /usr/lib
 
 RECOMMENDED C/C++ COMPILERS:
 XCode on Mac

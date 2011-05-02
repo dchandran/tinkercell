@@ -141,9 +141,9 @@ def fromTC(x):
 def toTC(x, rows = [], cols = []):
     if type(x) == type([]) and len(x) > 0 and type(x[0]) == type([]):
         if (type(x[0][0]) == type(1)):
-            return toMatrix(x,rows,cols)
+            return toMatrix(x,False, rows,cols)
         elif (type(x[0][0]) == type('hello')):
-            return toTable(x,rows,cols)
+            return toTable(x,False, rows,cols)
     if type(x) == type([]) and len(x) > 0 and type(x[0]) == type('hello'): return toStrings(x)
     if type(x) == type([]) and len(x) > 0 and type(x[0]) == type(1): return toItems(x)
     return x

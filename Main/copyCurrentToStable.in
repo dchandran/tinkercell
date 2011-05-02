@@ -1,0 +1,4 @@
+cd /home/frs/project/t/ti/tinkercell/current
+get TinkerCell*.*
+cd /home/frs/project/t/ti/tinkercell/release
+put TinkerCell*.*

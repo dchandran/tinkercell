@@ -1,6 +1,6 @@
 open @TINKERCELL_SOURCEFORGE_USERNAME@,tinkercell:@TINKERCELL_SOURCEFORGE_PASSWORD@@frs.sourceforge.net:22
 option confirm off
-cd /home/frs/project/t/ti/tinkercell
+cd /home/frs/project/t/ti/tinkercell/current
 lcd @TINKERCELL_BINARY_DIR@/win32
 put @TINKERCELL_EXE@Setup.exe
 exit

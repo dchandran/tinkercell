@@ -220,7 +220,7 @@ expect *assword:
 send "@TINKERCELL_SOURCEFORGE_PASSWORD@\r"
 expect sftp>
 
-send "cd /home/frs/project/t/ti/tinkercell\r"
+send "cd /home/frs/project/t/ti/tinkercell/current\r"
 expect sftp>
 
 send "put @TINKERCELL_EXE@.dmg\r"

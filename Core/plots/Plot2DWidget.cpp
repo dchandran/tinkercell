@@ -469,8 +469,8 @@ namespace Tinkercell
 	
 	Plot2DWidget::Plot2DWidget(PlotTool * parent) : PlotWidget(parent), buttonsGroup(this)
 	{
-		connect(this, SIGNAL(displayFire(ItemHandle*, double)), plotTool, SIGNAL(displayFire(ItemHandle*, double)));
-		connect(this, SIGNAL(hideFire()), plotTool, SIGNAL(hideFire()));
+		connect(this, SIGNAL(displayFire(ItemHandle*, double)), parent, SIGNAL(displayFire(ItemHandle*, double)));
+		connect(this, SIGNAL(hideFire()), parent, SIGNAL(hideFire()));
 		
 		type = PlotTool::Plot2D;
 		dataPlot = new DataPlot();

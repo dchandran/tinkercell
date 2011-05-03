@@ -266,7 +266,7 @@ check_library_exists("${CURL_LIBS}" dlopen "" HAVE_DLOPEN)
 # For other tests to use the same libraries
 set(CMAKE_REQUIRED_LIBRARIES ${CURL_LIBS})
 
-option(CURL_ZLIB "Set to ON to enable building cURL with zlib support." ON)
+option(CURL_ZLIB "Set to ON to enable building cURL with zlib support." OFF)
 set(HAVE_LIBZ OFF)
 set(HAVE_ZLIB_H OFF)
 set(HAVE_ZLIB OFF)

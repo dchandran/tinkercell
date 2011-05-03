@@ -13,25 +13,21 @@ CONFIGURE_FILE(
 #------------------------------------------------
 
 IF (WIN32)
-	SET(CREATE_TINKERCELL "call win32\\CreateInstaller.bat")
-	CONFIGURE_FILE( 
-		${TINKERCELL_SOURCE_DIR}/Main/BuildAndUploadAll.in
-		${TINKERCELL_BINARY_DIR}/BuildAndUploadAll.bat
-		@ONLY
-	)
-	MESSAGE(STATUS "Run the BUILD/BuildAndUpload.bat to automate the entire uploading process.")
+	MESSAGE(STATUS "Run BUILD/win32/CreateInstaller.bat to build and upload ${TINKERCELL_EXE} to sourceforge")
 ELSE(WIN32)
 	IF (APPLE)
 		SET(CREATE_TINKERCELL "source mac/CreateApp.sh")
+		MESSAGE(STATUS "Source the BUILD/mac/CreateApp.sh to build and upload ${TINKERCELL_EXE} to sourceforge")
 	ELSE(APPLE)
 		SET(CREATE_TINKERCELL "source CreatePackage.sh")
+		MESSAGE(STATUS "Source BUILD/CreatePackage.sh to build and upload ${TINKERCELL_EXE} to sourceforge")
 	ENDIF(APPLE)
 	CONFIGURE_FILE( 
 		${TINKERCELL_SOURCE_DIR}/Main/BuildAndUploadAll.in
 		${TINKERCELL_BINARY_DIR}/BuildAndUploadAll.sh
 		@ONLY
 	)
-	MESSAGE(STATUS "Run the BUILD/BuildAndUpload.sh to automate the entire uploading process.")
+	MESSAGE(STATUS "Source BUILD/BuildAndUploadAll.sh to upload full and lite versions")
 ENDIF(WIN32)
 
 

@@ -4,32 +4,29 @@
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
  
-The python interpreter that runs as a separate thread and can accept strings to parse and execute
+The ruby interpreter that runs as a separate thread and can accept strings to parse and execute
 
 ****************************************************************************/
 
 #include "GraphicsScene.h"
 #include "MainWindow.h"
 #include "ConsoleWindow.h"
-#include "PythonInterpreterThread.h"
+#include "RubyInterpreterThread.h"
 
 namespace Tinkercell
 {
-	QString PythonInterpreterThread::PYTHON_FOLDER("python");
-	QString PythonInterpreterThread::PYTHON_OUTPUT_FILE("py.out");
+	QString RubyInterpreterThread::RUBY_FOLDER("ruby");
+	QString RubyInterpreterThread::RUBY_OUTPUT_FILE("ruby.out");
+	QString RubyInterpreterThread::RUBY_ERROR_FILE("ruby.err");
 
-    PythonInterpreterThread::PythonInterpreterThread(const QString & dllname, MainWindow* main) :
-#ifdef Q_WS_WIN
-        InterpreterThread(dllname + QObject::tr(".pyd"),main)
-#else
+    RubyInterpreterThread::RubyInterpreterThread(const QString & dllname, MainWindow* main) :
 		InterpreterThread(dllname,main)
-#endif
     {
 		f = 0;
 	    addpathDone = false;
     }
     
-    void PythonInterpreterThread::finalize()
+    void RubyInterpreterThread::finalize()
     {
         if (!lib || !lib->isLoaded()) return;
 
@@ -46,15 +43,15 @@ namespace Tinkercell
         }
     }
 
-    void PythonInterpreterThread::initialize()
+    void RubyInterpreterThread::initialize()
     {
         if (!mainWindow || !lib || !lib->isLoaded())
 		{
 			if (lib && mainWindow)
 				if (mainWindow->console())
-					mainWindow->console()->message("Failed to initialize Python");
+					mainWindow->console()->message("Failed to initialize Ruby");
 				else
-					mainWindow->statusBar()->showMessage("Failed to initialize Python");
+					mainWindow->statusBar()->showMessage("Failed to initialize Ruby");
 			return;
 		}
 
@@ -73,21 +70,21 @@ namespace Tinkercell
             QDir::setCurrent(currentDir);
 
 			if (mainWindow->console())
-	            mainWindow->console()->message(tr("Python initialized"));
+	            mainWindow->console()->message(tr("Ruby initialized"));
 			else
-				mainWindow->statusBar()->showMessage(tr("Python initialized"));
+				mainWindow->statusBar()->showMessage(tr("Ruby initialized"));
         }
 		else
 		{
 			if (lib && mainWindow)
 				if (mainWindow->console())
-					mainWindow->console()->message("Cannot find initialize function in Python library");
+					mainWindow->console()->message("Cannot find initialize function in Ruby library");
 				else
-					mainWindow->statusBar()->showMessage("Cannot find initialize function in Python library");
+					mainWindow->statusBar()->showMessage("Cannot find initialize function in Ruby library");
 		}
     }
 
-    void PythonInterpreterThread::run()
+    void RubyInterpreterThread::run()
     {
         if (!lib || !lib->isLoaded() || code.isEmpty()) return;
 
@@ -100,8 +97,8 @@ namespace Tinkercell
 			QString tempDir = MainWindow::tempDir();
 			
 			QStringList subdirs;
-			subdirs << allSubdirectories(appDir + tr("/") + PYTHON_FOLDER)
-						<< allSubdirectories(homeDir + tr("/") + PYTHON_FOLDER)
+			subdirs << allSubdirectories(appDir + tr("/") + RUBY_FOLDER)
+						<< allSubdirectories(homeDir + tr("/") + RUBY_FOLDER)
 						<< tempDir;
 			
 			for (int i=0; i < subdirs.size(); ++i)
@@ -110,14 +107,16 @@ namespace Tinkercell
 				#ifdef Q_WS_WIN
 					dir = dir.replace("/","\\\\");
 				#endif
-				script += tr("sys.path.append(\"") + dir + tr("\")\n");
+				script += tr("$LOAD_PATH << \"") + dir + tr("\")\n");
 			}
 			addpathDone = true;
 		}
         
-		script +=  QObject::tr("old_stdout = sys.stdout;\n_outfile = open('") + PYTHON_OUTPUT_FILE + QObject::tr("','w')\nsys.stdout = _outfile;\n");
+		script +=  QObject::tr("old_stdout = $stdout;\nold_stderr = $stderr;\n_outfile = open('") + 
+						RUBY_OUTPUT_FILE + QObject::tr("','w')\n$stdout = _outfile;\n_errfile = open('") + 
+						RUBY_ERROR_FILE + QObject::tr("','w')\n$stderr = _errfile;\n");
 		script += code;
-		script +=  QObject::tr("\n_outfile.close();\nsys.stdout = old_stdout;\ntc_printFile('") + PYTHON_OUTPUT_FILE + QObject::tr("');\n");
+		script +=  QObject::tr("\n_outfile.close();\n_errfile.close();\n$stdout = old_stdout;\n$stderr = old_stderr;\ntc_errorReport('ruby.err');\ntc_printFile('ruby.out');\n");
 
         if (!f)
             f = (execFunc)lib->resolve("exec");

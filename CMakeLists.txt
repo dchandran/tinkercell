@@ -228,8 +228,9 @@ MESSAGE( STATUS "======  configuring external code  ====== ")
 ADD_SUBDIRECTORY( ExternalCode )  #MuParser, QWT, cvODE, letc.
 MESSAGE( STATUS "==== done configuring external code =====\n")
 
-OPTION( PYTHON_ENABLE "Embed Python in TinkerCell" ON ) #integrate python or not?
-OPTION( OCTAVE_ENABLE "Embed Octave in TinkerCell" ON ) #octave?
+OPTION( PYTHON_ENABLE "Embed Python in TinkerCell" ON ) #embed python?
+OPTION( OCTAVE_ENABLE "Embed Octave in TinkerCell" ON ) #embed octave?
+OPTION( RUBY_ENABLE "Embed Ruby in TinkerCell" ON ) #embed ruby?
 
 ADD_SUBDIRECTORY( Core )   #C++ Core + API
 ADD_SUBDIRECTORY( API )   #C API + SWIG file
@@ -281,9 +282,12 @@ IF (OCTAVE_ENABLE)
 	ADD_SUBDIRECTORY( octave )
 ENDIF (OCTAVE_ENABLE)
 
+IF (RUBY_ENABLE)
+	ADD_SUBDIRECTORY( ruby )
+ENDIF (RUBY_ENABLE)
+
 #the following languages are not supported yet
 #ADD_SUBDIRECTORY( perl )
-#ADD_SUBDIRECTORY( ruby )
 #ADD_SUBDIRECTORY( R )
 
 #----------------------------------------------------------------------------

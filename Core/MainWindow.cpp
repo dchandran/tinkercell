@@ -406,8 +406,6 @@ namespace Tinkercell
 	MainWindow::~MainWindow()
 	{
 		GraphicsScene::clearStaticItems();
-		saveSettings();
-
 		QString tempDir = GlobalSettings::tempDir();
 		QString cmd;
 
@@ -1146,6 +1144,8 @@ namespace Tinkercell
 				}
 			}
 
+		saveSettings();
+
 		if (tabWidget)
 			tabWidget->clear();
 
@@ -1162,7 +1162,7 @@ namespace Tinkercell
 		{
 			if (toolsHash[i])
 			{
-				if (!toolsHash[i]->parent() == 0)
+				if (!toolsHash[i]->parent())
 				{
 					for (int j=0; j < toolsHash.size(); ++j)
 						if (i != j && toolsHash[j] == toolsHash[i])

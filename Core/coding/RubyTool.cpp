@@ -181,7 +181,7 @@ namespace Tinkercell
 		if (mainWindow)
 		{
 			QString appDir = QCoreApplication::applicationDirPath();
-			rubyInterpreter = new RubyInterpreterThread(tr("ruby/_tinkercell"), mainWindow);
+			rubyInterpreter = new RubyInterpreterThread(tr("ruby/tinkercell"), mainWindow);
 			rubyInterpreter->initialize();
 
 			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));

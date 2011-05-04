@@ -106,8 +106,8 @@ namespace Tinkercell
 			{
 				setUpTreeView();
 				mainWindow->addToolWindow(this,MainWindow::DockWidget,Qt::LeftDockWidgetArea,Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-				QAction * setNumRows = mainWindow->settingsMenu->addAction(QIcon(tr(":/images/up.png")), tr("Number of recent items"));
-				connect (setNumRows, SIGNAL(triggered()),this,SLOT(setNumberOfRecentItems()));
+				//QAction * setNumRows = mainWindow->settingsMenu->addAction(QIcon(tr(":/images/up.png")), tr("Number of recent items"));
+				//connect (setNumRows, SIGNAL(triggered()),this,SLOT(setNumberOfRecentItems()));
 			}
 			else
 			{
@@ -452,7 +452,7 @@ namespace Tinkercell
 		int n = settings.value(tr("numRows"),5).toInt();
 #if QT_VERSION > 0x045000
 		n = QInputDialog::getInt(this,tr("Recent items"), tr("Number of recent items (will take event when TinkerCell starts)"), 2*n, 2, 20, 2);
-#elseif
+#else
 	n = QInputDialog::getInteger(this,tr("Recent items"), tr("Number of recent items (will take event when TinkerCell starts)"), 2*n, 2, 20, 2);
 #endif
 		n = n/2;
@@ -588,7 +588,7 @@ namespace Tinkercell
 		}
 		settings.endGroup();
 
-		QWidget * widget = new QWidget;
+		/*QWidget * widget = new QWidget;
 		widgetsToUpdate << widget;
 
 		buttonsLayout->setContentsMargins(5,0,0,0);
@@ -603,14 +603,14 @@ namespace Tinkercell
 		scrollArea->setAutoFillBackground (true);
 		widgetsToUpdate << scrollArea;
 
-		toolBox->addItem(scrollArea,tr("Recent Items"));
+		toolBox->addItem(scrollArea,tr("Recent Items"));*/
 
 		QVBoxLayout * layout = new QVBoxLayout;
 		layout->addWidget(toolBox);
 		layout->setContentsMargins(0,0,0,0);
 		layout->setSpacing(0);
 
-		toolBox->setCurrentIndex(2);
+		toolBox->setCurrentIndex(0);
 
 		connect(&nodesButtonGroup,SIGNAL(buttonPressed(int)),this,SLOT(nodeButtonPressed(int)));
 		connect(&connectionsButtonGroup,SIGNAL(buttonPressed(int)),this,SLOT(connectionButtonPressed(int)));
@@ -650,7 +650,7 @@ namespace Tinkercell
 
 			QWidget * widget = new QWidget;
 
-          tempLayout->setContentsMargins(5,5,5,5);
+			tempLayout->setContentsMargins(5,5,5,5);
 			tempLayout->setSpacing(12);
 
 			widget->setLayout(tempLayout);

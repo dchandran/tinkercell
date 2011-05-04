@@ -41,10 +41,10 @@ namespace Tinkercell
                 }
             }
         }
-        QList<QToolButton*> buttons = treeButtons.values();
+      /*QList<QToolButton*> buttons = treeButtons.values();
         for (int i=0; i < buttons.size(); ++i)
         	if (buttons[i] && !buttons[i]->parentWidget())
-        		delete buttons[i];
+        		delete buttons[i];*/
     }
 
     QSize ConnectionsTree::sizeHint() const

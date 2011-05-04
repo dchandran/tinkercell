@@ -450,7 +450,7 @@ namespace Tinkercell
     }
 
     void RubyTool::runRubyCode(const QString& code)
-    {	
+    {
         if (rubyInterpreter)
             rubyInterpreter->exec(code);
     }

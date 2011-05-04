@@ -34,9 +34,9 @@ namespace Tinkercell
 		/*! \brief the folder where tinkercell will look for ruby files, defaults to /ruby*/
 		static QString RUBY_FOLDER;
 		/*! \brief the file where tinkercell will write outputs from ruby, defaults to tmp/ruby.out*/
-		static QString RUBY_OUTPUT_FILE;
+		static QString OUTPUT_FILE;
 		/*! \brief the file where tinkercell will write errors from ruby, defaults to tmp/ruby.err*/
-		static QString RUBY_ERROR_FILE;
+		static QString ERROR_FILE;
 
 	public slots:
 		virtual void initialize();

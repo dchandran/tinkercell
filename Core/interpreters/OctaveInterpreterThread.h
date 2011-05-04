@@ -39,6 +39,10 @@ namespace Tinkercell
 		OctaveInterpreterThread(const QString&, const QString&, MainWindow* main);
 		/*! \brief the folder where tinkercell will look for octave files, defaults to /octave*/
 		static QString OCTAVE_FOLDER;
+		/*! \brief the file where tinkercell will write outputs, defaults to tmp/octav.out*/
+		static QString OUTPUT_FILE;
+		/*! \brief the file where tinkercell will write errors, defaults to tmp/octav.err*/
+		static QString ERROR_FILE;
 		/*! \brief requests main window to load all the C pointers for the C API inside the embedded library
 		*/
 		virtual void setCPointers();

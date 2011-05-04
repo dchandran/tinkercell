@@ -3,9 +3,16 @@
 
 BEGIN_C_DECLS
 
+VALUE rb_protect_wrap(VALUE arg) 
+{
+    return 0;
+}
+
 TCAPIEXPORT void initialize()
 {
+	int error;
 	ruby_init();
+	rb_protect(&rb_protect_wrap, 0, &error);
 }
 
 TCAPIEXPORT void finalize()

@@ -16,6 +16,8 @@ The octave interpreter that runs as a separate thread and can accept strings to 
 namespace Tinkercell
 {
 	QString OctaveInterpreterThread::OCTAVE_FOLDER("octave");
+	QString OctaveInterpreterThread::OUTPUT_FILE("octav.out");
+	QString OctaveInterpreterThread::ERROR_FILE("octav.out");
 	
     OctaveInterpreterThread::OctaveInterpreterThread(const QString & swiglibname, const QString & dllname, MainWindow* main)
         : InterpreterThread(dllname,main)
@@ -183,10 +185,10 @@ namespace Tinkercell
 			    outfile.write(QString().toAscii());
 			    outfile.close();
 			}
-            f("source('temp.m')",0,"octav.err");
+            f("source('temp.m')",0,ERROR_FILE.toAscii().data());
 		#else
-			f("source('temp.m')","octav.out","octav.err");
-			QFile outfile(tr("octav.out"));
+			f("source('temp.m')",OUTPUT_FILE.toAscii().data(),ERROR_FILE.toAscii().data());
+			QFile outfile(OUTPUT_FILE);
 		#endif
             if (mainWindow && mainWindow->console())
             {
@@ -197,7 +199,7 @@ namespace Tinkercell
 						mainWindow->console()->message(allText);
 					outfile.close();
 				}
-				QFile errfile(tr("octav.err"));
+				QFile errfile(ERROR_FILE);
             	if (errfile.open(QFile::ReadOnly | QFile::Text))
             	{
 		            QString allText(errfile.readLine());

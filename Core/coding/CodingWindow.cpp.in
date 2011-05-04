@@ -660,7 +660,7 @@ specific for:\n\"\"\"\n\n") + text;
 				connect(cAction,SIGNAL(toggled(bool)),this,SLOT(enableC(bool)));
 				connect(pythonAction,SIGNAL(toggled(bool)),this,SLOT(enablePython(bool)));
 				connect(octaveAction,SIGNAL(toggled(bool)),this,SLOT(enableOctave(bool)));
-				connect(rubyAction,SIGNAL(toggled(bool)),this,SLOT(rubyOctave(bool)));
+				connect(rubyAction,SIGNAL(toggled(bool)),this,SLOT(enableRuby(bool)));
                 
 				cAction->setCheckable(true);
 				pythonAction->setCheckable(true);
@@ -907,6 +907,9 @@ specific for:\n\"\"\"\n\n") + text;
             else
 			if (selectedLanguage == Python)
 				emit runPython(editor->toPlainText());
+			else
+			if (selectedLanguage == Ruby)
+				emit runRuby(editor->toPlainText());
             else
 			if (selectedLanguage == Octave)
 				emit runOctave(editor->toPlainText());

@@ -16,8 +16,8 @@ The ruby interpreter that runs as a separate thread and can accept strings to pa
 namespace Tinkercell
 {
 	QString RubyInterpreterThread::RUBY_FOLDER("ruby");
-	QString RubyInterpreterThread::RUBY_OUTPUT_FILE("ruby.out");
-	QString RubyInterpreterThread::RUBY_ERROR_FILE("ruby.err");
+	QString RubyInterpreterThread::OUTPUT_FILE("ruby.out");
+	QString RubyInterpreterThread::ERROR_FILE("ruby.err");
 
     RubyInterpreterThread::RubyInterpreterThread(const QString & dllname, MainWindow* main) :
 		InterpreterThread(dllname,main)
@@ -88,7 +88,7 @@ namespace Tinkercell
     {
         if (!lib || !lib->isLoaded() || code.isEmpty()) return;
 
-        QString script = QObject::tr("import sys\n");
+        QString script;
 
 		if (!addpathDone)
 		{
@@ -107,17 +107,17 @@ namespace Tinkercell
 				#ifdef Q_WS_WIN
 					dir = dir.replace("/","\\\\");
 				#endif
-				script += tr("$LOAD_PATH << \"") + dir + tr("\")\n");
+				script += tr("$LOAD_PATH << \"") + dir + tr("\"\n");
 			}
 			addpathDone = true;
 		}
         
-		script +=  QObject::tr("old_stdout = $stdout;\nold_stderr = $stderr;\n_outfile = open('") + 
-						RUBY_OUTPUT_FILE + QObject::tr("','w')\n$stdout = _outfile;\n_errfile = open('") + 
-						RUBY_ERROR_FILE + QObject::tr("','w')\n$stderr = _errfile;\n");
+		script +=  QObject::tr("begin\n\nold_stdout = $stdout;\nold_stderr = $stderr;\n_outfile = open('") + 
+						OUTPUT_FILE + QObject::tr("','w')\n$stdout = _outfile;\n_errfile = open('") + 
+						ERROR_FILE + QObject::tr("','w')\n$stderr = _errfile;\n");
 		script += code;
-		script +=  QObject::tr("\n_outfile.close();\n_errfile.close();\n$stdout = old_stdout;\n$stderr = old_stderr;\ntc_errorReport('ruby.err');\ntc_printFile('ruby.out');\n");
-
+		script +=  QObject::tr("\n_outfile.close();\n_errfile.close();\n$stdout = old_stdout;\n$stderr = old_stderr;\n");
+		script += QObject::tr("\n\nrescue\nend\n");
         if (!f)
             f = (execFunc)lib->resolve("exec");
 
@@ -125,10 +125,26 @@ namespace Tinkercell
         {
             QString currentDir = QDir::currentPath();
             QDir::setCurrent(GlobalSettings::tempDir());
-
             f(script.toAscii().data());
-
             QDir::setCurrent(currentDir);
+			if (mainWindow && mainWindow->console())
+            {
+				QFile outfile(OUTPUT_FILE);
+            	if (outfile.open(QFile::ReadOnly | QFile::Text))
+            	{
+		            QString allText(outfile.readAll());
+		            if (!allText.isEmpty())
+						mainWindow->console()->message(allText);
+					outfile.close();
+				}
+				QFile errfile(ERROR_FILE);
+            	if (errfile.open(QFile::ReadOnly | QFile::Text))
+            	{
+		            QString allText(errfile.readLine());
+		            mainWindow->console()->error(allText);
+					errfile.close();
+				}
+            }
         }
 		
 		if (!codeQueue.isEmpty())

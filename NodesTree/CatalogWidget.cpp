@@ -610,7 +610,7 @@ namespace Tinkercell
 		layout->setContentsMargins(0,0,0,0);
 		layout->setSpacing(0);
 
-		toolBox->setCurrentIndex(0);
+		toolBox->setCurrentIndex(1);
 
 		connect(&nodesButtonGroup,SIGNAL(buttonPressed(int)),this,SLOT(nodeButtonPressed(int)));
 		connect(&connectionsButtonGroup,SIGNAL(buttonPressed(int)),this,SLOT(connectionButtonPressed(int)));

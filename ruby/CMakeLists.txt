@@ -52,33 +52,31 @@ ${RUBY_LIBRARY}
 IF ( WIN32 )
  IF (MINGW)
 	ADD_CUSTOM_COMMAND ( 
-		TARGET tcpy POST_BUILD
+		TARGET tcruby POST_BUILD
 		COMMAND move /Y ..\\bin\\ruby\\libtcruby.dll ..\\bin\\ruby\\tinkercell.dll
 	)
  ELSE (MINGW)
 	ADD_CUSTOM_COMMAND ( 
-		TARGET tcpy POST_BUILD
+		TARGET tcruby POST_BUILD
 		COMMAND move /Y ..\\bin\\ruby\\tcruby.dll ..\\bin\\ruby\\tinkercell.dll
 	)
  ENDIF (MINGW)
- FILE(GLOB RUBY_LOADER ${TINKERCELL_BINARY_DIR}/bin/ruby/tinkercell.dll)
 ELSE ( WIN32 )
  IF( APPLE )
 	ADD_CUSTOM_COMMAND ( 
-		  TARGET tcpy POST_BUILD
+		  TARGET tcruby POST_BUILD
 		  COMMAND cp ${TINKERCELL_BINARY_DIR}/bin/ruby/libtcruby.dylib ${TINKERCELL_BINARY_DIR}/bin/ruby/tinkercell.so
 		  COMMAND mv ${TINKERCELL_BINARY_DIR}/bin/ruby/libtcruby.dylib ${TINKERCELL_BINARY_DIR}/bin/ruby/tinkercell.dylib
 	)
-	FILE(GLOB RUBY_LOADER ${TINKERCELL_BINARY_DIR}/bin/ruby/tinkercell.*)
 ELSE( APPLE )
 	ADD_CUSTOM_COMMAND ( 
-		  TARGET tcpy POST_BUILD 
+		  TARGET tcruby POST_BUILD 
 		  COMMAND mv ${TINKERCELL_BINARY_DIR}/bin/ruby/libtcruby.so ${TINKERCELL_BINARY_DIR}/bin/ruby/tinkercell.so
 	)
-	FILE(GLOB RUBY_LOADER ${TINKERCELL_BINARY_DIR}/bin/ruby/tinkercell.so)
 ENDIF( APPLE )
 ENDIF( WIN32 )
 
+FILE(GLOB RUBY_LOADER ${TINKERCELL_BINARY_DIR}/bin/ruby/tinkercell.*)
 FILE(GLOB RUBY_SCRIPTS *.rb *.ruby)
 INSTALL(FILES ${RUBY_SCRIPTS} DESTINATION ruby )
 INSTALL(FILES ${RUBY_LOADER} DESTINATION ruby )

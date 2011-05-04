@@ -14,6 +14,7 @@
 #include "ConsoleWindow.h"
 #include "StoichiometryTool.h"
 #include "DynamicLibraryMenu.h"
+#include "GlobalSettings.h"
 
 namespace Tinkercell
 {
@@ -120,7 +121,7 @@ namespace Tinkercell
 
 	void LPSolveInputWindow::showLogFile()
 	{
-		QString tempDir = MainWindow::tempDir();
+		QString tempDir = GlobalSettings::tempDir();
 		QDesktopServices::openUrl(QUrl(tempDir + tr("/lpsolve.out")));
 	}
 

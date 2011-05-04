@@ -12,7 +12,7 @@ the context menu (mouse right-click).
 ****************************************************************************/
 
 #include <QClipboard>
-
+#include "GlobalSettings.h"
 #include "NetworkHandle.h"
 #include "GraphicsScene.h"
 #include "UndoCommands.h"
@@ -57,7 +57,7 @@ namespace Tinkercell
 	void GraphicsReplaceTool::makeNodeSelectionDialog()
 	{
 		QString appDir = QCoreApplication::applicationDirPath();
-		QString homeDir = MainWindow::homeDir();
+		QString homeDir = GlobalSettings::homeDir();
 
 		tabWidget = new QTabWidget(mainWindow);
 

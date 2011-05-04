@@ -22,6 +22,7 @@
 #include "ConsoleWindow.h"
 #include "PlotTool.h"
 #include "GnuplotTool.h"
+#include "GlobalSettings.h"
 
 namespace Tinkercell
 {
@@ -101,7 +102,7 @@ namespace Tinkercell
         
 		labels = m.columnNames();
 
-        QDir dir(MainWindow::tempDir());
+        QDir dir(GlobalSettings::tempDir());
         /*if (!dir.cd(tr("gnuplot")))
         {
             dir.mkdir(tr("gnuplot"));
@@ -200,7 +201,7 @@ namespace Tinkercell
                 s += tr("\n"); //next block
         }
 
-        QDir dir(MainWindow::tempDir());
+        QDir dir(GlobalSettings::tempDir());
         /*if (!dir.cd(tr("gnuplot")))
         {
             dir.mkdir(tr("gnuplot"));
@@ -245,7 +246,7 @@ namespace Tinkercell
         
 		labels = m.columnNames();
 		
-        QDir dir(MainWindow::tempDir());
+        QDir dir(GlobalSettings::tempDir());
         /*if (!dir.cd(tr("gnuplot")))
         {
             dir.mkdir(tr("gnuplot"));
@@ -424,7 +425,7 @@ namespace Tinkercell
 		{
             QString s = editor->toPlainText();
 			
-			QDir dir(MainWindow::tempDir());
+			QDir dir(GlobalSettings::tempDir());
 			/*if (!dir.cd(tr("gnuplot")))
 			{
 				dir.mkdir(tr("gnuplot"));

@@ -42,7 +42,7 @@ bool SBMLImportExport::setMainWindow(MainWindow * main)
 	Tool::setMainWindow(main);	
 	if (!mainWindow) return false;
 	
-	MainWindow::OPEN_FILE_EXTENSIONS << "SBML" << "sbml";
+	GlobalSettings::OPEN_FILE_EXTENSIONS << "SBML" << "sbml";
 
 	if (mainWindow->fileMenu)
 	{

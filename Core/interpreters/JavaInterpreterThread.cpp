@@ -60,7 +60,7 @@ namespace Tinkercell
         if (f)
         {
             QString currentDir = QDir::currentPath();
-            QDir::setCurrent(MainWindow::tempDir());
+            QDir::setCurrent(GlobalSettings::tempDir());
             f();
             QDir::setCurrent(currentDir);
         }
@@ -86,13 +86,13 @@ namespace Tinkercell
         {
         	std::cout << "found init...\n\n";
         	QString currentDir = QDir::currentPath();
-            QDir::setCurrent(MainWindow::tempDir());
+            QDir::setCurrent(GlobalSettings::tempDir());
             setCPointers();
             
             QStringList paths;
     		QString appDir = QCoreApplication::applicationDirPath();
-			QString homeDir = MainWindow::homeDir();
-			QString tempDir = MainWindow::tempDir();
+			QString homeDir = GlobalSettings::homeDir();
+			QString tempDir = GlobalSettings::tempDir();
 		
 			QStringList subdirs;
 			subdirs << allSubdirectories(appDir + tr("/") + JAVA_FOLDER)

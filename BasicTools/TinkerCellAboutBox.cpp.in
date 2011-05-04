@@ -4,25 +4,16 @@
 #include <QBrush>
 #include <QTextEdit>
 #include <QDesktopServices>
+#include "GlobalSettings.h"
 
 namespace Tinkercell
 {
 	TinkercellAboutBox::TinkercellAboutBox() : Tool(tr("TinkerCell About Box"),tr("Basic GUI"))
 	{
 		QHBoxLayout * layout1 = new QHBoxLayout;
-
-		
-		MainWindow::PROJECT_VERSION = tr("@TINKERCELL_WC_REVISION@");		
 		QString text;
-		
-		bool ok;
-		int number = MainWindow::PROJECT_VERSION.toInt(&ok);
-		if (ok)
-		{
-			MainWindow::PROJECT_VERSION = tr("@TINKERCELL_MAJOR_VERSION@.") + QString::number( (int)(number/1000 ) ) + tr(".") + QString::number(number % 1000);
-		}
 
-		text = tr("TinkerCell\nVersion: ") + MainWindow::PROJECT_VERSION + tr("\n\n");
+		text = tr("TinkerCell\nVersion: ") + GlobalSettings::PROJECT_VERSION + tr("\n\n");
 		QString appDir = QCoreApplication::applicationDirPath();
 		QString filename = appDir + tr("/ABOUT.TXT");
 		QString updates = appDir + tr("/UPDATES.TXT");

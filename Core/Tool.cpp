@@ -15,6 +15,7 @@ A Tool is a Qt Widget with a name and pointer to the Tinkercell MainWindow.
 #include "NetworkHandle.h"
 #include "GraphicsScene.h"
 #include "Tool.h"
+#include "GlobalSettings.h"
 
 namespace Tinkercell
 {
@@ -137,12 +138,12 @@ namespace Tinkercell
 	
 	QString Tool::homeDir()
 	{
-		return MainWindow::homeDir();
+		return GlobalSettings::homeDir();
 	}
 	
 	QString Tool::tempDir()
 	{
-		return MainWindow::tempDir();
+		return GlobalSettings::tempDir();
 	}
 
 	ToolGraphicsItem* ToolGraphicsItem::cast(QGraphicsItem* q)

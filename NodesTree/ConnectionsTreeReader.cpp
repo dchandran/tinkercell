@@ -11,6 +11,7 @@
 #include "MainWindow.h"
 #include "ConnectionsTreeReader.h"
 #include "NodesTree.h"
+#include "GlobalSettings.h"
 
 namespace Tinkercell
 {
@@ -171,7 +172,7 @@ namespace Tinkercell
 			           }
 			   }
                readNext();
-               QString homeDir = MainWindow::homeDir();
+               QString homeDir = GlobalSettings::homeDir();
                QString appDir = QCoreApplication::applicationDirPath();
                //set icon
                if (family->pixmap.load(homeDir + QString("/Graphics/") + NodesTree::themeDirectory + QString("/Decorators/") + ConnectionsTree::iconFile(family)))

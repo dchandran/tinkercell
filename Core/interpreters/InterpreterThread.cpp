@@ -8,7 +8,7 @@ The interpreter that runs as a separate thread and can accept strings to parse a
 
 
 ****************************************************************************/
-
+#include "GlobalSettings.h"
 #include "Tool.h"
 #include "GraphicsScene.h"
 #include "MainWindow.h"

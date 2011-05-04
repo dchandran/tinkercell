@@ -7,7 +7,6 @@
 The python interpreter that runs as a separate thread and can accept strings to parse and execute
 
 ****************************************************************************/
-
 #include "GraphicsScene.h"
 #include "MainWindow.h"
 #include "ConsoleWindow.h"
@@ -38,7 +37,7 @@ namespace Tinkercell
         {
 		        QString currentDir = QDir::currentPath();
 
-		        QDir::setCurrent(MainWindow::tempDir());
+		        QDir::setCurrent(GlobalSettings::tempDir());
 
 		        f();
 
@@ -65,7 +64,7 @@ namespace Tinkercell
         {
             QString currentDir = QDir::currentPath();
 
-            QDir::setCurrent(MainWindow::tempDir());
+            QDir::setCurrent(GlobalSettings::tempDir());
 
             setCPointers();
             f();
@@ -96,8 +95,8 @@ namespace Tinkercell
 		if (!addpathDone)
 		{
 			QString appDir = QCoreApplication::applicationDirPath();
-			QString homeDir = MainWindow::homeDir();
-			QString tempDir = MainWindow::tempDir();
+			QString homeDir = GlobalSettings::homeDir();
+			QString tempDir = GlobalSettings::tempDir();
 			
 			QStringList subdirs;
 			subdirs << allSubdirectories(appDir + tr("/") + PYTHON_FOLDER)
@@ -125,7 +124,7 @@ namespace Tinkercell
         if (f)
         {
             QString currentDir = QDir::currentPath();
-            QDir::setCurrent(MainWindow::tempDir());
+            QDir::setCurrent(GlobalSettings::tempDir());
 
             f(script.toAscii().data());
 

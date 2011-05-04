@@ -6,7 +6,6 @@
  This tool displays a plot based on the DataTable contained.
  
 ****************************************************************************/
-
 #include <math.h>
 #include <QSettings>
 #include <QRegExp>
@@ -27,6 +26,7 @@
 #include "PlotTool.h"
 #include "PlotTextWidget.h"
 #include "Plot2DWidget.h"
+#include "GlobalSettings.h"
 
 namespace Tinkercell
 {
@@ -477,11 +477,11 @@ namespace Tinkercell
 		
 		if (DataPlot::penList.isEmpty())
 		{
-			QCoreApplication::setOrganizationName(Tinkercell::MainWindow::ORGANIZATIONNAME);
-			QCoreApplication::setOrganizationDomain(Tinkercell::MainWindow::PROJECTWEBSITE);
-			QCoreApplication::setApplicationName(Tinkercell::MainWindow::ORGANIZATIONNAME);
+			QCoreApplication::setOrganizationName(Tinkercell::GlobalSettings::ORGANIZATIONNAME);
+			QCoreApplication::setOrganizationDomain(Tinkercell::GlobalSettings::PROJECTWEBSITE);
+			QCoreApplication::setApplicationName(Tinkercell::GlobalSettings::ORGANIZATIONNAME);
 
-			QSettings settings(Tinkercell::MainWindow::ORGANIZATIONNAME, Tinkercell::MainWindow::ORGANIZATIONNAME);
+			QSettings settings(Tinkercell::GlobalSettings::ORGANIZATIONNAME, Tinkercell::GlobalSettings::ORGANIZATIONNAME);
 			
 			settings.beginGroup("Plot2DWidget");
 			
@@ -620,11 +620,11 @@ namespace Tinkercell
 		if (button)
 			button->setStyleSheet(tr("background-color: ") + DataPlot::penList[k].color().name());
 		
-		QCoreApplication::setOrganizationName(Tinkercell::MainWindow::ORGANIZATIONNAME);
-		QCoreApplication::setOrganizationDomain(Tinkercell::MainWindow::PROJECTWEBSITE);
-		QCoreApplication::setApplicationName(Tinkercell::MainWindow::ORGANIZATIONNAME);
+		QCoreApplication::setOrganizationName(Tinkercell::GlobalSettings::ORGANIZATIONNAME);
+		QCoreApplication::setOrganizationDomain(Tinkercell::GlobalSettings::PROJECTWEBSITE);
+		QCoreApplication::setApplicationName(Tinkercell::GlobalSettings::ORGANIZATIONNAME);
 
-		QSettings settings(Tinkercell::MainWindow::ORGANIZATIONNAME, Tinkercell::MainWindow::ORGANIZATIONNAME);
+		QSettings settings(Tinkercell::GlobalSettings::ORGANIZATIONNAME, Tinkercell::GlobalSettings::ORGANIZATIONNAME);
 		
 		settings.beginGroup("Plot2DWidget");
 		

@@ -17,6 +17,7 @@
 #include "TextGraphicsItem.h"
 #include "CollisionDetection.h"
 #include "ContainerTool.h"
+#include "GlobalSettings.h"
 #include <QtDebug>
 
 namespace Tinkercell
@@ -84,7 +85,7 @@ namespace Tinkercell
 			setWindowTitle(tr("Model summary"));
 			setWindowIcon(QIcon(tr(":/images/monitor.png")));
 
-			if (MainWindow::PROGRAM_MODE.isEmpty())
+			if (GlobalSettings::PROGRAM_MODE.isEmpty())
 				mainWindow->addToolWindow(this, MainWindow::defaultToolWindowOption, Qt::RightDockWidgetArea);
 
           connectCollisionDetector();

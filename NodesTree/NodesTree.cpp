@@ -16,6 +16,7 @@
 #include <QScrollArea>
 #include "ConnectionsTree.h"
 #include "LoadSaveTool.h"
+#include "GlobalSettings.h"
 
 namespace Tinkercell
 {
@@ -55,7 +56,7 @@ namespace Tinkercell
           NodesTreeReader reader;
           QString appDir = QCoreApplication::applicationDirPath();
 
-          QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
+          QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
           settings.beginGroup("NodesTree");
           
 	      themeDirectory = settings.value("theme",tr("Bio1")).toString();
@@ -165,7 +166,7 @@ namespace Tinkercell
 		selectThemesDialog = new QDialog(this);
 		
 		QString appDir = QCoreApplication::applicationDirPath();
-		QString homeDir = MainWindow::homeDir();
+		QString homeDir = GlobalSettings::homeDir();
 
 		QDir graphicsDir1(homeDir + tr("/Graphics"));
     	QDir graphicsDir2(appDir + tr("/Graphics"));
@@ -249,7 +250,7 @@ namespace Tinkercell
           if (fileName.isEmpty())
                return;
 
-          QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
+          QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
 
           settings.beginGroup("NodesTree");
           settings.setValue("file", fileName);
@@ -287,7 +288,7 @@ namespace Tinkercell
      void NodesTree::makeNodeSelectionDialog()
      {
 			QString appDir = QCoreApplication::applicationDirPath();
-			QString homeDir = MainWindow::homeDir();
+			QString homeDir = GlobalSettings::homeDir();
 		    QDir graphicsDir1(appDir + tr("/Graphics"));
 			QDir graphicsDir2(homeDir + tr("/Graphics"));
 			graphicsDir1.setFilter(QDir::AllDirs);
@@ -406,7 +407,7 @@ namespace Tinkercell
      void NodesTree::networkClosing(NetworkHandle * , bool *)
      {
           //save state of the tree
-          QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
+          QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
 
           settings.beginGroup("NodesTree");
      	  settings.setValue("theme",themeDirectory);
@@ -517,7 +518,7 @@ namespace Tinkercell
 
 	void NodesTree::updateTheme()
 	{
-		QString homeDir = MainWindow::homeDir();
+		QString homeDir = GlobalSettings::homeDir();
         QString appDir = QCoreApplication::applicationDirPath();
                
 		QList<NodeFamily*> toplevel;

@@ -1,5 +1,6 @@
 #include <QMessageBox>
 #include "DefaultPluginsMenu.h"
+#include "GlobalSettings.h"
 
 namespace Tinkercell
 {
@@ -7,11 +8,11 @@ namespace Tinkercell
 	DefaultPluginsMenu::DefaultPluginsMenu(MainWindow * main)
         : QMenu(tr("Plug-ins"), main)
     {
-      QCoreApplication::setOrganizationName(Tinkercell::MainWindow::ORGANIZATIONNAME);
-      QCoreApplication::setOrganizationDomain(Tinkercell::MainWindow::PROJECTWEBSITE);
-      QCoreApplication::setApplicationName(Tinkercell::MainWindow::ORGANIZATIONNAME);
+      QCoreApplication::setOrganizationName(Tinkercell::GlobalSettings::ORGANIZATIONNAME);
+      QCoreApplication::setOrganizationDomain(Tinkercell::GlobalSettings::PROJECTWEBSITE);
+      QCoreApplication::setApplicationName(Tinkercell::GlobalSettings::ORGANIZATIONNAME);
 
-      QSettings settings(Tinkercell::MainWindow::ORGANIZATIONNAME, Tinkercell::MainWindow::ORGANIZATIONNAME);
+      QSettings settings(Tinkercell::GlobalSettings::ORGANIZATIONNAME, Tinkercell::GlobalSettings::ORGANIZATIONNAME);
 
       settings.beginGroup("MainWindow");
 
@@ -108,11 +109,11 @@ namespace Tinkercell
 
     void DefaultPluginsMenu::saveSettings()
     {
-      QCoreApplication::setOrganizationName(Tinkercell::MainWindow::ORGANIZATIONNAME);
-      QCoreApplication::setOrganizationDomain(Tinkercell::MainWindow::PROJECTWEBSITE);
-      QCoreApplication::setApplicationName(Tinkercell::MainWindow::ORGANIZATIONNAME);
+      QCoreApplication::setOrganizationName(Tinkercell::GlobalSettings::ORGANIZATIONNAME);
+      QCoreApplication::setOrganizationDomain(Tinkercell::GlobalSettings::PROJECTWEBSITE);
+      QCoreApplication::setApplicationName(Tinkercell::GlobalSettings::ORGANIZATIONNAME);
 
-      QSettings settings(Tinkercell::MainWindow::ORGANIZATIONNAME, Tinkercell::MainWindow::ORGANIZATIONNAME);
+      QSettings settings(Tinkercell::GlobalSettings::ORGANIZATIONNAME, Tinkercell::GlobalSettings::ORGANIZATIONNAME);
 
       QStringList doNotLoad;
 

@@ -52,6 +52,7 @@ One of the main roles of MainWindow is to serve as a signal/slot hub for Tools.
 
 namespace Tinkercell
 {
+	class GlobalSettings;
 	class ConsoleWindow;
 	class NodeGraphicsItem;
 	class ConnectionGraphicsItem;
@@ -110,30 +111,6 @@ namespace Tinkercell
 		*/
 		enum VIEW_MODE { TabView , WindowView };
 		
-		/*!\brief enable history window -- defaults to true*/
-		static bool ENABLE_HISTORY_WINDOW;
-		
-		/*!\brief enable console window -- defaults to true*/
-		static bool ENABLE_CONSOLE_WINDOW;
-		
-		/*!\brief enable plot2d, plot3d, and gnuplot -- defaults to false*/
-		static bool ENABLE_GRAPHING_TOOLS;
-		
-		/*!\brief enable coding window and interpreters -- defaults to false*/
-		static bool ENABLE_CODING_TOOLS;
-		
-		/*!\brief enable alignment and other basic GUI -- defaults to true*/
-		static bool ENABLE_ALIGNMENT_TOOL;
-		
-		/*!\brief enable python interpreter -- defaults to false*/
-		static bool ENABLE_PYTHON;
-		
-		/*!\brief enable octave interpreter -- defaults to false*/
-		static bool ENABLE_OCTAVE;
-		
-		/*!\brief enable loading and saving -- defaults to true*/
-		static bool ENABLE_LOADSAVE_TOOL;
-
 		/*! \brief the default option to use for tools (optional)*/
 		static TOOL_WINDOW_OPTION defaultToolWindowOption;
 
@@ -142,37 +119,6 @@ namespace Tinkercell
 
 		/*! \brief the default option to use for console window*/
 		static TOOL_WINDOW_OPTION defaultConsoleWindowOption;
-		
-		/*! \brief the project website*/
-		static QString PROJECTWEBSITE;
-		
-		/*! \brief the project organization name*/
-		static QString ORGANIZATIONNAME;
-
-		/*! \brief the project name*/
-		static QString PROJECTNAME;
-
-		/*! \brief the default function that is loaded in C++ plugins*/
-		static QString CPP_ENTRY_FUNCTION;
-
-		/*! \brief the default function that is loaded in C plugins*/
-		static QString C_ENTRY_FUNCTION;
-
-		/*! \brief the default project version*/
-		static QString PROJECT_VERSION;
-		
-		/*! \brief an optional string that can be used to change the mode of the application.
-			The meaning of this variable depends on the purpose of the application. Empty by default.*/
-		static QString PROGRAM_MODE;
-
-		/*! \brief the default file extensions that can be opened*/
-		static QStringList OPEN_FILE_EXTENSIONS;
-
-		/*! \brief the default file extensions that can be saved*/
-		static QStringList SAVE_FILE_EXTENSIONS;
-
-		/*! \brief register all the TinkerCell data structures with Qt*/
-		static void RegisterDataTypes();
 
 		/*!
 		* \brief 5-arg (optional) constructor allows disabling of text/graphics modes
@@ -190,14 +136,7 @@ namespace Tinkercell
 		* \brief Destructor: delete all the graphics scenes.
 		*/
 		virtual ~MainWindow();
-		/*!
-		* \brief The TinkerCell user directory, which is User's Documents Folder/TinkerCell by default, but users may change this setting
-		*/
-		static QString homeDir();
-		/*!
-		* \brief The TinkerCell user temporary directory, which is <SYSTEM TEMP FOLDER>/TinkerCell
-		*/
-		static QString tempDir();
+		
 		/*!
 		* \brief Add a new docking window to the main window.
 		           The name and icon are obtained using the widget's windowTitle and windowIcon, so
@@ -912,6 +851,8 @@ namespace Tinkercell
 		
 		/*!\brief checks if the given address belongs to a handle*/
 		bool isValidHandlePointer(void * p);
+
+		friend class GlobalSettings;
 
 	};
 

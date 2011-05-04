@@ -18,6 +18,7 @@
 #include <QDir>
 #include <QFile>
 #include "CThread.h"
+#include "GlobalSettings.h"
 
 #ifdef Q_WS_WIN
 #define TINKERCELLEXPORT __declspec(dllexport)

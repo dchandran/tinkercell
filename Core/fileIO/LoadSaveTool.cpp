@@ -12,6 +12,7 @@ This tool allows the loading and saving of Networks.
 #include "CloneItems.h"
 #include "ConsoleWindow.h"
 #include "UndoCommands.h"
+#include "GlobalSettings.h"
 #include <QtDebug>
 #include <QRegExp>
 #include <QMessageBox>
@@ -21,8 +22,8 @@ namespace Tinkercell
 	LoadSaveTool::LoadSaveTool() : Tool(tr("Save and Load"),tr("Basic GUI"))
 	{	
 	    /*******  save and open extensions ***********/	   	
-   		MainWindow::OPEN_FILE_EXTENSIONS << "TIC" << "tic";
-		MainWindow::SAVE_FILE_EXTENSIONS << "TIC" << "tic";
+   		GlobalSettings::OPEN_FILE_EXTENSIONS << "TIC" << "tic";
+		GlobalSettings::SAVE_FILE_EXTENSIONS << "TIC" << "tic";
 		countHistory = 0;
 		restoreDialog = 0;
 		restoreButton = 0;
@@ -43,7 +44,7 @@ namespace Tinkercell
 		++countHistory;
 		if (countHistory > 10)
 		{
-			saveNetwork(MainWindow::tempDir() + tr("/backup.xml"));
+			saveNetwork(GlobalSettings::tempDir() + tr("/backup.xml"));
 			countHistory = 0;
 		}
 	}
@@ -94,7 +95,7 @@ namespace Tinkercell
 			connect(this,SIGNAL(networkSaved(NetworkHandle*)),mainWindow,SIGNAL(networkSaved(NetworkHandle*)));
 			connect(this,SIGNAL(networkLoaded(NetworkHandle*)),mainWindow,SIGNAL(networkLoaded(NetworkHandle*)));
 
-			QString filename = MainWindow::tempDir() + tr("/backup.xml");
+			QString filename = GlobalSettings::tempDir() + tr("/backup.xml");
 			QFile file(filename);
 			
 			if (file.open(QFile::ReadOnly | QFile::Text))
@@ -115,7 +116,7 @@ namespace Tinkercell
 	{
 		if (restoreDialog->clickedButton() == restoreButton)
 		{
-			QString filename = MainWindow::tempDir() + tr("/backup.xml");
+			QString filename = GlobalSettings::tempDir() + tr("/backup.xml");
 			QFile file(filename);
 		
 			if (file.open(QFile::ReadOnly | QFile::Text))

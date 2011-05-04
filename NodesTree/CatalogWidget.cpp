@@ -23,6 +23,7 @@
 #include "ItemFamily.h"
 #include "NetworkHandle.h"
 #include "CatalogWidget.h"
+#include "GlobalSettings.h"
 
 namespace Tinkercell
 {
@@ -36,7 +37,7 @@ namespace Tinkercell
 		tabWidget(0),
 		selectFamilyWidget(0)
 	{
-		QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
+		QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
 		nodesTree = new NodesTree;
 		connectionsTree = new ConnectionsTree;
 
@@ -91,7 +92,7 @@ namespace Tinkercell
 		main->addTool(connectionsTree);
 		Tool::setMainWindow(main);
 
-		if (mainWindow && (MainWindow::PROGRAM_MODE != QObject::tr("text-only")))
+		if (mainWindow && (GlobalSettings::PROGRAM_MODE != QObject::tr("text-only")))
 		{
 			connect(&arrowButton,SIGNAL(pressed()),mainWindow,SLOT(sendEscapeSignal()));
 			connect(this,SIGNAL(sendEscapeSignal(const QWidget*)),mainWindow,SIGNAL(escapeSignal(const QWidget*)));
@@ -257,7 +258,7 @@ namespace Tinkercell
 
 	CatalogWidget::~CatalogWidget()
 	{
-		QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
+		QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
 		settings.beginGroup("CatalogWidget");
 		settings.setValue(tr("Mode"),(int)(CatalogWidget::layoutMode));
 
@@ -434,7 +435,7 @@ namespace Tinkercell
 		showButtons(showlist);
 		hideButtons(hidelist);
 
-		QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
+		QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
 		settings.beginGroup("CatalogWidget");
 		settings.setValue(tr("familiesInCatalog"),familiesInCatalog);
 		settings.endGroup();
@@ -444,7 +445,7 @@ namespace Tinkercell
 	{
 		if (layoutMode != TreeView) return;
 
-		QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
+		QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
 
 		settings.beginGroup("LastSelectedNodes");
 
@@ -470,7 +471,7 @@ namespace Tinkercell
 		QGridLayout * buttonsLayout = new QGridLayout;
 		buttonsLayout->addWidget(&arrowButton,0,0,Qt::AlignCenter);
 
-		QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
+		QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
 
 		int n = 5;
 		QStringList allFamilyNames;
@@ -683,7 +684,7 @@ namespace Tinkercell
 	QList<QToolButton*> CatalogWidget::addNewButtons(const QString& group, const QStringList& names, const QList<QIcon>& icons, const QStringList& tooltips)
 	{
 		QList<QToolButton*> newButtons;
-		if (!tabWidget || !mainWindow->PROGRAM_MODE.isEmpty()) return newButtons;
+		if (!tabWidget || !GlobalSettings::PROGRAM_MODE.isEmpty()) return newButtons;
 		
 		int i = 0;
 
@@ -761,7 +762,7 @@ namespace Tinkercell
 
 		numNodeTabs = 4;
 		
-		if (mainWindow->PROGRAM_MODE == tr("parts-only"))
+		if (GlobalSettings::PROGRAM_MODE == tr("parts-only"))
 		{
 			tabGroups.clear();
 
@@ -781,7 +782,7 @@ namespace Tinkercell
 			numNodeTabs = 3;
 		}
 
-		QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
+		QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
 		settings.beginGroup("CatalogWidget");
 		familiesInCatalog = settings.value(tr("familiesInCatalog"),QStringList()).toStringList();
 		int currentIndex = settings.value(tr("currentIndex"),0).toInt();

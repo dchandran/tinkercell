@@ -24,6 +24,7 @@ This is an example application that uses the TinkerCell Core library
 #include "PythonInterpreterThread.h"
 #include "LoadSaveTool.h"
 #include "SimpleDesigner.h"
+#include "GlobalSettings.h"
 
 using namespace Tinkercell;
 using namespace std;
@@ -633,23 +634,23 @@ void SimpleDesigner::simulate(bool stochastic)
 int main(int argc, char *argv[])
 {
 	//setup project name
-    MainWindow::PROJECTWEBSITE = "www.tinkercell.com";
-    MainWindow::ORGANIZATIONNAME = "Simple Designer";
-    MainWindow::PROJECTNAME = "Simple Designer";
+    GlobalSettings::PROJECTWEBSITE = "www.tinkercell.com";
+    GlobalSettings::ORGANIZATIONNAME = "Simple Designer";
+    GlobalSettings::PROJECTNAME = "Simple Designer";
 	
 	//MUST DO
 	QApplication app(argc, argv);
 	QString appDir = QCoreApplication::applicationDirPath();    
 	
 	//enable features -- must do before creating MainWindow
-	MainWindow::ENABLE_HISTORY_WINDOW = false;
-	MainWindow::ENABLE_CONSOLE_WINDOW = true;
-	MainWindow::ENABLE_GRAPHING_TOOLS = true;
-	MainWindow::ENABLE_CODING_TOOLS = false;
-	MainWindow::ENABLE_ALIGNMENT_TOOL = false;
-	MainWindow::ENABLE_PYTHON = false;
-	MainWindow::ENABLE_OCTAVE = true;
-	MainWindow::ENABLE_LOADSAVE_TOOL = true;
+	GlobalSettings::ENABLE_HISTORY_WINDOW = false;
+	GlobalSettings::ENABLE_CONSOLE_WINDOW = true;
+	GlobalSettings::ENABLE_GRAPHING_TOOLS = true;
+	GlobalSettings::ENABLE_CODING_TOOLS = false;
+	GlobalSettings::ENABLE_ALIGNMENT_TOOL = false;
+	GlobalSettings::ENABLE_PYTHON = false;
+	GlobalSettings::ENABLE_OCTAVE = true;
+	GlobalSettings::ENABLE_LOADSAVE_TOOL = true;
 	
 	MainWindow mainWindow(true,false,false);  //@args: enable scene, text, allow pop-out windows
 	mainWindow.readSettings();   //load settings such as window positions

@@ -33,6 +33,7 @@ textsheet.xml files that define the NodeGraphicsItems.
 #include "BasicInformationTool.h"
 #include "StoichiometryTool.h"
 #include "NodesTree.h"
+#include "GlobalSettings.h"
 
 namespace Tinkercell
 {
@@ -97,7 +98,7 @@ namespace Tinkercell
 		
 		if (!tool) return;
 		
-		QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
+		QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
 		settings.beginGroup("BasicInformationTool");
 		
 		NodesTree * nodesTree = static_cast<NodesTree*>(tool);
@@ -135,7 +136,7 @@ namespace Tinkercell
 
 	bool BasicInformationTool::setMainWindow(MainWindow * main)
 	{
-		QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
+		QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
 
 		Tool::setMainWindow(main);
 
@@ -179,7 +180,7 @@ namespace Tinkercell
 					connect(closeButton,SIGNAL(pressed()),dockWidget,SLOT(hide()));
 				//dockWidget->setWindowOpacity(0.8);
 	
-				QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
+				QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
 
 				if (type == both || type == numerical)
 				{
@@ -222,7 +223,7 @@ namespace Tinkercell
 
 	void BasicInformationTool::windowClosing(NetworkHandle * , bool *)
 	{
-		QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
+		QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
 
 		if (dockWidget)
 		{

@@ -44,7 +44,7 @@ namespace Tinkercell
 	public:
 		RubyTool();
 		bool setMainWindow(MainWindow*);
-		RubyInterpreterThread * rubythonInterpreter;
+		RubyInterpreterThread * rubyInterpreter;
 
 	public slots:
 		void setupFunctionPointers( QLibrary * );

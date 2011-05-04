@@ -23,6 +23,7 @@ users with the option to terminate the thread.
 #include <QSemaphore>
 #include <QCoreApplication>
 #include <QtDebug>
+#include "GlobalSettings.h"
 
 namespace Tinkercell
 {
@@ -94,7 +95,7 @@ namespace Tinkercell
 	{
 		if (!lib) return;
 		
-		TinkercellCEntryFunction f = (TinkercellCEntryFunction)lib->resolve(MainWindow::C_ENTRY_FUNCTION.toAscii().data());
+		TinkercellCEntryFunction f = (TinkercellCEntryFunction)lib->resolve(GlobalSettings::C_ENTRY_FUNCTION.toAscii().data());
 		if (f)
 			f();	
 	}
@@ -245,7 +246,7 @@ namespace Tinkercell
 	void CThread::run()
 	{
 		QString current = QDir::currentPath();
-		QDir::setCurrent(MainWindow::tempDir());
+		QDir::setCurrent(GlobalSettings::tempDir());
 
 		if (f1)
 			f1();
@@ -414,8 +415,8 @@ namespace Tinkercell
 
 	QLibrary * CThread::loadLibrary(const QString& libname, QObject * parent)
 	{
-		QString  home = MainWindow::homeDir(),
-			temp = MainWindow::tempDir(),
+		QString  home = GlobalSettings::homeDir(),
+			temp = GlobalSettings::tempDir(),
 			current = QDir::currentPath(),
 			appDir = QCoreApplication::applicationDirPath();
 
@@ -499,7 +500,7 @@ namespace Tinkercell
 		if (mainWindow && !exe.isEmpty())
 		{
 			QString current = QDir::currentPath();
-			QDir::setCurrent(MainWindow::tempDir());
+			QDir::setCurrent(GlobalSettings::tempDir());
 
 			//setPriority(QThread::LowestPriority);
 			connect(this,SIGNAL(terminated()),&process,SLOT(kill()));

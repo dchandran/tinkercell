@@ -10,6 +10,7 @@
 ****************************************************************************/
 #include "LabelingTool.h"
 #include "PlotTool.h"
+#include "GlobalSettings.h"
 
 namespace Tinkercell
 {	
@@ -28,7 +29,7 @@ namespace Tinkercell
 	
 	LabelingTool::~LabelingTool()
 	{
-		QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
+		QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
 
 		settings.beginGroup("LabelingTool");
 		settings.setValue("enableFire", ENABLE_FIRE);
@@ -60,7 +61,7 @@ namespace Tinkercell
 			
 			connect(fToS,SIGNAL(displayFire(ItemHandle*,double)),this,SLOT(displayFire(ItemHandle*,double)));
 			
-			QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
+			QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
 			settings.beginGroup("LabelingTool");
 			LabelingTool::ENABLE_FIRE = settings.value("enableFire").toBool();
 			settings.endGroup();

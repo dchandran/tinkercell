@@ -10,6 +10,7 @@ a generic command prompt (e.g. by Python plugin)
 #include "NetworkHandle.h"
 #include "MainWindow.h"
 #include "ConsoleWindow.h"
+#include "GlobalSettings.h"
 
 namespace Tinkercell
 {
@@ -106,7 +107,7 @@ namespace Tinkercell
 	{
 		setUndoRedoEnabled ( false );
 		
-		QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
+		QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
 
 		settings.beginGroup("MainWindow");
 		

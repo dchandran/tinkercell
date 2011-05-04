@@ -24,6 +24,7 @@
 #include "LoadCLibraries.h"
 #include "MultithreadedSliderWidget.h"
 #include <QtDebug>
+#include "GlobalSettings.h"
 
 namespace Tinkercell
 {
@@ -54,7 +55,7 @@ namespace Tinkercell
     {
         if (libMenu)
         {
-            QString  home = MainWindow::homeDir(),
+            QString  home = GlobalSettings::homeDir(),
                         current = QDir::currentPath(),
                         appDir = QCoreApplication::applicationDirPath();
 
@@ -175,7 +176,7 @@ namespace Tinkercell
         }
         QString appDir = QCoreApplication::applicationDirPath();
         QProcess proc;
-		proc.setWorkingDirectory(MainWindow::tempDir());
+		proc.setWorkingDirectory(GlobalSettings::tempDir());
 		
 		QString libs;
 		
@@ -243,7 +244,7 @@ namespace Tinkercell
         QProcess proc;
         QString appDir = QCoreApplication::applicationDirPath();
 
-		QString homeDir = MainWindow::tempDir();
+		QString homeDir = GlobalSettings::tempDir();
 		QDir homeDirDir(homeDir);
 
 		proc.setWorkingDirectory(homeDir);

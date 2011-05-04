@@ -1,5 +1,5 @@
-#ifndef TINKERCELL_CSCRIPT_SYNTAXCandPythonSyntaxHighlighter_H
-#define TINKERCELL_CSCRIPT_SYNTAXCandPythonSyntaxHighlighter_H
+#ifndef TINKERCELL_CSCRIPT_SYNTAXCodingWindowSyntaxHighlighter_H
+#define TINKERCELL_CSCRIPT_SYNTAXCodingWindowSyntaxHighlighter_H
 
 #include <QMainWindow>
 #include <QTextEdit>
@@ -16,12 +16,12 @@
 
 namespace Tinkercell
 {
-	class CandPythonSyntaxHighlighter : public QSyntaxHighlighter
+	class CodingWindowSyntaxHighlighter : public QSyntaxHighlighter
     {
 		 Q_OBJECT
 
 	 public:
-		 CandPythonSyntaxHighlighter(QTextDocument *parent = 0);
+		 CodingWindowSyntaxHighlighter(QTextDocument *parent = 0);
 
 	 protected:
 		 void highlightBlock(const QString &text);

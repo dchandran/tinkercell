@@ -22,6 +22,7 @@
 #include "TextGraphicsItem.h"
 #include "OctaveTool.h"
 #include <QtDebug>
+#include "GlobalSettings.h"
 
 namespace Tinkercell
 {
@@ -58,7 +59,7 @@ namespace Tinkercell
 		QFileInfoList list = dir.entryInfoList();
 
 		QString appDir = QCoreApplication::applicationDirPath();
-		QString homeDir = MainWindow::homeDir();
+		QString homeDir = GlobalSettings::homeDir();
 		
 		for (int i = 0; i < list.size(); ++i)
 		{
@@ -226,8 +227,8 @@ namespace Tinkercell
                 QString appDir = QCoreApplication::applicationDirPath();
 
                 QString name[] = {
-				  MainWindow::tempDir() + tr("/octave"),
-                  MainWindow::homeDir() + tr("/octave"),
+				  GlobalSettings::tempDir() + tr("/octave"),
+                  GlobalSettings::homeDir() + tr("/octave"),
                   QDir::currentPath() + tr("/octave"),
                   appDir + tr("/octave")
                };
@@ -383,7 +384,7 @@ namespace Tinkercell
 		}
 		
 		QString appDir = QCoreApplication::applicationDirPath();
-		QString homeDir = MainWindow::homeDir();
+		QString homeDir = GlobalSettings::homeDir();
 		
 		QString icon = icon0;
 
@@ -450,10 +451,10 @@ namespace Tinkercell
         {
             QString appDir = QCoreApplication::applicationDirPath();
 
-            QString name[] = {	MainWindow::homeDir() + tr("/") + filename,
-                                MainWindow::homeDir() + tr("/octave/") + filename,
-								MainWindow::tempDir() + tr("/") + filename,
-                                MainWindow::tempDir() + tr("/octave/") + filename,
+            QString name[] = {	GlobalSettings::homeDir() + tr("/") + filename,
+                                GlobalSettings::homeDir() + tr("/octave/") + filename,
+								GlobalSettings::tempDir() + tr("/") + filename,
+                                GlobalSettings::tempDir() + tr("/octave/") + filename,
                                 filename,
                                 QDir::currentPath() + tr("/") + filename,
                                 appDir + tr("/octave/") + filename ,

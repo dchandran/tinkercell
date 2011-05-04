@@ -4,7 +4,7 @@ namespace Tinkercell
 	 /********************************
 	      SYNTAX HIGHLIGHTER
 	 *********************************/
-	 CandPythonSyntaxHighlighter::CandPythonSyntaxHighlighter(QTextDocument *parent)
+	 CodingWindowSyntaxHighlighter::CodingWindowSyntaxHighlighter(QTextDocument *parent)
 		 : QSyntaxHighlighter(parent)
 	 {
 		 HighlightingRule rule;
@@ -69,7 +69,7 @@ namespace Tinkercell
 		 commentEndExpression = QRegExp("\\*/");
 	 }
 
-	 void CandPythonSyntaxHighlighter::highlightBlock(const QString &text)
+	 void CodingWindowSyntaxHighlighter::highlightBlock(const QString &text)
 	 {
 		 foreach (HighlightingRule rule, highlightingRules) {
 			 QRegExp expression(rule.pattern);

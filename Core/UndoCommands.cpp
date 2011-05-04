@@ -18,6 +18,7 @@ This file contains a collection of commands that perform simple operations that 
 #include "NetworkHandle.h"
 #include "UndoCommands.h"
 #include "ConsoleWindow.h"
+#include "GlobalSettings.h"
 #include <QRegExp>
 #include <QStringList>
 #include <QDebug>
@@ -2859,8 +2860,8 @@ namespace Tinkercell
 
 		QFile file (fileName);
 
-		QString  home = MainWindow::homeDir(),
-				temp = MainWindow::tempDir(),
+		QString  home = GlobalSettings::homeDir(),
+				temp = GlobalSettings::tempDir(),
 				current = QDir::currentPath(),
 				appDir = QCoreApplication::applicationDirPath();
 

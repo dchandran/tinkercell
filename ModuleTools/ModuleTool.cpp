@@ -25,6 +25,7 @@
 #include "LoadSaveTool.h"
 #include "TreeButton.h"
 #include "ModuleTool.h"
+#include "GlobalSettings.h"
 
 namespace Tinkercell
 {
@@ -483,10 +484,10 @@ namespace Tinkercell
 			name.replace(QRegExp(tr("[^\\sA-Za-z0-9_]")),tr(""));
 			moduleNameEdit->setText(name);
 
-			if (MainWindow::SAVE_FILE_EXTENSIONS.isEmpty())
-				MainWindow::SAVE_FILE_EXTENSIONS << "TIC";
+			if (GlobalSettings::SAVE_FILE_EXTENSIONS.isEmpty())
+				GlobalSettings::SAVE_FILE_EXTENSIONS << "TIC";
 
-			name += tr(".") + MainWindow::SAVE_FILE_EXTENSIONS[0];
+			name += tr(".") + GlobalSettings::SAVE_FILE_EXTENSIONS[0];
 			QString s = modulesComboBox->currentText();
 			
 			if (s.isEmpty() || s.contains(tr("Custom...")))
@@ -990,7 +991,7 @@ namespace Tinkercell
 		QList<ItemHandle*> visited;		
 		QList<ItemHandle*> modularConnections;
 		QString appDir = QCoreApplication::applicationDirPath();
-		QString homeDir = MainWindow::homeDir();
+		QString homeDir = GlobalSettings::homeDir();
 		
 		if (loadedItems) return;
 		

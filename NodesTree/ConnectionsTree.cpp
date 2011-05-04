@@ -18,6 +18,7 @@
 #include "NodesTree.h"
 #include "TreeButton.h"
 #include "LoadSaveTool.h"
+#include "GlobalSettings.h"
 #include <QDialog>
 
 namespace Tinkercell
@@ -55,8 +56,8 @@ namespace Tinkercell
     {
         ConnectionsTreeReader reader;
         QString appDir = QCoreApplication::applicationDirPath();
-		QString homeDir = MainWindow::homeDir();
-		QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
+		QString homeDir = GlobalSettings::homeDir();
+		QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
         settings.beginGroup("ConnectionsTree");
         NodesTree::themeDirectory = settings.value("theme",tr("Bio1")).toString();
         QString xmlFile = filename;
@@ -180,7 +181,7 @@ namespace Tinkercell
         if (fileName.isEmpty())
             return;
 
-        QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
+        QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
 
         settings.beginGroup("ConnectionsTree");
         settings.setValue("file", fileName);
@@ -213,7 +214,7 @@ namespace Tinkercell
     void ConnectionsTree::networkClosing(NetworkHandle * , bool *)
     {
         //save state of the tree
-        QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
+        QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
 
         settings.beginGroup("ConnectionsTree");
     	settings.setValue("theme",NodesTree::themeDirectory);
@@ -298,7 +299,7 @@ namespace Tinkercell
 
 	void ConnectionsTree::updateTheme()
 	{
-		QString homeDir = MainWindow::homeDir();
+		QString homeDir = GlobalSettings::homeDir();
         QString appDir = QCoreApplication::applicationDirPath();
 
         QList<ConnectionFamily*> toplevel;

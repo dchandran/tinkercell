@@ -81,6 +81,9 @@ namespace Tinkercell
 	signals:
 		void runPython(const QString&);
 		void loadPyFromDir( QDir& );
+
+		void runRuby(const QString&);
+		void loadRubyFromDir( QDir& );
 		
 		void runOctave(const QString&);
 		void loadOctFromDir( QDir& );
@@ -104,6 +107,7 @@ namespace Tinkercell
 		virtual void setVisible(bool);
 		void pyscesHelp();
 		void enablePython(bool b=true);
+		void enableRuby(bool b=true);
         void enableOctave(bool b=true);
 	    void enableC(bool b=true);
 		void toolLoaded(Tool *);
@@ -118,24 +122,23 @@ namespace Tinkercell
 		void runC(const QString&);
 		void convertCodeToButtonOctave();
 		void convertCodeToButtonPy();
+		void convertCodeToButtonRuby();
 		void convertCodeToButtonC();
-		void disablePython();
-		void disableOctave();
 
 		QTimeLine timer;
 		QMainWindow * window;
 
-		enum Languages { None, C, Octave, Python };
+		enum Languages { None, C, Octave, Python, Ruby};
 		Languages selectedLanguage;
 
-		QRadioButton * cButton, * octaveButton, *pythonButton;
-		QAction * cAction, * octaveAction, *pythonAction; 
+		QRadioButton * cButton, * octaveButton, *pythonButton, *rubyButton;
+		QAction * cAction, * octaveAction, *pythonAction, *rubyAction; 
 		RuntimeCodeEditor *editor;
 		QWidget * editorWidget;
 		QToolBar * toolBar;
 
 		QLineEdit *commandCEdit, *commandPyEdit, *fileNameEdit;
-		CandPythonSyntaxHighlighter *highlighter;
+		CodingWindowSyntaxHighlighter *highlighter;
 
 		QString fileName;
 		QDialog * usernameDialog;

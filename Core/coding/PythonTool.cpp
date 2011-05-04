@@ -22,6 +22,7 @@
 #include "TextGraphicsItem.h"
 #include "PythonTool.h"
 #include <QtDebug>
+#include "GlobalSettings.h"
 
 namespace Tinkercell
 {
@@ -58,7 +59,7 @@ namespace Tinkercell
 		QFileInfoList list = dir.entryInfoList();
 
 		QString appDir = QCoreApplication::applicationDirPath();
-		QString homeDir = MainWindow::homeDir();		
+		QString homeDir = GlobalSettings::homeDir();		
 		
 		for (int i = 0; i < list.size(); ++i)
 		{
@@ -230,8 +231,8 @@ namespace Tinkercell
                 QString appDir = QCoreApplication::applicationDirPath();
 
                 QString name[] = {
-				  MainWindow::tempDir() + tr("/python"),
-                  MainWindow::homeDir() + tr("/python"),
+				  GlobalSettings::tempDir() + tr("/python"),
+                  GlobalSettings::homeDir() + tr("/python"),
                   QDir::currentPath() + tr("/python"),
                   appDir + tr("/python")
                };
@@ -392,7 +393,7 @@ namespace Tinkercell
 		}
 		
 		QString appDir = QCoreApplication::applicationDirPath();
-		QString homeDir = MainWindow::homeDir();
+		QString homeDir = GlobalSettings::homeDir();
 		
 		QString icon = icon0;
 		
@@ -460,10 +461,10 @@ namespace Tinkercell
         {
             QString appDir = QCoreApplication::applicationDirPath();
 
-            QString name[] = {	MainWindow::homeDir() + tr("/") + filename,
-                                MainWindow::homeDir() + tr("/python/") + filename,
-								MainWindow::tempDir() + tr("/") + filename,
-                                MainWindow::tempDir() + tr("/python/") + filename,
+            QString name[] = {	GlobalSettings::homeDir() + tr("/") + filename,
+                                GlobalSettings::homeDir() + tr("/python/") + filename,
+								GlobalSettings::tempDir() + tr("/") + filename,
+                                GlobalSettings::tempDir() + tr("/python/") + filename,
                                 filename,
                                 QDir::currentPath() + tr("/") + filename,
                                 appDir + tr("/python/") + filename ,

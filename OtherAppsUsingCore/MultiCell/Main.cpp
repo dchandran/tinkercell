@@ -1,24 +1,25 @@
 #include <QApplication>
 #include "MultiCell.h"
 #include "CellTypeSelector.h"
+#include "GlobalSettings.h"
 
 int main(int argc, char *argv[])
 {
 	QApplication app(argc, argv);
 	
 	//enable features -- must do before creating MainWindow
-	MainWindow::ENABLE_HISTORY_WINDOW = false;
-	MainWindow::ENABLE_CONSOLE_WINDOW = true;
-	MainWindow::ENABLE_GRAPHING_TOOLS = true;
-	MainWindow::ENABLE_CODING_TOOLS = false;
-	MainWindow::ENABLE_ALIGNMENT_TOOL = false;
-	MainWindow::ENABLE_PYTHON = false;
-	MainWindow::ENABLE_OCTAVE = true;
-	MainWindow::ENABLE_LOADSAVE_TOOL = true;
+	GlobalSettings::ENABLE_HISTORY_WINDOW = false;
+	GlobalSettings::ENABLE_CONSOLE_WINDOW = true;
+	GlobalSettings::ENABLE_GRAPHING_TOOLS = true;
+	GlobalSettings::ENABLE_CODING_TOOLS = false;
+	GlobalSettings::ENABLE_ALIGNMENT_TOOL = false;
+	GlobalSettings::ENABLE_PYTHON = false;
+	GlobalSettings::ENABLE_OCTAVE = true;
+	GlobalSettings::ENABLE_LOADSAVE_TOOL = true;
 
-    Tinkercell::MainWindow::PROJECTWEBSITE = QObject::tr("www.tinkercell.com");
-    Tinkercell::MainWindow::ORGANIZATIONNAME = QObject::tr("MultiCell Simulator");
-    Tinkercell::MainWindow::PROJECTNAME = QObject::tr("MultiCell Simulator");
+    Tinkercell::GlobalSettings::PROJECTWEBSITE = QObject::tr("www.tinkercell.com");
+    Tinkercell::GlobalSettings::ORGANIZATIONNAME = QObject::tr("MultiCell Simulator");
+    Tinkercell::GlobalSettings::PROJECTNAME = QObject::tr("MultiCell Simulator");
 
 	QString appDir = QCoreApplication::applicationDirPath();
 	
@@ -42,3 +43,4 @@ int main(int argc, char *argv[])
 
     return output;
 }
+

@@ -20,7 +20,9 @@
 #include "CodingWindow.h"
 #include "PythonTool.h"
 #include "OctaveTool.h"
+#include "RubyTool.h"
 #include "LoadCLibraries.h"
+#include "GlobalSettings.h"
 #include <QRegExp>
 #include <QVBoxLayout>
 #include <QDockWidget>
@@ -44,8 +46,8 @@ namespace Tinkercell
 	 	 selectedLanguage = None;
 		
 		 QString appDir = QCoreApplication::applicationDirPath();
-		 QString homeDir = MainWindow::homeDir();
-		 QString tempDir = MainWindow::tempDir();
+		 QString homeDir = GlobalSettings::homeDir();
+		 QString tempDir = GlobalSettings::tempDir();
 		 fileName = tempDir + tr("/code.c");
 		 
 		 toolBar = 0;
@@ -54,7 +56,7 @@ namespace Tinkercell
 		 setupEditor();
 		 setupMenu();
 		 
- 		QSettings settings(MainWindow::ORGANIZATIONNAME, MainWindow::ORGANIZATIONNAME);
+ 		QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
 		settings.beginGroup("Subversion");
 		DO_SVN_UPDATE = settings.value(tr("auto-update"),true).toBool();
 		settings.endGroup();
@@ -75,7 +77,7 @@ namespace Tinkercell
 		{
 			QString s;
 			int err = 0;
-			if (!QFile::exists(MainWindow::homeDir() + QObject::tr("/.svn")))
+			if (!QFile::exists(GlobalSettings::homeDir() + QObject::tr("/.svn")))
 			{
 			#ifdef Q_WS_WIN
 				homeDir.replace(tr("/"),tr("\\"));
@@ -105,6 +107,9 @@ namespace Tinkercell
 		if (selectedLanguage == Python)
 			convertCodeToButtonPy();
 		else
+		if (selectedLanguage == Ruby)
+			convertCodeToButtonRuby();
+		else
 		if (selectedLanguage == Octave)
 			convertCodeToButtonOctave();
 		else
@@ -131,8 +136,8 @@ namespace Tinkercell
 			return;
 		}
 		
-		QString tempDir = MainWindow::tempDir();
-		QString homeDir = MainWindow::homeDir();
+		QString tempDir = GlobalSettings::tempDir();
+		QString homeDir = GlobalSettings::homeDir();
 		
 		QString filename = tempDir + tr("/code.c");
 		QFile qfile(filename);
@@ -178,7 +183,7 @@ namespace Tinkercell
 	
 	QPair<QString,QString> CodingWindow::requestLoginInfo()
 	{
-		QSettings settings(MainWindow::ORGANIZATIONNAME,MainWindow::ORGANIZATIONNAME);
+		QSettings settings(GlobalSettings::ORGANIZATIONNAME,GlobalSettings::ORGANIZATIONNAME);
 		settings.beginGroup("Subversion");
 		QString username = settings.value(tr("svn-username")).toString();
 		QString password = settings.value(tr("svn-password")).toString();
@@ -214,7 +219,7 @@ specific for:\n\"\"\"\n\n") + text;
 			return;
 		}		
 		
-		QString homeDir = MainWindow::homeDir();
+		QString homeDir = GlobalSettings::homeDir();
 		QDir userHomeDir(homeDir);
 		
 		if (!userHomeDir.cd(tr("python")))
@@ -257,6 +262,70 @@ specific for:\n\"\"\"\n\n") + text;
 		
 		loadPyFromDir(userHomeDir);
 	}
+
+	void CodingWindow::convertCodeToButtonRuby()
+	{
+		if (!editor || !usernameDialog || !usernameLine || !passwordLine) return;
+		
+		QString text = editor->toPlainText();
+		if (!text.startsWith("\"\"\""))
+		{
+			text = tr("\"\"\"\n\
+category: Miscellaneous\n\
+name: name of program\n\
+description: what does this program do?\n\
+icon: plugins/c/function.png\n\
+menu: yes\n\
+tool: yes\n\
+specific for:\n\"\"\"\n\n") + text;
+			editor->setPlainText(text);
+			QMessageBox::information(this,tr("Program description missing"),tr("Please enter the program description in comments"));
+			return;
+		}		
+		
+		QString homeDir = GlobalSettings::homeDir();
+		QDir userHomeDir(homeDir);
+		
+		if (!userHomeDir.cd(tr("ruby")))
+		{
+			userHomeDir.mkdir(tr("ruby"));
+			if (!userHomeDir.cd(tr("ruby")))
+			{
+				QMessageBox::information(this,tr("Error"),tr("TinkerCell is not able to write to ") + userHomeDir.absolutePath());
+				return;
+			}
+		}
+		
+		QString filename = QFileDialog::getSaveFileName(this,tr("Save your program"),userHomeDir.absolutePath(),tr("*.rb"));
+		
+		QFile rubyfile(filename);
+		
+		if (!rubyfile.open(QIODevice::WriteOnly | QIODevice::Text))
+			return;
+		else
+		{
+			QTextStream outruby(&rubyfile);
+			outruby << (editor->toPlainText());
+			rubyfile.close();
+			
+			QPair<QString,QString> login = requestLoginInfo();
+			QString username = login.first;
+			QString password = login.second;
+
+			if (!username.isEmpty() && !password.isEmpty())
+			{
+			#ifdef Q_WS_WIN
+				homeDir.replace(tr("/"),tr("\\"));
+				homeDir = tr("\"") + homeDir + tr("\"");
+			#endif
+				QString s = QObject::tr("cd ") + userHomeDir.absolutePath() + QObject::tr("; svn add ") + filename + QObject::tr("; svn commit -m\"new code added\" --username ") + username + QObject::tr(" --password ") + password + QObject::tr(" --no-auth-cache --non-interactive;");
+				system(s.toAscii().data());
+			}
+			QMessageBox::information(mainWindow, "Saved", tr("Saved and uploaded ") + filename);
+		}
+		
+		loadRubyFromDir(userHomeDir);
+	}
 	
 	void CodingWindow::convertCodeToButtonOctave()
 	{
@@ -278,7 +347,7 @@ specific for:\n\"\"\"\n\n") + text;
 			return;
 		}		
 		
-		QString homeDir = MainWindow::homeDir();
+		QString homeDir = GlobalSettings::homeDir();
 		QDir userHomeDir(homeDir);
 		
 		if (!userHomeDir.cd(tr("octave")))
@@ -363,20 +432,6 @@ specific for:\n\"\"\"\n\n") + text;
 		}
 	}
 	
-	void CodingWindow::disableOctave()
-	{
-	    QWidget * widget = mainWindow->tool(tr("Octave Interpreter"));
-		if (widget)
-		{
-			OctaveTool * ocTool = static_cast<OctaveTool*>(widget);
-    	    ConsoleWindow * outWin = console();
-			if (outWin && ocTool->octaveInterpreter)
-			{
-				outWin->setInterpreter(0);
-			}
-		}
-	}
-	
 	void CodingWindow::enablePython(bool b)
 	{
 	    if (!b || selectedLanguage == Python) return;
@@ -401,24 +456,35 @@ specific for:\n\"\"\"\n\n") + text;
 			}
 		}
 	}
-	
-	void CodingWindow::disablePython()
+
+	void CodingWindow::enableRuby(bool b)
 	{
-	    QWidget * widget = mainWindow->tool(tr("Python Interpreter"));
-		if (widget)
-		{
-			PythonTool * pyTool = static_cast<PythonTool*>(widget);
-    	    ConsoleWindow * outWin = console();
-			if (outWin && pyTool->pythonInterpreter)
+	    if (!b || selectedLanguage == Ruby) return;
+
+	    QWidget * widget = mainWindow->tool(tr("Ruby Interpreter"));
+	    
+	    if (widget)
+	    {    
+			selectedLanguage = Ruby;
+			
+	   	    if (rubyButton)
+			    rubyButton->setChecked(true);
+			
+			if (rubyAction)
+			    rubyAction->setChecked(true);
+
+			RubyTool * rubyTool = static_cast<RubyTool*>(widget);
+		    ConsoleWindow * outWin = console();
+			if (outWin && rubyTool->rubyInterpreter)
 			{
-				outWin->setInterpreter(0);
+				outWin->setInterpreter(rubyTool->rubyInterpreter);
 			}
 		}
 	}
-	
+
 	void CodingWindow::toggleSVNupdate(bool b)
 	{
-		QSettings settings(MainWindow::ORGANIZATIONNAME,MainWindow::ORGANIZATIONNAME);
+		QSettings settings(GlobalSettings::ORGANIZATIONNAME,GlobalSettings::ORGANIZATIONNAME);
 		settings.beginGroup("Subversion");
 		DO_SVN_UPDATE = b;
 		settings.setValue(tr("auto-update"),b);
@@ -427,7 +493,7 @@ specific for:\n\"\"\"\n\n") + text;
 	
 	void CodingWindow::toolLoaded(Tool *)
 	{
-		static bool pyLoaded = false, ocLoaded = false, libCLoaded = false;
+		static bool pyLoaded = false, rubyLoaded = false, ocLoaded = false, libCLoaded = false;
 		if (!mainWindow) return;
 		if (!pyLoaded && mainWindow->tool(tr("Python Interpreter")))
 		{
@@ -441,6 +507,21 @@ specific for:\n\"\"\"\n\n") + text;
 
 				if (selectedLanguage == None)
 					enablePython();
+			}
+		}
+
+		if (!rubyLoaded && mainWindow->tool(tr("Ruby Interpreter")))
+		{
+			QWidget * widget = mainWindow->tool(tr("Ruby Interpreter"));
+			if (widget)
+			{
+				RubyTool * rubyTool = static_cast<RubyTool*>(widget);				
+				connect(this,SIGNAL(runRuby(const QString&)),rubyTool,SLOT(runRubyCode(const QString&)));
+				connect(this,SIGNAL(loadRubyFromDir( QDir& )),rubyTool,SLOT(loadFromDir( QDir& )));				
+				rubyLoaded = true;
+
+				if (selectedLanguage == None)
+					enableRuby();
 			}
 		}
 		
@@ -480,7 +561,7 @@ specific for:\n\"\"\"\n\n") + text;
 		Tool::setMainWindow(main);
 		
 		QFile file;
-		file.setFileName( Tinkercell::MainWindow::homeDir() + QObject::tr("/updates.txt") );
+		file.setFileName( Tinkercell::GlobalSettings::homeDir() + QObject::tr("/updates.txt") );
 		if (file.open( QFile::ReadOnly | QFile::Text ))
 		{
 			QString text(file.readAll());
@@ -526,7 +607,6 @@ specific for:\n\"\"\"\n\n") + text;
 			{
 				if (mainWindow->viewMenu)
 				{
-
 					QAction * toggle = mainWindow->viewMenu->addAction(tr("Coding Window"));
 					toggle->setCheckable(true);
 					connect(toggle,SIGNAL(toggled(bool)),this,SLOT(setVisible(bool)));
@@ -575,19 +655,22 @@ specific for:\n\"\"\"\n\n") + text;
 				cAction = langMenu->addAction(tr("C"));
 				pythonAction = langMenu->addAction(tr("Python"));
 				octaveAction = langMenu->addAction(tr("Octave"));
+				rubyAction = langMenu->addAction(tr("Ruby"));
 				
 				connect(cAction,SIGNAL(toggled(bool)),this,SLOT(enableC(bool)));
 				connect(pythonAction,SIGNAL(toggled(bool)),this,SLOT(enablePython(bool)));
 				connect(octaveAction,SIGNAL(toggled(bool)),this,SLOT(enableOctave(bool)));
+				connect(rubyAction,SIGNAL(toggled(bool)),this,SLOT(rubyOctave(bool)));
                 
 				cAction->setCheckable(true);
 				pythonAction->setCheckable(true);
 				octaveAction->setCheckable(true);
+				rubyAction->setCheckable(true);
 
 				actionGroup->addAction(cAction);
-
 				actionGroup->addAction(pythonAction);
 				actionGroup->addAction(octaveAction);
+				actionGroup->addAction(rubyAction);
 				actionGroup->setExclusive(true);
 			}
 			
@@ -645,29 +728,36 @@ specific for:\n\"\"\"\n\n") + text;
 		editor = new RuntimeCodeEditor;
 		editor->setFont(font);
 
-		highlighter = new CandPythonSyntaxHighlighter(editor->document());
+		highlighter = new CodingWindowSyntaxHighlighter(editor->document());
 		
 		cAction = octaveAction = pythonAction = 0;
 
 		cButton = new QRadioButton("C");
-		if (MainWindow::ENABLE_OCTAVE)
+		if (GlobalSettings::ENABLE_OCTAVE)
 	        octaveButton = new QRadioButton("Octave");
 		else
 	        octaveButton = 0;
 	   
-	    if (MainWindow::ENABLE_PYTHON)
+	    if (GlobalSettings::ENABLE_PYTHON)
             pythonButton = new QRadioButton("Python");
 		else
         	pythonButton = 0;
+
+		if (GlobalSettings::ENABLE_RUBY)
+	        rubyButton = new QRadioButton("Ruby");
+		else
+	        rubyButton = 0;
 		
 		connect(cButton,SIGNAL(toggled(bool)),this,SLOT(enableC(bool)));
 		connect(pythonButton,SIGNAL(toggled(bool)),this,SLOT(enablePython(bool)));
 		connect(octaveButton,SIGNAL(toggled(bool)),this,SLOT(enableOctave(bool)));
+		connect(rubyButton,SIGNAL(toggled(bool)),this,SLOT(enableRuby(bool)));
 		 
  		QHBoxLayout * layout1 = new QHBoxLayout;
  		layout1->addWidget(cButton,0);
  		layout1->addWidget(pythonButton,0);
  		layout1->addWidget(octaveButton,0);
+ 		layout1->addWidget(rubyButton,0);
  		layout1->addStretch(1);
  		
  		QVBoxLayout * layout2 = new QVBoxLayout;

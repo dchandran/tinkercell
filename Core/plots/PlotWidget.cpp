@@ -18,6 +18,7 @@
 #include "ConsoleWindow.h"
 #include "PlotTool.h"
 #include "PlotTextWidget.h"
+#include "GlobalSettings.h"
 
 namespace Tinkercell
 {	
@@ -72,7 +73,7 @@ namespace Tinkercell
 			if (data()) 
 			{
 				table = *data();
-				QString filename = MainWindow::tempDir() + tr("/plot.csv");
+				QString filename = GlobalSettings::tempDir() + tr("/plot.csv");
 				QFile file(filename);
 				if (file.open(QFile::WriteOnly | QFile::Text))
 				{

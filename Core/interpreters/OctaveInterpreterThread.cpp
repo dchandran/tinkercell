@@ -58,7 +58,7 @@ namespace Tinkercell
         if (f)
         {
             QString currentDir = QDir::currentPath();
-            QDir::setCurrent(MainWindow::tempDir());
+            QDir::setCurrent(GlobalSettings::tempDir());
             f();
             QDir::setCurrent(currentDir);
         }
@@ -81,7 +81,7 @@ namespace Tinkercell
         if (f)
         {
         	QString currentDir = QDir::currentPath();
-            QDir::setCurrent(MainWindow::tempDir());
+            QDir::setCurrent(GlobalSettings::tempDir());
 
 			setCPointers();
             f();
@@ -134,12 +134,12 @@ namespace Tinkercell
 
         if (f)
         {
-        	QString tempDir = MainWindow::tempDir();
+        	QString tempDir = GlobalSettings::tempDir();
         	if (!addpathDone)
         	{
         		QString appDir = QCoreApplication::applicationDirPath();
-				QString homeDir = MainWindow::homeDir();
-				QString tempDir = MainWindow::tempDir();
+				QString homeDir = GlobalSettings::homeDir();
+				QString tempDir = GlobalSettings::tempDir();
 			
 				QStringList subdirs;
 				subdirs << allSubdirectories(appDir + tr("/") + OCTAVE_FOLDER)
@@ -168,7 +168,7 @@ namespace Tinkercell
 		#endif
 
             QString currentDir = QDir::currentPath();
-            QDir::setCurrent(MainWindow::tempDir());
+            QDir::setCurrent(GlobalSettings::tempDir());
             
             QFile sourcefile(tempDir + QObject::tr("/temp.m"));
 			if (sourcefile.open(QFile::WriteOnly))

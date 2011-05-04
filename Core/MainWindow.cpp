@@ -53,7 +53,9 @@ The MainWindow keeps a list of all plugins, and it is also responsible for loadi
 #include "DynamicLibraryMenu.h"
 #include "PythonTool.h"
 #include "OctaveTool.h"
+#include "RubyTool.h"
 #include "LabelingTool.h"
+#include "GlobalSettings.h"
 
 namespace Tinkercell
 {
@@ -61,32 +63,32 @@ namespace Tinkercell
 	typedef void (*TinkercellCEntryFunction)();
 
 	/********** GLOBAL VARIABLES **********/
-
 	MainWindow::TOOL_WINDOW_OPTION MainWindow::defaultToolWindowOption = MainWindow::TabWidget;
 	MainWindow::TOOL_WINDOW_OPTION MainWindow::defaultHistoryWindowOption = MainWindow::TabWidget;
 	MainWindow::TOOL_WINDOW_OPTION MainWindow::defaultConsoleWindowOption = MainWindow::DockWidget;
-	QString MainWindow::PROJECTWEBSITE = QObject::tr("www.tinkercell.com");
-	QString MainWindow::ORGANIZATIONNAME = QObject::tr("TinkerCell");
-	QString MainWindow::PROJECTNAME = QObject::tr("TinkerCell");
-	QString MainWindow::CPP_ENTRY_FUNCTION = QObject::tr("loadTCTool");
-	QString MainWindow::C_ENTRY_FUNCTION = QObject::tr("tc_main");
-	QString MainWindow::PROJECT_VERSION = QObject::tr("0.0.0");
-	QStringList MainWindow::OPEN_FILE_EXTENSIONS;
-	QStringList MainWindow::SAVE_FILE_EXTENSIONS;
+	QString GlobalSettings::PROJECTWEBSITE = QObject::tr("www.tinkercell.com");
+	QString GlobalSettings::ORGANIZATIONNAME = QObject::tr("TinkerCell");
+	QString GlobalSettings::PROJECTNAME = QObject::tr("TinkerCell");
+	QString GlobalSettings::CPP_ENTRY_FUNCTION = QObject::tr("loadTCTool");
+	QString GlobalSettings::C_ENTRY_FUNCTION = QObject::tr("tc_main");
+	QString GlobalSettings::PROJECT_VERSION = QObject::tr("0.0.0");
+	QStringList GlobalSettings::GlobalSettings::OPEN_FILE_EXTENSIONS;
+	QStringList GlobalSettings::GlobalSettings::SAVE_FILE_EXTENSIONS;
+	QString GlobalSettings::PROGRAM_MODE;
 	QString MainWindow::previousFileName;
 	QString MainWindow::homeDirPath;
-	QString MainWindow::PROGRAM_MODE;
 	/*************************************/
 
-	QString MainWindow::homeDir()
+	QString GlobalSettings::homeDir()
 	{
-		if (homeDirPath.contains(PROJECTNAME) && QDir(homeDirPath).exists())
+		QString & homeDirPath = MainWindow::homeDirPath;		
+		if (homeDirPath.contains(GlobalSettings::PROJECTNAME) && QDir(homeDirPath).exists())
 		{
 			return homeDirPath;
 		}
 
 		QDir dir = QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation);
-		QString tcdir = PROJECTNAME;
+		QString tcdir = GlobalSettings::PROJECTNAME;
 
 		if (!dir.exists(tcdir))
 			dir.mkdir(tcdir);
@@ -96,11 +98,11 @@ namespace Tinkercell
 		return homeDirPath;
 	}
 
-	QString MainWindow::tempDir()
+	QString GlobalSettings::tempDir()
 	{
 		QString location = QDesktopServices::storageLocation(QDesktopServices::TempLocation);
 
-		QString temp = location + tr("/TinkerCell");
+		QString temp = location + QString("/TinkerCell");
 
 		if (!temp.isEmpty() && QDir(temp).exists())
 			return temp;
@@ -117,7 +119,7 @@ namespace Tinkercell
 
 	void MainWindow::setUserHome()
 	{
-		QString home = QFileDialog::getExistingDirectory(this,tr("Select new user home directory"),homeDir());
+		QString home = QFileDialog::getExistingDirectory(this,tr("Select new user home directory"),GlobalSettings::homeDir());
 		if (home.isEmpty() || home.isNull()) return;
 
 		//home must be inside user's home directory to avoid write permission problems
@@ -130,8 +132,8 @@ namespace Tinkercell
 
 	void MainWindow::loadDynamicLibrary(const QString& dllFile)
 	{
-		QString home = homeDir(),
-			temp = tempDir(),
+		QString home = GlobalSettings::homeDir(),
+			temp = GlobalSettings::tempDir(),
 			current = QDir::currentPath(),
 			appDir = QCoreApplication::applicationDirPath();
 
@@ -157,7 +159,7 @@ namespace Tinkercell
 		if (loaded && !dynamicallyLoadedLibraries.contains(lib->fileName()))
 		{
 			statusBar()->showMessage(lib->fileName() + tr(" loading ..."));
-			TinkercellPluginEntryFunction f1 = (TinkercellPluginEntryFunction)lib->resolve(CPP_ENTRY_FUNCTION.toAscii().data());
+			TinkercellPluginEntryFunction f1 = (TinkercellPluginEntryFunction)lib->resolve(GlobalSettings::CPP_ENTRY_FUNCTION.toAscii().data());
 			if (f1)
 			{
 				try
@@ -174,7 +176,7 @@ namespace Tinkercell
 			}
 			else
 			{
-				TinkercellCEntryFunction f2 = (TinkercellCEntryFunction)lib->resolve(C_ENTRY_FUNCTION.toAscii().data());
+				TinkercellCEntryFunction f2 = (TinkercellCEntryFunction)lib->resolve(GlobalSettings::C_ENTRY_FUNCTION.toAscii().data());
 				if (f2)
 				{
 					new CThread(this,lib);
@@ -222,7 +224,7 @@ namespace Tinkercell
 		allowViewModeToChange = allowViews;
 
 		setMouseTracking(true);
-		RegisterDataTypes();
+		GlobalSettings::RegisterDataTypes();
 		previousFileName = QCoreApplication::applicationDirPath();
 
 		consoleWindow = 0;
@@ -267,14 +269,14 @@ namespace Tinkercell
 	
 	void MainWindow::loadDefaultPlugins()
 	{
-		if (ENABLE_HISTORY_WINDOW)
+		if (GlobalSettings::ENABLE_HISTORY_WINDOW)
 		{
 			historyWindow.setWindowTitle(tr("History"));
 			historyWindow.setWindowIcon(QIcon(tr(":/images/scroll.png")));
 			addToolWindow(&historyWindow,MainWindow::defaultHistoryWindowOption,Qt::RightDockWidgetArea);
 		}
 
-		if (ENABLE_CONSOLE_WINDOW)
+		if (GlobalSettings::ENABLE_CONSOLE_WINDOW)
 		{
 			consoleWindow = new ConsoleWindow(this);
 			if (settingsMenu)
@@ -288,17 +290,17 @@ namespace Tinkercell
 			}
 		}
 		
-		if (ENABLE_LOADSAVE_TOOL)
+		if (GlobalSettings::ENABLE_LOADSAVE_TOOL)
 		{
 			addTool(new LoadSaveTool);
 		}
 		
-		if (ENABLE_ALIGNMENT_TOOL)
+		if (GlobalSettings::ENABLE_ALIGNMENT_TOOL)
 		{
 			addTool(new BasicGraphicsToolbar);
 		}
 	
-		if (ENABLE_GRAPHING_TOOLS)
+		if (GlobalSettings::ENABLE_GRAPHING_TOOLS)
 		{
 			addTool(new PlotTool);
    			addTool(new GnuplotTool);
@@ -306,21 +308,26 @@ namespace Tinkercell
 		
 		addTool(new LabelingTool);
 
-		if (ENABLE_CODING_TOOLS)
+		if (GlobalSettings::ENABLE_CODING_TOOLS)
 		{
 			addTool(new DynamicLibraryMenu);
 			addTool(new LoadCLibrariesTool);
 			addTool(new CodingWindow);
 		}
 		
-		if (ENABLE_PYTHON)
+		if (GlobalSettings::ENABLE_PYTHON)
 		{
 			addTool(new PythonTool);
 		}
 		
-		if (ENABLE_OCTAVE)
+		if (GlobalSettings::ENABLE_OCTAVE)
 		{
 			addTool(new OctaveTool);
+		}
+
+		if (GlobalSettings::ENABLE_RUBY)
+		{
+			addTool(new RubyTool);
 		}
 	}
 
@@ -331,11 +338,12 @@ namespace Tinkercell
 
 	void MainWindow::saveSettings()
 	{
-		QCoreApplication::setOrganizationName(ORGANIZATIONNAME);
-		QCoreApplication::setOrganizationDomain(PROJECTWEBSITE);
-		QCoreApplication::setApplicationName(ORGANIZATIONNAME);
+		QCoreApplication::setOrganizationName(GlobalSettings::ORGANIZATIONNAME);
+		QCoreApplication::setOrganizationDomain(GlobalSettings::PROJECTWEBSITE);
+		QCoreApplication::setApplicationName(GlobalSettings::ORGANIZATIONNAME);
 
-		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
+
+		QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
 
 		settings.beginGroup("MainWindow");
 		
@@ -360,11 +368,11 @@ namespace Tinkercell
 
 	void MainWindow::readSettings()
 	{
-		QCoreApplication::setOrganizationName(ORGANIZATIONNAME);
-		QCoreApplication::setOrganizationDomain(PROJECTWEBSITE);
-		QCoreApplication::setApplicationName(ORGANIZATIONNAME);
+		QCoreApplication::setOrganizationName(GlobalSettings::ORGANIZATIONNAME);
+		QCoreApplication::setOrganizationDomain(GlobalSettings::PROJECTWEBSITE);
+		QCoreApplication::setApplicationName(GlobalSettings::ORGANIZATIONNAME);
 
-		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
+		QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
 
 		settings.beginGroup("MainWindow");
 		
@@ -384,6 +392,14 @@ namespace Tinkercell
 		
 		restoreState(settings.value("windowState").toByteArray());
 		settings.endGroup();
+
+		GlobalSettings::PROJECT_VERSION = tr("@TINKERCELL_WC_REVISION@");
+		QString text;
+		
+		bool ok;
+		int number = GlobalSettings::PROJECT_VERSION.toInt(&ok);
+		if (ok)
+			GlobalSettings::PROJECT_VERSION = tr("@TINKERCELL_MAJOR_VERSION@.") + QString::number( (int)(number/1000 ) ) + tr(".") + QString::number(number % 1000);
 	}
 
 	/*! \brief destructor*/
@@ -392,7 +408,7 @@ namespace Tinkercell
 		GraphicsScene::clearStaticItems();
 		saveSettings();
 
-		QString tempDir = MainWindow::tempDir();
+		QString tempDir = GlobalSettings::tempDir();
 		QString cmd;
 
 #ifdef Q_WS_WIN
@@ -520,19 +536,19 @@ namespace Tinkercell
 			fileName =
 				QFileDialog::getSaveFileName(this, tr("Save Current Network"),
 				previousFileName + tr("/model_") + QDateTime::	currentDateTime().toString("d-M-yy_h-m.tic"),
-				(PROJECTNAME + tr(" files (*.") + SAVE_FILE_EXTENSIONS.join(tr(" *.")) + tr(")")));
+				(GlobalSettings::PROJECTNAME + tr(" files (*.") + GlobalSettings::SAVE_FILE_EXTENSIONS.join(tr(" *.")) + tr(")")));
 			if (fileName.isNull() || fileName.isEmpty())
 				return;
 			
 			previousFileName = tr("");
-			for (int i=0; i < SAVE_FILE_EXTENSIONS.size(); ++i)
-				if (fileName.endsWith(tr(".") + SAVE_FILE_EXTENSIONS[i]))
+			for (int i=0; i < GlobalSettings::SAVE_FILE_EXTENSIONS.size(); ++i)
+				if (fileName.endsWith(tr(".") + GlobalSettings::SAVE_FILE_EXTENSIONS[i]))
 					 previousFileName = fileName;
 			
 			if (previousFileName.isEmpty())
 			{
-				if (!SAVE_FILE_EXTENSIONS.isEmpty())
-					fileName += tr(".") + SAVE_FILE_EXTENSIONS[0];
+				if (!GlobalSettings::SAVE_FILE_EXTENSIONS.isEmpty())
+					fileName += tr(".") + GlobalSettings::SAVE_FILE_EXTENSIONS[0];
 				previousFileName = fileName;
 			}
 			
@@ -547,7 +563,7 @@ namespace Tinkercell
 		QFile file (fileName);
 
 		if (!file.open(QFile::WriteOnly | QFile::Text)) {
-			QMessageBox::warning(this, (PROJECTNAME + tr(" files")),
+			QMessageBox::warning(this, (GlobalSettings::PROJECTNAME + tr(" files")),
 				tr("Cannot write file %1:\n%2.")
 				.arg(fileName)
 				.arg(file.errorString()));
@@ -565,31 +581,31 @@ namespace Tinkercell
 		if (!currentNetworkWindow || !currentNetworkWindow->network) return;
 		
 		QString def = currentNetworkWindow->filename;
-		def.replace(QRegExp("\\..*$"),tr(".") + SAVE_FILE_EXTENSIONS.join(tr(" *.")));
+		def.replace(QRegExp("\\..*$"),tr(".") + GlobalSettings::SAVE_FILE_EXTENSIONS.join(tr(" *.")));
 
 		QString fileName =
 			QFileDialog::getSaveFileName(this, tr("Save Current Network"),
 			def,
-			(PROJECTNAME + tr(" files (*.") + SAVE_FILE_EXTENSIONS.join(tr(" *.")) + tr(")")));
+			(GlobalSettings::PROJECTNAME + tr(" files (*.") + GlobalSettings::SAVE_FILE_EXTENSIONS.join(tr(" *.")) + tr(")")));
 		if (fileName.isEmpty())
 			return;
 
 		previousFileName = tr("");
-		for (int i=0; i < SAVE_FILE_EXTENSIONS.size(); ++i)
-			if (fileName.endsWith(tr(".") + SAVE_FILE_EXTENSIONS[i]))
+		for (int i=0; i < GlobalSettings::SAVE_FILE_EXTENSIONS.size(); ++i)
+			if (fileName.endsWith(tr(".") + GlobalSettings::SAVE_FILE_EXTENSIONS[i]))
 				previousFileName = fileName;
 			
 		if (previousFileName.isEmpty())
 		{
-			if (!SAVE_FILE_EXTENSIONS.isEmpty())
-				fileName += tr(".") + SAVE_FILE_EXTENSIONS[0];
+			if (!GlobalSettings::SAVE_FILE_EXTENSIONS.isEmpty())
+				fileName += tr(".") + GlobalSettings::SAVE_FILE_EXTENSIONS[0];
 		}
 		
 		QFile file (fileName);
 
 		if (!file.open(QFile::WriteOnly | QFile::Text)) 
 		{
-			QMessageBox::warning(this, (PROJECTNAME + tr(" files")),
+			QMessageBox::warning(this, (GlobalSettings::PROJECTNAME + tr(" files")),
 				tr("Cannot write file %1:\n%2.")
 				.arg(fileName)
 				.arg(file.errorString()));
@@ -630,7 +646,7 @@ namespace Tinkercell
 			QFileDialog::getOpenFileNames(this, 
 			tr("Open File(s)"),
 			dir,
-			(PROJECTNAME + tr(" files (*.") + OPEN_FILE_EXTENSIONS.join(tr(" *.")) + tr(")")));
+			(GlobalSettings::PROJECTNAME + tr(" files (*.") + GlobalSettings::OPEN_FILE_EXTENSIONS.join(tr(" *.")) + tr(")")));
 		for (int i=0; i < fileNames.size(); ++i)
 			if (!fileNames[i].isEmpty())
 				open(fileNames[i]);
@@ -1363,7 +1379,7 @@ namespace Tinkercell
 			s->release();
 	}
 
-	void MainWindow::RegisterDataTypes()
+	void GlobalSettings::RegisterDataTypes()
 	{
 		//register new signal/slot data types
 		qRegisterMetaType< QList<QGraphicsItem*> >("QList<QGraphicsItem*>");
@@ -1406,7 +1422,6 @@ namespace Tinkercell
 
 		qRegisterMetaType< MatrixInputFunction >("MatrixInputFunction");
 
-
 		qRegisterMetaType< tc_matrix >("tc_matrix");
 		qRegisterMetaType< tc_table >("tc_table");
 		qRegisterMetaType< tc_strings >("tc_strings");
@@ -1444,27 +1459,14 @@ namespace Tinkercell
 		return QPair< QList<ItemHandle*>, QList<QGraphicsItem*> >(items, gitems);
 	}
 	
-	/*!\brief enable history window -- defaults to true*/
-	bool MainWindow::ENABLE_HISTORY_WINDOW = true;
-		
-	/*!\brief enable console window -- defaults to true*/
-	bool MainWindow::ENABLE_CONSOLE_WINDOW = true;
-		
-	/*!\brief enable plot2d, plot3d, and gnuplot -- defaults to false*/
-	bool MainWindow::ENABLE_GRAPHING_TOOLS = false;
-		
-	/*!\brief enable coding window and interpreters -- defaults to false*/
-	bool MainWindow::ENABLE_CODING_TOOLS = false;
-		
-	/*!\brief enable alignment and other basic GUI -- defaults to true*/
-	bool MainWindow::ENABLE_ALIGNMENT_TOOL = true;
-		
-	/*!\brief enable python interpreter -- defaults to false*/
-	bool MainWindow::ENABLE_PYTHON = false;
-		
-	/*!\brief enable octave interpreter -- defaults to false*/
-	bool MainWindow::ENABLE_OCTAVE = false;
-		
-	/*!\brief enable loading and saving -- defaults to true*/
-	bool MainWindow::ENABLE_LOADSAVE_TOOL = true;
+	bool GlobalSettings::ENABLE_HISTORY_WINDOW = true;
+	bool GlobalSettings::ENABLE_CONSOLE_WINDOW = true;
+	bool GlobalSettings::ENABLE_GRAPHING_TOOLS = false;
+	bool GlobalSettings::ENABLE_CODING_TOOLS = false;
+	bool GlobalSettings::ENABLE_ALIGNMENT_TOOL = true;
+	bool GlobalSettings::ENABLE_PYTHON = false;
+	bool GlobalSettings::ENABLE_OCTAVE = false;
+	bool GlobalSettings::ENABLE_RUBY = false;
+	bool GlobalSettings::ENABLE_LOADSAVE_TOOL = true;
 }
+

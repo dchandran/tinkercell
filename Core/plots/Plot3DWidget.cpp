@@ -13,6 +13,7 @@
 #include <QSettings>
 #include "ConsoleWindow.h"
 #include "Plot3DWidget.h"
+#include "GlobalSettings.h"
 
 namespace Tinkercell
 {
@@ -331,7 +332,7 @@ namespace Tinkercell
 	{
 		QString fileName =
 			QFileDialog::getSaveFileName(this, tr("Print to File"),
-                                          MainWindow::homeDir(),
+                                          GlobalSettings::homeDir(),
                                           tr("PS Files (*.ps)"));
 
 		if (fileName.isEmpty() || fileName.isNull()) return;

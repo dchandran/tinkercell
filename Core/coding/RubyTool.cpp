@@ -22,6 +22,7 @@
 #include "TextGraphicsItem.h"
 #include "RubyTool.h"
 #include <QtDebug>
+#include "GlobalSettings.h"
 
 namespace Tinkercell
 {
@@ -58,7 +59,7 @@ namespace Tinkercell
 		QFileInfoList list = dir.entryInfoList();
 
 		QString appDir = QCoreApplication::applicationDirPath();
-		QString homeDir = MainWindow::homeDir();		
+		QString homeDir = GlobalSettings::homeDir();		
 		
 		for (int i = 0; i < list.size(); ++i)
 		{
@@ -230,8 +231,8 @@ namespace Tinkercell
                 QString appDir = QCoreApplication::applicationDirPath();
 
                 QString name[] = {
-				  MainWindow::tempDir() + tr("/ruby"),
-                  MainWindow::homeDir() + tr("/ruby"),
+				  GlobalSettings::tempDir() + tr("/ruby"),
+                  GlobalSettings::homeDir() + tr("/ruby"),
                   QDir::currentPath() + tr("/ruby"),
                   appDir + tr("/ruby")
                };
@@ -392,7 +393,7 @@ namespace Tinkercell
 		}
 		
 		QString appDir = QCoreApplication::applicationDirPath();
-		QString homeDir = MainWindow::homeDir();
+		QString homeDir = GlobalSettings::homeDir();
 		
 		QString icon = icon0;
 		
@@ -460,10 +461,10 @@ namespace Tinkercell
         {
             QString appDir = QCoreApplication::applicationDirPath();
 
-            QString name[] = {	MainWindow::homeDir() + tr("/") + filename,
-                                MainWindow::homeDir() + tr("/ruby/") + filename,
-								MainWindow::tempDir() + tr("/") + filename,
-                                MainWindow::tempDir() + tr("/ruby/") + filename,
+            QString name[] = {	GlobalSettings::homeDir() + tr("/") + filename,
+                                GlobalSettings::homeDir() + tr("/ruby/") + filename,
+								GlobalSettings::tempDir() + tr("/") + filename,
+                                GlobalSettings::tempDir() + tr("/ruby/") + filename,
                                 filename,
                                 QDir::currentPath() + tr("/") + filename,
                                 appDir + tr("/ruby/") + filename ,

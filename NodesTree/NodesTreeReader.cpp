@@ -12,6 +12,7 @@
 #include <QColor>
 #include "MainWindow.h"
 #include "NodesTreeReader.h"
+#include "GlobalSettings.h"
 
 namespace Tinkercell
 {
@@ -195,7 +196,7 @@ namespace Tinkercell
                readNext();
 
                //node file
-               QString homeDir = MainWindow::homeDir();
+               QString homeDir = GlobalSettings::homeDir();
                QString appDir = QCoreApplication::applicationDirPath();
 
                QString iconFile = tree->iconFile(node->name());

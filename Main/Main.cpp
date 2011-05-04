@@ -8,6 +8,7 @@
  and loads a list of default plugins.
 
 ****************************************************************************/
+#include "GlobalSettings.h"
 #include "BasicInformationTool.h"
 #include "StoichiometryTool.h"
 #include "FunctionDeclarationsTool.h"
@@ -58,18 +59,19 @@ int main(int argc, char *argv[])
     (must be done before creating MainWindow)
     ******************************************/
 
-	MainWindow::ENABLE_HISTORY_WINDOW = true;
-	MainWindow::ENABLE_CONSOLE_WINDOW = true;
-	MainWindow::ENABLE_GRAPHING_TOOLS = true;
-	MainWindow::ENABLE_CODING_TOOLS = true;
-	MainWindow::ENABLE_ALIGNMENT_TOOL = true;
-	MainWindow::ENABLE_PYTHON = true;
-	MainWindow::ENABLE_OCTAVE = true;
-	MainWindow::ENABLE_LOADSAVE_TOOL = true;
+	GlobalSettings::ENABLE_HISTORY_WINDOW = true;
+	GlobalSettings::ENABLE_CONSOLE_WINDOW = true;
+	GlobalSettings::ENABLE_GRAPHING_TOOLS = true;
+	GlobalSettings::ENABLE_CODING_TOOLS = true;
+	GlobalSettings::ENABLE_ALIGNMENT_TOOL = true;
+	GlobalSettings::ENABLE_PYTHON = true;
+	GlobalSettings::ENABLE_RUBY = true;
+	GlobalSettings::ENABLE_OCTAVE = true;
+	GlobalSettings::ENABLE_LOADSAVE_TOOL = true;
     
-    MainWindow::PROJECTWEBSITE = QObject::tr("www.tinkercell.com");
-    MainWindow::ORGANIZATIONNAME = QObject::tr("TinkerCell");
-    MainWindow::PROJECTNAME = QObject::tr("TinkerCell");
+    GlobalSettings::PROJECTWEBSITE = QObject::tr("www.tinkercell.com");
+    GlobalSettings::ORGANIZATIONNAME = QObject::tr("TinkerCell");
+    GlobalSettings::PROJECTNAME = QObject::tr("TinkerCell");
     ConsoleWindow::Prompt = QObject::tr(">");	
 	ConsoleWindow::BackgroundColor = QColor("#555555");
 	
@@ -90,19 +92,20 @@ int main(int argc, char *argv[])
     
     // "lite" modes
   #ifdef TINKERCELL_PARTS_ONLY
-		MainWindow::ENABLE_HISTORY_WINDOW = false;
-		MainWindow::ENABLE_CONSOLE_WINDOW = false;
-		MainWindow::ENABLE_GRAPHING_TOOLS = false;
-		MainWindow::ENABLE_CODING_TOOLS = false;
-		MainWindow::ENABLE_PYTHON = false;
-		MainWindow::ENABLE_OCTAVE = false;
-  	    MainWindow mainWindow(true, false, false);
-	    MainWindow::PROGRAM_MODE = QString("parts-only");
+		GlobalSettings::ENABLE_HISTORY_WINDOW = false;
+		GlobalSettings::ENABLE_CONSOLE_WINDOW = false;
+		GlobalSettings::ENABLE_GRAPHING_TOOLS = false;
+		GlobalSettings::ENABLE_CODING_TOOLS = false;
+		GlobalSettings::ENABLE_PYTHON = false;
+		GlobalSettings::ENABLE_OCTAVE = false;
+		GlobalSettings::ENABLE_RUBY = false;
+  	    GlobalSettings mainWindow(true, false, false);
+	    GlobalSettings::PROGRAM_MODE = QString("parts-only");
   #else
   #ifdef TINKERCELL_TEXT_ONLY
-		MainWindow::ENABLE_HISTORY_WINDOW = false;
-   	   MainWindow mainWindow(false, true, true);
- 	   MainWindow::PROGRAM_MODE = QString("text-only");
+		GlobalSettings::ENABLE_HISTORY_WINDOW = false;
+ 	    GlobalSettings::PROGRAM_MODE = QString("text-only");
+   	    MainWindow mainWindow(false, true, true);
   #else
     	MainWindow mainWindow;
   #endif
@@ -167,7 +170,7 @@ int main(int argc, char *argv[])
     mainWindow.settingsMenu->addMenu(&menu);
 	mainWindow.setDockOptions(QMainWindow::AnimatedDocks|QMainWindow::AllowNestedDocks);
 
-    QString home = MainWindow::homeDir();
+    QString home = GlobalSettings::homeDir();
 
     LoadPluginsFromDir(appDir + QString("/") + QString(TINKERCELL_CPP_PLUGINS_FOLDER),&mainWindow, &splash);
 	LoadPluginsFromDir(home + QString("/") + QString(TINKERCELL_CPP_PLUGINS_FOLDER),&mainWindow, &splash);

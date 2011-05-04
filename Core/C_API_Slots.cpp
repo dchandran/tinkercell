@@ -19,6 +19,7 @@
 #include "AbstractInputWindow.h"
 #include "TextParser.h"
 #include "UndoCommands.h"
+#include "GlobalSettings.h"
 
 namespace Tinkercell
 {
@@ -393,8 +394,8 @@ namespace Tinkercell
 		QString appDir = QCoreApplication::applicationDirPath();
 
 		QString name[] = {
-			MainWindow::tempDir() + tr("/") + filename,
-			MainWindow::homeDir() + tr("/") + filename,
+			GlobalSettings::tempDir() + tr("/") + filename,
+			GlobalSettings::homeDir() + tr("/") + filename,
 			filename,
 			QDir::currentPath() + tr("/") + filename,
 			appDir + tr("/") + filename };
@@ -549,7 +550,7 @@ namespace Tinkercell
 
 	void C_API_Slots::homeDir(QSemaphore* s, QString * dir)
 	{
-		QString homeDir = MainWindow::homeDir();
+		QString homeDir = GlobalSettings::homeDir();
 		if (dir)
 			(*dir) = homeDir;
 		if (s)

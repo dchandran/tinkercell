@@ -99,7 +99,7 @@ int main(int argc, char *argv[])
 		GlobalSettings::ENABLE_PYTHON = false;
 		GlobalSettings::ENABLE_OCTAVE = false;
 		GlobalSettings::ENABLE_RUBY = false;
-  	    GlobalSettings mainWindow(true, false, false);
+  	    MainWindow mainWindow(true, false, false);
 	    GlobalSettings::PROGRAM_MODE = QString("parts-only");
   #else
   #ifdef TINKERCELL_TEXT_ONLY

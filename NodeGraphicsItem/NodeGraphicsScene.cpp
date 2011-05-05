@@ -189,6 +189,15 @@ void DrawScene::keyPressEvent (QKeyEvent * event)
 	}
 }
 
+void DrawScene::setCurrentPoint(QPointF pos)
+{
+	if (selectedItem)
+	{
+		selectedItem->setPos(pos);
+		node.refresh();
+	}
+}
+
 /*! \brief move selected control point. If control is held, adjusts the point */
 void DrawScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
@@ -199,6 +208,7 @@ void DrawScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
 		QPointF change = QPointF(point1.x()-point0.x(),point1.y()-point0.y());
 		
 		selectedItem->moveBy(change.x(),change.y());
+		emit showCurrentPoint(selectedItem->scenePos());
 		
 		if (mouseEvent->modifiers() == Qt::ControlModifier && node.controlPoints.size() > 0)
 		{
@@ -231,36 +241,40 @@ void DrawScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
 	//selectedItem = 0;
 	NodeGraphicsItem::Shape tempShape;
-	if (selectedItem && mode == 7 && typeid(*selectedItem) == typeid(tempShape))
+	if (selectedItem) 
 	{
-		QPointF point = mouseEvent->scenePos();	
+		emit showCurrentPoint(selectedItem->scenePos());
+		if (mode == 7 && typeid(*selectedItem) == typeid(tempShape))
+		{
+			QPointF point = mouseEvent->scenePos();	
 		
-		colorPt2 = ((NodeGraphicsItem::Shape*)(selectedItem))->mapFromScene(point);
+			colorPt2 = ((NodeGraphicsItem::Shape*)(selectedItem))->mapFromScene(point);
 		
-		if (fillType == 0)
-		{
-			QLinearGradient gradient(colorPt1,colorPt2);
-			gradient.setColorAt(0,color1);
-			gradient.setColorAt(1,color2);
-			//qDebug() << color1.alpha();
-			((NodeGraphicsItem::Shape*)(selectedItem))->setBrush(gradient);
-			((NodeGraphicsItem::Shape*)(selectedItem))->gradientPoints.first = colorPt1;
-			((NodeGraphicsItem::Shape*)(selectedItem))->gradientPoints.second = colorPt2;
-		}
-		else
-		if (fillType == 1)
-		{
-			QRadialGradient gradient(colorPt1,sqrt( (colorPt2.y()-colorPt1.y())*(colorPt2.y()-colorPt1.y()) + 
-													(colorPt2.x()-colorPt1.x())*(colorPt2.x()-colorPt1.x())));
-			gradient.setColorAt(0,color1);
-			gradient.setColorAt(1,color2);
-			((NodeGraphicsItem::Shape*)(selectedItem))->setBrush(gradient);
-			((NodeGraphicsItem::Shape*)(selectedItem))->gradientPoints.first = colorPt1;
-			((NodeGraphicsItem::Shape*)(selectedItem))->gradientPoints.second = colorPt2;
-		}
-		else
-		{
-			((NodeGraphicsItem::Shape*)(selectedItem))->setBrush(QBrush(color1));
+			if (fillType == 0)
+			{
+				QLinearGradient gradient(colorPt1,colorPt2);
+				gradient.setColorAt(0,color1);
+				gradient.setColorAt(1,color2);
+				//qDebug() << color1.alpha();
+				((NodeGraphicsItem::Shape*)(selectedItem))->setBrush(gradient);
+				((NodeGraphicsItem::Shape*)(selectedItem))->gradientPoints.first = colorPt1;
+				((NodeGraphicsItem::Shape*)(selectedItem))->gradientPoints.second = colorPt2;
+			}
+			else
+			if (fillType == 1)
+			{
+				QRadialGradient gradient(colorPt1,sqrt( (colorPt2.y()-colorPt1.y())*(colorPt2.y()-colorPt1.y()) + 
+														(colorPt2.x()-colorPt1.x())*(colorPt2.x()-colorPt1.x())));
+				gradient.setColorAt(0,color1);
+				gradient.setColorAt(1,color2);
+				((NodeGraphicsItem::Shape*)(selectedItem))->setBrush(gradient);
+				((NodeGraphicsItem::Shape*)(selectedItem))->gradientPoints.first = colorPt1;
+				((NodeGraphicsItem::Shape*)(selectedItem))->gradientPoints.second = colorPt2;
+			}
+			else
+			{
+				((NodeGraphicsItem::Shape*)(selectedItem))->setBrush(QBrush(color1));
+			}
 		}
 	}
 }

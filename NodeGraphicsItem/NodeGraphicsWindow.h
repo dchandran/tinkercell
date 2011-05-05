@@ -63,9 +63,15 @@ public slots:
 	void newFile();
 	void openDocumentation();
 	
+	void showCurrentPoint(QPointF);
+
+private slots:	
+	void positionChanged(double);
+	
 signals:
 	void saved();
 	void exited();
+	void setCurrentPoint(QPointF);
 	
 protected:
 	void keyPressEvent ( QKeyEvent * );
@@ -80,6 +86,7 @@ private:
 	QPushButton * colorButtons[2];
 	
 	QWidget* makeToolBox();
+	QWidget* makePositionBox();
 	
 	QIcon paintShape(int type, int linewdth);
 	int alpha;
@@ -92,7 +99,7 @@ private:
 	
 	QLineEdit name;
 	
-	QDoubleSpinBox height,width;
+	QDoubleSpinBox height,width, xpos, ypos;
 };
 
 }

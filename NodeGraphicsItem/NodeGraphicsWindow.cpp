@@ -34,10 +34,17 @@
 		
 		QSplitter * splitter = new QSplitter;
 		QWidget * toolBox = makeToolBox();
+		QWidget * positionBox = makePositionBox();
 		QScrollArea * scrollArea = new QScrollArea;
 		scrollArea->setWidget(toolBox);
 		toolBox->setMaximumWidth(150);	
-		splitter->addWidget(scrollArea);
+		
+		QWidget * widget = new QWidget;
+		QVBoxLayout * sideLayout = new QVBoxLayout;
+		sideLayout->addWidget(scrollArea,10);
+		sideLayout->addWidget(positionBox,0);
+		widget->setLayout(sideLayout);
+		splitter->addWidget(widget);
 		
 		graphicsView.setScene(&drawScene);
 		graphicsView.setRenderHint(QPainter::Antialiasing);
@@ -55,6 +62,9 @@
 		settings.beginGroup("MainWindow");
 		previousFileName = settings.value("previousFileName", tr("")).toString();
 		settings.endGroup();
+		
+		connect(&drawScene, SIGNAL(showCurrentPoint(QPointF)), this, SLOT(showCurrentPoint(QPointF)));
+		connect(this, SIGNAL(setCurrentPoint(QPointF)), &drawScene, SLOT(setCurrentPoint(QPointF)));
 	}
 	
 	void NodeImageDesigner::MainWindow::sizeChanged(double)
@@ -414,6 +424,44 @@
 		}
 		else
 			setCursor(Qt::ArrowCursor);			
+	}
+	
+	QWidget* NodeImageDesigner::MainWindow::makePositionBox()
+	{
+		QGroupBox * groupbox = new QGroupBox(" selected point (x,y) ");
+		QHBoxLayout * layout = new QHBoxLayout;
+		layout->addWidget(&xpos);
+		layout->addWidget(&ypos);
+		xpos.setMaximumWidth(80);
+		ypos.setMaximumWidth(80);
+		connect(&xpos,SIGNAL(valueChanged(double)),this,SLOT(positionChanged(double)));
+		connect(&ypos,SIGNAL(valueChanged(double)),this,SLOT(positionChanged(double)));
+		
+		xpos.setRange(-1E32,1E32);
+		ypos.setRange(-1E32,1E32);
+		
+		groupbox->setLayout(layout);
+		return groupbox;
+	}
+	
+	void NodeImageDesigner::MainWindow::positionChanged(double)
+	{
+		double x = xpos.value(), 
+					y = ypos.value();
+		
+		emit setCurrentPoint(QPointF(x,y));
+	}
+	
+	void NodeImageDesigner::MainWindow::showCurrentPoint(QPointF p)
+	{
+		disconnect(&xpos,SIGNAL(valueChanged(double)),this,SLOT(positionChanged(double)));
+		disconnect(&ypos,SIGNAL(valueChanged(double)),this,SLOT(positionChanged(double)));
+		
+		xpos.setValue(p.x());
+		ypos.setValue(p.y());
+		
+		connect(&xpos,SIGNAL(valueChanged(double)),this,SLOT(positionChanged(double)));
+		connect(&ypos,SIGNAL(valueChanged(double)),this,SLOT(positionChanged(double)));
 	}
 
 	QWidget* NodeImageDesigner::MainWindow::makeToolBox()

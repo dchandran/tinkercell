@@ -64,6 +64,12 @@ public:
 	int fillType;
 
 	~DrawScene();
+
+signals:
+	void showCurrentPoint(QPointF);
+
+public slots:
+	void setCurrentPoint(QPointF);
 	
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent);

@@ -751,14 +751,37 @@ namespace Tinkercell
 			
 			MainWindow::previousFileName = fileName;			
 			MainWindow::previousFileName.remove(QRegExp(tr("\\.*")));
-
-			//QPrinter printer(QPrinter::HighResolution);
-			QPrinter printer(QPrinter::ScreenResolution);
-			printer.setOutputFormat(QPrinter::PdfFormat);
-			printer.setOrientation(QPrinter::Landscape);
 			
-			printer.setOutputFileName(fileName);
-			dataPlot->print(printer);
+			if (fileName.endsWith(tr("pdf"),Qt::CaseInsensitive))
+			{
+				qreal w = 360;
+				qreal h = w * 3.0/4.0;
+				QPrinter printer(QPrinter::HighResolution);
+				printer.setOutputFormat(QPrinter::PdfFormat);
+				printer.setOrientation(QPrinter::Landscape);
+				printer.setPaperSize(QSizeF( w , h ),QPrinter::Millimeter);
+				printer.setOutputFileName(fileName);
+				dataPlot->print(printer);
+			}
+			else
+			if (fileName.endsWith(tr("jpg"),Qt::CaseInsensitive) || fileName.endsWith(tr("jpeg"),Qt::CaseInsensitive))
+			{
+				qreal w = 1024;
+				qreal h = w * rect.width() / rect.height();
+				QPixmap printer(w,h);
+				printer.fill();
+				dataPlot->print(printer);
+				printer.save(fileName,"jpg");
+			}
+			else
+			{
+				qreal w = 1024;
+				qreal h = w * rect.width() / rect.height();
+				QPixmap printer(w,h);
+				printer.fill();
+				dataPlot->print(printer);
+				printer.save(fileName,"png");
+			}
 		}
 		else
 		if (type.toLower() == tr("copy image"))

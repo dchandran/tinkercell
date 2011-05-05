@@ -669,7 +669,7 @@ namespace Tinkercell
 	}
 
 	/*! \brief print the current scene*/
-	void MainWindow::printToFile()
+	void MainWindow::printToFile(const QString& filename, int w, int h)
 	{
 		GraphicsScene * scene = currentScene();
 		TextEditor * textEditor = 0;
@@ -678,24 +678,34 @@ namespace Tinkercell
 			textEditor = currentTextEditor();
 			if (!textEditor) return;
 		}
-
-		QString def = previousFileName;
-		def.replace(QRegExp("\\..*$"),tr(""));
 		
-		QString fileTypes;
-		if (scene)
-			fileTypes = tr("PDF Files (*.pdf *.PDF)");
+		QString fileName;
+		
+		if (!filename.isNull() && !filename.isEmpty())
+		{
+			fileName = filename;
+		}
 		else
-			fileTypes = tr("TXT Files(*.txt *.TXT)");
+		{
+			QString def = previousFileName;
+			def.replace(QRegExp("\\..*$"),tr(""));
 		
-		QString fileName =
-			QFileDialog::getSaveFileName(this, tr("Print to File"),
-			def,
-			fileTypes);
-		if (fileName.isEmpty())
-			return;
-
-		previousFileName = QFileInfo(fileName).absolutePath();
+			QString fileTypes;
+			if (scene)
+				fileTypes = tr("PDF Files (*.pdf *.PDF)");
+			else
+				fileTypes = tr("TXT Files(*.txt *.TXT)");
+		
+			fileName =
+				QFileDialog::getSaveFileName(this, tr("Print to File"),
+				def,
+				fileTypes);
+			
+			if (fileName.isEmpty())
+				return;
+			previousFileName = QFileInfo(fileName).absolutePath();
+		}
+		
 		if (textEditor)
 		{
 			QFile file(fileName);
@@ -706,33 +716,42 @@ namespace Tinkercell
 			}
 			return;
 		}
-
-		QPrinter printer(QPrinter::HighResolution);
-		//printer.setResolution(300);
-		printer.setOutputFormat(QPrinter::PdfFormat);
-		printer.setOrientation(QPrinter::Landscape);
 		
 		QRectF rect = scene->visibleRegion();
-		qreal w = 360;
-		QSizeF sz( w , w * rect.width() / rect.height() );
-		printer.setPaperSize(sz,QPrinter::Millimeter);
-		printer.setOutputFileName(fileName);
-		scene->print(&printer, rect);
-		
-		/*
-		QSvgGenerator printer;
-		printer.setFileName(fileName);
-		*/
 
-		/*QRectF viewport = scene->visibleRegion();
-		int w = 512;
-		int h = (int)(viewport.height() * w/viewport.width());
-		QPixmap printer(w,h);//,QImage::Format_ARGB32);
-		QPainter painter(&printer);
-		painter.setBackground(QBrush(Qt::white));
-		painter.setRenderHint(QPainter::Antialiasing);
-		scene->render(&painter, QRectF(), scene->itemsBoundingRect());
-		printer.save(fileName,"png");*/
+		if (!fileName.contains(tr(".")))
+			fileName = fileName + tr(".pdf");
+		
+		if (fileName.endsWith(tr("pdf"),Qt::CaseInsensitive))
+		{
+			if (w < 1) w = 360;
+			if (h < 1) h = w * rect.width() / rect.height();
+			QPrinter printer(QPrinter::HighResolution);
+			printer.setOutputFormat(QPrinter::PdfFormat);
+			printer.setOrientation(QPrinter::Landscape);
+			printer.setPaperSize(QSizeF( w , h ),QPrinter::Millimeter);
+			printer.setOutputFileName(fileName);
+			scene->print(&printer);
+		}
+		else
+		if (fileName.endsWith(tr("jpg"),Qt::CaseInsensitive) || fileName.endsWith(tr("jpeg"),Qt::CaseInsensitive))
+		{
+			if (w < 1) w = 1024;
+			if (h < 1) h = w * rect.width() / rect.height();
+			QPixmap printer(w,h);
+			printer.fill();
+			scene->print(&printer);
+			printer.save(fileName,"jpg");
+		}
+		else
+		{
+			if (w < 1) w = 1024;
+			if (h < 1) h = w * rect.width() / rect.height();
+			QPixmap printer(w,h);
+			printer.fill();
+			scene->print(&printer);
+			printer.save(fileName,"png");
+		}
 	}
 	
 	void MainWindow::addToViewMenu(QWidget * widget)

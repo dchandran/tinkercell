@@ -384,7 +384,7 @@ namespace Tinkercell
 		/*!
 		* \brief triggered when the print-to-file button is clicked. Calls current scene's print on a pdf file
 		*/
-		void printToFile();
+		void printToFile(const QString& filename=QString(), int w=0, int h=0);
 		/*!
 		* \brief sends a signal to all plugins telling them to exit their current processes.
 		*/

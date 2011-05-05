@@ -640,34 +640,8 @@ namespace Tinkercell
 
 	void C_API_Slots::screenshot(QSemaphore * s, const QString& fileName, int w, int h)
 	{
-		GraphicsScene * scene = currentScene();
-		if (scene)
-		{
-			if (fileName.endsWith(tr("pdf"),Qt::CaseInsensitive))
-			{
-				QPrinter printer(QPrinter::HighResolution);
-				printer.setOutputFormat(QPrinter::PdfFormat);
-				printer.setOrientation(QPrinter::Landscape);
-				printer.setPageSize(QPrinter::A4);
-				printer.setOutputFileName(fileName);
-				scene->print(&printer);
-			}
-			else
-			if (fileName.endsWith(tr("jpg"),Qt::CaseInsensitive) || fileName.endsWith(tr("jpeg"),Qt::CaseInsensitive))
-			{
-				QPixmap printer(w,h);
-				printer.fill();
-				scene->print(&printer);
-				printer.save(fileName,"jpg");
-			}
-			else
-			{
-				QPixmap printer(w,h);
-				printer.fill();
-				scene->print(&printer);
-				printer.save(fileName,"png");
-			}
-		}
+		if (mainWindow)
+			mainWindow->printToFile(fileName,w,h);
 		if (s)
 			s->release();
 	}

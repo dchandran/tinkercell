@@ -218,10 +218,13 @@ namespace Tinkercell
                 NodeGraphicsReader imageReader;
                 NodeGraphicsItem * nodeitem = new NodeGraphicsItem;
                 imageReader.readXml(nodeitem,nodeImageFile);
-                if (nodeitem && nodeitem->isValid() && node->graphicsItems.isEmpty())
+                if (nodeitem && nodeitem->isValid())
                 {
-                     nodeitem->normalize();
-                     node->graphicsItems += nodeitem;
+                	if (node->graphicsItems.isEmpty())
+                	{
+	                     nodeitem->normalize();
+    	                 node->graphicsItems += nodeitem;
+    	            }
                 }
                 else
                 {
@@ -229,7 +232,7 @@ namespace Tinkercell
                      
                      if (parentNode)
 					 {
-					 	   for (int i=0; i < node->graphicsItems.size(); ++i)
+					 	   for (int i=0; i < node->graphicsItems.size(); ++i)  //nodes from another parent
 		                     	delete node->graphicsItems[i];
 		                   node->graphicsItems.clear();
 						   for (int i=0; i < parentNode->graphicsItems.size(); ++i)

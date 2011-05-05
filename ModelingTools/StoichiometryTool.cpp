@@ -1123,6 +1123,7 @@ namespace Tinkercell
 		TextDataTable * sDataTable = 0;
 		ConnectionHandle * connection = 0;
 
+		bool allZero = true;
 		for (int i=0; i < connectionHandles.size(); ++i) //build combined matrix for all selected reactions
 		{
 			if (connectionHandles[i])
@@ -1148,6 +1149,7 @@ namespace Tinkercell
 							fixedSpecies << nodes[j]->fullName();
 				}
 				if ((connection = ConnectionHandle::cast(connectionHandles[i])) &&
+					connection->children.isEmpty() &&
 					connection->hasNumericalData(QObject::tr("Reactant stoichiometries")) &&
 					connection->hasNumericalData(QObject::tr("Product stoichiometries")) &&
 					connection->hasTextData(QObject::tr("Rate equations")))
@@ -1198,6 +1200,24 @@ namespace Tinkercell
 					for (int j=0; j < sDataTable->rows(); ++j) //get rates and reaction names
 					{
 						if (sDataTable->value(j,0).isEmpty()) continue;
+						allZero = true;
+						
+						for (int k=0; k < nDataTable1->rows(); ++k)
+							if (nDataTable1->value(k,j) != 0)
+							{	
+								allZero = false;
+								break;
+							}
+
+						if (allZero)
+							for (int k=0; k < nDataTable2->rows(); ++k)
+								if (nDataTable2->value(k,j) != 0)
+								{	
+									allZero = false;
+									break;
+								}
+
+						if (allZero) continue;
 
 						QString row;
 
@@ -1231,8 +1251,8 @@ namespace Tinkercell
 
 		int n = 0, j0;
 		for (int i=0; i < connectionHandles.size(); ++i) //build combined matrix for all selected reactions
-			if (connectionHandles[i] != 0 && connectionHandles[i]->children.isEmpty() &&
-
+			if (connectionHandles[i] != 0 && 
+					connectionHandles[i]->children.isEmpty() &&
 					connectionHandles[i]->hasNumericalData(QObject::tr("Reactant stoichiometries")) &&
 					connectionHandles[i]->hasNumericalData(QObject::tr("Product stoichiometries")) &&
 					connectionHandles[i]->hasTextData(QObject::tr("Rate equations")))
@@ -1244,8 +1264,27 @@ namespace Tinkercell
 					if ((nDataTable1->rows() < 1 && nDataTable2->rows() < 1) || sDataTable->rows() < 1)
 						continue;
 					
-					for (int k=0; k < nDataTable1->rows() || k < nDataTable2->rows(); ++k)
+					for (int k=0; k < sDataTable->rows(); ++k)
 					{
+						allZero = true;
+						
+						for (int j=0; j < nDataTable1->rows(); ++j)
+							if (nDataTable1->value(j,k) != 0)
+							{	
+								allZero = false;
+								break;
+							}
+
+						if (allZero)
+							for (int j=0; j < nDataTable2->rows(); ++j)
+								if (nDataTable2->value(j,k) != 0)
+								{	
+									allZero = false;
+									break;
+								}
+
+						if (allZero) continue;
+
 						if (nDataTable1->rows() > k)
 							for (int j=0; j < nDataTable1->columns(); ++j)     //get unique species
 							{
@@ -1428,6 +1467,7 @@ namespace Tinkercell
 
 		for (int i=0; i < connectionHandles.size(); ++i) //build combined matrix for all selected reactions
 		{
+			bool allZero;
 			if (connectionHandles[i])
 			{
 				if (!connectionHandles[i]->children.isEmpty())
@@ -1453,6 +1493,23 @@ namespace Tinkercell
 
 					for (int j=0; j < sDataTable->rows(); ++j) //get rates and reaction names
 					{
+						allZero = true;
+						for (int k=0; k < nDataTable1->rows(); ++k)
+							if (nDataTable1->value(k,j) != 0)
+							{	
+								allZero = false;
+								break;
+							}
+
+						if (allZero)
+							for (int k=0; k < nDataTable2->rows(); ++k)
+								if (nDataTable2->value(k,j) != 0)
+								{	
+									allZero = false;
+									break;
+								}
+
+						if (allZero) continue;
 						rates += sDataTable->value(j,0);
 					}
 				}

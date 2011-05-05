@@ -92,6 +92,7 @@ struct CopasiPtr
 	CCompartment * compartment;
 	CReaction * reaction;
 	CModelValue * param;
+	QString assignmentRule;
 };
 
 typedef QHash< QString, CopasiPtr > CQHash;
@@ -116,6 +117,36 @@ void copasi_end()
 		cRemoveModel(models[i]);
 
 	CCopasiRootContainer::destroy();
+}
+
+int cSetAssignmentRuleHelper(copasi_model , CMetab * , const char * );
+
+int copasi_cleanup_assignments(copasi_model model)
+{
+	CQHash * hash = (CQHash*)(model.qHash);
+	if (!hash) return 0;
+	
+	CMetab* pSpecies = 0;
+	QStringList names, assignments;
+	QStringList keys = hash->keys();		
+	QList<CopasiPtr> values = hash->values();
+
+	for (int i=0; i < keys.size() && i < values.size(); ++i)
+		if (values[i].species && !values[i].assignmentRule.isEmpty())
+		{
+			names << keys[i];
+			assignments << values[i].assignmentRule;
+		}
+
+	int retval = 1;
+	for (int i=0; i < values.size(); ++i)
+		if (values[i].species && !values[i].assignmentRule.isEmpty())
+		{
+			for (int j=0; j < names.size(); ++j)
+				substituteString(values[i].assignmentRule, names[j], assignments[j]);
+			retval = retval * cSetAssignmentRuleHelper(model, values[i].species, values[i].assignmentRule.toAscii().data());
+		}
+	return retval;
 }
 
 void cRemoveModel(copasi_model model)
@@ -412,7 +443,6 @@ int cSetAssignmentRule(copasi_model model, const char * name, const char * formu
 	CModel* pModel = (CModel*)(model.CopasiModelPtr);
 	CQHash * hash = (CQHash*)(model.qHash);
 	QString s(name);
-	CMetab* pSpecies = NULL;
 	int i;
 	bool retval=true;
 	
@@ -436,58 +466,70 @@ int cSetAssignmentRule(copasi_model model, const char * name, const char * formu
 			}
 		}
 	}
-	
-	if (hash->contains(s) && 
-		(pSpecies = hash->value(s).species))
+
+	if (hash->contains(s) && hash->value(s).species)
 	{
-		if (formula)
+		CopasiPtr & p = (*hash)[s];
+		p.assignmentRule = QString(formula);
+		return 1;
+	}
+	return 0;
+}
+
+int cSetAssignmentRuleHelper(copasi_model model, CMetab* pSpecies, const char * formula)
+{
+	CModel* pModel = (CModel*)(model.CopasiModelPtr);
+	CQHash * hash = (CQHash*)(model.qHash);
+	int i;
+	bool retval=true;
+	
+	if (!pModel || !hash || !pSpecies) return 0;
+	
+	if (formula)
+	{
+		pSpecies->setStatus(CModelEntity::ASSIGNMENT);
+		CFunction pFunction;
+		QString qFormula(formula);
+		if (pFunction.setInfix(std::string(formula)))
 		{
-			pSpecies->setStatus(CModelEntity::ASSIGNMENT);
-			CFunction pFunction;
-			QString qFormula(formula);
-			if (pFunction.setInfix(std::string(formula)))
+			CFunctionParameters& variables = pFunction.getVariables();
+			CFunctionParameter* pParam;
+
+			for (i=0; i < variables.size(); ++i)
 			{
-				CFunctionParameters& variables = pFunction.getVariables();
-				CFunctionParameter* pParam;
+				pParam = variables[i];
 
-				for (i=0; i < variables.size(); ++i)
+				QString s0(pParam->getObjectName().c_str());
+				
+				if (s0 == QString("time") || 
+					  s0 == QString("Time") ||
+			     	  s0 == QString("TIME"))
 				{
-					pParam = variables[i];
-
-					QString s0(pParam->getObjectName().c_str());
-					
-					if (s0 == QString("time") || 
-						  s0 == QString("Time") ||
-				     	  s0 == QString("TIME"))
+					QString s1("<");
+						s1 += QString(pModel->getValueReference()->getCN().c_str());
+						s1 += QString(">");
+					substituteString(qFormula,s0,s1);
+				}
+				else
+				{
+					if (!hash->contains(s0))
+						cSetGlobalParameter(model,pParam->getObjectName().c_str(),1.0);				
+					if (hash->contains(s0))
 					{
-						QString s1("<");
-							s1 += QString(pModel->getValueReference()->getCN().c_str());
+					 	QString s1("<");
+							s1 += hash->value(s0).name;
 							s1 += QString(">");
 						substituteString(qFormula,s0,s1);
 					}
-					else
-					{
-						if (!hash->contains(s0))
-							cSetGlobalParameter(model,pParam->getObjectName().c_str(),1.0);				
-						if (hash->contains(s0))
-						{
-						 	QString s1("<");
-								s1 += hash->value(s0).name;
-								s1 += QString(">");
-							substituteString(qFormula,s0,s1);
-						}
-					}
 				}
 			}
-
-			std::string sFormula( qFormula.toAscii().data() );
-			retval = retval & pSpecies->setExpression(sFormula);
 		}
-		else
-			pSpecies->setStatus(CModelEntity::REACTIONS);
+
+		std::string sFormula( qFormula.toAscii().data() );
+		retval = retval & pSpecies->setExpression(sFormula);
 	}
 	else
-		return 0;
+		pSpecies->setStatus(CModelEntity::REACTIONS);
 	
 	return (int)retval;
 }
@@ -859,6 +901,7 @@ void cCompileModel(copasi_model model)
 	CModel* pModel = (CModel*)(model.CopasiModelPtr);
 	
 	if (!pModel) return;
+	copasi_cleanup_assignments(model);
 	
 	CCopasiVectorNS < CCompartment > & compartments = pModel->getCompartments();
 	CCopasiVector< CMetab > & species = pModel->getMetabolites();

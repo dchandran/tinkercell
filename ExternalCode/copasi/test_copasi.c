@@ -179,19 +179,28 @@ copasi_model model3()
 {
 	copasi_model model = cCreateModel("M");
 	copasi_compartment DefaultCompartment;
-	copasi_reaction r0;
+	copasi_reaction r0,r1;
 	DefaultCompartment = cCreateCompartment(model,"DefaultCompartment",1);
-	cCreateSpecies(DefaultCompartment,"mol2",10);
-	cCreateSpecies(DefaultCompartment,"mol1",10);
-	cCreateSpecies(DefaultCompartment,"mol3",10);
-	cSetGlobalParameter(model,"dim1_k0",0.1);
-	r0 = cCreateReaction(model, "dim1");
-	cSetReactionRate(r0,"dim1_k0*mol2*mol1");
-	cAddReactant(r0,"mol2",1);
-	cAddReactant(r0,"mol1",1);
-	cAddProduct(r0,"mol3",1);
+	cCreateSpecies(DefaultCompartment,"pro2",0);
+	cCreateSpecies(DefaultCompartment,"cod1",1);
+	cCreateSpecies(DefaultCompartment,"as1",1);
+	cCreateSpecies(DefaultCompartment,"pro1",1);
+	cCreateSpecies(DefaultCompartment,"tf1",0);
+	cSetGlobalParameter(model,"pp1_degradation_rate",0.1);
+	cSetGlobalParameter(model,"pro1_strength",5);
+	cSetGlobalParameter(model,"ta1_Kd",1);
+	cSetGlobalParameter(model,"ta1_h",2);
+	cSetAssignmentRule(model, "as1","((1+((tf1/ta1_Kd)^ta1_h))-1)/((1+((tf1/ta1_Kd)^ta1_h)))");
+	cSetAssignmentRule(model, "cod1","pro1_strength * as1");
+	r0 = cCreateReaction(model, "pp1_v1");
+	cSetReactionRate(r0,"cod1");
+	cAddProduct(r0,"pro2",1);
+	r1 = cCreateReaction(model, "pp1_v2");
+	cSetReactionRate(r1,"pp1_degradation_rate*pro2");
+	cAddReactant(r1,"pro2",1);
 	return model;
 }
+
 
 
 

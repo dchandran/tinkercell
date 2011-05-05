@@ -767,7 +767,7 @@ namespace Tinkercell
 			if (fileName.endsWith(tr("jpg"),Qt::CaseInsensitive) || fileName.endsWith(tr("jpeg"),Qt::CaseInsensitive))
 			{
 				qreal w = 1024;
-				qreal h = w * rect.width() / rect.height();
+				qreal h = w * 3.0/4.0;
 				QPixmap printer(w,h);
 				printer.fill();
 				dataPlot->print(printer);
@@ -776,7 +776,7 @@ namespace Tinkercell
 			else
 			{
 				qreal w = 1024;
-				qreal h = w * rect.width() / rect.height();
+				qreal h = w * 3.0/4.0;
 				QPixmap printer(w,h);
 				printer.fill();
 				dataPlot->print(printer);

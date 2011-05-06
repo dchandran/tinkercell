@@ -726,7 +726,7 @@ namespace Tinkercell
 	void ConnectionInsertion::connectionSelected(ConnectionFamily * connectionFamily)
 	{
 		if ((selectedFamily ||
-			(mainWindow && mainWindow->currentScene()->useDefaultBehavior))
+			(mainWindow && mainWindow->currentScene()->useDefaultBehavior()))
 			&& connectionFamily && connectionsTree)
 		{
 			selectedFamily = connectionFamily;
@@ -737,7 +737,7 @@ namespace Tinkercell
 
 			if (mainWindow->currentScene())
 			{
-				mainWindow->currentScene()->useDefaultBehavior = false;
+				mainWindow->currentScene()->useDefaultBehavior(false);
 				mainWindow->currentScene()->clearSelection();
 			}
 		}
@@ -745,7 +745,7 @@ namespace Tinkercell
 
 	void ConnectionInsertion::itemsDropped(GraphicsScene * scene, const QString& family, const QPointF& point)
 	{
-		if (mainWindow && scene && scene->useDefaultBehavior && !selectedFamily && !family.isEmpty() && 
+		if (mainWindow && scene && scene->useDefaultBehavior() && !selectedFamily && !family.isEmpty() && 
 			connectionsTree && connectionsTree->getFamily(family))
 		{
 			selectedFamily = connectionsTree->getFamily(family);
@@ -1167,7 +1167,7 @@ namespace Tinkercell
 		if (arrows)
 		{
 			if (mainWindow->currentScene())
-				mainWindow->currentScene()->useDefaultBehavior = true;
+				mainWindow->currentScene()->useDefaultBehavior(true);
 		}
 	}
 

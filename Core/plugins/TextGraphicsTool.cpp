@@ -294,7 +294,7 @@ namespace Tinkercell
 		{
 			mainWindow->setCursor(Qt::ArrowCursor);
 			if (mainWindow && mainWindow->currentScene())
-				mainWindow->currentScene()->useDefaultBehavior = true;
+				mainWindow->currentScene()->useDefaultBehavior(true);
 			inserting = false;
 		}
 	}
@@ -345,7 +345,7 @@ namespace Tinkercell
 		{
 			mainWindow->sendEscapeSignal(this);
 			mainWindow->setCursor(Qt::IBeamCursor);
-			mainWindow->currentScene()->useDefaultBehavior = false;
+			mainWindow->currentScene()->useDefaultBehavior(false);
 			inserting = true;
 		}
 	}
@@ -449,7 +449,7 @@ namespace Tinkercell
 			targetItem->setTextCursor(c);
 
 			mainWindow->setCursor(Qt::ArrowCursor);
-			scene->useDefaultBehavior = true;
+			scene->useDefaultBehavior(true);
 			inserting = false;
 		}
 		else

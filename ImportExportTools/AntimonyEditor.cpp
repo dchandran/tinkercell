@@ -47,15 +47,45 @@ namespace Tinkercell
 		if (mainWindow)
 		{
 			mainWindow->addParser(this);
-			connect(mainWindow,SIGNAL(copyItems(GraphicsScene *, QList<QGraphicsItem*>&, QList<ItemHandle*>&)),this,SLOT(copyItems(GraphicsScene *, QList<QGraphicsItem*>&, QList<ItemHandle*>&)));
-			connect(mainWindow,SIGNAL(windowChanged(NetworkWindow*,NetworkWindow*)),this,SLOT(windowChanged(NetworkWindow*,NetworkWindow*)));
-			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
-			connect(mainWindow,SIGNAL(getItemsFromFile(QList<ItemHandle*>&, QList<QGraphicsItem*>&, const QString&,ItemHandle*)),this,SLOT(getItemsFromFile(QList<ItemHandle*>&, QList<QGraphicsItem*>&, const QString&,ItemHandle*)));
+
+			connect(mainWindow,SIGNAL(copyItems(GraphicsScene *, QList<QGraphicsItem*>&, QList<ItemHandle*>&)),
+						this,SLOT(copyItems(GraphicsScene *, QList<QGraphicsItem*>&, QList<ItemHandle*>&)));
+
+			connect(mainWindow,SIGNAL(windowChanged(NetworkWindow*,NetworkWindow*)),
+						this,SLOT(windowChanged(NetworkWindow*,NetworkWindow*)));
+			
+			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),
+						this,SLOT(toolLoaded(Tool*)));
+
+			connect(mainWindow,SIGNAL(getItemsFromFile(QList<ItemHandle*>&, QList<QGraphicsItem*>&, const QString&,ItemHandle*)),
+						this,SLOT(getItemsFromFile(QList<ItemHandle*>&, QList<QGraphicsItem*>&, const QString&,ItemHandle*)));
+
+			connect(mainWindow,SIGNAL(loadNetwork(const QString&)),this,SLOT(loadNetwork(const QString&)));
 
 			toolLoaded(0);
 
 		}
 		return false;
+	}
+	
+	void AntimonyEditor::loadNetwork(const QString& filename)
+	{
+		QFile file(filename);
+		
+		if (file.open(QFile::ReadOnly | QFile::Text))
+		{
+			QString modelString( file.readAll() );
+			file.close();
+			
+			TextEditor * editor = mainWindow->newTextEditor();
+			QList<ItemHandle*> itemsToInsert = parse(modelString, editor->globalHandle());
+	
+			if (!itemsToInsert.isEmpty())
+			{
+				editor->setText(getAntimonyString("__main"));
+				editor->setItems(itemsToInsert);
+			}
+		}
 	}
 
 	void AntimonyEditor::windowChanged(NetworkWindow*,NetworkWindow * window)
@@ -507,8 +537,6 @@ namespace Tinkercell
 			if (childHandles[j] && childHandles[j]->isA(tr("Module")))
 			{
 				s += tr("    ");
-
-
 				s += childHandles[j]->name;
 				s += tr(": ");
 				s += childHandles[j]->name;

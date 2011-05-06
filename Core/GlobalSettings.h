@@ -13,6 +13,7 @@
 namespace Tinkercell
 {
 	/*! \brief 
+	This class stores global variables such as project names, enables/disabled feature, etc.
 	Use the following static bools to enable or disable features:
 	ENABLE_HISTORY_WINDOW
 	ENABLE_CONSOLE_WINDOW

@@ -313,7 +313,7 @@ namespace Tinkercell
 
 	void CollisionDetection::itemsMoved(GraphicsScene *,const QList<QGraphicsItem*>& movingItems, const QList<QPointF>& distance)
 	{
-		if (nodeBelowCursor != 0 || connectionBelowCursor != 0)
+		if ((nodeBelowCursor != 0 || connectionBelowCursor != 0) && !NodeGraphicsItem::cast(movingItems).isEmpty())
 		{
 			if (nodeBelowCursor != 0 && !ToolGraphicsItem::cast(nodeBelowCursor->topLevelItem()))
 			{

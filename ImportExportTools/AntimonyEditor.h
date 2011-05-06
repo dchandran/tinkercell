@@ -111,6 +111,8 @@ namespace Tinkercell
 		void getTextVersion(const QList<ItemHandle*>&, QString*);
 		/*! \brief used to connect to modelSummaryTool*/
 		void toolLoaded(Tool*);
+		
+		void loadNetwork(const QString&);
 
 	private:
 		void connectTCFunctions();

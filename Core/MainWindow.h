@@ -32,6 +32,7 @@ One of the main roles of MainWindow is to serve as a signal/slot hub for Tools.
 #include <QHash>
 #include <QUndoCommand>
 #include <QToolBar>
+#include <QToolBox>
 #include <QUndoView>
 #include <QUndoStack>
 #include <QPrintDialog>
@@ -76,15 +77,7 @@ namespace Tinkercell
 	MainWindow is the parent container for all the other widgets in TinkerCell
 	The central widget in MainWindow is a tab widget. Each tab widget can hold
 	a GraphicsView or a TextEditor. One of the main roles of MainWindow is to serve as a signal/slot hub for Tools. 
-	Use the following static bools to enable or disable features:
-	ENABLE_HISTORY_WINDOW
-	ENABLE_CONSOLE_WINDOW
-	ENABLE_GRAPHING_TOOLS
-	ENABLE_CODING_TOOLS
-	ENABLE_ALIGNMENT_TOOL
-	ENABLE_PYTHON
-	ENABLE_OCTAVE
-	ENABLE_LOADSAVE_TOOL
+	\sa GlobalSettings
 	\ingroup core
 	*/
 	class TINKERCELLEXPORT MainWindow : public QMainWindow
@@ -101,15 +94,9 @@ namespace Tinkercell
 
 		/*! \brief this enum is used to determine how to place a widget when used in addToolWindow.
 		             DockWidget = tool window is placed into a dockable widget
-					 TabWidget = tool window is placed in an existing tab widget, if one exists
+					 TabWidget = tool window is placed in an existing tool widget, if one exists
 		*/
 		enum TOOL_WINDOW_OPTION { DockWidget , TabWidget };
-
-		/*! \brief the types of views for multiple documents
-		             TabView = tabbed documents
-					 WindowView = each documents in a separate subwindow
-		*/
-		enum VIEW_MODE { TabView , WindowView };
 		
 		/*! \brief the default option to use for tools (optional)*/
 		static TOOL_WINDOW_OPTION defaultToolWindowOption;
@@ -816,7 +803,7 @@ namespace Tinkercell
 		/*! \brief the list of all network windows*/
 		QList<NetworkHandle*> allNetworks;
 		/*! \brief the optional tool box that will only appear if one of the plug-ins uses the tab widget argument in the addToolWindow call*/
-		QTabWidget * toolsTabWidget;
+		QToolBox * toolsWidget;
 		/*! \brief history view, not the stack itself. The stack is stored within each NetworkHandle*/
 		HistoryWindow historyWindow;
 		/*! \brief keep pointer to last selected window. Used by windowChanged signal*/

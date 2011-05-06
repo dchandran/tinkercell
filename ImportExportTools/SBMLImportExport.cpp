@@ -93,7 +93,7 @@ bool SBMLImportExport::setMainWindow(MainWindow * main)
 
 	}
 	connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
-	connect(mainWindow,SIGNAL(loadNetwork(const QString&)),this,SLOT(loadNetwork(const QString&)));
+	//connect(mainWindow,SIGNAL(loadNetwork(const QString&)),this,SLOT(loadNetwork(const QString&)));
 	connect(main,SIGNAL(historyChanged(int)),this, SLOT(historyChanged(int)));
 	connect(main,SIGNAL(windowChanged(NetworkWindow*,NetworkWindow*)),this, SLOT(windowChanged(NetworkWindow*,NetworkWindow*)));
 	

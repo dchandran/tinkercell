@@ -21,7 +21,7 @@ CONFIGURE_FILE(
 		@ONLY
 	)
 
-MESSAGE(STATUS "To upload TinkerCell: source ${TINKERCELL_BINARY_DIR}/CreatePackage.sh")
+MESSAGE(STATUS "Source ${TINKERCELL_BINARY_DIR}/CreatePackage.sh to build the program, the installer, and upload it to the sourceforge site")
 	
 MESSAGE(STATUS "To run TinkerCell, source ${TINKERCELL_BINARY_DIR}/run_tinkercell.sh")	
 

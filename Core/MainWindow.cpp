@@ -15,7 +15,7 @@ The MainWindow also has its own signals, such as a toolLoaded, networkSaved, etc
 The MainWindow keeps a list of all plugins, and it is also responsible for loading plugins.
 
 ****************************************************************************/
-
+#include <iostream>
 #include <QLibrary>
 #include <QFileInfo>
 #include <QSettings>
@@ -229,7 +229,7 @@ namespace Tinkercell
 
 		consoleWindow = 0;
 		currentNetworkWindow = 0;
-		toolsTabWidget = 0;
+		toolsWidget = 0;
 		setAutoFillBackground(true);
 
 		initializeMenus(enableScene,enableText);
@@ -272,7 +272,7 @@ namespace Tinkercell
 		if (GlobalSettings::ENABLE_HISTORY_WINDOW)
 		{
 			historyWindow.setWindowTitle(tr("History"));
-			historyWindow.setWindowIcon(QIcon(tr(":/images/scroll.png")));
+			historyWindow.setWindowIcon(QIcon(tr(":/images/undo.png")));
 			addToolWindow(&historyWindow,MainWindow::defaultHistoryWindowOption,Qt::RightDockWidgetArea);
 		}
 
@@ -460,10 +460,9 @@ namespace Tinkercell
 				//emit escapeSignal(this);
 				if (window->scene)
 					if (oldWindow && oldWindow->scene)
-						window->scene->useDefaultBehavior = oldWindow->scene->useDefaultBehavior;
+						window->scene->useDefaultBehavior(oldWindow->scene->useDefaultBehavior());
 					else
-						window->scene->useDefaultBehavior = GraphicsScene::USE_DEFAULT_BEHAVIOR;				
-				
+						window->scene->useDefaultBehavior(GraphicsScene::USE_DEFAULT_BEHAVIOR);
 				emit windowChanged(oldWindow,window);
 			}
 		}
@@ -791,15 +790,15 @@ namespace Tinkercell
 
 		QDockWidget * dock = 0;
 
-		if (!toolsTabWidget) //create the tab widget for tools
+		if (!toolsWidget) //create the tab widget for tools
 		{
 			dock = new QDockWidget(tr("Tools Window"), this);
 			dock->setObjectName(tool->windowTitle());
-			toolsTabWidget = new QTabWidget;
-			toolsTabWidget->setTabPosition(QTabWidget::East);
-			toolsTabWidget->setMinimumWidth(300);
-			toolsTabWidget->setStyleSheet("QTabBar::tab {min-width: 5ex;}");
-			dock->setWidget(toolsTabWidget);
+			toolsWidget = new QToolBox;
+			//tabWidget->setTabPosition(QTabWidget::East);
+			//toolsWidget->setMinimumWidth(300);
+			//toolsWidget->setStyleSheet("QTabBar::tab {min-width: 5ex;}");
+			dock->setWidget(toolsWidget);
 			dock->setAllowedAreas(allowedAreas);
 			addDockWidget(initArea,dock);
 			if (inMenu && viewMenu)
@@ -807,11 +806,11 @@ namespace Tinkercell
 		}
 		else
 		{
-			dock = static_cast<QDockWidget*>(toolsTabWidget->parentWidget()); //safe?
+			dock = static_cast<QDockWidget*>(toolsWidget->parentWidget()); //safe?
 		}
 
-		toolsTabWidget->addTab(tool,tool->windowTitle()); //tool->windowIcon()
-		toolsTabWidget->setCurrentWidget(tool);
+		toolsWidget->addItem(tool,tool->windowIcon(),tool->windowTitle()); //tool->windowIcon()
+		toolsWidget->setCurrentWidget(tool);
 
 		return dock;
 	}
@@ -1139,6 +1138,7 @@ namespace Tinkercell
 
 	void MainWindow::closeEvent(QCloseEvent *event)
 	{
+		std::cout << "po\n";
 		bool b = true;
 		QList<NetworkHandle*> list = allNetworks;
 		currentNetworkWindow = 0;

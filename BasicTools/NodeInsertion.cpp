@@ -56,7 +56,7 @@ namespace Tinkercell
 	void NodeInsertion::nodeSelected(NodeFamily * nodeFamily)
 	{
 		if ((selectedNodeFamily ||
-			   (mainWindow && currentScene() && currentScene()->useDefaultBehavior))
+			   (mainWindow && currentScene() && currentScene()->useDefaultBehavior()))
 			&& nodeFamily && nodesTree)
 		{
 			selectedNodeFamily = nodeFamily;
@@ -65,7 +65,7 @@ namespace Tinkercell
 				nodeFamily = static_cast<NodeFamily*>(nodeFamily->parent());
 
 			if (mainWindow->currentScene())
-				mainWindow->currentScene()->useDefaultBehavior = false;
+				mainWindow->currentScene()->useDefaultBehavior(false);
 		}
 	}
 
@@ -222,7 +222,7 @@ namespace Tinkercell
 	
 	void NodeInsertion::itemsDropped(GraphicsScene * scene, const QString& family, const QPointF& point)
 	{
-		if (mainWindow && scene->useDefaultBehavior && !selectedNodeFamily && !family.isEmpty() && 
+		if (mainWindow && scene->useDefaultBehavior() && !selectedNodeFamily && !family.isEmpty() && 
 			nodesTree && nodesTree->getFamily(family))
 		{
 			selectedNodeFamily = nodesTree->getFamily(family);
@@ -274,13 +274,13 @@ namespace Tinkercell
 		if (setArrows)
 		{
 			if (mainWindow->currentScene())
-				mainWindow->currentScene()->useDefaultBehavior = true;
+				mainWindow->currentScene()->useDefaultBehavior(true);
 		}
 	}
 
 	void NodeInsertion::sceneRightClick(GraphicsScene * scene, QGraphicsItem*, QPointF, Qt::KeyboardModifiers)
 	{
-		if (scene && scene->useDefaultBehavior) return;
+		if (scene && scene->useDefaultBehavior()) return;
 		mainWindow->sendEscapeSignal(this);
 	}
 

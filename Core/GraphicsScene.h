@@ -106,7 +106,9 @@ namespace Tinkercell
 		/*! \brief same as network->globalHandle()*/
 		ItemHandle * globalHandle() const;
 		/*! \brief indicates whether this scene is free to perform actions*/
-		bool useDefaultBehavior;
+		virtual bool useDefaultBehavior() const;
+		/*! \brief indicates whether this scene is free to perform actions*/
+		virtual void useDefaultBehavior(bool);
 		/*!
 		* \brief the context menu that is shown during right-click event on selected graphical items.
 		Plugins can add new actions to this menu.
@@ -448,8 +450,9 @@ namespace Tinkercell
 		* \return void*/
 		void parentItemChanged(GraphicsScene * scene, const QList<QGraphicsItem*>& items, const QList<QGraphicsItem*>& parents);
 
-
 	protected:
+		/*! \brief indicates whether this scene is free to perform actions*/
+		bool _useDefaultBehavior;
 		/*! \brief grid size. If zero, then disabled*/
 		int gridSz;
 		/*! \brief topmost Z value*/

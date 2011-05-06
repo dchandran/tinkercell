@@ -57,7 +57,7 @@ namespace Tinkercell
 
 	void ModelSummaryTool::keyPressed(GraphicsScene* scene,QKeyEvent * keyEvent)
 	{
-		if (!keyEvent || keyEvent->modifiers() || !scene || !scene->useDefaultBehavior) return;
+		if (!keyEvent || keyEvent->modifiers() || !scene || !scene->useDefaultBehavior()) return;
 
 		QList<QGraphicsItem*> & selected = scene->selected();
 		
@@ -85,7 +85,7 @@ namespace Tinkercell
 	
 	void ModelSummaryTool::itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& items, QPointF , Qt::KeyboardModifiers)
 	{
-		if (!mainWindow || !scene || !scene->useDefaultBehavior || items.isEmpty()) return;
+		if (!mainWindow || !scene || !scene->useDefaultBehavior() || items.isEmpty()) return;
 		
 		if (isVisible())
 			updateTables();
@@ -114,7 +114,7 @@ namespace Tinkercell
 
 	void ModelSummaryTool::mouseDoubleClicked(GraphicsScene* scene, QPointF, QGraphicsItem* item, Qt::MouseButton, Qt::KeyboardModifiers modifiers)
 	{
-		if (!scene || !scene->useDefaultBehavior || !item || modifiers) return;
+		if (!scene || !scene->useDefaultBehavior() || !item || modifiers) return;
 
 		updateTables();
 		if (!tabWidget || itemHandles.isEmpty() || tabWidget->count() < 1) return;

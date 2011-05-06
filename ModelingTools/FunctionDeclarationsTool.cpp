@@ -117,7 +117,7 @@ namespace Tinkercell
 	
 	void AssignmentFunctionsTool::mouseMoved(GraphicsScene* scene, QGraphicsItem * hoverOverItem, QPointF , Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>& )
 	{
-		if (mainWindow && scene && scene->useDefaultBehavior && hoverOverItem && !TextGraphicsItem::cast(hoverOverItem) && snapshotToolTip)
+		if (mainWindow && scene && scene->useDefaultBehavior() && hoverOverItem && !TextGraphicsItem::cast(hoverOverItem) && snapshotToolTip)
 		{
 			ItemHandle * h = getHandle(hoverOverItem);
 			

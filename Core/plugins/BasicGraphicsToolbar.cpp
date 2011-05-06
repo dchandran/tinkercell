@@ -441,13 +441,13 @@ namespace Tinkercell
 	{
 		if (currentScene())
 		{
-			currentScene()->useDefaultBehavior = false;
+			currentScene()->useDefaultBehavior(false);
 			mainWindow->sendEscapeSignal(this);
 
 			mainWindow->setCursor(QCursor(QPixmap(tr(":/images/zoomin.png")).scaled(25,25)));
 
 			mode = zoom;
-			currentScene()->useDefaultBehavior = false;
+			currentScene()->useDefaultBehavior(false);
 			//currentScene()->zoomIn();
 		}
 		else
@@ -461,11 +461,11 @@ namespace Tinkercell
 	{
 		if (currentScene())
 		{
-			/*currentScene()->useDefaultBehavior = false;
+			/*currentScene()->useDefaultBehavior(false);
 			mainWindow->sendEscapeSignal(this);
 			mainWindow->setCursor(QCursor(QPixmap(tr(":/images/zoomout.png")).scaled(25,25)));
 			mode = unzoom;
-			currentScene()->useDefaultBehavior = false;*/
+			currentScene()->useDefaultBehavior(false);;*/
 			currentScene()->zoomOut();
 		}
 		else
@@ -478,10 +478,9 @@ namespace Tinkercell
 	void BasicGraphicsToolbar::changeBrush()
 	{
 		if (mainWindow != 0 && mainWindow->currentScene() != 0)
-			//&& (mode != none || mainWindow->currentScene()->useDefaultBehavior))
 		{
 			mainWindow->sendEscapeSignal(this);
-			mainWindow->currentScene()->useDefaultBehavior = false;
+			mainWindow->currentScene()->useDefaultBehavior(false);
 			mainWindow->setCursor(QCursor(QPixmap(tr(":/images/target.png")).scaled(25,25)));
 			if (gradientType == QGradient::NoGradient)
 				mode = this->brush;
@@ -493,10 +492,9 @@ namespace Tinkercell
 	void BasicGraphicsToolbar::changePen()
 	{
 		if (mainWindow != 0 && mainWindow->currentScene() != 0)
-			//&& (mode != none || mainWindow->currentScene()->useDefaultBehavior))
 		{
 			mainWindow->sendEscapeSignal(this);
-			mainWindow->currentScene()->useDefaultBehavior = false;
+			mainWindow->currentScene()->useDefaultBehavior(false);
 			mainWindow->setCursor(QCursor(QPixmap(tr(":/images/target.png")).scaled(25,25)));
 			mode = this->pen;
 		}
@@ -505,9 +503,9 @@ namespace Tinkercell
 	void BasicGraphicsToolbar::selectBrushColor1()
 	{
 		if (!mainWindow || !mainWindow->currentScene()) return;
-		bool b = mainWindow->currentScene()->useDefaultBehavior;
+		bool b = mainWindow->currentScene()->useDefaultBehavior();
 		QColor color = QColorDialog::getColor(brushColor1);
-		mainWindow->currentScene()->useDefaultBehavior = b;
+		mainWindow->currentScene()->useDefaultBehavior(b);
 		if (color.isValid())
 		{
 			int a = brushColor1.alpha();
@@ -525,10 +523,10 @@ namespace Tinkercell
 	void BasicGraphicsToolbar::selectBrushAlpha1()
 	{
 		if (!mainWindow || !mainWindow->currentScene()) return;
-		bool b = mainWindow->currentScene()->useDefaultBehavior;
+		bool b = mainWindow->currentScene()->useDefaultBehavior();
 		bool ok;
 		int d = QInputDialog::getInteger(mainWindow,tr("Transparency for Color 1"),tr("select transparency (0 = completely transparent)"),brushColor1.alpha(),0,255,1,&ok);
-		mainWindow->currentScene()->useDefaultBehavior = b;
+		mainWindow->currentScene()->useDefaultBehavior(b);
 		if (ok)
 		{
 			brushColor1.setAlpha(d);
@@ -544,9 +542,9 @@ namespace Tinkercell
 	void BasicGraphicsToolbar::selectBrushColor2()
 	{
 		if (!mainWindow || !mainWindow->currentScene()) return;
-		bool b = mainWindow->currentScene()->useDefaultBehavior;
+		bool b = mainWindow->currentScene()->useDefaultBehavior();
 		QColor color = QColorDialog::getColor(brushColor2);
-		mainWindow->currentScene()->useDefaultBehavior = b;
+		mainWindow->currentScene()->useDefaultBehavior(b);
 		if (color.isValid())
 		{
 			int a = brushColor2.alpha();
@@ -564,10 +562,10 @@ namespace Tinkercell
 	void BasicGraphicsToolbar::selectBrushAlpha2()
 	{
 		if (!mainWindow || !mainWindow->currentScene()) return;
-		bool b = mainWindow->currentScene()->useDefaultBehavior;
+		bool b = mainWindow->currentScene()->useDefaultBehavior();
 		bool ok;
 		int d = QInputDialog::getInteger(mainWindow,tr("Transparency for Color 2"),tr("select transparency (0 = completely transparent)"),brushColor2.alpha(),0,255,1,&ok);
-		mainWindow->currentScene()->useDefaultBehavior = b;
+		mainWindow->currentScene()->useDefaultBehavior(b);
 		if (ok)
 		{
 			brushColor2.setAlpha(d);
@@ -699,7 +697,7 @@ namespace Tinkercell
 			if (zoomRect.scene() == scene)
 				scene->removeItem(&zoomRect);
 
-			scene->useDefaultBehavior = true;
+			scene->useDefaultBehavior(true);;
 			mode = this->none;
 
 			mainWindow->setCursor(Qt::ArrowCursor);
@@ -715,7 +713,7 @@ namespace Tinkercell
 			
 			if (item == 0)
 			{
-				scene->useDefaultBehavior = true;
+				scene->useDefaultBehavior(true);;
 				if (mode != this->none)
 				{
 					mode = this->none;
@@ -741,7 +739,7 @@ namespace Tinkercell
 			QGraphicsItem * item = scene->itemAt(to);
 			if (item == 0)
 			{
-				scene->useDefaultBehavior = true;
+				scene->useDefaultBehavior(true);;
 				if (mode != this->none)
 				{
 					mode = this->none;
@@ -768,7 +766,7 @@ namespace Tinkercell
 			QGraphicsItem * item = scene->itemAt(from);
 			if (item == 0)
 			{
-				scene->useDefaultBehavior = true;
+				scene->useDefaultBehavior(true);
 				if (mode != this->none)
 				{
 					mode = this->none;
@@ -880,7 +878,7 @@ namespace Tinkercell
 
 						if (item == 0)
 						{
-							scene->useDefaultBehavior = true;
+							scene->useDefaultBehavior(true);
 							mode = this->none;
 							mainWindow->setCursor(Qt::ArrowCursor);
 						}
@@ -962,7 +960,7 @@ namespace Tinkercell
 		{
 			mainWindow->setCursor(Qt::ArrowCursor);
 			if (mainWindow && mainWindow->currentScene())
-				mainWindow->currentScene()->useDefaultBehavior = true;
+				mainWindow->currentScene()->useDefaultBehavior(true);;
 			mode = none;
 		}
 	}
@@ -1283,13 +1281,10 @@ namespace Tinkercell
 
 		if (selected.isEmpty()) return;
 
-		qreal averageWidth = 0;
-
 		for (int i=0; i < selected.size(); ++i)
 		{
 			if (selected[i])  //make a list where the selected items are ordered by y-pos
 			{
-				averageWidth += selected[i]->sceneBoundingRect().width();
 				bool inserted = false;
 				for (int j=0; j < list.size(); ++j)
 				{
@@ -1305,8 +1300,6 @@ namespace Tinkercell
 			}
 		}
 
-		averageWidth /= selected.size();
-
 		alignMode = compactvertical;
 		if (alignButton)
 			alignButton->setIcon(QIcon(tr(":/images/aligncompactvertical.png")));
@@ -1314,16 +1307,21 @@ namespace Tinkercell
 		if (list.size() < 2 || !list[0]) return;
 
 		qreal x = list[0]->sceneBoundingRect().left(),
-			y = list[0]->sceneBoundingRect().bottom();
+			y = list[0]->sceneBoundingRect().bottom(),
+			w = list[0]->sceneBoundingRect().width();
 
 		NodeGraphicsItem * node;
 		NodeGraphicsItem::Shape * shape;
 
 		node = NodeGraphicsItem::cast(list[0]);
 		if (node && (shape = node->rightMostShape()))
+		{
 			x = shape->sceneBoundingRect().left();
+			w = shape->sceneBoundingRect().width();
+		}
 
 		QList<QPointF> newPositions;
+		QList<QPointF> changeSize;
 		newPositions += QPointF(); //first item does not move
 
 		for (int i=1; i < list.size(); ++i)
@@ -1333,27 +1331,29 @@ namespace Tinkercell
 				QPointF pos;
 				node = NodeGraphicsItem::cast(list[i]);
 				if (node && (shape = node->leftMostShape()))
+				{
 					pos.setX(x - shape->sceneBoundingRect().left());
+					changeSize += QPointF(w/shape->sceneBoundingRect().width(), 1.0);
+				}
 				else
+				{
 					pos.setX(x - list[i]->sceneBoundingRect().left());
+					changeSize += QPointF(w/list[i]->sceneBoundingRect().width(), 1.0);
+				}
 				pos.setY(y - list[i]->sceneBoundingRect().top());
 				newPositions += pos;
 				y += list[i]->sceneBoundingRect().height();
 			}
 			else
+			{
 				newPositions += QPointF();
+				changeSize += QPointF(1,1);
+			}
 		}
-		//moveChildItems(list,newPositions);
+		
+		scene->transform(tr("change size"),list,changeSize,QList<qreal>(),QList<bool>(),QList<bool>());
 		moveTextGraphicsItems(list,newPositions, 3);
 		scene->move(list,newPositions);
-
-		/*QList<QPointF> changeWidth;
-		for (int i=0; i < selected.size(); ++i)
-		changeWidth += QPointF(averageWidth/selected[i]->sceneBoundingRect().width(),1.0);
-
-		QList<qreal> emptyList;
-
-		scene->transform(tr("change size"),selected,changeWidth,emptyList,false,false);*/
 	}
 	void BasicGraphicsToolbar::alignCompactHorizontal()
 	{
@@ -1365,13 +1365,10 @@ namespace Tinkercell
 
 		if (selected.isEmpty()) return;
 
-		qreal averageHeight = 0;
-
 		for (int i=0; i < selected.size(); ++i)
 		{
 			if (selected[i])  //make a list where the selected items are ordered by y-pos
 			{
-				averageHeight += selected[i]->sceneBoundingRect().height();
 				bool inserted = false;
 				for (int j=0; j < list.size(); ++j)
 				{
@@ -1387,8 +1384,6 @@ namespace Tinkercell
 			}
 		}
 
-		averageHeight /= selected.size();
-
 		alignMode = compacthorizontal;
 		if (alignButton)
 			alignButton->setIcon(QIcon(tr(":/images/aligncompacthorizontal.png")));
@@ -1396,14 +1391,18 @@ namespace Tinkercell
 		if (list.size() < 2 || !list[0]) return;
 
 		qreal x = list[0]->sceneBoundingRect().right(),
-				 y = list[0]->sceneBoundingRect().bottom();
+				 y = list[0]->sceneBoundingRect().bottom(),
+				 h = list[0]->sceneBoundingRect().height();
 
 		NodeGraphicsItem * node = NodeGraphicsItem::cast(list[0]);
 		NodeGraphicsItem::Shape * shape;
 		if (node && (shape = node->rightMostShape()))
+		{
 			y = shape->sceneBoundingRect().bottom();
+			h = shape->sceneBoundingRect().height();
+		}
 
-		QList<QPointF> newPositions;
+		QList<QPointF> newPositions, changeSize;
 		newPositions += QPointF(); //first item does not move
 
 		for (int i=1; i < list.size(); ++i)
@@ -1413,9 +1412,15 @@ namespace Tinkercell
 				node = NodeGraphicsItem::cast(list[i]);
 				QPointF pos;
 				if (node && (shape = node->rightMostShape()))
+				{
 					pos.setY(y - shape->sceneBoundingRect().bottom());
+					changeSize += QPointF(1.0, h/shape->sceneBoundingRect().height());
+				}
 				else
+				{
 					pos.setY(y - list[i]->sceneBoundingRect().bottom());
+					changeSize += QPointF(1.0, h/list[i]->sceneBoundingRect().height());
+				}
 				pos.setX(x - list[i]->sceneBoundingRect().left());
 				newPositions += pos;
 				x += list[i]->sceneBoundingRect().width();
@@ -1423,17 +1428,10 @@ namespace Tinkercell
 			else
 				newPositions += QPointF();
 		}
-		//moveChildItems(list,newPositions);
+		
+		scene->transform(tr("change size"),list,changeSize,QList<qreal>(),QList<bool>(),QList<bool>());
 		moveTextGraphicsItems(list,newPositions, 0);
-		scene->move(list,newPositions);
-		/*
-		QList<QPointF> changeHeight;
-		for (int i=0; i < selected.size(); ++i)
-		changeHeight += QPointF(1.0,averageHeight/selected[i]->sceneBoundingRect().height());
-
-		QList<qreal> emptyList;
-
-		scene->transform(tr("change size"),selected,changeHeight,emptyList,false,false);*/
+		scene->move(list,newPositions);		
 	}
 	void BasicGraphicsToolbar::alignEvenSpacedVertical()
 	{

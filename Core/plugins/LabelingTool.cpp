@@ -135,7 +135,7 @@ namespace Tinkercell
 	
 	void LabelingTool::escapeSignal(const QWidget*)
 	{
-		if (!currentScene() || !currentScene()->useDefaultBehavior)
+		if (!currentScene() || !currentScene()->useDefaultBehavior())
 			return;
 		clearLabels();
 	}

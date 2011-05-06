@@ -694,7 +694,7 @@ namespace Tinkercell
     void ModuleTool::escapeSignal(const QWidget* )
     {
 		if (mode != none && currentScene())
-			currentScene()->useDefaultBehavior = true;
+			currentScene()->useDefaultBehavior(true);
 
 		mode = none;
 		for (int i=0; i < selectedItems.size(); ++i)
@@ -708,7 +708,7 @@ namespace Tinkercell
 
 	void ModuleTool::sceneClicked(GraphicsScene *scene, QPointF point, Qt::MouseButton button, Qt::KeyboardModifiers modifiers)
 	{
-		if (mode == none || button == Qt::RightButton || !scene || !scene->network || scene->useDefaultBehavior) return;
+		if (mode == none || button == Qt::RightButton || !scene || !scene->network || scene->useDefaultBehavior()) return;
 
 		QString appDir = QApplication::applicationDirPath();
 
@@ -1264,7 +1264,7 @@ namespace Tinkercell
 
     void ModuleTool::mouseMoved(GraphicsScene* scene, QGraphicsItem * hoverOverItem, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>& items)
     {
-		if (mainWindow && scene && scene->useDefaultBehavior && hoverOverItem && !TextGraphicsItem::cast(hoverOverItem) && snapshotToolTip)
+		if (mainWindow && scene && scene->useDefaultBehavior() && hoverOverItem && !TextGraphicsItem::cast(hoverOverItem) && snapshotToolTip)
 		{
 			ItemHandle * h = 0;
 			ArrowHeadItem * arrowHead = ArrowHeadItem::cast(hoverOverItem);
@@ -1668,7 +1668,7 @@ namespace Tinkercell
 	
 	void ModuleTool::keyPressed(GraphicsScene* scene,QKeyEvent * keyEvent)
 	{
-		if (!keyEvent || keyEvent->modifiers() || !scene || !scene->useDefaultBehavior) return;
+		if (!keyEvent || keyEvent->modifiers() || !scene || !scene->useDefaultBehavior()) return;
 
 		QList<QGraphicsItem*> & selected = scene->selected();
 		
@@ -1738,7 +1738,7 @@ namespace Tinkercell
 		//if (name == tr("Connect input/output")) mode = connecting;
 
 		if (mode != none)
-			scene->useDefaultBehavior = false;
+			scene->useDefaultBehavior(false);
 	}
 	
 	void ModuleTool::updateNumberForNewModule(int n)

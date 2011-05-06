@@ -8,29 +8,6 @@ CONFIGURE_FILE(
 	@ONLY
 )
 
-#------------------------------------------------
-#  configure the BuildAndUploadAll script
-#------------------------------------------------
-
-IF (WIN32)
-	MESSAGE(STATUS "Run BUILD/win32/CreateInstaller.bat to build and upload ${TINKERCELL_EXE} to sourceforge")
-ELSE(WIN32)
-	IF (APPLE)
-		SET(CREATE_TINKERCELL "source mac/CreateApp.sh")
-		MESSAGE(STATUS "Source the BUILD/mac/CreateApp.sh to build and upload ${TINKERCELL_EXE} to sourceforge")
-	ELSE(APPLE)
-		SET(CREATE_TINKERCELL "source CreatePackage.sh")
-		MESSAGE(STATUS "Source BUILD/CreatePackage.sh to build and upload ${TINKERCELL_EXE} to sourceforge")
-	ENDIF(APPLE)
-	CONFIGURE_FILE( 
-		${TINKERCELL_SOURCE_DIR}/Main/BuildAndUploadAll.in
-		${TINKERCELL_BINARY_DIR}/BuildAndUploadAll.sh
-		@ONLY
-	)
-	MESSAGE(STATUS "Source BUILD/BuildAndUploadAll.sh to upload full and lite versions")
-ENDIF(WIN32)
-
-
 #------------------
 # include dirs
 #------------------
@@ -58,8 +35,8 @@ ADD_DEFINITIONS(-DTINKERCELL_C_PLUGINS_FOLDER="${TINKERCELL_C_PLUGINS_FOLDER}")
 #--------------------------------------------------
  
 IF (WIN32)
-	OPTION( TINKERCELL_INSTALLER "Create installer using Inno setup -- must have Inno setup installed" OFF )
-	OPTION( TINKERCELL_INSTALLER_UPLOAD "Create installer using Inno setup and upload it using WinSCP -- must have Inno Setup and WinSCP installed" OFF )
+	OPTION( TINKERCELL_INSTALLER "Create installer using Inno setup -- must have Inno setup installed" ON )
+	OPTION( TINKERCELL_INSTALLER_UPLOAD "Create installer using Inno setup and upload it using WinSCP -- must have Inno Setup and WinSCP installed" ON )
 	
 	IF ((NOT DEFINED INNO) AND TINKERCELL_INSTALLER)
 		MESSAGE( "Please create a New Entry of type FILEPATH called INNO and point to the Inno Setup exe file")
@@ -83,11 +60,16 @@ ENDIF(WIN32)
 #  get sourceforge password for uploading
 #--------------------------------------------------
 
-IF (NOT DEFINED TINKERCELL_SOURCEFORGE_PASSWORD OR NOT DEFINED TINKERCELL_SOURCEFORGE_USERNAME)
+IF (TINKERCELL_INSTALLER_UPLOAD)
+	IF (NOT DEFINED TINKERCELL_SOURCEFORGE_PASSWORD OR NOT DEFINED TINKERCELL_SOURCEFORGE_USERNAME)
+	
+		SET(TINKERCELL_SOURCEFORGE_USERNAME CACHE STRING "UNKNOWN")
+		SET(TINKERCELL_SOURCEFORGE_PASSWORD CACHE STRING "UNKNOWN")
 
-	MESSAGE(STATUS "If you want to enable automatic upload to Sourceforge, you must create two New Entries of type STRING, TINKERCELL_SOURCEFORGE_USERNAME and TINKERCELL_SOURCEFORGE_PASSWORD, and populate then with your Sourceforge username and password")
+		MESSAGE(STATUS "If you want to enable automatic upload to Sourceforge, you must set the values for TINKERCELL_SOURCEFORGE_USERNAME and TINKERCELL_SOURCEFORGE_PASSWORD")
 
-ENDIF (NOT DEFINED TINKERCELL_SOURCEFORGE_PASSWORD OR NOT DEFINED TINKERCELL_SOURCEFORGE_USERNAME)
+	ENDIF (NOT DEFINED TINKERCELL_SOURCEFORGE_PASSWORD OR NOT DEFINED TINKERCELL_SOURCEFORGE_USERNAME)
+ENDIF (TINKERCELL_INSTALLER_UPLOAD)
 
 #-----------------------
 # TinkerCell variants
@@ -124,9 +106,9 @@ ENDIF (TINKERCELL_LITE_PARTS)
 #-----------------------------------
 
 FILE(GLOB NODESTREE_XML_FILES 
-	${TINKERCELL_SOURCE_DIR}/NodesTree/NodesTree.xml
-	${TINKERCELL_SOURCE_DIR}/NodesTree/ConnectionsTree.xml
-	${TINKERCELL_SOURCE_DIR}/NodesTree/InitialCatalogList.txt
+	${TINKERCELL_SOURCE_DIR}/NodesTree/*.xml
+	${TINKERCELL_SOURCE_DIR}/NodesTree/*.txt
+	${TINKERCELL_SOURCE_DIR}/NodesTree/*.nt
 )
 
 INSTALL( FILES ${NODESTREE_XML_FILES} DESTINATION NodesTree )
@@ -139,3 +121,23 @@ FILE(GLOB TINKERCELL_EXAMPLES examples/*.tic examples/*.TIC examples/*.xml)
 INSTALL(FILES ${TINKERCELL_EXAMPLES} DESTINATION examples )
 INSTALL(FILES tinkercell.qss DESTINATION bin/../ )
 
+#------------------------------------------------
+#  configure the BuildAndUploadAll script
+#------------------------------------------------
+
+IF (WIN32)
+	 #this does not work in windows for some strange reason
+ELSE(WIN32)
+	IF (APPLE)
+		SET(CREATE_TINKERCELL "source mac/CreateApp.sh")
+	ELSE(APPLE)
+		SET(CREATE_TINKERCELL "source CreatePackage.sh")
+		MESSAGE(STATUS "Source BUILD/CreatePackage.sh to build and upload ${TINKERCELL_EXE} to sourceforge")
+	ENDIF(APPLE)
+	CONFIGURE_FILE( 
+		${TINKERCELL_SOURCE_DIR}/Main/BuildAndUploadAll.in
+		${TINKERCELL_BINARY_DIR}/BuildAndUploadAll.sh
+		@ONLY
+	)
+	MESSAGE(STATUS "Source BUILD/BuildAndUploadAll.sh to upload full and lite versions")
+ENDIF(WIN32)

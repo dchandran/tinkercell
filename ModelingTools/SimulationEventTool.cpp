@@ -228,7 +228,7 @@ namespace Tinkercell
 	
 	void SimulationEventsTool::itemsDropped(GraphicsScene * scene, const QString& name, const QPointF& point)
 	{
-		scene->useDefaultBehavior = false;
+		scene->useDefaultBehavior(false);
 		if (name.toLower() == tr("new event"))
 			mode = addingEvent;
 		
@@ -246,13 +246,13 @@ namespace Tinkercell
 
 		sceneClicked(scene,point,Qt::LeftButton,Qt::NoModifier);
 		
-		scene->useDefaultBehavior = true;
+		scene->useDefaultBehavior(true);
 		mode = none;
 	}
 
 	void SimulationEventsTool::sceneClicked(GraphicsScene * scene, QPointF point, Qt::MouseButton button, Qt::KeyboardModifiers modifiers)
 	{
-		if (mode == none || button == Qt::RightButton || !scene || scene->useDefaultBehavior)
+		if (mode == none || button == Qt::RightButton || !scene || scene->useDefaultBehavior())
 		{
 			return;
 		}
@@ -458,7 +458,7 @@ namespace Tinkercell
 	void SimulationEventsTool::escapeSignal(const QWidget* )
     {
 		if (mode != none && currentScene())
-			currentScene()->useDefaultBehavior = true;
+			currentScene()->useDefaultBehavior(true);
 
 		mode = none;
     }
@@ -521,7 +521,7 @@ namespace Tinkercell
 	void SimulationEventsTool::keyPressed(GraphicsScene* scene,QKeyEvent * keyEvent)
 	{
 		int key = keyEvent->key();
-		if (!scene || !scene->useDefaultBehavior || scene->selected().size() != 1 ||
+		if (!scene || !scene->useDefaultBehavior() || scene->selected().size() != 1 ||
 			!(key == Qt::Key_Enter || key == Qt::Key_Return)
 			) 
 			return;
@@ -823,7 +823,7 @@ namespace Tinkercell
 			mode = addingWave;
 		
 		if (mode != none)
-			scene->useDefaultBehavior = false;
+			scene->useDefaultBehavior(false);
 	}
 
 

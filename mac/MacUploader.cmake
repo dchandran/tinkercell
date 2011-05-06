@@ -9,4 +9,4 @@ CONFIGURE_FILE(
   @ONLY
 )
 
-MESSAGE(STATUS "To create and upload the app, source ${TINKERCELL_BINARY_DIR}/mac/CreateApp.sh (only uploads if you provided the Sourceforge account)")
+MESSAGE(STATUS "Source ${TINKERCELL_BINARY_DIR}/mac/CreateApp.sh to build the program, the installer, and upload it to the sourceforge site")

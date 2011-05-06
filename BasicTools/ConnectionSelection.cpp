@@ -667,7 +667,7 @@ namespace Tinkercell
 
 	void ConnectionSelection::sceneKeyPressed(GraphicsScene *scene, QKeyEvent* keyEvent)
 	{
-		if (!scene || !keyEvent || !scene->useDefaultBehavior) return;
+		if (!scene || !keyEvent || !scene->useDefaultBehavior()) return;
 
 		if (keyEvent->modifiers() == (Qt::ControlModifier | Qt::ShiftModifier))
 		{

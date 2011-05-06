@@ -133,7 +133,7 @@ namespace Tinkercell
 		gridSz = GRID;
 		mouseDown = false;
 		contextMenuJustActivated = false;
-		useDefaultBehavior = USE_DEFAULT_BEHAVIOR;
+		_useDefaultBehavior = USE_DEFAULT_BEHAVIOR;
 		setFocus();
 		//setItemIndexMethod(NoIndex);
 
@@ -388,7 +388,7 @@ namespace Tinkercell
 		}
 		movingItems.clear();
 
-		if (gitem && useDefaultBehavior)
+		if (gitem && _useDefaultBehavior)
 		{
 			if (mouseEvent->button() == Qt::LeftButton)
 			{
@@ -401,7 +401,7 @@ namespace Tinkercell
 			}
 		}
 		else
-			if (item && useDefaultBehavior)
+			if (item && _useDefaultBehavior)
 			{
 				if (mouseEvent->button())// == Qt::LeftButton)
 				{
@@ -513,7 +513,7 @@ namespace Tinkercell
 			}
 			else
 			{
-				if (useDefaultBehavior && !(mouseEvent->modifiers() == Qt::ShiftModifier || mouseEvent->modifiers() == Qt::ControlModifier))
+				if (_useDefaultBehavior && !(mouseEvent->modifiers() == Qt::ShiftModifier || mouseEvent->modifiers() == Qt::ControlModifier))
 				{
 					selectedItems.clear();
 				}
@@ -560,7 +560,7 @@ namespace Tinkercell
 		//if (!toolTips.isEmpty() && ((change.x()*change.x() + change.y()*change.y()) > MIN_DRAG_DISTANCE*20.0))
 			//hideToolTips();
 
-		if (useDefaultBehavior)
+		if (_useDefaultBehavior)
 		{
 			if (movingItems.size() > 0 && movingItemsGroup != 0)
 			{
@@ -650,7 +650,7 @@ namespace Tinkercell
 		QPointF point1 = mouseEvent->scenePos(), point0 = clickedPoint;
 		QPointF change = QPointF(point1.x()-point0.x(),point1.y()-point0.y());
 
-		if (useDefaultBehavior && movingItems.size() > 0 && movingItemsGroup)
+		if (_useDefaultBehavior && movingItems.size() > 0 && movingItemsGroup)
 		{
 			if (movingItemsGroup)
 			{
@@ -673,7 +673,7 @@ namespace Tinkercell
 		}
 		else
 		{
-			if (useDefaultBehavior && selectionRect.isVisible())
+			if (_useDefaultBehavior && selectionRect.isVisible())
 			{
 				QRectF rect = selectionRect.rect();
 				selectionRect.setVisible(false);
@@ -745,7 +745,7 @@ namespace Tinkercell
 
 		clickedButton = Qt::RightButton;
 
-		if (useDefaultBehavior)
+		if (_useDefaultBehavior)
 		{
 			if (selectedItems.size() > 0)
 			{
@@ -914,7 +914,7 @@ namespace Tinkercell
 			keyEvent->accept();
 		}
 
-		if (useDefaultBehavior)
+		if (_useDefaultBehavior)
 		{
 			if ((key == Qt::Key_Plus || key == Qt::Key_Equal || key == Qt::Key_Underscore || key == Qt::Key_Minus)
 				&& (selectedItems.isEmpty() || (keyEvent->modifiers() & (Qt::ShiftModifier | Qt::ControlModifier))))
@@ -2533,6 +2533,18 @@ namespace Tinkercell
 			removeItem(toolTips[i]);
 		qDeleteAll(toolTips);
 		toolTips.clear();
+	}
+	
+	void GraphicsScene::useDefaultBehavior(bool b)
+	{
+		_useDefaultBehavior = b;
+		clickedButton = Qt::NoButton;
+		clickedPoint = QPointF();
+	}
+	
+	bool GraphicsScene::useDefaultBehavior() const
+	{
+		return _useDefaultBehavior;
 	}
 }
 

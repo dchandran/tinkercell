@@ -100,6 +100,8 @@ static void substituteString(QString& target, const QString& oldname,const QStri
 static QList< CQHash* > hashTablesToCleanup;
 static QList< copasi_model > copasiModelsToCleanup;
 
+static QRegExp stupidPowFunction("pow\\s*\\(\\s*([^,]+)\\s*,\\s*([^,]+)\\s*\\)");
+
 void copasi_init()
 {
 	CCopasiRootContainer::init(0, NULL);
@@ -471,6 +473,8 @@ int cSetAssignmentRule(copasi_model model, const char * name, const char * formu
 	{
 		CopasiPtr & p = (*hash)[s];
 		p.assignmentRule = QString(formula);
+		p.assignmentRule.replace(stupidPowFunction, QString("((\\1)^(\\2))"));
+		std::cout << p.assignmentRule.toAscii().data() << "\n";
 		return 1;
 	}
 	return 0;
@@ -836,7 +840,11 @@ int cSetReactionRate(copasi_reaction reaction, const char * formula)
 
 		int retval = 0;
 
-		if (pFunction->setInfix(std::string(formula)))
+		QString formula2(formula);
+		formula2.replace(stupidPowFunction, QString("((\\1)^(\\2))"));
+		std::cout << formula2.toAscii().data() << "\n";
+
+		if (pFunction->setInfix(std::string(formula2.toAscii().data())))
 		{
 			retval = (int)(pReaction->setFunction(pFunction));
 			CFunctionParameters& variables = pFunction->getVariables();

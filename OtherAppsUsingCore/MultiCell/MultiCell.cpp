@@ -57,7 +57,7 @@ namespace Multicell
 		GraphicsScene * scene = currentScene();
 		if (scene)
 		{
-			scene->useDefaultBehavior = (family == 0);
+			scene->useDefaultBehavior(family == 0);
 		}
 
 	}

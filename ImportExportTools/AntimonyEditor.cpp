@@ -6,7 +6,7 @@
  A tool that allows users to construct models using Antimony scripts in the TextEditor
 
 ****************************************************************************/
-
+#include <iostream>
 #include <QClipboard>
 #include "TextEditor.h"
 #include "NetworkHandle.h"
@@ -60,7 +60,7 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(getItemsFromFile(QList<ItemHandle*>&, QList<QGraphicsItem*>&, const QString&,ItemHandle*)),
 						this,SLOT(getItemsFromFile(QList<ItemHandle*>&, QList<QGraphicsItem*>&, const QString&,ItemHandle*)));
 
-			connect(mainWindow,SIGNAL(loadNetwork(const QString&)),this,SLOT(loadNetwork(const QString&)));
+			//connect(mainWindow,SIGNAL(loadNetwork(const QString&)),this,SLOT(loadNetwork(const QString&)));
 
 			toolLoaded(0);
 
@@ -77,11 +77,13 @@ namespace Tinkercell
 			QString modelString( file.readAll() );
 			file.close();
 			
-			TextEditor * editor = mainWindow->newTextEditor();
-			QList<ItemHandle*> itemsToInsert = parse(modelString, editor->globalHandle());
+			ItemHandle root;
+			QList<ItemHandle*> itemsToInsert = parse(modelString, &root);
 	
 			if (!itemsToInsert.isEmpty())
 			{
+				TextEditor * editor = mainWindow->newTextEditor();
+				(*editor->globalHandle()) = root;
 				editor->setText(getAntimonyString("__main"));
 				editor->setItems(itemsToInsert);
 			}
@@ -152,7 +154,7 @@ namespace Tinkercell
 
 	QList<ItemHandle*> AntimonyEditor::parse(const QString& modelString, ItemHandle * moduleHandle)
 	{
-		long ok = loadString(modelString.toUtf8().data());
+		long ok = loadString(modelString.toAscii().data());
 
 		if (ok < 0)
 		{
@@ -666,19 +668,25 @@ namespace Tinkercell
 				if (childHandles[j]->hasNumericalData(tr("Parameters")))
 				{
 					NumericalDataTable& params = childHandles[j]->numericalDataTable(tr("Parameters"));
+					
+					QString pname;
 
 					for (int r=0; r < params.rows(); ++r)
-                        if (allEqns.contains(name + tr(".") + params.rowName(r)) &&
-                            !usedSymbols.contains(name + tr(".") + params.rowName(r)))
+					{
+						if (childHandles[j]->name.isEmpty())
+							pname = params.rowName(r);
+						else
+							pname = name + tr("_") + params.rowName(r);
+
+                        if (allEqns.contains(pname) && !usedSymbols.contains(pname))
                         {
-                            s += name;
-                            s += tr("_");
-                            s += params.rowName(r);
+                            s += pname;
                             s += tr(" = ");
                             s += QString::number(params.value(r,0));
                             s += tr(";\n");
-                            usedSymbols << (name + tr(".") + params.rowName(r));
+                            usedSymbols << pname;
                         }
+                     }
 				}
 			}
 
@@ -704,21 +712,7 @@ namespace Tinkercell
 		ItemHandle * root;
 
 		for (int i=0; i < list.size(); ++i)
-		{
-	/*		root = 0;
-			if (list[i]) root = list[i]->root();
-
-			if (root)
-			{
-				temp = root->allChildren();
-				if (!allHandles.contains(root))
-					allHandles << root;
-			}
-
-			for (int j=0; j < temp.size(); ++j)
-				if (temp[j] && !allHandles.contains(temp[j]))
-					allHandles << temp[j];*/
-			
+		{	
 			if (!allHandles.contains(list[i]))
 				allHandles += list[i];
 		}

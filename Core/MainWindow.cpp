@@ -15,7 +15,7 @@ The MainWindow also has its own signals, such as a toolLoaded, networkSaved, etc
 The MainWindow keeps a list of all plugins, and it is also responsible for loading plugins.
 
 ****************************************************************************/
-#include <iostream>
+
 #include <QLibrary>
 #include <QFileInfo>
 #include <QSettings>
@@ -1138,7 +1138,6 @@ namespace Tinkercell
 
 	void MainWindow::closeEvent(QCloseEvent *event)
 	{
-		std::cout << "po\n";
 		bool b = true;
 		QList<NetworkHandle*> list = allNetworks;
 		currentNetworkWindow = 0;

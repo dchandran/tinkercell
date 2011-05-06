@@ -18,7 +18,7 @@ fi
 
 echo "logging in to Sourceforge as @TINKERCELL_SOURCEFORGE_USERNAME@"
 
-cd @TINKERCELL_BINARY_DIR@/_CPack_Packages/Linux/TGZ
+cd @TINKERCELL_BINARY_DIR@/@TINKERCELL_PACKAGE_FOLDER@
 
 /usr/bin/expect <<EOD
 set timeout -1

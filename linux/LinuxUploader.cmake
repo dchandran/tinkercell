@@ -21,6 +21,12 @@ CONFIGURE_FILE(
 		@ONLY
 	)
 
+CONFIGURE_FILE( 
+		${TINKERCELL_SOURCE_DIR}/linux/CopyFromCurrentToStable.sh.in
+		${TINKERCELL_BINARY_DIR}/CopyFromCurrentToStable.sh
+		@ONLY
+	)
+	
 MESSAGE(STATUS "Source ${TINKERCELL_BINARY_DIR}/CreatePackage.sh to build the program, the installer, and upload it to the sourceforge site")
 	
 MESSAGE(STATUS "To run TinkerCell, source ${TINKERCELL_BINARY_DIR}/run_tinkercell.sh")	

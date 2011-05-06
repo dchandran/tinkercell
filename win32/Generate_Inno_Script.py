@@ -1,6 +1,6 @@
 import sys,os
 
-root = "@TINKERCELL_BINARY_DIR@/@TINKERCELL_PACKAGE_FOLDER@"
+root = "@TINKERCELL_BINARY_DIR@/@TINKERCELL_PACKAGE_FOLDER@/TinkerCell"
 path = os.path.join(root, "")
 
 s = "\

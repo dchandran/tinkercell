@@ -304,7 +304,7 @@ INCLUDE( CMake/TinkercellCPack.cmake )
 
 IF (NOT DEFINED TINKERCELL_PACKAGE_FOLDER)
 	IF( WIN32 )
-		SET(TINKERCELL_PACKAGE_FOLDER _CPack_Packages/win32/ZIP/TinkerCell CACHE STRING "Change this if your CPack package folder is different (depending on CMake version)")
+		SET(TINKERCELL_PACKAGE_FOLDER _CPack_Packages/win32/ZIP CACHE STRING "Change this if your CPack package folder is different (depending on CMake version)")
 	ENDIF(WIN32)
 
 	IF (APPLE)
@@ -312,7 +312,7 @@ IF (NOT DEFINED TINKERCELL_PACKAGE_FOLDER)
 	ENDIF(APPLE)
 
 	IF (UNIX AND NOT APPLE)
-	   SET(TINKERCELL_PACKAGE_FOLDER _CPack_Packages/Linux/TGZ/TinkerCell CACHE STRING "Change this if your CPack package folder is different (depending on CMake version)")
+	   SET(TINKERCELL_PACKAGE_FOLDER _CPack_Packages/Linux/TGZ CACHE STRING "Change this if your CPack package folder is different (depending on CMake version)")
 	ENDIF(UNIX AND NOT APPLE)
 ENDIF (NOT DEFINED TINKERCELL_PACKAGE_FOLDER)
 MESSAGE(STATUS "Package will be placed in ${TINKERCELL_BINARY_DIR}/${TINKERCELL_PACKAGE_FOLDER}")

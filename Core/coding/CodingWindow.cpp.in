@@ -429,6 +429,9 @@ specific for:\n\"\"\"\n\n") + text;
 			{
 				outWin->setInterpreter(ocTool->octaveInterpreter);
 			}
+
+			if (editor && editor->text().isEmpty())
+				editor->setPlainText(tr("#use fromTC and toTC to convert from and to tinkercell objects"));
 		}
 	}
 	
@@ -454,6 +457,9 @@ specific for:\n\"\"\"\n\n") + text;
 			{
 				outWin->setInterpreter(pyTool->pythonInterpreter);
 			}
+
+			if (editor && editor->text().isEmpty())
+				editor->setPlainText(tr("#use fromTC and toTC to convert from and to tinkercell objects"));
 		}
 	}
 
@@ -479,6 +485,9 @@ specific for:\n\"\"\"\n\n") + text;
 			{
 				outWin->setInterpreter(rubyTool->rubyInterpreter);
 			}
+
+			if (editor && editor->text().isEmpty())
+				editor->setPlainText(tr("#use fromTC and toTC to convert from and to tinkercell objects"));
 		}
 	}
 

@@ -79,7 +79,7 @@ namespace Tinkercell
 			{
 				PlotTool * plotTool = static_cast<PlotTool*>(tool);
 				connect(plotTool,SIGNAL(displayFire(ItemHandle*,double)), this, SLOT(displayFire(ItemHandle*,double)));
-	   			connect(plotTool,SIGNAL(hideFire()), this, SLOT(clearLabels()));
+	   			connect(plotTool,SIGNAL(hideFire()), this, SLOT(hideFire()));
 			}
 		}
 		return (mainWindow != 0);
@@ -88,6 +88,11 @@ namespace Tinkercell
 	void LabelingTool::enableFire(bool b)
 	{
 		LabelingTool::ENABLE_FIRE = b;
+	}
+	
+	void LabelingTool::hideFire()
+	{
+		clearLabels();
 	}
 	
 	typedef void (*tc_LabelingTool_api)(

@@ -32,7 +32,7 @@ Name: desktopicon; Description: Create a &desktop icon; GroupDescription: Additi
 for root, dirs, files in os.walk(path):
     for fileName in files:
         if root.count(".svn") < 1:
-            dest = root.replace("@TINKERCELL_BINARY_DIR@/@TINKERCELL_PACKAGE_FOLDER@","")
+            dest = root.replace("@TINKERCELL_BINARY_DIR@/@TINKERCELL_PACKAGE_FOLDER@/TinkerCell","")
             s += ("Source: " + root + os.sep + fileName + "; DestDir: {app}" + dest + "\n")
 
 s = s.replace("/","\\")

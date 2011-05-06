@@ -109,6 +109,7 @@ namespace Tinkercell
 				#endif
 				script += tr("$LOAD_PATH << \"") + dir + tr("\"\n");
 			}
+			script = tr("begin\n") + script + tr("\nrescue\nend\n\n");
 			addpathDone = true;
 		}
         

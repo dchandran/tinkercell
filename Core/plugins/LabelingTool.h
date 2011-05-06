@@ -67,6 +67,7 @@ namespace Tinkercell
 		void historyChanged(int);
 		void setupFunctionPointers( QLibrary * library );
 		void clearLabels(ItemHandle * h=0);
+		void hideFire();
 		void keyPressed(GraphicsScene * scene, QKeyEvent *);
 		void sceneDoubleClicked (GraphicsScene * scene, QPointF point, QGraphicsItem *, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
 		void itemsSelected(GraphicsScene *scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers modifiers);

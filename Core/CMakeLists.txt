@@ -16,6 +16,12 @@ CONFIGURE_FILE(
 	@ONLY
 )
 
+CONFIGURE_FILE( 
+	${TINKERCELL_SOURCE_DIR}/Core/MainWindow.cpp.in
+	${TINKERCELL_BINARY_DIR}/Core/MainWindow.cpp
+	@ONLY
+)
+
 #header files
 FILE(GLOB TINKERCELL_CORE_HDRS 
 	AbstractInputWindow.h
@@ -55,6 +61,7 @@ FILE(GLOB TINKERCELL_CORE_SRC
 	plugins/*.cpp 
 	coding/*.cpp
 	${TINKERCELL_BINARY_DIR}/Core/coding/*.cpp
+	${TINKERCELL_BINARY_DIR}/Core/*.cpp
 )
 
 #-------------------------------------------------------------------------------------------------------------

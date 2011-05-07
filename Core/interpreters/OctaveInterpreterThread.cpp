@@ -17,7 +17,7 @@ namespace Tinkercell
 {
 	QString OctaveInterpreterThread::OCTAVE_FOLDER("octave");
 	QString OctaveInterpreterThread::OUTPUT_FILE("octav.out");
-	QString OctaveInterpreterThread::ERROR_FILE("octav.out");
+	QString OctaveInterpreterThread::ERROR_FILE("octav.err");
 	
     OctaveInterpreterThread::OctaveInterpreterThread(const QString & swiglibname, const QString & dllname, MainWindow* main)
         : InterpreterThread(dllname,main)

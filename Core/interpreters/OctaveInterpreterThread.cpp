@@ -189,7 +189,7 @@ namespace Tinkercell
 			f("source('temp.m')",OUTPUT_FILE.toAscii().data(),ERROR_FILE.toAscii().data());
 			QFile outfile(OUTPUT_FILE);
 		#endif
-            if (mainWindow && mainWindow->console() && !addpathDone)
+            if (mainWindow && mainWindow->console() && addpathDone)
             {
             	if (outfile.open(QFile::ReadOnly | QFile::Text))
             	{

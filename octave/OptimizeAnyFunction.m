@@ -7,6 +7,8 @@
 
 fout = fopen("example.m","w");
 fprintf(fout,"#Copy this example code into the Coding Window in TinkerCell.\n\
+tinkercell\n\
+CrossEntropy\n\
 #Edit the Objective function and run the code.\n\
 #objective function for CrossEntropy\n\
 function y = Objective()\n\
@@ -15,12 +17,12 @@ function y = Objective()\n\
 end\n\
 #minimize or maximize?\n\
 minimize = 0;\n\
-res = CrossEntropy.OptimizeParameters(@Objective, \"name of function\", 100, 100, minimize);\n\
+res = OptimizeParameters(@Objective, \"name of function\", 100, 100, minimize);\n\
 #get the results and analyze results\n\
 mu = res(0);\n\
 sigma2 = res(1);\n\
 paramnames = res(2);\n\
-CrossEntropy.DoPCA(mu, sigma2, paramnames);\n\
+DoPCA(mu, sigma2, paramnames);\n\
 #now we set the parameters back in the model (option)\n\
 n = size(mu,1);\n\
 params = tinkercell.tc_createMatrix(n, 1);\n\

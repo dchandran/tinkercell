@@ -114,7 +114,7 @@ namespace Tinkercell
 			QString m2 = fromTC.cap(1), m1 = fromTC.cap(2);
 			QString s = m2 + QObject::tr(" = zeros(")+ m1 + QObject::tr(".rows,") + m1 + 
 							QObject::tr(".cols); for i=1:") + m1 + QObject::tr(".rows for j=1:") + m1 + 
-							QObject::tr(".cols ") + m2 + QObject::tr("(i,j) = tinkercell.tc_getMatrixValue(") + m1 + 
+							QObject::tr(".cols (") + m2 + QObject::tr(")(i,j) = tinkercell.tc_getMatrixValue(") + m1 + 
 							QObject::tr(",i-1,j-1); endfor endfor");
 			code.replace(fromTC,s);
 		}
@@ -122,10 +122,10 @@ namespace Tinkercell
 		if (toTC.indexIn(code) > -1) //hack
 		{
 			QString m2 = toTC.cap(1), m1 = toTC.cap(2);
-			QString s = m2 + QObject::tr(" = tinkercell.tc_createMatrix(size(")+ m1 + QObject::tr(",1), size(") + m1 + QObject::tr(",2)); ") + 
-							QObject::tr("for i=1:size(") + m1 + QObject::tr(",1) for j=1:size(") + m1 + 
-							QObject::tr(",2) tinkercell.tc_setMatrixValue(") + m2 + QObject::tr(",i-1,j-1,") + m1 + 
-							QObject::tr("(i,j)); endfor endfor");
+			QString s = m2 + QObject::tr(" = tinkercell.tc_createMatrix(size((")+ m1 + QObject::tr("),1), size((") + m1 + QObject::tr("),2)); ") + 
+							QObject::tr("for i=1:size((") + m1 + QObject::tr("),1) for j=1:size((") + m1 + 
+							QObject::tr("),2) tinkercell.tc_setMatrixValue(") + m2 + QObject::tr(",i-1,j-1,(") + m1 + 
+							QObject::tr(")(i,j)); endfor endfor");
 			code.replace(toTC,s);
 		}
        
@@ -156,7 +156,6 @@ namespace Tinkercell
 					#endif
 					script += tr("addpath(\"") + dir + tr("\")\n");
 				}
-				addpathDone = true;
 
 	        	f(script.toAscii().data(),0,0);
 	        }
@@ -190,7 +189,7 @@ namespace Tinkercell
 			f("source('temp.m')",OUTPUT_FILE.toAscii().data(),ERROR_FILE.toAscii().data());
 			QFile outfile(OUTPUT_FILE);
 		#endif
-            if (mainWindow && mainWindow->console())
+            if (mainWindow && mainWindow->console() && !addpathDone)
             {
             	if (outfile.open(QFile::ReadOnly | QFile::Text))
             	{
@@ -208,7 +207,8 @@ namespace Tinkercell
 					errfile.close();
 				}
             }
-
+			
+			addpathDone = true;
             QDir::setCurrent(currentDir);
         }
 		

@@ -31,4 +31,5 @@ addpath('/usr/share/octave/3.2.4/m/statistics/base')
 addpath('/usr/share/octave/3.2.4/m/statistics/tests')
 addpath('/usr/share/octave/3.2.4/m/statistics/models')
 addpath('/usr/share/octave/3.2.4/m/statistics/distributions')
-
+tinkercell;
+global tinkercell;

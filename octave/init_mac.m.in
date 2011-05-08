@@ -36,4 +36,5 @@ addpath('/Applications/Octave.app/Contents/Resources/share/octave/3.2.3/m/statis
 addpath('/Applications/Octave.app/Contents/Resources/share/octave/3.2.3/m/strings')
 addpath('/Applications/Octave.app/Contents/Resources/share/octave/3.2.3/m/testfun')
 addpath('/Applications/Octave.app/Contents/Resources/share/octave/3.2.3/m/time')
-
+tinkercell;
+global tinkercell;

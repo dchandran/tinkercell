@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+#include <string.h>
 
 #include "TC_structs.h"
 
@@ -486,5 +487,29 @@ TCAPIEXPORT void tc_printOutTable(tc_table output)
 					printf("%s\n", tc_getTableValue(output, i, j));
 		}
 	}
+}
+
+TCAPIEXPORT 
+int tc_getStringIndex(tc_strings A, const char * s)
+{
+	int i=0;
+	if (A.length == 0 || !A.strings) return -1;
+
+	for (i=0; i < A.length; ++i)
+		if (strcmp( tc_getString(A,i) , s ) == 0)
+			return i;
+	return -1;
+}
+
+TCAPIEXPORT 
+int tc_getRowIndex(tc_matrix m, const char * s)
+{
+	return tc_getStringIndex( m.rownames, s );
+}
+
+TCAPIEXPORT 
+int tc_getColumnIndex(tc_matrix m, const char * s)
+{
+	return tc_getStringIndex( m.colnames, s );
 }
 

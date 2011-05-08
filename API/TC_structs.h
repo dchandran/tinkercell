@@ -198,6 +198,30 @@ TCAPIEXPORT long tc_getItem(tc_items A, int i);
 */
 TCAPIEXPORT void tc_setItem(tc_items A, int i, long o);
 
+/*!\brief get the index of a string in the array
+ \param tc_strings array
+ \param char* a string in the array
+ \return int index of that string
+ \ingroup Basic
+*/
+TCAPIEXPORT int tc_getStringIndex(tc_strings A, const char * s);
+
+/*!\brief get the row number of a row name
+ \param tc_matrix matrix
+ \param char* a string in the matrix
+ \return int index of that string
+ \ingroup Basic
+*/
+TCAPIEXPORT int tc_getRowIndex(tc_matrix, const char * s);
+
+/*!\brief get the column number of a column name
+ \param tc_matrix matrix
+ \param char* a string in the matrix
+ \return int index of that string
+ \ingroup Basic
+*/
+TCAPIEXPORT int tc_getColumnIndex(tc_matrix, const char * s);
+
 /*!\brief delete a matrix
  \param &tc_matrix pointer to matrix
  \ingroup Basic

@@ -3708,6 +3708,135 @@ XS(_wrap_tc_setItem) {
 }
 
 
+XS(_wrap_tc_getStringIndex) {
+  {
+    tc_strings arg1 ;
+    char *arg2 = (char *) 0 ;
+    void *argp1 ;
+    int res1 = 0 ;
+    int res2 ;
+    char *buf2 = 0 ;
+    int alloc2 = 0 ;
+    int argvi = 0;
+    int result;
+    dXSARGS;
+    
+    if ((items < 2) || (items > 2)) {
+      SWIG_croak("Usage: tc_getStringIndex(A,s);");
+    }
+    {
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_strings,  0 );
+      if (!SWIG_IsOK(res1)) {
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getStringIndex" "', argument " "1"" of type '" "tc_strings""'"); 
+      }  
+      if (!argp1) {
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getStringIndex" "', argument " "1"" of type '" "tc_strings""'");
+      } else {
+        arg1 = *((tc_strings *)(argp1));
+      }
+    }
+    res2 = SWIG_AsCharPtrAndSize(ST(1), &buf2, NULL, &alloc2);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_getStringIndex" "', argument " "2"" of type '" "char const *""'");
+    }
+    arg2 = (char *)(buf2);
+    result = (int)tc_getStringIndex(arg1,(char const *)arg2);
+    ST(argvi) = SWIG_From_int  SWIG_PERL_CALL_ARGS_1((int)(result)); argvi++ ;
+    if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+    XSRETURN(argvi);
+  fail:
+    if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_tc_getRowIndex) {
+  {
+    tc_matrix arg1 ;
+    char *arg2 = (char *) 0 ;
+    void *argp1 ;
+    int res1 = 0 ;
+    int res2 ;
+    char *buf2 = 0 ;
+    int alloc2 = 0 ;
+    int argvi = 0;
+    int result;
+    dXSARGS;
+    
+    if ((items < 2) || (items > 2)) {
+      SWIG_croak("Usage: tc_getRowIndex(tc_matrix,s);");
+    }
+    {
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_matrix,  0 );
+      if (!SWIG_IsOK(res1)) {
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getRowIndex" "', argument " "1"" of type '" "tc_matrix""'"); 
+      }  
+      if (!argp1) {
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getRowIndex" "', argument " "1"" of type '" "tc_matrix""'");
+      } else {
+        arg1 = *((tc_matrix *)(argp1));
+      }
+    }
+    res2 = SWIG_AsCharPtrAndSize(ST(1), &buf2, NULL, &alloc2);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_getRowIndex" "', argument " "2"" of type '" "char const *""'");
+    }
+    arg2 = (char *)(buf2);
+    result = (int)tc_getRowIndex(arg1,(char const *)arg2);
+    ST(argvi) = SWIG_From_int  SWIG_PERL_CALL_ARGS_1((int)(result)); argvi++ ;
+    if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+    XSRETURN(argvi);
+  fail:
+    if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_tc_getColumnIndex) {
+  {
+    tc_matrix arg1 ;
+    char *arg2 = (char *) 0 ;
+    void *argp1 ;
+    int res1 = 0 ;
+    int res2 ;
+    char *buf2 = 0 ;
+    int alloc2 = 0 ;
+    int argvi = 0;
+    int result;
+    dXSARGS;
+    
+    if ((items < 2) || (items > 2)) {
+      SWIG_croak("Usage: tc_getColumnIndex(tc_matrix,s);");
+    }
+    {
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_matrix,  0 );
+      if (!SWIG_IsOK(res1)) {
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getColumnIndex" "', argument " "1"" of type '" "tc_matrix""'"); 
+      }  
+      if (!argp1) {
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getColumnIndex" "', argument " "1"" of type '" "tc_matrix""'");
+      } else {
+        arg1 = *((tc_matrix *)(argp1));
+      }
+    }
+    res2 = SWIG_AsCharPtrAndSize(ST(1), &buf2, NULL, &alloc2);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_getColumnIndex" "', argument " "2"" of type '" "char const *""'");
+    }
+    arg2 = (char *)(buf2);
+    result = (int)tc_getColumnIndex(arg1,(char const *)arg2);
+    ST(argvi) = SWIG_From_int  SWIG_PERL_CALL_ARGS_1((int)(result)); argvi++ ;
+    if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+    XSRETURN(argvi);
+  fail:
+    if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+    SWIG_croak_null();
+  }
+}
+
+
 XS(_wrap_tc_deleteMatrix) {
   {
     tc_matrix arg1 ;
@@ -13113,6 +13242,9 @@ static swig_command_info swig_commands[] = {
 {"tinkercellc::tc_setString", _wrap_tc_setString},
 {"tinkercellc::tc_getItem", _wrap_tc_getItem},
 {"tinkercellc::tc_setItem", _wrap_tc_setItem},
+{"tinkercellc::tc_getStringIndex", _wrap_tc_getStringIndex},
+{"tinkercellc::tc_getRowIndex", _wrap_tc_getRowIndex},
+{"tinkercellc::tc_getColumnIndex", _wrap_tc_getColumnIndex},
 {"tinkercellc::tc_deleteMatrix", _wrap_tc_deleteMatrix},
 {"tinkercellc::tc_deleteTable", _wrap_tc_deleteTable},
 {"tinkercellc::tc_deleteItemsArray", _wrap_tc_deleteItemsArray},

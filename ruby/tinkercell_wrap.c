@@ -3655,6 +3655,129 @@ fail:
 
 
 SWIGINTERN VALUE
+_wrap_tc_getStringIndex(int argc, VALUE *argv, VALUE self) {
+  tc_strings arg1 ;
+  char *arg2 = (char *) 0 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  int result;
+  VALUE vresult = Qnil;
+  
+  if ((argc < 2) || (argc > 2)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 2)",argc); SWIG_fail;
+  }
+  {
+    res1 = SWIG_ConvertPtr(argv[0], &argp1, SWIGTYPE_p_tc_strings,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "tc_strings","tc_getStringIndex", 1, argv[0] )); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, Ruby_Format_TypeError("invalid null reference ", "tc_strings","tc_getStringIndex", 1, argv[0]));
+    } else {
+      arg1 = *((tc_strings *)(argp1));
+    }
+  }
+  res2 = SWIG_AsCharPtrAndSize(argv[1], &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), Ruby_Format_TypeError( "", "char const *","tc_getStringIndex", 2, argv[1] ));
+  }
+  arg2 = (char *)(buf2);
+  result = (int)tc_getStringIndex(arg1,(char const *)arg2);
+  vresult = SWIG_From_int((int)(result));
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  return vresult;
+fail:
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_tc_getRowIndex(int argc, VALUE *argv, VALUE self) {
+  tc_matrix arg1 ;
+  char *arg2 = (char *) 0 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  int result;
+  VALUE vresult = Qnil;
+  
+  if ((argc < 2) || (argc > 2)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 2)",argc); SWIG_fail;
+  }
+  {
+    res1 = SWIG_ConvertPtr(argv[0], &argp1, SWIGTYPE_p_tc_matrix,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "tc_matrix","tc_getRowIndex", 1, argv[0] )); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, Ruby_Format_TypeError("invalid null reference ", "tc_matrix","tc_getRowIndex", 1, argv[0]));
+    } else {
+      arg1 = *((tc_matrix *)(argp1));
+    }
+  }
+  res2 = SWIG_AsCharPtrAndSize(argv[1], &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), Ruby_Format_TypeError( "", "char const *","tc_getRowIndex", 2, argv[1] ));
+  }
+  arg2 = (char *)(buf2);
+  result = (int)tc_getRowIndex(arg1,(char const *)arg2);
+  vresult = SWIG_From_int((int)(result));
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  return vresult;
+fail:
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_tc_getColumnIndex(int argc, VALUE *argv, VALUE self) {
+  tc_matrix arg1 ;
+  char *arg2 = (char *) 0 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  int result;
+  VALUE vresult = Qnil;
+  
+  if ((argc < 2) || (argc > 2)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 2)",argc); SWIG_fail;
+  }
+  {
+    res1 = SWIG_ConvertPtr(argv[0], &argp1, SWIGTYPE_p_tc_matrix,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "tc_matrix","tc_getColumnIndex", 1, argv[0] )); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, Ruby_Format_TypeError("invalid null reference ", "tc_matrix","tc_getColumnIndex", 1, argv[0]));
+    } else {
+      arg1 = *((tc_matrix *)(argp1));
+    }
+  }
+  res2 = SWIG_AsCharPtrAndSize(argv[1], &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), Ruby_Format_TypeError( "", "char const *","tc_getColumnIndex", 2, argv[1] ));
+  }
+  arg2 = (char *)(buf2);
+  result = (int)tc_getColumnIndex(arg1,(char const *)arg2);
+  vresult = SWIG_From_int((int)(result));
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  return vresult;
+fail:
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
 _wrap_tc_deleteMatrix(int argc, VALUE *argv, VALUE self) {
   tc_matrix arg1 ;
   void *argp1 ;
@@ -11998,6 +12121,9 @@ SWIGEXPORT void Init_tinkercell(void) {
   rb_define_module_function(mTinkercell, "tc_setString", _wrap_tc_setString, -1);
   rb_define_module_function(mTinkercell, "tc_getItem", _wrap_tc_getItem, -1);
   rb_define_module_function(mTinkercell, "tc_setItem", _wrap_tc_setItem, -1);
+  rb_define_module_function(mTinkercell, "tc_getStringIndex", _wrap_tc_getStringIndex, -1);
+  rb_define_module_function(mTinkercell, "tc_getRowIndex", _wrap_tc_getRowIndex, -1);
+  rb_define_module_function(mTinkercell, "tc_getColumnIndex", _wrap_tc_getColumnIndex, -1);
   rb_define_module_function(mTinkercell, "tc_deleteMatrix", _wrap_tc_deleteMatrix, -1);
   rb_define_module_function(mTinkercell, "tc_deleteTable", _wrap_tc_deleteTable, -1);
   rb_define_module_function(mTinkercell, "tc_deleteItemsArray", _wrap_tc_deleteItemsArray, -1);

@@ -22,25 +22,21 @@ namespace Tinkercell
 						 << "\\bArray\\b" << "\\barray\\b" << "\\btc_matrix\\b"
 						 << "\\btc_strings\\b" << "\\btc_items\\b" << "\\btc_table\\b"
 						 << "\\bmatrix\\b" << "\\bTCFunctions\\b" << "\\breturn\\b"
-						 << "\\bif\\b" << "\\belse\\b" << "\\belif\\b" << "\\bdef\\b";
-		 foreach (QString pattern, keywordPatterns) {
+						 << "\\bif\\b" << "\\belse\\b" << "\\belif\\b" << "\\bdef\\b"
+ 						 << "\\bimport\\b" << "\\brequire\\b" << "\\bput\\b";
+		 foreach (QString pattern, keywordPatterns) 
+		 {
 			 rule.pattern = QRegExp(pattern);
 			 rule.format = keywordFormat;
 			 highlightingRules.append(rule);
 		 }
 		 
-		 loopFormat1.setFontWeight(QFont::Bold);
-		 loopFormat1.setForeground(Qt::blue);
-		 rule.pattern = QRegExp("(for)|(while)\\s*\\[^{]+{");
-		 rule.format = loopFormat1;
+		 loopFormat.setFontWeight(QFont::Bold);
+		 loopFormat.setForeground(Qt::blue);
+		 rule.pattern = QRegExp("(for)|(while)|(end)");
+		 rule.format = loopFormat;
 		 highlightingRules.append(rule);
 		 
-		 loopFormat2.setFontWeight(QFont::Bold);
-		 loopFormat2.setForeground(Qt::blue);
-		 rule.pattern = QRegExp("(for)|(while) .*:\\s*\\n");
-		 rule.format = loopFormat2;
-		 highlightingRules.append(rule);
-
 		 classFormat.setFontWeight(QFont::Bold);
 		 classFormat.setForeground(Qt::darkMagenta);
 		 rule.pattern = QRegExp("\\b[A-Za-z_]+[A-Za-z0-9_]+\\.");

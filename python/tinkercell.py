@@ -233,6 +233,18 @@ def tc_setItem(*args):
   return _tinkercell.tc_setItem(*args)
 tc_setItem = _tinkercell.tc_setItem
 
+def tc_getStringIndex(*args):
+  return _tinkercell.tc_getStringIndex(*args)
+tc_getStringIndex = _tinkercell.tc_getStringIndex
+
+def tc_getRowIndex(*args):
+  return _tinkercell.tc_getRowIndex(*args)
+tc_getRowIndex = _tinkercell.tc_getRowIndex
+
+def tc_getColumnIndex(*args):
+  return _tinkercell.tc_getColumnIndex(*args)
+tc_getColumnIndex = _tinkercell.tc_getColumnIndex
+
 def tc_deleteMatrix(*args):
   return _tinkercell.tc_deleteMatrix(*args)
 tc_deleteMatrix = _tinkercell.tc_deleteMatrix

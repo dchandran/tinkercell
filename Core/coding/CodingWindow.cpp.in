@@ -396,6 +396,7 @@ specific for:\n\"\"\"\n\n") + text;
 	    if (!b || selectedLanguage == C) return;
 	    
 	    selectedLanguage = C;
+		TCFunctionsListView::prefix = tr("");
 	    
 	    if (cButton)
 	        cButton->setChecked(true);
@@ -416,6 +417,7 @@ specific for:\n\"\"\"\n\n") + text;
 	    if (widget)
 	    {
 			selectedLanguage = Octave;
+			TCFunctionsListView::prefix = tr("tinkercell.");
 			
 	  	    if (octaveButton)
 			    octaveButton->setChecked(true);
@@ -444,6 +446,7 @@ specific for:\n\"\"\"\n\n") + text;
 	    if (widget)
 	    {    
 			selectedLanguage = Python;
+			TCFunctionsListView::prefix = tr("");
 			
 	   	    if (pythonButton)
 			    pythonButton->setChecked(true);
@@ -472,6 +475,7 @@ specific for:\n\"\"\"\n\n") + text;
 	    if (widget)
 	    {    
 			selectedLanguage = Ruby;
+			TCFunctionsListView::prefix = tr("Tinkercell.");
 			
 	   	    if (rubyButton)
 			    rubyButton->setChecked(true);
@@ -589,12 +593,12 @@ specific for:\n\"\"\"\n\n") + text;
 		QString appDir = QCoreApplication::applicationDirPath();
 
 		QSplitter * splitter = new QSplitter(Qt::Horizontal);
-	        splitter->addWidget(editorWidget);
-        	splitter->addWidget(new TCFunctionsListView(mainWindow, appDir + tr("/c"), editor));
-	        splitter->setStretchFactor(0,2);
+        splitter->addWidget(editorWidget);
+       	splitter->addWidget(new TCFunctionsListView(mainWindow, appDir + tr("/c"), editor));
+        splitter->setStretchFactor(0,2);
 
-	        window->setCentralWidget(splitter);
-	        window->setWindowTitle(name);
+        window->setCentralWidget(splitter);
+        window->setWindowTitle(name);
 
 		if (mainWindow)
 		{
@@ -1234,7 +1238,10 @@ specific for:\n\"\"\"\n\n") + text;
 		 QTreeWidgetItem * item = this->currentItem();
 		 if (item && indexOfTopLevelItem(item) == -1)
 		 {
-			emit insertText(item->text(1));
+			QString s = item->text(1);
+			if (!TCFunctionsListView::prefix.isEmpty())
+				s.replace(QString("tc_"), TCFunctionsListView::prefix + QString("tc_"));
+			emit insertText(s);
 		 }
 	 }
 
@@ -1249,8 +1256,10 @@ specific for:\n\"\"\"\n\n") + text;
 			QTreeWidgetItem * item = this->currentItem();
 			 if (item && indexOfTopLevelItem(item) == -1)
 			 {
-
-				emit insertText(item->text(1));
+				QString s = item->text(1);
+				if (!TCFunctionsListView::prefix.isEmpty())
+					s.replace(QString("tc_"), TCFunctionsListView::prefix + QString("tc_"));
+				emit insertText(s);
 			 }
 		 }
 	 }
@@ -1262,4 +1271,7 @@ specific for:\n\"\"\"\n\n") + text;
 			showNormal();
 		Tool::setVisible(visible);
 	 }
+
+	QString TCFunctionsListView::prefix = QString();
 }
+

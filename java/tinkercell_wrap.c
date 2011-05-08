@@ -1061,6 +1061,90 @@ SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1setItem(JNIEnv *jenv, jclass jcls
 }
 
 
+SWIGEXPORT jint JNICALL Java_tinkercellJNI_tc_1getStringIndex(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2) {
+  jint jresult = 0 ;
+  tc_strings arg1 ;
+  char *arg2 = (char *) 0 ;
+  tc_strings *argp1 ;
+  int result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  argp1 = *(tc_strings **)&jarg1; 
+  if (!argp1) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null tc_strings");
+    return 0;
+  }
+  arg1 = *argp1; 
+  arg2 = 0;
+  if (jarg2) {
+    arg2 = (char *)(*jenv)->GetStringUTFChars(jenv, jarg2, 0);
+    if (!arg2) return 0;
+  }
+  result = (int)tc_getStringIndex(arg1,(char const *)arg2);
+  jresult = (jint)result; 
+  if (arg2) (*jenv)->ReleaseStringUTFChars(jenv, jarg2, (const char *)arg2);
+  return jresult;
+}
+
+
+SWIGEXPORT jint JNICALL Java_tinkercellJNI_tc_1getRowIndex(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2) {
+  jint jresult = 0 ;
+  tc_matrix arg1 ;
+  char *arg2 = (char *) 0 ;
+  tc_matrix *argp1 ;
+  int result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  argp1 = *(tc_matrix **)&jarg1; 
+  if (!argp1) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null tc_matrix");
+    return 0;
+  }
+  arg1 = *argp1; 
+  arg2 = 0;
+  if (jarg2) {
+    arg2 = (char *)(*jenv)->GetStringUTFChars(jenv, jarg2, 0);
+    if (!arg2) return 0;
+  }
+  result = (int)tc_getRowIndex(arg1,(char const *)arg2);
+  jresult = (jint)result; 
+  if (arg2) (*jenv)->ReleaseStringUTFChars(jenv, jarg2, (const char *)arg2);
+  return jresult;
+}
+
+
+SWIGEXPORT jint JNICALL Java_tinkercellJNI_tc_1getColumnIndex(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2) {
+  jint jresult = 0 ;
+  tc_matrix arg1 ;
+  char *arg2 = (char *) 0 ;
+  tc_matrix *argp1 ;
+  int result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  argp1 = *(tc_matrix **)&jarg1; 
+  if (!argp1) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null tc_matrix");
+    return 0;
+  }
+  arg1 = *argp1; 
+  arg2 = 0;
+  if (jarg2) {
+    arg2 = (char *)(*jenv)->GetStringUTFChars(jenv, jarg2, 0);
+    if (!arg2) return 0;
+  }
+  result = (int)tc_getColumnIndex(arg1,(char const *)arg2);
+  jresult = (jint)result; 
+  if (arg2) (*jenv)->ReleaseStringUTFChars(jenv, jarg2, (const char *)arg2);
+  return jresult;
+}
+
+
 SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1deleteMatrix(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   tc_matrix arg1 ;
   tc_matrix *argp1 ;

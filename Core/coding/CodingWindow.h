@@ -59,6 +59,7 @@ namespace Tinkercell
 	public:
 		TCFunctionsListView(MainWindow *, const QString&, CodeEditor * textEdit);
 		ConsoleWindow * console;
+		static QString prefix;
 
 	signals:
 		void insertText(const QString&);

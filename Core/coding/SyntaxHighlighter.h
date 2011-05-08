@@ -43,7 +43,7 @@ namespace Tinkercell
 		 QTextCharFormat multiLineCommentFormat;
 		 QTextCharFormat quotationFormat;
 		 QTextCharFormat functionFormat;
-		 QTextCharFormat loopFormat1, loopFormat2;
+		 QTextCharFormat loopFormat;
 	 };
 }
 #endif

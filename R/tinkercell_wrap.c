@@ -2966,6 +2966,129 @@ R_swig_tc_setItem ( SEXP A, SEXP i, SEXP o)
 
 
 SWIGEXPORT SEXP
+R_swig_tc_getStringIndex ( SEXP A, SEXP s, SEXP s_swig_copy)
+{
+  int result;
+  tc_strings arg1 ;
+  char *arg2 = (char *) 0 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  {
+    res1 = SWIG_R_ConvertPtr(A, &argp1, SWIGTYPE_p_tc_strings,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getStringIndex" "', argument " "1"" of type '" "tc_strings""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getStringIndex" "', argument " "1"" of type '" "tc_strings""'");
+    } else {
+      arg1 = *((tc_strings *)(argp1));
+    }
+  }
+  res2 = SWIG_AsCharPtrAndSize(s, &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_getStringIndex" "', argument " "2"" of type '" "char const *""'");
+  }
+  arg2 = (char *)(buf2);
+  result = (int)tc_getStringIndex(arg1,(char const *)arg2);
+  r_ans = Rf_ScalarInteger(result);
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
+SWIGEXPORT SEXP
+R_swig_tc_getRowIndex ( SEXP s_arg1, SEXP s, SEXP s_swig_copy)
+{
+  int result;
+  tc_matrix arg1 ;
+  char *arg2 = (char *) 0 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  {
+    res1 = SWIG_R_ConvertPtr(s_arg1, &argp1, SWIGTYPE_p_tc_matrix,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getRowIndex" "', argument " "1"" of type '" "tc_matrix""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getRowIndex" "', argument " "1"" of type '" "tc_matrix""'");
+    } else {
+      arg1 = *((tc_matrix *)(argp1));
+    }
+  }
+  res2 = SWIG_AsCharPtrAndSize(s, &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_getRowIndex" "', argument " "2"" of type '" "char const *""'");
+  }
+  arg2 = (char *)(buf2);
+  result = (int)tc_getRowIndex(arg1,(char const *)arg2);
+  r_ans = Rf_ScalarInteger(result);
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
+SWIGEXPORT SEXP
+R_swig_tc_getColumnIndex ( SEXP s_arg1, SEXP s, SEXP s_swig_copy)
+{
+  int result;
+  tc_matrix arg1 ;
+  char *arg2 = (char *) 0 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  {
+    res1 = SWIG_R_ConvertPtr(s_arg1, &argp1, SWIGTYPE_p_tc_matrix,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getColumnIndex" "', argument " "1"" of type '" "tc_matrix""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getColumnIndex" "', argument " "1"" of type '" "tc_matrix""'");
+    } else {
+      arg1 = *((tc_matrix *)(argp1));
+    }
+  }
+  res2 = SWIG_AsCharPtrAndSize(s, &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_getColumnIndex" "', argument " "2"" of type '" "char const *""'");
+  }
+  arg2 = (char *)(buf2);
+  result = (int)tc_getColumnIndex(arg1,(char const *)arg2);
+  r_ans = Rf_ScalarInteger(result);
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
+SWIGEXPORT SEXP
 R_swig_tc_deleteMatrix ( SEXP M)
 {
   tc_matrix arg1 ;
@@ -15762,8 +15885,8 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_setDisplayLabelColor", (DL_FUNC) &R_swig_tc_setDisplayLabelColor, 2},
    {"R_swig_tc_getStoichiometryFor", (DL_FUNC) &R_swig_tc_getStoichiometryFor, 2},
    {"R_swig_tc_setStoichiometryFor", (DL_FUNC) &R_swig_tc_setStoichiometryFor, 2},
-   {"R_swig_tc_getParametersAndFixedVariables", (DL_FUNC) &R_swig_tc_getParametersAndFixedVariables, 2},
    {"R_swig_tc_getFixedVariables", (DL_FUNC) &R_swig_tc_getFixedVariables, 2},
+   {"R_swig_tc_getParametersAndFixedVariables", (DL_FUNC) &R_swig_tc_getParametersAndFixedVariables, 2},
    {"R_swig_tc_surface", (DL_FUNC) &R_swig_tc_surface, 2},
    {"R_swig_tc_LabelingTool_api", (DL_FUNC) &R_swig_tc_LabelingTool_api, 5},
    {"R_swig_tc_getParent", (DL_FUNC) &R_swig_tc_getParent, 2},
@@ -15814,6 +15937,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_matrix_rows_set", (DL_FUNC) &R_swig_tc_matrix_rows_set, 2},
    {"R_swig_tc_setNumericalData", (DL_FUNC) &R_swig_tc_setNumericalData, 3},
    {"R_swig_tc_getNumericalData", (DL_FUNC) &R_swig_tc_getNumericalData, 3},
+   {"R_swig_tc_getRowIndex", (DL_FUNC) &R_swig_tc_getRowIndex, 3},
    {"R_swig_tc_setCenterPoint", (DL_FUNC) &R_swig_tc_setCenterPoint, 3},
    {"R_swig_tc_insertAnnotations", (DL_FUNC) &R_swig_tc_insertAnnotations, 3},
    {"R_swig_tc_annotations", (DL_FUNC) &R_swig_tc_annotations, 0},
@@ -15884,6 +16008,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_getStringFromList", (DL_FUNC) &R_swig_tc_getStringFromList, 4},
    {"R_swig_tc_isMac", (DL_FUNC) &R_swig_tc_isMac, 1},
    {"R_swig_tc_steadyStateScan", (DL_FUNC) &R_swig_tc_steadyStateScan, 5},
+   {"R_swig_tc_getColumnIndex", (DL_FUNC) &R_swig_tc_getColumnIndex, 3},
    {"R_swig_tc_CThread_api_initialize", (DL_FUNC) &R_swig_tc_CThread_api_initialize, 4},
    {"R_swig_tc_Main_api_initialize", (DL_FUNC) &R_swig_tc_Main_api_initialize, 78},
    {"R_swig_tc_setPos", (DL_FUNC) &R_swig_tc_setPos, 3},
@@ -15967,6 +16092,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_matrix_values_set", (DL_FUNC) &R_swig_tc_matrix_values_set, 2},
    {"R_swig_tc_screenHeight", (DL_FUNC) &R_swig_tc_screenHeight, 1},
    {"R_swig_tc_getHeight", (DL_FUNC) &R_swig_tc_getHeight, 2},
+   {"R_swig_tc_getStringIndex", (DL_FUNC) &R_swig_tc_getStringIndex, 3},
    {"R_swig_tc_addInputWindowCheckbox", (DL_FUNC) &R_swig_tc_addInputWindowCheckbox, 3},
    {"R_swig_tc_table_rows_get", (DL_FUNC) &R_swig_tc_table_rows_get, 2},
    {"R_swig_tc_matrix_rows_get", (DL_FUNC) &R_swig_tc_matrix_rows_get, 2},

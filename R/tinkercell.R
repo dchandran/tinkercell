@@ -1840,6 +1840,45 @@ attr(`tc_setItem`, 'returnType') = 'void'
 attr(`tc_setItem`, "inputTypes") = c('_p_tc_items', 'integer', 'integer')
 class(`tc_setItem`) = c("SWIGFunction", class('tc_setItem'))
 
+# Start of tc_getStringIndex
+
+`tc_getStringIndex` = function(A, s, .copy = FALSE)
+{
+  s = as(s, "character") 
+  .Call('R_swig_tc_getStringIndex', A, s, as.logical(.copy), PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_getStringIndex`, 'returnType') = 'integer'
+attr(`tc_getStringIndex`, "inputTypes") = c('_p_tc_strings', 'character')
+class(`tc_getStringIndex`) = c("SWIGFunction", class('tc_getStringIndex'))
+
+# Start of tc_getRowIndex
+
+`tc_getRowIndex` = function(s_arg1, s, .copy = FALSE)
+{
+  s = as(s, "character") 
+  .Call('R_swig_tc_getRowIndex', s_arg1, s, as.logical(.copy), PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_getRowIndex`, 'returnType') = 'integer'
+attr(`tc_getRowIndex`, "inputTypes") = c('_p_tc_matrix', 'character')
+class(`tc_getRowIndex`) = c("SWIGFunction", class('tc_getRowIndex'))
+
+# Start of tc_getColumnIndex
+
+`tc_getColumnIndex` = function(s_arg1, s, .copy = FALSE)
+{
+  s = as(s, "character") 
+  .Call('R_swig_tc_getColumnIndex', s_arg1, s, as.logical(.copy), PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_getColumnIndex`, 'returnType') = 'integer'
+attr(`tc_getColumnIndex`, "inputTypes") = c('_p_tc_matrix', 'character')
+class(`tc_getColumnIndex`) = c("SWIGFunction", class('tc_getColumnIndex'))
+
 # Start of tc_deleteMatrix
 
 `tc_deleteMatrix` = function(M)

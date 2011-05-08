@@ -80,7 +80,7 @@ namespace Tinkercell
 			if (!QFile::exists(GlobalSettings::homeDir() + QObject::tr("/.svn")))
 			{
 			#ifdef Q_WS_WIN
-				homeDir.replace(tr("/"),tr("\\"));
+				homeDir.replace(tr("/"),tr("\\\\"));
 				homeDir = tr("\"") + homeDir + tr("\"");
 			#endif
 				s = QObject::tr("svn co https://tinkercellextra.svn.sourceforge.net/svnroot/tinkercellextra ") + homeDir;
@@ -90,6 +90,7 @@ namespace Tinkercell
 			}
 
 			s = QObject::tr("cd ") + homeDir + QObject::tr("; svn update");
+			err = system(s.toAscii().data());
 			/*if (err != 0 || system(s.toAscii().data()) != 0)
 			{
 				QMessageBox::information(Tinkercell::MainWindow::instance(), "Error", "Unable to update plugins. Check that Subversion is installed and located in the system path. For now, the auto-update has been DISABLED");

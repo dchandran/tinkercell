@@ -23,7 +23,8 @@ namespace Tinkercell
 						 << "\\btc_strings\\b" << "\\btc_items\\b" << "\\btc_table\\b"
 						 << "\\bmatrix\\b" << "\\bTCFunctions\\b" << "\\breturn\\b"
 						 << "\\bif\\b" << "\\belse\\b" << "\\belif\\b" << "\\bdef\\b"
- 						 << "\\bimport\\b" << "\\brequire\\b" << "\\bput\\b";
+ 						 << "\\bimport\\b" << "\\brequire\\b" << "\\bput\\b"
+						 << "\\bfunction\\b";
 		 foreach (QString pattern, keywordPatterns) 
 		 {
 			 rule.pattern = QRegExp(pattern);
@@ -44,14 +45,14 @@ namespace Tinkercell
 		 highlightingRules.append(rule);
 
 		 singleLineCommentFormat.setForeground(Qt::red);
-		 rule.pattern = QRegExp("(//|#)[^\n]*");
+		 rule.pattern = QRegExp("(//|#|%)[^\n]*");
 		 rule.format = singleLineCommentFormat;
 		 highlightingRules.append(rule);
 
 		 multiLineCommentFormat.setForeground(Qt::red);
 
 		 quotationFormat.setForeground(Qt::darkGreen);
-		 rule.pattern = QRegExp("\"[^\"]*\"");
+		 rule.pattern = QRegExp("(\"[^\"]*\")|('[^']*')");
 		 rule.format = quotationFormat;
 		 highlightingRules.append(rule);
 

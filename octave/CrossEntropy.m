@@ -48,7 +48,7 @@ function [mu, sigma2,paramnames] = CrossEntropy(objective, title="optimizing", m
     end
     paramnames = fromTC(params.rownames);
     sigma2 = diag(minmax);
-    tinkercell.tc_showProgress(title, 0);
+    tinkercell.tc_showProgress(title, int32(0));
     while (t < maxits && (t<2 || (oldmax - curmax) > epsilon))     #While not converged and maxits not exceeded
         X = mvnrnd(mu,sigma2,N);         #Obtain N samples from current sampling distribution
         indx = 1:N;
@@ -85,24 +85,24 @@ function [mu, sigma2,paramnames] = CrossEntropy(objective, title="optimizing", m
             lasterr = t2;
         end
         if (t < 2 || t1 > lasterr)
-            tinkercell.tc_showProgress(title, int(t1));
+            tinkercell.tc_showProgress(title, int32(t1));
         else
-            tinkercell.tc_showProgress(title, int(lasterr));
+            tinkercell.tc_showProgress(title, int32(lasterr));
         end
         if (minimize)
             [S2, indx] = sort(S);
         else
             [S2, indx] = sort(-S);
         end
-        X = X(indx);                     #Sort X by objective function values
-        X1 = matrix(X(1:Ne));      #select top
+        X = X(indx,:);                     #Sort X by objective function values
+        X1 = X(1:Ne,:);      #select top
         X2 = X1';
         for i = 1:n
-            mu(i) = mean(X2(i))      #Update mean of sampling distribution
+            mu(i) = mean(X2(i,:))      #Update mean of sampling distribution
         end
         sigma2 = cov(X2);               #Update variance of sampling distribution
     end
-    tinkercell.tc_showProgress(title, 100);
+    tinkercell.tc_showProgress(title, int32(100));
     [e,v] = eig(sigma2);
     props = 100.0 * e./sum(e);
     fout = fopen ("crossentropy.out","w");

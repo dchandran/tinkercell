@@ -4,6 +4,7 @@
  see COPYRIGHT.TXT
  
 ****************************************************************************/
+#include <QDesktopServices>
 #include <QVBoxLayout>
 #include <QDockWidget>
 #include <QProcess>
@@ -200,9 +201,12 @@ namespace Tinkercell
 			runOctaveCode(s);
 			
 			ConsoleWindow * outWin = console();
-			if (outWin && !outWin->interpreter() && octaveInterpreter)
+			if (outWin)
 			{
-				outWin->setInterpreter(octaveInterpreter);
+				if (!outWin->lastError().isEmpty())
+					QDesktopServices::openUrl(QUrl(appDir + tr("/octave/init.m")));
+				if (!outWin->interpreter() && octaveInterpreter)
+					outWin->setInterpreter(octaveInterpreter);
 			}
 			
 			return true;

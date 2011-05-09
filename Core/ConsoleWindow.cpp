@@ -183,6 +183,8 @@ namespace Tinkercell
 			return;
 		}
 		
+		_lastError = s;
+		
 		QTextCursor cursor = textCursor();
 		cursor.setPosition(currentPosition);
 
@@ -207,6 +209,8 @@ namespace Tinkercell
 			messagesStack << s;
 			return;
 		}
+		
+		_lastOutput = s;
 		
 		QTextCursor cursor = textCursor();
 		QTextDocument * doc = cursor.document();
@@ -265,6 +269,7 @@ namespace Tinkercell
 		{
 			if (!messagesStack.isEmpty())
 			{
+				_lastOutput = messagesStack.last();
 				cursor.setCharFormat(messageFormat);
 				cursor.insertText(messagesStack.join(tr("\n")) + tr("\n"));
 				alreadyInsertedPrompt = false;
@@ -273,6 +278,7 @@ namespace Tinkercell
 
 			if (!errorsStack.isEmpty())
 			{
+				_lastError = errorsStack.last();
 				cursor.setCharFormat(errorFormat);
 				cursor.insertText(tr("Error: ") + errorsStack.join(tr("\n")) +  tr("\n"));
 				alreadyInsertedPrompt = false;

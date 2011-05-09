@@ -96,6 +96,10 @@ namespace Tinkercell
 		QStringList messagesStack;
 		/*! \brief list of errors pending*/
 		QStringList errorsStack;
+		/*! \brief last error message*/
+		QString _lastError;
+		/*! \brief last output message*/
+		QString _lastOutput;
 		/*! \brief current position in the history of commands*/
 		int currentHistoryIndex;
 		/*! \brief current position of the cursor in the text box*/

@@ -204,9 +204,12 @@ namespace Tinkercell
             }
             
             ConsoleWindow * outWin = console();
-			if (outWin && !outWin->interpreter() && pythonInterpreter)
+			if (outWin)
 			{
-				outWin->setInterpreter(pythonInterpreter);
+				if (!outWin->lastError().isEmpty())
+					QDesktopServices::openUrl(QUrl(appDir + tr("/python/init.py")));
+				if (!outWin->interpreter() && pythonInterpreter)
+					outWin->setInterpreter(pythonInterpreter);
 			}
 			
 			return true;

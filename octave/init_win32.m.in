@@ -1,5 +1,5 @@
-addpath('C:/Octave/libexec/octave/packages/symbolic-1.0.9/i686-pc-mingw32-api-v37')
-addpath('C:/Octave/share/octave/packages/symbolic-1.0.9')
+%addpath('C:/Octave/libexec/octave/packages/symbolic-1.0.9/i686-pc-mingw32-api-v37')
+%addpath('C:/Octave/share/octave/packages/symbolic-1.0.9')
 addpath('C:/Octave/libexec/octave/packages/linear-algebra-1.0.8/i686-pc-mingw32-api-v37')
 addpath('C:/Octave/share/octave/packages/linear-algebra-1.0.8')
 addpath('C:/Octave/share/octave/packages/gnuplot-1.0.1')

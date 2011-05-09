@@ -151,9 +151,9 @@ namespace Tinkercell
 				for (int i=0; i < subdirs.size(); ++i)
 				{
 					QString dir = subdirs[i];
-					#ifdef Q_WS_WIN
-						dir = dir.replace("/","\\\\");
-					#endif
+					//#ifdef Q_WS_WIN
+						//dir = dir.replace("/","\\\\");
+					//#endif
 					script += tr("addpath(\"") + dir + tr("\")\n");
 				}
 

@@ -201,7 +201,7 @@ namespace Tinkercell
 				QFile errfile(ERROR_FILE);
             	if (errfile.open(QFile::ReadOnly | QFile::Text))
             	{
-		            QString allText(errfile.readLine());
+		            QString allText(errfile.readAll());
 		            if (!allText.isEmpty() && !allText.contains(tr("octave_base_value::print")))
 						mainWindow->console()->error(allText);
 					errfile.close();

@@ -16,7 +16,7 @@ function [mu, sigma2,paramnames] = CrossEntropy(objective, title="optimizing", m
     n = 0;
     for i = 0:(allparams.rows-1)
         if (tinkercell.tc_getMatrixValue(allparams, i, 2) != tinkercell.tc_getMatrixValue(allparams, i, 1)) 
-            n += 1;
+            n = n+1;
         end
     end
     if (n < 1)
@@ -33,7 +33,7 @@ function [mu, sigma2,paramnames] = CrossEntropy(objective, title="optimizing", m
    end
     params = tinkercell.tc_createMatrix(n,3);
     minmax = zeros(n,1);
-    mu = zeros(n,1);
+    mu = zeros(1,n);
     j = 0;
     for i = 0:(allparams.rows-1)
         if (tinkercell.tc_getMatrixValue(allparams, i, 2) != tinkercell.tc_getMatrixValue(allparams, i, 1))
@@ -43,10 +43,11 @@ function [mu, sigma2,paramnames] = CrossEntropy(objective, title="optimizing", m
             tinkercell.tc_setRowName(params,j, tinkercell.tc_getRowName(allparams, i));
             mu(j+1) = tinkercell.tc_getMatrixValue(params, i, 0);
             minmax(j+1) = ((tinkercell.tc_getMatrixValue(allparams, i, 2) - tinkercell.tc_getMatrixValue(allparams, i, 1))/3.0).^2;
-            j += 1;
+            j = j+1;
         end
     end
-    paramnames = fromTC(params.rownames);
+    size(mu)
+    paramnames = params.rownames;
     sigma2 = diag(minmax);
     tinkercell.tc_showProgress(title, int32(0));
     while (t < maxits && (t<2 || (oldmax - curmax) > epsilon))     #While not converged and maxits not exceeded
@@ -110,7 +111,7 @@ function [mu, sigma2,paramnames] = CrossEntropy(objective, title="optimizing", m
     fprintf(fout,  "Optimized parameters (mean and st.dev)\n");
     fprintf(fout, "==============================================\n\nnames: ");
 	for i = 1:len(mu)
-        fprintf(fout, "    %s", paramnames(i));
+        fprintf(fout, "    %s", tinkercell.tc_getString(paramnames,i));
     end
     fprintf(fout, "\nmean:  ");
     for i = 1:len(mu)
@@ -129,11 +130,11 @@ function [mu, sigma2,paramnames] = CrossEntropy(objective, title="optimizing", m
     fprintf(fout, "==============================================\n\n");
     for i = 1:size(e,1)
 	    fprintf(fout, "%lf percent of the variability can be attributed to the following linear combination:\n", props(i));
-	    for j = 1:size(paramnames,1)
+	    for j = 1:paramnames.length
 	        if (j > 1)
-	            fprintf(fout, "\n %lf * %s", v(i,j), paramnames(j));
+	            fprintf(fout, "\n %lf * %s", v(i,j), tinkercell.tc_getString(paramnames,j));
 	        else
-	            fprintf(fout, "%lf * %s", v(i,j), paramnames(j));
+	            fprintf(fout, "%lf * %s", v(i,j), tinkercell.tc_getString(paramnames,j));
             end
 	    fprintf(fout, "\n\n");
     end

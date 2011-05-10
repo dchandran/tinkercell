@@ -1,74 +1,75 @@
-<Node>								<description>			"Nodes can be connected to one another using one of the various types of connections. The two main divisions of nodes are DNA parts and molecular species"@en .
-<Molecule>						<a>							<Node> .
-<Catalyst>						<a>							<Node> .
-<Reporter>						<a>							<Node> .
-<Small Molecule>				<a>							<Molecule> .
-<Protein>							<a>							<Molecule> .
-<Enzyme>							<a>							<Protein> .
-<Enzyme>							<a>							<Catalyst> .
-<Transcription Factor>	<a>							<Enzyme> .
-<Receptor>						<a>							<Protein> .
-<Fluorescent Protein>		<a>							<Protein> .
-<Fluorescent Protein>		<a>							<Reporter> .
-<RNA>								<a>							<Molecule> .
-<mRNA>							<a>							<RNA> .
-<Ribozyme>						<a>							<RNA> .
-<Ribozyme>						<a>							<Catalyst> .
-<Molecule>						<units>						"concentration,uM nM mM"@en .
-<Molecule>						<description>			"Molecular species that diffuse through the cell, such as proteins, RNA, or metabolites"@en .
-<Small Molecule>				<description>			"Metabolites and ions"@en .
-<Protein>							<description>			"Chain of amino acids"@en .
-<Enzyme>							<description>			"Proteins that catalyze a metabolic reaction"@en .
-<Receptor>						<description>			"Proteins that are localized on the membrane"@en .
-<Transcription Factor>	<description>			"Proteins that bind to a regulatory site and influence the activity of the downstream promoter"@en .
-<Transcription Factor>	<target>					"unknown operator"@en .
-<Transcription Factor>	<bindingsequence>	"unknown sequence"@en .
-<Reporter>						<description>			"Molecules that are used for detecting some activity in a cell"@en .
-<Protein>							<sequence>				"XXXXXXXX"@en .
-<RNA>								<sequence>				"XXXXXXXX"@en .
-<RNA>								<description>			"Chain of nucleic acids"@en .
-<Ribozyme>						<description>			"RNA molecules with catalytic activity"@en .
-<Part>								<a>							<Node> .
-<Part>								<units>						"activity,PoPS"@en.
-<Part>								<sequence>				"NNNNNNNNNN"@en.
-<Part>								<description>			"DNA nodes represent components that belong on a DNA strand, such as promoter, genes, etc" .
-<Composite Part>				<a>							<Part> .
-<Coding>							<a>							<Part> .
-<Operator>						<a>							<Part> .
-<Activator Binding Site>	<a>							<Operator> .
-<Repressor Binding Site>	<a>							<Operator> .
-<Promoter>						<a>							<Part> .
-<Constitutive Promoter>	<a>							<Promoter> .
-<Inducible Promoter>		<a>							<Promoter> .
-<Inducible Promoter>		<a>							<Activator Binding Site> .
-<Repressible Promoter>	<a>							<Promoter> .
-<Repressible Promoter>	<a>							<Repressor Binding Site> .
+<Node>									<description>			"Nodes can be connected to one another using one of the various types of connections. The two main divisions of nodes are DNA parts and molecular species"@en .
+<Molecule>							<a>							<Node> .
+<Catalyst>							<a>							<Node> .
+<Reporter>							<a>							<Node> .
+<Small Molecule>					<a>							<Molecule> .
+<Protein>								<a>							<Molecule> .
+<Enzyme>								<a>							<Protein> .
+<Enzyme>								<a>							<Catalyst> .
+<Transcription Factor>		<a>							<Enzyme> .
+<Receptor>							<a>							<Protein> .
+<Fluorescent Protein>			<a>							<Protein> .
+<Fluorescent Protein>			<a>							<Reporter> .
+<RNA>									<a>							<Molecule> .
+<mRNA>								<a>							<RNA> .
+<Ribozyme>							<a>							<RNA> .
+<Ribozyme>							<a>							<Catalyst> .
+<Molecule>							<units>						"concentration,uM nM mM"@en .
+<Molecule>							<description>			"Molecular species that diffuse through the cell, such as proteins, RNA, or metabolites"@en .
+<Small Molecule>					<description>			"Metabolites and ions"@en .
+<Protein>								<description>			"Chain of amino acids"@en .
+<Enzyme>								<description>			"Proteins that catalyze a metabolic reaction"@en .
+<Receptor>							<description>			"Proteins that are localized on the membrane"@en .
+<Transcription Factor>		<description>			"Proteins that bind to a regulatory site and influence the activity of the downstream promoter"@en .
+<Transcription Factor>		<target>					"unknown operator"@en .
+<Transcription Factor>		<bindingsequence>	"unknown sequence"@en .
+<Reporter>							<description>			"Molecules that are used for detecting some activity in a cell"@en .
+<Protein>								<sequence>				"XXXXXXXX"@en .
+<RNA>									<sequence>				"XXXXXXXX"@en .
+<RNA>									<description>			"Chain of nucleic acids"@en .
+<Ribozyme>							<description>			"RNA molecules with catalytic activity"@en .
+<Part>									<a>							<Node> .
+<Part>									<units>						"activity,PoPS"@en.
+<Part>									<sequence>				"NNNNNNNNNN"@en.
+<Part>									<description>			"DNA nodes represent components that belong on a DNA strand, such as promoter, genes, etc" .
+<Composite Part>					<a>							<Part> .
+<Coding>								<a>							<Part> .
+<Operator>							<a>							<Part> .
+<Activator Binding Site>		<a>							<Operator> .
+<Repressor Binding Site>		<a>							<Operator> .
+<Promoter>							<a>							<Part> .
+<Constitutive Promoter>		<a>							<Promoter> .
+<Inducible Promoter>			<a>							<Promoter> .
+<Inducible Promoter>			<a>							<Activator Binding Site> .
+<Repressible Promoter>		<a>							<Promoter> .
+<Repressible Promoter>		<a>							<Repressor Binding Site> .
 <Activator Binding Site>		<description>		"A binding site that can be bound to activate the nearby promoter" .
 <Repressor Binding Site>		<description>		"A binding site that can be bound to repress the nearby promoter" .
 <Inducible Promoter>			<description>		"A promoter with a binding site that requires a transcription factor for activation" .
 <Repressible Promoter>		<description>		"A promoter with a binding site that can be repressed by a transcription factor" .
-<Repressible Promoter>		<description>		"A promoter with a binding site that can be repressed by a transcription factor" .
+<Repressible Promoter>		<description>			"A promoter with a binding site that can be repressed by a transcription factor" .
 <RBS>									<a>							<Part> .
-<RBS>									<description>		"Ribosome binding site"@en .
-<Terminator>						<a>							<Part> .
-<Terminator>						<description>		"Transcriptional terminator"@en .
-<Sticky Ends>						<a>							<Part> .
+<RBS>									<description>			"Ribosome binding site"@en .
+<RBS>									<strength>				"1.0"	.
+<Terminator>						<a>								<Part> .
+<Terminator>						<description>				"Transcriptional terminator"@en .
+<Terminator>						<strength>					"1.0".
+<Sticky Ends>						<a>								<Part> .
 <Sticky Ends>						<units>							"copies,count"@en .
-<Sticky Ends>						<description>		"Transcriptional terminator"@en .
-
-	<node family="" strength="1.0" description=></node>	
-	<node family="Terminator" strength="1.0" description="Transcriptional terminator">	</node>
-	<node family="Vector" units="copies,count" resitance="ampicillin" ori="" replication_rate="10.0" description="A vector backbone, which contains a selectable marker, and an insert constitute a plasmid."></node>
-	<node family="Sticky Ends" units="copies,count" description="Sticky ends used for cloning"></node>
-  </node>
-  <node family="Empty" description="Used for representing degradation, dilution, or other forms of exit from the system"></node>
-</node>
-<node family="Container" description="A generic component that can contain other components inside it">
-	<node family="Composite Part" description="A part that composed of other parts"></node>
-	<node family="Compartment" units="volume,fL nL mL" description="A region where the contained molecular species are localized and contained">
-		<node family="Subcellular compartment" x="0" y="0" description="A compartment inside a biological cell, e.g. nucleus"></node>
-		<node family="Cell" species="E.coli" count="1" x="0" y="0" description="A biological cell, e.g. a bacterium"></node>
-	</node>
-</node>
-</NodesGraph>
+<Sticky Ends>						<description>				"Transcriptional terminator"@en .
+<Vector>								<a>								<Part> .
+<Vector>								<a>								<Container> .
+<Vector>								<units>							"copies,count"@en .
+<Vector>								<resitance>					"ampicillin"@en .
+<Vector>								<replication rate>					"10.0" .
+<Vector>								<description>					"A vector backbone, which contains a selectable marker, and an insert constitute a plasmid"@en .
+<Empty>								<description>					"Used for representing degradation, dilution, or other forms of exit from the system"@en .
+<Container>							<description>					"A generic component that can contain other components inside it"@en .
+<Composite Part>					<a>									<Container>
+<Composite Part>					<description>					"A part that composed of other parts"@en .
+<Compartment>					<units>								"volume,fL nL mL"@en .
+<Compartment>					<description>					"A region where the contained molecular species are localized and contained"@en .
+<Subcellular compartment>	<a>									"A compartment inside a biological cell, e.g. nucleus"@en .
+<Cell>									<a>									"A biological cell, e.g. a bacterium"@en .
+<Cell>									<species>							"unspecified"@en .
 

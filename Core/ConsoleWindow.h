@@ -36,7 +36,7 @@ scripting interface.
 namespace Tinkercell
 {
 	class MainWindow;
-
+	class ConsoleWindow;
 	/*! \brief A command-line type text box that other tools can use for scripting interface
 	\ingroup io
 	*/
@@ -53,6 +53,10 @@ namespace Tinkercell
 		void setCompleter(QCompleter *c);
 		/*! \brief code completion*/
 		QCompleter *completer() const;
+		/*! \brief last error message*/
+		virtual QString lastError() const;
+		/*! \brief last message*/
+		virtual QString lastMessage() const;
 
 	signals:
 
@@ -138,6 +142,8 @@ namespace Tinkercell
 		void printHandleSummary(QTextCursor&, ItemHandle *);
 		/*! \brief used to insert the prompt in the confusion of multiple threads*/
 		bool alreadyInsertedPrompt;
+
+		friend class ConsoleWindow;
 	};
 
 	/*! \brief Used to create an output window that can display outputs
@@ -178,6 +184,12 @@ namespace Tinkercell
 		
 		/*! \brief get the interpreter for the console window*/
 		InterpreterThread * interpreter() const;
+
+		/*! \brief last error message*/
+		virtual QString lastError() const;
+		
+		/*! \brief last message*/
+		virtual QString lastMessage() const;
 
     public slots:
 		/*! \brief send a command to the console window to be evaluated*/

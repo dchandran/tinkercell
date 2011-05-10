@@ -882,5 +882,24 @@ namespace Tinkercell
 		}
 	}
 
+	QString CommandTextEdit::lastError() const
+	{
+		return _lastError;
+	}
+
+	QString CommandTextEdit::lastMessage() const
+	{
+		return _lastOutput;
+	}
+
+	QString ConsoleWindow::lastError() const
+	{
+		return commandTextEdit._lastError;
+	}
+
+	QString ConsoleWindow::lastMessage() const
+	{
+		return commandTextEdit._lastOutput;
+	}
 }
 

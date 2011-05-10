@@ -1,0 +1,148 @@
+<1 to 1>											<participant>			"Node,Reactant"@en .
+<1 to 1>											<participant>			"Node,Product"@en .
+<1 to 1>											<description>			"A process involving two participants"@en .
+<Biochemical reaction>				<a>							<1 to 1> .
+<Biochemical reaction>				<participant>			"Molecule,Reactant"@en .
+<Biochemical reaction>				<participant>			"Molecule,Product"@en .
+<Biochemical reaction>				<description>			"A process where one molecule is converted to another"@en .
+<Degradation>								<a>							<1 to 1> .
+<Degradation>								<participant>			"Molecule, Reactant"@en .
+<Degradation>								<participant>			"Empty, Sink"@en .
+<Degradation>								<description>			"A process where a molecule is removed from the system"@en .
+<Production>									<a>							<1 to 1> .
+<Production>									<participant>			"Empty, Source"@en .
+<Production>									<participant>			"Molecule, Product"@en .
+<Production>								<description>			"A process where a molecule enters the system from outside the system"@en .
+<Transcription>									<a>			<2 to 1> .
+<Transcription>									<a>			<Production> .
+<Transcription>								<a>					<Activation> .
+<Transcription>								<description>			"Production of mRNA from DNA template"@en .
+<Transcription>									<participant>			"Coding, Template"@en .
+<Transcription>									<participant>			"Empty, Source"@en .
+<Transcription>									<participant>			"mRNA, Product"@en .
+<Translation>									<a>			<2 to 1> .
+<Translation>									<a>			<Production> .
+<Translation>								<a>					<Activation> .
+<Translation>								<description>			"Production of Protein from mRNA template"@en .
+<Transcription>									<participant>			"mRNA, Template"@en .
+<Translation>									<participant>			"Empty, Source"@en .
+<Transcription>									<participant>			"Protein, Product"@en .
+<Protein Production>									<a>			<Production> .
+<Protein Production>								<a>					<Activation> .
+<Protein Production>								<description>			"The complete process of starting from a DNA template and producing a protein product, including any necessary intermediate steps"@en .
+<Protein Production>									<participant>			"Coding, Template"@en .
+<Protein Production>									<participant>			"Protein, Product"@en .
+<Multimerization>									<a>			<1 to 1> .
+<Multimerization>									<description>		"The formation of a multimer from monomers of the same kind"@en .
+<Multimerization>									<participant>			"Molecule, Reactant"@en .
+<Multimerization>									<participant>			"Molecule, Product"@en .
+<PoPS>														<a>			<1 to 1> .
+<PoPS>									<description>		"Movement of RNA polymerase along a DNA strand"@en .
+<PoPS>									<participant>			"Part, Upstream"@en .
+<PoPS>									<participant>			"Part, Downstream"@en .
+<Allosteric Regulation>									<a>							<1 to 1> .
+<Allosteric Regulation>									<a>							<Regulation> .
+<Allosteric Regulation>									<description>			"One molecule affecting the activity of another"@en .
+<Allosteric Regulation>									<participant>			"Molecule, Regulator"@en .
+<Allosteric Regulation>									<participant>			"Protein, Target"@en .
+<Transcription Regulation>									<a>			<1 to 1> .
+<Transcription Regulation>									<a>			<Regulation> .
+<Transcription Regulation>									<description>		"Regulation of a promoter region by a protein"@en .
+<Transcription Regulation>									<participant>			"Transcription Factor, Regulator"@en .
+<Transcription Regulation>									<participant>			"Operator, Target"@en .
+<Direct Gene Regulation>									<a>			<1 to 1> .
+<Direct Gene Regulation>									<a>			<Regulation> .
+<Direct Gene Regulation>									<description>		"Regulation of a promoter region by a protein"@en .
+<Direct Gene Regulation>									<participant>			"Coding, Regulator"@en .
+<Direct Gene Regulation>									<participant>			"Operator, Target"@en .
+<Transport>									<a>			<1 to 1> .
+<Transport>									<description>		"A molecule moving in or out of a compartment"@en .
+<Transport>									<conditions>			"different compartments"@en .
+<2 to 1>										<description>		"A process involving 3 participants"@en .
+<2 to 1>										<participant>		"Node, Reactant1"@en .
+<2 to 1>										<participant>		"Node, Reactant2"@en .
+<2 to 1>										<participant>		"Node, Product"@en .
+<3 to 1>										<description>		"A process involving 4 participants"@en .
+<3 to 1>										<participant>		"Node, Reactant1"@en .
+<3 to 1>										<participant>		"Node, Reactant2"@en .
+<3 to 1>										<participant>		"Node, Reactant3"@en .
+<3 to 1>										<participant>		"Node, Product"@en .
+<2 to 2>										<description>		"A process involving 4 participants"@en .
+<2 to 2>										<participant>		"Node, Reactant1"@en .
+<2 to 2>										<participant>		"Node, Reactant2"@en .
+<2 to 2>										<participant>		"Node, Product1"@en .
+<2 to 2>										<participant>		"Node, Product2"@en .
+<3 to 2>										<description>		"A process involving 5 participants"@en .
+<3 to 2>										<participant>		"Node, Reactant1"@en .
+<3 to 2>										<participant>		"Node, Reactant2"@en .
+<3 to 2>										<participant>		"Node, Reactant3"@en .
+<3 to 2>										<participant>		"Node, Prodcut1"@en .
+<3 to 2>										<participant>		"Node, Product2"@en .
+<2 to 3>										<description>		"A process involving 5 participants"@en .
+<2 to 3>										<participant>		"Node, Reactant1"@en .
+<2 to 3>										<participant>		"Node, Reactant2"@en .
+<2 to 3>										<participant>		"Node, Prodcut1"@en .
+<2 to 3>										<participant>		"Node, Product2"@en .
+<2 to 3>										<participant>		"Node, Product3"@en .
+<3 to 3>										<description>		"A process involving 6 participants"@en .
+<3 to 3>										<participant>		"Node, Reactant1"@en .
+<3 to 3>										<participant>		"Node, Reactant2"@en .
+<3 to 3>										<participant>		"Node, Reactant3"@en .
+<3 to 3>										<participant>		"Node, Prodcut1"@en .
+<3 to 3>										<participant>		"Node, Product2"@en .
+<3 to 3>										<participant>		"Node, Product3"@en .
+<Regulation> 								<description>		"Any form of biological regulation"@en .
+<Regulation> 								<participant>		"Node, Regulator"@en .
+<Regulation> 								<participant>		"Node, Target"@en .
+<Catalysis>								<a>						<Regulation>
+<Catalysis>								<a>						<2 to 1>
+<Catalysis> 								<description>		"A regulator converts one molecule to another"@en .
+<Catalysis> 								<participant>		"Molecule, Catalyst"@en .
+<Catalysis> 								<participant>		"Molecule, Substrate"@en .
+<Catalysis> 								<participant>		"Molecule, Product"@en .
+<Enzyme Catalysis>					<a>						<Catalysis>
+<Enzyme Catalysis> 								<participant>		"Enzyme, Catalyst"@en .
+<Enzyme Catalysis> 								<participant>		"Molecule, Substrate"@en .
+<Enzyme Catalysis> 								<participant>		"Molecule, Product"@en .
+<Enzyme Catalysis>								<description>		"An enzyme converts one molecule to another"@en .
+<Non-Competetive Inhibition> 								<a>		<Enzyme Catalysis>	.
+<Non-Competetive Inhibition>								<description>		"An enzyme converts one molecule to another and an inhibitor binds to the intermediate complex"@en .
+<Non-Competetive Inhibition> 								<participant>		"Enzyme, Catalyst"@en .
+<Non-Competetive Inhibition> 								<participant>		"Molecule, Substrate"@en .
+<Non-Competetive Inhibition> 								<participant>		"Molecule, Product"@en .
+<Non-Competetive Inhibition> 								<participant>		"Molecule, Inhibitor"@en .
+<Competetive Inhibition>								<a>		<Enzyme Catalysis> .
+<Competetive Inhibition>								<description>		"An enzyme converts one molecule to another and an inhibitor binds to the free enzyme"@en .
+<Competetive Inhibition> 								<participant>		"Enzyme, Catalyst"@en .
+<Competetive Inhibition> 								<participant>		"Molecule, Substrate"@en .
+<Competetive Inhibition> 								<participant>		"Molecule, Product"@en .
+<Competetive Inhibition> 								<participant>		"Molecule, Inhibitor"@en .
+<Activation>								<a>					<Regulation> .
+<Repression>								<a>					<Regulation> .
+<Activation>								<description>			"A molecule positively regulating another"@en .
+<Repression>								<description>			"A molecule negatively regulating another"@en .
+<Allosteric Activation>								<a>			<Allosteric Regulation> .
+<Allosteric Activation>								<a>			<Activation> .
+<Allosteric Activation>								<participant>			"Molecule, Activator"@en .
+<Allosteric Activation>								<participant>			"Protein, Target"@en .
+<Allosteric Inhibition>								<a>			<Allosteric Regulation> .
+<Allosteric Inhibition>								<a>			<Repression> .
+<Allosteric Activation>								<participant>			"Molecule, Inhibitor"@en .
+<Allosteric Activation>								<participant>			"Protein, Target"@en .
+<Transcription Activation>								<a>			<Transcription Regulation> .
+<Transcription Activation>								<a>			<Activation> .
+<Transcription Activation>								<participant>			"Transcription Factor, Activator"@en .
+<Transcription Activation>								<participant>			"Activator Binding Site, Target"@en .
+<Transcription Repression>								<a>			<Transcription Regulation> .
+<Transcription Repression>								<a>			<Repression> .
+<Transcription Repression>								<participant>			"Transcription Factor, Repressor"@en .
+<Transcription Repression>								<participant>			"Repressor Binding Site, Target"@en .
+<Direct Gene Activation>								<a>			<Direct Gene Regulation> .
+<Direct Gene Activation>								<a>			<Activation> .
+<Direct Gene Activation>								<participant>			"Coding, Activator"@en .
+<Direct Gene Activation>								<participant>			"Activator Binding Site, Target"@en .
+<Direct Gene Repression>								<a>			<Direct Gene Regulation> .
+<Direct Gene Repression>								<a>			<Repression> .
+<Direct Gene Repression>								<participant>			"Coding, Repressor"@en .
+<Direct Gene Repression>								<participant>			"Repressor Binding Site, Target"@en .
+

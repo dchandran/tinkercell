@@ -100,14 +100,14 @@ def DoPCA(mu, sigma2, paramnames):
     s = "===============================================\n"
     s += "Optimized parameters (mean and st.dev)\n"
     s += "==============================================\n\nnames: "
-	for i in range(0,len(mu)):
+    for i in range(0,len(mu)):
         s += "    " + paramnames[i]
     s += "\nmean:  "
     for i in range(0,len(mu)):
         s += "    " + str(mu[i])
     s += "\nst.dev:"
     for i in range(0,len(mu)):
-        s += "    " + sqrt(sigma2[i,i])
+        s += "    " + str(sqrt(sigma2[i,i]))
     s += "\n"
     for i in range(0,len(mu)):
         s += "    " + str(mu[i])

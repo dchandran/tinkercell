@@ -19,7 +19,7 @@ def Objective():\n\
     return (numpy.random.normal(0,1))\n\
 #minimize or maximize?\n\
 minimize = False\n\
-res = CrossEntropy.OptimizeParameters(@Objective, \"name of function\", 100, 100, minimize)\n\
+res = CrossEntropy.OptimizeParameters(Objective, \"name of function\", 100, 100, minimize)\n\
 #get the results and analyze results\n\
 mu = res[0]\n\
 sigma2 = res[1]\n\

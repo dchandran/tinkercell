@@ -139,15 +139,30 @@ int copasi_cleanup_assignments(copasi_model model)
 			names << keys[i];
 			assignments << values[i].assignmentRule;
 		}
+		else
+		{
+			names << QString();
+			assignments << QString();
+		}
 
 	int retval = 1;
-	for (int i=0; i < values.size(); ++i)
-		if (values[i].species && !values[i].assignmentRule.isEmpty())
-		{
-			for (int j=0; j < names.size(); ++j)
-				substituteString(values[i].assignmentRule, names[j], assignments[j]);
-			retval = retval * cSetAssignmentRuleHelper(model, values[i].species, values[i].assignmentRule.toAscii().data());
-		}
+	bool replace_needed = true;
+	
+	while (replace_needed)
+	{
+		replace_needed = false;
+		for (int i=0; i < values.size(); ++i)
+			if (values[i].species && !values[i].assignmentRule.isEmpty())
+			{
+				for (int j=0; j < names.size(); ++j)
+					if (!names.isEmpty() && i != j && values[i].assignmentRule.contains(names[j]))
+					{
+						substituteString(values[i].assignmentRule, names[j], assignments[j]);
+						replace_needed = true;
+					}
+				retval = retval * cSetAssignmentRuleHelper(model, values[i].species, values[i].assignmentRule.toAscii().data());
+			}
+	}
 	return retval;
 }
 

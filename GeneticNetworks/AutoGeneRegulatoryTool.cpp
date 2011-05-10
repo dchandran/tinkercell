@@ -743,7 +743,7 @@ namespace Tinkercell
 						if (rate.isEmpty())
 							rate = promoter->fullName() + tr(".strength");
 						else
-							rate = promoter->fullName() + tr(".strength * ") + rate;
+							rate = promoter->fullName() + tr(".strength * (") + rate + tr(")");
 
 						if (parts[i]->parent && parts[i]->parent->isA(tr("Vector")))
 							rate = parts[i]->parent->fullName() + tr(" * ") + rate;
@@ -1651,6 +1651,7 @@ namespace Tinkercell
 		QTransform t = node->transform(); 
 		bool flipped = (t.m11() < 0) || (t.m22() < 0) || (t.m12() != 0) || (t.m21() != 0);
 		if (flipped)
+
 		{
 			upstream = !upstream;
 		}

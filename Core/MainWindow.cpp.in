@@ -724,7 +724,7 @@ namespace Tinkercell
 		if (fileName.endsWith(tr("pdf"),Qt::CaseInsensitive))
 		{
 			if (w < 1) w = 360;
-			if (h < 1) h = w * rect.width() / rect.height();
+			if (h < 1) h = w * rect.height() / rect.width();
 			QPrinter printer(QPrinter::HighResolution);
 			printer.setOutputFormat(QPrinter::PdfFormat);
 			printer.setOrientation(QPrinter::Landscape);
@@ -736,7 +736,7 @@ namespace Tinkercell
 		if (fileName.endsWith(tr("jpg"),Qt::CaseInsensitive) || fileName.endsWith(tr("jpeg"),Qt::CaseInsensitive))
 		{
 			if (w < 1) w = 1024;
-			if (h < 1) h = w * rect.width() / rect.height();
+			if (h < 1) h = w * rect.height() / rect.width();
 			QPixmap printer(w,h);
 			printer.fill();
 			scene->print(&printer);
@@ -745,7 +745,7 @@ namespace Tinkercell
 		else
 		{
 			if (w < 1) w = 1024;
-			if (h < 1) h = w * rect.width() / rect.height();
+			if (h < 1) h = w * rect.height() / rect.width();
 			QPixmap printer(w,h);
 			printer.fill();
 			scene->print(&printer);

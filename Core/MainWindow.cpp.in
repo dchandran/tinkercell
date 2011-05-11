@@ -727,7 +727,7 @@ namespace Tinkercell
 			if (h < 1) h = w * rect.height() / rect.width();
 			QPrinter printer(QPrinter::HighResolution);
 			printer.setOutputFormat(QPrinter::PdfFormat);
-			printer.setOrientation(QPrinter::Landscape);
+			//printer.setOrientation(QPrinter::Landscape);
 			printer.setPaperSize(QSizeF( w , h ),QPrinter::Millimeter);
 			printer.setOutputFileName(fileName);
 			scene->print(&printer);

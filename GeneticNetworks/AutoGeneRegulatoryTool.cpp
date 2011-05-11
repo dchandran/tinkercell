@@ -6,6 +6,7 @@
  Automatically manage gene regulatory network rates and parameters
 ****************************************************************************/
 #include <QDebug>
+#include <QMessageBox>
 #include "UndoCommands.h"
 #include "ItemHandle.h"
 #include "CThread.h"
@@ -1116,7 +1117,10 @@ namespace Tinkercell
 		}
 		
 		if (!itemsToRemove.isEmpty())
+		{
 			scene->remove(tr("removed previous regulation"), itemsToRemove);
+			QMessageBox::information(mainWindow, "One binding site", "Please insert additional operator sites -- only one transcription factor per operator site. Note: 'repressor binding site' and 'activator binding site' are sub-families of operators");
+		}
 		
 		for (int i=0; i < items.size(); ++i)
 		{
@@ -1167,8 +1171,6 @@ namespace Tinkercell
 				parts.push_front(handle);
 
 			while (!upstream.isEmpty())
-
-
 			{
 				parts.push_front(upstream.first());
 				upstream.pop_front();

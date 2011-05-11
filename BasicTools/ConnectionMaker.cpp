@@ -144,16 +144,17 @@ namespace Tinkercell
 						for (int j=0; j < connection->handle()->graphicsItems.size(); ++j)
 						{
 							if ((textItem = TextGraphicsItem::cast(connection->handle()->graphicsItems[j])) 
-								&& !textItem->relativePosition.first)
+								//&& !textItem->relativePosition.first
+								)
 							{
 								for (int k=0; k < 8; ++k)
 								{
-									connection->handle()->graphicsItems[j]->setPos( p[k] );
+									textItem->setPos( p[k] );
 									if (scene->items( connection->handle()->graphicsItems[j]->sceneBoundingRect() ).size() < 2)
 										break;
 								}
 								textItem->relativePosition = 
-									QPair<QGraphicsItem*,QPointF>(connection,connection->handle()->graphicsItems[j]->scenePos() - centerPoint);
+									QPair<QGraphicsItem*,QPointF>(connection,connection->handle()->graphicsItems[j]->scenePos() - centerPoint);								
 							}
 						}
 					}

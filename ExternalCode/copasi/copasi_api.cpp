@@ -96,7 +96,7 @@ struct CopasiPtr
 };
 
 typedef QHash< QString, CopasiPtr > CQHash;
-static void substituteString(QString& target, const QString& oldname,const QString& newname0);
+static int substituteString(QString& target, const QString& oldname,const QString& newname0);
 static QList< CQHash* > hashTablesToCleanup;
 static QList< copasi_model > copasiModelsToCleanup;
 
@@ -155,14 +155,19 @@ int copasi_cleanup_assignments(copasi_model model)
 			if (values[i].species && !values[i].assignmentRule.isEmpty())
 			{
 				for (int j=0; j < names.size(); ++j)
-					if (!names.isEmpty() && i != j && values[i].assignmentRule.contains(names[j]))
+					if (!names[j].isNull() && !names.isEmpty() && i != j && values[i].assignmentRule.contains(names[j]))
 					{
-						substituteString(values[i].assignmentRule, names[j], assignments[j]);
-						replace_needed = true;
+						if (substituteString(values[i].assignmentRule, names[j], assignments[j]))
+							replace_needed = true;
 					}
-				retval = retval * cSetAssignmentRuleHelper(model, values[i].species, values[i].assignmentRule.toAscii().data());
 			}
 	}
+
+	for (int i=0; i < values.size(); ++i)
+		if (values[i].species && !values[i].assignmentRule.isEmpty())
+		{
+			retval = retval * cSetAssignmentRuleHelper(model, values[i].species, values[i].assignmentRule.toAscii().data());
+		}
 	return retval;
 }
 
@@ -1812,9 +1817,9 @@ tc_matrix cGetScaledFluxControlCoeffs(copasi_model model)
 
 /** Sloten from TinkerCell  **/
 
-static void substituteString(QString& target, const QString& oldname,const QString& newname0)
+static int substituteString(QString& target, const QString& oldname,const QString& newname0)
 {
-	if (oldname == newname0) return;
+	if (oldname == newname0) return 0;
 	QString newname = newname0;
 	newname.replace(QRegExp("[^A-Za-z0-9_]"),QString("_@@@_"));
 
@@ -1822,31 +1827,38 @@ static void substituteString(QString& target, const QString& oldname,const QStri
 		regexp2(QString("^") + oldname + QString("([^A-Za-z0-9_])")),  //oldname+(!letter/num)
 		regexp3(QString("([^A-Za-z0-9_\\.=])") + oldname + QString("$")), //(!letter/num)+oldname
 		regexp4(QString("([^A-Za-z0-9_\\.=])") + oldname + QString("([^A-Za-z0-9_])")); //(!letter/num)+oldname+(!letter/num)
+
+	int retval = 0;	
 	int n = regexp1.indexIn(target);
 	while (n != -1)
 	{
+		retval = 1;
 		target.replace(oldname,newname);
 		n = regexp1.indexIn(target);
 	}
 	n = regexp2.indexIn(target);
 	while (n != -1)
 	{
+		retval = 1;
 		target.replace(regexp2,newname+QString("\\1"));
 		n = regexp2.indexIn(target);
 	}
 	n = regexp3.indexIn(target);
 	while (n != -1)
 	{
+		retval = 1;
 		target.replace(regexp3,QString("\\1")+newname);
 		n = regexp3.indexIn(target);
 	}
 	n = regexp4.indexIn(target);
 	while (n != -1)
 	{
+		retval = 1;
 		target.replace(regexp4,QString("\\1")+newname+QString("\\2"));
 		n = regexp4.indexIn(target);
 	}
 	target.replace(newname,newname0);
+	return retval;
 }
 
 tc_matrix cGetReducedStoichiometryMatrix(copasi_model model)

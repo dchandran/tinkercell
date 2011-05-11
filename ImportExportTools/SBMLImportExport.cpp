@@ -405,7 +405,7 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 	SBMLDocument_t * doc = SBMLDocument_create();
 	Model_t * model = SBMLDocument_createModel(doc);
 
-	NumericalDataTable params = BasicInformationTool::getUsedParameters(handles);
+	NumericalDataTable params = BasicInformationTool::getUsedParameters(0,handles);
 	NumericalDataTable stoictc_matrix = StoichiometryTool::getStoichiometry(handles);
 	QStringList rates = StoichiometryTool::getRates(handles);
 	QStringList species, compartments, eventTriggers, eventActions, assignmentNames,

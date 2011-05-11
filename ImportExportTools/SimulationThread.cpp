@@ -49,7 +49,7 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles, copasi_model & 
 	QString modelName = tr("tinkercell") + QString::number(totalModelCount);
 	model = cCreateModel(modelName.toUtf8().data());
 
-	NumericalDataTable params = BasicInformationTool::getUsedParameters(handles);
+	NumericalDataTable params = BasicInformationTool::getUsedParameters(0, handles);
 	for (int i=0; i < params.rows(); ++i)
 		if (params(i,1) < params(i,2))
 			optimizationParameters.value(params.rowName(i)) = params(i,0);
@@ -963,7 +963,7 @@ void SimulationDialog::updateParameterList()
 
 	QList<ItemHandle*> handles = network->handles(true), handles2;
 
-	sliderValues = BasicInformationTool::getUsedParameters(handles, tr("_"));
+	sliderValues = BasicInformationTool::getUsedParameters(0, handles, tr("_"));
 	
 	for (int i=0; i < handles.size(); ++i)
 		if (handles[i] && !handles[i]->name.isEmpty() && handles[i]->hasNumericalData(tr("Initial value")))

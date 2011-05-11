@@ -526,6 +526,7 @@ namespace Tinkercell
 		QString appDir = QCoreApplication::applicationDirPath();
 		delegate.textColumn = 0;
 		if (typ == tr("both"))
+
 		{
 			type = BasicInformationTool::both;
 			groupBox = new QGroupBox(tr(" Attributes "),this);
@@ -1518,7 +1519,7 @@ namespace Tinkercell
 				if (!handles.contains(currentNetwork()->globalHandle()))
 					handles << currentNetwork()->globalHandle();
 
-			(*ptr) = getUsedParameters(handles);
+			(*ptr) = getUsedParameters(currentNetwork(), handles);
 		}
 		if (s)
 			s->release();
@@ -1946,7 +1947,7 @@ namespace Tinkercell
 		}
 	}
 	
-	DataTable<qreal> BasicInformationTool::getUsedParameters(QList<ItemHandle*>& handles, const QString& replaceDot)
+	DataTable<qreal> BasicInformationTool::getUsedParameters(NetworkHandle * network, QList<ItemHandle*>& handles, const QString& replaceDot)
 	{
 		int i,j;
 		DataTable<qreal> params = BasicInformationTool::getParameters(handles,QStringList(), QStringList(), replaceDot);
@@ -1956,14 +1957,20 @@ namespace Tinkercell
 		QRegExp regex(tr("\\.(?!\\d)"));
 		QString s1,s2;
 
-		for (i=0; i < handles.size(); ++i)
+		QList<ItemHandle*> allhandles;
+		if (network)
+			allhandles = network->handles();
+		else
+			allhandles = handles;
+
+		for (i=0; i < allhandles.size(); ++i)
 		{
-			if (!handles[i])
+			if (!allhandles[i])
 				continue;
 
-			if (handles[i]->children.isEmpty() && handles[i]->hasTextData(tr("Rate equations")))
+			if (allhandles[i]->children.isEmpty() && allhandles[i]->hasTextData(tr("Rate equations")))
 			{
-				DataTable<QString>& dat = handles[i]->textDataTable(tr("Rate equations"));
+				DataTable<QString>& dat = allhandles[i]->textDataTable(tr("Rate equations"));
 				if (dat.columns() == 1)
 				{
 					for (j=0; j < dat.rows(); ++j)
@@ -1980,9 +1987,9 @@ namespace Tinkercell
 				}
 			}
 
-			if (handles[i]->hasTextData(tr("Events")))
+			if (allhandles[i]->hasTextData(tr("Events")))
 			{
-				DataTable<QString>& dat = handles[i]->textDataTable(tr("Events"));
+				DataTable<QString>& dat = allhandles[i]->textDataTable(tr("Events"));
 				if (dat.columns() == 1)
 					for (j=0; j < dat.rows(); ++j)
 					{
@@ -2001,9 +2008,9 @@ namespace Tinkercell
 					}
 			}
 
-			if (handles[i]->hasTextData(tr("Assignments")))
+			if (allhandles[i]->hasTextData(tr("Assignments")))
 			{
-				DataTable<QString>& dat = handles[i]->textDataTable(tr("Assignments"));
+				DataTable<QString>& dat = allhandles[i]->textDataTable(tr("Assignments"));
 				if (dat.columns() > 0 && dat.rows() > 0)
 					for (j=0; j < dat.rows(); ++j)
 					{

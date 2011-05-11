@@ -99,7 +99,7 @@ namespace Tinkercell
 		QSize sizeHint() const;
 		static DataTable<qreal> getParameters(const QList<QGraphicsItem*>& items, const QStringList& must = QStringList(), const QStringList& exclude = QStringList(), const QString& sep = QString("_"));
 		static DataTable<qreal> getParameters(const QList<ItemHandle*>& handles, const QStringList& must = QStringList(),  const QStringList& exclude = QStringList(), const QString& sep = QString("_"));
-		static DataTable<qreal> getUsedParameters(QList<ItemHandle*>& handles, const QString& replaceDot=QString("_"));
+		static DataTable<qreal> getUsedParameters(NetworkHandle *, QList<ItemHandle*>& handles, const QString& replaceDot=QString("_"));
 		static DataTable<QString> getTextData(const QList<ItemHandle*>& handles, const QStringList& must = QStringList(),  const QStringList& exclude = QStringList(), const QString& sep = QString("_"));
 		static QString removeParameterFromModel(NetworkHandle * , ItemHandle *, const QString&);
 		static QString removeUnusedParametersInModel(NetworkHandle *);

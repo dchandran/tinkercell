@@ -750,7 +750,7 @@ namespace Tinkercell
 					}
 					
 					if (parts[i]->hasTextData("Assignments") && 
-						 parts[i]->textDataTable("Assignments").hasRow("self") &&
+						 //parts[i]->textDataTable("Assignments").hasRow("self") &&
 						 rate != tr("0"))
 					{
 						QString oldrate = parts[i]->textData(tr("Assignments"),tr("self"),0);

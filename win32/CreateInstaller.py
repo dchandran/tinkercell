@@ -49,16 +49,19 @@ s = s.replace("\\\\","\\")
 s = s.replace("$","/")
 f = open("@TINKERCELL_BINARY_DIR@/win32/TinkerCellSetup.iss","w")
 f.write(s)
+f.close()
 
 print "Creating installer using Inno setup file: @TINKERCELL_BINARY_DIR@\\win32\\TinkerCellSetup.iss"
 
+os.system("cd " + bindir)
+os.system("cd win32")
 innoexe = "\"@INNO@\""
 innoexe = innoexe.replace("/","\\")
 
-os.system(innoexe + " -compile \"@TINKERCELL_BINARY_DIR@\"\\win32\\TinkerCellSetup.iss")
+os.system(innoexe + " TinkerCellSetup.iss")
 
 if "@TINKERCELL_BINARY_UPLOAD@" == "OFF":
     print "Uploading @TINKERCELL_EXE@Setup.exe using WinSCP...\n"
     winscpexe = "\"@WINSCP@\""
     winscpexe = winscpexe.replace("/","\\")
-    os.system(winscpexe + " /script= " + bindir + "\\win32\\uploadTinkerCell.winscp")
+    os.system(winscpexe + " /script=uploadTinkerCell.winscp")

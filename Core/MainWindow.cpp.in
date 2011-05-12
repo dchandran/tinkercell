@@ -1486,5 +1486,7 @@ namespace Tinkercell
 	bool GlobalSettings::ENABLE_OCTAVE = false;
 	bool GlobalSettings::ENABLE_RUBY = false;
 	bool GlobalSettings::ENABLE_LOADSAVE_TOOL = true;
+	bool GlobalSettings::DO_SVN_UPDATE = false;
+	QString GlobalSettings::PLUGINS_SVN_URL = QString();
 }
 

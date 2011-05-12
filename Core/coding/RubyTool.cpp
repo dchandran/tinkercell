@@ -248,8 +248,8 @@ namespace Tinkercell
                 }
              	if (!opened)
                 {
-                    if (console())
-						console()->message(tr("No ruby plugins found (located in the /ruby folder)"));
+                    //if (console())
+						//console()->message(tr("No ruby plugins found (located in the /ruby folder)"));
                 }
             }
         }

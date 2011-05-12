@@ -251,8 +251,8 @@ namespace Tinkercell
                 }
              	if (!opened)
                 {
-                    if (console())
-						console()->message(tr("No python plugins found (located in the /python folder)"));
+                    //if (console())
+						//console()->message(tr("No python plugins found (located in the /python folder)"));
                 }
             }
         }

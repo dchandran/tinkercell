@@ -72,6 +72,7 @@ int main(int argc, char *argv[])
     GlobalSettings::PROJECTWEBSITE = QObject::tr("www.tinkercell.com");
     GlobalSettings::ORGANIZATIONNAME = QObject::tr("TinkerCell");
     GlobalSettings::PROJECTNAME = QObject::tr("TinkerCell");
+    GlobalSettings::PLUGINS_SVN_URL = QObject::tr("https://tinkercellextra.svn.sourceforge.net/svnroot/tinkercellextra"); //for updating
     ConsoleWindow::Prompt = QObject::tr(">");	
 	ConsoleWindow::BackgroundColor = QColor("#555555");
 	

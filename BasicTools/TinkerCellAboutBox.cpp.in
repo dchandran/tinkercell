@@ -3,6 +3,7 @@
 #include <QPixmap>
 #include <QBrush>
 #include <QTextEdit>
+#include <QRegExp>
 #include <QDesktopServices>
 #include "GlobalSettings.h"
 
@@ -16,23 +17,13 @@ namespace Tinkercell
 		text = tr("TinkerCell\nVersion: ") + GlobalSettings::PROJECT_VERSION + tr("\n\n");
 		QString appDir = QCoreApplication::applicationDirPath();
 		QString filename = appDir + tr("/ABOUT.TXT");
-		QString updates = appDir + tr("/UPDATES.TXT");
-
+		
 		QFile file;
 		file.setFileName( filename );
 		if (file.open( QFile::ReadOnly | QFile::Text ) )
 		{
 			QString allText(file.readAll());
 			text += allText + tr("\n\n");
-			file.close();
-		}
-		
-		file.setFileName( updates );
-		
-		if (file.open( QFile::ReadOnly | QFile::Text ) )
-		{
-			QString allText(file.readAll());
-			text += allText + tr("\n");
 			file.close();
 		}
 		
@@ -44,7 +35,6 @@ namespace Tinkercell
 		palette.setBrush(edit->backgroundRole(), QBrush(QPixmap(":/images/Tinkercell.png").scaled(256,256)));
 		edit->setPalette(palette);
 		layout1->addWidget(edit);
-
 
 		dialog.setLayout(layout1);
 
@@ -65,6 +55,34 @@ namespace Tinkercell
 				mainWindow->helpMenu->addAction(tr("Write to us"),this,SLOT(emailAuthor()));
 				mainWindow->helpMenu->addSeparator();
 				mainWindow->helpMenu->addAction(QIcon(":/images/about.png"),tr("About"),this,SLOT(showAboutBox()));
+			}
+			
+			QFile file;
+			file.setFileName( Tinkercell::GlobalSettings::homeDir() + QObject::tr("/updates.txt") );
+			if (file.open( QFile::ReadOnly | QFile::Text ))
+			{
+				QString updates(file.readAll());
+				QRegExp regex("current version:\\s*([\\.0-9]+)");
+				if (regex.indexIn(updates) > -1)
+				{
+					QString v = regex.cap(1);
+					if (v != QObject::tr("@TINKERCELL_WC_REVISION@"))
+						if (main)
+						{
+							QString s("A new version of TinkerCell is available for download  at <a href='http://www.tinkercell.com/downloads-2'>tinkercell.com</a>\n");
+							updates.replace(regex,"");
+							s += tr("\n") + updates;
+							QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
+							settings.beginGroup("Subversion");
+							QString version = settings.value(tr("svn-version")).toString();						
+							settings.setValue(tr("svn-version"),v);
+							settings.endGroup();
+						
+							if (version != v)
+								QMessageBox::about(this, "New version", s);
+						}
+				}
+				file.close();
 			}
 			return true;
 		}

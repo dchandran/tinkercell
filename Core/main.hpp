@@ -284,7 +284,7 @@ This class inherits from CThreads. It is used to embed Octave interpreter. This 
 */
 
 /*! \defgroup core TinkerCell Core classes
-   \brief The main classes in TinkerCell Core. These form the base for all the plug-ins.
+   \brief The main classes that are responsible for managing the GUI and the model structure.
  */
 
 /*! \defgroup helper Helper functions and classes
@@ -309,6 +309,10 @@ This class inherits from CThreads. It is used to embed Octave interpreter. This 
  
 
 /*! \defgroup plugins TinkerCell plug-ins
-   \brief Plug-ins, which are classes that inheir from Tool class, provide the large majority of the important features in TinkerCell
+   \brief Plug-ins, which are classes that inherit from Tool class, provide the large majority of the important features in TinkerCell.
+ */
+ 
+ /*! \defgroup global Global Settings
+   \brief Enable and disable features and/or plug-ins that are available in the Core library
  */
  

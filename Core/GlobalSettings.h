@@ -24,7 +24,7 @@ namespace Tinkercell
 	ENABLE_RUBY
 	ENABLE_OCTAVE
 	ENABLE_LOADSAVE_TOOL
-	\ingroup core
+	\ingroup global
 	*/
 	class TINKERCELLEXPORT GlobalSettings
 	{
@@ -83,6 +83,12 @@ namespace Tinkercell
 
 		/*! \brief the default file extensions that can be saved*/
 		static QStringList SAVE_FILE_EXTENSIONS;
+		
+		/*! \brief if there is an svn service that stores latest plug-ins, then set DO_SVN_UPDATE and CODING_TOOLS to true*/
+		static bool DO_SVN_UPDATE;
+		
+		/*! \brief if there is an svn service that stores latest plug-ins, place that url here*/
+		static QString PLUGINS_SVN_URL;
 
 		/*! \brief register all the TinkerCell data structures with Qt*/
 		static void RegisterDataTypes();

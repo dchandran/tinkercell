@@ -24,4 +24,4 @@ Credits
 - Python modules that are used include: Networkx, NumPy, SciPy, PySCeS
 - One of the python plugins uses RegulonDB E.Coli database
 - GNU C compiler (GPL) is used by one of the plugins to compile C code
-
+- raptor2 C library is used for parsing RDF

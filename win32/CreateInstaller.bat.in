@@ -1,10 +1,1 @@
-cd "@TINKERCELL_BINARY_DIR@"
-mingw32-make package
-cd "@TINKERCELL_BINARY_DIR@\win32"
-@PYTHON_EXECUTABLE@ Generate_Inno_Script.py
-"@INNO@" -compile "@TINKERCELL_BINARY_DIR@"\win32\TinkerCellSetup.iss
-Timeout 10
-IF (@TINKERCELL_BINARY_UPLOAD@)==OFF GOTO END 
-"@WINSCP@" /script="@TINKERCELL_BINARY_DIR@\win32\uploadTinkerCell.winscp"
-:END
-Timeout 10
+@PYTHON_EXECUTABLE@ CreateInstaller.py

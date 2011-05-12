@@ -1,8 +1,8 @@
 FIND_PACKAGE(PythonInterp REQUIRED)
 
 CONFIGURE_FILE( 
-	${TINKERCELL_SOURCE_DIR}/win32/Generate_Inno_Script.py
-	${TINKERCELL_BINARY_DIR}/win32/Generate_Inno_Script.py
+	${TINKERCELL_SOURCE_DIR}/win32/CreateInstaller.py
+	${TINKERCELL_BINARY_DIR}/win32/CreateInstaller.py
 	@ONLY
 )
 

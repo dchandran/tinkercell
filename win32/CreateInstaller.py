@@ -1,5 +1,11 @@
 import sys,os
 
+bindir = "\"@TINKERCELL_BINARY_DIR@\""
+bindir = bindir.replace("/","\\")
+
+os.system("cd " + bindir)
+os.system("mingw32-make package")
+
 root = "@TINKERCELL_BINARY_DIR@/@TINKERCELL_PACKAGE_FOLDER@/TinkerCell"
 path = os.path.join(root, "")
 
@@ -44,3 +50,15 @@ s = s.replace("$","/")
 f = open("@TINKERCELL_BINARY_DIR@/win32/TinkerCellSetup.iss","w")
 f.write(s)
 
+print "Creating installer using Inno setup file: @TINKERCELL_BINARY_DIR@\\win32\\TinkerCellSetup.iss"
+
+innoexe = "\"@INNO@\""
+innoexe = innoexe.replace("/","\\")
+
+os.system(innoexe + " -compile \"@TINKERCELL_BINARY_DIR@\"\\win32\\TinkerCellSetup.iss")
+
+if "@TINKERCELL_BINARY_UPLOAD@" == "OFF":
+    print "Uploading @TINKERCELL_EXE@Setup.exe using WinSCP...\n"
+    winscpexe = "\"@WINSCP@\""
+    winscpexe = winscpexe.replace("/","\\")
+    os.system(winscpexe + " /script= " + bindir + "\\win32\\uploadTinkerCell.winscp")

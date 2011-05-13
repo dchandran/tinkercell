@@ -1340,7 +1340,7 @@ namespace Tinkercell
 		QList<ItemHandle*>* list = new QList<ItemHandle*>;
 		s->acquire();
 		QString qs = ConvertValue(c);
-		emit getConnectedNodesWithRole(s,list,ConvertValue(x), qs);
+		emit getConnectedNodesWithRole(s,list,ConvertValue(x), qs.toLower());
 		s->acquire();
 		s->release();
 		delete s;
@@ -1379,7 +1379,7 @@ namespace Tinkercell
 		QList<ItemHandle*>* list = new QList<ItemHandle*>;
 		s->acquire();
 		QString qs = ConvertValue(c);
-		emit getConnectionsWithRole(s,list,ConvertValue(x),qs);
+		emit getConnectionsWithRole(s,list,ConvertValue(x),qs.toLower());
 		s->acquire();
 		s->release();
 		delete s;

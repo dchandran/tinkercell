@@ -1105,12 +1105,11 @@ namespace Tinkercell
 					{
 						if (nodes[j] && (handle = nodes[j]->handle()) && !handles.contains(handle) && handle->isA(tr("Operator")))
 						{
-							QList<QGraphicsItem*> connections = nodes[j]->connectionsAsGraphicsItems();
-							if (connections.size() > 1)
-							{
-								connections.removeAll(connection);
-								itemsToRemove += connections;
-							}
+							QList<ConnectionGraphicsItem*> connections = nodes[j]->connections();
+							for (int k=0; k < connections.size(); ++k)
+								if (connections[k] && connections[k] != connection && 
+									connections[k]->handle() && connections[k]->handle()->isA("Regulation"))
+									itemsToRemove << connections[k];
 						}
 					}
 				}

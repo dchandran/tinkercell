@@ -1,1 +1,3 @@
+cd @TINKERCELL_BINARY_DIR@
+cd win32
 @PYTHON_EXECUTABLE@ CreateInstaller.py

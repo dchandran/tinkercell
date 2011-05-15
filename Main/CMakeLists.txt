@@ -121,10 +121,11 @@ INSTALL(FILES tinkercell.qss DESTINATION bin/../ )
 #------------------------------------------------
 
 IF (WIN32)
-	SET(CREATE_TINKERCELL "call win32/CreateApp.bat")
+	SET(CREATE_TINKERCELL "call win32\\CreateInstaller.bat")
 	CONFIGURE_FILE(  ${TINKERCELL_SOURCE_DIR}/Main/BuildAndUploadAll.in
 	                                 ${TINKERCELL_BINARY_DIR}/BuildAndUploadAll.bat
 	                                  @ONLY )
+    MESSAGE(STATUS "Source BUILD\\BuildAndUploadAll.bat to upload full and lite versions")
 ELSE(WIN32)
 	IF (APPLE)
 		SET(CREATE_TINKERCELL "source mac/CreateApp.sh")
@@ -134,6 +135,6 @@ ELSE(WIN32)
 	CONFIGURE_FILE(  ${TINKERCELL_SOURCE_DIR}/Main/BuildAndUploadAll.in
 	                                 ${TINKERCELL_BINARY_DIR}/BuildAndUploadAll.sh
 	                                  @ONLY )
+    MESSAGE(STATUS "Source BUILD/BuildAndUploadAll.sh to upload full and lite versions")
 ENDIF(WIN32)
-MESSAGE(STATUS "Source BUILD/BuildAndUploadAll.sh to upload full and lite versions")
 

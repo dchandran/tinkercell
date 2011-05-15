@@ -17,7 +17,7 @@ CONFIGURE_FILE(
 
 CONFIGURE_FILE( 
 		${TINKERCELL_SOURCE_DIR}/linux/CreatePackage.sh.in
-		${TINKERCELL_BINARY_DIR}/CreatePackage.sh
+		${TINKERCELL_BINARY_DIR}/linux/CreatePackage.sh
 		@ONLY
 	)
 

@@ -60,7 +60,7 @@ innoexe = innoexe.replace("/","\\")
 
 os.system(innoexe + " TinkerCellSetup.iss")
 
-if "@TINKERCELL_BINARY_UPLOAD@" == "OFF":
+if "@TINKERCELL_BINARY_UPLOAD@" == "ON":
     print "Uploading @TINKERCELL_EXE@Setup.exe using WinSCP...\n"
     winscpexe = "\"@WINSCP@\""
     winscpexe = winscpexe.replace("/","\\")

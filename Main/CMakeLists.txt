@@ -121,18 +121,19 @@ INSTALL(FILES tinkercell.qss DESTINATION bin/../ )
 #------------------------------------------------
 
 IF (WIN32)
-	 #this does not work in windows for some strange reason
+	SET(CREATE_TINKERCELL "call win32/CreateApp.bat")
+	CONFIGURE_FILE(  ${TINKERCELL_SOURCE_DIR}/Main/BuildAndUploadAll.in
+	                                 ${TINKERCELL_BINARY_DIR}/BuildAndUploadAll.bat
+	                                  @ONLY )
 ELSE(WIN32)
 	IF (APPLE)
 		SET(CREATE_TINKERCELL "source mac/CreateApp.sh")
 	ELSE(APPLE)
-		SET(CREATE_TINKERCELL "source CreatePackage.sh")
-		MESSAGE(STATUS "Source BUILD/CreatePackage.sh to build and upload ${TINKERCELL_EXE} to sourceforge")
+		SET(CREATE_TINKERCELL "source linux/CreatePackage.sh")
 	ENDIF(APPLE)
-	CONFIGURE_FILE( 
-		${TINKERCELL_SOURCE_DIR}/Main/BuildAndUploadAll.in
-		${TINKERCELL_BINARY_DIR}/BuildAndUploadAll.sh
-		@ONLY
-	)
-	MESSAGE(STATUS "Source BUILD/BuildAndUploadAll.sh to upload full and lite versions")
+	CONFIGURE_FILE(  ${TINKERCELL_SOURCE_DIR}/Main/BuildAndUploadAll.in
+	                                 ${TINKERCELL_BINARY_DIR}/BuildAndUploadAll.sh
+	                                  @ONLY )
 ENDIF(WIN32)
+MESSAGE(STATUS "Source BUILD/BuildAndUploadAll.sh to upload full and lite versions")
+

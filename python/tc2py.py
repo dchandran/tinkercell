@@ -76,7 +76,7 @@ def toMatrix(lists, row_wise = False , rows = [], cols = []):
         tc_setRowName(A,i,rows[i]);
 
     for i in range(0,m):
-        tc_setColName(A,i,cols[i]);
+        tc_setColumnName(A,i,cols[i]);
 
     return A;
 
@@ -140,7 +140,7 @@ def fromTC(x):
 
 def toTC(x, rows = [], cols = []):
     if type(x) == type([]) and len(x) > 0 and type(x[0]) == type([]):
-        if (type(x[0][0]) == type(1)):
+        if (type(x[0][0]) == type(1.0)):
             return toMatrix(x,False, rows,cols)
         elif (type(x[0][0]) == type('hello')):
             return toTable(x,False, rows,cols)

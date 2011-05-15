@@ -172,12 +172,14 @@ namespace Tinkercell
 		void updatePlot();
 		void checkAll();
 		void checkNone();
-		
+		void selectFamily(const QString&);
+
 	private:
 		Plot2DWidget * plotWidget;
 		DataPlot * plot;
-		QStringList names;
+		QStringList names, familyNames;
 		QList<QCheckBox*> checkBoxes;
+		QComboBox * selectFamilyBox;
 	};
 
 	/*!

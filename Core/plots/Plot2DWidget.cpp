@@ -27,6 +27,7 @@
 #include "PlotTextWidget.h"
 #include "Plot2DWidget.h"
 #include "GlobalSettings.h"
+#include "SymbolsTable.h"
 
 namespace Tinkercell
 {
@@ -1162,22 +1163,48 @@ namespace Tinkercell
 		QPushButton * noneButton = new QPushButton(tr("&None"));
 		connect(noneButton,SIGNAL(released()),this,SLOT(checkNone()));
 		
+		MainWindow * mainWindow = MainWindow::instance();
+		NetworkHandle * network = 0;
+		if (mainWindow && mainWindow->currentNetwork())
+			network = mainWindow->currentNetwork();
+
+		QList<ItemHandle*> handles;
+		QStringList uniqueFamilyNames;
 		for (int i=0; i < rows; ++i)
 		{
 			s = dataTable->columnName(i);
 			QCheckBox * button = new QCheckBox( s );
-			//button->setStyleSheet(tr("background-color: ") + DataPlot::penList[i].color().name());
 			tableWidget->setCellWidget(i,0,button);
 			checkBoxes << button;
 			names << s;
+			if (network)
+			{
+				handles = network->findItem(s);
+				if (!handles.isEmpty() && handles[0] && handles[0]->family())
+				{
+					familyNames << handles[0]->family()->name();
+					if (!uniqueFamilyNames.contains(familyNames.last()))
+						uniqueFamilyNames << familyNames.last();
+				}
+				else
+					familyNames << QString();
+			}
 			button->setChecked ( !DataPlot::hideList.contains(s) );
 		}
-		
+
 		QHBoxLayout * layout0 = new QHBoxLayout;
 		layout0->addStretch(3);
 		layout0->addWidget(allButton);
 		layout0->addWidget(noneButton);
+		selectFamilyBox = 0;
+		if (mainWindow && uniqueFamilyNames.size() > 1)
+		{
+			layout0->addStretch(2);
+			layout0->addWidget(selectFamilyBox = new QComboBox);
+			selectFamilyBox->addItems(uniqueFamilyNames);
+		}
 		layout0->addStretch(3);
+		connect(selectFamilyBox, SIGNAL(currentIndexChanged(const QString &)), this, SLOT(selectFamily(const QString &)));
 		
 		QHBoxLayout * layout1 = new QHBoxLayout;
 		layout1->addWidget(tableWidget);
@@ -1185,13 +1212,12 @@ namespace Tinkercell
 		QHBoxLayout * layout2 = new QHBoxLayout;
 		QPushButton * okButton = new QPushButton(tr("&Update plot"));
 		QPushButton * cancelButton = new QPushButton(tr("&Cancel"));
-		connect(okButton,SIGNAL(released()),this,SLOT(accept()));	
+		connect(okButton,SIGNAL(released()),this,SLOT(accept()));
 		connect(cancelButton,SIGNAL(released()),this,SLOT(reject()));
 		layout2->addStretch(3);
 		layout2->addWidget(okButton);
 		layout2->addWidget(cancelButton);
 		layout2->addStretch(3);
-		
 		
 		QVBoxLayout * layout3 = new QVBoxLayout;
 		layout3->addLayout(layout0,0);
@@ -1202,6 +1228,13 @@ namespace Tinkercell
 		setLayout(layout3);
 		
 		setAttribute(Qt::WA_DeleteOnClose);
+	}
+
+	void ShowHideLegendItemsWidget::selectFamily(const QString& s)
+	{
+		for (int i=0; i < checkBoxes.size() && i < names.size() && i < familyNames.size(); ++i)
+			if (checkBoxes[i])
+				checkBoxes[i]->setChecked(familyNames[i] == s);
 	}
 	
 	void ShowHideLegendItemsWidget::checkAll()

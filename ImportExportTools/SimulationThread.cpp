@@ -21,7 +21,7 @@ SimulationThread::~SimulationThread()
 void SimulationThread::updateModelParameters(const NumericalDataTable & params)
 {
 	for (int i=0; i < params.rows(); ++i)
-		cSetGlobalParameter(model, params.rowName(i).toUtf8().data(), params.at(i,0));
+		cSetValue(model, params.rowName(i).toUtf8().data(), params.at(i,0));
 }
 
 void SimulationThread::updateModel(QList<ItemHandle*> & handles)
@@ -395,10 +395,7 @@ void SimulationThread::run()
 		return;
 	}
 
-	for (int i=0; i < argMatrix.rows(); ++i) //values from slider
-	{
-		cSetValue(model, argMatrix.rowName(i).toUtf8().data() ,  argMatrix(i,0) );
-	}
+	updateModelParameters(argMatrix); //values from slider
 
 	int x = 0;
 	PlotTool::PlotType plotType;

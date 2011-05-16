@@ -516,7 +516,7 @@ namespace Tinkercell
 						}
 					}
 					for (int j=0; j < dat1.rows(); ++j)
-						RenameCommand::findReplaceAllHandleData(handles,dat1.rowName(j),root->fullName() + tr(".") + dat1.rowName(j));
+						RenameCommand::findReplaceAllHandleData(handles,dat1.rowName(j), tr("XXX...XXX.") + dat1.rowName(j));
 				}
 
 				keys = h->textDataNames();
@@ -538,7 +538,7 @@ namespace Tinkercell
 						}
 					}
 					for (int j=0; j < dat1.rows(); ++j)
-						RenameCommand::findReplaceAllHandleData(handles,dat1.rowName(j),root->fullName() + tr(".") + dat1.rowName(j));
+						RenameCommand::findReplaceAllHandleData(handles,dat1.rowName(j), tr("XXX...XXX.") + dat1.rowName(j));
 				}
 			}
 			
@@ -547,7 +547,7 @@ namespace Tinkercell
 				if ((h = handles[i]) && !h->parent && h->name == root->name)  //problem case -- do first
 				{
 					h->setParent(root,false);
-					RenameCommand::findReplaceAllHandleData(handles,h->name,root->fullName() + tr(".") + h->name);
+					RenameCommand::findReplaceAllHandleData(handles,h->name, tr("XXX...XXX.") + h->name);
 					visited += h;
 				}
 			
@@ -555,8 +555,9 @@ namespace Tinkercell
 				if ((h = handles[i]) && !h->parent && !h->name.isEmpty() && !visited.contains(h))
 				{
 					h->setParent(root,false);
-					RenameCommand::findReplaceAllHandleData(handles,h->name,root->fullName() + tr(".") + h->name);
+					RenameCommand::findReplaceAllHandleData(handles,h->name,tr("XXX...XXX.") + h->name);
 				}
+			RenameCommand::findReplaceAllHandleData(handles,tr("XXX...XXX"), root->fullName());
 		}
 	}
 

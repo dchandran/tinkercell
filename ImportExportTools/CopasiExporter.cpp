@@ -701,7 +701,9 @@ void CopasiExporter::updateParams(tc_matrix params)
 	
 	for (int i=0; i < runningThreads.size(); ++i)
 		if (runningThreads[i])
+		{
 			runningThreads[i]->updateModelParameters(*dat);
+		}
 
 	delete dat;
 }

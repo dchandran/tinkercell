@@ -496,7 +496,7 @@ int tc_getStringIndex(tc_strings A, const char * s)
 	if (A.length == 0 || !A.strings) return -1;
 
 	for (i=0; i < A.length; ++i)
-		if (strcmp( tc_getString(A,i) , s ) == 0)
+		if (tc_getString(A,i) && strcmp( tc_getString(A,i) , s ) == 0)
 			return i;
 	return -1;
 }

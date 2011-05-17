@@ -640,8 +640,12 @@ namespace Tinkercell
 
 	void C_API_Slots::screenshot(QSemaphore * s, const QString& fileName, int w, int h)
 	{
-		if (mainWindow)
+		GraphicsScene * scene = currentScene();
+		if (mainWindow && scene)
+		{
+			scene->fitAll();
 			mainWindow->printToFile(fileName,w,h);
+		}
 		if (s)
 			s->release();
 	}

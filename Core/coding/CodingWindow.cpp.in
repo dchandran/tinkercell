@@ -85,7 +85,7 @@ namespace Tinkercell
 				err = system(s.toAscii().data());
 			}
 
-			s = QObject::tr("cd ") + homeDir + QObject::tr("; svn update");
+			s = QObject::tr("cd ") + homeDir + QObject::tr("; svn update --force");
 			err = system(s.toAscii().data());
 		}
 		
@@ -249,6 +249,7 @@ specific for:\n\"\"\"\n\n") + text;
 				QString s = QObject::tr("cd ") + userHomeDir.absolutePath() + QObject::tr("; svn add ") + filename + QObject::tr("; svn commit -m\"new code added\" --username ") + username + QObject::tr(" --password ") + password + QObject::tr(" --no-auth-cache --non-interactive;");
 				system(s.toAscii().data());
 			}
+
 			QMessageBox::information(mainWindow, "Saved", tr("Saved and uploaded ") + filename);
 		}
 		

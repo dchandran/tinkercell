@@ -243,7 +243,7 @@ namespace Tinkercell
 	void DataPlot::plot(const NumericalDataTable& newdat, int x, const QString& title, bool append)
 	{
 		int dt = 1;
-		xcolumn = x;
+        xcolumn = x;
 
 		if (!this->isVisible())
 		{
@@ -269,6 +269,8 @@ namespace Tinkercell
 		}
 
 		if (dataTables.isEmpty() || !dataTables.last()) return;
+        if (dataTables.last()->columns() < 2)
+            xcolumn = x = -1;
 
 		processData(dataTables.last());
 		const NumericalDataTable & dat = *(dataTables.last());
@@ -419,7 +421,6 @@ namespace Tinkercell
 	
 	void DataPlot::setLogY(bool b)
 	{
-		if (usesRowNames()) return;
 		if (b)
 		{
 			setAxisMaxMajor(QwtPlot::yLeft, 6);
@@ -1089,10 +1090,9 @@ namespace Tinkercell
 	
 	void Plot2DWidget::setLogScale(int i, bool b)
 	{
-		if (i == 0 || i > 1)
+		if (i == 0)
 			logX(b);
-	
-		if (i > 0)
+        else
 			logY(b);
 	}
 	

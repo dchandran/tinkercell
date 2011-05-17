@@ -527,6 +527,7 @@ namespace Tinkercell
 		delegate.textColumn = 0;
 		if (typ == tr("both"))
 
+
 		{
 			type = BasicInformationTool::both;
 			groupBox = new QGroupBox(tr(" Attributes "),this);
@@ -969,7 +970,8 @@ namespace Tinkercell
 				if (rowNumber < nDat.rows())
 				{
 					QString s = nDat.rowName(rowNumber);
-					QString s2 = handle->fullName() + tr(".") + s;
+					QRegExp regex1(tr("[^a-zA-Z_\\.]") + handle->fullName() + tr(".") + s);
+					QRegExp regex2(tr("^") + handle->fullName() + tr(".") + s);
 					
 					bool beingUsed = false;
 					QString s3;
@@ -983,7 +985,7 @@ namespace Tinkercell
 							for (int k1=0; k1 < textData.rows(); ++k1)
 							{
 								for (int k2=0; k2 < textData.columns(); ++k2)
-									if (textData.value(k1,k2).contains(s2))
+									if (textData.value(k1,k2).contains(regex1) || textData.value(k1,k2).contains(regex2))
 									{
 										s3 = allHandles[j]->fullName() + tr("'s ") + textKeys[k];
 										beingUsed = true;
@@ -998,7 +1000,7 @@ namespace Tinkercell
 					
 					if (beingUsed)
 					{
-					    QMessageBox::information(this, tr("Cannot remove"), s2 + tr(" cannot be removed because it is being used inside ") + s3);						
+					    QMessageBox::information(this, tr("Cannot remove"), s + tr(" cannot be removed because it is being used inside ") + s3);	
 					}
 					else
 					{
@@ -2063,12 +2065,18 @@ namespace Tinkercell
 		if (!nDat.hasRow(s)) return QString("No such parameter inside this item");
 		
 		bool beingUsed = false;
-		QString s2;
+		QRegExp regex1, regex2;
 		
 		if (handle->name.isEmpty())
-			s2 = s;
+		{
+			regex1 = QRegExp(QObject::tr("[^a-zA-Z_\\.]") + s);
+			regex2 = QRegExp(QObject::tr("^") + s);
+		}
 		else
-			s2 = handle->fullName() + tr(".") + s;
+		{
+			regex1 = QRegExp(QObject::tr("[^a-zA-Z_\\.]") + handle->fullName() + tr(".") + s);
+			regex2 = QRegExp(QObject::tr("^") + handle->fullName() + tr(".") + s);
+		}
 		
 		QString s3;
 						
@@ -2082,7 +2090,7 @@ namespace Tinkercell
 				for (int k1=0; k1 < textData.rows(); ++k1)
 				{
 					for (int k2=0; k2 < textData.columns(); ++k2)
-						if (textData.value(k1,k2).contains(s2))
+						if (textData.value(k1,k2).contains(regex1) || textData.value(k1,k2).contains(regex2))
 						{
 							s3 = allHandles[i]->fullName() + tr("'s ") + textKeys[j];
 							beingUsed = true;
@@ -2096,7 +2104,7 @@ namespace Tinkercell
 
 		if (beingUsed)
 		{
-			return s2 + tr(" cannot be removed because it is being used inside ") + s3;
+			return s + tr(" cannot be removed because it is being used inside ") + s3;
 		}
 		else
 		{

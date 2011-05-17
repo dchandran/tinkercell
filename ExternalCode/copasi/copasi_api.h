@@ -76,9 +76,10 @@ TCAPIEXPORT void cRemoveModel(copasi_model);
 /*! 
  \brief This function is only needed for calling COPASI methods not found in this library. This function compiles the COPASI model; it is called internally by the simulate and other anlysis functions. 
  \param copasi_model model
+ \param int substitute nested assignments
  \ingroup Simulation
 */
-TCAPIEXPORT void cCompileModel(copasi_model model);
+TCAPIEXPORT void cCompileModel(copasi_model model, int substitute_nested_assignments);
 /*! 
  \brief create a model from an Antimony or SBML file
  \param char* file name

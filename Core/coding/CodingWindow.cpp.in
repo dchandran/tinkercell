@@ -63,7 +63,8 @@ namespace Tinkercell
 
 		tempDir.replace(QObject::tr("/"),QObject::tr("\\"));
 		appDir.replace(QObject::tr("/"),QObject::tr("\\"));
-		homeDir = QObject::tr("\"") + homeDir.replace(QObject::tr("/"),QObject::tr("\\")) + QObject::tr("\"");
+		homeDir.replace(QObject::tr("/"),QObject::tr("\\"));
+		homeDir = QObject::tr("\"") + homeDir + QObject::tr("\"");
 
 		QString s1(QObject::tr("copy \"") + appDir + QObject::tr("\"\\win32\\*.* \"") + tempDir + QObject::tr("\" /Y"));
 		//if (system(s1.toAscii().data()) < 0)
@@ -77,15 +78,17 @@ namespace Tinkercell
 			int err = 0;
 			if (!QFile::exists(homeDir + QObject::tr("/.svn")) && !GlobalSettings::PLUGINS_SVN_URL.isEmpty())
 			{
-			#ifdef Q_WS_WIN
-				homeDir.replace(tr("/"),tr("\\\\"));
-				homeDir = tr("\"") + homeDir + tr("\"");
-			#endif
 				s = QObject::tr("svn co ") + GlobalSettings::PLUGINS_SVN_URL + homeDir;
 				err = system(s.toAscii().data());
 			}
 
+		
+		#ifdef Q_WS_WIN
+			s = QObject::tr("cd ") + homeDir + QObject::tr("& svn update --force");
+		#else
 			s = QObject::tr("cd ") + homeDir + QObject::tr("; svn update --force");
+		#endif
+			MainWindow::instance()->console()->message(s);
 			err = system(s.toAscii().data());
 		}
 		
@@ -163,8 +166,10 @@ namespace Tinkercell
 		#ifdef Q_WS_WIN
 			homeDir.replace(tr("/"),tr("\\"));
 			homeDir = tr("\"") + homeDir + tr("\"");
+			QString s = QObject::tr("cd ") + homeDir + QObject::tr("& svn add ") + dllName + QObject::tr("& svn commit -m\"new code added\" --username ") + username + QObject::tr(" --password ") + password + QObject::tr(" --no-auth-cache --non-interactive");
+		#else
+			QString s = QObject::tr("cd ") + homeDir + QObject::tr("; svn add ") + dllName + QObject::tr("; svn commit -m\"new code added\" --username ") + username + QObject::tr(" --password ") + password + QObject::tr(" --no-auth-cache --non-interactive");
 		#endif
-			QString s = QObject::tr("cd ") + homeDir + QObject::tr("; svn add ") + dllName + QObject::tr("; svn commit -m\"new code added\" --username ") + username + QObject::tr(" --password ") + password + QObject::tr(" --no-auth-cache --non-interactive;");
 			system(s.toAscii().data());
 		}
 		
@@ -245,8 +250,10 @@ specific for:\n\"\"\"\n\n") + text;
 			#ifdef Q_WS_WIN
 				homeDir.replace(tr("/"),tr("\\"));
 				homeDir = tr("\"") + homeDir + tr("\"");
+				QString s = QObject::tr("cd ") + userHomeDir.absolutePath() + QObject::tr("& svn add ") + filename + QObject::tr("& svn commit -m\"new code added\" --username ") + username + QObject::tr(" --password ") + password + QObject::tr(" --no-auth-cache --non-interactive");
+			#else
+				QString s = QObject::tr("cd ") + userHomeDir.absolutePath() + QObject::tr("; svn add ") + filename + QObject::tr("; svn commit -m\"new code added\" --username ") + username + QObject::tr(" --password ") + password + QObject::tr(" --no-auth-cache --non-interactive");
 			#endif
-				QString s = QObject::tr("cd ") + userHomeDir.absolutePath() + QObject::tr("; svn add ") + filename + QObject::tr("; svn commit -m\"new code added\" --username ") + username + QObject::tr(" --password ") + password + QObject::tr(" --no-auth-cache --non-interactive;");
 				system(s.toAscii().data());
 			}
 
@@ -310,8 +317,10 @@ specific for:\n\"\"\"\n\n") + text;
 			#ifdef Q_WS_WIN
 				homeDir.replace(tr("/"),tr("\\"));
 				homeDir = tr("\"") + homeDir + tr("\"");
+				QString s = QObject::tr("cd ") + userHomeDir.absolutePath() + QObject::tr("& svn add ") + filename + QObject::tr("& svn commit -m\"new code added\" --username ") + username + QObject::tr(" --password ") + password + QObject::tr(" --no-auth-cache --non-interactive");
+			#else
+				QString s = QObject::tr("cd ") + userHomeDir.absolutePath() + QObject::tr("; svn add ") + filename + QObject::tr("; svn commit -m\"new code added\" --username ") + username + QObject::tr(" --password ") + password + QObject::tr(" --no-auth-cache --non-interactive");
 			#endif
-				QString s = QObject::tr("cd ") + userHomeDir.absolutePath() + QObject::tr("; svn add ") + filename + QObject::tr("; svn commit -m\"new code added\" --username ") + username + QObject::tr(" --password ") + password + QObject::tr(" --no-auth-cache --non-interactive;");
 				system(s.toAscii().data());
 			}
 			QMessageBox::information(mainWindow, "Saved", tr("Saved and uploaded ") + filename);
@@ -374,8 +383,10 @@ specific for:\n\"\"\"\n\n") + text;
 			#ifdef Q_WS_WIN
 				homeDir.replace(tr("/"),tr("\\"));
 				homeDir = tr("\"") + homeDir + tr("\"");
+				QString s = QObject::tr("cd ") + userHomeDir.absolutePath() + QObject::tr("& svn add ") + filename + QObject::tr("& svn commit -m\"new code added\" --username ") + username + QObject::tr(" --password ") + password + QObject::tr(" --no-auth-cache --non-interactive");
+			#else
+				QString s = QObject::tr("cd ") + userHomeDir.absolutePath() + QObject::tr("; svn add ") + filename + QObject::tr("; svn commit -m\"new code added\" --username ") + username + QObject::tr(" --password ") + password + QObject::tr(" --no-auth-cache --non-interactive");
 			#endif
-				QString s = QObject::tr("cd ") + userHomeDir.absolutePath() + QObject::tr("; svn add ") + filename + QObject::tr("; svn commit -m\"new code added\" --username ") + username + QObject::tr(" --password ") + password + QObject::tr(" --no-auth-cache --non-interactive;");
 				system(s.toAscii().data());
 			}
 			QMessageBox::information(mainWindow, "Saved", tr("Saved and uploaded ") + filename);

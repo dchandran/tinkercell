@@ -741,24 +741,20 @@ namespace Tinkercell
 		tabGroups	<< QPair<QString, QStringList>(
 													tr("Molecules"),
 													QStringList() << "molecule" << "empty")
-
 					<< QPair<QString, QStringList>(
 													tr("Parts"),
 													QStringList() << "part")
-
 					<< QPair<QString, QStringList>(
 													tr("Compartments"),
 													QStringList() << "compartment")
-
+                   << QPair<QString, QStringList>(
+													tr(" Regulation "),
+													QStringList() << "activation" << "repression")
 					<< QPair<QString, QStringList>(
-													tr("Regulation"),
-													QStringList() << "regulation")
-					
-					<< QPair<QString, QStringList>(
-													tr("Reaction"),
+													tr(" Reaction "),
 													QStringList() << tr("1 to 1")  << tr("1 to 2")  << tr("1 to 3")
 																		  << tr("2 to 1") << tr("2 to 2") << tr("2 to 3")
-																		  << tr("3 to 1") << tr("3 to 2") << tr("3 to 3")    );
+																		  << tr("3 to 1") << tr("3 to 2") << tr("3 to 3") << tr("regulation"));
 
 		numNodeTabs = 4;
 		

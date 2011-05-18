@@ -33,6 +33,9 @@
 <process family="3 to 3" participant_types="Node" participant_roles="Reactant,Reactant2,Reactant3,Product,Product2,Product3"></process>
 
 <process family="Regulation" participant_types="Node" participant_roles="Regulator,Target" description="This connection represents a molecule regulating another.">
+    <process family="Transcription" participant_types="Coding,mRNA,Empty" participant_roles="Template,Product,Reactant" description="Production of mRNA from DNA template."></process>
+	<process family="Translation" participant_types="mRNA,Protein,Empty" participant_roles="Template,Product,Reactant" description="Production of protein from mRNA template."></process>      
+	<process family="Protein Production" participant_types="Coding,Protein" participant_roles="Template,Product" description="The complete process of producing a protein from the template DNA."></process>
 	<process family="Catalysis" participant_types="Molecule,Molecule,Molecule" participant_roles="Catalyst,Substrate,Product" description="A catalyst converting a substrate to a product">
 		<process family="Enzyme Catalysis" participant_types="Enzyme,Molecule,Molecule" description="A protein catalyst converting a substrate to a product through an intermediate step">
 			<process family="Non-Competetive Inhibition" participant_types="Enzyme,Molecule,Molecule,Molecule" participant_roles="Catalyst, Substrate, Product,Inhibitor"></process>
@@ -41,9 +44,6 @@
 	</process>
       
 	<process family="Activation" participant_types="Node" participant_roles="Activator,Target" description="A molecule positively regulating another">
-		<process family="Transcription" participant_types="Coding,mRNA,Empty" participant_roles="Template,Product,Reactant" description="Production of mRNA from DNA template."></process>
-		<process family="Translation" participant_types="mRNA,Protein,Empty" participant_roles="Template,Product,Reactant" description="Production of protein from mRNA template."></process>      
-		<process family="Protein Production" participant_types="Coding,Protein" participant_roles="Template,Product" description="The complete process of producing a protein from the template DNA."></process>
 		<process family="Allosteric Activation" participant_types="Molecule,Protein" description="A small molecule positively regulating the activity of a protein"></process>
 		<process family="Transcription Activation" participant_types="Transcription Factor,Activator Binding Site" description="A transcription factor positively regulating gene(s) downstream of an operator site"></process>
 		<process family="Direct Gene Activation" participant_types="Coding,Activator Binding Site" participant_roles="Activator,Target" description="A gene positively regulating another gene downstream of an operator site"></process>

@@ -613,20 +613,24 @@ namespace Tinkercell
 					if (parts[i]->isA(tr("Promoter")))
 						promoter = NodeHandle::cast(parts[i]);
 
-					operators += parts[i];
+					if (!operators.contains(parts[i]))
+						operators += parts[i];
 					
 					bool isProperReaction = false;
 					QList<ConnectionHandle*> connections = NodeHandle::cast(parts[i])->connections();
 					
-					if (parts[i]->isA(tr("repressor binding site")))
-						repressibleOperators += parts[i];
-					else
-						for (int j=0; j < connections.size(); ++j)
-							if (connections[j] && connections[j]->isA(tr("repression")))
-							{
-								repressibleOperators += parts[i];
-								break;
-							}
+					if (!repressibleOperators.contains(parts[i]))
+					{
+						if (parts[i]->isA(tr("repressor binding site")))
+							repressibleOperators += parts[i];
+						else
+							for (int j=0; j < connections.size(); ++j)
+								if (connections[j] && connections[j]->isA(tr("repression")))
+								{
+									repressibleOperators += parts[i];
+									break;
+								}
+					}
 					for (int j=0; j < connections.size(); ++j)
 						if (connections[j] &&
 							(!connections[j]->children.isEmpty() ||

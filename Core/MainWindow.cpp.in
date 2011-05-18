@@ -691,9 +691,9 @@ namespace Tinkercell
 		
 			QString fileTypes;
 			if (scene)
-				fileTypes = tr("PDF Files (*.pdf *.PDF)");
+				fileTypes = tr("Portable Document Format (*.pdf *.PDF);;Portable Network Graphics(*.png *.PNG);;Joint Photographic Experts Group(*.jpg *.jpeg *.JPG)");
 			else
-				fileTypes = tr("TXT Files(*.txt *.TXT)");
+				fileTypes = tr("Text (*.txt *.TXT)");
 		
 			fileName =
 				QFileDialog::getSaveFileName(this, tr("Print to File"),
@@ -723,7 +723,7 @@ namespace Tinkercell
 		
 		if (fileName.endsWith(tr("pdf"),Qt::CaseInsensitive))
 		{
-			if (w < 1) w = 360;
+			if (w < 1) w = 100;
 			if (h < 1) h = w * rect.height() / rect.width();
 			QPrinter printer(QPrinter::HighResolution);
 			printer.setOutputFormat(QPrinter::PdfFormat);
@@ -742,7 +742,7 @@ namespace Tinkercell
 			scene->print(&printer);
 			printer.save(fileName,"jpg");
 		}
-		else
+		else //PNG default
 		{
 			if (w < 1) w = 1024;
 			if (h < 1) h = w * rect.height() / rect.width();

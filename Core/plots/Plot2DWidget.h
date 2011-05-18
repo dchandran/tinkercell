@@ -244,6 +244,7 @@ namespace Tinkercell
 	private slots:
 		void buttonPressed(int);
 		void penSet();
+		void fixSize();
 		void legendConfigure();
 		void mouseMoved(const QPoint&);
 	
@@ -262,3 +263,4 @@ namespace Tinkercell
 
 }
 #endif
+

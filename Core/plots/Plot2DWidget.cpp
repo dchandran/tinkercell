@@ -365,10 +365,13 @@ namespace Tinkercell
 		replot();
 		if (zoomer)
 		{
-			//QwtDoubleRect rect = zoomer->zoomRect();
-			//rect.adjust(-1.0,-1.0,1.0,1.0);
-			zoomer->setZoomBase();
-			zoomer->zoom(0);
+			QwtDoubleRect rect = zoomer->zoomRect();
+			if (type == PlotTool::ScatterPlot)
+			{
+				rect.adjust(-1.0,-1.0,1.0,1.0);
+				zoomer->zoom(rect);
+			}
+			zoomer->setZoomBase(rect);
 		}
 	}
 	
@@ -583,19 +586,27 @@ namespace Tinkercell
 		connect(closeButton,SIGNAL(released()),dialog2,SLOT(accept()));
 		connect(changeColors,SIGNAL(pressed()),dialog2,SLOT(exec()));
 		
-		toolBar.addWidget(new QLabel(tr("x-axis:")));
-		toolBar.addWidget(axisNames);
-		toolBar.addWidget(setLabels);
-		toolBar.addWidget(logScale);
-		toolBar.addWidget(changeColors);
-		
 		QToolButton * configLegend = new QToolButton(this);
 		configLegend->setText(tr("Legend"));
 		configLegend->setIcon(QIcon(tr(":/images/legend.png")));
 		configLegend->setToolTip(tr("Configure what to show on the plot"));
 		configLegend->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-		connect(configLegend,SIGNAL(pressed()),this,SLOT(legendConfigure()));		
-		toolBar.addWidget(configLegend);		
+		connect(configLegend,SIGNAL(pressed()),this,SLOT(legendConfigure()));
+		
+		QToolButton * setGraphSize = new QToolButton(this);
+		setGraphSize->setText(tr("Resize"));
+		setGraphSize->setIcon(QIcon(tr(":/images/resize.png")));
+		setGraphSize->setToolTip(tr("Set the size of the current plot"));
+		setGraphSize->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+		connect(setGraphSize,SIGNAL(pressed()),this,SLOT(fixSize()));				
+		
+		toolBar.addWidget(configLegend);
+		toolBar.addWidget(new QLabel(tr("x-axis:")));
+		toolBar.addWidget(axisNames);
+		toolBar.addWidget(setGraphSize);
+		toolBar.addWidget(setLabels);
+		toolBar.addWidget(logScale);
+		toolBar.addWidget(changeColors);
 		
 		connect(&buttonsGroup,SIGNAL(buttonPressed(int)),this,SLOT(buttonPressed(int)));
 		
@@ -701,18 +712,17 @@ namespace Tinkercell
 		if (same && (dataPlot->dataTables.size() == 1))
 		{
 			QwtDoubleRect rect;
-			if (dataPlot->zoomer)
-				rect = dataPlot->zoomer->zoomBase();
+			//if (dataPlot->zoomer)
+				//rect = dataPlot->zoomer->zoomBase();
 			(*dataPlot->dataTables.last()) = newData;
 			dataPlot->processData(dataPlot->dataTables.last());
 			dataPlot->replot();
 			dataPlot->setTitle(title);
-			if (dataPlot->zoomer)
+			/*if (dataPlot->zoomer)
 			{
 				rect.setWidth(dataPlot->zoomer->zoomBase().width());
 				dataPlot->zoomer->zoom(rect);
-			}
-			
+			}*/
 		}
 		else
 		{
@@ -1293,6 +1303,59 @@ namespace Tinkercell
 		if (!dataPlot) return;
 		ShowHideLegendItemsWidget * dialog = new ShowHideLegendItemsWidget(this);
 		dialog->exec();
+	}
+	
+	void Plot2DWidget::fixSize()
+	{
+		if (!dataPlot || !dataPlot->zoomer) return;
+		QRectF rect = dataPlot->zoomer->zoomRect();
+		QDialog * dialog = new QDialog(this);
+		QVBoxLayout * layout = new QVBoxLayout;
+		QDoubleSpinBox * x = new QDoubleSpinBox;
+		QDoubleSpinBox * y = new QDoubleSpinBox;
+		QDoubleSpinBox * w = new QDoubleSpinBox;
+		QDoubleSpinBox * h = new QDoubleSpinBox;
+		x->setValue(rect.x());
+		x->setRange(-1E10,1E10);
+		y->setValue(rect.y());
+		x->setRange(-1E10,1E10);
+		w->setValue(rect.width());
+		w->setRange(0,1E10);
+		h->setValue(rect.height());
+		h->setRange(0,1E10);
+		QHBoxLayout * layout1 = new QHBoxLayout;
+		QHBoxLayout * layout2 = new QHBoxLayout;
+		QHBoxLayout * layout3 = new QHBoxLayout;
+		QHBoxLayout * layout4 = new QHBoxLayout;
+		QHBoxLayout * layout5 = new QHBoxLayout;
+		layout1->addWidget(new QLabel("x:"), 0);
+		layout2->addWidget(new QLabel("y:"),0);
+		layout3->addWidget(new QLabel("width:"), 0);
+		layout4->addWidget(new QLabel("height:"), 0);
+		layout1->addWidget(x, 1);
+		layout2->addWidget(y, 1);
+		layout3->addWidget(w, 1);
+		layout4->addWidget(h, 1);
+		layout->addLayout(layout1);
+		layout->addLayout(layout2);
+		layout->addLayout(layout3);
+		layout->addLayout(layout4);
+		QPushButton * okButton = new QPushButton("Set");
+		connect(okButton,SIGNAL(pressed()),dialog,SLOT(accept()));
+		QPushButton * cancelButton = new QPushButton("Cancel");
+		connect(cancelButton,SIGNAL(pressed()),dialog,SLOT(reject()));
+		layout5->addStretch(2);
+		layout5->addWidget(okButton);
+		layout5->addWidget(cancelButton);
+		layout5->addStretch(2);
+		layout->addLayout(layout5);
+		dialog->setLayout(layout);
+		dialog->exec();
+		if (dialog->result() == QDialog::Accepted)
+		{
+			dataPlot->zoomer->setZoomBase(QRectF(x->value(),y->value(),w->value(),h->value()));	
+			dataPlot->zoomer->zoom(QRectF(x->value(),y->value(),w->value(),h->value()));
+		}
 	}
 }
 

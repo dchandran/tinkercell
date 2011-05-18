@@ -1352,7 +1352,7 @@ tc_matrix cGetSteadyState(copasi_model model)
 	int n = species.size();
 	int i;
 	
-	if (n != (numIndep + numDep)) return tc_createMatrix(0,0);
+	//if (n != (numIndep + numDep)) return tc_createMatrix(0,0);
 	
 	tc_matrix SS = tc_createMatrix(n,1);
 	tc_setColumnName(SS, 0, "steady-state");

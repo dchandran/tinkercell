@@ -1280,6 +1280,20 @@ tc_matrix cGetSteadyState(copasi_model model)
 	
 	// get the task list
 	CCopasiVectorN< CCopasiTask > & TaskList = * pDataModel->getTaskList();
+	// get the trajectory task object
+	CTrajectoryTask* pTask2 = dynamic_cast<CTrajectoryTask*>(TaskList["Time-Course"]);
+	// if there isn’t one
+	if (pTask2 == NULL)
+	{
+		// create a new one
+		pTask2 = new CTrajectoryTask();
+		// remove any existing trajectory task just to be sure since in
+		// theory only the cast might have failed above
+		TaskList.remove("Time-Course");
+		// add the new time course task to the task list
+		TaskList.add(pTask2, true);
+	}
+	
 	// get the steady state task object
 	CSteadyStateTask* pTask = dynamic_cast<CSteadyStateTask*>(TaskList["Steady-State"]);
 	// if there isn’t one
@@ -1296,25 +1310,32 @@ tc_matrix cGetSteadyState(copasi_model model)
 	
 	CCopasiMessage::clearDeque();
 	
-	try
+	if (pTask2 && pTask && pTask2->setMethodType(CCopasiMethod::deterministic))
 	{
-		// initialize the trajectory task
-		// we want complete output (HEADER, BODY and FOOTER)
-		pTask->initialize(CCopasiTask::OUTPUT, pDataModel, NULL);
-		// now we run the actual trajectory
-		pTask->process(true);
-	}
-	catch (...)
-	{
-		std::cerr << "Error when computing steady state." << std::endl;
-		return tc_createMatrix(0,0);
+		//set the start and end time, number of steps, and save output in memory
+		CTrajectoryProblem* pProblem=(CTrajectoryProblem*)pTask2->getProblem();
+		pProblem->setModel(pModel);
+		pTask2->setScheduled(false);
+		pProblem->setStepNumber(100);
+		pProblem->setDuration(1000.0);
+		pDataModel->getModel()->setInitialTime(0.0);
+		pProblem->setTimeSeriesRequested(false);
+		try
+		{
+			pTask2->initialize(CCopasiTask::ONLY_TIME_SERIES, pDataModel, NULL);
+			pTask2->process(true);
+			pTask->initialize(CCopasiTask::OUTPUT, pDataModel, NULL);
+			pTask->process(true);
+		}
+		catch(...)
+		{
+			std::cerr << "Error when computing steady state." << std::endl;
+			return tc_createMatrix(0,0);
+		}
 	}
 	
 	const CArrayAnnotation* pAJ = pTask->getJacobianAnnotated();
 	const CState& state = pModel->getState();
-	
-	//if (!state)
-	//	return tc_createMatrix(0,0);
 	
 	const C_FLOAT64 * pIndep = state.beginIndependent(), 
 								  * pDep = state.beginDependent();

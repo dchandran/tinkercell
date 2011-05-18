@@ -532,7 +532,7 @@ namespace Tinkercell
 	void AntimonyEditor::appendScript(QString& s, const QList<ItemHandle*>& childHandles)
 	{
 		QRegExp regex(tr("\\.(?!\\d)"));
-		QString s2;
+		QString s2,s3;
 		QString allEqns;
 		QStringList usedSymbols;
 		for (int j=0; j < childHandles.size(); ++j)
@@ -549,19 +549,19 @@ namespace Tinkercell
 			if (childHandles[j] && childHandles[j]->isA(tr("compartment")))
 			{
 				if (s2.isEmpty())
-					s2 += tr("    compartment ");
+					s2 += tr("compartment ");
 				else
 					s2 += tr(", ");
 				s2 += childHandles[j]->fullName(tr("_"));
 
 				if (!s2.isEmpty())
 				{
-					QString s3;
+					s3 = QString();
 					for (int j=0; j < childHandles.size(); ++j)
 						if (childHandles[j] && childHandles[j]->children.isEmpty())
 						{
 							if (s3.isEmpty())
-								s3 += tr("    species ");
+								s3 += tr("species ");
 							else
 								s3 += tr(", ");
 							s3 += childHandles[j]->fullName(tr("_"));
@@ -572,11 +572,80 @@ namespace Tinkercell
 					s += s2;
 					s += tr("\n");
 					s += s3;
-					s += tr("\n\n");
+					s += tr("\n");
 				}
 			}
+		
+		s2 = QString();
+		for (int j=0; j < childHandles.size(); ++j)
+			if (childHandles[j] && childHandles[j]->isA(tr("molecule")) && !childHandles[j]->parentOfFamily("compartment"))
+			{
+				if (s2.isEmpty())
+					s2 = tr("species ");
+				else
+					s2 += tr(", ");
+				s2 += childHandles[j]->fullName(tr("_"));	
+			}
 
-		QString name, rate, species;
+		if (!s2.isEmpty())
+		{
+			s += s2;
+			s += tr("\n");
+		}
+		
+		QStringList assignmentRules;
+		s2 = QString();
+		QString name;
+		
+		for (int j=0; j < childHandles.size(); ++j)
+			if (childHandles[j])
+            {
+                name = childHandles[j]->fullName(tr("_"));
+				if (childHandles[j]->hasTextData(tr("Assignments")))
+				{
+					TextDataTable& assigns = childHandles[j]->textDataTable(tr("Assignments"));
+
+					for (int r=0; r < assigns.rows(); ++r)
+					{
+						QString rule = assigns.value(r,0);
+						rule.replace(regex,tr("_"));
+						
+						if (rule.size() < 2) continue;
+						
+						if (assigns.rowName(r).isEmpty() || assigns.rowName(r) == tr("self"))
+						{
+							s2 += name;
+							assignmentRules += name;	
+						}
+						else
+						{
+							if (!name.isEmpty())
+							{
+								s2 += name;
+								s2 += tr("_");
+							}
+							s2 += assigns.rowName(r);
+							assignmentRules += name + tr("_") + assigns.rowName(r);
+						}
+						s2 += tr(" = ");
+						s2 += rule;
+						s2 += tr(";\n");
+
+						allEqns += rule;
+						usedSymbols << (name + tr(".") + assigns.rowName(r));
+					}
+				}
+            }
+		
+		if (!s2.isEmpty())
+		{
+			s3 = tr("var    ") + assignmentRules.join(",");
+			s += s3;
+			s += tr("\n");
+			s += s2;
+		}
+		
+		QString rate, species;
 		QStringList lhs, rhs;
 		for (int j=0; j < childHandles.size(); ++j)
 			if (childHandles[j])
@@ -590,6 +659,9 @@ namespace Tinkercell
 						NumericalDataTable& reactants = childHandles[j]->numericalDataTable(tr("Reactant Stoichiometries"));
 						NumericalDataTable& products = childHandles[j]->numericalDataTable(tr("Product Stoichiometries"));
 						TextDataTable& rates = childHandles[j]->textDataTable(tr("Rate equations"));
+						
+						if (reactants.rows() < 1 && products.rows() < 1) continue;
+						
 						for (int r=0; r < rates.rows(); ++r)
 						{
 							lhs.clear();
@@ -610,8 +682,10 @@ namespace Tinkercell
 									rhs += species.replace(tr("."),tr("_"));
 								}
 
+							if (rate.isEmpty() || (lhs.isEmpty() && rhs.isEmpty())) continue;
+
 							rate.replace(regex,tr("_"));
-                            allEqns += rate;							
+                            allEqns += rate;
                             s += name;
 							if (rates.rows() > 1)
 								s += tr("_") + rates.rowName(r);
@@ -624,43 +698,7 @@ namespace Tinkercell
 						}
 
 					}
-			}
-
-        for (int j=0; j < childHandles.size(); ++j)
-			if (childHandles[j])
-            {
-                name = childHandles[j]->fullName(tr("_"));
-				if (childHandles[j]->hasTextData(tr("Assignments")))
-				{
-					TextDataTable& assigns = childHandles[j]->textDataTable(tr("Assignments"));
-
-					for (int r=0; r < assigns.rows(); ++r)
-					{
-						QString rule = assigns.value(r,0);
-						rule.replace(regex,tr("_"));
-						
-						if (rule.size() < 2) continue;
-						
-						if (assigns.rowName(r).isEmpty() || assigns.rowName(r) == tr("self"))
-							s += name;
-						else
-						{
-							if (!name.isEmpty())
-							{
-								s += name;
-								s += tr("_");
-							}
-							s += assigns.rowName(r);
-						}
-						s += tr(" = ");
-						s += rule;
-						s += tr(";\n");
-
-						allEqns += rule;
-						usedSymbols << (name + tr(".") + assigns.rowName(r));
-					}
-				}
-            }
+			}        
 
         for (int j=0; j < childHandles.size(); ++j)
 			if (childHandles[j])
@@ -695,7 +733,7 @@ namespace Tinkercell
 			if (childHandles[j])
 			{
 			    name = childHandles[j]->fullName(tr("_"));
-				if (childHandles[j]->hasNumericalData(tr("Initial Value")) && !name.isEmpty())
+				if (childHandles[j]->hasNumericalData(tr("Initial Value")) && !name.isEmpty() && !assignmentRules.contains(name))
 				{
 					s += name;
 					s += tr(" = ");

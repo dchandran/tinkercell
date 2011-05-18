@@ -171,7 +171,10 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles, copasi_model & 
 						}
 						else								
 						{
-							assignmentNames << name + tr("_") + s1;
+							if (handles[i]->name.isEmpty())
+								assignmentNames << s1;
+							else
+								assignmentNames << name + tr("_") + s1;
 							assignmentDefs << s2;
 						}
 						

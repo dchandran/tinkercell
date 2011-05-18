@@ -181,8 +181,8 @@ void SBMLImportExport::exportSBML(QSemaphore * sem, const QString & str)
 	if (modelNeedsUpdate)
 		updateSBMLModel();
 
-	//if (sbmlDocument)
-		//writeSBML (sbmlDocument, ConvertValue(str) );
+	if (sbmlDocument)
+		writeSBML (sbmlDocument, ConvertValue(str) );
 	/*if (currentNetwork())
 	{
 		QList<ItemHandle*> handles = currentNetwork()->handles();
@@ -196,7 +196,7 @@ void SBMLImportExport::exportSBML(QSemaphore * sem, const QString & str)
 		cRemoveModel(model);
 	}*/
 	
-	if (currentNetwork())
+	/*if (currentNetwork())
 	{
 		QList<ItemHandle*> handles = currentNetwork()->handles();
 		QString antimony = AntimonyEditor::getAntimonyScript(handles);
@@ -206,7 +206,7 @@ void SBMLImportExport::exportSBML(QSemaphore * sem, const QString & str)
 			file.write(antimony.toUtf8());
 			file.close();
 		}
-	}
+	}*/
 	if (sem)
 		sem->release();
 }

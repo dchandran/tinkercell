@@ -593,8 +593,7 @@ namespace Tinkercell
 			s += tr("\n");
 		}
 		
-		QStringList assignmentRules;
-		s2 = QString();
+		QStringList assignmentRules, assignmentsCode;
 		QString name;
 		
 		for (int j=0; j < childHandles.size(); ++j)
@@ -614,22 +613,25 @@ namespace Tinkercell
 						
 						if (assigns.rowName(r).isEmpty() || assigns.rowName(r) == tr("self"))
 						{
-							s2 += name;
-							assignmentRules += name;	
+							assignmentsCode += name;
+							assignmentRules += name;
 						}
 						else
 						{
-							if (!name.isEmpty())
+							if (!childHandles[j]->name.isEmpty())
 							{
-								s2 += name;
-								s2 += tr("_");
+								assignmentsCode += name + tr("_") + assigns.rowName(r);
+								assignmentRules += name + tr("_") + assigns.rowName(r);
 							}
-							s2 += assigns.rowName(r);
-							assignmentRules += name + tr("_") + assigns.rowName(r);
+							else
+							{
+								assignmentsCode += assigns.rowName(r);
+								assignmentRules += assigns.rowName(r);
+							}
 						}
-						s2 += tr(" = ");
-						s2 += rule;
-						s2 += tr(";\n");
+						assignmentsCode += tr(" = ");
+						assignmentsCode += rule;
+						assignmentsCode += tr(";\n");
 
 						allEqns += rule;
 						usedSymbols << (name + tr(".") + assigns.rowName(r));
@@ -637,12 +639,11 @@ namespace Tinkercell
 				}
             }
 		
-		if (!s2.isEmpty())
+		if (!assignmentRules.isEmpty())
 		{
 			s3 = tr("var    ") + assignmentRules.join(",");
 			s += s3;
 			s += tr("\n");
-			s += s2;
 		}
 		
 		QString rate, species;
@@ -741,6 +742,11 @@ namespace Tinkercell
 					s += tr(";\n");
 				}
 			}
+		if (!assignmentsCode.isEmpty())
+		{
+			s += assignmentsCode.join("");
+			s += tr("\n");
+		}
 	}
 
 	QString AntimonyEditor::getAntimonyScript(const QList<ItemHandle*>& list)

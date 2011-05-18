@@ -582,7 +582,8 @@ namespace Tinkercell
 			if (childHandles[j])
 			{
 				name = childHandles[j]->fullName(tr("_"));
-				if (childHandles[j]->hasNumericalData(tr("Reactant Stoichiometries")) &&
+				if (childHandles[j]->children.isEmpty() &&
+					childHandles[j]->hasNumericalData(tr("Reactant Stoichiometries")) &&
 					childHandles[j]->hasNumericalData(tr("Product Stoichiometries")) &&
 					 childHandles[j]->hasTextData(tr("Rate equations")))
 					{

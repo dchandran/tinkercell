@@ -178,23 +178,27 @@ void SBMLImportExport_FtoS::importSBMLString(const char* c)
 
 void SBMLImportExport::exportSBML(QSemaphore * sem, const QString & str)
 {
-	/*if (modelNeedsUpdate)
+	if (modelNeedsUpdate)
 		updateSBMLModel();
 
 	if (sbmlDocument)
-		writeSBML (sbmlDocument, ConvertValue(str) );*/
-	if (currentNetwork())
+		writeSBML (sbmlDocument, ConvertValue(str) );
+	/*if (currentNetwork())
 	{
 		QList<ItemHandle*> handles = currentNetwork()->handles();
-		/*copasi_model model;
+		copasi_model model;
 		model.CopasiModelPtr = 0;
 		model.CopasiDataModelPtr = 0;
 		model.qHash = 0;
 		NumericalDataTable table;
 		SimulationThread::updateModel(handles, model, table);		
 		cWriteSBMLFile(model, str.toAscii().data());		
-		cRemoveModel(model);*/
-		
+		cRemoveModel(model);
+	}*/
+	/*
+	if (currentNetwork())
+	{
+		QList<ItemHandle*> handles = currentNetwork()->handles();
 		QString antimony = AntimonyEditor::getAntimonyScript(handles);
 		QFile file(str);
 		if (file.open(QFile::WriteOnly | QFile::Text))
@@ -202,7 +206,7 @@ void SBMLImportExport::exportSBML(QSemaphore * sem, const QString & str)
 			file.write(antimony.toUtf8());
 			file.close();
 		}
-	}
+	}*/
 	if (sem)
 		sem->release();
 }
@@ -512,7 +516,10 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 							assignmentDefs << s2;
 
 							if (!fixedVars.contains(name))
+							{
 								fixedVars << name;
+								fixedValues << 1.0;
+							}
 						}
 						else								
 						{
@@ -524,26 +531,14 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 		}
 	}
 	
-	if (compartments.isEmpty())
+	if (compartments.isEmpty() || !fixedVars.isEmpty())
 	{
 		compartments << tr("DefaultCompartment");
 		compartmentVolumes << 1.0;
 	}
 	
 	//Make list of species types and units
-	QVector<ItemHandle*> speciesHandles(species.size(),0);
 	QList<ItemFamily*> families;
-	
-	for (int i=0,k=0; i < handles.size(); ++i)
-	{
-		k = species.indexOf(handles[i]->fullName(tr("_")));
-		if (k >= 0 && handles[i]->family())
-		{
-			speciesHandles[k] = handles[i];
-			if (!families.contains(handles[i]->family()))
-				families.append(handles[i]->family());
-		}
-	}
 	
 	for (int i=0; i < families.size(); ++i)
 	{
@@ -573,30 +568,43 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 			Compartment_setUnits(comp, "uL");
 		}
 	}
-
-	//create list of species
-	for (int i=0; i < species.size(); ++i)
+	
+	QVector<ItemHandle*> speciesHandles(species.size(),0);
+	for (int i=0,k=0; i < handles.size(); ++i)
 	{
-		Species_t * s = Model_createSpecies(model);
-		if (s)
+		k = species.indexOf(handles[i]->fullName(tr("_")));
+		if (k >= 0 && handles[i]->family())
 		{
-			Species_setId(s,ConvertValue(species[i]));
-			Species_setName(s,ConvertValue(species[i]));
-			Species_setConstant(s,0);
-			Species_setInitialConcentration(s,initialValues[i]);
-			Species_setInitialAmount(s,initialValues[i]);		
-			Species_setCompartment(s, ConvertValue(speciesCompartments[i]));
-			if (speciesHandles[i] && speciesHandles[i]->family())
-			{
-				Species_setSpeciesType(s,ConvertValue(tr("family_") + speciesHandles[i]->family()->name()));
-				if (!speciesHandles[i]->family()->measurementUnit.name.isEmpty())
-					Species_setUnits(s, ConvertValue(speciesHandles[i]->family()->measurementUnit.name));
-			}
+			speciesHandles[k] = handles[i];
+			if (!families.contains(handles[i]->family()))
+				families.append(handles[i]->family());
 		}
 	}
 
+	//create list of species
+	for (int i=0; i < species.size(); ++i)
+		if (!fixedVars.contains(species[i]))
+		{
+			Species_t * s = Model_createSpecies(model);
+			if (s)
+			{
+				Species_setId(s,ConvertValue(species[i]));
+				Species_setName(s,ConvertValue(species[i]));
+				Species_setConstant(s,0);
+				Species_setInitialConcentration(s,initialValues[i]);
+				Species_setInitialAmount(s,initialValues[i]);		
+				Species_setCompartment(s, ConvertValue(speciesCompartments[i]));
+				if (speciesHandles[i] && speciesHandles[i]->family())
+				{
+					Species_setSpeciesType(s,ConvertValue(tr("family_") + speciesHandles[i]->family()->name()));
+					if (!speciesHandles[i]->family()->measurementUnit.name.isEmpty())
+						Species_setUnits(s, ConvertValue(speciesHandles[i]->family()->measurementUnit.name));
+				}
+			}
+		}
+
 	//create list of fixed species
-	for (int i=0; i < fixedVars.size(); ++i)
+	/*for (int i=0; i < fixedVars.size(); ++i)
 	{
 		Species_t * s = Model_createSpecies(model);
 		if (s)
@@ -611,7 +619,7 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 			for (int j=0; j < handles.size(); ++j)
 				if (handles[j] && 
 					handles[j]->family() && 
-					fixedVars[i] == handles[i]->fullName(tr("_")))
+					fixedVars[i] == handles[j]->fullName(tr("_")))
 				{
 					if (!families.contains(handles[j]->family()))
 					{
@@ -633,7 +641,7 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 						Species_setUnits(s, ConvertValue(handles[j]->family()->measurementUnit.name));
 				}
 			}
-	}
+	}*/
 	
 	//create list of reactions
 	for (int i=0; i < stoictc_matrix.columns(); ++i)
@@ -653,7 +661,7 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 				for (int k=0; k < -stoictc_matrix.value(j,i); ++k)
 				{ 
 					SpeciesReference_t * sref = Reaction_createReactant(reac);
-					SpeciesReference_setId(sref, ConvertValue(stoictc_matrix.rowName(j)));
+					SpeciesReference_setId(sref, ConvertValue(stoictc_matrix.columnName(i) + QString("_") + stoictc_matrix.rowName(j)));
 					SpeciesReference_setName(sref, ConvertValue(stoictc_matrix.rowName(j)));
 					SpeciesReference_setSpecies(sref, ConvertValue(stoictc_matrix.rowName(j)));
 					//SpeciesReference_setStoichiometry( sref, -stoictc_matrix.value(j,i) );
@@ -665,12 +673,20 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 				for (int k=0; k < stoictc_matrix.value(j,i); ++k)
 				{
 					SpeciesReference_t * sref = Reaction_createProduct(reac);
-					SpeciesReference_setId(sref, ConvertValue(stoictc_matrix.rowName(j)));
+					SpeciesReference_setId(sref, ConvertValue(stoictc_matrix.columnName(i) + QString("_") + stoictc_matrix.rowName(j)));
 					SpeciesReference_setName(sref, ConvertValue(stoictc_matrix.rowName(j)));
 					SpeciesReference_setSpecies(sref, ConvertValue(stoictc_matrix.rowName(j)));
 					//SpeciesReference_setStoichiometry( sref, stoictc_matrix.value(j,i) );
 				}
-			}		
+			}
+			else
+			if (rates[i].contains(stoictc_matrix.rowName(j)) && !fixedVars.contains(stoictc_matrix.rowName(j)))
+			{
+				SpeciesReference_t * sref = Reaction_createModifier(reac);
+				SpeciesReference_setId(sref, ConvertValue(stoictc_matrix.columnName(i) + QString("_") + stoictc_matrix.rowName(j)));
+				SpeciesReference_setName(sref, ConvertValue(stoictc_matrix.rowName(j)));
+				SpeciesReference_setSpecies(sref, ConvertValue(stoictc_matrix.rowName(j)));
+			}
 	}
 	
 	//create list of parameters
@@ -682,6 +698,19 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 			Parameter_setId(p, ConvertValue(params.rowName(i)));
 			Parameter_setName(p, ConvertValue(params.rowName(i)));
 			Parameter_setValue(p, params.value(i,0));
+			Parameter_setConstant(p, 1);
+		}
+	}
+	
+	for (int i=0; i < fixedVars.size(); ++i)
+	{
+		Parameter_t * p = Model_createParameter(model);
+		if (p)
+		{
+			Parameter_setId(p, ConvertValue(fixedVars[i]));
+			Parameter_setName(p, ConvertValue(fixedVars[i]));
+			Parameter_setValue(p, fixedValues[i]);
+			Parameter_setConstant(p, 0);
 		}
 	}
 	

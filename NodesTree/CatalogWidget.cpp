@@ -749,7 +749,7 @@ namespace Tinkercell
 													QStringList() << "compartment")
                    << QPair<QString, QStringList>(
 													tr(" Regulation "),
-													QStringList() << "activation" << "repression")
+													QStringList() << "activation" << "repression" << "catalysis" << "transcription regulation" << "direct gene regulation")
 					<< QPair<QString, QStringList>(
 													tr(" Reaction "),
 													QStringList() << tr("1 to 1")  << tr("1 to 2")  << tr("1 to 3")

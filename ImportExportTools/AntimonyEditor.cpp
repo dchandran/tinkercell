@@ -595,8 +595,7 @@ namespace Tinkercell
 							lhs.clear();
 							rhs.clear();
 							rate = rates.value(r,0);
-							allEqns += rate;
-
+							
 							for (int c=0; c < reactants.columns(); ++c)
 								if (reactants.value(r,c) > 0)
 								{
@@ -612,7 +611,8 @@ namespace Tinkercell
 								}
 
 							rate.replace(regex,tr("_"));
-							s += name;
+                            allEqns += rate;							
+                            s += name;
 							if (rates.rows() > 1)
 								s += tr("_") + rates.rowName(r);
 							s += tr(":    ");

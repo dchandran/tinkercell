@@ -88,7 +88,6 @@ namespace Tinkercell
 		#else
 			s = QObject::tr("cd ") + homeDir + QObject::tr("; svn update --force");
 		#endif
-			MainWindow::instance()->console()->message(s);
 			err = system(s.toAscii().data());
 		}
 		

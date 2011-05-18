@@ -181,8 +181,8 @@ void SBMLImportExport::exportSBML(QSemaphore * sem, const QString & str)
 	if (modelNeedsUpdate)
 		updateSBMLModel();
 
-	if (sbmlDocument)
-		writeSBML (sbmlDocument, ConvertValue(str) );
+	//if (sbmlDocument)
+		//writeSBML (sbmlDocument, ConvertValue(str) );
 	/*if (currentNetwork())
 	{
 		QList<ItemHandle*> handles = currentNetwork()->handles();
@@ -195,7 +195,7 @@ void SBMLImportExport::exportSBML(QSemaphore * sem, const QString & str)
 		cWriteSBMLFile(model, str.toAscii().data());		
 		cRemoveModel(model);
 	}*/
-	/*
+	
 	if (currentNetwork())
 	{
 		QList<ItemHandle*> handles = currentNetwork()->handles();
@@ -206,7 +206,7 @@ void SBMLImportExport::exportSBML(QSemaphore * sem, const QString & str)
 			file.write(antimony.toUtf8());
 			file.close();
 		}
-	}*/
+	}
 	if (sem)
 		sem->release();
 }
@@ -547,12 +547,12 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 		{
 			SpeciesType_setId(s, ConvertValue(tr("family_") + families[i]->name()));
 			SpeciesType_setName(s, ConvertValue(families[i]->name()));
-			if (!families[i]->measurementUnit.name.isEmpty())
+			/*if (!families[i]->measurementUnit.name.isEmpty())
 			{
 				UnitDefinition_t * unitDef = Model_createUnitDefinition(model);
 				UnitDefinition_setId(unitDef, ConvertValue(families[i]->measurementUnit.name)); 
 				UnitDefinition_setName(unitDef, ConvertValue(families[i]->measurementUnit.name));
-			}
+			}*/
 		}
 	}
 	
@@ -565,7 +565,7 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 			Compartment_setId(comp, ConvertValue(compartments[i]));
 			Compartment_setName(comp, ConvertValue(compartments[i]));
 			Compartment_setVolume(comp, compartmentVolumes[i]);
-			Compartment_setUnits(comp, "uL");
+			//Compartment_setUnits(comp, "uL");
 		}
 	}
 	
@@ -597,8 +597,8 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 				if (speciesHandles[i] && speciesHandles[i]->family())
 				{
 					Species_setSpeciesType(s,ConvertValue(tr("family_") + speciesHandles[i]->family()->name()));
-					if (!speciesHandles[i]->family()->measurementUnit.name.isEmpty())
-						Species_setUnits(s, ConvertValue(speciesHandles[i]->family()->measurementUnit.name));
+					//if (!speciesHandles[i]->family()->measurementUnit.name.isEmpty())
+						//Species_setUnits(s, ConvertValue(speciesHandles[i]->family()->measurementUnit.name));
 				}
 			}
 		}

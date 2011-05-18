@@ -12,11 +12,13 @@ int main()
 	tc_matrix efm, output, params;
 	copasi_model m1, m2;
 	
-	m1 = model3();
+	//m1 = model3();
+    m1 = cReadSBMLFile("model1.sbml");
+    
 	output = cSimulateDeterministic(m1, 0, 10, 200);  //model, start, end, num. points
 	tc_printMatrixToFile("output.tab", output);	
 	tc_deleteMatrix(output);
-	
+	printf("%s\n",m1.errorMessage);
 	/*params = tc_createMatrix(3,3);
 	tc_setRowName(params,0,"k1");
 	tc_setRowName(params,1,"k2");

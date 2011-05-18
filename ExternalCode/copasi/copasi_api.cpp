@@ -1303,8 +1303,8 @@ tc_matrix cGetSteadyState(copasi_model model)
 	CCopasiDataModel* pDataModel = (CCopasiDataModel*)(model.CopasiDataModelPtr);
 	
 	if (!pModel || !pDataModel) return tc_createMatrix(0,0);
-	simulateAndUpdateModelState(model);
 	
+	//simulateAndUpdateModelState(model);	
 	cCompileModel(model,1);
 	
 	// get the task list
@@ -1341,18 +1341,20 @@ tc_matrix cGetSteadyState(copasi_model model)
 	
 	const CState& state = pModel->getState();
 	
-	const C_FLOAT64 * pIndep = state.beginIndependent(), 
-								  * pDep = state.beginDependent();
+	const C_FLOAT64 * pFixed = state.beginFixed(),
+								   * pIndep = state.beginIndependent(), 
+								   * pDep    = state.beginDependent();
 
 	C_INT32 numIndep = state.getNumIndependent(),
-					 numDep = state.getNumDependent();
+					 numDep = state.getNumDependent(),
+					 numFixed = state.getNumFixed();
 
 	CCopasiVector< CMetab > & species = pModel->getMetabolites();
 
 	int n = species.size();
 	int i;
 	
-	//if (n != (numIndep + numDep)) return tc_createMatrix(0,0);
+	//if (n != (numFixed + numIndep + numDep)) return tc_createMatrix(0,0);
 	
 	tc_matrix SS = tc_createMatrix(n,1);
 	tc_setColumnName(SS, 0, "steady-state");
@@ -1360,11 +1362,15 @@ tc_matrix cGetSteadyState(copasi_model model)
 	for (i=0; i < n; ++i)
 		tc_setRowName(SS, i, species[i]->getObjectName().c_str());
 
-	for (i=0; i < numIndep; ++i)
-		tc_setMatrixValue(SS, i, 0, pIndep[i]);
+	n = 0;
+	for (i=0; i < numIndep; ++i, ++n)
+		tc_setMatrixValue(SS, n, 0, pIndep[i]);
 	
-	for (i=0; i < numDep; ++i)
-		tc_setMatrixValue(SS, i+numIndep, 0, pDep[i]);
+	for (i=0; i < numDep; ++i, ++n)
+		tc_setMatrixValue(SS,n, 0, pDep[i]);
+	
+	for (i=0; i < numFixed; ++i, ++n)
+		tc_setMatrixValue(SS, n, 0, pFixed[i]);
 	
 	return SS;
 }

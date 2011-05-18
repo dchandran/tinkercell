@@ -983,6 +983,33 @@ void cCompileModel(copasi_model model, int subs)
 	}
 }
 
+void simulateAndUpdateModelState(copasi_model model, double time=100.0, double maxiter = 10, double eps=1.0)
+{
+	double err=eps+1.0, diff=0.0;
+	int n, iter = 0;
+	tc_matrix simdata;
+	
+	while (err > eps && iter < maxiter)
+	{
+		++iter;
+		simdata = cSimulateDeterministic(model, 0.0, time, 100);
+		
+		err = 0;
+		n = simdata.rows-1;	
+		for (int i=1; i < simdata.cols; ++i)
+		{
+			diff = tc_getMatrixValue(simdata, n, i) - tc_getMatrixValue(simdata, n-1, i);
+			err += diff*diff;
+		}
+		err /= (simdata.cols - 1);
+		
+		for (int i=1; i < simdata.cols; ++i)
+			cSetValue(model, tc_getColumnName(simdata, i), tc_getMatrixValue(simdata, n, i));
+		
+		tc_deleteMatrix(simdata);
+	}
+}
+
 tc_matrix simulate(copasi_model model, double startTime, double endTime, int numSteps, CCopasiMethod::SubType method)
 {
 	CModel* pModel = (CModel*)(model.CopasiModelPtr);
@@ -1276,24 +1303,12 @@ tc_matrix cGetSteadyState(copasi_model model)
 	CCopasiDataModel* pDataModel = (CCopasiDataModel*)(model.CopasiDataModelPtr);
 	
 	if (!pModel || !pDataModel) return tc_createMatrix(0,0);
+	simulateAndUpdateModelState(model);
+	
 	cCompileModel(model,1);
 	
 	// get the task list
 	CCopasiVectorN< CCopasiTask > & TaskList = * pDataModel->getTaskList();
-	// get the trajectory task object
-	CTrajectoryTask* pTask2 = dynamic_cast<CTrajectoryTask*>(TaskList["Time-Course"]);
-	// if there isn’t one
-	if (pTask2 == NULL)
-	{
-		// create a new one
-		pTask2 = new CTrajectoryTask();
-		// remove any existing trajectory task just to be sure since in
-		// theory only the cast might have failed above
-		TaskList.remove("Time-Course");
-		// add the new time course task to the task list
-		TaskList.add(pTask2, true);
-	}
-	
 	// get the steady state task object
 	CSteadyStateTask* pTask = dynamic_cast<CSteadyStateTask*>(TaskList["Steady-State"]);
 	// if there isn’t one
@@ -1310,31 +1325,20 @@ tc_matrix cGetSteadyState(copasi_model model)
 	
 	CCopasiMessage::clearDeque();
 	
-	if (pTask2 && pTask && pTask2->setMethodType(CCopasiMethod::deterministic))
+	try
 	{
-		//set the start and end time, number of steps, and save output in memory
-		CTrajectoryProblem* pProblem=(CTrajectoryProblem*)pTask2->getProblem();
-		pProblem->setModel(pModel);
-		pTask2->setScheduled(false);
-		pProblem->setStepNumber(100);
-		pProblem->setDuration(1000.0);
-		pDataModel->getModel()->setInitialTime(0.0);
-		pProblem->setTimeSeriesRequested(false);
-		try
-		{
-			pTask2->initialize(CCopasiTask::ONLY_TIME_SERIES, pDataModel, NULL);
-			pTask2->process(true);
-			pTask->initialize(CCopasiTask::OUTPUT, pDataModel, NULL);
-			pTask->process(true);
-		}
-		catch(...)
-		{
-			std::cerr << "Error when computing steady state." << std::endl;
-			return tc_createMatrix(0,0);
-		}
+		// initialize the trajectory task
+		// we want complete output (HEADER, BODY and FOOTER)
+		pTask->initialize(CCopasiTask::OUTPUT, pDataModel, NULL);
+		// now we run the actual trajectory
+		pTask->process(true);
+	}
+	catch (...)
+	{
+		std::cerr << "Error when computing steady state." << std::endl;
+		return tc_createMatrix(0,0);
 	}
 	
-	const CArrayAnnotation* pAJ = pTask->getJacobianAnnotated();
 	const CState& state = pModel->getState();
 	
 	const C_FLOAT64 * pIndep = state.beginIndependent(), 
@@ -1343,32 +1347,26 @@ tc_matrix cGetSteadyState(copasi_model model)
 	C_INT32 numIndep = state.getNumIndependent(),
 					 numDep = state.getNumDependent();
 
-	if (pAJ && pAJ->dimensionality() == 2)
-	{
-		std::vector<unsigned int> index(2);
-		const std::vector<std::string>& annotations = pAJ->getAnnotationsString(0);
-		
-		int n = annotations.size();
-		int i;
-		
-		if (n != (numIndep + numDep)) return tc_createMatrix(0,0);
-		
-		tc_matrix SS = tc_createMatrix(n,1);
-		tc_setColumnName(SS, 0, "steady-state");
-		
-		for (i=0; i < SS.rows; ++i)
-			tc_setRowName(SS, i, annotations[i].c_str());
+	CCopasiVector< CMetab > & species = pModel->getMetabolites();
 
-		for (i=0; i < numIndep; ++i)
-			tc_setMatrixValue(SS, i, 0, pIndep[i]);
-		
-		for (i=0; i < numDep; ++i)
-			tc_setMatrixValue(SS, i+numIndep, 0, pDep[i]);
-		
-		return SS;
-	}
+	int n = species.size();
+	int i;
+	
+	if (n != (numIndep + numDep)) return tc_createMatrix(0,0);
+	
+	tc_matrix SS = tc_createMatrix(n,1);
+	tc_setColumnName(SS, 0, "steady-state");
+	
+	for (i=0; i < n; ++i)
+		tc_setRowName(SS, i, species[i]->getObjectName().c_str());
 
-	return tc_createMatrix(0,0);
+	for (i=0; i < numIndep; ++i)
+		tc_setMatrixValue(SS, i, 0, pIndep[i]);
+	
+	for (i=0; i < numDep; ++i)
+		tc_setMatrixValue(SS, i+numIndep, 0, pDep[i]);
+	
+	return SS;
 }
 
 tc_matrix cGetEigenvalues(copasi_model model)

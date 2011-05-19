@@ -577,12 +577,9 @@ namespace Tinkercell
 	{
 		if (!currentNetworkWindow || !currentNetworkWindow->network) return;
 		
-		QString def = currentNetworkWindow->filename;
-		def.replace(QRegExp("\\..*$"),tr(".") + GlobalSettings::SAVE_FILE_EXTENSIONS.join(tr(" *.")));
-
 		QString fileName =
 			QFileDialog::getSaveFileName(this, tr("Save Current Network"),
-			def,
+			QFileInfo(currentNetworkWindow->filename).absolutePath(),
 			(GlobalSettings::PROJECTNAME + tr(" files (*.") + GlobalSettings::SAVE_FILE_EXTENSIONS.join(tr(" *.")) + tr(")")));
 		if (fileName.isEmpty())
 			return;

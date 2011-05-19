@@ -478,7 +478,7 @@ void SimulationThread::run()
 			break;
 		case SteadyState:
 			tc_deleteMatrix(resultMatrix);
-			resultMatrix = cGetSteadyState(model);
+			resultMatrix = cGetSteadyState2(model,10);
 			plotTitle = tr("Steady state");
 			plotType = PlotTool::Text;
 			x = -1;
@@ -501,7 +501,7 @@ void SimulationThread::run()
 					showProgress( title, (int)(100 * i)/n  );
 					p = start + (double)(i)*step;
 					cSetValue(model, param.toUtf8().data(), p);
-					ss = cGetSteadyState(model);					
+					ss = cGetSteadyState2(model,10);					
 
 					if (i == 0)
 					{
@@ -553,7 +553,7 @@ void SimulationThread::run()
 						p2 = start2 + (double)(i)*step2;
 						cSetValue(model, param2.toUtf8().data(), p2);
 						
-						ss = cGetSteadyState(model);
+						ss = cGetSteadyState2(model,10);
 
 						if (l == -1)
 						{

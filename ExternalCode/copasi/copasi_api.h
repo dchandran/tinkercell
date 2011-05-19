@@ -294,6 +294,15 @@ TCAPIEXPORT tc_matrix cSimulateTauLeap(copasi_model model, double startTime, dou
 */
 TCAPIEXPORT tc_matrix cGetSteadyState(copasi_model model);
 /*! 
+ \brief bring the system to steady state using normal simulation
+ \param copasi_model model
+ \param int max iterations (each iteration doubles the time duration)
+ \return tc_matrix matrix with 1 row and n columns, where n = number of species
+ \ingroup Simulation
+*/
+TCAPIEXPORT tc_matrix cGetSteadyState2(copasi_model model, int iter);
+
+/*! 
  \brief get the Jacobian at the current state
  \param copasi_model model
  \return tc_matrix matrix with n rows and n columns, where n = number of species

@@ -336,19 +336,22 @@ namespace Tinkercell
 					}
 			}
 			setAxisScaleDraw(QwtPlot::xBottom, new DataAxisLabelDraw(dat.rowNames()));
+            setAxisTitle(xBottom, "");
 		}
-		
-		if (x >= 0 && dat.columns() > x)
-			setAxisTitle(xBottom, dat.columnName(x));
-		else
-			if (x < 0)
-				setAxisTitle(xBottom, "Index");
-			else
-				setAxisTitle(xBottom, "");
+        else
+        {
+		    if (x >= 0 && dat.columns() > x)
+			    setAxisTitle(xBottom, dat.columnName(x));
+		    else
+			    if (x < 0)
+				    setAxisTitle(xBottom, "Index");
+			    else
+				    setAxisTitle(xBottom, "");
+        }
 				
 		QString ylabel = axisTitle(QwtPlot::yLeft).text();
 		
-		if (dat.columns() == 2)
+		if (dat.columns() <= 2)
 			if (x == 0)
 				ylabel = dat.columnName(1);
 			else
@@ -474,8 +477,11 @@ namespace Tinkercell
 	
 	Plot2DWidget::Plot2DWidget(PlotTool * parent) : PlotWidget(parent), buttonsGroup(this)
 	{
-		connect(this, SIGNAL(displayFire(ItemHandle*, double)), parent, SIGNAL(displayFire(ItemHandle*, double)));
-		connect(this, SIGNAL(hideFire()), parent, SIGNAL(hideFire()));
+        if (parent)
+        {
+		    connect(this, SIGNAL(displayFire(ItemHandle*, double)), parent, SIGNAL(displayFire(ItemHandle*, double)));
+    		connect(this, SIGNAL(hideFire()), parent, SIGNAL(hideFire()));
+        }
 		
 		type = PlotTool::Plot2D;
 		dataPlot = new DataPlot();

@@ -1049,6 +1049,7 @@ namespace Tinkercell
 		contextScreenMenu.addAction(redoAction);
 		contextScreenMenu.addAction(closeAction);
 		contextScreenMenu.addAction(selectAllAction);
+		contextScreenMenu.addAction(printToFileAction);
 
 		contextEditorMenu.addAction(undoAction);
 		contextEditorMenu.addAction(redoAction);

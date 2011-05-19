@@ -1792,6 +1792,7 @@ namespace Tinkercell
 				int w = 800;
 				int h = (int)(rect.height() * w/rect.width());
 				QImage image(w,h,QImage::Format_ARGB32);
+				image.fill( QColor(Qt::white).rgb() );
 				print(&image,rect);
 				clipboard->setImage(image);
 			}

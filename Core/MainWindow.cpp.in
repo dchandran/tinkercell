@@ -727,7 +727,7 @@ namespace Tinkercell
 			//printer.setOrientation(QPrinter::Landscape);
 			printer.setPaperSize(QSizeF( w , h ),QPrinter::Millimeter);
 			printer.setOutputFileName(fileName);
-			scene->print(&printer);
+			scene->print(&printer,rect);
 		}
 		else
 		if (fileName.endsWith(tr("jpg"),Qt::CaseInsensitive) || fileName.endsWith(tr("jpeg"),Qt::CaseInsensitive))
@@ -736,7 +736,7 @@ namespace Tinkercell
 			if (h < 1) h = w * rect.height() / rect.width();
 			QPixmap printer(w,h);
 			printer.fill();
-			scene->print(&printer);
+			scene->print(&printer,rect);
 			printer.save(fileName,"jpg");
 		}
 		else //PNG default
@@ -745,7 +745,7 @@ namespace Tinkercell
 			if (h < 1) h = w * rect.height() / rect.width();
 			QPixmap printer(w,h);
 			printer.fill();
-			scene->print(&printer);
+			scene->print(&printer,rect);
 			printer.save(fileName,"png");
 		}
 	}

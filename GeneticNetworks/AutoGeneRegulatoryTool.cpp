@@ -616,9 +616,6 @@ namespace Tinkercell
 					if (!operators.contains(parts[i]))
 						operators += parts[i];
 					
-					bool isProperReaction = false;
-					QList<ConnectionHandle*> connections = NodeHandle::cast(parts[i])->connections();
-					
 					if (!repressibleOperators.contains(parts[i]))
 					{
 						if (parts[i]->isA(tr("repressor binding site")))
@@ -631,72 +628,6 @@ namespace Tinkercell
 									break;
 								}
 					}
-					for (int j=0; j < connections.size(); ++j)
-						if (connections[j] &&
-							(!connections[j]->children.isEmpty() ||
-								(connections[j]->hasNumericalData(tr("Product stoichiometries")) &&
-									connections[j]->numericalDataTable(tr("Product stoichiometries")).columns() > 0)))
-						{
-							isProperReaction = true;
-							break;
-						}
-
-					if (!isProperReaction)
-					{
-						TextDataTable & sDat = parts[i]->textDataTable(tr("Assignments"));
-						if (sDat.hasRow(tr("self")))
-						{
-							isProperReaction = true;
-							QString & s = sDat.value(tr("self"),0);
-							for (int j=0; j < connections.size(); ++j)
-								if (connections[j] && !s.contains(connections[j]->fullName()))
-								{
-									isProperReaction = false;
-									break;
-								}
-						}
-					}
-					
-					/*if (!isProperReaction)
-					{
-						QString rate = hillEquation(NodeHandle::cast(parts[i]));
-						if (!rate.isEmpty())
-						{
-							TextDataTable * sDat = new TextDataTable(parts[i]->textDataTable(tr("Assignments")));
-							QString p;
-						
-							for (int j=0; j < connections.size(); ++j)
-								if (connections[j] && connections[j]->isA(tr("Regulation")))
-								{
-									NumericalDataTable & params = connections[j]->numericalDataTable(tr("Parameters"));
-									NumericalDataTable * params2 = 0;
-									QStringList rownames = params.rowNames();
-									p = connections[j]->fullName() + tr(".Kd");
-									if (rate.contains(p) && !rownames.contains("Kd"))
-									{
-										if (!params2)
-											params2 = new NumericalDataTable(params);
-										params2->value("Kd",0) = 1.0;
-									}
-									p = connections[j]->fullName() + tr(".h");
-									if (rate.contains(p) && !rownames.contains("h"))
-									{
-										if (!params2)
-											params2 = new NumericalDataTable(params);
-										params2->value("h",0) = 1.0;
-									}
-									if (params2)
-									{
-										commands << new ChangeNumericalDataCommand(tr("New parameters"),&params,params2);
-										delete params2;
-									}
-								}
-
-							sDat->value(tr("self"),0) = rate;
-							oldDataTables += &(parts[i]->textDataTable(tr("Assignments")));
-							newDataTables += sDat;
-						}
-					}*/
 				}
 
 				if (parts[i]->isA(tr("Coding")) && NodeHandle::cast(parts[i]))

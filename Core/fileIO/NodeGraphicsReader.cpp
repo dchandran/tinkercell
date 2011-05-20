@@ -104,7 +104,7 @@ namespace Tinkercell
                                 if (width == 0.0)
                                 {
 									QColor color = pen.color();
-									color.setAlpha(0.0);
+									color.setAlphaF(0.0);
 									pen.setColor(color);
 								}
 							}
@@ -115,7 +115,7 @@ namespace Tinkercell
 							if (ok)
                             {
 								QColor color = pen.color();
-								color.setAlpha(width);
+								color.setAlphaF(width);
 								pen.setColor(color);
 							}
 						}

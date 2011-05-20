@@ -789,14 +789,14 @@ void CopasiExporter::toolLoaded(Tool*)
 				}
 				
 				//Steady State
-				button = libMenu->addFunction(tr("Steady state"), tr("Get state"), QIcon(scan));
+				button = libMenu->addFunction(tr("Steady State"), tr("Get state"), QIcon(scan));
 				if (button)
 				{
 					button->setToolTip(tr("using COPASI"));
 					connect(button,SIGNAL(pressed()),this,SLOT(getSS()));
 				}
 
-				menuItem = libMenu->addMenuItem(tr("Steady state"), tr("Get state"), QIcon(scan));
+				menuItem = libMenu->addMenuItem(tr("Steady State"), tr("Get state"), QIcon(scan));
 				if (menuItem)
 				{
 					menuItem->setToolTip(tr("using COPASI"));
@@ -804,14 +804,14 @@ void CopasiExporter::toolLoaded(Tool*)
 				}
 				
 				//Steady State Scan
-				button = libMenu->addFunction(tr("Steady state"), tr("Parameter scan"), QIcon(scan));
+				button = libMenu->addFunction(tr("Steady State"), tr("Parameter scan"), QIcon(scan));
 				if (button)
 				{
 					button->setToolTip(tr("using COPASI"));
 					connect(button,SIGNAL(pressed()),this,SLOT(scan1D()));
 				}
 
-				menuItem = libMenu->addMenuItem(tr("Steady state"), tr("Parameter scan"), QIcon(scan));
+				menuItem = libMenu->addMenuItem(tr("Steady State"), tr("Parameter scan"), QIcon(scan));
 				if (menuItem)
 				{
 					menuItem->setToolTip(tr("using COPASI"));
@@ -819,14 +819,14 @@ void CopasiExporter::toolLoaded(Tool*)
 				}
 				
 				//Steady State Scan 2D
-				button = libMenu->addFunction(tr("Steady state"), tr("2D parameter scan"), QIcon(scan));
+				button = libMenu->addFunction(tr("Steady State"), tr("2D parameter scan"), QIcon(scan));
 				if (button)
 				{
 					button->setToolTip(tr("using COPASI"));
 					connect(button,SIGNAL(pressed()),this,SLOT(scan2D()));
 				}
 
-				menuItem = libMenu->addMenuItem(tr("Steady state"), tr("2D parameter scan"), QIcon(scan));
+				menuItem = libMenu->addMenuItem(tr("Steady State"), tr("2D parameter scan"), QIcon(scan));
 				if (menuItem)
 				{
 					menuItem->setToolTip(tr("using COPASI"));
@@ -834,14 +834,14 @@ void CopasiExporter::toolLoaded(Tool*)
 				}
 				
 				//Jacobian
-				button = libMenu->addFunction(tr("Steady state"), tr("Jacobian"), QIcon(odepng));
+				button = libMenu->addFunction(tr("Steady State"), tr("Jacobian"), QIcon(odepng));
 				if (button)
 				{
 					button->setToolTip(tr("using COPASI"));
 					connect(button,SIGNAL(pressed()),this,SLOT(getJac()));
 				}
 
-				menuItem = libMenu->addMenuItem(tr("Steady state"), tr("Jacobian"), QIcon(odepng));
+				menuItem = libMenu->addMenuItem(tr("Steady State"), tr("Jacobian"), QIcon(odepng));
 				if (menuItem)
 				{
 					menuItem->setToolTip(tr("using COPASI"));
@@ -849,14 +849,14 @@ void CopasiExporter::toolLoaded(Tool*)
 				}
 				
 				//Eigenvalues
-				button = libMenu->addFunction(tr("Steady state"), tr("Eigenvalues"), QIcon(odepng));
+				button = libMenu->addFunction(tr("Steady State"), tr("Eigenvalues"), QIcon(odepng));
 				if (button)
 				{
 					button->setToolTip(tr("using COPASI"));
 					connect(button,SIGNAL(pressed()),this,SLOT(getEig()));
 				}
 
-				menuItem = libMenu->addMenuItem(tr("Steady state"), tr("Eigenvalues"), QIcon(odepng));
+				menuItem = libMenu->addMenuItem(tr("Steady State"), tr("Eigenvalues"), QIcon(odepng));
 				if (menuItem)
 				{
 					menuItem->setToolTip(tr("using COPASI"));

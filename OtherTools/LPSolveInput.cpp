@@ -172,10 +172,10 @@ namespace Tinkercell
 
 				QIcon icon(tr(":/images/lpsolve.png"));
 
-				QToolButton * button = libMenu->addFunction(tr("Analysis"), tr("Flux Balance Analysis"), icon);
+				QToolButton * button = libMenu->addFunction(tr("Network Structure"), tr("Flux Balance Analysis"), icon);
 				button->setToolTip(tr("uses LPsolve linear programming C library"));
 
-				QAction * action = libMenu->addMenuItem(tr("Analysis"),tr("Flux Balance Analysis"), icon);
+				QAction * action = libMenu->addMenuItem(tr("Network Structure"),tr("Flux Balance Analysis"), icon);
 				action->setToolTip(tr("uses LPsolve linear programming C library"));
 
 				connect(button,SIGNAL(pressed()),dockWidget,SLOT(show()));

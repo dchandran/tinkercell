@@ -1,5 +1,5 @@
 """
-category: Network structure
+category: Network Structure
 name: Centrality measures
 description: uses NetworkX to make centrality measurements
 icon: nodedges.png

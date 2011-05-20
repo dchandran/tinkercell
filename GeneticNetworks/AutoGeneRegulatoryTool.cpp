@@ -2017,7 +2017,7 @@ namespace Tinkercell
 		if (!children.isEmpty())
 		{
 			commands << new SetParentHandleCommand(tr("parents set"), scene->network, children, parents);
-			commands << new ChangeZCommand(tr("adjust z"), scene, vector, lowestZ);
+			commands << new ChangeZCommand(tr("adjust z"), scene, vector, lowestZ-1.0);
 		}
 
 		QList<NodeGraphicsItem*> nodesInPlasmid;
@@ -2105,8 +2105,9 @@ namespace Tinkercell
 						 shape2->defaultBrush.color() == QColor(0,0,0))
 					{
 						shapes << shape1 << shape2;
-						noBrushes << QBrush(QColor(0,0,0,0)) << QBrush(QColor(0,0,0,0));
-						noPens << QPen(QColor(0,0,0,0)) << QPen(QColor(0,0,0,0));
+                        QBrush nocolor(QColor(0,0,0,0));
+						noBrushes << nocolor << nocolor;
+						noPens << QPen(nocolor,0) << QPen(nocolor,0);
 					}
 					
 					flips += flip;
@@ -2145,8 +2146,11 @@ namespace Tinkercell
 						shape1->defaultBrush.color() == QColor(0,0,0,0) &&
 						 shape2->defaultBrush.color() == QColor(0,0,0,0))
 					{
-						shape1->defaultBrush = QBrush(QColor(0,0,0));
-						shape2->defaultBrush = QBrush(QColor(0,0,0));
+                        QBrush black(QColor(0,0,0));
+						shape1->defaultBrush = black;
+						shape2->defaultBrush = black;
+                        shape1->defaultPen = QPen(black,1);
+                        shape1->defaultPen = QPen(black,1);
 					}
 				}
 		}

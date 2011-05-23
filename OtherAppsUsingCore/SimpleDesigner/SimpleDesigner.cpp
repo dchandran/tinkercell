@@ -25,6 +25,7 @@ This is an example application that uses the TinkerCell Core library
 #include "LoadSaveTool.h"
 #include "SimpleDesigner.h"
 #include "GlobalSettings.h"
+#include "Ontology.h"
 
 using namespace Tinkercell;
 using namespace std;
@@ -654,7 +655,7 @@ int main(int argc, char *argv[])
 	
 	MainWindow mainWindow(true,false,false);  //@args: enable scene, text, allow pop-out windows
 	mainWindow.readSettings();   //load settings such as window positions
-	
+
 	//optional
 	mainWindow.setWindowTitle("Simple Designer"); 
     mainWindow.statusBar()->showMessage("Welcome to Simple Designer");  
@@ -662,19 +663,13 @@ int main(int argc, char *argv[])
 	//This is our main tool
 	mainWindow.addTool(new SimpleDesigner);
 	
-	/*  setup an interpreter for the console (optional) 
-	OctaveInterpreterThread::OCTAVE_FOLDER = "octave"; //this is where the libraries will be located
-	ConsoleWindow * console = mainWindow.console();
-	InterpreterThread * interpreter = new OctaveInterpreterThread("octave/tinkercell.oct", "octave/libtcoct", &mainWindow);
-	//InterpreterThread * interpreter = new PythonInterpreterThread("python/_tinkercell", &mainWindow);
-	interpreter->initialize();
-	console->setInterpreter(interpreter);*/
-	
 	/*  optional  GUI configurations */
 	GraphicsScene::SelectionRectangleBrush = QBrush(QColor(5,5,5,40));
 	ConnectionGraphicsItem::DefaultMiddleItemFile = "";
 	ConnectionGraphicsItem::DefaultArrowHeadFile = ":/images/arrow.xml";
-	/*                                           */
+
+	Ontology::readNodes("NodesTree.nt");
+	Ontology::readConnections("ConnectionsTree.nt");
 	
     mainWindow.newScene();
     mainWindow.show();

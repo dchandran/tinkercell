@@ -65,7 +65,7 @@
 <Vector>								<description>					"A vector backbone, which contains a selectable marker, and an insert constitute a plasmid"@en .
 <Empty>								<description>					"Used for representing degradation, dilution, or other forms of exit from the system"@en .
 <Container>							<description>					"A generic component that can contain other components inside it"@en .
-<Composite Part>					<a>									<Container>
+<Composite Part>					<a>									<Container> .
 <Composite Part>					<description>					"A part that composed of other parts"@en .
 <Compartment>					<units>								"volume,fL nL mL"@en .
 <Compartment>					<description>					"A region where the contained molecular species are localized and contained"@en .

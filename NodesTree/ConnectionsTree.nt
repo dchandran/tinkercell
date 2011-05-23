@@ -94,13 +94,13 @@
 <Regulation> 								<description>		"Any form of biological regulation"@en .
 <Regulation> 								<participant>		"Node, Regulator"@en .
 <Regulation> 								<participant>		"Node, Target"@en .
-<Catalysis>								<a>						<Regulation>
-<Catalysis>								<a>						<2 to 1>
+<Catalysis>								<a>						<Regulation> .
+<Catalysis>								<a>						<2 to 1> .
 <Catalysis> 								<description>		"A regulator converts one molecule to another"@en .
 <Catalysis> 								<participant>		"Molecule, Catalyst"@en .
 <Catalysis> 								<participant>		"Molecule, Substrate"@en .
 <Catalysis> 								<participant>		"Molecule, Product"@en .
-<Enzyme Catalysis>					<a>						<Catalysis>
+<Enzyme Catalysis>					<a>						<Catalysis> .
 <Enzyme Catalysis> 								<participant>		"Enzyme, Catalyst"@en .
 <Enzyme Catalysis> 								<participant>		"Molecule, Substrate"@en .
 <Enzyme Catalysis> 								<participant>		"Molecule, Product"@en .

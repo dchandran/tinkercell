@@ -84,12 +84,19 @@ namespace Tinkercell
 	{
 		Q_OBJECT
 	
-	private:
+	protected:
 		/*! \brief the data (from each tool) for this handle
 		\sa ItemData*/
 		ItemData* data;
 
 	public:
+		/*! \brief default constructor
+			\param QString name*/
+		ItemHandle(const QString& name = QString());
+		/*! \brief copy constructor
+			\param ItemHandle& handle to copy*/
+		ItemHandle(const ItemHandle&);
+
 		/*! \brief name of this item*/
 		QString name;
 		/*! \brief list of graphical items used to draw this handle*/
@@ -106,11 +113,6 @@ namespace Tinkercell
 		/*! \brief type of this handle (sub-classes can specify type)*/
 		int type;
 
-		/*! \brief default constructor
-			\param QString name*/
-		ItemHandle(const QString& name = QString());
-		/*! \brief copy constructor */
-		ItemHandle(const ItemHandle&);
 		/*! \brief operator = */
 		virtual ItemHandle& operator = (const ItemHandle&);
 		/*! \brief destructor -- does nothing*/

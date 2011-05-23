@@ -96,6 +96,11 @@ namespace Tinkercell
          */
         void readTreeFile(const QString& filename);
 
+        /*! \brief load node families from RDF using TinkerCell's Ontology class
+        \param QString filename
+         */
+        void readRdf(const QString& filename);
+
         /*! \brief load this tool into the main window
            \param MainWindow* the TinkerCell main window
         */

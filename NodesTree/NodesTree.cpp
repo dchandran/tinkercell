@@ -8,6 +8,7 @@
  This tool also stores the tree of node families as a hashtable of <name,family> pairs.
 
 ****************************************************************************/
+#include "Ontology.h"
 #include "NodesTree.h"
 #include <QtDebug>
 #include <QButtonGroup>
@@ -49,6 +50,11 @@ namespace Tinkercell
      {
           return QSize(140, 200);
      }
+
+	void  NodesTree::readRdf(const QString& filename)
+	{
+		Ontology::read
+	}
      
 	void  NodesTree::readTreeFile(const QString& filename)
 	{

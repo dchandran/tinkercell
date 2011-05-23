@@ -65,6 +65,8 @@ namespace Tinkercell
 	public:
 		/*! \brief description of this family*/
 		QString description;
+		/*! \brief other names for this family*/
+		QStringList synonyms;
 		/*! \brief restrictions that apply to this family*/
 		QStringList restrictions;
 		/*! \brief the possible options for measurement name and unit for items in this family*/
@@ -105,11 +107,11 @@ namespace Tinkercell
 		*	\return QList<ItemFamily*>
 		*/
 		virtual QList<ItemFamily*> allChildren() const;
-		/*! \brief constructor.
-			\param QString name*/
-		ItemFamily(const QString& name = QString());
 		/*! \brief destructor.*/
 		virtual ~ItemFamily();
+		/*! \brief constructor
+			\param QString name*/
+		ItemFamily(const QString& name = QString());
 	protected:
 		/*! \brief used for casting between different sub-classes*/
 		int type;

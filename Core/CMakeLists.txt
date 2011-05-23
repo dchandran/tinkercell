@@ -8,6 +8,9 @@ INCLUDE_DIRECTORIES(
 	  BEFORE
       ${TINKERCELL_SOURCE_DIR}/ExternalCode/cluster
       ${TINKERCELL_SOURCE_DIR}/ExternalCode/cluster/src
+      ${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor2/src
+      ${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor2/librdfa
+      ${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor2/util
 )
 
 CONFIGURE_FILE( 
@@ -96,6 +99,7 @@ TARGET_LINK_LIBRARIES( TinkerCellCore
   qwt           #for plotting
   qwtplot3d   #for plotting 3D
   cluster      #for clustering plot data
+  raptor2
   ${QT_LIBRARIES}
 )
 

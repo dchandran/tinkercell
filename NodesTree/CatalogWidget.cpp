@@ -24,6 +24,7 @@
 #include "NetworkHandle.h"
 #include "CatalogWidget.h"
 #include "GlobalSettings.h"
+#include "Ontology.h"
 
 namespace Tinkercell
 {
@@ -158,15 +159,18 @@ namespace Tinkercell
 		emit buttonPressed(nodeFamily->name());
 
 		int w = 20, h = 20;
-		if (nodeFamily->pixmap.width() > nodeFamily->pixmap.height())
+		if (!nodeFamily->pixmap.isNull() && (nodeFamily->pixmap.width() * nodeFamily->pixmap.height()) > 0)
 		{
-			w = 20 * nodeFamily->pixmap.width()/nodeFamily->pixmap.height();
-			if (w > 50) w = 50;
-		}
-		else
-		{
-			h = 20 * nodeFamily->pixmap.height()/nodeFamily->pixmap.width();
-			if (h > 50) h = 50;
+			if (nodeFamily->pixmap.width() > nodeFamily->pixmap.height())
+			{
+				w = 20 * nodeFamily->pixmap.width()/nodeFamily->pixmap.height();
+				if (w > 50) w = 50;
+			}
+			else
+			{
+				h = 20 * nodeFamily->pixmap.height()/nodeFamily->pixmap.width();
+				if (h > 50) h = 50;
+			}
 		}
 
 		QCursor cursor(nodeFamily->pixmap.scaled(w,h));
@@ -188,17 +192,20 @@ namespace Tinkercell
 				buttons[i]->setIcon(QIcon(nodes[i]->pixmap));
 				buttons[i]->setToolTip(nodes[i]->name());
 				buttons[i]->setText(nodes[i]->name());
-				if (nodes[i]->pixmap.width() > nodes[i]->pixmap.height())
+				if (!nodes[i]->pixmap.isNull() && (nodes[i]->pixmap.width() * nodes[i]->pixmap.height()) > 0)
 				{
-					int w = 20 * nodes[i]->pixmap.width()/nodes[i]->pixmap.height();
-					if (w > 50) w = 50;
-					buttons[i]->setIconSize(QSize(w,20));
-				}
-				else
-				{
-					int h = 20 * nodes[i]->pixmap.height()/nodes[i]->pixmap.width();
-					if (h > 50) h = 50;
-					buttons[i]->setIconSize(QSize(20, h));
+					if (nodes[i]->pixmap.width() > nodes[i]->pixmap.height())
+					{
+						int w = 20 * nodes[i]->pixmap.width()/nodes[i]->pixmap.height();
+						if (w > 50) w = 50;
+						buttons[i]->setIconSize(QSize(w,20));
+					}
+					else
+					{
+						int h = 20 * nodes[i]->pixmap.height()/nodes[i]->pixmap.width();
+						if (h > 50) h = 50;
+						buttons[i]->setIconSize(QSize(20, h));
+					}
 				}
 			}
 
@@ -217,24 +224,28 @@ namespace Tinkercell
 		
 		int w = 20, h = 20;
 
-		if (family->pixmap.width() > family->pixmap.height())
+		if (!family->pixmap.isNull() && (family->pixmap.width() * family->pixmap.height()) > 0.0)
 		{
-			w = 20 * family->pixmap.width()/family->pixmap.height();
-			if (w > 50) w = 50;
-		}
-		else
-		{
-			h = 20 * family->pixmap.height()/family->pixmap.width();
-			if (h > 50) h = 50;
-		}
+			if (family->pixmap.width() > family->pixmap.height())
+			{
+				w = 20 * family->pixmap.width()/family->pixmap.height();
+				if (w > 50) w = 50;
+			}
+			else
+			{
+				h = 20 * family->pixmap.height()/family->pixmap.width();
+				if (h > 50) h = 50;
+			}
 
-		QCursor cursor(family->pixmap.scaled(w,h));
+			QCursor cursor(family->pixmap.scaled(w,h));
 
-		mainWindow->setCursor(cursor);
+			mainWindow->setCursor(cursor);
 		
-		for (int i=0; i < widgetsToUpdate.size(); ++i)
-			if (widgetsToUpdate[i])
-				widgetsToUpdate[i]->setCursor(cursor);
+			for (int i=0; i < widgetsToUpdate.size(); ++i)
+				if (widgetsToUpdate[i])
+					widgetsToUpdate[i]->setCursor(cursor);
+		}
+
 		if (connections.contains(family)) return;
 
 		QList<QAbstractButton*> buttons = connectionsButtonGroup.buttons();
@@ -319,9 +330,9 @@ namespace Tinkercell
 		QStringList allNames;
 
 		if (nodesTree)
-			allNames << nodesTree->nodeFamilies.keys();
+			allNames << Ontology::allNodeFamilyNames();
 		if (connectionsTree)
-			allNames << connectionsTree->connectionFamilies.keys();
+			allNames << Ontology::allConnectionFamilyNames();
 
 		if (allNames.isEmpty()) return;
 
@@ -333,7 +344,7 @@ namespace Tinkercell
 			QTableWidget * table = new QTableWidget;
 			table->setColumnCount(3);
 			table->setColumnWidth(0,50);
-			table->setColumnWidth(1,80);
+			table->setColumnWidth(1,200);
 			table->setColumnWidth(2,30);
 			table->setHorizontalHeaderLabels( QStringList() << tr("Show/hide") << tr("Family name") << tr("Units"));
 			table->setRowCount(allNames.size());
@@ -494,13 +505,13 @@ namespace Tinkercell
 
 			toolBox->addItem(nodesTree,tr("Parts"));
 
-			QList<QString> keys = nodesTree->nodeFamilies.keys();
+			QStringList keys = Ontology::allNodeFamilyNames();;
 
 			for (int i=0; nodes.size() < n && i < keys.size(); ++i)
 			{
 				QString s = settings.value(QString::number(i),keys[i]).toString();
 
-				if (nodesTree->getFamily(s) && (family = nodesTree->nodeFamilies[s]))
+				if (nodesTree->getFamily(s) && (family = Ontology::nodeFamily(s)))
 				{
 					nodes << family;
 					allFamilyNames << family->name();
@@ -545,14 +556,14 @@ namespace Tinkercell
 			connect(this,SIGNAL(keyPressed(int, Qt::KeyboardModifiers)),connectionsTree,SIGNAL(keyPressed(int, Qt::KeyboardModifiers)));
 
 			toolBox->addItem(connectionsTree,tr("Connections"));
-			QList<QString> keys = connectionsTree->connectionFamilies.keys();
+			QStringList keys = Ontology::allConnectionFamilyNames();
 
 			for (int i=0; connections.size() < n && i < keys.size(); ++i)
 			{
 				QString s = settings.value(QString::number(i),keys[i]).toString();
 
 				if (connectionsTree->getFamily(s) &&
-					(family = connectionsTree->connectionFamilies[s]))
+					(family = Ontology::connectionFamily(s)))
 				{
 					connections << family;
 					allFamilyNames << family->name();
@@ -563,17 +574,20 @@ namespace Tinkercell
 					
 					int w,h;
 
-					if (family->pixmap.width() > family->pixmap.height())
+					if (!family->pixmap.isNull() && (family->pixmap.width() * family->pixmap.height()) > 0.0)
 					{
-						h = 20;
-						w = h * family->pixmap.width()/family->pixmap.height();
-						if (w > 50) w = 50;
-					}
-					else
-					{
-						w = 20;
-						h = w * family->pixmap.height()/family->pixmap.width();
-						if (h > 50) h = 50;
+						if (family->pixmap.width() > family->pixmap.height())
+						{
+							h = 20;
+							w = h * family->pixmap.width()/family->pixmap.height();
+							if (w > 50) w = 50;
+						}
+						else
+						{
+							w = 20;
+							h = w * family->pixmap.height()/family->pixmap.width();
+							if (h > 50) h = 50;
+						}
 					}
 					
 					button->setIconSize(QSize(w, h));
@@ -757,7 +771,7 @@ namespace Tinkercell
 													tr(" Reaction "),
 													QStringList() << tr("1 to 1")  << tr("1 to 2")  << tr("1 to 3")
 																		  << tr("2 to 1") << tr("2 to 2") << tr("2 to 3")
-																		  << tr("3 to 1") << tr("3 to 2") << tr("3 to 3") << tr("regulation"));
+																		  << tr("3 to 1") << tr("3 to 2") << tr("3 to 3"));
 
 		numNodeTabs = 4;
 		
@@ -822,41 +836,10 @@ namespace Tinkercell
 		if (nodesTree)
 		{
 			connect(nodesTree,SIGNAL(nodeSelected(NodeFamily*)),this,SLOT(nodeSelectedSlot(NodeFamily*)));
-			/*
-			QList<NodeFamily*> allFamilies = nodesTree->nodeFamilies.values();
-			QList<ItemFamily*> rootFamilies;
-
-			for (int i=0; i < allFamilies.size(); ++i)
-				if (allFamilies[i] && !allFamilies[i]->parent())
-					rootFamilies << allFamilies[i];
-
-			for (int i=0; i < rootFamilies.size(); ++i)
-			{
-				QList<ItemFamily*> children = rootFamilies[i]->children();
-				if (familiesInCatalog.contains(rootFamilies[i]->name()))
-					families << rootFamilies[i]->name();
-
-				rootFamilies << children;
-			}*/
 		}
 		if (connectionsTree)
 		{
 			connect(connectionsTree,SIGNAL(connectionSelected(ConnectionFamily*)),this,SLOT(connectionSelectedSlot(ConnectionFamily*)));
-
-			/*QList<ConnectionFamily*> allFamilies = connectionsTree->connectionFamilies.values();
-			QList<ItemFamily*> rootFamilies;
-
-			for (int i=0; i < allFamilies.size(); ++i)
-				if (allFamilies[i] && !allFamilies[i]->parent())					
-					rootFamilies << allFamilies[i];
-
-			for (int i=0; i < rootFamilies.size(); ++i)
-			{
-				QList<ItemFamily*> children = rootFamilies[i]->children();
-				if (familiesInCatalog.contains(rootFamilies[i]->name()))
-					families << rootFamilies[i]->name();
-				rootFamilies << children;
-			}*/
 		}
 
 		showButtons(families);

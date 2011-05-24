@@ -101,7 +101,7 @@ ENDIF (TINKERCELL_LITE_PARTS)
 #-----------------------------------
 
 FILE(GLOB NODESTREE_XML_FILES 
-	${TINKERCELL_SOURCE_DIR}/NodesTree/*.xml
+#	${TINKERCELL_SOURCE_DIR}/NodesTree/*.xml
 	${TINKERCELL_SOURCE_DIR}/NodesTree/*.txt
 	${TINKERCELL_SOURCE_DIR}/NodesTree/*.nt
 )

@@ -200,5 +200,6 @@
         <file alias="clipboard.png">../icons/clipboard.png</file>
         <file alias="octave.png">../icons/octave.png</file>
         <file alias="resize.png">../icons/resize.png</file>
+        <file alias="lab.png">../icons/lab.png</file>
     </qresource>
 </RCC>

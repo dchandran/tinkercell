@@ -52,6 +52,7 @@ namespace Tinkercell
 		QString name; //e.g. m in "km"
 		Unit();
 		Unit(const QString& property, const QString& name);
+		bool operator == (const Unit&) const;
 	};
 
 	/*! \brief This class defines the family of a node or connection.
@@ -97,12 +98,16 @@ namespace Tinkercell
 		virtual ItemFamily * root() const;
 		/*! \brief checks if the given family shares its root family with this family*/
 		virtual bool isRelatedTo(const ItemFamily *) const;
-		/*! \brief get the parent for this family. If there are more than one parents, returns the first*/
-		virtual ItemFamily* parent() const { return 0; }
+		/*! \brief get the parent for this family. If there are more than one parents, returns the one with the highest depth \sa depth*/
+		virtual ItemFamily* parent() const;
+		/*! \brief counts the number of parents that have to be traversed in order to reach the root handle. 
+		If this handle has no parents, the values returned is 0. If its parent has no parent, then the value is 1, and so on.
+		\return int*/
+		virtual int depth() const;
 		/*! \brief get all the parents for this family.*/
-		virtual QList<ItemFamily*> parents() const { return QList<ItemFamily*>(); }
+		virtual QList<ItemFamily*> parents() const;
 		/*! \brief get all the families that inherit directly from this family*/
-		virtual QList<ItemFamily*> children() const { return QList<ItemFamily*>(); }
+		virtual QList<ItemFamily*> children() const;
 		/*! \brief get all the families that inherit from this family. the list will be ordered in a breadth-first ordering
 		*	\return QList<ItemFamily*>
 		*/

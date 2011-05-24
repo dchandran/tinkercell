@@ -618,6 +618,7 @@ namespace Tinkercell
 					
 					if (!repressibleOperators.contains(parts[i]))
 					{
+						QList<ConnectionHandle*> connections = parts[i]->connections();
 						if (parts[i]->isA(tr("repressor binding site")))
 							repressibleOperators += parts[i];
 						else
@@ -698,6 +699,7 @@ namespace Tinkercell
 							{
 								isMissing = true;
 								break;
+
 							}
 						
 					
@@ -922,6 +924,7 @@ namespace Tinkercell
 				&& !hitNode->connections().isEmpty()
 				&& !item->connections().isEmpty()
 				&& (h = hitNode->handle()) 
+
 				&& (h->isA(handle->family()) || handle->isA(h->family())) 
 				&& h->isA("Node") && handle->isA("Node")
 				)
@@ -2193,6 +2196,7 @@ namespace Tinkercell
 		s->release();
 		delete s;
 		delete list;
+
     }
 
 	void AutoGeneRegulatoryTool::partsIn(QSemaphore * s, ItemHandle* h,  QList<ItemHandle*>* parts)

@@ -4,28 +4,32 @@
 
 namespace Tinkercell
 {
-		NodeFamily * Ontology::nodeFamily(const QString& s)
+		NodeFamily * Ontology::nodeFamily(const QString& s0)
 		{
+			QString s = s0.toLower();
 			if (nodeFamilies.contains(s))
 				return nodeFamilies.value(s);
 			else
 				return 0;
 		}
-		ConnectionFamily  * Ontology::connectionFamily(const QString& s)
+		ConnectionFamily  * Ontology::connectionFamily(const QString& s0)
 		{
+			QString s = s0.toLower();
 			if (connectionFamilies.contains(s))
 				return connectionFamilies.value(s);
 			else
 				return 0;
 		}
-		bool Ontology::insertNodeFamily(const QString & s, NodeFamily * ptr)
+		bool Ontology::insertNodeFamily(const QString & s0, NodeFamily * ptr)
 		{
+			QString s = s0.toLower();
 			if (!ptr || s.isEmpty() || nodeFamilies.contains(s)) return false;
 			nodeFamilies.insert(s,ptr);
 			return true;
 		}
-		bool Ontology::insertConnectionFamily(const QString & s, ConnectionFamily * ptr)
+		bool Ontology::insertConnectionFamily(const QString & s0, ConnectionFamily * ptr)
 		{
+			QString s = s0.toLower();
 			if (!ptr || s.isEmpty() || connectionFamilies.contains(s)) return false;
 			connectionFamilies.insert(s,ptr);
 			return true;
@@ -133,7 +137,8 @@ namespace Tinkercell
 						QString property = lst[0];
 						QStringList unitnames = lst[1].split(" ");
 						for (int i=0; i < unitnames.size(); ++i)
-							family1->measurementUnitOptions += Unit(property, unitnames[i].trimmed());
+							if (!family1->measurementUnitOptions.contains(Unit(property, unitnames[i].trimmed())))
+								family1->measurementUnitOptions += Unit(property, unitnames[i].trimmed());
 					}
 				}
 				else
@@ -231,7 +236,8 @@ namespace Tinkercell
 						QString property = lst[0];
 						QStringList unitnames = lst[1].split(" ");
 						for (int i=0; i < unitnames.size(); ++i)
-							family1->measurementUnitOptions += Unit(property, unitnames[i].trimmed());
+							if (!family1->measurementUnitOptions.contains(Unit(property, unitnames[i].trimmed())))
+								family1->measurementUnitOptions += Unit(property, unitnames[i].trimmed());
 					}
 				}
 				else
@@ -290,6 +296,28 @@ namespace Tinkercell
 		{
 			lastReadFamilyNames.clear();
 			parse_rdf_file(&read_node_triple, rdf.toAscii().data(), format.toAscii().data());
+			NodeFamily * family = 0;
+			QList<NodeFamily*> families;
+			for (int i=0; i < lastReadFamilyNames.size(); ++i)
+				if ((family = Ontology::nodeFamily(lastReadFamilyNames[i])) &&
+					!families.contains(family) &&
+					family->parent() == 0)
+					families += family;
+			for (int i=0; i < families.size(); ++i)
+			{
+				NodeFamily * parent = NodeFamily::cast(families[i]->parent());
+				if (parent)
+				{
+					if (families[i]->description.isEmpty())
+						families[i]->description = parent->description;
+					if (families[i]->measurementUnitOptions.isEmpty())
+						families[i]->measurementUnitOptions = parent->measurementUnitOptions;				
+				}
+				
+				if (!families[i]->measurementUnitOptions.isEmpty())
+					families[i]->measurementUnit = families[i]->measurementUnitOptions.first();
+				families += NodeFamily::cast(families[i]->children());
+			}
 			return lastReadFamilyNames;
 		}
 
@@ -297,6 +325,34 @@ namespace Tinkercell
 		{
 			lastReadFamilyNames.clear();
 			parse_rdf_file(&read_connection_triple, rdf.toAscii().data(), format.toAscii().data());
+			ConnectionFamily * family = 0;
+			QList<ConnectionFamily*> families;
+			for (int i=0; i < lastReadFamilyNames.size(); ++i)
+				if ((family = Ontology::connectionFamily(lastReadFamilyNames[i])) &&
+					!families.contains(family) &&
+					family->parent() == 0)
+					families += family;
+			for (int i=0; i < families.size(); ++i)
+			{
+				ConnectionFamily * parent = ConnectionFamily::cast(families[i]->parent());
+				if (parent)
+				{
+					if (families[i]->participantRoles().isEmpty())
+					{
+						QStringList roles = parent->participantRoles();
+						QStringList types = parent->participantTypes();
+						for (int j=0; j < roles.size() && j < types.size(); ++j)
+							parent->addParticipant(roles[j],types[j]);
+					}
+					if (families[i]->description.isEmpty())
+						families[i]->description = parent->description;
+					if (families[i]->measurementUnitOptions.isEmpty())
+						families[i]->measurementUnitOptions = parent->measurementUnitOptions;
+				}
+				if (!families[i]->measurementUnitOptions.isEmpty())
+					families[i]->measurementUnit = families[i]->measurementUnitOptions.first();
+				families += ConnectionFamily::cast(families[i]->children());
+			}
 			return lastReadFamilyNames;
 		}
 		

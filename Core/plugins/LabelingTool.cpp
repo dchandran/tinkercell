@@ -29,6 +29,7 @@ namespace Tinkercell
 	
 	LabelingTool::~LabelingTool()
 	{
+		clearLabels();
 		QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
 
 		settings.beginGroup("LabelingTool");

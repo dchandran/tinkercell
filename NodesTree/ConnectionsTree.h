@@ -49,8 +49,6 @@ namespace Tinkercell
         Q_OBJECT
 
     private:
-        /*! \brief the hashtable of all connection families indexed by their name*/
-        QMap<QString,ConnectionFamily*> connectionFamilies;
         /*! \brief the hashtable of all tree items indexed by their name*/
         QHash<QString,QTreeWidgetItem*> treeItems;
 		/*! \brief the hashtable of all buttons on the tree widget indexed by their name*/

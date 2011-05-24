@@ -76,19 +76,19 @@
 <3 to 2>										<participant>		"Node, Reactant1"@en .
 <3 to 2>										<participant>		"Node, Reactant2"@en .
 <3 to 2>										<participant>		"Node, Reactant3"@en .
-<3 to 2>										<participant>		"Node, Prodcut1"@en .
+<3 to 2>										<participant>		"Node, Product1"@en .
 <3 to 2>										<participant>		"Node, Product2"@en .
 <2 to 3>										<description>		"A process involving 5 participants"@en .
 <2 to 3>										<participant>		"Node, Reactant1"@en .
 <2 to 3>										<participant>		"Node, Reactant2"@en .
-<2 to 3>										<participant>		"Node, Prodcut1"@en .
+<2 to 3>										<participant>		"Node, Product1"@en .
 <2 to 3>										<participant>		"Node, Product2"@en .
 <2 to 3>										<participant>		"Node, Product3"@en .
 <3 to 3>										<description>		"A process involving 6 participants"@en .
 <3 to 3>										<participant>		"Node, Reactant1"@en .
 <3 to 3>										<participant>		"Node, Reactant2"@en .
 <3 to 3>										<participant>		"Node, Reactant3"@en .
-<3 to 3>										<participant>		"Node, Prodcut1"@en .
+<3 to 3>										<participant>		"Node, Product1"@en .
 <3 to 3>										<participant>		"Node, Product2"@en .
 <3 to 3>										<participant>		"Node, Product3"@en .
 <Regulation> 								<description>		"Any form of biological regulation"@en .
@@ -127,8 +127,8 @@
 <Allosteric Activation>								<participant>			"Protein, Target"@en .
 <Allosteric Inhibition>								<a>			<Allosteric Regulation> .
 <Allosteric Inhibition>								<a>			<Repression> .
-<Allosteric Activation>								<participant>			"Molecule, Inhibitor"@en .
-<Allosteric Activation>								<participant>			"Protein, Target"@en .
+<Allosteric Inhibition>								<participant>			"Molecule, Inhibitor"@en .
+<Allosteric Inhibition>								<participant>			"Protein, Target"@en .
 <Transcription Activation>								<a>			<Transcription Regulation> .
 <Transcription Activation>								<a>			<Activation> .
 <Transcription Activation>								<participant>			"Transcription Factor, Activator"@en .

@@ -19,6 +19,7 @@
 #include "TreeButton.h"
 #include "LoadSaveTool.h"
 #include "GlobalSettings.h"
+#include "Ontology.h"
 #include <QDialog>
 
 namespace Tinkercell
@@ -26,21 +27,6 @@ namespace Tinkercell
     ConnectionsTree::~ConnectionsTree()
     {
 		networkClosing(0,0);
-        if (connectionFamilies.size() > 0)
-        {
-            QList<ConnectionFamily*> list = connectionFamilies.values(), visited;
-
-            for (int i=0; i < list.size(); ++i)
-            {
-                ConnectionFamily * family = list[i];
-                if (family && !visited.contains(family))
-                {
-                	visited << family;
-                    delete family;
-                    family = 0;
-                }
-            }
-        }
       /*QList<QToolButton*> buttons = treeButtons.values();
         for (int i=0; i < buttons.size(); ++i)
         	if (buttons[i] && !buttons[i]->parentWidget())
@@ -54,52 +40,85 @@ namespace Tinkercell
     
     void ConnectionsTree::readTreeFile(const QString& filename)
     {
-        ConnectionsTreeReader reader;
         QString appDir = QCoreApplication::applicationDirPath();
 		QString homeDir = GlobalSettings::homeDir();
 		QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
         settings.beginGroup("ConnectionsTree");
         NodesTree::themeDirectory = settings.value("theme",tr("Bio1")).toString();
-        QString xmlFile = filename;
-        if (xmlFile.isNull() || xmlFile.isEmpty())
-            xmlFile = (appDir + tr("/NodesTree/ConnectionsTree.xml"));
 
-        QStringList keys = reader.readXml(this,xmlFile);
-
-        for (int i=0; i < keys.size(); ++i)
-        {
-            ConnectionFamily * family = connectionFamilies.value(keys[i]);
-            if (!family) continue;            
-
-            QList<QTreeWidgetItem*> treeItem = treeItems.values(keys[i]);
-            if (family && !treeItem.isEmpty())
-            {
-                QString setting = settings.value(family->name(),QString()).toString();
-                if (!setting.isEmpty())
-                    for (int j=0; j < treeItem.size(); ++j)
-                        treeItem[j]->setExpanded(setting == tr("expanded"));
-
-                for (int j=0; j < treeItem.size(); ++j)
-                {
-                    QToolButton * button = new FamilyTreeButton(family,this);
-                    connect(button,SIGNAL(connectionSelected(ConnectionFamily*)),this,SLOT(buttonPressed(ConnectionFamily*)));
-
-                    QHBoxLayout * layout = new QHBoxLayout;
-                    layout->addWidget(button,0,Qt::AlignLeft);
-                    layout->setContentsMargins(0,0,0,0);
-                    QWidget * widget = new QWidget;
-                    widget->setPalette(QPalette(QColor(255,255,255)));
-                    widget->setAutoFillBackground(true);
-                    widget->setLayout(layout);
-
-                    treeWidget.setItemWidget(treeItem[j],0,widget);
-					treeButtons.insertMulti(keys[i],button);
-                }
-            }
-        }		
-		settings.endGroup();
+		QStringList keys;
+		if (filename.isEmpty())
+			keys = Ontology::readConnections(appDir + tr("/NodesTree/ConnectionsTree.nt"),"ntriples");
+		else
+			keys = Ontology::readConnections(filename,"ntriples");
+		QList<ConnectionFamily*> families;
+		QList<QTreeWidgetItem*> parentTreeItems; 
 		
-		LoadSaveTool::connectionFamilies = connectionFamilies;
+		for (int i=0; i < keys.size(); ++i)
+		{
+			ConnectionFamily * conn = Ontology::connectionFamily(keys[i]);
+			if (conn && conn->parents().isEmpty())
+			{
+				families << conn;
+				parentTreeItems << 0;
+			}
+		}
+		
+		for (int i=0; i < families.size(); ++i)
+		{
+			QTreeWidgetItem* treeItem = new QTreeWidgetItem;
+			treeItem->setText(0,families[i]->name());
+			treeItems.insertMulti(families[i]->name(), treeItem);
+			if (parentTreeItems[i])
+				parentTreeItems[i]->addChild(treeItem);
+			else
+				widget().addTopLevelItem(treeItem);
+			QList<ConnectionFamily*> children = ConnectionFamily::cast(families[i]->children());
+			for (int j=0; j < children.size(); ++j)
+			{
+				families += children[j];
+				parentTreeItems += treeItem;
+			}
+		}
+
+		for (int i=0; i < keys.size(); ++i)
+		{
+			ConnectionFamily * family = Ontology::connectionFamily(keys[i]);
+			QList<QTreeWidgetItem*> treeItem = treeItems.values(keys[i]);
+			if (family && !treeItem.isEmpty())
+			{
+				QString setting = settings.value(family->name(),QString()).toString();
+				if (!setting.isEmpty())
+					for (int j=0; j < treeItem.size(); ++j)
+						treeItem[j]->setExpanded(setting == tr("expanded"));
+
+				for (int j=0; j < treeItem.size(); ++j)
+				{
+					QToolButton * button = new FamilyTreeButton(family,this);
+					connect(button,SIGNAL(connectionSelected(ConnectionFamily*)),this,SLOT(buttonPressed(ConnectionFamily*)));
+
+					QHBoxLayout * layout = new QHBoxLayout;
+					layout->addWidget(button,0,Qt::AlignLeft);
+					layout->setContentsMargins(0,0,0,0);
+					QWidget * widget = new QWidget;
+					widget->setPalette(QPalette(QColor(255,255,255)));
+					widget->setAutoFillBackground(true);
+					widget->setLayout(layout);
+
+					treeWidget.setItemWidget(treeItem[j],0,widget);
+					treeButtons.insertMulti(keys[i],button);
+				}
+			}
+		}
+		
+		for (int i=0; i < keys.size(); ++i)
+		{
+			ConnectionFamily * conn = Ontology::connectionFamily(keys[i]);
+			if (conn)
+				setConnectionGraphics(conn);
+		}
+	
+		settings.endGroup();
     }
 
     ConnectionsTree::ConnectionsTree(QWidget * parent, const QString& filename) :
@@ -196,11 +215,11 @@ namespace Tinkercell
         settings.beginGroup("ConnectionsTree");
     	settings.setValue("theme",NodesTree::themeDirectory);
 
-        QList<QString> keys = connectionFamilies.keys();
+        QList<QString> keys = Ontology::allConnectionFamilyNames();
 
         for (int i=0; i < keys.size(); ++i)
         {
-            ConnectionFamily * family = connectionFamilies[keys[i] ];
+            ConnectionFamily * family = Ontology::connectionFamily(keys[i]);
             QTreeWidgetItem* item = treeItems.value( keys[i] );
             if (family && item)
             {
@@ -247,10 +266,7 @@ namespace Tinkercell
 
 	ConnectionFamily * ConnectionsTree::getFamily(const QString& name) const
 	{
-		QString s = name.toLower();
-		if (connectionFamilies.contains(s))
-			return connectionFamilies.value(s);
-		return 0;
+		return Ontology::connectionFamily(name);
 	}
 	
 	bool ConnectionsTree::insertFamily(ConnectionFamily * family, FamilyTreeButton * button)
@@ -259,32 +275,39 @@ namespace Tinkercell
 		
 		QString s = family->name().toLower();
 		
-		connectionFamilies[s] = family;
+		if (!Ontology::insertConnectionFamily(s,family))
+			return false;
+
 		if (button)
 			treeButtons[s] = button;
-		
-		LoadSaveTool::connectionFamilies = connectionFamilies;
 		return true;
 	}
 	
 	QStringList ConnectionsTree::getAllFamilyNames() const
 	{
-		QStringList names(connectionFamilies.keys());
+		QStringList names(Ontology::allConnectionFamilyNames());
 		names.sort();
 		return names;
 	}
 	
 	void ConnectionsTree::setConnectionGraphics(ConnectionFamily * family)
 	{
+			QString homeDir = GlobalSettings::homeDir();
+	        QString appDir = QCoreApplication::applicationDirPath();
 			ConnectionFamily * parentFamily = ConnectionFamily::cast(family->parent());
            //set icon
-           if (family->pixmap.load(homeDir + QString("/") + ConnectionsTree::iconFile(family)))
-                family->pixmap.setMask(family->pixmap.createMaskFromColor(QColor(255,255,255)));
-           if (family->pixmap.load(appDir + QString("/") + ConnectionsTree::iconFile(family)))
-                family->pixmap.setMask(family->pixmap.createMaskFromColor(QColor(255,255,255)));
-           else
-                if (parentFamily)		//if no icon file, same as parent's icon
-                     family->pixmap = parentFamily->pixmap;
+
+			if (family->pixmap.load(homeDir + QString("/Graphics/") + NodesTree::themeDirectory + QString("/Decorators/") + ConnectionsTree::iconFile(family)))
+					family->pixmap.setMask(family->pixmap.createMaskFromColor(QColor(255,255,255)));
+			   else
+			   if (family->pixmap.load(QString(":/images/") + ConnectionsTree::iconFile(family)))
+					family->pixmap.setMask(family->pixmap.createMaskFromColor(QColor(255,255,255)));
+			   else
+			   if (family->pixmap.load(appDir + QString("/Graphics/") + NodesTree::themeDirectory + QString("/Decorators/") + ConnectionsTree::iconFile(family)))
+					family->pixmap.setMask(family->pixmap.createMaskFromColor(QColor(255,255,255)));
+			   else
+					if (parentFamily)		//if no icon file, same as parent's icon
+						 family->pixmap = parentFamily->pixmap;
 
            //set arrow head
            ArrowHeadItem * nodeitem = 0;
@@ -380,32 +403,30 @@ namespace Tinkercell
 
 		   QList<QToolButton*> buttons = treeButtons.values(family->name());
 
-			for (int j=0; j < buttons.size(); ++j)
-			{
-				buttons[j]->setIcon(QIcon(family->pixmap));
-				if (family->pixmap.width() > family->pixmap.height())
+			if (!family->pixmap.isNull() && (family->pixmap.height() * family->pixmap.width()) > 0.0)
+				for (int j=0; j < buttons.size(); ++j)
 				{
-					int w = 20 * family->pixmap.width()/family->pixmap.height();
-					if (w > 50) w = 50;
-					buttons[j]->setIconSize(QSize(w,20));
+					buttons[j]->setIcon(QIcon(family->pixmap));
+					if (family->pixmap.width() > family->pixmap.height())
+					{
+						int w = 20 * family->pixmap.width()/family->pixmap.height();
+						if (w > 50) w = 50;
+						buttons[j]->setIconSize(QSize(w,20));
+					}
+					else
+					{
+						int h = 20 * family->pixmap.height()/family->pixmap.width();
+						if (h > 50) h = 50;
+						buttons[j]->setIconSize(QSize(20, h));
+					}
 				}
-				else
-				{
-					int h = 20 * family->pixmap.height()/family->pixmap.width();
-					if (h > 50) h = 50;
-					buttons[j]->setIconSize(QSize(20, h));
-				}
-			}
 	}
 
 	void ConnectionsTree::updateTheme()
 	{
-		QString homeDir = GlobalSettings::homeDir();
-        QString appDir = QCoreApplication::applicationDirPath();
-
         QList<ConnectionFamily*> toplevel;
 		ConnectionFamily * root;
-		QList<ConnectionFamily*> allFamilies = connectionFamilies.values();
+		QList<ConnectionFamily*> allFamilies = Ontology::allConnectionFamilies();
 
 		for (int i=0; i < allFamilies.size(); ++i)
 		{

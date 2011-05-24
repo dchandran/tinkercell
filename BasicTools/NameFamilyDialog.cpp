@@ -38,6 +38,8 @@ namespace Tinkercell
 		addGraphicsItem(toolGraphicsItem);
 		toolGraphicsItem->addToGroup(&idcard);
 		toolGraphicsItem->setToolTip(tr("Name, family, and Annotation"));
+
+		addAction(QIcon(tr(":/images/idcard.PNG")), "Annotation");
 	}
 	void NameFamilyDialog::makeDialog(QWidget* parent)
 	{
@@ -256,7 +258,7 @@ namespace Tinkercell
 	{
 		GraphicsScene * scene = currentScene();
 		
-		if (scene->selected().size() != 1)
+		if (getHandle(scene->selected()).size() != 1)
 		{
 			if (console())
                 console()->error(tr("please select one item"));

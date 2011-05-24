@@ -67,9 +67,12 @@
 <Container>							<description>					"A generic component that can contain other components inside it"@en .
 <Composite Part>					<a>									<Container> .
 <Composite Part>					<description>					"A part that composed of other parts"@en .
+<Compartment>					<a>									<Container> .
 <Compartment>					<units>								"volume,fL nL mL"@en .
 <Compartment>					<description>					"A region where the contained molecular species are localized and contained"@en .
-<Subcellular compartment>	<a>									"A compartment inside a biological cell, e.g. nucleus"@en .
-<Cell>									<a>									"A biological cell, e.g. a bacterium"@en .
+<Cell>										<a>		<Compartment>.
+<Subcellular compartment>		<a>		<Cell>.
+<Subcellular compartment>	<description>									"A compartment inside a biological cell, e.g. nucleus"@en .
+<Cell>									<description>									"A biological cell, e.g. a bacterium"@en .
 <Cell>									<species>							"unspecified"@en .
 

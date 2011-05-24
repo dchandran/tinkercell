@@ -297,6 +297,8 @@ namespace Tinkercell
 		toolGraphicsItem->addToGroup(&item);
 		toolGraphicsItem->setToolTip(tr("Model summary"));
 
+		addAction(QIcon(tr(":/images/monitor.png")), "Formulas, Stoichiometry, Parameters, etc.");
+
 		separator = 0;
 		toggleFixedAction = new QAction(this);
 		toggleFixedAction->setText(tr("Toggle fixed/floating"));

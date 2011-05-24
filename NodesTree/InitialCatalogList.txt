@@ -14,7 +14,8 @@ Receptor
 mRNA
 Compartment
 Cell
-Regulation
+Activation
+Repression
 Enzyme Catalysis
 Allosteric Inhibition
 Transcription Regulation

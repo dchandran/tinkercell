@@ -51,10 +51,6 @@ namespace Tinkercell
 		Q_OBJECT
 
 	public:
-		/*!\brief  if the program contains families, then this map should be set*/
-		static QMap<QString,NodeFamily*> nodeFamilies;
-		/*!\brief  if the program contains families, then this map should be set*/
-		static QMap<QString,ConnectionFamily*> connectionFamilies;
 		/*!\brief lookup family from its name*/
 		static NodeFamily * getNodeFamily(const QString& name);
 		/*!\brief lookup family from its name*/

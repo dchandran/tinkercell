@@ -4,8 +4,6 @@
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
 
- This tool handles module connections that merge items from two modules
-
 ****************************************************************************/
 #include <math.h>
 #include <QRegExp>
@@ -24,37 +22,24 @@
 #include "TextGraphicsItem.h"
 #include "LoadSaveTool.h"
 #include "TreeButton.h"
-#include "ModuleTool.h"
+#include "WetLabTool.h"
 #include "GlobalSettings.h"
 
 namespace Tinkercell
 {
 	#define WINDOW_WIDTH 200
-	static QString linkerFileName(":/images/moduleLinker.xml");
-	static QString interfaceFileName(":/images/moduleInterface.xml");
-	static QString moduleFileName(":/images/Module.xml");
-	static QString linkerClassName("module linker item");
-	static QString interfaceClassName("module interface item");
-	static QString connectionClassName("module connection item");
 
-    ModuleTool::ModuleTool() : Tool(tr("Module Connection Tool"),tr("Module tools")), 
-    	newModuleDialog(0), newModuleTable(0), newModuleName(0), 
-		connectionsTree(0), nodesTree(0), exportModuleDialog(0), 
-		snapshotToolTip(0)
-    {	
-    	ModuleTool::fToS = new ModuleTool_FToS;
-    	ModuleTool::fToS->setParent(this);
+    WetLabTool::WetLabTool() : Tool(tr("Module Connection Tool"),tr("Module tools"))
+    {
+    	WetLabTool::fToS = new WetLabTool_FToS;
+    	WetLabTool::fToS->setParent(this);
     	
         setPalette(QPalette(QColor(255,255,255,255)));
         setAutoFillBackground(true);
-        mode = none;
-        lineItem.setPen(QPen(QColor(255,10,10,255),2.0,Qt::DotLine));
-		connect(fToS, SIGNAL(doSubstituteModel(QSemaphore*, ItemHandle*, const QString&)),
-						this, SLOT(doSubstituteModel(QSemaphore*, ItemHandle*, const QString&)));
     }
 
 	//insert interface node
-    void ModuleTool::select(int)
+    void WetLabTool::select(int)
     {
     	GraphicsScene * scene = currentScene();
     	if (!scene) return;
@@ -95,281 +80,8 @@ namespace Tinkercell
 				scene->insert(tr("Interfaces created"),itemsToInsert);
 		}
     }
-	
-	QStringList ModuleTool::listOfModels(ItemFamily * family)
-	{
-		QStringList fileNames;
-		if (!family)
-			return fileNames;
-		
-		QList<ItemFamily*> childFamilies;
-		childFamilies << family;// << family->allChildren();
-		QString appDir = QCoreApplication::applicationDirPath();
-		QString home = homeDir();
-		
-		//QString emptyModelFile = emptyModel();
 
-		for (int i=0; i < childFamilies.size(); ++i)
-		{
-			QString s = childFamilies[i]->name();
-			s.replace(tr(" "),tr("_"));
-			QString dirname = home + tr("/Modules/") + s;
-			QDir dir(dirname);
-	
-			if (!dir.exists())
-				dir.setPath(home + tr("/Modules/") + s.toLower());
-		
-			if (!dir.exists())
-				dir.setPath(appDir + tr("/Modules/") + s);
-			
-			if (!dir.exists())
-				dir.setPath(appDir + tr("/Modules/") + s.toLower());
-
-			if (dir.exists())
-			{
-				dir.setFilter(QDir::Files);
-				dir.setSorting(QDir::Size);
-				QFileInfoList list = dir.entryInfoList();
-				for (int j = 0; j < list.size(); ++j)
-				{
-					QFileInfo fileInfo = list.at(j);
-					if (fileInfo.suffix().contains(tr("~"))) continue;
-					fileNames << fileInfo.absoluteFilePath();
-				}
-			}
-		}
-		//fileNames << emptyModelFile;
-		return fileNames;
-	}
-	
-	void ModuleTool::substituteModel(ItemHandle * parentHandle, const QString& filename0, NetworkWindow * window)
-	{
-		if (!parentHandle) return;
-		
-		QString filename;
-		if (filename0.isEmpty() || filename0.toLower() == tr("empty"))
-			filename = emptyModel();
-		else
-		if (parentHandle->hasTextData("original model file") && 
-			filename0.toLower() == tr("original"))
-			filename = parentHandle->textData("original model file");
-		else
-			filename = filename0;
-
-		NetworkHandle * network;
-		if (window && window->handle == parentHandle)
-		{
-			network = window->network;
-		}
-		else
-		{
-			network = currentNetwork();
-			if (!network) return;
-			
-			QList<GraphicsScene*> scenes = network->scenes();
-			for (int i=0; i < scenes.size(); ++i)
-				if (scenes[i] && scenes[i]->localHandle() == parentHandle)
-				{
-					window = scenes[i]->networkWindow;
-					break;
-				}
-			
-			if (!window)
-			{
-				QList<TextEditor*> editors = network->editors();
-				for (int i=0; i < editors.size(); ++i)
-					if (editors[i] && editors[i]->localHandle() == parentHandle)
-					{
-						window = editors[i]->networkWindow;
-						break;
-					}
-			}
-			
-			if (!window || window->handle != parentHandle)
-			{
-				window = createNewWindow(ConnectionHandle::cast(parentHandle), network);
-			}
-		}
-		
-		if (QFile::exists(filename) && window && 
-			network && (parentHandle == window->handle) &&
-			window->handle->family()) 
-		{
-			QList<GraphicsScene*> scenes = network->scenes();
-			QList<TextEditor*> editors = network->editors();
-			
-			for (int i=0; i < scenes.size(); ++i)
-				if (scenes[i] && 
-					scenes[i]->localHandle() && 
-					scenes[i]->localHandle() != parentHandle &&
-					scenes[i]->networkWindow && 
-					scenes[i]->networkWindow->isVisible())
-					scenes[i]->networkWindow->close();
-			
-			for (int i=0; i < editors.size(); ++i)
-				if (editors[i] && 
-					editors[i]->localHandle() &&
-					editors[i]->localHandle() != parentHandle && 					
-					editors[i]->networkWindow && 
-					editors[i]->networkWindow->isVisible())
-					editors[i]->networkWindow->close();
-			
-			QPair< QList<ItemHandle*> , QList<QGraphicsItem*> > pair = mainWindow->getItemsFromFile(filename,parentHandle);
-			
-			QList<QGraphicsItem*> items = pair.second;
-			QList<ItemHandle*> handles = pair.first;
-			
-			NodeGraphicsItem * node;
-			ConnectionGraphicsItem * connection;
-			TextGraphicsItem * text;
-			QString groupName = parentHandle->name;
-			for (int i=0; i < items.size(); ++i)
-				if (node = NodeGraphicsItem::cast(items[i]))
-					node->groupID = groupName;
-				else
-				if (connection = ConnectionGraphicsItem::cast(items[i]))
-					connection->groupID = groupName;
-				else
-				if (text = TextGraphicsItem::cast(items[i]))
-					text->groupID = groupName;
-			
-			if (handles.isEmpty())
-			{
-				if (console())
-					console()->message(filename + tr(" is an empty model"));
-				return;
-			}
-			
-			QList<ItemHandle*> visitedHandles;
-
-			if (items.isEmpty())
-			{
-				for (int i=0; i < handles.size(); ++i)
-					if (handles[i] && !visitedHandles.contains(handles[i]))
-					{
-						visitedHandles << handles[i];
-						if (!handles[i]->parent)							
-							items += handles[i]->graphicsItems;
-					}
-			}
-
-			if (window && window->scene)
-			{
-				if (!items.isEmpty())
-				{
-					GraphicsScene * newScene = window->newScene();
-					newScene->insert(tr("new model"),items);
-					QPixmap printer(WINDOW_WIDTH, WINDOW_WIDTH);
-					printer.fill();
-					newScene->print(&printer);
-					moduleSnapshots[parentHandle] = printer;
-				}
-				else
-				{
-					QString modelText;
-					emit getTextVersion(handles, &modelText);
-					TextEditor * newEditor = window->newTextEditor();
-					newEditor->setText(modelText);
-					newEditor->insert(handles);
-				}
-			}
-			else
-			if (window && window->editor)
-			{
-				if (!items.isEmpty())
-				{
-					GraphicsScene * scene = window->newScene();
-					scene->insert(tr("new model"),items);
-				}
-				else
-				{
-					QString modelText;
-					emit getTextVersion(handles, &modelText);
-					TextEditor * newEditor = window->newTextEditor();
-					newEditor->setText(modelText);
-					newEditor->insert(handles);
-				}
-			}
-			
-			QList<QUndoCommand*> commands;
-			ItemHandle * h;
-			
-			TextDataTable oldParticipantsData (parentHandle->textDataTable(tr("participants")));
-			
-			QList<NodeHandle*> nodes;
-			if (ConnectionHandle::cast(parentHandle))
-				nodes = ConnectionHandle::cast(parentHandle)->nodes();
-			
-			for (int i=0; i < parentHandle->children.size(); ++i)
-			{
-				h = findCorrespondingHandle(NodeHandle::cast(parentHandle->children[i]),ConnectionHandle::cast(parentHandle));
-				if (h)
-				{
-					nodes.removeAll(NodeHandle::cast(h));	
-					
-					commands << new MergeHandlesCommand(
-												tr("merge"), network, QList<ItemHandle*>() << h << parentHandle->children[i]);
-
-					for (int k=0; k < textTablesToBeReplaced.size(); ++k)
-						if (h->hasTextData(textTablesToBeReplaced[k]) && 
-							parentHandle->children[i]->hasTextData(textTablesToBeReplaced[k]))
-						{
-							TextDataTable * table1 = &(h->textDataTable(textTablesToBeReplaced[k]));
-							TextDataTable * table2 = &(parentHandle->children[i]->textDataTable(textTablesToBeReplaced[k]));
-							TextDataTable table3(*table1);
-							for (int j1=0; j1 < table2->rows(); ++j1)
-								for (int j2=0; j2 < table2->columns(); ++j2)
-									table3.value(table2->rowName(j1), table2->columnName(j2)) = table2->value(j1,j2);
-							commands << new ChangeTextDataCommand( tr("replace text table"), table1, &(table3));
-						}
-					
-					for (int k=0; k < numericalTablesToBeReplaced.size(); ++k)
-						if (h->hasNumericalData(numericalTablesToBeReplaced[k]) && 
-							parentHandle->children[i]->hasNumericalData(numericalTablesToBeReplaced[k]))
-						{
-							NumericalDataTable * table1 = &(h->numericalDataTable(numericalTablesToBeReplaced[k]));
-							NumericalDataTable * table2 = &(parentHandle->children[i]->numericalDataTable(numericalTablesToBeReplaced[k]));
-							NumericalDataTable table3(*table1);
-							for (int j1=0; j1 < table2->rows(); ++j1)
-								for (int j2=0; j2 < table2->columns(); ++j2)
-									table3.value(table2->rowName(j1), table2->columnName(j2)) = table2->value(j1,j2);
-							commands << new ChangeNumericalDataCommand( tr("replace num table"), table1, &(table3));
-						}
-				}
-			}
-			
-			for (int i=0; i < nodes.size(); ++i)
-			{
-				h = nodes[i];
-				
-				TextDataTable textTable;
-				NumericalDataTable numericalTable;
-				
-				for (int k=0; k < textTablesToBeReplaced.size(); ++k)
-					if (h->hasTextData(textTablesToBeReplaced[k]))
-						commands << new ChangeTextDataCommand(
-												tr("replace text table"), 
-												&(h->textDataTable(textTablesToBeReplaced[k])), 
-												&(textTable));
-				
-				for (int k=0; k < numericalTablesToBeReplaced.size(); ++k)
-					if (h->hasNumericalData(numericalTablesToBeReplaced[k]))
-						commands << new ChangeNumericalDataCommand(
-												tr("replace num. table"), 
-												&(h->numericalDataTable(numericalTablesToBeReplaced[k])), 
-												&(numericalTable));
-			}
-		
-			if (!commands.isEmpty())
-			{
-				commands << new ChangeTextDataCommand(
-										tr("participants"), &(parentHandle->textDataTable(tr("participants"))), &(oldParticipantsData));
-				network->push( new CompositeCommand(tr("Merged models"),commands) );
-			}
-		}
-	}
-
-	bool ModuleTool::setMainWindow(MainWindow * main)
+	bool WetLabTool::setMainWindow(MainWindow * main)
     {
 		Tool::setMainWindow(main);
         if (mainWindow != 0)
@@ -461,7 +173,7 @@ namespace Tinkercell
         return true;
     }
     
-    void ModuleTool::exportModule()
+    void WetLabTool::exportModule()
     {
     	if (!exportModuleDialog || !modulesComboBox || !moduleNameEdit) 
 		{
@@ -528,7 +240,7 @@ namespace Tinkercell
 		}
     }
     
-    void ModuleTool::initializeExportDialog()
+    void WetLabTool::initializeExportDialog()
     {
     	if (!connectionsTree) return;
     	
@@ -601,7 +313,7 @@ namespace Tinkercell
     	exportModuleDialog->hide();
     }
 
-	void ModuleTool::toolLoaded(Tool*)
+	void WetLabTool::toolLoaded(Tool*)
 	{
 		static bool connected1 = false;
 		
@@ -640,9 +352,6 @@ namespace Tinkercell
 					connectionsTree->readTreeFile(appDir + tr("/Modules/modules.nt"));
 				
 				QList<ItemFamily*> childFamilies = moduleFamily->allChildren();
-
-				if (childFamilies.isEmpty())
-					QMessageBox::information(this, tr("No modules"), tr("Sub-models will not be automatically generated because there are no modules in ") + home + tr("/Modules/modules.nt\nCheck to see if you have subversion correctly installed, which is used to automatically download modules."));
 				
 				for (int i=0; i < childFamilies.size(); ++i)
 				{
@@ -694,7 +403,7 @@ namespace Tinkercell
 		}
 	}
 
-    void ModuleTool::escapeSignal(const QWidget* )
+    void WetLabTool::escapeSignal(const QWidget* )
     {
 		if (mode != none && currentScene())
 			currentScene()->useDefaultBehavior(true);
@@ -709,7 +418,7 @@ namespace Tinkercell
             lineItem.scene()->removeItem(&lineItem);
     }
 
-	void ModuleTool::sceneClicked(GraphicsScene *scene, QPointF point, Qt::MouseButton button, Qt::KeyboardModifiers modifiers)
+	void WetLabTool::sceneClicked(GraphicsScene *scene, QPointF point, Qt::MouseButton button, Qt::KeyboardModifiers modifiers)
 	{
 		if (mode == none || button == Qt::RightButton || !scene || !scene->network || scene->useDefaultBehavior()) return;
 
@@ -813,7 +522,7 @@ namespace Tinkercell
 		}
 	}
 
-	QUndoCommand * ModuleTool::moduleConnectionsInserted(QList<QGraphicsItem*>& items)
+	QUndoCommand * WetLabTool::moduleConnectionsInserted(QList<QGraphicsItem*>& items)
 	{
 		QStringList from, to;
 		ConnectionGraphicsItem * c;
@@ -849,12 +558,12 @@ namespace Tinkercell
 		return new RenameCommand(tr("Substitute items"),currentNetwork(),from,to);
 	}
 
-	QUndoCommand * ModuleTool::substituteStrings(const QList<ItemHandle*> & items)
+	QUndoCommand * WetLabTool::substituteStrings(const QList<ItemHandle*> & items)
 	{
 		return new RenameCommand(tr("Substitute items"),currentNetwork(),items,substituteFrom,substituteWith);
 	}
 
-	void ModuleTool::removeSubnetworks(QList<QGraphicsItem*>& items, QList<ItemHandle*>& handles)
+	void WetLabTool::removeSubnetworks(QList<QGraphicsItem*>& items, QList<ItemHandle*>& handles)
 	{
 		ItemHandle * handle, * h;
 		QList<NodeGraphicsItem*> nodes;
@@ -891,7 +600,7 @@ namespace Tinkercell
 			}
 	}
 	
-	void ModuleTool::itemsRenamed(NetworkHandle * network, const QList<ItemHandle*>& items, const QList<QString>& oldnames, const QList<QString>& newnames)
+	void WetLabTool::itemsRenamed(NetworkHandle * network, const QList<ItemHandle*>& items, const QList<QString>& oldnames, const QList<QString>& newnames)
 	{
 		QList<GraphicsScene*> scenes = network->scenes();
 		QRegExp regex("\\.([^\\.]+)$");
@@ -938,7 +647,7 @@ namespace Tinkercell
 			}
 	}
 
-	void ModuleTool::itemsAboutToBeInserted(GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>& commands)
+	void WetLabTool::itemsAboutToBeInserted(GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>& commands)
 	{
 		if (!scene || !scene->network) return;
 		
@@ -1142,7 +851,7 @@ namespace Tinkercell
 			}
 	}
 
-	void ModuleTool::itemsAboutToBeRemoved(GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>& commands)
+	void WetLabTool::itemsAboutToBeRemoved(GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>& commands)
 	{
 		if (!scene || !scene->network) return;
 		
@@ -1171,7 +880,7 @@ namespace Tinkercell
 			}
 	}
 	
-	ItemHandle * ModuleTool::findCorrespondingHandle(NodeHandle * node, ConnectionHandle * connection)
+	ItemHandle * WetLabTool::findCorrespondingHandle(NodeHandle * node, ConnectionHandle * connection)
 	{
 		if (!node || !connection || !connection->hasTextData(tr("Participants")))
 			return 0;
@@ -1203,7 +912,7 @@ namespace Tinkercell
 		return 0;
 	}
 
-    void ModuleTool::itemsInserted(NetworkHandle * network, const QList<ItemHandle*>& handles)
+    void WetLabTool::itemsInserted(NetworkHandle * network, const QList<ItemHandle*>& handles)
 	{
 		GraphicsScene * scene = network->currentScene();
 		if (scene)
@@ -1265,7 +974,7 @@ namespace Tinkercell
 	    }
     }
 
-    void ModuleTool::mouseMoved(GraphicsScene* scene, QGraphicsItem * hoverOverItem, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>& items)
+    void WetLabTool::mouseMoved(GraphicsScene* scene, QGraphicsItem * hoverOverItem, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>& items)
     {
 		if (mainWindow && scene && scene->useDefaultBehavior() && hoverOverItem && !TextGraphicsItem::cast(hoverOverItem) && snapshotToolTip)
 		{
@@ -1307,7 +1016,7 @@ namespace Tinkercell
         }*/
     }
 
-    QList<QPointF> ModuleTool::pathAroundRect(QRectF rect1, QRectF rect2, QPointF p1, QPointF p2)
+    QList<QPointF> WetLabTool::pathAroundRect(QRectF rect1, QRectF rect2, QPointF p1, QPointF p2)
     {
         QList<QPointF> list;
         qreal y;
@@ -1333,7 +1042,7 @@ namespace Tinkercell
         return list;
     }
 
-    void ModuleTool::makeModuleConnection(NodeGraphicsItem * link1, NodeGraphicsItem * link2,GraphicsScene * scene)
+    void WetLabTool::makeModuleConnection(NodeGraphicsItem * link1, NodeGraphicsItem * link2,GraphicsScene * scene)
     {
         if (!link1 || !link2 || !scene) return;
 
@@ -1432,7 +1141,7 @@ namespace Tinkercell
 		scene->insert(tr("modules connected"),connection);
     }    
 	
-	void ModuleTool::modelButtonClicked ( QAbstractButton * button )
+	void WetLabTool::modelButtonClicked ( QAbstractButton * button )
 	{
 		if (button)
 		{
@@ -1453,7 +1162,7 @@ namespace Tinkercell
 		}
 	}
 	
-	QString ModuleTool::emptyModel()
+	QString WetLabTool::emptyModel()
 	{
 		QString emptyModelFile = homeDir() + tr("/Modules/Empty_Model.tic");
 		
@@ -1472,7 +1181,7 @@ namespace Tinkercell
 		return emptyModelFile;
 	}
 	
-	QDockWidget * ModuleTool::makeDockWidget(const QStringList & families)
+	QDockWidget * WetLabTool::makeDockWidget(const QStringList & families)
 	{
 		QDockWidget * dock = 0;
 		QWidget * widget = 0;
@@ -1568,8 +1277,8 @@ namespace Tinkercell
 		
 		return dock;
 	}
-	
-	NetworkWindow * ModuleTool::createNewWindow(ConnectionHandle * chandle, NetworkHandle * network)
+
+	NetworkWindow * WetLabTool::createNewWindow(ConnectionHandle * chandle, NetworkHandle * network)
 	{
 		if (chandle && chandle->family() && network)
 		{
@@ -1669,7 +1378,7 @@ namespace Tinkercell
 		return 0;
 	}
 	
-	void ModuleTool::keyPressed(GraphicsScene* scene,QKeyEvent * keyEvent)
+	void WetLabTool::keyPressed(GraphicsScene* scene,QKeyEvent * keyEvent)
 	{
 		if (!keyEvent || keyEvent->modifiers() || !scene || !scene->useDefaultBehavior()) return;
 
@@ -1681,7 +1390,7 @@ namespace Tinkercell
 		}
 	}
 
-	void ModuleTool::mouseDoubleClicked (GraphicsScene * scene, QPointF , QGraphicsItem * item, Qt::MouseButton, Qt::KeyboardModifiers modifiers)
+	void WetLabTool::mouseDoubleClicked (GraphicsScene * scene, QPointF , QGraphicsItem * item, Qt::MouseButton, Qt::KeyboardModifiers modifiers)
     {
 		if (!scene || !scene->network || !item || !mainWindow || modifiers || !(ArrowHeadItem::cast(item) || ConnectionGraphicsItem::cast(item))) return;
 
@@ -1726,7 +1435,7 @@ namespace Tinkercell
 		}
     }
 
-	void ModuleTool::moduleButtonPressed(const QString& name)
+	void WetLabTool::moduleButtonPressed(const QString& name)
 	{
 		GraphicsScene * scene = currentScene();
 		if (!scene) return;
@@ -1734,157 +1443,14 @@ namespace Tinkercell
 		if (name == tr("New module"))
 		{
 			mainWindow->setCursor(Qt::ArrowCursor);
-			//showNewModuleDialog();
 			exportModule();
 		}
-
-		//if (name == tr("Connect input/output")) mode = connecting;
 
 		if (mode != none)
 			scene->useDefaultBehavior(false);
 	}
-	
-	void ModuleTool::updateNumberForNewModule(int n)
-	{
-		if (!newModuleTable || !nodesTree) return;
-		
-		for (int i=0; i < newModuleTable->rowCount(); ++i)
-		{
-			QWidget * widget = newModuleTable->cellWidget(i,1);
-			delete widget;
-		}
-		newModuleTable->setRowCount(n);
-		QStringList names(nodesTree->getAllFamilyNames());
-		
-		int k = names.indexOf(tr("Molecule"));
-		if (k < 0)
-			k = 0;
-		QLineEdit * lineEdit;
-		QComboBox * comboBox;
-		
-		for (int i=0; i < newModuleTable->rowCount(); ++i)
-		{
-			lineEdit = new QLineEdit;
-			comboBox = new QComboBox;
-			
-			comboBox->addItems(names);
-			comboBox->setCurrentIndex(k);
-			
-			newModuleTable->setCellWidget(i,0,lineEdit);
-			newModuleTable->setCellWidget(i,1,comboBox);
-		}
-	}
 
-	void ModuleTool::showNewModuleDialog()
-	{
-		if (!nodesTree || !connectionsTree)
-		{
-			QMessageBox::information(mainWindow, tr("No catalog"), tr("Cannot create new modules because no catalog of components is available"));
-			return;
-		}
-		
-		if (!newModuleDialog)
-		{
-			newModuleDialog = new QDialog(mainWindow);
-			QVBoxLayout * layout = new QVBoxLayout;
-			
-			QGroupBox * group1 = new QGroupBox(tr(""));
-			QVBoxLayout * layout1 = new QVBoxLayout;
-			QHBoxLayout * layout1a = new QHBoxLayout, * layout1b = new QHBoxLayout;
-			newModuleName = new QLineEdit;
-			layout1a->addStretch(1);
-			layout1a->addWidget(new QLabel(tr(" Module name : ")),0);
-			layout1a->addWidget(newModuleName,0);
-			layout1a->addStretch(1);
-
-			layout1b->addStretch(1);
-			layout1b->addWidget(new QLabel(tr(" Number of inputs/outputs : ")),0);
-			QSpinBox * spinBox = new QSpinBox;
-			spinBox->setRange(2,20);
-			connect(spinBox,SIGNAL(valueChanged(int)),this,SLOT(updateNumberForNewModule(int)));
-			layout1b->addWidget(spinBox,0);
-			layout1b->addStretch(1);
-
-			layout1->addLayout(layout1a);
-			layout1->addLayout(layout1b);
-
-			group1->setLayout(layout1);
-			layout->addWidget(group1);
-
-			newModuleTable = new QTableWidget;
-			newModuleTable->setColumnCount(2);
-			newModuleTable->setHorizontalHeaderLabels(QStringList() << "Name" << "Family" );
-			QGroupBox * group2 = new QGroupBox(tr(""));
-			QHBoxLayout * layout2 = new QHBoxLayout;
-			layout2->addWidget(newModuleTable,1,Qt::AlignCenter);
-			group2->setLayout(layout2);
-			layout->addWidget(group2);
-
-			QPushButton * okButton = new QPushButton("&Make Module");
-			QPushButton * cancelButton = new QPushButton("&Cancel");
-			connect(okButton,SIGNAL(pressed()),newModuleDialog,SLOT(accept()));
-			connect(cancelButton,SIGNAL(pressed()),newModuleDialog,SLOT(reject()));
-			if (mainWindow)
-				connect(cancelButton,SIGNAL(pressed()),mainWindow,SLOT(sendEscapeSignal()));
-			QGroupBox * group3 = new QGroupBox(tr(""));
-			QHBoxLayout * layout3 = new QHBoxLayout;
-			layout3->addStretch(1);
-			layout3->addWidget(okButton);
-			layout3->addWidget(cancelButton);
-			layout3->addStretch(1);
-			group3->setLayout(layout3);
-			layout->addWidget(group3);
-
-			newModuleDialog->setLayout(layout);
-			spinBox->setValue(3);
-		}
-
-		newModuleDialog->exec();
-		
-		if (newModuleDialog->result() == QDialog::Accepted)		
-			makeNewModule();
-	}
-	
-	void ModuleTool::makeNewModule()
-	{
-		if (!catalogWidget || !nodesTree || !connectionsTree || !newModuleName || !newModuleTable || 
-			!connectionsTree->getFamily(tr("Module"))) 
-			return;
-
-		QString name = newModuleName->text();
-		if (name.isNull() || name.isEmpty()) return;
-		
-		QString appDir = QCoreApplication::applicationDirPath();
-
-		ConnectionFamily * moduleFamily = connectionsTree->getFamily(tr("Module"));
-		ConnectionFamily * newModuleFamily = new ConnectionFamily(name);
-		newModuleFamily->setParent(moduleFamily);
-		newModuleFamily->pixmap = moduleFamily->pixmap;
-		newModuleFamily->description = moduleFamily->description;
-		newModuleFamily->graphicsItems << new ArrowHeadItem(interfaceFileName)
-										<< new ArrowHeadItem(moduleFileName);
-
-		
-		FamilyTreeButton * button = new FamilyTreeButton(newModuleFamily);
-		connectionsTree->insertFamily(newModuleFamily,button);
-		connect(button,SIGNAL(connectionSelected(ConnectionFamily*)),connectionsTree,SLOT(buttonPressed(ConnectionFamily*)));
-				
-		QLineEdit * lineEdit;
-		QComboBox * comboBox;
-
-		for (int i=0; i < newModuleTable->rowCount(); ++i)
-		{
-			lineEdit = static_cast<QLineEdit*>(newModuleTable->cellWidget(i,0));
-			comboBox = static_cast<QComboBox*>(newModuleTable->cellWidget(i,1));			
-			newModuleFamily->addParticipant(lineEdit->text(), comboBox->currentText());
-		}
-		
-		QStringList newModuleNames;
-		newModuleNames << newModuleFamily->name();
-		catalogWidget->showButtons(newModuleNames);
-	}
-
-	void ModuleTool::itemsDropped(GraphicsScene * scene, const QString& family, const QPointF& point)
+	void WetLabTool::itemsDropped(GraphicsScene * scene, const QString& family, const QPointF& point)
 	{
 		if (scene && scene->network && family == tr("New module") && mode == none)
 		{
@@ -1893,64 +1459,5 @@ namespace Tinkercell
 			mode = none;
 		}
 	}
-	
-	void ModuleTool::doSubstituteModel(QSemaphore * sem, ItemHandle * parent, const QString& filename)
-	{
-		substituteModel(parent, filename);
-		if (sem)
-			sem->release();
-	}
-	
-	typedef void (*tc_ModuleTool_api)(
-		void (*substituteModel)(long, const char*),
-		tc_strings (*listOfModels)(long));
-
-	void ModuleTool::setupFunctionPointers( QLibrary * library )
-	{
-		tc_ModuleTool_api f = (tc_ModuleTool_api)library->resolve("tc_ModuleTool_api");
-		if (f)
-		{
-			f(
-				&(_substituteModel),
-				&(_listOfModels));
-		}
-	}
-	
-	tc_strings ModuleTool::_listOfModels(long o)
-	{
-		ItemHandle * handle = ConvertValue(o);
-		QStringList list;
-		if (handle && handle->family())
-			list = listOfModels(handle->family());
-		return ConvertValue(list);
-	}
-
-	void ModuleTool::_substituteModel(long o, const char * s)
-	{
-		fToS->substituteModel(o, s);
-	}
-	
-	void ModuleTool_FToS::substituteModel(long o, const char * s)
-	{
-		QSemaphore * sem = new QSemaphore(1);
-		sem->acquire();
-		emit doSubstituteModel(sem, ConvertValue(o), ConvertValue(s));
-		sem->acquire();
-		sem->release();
-		delete sem;
-	}
-	
-	ModuleTool_FToS * ModuleTool::fToS;
-	QStringList ModuleTool::numericalTablesToBeReplaced;
-	QStringList ModuleTool::textTablesToBeReplaced;
 }
-
-/*
-extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)
-{
-    if (!main) return;
-
-    main->addTool(new Tinkercell::ModuleTool);
-
-}*/
 

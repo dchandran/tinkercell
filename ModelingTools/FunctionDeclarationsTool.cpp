@@ -210,7 +210,7 @@ namespace Tinkercell
 	{
 		for (int i=0; i < handles.size(); ++i)
 		{
-			//if (handles[i] && handles[i]->family() && !handles[i]->tools.contains(this))
+			//if (handles[i] && handles[i]->isA("Node") && !handles[i]->tools.contains(this))
 				//handles[i]->tools += this;
 
 			if (handles[i] && handles[i]->family() && (
@@ -230,6 +230,7 @@ namespace Tinkercell
 			itemHandles.clear();
 			ItemHandle * handle = 0;
 			for (int i=0; i < list.size(); ++i)
+
 			{
 				if ((handle = getHandle(list[i])))
 					itemHandles += handle;
@@ -476,7 +477,9 @@ namespace Tinkercell
 		toolButton->setIcon(QIcon(tr(":/images/func.xml")));
 		toolButton->setToolTip(name);
 		this->buttons.addButton(toolButton);*/
-		
+
+		addAction(QIcon(":/images/monitor.png"), "Forcing functions");	
+
 		//module snapshot window
 		snapshotToolTip = 0;
 		snapshotIcon = 0;

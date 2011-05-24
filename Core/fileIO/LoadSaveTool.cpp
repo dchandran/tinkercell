@@ -13,6 +13,7 @@ This tool allows the loading and saving of Networks.
 #include "ConsoleWindow.h"
 #include "UndoCommands.h"
 #include "GlobalSettings.h"
+#include "Ontology.h"
 #include <QtDebug>
 #include <QRegExp>
 #include <QMessageBox>
@@ -1055,18 +1056,12 @@ namespace Tinkercell
 	
 	NodeFamily * LoadSaveTool::getNodeFamily(const QString& name)
 	{
-		QString s = name.toLower();		
-		if (nodeFamilies.contains(s))
-			return nodeFamilies.value(s);
-		return 0;
+		return Ontology::nodeFamily(name);
 	}
 	
 	ConnectionFamily * LoadSaveTool::getConnectionFamily(const QString& name)
 	{
-		QString s = name.toLower();
-		if (connectionFamilies.contains(s))
-			return connectionFamilies.value(s);
-		return 0;
+		return Ontology::connectionFamily(name);
 	}
 
 	void LoadSaveTool::readUnitsFromTable(const TextDataTable & units)
@@ -1076,39 +1071,41 @@ namespace Tinkercell
 		for (int i=0; i < units.rows(); ++i)
 		{
 			QString s = units.rowName(i).toLower();
-			if (nodeFamilies.contains(s))
-				nodeFamilies[s]->measurementUnit = Unit( units(i,0), units(i,1) );
+			if (s.startsWith("_"))
+				s = s.right(s.length() - 1);
+			NodeFamily * node;
+			ConnectionFamily * conn;
+			if (node = Ontology::nodeFamily(s))
+				node->measurementUnit = Unit( units(i,0), units(i,1) );
 			else
-			if (connectionFamilies.contains(s))
-				connectionFamilies[s]->measurementUnit = Unit( units(i,0), units(i,1) );
+			if (conn = Ontology::connectionFamily(s))
+				conn->measurementUnit = Unit( units(i,0), units(i,1) );
 		}
 	}
 	
 	void LoadSaveTool::saveUnitsToTable(TextDataTable & units)
 	{
 		units.description() = tr("Measurement units");
-		QStringList keys = nodeFamilies.keys();
+		QList<NodeFamily*> nodes = Ontology::allNodeFamilies();
 		
-		for (int i=0; i < keys.size(); ++i)
-			if (!nodeFamilies[ keys[i] ]->measurementUnit.name.isEmpty() && 
-				!nodeFamilies[ keys[i] ]->measurementUnit.property.isEmpty())
+		for (int i=0; i < nodes.size(); ++i)
+			if (!nodes[i]->measurementUnit.name.isEmpty() && 
+				!nodes[i]->measurementUnit.property.isEmpty())
 			{
-				units(keys[i], "property") = nodeFamilies[ keys[i] ]->measurementUnit.property;
-				units(keys[i], "name") = nodeFamilies[ keys[i] ]->measurementUnit.name;
+				units(tr("_") + nodes[i]->name(), "property") = nodes[i]->measurementUnit.property;
+				units(tr("_") + nodes[i]->name(), "name") = nodes[i]->measurementUnit.name;
 			}
 		
-		keys = connectionFamilies.keys();
+		QList<ConnectionFamily*> connections = Ontology::allConnectionFamilies();
 		
-		for (int i=0; i < keys.size(); ++i)
-			if (!connectionFamilies[ keys[i] ]->measurementUnit.name.isEmpty() && 
-				!connectionFamilies[ keys[i] ]->measurementUnit.property.isEmpty())
+		for (int i=0; i < connections.size(); ++i)
+			if (!connections[i]->measurementUnit.name.isEmpty() && 
+				!connections[i]->measurementUnit.property.isEmpty())
 			{
-				units(keys[i], "property") = connectionFamilies[ keys[i] ]->measurementUnit.property;
-				units(keys[i], "name") = connectionFamilies[ keys[i] ]->measurementUnit.name;
+				units(tr("_") + connections[i]->name(), "property") = connections[i]->measurementUnit.property;
+				units(tr("_") + connections[i]->name(), "name") = connections[i]->measurementUnit.name;
 			}
 	}
-	
-	QMap<QString,NodeFamily*> LoadSaveTool::nodeFamilies;
-	QMap<QString,ConnectionFamily*> LoadSaveTool::connectionFamilies;
+
 }
 

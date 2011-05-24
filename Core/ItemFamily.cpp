@@ -9,6 +9,7 @@ This file defines the ItemFamily, NodeFamily, and ConnectionFamily classes.
 Each item in Tinkercell has an associated family.
 
 ****************************************************************************/
+#include <iostream>
 #include <QtDebug>
 #include "ItemFamily.h"
 #include "ItemHandle.h"
@@ -25,6 +26,11 @@ namespace Tinkercell
 	
 	Unit::Unit(): property(QString()), name(QString())
 	{
+	}
+
+	bool Unit::operator == (const Unit& a) const
+	{
+		return (a.property == property && a.name == name);
 	}
 
 	/*********************************
@@ -50,6 +56,24 @@ namespace Tinkercell
 	QString ItemFamily::name() const
 	{
 		return _name;
+	}
+	
+	ItemFamily * ItemFamily::parent() const {	return 0;  }
+	
+	QList<ItemFamily*> ItemFamily::parents() const { return QList<ItemFamily*>(); }
+	
+	QList<ItemFamily*> ItemFamily::children() const { return QList<ItemFamily*>(); }
+
+	int ItemFamily::depth() const
+	{
+		int i = 0;
+		ItemFamily * p = parent();
+		while (p)
+		{
+			p = p->parent();
+			++i;
+		}
+		return i;
 	}
 	
 	void ItemFamily::setName(const QString& s)
@@ -181,7 +205,18 @@ namespace Tinkercell
 	ItemFamily* NodeFamily::parent() const
 	{
 		if (parentFamilies.isEmpty()) return 0;
-		return parentFamilies.at(0);
+		ItemFamily * p = 0;
+		int maxd = 0, d = 0;
+		for (int i=0; i < parentFamilies.size(); ++i)
+		{
+			d = parentFamilies[i]->depth();
+			if (p==0 || d > maxd)
+			{
+				p = parentFamilies[i];
+				maxd = d;
+			}
+		}
+		return p;
 	}
 
 	/*! \brief indicates whether or not the given string is the name of this family or any of its parent families*/
@@ -239,7 +274,7 @@ namespace Tinkercell
 
 	void NodeFamily::setParent(NodeFamily* p)
 	{
-		if (!p) return;
+		if (!p || this == p || isA(p->ID) || p->isA(ID)) return;
 		if (!parentFamilies.contains(p))
 			parentFamilies.append(p);
 		if (!p->childFamilies.contains(this))
@@ -319,7 +354,7 @@ namespace Tinkercell
 	ItemFamily* ConnectionFamily::parent() const
 	{
 		if (parentFamilies.isEmpty()) return 0;
-		return parentFamilies.at(0);
+		return parentFamilies.last();
 	}
 
 	QList<ItemFamily*> ConnectionFamily::parents() const
@@ -340,7 +375,7 @@ namespace Tinkercell
 
 	void ConnectionFamily::setParent(ConnectionFamily* p)
 	{
-		if (!p) return;
+		if (!p || this == p || isA(p->ID) || p->isA(ID)) return;
 		if (!parentFamilies.contains(p))
 			parentFamilies.append(p);
 		if (!p->childFamilies.contains(this))
@@ -455,7 +490,8 @@ namespace Tinkercell
 			ROLEID.insert( r, roleid );
 		}
 
-		nodeRoles += QPair<int,int>( roleid, nodeid );
+		if (!nodeRoles.contains(QPair<int,int>( roleid, nodeid ))) //don't allow duplicate roles
+			nodeRoles += QPair<int,int>( roleid, nodeid );
 		return true;
 	}
 	
@@ -488,6 +524,10 @@ namespace Tinkercell
 		for (int i=0; i < nodeRoles.size(); ++i)
 			if (ALLROLENAMES.size() > nodeRoles[i].first)
 				roles += ALLROLENAMES[ nodeRoles[i].first ];
+		
+		if (roles.isEmpty() && !parentFamilies.isEmpty() && parentFamilies.last())
+			roles = parentFamilies.last()->participantRoles();
+
 		return roles;
 	}
 	
@@ -497,6 +537,10 @@ namespace Tinkercell
 		for (int i=0; i < nodeRoles.size(); ++i)
 			if (ItemFamily::ALLNAMES.size() > nodeRoles[i].second)
 				families += ItemFamily::ALLNAMES[ nodeRoles[i].second ];
+
+		if (families.isEmpty() && !parentFamilies.isEmpty() && parentFamilies.last())
+			families = parentFamilies.last()->participantTypes();
+
 		return families;
 	}
 	

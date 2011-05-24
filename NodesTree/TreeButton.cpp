@@ -41,7 +41,11 @@ namespace Tinkercell
 
 	FamilyTreeButton::FamilyTreeButton(NodeFamily* family , QWidget * parent) : QToolButton(parent), nodeFamily(family), connectionFamily(0)
 	{
-		if (!nodeFamily) return;
+		if (!nodeFamily)
+		{
+			std::cout << "no node family\n";
+			return;
+		}
 		
 		name = nodeFamily->name();
 
@@ -64,25 +68,27 @@ namespace Tinkercell
 			s = s.leftJustified(sz/2 + s.length());
 			s = s.rightJustified(16);
 		}
+
 		setText(s);
 		
-		if (nodeFamily->pixmap.isNull()) return;
-		
-		setIcon(QIcon(nodeFamily->pixmap));
+		if (!nodeFamily->pixmap.isNull())
+		{
+			setIcon(QIcon(nodeFamily->pixmap));
 
-		if (nodeFamily->pixmap.width() > nodeFamily->pixmap.height())
-		{
-			int w = 20 * nodeFamily->pixmap.width()/nodeFamily->pixmap.height();
-			if (w > 50) w = 50;
-			setIconSize(QSize(w,20));
+			if (nodeFamily->pixmap.width() > nodeFamily->pixmap.height())
+			{
+				int w = 20 * nodeFamily->pixmap.width()/nodeFamily->pixmap.height();
+				if (w > 50) w = 50;
+				setIconSize(QSize(w,20));
+			}
+			else
+			{
+				int h = 20 * nodeFamily->pixmap.height()/nodeFamily->pixmap.width();
+				if (h > 50) h = 50;
+				setIconSize(QSize(20, h));
+			}
 		}
-		else
-		{
-			int h = 20 * nodeFamily->pixmap.height()/nodeFamily->pixmap.width();
-			if (h > 50) h = 50;
-			setIconSize(QSize(20, h));
-		}
-		
+
 		setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 		dragContinued = dragStarted = false;
 		connect(this,SIGNAL(released()),this,SLOT(selected()));
@@ -112,23 +118,23 @@ namespace Tinkercell
 		}
 		setText(s);
 		
-		if (connectionFamily->pixmap.isNull()) return;
-		
-		setIcon(QIcon(connectionFamily->pixmap));
+		if (!connectionFamily->pixmap.isNull())
+		{
+			setIcon(QIcon(connectionFamily->pixmap));
 
-		if (connectionFamily->pixmap.width() > connectionFamily->pixmap.height())
-		{
-			int w = 20 * connectionFamily->pixmap.width()/connectionFamily->pixmap.height();
-			if (w > 50) w = 50;
-			setIconSize(QSize(w,20));
-		}
-		else
-		{
-			int h = 20 * connectionFamily->pixmap.height()/connectionFamily->pixmap.width();
-			if (h > 50) h = 50;
-			setIconSize(QSize(20, h));
-		}
-		
+			if (connectionFamily->pixmap.width() > connectionFamily->pixmap.height())
+			{
+				int w = 20 * connectionFamily->pixmap.width()/connectionFamily->pixmap.height();
+				if (w > 50) w = 50;
+				setIconSize(QSize(w,20));
+			}
+			else
+			{
+				int h = 20 * connectionFamily->pixmap.height()/connectionFamily->pixmap.width();
+				if (h > 50) h = 50;
+				setIconSize(QSize(20, h));
+			}
+		}	
 		setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 		dragContinued = dragStarted = false;
 		connect(this,SIGNAL(released()),this,SLOT(selected()));
@@ -148,6 +154,7 @@ namespace Tinkercell
 	
 	void FamilyTreeButton::selected()
 	{
+		std::cout << "button pressed\n";
 		dragStarted = false;
 		if (dragContinued) return;
 		
@@ -262,7 +269,8 @@ namespace Tinkercell
 			if (!family->measurementUnit.name.isEmpty() && !family->measurementUnit.property.isEmpty())
 				text += tr("Unit of measurement: ") + family->measurementUnit.name + tr("\n\n");
 
-			text += tr("Participants: ") + family->participantRoles().join(" , ");
+			text += tr("Participant Roles: ") + family->participantRoles().join(" , ");
+			text += tr("\nParticipant Types: ") + family->participantTypes().join(" , ");
 
 			text += tr("\n\nAttributes: ")
 					+ ( QStringList() << family->numericalAttributes.keys() << family->textAttributes.keys() ).join(" , ")

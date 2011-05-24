@@ -142,8 +142,10 @@ namespace Tinkercell
 		/*! \brief used for casting between different sub-classes*/
 		static int TYPE;
 	public:
-		/*! \brief cast to connection family*/
+		/*! \brief cast to node family*/
 		static NodeFamily * cast(ItemFamily*);
+		/*! \brief cast to node family*/
+		static QList<NodeFamily*> cast(const QList<ItemFamily*>&);
 		/*! \brief get the parent for this family. If there are more than one parents, returns the first*/
 		virtual ItemFamily* parent() const;
 		/*! \brief get all the parents for this family.*/
@@ -184,6 +186,8 @@ namespace Tinkercell
 	public:
 		/*! \brief cast to connection family*/
 		static ConnectionFamily * cast(ItemFamily*);
+		/*! \brief cast to connection family*/
+		static QList<ConnectionFamily*> cast(const QList<ItemFamily*>&);
 		
 		/*! \brief get the parent for this family. If there are more than one parents, returns the first*/
 		virtual ItemFamily* parent() const;

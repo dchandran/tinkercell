@@ -51,74 +51,94 @@ namespace Tinkercell
           return QSize(140, 200);
      }
 
-	void  NodesTree::readRdf(const QString& filename)
-	{
-		Ontology::read
-	}
-     
 	void  NodesTree::readTreeFile(const QString& filename)
 	{
-          NodesTreeReader reader;
-          QString appDir = QCoreApplication::applicationDirPath();
+		QString appDir = QCoreApplication::applicationDirPath();
 
-          QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
-          settings.beginGroup("NodesTree");
-          
-	      themeDirectory = settings.value("theme",tr("Bio1")).toString();
-          QStringList nodeSettings = settings.value("nodeFiles",QStringList()).toStringList();
-          QHash<QString,bool> expandedNodes;
-          
-		  for (int i=0; i < nodeSettings.size(); ++i)
-          {
-          	QStringList lst = nodeSettings[i].split(tr(","));
-            if (lst.size() > 2)
-            {
-	        	nodeGraphicsFileNames[ lst[0] ] = lst[1];
-	         	expandedNodes[ lst[0] ] = (lst[2] == tr("expanded"));
-	        }
-          }
+		QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
+		settings.beginGroup("NodesTree");
 
-          QString xmlFile = filename;
-          if (xmlFile.isNull() || xmlFile.isEmpty())
-               xmlFile = (appDir + tr("/NodesTree/NodesTree.xml"));
+		themeDirectory = settings.value("theme",tr("Bio1")).toString();
+		QStringList nodeSettings = settings.value("nodeFiles",QStringList()).toStringList();
+		QHash<QString,bool> expandedNodes;
 
-          QStringList keys = reader.readXml(this,xmlFile);
+		for (int i=0; i < nodeSettings.size(); ++i)
+		{
+			QStringList lst = nodeSettings[i].split(tr(","));
+			if (lst.size() > 2)
+			{
+				nodeGraphicsFileNames[ lst[0] ] = lst[1];
+			 	expandedNodes[ lst[0] ] = (lst[2] == tr("expanded"));
+			}
+		}
 
-          for (int i=0; i < keys.size(); ++i)
-          {
-               NodeFamily * node = nodeFamilies.value(keys[i]);
-               if (!node)
-                   continue;
+		QStringList keys = Ontology::readRdf(appDir + tr("/NodesTree/NodesTree.xml"));
+		QList<NodeFamily*> families;
+		QList<QTreeWidgetItem*> parentTreeItems; 
+		
+		for (int i=0; i < keys.size(); ++i)
+		{
+			NodeFamily * node = Ontology::nodeFamily(keys[i]);
+			if (node && node->parents().isEmpty())
+			{
+				families << node;
+				parentTreeItems << 0;
+			}
+		}
+		
+		for (int i=0; i < families.size(); ++i)
+		{
+			QTreeWidgetItem* treeItem = new QTreeWidgetItem;
+			treeItem->setText(families[i]->name());
+			treeItems.insertMulti(families[i]->name(), treeItem);
+			if (parentTreeItems[i])
+				parentTreeItems[i]->addChild(treeItem);
+			else
+				widget()->addTopLevelItem(treeItem);
+			QList<NodeFamily*> children = NodeFamily::cast(families[i]->children());
+			{
+				families += children;
+				parentTreeItems += treeItem;
+			}
+		}
+			
+		for (int i=0; i < keys.size(); ++i)
+		{
+			NodeFamily * node = Ontology::nodeFamily(keys[i]);
+			QList<QTreeWidgetItem*> treeItem = treeItems.values(keys[i]);
+			if (node && !treeItem.isEmpty())
+			{
+				bool expand = (expandedNodes.contains(keys[i]) && expandedNodes[ keys[i] ]);
+				for (int j=0; j < treeItem.size(); ++j)
+					 treeItem[j]->setExpanded(expand);
+				for (int j=0; j < treeItem.size(); ++j)
+				{
+					 FamilyTreeButton * button = new FamilyTreeButton(node,this);
+					 button->nodesTree = this;
 
-               QList<QTreeWidgetItem*> treeItem = treeItems.values(keys[i]);
-               if (node && !treeItem.isEmpty())
-               {
-               		bool expand = (expandedNodes.contains(keys[i]) && expandedNodes[ keys[i] ]);
-              		for (int j=0; j < treeItem.size(); ++j)
-   	                     treeItem[j]->setExpanded(expand);
-                    for (int j=0; j < treeItem.size(); ++j)
-                    {
-                         FamilyTreeButton * button = new FamilyTreeButton(node,this);
-                         button->nodesTree = this;
+					 connect(button,SIGNAL(nodeSelected(NodeFamily*)),this,SLOT(buttonPressed(NodeFamily*)));
+					 QHBoxLayout * layout = new QHBoxLayout;
+					 layout->addWidget(button,0,Qt::AlignLeft);
+					 layout->setContentsMargins(0,0,0,0);
+					 QWidget * widget = new QWidget;
+					 widget->setPalette(QPalette(QColor(255,255,255)));
+					 widget->setAutoFillBackground (true);
+					 widget->setLayout(layout);
 
-                         connect(button,SIGNAL(nodeSelected(NodeFamily*)),this,SLOT(buttonPressed(NodeFamily*)));
-                         QHBoxLayout * layout = new QHBoxLayout;
-                         layout->addWidget(button,0,Qt::AlignLeft);
-                         layout->setContentsMargins(0,0,0,0);
-                         QWidget * widget = new QWidget;
-                         widget->setPalette(QPalette(QColor(255,255,255)));
-                         widget->setAutoFillBackground (true);
-                         widget->setLayout(layout);
+					 treeWidget.setItemWidget(treeItem[j],0,widget);
+					 treeButtons.insertMulti(keys[i],button);
+				}
+			}
+		}
+		
+		for (int i=0; i < keys.size(); ++i)
+		{
+			NodeFamily * node = Ontology::nodeFamily(keys[i]);
+			setNodeGraphics(node);
+		}
 
-                         treeWidget.setItemWidget(treeItem[j],0,widget);
-						 treeButtons.insertMulti(keys[i],button);
-                    }
-               }
-          }
-
-          settings.endGroup();
-          
-          LoadSaveTool::nodeFamilies = nodeFamilies;
+		settings.endGroup();		  
+		LoadSaveTool::nodeFamilies = nodeFamilies;
 	}
 
      NodesTree::NodesTree(QWidget * parent, const QString& filename) :
@@ -494,21 +514,18 @@ namespace Tinkercell
 	
 	NodeFamily * NodesTree::getFamily(const QString& name) const
 	{
-		QString s = name.toLower();
-		
-		if (nodeFamilies.contains(s))
-			return nodeFamilies.value(s);
-		return 0;
+		return Ontology::nodeFamily(name);
 	}
 	
 	bool NodesTree::insertFamily(NodeFamily * family, FamilyTreeButton * button)
 	{
-		if (name.isEmpty() || !family) return false;
+		if (!family) return false;
 		
 		QString s = family->name().toLower();
-		nodeFamilies [s] = family;
+		Ontology::insertNodeFamily(s, family);
+		
 		if (button)
-			treeButtons [s] = button;
+			treeButtons[s] = button;
 		
 		LoadSaveTool::nodeFamilies = nodeFamilies;
 		return true;
@@ -516,9 +533,73 @@ namespace Tinkercell
 	
 	QStringList NodesTree::getAllFamilyNames() const
 	{
-		QStringList names(nodeFamilies.keys());
+		QStringList names(Ontology.allNodeFamilyNames());
 		names.sort();
 		return names;
+	}
+	
+	void NodesTree::setNodeGraphics(NodeFamily * node)
+	{
+		if (!node) return;
+		QString graphicsFile = nodeImageFile(node->name()), 
+				   icon = iconFile(node->name());
+
+		if (!QFile::exists(icon) && QFile::exists(homeDir + QString("/") + icon))
+			icon = homeDir + QString("/") + icon;
+		else
+		if (!QFile::exists(icon) && QFile::exists(appDir + QString("/") + icon))
+			icon = appDir + QString("/") + icon;
+
+		if (node->graphicsItems.isEmpty())
+		{
+			if (!QFile::exists(graphicsFile) && QFile::exists(homeDir + QString("/") + graphicsFile))
+				graphicsFile = homeDir + QString("/") + graphicsFile;
+			else
+				if (!QFile::exists(graphicsFile) && QFile::exists(appDir + QString("/") + graphicsFile))
+					graphicsFile = appDir + QString("/") + graphicsFile;
+
+		  NodeGraphicsReader imageReader;
+		  NodeGraphicsItem * nodeitem = new NodeGraphicsItem;
+		  imageReader.readXml(nodeitem,graphicsFile);
+		  if (nodeitem && nodeitem->isValid())
+		  {
+			   nodeitem->normalize();
+			   node->graphicsItems += nodeitem;
+		  }
+		  else
+		  {
+			   if (nodeitem) delete nodeitem;
+		  }
+		}
+
+		if (node->graphicsItems.isEmpty() && node->parent())
+		 for (int j=0; j < node->parent()->graphicsItems.size(); ++j)
+		 	node->graphicsItems += (NodeGraphicsItem::topLevelNodeItem(node->parent()->graphicsItems[j]))->clone();
+
+		if (node->pixmap.load(icon))
+			node->pixmap.setMask(node->pixmap.createMaskFromColor(QColor(255,255,255)));
+		else
+			if (node->parent())
+				 node->pixmap = node->parent()->pixmap;
+
+		QList<QToolButton*> buttons = treeButtons.values(node->name());
+
+		for (int j=0; j < buttons.size(); ++j)
+		{
+			buttons[j]->setIcon(QIcon(node->pixmap));
+			if (node->pixmap.width() > node->pixmap.height())
+			{
+				int w = 20 * node->pixmap.width()/node->pixmap.height();
+				if (w > 50) w = 50;
+				buttons[j]->setIconSize(QSize(w,20));
+			}
+			else
+			{
+				int h = 20 * node->pixmap.height()/node->pixmap.width();
+				if (h > 50) h = 50;
+				buttons[j]->setIconSize(QSize(20, h));
+			}
+		}
 	}
 
 	void NodesTree::updateTheme()
@@ -528,7 +609,7 @@ namespace Tinkercell
                
 		QList<NodeFamily*> toplevel;
 		NodeFamily * root;
-		QList<NodeFamily*> allFamilies = nodeFamilies.values();
+		QList<NodeFamily*> allFamilies = Ontology::allNodeFamilies();
 		for (int i=0; i < allFamilies.size(); ++i)
 		{
 			root = NodeFamily::cast(allFamilies[i]->root());
@@ -540,68 +621,11 @@ namespace Tinkercell
 
 			allFamilies[i]->graphicsItems.clear();
 		}
+
 		for (int i=0; i < toplevel.size(); ++i)
 		{
-			QString graphicsFile = nodeImageFile(toplevel[i]->name()), 
-					   icon = iconFile(toplevel[i]->name());
-
 			NodeFamily * node = toplevel[i];
-
-			if (!QFile::exists(icon) && QFile::exists(homeDir + QString("/") + icon))
-		   		icon = homeDir + QString("/") + icon;
-           else
-		   if (!QFile::exists(icon) && QFile::exists(appDir + QString("/") + icon))
-		   		icon = appDir + QString("/") + icon;
-
-          if (node->graphicsItems.isEmpty())
-          {
-           		if (!QFile::exists(graphicsFile) && QFile::exists(homeDir + QString("/") + graphicsFile))
-					graphicsFile = homeDir + QString("/") + graphicsFile;
-				else
-				    if (!QFile::exists(graphicsFile) && QFile::exists(appDir + QString("/") + graphicsFile))
-						graphicsFile = appDir + QString("/") + graphicsFile;
-
-              NodeGraphicsReader imageReader;
-              NodeGraphicsItem * nodeitem = new NodeGraphicsItem;
-              imageReader.readXml(nodeitem,graphicsFile);
-              if (nodeitem && nodeitem->isValid())
-              {
-                   nodeitem->normalize();
-                   node->graphicsItems += nodeitem;
-              }
-              else
-              {
-                   if (nodeitem) delete nodeitem;
-              }
-		  }
-              if (node->graphicsItems.isEmpty() && node->parent())
-              	 for (int j=0; j < node->parent()->graphicsItems.size(); ++j)
-              	 	node->graphicsItems += (NodeGraphicsItem::topLevelNodeItem(node->parent()->graphicsItems[j]))->clone();
-
-               if (node->pixmap.load(icon))
-                    node->pixmap.setMask(node->pixmap.createMaskFromColor(QColor(255,255,255)));
-               else
-                    if (node->parent())
-                         node->pixmap = node->parent()->pixmap;
-
-			QList<QToolButton*> buttons = treeButtons.values(node->name());
-
-			for (int j=0; j < buttons.size(); ++j)
-			{
-				buttons[j]->setIcon(QIcon(node->pixmap));
-				if (node->pixmap.width() > node->pixmap.height())
-				{
-					int w = 20 * node->pixmap.width()/node->pixmap.height();
-					if (w > 50) w = 50;
-					buttons[j]->setIconSize(QSize(w,20));
-				}
-				else
-				{
-					int h = 20 * node->pixmap.height()/node->pixmap.width();
-					if (h > 50) h = 50;
-					buttons[j]->setIconSize(QSize(20, h));
-				}
-			}
+			setNodeGraphics(node);
 			
 			QList<ItemFamily*> children = node->children();
 			for (int j=0; j < children.size(); ++j)

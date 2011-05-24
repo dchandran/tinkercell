@@ -46,9 +46,9 @@ namespace Tinkercell
           {
                readNext();
           }
-
+          
           compositeNodes.clear();
-
+          
           QPair<NodeFamily*,QTreeWidgetItem*> pair;
           NodeFamily * node = 0;
           QTreeWidgetItem * treeItem = 0;

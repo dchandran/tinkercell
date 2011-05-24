@@ -74,27 +74,20 @@ namespace Tinkercell
 		static QStringList allConnectionFamilyNames();
 
 		/*! \brief read RDF file and insert node families
+			\param QString file name
 			\param QString format, defaults to rdfxml
-			\return QString file name
+			\return QStringList new families
 		*/	
-		static void readNodes(const QString& rdfFile, const QString& format=QString("rdfxml"));
+		static QStringList readNodes(const QString& rdfFile, const QString& format=QString("rdfxml"));
 		/*! \brief read RDF file and insert connection families
+			\param QString file name
 			\param QString format, defaults to rdfxml
-			\return QString file name
+			\return QStringList new families
 		*/	
-		static void readConnections(const QString& rdfFile, const QString& format=QString("rdfxml"));
+		static QStringList readConnections(const QString& rdfFile, const QString& format=QString("rdfxml"));
 
-		/*! \brief write RDF file for node families
-			\param QString format, defaults to rdfxml
-			\return QString file name
-		*/	
-		static void writeNodes(const QString& rdfFile, const QString& format=QString("rdfxml-abbrev"));
-		/*! \brief write RDF file for connection families
-			\param QString format, defaults to rdfxml
-			\return QString file name
-		*/	
-		static void writeConnections(const QString& rdfFile, const QString& format=QString("rdfxml-abbrev"));
-
+		/*! \brief delete family instances*/
+		static void cleanup();
 	private:
 		/*! \brief maps name to node families*/
 		static QHash<QString, NodeFamily*> nodeFamilies;

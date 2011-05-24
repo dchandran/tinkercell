@@ -159,6 +159,17 @@ namespace Tinkercell
 		return 0;
 	}
 
+	QList<NodeFamily*> NodeFamily::cast(const QList<ItemFamily*>& items)
+	{
+		QList<NodeFamily*> nodes;
+		NodeFamily * item = 0;
+		for (int i=0; i < items.size(); ++i)
+			if ((item = cast(items[i])) && !nodes.contains(item))
+				nodes += item;
+		return nodes;
+	}
+
+
 	NodeFamily::NodeFamily(const QString& s): 
 		ItemFamily(s)
 	{
@@ -248,6 +259,16 @@ namespace Tinkercell
 		if (item && item->type == ConnectionFamily::TYPE)
 			return static_cast<ConnectionFamily*>(item);
 		return 0;
+	}
+	
+	QList<ConnectionFamily*> ConnectionFamily::cast(const QList<ItemFamily*>& items)
+	{
+		QList<ConnectionFamily*> connections;
+		ConnectionFamily * item = 0;
+		for (int i=0; i < items.size(); ++i)
+			if ((item = cast(items[i])) && !connections.contains(item))
+				connections += item;
+		return connections;
 	}
 
 	ConnectionFamily::ConnectionFamily(const QString& s): 

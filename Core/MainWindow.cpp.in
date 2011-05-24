@@ -56,6 +56,7 @@ The MainWindow keeps a list of all plugins, and it is also responsible for loadi
 #include "RubyTool.h"
 #include "LabelingTool.h"
 #include "GlobalSettings.h"
+#include "Ontology.h"
 
 namespace Tinkercell
 {
@@ -423,6 +424,8 @@ namespace Tinkercell
 		
 		if (c_api_slots)
 			delete c_api_slots;
+		
+		Ontology::cleanup();
 	}
 
 	void MainWindow::tabIndexChanged(int i)

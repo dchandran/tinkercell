@@ -32,11 +32,19 @@ namespace Tinkercell
 		}
 		QList<NodeFamily*> Ontology::allNodeFamilies()
 		{
-			return nodeFamilies.values();
+			QList<NodeFamily*> all = nodeFamilies.values(), unique;
+			for (int i=0; i < all.size(); ++i)
+				if (all[i] && !unique.contains(all[i]))
+					unique += all[i];
+			return unique;
 		}
 		QList<ConnectionFamily*> Ontology::allConnectionFamilies()
 		{
-			return connectionFamilies.values();
+			QList<ConnectionFamily*> all = connectionFamilies.values(), unique;
+			for (int i=0; i < all.size(); ++i)
+				if (all[i] && !unique.contains(all[i]))
+					unique += all[i];
+			return unique;
 		}
 		QStringList Ontology::allNodeFamilyNames()
 		{
@@ -46,6 +54,8 @@ namespace Tinkercell
 		{
 			return QStringList(connectionFamilies.keys());
 		}
+		
+		static QStringList lastReadFamilyNames;
 
 		static void read_node_triple(void* user_data, raptor_statement* triple) 
 		{
@@ -78,9 +88,12 @@ namespace Tinkercell
 				if (!family1)
 				{
 					family1 = new NodeFamily(s);
-					Ontology::insertNodeFamily(s,family1);
+					lastReadFamilyNames << family1->name();
+					Ontology::insertNodeFamily(family1->name(),family1);
+					if (s != family1->name())
+						Ontology::insertNodeFamily(s,family1);
 				}
-				if (p == QObject::tr("a"))  //if isa relationship
+				if (p == QObject::tr("a") || p == QObject::tr("isa") || p == QObject::tr("is a"))  //if isa relationship
 				{
 					o = o.toLower(); 
 					family2 = Ontology::nodeFamily(o);
@@ -88,6 +101,10 @@ namespace Tinkercell
 					{
 						family2 = new NodeFamily(o);
 						Ontology::insertNodeFamily(o,family2);
+						lastReadFamilyNames << family2->name();
+						Ontology::insertNodeFamily(family2->name(),family2);
+						if (o != family2->name())
+							Ontology::insertNodeFamily(o,family2);
 					}
 					family1->setParent(family2);
 				}
@@ -168,9 +185,13 @@ namespace Tinkercell
 				if (!family1)
 				{
 					family1 = new ConnectionFamily(s);
-					Ontology::insertConnectionFamily(s,family1);
+					Ontology::insertConnectionFamily(s,family1);					
+					lastReadFamilyNames << family1->name();
+					Ontology::insertConnectionFamily(family1->name(),family1);
+					if (s != family1->name())
+						Ontology::insertConnectionFamily(s,family1);
 				}
-				if (p == QObject::tr("a"))  //if isa relationship
+				if (p == QObject::tr("a") || p == QObject::tr("isa") || p == QObject::tr("is a"))  //if isa relationship
 				{
 					o = o.toLower(); 
 					family2 = Ontology::connectionFamily(o);
@@ -178,6 +199,10 @@ namespace Tinkercell
 					{
 						family2 = new ConnectionFamily(o);
 						Ontology::insertConnectionFamily(o,family2);
+						lastReadFamilyNames << family2->name();
+						Ontology::insertConnectionFamily(family2->name(),family2);
+						if (o != family2->name())
+							Ontology::insertConnectionFamily(o,family2);
 					}
 					family1->setParent(family2);
 				}
@@ -261,67 +286,41 @@ namespace Tinkercell
 			raptor_free_world(world);
 		}
 
-		void Ontology::readNodes(const QString& rdf, const QString& format)
+		QStringList Ontology::readNodes(const QString& rdf, const QString& format)
 		{
+			lastReadFamilyNames.clear();
 			parse_rdf_file(&read_node_triple, rdf.toAscii().data(), format.toAscii().data());
+			return lastReadFamilyNames;
 		}
 
-		void Ontology::readConnections(const QString& rdf, const QString& format)
+		QStringList Ontology::readConnections(const QString& rdf, const QString& format)
 		{
+			lastReadFamilyNames.clear();
 			parse_rdf_file(&read_connection_triple, rdf.toAscii().data(), format.toAscii().data());
+			return lastReadFamilyNames;
 		}
-
-		void Ontology::writeNodes(const QString& rdfFile, const QString& format)
+		
+		void Ontology::cleanup()
 		{
-			raptor_world *world = NULL;
-			raptor_serializer* rdf_serializer = NULL;
-			unsigned char *uri_string;
-			raptor_uri *base_uri;
-			raptor_statement* triple;
-
-			world = raptor_new_world();
-
-			uri_string = raptor_uri_filename_to_uri_string(rdfFile.toAscii().data());
-			base_uri = raptor_new_uri(world, uri_string);
-
-			rdf_serializer = raptor_new_serializer(world, format.toAscii().data());
-			raptor_serializer_start_to_file_handle(rdf_serializer, base_uri, stdout);
-
-			/* Make a triple with URI subject, URI predicate, literal object */
-			QList<NodeFamily*> nodes = nodeFamilies.values(), visited;
+			QList<NodeFamily*> nodes = nodeFamilies.values(), visitedNodes;
+			QList<ConnectionFamily*> connections = connectionFamilies.values(), visitedConnections;
+			
 			for (int i=0; i < nodes.size(); ++i)
-				if (nodes[i] && !visited.contains(nodes[i]))
+				if (nodes[i] && !visitedNodes.contains(nodes[i]))
 				{
-					visited << nodes[i];
-					QList<NodeFamily*> parents = nodes[i]->parents();
-					for (int j=0; j < parents.size(); ++j)
-					{
-						triple = raptor_new_statement(world);
-						triple->subject = raptor_new_term_from_uri_string(world, (const unsigned char*)nodes[i]->name().toAscii().data());
-						triple->predicate = raptor_new_term_from_uri_string(world, (const unsigned char*)"a");
-						triple->object = raptor_new_term_from_literal(world,
-						                                (const unsigned char*)parents[j]->name().toAscii().data(),
-						                                NULL,
-						                                (const unsigned char*)"en");
+					visitedNodes << nodes[i];
+					delete nodes[i];
+				}
+			
+			for (int i=0; i < connections.size(); ++i)
+				if (connections[i] && !visitedConnections.contains(connections[i]))
+				{
+					visitedConnections << connections[i];
+					delete connections[i];
+				}
 
-			/* Write the triple */
-			raptor_serializer_serialize_statement(rdf_serializer, triple);
-
-			/* Delete the triple */
-			raptor_free_statement(triple);
-
-			raptor_serializer_serialize_end(rdf_serializer);
-			raptor_free_serializer(rdf_serializer);
-
-			raptor_free_uri(base_uri);
-			raptor_free_memory(uri_string);
-
-			raptor_free_world(world);
-			return 0;
-		}
-
-		void Ontology::writeConnections(const QString& rdfFile)
-		{
+			nodeFamilies.clear();
+			connectionFamilies.clear();
 		}
 
 		QHash<QString, NodeFamily*>  Ontology::nodeFamilies;

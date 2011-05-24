@@ -28,7 +28,7 @@
 #include "NodeGraphicsItem.h"
 #include "NodeGraphicsReader.h"
 #include "ItemHandle.h"
-#include "NodesTreeReader.h"
+//#include "NodesTreeReader.h"
 #include "TreeButton.h"
 #include "CatalogWidget.h"
 
@@ -51,9 +51,6 @@ namespace Tinkercell
         Q_OBJECT
 
     private:
-        /*! \brief family name to NodeFamily hash*/
-        QMap<QString,NodeFamily*> nodeFamilies;
-
         /*! \brief family name to tree items hash. These are the buttons located in the nodes tree window*/
         QHash<QString,QTreeWidgetItem*> treeItems;
 		
@@ -91,15 +88,10 @@ namespace Tinkercell
          */
         NodesTree(QWidget * parent = 0, const QString& filename = QString());
         
-        /*! \brief load node families from XML file using NodesTreeReader
+        /*! \brief load node families from RDF file using Core's Ontology class
         \param QString filename
          */
         void readTreeFile(const QString& filename);
-
-        /*! \brief load node families from RDF using TinkerCell's Ontology class
-        \param QString filename
-         */
-        void readRdf(const QString& filename);
 
         /*! \brief load this tool into the main window
            \param MainWindow* the TinkerCell main window
@@ -146,8 +138,6 @@ namespace Tinkercell
         void sendEscapeSignal(const QWidget*);
 
     protected:
-        /*! \brief sends escape signal if ESC or SPACE is pressed*/
-        //void keyPressEvent ( QKeyEvent * event );
         /*! \brief context menu is used to change tree file*/
         void contextMenuEvent(QContextMenuEvent * event);
 
@@ -168,15 +158,14 @@ namespace Tinkercell
         /*! \brief replaces the nodes graphics file with a new one*/
         QString replaceNodeFile();
         
+        /*! \brief set node graphics and icon*/
+        void setNodeGraphics(NodeFamily*);
+        
         /*! \brief dialog for replacing a node family's graphics file*/
         void makeNodeSelectionDialog();
 
         /*! \brief tree widget that holds the buttons for each node family*/
         QTreeWidget treeWidget;
-        /*! \brief the arrow button at the very top of the tree of nodes*/
-        //QToolButton arrowButton;
-        /*! \brief the tree item containing the arrow button at the very top of the tree of nodes*/
-        //QTreeWidgetItem arrowItem;
 
         /*! \brief list of available node graphics files*/
         QListWidget * nodesListWidget;

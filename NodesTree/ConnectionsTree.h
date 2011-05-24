@@ -26,7 +26,7 @@
 #include "NetworkHandle.h"
 #include "ItemHandle.h"
 #include "ConnectionGraphicsItem.h"
-#include "ConnectionsTreeReader.h"
+//#include "ConnectionsTreeReader.h"
 #include "CatalogWidget.h"
 
 namespace Tinkercell
@@ -82,14 +82,10 @@ namespace Tinkercell
         \param the XML file with the tree information
         */
         ConnectionsTree(QWidget * parent = 0, const QString& filename = QString());
-        /*! \brief load node families from XML file using ConnectionsTreeReader
+        /*! \brief load node families from RDf file using Core's Ontology class
         \param QString filename
          */
         void readTreeFile(const QString& filename);
-        /*! \brief load node families from RDF using TinkerCell's Ontology class
-        \param QString filename
-         */
-        void readRdf(const QString& filename);
 
         /*! \brief set the main window and dock this tool*/
         bool setMainWindow(MainWindow *);
@@ -132,6 +128,9 @@ namespace Tinkercell
         void contextMenuEvent(QContextMenuEvent * event);
         /*! \brief the tree widget that displays the family tree*/
         QTreeWidget treeWidget;
+	private:
+		/*! \brief set graphics and icon*/
+        void setConnectionGraphics(ConnectionFamily*);
     };
 
 }

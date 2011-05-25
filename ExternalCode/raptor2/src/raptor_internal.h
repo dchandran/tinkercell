@@ -798,16 +798,16 @@ int raptor_init_parser_rdfxml(raptor_world* world);
 int raptor_init_parser_ntriples(raptor_world* world);
 int raptor_init_parser_turtle(raptor_world* world);
 int raptor_init_parser_trig(raptor_world* world);
-int raptor_init_parser_n3(raptor_world* world);
-int raptor_init_parser_grddl_common(raptor_world* world);
-int raptor_init_parser_grddl(raptor_world* world);
+//int raptor_init_parser_n3(raptor_world* world);
+//int raptor_init_parser_grddl_common(raptor_world* world);
+//int raptor_init_parser_grddl(raptor_world* world);
 int raptor_init_parser_guess(raptor_world* world);
 int raptor_init_parser_rss(raptor_world* world);
 int raptor_init_parser_rdfa(raptor_world* world);
 int raptor_init_parser_json(raptor_world* world);
 int raptor_init_parser_nquads(raptor_world* world);
 
-void raptor_terminate_parser_grddl_common(raptor_world *world);
+//void raptor_terminate_parser_grddl_common(raptor_world *world);
 
 #ifdef RAPTOR_PARSER_RDFA
 #define rdfa_add_item raptor_librdfa_rdfa_add_item

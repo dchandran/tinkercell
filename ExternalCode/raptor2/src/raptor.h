@@ -99,9 +99,9 @@ extern "C" {
 #      define RAPTOR_API
 #    else
 #      ifdef RAPTOR_INTERNAL
-#        define RAPTOR_API _declspec(dllexport)
+#        define RAPTOR_API __declspec(dllexport)
 #      else
-#        define RAPTOR_API _declspec(dllimport)
+#        define RAPTOR_API __declspec(dllimport)
 #      endif
 #    endif
 #  else

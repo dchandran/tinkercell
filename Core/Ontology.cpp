@@ -1,6 +1,9 @@
 #include "ItemFamily.h"
 #include "Ontology.h"
-#include "raptor.h"
+extern "C"
+{
+	#include "raptor.h"
+}
 
 namespace Tinkercell
 {

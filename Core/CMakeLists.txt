@@ -99,7 +99,7 @@ TARGET_LINK_LIBRARIES( TinkerCellCore
   qwt           #for plotting
   qwtplot3d   #for plotting 3D
   cluster      #for clustering plot data
-  raptor2
+  raptor2    #for parsing RDF
   ${QT_LIBRARIES}
 )
 

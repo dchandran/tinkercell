@@ -97,8 +97,6 @@ namespace Tinkercell
 	{
 		this->nodes = nodes;
 		this->colors.clear();
-
-		setPlainText(tr(""));
 		QList<QColor> colors;
 		colors << QColor("#CD0000") << QColor("#9803DD") << QColor("#1203DD")
 			   << QColor("#03DD8D") << QColor("#B6DD03") << QColor("#DDAC03");
@@ -341,7 +339,7 @@ namespace Tinkercell
 			AutoGeneRegulatoryTool::findAllParts(node,tr("Part"),handlesDown,false,QStringList());
 		}
 		
-		if (!handlesDown.contains(h))
+		if (h && h->isA("Part") && !handlesDown.contains(h))
 			handlesDown.push_front(h);
 
 		while (!handlesUp.isEmpty())

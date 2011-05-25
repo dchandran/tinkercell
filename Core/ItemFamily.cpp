@@ -208,14 +208,15 @@ namespace Tinkercell
 		ItemFamily * p = 0;
 		int maxd = 0, d = 0;
 		for (int i=0; i < parentFamilies.size(); ++i)
-		{
-			d = parentFamilies[i]->depth();
-			if (p==0 || d > maxd)
+			if (parentFamilies[i])
 			{
-				p = parentFamilies[i];
-				maxd = d;
+				d = parentFamilies[i]->depth();
+				if (p==0 || d >= maxd)
+				{
+					p = parentFamilies[i];
+					maxd = d;
+				}
 			}
-		}
 		return p;
 	}
 
@@ -354,7 +355,20 @@ namespace Tinkercell
 	ItemFamily* ConnectionFamily::parent() const
 	{
 		if (parentFamilies.isEmpty()) return 0;
-		return parentFamilies.last();
+		ItemFamily * p = 0;
+		int maxd = 0, d = 0;
+		for (int i=0; i < parentFamilies.size(); ++i)
+			if (parentFamilies[i])
+			{
+				d = parentFamilies[i]->depth();
+				if (p==0 || d >= maxd)
+				{
+					p = parentFamilies[i];
+					maxd = d;
+				}
+			}
+		return p;
+
 	}
 
 	QList<ItemFamily*> ConnectionFamily::parents() const
@@ -392,22 +406,16 @@ namespace Tinkercell
 				return false;
 
 		NodeHandle * h;
-		
+
 		if ((full && nodes.size() != nodeRoles.size()) ||
 			(nodes.size() > nodeRoles.size()))
 		{
 			return false;
 		}
 		
-		QVector<bool> allIncluded(nodeRoles.size());
 		bool b;
 		int boolean1 = 0, boolean2 = 1;
-		
-		/*for (int i=0; i < nodeRoles.size(); ++i)
-		{
-			allIncluded[i] = false;
-		}*/
-		
+				
 		for (int i=0; i < nodes.size(); ++i)  //for each node in this connection
 		{
 			b = false;
@@ -524,9 +532,6 @@ namespace Tinkercell
 		for (int i=0; i < nodeRoles.size(); ++i)
 			if (ALLROLENAMES.size() > nodeRoles[i].first)
 				roles += ALLROLENAMES[ nodeRoles[i].first ];
-		
-		if (roles.isEmpty() && !parentFamilies.isEmpty() && parentFamilies.last())
-			roles = parentFamilies.last()->participantRoles();
 
 		return roles;
 	}
@@ -537,9 +542,6 @@ namespace Tinkercell
 		for (int i=0; i < nodeRoles.size(); ++i)
 			if (ItemFamily::ALLNAMES.size() > nodeRoles[i].second)
 				families += ItemFamily::ALLNAMES[ nodeRoles[i].second ];
-
-		if (families.isEmpty() && !parentFamilies.isEmpty() && parentFamilies.last())
-			families = parentFamilies.last()->participantTypes();
 
 		return families;
 	}

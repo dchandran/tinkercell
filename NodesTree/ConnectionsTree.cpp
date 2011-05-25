@@ -111,9 +111,9 @@ namespace Tinkercell
 			}
 		}
 		
-		for (int i=0; i < keys.size(); ++i)
+		for (int i=0; i < families.size(); ++i)
 		{
-			ConnectionFamily * conn = Ontology::connectionFamily(keys[i]);
+			ConnectionFamily * conn = families[i];
 			if (conn)
 				setConnectionGraphics(conn);
 		}
@@ -296,7 +296,6 @@ namespace Tinkercell
 	        QString appDir = QCoreApplication::applicationDirPath();
 			ConnectionFamily * parentFamily = ConnectionFamily::cast(family->parent());
            //set icon
-
 			if (family->pixmap.load(homeDir + QString("/Graphics/") + NodesTree::themeDirectory + QString("/Decorators/") + ConnectionsTree::iconFile(family)))
 					family->pixmap.setMask(family->pixmap.createMaskFromColor(QColor(255,255,255)));
 			   else
@@ -340,6 +339,20 @@ namespace Tinkercell
 	           		!parentFamily->graphicsItems.isEmpty() &&
 	                NodeGraphicsItem::cast(parentFamily->graphicsItems[0]))
 	                family->graphicsItems += (NodeGraphicsItem::topLevelNodeItem(parentFamily->graphicsItems[0]))->clone();
+
+				if (family->graphicsItems.isEmpty()) //still?
+				{
+					arrowImageFile = homeDir + tr("/Graphics/") + NodesTree::themeDirectory + tr("/Arrows/default.xml");
+			    	if (!QFile::exists(arrowImageFile))
+			    		arrowImageFile = appDir + tr("/Graphics/") + NodesTree::themeDirectory + tr("/Arrows/default.xml");
+
+			    	if (QFile::exists(arrowImageFile))
+			   	    {
+			   	   	    nodeitem = new ArrowHeadItem(arrowImageFile);
+			   	   	    if (nodeitem->isValid())
+			   	   	        family->graphicsItems += nodeitem;
+			   	    }
+				}
 		   }
 
 		   //decorator
@@ -376,19 +389,10 @@ namespace Tinkercell
 		            }
 		   }
 		   
-		   if (family && family->graphicsItems.isEmpty())
+		   /*if (family && family->graphicsItems.isEmpty())
 	       {
 	        	QString file;
-	        	file = homeDir + tr("/Graphics/") + NodesTree::themeDirectory + tr("/Arrows/default.xml");
-	        	if (!QFile::exists(file))
-	        		file = appDir + tr("/Graphics/") + NodesTree::themeDirectory + tr("/Arrows/default.xml");
-
-	        	if (QFile::exists(file))
-	       	    {
-	       	   	    NodeGraphicsItem * node = new ArrowHeadItem(file);
-	       	   	    if (node->isValid())
-	       	   	        family->graphicsItems += node;
-	       	    }
+	        	
 	       	    file = homeDir + tr("/Graphics/") + NodesTree::themeDirectory + tr("/Decorators/default.xml");
 	        	if (!QFile::exists(file))
 		        	file = appDir + tr("/Graphics/") + NodesTree::themeDirectory + tr("/Decorators/default.xml");
@@ -399,7 +403,7 @@ namespace Tinkercell
 	       	   	    if (node->isValid())
 	       	   	        family->graphicsItems += node;
 	       	    }
-	      }
+	      }*/
 
 		   QList<QToolButton*> buttons = treeButtons.values(family->name());
 

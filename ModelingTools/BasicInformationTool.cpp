@@ -264,8 +264,8 @@ namespace Tinkercell
 		tableItems.clear();
 		tableWidget.clear();
 		
-		QStringList eqns(equationsList.values());
-		QString equations = QStringList(equationsList.values()).join(" ");
+		//QStringList eqns(equationsList.values());
+		//QString equations = QStringList(equationsList.values()).join(" ");
 		closeButton->setVisible(false);
 
 		for (int i=0; i < items.size(); ++i)
@@ -526,6 +526,7 @@ namespace Tinkercell
 		QString appDir = QCoreApplication::applicationDirPath();
 		delegate.textColumn = 0;
 		if (typ == tr("both"))
+
 
 
 		{

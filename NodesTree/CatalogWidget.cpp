@@ -695,6 +695,29 @@ namespace Tinkercell
 		if (k < tabWidget->count() && k >= 0) tabWidget->setCurrentIndex(k);
 	}
 
+	void CatalogWidget::createNewGroup(const QString& group, const QStringList& names)
+	{
+		if (!tabWidget || !GlobalSettings::PROGRAM_MODE.isEmpty()) return;
+
+		int i=0;
+		for (i=0; i < tabGroupButtons.size() && i < tabGroups.size(); ++i)
+			if (group.toLower() == tabGroupButtons[i].first.toLower())
+			{
+				tabGroups[i].second << names;
+				break;
+			}
+
+		if (i >= tabGroupButtons.size())
+		{
+			i = tabGroupButtons.size();
+			QList<QToolButton*> noButtons;
+			tabGroupButtons << QPair< QString,QList<QToolButton*> >(group,noButtons);
+			tabGroups << QPair<QString, QStringList>(group,names);
+		}
+
+		makeTabWidget();
+	}
+
 	QList<QToolButton*> CatalogWidget::addNewButtons(const QString& group, const QStringList& names, const QList<QIcon>& icons, const QStringList& tooltips)
 	{
 		QList<QToolButton*> newButtons;
@@ -763,13 +786,13 @@ namespace Tinkercell
 													QStringList() << "compartment")
                    << QPair<QString, QStringList>(
 													tr(" Regulation "),
-													QStringList() << "activation" << "repression" 
-                                                                            << "allosteric regulation"                                                                             
+													QStringList()  << "allosteric regulation"                                                                             
                                                                             << "catalysis" << "transcription regulation" 
                                                                             << "direct gene regulation")
 					<< QPair<QString, QStringList>(
 													tr(" Reaction "),
-													QStringList() << tr("1 to 1")  << tr("1 to 2")  << tr("1 to 3")
+													QStringList() << "activation" << "repression" 
+																		  << tr("1 to 1")  << tr("1 to 2")  << tr("1 to 3")
 																		  << tr("2 to 1") << tr("2 to 2") << tr("2 to 3")
 																		  << tr("3 to 1") << tr("3 to 2") << tr("3 to 3"));
 

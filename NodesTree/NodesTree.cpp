@@ -8,7 +8,6 @@
  This tool also stores the tree of node families as a hashtable of <name,family> pairs.
 
 ****************************************************************************/
-#include <iostream>
 #include "Ontology.h"
 #include "NodesTree.h"
 #include <QtDebug>
@@ -94,7 +93,7 @@ namespace Tinkercell
 				parentTreeItems += treeItem;
 			}
 		}
-			
+		
 		for (int i=0; i < keys.size(); ++i)
 		{
 			NodeFamily * node = Ontology::nodeFamily(keys[i]);
@@ -124,9 +123,9 @@ namespace Tinkercell
 			}
 		}
 		
-		for (int i=0; i < keys.size(); ++i)
+		for (int i=0; i < families.size(); ++i)
 		{
-			NodeFamily * node = Ontology::nodeFamily(keys[i]);
+			NodeFamily * node = families[i];
 			if (node)
 				setNodeGraphics(node);
 		}
@@ -153,7 +152,6 @@ namespace Tinkercell
 
      void NodesTree::buttonPressed(NodeFamily * node)
      {
-		std::cout << "node selected " << node->name().toAscii().data() << "\n";
           if (node)
           {
 			   emit sendEscapeSignal(this);

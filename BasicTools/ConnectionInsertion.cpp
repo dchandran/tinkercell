@@ -1436,9 +1436,7 @@ namespace Tinkercell
 				}
 		}
 		
-		console()->message(tr("selectedFamily : ")  + selectedFamily->name());
 		QList<ItemFamily*> childFamilies = selectedFamily->findValidChildFamilies(nodeHandles,all);
-		console()->message(tr("child families : ")  + QString::number(int(all)) + tr("   : ") + QString::number(childFamilies.size()));
 		
 		if (childFamilies.isEmpty())// || !ConnectionFamily::cast(childFamilies.first()))
 		{
@@ -1452,7 +1450,6 @@ namespace Tinkercell
 			setRequirements(all);
 			if (childFamilies.size() != 1)
 				selectedFamily = original;
-			console()->message(tr("selectedFamily : ")  + selectedFamily->name());
 			return true;
 		}
 

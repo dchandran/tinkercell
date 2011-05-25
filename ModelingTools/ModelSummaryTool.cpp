@@ -613,8 +613,8 @@ namespace Tinkercell
 					}
 				}
 				
-				if ( handle &&
-					(handle->children.isEmpty() || NodeHandle::cast(handle)))
+				if ( handle )
+					//&&	(handle->children.isEmpty() || NodeHandle::cast(handle)))
 					itemHandles += handle;
 			}
 
@@ -681,12 +681,17 @@ namespace Tinkercell
 		
 		if (tabWidget)
 		{
+			tabWidget->clear();
 			emit displayModel(*tabWidget, itemHandles, constants, equations);
-			if (names.size() > 0 && (tabWidget->count() < 1 || tabWidget->tabText(0) != tr("Formulas")))
-				tabWidget->insertTab(0,&groupBox,tr("Initial Values"));
-			else
-				tabWidget->insertTab(1,&groupBox,tr("Initial Values"));
-			tabWidget->setCurrentIndex(0);
+			if (tableWidget.rowCount() > 0)
+			{
+				if (names.size() > 0 && (tabWidget->count() < 1 || tabWidget->tabText(0) != tr("Formulas")))
+					tabWidget->insertTab(0,&groupBox,tr("Initial Values"));
+				else
+					tabWidget->insertTab(1,&groupBox,tr("Initial Values"));
+			}
+			if (tabWidget->count() > 0)
+				tabWidget->setCurrentIndex(0);
 		}
 		
 		connect(&tableWidget,SIGNAL(cellChanged(int,int)),this,SLOT(setValue(int,int)));

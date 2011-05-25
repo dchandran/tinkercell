@@ -68,12 +68,16 @@ namespace Tinkercell
 		/*! \brief connect to escape signal and add docking widget*/
 		bool setMainWindow(MainWindow * );
 		/*! \brief insert new button into the widget under the specific group
-		* \param QStringList names of the buttons
 		* \param QString category of the button
 		* \param QList<QIcon> icons for the buttons
 		* \param QStringList tool tip text for each button
 		*/
         QList<QToolButton*> addNewButtons(const QString& group, const QStringList&, const QList<QIcon>& icons = QList<QIcon>(), const QStringList& tooltips = QStringList());
+		/*! \brief create new tab 
+		* \param QString group
+		* \param QStringList names of families in the group
+		*/
+       void createNewGroup(const QString& group, const QStringList& = QStringList());
 		/*! \brief show button for one or more families
 		* \param QStringList names of the families
 		*/

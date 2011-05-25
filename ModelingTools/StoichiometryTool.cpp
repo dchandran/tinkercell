@@ -292,11 +292,11 @@ namespace Tinkercell
 					updateWidgets();
 				}
 				
-				if (connection && connection->hasTextData(tr("Rate equations")))
+				if (connectionHandle && connectionHandle->hasTextData(tr("Rate equations")))
 				{
-					TextDataTable & eqns = connection->textDataTable(tr("Rate equations"));
+					TextDataTable & eqns = connectionHandle->textDataTable(tr("Rate equations"));
 					for (int j=0; j < eqns.rows(); ++j)
-						equations[ connection->fullName() + tr(".row") + QString::number(j)  ] = eqns(j,0);
+						equations[ connectionHandle->fullName() + tr(".row") + QString::number(j)  ] = eqns(j,0);
 				}
 			}
 	}
@@ -1075,6 +1075,7 @@ namespace Tinkercell
 			!pickRow2 ||
 			!connectionHandle->hasTextData(tr("Rate equations")))
 		{
+			connectionHandle = 0;
 			if (ratePlotWidget)
 				ratePlotWidget->hide();
 			if (stoichiometryWidget)
@@ -1083,6 +1084,18 @@ namespace Tinkercell
 		}
 
 		TextDataTable& ratesTable = connectionHandle->textDataTable(tr("Rate equations"));
+		NumericalDataTable & reactants = connectionHandle->numericalDataTable(tr("Reactant stoichiometries")),
+						   & products = connectionHandle->numericalDataTable(tr("Product stoichiometries"));
+		if (ratesTable.rows() < 1 ||
+			((reactants.columns() < 1) && (products.columns() < 1)))
+		{
+			connectionHandle = 0;
+			if (ratePlotWidget)
+				ratePlotWidget->hide();
+			if (stoichiometryWidget)
+				stoichiometryWidget->hide();
+			return;
+		}
 		QString s = pickRow1->currentText();
 		pickRow1->clear();
 		pickRow2->clear();

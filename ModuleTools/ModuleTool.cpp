@@ -47,8 +47,6 @@ namespace Tinkercell
     	
         setPalette(QPalette(QColor(255,255,255,255)));
         setAutoFillBackground(true);
-        mode = none;
-        lineItem.setPen(QPen(QColor(255,10,10,255),2.0,Qt::DotLine));
 		connect(fToS, SIGNAL(doSubstituteModel(QSemaphore*, ItemHandle*, const QString&)),
 						this, SLOT(doSubstituteModel(QSemaphore*, ItemHandle*, const QString&)));
     }
@@ -374,12 +372,6 @@ namespace Tinkercell
 		Tool::setMainWindow(main);
         if (mainWindow != 0)
         {
-        	connect(mainWindow,SIGNAL(itemsDropped(GraphicsScene *, const QString&, const QPointF&)),
-				this, SLOT(itemsDropped(GraphicsScene *, const QString&, const QPointF&)));
-        	
-			connect(mainWindow,SIGNAL(mousePressed(GraphicsScene *, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)),
-					this,SLOT(sceneClicked(GraphicsScene *, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)));
-
 			connect(mainWindow,SIGNAL(mouseDoubleClicked(GraphicsScene*, QPointF, QGraphicsItem*, Qt::MouseButton, Qt::KeyboardModifiers)),
                     this,SLOT(mouseDoubleClicked(GraphicsScene*, QPointF, QGraphicsItem*, Qt::MouseButton, Qt::KeyboardModifiers)));
             
@@ -388,9 +380,6 @@ namespace Tinkercell
 
 			connect(mainWindow,SIGNAL(mouseMoved(GraphicsScene* , QGraphicsItem*, QPointF , Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>&)),
                     this,SLOT(mouseMoved(GraphicsScene* , QGraphicsItem*, QPointF , Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>&)));
-
-			connect(mainWindow,SIGNAL(escapeSignal(const QWidget*)),
-					this,SLOT(escapeSignal(const QWidget*)));
 
             connect(mainWindow,SIGNAL(itemsAboutToBeInserted(GraphicsScene*,QList<QGraphicsItem *>&, QList<ItemHandle*>&, QList<QUndoCommand*>&)),
 					this, SLOT(itemsAboutToBeInserted(GraphicsScene*,QList<QGraphicsItem *>&, QList<ItemHandle*>&, QList<QUndoCommand*>&)));
@@ -492,7 +481,7 @@ namespace Tinkercell
 			
 			if (s.isEmpty() || s.contains(tr("Custom...")))
 			{
-				QMessageBox::information(mainWindow, tr("Cannot export"), tr("Sorry, custom model families cannot be added through this interface at this point. If you are really interested, then take a look at Modules.xml in the TinkerCell home folder."));
+				QMessageBox::information(mainWindow, tr("Cannot export"), tr("Sorry, custom model families cannot be added through this interface at this point. If you are really interested, then take a look at Modules.nt in the TinkerCell home folder."));
 				return;
 			}
 			
@@ -630,42 +619,48 @@ namespace Tinkercell
 				moduleFamily->pixmap = QPixmap(tr(":/images/module.png"));
 				moduleFamily->description = tr("Self-contained subsystem that can be used to build larger systems");
 				moduleFamily->textAttributes[tr("Functional description")] = tr("");
-				moduleFamily->graphicsItems << new ArrowHeadItem(interfaceFileName)
-											 << new ArrowHeadItem(moduleFileName);				
+				moduleFamily->graphicsItems << new ArrowHeadItem(appDir + tr("/Graphics/") + NodesTree::themeDirectory + tr("/Arrows/default.xml"))
+				 											    << new ArrowHeadItem(moduleFileName);
+				connectionsTree->insertFamily(moduleFamily,0);
 
 				if (QFile::exists(home + tr("/Modules/modules.nt")))
 					connectionsTree->readTreeFile(home + tr("/Modules/modules.nt"));
 				else
-				if (QFile::exists(appDir + tr("/Modules/modules.xml")))				
+				if (QFile::exists(appDir + tr("/Modules/modules.nt")))				
 					connectionsTree->readTreeFile(appDir + tr("/Modules/modules.nt"));
-				
-				QList<ItemFamily*> childFamilies = moduleFamily->allChildren();
 
-				if (childFamilies.isEmpty())
-					QMessageBox::information(this, tr("No modules"), tr("Sub-models will not be automatically generated because there are no modules in ") + home + tr("/Modules/modules.nt\nCheck to see if you have subversion correctly installed, which is used to automatically download modules."));
-				
-				for (int i=0; i < childFamilies.size(); ++i)
+				moduleFamily = connectionsTree->getFamily(tr("Module"));
+
+				if (moduleFamily)
 				{
-					QString s = childFamilies[i]->name();
-					s.replace(tr(" "),tr("_"));
-					QString dirname = home + tr("/Modules/") + s;
-					QDir dir(dirname);
+					QList<ItemFamily*> childFamilies = moduleFamily->allChildren();
 
-					if (!dir.exists())
-						dir.setPath(home + tr("/Modules/") + s.toLower());
+					if (childFamilies.isEmpty())
+						QMessageBox::information(this, tr("No modules"), tr("Sub-models will not be automatically generated because there are no modules in ") + home + tr("/Modules/modules.nt\nCheck to see if you have subversion correctly installed, which is used to automatically download modules."));
 				
-					if (!dir.exists())
-						dir.setPath(appDir + tr("/Modules/") + s);
+					for (int i=0; i < childFamilies.size(); ++i)
+					{
+						QString s = childFamilies[i]->name();
+						s.replace(tr(" "),tr("_"));
+						QString dirname = home + tr("/Modules/") + s;
+						QDir dir(dirname);
+
+						if (!dir.exists())
+							dir.setPath(home + tr("/Modules/") + s.toLower());
+				
+						if (!dir.exists())
+							dir.setPath(appDir + tr("/Modules/") + s);
 					
-					if (!dir.exists())
-						dir.setPath(appDir + tr("/Modules/") + s.toLower());
+						if (!dir.exists())
+							dir.setPath(appDir + tr("/Modules/") + s.toLower());
 				
-					if (dir.exists())
-						moduleFamilyNames << childFamilies[i]->name();
-				}
+						if (dir.exists())
+							moduleFamilyNames << childFamilies[i]->name();
+					}
 			
-				if (!exportModuleDialog)
-					initializeExportDialog();
+					if (!exportModuleDialog)
+						initializeExportDialog();
+				}
 			}
 		}
 
@@ -680,11 +675,8 @@ namespace Tinkercell
 			QList<QToolButton*> newButtons = catalogWidget->addNewButtons(
 				tr("Modules"),
 				QStringList() 	<< tr("New module"),
-								//<< tr("Connect input/output"),
 				QList<QIcon>() 	<< QIcon(QPixmap(tr(":/images/module.png"))),
-								//<< QIcon(QPixmap(tr(":/images/merge.png"))),
 				QStringList() 	<< tr("Modules are sub-models that can be used to substitute parts of a larger model. Modules can be shared between multiple TinkerCell users automatically.")
-								//<< tr("Use this to connect inputs and ouputs of two modules")
 				);
 			
 			if (!moduleFamilyNames.isEmpty())
@@ -692,203 +684,6 @@ namespace Tinkercell
 
 			connected1 = true;
 		}
-	}
-
-    void ModuleTool::escapeSignal(const QWidget* )
-    {
-		if (mode != none && currentScene())
-			currentScene()->useDefaultBehavior(true);
-
-		mode = none;
-		for (int i=0; i < selectedItems.size(); ++i)
-			selectedItems[i]->resetPen();
-		selectedItems.clear();
-		
-		lineItem.setVisible(false);
-        if (lineItem.scene())
-            lineItem.scene()->removeItem(&lineItem);
-    }
-
-	void ModuleTool::sceneClicked(GraphicsScene *scene, QPointF point, Qt::MouseButton button, Qt::KeyboardModifiers modifiers)
-	{
-		if (mode == none || button == Qt::RightButton || !scene || !scene->network || scene->useDefaultBehavior()) return;
-
-		QString appDir = QApplication::applicationDirPath();
-
-		if (mode == inserting)
-		{
-			/*Tool * tool = mainWindow->tool(tr("Nodes Tree"));
-			if (!tool) return;
-
-			NodesTree * nodesTree = static_cast<NodesTree*>(tool);
-
-			if (!nodesTree->getFamily(tr("Module"))) return;
-
-			NodeHandle * handle = new NodeHandle;
-			handle->name = scene->network->makeUnique(tr("mod1"));
-			NodeFamily * moduleFamily = nodesTree->getFamily(tr("Module"));
-			handle->setFamily(moduleFamily);
-
-			NodeGraphicsItem * image;
-			if (moduleFamily && moduleFamily->graphicsItems.size() > 0 && NodeGraphicsItem::cast(moduleFamily->graphicsItems[0]))
-			{
-				image = NodeGraphicsItem::cast(moduleFamily->graphicsItems[0])->clone();
-				image->scale(image->defaultSize.width()/image->sceneBoundingRect().width(),
-						 image->defaultSize.height()/image->sceneBoundingRect().height());
-			}
-			else
-			{
-				image = new NodeGraphicsItem(tr(":/images/Module.xml"));
-			}
-			
-			image->setPos(point);
-			image->adjustBoundaryControlPoints();
-			image->setHandle(handle);
-
-			TextGraphicsItem * text = new TextGraphicsItem(handle);
-			text->setPos(QPointF(point.x(),image->sceneBoundingRect().bottom() + 10.0));
-			text->scale(2,2);
-
-			scene->insert(handle->name + tr(" inserted"),QList<QGraphicsItem*>() << image << text);
-
-			return;*/
-		}
-
-		QList<QGraphicsItem*> items = scene->items(point);
-		QList<QGraphicsItem*> nodeItems;
-
-		for (int i=0; i < items.size(); ++i)
-			if (NodeGraphicsItem::cast(items[i]))
-				nodeItems << items[i];
-
-		if (nodeItems.size() < 1) return;
-
-		if (mode == linking)
-		{
-			ItemHandle * h;
-			
-			if (nodeItems.size() == 1 && (h = getHandle(nodeItems[0])))
-			{
-				scene->selected() = nodeItems;
-				select(0);
-			}
-			return;
-		}
-
-		if (mode == connecting && nodeItems.size() == 1)
-		{
-			selectedItems << NodeGraphicsItem::cast(nodeItems[0]);
-			//selectedItems.last()->setAlpha(100);
-
-			if (selectedItems.size() == 2)
-			{
-				ItemHandle * handle1 = selectedItems[0]->handle(),
-						   * handle2 = selectedItems[1]->handle();
-
-				if (!handle1 || !handle2 || !handle1->family() || !handle2->family())
-				{
-					QMessageBox::information(this, tr("Cannot connect"), tr("Cannot connect because these objects do not belong in any family"));
-					return;
-				}
-
-				if (!(handle1->family()->isA(handle2->family()) || handle2->family()->isA(handle1->family())))
-				{
-					QMessageBox::information(this,
-						tr("Cannot connect"),
-						 tr("Cannot connect because ") +
-						handle1->name + tr(" (") + handle1->family()->name() + tr(") and ") +
-						handle2->name + tr(" (") + handle2->family()->name() + tr(") are different types of objects")	);
-					return;
-				}
-
-				makeModuleConnection(selectedItems[0],selectedItems[1],scene);
-				for (int i=0; i < selectedItems.size(); ++i)
-					selectedItems[i]->resetPen();
-				selectedItems.clear();
-				
-				lineItem.setVisible(false);
-				if (lineItem.scene())
-				    lineItem.scene()->removeItem(&lineItem);
-			}
-		}
-	}
-
-	QUndoCommand * ModuleTool::moduleConnectionsInserted(QList<QGraphicsItem*>& items)
-	{
-		QStringList from, to;
-		ConnectionGraphicsItem * c;
-		for (int i=0; i < items.size(); ++i)
-			if ((c = ConnectionGraphicsItem::cast(items[i])) && (c->className == connectionClassName))
-			{
-				QList<NodeGraphicsItem*> nodes = c->nodes();
-				if (nodes.size() == 2 && nodes[0] && nodes[1])
-				{
-					ItemHandle * h1 = nodes[0]->handle(), * h2 = nodes[1]->handle();
-					if (h1 && h2 && h1 != h2)
-					{
-						int k = substituteFrom.indexOf(h2->fullName());
-						if (k >= 0)
-						{
-							substituteWith << substituteFrom[k];
-							to << substituteFrom[k];
-							
-							substituteFrom << h1->fullName();
-							from << h1->fullName();
-						}
-						else
-						{
-							substituteFrom << h1->fullName();
-							from << h1->fullName();
-							
-							substituteWith << h2->fullName();
-							to << h2->fullName();
-						}
-					}
-				}
-			}
-		return new RenameCommand(tr("Substitute items"),currentNetwork(),from,to);
-	}
-
-	QUndoCommand * ModuleTool::substituteStrings(const QList<ItemHandle*> & items)
-	{
-		return new RenameCommand(tr("Substitute items"),currentNetwork(),items,substituteFrom,substituteWith);
-	}
-
-	void ModuleTool::removeSubnetworks(QList<QGraphicsItem*>& items, QList<ItemHandle*>& handles)
-	{
-		ItemHandle * handle, * h;
-		QList<NodeGraphicsItem*> nodes;
-		ConnectionGraphicsItem * connection;
-		for (int i=0; i < items.size(); ++i)
-			if ((handle = getHandle(items[i])) && ConnectionFamily::cast(handle->family()))
-			{
-				for (int j=0; j < handle->children.size(); ++j)
-					if (handle->children[j])
-					{
-						QList<QGraphicsItem*> childItems = handle->children[j]->allGraphicsItems();
-						for (int k=0; k < childItems.size(); ++k)
-						{
-							items.removeAll(childItems[k]);
-							handles.removeAll( getHandle(childItems[k]) );
-							if (connection = ConnectionGraphicsItem::cast(childItems[k]))
-							{
-								nodes = connection->nodes();
-								for (int l=0; l < nodes.size(); ++l)
-								{
-									items.removeAll(nodes[l]);
-									QRectF rect = nodes[l]->sceneBoundingRect();
-									rect.adjust(-10,-10,10,10);
-									if (h=nodes[l]->handle())
-										for (int m=0; m < h->graphicsItems.size(); ++m)
-										{
-											if (rect.intersects(h->graphicsItems[m]->sceneBoundingRect()))
-												items.removeAll(h->graphicsItems[m]);
-										}
-								}
-							}
-						}
-					}
-			}
 	}
 	
 	void ModuleTool::itemsRenamed(NetworkHandle * network, const QList<ItemHandle*>& items, const QList<QString>& oldnames, const QList<QString>& newnames)
@@ -1115,6 +910,7 @@ namespace Tinkercell
 					{
 						filename = tr(":/images/expand.xml");
 					}
+
 					if (QFile::exists(filename))
 					{
 						ArrowHeadItem * newDecorator = new ArrowHeadItem(filename,connection);
@@ -1293,144 +1089,8 @@ namespace Tinkercell
 		
 		if (snapshotToolTip && snapshotToolTip->isVisible())
 			snapshotToolTip->hide();
-		
-		/*if (mode == connecting && scene && selectedItems.size() == 1 && selectedItems[0])
-        {
-            if (lineItem.scene() != scene)
-                scene->addItem(&lineItem);
-
-            if (!lineItem.isVisible())
-                lineItem.setVisible(true);
-
-            lineItem.setLine(QLineF(selectedItems[0]->scenePos(),point));
-            return;
-        }*/
     }
 
-    QList<QPointF> ModuleTool::pathAroundRect(QRectF rect1, QRectF rect2, QPointF p1, QPointF p2)
-    {
-        QList<QPointF> list;
-        qreal y;
-
-        if (p1.ry() > rect1.bottom() || p2.ry() > rect2.bottom())
-        {
-            y = p1.ry();
-            if (p2.ry() > p1.ry())
-                y = p2.ry();
-            y += 50.0;
-        }
-        else
-        {
-            y = p1.ry();
-            if (p2.ry() < y) y = p2.ry();
-            if (rect1.top() < y) y = rect1.top();
-            if (rect2.top() < y) y = rect2.top();
-            y -= 50.0;
-        }
-
-        list << QPointF(p1.rx(),y) << QPointF(p2.rx(),y);
-
-        return list;
-    }
-
-    void ModuleTool::makeModuleConnection(NodeGraphicsItem * link1, NodeGraphicsItem * link2,GraphicsScene * scene)
-    {
-        if (!link1 || !link2 || !scene) return;
-
-        ItemHandle * handle1 = getHandle(link1);
-        ItemHandle * handle2 = getHandle(link2);
-
-        if (!handle1 || !handle2 || !handle1->family() || !handle2->family()) return;
-
-        NodeGraphicsItem * module1 = 0;
-        NodeGraphicsItem * module2 = 0;
-        
-        if (handle1->parent)
-	        for (int i=0; i < handle1->parent->graphicsItems.size(); ++i)
-	        	if (module1 = NodeGraphicsItem::cast(handle1->parent->graphicsItems[i]))
-	        		break;
-
-        if (handle2->parent)
-	        for (int i=0; i < handle2->parent->graphicsItems.size(); ++i)
-	        	if (module2 = NodeGraphicsItem::cast(handle2->parent->graphicsItems[i]))
-	        		break;
-
-		QRectF rect1, rect2;
-		QPointF point1 = link1->scenePos(),
-				point2 = link2->scenePos();
-
-		if (module1)
-			rect1 = module1->sceneBoundingRect();
-		else
-			rect1 = link1->sceneBoundingRect();
-
-		if (point1.ry() >= rect1.bottom())
-			point1.ry() = link1->sceneBoundingRect().bottom();
-		else
-			if (point1.ry() <= rect1.top())
-				point1.ry() = link1->sceneBoundingRect().top();
-		else
-			if (point1.rx() >= rect1.right())
-				point1.rx() = link1->sceneBoundingRect().right();
-		else
-			if (point1.rx() <= rect1.left())
-				point1.rx() = link1->sceneBoundingRect().left();
-
-		if (module2)
-			rect2 = module2->sceneBoundingRect();
-		else
-			rect2 = link2->sceneBoundingRect();
-
-
-		if (point2.ry() >= rect2.bottom())
-			point2.ry() = link2->sceneBoundingRect().bottom();
-		else
-			if (point2.ry() <= rect2.top())
-				point2.ry() = link2->sceneBoundingRect().top();
-		else
-			if (point2.rx() >= rect2.right())
-				point2.rx() = link2->sceneBoundingRect().right();
-		else
-			if (point2.rx() <= rect2.left())
-				point2.rx() = link2->sceneBoundingRect().left();
-
-        QPointF midpt1(point1.rx(),point2.ry()), midpt2(point2.rx(),point1.ry());
-
-        QList<QPointF> path = pathAroundRect(rect1.adjusted(-20,-20,20,20),rect2.adjusted(-20,-20,20,20),point1,point2);
-
-        if (path.isEmpty())
-            return;
-
-        ConnectionGraphicsItem * connection = new ConnectionGraphicsItem;
-		connection->className = connectionClassName;
-		connection->setPen(connection->defaultPen = QPen(QColor(255,100,0,255),3.0));
-
-        QList<ItemHandle*> handles;
-        handles << handle1 << handle2;
-
-        ConnectionGraphicsItem::CurveSegment controlPoints;
-
-        controlPoints += new ConnectionGraphicsItem::ControlPoint(point1,connection,link1);
-        controlPoints += new ConnectionGraphicsItem::ControlPoint((point1+path.first())/2.0,connection);
-        controlPoints += new ConnectionGraphicsItem::ControlPoint((point1+path.first())/2.0,connection);
-        for (int i=0; i < path.size(); ++i)
-        {
-            if (i>0)
-            {
-                controlPoints += new ConnectionGraphicsItem::ControlPoint((path[i-1]+path[i])/2.0,connection);
-                controlPoints += new ConnectionGraphicsItem::ControlPoint((path[i-1]+path[i])/2.0,connection);
-            }
-            controlPoints += new ConnectionGraphicsItem::ControlPoint(path[i],connection);
-        }
-        controlPoints += new ConnectionGraphicsItem::ControlPoint((point2+path.last())/2.0,connection);
-        controlPoints += new ConnectionGraphicsItem::ControlPoint((point2+path.last())/2.0,connection);
-        controlPoints += new ConnectionGraphicsItem::ControlPoint(point2,connection,link2);
-
-        connection->curveSegments += controlPoints;
-        connection->lineType = ConnectionGraphicsItem::line;
-
-		scene->insert(tr("modules connected"),connection);
-    }    
 	
 	void ModuleTool::modelButtonClicked ( QAbstractButton * button )
 	{
@@ -1737,11 +1397,6 @@ namespace Tinkercell
 			//showNewModuleDialog();
 			exportModule();
 		}
-
-		//if (name == tr("Connect input/output")) mode = connecting;
-
-		if (mode != none)
-			scene->useDefaultBehavior(false);
 	}
 	
 	void ModuleTool::updateNumberForNewModule(int n)
@@ -1861,7 +1516,7 @@ namespace Tinkercell
 		newModuleFamily->setParent(moduleFamily);
 		newModuleFamily->pixmap = moduleFamily->pixmap;
 		newModuleFamily->description = moduleFamily->description;
-		newModuleFamily->graphicsItems << new ArrowHeadItem(interfaceFileName)
+		newModuleFamily->graphicsItems << new ArrowHeadItem(appDir + tr("/Graphics/") + NodesTree::themeDirectory + tr("/Arrows/default.xml"))
 										<< new ArrowHeadItem(moduleFileName);
 
 		
@@ -1882,16 +1537,6 @@ namespace Tinkercell
 		QStringList newModuleNames;
 		newModuleNames << newModuleFamily->name();
 		catalogWidget->showButtons(newModuleNames);
-	}
-
-	void ModuleTool::itemsDropped(GraphicsScene * scene, const QString& family, const QPointF& point)
-	{
-		if (scene && scene->network && family == tr("New module") && mode == none)
-		{
-			mode = inserting;
-			sceneClicked(scene, point, Qt::LeftButton, 0);
-			mode = none;
-		}
 	}
 	
 	void ModuleTool::doSubstituteModel(QSemaphore * sem, ItemHandle * parent, const QString& filename)

@@ -17,6 +17,7 @@
 #include "ModelFileGenerator.h"
 #include "SimulationEventTool.h"
 #include "ModuleTool.h"
+#include "WetLabTool.h"
 #include "AutoGeneRegulatoryTool.h"
 #include "DNASequenceTool.h"
 #include "ViewTablesTool.h"
@@ -144,6 +145,7 @@ int main(int argc, char *argv[])
 	mainWindow.addTool(new AntimonyEditor);
 	mainWindow.addTool(new EnglishExporter);	
 	mainWindow.addTool(new ModuleTool);
+	mainWindow.addTool(new WetLabTool);
 	mainWindow.addTool(new AutoGeneRegulatoryTool);
 	mainWindow.addTool(new DNASequenceViewer);
 	mainWindow.addTool(new ViewTablesTool);

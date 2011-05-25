@@ -6,7 +6,6 @@
 
 
 ****************************************************************************/
-#include <iostream>
 #include <QMimeData>
 #include <QDrag>
 #include "MainWindow.h"
@@ -15,7 +14,6 @@
 #include "NodeGraphicsReader.h"
 #include "ConnectionGraphicsItem.h"
 #include "TreeButton.h"
-
 
 namespace Tinkercell
 {
@@ -43,7 +41,6 @@ namespace Tinkercell
 	{
 		if (!nodeFamily)
 		{
-			std::cout << "no node family\n";
 			return;
 		}
 		
@@ -154,7 +151,6 @@ namespace Tinkercell
 	
 	void FamilyTreeButton::selected()
 	{
-		std::cout << "button pressed\n";
 		dragStarted = false;
 		if (dragContinued) return;
 		

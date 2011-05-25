@@ -97,6 +97,8 @@ namespace Tinkercell
 					if (s != family1->name())
 						Ontology::insertNodeFamily(s,family1);
 				}
+				if (!lastReadFamilyNames.contains(family1->name()))
+					lastReadFamilyNames << family1->name();
 				if (p == QObject::tr("a") || p == QObject::tr("isa") || p == QObject::tr("is a"))  //if isa relationship
 				{
 					o = o.toLower(); 
@@ -105,12 +107,13 @@ namespace Tinkercell
 					{
 						family2 = new NodeFamily(o);
 						Ontology::insertNodeFamily(o,family2);
-						lastReadFamilyNames << family2->name();
 						Ontology::insertNodeFamily(family2->name(),family2);
 						if (o != family2->name())
 							Ontology::insertNodeFamily(o,family2);
 					}
 					family1->setParent(family2);
+					if (!lastReadFamilyNames.contains(family2->name()))
+						lastReadFamilyNames << family2->name();
 				}
 				else
 				if (p.toLower() == QObject::tr("synonyms"))
@@ -191,11 +194,14 @@ namespace Tinkercell
 				{
 					family1 = new ConnectionFamily(s);
 					Ontology::insertConnectionFamily(s,family1);					
-					lastReadFamilyNames << family1->name();
 					Ontology::insertConnectionFamily(family1->name(),family1);
 					if (s != family1->name())
 						Ontology::insertConnectionFamily(s,family1);
 				}
+
+				if (!lastReadFamilyNames.contains(family1->name()))
+					lastReadFamilyNames << family1->name();
+
 				if (p == QObject::tr("a") || p == QObject::tr("isa") || p == QObject::tr("is a"))  //if isa relationship
 				{
 					o = o.toLower(); 
@@ -204,12 +210,13 @@ namespace Tinkercell
 					{
 						family2 = new ConnectionFamily(o);
 						Ontology::insertConnectionFamily(o,family2);
-						lastReadFamilyNames << family2->name();
 						Ontology::insertConnectionFamily(family2->name(),family2);
 						if (o != family2->name())
 							Ontology::insertConnectionFamily(o,family2);
 					}
 					family1->setParent(family2);
+					if (!lastReadFamilyNames.contains(family2->name()))
+						lastReadFamilyNames << family2->name();
 				}
 				else
 				if (p.toLower() == QObject::tr("synonyms"))
@@ -311,7 +318,15 @@ namespace Tinkercell
 					if (families[i]->description.isEmpty())
 						families[i]->description = parent->description;
 					if (families[i]->measurementUnitOptions.isEmpty())
-						families[i]->measurementUnitOptions = parent->measurementUnitOptions;				
+						families[i]->measurementUnitOptions = parent->measurementUnitOptions;
+					QStringList keys(parent->textAttributes.keys());
+					for (int j=0; j < keys.size(); ++j)
+						if (!families[i]->textAttributes.contains(keys[j]))
+							families[i]->textAttributes[ keys[j] ] = parent->textAttributes[ keys[j] ];
+					keys = QStringList(parent->numericalAttributes.keys());
+					for (int j=0; j < keys.size(); ++j)
+						if (!families[i]->numericalAttributes.contains(keys[j]))
+							families[i]->numericalAttributes[ keys[j] ] = parent->numericalAttributes[ keys[j] ];
 				}
 				
 				if (!families[i]->measurementUnitOptions.isEmpty())
@@ -342,12 +357,20 @@ namespace Tinkercell
 						QStringList roles = parent->participantRoles();
 						QStringList types = parent->participantTypes();
 						for (int j=0; j < roles.size() && j < types.size(); ++j)
-							parent->addParticipant(roles[j],types[j]);
+							families[i]->addParticipant(roles[j],types[j]);
 					}
 					if (families[i]->description.isEmpty())
 						families[i]->description = parent->description;
 					if (families[i]->measurementUnitOptions.isEmpty())
 						families[i]->measurementUnitOptions = parent->measurementUnitOptions;
+					QStringList keys(parent->textAttributes.keys());
+					for (int j=0; j < keys.size(); ++j)
+						if (!families[i]->textAttributes.contains(keys[j]))
+							families[i]->textAttributes[ keys[j] ] = parent->textAttributes[ keys[j] ];
+					keys = QStringList(parent->numericalAttributes.keys());
+					for (int j=0; j < keys.size(); ++j)
+						if (!families[i]->numericalAttributes.contains(keys[j]))
+							families[i]->numericalAttributes[ keys[j] ] = parent->numericalAttributes[ keys[j] ];
 				}
 				if (!families[i]->measurementUnitOptions.isEmpty())
 					families[i]->measurementUnit = families[i]->measurementUnitOptions.first();

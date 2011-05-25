@@ -36,6 +36,13 @@
  *
  * @author Manu Sporny
  */
+ 
+ 
+#if defined(__MINGW32__)
+	#define index strchr
+	#define rindix strrchr
+#endif /* __MINGW32__ */
+ 
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>

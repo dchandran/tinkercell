@@ -14,6 +14,9 @@ ADD_DEFINITIONS(-DRAPTOR_INTERNAL=1)
 
 IF(WIN32)
 	ADD_DEFINITIONS(-DWIN32)
+	IF (MINGW)
+		ADD_DEFINITIONS(-D__MINGW32__)
+	ENDIF(MINGW)
 ENDIF(WIN32)
 
 FILE( GLOB RAPTOR_SRC src/*.c src/*.y utils/*.c librdfa/*.c)
@@ -21,8 +24,8 @@ FILE( GLOB RAPTOR_SRC src/*.c src/*.y utils/*.c librdfa/*.c)
 #SET_SOURCE_FILES_PROPERTIES(${RAPTOR_SRC}  PROPERTIES LANGUAGE CXX)
 
 ADD_LIBRARY( raptor2
-#  SHARED
-  STATIC
+  SHARED
+#  STATIC
   ${RAPTOR_SRC} 
 )
 
@@ -33,4 +36,14 @@ TARGET_LINK_LIBRARIES( raptor2
    libcurl
    expat
 )
+
+#----------------------------------
+#  INSTALL libraptor in . (CPack)
+#----------------------------------
+
+IF ( WIN32 )
+   INSTALL(TARGETS raptor2 DESTINATION bin/../)
+ELSE ( WIN32 )
+   INSTALL(TARGETS raptor2 LIBRARY DESTINATION bin/../)
+ENDIF( WIN32 )
 

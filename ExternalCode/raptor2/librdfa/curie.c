@@ -22,6 +22,11 @@
  *
  * @author Manu Sporny
  */
+ #if defined(__MINGW32__)
+#define strtok_r( _s, _sep, _lasts ) \
+        ( *(_lasts) = strtok( (_s), (_sep) ) )
+#endif /* __MINGW32__ */
+
 #include "stdlib.h"
 #include "string.h"
 #include "stdio.h"

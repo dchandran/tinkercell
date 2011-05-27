@@ -1891,7 +1891,7 @@ namespace Tinkercell
 			if (boundingRect.height() > w)
 				w = boundingRect.height();
 			commands << new TransformCommand(
-							tr("circularize"), 
+							tr("Circular arrangement"), 
 							scene, 
 							QList<QGraphicsItem*>() << vector, 
 							QList<QPointF>() << QPointF(w/boundingRect.width(),w/boundingRect.height()), 
@@ -1955,24 +1955,31 @@ namespace Tinkercell
 		}
 
 		QList<NodeGraphicsItem*> nodesInPlasmid;
+		QHash< QString, TextGraphicsItem* > textsInPlasmid;
 
 		for (int i=0; i < trueChildren.size(); ++i)
 			if (trueChildren[i])
 			{
 				list = trueChildren[i]->graphicsItems;
 				for (int j=0; j < list.size(); ++j)
-					if (NodeGraphicsItem::cast(list[j]) && list[j]->scene() == vector->scene())
-					{
-						nodesInPlasmid << NodeGraphicsItem::cast(list[j]);
-					}
+					if (list[j]->scene() == vector->scene())
+						if (NodeGraphicsItem::cast(list[j]))
+						{
+							nodesInPlasmid << NodeGraphicsItem::cast(list[j]);
+						}
+						else
+						if (TextGraphicsItem::cast(list[j]))
+						{
+							textsInPlasmid.insertMulti(trueChildren[i]->fullName(), TextGraphicsItem::cast(list[j]));
+						}
 			}
 		
 		//here comes the real part....
 		
 		QTransform t;
 
-		QList<QGraphicsItem*> itemsToMove, shapes;
-		QList<QPointF> moveBy;
+		QList<QGraphicsItem*> itemsToMove, textToMove, shapes;
+		QList<QPointF> moveBy, textMoveBy;
 		QList<qreal> rotateBy;
 		QList<bool> flips;
 		bool flip;
@@ -1980,7 +1987,7 @@ namespace Tinkercell
 		QList<QPen> noPens;
 
 		qreal angle;
-		QPointF p1, p2;
+		QPointF p1, p2, p3;
 
 		if (align && !nodesInPlasmid.isEmpty())
 		{
@@ -2006,7 +2013,7 @@ namespace Tinkercell
 				else
 					angle = atan((p1.y()-center.y())/(p1.x()-center.x()));
 
-				qreal w;
+				qreal w,w2;
 				if (flip)
 					w = p1.y() - nodesInPlasmid[i]->leftMostShape()->sceneBoundingRect().center().y();
 				else
@@ -2016,16 +2023,33 @@ namespace Tinkercell
 				{
 					p2.rx() = center.x() + cos(angle)*(radius + w);
 					p2.ry() = center.y() + sin(angle)*(radius + w);
+					w2 = nodesInPlasmid[i]->sceneBoundingRect().height() + 10.0;
+					p3.rx() = center.x() + cos(angle)*(radius + w2);
+					p3.ry() = center.y() + sin(angle)*(radius + w2);
 					angle += 3.14159/2.0;
 				}
 				else
 				{
 					p2.rx() = center.x() - cos(angle)*(radius + w);
 					p2.ry() = center.y() - sin(angle)*(radius + w);
+					w2 = nodesInPlasmid[i]->sceneBoundingRect().height() + 10.0;
+					p3.rx() = center.x() - cos(angle)*(radius + w2);
+					p3.ry() = center.y() - sin(angle)*(radius + w2);
 					angle -= 3.14159/2.0;
 				}
-
+				
 				QPointF dx = p2 - p1;
+				if (handle = getHandle(nodesInPlasmid[i]))
+				{
+					QList<TextGraphicsItem*> textItems = textsInPlasmid.values(handle->fullName());
+					for (int j=0; j < textItems.size(); ++j)
+						if (!textToMove.contains(textItems[j]))
+						{
+							textToMove += textItems[j];
+							textMoveBy += (p3 - textItems[j]->sceneBoundingRect().center() - QPointF(0,j*5.0));
+						}
+				}
+				
 				if (!itemsToMove.contains(nodesInPlasmid[i]))
 				{
 					itemsToMove += nodesInPlasmid[i];
@@ -2060,10 +2084,13 @@ namespace Tinkercell
 			}
 			
 			if (!itemsToMove.isEmpty())
-				commands 
-						 << new TransformCommand(tr("rotate"), scene, itemsToMove, QList<QPointF>(), rotateBy, flips, flips)
-						 << new MoveCommand(scene, itemsToMove, moveBy)
-						 << new ChangeBrushAndPenCommand(tr("invisible"),shapes, noBrushes, noPens);
+			{
+				commands << new TransformCommand(tr("rotate"), scene, itemsToMove, QList<QPointF>(), rotateBy, flips, flips);
+				itemsToMove += textToMove;
+				moveBy += textMoveBy;
+				commands << new MoveCommand(scene, itemsToMove, moveBy)
+								 << new ChangeBrushAndPenCommand(tr("invisible"),shapes, noBrushes, noPens);
+			}
 		}
 		
 		for (int i=0; i < children.size(); ++i)
@@ -2383,7 +2410,7 @@ namespace Tinkercell
     	if (!scene || !scene->network) return;
     	
     	NodeGraphicsItem * plasmidNode = 0;
-    	QList<NodeGraphicsItem*> partNodes;
+    	QList<QGraphicsItem*> partNodes;
     	
     	for (int i=0; i < plasmid->graphicsItems.size(); ++i)
     		if (NodeGraphicsItem::cast(plasmid->graphicsItems[i]) &&
@@ -2427,109 +2454,19 @@ namespace Tinkercell
 
 		if (partNodes.isEmpty()) return;
 		
-		QList<QUndoCommand*> commands;
-		QList<QGraphicsItem*> itemsToMove, shapes;
-		QList<QPointF> moveBy;
-		QList<qreal> rotateBy;
-		QList<bool> flips;
-		QList<QBrush> noBrushes;
-		QList<QPen> noPens;
+		QRectF rect = plasmidNode->sceneBoundingRect();
+		qreal dx = (rect.width()-10.0)/partNodes.size();
+		QList<QPointF> distances;
 		
-		qreal w = 0, radius;
 		for (int i=0; i < partNodes.size(); ++i)
-			w += partNodes[i]->sceneBoundingRect().width();
-		
-		//make sure plasmid is large enough
-		QRectF boundingRect = plasmidNode->sceneBoundingRect();
-		if (boundingRect.width() < w)
 		{
-			commands << new TransformCommand(tr("plasmid size change"),  scene, plasmidNode,
-				QPointF(w/boundingRect.width(), w/boundingRect.height()),
-				0, false, false);
-			radius = w/2.0;
-		}
-		else
-		{
-			radius = boundingRect.width()/2.0;
+			distances += QPointF(rect.left(),rect.center().y()) + QPointF(i*dx, -30.0) - partNodes[i]->scenePos();
 		}
 		
-		QPointF center = boundingRect.center();
-		QPointF p1, p2;
+		scene->move(partNodes, distances);
 		
-		//main loop for all nodes
-		qreal xpos = boundingRect.left();
-    	for (int i=0; i < partNodes.size(); ++i)
-		{
-			p1.rx() = xpos;
-			p1.ry() = boundingRect.center().y();
-			xpos += partNodes[i]->sceneBoundingRect().width();
-			
-			qreal angle;
-			if (p1.x() == center.x())
-				if (p1.y() < center.y())
-					angle = 3.14159/2.0;
-				else
-					angle = -3.14159/2.0;
-			else
-				angle = atan((p1.y()-center.y())/(p1.x()-center.x()));
-
-			w = partNodes[i]->leftMostShape()->sceneBoundingRect().center().y() - p1.y();
-
-			if (p1.x() > center.x())
-			{
-				p2.rx() = center.x() + cos(angle)*(radius + w);
-				p2.ry() = center.y() + sin(angle)*(radius + w);
-				angle += 3.14159/2.0;
-			}
-			else
-			{
-				p2.rx() = center.x() - cos(angle)*(radius + w);
-				p2.ry() = center.y() - sin(angle)*(radius + w);
-				angle -= 3.14159/2.0;
-			}
-
-			QPointF dx = p2 - p1;
-			if (!itemsToMove.contains(partNodes[i]))
-			{
-				itemsToMove += partNodes[i];
-				moveBy += dx;
-				rotateBy += (angle * 180/3.14159);
-					
-				NodeGraphicsItem::Shape * shape1 = partNodes[i]->rightMostShape(),
-											  			 * shape2 = partNodes[i]->leftMostShape();
-				if (shape1 && shape2 && 
-					shape1->defaultBrush.color() == QColor(0,0,0) &&
-					 shape2->defaultBrush.color() == QColor(0,0,0))
-				{
-					shapes << shape1 << shape2;
-					noBrushes << QBrush(QColor(0,0,0,0)) << QBrush(QColor(0,0,0,0));
-					noPens << QPen(QColor(0,0,0,0)) << QPen(QColor(0,0,0,0));
-				}
-					
-				flips += false;
-	
-				QList<QGraphicsItem*> & graphicsItems = partNodes[i]->handle()->graphicsItems;
-				for (int j=0; j < graphicsItems.size(); ++j)
-					if ( partNodes[i] != graphicsItems[j] && 
-						graphicsItems[j]->sceneBoundingRect().intersects(boundingRect.adjusted(-10,-10,10,10)))
-					{
-						itemsToMove += graphicsItems[j];
-						moveBy += (p2 - p1);
-						rotateBy += 0.0;
-						flips += false;
-					}
-			}
-		}
-
-		if (!itemsToMove.isEmpty())
-		{
-			commands 
-					 << new TransformCommand(tr("rotate"), scene, itemsToMove, QList<QPointF>(), rotateBy, flips, flips)
-					 << new MoveCommand(scene, itemsToMove, moveBy)
-					 << new ChangeBrushAndPenCommand(tr("invisible"),shapes, noBrushes, noPens);
-			
-			scene->network->push(new CompositeCommand(tr("parts aligned on plasmid"), commands));
-		}
+		QUndoCommand * command = adjustPlasmid(scene, plasmidNode);
+		scene->network->push(command);
 		
 		if (sem)
 			sem->release();

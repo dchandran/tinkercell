@@ -95,6 +95,7 @@ namespace Tinkercell
 
 	void DNASequenceViewerTextEdit::updateText(const QList<ItemHandle*> & nodes)
 	{
+		setPlainText(tr(""));
 		this->nodes = nodes;
 		this->colors.clear();
 		QList<QColor> colors;
@@ -132,9 +133,9 @@ namespace Tinkercell
 		QTextCursor cursor = this->textCursor();
 
 		int k = cursor.position();
-		int j = 0;
+		int i=0, j = 0;
 
-		for (int i=0; i < nodes.size(); ++i)
+		for (i=0; i < nodes.size(); ++i)
 		{
 			if (nodes[i] && nodes[i]->hasTextData(tr("Text Attributes"))
 				&& nodes[i]->textDataTable(tr("Text Attributes")).hasRow(tr("sequence")))
@@ -145,7 +146,7 @@ namespace Tinkercell
 				}
 		}
 
-		return -1;
+		return (i-1);
 	}
 
 	void DNASequenceViewerTextEdit::updateNodes()
@@ -178,17 +179,27 @@ namespace Tinkercell
 			QTextCharFormat currentFormat = cursor.charFormat();
 			
 			int k = cursor.position();
-			while (cursor.charFormat() == currentFormat)
-					cursor.movePosition(QTextCursor::Left);
+			int start = k, len = 0;
+			while (cursor.charFormat().background().color() == currentFormat.background().color())
+			{
+					--start;
+					if (!cursor.movePosition(QTextCursor::Left)) break;
+			}
+			cursor.movePosition(QTextCursor::Right);
 
-			while (cursor.charFormat() == currentFormat)
-					cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor);
-					
-			QString text = cursor.selectedText();
+			while (cursor.charFormat().background().color() == currentFormat.background().color())
+			{
+					++len;
+					if (!cursor.movePosition(QTextCursor::Right)) break;
+			}
+			
+			QString text = toPlainText();
+			text = text.left(start + len);
+			text = text.right(len);
 			
 			if (i > -1)
 			{
-				emit highlight(nodes[i],colors[i]);
+				//emit highlight(nodes[i],colors[i]);
 				emit sequenceChanged(nodes[i], text);
 			}
 		}
@@ -305,15 +316,16 @@ namespace Tinkercell
 			{
 				if (!h->children.isEmpty())
 				{
+					NodeGraphicsItem * node2 = 0;
 					node = 0;
 					for (int j=0; j < h->children.size(); ++j)
 						if (h->children[j]->isA(tr("Part")))
 						{
 							for (int k=0; k < h->children[j]->graphicsItems.size(); ++k)
-								if (node = NodeGraphicsItem::cast(h->children[j]->graphicsItems[k]))
+								if (node2 = NodeGraphicsItem::cast(h->children[j]->graphicsItems[k]))
 									break;
-							if (node)
-								break;
+							if (node2 && (!node || (node->scenePos().x() > node2->scenePos().x())))
+								node = node2;
 						}
 				}
 				
@@ -344,7 +356,9 @@ namespace Tinkercell
 
 		while (!handlesUp.isEmpty())
 		{
-			handlesDown.push_front(handlesUp.first());
+			h = handlesUp.first();
+			if (!handlesDown.contains(h))
+				handlesDown.push_front(h);
 			handlesUp.pop_front();
 		}
 

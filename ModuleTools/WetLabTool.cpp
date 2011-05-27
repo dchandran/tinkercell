@@ -27,9 +27,7 @@
 
 namespace Tinkercell
 {
-	#define WINDOW_WIDTH 200
-
-    WetLabTool::WetLabTool() : Tool(tr("Wet-Lab Data Tool"),tr("Module tools"))
+    WetLabTool::WetLabTool() : Tool(tr("Wet-Lab Data Tool"),tr("Module tools")), nodesTree(0), connectionsTree(0)
     {
         setPalette(QPalette(QColor(255,255,255,255)));
         setAutoFillBackground(true);
@@ -50,7 +48,7 @@ namespace Tinkercell
                     
 			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
 
-			toolLoaded(mainWindow->tool(tr("")));
+			toolLoaded(0);
         }
 
         return true;
@@ -60,6 +58,8 @@ namespace Tinkercell
 	{
 		static bool connected1 = false;
 		QStringList familyNames;
+		QString appDir = QCoreApplication::applicationDirPath();
+		QString home = homeDir();
 		
 		if (mainWindow->tool(tr("Nodes Tree")) && !nodesTree)
 		{
@@ -73,8 +73,6 @@ namespace Tinkercell
 			connectionsTree = static_cast<ConnectionsTree*>(tool);
 		}
 
-		QString appDir = QCoreApplication::applicationDirPath();
-		QString home = homeDir();
 		ConnectionFamily * experimentFamily = connectionsTree->getFamily(tr("Experiment"));
 		NodeFamily * dataFamily = nodesTree->getFamily(tr("Data"));
 
@@ -86,13 +84,11 @@ namespace Tinkercell
 			dataFamily->textAttributes[tr("Functional description")] = tr("");
 			dataFamily->graphicsItems << new NodeGraphicsItem(tr(":/images/statistics.xml"));
 			nodesTree->insertFamily(dataFamily,0);
-
 			if (QFile::exists(home + tr("/Lab/wetlabdata.nt")))
 				nodesTree->readTreeFile(home + tr("/Lab/wetlabdata.nt"));
 			else
 			if (QFile::exists(appDir + tr("/Lab/wetlabdata.nt")))
 				nodesTree->readTreeFile(appDir + tr("/Lab/wetlabdata.nt"));
-
 			QList<ItemFamily*> childFamilies = dataFamily->allChildren();
 			familyNames << "data";
 			for (int i=0; i < childFamilies.size(); ++i)

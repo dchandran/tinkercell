@@ -601,7 +601,7 @@ namespace Tinkercell
 	************************************/
 
 	ConsoleWindow::ConsoleWindow(MainWindow * main)
-		: Tool(tr("Console Window")), commandTextEdit(main), _interpreter(0)
+		: Tool(tr("Console Window"),tr("Coding")), commandTextEdit(main), _interpreter(0)
 	{
 		setMainWindow(main);
 		if (mainWindow)

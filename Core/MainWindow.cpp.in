@@ -817,6 +817,7 @@ namespace Tinkercell
 
 	Tool * MainWindow::tool(const QString& s0) const
 	{
+		if (s0.isEmpty()) return 0;
 		QString s = s0.toLower();
 		Tool * p = 0;
 		if (toolsHash.contains(s))

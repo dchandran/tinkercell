@@ -54,11 +54,11 @@ namespace Tinkercell
 			QStringList lst = nodeSettings[i].split(tr(","));
 			if (lst.size() > 2)
 			{
-				nodeGraphicsFileNames[ lst[0] ] = lst[1];
-			 	expandedNodes[ lst[0] ] = (lst[2] == tr("expanded"));
+				nodeGraphicsFileNames.insert(lst[0].toLower().trimmed() , lst[1].trimmed());
+				expandedNodes.insert(lst[0].toLower().trimmed() , (lst[2] == tr("expanded")));
 			}
 		}
-
+		
 		QStringList keys;
 		if (filename.isEmpty())
 			keys = Ontology::readNodes(appDir + tr("/NodesTree/NodesTree.nt"),"ntriples");
@@ -77,7 +77,7 @@ namespace Tinkercell
 			}
 		}
 		
-		for (int i=0; i < families.size(); ++i)
+		for (int i=0; i < families.size(); ++i)		
 		{
 			QTreeWidgetItem* treeItem = new QTreeWidgetItem;
 			treeItem->setText(0,families[i]->name());
@@ -132,6 +132,8 @@ namespace Tinkercell
 
 		settings.endGroup();
 	}
+	
+	QHash<QString,QString> NodesTree::nodeGraphicsFileNames;
 
      NodesTree::NodesTree(QWidget * parent, const QString& filename) :
                Tool(tr("Nodes Tree"),tr("Parts Catalog"),parent)

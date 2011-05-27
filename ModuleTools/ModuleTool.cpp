@@ -593,6 +593,8 @@ namespace Tinkercell
 	void ModuleTool::toolLoaded(Tool*)
 	{
 		static bool connected1 = false;
+		QString appDir = QCoreApplication::applicationDirPath();
+		QString home = homeDir();
 		
 		if (mainWindow->tool(tr("Nodes Tree")) && !nodesTree)
 		{
@@ -606,9 +608,6 @@ namespace Tinkercell
 			Tool * tool = static_cast<Tool*>(mainWindow->tool(tr("Connections Tree")));
 			connectionsTree = static_cast<ConnectionsTree*>(tool);
 		}
-
-		QString appDir = QCoreApplication::applicationDirPath();
-		QString home = homeDir();
 		
 		if (connectionsTree)
 		{

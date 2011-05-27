@@ -178,7 +178,7 @@ namespace Tinkercell
         QString temporaryFileName;
 
         /*! \brief store all the node graphics file names*/
-        QHash<QString,QString> nodeGraphicsFileNames;
+        static QHash<QString,QString> nodeGraphicsFileNames;
         
         void setupThemesDialog();
         QDialog * selectThemesDialog;

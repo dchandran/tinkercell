@@ -22,7 +22,7 @@
         <listOfStyles>
             <style idList="statistics" width="100" height="100">
                 <g>
-                    <polygon fill="shape0color" stroke="#000ba8" stroke-width="2" stroke-alpha="1">
+                    <polygon fill="shape0color" stroke="#02135e" stroke-width="2" stroke-alpha="1">
                         <listOfCurveSegments>
                             <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                                 <start x="0%" y="46.0829%"/>
@@ -46,7 +46,7 @@
                             </curveSegment>
                         </listOfCurveSegments>
                     </polygon>
-                    <polygon fill="shape1color" stroke="#000ba8" stroke-width="2" stroke-alpha="1">
+                    <polygon fill="shape1color" stroke="#02135e" stroke-width="2" stroke-alpha="1">
                         <listOfCurveSegments>
                             <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                                 <start x="9.3254%" y="59.447%"/>
@@ -66,7 +66,7 @@
                             </curveSegment>
                         </listOfCurveSegments>
                     </polygon>
-                    <polygon fill="shape2color" stroke="#6f6f6f" stroke-width="2" stroke-alpha="1">
+                    <polygon fill="shape2color" stroke="#02135e" stroke-width="2" stroke-alpha="1">
                         <listOfCurveSegments>
                             <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                                 <start x="19.4444%" y="52.0737%"/>
@@ -266,7 +266,7 @@
                             </curveSegment>
                         </listOfCurveSegments>
                     </polygon>
-                    <polygon fill="shape12color" stroke="#6f6f6f" stroke-width="2" stroke-alpha="1">
+                    <polygon fill="shape12color" stroke="#02135e" stroke-width="2" stroke-alpha="1">
                         <listOfCurveSegments>
                             <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                                 <start x="37.3016%" y="71.4286%"/>
@@ -286,7 +286,7 @@
                             </curveSegment>
                         </listOfCurveSegments>
                     </polygon>
-                    <polygon fill="shape13color" stroke="#000ba8" stroke-width="2" stroke-alpha="1">
+                    <polygon fill="shape13color" stroke="#02135e" stroke-width="2" stroke-alpha="1">
                         <listOfCurveSegments>
                             <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                                 <start x="16.0714%" y="69.3548%"/>
@@ -306,7 +306,7 @@
                             </curveSegment>
                         </listOfCurveSegments>
                     </polygon>
-                    <polygon fill="shape14color" stroke="#000ba8" stroke-width="2" stroke-alpha="1">
+                    <polygon fill="shape14color" stroke="#02135e" stroke-width="2" stroke-alpha="1">
                         <listOfCurveSegments>
                             <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                                 <start x="24.6032%" y="80.8756%"/>

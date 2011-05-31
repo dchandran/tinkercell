@@ -963,7 +963,8 @@ namespace Tinkercell
 	{
 		if (currentScene())
 		{
-			currentScene()->move( currentScene()->moving() , QPointF(dx,dy) );
+			QList<QGraphicsItem*> items = currentScene()->selected();
+			currentScene()->move( items , QPointF(dx,dy) );
 		}
 		if (sem)
 			sem->release();

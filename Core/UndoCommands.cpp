@@ -3300,13 +3300,13 @@ namespace Tinkercell
 	{
 		if (renameCommand)
 			delete renameCommand;
-		for (int i=0; i < children.size(); ++i)
+		/*for (int i=0; i < children.size(); ++i)
 			if (children[i] && !MainWindow::invalidPointers.contains((void*)children[i]))
 			{
 				delete children[i];
 				MainWindow::invalidPointers[ (void*)children[i] ] = true;
 				children[i] = 0;
-			}
+			}*/
 	}
 
 	void SetParentHandleCommand::redo()

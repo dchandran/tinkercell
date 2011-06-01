@@ -1153,7 +1153,7 @@ namespace Tinkercell
                     for (int j=0; j < dataTable->rows(); ++j)
                     {
                     if ((mustHave.isEmpty() || mustHave.contains(dataTable->rowName(j).toLower()) || mustHave.contains(dataTable->rowName(j)))
-                        && (exclude.isEmpty() || !(exclude.contains(dataTable->rowName(j).toLoger()) || exclude.contains(dataTable->rowName(j)))))
+                        && (exclude.isEmpty() || !(exclude.contains(dataTable->rowName(j).toLower()) || exclude.contains(dataTable->rowName(j)))))
 						{
 							if (handle->name.isEmpty())
 								s = dataTable->rowName(j);

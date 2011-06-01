@@ -694,6 +694,39 @@ namespace Tinkercell
 		}
 	}
 
+	void ConsoleWindow::printTable(const DataTable<QString>& table)
+	{
+		QString outputs;
+
+		QStringList colnames = table.columnNames(), rownames = table.rowNames();
+
+		outputs += tr("\n");
+		for (int i=0; i < colnames.size(); ++i)
+		{
+			outputs += tr("\t") + colnames.at(i);
+		}
+		outputs += tr("\n");
+		for (int i=0; i < table.rows(); ++i)
+		{
+			outputs += rownames.at(i);
+			for (int j=0; j < table.columns(); ++j)
+			{
+				outputs += tr("\t") + (table.at(i,j));
+			}
+			outputs += tr("\n");
+		}
+
+		commandTextEdit.message(outputs);
+
+		if (!outputs.isEmpty())
+		{
+			if (parentWidget())
+				parentWidget()->show();
+			else
+				show();
+		}
+	}
+
 	void ConsoleWindow::freeze()
 	{
 		commandTextEdit.freeze();
@@ -785,6 +818,14 @@ namespace Tinkercell
 			cursor.insertText(tr("family: "));
 			cursor.setCharFormat(messageFormat);
 			cursor.insertText(h->family()->name() + tr("\n"));
+		}
+
+		if (h->parent)
+		{
+			cursor.setCharFormat(tableHeaderFormat);
+			cursor.insertText(tr("parent: "));
+			cursor.setCharFormat(messageFormat);
+			cursor.insertText(h->parent->fullName() + tr("\n"));
 		}
 
 		QList<QString> keys = h->numericalDataNames();

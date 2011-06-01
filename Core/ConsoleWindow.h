@@ -200,6 +200,8 @@ namespace Tinkercell
 		virtual void error(const QString&);
 		/*! \brief print a data table (tab-delimited) in the output window*/
 		virtual void printTable(const DataTable<qreal>& dataTable);
+		/*! \brief print a data table (tab-delimited) in the output window*/
+		virtual void printTable(const DataTable<QString>& dataTable);
 		/*! \brief clear the output window*/
 		virtual void clear();
 		/*! \brief freeze the output window. Frozen window will not be responsive to commands*/

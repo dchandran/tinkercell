@@ -49,6 +49,9 @@ namespace Tinkercell
         setAutoFillBackground(true);
 		connect(fToS, SIGNAL(doSubstituteModel(QSemaphore*, ItemHandle*, const QString&)),
 						this, SLOT(doSubstituteModel(QSemaphore*, ItemHandle*, const QString&)));
+						
+		if (!textTablesToBeReplaced.contains(tr("Units")))
+			textTablesToBeReplaced << tr("Units");
     }
 
 	//insert interface node

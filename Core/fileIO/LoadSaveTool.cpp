@@ -1087,6 +1087,7 @@ namespace Tinkercell
 	{
 		units.description() = tr("Measurement units");
 		QList<NodeFamily*> nodes = Ontology::allNodeFamilies();
+		units.resize(0,0);
 		
 		for (int i=0; i < nodes.size(); ++i)
 			if (!nodes[i]->measurementUnit.name.isEmpty() && 

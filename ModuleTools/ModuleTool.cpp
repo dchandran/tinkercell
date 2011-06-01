@@ -50,8 +50,8 @@ namespace Tinkercell
 		connect(fToS, SIGNAL(doSubstituteModel(QSemaphore*, ItemHandle*, const QString&)),
 						this, SLOT(doSubstituteModel(QSemaphore*, ItemHandle*, const QString&)));
 						
-		if (!textTablesToBeReplaced.contains(tr("Units")))
-			textTablesToBeReplaced << tr("Units");
+		if (!textTablesToBeRemoved.contains(tr("Units")))
+			textTablesToBeRemoved << tr("Units");
     }
 
 	//insert interface node
@@ -300,7 +300,23 @@ namespace Tinkercell
 			QList<NodeHandle*> nodes;
 			if (ConnectionHandle::cast(parentHandle))
 				nodes = ConnectionHandle::cast(parentHandle)->nodes();
-			
+
+			for (int k=0; k < textTablesToBeRemoved.size(); ++k)
+					if (parentHandle->hasTextData(textTablesToBeRemoved[k]))
+					{
+						TextDataTable * table2 = &(parentHandle->textDataTable(textTablesToBeRemoved[k]));
+						TextDataTable table3;
+						commands << new ChangeTextDataCommand( tr("remove text table"), table2, &(table3));
+					}
+
+			for (int k=0; k < numericalTablesToBeRemoved.size(); ++k)
+					if (parentHandle->hasNumericalData(numericalTablesToBeRemoved[k]))
+					{
+						TextDataTable * table2 = &(parentHandle->textDataTable(numericalTablesToBeRemoved[k]));
+						TextDataTable table3;
+						commands << new ChangeTextDataCommand( tr("remove num table"), table2, &(table3));
+					}				
+
 			for (int i=0; i < parentHandle->children.size(); ++i)
 			{
 				h = findCorrespondingHandle(NodeHandle::cast(parentHandle->children[i]),ConnectionHandle::cast(parentHandle));
@@ -323,7 +339,14 @@ namespace Tinkercell
 									table3.value(table2->rowName(j1), table2->columnName(j2)) = table2->value(j1,j2);
 							commands << new ChangeTextDataCommand( tr("replace text table"), table1, &(table3));
 						}
-					
+
+				for (int k=0; k < textTablesToBeRemoved.size(); ++k)
+						if (parentHandle->children[i]->hasTextData(textTablesToBeRemoved[k]))
+						{
+							TextDataTable * table2 = &(parentHandle->children[i]->textDataTable(textTablesToBeRemoved[k]));
+							TextDataTable table3;
+							commands << new ChangeTextDataCommand( tr("remove text table"), table2, &(table3));
+						}	
 					for (int k=0; k < numericalTablesToBeReplaced.size(); ++k)
 						if (h->hasNumericalData(numericalTablesToBeReplaced[k]) && 
 							parentHandle->children[i]->hasNumericalData(numericalTablesToBeReplaced[k]))
@@ -335,6 +358,14 @@ namespace Tinkercell
 								for (int j2=0; j2 < table2->columns(); ++j2)
 									table3.value(table2->rowName(j1), table2->columnName(j2)) = table2->value(j1,j2);
 							commands << new ChangeNumericalDataCommand( tr("replace num table"), table1, &(table3));
+						}
+
+					for (int k=0; k < numericalTablesToBeRemoved.size(); ++k)
+						if (parentHandle->children[i]->hasNumericalData(numericalTablesToBeRemoved[k]))
+						{
+							NumericalDataTable * table2 = &(parentHandle->children[i]->numericalDataTable(numericalTablesToBeRemoved[k]));
+							NumericalDataTable table3;
+							commands << new ChangeNumericalDataCommand( tr("remove num table"), table2, &(table3));
 						}
 				}
 			}
@@ -1590,6 +1621,8 @@ namespace Tinkercell
 	ModuleTool_FToS * ModuleTool::fToS;
 	QStringList ModuleTool::numericalTablesToBeReplaced;
 	QStringList ModuleTool::textTablesToBeReplaced;
+	QStringList ModuleTool::numericalTablesToBeRemoved;
+	QStringList ModuleTool::textTablesToBeRemoved;
 }
 
 /*

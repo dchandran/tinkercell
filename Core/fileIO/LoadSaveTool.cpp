@@ -379,8 +379,11 @@ namespace Tinkercell
 		loadItems(items,filename, &globalHandle);
 
 		if (globalHandle.hasTextData("Units"))
+		{
 			readUnitsFromTable(globalHandle.textDataTable("Units"));
-		
+			globalHandle.textDataTable("Units").resize(0,0);
+		}
+
 		if (items.size() > 0)
 		{
 			GraphicsScene * scene = currentScene();

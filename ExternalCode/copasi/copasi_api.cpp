@@ -1046,17 +1046,24 @@ tc_matrix simulate(copasi_model model, double startTime, double endTime, int num
 		const CTimeSeries & timeSeries = pTask->getTimeSeries();
 		int rows = timeSeries.getRecordedSteps(), 
 			  cols = (1+pModel->getNumMetabs());//timeSeries.getNumVariables();
-		int i,j;
+		int i,j,k;
 	
 		tc_matrix output = tc_createMatrix(rows, cols);
+		QStringList colnames;
+
+		for (j=0; j < cols; ++j)
+			colnames << QString(timeSeries.getTitle(j).c_str());
+
+		colnames.sort();
+		for (j=0; j < cols; ++j)
+			tc_setColumnName( output, j, colnames[j].toAscii().data() );
 	
 		for (j=0; j < cols; ++j)
-			tc_setColumnName( output, j, timeSeries.getTitle(j).c_str()  );
-	
-		for (i=0; i < rows; ++i)
-			for (j=0; j < cols; ++j)
-				tc_setMatrixValue( output, i, j, timeSeries.getConcentrationData(i,j) );
-	
+		{
+			k = colnames.indexOf(QString(timeSeries.getTitle(j).c_str()));
+			for (i=0; i < rows; ++i)
+				tc_setMatrixValue( output, i, k, timeSeries.getConcentrationData(i,j) );
+		}
 		return output;
 	}
 	return tc_createMatrix(0,0);
@@ -1343,11 +1350,17 @@ tc_matrix cGetSteadyState2(copasi_model model, int maxiter)
 
             if (err < eps)
             {
-                tc_matrix output = tc_createMatrix(cols, 1);       
-                for (int i=0; i < cols; ++i)
+				QStringList colnames;
+				for (int i=0; i < cols; ++i)
+                	colnames << QString(timeSeries.getTitle(i+1).c_str());
+				colnames.sort();
+                tc_matrix output = tc_createMatrix(cols, 1);
+				int k;
+                for (int i=0; i < cols && i < colnames.size(); ++i)
                 {
-            		tc_setRowName( output, i, timeSeries.getTitle(i+1).c_str()  );
-                    tc_setMatrixValue( output, i, 0, timeSeries.getConcentrationData(j,i+1) );
+					k = colnames.indexOf(QString(timeSeries.getTitle(i+1).c_str()));
+            		tc_setRowName( output, i, colnames[i].toAscii().data() );
+                    tc_setMatrixValue( output, k, 0, timeSeries.getConcentrationData(j,i+1) );
                 }
                 return output;
             }
@@ -1426,17 +1439,23 @@ tc_matrix cGetSteadyState(copasi_model model)
 	{
 		const CTimeSeries & timeSeries = pTask2->getTimeSeries();
 		int rows = (pModel->getNumMetabs());
-		int i,j;
-	
-		tc_matrix output = tc_createMatrix(rows, 1);
-	
-		for (j=0; j < rows; ++j)
-			tc_setRowName( output, j, timeSeries.getTitle(j).c_str()  );
+		int i,j,k;
 
-        j = timeSeries.getRecordedSteps() - 1;	
+		tc_matrix output = tc_createMatrix(rows, 1);
+
+		QStringList rownames;
 		for (i=0; i < rows; ++i)
-			tc_setMatrixValue( output, i, 0, timeSeries.getConcentrationData(j,i) );
-	
+        	rownames << QString(timeSeries.getTitle(i+1).c_str());
+		rownames.sort();
+		j = timeSeries.getRecordedSteps() - 1;	
+
+        for (i=0; i < rows && i < rownames.size(); ++i)
+        {
+			k = rownames.indexOf(QString(timeSeries.getTitle(i+1).c_str()));
+    		tc_setRowName( output, i, rownames[i].toAscii().data() );
+            tc_setMatrixValue( output, k, 0, timeSeries.getConcentrationData(j,i+1) );
+        }
+
 		return output;
 	}
 

@@ -608,7 +608,7 @@ namespace Tinkercell
 				{
 					rbs = parts[i];
 				}
-				
+
 				if (parts[i]->isA(tr("Promoter")))
 					promoter = NodeHandle::cast(parts[i]);
 
@@ -616,7 +616,7 @@ namespace Tinkercell
 				{
 					if (!operators.contains(parts[i]))
 						operators += parts[i];
-					
+
 					if (!repressibleOperators.contains(parts[i]))
 					{
 						QList<ConnectionHandle*> connections = parts[i]->connections();
@@ -694,7 +694,7 @@ namespace Tinkercell
 					{
 						QString oldrate = parts[i]->textData(tr("Assignments"),tr("self"),0);
 					
-						bool isCustomEqn = false;//StoichiometryTool::userModifiedRates.contains(parts[i]);
+						bool isCustomEqn = StoichiometryTool::userModifiedRates.contains(parts[i]);
 					
 						if (!parts[i]->textDataTable(tr("Assignments")).hasRow(tr("self")) ||
 							(!isCustomEqn && oldrate != rate))
@@ -728,7 +728,8 @@ namespace Tinkercell
 									}
 
 									QList<NodeHandle*> rna = connections[j]->nodes();
-										
+									rna << NodeHandle::cast(connections[j]->children);
+
 									for (int k=0; k < rna.size(); ++k)
 										if (NodeHandle::cast(rna[k]) && rna[k]->isA(tr("RNA")))
 										{
@@ -1010,7 +1011,7 @@ namespace Tinkercell
 
 	void AutoGeneRegulatoryTool::itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>& items, const QList<ItemHandle*>& handles)
 	{
-		if (ConnectionGraphicsItem::cast(items).size() != 1) return;
+		if (ConnectionGraphicsItem::cast(items).size() != 1 && !scene->localHandle()) return;
 
 		NodeGraphicsItem * node = 0;
 		ConnectionGraphicsItem * connection = 0;
@@ -1085,7 +1086,6 @@ namespace Tinkercell
 				for (int j=0; j < nodes.size(); ++j)
 					if (nodes[j] && nodes[j]->handle() && nodes[j]->handle()->isA(tr("Coding")))
 					{
-						console()->message(nodes[j]->handle()->fullName());
 						startNode = nodes[j];
 						break;
 					}

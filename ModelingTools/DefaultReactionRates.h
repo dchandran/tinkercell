@@ -136,6 +136,8 @@ namespace Tinkercell
 
 			handle->numericalDataTable(QObject::tr("Reactant stoichiometries")) = reactants;
 			handle->numericalDataTable(QObject::tr("Product stoichiometries")) = products;
+			if (!handle->children.isEmpty())
+				rates.resize(0,0);
 			handle->textDataTable(QObject::tr("Rate equations")) = rates;
 		}
 	};

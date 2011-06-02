@@ -855,8 +855,11 @@ namespace Tinkercell
 			if (s0.startsWith(item->fullName() + tr(".")))
 				s0.remove(item->fullName() + tr("."));
 			
-			if (s0 == item->fullName() || s0.isEmpty())
+			if (s0 == item->fullName() || s0 == item->name || s0.toLower() == Self.toLower() || s0.isEmpty())
 				s0 = Self;
+
+			if (s0 == Self && !StoichiometryTool::userModifiedRates.contains(item))
+				StoichiometryTool::userModifiedRates << item;
 			
 			if (dat.hasRow(s0))
 			{
@@ -884,6 +887,29 @@ namespace Tinkercell
 						currentNetwork()->changeData(s + tr(" = ") + f,item,tr("Assignments"),&dat);
 					else
 						currentNetwork()->changeData(item->fullName() + tr(".") + s + tr(" = ") + f,item,tr("Assignments"),&dat);
+					BasicInformationTool::removeUnusedParametersInModel(currentNetwork());
+				}
+				else
+					item->textDataTable(tr("Assignments")) = dat;
+			}
+		}
+		else
+		if (item)
+		{
+			QString s = var;
+			if (s == item->fullName() || s == item->name || s.toLower() == Self.toLower() || s.isEmpty())
+				s = Self;
+			StoichiometryTool::userModifiedRates.removeAll(item);
+			DataTable<QString> dat = item->textDataTable(tr("Assignments"));
+			if (dat.hasRow(s))
+			{
+				dat.removeRow(s);
+				if (currentNetwork())
+				{
+					if (item->name.isEmpty())
+						currentNetwork()->changeData(s + tr(" removed"),item,tr("Assignments"),&dat);
+					else
+						currentNetwork()->changeData(item->fullName() + tr(".") + s + tr(" removed"),item,tr("Assignments"),&dat);
 					BasicInformationTool::removeUnusedParametersInModel(currentNetwork());
 				}
 				else

@@ -949,7 +949,7 @@ namespace Tinkercell
 				}
 				else
 				{
-					if (!movingItems.isEmpty() &&
+					if (!selectedItems.isEmpty() &&
 						(key == Qt::Key_Up || key == Qt::Key_Down ||
 						key == Qt::Key_Left || key == Qt::Key_Right))
 					{
@@ -968,7 +968,7 @@ namespace Tinkercell
 							change.ry() = gridSz * (int)(change.ry() / (double)gridSz + 0.5);
 						}
 
-						move(movingItems,change);
+						move(selectedItems,change);
 
 						keyEvent->accept();
 					}

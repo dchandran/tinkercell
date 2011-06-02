@@ -816,7 +816,8 @@ namespace Tinkercell
 			!graphWidget ||
 			!pickRow1 ||
 			!pickRow2 ||
-			!connectionHandle->hasTextData(tr("Rate equations")))
+			!connectionHandle->hasTextData(tr("Rate equations")) ||
+			!connectionHandle->children.isEmpty())
 			return false;
 		
 		TextDataTable& ratesTable = connectionHandle->textDataTable(tr("Rate equations"));
@@ -840,7 +841,8 @@ namespace Tinkercell
 		if (!connectionHandle || 
 			!connectionHandle->hasNumericalData(tr("Reactant stoichiometries")) ||
 			!connectionHandle->hasNumericalData(tr("Product stoichiometries")) ||
-			!stoichiometryLayout)
+			!stoichiometryLayout ||
+			!connectionHandle->children.isEmpty())
 			{
 				return false;
 			}
@@ -1059,7 +1061,6 @@ namespace Tinkercell
 			
 			if (changed)
 			{
-
 				network->changeData(connectionHandle->fullName() + tr(" stoichiometry changed"),
 									QList<ItemHandle*>() << connectionHandle << connectionHandle,
 									QStringList() << tr("Reactant stoichiometries") << tr("Product stoichiometries"),

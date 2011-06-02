@@ -52,6 +52,9 @@ namespace Tinkercell
 						
 		if (!textTablesToBeRemoved.contains(tr("Units")))
 			textTablesToBeRemoved << tr("Units");
+
+		if (!textTablesToBeRemoved.contains(tr("Rate equations")))
+			textTablesToBeRemoved << tr("Rate equations");
     }
 
 	//insert interface node
@@ -131,7 +134,7 @@ namespace Tinkercell
 				dir.setFilter(QDir::Files);
 				dir.setSorting(QDir::Size);
 				QFileInfoList list = dir.entryInfoList();
-				for (int j = 0; j < list.size(); ++j)
+				for (int j = (list.size()-1); j >= 0; --j)
 				{
 					QFileInfo fileInfo = list.at(j);
 					if (fileInfo.suffix().contains(tr("~"))) continue;
@@ -142,7 +145,7 @@ namespace Tinkercell
 		//fileNames << emptyModelFile;
 		return fileNames;
 	}
-	
+
 	void ModuleTool::substituteModel(ItemHandle * parentHandle, const QString& filename0, NetworkWindow * window)
 	{
 		if (!parentHandle) return;
@@ -315,7 +318,7 @@ namespace Tinkercell
 						TextDataTable * table2 = &(parentHandle->textDataTable(numericalTablesToBeRemoved[k]));
 						TextDataTable table3;
 						commands << new ChangeTextDataCommand( tr("remove num table"), table2, &(table3));
-					}				
+					}
 
 			for (int i=0; i < parentHandle->children.size(); ++i)
 			{
@@ -346,7 +349,8 @@ namespace Tinkercell
 							TextDataTable * table2 = &(parentHandle->children[i]->textDataTable(textTablesToBeRemoved[k]));
 							TextDataTable table3;
 							commands << new ChangeTextDataCommand( tr("remove text table"), table2, &(table3));
-						}	
+						}
+
 					for (int k=0; k < numericalTablesToBeReplaced.size(); ++k)
 						if (h->hasNumericalData(numericalTablesToBeReplaced[k]) && 
 							parentHandle->children[i]->hasNumericalData(numericalTablesToBeReplaced[k]))
@@ -396,7 +400,7 @@ namespace Tinkercell
 			{
 				commands << new ChangeTextDataCommand(
 										tr("participants"), &(parentHandle->textDataTable(tr("participants"))), &(oldParticipantsData));
-				network->push( new CompositeCommand(tr("Merged models"),commands) );
+				network->push( new CompositeCommand(tr("merged models by roles"),commands) );
 			}
 		}
 	}
@@ -418,8 +422,8 @@ namespace Tinkercell
             connect(mainWindow,SIGNAL(itemsAboutToBeInserted(GraphicsScene*,QList<QGraphicsItem *>&, QList<ItemHandle*>&, QList<QUndoCommand*>&)),
 					this, SLOT(itemsAboutToBeInserted(GraphicsScene*,QList<QGraphicsItem *>&, QList<ItemHandle*>&, QList<QUndoCommand*>&)));
 
-			connect(mainWindow,SIGNAL(itemsInserted(NetworkHandle*, const QList<ItemHandle*>&)),
-                    this, SLOT(itemsInserted(NetworkHandle*, const QList<ItemHandle*>&)));
+			connect(this,SIGNAL(itemsInserted(NetworkHandle*, const QList<ItemHandle*>&)),
+                    mainWindow, SIGNAL(itemsInserted(NetworkHandle*, const QList<ItemHandle*>&)));
                     
              connect(this,SIGNAL(saveModel(const QString&)), mainWindow, SIGNAL(saveNetwork(const QString&)));
 			 
@@ -784,168 +788,50 @@ namespace Tinkercell
 				}
 			}
 		
-		loadedItems = (loadedItems && count > 1);
-			
-		if (scene->localHandle())
+		if (loadedItems)
 		{
-			ItemHandle * parentHandle = scene->localHandle();
-			NodeGraphicsItem * node;
-			ConnectionGraphicsItem * connection;
-			TextGraphicsItem * text;
-			QString groupName = parentHandle->name;
-			for (int i=0; i < items.size(); ++i)
-				if (node = NodeGraphicsItem::cast(items[i]))
-					node->groupID = groupName;
-				else
-				if (connection = ConnectionGraphicsItem::cast(items[i]))
-					connection->groupID = groupName;
-				else
-				if (text = TextGraphicsItem::cast(items[i]))
-					text->groupID = groupName;
-					
-			QList<ItemHandle*> allChildren = handles;
+			QList<ItemHandle*> visited;		
 			for (int i=0; i < handles.size(); ++i)
-				if (handles[i])
-					allChildren << handles[i]->allChildren();
-
-			QList<ItemHandle*> existingHandles = scene->network->handles();
-
-			for (int i=0; i < handles.size(); ++i)
-				if (handles[i] && !existingHandles.contains(handles[i]) && !handles[i]->parent)
+				if (ConnectionHandle::cast(handles[i]) && !handles[i]->children.isEmpty() && !visited.contains(handles[i]))
 				{
-					existingHandles << handles[i];
-					commands << new SetParentHandleCommand(tr("set parent"),0,handles[i],parentHandle);
-					commands << new RenameCommand(tr("rename"),0,allChildren,handles[i]->name,parentHandle->fullName() + tr(".") + handles[i]->name);
+					visited << handles[i];
+					createNewWindow(ConnectionHandle::cast(handles[i]), scene->network);
 				}
+			return;
 		}
-		
+
 		QList<ItemHandle*> visited;		
-		QList<ItemHandle*> modularConnections;
-		QString appDir = QCoreApplication::applicationDirPath();
-		QString homeDir = GlobalSettings::homeDir();
-		
-		if (loadedItems) return;
-		
 		for (int i=0; i < handles.size(); ++i)
-			if (handles[i] && !visited.contains(handles[i]) && ConnectionFamily::cast(handles[i]->family()))
+			if (handles[i] && handles[i]->children.isEmpty() && !visited.contains(handles[i]) && ConnectionFamily::cast(handles[i]->family()))
 			{
 				visited << handles[i];
-				QString groupName = handles[i]->name;
-				QList<QGraphicsItem*> items2;
-				
-				if (handles[i]->children.isEmpty())
+				QStringList list = listOfModels(handles[i]->family());
+				if (!list.isEmpty())
+					substituteModel(handles[i], list[0]);
+				QString filename;
+				if (handles[i]->isA(tr("Module")))
 				{
-					QString s = handles[i]->family()->name();
-					s.replace(tr(" "),tr("_"));
-					QString dirname = homeDir + tr("/Modules/") + s;
-					QDir dir(dirname);
-		
-					if (!dir.exists())
-						dir.setPath(homeDir + tr("/Modules/") + s.toLower());
-		
-					if (!dir.exists())
-						dir.setPath(appDir + tr("/Modules/") + s);
-		
-					if (!dir.exists())
-						dir.setPath(appDir + tr("/Modules/") + s.toLower());
-				
-					if (dir.exists())
-					{
-						dir.setFilter(QDir::Files);
-						dir.setSorting(QDir::Size);
-						QFileInfoList list = dir.entryInfoList();
-				
-						if (!list.isEmpty())
-						{
-							modularConnections << handles[i];
-							bool loaded = false;
-							while (!loaded && !list.isEmpty())
-							{
-								QString filename = list.last().absoluteFilePath();
-								list.pop_back();
-
-								if (QFile::exists(filename))
-								{
-									QPair< QList<ItemHandle*> , QList<QGraphicsItem*> > pair;
-								
-									if (scene->localHandle() && handles[i]->parent != scene->localHandle())
-									{
-										ItemHandle * oldparent = handles[i]->parent;
-										handles[i]->setParent(scene->localHandle(),false);
-										pair = mainWindow->getItemsFromFile(filename,handles[i]);
-										handles[i]->setParent(oldparent,false);
-									}
-									else
-									{
-										pair = mainWindow->getItemsFromFile(filename,handles[i]);
-									}
-									
-									items2 = pair.second;
-									loaded = !pair.first.isEmpty();
-								}
-							}
-						}
-					}
+					QString family = handles[i]->family()->name();
+					filename = homeDir() + tr("/Graphics/") + NodesTree::themeDirectory + tr("/Decorators/") + ConnectionsTree::decoratorImageFile(family);
+					if (!QFile(filename).exists())
+						filename = tr(":/images/") + ConnectionsTree::decoratorImageFile(family);
+					if (!QFile(filename).exists())
+						filename = QCoreApplication::applicationDirPath() + tr("/Graphics/") + NodesTree::themeDirectory + tr("/Decorators/") + ConnectionsTree::decoratorImageFile(family);
+					if (!QFile(filename).exists())
+						filename = tr(":/images/Module.xml");
 				}
 				else
-					if (!handles[i]->children.isEmpty())
-					{
-						modularConnections << handles[i];
-					}
-				
-				if (!items2.isEmpty())
 				{
-					NodeGraphicsItem * node;
-					ConnectionGraphicsItem * connection;
-					TextGraphicsItem * text;
-
-					for (int j=0; j < items2.size(); ++j)
-						if (node = NodeGraphicsItem::cast(items2[j]))
-						{
-							if (node->groupID.isEmpty())
-								node->groupID = groupName;
-						}
-						else
-						if (connection = ConnectionGraphicsItem::cast(items2[j]))
-						{
-							if (connection->groupID.isEmpty())
-								connection->groupID = groupName;
-						}
-						else
-						if (text = TextGraphicsItem::cast(items2[j]))
-						{
-							if (text->groupID.isEmpty())
-								text->groupID = groupName;
-						}
+					filename = tr(":/images/expand.xml");
 				}
-			}
-		
-		ConnectionGraphicsItem * connection = 0;
-		QList<QGraphicsItem*> items2 = items;
-		for (int i=0; i < items2.size(); ++i)
-			if ((connection = ConnectionGraphicsItem::cast(items2[i])) && connection->handle())
-			{
-				 if (modularConnections.contains(connection->handle()))
-				 {
-					QString filename;
-					if (connection->handle()->isA(tr("Module")))
-					{
-						QString family = connection->handle()->family()->name();
-						filename = homeDir + tr("/Graphics/") + NodesTree::themeDirectory + tr("/Decorators/") + ConnectionsTree::decoratorImageFile(family);
-						if (!QFile(filename).exists())
-							filename = tr(":/images/") + ConnectionsTree::decoratorImageFile(family);
-						if (!QFile(filename).exists())
-							filename = appDir + tr("/Graphics/") + NodesTree::themeDirectory + tr("/Decorators/") + ConnectionsTree::decoratorImageFile(family);
-						if (!QFile(filename).exists())
-							filename = tr(":/images/Module.xml");
-					}
-					else
-					{
-						filename = tr(":/images/expand.xml");
-					}
 
-					if (QFile::exists(filename))
+				
+				if (QFile::exists(filename))
+				{
+					QList<ConnectionGraphicsItem*> connections = ConnectionGraphicsItem::cast(handles[i]->graphicsItems);
+					for (int i2=0; i2 < connections.size(); ++i2)
 					{
+						ConnectionGraphicsItem * connection = connections[i2];
 						ArrowHeadItem * newDecorator = new ArrowHeadItem(filename,connection);
 						if (connection->centerRegionItem)
 						{
@@ -958,16 +844,7 @@ namespace Tinkercell
 						connection->centerRegionItem = newDecorator;
 						items += newDecorator;
 					}
-				 }
-				 /*else
-				 {
-						if (connection->centerRegionItem && items.contains(connection->centerRegionItem))
-						{
-							connection->centerRegionItem = 0;
-							items.removeAll(connection->centerRegionItem);							
-							delete connection->centerRegionItem;
-						}
-				 }*/
+				}
 			}
 	}
 
@@ -1031,7 +908,7 @@ namespace Tinkercell
 		}
 		return 0;
 	}
-
+/*
     void ModuleTool::itemsInserted(NetworkHandle * network, const QList<ItemHandle*>& handles)
 	{
 		GraphicsScene * scene = network->currentScene();
@@ -1093,7 +970,7 @@ namespace Tinkercell
 				}
 	    }
     }
-
+*/
     void ModuleTool::mouseMoved(GraphicsScene* scene, QGraphicsItem * hoverOverItem, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>& items)
     {
 		if (mainWindow && scene && scene->useDefaultBehavior() && hoverOverItem && !TextGraphicsItem::cast(hoverOverItem) && snapshotToolTip)

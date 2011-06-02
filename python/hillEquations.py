@@ -40,6 +40,8 @@ if (len(genes) > 0):
 			if len(promoter) > 0:
 				if len(opnames) < 1:
 					rate = promoter + ".strength";
+				elif len(opnames) == 1:
+					rate = promoter + ".strength * " + opnames[0];
 				else:
 					if t == 0: #AND
 						rate = " * ".join(opnames);

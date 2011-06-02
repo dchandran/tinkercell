@@ -102,11 +102,13 @@ namespace Tinkercell
 		
 		static QStringList listOfModels(ItemFamily * family);
 		void substituteModel(ItemHandle * , const QString& , NetworkWindow * window=0);
+		QList<QUndoCommand*> substituteModelCommands(ItemHandle * , const QString& , NetworkWindow * window=0, QList<QGraphicsItem*>* list=0);
 
 	signals:
 
 		void getTextVersion(const QList<ItemHandle*>&, QString*);
 		void saveModel(const QString&);
+		void itemsInserted(NetworkHandle * network, const QList<ItemHandle*>& handles);
 
 	public slots:
 
@@ -119,7 +121,7 @@ namespace Tinkercell
 		void itemsAboutToBeInserted (GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>&);
 		void itemsAboutToBeRemoved(GraphicsScene * scene, QList<QGraphicsItem*>& item, QList<ItemHandle*>& handles, QList<QUndoCommand*>&);
 		void toolLoaded (Tool * tool);
-		void itemsInserted(NetworkHandle * network, const QList<ItemHandle*>& handles);
+		//void itemsInserted(NetworkHandle * network, const QList<ItemHandle*>& handles);
 		void mouseDoubleClicked (GraphicsScene * scene, QPointF point, QGraphicsItem *, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
 		void keyPressed(GraphicsScene*,QKeyEvent *);
 		void mouseMoved(GraphicsScene* scene, QGraphicsItem*, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>& items);

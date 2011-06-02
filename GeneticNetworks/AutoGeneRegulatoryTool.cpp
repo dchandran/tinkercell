@@ -21,6 +21,7 @@
 #include "CollisionDetection.h"
 #include "BasicGraphicsToolbar.h"
 #include "ConnectionSelection.h"
+#include "StoichiometryTool.h"
 #include "NodeInsertion.h"
 #include "NodesTree.h"
 #include "ConnectionsTree.h"
@@ -607,12 +608,12 @@ namespace Tinkercell
 				{
 					rbs = parts[i];
 				}
+				
+				if (parts[i]->isA(tr("Promoter")))
+					promoter = NodeHandle::cast(parts[i]);
 
 				if (parts[i]->isA(tr("Operator")))
 				{
-					if (parts[i]->isA(tr("Promoter")))
-						promoter = NodeHandle::cast(parts[i]);
-
 					if (!operators.contains(parts[i]))
 						operators += parts[i];
 					
@@ -666,7 +667,9 @@ namespace Tinkercell
 					}
 
 					if (!promoter)
-						rate = tr("0");
+					{
+						rate = tr("0.0");
+					}
 					else
 					{
 						if (!promoter->hasNumericalData("Parameters") || !promoter->numericalDataTable("Parameters").hasRow("strength"))
@@ -686,32 +689,15 @@ namespace Tinkercell
 							rate = parts[i]->parent->fullName() + tr(" * ") + rate;
 					}
 					
-					if (parts[i]->hasTextData("Assignments") && 
-						 //parts[i]->textDataTable("Assignments").hasRow("self") &&
-						 rate != tr("0"))
+					if (parts[i]->hasTextData("Assignments") &&
+						(parts[i]->textDataTable("Assignments").hasRow("self") || rate != tr("0.0")))
 					{
 						QString oldrate = parts[i]->textData(tr("Assignments"),tr("self"),0);
 					
-						bool isMissing = false;
+						bool isCustomEqn = false;//StoichiometryTool::userModifiedRates.contains(parts[i]);
 					
-						for (int k=0; k < operators.size(); ++k)
-							if (!oldrate.contains(operators[k]->fullName()))
-							{
-								isMissing = true;
-								break;
-
-							}
-						
-					
-						bool isCustomEqn = oldrate.contains(tr("+")) ||
-														oldrate.contains(tr("/")) ||  
-														oldrate.contains(tr("(")) ||
-														(oldrate.size() > 4 && !oldrate.contains(tr(".strength * ")));
-
 						if (!parts[i]->textDataTable(tr("Assignments")).hasRow(tr("self")) ||
-							isMissing ||
-							(!isCustomEqn && oldrate != rate)
-							)
+							(!isCustomEqn && oldrate != rate))
 							 {
 								TextDataTable * sDat = new TextDataTable(parts[i]->textDataTable(tr("Assignments")));
 								sDat->value(tr("self"),0) = rate;
@@ -1024,13 +1010,15 @@ namespace Tinkercell
 
 	void AutoGeneRegulatoryTool::itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>& items, const QList<ItemHandle*>& handles)
 	{
+		if (ConnectionGraphicsItem::cast(items).size() != 1) return;
+
 		NodeGraphicsItem * node = 0;
 		ConnectionGraphicsItem * connection = 0;
 		QList<NodeGraphicsItem*> nodes;
 		QList<ItemHandle*> visited;
 		ItemHandle * handle;
 		QList<QGraphicsItem*> itemsToRemove;
-
+		
 		for (int i=0; i < items.size(); ++i)
 		{
 			connection = ConnectionGraphicsItem::cast(items[i]);
@@ -1080,13 +1068,24 @@ namespace Tinkercell
 			NodeGraphicsItem * startNode = 0;
 			if (connection 
 				&& (handle = connection->handle()) 
-				&& (handle->isA(tr("Transcription Regulation")) || handle->isA(tr("Production"))))
+				&& (
+						/*handle->isA(tr("Transcription Regulation")) ||*/
+						handle->isA(tr("Production")) ||
+						(handle->parent && handle->parent->isA(tr("Production")))
+					))
 			{
-				nodes = connection->nodes();
+				if (handle->parent && handle->parent->isA(tr("Production")))
+				{
+					QList<ConnectionGraphicsItem*> connections = ConnectionGraphicsItem::cast(handle->parent->graphicsItems);
+					if (!connections.isEmpty())
+						nodes = connections[0]->nodes();
+				}
+				else
+					nodes = connection->nodes();
 				for (int j=0; j < nodes.size(); ++j)
-					if (nodes[j] && nodes[j]->handle() 
-						&& (nodes[j]->handle()->isA(tr("Operator")) || nodes[j]->handle()->isA(tr("Coding"))))
+					if (nodes[j] && nodes[j]->handle() && nodes[j]->handle()->isA(tr("Coding")))
 					{
+						console()->message(nodes[j]->handle()->fullName());
 						startNode = nodes[j];
 						break;
 					}
@@ -1590,7 +1589,6 @@ namespace Tinkercell
 		QTransform t = node->transform(); 
 		bool flipped = (t.m11() < 0) || (t.m22() < 0) || (t.m12() != 0) || (t.m21() != 0);
 		if (flipped)
-
 		{
 			upstream = !upstream;
 		}
@@ -1624,7 +1622,8 @@ namespace Tinkercell
 				QList<ConnectionGraphicsItem*> connections = node->connectionsWithArrows();
 				for (int j=0; j < connections.size(); ++j)
 				{
-					if (connections[j] && connections[j]->handle() && connections[j]->handle()->isA(tr("PoPS")))
+					if (connections[j] && connections[j]->scene() == scene &&
+							connections[j]->handle() && connections[j]->handle()->isA(tr("PoPS")))
 					{
 						QList<NodeGraphicsItem*> connectedNodes = connections[j]->nodesWithoutArrows();
 						if (connectedNodes.size() > 0 && connectedNodes[0] && (h = connectedNodes[0]->handle())
@@ -1647,7 +1646,8 @@ namespace Tinkercell
 				QList<ConnectionGraphicsItem*> connections = node->connectionsWithoutArrows();
 				for (int j=0; j < connections.size(); ++j)
 				{
-					if (connections[j] && connections[j]->handle() && connections[j]->handle()->isA(tr("PoPS")))
+					if (connections[j] && connections[j]->scene() == scene &&
+							connections[j]->handle() && connections[j]->handle()->isA(tr("PoPS")))
 					{
 						QList<NodeGraphicsItem*> connectedNodes = connections[j]->nodesWithArrows();
 						if (connectedNodes.size() > 0 && connectedNodes[0] && (h = connectedNodes[0]->handle())
@@ -1684,10 +1684,10 @@ namespace Tinkercell
 		qreal y = -1.0;
 		NodeGraphicsItem * topmost = 0;
 	    for (int i=0; i < handle->graphicsItems.size(); ++i)
-			if (NodeGraphicsItem::topLevelNodeItem(handle->graphicsItems[i])
+			if (NodeGraphicsItem::cast(handle->graphicsItems[i]) && handle->graphicsItems[i]->scene() == scene
 				&& ((y < 0) || (y > handle->graphicsItems[i]->scenePos().y())))
 			{
-				topmost = NodeGraphicsItem::topLevelNodeItem(handle->graphicsItems[i]);
+				topmost = NodeGraphicsItem::cast(handle->graphicsItems[i]);
 				y = topmost->scenePos().y();
 			}
 
@@ -1697,7 +1697,7 @@ namespace Tinkercell
 		bool hit = false;
 
 		for (int i=0; i < items.size(); ++i)
-			if ((node = NodeGraphicsItem::topLevelNodeItem(items[i])))
+			if ((node = NodeGraphicsItem::cast(items[i])) && items[i]->scene() == scene)
 			{
 				if (upstream)
 					p = QPointF(node->sceneBoundingRect().left() - 10.0,node->scenePos().ry());
@@ -1710,7 +1710,7 @@ namespace Tinkercell
 				hit = false;
 
 				for (int j=0; j < items2.size(); ++j)
-					if ((node = NodeGraphicsItem::topLevelNodeItem(items2[j])))
+					if ((node = NodeGraphicsItem::cast(items2[j])) && items2[j]->scene() == scene)
 					{
 						h = node->handle();
 
@@ -1735,13 +1735,14 @@ namespace Tinkercell
 					}
 				if (!hit) //look for connected Elongation edges
 				{
-					node = NodeGraphicsItem::topLevelNodeItem(items[i]);
-					if (upstream)
+					node = NodeGraphicsItem::cast(items[i]);
+					if (upstream && node && items[i]->scene() == scene)
 					{
 						QList<ConnectionGraphicsItem*> connections = node->connectionsWithArrows();
 						for (int j=0; j < connections.size(); ++j)
 						{
-							if (connections[j] && connections[j]->handle() && connections[j]->handle()->isA(tr("PoPS")))
+							if (connections[j] && connections[j]->scene() == scene &&
+									connections[j]->handle() && connections[j]->handle()->isA(tr("PoPS")))
 							{
 								QList<NodeGraphicsItem*> connectedNodes = connections[j]->nodesWithoutArrows();
 								if (connectedNodes.size() > 0 && connectedNodes[0] && (h = connectedNodes[0]->handle())
@@ -1761,7 +1762,8 @@ namespace Tinkercell
 						QList<ConnectionGraphicsItem*> connections = node->connectionsWithoutArrows();
 						for (int j=0; j < connections.size(); ++j)
 						{
-							if (connections[j] && connections[j]->handle() && connections[j]->handle()->isA(tr("PoPS")))
+							if (connections[j] && connections[j]->scene() == scene &&
+									connections[j]->handle() && connections[j]->handle()->isA(tr("PoPS")))
 							{
 								QList<NodeGraphicsItem*> connectedNodes = connections[j]->nodesWithArrows();
 								if (connectedNodes.size() > 0 && connectedNodes[0] && (h = connectedNodes[0]->handle())
@@ -1780,7 +1782,8 @@ namespace Tinkercell
 				if (!hit && (h = node->handle())) //look for other items in the handle
 				{
 					for (int j=0; j < h->graphicsItems.size(); ++j)
-						if ((node = NodeGraphicsItem::topLevelNodeItem(h->graphicsItems[j]))
+						if ((node = NodeGraphicsItem::cast(h->graphicsItems[j]))
+							&& h->graphicsItems[j]->scene() == scene
 							&& !visited.contains(node))
 						{
 							items << node;

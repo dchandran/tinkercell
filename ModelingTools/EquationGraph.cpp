@@ -1,3 +1,4 @@
+#include "MainWindow.h"
 #include "EquationGraph.h"
 #include "muParserDef.h"
 #include "muParser.h"

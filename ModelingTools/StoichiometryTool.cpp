@@ -992,6 +992,8 @@ namespace Tinkercell
 				if (rate != newTable.value(row,0))
 				{
 					newTable.value(row,0) = rate;
+					if (!StoichiometryTool::userModifiedRates.contains(connectionHandle))
+						StoichiometryTool::userModifiedRates << connectionHandle;
 					
 					QString s;
 					if (newTable.rows() > 1)
@@ -1812,5 +1814,7 @@ namespace Tinkercell
 		
 		emit dataChanged(changedHandles);
 	}
+	
+	QList<ItemHandle*> StoichiometryTool::userModifiedRates;
 }
 

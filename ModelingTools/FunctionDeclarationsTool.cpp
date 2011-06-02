@@ -25,6 +25,7 @@ Assignments are parameters that are defined as a function, eg. k1 = sin(time) + 
 #include "FunctionDeclarationsTool.h"
 #include "EquationParser.h"
 #include "BasicInformationTool.h"
+#include "StoichiometryTool.h"
 #include "ModuleTools/ModuleTool.h"
 #include "muParserDef.h"
 #include "muParser.h"
@@ -293,6 +294,8 @@ namespace Tinkercell
 					win->changeData(handle->fullName() + tr(".") + f + tr(" removed"), handle,tr("Functions"),&newData);
 					BasicInformationTool::removeUnusedParametersInModel(win);
 				}
+				
+				StoichiometryTool::userModifiedRates.removeAll(handle);
 			}
 
 			QRegExp regex1(tr("^([A-Za-z0-9_\\.]+)\\s*=\\s*(.+)")),
@@ -319,6 +322,9 @@ namespace Tinkercell
 					var = win->makeUnique(var);
 					var.remove(handle->fullName() + tr("."));
 				}
+
+				if (var == Self && !StoichiometryTool::userModifiedRates.contains(handle))
+					StoichiometryTool::userModifiedRates << handle;
 
 				DataTable<QString> newData(handle->textDataTable(tr("Assignments")));
 				newData.value(var,0) = func;
@@ -375,6 +381,7 @@ namespace Tinkercell
 					BasicInformationTool::removeUnusedParametersInModel(win);
 				}
 				else
+				if (!text.isEmpty())
 				{
 					if (!handle->hasTextData(tr("Assignments")))
 						insertDataMatrix(handle);
@@ -384,6 +391,9 @@ namespace Tinkercell
 
 					if (!EquationParser::validate(currentNetwork(), handle, func, QStringList() << "time" << "Time" << "TIME"))
 						return;
+					
+					if (var == Self && !StoichiometryTool::userModifiedRates.contains(handle))
+						StoichiometryTool::userModifiedRates << handle;
 
 					DataTable<QString> newData(handle->textDataTable(tr("Assignments")));
 					newData.value(var,0) = func;
@@ -393,7 +403,6 @@ namespace Tinkercell
 				}
 				updateTable();
 		}
-
 	}
 
 	AssignmentFunctionsTool::AssignmentFunctionsTool() : Tool(tr("Functions and Assignments"),tr("Modeling"))

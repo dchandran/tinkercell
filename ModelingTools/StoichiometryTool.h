@@ -75,6 +75,7 @@ namespace Tinkercell
 
 	public:
 
+		static QList<ItemHandle*> userModifiedRates;
 		/*! \brief constructor: intializes the table widgets*/
 		StoichiometryTool();
 		/*! \brief sets main window and connects to main window's signals

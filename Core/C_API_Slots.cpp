@@ -585,7 +585,7 @@ namespace Tinkercell
 
 		if (returnPtr)
 		{
-			QList<ItemHandle*> handles = win->handles();
+			QList<ItemHandle*> handles = win->handles(true);
 			for (int i=0; i < handles.size(); ++i)
 				if (handles[i] && handles[i]->isA(family))
 					(*returnPtr) += handles[i];

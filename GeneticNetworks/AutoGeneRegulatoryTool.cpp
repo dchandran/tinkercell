@@ -1068,11 +1068,11 @@ namespace Tinkercell
 			connection = ConnectionGraphicsItem::cast(items[i]);
 			NodeGraphicsItem * startNode = 0;
 			if (connection 
-				&& (handle = connection->handle()) 
+				&& (handle = connection->handle())
 				&& (
 						/*handle->isA(tr("Transcription Regulation")) ||*/
 						handle->isA(tr("Production")) ||
-						(handle->parent && handle->parent->isA(tr("Production")))
+						(handle->parent && handle->parent->isA(tr("Production")) && !handles.contains(handle->parent))
 					))
 			{
 				if (handle->parent && handle->parent->isA(tr("Production")))
@@ -1082,9 +1082,12 @@ namespace Tinkercell
 						nodes = connections[0]->nodes();
 				}
 				else
+				{
 					nodes = connection->nodes();
+				}
+
 				for (int j=0; j < nodes.size(); ++j)
-					if (nodes[j] && nodes[j]->handle() && nodes[j]->handle()->isA(tr("Coding")))
+					if (nodes[j] && !items.contains(nodes[j]) && nodes[j]->scene() && nodes[j]->handle() && nodes[j]->handle()->isA(tr("Coding")))
 					{
 						startNode = nodes[j];
 						break;

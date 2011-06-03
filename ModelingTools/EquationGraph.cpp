@@ -1,4 +1,5 @@
 #include "MainWindow.h"
+#include "ConsoleWindow.h"
 #include "EquationGraph.h"
 #include "muParserDef.h"
 #include "muParser.h"
@@ -113,7 +114,10 @@ namespace Tinkercell
 		EquationParser::eval(currentNetwork,equation,&b,values,&parser);
 		
 		if (!b || values.isEmpty())
+		{
+			MainWindow::instance()->console()->message(equation + tr(" does not evaluate"));
 			return false;
+		}
 		
 		for (int i=0; i < values.size(); ++i)
 		{

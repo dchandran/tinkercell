@@ -29,9 +29,13 @@ namespace Tinkercell
 		signals:
 			void exportSBML(QSemaphore*, const QString&);
 			void importSBML(QSemaphore*, const QString&);
+			void exportText(QSemaphore*, const QString&);
+			void importText(QSemaphore*, const QString&);
 		public:
 			void exportSBMLFile(const char *);
 			void importSBMLString(const char*);
+			void exportTextFile(const char *);
+			void importTextString(const char*);
 	};
 	
 	/*! \brief This class imports and exports SBML file format.
@@ -64,6 +68,9 @@ namespace Tinkercell
 		void saveSBMLFile();
 		void exportSBML(QSemaphore*, const QString&);
 		void importSBML(QSemaphore*, const QString&);
+		void exportText(QSemaphore*, const QString&);
+		void importText(QSemaphore*, const QString&);
+
 	private:
 
 		bool modelNeedsUpdate;
@@ -74,6 +81,8 @@ namespace Tinkercell
 		static SBMLImportExport_FtoS * fToS;
 		static void exportSBMLFile(const char *);
 		static void importSBMLString(const char*);
+		static void exportTextFile(const char *);
+		static void importTextString(const char*);
 	};
 }
 

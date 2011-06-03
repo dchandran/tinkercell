@@ -71,22 +71,27 @@ namespace Tinkercell
 	void AntimonyEditor::loadNetwork(const QString& filename)
 	{
 		QFile file(filename);
-		
+		QString modelString;
+
 		if (file.open(QFile::ReadOnly | QFile::Text))
 		{
-			QString modelString( file.readAll() );
+			modelString = file.readAll();
 			file.close();
-			
-			ItemHandle root;
-			QList<ItemHandle*> itemsToInsert = parse(modelString, &root);
-	
-			if (!itemsToInsert.isEmpty())
-			{
-				TextEditor * editor = mainWindow->newTextEditor();
-				(*editor->globalHandle()) = root;
-				editor->setText(getAntimonyString("__main"));
-				editor->setItems(itemsToInsert);
-			}
+		}
+		else
+		{
+			modelString = filename;	
+		}
+
+		ItemHandle root;
+		QList<ItemHandle*> itemsToInsert = parse(modelString, &root);
+
+		if (!itemsToInsert.isEmpty())
+		{
+			TextEditor * editor = mainWindow->newTextEditor();
+			(*editor->globalHandle()) = root;
+			editor->setText(getAntimonyString("__main"));
+			editor->setItems(itemsToInsert);
 		}
 	}
 

@@ -11777,15 +11777,73 @@ XS(_wrap_tc_importSBML) {
 }
 
 
+XS(_wrap_tc_exportText) {
+  {
+    char *arg1 = (char *) 0 ;
+    int res1 ;
+    char *buf1 = 0 ;
+    int alloc1 = 0 ;
+    int argvi = 0;
+    dXSARGS;
+    
+    if ((items < 1) || (items > 1)) {
+      SWIG_croak("Usage: tc_exportText(file);");
+    }
+    res1 = SWIG_AsCharPtrAndSize(ST(0), &buf1, NULL, &alloc1);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_exportText" "', argument " "1"" of type '" "char const *""'");
+    }
+    arg1 = (char *)(buf1);
+    tc_exportText((char const *)arg1);
+    ST(argvi) = sv_newmortal();
+    if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+    XSRETURN(argvi);
+  fail:
+    if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_tc_importText) {
+  {
+    char *arg1 = (char *) 0 ;
+    int res1 ;
+    char *buf1 = 0 ;
+    int alloc1 = 0 ;
+    int argvi = 0;
+    dXSARGS;
+    
+    if ((items < 1) || (items > 1)) {
+      SWIG_croak("Usage: tc_importText(file);");
+    }
+    res1 = SWIG_AsCharPtrAndSize(ST(0), &buf1, NULL, &alloc1);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_importText" "', argument " "1"" of type '" "char const *""'");
+    }
+    arg1 = (char *)(buf1);
+    tc_importText((char const *)arg1);
+    ST(argvi) = sv_newmortal();
+    if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+    XSRETURN(argvi);
+  fail:
+    if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+    SWIG_croak_null();
+  }
+}
+
+
 XS(_wrap_tc_SBML_api) {
   {
     void (*arg1)(char const *) = (void (*)(char const *)) 0 ;
     void (*arg2)(char const *) = (void (*)(char const *)) 0 ;
+    void (*arg3)(char const *) = (void (*)(char const *)) 0 ;
+    void (*arg4)(char const *) = (void (*)(char const *)) 0 ;
     int argvi = 0;
     dXSARGS;
     
-    if ((items < 2) || (items > 2)) {
-      SWIG_croak("Usage: tc_SBML_api(exportSBML,importSBML);");
+    if ((items < 4) || (items > 4)) {
+      SWIG_croak("Usage: tc_SBML_api(exportSBML,importSBML,exportText,importText);");
     }
     {
       int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_p_q_const__char__void);
@@ -11799,12 +11857,28 @@ XS(_wrap_tc_SBML_api) {
         SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_SBML_api" "', argument " "2"" of type '" "void (*)(char const *)""'"); 
       }
     }
-    tc_SBML_api(arg1,arg2);
+    {
+      int res = SWIG_ConvertFunctionPtr(ST(2), (void**)(&arg3), SWIGTYPE_p_f_p_q_const__char__void);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_SBML_api" "', argument " "3"" of type '" "void (*)(char const *)""'"); 
+      }
+    }
+    {
+      int res = SWIG_ConvertFunctionPtr(ST(3), (void**)(&arg4), SWIGTYPE_p_f_p_q_const__char__void);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_SBML_api" "', argument " "4"" of type '" "void (*)(char const *)""'"); 
+      }
+    }
+    tc_SBML_api(arg1,arg2,arg3,arg4);
     ST(argvi) = sv_newmortal();
+    
+    
     
     
     XSRETURN(argvi);
   fail:
+    
+    
     
     
     SWIG_croak_null();
@@ -13441,6 +13515,8 @@ static swig_command_info swig_commands[] = {
 {"tinkercellc::tc_AutoGeneRegulatoryTool_api", _wrap_tc_AutoGeneRegulatoryTool_api},
 {"tinkercellc::tc_exportSBML", _wrap_tc_exportSBML},
 {"tinkercellc::tc_importSBML", _wrap_tc_importSBML},
+{"tinkercellc::tc_exportText", _wrap_tc_exportText},
+{"tinkercellc::tc_importText", _wrap_tc_importText},
 {"tinkercellc::tc_SBML_api", _wrap_tc_SBML_api},
 {"tinkercellc::tc_simulateDeterministic", _wrap_tc_simulateDeterministic},
 {"tinkercellc::tc_simulateStochastic", _wrap_tc_simulateStochastic},

@@ -11316,14 +11316,68 @@ fail:
 }
 
 
-static octave_value_list _wrap_tc_SBML_api (const octave_value_list& args, int nargout) {
-  void (*arg1)(char const *) = (void (*)(char const *)) 0 ;
-  void (*arg2)(char const *) = (void (*)(char const *)) 0 ;
+static octave_value_list _wrap_tc_exportText (const octave_value_list& args, int nargout) {
+  char *arg1 = (char *) 0 ;
+  int res1 ;
+  char *buf1 = 0 ;
+  int alloc1 = 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
   
-  if (!SWIG_check_num_args("tc_SBML_api",args.length(),2,2,0)) {
+  if (!SWIG_check_num_args("tc_exportText",args.length(),1,1,0)) {
+    SWIG_fail;
+  }
+  res1 = SWIG_AsCharPtrAndSize(args(0), &buf1, NULL, &alloc1);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_exportText" "', argument " "1"" of type '" "char const *""'");
+  }
+  arg1 = (char *)(buf1);
+  tc_exportText((char const *)arg1);
+  _outv = octave_value();
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+  if (alloc1 == SWIG_NEWOBJ) delete[] buf1;
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_tc_importText (const octave_value_list& args, int nargout) {
+  char *arg1 = (char *) 0 ;
+  int res1 ;
+  char *buf1 = 0 ;
+  int alloc1 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  
+  if (!SWIG_check_num_args("tc_importText",args.length(),1,1,0)) {
+    SWIG_fail;
+  }
+  res1 = SWIG_AsCharPtrAndSize(args(0), &buf1, NULL, &alloc1);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_importText" "', argument " "1"" of type '" "char const *""'");
+  }
+  arg1 = (char *)(buf1);
+  tc_importText((char const *)arg1);
+  _outv = octave_value();
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+  if (alloc1 == SWIG_NEWOBJ) delete[] buf1;
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_tc_SBML_api (const octave_value_list& args, int nargout) {
+  void (*arg1)(char const *) = (void (*)(char const *)) 0 ;
+  void (*arg2)(char const *) = (void (*)(char const *)) 0 ;
+  void (*arg3)(char const *) = (void (*)(char const *)) 0 ;
+  void (*arg4)(char const *) = (void (*)(char const *)) 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  
+  if (!SWIG_check_num_args("tc_SBML_api",args.length(),4,4,0)) {
     SWIG_fail;
   }
   {
@@ -11338,7 +11392,19 @@ static octave_value_list _wrap_tc_SBML_api (const octave_value_list& args, int n
       SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_SBML_api" "', argument " "2"" of type '" "void (*)(char const *)""'"); 
     }
   }
-  tc_SBML_api(arg1,arg2);
+  {
+    int res = SWIG_ConvertFunctionPtr(args(2), (void**)(&arg3), SWIGTYPE_p_f_p_q_const__char__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_SBML_api" "', argument " "3"" of type '" "void (*)(char const *)""'"); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(args(3), (void**)(&arg4), SWIGTYPE_p_f_p_q_const__char__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_SBML_api" "', argument " "4"" of type '" "void (*)(char const *)""'"); 
+    }
+  }
+  tc_SBML_api(arg1,arg2,arg3,arg4);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
 fail:
@@ -12477,6 +12543,8 @@ static const struct swig_octave_member swig_globals[] = {
 {"tc_AutoGeneRegulatoryTool_api",_wrap_tc_AutoGeneRegulatoryTool_api,0,0,2,0},
 {"tc_exportSBML",_wrap_tc_exportSBML,0,0,2,0},
 {"tc_importSBML",_wrap_tc_importSBML,0,0,2,0},
+{"tc_exportText",_wrap_tc_exportText,0,0,2,0},
+{"tc_importText",_wrap_tc_importText,0,0,2,0},
 {"tc_SBML_api",_wrap_tc_SBML_api,0,0,2,0},
 {"tc_simulateDeterministic",_wrap_tc_simulateDeterministic,0,0,2,0},
 {"tc_simulateStochastic",_wrap_tc_simulateStochastic,0,0,2,0},

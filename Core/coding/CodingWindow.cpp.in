@@ -580,7 +580,12 @@ specific for:\n\"\"\"\n\n") + text;
 
 		QSplitter * splitter = new QSplitter(Qt::Horizontal);
         splitter->addWidget(editorWidget);
-       	splitter->addWidget(new TCFunctionsListView(mainWindow, appDir + tr("/c"), editor));
+		QWidget * rightWidget = new QWidget;
+		QVBoxLayout * rightLayout = new QVBoxLayout;
+		rightLayout->addWidget(new QLabel(tr("double-click on a function to insert")),0);
+		rightLayout->addWidget(new TCFunctionsListView(mainWindow, appDir + tr("/c"), editor),10);
+		rightWidget->setLayout(rightLayout);
+       	splitter->addWidget(rightWidget);
         splitter->setStretchFactor(0,2);
 
         window->setCentralWidget(splitter);
@@ -1199,8 +1204,8 @@ specific for:\n\"\"\"\n\n") + text;
 
 					QTreeWidgetItem * childItem = new QTreeWidgetItem(QStringList() << name << str);
 					currentItem->addChild(childItem);
-					childItem->setToolTip(1,currentComment);
-					childItem->setWhatsThis(1,currentComment);
+					childItem->setToolTip(0,currentComment);
+					childItem->setWhatsThis(0,currentComment);
 				 }
 			 }
 			file.close();

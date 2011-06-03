@@ -14005,10 +14005,64 @@ R_swig_tc_importSBML ( SEXP file)
 
 
 SWIGEXPORT SEXP
-R_swig_tc_SBML_api ( SEXP exportSBML, SEXP importSBML)
+R_swig_tc_exportText ( SEXP file)
+{
+  char *arg1 = (char *) 0 ;
+  int res1 ;
+  char *buf1 = 0 ;
+  int alloc1 = 0 ;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  res1 = SWIG_AsCharPtrAndSize(file, &buf1, NULL, &alloc1);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_exportText" "', argument " "1"" of type '" "char const *""'");
+  }
+  arg1 = (char *)(buf1);
+  tc_exportText((char const *)arg1);
+  r_ans = R_NilValue;
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
+SWIGEXPORT SEXP
+R_swig_tc_importText ( SEXP file)
+{
+  char *arg1 = (char *) 0 ;
+  int res1 ;
+  char *buf1 = 0 ;
+  int alloc1 = 0 ;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  res1 = SWIG_AsCharPtrAndSize(file, &buf1, NULL, &alloc1);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_importText" "', argument " "1"" of type '" "char const *""'");
+  }
+  arg1 = (char *)(buf1);
+  tc_importText((char const *)arg1);
+  r_ans = R_NilValue;
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
+SWIGEXPORT SEXP
+R_swig_tc_SBML_api ( SEXP exportSBML, SEXP importSBML, SEXP exportText, SEXP importText)
 {
   void (*arg1)(char const *) = (void (*)(char const *)) 0 ;
   void (*arg2)(char const *) = (void (*)(char const *)) 0 ;
+  void (*arg3)(char const *) = (void (*)(char const *)) 0 ;
+  void (*arg4)(char const *) = (void (*)(char const *)) 0 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
@@ -14035,8 +14089,32 @@ R_swig_tc_SBML_api ( SEXP exportSBML, SEXP importSBML)
     arg2 = _p_f_p_q_const__char__void;
     R_SWIG_pushCallbackFunctionData(importSBML, NULL);
   }
-  tc_SBML_api(arg1,arg2);
+  if(TYPEOF(exportText) != CLOSXP) {
+    {
+      int res = SWIG_R_ConvertPtr(exportText, (void**)(&arg3), SWIGTYPE_p_f_p_q_const__char__void, 0);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_SBML_api" "', argument " "3"" of type '" "void (*)(char const *)""'"); 
+      }
+    }
+  } else {
+    arg3 = _p_f_p_q_const__char__void;
+    R_SWIG_pushCallbackFunctionData(exportText, NULL);
+  }
+  if(TYPEOF(importText) != CLOSXP) {
+    {
+      int res = SWIG_R_ConvertPtr(importText, (void**)(&arg4), SWIGTYPE_p_f_p_q_const__char__void, 0);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_SBML_api" "', argument " "4"" of type '" "void (*)(char const *)""'"); 
+      }
+    }
+  } else {
+    arg4 = _p_f_p_q_const__char__void;
+    R_SWIG_pushCallbackFunctionData(importText, NULL);
+  }
+  tc_SBML_api(arg1,arg2,arg3,arg4);
   r_ans = R_NilValue;
+  
+  
   
   
   vmaxset(r_vmax);
@@ -16024,6 +16102,8 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_getChildren", (DL_FUNC) &R_swig_tc_getChildren, 2},
    {"R_swig_tc_elementaryFluxModes", (DL_FUNC) &R_swig_tc_elementaryFluxModes, 1},
    {"R_swig_tc_getX", (DL_FUNC) &R_swig_tc_getX, 2},
+   {"R_swig_tc_exportText", (DL_FUNC) &R_swig_tc_exportText, 1},
+   {"R_swig_tc_importText", (DL_FUNC) &R_swig_tc_importText, 1},
    {"R_swig_tc_getY", (DL_FUNC) &R_swig_tc_getY, 2},
    {"R_swig_tc_findItems", (DL_FUNC) &R_swig_tc_findItems, 2},
    {"R_swig_tc_savePlot", (DL_FUNC) &R_swig_tc_savePlot, 1},
@@ -16098,7 +16178,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_matrix_rows_get", (DL_FUNC) &R_swig_tc_matrix_rows_get, 2},
    {"R_swig_tc_LoadCLibraries_api", (DL_FUNC) &R_swig_tc_LoadCLibraries_api, 5},
    {"R_swig_tc_multiplot", (DL_FUNC) &R_swig_tc_multiplot, 2},
-   {"R_swig_tc_SBML_api", (DL_FUNC) &R_swig_tc_SBML_api, 2},
+   {"R_swig_tc_SBML_api", (DL_FUNC) &R_swig_tc_SBML_api, 4},
    {"R_swig_tc_screenX", (DL_FUNC) &R_swig_tc_screenX, 1},
    {"R_swig_tc_setPosMulti", (DL_FUNC) &R_swig_tc_setPosMulti, 2},
    {"R_swig_tc_screenY", (DL_FUNC) &R_swig_tc_screenY, 1},

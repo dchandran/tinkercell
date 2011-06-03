@@ -264,6 +264,8 @@ package tinkercell;
 *tc_AutoGeneRegulatoryTool_api = *tinkercellc::tc_AutoGeneRegulatoryTool_api;
 *tc_exportSBML = *tinkercellc::tc_exportSBML;
 *tc_importSBML = *tinkercellc::tc_importSBML;
+*tc_exportText = *tinkercellc::tc_exportText;
+*tc_importText = *tinkercellc::tc_importText;
 *tc_SBML_api = *tinkercellc::tc_SBML_api;
 *tc_simulateDeterministic = *tinkercellc::tc_simulateDeterministic;
 *tc_simulateStochastic = *tinkercellc::tc_simulateStochastic;

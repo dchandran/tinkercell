@@ -112,6 +112,7 @@ namespace Tinkercell
 		/*! \brief used to connect to modelSummaryTool*/
 		void toolLoaded(Tool*);
 		
+	public slots:
 		void loadNetwork(const QString&);
 
 	private:

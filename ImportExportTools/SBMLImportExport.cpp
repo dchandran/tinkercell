@@ -29,6 +29,8 @@ SBMLImportExport::SBMLImportExport() : Tool("SBML Tool","Export")
 	SBMLImportExport::fToS->setParent(this);
 	connect(fToS,SIGNAL(exportSBML(QSemaphore*, const QString&)),this,SLOT(exportSBML(QSemaphore*, const QString&)));
 	connect(fToS,SIGNAL(importSBML(QSemaphore*, const QString&)),this,SLOT(importSBML(QSemaphore*, const QString&)));
+	connect(fToS,SIGNAL(exportText(QSemaphore*, const QString&)),this,SLOT(exportText(QSemaphore*, const QString&)));
+	connect(fToS,SIGNAL(importText(QSemaphore*, const QString&)),this,SLOT(importText(QSemaphore*, const QString&)));
 }
 
 SBMLImportExport::~SBMLImportExport()
@@ -102,14 +104,16 @@ bool SBMLImportExport::setMainWindow(MainWindow * main)
 
 typedef void (*tc_SBML_api)(
 		void (*exportSBMLFile)(const char *),
-		void (*importSBMLString)(const char*));
+		void (*importSBMLString)(const char*),
+		void (*exportTextFile)(const char *),
+		void (*importTextString)(const char*));
 
 void SBMLImportExport::setupFunctionPointers( QLibrary * library)
 {
 	tc_SBML_api f = (tc_SBML_api)library->resolve("tc_SBML_api");
 	if (f)
 	{
-		f(	&exportSBMLFile, &importSBMLString );
+		f(	&exportSBMLFile, &importSBMLString, &exportTextFile, &importTextString );
 	}
 }
 
@@ -157,6 +161,16 @@ void SBMLImportExport::importSBMLString(const char* s)
 	fToS->importSBMLString(s);
 }
 
+void SBMLImportExport::exportTextFile(const char * s)
+{
+	return fToS->exportTextFile(s);
+}
+
+void SBMLImportExport::importTextString(const char* s)
+{
+	fToS->importTextString(s);
+}
+
 void SBMLImportExport_FtoS::exportSBMLFile(const char * c)
 {
 	QSemaphore * s = new QSemaphore(1);
@@ -176,6 +190,43 @@ void SBMLImportExport_FtoS::importSBMLString(const char* c)
 	s->release();
 }
 
+void SBMLImportExport_FtoS::exportTextFile(const char * c)
+{
+	QSemaphore * s = new QSemaphore(1);
+	s->acquire();
+	emit exportText(s,ConvertValue(c));
+	s->acquire();
+	s->release();
+	delete s;
+}
+
+void SBMLImportExport_FtoS::importTextString(const char* c)
+{
+	QSemaphore * s = new QSemaphore(1);
+	s->acquire();
+	emit importText(s,ConvertValue(c));
+	s->acquire();
+	s->release();
+}
+
+void SBMLImportExport::exportText(QSemaphore * sem, const QString & str)
+{
+	if (currentNetwork())
+	{
+		QString text;
+		emit getTextVersion(currentNetwork()->handles(), &text);
+		QFile file(str);
+		if (file.open(QFile::WriteOnly | QFile::Text))
+		{
+			file.write(text.toUtf8());
+			file.close();
+		}
+	}
+
+	if (sem)
+		sem->release();
+}
+
 void SBMLImportExport::exportSBML(QSemaphore * sem, const QString & str)
 {
 	if (modelNeedsUpdate)
@@ -183,30 +234,7 @@ void SBMLImportExport::exportSBML(QSemaphore * sem, const QString & str)
 
 	if (sbmlDocument)
 		writeSBML (sbmlDocument, ConvertValue(str) );
-	/*if (currentNetwork())
-	{
-		QList<ItemHandle*> handles = currentNetwork()->handles();
-		copasi_model model;
-		model.CopasiModelPtr = 0;
-		model.CopasiDataModelPtr = 0;
-		model.qHash = 0;
-		NumericalDataTable table;
-		SimulationThread::updateModel(handles, model, table);		
-		cWriteSBMLFile(model, str.toAscii().data());		
-		cRemoveModel(model);
-	}*/
-	
-	/*if (currentNetwork())
-	{
-		QList<ItemHandle*> handles = currentNetwork()->handles();
-		QString antimony = AntimonyEditor::getAntimonyScript(handles);
-		QFile file(str);
-		if (file.open(QFile::WriteOnly | QFile::Text))
-		{
-			file.write(antimony.toUtf8());
-			file.close();
-		}
-	}*/
+
 	if (sem)
 		sem->release();
 }
@@ -214,6 +242,18 @@ void SBMLImportExport::exportSBML(QSemaphore * sem, const QString & str)
 void SBMLImportExport::loadNetwork(const QString& filename)
 {
 	importSBML(0,filename);
+}
+
+void SBMLImportExport::importText(QSemaphore * sem, const QString& str)
+{
+	QWidget * tool = mainWindow->tool("Antimony Parser");
+	if (tool)
+	{
+		AntimonyEditor * antEdit = static_cast<AntimonyEditor*>(tool);
+		antEdit->loadNetwork(str);	
+	}
+	if (sem)
+		sem->release();	
 }
 
 void SBMLImportExport::importSBML(QSemaphore * sem, const QString& str)

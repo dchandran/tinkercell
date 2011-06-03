@@ -120,7 +120,7 @@ TCAPIEXPORT void tc_setTextAttributes(tc_table);
  \param int 0=temporarily (just for simulation, fast), 1 = permanent (slower)
  \ingroup Modeling
 */
-TCAPIEXPORT void tc_setParameters(tc_matrix, int);
+TCAPIEXPORT void tc_setParameters(tc_matrix parameters, int permanentOrTemporary);
 /*! 
  \brief initialize the parameters and attributes plug-in
  \ingroup init

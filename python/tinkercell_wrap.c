@@ -5722,7 +5722,7 @@ SWIGINTERN PyObject *_wrap_tc_setPosMulti(PyObject *SWIGUNUSEDPARM(self), PyObje
       SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setPosMulti" "', argument " "2"" of type '" "tc_matrix""'"); 
     }  
     if (!argp2) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_setPosMulti" "', argument " "2"" of type '" "tc_matrix""'");
+      SWIG_exceptionOfail(SWIG_ValueError, "invalid null reference " "in method '" "tc_setPosMulti" "', argument " "2"" of type '" "tc_matrix""'");
     } else {
       arg2 = *((tc_matrix *)(argp2));
     }

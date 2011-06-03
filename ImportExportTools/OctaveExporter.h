@@ -31,7 +31,10 @@ namespace Tinkercell
 
 		OctaveExporter();
 		bool setMainWindow(MainWindow * main);
-		
+	
+	public slots:
+		void exportOctave(const QString& filename);
+	
 	private slots:
 		void exportOctave();
 	};

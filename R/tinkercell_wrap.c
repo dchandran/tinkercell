@@ -14057,12 +14057,39 @@ R_swig_tc_importText ( SEXP file)
 
 
 SWIGEXPORT SEXP
-R_swig_tc_SBML_api ( SEXP exportSBML, SEXP importSBML, SEXP exportText, SEXP importText)
+R_swig_tc_exportMatlab ( SEXP file)
+{
+  char *arg1 = (char *) 0 ;
+  int res1 ;
+  char *buf1 = 0 ;
+  int alloc1 = 0 ;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  res1 = SWIG_AsCharPtrAndSize(file, &buf1, NULL, &alloc1);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_exportMatlab" "', argument " "1"" of type '" "char const *""'");
+  }
+  arg1 = (char *)(buf1);
+  tc_exportMatlab((char const *)arg1);
+  r_ans = R_NilValue;
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
+SWIGEXPORT SEXP
+R_swig_tc_SBML_api ( SEXP exportSBML, SEXP importSBML, SEXP exportText, SEXP importText, SEXP exportMath)
 {
   void (*arg1)(char const *) = (void (*)(char const *)) 0 ;
   void (*arg2)(char const *) = (void (*)(char const *)) 0 ;
   void (*arg3)(char const *) = (void (*)(char const *)) 0 ;
   void (*arg4)(char const *) = (void (*)(char const *)) 0 ;
+  void (*arg5)(char const *) = (void (*)(char const *)) 0 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
@@ -14111,8 +14138,20 @@ R_swig_tc_SBML_api ( SEXP exportSBML, SEXP importSBML, SEXP exportText, SEXP imp
     arg4 = _p_f_p_q_const__char__void;
     R_SWIG_pushCallbackFunctionData(importText, NULL);
   }
-  tc_SBML_api(arg1,arg2,arg3,arg4);
+  if(TYPEOF(exportMath) != CLOSXP) {
+    {
+      int res = SWIG_R_ConvertPtr(exportMath, (void**)(&arg5), SWIGTYPE_p_f_p_q_const__char__void, 0);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_SBML_api" "', argument " "5"" of type '" "void (*)(char const *)""'"); 
+      }
+    }
+  } else {
+    arg5 = _p_f_p_q_const__char__void;
+    R_SWIG_pushCallbackFunctionData(exportMath, NULL);
+  }
+  tc_SBML_api(arg1,arg2,arg3,arg4,arg5);
   r_ans = R_NilValue;
+  
   
   
   
@@ -16011,6 +16050,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_printFile", (DL_FUNC) &R_swig_tc_printFile, 1},
    {"R_swig_tc_getSteadyState", (DL_FUNC) &R_swig_tc_getSteadyState, 1},
    {"R_swig_tc_getParametersExcept", (DL_FUNC) &R_swig_tc_getParametersExcept, 3},
+   {"R_swig_tc_exportMatlab", (DL_FUNC) &R_swig_tc_exportMatlab, 1},
    {"R_swig_tc_table_rows_set", (DL_FUNC) &R_swig_tc_table_rows_set, 2},
    {"R_swig_tc_matrix_rows_set", (DL_FUNC) &R_swig_tc_matrix_rows_set, 2},
    {"R_swig_tc_setNumericalData", (DL_FUNC) &R_swig_tc_setNumericalData, 3},
@@ -16178,7 +16218,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_matrix_rows_get", (DL_FUNC) &R_swig_tc_matrix_rows_get, 2},
    {"R_swig_tc_LoadCLibraries_api", (DL_FUNC) &R_swig_tc_LoadCLibraries_api, 5},
    {"R_swig_tc_multiplot", (DL_FUNC) &R_swig_tc_multiplot, 2},
-   {"R_swig_tc_SBML_api", (DL_FUNC) &R_swig_tc_SBML_api, 4},
+   {"R_swig_tc_SBML_api", (DL_FUNC) &R_swig_tc_SBML_api, 5},
    {"R_swig_tc_screenX", (DL_FUNC) &R_swig_tc_screenX, 1},
    {"R_swig_tc_setPosMulti", (DL_FUNC) &R_swig_tc_setPosMulti, 2},
    {"R_swig_tc_screenY", (DL_FUNC) &R_swig_tc_screenY, 1},

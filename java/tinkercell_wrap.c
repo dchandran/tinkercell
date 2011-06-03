@@ -5034,11 +5034,27 @@ SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1importText(JNIEnv *jenv, jclass j
 }
 
 
-SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1SBML_1api(JNIEnv *jenv, jclass jcls, jlong jarg1, jlong jarg2, jlong jarg3, jlong jarg4) {
+SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1exportMatlab(JNIEnv *jenv, jclass jcls, jstring jarg1) {
+  char *arg1 = (char *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = 0;
+  if (jarg1) {
+    arg1 = (char *)(*jenv)->GetStringUTFChars(jenv, jarg1, 0);
+    if (!arg1) return ;
+  }
+  tc_exportMatlab((char const *)arg1);
+  if (arg1) (*jenv)->ReleaseStringUTFChars(jenv, jarg1, (const char *)arg1);
+}
+
+
+SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1SBML_1api(JNIEnv *jenv, jclass jcls, jlong jarg1, jlong jarg2, jlong jarg3, jlong jarg4, jlong jarg5) {
   void (*arg1)(char const *) = (void (*)(char const *)) 0 ;
   void (*arg2)(char const *) = (void (*)(char const *)) 0 ;
   void (*arg3)(char const *) = (void (*)(char const *)) 0 ;
   void (*arg4)(char const *) = (void (*)(char const *)) 0 ;
+  void (*arg5)(char const *) = (void (*)(char const *)) 0 ;
   
   (void)jenv;
   (void)jcls;
@@ -5046,7 +5062,8 @@ SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1SBML_1api(JNIEnv *jenv, jclass jc
   arg2 = *(void (**)(char const *))&jarg2; 
   arg3 = *(void (**)(char const *))&jarg3; 
   arg4 = *(void (**)(char const *))&jarg4; 
-  tc_SBML_api(arg1,arg2,arg3,arg4);
+  arg5 = *(void (**)(char const *))&jarg5; 
+  tc_SBML_api(arg1,arg2,arg3,arg4,arg5);
 }
 
 

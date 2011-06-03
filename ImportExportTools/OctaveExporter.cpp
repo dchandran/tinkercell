@@ -71,8 +71,15 @@ namespace Tinkercell
 		return true;
 	}
 
-	
+
 	void OctaveExporter::exportOctave()
+	{
+		QString filename(tempDir() + tr("/tinkercellmodel.m"));
+		exportOctave(filename);
+		QDesktopServices::openUrl(QUrl(filename));
+	}
+
+	void OctaveExporter::exportOctave(const QString& filename)
 	{
 		NetworkHandle * network = currentNetwork();
 		if (!network)
@@ -81,7 +88,6 @@ namespace Tinkercell
 			return;
 		}
 
-		QString filename = tempDir() + tr("/tinkercellmodel.m");
 		QFile file(filename);
 		
 		if (!file.open(QFile::WriteOnly | QFile::Text))
@@ -441,7 +447,6 @@ namespace Tinkercell
 
 		file.write(code.join("").toUtf8());
 		file.close();
-		QDesktopServices::openUrl(QUrl(filename));
 	}
 }
 

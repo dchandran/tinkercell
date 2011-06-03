@@ -17,6 +17,7 @@
 #include "ConsoleWindow.h"
 #include "SimulationThread.h"
 #include "AntimonyEditor.h"
+#include "OctaveExporter.h"
 
 using namespace Tinkercell;
 using namespace std;
@@ -31,6 +32,7 @@ SBMLImportExport::SBMLImportExport() : Tool("SBML Tool","Export")
 	connect(fToS,SIGNAL(importSBML(QSemaphore*, const QString&)),this,SLOT(importSBML(QSemaphore*, const QString&)));
 	connect(fToS,SIGNAL(exportText(QSemaphore*, const QString&)),this,SLOT(exportText(QSemaphore*, const QString&)));
 	connect(fToS,SIGNAL(importText(QSemaphore*, const QString&)),this,SLOT(importText(QSemaphore*, const QString&)));
+	connect(fToS,SIGNAL(exportMath(QSemaphore*, const QString&)),this,SLOT(exportMath(QSemaphore*, const QString&)));
 }
 
 SBMLImportExport::~SBMLImportExport()
@@ -106,14 +108,15 @@ typedef void (*tc_SBML_api)(
 		void (*exportSBMLFile)(const char *),
 		void (*importSBMLString)(const char*),
 		void (*exportTextFile)(const char *),
-		void (*importTextString)(const char*));
+		void (*importTextString)(const char*),
+		void (*exportMathFile)(const char *));
 
 void SBMLImportExport::setupFunctionPointers( QLibrary * library)
 {
 	tc_SBML_api f = (tc_SBML_api)library->resolve("tc_SBML_api");
 	if (f)
 	{
-		f(	&exportSBMLFile, &importSBMLString, &exportTextFile, &importTextString );
+		f(	&exportSBMLFile, &importSBMLString, &exportTextFile, &importTextString, &exportMathFile );
 	}
 }
 
@@ -171,6 +174,12 @@ void SBMLImportExport::importTextString(const char* s)
 	fToS->importTextString(s);
 }
 
+void SBMLImportExport::exportMathFile(const char * s)
+{
+	return fToS->exportMathFile(s);
+}
+
+
 void SBMLImportExport_FtoS::exportSBMLFile(const char * c)
 {
 	QSemaphore * s = new QSemaphore(1);
@@ -207,6 +216,28 @@ void SBMLImportExport_FtoS::importTextString(const char* c)
 	emit importText(s,ConvertValue(c));
 	s->acquire();
 	s->release();
+}
+
+void SBMLImportExport_FtoS::exportMathFile(const char * c)
+{
+	QSemaphore * s = new QSemaphore(1);
+	s->acquire();
+	emit exportMath(s,ConvertValue(c));
+	s->acquire();
+	s->release();
+	delete s;
+}
+
+void SBMLImportExport::exportMath(QSemaphore * sem, const QString & str)
+{
+	QWidget * tool = mainWindow->tool("Octave Export Tool");
+	if (tool)
+	{
+		OctaveExporter * octTool = static_cast<OctaveExporter*>(tool);
+		octTool->exportOctave(str);	
+	}
+	if (sem)
+		sem->release();
 }
 
 void SBMLImportExport::exportText(QSemaphore * sem, const QString & str)

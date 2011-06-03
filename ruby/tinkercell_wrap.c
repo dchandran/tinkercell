@@ -10606,14 +10606,39 @@ fail:
 
 
 SWIGINTERN VALUE
+_wrap_tc_exportMatlab(int argc, VALUE *argv, VALUE self) {
+  char *arg1 = (char *) 0 ;
+  int res1 ;
+  char *buf1 = 0 ;
+  int alloc1 = 0 ;
+  
+  if ((argc < 1) || (argc > 1)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 1)",argc); SWIG_fail;
+  }
+  res1 = SWIG_AsCharPtrAndSize(argv[0], &buf1, NULL, &alloc1);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "char const *","tc_exportMatlab", 1, argv[0] ));
+  }
+  arg1 = (char *)(buf1);
+  tc_exportMatlab((char const *)arg1);
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  return Qnil;
+fail:
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
 _wrap_tc_SBML_api(int argc, VALUE *argv, VALUE self) {
   void (*arg1)(char const *) = (void (*)(char const *)) 0 ;
   void (*arg2)(char const *) = (void (*)(char const *)) 0 ;
   void (*arg3)(char const *) = (void (*)(char const *)) 0 ;
   void (*arg4)(char const *) = (void (*)(char const *)) 0 ;
+  void (*arg5)(char const *) = (void (*)(char const *)) 0 ;
   
-  if ((argc < 4) || (argc > 4)) {
-    rb_raise(rb_eArgError, "wrong # of arguments(%d for 4)",argc); SWIG_fail;
+  if ((argc < 5) || (argc > 5)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 5)",argc); SWIG_fail;
   }
   {
     int res = SWIG_ConvertFunctionPtr(argv[0], (void**)(&arg1), SWIGTYPE_p_f_p_q_const__char__void);
@@ -10639,7 +10664,13 @@ _wrap_tc_SBML_api(int argc, VALUE *argv, VALUE self) {
       SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(char const *)","tc_SBML_api", 4, argv[3] )); 
     }
   }
-  tc_SBML_api(arg1,arg2,arg3,arg4);
+  {
+    int res = SWIG_ConvertFunctionPtr(argv[4], (void**)(&arg5), SWIGTYPE_p_f_p_q_const__char__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(char const *)","tc_SBML_api", 5, argv[4] )); 
+    }
+  }
+  tc_SBML_api(arg1,arg2,arg3,arg4,arg5);
   return Qnil;
 fail:
   return Qnil;
@@ -12384,6 +12415,7 @@ SWIGEXPORT void Init_tinkercell(void) {
   rb_define_module_function(mTinkercell, "tc_importSBML", _wrap_tc_importSBML, -1);
   rb_define_module_function(mTinkercell, "tc_exportText", _wrap_tc_exportText, -1);
   rb_define_module_function(mTinkercell, "tc_importText", _wrap_tc_importText, -1);
+  rb_define_module_function(mTinkercell, "tc_exportMatlab", _wrap_tc_exportMatlab, -1);
   rb_define_module_function(mTinkercell, "tc_SBML_api", _wrap_tc_SBML_api, -1);
   rb_define_module_function(mTinkercell, "tc_simulateDeterministic", _wrap_tc_simulateDeterministic, -1);
   rb_define_module_function(mTinkercell, "tc_simulateStochastic", _wrap_tc_simulateStochastic, -1);

@@ -31,11 +31,13 @@ namespace Tinkercell
 			void importSBML(QSemaphore*, const QString&);
 			void exportText(QSemaphore*, const QString&);
 			void importText(QSemaphore*, const QString&);
+			void exportMath(QSemaphore*, const QString&);
 		public:
 			void exportSBMLFile(const char *);
 			void importSBMLString(const char*);
 			void exportTextFile(const char *);
 			void importTextString(const char*);
+			void exportMathFile(const char *);
 	};
 	
 	/*! \brief This class imports and exports SBML file format.
@@ -70,6 +72,7 @@ namespace Tinkercell
 		void importSBML(QSemaphore*, const QString&);
 		void exportText(QSemaphore*, const QString&);
 		void importText(QSemaphore*, const QString&);
+		void exportMath(QSemaphore*, const QString&);
 
 	private:
 
@@ -83,6 +86,7 @@ namespace Tinkercell
 		static void importSBMLString(const char*);
 		static void exportTextFile(const char *);
 		static void importTextString(const char*);
+		static void exportMathFile(const char *);
 	};
 }
 

@@ -11643,18 +11643,44 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_tc_exportMatlab(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  char *arg1 = (char *) 0 ;
+  int res1 ;
+  char *buf1 = 0 ;
+  int alloc1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:tc_exportMatlab",&obj0)) SWIG_fail;
+  res1 = SWIG_AsCharPtrAndSize(obj0, &buf1, NULL, &alloc1);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_exportMatlab" "', argument " "1"" of type '" "char const *""'");
+  }
+  arg1 = (char *)(buf1);
+  tc_exportMatlab((char const *)arg1);
+  resultobj = SWIG_Py_Void();
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  return resultobj;
+fail:
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_tc_SBML_api(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   void (*arg1)(char const *) = (void (*)(char const *)) 0 ;
   void (*arg2)(char const *) = (void (*)(char const *)) 0 ;
   void (*arg3)(char const *) = (void (*)(char const *)) 0 ;
   void (*arg4)(char const *) = (void (*)(char const *)) 0 ;
+  void (*arg5)(char const *) = (void (*)(char const *)) 0 ;
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   PyObject * obj2 = 0 ;
   PyObject * obj3 = 0 ;
+  PyObject * obj4 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"OOOO:tc_SBML_api",&obj0,&obj1,&obj2,&obj3)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"OOOOO:tc_SBML_api",&obj0,&obj1,&obj2,&obj3,&obj4)) SWIG_fail;
   {
     int res = SWIG_ConvertFunctionPtr(obj0, (void**)(&arg1), SWIGTYPE_p_f_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
@@ -11679,7 +11705,13 @@ SWIGINTERN PyObject *_wrap_tc_SBML_api(PyObject *SWIGUNUSEDPARM(self), PyObject 
       SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_SBML_api" "', argument " "4"" of type '" "void (*)(char const *)""'"); 
     }
   }
-  tc_SBML_api(arg1,arg2,arg3,arg4);
+  {
+    int res = SWIG_ConvertFunctionPtr(obj4, (void**)(&arg5), SWIGTYPE_p_f_p_q_const__char__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_SBML_api" "', argument " "5"" of type '" "void (*)(char const *)""'"); 
+    }
+  }
+  tc_SBML_api(arg1,arg2,arg3,arg4,arg5);
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -12775,6 +12807,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"tc_importSBML", _wrap_tc_importSBML, METH_VARARGS, NULL},
 	 { (char *)"tc_exportText", _wrap_tc_exportText, METH_VARARGS, NULL},
 	 { (char *)"tc_importText", _wrap_tc_importText, METH_VARARGS, NULL},
+	 { (char *)"tc_exportMatlab", _wrap_tc_exportMatlab, METH_VARARGS, NULL},
 	 { (char *)"tc_SBML_api", _wrap_tc_SBML_api, METH_VARARGS, NULL},
 	 { (char *)"tc_simulateDeterministic", _wrap_tc_simulateDeterministic, METH_VARARGS, NULL},
 	 { (char *)"tc_simulateStochastic", _wrap_tc_simulateStochastic, METH_VARARGS, NULL},

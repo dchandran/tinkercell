@@ -6591,9 +6591,22 @@ attr(`tc_importText`, 'returnType') = 'void'
 attr(`tc_importText`, "inputTypes") = c('character')
 class(`tc_importText`) = c("SWIGFunction", class('tc_importText'))
 
+# Start of tc_exportMatlab
+
+`tc_exportMatlab` = function(file)
+{
+  file = as(file, "character") 
+  .Call('R_swig_tc_exportMatlab', file, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_exportMatlab`, 'returnType') = 'void'
+attr(`tc_exportMatlab`, "inputTypes") = c('character')
+class(`tc_exportMatlab`) = c("SWIGFunction", class('tc_exportMatlab'))
+
 # Start of tc_SBML_api
 
-`tc_SBML_api` = function(exportSBML, importSBML, exportText, importText)
+`tc_SBML_api` = function(exportSBML, importSBML, exportText, importText, exportMath)
 {
   if(is.function(exportSBML)) {
     assert('...' %in% names(formals(exportSBML)) || length(formals(exportSBML)) >= 0)
@@ -6635,12 +6648,22 @@ class(`tc_importText`) = c("SWIGFunction", class('tc_importText'))
       importText = importText$address
     }
   }
-  .Call('R_swig_tc_SBML_api', exportSBML, importSBML, exportText, importText, PACKAGE='tinkercell')
+  if(is.function(exportMath)) {
+    assert('...' %in% names(formals(exportMath)) || length(formals(exportMath)) >= 0)
+  } else {
+    if(is.character(exportMath)) {
+      exportMath = getNativeSymbolInfo(exportMath)
+    }
+    if(is(exportMath, "NativeSymbolInfo")) {
+      exportMath = exportMath$address
+    }
+  }
+  .Call('R_swig_tc_SBML_api', exportSBML, importSBML, exportText, importText, exportMath, PACKAGE='tinkercell')
   
 }
 
 attr(`tc_SBML_api`, 'returnType') = 'void'
-attr(`tc_SBML_api`, "inputTypes") = c('_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void')
+attr(`tc_SBML_api`, "inputTypes") = c('_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void')
 class(`tc_SBML_api`) = c("SWIGFunction", class('tc_SBML_api'))
 
 # Start of tc_simulateDeterministic

@@ -1037,6 +1037,10 @@ def tc_importText(*args):
   return _tinkercell.tc_importText(*args)
 tc_importText = _tinkercell.tc_importText
 
+def tc_exportMatlab(*args):
+  return _tinkercell.tc_exportMatlab(*args)
+tc_exportMatlab = _tinkercell.tc_exportMatlab
+
 def tc_SBML_api(*args):
   return _tinkercell.tc_SBML_api(*args)
 tc_SBML_api = _tinkercell.tc_SBML_api

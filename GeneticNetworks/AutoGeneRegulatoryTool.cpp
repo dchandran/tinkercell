@@ -2461,12 +2461,12 @@ namespace Tinkercell
 		if (partNodes.isEmpty()) return;
 		
 		QRectF rect = plasmidNode->sceneBoundingRect();
-		qreal dx = (rect.width()-10.0)/partNodes.size();
+		qreal dx = (rect.width())/(1+partNodes.size());
 		QList<QPointF> distances;
 		
 		for (int i=0; i < partNodes.size(); ++i)
 		{
-			distances += QPointF(rect.left(),rect.center().y()) + QPointF(i*dx, -30.0) - partNodes[i]->scenePos();
+			distances += QPointF(rect.left(),rect.center().y()) + QPointF((i+1)*dx, -30.0) - partNodes[i]->scenePos();
 		}
 		
 		scene->move(partNodes, distances);

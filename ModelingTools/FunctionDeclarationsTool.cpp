@@ -196,8 +196,7 @@ namespace Tinkercell
 	{
 		if (!updatedFunctions.isEmpty())
 			widgets.insertTab(0,this,tr("Formulas"));
-		else
-		if (widgets.count() > 0)		
+		else	
 			widgets.addTab(this,tr("Formulas"));
 	}
 

@@ -109,7 +109,12 @@ namespace Tinkercell
 				}
 
 				if (handle->family())
+				{
+					QStringList synonyms = handle->family()->synonyms;					
 					handlesByFamily.insertMulti(handle->family()->name(), handle);
+					for (int j=0; j < synonyms.size(); ++j)
+						handlesByFamily.insertMulti(synonyms[j], handle);
+				}
 
 				QList<QString> keys = handle->numericalDataNames();
 				for (int j=0; j < keys.size(); ++j)
@@ -269,7 +274,15 @@ namespace Tinkercell
 		
 		allHandles.clear();
 		for (int i=0; i < sortedFamilies.size(); ++i)
-			allHandles += handlesByFamily.values(sortedFamilies[i]->name());
+		{
+			QList<ItemHandle*> items = handlesByFamily.values(sortedFamilies[i]->name());
+			QStringList names;
+			for (int j=0; j < items.size(); ++j) 
+				names += items[j]->fullName();
+			names.sort();
+			for (int j=0; j < names.size(); ++j)
+				allHandles += uniqueHandlesWithDot[ names[j] ];
+		}
 		
 		return allHandles;
 	}

@@ -11,6 +11,7 @@ Each item in Tinkercell has an associated family.
 ****************************************************************************/
 #include <iostream>
 #include <QtDebug>
+#include "Ontology.h"
 #include "ItemFamily.h"
 #include "ItemHandle.h"
 
@@ -102,6 +103,12 @@ namespace Tinkercell
 	bool ItemFamily::isA(const QString& name) const
 	{
 		QString s1 = name.toLower();
+		ConnectionFamily * f1 = Ontology::connectionFamily(s1);
+		if (f1)
+			s1 = f1->name(); //map possible synonyms to default names
+		NodeFamily * f2 = Ontology::nodeFamily(s1);
+		if (f2)
+			s1 = f2->name(); //map possible synonyms to default names
 	
 		if (NAMETOID.contains(s1))
 			return isA(NAMETOID.value(s1));
@@ -238,6 +245,9 @@ namespace Tinkercell
 	bool NodeFamily::isA(const QString& name) const
 	{
 		QString s1 = name.toLower();
+		NodeFamily * f = Ontology::nodeFamily(s1);
+		if (f)
+			s1 = f->name(); //map possible synonyms to default names
 	
 		if (NAMETOID.contains(s1))
 			return isA(NAMETOID.value(s1));
@@ -333,6 +343,9 @@ namespace Tinkercell
 	bool ConnectionFamily::isA(const QString& name) const
 	{
 		QString s1 = name.toLower();
+		ConnectionFamily * f = Ontology::connectionFamily(s1);
+		if (f)
+			s1 = f->name(); //map possible synonyms to default names
 	
 		if (NAMETOID.contains(s1))
 			return isA(NAMETOID.value(s1));

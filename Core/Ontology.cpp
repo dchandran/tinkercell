@@ -119,14 +119,17 @@ namespace Tinkercell
 						lastReadFamilyNames << family2->name();
 				}
 				else
-				if (p.toLower() == QObject::tr("synonyms"))
+				if (p.toLower() == QObject::tr("synonyms") || p.toLower() == QObject::tr("synonym"))
 				{
 					QStringList syn = o.split(",");
 					for (int i=0; i < syn.size(); ++i)
 					{
 						QString s2 = syn[i].trimmed().toLower();
 						if (!Ontology::nodeFamily(s2))
+						{
+							family1->synonyms += s2;
 							Ontology::insertNodeFamily(s2, family1);
+						}
 					}
 				}
 				else

@@ -29,11 +29,13 @@
 <RNA>									<description>			"Chain of nucleic acids"@en .
 <Ribozyme>							<description>			"RNA molecules with catalytic activity"@en .
 <Part>									<a>							<Node> .
+<Part>									<synonyms>				"DNA Part"@en .
 <Part>									<units>						"activity,PoPS"@en.
 <Part>									<sequence>				"NNNNNNNNNN"@en.
-<Part>									<description>			"DNA nodes represent components that belong on a DNA strand, such as promoter, genes, etc" .
+<Part>									<description>			"DNA nodes represent components that belong on a DNA strand, such as promoter, genes, etc"@en .
 <Composite Part>					<a>							<Part> .
 <Coding>								<a>							<Part> .
+<Coding>								<synonyms>				"CDS, Coding sequence"@en .
 <Operator>							<a>							<Part> .
 <Activator Binding Site>		<a>							<Operator> .
 <Repressor Binding Site>		<a>							<Operator> .

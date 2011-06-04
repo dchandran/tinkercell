@@ -226,7 +226,7 @@ namespace Tinkercell
                             s1.replace(regex,replaceDot);
 							s2.replace(regex,replaceDot);
 
-							if (s1.isEmpty() || s2.isEmpty()) continue;
+							if (s1.isEmpty() || s2.size() < 2) continue;
 
 							if (s1.isEmpty() || s1 == tr("self"))
 							{

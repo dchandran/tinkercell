@@ -37,8 +37,24 @@ namespace Tinkercell
 		mainWindow->addToolBar(Qt::TopToolBarArea, toolBar);
 		toolBar->setObjectName(tr("Zoom, color, find toolbar"));
 		
+		QDialog * brightnessDialog = new QDialog(mainWindow);
+		QHBoxLayout * brightnessLayout = new QHBoxLayout;
+		brightnessSpinbox = new QSpinBox;
+		brightnessSpinbox->setRange(0,255);
+		brightnessSpinbox->setValue(255);
+		connect(brightnessSpinbox, SIGNAL(valueChanged(int)),this,SLOT(setAlphaForSelected(int)));
+		QPushButton * upBrightness = new QPushButton(QIcon(tr(":/images/plus.png")), tr("Increase transparency"));
+		QPushButton * downBrightness = new QPushButton(QIcon(tr(":/images/minus.png")), tr("Decrease transparency"));
+		connect(upBrightness, SIGNAL(pressed()), this, SLOT( alphaUp() ));
+		connect(downBrightness, SIGNAL(pressed()), this, SLOT( alphaDown() ));
+		brightnessLayout->addWidget(upBrightness);
+		brightnessLayout->addWidget(downBrightness);
+		brightnessLayout->addWidget(brightnessSpinbox);
+		brightnessDialog->setLayout(brightnessLayout);
+		
 		toolBar->addAction(QIcon(tr(":/images/zoomin.png")),tr("Zoom in"),this,SLOT(zoomIn()));
 		toolBar->addAction(QIcon(tr(":/images/zoomout.png")),tr("Zoom out"),this,SLOT(zoomOut()));
+		toolBar->addAction(QIcon(tr(":/images/sun.png")),tr("Brightness"),brightnessDialog,SLOT(show()));
 
 		QToolButton * setColor = new QToolButton(toolBar);
 		setColor->setPopupMode(QToolButton::MenuButtonPopup);
@@ -1629,5 +1645,80 @@ namespace Tinkercell
 		default: return;
 		}
 	}
-
+	
+	void BasicGraphicsToolbar::alphaUp()
+	{
+		if (brightnessSpinbox)
+			brightnessSpinbox->setValue( brightnessSpinbox->value() + 10 );
+	}
+	
+	void BasicGraphicsToolbar::alphaDown()
+	{
+		if (brightnessSpinbox)
+			brightnessSpinbox->setValue( brightnessSpinbox->value() - 10 );
+	}
+	
+	void BasicGraphicsToolbar::setAlphaForSelected(int a)
+	{
+		GraphicsScene * scene = currentScene();
+		if (!scene) return;
+		
+		QList<QGraphicsItem*>& selected = scene->selected();
+		QList<QGraphicsItem*> allSelected;
+		ItemHandle * handle = 0;
+		
+		for (int i=0; i < selected.size(); ++i)
+			if (handle = getHandle(selected[i]))
+			{
+				QList<QGraphicsItem*> items = handle->allGraphicsItems();
+				for (int j=0; j < items.size(); ++j)
+					if (!allSelected.contains(items[j]))
+						allSelected += items[j];
+			}
+		
+		for (int i=0; i < allSelected.size(); ++i)
+		{
+			NodeGraphicsItem * node = NodeGraphicsItem::cast(allSelected[i]);
+			if (node)
+			{
+				node->setAlpha(a);
+			}
+			else
+			{
+				ConnectionGraphicsItem * connection = ConnectionGraphicsItem::cast(allSelected[i]);
+				if (connection)
+				{
+					QPen pen = connection->pen();
+					QColor color = pen.color();
+					color.setAlpha(a);
+					pen.setColor(color);
+					connection->setPen(pen);
+				}
+				else
+				{
+					ControlPoint * cp = ControlPoint::cast(allSelected[i]);
+					if (cp)
+					{
+						QPen pen = cp->pen();
+						QBrush brush = cp->brush();
+						QColor color = pen.color();
+						color.setAlpha(a);
+						pen.setColor(color);
+						color = brush.color();
+						color.setAlpha(a);
+						brush.setColor(color);
+						cp->setPen(pen);
+						cp->setBrush(brush);
+					}
+					else
+					{
+						TextGraphicsItem * text = TextGraphicsItem::cast(allSelected[i]);
+						QColor color = text->defaultTextColor();
+						color.setAlpha(a);
+						text->setDefaultTextColor(color);
+					}
+				}
+			}
+		}
+	}
 }

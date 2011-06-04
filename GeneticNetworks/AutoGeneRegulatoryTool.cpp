@@ -1072,10 +1072,12 @@ namespace Tinkercell
 				&& (
 						/*handle->isA(tr("Transcription Regulation")) ||*/
 						handle->isA(tr("Production")) ||
-						(handle->parent && handle->parent->isA(tr("Production")) && !handles.contains(handle->parent))
+						(handle->parent && handle->parent->isA(tr("Production")) && !handles.contains(handle->parent)) ||
+						handle->isA(tr("Direct Gene Regulation")) ||
+						(handle->parent && handle->parent->isA(tr("Direct Gene Regulation")) && !handles.contains(handle->parent))
 					))
 			{
-				if (handle->parent && handle->parent->isA(tr("Production")))
+				if (handle->parent && (handle->parent->isA(tr("Production")) || handle->parent->isA(tr("Direct Gene Regulation"))))
 				{
 					QList<ConnectionGraphicsItem*> connections = ConnectionGraphicsItem::cast(handle->parent->graphicsItems);
 					if (!connections.isEmpty())

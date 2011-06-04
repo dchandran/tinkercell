@@ -87,6 +87,9 @@ namespace Tinkercell
 		void alignEvenSpacedVertical();
 		void alignEvenSpacedHorizontal();
 		void alignSelected();
+		void setAlphaForSelected(int);
+		void alphaUp();
+		void alphaDown();
 
 		void mousePressed(GraphicsScene * scene, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
 		void mouseDragged(GraphicsScene * scene, QPointF from, QPointF to, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
@@ -115,6 +118,7 @@ namespace Tinkercell
 		QLineEdit * findText;
 		QLineEdit * replaceText;
 		QMenu * gradientMenu;
+		QSpinBox * brightnessSpinbox;
 		QIcon linearGradientIcon, radialGradientIcon;
 		enum Mode { none, gradient, brush, pen, zoom, unzoom };
 		Mode mode;

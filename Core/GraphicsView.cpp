@@ -89,10 +89,12 @@ namespace Tinkercell
 		setRenderHint(QPainter::Antialiasing);
 		setCacheMode(QGraphicsView::CacheBackground);
 		setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
-		fitInView(QRectF(0,0,20,20),Qt::KeepAspectRatio);
 		QPointF center(scene->sceneRect().width()/2, scene->sceneRect().height()/2);
 		scene->lastPoint() = center;
-		centerOn( center);
+		//centerOn( center);
+		QPointF topLeft = center + QPointF(-10.0,10.0);
+		QPointF bottomRight = center + QPointF(10.0,-10.0);
+		fitInView(QRectF(topLeft, bottomRight),Qt::KeepAspectRatio);
 
 		setFocusPolicy(Qt::StrongFocus);
 	}

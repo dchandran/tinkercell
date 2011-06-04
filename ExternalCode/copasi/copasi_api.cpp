@@ -1051,10 +1051,12 @@ tc_matrix simulate(copasi_model model, double startTime, double endTime, int num
 		tc_matrix output = tc_createMatrix(rows, cols);
 		QStringList colnames;
 
-		for (j=0; j < cols; ++j)
+		for (j=1; j < cols; ++j)
 			colnames << QString(timeSeries.getTitle(j).c_str());
 
 		colnames.sort();
+		colnames.push_front(timeSeries.getTitle(0).c_str());
+
 		for (j=0; j < cols; ++j)
 			tc_setColumnName( output, j, colnames[j].toAscii().data() );
 	

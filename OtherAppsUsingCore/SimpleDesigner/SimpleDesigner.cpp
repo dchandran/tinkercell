@@ -25,6 +25,7 @@ This is an example application that uses the TinkerCell Core library
 #include "LoadSaveTool.h"
 #include "SimpleDesigner.h"
 #include "GlobalSettings.h"
+#include "GraphicsView.h"
 #include "Ontology.h"
 
 using namespace Tinkercell;

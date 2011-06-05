@@ -44,7 +44,6 @@ namespace Tinkercell
 		brightnessSpinbox->setValue(255);
 		connect(brightnessSpinbox, SIGNAL(valueChanged(int)),this,SLOT(setAlphaForSelected(int)));
 		QPushButton * upBrightness = new QPushButton(QIcon(tr(":/images/plus.png")), tr(""));
-		upBrightness->set
 		QPushButton * downBrightness = new QPushButton(QIcon(tr(":/images/minus.png")), tr(""));
 		connect(upBrightness, SIGNAL(pressed()), this, SLOT( alphaUp() ));
 		connect(downBrightness, SIGNAL(pressed()), this, SLOT( alphaDown() ));

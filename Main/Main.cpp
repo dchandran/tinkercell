@@ -9,6 +9,7 @@
 
 ****************************************************************************/
 #include "GlobalSettings.h"
+#include "GraphicsView.h"
 #include "BasicInformationTool.h"
 #include "StoichiometryTool.h"
 #include "FunctionDeclarationsTool.h"

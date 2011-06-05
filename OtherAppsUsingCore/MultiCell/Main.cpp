@@ -1,5 +1,6 @@
 #include <QApplication>
 #include "MultiCell.h"
+#include "GraphicsView.h"
 #include "CellTypeSelector.h"
 #include "GlobalSettings.h"
 

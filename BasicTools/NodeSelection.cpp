@@ -285,9 +285,9 @@ namespace Tinkercell
 				if (selectedTexts[i])
 				{
 					selectedTexts[i]->showBorder(false);
-					QColor color = selectedTexts[i]->plainTextColor();
+					QColor color = selectedTexts[i]->defaultTextColor();
 					color.setAlpha(255);
-					selectedTexts[i]->setPlainTextColor(color);
+					selectedTexts[i]->setDefaultTextColor(color);
 				}
 			}
 	}

@@ -107,8 +107,8 @@ signals:
 		// void selectedChange(QGraphicsItem *item);
 
 	protected:
-		// QVariant itemChange(GraphicsItemChange change, const QVariant &value);
-		// void focusOutEvent(QFocusEvent *event);
+		//QVariant itemChange(GraphicsItemChange change, const QVariant &value);
+		//void focusOutEvent(QFocusEvent *event);
 		//void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 
 		/*! \brief draws a border around the text item. hide or show using showBorder()*/

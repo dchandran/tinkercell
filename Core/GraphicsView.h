@@ -63,6 +63,12 @@ namespace Tinkercell
 	{
 		Q_OBJECT
 	
+	public:
+		/*! \brief default screen width */
+		static double DEFAULT_WIDTH;
+		/*! \brief default screen height */
+		static double DEFAULT_HEIGHT;
+	
 	private:
 		/*! \brief background */
 		QPixmap background;

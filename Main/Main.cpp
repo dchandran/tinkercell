@@ -74,8 +74,11 @@ int main(int argc, char *argv[])
     GlobalSettings::ORGANIZATIONNAME = QObject::tr("TinkerCell");
     GlobalSettings::PROJECTNAME = QObject::tr("TinkerCell");
     GlobalSettings::PLUGINS_SVN_URL = QObject::tr("https://tinkercellextra.svn.sourceforge.net/svnroot/tinkercellextra"); //for updating
+	
     ConsoleWindow::Prompt = QObject::tr(">");	
 	ConsoleWindow::BackgroundColor = QColor("#555555");
+	GraphicsView::DEFAULT_WIDTH = 15;
+	GraphicsView::DEFAULT_HEIGHT = 15;
 	
 	QColor color("#00EE00");
 	color.setAlpha(50);

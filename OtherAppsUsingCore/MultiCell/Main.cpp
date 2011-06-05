@@ -16,6 +16,9 @@ int main(int argc, char *argv[])
 	GlobalSettings::ENABLE_PYTHON = false;
 	GlobalSettings::ENABLE_OCTAVE = true;
 	GlobalSettings::ENABLE_LOADSAVE_TOOL = true;
+	
+	GraphicsView::DEFAULT_WIDTH = 25;
+	GraphicsView::DEFAULT_HEIGHT = 25;
 
     Tinkercell::GlobalSettings::PROJECTWEBSITE = QObject::tr("www.tinkercell.com");
     Tinkercell::GlobalSettings::ORGANIZATIONNAME = QObject::tr("MultiCell Simulator");

@@ -283,7 +283,12 @@ namespace Tinkercell
 			for (int i=0; i < selectedTexts.size(); ++i)
 			{
 				if (selectedTexts[i])
+				{
 					selectedTexts[i]->showBorder(false);
+					QColor color = selectedTexts[i]->plainTextColor();
+					color.setAlpha(255);
+					selectedTexts[i]->setPlainTextColor(color);
+				}
 			}
 	}
 

@@ -91,8 +91,8 @@ namespace Tinkercell
 		void setAlphaForSelected(int);
 		void alphaUp();
 		void alphaDown();
+		void alphaDialogOpened();
 
-		void itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers modifiers);
 		void mousePressed(GraphicsScene * scene, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
 		void mouseDragged(GraphicsScene * scene, QPointF from, QPointF to, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
 		void mouseMoved(GraphicsScene * scene, QGraphicsItem* item, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers modifiers, QList<QGraphicsItem*>&);
@@ -126,7 +126,7 @@ namespace Tinkercell
 		QMenu * gradientMenu;
 		QSpinBox * brightnessSpinbox;
 		QIcon linearGradientIcon, radialGradientIcon;
-		enum Mode { none, gradient, brush, pen, zoom, unzoom };
+		enum Mode { none, gradient, brush, pen, zoom, unzoom, brightness };
 		Mode mode;
 		QGraphicsRectItem zoomRect;			
 		QAction * alignButton;

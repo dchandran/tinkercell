@@ -55,7 +55,7 @@ namespace Tinkercell
 		
 		toolBar->addAction(QIcon(tr(":/images/zoomin.png")),tr("Zoom in"),this,SLOT(zoomIn()));
 		toolBar->addAction(QIcon(tr(":/images/zoomout.png")),tr("Zoom out"),this,SLOT(zoomOut()));
-		toolBar->addAction(QIcon(tr(":/images/sun.png")),tr("Brightness"),alphaDialog,SLOT(show()));
+		toolBar->addAction(QIcon(tr(":/images/sun.png")),tr("Brightness"),this,SLOT(alphaDialogOpened()));
 
 		QToolButton * setColor = new QToolButton(toolBar);
 		setColor->setPopupMode(QToolButton::MenuButtonPopup);
@@ -313,8 +313,6 @@ namespace Tinkercell
 
 			connect(mainWindow,SIGNAL(mouseMoved(GraphicsScene*, QGraphicsItem*, QPointF, Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>&)),
 				this,SLOT(mouseMoved(GraphicsScene*, QGraphicsItem*, QPointF, Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>&)));
-				
-			connect(mainWindow, SIGNAL(itemsSelected(GraphicsScene *, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)), this, SLOT(itemsSelected(GraphicsScene *, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
 
 			mainWindow->addTool(new TextGraphicsTool(toolBar));
 
@@ -616,7 +614,7 @@ namespace Tinkercell
 
 	void BasicGraphicsToolbar::mousePressed(GraphicsScene * scene, QPointF , Qt::MouseButton button, Qt::KeyboardModifiers )
 	{
-		if (scene && button == Qt::LeftButton && mode == zoom)
+		if (scene && button == Qt::LeftButton && (mode == zoom || mode == brightness))
 		{
 			if (zoomRect.scene() != scene)
 			{
@@ -635,7 +633,7 @@ namespace Tinkercell
 
 	void BasicGraphicsToolbar::mouseMoved(GraphicsScene * scene, QGraphicsItem* , QPointF point, Qt::MouseButton button, Qt::KeyboardModifiers , QList<QGraphicsItem*>& )
 	{
-		if (scene && button == Qt::LeftButton && mode == zoom && zoomRect.isVisible())
+		if (scene && button == Qt::LeftButton && (mode == zoom || mode == brightness) && zoomRect.isVisible())
 		{
 			QPointF & p0 = scene->lastPoint();
 			qreal x1, x2, y1, y2;
@@ -670,7 +668,7 @@ namespace Tinkercell
 	{
 		if (scene == 0) return;
 
-		if (mode == zoom)
+		if (mode == zoom || mode == brightness)
 		{
 			if (button == Qt::LeftButton)
 			{
@@ -699,14 +697,25 @@ namespace Tinkercell
 				}
 
 				QRectF rect(x1,y1,x2-x1,y2-y1);
-				if (scene->items(rect).size() < 2)
+				
+				if (mode == brightness)
 				{
-					scene->centerOn(to);
-					scene->zoom(1.5);
+					scene->useDefaultBehavior(false);
+					revertColors(alphaChangedItems);
+					alphaChangedItems = scene->items(rect);
+					setAlphaForSelected(brightnessSpinbox->value());
 				}
 				else
 				{
-				    scene->fitInView(rect);
+					if (scene->items(rect).size() < 2)
+					{
+						scene->centerOn(to);
+						scene->zoom(1.5);
+					}
+					else
+					{
+						scene->fitInView(rect);
+					}
 				}
 			}
 
@@ -716,10 +725,13 @@ namespace Tinkercell
 			if (zoomRect.scene() == scene)
 				scene->removeItem(&zoomRect);
 
-			scene->useDefaultBehavior(true);;
-			mode = this->none;
+			if (mode == zoom)
+			{
+				scene->useDefaultBehavior(true);
+				mode = this->none;
+				mainWindow->setCursor(Qt::ArrowCursor);
+			}
 
-			mainWindow->setCursor(Qt::ArrowCursor);
 			return;
 		}
 		
@@ -1649,19 +1661,26 @@ namespace Tinkercell
 		}
 	}
 	
-	void BasicGraphicsToolbar::itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers modifiers)
+	void BasicGraphicsToolbar::alphaDialogOpened()
 	{
-		if (brightnessSpinbox && alphaDialog->isVisible())
-		{
-			revertColors(alphaChangedItems);
-			revertColors(items);
-			alphaChangedItems = items;
-			setAlphaForSelected(brightnessSpinbox->value());
-		}
+		GraphicsScene * scene = currentScene();
+		if (!scene) return;
+		
+		scene->deselect();
+		mode = brightness;
+		
+		if (!brightnessSpinbox || !alphaDialog) init();
+		alphaDialog->show();
+		scene->useDefaultBehavior(false);
 	}
 	
 	void BasicGraphicsToolbar::alphaDialogClosing()
 	{
+		if (mode == brightness)
+			mode = none;
+		GraphicsScene * scene = currentScene();
+		if (scene)
+			scene->useDefaultBehavior(true);
 		revertColors(alphaChangedItems);
 		alphaChangedItems.clear();
 	}
@@ -1716,11 +1735,12 @@ namespace Tinkercell
 						arrows << connection->centerRegionItem;
 					
 					for (int j=0; j < arrows.size(); ++j)
-					{
-						node = arrows[j];
-						node->setBoundingBoxVisible(false);
-						node->setAlpha(a);
-					}
+						if (arrows[j])
+						{
+							node = arrows[j];
+							node->setBoundingBoxVisible(false);
+							node->setAlpha(a);
+						}
 				}
 				else
 				{
@@ -1741,10 +1761,13 @@ namespace Tinkercell
 					else
 					{
 						TextGraphicsItem * text = TextGraphicsItem::cast(allSelected[i]);
-						QColor color = text->defaultTextColor();
-						color.setAlpha(a);
-						text->showBorder(false);
-						text->setDefaultTextColor(color);
+						if (text)
+						{
+							QColor color = text->defaultTextColor();
+							color.setAlpha(a);
+							text->showBorder(false);
+							text->setDefaultTextColor(color);
+						}
 					}
 				}
 			}

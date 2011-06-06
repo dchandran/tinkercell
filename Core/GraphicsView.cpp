@@ -25,8 +25,8 @@ The GraphicsView class provides a view for a GraphicsScene. It
 
 namespace Tinkercell
 {
-	double GraphicsView::DEFAULT_WIDTH = 15.0;
-	double GraphicsView::DEFAULT_HEIGHT = 15.0;
+	double GraphicsView::DEFAULT_WIDTH = 25.0;
+	double GraphicsView::DEFAULT_HEIGHT = 25.0;
 	
 	void GraphicsView::drawBackground( QPainter * painter, const QRectF & rect )
 	{

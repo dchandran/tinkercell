@@ -37,7 +37,8 @@ namespace Tinkercell
 		mainWindow->addToolBar(Qt::TopToolBarArea, toolBar);
 		toolBar->setObjectName(tr("Zoom, color, find toolbar"));
 		
-		QDialog * brightnessDialog = new QDialog(mainWindow);
+		alphaDialog = new AlphaControllingDialog(mainWindow);
+		connect(alphaDialog, SIGNAL(closing()), this, SLOT(alphaDialogClosing()));
 		QHBoxLayout * brightnessLayout = new QHBoxLayout;
 		brightnessSpinbox = new QSpinBox;
 		brightnessSpinbox->setRange(0,255);
@@ -50,11 +51,11 @@ namespace Tinkercell
 		brightnessLayout->addWidget(upBrightness);
 		brightnessLayout->addWidget(downBrightness);
 		brightnessLayout->addWidget(brightnessSpinbox);
-		brightnessDialog->setLayout(brightnessLayout);
+		alphaDialog->setLayout(brightnessLayout);
 		
 		toolBar->addAction(QIcon(tr(":/images/zoomin.png")),tr("Zoom in"),this,SLOT(zoomIn()));
 		toolBar->addAction(QIcon(tr(":/images/zoomout.png")),tr("Zoom out"),this,SLOT(zoomOut()));
-		toolBar->addAction(QIcon(tr(":/images/sun.png")),tr("Brightness"),brightnessDialog,SLOT(show()));
+		toolBar->addAction(QIcon(tr(":/images/sun.png")),tr("Brightness"),alphaDialog,SLOT(show()));
 
 		QToolButton * setColor = new QToolButton(toolBar);
 		setColor->setPopupMode(QToolButton::MenuButtonPopup);
@@ -312,6 +313,8 @@ namespace Tinkercell
 
 			connect(mainWindow,SIGNAL(mouseMoved(GraphicsScene*, QGraphicsItem*, QPointF, Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>&)),
 				this,SLOT(mouseMoved(GraphicsScene*, QGraphicsItem*, QPointF, Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>&)));
+				
+			connect(mainWindow, SIGNAL(itemsSelected(GraphicsScene *, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)), this, SLOT(itemsSelected(GraphicsScene *, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
 
 			mainWindow->addTool(new TextGraphicsTool(toolBar));
 
@@ -1646,6 +1649,22 @@ namespace Tinkercell
 		}
 	}
 	
+	void BasicGraphicsToolbar::itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers modifiers)
+	{
+		if (brightnessSpinbox && alphaDialog->isVisible())
+		{
+			revertColors(items);
+			alphaChangedItems = items;
+			setAlphaForSelected(brightnessSpinbox->value());
+		}
+	}
+	
+	void BasicGraphicsToolbar::alphaDialogClosing()
+	{
+		revertColors(alphaChangedItems);
+		alphaChangedItems.clear();
+	}
+	
 	void BasicGraphicsToolbar::alphaUp()
 	{
 		if (brightnessSpinbox)
@@ -1660,10 +1679,7 @@ namespace Tinkercell
 	
 	void BasicGraphicsToolbar::setAlphaForSelected(int a)
 	{
-		GraphicsScene * scene = currentScene();
-		if (!scene) return;
-		
-		QList<QGraphicsItem*>& selected = scene->selected();
+		QList<QGraphicsItem*>& selected = alphaChangedItems;
 		QList<QGraphicsItem*> allSelected;
 		ItemHandle * handle = 0;
 		
@@ -1681,6 +1697,7 @@ namespace Tinkercell
 			NodeGraphicsItem * node = NodeGraphicsItem::cast(allSelected[i]);
 			if (node)
 			{
+				node->setBoundingBoxVisible(false);
 				node->setAlpha(a);
 			}
 			else
@@ -1693,6 +1710,16 @@ namespace Tinkercell
 					color.setAlpha(a);
 					pen.setColor(color);
 					connection->setPen(pen);
+					QList<ArrowHeadItem*> arrows = connection->arrowHeads();
+					if (connection->centerRegionItem)
+						arrows << connection->centerRegionItem;
+					
+					for (int j=0; j < arrows.size(); ++j)
+					{
+						node = arrows[j];
+						node->setBoundingBoxVisible(false);
+						node->setAlpha(a);
+					}
 				}
 				else
 				{
@@ -1715,10 +1742,81 @@ namespace Tinkercell
 						TextGraphicsItem * text = TextGraphicsItem::cast(allSelected[i]);
 						QColor color = text->defaultTextColor();
 						color.setAlpha(a);
+						text->showBorder(false);
 						text->setDefaultTextColor(color);
 					}
 				}
 			}
 		}
+	}
+	
+	void BasicGraphicsToolbar::revertColors(const QList<QGraphicsItem*>& items)
+	{
+		QList<ConnectionGraphicsItem*> selectedConnections = ConnectionGraphicsItem::cast(items);
+		QList<NodeGraphicsItem*> selectedNodes = NodeGraphicsItem::cast(items);
+		QList<ControlPoint*> selectedControlPoints = ControlPoint::cast(items);
+		QList<TextGraphicsItem*> selectedTexts = TextGraphicsItem::cast(items);
+		ItemHandle * handle = 0;
+
+		for (int i=0; i < selectedConnections.size(); ++i)
+		{
+			ConnectionGraphicsItem * connection = 0;
+			if (selectedConnections[i] != 0)
+			{
+				selectedConnections[i]->setControlPointsVisible(false);
+				selectedConnections[i]->setPen(selectedConnections[i]->defaultPen);
+				handle = selectedConnections[i]->handle();
+				if (handle != 0)
+					for (int j=0; j < handle->graphicsItems.size(); ++j)
+					{
+						if ((connection = ConnectionGraphicsItem::topLevelConnectionItem(handle->graphicsItems[j])))
+						{
+							connection->setPen(connection->defaultPen);
+							connection->refresh();
+						}
+					}
+			}
+		}
+
+		for (int i=0; i < selectedControlPoints.size(); ++i)
+		{
+			if (selectedControlPoints[i] != 0)
+			{
+				selectedControlPoints[i]->setBrush(selectedControlPoints[i]->defaultBrush);
+				selectedControlPoints[i]->setPen(selectedControlPoints[i]->defaultPen);
+				NodeGraphicsItem::ControlPoint * cp =
+					qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(selectedControlPoints[i]);
+				if (cp && cp->nodeItem)
+					cp->nodeItem->setBoundingBoxVisible(false);
+			}
+		}
+
+		for (int i=0; i < selectedNodes.size(); ++i)
+			if (selectedNodes[i] != 0)
+			{
+				selectedNodes[i]->setBoundingBoxVisible(false);
+
+				for (int j=0; j < selectedNodes[i]->shapes.size(); ++j)
+				{
+
+					NodeGraphicsItem::Shape * shape = selectedNodes[i]->shapes[j];
+					if (shape != 0)
+					{
+						shape->setBrush(shape->defaultBrush);
+						shape->setPen(shape->defaultPen);
+					}
+				}
+			}
+
+			for (int i=0; i < selectedTexts.size(); ++i)
+			{
+				if (selectedTexts[i])
+				{
+					selectedTexts[i]->showBorder(false);
+					QColor color = selectedTexts[i]->defaultTextColor();
+					color.setAlpha(255);
+					selectedTexts[i]->setDefaultTextColor(color);
+				}
+			}
 	}
 }

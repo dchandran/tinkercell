@@ -70,8 +70,10 @@ namespace Tinkercell
 			// Enable the use of dynamic_cast with this item.
 			return Type;
 		}
-		/*! \brief Gets the control point item from one of its child items*/
+		/*! \brief cast QGraphicsItem to ControlPoint item. output will be 0 if pointer is not a control point*/
 		static ControlPoint * cast(QGraphicsItem* item);
+		/*! \brief cast QGraphicsItems to ControlPoint items*/
+		static QList<ControlPoint*> cast(const QList<QGraphicsItem*>& items);
 		/*! \brief side effect when moved. always call this after moving*/
 		virtual void sideEffect();
 		/*! \brief make a copy of this control point*/

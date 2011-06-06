@@ -82,6 +82,11 @@ namespace Tinkercell
 		\return TextGraphicsItem this will be 0 if the cast is invalid
 		*/
 		static TextGraphicsItem* cast(QGraphicsItem *);
+		/*! \brief cast a list of graphics items to text items using qgraphicsitem_cast
+		\param QGraphicsItem graphics item
+		\return TextGraphicsItem this will be 0 if the cast is invalid
+		*/
+		static QList<TextGraphicsItem*> cast(const QList<QGraphicsItem*>&);
 		/*! \brief relative position with a target item
 		*/
 		QPair<QGraphicsItem*,QPointF> relativePosition;

@@ -44,6 +44,7 @@ buttons for all these functions.
 
 namespace Tinkercell
 {
+	class AlphaControllingDialog;
 	/*!
 	\brief A tool that provides GUI features such as alignment, zoom, and coloring
 	\ingroup plugins
@@ -91,12 +92,17 @@ namespace Tinkercell
 		void alphaUp();
 		void alphaDown();
 
+		void itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers modifiers);
 		void mousePressed(GraphicsScene * scene, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
 		void mouseDragged(GraphicsScene * scene, QPointF from, QPointF to, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
 		void mouseMoved(GraphicsScene * scene, QGraphicsItem* item, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers modifiers, QList<QGraphicsItem*>&);
 		void mouseReleased(GraphicsScene * scene, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
 		void keyPressed(GraphicsScene * scene, QKeyEvent *);
 		void escapeSlot ( const QWidget * );
+
+	private slots:
+		void alphaDialogClosing();
+		void revertColors(const QList<QGraphicsItem*>&);
 
 	protected:
 
@@ -106,7 +112,7 @@ namespace Tinkercell
 		void moveChildItems(QList<QGraphicsItem*> &, QList<QPointF> &);
 		void init();
 
-		QList<QGraphicsItem*> targetItems;
+		QList<QGraphicsItem*> alphaChangedItems;
 		QGradient::Type gradientType;
 		QPointF gradientPos1, gradientPos2;
 		QToolBar * findToolBar;
@@ -127,9 +133,26 @@ namespace Tinkercell
 		enum AlignMode { left, right, bottom, top, centervertical, centerhorizontal, evenspacedvertical, evenspacedhorizontal, compactvertical, compacthorizontal };
 		AlignMode alignMode;
 		QToolBar * toolBar;
+		AlphaControllingDialog * alphaDialog;
 	};
 
-
+	class AlphaControllingDialog : public QDialog
+	{
+			Q_OBJECT
+		public:
+			AlphaControllingDialog(QWidget * parent) : QDialog(parent)
+			{
+			}
+		
+		signals:
+			void closing();
+		
+		protected:
+			void closeEvent(QCloseEvent * )
+			{
+				emit closing();
+			}
+	};
 }
 
 #endif

@@ -10,6 +10,7 @@ a handle
 ****************************************************************************/
 
 #include <QPainter>
+#include "Tool.h"
 #include "MainWindow.h"
 #include "TextGraphicsItem.h"
 #include "NodeGraphicsItem.h"
@@ -144,10 +145,24 @@ void TextGraphicsItem::setText(const QString& s)
 	setPlainText(s);
 }
 
-TextGraphicsItem* TextGraphicsItem::cast(QGraphicsItem * q)
+TextGraphicsItem* TextGraphicsItem::cast(QGraphicsItem * item)
 {
 	//if (MainWindow::invalidPointers.contains( (void*)q )) return 0;
-	return qgraphicsitem_cast<TextGraphicsItem*>(q);
+	if (!item || ToolGraphicsItem::cast(item->topLevelItem())) return 0;
+	return qgraphicsitem_cast<TextGraphicsItem*>(item);
+}
+
+QList<TextGraphicsItem*> TextGraphicsItem::cast(const QList<QGraphicsItem*>& items)
+{
+	QList<TextGraphicsItem*> items2;
+	TextGraphicsItem * text = 0;
+	for (int i=0; i < items.size(); ++i)
+	{
+		text = TextGraphicsItem::cast(items[i]);
+		if (text && !items2.contains(text))
+			items2 << text;
+	}
+	return items2;
 }
 
 QGraphicsItem* TextGraphicsItem::closestItem() const

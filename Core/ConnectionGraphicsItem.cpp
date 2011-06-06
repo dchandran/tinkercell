@@ -99,6 +99,16 @@ namespace Tinkercell
 
 		return 0;
 	}
+	
+	QList<ControlPoint*> ControlPoint::cast(const QList<QGraphicsItem*>& items)
+	{
+		QList<ControlPoint*> items2;
+		ControlPoint * cp = 0;
+		for (int i=0; i < items.size(); ++i)
+			if ((cp = ControlPoint::cast(items[i])) && !items2.contains(cp))
+				items2 << cp;
+		return items2;
+	}
 
 	/*! Constructor: init everything */
 	ArrowHeadItem::ArrowHeadItem(ConnectionGraphicsItem* connection) : NodeGraphicsItem()

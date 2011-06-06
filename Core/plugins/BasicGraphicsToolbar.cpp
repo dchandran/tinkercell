@@ -1653,6 +1653,7 @@ namespace Tinkercell
 	{
 		if (brightnessSpinbox && alphaDialog->isVisible())
 		{
+			revertColors(alphaChangedItems);
 			revertColors(items);
 			alphaChangedItems = items;
 			setAlphaForSelected(brightnessSpinbox->value());

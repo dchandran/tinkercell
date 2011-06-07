@@ -102,7 +102,7 @@ namespace Tinkercell
 		
 		static AutoGeneRegulatoryTool_FtoS * fToS;
 		
-		QUndoCommand * adjustPlasmid(GraphicsScene * , NodeGraphicsItem*, bool align=true);
+		QUndoCommand * adjustPlasmid(GraphicsScene * , NodeGraphicsItem*, bool align=true, bool keepChildren=false);
 		QUndoCommand * autoAssignRates(QList<NodeHandle*>&);
 		
 	public:

@@ -696,6 +696,7 @@ namespace Tinkercell
 					
 						bool isCustomEqn = StoichiometryTool::userModifiedRates.contains(parts[i]);
 					
+
 						if (!parts[i]->textDataTable(tr("Assignments")).hasRow(tr("self")) ||
 							(!isCustomEqn && oldrate != rate))
 							 {
@@ -1251,7 +1252,7 @@ namespace Tinkercell
 				qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(items[i])->nodeItem->handle() &&
 				qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(items[i])->nodeItem->handle()->isA(tr("Vector")))
 			{
-				adjustPlasmidCommands += adjustPlasmid(scene,qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(items[i])->nodeItem);
+				adjustPlasmidCommands += adjustPlasmid(scene,qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(items[i])->nodeItem,true,true);
 				items[i] = 0;
 			}
 		
@@ -1883,7 +1884,7 @@ namespace Tinkercell
 		return rate;
 	}
 
-	QUndoCommand * AutoGeneRegulatoryTool::adjustPlasmid(GraphicsScene * scene, NodeGraphicsItem * vector, bool align)
+	QUndoCommand * AutoGeneRegulatoryTool::adjustPlasmid(GraphicsScene * scene, NodeGraphicsItem * vector, bool align, bool keepChildren)
 	{
 		QList<QUndoCommand*> commands;
 		if (!vector || !scene) return new CompositeCommand(tr("plasmid adjusted"),commands);
@@ -1937,6 +1938,9 @@ namespace Tinkercell
 		QList<ItemHandle*> existingChildren = vectorHandle->children;
 		QList<ItemHandle*> trueChildren = children + existingChildren;
 		
+		if (keepChildren)
+			trueChildren = existingChildren;
+		
 		for (int i=0; i < existingChildren.size(); ++i)
 			if (existingChildren[i])
 			{
@@ -1955,7 +1959,13 @@ namespace Tinkercell
 					trueChildren.removeAll(existingChildren[i]);
 				}
 			}
-
+			
+		if (keepChildren)
+		{
+			trueChildren = existingChildren;
+			children.clear();
+		}
+		
 		if (!children.isEmpty())
 		{
 			commands << new SetParentHandleCommand(tr("parents set"), scene->network, children, parents);

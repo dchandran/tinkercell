@@ -655,7 +655,7 @@ namespace Tinkercell
 		GraphicsScene * scene = currentScene();
 		if (scene && w)
 		{
-			scene-fitAll();
+			scene->fitAll();
 			QRectF viewport = scene->visibleRegion();
 			(*w) = (int)viewport.width();
 		}
@@ -668,7 +668,7 @@ namespace Tinkercell
 		GraphicsScene * scene = currentScene();
 		if (scene && h)
 		{
-			scene-fitAll();
+			scene->fitAll();
 			QRectF viewport = scene->visibleRegion();
 			(*h) = (int)viewport.height();
 		}
@@ -681,7 +681,7 @@ namespace Tinkercell
 		GraphicsScene * scene = currentScene();
 		if (scene && x)
 		{
-			scene-fitAll();
+			scene->fitAll();
 			QRectF viewport = scene->visibleRegion();
 			(*x) = (int)viewport.x();
 		}
@@ -694,7 +694,7 @@ namespace Tinkercell
 		GraphicsScene * scene = currentScene();
 		if (scene && y)
 		{
-			scene-fitAll();
+			scene->fitAll();
 			QRectF viewport = scene->visibleRegion();
 			(*y) = (int)viewport.y();
 		}

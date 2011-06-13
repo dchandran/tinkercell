@@ -550,7 +550,7 @@ void SimulationThread::run()
 					
 					for (j=0; j < n2; ++j)
 					{
-						p2 = start2 + (double)(i)*step2;
+						p2 = start2 + (double)(j)*step2;
 						cSetValue(model, param2.toUtf8().data(), p2);
 						
 						ss = cGetSteadyState2(model,10);

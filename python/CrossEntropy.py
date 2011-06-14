@@ -24,10 +24,14 @@ def OptimizeParameters(objective, title="optimizing", maxits=200, N=100, minimiz
         n = allparams.rows
         for i in range(0,allparams.rows):
             x = tc_getMatrixValue(allparams, i, 0)
-            tc_setMatrixValue(allparams, i, 1, x/10.0)
             if x > 0:
+                tc_setMatrixValue(allparams, i, 1, x/10.0)
                 tc_setMatrixValue(allparams, i, 2, x*10.0)
-            else:
+            elif x < 0:
+                tc_setMatrixValue(allparams, i, 2, x/10.0)
+                tc_setMatrixValue(allparams, i, 1, x*10.0)
+            elif:
+                tc_setMatrixValue(allparams, i, 2, 0.0)
                 tc_setMatrixValue(allparams, i, 2, 1.0)
 
     params = tc_createMatrix(n,3)
@@ -72,7 +76,8 @@ def OptimizeParameters(objective, title="optimizing", maxits=200, N=100, minimiz
         oldmax = curmax
         curmax = max(S)
         t1 = 100 * t / maxits
-        t2 = 100 * epsilon/(oldmax - curmax)
+        t2 = 100
+        if oldmax > curmax: t2 *= epsilon/(oldmax - curmax)
         if t2 > lasterr:
             lasterr = t2
         if t < 2 or t1 > lasterr: 

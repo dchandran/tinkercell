@@ -2,7 +2,7 @@
 category: Optimization
 name: Optimize any Python function
 description: Write a function and get the distribution of parameters that satisfies that function
-icon: function.png
+icon: python.png
 menu: yes
 tool: no
 """

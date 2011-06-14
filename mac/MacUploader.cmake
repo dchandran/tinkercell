@@ -9,10 +9,4 @@ CONFIGURE_FILE(
   @ONLY
 )
 
-CONFIGURE_FILE( 
-	${TINKERCELL_SOURCE_DIR}/mac/CopyFromCurrentToStable.sh.in
-	${TINKERCELL_BINARY_DIR}/CopyFromCurrentToStable.sh
-	@ONLY
-)
-
 MESSAGE(STATUS "Source ${TINKERCELL_BINARY_DIR}/mac/CreateApp.sh to build the program, the installer, and upload it to the sourceforge site")

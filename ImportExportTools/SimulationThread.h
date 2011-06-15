@@ -184,6 +184,15 @@ namespace Tinkercell
 	class TINKERCELLEXPORT SimulationDialog : public QDialog
 	{
 		Q_OBJECT
+		
+		signals:
+			/*! \brief get the item handles in the model
+			* \param SimulationThread * this thread
+			* \param QSemaphore * semaphore that should be released by the thread recieving this signal
+			* \param QList<ItemHandle> reference to list of handles
+			* \param bool receiving thread should set this to true is any changes to the model is made
+			*/
+			void getHandles( const SimulationThread *, QSemaphore*, QList<ItemHandle*>*, bool * changed);
 
 		public:
 			/*! \brief constructor*/
@@ -191,6 +200,8 @@ namespace Tinkercell
 			/*! \brief destructor*/
 			~SimulationDialog();
 		public slots:
+			/*! \brief Updates the COPASI model using the updateModel(QList<ItemHandle*>) function*/
+			void updateModel();
 			/*! \brief set the simulation thread*/
 			void setThread(SimulationThread *);
 			/*! \brief set the analysis method*/

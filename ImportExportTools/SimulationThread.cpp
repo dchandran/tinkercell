@@ -1,3 +1,4 @@
+#include "ConsoleWindow.h"
 #include "ItemHandle.h"
 #include "NetworkHandle.h"
 #include "StoichiometryTool.h"
@@ -316,10 +317,24 @@ void SimulationThread::updateModel()
 	if (changed)
 	{
 		argMatrix.resize(0,0);
-		updateModel(handles,this->model, optimizationParameters);
+		updateModel(handles, this->model, optimizationParameters);
 	}
 
 	delete sem;
+}
+
+void SimulationDialog::updateModel()
+{
+	if (!thread) return;
+	
+	bool changed = false;
+	QList<ItemHandle*> handles;
+	emit getHandles( thread, 0, &handles, &changed);
+	if (changed)
+	{
+		thread->argMatrix.resize(0,0);
+		SimulationThread::updateModel(handles, thread->model, thread->optimizationParameters);
+	}
 }
 
 SimulationThread::SimulationThread(MainWindow * parent) : CThread(parent)
@@ -901,7 +916,7 @@ void SimulationDialog::run()
 	}
 	
 	this->hide();
-	thread->updateModel();
+	updateModel();
 	
 	QStringList rownames;
 	QList<double> col1, col2;

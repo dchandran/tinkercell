@@ -84,6 +84,10 @@ bool CopasiExporter::setMainWindow(MainWindow * main)
 	if (!mainWindow) return false;
 	
 	simDialog = new SimulationDialog(mainWindow);
+	connect(simDialog,
+					SIGNAL(getHandles(const SimulationThread *, QSemaphore*, QList<ItemHandle*>*, bool *)),
+					CopasiExporter::_instance, 
+					SLOT(getHandles(const SimulationThread *, QSemaphore*, QList<ItemHandle*>*, bool *)));
 	
 	connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 	connect(main,SIGNAL(historyChanged(int)),this, SLOT(historyChanged(int)));

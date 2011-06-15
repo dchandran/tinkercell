@@ -56,13 +56,21 @@ SimulationThread * CopasiExporter::getSimulationThread()
 {
 	for (int i=0; i < runningThreads.size(); ++i)
 		if (runningThreads[i] && !runningThreads[i]->isRunning())
+		{
+			if (updatedParameters.rows() > 0)
+				runningThreads[i]->updateModelParameters(updatedParameters);
 			return runningThreads[i];
+		}
 	
 	SimulationThread * thread = new SimulationThread(MainWindow::instance());
-	connect(thread,
-			SIGNAL(getHandles(const SimulationThread *, QSemaphore*, QList<ItemHandle*>*, bool *)),
-			CopasiExporter::_instance, 
-			SLOT(getHandles(const SimulationThread *, QSemaphore*, QList<ItemHandle*>*, bool *)));
+	if (!connect(thread,
+					SIGNAL(getHandles(const SimulationThread *, QSemaphore*, QList<ItemHandle*>*, bool *)),
+					CopasiExporter::_instance, 
+					SLOT(getHandles(const SimulationThread *, QSemaphore*, QList<ItemHandle*>*, bool *))))
+		{
+			delete thread;
+			return 0;
+		}
 
 	if (updatedParameters.rows() > 0)
 		thread->updateModelParameters(updatedParameters);

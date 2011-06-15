@@ -304,8 +304,10 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles, copasi_model & 
 void SimulationThread::updateModel()
 {
 	QSemaphore * sem = new QSemaphore(1);
+
 	bool changed = true;
 	QList<ItemHandle*> handles;
+	
 	sem->acquire();
 	emit getHandles( this, sem, &handles, &changed);
 	sem->acquire();
@@ -316,7 +318,7 @@ void SimulationThread::updateModel()
 		argMatrix.resize(0,0);
 		updateModel(handles,this->model, optimizationParameters);
 	}
-	
+
 	delete sem;
 }
 

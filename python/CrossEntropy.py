@@ -30,7 +30,7 @@ def OptimizeParameters(objective, title="optimizing", maxits=200, N=100, minimiz
             elif x < 0:
                 tc_setMatrixValue(allparams, i, 2, x/10.0)
                 tc_setMatrixValue(allparams, i, 1, x*10.0)
-            elif:
+            else:
                 tc_setMatrixValue(allparams, i, 2, 0.0)
                 tc_setMatrixValue(allparams, i, 2, 1.0)
 
@@ -44,19 +44,20 @@ def OptimizeParameters(objective, title="optimizing", maxits=200, N=100, minimiz
             tc_setMatrixValue(params, j, 1, tc_getMatrixValue(allparams, i, 1))
             tc_setMatrixValue(params, j, 2, tc_getMatrixValue(allparams, i, 2))
             tc_setRowName(params,j, tc_getRowName(allparams, i))
-            mu[j] = tc_getMatrixValue(params, i, 0)
+            #mu[j] = tc_getMatrixValue(params, i, 0)
+            mu[j] = (tc_getMatrixValue(allparams, i, 2) + tc_getMatrixValue(allparams, i, 1))/2.0
             minmax[j] = ((tc_getMatrixValue(allparams, i, 2) - tc_getMatrixValue(allparams, i, 1))/3.0)**2
             j += 1
 
     paramnames = fromTC(params.rownames)
     sigma2 = diag(minmax)
-    tc_showProgress(title, int(0))
-    while t < maxits and (t<2 or (oldmax - curmax) > epsilon):     #While not converged and maxits not exceeded
+    while t < maxits and (t<2 or ((oldmax - curmax)*(oldmax - curmax)) > epsilon):     #While not converged and maxits not exceeded
         X = numpy.random.multivariate_normal(mu,sigma2,N)         #Obtain N samples from current sampling distribution
         indx = range(0,N)
         for i in indx:
+            tc_showProgress(title + ", round " + str(t+1), int(100 * i/N))
             for j in range(0,params.rows):
-                d0 = X[i,j]
+                d0 = X[i,j]                
                 if logscale:
                     d0 = exp(X[i,j])
                 d1 = tc_getMatrixValue(params, j, 1)
@@ -66,42 +67,52 @@ def OptimizeParameters(objective, title="optimizing", maxits=200, N=100, minimiz
                 if d0 > d2:
                     d0 = d2
                 if logscale:
-                    X[i,j] = log(d0)
+                    X[i,j]  = log(d0)
                 else:
-                    X[i,j] = d0
+                    X[i,j]  = d0
                 tc_setMatrixValue(params, j, 0, d0)                
             tc_updateParameters(params)
             S[i] = objective()
+        tc_showProgress(title + ", round " + str(t+1), int(100))
         t = t+1                              #Increment iteration counter
         oldmax = curmax
-        curmax = max(S)
-        t1 = 100 * t / maxits
-        t2 = 100
-        if oldmax > curmax: t2 *= epsilon/(oldmax - curmax)
-        if t2 > lasterr:
-            lasterr = t2
-        if t < 2 or t1 > lasterr: 
-            tc_showProgress(title, int(t1))
-        else:
-            tc_showProgress(title, int(lasterr))
-        
         if minimize:
             indx.sort(lambda x,y: int(S[x] - S[y]))
+            curmax = max(S)
         else:
             indx.sort(lambda x,y: int(S[y] - S[x]))
+            curmax = min(S)
+        print "curmax = " + str(curmax)
         X = X[indx]                     #Sort X by objective function values
         X1 = matrix(X[0:Ne])      #select top
         X2 = X1.transpose()
         for i in range(0,n):
             mu[i] = mean(X2[i])      #Update mean of sampling distribution
+        m = toTC( X2.tolist() )
+        for i in range(0,n):
+            tc_setColumnName(m, i, paramnames[i])
+        tc_scatterplot(m, "Parameter distribution")
         sigma2 = cov(X2)               #Update variance of sampling distribution
-    tc_showProgress(title, 100)
+        print mu
     return (mu, sigma2,paramnames)               #Return mean and covariance
 
 def DoPCA(mu, sigma2, paramnames):
+    allparams = tc_getParameters( tc_allItems() )
+    X = numpy.random.multivariate_normal(mu,sigma2,100)
+    m = toTC( X.transpose().tolist() )
+    for i in range(0,len(mu)):
+        tc_setColumnName(m, i, paramnames[i])
+        k = tc_getRowIndex(allparams, paramnames[i])
+        if k > -1:
+            for j in range(0, 100):
+                if tc_getMatrixValue(m, j, i) < tc_getMatrixValue(allparams, k, 1):
+                    tc_setMatrixValue(m, j, i, tc_getMatrixValue(allparams, k, 1))
+                if tc_getMatrixValue(m, j, i) > tc_getMatrixValue(allparams, k, 2):
+                    tc_setMatrixValue(m, j, i, tc_getMatrixValue(allparams, k, 2))
+    tc_scatterplot(m, "Parameter distribution")
     e,v = numpy.linalg.eig(sigma2)
     props = 100.0 * e/numpy.sum(e)
-    fout = open("crossentropy.out","w")
+    fout = open("crossentropy.txt","w")
     s = "===============================================\n"
     s += "Optimized parameters (mean and st.dev)\n"
     s += "==============================================\n\nnames: "
@@ -129,5 +140,5 @@ def DoPCA(mu, sigma2, paramnames):
 	    s += "\n\n"
     fout.write(s)
     fout.close()
-    tc_openUrl("crossentropy.out")
+    tc_openUrl("crossentropy.txt")
 

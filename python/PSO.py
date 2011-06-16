@@ -39,36 +39,39 @@ class ParticleSwarm:
                         tc_setMatrixValue(m, j, i, tc_getMatrixValue(allparams, k, 2))
         tc_scatterplot(m, "Parameter distribution")
         e,v = numpy.linalg.eig(sigma2)
-        props = 100.0 * e/numpy.sum(e)
-        fout = open("pca.txt","w")
-        s = "===============================================\n"
-        s += "Optimized parameters (mean and st.dev)\n"
-        s += "==============================================\n\nnames: "
-        for i in range(0,len(mu)):
-            s += "    " + paramnames[i]
-        s += "\nmean:  "
-        for i in range(0,len(mu)):
-            s += "    " + str(mu[i])
-        s += "\nst.dev:"
-        for i in range(0,len(mu)):
-            s += "    " + str(sqrt(sigma2[i,i]))
-        s += "\n"
-        for i in range(0,len(mu)):
-            s += "    " + str(mu[i])
-        s += "\n============================================\n"
-        s += "Global sensitivity (assuming normality)\nOrdered from least to most sensitive\n"
-        s += "==============================================\n\n"
-        for i in range(0,len(e)):
-            s += str(int(props[i])) + "% of the variability can be attributed to the following linear combination:\n"
-            for j in range(0,len(paramnames)):
-                if j > 0:
-                    s += "\n" + str( round(v[i,j],3) ) + " * " + paramnames[j]
-                else:
-                    s += str( round(v[i,j],3) ) + " * " + paramnames[j]
-            s += "\n\n"
-        fout.write(s)
-        fout.close()
-        tc_openUrl("pca.txt")
+        if (numpy.sum(e) == 0):
+            tc_print("All values are the same, so cannot analyze distribution")
+        else:
+            props = 100.0 * e/numpy.sum(e)
+            fout = open("pca.txt","w")
+            s = "===============================================\n"
+            s += "Optimized parameters (mean and st.dev)\n"
+            s += "==============================================\n\nnames: "
+            for i in range(0,len(mu)):
+                s += "    " + paramnames[i]
+            s += "\nmean:  "
+            for i in range(0,len(mu)):
+                s += "    " + str(mu[i])
+            s += "\nst.dev:"
+            for i in range(0,len(mu)):
+                s += "    " + str(sqrt(sigma2[i,i]))
+            s += "\n"
+            for i in range(0,len(mu)):
+                s += "    " + str(mu[i])
+            s += "\n============================================\n"
+            s += "Global sensitivity (assuming normality)\nOrdered from least to most sensitive\n"
+            s += "==============================================\n\n"
+            for i in range(0,len(e)):
+                s += str(int(props[i])) + "% of the variability can be attributed to the following linear combination:\n"
+                for j in range(0,len(paramnames)):
+                    if j > 0:
+                        s += "\n" + str( round(v[i,j],3) ) + " * " + paramnames[j]
+                    else:
+                        s += str( round(v[i,j],3) ) + " * " + paramnames[j]
+                s += "\n\n"
+            fout.write(s)
+            fout.close()
+            tc_openUrl("pca.txt")
 
     def run(self, f, multirun=1):
         if multirun < 1:
@@ -115,6 +118,7 @@ class ParticleSwarm:
         paramnames = fromTC(params.rownames)
 
         maxiter = self.maxiter;
+        if maxiter < 1: maxiter = 1
         nmax = multirun * maxiter
         for it in range(0,multirun):
             tc_showProgress(self.title + " round " + str(1+it) + "/" + str(multirun), 0)
@@ -142,7 +146,7 @@ class ParticleSwarm:
                 p = x
 
                 x = x + v;
-                tc_showProgress(self.title + " round " + str(1+it) + "/" + str(multirun), int(100 * (1+n)/maxiter))
+                tc_showProgress(self.title + " round " + str(1+it) + "/" + str(multirun), int((100 * n)/maxiter))
                 for i in range(0,numpoints):
                     self.__setparams(x[i,:], params)
                     y[i] = f()
@@ -165,5 +169,6 @@ class ParticleSwarm:
             sigma2 = numpy.cov(m)
             self.__dopca(mu, sigma2, paramnames)
         g = glist[ len(glist) - 1 ]
+        self.__setparams(g, params, True)
         return g
 

@@ -729,25 +729,27 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 		for (int j=0; j < stoictc_matrix.rows(); ++j)
 			if (stoictc_matrix.value(j,i) < 0)
 			{
-				for (int k=0; k < -stoictc_matrix.value(j,i); ++k)
+				//for (int k=0; k < -stoictc_matrix.value(j,i); ++k)
 				{ 
-					SpeciesReference_t * sref = Reaction_createReactant(reac);
+					SpeciesReference_t * sref = new SpeciesReference;
 					SpeciesReference_setId(sref, ConvertValue(stoictc_matrix.columnName(i) + QString("_") + stoictc_matrix.rowName(j)));
 					SpeciesReference_setName(sref, ConvertValue(stoictc_matrix.rowName(j)));
 					SpeciesReference_setSpecies(sref, ConvertValue(stoictc_matrix.rowName(j)));
-					//SpeciesReference_setStoichiometry( sref, -stoictc_matrix.value(j,i) );
+					SpeciesReference_setStoichiometry( sref, -stoictc_matrix.value(j,i) );
+					Reaction_addReactant(reac, sref);
 				}
 			}
 			else
 			if (stoictc_matrix.value(j,i) > 0)
 			{
-				for (int k=0; k < stoictc_matrix.value(j,i); ++k)
+				//for (int k=0; k < stoictc_matrix.value(j,i); ++k)
 				{
-					SpeciesReference_t * sref = Reaction_createProduct(reac);
+					SpeciesReference_t * sref = new SpeciesReference;
+					Reaction_addProduct(reac, sref);
 					SpeciesReference_setId(sref, ConvertValue(stoictc_matrix.columnName(i) + QString("_") + stoictc_matrix.rowName(j)));
 					SpeciesReference_setName(sref, ConvertValue(stoictc_matrix.rowName(j)));
 					SpeciesReference_setSpecies(sref, ConvertValue(stoictc_matrix.rowName(j)));
-					//SpeciesReference_setStoichiometry( sref, stoictc_matrix.value(j,i) );
+					SpeciesReference_setStoichiometry( sref, stoictc_matrix.value(j,i) );
 				}
 			}
 			else

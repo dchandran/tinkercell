@@ -66,7 +66,7 @@ namespace Tinkercell
 			void plotErrorbars(QSemaphore*,DataTable<qreal>& m, int x, const QString& title);
 			void plotMultiplot(QSemaphore*,int x, int y);
 			void plotHold(QSemaphore*,int z);
-			void plotClustering(QSemaphore*, int n);
+			void plotClustering(QSemaphore*, DataTable<qreal>&, int n);
 			void getDataTable(QSemaphore*,DataTable<qreal>*, int index);
 			void plotScatter(QSemaphore*,DataTable<qreal>&,const QString& title);
 			void gnuplot(QSemaphore*,const QString& script);
@@ -86,7 +86,7 @@ namespace Tinkercell
 			void setLogScale(int);
 			void plotMultiplotC(int x, int y);
 			void plotHoldC(int z);
-			void plotClusteringC(int n);
+			tc_matrix plotClusteringC(int n);
 			
 			friend class PlotTool;
 	};
@@ -113,27 +113,27 @@ namespace Tinkercell
 		void hideFire();
 	
 		/*!	\brief plot  a 2D graph
-		\param NumericalDataTable data
+		\param DataTable<qreal> data
 		\param int column for the x-axis
 		\param QString title
 		*/
 		void plotDataTable(DataTable<qreal>& m, int x, const QString& title);
 		
 		/*!	\brief plot  a 3D graph
-		\param NumericalDataTable data with 3 columns
+		\param DataTable<qreal> data with 3 columns
 		\param QString title
 		*/
 		void plotDataTable3D(DataTable<qreal>& m, const QString& title);
 		
 		/*!	\brief plot  a histogram
-		\param NumericalDataTable data
+		\param DataTable<qreal> data
 		\param int number of bins
 		\param QString title
 		*/
 		void plotHist(DataTable<qreal>& m, double bins, const QString& title);
 		
 		/*!	\brief plot  a 2D graph with error bars, where every alternating column are the errors
-		\param NumericalDataTable data
+		\param DataTable<qreal> data
 		\param int index of x-axis
 		\param QString title
 		*/
@@ -146,7 +146,7 @@ namespace Tinkercell
 		void plotMultiplot(int rows, int columns);
 		
 		/*!	\brief make a scatterplot
-		\param NumericalDataTable data
+		\param DataTable<qreal> data
 		\param QString title
 		*/
 		void plotScatterplot(DataTable<qreal>& m, const QString& title);
@@ -279,7 +279,7 @@ namespace Tinkercell
 		static void plotHoldC(int z);
 
 		/*! \brief set clustering*/
-		static void plotClusteringC(int n);
+		static tc_matrix plotClusteringC(int n);
 		
         /*! \brief get plotted data*/
         static tc_matrix getDataMatrix(int index);
@@ -301,7 +301,7 @@ namespace Tinkercell
 
 	private slots:
         void clusteringToggled();
-        void cluster(int n);
+        DataTable<qreal> cluster(int n);
         void plotCustomFormula();
         void organizerButtonClicked(QAbstractButton * button);
 		void actionTriggered(QAction*);
@@ -315,7 +315,7 @@ namespace Tinkercell
 		void plotErrorbars(QSemaphore*,DataTable<qreal>& m, int x, const QString& title);
 		void plotMultiplot(QSemaphore*,int x, int y);
 		void plotHold(QSemaphore*,int z);
-		void plotClustering(QSemaphore*, int n);
+		void plotClustering(QSemaphore*, DataTable<qreal>&, int n);
 		void gnuplot(QSemaphore * , const QString& script);
 		void savePlotImage(QSemaphore*, const QString& filename);
 		void setLogScale(QSemaphore*, int);

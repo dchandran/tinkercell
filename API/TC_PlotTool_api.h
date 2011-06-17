@@ -55,9 +55,10 @@ TCAPIEXPORT void tc_holdPlot(int on);
 /*!
  \brief perform clustering on plots
  \param int number of clusters (must be > 1)
+ \return tc_matrix cluster ID corresponding to each plot. Rows will equal number of plots
  \ingroup Plotting
 */
-TCAPIEXPORT void tc_clusterPlots(int clusters);
+TCAPIEXPORT tc_matrix tc_clusterPlots(int clusters);
 /*!
  \brief get the data in the plot window
  \param int index of the plot (if multiple plots are being displayed)
@@ -95,7 +96,7 @@ TCAPIEXPORT void tc_PlotTool_api(
 	void (*scatterplot)(tc_matrix,const char*) ,
 	void (*multiplot)(int, int),
 	void (*hold)(int),
-	void (*enableClustering)(int),
+	tc_matrix (*enableClustering)(int),
 	tc_matrix (*plotData)(int),
 	void (*gnuplot)(const char*),
 	void (*savePlotImage)(const char *),

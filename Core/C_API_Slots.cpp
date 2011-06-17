@@ -346,7 +346,7 @@ namespace Tinkercell
 		connect(fToS,SIGNAL(annotations(QSemaphore*, QString*)),this,SLOT(annotations(QSemaphore*, QString*)));
 		connect(fToS,SIGNAL(insertAnnotation(QSemaphore*, const QString&, double, double)),this,SLOT(insertAnnotation(QSemaphore*, const QString&, double, double)));
 		
-		connect(fToS,SIGNAL(setNumericalValues(QSemaphore*, const NumericalDataTable&)),this,SLOT(setNumericalValues(QSemaphore*, const NumericalDataTable&)));
+		connect(fToS,SIGNAL(setNumericalValues(QSemaphore*, const DataTable<qreal>&)),this,SLOT(setNumericalValues(QSemaphore*, const DataTable<qreal>&)));
 		connect(fToS,SIGNAL(setNumericalValue(QSemaphore*, const QString&, double)),this,SLOT(setNumericalValue(QSemaphore*, const QString&, double)));
 		connect(fToS,SIGNAL(setTextValues(QSemaphore*, const TextDataTable&)),this,SLOT(setTextValues(QSemaphore*, const TextDataTable&)));
 		connect(fToS,SIGNAL(setTextValue(QSemaphore*, const QString&, const QString&)),this,SLOT(setTextValue(QSemaphore*, const QString&, const QString&)));
@@ -1468,7 +1468,7 @@ namespace Tinkercell
 	void Core_FtoS::setNumericalValues(tc_matrix t)
 	{
 		QSemaphore * s = new QSemaphore(1);
-		NumericalDataTable * dat = ConvertValue(t);
+		DataTable<qreal> * dat = ConvertValue(t);
 		s->acquire();
 		emit setNumericalValues(s,*dat);
 		delete dat;
@@ -3143,7 +3143,7 @@ namespace Tinkercell
 			sem->release();
 	}
 	
-	void C_API_Slots::setNumericalValues(QSemaphore* sem, const NumericalDataTable& data)
+	void C_API_Slots::setNumericalValues(QSemaphore* sem, const DataTable<qreal>& data)
 	{
 		NetworkHandle * network = currentNetwork();
 		if (network)

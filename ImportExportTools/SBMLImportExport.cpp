@@ -717,7 +717,8 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 	//create list of reactions
 	for (int i=0; i < stoictc_matrix.columns(); ++i)
 	{
-		Reaction_t * reac = Model_createReaction(model);
+		Reaction * reac = Model_createReaction(model);
+        Reaction_setReversible(reac,0);
 		if (!reac)
 			continue;
 		Reaction_setId(reac, ConvertValue(stoictc_matrix.columnName(i)));
@@ -729,28 +730,21 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 		for (int j=0; j < stoictc_matrix.rows(); ++j)
 			if (stoictc_matrix.value(j,i) < 0)
 			{
-				//for (int k=0; k < -stoictc_matrix.value(j,i); ++k)
-				{ 
-					SpeciesReference_t * sref = new SpeciesReference;
-					SpeciesReference_setId(sref, ConvertValue(stoictc_matrix.columnName(i) + QString("_") + stoictc_matrix.rowName(j)));
-					SpeciesReference_setName(sref, ConvertValue(stoictc_matrix.rowName(j)));
-					SpeciesReference_setSpecies(sref, ConvertValue(stoictc_matrix.rowName(j)));
-					SpeciesReference_setStoichiometry( sref, -stoictc_matrix.value(j,i) );
-					Reaction_addReactant(reac, sref);
-				}
+				SpeciesReference_t * sref = reac->createReactant();
+				SpeciesReference_setId(sref, ConvertValue(stoictc_matrix.columnName(i) + QString("_") + stoictc_matrix.rowName(j)));
+				SpeciesReference_setName(sref, ConvertValue(stoictc_matrix.rowName(j)));
+				SpeciesReference_setSpecies(sref, ConvertValue(stoictc_matrix.rowName(j)));
+				SpeciesReference_setStoichiometry( sref, -stoictc_matrix.value(j,i) );
 			}
 			else
 			if (stoictc_matrix.value(j,i) > 0)
 			{
-				//for (int k=0; k < stoictc_matrix.value(j,i); ++k)
-				{
-					SpeciesReference_t * sref = new SpeciesReference;
-					Reaction_addProduct(reac, sref);
-					SpeciesReference_setId(sref, ConvertValue(stoictc_matrix.columnName(i) + QString("_") + stoictc_matrix.rowName(j)));
-					SpeciesReference_setName(sref, ConvertValue(stoictc_matrix.rowName(j)));
-					SpeciesReference_setSpecies(sref, ConvertValue(stoictc_matrix.rowName(j)));
-					SpeciesReference_setStoichiometry( sref, stoictc_matrix.value(j,i) );
-				}
+				SpeciesReference_t * sref = reac->createProduct();
+				Reaction_addProduct(reac, sref);
+				SpeciesReference_setId(sref, ConvertValue(stoictc_matrix.columnName(i) + QString("_") + stoictc_matrix.rowName(j)));
+				SpeciesReference_setName(sref, ConvertValue(stoictc_matrix.rowName(j)));
+				SpeciesReference_setSpecies(sref, ConvertValue(stoictc_matrix.rowName(j)));
+				SpeciesReference_setStoichiometry( sref, stoictc_matrix.value(j,i) );
 			}
 			else
 			if (rates[i].contains(stoictc_matrix.rowName(j)) && !fixedVars.contains(stoictc_matrix.rowName(j)))

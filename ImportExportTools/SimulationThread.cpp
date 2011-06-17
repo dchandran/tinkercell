@@ -19,7 +19,7 @@ SimulationThread::~SimulationThread()
 	model.qHash = 0;
 }
 
-void SimulationThread::updateModelParameters(const NumericalDataTable & params)
+void SimulationThread::updateModelParameters(const DataTable<qreal> & params)
 {
 	for (int i=0; i < params.rows(); ++i)
 		cSetValue(model, params.rowName(i).toUtf8().data(), params.at(i,0));
@@ -30,7 +30,7 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles)
 	updateModel(handles, model, optimizationParameters);
 }
 
-void SimulationThread::updateModel(QList<ItemHandle*> & handles, copasi_model & model, NumericalDataTable & optimizationParameters)
+void SimulationThread::updateModel(QList<ItemHandle*> & handles, copasi_model & model, DataTable<qreal> & optimizationParameters)
 {
 	//make sure all children are included
 	for (int i=0; i < handles.size(); ++i)
@@ -50,12 +50,12 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles, copasi_model & 
 	QString modelName = tr("tinkercell") + QString::number(totalModelCount);
 	model = cCreateModel(modelName.toUtf8().data());
 
-	NumericalDataTable params = BasicInformationTool::getUsedParameters(0, handles);
+	DataTable<qreal> params = BasicInformationTool::getUsedParameters(0, handles);
 	for (int i=0; i < params.rows(); ++i)
 		if (params(i,1) < params(i,2))
 			optimizationParameters.value(params.rowName(i)) = params(i,0);
 	
-	NumericalDataTable stoic_matrix = StoichiometryTool::getStoichiometry(handles);
+	DataTable<qreal> stoic_matrix = StoichiometryTool::getStoichiometry(handles);
 	QStringList rates = StoichiometryTool::getRates(handles);
 	QStringList species, eventTriggers, eventActions, assignmentNames,
 				assignmentDefs, fixedVars, functionNames, functionDefs, functionArgs;
@@ -672,7 +672,7 @@ void SimulationThread::run()
 	
 	if (plot && !semaphore)
 	{
-		NumericalDataTable * dat = ConvertValue(resultMatrix);
+		DataTable<qreal> * dat = ConvertValue(resultMatrix);
 		emit graph(*dat, plotTitle, x, plotType);
 
 		if (method == Jacobian && mainWindow && mainWindow->console())

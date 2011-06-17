@@ -77,15 +77,16 @@ void tc_holdPlot(int z)
 		_tc_holdPlot(z);
 }
 
-void (*_tc_clusterPlots)(int c) = 0;
+tc_matrix (*_tc_clusterPlots)(int c) = 0;
 /*!
  \brief enable clustering
  \ingroup Plotting
 */ TCAPIEXPORT 
-void tc_clusterPlots(int c)
+tc_matrix tc_clusterPlots(int c)
 {
 	if (_tc_clusterPlots)
-		_tc_clusterPlots(c);
+		return _tc_clusterPlots(c);
+	return tc_createMatrix(0,0);
 }
 
 tc_matrix (*_tc_getPlotData)(int whichPlot) = 0;
@@ -95,14 +96,9 @@ tc_matrix (*_tc_getPlotData)(int whichPlot) = 0;
 */ TCAPIEXPORT 
 tc_matrix tc_getPlotData(int whichPlot)
 {
-	tc_matrix M;
 	if (_tc_getPlotData)
 		return _tc_getPlotData(whichPlot);
-	M.rows = M.cols = 0;
-	M.colnames = tc_createStringsArray(0);
-	M.rownames = tc_createStringsArray(0);
-	M.values = 0;
-	return M;
+	return tc_createMatrix(0,0);
 }
 
 
@@ -151,7 +147,7 @@ void tc_PlotTool_api(
 	void (*scatterplot)(tc_matrix data, const char* title) ,
 	void (*multiplot)(int r, int c),
 	void (*hold)(int b),
-	void (*enableClustering)(int c),
+	tc_matrix (*enableClustering)(int c),
 	tc_matrix (*plotData)(int),
 	void (*gnuplot)(const char*),
 	void (*savePlotImage)(const char *),

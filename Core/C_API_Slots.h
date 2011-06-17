@@ -128,7 +128,7 @@ namespace Tinkercell
 		void annotations(QSemaphore*, QString*);
 		void insertAnnotation(QSemaphore*, const QString&, double, double);
 		
-		void setNumericalValues(QSemaphore*, const NumericalDataTable&);
+		void setNumericalValues(QSemaphore*, const DataTable<qreal>&);
 		void setNumericalValue(QSemaphore*, const QString&, double);
 		void setTextValues(QSemaphore*, const TextDataTable&);
 		void setTextValue(QSemaphore*, const QString&, const QString&);
@@ -786,7 +786,7 @@ namespace Tinkercell
 		void screenY(QSemaphore*, int*);
 		void annotations(QSemaphore*, QString*);
 		void insertAnnotation(QSemaphore*, const QString&, double, double);
-		void setNumericalValues(QSemaphore*, const NumericalDataTable&);
+		void setNumericalValues(QSemaphore*, const DataTable<qreal>&);
 		void setNumericalValue(QSemaphore*, const QString&, double);
 		void setTextValues(QSemaphore*, const TextDataTable&);
 		void setTextValue(QSemaphore*, const QString&, const QString&);

@@ -132,10 +132,10 @@ namespace Tinkercell
 				this, SLOT(plotScatter(QSemaphore*,DataTable<qreal>&, const QString&)));
 		
 		connect(&fToS,SIGNAL(plotMultiplot(QSemaphore*,int, int)), this, SLOT(plotMultiplot(QSemaphore*,int, int)));
-		
+
 		connect(&fToS,SIGNAL(plotHold(QSemaphore*,int)), this, SLOT(plotHold(QSemaphore*,int)));
 		
-		connect(&fToS,SIGNAL(plotClustering(QSemaphore*,int)), this, SLOT(plotClustering(QSemaphore*,int)));
+		connect(&fToS,SIGNAL(plotClustering(QSemaphore*,DataTable<qreal>&,int)), this, SLOT(plotClustering(QSemaphore*,DataTable<qreal>&,int)));
 		
 		connect(&fToS,SIGNAL(getDataTable(QSemaphore*,DataTable<qreal>*, int)), this, SLOT(getData(QSemaphore*, DataTable<qreal>*,int)));
 		
@@ -264,8 +264,9 @@ namespace Tinkercell
 		multiplePlotsArea->setActiveSubWindow ( window );
 	}
 	
-	void PlotTool::cluster(int numClusters)
+	DataTable<qreal> PlotTool::cluster(int numClusters)
 	{
+        DataTable<qreal> result;
 		if (multiplePlotsArea && numClusters > 1 && ClusterPlot::tables.size() > 1)
 		{
 			QList<QMdiSubWindow *>  list = multiplePlotsArea->subWindowList(QMdiArea::ActivationHistoryOrder);
@@ -285,8 +286,8 @@ namespace Tinkercell
 			}
 			
 			int * clusters = ClusterPlot::getClusters(numClusters);
-			
-			QList<Plot2DWidget*> clusterWidgets;
+            
+            QList<Plot2DWidget*> clusterWidgets;
 			for (int i=0; i < numClusters; ++i)
 			{
 				Plot2DWidget * newPlot2D = new Plot2DWidget(this);
@@ -296,18 +297,22 @@ namespace Tinkercell
 				window->setWindowIcon(QIcon(tr(":/images/graph2.png")));
 				window->setVisible(true);
 				window->setWindowTitle( tr("plot ") + QString::number(i+1));
-				newPlot2D->plot(NumericalDataTable(),tr("Cluster ") + QString::number(i+1));
+				newPlot2D->plot(DataTable<qreal>(),tr("Cluster ") + QString::number(i+1));
 				clusterWidgets << newPlot2D;
 			}
-				
+			
+			result.resize(ClusterPlot::tables.size(),1);
+			result.setColumnName(0,"clusterID");
 			for (int i=0; i < ClusterPlot::tables.size(); ++i)
 			{
 				int j = clusters[i];
+				result(i,0) = j;
 				clusterWidgets[j]->appendData(ClusterPlot::tables[i],tr("Cluster ") + QString::number(j+1));
 			}
 			delete clusters;
 			multiplePlotsArea->tileSubWindows();
 		}
+		return result;
 	}
 
 	void PlotTool::plot(const DataTable<qreal>& matrix,const QString& title0,int x,PlotTool::PlotType type)
@@ -569,9 +574,9 @@ namespace Tinkercell
 			holdCurrentPlot->setChecked(b);
 	}
 	
-	void PlotTool::plotClustering(QSemaphore* s, int n)
+	void PlotTool::plotClustering(QSemaphore* s, DataTable<qreal>& res, int n)
 	{
-		cluster(n);
+		res = cluster(n);
 		if (s)
 			s->release();
 	}
@@ -675,7 +680,7 @@ namespace Tinkercell
 		void (*scatterplot)(tc_matrix data,const char* title) ,
 		void (*multiplot)(int,int),
 		void (*hold)(int),
-		void (*enableClustering)(int),
+		tc_matrix (*enableClustering)(int),
 		tc_matrix (*plotData)(int),
 		void (*gnuplot)(const char*),
 		void (*savePlotImage)(const char*),
@@ -929,14 +934,16 @@ namespace Tinkercell
 		delete s;
 	}
 	
-	void PlotTool_FtoS::plotClusteringC(int n)
+	tc_matrix PlotTool_FtoS::plotClusteringC(int n)
 	{
 		QSemaphore * s = new QSemaphore(1);
+		DataTable<qreal> dat;
 		s->acquire();
-		emit plotClustering(s, n);
+		emit plotClustering(s, dat, n);
 		s->acquire();
 		s->release();
 		delete s;
+		return ConvertValue(dat);
 	}
 
 	tc_matrix PlotTool_FtoS::getDataMatrix(int index)
@@ -1019,9 +1026,9 @@ namespace Tinkercell
 		fToS.plotHoldC(x);
 	}
 	
-	void PlotTool::plotClusteringC(int n)
+	tc_matrix PlotTool::plotClusteringC(int n)
 	{
-		fToS.plotClusteringC(n);
+		return fToS.plotClusteringC(n);
 	}
 
 	tc_matrix PlotTool::getDataMatrix(int index)
@@ -1067,11 +1074,11 @@ namespace Tinkercell
 		QRegExp regex(tr("\\.(?!\\d)"));
 		formula.replace(regex, tr("_"));
 		
-		NumericalDataTable * pData = plotWidget->data();
+		DataTable<qreal> * pData = plotWidget->data();
 		if (!pData)
 			return QString("No data to compute function");
 		
-		NumericalDataTable matrix(*pData);
+		DataTable<qreal> matrix(*pData);
 		
 		int k = 1;
 		QString newcol("formula_1");

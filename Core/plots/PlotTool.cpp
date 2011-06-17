@@ -135,7 +135,7 @@ namespace Tinkercell
 
 		connect(&fToS,SIGNAL(plotHold(QSemaphore*,int)), this, SLOT(plotHold(QSemaphore*,int)));
 		
-		connect(&fToS,SIGNAL(plotClustering(QSemaphore*,DataTable<qreal>&,int)), this, SLOT(plotClustering(QSemaphore*,DataTable<qreal>&,int)));
+		connect(&fToS,SIGNAL(plotClustering(QSemaphore*,DataTable<qreal>*,int)), this, SLOT(plotClustering(QSemaphore*,DataTable<qreal>*,int)));
 		
 		connect(&fToS,SIGNAL(getDataTable(QSemaphore*,DataTable<qreal>*, int)), this, SLOT(getData(QSemaphore*, DataTable<qreal>*,int)));
 		
@@ -574,9 +574,10 @@ namespace Tinkercell
 			holdCurrentPlot->setChecked(b);
 	}
 	
-	void PlotTool::plotClustering(QSemaphore* s, DataTable<qreal>& res, int n)
+	void PlotTool::plotClustering(QSemaphore* s, DataTable<qreal>* res, int n)
 	{
-		res = cluster(n);
+		if (res)
+			(*res) = cluster(n);
 		if (s)
 			s->release();
 	}
@@ -939,7 +940,7 @@ namespace Tinkercell
 		QSemaphore * s = new QSemaphore(1);
 		DataTable<qreal> dat;
 		s->acquire();
-		emit plotClustering(s, dat, n);
+		emit plotClustering(s, &dat, n);
 		s->acquire();
 		s->release();
 		delete s;

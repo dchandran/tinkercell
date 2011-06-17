@@ -66,7 +66,7 @@ namespace Tinkercell
 			void plotErrorbars(QSemaphore*,DataTable<qreal>& m, int x, const QString& title);
 			void plotMultiplot(QSemaphore*,int x, int y);
 			void plotHold(QSemaphore*,int z);
-			void plotClustering(QSemaphore*, DataTable<qreal>&, int n);
+			void plotClustering(QSemaphore*, DataTable<qreal>*, int n);
 			void getDataTable(QSemaphore*,DataTable<qreal>*, int index);
 			void plotScatter(QSemaphore*,DataTable<qreal>&,const QString& title);
 			void gnuplot(QSemaphore*,const QString& script);
@@ -315,7 +315,7 @@ namespace Tinkercell
 		void plotErrorbars(QSemaphore*,DataTable<qreal>& m, int x, const QString& title);
 		void plotMultiplot(QSemaphore*,int x, int y);
 		void plotHold(QSemaphore*,int z);
-		void plotClustering(QSemaphore*, DataTable<qreal>&, int n);
+		void plotClustering(QSemaphore*, DataTable<qreal>*, int n);
 		void gnuplot(QSemaphore * , const QString& script);
 		void savePlotImage(QSemaphore*, const QString& filename);
 		void setLogScale(QSemaphore*, int);

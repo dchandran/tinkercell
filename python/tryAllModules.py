@@ -8,21 +8,29 @@ tool: no
 """
 from tinkercell import *
 
-def runAllHelper( listOfModules, n , indep):
+def runAllHelper( listOfModules, n , indep, start, end, filenames, allfilenames):
     if n >= len(listOfModules):
-        if indep == "time"
-        m = tc_simulateDeterministic(0,time,100)
-        tc_plot(m, "")
-        return
+        if indep.lower() == "time":
+            m = tc_simulateDeterministic(start,end,100)
+            tc_plot(m, "")
+        else:
+            m = tc_steadyStateScan(indep, start,end,10)
+            tc_plot(m, "")
+        allfilenames.append(filenames)
+        return allfilenames
     item = listOfModules[n]
     submodels = tc_listOfPossibleModels(item)
+    home = tc_homeDir()
     for i in range(0, submodels.length):
         s = tc_getString(submodels, i)
         tc_substituteModel(listOfModules[n], s)
-        runAllHelper(listOfModules, n+1, time)
-    return
+        s.replace(home,"")
+        filenames2 = filenames
+        filenames2.append(s)
+        allfilenames = runAllHelper(listOfModules, n+1, indep, start, end, filenames2, allfilenames)
+    return allfilenames
 
-def runAll(indep, start, stop, nclusters):
+def runAll(indep, start, end, nclusters):
     items = tc_allItems()
     listOfModules = []
     
@@ -38,11 +46,26 @@ def runAll(indep, start, stop, nclusters):
     n = len(listOfModules)
     if n > 0:
         if tc_askQuestion(str(n) + " submodels and " + str(total) + " possible models ... continue?") > 0:
-            runAllHelper(listOfModules, 0, indep)
-            tc_clusterPlots( nclusters )
+            allfilenames = runAllHelper(listOfModules, 0, indep, start, end)
+            m = tc_clusterPlots( nclusters )
+            fout = open("modules.txt","w")
+            for i in range(0, nclusters):
+                s = "========\nCluster " + str(i+1) + "\n========\n"
+                for j in range(0,len(allfilenames)):
+                    if tc_getMatrixValue(m, j, 0) == i+1:
+                        s += allfilenames[j].join(" , ")
+                        s += "\n"
+                s += "\n"
+                fout.write(s)
+            fout.close()
+            tc_openUrl("modules.txt")
     else:
-        m = tc_simulateDeterministic(0,time,100)
-        tc_plot(m, "simulation")
+        if indep.lower() == "time":
+            m = tc_simulateDeterministic(start,end,100)
+            tc_plot(m, "steady state scan")
+        else:
+            m = tc_steadyStateScan(indep, start,end,10)
+            tc_plot(m, "simulation")
     return
 
 inputWindow = tc_createMatrix( 4, 1 )

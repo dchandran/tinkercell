@@ -213,17 +213,22 @@ namespace Tinkercell
 			//if (handles[i] && handles[i]->isA("Node") && !handles[i]->tools.contains(this))
 				//handles[i]->tools += this;
 
-			if (handles[i] && handles[i]->family() && (
-				!(handles[i]->hasTextData(tr("Functions"))) ||
-				!(handles[i]->hasTextData(tr("Assignments")))
-				))
+			if (handles[i] && handles[i]->family())
 			{
-				insertDataMatrix(handles[i]);
-			}
-			else
-			{
-				if (!StoichiometryTool::userModifiedRates.contains(handles[i]) && handles[i]->textDataTable(tr("Assignments")).hasRow(Self))
-					StoichiometryTool::userModifiedRates += handles[i];
+				if (!(handles[i]->hasTextData(tr("Functions"))) ||
+					!(handles[i]->hasTextData(tr("Assignments")))
+					)
+				{
+					insertDataMatrix(handles[i]);
+				}
+				else
+				{
+					if (!StoichiometryTool::userModifiedRates.contains(handles[i]) && handles[i]->textDataTable(tr("Assignments")).hasRow(Self))
+					{
+						console()->message(handles[i]->name);
+						StoichiometryTool::userModifiedRates += handles[i];
+					}
+				}
 			}
 		}
 	}

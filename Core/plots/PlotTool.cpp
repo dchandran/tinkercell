@@ -306,7 +306,7 @@ namespace Tinkercell
 			for (int i=0; i < ClusterPlot::tables.size(); ++i)
 			{
 				int j = clusters[i];
-				result(i,0) = j;
+				result(i,0) = j+1;
 				clusterWidgets[j]->appendData(ClusterPlot::tables[i],tr("Cluster ") + QString::number(j+1));
 			}
 			delete clusters;

@@ -35,6 +35,7 @@ namespace Tinkercell
 			void showAboutBox();
 			void openWhatIsTinkerCell();
 			void openUserDocumentation();
+			void openC_API();
 			void openHomePage();
 			void openFeedbackPage();
 			void openBlog();

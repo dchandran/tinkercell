@@ -203,5 +203,6 @@
         <file alias="lab.png">../icons/lab.png</file>
         <file alias="statistics.PNG">../icons/statistics.PNG</file>
         <file alias="statistics.xml">../icons/statistics.xml</file>
+		<file alias="user.png">../icons/user.png</file>
     </qresource>
 </RCC>

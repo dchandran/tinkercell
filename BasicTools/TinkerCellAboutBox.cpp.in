@@ -48,7 +48,8 @@ namespace Tinkercell
 			if (mainWindow->helpMenu)
 			{
 				mainWindow->helpMenu->addAction(QIcon(":/images/question.png"),tr("What is TinkerCell"),this,SLOT(openWhatIsTinkerCell()));
-				mainWindow->helpMenu->addAction(QIcon(":/images/question.png"),tr("User's Guide"),this,SLOT(openUserDocumentation()));
+				mainWindow->helpMenu->addAction(QIcon(":/images/user.png"),tr("User's Guide"),this,SLOT(openUserDocumentation()));
+				mainWindow->helpMenu->addAction(QIcon(":/images/tool.png"),tr("Programmer's guide"),this,SLOT(openC_API()));
 				mainWindow->helpMenu->addAction(QIcon(":/images/globe.png"),tr("TinkerCell Homepage"),this,SLOT(openHomePage()));
 				mainWindow->helpMenu->addAction(QIcon(":/images/globe.png"),tr("TinkerCell Blog"),this,SLOT(openBlog()));
 				mainWindow->helpMenu->addAction(QIcon(":/images/globe.png"),tr("Bugs / Comments"),this,SLOT(openFeedbackPage()));
@@ -96,19 +97,22 @@ namespace Tinkercell
 
 	void TinkercellAboutBox::openUserDocumentation()
 	{
-
 		QString appDir = QCoreApplication::applicationDirPath();
-
-		QString doc = tr("file:") + appDir + tr("/Documentation/WhatisTinkerCell.pdf");
+		QString doc = tr("file:") + appDir + tr("/Documentation/UserDocumentation.pdf");
 		QDesktopServices::openUrl(QUrl(doc));
 	}
 	
 	void TinkercellAboutBox::openWhatIsTinkerCell()
 	{
-
 		QString appDir = QCoreApplication::applicationDirPath();
+		QString doc = tr("file:") + appDir + tr("/Documentation/WhatisTinkerCell.pdf");
+		QDesktopServices::openUrl(QUrl(doc));
+	}
 
-		QString doc = tr("file:") + appDir + tr("/Documentation/UserDocumentation.pdf");
+	void TinkercellAboutBox::openC_API()
+	{
+		QString appDir = QCoreApplication::applicationDirPath();
+		QString doc = tr("file:") + appDir + tr("/Documentation/C_API.pdf");
 		QDesktopServices::openUrl(QUrl(doc));
 	}
 

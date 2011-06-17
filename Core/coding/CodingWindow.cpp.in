@@ -634,7 +634,6 @@ specific for:\n\"\"\"\n\n") + text;
 			if (mainWindow->helpMenu)
 			{
 				QList<QAction*> actions = mainWindow->helpMenu->actions();
-				QAction * pyscesHelp = mainWindow->helpMenu->addAction(tr("PySCeS user manual"),this,SLOT(pyscesHelp()));
 				QAction * aboutAction = 0;
 	
 				for (int i=0; i < actions.size(); ++i)
@@ -709,12 +708,6 @@ specific for:\n\"\"\"\n\n") + text;
 		}
 		return false;
 	}
-
-	 void CodingWindow::pyscesHelp()
-	 {
-		QString appDir = QCoreApplication::applicationDirPath();
-		QDesktopServices::openUrl(QUrl(appDir + tr("/Documentation/pysces_userguide.pdf")));
-	 }
 
 	 void CodingWindow::about()
 	 {

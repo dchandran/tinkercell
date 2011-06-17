@@ -106,7 +106,6 @@ namespace Tinkercell
 		void redo();
 		void selectAll();
 		virtual void setVisible(bool);
-		void pyscesHelp();
 		void enablePython(bool b=true);
 		void enableRuby(bool b=true);
         void enableOctave(bool b=true);

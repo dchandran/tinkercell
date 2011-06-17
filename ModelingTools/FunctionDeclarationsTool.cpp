@@ -220,6 +220,11 @@ namespace Tinkercell
 			{
 				insertDataMatrix(handles[i]);
 			}
+			else
+			{
+				if (!StoichiometryTool::userModifiedRates.contains(handles[i]) && handles[i]->textDataTable(tr("Assignments")).hasRow(Self))
+					StoichiometryTool::userModifiedRates += handles[i];
+			}
 		}
 	}
 

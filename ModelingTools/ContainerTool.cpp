@@ -438,7 +438,7 @@ namespace Tinkercell
             if (!movingItems[i]) continue;
 
             QRectF itemRect = movingItems[i]->sceneBoundingRect();
-            if (itemRect.width() >= hitRect.width() || itemRect.height() >= hitRect.height()) continue;
+            if (itemRect.width() >= hitRect.width() || itemRect.height() >= hitRect.height() || !hitRect.contains(itemRect.center())) continue;
 
             if (TextGraphicsItem::cast(movingItems[i])) continue;
             connection = ConnectionGraphicsItem::cast(movingItems[i]);

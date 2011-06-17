@@ -697,6 +697,7 @@ namespace Tinkercell
 						bool isCustomEqn = StoichiometryTool::userModifiedRates.contains(parts[i]);
 					
 
+
 						if (!parts[i]->textDataTable(tr("Assignments")).hasRow(tr("self")) ||
 							(!isCustomEqn && oldrate != rate))
 							 {
@@ -970,6 +971,7 @@ namespace Tinkercell
 		if (dnaItem)
 		{
 			QGraphicsItem * itemLeft = dnaItem, * itemRight = dnaItem;
+			ItemHandle * h = getHandle(dnaItem);
 			while (itemLeft)
 			{
 				QRectF p1(itemLeft->sceneBoundingRect());
@@ -977,7 +979,7 @@ namespace Tinkercell
 				QList<QGraphicsItem*> items = scene->items(p1);
 				itemLeft = 0;
 				for (int i=0; i < items.size(); ++i)
-					if (!select.contains(items[i]) && NodeGraphicsItem::cast(items[i]) && (handle = getHandle(items[i])) && handle->isA("Part") && !handle->isA("Vector"))
+					if (!select.contains(items[i]) && NodeGraphicsItem::cast(items[i]) && (handle = getHandle(items[i])) && handle->isA("Part") && !handle->isA("Vector") && handle->parent == h->parent)
 					{
 						itemLeft = items[i];
 						select << itemLeft;
@@ -991,7 +993,7 @@ namespace Tinkercell
 				QList<QGraphicsItem*> items = scene->items(p2);
 				itemRight = 0;
 				for (int i=0; i < items.size(); ++i)
-					if (!select.contains(items[i]) && NodeGraphicsItem::cast(items[i]) && (handle = getHandle(items[i])) && handle->isA("Part") && !handle->isA("Vector"))
+					if (!select.contains(items[i]) && NodeGraphicsItem::cast(items[i]) && (handle = getHandle(items[i])) && handle->isA("Part") && !handle->isA("Vector") && handle->parent == h->parent)
 					{
 						itemRight = items[i];
 						select << itemRight;

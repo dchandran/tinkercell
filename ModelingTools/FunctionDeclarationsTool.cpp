@@ -225,7 +225,6 @@ namespace Tinkercell
 				{
 					if (!StoichiometryTool::userModifiedRates.contains(handles[i]) && handles[i]->textDataTable(tr("Assignments")).hasRow(Self))
 					{
-						console()->message(handles[i]->name);
 						StoichiometryTool::userModifiedRates += handles[i];
 					}
 				}
@@ -1004,3 +1003,4 @@ namespace Tinkercell
                 console()->message(values.join(tr("\n")));
 	}
 }
+

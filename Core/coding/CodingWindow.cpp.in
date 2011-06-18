@@ -86,7 +86,7 @@ namespace Tinkercell
 		#ifdef Q_WS_WIN
 			s = QObject::tr("cd ") + homeDir + QObject::tr("& svn update --force");
 		#else
-			s = QObject::tr("cd ") + homeDir + QObject::tr("; svn update --force");
+			s = QObject::tr("cd ") + homeDir + QObject::tr("; svn update");
 		#endif
 			err = system(s.toAscii().data());
 		}

@@ -78,8 +78,8 @@ int main(int argc, char *argv[])
 	
     ConsoleWindow::Prompt = QObject::tr(">");	
 	ConsoleWindow::BackgroundColor = QColor("#555555");
-	GraphicsView::DEFAULT_WIDTH = 20;
-	GraphicsView::DEFAULT_HEIGHT = 20;
+	Tinkercell::GraphicsView::DEFAULT_WIDTH = 20;
+	Tinkercell::GraphicsView::DEFAULT_HEIGHT = 20;
 	
 	QColor color("#00EE00");
 	color.setAlpha(50);

@@ -895,7 +895,7 @@ namespace Tinkercell
 		
 		for (int i=0; i < nodes.size(); ++i)
 		{
-			QStringList candidates = family->synonyms(node->name.toLower());
+			QStringList candidates = family->synonymsForRole(node->name.toLower());
 			for (int j=0; j < candidates.size(); ++j)
 			{
 				if (participants.hasRow(candidates[j]))

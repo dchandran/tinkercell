@@ -573,7 +573,7 @@ namespace Tinkercell
 				}
 	}
 	
-	QStringList ConnectionFamily::synonyms(const QString& rolename) const
+	QStringList ConnectionFamily::synonymsForRole(const QString& rolename) const
 	{
 		int roleid = ALLROLENAMES.indexOf(rolename.toLower());
 		if (roleid < 0) return QStringList();

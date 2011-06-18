@@ -246,7 +246,7 @@ namespace Tinkercell
 		/*! \brief finds possible role synonyms by looking at child families and finding roles with the same index
 		\param QString role name
 		\return QStringList synonyms for the input role*/
-		virtual QStringList synonyms(const QString& role) const;
+		virtual QStringList synonymsForRole(const QString& role) const;
 		/*!  \} */
 		
 	protected:

@@ -1104,8 +1104,8 @@ namespace Tinkercell
 	void GraphicsScene::fitAll() const
 	{
 		if (!networkWindow) return;
-		QRectF rect;
-		/*QPointF topLeft(0,0), bottomRight(0,0);
+		QRectF rect;//rect = itemsBoundingRect();
+		QPointF topLeft(0,0), bottomRight(0,0);
 		QGraphicsItem * parent;
 		QList<QGraphicsItem*> allItems = items();
 		for (int i=0; i < allItems.size(); ++i)
@@ -1126,9 +1126,8 @@ namespace Tinkercell
 			}
 		}
 
-        rect = QRectF(topLeft, bottomRight);*/
-        
-        rect = itemsBoundingRect();
+        rect = QRectF(topLeft, bottomRight);
+
         QList<QGraphicsView*> list = views();
         for (int i=0; i < list.size(); ++i)
         	if (list[i])

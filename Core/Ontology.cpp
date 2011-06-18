@@ -55,11 +55,19 @@ namespace Tinkercell
 		}
 		QStringList Ontology::allNodeFamilyNames()
 		{
-			return QStringList(nodeFamilies.keys());
+			QStringList keys(nodeFamilies.keys()), names;
+			for (int i=0; i < keys.size(); ++i)
+				if (nodeFamilies[ keys[i] ] && nodeFamilies[ keys[i] ]->name() == keys[i])
+					names << keys[i];
+			return names;
 		}
 		QStringList Ontology::allConnectionFamilyNames()
 		{
-			return QStringList(connectionFamilies.keys());
+			QStringList keys(connectionFamilies.keys()), names;
+			for (int i=0; i < keys.size(); ++i)
+				if (connectionFamilies[ keys[i] ] && connectionFamilies[ keys[i] ]->name() == keys[i])
+					names << keys[i];
+			return names;
 		}
 		
 		static QStringList lastReadFamilyNames;
@@ -232,7 +240,10 @@ namespace Tinkercell
 					{
 						QString s2 = syn[i].trimmed().toLower();
 						if (!Ontology::connectionFamily(s2))
+						{
+							family1->synonyms += s2;
 							Ontology::insertConnectionFamily(s2, family1);
+						}
 					}
 				}
 				else

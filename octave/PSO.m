@@ -9,12 +9,6 @@ logscale = False
 numpoints = 100
 title = "Particle Swarm Optimation" 
 
-#Takes an objective function along with an intial guess of the distribution of parameters and returns the final
-#best fit distribution of parameters. Assumes that the distributions are Gaussian.
-function g = ParticleSwarm(objective)
-    global tinkercell
-    t = 0;
-
 function [] = __setparams(x, m, perm=0)
     for i = 0:length(x)
         tinkercell.tc_setMatrixValue(m, i, 0, x[i]);
@@ -65,7 +59,9 @@ function [] = __dopca(mu, sigma2, paramnames)
     tinkercell.tc_openUrl("pca.txt");
 end
 
-function ParticleSwarm(f, multirun=1)
+function g = ParticleSwarm(objective)
+    global tinkercell
+    t = 0;
     if multirun < 1:
         multirun = 1
     glist = []

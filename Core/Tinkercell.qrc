@@ -204,5 +204,6 @@
         <file alias="statistics.PNG">../icons/statistics.PNG</file>
         <file alias="statistics.xml">../icons/statistics.xml</file>
 		<file alias="user.png">../icons/user.png</file>
+		<file alias="brightness.png">../icons/brightness.png</file>
     </qresource>
 </RCC>

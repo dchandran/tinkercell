@@ -55,7 +55,7 @@ namespace Tinkercell
 		
 		toolBar->addAction(QIcon(tr(":/images/zoomin.png")),tr("Zoom in"),this,SLOT(zoomIn()));
 		toolBar->addAction(QIcon(tr(":/images/zoomout.png")),tr("Zoom out"),this,SLOT(zoomOut()));
-		toolBar->addAction(QIcon(tr(":/images/sun.png")),tr("Brightness"),this,SLOT(alphaDialogOpened()));
+		toolBar->addAction(QIcon(tr(":/images/brightness.png")),tr("Brightness"),this,SLOT(alphaDialogOpened()));
 
 		QToolButton * setColor = new QToolButton(toolBar);
 		setColor->setPopupMode(QToolButton::MenuButtonPopup);

@@ -97,7 +97,8 @@ namespace Tinkercell
 			{
 				if (itemHandle->hasNumericalData(QString("Initial Value")))
 					if (itemHandle->hasTextData(QString("Assignments")) &&
-						itemHandle->textDataTable(QString("Assignments")).hasRow(QString("self")))
+						itemHandle->textDataTable(QString("Assignments")).hasRow(QString("self")) &&
+						(itemHandle->textData(QString("Assignments"), QString("self"), 0).size() > 1) )
 						return QVariant(
 							itemHandle->textData(QString("Assignments"), QString("self"), 0));
 					else	
@@ -506,7 +507,9 @@ namespace Tinkercell
 			{
 				if (handle->hasNumericalData(QString("Initial Value")))
 				{
-					if (handle->hasTextData(QString("Assignments")) &&
+					bool ok;
+					double d = value.toDouble(&ok);
+					if (!ok && handle->hasTextData(QString("Assignments")) &&
 						handle->textDataTable(QString("Assignments")).hasRow(QString("self")))
 					{
 						QString s = value.toString();
@@ -525,8 +528,6 @@ namespace Tinkercell
 					else
 					{
 						NumericalDataTable newTable(handle->numericalDataTable( QString("Initial Value") ));
-						bool ok;
-						double d = value.toDouble(&ok);
 						if (ok && newTable.value(0,0) != d)
 						{
 							newTable.value(0,0) = d;

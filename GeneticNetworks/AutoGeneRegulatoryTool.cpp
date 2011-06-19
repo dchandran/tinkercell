@@ -698,6 +698,7 @@ namespace Tinkercell
 					
 
 
+
 						if (!parts[i]->textDataTable(tr("Assignments")).hasRow(tr("self")) ||
 							(!isCustomEqn && oldrate != rate))
 							 {
@@ -717,8 +718,11 @@ namespace Tinkercell
 						{
 							TextDataTable & participants = connections[j]->textDataTable(tr("Participants"));
 
-							if (participants.at(tr("template"),0) == parts[i]->fullName())
-							{	
+/*							if ((participants.hasRow(tr("template")) && participants.at(tr("template"),0) == parts[i]->fullName()) ||
+								 (participants.hasRow(tr("regulator")) && participants.at(tr("regulator"),0) == parts[i]->fullName()) ||
+								 (participants.hasRow(tr("activator")) && participants.at(tr("activator"),0) == parts[i]->fullName()) ||
+								 (participants.hasRow(tr("repressor")) && participants.at(tr("repressor"),0) == parts[i]->fullName()))*/
+							{
 								if (rbs)
 								{
 									if (!rbs->hasNumericalData("Parameters") || !rbs->numericalDataTable("Parameters").hasRow("strength"))
@@ -1084,7 +1088,9 @@ namespace Tinkercell
 				{
 					QList<ConnectionGraphicsItem*> connections = ConnectionGraphicsItem::cast(handle->parent->graphicsItems);
 					if (!connections.isEmpty())
+                    {
 						nodes = connections[0]->nodes();
+                    }
 				}
 				else
 				{

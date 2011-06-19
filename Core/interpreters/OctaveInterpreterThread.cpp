@@ -114,7 +114,7 @@ namespace Tinkercell
 			QString m2 = fromTC.cap(1), m1 = fromTC.cap(2);
 			QString s = m2 + QObject::tr(" = zeros(")+ m1 + QObject::tr(".rows,") + m1 + 
 							QObject::tr(".cols); for i=1:") + m1 + QObject::tr(".rows for j=1:") + m1 + 
-							QObject::tr(".cols (") + m2 + QObject::tr(")(i,j) = tinkercell.tc_getMatrixValue(") + m1 + 
+							QObject::tr(".cols ") + m2 + QObject::tr("(i,j) = tinkercell.tc_getMatrixValue(") + m1 + 
 							QObject::tr(",i-1,j-1); endfor endfor");
 			code.replace(fromTC,s);
 		}

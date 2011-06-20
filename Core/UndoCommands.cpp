@@ -4129,5 +4129,63 @@ namespace Tinkercell
 			connection->refresh();
 		}
 	}
+	
+	void LineTypeChanged::undo()
+	{
+		for (int i=0; i < list.size(); ++i)
+		{
+			ConnectionGraphicsItem * connectionPtr = list[i];
+			if (connectionPtr)
+			{
+				if (!straight)
+					connectionPtr->lineType = ConnectionGraphicsItem::line;
+				else
+					connectionPtr->lineType = ConnectionGraphicsItem::bezier;
+				connectionPtr->refresh();
+			}
+		}
+	}
+
+	void LineTypeChanged::redo()
+	{
+		for (int i=0; i < list.size(); ++i)
+		{
+			ConnectionGraphicsItem * connectionPtr = list[i];
+			if (connectionPtr)
+			{
+				if (straight)
+					connectionPtr->lineType = ConnectionGraphicsItem::line;
+				else
+					connectionPtr->lineType = ConnectionGraphicsItem::bezier;
+				connectionPtr->refresh();
+			}
+		}
+	}
+
+	void ChangeArrowHeadDistance::undo()
+	{
+		for (int i=0; i < list.size() && i < dists.size(); ++i)
+		{
+			ConnectionGraphicsItem * connectionPtr = list[i];
+			if (connectionPtr)
+			{
+				connectionPtr->arrowHeadDistance -= dists[i];
+				connectionPtr->refresh();
+			}
+		}
+	}
+
+	void ChangeArrowHeadDistance::redo()
+	{
+		for (int i=0; i < list.size() && i < dists.size(); ++i)
+		{
+			ConnectionGraphicsItem * connectionPtr = list[i];
+			if (connectionPtr)
+			{
+				connectionPtr->arrowHeadDistance += dists[i];
+				connectionPtr->refresh();
+			}
+		}
+	}
 }
 

@@ -868,7 +868,7 @@ namespace Tinkercell
 		QList<QGraphicsItem*> parentsAtStart, parentsAtEnd;
 	};
 	
-		/*! \brief this command replaces one node item in a connection item with another
+	/*! \brief this command replaces one node item in a connection item with another
 	* \ingroup undo*/
 	class TINKERCELLEXPORT ReplaceConnectedNodeCommand : public QUndoCommand
 	{
@@ -886,6 +886,28 @@ namespace Tinkercell
 		ConnectionGraphicsItem* connection;
 		NodeGraphicsItem* oldNode;
 		NodeGraphicsItem* newNode;
+	};
+	
+	/*! \brief command for changing line type of connections
+	* \ingroup undo*/
+	class LineTypeChanged : public QUndoCommand
+	{
+	public:
+		QList<ConnectionGraphicsItem*> list;
+		bool straight;
+		void undo();
+		void redo();
+	};
+	
+	/*! \brief command for changing distance between arrowhead and objects
+	* \ingroup undo*/
+	class ChangeArrowHeadDistance : public QUndoCommand
+	{
+	public:
+		QList<ConnectionGraphicsItem*> list;
+		QList<qreal> dists;
+		void undo();
+		void redo();
 	};
 
 

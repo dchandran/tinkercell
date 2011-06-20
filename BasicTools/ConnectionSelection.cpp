@@ -28,13 +28,9 @@ namespace Tinkercell
 
 	ConnectionSelection::ConnectionSelection() : Tool(tr("Connection Selection"),tr("Basic GUI"))
 	{
-		ConnectionSelection::fToS = new ConnectionSelection_FToS;
-		ConnectionSelection::fToS->setParent(this);
-		
 		mainWindow = 0;
 		controlHeld = false;
 		gridDist = 100.0;
-		connectTCFunctions();
 
 		addAction(QIcon(":/images/blueDot.png"),tr("Add control point"),tr("Insert new control point"));
 		addAction(QIcon(),tr("Use straight lines"),tr("Use straight lines to draw the selected connectors"));
@@ -94,8 +90,6 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(mouseMoved(GraphicsScene*, QGraphicsItem*, QPointF, Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>&)),
 				this,SLOT(mouseMoved(GraphicsScene*, QGraphicsItem*, QPointF, Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>&)));
 
-			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
-
 			connectCollisionDetector();
 
 			return true;
@@ -114,330 +108,6 @@ namespace Tinkercell
 	void ConnectionSelection::toolLoaded(Tool*)
 	{
 		connectCollisionDetector();
-	}
-
-	typedef void (*tc_ConnectionSelection_api)(
-		double (*getControlPointX)(long,long,int),
-		double (*getControlPointY)(long,long,int),
-		void (*setControlPoint)(long,long,int,double,double),
-		void (*setCenterPoint)(long,double,double),
-		double (*getCenterPointX)(long),
-		double (*getCenterPointY)(long),
-		void (*setStraight)(long,int),
-		void (*setAllStraight)(int),
-		void (*setLineWidth)(long,double,int)
-		);
-
-
-	void ConnectionSelection::setupFunctionPointers( QLibrary * library )
-	{
-		tc_ConnectionSelection_api f = (tc_ConnectionSelection_api)library->resolve("tc_ConnectionSelection_api");
-		if (f)
-		{
-			//qDebug() << "tc_ConnectionSelection_api resolved";
-			f(
-				&(_getControlPointX),
-				&(_getControlPointY),
-				&(_setControlPoint),
-				&(_setCenterPoint),
-				&(_getCenterPointX),
-				&(_getCenterPointY),
-				&(_setStraight),
-				&(_setAllStraight),
-				&(_setLineWidth)
-				);
-		}
-	}
-
-	void ConnectionSelection::setStraight(QSemaphore* sem,ItemHandle* h,int value)
-	{
-		if (mainWindow->isValidHandlePointer(h) && !h->graphicsItems.isEmpty() && currentScene())
-		{
-			LineTypeChanged * command = new LineTypeChanged;
-			command->straight = value;
-			if (value)
-				command->setText("make straight");
-			else
-				command->setText("make curved");
-
-			for (int j=0; j < h->graphicsItems.size(); ++j)
-			{
-				QGraphicsItem * item1 = h->graphicsItems[j];
-				ConnectionGraphicsItem * connection = ConnectionGraphicsItem::topLevelConnectionItem(item1);
-				if (connection)
-					command->list += connection;
-			}
-
-			if (!command->list.isEmpty())
-			{
-				if (currentScene()->network)
-					currentScene()->network->push(command);
-				else
-				{
-					command->redo();
-					delete command;
-				}
-			}
-		}
-		if (sem)
-			sem->release();
-	}
-
-	void ConnectionSelection::setAllStraight(QSemaphore* sem,int value)
-	{
-		if (currentScene())
-		{
-			QList<QGraphicsItem*> items = currentScene()->items();
-			LineTypeChanged * command = new LineTypeChanged;
-			command->straight = value;
-			if (value)
-				command->setText("make straight");
-			else
-				command->setText("make curved");
-
-			for (int j=0; j < items.size(); ++j)
-			{
-				QGraphicsItem * item1 = items[j];
-				ConnectionGraphicsItem * connection = ConnectionGraphicsItem::topLevelConnectionItem(item1);
-				if (connection)
-					command->list += connection;
-			}
-
-			if (!command->list.isEmpty())
-			{
-				if (currentScene()->network)
-					currentScene()->network->push(command);
-				else
-				{
-					command->redo();
-					delete command;
-				}
-			}
-		}
-		if (sem)
-			sem->release();
-	}
-
-	void ConnectionSelection::setLineWidth(QSemaphore* sem,ItemHandle* h,qreal value,int permanent)
-	{
-		if (mainWindow->isValidHandlePointer(h) && !h->graphicsItems.isEmpty() && currentScene())
-		{
-			for (int j=0; j < h->graphicsItems.size(); ++j)
-			{
-				QGraphicsItem * item1 = h->graphicsItems[j];
-				ConnectionGraphicsItem * connection = ConnectionGraphicsItem::topLevelConnectionItem(item1);
-				if (connection)
-				{
-					QPen pen;
-					if (currentScene()->selected().contains(connection))
-						pen = connection->defaultPen;
-					else
-						pen = connection->pen();
-					pen.setWidthF(value);
-
-					if (permanent > 0)
-						currentScene()->setPen(h->name + tr(" pen changed"),connection,pen);
-					else
-					{
-						connection->setPen(pen);
-						temporarilyChangedConnections << connection;
-					}
-				}
-			}
-		}
-		if (sem)
-			sem->release();
-	}
-
-	void ConnectionSelection::connectTCFunctions()
-	{
-		connect(fToS,SIGNAL(getControlPointX(QSemaphore*,qreal*,ItemHandle*,ItemHandle*,int)),
-			this,SLOT(getControlPointX(QSemaphore*,qreal*,ItemHandle*,ItemHandle*,int)));
-
-		connect(fToS,SIGNAL(getControlPointY(QSemaphore*,qreal*,ItemHandle*,ItemHandle*,int)),
-			this,SLOT(getControlPointY(QSemaphore*,qreal*,ItemHandle*,ItemHandle*,int)));
-
-		connect(fToS,SIGNAL(setControlPoint(QSemaphore*,ItemHandle*,ItemHandle*,int,qreal,qreal)),
-			this,SLOT(setControlPoint(QSemaphore*,ItemHandle*,ItemHandle*,int,qreal,qreal)));
-
-		connect(fToS,SIGNAL(getCenterPointX(QSemaphore*,qreal*,ItemHandle*)),
-			this,SLOT(getCenterPointX(QSemaphore*,qreal*,ItemHandle*)));
-
-		connect(fToS,SIGNAL(getCenterPointY(QSemaphore*,qreal*,ItemHandle*)),
-			this,SLOT(getCenterPointY(QSemaphore*,qreal*,ItemHandle*)));
-
-		connect(fToS,SIGNAL(setCenterPoint(QSemaphore*,ItemHandle*,qreal,qreal)),
-			this,SLOT(setCenterPoint(QSemaphore*,ItemHandle*,qreal,qreal)));
-
-		connect(fToS,SIGNAL(setStraight(QSemaphore*,ItemHandle*,int)),
-			this,SLOT(setStraight(QSemaphore*,ItemHandle*,int)));
-
-		connect(fToS,SIGNAL(setAllStraight(QSemaphore*,int)),
-			this,SLOT(setAllStraight(QSemaphore*,int)));
-
-		connect(fToS,SIGNAL(setLineWidth(QSemaphore*,ItemHandle*,qreal,int)),
-			this,SLOT(setLineWidth(QSemaphore*,ItemHandle*,qreal,int)));
-	}
-
-	void ConnectionSelection::getControlPointX(QSemaphore* sem,qreal* ptr,ItemHandle* h1,ItemHandle* h2,int index)
-	{
-		if (mainWindow->isValidHandlePointer(ptr) && 
-			mainWindow->isValidHandlePointer(h1) && 
-			mainWindow->isValidHandlePointer(h2) && 
-			!h1->graphicsItems.isEmpty() && !h2->graphicsItems.isEmpty())
-			for (int j=0; j < h1->graphicsItems.size(); ++j)
-			{
-				QGraphicsItem * item1 = h1->graphicsItems[j];
-				ConnectionGraphicsItem * connection = ConnectionGraphicsItem::topLevelConnectionItem(item1);
-				for (int j2=0; j2 < h2->graphicsItems.size(); ++j2)
-				{
-					NodeGraphicsItem * node = NodeGraphicsItem::topLevelNodeItem(h2->graphicsItems[j2]);
-					if (ptr && node && connection)
-					{
-						int i = connection->indexOf(node);
-
-						if (i > -1 && index > -1 && index < connection->curveSegments[i].size() && connection->curveSegments[i][index])
-						{
-							if (ptr)
-								(*ptr) = connection->curveSegments[i][index]->x();
-							if (sem)
-								sem->release();
-							return;
-						}
-					}
-				}
-			}
-			if (sem)
-				sem->release();
-	}
-
-	void ConnectionSelection::getControlPointY(QSemaphore* sem,qreal* ptr,ItemHandle* h1,ItemHandle* h2,int index)
-	{
-		if (mainWindow->isValidHandlePointer(ptr) && 
-			mainWindow->isValidHandlePointer(h1) && 
-			mainWindow->isValidHandlePointer(h2)
-			&& !h1->graphicsItems.isEmpty() && !h2->graphicsItems.isEmpty())
-			for (int j=0; j < h1->graphicsItems.size(); ++j)
-			{
-				QGraphicsItem * item1 = h1->graphicsItems[j];
-				ConnectionGraphicsItem * connection = ConnectionGraphicsItem::topLevelConnectionItem(item1);
-				for (int j2=0; j2 < h2->graphicsItems.size(); ++j2)
-				{
-					NodeGraphicsItem * node = NodeGraphicsItem::topLevelNodeItem(h2->graphicsItems[j2]);
-					if (ptr && node && connection)
-					{
-						int i = connection->indexOf(node);
-						if (i > -1 && index > -1 && index < connection->curveSegments[i].size() && connection->curveSegments[i][index])
-						{
-							(*ptr) = connection->curveSegments[i][index]->y();
-							if (sem)
-								sem->release();
-							return;
-						}
-					}
-				}
-			}
-			if (sem)
-				sem->release();
-	}
-
-	void ConnectionSelection::setControlPoint(QSemaphore* sem,ItemHandle* h1,ItemHandle* h2,int index,qreal x,qreal y)
-	{
-		if (mainWindow->isValidHandlePointer(h1) && 
-			mainWindow->isValidHandlePointer(h2) &&
-			!h1->graphicsItems.isEmpty() && !h2->graphicsItems.isEmpty())
-			for (int j=0; j < h1->graphicsItems.size(); ++j)
-			{
-				QGraphicsItem * item1 = h1->graphicsItems[j];
-				ConnectionGraphicsItem * connection = ConnectionGraphicsItem::topLevelConnectionItem(item1);
-				for (int j2=0; j2 < h2->graphicsItems.size(); ++j2)
-				{
-					NodeGraphicsItem * node = NodeGraphicsItem::topLevelNodeItem(h2->graphicsItems[j2]);
-					if (node && connection)
-					{
-						int i = connection->indexOf(node);
-						if (i > -1 && index > -1 && index < connection->curveSegments[i].size() && connection->curveSegments[i][index])
-						{
-							QPointF diff(x - connection->curveSegments[i][index]->x(),
-								y - connection->curveSegments[i][index]->y());
-
-							GraphicsScene * scene = currentScene();
-							if (scene)
-								scene->move(connection->curveSegments[i][index],diff);
-							else
-							{
-								connection->curveSegments[i][index]->setPos(QPointF(x,y));
-							}
-							if (sem)
-								sem->release();
-							return;
-						}
-					}
-				}
-			}
-			if (sem)
-				sem->release();
-	}
-
-	void ConnectionSelection::setCenterPoint(QSemaphore* sem,ItemHandle* h1,qreal x,qreal y)
-	{
-		if (mainWindow->isValidHandlePointer(h1))
-			for (int i=0; i < h1->graphicsItems.size(); ++i)
-			{
-				ConnectionGraphicsItem * connection = ConnectionGraphicsItem::topLevelConnectionItem(h1->graphicsItems[i]);
-				if (connection)
-				{
-					ControlPoint * cp = connection->centerPoint();
-					if (cp)
-					{
-						GraphicsScene * scene = currentScene();
-						if (scene)
-							scene->move(cp,(QPointF(x,y) - cp->scenePos()));
-						else
-							cp->setPos(QPointF(x,y));
-					}
-				}
-			}
-			if (sem)
-				sem->release();
-	}
-
-	void ConnectionSelection::getCenterPointX(QSemaphore* sem,qreal* ptr, ItemHandle* h1)
-	{
-		if (mainWindow->isValidHandlePointer(ptr) && mainWindow->isValidHandlePointer(h1))
-			for (int i=0; i < h1->graphicsItems.size(); ++i)
-			{
-				ConnectionGraphicsItem * connection = ConnectionGraphicsItem::topLevelConnectionItem(h1->graphicsItems[i]);
-				if (connection && ptr)
-				{
-					ControlPoint * cp = connection->centerPoint();
-					if (cp)
-					{
-						(*ptr) = cp->x();
-					}
-				}
-			}
-			if (sem)
-				sem->release();
-	}
-
-	void ConnectionSelection::getCenterPointY(QSemaphore* sem,qreal* ptr, ItemHandle* h1)
-	{
-		if (mainWindow->isValidHandlePointer(h1))
-			for (int i=0; i < h1->graphicsItems.size(); ++i)
-			{
-				ConnectionGraphicsItem * connection = ConnectionGraphicsItem::topLevelConnectionItem(h1->graphicsItems[i]);
-				if (connection && ptr)
-				{
-					ControlPoint * cp = connection->centerPoint();
-					if (cp)
-					{
-						(*ptr) = cp->y();
-					}
-				}
-			}
-			if (sem)
-				sem->release();
 	}
 
 	void ConnectionSelection::connectCollisionDetector()
@@ -475,7 +145,7 @@ namespace Tinkercell
 
 		for (int i=0; i < selected.size(); ++i)
 		{
-			ConnectionGraphicsItem * item = ConnectionGraphicsItem::topLevelConnectionItem(selected[i]);
+			ConnectionGraphicsItem * item = ConnectionGraphicsItem::cast(selected[i]);
 			if (item)
 			{
 				ConnectionGraphicsItem::ControlPoint * cp = new ConnectionGraphicsItem::ControlPoint(item);
@@ -644,7 +314,7 @@ namespace Tinkercell
 				}
 				else
 				{
-					connection = ConnectionGraphicsItem::topLevelConnectionItem(items[i]);
+					connection = ConnectionGraphicsItem::cast(items[i]);
 					if (connection != 0)
 						connection->setControlPointsVisible(false);
 				}
@@ -677,14 +347,14 @@ namespace Tinkercell
 
 			for (int i=0; i < items.size(); ++i)
 			{
-				node = NodeGraphicsItem::topLevelNodeItem(items[i]);
+				node = NodeGraphicsItem::cast(items[i]);
 				if (node && (ToolGraphicsItem::cast(node->topLevelItem()) == 0))
 				{
 					node->setBoundingBoxVisible(true);
 				}
 				else
 				{
-					connection = ConnectionGraphicsItem::topLevelConnectionItem(items[i]);
+					connection = ConnectionGraphicsItem::cast(items[i]);
 					if (connection)
 					{
 						connection->setControlPointsVisible(true);
@@ -717,14 +387,14 @@ namespace Tinkercell
 
 			for (int i=0; i < items.size(); ++i)
 			{
-				node = NodeGraphicsItem::topLevelNodeItem(items[i]);
+				node = NodeGraphicsItem::cast(items[i]);
 				if (node && !scene->selected().contains(node))
 				{
 					node->setBoundingBoxVisible(false);
 				}
 				else
 				{
-					connection = ConnectionGraphicsItem::topLevelConnectionItem(items[i]);
+					connection = ConnectionGraphicsItem::cast(items[i]);
 					if (connection && !scene->selected().contains(connection))
 					{
 						connection->setControlPointsVisible(false);
@@ -789,9 +459,9 @@ namespace Tinkercell
 				break;
 			}
 			else
-				if (NodeGraphicsItem::topLevelNodeItem(moving.at(i)))
+				if (NodeGraphicsItem::cast(moving.at(i)))
 				{
-					cp = NodeGraphicsItem::topLevelNodeItem(moving.at(i));
+					cp = NodeGraphicsItem::cast(moving.at(i));
 					break;
 				}
 		}
@@ -814,7 +484,7 @@ namespace Tinkercell
 
 		for (int i=0; i < items.size(); ++i)
 		{
-			node = NodeGraphicsItem::topLevelNodeItem(items[i]);
+			node = NodeGraphicsItem::cast(items[i]);
 			if (node && !scene->moving().contains(node) && (ToolGraphicsItem::cast(node->topLevelItem()) == 0))
 			{
 				if (!avoidBoundary)
@@ -880,216 +550,6 @@ namespace Tinkercell
 
 	void ConnectionSelection::connectionCollided(const QList<QGraphicsItem*>& , ConnectionGraphicsItem * , QPointF )
 	{
-	}
-
-	/****************************************/
-
-	ConnectionSelection_FToS * ConnectionSelection::fToS;
-
-	double ConnectionSelection::_getControlPointX(long a,long b,int c)
-	{
-		return fToS->getControlPointX(a,b,c);
-	}
-
-	double ConnectionSelection::_getControlPointY(long a,long b,int c)
-	{
-		return fToS->getControlPointY(a,b,c);
-	}
-
-	void ConnectionSelection::_setControlPoint(long a,long b,int i, double x,double y)
-	{
-		return fToS->setControlPoint(a,b,i,x,y);
-	}
-
-	double ConnectionSelection::_getCenterPointX(long x)
-	{
-		return fToS->getCenterPointX(x);
-	}
-
-	double ConnectionSelection::_getCenterPointY(long x)
-	{
-		return fToS->getCenterPointY(x);
-	}
-
-	void ConnectionSelection::_setCenterPoint(long a,double x,double y)
-	{
-		return fToS->setCenterPoint(a,x,y);
-	}
-
-	double ConnectionSelection_FToS::getControlPointX(long a0,long a1,int a2)
-	{
-		QSemaphore * s = new QSemaphore(1);
-		qreal p = 0.0;
-		s->acquire();
-		emit getControlPointX(s,&p,ConvertValue(a0),ConvertValue(a1),a2);
-		s->acquire();
-		s->release();
-		delete s;
-		return (double)p;
-	}
-
-	double ConnectionSelection_FToS::getControlPointY(long a0,long a1,int a2)
-	{
-		QSemaphore * s = new QSemaphore(1);
-		qreal p = 0.0;
-		s->acquire();
-		emit getControlPointY(s,&p,ConvertValue(a0),ConvertValue(a1),a2);
-		s->acquire();
-		s->release();
-		delete s;
-		return (double)p;
-	}
-
-
-	void ConnectionSelection_FToS::setControlPoint(long a0,long a1,int i,double a2,double a3)
-	{
-		QSemaphore * s = new QSemaphore(1);
-		s->acquire();
-		emit setControlPoint(s,ConvertValue(a0),ConvertValue(a1),i,a2,a3);
-		s->acquire();
-		s->release();
-		delete s;
-	}
-
-	void ConnectionSelection_FToS::setCenterPoint(long a0,double a1,double a2)
-	{
-		QSemaphore * s = new QSemaphore(1);
-		s->acquire();
-		emit setCenterPoint(s,ConvertValue(a0),a1,a2);
-		s->acquire();
-		s->release();
-		delete s;
-	}
-
-
-	double ConnectionSelection_FToS::getCenterPointX(long a0)
-	{
-		QSemaphore * s = new QSemaphore(1);
-		qreal x = 0.0;
-		s->acquire();
-		emit getCenterPointX(s,&x,ConvertValue(a0));
-		s->acquire();
-		s->release();
-		delete s;
-		return (double)x;
-	}
-
-	double ConnectionSelection_FToS::getCenterPointY(long a0)
-	{
-		QSemaphore * s = new QSemaphore(1);
-		qreal x = 0.0;
-		s->acquire();
-		emit getCenterPointY(s,&x,ConvertValue(a0));
-		s->acquire();
-		s->release();
-		delete s;
-		return (double)x;
-	}
-
-	void ConnectionSelection::_setStraight(long o,int v)
-	{
-		return fToS->setStraight(o,v);
-	}
-
-
-	void ConnectionSelection_FToS::setStraight(long o,int v)
-	{
-		QSemaphore * s = new QSemaphore(1);
-		s->acquire();
-		emit setStraight(s,ConvertValue(o),v);
-		s->acquire();
-		s->release();
-		return;
-	}
-
-	void ConnectionSelection::_setAllStraight(int v)
-	{
-		return fToS->setAllStraight(v);
-	}
-
-	void ConnectionSelection_FToS::setAllStraight(int v)
-	{
-		QSemaphore * s = new QSemaphore(1);
-		s->acquire();
-		emit setAllStraight(s,v);
-		s->acquire();
-		s->release();
-		return;
-	}
-
-	void ConnectionSelection::_setLineWidth(long o,double v, int b)
-	{
-		return fToS->setLineWidth(o,v,b);
-	}
-
-	void ConnectionSelection_FToS::setLineWidth(long o,double v, int b)
-	{
-		QSemaphore * s = new QSemaphore(1);
-		s->acquire();
-		emit setLineWidth(s,ConvertValue(o),qreal(v),b);
-		s->acquire();
-		s->release();
-		return;
-	}
-
-	/**Undo commands***/
-
-	void ConnectionSelection::LineTypeChanged::undo()
-	{
-		for (int i=0; i < list.size(); ++i)
-		{
-			ConnectionGraphicsItem * connectionPtr = list[i];
-			if (connectionPtr)
-			{
-				if (!straight)
-					connectionPtr->lineType = ConnectionGraphicsItem::line;
-				else
-					connectionPtr->lineType = ConnectionGraphicsItem::bezier;
-				connectionPtr->refresh();
-			}
-		}
-	}
-
-	void ConnectionSelection::LineTypeChanged::redo()
-	{
-		for (int i=0; i < list.size(); ++i)
-		{
-			ConnectionGraphicsItem * connectionPtr = list[i];
-			if (connectionPtr)
-			{
-				if (straight)
-					connectionPtr->lineType = ConnectionGraphicsItem::line;
-				else
-					connectionPtr->lineType = ConnectionGraphicsItem::bezier;
-				connectionPtr->refresh();
-			}
-		}
-	}
-
-	void ConnectionSelection::ChangeArrowHeadDistance::undo()
-	{
-		for (int i=0; i < list.size() && i < dists.size(); ++i)
-		{
-			ConnectionGraphicsItem * connectionPtr = list[i];
-			if (connectionPtr)
-			{
-				connectionPtr->arrowHeadDistance -= dists[i];
-				connectionPtr->refresh();
-			}
-		}
-	}
-
-	void ConnectionSelection::ChangeArrowHeadDistance::redo()
-	{
-		for (int i=0; i < list.size() && i < dists.size(); ++i)
-		{
-			ConnectionGraphicsItem * connectionPtr = list[i];
-			if (connectionPtr)
-			{
-				connectionPtr->arrowHeadDistance += dists[i];
-				connectionPtr->refresh();
-			}
-		}
 	}
 
 	void ConnectionSelection::showMiddleBox()

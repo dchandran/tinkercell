@@ -156,7 +156,17 @@ namespace Tinkercell
 		double (*getNumericalValue)(const char*),
 		const char* (*getTextValue)(const char*),
 		
-		void (*openUrl)(const char*)
+		void (*openUrl)(const char*),
+		
+		double (*getControlPointX)(long,long,int),
+		double (*getControlPointY)(long,long,int),
+		void (*setControlPoint)(long,long,int,double,double),
+		void (*setCenterPoint)(long,double,double),
+		double (*getCenterPointX)(long),
+		double (*getCenterPointY)(long),
+		void (*setStraight)(long,int),
+		void (*setAllStraight)(int),
+		void (*setLineWidth)(long,double,int)
 	);
 	
 	void C_API_Slots::setupFunctionPointers(QLibrary * library)
@@ -242,7 +252,16 @@ namespace Tinkercell
 				&(_setTextValue),
 				&(_getNumericalValue),
 				&(_getTextValue),
-				&(_openUrl)
+				&(_openUrl),
+				&(_getControlPointX),
+				&(_getControlPointY),
+				&(_setControlPoint),
+				&(_setCenterPoint),
+				&(_getCenterPointX),
+				&(_getCenterPointY),
+				&(_setStraight),
+				&(_setAllStraight),
+				&(_setLineWidth)
 			);
 		}
 	}
@@ -353,6 +372,33 @@ namespace Tinkercell
 		
 		connect(fToS,SIGNAL(getNumericalValue(QSemaphore*, const QString&, double*)),this,SLOT(getNumericalValue(QSemaphore*, const QString&, double*)));
 		connect(fToS,SIGNAL(getTextValue(QSemaphore*, const QString&, QString*)),this,SLOT(getTextValue(QSemaphore*, const QString&, QString*)));
+		
+		connect(fToS,SIGNAL(getControlPointX(QSemaphore*,qreal*,ItemHandle*,ItemHandle*,int)),
+			this,SLOT(getControlPointX(QSemaphore*,qreal*,ItemHandle*,ItemHandle*,int)));
+
+		connect(fToS,SIGNAL(getControlPointY(QSemaphore*,qreal*,ItemHandle*,ItemHandle*,int)),
+			this,SLOT(getControlPointY(QSemaphore*,qreal*,ItemHandle*,ItemHandle*,int)));
+
+		connect(fToS,SIGNAL(setControlPoint(QSemaphore*,ItemHandle*,ItemHandle*,int,qreal,qreal)),
+			this,SLOT(setControlPoint(QSemaphore*,ItemHandle*,ItemHandle*,int,qreal,qreal)));
+
+		connect(fToS,SIGNAL(getCenterPointX(QSemaphore*,qreal*,ItemHandle*)),
+			this,SLOT(getCenterPointX(QSemaphore*,qreal*,ItemHandle*)));
+
+		connect(fToS,SIGNAL(getCenterPointY(QSemaphore*,qreal*,ItemHandle*)),
+			this,SLOT(getCenterPointY(QSemaphore*,qreal*,ItemHandle*)));
+
+		connect(fToS,SIGNAL(setCenterPoint(QSemaphore*,ItemHandle*,qreal,qreal)),
+			this,SLOT(setCenterPoint(QSemaphore*,ItemHandle*,qreal,qreal)));
+
+		connect(fToS,SIGNAL(setStraight(QSemaphore*,ItemHandle*,int)),
+			this,SLOT(setStraight(QSemaphore*,ItemHandle*,int)));
+
+		connect(fToS,SIGNAL(setAllStraight(QSemaphore*,int)),
+			this,SLOT(setAllStraight(QSemaphore*,int)));
+
+		connect(fToS,SIGNAL(setLineWidth(QSemaphore*,ItemHandle*,qreal,int)),
+			this,SLOT(setLineWidth(QSemaphore*,ItemHandle*,qreal,int)));
 	}
 	
 	void C_API_Slots::zoom(QSemaphore* sem, qreal factor)
@@ -887,11 +933,14 @@ namespace Tinkercell
 			return;
 		}
 		
+		NodeGraphicsItem * node;
+		ConnectionGraphicsItem * connection;
+		
 		bool found = false;
 		for (int i=0; i < item->graphicsItems.size(); ++i)
-			if (NodeGraphicsItem::cast(item->graphicsItems[i]))
+			if (node = NodeGraphicsItem::cast(item->graphicsItems[i]))
 			{
-				(*returnPtr) = item->graphicsItems[i]->scenePos().x();
+				(*returnPtr) = node->scenePos().x();
 				found = true;
 				break;
 			}
@@ -899,9 +948,9 @@ namespace Tinkercell
 		if (!found)
 		{
 			for (int i=0; i < item->graphicsItems.size(); ++i)
-				if (ConnectionGraphicsItem::cast(item->graphicsItems[i]))
+				if (connection = ConnectionGraphicsItem::cast(item->graphicsItems[i]))
 				{
-					(*returnPtr) = item->graphicsItems[i]->scenePos().x();
+					(*returnPtr) = connection->centerLocation().x();
 					found = true;
 					break;
 				}
@@ -929,11 +978,15 @@ namespace Tinkercell
 			if (s) s->release();
 			return;
 		}
+
 		bool found = false;
+		NodeGraphicsItem * node;
+		ConnectionGraphicsItem * connection;
+		
 		for (int i=0; i < item->graphicsItems.size(); ++i)
-			if (NodeGraphicsItem::cast(item->graphicsItems[i]))
+			if (node = NodeGraphicsItem::cast(item->graphicsItems[i]))
 			{
-				(*returnPtr) = item->graphicsItems[i]->scenePos().y();
+				(*returnPtr) = node->scenePos().y();
 				found = true;
 				break;
 			}
@@ -941,9 +994,9 @@ namespace Tinkercell
 		if (!found)
 		{
 			for (int i=0; i < item->graphicsItems.size(); ++i)
-				if (ConnectionGraphicsItem::cast(item->graphicsItems[i]))
+				if (connection = ConnectionGraphicsItem::cast(item->graphicsItems[i]))
 				{
-					(*returnPtr) = item->graphicsItems[i]->scenePos().y();
+					(*returnPtr) = connection->centerLocation().y();
 					found = true;
 					break;
 				}
@@ -1000,54 +1053,10 @@ namespace Tinkercell
 				for (int j=0; j < items[i]->graphicsItems.size(); ++j)
 					if ((item = items[i]->graphicsItems[j]))
 					{
-						if ((connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(item)))
-						{
-							ConnectionGraphicsItem::ControlPoint * cp;
-							if ((cp = connection->centerPoint()))
-							{
-								graphicsItems << cp;
-								diff = QPointF(pos.value(i,0),pos.value(i,1)) - cp->scenePos();
-								p << diff;
-
-								for (int k=0; k < connection->curveSegments.size(); ++k)
-								{
-									ConnectionGraphicsItem::ControlPoint * cp1 = connection->curveSegments[k].first();
-									if (cp1 && cp && cp1 != cp)
-									{
-										QPointF p1 = cp1->scenePos(), p2 = QPointF(pos.value(i,0),pos.value(i,1));
-										if ((node = qgraphicsitem_cast<NodeGraphicsItem*>(cp1->parentItem())) &&
-											((m = items.indexOf(node->handle())) > -1))
-										{
-											p1 = QPointF(pos.value(m,0),pos.value(m,1)) - node->scenePos();
-										}
-										for (int l=1; l < connection->curveSegments[k].size(); ++l)
-										{
-											if (connection->curveSegments[k][l] && connection->curveSegments[k][l] != cp)
-											{
-												target =
-													p1*((double)(connection->curveSegments[k].size() - l - 0.5))/((double)(connection->curveSegments[k].size()))
-													+
-													p2*((double)(l + 0.5))/((double)(connection->curveSegments[k].size()));
-												diff = target - connection->curveSegments[k][l]->scenePos();
-												if ((m = graphicsItems.indexOf(connection->curveSegments[k][l])) > -1)
-												{
-													p[m] = (p[m] + diff)/2.0;
-												}
-												else
-												{
-													p << diff;
-													graphicsItems << connection->curveSegments[k][l];
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-						else
+						if ((connection = ConnectionGraphicsItem::cast(item)))
 						{
 							graphicsItems << item;
-							p << QPointF(pos.value(i,0),pos.value(i,1)) - items[i]->graphicsItems[j]->scenePos();
+							p << QPointF(pos.value(i,0),pos.value(i,1)) - connection->centerLocation();
 						}
 					}
 			}
@@ -1071,15 +1080,15 @@ namespace Tinkercell
 			{
 				for (int j=0; j < items[i]->graphicsItems.size(); ++j)
 				{
-					if (qgraphicsitem_cast<NodeGraphicsItem*>(items[i]->graphicsItems[j]) || (j == (items[i]->graphicsItems.size() - 1)))
+					if (NodeGraphicsItem::cast(items[i]->graphicsItems[j]) || (j == (items[i]->graphicsItems.size() - 1)))
 					{
 						p << items[i]->graphicsItems[j]->scenePos();
 						break;
 					}
 					else
-						if (qgraphicsitem_cast<ConnectionGraphicsItem*>(items[i]->graphicsItems[j]))
+						if (ConnectionGraphicsItem::cast(items[i]->graphicsItems[j]))
 						{
-							p << (qgraphicsitem_cast<ConnectionGraphicsItem*>(items[i]->graphicsItems[j]))->centerLocation();
+							p << (ConnectionGraphicsItem::cast(items[i]->graphicsItems[j]))->centerLocation();
 							break;
 						}
 				}
@@ -3238,5 +3247,406 @@ namespace Tinkercell
 	{
 		QDesktopServices::openUrl(QUrl(QString(file)));
 	}
+	
+	
+	void C_API_Slots::setStraight(QSemaphore* sem,ItemHandle* h,int value)
+	{
+		if (mainWindow->isValidHandlePointer(h) && !h->graphicsItems.isEmpty() && currentScene())
+		{
+			LineTypeChanged * command = new LineTypeChanged;
+			command->straight = value;
+			if (value)
+				command->setText("make straight");
+			else
+				command->setText("make curved");
+
+			for (int j=0; j < h->graphicsItems.size(); ++j)
+			{
+				QGraphicsItem * item1 = h->graphicsItems[j];
+				ConnectionGraphicsItem * connection = ConnectionGraphicsItem::cast(item1);
+				if (connection)
+					command->list += connection;
+			}
+
+			if (!command->list.isEmpty())
+			{
+				if (currentScene()->network)
+					currentScene()->network->push(command);
+				else
+				{
+					command->redo();
+					delete command;
+				}
+			}
+		}
+		if (sem)
+			sem->release();
+	}
+
+	void C_API_Slots::setAllStraight(QSemaphore* sem,int value)
+	{
+		if (currentScene())
+		{
+			QList<QGraphicsItem*> items = currentScene()->items();
+			LineTypeChanged * command = new LineTypeChanged;
+			command->straight = value;
+			if (value)
+				command->setText("make straight");
+			else
+				command->setText("make curved");
+
+			for (int j=0; j < items.size(); ++j)
+			{
+				QGraphicsItem * item1 = items[j];
+				ConnectionGraphicsItem * connection = ConnectionGraphicsItem::cast(item1);
+				if (connection)
+					command->list += connection;
+			}
+
+			if (!command->list.isEmpty())
+			{
+				if (currentScene()->network)
+					currentScene()->network->push(command);
+				else
+				{
+					command->redo();
+					delete command;
+				}
+			}
+		}
+		if (sem)
+			sem->release();
+	}
+
+	void C_API_Slots::setLineWidth(QSemaphore* sem,ItemHandle* h,qreal value,int permanent)
+	{
+		if (mainWindow->isValidHandlePointer(h) && !h->graphicsItems.isEmpty() && currentScene())
+		{
+			for (int j=0; j < h->graphicsItems.size(); ++j)
+			{
+				QGraphicsItem * item1 = h->graphicsItems[j];
+				ConnectionGraphicsItem * connection = ConnectionGraphicsItem::cast(item1);
+				if (connection)
+				{
+					QPen pen;
+					if (currentScene()->selected().contains(connection))
+						pen = connection->defaultPen;
+					else
+						pen = connection->pen();
+					pen.setWidthF(value);
+
+					if (permanent > 0)
+						currentScene()->setPen(h->name + tr(" pen changed"),connection,pen);
+					else
+					{
+						connection->setPen(pen);
+						temporarilyChangedConnections << connection;
+					}
+				}
+			}
+		}
+		if (sem)
+			sem->release();
+	}
+	
+	void C_API_Slots::getControlPointX(QSemaphore* sem,qreal* ptr,ItemHandle* h1,ItemHandle* h2,int index)
+	{
+		if (mainWindow->isValidHandlePointer(ptr) && 
+			mainWindow->isValidHandlePointer(h1) && 
+			mainWindow->isValidHandlePointer(h2) && 
+			!h1->graphicsItems.isEmpty() && !h2->graphicsItems.isEmpty())
+			for (int j=0; j < h1->graphicsItems.size(); ++j)
+			{
+				QGraphicsItem * item1 = h1->graphicsItems[j];
+				ConnectionGraphicsItem * connection = ConnectionGraphicsItem::cast(item1);
+				for (int j2=0; j2 < h2->graphicsItems.size(); ++j2)
+				{
+					NodeGraphicsItem * node = NodeGraphicsItem::cast(h2->graphicsItems[j2]);
+					if (ptr && node && connection)
+					{
+						int i = connection->indexOf(node);
+
+						if (i > -1 && index > -1 && index < connection->curveSegments[i].size() && connection->curveSegments[i][index])
+						{
+							if (ptr)
+								(*ptr) = connection->curveSegments[i][index]->x();
+							if (sem)
+								sem->release();
+							return;
+						}
+					}
+				}
+			}
+			if (sem)
+				sem->release();
+	}
+
+	void C_API_Slots::getControlPointY(QSemaphore* sem,qreal* ptr,ItemHandle* h1,ItemHandle* h2,int index)
+	{
+		if (mainWindow->isValidHandlePointer(ptr) && 
+			mainWindow->isValidHandlePointer(h1) && 
+			mainWindow->isValidHandlePointer(h2)
+			&& !h1->graphicsItems.isEmpty() && !h2->graphicsItems.isEmpty())
+			for (int j=0; j < h1->graphicsItems.size(); ++j)
+			{
+				QGraphicsItem * item1 = h1->graphicsItems[j];
+				ConnectionGraphicsItem * connection = ConnectionGraphicsItem::cast(item1);
+				for (int j2=0; j2 < h2->graphicsItems.size(); ++j2)
+				{
+					NodeGraphicsItem * node = NodeGraphicsItem::cast(h2->graphicsItems[j2]);
+					if (ptr && node && connection)
+					{
+						int i = connection->indexOf(node);
+						if (i > -1 && index > -1 && index < connection->curveSegments[i].size() && connection->curveSegments[i][index])
+						{
+							(*ptr) = connection->curveSegments[i][index]->y();
+							if (sem)
+								sem->release();
+							return;
+						}
+					}
+				}
+			}
+			if (sem)
+				sem->release();
+	}
+
+	void C_API_Slots::setControlPoint(QSemaphore* sem,ItemHandle* h1,ItemHandle* h2,int index,qreal x,qreal y)
+	{
+		if (mainWindow->isValidHandlePointer(h1) && 
+			mainWindow->isValidHandlePointer(h2) &&
+			!h1->graphicsItems.isEmpty() && !h2->graphicsItems.isEmpty())
+			for (int j=0; j < h1->graphicsItems.size(); ++j)
+			{
+				QGraphicsItem * item1 = h1->graphicsItems[j];
+				ConnectionGraphicsItem * connection = ConnectionGraphicsItem::cast(item1);
+				for (int j2=0; j2 < h2->graphicsItems.size(); ++j2)
+				{
+					NodeGraphicsItem * node = NodeGraphicsItem::cast(h2->graphicsItems[j2]);
+					if (node && connection)
+					{
+						int i = connection->indexOf(node);
+						if (i > -1 && index > -1 && index < connection->curveSegments[i].size() && connection->curveSegments[i][index])
+						{
+							QPointF diff(x - connection->curveSegments[i][index]->x(),
+								y - connection->curveSegments[i][index]->y());
+
+							GraphicsScene * scene = currentScene();
+							if (scene)
+								scene->move(connection->curveSegments[i][index],diff);
+							else
+							{
+								connection->curveSegments[i][index]->setPos(QPointF(x,y));
+							}
+							if (sem)
+								sem->release();
+							return;
+						}
+					}
+				}
+			}
+			if (sem)
+				sem->release();
+	}
+
+	void C_API_Slots::setCenterPoint(QSemaphore* sem,ItemHandle* h1,qreal x,qreal y)
+	{
+		if (mainWindow->isValidHandlePointer(h1))
+			for (int i=0; i < h1->graphicsItems.size(); ++i)
+			{
+				ConnectionGraphicsItem * connection = ConnectionGraphicsItem::cast(h1->graphicsItems[i]);
+				if (connection)
+				{
+					ControlPoint * cp = connection->centerPoint();
+					if (cp)
+					{
+						GraphicsScene * scene = currentScene();
+						if (scene)
+							scene->move(cp,(QPointF(x,y) - cp->scenePos()));
+						else
+							cp->setPos(QPointF(x,y));
+					}
+				}
+			}
+			if (sem)
+				sem->release();
+	}
+
+	void C_API_Slots::getCenterPointX(QSemaphore* sem,qreal* ptr, ItemHandle* h1)
+	{
+		if (mainWindow->isValidHandlePointer(ptr) && mainWindow->isValidHandlePointer(h1))
+			for (int i=0; i < h1->graphicsItems.size(); ++i)
+			{
+				ConnectionGraphicsItem * connection = ConnectionGraphicsItem::cast(h1->graphicsItems[i]);
+				if (connection && ptr)
+				{
+					(*ptr) = connection->centerLocation().x();
+				}
+			}
+			if (sem)
+				sem->release();
+	}
+
+	void C_API_Slots::getCenterPointY(QSemaphore* sem,qreal* ptr, ItemHandle* h1)
+	{
+		if (mainWindow->isValidHandlePointer(h1))
+			for (int i=0; i < h1->graphicsItems.size(); ++i)
+			{
+				ConnectionGraphicsItem * connection = ConnectionGraphicsItem::cast(h1->graphicsItems[i]);
+				if (connection && ptr)
+				{
+					(*ptr) = connection->centerLocation().y();
+				}
+			}
+			if (sem)
+				sem->release();
+	}
+	
+	double C_API_Slots::_getControlPointX(long a,long b,int c)
+	{
+		return fToS->getControlPointX(a,b,c);
+	}
+
+	double C_API_Slots::_getControlPointY(long a,long b,int c)
+	{
+		return fToS->getControlPointY(a,b,c);
+	}
+
+	void C_API_Slots::_setControlPoint(long a,long b,int i, double x,double y)
+	{
+		return fToS->setControlPoint(a,b,i,x,y);
+	}
+
+	double C_API_Slots::_getCenterPointX(long x)
+	{
+		return fToS->getCenterPointX(x);
+	}
+
+	double C_API_Slots::_getCenterPointY(long x)
+	{
+		return fToS->getCenterPointY(x);
+	}
+
+	void C_API_Slots::_setCenterPoint(long a,double x,double y)
+	{
+		return fToS->setCenterPoint(a,x,y);
+	}
+
+	double Core_FtoS::getControlPointX(long a0,long a1,int a2)
+	{
+		QSemaphore * s = new QSemaphore(1);
+		qreal p = 0.0;
+		s->acquire();
+		emit getControlPointX(s,&p,ConvertValue(a0),ConvertValue(a1),a2);
+		s->acquire();
+		s->release();
+		delete s;
+		return (double)p;
+	}
+
+	double Core_FtoS::getControlPointY(long a0,long a1,int a2)
+	{
+		QSemaphore * s = new QSemaphore(1);
+		qreal p = 0.0;
+		s->acquire();
+		emit getControlPointY(s,&p,ConvertValue(a0),ConvertValue(a1),a2);
+		s->acquire();
+		s->release();
+		delete s;
+		return (double)p;
+	}
+
+
+	void Core_FtoS::setControlPoint(long a0,long a1,int i,double a2,double a3)
+	{
+		QSemaphore * s = new QSemaphore(1);
+		s->acquire();
+		emit setControlPoint(s,ConvertValue(a0),ConvertValue(a1),i,a2,a3);
+		s->acquire();
+		s->release();
+		delete s;
+	}
+
+	void Core_FtoS::setCenterPoint(long a0,double a1,double a2)
+	{
+		QSemaphore * s = new QSemaphore(1);
+		s->acquire();
+		emit setCenterPoint(s,ConvertValue(a0),a1,a2);
+		s->acquire();
+		s->release();
+		delete s;
+	}
+
+
+	double Core_FtoS::getCenterPointX(long a0)
+	{
+		QSemaphore * s = new QSemaphore(1);
+		qreal x = 0.0;
+		s->acquire();
+		emit getCenterPointX(s,&x,ConvertValue(a0));
+		s->acquire();
+		s->release();
+		delete s;
+		return (double)x;
+	}
+
+	double Core_FtoS::getCenterPointY(long a0)
+	{
+		QSemaphore * s = new QSemaphore(1);
+		qreal x = 0.0;
+		s->acquire();
+		emit getCenterPointY(s,&x,ConvertValue(a0));
+		s->acquire();
+		s->release();
+		delete s;
+		return (double)x;
+	}
+
+	void C_API_Slots::_setStraight(long o,int v)
+	{
+		return fToS->setStraight(o,v);
+	}
+
+
+	void Core_FtoS::setStraight(long o,int v)
+	{
+		QSemaphore * s = new QSemaphore(1);
+		s->acquire();
+		emit setStraight(s,ConvertValue(o),v);
+		s->acquire();
+		s->release();
+		return;
+	}
+
+	void C_API_Slots::_setAllStraight(int v)
+	{
+		return fToS->setAllStraight(v);
+	}
+
+	void Core_FtoS::setAllStraight(int v)
+	{
+		QSemaphore * s = new QSemaphore(1);
+		s->acquire();
+		emit setAllStraight(s,v);
+		s->acquire();
+		s->release();
+		return;
+	}
+
+	void C_API_Slots::_setLineWidth(long o,double v, int b)
+	{
+		return fToS->setLineWidth(o,v,b);
+	}
+
+	void Core_FtoS::setLineWidth(long o,double v, int b)
+	{
+		QSemaphore * s = new QSemaphore(1);
+		s->acquire();
+		emit setLineWidth(s,ConvertValue(o),qreal(v),b);
+		s->acquire();
+		s->release();
+		return;
+	}
+
 }
 

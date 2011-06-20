@@ -135,6 +135,16 @@ namespace Tinkercell
 		
 		void getNumericalValue(QSemaphore*, const QString&, double*);
 		void getTextValue(QSemaphore*, const QString&, QString*);
+		
+		void getControlPointX(QSemaphore*,qreal*,ItemHandle*,ItemHandle*,int);
+		void getControlPointY(QSemaphore*,qreal*,ItemHandle*,ItemHandle*,int);
+		void setControlPoint(QSemaphore*,ItemHandle*,ItemHandle*,int,qreal,qreal);
+		void getCenterPointX(QSemaphore*,qreal*,ItemHandle*);
+		void getCenterPointY(QSemaphore*,qreal*,ItemHandle*);
+		void setCenterPoint(QSemaphore*,ItemHandle*,qreal,qreal);
+		void setLineWidth(QSemaphore*,ItemHandle*,qreal,int);
+		void setStraight(QSemaphore*,ItemHandle*,int);
+		void setAllStraight(QSemaphore*,int);
 
 	public:
 		void zoom(double);
@@ -228,6 +238,16 @@ namespace Tinkercell
 		
 		double getNumericalValue(const char*);
 		const char* getTextValue(const char*);
+		
+		double getControlPointX(long a0,long a1,int a2);
+		double getControlPointY(long a0,long a1,int a2);
+		void setControlPoint(long a0,long a1,int i,double a2,double a3);
+		void setCenterPoint(long a0,double a1,double a2);
+		double getCenterPointX(long);
+		double getCenterPointY(long);
+		void setStraight(long,int);
+		void setAllStraight(int);
+		void setLineWidth(long,double,int);
 	};
 
 	/*! \brief A set of slots that are called by C libraries
@@ -340,6 +360,16 @@ namespace Tinkercell
 		static const char* _getTextValue(const char*);
 		
 		static void _openUrl(const char*);
+		
+		static double _getControlPointX(long ,long ,int );
+		static double _getControlPointY(long ,long ,int );
+		static void _setControlPoint(long ,long ,int i, double ,double );
+		static double _getCenterPointX(long);
+		static double _getCenterPointY(long);
+		static void _setCenterPoint(long,double,double);
+		static void _setStraight(long,int);
+		static void _setAllStraight(int);
+		static void _setLineWidth(long,double,int);
 		
 		/*! 
 		* \brief Dialog for selecting strings. 
@@ -792,6 +822,17 @@ namespace Tinkercell
 		void setTextValue(QSemaphore*, const QString&, const QString&);
 		void getNumericalValue(QSemaphore*, const QString&, double*);
 		void getTextValue(QSemaphore*, const QString&, QString*);
+		
+		void getControlPointX(QSemaphore*,qreal*,ItemHandle*,ItemHandle*,int);
+		void getControlPointY(QSemaphore*,qreal*,ItemHandle*,ItemHandle*,int);
+		void setControlPoint(QSemaphore*,ItemHandle*,ItemHandle*,int,qreal,qreal);
+		void setCenterPoint(QSemaphore*,ItemHandle*,qreal,qreal);
+		void getCenterPointX(QSemaphore*,qreal*, ItemHandle*);
+		void getCenterPointY(QSemaphore*,qreal*, ItemHandle*);
+		void setStraight(QSemaphore*,ItemHandle*,int);
+		void setAllStraight(QSemaphore*,int);
+		void setLineWidth(QSemaphore* sem,ItemHandle* h,qreal value,int permanent);
+		
 	private:
 		QList<QGraphicsItem*> temporarilyColorChanged;
 		QList< QPair<NodeGraphicsItem*,QPointF> > temporarilyChangedSize; 

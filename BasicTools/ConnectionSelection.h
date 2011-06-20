@@ -39,33 +39,6 @@ points.
 namespace Tinkercell
 {
 
-	class ConnectionSelection_FToS : public QObject
-	{
-		Q_OBJECT
-
-	signals:
-		void getControlPointX(QSemaphore*,qreal*,ItemHandle*,ItemHandle*,int);
-		void getControlPointY(QSemaphore*,qreal*,ItemHandle*,ItemHandle*,int);
-		void setControlPoint(QSemaphore*,ItemHandle*,ItemHandle*,int,qreal,qreal);
-		void getCenterPointX(QSemaphore*,qreal*,ItemHandle*);
-		void getCenterPointY(QSemaphore*,qreal*,ItemHandle*);
-		void setCenterPoint(QSemaphore*,ItemHandle*,qreal,qreal);
-		void setLineWidth(QSemaphore*,ItemHandle*,qreal,int);
-		void setStraight(QSemaphore*,ItemHandle*,int);
-		void setAllStraight(QSemaphore*,int);
-
-	public slots:
-		double getControlPointX(long a0,long a1,int a2);
-		double getControlPointY(long a0,long a1,int a2);
-		void setControlPoint(long a0,long a1,int i,double a2,double a3);
-		void setCenterPoint(long a0,double a1,double a2);
-		double getCenterPointX(long);
-		double getCenterPointY(long);
-		void setStraight(long,int);
-		void setAllStraight(int);
-		void setLineWidth(long,double,int);
-	};
-
 	/*! \brief This class listens to selection events from the scene and responds by changing colors
 	of the selected objects and displaying tools and widgets that point to that object.
 	\ingroup plugins
@@ -132,8 +105,6 @@ namespace Tinkercell
 
 		void itemsRemoved(GraphicsScene * , QList<QGraphicsItem*>& , QList<ItemHandle*>& , QList<QUndoCommand*>&);
 
-		void setupFunctionPointers( QLibrary * );
-
 		void setLineType(int);
 		void showMiddleBox(int, const QString& filename = QString());
 		void showMiddleBox();
@@ -144,15 +115,6 @@ namespace Tinkercell
 		void setLineTypeCurved();
 
 	private slots:
-		void getControlPointX(QSemaphore*,qreal*,ItemHandle*,ItemHandle*,int);
-		void getControlPointY(QSemaphore*,qreal*,ItemHandle*,ItemHandle*,int);
-		void setControlPoint(QSemaphore*,ItemHandle*,ItemHandle*,int,qreal,qreal);
-		void setCenterPoint(QSemaphore*,ItemHandle*,qreal,qreal);
-		void getCenterPointX(QSemaphore*,qreal*, ItemHandle*);
-		void getCenterPointY(QSemaphore*,qreal*, ItemHandle*);
-		void setStraight(QSemaphore*,ItemHandle*,int);
-		void setAllStraight(QSemaphore*,int);
-		void setLineWidth(QSemaphore* sem,ItemHandle* h,qreal value,int permanent);
 		void escapeSignal(const QWidget*);
 
 	protected:
@@ -162,36 +124,7 @@ namespace Tinkercell
 		bool controlHeld;
 		qreal gridDist;
 		
-		//QMenu connectorsMenu;
-		void connectTCFunctions();
 		static ConnectionSelection_FToS * fToS;
-		static double _getControlPointX(long ,long ,int );
-		static double _getControlPointY(long ,long ,int );
-		static void _setControlPoint(long ,long ,int i, double ,double );
-		static double _getCenterPointX(long);
-		static double _getCenterPointY(long);
-		static void _setCenterPoint(long,double,double);
-		static void _setStraight(long,int);
-		static void _setAllStraight(int);
-		static void _setLineWidth(long,double,int);
-
-		class LineTypeChanged : public QUndoCommand
-		{
-		public:
-			QList<ConnectionGraphicsItem*> list;
-			bool straight;
-			void undo();
-			void redo();
-		};
-		
-		class ChangeArrowHeadDistance : public QUndoCommand
-		{
-		public:
-			QList<ConnectionGraphicsItem*> list;
-			QList<qreal> dists;
-			void undo();
-			void redo();
-		};
 
 	private:
 		QList<ConnectionGraphicsItem*> temporarilyChangedConnections;

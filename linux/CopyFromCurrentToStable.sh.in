@@ -1,3 +1,4 @@
+rm TinkerCell*.*
 echo "logging in to Sourceforge as @TINKERCELL_SOURCEFORGE_USERNAME@"
 
 /usr/bin/expect <<EOD

@@ -130,7 +130,7 @@ void SBMLImportExport::loadSBMLFile()
 
 void SBMLImportExport::saveSBMLFile()
 {
-	QString file = QFileDialog::getSaveFileName (this, tr("Save SBML file"));
+	QString file = QFileDialog::getSaveFileName (this, tr("Save SBML file"), homeDir());
 	if (file.isNull() || file.isEmpty()) return;
 	
 	exportSBML(0, file);

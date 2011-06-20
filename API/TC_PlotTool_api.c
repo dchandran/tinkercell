@@ -167,3 +167,11 @@ void tc_PlotTool_api(
 	_tc_setLogScale = logscale;
 }
 
+/*!
+ \brief close all plots
+ \ingroup Plotting
+*/
+TCAPIEXPORT void tc_closePlots()
+{
+	tc_multiplot(0,0);
+}

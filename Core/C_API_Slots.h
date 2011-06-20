@@ -102,7 +102,7 @@ namespace Tinkercell
         void getFilename(QSemaphore*,QString*);
         void getSelectedString(QSemaphore*,int*,const QString&,const QStringList&,const QString&);
         void getNumber(QSemaphore*,qreal*,const QString&);
-        void getNumbers(QSemaphore*,const QStringList&,qreal*);
+        void getNumbers(QSemaphore*,const QStringList&,DataTable<qreal>*);
 		
 		void askQuestion(QSemaphore*,const QString&,int*);
 		void messageDialog(QSemaphore*,const QString&);
@@ -195,7 +195,7 @@ namespace Tinkercell
         const char* getFilename();
         int getSelectedString(const char*, tc_strings,const char*);
         double getNumber(const char*);
-        void getNumbers(tc_strings, double*);
+        tc_matrix getNumbers(tc_strings);
         
 		int askQuestion(const char*);
 		void messageDialog(const char*);
@@ -307,7 +307,7 @@ namespace Tinkercell
 		static const char* _getString(const char*);
         static int _getSelectedString(const char*, tc_strings,const char*);
         static double _getNumber(const char*);
-        static void _getNumbers(tc_strings, double *);
+        static tc_matrix _getNumbers(tc_strings);
         static const char* _getFilename();
 		static void _setSize(long,double,double,int);
 		static double _getWidth(long);
@@ -762,7 +762,7 @@ namespace Tinkercell
         /*!
         * \brief Get more than one number from user. Part of the TinkerCell C interface.
         */
-        void getNumbers(QSemaphore*,const QStringList&,qreal*);
+        void getNumbers(QSemaphore*,const QStringList&,DataTable<qreal>*);
         /*!
         * \brief Get file name from user. Part of the TinkerCell C interface.
         */

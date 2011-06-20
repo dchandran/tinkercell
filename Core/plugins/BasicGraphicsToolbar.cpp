@@ -42,7 +42,7 @@ namespace Tinkercell
 		QHBoxLayout * brightnessLayout = new QHBoxLayout;
 		brightnessSpinbox = new QSpinBox;
 		brightnessSpinbox->setRange(0,255);
-		brightnessSpinbox->setValue(255);
+		brightnessSpinbox->setValue(80);
 		connect(brightnessSpinbox, SIGNAL(valueChanged(int)),this,SLOT(setAlphaForSelected(int)));
 		QPushButton * upBrightness = new QPushButton(QIcon(tr(":/images/plus.png")), tr(""));
 		QPushButton * downBrightness = new QPushButton(QIcon(tr(":/images/minus.png")), tr(""));
@@ -1700,7 +1700,6 @@ namespace Tinkercell
 	void BasicGraphicsToolbar::setAlphaForSelected(int a)
 	{
 		QList<QGraphicsItem*>& selected = alphaChangedItems;
-		QList<QGraphicsItem*> allSelected;
 		ItemHandle * handle = 0;
 		
 		for (int i=0; i < selected.size(); ++i)
@@ -1708,13 +1707,13 @@ namespace Tinkercell
 			{
 				QList<QGraphicsItem*> items = handle->allGraphicsItems();
 				for (int j=0; j < items.size(); ++j)
-					if (!allSelected.contains(items[j]))
-						allSelected += items[j];
+					if (!selected.contains(items[j]))
+						selected += items[j];
 			}
 		
-		for (int i=0; i < allSelected.size(); ++i)
+		for (int i=0; i < selected.size(); ++i)
 		{
-			NodeGraphicsItem * node = NodeGraphicsItem::cast(allSelected[i]);
+			NodeGraphicsItem * node = NodeGraphicsItem::cast(selected[i]);
 			if (node)
 			{
 				node->setBoundingBoxVisible(false);
@@ -1722,7 +1721,7 @@ namespace Tinkercell
 			}
 			else
 			{
-				ConnectionGraphicsItem * connection = ConnectionGraphicsItem::cast(allSelected[i]);
+				ConnectionGraphicsItem * connection = ConnectionGraphicsItem::cast(selected[i]);
 				if (connection)
 				{
 					QPen pen = connection->pen();
@@ -1744,7 +1743,7 @@ namespace Tinkercell
 				}
 				else
 				{
-					ControlPoint * cp = ControlPoint::cast(allSelected[i]);
+					ControlPoint * cp = ControlPoint::cast(selected[i]);
 					if (cp)
 					{
 						QPen pen = cp->pen();
@@ -1760,7 +1759,7 @@ namespace Tinkercell
 					}
 					else
 					{
-						TextGraphicsItem * text = TextGraphicsItem::cast(allSelected[i]);
+						TextGraphicsItem * text = TextGraphicsItem::cast(selected[i]);
 						if (text)
 						{
 							QColor color = text->defaultTextColor();

@@ -446,10 +446,10 @@ TCAPIEXPORT double tc_getNumber(const char* title);
 /*! 
  \brief popup dialog asking user for several numbers (with labels)
  \param tc_strings labels for each number to get
- \param double* array that will store the results
+ \param tc_matrix results
  \ingroup Input and Output
 */
-TCAPIEXPORT void tc_getNumbers(tc_strings labels, double* result);
+TCAPIEXPORT tc_matrix tc_getNumbers(tc_strings labels);
 
 /*! 
  \brief display a dialog with a text and a yes and no button
@@ -677,7 +677,7 @@ TCAPIEXPORT void tc_Main_api_initialize(
 		const char* (*tc_getStringDialog0)(const char*),
 		int (*getSelectedString)(const char*, tc_strings, const char*),
 		double (*getNumber)(const char*),
-		void (*getNumbers)( tc_strings, double * ),
+		tc_matrix (*getNumbers)( tc_strings),
 		const char* (*getFilename)(),
 		
 		int (*askQuestion)(const char*),

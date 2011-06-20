@@ -1159,7 +1159,7 @@ SWIG_R_ConvertPacked(SEXP obj, void *ptr, size_t sz, swig_type_info *ty) {
 #define SWIGTYPE_p_f_tc_matrix_p_q_const__char__void swig_types[75]
 #define SWIGTYPE_p_f_tc_matrix_p_q_const__char_p_q_const__char__void swig_types[76]
 #define SWIGTYPE_p_f_tc_strings__tc_items swig_types[77]
-#define SWIGTYPE_p_f_tc_strings_p_double__void swig_types[78]
+#define SWIGTYPE_p_f_tc_strings__tc_matrix swig_types[78]
 #define SWIGTYPE_p_f_tc_table__void swig_types[79]
 #define SWIGTYPE_p_f_void__void swig_types[80]
 #define SWIGTYPE_p_long swig_types[81]
@@ -5020,10 +5020,10 @@ R_swig_tc_getNumber ( SEXP title, SEXP s_swig_copy)
 
 
 SWIGEXPORT SEXP
-R_swig_tc_getNumbers ( SEXP labels, SEXP result)
+R_swig_tc_getNumbers ( SEXP labels, SEXP s_swig_copy)
 {
+  tc_matrix result;
   tc_strings arg1 ;
-  double *arg2 = (double *) 0 ;
   void *argp1 ;
   int res1 = 0 ;
   unsigned int r_nprotect = 0;
@@ -5041,21 +5041,8 @@ R_swig_tc_getNumbers ( SEXP labels, SEXP result)
       arg1 = *((tc_strings *)(argp1));
     }
   }
-  {
-    {
-      int _rswigi;
-      int _rswiglen = LENGTH(result);
-      arg2 = (double *)(calloc(sizeof(double), _rswiglen));
-      for (_rswigi=0; _rswigi<_rswiglen; _rswigi++) {
-        arg2[_rswigi] = REAL(result)[_rswigi];
-      }
-    }
-  }
-  tc_getNumbers(arg1,arg2);
-  r_ans = R_NilValue;
-  
-  free(arg2);
-  
+  result = tc_getNumbers(arg1);
+  r_ans = SWIG_R_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
   vmaxset(r_vmax);
   if(r_nprotect)  Rf_unprotect(r_nprotect);
   
@@ -7150,16 +7137,18 @@ double _p_f_p_q_const__char__double(char const * s_arg1) {
 }
 
 
-void _p_f_tc_strings_p_double__void(tc_strings s_arg1, double * s_arg2) {
+tc_matrix _p_f_tc_strings__tc_matrix(tc_strings s_arg1) {
   tc_strings arg1 ;
-  double *arg2 = (double *) 0 ;
+  tc_matrix result;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
   SEXP r_tmp;
   int r_nprotect = 0;
   char * r_vmax= 0;
   int ecode = 0;
+  void *argp ;
+  int res = 0 ;
   
-  Rf_protect(r_swig_cb_data->expr = Rf_allocVector(LANGSXP, 3));
+  Rf_protect(r_swig_cb_data->expr = Rf_allocVector(LANGSXP, 2));
   r_nprotect++;
   r_swig_cb_data->el = r_swig_cb_data->expr;
   
@@ -7170,23 +7159,31 @@ void _p_f_tc_strings_p_double__void(tc_strings s_arg1, double * s_arg2) {
   SETCAR(r_swig_cb_data->el, r_tmp);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
-  r_tmp = SWIG_R_NewPointerObj(SWIG_as_voidptr(s_arg2), SWIGTYPE_p_double, R_SWIG_EXTERNAL |  0 );
-  SETCAR(r_swig_cb_data->el, r_tmp);
-  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
-  
   
   
   r_swig_cb_data->retValue = R_tryEval(r_swig_cb_data->expr, R_GlobalEnv, &r_swig_cb_data->errorOccurred);
   
   if(r_swig_cb_data->errorOccurred) {
     R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_tc_strings_p_double__void)");
+    Rf_error("error in calling R function as a function pointer (_p_f_tc_strings__tc_matrix)");
+  }
+  {
+    res = SWIG_R_ConvertPtr(r_swig_cb_data->retValue, &argp, SWIGTYPE_p_tc_matrix,  0 );
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "$symname" "', argument " "$argnum"" of type '" "tc_matrix""'"); 
+    }  
+    if (!argp) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "$symname" "', argument " "$argnum"" of type '" "tc_matrix""'");
+    } else {
+      result = *((tc_matrix *)(argp));
+    }
   }
   R_SWIG_popCallbackFunctionData(1);
   
   vmaxset(r_vmax);
   if(r_nprotect)  Rf_unprotect(r_nprotect);
   
+  return result;
   
 }
 
@@ -7590,7 +7587,7 @@ R_swig_tc_Main_api_initialize ( SEXP tc_allItems0, SEXP tc_selectedItems0, SEXP 
   char *(*arg48)(char const *) = (char *(*)(char const *)) 0 ;
   int (*arg49)(char const *,tc_strings,char const *) = (int (*)(char const *,tc_strings,char const *)) 0 ;
   double (*arg50)(char const *) = (double (*)(char const *)) 0 ;
-  void (*arg51)(tc_strings,double *) = (void (*)(tc_strings,double *)) 0 ;
+  tc_matrix (*arg51)(tc_strings) = (tc_matrix (*)(tc_strings)) 0 ;
   char *(*arg52)() = (char *(*)()) 0 ;
   int (*arg53)(char const *) = (int (*)(char const *)) 0 ;
   void (*arg54)(char const *) = (void (*)(char const *)) 0 ;
@@ -8174,13 +8171,13 @@ R_swig_tc_Main_api_initialize ( SEXP tc_allItems0, SEXP tc_selectedItems0, SEXP 
   }
   if(TYPEOF(getNumbers) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(getNumbers, (void**)(&arg51), SWIGTYPE_p_f_tc_strings_p_double__void, 0);
+      int res = SWIG_R_ConvertPtr(getNumbers, (void**)(&arg51), SWIGTYPE_p_f_tc_strings__tc_matrix, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "51"" of type '" "void (*)(tc_strings,double *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "51"" of type '" "tc_matrix (*)(tc_strings)""'"); 
       }
     }
   } else {
-    arg51 = _p_f_tc_strings_p_double__void;
+    arg51 = _p_f_tc_strings__tc_matrix;
     R_SWIG_pushCallbackFunctionData(getNumbers, NULL);
   }
   if(TYPEOF(getFilename) != CLOSXP) {
@@ -12782,6 +12779,22 @@ R_swig_tc_hist ( SEXP data, SEXP title)
 
 
 SWIGEXPORT SEXP
+R_swig_tc_closePlots ( )
+{
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  tc_closePlots();
+  r_ans = R_NilValue;
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
+SWIGEXPORT SEXP
 R_swig_tc_multiplot ( SEXP rows, SEXP cols)
 {
   int arg1 ;
@@ -15449,7 +15462,7 @@ static swig_type_info _swigt__p_f_tc_matrix__void = {"_p_f_tc_matrix__void", "vo
 static swig_type_info _swigt__p_f_tc_matrix_p_q_const__char__void = {"_p_f_tc_matrix_p_q_const__char__void", "void (*)(tc_matrix,char const *)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_tc_matrix_p_q_const__char_p_q_const__char__void = {"_p_f_tc_matrix_p_q_const__char_p_q_const__char__void", "void (*)(tc_matrix,char const *,char const *)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_tc_strings__tc_items = {"_p_f_tc_strings__tc_items", "tc_items (*)(tc_strings)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_tc_strings_p_double__void = {"_p_f_tc_strings_p_double__void", "void (*)(tc_strings,double *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_tc_strings__tc_matrix = {"_p_f_tc_strings__tc_matrix", "tc_matrix (*)(tc_strings)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_tc_table__void = {"_p_f_tc_table__void", "void (*)(tc_table)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_void__void = {"_p_f_void__void", "void (*)(void)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_long = {"_p_long", "long *", 0, 0, (void*)0, 0};
@@ -15538,7 +15551,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_f_tc_matrix_p_q_const__char__void,
   &_swigt__p_f_tc_matrix_p_q_const__char_p_q_const__char__void,
   &_swigt__p_f_tc_strings__tc_items,
-  &_swigt__p_f_tc_strings_p_double__void,
+  &_swigt__p_f_tc_strings__tc_matrix,
   &_swigt__p_f_tc_table__void,
   &_swigt__p_f_void__void,
   &_swigt__p_long,
@@ -15627,7 +15640,7 @@ static swig_cast_info _swigc__p_f_tc_matrix__void[] = {  {&_swigt__p_f_tc_matrix
 static swig_cast_info _swigc__p_f_tc_matrix_p_q_const__char__void[] = {  {&_swigt__p_f_tc_matrix_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_tc_matrix_p_q_const__char_p_q_const__char__void[] = {  {&_swigt__p_f_tc_matrix_p_q_const__char_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_tc_strings__tc_items[] = {  {&_swigt__p_f_tc_strings__tc_items, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_tc_strings_p_double__void[] = {  {&_swigt__p_f_tc_strings_p_double__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_tc_strings__tc_matrix[] = {  {&_swigt__p_f_tc_strings__tc_matrix, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_tc_table__void[] = {  {&_swigt__p_f_tc_table__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_void__void[] = {  {&_swigt__p_f_void__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_long[] = {  {&_swigt__p_long, 0, 0, 0},{0, 0, 0, 0}};
@@ -15716,7 +15729,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_f_tc_matrix_p_q_const__char__void,
   _swigc__p_f_tc_matrix_p_q_const__char_p_q_const__char__void,
   _swigc__p_f_tc_strings__tc_items,
-  _swigc__p_f_tc_strings_p_double__void,
+  _swigc__p_f_tc_strings__tc_matrix,
   _swigc__p_f_tc_table__void,
   _swigc__p_f_void__void,
   _swigc__p_long,
@@ -16170,6 +16183,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_displayText", (DL_FUNC) &R_swig_tc_displayText, 2},
    {"R_swig_tc_addOctavePlugin", (DL_FUNC) &R_swig_tc_addOctavePlugin, 5},
    {"R_swig_tc_merge", (DL_FUNC) &R_swig_tc_merge, 1},
+   {"R_swig_tc_closePlots", (DL_FUNC) &R_swig_tc_closePlots, 0},
    {"R_swig_tc_showProgress", (DL_FUNC) &R_swig_tc_showProgress, 2},
    {"R_swig_tc_getName", (DL_FUNC) &R_swig_tc_getName, 1},
    {"R_swig_tc_getParametersNamed", (DL_FUNC) &R_swig_tc_getParametersNamed, 3},

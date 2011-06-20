@@ -40,6 +40,11 @@ TCAPIEXPORT void tc_errorBars(tc_matrix data,const char* title);
 */
 TCAPIEXPORT void tc_hist(tc_matrix data,const char* title);
 /*!
+ \brief close all plots
+ \ingroup Plotting
+*/
+TCAPIEXPORT void tc_closePlots();
+/*!
  \brief enable multi-plot, i.e. multiple plots on one screen. specify the number of rows and columns for the layout.
  \param int number of rows
  \param int number of columns

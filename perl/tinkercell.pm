@@ -237,6 +237,7 @@ package tinkercell;
 *tc_scatterplot = *tinkercellc::tc_scatterplot;
 *tc_errorBars = *tinkercellc::tc_errorBars;
 *tc_hist = *tinkercellc::tc_hist;
+*tc_closePlots = *tinkercellc::tc_closePlots;
 *tc_multiplot = *tinkercellc::tc_multiplot;
 *tc_holdPlot = *tinkercellc::tc_holdPlot;
 *tc_clusterPlots = *tinkercellc::tc_clusterPlots;

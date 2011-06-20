@@ -921,6 +921,10 @@ def tc_hist(*args):
   return _tinkercell.tc_hist(*args)
 tc_hist = _tinkercell.tc_hist
 
+def tc_closePlots():
+  return _tinkercell.tc_closePlots()
+tc_closePlots = _tinkercell.tc_closePlots
+
 def tc_multiplot(*args):
   return _tinkercell.tc_multiplot(*args)
 tc_multiplot = _tinkercell.tc_multiplot

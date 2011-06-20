@@ -24,9 +24,9 @@
 <Translation>									<a>			<Production> .
 <Translation>								<a>					<Activation> .
 <Translation>								<description>			"Production of Protein from mRNA template"@en .
-<Transcription>									<participant>			"mRNA, Template"@en .
+<Translation>									<participant>			"mRNA, Template"@en .
 <Translation>									<participant>			"Empty, Source"@en .
-<Transcription>									<participant>			"Protein, Product"@en .
+<Translation>									<participant>			"Protein, Product"@en .
 <Protein Production>									<a>			<Production> .
 <Protein Production>								<a>					<Activation> .
 <Protein Production>								<description>			"The complete process of starting from a DNA template and producing a protein product, including any necessary intermediate steps"@en .

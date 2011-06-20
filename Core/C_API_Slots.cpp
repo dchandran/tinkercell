@@ -121,7 +121,7 @@ namespace Tinkercell
 		const char* (*getString)(const char*),
 		int (*getSelectedString)(const char*, tc_strings, const char*),
 		double (*getNumber)(const char*),
-		void (*getNumbers)( tc_strings, double * ),
+		tc_matrix (*getNumbers)( tc_strings),
 		const char* (*getFilename)(),
 		
 		int (*askQuestion)(const char*),
@@ -319,7 +319,7 @@ namespace Tinkercell
 		connect(fToS,SIGNAL(getString(QSemaphore*,QString*,const QString&)),this,SLOT(getString(QSemaphore*,QString*,const QString&)));
         connect(fToS,SIGNAL(getSelectedString(QSemaphore*,int*,const QString&,const QStringList&,const QString&)),this,SLOT(getSelectedString(QSemaphore*,int*,const QString&,const QStringList&,const QString&)));
         connect(fToS,SIGNAL(getNumber(QSemaphore*,qreal*,const QString&)),this,SLOT(getNumber(QSemaphore*,qreal*,const QString&)));
-        connect(fToS,SIGNAL(getNumbers(QSemaphore*,const QStringList&,qreal*)),this,SLOT(getNumbers(QSemaphore*,const QStringList&,qreal*)));
+        connect(fToS,SIGNAL(getNumbers(QSemaphore*,const QStringList&,DataTable<qreal>*)),this,SLOT(getNumbers(QSemaphore*,const QStringList&,DataTable<qreal>*)));
         connect(fToS,SIGNAL(getFilename(QSemaphore*,QString*)),this,SLOT(getFilename(QSemaphore*,QString*)));
 
 		connect(fToS,SIGNAL(askQuestion(QSemaphore*,const QString&, int*)),this,SLOT(askQuestion(QSemaphore*,const QString&, int*)));
@@ -2188,7 +2188,7 @@ namespace Tinkercell
             s->release();
     }
 
-    void C_API_Slots::getNumbers(QSemaphore* s,const QStringList& names,qreal* res)
+    void C_API_Slots::getNumbers(QSemaphore* s,const QStringList& names,DataTable<qreal>* res)
     {
         QDialog * dialog = new QDialog(mainWindow);
 
@@ -2214,9 +2214,10 @@ namespace Tinkercell
 
         if (res)
         {
+			res->setRowNames(names);
             for (int i=0; i < spinBoxes.size() && i < names.size(); ++i)
                 if (spinBoxes[i])
-                    res[i] = spinBoxes[i]->value();
+                    (*res)(i,0) = spinBoxes[i]->value();
         }
 
         if (s)
@@ -2399,9 +2400,9 @@ namespace Tinkercell
         return fToS->getNumber(title);
     }
 
-    void C_API_Slots::_getNumbers(tc_strings names, double * res)
+    tc_matrix C_API_Slots::_getNumbers(tc_strings names)
     {
-        return fToS->getNumbers(names,res);
+        return fToS->getNumbers(names);
     }
 
 	int C_API_Slots::_askQuestion(const char* msg)
@@ -2437,15 +2438,17 @@ namespace Tinkercell
         return (double)p;
     }
 
-    void Core_FtoS::getNumbers(tc_strings c, double * d)
+    tc_matrix Core_FtoS::getNumbers(tc_strings c)
     {
-        //qDebug() << "get number dialog";
         QSemaphore * s = new QSemaphore(1);
+		DataTable<qreal> res;
+		res.resize(c.length,1);
         s->acquire();
-        emit getNumbers(s,ConvertValue(c), d);
+        emit getNumbers(s,ConvertValue(c), &res);
         s->acquire();
         s->release();
         delete s;
+		return ConvertValue(res);
     }
 
     const char* Core_FtoS::getString(const char* c)

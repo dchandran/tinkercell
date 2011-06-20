@@ -354,6 +354,10 @@ namespace Tinkercell
 			this->raise();
 		}
 		
+		QList<QMdiSubWindow *>  list = multiplePlotsArea->subWindowList(QMdiArea::ActivationHistoryOrder);
+		if (list.isEmpty() && !ClusterPlot::tables.isEmpty())
+			ClusterPlot::tables.clear();
+
 		if ((holdCurrentPlot && holdCurrentPlot->isChecked()) ||
 			 (keepOldPlots && keepOldPlots->isChecked()))
 			 {
@@ -369,7 +373,6 @@ namespace Tinkercell
 			((holdCurrentPlot && holdCurrentPlot->isChecked()) ||
 			 !(keepOldPlots && keepOldPlots->isChecked())))
 		{
-			QList<QMdiSubWindow *>  list = multiplePlotsArea->subWindowList(QMdiArea::ActivationHistoryOrder);
 			for (int i=0; i < list.size(); ++i)
 				if (list[i]->widget())
 				{
@@ -390,8 +393,16 @@ namespace Tinkercell
 									widget->updateData(matrix,title,x);
 									break;
 								}
+								else
+								{
+									if (widget && !widget->category.isNull() && !widget->category.isEmpty())
+										list[j]->showMinimized();
+									else
+										list[j]->close();
+								}
 							}
-					
+							else
+								list[j]->showMaximized();
 						return;
 					}
 				}
@@ -592,20 +603,18 @@ namespace Tinkercell
 	void PlotTool::plotMultiplot(QSemaphore* s, int x, int y)
 	{
 		numMultiplots = x*y;
-		
+		QList<QMdiSubWindow *> subWindowList = multiplePlotsArea->subWindowList();
+		for (int i=0; i < subWindowList.size(); ++i)
+			if (subWindowList[i])
+			{
+				PlotWidget * plotWidget = static_cast<PlotWidget*>(subWindowList[i]->widget());
+				if (plotWidget && !plotWidget->category.isNull() && !plotWidget->category.isEmpty())
+					subWindowList[i]->showMinimized();
+				else
+					subWindowList[i]->close();
+			}
 		if (numMultiplots > 0)
 		{
-			QList<QMdiSubWindow *> subWindowList = multiplePlotsArea->subWindowList();
-			for (int i=0; i < subWindowList.size(); ++i)
-				if (subWindowList[i])
-				{
-					PlotWidget * plotWidget = static_cast<PlotWidget*>(subWindowList[i]->widget());
-					if (plotWidget && !plotWidget->category.isNull() && !plotWidget->category.isEmpty())
-						subWindowList[i]->showMinimized();
-					else
-						subWindowList[i]->close();
-				}
-			subWindowList.clear();
 			hold(true);
 			emit plotMultiplot(x, y);
 		}

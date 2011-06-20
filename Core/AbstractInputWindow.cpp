@@ -19,7 +19,7 @@ namespace Tinkercell
 		: Tool(name), cthread(thread), dockWidget(0), targetFunction(0)
 	{
 		if (mainWindow && cthread)
-				disconnect(mainWindow,SIGNAL(historyChanged()),cthread,SLOT(update()));
+			disconnect(mainWindow,SIGNAL(historyChanged()),cthread,SLOT(update()));
 
 		if (cthread)
 			connect(this,SIGNAL(updateThread()),cthread,SLOT(update()));
@@ -68,6 +68,10 @@ namespace Tinkercell
 		Tool::setMainWindow(main);
 		if (mainWindow)
 		{
+			QSize sz = mainWindow->size();
+		    QPoint pos = mainWindow->pos();
+		    move(pos + QPoint(sz.width()-100, sz.height()-100)/2 );
+
 			if (cthread)
 				disconnect(mainWindow,SIGNAL(historyChanged()),cthread,SLOT(update()));
 			

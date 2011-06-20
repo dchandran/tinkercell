@@ -664,15 +664,16 @@ double tc_getNumber(const char* title)
 	return 0.0;
 }
 
-void (*_tc_getNumbers)(tc_strings labels, double* result) = 0;
+tc_matrix (*_tc_getNumbers)(tc_strings labels) = 0;
 /*! 
  \brief get a list of numbers from the user (dialog) into the argument array
  \ingroup Input and Output
 */ TCAPIEXPORT 
-void tc_getNumbers(tc_strings labels, double* result)
+tc_matrix tc_getNumbers(tc_strings labels)
 {
-	if (_tc_getNumbers && result)
-		_tc_getNumbers(labels,result);
+	if (_tc_getNumbers)
+		return _tc_getNumbers(labels);
+	return tc_createMatrix(0,0);
 }
 
 int (*_tc_askQuestion)(const char*) = 0;
@@ -979,7 +980,7 @@ void tc_Main_api_initialize(
 		const char* (*tc_getString0)(const char*),
 		int (*getSelectedString0)(const char*, tc_strings, const char*),
 		double (*getNumber0)(const char*),
-		void (*getNumbers0)( tc_strings, double * ),
+		tc_matrix (*getNumbers0)( tc_strings),
 		const char* (*getFilename0)(),
 		
 		int (*askQuestion0)(const char*),

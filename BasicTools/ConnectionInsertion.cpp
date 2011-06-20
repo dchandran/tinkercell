@@ -27,7 +27,7 @@ namespace Tinkercell
 	
 	bool ConnectionInsertion::isReactant(const QString& s)
 	{
-		return !(s.toLower().contains(tr("target")) || s.toLower().contains(tr("product")) || s.toLower().contains(tr("output")));
+		return !(s.toLower().contains(tr("target")) || s.toLower().contains(tr("product")) || s.toLower().contains(tr("output")) || s.toLower().contains(tr("sink")));
 	}
 	
 	bool ConnectionInsertion::isReactant(NodeHandle * node)

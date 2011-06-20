@@ -2395,10 +2395,11 @@ SWIGEXPORT jdouble JNICALL Java_tinkercellJNI_tc_1getNumber(JNIEnv *jenv, jclass
 }
 
 
-SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1getNumbers(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
+SWIGEXPORT jlong JNICALL Java_tinkercellJNI_tc_1getNumbers(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
   tc_strings arg1 ;
-  double *arg2 = (double *) 0 ;
   tc_strings *argp1 ;
+  tc_matrix result;
   
   (void)jenv;
   (void)jcls;
@@ -2406,11 +2407,16 @@ SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1getNumbers(JNIEnv *jenv, jclass j
   argp1 = *(tc_strings **)&jarg1; 
   if (!argp1) {
     SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null tc_strings");
-    return ;
+    return 0;
   }
   arg1 = *argp1; 
-  arg2 = *(double **)&jarg2; 
-  tc_getNumbers(arg1,arg2);
+  result = tc_getNumbers(arg1);
+  {
+    tc_matrix * resultptr = (tc_matrix *) malloc(sizeof(tc_matrix));
+    memmove(resultptr, &result, sizeof(tc_matrix));
+    *(tc_matrix **)&jresult = resultptr;
+  }
+  return jresult;
 }
 
 
@@ -2779,7 +2785,7 @@ SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1Main_1api_1initialize(JNIEnv *jen
   char *(*arg48)(char const *) = (char *(*)(char const *)) 0 ;
   int (*arg49)(char const *,tc_strings,char const *) = (int (*)(char const *,tc_strings,char const *)) 0 ;
   double (*arg50)(char const *) = (double (*)(char const *)) 0 ;
-  void (*arg51)(tc_strings,double *) = (void (*)(tc_strings,double *)) 0 ;
+  tc_matrix (*arg51)(tc_strings) = (tc_matrix (*)(tc_strings)) 0 ;
   char *(*arg52)() = (char *(*)()) 0 ;
   int (*arg53)(char const *) = (int (*)(char const *)) 0 ;
   void (*arg54)(char const *) = (void (*)(char const *)) 0 ;
@@ -2860,7 +2866,7 @@ SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1Main_1api_1initialize(JNIEnv *jen
   arg48 = *(char *(**)(char const *))&jarg48; 
   arg49 = *(int (**)(char const *,tc_strings,char const *))&jarg49; 
   arg50 = *(double (**)(char const *))&jarg50; 
-  arg51 = *(void (**)(tc_strings,double *))&jarg51; 
+  arg51 = *(tc_matrix (**)(tc_strings))&jarg51; 
   arg52 = *(char *(**)())&jarg52; 
   arg53 = *(int (**)(char const *))&jarg53; 
   arg54 = *(void (**)(char const *))&jarg54; 
@@ -4530,6 +4536,13 @@ SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1hist(JNIEnv *jenv, jclass jcls, j
   }
   tc_hist(arg1,(char const *)arg2);
   if (arg2) (*jenv)->ReleaseStringUTFChars(jenv, jarg2, (const char *)arg2);
+}
+
+
+SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1closePlots(JNIEnv *jenv, jclass jcls) {
+  (void)jenv;
+  (void)jcls;
+  tc_closePlots();
 }
 
 

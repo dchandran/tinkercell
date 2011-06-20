@@ -3340,7 +3340,7 @@ namespace Tinkercell
 					else
 					{
 						connection->setPen(pen);
-						temporarilyChangedConnections << connection;
+						temporarilyColorChanged << connection;
 					}
 				}
 			}

@@ -121,11 +121,6 @@ do
           @executable_path/../Frameworks/QtXml.framework/$QTXML \
           NodeGraphics.app/Contents/Frameworks/$f
 
-  install_name_tool \
-          -change @QT_QTOPENGL_LIBRARY_RELEASE@/$QTOPENGL \
-          @executable_path/../Frameworks/QtOpenGL.framework/$QTOPENGL \
-          NodeGraphics.app/Contents/Frameworks/$f
-
 done
 
 #name change for all plugins that can depend on other plugins and libTinkerCellCore

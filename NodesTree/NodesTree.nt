@@ -1,7 +1,7 @@
 <Node>									<description>			"Nodes can be connected to one another using one of the various types of connections. The two main divisions of nodes are DNA parts and molecular species"@en .
 <Molecule>							<a>							<Node> .
-<Catalyst>							<a>							<Node> .
-<Reporter>							<a>							<Node> .
+<Catalyst>							<a>							<Molecule> .
+<Reporter>							<a>							<Molecule> .
 <Small Molecule>					<a>							<Molecule> .
 <Protein>								<a>							<Molecule> .
 <Enzyme>								<a>							<Protein> .

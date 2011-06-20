@@ -2271,10 +2271,10 @@ static swig_module_info swig_module = {swig_types, 87, 0, 0, 0, 0};
 
 
 #include "TC_structs.h"
+%include "AutoLayout.h"
 #include "TC_Main_api.h"
 #include "TC_BasicInformationTool_api.h"
 #include "TC_ConnectionInsertion_api.h"
-#include "TC_ConnectionSelection_api.h"
 #include "TC_GroupHandlerTool_api.h"
 #include "TC_NodeInsertion_api.h"
 #include "TC_StoichiometryTool_api.h"
@@ -6852,6 +6852,330 @@ fail:
 }
 
 
+static octave_value_list _wrap_tc_getControlPointX (const octave_value_list& args, int nargout) {
+  long arg1 ;
+  long arg2 ;
+  int arg3 ;
+  long val1 ;
+  int ecode1 = 0 ;
+  long val2 ;
+  int ecode2 = 0 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  double result;
+  
+  if (!SWIG_check_num_args("tc_getControlPointX",args.length(),3,3,0)) {
+    SWIG_fail;
+  }
+  ecode1 = SWIG_AsVal_long(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getControlPointX" "', argument " "1"" of type '" "long""'");
+  } 
+  arg1 = (long)(val1);
+  ecode2 = SWIG_AsVal_long(args(1), &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_getControlPointX" "', argument " "2"" of type '" "long""'");
+  } 
+  arg2 = (long)(val2);
+  ecode3 = SWIG_AsVal_int(args(2), &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "tc_getControlPointX" "', argument " "3"" of type '" "int""'");
+  } 
+  arg3 = (int)(val3);
+  result = (double)tc_getControlPointX(arg1,arg2,arg3);
+  _outv = SWIG_From_double((double)(result));
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_tc_getControlPointY (const octave_value_list& args, int nargout) {
+  long arg1 ;
+  long arg2 ;
+  int arg3 ;
+  long val1 ;
+  int ecode1 = 0 ;
+  long val2 ;
+  int ecode2 = 0 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  double result;
+  
+  if (!SWIG_check_num_args("tc_getControlPointY",args.length(),3,3,0)) {
+    SWIG_fail;
+  }
+  ecode1 = SWIG_AsVal_long(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getControlPointY" "', argument " "1"" of type '" "long""'");
+  } 
+  arg1 = (long)(val1);
+  ecode2 = SWIG_AsVal_long(args(1), &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_getControlPointY" "', argument " "2"" of type '" "long""'");
+  } 
+  arg2 = (long)(val2);
+  ecode3 = SWIG_AsVal_int(args(2), &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "tc_getControlPointY" "', argument " "3"" of type '" "int""'");
+  } 
+  arg3 = (int)(val3);
+  result = (double)tc_getControlPointY(arg1,arg2,arg3);
+  _outv = SWIG_From_double((double)(result));
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_tc_setControlPoint (const octave_value_list& args, int nargout) {
+  long arg1 ;
+  long arg2 ;
+  int arg3 ;
+  double arg4 ;
+  double arg5 ;
+  long val1 ;
+  int ecode1 = 0 ;
+  long val2 ;
+  int ecode2 = 0 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  double val4 ;
+  int ecode4 = 0 ;
+  double val5 ;
+  int ecode5 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  
+  if (!SWIG_check_num_args("tc_setControlPoint",args.length(),5,5,0)) {
+    SWIG_fail;
+  }
+  ecode1 = SWIG_AsVal_long(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setControlPoint" "', argument " "1"" of type '" "long""'");
+  } 
+  arg1 = (long)(val1);
+  ecode2 = SWIG_AsVal_long(args(1), &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_setControlPoint" "', argument " "2"" of type '" "long""'");
+  } 
+  arg2 = (long)(val2);
+  ecode3 = SWIG_AsVal_int(args(2), &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "tc_setControlPoint" "', argument " "3"" of type '" "int""'");
+  } 
+  arg3 = (int)(val3);
+  ecode4 = SWIG_AsVal_double(args(3), &val4);
+  if (!SWIG_IsOK(ecode4)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "tc_setControlPoint" "', argument " "4"" of type '" "double""'");
+  } 
+  arg4 = (double)(val4);
+  ecode5 = SWIG_AsVal_double(args(4), &val5);
+  if (!SWIG_IsOK(ecode5)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "tc_setControlPoint" "', argument " "5"" of type '" "double""'");
+  } 
+  arg5 = (double)(val5);
+  tc_setControlPoint(arg1,arg2,arg3,arg4,arg5);
+  _outv = octave_value();
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_tc_setCenterPoint (const octave_value_list& args, int nargout) {
+  long arg1 ;
+  double arg2 ;
+  double arg3 ;
+  long val1 ;
+  int ecode1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  double val3 ;
+  int ecode3 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  
+  if (!SWIG_check_num_args("tc_setCenterPoint",args.length(),3,3,0)) {
+    SWIG_fail;
+  }
+  ecode1 = SWIG_AsVal_long(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setCenterPoint" "', argument " "1"" of type '" "long""'");
+  } 
+  arg1 = (long)(val1);
+  ecode2 = SWIG_AsVal_double(args(1), &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_setCenterPoint" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = (double)(val2);
+  ecode3 = SWIG_AsVal_double(args(2), &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "tc_setCenterPoint" "', argument " "3"" of type '" "double""'");
+  } 
+  arg3 = (double)(val3);
+  tc_setCenterPoint(arg1,arg2,arg3);
+  _outv = octave_value();
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_tc_getCenterPointX (const octave_value_list& args, int nargout) {
+  long arg1 ;
+  long val1 ;
+  int ecode1 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  double result;
+  
+  if (!SWIG_check_num_args("tc_getCenterPointX",args.length(),1,1,0)) {
+    SWIG_fail;
+  }
+  ecode1 = SWIG_AsVal_long(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getCenterPointX" "', argument " "1"" of type '" "long""'");
+  } 
+  arg1 = (long)(val1);
+  result = (double)tc_getCenterPointX(arg1);
+  _outv = SWIG_From_double((double)(result));
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_tc_getCenterPointY (const octave_value_list& args, int nargout) {
+  long arg1 ;
+  long val1 ;
+  int ecode1 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  double result;
+  
+  if (!SWIG_check_num_args("tc_getCenterPointY",args.length(),1,1,0)) {
+    SWIG_fail;
+  }
+  ecode1 = SWIG_AsVal_long(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getCenterPointY" "', argument " "1"" of type '" "long""'");
+  } 
+  arg1 = (long)(val1);
+  result = (double)tc_getCenterPointY(arg1);
+  _outv = SWIG_From_double((double)(result));
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_tc_setStraight (const octave_value_list& args, int nargout) {
+  long arg1 ;
+  int arg2 ;
+  long val1 ;
+  int ecode1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  
+  if (!SWIG_check_num_args("tc_setStraight",args.length(),2,2,0)) {
+    SWIG_fail;
+  }
+  ecode1 = SWIG_AsVal_long(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setStraight" "', argument " "1"" of type '" "long""'");
+  } 
+  arg1 = (long)(val1);
+  ecode2 = SWIG_AsVal_int(args(1), &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_setStraight" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = (int)(val2);
+  tc_setStraight(arg1,arg2);
+  _outv = octave_value();
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_tc_setAllStraight (const octave_value_list& args, int nargout) {
+  int arg1 ;
+  int val1 ;
+  int ecode1 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  
+  if (!SWIG_check_num_args("tc_setAllStraight",args.length(),1,1,0)) {
+    SWIG_fail;
+  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setAllStraight" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
+  tc_setAllStraight(arg1);
+  _outv = octave_value();
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_tc_setLineWidth (const octave_value_list& args, int nargout) {
+  long arg1 ;
+  double arg2 ;
+  int arg3 ;
+  long val1 ;
+  int ecode1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  
+  if (!SWIG_check_num_args("tc_setLineWidth",args.length(),3,3,0)) {
+    SWIG_fail;
+  }
+  ecode1 = SWIG_AsVal_long(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setLineWidth" "', argument " "1"" of type '" "long""'");
+  } 
+  arg1 = (long)(val1);
+  ecode2 = SWIG_AsVal_double(args(1), &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_setLineWidth" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = (double)(val2);
+  ecode3 = SWIG_AsVal_int(args(2), &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "tc_setLineWidth" "', argument " "3"" of type '" "int""'");
+  } 
+  arg3 = (int)(val3);
+  tc_setLineWidth(arg1,arg2,arg3);
+  _outv = octave_value();
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
 static octave_value_list _wrap_tc_Main_api_initialize (const octave_value_list& args, int nargout) {
   tc_items (*arg1)() = (tc_items (*)()) 0 ;
   tc_items (*arg2)() = (tc_items (*)()) 0 ;
@@ -6931,11 +7255,20 @@ static octave_value_list _wrap_tc_Main_api_initialize (const octave_value_list& 
   double (*arg76)(char const *) = (double (*)(char const *)) 0 ;
   char *(*arg77)(char const *) = (char *(*)(char const *)) 0 ;
   void (*arg78)() = (void (*)()) 0 ;
+  double (*arg79)(long,long,int) = (double (*)(long,long,int)) 0 ;
+  double (*arg80)(long,long,int) = (double (*)(long,long,int)) 0 ;
+  void (*arg81)(long,long,int,double,double) = (void (*)(long,long,int,double,double)) 0 ;
+  void (*arg82)(long,double,double) = (void (*)(long,double,double)) 0 ;
+  double (*arg83)(long) = (double (*)(long)) 0 ;
+  double (*arg84)(long) = (double (*)(long)) 0 ;
+  void (*arg85)(long,int) = (void (*)(long,int)) 0 ;
+  void (*arg86)(int) = (void (*)(int)) 0 ;
+  void (*arg87)(long,double,int) = (void (*)(long,double,int)) 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
   
-  if (!SWIG_check_num_args("tc_Main_api_initialize",args.length(),78,78,0)) {
+  if (!SWIG_check_num_args("tc_Main_api_initialize",args.length(),87,87,0)) {
     SWIG_fail;
   }
   {
@@ -7406,7 +7739,61 @@ static octave_value_list _wrap_tc_Main_api_initialize (const octave_value_list& 
       SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "78"" of type '" "void (*)()""'"); 
     }
   }
-  tc_Main_api_initialize(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,(char const *(*)(long))arg9,(char const *(*)(long))arg10,arg11,arg12,arg13,(char const *(*)(long))arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23,arg24,arg25,arg26,arg27,arg28,arg29,arg30,(char const *(*)())arg31,(char const *(*)())arg32,arg33,arg34,arg35,arg36,arg37,arg38,arg39,arg40,arg41,arg42,arg43,arg44,arg45,arg46,arg47,(char const *(*)(char const *))arg48,arg49,arg50,arg51,(char const *(*)())arg52,arg53,arg54,arg55,arg56,arg57,arg58,arg59,arg60,(char const *(*)(long))arg61,arg62,arg63,arg64,arg65,arg66,arg67,arg68,arg69,(char const *(*)())arg70,arg71,arg72,arg73,arg74,arg75,arg76,(char const *(*)(char const *))arg77,arg78);
+  {
+    int res = SWIG_ConvertFunctionPtr(args(78), (void**)(&arg79), SWIGTYPE_p_f_long_long_int__double);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "79"" of type '" "double (*)(long,long,int)""'"); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(args(79), (void**)(&arg80), SWIGTYPE_p_f_long_long_int__double);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "80"" of type '" "double (*)(long,long,int)""'"); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(args(80), (void**)(&arg81), SWIGTYPE_p_f_long_long_int_double_double__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "81"" of type '" "void (*)(long,long,int,double,double)""'"); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(args(81), (void**)(&arg82), SWIGTYPE_p_f_long_double_double__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "82"" of type '" "void (*)(long,double,double)""'"); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(args(82), (void**)(&arg83), SWIGTYPE_p_f_long__double);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "83"" of type '" "double (*)(long)""'"); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(args(83), (void**)(&arg84), SWIGTYPE_p_f_long__double);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "84"" of type '" "double (*)(long)""'"); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(args(84), (void**)(&arg85), SWIGTYPE_p_f_long_int__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "85"" of type '" "void (*)(long,int)""'"); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(args(85), (void**)(&arg86), SWIGTYPE_p_f_int__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "86"" of type '" "void (*)(int)""'"); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(args(86), (void**)(&arg87), SWIGTYPE_p_f_long_double_int__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "87"" of type '" "void (*)(long,double,int)""'"); 
+    }
+  }
+  tc_Main_api_initialize(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,(char const *(*)(long))arg9,(char const *(*)(long))arg10,arg11,arg12,arg13,(char const *(*)(long))arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23,arg24,arg25,arg26,arg27,arg28,arg29,arg30,(char const *(*)())arg31,(char const *(*)())arg32,arg33,arg34,arg35,arg36,arg37,arg38,arg39,arg40,arg41,arg42,arg43,arg44,arg45,arg46,arg47,(char const *(*)(char const *))arg48,arg49,arg50,arg51,(char const *(*)())arg52,arg53,arg54,arg55,arg56,arg57,arg58,arg59,arg60,(char const *(*)(long))arg61,arg62,arg63,arg64,arg65,arg66,arg67,arg68,arg69,(char const *(*)())arg70,arg71,arg72,arg73,arg74,arg75,arg76,(char const *(*)(char const *))arg77,arg78,arg79,arg80,arg81,arg82,arg83,arg84,arg85,arg86,arg87);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
 fail:
@@ -7752,6 +8139,151 @@ static octave_value_list _wrap_tc_LabelingTool_api (const octave_value_list& arg
   }
   tc_LabelingTool_api(arg1,arg2,arg3,arg4,arg5);
   _outv = octave_value();
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_Autolayout (const octave_value_list& args, int nargout) {
+  tc_matrix arg1 ;
+  tc_matrix arg2 ;
+  double arg3 ;
+  double arg4 ;
+  double arg5 ;
+  double arg6 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  double val3 ;
+  int ecode3 = 0 ;
+  double val4 ;
+  int ecode4 = 0 ;
+  double val5 ;
+  int ecode5 = 0 ;
+  double val6 ;
+  int ecode6 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  
+  if (!SWIG_check_num_args("Autolayout",args.length(),6,6,0)) {
+    SWIG_fail;
+  }
+  {
+    res1 = SWIG_ConvertPtr(args(0), &argp1, SWIGTYPE_p_tc_matrix,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Autolayout" "', argument " "1"" of type '" "tc_matrix""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Autolayout" "', argument " "1"" of type '" "tc_matrix""'");
+    } else {
+      arg1 = *((tc_matrix *)(argp1));
+    }
+  }
+  {
+    res2 = SWIG_ConvertPtr(args(1), &argp2, SWIGTYPE_p_tc_matrix,  0 );
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Autolayout" "', argument " "2"" of type '" "tc_matrix""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Autolayout" "', argument " "2"" of type '" "tc_matrix""'");
+    } else {
+      arg2 = *((tc_matrix *)(argp2));
+    }
+  }
+  ecode3 = SWIG_AsVal_double(args(2), &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "Autolayout" "', argument " "3"" of type '" "double""'");
+  } 
+  arg3 = (double)(val3);
+  ecode4 = SWIG_AsVal_double(args(3), &val4);
+  if (!SWIG_IsOK(ecode4)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "Autolayout" "', argument " "4"" of type '" "double""'");
+  } 
+  arg4 = (double)(val4);
+  ecode5 = SWIG_AsVal_double(args(4), &val5);
+  if (!SWIG_IsOK(ecode5)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "Autolayout" "', argument " "5"" of type '" "double""'");
+  } 
+  arg5 = (double)(val5);
+  ecode6 = SWIG_AsVal_double(args(5), &val6);
+  if (!SWIG_IsOK(ecode6)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode6), "in method '" "Autolayout" "', argument " "6"" of type '" "double""'");
+  } 
+  arg6 = (double)(val6);
+  Autolayout(arg1,arg2,arg3,arg4,arg5,arg6);
+  _outv = octave_value();
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_ApplySpringForce (const octave_value_list& args, int nargout) {
+  tc_matrix arg1 ;
+  tc_matrix arg2 ;
+  double arg3 ;
+  double arg4 ;
+  double arg5 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  double val3 ;
+  int ecode3 = 0 ;
+  double val4 ;
+  int ecode4 = 0 ;
+  double val5 ;
+  int ecode5 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  double result;
+  
+  if (!SWIG_check_num_args("ApplySpringForce",args.length(),5,5,0)) {
+    SWIG_fail;
+  }
+  {
+    res1 = SWIG_ConvertPtr(args(0), &argp1, SWIGTYPE_p_tc_matrix,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ApplySpringForce" "', argument " "1"" of type '" "tc_matrix""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "ApplySpringForce" "', argument " "1"" of type '" "tc_matrix""'");
+    } else {
+      arg1 = *((tc_matrix *)(argp1));
+    }
+  }
+  {
+    res2 = SWIG_ConvertPtr(args(1), &argp2, SWIGTYPE_p_tc_matrix,  0 );
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "ApplySpringForce" "', argument " "2"" of type '" "tc_matrix""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "ApplySpringForce" "', argument " "2"" of type '" "tc_matrix""'");
+    } else {
+      arg2 = *((tc_matrix *)(argp2));
+    }
+  }
+  ecode3 = SWIG_AsVal_double(args(2), &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "ApplySpringForce" "', argument " "3"" of type '" "double""'");
+  } 
+  arg3 = (double)(val3);
+  ecode4 = SWIG_AsVal_double(args(3), &val4);
+  if (!SWIG_IsOK(ecode4)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "ApplySpringForce" "', argument " "4"" of type '" "double""'");
+  } 
+  arg4 = (double)(val4);
+  ecode5 = SWIG_AsVal_double(args(4), &val5);
+  if (!SWIG_IsOK(ecode5)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "ApplySpringForce" "', argument " "5"" of type '" "double""'");
+  } 
+  arg5 = (double)(val5);
+  result = (double)ApplySpringForce(arg1,arg2,arg3,arg4,arg5);
+  _outv = SWIG_From_double((double)(result));
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
 fail:
   return _out;
@@ -8686,409 +9218,6 @@ static octave_value_list _wrap_tc_ConnectionInsertion_api (const octave_value_li
     }
   }
   tc_ConnectionInsertion_api(arg1,arg2,arg3,arg4,arg5);
-  _outv = octave_value();
-  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
-fail:
-  return _out;
-}
-
-
-static octave_value_list _wrap_tc_getControlPointX (const octave_value_list& args, int nargout) {
-  long arg1 ;
-  long arg2 ;
-  int arg3 ;
-  long val1 ;
-  int ecode1 = 0 ;
-  long val2 ;
-  int ecode2 = 0 ;
-  int val3 ;
-  int ecode3 = 0 ;
-  octave_value_list _out;
-  octave_value_list *_outp=&_out;
-  octave_value _outv;
-  double result;
-  
-  if (!SWIG_check_num_args("tc_getControlPointX",args.length(),3,3,0)) {
-    SWIG_fail;
-  }
-  ecode1 = SWIG_AsVal_long(args(0), &val1);
-  if (!SWIG_IsOK(ecode1)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getControlPointX" "', argument " "1"" of type '" "long""'");
-  } 
-  arg1 = (long)(val1);
-  ecode2 = SWIG_AsVal_long(args(1), &val2);
-  if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_getControlPointX" "', argument " "2"" of type '" "long""'");
-  } 
-  arg2 = (long)(val2);
-  ecode3 = SWIG_AsVal_int(args(2), &val3);
-  if (!SWIG_IsOK(ecode3)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "tc_getControlPointX" "', argument " "3"" of type '" "int""'");
-  } 
-  arg3 = (int)(val3);
-  result = (double)tc_getControlPointX(arg1,arg2,arg3);
-  _outv = SWIG_From_double((double)(result));
-  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
-fail:
-  return _out;
-}
-
-
-static octave_value_list _wrap_tc_getControlPointY (const octave_value_list& args, int nargout) {
-  long arg1 ;
-  long arg2 ;
-  int arg3 ;
-  long val1 ;
-  int ecode1 = 0 ;
-  long val2 ;
-  int ecode2 = 0 ;
-  int val3 ;
-  int ecode3 = 0 ;
-  octave_value_list _out;
-  octave_value_list *_outp=&_out;
-  octave_value _outv;
-  double result;
-  
-  if (!SWIG_check_num_args("tc_getControlPointY",args.length(),3,3,0)) {
-    SWIG_fail;
-  }
-  ecode1 = SWIG_AsVal_long(args(0), &val1);
-  if (!SWIG_IsOK(ecode1)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getControlPointY" "', argument " "1"" of type '" "long""'");
-  } 
-  arg1 = (long)(val1);
-  ecode2 = SWIG_AsVal_long(args(1), &val2);
-  if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_getControlPointY" "', argument " "2"" of type '" "long""'");
-  } 
-  arg2 = (long)(val2);
-  ecode3 = SWIG_AsVal_int(args(2), &val3);
-  if (!SWIG_IsOK(ecode3)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "tc_getControlPointY" "', argument " "3"" of type '" "int""'");
-  } 
-  arg3 = (int)(val3);
-  result = (double)tc_getControlPointY(arg1,arg2,arg3);
-  _outv = SWIG_From_double((double)(result));
-  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
-fail:
-  return _out;
-}
-
-
-static octave_value_list _wrap_tc_setControlPoint (const octave_value_list& args, int nargout) {
-  long arg1 ;
-  long arg2 ;
-  int arg3 ;
-  double arg4 ;
-  double arg5 ;
-  long val1 ;
-  int ecode1 = 0 ;
-  long val2 ;
-  int ecode2 = 0 ;
-  int val3 ;
-  int ecode3 = 0 ;
-  double val4 ;
-  int ecode4 = 0 ;
-  double val5 ;
-  int ecode5 = 0 ;
-  octave_value_list _out;
-  octave_value_list *_outp=&_out;
-  octave_value _outv;
-  
-  if (!SWIG_check_num_args("tc_setControlPoint",args.length(),5,5,0)) {
-    SWIG_fail;
-  }
-  ecode1 = SWIG_AsVal_long(args(0), &val1);
-  if (!SWIG_IsOK(ecode1)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setControlPoint" "', argument " "1"" of type '" "long""'");
-  } 
-  arg1 = (long)(val1);
-  ecode2 = SWIG_AsVal_long(args(1), &val2);
-  if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_setControlPoint" "', argument " "2"" of type '" "long""'");
-  } 
-  arg2 = (long)(val2);
-  ecode3 = SWIG_AsVal_int(args(2), &val3);
-  if (!SWIG_IsOK(ecode3)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "tc_setControlPoint" "', argument " "3"" of type '" "int""'");
-  } 
-  arg3 = (int)(val3);
-  ecode4 = SWIG_AsVal_double(args(3), &val4);
-  if (!SWIG_IsOK(ecode4)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "tc_setControlPoint" "', argument " "4"" of type '" "double""'");
-  } 
-  arg4 = (double)(val4);
-  ecode5 = SWIG_AsVal_double(args(4), &val5);
-  if (!SWIG_IsOK(ecode5)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "tc_setControlPoint" "', argument " "5"" of type '" "double""'");
-  } 
-  arg5 = (double)(val5);
-  tc_setControlPoint(arg1,arg2,arg3,arg4,arg5);
-  _outv = octave_value();
-  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
-fail:
-  return _out;
-}
-
-
-static octave_value_list _wrap_tc_setCenterPoint (const octave_value_list& args, int nargout) {
-  long arg1 ;
-  double arg2 ;
-  double arg3 ;
-  long val1 ;
-  int ecode1 = 0 ;
-  double val2 ;
-  int ecode2 = 0 ;
-  double val3 ;
-  int ecode3 = 0 ;
-  octave_value_list _out;
-  octave_value_list *_outp=&_out;
-  octave_value _outv;
-  
-  if (!SWIG_check_num_args("tc_setCenterPoint",args.length(),3,3,0)) {
-    SWIG_fail;
-  }
-  ecode1 = SWIG_AsVal_long(args(0), &val1);
-  if (!SWIG_IsOK(ecode1)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setCenterPoint" "', argument " "1"" of type '" "long""'");
-  } 
-  arg1 = (long)(val1);
-  ecode2 = SWIG_AsVal_double(args(1), &val2);
-  if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_setCenterPoint" "', argument " "2"" of type '" "double""'");
-  } 
-  arg2 = (double)(val2);
-  ecode3 = SWIG_AsVal_double(args(2), &val3);
-  if (!SWIG_IsOK(ecode3)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "tc_setCenterPoint" "', argument " "3"" of type '" "double""'");
-  } 
-  arg3 = (double)(val3);
-  tc_setCenterPoint(arg1,arg2,arg3);
-  _outv = octave_value();
-  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
-fail:
-  return _out;
-}
-
-
-static octave_value_list _wrap_tc_getCenterPointX (const octave_value_list& args, int nargout) {
-  long arg1 ;
-  long val1 ;
-  int ecode1 = 0 ;
-  octave_value_list _out;
-  octave_value_list *_outp=&_out;
-  octave_value _outv;
-  double result;
-  
-  if (!SWIG_check_num_args("tc_getCenterPointX",args.length(),1,1,0)) {
-    SWIG_fail;
-  }
-  ecode1 = SWIG_AsVal_long(args(0), &val1);
-  if (!SWIG_IsOK(ecode1)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getCenterPointX" "', argument " "1"" of type '" "long""'");
-  } 
-  arg1 = (long)(val1);
-  result = (double)tc_getCenterPointX(arg1);
-  _outv = SWIG_From_double((double)(result));
-  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
-fail:
-  return _out;
-}
-
-
-static octave_value_list _wrap_tc_getCenterPointY (const octave_value_list& args, int nargout) {
-  long arg1 ;
-  long val1 ;
-  int ecode1 = 0 ;
-  octave_value_list _out;
-  octave_value_list *_outp=&_out;
-  octave_value _outv;
-  double result;
-  
-  if (!SWIG_check_num_args("tc_getCenterPointY",args.length(),1,1,0)) {
-    SWIG_fail;
-  }
-  ecode1 = SWIG_AsVal_long(args(0), &val1);
-  if (!SWIG_IsOK(ecode1)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getCenterPointY" "', argument " "1"" of type '" "long""'");
-  } 
-  arg1 = (long)(val1);
-  result = (double)tc_getCenterPointY(arg1);
-  _outv = SWIG_From_double((double)(result));
-  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
-fail:
-  return _out;
-}
-
-
-static octave_value_list _wrap_tc_setStraight (const octave_value_list& args, int nargout) {
-  long arg1 ;
-  int arg2 ;
-  long val1 ;
-  int ecode1 = 0 ;
-  int val2 ;
-  int ecode2 = 0 ;
-  octave_value_list _out;
-  octave_value_list *_outp=&_out;
-  octave_value _outv;
-  
-  if (!SWIG_check_num_args("tc_setStraight",args.length(),2,2,0)) {
-    SWIG_fail;
-  }
-  ecode1 = SWIG_AsVal_long(args(0), &val1);
-  if (!SWIG_IsOK(ecode1)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setStraight" "', argument " "1"" of type '" "long""'");
-  } 
-  arg1 = (long)(val1);
-  ecode2 = SWIG_AsVal_int(args(1), &val2);
-  if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_setStraight" "', argument " "2"" of type '" "int""'");
-  } 
-  arg2 = (int)(val2);
-  tc_setStraight(arg1,arg2);
-  _outv = octave_value();
-  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
-fail:
-  return _out;
-}
-
-
-static octave_value_list _wrap_tc_setAllStraight (const octave_value_list& args, int nargout) {
-  int arg1 ;
-  int val1 ;
-  int ecode1 = 0 ;
-  octave_value_list _out;
-  octave_value_list *_outp=&_out;
-  octave_value _outv;
-  
-  if (!SWIG_check_num_args("tc_setAllStraight",args.length(),1,1,0)) {
-    SWIG_fail;
-  }
-  ecode1 = SWIG_AsVal_int(args(0), &val1);
-  if (!SWIG_IsOK(ecode1)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setAllStraight" "', argument " "1"" of type '" "int""'");
-  } 
-  arg1 = (int)(val1);
-  tc_setAllStraight(arg1);
-  _outv = octave_value();
-  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
-fail:
-  return _out;
-}
-
-
-static octave_value_list _wrap_tc_setLineWidth (const octave_value_list& args, int nargout) {
-  long arg1 ;
-  double arg2 ;
-  int arg3 ;
-  long val1 ;
-  int ecode1 = 0 ;
-  double val2 ;
-  int ecode2 = 0 ;
-  int val3 ;
-  int ecode3 = 0 ;
-  octave_value_list _out;
-  octave_value_list *_outp=&_out;
-  octave_value _outv;
-  
-  if (!SWIG_check_num_args("tc_setLineWidth",args.length(),3,3,0)) {
-    SWIG_fail;
-  }
-  ecode1 = SWIG_AsVal_long(args(0), &val1);
-  if (!SWIG_IsOK(ecode1)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setLineWidth" "', argument " "1"" of type '" "long""'");
-  } 
-  arg1 = (long)(val1);
-  ecode2 = SWIG_AsVal_double(args(1), &val2);
-  if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_setLineWidth" "', argument " "2"" of type '" "double""'");
-  } 
-  arg2 = (double)(val2);
-  ecode3 = SWIG_AsVal_int(args(2), &val3);
-  if (!SWIG_IsOK(ecode3)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "tc_setLineWidth" "', argument " "3"" of type '" "int""'");
-  } 
-  arg3 = (int)(val3);
-  tc_setLineWidth(arg1,arg2,arg3);
-  _outv = octave_value();
-  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
-fail:
-  return _out;
-}
-
-
-static octave_value_list _wrap_tc_ConnectionSelection_api (const octave_value_list& args, int nargout) {
-  double (*arg1)(long,long,int) = (double (*)(long,long,int)) 0 ;
-  double (*arg2)(long,long,int) = (double (*)(long,long,int)) 0 ;
-  void (*arg3)(long,long,int,double,double) = (void (*)(long,long,int,double,double)) 0 ;
-  void (*arg4)(long,double,double) = (void (*)(long,double,double)) 0 ;
-  double (*arg5)(long) = (double (*)(long)) 0 ;
-  double (*arg6)(long) = (double (*)(long)) 0 ;
-  void (*arg7)(long,int) = (void (*)(long,int)) 0 ;
-  void (*arg8)(int) = (void (*)(int)) 0 ;
-  void (*arg9)(long,double,int) = (void (*)(long,double,int)) 0 ;
-  octave_value_list _out;
-  octave_value_list *_outp=&_out;
-  octave_value _outv;
-  
-  if (!SWIG_check_num_args("tc_ConnectionSelection_api",args.length(),9,9,0)) {
-    SWIG_fail;
-  }
-  {
-    int res = SWIG_ConvertFunctionPtr(args(0), (void**)(&arg1), SWIGTYPE_p_f_long_long_int__double);
-    if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "1"" of type '" "double (*)(long,long,int)""'"); 
-    }
-  }
-  {
-    int res = SWIG_ConvertFunctionPtr(args(1), (void**)(&arg2), SWIGTYPE_p_f_long_long_int__double);
-    if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "2"" of type '" "double (*)(long,long,int)""'"); 
-    }
-  }
-  {
-    int res = SWIG_ConvertFunctionPtr(args(2), (void**)(&arg3), SWIGTYPE_p_f_long_long_int_double_double__void);
-    if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "3"" of type '" "void (*)(long,long,int,double,double)""'"); 
-    }
-  }
-  {
-    int res = SWIG_ConvertFunctionPtr(args(3), (void**)(&arg4), SWIGTYPE_p_f_long_double_double__void);
-    if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "4"" of type '" "void (*)(long,double,double)""'"); 
-    }
-  }
-  {
-    int res = SWIG_ConvertFunctionPtr(args(4), (void**)(&arg5), SWIGTYPE_p_f_long__double);
-    if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "5"" of type '" "double (*)(long)""'"); 
-    }
-  }
-  {
-    int res = SWIG_ConvertFunctionPtr(args(5), (void**)(&arg6), SWIGTYPE_p_f_long__double);
-    if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "6"" of type '" "double (*)(long)""'"); 
-    }
-  }
-  {
-    int res = SWIG_ConvertFunctionPtr(args(6), (void**)(&arg7), SWIGTYPE_p_f_long_int__void);
-    if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "7"" of type '" "void (*)(long,int)""'"); 
-    }
-  }
-  {
-    int res = SWIG_ConvertFunctionPtr(args(7), (void**)(&arg8), SWIGTYPE_p_f_int__void);
-    if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "8"" of type '" "void (*)(int)""'"); 
-    }
-  }
-  {
-    int res = SWIG_ConvertFunctionPtr(args(8), (void**)(&arg9), SWIGTYPE_p_f_long_double_int__void);
-    if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "9"" of type '" "void (*)(long,double,int)""'"); 
-    }
-  }
-  tc_ConnectionSelection_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
 fail:
@@ -12479,6 +12608,15 @@ static const struct swig_octave_member swig_globals[] = {
 {"tc_screenY",_wrap_tc_screenY,0,0,2,0},
 {"tc_annotations",_wrap_tc_annotations,0,0,2,0},
 {"tc_insertAnnotations",_wrap_tc_insertAnnotations,0,0,2,0},
+{"tc_getControlPointX",_wrap_tc_getControlPointX,0,0,2,0},
+{"tc_getControlPointY",_wrap_tc_getControlPointY,0,0,2,0},
+{"tc_setControlPoint",_wrap_tc_setControlPoint,0,0,2,0},
+{"tc_setCenterPoint",_wrap_tc_setCenterPoint,0,0,2,0},
+{"tc_getCenterPointX",_wrap_tc_getCenterPointX,0,0,2,0},
+{"tc_getCenterPointY",_wrap_tc_getCenterPointY,0,0,2,0},
+{"tc_setStraight",_wrap_tc_setStraight,0,0,2,0},
+{"tc_setAllStraight",_wrap_tc_setAllStraight,0,0,2,0},
+{"tc_setLineWidth",_wrap_tc_setLineWidth,0,0,2,0},
 {"tc_Main_api_initialize",_wrap_tc_Main_api_initialize,0,0,2,0},
 {"tc_showProgress",_wrap_tc_showProgress,0,0,2,0},
 {"tc_callback",_wrap_tc_callback,0,0,2,0},
@@ -12490,6 +12628,8 @@ static const struct swig_octave_member swig_globals[] = {
 {"tc_highlight",_wrap_tc_highlight,0,0,2,0},
 {"tc_burn",_wrap_tc_burn,0,0,2,0},
 {"tc_LabelingTool_api",_wrap_tc_LabelingTool_api,0,0,2,0},
+{"Autolayout",_wrap_Autolayout,0,0,2,0},
+{"ApplySpringForce",_wrap_ApplySpringForce,0,0,2,0},
 {"tc_getParameters",_wrap_tc_getParameters,0,0,2,0},
 {"tc_getInitialValues",_wrap_tc_getInitialValues,0,0,2,0},
 {"tc_setInitialValues",_wrap_tc_setInitialValues,0,0,2,0},
@@ -12514,16 +12654,6 @@ static const struct swig_octave_member swig_globals[] = {
 {"tc_getConnections",_wrap_tc_getConnections,0,0,2,0},
 {"tc_getConnectionsWithRole",_wrap_tc_getConnectionsWithRole,0,0,2,0},
 {"tc_ConnectionInsertion_api",_wrap_tc_ConnectionInsertion_api,0,0,2,0},
-{"tc_getControlPointX",_wrap_tc_getControlPointX,0,0,2,0},
-{"tc_getControlPointY",_wrap_tc_getControlPointY,0,0,2,0},
-{"tc_setControlPoint",_wrap_tc_setControlPoint,0,0,2,0},
-{"tc_setCenterPoint",_wrap_tc_setCenterPoint,0,0,2,0},
-{"tc_getCenterPointX",_wrap_tc_getCenterPointX,0,0,2,0},
-{"tc_getCenterPointY",_wrap_tc_getCenterPointY,0,0,2,0},
-{"tc_setStraight",_wrap_tc_setStraight,0,0,2,0},
-{"tc_setAllStraight",_wrap_tc_setAllStraight,0,0,2,0},
-{"tc_setLineWidth",_wrap_tc_setLineWidth,0,0,2,0},
-{"tc_ConnectionSelection_api",_wrap_tc_ConnectionSelection_api,0,0,2,0},
 {"tc_merge",_wrap_tc_merge,0,0,2,0},
 {"tc_separate",_wrap_tc_separate,0,0,2,0},
 {"tc_GroupHandlerTool_api",_wrap_tc_GroupHandlerTool_api,0,0,2,0},

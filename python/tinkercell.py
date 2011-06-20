@@ -601,6 +601,42 @@ def tc_insertAnnotations(*args):
   return _tinkercell.tc_insertAnnotations(*args)
 tc_insertAnnotations = _tinkercell.tc_insertAnnotations
 
+def tc_getControlPointX(*args):
+  return _tinkercell.tc_getControlPointX(*args)
+tc_getControlPointX = _tinkercell.tc_getControlPointX
+
+def tc_getControlPointY(*args):
+  return _tinkercell.tc_getControlPointY(*args)
+tc_getControlPointY = _tinkercell.tc_getControlPointY
+
+def tc_setControlPoint(*args):
+  return _tinkercell.tc_setControlPoint(*args)
+tc_setControlPoint = _tinkercell.tc_setControlPoint
+
+def tc_setCenterPoint(*args):
+  return _tinkercell.tc_setCenterPoint(*args)
+tc_setCenterPoint = _tinkercell.tc_setCenterPoint
+
+def tc_getCenterPointX(*args):
+  return _tinkercell.tc_getCenterPointX(*args)
+tc_getCenterPointX = _tinkercell.tc_getCenterPointX
+
+def tc_getCenterPointY(*args):
+  return _tinkercell.tc_getCenterPointY(*args)
+tc_getCenterPointY = _tinkercell.tc_getCenterPointY
+
+def tc_setStraight(*args):
+  return _tinkercell.tc_setStraight(*args)
+tc_setStraight = _tinkercell.tc_setStraight
+
+def tc_setAllStraight(*args):
+  return _tinkercell.tc_setAllStraight(*args)
+tc_setAllStraight = _tinkercell.tc_setAllStraight
+
+def tc_setLineWidth(*args):
+  return _tinkercell.tc_setLineWidth(*args)
+tc_setLineWidth = _tinkercell.tc_setLineWidth
+
 def tc_Main_api_initialize(*args):
   return _tinkercell.tc_Main_api_initialize(*args)
 tc_Main_api_initialize = _tinkercell.tc_Main_api_initialize
@@ -644,6 +680,14 @@ tc_burn = _tinkercell.tc_burn
 def tc_LabelingTool_api(*args):
   return _tinkercell.tc_LabelingTool_api(*args)
 tc_LabelingTool_api = _tinkercell.tc_LabelingTool_api
+
+def Autolayout(*args):
+  return _tinkercell.Autolayout(*args)
+Autolayout = _tinkercell.Autolayout
+
+def ApplySpringForce(*args):
+  return _tinkercell.ApplySpringForce(*args)
+ApplySpringForce = _tinkercell.ApplySpringForce
 
 def tc_getParameters(*args):
   return _tinkercell.tc_getParameters(*args)
@@ -740,46 +784,6 @@ tc_getConnectionsWithRole = _tinkercell.tc_getConnectionsWithRole
 def tc_ConnectionInsertion_api(*args):
   return _tinkercell.tc_ConnectionInsertion_api(*args)
 tc_ConnectionInsertion_api = _tinkercell.tc_ConnectionInsertion_api
-
-def tc_getControlPointX(*args):
-  return _tinkercell.tc_getControlPointX(*args)
-tc_getControlPointX = _tinkercell.tc_getControlPointX
-
-def tc_getControlPointY(*args):
-  return _tinkercell.tc_getControlPointY(*args)
-tc_getControlPointY = _tinkercell.tc_getControlPointY
-
-def tc_setControlPoint(*args):
-  return _tinkercell.tc_setControlPoint(*args)
-tc_setControlPoint = _tinkercell.tc_setControlPoint
-
-def tc_setCenterPoint(*args):
-  return _tinkercell.tc_setCenterPoint(*args)
-tc_setCenterPoint = _tinkercell.tc_setCenterPoint
-
-def tc_getCenterPointX(*args):
-  return _tinkercell.tc_getCenterPointX(*args)
-tc_getCenterPointX = _tinkercell.tc_getCenterPointX
-
-def tc_getCenterPointY(*args):
-  return _tinkercell.tc_getCenterPointY(*args)
-tc_getCenterPointY = _tinkercell.tc_getCenterPointY
-
-def tc_setStraight(*args):
-  return _tinkercell.tc_setStraight(*args)
-tc_setStraight = _tinkercell.tc_setStraight
-
-def tc_setAllStraight(*args):
-  return _tinkercell.tc_setAllStraight(*args)
-tc_setAllStraight = _tinkercell.tc_setAllStraight
-
-def tc_setLineWidth(*args):
-  return _tinkercell.tc_setLineWidth(*args)
-tc_setLineWidth = _tinkercell.tc_setLineWidth
-
-def tc_ConnectionSelection_api(*args):
-  return _tinkercell.tc_ConnectionSelection_api(*args)
-tc_ConnectionSelection_api = _tinkercell.tc_ConnectionSelection_api
 
 def tc_merge(*args):
   return _tinkercell.tc_merge(*args)

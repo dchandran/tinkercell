@@ -470,6 +470,30 @@ setClass('_p_f_p_q_const__char_p_q_const__char__void',
         contains = 'CRoutinePointer')
 
 ##
+setClass('_p_f_long_long_int__double',
+        prototype = list(parameterTypes = c('_long', '_long', '_int'),
+                        returnType = '_p_f_long_long_int__double'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_long_long_int_double_double__void',
+        prototype = list(parameterTypes = c('_long', '_long', '_int', '_double', '_double'),
+                        returnType = '_p_f_long_long_int_double_double__void'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_long_int__void',
+        prototype = list(parameterTypes = c('_long', '_int'),
+                        returnType = '_p_f_long_int__void'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_int__void',
+        prototype = list(parameterTypes = c('_int'),
+                        returnType = '_p_f_int__void'),
+        contains = 'CRoutinePointer')
+
+##
 setClass('_p_f_void__void',
         prototype = list(parameterTypes = c('_void'),
                         returnType = '_p_f_void__void'),
@@ -533,30 +557,6 @@ setClass('_p_f_tc_items_p_q_const__char_p_q_const__char__long',
 setClass('_p_f_long_p_q_const__char__tc_items',
         prototype = list(parameterTypes = c('_long', '_p_char'),
                         returnType = '_p_f_long_p_q_const__char__tc_items'),
-        contains = 'CRoutinePointer')
-
-##
-setClass('_p_f_long_long_int__double',
-        prototype = list(parameterTypes = c('_long', '_long', '_int'),
-                        returnType = '_p_f_long_long_int__double'),
-        contains = 'CRoutinePointer')
-
-##
-setClass('_p_f_long_long_int_double_double__void',
-        prototype = list(parameterTypes = c('_long', '_long', '_int', '_double', '_double'),
-                        returnType = '_p_f_long_long_int_double_double__void'),
-        contains = 'CRoutinePointer')
-
-##
-setClass('_p_f_long_int__void',
-        prototype = list(parameterTypes = c('_long', '_int'),
-                        returnType = '_p_f_long_int__void'),
-        contains = 'CRoutinePointer')
-
-##
-setClass('_p_f_int__void',
-        prototype = list(parameterTypes = c('_int'),
-                        returnType = '_p_f_int__void'),
         contains = 'CRoutinePointer')
 
 ##
@@ -3251,9 +3251,224 @@ attr(`tc_insertAnnotations`, 'returnType') = 'void'
 attr(`tc_insertAnnotations`, "inputTypes") = c('character', 'numeric', 'numeric')
 class(`tc_insertAnnotations`) = c("SWIGFunction", class('tc_insertAnnotations'))
 
+# Start of tc_getControlPointX
+
+`tc_getControlPointX` = function(connection, part, whichPoint, .copy = FALSE)
+{
+  connection = as.integer(connection) 
+  
+  if(length(connection) > 1) {
+    warning("using only the first element of connection")
+  }
+  
+  part = as.integer(part) 
+  
+  if(length(part) > 1) {
+    warning("using only the first element of part")
+  }
+  
+  whichPoint = as.integer(whichPoint) 
+  
+  if(length(whichPoint) > 1) {
+    warning("using only the first element of whichPoint")
+  }
+  
+  .Call('R_swig_tc_getControlPointX', connection, part, whichPoint, as.logical(.copy), PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_getControlPointX`, 'returnType') = 'numeric'
+attr(`tc_getControlPointX`, "inputTypes") = c('integer', 'integer', 'integer')
+class(`tc_getControlPointX`) = c("SWIGFunction", class('tc_getControlPointX'))
+
+# Start of tc_getControlPointY
+
+`tc_getControlPointY` = function(connection, part, whichPoint, .copy = FALSE)
+{
+  connection = as.integer(connection) 
+  
+  if(length(connection) > 1) {
+    warning("using only the first element of connection")
+  }
+  
+  part = as.integer(part) 
+  
+  if(length(part) > 1) {
+    warning("using only the first element of part")
+  }
+  
+  whichPoint = as.integer(whichPoint) 
+  
+  if(length(whichPoint) > 1) {
+    warning("using only the first element of whichPoint")
+  }
+  
+  .Call('R_swig_tc_getControlPointY', connection, part, whichPoint, as.logical(.copy), PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_getControlPointY`, 'returnType') = 'numeric'
+attr(`tc_getControlPointY`, "inputTypes") = c('integer', 'integer', 'integer')
+class(`tc_getControlPointY`) = c("SWIGFunction", class('tc_getControlPointY'))
+
+# Start of tc_setControlPoint
+
+`tc_setControlPoint` = function(connection, part, whichPoint, x, y)
+{
+  connection = as.integer(connection) 
+  
+  if(length(connection) > 1) {
+    warning("using only the first element of connection")
+  }
+  
+  part = as.integer(part) 
+  
+  if(length(part) > 1) {
+    warning("using only the first element of part")
+  }
+  
+  whichPoint = as.integer(whichPoint) 
+  
+  if(length(whichPoint) > 1) {
+    warning("using only the first element of whichPoint")
+  }
+  
+  
+  
+  .Call('R_swig_tc_setControlPoint', connection, part, whichPoint, x, y, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_setControlPoint`, 'returnType') = 'void'
+attr(`tc_setControlPoint`, "inputTypes") = c('integer', 'integer', 'integer', 'numeric', 'numeric')
+class(`tc_setControlPoint`) = c("SWIGFunction", class('tc_setControlPoint'))
+
+# Start of tc_setCenterPoint
+
+`tc_setCenterPoint` = function(connection, y, x)
+{
+  connection = as.integer(connection) 
+  
+  if(length(connection) > 1) {
+    warning("using only the first element of connection")
+  }
+  
+  
+  
+  .Call('R_swig_tc_setCenterPoint', connection, y, x, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_setCenterPoint`, 'returnType') = 'void'
+attr(`tc_setCenterPoint`, "inputTypes") = c('integer', 'numeric', 'numeric')
+class(`tc_setCenterPoint`) = c("SWIGFunction", class('tc_setCenterPoint'))
+
+# Start of tc_getCenterPointX
+
+`tc_getCenterPointX` = function(connection, .copy = FALSE)
+{
+  connection = as.integer(connection) 
+  
+  if(length(connection) > 1) {
+    warning("using only the first element of connection")
+  }
+  
+  .Call('R_swig_tc_getCenterPointX', connection, as.logical(.copy), PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_getCenterPointX`, 'returnType') = 'numeric'
+attr(`tc_getCenterPointX`, "inputTypes") = c('integer')
+class(`tc_getCenterPointX`) = c("SWIGFunction", class('tc_getCenterPointX'))
+
+# Start of tc_getCenterPointY
+
+`tc_getCenterPointY` = function(connection, .copy = FALSE)
+{
+  connection = as.integer(connection) 
+  
+  if(length(connection) > 1) {
+    warning("using only the first element of connection")
+  }
+  
+  .Call('R_swig_tc_getCenterPointY', connection, as.logical(.copy), PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_getCenterPointY`, 'returnType') = 'numeric'
+attr(`tc_getCenterPointY`, "inputTypes") = c('integer')
+class(`tc_getCenterPointY`) = c("SWIGFunction", class('tc_getCenterPointY'))
+
+# Start of tc_setStraight
+
+`tc_setStraight` = function(item, straight)
+{
+  item = as.integer(item) 
+  
+  if(length(item) > 1) {
+    warning("using only the first element of item")
+  }
+  
+  straight = as.integer(straight) 
+  
+  if(length(straight) > 1) {
+    warning("using only the first element of straight")
+  }
+  
+  .Call('R_swig_tc_setStraight', item, straight, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_setStraight`, 'returnType') = 'void'
+attr(`tc_setStraight`, "inputTypes") = c('integer', 'integer')
+class(`tc_setStraight`) = c("SWIGFunction", class('tc_setStraight'))
+
+# Start of tc_setAllStraight
+
+`tc_setAllStraight` = function(straight)
+{
+  straight = as.integer(straight) 
+  
+  if(length(straight) > 1) {
+    warning("using only the first element of straight")
+  }
+  
+  .Call('R_swig_tc_setAllStraight', straight, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_setAllStraight`, 'returnType') = 'void'
+attr(`tc_setAllStraight`, "inputTypes") = c('integer')
+class(`tc_setAllStraight`) = c("SWIGFunction", class('tc_setAllStraight'))
+
+# Start of tc_setLineWidth
+
+`tc_setLineWidth` = function(item, width, permanent)
+{
+  item = as.integer(item) 
+  
+  if(length(item) > 1) {
+    warning("using only the first element of item")
+  }
+  
+  
+  permanent = as.integer(permanent) 
+  
+  if(length(permanent) > 1) {
+    warning("using only the first element of permanent")
+  }
+  
+  .Call('R_swig_tc_setLineWidth', item, width, permanent, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_setLineWidth`, 'returnType') = 'void'
+attr(`tc_setLineWidth`, "inputTypes") = c('integer', 'numeric', 'integer')
+class(`tc_setLineWidth`) = c("SWIGFunction", class('tc_setLineWidth'))
+
 # Start of tc_Main_api_initialize
 
-`tc_Main_api_initialize` = function(tc_allItems0, tc_selectedItems0, tc_itemsOfFamily0, tc_itemsOfFamily1, tc_find0, tc_findItems0, tc_select0, tc_deselect0, tc_getName0, tc_getUniqueName0, tc_setName0, tc_getNames0, tc_getUniqueNames0, tc_getFamily0, tc_isA0, tc_clearText, tc_outputText0, tc_errorReport0, tc_outputTable0, tc_printFile0, tc_removeItem0, tc_getY0, tc_getX0, tc_getPos0, tc_setPos0, tc_setPos1, tc_moveSelected0, tc_isWindows0, tc_isMac0, tc_isLinux0, tc_appDir0, tc_homeDir0, tc_createInputWindow0, tc_createInputWindow1, createSliders, tc_addInputWindowOptions0, tc_addInputWindowCheckbox0, tc_openNewWindow0, tc_getChildren0, tc_getParent0, tc_getNumericalData0, tc_setNumericalData0, tc_getTextData0, tc_setTextData0, tc_getNumericalDataNames0, tc_getTextDataNames0, tc_zoom0, tc_getStringDialog0, getSelectedString, getNumber, getNumbers, getFilename, askQuestion, messageDialog, openFile, saveToFile, setSize0, getWidth0, getHeight0, setAngle0, getColor, setColor0, changeGraphics0, changeArrowHead0, screenshot, screenHeight, screenWidth, screenX, screenY, annotations, insertAnnotations, setNumericalValues, setNumericalValue, setTextValues, setTextValue, getNumericalValue, getTextValue, openUrl)
+`tc_Main_api_initialize` = function(tc_allItems0, tc_selectedItems0, tc_itemsOfFamily0, tc_itemsOfFamily1, tc_find0, tc_findItems0, tc_select0, tc_deselect0, tc_getName0, tc_getUniqueName0, tc_setName0, tc_getNames0, tc_getUniqueNames0, tc_getFamily0, tc_isA0, tc_clearText, tc_outputText0, tc_errorReport0, tc_outputTable0, tc_printFile0, tc_removeItem0, tc_getY0, tc_getX0, tc_getPos0, tc_setPos0, tc_setPos1, tc_moveSelected0, tc_isWindows0, tc_isMac0, tc_isLinux0, tc_appDir0, tc_homeDir0, tc_createInputWindow0, tc_createInputWindow1, createSliders, tc_addInputWindowOptions0, tc_addInputWindowCheckbox0, tc_openNewWindow0, tc_getChildren0, tc_getParent0, tc_getNumericalData0, tc_setNumericalData0, tc_getTextData0, tc_setTextData0, tc_getNumericalDataNames0, tc_getTextDataNames0, tc_zoom0, tc_getStringDialog0, getSelectedString, getNumber, getNumbers, getFilename, askQuestion, messageDialog, openFile, saveToFile, setSize0, getWidth0, getHeight0, setAngle0, getColor, setColor0, changeGraphics0, changeArrowHead0, screenshot, screenHeight, screenWidth, screenX, screenY, annotations, insertAnnotations, setNumericalValues, setNumericalValue, setTextValues, setTextValue, getNumericalValue, getTextValue, openUrl, getControlPointX, getControlPointY, setControlPoint, setCenterPoint, getCenterPointX, getCenterPointY, setStraight, setAllStraight, setLineWidth)
 {
   if(is.function(tc_allItems0)) {
     assert('...' %in% names(formals(tc_allItems0)) || length(formals(tc_allItems0)) >= 0)
@@ -4035,12 +4250,102 @@ class(`tc_insertAnnotations`) = c("SWIGFunction", class('tc_insertAnnotations'))
       openUrl = openUrl$address
     }
   }
-  .Call('R_swig_tc_Main_api_initialize', tc_allItems0, tc_selectedItems0, tc_itemsOfFamily0, tc_itemsOfFamily1, tc_find0, tc_findItems0, tc_select0, tc_deselect0, tc_getName0, tc_getUniqueName0, tc_setName0, tc_getNames0, tc_getUniqueNames0, tc_getFamily0, tc_isA0, tc_clearText, tc_outputText0, tc_errorReport0, tc_outputTable0, tc_printFile0, tc_removeItem0, tc_getY0, tc_getX0, tc_getPos0, tc_setPos0, tc_setPos1, tc_moveSelected0, tc_isWindows0, tc_isMac0, tc_isLinux0, tc_appDir0, tc_homeDir0, tc_createInputWindow0, tc_createInputWindow1, createSliders, tc_addInputWindowOptions0, tc_addInputWindowCheckbox0, tc_openNewWindow0, tc_getChildren0, tc_getParent0, tc_getNumericalData0, tc_setNumericalData0, tc_getTextData0, tc_setTextData0, tc_getNumericalDataNames0, tc_getTextDataNames0, tc_zoom0, tc_getStringDialog0, getSelectedString, getNumber, getNumbers, getFilename, askQuestion, messageDialog, openFile, saveToFile, setSize0, getWidth0, getHeight0, setAngle0, getColor, setColor0, changeGraphics0, changeArrowHead0, screenshot, screenHeight, screenWidth, screenX, screenY, annotations, insertAnnotations, setNumericalValues, setNumericalValue, setTextValues, setTextValue, getNumericalValue, getTextValue, openUrl, PACKAGE='tinkercell')
+  if(is.function(getControlPointX)) {
+    assert('...' %in% names(formals(getControlPointX)) || length(formals(getControlPointX)) >= 3)
+  } else {
+    if(is.character(getControlPointX)) {
+      getControlPointX = getNativeSymbolInfo(getControlPointX)
+    }
+    if(is(getControlPointX, "NativeSymbolInfo")) {
+      getControlPointX = getControlPointX$address
+    }
+  }
+  if(is.function(getControlPointY)) {
+    assert('...' %in% names(formals(getControlPointY)) || length(formals(getControlPointY)) >= 0)
+  } else {
+    if(is.character(getControlPointY)) {
+      getControlPointY = getNativeSymbolInfo(getControlPointY)
+    }
+    if(is(getControlPointY, "NativeSymbolInfo")) {
+      getControlPointY = getControlPointY$address
+    }
+  }
+  if(is.function(setControlPoint)) {
+    assert('...' %in% names(formals(setControlPoint)) || length(formals(setControlPoint)) >= 5)
+  } else {
+    if(is.character(setControlPoint)) {
+      setControlPoint = getNativeSymbolInfo(setControlPoint)
+    }
+    if(is(setControlPoint, "NativeSymbolInfo")) {
+      setControlPoint = setControlPoint$address
+    }
+  }
+  if(is.function(setCenterPoint)) {
+    assert('...' %in% names(formals(setCenterPoint)) || length(formals(setCenterPoint)) >= 0)
+  } else {
+    if(is.character(setCenterPoint)) {
+      setCenterPoint = getNativeSymbolInfo(setCenterPoint)
+    }
+    if(is(setCenterPoint, "NativeSymbolInfo")) {
+      setCenterPoint = setCenterPoint$address
+    }
+  }
+  if(is.function(getCenterPointX)) {
+    assert('...' %in% names(formals(getCenterPointX)) || length(formals(getCenterPointX)) >= 0)
+  } else {
+    if(is.character(getCenterPointX)) {
+      getCenterPointX = getNativeSymbolInfo(getCenterPointX)
+    }
+    if(is(getCenterPointX, "NativeSymbolInfo")) {
+      getCenterPointX = getCenterPointX$address
+    }
+  }
+  if(is.function(getCenterPointY)) {
+    assert('...' %in% names(formals(getCenterPointY)) || length(formals(getCenterPointY)) >= 0)
+  } else {
+    if(is.character(getCenterPointY)) {
+      getCenterPointY = getNativeSymbolInfo(getCenterPointY)
+    }
+    if(is(getCenterPointY, "NativeSymbolInfo")) {
+      getCenterPointY = getCenterPointY$address
+    }
+  }
+  if(is.function(setStraight)) {
+    assert('...' %in% names(formals(setStraight)) || length(formals(setStraight)) >= 2)
+  } else {
+    if(is.character(setStraight)) {
+      setStraight = getNativeSymbolInfo(setStraight)
+    }
+    if(is(setStraight, "NativeSymbolInfo")) {
+      setStraight = setStraight$address
+    }
+  }
+  if(is.function(setAllStraight)) {
+    assert('...' %in% names(formals(setAllStraight)) || length(formals(setAllStraight)) >= 1)
+  } else {
+    if(is.character(setAllStraight)) {
+      setAllStraight = getNativeSymbolInfo(setAllStraight)
+    }
+    if(is(setAllStraight, "NativeSymbolInfo")) {
+      setAllStraight = setAllStraight$address
+    }
+  }
+  if(is.function(setLineWidth)) {
+    assert('...' %in% names(formals(setLineWidth)) || length(formals(setLineWidth)) >= 0)
+  } else {
+    if(is.character(setLineWidth)) {
+      setLineWidth = getNativeSymbolInfo(setLineWidth)
+    }
+    if(is(setLineWidth, "NativeSymbolInfo")) {
+      setLineWidth = setLineWidth$address
+    }
+  }
+  .Call('R_swig_tc_Main_api_initialize', tc_allItems0, tc_selectedItems0, tc_itemsOfFamily0, tc_itemsOfFamily1, tc_find0, tc_findItems0, tc_select0, tc_deselect0, tc_getName0, tc_getUniqueName0, tc_setName0, tc_getNames0, tc_getUniqueNames0, tc_getFamily0, tc_isA0, tc_clearText, tc_outputText0, tc_errorReport0, tc_outputTable0, tc_printFile0, tc_removeItem0, tc_getY0, tc_getX0, tc_getPos0, tc_setPos0, tc_setPos1, tc_moveSelected0, tc_isWindows0, tc_isMac0, tc_isLinux0, tc_appDir0, tc_homeDir0, tc_createInputWindow0, tc_createInputWindow1, createSliders, tc_addInputWindowOptions0, tc_addInputWindowCheckbox0, tc_openNewWindow0, tc_getChildren0, tc_getParent0, tc_getNumericalData0, tc_setNumericalData0, tc_getTextData0, tc_setTextData0, tc_getNumericalDataNames0, tc_getTextDataNames0, tc_zoom0, tc_getStringDialog0, getSelectedString, getNumber, getNumbers, getFilename, askQuestion, messageDialog, openFile, saveToFile, setSize0, getWidth0, getHeight0, setAngle0, getColor, setColor0, changeGraphics0, changeArrowHead0, screenshot, screenHeight, screenWidth, screenX, screenY, annotations, insertAnnotations, setNumericalValues, setNumericalValue, setTextValues, setTextValue, getNumericalValue, getTextValue, openUrl, getControlPointX, getControlPointY, setControlPoint, setCenterPoint, getCenterPointX, getCenterPointY, setStraight, setAllStraight, setLineWidth, PACKAGE='tinkercell')
   
 }
 
 attr(`tc_Main_api_initialize`, 'returnType') = 'void'
-attr(`tc_Main_api_initialize`, "inputTypes") = c('_p_f___tc_items', '_p_f___tc_items', '_p_f_p_q_const__char__tc_items', '_p_f_p_q_const__char_tc_items__tc_items', '_p_f_p_q_const__char__long', '_p_f_tc_strings__tc_items', '_p_f_long__void', '_p_f___void', '_p_f_long__p_char', '_p_f_long__p_char', '_p_f_long_p_q_const__char__void', '_p_f_tc_items__tc_strings', '_p_f_tc_items__tc_strings', '_p_f_long__p_char', '_p_f_long_p_q_const__char__int', '_p_f___void', '_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void', '_p_f_tc_matrix__void', '_p_f_p_q_const__char__void', '_p_f_long__void', '_p_f_long__double', '_p_f_long__double', '_p_f_tc_items__tc_matrix', '_p_f_long_double_double__void', '_p_f_tc_items_tc_matrix__void', '_p_f_double_double__void', '_p_f___int', '_p_f___int', '_p_f___int', '_p_f___p_char', '_p_f___p_char', '_p_f_tc_matrix_p_q_const__char_p_q_const__char__void', '_p_f_long_tc_matrix_p_q_const__char_p_f_tc_matrix__void__void', '_p_f_long_tc_matrix_p_f_tc_matrix__void__void', '_p_f_p_q_const__char_int_int_tc_strings__void', '_p_f_p_q_const__char_int_int__void', '_p_f_p_q_const__char__void', '_p_f_long__tc_items', '_p_f_long__long', '_p_f_long_p_q_const__char__tc_matrix', '_p_f_long_p_q_const__char_tc_matrix__void', '_p_f_long_p_q_const__char__tc_table', '_p_f_long_p_q_const__char_tc_table__void', '_p_f_long__tc_strings', '_p_f_long__tc_strings', '_p_f_double__void', '_p_f_p_q_const__char__p_char', '_p_f_p_q_const__char_tc_strings_p_q_const__char__int', '_p_f_p_q_const__char__double', '_p_f_tc_strings__tc_matrix', '_p_f___p_char', '_p_f_p_q_const__char__int', '_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void', '_p_f_long_double_double_int__void', '_p_f_long__double', '_p_f_long__double', '_p_f_long_double_int__void', '_p_f_long__p_char', '_p_f_long_p_q_const__char_int__void', '_p_f_long_p_q_const__char__void', '_p_f_long_p_q_const__char__void', '_p_f_p_q_const__char_int_int__void', '_p_f___int', '_p_f___int', '_p_f___int', '_p_f___int', '_p_f___p_char', '_p_f_p_q_const__char_double_double__void', '_p_f_tc_matrix__void', '_p_f_p_q_const__char_double__void', '_p_f_tc_table__void', '_p_f_p_q_const__char_p_q_const__char__void', '_p_f_p_q_const__char__double', '_p_f_p_q_const__char__p_char', '_p_f___void')
+attr(`tc_Main_api_initialize`, "inputTypes") = c('_p_f___tc_items', '_p_f___tc_items', '_p_f_p_q_const__char__tc_items', '_p_f_p_q_const__char_tc_items__tc_items', '_p_f_p_q_const__char__long', '_p_f_tc_strings__tc_items', '_p_f_long__void', '_p_f___void', '_p_f_long__p_char', '_p_f_long__p_char', '_p_f_long_p_q_const__char__void', '_p_f_tc_items__tc_strings', '_p_f_tc_items__tc_strings', '_p_f_long__p_char', '_p_f_long_p_q_const__char__int', '_p_f___void', '_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void', '_p_f_tc_matrix__void', '_p_f_p_q_const__char__void', '_p_f_long__void', '_p_f_long__double', '_p_f_long__double', '_p_f_tc_items__tc_matrix', '_p_f_long_double_double__void', '_p_f_tc_items_tc_matrix__void', '_p_f_double_double__void', '_p_f___int', '_p_f___int', '_p_f___int', '_p_f___p_char', '_p_f___p_char', '_p_f_tc_matrix_p_q_const__char_p_q_const__char__void', '_p_f_long_tc_matrix_p_q_const__char_p_f_tc_matrix__void__void', '_p_f_long_tc_matrix_p_f_tc_matrix__void__void', '_p_f_p_q_const__char_int_int_tc_strings__void', '_p_f_p_q_const__char_int_int__void', '_p_f_p_q_const__char__void', '_p_f_long__tc_items', '_p_f_long__long', '_p_f_long_p_q_const__char__tc_matrix', '_p_f_long_p_q_const__char_tc_matrix__void', '_p_f_long_p_q_const__char__tc_table', '_p_f_long_p_q_const__char_tc_table__void', '_p_f_long__tc_strings', '_p_f_long__tc_strings', '_p_f_double__void', '_p_f_p_q_const__char__p_char', '_p_f_p_q_const__char_tc_strings_p_q_const__char__int', '_p_f_p_q_const__char__double', '_p_f_tc_strings__tc_matrix', '_p_f___p_char', '_p_f_p_q_const__char__int', '_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void', '_p_f_long_double_double_int__void', '_p_f_long__double', '_p_f_long__double', '_p_f_long_double_int__void', '_p_f_long__p_char', '_p_f_long_p_q_const__char_int__void', '_p_f_long_p_q_const__char__void', '_p_f_long_p_q_const__char__void', '_p_f_p_q_const__char_int_int__void', '_p_f___int', '_p_f___int', '_p_f___int', '_p_f___int', '_p_f___p_char', '_p_f_p_q_const__char_double_double__void', '_p_f_tc_matrix__void', '_p_f_p_q_const__char_double__void', '_p_f_tc_table__void', '_p_f_p_q_const__char_p_q_const__char__void', '_p_f_p_q_const__char__double', '_p_f_p_q_const__char__p_char', '_p_f___void', '_p_f_long_long_int__double', '_p_f_long_long_int__double', '_p_f_long_long_int_double_double__void', '_p_f_long_double_double__void', '_p_f_long__double', '_p_f_long__double', '_p_f_long_int__void', '_p_f_int__void', '_p_f_long_double_int__void')
 class(`tc_Main_api_initialize`) = c("SWIGFunction", class('tc_Main_api_initialize'))
 
 # Start of tc_showProgress
@@ -4305,6 +4610,30 @@ class(`tc_burn`) = c("SWIGFunction", class('tc_burn'))
 attr(`tc_LabelingTool_api`, 'returnType') = 'void'
 attr(`tc_LabelingTool_api`, "inputTypes") = c('_p_f_long_p_q_const__char__void', '_p_f_long_double__void', '_p_f_p_q_const__char_p_q_const__char__void', '_p_f_long_p_q_const__char__void', '_p_f_long_double__void')
 class(`tc_LabelingTool_api`) = c("SWIGFunction", class('tc_LabelingTool_api'))
+
+# Start of Autolayout
+
+`Autolayout` = function(positions, connections, spring, charge, damping, threshold)
+{
+  .Call('R_swig_Autolayout', positions, connections, spring, charge, damping, threshold, PACKAGE='tinkercell')
+  
+}
+
+attr(`Autolayout`, 'returnType') = 'void'
+attr(`Autolayout`, "inputTypes") = c('_p_tc_matrix', '_p_tc_matrix', 'numeric', 'numeric', 'numeric', 'numeric')
+class(`Autolayout`) = c("SWIGFunction", class('Autolayout'))
+
+# Start of ApplySpringForce
+
+`ApplySpringForce` = function(nodes, connections, spring, charge, damping, .copy = FALSE)
+{
+  .Call('R_swig_ApplySpringForce', nodes, connections, spring, charge, damping, as.logical(.copy), PACKAGE='tinkercell')
+  
+}
+
+attr(`ApplySpringForce`, 'returnType') = 'numeric'
+attr(`ApplySpringForce`, "inputTypes") = c('_p_tc_matrix', '_p_tc_matrix', 'numeric', 'numeric', 'numeric')
+class(`ApplySpringForce`) = c("SWIGFunction", class('ApplySpringForce'))
 
 # Start of tc_getParameters
 
@@ -4864,323 +5193,6 @@ class(`tc_getConnectionsWithRole`) = c("SWIGFunction", class('tc_getConnectionsW
 attr(`tc_ConnectionInsertion_api`, 'returnType') = 'void'
 attr(`tc_ConnectionInsertion_api`, "inputTypes") = c('_p_f_tc_items_p_q_const__char_p_q_const__char__long', '_p_f_long__tc_items', '_p_f_long_p_q_const__char__tc_items', '_p_f_long__tc_items', '_p_f_long_p_q_const__char__tc_items')
 class(`tc_ConnectionInsertion_api`) = c("SWIGFunction", class('tc_ConnectionInsertion_api'))
-
-# Start of tc_getControlPointX
-
-`tc_getControlPointX` = function(connection, part, whichPoint, .copy = FALSE)
-{
-  connection = as.integer(connection) 
-  
-  if(length(connection) > 1) {
-    warning("using only the first element of connection")
-  }
-  
-  part = as.integer(part) 
-  
-  if(length(part) > 1) {
-    warning("using only the first element of part")
-  }
-  
-  whichPoint = as.integer(whichPoint) 
-  
-  if(length(whichPoint) > 1) {
-    warning("using only the first element of whichPoint")
-  }
-  
-  .Call('R_swig_tc_getControlPointX', connection, part, whichPoint, as.logical(.copy), PACKAGE='tinkercell')
-  
-}
-
-attr(`tc_getControlPointX`, 'returnType') = 'numeric'
-attr(`tc_getControlPointX`, "inputTypes") = c('integer', 'integer', 'integer')
-class(`tc_getControlPointX`) = c("SWIGFunction", class('tc_getControlPointX'))
-
-# Start of tc_getControlPointY
-
-`tc_getControlPointY` = function(connection, part, whichPoint, .copy = FALSE)
-{
-  connection = as.integer(connection) 
-  
-  if(length(connection) > 1) {
-    warning("using only the first element of connection")
-  }
-  
-  part = as.integer(part) 
-  
-  if(length(part) > 1) {
-    warning("using only the first element of part")
-  }
-  
-  whichPoint = as.integer(whichPoint) 
-  
-  if(length(whichPoint) > 1) {
-    warning("using only the first element of whichPoint")
-  }
-  
-  .Call('R_swig_tc_getControlPointY', connection, part, whichPoint, as.logical(.copy), PACKAGE='tinkercell')
-  
-}
-
-attr(`tc_getControlPointY`, 'returnType') = 'numeric'
-attr(`tc_getControlPointY`, "inputTypes") = c('integer', 'integer', 'integer')
-class(`tc_getControlPointY`) = c("SWIGFunction", class('tc_getControlPointY'))
-
-# Start of tc_setControlPoint
-
-`tc_setControlPoint` = function(connection, part, whichPoint, x, y)
-{
-  connection = as.integer(connection) 
-  
-  if(length(connection) > 1) {
-    warning("using only the first element of connection")
-  }
-  
-  part = as.integer(part) 
-  
-  if(length(part) > 1) {
-    warning("using only the first element of part")
-  }
-  
-  whichPoint = as.integer(whichPoint) 
-  
-  if(length(whichPoint) > 1) {
-    warning("using only the first element of whichPoint")
-  }
-  
-  
-  
-  .Call('R_swig_tc_setControlPoint', connection, part, whichPoint, x, y, PACKAGE='tinkercell')
-  
-}
-
-attr(`tc_setControlPoint`, 'returnType') = 'void'
-attr(`tc_setControlPoint`, "inputTypes") = c('integer', 'integer', 'integer', 'numeric', 'numeric')
-class(`tc_setControlPoint`) = c("SWIGFunction", class('tc_setControlPoint'))
-
-# Start of tc_setCenterPoint
-
-`tc_setCenterPoint` = function(connection, y, x)
-{
-  connection = as.integer(connection) 
-  
-  if(length(connection) > 1) {
-    warning("using only the first element of connection")
-  }
-  
-  
-  
-  .Call('R_swig_tc_setCenterPoint', connection, y, x, PACKAGE='tinkercell')
-  
-}
-
-attr(`tc_setCenterPoint`, 'returnType') = 'void'
-attr(`tc_setCenterPoint`, "inputTypes") = c('integer', 'numeric', 'numeric')
-class(`tc_setCenterPoint`) = c("SWIGFunction", class('tc_setCenterPoint'))
-
-# Start of tc_getCenterPointX
-
-`tc_getCenterPointX` = function(connection, .copy = FALSE)
-{
-  connection = as.integer(connection) 
-  
-  if(length(connection) > 1) {
-    warning("using only the first element of connection")
-  }
-  
-  .Call('R_swig_tc_getCenterPointX', connection, as.logical(.copy), PACKAGE='tinkercell')
-  
-}
-
-attr(`tc_getCenterPointX`, 'returnType') = 'numeric'
-attr(`tc_getCenterPointX`, "inputTypes") = c('integer')
-class(`tc_getCenterPointX`) = c("SWIGFunction", class('tc_getCenterPointX'))
-
-# Start of tc_getCenterPointY
-
-`tc_getCenterPointY` = function(connection, .copy = FALSE)
-{
-  connection = as.integer(connection) 
-  
-  if(length(connection) > 1) {
-    warning("using only the first element of connection")
-  }
-  
-  .Call('R_swig_tc_getCenterPointY', connection, as.logical(.copy), PACKAGE='tinkercell')
-  
-}
-
-attr(`tc_getCenterPointY`, 'returnType') = 'numeric'
-attr(`tc_getCenterPointY`, "inputTypes") = c('integer')
-class(`tc_getCenterPointY`) = c("SWIGFunction", class('tc_getCenterPointY'))
-
-# Start of tc_setStraight
-
-`tc_setStraight` = function(item, straight)
-{
-  item = as.integer(item) 
-  
-  if(length(item) > 1) {
-    warning("using only the first element of item")
-  }
-  
-  straight = as.integer(straight) 
-  
-  if(length(straight) > 1) {
-    warning("using only the first element of straight")
-  }
-  
-  .Call('R_swig_tc_setStraight', item, straight, PACKAGE='tinkercell')
-  
-}
-
-attr(`tc_setStraight`, 'returnType') = 'void'
-attr(`tc_setStraight`, "inputTypes") = c('integer', 'integer')
-class(`tc_setStraight`) = c("SWIGFunction", class('tc_setStraight'))
-
-# Start of tc_setAllStraight
-
-`tc_setAllStraight` = function(straight)
-{
-  straight = as.integer(straight) 
-  
-  if(length(straight) > 1) {
-    warning("using only the first element of straight")
-  }
-  
-  .Call('R_swig_tc_setAllStraight', straight, PACKAGE='tinkercell')
-  
-}
-
-attr(`tc_setAllStraight`, 'returnType') = 'void'
-attr(`tc_setAllStraight`, "inputTypes") = c('integer')
-class(`tc_setAllStraight`) = c("SWIGFunction", class('tc_setAllStraight'))
-
-# Start of tc_setLineWidth
-
-`tc_setLineWidth` = function(item, width, permanent)
-{
-  item = as.integer(item) 
-  
-  if(length(item) > 1) {
-    warning("using only the first element of item")
-  }
-  
-  
-  permanent = as.integer(permanent) 
-  
-  if(length(permanent) > 1) {
-    warning("using only the first element of permanent")
-  }
-  
-  .Call('R_swig_tc_setLineWidth', item, width, permanent, PACKAGE='tinkercell')
-  
-}
-
-attr(`tc_setLineWidth`, 'returnType') = 'void'
-attr(`tc_setLineWidth`, "inputTypes") = c('integer', 'numeric', 'integer')
-class(`tc_setLineWidth`) = c("SWIGFunction", class('tc_setLineWidth'))
-
-# Start of tc_ConnectionSelection_api
-
-`tc_ConnectionSelection_api` = function(getControlPointX, getControlPointY, setControlPoint, setCenterPoint, getCenterPointX, getCenterPointY, setStraight, setAllStraight, setLineWidth)
-{
-  if(is.function(getControlPointX)) {
-    assert('...' %in% names(formals(getControlPointX)) || length(formals(getControlPointX)) >= 3)
-  } else {
-    if(is.character(getControlPointX)) {
-      getControlPointX = getNativeSymbolInfo(getControlPointX)
-    }
-    if(is(getControlPointX, "NativeSymbolInfo")) {
-      getControlPointX = getControlPointX$address
-    }
-  }
-  if(is.function(getControlPointY)) {
-    assert('...' %in% names(formals(getControlPointY)) || length(formals(getControlPointY)) >= 0)
-  } else {
-    if(is.character(getControlPointY)) {
-      getControlPointY = getNativeSymbolInfo(getControlPointY)
-    }
-    if(is(getControlPointY, "NativeSymbolInfo")) {
-      getControlPointY = getControlPointY$address
-    }
-  }
-  if(is.function(setControlPoint)) {
-    assert('...' %in% names(formals(setControlPoint)) || length(formals(setControlPoint)) >= 5)
-  } else {
-    if(is.character(setControlPoint)) {
-      setControlPoint = getNativeSymbolInfo(setControlPoint)
-    }
-    if(is(setControlPoint, "NativeSymbolInfo")) {
-      setControlPoint = setControlPoint$address
-    }
-  }
-  if(is.function(setCenterPoint)) {
-    assert('...' %in% names(formals(setCenterPoint)) || length(formals(setCenterPoint)) >= 0)
-  } else {
-    if(is.character(setCenterPoint)) {
-      setCenterPoint = getNativeSymbolInfo(setCenterPoint)
-    }
-    if(is(setCenterPoint, "NativeSymbolInfo")) {
-      setCenterPoint = setCenterPoint$address
-    }
-  }
-  if(is.function(getCenterPointX)) {
-    assert('...' %in% names(formals(getCenterPointX)) || length(formals(getCenterPointX)) >= 0)
-  } else {
-    if(is.character(getCenterPointX)) {
-      getCenterPointX = getNativeSymbolInfo(getCenterPointX)
-    }
-    if(is(getCenterPointX, "NativeSymbolInfo")) {
-      getCenterPointX = getCenterPointX$address
-    }
-  }
-  if(is.function(getCenterPointY)) {
-    assert('...' %in% names(formals(getCenterPointY)) || length(formals(getCenterPointY)) >= 0)
-  } else {
-    if(is.character(getCenterPointY)) {
-      getCenterPointY = getNativeSymbolInfo(getCenterPointY)
-    }
-    if(is(getCenterPointY, "NativeSymbolInfo")) {
-      getCenterPointY = getCenterPointY$address
-    }
-  }
-  if(is.function(setStraight)) {
-    assert('...' %in% names(formals(setStraight)) || length(formals(setStraight)) >= 2)
-  } else {
-    if(is.character(setStraight)) {
-      setStraight = getNativeSymbolInfo(setStraight)
-    }
-    if(is(setStraight, "NativeSymbolInfo")) {
-      setStraight = setStraight$address
-    }
-  }
-  if(is.function(setAllStraight)) {
-    assert('...' %in% names(formals(setAllStraight)) || length(formals(setAllStraight)) >= 1)
-  } else {
-    if(is.character(setAllStraight)) {
-      setAllStraight = getNativeSymbolInfo(setAllStraight)
-    }
-    if(is(setAllStraight, "NativeSymbolInfo")) {
-      setAllStraight = setAllStraight$address
-    }
-  }
-  if(is.function(setLineWidth)) {
-    assert('...' %in% names(formals(setLineWidth)) || length(formals(setLineWidth)) >= 0)
-  } else {
-    if(is.character(setLineWidth)) {
-      setLineWidth = getNativeSymbolInfo(setLineWidth)
-    }
-    if(is(setLineWidth, "NativeSymbolInfo")) {
-      setLineWidth = setLineWidth$address
-    }
-  }
-  .Call('R_swig_tc_ConnectionSelection_api', getControlPointX, getControlPointY, setControlPoint, setCenterPoint, getCenterPointX, getCenterPointY, setStraight, setAllStraight, setLineWidth, PACKAGE='tinkercell')
-  
-}
-
-attr(`tc_ConnectionSelection_api`, 'returnType') = 'void'
-attr(`tc_ConnectionSelection_api`, "inputTypes") = c('_p_f_long_long_int__double', '_p_f_long_long_int__double', '_p_f_long_long_int_double_double__void', '_p_f_long_double_double__void', '_p_f_long__double', '_p_f_long__double', '_p_f_long_int__void', '_p_f_int__void', '_p_f_long_double_int__void')
-class(`tc_ConnectionSelection_api`) = c("SWIGFunction", class('tc_ConnectionSelection_api'))
 
 # Start of tc_merge
 

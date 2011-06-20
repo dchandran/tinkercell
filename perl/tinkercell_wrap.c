@@ -1610,10 +1610,10 @@ SWIGEXPORT void SWIG_init (CV *cv, CPerlObj *);
 
 
 #include "TC_structs.h"
+%include "AutoLayout.h"
 #include "TC_Main_api.h"
 #include "TC_BasicInformationTool_api.h"
 #include "TC_ConnectionInsertion_api.h"
-#include "TC_ConnectionSelection_api.h"
 #include "TC_GroupHandlerTool_api.h"
 #include "TC_NodeInsertion_api.h"
 #include "TC_StoichiometryTool_api.h"
@@ -6702,6 +6702,383 @@ XS(_wrap_tc_insertAnnotations) {
 }
 
 
+XS(_wrap_tc_getControlPointX) {
+  {
+    long arg1 ;
+    long arg2 ;
+    int arg3 ;
+    long val1 ;
+    int ecode1 = 0 ;
+    long val2 ;
+    int ecode2 = 0 ;
+    int val3 ;
+    int ecode3 = 0 ;
+    int argvi = 0;
+    double result;
+    dXSARGS;
+    
+    if ((items < 3) || (items > 3)) {
+      SWIG_croak("Usage: tc_getControlPointX(connection,part,whichPoint);");
+    }
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    if (!SWIG_IsOK(ecode1)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getControlPointX" "', argument " "1"" of type '" "long""'");
+    } 
+    arg1 = (long)(val1);
+    ecode2 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
+    if (!SWIG_IsOK(ecode2)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_getControlPointX" "', argument " "2"" of type '" "long""'");
+    } 
+    arg2 = (long)(val2);
+    ecode3 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(2), &val3);
+    if (!SWIG_IsOK(ecode3)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "tc_getControlPointX" "', argument " "3"" of type '" "int""'");
+    } 
+    arg3 = (int)(val3);
+    result = (double)tc_getControlPointX(arg1,arg2,arg3);
+    ST(argvi) = SWIG_From_double  SWIG_PERL_CALL_ARGS_1((double)(result)); argvi++ ;
+    
+    
+    
+    XSRETURN(argvi);
+  fail:
+    
+    
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_tc_getControlPointY) {
+  {
+    long arg1 ;
+    long arg2 ;
+    int arg3 ;
+    long val1 ;
+    int ecode1 = 0 ;
+    long val2 ;
+    int ecode2 = 0 ;
+    int val3 ;
+    int ecode3 = 0 ;
+    int argvi = 0;
+    double result;
+    dXSARGS;
+    
+    if ((items < 3) || (items > 3)) {
+      SWIG_croak("Usage: tc_getControlPointY(connection,part,whichPoint);");
+    }
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    if (!SWIG_IsOK(ecode1)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getControlPointY" "', argument " "1"" of type '" "long""'");
+    } 
+    arg1 = (long)(val1);
+    ecode2 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
+    if (!SWIG_IsOK(ecode2)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_getControlPointY" "', argument " "2"" of type '" "long""'");
+    } 
+    arg2 = (long)(val2);
+    ecode3 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(2), &val3);
+    if (!SWIG_IsOK(ecode3)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "tc_getControlPointY" "', argument " "3"" of type '" "int""'");
+    } 
+    arg3 = (int)(val3);
+    result = (double)tc_getControlPointY(arg1,arg2,arg3);
+    ST(argvi) = SWIG_From_double  SWIG_PERL_CALL_ARGS_1((double)(result)); argvi++ ;
+    
+    
+    
+    XSRETURN(argvi);
+  fail:
+    
+    
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_tc_setControlPoint) {
+  {
+    long arg1 ;
+    long arg2 ;
+    int arg3 ;
+    double arg4 ;
+    double arg5 ;
+    long val1 ;
+    int ecode1 = 0 ;
+    long val2 ;
+    int ecode2 = 0 ;
+    int val3 ;
+    int ecode3 = 0 ;
+    double val4 ;
+    int ecode4 = 0 ;
+    double val5 ;
+    int ecode5 = 0 ;
+    int argvi = 0;
+    dXSARGS;
+    
+    if ((items < 5) || (items > 5)) {
+      SWIG_croak("Usage: tc_setControlPoint(connection,part,whichPoint,x,y);");
+    }
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    if (!SWIG_IsOK(ecode1)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setControlPoint" "', argument " "1"" of type '" "long""'");
+    } 
+    arg1 = (long)(val1);
+    ecode2 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
+    if (!SWIG_IsOK(ecode2)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_setControlPoint" "', argument " "2"" of type '" "long""'");
+    } 
+    arg2 = (long)(val2);
+    ecode3 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(2), &val3);
+    if (!SWIG_IsOK(ecode3)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "tc_setControlPoint" "', argument " "3"" of type '" "int""'");
+    } 
+    arg3 = (int)(val3);
+    ecode4 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(3), &val4);
+    if (!SWIG_IsOK(ecode4)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "tc_setControlPoint" "', argument " "4"" of type '" "double""'");
+    } 
+    arg4 = (double)(val4);
+    ecode5 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(4), &val5);
+    if (!SWIG_IsOK(ecode5)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "tc_setControlPoint" "', argument " "5"" of type '" "double""'");
+    } 
+    arg5 = (double)(val5);
+    tc_setControlPoint(arg1,arg2,arg3,arg4,arg5);
+    ST(argvi) = sv_newmortal();
+    
+    
+    
+    
+    
+    XSRETURN(argvi);
+  fail:
+    
+    
+    
+    
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_tc_setCenterPoint) {
+  {
+    long arg1 ;
+    double arg2 ;
+    double arg3 ;
+    long val1 ;
+    int ecode1 = 0 ;
+    double val2 ;
+    int ecode2 = 0 ;
+    double val3 ;
+    int ecode3 = 0 ;
+    int argvi = 0;
+    dXSARGS;
+    
+    if ((items < 3) || (items > 3)) {
+      SWIG_croak("Usage: tc_setCenterPoint(connection,y,x);");
+    }
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    if (!SWIG_IsOK(ecode1)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setCenterPoint" "', argument " "1"" of type '" "long""'");
+    } 
+    arg1 = (long)(val1);
+    ecode2 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
+    if (!SWIG_IsOK(ecode2)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_setCenterPoint" "', argument " "2"" of type '" "double""'");
+    } 
+    arg2 = (double)(val2);
+    ecode3 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(2), &val3);
+    if (!SWIG_IsOK(ecode3)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "tc_setCenterPoint" "', argument " "3"" of type '" "double""'");
+    } 
+    arg3 = (double)(val3);
+    tc_setCenterPoint(arg1,arg2,arg3);
+    ST(argvi) = sv_newmortal();
+    
+    
+    
+    XSRETURN(argvi);
+  fail:
+    
+    
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_tc_getCenterPointX) {
+  {
+    long arg1 ;
+    long val1 ;
+    int ecode1 = 0 ;
+    int argvi = 0;
+    double result;
+    dXSARGS;
+    
+    if ((items < 1) || (items > 1)) {
+      SWIG_croak("Usage: tc_getCenterPointX(connection);");
+    }
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    if (!SWIG_IsOK(ecode1)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getCenterPointX" "', argument " "1"" of type '" "long""'");
+    } 
+    arg1 = (long)(val1);
+    result = (double)tc_getCenterPointX(arg1);
+    ST(argvi) = SWIG_From_double  SWIG_PERL_CALL_ARGS_1((double)(result)); argvi++ ;
+    
+    XSRETURN(argvi);
+  fail:
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_tc_getCenterPointY) {
+  {
+    long arg1 ;
+    long val1 ;
+    int ecode1 = 0 ;
+    int argvi = 0;
+    double result;
+    dXSARGS;
+    
+    if ((items < 1) || (items > 1)) {
+      SWIG_croak("Usage: tc_getCenterPointY(connection);");
+    }
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    if (!SWIG_IsOK(ecode1)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getCenterPointY" "', argument " "1"" of type '" "long""'");
+    } 
+    arg1 = (long)(val1);
+    result = (double)tc_getCenterPointY(arg1);
+    ST(argvi) = SWIG_From_double  SWIG_PERL_CALL_ARGS_1((double)(result)); argvi++ ;
+    
+    XSRETURN(argvi);
+  fail:
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_tc_setStraight) {
+  {
+    long arg1 ;
+    int arg2 ;
+    long val1 ;
+    int ecode1 = 0 ;
+    int val2 ;
+    int ecode2 = 0 ;
+    int argvi = 0;
+    dXSARGS;
+    
+    if ((items < 2) || (items > 2)) {
+      SWIG_croak("Usage: tc_setStraight(item,straight);");
+    }
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    if (!SWIG_IsOK(ecode1)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setStraight" "', argument " "1"" of type '" "long""'");
+    } 
+    arg1 = (long)(val1);
+    ecode2 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
+    if (!SWIG_IsOK(ecode2)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_setStraight" "', argument " "2"" of type '" "int""'");
+    } 
+    arg2 = (int)(val2);
+    tc_setStraight(arg1,arg2);
+    ST(argvi) = sv_newmortal();
+    
+    
+    XSRETURN(argvi);
+  fail:
+    
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_tc_setAllStraight) {
+  {
+    int arg1 ;
+    int val1 ;
+    int ecode1 = 0 ;
+    int argvi = 0;
+    dXSARGS;
+    
+    if ((items < 1) || (items > 1)) {
+      SWIG_croak("Usage: tc_setAllStraight(straight);");
+    }
+    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    if (!SWIG_IsOK(ecode1)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setAllStraight" "', argument " "1"" of type '" "int""'");
+    } 
+    arg1 = (int)(val1);
+    tc_setAllStraight(arg1);
+    ST(argvi) = sv_newmortal();
+    
+    XSRETURN(argvi);
+  fail:
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_tc_setLineWidth) {
+  {
+    long arg1 ;
+    double arg2 ;
+    int arg3 ;
+    long val1 ;
+    int ecode1 = 0 ;
+    double val2 ;
+    int ecode2 = 0 ;
+    int val3 ;
+    int ecode3 = 0 ;
+    int argvi = 0;
+    dXSARGS;
+    
+    if ((items < 3) || (items > 3)) {
+      SWIG_croak("Usage: tc_setLineWidth(item,width,permanent);");
+    }
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    if (!SWIG_IsOK(ecode1)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setLineWidth" "', argument " "1"" of type '" "long""'");
+    } 
+    arg1 = (long)(val1);
+    ecode2 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
+    if (!SWIG_IsOK(ecode2)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_setLineWidth" "', argument " "2"" of type '" "double""'");
+    } 
+    arg2 = (double)(val2);
+    ecode3 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(2), &val3);
+    if (!SWIG_IsOK(ecode3)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "tc_setLineWidth" "', argument " "3"" of type '" "int""'");
+    } 
+    arg3 = (int)(val3);
+    tc_setLineWidth(arg1,arg2,arg3);
+    ST(argvi) = sv_newmortal();
+    
+    
+    
+    XSRETURN(argvi);
+  fail:
+    
+    
+    
+    SWIG_croak_null();
+  }
+}
+
+
 XS(_wrap_tc_Main_api_initialize) {
   {
     tc_items (*arg1)() = (tc_items (*)()) 0 ;
@@ -6782,11 +7159,20 @@ XS(_wrap_tc_Main_api_initialize) {
     double (*arg76)(char const *) = (double (*)(char const *)) 0 ;
     char *(*arg77)(char const *) = (char *(*)(char const *)) 0 ;
     void (*arg78)() = (void (*)()) 0 ;
+    double (*arg79)(long,long,int) = (double (*)(long,long,int)) 0 ;
+    double (*arg80)(long,long,int) = (double (*)(long,long,int)) 0 ;
+    void (*arg81)(long,long,int,double,double) = (void (*)(long,long,int,double,double)) 0 ;
+    void (*arg82)(long,double,double) = (void (*)(long,double,double)) 0 ;
+    double (*arg83)(long) = (double (*)(long)) 0 ;
+    double (*arg84)(long) = (double (*)(long)) 0 ;
+    void (*arg85)(long,int) = (void (*)(long,int)) 0 ;
+    void (*arg86)(int) = (void (*)(int)) 0 ;
+    void (*arg87)(long,double,int) = (void (*)(long,double,int)) 0 ;
     int argvi = 0;
     dXSARGS;
     
-    if ((items < 78) || (items > 78)) {
-      SWIG_croak("Usage: tc_Main_api_initialize(tc_allItems0,tc_selectedItems0,tc_itemsOfFamily0,tc_itemsOfFamily1,tc_find0,tc_findItems0,tc_select0,tc_deselect0,tc_getName0,tc_getUniqueName0,tc_setName0,tc_getNames0,tc_getUniqueNames0,tc_getFamily0,tc_isA0,tc_clearText,tc_outputText0,tc_errorReport0,tc_outputTable0,tc_printFile0,tc_removeItem0,tc_getY0,tc_getX0,tc_getPos0,tc_setPos0,tc_setPos1,tc_moveSelected0,tc_isWindows0,tc_isMac0,tc_isLinux0,tc_appDir0,tc_homeDir0,tc_createInputWindow0,tc_createInputWindow1,createSliders,tc_addInputWindowOptions0,tc_addInputWindowCheckbox0,tc_openNewWindow0,tc_getChildren0,tc_getParent0,tc_getNumericalData0,tc_setNumericalData0,tc_getTextData0,tc_setTextData0,tc_getNumericalDataNames0,tc_getTextDataNames0,tc_zoom0,tc_getStringDialog0,getSelectedString,getNumber,getNumbers,getFilename,askQuestion,messageDialog,openFile,saveToFile,setSize0,getWidth0,getHeight0,setAngle0,getColor,setColor0,changeGraphics0,changeArrowHead0,screenshot,screenHeight,screenWidth,screenX,screenY,annotations,insertAnnotations,setNumericalValues,setNumericalValue,setTextValues,setTextValue,getNumericalValue,getTextValue,openUrl);");
+    if ((items < 87) || (items > 87)) {
+      SWIG_croak("Usage: tc_Main_api_initialize(tc_allItems0,tc_selectedItems0,tc_itemsOfFamily0,tc_itemsOfFamily1,tc_find0,tc_findItems0,tc_select0,tc_deselect0,tc_getName0,tc_getUniqueName0,tc_setName0,tc_getNames0,tc_getUniqueNames0,tc_getFamily0,tc_isA0,tc_clearText,tc_outputText0,tc_errorReport0,tc_outputTable0,tc_printFile0,tc_removeItem0,tc_getY0,tc_getX0,tc_getPos0,tc_setPos0,tc_setPos1,tc_moveSelected0,tc_isWindows0,tc_isMac0,tc_isLinux0,tc_appDir0,tc_homeDir0,tc_createInputWindow0,tc_createInputWindow1,createSliders,tc_addInputWindowOptions0,tc_addInputWindowCheckbox0,tc_openNewWindow0,tc_getChildren0,tc_getParent0,tc_getNumericalData0,tc_setNumericalData0,tc_getTextData0,tc_setTextData0,tc_getNumericalDataNames0,tc_getTextDataNames0,tc_zoom0,tc_getStringDialog0,getSelectedString,getNumber,getNumbers,getFilename,askQuestion,messageDialog,openFile,saveToFile,setSize0,getWidth0,getHeight0,setAngle0,getColor,setColor0,changeGraphics0,changeArrowHead0,screenshot,screenHeight,screenWidth,screenX,screenY,annotations,insertAnnotations,setNumericalValues,setNumericalValue,setTextValues,setTextValue,getNumericalValue,getTextValue,openUrl,getControlPointX,getControlPointY,setControlPoint,setCenterPoint,getCenterPointX,getCenterPointY,setStraight,setAllStraight,setLineWidth);");
     }
     {
       int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f___tc_items);
@@ -7256,8 +7642,71 @@ XS(_wrap_tc_Main_api_initialize) {
         SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "78"" of type '" "void (*)()""'"); 
       }
     }
-    tc_Main_api_initialize(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,(char const *(*)(long))arg9,(char const *(*)(long))arg10,arg11,arg12,arg13,(char const *(*)(long))arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23,arg24,arg25,arg26,arg27,arg28,arg29,arg30,(char const *(*)())arg31,(char const *(*)())arg32,arg33,arg34,arg35,arg36,arg37,arg38,arg39,arg40,arg41,arg42,arg43,arg44,arg45,arg46,arg47,(char const *(*)(char const *))arg48,arg49,arg50,arg51,(char const *(*)())arg52,arg53,arg54,arg55,arg56,arg57,arg58,arg59,arg60,(char const *(*)(long))arg61,arg62,arg63,arg64,arg65,arg66,arg67,arg68,arg69,(char const *(*)())arg70,arg71,arg72,arg73,arg74,arg75,arg76,(char const *(*)(char const *))arg77,arg78);
+    {
+      int res = SWIG_ConvertFunctionPtr(ST(78), (void**)(&arg79), SWIGTYPE_p_f_long_long_int__double);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "79"" of type '" "double (*)(long,long,int)""'"); 
+      }
+    }
+    {
+      int res = SWIG_ConvertFunctionPtr(ST(79), (void**)(&arg80), SWIGTYPE_p_f_long_long_int__double);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "80"" of type '" "double (*)(long,long,int)""'"); 
+      }
+    }
+    {
+      int res = SWIG_ConvertFunctionPtr(ST(80), (void**)(&arg81), SWIGTYPE_p_f_long_long_int_double_double__void);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "81"" of type '" "void (*)(long,long,int,double,double)""'"); 
+      }
+    }
+    {
+      int res = SWIG_ConvertFunctionPtr(ST(81), (void**)(&arg82), SWIGTYPE_p_f_long_double_double__void);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "82"" of type '" "void (*)(long,double,double)""'"); 
+      }
+    }
+    {
+      int res = SWIG_ConvertFunctionPtr(ST(82), (void**)(&arg83), SWIGTYPE_p_f_long__double);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "83"" of type '" "double (*)(long)""'"); 
+      }
+    }
+    {
+      int res = SWIG_ConvertFunctionPtr(ST(83), (void**)(&arg84), SWIGTYPE_p_f_long__double);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "84"" of type '" "double (*)(long)""'"); 
+      }
+    }
+    {
+      int res = SWIG_ConvertFunctionPtr(ST(84), (void**)(&arg85), SWIGTYPE_p_f_long_int__void);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "85"" of type '" "void (*)(long,int)""'"); 
+      }
+    }
+    {
+      int res = SWIG_ConvertFunctionPtr(ST(85), (void**)(&arg86), SWIGTYPE_p_f_int__void);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "86"" of type '" "void (*)(int)""'"); 
+      }
+    }
+    {
+      int res = SWIG_ConvertFunctionPtr(ST(86), (void**)(&arg87), SWIGTYPE_p_f_long_double_int__void);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "87"" of type '" "void (*)(long,double,int)""'"); 
+      }
+    }
+    tc_Main_api_initialize(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,(char const *(*)(long))arg9,(char const *(*)(long))arg10,arg11,arg12,arg13,(char const *(*)(long))arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23,arg24,arg25,arg26,arg27,arg28,arg29,arg30,(char const *(*)())arg31,(char const *(*)())arg32,arg33,arg34,arg35,arg36,arg37,arg38,arg39,arg40,arg41,arg42,arg43,arg44,arg45,arg46,arg47,(char const *(*)(char const *))arg48,arg49,arg50,arg51,(char const *(*)())arg52,arg53,arg54,arg55,arg56,arg57,arg58,arg59,arg60,(char const *(*)(long))arg61,arg62,arg63,arg64,arg65,arg66,arg67,arg68,arg69,(char const *(*)())arg70,arg71,arg72,arg73,arg74,arg75,arg76,(char const *(*)(char const *))arg77,arg78,arg79,arg80,arg81,arg82,arg83,arg84,arg85,arg86,arg87);
     ST(argvi) = sv_newmortal();
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
@@ -7338,6 +7787,15 @@ XS(_wrap_tc_Main_api_initialize) {
     
     XSRETURN(argvi);
   fail:
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
@@ -7808,6 +8266,167 @@ XS(_wrap_tc_LabelingTool_api) {
   fail:
     
     
+    
+    
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_Autolayout) {
+  {
+    tc_matrix arg1 ;
+    tc_matrix arg2 ;
+    double arg3 ;
+    double arg4 ;
+    double arg5 ;
+    double arg6 ;
+    void *argp1 ;
+    int res1 = 0 ;
+    void *argp2 ;
+    int res2 = 0 ;
+    double val3 ;
+    int ecode3 = 0 ;
+    double val4 ;
+    int ecode4 = 0 ;
+    double val5 ;
+    int ecode5 = 0 ;
+    double val6 ;
+    int ecode6 = 0 ;
+    int argvi = 0;
+    dXSARGS;
+    
+    if ((items < 6) || (items > 6)) {
+      SWIG_croak("Usage: Autolayout(positions,connections,spring,charge,damping,threshold);");
+    }
+    {
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_matrix,  0 );
+      if (!SWIG_IsOK(res1)) {
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Autolayout" "', argument " "1"" of type '" "tc_matrix""'"); 
+      }  
+      if (!argp1) {
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Autolayout" "', argument " "1"" of type '" "tc_matrix""'");
+      } else {
+        arg1 = *((tc_matrix *)(argp1));
+      }
+    }
+    {
+      res2 = SWIG_ConvertPtr(ST(1), &argp2, SWIGTYPE_p_tc_matrix,  0 );
+      if (!SWIG_IsOK(res2)) {
+        SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Autolayout" "', argument " "2"" of type '" "tc_matrix""'"); 
+      }  
+      if (!argp2) {
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Autolayout" "', argument " "2"" of type '" "tc_matrix""'");
+      } else {
+        arg2 = *((tc_matrix *)(argp2));
+      }
+    }
+    ecode3 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(2), &val3);
+    if (!SWIG_IsOK(ecode3)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "Autolayout" "', argument " "3"" of type '" "double""'");
+    } 
+    arg3 = (double)(val3);
+    ecode4 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(3), &val4);
+    if (!SWIG_IsOK(ecode4)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "Autolayout" "', argument " "4"" of type '" "double""'");
+    } 
+    arg4 = (double)(val4);
+    ecode5 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(4), &val5);
+    if (!SWIG_IsOK(ecode5)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "Autolayout" "', argument " "5"" of type '" "double""'");
+    } 
+    arg5 = (double)(val5);
+    ecode6 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(5), &val6);
+    if (!SWIG_IsOK(ecode6)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode6), "in method '" "Autolayout" "', argument " "6"" of type '" "double""'");
+    } 
+    arg6 = (double)(val6);
+    Autolayout(arg1,arg2,arg3,arg4,arg5,arg6);
+    ST(argvi) = sv_newmortal();
+    
+    
+    
+    
+    XSRETURN(argvi);
+  fail:
+    
+    
+    
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_ApplySpringForce) {
+  {
+    tc_matrix arg1 ;
+    tc_matrix arg2 ;
+    double arg3 ;
+    double arg4 ;
+    double arg5 ;
+    void *argp1 ;
+    int res1 = 0 ;
+    void *argp2 ;
+    int res2 = 0 ;
+    double val3 ;
+    int ecode3 = 0 ;
+    double val4 ;
+    int ecode4 = 0 ;
+    double val5 ;
+    int ecode5 = 0 ;
+    int argvi = 0;
+    double result;
+    dXSARGS;
+    
+    if ((items < 5) || (items > 5)) {
+      SWIG_croak("Usage: ApplySpringForce(nodes,connections,spring,charge,damping);");
+    }
+    {
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_matrix,  0 );
+      if (!SWIG_IsOK(res1)) {
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ApplySpringForce" "', argument " "1"" of type '" "tc_matrix""'"); 
+      }  
+      if (!argp1) {
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "ApplySpringForce" "', argument " "1"" of type '" "tc_matrix""'");
+      } else {
+        arg1 = *((tc_matrix *)(argp1));
+      }
+    }
+    {
+      res2 = SWIG_ConvertPtr(ST(1), &argp2, SWIGTYPE_p_tc_matrix,  0 );
+      if (!SWIG_IsOK(res2)) {
+        SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "ApplySpringForce" "', argument " "2"" of type '" "tc_matrix""'"); 
+      }  
+      if (!argp2) {
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "ApplySpringForce" "', argument " "2"" of type '" "tc_matrix""'");
+      } else {
+        arg2 = *((tc_matrix *)(argp2));
+      }
+    }
+    ecode3 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(2), &val3);
+    if (!SWIG_IsOK(ecode3)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "ApplySpringForce" "', argument " "3"" of type '" "double""'");
+    } 
+    arg3 = (double)(val3);
+    ecode4 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(3), &val4);
+    if (!SWIG_IsOK(ecode4)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "ApplySpringForce" "', argument " "4"" of type '" "double""'");
+    } 
+    arg4 = (double)(val4);
+    ecode5 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(4), &val5);
+    if (!SWIG_IsOK(ecode5)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "ApplySpringForce" "', argument " "5"" of type '" "double""'");
+    } 
+    arg5 = (double)(val5);
+    result = (double)ApplySpringForce(arg1,arg2,arg3,arg4,arg5);
+    ST(argvi) = SWIG_From_double  SWIG_PERL_CALL_ARGS_1((double)(result)); argvi++ ;
+    
+    
+    
+    XSRETURN(argvi);
+  fail:
     
     
     
@@ -8833,481 +9452,6 @@ XS(_wrap_tc_ConnectionInsertion_api) {
     
     XSRETURN(argvi);
   fail:
-    
-    
-    
-    
-    
-    SWIG_croak_null();
-  }
-}
-
-
-XS(_wrap_tc_getControlPointX) {
-  {
-    long arg1 ;
-    long arg2 ;
-    int arg3 ;
-    long val1 ;
-    int ecode1 = 0 ;
-    long val2 ;
-    int ecode2 = 0 ;
-    int val3 ;
-    int ecode3 = 0 ;
-    int argvi = 0;
-    double result;
-    dXSARGS;
-    
-    if ((items < 3) || (items > 3)) {
-      SWIG_croak("Usage: tc_getControlPointX(connection,part,whichPoint);");
-    }
-    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
-    if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getControlPointX" "', argument " "1"" of type '" "long""'");
-    } 
-    arg1 = (long)(val1);
-    ecode2 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
-    if (!SWIG_IsOK(ecode2)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_getControlPointX" "', argument " "2"" of type '" "long""'");
-    } 
-    arg2 = (long)(val2);
-    ecode3 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(2), &val3);
-    if (!SWIG_IsOK(ecode3)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "tc_getControlPointX" "', argument " "3"" of type '" "int""'");
-    } 
-    arg3 = (int)(val3);
-    result = (double)tc_getControlPointX(arg1,arg2,arg3);
-    ST(argvi) = SWIG_From_double  SWIG_PERL_CALL_ARGS_1((double)(result)); argvi++ ;
-    
-    
-    
-    XSRETURN(argvi);
-  fail:
-    
-    
-    
-    SWIG_croak_null();
-  }
-}
-
-
-XS(_wrap_tc_getControlPointY) {
-  {
-    long arg1 ;
-    long arg2 ;
-    int arg3 ;
-    long val1 ;
-    int ecode1 = 0 ;
-    long val2 ;
-    int ecode2 = 0 ;
-    int val3 ;
-    int ecode3 = 0 ;
-    int argvi = 0;
-    double result;
-    dXSARGS;
-    
-    if ((items < 3) || (items > 3)) {
-      SWIG_croak("Usage: tc_getControlPointY(connection,part,whichPoint);");
-    }
-    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
-    if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getControlPointY" "', argument " "1"" of type '" "long""'");
-    } 
-    arg1 = (long)(val1);
-    ecode2 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
-    if (!SWIG_IsOK(ecode2)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_getControlPointY" "', argument " "2"" of type '" "long""'");
-    } 
-    arg2 = (long)(val2);
-    ecode3 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(2), &val3);
-    if (!SWIG_IsOK(ecode3)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "tc_getControlPointY" "', argument " "3"" of type '" "int""'");
-    } 
-    arg3 = (int)(val3);
-    result = (double)tc_getControlPointY(arg1,arg2,arg3);
-    ST(argvi) = SWIG_From_double  SWIG_PERL_CALL_ARGS_1((double)(result)); argvi++ ;
-    
-    
-    
-    XSRETURN(argvi);
-  fail:
-    
-    
-    
-    SWIG_croak_null();
-  }
-}
-
-
-XS(_wrap_tc_setControlPoint) {
-  {
-    long arg1 ;
-    long arg2 ;
-    int arg3 ;
-    double arg4 ;
-    double arg5 ;
-    long val1 ;
-    int ecode1 = 0 ;
-    long val2 ;
-    int ecode2 = 0 ;
-    int val3 ;
-    int ecode3 = 0 ;
-    double val4 ;
-    int ecode4 = 0 ;
-    double val5 ;
-    int ecode5 = 0 ;
-    int argvi = 0;
-    dXSARGS;
-    
-    if ((items < 5) || (items > 5)) {
-      SWIG_croak("Usage: tc_setControlPoint(connection,part,whichPoint,x,y);");
-    }
-    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
-    if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setControlPoint" "', argument " "1"" of type '" "long""'");
-    } 
-    arg1 = (long)(val1);
-    ecode2 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
-    if (!SWIG_IsOK(ecode2)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_setControlPoint" "', argument " "2"" of type '" "long""'");
-    } 
-    arg2 = (long)(val2);
-    ecode3 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(2), &val3);
-    if (!SWIG_IsOK(ecode3)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "tc_setControlPoint" "', argument " "3"" of type '" "int""'");
-    } 
-    arg3 = (int)(val3);
-    ecode4 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(3), &val4);
-    if (!SWIG_IsOK(ecode4)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "tc_setControlPoint" "', argument " "4"" of type '" "double""'");
-    } 
-    arg4 = (double)(val4);
-    ecode5 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(4), &val5);
-    if (!SWIG_IsOK(ecode5)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "tc_setControlPoint" "', argument " "5"" of type '" "double""'");
-    } 
-    arg5 = (double)(val5);
-    tc_setControlPoint(arg1,arg2,arg3,arg4,arg5);
-    ST(argvi) = sv_newmortal();
-    
-    
-    
-    
-    
-    XSRETURN(argvi);
-  fail:
-    
-    
-    
-    
-    
-    SWIG_croak_null();
-  }
-}
-
-
-XS(_wrap_tc_setCenterPoint) {
-  {
-    long arg1 ;
-    double arg2 ;
-    double arg3 ;
-    long val1 ;
-    int ecode1 = 0 ;
-    double val2 ;
-    int ecode2 = 0 ;
-    double val3 ;
-    int ecode3 = 0 ;
-    int argvi = 0;
-    dXSARGS;
-    
-    if ((items < 3) || (items > 3)) {
-      SWIG_croak("Usage: tc_setCenterPoint(connection,y,x);");
-    }
-    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
-    if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setCenterPoint" "', argument " "1"" of type '" "long""'");
-    } 
-    arg1 = (long)(val1);
-    ecode2 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
-    if (!SWIG_IsOK(ecode2)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_setCenterPoint" "', argument " "2"" of type '" "double""'");
-    } 
-    arg2 = (double)(val2);
-    ecode3 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(2), &val3);
-    if (!SWIG_IsOK(ecode3)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "tc_setCenterPoint" "', argument " "3"" of type '" "double""'");
-    } 
-    arg3 = (double)(val3);
-    tc_setCenterPoint(arg1,arg2,arg3);
-    ST(argvi) = sv_newmortal();
-    
-    
-    
-    XSRETURN(argvi);
-  fail:
-    
-    
-    
-    SWIG_croak_null();
-  }
-}
-
-
-XS(_wrap_tc_getCenterPointX) {
-  {
-    long arg1 ;
-    long val1 ;
-    int ecode1 = 0 ;
-    int argvi = 0;
-    double result;
-    dXSARGS;
-    
-    if ((items < 1) || (items > 1)) {
-      SWIG_croak("Usage: tc_getCenterPointX(connection);");
-    }
-    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
-    if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getCenterPointX" "', argument " "1"" of type '" "long""'");
-    } 
-    arg1 = (long)(val1);
-    result = (double)tc_getCenterPointX(arg1);
-    ST(argvi) = SWIG_From_double  SWIG_PERL_CALL_ARGS_1((double)(result)); argvi++ ;
-    
-    XSRETURN(argvi);
-  fail:
-    
-    SWIG_croak_null();
-  }
-}
-
-
-XS(_wrap_tc_getCenterPointY) {
-  {
-    long arg1 ;
-    long val1 ;
-    int ecode1 = 0 ;
-    int argvi = 0;
-    double result;
-    dXSARGS;
-    
-    if ((items < 1) || (items > 1)) {
-      SWIG_croak("Usage: tc_getCenterPointY(connection);");
-    }
-    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
-    if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getCenterPointY" "', argument " "1"" of type '" "long""'");
-    } 
-    arg1 = (long)(val1);
-    result = (double)tc_getCenterPointY(arg1);
-    ST(argvi) = SWIG_From_double  SWIG_PERL_CALL_ARGS_1((double)(result)); argvi++ ;
-    
-    XSRETURN(argvi);
-  fail:
-    
-    SWIG_croak_null();
-  }
-}
-
-
-XS(_wrap_tc_setStraight) {
-  {
-    long arg1 ;
-    int arg2 ;
-    long val1 ;
-    int ecode1 = 0 ;
-    int val2 ;
-    int ecode2 = 0 ;
-    int argvi = 0;
-    dXSARGS;
-    
-    if ((items < 2) || (items > 2)) {
-      SWIG_croak("Usage: tc_setStraight(item,straight);");
-    }
-    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
-    if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setStraight" "', argument " "1"" of type '" "long""'");
-    } 
-    arg1 = (long)(val1);
-    ecode2 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
-    if (!SWIG_IsOK(ecode2)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_setStraight" "', argument " "2"" of type '" "int""'");
-    } 
-    arg2 = (int)(val2);
-    tc_setStraight(arg1,arg2);
-    ST(argvi) = sv_newmortal();
-    
-    
-    XSRETURN(argvi);
-  fail:
-    
-    
-    SWIG_croak_null();
-  }
-}
-
-
-XS(_wrap_tc_setAllStraight) {
-  {
-    int arg1 ;
-    int val1 ;
-    int ecode1 = 0 ;
-    int argvi = 0;
-    dXSARGS;
-    
-    if ((items < 1) || (items > 1)) {
-      SWIG_croak("Usage: tc_setAllStraight(straight);");
-    }
-    ecode1 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
-    if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setAllStraight" "', argument " "1"" of type '" "int""'");
-    } 
-    arg1 = (int)(val1);
-    tc_setAllStraight(arg1);
-    ST(argvi) = sv_newmortal();
-    
-    XSRETURN(argvi);
-  fail:
-    
-    SWIG_croak_null();
-  }
-}
-
-
-XS(_wrap_tc_setLineWidth) {
-  {
-    long arg1 ;
-    double arg2 ;
-    int arg3 ;
-    long val1 ;
-    int ecode1 = 0 ;
-    double val2 ;
-    int ecode2 = 0 ;
-    int val3 ;
-    int ecode3 = 0 ;
-    int argvi = 0;
-    dXSARGS;
-    
-    if ((items < 3) || (items > 3)) {
-      SWIG_croak("Usage: tc_setLineWidth(item,width,permanent);");
-    }
-    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
-    if (!SWIG_IsOK(ecode1)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setLineWidth" "', argument " "1"" of type '" "long""'");
-    } 
-    arg1 = (long)(val1);
-    ecode2 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
-    if (!SWIG_IsOK(ecode2)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_setLineWidth" "', argument " "2"" of type '" "double""'");
-    } 
-    arg2 = (double)(val2);
-    ecode3 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(2), &val3);
-    if (!SWIG_IsOK(ecode3)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "tc_setLineWidth" "', argument " "3"" of type '" "int""'");
-    } 
-    arg3 = (int)(val3);
-    tc_setLineWidth(arg1,arg2,arg3);
-    ST(argvi) = sv_newmortal();
-    
-    
-    
-    XSRETURN(argvi);
-  fail:
-    
-    
-    
-    SWIG_croak_null();
-  }
-}
-
-
-XS(_wrap_tc_ConnectionSelection_api) {
-  {
-    double (*arg1)(long,long,int) = (double (*)(long,long,int)) 0 ;
-    double (*arg2)(long,long,int) = (double (*)(long,long,int)) 0 ;
-    void (*arg3)(long,long,int,double,double) = (void (*)(long,long,int,double,double)) 0 ;
-    void (*arg4)(long,double,double) = (void (*)(long,double,double)) 0 ;
-    double (*arg5)(long) = (double (*)(long)) 0 ;
-    double (*arg6)(long) = (double (*)(long)) 0 ;
-    void (*arg7)(long,int) = (void (*)(long,int)) 0 ;
-    void (*arg8)(int) = (void (*)(int)) 0 ;
-    void (*arg9)(long,double,int) = (void (*)(long,double,int)) 0 ;
-    int argvi = 0;
-    dXSARGS;
-    
-    if ((items < 9) || (items > 9)) {
-      SWIG_croak("Usage: tc_ConnectionSelection_api(getControlPointX,getControlPointY,setControlPoint,setCenterPoint,getCenterPointX,getCenterPointY,setStraight,setAllStraight,setLineWidth);");
-    }
-    {
-      int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_long_long_int__double);
-      if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "1"" of type '" "double (*)(long,long,int)""'"); 
-      }
-    }
-    {
-      int res = SWIG_ConvertFunctionPtr(ST(1), (void**)(&arg2), SWIGTYPE_p_f_long_long_int__double);
-      if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "2"" of type '" "double (*)(long,long,int)""'"); 
-      }
-    }
-    {
-      int res = SWIG_ConvertFunctionPtr(ST(2), (void**)(&arg3), SWIGTYPE_p_f_long_long_int_double_double__void);
-      if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "3"" of type '" "void (*)(long,long,int,double,double)""'"); 
-      }
-    }
-    {
-      int res = SWIG_ConvertFunctionPtr(ST(3), (void**)(&arg4), SWIGTYPE_p_f_long_double_double__void);
-      if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "4"" of type '" "void (*)(long,double,double)""'"); 
-      }
-    }
-    {
-      int res = SWIG_ConvertFunctionPtr(ST(4), (void**)(&arg5), SWIGTYPE_p_f_long__double);
-      if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "5"" of type '" "double (*)(long)""'"); 
-      }
-    }
-    {
-      int res = SWIG_ConvertFunctionPtr(ST(5), (void**)(&arg6), SWIGTYPE_p_f_long__double);
-      if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "6"" of type '" "double (*)(long)""'"); 
-      }
-    }
-    {
-      int res = SWIG_ConvertFunctionPtr(ST(6), (void**)(&arg7), SWIGTYPE_p_f_long_int__void);
-      if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "7"" of type '" "void (*)(long,int)""'"); 
-      }
-    }
-    {
-      int res = SWIG_ConvertFunctionPtr(ST(7), (void**)(&arg8), SWIGTYPE_p_f_int__void);
-      if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "8"" of type '" "void (*)(int)""'"); 
-      }
-    }
-    {
-      int res = SWIG_ConvertFunctionPtr(ST(8), (void**)(&arg9), SWIGTYPE_p_f_long_double_int__void);
-      if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "9"" of type '" "void (*)(long,double,int)""'"); 
-      }
-    }
-    tc_ConnectionSelection_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9);
-    ST(argvi) = sv_newmortal();
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    XSRETURN(argvi);
-  fail:
-    
-    
-    
-    
     
     
     
@@ -13454,6 +13598,15 @@ static swig_command_info swig_commands[] = {
 {"tinkercellc::tc_screenY", _wrap_tc_screenY},
 {"tinkercellc::tc_annotations", _wrap_tc_annotations},
 {"tinkercellc::tc_insertAnnotations", _wrap_tc_insertAnnotations},
+{"tinkercellc::tc_getControlPointX", _wrap_tc_getControlPointX},
+{"tinkercellc::tc_getControlPointY", _wrap_tc_getControlPointY},
+{"tinkercellc::tc_setControlPoint", _wrap_tc_setControlPoint},
+{"tinkercellc::tc_setCenterPoint", _wrap_tc_setCenterPoint},
+{"tinkercellc::tc_getCenterPointX", _wrap_tc_getCenterPointX},
+{"tinkercellc::tc_getCenterPointY", _wrap_tc_getCenterPointY},
+{"tinkercellc::tc_setStraight", _wrap_tc_setStraight},
+{"tinkercellc::tc_setAllStraight", _wrap_tc_setAllStraight},
+{"tinkercellc::tc_setLineWidth", _wrap_tc_setLineWidth},
 {"tinkercellc::tc_Main_api_initialize", _wrap_tc_Main_api_initialize},
 {"tinkercellc::tc_showProgress", _wrap_tc_showProgress},
 {"tinkercellc::tc_callback", _wrap_tc_callback},
@@ -13465,6 +13618,8 @@ static swig_command_info swig_commands[] = {
 {"tinkercellc::tc_highlight", _wrap_tc_highlight},
 {"tinkercellc::tc_burn", _wrap_tc_burn},
 {"tinkercellc::tc_LabelingTool_api", _wrap_tc_LabelingTool_api},
+{"tinkercellc::Autolayout", _wrap_Autolayout},
+{"tinkercellc::ApplySpringForce", _wrap_ApplySpringForce},
 {"tinkercellc::tc_getParameters", _wrap_tc_getParameters},
 {"tinkercellc::tc_getInitialValues", _wrap_tc_getInitialValues},
 {"tinkercellc::tc_setInitialValues", _wrap_tc_setInitialValues},
@@ -13489,16 +13644,6 @@ static swig_command_info swig_commands[] = {
 {"tinkercellc::tc_getConnections", _wrap_tc_getConnections},
 {"tinkercellc::tc_getConnectionsWithRole", _wrap_tc_getConnectionsWithRole},
 {"tinkercellc::tc_ConnectionInsertion_api", _wrap_tc_ConnectionInsertion_api},
-{"tinkercellc::tc_getControlPointX", _wrap_tc_getControlPointX},
-{"tinkercellc::tc_getControlPointY", _wrap_tc_getControlPointY},
-{"tinkercellc::tc_setControlPoint", _wrap_tc_setControlPoint},
-{"tinkercellc::tc_setCenterPoint", _wrap_tc_setCenterPoint},
-{"tinkercellc::tc_getCenterPointX", _wrap_tc_getCenterPointX},
-{"tinkercellc::tc_getCenterPointY", _wrap_tc_getCenterPointY},
-{"tinkercellc::tc_setStraight", _wrap_tc_setStraight},
-{"tinkercellc::tc_setAllStraight", _wrap_tc_setAllStraight},
-{"tinkercellc::tc_setLineWidth", _wrap_tc_setLineWidth},
-{"tinkercellc::tc_ConnectionSelection_api", _wrap_tc_ConnectionSelection_api},
 {"tinkercellc::tc_merge", _wrap_tc_merge},
 {"tinkercellc::tc_separate", _wrap_tc_separate},
 {"tinkercellc::tc_GroupHandlerTool_api", _wrap_tc_GroupHandlerTool_api},

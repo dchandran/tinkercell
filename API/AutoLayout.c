@@ -1,7 +1,7 @@
-#include "TC_autolayout.h"
+#include "AutoLayout.h"
 
 TCAPIEXPORT 
-void Autolayout(tc_matrix positions, double spring, double charge, double damping, double threshold)
+void Autolayout(tc_matrix positions, tc_matrix connections, double spring, double charge, double damping, double threshold)
 {
 	int i;
 	tc_matrix nodes = tc_createMatrix(positions.rows, 5);
@@ -13,14 +13,14 @@ void Autolayout(tc_matrix positions, double spring, double charge, double dampin
 		tc_setMatrixValue(nodes, i, 3, 0.0);
 		tc_setMatrixValue(nodes, i, 4, 0.0);
 	}
-	while (ApplySpringForce(nodes, spring, charge, damping) > threshold)
+	while (ApplySpringForce(nodes, connections, spring, charge, damping) > threshold)
 	{
 		//keep going
 	}
 }
 
 TCAPIEXPORT 
-double ApplySpringForce(tc_matrix nodes, double spring, double charge, double damping)
+double ApplySpringForce(tc_matrix nodes, tc_matrix connections, double spring, double charge, double damping)
 {
 	int i,j;
 	int X=0, Y=1, Mass=2, DX=3, DY=4;
@@ -39,7 +39,7 @@ double ApplySpringForce(tc_matrix nodes, double spring, double charge, double da
 				hypotenuse = sqrt(pow(dx, 2) + pow(dy, 2));
 				force = 0;
 				
-				if (node.IsConnectedTo(otherNode))
+				if (tc_getMatrixValue(connections, i, j) > 0)
 				{
 					force = (hypotenuse - spring) / 2.0;
 				}

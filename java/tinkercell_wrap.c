@@ -188,10 +188,10 @@ static void SWIGUNUSED SWIG_JavaThrowException(JNIEnv *jenv, SWIG_JavaExceptionC
 
 
 #include "TC_structs.h"
+%include "AutoLayout.h"
 #include "TC_Main_api.h"
 #include "TC_BasicInformationTool_api.h"
 #include "TC_ConnectionInsertion_api.h"
-#include "TC_ConnectionSelection_api.h"
 #include "TC_GroupHandlerTool_api.h"
 #include "TC_NodeInsertion_api.h"
 #include "TC_StoichiometryTool_api.h"
@@ -2734,7 +2734,139 @@ SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1insertAnnotations(JNIEnv *jenv, j
 }
 
 
-SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1Main_1api_1initialize(JNIEnv *jenv, jclass jcls, jlong jarg1, jlong jarg2, jlong jarg3, jlong jarg4, jlong jarg5, jlong jarg6, jlong jarg7, jlong jarg8, jlong jarg9, jlong jarg10, jlong jarg11, jlong jarg12, jlong jarg13, jlong jarg14, jlong jarg15, jlong jarg16, jlong jarg17, jlong jarg18, jlong jarg19, jlong jarg20, jlong jarg21, jlong jarg22, jlong jarg23, jlong jarg24, jlong jarg25, jlong jarg26, jlong jarg27, jlong jarg28, jlong jarg29, jlong jarg30, jlong jarg31, jlong jarg32, jlong jarg33, jlong jarg34, jlong jarg35, jlong jarg36, jlong jarg37, jlong jarg38, jlong jarg39, jlong jarg40, jlong jarg41, jlong jarg42, jlong jarg43, jlong jarg44, jlong jarg45, jlong jarg46, jlong jarg47, jlong jarg48, jlong jarg49, jlong jarg50, jlong jarg51, jlong jarg52, jlong jarg53, jlong jarg54, jlong jarg55, jlong jarg56, jlong jarg57, jlong jarg58, jlong jarg59, jlong jarg60, jlong jarg61, jlong jarg62, jlong jarg63, jlong jarg64, jlong jarg65, jlong jarg66, jlong jarg67, jlong jarg68, jlong jarg69, jlong jarg70, jlong jarg71, jlong jarg72, jlong jarg73, jlong jarg74, jlong jarg75, jlong jarg76, jlong jarg77, jlong jarg78) {
+SWIGEXPORT jdouble JNICALL Java_tinkercellJNI_tc_1getControlPointX(JNIEnv *jenv, jclass jcls, jint jarg1, jint jarg2, jint jarg3) {
+  jdouble jresult = 0 ;
+  long arg1 ;
+  long arg2 ;
+  int arg3 ;
+  double result;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = (long)jarg1; 
+  arg2 = (long)jarg2; 
+  arg3 = (int)jarg3; 
+  result = (double)tc_getControlPointX(arg1,arg2,arg3);
+  jresult = (jdouble)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jdouble JNICALL Java_tinkercellJNI_tc_1getControlPointY(JNIEnv *jenv, jclass jcls, jint jarg1, jint jarg2, jint jarg3) {
+  jdouble jresult = 0 ;
+  long arg1 ;
+  long arg2 ;
+  int arg3 ;
+  double result;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = (long)jarg1; 
+  arg2 = (long)jarg2; 
+  arg3 = (int)jarg3; 
+  result = (double)tc_getControlPointY(arg1,arg2,arg3);
+  jresult = (jdouble)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1setControlPoint(JNIEnv *jenv, jclass jcls, jint jarg1, jint jarg2, jint jarg3, jdouble jarg4, jdouble jarg5) {
+  long arg1 ;
+  long arg2 ;
+  int arg3 ;
+  double arg4 ;
+  double arg5 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = (long)jarg1; 
+  arg2 = (long)jarg2; 
+  arg3 = (int)jarg3; 
+  arg4 = (double)jarg4; 
+  arg5 = (double)jarg5; 
+  tc_setControlPoint(arg1,arg2,arg3,arg4,arg5);
+}
+
+
+SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1setCenterPoint(JNIEnv *jenv, jclass jcls, jint jarg1, jdouble jarg2, jdouble jarg3) {
+  long arg1 ;
+  double arg2 ;
+  double arg3 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = (long)jarg1; 
+  arg2 = (double)jarg2; 
+  arg3 = (double)jarg3; 
+  tc_setCenterPoint(arg1,arg2,arg3);
+}
+
+
+SWIGEXPORT jdouble JNICALL Java_tinkercellJNI_tc_1getCenterPointX(JNIEnv *jenv, jclass jcls, jint jarg1) {
+  jdouble jresult = 0 ;
+  long arg1 ;
+  double result;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = (long)jarg1; 
+  result = (double)tc_getCenterPointX(arg1);
+  jresult = (jdouble)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jdouble JNICALL Java_tinkercellJNI_tc_1getCenterPointY(JNIEnv *jenv, jclass jcls, jint jarg1) {
+  jdouble jresult = 0 ;
+  long arg1 ;
+  double result;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = (long)jarg1; 
+  result = (double)tc_getCenterPointY(arg1);
+  jresult = (jdouble)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1setStraight(JNIEnv *jenv, jclass jcls, jint jarg1, jint jarg2) {
+  long arg1 ;
+  int arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = (long)jarg1; 
+  arg2 = (int)jarg2; 
+  tc_setStraight(arg1,arg2);
+}
+
+
+SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1setAllStraight(JNIEnv *jenv, jclass jcls, jint jarg1) {
+  int arg1 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = (int)jarg1; 
+  tc_setAllStraight(arg1);
+}
+
+
+SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1setLineWidth(JNIEnv *jenv, jclass jcls, jint jarg1, jdouble jarg2, jint jarg3) {
+  long arg1 ;
+  double arg2 ;
+  int arg3 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = (long)jarg1; 
+  arg2 = (double)jarg2; 
+  arg3 = (int)jarg3; 
+  tc_setLineWidth(arg1,arg2,arg3);
+}
+
+
+SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1Main_1api_1initialize(JNIEnv *jenv, jclass jcls, jlong jarg1, jlong jarg2, jlong jarg3, jlong jarg4, jlong jarg5, jlong jarg6, jlong jarg7, jlong jarg8, jlong jarg9, jlong jarg10, jlong jarg11, jlong jarg12, jlong jarg13, jlong jarg14, jlong jarg15, jlong jarg16, jlong jarg17, jlong jarg18, jlong jarg19, jlong jarg20, jlong jarg21, jlong jarg22, jlong jarg23, jlong jarg24, jlong jarg25, jlong jarg26, jlong jarg27, jlong jarg28, jlong jarg29, jlong jarg30, jlong jarg31, jlong jarg32, jlong jarg33, jlong jarg34, jlong jarg35, jlong jarg36, jlong jarg37, jlong jarg38, jlong jarg39, jlong jarg40, jlong jarg41, jlong jarg42, jlong jarg43, jlong jarg44, jlong jarg45, jlong jarg46, jlong jarg47, jlong jarg48, jlong jarg49, jlong jarg50, jlong jarg51, jlong jarg52, jlong jarg53, jlong jarg54, jlong jarg55, jlong jarg56, jlong jarg57, jlong jarg58, jlong jarg59, jlong jarg60, jlong jarg61, jlong jarg62, jlong jarg63, jlong jarg64, jlong jarg65, jlong jarg66, jlong jarg67, jlong jarg68, jlong jarg69, jlong jarg70, jlong jarg71, jlong jarg72, jlong jarg73, jlong jarg74, jlong jarg75, jlong jarg76, jlong jarg77, jlong jarg78, jlong jarg79, jlong jarg80, jlong jarg81, jlong jarg82, jlong jarg83, jlong jarg84, jlong jarg85, jlong jarg86, jlong jarg87) {
   tc_items (*arg1)() = (tc_items (*)()) 0 ;
   tc_items (*arg2)() = (tc_items (*)()) 0 ;
   tc_items (*arg3)(char const *) = (tc_items (*)(char const *)) 0 ;
@@ -2813,6 +2945,15 @@ SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1Main_1api_1initialize(JNIEnv *jen
   double (*arg76)(char const *) = (double (*)(char const *)) 0 ;
   char *(*arg77)(char const *) = (char *(*)(char const *)) 0 ;
   void (*arg78)() = (void (*)()) 0 ;
+  double (*arg79)(long,long,int) = (double (*)(long,long,int)) 0 ;
+  double (*arg80)(long,long,int) = (double (*)(long,long,int)) 0 ;
+  void (*arg81)(long,long,int,double,double) = (void (*)(long,long,int,double,double)) 0 ;
+  void (*arg82)(long,double,double) = (void (*)(long,double,double)) 0 ;
+  double (*arg83)(long) = (double (*)(long)) 0 ;
+  double (*arg84)(long) = (double (*)(long)) 0 ;
+  void (*arg85)(long,int) = (void (*)(long,int)) 0 ;
+  void (*arg86)(int) = (void (*)(int)) 0 ;
+  void (*arg87)(long,double,int) = (void (*)(long,double,int)) 0 ;
   
   (void)jenv;
   (void)jcls;
@@ -2894,7 +3035,16 @@ SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1Main_1api_1initialize(JNIEnv *jen
   arg76 = *(double (**)(char const *))&jarg76; 
   arg77 = *(char *(**)(char const *))&jarg77; 
   arg78 = *(void (**)())&jarg78; 
-  tc_Main_api_initialize(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,(char const *(*)(long))arg9,(char const *(*)(long))arg10,arg11,arg12,arg13,(char const *(*)(long))arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23,arg24,arg25,arg26,arg27,arg28,arg29,arg30,(char const *(*)())arg31,(char const *(*)())arg32,arg33,arg34,arg35,arg36,arg37,arg38,arg39,arg40,arg41,arg42,arg43,arg44,arg45,arg46,arg47,(char const *(*)(char const *))arg48,arg49,arg50,arg51,(char const *(*)())arg52,arg53,arg54,arg55,arg56,arg57,arg58,arg59,arg60,(char const *(*)(long))arg61,arg62,arg63,arg64,arg65,arg66,arg67,arg68,arg69,(char const *(*)())arg70,arg71,arg72,arg73,arg74,arg75,arg76,(char const *(*)(char const *))arg77,arg78);
+  arg79 = *(double (**)(long,long,int))&jarg79; 
+  arg80 = *(double (**)(long,long,int))&jarg80; 
+  arg81 = *(void (**)(long,long,int,double,double))&jarg81; 
+  arg82 = *(void (**)(long,double,double))&jarg82; 
+  arg83 = *(double (**)(long))&jarg83; 
+  arg84 = *(double (**)(long))&jarg84; 
+  arg85 = *(void (**)(long,int))&jarg85; 
+  arg86 = *(void (**)(int))&jarg86; 
+  arg87 = *(void (**)(long,double,int))&jarg87; 
+  tc_Main_api_initialize(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,(char const *(*)(long))arg9,(char const *(*)(long))arg10,arg11,arg12,arg13,(char const *(*)(long))arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23,arg24,arg25,arg26,arg27,arg28,arg29,arg30,(char const *(*)())arg31,(char const *(*)())arg32,arg33,arg34,arg35,arg36,arg37,arg38,arg39,arg40,arg41,arg42,arg43,arg44,arg45,arg46,arg47,(char const *(*)(char const *))arg48,arg49,arg50,arg51,(char const *(*)())arg52,arg53,arg54,arg55,arg56,arg57,arg58,arg59,arg60,(char const *(*)(long))arg61,arg62,arg63,arg64,arg65,arg66,arg67,arg68,arg69,(char const *(*)())arg70,arg71,arg72,arg73,arg74,arg75,arg76,(char const *(*)(char const *))arg77,arg78,arg79,arg80,arg81,arg82,arg83,arg84,arg85,arg86,arg87);
 }
 
 
@@ -3046,6 +3196,76 @@ SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1LabelingTool_1api(JNIEnv *jenv, j
   arg4 = *(void (**)(long,char const *))&jarg4; 
   arg5 = *(void (**)(long,double))&jarg5; 
   tc_LabelingTool_api(arg1,arg2,arg3,arg4,arg5);
+}
+
+
+SWIGEXPORT void JNICALL Java_tinkercellJNI_Autolayout(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_, jdouble jarg3, jdouble jarg4, jdouble jarg5, jdouble jarg6) {
+  tc_matrix arg1 ;
+  tc_matrix arg2 ;
+  double arg3 ;
+  double arg4 ;
+  double arg5 ;
+  double arg6 ;
+  tc_matrix *argp1 ;
+  tc_matrix *argp2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  argp1 = *(tc_matrix **)&jarg1; 
+  if (!argp1) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null tc_matrix");
+    return ;
+  }
+  arg1 = *argp1; 
+  argp2 = *(tc_matrix **)&jarg2; 
+  if (!argp2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null tc_matrix");
+    return ;
+  }
+  arg2 = *argp2; 
+  arg3 = (double)jarg3; 
+  arg4 = (double)jarg4; 
+  arg5 = (double)jarg5; 
+  arg6 = (double)jarg6; 
+  Autolayout(arg1,arg2,arg3,arg4,arg5,arg6);
+}
+
+
+SWIGEXPORT jdouble JNICALL Java_tinkercellJNI_ApplySpringForce(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_, jdouble jarg3, jdouble jarg4, jdouble jarg5) {
+  jdouble jresult = 0 ;
+  tc_matrix arg1 ;
+  tc_matrix arg2 ;
+  double arg3 ;
+  double arg4 ;
+  double arg5 ;
+  tc_matrix *argp1 ;
+  tc_matrix *argp2 ;
+  double result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  argp1 = *(tc_matrix **)&jarg1; 
+  if (!argp1) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null tc_matrix");
+    return 0;
+  }
+  arg1 = *argp1; 
+  argp2 = *(tc_matrix **)&jarg2; 
+  if (!argp2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null tc_matrix");
+    return 0;
+  }
+  arg2 = *argp2; 
+  arg3 = (double)jarg3; 
+  arg4 = (double)jarg4; 
+  arg5 = (double)jarg5; 
+  result = (double)ApplySpringForce(arg1,arg2,arg3,arg4,arg5);
+  jresult = (jdouble)result; 
+  return jresult;
 }
 
 
@@ -3613,164 +3833,6 @@ SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1ConnectionInsertion_1api(JNIEnv *
   arg4 = *(tc_items (**)(long))&jarg4; 
   arg5 = *(tc_items (**)(long,char const *))&jarg5; 
   tc_ConnectionInsertion_api(arg1,arg2,arg3,arg4,arg5);
-}
-
-
-SWIGEXPORT jdouble JNICALL Java_tinkercellJNI_tc_1getControlPointX(JNIEnv *jenv, jclass jcls, jint jarg1, jint jarg2, jint jarg3) {
-  jdouble jresult = 0 ;
-  long arg1 ;
-  long arg2 ;
-  int arg3 ;
-  double result;
-  
-  (void)jenv;
-  (void)jcls;
-  arg1 = (long)jarg1; 
-  arg2 = (long)jarg2; 
-  arg3 = (int)jarg3; 
-  result = (double)tc_getControlPointX(arg1,arg2,arg3);
-  jresult = (jdouble)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT jdouble JNICALL Java_tinkercellJNI_tc_1getControlPointY(JNIEnv *jenv, jclass jcls, jint jarg1, jint jarg2, jint jarg3) {
-  jdouble jresult = 0 ;
-  long arg1 ;
-  long arg2 ;
-  int arg3 ;
-  double result;
-  
-  (void)jenv;
-  (void)jcls;
-  arg1 = (long)jarg1; 
-  arg2 = (long)jarg2; 
-  arg3 = (int)jarg3; 
-  result = (double)tc_getControlPointY(arg1,arg2,arg3);
-  jresult = (jdouble)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1setControlPoint(JNIEnv *jenv, jclass jcls, jint jarg1, jint jarg2, jint jarg3, jdouble jarg4, jdouble jarg5) {
-  long arg1 ;
-  long arg2 ;
-  int arg3 ;
-  double arg4 ;
-  double arg5 ;
-  
-  (void)jenv;
-  (void)jcls;
-  arg1 = (long)jarg1; 
-  arg2 = (long)jarg2; 
-  arg3 = (int)jarg3; 
-  arg4 = (double)jarg4; 
-  arg5 = (double)jarg5; 
-  tc_setControlPoint(arg1,arg2,arg3,arg4,arg5);
-}
-
-
-SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1setCenterPoint(JNIEnv *jenv, jclass jcls, jint jarg1, jdouble jarg2, jdouble jarg3) {
-  long arg1 ;
-  double arg2 ;
-  double arg3 ;
-  
-  (void)jenv;
-  (void)jcls;
-  arg1 = (long)jarg1; 
-  arg2 = (double)jarg2; 
-  arg3 = (double)jarg3; 
-  tc_setCenterPoint(arg1,arg2,arg3);
-}
-
-
-SWIGEXPORT jdouble JNICALL Java_tinkercellJNI_tc_1getCenterPointX(JNIEnv *jenv, jclass jcls, jint jarg1) {
-  jdouble jresult = 0 ;
-  long arg1 ;
-  double result;
-  
-  (void)jenv;
-  (void)jcls;
-  arg1 = (long)jarg1; 
-  result = (double)tc_getCenterPointX(arg1);
-  jresult = (jdouble)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT jdouble JNICALL Java_tinkercellJNI_tc_1getCenterPointY(JNIEnv *jenv, jclass jcls, jint jarg1) {
-  jdouble jresult = 0 ;
-  long arg1 ;
-  double result;
-  
-  (void)jenv;
-  (void)jcls;
-  arg1 = (long)jarg1; 
-  result = (double)tc_getCenterPointY(arg1);
-  jresult = (jdouble)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1setStraight(JNIEnv *jenv, jclass jcls, jint jarg1, jint jarg2) {
-  long arg1 ;
-  int arg2 ;
-  
-  (void)jenv;
-  (void)jcls;
-  arg1 = (long)jarg1; 
-  arg2 = (int)jarg2; 
-  tc_setStraight(arg1,arg2);
-}
-
-
-SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1setAllStraight(JNIEnv *jenv, jclass jcls, jint jarg1) {
-  int arg1 ;
-  
-  (void)jenv;
-  (void)jcls;
-  arg1 = (int)jarg1; 
-  tc_setAllStraight(arg1);
-}
-
-
-SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1setLineWidth(JNIEnv *jenv, jclass jcls, jint jarg1, jdouble jarg2, jint jarg3) {
-  long arg1 ;
-  double arg2 ;
-  int arg3 ;
-  
-  (void)jenv;
-  (void)jcls;
-  arg1 = (long)jarg1; 
-  arg2 = (double)jarg2; 
-  arg3 = (int)jarg3; 
-  tc_setLineWidth(arg1,arg2,arg3);
-}
-
-
-SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1ConnectionSelection_1api(JNIEnv *jenv, jclass jcls, jlong jarg1, jlong jarg2, jlong jarg3, jlong jarg4, jlong jarg5, jlong jarg6, jlong jarg7, jlong jarg8, jlong jarg9) {
-  double (*arg1)(long,long,int) = (double (*)(long,long,int)) 0 ;
-  double (*arg2)(long,long,int) = (double (*)(long,long,int)) 0 ;
-  void (*arg3)(long,long,int,double,double) = (void (*)(long,long,int,double,double)) 0 ;
-  void (*arg4)(long,double,double) = (void (*)(long,double,double)) 0 ;
-  double (*arg5)(long) = (double (*)(long)) 0 ;
-  double (*arg6)(long) = (double (*)(long)) 0 ;
-  void (*arg7)(long,int) = (void (*)(long,int)) 0 ;
-  void (*arg8)(int) = (void (*)(int)) 0 ;
-  void (*arg9)(long,double,int) = (void (*)(long,double,int)) 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  arg1 = *(double (**)(long,long,int))&jarg1; 
-  arg2 = *(double (**)(long,long,int))&jarg2; 
-  arg3 = *(void (**)(long,long,int,double,double))&jarg3; 
-  arg4 = *(void (**)(long,double,double))&jarg4; 
-  arg5 = *(double (**)(long))&jarg5; 
-  arg6 = *(double (**)(long))&jarg6; 
-  arg7 = *(void (**)(long,int))&jarg7; 
-  arg8 = *(void (**)(int))&jarg8; 
-  arg9 = *(void (**)(long,double,int))&jarg9; 
-  tc_ConnectionSelection_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9);
 }
 
 

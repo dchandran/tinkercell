@@ -1312,10 +1312,10 @@ static swig_module_info swig_module = {swig_types, 87, 0, 0, 0, 0};
 
 
 #include "TC_structs.h"
+%include "AutoLayout.h"
 #include "TC_Main_api.h"
 #include "TC_BasicInformationTool_api.h"
 #include "TC_ConnectionInsertion_api.h"
-#include "TC_ConnectionSelection_api.h"
 #include "TC_GroupHandlerTool_api.h"
 #include "TC_NodeInsertion_api.h"
 #include "TC_StoichiometryTool_api.h"
@@ -5561,6 +5561,220 @@ R_swig_tc_insertAnnotations ( SEXP s_arg1, SEXP s_arg2, SEXP s_arg3)
 }
 
 
+SWIGEXPORT SEXP
+R_swig_tc_getControlPointX ( SEXP connection, SEXP part, SEXP whichPoint, SEXP s_swig_copy)
+{
+  double result;
+  long arg1 ;
+  long arg2 ;
+  int arg3 ;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  arg1 = (long)(INTEGER(connection)[0]);
+  arg2 = (long)(INTEGER(part)[0]);
+  arg3 = (int)(INTEGER(whichPoint)[0]);
+  result = (double)tc_getControlPointX(arg1,arg2,arg3);
+  r_ans = SWIG_From_double((double)(result));
+  
+  
+  
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
+SWIGEXPORT SEXP
+R_swig_tc_getControlPointY ( SEXP connection, SEXP part, SEXP whichPoint, SEXP s_swig_copy)
+{
+  double result;
+  long arg1 ;
+  long arg2 ;
+  int arg3 ;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  arg1 = (long)(INTEGER(connection)[0]);
+  arg2 = (long)(INTEGER(part)[0]);
+  arg3 = (int)(INTEGER(whichPoint)[0]);
+  result = (double)tc_getControlPointY(arg1,arg2,arg3);
+  r_ans = SWIG_From_double((double)(result));
+  
+  
+  
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
+SWIGEXPORT SEXP
+R_swig_tc_setControlPoint ( SEXP connection, SEXP part, SEXP whichPoint, SEXP x, SEXP y)
+{
+  long arg1 ;
+  long arg2 ;
+  int arg3 ;
+  double arg4 ;
+  double arg5 ;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  arg1 = (long)(INTEGER(connection)[0]);
+  arg2 = (long)(INTEGER(part)[0]);
+  arg3 = (int)(INTEGER(whichPoint)[0]);
+  arg4 = (double)(REAL(x)[0]);
+  arg5 = (double)(REAL(y)[0]);
+  tc_setControlPoint(arg1,arg2,arg3,arg4,arg5);
+  r_ans = R_NilValue;
+  
+  
+  
+  
+  
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
+SWIGEXPORT SEXP
+R_swig_tc_setCenterPoint ( SEXP connection, SEXP y, SEXP x)
+{
+  long arg1 ;
+  double arg2 ;
+  double arg3 ;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  arg1 = (long)(INTEGER(connection)[0]);
+  arg2 = (double)(REAL(y)[0]);
+  arg3 = (double)(REAL(x)[0]);
+  tc_setCenterPoint(arg1,arg2,arg3);
+  r_ans = R_NilValue;
+  
+  
+  
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
+SWIGEXPORT SEXP
+R_swig_tc_getCenterPointX ( SEXP connection, SEXP s_swig_copy)
+{
+  double result;
+  long arg1 ;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  arg1 = (long)(INTEGER(connection)[0]);
+  result = (double)tc_getCenterPointX(arg1);
+  r_ans = SWIG_From_double((double)(result));
+  
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
+SWIGEXPORT SEXP
+R_swig_tc_getCenterPointY ( SEXP connection, SEXP s_swig_copy)
+{
+  double result;
+  long arg1 ;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  arg1 = (long)(INTEGER(connection)[0]);
+  result = (double)tc_getCenterPointY(arg1);
+  r_ans = SWIG_From_double((double)(result));
+  
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
+SWIGEXPORT SEXP
+R_swig_tc_setStraight ( SEXP item, SEXP straight)
+{
+  long arg1 ;
+  int arg2 ;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  arg1 = (long)(INTEGER(item)[0]);
+  arg2 = (int)(INTEGER(straight)[0]);
+  tc_setStraight(arg1,arg2);
+  r_ans = R_NilValue;
+  
+  
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
+SWIGEXPORT SEXP
+R_swig_tc_setAllStraight ( SEXP straight)
+{
+  int arg1 ;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  arg1 = (int)(INTEGER(straight)[0]);
+  tc_setAllStraight(arg1);
+  r_ans = R_NilValue;
+  
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
+SWIGEXPORT SEXP
+R_swig_tc_setLineWidth ( SEXP item, SEXP width, SEXP permanent)
+{
+  long arg1 ;
+  double arg2 ;
+  int arg3 ;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  arg1 = (long)(INTEGER(item)[0]);
+  arg2 = (double)(REAL(width)[0]);
+  arg3 = (int)(INTEGER(permanent)[0]);
+  tc_setLineWidth(arg1,arg2,arg3);
+  r_ans = R_NilValue;
+  
+  
+  
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
 tc_items _p_f___tc_items() {
   tc_items result;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
@@ -7534,8 +7748,190 @@ void _p_f_p_q_const__char_p_q_const__char__void(char const * s_arg1, char const 
 }
 
 
+double _p_f_long_long_int__double(long s_arg1, long s_arg2, int s_arg3) {
+  long arg1 ;
+  long arg2 ;
+  int arg3 ;
+  double result;
+  RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
+  SEXP r_tmp;
+  int r_nprotect = 0;
+  char * r_vmax= 0;
+  int ecode = 0;
+  
+  Rf_protect(r_swig_cb_data->expr = Rf_allocVector(LANGSXP, 4));
+  r_nprotect++;
+  r_swig_cb_data->el = r_swig_cb_data->expr;
+  
+  SETCAR(r_swig_cb_data->el, r_swig_cb_data->fun);
+  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
+  
+  r_tmp = Rf_ScalarInteger(s_arg1);
+  SETCAR(r_swig_cb_data->el, r_tmp);
+  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
+  
+  r_tmp = Rf_ScalarInteger(s_arg2);
+  SETCAR(r_swig_cb_data->el, r_tmp);
+  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
+  
+  r_tmp = Rf_ScalarInteger(s_arg3);
+  SETCAR(r_swig_cb_data->el, r_tmp);
+  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
+  
+  
+  
+  r_swig_cb_data->retValue = R_tryEval(r_swig_cb_data->expr, R_GlobalEnv, &r_swig_cb_data->errorOccurred);
+  
+  if(r_swig_cb_data->errorOccurred) {
+    R_SWIG_popCallbackFunctionData(1);
+    Rf_error("error in calling R function as a function pointer (_p_f_long_long_int__double)");
+  }
+  result = (double)(REAL(r_swig_cb_data->retValue)[0]);
+  R_SWIG_popCallbackFunctionData(1);
+  
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return result;
+  
+}
+
+
+void _p_f_long_long_int_double_double__void(long s_arg1, long s_arg2, int s_arg3, double s_arg4, double s_arg5) {
+  long arg1 ;
+  long arg2 ;
+  int arg3 ;
+  double arg4 ;
+  double arg5 ;
+  RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
+  SEXP r_tmp;
+  int r_nprotect = 0;
+  char * r_vmax= 0;
+  int ecode = 0;
+  
+  Rf_protect(r_swig_cb_data->expr = Rf_allocVector(LANGSXP, 6));
+  r_nprotect++;
+  r_swig_cb_data->el = r_swig_cb_data->expr;
+  
+  SETCAR(r_swig_cb_data->el, r_swig_cb_data->fun);
+  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
+  
+  r_tmp = Rf_ScalarInteger(s_arg1);
+  SETCAR(r_swig_cb_data->el, r_tmp);
+  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
+  
+  r_tmp = Rf_ScalarInteger(s_arg2);
+  SETCAR(r_swig_cb_data->el, r_tmp);
+  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
+  
+  r_tmp = Rf_ScalarInteger(s_arg3);
+  SETCAR(r_swig_cb_data->el, r_tmp);
+  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
+  
+  r_tmp = SWIG_From_double((double)(s_arg4));
+  SETCAR(r_swig_cb_data->el, r_tmp);
+  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
+  
+  r_tmp = SWIG_From_double((double)(s_arg5));
+  SETCAR(r_swig_cb_data->el, r_tmp);
+  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
+  
+  
+  
+  r_swig_cb_data->retValue = R_tryEval(r_swig_cb_data->expr, R_GlobalEnv, &r_swig_cb_data->errorOccurred);
+  
+  if(r_swig_cb_data->errorOccurred) {
+    R_SWIG_popCallbackFunctionData(1);
+    Rf_error("error in calling R function as a function pointer (_p_f_long_long_int_double_double__void)");
+  }
+  R_SWIG_popCallbackFunctionData(1);
+  
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  
+}
+
+
+void _p_f_long_int__void(long s_arg1, int s_arg2) {
+  long arg1 ;
+  int arg2 ;
+  RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
+  SEXP r_tmp;
+  int r_nprotect = 0;
+  char * r_vmax= 0;
+  int ecode = 0;
+  
+  Rf_protect(r_swig_cb_data->expr = Rf_allocVector(LANGSXP, 3));
+  r_nprotect++;
+  r_swig_cb_data->el = r_swig_cb_data->expr;
+  
+  SETCAR(r_swig_cb_data->el, r_swig_cb_data->fun);
+  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
+  
+  r_tmp = Rf_ScalarInteger(s_arg1);
+  SETCAR(r_swig_cb_data->el, r_tmp);
+  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
+  
+  r_tmp = Rf_ScalarInteger(s_arg2);
+  SETCAR(r_swig_cb_data->el, r_tmp);
+  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
+  
+  
+  
+  r_swig_cb_data->retValue = R_tryEval(r_swig_cb_data->expr, R_GlobalEnv, &r_swig_cb_data->errorOccurred);
+  
+  if(r_swig_cb_data->errorOccurred) {
+    R_SWIG_popCallbackFunctionData(1);
+    Rf_error("error in calling R function as a function pointer (_p_f_long_int__void)");
+  }
+  R_SWIG_popCallbackFunctionData(1);
+  
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  
+}
+
+
+void _p_f_int__void(int s_arg1) {
+  int arg1 ;
+  RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
+  SEXP r_tmp;
+  int r_nprotect = 0;
+  char * r_vmax= 0;
+  int ecode = 0;
+  
+  Rf_protect(r_swig_cb_data->expr = Rf_allocVector(LANGSXP, 2));
+  r_nprotect++;
+  r_swig_cb_data->el = r_swig_cb_data->expr;
+  
+  SETCAR(r_swig_cb_data->el, r_swig_cb_data->fun);
+  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
+  
+  r_tmp = Rf_ScalarInteger(s_arg1);
+  SETCAR(r_swig_cb_data->el, r_tmp);
+  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
+  
+  
+  
+  r_swig_cb_data->retValue = R_tryEval(r_swig_cb_data->expr, R_GlobalEnv, &r_swig_cb_data->errorOccurred);
+  
+  if(r_swig_cb_data->errorOccurred) {
+    R_SWIG_popCallbackFunctionData(1);
+    Rf_error("error in calling R function as a function pointer (_p_f_int__void)");
+  }
+  R_SWIG_popCallbackFunctionData(1);
+  
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  
+}
+
+
 SWIGEXPORT SEXP
-R_swig_tc_Main_api_initialize ( SEXP tc_allItems0, SEXP tc_selectedItems0, SEXP tc_itemsOfFamily0, SEXP tc_itemsOfFamily1, SEXP tc_find0, SEXP tc_findItems0, SEXP tc_select0, SEXP tc_deselect0, SEXP tc_getName0, SEXP tc_getUniqueName0, SEXP tc_setName0, SEXP tc_getNames0, SEXP tc_getUniqueNames0, SEXP tc_getFamily0, SEXP tc_isA0, SEXP tc_clearText, SEXP tc_outputText0, SEXP tc_errorReport0, SEXP tc_outputTable0, SEXP tc_printFile0, SEXP tc_removeItem0, SEXP tc_getY0, SEXP tc_getX0, SEXP tc_getPos0, SEXP tc_setPos0, SEXP tc_setPos1, SEXP tc_moveSelected0, SEXP tc_isWindows0, SEXP tc_isMac0, SEXP tc_isLinux0, SEXP tc_appDir0, SEXP tc_homeDir0, SEXP tc_createInputWindow0, SEXP tc_createInputWindow1, SEXP createSliders, SEXP tc_addInputWindowOptions0, SEXP tc_addInputWindowCheckbox0, SEXP tc_openNewWindow0, SEXP tc_getChildren0, SEXP tc_getParent0, SEXP tc_getNumericalData0, SEXP tc_setNumericalData0, SEXP tc_getTextData0, SEXP tc_setTextData0, SEXP tc_getNumericalDataNames0, SEXP tc_getTextDataNames0, SEXP tc_zoom0, SEXP tc_getStringDialog0, SEXP getSelectedString, SEXP getNumber, SEXP getNumbers, SEXP getFilename, SEXP askQuestion, SEXP messageDialog, SEXP openFile, SEXP saveToFile, SEXP setSize0, SEXP getWidth0, SEXP getHeight0, SEXP setAngle0, SEXP getColor, SEXP setColor0, SEXP changeGraphics0, SEXP changeArrowHead0, SEXP screenshot, SEXP screenHeight, SEXP screenWidth, SEXP screenX, SEXP screenY, SEXP annotations, SEXP insertAnnotations, SEXP setNumericalValues, SEXP setNumericalValue, SEXP setTextValues, SEXP setTextValue, SEXP getNumericalValue, SEXP getTextValue, SEXP openUrl)
+R_swig_tc_Main_api_initialize ( SEXP tc_allItems0, SEXP tc_selectedItems0, SEXP tc_itemsOfFamily0, SEXP tc_itemsOfFamily1, SEXP tc_find0, SEXP tc_findItems0, SEXP tc_select0, SEXP tc_deselect0, SEXP tc_getName0, SEXP tc_getUniqueName0, SEXP tc_setName0, SEXP tc_getNames0, SEXP tc_getUniqueNames0, SEXP tc_getFamily0, SEXP tc_isA0, SEXP tc_clearText, SEXP tc_outputText0, SEXP tc_errorReport0, SEXP tc_outputTable0, SEXP tc_printFile0, SEXP tc_removeItem0, SEXP tc_getY0, SEXP tc_getX0, SEXP tc_getPos0, SEXP tc_setPos0, SEXP tc_setPos1, SEXP tc_moveSelected0, SEXP tc_isWindows0, SEXP tc_isMac0, SEXP tc_isLinux0, SEXP tc_appDir0, SEXP tc_homeDir0, SEXP tc_createInputWindow0, SEXP tc_createInputWindow1, SEXP createSliders, SEXP tc_addInputWindowOptions0, SEXP tc_addInputWindowCheckbox0, SEXP tc_openNewWindow0, SEXP tc_getChildren0, SEXP tc_getParent0, SEXP tc_getNumericalData0, SEXP tc_setNumericalData0, SEXP tc_getTextData0, SEXP tc_setTextData0, SEXP tc_getNumericalDataNames0, SEXP tc_getTextDataNames0, SEXP tc_zoom0, SEXP tc_getStringDialog0, SEXP getSelectedString, SEXP getNumber, SEXP getNumbers, SEXP getFilename, SEXP askQuestion, SEXP messageDialog, SEXP openFile, SEXP saveToFile, SEXP setSize0, SEXP getWidth0, SEXP getHeight0, SEXP setAngle0, SEXP getColor, SEXP setColor0, SEXP changeGraphics0, SEXP changeArrowHead0, SEXP screenshot, SEXP screenHeight, SEXP screenWidth, SEXP screenX, SEXP screenY, SEXP annotations, SEXP insertAnnotations, SEXP setNumericalValues, SEXP setNumericalValue, SEXP setTextValues, SEXP setTextValue, SEXP getNumericalValue, SEXP getTextValue, SEXP openUrl, SEXP getControlPointX, SEXP getControlPointY, SEXP setControlPoint, SEXP setCenterPoint, SEXP getCenterPointX, SEXP getCenterPointY, SEXP setStraight, SEXP setAllStraight, SEXP setLineWidth)
 {
   tc_items (*arg1)() = (tc_items (*)()) 0 ;
   tc_items (*arg2)() = (tc_items (*)()) 0 ;
@@ -7615,6 +8011,15 @@ R_swig_tc_Main_api_initialize ( SEXP tc_allItems0, SEXP tc_selectedItems0, SEXP 
   double (*arg76)(char const *) = (double (*)(char const *)) 0 ;
   char *(*arg77)(char const *) = (char *(*)(char const *)) 0 ;
   void (*arg78)() = (void (*)()) 0 ;
+  double (*arg79)(long,long,int) = (double (*)(long,long,int)) 0 ;
+  double (*arg80)(long,long,int) = (double (*)(long,long,int)) 0 ;
+  void (*arg81)(long,long,int,double,double) = (void (*)(long,long,int,double,double)) 0 ;
+  void (*arg82)(long,double,double) = (void (*)(long,double,double)) 0 ;
+  double (*arg83)(long) = (double (*)(long)) 0 ;
+  double (*arg84)(long) = (double (*)(long)) 0 ;
+  void (*arg85)(long,int) = (void (*)(long,int)) 0 ;
+  void (*arg86)(int) = (void (*)(int)) 0 ;
+  void (*arg87)(long,double,int) = (void (*)(long,double,int)) 0 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
@@ -8477,8 +8882,116 @@ R_swig_tc_Main_api_initialize ( SEXP tc_allItems0, SEXP tc_selectedItems0, SEXP 
     arg78 = _p_f___void;
     R_SWIG_pushCallbackFunctionData(openUrl, NULL);
   }
-  tc_Main_api_initialize(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,(char const *(*)(long))arg9,(char const *(*)(long))arg10,arg11,arg12,arg13,(char const *(*)(long))arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23,arg24,arg25,arg26,arg27,arg28,arg29,arg30,(char const *(*)())arg31,(char const *(*)())arg32,arg33,arg34,arg35,arg36,arg37,arg38,arg39,arg40,arg41,arg42,arg43,arg44,arg45,arg46,arg47,(char const *(*)(char const *))arg48,arg49,arg50,arg51,(char const *(*)())arg52,arg53,arg54,arg55,arg56,arg57,arg58,arg59,arg60,(char const *(*)(long))arg61,arg62,arg63,arg64,arg65,arg66,arg67,arg68,arg69,(char const *(*)())arg70,arg71,arg72,arg73,arg74,arg75,arg76,(char const *(*)(char const *))arg77,arg78);
+  if(TYPEOF(getControlPointX) != CLOSXP) {
+    {
+      int res = SWIG_R_ConvertPtr(getControlPointX, (void**)(&arg79), SWIGTYPE_p_f_long_long_int__double, 0);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "79"" of type '" "double (*)(long,long,int)""'"); 
+      }
+    }
+  } else {
+    arg79 = _p_f_long_long_int__double;
+    R_SWIG_pushCallbackFunctionData(getControlPointX, NULL);
+  }
+  if(TYPEOF(getControlPointY) != CLOSXP) {
+    {
+      int res = SWIG_R_ConvertPtr(getControlPointY, (void**)(&arg80), SWIGTYPE_p_f_long_long_int__double, 0);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "80"" of type '" "double (*)(long,long,int)""'"); 
+      }
+    }
+  } else {
+    arg80 = _p_f_long_long_int__double;
+    R_SWIG_pushCallbackFunctionData(getControlPointY, NULL);
+  }
+  if(TYPEOF(setControlPoint) != CLOSXP) {
+    {
+      int res = SWIG_R_ConvertPtr(setControlPoint, (void**)(&arg81), SWIGTYPE_p_f_long_long_int_double_double__void, 0);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "81"" of type '" "void (*)(long,long,int,double,double)""'"); 
+      }
+    }
+  } else {
+    arg81 = _p_f_long_long_int_double_double__void;
+    R_SWIG_pushCallbackFunctionData(setControlPoint, NULL);
+  }
+  if(TYPEOF(setCenterPoint) != CLOSXP) {
+    {
+      int res = SWIG_R_ConvertPtr(setCenterPoint, (void**)(&arg82), SWIGTYPE_p_f_long_double_double__void, 0);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "82"" of type '" "void (*)(long,double,double)""'"); 
+      }
+    }
+  } else {
+    arg82 = _p_f_long_double_double__void;
+    R_SWIG_pushCallbackFunctionData(setCenterPoint, NULL);
+  }
+  if(TYPEOF(getCenterPointX) != CLOSXP) {
+    {
+      int res = SWIG_R_ConvertPtr(getCenterPointX, (void**)(&arg83), SWIGTYPE_p_f_long__double, 0);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "83"" of type '" "double (*)(long)""'"); 
+      }
+    }
+  } else {
+    arg83 = _p_f_long__double;
+    R_SWIG_pushCallbackFunctionData(getCenterPointX, NULL);
+  }
+  if(TYPEOF(getCenterPointY) != CLOSXP) {
+    {
+      int res = SWIG_R_ConvertPtr(getCenterPointY, (void**)(&arg84), SWIGTYPE_p_f_long__double, 0);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "84"" of type '" "double (*)(long)""'"); 
+      }
+    }
+  } else {
+    arg84 = _p_f_long__double;
+    R_SWIG_pushCallbackFunctionData(getCenterPointY, NULL);
+  }
+  if(TYPEOF(setStraight) != CLOSXP) {
+    {
+      int res = SWIG_R_ConvertPtr(setStraight, (void**)(&arg85), SWIGTYPE_p_f_long_int__void, 0);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "85"" of type '" "void (*)(long,int)""'"); 
+      }
+    }
+  } else {
+    arg85 = _p_f_long_int__void;
+    R_SWIG_pushCallbackFunctionData(setStraight, NULL);
+  }
+  if(TYPEOF(setAllStraight) != CLOSXP) {
+    {
+      int res = SWIG_R_ConvertPtr(setAllStraight, (void**)(&arg86), SWIGTYPE_p_f_int__void, 0);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "86"" of type '" "void (*)(int)""'"); 
+      }
+    }
+  } else {
+    arg86 = _p_f_int__void;
+    R_SWIG_pushCallbackFunctionData(setAllStraight, NULL);
+  }
+  if(TYPEOF(setLineWidth) != CLOSXP) {
+    {
+      int res = SWIG_R_ConvertPtr(setLineWidth, (void**)(&arg87), SWIGTYPE_p_f_long_double_int__void, 0);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "87"" of type '" "void (*)(long,double,int)""'"); 
+      }
+    }
+  } else {
+    arg87 = _p_f_long_double_int__void;
+    R_SWIG_pushCallbackFunctionData(setLineWidth, NULL);
+  }
+  tc_Main_api_initialize(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,(char const *(*)(long))arg9,(char const *(*)(long))arg10,arg11,arg12,arg13,(char const *(*)(long))arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23,arg24,arg25,arg26,arg27,arg28,arg29,arg30,(char const *(*)())arg31,(char const *(*)())arg32,arg33,arg34,arg35,arg36,arg37,arg38,arg39,arg40,arg41,arg42,arg43,arg44,arg45,arg46,arg47,(char const *(*)(char const *))arg48,arg49,arg50,arg51,(char const *(*)())arg52,arg53,arg54,arg55,arg56,arg57,arg58,arg59,arg60,(char const *(*)(long))arg61,arg62,arg63,arg64,arg65,arg66,arg67,arg68,arg69,(char const *(*)())arg70,arg71,arg72,arg73,arg74,arg75,arg76,(char const *(*)(char const *))arg77,arg78,arg79,arg80,arg81,arg82,arg83,arg84,arg85,arg86,arg87);
   r_ans = R_NilValue;
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
   
   
@@ -9035,6 +9548,116 @@ R_swig_tc_LabelingTool_api ( SEXP displayText, SEXP displayNumber, SEXP setDispl
   r_ans = R_NilValue;
   
   
+  
+  
+  
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
+SWIGEXPORT SEXP
+R_swig_Autolayout ( SEXP positions, SEXP connections, SEXP spring, SEXP charge, SEXP damping, SEXP threshold)
+{
+  tc_matrix arg1 ;
+  tc_matrix arg2 ;
+  double arg3 ;
+  double arg4 ;
+  double arg5 ;
+  double arg6 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  {
+    res1 = SWIG_R_ConvertPtr(positions, &argp1, SWIGTYPE_p_tc_matrix,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Autolayout" "', argument " "1"" of type '" "tc_matrix""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Autolayout" "', argument " "1"" of type '" "tc_matrix""'");
+    } else {
+      arg1 = *((tc_matrix *)(argp1));
+    }
+  }
+  {
+    res2 = SWIG_R_ConvertPtr(connections, &argp2, SWIGTYPE_p_tc_matrix,  0 );
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Autolayout" "', argument " "2"" of type '" "tc_matrix""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Autolayout" "', argument " "2"" of type '" "tc_matrix""'");
+    } else {
+      arg2 = *((tc_matrix *)(argp2));
+    }
+  }
+  arg3 = (double)(REAL(spring)[0]);
+  arg4 = (double)(REAL(charge)[0]);
+  arg5 = (double)(REAL(damping)[0]);
+  arg6 = (double)(REAL(threshold)[0]);
+  Autolayout(arg1,arg2,arg3,arg4,arg5,arg6);
+  r_ans = R_NilValue;
+  
+  
+  
+  
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
+SWIGEXPORT SEXP
+R_swig_ApplySpringForce ( SEXP nodes, SEXP connections, SEXP spring, SEXP charge, SEXP damping, SEXP s_swig_copy)
+{
+  double result;
+  tc_matrix arg1 ;
+  tc_matrix arg2 ;
+  double arg3 ;
+  double arg4 ;
+  double arg5 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  {
+    res1 = SWIG_R_ConvertPtr(nodes, &argp1, SWIGTYPE_p_tc_matrix,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ApplySpringForce" "', argument " "1"" of type '" "tc_matrix""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "ApplySpringForce" "', argument " "1"" of type '" "tc_matrix""'");
+    } else {
+      arg1 = *((tc_matrix *)(argp1));
+    }
+  }
+  {
+    res2 = SWIG_R_ConvertPtr(connections, &argp2, SWIGTYPE_p_tc_matrix,  0 );
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "ApplySpringForce" "', argument " "2"" of type '" "tc_matrix""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "ApplySpringForce" "', argument " "2"" of type '" "tc_matrix""'");
+    } else {
+      arg2 = *((tc_matrix *)(argp2));
+    }
+  }
+  arg3 = (double)(REAL(spring)[0]);
+  arg4 = (double)(REAL(charge)[0]);
+  arg5 = (double)(REAL(damping)[0]);
+  result = (double)ApplySpringForce(arg1,arg2,arg3,arg4,arg5);
+  r_ans = SWIG_From_double((double)(result));
   
   
   
@@ -10419,535 +11042,6 @@ R_swig_tc_ConnectionInsertion_api ( SEXP insertConnection, SEXP getConnectedPart
   }
   tc_ConnectionInsertion_api(arg1,arg2,arg3,arg4,arg5);
   r_ans = R_NilValue;
-  
-  
-  
-  
-  
-  vmaxset(r_vmax);
-  if(r_nprotect)  Rf_unprotect(r_nprotect);
-  
-  return r_ans;
-}
-
-
-SWIGEXPORT SEXP
-R_swig_tc_getControlPointX ( SEXP connection, SEXP part, SEXP whichPoint, SEXP s_swig_copy)
-{
-  double result;
-  long arg1 ;
-  long arg2 ;
-  int arg3 ;
-  unsigned int r_nprotect = 0;
-  SEXP r_ans = R_NilValue ;
-  VMAXTYPE r_vmax = vmaxget() ;
-  
-  arg1 = (long)(INTEGER(connection)[0]);
-  arg2 = (long)(INTEGER(part)[0]);
-  arg3 = (int)(INTEGER(whichPoint)[0]);
-  result = (double)tc_getControlPointX(arg1,arg2,arg3);
-  r_ans = SWIG_From_double((double)(result));
-  
-  
-  
-  vmaxset(r_vmax);
-  if(r_nprotect)  Rf_unprotect(r_nprotect);
-  
-  return r_ans;
-}
-
-
-SWIGEXPORT SEXP
-R_swig_tc_getControlPointY ( SEXP connection, SEXP part, SEXP whichPoint, SEXP s_swig_copy)
-{
-  double result;
-  long arg1 ;
-  long arg2 ;
-  int arg3 ;
-  unsigned int r_nprotect = 0;
-  SEXP r_ans = R_NilValue ;
-  VMAXTYPE r_vmax = vmaxget() ;
-  
-  arg1 = (long)(INTEGER(connection)[0]);
-  arg2 = (long)(INTEGER(part)[0]);
-  arg3 = (int)(INTEGER(whichPoint)[0]);
-  result = (double)tc_getControlPointY(arg1,arg2,arg3);
-  r_ans = SWIG_From_double((double)(result));
-  
-  
-  
-  vmaxset(r_vmax);
-  if(r_nprotect)  Rf_unprotect(r_nprotect);
-  
-  return r_ans;
-}
-
-
-SWIGEXPORT SEXP
-R_swig_tc_setControlPoint ( SEXP connection, SEXP part, SEXP whichPoint, SEXP x, SEXP y)
-{
-  long arg1 ;
-  long arg2 ;
-  int arg3 ;
-  double arg4 ;
-  double arg5 ;
-  unsigned int r_nprotect = 0;
-  SEXP r_ans = R_NilValue ;
-  VMAXTYPE r_vmax = vmaxget() ;
-  
-  arg1 = (long)(INTEGER(connection)[0]);
-  arg2 = (long)(INTEGER(part)[0]);
-  arg3 = (int)(INTEGER(whichPoint)[0]);
-  arg4 = (double)(REAL(x)[0]);
-  arg5 = (double)(REAL(y)[0]);
-  tc_setControlPoint(arg1,arg2,arg3,arg4,arg5);
-  r_ans = R_NilValue;
-  
-  
-  
-  
-  
-  vmaxset(r_vmax);
-  if(r_nprotect)  Rf_unprotect(r_nprotect);
-  
-  return r_ans;
-}
-
-
-SWIGEXPORT SEXP
-R_swig_tc_setCenterPoint ( SEXP connection, SEXP y, SEXP x)
-{
-  long arg1 ;
-  double arg2 ;
-  double arg3 ;
-  unsigned int r_nprotect = 0;
-  SEXP r_ans = R_NilValue ;
-  VMAXTYPE r_vmax = vmaxget() ;
-  
-  arg1 = (long)(INTEGER(connection)[0]);
-  arg2 = (double)(REAL(y)[0]);
-  arg3 = (double)(REAL(x)[0]);
-  tc_setCenterPoint(arg1,arg2,arg3);
-  r_ans = R_NilValue;
-  
-  
-  
-  vmaxset(r_vmax);
-  if(r_nprotect)  Rf_unprotect(r_nprotect);
-  
-  return r_ans;
-}
-
-
-SWIGEXPORT SEXP
-R_swig_tc_getCenterPointX ( SEXP connection, SEXP s_swig_copy)
-{
-  double result;
-  long arg1 ;
-  unsigned int r_nprotect = 0;
-  SEXP r_ans = R_NilValue ;
-  VMAXTYPE r_vmax = vmaxget() ;
-  
-  arg1 = (long)(INTEGER(connection)[0]);
-  result = (double)tc_getCenterPointX(arg1);
-  r_ans = SWIG_From_double((double)(result));
-  
-  vmaxset(r_vmax);
-  if(r_nprotect)  Rf_unprotect(r_nprotect);
-  
-  return r_ans;
-}
-
-
-SWIGEXPORT SEXP
-R_swig_tc_getCenterPointY ( SEXP connection, SEXP s_swig_copy)
-{
-  double result;
-  long arg1 ;
-  unsigned int r_nprotect = 0;
-  SEXP r_ans = R_NilValue ;
-  VMAXTYPE r_vmax = vmaxget() ;
-  
-  arg1 = (long)(INTEGER(connection)[0]);
-  result = (double)tc_getCenterPointY(arg1);
-  r_ans = SWIG_From_double((double)(result));
-  
-  vmaxset(r_vmax);
-  if(r_nprotect)  Rf_unprotect(r_nprotect);
-  
-  return r_ans;
-}
-
-
-SWIGEXPORT SEXP
-R_swig_tc_setStraight ( SEXP item, SEXP straight)
-{
-  long arg1 ;
-  int arg2 ;
-  unsigned int r_nprotect = 0;
-  SEXP r_ans = R_NilValue ;
-  VMAXTYPE r_vmax = vmaxget() ;
-  
-  arg1 = (long)(INTEGER(item)[0]);
-  arg2 = (int)(INTEGER(straight)[0]);
-  tc_setStraight(arg1,arg2);
-  r_ans = R_NilValue;
-  
-  
-  vmaxset(r_vmax);
-  if(r_nprotect)  Rf_unprotect(r_nprotect);
-  
-  return r_ans;
-}
-
-
-SWIGEXPORT SEXP
-R_swig_tc_setAllStraight ( SEXP straight)
-{
-  int arg1 ;
-  unsigned int r_nprotect = 0;
-  SEXP r_ans = R_NilValue ;
-  VMAXTYPE r_vmax = vmaxget() ;
-  
-  arg1 = (int)(INTEGER(straight)[0]);
-  tc_setAllStraight(arg1);
-  r_ans = R_NilValue;
-  
-  vmaxset(r_vmax);
-  if(r_nprotect)  Rf_unprotect(r_nprotect);
-  
-  return r_ans;
-}
-
-
-SWIGEXPORT SEXP
-R_swig_tc_setLineWidth ( SEXP item, SEXP width, SEXP permanent)
-{
-  long arg1 ;
-  double arg2 ;
-  int arg3 ;
-  unsigned int r_nprotect = 0;
-  SEXP r_ans = R_NilValue ;
-  VMAXTYPE r_vmax = vmaxget() ;
-  
-  arg1 = (long)(INTEGER(item)[0]);
-  arg2 = (double)(REAL(width)[0]);
-  arg3 = (int)(INTEGER(permanent)[0]);
-  tc_setLineWidth(arg1,arg2,arg3);
-  r_ans = R_NilValue;
-  
-  
-  
-  vmaxset(r_vmax);
-  if(r_nprotect)  Rf_unprotect(r_nprotect);
-  
-  return r_ans;
-}
-
-
-double _p_f_long_long_int__double(long s_arg1, long s_arg2, int s_arg3) {
-  long arg1 ;
-  long arg2 ;
-  int arg3 ;
-  double result;
-  RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
-  SEXP r_tmp;
-  int r_nprotect = 0;
-  char * r_vmax= 0;
-  int ecode = 0;
-  
-  Rf_protect(r_swig_cb_data->expr = Rf_allocVector(LANGSXP, 4));
-  r_nprotect++;
-  r_swig_cb_data->el = r_swig_cb_data->expr;
-  
-  SETCAR(r_swig_cb_data->el, r_swig_cb_data->fun);
-  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
-  
-  r_tmp = Rf_ScalarInteger(s_arg1);
-  SETCAR(r_swig_cb_data->el, r_tmp);
-  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
-  
-  r_tmp = Rf_ScalarInteger(s_arg2);
-  SETCAR(r_swig_cb_data->el, r_tmp);
-  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
-  
-  r_tmp = Rf_ScalarInteger(s_arg3);
-  SETCAR(r_swig_cb_data->el, r_tmp);
-  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
-  
-  
-  
-  r_swig_cb_data->retValue = R_tryEval(r_swig_cb_data->expr, R_GlobalEnv, &r_swig_cb_data->errorOccurred);
-  
-  if(r_swig_cb_data->errorOccurred) {
-    R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_long_long_int__double)");
-  }
-  result = (double)(REAL(r_swig_cb_data->retValue)[0]);
-  R_SWIG_popCallbackFunctionData(1);
-  
-  vmaxset(r_vmax);
-  if(r_nprotect)  Rf_unprotect(r_nprotect);
-  
-  return result;
-  
-}
-
-
-void _p_f_long_long_int_double_double__void(long s_arg1, long s_arg2, int s_arg3, double s_arg4, double s_arg5) {
-  long arg1 ;
-  long arg2 ;
-  int arg3 ;
-  double arg4 ;
-  double arg5 ;
-  RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
-  SEXP r_tmp;
-  int r_nprotect = 0;
-  char * r_vmax= 0;
-  int ecode = 0;
-  
-  Rf_protect(r_swig_cb_data->expr = Rf_allocVector(LANGSXP, 6));
-  r_nprotect++;
-  r_swig_cb_data->el = r_swig_cb_data->expr;
-  
-  SETCAR(r_swig_cb_data->el, r_swig_cb_data->fun);
-  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
-  
-  r_tmp = Rf_ScalarInteger(s_arg1);
-  SETCAR(r_swig_cb_data->el, r_tmp);
-  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
-  
-  r_tmp = Rf_ScalarInteger(s_arg2);
-  SETCAR(r_swig_cb_data->el, r_tmp);
-  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
-  
-  r_tmp = Rf_ScalarInteger(s_arg3);
-  SETCAR(r_swig_cb_data->el, r_tmp);
-  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
-  
-  r_tmp = SWIG_From_double((double)(s_arg4));
-  SETCAR(r_swig_cb_data->el, r_tmp);
-  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
-  
-  r_tmp = SWIG_From_double((double)(s_arg5));
-  SETCAR(r_swig_cb_data->el, r_tmp);
-  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
-  
-  
-  
-  r_swig_cb_data->retValue = R_tryEval(r_swig_cb_data->expr, R_GlobalEnv, &r_swig_cb_data->errorOccurred);
-  
-  if(r_swig_cb_data->errorOccurred) {
-    R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_long_long_int_double_double__void)");
-  }
-  R_SWIG_popCallbackFunctionData(1);
-  
-  vmaxset(r_vmax);
-  if(r_nprotect)  Rf_unprotect(r_nprotect);
-  
-  
-}
-
-
-void _p_f_long_int__void(long s_arg1, int s_arg2) {
-  long arg1 ;
-  int arg2 ;
-  RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
-  SEXP r_tmp;
-  int r_nprotect = 0;
-  char * r_vmax= 0;
-  int ecode = 0;
-  
-  Rf_protect(r_swig_cb_data->expr = Rf_allocVector(LANGSXP, 3));
-  r_nprotect++;
-  r_swig_cb_data->el = r_swig_cb_data->expr;
-  
-  SETCAR(r_swig_cb_data->el, r_swig_cb_data->fun);
-  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
-  
-  r_tmp = Rf_ScalarInteger(s_arg1);
-  SETCAR(r_swig_cb_data->el, r_tmp);
-  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
-  
-  r_tmp = Rf_ScalarInteger(s_arg2);
-  SETCAR(r_swig_cb_data->el, r_tmp);
-  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
-  
-  
-  
-  r_swig_cb_data->retValue = R_tryEval(r_swig_cb_data->expr, R_GlobalEnv, &r_swig_cb_data->errorOccurred);
-  
-  if(r_swig_cb_data->errorOccurred) {
-    R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_long_int__void)");
-  }
-  R_SWIG_popCallbackFunctionData(1);
-  
-  vmaxset(r_vmax);
-  if(r_nprotect)  Rf_unprotect(r_nprotect);
-  
-  
-}
-
-
-void _p_f_int__void(int s_arg1) {
-  int arg1 ;
-  RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
-  SEXP r_tmp;
-  int r_nprotect = 0;
-  char * r_vmax= 0;
-  int ecode = 0;
-  
-  Rf_protect(r_swig_cb_data->expr = Rf_allocVector(LANGSXP, 2));
-  r_nprotect++;
-  r_swig_cb_data->el = r_swig_cb_data->expr;
-  
-  SETCAR(r_swig_cb_data->el, r_swig_cb_data->fun);
-  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
-  
-  r_tmp = Rf_ScalarInteger(s_arg1);
-  SETCAR(r_swig_cb_data->el, r_tmp);
-  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
-  
-  
-  
-  r_swig_cb_data->retValue = R_tryEval(r_swig_cb_data->expr, R_GlobalEnv, &r_swig_cb_data->errorOccurred);
-  
-  if(r_swig_cb_data->errorOccurred) {
-    R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_int__void)");
-  }
-  R_SWIG_popCallbackFunctionData(1);
-  
-  vmaxset(r_vmax);
-  if(r_nprotect)  Rf_unprotect(r_nprotect);
-  
-  
-}
-
-
-SWIGEXPORT SEXP
-R_swig_tc_ConnectionSelection_api ( SEXP getControlPointX, SEXP getControlPointY, SEXP setControlPoint, SEXP setCenterPoint, SEXP getCenterPointX, SEXP getCenterPointY, SEXP setStraight, SEXP setAllStraight, SEXP setLineWidth)
-{
-  double (*arg1)(long,long,int) = (double (*)(long,long,int)) 0 ;
-  double (*arg2)(long,long,int) = (double (*)(long,long,int)) 0 ;
-  void (*arg3)(long,long,int,double,double) = (void (*)(long,long,int,double,double)) 0 ;
-  void (*arg4)(long,double,double) = (void (*)(long,double,double)) 0 ;
-  double (*arg5)(long) = (double (*)(long)) 0 ;
-  double (*arg6)(long) = (double (*)(long)) 0 ;
-  void (*arg7)(long,int) = (void (*)(long,int)) 0 ;
-  void (*arg8)(int) = (void (*)(int)) 0 ;
-  void (*arg9)(long,double,int) = (void (*)(long,double,int)) 0 ;
-  unsigned int r_nprotect = 0;
-  SEXP r_ans = R_NilValue ;
-  VMAXTYPE r_vmax = vmaxget() ;
-  
-  if(TYPEOF(getControlPointX) != CLOSXP) {
-    {
-      int res = SWIG_R_ConvertPtr(getControlPointX, (void**)(&arg1), SWIGTYPE_p_f_long_long_int__double, 0);
-      if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "1"" of type '" "double (*)(long,long,int)""'"); 
-      }
-    }
-  } else {
-    arg1 = _p_f_long_long_int__double;
-    R_SWIG_pushCallbackFunctionData(getControlPointX, NULL);
-  }
-  if(TYPEOF(getControlPointY) != CLOSXP) {
-    {
-      int res = SWIG_R_ConvertPtr(getControlPointY, (void**)(&arg2), SWIGTYPE_p_f_long_long_int__double, 0);
-      if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "2"" of type '" "double (*)(long,long,int)""'"); 
-      }
-    }
-  } else {
-    arg2 = _p_f_long_long_int__double;
-    R_SWIG_pushCallbackFunctionData(getControlPointY, NULL);
-  }
-  if(TYPEOF(setControlPoint) != CLOSXP) {
-    {
-      int res = SWIG_R_ConvertPtr(setControlPoint, (void**)(&arg3), SWIGTYPE_p_f_long_long_int_double_double__void, 0);
-      if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "3"" of type '" "void (*)(long,long,int,double,double)""'"); 
-      }
-    }
-  } else {
-    arg3 = _p_f_long_long_int_double_double__void;
-    R_SWIG_pushCallbackFunctionData(setControlPoint, NULL);
-  }
-  if(TYPEOF(setCenterPoint) != CLOSXP) {
-    {
-      int res = SWIG_R_ConvertPtr(setCenterPoint, (void**)(&arg4), SWIGTYPE_p_f_long_double_double__void, 0);
-      if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "4"" of type '" "void (*)(long,double,double)""'"); 
-      }
-    }
-  } else {
-    arg4 = _p_f_long_double_double__void;
-    R_SWIG_pushCallbackFunctionData(setCenterPoint, NULL);
-  }
-  if(TYPEOF(getCenterPointX) != CLOSXP) {
-    {
-      int res = SWIG_R_ConvertPtr(getCenterPointX, (void**)(&arg5), SWIGTYPE_p_f_long__double, 0);
-      if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "5"" of type '" "double (*)(long)""'"); 
-      }
-    }
-  } else {
-    arg5 = _p_f_long__double;
-    R_SWIG_pushCallbackFunctionData(getCenterPointX, NULL);
-  }
-  if(TYPEOF(getCenterPointY) != CLOSXP) {
-    {
-      int res = SWIG_R_ConvertPtr(getCenterPointY, (void**)(&arg6), SWIGTYPE_p_f_long__double, 0);
-      if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "6"" of type '" "double (*)(long)""'"); 
-      }
-    }
-  } else {
-    arg6 = _p_f_long__double;
-    R_SWIG_pushCallbackFunctionData(getCenterPointY, NULL);
-  }
-  if(TYPEOF(setStraight) != CLOSXP) {
-    {
-      int res = SWIG_R_ConvertPtr(setStraight, (void**)(&arg7), SWIGTYPE_p_f_long_int__void, 0);
-      if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "7"" of type '" "void (*)(long,int)""'"); 
-      }
-    }
-  } else {
-    arg7 = _p_f_long_int__void;
-    R_SWIG_pushCallbackFunctionData(setStraight, NULL);
-  }
-  if(TYPEOF(setAllStraight) != CLOSXP) {
-    {
-      int res = SWIG_R_ConvertPtr(setAllStraight, (void**)(&arg8), SWIGTYPE_p_f_int__void, 0);
-      if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "8"" of type '" "void (*)(int)""'"); 
-      }
-    }
-  } else {
-    arg8 = _p_f_int__void;
-    R_SWIG_pushCallbackFunctionData(setAllStraight, NULL);
-  }
-  if(TYPEOF(setLineWidth) != CLOSXP) {
-    {
-      int res = SWIG_R_ConvertPtr(setLineWidth, (void**)(&arg9), SWIGTYPE_p_f_long_double_int__void, 0);
-      if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "9"" of type '" "void (*)(long,double,int)""'"); 
-      }
-    }
-  } else {
-    arg9 = _p_f_long_double_int__void;
-    R_SWIG_pushCallbackFunctionData(setLineWidth, NULL);
-  }
-  tc_ConnectionSelection_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9);
-  r_ans = R_NilValue;
-  
-  
-  
-  
   
   
   
@@ -16007,7 +16101,6 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_separate", (DL_FUNC) &R_swig_tc_separate, 1},
    {"R_swig_tc_plot", (DL_FUNC) &R_swig_tc_plot, 2},
    {"R_swig_tc_ConnectionInsertion_api", (DL_FUNC) &R_swig_tc_ConnectionInsertion_api, 5},
-   {"R_swig_tc_ConnectionSelection_api", (DL_FUNC) &R_swig_tc_ConnectionSelection_api, 9},
    {"R_swig_tc_NodeInsertion_api", (DL_FUNC) &R_swig_tc_NodeInsertion_api, 1},
    {"R_swig_tc_createStringsArray", (DL_FUNC) &R_swig_tc_createStringsArray, 2},
    {"R_swig_tc_createItemsArray", (DL_FUNC) &R_swig_tc_createItemsArray, 2},
@@ -16019,8 +16112,8 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_getFixedVariables", (DL_FUNC) &R_swig_tc_getFixedVariables, 2},
    {"R_swig_tc_getParametersAndFixedVariables", (DL_FUNC) &R_swig_tc_getParametersAndFixedVariables, 2},
    {"R_swig_tc_surface", (DL_FUNC) &R_swig_tc_surface, 2},
-   {"R_swig_tc_LabelingTool_api", (DL_FUNC) &R_swig_tc_LabelingTool_api, 5},
    {"R_swig_tc_getParent", (DL_FUNC) &R_swig_tc_getParent, 2},
+   {"R_swig_tc_LabelingTool_api", (DL_FUNC) &R_swig_tc_LabelingTool_api, 5},
    {"R_swig_tc_GroupHandlerTool_api", (DL_FUNC) &R_swig_tc_GroupHandlerTool_api, 2},
    {"R_swig_tc_StoichiometryTool_api", (DL_FUNC) &R_swig_tc_StoichiometryTool_api, 4},
    {"R_swig_tc_OctaveTool_api", (DL_FUNC) &R_swig_tc_OctaveTool_api, 3},
@@ -16032,22 +16125,22 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_ModuleTool_api", (DL_FUNC) &R_swig_tc_ModuleTool_api, 2},
    {"R_swig_tc_getColumnName", (DL_FUNC) &R_swig_tc_getColumnName, 2},
    {"R_swig_tc_setColumnName", (DL_FUNC) &R_swig_tc_setColumnName, 3},
-   {"R_swig_tc_getControlPointX", (DL_FUNC) &R_swig_tc_getControlPointX, 4},
    {"R_swig_tc_getCenterPointX", (DL_FUNC) &R_swig_tc_getCenterPointX, 2},
+   {"R_swig_tc_getControlPointX", (DL_FUNC) &R_swig_tc_getControlPointX, 4},
    {"R_swig_tc_createTable", (DL_FUNC) &R_swig_tc_createTable, 3},
    {"R_swig_tc_deleteTable", (DL_FUNC) &R_swig_tc_deleteTable, 1},
    {"R_swig_tc_thisThread", (DL_FUNC) &R_swig_tc_thisThread, 1},
-   {"R_swig_tc_getAllTextNamed", (DL_FUNC) &R_swig_tc_getAllTextNamed, 3},
-   {"R_swig_tc_getControlPointY", (DL_FUNC) &R_swig_tc_getControlPointY, 4},
    {"R_swig_tc_getCenterPointY", (DL_FUNC) &R_swig_tc_getCenterPointY, 2},
+   {"R_swig_tc_getControlPointY", (DL_FUNC) &R_swig_tc_getControlPointY, 4},
+   {"R_swig_tc_getAllTextNamed", (DL_FUNC) &R_swig_tc_getAllTextNamed, 3},
    {"R_swig_tc_getStoichiometry", (DL_FUNC) &R_swig_tc_getStoichiometry, 2},
    {"R_swig_tc_setStoichiometry", (DL_FUNC) &R_swig_tc_setStoichiometry, 2},
    {"R_swig_tc_reducedStoichiometry", (DL_FUNC) &R_swig_tc_reducedStoichiometry, 1},
-   {"R_swig_tc_setInitialValues", (DL_FUNC) &R_swig_tc_setInitialValues, 2},
-   {"R_swig_tc_getInitialValues", (DL_FUNC) &R_swig_tc_getInitialValues, 2},
    {"R_swig_tc_setTextValues", (DL_FUNC) &R_swig_tc_setTextValues, 1},
    {"R_swig_tc_setNumericalValues", (DL_FUNC) &R_swig_tc_setNumericalValues, 1},
    {"R_swig_tc_openUrl", (DL_FUNC) &R_swig_tc_openUrl, 1},
+   {"R_swig_tc_getInitialValues", (DL_FUNC) &R_swig_tc_getInitialValues, 2},
+   {"R_swig_tc_setInitialValues", (DL_FUNC) &R_swig_tc_setInitialValues, 2},
    {"R_swig_tc_printOutTable", (DL_FUNC) &R_swig_tc_printOutTable, 1},
    {"R_swig_tc_getNumber", (DL_FUNC) &R_swig_tc_getNumber, 2},
    {"R_swig_tc_substituteEmptyModel", (DL_FUNC) &R_swig_tc_substituteEmptyModel, 1},
@@ -16055,8 +16148,8 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_items_items_set", (DL_FUNC) &R_swig_tc_items_items_set, 2},
    {"R_swig_tc_ModelFileGenerator_api", (DL_FUNC) &R_swig_tc_ModelFileGenerator_api, 1},
    {"R_swig_tc_zoom", (DL_FUNC) &R_swig_tc_zoom, 1},
-   {"R_swig_tc_setStraight", (DL_FUNC) &R_swig_tc_setStraight, 2},
    {"R_swig_tc_setAllStraight", (DL_FUNC) &R_swig_tc_setAllStraight, 1},
+   {"R_swig_tc_setStraight", (DL_FUNC) &R_swig_tc_setStraight, 2},
    {"R_swig_tc_getRate", (DL_FUNC) &R_swig_tc_getRate, 1},
    {"R_swig_tc_setRate", (DL_FUNC) &R_swig_tc_setRate, 2},
    {"R_swig_tc_strings_length_set", (DL_FUNC) &R_swig_tc_strings_length_set, 2},
@@ -16069,8 +16162,8 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_matrix_rows_set", (DL_FUNC) &R_swig_tc_matrix_rows_set, 2},
    {"R_swig_tc_setNumericalData", (DL_FUNC) &R_swig_tc_setNumericalData, 3},
    {"R_swig_tc_getNumericalData", (DL_FUNC) &R_swig_tc_getNumericalData, 3},
-   {"R_swig_tc_getRowIndex", (DL_FUNC) &R_swig_tc_getRowIndex, 3},
    {"R_swig_tc_setCenterPoint", (DL_FUNC) &R_swig_tc_setCenterPoint, 3},
+   {"R_swig_tc_getRowIndex", (DL_FUNC) &R_swig_tc_getRowIndex, 3},
    {"R_swig_tc_insertAnnotations", (DL_FUNC) &R_swig_tc_insertAnnotations, 3},
    {"R_swig_tc_annotations", (DL_FUNC) &R_swig_tc_annotations, 0},
    {"R_swig_tc_getEigenvalues", (DL_FUNC) &R_swig_tc_getEigenvalues, 1},
@@ -16095,6 +16188,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_getConnectedNodes", (DL_FUNC) &R_swig_tc_getConnectedNodes, 2},
    {"R_swig_tc_getForcingFunctionAssignments", (DL_FUNC) &R_swig_tc_getForcingFunctionAssignments, 2},
    {"R_swig_tc_getNumbers", (DL_FUNC) &R_swig_tc_getNumbers, 2},
+   {"R_swig_ApplySpringForce", (DL_FUNC) &R_swig_ApplySpringForce, 6},
    {"R_swig_tc_isLinux", (DL_FUNC) &R_swig_tc_isLinux, 1},
    {"R_swig_tc_setParameterByName", (DL_FUNC) &R_swig_tc_setParameterByName, 2},
    {"R_swig_tc_getItem", (DL_FUNC) &R_swig_tc_getItem, 3},
@@ -16112,12 +16206,12 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_changeNodeImage", (DL_FUNC) &R_swig_tc_changeNodeImage, 2},
    {"R_swig_tc_table_strings_get", (DL_FUNC) &R_swig_tc_table_strings_get, 1},
    {"R_swig_tc_strings_strings_get", (DL_FUNC) &R_swig_tc_strings_strings_get, 1},
+   {"R_swig_tc_setLineWidth", (DL_FUNC) &R_swig_tc_setLineWidth, 3},
    {"R_swig_tc_table_colnames_get", (DL_FUNC) &R_swig_tc_table_colnames_get, 1},
    {"R_swig_tc_table_rownames_get", (DL_FUNC) &R_swig_tc_table_rownames_get, 1},
    {"R_swig_tc_matrix_colnames_get", (DL_FUNC) &R_swig_tc_matrix_colnames_get, 1},
    {"R_swig_tc_matrix_rownames_get", (DL_FUNC) &R_swig_tc_matrix_rownames_get, 1},
    {"R_swig_tc_matrix_values_get", (DL_FUNC) &R_swig_tc_matrix_values_get, 1},
-   {"R_swig_tc_setLineWidth", (DL_FUNC) &R_swig_tc_setLineWidth, 3},
    {"R_swig_tc_selectedItems", (DL_FUNC) &R_swig_tc_selectedItems, 1},
    {"R_swig_tc_getWidth", (DL_FUNC) &R_swig_tc_getWidth, 2},
    {"R_swig_tc_itemsOfFamilyFrom", (DL_FUNC) &R_swig_tc_itemsOfFamilyFrom, 3},
@@ -16142,7 +16236,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_steadyStateScan", (DL_FUNC) &R_swig_tc_steadyStateScan, 5},
    {"R_swig_tc_getColumnIndex", (DL_FUNC) &R_swig_tc_getColumnIndex, 3},
    {"R_swig_tc_CThread_api_initialize", (DL_FUNC) &R_swig_tc_CThread_api_initialize, 4},
-   {"R_swig_tc_Main_api_initialize", (DL_FUNC) &R_swig_tc_Main_api_initialize, 78},
+   {"R_swig_tc_Main_api_initialize", (DL_FUNC) &R_swig_tc_Main_api_initialize, 87},
    {"R_swig_tc_setPos", (DL_FUNC) &R_swig_tc_setPos, 3},
    {"R_swig_tc_setLogScale", (DL_FUNC) &R_swig_tc_setLogScale, 1},
    {"R_swig_tc_callFunction", (DL_FUNC) &R_swig_tc_callFunction, 1},
@@ -16233,6 +16327,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_matrix_rows_get", (DL_FUNC) &R_swig_tc_matrix_rows_get, 2},
    {"R_swig_tc_LoadCLibraries_api", (DL_FUNC) &R_swig_tc_LoadCLibraries_api, 5},
    {"R_swig_tc_multiplot", (DL_FUNC) &R_swig_tc_multiplot, 2},
+   {"R_swig_Autolayout", (DL_FUNC) &R_swig_Autolayout, 6},
    {"R_swig_tc_SBML_api", (DL_FUNC) &R_swig_tc_SBML_api, 5},
    {"R_swig_tc_screenX", (DL_FUNC) &R_swig_tc_screenX, 1},
    {"R_swig_tc_setPosMulti", (DL_FUNC) &R_swig_tc_setPosMulti, 2},

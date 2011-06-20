@@ -233,7 +233,7 @@ namespace Tinkercell
 
 	void NodeInsertion::sceneClicked(GraphicsScene *scene, QPointF point, Qt::MouseButton button, Qt::KeyboardModifiers)
 	{
-		if (mainWindow && scene && selectedNodeFamily)
+		if (mainWindow && scene && scene->useDefaultBehavior() && selectedNodeFamily)
 		{
 			if (button == Qt::LeftButton)
 			{

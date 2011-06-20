@@ -1,3 +1,4 @@
+<1 to 1>											<a>							<Process> .
 <1 to 1>											<participant>			"Node,Reactant"@en .
 <1 to 1>											<participant>			"Node,Product"@en .
 <1 to 1>											<description>			"A process involving two participants"@en .
@@ -58,32 +59,38 @@
 <Transport>									<a>			<1 to 1> .
 <Transport>									<description>		"A molecule moving in or out of a compartment"@en .
 <Transport>									<conditions>			"different compartments"@en .
+<2 to 1>											<a>							<Process> .
 <2 to 1>										<description>		"A process involving 3 participants"@en .
 <2 to 1>										<participant>		"Node, Reactant1"@en .
 <2 to 1>										<participant>		"Node, Reactant2"@en .
 <2 to 1>										<participant>		"Node, Product"@en .
+<3 to 1>											<a>							<Process> .
 <3 to 1>										<description>		"A process involving 4 participants"@en .
 <3 to 1>										<participant>		"Node, Reactant1"@en .
 <3 to 1>										<participant>		"Node, Reactant2"@en .
 <3 to 1>										<participant>		"Node, Reactant3"@en .
 <3 to 1>										<participant>		"Node, Product"@en .
+<2 to 2>											<a>							<Process> .
 <2 to 2>										<description>		"A process involving 4 participants"@en .
 <2 to 2>										<participant>		"Node, Reactant1"@en .
 <2 to 2>										<participant>		"Node, Reactant2"@en .
 <2 to 2>										<participant>		"Node, Product1"@en .
 <2 to 2>										<participant>		"Node, Product2"@en .
+<3 to 2>											<a>							<Process> .
 <3 to 2>										<description>		"A process involving 5 participants"@en .
 <3 to 2>										<participant>		"Node, Reactant1"@en .
 <3 to 2>										<participant>		"Node, Reactant2"@en .
 <3 to 2>										<participant>		"Node, Reactant3"@en .
 <3 to 2>										<participant>		"Node, Product1"@en .
 <3 to 2>										<participant>		"Node, Product2"@en .
+<2 to 3>											<a>							<Process> .
 <2 to 3>										<description>		"A process involving 5 participants"@en .
 <2 to 3>										<participant>		"Node, Reactant1"@en .
 <2 to 3>										<participant>		"Node, Reactant2"@en .
 <2 to 3>										<participant>		"Node, Product1"@en .
 <2 to 3>										<participant>		"Node, Product2"@en .
 <2 to 3>										<participant>		"Node, Product3"@en .
+<3 to 3>											<a>							<Process> .
 <3 to 3>										<description>		"A process involving 6 participants"@en .
 <3 to 3>										<participant>		"Node, Reactant1"@en .
 <3 to 3>										<participant>		"Node, Reactant2"@en .
@@ -91,6 +98,7 @@
 <3 to 3>										<participant>		"Node, Product1"@en .
 <3 to 3>										<participant>		"Node, Product2"@en .
 <3 to 3>										<participant>		"Node, Product3"@en .
+<Regulation>											<a>							<Process> .
 <Regulation> 								<description>		"Any form of biological regulation"@en .
 <Regulation> 								<participant>		"Node, Regulator"@en .
 <Regulation> 								<participant>		"Node, Target"@en .

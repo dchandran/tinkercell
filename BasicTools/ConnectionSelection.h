@@ -123,8 +123,6 @@ namespace Tinkercell
 		void connectCollisionDetector();
 		bool controlHeld;
 		qreal gridDist;
-		
-		static ConnectionSelection_FToS * fToS;
 
 	private:
 		QList<ConnectionGraphicsItem*> temporarilyChangedConnections;

@@ -195,6 +195,22 @@ namespace Tinkercell
 			}
 		}
 		
+		QString filenames[] = {  
+			filename,
+			tempDir() + QObject::tr("/") + filename,
+			homeDir() + QObject::tr("/") + filename,
+			homeDir() + QObject::tr("/Modules/") + filename,
+			QDir::currentPath() + QObject::tr("/") + filename,
+			QCoreApplication::applicationDirPath() + QObject::tr("/") + filename,
+			};
+		
+		for (int i=0; i < 6; ++i)
+			if (QFile::exists(filenames[i]))
+			{
+				filename = filenames[i];
+				break;
+			}
+		
 		if (QFile::exists(filename) && window && 
 			network && (parentHandle == window->handle) &&
 			window->handle->family()) 

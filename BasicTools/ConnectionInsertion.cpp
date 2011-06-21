@@ -820,7 +820,7 @@ namespace Tinkercell
 
 	void ConnectionInsertion::sceneClicked(GraphicsScene *scene, QPointF point, Qt::MouseButton button, Qt::KeyboardModifiers )
 	{
-		if (mainWindow && scene && scene->useDefaultBehavior() && selectedFamily)
+		if (mainWindow && scene && selectedFamily)
 		{
 			if (button == Qt::LeftButton)
 			{

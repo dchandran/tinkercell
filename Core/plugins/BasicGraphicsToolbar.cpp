@@ -1666,6 +1666,8 @@ namespace Tinkercell
 		GraphicsScene * scene = currentScene();
 		if (!scene) return;
 		
+		mainWindow->sendEscapeSignal(this);
+		
 		scene->deselect();
 		mode = brightness;
 		

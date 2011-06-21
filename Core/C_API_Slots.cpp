@@ -944,7 +944,7 @@ namespace Tinkercell
 				found = true;
 				break;
 			}
-		
+
 		if (!found)
 		{
 			for (int i=0; i < item->graphicsItems.size(); ++i)
@@ -955,7 +955,7 @@ namespace Tinkercell
 					break;
 				}
 		}
-		
+
 		if (!found)
 		{
 			for (int i=0; i < item->graphicsItems.size(); ++i)
@@ -1074,23 +1074,22 @@ namespace Tinkercell
 	{
 		if (currentScene() && !items.isEmpty() && pos)
 		{
-			QList<QGraphicsItem*> graphicsItems;
 			QList<QPointF> p;
 			for (int i=0; i < items.size(); ++i)
 			{
 				for (int j=0; j < items[i]->graphicsItems.size(); ++j)
 				{
+					if (ConnectionGraphicsItem::cast(items[i]->graphicsItems[j]))
+					{
+						p << (ConnectionGraphicsItem::cast(items[i]->graphicsItems[j]))->centerLocation();
+						break;
+					}
+					else
 					if (NodeGraphicsItem::cast(items[i]->graphicsItems[j]) || (j == (items[i]->graphicsItems.size() - 1)))
 					{
 						p << items[i]->graphicsItems[j]->scenePos();
 						break;
 					}
-					else
-						if (ConnectionGraphicsItem::cast(items[i]->graphicsItems[j]))
-						{
-							p << (ConnectionGraphicsItem::cast(items[i]->graphicsItems[j]))->centerLocation();
-							break;
-						}
 				}
 			}
 

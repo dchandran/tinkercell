@@ -1,5 +1,4 @@
 /****************************************************************************
-
 Copyright (c) 2008 Deepak Chandran
 Contact: Deepak Chandran (dchandran1@gmail.com)
 See COPYRIGHT.TXT
@@ -624,10 +623,7 @@ namespace Tinkercell
 		else
 		if (curveSegments.size() == 1 && curveSegments[0].size() < 5)
 		{
-			//if (pen().style() == Qt::SolidLine)
 			return ( pathShape.pointAtPercent(0.25) );
-			//else
-			//return ( pathShape.pointAtPercent(0.5) );
 		}
 		else
 		{

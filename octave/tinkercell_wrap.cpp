@@ -2271,7 +2271,7 @@ static swig_module_info swig_module = {swig_types, 87, 0, 0, 0, 0};
 
 
 #include "TC_structs.h"
-%include "AutoLayout.h"
+#include "AutoLayout.h"
 #include "TC_Main_api.h"
 #include "TC_BasicInformationTool_api.h"
 #include "TC_ConnectionInsertion_api.h"
@@ -8145,82 +8145,6 @@ fail:
 }
 
 
-static octave_value_list _wrap_Autolayout (const octave_value_list& args, int nargout) {
-  tc_matrix arg1 ;
-  tc_matrix arg2 ;
-  double arg3 ;
-  double arg4 ;
-  double arg5 ;
-  double arg6 ;
-  void *argp1 ;
-  int res1 = 0 ;
-  void *argp2 ;
-  int res2 = 0 ;
-  double val3 ;
-  int ecode3 = 0 ;
-  double val4 ;
-  int ecode4 = 0 ;
-  double val5 ;
-  int ecode5 = 0 ;
-  double val6 ;
-  int ecode6 = 0 ;
-  octave_value_list _out;
-  octave_value_list *_outp=&_out;
-  octave_value _outv;
-  
-  if (!SWIG_check_num_args("Autolayout",args.length(),6,6,0)) {
-    SWIG_fail;
-  }
-  {
-    res1 = SWIG_ConvertPtr(args(0), &argp1, SWIGTYPE_p_tc_matrix,  0 );
-    if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Autolayout" "', argument " "1"" of type '" "tc_matrix""'"); 
-    }  
-    if (!argp1) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Autolayout" "', argument " "1"" of type '" "tc_matrix""'");
-    } else {
-      arg1 = *((tc_matrix *)(argp1));
-    }
-  }
-  {
-    res2 = SWIG_ConvertPtr(args(1), &argp2, SWIGTYPE_p_tc_matrix,  0 );
-    if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Autolayout" "', argument " "2"" of type '" "tc_matrix""'"); 
-    }  
-    if (!argp2) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Autolayout" "', argument " "2"" of type '" "tc_matrix""'");
-    } else {
-      arg2 = *((tc_matrix *)(argp2));
-    }
-  }
-  ecode3 = SWIG_AsVal_double(args(2), &val3);
-  if (!SWIG_IsOK(ecode3)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "Autolayout" "', argument " "3"" of type '" "double""'");
-  } 
-  arg3 = (double)(val3);
-  ecode4 = SWIG_AsVal_double(args(3), &val4);
-  if (!SWIG_IsOK(ecode4)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "Autolayout" "', argument " "4"" of type '" "double""'");
-  } 
-  arg4 = (double)(val4);
-  ecode5 = SWIG_AsVal_double(args(4), &val5);
-  if (!SWIG_IsOK(ecode5)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "Autolayout" "', argument " "5"" of type '" "double""'");
-  } 
-  arg5 = (double)(val5);
-  ecode6 = SWIG_AsVal_double(args(5), &val6);
-  if (!SWIG_IsOK(ecode6)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode6), "in method '" "Autolayout" "', argument " "6"" of type '" "double""'");
-  } 
-  arg6 = (double)(val6);
-  Autolayout(arg1,arg2,arg3,arg4,arg5,arg6);
-  _outv = octave_value();
-  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
-fail:
-  return _out;
-}
-
-
 static octave_value_list _wrap_ApplySpringForce (const octave_value_list& args, int nargout) {
   tc_matrix arg1 ;
   tc_matrix arg2 ;
@@ -12628,7 +12552,6 @@ static const struct swig_octave_member swig_globals[] = {
 {"tc_highlight",_wrap_tc_highlight,0,0,2,0},
 {"tc_burn",_wrap_tc_burn,0,0,2,0},
 {"tc_LabelingTool_api",_wrap_tc_LabelingTool_api,0,0,2,0},
-{"Autolayout",_wrap_Autolayout,0,0,2,0},
 {"ApplySpringForce",_wrap_ApplySpringForce,0,0,2,0},
 {"tc_getParameters",_wrap_tc_getParameters,0,0,2,0},
 {"tc_getInitialValues",_wrap_tc_getInitialValues,0,0,2,0},

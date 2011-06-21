@@ -4611,18 +4611,6 @@ attr(`tc_LabelingTool_api`, 'returnType') = 'void'
 attr(`tc_LabelingTool_api`, "inputTypes") = c('_p_f_long_p_q_const__char__void', '_p_f_long_double__void', '_p_f_p_q_const__char_p_q_const__char__void', '_p_f_long_p_q_const__char__void', '_p_f_long_double__void')
 class(`tc_LabelingTool_api`) = c("SWIGFunction", class('tc_LabelingTool_api'))
 
-# Start of Autolayout
-
-`Autolayout` = function(positions, connections, spring, charge, damping, threshold)
-{
-  .Call('R_swig_Autolayout', positions, connections, spring, charge, damping, threshold, PACKAGE='tinkercell')
-  
-}
-
-attr(`Autolayout`, 'returnType') = 'void'
-attr(`Autolayout`, "inputTypes") = c('_p_tc_matrix', '_p_tc_matrix', 'numeric', 'numeric', 'numeric', 'numeric')
-class(`Autolayout`) = c("SWIGFunction", class('Autolayout'))
-
 # Start of ApplySpringForce
 
 `ApplySpringForce` = function(nodes, connections, spring, charge, damping, .copy = FALSE)

@@ -2,7 +2,7 @@
 %inline
 %{
 #include "TC_structs.h"
-%include "AutoLayout.h"
+#include "AutoLayout.h"
 #include "TC_Main_api.h"
 #include "TC_BasicInformationTool_api.h"
 #include "TC_ConnectionInsertion_api.h"

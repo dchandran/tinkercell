@@ -1898,7 +1898,7 @@ static VALUE mTinkercell;
 
 
 #include "TC_structs.h"
-%include "AutoLayout.h"
+#include "AutoLayout.h"
 #include "TC_Main_api.h"
 #include "TC_BasicInformationTool_api.h"
 #include "TC_ConnectionInsertion_api.h"
@@ -7529,79 +7529,6 @@ fail:
 
 
 SWIGINTERN VALUE
-_wrap_Autolayout(int argc, VALUE *argv, VALUE self) {
-  tc_matrix arg1 ;
-  tc_matrix arg2 ;
-  double arg3 ;
-  double arg4 ;
-  double arg5 ;
-  double arg6 ;
-  void *argp1 ;
-  int res1 = 0 ;
-  void *argp2 ;
-  int res2 = 0 ;
-  double val3 ;
-  int ecode3 = 0 ;
-  double val4 ;
-  int ecode4 = 0 ;
-  double val5 ;
-  int ecode5 = 0 ;
-  double val6 ;
-  int ecode6 = 0 ;
-  
-  if ((argc < 6) || (argc > 6)) {
-    rb_raise(rb_eArgError, "wrong # of arguments(%d for 6)",argc); SWIG_fail;
-  }
-  {
-    res1 = SWIG_ConvertPtr(argv[0], &argp1, SWIGTYPE_p_tc_matrix,  0 );
-    if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "tc_matrix","Autolayout", 1, argv[0] )); 
-    }  
-    if (!argp1) {
-      SWIG_exception_fail(SWIG_ValueError, Ruby_Format_TypeError("invalid null reference ", "tc_matrix","Autolayout", 1, argv[0]));
-    } else {
-      arg1 = *((tc_matrix *)(argp1));
-    }
-  }
-  {
-    res2 = SWIG_ConvertPtr(argv[1], &argp2, SWIGTYPE_p_tc_matrix,  0 );
-    if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), Ruby_Format_TypeError( "", "tc_matrix","Autolayout", 2, argv[1] )); 
-    }  
-    if (!argp2) {
-      SWIG_exception_fail(SWIG_ValueError, Ruby_Format_TypeError("invalid null reference ", "tc_matrix","Autolayout", 2, argv[1]));
-    } else {
-      arg2 = *((tc_matrix *)(argp2));
-    }
-  }
-  ecode3 = SWIG_AsVal_double(argv[2], &val3);
-  if (!SWIG_IsOK(ecode3)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode3), Ruby_Format_TypeError( "", "double","Autolayout", 3, argv[2] ));
-  } 
-  arg3 = (double)(val3);
-  ecode4 = SWIG_AsVal_double(argv[3], &val4);
-  if (!SWIG_IsOK(ecode4)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode4), Ruby_Format_TypeError( "", "double","Autolayout", 4, argv[3] ));
-  } 
-  arg4 = (double)(val4);
-  ecode5 = SWIG_AsVal_double(argv[4], &val5);
-  if (!SWIG_IsOK(ecode5)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode5), Ruby_Format_TypeError( "", "double","Autolayout", 5, argv[4] ));
-  } 
-  arg5 = (double)(val5);
-  ecode6 = SWIG_AsVal_double(argv[5], &val6);
-  if (!SWIG_IsOK(ecode6)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode6), Ruby_Format_TypeError( "", "double","Autolayout", 6, argv[5] ));
-  } 
-  arg6 = (double)(val6);
-  Autolayout(arg1,arg2,arg3,arg4,arg5,arg6);
-  return Qnil;
-fail:
-  return Qnil;
-}
-
-
-SWIGINTERN VALUE
 _wrap_ApplySpringForce(int argc, VALUE *argv, VALUE self) {
   tc_matrix arg1 ;
   tc_matrix arg2 ;
@@ -12464,7 +12391,6 @@ SWIGEXPORT void Init_tinkercell(void) {
   rb_define_module_function(mTinkercell, "tc_highlight", _wrap_tc_highlight, -1);
   rb_define_module_function(mTinkercell, "tc_burn", _wrap_tc_burn, -1);
   rb_define_module_function(mTinkercell, "tc_LabelingTool_api", _wrap_tc_LabelingTool_api, -1);
-  rb_define_module_function(mTinkercell, "Autolayout", _wrap_Autolayout, -1);
   rb_define_module_function(mTinkercell, "ApplySpringForce", _wrap_ApplySpringForce, -1);
   rb_define_module_function(mTinkercell, "tc_getParameters", _wrap_tc_getParameters, -1);
   rb_define_module_function(mTinkercell, "tc_getInitialValues", _wrap_tc_getInitialValues, -1);

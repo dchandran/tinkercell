@@ -1312,7 +1312,7 @@ static swig_module_info swig_module = {swig_types, 87, 0, 0, 0, 0};
 
 
 #include "TC_structs.h"
-%include "AutoLayout.h"
+#include "AutoLayout.h"
 #include "TC_Main_api.h"
 #include "TC_BasicInformationTool_api.h"
 #include "TC_ConnectionInsertion_api.h"
@@ -9559,62 +9559,6 @@ R_swig_tc_LabelingTool_api ( SEXP displayText, SEXP displayNumber, SEXP setDispl
 
 
 SWIGEXPORT SEXP
-R_swig_Autolayout ( SEXP positions, SEXP connections, SEXP spring, SEXP charge, SEXP damping, SEXP threshold)
-{
-  tc_matrix arg1 ;
-  tc_matrix arg2 ;
-  double arg3 ;
-  double arg4 ;
-  double arg5 ;
-  double arg6 ;
-  void *argp1 ;
-  int res1 = 0 ;
-  void *argp2 ;
-  int res2 = 0 ;
-  unsigned int r_nprotect = 0;
-  SEXP r_ans = R_NilValue ;
-  VMAXTYPE r_vmax = vmaxget() ;
-  
-  {
-    res1 = SWIG_R_ConvertPtr(positions, &argp1, SWIGTYPE_p_tc_matrix,  0 );
-    if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Autolayout" "', argument " "1"" of type '" "tc_matrix""'"); 
-    }  
-    if (!argp1) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Autolayout" "', argument " "1"" of type '" "tc_matrix""'");
-    } else {
-      arg1 = *((tc_matrix *)(argp1));
-    }
-  }
-  {
-    res2 = SWIG_R_ConvertPtr(connections, &argp2, SWIGTYPE_p_tc_matrix,  0 );
-    if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Autolayout" "', argument " "2"" of type '" "tc_matrix""'"); 
-    }  
-    if (!argp2) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Autolayout" "', argument " "2"" of type '" "tc_matrix""'");
-    } else {
-      arg2 = *((tc_matrix *)(argp2));
-    }
-  }
-  arg3 = (double)(REAL(spring)[0]);
-  arg4 = (double)(REAL(charge)[0]);
-  arg5 = (double)(REAL(damping)[0]);
-  arg6 = (double)(REAL(threshold)[0]);
-  Autolayout(arg1,arg2,arg3,arg4,arg5,arg6);
-  r_ans = R_NilValue;
-  
-  
-  
-  
-  vmaxset(r_vmax);
-  if(r_nprotect)  Rf_unprotect(r_nprotect);
-  
-  return r_ans;
-}
-
-
-SWIGEXPORT SEXP
 R_swig_ApplySpringForce ( SEXP nodes, SEXP connections, SEXP spring, SEXP charge, SEXP damping, SEXP s_swig_copy)
 {
   double result;
@@ -16327,7 +16271,6 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_matrix_rows_get", (DL_FUNC) &R_swig_tc_matrix_rows_get, 2},
    {"R_swig_tc_LoadCLibraries_api", (DL_FUNC) &R_swig_tc_LoadCLibraries_api, 5},
    {"R_swig_tc_multiplot", (DL_FUNC) &R_swig_tc_multiplot, 2},
-   {"R_swig_Autolayout", (DL_FUNC) &R_swig_Autolayout, 6},
    {"R_swig_tc_SBML_api", (DL_FUNC) &R_swig_tc_SBML_api, 5},
    {"R_swig_tc_screenX", (DL_FUNC) &R_swig_tc_screenX, 1},
    {"R_swig_tc_setPosMulti", (DL_FUNC) &R_swig_tc_setPosMulti, 2},

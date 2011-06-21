@@ -681,10 +681,6 @@ def tc_LabelingTool_api(*args):
   return _tinkercell.tc_LabelingTool_api(*args)
 tc_LabelingTool_api = _tinkercell.tc_LabelingTool_api
 
-def Autolayout(*args):
-  return _tinkercell.Autolayout(*args)
-Autolayout = _tinkercell.Autolayout
-
 def ApplySpringForce(*args):
   return _tinkercell.ApplySpringForce(*args)
 ApplySpringForce = _tinkercell.ApplySpringForce

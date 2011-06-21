@@ -1610,7 +1610,7 @@ SWIGEXPORT void SWIG_init (CV *cv, CPerlObj *);
 
 
 #include "TC_structs.h"
-%include "AutoLayout.h"
+#include "AutoLayout.h"
 #include "TC_Main_api.h"
 #include "TC_BasicInformationTool_api.h"
 #include "TC_ConnectionInsertion_api.h"
@@ -8274,91 +8274,6 @@ XS(_wrap_tc_LabelingTool_api) {
 }
 
 
-XS(_wrap_Autolayout) {
-  {
-    tc_matrix arg1 ;
-    tc_matrix arg2 ;
-    double arg3 ;
-    double arg4 ;
-    double arg5 ;
-    double arg6 ;
-    void *argp1 ;
-    int res1 = 0 ;
-    void *argp2 ;
-    int res2 = 0 ;
-    double val3 ;
-    int ecode3 = 0 ;
-    double val4 ;
-    int ecode4 = 0 ;
-    double val5 ;
-    int ecode5 = 0 ;
-    double val6 ;
-    int ecode6 = 0 ;
-    int argvi = 0;
-    dXSARGS;
-    
-    if ((items < 6) || (items > 6)) {
-      SWIG_croak("Usage: Autolayout(positions,connections,spring,charge,damping,threshold);");
-    }
-    {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_matrix,  0 );
-      if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Autolayout" "', argument " "1"" of type '" "tc_matrix""'"); 
-      }  
-      if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Autolayout" "', argument " "1"" of type '" "tc_matrix""'");
-      } else {
-        arg1 = *((tc_matrix *)(argp1));
-      }
-    }
-    {
-      res2 = SWIG_ConvertPtr(ST(1), &argp2, SWIGTYPE_p_tc_matrix,  0 );
-      if (!SWIG_IsOK(res2)) {
-        SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Autolayout" "', argument " "2"" of type '" "tc_matrix""'"); 
-      }  
-      if (!argp2) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Autolayout" "', argument " "2"" of type '" "tc_matrix""'");
-      } else {
-        arg2 = *((tc_matrix *)(argp2));
-      }
-    }
-    ecode3 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(2), &val3);
-    if (!SWIG_IsOK(ecode3)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "Autolayout" "', argument " "3"" of type '" "double""'");
-    } 
-    arg3 = (double)(val3);
-    ecode4 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(3), &val4);
-    if (!SWIG_IsOK(ecode4)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "Autolayout" "', argument " "4"" of type '" "double""'");
-    } 
-    arg4 = (double)(val4);
-    ecode5 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(4), &val5);
-    if (!SWIG_IsOK(ecode5)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "Autolayout" "', argument " "5"" of type '" "double""'");
-    } 
-    arg5 = (double)(val5);
-    ecode6 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(5), &val6);
-    if (!SWIG_IsOK(ecode6)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode6), "in method '" "Autolayout" "', argument " "6"" of type '" "double""'");
-    } 
-    arg6 = (double)(val6);
-    Autolayout(arg1,arg2,arg3,arg4,arg5,arg6);
-    ST(argvi) = sv_newmortal();
-    
-    
-    
-    
-    XSRETURN(argvi);
-  fail:
-    
-    
-    
-    
-    SWIG_croak_null();
-  }
-}
-
-
 XS(_wrap_ApplySpringForce) {
   {
     tc_matrix arg1 ;
@@ -13618,7 +13533,6 @@ static swig_command_info swig_commands[] = {
 {"tinkercellc::tc_highlight", _wrap_tc_highlight},
 {"tinkercellc::tc_burn", _wrap_tc_burn},
 {"tinkercellc::tc_LabelingTool_api", _wrap_tc_LabelingTool_api},
-{"tinkercellc::Autolayout", _wrap_Autolayout},
 {"tinkercellc::ApplySpringForce", _wrap_ApplySpringForce},
 {"tinkercellc::tc_getParameters", _wrap_tc_getParameters},
 {"tinkercellc::tc_getInitialValues", _wrap_tc_getInitialValues},

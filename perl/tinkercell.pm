@@ -177,7 +177,6 @@ package tinkercell;
 *tc_highlight = *tinkercellc::tc_highlight;
 *tc_burn = *tinkercellc::tc_burn;
 *tc_LabelingTool_api = *tinkercellc::tc_LabelingTool_api;
-*Autolayout = *tinkercellc::Autolayout;
 *ApplySpringForce = *tinkercellc::ApplySpringForce;
 *tc_getParameters = *tinkercellc::tc_getParameters;
 *tc_getInitialValues = *tinkercellc::tc_getInitialValues;

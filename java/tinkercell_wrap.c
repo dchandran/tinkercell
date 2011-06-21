@@ -188,7 +188,7 @@ static void SWIGUNUSED SWIG_JavaThrowException(JNIEnv *jenv, SWIG_JavaExceptionC
 
 
 #include "TC_structs.h"
-%include "AutoLayout.h"
+#include "AutoLayout.h"
 #include "TC_Main_api.h"
 #include "TC_BasicInformationTool_api.h"
 #include "TC_ConnectionInsertion_api.h"
@@ -3196,40 +3196,6 @@ SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1LabelingTool_1api(JNIEnv *jenv, j
   arg4 = *(void (**)(long,char const *))&jarg4; 
   arg5 = *(void (**)(long,double))&jarg5; 
   tc_LabelingTool_api(arg1,arg2,arg3,arg4,arg5);
-}
-
-
-SWIGEXPORT void JNICALL Java_tinkercellJNI_Autolayout(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_, jdouble jarg3, jdouble jarg4, jdouble jarg5, jdouble jarg6) {
-  tc_matrix arg1 ;
-  tc_matrix arg2 ;
-  double arg3 ;
-  double arg4 ;
-  double arg5 ;
-  double arg6 ;
-  tc_matrix *argp1 ;
-  tc_matrix *argp2 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  (void)jarg2_;
-  argp1 = *(tc_matrix **)&jarg1; 
-  if (!argp1) {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null tc_matrix");
-    return ;
-  }
-  arg1 = *argp1; 
-  argp2 = *(tc_matrix **)&jarg2; 
-  if (!argp2) {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null tc_matrix");
-    return ;
-  }
-  arg2 = *argp2; 
-  arg3 = (double)jarg3; 
-  arg4 = (double)jarg4; 
-  arg5 = (double)jarg5; 
-  arg6 = (double)jarg6; 
-  Autolayout(arg1,arg2,arg3,arg4,arg5,arg6);
 }
 
 

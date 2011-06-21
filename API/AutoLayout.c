@@ -1,23 +1,5 @@
+#include <math.h>
 #include "AutoLayout.h"
-
-TCAPIEXPORT 
-void Autolayout(tc_matrix positions, tc_matrix connections, double spring, double charge, double damping, double threshold)
-{
-	int i;
-	tc_matrix nodes = tc_createMatrix(positions.rows, 5);
-	for (i=0; i < nodes.rows; ++i)
-	{
-		tc_setMatrixValue(nodes, i, 0, tc_getMatrixValue(positions, i, 0));
-		tc_setMatrixValue(nodes, i, 1, tc_getMatrixValue(positions, i, 1));
-		tc_setMatrixValue(nodes, i, 2, tc_getMatrixValue(positions, i, 2));
-		tc_setMatrixValue(nodes, i, 3, 0.0);
-		tc_setMatrixValue(nodes, i, 4, 0.0);
-	}
-	while (ApplySpringForce(nodes, connections, spring, charge, damping) > threshold)
-	{
-		//keep going
-	}
-}
 
 TCAPIEXPORT 
 double ApplySpringForce(tc_matrix nodes, tc_matrix connections, double spring, double charge, double damping)

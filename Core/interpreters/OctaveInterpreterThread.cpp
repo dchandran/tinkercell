@@ -109,6 +109,9 @@ namespace Tinkercell
     {
         if (!lib || !lib->isLoaded() || code.isEmpty()) return;
 		
+		if (!code.contains(QObject::tr("tinkercell.tc_")))
+			code.replace(QObject::tr("tc_"),QObject::tr("tinkercell.tc_"));
+		
 		if (fromTC.indexIn(code) > -1) //hack
 		{
 			QString m2 = fromTC.cap(1), m1 = fromTC.cap(2);
@@ -128,9 +131,6 @@ namespace Tinkercell
 							QObject::tr(")(i,j)); endfor endfor");
 			code.replace(toTC,s);
 		}
-
-		if (!code.contains(QObject::tr("tinkercell.tc_")))
-			code.replace(QObject::tr("tc_"),QObject::tr("tinkercell.tc_"));
        
         QString script;
 		

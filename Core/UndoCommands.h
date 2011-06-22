@@ -890,7 +890,7 @@ namespace Tinkercell
 	
 	/*! \brief command for changing line type of connections
 	* \ingroup undo*/
-	class LineTypeChanged : public QUndoCommand
+	class TINKERCELLEXPORT LineTypeChanged : public QUndoCommand
 	{
 	public:
 		QList<ConnectionGraphicsItem*> list;
@@ -901,7 +901,7 @@ namespace Tinkercell
 	
 	/*! \brief command for changing distance between arrowhead and objects
 	* \ingroup undo*/
-	class ChangeArrowHeadDistance : public QUndoCommand
+	class TINKERCELLEXPORT ChangeArrowHeadDistance : public QUndoCommand
 	{
 	public:
 		QList<ConnectionGraphicsItem*> list;

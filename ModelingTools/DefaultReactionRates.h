@@ -56,22 +56,28 @@ namespace Tinkercell
 							
 							isReactant = ( participants.rowName(j).toLower().contains(QObject::tr("reactant")) ||
 													participants.rowName(j).toLower().contains(QObject::tr("substrate")));
-						
+							
 							isProduct = ( participants.rowName(j).toLower().contains(QObject::tr("product")) );
 							
 							if (isReactant || isProduct)
 								break;
 						}
-					
+
 					if (isReactant)
 					{
 						reactants.value(QObject::tr("stoichiometry"), node->fullName()) += 1.0;
 						products.value(QObject::tr("stoichiometry"), node->fullName()) += 0.0;
 						rates.value(QObject::tr("rate"),QObject::tr("formula")) += QObject::tr("*") + node->fullName();						
 					}
+					else
 					if (isProduct)
 					{
 						products.value( QObject::tr("stoichiometry"), node->fullName()) += 1.0;
+						reactants.value( QObject::tr("stoichiometry"), node->fullName()) += 0.0;
+					}
+					else
+					{
+						products.value( QObject::tr("stoichiometry"), node->fullName()) += 0.0;
 						reactants.value( QObject::tr("stoichiometry"), node->fullName()) += 0.0;
 					}
 				}

@@ -803,10 +803,10 @@ namespace Tinkercell
 					break;
 				}
 			}
-		
+
+		QList<ItemHandle*> visited;
 		if (loadedItems)
 		{
-			QList<ItemHandle*> visited;		
 			for (int i=0; i < handles.size(); ++i)
 				if (ConnectionHandle::cast(handles[i]) && !handles[i]->children.isEmpty() && !visited.contains(handles[i]))
 				{
@@ -816,9 +816,9 @@ namespace Tinkercell
 			return;
 		}
 
-		QList<ItemHandle*> visited;		
+		visited.clear();
 		for (int i=0; i < handles.size(); ++i)
-			if (handles[i] && handles[i]->children.isEmpty() && !visited.contains(handles[i]) && ConnectionFamily::cast(handles[i]->family()))
+			if (handles[i] && !handles[i]->children.isEmpty() && !visited.contains(handles[i]) && ConnectionFamily::cast(handles[i]->family()))
 			{
 				visited << handles[i];
 				QStringList list = listOfModels(handles[i]->family());
@@ -842,7 +842,7 @@ namespace Tinkercell
 				}
 
 				
-				if (QFile::exists(filename))
+				if (!filename.isEmpty() && QFile::exists(filename))
 				{
 					QList<ConnectionGraphicsItem*> connections = ConnectionGraphicsItem::cast(handles[i]->graphicsItems);
 					for (int i2=0; i2 < connections.size(); ++i2)

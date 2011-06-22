@@ -1218,16 +1218,17 @@ namespace Tinkercell
 						if (sDataTable->value(j,0).isEmpty()) continue;
 						allZero = true;
 						
-						for (int k=0; k < nDataTable1->rows(); ++k)
-							if (nDataTable1->value(k,j) != 0)
-							{	
-								allZero = false;
-								break;
-							}
+						if (nDataTable1->rows() > j)
+							for (int k=0; k < nDataTable1->columns(); ++k)
+								if (nDataTable1->value(j, k) != 0)
+								{
+									allZero = false;
+									break;
+								}
 
-						if (allZero)
-							for (int k=0; k < nDataTable2->rows(); ++k)
-								if (nDataTable2->value(k,j) != 0)
+						if (allZero && nDataTable2->rows() > j)
+							for (int k=0; k < nDataTable2->columns(); ++k)
+								if (nDataTable2->value(j, k) != 0)
 								{	
 									allZero = false;
 									break;
@@ -1284,16 +1285,17 @@ namespace Tinkercell
 					{
 						allZero = true;
 						
-						for (int j=0; j < nDataTable1->rows(); ++j)
-							if (nDataTable1->value(j,k) != 0)
-							{	
-								allZero = false;
-								break;
-							}
+						if (nDataTable1->rows() > k)
+							for (int j=0; j < nDataTable1->columns(); ++j)
+								if (nDataTable1->value(k, j) != 0)
+								{	
+									allZero = false;
+									break;
+								}
 
-						if (allZero)
-							for (int j=0; j < nDataTable2->rows(); ++j)
-								if (nDataTable2->value(j,k) != 0)
+						if (allZero && nDataTable2->rows() > k)
+							for (int j=0; j < nDataTable2->columns(); ++j)
+								if (nDataTable2->value(k, j) != 0)
 								{	
 									allZero = false;
 									break;
@@ -1510,16 +1512,17 @@ namespace Tinkercell
 					for (int j=0; j < sDataTable->rows(); ++j) //get rates and reaction names
 					{
 						allZero = true;
-						for (int k=0; k < nDataTable1->rows(); ++k)
-							if (nDataTable1->value(k,j) != 0)
-							{	
-								allZero = false;
-								break;
-							}
+						if (nDataTable1->rows() > j)
+							for (int k=0; k < nDataTable1->columns(); ++k)
+								if (nDataTable1->value(j,k) != 0)
+								{	
+									allZero = false;
+									break;
+								}
 
-						if (allZero)
-							for (int k=0; k < nDataTable2->rows(); ++k)
-								if (nDataTable2->value(k,j) != 0)
+						if (allZero && nDataTable2->rows() > j)
+							for (int k=0; k < nDataTable2->columns(); ++k)
+								if (nDataTable2->value(j,k) != 0)
 								{	
 									allZero = false;
 									break;

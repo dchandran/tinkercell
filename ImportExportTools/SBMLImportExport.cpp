@@ -487,8 +487,8 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 		QString s = currentWindow()->windowTitle();		
 		if (s.isEmpty())
 			s = tr("TinkerCell_model");
-		Model_setId( model, RemoveDisallowedCharactersFromName(s) );
-		Model_setName( model, s );
+		Model_setId( model, RemoveDisallowedCharactersFromName(s).toAscii().data() );
+		Model_setName( model, s.toAscii().data() );
 	}
 
 	NumericalDataTable params = BasicInformationTool::getUsedParameters(0,handles);

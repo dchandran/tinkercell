@@ -479,6 +479,20 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 {
 	SBMLDocument_t * doc = SBMLDocument_create();
 	Model_t * model = SBMLDocument_createModel(doc);
+	
+	if (!model) return doc;
+	
+	if (currentWindow() && currentWindow()->windowTitle())
+	{
+		QString s = currentWindow()->windowTitle();		
+		Model_setId( model, RemoveDisallowedCharactersFromName(s) );
+		Model_setName( model, s );
+	}
+	else
+	{
+		Model_setId( model, "TinkerCell_model" );
+		Model_setName( model, "TinkerCell_model" );
+	}
 
 	NumericalDataTable params = BasicInformationTool::getUsedParameters(0,handles);
 	NumericalDataTable stoicMatrix = StoichiometryTool::getStoichiometry(handles);

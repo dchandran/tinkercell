@@ -4,8 +4,8 @@
  see COPYRIGHT.TXT
  
  This tool displays a plot based on the DataTable contained.
- 
 ****************************************************************************/
+
 #include <math.h>
 #include <QSettings>
 #include <QRegExp>
@@ -1220,11 +1220,13 @@ namespace Tinkercell
 		layout0->addStretch(3);
 		lineEdit = new QLineEdit(tr(""));
 		connect(lineEdit,SIGNAL(editingFinished()),this,SLOT(textEditingFinished()));
+		layout0->addWidget(new QLabel("By text:"));
 		layout0->addWidget(lineEdit);
 		selectFamilyBox = 0;
 		if (mainWindow && uniqueFamilyNames.size() > 1)
 		{
 			layout0->addStretch(2);
+			layout0->addWidget(new QLabel("By type:"));
 			layout0->addWidget(selectFamilyBox = new QComboBox);
 			selectFamilyBox->addItems(uniqueFamilyNames);
 		}

@@ -482,16 +482,13 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 	
 	if (!model) return doc;
 	
-	if (currentWindow() && currentWindow()->windowTitle())
+	if (currentWindow())
 	{
 		QString s = currentWindow()->windowTitle();		
+		if (s.isEmpty())
+			s = tr("TinkerCell_model");
 		Model_setId( model, RemoveDisallowedCharactersFromName(s) );
 		Model_setName( model, s );
-	}
-	else
-	{
-		Model_setId( model, "TinkerCell_model" );
-		Model_setName( model, "TinkerCell_model" );
 	}
 
 	NumericalDataTable params = BasicInformationTool::getUsedParameters(0,handles);

@@ -724,6 +724,12 @@ namespace Tinkercell
 			dataPlot->processData(dataPlot->dataTables.last());
 			dataPlot->replot();
 			dataPlot->setTitle(title);
+			if (axisNames)
+			{
+				axisNames->clear();
+				if (x >= 0)
+					axisNames->addItems(newData.columnNames());
+			}
 			/*if (dataPlot->zoomer)
 			{
 				rect.setWidth(dataPlot->zoomer->zoomBase().width());

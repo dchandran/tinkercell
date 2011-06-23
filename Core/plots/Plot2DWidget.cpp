@@ -1215,9 +1215,12 @@ namespace Tinkercell
 		}
 
 		QHBoxLayout * layout0 = new QHBoxLayout;
-		layout0->addStretch(3);
 		layout0->addWidget(allButton);
 		layout0->addWidget(noneButton);
+		layout0->addStretch(3);
+		lineEdit = new QLineEdit(tr(""));
+		connect(lineEdit,SIGNAL(editingFinished()),this,SLOT(textEditingFinished()));
+		layout0->addWidget(lineEdit);
 		selectFamilyBox = 0;
 		if (mainWindow && uniqueFamilyNames.size() > 1)
 		{
@@ -1250,6 +1253,25 @@ namespace Tinkercell
 		setLayout(layout3);
 		
 		setAttribute(Qt::WA_DeleteOnClose);
+	}
+	
+	void ShowHideLegendItemsWidget::textEditingFinished()
+	{
+		if (lineEdit)
+		{
+			QString s = lineEdit->text();
+			if (!s.isEmpty())
+			{
+				bool b;
+				QRegExp regexp(s);
+				for (int i=0; i < checkBoxes.size() && i < names.size(); ++i)
+					if (checkBoxes[i])
+					{
+						b = names[i].contains(s) || names[i].contains(regexp);
+						checkBoxes[i]->setChecked(b);
+					}
+			}
+		}
 	}
 
 	void ShowHideLegendItemsWidget::selectFamily(const QString& s)
@@ -1330,7 +1352,7 @@ namespace Tinkercell
 		x->setValue(rect.x());
 		x->setRange(-1E10,1E10);
 		y->setValue(rect.y());
-		x->setRange(-1E10,1E10);
+		y->setRange(-1E10,1E10);
 		w->setValue(rect.width());
 		w->setRange(0,1E10);
 		h->setValue(rect.height());

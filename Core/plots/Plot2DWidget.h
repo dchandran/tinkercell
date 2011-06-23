@@ -173,6 +173,7 @@ namespace Tinkercell
 		void checkAll();
 		void checkNone();
 		void selectFamily(const QString&);
+		void textEditingFinished();
 
 	private:
 		Plot2DWidget * plotWidget;
@@ -180,6 +181,7 @@ namespace Tinkercell
 		QStringList names, familyNames;
 		QList<QCheckBox*> checkBoxes;
 		QComboBox * selectFamilyBox;
+		QLineEdit * lineEdit;
 	};
 
 	/*!

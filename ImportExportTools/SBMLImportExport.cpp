@@ -481,12 +481,12 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 	Model_t * model = SBMLDocument_createModel(doc);
 
 	NumericalDataTable params = BasicInformationTool::getUsedParameters(0,handles);
-	NumericalDataTable stoictc_matrix = StoichiometryTool::getStoichiometry(handles);
+	NumericalDataTable stoicMatrix = StoichiometryTool::getStoichiometry(handles);
 	QStringList rates = StoichiometryTool::getRates(handles);
 	QStringList species, compartments, eventTriggers, eventActions, assignmentNames,
 				assignmentDefs, fixedVars, functionNames, functionDefs, functionArgs;
 
-	species = stoictc_matrix.rowNames();
+	species = stoicMatrix.rowNames();
 	QVector<double> initialValues(species.size(),0.0);
 	QVector<QString> speciesCompartments(species.size(),tr("DefaultCompartment"));
 	QList<double> fixedValues, compartmentVolumes;
@@ -715,45 +715,51 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 	}*/
 	
 	//create list of reactions
-	for (int i=0; i < stoictc_matrix.columns(); ++i)
+	for (int i=0; i < stoicMatrix.columns(); ++i)
 	{
 		Reaction * reac = Model_createReaction(model);
         Reaction_setReversible(reac,0);
 		if (!reac)
 			continue;
-		Reaction_setId(reac, ConvertValue(stoictc_matrix.columnName(i)));
-		Reaction_setName(reac, ConvertValue(stoictc_matrix.columnName(i)));
-		Reaction_setId(reac, ConvertValue(stoictc_matrix.columnName(i)));
+		Reaction_setId(reac, ConvertValue(stoicMatrix.columnName(i)));
+		Reaction_setName(reac, ConvertValue(stoicMatrix.columnName(i)));
+		Reaction_setId(reac, ConvertValue(stoicMatrix.columnName(i)));
 		KineticLaw_t  * kinetic = Reaction_createKineticLaw(reac);
 		KineticLaw_setFormula( kinetic, ConvertValue( rates[i] ));
 
-		for (int j=0; j < stoictc_matrix.rows(); ++j)
-			if (stoictc_matrix.value(j,i) < 0)
+		for (int j=0; j < stoicMatrix.rows(); ++j)
+		{
+			QRegExp regex1(QString("^") + stoicMatrix.rowName(j) + QString("$")),  //just name
+							regex2(QString("^") + stoicMatrix.rowName(j) + QString("([^A-Za-z0-9_])")),  //name+(!letter/num)
+							regex3(QString("([^A-Za-z0-9_.])") + stoicMatrix.rowName(j) + QString("$")), //(!letter/num)+name
+							regex4(QString("([^A-Za-z0-9_.])") + stoicMatrix.rowName(j) + QString("([^A-Za-z0-9_])")); //(!letter/num)+name+(!letter/num)
+			if (stoicMatrix.value(j,i) < 0)
 			{
 				SpeciesReference_t * sref = reac->createReactant();
-				SpeciesReference_setId(sref, ConvertValue(stoictc_matrix.columnName(i) + QString("_") + stoictc_matrix.rowName(j)));
-				SpeciesReference_setName(sref, ConvertValue(stoictc_matrix.rowName(j)));
-				SpeciesReference_setSpecies(sref, ConvertValue(stoictc_matrix.rowName(j)));
-				SpeciesReference_setStoichiometry( sref, -stoictc_matrix.value(j,i) );
+				SpeciesReference_setId(sref, ConvertValue(stoicMatrix.columnName(i) + QString("_") + stoicMatrix.rowName(j)));
+				SpeciesReference_setName(sref, ConvertValue(stoicMatrix.rowName(j)));
+				SpeciesReference_setSpecies(sref, ConvertValue(stoicMatrix.rowName(j)));
+				SpeciesReference_setStoichiometry( sref, -stoicMatrix.value(j,i) );
 			}
 			else
-			if (stoictc_matrix.value(j,i) > 0)
+			if (stoicMatrix.value(j,i) > 0)
 			{
 				SpeciesReference_t * sref = reac->createProduct();
 				Reaction_addProduct(reac, sref);
-				SpeciesReference_setId(sref, ConvertValue(stoictc_matrix.columnName(i) + QString("_") + stoictc_matrix.rowName(j)));
-				SpeciesReference_setName(sref, ConvertValue(stoictc_matrix.rowName(j)));
-				SpeciesReference_setSpecies(sref, ConvertValue(stoictc_matrix.rowName(j)));
-				SpeciesReference_setStoichiometry( sref, stoictc_matrix.value(j,i) );
+				SpeciesReference_setId(sref, ConvertValue(stoicMatrix.columnName(i) + QString("_") + stoicMatrix.rowName(j)));
+				SpeciesReference_setName(sref, ConvertValue(stoicMatrix.rowName(j)));
+				SpeciesReference_setSpecies(sref, ConvertValue(stoicMatrix.rowName(j)));
+				SpeciesReference_setStoichiometry( sref, stoicMatrix.value(j,i) );
 			}
 			else
-			if (rates[i].contains(stoictc_matrix.rowName(j)) && !fixedVars.contains(stoictc_matrix.rowName(j)))
+			if ((rates[i].contains(regex1) || rates[i].contains(regex2) || rates[i].contains(regex2) || rates[i].contains(regex3)) && !fixedVars.contains(stoicMatrix.rowName(j)))
 			{
 				SpeciesReference_t * sref = Reaction_createModifier(reac);
-				SpeciesReference_setId(sref, ConvertValue(stoictc_matrix.columnName(i) + QString("_") + stoictc_matrix.rowName(j)));
-				SpeciesReference_setName(sref, ConvertValue(stoictc_matrix.rowName(j)));
-				SpeciesReference_setSpecies(sref, ConvertValue(stoictc_matrix.rowName(j)));
+				SpeciesReference_setId(sref, ConvertValue(stoicMatrix.columnName(i) + QString("_") + stoicMatrix.rowName(j)));
+				SpeciesReference_setName(sref, ConvertValue(stoicMatrix.rowName(j)));
+				SpeciesReference_setSpecies(sref, ConvertValue(stoicMatrix.rowName(j)));
 			}
+		}
 	}
 	
 	//create list of parameters

@@ -1261,7 +1261,7 @@ namespace Tinkercell
 	{
 		if (lineEdit)
 		{
-			QString s = lineEdit->text();
+			QString s = lineEdit->text().toLower();
 			if (!s.isEmpty())
 			{
 				bool b;

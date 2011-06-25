@@ -9,6 +9,7 @@ Uses CThread.
 
 ****************************************************************************/
 
+#include <QRegExp>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QPushButton>
@@ -23,9 +24,10 @@ namespace Tinkercell
 	void MultithreadedSliderWidget::setVisibleSliders(const QString& substring)
 	{
 		QStringList keys, allkeys;
+		QRegExp regex(substring);
 		for (int j=0; j < labels.size() && j < minline.size() && j < maxline.size() && j < valueline.size(); ++j)
 		{
-			if (labels[j] && labels[j]->text().toLower().contains(substring.toLower()))
+			if (labels[j] && (labels[j]->text().toLower().contains(substring.toLower()) || labels[j]->text().contains(regex)))
 				keys += labels[j]->text();
 			allkeys += labels[j]->text();
 		}

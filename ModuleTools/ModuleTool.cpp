@@ -11,6 +11,7 @@
 #include <QRegExp>
 #include <QProcess>
 #include "ItemFamily.h"
+#include "CloneItems.h"
 #include "NetworkHandle.h"
 #include "ItemHandle.h"
 #include "GraphicsScene.h"
@@ -149,14 +150,53 @@ namespace Tinkercell
 	void ModuleTool::substituteModel(ItemHandle * parentHandle, const QString& filename0, NetworkWindow * window)
 	{
 		if (!parentHandle) return;
-		
+
+		NodeGraphicsItem * node;
+		ConnectionGraphicsItem * connection;
+		TextGraphicsItem * text;
+		QString groupName = parentHandle->name;
+
+		if (!cachedModels.contains(parentHandle) && !parentHandle->children.isEmpty())
+		{
+			QList<ItemHandle*> newHandles;
+			QList<QGraphicsItem*> childItems = parentHandle->graphicsItems;
+			QList<QGraphicsItem*> childrenClone = cloneGraphicsItems(childItems, newHandles);
+			cachedModels.insert(parentHandle, childrenClone);
+		}
+
 		QString filename;
+		QList<QGraphicsItem*> items;
+		QList<ItemHandle*> handles;
+		QList<QUndoCommand*> commands;
+
 		if (filename0.isEmpty() || filename0.toLower() == tr("empty"))
 			filename = emptyModel();
 		else
-		if (parentHandle->hasTextData("original model file") && 
-			filename0.toLower() == tr("original"))
-			filename = parentHandle->textData("original model file");
+		if (filename0.toLower() == "original" && cachedModels.contains(parentHandle))
+		{
+			items = originalChildren[parentHandle];
+			handles = getHandle(items);
+
+			ItemHandle * root = 0;
+			for (int i=0; i < handles.size(); ++i)
+				if (!handles[i]->parent)
+				{
+					root = handles[i];
+					break;
+				}
+			if (root)
+			{
+				QList<ItemHandle*> newHandles;
+				originalChildren[parentHandle] = cloneGraphicsItems(root->graphicsItems, newHandles);
+
+				for (int i=0; i < handles.size(); ++i)
+					if (handles[i]->parent == root)
+					{
+						handles[i]->setParent(parentHandle,false);
+						RenameCommand::findReplaceAllHandleData(handles,root->fullName(), parentHandle->fullName());
+					}
+			}
+		}
 		else
 			filename = filename0;
 
@@ -211,7 +251,7 @@ namespace Tinkercell
 				break;
 			}
 		
-		if (QFile::exists(filename) && window && 
+		if ((QFile::exists(filename) || !handles.isEmpty()) && window && 
 			network && (parentHandle == window->handle) &&
 			window->handle->family()) 
 		{
@@ -234,15 +274,13 @@ namespace Tinkercell
 					editors[i]->networkWindow->isVisible())
 					editors[i]->networkWindow->close();
 			
-			QPair< QList<ItemHandle*> , QList<QGraphicsItem*> > pair = mainWindow->getItemsFromFile(filename,parentHandle);
-			
-			QList<QGraphicsItem*> items = pair.second;
-			QList<ItemHandle*> handles = pair.first;
-			
-			NodeGraphicsItem * node;
-			ConnectionGraphicsItem * connection;
-			TextGraphicsItem * text;
-			QString groupName = parentHandle->name;
+			if (handles.isEmpty())
+			{
+				QPair< QList<ItemHandle*> , QList<QGraphicsItem*> > pair = mainWindow->getItemsFromFile(filename,parentHandle);
+				items = pair.second;
+				handles = pair.first;
+			}
+
 			for (int i=0; i < items.size(); ++i)
 				if (node = NodeGraphicsItem::cast(items[i]))
 					node->groupID = groupName;
@@ -310,8 +348,7 @@ namespace Tinkercell
 					newEditor->insert(handles);
 				}
 			}
-			
-			QList<QUndoCommand*> commands;
+
 			ItemHandle * h;
 			
 			TextDataTable oldParticipantsData (parentHandle->textDataTable(tr("participants")));
@@ -411,6 +448,7 @@ namespace Tinkercell
 												&(h->numericalDataTable(numericalTablesToBeReplaced[k])), 
 												&(numericalTable));
 			}
+			commands << commands2;
 		
 			if (!commands.isEmpty())
 			{

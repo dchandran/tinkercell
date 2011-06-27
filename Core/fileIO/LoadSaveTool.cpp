@@ -60,7 +60,7 @@ namespace Tinkercell
 			QMessageBox::StandardButton button = QMessageBox::question(
 				mainWindow,
 				title,
-				tr("Save before closing?"),
+				tr("Save ") + title + tr("\nbefore closing?"),
 				QMessageBox::Ok | QMessageBox::No | QMessageBox::Cancel,
 				QMessageBox::Ok);
 			if (button == QMessageBox::Ok)
@@ -134,6 +134,7 @@ namespace Tinkercell
 	void LoadSaveTool::writeNode(NodeGraphicsItem* node, QXmlStreamWriter& modelWriter, int sceneNumber)
 	{
 		if (!node) return;
+
 		ItemHandle * handle = getHandle(node);
 		if (ArrowHeadItem::cast(node)) return; //don't write arrow heads and decorators
 

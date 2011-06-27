@@ -161,6 +161,7 @@ namespace Tinkercell
 		void makeNewModule();
 		void initializeExportDialog();
 		QHash< ItemHandle *, QPixmap > moduleSnapshots;
+		QHash< ItemHandle* , QList<QGraphicsItem*> > cachedModels;
 		QDialog * snapshotToolTip;
 		QToolButton * snapshotIcon;
 		

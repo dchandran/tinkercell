@@ -174,7 +174,7 @@ namespace Tinkercell
 		else
 		if (filename0.toLower() == "original" && cachedModels.contains(parentHandle))
 		{
-			items = originalChildren[parentHandle];
+			items = cachedModels[parentHandle];
 			handles = getHandle(items);
 
 			ItemHandle * root = 0;
@@ -184,14 +184,18 @@ namespace Tinkercell
 					root = handles[i];
 					break;
 				}
+
+			items.clear();
+			
 			if (root)
 			{
 				QList<ItemHandle*> newHandles;
-				originalChildren[parentHandle] = cloneGraphicsItems(root->graphicsItems, newHandles);
+				cachedModels[parentHandle] = cloneGraphicsItems(root->graphicsItems, newHandles);
 
 				for (int i=0; i < handles.size(); ++i)
 					if (handles[i]->parent == root)
 					{
+						items += handles[i]->graphicsItems;
 						handles[i]->setParent(parentHandle,false);
 						RenameCommand::findReplaceAllHandleData(handles,root->fullName(), parentHandle->fullName());
 					}
@@ -448,8 +452,7 @@ namespace Tinkercell
 												&(h->numericalDataTable(numericalTablesToBeReplaced[k])), 
 												&(numericalTable));
 			}
-			commands << commands2;
-		
+
 			if (!commands.isEmpty())
 			{
 				commands << new ChangeTextDataCommand(

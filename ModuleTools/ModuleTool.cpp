@@ -189,15 +189,23 @@ namespace Tinkercell
 			
 			if (root)
 			{
+				handles = root->children;
+				RenameCommand::findReplaceAllHandleData(handles,root->fullName(), parentHandle->fullName());
+
 				QList<ItemHandle*> newHandles;
 				cachedModels[parentHandle] = cloneGraphicsItems(root->graphicsItems, newHandles);
 
 				for (int i=0; i < handles.size(); ++i)
 					if (handles[i]->parent == root)
 					{
-						items += handles[i]->graphicsItems;
+						for (int j=0; j < handles[i]->graphicsItems.size(); ++j)
+							if (((node = NodeGraphicsItem::cast(handles[i]->graphicsItems[j])) && node->groupID == groupName) ||
+							     ((connection = ConnectionGraphicsItem::cast(handles[i]->graphicsItems[j])) && connection->groupID == groupName) ||
+							     ((text = TextGraphicsItem::cast(handles[i]->graphicsItems[j])) && text->groupID == groupName))
+								 items += handles[i]->graphicsItems[j];
+						
 						handles[i]->setParent(parentHandle,false);
-						RenameCommand::findReplaceAllHandleData(handles,root->fullName(), parentHandle->fullName());
+						console()->message(handles[i]->fullName());
 					}
 			}
 		}
@@ -255,7 +263,7 @@ namespace Tinkercell
 				break;
 			}
 		
-		if (QFile::exists(filename) && window && 
+		if ((QFile::exists(filename) || !handles.isEmpty()) && window && 
 			network && (parentHandle == window->handle) &&
 			window->handle->family()) 
 		{

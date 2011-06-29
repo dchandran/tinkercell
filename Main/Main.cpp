@@ -9,7 +9,6 @@
 
 ****************************************************************************/
 #include "GlobalSettings.h"
-#include "GraphicsView.h"
 #include "BasicInformationTool.h"
 #include "StoichiometryTool.h"
 #include "FunctionDeclarationsTool.h"
@@ -78,8 +77,6 @@ int main(int argc, char *argv[])
 	
     ConsoleWindow::Prompt = QObject::tr(">");	
 	ConsoleWindow::BackgroundColor = QColor("#555555");
-	Tinkercell::GraphicsView::DEFAULT_WIDTH = 20;
-	Tinkercell::GraphicsView::DEFAULT_HEIGHT = 20;
 	
 	QColor color("#00EE00");
 	color.setAlpha(50);
@@ -190,9 +187,10 @@ int main(int argc, char *argv[])
 
     mainWindow.readSettings();
   #ifdef TINKERCELL_TEXT_ONLY
-       mainWindow.newTextEditor();
+		mainWindow.newTextEditor();
   #else
-       mainWindow.newScene();
+		GraphicsScene * scene = mainWindow.newScene();
+		scene->zoom(0.5);
   #endif
     mainWindow.show();
     splash.finish(&mainWindow);

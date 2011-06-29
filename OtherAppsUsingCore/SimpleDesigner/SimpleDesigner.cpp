@@ -671,10 +671,10 @@ int main(int argc, char *argv[])
 
 	Ontology::readNodes("NodesTree.nt");
 	Ontology::readConnections("ConnectionsTree.nt");
-	GraphicsView::DEFAULT_WIDTH = 25;
-	GraphicsView::DEFAULT_HEIGHT = 25;
 	
-    mainWindow.newScene();
+    GraphicsScene * scene = mainWindow.newScene();
+	scene->zoom(0.5);
+
     mainWindow.show();
 
     int output = app.exec();

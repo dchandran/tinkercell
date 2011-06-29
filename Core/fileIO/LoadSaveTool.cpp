@@ -54,12 +54,12 @@ namespace Tinkercell
 	{
 		if (mainWindow && win && close && (*close) && savedNetworks.contains(win) && !savedNetworks.value(win))
 		{
-			QString title = tr("Save");
-			if (mainWindow->currentNetwork())
-				title = mainWindow->currentNetwork()->windowTitle();
+			QString title = tr("");
+			if (win->currentWindow())
+				title = win->currentWindow()->windowTitle();
 			QMessageBox::StandardButton button = QMessageBox::question(
 				mainWindow,
-				title,
+				tr("Save?"),
 				tr("Save ") + title + tr("\nbefore closing?"),
 				QMessageBox::Ok | QMessageBox::No | QMessageBox::Cancel,
 				QMessageBox::Ok);
@@ -495,9 +495,6 @@ namespace Tinkercell
 
 		if (root)
 		{
-			if (!root->hasTextData(tr("original model file")))
-				root->textData(tr("original model file")) = filename;
-
 			if (globalHandle)
 			{
 				h = globalHandle;

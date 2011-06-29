@@ -255,7 +255,7 @@ namespace Tinkercell
 				break;
 			}
 		
-		if ((QFile::exists(filename) || !handles.isEmpty()) && window && 
+		if (QFile::exists(filename) && window && 
 			network && (parentHandle == window->handle) &&
 			window->handle->family()) 
 		{
@@ -830,7 +830,7 @@ namespace Tinkercell
 	void ModuleTool::itemsAboutToBeInserted(GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>& commands)
 	{
 		if (!scene || !scene->network) return;
-		
+
 		bool loadedItems = true; //loaded or pasted items
 		int count = 0;
 				
@@ -859,7 +859,7 @@ namespace Tinkercell
 
 		visited.clear();
 		for (int i=0; i < handles.size(); ++i)
-			if (handles[i] && !handles[i]->children.isEmpty() && !visited.contains(handles[i]) && ConnectionFamily::cast(handles[i]->family()))
+			if (handles[i] && handles[i]->children.isEmpty() && !visited.contains(handles[i]) && ConnectionFamily::cast(handles[i]->family()))
 			{
 				visited << handles[i];
 				QStringList list = listOfModels(handles[i]->family());

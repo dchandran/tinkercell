@@ -1,6 +1,6 @@
 #include <QApplication>
 #include "MultiCell.h"
-#include "GraphicsView.h"
+#include "GraphicsScene.h"
 #include "CellTypeSelector.h"
 #include "GlobalSettings.h"
 
@@ -18,9 +18,6 @@ int main(int argc, char *argv[])
 	GlobalSettings::ENABLE_OCTAVE = true;
 	GlobalSettings::ENABLE_LOADSAVE_TOOL = true;
 	
-	GraphicsView::DEFAULT_WIDTH = 25;
-	GraphicsView::DEFAULT_HEIGHT = 25;
-
     Tinkercell::GlobalSettings::PROJECTWEBSITE = QObject::tr("www.tinkercell.com");
     Tinkercell::GlobalSettings::ORGANIZATIONNAME = QObject::tr("MultiCell Simulator");
     Tinkercell::GlobalSettings::PROJECTNAME = QObject::tr("MultiCell Simulator");
@@ -39,7 +36,8 @@ int main(int argc, char *argv[])
 	Tool * tool = new Multicell::MulticellInterface;
 	mainWindow.addTool(tool);
 	
-	mainWindow.newScene();
+	Tinkercell::GraphicsScene * scene = mainWindow.newScene();	
+	scene->zoom(0.5);
 	
     mainWindow.show();
 

@@ -25,9 +25,6 @@ The GraphicsView class provides a view for a GraphicsScene. It
 
 namespace Tinkercell
 {
-	double GraphicsView::DEFAULT_WIDTH = 25.0;
-	double GraphicsView::DEFAULT_HEIGHT = 25.0;
-	
 	void GraphicsView::drawBackground( QPainter * painter, const QRectF & rect )
 	{
 		if (!background.isNull() && painter)
@@ -94,10 +91,7 @@ namespace Tinkercell
 		setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
 		QPointF center(scene->sceneRect().width()/2, scene->sceneRect().height()/2);
 		scene->lastPoint() = center;
-		//centerOn( center);
-		QPointF topLeft = center + QPointF(-DEFAULT_WIDTH,DEFAULT_HEIGHT);
-		QPointF bottomRight = center + QPointF(DEFAULT_WIDTH,-DEFAULT_HEIGHT);
-		fitInView(QRectF(topLeft, bottomRight),Qt::KeepAspectRatio);
+		centerOn( center);
 
 		setFocusPolicy(Qt::StrongFocus);
 	}

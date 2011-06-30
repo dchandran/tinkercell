@@ -180,10 +180,6 @@ namespace Tinkercell
 							{
 								newHandles[i]->setParent(root, false);
 								newHandles[i]->name = participants.rowName(j);
-								if (newHandles[i]->isA("CDS"))
-								{
-									console()->printTable(newHandles[i]->textDataTable("assignments"));
-								}
 							}
 				cachedModels.insert(parentHandle, childrenClone);
 			}
@@ -230,10 +226,6 @@ namespace Tinkercell
 								 items += handles[i]->graphicsItems[j];
 						
 						handles[i]->setParent(parentHandle,false);
-						if (handles[i]->isA("CDS"))
-						{
-							console()->printTable(handles[i]->textDataTable("assignments"));
-						}
 					}
 			}
 		}

@@ -349,7 +349,7 @@ namespace Tinkercell
 					{
 						for (int j=0; j < handles[i]->graphicsItems.size(); ++j)
 						{
-							if ((node = NodeGraphicsItem::cast(handles[i]->graphicsItems[j])) && node->boundaryControlPoints.size() > 0)
+							if ((node = NodeGraphicsItem::cast(handles[i]->graphicsItems[j])) node->scene() == scene && node->boundaryControlPoints.size() > 0)
 							{
 								QPointF p = node->sceneBoundingRect().topRight() + QPointF(10.0,0.0);
 								
@@ -509,7 +509,7 @@ namespace Tinkercell
 								{
 									for (int j=0; j < itemHandles[i]->graphicsItems.size(); ++j)
 									{
-										if ((node = NodeGraphicsItem::cast(itemHandles[i]->graphicsItems[j])) && node->boundaryControlPoints.size() > 0)
+										if ((node = NodeGraphicsItem::cast(itemHandles[i]->graphicsItems[j])) && node->scene == scene && node->boundaryControlPoints.size() > 0)
 										{
 											QPointF p = node->sceneBoundingRect().topRight() + QPointF(10.0,0.0);
 											

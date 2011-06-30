@@ -90,7 +90,7 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles, copasi_model & 
 							fixedVars << handles[i]->fullName(tr("_"));
 						if (!species.contains(handles[i]->fullName(tr("_"))))
 						{
-							k = species.size() - 1;
+							k = species.size();
 							species << handles[i]->fullName(tr("_"));
 							initialValues << handles[i]->numericalData(tr("Initial Value"));
 							compartmentVolumes << 1.0;
@@ -98,7 +98,7 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles, copasi_model & 
 						}
 					}
 					
-					if (parentHandle = handles[i]->parentOfFamily(tr("Compartment")))
+					if (k >=0 && parentHandle = handles[i]->parentOfFamily(tr("Compartment")))
 					{
 						speciesCompartments[k] = parentHandle->fullName(tr("_"));
 						if (parentHandle->hasNumericalData(tr("Initial Value")))

@@ -98,7 +98,7 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles, copasi_model & 
 						}
 					}
 					
-					if (k >=0 && parentHandle = handles[i]->parentOfFamily(tr("Compartment")))
+					if (k >=0 && (parentHandle = handles[i]->parentOfFamily(tr("Compartment"))))
 					{
 						speciesCompartments[k] = parentHandle->fullName(tr("_"));
 						if (parentHandle->hasNumericalData(tr("Initial Value")))

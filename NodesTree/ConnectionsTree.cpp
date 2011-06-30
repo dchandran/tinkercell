@@ -296,18 +296,20 @@ namespace Tinkercell
 	        QString appDir = QCoreApplication::applicationDirPath();
 			ConnectionFamily * parentFamily = ConnectionFamily::cast(family->parent());
            //set icon
-			if (family->pixmap.load(homeDir + QString("/Graphics/") + NodesTree::themeDirectory + QString("/Decorators/") + ConnectionsTree::iconFile(family)))
-					family->pixmap.setMask(family->pixmap.createMaskFromColor(QColor(255,255,255)));
-			   else
-			   if (family->pixmap.load(QString(":/images/") + ConnectionsTree::iconFile(family)))
-					family->pixmap.setMask(family->pixmap.createMaskFromColor(QColor(255,255,255)));
-			   else
-			   if (family->pixmap.load(appDir + QString("/Graphics/") + NodesTree::themeDirectory + QString("/Decorators/") + ConnectionsTree::iconFile(family)))
-					family->pixmap.setMask(family->pixmap.createMaskFromColor(QColor(255,255,255)));
-			   else
-					if (parentFamily)		//if no icon file, same as parent's icon
-						 family->pixmap = parentFamily->pixmap;
-
+			if (family->pixmap.isNull())
+			{
+				if (family->pixmap.load(homeDir + QString("/Graphics/") + NodesTree::themeDirectory + QString("/Decorators/") + ConnectionsTree::iconFile(family)))
+						family->pixmap.setMask(family->pixmap.createMaskFromColor(QColor(255,255,255)));
+				   else
+				   if (family->pixmap.load(QString(":/images/") + ConnectionsTree::iconFile(family)))
+						family->pixmap.setMask(family->pixmap.createMaskFromColor(QColor(255,255,255)));
+				   else
+				   if (family->pixmap.load(appDir + QString("/Graphics/") + NodesTree::themeDirectory + QString("/Decorators/") + ConnectionsTree::iconFile(family)))
+						family->pixmap.setMask(family->pixmap.createMaskFromColor(QColor(255,255,255)));
+				   else
+						if (parentFamily)		//if no icon file, same as parent's icon
+							 family->pixmap = parentFamily->pixmap;
+			}
            //set arrow head
            ArrowHeadItem * nodeitem = 0;
 

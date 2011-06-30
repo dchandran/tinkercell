@@ -574,11 +574,12 @@ namespace Tinkercell
 		 for (int j=0; j < node->parent()->graphicsItems.size(); ++j)
 		 	node->graphicsItems += (NodeGraphicsItem::topLevelNodeItem(node->parent()->graphicsItems[j]))->clone();
 
-		if (node->pixmap.load(icon))
-			node->pixmap.setMask(node->pixmap.createMaskFromColor(QColor(255,255,255)));
-		else
-			if (node->parent())
-				 node->pixmap = node->parent()->pixmap;
+		if (node->pixmap.isNull())
+			if (node->pixmap.load(icon))
+				node->pixmap.setMask(node->pixmap.createMaskFromColor(QColor(255,255,255)));
+			else
+				if (node->parent())
+					node->pixmap = node->parent()->pixmap;
 
 		QList<QToolButton*> buttons = treeButtons.values(node->name());
 

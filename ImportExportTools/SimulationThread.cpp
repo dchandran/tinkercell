@@ -239,11 +239,11 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles, copasi_model & 
 		}
 		cCreateSpecies(c, species[i].toUtf8().data(), initialValues[i]);
 		commands += tr("cCreateSpecies(") + speciesCompartments[i] + tr(",\"") + species[i] + tr("\",") + QString::number(initialValues[i]) + tr(");\n");
-		if (fixedVars.contains(species[i]))
+		/*if (fixedVars.contains(species[i]))
 		{
 			cSetBoundarySpecies(model, species[i].toUtf8().data(), 1);
 			commands += tr("cSetBoundarySpecies(model, \"") + species[i] + tr("\",1);\n");
-		}
+		}*/
 	}
 	
 	//create list of parameters

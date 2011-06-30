@@ -446,7 +446,7 @@ void cSetBoundarySpecies(copasi_model model, const char * name, int isBoundary)
 	if (hash->contains(s) && 
 		(pSpecies = hash->value(s).species))
 	{
-		double iv = pSpecies->getConcentration();
+		double iv = pSpecies->getInitialConcentration();
 
 		if (isBoundary)
 			pSpecies->setStatus(CModelEntity::FIXED);

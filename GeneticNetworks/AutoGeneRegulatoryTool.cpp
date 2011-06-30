@@ -692,10 +692,11 @@ namespace Tinkercell
 					if (parts[i]->hasTextData("Assignments") &&
 						(parts[i]->textDataTable("Assignments").hasRow("self") || rate != tr("0.0")))
 					{
-						QString oldrate = parts[i]->textData(tr("Assignments"),tr("self"),0);
+						QString oldrate = parts[i]->textData(tr("Assignments"),tr("self"),tr("rule"));
 					
 						bool isCustomEqn = StoichiometryTool::userModifiedRates.contains(parts[i]);
 					
+
 
 
 
@@ -1144,6 +1145,7 @@ namespace Tinkercell
 	
 	void AutoGeneRegulatoryTool::itemsMoved(GraphicsScene* scene, QList<QGraphicsItem*>& items, QList<QPointF>& distance, QList<QUndoCommand*>& commands)
 	{
+
 		if (!scene || !autoAlignEnabled) return;
 
 		QList<NodeHandle*> parts2;

@@ -100,4 +100,6 @@ The API uses <b>six main data structures</b>:
 /*! \defgroup Simulation Simulation
 \brief Simulations and other numerical analysis*/
 
+/*! \defgroup Module  Modules
+\brief Substitute submodels without affecting higher-level diagram*/
 

@@ -497,6 +497,10 @@ def tc_zoom(*args):
   return _tinkercell.tc_zoom(*args)
 tc_zoom = _tinkercell.tc_zoom
 
+def tc_viewWindow(*args):
+  return _tinkercell.tc_viewWindow(*args)
+tc_viewWindow = _tinkercell.tc_viewWindow
+
 def tc_getStringDialog(*args):
   return _tinkercell.tc_getStringDialog(*args)
 tc_getStringDialog = _tinkercell.tc_getStringDialog
@@ -864,6 +868,10 @@ tc_addPythonPlugin = _tinkercell.tc_addPythonPlugin
 def tc_callFunction(*args):
   return _tinkercell.tc_callFunction(*args)
 tc_callFunction = _tinkercell.tc_callFunction
+
+def tc_displayCode(*args):
+  return _tinkercell.tc_displayCode(*args)
+tc_displayCode = _tinkercell.tc_displayCode
 
 def tc_loadLibrary(*args):
   return _tinkercell.tc_loadLibrary(*args)

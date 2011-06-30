@@ -39,6 +39,7 @@ namespace Tinkercell
 			void compileBuildLoad(QSemaphore*,int*,const QString&,const QString&,const QString&);
 			void compileBuildLoadSliders(QSemaphore*,int*,const QString&,const QString&,const QString&, DataTable<qreal>& );
 			void loadLibrary(QSemaphore*,const QString&);
+			void displayCode(QSemaphore*,const QString&);
 			void addFunction(QSemaphore*,VoidFunction, const QString& , const QString& , const QString& , const QString& ,const QString& , int, int, int);
 			
 		public slots:
@@ -46,6 +47,7 @@ namespace Tinkercell
 			int compileBuildLoad(const char * cfile,const char* f,const char* title);
 			int compileBuildLoadSliders(const char * cfile,const char* f,const char* title, tc_matrix);
 			void loadLibrary(const char*);
+			void displayCode(const char*);
 			void addFunction(VoidFunction, const char*, const char*, const char*, const char*, const char*, int, int, int);
 	};
 
@@ -71,6 +73,7 @@ namespace Tinkercell
 		void compileBuildLoadC(QSemaphore*,int*,const QString&,const QString&,const QString&);
 		void compileBuildLoadSliders(QSemaphore*,int*,const QString&,const QString&,const QString&, DataTable<qreal>& );
 		void loadLibrary(QSemaphore*,const QString&);
+		void displayCode(QSemaphore*,const QString&);
 		void addFunction(QSemaphore*,VoidFunction, const QString& , const QString& , const QString& , const QString& ,const QString& , int, int, int);
 		
 	protected:
@@ -88,6 +91,7 @@ namespace Tinkercell
         static int _compileBuildLoad(const char * cfile,const char* f,const char* title);
 		static int _compileBuildLoadSliders(const char * cfile,const char* f,const char* title, tc_matrix);
 		static void _loadLibrary(const char*);
+		static void _displayCode(const char*);
 		static void _addFunction(VoidFunction, const char*, const char*, const char*, const char*, const char *, int, int, int);
      };
 }

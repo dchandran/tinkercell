@@ -86,6 +86,7 @@ namespace Tinkercell
 		void appDir(QSemaphore*,QString*);
 		void homeDir(QSemaphore*,QString*);
 		void zoom(QSemaphore*,qreal);
+		void viewWindow(QSemaphore *, const QString&);
 
 		void getNumericalDataNames(QSemaphore*,QStringList*,ItemHandle*);
 		void getTextDataNames(QSemaphore*,QStringList*,ItemHandle*);
@@ -148,6 +149,7 @@ namespace Tinkercell
 
 	public:
 		void zoom(double);
+		void viewWindow(const char*);
 		tc_items allItems();
 		tc_items itemsOfFamily(const char*);
 		tc_items itemsOfFamily(const char*, tc_items);
@@ -272,6 +274,7 @@ namespace Tinkercell
 		GraphicsScene * currentScene() const;
 	
 		static void _zoom(double);
+		static void _viewWindow(const char*);
 		static tc_items _allItems();
 		static tc_items _itemsOfFamily(const char*);
 		static tc_items _itemsOfFamily2(const char*, tc_items);
@@ -832,6 +835,8 @@ namespace Tinkercell
 		void setStraight(QSemaphore*,ItemHandle*,int);
 		void setAllStraight(QSemaphore*,int);
 		void setLineWidth(QSemaphore* sem,ItemHandle* h,qreal value,int permanent);
+
+		void viewWindow(QSemaphore*, const QString&);
 		
 	private:
 		QList<QGraphicsItem*> temporarilyColorChanged;

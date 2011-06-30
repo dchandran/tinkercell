@@ -616,6 +616,17 @@ void tc_zoom(double factor)
 		_tc_zoom(factor);
 }
 
+void (*_tc_viewWindow)(const char *) = 0;
+/*! 
+ \brief open an existing GUI window
+ \ingroup Input and Output
+*/ TCAPIEXPORT 
+void tc_viewWindow(const char * s)
+{
+	if (_tc_viewWindow)
+		_tc_viewWindow(s);
+}
+
 const char* (*_tc_getStringDialog)(const char* title) = 0;
 /*! 
  \brief get a text from the user (dialog)
@@ -1095,6 +1106,7 @@ void tc_Main_api_initialize(
 		tc_strings (*tc_getTextDataNames0)(long),
 		
 		void (*tc_zoom0)(double factor),
+		void (*tc_viewWindow0)(const char *),
 		
 		const char* (*tc_getString0)(const char*),
 		int (*getSelectedString0)(const char*, tc_strings, const char*),
@@ -1206,6 +1218,7 @@ void tc_Main_api_initialize(
 	_tc_getTextDataNames = tc_getTextDataNames0;
 	
 	_tc_zoom = tc_zoom0;
+	_tc_viewWindow = tc_viewWindow0;
 	
 	_tc_getStringDialog = tc_getString0;
 	_tc_getStringFromList = getSelectedString0;

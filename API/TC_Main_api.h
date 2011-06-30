@@ -415,6 +415,13 @@ TCAPIEXPORT tc_strings tc_getTextDataNames(long o);
 TCAPIEXPORT void tc_zoom(double factor);
 
 /*! 
+ \brief show one of the windows in the TinkerCell GUI, e.g. "Console Window"
+ \param string name of the window or part of the name
+ \ingroup Input and Output
+*/
+TCAPIEXPORT void tc_viewWindow(const char * name);
+
+/*! 
  \brief get a text from the user (dialog)
  \ingroup Input and Output
 */
@@ -739,11 +746,12 @@ TCAPIEXPORT void tc_Main_api_initialize(
 		void (*tc_setNumericalData0)(long,const char*,tc_matrix),
 		tc_table (*tc_getTextData0)(long,const char*),
 		void (*tc_setTextData0)(long,const char*, tc_table),
-				
+
 		tc_strings (*tc_getNumericalDataNames0)(long),
 		tc_strings (*tc_getTextDataNames0)(long),
 		
 		void (*tc_zoom0)(double factor),
+		void (*tc_viewWindow0)(const char*),
 		
 		const char* (*tc_getStringDialog0)(const char*),
 		int (*getSelectedString)(const char*, tc_strings, const char*),

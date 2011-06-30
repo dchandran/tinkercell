@@ -65,7 +65,6 @@ function g = ParticleSwarm(objective)
     if multirun < 1:
         multirun = 1
     glist = []
-    paramnames = []
     n = 0;
     
     allparams = tinkercell.tc_getParameters( tinkercell.tc_allItems() )
@@ -103,7 +102,6 @@ function g = ParticleSwarm(objective)
 
     numpoints = self.numpoints;
     numvars = params.rows;
-    paramnames = fromTC(params.rownames)
 
     maxiter = self.maxiter;
     if maxiter < 1: maxiter = 1
@@ -155,7 +153,7 @@ function g = ParticleSwarm(objective)
         for i in range(0,len(g)):
             mu[i] = numpy.mean(m[:,i])
         sigma2 = numpy.cov(m)
-        self.__dopca(mu, sigma2, paramnames)
+        self.__dopca(mu, sigma2, params.rownames)
     g = glist[ len(glist) - 1 ]
     self.__setparams(g, params, True)
     return g

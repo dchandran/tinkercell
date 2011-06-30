@@ -3,7 +3,7 @@
 int (*_tc_compileAndRun)(const char* command,const char* args) = 0;
 /*! 
  \brief compile and run a c file
- \ingroup Programming interface
+ \ingroup Programming
 */ TCAPIEXPORT 
 int tc_compileAndRun(const char* command,const char* args)
 {
@@ -15,7 +15,7 @@ int tc_compileAndRun(const char* command,const char* args)
 int (*_tc_compileBuildLoad)(const char* filename,const char* function,const char* title) = 0;
 /*! 
  \brief compile a c file, generate the library, and load it
- \ingroup Programming interface
+ \ingroup Programming
 */ TCAPIEXPORT 
 int tc_compileBuildLoad(const char* filename,const char* function,const char* title)
 {
@@ -27,7 +27,7 @@ int tc_compileBuildLoad(const char* filename,const char* function,const char* ti
 int (*_tc_compileBuildLoadSliders)(const char* filename,const char* function,const char* title, tc_matrix inputs) = 0;
 /*! 
  \brief compile a c file, generate the library, and load it
- \ingroup Programming interface
+ \ingroup Programming
 */ TCAPIEXPORT 
 int tc_compileBuildLoadSliders(const char* filename,const char* function,const char* title, tc_matrix inputs)
 {
@@ -39,7 +39,7 @@ int tc_compileBuildLoadSliders(const char* filename,const char* function,const c
 void (*_tc_runPythonCode)(const char* code) = 0;
 /*! 
  \brief run the Python code given by the string
- \ingroup Programming interface
+ \ingroup Programming
 */ TCAPIEXPORT 
 void tc_runPythonCode(const char* code)
 {
@@ -50,7 +50,7 @@ void tc_runPythonCode(const char* code)
 void  (*_tc_runPythonFile)(const char* filename) = 0;
 /*! 
  \brief run the Python code in the given file
- \ingroup Programming interface
+ \ingroup Programming
 */ TCAPIEXPORT 
 void  tc_runPythonFile(const char* filename)
 {
@@ -61,7 +61,7 @@ void  tc_runPythonFile(const char* filename)
 void  (*_tc_addPythonPlugin)(const char*,const char*,const char*,const char*, const char*) = 0;
 /*! 
  \brief add a python script to the functions menu
- \ingroup Programming interface
+ \ingroup Programming
 */ TCAPIEXPORT 
 void  tc_addPythonPlugin(const char* file,const char* name,const char* description,const char* category, const char* icon)
 {
@@ -72,7 +72,7 @@ void  tc_addPythonPlugin(const char* file,const char* name,const char* descripti
 void (*_tc_runOctaveCode)(const char* code) = 0;
 /*! 
  \brief run the Octave code given by the string
- \ingroup Programming interface
+ \ingroup Programming
 */ TCAPIEXPORT 
 void tc_runOctaveCode(const char* code)
 {
@@ -83,7 +83,7 @@ void tc_runOctaveCode(const char* code)
 void  (*_tc_runOctaveFile)(const char* filename) = 0;
 /*! 
  \brief run the Octave code in the given file
- \ingroup Programming interface
+ \ingroup Programming
 */ TCAPIEXPORT 
 void  tc_runOctaveFile(const char* filename)
 {
@@ -94,7 +94,7 @@ void  tc_runOctaveFile(const char* filename)
 void  (*_tc_addOctavePlugin)(const char*,const char*,const char*,const char*, const char*) = 0;
 /*! 
  \brief add a Octave script to the functions menu
- \ingroup Programming interface
+ \ingroup Programming
 */ TCAPIEXPORT 
 void  tc_addOctavePlugin(const char* file,const char* name,const char* description,const char* category, const char* icon)
 {
@@ -105,7 +105,7 @@ void  tc_addOctavePlugin(const char* file,const char* name,const char* descripti
 void (*_tc_callFunction)(const char* functionTitle) = 0;
 /*! 
  \brief call a function listed in the functions menu, e.g. "Deterministic simulation"
- \ingroup Programming interface
+ \ingroup Programming
 */ TCAPIEXPORT 
 void tc_callFunction(const char* functionTitle)
 {
@@ -113,10 +113,21 @@ void tc_callFunction(const char* functionTitle)
 		_tc_callFunction(functionTitle);
 }
 
+void (*_tc_displayCode)(const char* code) = 0;
+/*! 
+ \brief display code in the coding window
+ \ingroup Programming
+*/ TCAPIEXPORT 
+void tc_displayCode(const char* code)
+{
+	if (_tc_displayCode)
+		_tc_displayCode(code);
+}
+
 void  (*_tc_loadLibrary)(const char* filename) = 0;
 /*! 
  \brief run a dynamic C library that contains the function "tc_main"
- \ingroup Programming interface
+ \ingroup Programming
 */ TCAPIEXPORT 
 void  tc_loadLibrary(const char* filename)
 {
@@ -127,7 +138,7 @@ void  tc_loadLibrary(const char* filename)
 void  (*_tc_addFunction)(void (*f)(), const char* title, const char* description, const char* category, const char* iconFile, const char* target_family, int show_menu, int in_tool_menu, int make_default) = 0;
 /*! 
  \brief add a function to the menu of functions
- \ingroup Programming interface
+ \ingroup Programming
 */ TCAPIEXPORT 
 void  tc_addFunction(void (*f)(), const char* title, const char* description, const char* category, const char* iconFile, const char* target_family, int show_menu, int in_tool_menu, int make_default)
 {
@@ -155,7 +166,8 @@ void tc_LoadCLibraries_api(
 		int (*compileBuildLoad)(const char* ,const char* , const char*),
 		int (*compileBuildLoadSliders)(const char* ,const char* ,const char* , tc_matrix ),
 		void (*loadLibrary)(const char*),
-		void  (*addFunction)(void (*f)(), const char*, const char*, const char*, const char*, const char*, int, int, int)
+		void  (*addFunction)(void (*f)(), const char*, const char*, const char*, const char*, const char*, int, int, int),
+		void (*displayCode)(const char*)
 )
 {
 	_tc_compileAndRun = compileAndRun;
@@ -163,6 +175,7 @@ void tc_LoadCLibraries_api(
 	_tc_compileBuildLoadSliders = compileBuildLoadSliders;
 	_tc_loadLibrary = loadLibrary;
 	_tc_addFunction = addFunction;
+	_tc_displayCode = displayCode;
 }
 
 /*! 

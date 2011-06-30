@@ -61,6 +61,13 @@ TCAPIEXPORT void tc_addPythonPlugin(const char* file,const char* name,const char
 TCAPIEXPORT void tc_callFunction(const char* functionTitle);
 
 /*! 
+ \brief display a piece of code in the coding window that the user can edit and run
+ \param string code
+ \ingroup Programming
+*/
+TCAPIEXPORT void tc_displayCode(const char* code);
+
+/*! 
  \brief run a dynamic C library that contains the function "tc_main"
  \param string name of C library
  \ingroup Programming
@@ -128,7 +135,8 @@ TCAPIEXPORT void tc_LoadCLibraries_api(
 		int (*compileBuildLoad)(const char* ,const char* , const char*),
 		int (*compileBuildLoadSliders)(const char* ,const char* ,const char* , tc_matrix ),
 		void (*loadLibrary)(const char*),
-		void  (*addFunction)(void (*f)(), const char*, const char*, const char*, const char*, const char*, int, int, int)
+		void  (*addFunction)(void (*f)(), const char*, const char*, const char*, const char*, const char*, int, int, int),
+		void (*displayCode)(const char*)
 );
 
 /*! 

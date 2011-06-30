@@ -2310,6 +2310,21 @@ SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1zoom(JNIEnv *jenv, jclass jcls, j
 }
 
 
+SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1viewWindow(JNIEnv *jenv, jclass jcls, jstring jarg1) {
+  char *arg1 = (char *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = 0;
+  if (jarg1) {
+    arg1 = (char *)(*jenv)->GetStringUTFChars(jenv, jarg1, 0);
+    if (!arg1) return ;
+  }
+  tc_viewWindow((char const *)arg1);
+  if (arg1) (*jenv)->ReleaseStringUTFChars(jenv, jarg1, (const char *)arg1);
+}
+
+
 SWIGEXPORT jstring JNICALL Java_tinkercellJNI_tc_1getStringDialog(JNIEnv *jenv, jclass jcls, jstring jarg1) {
   jstring jresult = 0 ;
   char *arg1 = (char *) 0 ;
@@ -2866,7 +2881,7 @@ SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1setLineWidth(JNIEnv *jenv, jclass
 }
 
 
-SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1Main_1api_1initialize(JNIEnv *jenv, jclass jcls, jlong jarg1, jlong jarg2, jlong jarg3, jlong jarg4, jlong jarg5, jlong jarg6, jlong jarg7, jlong jarg8, jlong jarg9, jlong jarg10, jlong jarg11, jlong jarg12, jlong jarg13, jlong jarg14, jlong jarg15, jlong jarg16, jlong jarg17, jlong jarg18, jlong jarg19, jlong jarg20, jlong jarg21, jlong jarg22, jlong jarg23, jlong jarg24, jlong jarg25, jlong jarg26, jlong jarg27, jlong jarg28, jlong jarg29, jlong jarg30, jlong jarg31, jlong jarg32, jlong jarg33, jlong jarg34, jlong jarg35, jlong jarg36, jlong jarg37, jlong jarg38, jlong jarg39, jlong jarg40, jlong jarg41, jlong jarg42, jlong jarg43, jlong jarg44, jlong jarg45, jlong jarg46, jlong jarg47, jlong jarg48, jlong jarg49, jlong jarg50, jlong jarg51, jlong jarg52, jlong jarg53, jlong jarg54, jlong jarg55, jlong jarg56, jlong jarg57, jlong jarg58, jlong jarg59, jlong jarg60, jlong jarg61, jlong jarg62, jlong jarg63, jlong jarg64, jlong jarg65, jlong jarg66, jlong jarg67, jlong jarg68, jlong jarg69, jlong jarg70, jlong jarg71, jlong jarg72, jlong jarg73, jlong jarg74, jlong jarg75, jlong jarg76, jlong jarg77, jlong jarg78, jlong jarg79, jlong jarg80, jlong jarg81, jlong jarg82, jlong jarg83, jlong jarg84, jlong jarg85, jlong jarg86, jlong jarg87) {
+SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1Main_1api_1initialize(JNIEnv *jenv, jclass jcls, jlong jarg1, jlong jarg2, jlong jarg3, jlong jarg4, jlong jarg5, jlong jarg6, jlong jarg7, jlong jarg8, jlong jarg9, jlong jarg10, jlong jarg11, jlong jarg12, jlong jarg13, jlong jarg14, jlong jarg15, jlong jarg16, jlong jarg17, jlong jarg18, jlong jarg19, jlong jarg20, jlong jarg21, jlong jarg22, jlong jarg23, jlong jarg24, jlong jarg25, jlong jarg26, jlong jarg27, jlong jarg28, jlong jarg29, jlong jarg30, jlong jarg31, jlong jarg32, jlong jarg33, jlong jarg34, jlong jarg35, jlong jarg36, jlong jarg37, jlong jarg38, jlong jarg39, jlong jarg40, jlong jarg41, jlong jarg42, jlong jarg43, jlong jarg44, jlong jarg45, jlong jarg46, jlong jarg47, jlong jarg48, jlong jarg49, jlong jarg50, jlong jarg51, jlong jarg52, jlong jarg53, jlong jarg54, jlong jarg55, jlong jarg56, jlong jarg57, jlong jarg58, jlong jarg59, jlong jarg60, jlong jarg61, jlong jarg62, jlong jarg63, jlong jarg64, jlong jarg65, jlong jarg66, jlong jarg67, jlong jarg68, jlong jarg69, jlong jarg70, jlong jarg71, jlong jarg72, jlong jarg73, jlong jarg74, jlong jarg75, jlong jarg76, jlong jarg77, jlong jarg78, jlong jarg79, jlong jarg80, jlong jarg81, jlong jarg82, jlong jarg83, jlong jarg84, jlong jarg85, jlong jarg86, jlong jarg87, jlong jarg88) {
   tc_items (*arg1)() = (tc_items (*)()) 0 ;
   tc_items (*arg2)() = (tc_items (*)()) 0 ;
   tc_items (*arg3)(char const *) = (tc_items (*)(char const *)) 0 ;
@@ -2914,46 +2929,47 @@ SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1Main_1api_1initialize(JNIEnv *jen
   tc_strings (*arg45)(long) = (tc_strings (*)(long)) 0 ;
   tc_strings (*arg46)(long) = (tc_strings (*)(long)) 0 ;
   void (*arg47)(double) = (void (*)(double)) 0 ;
-  char *(*arg48)(char const *) = (char *(*)(char const *)) 0 ;
-  int (*arg49)(char const *,tc_strings,char const *) = (int (*)(char const *,tc_strings,char const *)) 0 ;
-  double (*arg50)(char const *) = (double (*)(char const *)) 0 ;
-  tc_matrix (*arg51)(tc_strings) = (tc_matrix (*)(tc_strings)) 0 ;
-  char *(*arg52)() = (char *(*)()) 0 ;
-  int (*arg53)(char const *) = (int (*)(char const *)) 0 ;
-  void (*arg54)(char const *) = (void (*)(char const *)) 0 ;
+  void (*arg48)(char const *) = (void (*)(char const *)) 0 ;
+  char *(*arg49)(char const *) = (char *(*)(char const *)) 0 ;
+  int (*arg50)(char const *,tc_strings,char const *) = (int (*)(char const *,tc_strings,char const *)) 0 ;
+  double (*arg51)(char const *) = (double (*)(char const *)) 0 ;
+  tc_matrix (*arg52)(tc_strings) = (tc_matrix (*)(tc_strings)) 0 ;
+  char *(*arg53)() = (char *(*)()) 0 ;
+  int (*arg54)(char const *) = (int (*)(char const *)) 0 ;
   void (*arg55)(char const *) = (void (*)(char const *)) 0 ;
   void (*arg56)(char const *) = (void (*)(char const *)) 0 ;
-  void (*arg57)(long,double,double,int) = (void (*)(long,double,double,int)) 0 ;
-  double (*arg58)(long) = (double (*)(long)) 0 ;
+  void (*arg57)(char const *) = (void (*)(char const *)) 0 ;
+  void (*arg58)(long,double,double,int) = (void (*)(long,double,double,int)) 0 ;
   double (*arg59)(long) = (double (*)(long)) 0 ;
-  void (*arg60)(long,double,int) = (void (*)(long,double,int)) 0 ;
-  char *(*arg61)(long) = (char *(*)(long)) 0 ;
-  void (*arg62)(long,char const *,int) = (void (*)(long,char const *,int)) 0 ;
-  void (*arg63)(long,char const *) = (void (*)(long,char const *)) 0 ;
+  double (*arg60)(long) = (double (*)(long)) 0 ;
+  void (*arg61)(long,double,int) = (void (*)(long,double,int)) 0 ;
+  char *(*arg62)(long) = (char *(*)(long)) 0 ;
+  void (*arg63)(long,char const *,int) = (void (*)(long,char const *,int)) 0 ;
   void (*arg64)(long,char const *) = (void (*)(long,char const *)) 0 ;
-  void (*arg65)(char const *,int,int) = (void (*)(char const *,int,int)) 0 ;
-  int (*arg66)() = (int (*)()) 0 ;
+  void (*arg65)(long,char const *) = (void (*)(long,char const *)) 0 ;
+  void (*arg66)(char const *,int,int) = (void (*)(char const *,int,int)) 0 ;
   int (*arg67)() = (int (*)()) 0 ;
   int (*arg68)() = (int (*)()) 0 ;
   int (*arg69)() = (int (*)()) 0 ;
-  char *(*arg70)() = (char *(*)()) 0 ;
-  void (*arg71)(char const *,double,double) = (void (*)(char const *,double,double)) 0 ;
-  void (*arg72)(tc_matrix) = (void (*)(tc_matrix)) 0 ;
-  void (*arg73)(char const *,double) = (void (*)(char const *,double)) 0 ;
-  void (*arg74)(tc_table) = (void (*)(tc_table)) 0 ;
-  void (*arg75)(char const *,char const *) = (void (*)(char const *,char const *)) 0 ;
-  double (*arg76)(char const *) = (double (*)(char const *)) 0 ;
-  char *(*arg77)(char const *) = (char *(*)(char const *)) 0 ;
-  void (*arg78)() = (void (*)()) 0 ;
-  double (*arg79)(long,long,int) = (double (*)(long,long,int)) 0 ;
+  int (*arg70)() = (int (*)()) 0 ;
+  char *(*arg71)() = (char *(*)()) 0 ;
+  void (*arg72)(char const *,double,double) = (void (*)(char const *,double,double)) 0 ;
+  void (*arg73)(tc_matrix) = (void (*)(tc_matrix)) 0 ;
+  void (*arg74)(char const *,double) = (void (*)(char const *,double)) 0 ;
+  void (*arg75)(tc_table) = (void (*)(tc_table)) 0 ;
+  void (*arg76)(char const *,char const *) = (void (*)(char const *,char const *)) 0 ;
+  double (*arg77)(char const *) = (double (*)(char const *)) 0 ;
+  char *(*arg78)(char const *) = (char *(*)(char const *)) 0 ;
+  void (*arg79)() = (void (*)()) 0 ;
   double (*arg80)(long,long,int) = (double (*)(long,long,int)) 0 ;
-  void (*arg81)(long,long,int,double,double) = (void (*)(long,long,int,double,double)) 0 ;
-  void (*arg82)(long,double,double) = (void (*)(long,double,double)) 0 ;
-  double (*arg83)(long) = (double (*)(long)) 0 ;
+  double (*arg81)(long,long,int) = (double (*)(long,long,int)) 0 ;
+  void (*arg82)(long,long,int,double,double) = (void (*)(long,long,int,double,double)) 0 ;
+  void (*arg83)(long,double,double) = (void (*)(long,double,double)) 0 ;
   double (*arg84)(long) = (double (*)(long)) 0 ;
-  void (*arg85)(long,int) = (void (*)(long,int)) 0 ;
-  void (*arg86)(int) = (void (*)(int)) 0 ;
-  void (*arg87)(long,double,int) = (void (*)(long,double,int)) 0 ;
+  double (*arg85)(long) = (double (*)(long)) 0 ;
+  void (*arg86)(long,int) = (void (*)(long,int)) 0 ;
+  void (*arg87)(int) = (void (*)(int)) 0 ;
+  void (*arg88)(long,double,int) = (void (*)(long,double,int)) 0 ;
   
   (void)jenv;
   (void)jcls;
@@ -3004,47 +3020,48 @@ SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1Main_1api_1initialize(JNIEnv *jen
   arg45 = *(tc_strings (**)(long))&jarg45; 
   arg46 = *(tc_strings (**)(long))&jarg46; 
   arg47 = *(void (**)(double))&jarg47; 
-  arg48 = *(char *(**)(char const *))&jarg48; 
-  arg49 = *(int (**)(char const *,tc_strings,char const *))&jarg49; 
-  arg50 = *(double (**)(char const *))&jarg50; 
-  arg51 = *(tc_matrix (**)(tc_strings))&jarg51; 
-  arg52 = *(char *(**)())&jarg52; 
-  arg53 = *(int (**)(char const *))&jarg53; 
-  arg54 = *(void (**)(char const *))&jarg54; 
+  arg48 = *(void (**)(char const *))&jarg48; 
+  arg49 = *(char *(**)(char const *))&jarg49; 
+  arg50 = *(int (**)(char const *,tc_strings,char const *))&jarg50; 
+  arg51 = *(double (**)(char const *))&jarg51; 
+  arg52 = *(tc_matrix (**)(tc_strings))&jarg52; 
+  arg53 = *(char *(**)())&jarg53; 
+  arg54 = *(int (**)(char const *))&jarg54; 
   arg55 = *(void (**)(char const *))&jarg55; 
   arg56 = *(void (**)(char const *))&jarg56; 
-  arg57 = *(void (**)(long,double,double,int))&jarg57; 
-  arg58 = *(double (**)(long))&jarg58; 
+  arg57 = *(void (**)(char const *))&jarg57; 
+  arg58 = *(void (**)(long,double,double,int))&jarg58; 
   arg59 = *(double (**)(long))&jarg59; 
-  arg60 = *(void (**)(long,double,int))&jarg60; 
-  arg61 = *(char *(**)(long))&jarg61; 
-  arg62 = *(void (**)(long,char const *,int))&jarg62; 
-  arg63 = *(void (**)(long,char const *))&jarg63; 
+  arg60 = *(double (**)(long))&jarg60; 
+  arg61 = *(void (**)(long,double,int))&jarg61; 
+  arg62 = *(char *(**)(long))&jarg62; 
+  arg63 = *(void (**)(long,char const *,int))&jarg63; 
   arg64 = *(void (**)(long,char const *))&jarg64; 
-  arg65 = *(void (**)(char const *,int,int))&jarg65; 
-  arg66 = *(int (**)())&jarg66; 
+  arg65 = *(void (**)(long,char const *))&jarg65; 
+  arg66 = *(void (**)(char const *,int,int))&jarg66; 
   arg67 = *(int (**)())&jarg67; 
   arg68 = *(int (**)())&jarg68; 
   arg69 = *(int (**)())&jarg69; 
-  arg70 = *(char *(**)())&jarg70; 
-  arg71 = *(void (**)(char const *,double,double))&jarg71; 
-  arg72 = *(void (**)(tc_matrix))&jarg72; 
-  arg73 = *(void (**)(char const *,double))&jarg73; 
-  arg74 = *(void (**)(tc_table))&jarg74; 
-  arg75 = *(void (**)(char const *,char const *))&jarg75; 
-  arg76 = *(double (**)(char const *))&jarg76; 
-  arg77 = *(char *(**)(char const *))&jarg77; 
-  arg78 = *(void (**)())&jarg78; 
-  arg79 = *(double (**)(long,long,int))&jarg79; 
+  arg70 = *(int (**)())&jarg70; 
+  arg71 = *(char *(**)())&jarg71; 
+  arg72 = *(void (**)(char const *,double,double))&jarg72; 
+  arg73 = *(void (**)(tc_matrix))&jarg73; 
+  arg74 = *(void (**)(char const *,double))&jarg74; 
+  arg75 = *(void (**)(tc_table))&jarg75; 
+  arg76 = *(void (**)(char const *,char const *))&jarg76; 
+  arg77 = *(double (**)(char const *))&jarg77; 
+  arg78 = *(char *(**)(char const *))&jarg78; 
+  arg79 = *(void (**)())&jarg79; 
   arg80 = *(double (**)(long,long,int))&jarg80; 
-  arg81 = *(void (**)(long,long,int,double,double))&jarg81; 
-  arg82 = *(void (**)(long,double,double))&jarg82; 
-  arg83 = *(double (**)(long))&jarg83; 
+  arg81 = *(double (**)(long,long,int))&jarg81; 
+  arg82 = *(void (**)(long,long,int,double,double))&jarg82; 
+  arg83 = *(void (**)(long,double,double))&jarg83; 
   arg84 = *(double (**)(long))&jarg84; 
-  arg85 = *(void (**)(long,int))&jarg85; 
-  arg86 = *(void (**)(int))&jarg86; 
-  arg87 = *(void (**)(long,double,int))&jarg87; 
-  tc_Main_api_initialize(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,(char const *(*)(long))arg9,(char const *(*)(long))arg10,arg11,arg12,arg13,(char const *(*)(long))arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23,arg24,arg25,arg26,arg27,arg28,arg29,arg30,(char const *(*)())arg31,(char const *(*)())arg32,arg33,arg34,arg35,arg36,arg37,arg38,arg39,arg40,arg41,arg42,arg43,arg44,arg45,arg46,arg47,(char const *(*)(char const *))arg48,arg49,arg50,arg51,(char const *(*)())arg52,arg53,arg54,arg55,arg56,arg57,arg58,arg59,arg60,(char const *(*)(long))arg61,arg62,arg63,arg64,arg65,arg66,arg67,arg68,arg69,(char const *(*)())arg70,arg71,arg72,arg73,arg74,arg75,arg76,(char const *(*)(char const *))arg77,arg78,arg79,arg80,arg81,arg82,arg83,arg84,arg85,arg86,arg87);
+  arg85 = *(double (**)(long))&jarg85; 
+  arg86 = *(void (**)(long,int))&jarg86; 
+  arg87 = *(void (**)(int))&jarg87; 
+  arg88 = *(void (**)(long,double,int))&jarg88; 
+  tc_Main_api_initialize(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,(char const *(*)(long))arg9,(char const *(*)(long))arg10,arg11,arg12,arg13,(char const *(*)(long))arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23,arg24,arg25,arg26,arg27,arg28,arg29,arg30,(char const *(*)())arg31,(char const *(*)())arg32,arg33,arg34,arg35,arg36,arg37,arg38,arg39,arg40,arg41,arg42,arg43,arg44,arg45,arg46,arg47,arg48,(char const *(*)(char const *))arg49,arg50,arg51,arg52,(char const *(*)())arg53,arg54,arg55,arg56,arg57,arg58,arg59,arg60,arg61,(char const *(*)(long))arg62,arg63,arg64,arg65,arg66,arg67,arg68,arg69,arg70,(char const *(*)())arg71,arg72,arg73,arg74,arg75,arg76,arg77,(char const *(*)(char const *))arg78,arg79,arg80,arg81,arg82,arg83,arg84,arg85,arg86,arg87,arg88);
 }
 
 
@@ -4252,6 +4269,21 @@ SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1callFunction(JNIEnv *jenv, jclass
 }
 
 
+SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1displayCode(JNIEnv *jenv, jclass jcls, jstring jarg1) {
+  char *arg1 = (char *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = 0;
+  if (jarg1) {
+    arg1 = (char *)(*jenv)->GetStringUTFChars(jenv, jarg1, 0);
+    if (!arg1) return ;
+  }
+  tc_displayCode((char const *)arg1);
+  if (arg1) (*jenv)->ReleaseStringUTFChars(jenv, jarg1, (const char *)arg1);
+}
+
+
 SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1loadLibrary(JNIEnv *jenv, jclass jcls, jstring jarg1) {
   char *arg1 = (char *) 0 ;
   
@@ -4415,12 +4447,13 @@ SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1DynamicLibraryMenu_1api(JNIEnv *j
 }
 
 
-SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1LoadCLibraries_1api(JNIEnv *jenv, jclass jcls, jlong jarg1, jlong jarg2, jlong jarg3, jlong jarg4, jlong jarg5) {
+SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1LoadCLibraries_1api(JNIEnv *jenv, jclass jcls, jlong jarg1, jlong jarg2, jlong jarg3, jlong jarg4, jlong jarg5, jlong jarg6) {
   int (*arg1)(char const *,char const *) = (int (*)(char const *,char const *)) 0 ;
   int (*arg2)(char const *,char const *,char const *) = (int (*)(char const *,char const *,char const *)) 0 ;
   int (*arg3)(char const *,char const *,char const *,tc_matrix) = (int (*)(char const *,char const *,char const *,tc_matrix)) 0 ;
   void (*arg4)(char const *) = (void (*)(char const *)) 0 ;
   void (*arg5)(void (*)(),char const *,char const *,char const *,char const *,char const *,int,int,int) = (void (*)(void (*)(),char const *,char const *,char const *,char const *,char const *,int,int,int)) 0 ;
+  void (*arg6)(char const *) = (void (*)(char const *)) 0 ;
   
   (void)jenv;
   (void)jcls;
@@ -4429,7 +4462,8 @@ SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1LoadCLibraries_1api(JNIEnv *jenv,
   arg3 = *(int (**)(char const *,char const *,char const *,tc_matrix))&jarg3; 
   arg4 = *(void (**)(char const *))&jarg4; 
   arg5 = *(void (**)(void (*)(),char const *,char const *,char const *,char const *,char const *,int,int,int))&jarg5; 
-  tc_LoadCLibraries_api(arg1,arg2,arg3,arg4,arg5);
+  arg6 = *(void (**)(char const *))&jarg6; 
+  tc_LoadCLibraries_api(arg1,arg2,arg3,arg4,arg5,arg6);
 }
 
 

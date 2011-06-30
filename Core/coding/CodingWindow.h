@@ -95,6 +95,7 @@ namespace Tinkercell
 		void compile(const QString&, QString&);
 
 	public slots:
+		void setCode(const QString&);
 		void run();
 		void about();
 		void toggleSVNupdate(bool);

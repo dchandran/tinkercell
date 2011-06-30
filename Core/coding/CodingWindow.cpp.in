@@ -49,7 +49,7 @@ namespace Tinkercell
 		 fileName = tempDir + tr("/code.c");
 		 
 		 toolBar = 0;
-		 window = new QMainWindow(this);
+		 window = new QMainWindow;
 
 		 setupEditor();
 		 setupMenu();
@@ -94,6 +94,12 @@ namespace Tinkercell
 		usernameDialog = 0;
 		usernameLine = 0;
 		passwordLine = 0;
+
+		QHBoxLayout * layout = new QHBoxLayout;
+		layout->addWidget(window);
+		layout->setContentsMargins(0,0,0,0);
+		setLayout(layout);
+		setWindowFlags(Qt::Window);
 	}
 	
 	void CodingWindow::convertCodeToButton()
@@ -596,7 +602,7 @@ specific for:\n\"\"\"\n\n") + text;
 			QDockWidget * dock = 0;
 			setWindowTitle(name);
 			setWindowIcon(QIcon(tr(":/images/cmd.png")));
-			dock = mainWindow->addToolWindow(window, MainWindow::DockWidget, Qt::BottomDockWidgetArea, Qt::BottomDockWidgetArea);
+			dock = mainWindow->addToolWindow(this, MainWindow::DockWidget, Qt::BottomDockWidgetArea, Qt::BottomDockWidgetArea);
 			dock->move(mainWindow->geometry().bottomRight() - QPoint(sizeHint().width()*2,sizeHint().height()));
 			dock->hide();
 			dock->setFloating(true);
@@ -1255,6 +1261,12 @@ specific for:\n\"\"\"\n\n") + text;
 			showNormal();
 		Tool::setVisible(visible);
 	 }
+
+	void CodingWindow::setCode(const QString& code)
+	{
+		if (editor)
+			editor->setPlainText(code);
+	}
 
 	QString TCFunctionsListView::prefix = QString();
 }

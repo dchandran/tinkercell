@@ -117,6 +117,7 @@ namespace Tinkercell
 		tc_strings (*tc_getTextDataNames0)(long),
 		
 		void (*tc_zoom0)(double factor),
+		void (*tc_viewWindow0)(const char*),
 
 		const char* (*getString)(const char*),
 		int (*getSelectedString)(const char*, tc_strings, const char*),
@@ -222,6 +223,7 @@ namespace Tinkercell
 				&(_getNumericalDataNames),
 				&(_getTextDataNames),
 				&(_zoom),
+				&(_viewWindow),
 				&(_getString),
 				&(_getSelectedString),
 				&(_getNumber),
@@ -334,6 +336,7 @@ namespace Tinkercell
 		connect(fToS,SIGNAL(getNumericalDataNames(QSemaphore*,QStringList*,ItemHandle*)),this,SLOT(getNumericalDataNames(QSemaphore*,QStringList*,ItemHandle*)));
 
 		connect(fToS,SIGNAL(zoom(QSemaphore*,qreal)),this,SLOT(zoom(QSemaphore*,qreal)));
+		connect(fToS,SIGNAL(viewWindow(QSemaphore*,const QString&)),this,SLOT(viewWindow(QSemaphore*,const QString&)));
 
 		connect(fToS,SIGNAL(getString(QSemaphore*,QString*,const QString&)),this,SLOT(getString(QSemaphore*,QString*,const QString&)));
         connect(fToS,SIGNAL(getSelectedString(QSemaphore*,int*,const QString&,const QStringList&,const QString&)),this,SLOT(getSelectedString(QSemaphore*,int*,const QString&,const QStringList&,const QString&)));
@@ -406,6 +409,23 @@ namespace Tinkercell
 		if (currentScene())
 		{
 			currentScene()->zoom(factor);
+		}
+		if (sem)
+			sem->release();
+	}
+
+	void C_API_Slots::viewWindow(QSemaphore* sem, const QString& s)
+	{
+		if (mainWindow)
+		{
+			QWidget * widget = mainWindow->tool(s);
+			if (widget)
+			{
+				while (widget->parentWidget() && widget->parentWidget() != mainWindow)
+					widget = widget->parentWidget();
+
+				widget->show();
+			}
 		}
 		if (sem)
 			sem->release();
@@ -1226,6 +1246,11 @@ namespace Tinkercell
 		fToS->zoom(x);
 	}
 
+	void C_API_Slots::_viewWindow(const char * s)
+	{
+		fToS->viewWindow(s);
+	}
+
 	long C_API_Slots::_find(const char* c)
 	{
 		return fToS->find(c);
@@ -1570,6 +1595,12 @@ namespace Tinkercell
 	{
 		emit zoom(0,x);
 	}
+
+	void Core_FtoS::viewWindow(const char * s)
+	{
+		emit viewWindow(0,s);
+	}
+
 
 	long Core_FtoS::find(const char* c)
 	{

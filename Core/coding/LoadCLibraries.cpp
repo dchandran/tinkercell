@@ -20,7 +20,7 @@
 #include "NodeGraphicsItem.h"
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
-#include "ConsoleWindow.h"
+#include "CodingWindow.h"
 #include "LoadCLibraries.h"
 #include "MultithreadedSliderWidget.h"
 #include <QtDebug>
@@ -139,6 +139,7 @@ namespace Tinkercell
         connect(fToS,SIGNAL(compileBuildLoad(QSemaphore*,int*,const QString&,const QString&,const QString&)),this,SLOT(compileBuildLoadC(QSemaphore*,int*,const QString&,const QString&,const QString&)));
 		connect(fToS,SIGNAL(compileBuildLoadSliders(QSemaphore*,int*,const QString&,const QString&,const QString&,DataTable<qreal>&)),this,SLOT(compileBuildLoadSliders(QSemaphore*,int*,const QString&,const QString&,const QString&,DataTable<qreal>&)));
         connect(fToS,SIGNAL(loadLibrary(QSemaphore*,const QString&)),this,SLOT(loadLibrary(QSemaphore*,const QString&)));
+        connect(fToS,SIGNAL(displayCode(QSemaphore*,const QString&)),this,SLOT(displayCode(QSemaphore*,const QString&)));
         connect(fToS,SIGNAL(addFunction(QSemaphore*,VoidFunction, const QString& , const QString& , const QString& , const QString& ,const QString& , int, int,int)),
                    this,SLOT(addFunction(QSemaphore*,VoidFunction,QString,QString,QString,QString,QString,int,int,int)));
     }
@@ -148,7 +149,8 @@ namespace Tinkercell
             int (*compileBuildLoad)(const char *, const char* , const char*),
 			int (*compileBuildLoadSliders)(const char * ,const char* ,const char* , tc_matrix),
             void (*loadLib)(const char*),
-            void (*addf)(void (*f)(),const char * , const char* , const char* , const char* , const char * , int , int , int )
+            void (*addf)(void (*f)(),const char * , const char* , const char* , const char* , const char * , int , int , int ),
+			void (*displayCode)(const char*)
             );
 
     void LoadCLibrariesTool::setupFunctionPointers( QLibrary * library)
@@ -161,7 +163,8 @@ namespace Tinkercell
                     &(_compileBuildLoad),
 					&(_compileBuildLoadSliders),
                     &(_loadLibrary),
-                    &(_addFunction)
+                    &(_addFunction),
+                    &(_displayCode)
                     );
         }
     }
@@ -375,6 +378,29 @@ namespace Tinkercell
         if (s) s->release();
     }
 
+    void LoadCLibrariesTool::displayCode(QSemaphore* s,const QString& code)
+    {
+        if (mainWindow)
+		{
+            QWidget * tool = mainWindow->tool(tr("Coding Window"));
+			if (tool)
+			{
+				CodingWindow * codingWindow = static_cast<CodingWindow*>(tool);
+				if (!codingWindow->isVisible())
+				{
+					if (codingWindow->parentWidget())
+						codingWindow->parentWidget()->show();
+					else
+						codingWindow->show();
+				}
+				codingWindow->setCode(code);
+			}
+        }
+
+        if (s) s->release();
+    }
+
+
     /******************************************************/
 
     LoadCLibrariesTool_FToS * LoadCLibrariesTool::fToS;
@@ -397,6 +423,11 @@ namespace Tinkercell
     void LoadCLibrariesTool::_loadLibrary(const char * c)
     {
         return fToS->loadLibrary(c);
+    }
+
+    void LoadCLibrariesTool::_displayCode(const char * c)
+    {
+        return fToS->displayCode(c);
     }
 
     void  LoadCLibrariesTool::_addFunction(void (*f)(), const char * title, const char* desc, const char* cat, const char* icon, const char * family, int inMenu, int inTool, int deft)
@@ -462,5 +493,14 @@ namespace Tinkercell
         delete s;
     }
 
+    void LoadCLibrariesTool_FToS::displayCode(const char * c)
+    {
+        QSemaphore * s = new QSemaphore(1);
+        s->acquire();
+        emit displayCode(s,ConvertValue(c));
+        s->acquire();
+        s->release();
+        delete s;
+    }
 }
 

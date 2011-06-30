@@ -46,7 +46,6 @@ textsheet.xml files that define the NodeGraphicsItems.
 
 namespace Tinkercell
 {
-
 	/*!
 	\brief This class provides the C API for the ConnectionInsertion class
 	\ingroup capi

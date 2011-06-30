@@ -36,8 +36,7 @@ textsheet.xml files that define the NodeGraphicsItems.
 #include "GlobalSettings.h"
 
 namespace Tinkercell
-{
-	
+{	
 	QHash<QString,double> BasicInformationTool::initialValues;
 
 	void BasicInformationTool::select(int)

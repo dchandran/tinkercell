@@ -115,6 +115,10 @@ namespace Tinkercell
 		/*!\brief write all the units to a text table*/
 		static void saveUnitsToTable(TextDataTable & units);
 
+		/*!\brief map contents of matching tables from one set of handles to another. 
+					WARNING: do not include child items, as this can cause incorrect mappings*/
+		static void mapDataTables(const QList<ItemHandle*> from, const QList<ItemHandle*> to);
+
 		/*!\brief hash table that is used to record which networks were saved after making any changes*/		
 		QHash<NetworkHandle*,bool> savedNetworks;
 		/*!\brief used to count 10 changed, which triggers auto-save*/

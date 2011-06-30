@@ -222,6 +222,16 @@ namespace Tinkercell
 		return *this;
 	}
 
+	void ItemHandle::copyDataTablesFrom(ItemHandle * copy)
+	{
+		if (copy && copy->data)
+		{
+			if (data)
+				delete data;
+			data = new ItemData(*(copy->data));
+		}
+	}
+
 	ItemHandle * ItemHandle::clone() const
 	{
 		return new ItemHandle(*this);

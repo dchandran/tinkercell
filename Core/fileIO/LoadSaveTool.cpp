@@ -495,6 +495,7 @@ namespace Tinkercell
 
 		if (root)
 		{
+			mapDataTables(root->children, handles);
 			if (globalHandle)
 			{
 				h = globalHandle;
@@ -548,7 +549,7 @@ namespace Tinkercell
 			for (int i=0; i < handles.size(); ++i)
 				if ((h = handles[i]) && !h->parent && h->name == root->name)  //problem case -- do first
 				{
-					h->setParent(root,false);
+					//h->setParent(root,false);
 					RenameCommand::findReplaceAllHandleData(handles,h->name, tr("XXX...XXX.") + h->name);
 					visited += h;
 				}
@@ -556,8 +557,9 @@ namespace Tinkercell
 			for (int i=0; i < handles.size(); ++i)
 				if ((h = handles[i]) && !h->parent && !h->name.isEmpty() && !visited.contains(h))
 				{
-					h->setParent(root,false);
+					//h->setParent(root,false);
 					RenameCommand::findReplaceAllHandleData(handles,h->name,tr("XXX...XXX.") + h->name);
+					visited += h;
 				}
 			RenameCommand::findReplaceAllHandleData(handles,tr("XXX...XXX"), root->fullName());
 		}
@@ -1109,5 +1111,17 @@ namespace Tinkercell
 			}
 	}
 
+	void LoadSaveTool::mapDataTables(const QList<ItemHandle*> fromSet, const QList<ItemHandle*> toSet)
+	{
+		for (int i=0; i < fromSet.size(); ++i)
+			for (int j=0; j < toSet.size(); ++j)
+				if (fromSet[i] && toSet[j] && !fromSet[i]->name.isEmpty() &&
+					fromSet[i]->name == toSet[j]->name) //exact match
+					{
+						toSet[j]->copyDataTablesFrom(fromSet[i]);
+						if (!toSet[j]->children.isEmpty() && !fromSet[i]->children.isEmpty())
+							mapDataTables(fromSet[i]->children, toSet[j]->children);
+					}
+	}
 }
 

@@ -161,7 +161,32 @@ namespace Tinkercell
 			QList<ItemHandle*> newHandles;
 			QList<QGraphicsItem*> childItems = parentHandle->graphicsItems;
 			QList<QGraphicsItem*> childrenClone = cloneGraphicsItems(childItems, newHandles);
-			cachedModels.insert(parentHandle, childrenClone);
+
+			ItemHandle * root = 0;
+			for (int i=0; i < newHandles.size(); ++i)
+				if (newHandles[i] && !newHandles[i]->parent && newHandles[i]->name == parentHandle->name)
+				{
+					root = newHandles[i];
+					break;
+				}
+
+			if (root)
+			{
+				TextDataTable participants (parentHandle->textDataTable(tr("participants")));
+				for (int i=0; i < newHandles.size(); ++i)
+					if (newHandles[i] && !newHandles[i]->parent)
+						for (int j=0; j < participants.rows(); ++j)
+							if (participants(j,0) == newHandles[i]->fullName())
+							{
+								newHandles[i]->setParent(root, false);
+								newHandles[i]->name = participants.rowName(j);
+								if (newHandles[i]->isA("CDS"))
+								{
+									console()->printTable(newHandles[i]->textDataTable("assignments"));
+								}
+							}
+				cachedModels.insert(parentHandle, childrenClone);
+			}
 		}
 
 		QString filename;
@@ -205,7 +230,10 @@ namespace Tinkercell
 								 items += handles[i]->graphicsItems[j];
 						
 						handles[i]->setParent(parentHandle,false);
-						console()->message(handles[i]->fullName());
+						if (handles[i]->isA("CDS"))
+						{
+							console()->printTable(handles[i]->textDataTable("assignments"));
+						}
 					}
 			}
 		}
@@ -323,46 +351,25 @@ namespace Tinkercell
 					}
 			}
 
-			if (window && window->scene)
+			if (!items.isEmpty())
 			{
-				if (!items.isEmpty())
-				{
-					GraphicsScene * newScene = window->newScene();
-					newScene->insert(tr("new model"),items);
-					QPixmap printer(WINDOW_WIDTH, WINDOW_WIDTH);
-					printer.fill();
-					newScene->print(&printer);
-					moduleSnapshots[parentHandle] = printer;
-				}
-				else
-				{
-					QString modelText;
-					emit getTextVersion(handles, &modelText);
-					TextEditor * newEditor = window->newTextEditor();
-					newEditor->setText(modelText);
-					newEditor->insert(handles);
-				}
+				GraphicsScene * newScene = window->newScene();
+				newScene->insert(tr("new model"),items);
+				QPixmap printer(WINDOW_WIDTH, WINDOW_WIDTH);
+				printer.fill();
+				newScene->print(&printer);
+				moduleSnapshots[parentHandle] = printer;
 			}
 			else
-			if (window && window->editor)
 			{
-				if (!items.isEmpty())
-				{
-					GraphicsScene * scene = window->newScene();
-					scene->insert(tr("new model"),items);
-				}
-				else
-				{
-					QString modelText;
-					emit getTextVersion(handles, &modelText);
-					TextEditor * newEditor = window->newTextEditor();
-					newEditor->setText(modelText);
-					newEditor->insert(handles);
-				}
+				QString modelText;
+				emit getTextVersion(handles, &modelText);
+				TextEditor * newEditor = window->newTextEditor();
+				newEditor->setText(modelText);
+				newEditor->insert(handles);
 			}
 
-			ItemHandle * h;
-			
+			ItemHandle * h;			
 			TextDataTable oldParticipantsData (parentHandle->textDataTable(tr("participants")));
 			
 			QList<NodeHandle*> nodes;
@@ -390,7 +397,12 @@ namespace Tinkercell
 				h = findCorrespondingHandle(NodeHandle::cast(parentHandle->children[i]),ConnectionHandle::cast(parentHandle));
 				if (h)
 				{
-					nodes.removeAll(NodeHandle::cast(h));	
+					if (h->hasTextData("assignments"))
+					{
+						TextDataTable * table1 = &(h->textDataTable("assignments"));
+						console()->message(h->name + tr("  assignments : ") + QString::number(table1->rows()) + tr(" x ") + QString::number(table1->columns()));	
+					}
+					nodes.removeAll(NodeHandle::cast(h));
 					
 					commands << new MergeHandlesCommand(
 												tr("merge"), network, QList<ItemHandle*>() << h << parentHandle->children[i]);
@@ -404,7 +416,10 @@ namespace Tinkercell
 							TextDataTable table3(*table1);
 							for (int j1=0; j1 < table2->rows(); ++j1)
 								for (int j2=0; j2 < table2->columns(); ++j2)
+								{
 									table3.value(table2->rowName(j1), table2->columnName(j2)) = table2->value(j1,j2);
+									console()->message(table2->rowName(j1) + tr(",") + table2->columnName(j2)  + tr(" =  ") + table2->value(j1,j2));
+								}
 							commands << new ChangeTextDataCommand( tr("replace text table"), table1, &(table3));
 						}
 

@@ -233,6 +233,9 @@ namespace Tinkercell
 		\param QString name of tool, e.g. "Numerical Attributes"
 		\return TextDataTable& reference of table*/
 		TextDataTable& textDataTable(const QString& name);
+		/*! \brief copy data from one handle to another
+		\param ItemHandle * handle to copy from*/
+		virtual void copyDataTablesFrom(ItemHandle*);
 	};
 
 	/*! \brief

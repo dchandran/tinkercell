@@ -318,7 +318,20 @@ namespace Tinkercell
 				if (items[i] && !list.contains(items[i]))
 				{
 					if (parentHandles.size() > i && !MainWindow::invalidPointers.contains(parentHandles[i]))
-						items[i]->setParent(parentHandles[i],false);					
+						items[i]->setParent(parentHandles[i],false);
+					else
+						if (textEditor->localHandle())
+						{
+							bool onlyThisWindow = true;
+							for (int j=0; j < items[i]->graphicsItems.size(); ++j)
+								if (items[i]->graphicsItems[j])
+								{
+									onlyThisWindow = false;
+									false;
+								}
+							if (onlyThisWindow)
+								items[i]->setParent(textEditor->localHandle(),false);
+						}
 
 					items[i]->network = textEditor->network;
 					list << items[i];
@@ -781,6 +794,19 @@ namespace Tinkercell
 						{
 							if (parentHandles.size() > i && !MainWindow::invalidPointers.contains(parentHandles[i]))
 								handles[i]->setParent(parentHandles[i],false);
+							else
+								if (graphicsScene->localHandle())
+								{
+									bool onlyThisScene = true;
+									for (int j=0; j < handles[i]->graphicsItems.size(); ++j)
+										if (handles[i]->graphicsItems[j] && handles[i]->graphicsItems[j]->scene() != graphicsScene)
+										{
+											onlyThisScene = false;
+											false;
+										}
+									if (onlyThisScene)
+										handles[i]->setParent(graphicsScene->localHandle(),false);
+								}
 							
 							handles[i]->network = network;
 							

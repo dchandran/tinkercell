@@ -33,11 +33,11 @@ namespace Tinkercell
 	{
 		Tool::setMainWindow(main);
 
-		if (mainWindow)
+		if (mainWindow && mainWindow->editMenu)
 		{
 			makeNodeSelectionDialog();
 
-			QAction * replaceNode = new QAction(QIcon(":/images/parts.png"),tr("Replace graphics"),mainWindow->centralWidget());
+			QAction * replaceNode = new QAction(QIcon(":/images/parts.png"),tr("Replace graphics"),mainWindow->editMenu);
 			replaceNode->setToolTip(tr("Replace node graphics"));
 			connect(replaceNode,SIGNAL(triggered()),this,SLOT(substituteNodeGraphics()));
 			//QToolBar * toolBar = mainWindow->toolBarEdits;
@@ -183,7 +183,7 @@ namespace Tinkercell
 	void GraphicsReplaceTool::substituteNodeGraphics()
 	{
 		GraphicsScene * scene = currentScene();
-		if (!scene) return;
+		if (!scene || scene->selected().isEmpty()) return;
 
 		nodeSelectionDialog->exec();
 		if (nodeSelectionDialog->result() == QDialog::Accepted)

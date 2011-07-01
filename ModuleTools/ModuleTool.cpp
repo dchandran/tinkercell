@@ -1310,7 +1310,7 @@ namespace Tinkercell
 
 		QList<QGraphicsItem*> & selected = scene->selected();
 		
-		if (selected.size() == 1 && keyEvent->key() == Qt::Key_Enter || keyEvent->key() == Qt::Key_Return || keyEvent->key() == Qt::Key_Space)
+		if (selected.size() == 1 && (keyEvent->key() == Qt::Key_Enter || keyEvent->key() == Qt::Key_Return || keyEvent->key() == Qt::Key_Space))
 		{
 			mouseDoubleClicked(scene,QPointF(),selected[0],Qt::LeftButton,(Qt::KeyboardModifiers)0);
 		}

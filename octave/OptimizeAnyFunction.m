@@ -5,33 +5,20 @@
 #menu: yes
 #tool: no
 
-fout = fopen("example.m","w");
-fprintf(fout,"#Copy this example code into the Coding Window in TinkerCell.\n\
+s = "#Edit the Objective function and run the code.\n\
 tinkercell\n\
-CrossEntropy\n\
-#Edit the Objective function and run the code.\n\
-#objective function for CrossEntropy\n\
+PSO\n\
+\n\
 function y = Objective()\n\
-    ss = tinkercell.tc_getSteadyState();\n\
-    y = randn(0,1);\n\
-end\n\
-#minimize or maximize?\n\
+    %ss = tc_getSteadyState()\n\
+     y = randn(1);\n\
+endfunction\n\
+numpoints = 50;\n\
+maxiter = 10;\n\
 minimize = 0;\n\
-res = OptimizeParameters(@Objective, \"name of function\", 100, 100, minimize);\n\
-#get the results and analyze results\n\
-mu = res(0);\n\
-sigma2 = res(1);\n\
-paramnames = res(2);\n\
-DoPCA(mu, sigma2, paramnames);\n\
-#now we set the parameters back in the model (option)\n\
-n = size(mu,1);\n\
-params = tinkercell.tc_createMatrix(n, 1);\n\
-for i = 1:n\n\
-    tinkercell.tc_setMatrixValue(params, i, 0, mu(i));\n\
-    tinkercell.tc_setRowName(params, i, paramnames(i));\n\
-end\n\
-tinkercell.tc_setParameters(params,1);\n\
-");
-fclose(fout);
-tinkercell.tc_openUrl("example.m")
+title = \"Nonmonotic test\";\n\
+runs = 5;\n\
+g = ParticleSwarm(Objective,runs);\n\
+";
+tc_displayCode(s);
 

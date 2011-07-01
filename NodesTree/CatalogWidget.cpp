@@ -314,7 +314,7 @@ namespace Tinkercell
 
 	void CatalogWidget::keyPressEvent ( QKeyEvent * event )
 	{
-		emit keyPressed(event->key(),event->modifiers());
+		  emit keyPressed(event->key(),event->modifiers());
           if (event->key() == Qt::Key_Escape || event->key() == Qt::Key_Space)
                emit sendEscapeSignal(this);
 	}

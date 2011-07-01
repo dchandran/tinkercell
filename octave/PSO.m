@@ -1,160 +1,145 @@
 global a b c minimize maxiter threshold logscale numpoints title
-a = 0.9
-b = 0.1
-c = 0.1
-minimize = False
-maxiter = 30
-threshold = 0.1
-logscale = False
-numpoints = 100
-title = "Particle Swarm Optimation" 
+a = 0.9;
+b = 0.1;
+c = 0.1;
+minimize = 0;
+maxiter = 30;
+threshold = 0.1;
+logscale = 0;
+numpoints = 100;
+title = "Particle Swarm Optimation" ;
 
-function [] = __setparams(x, m, perm=0)
-    for i = 0:length(x)
-        tinkercell.tc_setMatrixValue(m, i, 0, x[i]);
-    endfor
-    if (perm)
-        tinkercell.tc_setParameters(m,1);
-    else
-        tinkercell.tc_updateParameters(m);
-    endif
-endfunction
-
-function [] = __dopca(mu, sigma2, paramnames)
-    [e,v] = eig(sigma2);
-    props = 100.0 * e./sum(e);
-    fout = fopen ("pca.txt","w");
-    fprintf(fout, "===============================================\n");
-    fprintf(fout,  "Optimized parameters (mean and st.dev)\n");
-    fprintf(fout, "==============================================\n\nnames: ");
-	for i = 1:len(mu)
-        fprintf(fout, "    %s", tinkercell.tc_getString(paramnames,i));
-    end
-    fprintf(fout, "\nmean:  ");
-    for i = 1:len(mu)
-        fprintf(fout, "    %s", str(mu(i)));
-    end
-    fprintf(fout, "\nst.dev:");
-    for i = 1:len(mu)
-        fprintf(fout, "    %s", sqrt(sigma2(i,i)));
-    end
-    fprintf(fout, "\n");
-    for i = 1:len(mu)
-        fprintf(fout, "    %s", str(mu(i)));
-    end
-    fprintf(fout,  "\n============================================\n");
-    fprintf(fout, "Global sensitivity (assuming normality)\nOrdered from least to most sensitive\n");
-    fprintf(fout, "==============================================\n\n");
-    for i = 1:size(e,1)
-	    fprintf(fout, "%lf percent of the variability can be attributed to the following linear combination:\n", props(i));
-	    for j = 1:paramnames.length
-	        if (j > 1)
-	            fprintf(fout, "\n %lf * %s", v(i,j), tinkercell.tc_getString(paramnames,j));
-	        else
-	            fprintf(fout, "%lf * %s", v(i,j), tinkercell.tc_getString(paramnames,j));
-            end
-	    fprintf(fout, "\n\n");
-    end
-    fclose(fout);
-    tinkercell.tc_openUrl("pca.txt");
-end
-
-function g = ParticleSwarm(objective)
+function g = ParticleSwarm(f,multirun)
+    global a b c minimize maxiter threshold logscale numpoints title
     global tinkercell
     t = 0;
-    if multirun < 1:
-        multirun = 1
-    glist = []
+    if (multirun < 1)
+        multirun = 1;
+    endif
+    glist = [];
     n = 0;
     
-    allparams = tinkercell.tc_getParameters( tinkercell.tc_allItems() )
-    for i in range(0,allparams.rows):
-        if tinkercell.tc_getMatrixValue(allparams, i, 2) != tinkercell.tc_getMatrixValue(allparams, i, 1): 
-            n += 1
-    if n < 1:
-        n = allparams.rows
-        for i in range(0,allparams.rows):
-            x = tinkercell.tc_getMatrixValue(allparams, i, 0)
-            if x > 0:
-                tinkercell.tc_setMatrixValue(allparams, i, 1, x/10.0)
-                tinkercell.tc_setMatrixValue(allparams, i, 2, x*10.0)
-            elif x < 0:
-                tinkercell.tc_setMatrixValue(allparams, i, 2, x/10.0)
-                tinkercell.tc_setMatrixValue(allparams, i, 1, x*10.0)
-            else:
-                tinkercell.tc_setMatrixValue(allparams, i, 2, 0.0)
-                tinkercell.tc_setMatrixValue(allparams, i, 2, 1.0)
+    allparams = tinkercell.tc_getParameters( tinkercell.tc_allItems() );
+    for i = 0:allparams.rows
+        if (tinkercell.tc_getMatrixValue(allparams, i, 2) ~= tinkercell.tc_getMatrixValue(allparams, i, 1))
+            n += 1;
+        endif
+    endfor
+    if (n < 1)
+        n = allparams.rows;
+        for i = 0:allparams.rows
+            x = tinkercell.tc_getMatrixValue(allparams, i, 0);
+            if (x > 0)
+                tinkercell.tc_setMatrixValue(allparams, i, 1, x/10.0);
+                tinkercell.tc_setMatrixValue(allparams, i, 2, x*10.0);
+            else
+                if (x < 0)
+                    tinkercell.tc_setMatrixValue(allparams, i, 2, x/10.0);
+                    tinkercell.tc_setMatrixValue(allparams, i, 1, x*10.0);
+                else
+                    tinkercell.tc_setMatrixValue(allparams, i, 2, 0.0);
+                    tinkercell.tc_setMatrixValue(allparams, i, 2, 1.0);
+                endif
+            endif
+        endfor
+    endif
+    params = tinkercell.tc_createMatrix(n,3);
+    mins = zeros(1,n);
+    maxs = zeros(1,n);
+    mu = zeros(1,n);
+    j = 0;
+    for i = 0:allparams.rows
+        if (tinkercell.tc_getMatrixValue(allparams, i, 2) ~= tinkercell.tc_getMatrixValue(allparams, i, 1))
+            tinkercell.tc_setMatrixValue(params, j, 0, tinkercell.tc_getMatrixValue(allparams, i, 0));
+            tinkercell.tc_setMatrixValue(params, j, 1, tinkercell.tc_getMatrixValue(allparams, i, 1));
+            tinkercell.tc_setMatrixValue(params, j, 2, tinkercell.tc_getMatrixValue(allparams, i, 2));
+            tinkercell.tc_setRowName(params,j, tinkercell.tc_getRowName(allparams, i));
+            j += 1;
+            mins(j) = tinkercell.tc_getMatrixValue(allparams, i, 1);
+            maxs(j) = tinkercell.tc_getMatrixValue(allparams, i, 2);
+        endif
+    endfor
 
-    params = tinkercell.tc_createMatrix(n,3)
-    mins = range(0,n)
-    maxs = range(0,n)
-    mu = range(0,n)
-    j = 0
-    for i in range(0,allparams.rows):
-        if tinkercell.tc_getMatrixValue(allparams, i, 2) != tinkercell.tc_getMatrixValue(allparams, i, 1):
-            tinkercell.tc_setMatrixValue(params, j, 0, tinkercell.tc_getMatrixValue(allparams, i, 0))
-            tinkercell.tc_setMatrixValue(params, j, 1, tinkercell.tc_getMatrixValue(allparams, i, 1))
-            tinkercell.tc_setMatrixValue(params, j, 2, tinkercell.tc_getMatrixValue(allparams, i, 2))
-            tinkercell.tc_setRowName(params,j, tinkercell.tc_getRowName(allparams, i))
-            mins[j] = tinkercell.tc_getMatrixValue(allparams, i, 1)
-            maxs[j] = tinkercell.tc_getMatrixValue(allparams, i, 2)
-            j += 1
-
-    numpoints = self.numpoints;
     numvars = params.rows;
-
-    maxiter = self.maxiter;
-    if maxiter < 1: maxiter = 1
-    nmax = multirun * maxiter
-    for it in range(0,multirun):
-        tinkercell.tc_showProgress(self.title + " round " + str(1+it) + "/" + str(multirun), 0)
-
-        x = numpy.random.uniform(mins,maxs,[numpoints,numvars]);
+    g = zeros(1,numvars);
+    if (maxiter < 1)
+        maxiter = 1;
+    endif
+    nmax = multirun * maxiter;
+    for it = 1:multirun
+        tinkercell.tc_showProgress(title, 0);
+        x = (ones(numpoints,1) * mins) + ( (ones(numpoints,1) * (maxs-mins)) .* rand(numpoints,numvars) );
         p = x;
-        v = numpy.random.uniform(0,1,[numpoints,numvars]);
-        y = numpy.zeros([numpoints,1]).tolist();
-        for i in range(0,numpoints):
-            self.__setparams(x[i,:], params)
-            y[i] = f();
+        v = rand(numpoints,numvars);
+        y = zeros(numpoints,1);
+        for i = 1:numpoints
+            q = x(i,:);
+            for j = 1:length(q)
+                tinkercell.tc_setMatrixValue(params, j-1, 0, q(j));
+            endfor
+            tinkercell.tc_updateParameters(params);
+            y(i) = f();
+        endfor
 
-        g = x[y.index(min(y)),:]
-        if not self.minimize:
-            g = x[y.index(max(y)),:]
+        if (minimize > 0)
+            [values,index] = sort(y, "ascend");
+            g = x( index(1) , : );
+        else
+            [values,index] = sort(y,"descend");
+            g = x( index(1) , : );
+        endif
+        n = 0;
+        while (n <= maxiter)
+            r1 = rand(numpoints,numvars);
+            r2 = rand(numpoints,numvars);
+            G = ones(numpoints,1)*g;
 
-        n = 0
-        while n < 1 or ((max(y) - min(y)) > self.threshold and n <= maxiter):
-            r1 = numpy.random.uniform(0,1,[numpoints,numvars]);
-            r2 = numpy.random.uniform(0,1,[numpoints,numvars]);
-            G = numpy.matrix(numpy.ones([numpoints,1]))*numpy.matrix(g);
-            G = numpy.array(G)
-
-            v = self.a*v + self.b*r1*(p - x) + self.c*r2*(G - x)
-            p = x
+            v = a.*v + b.*r1.*(p - x) + c.*r2.*(G - x);
+            p = x;
 
             x = x + v;
-            tinkercell.tc_showProgress(self.title + " round " + str(1+it) + "/" + str(multirun), int((100 * n)/maxiter))
-            for i in range(0,numpoints):
-                self.__setparams(x[i,:], params)
-                y[i] = f()
+            tinkercell.tc_showProgress(title, int32((100 * n)/maxiter));
+            for i = 1:numpoints
+                q = x(i,:);
+                for j = 1:length(q)
+                    tinkercell.tc_setMatrixValue(params, j-1, 0, q(j));
+                endfor
+                tinkercell.tc_updateParameters(params);
+                y(i) = f();
+            endfor
+            n += 1;
+            if (minimize > 0)
+                [values,index] = sort(y, "ascend");
+                g = x( index(1) , : );
+            else
+                [values,index] = sort(y,"descend");
+                g = x( index(1) , : );
+            endif
+            q = g < mins;
+            g(q) = mins(q);
+            q = g > maxs;
+            q(q) = maxs(q);
+        endwhile
+        glist(it,:) = g;
+        tinkercell.tc_showProgress(title, 100);
+    endfor
 
-            n += 1
-            if self.minimize:
-                g = x[ y.index(min(y)),: ]
-            else:
-                g = x[ y.index(max(y)),: ]
-            for i in range(0,numvars):
-                if g[i] < mins[i]: g[i] = mins[i]
-                if g[i] > maxs[i]: g[i] = maxs[i]
-        glist.append(g)
-        tinkercell.tc_showProgress(self.title + " round " + str(1+it) + "/" + str(multirun), 100)
-    if multirun > 1:
-        mu = g
-        m = numpy.matrix(glist)
-        for i in range(0,len(g)):
-            mu[i] = numpy.mean(m[:,i])
-        sigma2 = numpy.cov(m)
-        self.__dopca(mu, sigma2, params.rownames)
-    g = glist[ len(glist) - 1 ]
-    self.__setparams(g, params, True)
-    return g
+    if (multirun > 1)
+        m = tinkercell.tc_createMatrix(multirun, numvars);
+        for j=1:numvars
+            tinkercell.tc_setColumnName(m, j-1, tinkercell.tc_getRowName(params, j-1));
+        endfor
+        for i=1:multirun
+            for j=1:numvars
+                tinkercell.tc_setMatrixValue(m, i-1, j-1, glist(i,j));
+            endfor
+        endfor
+        tinkercell.tc_scatterplot(m, "parameters from each run");
+    endif
+    q = g;
+    for j = 1:length(q)
+        tinkercell.tc_setMatrixValue(params, j-1, 0, q(j));
+    endfor
+    tinkercell.tc_setParameters(params,1);
+endfunction
 

@@ -18,25 +18,27 @@
 #include "ConnectionsTree.h"
 #include "LoadSaveTool.h"
 #include "GlobalSettings.h"
+#include "NetworkHandle.h"
+#include "UndoCommands.h"
 
 namespace Tinkercell
 {
 	 QString NodesTree::themeDirectory("Bio1");
 
-     NodesTree::~NodesTree()
-     {
+	 NodesTree::~NodesTree()
+	 {
 		  networkClosing(0,0);
-          /*
-          QList<QToolButton*> buttons = treeButtons.values();          
-          for (int i=0; i < buttons.size(); ++i)
-	          if (buttons[i] && !buttons[i]->parentWidget())
-	          	delete buttons[i];*/
-     }
+		  /*
+		  QList<QToolButton*> buttons = treeButtons.values();		  
+		  for (int i=0; i < buttons.size(); ++i)
+			  if (buttons[i] && !buttons[i]->parentWidget())
+			  	delete buttons[i];*/
+	 }
 
-     QSize NodesTree::sizeHint() const
-     {
-          return QSize(140, 200);
-     }
+	 QSize NodesTree::sizeHint() const
+	 {
+		  return QSize(140, 200);
+	 }
 
 	void  NodesTree::readTreeFile(const QString& filename)
 	{
@@ -135,60 +137,60 @@ namespace Tinkercell
 	
 	QHash<QString,QString> NodesTree::nodeGraphicsFileNames;
 
-     NodesTree::NodesTree(QWidget * parent, const QString& filename) :
-               Tool(tr("Nodes Tree"),tr("Parts Catalog"),parent)
-     {
-          QVBoxLayout * layout = new QVBoxLayout;
-          treeWidget.setHeaderHidden(true);
+	 NodesTree::NodesTree(QWidget * parent, const QString& filename) :
+			   Tool(tr("Nodes Tree"),tr("Parts Catalog"),parent)
+	 {
+		  QVBoxLayout * layout = new QVBoxLayout;
+		  treeWidget.setHeaderHidden(true);
 
-          treeWidget.header()->setResizeMode(QHeaderView::Stretch);
+		  treeWidget.header()->setResizeMode(QHeaderView::Stretch);
 
-          layout->addWidget(&treeWidget);
-          layout->setContentsMargins(0,0,0,0);
-          layout->setSpacing(0);
-          setLayout(layout);
-          makeNodeSelectionDialog();          
-          setupThemesDialog();
-          readTreeFile(filename);
-     }
+		  layout->addWidget(&treeWidget);
+		  layout->setContentsMargins(0,0,0,0);
+		  layout->setSpacing(0);
+		  setLayout(layout);
+		  makeNodeSelectionDialog();		  
+		  setupThemesDialog();
+		  readTreeFile(filename);
+	 }
 
-     void NodesTree::buttonPressed(NodeFamily * node)
-     {
-          if (node)
-          {
+	 void NodesTree::buttonPressed(NodeFamily * node)
+	 {
+		  if (node)
+		  {
 			   emit sendEscapeSignal(this);
-               emit nodeSelected(node);
-          }
-     }
+			   emit nodeSelected(node);
+		  }
+	 }
 
-     bool NodesTree::setMainWindow(MainWindow * TinkercellWindow)
-     {
-          Tool::setMainWindow(TinkercellWindow);
+	 bool NodesTree::setMainWindow(MainWindow * TinkercellWindow)
+	 {
+		  Tool::setMainWindow(TinkercellWindow);
 
-          if (mainWindow)
-          {
-               connect(this,SIGNAL(sendEscapeSignal(const QWidget*)),mainWindow,SIGNAL(escapeSignal(const QWidget*)));
-               
-		       if (mainWindow->settingsMenu)
+		  if (mainWindow)
+		  {
+			   connect(this,SIGNAL(sendEscapeSignal(const QWidget*)),mainWindow,SIGNAL(escapeSignal(const QWidget*)));
+			   
+			   if (mainWindow->settingsMenu)
 			   {
 					mainWindow->settingsMenu->addSeparator();
 					QAction * treeViewAction = mainWindow->settingsMenu->addAction(tr("Select Theme"),selectThemesDialog,SLOT(exec()));
 			   }
 
-            return true;
-          }
-          return false;
-     }
-     
-     void NodesTree::setupThemesDialog()
-     {
+			return true;
+		  }
+		  return false;
+	 }
+	 
+	 void NodesTree::setupThemesDialog()
+	 {
 		selectThemesDialog = new QDialog(this);
 		
 		QString appDir = QCoreApplication::applicationDirPath();
 		QString homeDir = GlobalSettings::homeDir();
 
 		QDir graphicsDir1(homeDir + tr("/Graphics"));
-    	QDir graphicsDir2(appDir + tr("/Graphics"));
+		QDir graphicsDir2(appDir + tr("/Graphics"));
 		graphicsDir1.setFilter(QDir::AllDirs);
 		graphicsDir2.setFilter(QDir::AllDirs);
 		graphicsDir1.setSorting(QDir::Name);
@@ -244,71 +246,71 @@ namespace Tinkercell
 		dialogLayout->addWidget(scrollArea);
 		dialogLayout->addLayout(buttonsLayout);
 		dialog->setLayout(dialogLayout);
-     }
-     
-      void NodesTree::selectTheme(QAbstractButton * button)
-      { 
-      	if (button)
-      	{
-	      	 themeDirectory = button->text();
-	      	 updateTheme();
-	      	 if (mainWindow->tool(tr("Connections Tree")))
-	      	 {
-	      	 	ConnectionsTree * connectionsTree = static_cast<ConnectionsTree*>(mainWindow->tool(tr("Connections Tree")));
-	      	 	connectionsTree->updateTheme();
-	      	 }
-	    }
-      }
+	 }
+	 
+	  void NodesTree::selectTheme(QAbstractButton * button)
+	  { 
+	  	if (button)
+	  	{
+		  	 themeDirectory = button->text();
+		  	 updateTheme();
+		  	 if (mainWindow->tool(tr("Connections Tree")))
+		  	 {
+		  	 	ConnectionsTree * connectionsTree = static_cast<ConnectionsTree*>(mainWindow->tool(tr("Connections Tree")));
+		  	 	connectionsTree->updateTheme();
+		  	 }
+		}
+	  }
 
-     void NodesTree::changeTree()
-     {
-          QString fileName =
-                    QFileDialog::getOpenFileName(this, tr("Nodes Tree File"),
-                                                 tr(""),
-                                                 tr("XML Files (*.xml)"));
-          if (fileName.isEmpty())
-               return;
+	 void NodesTree::changeTree()
+	 {
+		  QString fileName =
+					QFileDialog::getOpenFileName(this, tr("Nodes Tree File"),
+												 tr(""),
+												 tr("XML Files (*.xml)"));
+		  if (fileName.isEmpty())
+			   return;
 
-          QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
+		  QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
 
-          settings.beginGroup("NodesTree");
-          settings.setValue("file", fileName);
-          settings.endGroup();
+		  settings.beginGroup("NodesTree");
+		  settings.setValue("file", fileName);
+		  settings.endGroup();
 
-          QMessageBox::information (this, tr("Change tree"), tr("The new nodes tree will be active the next time you start TinkerCell"));
-     }
+		  QMessageBox::information (this, tr("Change tree"), tr("The new nodes tree will be active the next time you start TinkerCell"));
+	 }
 
-     void NodesTree::contextMenuEvent(QContextMenuEvent * event)
-     {
-          emit sendEscapeSignal(this);
-          static QMenu * menu = 0;
-          if (!menu)
-          {
-               menu = new QMenu(this);
-               menu->addAction(QIcon(":/images/image.png"),tr("Change nodes catalog"),this,SLOT(changeTree()));
-          }
+	 void NodesTree::contextMenuEvent(QContextMenuEvent * event)
+	 {
+		  emit sendEscapeSignal(this);
+		  static QMenu * menu = 0;
+		  if (!menu)
+		  {
+			   menu = new QMenu(this);
+			   menu->addAction(QIcon(":/images/image.png"),tr("Change nodes catalog"),this,SLOT(changeTree()));
+		  }
 
-          QWidget * widget = this;
-          QPoint pos = event->pos();
-          while (widget)
-          {
-               pos += widget->pos();
-               widget = widget->parentWidget();
-          }
-          if (event)
-               menu->exec(pos);
-     }
+		  QWidget * widget = this;
+		  QPoint pos = event->pos();
+		  while (widget)
+		  {
+			   pos += widget->pos();
+			   widget = widget->parentWidget();
+		  }
+		  if (event)
+			   menu->exec(pos);
+	 }
 
 	 void NodesTree::itemActivated( QListWidgetItem * )
 	 {
 			nodeFileAccepted();
 	 }
 
-     void NodesTree::makeNodeSelectionDialog()
-     {
+	 void NodesTree::makeNodeSelectionDialog()
+	 {
 			QString appDir = QCoreApplication::applicationDirPath();
 			QString homeDir = GlobalSettings::homeDir();
-		    QDir graphicsDir1(appDir + tr("/Graphics"));
+			QDir graphicsDir1(appDir + tr("/Graphics"));
 			QDir graphicsDir2(homeDir + tr("/Graphics"));
 			graphicsDir1.setFilter(QDir::AllDirs);
 			graphicsDir2.setFilter(QDir::AllDirs);
@@ -345,7 +347,7 @@ namespace Tinkercell
 				{
 					QListWidgetItem * item = new QListWidgetItem(QIcon(fileInfo.absoluteFilePath()),
 						fileInfo.baseName(),nodesListWidget);
-		            item->setData(3,fileInfo.absolutePath() + tr("/") + fileInfo.baseName() + tr(".xml"));
+					item->setData(3,fileInfo.absolutePath() + tr("/") + fileInfo.baseName() + tr(".xml"));
 					item->setSizeHint(QSize(20,20));
 					nodesListWidget->addItem(item);
 					nodesFilesList << item->data(3).toString();
@@ -378,86 +380,86 @@ namespace Tinkercell
 		  layout->addLayout(buttonsLayout);
 
 		  nodeSelectionDialog->setLayout(layout);
-     }
+	 }
 
-     void NodesTree::selectNewNodeFile()
-     {
-          QString fileName =
-                    QFileDialog::getOpenFileName(mainWindow, tr("New Graphics File"),
-                                                 QDir::currentPath(),
-                                                 tr("XML Files (*.xml)"));
-          if (fileName.isEmpty())
-               return;
+	 void NodesTree::selectNewNodeFile()
+	 {
+		  QString fileName =
+					QFileDialog::getOpenFileName(mainWindow, tr("New Graphics File"),
+												 QDir::currentPath(),
+												 tr("XML Files (*.xml)"));
+		  if (fileName.isEmpty())
+			   return;
 
-          QFileInfo fileInfo(fileName);
+		  QFileInfo fileInfo(fileName);
 
-          if (fileInfo.completeSuffix().toLower() == tr("xml") &&
-              !nodesFilesList.contains(fileInfo.dir().absolutePath() + tr("/") + fileInfo.baseName() + tr(".xml")))
-          {
-               QListWidgetItem * item = new QListWidgetItem(
-                         QIcon(fileInfo.dir().absolutePath() + tr("/") + fileInfo.baseName() + tr(".png")),
-                         fileInfo.baseName(),nodesListWidget);
-               item->setData(3,fileInfo.dir().absolutePath() + tr("/") + fileInfo.baseName() + tr(".xml"));
-               nodesListWidget->addItem(item);
-               nodesFilesList << item->data(3).toString();
-          }
-     }
+		  if (fileInfo.completeSuffix().toLower() == tr("xml") &&
+			  !nodesFilesList.contains(fileInfo.dir().absolutePath() + tr("/") + fileInfo.baseName() + tr(".xml")))
+		  {
+			   QListWidgetItem * item = new QListWidgetItem(
+						 QIcon(fileInfo.dir().absolutePath() + tr("/") + fileInfo.baseName() + tr(".png")),
+						 fileInfo.baseName(),nodesListWidget);
+			   item->setData(3,fileInfo.dir().absolutePath() + tr("/") + fileInfo.baseName() + tr(".xml"));
+			   nodesListWidget->addItem(item);
+			   nodesFilesList << item->data(3).toString();
+		  }
+	 }
 
-     QString NodesTree::replaceNodeFile()
-     {
-          temporaryFileName = QString();
+	 QString NodesTree::replaceNodeFile()
+	 {
+		  temporaryFileName = QString();
 
-          nodeSelectionDialog->exec();
+		  nodeSelectionDialog->exec();
 
-          return temporaryFileName;
-     }
+		  return temporaryFileName;
+	 }
 
-     void NodesTree::nodeFileAccepted()
-     {
-          if (!nodesListWidget)
-               temporaryFileName = QString();
-          else
-               if (!nodesListWidget->currentItem())
-                    temporaryFileName = QString();
-          else
-               temporaryFileName = nodesListWidget->currentItem()->data(3).toString();
-     }
+	 void NodesTree::nodeFileAccepted()
+	 {
+		  if (!nodesListWidget)
+			   temporaryFileName = QString();
+		  else
+			   if (!nodesListWidget->currentItem())
+					temporaryFileName = QString();
+		  else
+			   temporaryFileName = nodesListWidget->currentItem()->data(3).toString();
+	 }
 
-     void NodesTree::networkClosing(NetworkHandle * , bool *)
-     {
-          //save state of the tree
-          QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
+	 void NodesTree::networkClosing(NetworkHandle * , bool *)
+	 {
+		  //save state of the tree
+		  QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
 
-          settings.beginGroup("NodesTree");
-     	  settings.setValue("theme",themeDirectory);
-          QList<QString> keys = Ontology::allNodeFamilyNames();
-          QStringList nodeFiles;
+		  settings.beginGroup("NodesTree");
+	 	  settings.setValue("theme",themeDirectory);
+		  QList<QString> keys = Ontology::allNodeFamilyNames();
+		  QStringList nodeFiles;
 
-          for (int i=0; i < keys.size(); ++i)
-          {
-               NodeFamily * family = Ontology::nodeFamily(keys[i]);
-               QTreeWidgetItem* item = treeItems.value( keys[i] );
-               QToolButton * button = treeButtons.value( keys[i] );
-               FamilyTreeButton * treeButton = 0;
-               if (button) treeButton = static_cast<FamilyTreeButton*>(button);	
-               
-               if (family && item && family->graphicsItems.size() > 0 && qgraphicsitem_cast<NodeGraphicsItem*>(family->graphicsItems[0]))
-               {
-                    QString newFile;
-                    if (treeButton) newFile = treeButton->newFileName;
-                    
-                    if (newFile.isNull() || newFile.isEmpty())
-                    	newFile = nodeImageFile(family->name());
-                    
-                    if (item->isExpanded())
-                         nodeFiles << (family->name() + tr(",") + newFile + tr(",expanded"));
-                    else
-                         nodeFiles << (family->name() + tr(",") + newFile + tr(",collapsed"));
-               }
-          }
-          settings.setValue("nodeFiles",nodeFiles);
-          settings.endGroup();
-     }
+		  for (int i=0; i < keys.size(); ++i)
+		  {
+			   NodeFamily * family = Ontology::nodeFamily(keys[i]);
+			   QTreeWidgetItem* item = treeItems.value( keys[i] );
+			   QToolButton * button = treeButtons.value( keys[i] );
+			   FamilyTreeButton * treeButton = 0;
+			   if (button) treeButton = static_cast<FamilyTreeButton*>(button);	
+			   
+			   if (family && item && family->graphicsItems.size() > 0 && qgraphicsitem_cast<NodeGraphicsItem*>(family->graphicsItems[0]))
+			   {
+					QString newFile;
+					if (treeButton) newFile = treeButton->newFileName;
+					
+					if (newFile.isNull() || newFile.isEmpty())
+						newFile = nodeImageFile(family->name());
+					
+					if (item->isExpanded())
+						 nodeFiles << (family->name() + tr(",") + newFile + tr(",expanded"));
+					else
+						 nodeFiles << (family->name() + tr(",") + newFile + tr(",collapsed"));
+			   }
+		  }
+		  settings.setValue("nodeFiles",nodeFiles);
+		  settings.endGroup();
+	 }
 
 	 QString NodesTree::iconFile(QString name)
 	 {
@@ -531,13 +533,13 @@ namespace Tinkercell
 		names.sort();
 		return names;
 	}
-	
+
 	void NodesTree::setNodeGraphics(NodeFamily * node)
 	{
 		if (!node) return;
 
 		QString homeDir = GlobalSettings::homeDir();
-        QString appDir = QCoreApplication::applicationDirPath();
+		QString appDir = QCoreApplication::applicationDirPath();
 
 		QString graphicsFile = nodeImageFile(node->name()), 
 				   icon = iconFile(node->name());
@@ -556,30 +558,32 @@ namespace Tinkercell
 				if (!QFile::exists(graphicsFile) && QFile::exists(appDir + QString("/") + graphicsFile))
 					graphicsFile = appDir + QString("/") + graphicsFile;
 
-		  NodeGraphicsReader imageReader;
-		  NodeGraphicsItem * nodeitem = new NodeGraphicsItem;
-		  imageReader.readXml(nodeitem,graphicsFile);
-		  if (nodeitem && nodeitem->isValid())
-		  {
-			   nodeitem->normalize();
-			   node->graphicsItems += nodeitem;
-		  }
-		  else
-		  {
-			   if (nodeitem) delete nodeitem;
-		  }
+			NodeGraphicsReader imageReader;
+			NodeGraphicsItem * nodeitem = new NodeGraphicsItem;
+			imageReader.readXml(nodeitem,graphicsFile);
+			if (nodeitem && nodeitem->isValid())
+			{
+				nodeitem->normalize();
+				node->graphicsItems += nodeitem;
+			}
+			else
+			{
+				if (nodeitem) delete nodeitem;
+			}
 		}
 
 		if (node->graphicsItems.isEmpty() && node->parent())
-		 for (int j=0; j < node->parent()->graphicsItems.size(); ++j)
-		 	node->graphicsItems += (NodeGraphicsItem::topLevelNodeItem(node->parent()->graphicsItems[j]))->clone();
+			for (int j=0; j < node->parent()->graphicsItems.size(); ++j)
+				node->graphicsItems += (NodeGraphicsItem::topLevelNodeItem(node->parent()->graphicsItems[j]))->clone();
 
 		if (node->pixmap.isNull())
+		{
 			if (node->pixmap.load(icon))
 				node->pixmap.setMask(node->pixmap.createMaskFromColor(QColor(255,255,255)));
 			else
 				if (node->parent())
 					node->pixmap = node->parent()->pixmap;
+		}
 
 		QList<QToolButton*> buttons = treeButtons.values(node->name());
 
@@ -603,7 +607,7 @@ namespace Tinkercell
 	}
 
 	void NodesTree::updateTheme()
-	{               
+	{			   
 		QList<NodeFamily*> toplevel;
 		NodeFamily * root;
 		QList<NodeFamily*> allFamilies = Ontology::allNodeFamilies();
@@ -617,7 +621,16 @@ namespace Tinkercell
 				delete allFamilies[i]->graphicsItems[j];
 
 			allFamilies[i]->graphicsItems.clear();
+			allFamilies[i]->pixmap = QPixmap();
 		}
+
+		QList<ItemHandle*> handles;
+		QList<NodeGraphicsItem*> graphicsItems;
+		QStringList graphicsFiles;
+		QString appDir = QCoreApplication::applicationDirPath();
+		QString homeDir = GlobalSettings::homeDir();
+
+		if (currentNetwork()) handles = currentNetwork()->handles(true);
 
 		for (int i=0; i < toplevel.size(); ++i)
 		{
@@ -628,7 +641,26 @@ namespace Tinkercell
 			for (int j=0; j < children.size(); ++j)
 				if (NodeFamily::cast(children[j]) && !toplevel.contains(NodeFamily::cast(children[j])))
 					toplevel += NodeFamily::cast(children[j]);
+		
+			QString graphicsFile = nodeImageFile(node->name());
+			if (!QFile::exists(graphicsFile) && QFile::exists(homeDir + QString("/") + graphicsFile))
+				graphicsFile = homeDir + QString("/") + graphicsFile;
+			else
+				if (!QFile::exists(graphicsFile) && QFile::exists(appDir + QString("/") + graphicsFile))
+					graphicsFile = appDir + QString("/") + graphicsFile;
+
+			if (QFile::exists(graphicsFile))
+			{
+				for (int j=0; j < handles.size(); ++j)
+					if (handles[j] && handles[j]->isA(node))
+						graphicsItems += NodeGraphicsItem::cast(handles[j]->graphicsItems);
+				while (graphicsFiles.size() <  graphicsItems.size())
+					graphicsFiles += graphicsFile;	
+			}
 		}
+
+		if (!graphicsItems.isEmpty() && currentNetwork())
+			currentNetwork()->push(new ReplaceNodeGraphicsCommand("Theme changed (nodes)", graphicsItems, graphicsFiles));
 	}
 }
 

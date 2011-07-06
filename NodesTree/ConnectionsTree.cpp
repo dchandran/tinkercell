@@ -20,6 +20,9 @@
 #include "LoadSaveTool.h"
 #include "GlobalSettings.h"
 #include "Ontology.h"
+#include "NetworkHandle.h"
+#include "UndoCommands.h"
+
 #include <QDialog>
 
 namespace Tinkercell
@@ -299,16 +302,16 @@ namespace Tinkercell
 			if (family->pixmap.isNull())
 			{
 				if (family->pixmap.load(homeDir + QString("/Graphics/") + NodesTree::themeDirectory + QString("/Decorators/") + ConnectionsTree::iconFile(family)))
-						family->pixmap.setMask(family->pixmap.createMaskFromColor(QColor(255,255,255)));
-				   else
-				   if (family->pixmap.load(QString(":/images/") + ConnectionsTree::iconFile(family)))
-						family->pixmap.setMask(family->pixmap.createMaskFromColor(QColor(255,255,255)));
-				   else
-				   if (family->pixmap.load(appDir + QString("/Graphics/") + NodesTree::themeDirectory + QString("/Decorators/") + ConnectionsTree::iconFile(family)))
-						family->pixmap.setMask(family->pixmap.createMaskFromColor(QColor(255,255,255)));
-				   else
-						if (parentFamily)		//if no icon file, same as parent's icon
-							 family->pixmap = parentFamily->pixmap;
+					family->pixmap.setMask(family->pixmap.createMaskFromColor(QColor(255,255,255)));
+				else
+				if (family->pixmap.load(appDir + QString("/Graphics/") + NodesTree::themeDirectory + QString("/Decorators/") + ConnectionsTree::iconFile(family)))
+					family->pixmap.setMask(family->pixmap.createMaskFromColor(QColor(255,255,255)));
+				else
+				if (family->pixmap.load(QString(":/images/") + ConnectionsTree::iconFile(family)))
+					family->pixmap.setMask(family->pixmap.createMaskFromColor(QColor(255,255,255)));
+				else
+				if (parentFamily)		//if no icon file, same as parent's icon
+					 family->pixmap = parentFamily->pixmap;
 			}
            //set arrow head
            ArrowHeadItem * nodeitem = 0;
@@ -444,7 +447,16 @@ namespace Tinkercell
 				delete allFamilies[i]->graphicsItems[j];
 
 			allFamilies[i]->graphicsItems.clear();
+			allFamilies[i]->pixmap = QPixmap();
 		}
+
+		QString appDir = QCoreApplication::applicationDirPath();
+		QString homeDir = GlobalSettings::homeDir();
+		QList<ItemHandle*> handles;
+		QList<NodeGraphicsItem*> graphicsItems;
+		QStringList graphicsFiles;
+
+		if (currentNetwork()) handles = currentNetwork()->handles(true);
 
 		for (int i=0; i < toplevel.size(); ++i)
 		{
@@ -455,7 +467,23 @@ namespace Tinkercell
 				for (int j=0; j < children.size(); ++j)
 					if (ConnectionFamily::cast(children[j]) && !toplevel.contains(ConnectionFamily::cast(children[j])))
 						toplevel += ConnectionFamily::cast(children[j]);
+
+				QString arrowImageFile = homeDir + QString("/") + ConnectionsTree::arrowImageFile(family->name());
+           	   if (!QFile::exists(arrowImageFile))
+             	   arrowImageFile = appDir + QString("/") + ConnectionsTree::arrowImageFile(family->name());
+
+				if (QFile::exists(arrowImageFile))
+				{
+					for (int j=0; j < handles.size(); ++j)
+						if (handles[j] && handles[j]->isA(family))
+							graphicsItems += NodeGraphicsItem::cast(handles[j]->graphicsItems);
+					while (graphicsFiles.size() <  graphicsItems.size())
+						graphicsFiles += arrowImageFile;	
+				}
 		}
+
+		if (!graphicsItems.isEmpty() && currentNetwork())
+			currentNetwork()->push(new ReplaceNodeGraphicsCommand("Theme changed (arrowheads)", graphicsItems, graphicsFiles));
 	}
 }
 

@@ -474,15 +474,18 @@ namespace Tinkercell
 		{
             if (network && handle)
 			{
-				if (attributeName.isEmpty() && value.toString() != handle->name)
+				if (attributeName.isEmpty())
 				{
-					if (value.toString().isEmpty())
+					if (value.toString() != handle->name)
 					{
-						network->remove(value.toString() + QString(" removed"), QList<ItemHandle*>() << handle);
-					}
-					else
-					{
-						network->rename(handle, value.toString());
+						if (value.toString().isEmpty())
+						{
+							network->remove(value.toString() + QString(" removed"), QList<ItemHandle*>() << handle);
+						}
+						else
+						{
+							network->rename(handle, value.toString());
+						}
 					}
 				}
 				else

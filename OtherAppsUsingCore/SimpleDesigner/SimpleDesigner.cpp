@@ -673,7 +673,7 @@ int main(int argc, char *argv[])
 	Ontology::readConnections("ConnectionsTree.nt");
 	
     GraphicsScene * scene = mainWindow.newScene();
-	scene->zoom(0.5);
+	GraphicsView::DEFAULT_ZOOM = 0.5;
 
     mainWindow.show();
 

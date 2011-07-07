@@ -190,7 +190,6 @@ int main(int argc, char *argv[])
 		mainWindow.newTextEditor();
   #else
 		GraphicsScene * scene = mainWindow.newScene();
-		scene->zoom(0.5);
   #endif
     mainWindow.show();
     splash.finish(&mainWindow);

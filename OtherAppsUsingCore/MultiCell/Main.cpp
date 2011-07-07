@@ -1,4 +1,5 @@
 #include <QApplication>
+#include "GraphicsView.h"
 #include "MultiCell.h"
 #include "GraphicsScene.h"
 #include "CellTypeSelector.h"
@@ -36,8 +37,8 @@ int main(int argc, char *argv[])
 	Tool * tool = new Multicell::MulticellInterface;
 	mainWindow.addTool(tool);
 	
+	GraphicsView::DEFAULT_ZOOM = 0.5;
 	Tinkercell::GraphicsScene * scene = mainWindow.newScene();	
-	scene->zoom(0.5);
 	
     mainWindow.show();
 

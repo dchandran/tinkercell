@@ -42,6 +42,7 @@ namespace Tinkercell
 			if (handle && !itemHandles.contains(handle))
 				itemHandles += handle;
 		}
+
 		if (itemHandles.size() < 1) return;
 		openedByUser = true;
 
@@ -230,13 +231,21 @@ namespace Tinkercell
 	{
 		dockWidget = 0;
 		QVBoxLayout * layout = new QVBoxLayout;
+		layout->setContentsMargins(0,0,0,0);
+
 		textEdit = new DNASequenceViewerTextEdit;
 		annotationsTable = new QTableWidget;
 		
 		connect(annotationsTable, SIGNAL(cellChanged(int,int)), this, SLOT(tableValueChanged(int,int)));
 		
-		layout->addWidget(textEdit);
-		layout->addWidget(annotationsTable);
+		layout->addWidget(textEdit,2);
+
+		QVBoxLayout * layout2 = new QVBoxLayout;
+		layout2->addWidget(annotationsTable);		
+		annotationsGroup = new QGroupBox(" Sequence annotation ");
+		annotationsGroup->setLayout(layout2);
+
+		layout->addWidget(annotationsGroup,1);
 		annotationsTable->hide();
 		setLayout(layout);
 		connect(textEdit,SIGNAL(sequenceChanged(ItemHandle*, const QString&)),this,SLOT(sequenceChanged(ItemHandle*, const QString&)));
@@ -330,6 +339,9 @@ namespace Tinkercell
 	{
 		if (!scene || !textEdit) return false;
 
+		if (annotationsTable)
+			annotationsTable->hide();
+
 		ItemHandle* h = 0;
 		QList<ItemHandle*> handlesUp, handlesDown;
 		NodeGraphicsItem * node = 0;
@@ -388,7 +400,6 @@ namespace Tinkercell
 		}
 
 		textEdit->updateText(handlesDown);
-
 		return handlesDown.size() > 0;
 	}
 
@@ -421,15 +432,19 @@ namespace Tinkercell
 	
 	void DNASequenceViewer::updateAnnotationsTable(ItemHandle * h)
 	{
-		if (!annotationsTable) return;
+		if (!annotationsTable || !annotationsGroup) return;
 		
+		disconnect(annotationsTable, SIGNAL(cellChanged(int,int)), this, SLOT(tableValueChanged(int,int)));
 		if (!h)
 		{
 			annotationsTable->setRowCount(0);
 			annotationsTable->hide();
+			annotationsGroup->setTitle("No part selected");
 		}
 		else
 		{
+			annotationsGroup->setTitle(tr("Sequence annotation for ") + h->fullName());
+			annotationsTable->show();
 			currentHandle = h;
 			TextDataTable & annotationsData = h->textDataTable(tr("sequence annotation"));
 			if (annotationsData.columns() == 0)
@@ -440,6 +455,7 @@ namespace Tinkercell
 			}
 
 			annotationsTable->setColumnCount(2);
+			annotationsTable->clearContents();
 			annotationsTable->setRowCount(annotationsData.rows() + 1);
 			annotationsTable->setHorizontalHeaderLabels(QStringList() << "position" << "description");
 			
@@ -449,6 +465,8 @@ namespace Tinkercell
 				annotationsTable->setItem ( i, 1, new QTableWidgetItem( annotationsData(i,1) ) );
 			}
 		}
+
+		connect(annotationsTable, SIGNAL(cellChanged(int,int)), this, SLOT(tableValueChanged(int,int)));
 	}
 	
 	void DNASequenceViewer::tableValueChanged(int r, int c)
@@ -458,23 +476,44 @@ namespace Tinkercell
 		if (c == 0)
 		{
 			QString s = annotationsTable->item(r,c)->text();
-			if (!s.toDouble()) return;
+			bool ok;
+			double d = s.toDouble(&ok);
+			if (!ok) return;
 		}
+
+		QStringList col1, col2;
+		for (int i=0; i < annotationsTable->rowCount(); ++i)
+			if (annotationsTable->item(i,0) && annotationsTable->item(i,1))
+			{
+				QString s1 = annotationsTable->item(i,0)->text(),
+							  s2 = annotationsTable->item(i,1)->text();
+				if (!s1.isEmpty() && !s2.isEmpty())
+				{
+					col1 += s1;
+					col2 += s2;
+				}
+			}
 		
 		ItemHandle * h = currentHandle;
 		
 		TextDataTable annotationsData;
-		annotationsData.resize(annotationsTable->rowCount() - 1, annotationsTable->columnCount());
+		annotationsData.resize(col1.size(), annotationsTable->columnCount());
 		annotationsData.setColumnName(0,"position");
 		annotationsData.setColumnName(1,"description");
 
-		for (int i=0; i < (annotationsTable->rowCount()-1); ++i)
+		for (int i=0; i < col1.size(); ++i)
 		{
-			annotationsData(i,0) = annotationsTable->item(i,0)->text();
-			annotationsData(i,1) = annotationsTable->item(i,1)->text();
+			annotationsData(i,0) = col1[i];
+			annotationsData(i,1) = col2[i];
 		}
-		
-		currentNetwork()->changeData(h->name + tr(" sequence annotated"), h, tr("sequence annotation"), &annotationsData);
+	
+		if (annotationsData.rows() > 0)
+		{
+			currentNetwork()->changeData(h->name + tr(" sequence annotated"), h, tr("sequence annotation"), &annotationsData);
+			disconnect(annotationsTable, SIGNAL(cellChanged(int,int)), this, SLOT(tableValueChanged(int,int)));
+			annotationsTable->setRowCount(annotationsData.rows() + 1);
+			connect(annotationsTable, SIGNAL(cellChanged(int,int)), this, SLOT(tableValueChanged(int,int)));
+		}
 	}
 }
 

@@ -18,6 +18,7 @@
 #include <QTimeLine>
 #include <QTextEdit>
 #include <QTextCursor>
+#include <QGroupBox>
 
 #include "NodeGraphicsItem.h"
 #include "ItemHandle.h"
@@ -83,6 +84,7 @@ namespace Tinkercell
 	
 		DNASequenceViewerTextEdit * textEdit;
 		QTableWidget * annotationsTable;
+		QGroupBox * annotationsGroup;
 		ItemHandle * currentHandle;
 		
 		bool updateText(GraphicsScene *,const QList<QGraphicsItem*>&);

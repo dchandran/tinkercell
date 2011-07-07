@@ -281,8 +281,8 @@ namespace Tinkercell
 			if (mainWindow->tool(tr("Labeling Tool")))
 			{
 				LabelingTool * labelsTool = static_cast<LabelingTool*>(mainWindow->tool(tr("Labeling Tool")));
-				connect(&textEdit,SIGNAL(highlight(ItemHandle*,QColor)),labelsTool,SLOT(highlightItem(ItemHandle*,QColor)));
-				connect(&textEdit,SIGNAL(clearLabels()),labelsTool,SLOT(clearLabels()));
+				connect(textEdit,SIGNAL(highlight(ItemHandle*,QColor)),labelsTool,SLOT(highlightItem(ItemHandle*,QColor)));
+				connect(textEdit,SIGNAL(clearLabels()),labelsTool,SLOT(clearLabels()));
 			}
 		}
 		return true;
@@ -323,13 +323,12 @@ namespace Tinkercell
 		if (scene && this->isVisible())
 		{
 			updateText(scene,scene->selected());
-			//textEdit.setReadOnly(scene->selected().size() > 1);
 		}
 	}
 
 	bool DNASequenceViewer::updateText(GraphicsScene * scene, const QList<QGraphicsItem*>& selected)
 	{
-		if (!scene) return false;
+		if (!scene || !textEdit) return false;
 
 		ItemHandle* h = 0;
 		QList<ItemHandle*> handlesUp, handlesDown;
@@ -388,7 +387,7 @@ namespace Tinkercell
 			handlesUp.pop_front();
 		}
 
-		textEdit.updateText(handlesDown);
+		textEdit->updateText(handlesDown);
 
 		return handlesDown.size() > 0;
 	}
@@ -465,7 +464,7 @@ namespace Tinkercell
 		ItemHandle * h = currentHandle;
 		
 		TextDataTable annotationsData;
-		annotationData.resize(annotationsTable->rowCount() - 1, annotationsTable->columnCount());
+		annotationsData.resize(annotationsTable->rowCount() - 1, annotationsTable->columnCount());
 		annotationsData.setColumnName(0,"position");
 		annotationsData.setColumnName(1,"description");
 
@@ -475,7 +474,7 @@ namespace Tinkercell
 			annotationsData(i,1) = annotationsTable->item(i,1)->text();
 		}
 		
-		currentNetwork()->change
+		currentNetwork()->changeData(h->name + tr(" sequence annotated"), h, tr("sequence annotation"), &annotationsData);
 	}
 }
 

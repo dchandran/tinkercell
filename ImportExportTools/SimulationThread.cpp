@@ -563,13 +563,13 @@ void SimulationThread::run()
 				{
 					showProgress( title, (int)(100 * i)/n1  );
 					p1 = start1 + (double)(i)*step1;
-					cSetValue(model, param1.toUtf8().data(), p1);
 					
 					for (j=0; j < n2; ++j)
 					{
 						p2 = start2 + (double)(j)*step2;
+
+						cSetValue(model, param1.toUtf8().data(), p1);
 						cSetValue(model, param2.toUtf8().data(), p2);
-						
 						ss = cGetSteadyState2(model,10);
 
 						if (l == -1)

@@ -24,7 +24,6 @@
 #include "Tool.h"
 #include "LabelingTool.h"
 
-
 namespace Tinkercell
 {
 	class DNASequenceViewer;
@@ -40,12 +39,15 @@ namespace Tinkercell
 		void updateNodes();
 		
 	signals:
+		void clearLabels();
 		void highlight(ItemHandle*,QColor);
 		void sequenceChanged(ItemHandle* , const QString&);
+		void updateAnnotationsTable(ItemHandle*);
 		
 	protected:
-		virtual void contextMenuEvent ( QContextMenuEvent * event );
-		virtual void mouseDoubleClickEvent ( QMouseEvent * event );
+		//virtual void contextMenuEvent ( QContextMenuEvent * event );
+		//virtual void mouseDoubleClickEvent ( QMouseEvent * event );
+		virtual void mouseMoveEvent ( QMouseEvent * e );
 		virtual void keyPressEvent ( QKeyEvent * event );
 		
 		int currentNodeIndex();
@@ -71,12 +73,19 @@ namespace Tinkercell
 		void toolLoaded(Tool*);
 		void displayModel(QTabWidget&, const QList<ItemHandle*>&, QHash<QString,qreal>&, QHash<QString,QString>&);
 		void sequenceChanged(ItemHandle*, const QString&);
+		void updateAnnotationsTable(ItemHandle*);
+	
+	private slots:
+	
+		void tableValueChanged(int,int);
 		
 	private:
 	
-		DNASequenceViewerTextEdit textEdit;
-		bool updateText(GraphicsScene *,const QList<QGraphicsItem*>&);
+		DNASequenceViewerTextEdit * textEdit;
+		QTableWidget * annotationsTable;
+		ItemHandle * currentHandle;
 		
+		bool updateText(GraphicsScene *,const QList<QGraphicsItem*>&);
 		bool openedByUser;
 		NodeGraphicsItem item;
 		QDockWidget * dockWidget;
@@ -84,8 +93,6 @@ namespace Tinkercell
 		friend class DNASequenceViewerTextEdit;
 	};
 }
-
-//extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main);
 
 #endif
 

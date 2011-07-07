@@ -152,19 +152,28 @@ namespace Tinkercell
 	void DNASequenceViewerTextEdit::updateNodes()
 	{
 	}
-
+/*
 	void DNASequenceViewerTextEdit::contextMenuEvent ( QContextMenuEvent * )
 	{
 		int i = currentNodeIndex();
 		if (i > -1)
+		{
+			emit clearLabels();
 			emit highlight(nodes[i],colors[i]);
+		}
 	}
-
-	void DNASequenceViewerTextEdit::mouseDoubleClickEvent ( QMouseEvent * )
+*/
+	void DNASequenceViewerTextEdit::mouseMoveEvent ( QMouseEvent * )
 	{
 		int i = currentNodeIndex();
 		if (i > -1)
+		{
+			emit clearLabels();
 			emit highlight(nodes[i],colors[i]);
+			emit updateAnnotationsTable(nodes[i]);
+		}
+		else
+			emit updateAnnotationsTable(0);
 	}
 
 	void DNASequenceViewerTextEdit::keyPressEvent ( QKeyEvent * event )
@@ -199,9 +208,13 @@ namespace Tinkercell
 			
 			if (i > -1)
 			{
-				//emit highlight(nodes[i],colors[i]);
+				emit clearLabels();
+				emit highlight(nodes[i],colors[i]);
 				emit sequenceChanged(nodes[i], text);
+				emit updateAnnotationsTable(nodes[i]);
 			}
+			else
+				emit updateAnnotationsTable(0);
 		}
 		else
 		{
@@ -217,9 +230,17 @@ namespace Tinkercell
 	{
 		dockWidget = 0;
 		QVBoxLayout * layout = new QVBoxLayout;
-		layout->addWidget(&textEdit);
+		textEdit = new DNASequenceViewerTextEdit;
+		annotationsTable = new QTableWidget;
+		
+		connect(annotationsTable, SIGNAL(cellChanged(int,int)), this, SLOT(tableValueChanged(int,int)));
+		
+		layout->addWidget(textEdit);
+		layout->addWidget(annotationsTable);
+		annotationsTable->hide();
 		setLayout(layout);
-		connect(&textEdit,SIGNAL(sequenceChanged(ItemHandle*, const QString&)),this,SLOT(sequenceChanged(ItemHandle*, const QString&)));
+		connect(textEdit,SIGNAL(sequenceChanged(ItemHandle*, const QString&)),this,SLOT(sequenceChanged(ItemHandle*, const QString&)));
+		connect(textEdit,SIGNAL(updateAnnotationsTable(ItemHandle*)),this,SLOT(updateAnnotationsTable(ItemHandle*)));
 
 		QString appDir = QCoreApplication::applicationDirPath();
 		openedByUser = false;
@@ -237,6 +258,7 @@ namespace Tinkercell
 		
 		addAction(QIcon(), tr("DNA sequence"), tr("View the DNA sequence of selected items"));
 	}
+	
 	bool DNASequenceViewer::setMainWindow(MainWindow* main)
 	{
 		Tool::setMainWindow(main);
@@ -260,6 +282,7 @@ namespace Tinkercell
 			{
 				LabelingTool * labelsTool = static_cast<LabelingTool*>(mainWindow->tool(tr("Labeling Tool")));
 				connect(&textEdit,SIGNAL(highlight(ItemHandle*,QColor)),labelsTool,SLOT(highlightItem(ItemHandle*,QColor)));
+				connect(&textEdit,SIGNAL(clearLabels()),labelsTool,SLOT(clearLabels()));
 			}
 		}
 		return true;
@@ -286,9 +309,12 @@ namespace Tinkercell
 		if (handle->isA(tr("Part")) && handle->hasTextData(tr("Text Attributes")))
 		{
 			DataTable<QString> data(handle->textDataTable(tr("Text Attributes")));
-			data.value(tr("sequence"),0) = s;
-			net->changeData(handle->fullName() + tr("'s sequence changed"),handle,tr("Text Attributes"),&data);
-			updateText(net->currentScene(),net->currentScene()->selected());
+			if (data.value(tr("sequence"),0) != s)
+			{
+				data.value(tr("sequence"),0) = s;
+				net->changeData(handle->fullName() + tr("'s sequence changed"),handle,tr("Text Attributes"),&data);
+				updateText(net->currentScene(),net->currentScene()->selected());
+			}
 		}
 	}
 
@@ -392,6 +418,64 @@ namespace Tinkercell
 					this,SLOT(displayModel(QTabWidget&, const QList<ItemHandle*>&, QHash<QString,qreal>&, QHash<QString,QString>&)));
 			connected = true;
 		}
+	}
+	
+	void DNASequenceViewer::updateAnnotationsTable(ItemHandle * h)
+	{
+		if (!annotationsTable) return;
+		
+		if (!h)
+		{
+			annotationsTable->setRowCount(0);
+			annotationsTable->hide();
+		}
+		else
+		{
+			currentHandle = h;
+			TextDataTable & annotationsData = h->textDataTable(tr("sequence annotation"));
+			if (annotationsData.columns() == 0)
+			{
+				annotationsData.resize(0,2);
+				annotationsData.setColumnName(0,"position");
+				annotationsData.setColumnName(1,"description");
+			}
+
+			annotationsTable->setColumnCount(2);
+			annotationsTable->setRowCount(annotationsData.rows() + 1);
+			annotationsTable->setHorizontalHeaderLabels(QStringList() << "position" << "description");
+			
+			for (int i=0; i < annotationsData.rows(); ++i)
+			{
+				annotationsTable->setItem ( i, 0, new QTableWidgetItem( annotationsData(i,0) ) );
+				annotationsTable->setItem ( i, 1, new QTableWidgetItem( annotationsData(i,1) ) );
+			}
+		}
+	}
+	
+	void DNASequenceViewer::tableValueChanged(int r, int c)
+	{
+		if (!annotationsTable || !currentHandle || !currentNetwork()) return;
+		
+		if (c == 0)
+		{
+			QString s = annotationsTable->item(r,c)->text();
+			if (!s.toDouble()) return;
+		}
+		
+		ItemHandle * h = currentHandle;
+		
+		TextDataTable annotationsData;
+		annotationData.resize(annotationsTable->rowCount() - 1, annotationsTable->columnCount());
+		annotationsData.setColumnName(0,"position");
+		annotationsData.setColumnName(1,"description");
+
+		for (int i=0; i < (annotationsTable->rowCount()-1); ++i)
+		{
+			annotationsData(i,0) = annotationsTable->item(i,0)->text();
+			annotationsData(i,1) = annotationsTable->item(i,1)->text();
+		}
+		
+		currentNetwork()->change
 	}
 }
 

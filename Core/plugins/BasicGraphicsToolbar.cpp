@@ -810,14 +810,22 @@ namespace Tinkercell
 				if (qgraphicsitem_cast<NodeGraphicsItem::Shape*>(item) || ControlPoint::cast(item))
 				{
 					QRectF rect;
+					QPointF p1, p2;
 					if (item->parentItem())
-						rect = item->parentItem()->sceneBoundingRect();
+					{
+						rect = item->parentItem()->mapRectFromScene(item->sceneBoundingRect());
+						p1 = item->parentItem()->mapFromScene(from);
+						p2 = item->parentItem()->mapFromScene(to);
+					}
 					else
-						rect = item->sceneBoundingRect();
-					QPointF colorPt1 = (from - rect.topLeft()),
-						colorPt2 = (to - rect.topLeft()),
-						p1 = item->mapFromScene(from),
+					{
+						rect = item->mapRectFromScene(item->sceneBoundingRect());
+						p1 = item->mapFromScene(from);
 						p2 = item->mapFromScene(to);
+					}
+
+					QPointF colorPt1 = (p1 - rect.topLeft()),
+								  colorPt2 = (p2 - rect.topLeft());
 
 					colorPt1.rx() = colorPt1.x() / rect.width() * 100.0 - 50.0;
 					colorPt2.rx() = colorPt2.x() / rect.width() * 100.0 - 50.0;

@@ -1145,7 +1145,6 @@ namespace Tinkercell
 	
 	void AutoGeneRegulatoryTool::itemsMoved(GraphicsScene* scene, QList<QGraphicsItem*>& items, QList<QPointF>& distance, QList<QUndoCommand*>& commands)
 	{
-
 		if (!scene || !autoAlignEnabled) return;
 
 		QList<NodeHandle*> parts2;
@@ -1266,6 +1265,9 @@ namespace Tinkercell
 				items[i] = 0;
 			}
 		
+		NodeGraphicsItem * vector = 0;
+		QList<QGraphicsItem*> temporarilyMovedItems;
+		QList<QPointF> temporarilyMovedPos;
 		for (int i=0; i < items.size(); ++i)
 			if (NodeGraphicsItem::cast(items[i]) && 
 				NodeGraphicsItem::cast(items[i])->handle() &&
@@ -1276,9 +1278,22 @@ namespace Tinkercell
 				for (int j=0; j < graphicsItems.size(); ++j)			
 					if (NodeGraphicsItem::cast(graphicsItems[j]) && !items.contains(graphicsItems[j]))
 					{
-						adjustPlasmidCommands += adjustPlasmid(scene, NodeGraphicsItem::cast(graphicsItems[j]),false);
+						vector = NodeGraphicsItem::cast(graphicsItems[j]);
+						break;
 					}
+				if (distance.size() > i)
+				{
+					temporarilyMovedItems += items[i];
+					temporarilyMovedPos += distance[i];
+					items[i]->setPos(items[i]->pos() + distance[i]);
+				}
 			}
+		adjustPlasmidCommands += adjustPlasmid(scene, vector,false);
+		
+		for (int i=0; i < temporarilyMovedItems.size(); ++i)
+		{
+			temporarilyMovedItems[i]->setPos( temporarilyMovedItems[i]->pos() - temporarilyMovedPos[i] );
+		}
 
 		if (!adjustPlasmidCommands.isEmpty())
 			for (int i=0; i < adjustPlasmidCommands.size(); ++i)
@@ -1898,7 +1913,7 @@ namespace Tinkercell
 	{
 		QList<QUndoCommand*> commands;
 		if (!vector || !scene) return new CompositeCommand(tr("plasmid adjusted"),commands);
-
+		
 		ItemHandle * vectorHandle = vector->handle();
 		ItemHandle * handle = 0;
 
@@ -1938,10 +1953,10 @@ namespace Tinkercell
 					handle->isA(tr("Part")) && 
 					!handle->isA(tr("Vector")) &&
 					(!handle->parent || vectorHandle->isChildOf(handle->parent)))
-				{
-					children << handle;
-					parents << vectorHandle;
-				}
+					{
+						children << handle;
+						parents << vectorHandle;
+					}
 			}
 
 		QList<QGraphicsItem*> list;

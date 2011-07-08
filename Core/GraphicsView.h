@@ -63,6 +63,9 @@ namespace Tinkercell
 	{
 		Q_OBJECT
 	
+	public:
+		static qreal DEFAULT_ZOOM;
+	
 	private:
 		/*! \brief background */
 		QPixmap background;

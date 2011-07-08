@@ -2330,7 +2330,7 @@ namespace Tinkercell
 						{
 							if (nDat->hasColumn(newname))
 							{
-								//addColumns(*nDat, k, newname);
+								addColumns(*nDat, k, newname);
 								nDat->removeColumn(k);
 							}
 							else
@@ -2346,7 +2346,7 @@ namespace Tinkercell
 								{
 									if (nDat->hasColumn(s2))
 									{
-										//addColumns(*nDat, k, s2);
+										addColumns(*nDat, k, s2);
 										nDat->removeColumn(k);
 									}
 									else

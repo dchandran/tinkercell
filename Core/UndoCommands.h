@@ -624,13 +624,14 @@ namespace Tinkercell
 	{
 	public:
 		MergeHandlesCommand(const QString& text, NetworkHandle * , const QList<ItemHandle*>& handles);
+		MergeHandlesCommand(const QString& text, const QList<ItemHandle*>& allHandles, const QList<ItemHandle*>& handles);
 		void redo();
 		void undo();
 		~MergeHandlesCommand();
 		QList<ItemHandle*> oldHandles;
 		ItemHandle* newHandle;
 	private:
-		NetworkHandle * network;
+		void init(NetworkHandle * , const QList<ItemHandle*>& , const QList<ItemHandle*>& );
 		QHash< ItemHandle*, QList<QGraphicsItem*> > oldGraphicsItems;
 		QHash< ItemHandle*, QList<ItemHandle*> > oldChildren;
 		QHash< ItemHandle*, ItemHandle* > oldParents;

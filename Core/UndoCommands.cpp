@@ -317,6 +317,7 @@ namespace Tinkercell
 			{
 				if (items[i] && !list.contains(items[i]))
 				{
+					s0 = items[i]->fullName();
 					if (parentHandles.size() > i && !MainWindow::invalidPointers.contains(parentHandles[i]))
 						items[i]->setParent(parentHandles[i],false);
 					else
@@ -337,7 +338,6 @@ namespace Tinkercell
 					list << items[i];
 					if (!renameCommand && !nameChangeHandles.contains(items[i]))
 					{
-						s0 = items[i]->fullName();
 						s1 = textEditor->network->makeUnique(items[i],usedNames);
 						usedNames << s1;
 						nameChangeHandles << items[i];
@@ -792,6 +792,8 @@ namespace Tinkercell
 						setHandle(graphicsItems[i],handles[i]);
 						if (handles[i])
 						{
+							s0 = handles[i]->fullName();
+
 							if (parentHandles.size() > i && !MainWindow::invalidPointers.contains(parentHandles[i]))
 								handles[i]->setParent(parentHandles[i],false);
 							else
@@ -812,7 +814,6 @@ namespace Tinkercell
 							
 							if (!renameCommand && !nameChangeHandles.contains(handles[i]))
 							{
-								s0 = handles[i]->fullName();
 								s1 = graphicsScene->network->makeUnique(handles[i],usedNames);
 								usedNames << s1;
 								nameChangeHandles << handles[i];
@@ -2276,7 +2277,7 @@ namespace Tinkercell
 				for (int j=0; j < handles[i]->children.size(); ++j)
 					if (!handles.contains(handles[i]->children[j]))
 						handles += handles[i]->children[j];
-				
+			
 				QString s1, s2;
 				s1 = newname;
 				if (!handles[i]->name.isEmpty() && s1.startsWith(handles[i]->fullName()))
@@ -2284,6 +2285,7 @@ namespace Tinkercell
 					s1.replace(handles[i]->fullName() + QObject::tr("."), QObject::tr(""));
 					s1.replace(handles[i]->fullName() + QObject::tr("_"), QObject::tr(""));					
 				}
+
 				QList< QString > keys = handles[i]->numericalDataNames();
 				for (int j=0; j < keys.size(); ++j)  //go through each num data
 				{
@@ -3059,8 +3061,19 @@ namespace Tinkercell
 			}
 	}
 
+	MergeHandlesCommand::MergeHandlesCommand(const QString& text, const QList<ItemHandle*>& allHandles, const QList<ItemHandle*>& handles) :
+		QUndoCommand(text)
+	{
+		init(0,allHandles,handles);
+	}
+
 	MergeHandlesCommand::MergeHandlesCommand(const QString& text, NetworkHandle * net, const QList<ItemHandle*>& handles) :
-		QUndoCommand(text), network(net)
+		QUndoCommand(text)
+	{
+		init(net, net->handles(), handles);
+	}
+
+	void MergeHandlesCommand::init(NetworkHandle * net, const QList<ItemHandle*>& allItems, const QList<ItemHandle*>& handles)
 	{
 		newHandle = 0;
 		oldHandles = handles;
@@ -3086,7 +3099,7 @@ namespace Tinkercell
 			for (int i=0; i < oldNames.size(); ++i)
 				newNames << newHandle->fullName();
 
-		QList<ItemHandle*> allHandles = net->handles();
+		QList<ItemHandle*> allHandles = allItems;
 
 		for (int i=0; i < handles.size(); ++i)
 			allHandles.removeAll(handles[i]);

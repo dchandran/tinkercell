@@ -87,16 +87,16 @@ namespace Tinkercell
 		/*! \brief get the ith row name. cannot be used to change the row name
 		\param int row number
 		\param QString name
-		\return QString reference of the ith row name
+		\return bool if the name already exists, returns false
 		*/
-		virtual void setRowName(int i, const QString& name);
+		virtual bool setRowName(int i, const QString& name);
 		
 		/*! \brief get the ith column name reference. can be used to change the column name
 		\param int col number
 		\param QString name
-		\return QString reference to the ith column name
+		\return bool if the name already exists, returns false
 		*/
-		virtual void setColumnName(int i, const QString& name);
+		virtual bool setColumnName(int i, const QString& name);
 		
 		/*! \brief set all the column names. 
 		\param QStringList vector of strings
@@ -429,7 +429,7 @@ namespace Tinkercell
 	\param QString name
 	\return QString reference to the ith column name
 	*/
-	template <typename T>  void DataTable<T>::setColumnName(int i, const QString& name) 
+	template <typename T>  bool DataTable<T>::setColumnName(int i, const QString& name) 
 	{ 
 		if (colHash.contains(name))
 		{
@@ -441,7 +441,7 @@ namespace Tinkercell
 					--i;
 			}
 			else*/
-				return;
+				return false;
 		}
 		
 		if (i < 0)
@@ -452,6 +452,7 @@ namespace Tinkercell
 		colHash.remove(colHeaders[i]);
 		colHeaders[i]= name;
 		colHash[name] = i;
+		return true;
 	}		
 	/*! \brief get the ith row name reference. can be used to change the row name
 	\param int col number
@@ -479,7 +480,7 @@ namespace Tinkercell
 	\param int row number
 	\return QString reference of the ith row name
 	*/
-	template <typename T>  void DataTable<T>::setRowName(int i, const QString& name) 
+	template <typename T>  bool DataTable<T>::setRowName(int i, const QString& name) 
 	{ 
 		if (rowHash.contains(name))
 		{
@@ -491,7 +492,7 @@ namespace Tinkercell
 					--i;
 			}
 			else*/
-			return;
+			return false;
 		}
 		
 		if (i < 0)
@@ -502,6 +503,7 @@ namespace Tinkercell
 		rowHash.remove(rowHeaders[i]);
 		rowHeaders[i] = name;
 		rowHash[name] = i;
+		return true;
 	}
 	/*! \brief set all the column names. 
 	\param QStringList vector of strings

@@ -519,6 +519,8 @@ namespace Tinkercell
 		Change2DataCommand<qreal,QString> * changeDataCommand;
 		NetworkHandle * network;
 		bool makeUnique;
+
+		static void addColumns(DataTable<double>& dat, int k, const QString&);
 	};
 
 	/*! \brief this command can be used to combine multiple commands into one command

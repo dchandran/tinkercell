@@ -2226,6 +2226,16 @@ namespace Tinkercell
 		}
 	}
 
+	void RenameCommand::addColumns(DataTable<double>& dat, int k, const QString& name)
+	{
+		if (dat.hasColumn(name))
+		{
+			int rows = dat.rows();
+			for (int i=0; i < rows; ++i)
+				dat(i,name) += dat(i,k);
+		}
+	}
+
 	void RenameCommand::substituteString(QString& target, const QString& oldname,const QString& newname0)
 	{
 		if (oldname == newname0) return;
@@ -2317,7 +2327,15 @@ namespace Tinkercell
 					for (int k=0; k < nDat->columns(); ++k)
 					{
 						if (nDat->columnName(k) == oldname)
-							nDat->setColumnName(k,newname);
+						{
+							if (nDat->hasColumn(newname))
+							{
+								//addColumns(*nDat, k, newname);
+								nDat->removeColumn(k);
+							}
+							else
+								nDat->setColumnName(k,newname);
+						}
 						else
 							if (nDat->columnName(k).contains(oldname))
 							{
@@ -2326,10 +2344,13 @@ namespace Tinkercell
 								s2 = RemoveDisallowedCharactersFromName(s2);
 								if (s2 != nDat->columnName(k))
 								{
-									if (!nDat->hasColumn(s2))
-										nDat->setColumnName(k,s2);
-									else
+									if (nDat->hasColumn(s2))
+									{
+										//addColumns(*nDat, k, s2);
 										nDat->removeColumn(k);
+									}
+									else
+										nDat->setColumnName(k,s2);
 								}
 							}
 					}
@@ -2359,7 +2380,10 @@ namespace Tinkercell
 							 (handles[i]->fullName() + QObject::tr("_") + sDat->rowName(k)) == oldname)
 							 )
 						{
-							sDat->setRowName(k,s1);
+							if (!sDat->hasColumn(s2))
+								sDat->setRowName(k,s1);
+							else
+								sDat->removeColumn(k);
 						}
 					}
 					for (int k=0; k < sDat->columns(); ++k)

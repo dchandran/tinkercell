@@ -2,6 +2,13 @@
 HOW TO BUILD TINKERCELL PROJECT FROM SOURCE CODE
 ===============================================================
 
+             Table of Contents
+            --------------------
+     Required Libraries and Packages
+     Building TinkerCell
+	 Win32 Problems and Solutions
+	 What Each Folder Contains
+     
 -------------------------------------------
 REQUIRED LIBRARIES & PACKAGES
 -------------------------------------------
@@ -13,7 +20,6 @@ Qt 4.5 or higher (qt.nokia.com/products/)
 OPTIONAL (recommended):
 Python -- installers are located in win32 folder
 GNU Octave (optional) -- download the installer from www.octave.org
-
 
 WINDOWS ONLY:
 IF you want to automatically create the Windows installer and/or upload the installer to Sourceforce (developers),
@@ -40,7 +46,7 @@ In Linux, just use apt-get install libx11-dev python-dev subversion octave octav
 
 
 2. Install cmake, available from www.cmake.org
-In Linux, use apt-get install cmake cmake-qt-gui.
+In Linux, use apt-get install cmake cmake-qt-gui
 
 
 3. Install Qt (4.5 or above)
@@ -58,7 +64,7 @@ On other platforms, do the following:
 4. Download TinkerCell source: svn co https://tinkercell.svn.sourceforge.net/svnroot/tinkercell tinkercell
 
 
-5. Run cmake-gui
+5. Run cmake-gui (in Windows, double click on the CMake icon on the desktop)
 
 
 6. In the cmake-gui,
@@ -73,14 +79,15 @@ Recommended compilers: GCC for Linux and Mac (aka. Unix default).
 MinGW for Windows
 
 
-8. This step only applies if you want enable Octave or Python.
+8. This step only applies if you want enable Octave, Python, or Ruby.
 This will help you identify whether or not all the directories or libraries that are needed were found.
 If you want embedded Python and Octave, enable them under the EMBED group.
 In the PYTHON group, check that the libraries and include directories are found.
 If they are not found, you will have to set them. Do that same for the OCTAVE group.
+Octave headers are problematic in Windows; see the "win32 problems" section near the end of this document
 
 
-9. (optional) select one of the TinkerCell lite versions from the TINKERCELL group
+9. (optional) select one of the TinkerCell lite versions from the TINKERCELL group if you are interested in a different version of TinkerCell
 
 
 10. If the "Generate" button is disabled, click the "Configure" button again
@@ -95,18 +102,16 @@ From here, the instructions will differ depending on your operating system
 
 
 ----- Windows -------
+If you want to create an installer, then pick option 12(a). If you just want to run TinkerCell, select option 12(b)
 
-
-12. If you want to create the TinkerCell installation file using Inno setup, be sure that the
+12(a). If you want to create the TinkerCell installation file using Inno setup, be sure that the
 check the TINKERCELL_INSTALLER checkbox in the TINKERCELL group located in the CMake GUI window
 If you want to upload the installer to Sourceforge automatically, check the TINKERCELL_INSTALLER_UPLOAD
+You must also have Python installed, because a Python script is used to generate the Inno setup file.
+Run BUILD/win32/CreateInstaller.bat
 
-
-13. Run BUILD/win32/makeWin32Installer.bat
-
-
-14. If you did NOT create the windows installer from step 12,
-then run the TinkerCell executable located inside /BUILD/_CPack_Packages/.../TinkerCell
+12(b). Go to the BUILD folder are run "mingw32-make package"
+Run TinkerCell executable located inside /BUILD/_CPack_Packages/.../TinkerCell
 
 
 ----- Mac -------
@@ -115,9 +120,10 @@ The program will be visible on the desktop
 
 
 ----- Linux -------
-12. Go to BUILD/
-13. Run "make package"
-14. Run BUILD/linux/run_tinkercell.sh
+12. Be sure that CPACK_TGZ is selected in the CMake gui
+13. Go to BUILD/
+14. Run "make package"
+15. Run BUILD/_CPack_Packages/Linux/TGZ/run_tinkercell.sh
 
 
 ----- All other OS -------
@@ -129,9 +135,7 @@ Create the following script and save it as "run_tinkercell"
 export LD_LIBRARY_PATH=<tinkercell folder>:<tinkercell folder>/plugins:<octave libraries folder>:<python libraries folder>
 <tinkercell folder>/TinkerCell
 
-
 15. Run run_tinkercell
-
 
 
 -----------------------------------------

@@ -15,7 +15,8 @@ Name: {app}; Type: filesandordirs\n\
 [Run]\n\
 Filename: \"msiexec.exe\"; Parameters: \"$i \"\"{app}\\installation\\Slik-Subversion-1.6.16-win32.msi\"\"\"; Description: \"install Subversion (for updating plugins)\"; WorkingDir: {app}; Flags: postinstall\n\
 Filename: \"msiexec.exe\"; Parameters: \"$i \"\"{app}\\installation\\python-2.5.4.msi\"\"\"; Description: \"install Python\"; WorkingDir: {app}; Flags: postinstall\n\
-Filename: {app}\\installation\\setuptools-0.6c11.win32-py2.5.exe; Description: \"install Python easy_install\"; WorkingDir: {app}; Flags: postinstall unchecked\n\
+Filename: {app}\\installation\\setuptools-0.6c11.win32-py2.5.exe; Description: \"install Python easy_install (run as admin)\"; WorkingDir: {app}; Flags: postinstall unchecked\n\
+Filename: C:\\Python25\\Scripts\\easy_install.exe; Parameters: numpy; Description: \"install Numerical Python\"; WorkingDir: C:\\Python25\\Scripts; Flags: postinstall unchecked\n\
 Filename: C:\\Python25\\Scripts\\easy_install.exe; Parameters: scipy; Description: \"install Scientific Python\"; WorkingDir: C:\\Python25\\Scripts; Flags: postinstall unchecked\n\
 Filename: C:\\Python25\\Scripts\\easy_install.exe; Parameters: simplejson; Description: \"install JSON package\"; WorkingDir: C:\\Python25\\Scripts; Flags: postinstall unchecked\n\
 Filename: C:\\Python25\\Scripts\\easy_install.exe; Parameters: biopython; Description: \"install BioPython package\"; WorkingDir: C:\\Python25\\Scripts; Flags: postinstall unchecked\n\

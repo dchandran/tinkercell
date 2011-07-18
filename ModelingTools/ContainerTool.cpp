@@ -197,26 +197,26 @@ namespace Tinkercell
                     {
                         child = list[j];
                         for (int k=0; k < child->graphicsItems.size(); ++k)
-							if (child->graphicsItems[k] && child->graphicsItems[k]->scene() == scene)
-							{
-								if (child->graphicsItems[k] != items[i] &&
-									!scene->moving().contains(child->graphicsItems[k]) &&
-									sceneBoundingRect.intersects(child->graphicsItems[k]->sceneBoundingRect()))
-								{
-									if ((connection = ConnectionGraphicsItem::cast(child->graphicsItems[k])))
-									{
-										QList<QGraphicsItem*> controlPoints = connection->controlPointsAsGraphicsItems();
-										for (int l=0; l < controlPoints.size(); ++l)
-											if (!scene->moving().contains(controlPoints[l]))
-												scene->moving() += controlPoints[l];
-									}
-									else
-									{
-										scene->moving() += child->graphicsItems[k];
-									}
-								}
-								list += child->children;
-							}
+				if (child->graphicsItems[k] && child->graphicsItems[k]->scene() == scene)
+				{
+					if (child->graphicsItems[k] != items[i] &&
+						!scene->moving().contains(child->graphicsItems[k]) &&
+						sceneBoundingRect.intersects(child->graphicsItems[k]->sceneBoundingRect()))
+					{
+						if ((connection = ConnectionGraphicsItem::cast(child->graphicsItems[k])))
+						{
+							QList<QGraphicsItem*> controlPoints = connection->controlPointsAsGraphicsItems();
+							for (int l=0; l < controlPoints.size(); ++l)
+								if (!scene->moving().contains(controlPoints[l]))
+									scene->moving() += controlPoints[l];
+						}
+						else
+						{
+							scene->moving() += child->graphicsItems[k];
+						}
+					}
+					list += child->children;
+				}
                     }
                 }
             }
@@ -230,13 +230,14 @@ namespace Tinkercell
         QList<QGraphicsItem*> nodes = connection->nodesAsGraphicsItems();
 
         for (int i=0; i < nodes.size(); ++i)
-        {
-            if (!all && rect.contains(nodes[i]->sceneBoundingRect()))
-                return true;
+		if (nodes[i] && connection->scene() == nodes[i]->scene())
+		{
+		    if (!all && rect.contains(nodes[i]->sceneBoundingRect()))
+		        return true;
 
-            if (all && nodes[i] && !rect.contains(nodes[i]->sceneBoundingRect()))
-                return false;
-        }
+		    if (all && nodes[i] && !rect.contains(nodes[i]->sceneBoundingRect()))
+		        return false;
+		}
 
         return all;
     }
@@ -313,11 +314,11 @@ namespace Tinkercell
                         if (TextGraphicsItem::cast(child->graphicsItems[j])) continue;
 
                         connection = ConnectionGraphicsItem::cast(child->graphicsItems[j]);
-
                         childRect = child->graphicsItems[j]->sceneBoundingRect();
                         contained0 = false;
+
                         for (int l=0; l < handle->graphicsItems.size(); ++l)
-							if (handle->graphicsItems[l])
+							if (handle->graphicsItems[l] && handle->graphicsItems[l]->scene() == child->graphicsItems[j]->scene())
 							{
 								if (connection)
 								{

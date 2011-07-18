@@ -9,9 +9,9 @@ HOW TO BUILD TINKERCELL PROJECT FROM SOURCE CODE
 	 Win32 Problems and Solutions
 	 What Each Folder Contains
      
--------------------------------------------
+====================================
 REQUIRED LIBRARIES & PACKAGES
--------------------------------------------
+====================================
 
 C and C++ Compiler (see below for recommended compilers)
 CMake (www.cmake.org)
@@ -37,9 +37,9 @@ MinGW in Windows
 GCC in Linux
 
 
--------------------------------------------
+====================================
 BUILDING TINKERCELL
--------------------------------------------
+====================================
 
 1. Install the following libraries or packages: python, subversion, octave (optional)
 In Linux, just use apt-get install libx11-dev python-dev subversion octave octave-headers
@@ -127,9 +127,9 @@ export LD_LIBRARY_PATH=<tinkercell folder>:<tinkercell folder>/plugins:<octave l
 15. Run run_tinkercell
 
 
------------------------------------------
+====================================
 WIN32 PROBLEMS & SOLUTIONS
------------------------------------------
+====================================
 
 Problem: CMake is not able to find MinGW.
 Solution: Look for a field in the CMake GUI called CMAKE_CXX_COMPILER.

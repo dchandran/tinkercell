@@ -52,34 +52,29 @@ In Linux, use apt-get install cmake cmake-qt-gui
 3. Install Qt (4.5 or above)
 In Linux, use apt-get install libqt4-core libqt4-gui libqt4-xml libqt4-opengl qt4-dev-tools
 
+In Windows and Mac, download the QtSDK installer and just follow the normal installation process
 
-On other platforms, do the following:
-1. download and install Qt 4.5.0 (or later) from http://qt.nokia.com/products
-2. extract the Qt compressed file and inside the folder, run the following command:
-1. ./configure -debug-and-release -no-accessibility -no-sql-db2 -no-sql-ibase -no-sql-mysql -no-sql-oci -no-sql-odbc -no-sql-psql -no-sql-sqlite -no-sql-sqlite2 -no-sql-tds -no-mmx -no-3dnow -no-sse -no-sse2 -qt-zlib -qt-gif -qt-libtiff -qt-libpng -qt-libmng -qt-libjpeg -no-openssl -no-qdbus -opengl -no-sm -no-xshape -no-xinerama -no-xcursor -no-xfixes -no-xrandr -no-xrender -no-fontconfig -no-xkb
-2. make (this will take time)
-3. make install (this will also take time)
+On all other platforms, do the following:
+3a. download and install Qt 4.5.0 (or later) from http://qt.nokia.com/products
+3b. extract the Qt compressed file and inside the folder, run the following command:
+3c. ./configure -debug-and-release -no-accessibility -no-sql-db2 -no-sql-ibase -no-sql-mysql -no-sql-oci -no-sql-odbc -no-sql-psql -no-sql-sqlite -no-sql-sqlite2 -no-sql-tds -no-mmx -no-3dnow -no-sse -no-sse2 -qt-zlib -qt-gif -qt-libtiff -qt-libpng -qt-libmng -qt-libjpeg -no-openssl -no-qdbus -opengl -no-sm -no-xshape -no-xinerama -no-xcursor -no-xfixes -no-xrandr -no-xrender -no-fontconfig -no-xkb
+3d. make (this will take time)
+3e. make install (this will also take time)
 
+4. Run cmake-gui (in Windows, double click on the CMake icon on the desktop)
 
-4. Download TinkerCell source: svn co https://tinkercell.svn.sourceforge.net/svnroot/tinkercell tinkercell
-
-
-5. Run cmake-gui (in Windows, double click on the CMake icon on the desktop)
-
-
-6. In the cmake-gui,
+5. In the CMake window,
 set tinkercell/trunk folder for the source folder
 set tinkercell/trunk/BUILD as the binary folder
 change the "Simple View" to "Grouped View" (located next to the search box)
 
 
-7. Inside the cmake-gui, click the "Configure" button.
+6. Inside the cmake-gui, click the "Configure" button.
 When you run this for the first time, you will be asked to select a compiler of your choice.
-Recommended compilers: GCC for Linux and Mac (aka. Unix default).
-MinGW for Windows
+Suggested compilers: GCC for Linux and Mac (aka. Unix default), MinGW for Windows
 
 
-8. This step only applies if you want enable Octave, Python, or Ruby.
+7. (optional) This step only applies if you want enable Octave, Python, or Ruby.
 This will help you identify whether or not all the directories or libraries that are needed were found.
 If you want embedded Python and Octave, enable them under the EMBED group.
 In the PYTHON group, check that the libraries and include directories are found.
@@ -87,21 +82,29 @@ If they are not found, you will have to set them. Do that same for the OCTAVE gr
 Octave headers are problematic in Windows; see the "win32 problems" section near the end of this document
 
 
-9. (optional) select one of the TinkerCell lite versions from the TINKERCELL group if you are interested in a different version of TinkerCell
+8. (optional) Select one of the TinkerCell lite versions from the TINKERCELL group if you are interested in a different variant of TinkerCell
 
 
-10. If the "Generate" button is disabled, click the "Configure" button again
+9. If the "Generate" button is disabled, click the "Configure" button again
 
 
-11. After Configure is done, click the "Generate" button.
+10. After Configure is done, click the "Generate" button.
 This will create the makefile or the project file, depending on the compiler you selected in step 7.
 Pay attention to the messages in red in the CMake window (not all of them are errors)
 
+THE REST OF THE STEPS DEPEND ON YOUR OPERATING SYSTEM. Follow steps in one of the sections below
 
-From here, the instructions will differ depending on your operating system
+--------------------- Linux ------------------------------------
+12. Be sure that CPACK_TGZ is selected in the CMake gui
+13. Go to BUILD/
+14. Run "make package"
+15. Run BUILD/_CPack_Packages/Linux/TGZ/run_tinkercell.sh
 
+--------------------- Max ------------------------------------
+12. Run BUILD/bin/create_bundled_app.sh
+The program will be visible on the desktop
 
------ Windows -------
+--------------------- Windows ------------------------------------
 If you want to create an installer, then pick option 12(a). If you just want to run TinkerCell, select option 12(b)
 
 12(a). If you want to create the TinkerCell installation file using Inno setup, be sure that the
@@ -113,20 +116,7 @@ Run BUILD/win32/CreateInstaller.bat
 12(b). Go to the BUILD folder are run "mingw32-make package"
 Run TinkerCell executable located inside /BUILD/_CPack_Packages/.../TinkerCell
 
-
------ Mac -------
-12. Run BUILD/bin/create_bundled_app.sh
-The program will be visible on the desktop
-
-
------ Linux -------
-12. Be sure that CPACK_TGZ is selected in the CMake gui
-13. Go to BUILD/
-14. Run "make package"
-15. Run BUILD/_CPack_Packages/Linux/TGZ/run_tinkercell.sh
-
-
------ All other OS -------
+--------------------- Other operating systems ------------------------------------
 12. Go to BUILD/
 13. Run "make package"
 14. Go to _CPack_Packages folder and find the TinkerCell subfolder.
@@ -134,7 +124,6 @@ Create the following script and save it as "run_tinkercell"
 #!/bin/bash
 export LD_LIBRARY_PATH=<tinkercell folder>:<tinkercell folder>/plugins:<octave libraries folder>:<python libraries folder>
 <tinkercell folder>/TinkerCell
-
 15. Run run_tinkercell
 
 

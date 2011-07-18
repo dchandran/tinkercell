@@ -149,6 +149,11 @@ Solution: Look for a field in the CMake GUI called QT_QMAKE_EXECUTABLE.
 Set the compiler manually by locating the qmake.exe.
 Click "configure" again.
 
+Problem: compile issues due to octave header files
+Solution: open the config.h find in the Octave include folder and comment 
+the #define HAVE_HDF5 and HAVE_REGEX lines (unless you have these packages 
+installed, which is not included with MinGW).
+
 
 Problem: Visual Studio is giving link errors
 Solution: ... Let me know if you find a solution!

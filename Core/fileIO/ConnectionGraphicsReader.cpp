@@ -84,11 +84,10 @@ namespace Tinkercell
 	* \param list of control points to use
 	* \param the xml reader in use
 	* \return path vector with all the control points and nodes and arrows*/
-	ConnectionGraphicsItem::CurveSegment ConnectionGraphicsReader::readCurveSegment(QHash<QString,ItemHandle*>& nodes, QHash<QString,ItemHandle*>& connections, QList<ConnectionGraphicsItem::ControlPoint*>& controlPoints, NodeGraphicsReader * reader, const QString& groupID)
+	ConnectionGraphicsItem::CurveSegment ConnectionGraphicsReader::readCurveSegment(QHash<QString, QList<QGraphicsItem*> >& nodes, QHash<QString, QList<QGraphicsItem*> >& connections, QList<ConnectionGraphicsItem::ControlPoint*>& controlPoints, NodeGraphicsReader * reader, const QString& groupID)
 	{
 		ConnectionGraphicsItem::CurveSegment pathVector;
-		ItemHandle *startNodeHandle = 0, *endNodeHandle = 0;
-		ItemHandle *startConnectionHandle = 0, *endConnectionHandle = 0;
+		QList<QGraphicsItem*> startNodes, endNodes, startConnections, endConnections;
 		QPointF startPos, endPos;
 		//qDebug() << "control points list: " << controlPoints.size();
 		if (reader)
@@ -115,9 +114,9 @@ namespace Tinkercell
 						{
 							QString s = attribs.at(i).value().toString();
 							if (nodes.contains(s))
-								startNodeHandle = nodes[s];
+								startNodes = nodes[s];
 							if (connections.contains(s))
-								startConnectionHandle = connections[s];
+								startConnections = connections[s];
 						}
 						else
 							if (attribs.at(i).name().toString() == "NodeAtStartX")
@@ -140,10 +139,10 @@ namespace Tinkercell
 									{
 										QString s = attribs.at(i).value().toString();
 										if (nodes.contains(s))
-											endNodeHandle = nodes[s];
+											endNodes = nodes[s];
 										if (connections.contains(s))
 										{
-											endConnectionHandle = connections[s];
+											endConnections = connections[s];
 										}
 									}
 									else
@@ -164,8 +163,6 @@ namespace Tinkercell
 											}
 				}
 			}
-
-			//qDebug() << "start Handle = " << startNodeHandle << " end Node = " << endNodeHandle;
 
 			while (!reader->atEnd() && !(reader->isEndElement() && reader->name() == "Path"))
 			{
@@ -204,11 +201,11 @@ namespace Tinkercell
 
 		if (pathVector.size() > 0 && controlPoints.size() > 1)
 		{
-			if (startNodeHandle && pathVector[0])
+			if (startNodes.size() > 0 && pathVector[0])
 			{
-				for (int i=0; i < startNodeHandle->graphicsItems.size(); ++i)
+				for (int i=0; i < startNodes.size(); ++i)
 				{
-					NodeGraphicsItem * node = NodeGraphicsItem::cast(startNodeHandle->graphicsItems[i]);
+					NodeGraphicsItem * node = NodeGraphicsItem::cast(startNodes[i]);
 					if (node && (node->groupID == groupID) && (node->pos() == startPos))
 					{
 						pathVector[0]->setParentItem(node);
@@ -217,11 +214,11 @@ namespace Tinkercell
 				}
 			}
 			else
-				if (startConnectionHandle && pathVector[0])
+				if (startConnections.size() > 0 && pathVector[0])
 				{
 					ConnectionGraphicsItem * c;
-					for (int i=0; i < startConnectionHandle->graphicsItems.size(); ++i)
-						if ((c = ConnectionGraphicsItem::cast(startConnectionHandle->graphicsItems[i])) &&
+					for (int i=0; i < startConnections.size(); ++i)
+						if ((c = ConnectionGraphicsItem::cast(startConnections[i])) &&
 							 (c->groupID == groupID))
 						{
 							NodeGraphicsItem * node = NodeGraphicsItem::cast(c->centerRegionItem);
@@ -233,11 +230,11 @@ namespace Tinkercell
 						}
 				}
 				int k = pathVector.size() - 1;
-				if (endNodeHandle && pathVector[k])
+				if (endNodes.size() > 0 && pathVector[k])
 				{
-					for (int i=0; i < endNodeHandle->graphicsItems.size(); ++i)
+					for (int i=0; i < endNodes.size(); ++i)
 					{
-						NodeGraphicsItem * node = NodeGraphicsItem::cast(endNodeHandle->graphicsItems[i]);
+						NodeGraphicsItem * node = NodeGraphicsItem::cast(endNodes[i]);
 						if (node && (node->pos() == endPos) && (node->groupID == groupID))
 						{
 							pathVector[k]->setParentItem(node);
@@ -246,11 +243,11 @@ namespace Tinkercell
 					}
 				}
 				else
-					if (endConnectionHandle && pathVector[k])
+					if (endConnections.size() > 0 && pathVector[k])
 					{
 						ConnectionGraphicsItem * c;
-						for (int i=0; i < endConnectionHandle->graphicsItems.size(); ++i)
-							if ((c = ConnectionGraphicsItem::cast(endConnectionHandle->graphicsItems[i])) &&
+						for (int i=0; i < endConnections.size(); ++i)
+							if ((c = ConnectionGraphicsItem::cast(endConnections[i])) &&
 								 (c->groupID == groupID))
 							{
 								NodeGraphicsItem * node = NodeGraphicsItem::cast(c->centerRegionItem);
@@ -348,18 +345,28 @@ namespace Tinkercell
 		else
 			return 0;
 
-		QHash<QString,ItemHandle*> nodesHash, connectionsHash;
+		QHash<QString, QList<QGraphicsItem*> > nodesHash, connectionsHash;
 		ItemHandle * handle;
 		for (int i=0; i < nodes.size(); ++i)
 		{
-			if (nodes.at(i) && (handle = getHandle(nodes.at(i))))
-				nodesHash[handle->fullName()] = handle;
+			if (nodes.at(i))
+			{
+				if (handle = getHandle(nodes.at(i)))
+					nodesHash[handle->fullName()] = handle->graphicsItems;
+				else
+					nodesHash[""] += nodes.at(i);
+			}
 		}
 
 		for (int i=0; i < connections.size(); ++i)
 		{
-			if (connections.at(i) && (handle = getHandle(connections.at(i))))
-				connectionsHash[handle->fullName()] = handle;
+			if (connections.at(i))
+			{
+				if (handle = getHandle(connections.at(i)))
+					connectionsHash[handle->fullName()] = handle->graphicsItems;
+				else
+					connectionsHash[""] += connections.at(i);
+			}
 		}
 
 		QList<ConnectionGraphicsItem::ControlPoint*> controlPoints;

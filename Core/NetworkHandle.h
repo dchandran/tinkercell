@@ -193,9 +193,11 @@ namespace Tinkercell
 		/*! \brief checks whether a string is a correct formula.
 		* \param QString target string (also the output)
 		* \param QStringList returns any new variables not found in this network
+		* \param QStringList returns any network variables found in this network
+		* \param QList<ItemHandle*> returns any handles used in this equation
 		* \return Boolean whether or not the string is valid
 		*/
-		virtual bool parseMath(QString&,QStringList&);		
+		virtual bool parseMath(QString&,QStringList&,QStringList&,QList<ItemHandle*>&);
 		/*! \brief checks whether the given string names a unique item or data entry
 		* \param QString target string
 		* \param QStringList any other names that should be disallowed (optional)

@@ -783,7 +783,7 @@ namespace Tinkercell
 		return &d;
 	}
 
-	bool NetworkHandle::parseMath(QString& s, QStringList& newvars)
+	bool NetworkHandle::parseMath(QString& s, QStringList& newvars, QStringList& existingVars,QList<ItemHandle*>& usedHandles)
 	{
 		static QStringList reservedWords;
 		if (reservedWords.isEmpty())
@@ -815,59 +815,79 @@ namespace Tinkercell
 				str.replace(tr("_@@@_"),tr("."));
 				QString str2 = str;
 				str2.replace(tr("_"),tr("."));
-				if (!reservedWords.contains(str) &&	
-					!symbolsTable.uniqueHandlesWithDot.contains(str) &&
-					!symbolsTable.uniqueHandlesWithUnderscore.contains(str)) //maybe new symbol in the formula
+				if (!reservedWords.contains(str))
 				{
-					if (symbolsTable.uniqueDataWithDot.contains(str) && symbolsTable.uniqueDataWithDot[str].first)
+					if (symbolsTable.uniqueHandlesWithDot.contains(str))
 					{
+						existingVars << str;
+						usedHandles << symbolsTable.uniqueHandlesWithDot[str];
 					}
 					else
-					if (symbolsTable.uniqueDataWithUnderscore.contains(str) && symbolsTable.uniqueDataWithUnderscore[str].first)
+					if (symbolsTable.uniqueHandlesWithUnderscore.contains(str))
 					{
+						existingVars << str;
+						usedHandles << symbolsTable.uniqueHandlesWithUnderscore[str];
 					}
 					else
-					if (symbolsTable.nonuniqueData.contains(str) && symbolsTable.nonuniqueData[str].first)
 					{
-						ItemHandle * handle = symbolsTable.nonuniqueData[str].first;
-						if (handle != globalHandle() && !str.contains(QRegExp(tr("^")+handle->fullName())))
+						if (symbolsTable.uniqueDataWithDot.contains(str) && symbolsTable.uniqueDataWithDot[str].first)
 						{
-							s.replace(QRegExp(tr("^")+str+tr("([^a-zA-Z0-9_])")),handle->fullName() + tr(".") + str + tr("\\1"));
-							s.replace(QRegExp(tr("([^a-zA-Z0-9_\\.])")+str+tr("([^a-zA-Z0-9_])")), tr("\\1") + handle->fullName() + tr(".") + str + tr("\\2"));
-							s.replace(QRegExp(tr("([^a-zA-Z0-9_\\.])")+str+tr("$")),tr("\\1") + handle->fullName() + tr(".")  + str);
+							usedHandles << symbolsTable.uniqueDataWithDot[str].first;
+							existingVars << str;
 						}
-					}
-					else
-					if (symbolsTable.uniqueDataWithDot.contains(str2) && symbolsTable.uniqueDataWithDot[str2].first)
-					{
-						
-					}
-					else
-					{
-						if (symbolsTable.nonuniqueHandles.contains(str))
+						else
+						if (symbolsTable.uniqueDataWithUnderscore.contains(str) && symbolsTable.uniqueDataWithUnderscore[str].first)
 						{
-							ItemHandle * handle = symbolsTable.nonuniqueHandles[str];
-							if (handle && handle != globalHandle())
+							usedHandles << symbolsTable.uniqueDataWithUnderscore[str].first;
+							existingVars << str;
+						}
+						else
+						if (symbolsTable.nonuniqueData.contains(str) && symbolsTable.nonuniqueData[str].first)
+						{
+							ItemHandle * handle = symbolsTable.nonuniqueData[str].first;
+							if (handle != globalHandle() && !str.contains(QRegExp(tr("^")+handle->fullName())))
 							{
-								s.replace(QRegExp(tr("^")+str+tr("([^a-zA-Z0-9_])")),handle->fullName() + tr("\\1"));
-								s.replace(QRegExp(tr("([^a-zA-Z0-9_])")+str+tr("([^a-zA-Z0-9_])")), tr("\\1") + handle->fullName() + tr("\\2"));
-								s.replace(QRegExp(tr("([^a-zA-Z0-9_])")+str+tr("$")),tr("\\1") + handle->fullName());
+								s.replace(QRegExp(tr("^")+str+tr("([^a-zA-Z0-9_])")),handle->fullName() + tr(".") + str + tr("\\1"));
+								s.replace(QRegExp(tr("([^a-zA-Z0-9_\\.])")+str+tr("([^a-zA-Z0-9_])")), tr("\\1") + handle->fullName() + tr(".") + str + tr("\\2"));
+								s.replace(QRegExp(tr("([^a-zA-Z0-9_\\.])")+str+tr("$")),tr("\\1") + handle->fullName() + tr(".")  + str);
+								usedHandles << handle;
 							}
 						}
 						else
-						if (symbolsTable.nonuniqueHandles.contains(str2) && symbolsTable.nonuniqueHandles[str2])
+						if (symbolsTable.uniqueDataWithDot.contains(str2) && symbolsTable.uniqueDataWithDot[str2].first)
 						{
-							ItemHandle * handle = symbolsTable.nonuniqueHandles[str2];
-							if (handle && handle != globalHandle())
-							{
-								s.replace(QRegExp(tr("^")+str+tr("([^a-zA-Z0-9_])")), handle->fullName() + tr("\\1"));
-								s.replace(QRegExp(tr("([^a-zA-Z0-9_])")+str+tr("([^a-zA-Z0-9_])")), tr("\\1") + handle->fullName() + tr("\\2"));
-								s.replace(QRegExp(tr("([^a-zA-Z0-9_])")+str+tr("$")),tr("\\1") + handle->fullName());
-							}
+							existingVars << str2;
+							usedHandles << symbolsTable.uniqueDataWithDot[str2].first;
 						}
 						else
 						{
-							newvars << str;
+							if (symbolsTable.nonuniqueHandles.contains(str))
+							{
+								ItemHandle * handle = symbolsTable.nonuniqueHandles[str];
+								if (handle && handle != globalHandle())
+								{
+									s.replace(QRegExp(tr("^")+str+tr("([^a-zA-Z0-9_])")),handle->fullName() + tr("\\1"));
+									s.replace(QRegExp(tr("([^a-zA-Z0-9_])")+str+tr("([^a-zA-Z0-9_])")), tr("\\1") + handle->fullName() + tr("\\2"));
+									s.replace(QRegExp(tr("([^a-zA-Z0-9_])")+str+tr("$")),tr("\\1") + handle->fullName());
+									usedHandles << handle;
+								}
+							}
+							else
+							if (symbolsTable.nonuniqueHandles.contains(str2) && symbolsTable.nonuniqueHandles[str2])
+							{
+								ItemHandle * handle = symbolsTable.nonuniqueHandles[str2];
+								if (handle && handle != globalHandle())
+								{
+									s.replace(QRegExp(tr("^")+str+tr("([^a-zA-Z0-9_])")), handle->fullName() + tr("\\1"));
+									s.replace(QRegExp(tr("([^a-zA-Z0-9_])")+str+tr("([^a-zA-Z0-9_])")), tr("\\1") + handle->fullName() + tr("\\2"));
+									s.replace(QRegExp(tr("([^a-zA-Z0-9_])")+str+tr("$")),tr("\\1") + handle->fullName());
+									usedHandles << handle;
+								}
+							}
+							else
+							{
+								newvars << str;
+							}
 						}
 					}
 				}

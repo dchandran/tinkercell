@@ -21,6 +21,7 @@ Assignments are parameters that are defined as a function, eg. k1 = sin(time) + 
 #include "NodeGraphicsReader.h"
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
+#include "LabelingTool.h"
 #include "ModelSummaryTool.h"
 #include "FunctionDeclarationsTool.h"
 #include "EquationParser.h"
@@ -94,7 +95,6 @@ namespace Tinkercell
 			setAttribute(Qt::WA_ContentsPropagated);
 			setPalette(QPalette(QColor(255,255,255,255)));
 			setAutoFillBackground(true);
-			//setWindowOpacity(0.8);
 			
 			//module snapshot window
 			snapshotToolTip = new QDialog(mainWindow);
@@ -149,6 +149,7 @@ namespace Tinkercell
 						graphWidget->print(printer);
 						functionSnapshots[s] = printer;
 					}
+
 					if (!s.isEmpty() && s.size() > 2 && functionSnapshots.contains(s) && !snapshotToolTip->isVisible())
 					{
 						QRect rect = scene->mapToWidget( hoverOverItem->sceneBoundingRect() );
@@ -164,15 +165,19 @@ namespace Tinkercell
 		}
 		
 		if (snapshotToolTip && snapshotToolTip->isVisible())
+		{
 			snapshotToolTip->hide();
+			emit clearLabels(0);
+		}
 	}
 
 	void AssignmentFunctionsTool::toolLoaded(Tool*)
 	{
-		static bool connected = false;
-		if (connected) return;
+		static bool connected1 = false;
+		static bool connected2 = false;
+		if (connected1 && connected2) return;
 
-		if (!connected && mainWindow && mainWindow->tool(tr("Model Summary")))
+		if (!connected1 && mainWindow && mainWindow->tool(tr("Model Summary")))
 		{
 			QWidget * widget = mainWindow->tool(tr("Model Summary"));
 			ModelSummaryTool * modelSummary = static_cast<ModelSummaryTool*>(widget);
@@ -180,7 +185,18 @@ namespace Tinkercell
 				this,SLOT(aboutToDisplayModel(const QList<ItemHandle*>&, QHash<QString,qreal>&, QHash<QString,QString>&)));
 			connect(modelSummary,SIGNAL(displayModel(QTabWidget&, const QList<ItemHandle*>&, QHash<QString,qreal>&, QHash<QString,QString>&)),
 				this,SLOT(displayModel(QTabWidget&, const QList<ItemHandle*>&, QHash<QString,qreal>&, QHash<QString,QString>&)));
-			connected = true;
+			connected1 = true;
+		}
+		
+		if (!connected2 && mainWindow && mainWindow->tool(tr("Labeling Tool")))
+		{
+			QWidget * widget = mainWindow->tool(tr("Labeling Tool"));
+			LabelingTool * labelingTool = static_cast<LabelingTool*>(widget);
+			connect(labelingTool,SIGNAL(highlightItem(ItemHandle*,QColor)),
+				this,SLOT(highlightItem(ItemHandle*,QColor)));
+			connect(labelingTool,SIGNAL(clearLabels(ItemHandle * h)),
+				this,SLOT(clearLabels(ItemHandle * h)));
+			connected2 = true;
 		}
 	}
 

@@ -71,6 +71,10 @@ namespace Tinkercell
 	{
 		Q_OBJECT
 
+	signals:
+		void highlightItem(ItemHandle*,QColor);
+		void clearLabels(ItemHandle * h);
+	
 	public:
 		QList<ItemHandle*> itemHandles;
 		AssignmentFunctionsTool();

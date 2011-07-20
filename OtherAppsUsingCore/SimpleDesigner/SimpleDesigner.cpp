@@ -187,8 +187,9 @@ void SimpleDesigner::rateChanged()
 	QString formula = rate->text();
 	
 	//find all the new variables in this equation
-	QStringList newVars;
-	bool ok = net->parseMath(formula,newVars);
+	QStringList newVars, oldVars;
+	QList<ItemHandle*> handles;
+	bool ok = net->parseMath(formula,newVars,oldVars,handles);
 	
 	if (ok && handle->textData("rate") != formula)
 	{
@@ -339,9 +340,10 @@ void SimpleDesigner::itemsInserted(NetworkHandle * net,const QList<ItemHandle*>&
 			
 			if (connection->hasTextData("rate"))  //rate already exists
 			{
-				QStringList newVars;
+				QStringList newVars,oldVars;
+				QList<ItemHandle*> handles;
 				rate = connection->textData("rate");
-				bool ok = net->parseMath(rate,newVars);
+				bool ok = net->parseMath(rate,newVars,oldVars,handles);
 					
 				if (ok)
 				{

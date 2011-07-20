@@ -158,6 +158,11 @@ namespace Tinkercell
 						snapshotIcon->setIconSize(QSize(WINDOW_WIDTH,WINDOW_WIDTH));
 						snapshotToolTip->show();
 						snapshotToolTip->raise();
+						QStringList vars1,vars2;
+						QList<ItemHandle*> handles;
+						scene->network->parseMath(s,vars1,vars2,handles);
+						for (int i=0; i < handles.size(); ++i)
+							emit highlightItem(handles[i],QColor(0,255,0));
 					}
 					return;
 				}
@@ -192,10 +197,8 @@ namespace Tinkercell
 		{
 			QWidget * widget = mainWindow->tool(tr("Labeling Tool"));
 			LabelingTool * labelingTool = static_cast<LabelingTool*>(widget);
-			connect(labelingTool,SIGNAL(highlightItem(ItemHandle*,QColor)),
-				this,SLOT(highlightItem(ItemHandle*,QColor)));
-			connect(labelingTool,SIGNAL(clearLabels(ItemHandle * h)),
-				this,SLOT(clearLabels(ItemHandle * h)));
+			connect(labelingTool,SIGNAL(highlightItem(ItemHandle*,QColor)), this,SLOT(highlightItem(ItemHandle*,QColor)));
+			connect(labelingTool,SIGNAL(clearLabels(ItemHandle * h)), this,SLOT(clearLabels(ItemHandle * h)));
 			connected2 = true;
 		}
 	}
@@ -255,7 +258,6 @@ namespace Tinkercell
 			itemHandles.clear();
 			ItemHandle * handle = 0;
 			for (int i=0; i < list.size(); ++i)
-
 			{
 				if ((handle = getHandle(list[i])))
 					itemHandles += handle;

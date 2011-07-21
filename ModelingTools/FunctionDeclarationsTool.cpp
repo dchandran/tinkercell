@@ -162,10 +162,7 @@ namespace Tinkercell
 						QList<ItemHandle*> handles;
 						scene->network->parseMath(s,vars1,vars2,handles);
 						for (int i=0; i < handles.size(); ++i)
-						{
-							console()->message(handles[i]->name);
 							emit highlightItem(handles[i],QColor(0,255,0));
-						}
 					}
 					return;
 				}

@@ -85,6 +85,7 @@ namespace Tinkercell
 		QList< QPair<ItemHandle*,QGraphicsEllipseItem*> > ellipseItems;
 		QList< QPair<ItemHandle*, QPair<NodeGraphicsItem*,double> > > fireItems;
 		NodeGraphicsItem * fireNode;
+		QList<QGraphicsItem*> itemsToDelete;
 		QColor bgColor, textColor;
 		
 		static LabelingTool_FToS * fToS;

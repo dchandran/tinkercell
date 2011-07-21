@@ -162,7 +162,10 @@ namespace Tinkercell
 						QList<ItemHandle*> handles;
 						scene->network->parseMath(s,vars1,vars2,handles);
 						for (int i=0; i < handles.size(); ++i)
+						{
+							console()->message(handles[i]->name);
 							emit highlightItem(handles[i],QColor(0,255,0));
+						}
 					}
 					return;
 				}
@@ -197,8 +200,8 @@ namespace Tinkercell
 		{
 			QWidget * widget = mainWindow->tool(tr("Labeling Tool"));
 			LabelingTool * labelingTool = static_cast<LabelingTool*>(widget);
-			connect(labelingTool,SIGNAL(highlightItem(ItemHandle*,QColor)), this,SLOT(highlightItem(ItemHandle*,QColor)));
-			connect(labelingTool,SIGNAL(clearLabels(ItemHandle * h)), this,SLOT(clearLabels(ItemHandle * h)));
+			connect(this,SIGNAL(highlightItem(ItemHandle*,QColor)), labelingTool,SLOT(highlightItem(ItemHandle*,QColor)));
+			connect(this,SIGNAL(clearLabels(ItemHandle*)), labelingTool,SLOT(clearLabels(ItemHandle*)));
 			connected2 = true;
 		}
 	}

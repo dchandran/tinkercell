@@ -791,9 +791,9 @@ namespace Tinkercell
 
 		mu::Parser parser;
 
-		s.replace(QRegExp(tr("\\.(?!\\d)")),tr("_@@@_"));
+		s.replace(QRegExp(tr("\\.(?!\\d)")),tr("__Q_X_Z_W__"));
 		parser.SetExpr(s.toAscii().data());
-		s.replace(tr("_@@@_"),tr("."));
+		s.replace(tr("__Q_X_Z_W__"),tr("."));
 		parser.SetVarFactory(AddVariable, 0);
 		QString str;
 
@@ -812,9 +812,9 @@ namespace Tinkercell
 			{
 				str = tr(item->first.data());
 				str.replace(QRegExp(tr("[^A-Za-z0-9_]")),tr(""));
-				str.replace(tr("_@@@_"),tr("."));
+				str.replace(tr("__Q_X_Z_W__"),tr("."));
 				QString str2 = str;
-				str2.replace(tr("_"),tr("."));
+				str2.replace(tr("."),tr("_"));
 				if (!reservedWords.contains(str))
 				{
 					if (symbolsTable.uniqueHandlesWithDot.contains(str))
@@ -823,10 +823,10 @@ namespace Tinkercell
 						usedHandles << symbolsTable.uniqueHandlesWithDot[str];
 					}
 					else
-					if (symbolsTable.uniqueHandlesWithUnderscore.contains(str))
+					if (symbolsTable.uniqueHandlesWithUnderscore.contains(str2))
 					{
-						existingVars << str;
-						usedHandles << symbolsTable.uniqueHandlesWithUnderscore[str];
+						existingVars << str2;
+						usedHandles << symbolsTable.uniqueHandlesWithUnderscore[str2];
 					}
 					else
 					{
@@ -836,10 +836,16 @@ namespace Tinkercell
 							existingVars << str;
 						}
 						else
-						if (symbolsTable.uniqueDataWithUnderscore.contains(str) && symbolsTable.uniqueDataWithUnderscore[str].first)
+						if (symbolsTable.uniqueDataWithUnderscore.contains(str2) && symbolsTable.uniqueDataWithUnderscore[str2].first)
 						{
-							usedHandles << symbolsTable.uniqueDataWithUnderscore[str].first;
+							usedHandles << symbolsTable.uniqueDataWithUnderscore[str2].first;
 							existingVars << str;
+						}
+						else
+						if (symbolsTable.uniqueDataWithDot.contains(str) && symbolsTable.uniqueDataWithDot[str].first)
+						{
+							existingVars << str;
+							usedHandles << symbolsTable.uniqueDataWithDot[str].first;
 						}
 						else
 						if (symbolsTable.nonuniqueData.contains(str) && symbolsTable.nonuniqueData[str].first)
@@ -852,12 +858,6 @@ namespace Tinkercell
 								s.replace(QRegExp(tr("([^a-zA-Z0-9_\\.])")+str+tr("$")),tr("\\1") + handle->fullName() + tr(".")  + str);
 								usedHandles << handle;
 							}
-						}
-						else
-						if (symbolsTable.uniqueDataWithDot.contains(str2) && symbolsTable.uniqueDataWithDot[str2].first)
-						{
-							existingVars << str2;
-							usedHandles << symbolsTable.uniqueDataWithDot[str2].first;
 						}
 						else
 						{

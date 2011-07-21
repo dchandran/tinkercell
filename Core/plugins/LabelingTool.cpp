@@ -38,6 +38,8 @@ namespace Tinkercell
 		settings.endGroup();
 		
 		delete fireNode;
+		for (int i=0; i < itemsToDelete.size(); ++i)
+			delete itemsToDelete[i];
 	}
 	
 	bool LabelingTool::setMainWindow(MainWindow * main)
@@ -161,7 +163,7 @@ namespace Tinkercell
 			{
 				if (textItems[i].second->scene())
 					textItems[i].second->scene()->removeItem(textItems[i].second);
-				delete textItems[i].second;
+				itemsToDelete << textItems[i].second;
 				textItems[i].second = 0;
 			}
 		}
@@ -172,7 +174,7 @@ namespace Tinkercell
 			{
 				if (rectItems[i].second->scene())
 					rectItems[i].second->scene()->removeItem(rectItems[i].second);
-				delete rectItems[i].second;
+				itemsToDelete << rectItems[i].second;
 				rectItems[i].second = 0;
 			}
 		}
@@ -183,7 +185,7 @@ namespace Tinkercell
 			{
 				if (ellipseItems[i].second->scene())
 					ellipseItems[i].second->scene()->removeItem(ellipseItems[i].second);
-				delete ellipseItems[i].second;
+				itemsToDelete << ellipseItems[i].second;
 				ellipseItems[i].second = 0;
 			}
 		}
@@ -194,7 +196,7 @@ namespace Tinkercell
 			{
 				if (fireItems[i].second.first->scene())
 					fireItems[i].second.first->scene()->removeItem(fireItems[i].second.first);
-				delete fireItems[i].second.first;
+				itemsToDelete << fireItems[i].second.first;
 				fireItems[i].second.first = 0;
 			}
 		}

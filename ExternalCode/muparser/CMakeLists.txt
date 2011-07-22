@@ -1,4 +1,4 @@
-FILE( GLOB MUPARSER_SRC *.cpp )
+FILE( GLOB MUPARSER_SRC ${TINKERCELL_SOURCE_DIR}/ExternalCode/muparser/*.cpp )
 
 ADD_LIBRARY( muparser 
 #  SHARED

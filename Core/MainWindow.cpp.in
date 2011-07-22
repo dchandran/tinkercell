@@ -73,8 +73,8 @@ namespace Tinkercell
 	QString GlobalSettings::CPP_ENTRY_FUNCTION = QObject::tr("loadTCTool");
 	QString GlobalSettings::C_ENTRY_FUNCTION = QObject::tr("tc_main");
 	QString GlobalSettings::PROJECT_VERSION = QObject::tr("0.0.0");
-	QStringList GlobalSettings::GlobalSettings::OPEN_FILE_EXTENSIONS;
-	QStringList GlobalSettings::GlobalSettings::SAVE_FILE_EXTENSIONS;
+	QStringList GlobalSettings::OPEN_FILE_EXTENSIONS;
+	QStringList GlobalSettings::SAVE_FILE_EXTENSIONS;
 	QString GlobalSettings::PROGRAM_MODE;
 	QString MainWindow::previousFileName;
 	QString MainWindow::homeDirPath;

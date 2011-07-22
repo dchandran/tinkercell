@@ -38,10 +38,10 @@
  */
  
  
-#if defined(__MINGW32__)
+#if defined(WIN32)
 	#define index strchr
 	#define rindix strrchr
-#endif /* __MINGW32__ */
+#endif /* WIN32 */
  
 #include <stdlib.h>
 #include <stdio.h>

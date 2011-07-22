@@ -2,68 +2,64 @@ IF( QT4_FOUND AND QT_VERSION_MINOR GREATER 5)
 
 SET(LIBRARY_OUTPUT_PATH ${EXECUTABLE_OUTPUT_PATH})
 
-INCLUDE_DIRECTORIES(
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include
-)
-
 SET( QWTPLOT3D_SRC
-	src/qwt3d_axis.cpp
-	src/qwt3d_color.cpp
-	src/qwt3d_coordsys.cpp
-	src/qwt3d_drawable.cpp
-	src/qwt3d_mousekeyboard.cpp
-	src/qwt3d_movements.cpp
-	src/qwt3d_lighting.cpp
-	src/qwt3d_colorlegend.cpp
-	src/qwt3d_plot.cpp
-	src/qwt3d_label.cpp
-	src/qwt3d_types.cpp
-	src/qwt3d_enrichment_std.cpp
-	src/qwt3d_autoscaler.cpp
-	src/qwt3d_io_reader.cpp
-	src/qwt3d_io.cpp
-	src/qwt3d_scale.cpp
-	src/qwt3d_gridmapping.cpp
-	src/qwt3d_parametricsurface.cpp
-	src/qwt3d_function.cpp
-	src/qwt3d_surfaceplot.cpp
-	src/qwt3d_gridplot.cpp
-	src/qwt3d_meshplot.cpp        
-	src/qwt3d_io_gl2ps.cpp
-	3rdparty/gl2ps/gl2ps.c
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/src/qwt3d_axis.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/src/qwt3d_color.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/src/qwt3d_coordsys.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/src/qwt3d_drawable.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/src/qwt3d_mousekeyboard.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/src/qwt3d_movements.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/src/qwt3d_lighting.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/src/qwt3d_colorlegend.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/src/qwt3d_plot.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/src/qwt3d_label.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/src/qwt3d_types.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/src/qwt3d_enrichment_std.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/src/qwt3d_autoscaler.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/src/qwt3d_io_reader.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/src/qwt3d_io.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/src/qwt3d_scale.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/src/qwt3d_gridmapping.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/src/qwt3d_parametricsurface.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/src/qwt3d_function.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/src/qwt3d_surfaceplot.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/src/qwt3d_gridplot.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/src/qwt3d_meshplot.cpp        
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/src/qwt3d_io_gl2ps.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/3rdparty/gl2ps/gl2ps.c
 	)
 
 SET( QWTPLOT3D_HDRS
-	include/qwt3d_color.h
-	include/qwt3d_global.h
-	include/qwt3d_types.h
-	include/qwt3d_axis.h
-	include/qwt3d_coordsys.h
-	include/qwt3d_drawable.h
-	include/qwt3d_helper.h
-	include/qwt3d_label.h
-	include/qwt3d_openglhelper.h
-	include/qwt3d_colorlegend.h
-	include/qwt3d_plot.h
-	include/qwt3d_enrichment.h
-	include/qwt3d_enrichment_std.h
-	include/qwt3d_autoscaler.h
-	include/qwt3d_autoptr.h
-	include/qwt3d_io.h
-	include/qwt3d_io_reader.h
-	include/qwt3d_scale.h
-	include/qwt3d_portability.h
-	include/qwt3d_mapping.h
-	include/qwt3d_gridmapping.h
-	include/qwt3d_parametricsurface.h
-	include/qwt3d_function.h
-	include/qwt3d_surfaceplot.h
-	include/qwt3d_volumeplot.h
-	include/qwt3d_graphplot.h
-	include/qwt3d_multiplot.h
-	3rdparty/gl2ps/gl2ps.h
-	include/qwt3d_io_gl2ps.h
-	)
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_color.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_global.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_types.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_axis.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_coordsys.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_drawable.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_helper.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_label.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_openglhelper.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_colorlegend.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_plot.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_enrichment.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_enrichment_std.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_autoscaler.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_autoptr.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_io.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_io_reader.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_scale.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_portability.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_mapping.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_gridmapping.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_parametricsurface.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_function.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_surfaceplot.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_volumeplot.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_graphplot.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_multiplot.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/3rdparty/gl2ps/gl2ps.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_io_gl2ps.h
+)
 
 ADD_DEFINITIONS(-DQT_DLL -DQWT3D_DLL -DQWT3D_MAKEDLL)
 

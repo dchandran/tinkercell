@@ -14,6 +14,10 @@ ADD_DEFINITIONS(-DHAVE_EXPAT_CONFIG_H)
 IF (WIN32)
 	ADD_DEFINITIONS(-DWIN32)
 	ADD_DEFINITIONS(-D_WIN32)
+	IF (NOT MINGW)
+		ADD_DEFINITIONS(-Dstrcasecmp=_stricmp)
+		ADD_DEFINITIONS(-Dstrncasecmp=_strnicmp)
+	ENDIF(NOT MINGW)
 ENDIF (WIN32)
 
 #------ SBML source files --------------

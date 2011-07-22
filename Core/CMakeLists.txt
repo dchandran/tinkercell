@@ -1,7 +1,6 @@
 IF( QT4_FOUND AND QT_VERSION_MINOR GREATER 5)
 
 SET(LIBRARY_OUTPUT_PATH ${EXECUTABLE_OUTPUT_PATH})
-OPTION( USE_RDF "Use Raptor2 library for reading RDF" ON)
 
 #-------------------------------------------------------------------------------------------------------------
 #           Code files
@@ -13,15 +12,12 @@ INCLUDE_DIRECTORIES(
       ${TINKERCELL_SOURCE_DIR}/ExternalCode/cluster/src
 )
 
-IF (USE_RDF)
-	ADD_DEFINITIONS(-DNOT_USING_RAPTOR)
-	INCLUDE_DIRECTORIES( 
-		  BEFORE
-		  ${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor2/src
-		  ${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor2/librdfa
-		  ${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor2/util
-	)
-ENDIF(USE_RDF)
+INCLUDE_DIRECTORIES( 
+	  BEFORE
+	  ${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor2/src
+	  ${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor2/librdfa
+	  ${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor2/util
+)
 
 CONFIGURE_FILE( 
 	${TINKERCELL_SOURCE_DIR}/Core/coding/CodingWindow.cpp.in
@@ -77,11 +73,79 @@ FILE(GLOB TINKERCELL_CORE_SRC
 	${TINKERCELL_BINARY_DIR}/Core/*.cpp
 )
 
+FILE( GLOB CLUSTER_SRC ${TINKERCELL_SOURCE_DIR}/ExternalCode/cluster/src/*.c)
+
+FILE( GLOB QWT_SRC ${TINKERCELL_SOURCE_DIR}/ExternalCode/ExternalCode/qwt/*.cpp )
+FILE( GLOB QWT_HDRS ${TINKERCELL_SOURCE_DIR}/ExternalCode/ExternalCode/qwt/*.h )
+
+SET( QWTPLOT3D_SRC
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/src/qwt3d_axis.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/src/qwt3d_color.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/src/qwt3d_coordsys.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/src/qwt3d_drawable.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/src/qwt3d_mousekeyboard.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/src/qwt3d_movements.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/src/qwt3d_lighting.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/src/qwt3d_colorlegend.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/src/qwt3d_plot.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/src/qwt3d_label.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/src/qwt3d_types.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/src/qwt3d_enrichment_std.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/src/qwt3d_autoscaler.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/src/qwt3d_io_reader.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/src/qwt3d_io.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/src/qwt3d_scale.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/src/qwt3d_gridmapping.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/src/qwt3d_parametricsurface.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/src/qwt3d_function.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/src/qwt3d_surfaceplot.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/src/qwt3d_gridplot.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/src/qwt3d_meshplot.cpp        
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/src/qwt3d_io_gl2ps.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/3rdparty/gl2ps/gl2ps.c
+	)
+
+SET( QWTPLOT3D_HDRS
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_color.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_global.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_types.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_axis.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_coordsys.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_drawable.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_helper.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_label.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_openglhelper.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_colorlegend.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_plot.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_enrichment.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_enrichment_std.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_autoscaler.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_autoptr.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_io.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_io_reader.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_scale.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_portability.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_mapping.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_gridmapping.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_parametricsurface.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_function.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_surfaceplot.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_volumeplot.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_graphplot.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_multiplot.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/3rdparty/gl2ps/gl2ps.h
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_io_gl2ps.h
+)
+
+FILE( GLOB MUPARSER_SRC ${TINKERCELL_SOURCE_DIR}/ExternalCode/muparser/*.cpp )
+
 #-------------------------------------------------------------------------------------------------------------
 #    Create resource file and MOC files used by Qt
 #-------------------------------------------------------------------------------------------------------------
 QT4_ADD_RESOURCES( TINKERCELL_QRC Tinkercell.qrc )
 QT4_WRAP_CPP( TINKERCELL_CORE_MOC ${TINKERCELL_CORE_HDRS} )
+QT4_WRAP_CPP( QWT_MOC ${QWT_HDRS} )
+QT4_WRAP_CPP( QWTPLOT3D_MOC ${QWTPLOT3D_HDRS} )
 
 #-------------------------------------------------------------------------------------------------------------
 #   Definitions for Qt
@@ -90,6 +154,7 @@ ADD_DEFINITIONS(${QT_DEFINITIONS})
 ADD_DEFINITIONS(-DQT_PLUGIN)
 ADD_DEFINITIONS(-DQT_NO_DEBUG)
 ADD_DEFINITIONS(-DQT_SHARED)
+ADD_DEFINITIONS(-DQT_DLL -DQWT3D_DLL -DQWT3D_MAKEDLL)
 
 #-------------------------------------------------------------------------------------------------------------
 #  Create the Core library
@@ -98,6 +163,10 @@ ADD_LIBRARY( TinkerCellCore
   SHARED
   ${TINKERCELL_CORE_MOC}
   ${TINKERCELL_CORE_SRC}
+  ${MUPARSER_SRC}
+  ${CLUSTER_SRC}
+  ${QWT_SRC}
+  ${QWTPLOT3D_SRC}
   ${TINKERCELL_SOURCE_DIR}/API/TC_structs.c
   ${TINKERCELL_QRC}
 )
@@ -106,21 +175,15 @@ ADD_LIBRARY( TinkerCellCore
 IF (USE_RDF)
 	TARGET_LINK_LIBRARIES( TinkerCellCore
 	  TinkerCellCore
-	  muparser  #for parsing math
-	  qwt           #for plotting
-	  qwtplot3d   #for plotting 3D
-	  cluster      #for clustering plot data
 	  raptor2    #for parsing RDF
 	  ${QT_LIBRARIES}
+	  ${OPENGL_LIBRARY}
 	)
 ELSEIF (USE_RDF)
 	TARGET_LINK_LIBRARIES( TinkerCellCore
 	  TinkerCellCore
-	  muparser  #for parsing math
-	  qwt           #for plotting
-	  qwtplot3d   #for plotting 3D
-	  cluster      #for clustering plot data
 	  ${QT_LIBRARIES}
+	  ${OPENGL_LIBRARY}
 	)
 ENDIF (USE_RDF)
 #-------------------------------------------------------------------------------------------------------------

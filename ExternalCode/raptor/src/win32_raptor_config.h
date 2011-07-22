@@ -38,7 +38,7 @@ extern "C" {
 
 #define HAVE_STDLIB_H 1
 
-#if 0
+#if 1
 /* For using expat on win32 */
 #define RAPTOR_XML_EXPAT 1
 #define HAVE_EXPAT_H 1
@@ -159,6 +159,11 @@ extern "C" {
 /* The size of a `unsigned long long', as computed by sizeof. */
 #define SIZEOF_UNSIGNED_LONG_LONG 8
 
+#ifndef MINGW
+	#undef HAVE_GETTIMEOFDAY
+	#undef HAVE_TRUNC
+	#undef HAVE_ROUND
+#endif
 
 #ifdef __cplusplus
 }

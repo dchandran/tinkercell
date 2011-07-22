@@ -1,4 +1,7 @@
+IF( QT4_FOUND AND QT_VERSION_MINOR GREATER 5)
+
 SET(LIBRARY_OUTPUT_PATH ${EXECUTABLE_OUTPUT_PATH})
+OPTION( USE_RDF "Use Raptor2 library for reading RDF" ON)
 
 #-------------------------------------------------------------------------------------------------------------
 #           Code files
@@ -8,10 +11,17 @@ INCLUDE_DIRECTORIES(
 	  BEFORE
       ${TINKERCELL_SOURCE_DIR}/ExternalCode/cluster
       ${TINKERCELL_SOURCE_DIR}/ExternalCode/cluster/src
-      ${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor2/src
-      ${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor2/librdfa
-      ${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor2/util
 )
+
+IF (USE_RDF)
+	ADD_DEFINITIONS(-DNOT_USING_RAPTOR)
+	INCLUDE_DIRECTORIES( 
+		  BEFORE
+		  ${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor2/src
+		  ${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor2/librdfa
+		  ${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor2/util
+	)
+ENDIF(USE_RDF)
 
 CONFIGURE_FILE( 
 	${TINKERCELL_SOURCE_DIR}/Core/coding/CodingWindow.cpp.in
@@ -93,16 +103,26 @@ ADD_LIBRARY( TinkerCellCore
 )
 
 #dependencies
-TARGET_LINK_LIBRARIES( TinkerCellCore
-  TinkerCellCore
-  muparser  #for parsing math
-  qwt           #for plotting
-  qwtplot3d   #for plotting 3D
-  cluster      #for clustering plot data
-  raptor2    #for parsing RDF
-  ${QT_LIBRARIES}
-)
-
+IF (USE_RDF)
+	TARGET_LINK_LIBRARIES( TinkerCellCore
+	  TinkerCellCore
+	  muparser  #for parsing math
+	  qwt           #for plotting
+	  qwtplot3d   #for plotting 3D
+	  cluster      #for clustering plot data
+	  raptor2    #for parsing RDF
+	  ${QT_LIBRARIES}
+	)
+ELSEIF (USE_RDF)
+	TARGET_LINK_LIBRARIES( TinkerCellCore
+	  TinkerCellCore
+	  muparser  #for parsing math
+	  qwt           #for plotting
+	  qwtplot3d   #for plotting 3D
+	  cluster      #for clustering plot data
+	  ${QT_LIBRARIES}
+	)
+ENDIF (USE_RDF)
 #-------------------------------------------------------------------------------------------------------------
 #  For Cmake: copy the library into the main app folder (i.e. bin/../)
 #-------------------------------------------------------------------------------------------------------------
@@ -112,3 +132,4 @@ ELSE( WIN32 )
   INSTALL(TARGETS TinkerCellCore LIBRARY DESTINATION bin/../ )
 ENDIF( WIN32 )
 
+ENDIF( QT4_FOUND AND QT_VERSION_MINOR GREATER 5)

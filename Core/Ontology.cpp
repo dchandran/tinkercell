@@ -1,9 +1,12 @@
 #include "ItemFamily.h"
 #include "Ontology.h"
+
+#ifndef NOT_USING_RAPTOR
 extern "C"
 {
 	#include "raptor.h"
 }
+#endif
 
 namespace Tinkercell
 {
@@ -70,8 +73,8 @@ namespace Tinkercell
 			return names;
 		}
 		
+#ifndef NOT_USING_RAPTOR
 		static QStringList lastReadFamilyNames;
-
 		static void read_node_triple(void* user_data, raptor_statement* triple) 
 		{
 			QString s,p,o;
@@ -395,6 +398,17 @@ namespace Tinkercell
 			}
 			return lastReadFamilyNames;
 		}
+#else
+		QStringList Ontology::readNodes(const QString& rdfFile, const QString& format)
+		{
+			return QStringList();
+		}
+
+		QStringList Ontology::readConnections(const QString& rdfFile, const QString& format)
+		{
+			return QStringList();
+		}
+#endif
 		
 		void Ontology::cleanup()
 		{

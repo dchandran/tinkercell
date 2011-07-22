@@ -159,6 +159,10 @@ extern "C" {
 /* The size of a `unsigned long long', as computed by sizeof. */
 #define SIZEOF_UNSIGNED_LONG_LONG 8
 
+/* Define to 1 if you can safely include both <sys/time.h> and <time.h>. */
+#undef TIME_WITH_SYS_TIME 
+#undef HAVE_SYS_TIME_H
+#undef HAVE_UNISTD_H
 
 #ifdef __cplusplus
 }

@@ -1,3 +1,5 @@
+IF( QT4_FOUND AND QT_VERSION_MINOR GREATER 5)
+
 #------------------------
 #  configure code
 #------------------------
@@ -138,3 +140,4 @@ ELSE(WIN32)
     MESSAGE(STATUS "Source BUILD/BuildAndUploadAll.sh to upload full and lite versions")
 ENDIF(WIN32)
 
+ENDIF( QT4_FOUND AND QT_VERSION_MINOR GREATER 5)

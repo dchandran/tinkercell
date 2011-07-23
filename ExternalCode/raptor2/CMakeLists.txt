@@ -26,11 +26,14 @@ ENDIF(WIN32)
 
 FILE( GLOB RAPTOR_SRC src/*.c src/*.y utils/*.c librdfa/*.c)
 
+ADD_DEFINITIONS(-DHAVE_EXPAT_CONFIG_H)
+FILE( GLOB  EXPAT_SRC_FILES   ${TINKERCELL_SOURCE_DIR}/ExternalCode/expat/lib/*.c)
 #SET_SOURCE_FILES_PROPERTIES(${RAPTOR_SRC}  PROPERTIES LANGUAGE CXX)
 
 ADD_LIBRARY( raptor2
   SHARED
 #  STATIC
+  ${EXPAT_SRC_FILES}
   ${RAPTOR_SRC} 
 )
 
@@ -39,7 +42,6 @@ ADD_LIBRARY( raptor2
 TARGET_LINK_LIBRARIES( raptor2
    raptor2
    libcurl
-   expat
 )
 
 #----------------------------------

@@ -1,22 +1,16 @@
-IF( QT4_FOUND AND QT_VERSION_MINOR GREATER 5)
-
 SET(LIBRARY_OUTPUT_PATH ${EXECUTABLE_OUTPUT_PATH})
 
 #-------------------------------------------------------------------------------------------------------------
-#           Code files
+#        Source files from Core, Qwt, and Qwt3D
 #-------------------------------------------------------------------------------------------------------------
 
 INCLUDE_DIRECTORIES( 
 	  BEFORE
       ${TINKERCELL_SOURCE_DIR}/ExternalCode/cluster
       ${TINKERCELL_SOURCE_DIR}/ExternalCode/cluster/src
-)
-
-INCLUDE_DIRECTORIES( 
-	  BEFORE
-	  ${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor2/src
-	  ${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor2/librdfa
-	  ${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor2/util
+      ${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor2/src
+      ${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor2/librdfa
+      ${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor2/util
 )
 
 CONFIGURE_FILE( 
@@ -73,11 +67,7 @@ FILE(GLOB TINKERCELL_CORE_SRC
 	${TINKERCELL_BINARY_DIR}/Core/*.cpp
 )
 
-FILE( GLOB CLUSTER_SRC ${TINKERCELL_SOURCE_DIR}/ExternalCode/cluster/src/*.c)
-
-FILE( GLOB QWT_SRC ${TINKERCELL_SOURCE_DIR}/ExternalCode/ExternalCode/qwt/*.cpp )
-FILE( GLOB QWT_HDRS ${TINKERCELL_SOURCE_DIR}/ExternalCode/ExternalCode/qwt/*.h )
-
+# Qwt3D and Qwt
 SET( QWTPLOT3D_SRC
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/src/qwt3d_axis.cpp
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/src/qwt3d_color.cpp
@@ -135,17 +125,18 @@ SET( QWTPLOT3D_HDRS
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_multiplot.h
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/3rdparty/gl2ps/gl2ps.h
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_io_gl2ps.h
-)
+	)
 
-FILE( GLOB MUPARSER_SRC ${TINKERCELL_SOURCE_DIR}/ExternalCode/muparser/*.cpp )
+FILE( GLOB QWT_SRC ${TINKERCELL_SOURCE_DIR}/ExternalCode/qwt/*.cpp )
+FILE( GLOB QWT_HDRS ${TINKERCELL_SOURCE_DIR}/ExternalCode/qwt/*.h )
 
 #-------------------------------------------------------------------------------------------------------------
 #    Create resource file and MOC files used by Qt
 #-------------------------------------------------------------------------------------------------------------
 QT4_ADD_RESOURCES( TINKERCELL_QRC Tinkercell.qrc )
 QT4_WRAP_CPP( TINKERCELL_CORE_MOC ${TINKERCELL_CORE_HDRS} )
-QT4_WRAP_CPP( QWT_MOC ${QWT_HDRS} )
 QT4_WRAP_CPP( QWTPLOT3D_MOC ${QWTPLOT3D_HDRS} )
+QT4_WRAP_CPP( QWT_MOC ${QWT_HDRS} )
 
 #-------------------------------------------------------------------------------------------------------------
 #   Definitions for Qt
@@ -154,7 +145,7 @@ ADD_DEFINITIONS(${QT_DEFINITIONS})
 ADD_DEFINITIONS(-DQT_PLUGIN)
 ADD_DEFINITIONS(-DQT_NO_DEBUG)
 ADD_DEFINITIONS(-DQT_SHARED)
-ADD_DEFINITIONS(-DQT_DLL -DQWT3D_DLL -DQWT3D_MAKEDLL)
+#ADD_DEFINITIONS(-DQT_DLL -DQWT_DLL -DQWT_MAKEDLL -DQWT3D_DLL -DQWT3D_MAKEDLL)
 
 #-------------------------------------------------------------------------------------------------------------
 #  Create the Core library
@@ -162,30 +153,25 @@ ADD_DEFINITIONS(-DQT_DLL -DQWT3D_DLL -DQWT3D_MAKEDLL)
 ADD_LIBRARY( TinkerCellCore
   SHARED
   ${TINKERCELL_CORE_MOC}
-  ${TINKERCELL_CORE_SRC}
-  ${MUPARSER_SRC}
-  ${CLUSTER_SRC}
   ${QWT_SRC}
   ${QWTPLOT3D_SRC}
+  ${QWT_MOC}
+  ${QWTPLOT3D_MOC}
+  ${TINKERCELL_CORE_SRC}
   ${TINKERCELL_SOURCE_DIR}/API/TC_structs.c
   ${TINKERCELL_QRC}
 )
 
 #dependencies
-IF (USE_RDF)
-	TARGET_LINK_LIBRARIES( TinkerCellCore
-	  TinkerCellCore
-	  raptor2    #for parsing RDF
-	  ${QT_LIBRARIES}
-	  ${OPENGL_LIBRARY}
-	)
-ELSEIF (USE_RDF)
-	TARGET_LINK_LIBRARIES( TinkerCellCore
-	  TinkerCellCore
-	  ${QT_LIBRARIES}
-	  ${OPENGL_LIBRARY}
-	)
-ENDIF (USE_RDF)
+TARGET_LINK_LIBRARIES( TinkerCellCore
+  TinkerCellCore
+  muparser  #for parsing math
+  cluster      #for clustering plot data
+  raptor2    #for parsing RDF
+  ${QT_LIBRARIES}
+  ${OPENGL_LIBRARY}
+)
+
 #-------------------------------------------------------------------------------------------------------------
 #  For Cmake: copy the library into the main app folder (i.e. bin/../)
 #-------------------------------------------------------------------------------------------------------------
@@ -195,4 +181,3 @@ ELSE( WIN32 )
   INSTALL(TARGETS TinkerCellCore LIBRARY DESTINATION bin/../ )
 ENDIF( WIN32 )
 
-ENDIF( QT4_FOUND AND QT_VERSION_MINOR GREATER 5)

@@ -1,11 +1,3 @@
-#ifdef HAVE_CONFIG_H
-#include <raptor_config.h>
-#endif
-
-#ifdef WIN32
-#include <win32_raptor_config.h>
-#endif
-
 #line 10 "turtle_lexer.c"
 
 #line 12 "turtle_lexer.c"
@@ -2027,7 +2019,6 @@ static yyconst flex_int16_t yy_chk[5604] =
  * fix-flex since otherwise it appears far too late in the generated C
  */
 
-/*
 #ifdef HAVE_CONFIG_H
 #include <raptor_config.h>
 #endif
@@ -2035,7 +2026,6 @@ static yyconst flex_int16_t yy_chk[5604] =
 #ifdef WIN32
 #include <win32_raptor_config.h>
 #endif
-*/
 
 #include <stdio.h>
 #include <string.h>

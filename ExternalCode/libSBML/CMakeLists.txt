@@ -75,17 +75,20 @@ FILE( GLOB SBML_SRC_FILES
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/libSBML/src/compress/OutputCompressor.cpp
 )
 
+ADD_DEFINITIONS(-DHAVE_EXPAT_CONFIG_H)
+FILE( GLOB  EXPAT_SRC_FILES   ${TINKERCELL_SOURCE_DIR}/ExternalCode/expat/lib/*.c)
+
 #------ make the library --------------
 
 ADD_LIBRARY( sbml
   SHARED
   #STATIC
   ${SBML_SRC_FILES}
+  ${EXPAT_SRC_FILES}
 )
 
 TARGET_LINK_LIBRARIES( sbml
   sbml
-  expat
 )
 
 #------ install the library in the main TinkerCell folder --------------

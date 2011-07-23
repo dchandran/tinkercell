@@ -65,6 +65,8 @@ MdH 2003.07.17.
 /* Utility routines                                                           */
 /*============================================================================*/
 
+#ifndef WIN32
+
 static int load(const char filename[])
 { char* error;
   struct stat filestat;
@@ -730,3 +732,4 @@ int commandmain(int argc, char* argv[])
   Free();
   return 0;
 }
+#endif

@@ -279,7 +279,7 @@
 /* #undef RAPTOR_XML_1_1 */
 
 /* Use expat XML parser */
-#define RAPTOR_XML_EXPAT 1
+//#define RAPTOR_XML_EXPAT 1
 
 /* Use libxml XML parser */
 #undef RAPTOR_XML_LIBXML

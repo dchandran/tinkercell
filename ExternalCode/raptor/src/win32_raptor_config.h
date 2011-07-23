@@ -160,10 +160,14 @@ extern "C" {
 #define SIZEOF_UNSIGNED_LONG_LONG 8
 
 #ifndef MINGW
+	#undef TIME_WITH_SYS_TIME 
+	#undef HAVE_SYS_TIME_H
+	#undef HAVE_UNISTD_H
 	#undef HAVE_GETTIMEOFDAY
 	#undef HAVE_TRUNC
 	#undef HAVE_ROUND
 #endif
+
 
 #ifdef __cplusplus
 }

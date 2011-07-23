@@ -1880,15 +1880,6 @@ static yyconst flex_int16_t yy_chk[4969] =
  * fix-flex since otherwise it appears far too late in the generated C
  */
 
-#ifdef HAVE_CONFIG_H
-#include <raptor_config.h>
-#endif
-
-#ifdef WIN32
-#include <win32_raptor_config.h>
-#endif
-
-
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>

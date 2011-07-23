@@ -105,9 +105,10 @@
 # define finite _finite       // they just have a different name for this guy
 # define isnan _isnan         // they just have a different name for this guy
 #ifndef __CYGWIN__
-   # define abs64 _abs64
-   # define min _cpp_min         // they just have a different name for this guy
-   # define max _cpp_max         // they just have a different name for this guy
+      #define NOMINMAX
+   //# define abs64 _abs64
+   //# define min _cpp_min         // they just have a different name for this guy
+   //# define max _cpp_max         // they just have a different name for this guy
 #else //not CYGWIN
    #define abs64 abs
 #endif  //CYGWIN

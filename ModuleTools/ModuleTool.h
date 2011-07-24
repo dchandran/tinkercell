@@ -97,8 +97,10 @@ namespace Tinkercell
 		ModuleTool();
 		bool setMainWindow(MainWindow * main);
 		
-		static QStringList numericalTablesToBeReplaced, numericalTablesToBeRemoved;
-		static QStringList textTablesToBeReplaced, textTablesToBeRemoved;
+		static QStringList numericalTablesToBeReplaced;
+		static QStringList numericalTablesToBeRemoved;
+		static QStringList textTablesToBeReplaced;
+		static QStringList textTablesToBeRemoved;
 		
 		static QStringList listOfModels(ItemFamily * family);
 		void substituteModel(ItemHandle * , const QString& , NetworkWindow * window=0);

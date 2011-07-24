@@ -371,9 +371,9 @@ std::pair<CFunction *, CFunction *> CFunction::splitFunction(const CEvaluationNo
     const std::string & name1,
     const std::string & name2) const
 {
-  if (!this->mpRoot) return std::pair<CFunction *, CFunction *>(NULL, NULL);
+  if (!this->mpRoot) return std::pair<CFunction *, CFunction *>((CFunction*)NULL, (CFunction*)NULL);
 
-  if (this->mReversible != TriTrue) return std::pair<CFunction *, CFunction *>(NULL, NULL);
+  if (this->mReversible != TriTrue) return std::pair<CFunction *, CFunction *>((CFunction*)NULL, (CFunction*)NULL);
 
   //create 2 new functions
   CFunction* newFunction1 = new CFunction();
@@ -390,7 +390,7 @@ std::pair<CFunction *, CFunction *> CFunction::splitFunction(const CEvaluationNo
   // find the split point
   const CEvaluationNode* splitnode = this->mpRoot->findTopMinus(callParameters);
 
-  if (!splitnode) return std::pair<CFunction *, CFunction *>(NULL, NULL);
+  if (!splitnode) return std::pair<CFunction *, CFunction *>((CFunction*)NULL, (CFunction*)NULL);
 
   //create the 2 split trees
   CEvaluationNode* tmpRoots1 = this->mpRoot->splitBranch(splitnode, true); //left side

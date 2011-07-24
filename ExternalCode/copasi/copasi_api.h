@@ -449,13 +449,13 @@ TCAPIEXPORT tc_matrix cGetL0Matrix(copasi_model model);
 */
 TCAPIEXPORT tc_matrix cOptimize(copasi_model model, const char * objective, tc_matrix input);
 
-TCAPIEXPORT tc_matrix cSetOptimizerIterations(int);
+TCAPIEXPORT void cSetOptimizerIterations(int);
 
-TCAPIEXPORT tc_matrix cSetOptimizerSize(int);
+TCAPIEXPORT void cSetOptimizerSize(int);
 
-TCAPIEXPORT tc_matrix cSetOptimizerMutationRate(double);
+TCAPIEXPORT void cSetOptimizerMutationRate(double);
 
-TCAPIEXPORT tc_matrix cSetOptimizerCrossoverRate(double);
+TCAPIEXPORT void cSetOptimizerCrossoverRate(double);
 
 END_C_DECLS
 #endif

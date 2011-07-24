@@ -2686,22 +2686,22 @@ tc_matrix cOptimize(copasi_model model, const char * objective, tc_matrix params
 	return result;
 }
 
-tc_matrix cSetOptimizerSize(int n)
+void cSetOptimizerSize(int n)
 {
 	_OPTIMIZATION_POPULATION_SIZE = n;
 }
 
-tc_matrix cSetOptimizerIterations(int n)
+void cSetOptimizerIterations(int n)
 {
 	_OPTIMIZATION_MAX_ITER = n;
 }
 
-tc_matrix cSetOptimizerMutationRate(double q)
+void cSetOptimizerMutationRate(double q)
 {
 	_OPTIMIZATION_MUTATION_RATE = q;
 }
 
-tc_matrix cSetOptimizerCrossoverRate(double q)
+void cSetOptimizerCrossoverRate(double q)
 {
 	_OPTIMIZATION_CROSSOVER_RATE = q;
 }

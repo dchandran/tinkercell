@@ -42,6 +42,7 @@
 //#define max _cpp_max
 #endif // WIN32
 
+#include <iterator>
 #include <limits.h>
 
 #include "mathematics.h" // pow(), floor()

@@ -85,6 +85,7 @@
 # define abs64 abs
 #else
 #ifdef WIN32
+# define abs64 abs
 # define C_INT64 __int64
 # ifndef LLONG_MAX
 #     define LLONG_MAX _I64_MAX

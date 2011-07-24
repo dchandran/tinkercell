@@ -905,7 +905,7 @@ bool CNormalLogical::generateCanonicalDNF(ItemSetOfSets& tmpAndSets) const
             {
               // create a new row for the truth table
               // the bits in i can be mapped to the truth values
-              std::bitset<16> bitSet(i);
+              std::bitset<16> bitSet((int)i);
               unsigned int j, jMax = itemVector.size();
 
               for (j = 0; j < jMax; ++j)

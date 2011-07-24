@@ -26,6 +26,7 @@ ENDIF(WIN32)
 INCLUDE_DIRECTORIES( 
 	BEFORE
 	${TINKERCELL_SOURCE_DIR}/API
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/expat/
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/expat/lib
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/libSBML/include
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/libSBML/src
@@ -60,6 +61,7 @@ IF (WIN32)
 	ADD_DEFINITIONS(-D_WINDOWS)
 	ADD_DEFINITIONS(-D_USRDLL)
 	ADD_DEFINITIONS(-D_EXPORTS)
+	ADD_DEFINITIONS(-DLIBSBML_EXPORTS)
 	#ADD_DEFINITIONS(-DIN_LIBXML)
 	IF (MINGW)
 		ADD_DEFINITIONS(-DCYGWIN)
@@ -114,6 +116,9 @@ FILE( GLOB copasi_SRC_FILES
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/mtrand.c
 )
 
+ADD_DEFINITIONS(-DHAVE_EXPAT_CONFIG_H)
+FILE( GLOB  EXPAT_SRC_FILES   ${TINKERCELL_SOURCE_DIR}/ExternalCode/expat/lib/*.c)
+
 #--------------------------
 #  MAKE libcopasi
 #--------------------------
@@ -122,13 +127,13 @@ ADD_LIBRARY( copasi
 #  STATIC
   SHARED
   ${copasi_SRC_FILES}
+  ${EXPAT_SRC_FILES}
 )
 
 TARGET_LINK_LIBRARIES( copasi
   copasi
   sbml
   raptor
-  expat
   lapack
   blas
   f2c

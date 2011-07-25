@@ -23,7 +23,8 @@ IF(WIN32)
 		ADD_DEFINITIONS(-Dstrtok_r=strtok_s)
 		ADD_DEFINITIONS(-Dgettimeofday=timeGetTime)
 	ENDIF(MINGW)
-
+ELSE(WIN32)
+	ADD_DEFINITIONS(-DXMLCALL)
 ENDIF(WIN32)
 
 FILE( GLOB RAPTOR_SRC src/*.c src/*.y librdfa/*.c)# utils/*.c)

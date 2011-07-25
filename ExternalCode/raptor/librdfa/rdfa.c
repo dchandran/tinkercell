@@ -372,7 +372,7 @@ raptor_nspace_compare(const void *a, const void *b)
     return strcmp((const char*)ns_b->prefix, (const char*)ns_a->prefix);
 }
 #endif
-
+#define XMLCALL
 /**
  * Handles the start_element call
  */

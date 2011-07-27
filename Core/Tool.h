@@ -25,15 +25,8 @@ A Tool is a Qt Widget with a name and pointer to the Tinkercell MainWindow.
 
 #include "MainWindow.h"
 
-#ifdef Q_WS_WIN
-#define TINKERCELLEXPORT __declspec(dllexport)
-#else
-#define TINKERCELLEXPORT
-#endif
-
 namespace Tinkercell
 {
-
 	class MainWindow;
 	class GraphicsScene;
 	class NetworkHandle;

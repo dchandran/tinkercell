@@ -14,13 +14,21 @@
 # ifndef TCAPIEXPORT
 #  if defined(_WIN32) || defined(__WIN32__) || defined(__CYGWIN__)
 #    if defined(STATIC_LINKED)
-#      define TCAPIEXPORT
+#          define TCAPIEXPORT
 #    else
-#            if defined(USE_STDCALL)
-#                 define TCAPIEXPORT __stdcall __declspec(dllexport)
-#            else
-#                 define TCAPIEXPORT __declspec(dllexport)
-#             endif
+#          ifndef TC_IMPORTS
+#              if defined(USE_STDCALL)
+#                   define TCAPIEXPORT __stdcall __declspec(dllexport)
+#              else
+#                   define TCAPIEXPORT __declspec(dllexport)
+#              endif
+#          else
+#              if defined(USE_STDCALL)
+#                   define TCAPIEXPORT __stdcall __declspec(dllimport)
+#              else
+#                   define TCAPIEXPORT __declspec(dllimport)
+#              endif
+#          endif
 #     endif
 #  else
 #    if defined(__GNUC__) && defined(GCC_HASCLASSVISIBILITY)

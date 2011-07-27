@@ -3,7 +3,7 @@ HOW TO BUILD TINKERCELL PROJECT FROM SOURCE CODE
 ===============================================================
 
              Table of Contents
-            --------------------
+     -------------------------------------
      Required Libraries and Packages
      Building TinkerCell
 	 Win32 Problems and Solutions
@@ -33,7 +33,7 @@ Copy them from /usr/lib/i386-linux-gnu or /usr/lib/x86_64-linux-gnu into /usr/li
 
 RECOMMENDED C/C++ COMPILERS:
 XCode on Mac
-MinGW in Windows
+MinGW in Windows (MS Visual Studio also works, but there might be some glicthes)
 GCC in Linux
 
 
@@ -142,14 +142,14 @@ Solution: Look for a field in the CMake GUI called QT_QMAKE_EXECUTABLE.
 Set the compiler manually by locating the qmake.exe.
 Click "configure" again.
 
-Problem: compile issues due to octave header files
+Problem: Compile issues due to octave header files
 Solution: open the config.h find in the Octave include folder and comment 
 the #define HAVE_HDF5 and HAVE_REGEX lines (unless you have these packages 
 installed, which is not included with MinGW).
 
-
-Problem: Visual Studio is giving link errors
-Solution: ... Let me know if you find a solution!
+Problem: Visual Studio is giving link errors when linking against TinkerCellCore
+Solution: Try adding all the MOC files from TinkerCellCore as source files into the project that you are building. 
+MOC files will have a moc_ before their names and .cxx suffix. They will be located in the Build folder.
 
 
 =====================================

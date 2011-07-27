@@ -32,9 +32,10 @@ namespace Tinkercell
 {
 
 	/***********************************
-		Plot Tool
+		     Plot Tool
 	************************************/
-		
+
+	bool PlotTool::TAB_VIEW(false);
 	QString PlotTool::ORGANIZER_DELIMITER = QString("::");
 
 	PlotTool::PlotTool() : Tool(tr("Default Plot Tool"),tr("Plot")), actionGroup(this)
@@ -53,7 +54,11 @@ namespace Tinkercell
 		layout->setContentsMargins(0,0,0,0);
 
 		multiplePlotsArea = new QMdiArea(this);
-		multiplePlotsArea->setViewMode(QMdiArea::SubWindowView);
+		
+		if (PlotTool::TAB_VIEW)
+			multiplePlotsArea->setViewMode(QMdiArea::TabbedView);
+		else
+			multiplePlotsArea->setViewMode(QMdiArea::SubWindowView);
 		connect(multiplePlotsArea,SIGNAL(subWindowActivated(QMdiSubWindow*)),this,SLOT(subWindowActivated(QMdiSubWindow*)));
 
 		window = new QMainWindow;

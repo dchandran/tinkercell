@@ -21,12 +21,6 @@ data.
 #include "NetworkHandle.h"
 #include "ItemHandle.h"
 
-#ifdef Q_WS_WIN
-#define TINKERCELLEXPORT __declspec(dllexport)
-#else
-#define TINKERCELLEXPORT
-#endif
-
 namespace Tinkercell
 {
 	/*! \brief writes to an xml file handle names and data table information from a list of item handles

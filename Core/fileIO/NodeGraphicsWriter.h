@@ -17,12 +17,6 @@ This file defines an xml writer that writes a NodeGraphicsItem file
 #include <QXmlStreamWriter>
 #include "NodeGraphicsItem.h"
 
-#ifdef Q_WS_WIN
-#define TINKERCELLEXPORT __declspec(dllexport)
-#else
-#define TINKERCELLEXPORT
-#endif
-
 namespace Tinkercell
 {
 

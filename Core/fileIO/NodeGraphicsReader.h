@@ -20,12 +20,6 @@ This file defines an xml reader that reads a NodeGraphicsItem file
 #include <QXmlStreamReader>
 #include "NodeGraphicsItem.h"
 
-#ifdef Q_WS_WIN
-#define TINKERCELLEXPORT __declspec(dllexport)
-#else
-#define TINKERCELLEXPORT
-#endif
-
 namespace Tinkercell
 {
 

@@ -19,12 +19,6 @@ This is the header file for the xml writer that writes a connection item.
 #include "NodeGraphicsItem.h"
 #include "ConnectionGraphicsItem.h"
 
-#ifdef Q_WS_WIN
-#define TINKERCELLEXPORT __declspec(dllexport)
-#else
-#define TINKERCELLEXPORT
-#endif
-
 namespace Tinkercell
 {
 

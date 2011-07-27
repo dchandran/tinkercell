@@ -1294,7 +1294,9 @@ namespace Tinkercell
 			if (targetDataTable2[i])
 				(*(targetDataTable2[i])) = oldDataTable2[i];
 	}
-	
+
+#endif
+
 	/*! \brief a numerical data table
 	* \ingroup core
 	*/
@@ -1314,8 +1316,6 @@ namespace Tinkercell
 	* \ingroup undo
 	*/
 	typedef ChangeDataCommand<qreal> ChangeNumericalDataCommand;
-
-#endif
 
 }
 #endif

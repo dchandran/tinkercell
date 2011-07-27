@@ -23,11 +23,7 @@
 #                   define TCAPIEXPORT __declspec(dllexport)
 #              endif
 #          else
-#              if defined(USE_STDCALL)
-#                   define TCAPIEXPORT __stdcall __declspec(dllimport)
-#              else
-#                   define TCAPIEXPORT __declspec(dllimport)
-#              endif
+#              define TCAPIEXPORT
 #          endif
 #     endif
 #  else

@@ -5,7 +5,7 @@
 
  This tool displays a plot based on the DataTable contained.
 
-****************************************************************************/
+ ****************************************************************************/
 
 #ifndef TINKERCELL_PLOTTOOL_H
 #define TINKERCELL_PLOTTOOL_H
@@ -49,7 +49,6 @@
 
 namespace Tinkercell
 {
-
 	class Plot2DWidget;
 	class PlotWidget;
 	class PlotTool;
@@ -87,7 +86,7 @@ namespace Tinkercell
 			void plotMultiplotC(int x, int y);
 			void plotHoldC(int z);
 			tc_matrix plotClusteringC(int n);
-			
+
 			friend class PlotTool;
 	};
 
@@ -139,19 +138,19 @@ namespace Tinkercell
 		\param QString title
 		*/
 		void plotErrorbars(DataTable<qreal>& m, int x, const QString& title);
-		
+
 		/*!	\brief enable multiple plots (grid)
 		\param int number of rows of plots
 		\param int number of columns of plots
 		*/
 		void plotMultiplot(int rows, int columns);
-		
+
 		/*!	\brief make a scatterplot
 		\param DataTable<qreal> data
 		\param QString title
 		*/
 		void plotScatterplot(DataTable<qreal>& m, const QString& title);
-		
+
 		/*!\brief send a script to gnuplot
 		\param QString gnuplot script
 		*/

@@ -406,6 +406,7 @@ namespace Tinkercell
 		QList< DataTable<T2> > oldDataTable2;
 	};
 	
+#ifndef TC_IMPORTS
 	
 	template <typename T> QString DataTable<T>::description() const { return desc; }
 		
@@ -1313,7 +1314,8 @@ namespace Tinkercell
 	* \ingroup undo
 	*/
 	typedef ChangeDataCommand<qreal> ChangeNumericalDataCommand;
-}
 
 #endif
 
+}
+#endif

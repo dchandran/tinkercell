@@ -38,12 +38,6 @@ of a GraphicsScene. The class inherits from QGraphicsView.
 #include "SymbolsTable.h"
 #include "CloneItems.h"
 
-#ifdef Q_WS_WIN
-#define TINKERCELLEXPORT __declspec(dllexport)
-#else
-#define TINKERCELLEXPORT
-#endif
-
 namespace Tinkercell
 {
 	class SetGraphicsViewVisibilityCommand;

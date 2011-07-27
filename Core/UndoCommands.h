@@ -38,12 +38,6 @@ This file contains a collection of commands that perform simple operations that 
 #include "NodeGraphicsItem.h"
 #include "ConnectionGraphicsItem.h"
 
-#ifdef Q_WS_WIN
-#define TINKERCELLEXPORT __declspec(dllexport)
-#else
-#define TINKERCELLEXPORT
-#endif
-
 namespace Tinkercell
 {
 	class NetworkHandle;

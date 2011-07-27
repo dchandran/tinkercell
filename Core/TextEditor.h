@@ -43,12 +43,6 @@ text-based representation of a network.
 #include "SymbolsTable.h"
 #include "Tool.h"
 
-#ifdef Q_WS_WIN
-#define TINKERCELLEXPORT __declspec(dllexport)
-#else
-#define TINKERCELLEXPORT
-#endif
-
 namespace Tinkercell
 {
 	class ItemHandle;

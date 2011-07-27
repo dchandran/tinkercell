@@ -4,10 +4,16 @@
 #include <QString>
 #include <QStringList>
 
+#ifndef TINKERCELLEXPORT
 #ifdef Q_WS_WIN
-#define TINKERCELLEXPORT __declspec(dllexport)
+#   ifndef TC_IMPORTS
+#       define TINKERCELLEXPORT __declspec(dllexport)
+#   else
+#       define TINKERCELLEXPORT __declspec(dllimport)
+#   endif
 #else
-#define TINKERCELLEXPORT
+#    define TINKERCELLEXPORT
+#endif
 #endif
 
 namespace Tinkercell

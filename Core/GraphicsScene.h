@@ -34,12 +34,6 @@ a need to directly  interact with the GraphicsScene
 #include <QPrinter>
 #include "CloneItems.h"
 
-#ifdef Q_WS_WIN
-#define TINKERCELLEXPORT __declspec(dllexport)
-#else
-#define TINKERCELLEXPORT
-#endif
-
 namespace Tinkercell
 {
 

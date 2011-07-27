@@ -30,12 +30,6 @@ node graphics item and is used to draw the arrow heads at the end of the connect
 #include <QGraphicsScene>
 #include "NodeGraphicsItem.h"
 
-#ifdef Q_WS_WIN
-#define TINKERCELLEXPORT __declspec(dllexport)
-#else
-#define TINKERCELLEXPORT
-#endif
-
 namespace Tinkercell
 {
 	class ItemHandle;

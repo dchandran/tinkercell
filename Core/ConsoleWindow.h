@@ -27,12 +27,6 @@ scripting interface.
 #include "Tool.h"
 #include "InterpreterThread.h"
 
-#ifdef Q_WS_WIN
-#define TINKERCELLEXPORT __declspec(dllexport)
-#else
-#define TINKERCELLEXPORT
-#endif
-
 namespace Tinkercell
 {
 	class MainWindow;

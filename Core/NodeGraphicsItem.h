@@ -32,14 +32,7 @@ to change color temporarily and then revert back to the default.
 #include <QTransform>
 #include <QUndoCommand>
 #include <QTextCursor>
-
 #include "ControlPoint.h"
-
-#ifdef Q_WS_WIN
-#define TINKERCELLEXPORT __declspec(dllexport)
-#else
-#define TINKERCELLEXPORT
-#endif
 
 namespace Tinkercell
 {

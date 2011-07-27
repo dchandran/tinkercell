@@ -14,12 +14,14 @@ ENDIF( WIN32 AND MINGW)
 #--------------------------------------------------------------------------
 #  Build type
 #--------------------------------------------------------------------------
+
 OPTION( USE_DEBUG_MODE "Release vs Debug mode" OFF)
 IF (USE_DEBUG_MODE)
 	SET(CMAKE_BUILD_TYPE "Release" CACHE STRING "Build type")
 ELSE(USE_DEBUG_MODE)
 	SET(CMAKE_BUILD_TYPE "Debug" CACHE STRING "Build type")
 ENDIF(USE_DEBUG_MODE)
+ADD_DEFINITIONS(-DTC_IMPORTS)
 
 #--------------------------------------------------------------------------
 #  Special compile flags for Qt

@@ -69,9 +69,9 @@ IF ( WIN32 )
 		COMMAND move /Y ..\\bin\\python\\libtcpy.dll ..\\bin\\python\\_tinkercell.pyd
 	)
  ELSE (MINGW)
-	ADD_CUSTOM_COMMAND ( 
+	ADD_CUSTOM_COMMAND (
 		TARGET tcpy POST_BUILD
-		COMMAND move /Y ..\\bin\\python\\tcpy.dll ..\\bin\\python\\_tinkercell.pyd
+		COMMAND move /Y \"${TINKERCELL_BINARY_DIR}\"\\bin\\python\\Release\\tcpy.dll \"${TINKERCELL_BINARY_DIR}\"\\bin\\python\\Release\\_tinkercell.pyd
 	)
  ENDIF (MINGW)
  FILE(GLOB PYTHON_LOADER ${TINKERCELL_BINARY_DIR}/bin/python/_tinkercell.pyd)

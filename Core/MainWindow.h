@@ -45,16 +45,6 @@ One of the main roles of MainWindow is to serve as a signal/slot hub for Tools.
 #include "DataTable.h"
 #include "ConvertValue.h"
 
-#ifdef Q_WS_WIN
-#   ifndef TC_IMPORTS
-#       define TINKERCELLEXPORT __declspec(dllexport)
-#   else
-#       define TINKERCELLEXPORT __declspec(dllimport)
-#   endif
-#else
-#    define TINKERCELLEXPORT
-#endif
-
 namespace Tinkercell
 {
 	class GlobalSettings;

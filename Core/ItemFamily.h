@@ -22,15 +22,20 @@ Each item in Tinkercell has an associated family.
 #include <QUndoCommand>
 #include <QGraphicsItem>
 
+#ifndef TINKERCELLEXPORT
 #ifdef Q_WS_WIN
-#define TINKERCELLEXPORT __declspec(dllexport)
+#   ifndef TC_IMPORTS
+#       define TINKERCELLEXPORT __declspec(dllexport)
+#   else
+#       define TINKERCELLEXPORT __declspec(dllimport)
+#   endif
 #else
-#define TINKERCELLEXPORT
+#    define TINKERCELLEXPORT
+#endif
 #endif
 
 namespace Tinkercell
 {
-
 	class Tool;
 	class TextGraphicsItem;
 	class ItemHandle;

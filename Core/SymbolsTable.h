@@ -20,12 +20,6 @@ connection names and data columns and rows, for each scene
 
 #include "ItemHandle.h"
 
-#ifdef Q_WS_WIN
-#define TINKERCELLEXPORT __declspec(dllexport)
-#else
-#define TINKERCELLEXPORT
-#endif
-
 namespace Tinkercell
 {
 	class Tool;

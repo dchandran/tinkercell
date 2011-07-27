@@ -32,12 +32,6 @@ This class provides functions for inserting items, removing items, and changing 
 #include "SymbolsTable.h"
 #include "NetworkWindow.h"
 
-#ifdef Q_WS_WIN
-#define TINKERCELLEXPORT __declspec(dllexport)
-#else
-#define TINKERCELLEXPORT
-#endif
-
 namespace Tinkercell
 {
 	class ItemHandle;

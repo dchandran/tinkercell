@@ -29,6 +29,9 @@ namespace Tinkercell
 	class TINKERCELLCOREEXPORT NodeGraphicsReader : public QXmlStreamReader
 	{
 	public: 
+		NodeGraphicsReader();
+		~NodeGraphicsReader();
+
 		/*! \brief Reads an NodeGraphicsItem from an XML file using the IO device provided 
 		* \param NodeGraphicsItem pointer to write as XML
 		* \param QIODevice to use

@@ -50,7 +50,9 @@ namespace Tinkercell
 		/*! \brief constructor with plot tool as parent*/
 		PlotWidget(PlotTool * parent = 0);
 		/*! \brief constructor with plot tool as parent*/
-		PlotWidget(const DataTable<qreal>&, PlotTool * parent = 0);
+		PlotWidget(const DataTable<qreal>&, PlotTool * parent = 0);			
+		/*! \brief destructor*/
+		virtual ~PlotWidget();
 		/*! \brief get the data inside this plot*/
 		virtual DataTable<qreal>* data();
 		/*! \brief indicates whether or not this plot widget is capable of plotting one graph on top of another*/

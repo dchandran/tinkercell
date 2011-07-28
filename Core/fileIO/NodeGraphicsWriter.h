@@ -8,8 +8,8 @@ This file defines an xml writer that writes a NodeGraphicsItem file
 
 ****************************************************************************/
 
-#ifndef ATHENA_PARTGRAPHICSITEMWRITER_H
-#define ATHENA_PARTGRAPHICSITEMWRITER_H
+#ifndef TINKERCELL_PARTGRAPHICSITEMWRITER_H
+#define TINKERCELL_PARTGRAPHICSITEMWRITER_H
 
 #include <QIODevice>
 #include <QFile>
@@ -28,6 +28,7 @@ namespace Tinkercell
 	public: 
 		/*! \brief default constructor*/
 		NodeGraphicsWriter();
+		~NodeGraphicsWriter();
 		/*! \brief Writes an Node graphics item XML file with the document headers
 		* \param NodeImage pointer to write as XML
 		* \param QIODevice to use

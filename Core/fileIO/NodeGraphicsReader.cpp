@@ -658,4 +658,11 @@ namespace Tinkercell
 
 	}
 
+	NodeGraphicsReader::NodeGraphicsReader(): QXmlStreamReader()
+	{
+	}
+
+	NodeGraphicsReader::~NodeGraphicsReader()
+	{}
+
 }

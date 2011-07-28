@@ -51,8 +51,18 @@ namespace Tinkercell
 		QHash<QString,int> colHash, rowHash;
 		/*! \brief a description of this table (optional)*/
 		QString desc;
+
 	public:
 	
+		/*! \brief destructor*/		
+		virtual ~DataTable<T>();
+
+		/*! \brief constructor*/		
+		DataTable<T>();
+
+		/*! \brief constructor*/		
+		DataTable<T>(int rows,int columns);
+		
 		/*! \brief get description of this table*/		
 		virtual QString description() const;
 		
@@ -407,6 +417,25 @@ namespace Tinkercell
 	};
 	
 #if defined(TC_EXPORTS) || defined(TinkerCellCore_EXPORTS)
+
+	/*! \brief destructor*/
+	template <typename T> 
+	DataTable<T>::~DataTable<T>()
+	{
+	}
+
+	/*! \brief constructor*/
+	template <typename T> 
+	DataTable<T>::DataTable<T>()
+	{
+	}
+
+	/*! \brief constructor*/
+	template <typename T> 
+	DataTable<T>::DataTable<T>(int r,int c)
+	{
+		resize(r,c);
+	}
 	
 	template <typename T> QString DataTable<T>::description() const { return desc; }
 		

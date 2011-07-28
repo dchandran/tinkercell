@@ -157,5 +157,9 @@ namespace Tinkercell
 	void PlotWidget::keyPressEvent ( QKeyEvent * )
 	{
 	}
+
+	PlotWidget::~PlotWidget()
+	{
+	}
 }
 

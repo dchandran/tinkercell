@@ -42,6 +42,18 @@ the stoichiometry and rates tables.
 #include "EquationGraph.h"
 #include "SpinBoxDelegate.h"
 
+#ifndef TINKERCELLEXPORT
+#ifdef Q_WS_WIN
+#   if defined(TC_EXPORTS) || defined(TinkerCell_EXPORTS)
+#       define TINKERCELLEXPORT __declspec(dllexport)
+#   else
+#       define TINKERCELLEXPORT __declspec(dllimport)
+#   endif
+#else
+#    define TINKERCELLEXPORT
+#endif
+#endif
+
 namespace Tinkercell
 {
 	/*! \brief This class provides the C API for the StoichiometryTool class

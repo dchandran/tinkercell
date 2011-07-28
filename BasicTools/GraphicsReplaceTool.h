@@ -11,7 +11,6 @@ the context menu (mouse right-click).
 
 ****************************************************************************/
 
-
 #ifndef TINKERCELL_GRAPHICSREPLACEWINDOWTOOL_H
 #define TINKERCELL_GRAPHICSREPLACEWINDOWTOOL_H
 
@@ -25,6 +24,18 @@ the context menu (mouse right-click).
 #include "ItemHandle.h"
 #include "Tool.h"
 #include "GraphicsScene.h"
+
+#ifndef TINKERCELLEXPORT
+#ifdef Q_WS_WIN
+#   if defined(TC_EXPORTS) || defined(TinkerCell_EXPORTS)
+#       define TINKERCELLEXPORT __declspec(dllexport)
+#   else
+#       define TINKERCELLEXPORT __declspec(dllimport)
+#   endif
+#else
+#    define TINKERCELLEXPORT
+#endif
+#endif
 
 namespace Tinkercell
 {

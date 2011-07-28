@@ -25,7 +25,7 @@ and QGraphicsItem.
 
 #ifndef TINKERCELLCOREEXPORT
 #ifdef Q_WS_WIN
-#   ifndef TC_IMPORTS
+#   if defined(TC_EXPORTS) || defined(TinkerCellCore_EXPORTS)
 #       define TINKERCELLCOREEXPORT __declspec(dllexport)
 #   else
 #       define TINKERCELLCOREEXPORT __declspec(dllimport)

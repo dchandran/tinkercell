@@ -1,4 +1,5 @@
 IF( QT4_FOUND AND QT_VERSION_MINOR GREATER 5)
+ADD_DEFINITIONS(-DTINKERCELLEXPORT=)
 
 #------------------------
 #  configure code

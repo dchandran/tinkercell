@@ -9,12 +9,6 @@
 
 ****************************************************************************/
 
-#ifdef Q_WS_WIN
-#       define TINKERCELLEXPORT __declspec(dllexport)
-#else
-#    define TINKERCELLEXPORT
-#endif
-
 #include "GlobalSettings.h"
 #include "BasicInformationTool.h"
 #include "StoichiometryTool.h"

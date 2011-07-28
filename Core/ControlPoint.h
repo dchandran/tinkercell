@@ -33,7 +33,7 @@ to draw movable points.
 
 #ifndef TINKERCELLEXPORT
 #ifdef Q_WS_WIN
-#   ifndef TC_IMPORTS
+#   if !defined(TC_IMPORTS) || defined(TinkerCellCore_EXPORTS)
 #       define TINKERCELLEXPORT __declspec(dllexport)
 #   else
 #       define TINKERCELLEXPORT __declspec(dllimport)

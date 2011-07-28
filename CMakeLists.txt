@@ -21,7 +21,6 @@ IF (USE_DEBUG_MODE)
 ELSE(USE_DEBUG_MODE)
 	SET(CMAKE_BUILD_TYPE "Debug" CACHE STRING "Build type")
 ENDIF(USE_DEBUG_MODE)
-ADD_DEFINITIONS(-DTC_IMPORTS)
 
 #--------------------------------------------------------------------------
 #  Special compile flags for Qt

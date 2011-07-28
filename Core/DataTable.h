@@ -55,13 +55,13 @@ namespace Tinkercell
 	public:
 	
 		/*! \brief destructor*/		
-		virtual ~DataTable<T>();
+		virtual ~DataTable();
 
 		/*! \brief constructor*/		
-		DataTable<T>();
+		DataTable();
 
 		/*! \brief constructor*/		
-		DataTable<T>(int rows,int columns);
+		DataTable(int rows,int columns);
 		
 		/*! \brief get description of this table*/		
 		virtual QString description() const;
@@ -420,19 +420,19 @@ namespace Tinkercell
 
 	/*! \brief destructor*/
 	template <typename T> 
-	DataTable<T>::~DataTable<T>()
+	DataTable<T>::~DataTable()
 	{
 	}
 
 	/*! \brief constructor*/
 	template <typename T> 
-	DataTable<T>::DataTable<T>()
+	DataTable<T>::DataTable()
 	{
 	}
 
 	/*! \brief constructor*/
 	template <typename T> 
-	DataTable<T>::DataTable<T>(int r,int c)
+	DataTable<T>::DataTable(int r,int c)
 	{
 		resize(r,c);
 	}

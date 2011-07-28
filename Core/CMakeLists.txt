@@ -1,4 +1,5 @@
 SET(LIBRARY_OUTPUT_PATH ${EXECUTABLE_OUTPUT_PATH})
+ADD_DEFINITIONS(-DTC_EXPORTS)
 
 #-------------------------------------------------------------------------------------------------------------
 #        Source files from Core, Qwt, and Qwt3D

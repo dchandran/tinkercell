@@ -6,7 +6,7 @@
 
 #ifndef TINKERCELLEXPORT
 #ifdef Q_WS_WIN
-#   if !defined(TC_IMPORTS) || defined(TinkerCellCore_EXPORTS)
+#   if defined(TC_EXPORTS) || defined(TinkerCellCore_EXPORTS)
 #       define TINKERCELLEXPORT __declspec(dllexport)
 #   else
 #       define TINKERCELLEXPORT __declspec(dllimport)

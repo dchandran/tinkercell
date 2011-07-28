@@ -16,7 +16,7 @@
 #    if defined(STATIC_LINKED)
 #          define TCAPIEXPORT
 #    else
-#          ifndef TC_IMPORTS
+#   if defined(TC_EXPORTS) || defined(tinkercellapi_EXPORTS)
 #              if defined(USE_STDCALL)
 #                   define TCAPIEXPORT __stdcall __declspec(dllexport)
 #              else

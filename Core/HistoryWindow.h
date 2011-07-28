@@ -34,7 +34,7 @@ This is the history stack class that is used to store the undo/redo commands.
 
 #ifndef TINKERCELLCOREEXPORT
 #ifdef Q_WS_WIN
-#   if !defined(TC_IMPORTS) || defined(TinkerCellCore_EXPORTS)
+#   if defined(TC_EXPORTS) || defined(TinkerCellCore_EXPORTS)
 #       define TINKERCELLCOREEXPORT __declspec(dllexport)
 #   else
 #       define TINKERCELLCOREEXPORT __declspec(dllimport)

@@ -28,7 +28,7 @@ namespace Tinkercell
 	/*! \brief An xml reader that reads a NodeGraphicsItem file
 	\ingroup io
 	*/
-	class TINKERCELLEXPORT ConnectionGraphicsReader : public QXmlStreamReader
+	class TINKERCELLCOREEXPORT ConnectionGraphicsReader : public QXmlStreamReader
 	{
 	public: 
 		/*! \brief Reads up to the next start node

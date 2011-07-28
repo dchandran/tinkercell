@@ -47,7 +47,7 @@ namespace Tinkercell
 	Only four types of functions are supported.
 	\ingroup CAPI
 	*/
-	class TINKERCELLEXPORT CThread : public QThread
+	class TINKERCELLCOREEXPORT CThread : public QThread
 	{
 		Q_OBJECT
 
@@ -287,7 +287,7 @@ namespace Tinkercell
 	/*! \brief This class is used to run a process (command + args) as a separate thread as a separate thread
 	\ingroup core
 	*/
-	class TINKERCELLEXPORT ProcessThread : public QThread
+	class TINKERCELLCOREEXPORT ProcessThread : public QThread
 	{
 		Q_OBJECT
 

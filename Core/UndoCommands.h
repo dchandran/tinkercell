@@ -47,7 +47,7 @@ namespace Tinkercell
 
 	/*! \brief this command inserts new handles to a NetworkHandle
 	* \ingroup undo*/
-	class TINKERCELLEXPORT InsertHandlesCommand : public QUndoCommand
+	class TINKERCELLCOREEXPORT InsertHandlesCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor
@@ -86,7 +86,7 @@ namespace Tinkercell
 
 	/*! \brief this command inserts new handles to a NetworkHandle
 	* \ingroup undo*/
-	class TINKERCELLEXPORT RemoveHandlesCommand : public QUndoCommand
+	class TINKERCELLCOREEXPORT RemoveHandlesCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor
@@ -123,7 +123,7 @@ namespace Tinkercell
 
 	/*! \brief this command performs a move and allows redo/undo of that move
 	* \ingroup undo*/
-	class TINKERCELLEXPORT MoveCommand : public QUndoCommand
+	class TINKERCELLCOREEXPORT MoveCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor
@@ -162,7 +162,7 @@ namespace Tinkercell
 	};
 	/*! \brief this command performs an insert and allows redo/undo of that insert
 	* \ingroup undo*/
-	class TINKERCELLEXPORT InsertGraphicsCommand : public QUndoCommand
+	class TINKERCELLCOREEXPORT InsertGraphicsCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor
@@ -205,7 +205,7 @@ namespace Tinkercell
 	};
 	/*! \brief this command performs an removal and allows redo/undo of that removal
 	* \ingroup undo*/
-	class TINKERCELLEXPORT RemoveGraphicsCommand : public QUndoCommand
+	class TINKERCELLCOREEXPORT RemoveGraphicsCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor
@@ -248,7 +248,7 @@ namespace Tinkercell
 
 	/*! \brief this command changes the brush of an item
 	* \ingroup undo*/
-	class TINKERCELLEXPORT ChangeBrushCommand : public QUndoCommand
+	class TINKERCELLCOREEXPORT ChangeBrushCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor
@@ -274,7 +274,7 @@ namespace Tinkercell
 
 	/*! \brief this command changes the pen of an item
 	* \ingroup undo*/
-	class TINKERCELLEXPORT ChangePenCommand : public QUndoCommand
+	class TINKERCELLCOREEXPORT ChangePenCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor
@@ -300,7 +300,7 @@ namespace Tinkercell
 
 	/*! \brief this command changes the pen and/or brush of an item
 	* \ingroup undo*/
-	class TINKERCELLEXPORT ChangeBrushAndPenCommand : public QUndoCommand
+	class TINKERCELLCOREEXPORT ChangeBrushAndPenCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor
@@ -329,7 +329,7 @@ namespace Tinkercell
 
 	/*! \brief this command changes the pen of an item
 	* \ingroup undo*/
-	class TINKERCELLEXPORT ChangeZCommand : public QUndoCommand
+	class TINKERCELLCOREEXPORT ChangeZCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor
@@ -356,7 +356,7 @@ namespace Tinkercell
 
 	/*! \brief this command changes the size, angle, and orientation of an item
 	* \ingroup undo*/
-	class TINKERCELLEXPORT TransformCommand : public QUndoCommand
+	class TINKERCELLCOREEXPORT TransformCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor
@@ -397,7 +397,7 @@ namespace Tinkercell
 
 	/*! \brief this command changes the parent of a graphics item (not handles)
 	* \ingroup undo*/
-	class TINKERCELLEXPORT ChangeParentCommand : public QUndoCommand
+	class TINKERCELLCOREEXPORT ChangeParentCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor
@@ -425,7 +425,7 @@ namespace Tinkercell
 
 	/*! \brief this command changes the name of the handle of an item. important: use full name of the items!
 	* \ingroup undo*/
-	class TINKERCELLEXPORT RenameCommand : public QUndoCommand
+	class TINKERCELLCOREEXPORT RenameCommand : public QUndoCommand
 	{
 	public:
 		virtual ~RenameCommand();
@@ -519,7 +519,7 @@ namespace Tinkercell
 
 	/*! \brief this command can be used to combine multiple commands into one command
 	* \ingroup undo*/
-	class TINKERCELLEXPORT CompositeCommand : public QUndoCommand
+	class TINKERCELLCOREEXPORT CompositeCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief Constructor. Composite command takes ownership of these commands unless specified otherwise.
@@ -549,7 +549,7 @@ namespace Tinkercell
 
 	/*! \brief this command can be used to invert another undo command (i.e. flip the redo/undo)
 	* \ingroup undo*/
-	class TINKERCELLEXPORT ReverseUndoCommand : public QUndoCommand
+	class TINKERCELLCOREEXPORT ReverseUndoCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor
@@ -567,7 +567,7 @@ namespace Tinkercell
 
 	/*! \brief this command can be used to replace the graphical representation of a node from an xml file
 	* \ingroup undo*/
-	class TINKERCELLEXPORT ReplaceNodeGraphicsCommand : public QUndoCommand
+	class TINKERCELLCOREEXPORT ReplaceNodeGraphicsCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor
@@ -597,7 +597,7 @@ namespace Tinkercell
 
 	/*! \brief this command assigns handles to items
 	* \ingroup undo*/
-	class TINKERCELLEXPORT AssignHandleCommand : public QUndoCommand
+	class TINKERCELLCOREEXPORT AssignHandleCommand : public QUndoCommand
 	{
 	public:
 		AssignHandleCommand(const QString& text, QGraphicsItem* item, ItemHandle* handle);
@@ -616,7 +616,7 @@ namespace Tinkercell
 
 	/*! \brief this command places all the graphics items inside one handle into the other
 	* \ingroup undo*/
-	class TINKERCELLEXPORT MergeHandlesCommand : public QUndoCommand
+	class TINKERCELLCOREEXPORT MergeHandlesCommand : public QUndoCommand
 	{
 	public:
 		MergeHandlesCommand(const QString& text, NetworkHandle * , const QList<ItemHandle*>& handles);
@@ -640,7 +640,7 @@ namespace Tinkercell
 	/*! \brief this command assigns parent(s) to one or more handles
 	* \ingroup undo
 	*/
-	class TINKERCELLEXPORT SetParentHandleCommand : public QUndoCommand
+	class TINKERCELLCOREEXPORT SetParentHandleCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor*/
@@ -672,7 +672,7 @@ namespace Tinkercell
 		Hidden graphics items will be part (unless their handles are also hidden) of the network but not visible on the screen.
 	* \ingroup undo
 	*/
-	class TINKERCELLEXPORT SetGraphicsSceneVisibilityCommand : public QUndoCommand
+	class TINKERCELLCOREEXPORT SetGraphicsSceneVisibilityCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor*/
@@ -694,7 +694,7 @@ namespace Tinkercell
 		Hidden graphics items will be part (unless their handles are also hidden) of the network but not visible on the screen.
 	* \ingroup undo
 	*/
-	class TINKERCELLEXPORT SetHandleFamilyCommand : public QUndoCommand
+	class TINKERCELLCOREEXPORT SetHandleFamilyCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor*/
@@ -714,7 +714,7 @@ namespace Tinkercell
 	
 		/*! \brief An command that adds a new control point to a connection item; it has undo and redo functionality 
 	\ingroup undo*/
-	class TINKERCELLEXPORT AddControlPointCommand : public QUndoCommand
+	class TINKERCELLCOREEXPORT AddControlPointCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor that makes the command. If added to history stack, also does redo
@@ -752,7 +752,7 @@ namespace Tinkercell
 
 	/*! \brief A command that removed control points. Allows undo and redo
 	\ingroup undo*/
-	class TINKERCELLEXPORT RemoveControlPointCommand : public QUndoCommand
+	class TINKERCELLCOREEXPORT RemoveControlPointCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor that makes the command. If added to history stack, also does redo
@@ -787,7 +787,7 @@ namespace Tinkercell
 
 	/*! \brief An command that adds a new control point to a connection item; it has undo and redo functionality 
 	\ingroup undo*/
-	class TINKERCELLEXPORT AddCurveSegmentCommand : public QUndoCommand
+	class TINKERCELLCOREEXPORT AddCurveSegmentCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor that makes the command. If added to history stack, also does redo
@@ -829,7 +829,7 @@ namespace Tinkercell
 
 	/*! \brief A command that removed control points. Allows undo and redo
 	\ingroup undo*/
-	class TINKERCELLEXPORT RemoveCurveSegmentCommand : public QUndoCommand
+	class TINKERCELLCOREEXPORT RemoveCurveSegmentCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor that makes the command. If added to history stack, also does redo
@@ -867,7 +867,7 @@ namespace Tinkercell
 	
 	/*! \brief this command replaces one node item in a connection item with another
 	* \ingroup undo*/
-	class TINKERCELLEXPORT ReplaceConnectedNodeCommand : public QUndoCommand
+	class TINKERCELLCOREEXPORT ReplaceConnectedNodeCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor
@@ -887,7 +887,7 @@ namespace Tinkercell
 	
 	/*! \brief command for changing line type of connections
 	* \ingroup undo*/
-	class TINKERCELLEXPORT LineTypeChanged : public QUndoCommand
+	class TINKERCELLCOREEXPORT LineTypeChanged : public QUndoCommand
 	{
 	public:
 		QList<ConnectionGraphicsItem*> list;
@@ -898,7 +898,7 @@ namespace Tinkercell
 	
 	/*! \brief command for changing distance between arrowhead and objects
 	* \ingroup undo*/
-	class TINKERCELLEXPORT ChangeArrowHeadDistance : public QUndoCommand
+	class TINKERCELLCOREEXPORT ChangeArrowHeadDistance : public QUndoCommand
 	{
 	public:
 		QList<ConnectionGraphicsItem*> list;

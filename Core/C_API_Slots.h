@@ -42,7 +42,7 @@ namespace Tinkercell
 	typedef void (*MatrixInputFunction)(tc_matrix);
 	
 	/*! \brief Function to Signal converter for MainWindow*/
-	class TINKERCELLEXPORT Core_FtoS : public QObject
+	class TINKERCELLCOREEXPORT Core_FtoS : public QObject
 	{
 		Q_OBJECT
 

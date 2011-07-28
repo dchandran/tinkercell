@@ -16,15 +16,15 @@ instances. The families are loaded from RDF files.
 #include <QStringList>
 #include <QHash>
 
-#ifndef TINKERCELLEXPORT
+#ifndef TINKERCELLCOREEXPORT
 #ifdef Q_WS_WIN
 #   if defined(TC_EXPORTS) || defined(TinkerCellCore_EXPORTS)
-#       define TINKERCELLEXPORT __declspec(dllexport)
+#       define TINKERCELLCOREEXPORT __declspec(dllexport)
 #   else
-#       define TINKERCELLEXPORT __declspec(dllimport)
+#       define TINKERCELLCOREEXPORT __declspec(dllimport)
 #   endif
 #else
-#    define TINKERCELLEXPORT
+#    define TINKERCELLCOREEXPORT
 #endif
 #endif
 
@@ -37,7 +37,7 @@ namespace Tinkercell
 	/*! \brief A set of node and connection families. All functions are static
 	\ingroup core
 	*/
-	class TINKERCELLEXPORT Ontology
+	class TINKERCELLCOREEXPORT Ontology
 	{
 	public:
 		/*! \brief get a family pointer given its name (not case-sensitive)

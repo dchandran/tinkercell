@@ -31,15 +31,15 @@ to draw movable points.
 #include <QUndoCommand>
 #include <QTextCursor>
 
-#ifndef TINKERCELLEXPORT
+#ifndef TINKERCELLCOREEXPORT
 #ifdef Q_WS_WIN
 #   if defined(TC_EXPORTS) || defined(TinkerCellCore_EXPORTS)
-#       define TINKERCELLEXPORT __declspec(dllexport)
+#       define TINKERCELLCOREEXPORT __declspec(dllexport)
 #   else
-#       define TINKERCELLEXPORT __declspec(dllimport)
+#       define TINKERCELLCOREEXPORT __declspec(dllimport)
 #   endif
 #else
-#    define TINKERCELLEXPORT
+#    define TINKERCELLCOREEXPORT
 #endif
 #endif
 
@@ -49,7 +49,7 @@ namespace Tinkercell
 	
 	/*! \brief A simple circle or square that is used for changing specific locations
 	\ingroup core*/
-	class TINKERCELLEXPORT ControlPoint : public QAbstractGraphicsShapeItem
+	class TINKERCELLCOREEXPORT ControlPoint : public QAbstractGraphicsShapeItem
 	{
 	public:
 		/*! \brief permanent brush for this control point*/

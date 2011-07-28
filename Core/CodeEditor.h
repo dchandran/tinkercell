@@ -18,15 +18,15 @@ class QResizeEvent;
 class QSize;
 class QWidget;
 
-#ifndef TINKERCELLEXPORT
+#ifndef TINKERCELLCOREEXPORT
 #ifdef Q_WS_WIN
 #   if defined(TC_EXPORTS) || defined(TinkerCellCore_EXPORTS)
-#       define TINKERCELLEXPORT __declspec(dllexport)
+#       define TINKERCELLCOREEXPORT __declspec(dllexport)
 #   else
-#       define TINKERCELLEXPORT __declspec(dllimport)
+#       define TINKERCELLCOREEXPORT __declspec(dllimport)
 #   endif
 #else
-#    define TINKERCELLEXPORT
+#    define TINKERCELLCOREEXPORT
 #endif
 #endif
 
@@ -35,7 +35,7 @@ namespace Tinkercell
 
 	class LineNumberArea;
 
-	class TINKERCELLEXPORT CodeEditor : public QPlainTextEdit
+	class TINKERCELLCOREEXPORT CodeEditor : public QPlainTextEdit
 	{
 		Q_OBJECT
 
@@ -88,7 +88,7 @@ namespace Tinkercell
 	};
 
 
-	class TINKERCELLEXPORT LineNumberArea : public QWidget
+	class TINKERCELLCOREEXPORT LineNumberArea : public QWidget
 	{
 	public:
 

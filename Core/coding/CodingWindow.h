@@ -70,7 +70,7 @@ namespace Tinkercell
 		virtual void keyPressEvent ( QKeyEvent * event );
 	};
 
-	class TINKERCELLEXPORT CodingWindow : public Tool
+	class TINKERCELLCOREEXPORT CodingWindow : public Tool
 	{
 	    Q_OBJECT
 

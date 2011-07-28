@@ -23,7 +23,7 @@ namespace Tinkercell
 	\sa PythonInterpreterThread
 	\ingroup CAPI
 	*/
-    class TINKERCELLEXPORT OctaveInterpreterThread : public InterpreterThread
+    class TINKERCELLCOREEXPORT OctaveInterpreterThread : public InterpreterThread
 	{
 		Q_OBJECT
 		

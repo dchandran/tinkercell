@@ -22,15 +22,15 @@ the table.
 #include <QUndoCommand>
 #include <QDebug>
 
-#ifndef TINKERCELLEXPORT
+#ifndef TINKERCELLCOREEXPORT
 #ifdef Q_WS_WIN
 #   if defined(TC_EXPORTS) || defined(TinkerCellCore_EXPORTS)
-#       define TINKERCELLEXPORT __declspec(dllexport)
+#       define TINKERCELLCOREEXPORT __declspec(dllexport)
 #   else
-#       define TINKERCELLEXPORT __declspec(dllimport)
+#       define TINKERCELLCOREEXPORT __declspec(dllimport)
 #   endif
 #else
-#    define TINKERCELLEXPORT
+#    define TINKERCELLCOREEXPORT
 #endif
 #endif
 
@@ -40,7 +40,7 @@ namespace Tinkercell
 	\ingroup core
 	*/
 	template <typename T>
-	class TINKERCELLEXPORT DataTable 
+	class TINKERCELLCOREEXPORT DataTable 
 	{
 	protected:
 		/*! \brief the values in the table*/
@@ -338,7 +338,7 @@ namespace Tinkercell
 		\ingroup undo 
 	*/
 	template <typename T>
-	class TINKERCELLEXPORT ChangeDataCommand : public QUndoCommand
+	class TINKERCELLCOREEXPORT ChangeDataCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor
@@ -369,7 +369,7 @@ namespace Tinkercell
 		\ingroup undo
 	*/
 	template <typename T1, typename T2>
-	class TINKERCELLEXPORT Change2DataCommand : public QUndoCommand
+	class TINKERCELLCOREEXPORT Change2DataCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor
@@ -406,7 +406,7 @@ namespace Tinkercell
 		QList< DataTable<T2> > oldDataTable2;
 	};
 	
-#ifndef TC_IMPORTS
+#if defined(TC_EXPORTS) || defined(TinkerCellCore_EXPORTS)
 	
 	template <typename T> QString DataTable<T>::description() const { return desc; }
 		

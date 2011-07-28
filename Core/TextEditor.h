@@ -58,7 +58,7 @@ namespace Tinkercell
 	supporting parser tool, the TextEditor will not do anything.
 	\ingroup core
 	*/
-	class TINKERCELLEXPORT TextEditor : public CodeEditor
+	class TINKERCELLCOREEXPORT TextEditor : public CodeEditor
 	{
 		Q_OBJECT
 		
@@ -203,7 +203,7 @@ namespace Tinkercell
 
 	/*! \brief this command performs a text change
 	* \ingroup undo*/
-	class TINKERCELLEXPORT TextUndoCommand : public QUndoCommand
+	class TINKERCELLCOREEXPORT TextUndoCommand : public QUndoCommand
 	{
 
 	public:

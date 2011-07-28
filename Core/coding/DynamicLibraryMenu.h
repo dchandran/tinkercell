@@ -35,7 +35,7 @@ namespace Tinkercell
     /*!
           \brief A "middle man" class that converts static C functions to signals. Part of the generic TinkerCell C interface protocol.
         */
-    class TINKERCELLEXPORT DynamicLibraryMenu_FToS : public QObject
+    class TINKERCELLCOREEXPORT DynamicLibraryMenu_FToS : public QObject
     {
         Q_OBJECT
      signals:
@@ -52,7 +52,7 @@ namespace Tinkercell
                         as a response to these actions and tool buttons.
                 \sa LoadCLibraries
         */
-    class TINKERCELLEXPORT DynamicLibraryMenu : public Tool
+    class TINKERCELLCOREEXPORT DynamicLibraryMenu : public Tool
     {
         Q_OBJECT
 

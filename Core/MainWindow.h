@@ -74,7 +74,7 @@ namespace Tinkercell
 	\sa GlobalSettings
 	\ingroup core
 	*/
-	class TINKERCELLEXPORT MainWindow : public QMainWindow
+	class TINKERCELLCOREEXPORT MainWindow : public QMainWindow
 	{
 		Q_OBJECT
 

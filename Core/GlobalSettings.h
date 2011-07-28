@@ -4,15 +4,15 @@
 #include <QString>
 #include <QStringList>
 
-#ifndef TINKERCELLEXPORT
+#ifndef TINKERCELLCOREEXPORT
 #ifdef Q_WS_WIN
 #   if defined(TC_EXPORTS) || defined(TinkerCellCore_EXPORTS)
-#       define TINKERCELLEXPORT __declspec(dllexport)
+#       define TINKERCELLCOREEXPORT __declspec(dllexport)
 #   else
-#       define TINKERCELLEXPORT __declspec(dllimport)
+#       define TINKERCELLCOREEXPORT __declspec(dllimport)
 #   endif
 #else
-#    define TINKERCELLEXPORT
+#    define TINKERCELLCOREEXPORT
 #endif
 #endif
 
@@ -32,7 +32,7 @@ namespace Tinkercell
 	ENABLE_LOADSAVE_TOOL
 	\ingroup global
 	*/
-	class TINKERCELLEXPORT GlobalSettings
+	class TINKERCELLCOREEXPORT GlobalSettings
 	{
 	public:
 		/*!\brief enable history window -- defaults to true*/

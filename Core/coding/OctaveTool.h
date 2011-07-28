@@ -38,7 +38,7 @@ namespace Tinkercell
 			void addOctavePlugin(const char*,const char*,const char*,const char*,const char*);
 	};
 
-	class TINKERCELLEXPORT OctaveTool : public Tool
+	class TINKERCELLCOREEXPORT OctaveTool : public Tool
 	{
 		Q_OBJECT
 

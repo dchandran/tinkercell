@@ -34,7 +34,7 @@ namespace Tinkercell
 	/*! \brief A command-line type text box that other tools can use for scripting interface
 	\ingroup io
 	*/
-	class TINKERCELLEXPORT CommandTextEdit : public QTextEdit
+	class TINKERCELLCOREEXPORT CommandTextEdit : public QTextEdit
 	{
 		Q_OBJECT;
 	public:
@@ -143,7 +143,7 @@ namespace Tinkercell
 	/*! \brief Used to create an output window that can display outputs
 	\ingroup io
 	*/
-	class TINKERCELLEXPORT ConsoleWindow : public Tool
+	class TINKERCELLCOREEXPORT ConsoleWindow : public Tool
 	{
 		Q_OBJECT
 

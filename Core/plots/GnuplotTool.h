@@ -22,7 +22,7 @@ namespace Tinkercell
 	\brief A tool that generates Gnuplot commands and calls Gnuplot
 	\ingroup plotting
 	*/
-	class TINKERCELLEXPORT GnuplotTool : public Tool
+	class TINKERCELLCOREEXPORT GnuplotTool : public Tool
 	{
 	    Q_OBJECT
 

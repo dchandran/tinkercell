@@ -26,7 +26,7 @@ namespace Tinkercell
 	/*! \brief writes to an xml file handle names and data table information from a list of item handles
 	\ingroup io
 	*/
-	class TINKERCELLEXPORT ModelWriter : public QXmlStreamWriter
+	class TINKERCELLCOREEXPORT ModelWriter : public QXmlStreamWriter
 	{
 	public: 
 		/*! \brief default constructor*/

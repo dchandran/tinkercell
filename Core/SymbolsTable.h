@@ -34,7 +34,7 @@ namespace Tinkercell
 	list of item names and ItemHandle pointers as well as names and pointers to each data entry in each item.
 	\ingroup core
 	*/
-	class TINKERCELLEXPORT SymbolsTable
+	class TINKERCELLCOREEXPORT SymbolsTable
 	{
 	public:
 		/*! \brief constructor

@@ -22,15 +22,15 @@ Each item in Tinkercell has an associated family.
 #include <QUndoCommand>
 #include <QGraphicsItem>
 
-#ifndef TINKERCELLEXPORT
+#ifndef TINKERCELLCOREEXPORT
 #ifdef Q_WS_WIN
 #   if defined(TC_EXPORTS) || defined(TinkerCellCore_EXPORTS)
-#       define TINKERCELLEXPORT __declspec(dllexport)
+#       define TINKERCELLCOREEXPORT __declspec(dllexport)
 #   else
-#       define TINKERCELLEXPORT __declspec(dllimport)
+#       define TINKERCELLCOREEXPORT __declspec(dllimport)
 #   endif
 #else
-#    define TINKERCELLEXPORT
+#    define TINKERCELLCOREEXPORT
 #endif
 #endif
 
@@ -50,7 +50,7 @@ namespace Tinkercell
 	/*! \brief A unit of measurement
 	\ingroup core
 	*/
-	class TINKERCELLEXPORT Unit
+	class TINKERCELLCOREEXPORT Unit
 	{
 	public:
 		QString property; //e.g. "distance"
@@ -66,7 +66,7 @@ namespace Tinkercell
 	The ID is used to perform isA checks, thus avoiding repeated string matches
 	\ingroup core
 	*/
-	class TINKERCELLEXPORT ItemFamily
+	class TINKERCELLCOREEXPORT ItemFamily
 	{
 	public:
 		/*! \brief description of this family*/
@@ -147,7 +147,7 @@ namespace Tinkercell
 	* It contains a list of NodeGraphicsItems that is the default for this family of nodes
 	* \ingroup core
 	*/
-	class TINKERCELLEXPORT NodeFamily: public ItemFamily
+	class TINKERCELLCOREEXPORT NodeFamily: public ItemFamily
 	{
 		/*! \brief used for casting between different sub-classes*/
 		static int TYPE;
@@ -189,7 +189,7 @@ namespace Tinkercell
 	* It contains a list ofConnectioGraphicsItems that is the default for this family of connections
 	* \ingroup core
 	*/
-	class TINKERCELLEXPORT ConnectionFamily: public ItemFamily
+	class TINKERCELLCOREEXPORT ConnectionFamily: public ItemFamily
 	{
 		/*! \brief used for casting between different sub-classes*/
 		static int TYPE;

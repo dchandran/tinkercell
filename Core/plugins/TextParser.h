@@ -41,7 +41,7 @@ namespace Tinkercell
 		through the use of the TextParser interface. 
 		\ingroup plugins
 	*/
-	class TINKERCELLEXPORT TextParser : public Tool
+	class TINKERCELLCOREEXPORT TextParser : public Tool
 	{
 	    Q_OBJECT
 		

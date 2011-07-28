@@ -30,7 +30,7 @@ namespace Tinkercell
 	\sa OctaveInterpreterThread
 	\ingroup CAPI
 	*/
-    class TINKERCELLEXPORT InterpreterThread : public CThread
+    class TINKERCELLCOREEXPORT InterpreterThread : public CThread
 	{
 		Q_OBJECT
 

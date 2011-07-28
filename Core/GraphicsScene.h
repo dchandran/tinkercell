@@ -55,7 +55,7 @@ namespace Tinkercell
 	a need to directly  interact with the GraphicsScene
 	\ingroup core
 	*/
-	class TINKERCELLEXPORT GraphicsScene : public QGraphicsScene
+	class TINKERCELLCOREEXPORT GraphicsScene : public QGraphicsScene
 	{
 		Q_OBJECT
 

@@ -26,7 +26,7 @@ namespace Tinkercell
 	/*! \brief An xml reader that reads a NodeGraphicsItem file
 	\ingroup core
 	*/
-	class TINKERCELLEXPORT NodeGraphicsReader : public QXmlStreamReader
+	class TINKERCELLCOREEXPORT NodeGraphicsReader : public QXmlStreamReader
 	{
 	public: 
 		/*! \brief Reads an NodeGraphicsItem from an XML file using the IO device provided 

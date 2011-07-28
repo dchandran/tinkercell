@@ -51,7 +51,7 @@ namespace Tinkercell
 	\brief A tool that provides features for highlighting or marking items on the scene
 	\ingroup plugins
 	*/
-	class TINKERCELLEXPORT LabelingTool : public Tool
+	class TINKERCELLCOREEXPORT LabelingTool : public Tool
 	{
 		Q_OBJECT;
 

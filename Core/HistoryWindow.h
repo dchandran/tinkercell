@@ -32,15 +32,15 @@ This is the history stack class that is used to store the undo/redo commands.
 #include <QUndoStack>
 #include <QUndoView>
 
-#ifndef TINKERCELLEXPORT
+#ifndef TINKERCELLCOREEXPORT
 #ifdef Q_WS_WIN
 #   if !defined(TC_IMPORTS) || defined(TinkerCellCore_EXPORTS)
-#       define TINKERCELLEXPORT __declspec(dllexport)
+#       define TINKERCELLCOREEXPORT __declspec(dllexport)
 #   else
-#       define TINKERCELLEXPORT __declspec(dllimport)
+#       define TINKERCELLCOREEXPORT __declspec(dllimport)
 #   endif
 #else
-#    define TINKERCELLEXPORT
+#    define TINKERCELLCOREEXPORT
 #endif
 #endif
 
@@ -50,7 +50,7 @@ namespace Tinkercell
 	/*! \brief This is a small class extending QUndoView that manages a stack of undo commands.
 	\ingroup helper
 	*/
-	class TINKERCELLEXPORT HistoryWindow : public QUndoView
+	class TINKERCELLCOREEXPORT HistoryWindow : public QUndoView
 	{
 		Q_OBJECT
 

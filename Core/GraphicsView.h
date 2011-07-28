@@ -53,7 +53,7 @@ namespace Tinkercell
 				of a GraphicsScene. The class inherits from QGraphicsView. 
 		\ingroup core
 	*/
-	class TINKERCELLEXPORT GraphicsView : public QGraphicsView
+	class TINKERCELLCOREEXPORT GraphicsView : public QGraphicsView
 	{
 		Q_OBJECT
 	

@@ -41,7 +41,7 @@ namespace Tinkercell
 	\return QPointF the point on the edge of the rectangle
 	\ingroup helper
 	*/
-	TINKERCELLEXPORT QPointF pointOnEdge(const QRectF&, const QPointF&, qreal dist = 0, bool straight = false);
+	TINKERCELLCOREEXPORT QPointF pointOnEdge(const QRectF&, const QPointF&, qreal dist = 0, bool straight = false);
 	/*! \brief gets the point on the edge of the shape such that it is in the same
 	line as the center of the shape's bounding rect and the point (arg)
 	\param QPainterPath the shape
@@ -49,7 +49,7 @@ namespace Tinkercell
 	\return QPointF the point on the edge of the shape
 	\ingroup helper
 	*/
-	TINKERCELLEXPORT QPointF pointOnEdge(const NodeGraphicsItem&, const QPointF&, qreal dist = 0, bool straight = false);
+	TINKERCELLCOREEXPORT QPointF pointOnEdge(const NodeGraphicsItem&, const QPointF&, qreal dist = 0, bool straight = false);
 
 	class GraphicsScene;
 	class ItemHandle;
@@ -57,7 +57,7 @@ namespace Tinkercell
 	
 	/*! \brief A node graphics item that is used to draw arrow heads on connection items.
 	\ingroup core*/
-	class TINKERCELLEXPORT ArrowHeadItem : public NodeGraphicsItem
+	class TINKERCELLCOREEXPORT ArrowHeadItem : public NodeGraphicsItem
 	{
 	public:
 		/*! \brief The connection item that this arrow head belongs with*/
@@ -96,7 +96,7 @@ namespace Tinkercell
 
 	/*! \brief A graphics nodes item that draws connection between two or more nodes and the arrow heads at the ends.
 	\ingroup core*/
-	class TINKERCELLEXPORT ConnectionGraphicsItem : public QGraphicsItemGroup
+	class TINKERCELLCOREEXPORT ConnectionGraphicsItem : public QGraphicsItemGroup
 	{
 	public:
 		/*! \brief cast a graphics item to a connection graphics item using qgraphicsitem_cast
@@ -159,7 +159,7 @@ namespace Tinkercell
 
 		/*! \brief A control point with a pointer to a ConnectionGraphicsItem 
 		\ingroup core*/
-		class TINKERCELLEXPORT ControlPoint : public Tinkercell::ControlPoint
+		class TINKERCELLCOREEXPORT ControlPoint : public Tinkercell::ControlPoint
 		{
 		public:
 			/*! \brief idrawables that this control point belong in*/
@@ -201,7 +201,7 @@ namespace Tinkercell
 
 		/*! \brief A set of control points and two arrow heads 
 		\ingroup core*/
-		class TINKERCELLEXPORT CurveSegment : public QVector<ConnectionGraphicsItem::ControlPoint*>
+		class TINKERCELLCOREEXPORT CurveSegment : public QVector<ConnectionGraphicsItem::ControlPoint*>
 		{
 		public:
 			CurveSegment();

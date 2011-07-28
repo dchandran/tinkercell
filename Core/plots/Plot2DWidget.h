@@ -189,7 +189,7 @@ namespace Tinkercell
 		line-plots, scatterplots, bar-plots, or histograms
 	\ingroup plotting
 	*/
-	class TINKERCELLEXPORT Plot2DWidget : public PlotWidget
+	class TINKERCELLCOREEXPORT Plot2DWidget : public PlotWidget
 	{
 		Q_OBJECT
 	

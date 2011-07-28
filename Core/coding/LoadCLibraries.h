@@ -51,7 +51,7 @@ namespace Tinkercell
 			void addFunction(VoidFunction, const char*, const char*, const char*, const char*, const char*, int, int, int);
 	};
 
-	class TINKERCELLEXPORT LoadCLibrariesTool : public Tool
+	class TINKERCELLCOREEXPORT LoadCLibrariesTool : public Tool
 	{
 		Q_OBJECT
 

@@ -49,7 +49,7 @@ namespace Tinkercell
 	This class provides functions for inserting items, removing items, and changing information inside the model.
 	\ingroup core
 	*/
-	class TINKERCELLEXPORT NetworkHandle : public QObject
+	class TINKERCELLCOREEXPORT NetworkHandle : public QObject
 	{
 		Q_OBJECT
 

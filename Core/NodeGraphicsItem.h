@@ -40,11 +40,11 @@ namespace Tinkercell
 	class ItemHandle;
 	class ConnectionGraphicsItem;
 	class NodeGraphicsItem;
-	TINKERCELLEXPORT void setHandle(QGraphicsItem*,ItemHandle*);
+	TINKERCELLCOREEXPORT void setHandle(QGraphicsItem*,ItemHandle*);
 
 	/*! \brief A simple figure made from one or more polygons. The class can be represented in an XML file
 	\ingroup core*/
-	class TINKERCELLEXPORT NodeGraphicsItem : public QGraphicsItemGroup
+	class TINKERCELLCOREEXPORT NodeGraphicsItem : public QGraphicsItemGroup
 	{
 	public:
 		/*! \brief cast a graphics item to a node graphics item using qgraphicsitem_cast
@@ -94,7 +94,7 @@ namespace Tinkercell
 		QSizeF defaultSize;
 		/*! \brief a control point with a pointer to a NodeGraphicsItem
 		\ingroup core*/
-		class TINKERCELLEXPORT ControlPoint : public Tinkercell::ControlPoint
+		class TINKERCELLCOREEXPORT ControlPoint : public Tinkercell::ControlPoint
 		{
 		public:
 			/*! \brief idrawables that this control point belong in*/
@@ -129,7 +129,7 @@ namespace Tinkercell
 
 		/*! \brief A closed polygon path made from arcs, lines, and beziers
 		\ingroup core*/
-		class TINKERCELLEXPORT Shape : public QGraphicsPolygonItem
+		class TINKERCELLCOREEXPORT Shape : public QGraphicsPolygonItem
 		{
 		public:
 			/*! \brief permanent brush for this control point*/

@@ -37,7 +37,7 @@ namespace Tinkercell
 			void addRubyPlugin(const char*,const char*,const char*,const char*,const char*);
 	};
 
-	class TINKERCELLEXPORT RubyTool : public Tool
+	class TINKERCELLCOREEXPORT RubyTool : public Tool
 	{
 		Q_OBJECT
 

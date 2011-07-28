@@ -46,7 +46,7 @@ namespace Tinkercell
 		should be populations with (name,family) pairs, storing the name and pointers for each family
 		item. Auto-saves the current network every 10 changes
 	*/
-	class TINKERCELLEXPORT LoadSaveTool : public Tool
+	class TINKERCELLCOREEXPORT LoadSaveTool : public Tool
 	{
 		Q_OBJECT
 

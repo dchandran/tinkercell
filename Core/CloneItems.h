@@ -18,15 +18,15 @@ also be used by other plugins
 #include <QList>
 #include <QGraphicsItem>
 
-#ifndef TINKERCELLEXPORT
+#ifndef TINKERCELLCOREEXPORT
 #ifdef Q_WS_WIN
 #   if defined(TC_EXPORTS) || defined(TinkerCellCore_EXPORTS)
-#       define TINKERCELLEXPORT __declspec(dllexport)
+#       define TINKERCELLCOREEXPORT __declspec(dllexport)
 #   else
-#       define TINKERCELLEXPORT __declspec(dllimport)
+#       define TINKERCELLCOREEXPORT __declspec(dllimport)
 #   endif
 #else
-#    define TINKERCELLEXPORT
+#    define TINKERCELLCOREEXPORT
 #endif
 #endif
 
@@ -40,13 +40,13 @@ namespace Tinkercell
 	\return QGraphicsItem * node, connection, text, or control point
 	\ingroup core
 	*/
-	TINKERCELLEXPORT QGraphicsItem * getGraphicsItem( QGraphicsItem * item );
+	TINKERCELLCOREEXPORT QGraphicsItem * getGraphicsItem( QGraphicsItem * item );
 	/*! \brief Clone a graphics item. The item handle will NOT be duplicated
 	* \param QGraphicsItem * a pointer to a QGraphicsItem
 	\return QGraphicsItem * a QGraphicsItem that is clone of the argument
 	\ingroup core
 	*/
-	TINKERCELLEXPORT QGraphicsItem * cloneGraphicsItem( QGraphicsItem * item );
+	TINKERCELLCOREEXPORT QGraphicsItem * cloneGraphicsItem( QGraphicsItem * item );
 	/*! \brief Clone a list of graphics items
 	* \param QList<QGraphicsItem*> a list of pointers to a QGraphicsItems
 	* \param QList<ItemHandle*> return value: returns all the new handles here
@@ -54,12 +54,12 @@ namespace Tinkercell
 	\return QList<QGraphicsItem*> a new list of QGraphicsItems that are clones of the corresponding argument
 	\ingroup core
 	*/
-	TINKERCELLEXPORT QList<QGraphicsItem*> cloneGraphicsItems( QList<QGraphicsItem*>& items, QList<ItemHandle*>& newHandles , bool deep = true);
+	TINKERCELLCOREEXPORT QList<QGraphicsItem*> cloneGraphicsItems( QList<QGraphicsItem*>& items, QList<ItemHandle*>& newHandles , bool deep = true);
 	/*! \brief clone given handles
 		\param QList<ItemHandle*> items to clone
 		\return QList<ItemHandle*> clones
 	*/
-	TINKERCELLEXPORT QList<ItemHandle*> cloneHandles(const QList<ItemHandle*>&);
+	TINKERCELLCOREEXPORT QList<ItemHandle*> cloneHandles(const QList<ItemHandle*>&);
 	
 }
 

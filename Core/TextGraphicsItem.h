@@ -24,7 +24,7 @@ namespace Tinkercell
 	/*! \brief editable text item 
 	\ingroup core
 	*/
-	class TINKERCELLEXPORT TextGraphicsItem : public QGraphicsTextItem
+	class TINKERCELLCOREEXPORT TextGraphicsItem : public QGraphicsTextItem
 	{
 		Q_OBJECT
 

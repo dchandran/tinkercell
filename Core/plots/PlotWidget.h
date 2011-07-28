@@ -36,7 +36,7 @@ namespace Tinkercell
 			This class serves as a template for other widgets that perform the plotting. 
 	\ingroup plotting
 	*/
-	class TINKERCELLEXPORT PlotWidget : public QWidget
+	class TINKERCELLCOREEXPORT PlotWidget : public QWidget
 	{
 		Q_OBJECT
 	

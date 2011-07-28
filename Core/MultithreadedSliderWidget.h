@@ -29,7 +29,7 @@ namespace Tinkercell
 	as a separate thread. Uses CThread to call the C functions
 	\ingroup plugins
 	*/
-	class TINKERCELLEXPORT MultithreadedSliderWidget : public QWidget
+	class TINKERCELLCOREEXPORT MultithreadedSliderWidget : public QWidget
 	{
 		Q_OBJECT
 

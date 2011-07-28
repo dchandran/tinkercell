@@ -37,7 +37,7 @@ namespace Tinkercell
 			void addPythonPlugin(const char*,const char*,const char*,const char*,const char*);
 	};
 
-	class TINKERCELLEXPORT PythonTool : public Tool
+	class TINKERCELLCOREEXPORT PythonTool : public Tool
 	{
 		Q_OBJECT
 

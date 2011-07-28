@@ -25,7 +25,7 @@ namespace Tinkercell
 	/*! \brief This class is an xml writer that specifically writes a ConnectionGraphicsItem
 	\ingroup io
 	*/ 
-	class TINKERCELLEXPORT ConnectionGraphicsWriter : public QXmlStreamWriter
+	class TINKERCELLCOREEXPORT ConnectionGraphicsWriter : public QXmlStreamWriter
 	{
 	public: 
 		/*! \brief default constructor*/

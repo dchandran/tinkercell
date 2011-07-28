@@ -39,7 +39,7 @@ namespace Tinkercell
 	* \ingroup helper
 	* \param QString original string
 	*/
-	TINKERCELLEXPORT QString RemoveDisallowedCharactersFromName(const QString&);
+	TINKERCELLCOREEXPORT QString RemoveDisallowedCharactersFromName(const QString&);
 
 	/*! \brief
 	* This class is used to store information about nodes or connections.
@@ -47,7 +47,7 @@ namespace Tinkercell
 	* specific data. The versions queue can be used to keep previous versions of the data
 	* \ingroup helper
 	*/
-	class TINKERCELLEXPORT ItemData
+	class TINKERCELLCOREEXPORT ItemData
 	{
 		friend class ItemHandle;
 	private:
@@ -80,7 +80,7 @@ namespace Tinkercell
 	The SymbolsTable is used to store all the handles in a network.
 	\ingroup core
 	*/
-	class TINKERCELLEXPORT ItemHandle: public QObject
+	class TINKERCELLCOREEXPORT ItemHandle: public QObject
 	{
 		Q_OBJECT
 	
@@ -244,7 +244,7 @@ namespace Tinkercell
 	* that apply to this item, the data for this item, and the family that it belongs with
 	* \ingroup core
 	*/
-	class TINKERCELLEXPORT NodeHandle : public ItemHandle
+	class TINKERCELLCOREEXPORT NodeHandle : public ItemHandle
 	{
 		Q_OBJECT
 
@@ -299,7 +299,7 @@ namespace Tinkercell
 	* to nodes connected (in and out)
 	* \ingroup core
 	*/
-	class TINKERCELLEXPORT ConnectionHandle : public ItemHandle
+	class TINKERCELLCOREEXPORT ConnectionHandle : public ItemHandle
 	{
 	public:
 		/*! \brief this number is used to identify when an item handle is a connection handle*/
@@ -378,20 +378,20 @@ namespace Tinkercell
 	* \ingroup core
 	* \return ItemHandle* item handle (0 if none)
 	*/
-	TINKERCELLEXPORT ItemHandle * getHandle(QGraphicsItem*);
+	TINKERCELLCOREEXPORT ItemHandle * getHandle(QGraphicsItem*);
 	/*! \brief get the handles from graphics items
 	* \param QList<QGraphicsItem*> graphics item
 	* \param bool include null handles (default=true)
 	* \ingroup core
 	* \return QList<ItemHandle*> item handles
 	*/
-	TINKERCELLEXPORT QList<ItemHandle*> getHandle(const QList<QGraphicsItem*>&, bool includeNull=true);
+	TINKERCELLCOREEXPORT QList<ItemHandle*> getHandle(const QList<QGraphicsItem*>&, bool includeNull=true);
 	/*! \brief set the handle of a graphics item (use 0 to remove handle)
 	* \param QGraphicsItem* graphics item
 	* \param ItemHandle* handle (use 0 to remove handle)
 	* \ingroup core
 	*/
-	TINKERCELLEXPORT void setHandle(QGraphicsItem*, ItemHandle*);
+	TINKERCELLCOREEXPORT void setHandle(QGraphicsItem*, ItemHandle*);
 }
 
 #endif

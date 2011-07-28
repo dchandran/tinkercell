@@ -20,7 +20,7 @@ namespace Tinkercell
 	\sa InterpreterThread
 	\ingroup CAPI
 	*/
-    class TINKERCELLEXPORT RubyInterpreterThread : public InterpreterThread
+    class TINKERCELLCOREEXPORT RubyInterpreterThread : public InterpreterThread
 	{
 		Q_OBJECT
 		

@@ -96,7 +96,7 @@ namespace Tinkercell
 		Alternatively, the PlotTool can use an separate Gnuplot window to generate plots.
 	\ingroup plotting
 	*/
-	class TINKERCELLEXPORT PlotTool : public Tool
+	class TINKERCELLCOREEXPORT PlotTool : public Tool
 	{
 		Q_OBJECT
 	

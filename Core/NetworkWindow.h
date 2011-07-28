@@ -6,15 +6,15 @@
 #include <QToolBar>
 #include <QHBoxLayout>
 
-#ifndef TINKERCELLEXPORT
+#ifndef TINKERCELLCOREEXPORT
 #ifdef Q_WS_WIN
 #   ifndef TC_IMPORTS
-#       define TINKERCELLEXPORT __declspec(dllexport)
+#       define TINKERCELLCOREEXPORT __declspec(dllexport)
 #   else
-#       define TINKERCELLEXPORT __declspec(dllimport)
+#       define TINKERCELLCOREEXPORT __declspec(dllimport)
 #   endif
 #else
-#    define TINKERCELLEXPORT
+#    define TINKERCELLCOREEXPORT
 #endif
 #endif
 
@@ -27,7 +27,7 @@ namespace Tinkercell
 	class NetworkHandle;
 	class ItemHandle;
 		
-	class TINKERCELLEXPORT NetworkWindow : public QMainWindow
+	class TINKERCELLCOREEXPORT NetworkWindow : public QMainWindow
 	{
 		Q_OBJECT
 

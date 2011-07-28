@@ -59,7 +59,7 @@ namespace Tinkercell
 			}
 	};
 	/*! \brief delegate used inside the SimpleInputWindow*/
-	class TINKERCELLEXPORT PopupListWidgetDelegate : public QItemDelegate
+	class TINKERCELLCOREEXPORT PopupListWidgetDelegate : public QItemDelegate
 	{
 	public:
 		PopupListWidgetDelegate(QObject *parent = 0);
@@ -85,7 +85,7 @@ namespace Tinkercell
 	\ingroup io
 	\sa LPSolveInput
 	*/
-	class TINKERCELLEXPORT AbstractInputWindow : public Tool
+	class TINKERCELLCOREEXPORT AbstractInputWindow : public Tool
 	{
 		Q_OBJECT
 
@@ -150,7 +150,7 @@ namespace Tinkercell
 	/*! \brief Used to create an input window that can receive user inputs for C plugins
 	\ingroup io
 	*/
-	class TINKERCELLEXPORT SimpleInputWindow : public AbstractInputWindow
+	class TINKERCELLCOREEXPORT SimpleInputWindow : public AbstractInputWindow
 	{
 		Q_OBJECT
 	public:

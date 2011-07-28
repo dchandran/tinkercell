@@ -148,8 +148,9 @@ the #define HAVE_HDF5 and HAVE_REGEX lines (unless you have these packages
 installed, which is not included with MinGW).
 
 Problem: Visual Studio is giving link errors when linking against TinkerCellCore
-Solution: Try adding all the MOC files from TinkerCellCore as source files into the project that you are building. 
-MOC files will have a moc_ before their names and .cxx suffix. They will be located in the Build folder.
+Solution: Be sure that TC_EXPORTS is NOT defined.
+In the source code, hover the mouse over TINKERCELLCOREEXPORTS and 
+check whether it is defined as __declspec(dllimport)
 
 
 =====================================

@@ -9,7 +9,7 @@ This file contains a collection of commands that perform simple operations that 
 ****************************************************************************/
 #include <iostream>
 #include "NodeGraphicsItem.h"
-#include "NodeGraphicsReader.h"
+#include "fileIO/NodeGraphicsReader.h"
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
 #include "Tool.h"

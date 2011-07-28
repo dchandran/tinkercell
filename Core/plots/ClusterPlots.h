@@ -1,7 +1,7 @@
 #include <QVector>
 extern "C"
 {
-	#include "ExternalCode/cluster/cluster.h"
+	#include "ExternalCode/cluster/src/cluster.h"
 }
 
 namespace Tinkercell

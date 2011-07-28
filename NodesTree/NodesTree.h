@@ -26,7 +26,7 @@
 #include "Tool.h"
 #include "NetworkHandle.h"
 #include "NodeGraphicsItem.h"
-#include "NodeGraphicsReader.h"
+#include "fileIO/NodeGraphicsReader.h"
 #include "ItemHandle.h"
 //#include "NodesTreeReader.h"
 #include "TreeButton.h"

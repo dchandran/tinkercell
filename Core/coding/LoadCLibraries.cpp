@@ -22,7 +22,7 @@
 #include "TextGraphicsItem.h"
 #include "CodingWindow.h"
 #include "LoadCLibraries.h"
-#include "MultithreadedSliderWidget.h"
+#include "plugins/MultithreadedSliderWidget.h"
 #include <QtDebug>
 #include "GlobalSettings.h"
 

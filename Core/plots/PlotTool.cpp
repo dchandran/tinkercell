@@ -23,9 +23,9 @@
 #include "Plot2DWidget.h"
 #include "Plot3DWidget.h"
 #include "qwt_scale_engine.h"
-#include "muParserDef.h"
-#include "muParser.h"
-#include "muParserInt.h"
+#include "ExternalCode/muparser/muParserDef.h"
+#include "ExternalCode/muparser/muParser.h"
+#include "ExternalCode/muparser/muParserInt.h"
 #include "ClusterPlots.h"
 
 namespace Tinkercell

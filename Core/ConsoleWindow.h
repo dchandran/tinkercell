@@ -25,7 +25,7 @@ scripting interface.
 #include <QCompleter>
 #include "DataTable.h"
 #include "Tool.h"
-#include "InterpreterThread.h"
+#include "interpreters/InterpreterThread.h"
 
 namespace Tinkercell
 {

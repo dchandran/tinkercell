@@ -187,28 +187,8 @@ ENDIF ( WIN32 )
 INCLUDE_DIRECTORIES( BEFORE
     ${QT_INCLUDES}
     ${TINKERCELL_SOURCE_DIR}
-    ${TINKERCELL_SOURCE_DIR}/ExternalCode
-    ${TINKERCELL_SOURCE_DIR}/ExternalCode/muparser
-    ${TINKERCELL_SOURCE_DIR}/ExternalCode/qwt
-    ${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include
-    ${TINKERCELL_SOURCE_DIR}/ExternalCode/optim
-    ${TINKERCELL_SOURCE_DIR}/ExternalCode/lapack/INCLUDE
-    ${TINKERCELL_SOURCE_DIR}/ExternalCode/cvode260/include
-    ${TINKERCELL_BINARY_DIR}/ExternalCode/cvode260/include
-    ${TINKERCELL_SOURCE_DIR}/ExternalCode/cvode260/include/cvode
-    ${TINKERCELL_BINARY_DIR}/ExternalCode/cvode260/include/cvode
-    ${TINKERCELL_SOURCE_DIR}/ExternalCode/cvode260/include/sundials
-    ${TINKERCELL_BINARY_DIR}/ExternalCode/cvode260/include/sundials
-    ${TINKERCELL_SOURCE_DIR}/ExternalCode/cvode260/include/nvector
-    ${TINKERCELL_BINARY_DIR}/ExternalCode/cvode260/include/nvector
-    ${TINKERCELL_SOURCE_DIR}/c
     ${TINKERCELL_SOURCE_DIR}/API
     ${TINKERCELL_SOURCE_DIR}/Core
-    ${TINKERCELL_SOURCE_DIR}/Core/plots
-    ${TINKERCELL_SOURCE_DIR}/Core/fileIO
-    ${TINKERCELL_SOURCE_DIR}/Core/plugins
-    ${TINKERCELL_SOURCE_DIR}/Core/interpreters
-    ${TINKERCELL_SOURCE_DIR}/Core/coding
  )
 
 IF (UNIX AND NOT APPLE)

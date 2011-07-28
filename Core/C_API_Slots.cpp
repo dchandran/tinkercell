@@ -14,7 +14,7 @@
 #include "Tool.h"
 #include "MainWindow.h"
 #include "CThread.h"
-#include "MultithreadedSliderWidget.h"
+#include "plugins/MultithreadedSliderWidget.h"
 #include "ConsoleWindow.h"
 #include "AbstractInputWindow.h"
 #include "TextParser.h"

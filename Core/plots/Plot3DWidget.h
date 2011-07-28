@@ -11,10 +11,10 @@
 #define TINKERCELL_PLOT3DWIDGET_H
 
 #include "PlotWidget.h"
-#include "qwt3d_surfaceplot.h"
-#include "qwt3d_function.h"
-#include "qwt3d_color.h"
-#include "qwt3d_color.h"
+#include "ExternalCode/qwtplot3d/include/qwt3d_surfaceplot.h"
+#include "ExternalCode/qwtplot3d/include/qwt3d_function.h"
+#include "ExternalCode/qwtplot3d/include/qwt3d_color.h"
+#include "ExternalCode/qwtplot3d/include/qwt3d_color.h"
 
 using namespace Qwt3D;
 

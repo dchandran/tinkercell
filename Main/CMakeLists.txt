@@ -16,6 +16,11 @@ CONFIGURE_FILE(
 #------------------
 
 INCLUDE_DIRECTORIES( BEFORE
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/muparser
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/qwt
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/optim
     ${TINKERCELL_SOURCE_DIR}/BasicTools
     ${TINKERCELL_SOURCE_DIR}/NodesTree
     ${TINKERCELL_SOURCE_DIR}/Main

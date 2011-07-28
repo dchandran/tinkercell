@@ -1,5 +1,22 @@
 CMAKE_MINIMUM_REQUIRED( VERSION 2.6 )
 
+INCLUDE_DIRECTORIES( BEFORE
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/muparser
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/qwt
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/optim
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/lapack/INCLUDE
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/cvode260/include
+    ${TINKERCELL_BINARY_DIR}/ExternalCode/cvode260/include
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/cvode260/include/cvode
+    ${TINKERCELL_BINARY_DIR}/ExternalCode/cvode260/include/cvode
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/cvode260/include/sundials
+    ${TINKERCELL_BINARY_DIR}/ExternalCode/cvode260/include/sundials
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/cvode260/include/nvector
+    ${TINKERCELL_BINARY_DIR}/ExternalCode/cvode260/include/nvector
+)
+
 #  All of these are third-party libraries
 
 SET(LIBRARY_OUTPUT_PATH ${EXECUTABLE_OUTPUT_PATH})

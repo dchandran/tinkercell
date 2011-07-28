@@ -24,9 +24,9 @@ This class provides functions for inserting items, removing items, and changing 
 #include "TextEditor.h"
 #include "UndoCommands.h"
 #include "NetworkHandle.h"
-#include "muParserDef.h"
-#include "muParser.h"
-#include "muParserInt.h"
+#include "ExternalCode/muparser/muParserDef.h"
+#include "ExternalCode/muparser/muParser.h"
+#include "ExternalCode/muparser/muParserInt.h"
 #include <QRegExp>
 
 namespace Tinkercell

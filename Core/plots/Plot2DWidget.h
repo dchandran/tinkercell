@@ -20,18 +20,18 @@
 #include <QColor>
 #include <QDialog>
 #include "PlotWidget.h"
-#include "qwt_plot.h"
-#include "qwt_color_map.h"
-#include "qwt_plot_marker.h"
-#include "qwt_plot_curve.h"
-#include "qwt_legend.h"
-#include "qwt_data.h"
-#include "qwt_text.h"
-#include "qwt_symbol.h"
-#include "qwt_plot_layout.h"
-#include "qwt_plot_zoomer.h"
-#include "qwt_legend_item.h"
-#include "qwt_scale_draw.h"
+#include "ExternalCode/qwt/qwt_plot.h"
+#include "ExternalCode/qwt/qwt_color_map.h"
+#include "ExternalCode/qwt/qwt_plot_marker.h"
+#include "ExternalCode/qwt/qwt_plot_curve.h"
+#include "ExternalCode/qwt/qwt_legend.h"
+#include "ExternalCode/qwt/qwt_data.h"
+#include "ExternalCode/qwt/qwt_text.h"
+#include "ExternalCode/qwt/qwt_symbol.h"
+#include "ExternalCode/qwt/qwt_plot_layout.h"
+#include "ExternalCode/qwt/qwt_plot_zoomer.h"
+#include "ExternalCode/qwt/qwt_legend_item.h"
+#include "ExternalCode/qwt/qwt_scale_draw.h"
 
 namespace Tinkercell
 {

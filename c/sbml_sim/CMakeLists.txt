@@ -5,6 +5,19 @@ SET(LIBRARY_OUTPUT_PATH ${EXECUTABLE_OUTPUT_PATH})
     ${TINKERCELL_SOURCE_DIR}/ExternalCode/libSBML/include
     ${TINKERCELL_SOURCE_DIR}/ExternalCode/libSBML/src
     ${TINKERCELL_SOURCE_DIR}/c/sbml_sim
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/muparser
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/qwt
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/optim
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/lapack/INCLUDE
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/cvode260/include
+    ${TINKERCELL_BINARY_DIR}/ExternalCode/cvode260/include
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/cvode260/include/cvode
+    ${TINKERCELL_BINARY_DIR}/ExternalCode/cvode260/include/cvode
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/cvode260/include/sundials
+    ${TINKERCELL_BINARY_DIR}/ExternalCode/cvode260/include/sundials
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/cvode260/include/nvector
+    ${TINKERCELL_BINARY_DIR}/ExternalCode/cvode260/include/nvector
  )
  
 IF (WIN32)

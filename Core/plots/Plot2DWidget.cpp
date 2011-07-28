@@ -17,8 +17,8 @@
 #include <QListWidget>
 #include <QTableWidget>
 #include <QDebug>
-#include "qwt_scale_engine.h"
-#include "qwt_symbol.h"
+#include "ExternalCode/qwt/qwt_scale_engine.h"
+#include "ExternalCode/qwt/qwt_symbol.h"
 #include "GraphicsScene.h"
 #include "NetworkHandle.h"
 #include "MainWindow.h"

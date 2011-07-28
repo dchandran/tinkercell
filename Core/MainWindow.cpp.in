@@ -42,7 +42,7 @@ The MainWindow keeps a list of all plugins, and it is also responsible for loadi
 #include "MultithreadedSliderWidget.h"
 #include "ConsoleWindow.h"
 #include "AbstractInputWindow.h"
-#include "TextParser.h"
+#include "plugins/TextParser.h"
 #include "C_API_Slots.h"
 #include "plots/PlotTool.h"
 #include "plots/GnuplotTool.h"

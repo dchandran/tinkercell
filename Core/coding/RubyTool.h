@@ -19,8 +19,8 @@
 #include <QActionGroup>
 #include <QButtonGroup>
 #include "Tool.h"
-#include "DynamicLibraryMenu.h"
-#include "RubyInterpreterThread.h"
+#include "coding/DynamicLibraryMenu.h"
+#include "interpreters/RubyInterpreterThread.h"
 
 namespace Tinkercell
 {

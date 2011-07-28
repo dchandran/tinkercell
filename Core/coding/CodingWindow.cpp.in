@@ -17,11 +17,11 @@
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
 #include "ConsoleWindow.h"
-#include "CodingWindow.h"
-#include "PythonTool.h"
-#include "OctaveTool.h"
-#include "RubyTool.h"
-#include "LoadCLibraries.h"
+#include "coding/CodingWindow.h"
+#include "interpreters/PythonTool.h"
+#include "interpreters/OctaveTool.h"
+#include "interpreters/RubyTool.h"
+#include "coding/LoadCLibraries.h"
 #include "GlobalSettings.h"
 #include <QRegExp>
 #include <QVBoxLayout>

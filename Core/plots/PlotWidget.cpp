@@ -12,7 +12,7 @@
 #include <QTextEdit>
 #include <QMessageBox>
 #include <QDesktopServices>
-#include "qwt_scale_engine.h"
+#include "ExternalCode/qwt/qwt_scale_engine.h"
 #include "GraphicsScene.h"
 #include "MainWindow.h"
 #include "ConsoleWindow.h"

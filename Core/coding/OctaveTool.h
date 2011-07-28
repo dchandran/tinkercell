@@ -19,8 +19,8 @@
 #include <QActionGroup>
 #include <QButtonGroup>
 #include "Tool.h"
-#include "DynamicLibraryMenu.h"
-#include "OctaveInterpreterThread.h"
+#include "coding/DynamicLibraryMenu.h"
+#include "interpreters/OctaveInterpreterThread.h"
 
 namespace Tinkercell
 {

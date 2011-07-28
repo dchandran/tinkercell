@@ -35,7 +35,7 @@
 #include "Tool.h"
 #include "ConsoleWindow.h"
 #include "CThread.h"
-#include "SyntaxHighlighter.h"
+#include "coding/SyntaxHighlighter.h"
 
 namespace Tinkercell
 {

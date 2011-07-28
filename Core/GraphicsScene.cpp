@@ -14,7 +14,7 @@ that is useful for plugins, eg. move, insert, delete, changeData, etc.
 #include "NetworkWindow.h"
 #include "MainWindow.h"
 #include "NodeGraphicsItem.h"
-#include "NodeGraphicsReader.h"
+#include "fileIO/NodeGraphicsReader.h"
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
 #include "ItemHandle.h"

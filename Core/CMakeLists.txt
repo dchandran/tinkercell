@@ -7,6 +7,8 @@ ADD_DEFINITIONS(-DTC_EXPORTS)
 
 INCLUDE_DIRECTORIES( 
 	  BEFORE
+	  ${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include
+	  ${TINKERCELL_SOURCE_DIR}/ExternalCode/qwt
       ${TINKERCELL_SOURCE_DIR}/ExternalCode/cluster
       ${TINKERCELL_SOURCE_DIR}/ExternalCode/cluster/src
       ${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor2/src

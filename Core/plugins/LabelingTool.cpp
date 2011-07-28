@@ -8,8 +8,8 @@
  of items.
  
 ****************************************************************************/
-#include "LabelingTool.h"
-#include "PlotTool.h"
+#include "plugins/LabelingTool.h"
+#include "plots/PlotTool.h"
 #include "GlobalSettings.h"
 
 namespace Tinkercell

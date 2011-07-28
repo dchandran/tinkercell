@@ -22,7 +22,7 @@
 #include <QActionGroup>
 #include <QButtonGroup>
 #include "Tool.h"
-#include "DynamicLibraryMenu.h"
+#include "coding/DynamicLibraryMenu.h"
 
 namespace Tinkercell
 {

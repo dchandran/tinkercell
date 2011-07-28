@@ -24,7 +24,7 @@ to draw movable points.
 #include "NodeGraphicsItem.h"
 #include "ItemHandle.h"
 #include "UndoCommands.h"
-#include "NodeGraphicsReader.h"
+#include "fileIO/NodeGraphicsReader.h"
 #include "Tool.h"
 
 namespace Tinkercell

@@ -18,7 +18,7 @@ node graphics item and is used to draw the arrow heads at the end of the connect
 #include "MainWindow.h"
 #include "ConnectionGraphicsItem.h"
 #include "ItemHandle.h"
-#include "NodeGraphicsReader.h"
+#include "fileIO/NodeGraphicsReader.h"
 #include "UndoCommands.h"
 #include "TextGraphicsItem.h"
 #include "Tool.h"

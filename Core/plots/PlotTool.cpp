@@ -22,7 +22,7 @@
 #include "PlotTextWidget.h"
 #include "Plot2DWidget.h"
 #include "Plot3DWidget.h"
-#include "qwt_scale_engine.h"
+#include "ExternalCode/qwt/qwt_scale_engine.h"
 #include "ExternalCode/muparser/muParserDef.h"
 #include "ExternalCode/muparser/muParser.h"
 #include "ExternalCode/muparser/muParserInt.h"

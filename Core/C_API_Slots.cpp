@@ -14,10 +14,10 @@
 #include "Tool.h"
 #include "MainWindow.h"
 #include "CThread.h"
-#include "plugins/MultithreadedSliderWidget.h"
+#include "MultithreadedSliderWidget.h"
 #include "ConsoleWindow.h"
 #include "AbstractInputWindow.h"
-#include "TextParser.h"
+#include "plugins/TextParser.h"
 #include "UndoCommands.h"
 #include "GlobalSettings.h"
 

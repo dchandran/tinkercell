@@ -16,7 +16,7 @@
 #include "NodeGraphicsItem.h"
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
-#include "ConsoleWindow.h"
+#include "coding/ConsoleWindow.h"
 #include "coding/CodingWindow.h"
 #include "interpreters/PythonTool.h"
 #include "interpreters/OctaveTool.h"

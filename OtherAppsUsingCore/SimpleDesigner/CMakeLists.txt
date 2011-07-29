@@ -4,6 +4,12 @@ SET(LIBRARY_OUTPUT_PATH ${CPP_LIBRARY_OUTPUT_PATH})
     ${TINKERCELL_SOURCE_DIR}/ExternalCode/libSBML/include
     ${TINKERCELL_SOURCE_DIR}/ExternalCode/libSBML/src
     ${TINKERCELL_SOURCE_DIR}/c/sbml_sim
+	${TINKERCELL_SOURCE_DIR}/OtherAppsUsingCore/SimpleDesigner
+	${TINKERCELL_SOURCE_DIR}/Core/fileIO
+	${TINKERCELL_SOURCE_DIR}/Core/plugins
+	${TINKERCELL_SOURCE_DIR}/Core/coding
+	${TINKERCELL_SOURCE_DIR}/Core/interpreters
+	${TINKERCELL_SOURCE_DIR}/Core/plots
  )
 
 QT4_WRAP_CPP( SIMPLEDESIGNER_MOC SimpleDesigner.h)

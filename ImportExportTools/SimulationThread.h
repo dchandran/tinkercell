@@ -24,7 +24,7 @@
 #include "ItemHandle.h"
 #include "Tool.h"
 #include "CThread.h"
-#include "PlotTool.h"
+#include "plots/PlotTool.h"
 #include "MultithreadedSliderWidget.h"
 #include "copasi/copasi_api.h"
 

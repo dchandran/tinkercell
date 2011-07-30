@@ -19,6 +19,10 @@ namespace Tinkercell
 	{
 		setAutoFormatting(true);
 	}
+	
+	NodeGraphicsWriter::~NodeGraphicsWriter()
+	{
+	}
 
 	/*! \brief Writes an NodeGraphicsItem XML file with the document headers
 	* \param NodeGraphicsItem pointer to write as XML

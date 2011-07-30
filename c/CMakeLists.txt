@@ -40,8 +40,6 @@ ELSE ( WIN32 )
 	  INSTALL(TARGETS ssa ode ARCHIVE DESTINATION lib )
 ENDIF( WIN32 )
 
-ADD_SUBDIRECTORY( sbml_sim )
-
 #*******************************************************************************
 
 INCLUDE_DIRECTORIES( BEFORE
@@ -62,6 +60,7 @@ INCLUDE_DIRECTORIES( BEFORE
     ${TINKERCELL_BINARY_DIR}/ExternalCode/cvode260/include/nvector
 )
 
+ADD_SUBDIRECTORY( sbml_sim )
 IF (NOT TINKERCELL_LITE_PARTS)  #don't add any numerical packages in "parts" mode
 
 	IF (USE_COPASI)	 #use COPASI for the numerical analysis (more features)

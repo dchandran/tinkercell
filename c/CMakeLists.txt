@@ -45,6 +45,7 @@ ADD_SUBDIRECTORY( sbml_sim )
 #*******************************************************************************
 
 INCLUDE_DIRECTORIES( BEFORE
+    ${TINKERCELL_SOURCE_DIR}/c
     ${TINKERCELL_SOURCE_DIR}/ExternalCode
     ${TINKERCELL_SOURCE_DIR}/ExternalCode/muparser
     ${TINKERCELL_SOURCE_DIR}/ExternalCode/qwt

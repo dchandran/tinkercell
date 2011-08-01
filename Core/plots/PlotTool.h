@@ -33,7 +33,7 @@
 #include <QLineEdit>
 #include <QDockWidget>
 #include <QToolButton>
-#include "TC_structs.h"
+#include "API/TC_structs.h"
 #include "Tool.h"
 #include "DataTable.h"
 #include "ExternalCode/qwt/qwt_plot.h"

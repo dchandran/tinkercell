@@ -21,7 +21,7 @@ and QGraphicsItem.
 #include <QGraphicsItem>
 #include <QStringList>
 #include <math.h>
-#include "TC_structs.h"
+#include "API/TC_structs.h"
 
 #ifndef TINKERCELLCOREEXPORT
 #ifdef Q_WS_WIN

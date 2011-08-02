@@ -155,6 +155,8 @@ ADD_DEFINITIONS(-DQT_SHARED)
 #-------------------------------------------------------------------------------------------------------------
 ADD_LIBRARY( TinkerCellCore
   SHARED
+  ${TINKERCELL_SOURCE_DIR}/ExternalCode/muparser/*.cpp
+  ${TINKERCELL_SOURCE_DIR}/ExternalCode/cluster/src/*.c
   ${TINKERCELL_CORE_MOC}
   ${QWT_SRC}
   ${QWTPLOT3D_SRC}

@@ -18,8 +18,8 @@ Filename: \"msiexec.exe\"; Parameters: \"$i \"\"{app}\\installation\\python-2.6.
 Filename: {app}\\installation\\setuptools-0.6c11.win32-py2.5.exe; Description: \"install Python easy_install (run as admin)\"; WorkingDir: {app}; Flags: postinstall unchecked\n\
 Filename: {app}\\installation\\numpy-1.6.1-win32-superpack-python2.6.exe; Description: \"install Python Numeric package\"; WorkingDir: {app}; Flags: postinstall\n\
 Filename: {app}\\installation\\scipy-0.9.0-win32-superpack-python2.6.exe; Description: \"install Python Scientific package\"; WorkingDir: {app}; Flags: postinstall\n\
-Filename: C:\\Python25\\Scripts\\easy_install.exe; Parameters: simplejson; Description: \"install JSON package\"; WorkingDir: C:\\Python25\\Scripts; Flags: postinstall unchecked\n\
-Filename: C:\\Python25\\Scripts\\easy_install.exe; Parameters: biopython; Description: \"install BioPython package\"; WorkingDir: C:\\Python25\\Scripts; Flags: postinstall unchecked\n\
+Filename: C:\\Python26\\Scripts\\easy_install.exe; Parameters: simplejson; Description: \"install JSON package\"; WorkingDir: C:\\Python25\\Scripts; Flags: postinstall unchecked\n\
+Filename: C:\\Python26\\Scripts\\easy_install.exe; Parameters: biopython; Description: \"install BioPython package\"; WorkingDir: C:\\Python25\\Scripts; Flags: postinstall unchecked\n\
 Filename: {app}\\installation\\pysces-0.7.8.win32-py2.6.exe; Description: \"install Python Cell Simulation package\"; WorkingDir: {app}; Flags: postinstall unchecked\n\
 Filename: {app}\\@TINKERCELL_EXE@.exe; Description: \"run @TINKERCELL_EXE@\"; WorkingDir: {app}; Flags: postinstall\n\
 [Icons]\n\

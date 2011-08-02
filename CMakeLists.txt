@@ -43,7 +43,7 @@ IF ( WIN32  )
 	ELSE(MINGW)
 		SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /FORCE:MULTIPLE") #MSVC issues
 	ENDIF (MINGW)
-ENDIF ( WIN32 AND MINGW )
+ENDIF ( WIN32 )
 
 #--------------------------------------------------------------------------
 # TinkerCell version obtained from Subversion revision number

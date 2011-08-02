@@ -31,14 +31,18 @@ SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DQT_NO_DEBUG -DQT_XML_LIB -DQT_GUI_LIB 
 #--------------------------------------------------------------------------
 #  Special link flags for MS Windows
 #--------------------------------------------------------------------------
-IF ( WIN32 AND MINGW )
-   SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--enable-auto-import")
-   OPTION( USE_STDCALL "Use this to enable stdcall instead of cdecl calling convention. Use this if you want to use a library in MS applications. This might cause issues in some libraries, such as embedded python" OFF)
-   IF (USE_STDCALL)
-		SET(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--enable-auto-import,--add-stdcall-alias,--out-implib")
-	ELSE(USE_STDCALL)
-		SET(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--enable-auto-import")
-	ENDIF(USE_STDCALL)
+IF ( WIN32  )
+	IF (MINGW)
+		SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--enable-auto-import")
+		OPTION( USE_STDCALL "Use this to enable stdcall instead of cdecl calling convention. Use this if you want to use a library 	in MS applications. This might cause issues in some libraries, such as embedded python" OFF)
+		IF (USE_STDCALL)
+				SET(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} 	-Wl,--enable-auto-import,--add-stdcall-alias,--out-implib")
+			ELSE(USE_STDCALL)
+				SET(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--enable-auto-import")
+		ENDIF(USE_STDCALL)
+	ELSE(MINGW)
+		SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /FORCE:MULTIPLE") #MSVC issues
+	ENDIF (MINGW)
 ENDIF ( WIN32 AND MINGW )
 
 #--------------------------------------------------------------------------

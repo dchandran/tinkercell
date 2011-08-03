@@ -25,7 +25,9 @@ buttons for all these functions.
 namespace Tinkercell
 {
 
-	BasicGraphicsToolbar::BasicGraphicsToolbar() : Tool(tr("Basic Graphics Toolbox"),tr("Basic GUI"))
+	BasicGraphicsToolbar::BasicGraphicsToolbar(bool alignment, bool color, bool zoom, bool text) : 
+		Tool(tr("Basic Graphics Toolbox"),tr("Basic GUI")),
+			alignmentTool(alignment), colorTool(color), zoomTool(zoom), textTool(text)
 	{
 		mode = none;
 		toolBar = 0;
@@ -53,9 +55,14 @@ namespace Tinkercell
 		brightnessLayout->addWidget(brightnessSpinbox);
 		alphaDialog->setLayout(brightnessLayout);
 		
-		toolBar->addAction(QIcon(tr(":/images/zoomin.png")),tr("Zoom in"),this,SLOT(zoomIn()));
-		toolBar->addAction(QIcon(tr(":/images/zoomout.png")),tr("Zoom out"),this,SLOT(zoomOut()));
-		toolBar->addAction(QIcon(tr(":/images/brightness.png")),tr("Brightness"),this,SLOT(alphaDialogOpened()));
+		if (zoomTool)
+		{
+			toolBar->addAction(QIcon(tr(":/images/zoomin.png")),tr("Zoom in"),this,SLOT(zoomIn()));
+			toolBar->addAction(QIcon(tr(":/images/zoomout.png")),tr("Zoom out"),this,SLOT(zoomOut()));
+		}
+
+		if (colorTool)
+			toolBar->addAction(QIcon(tr(":/images/brightness.png")),tr("Brightness"),this,SLOT(alphaDialogOpened()));
 
 		QToolButton * setColor = new QToolButton(toolBar);
 		setColor->setPopupMode(QToolButton::MenuButtonPopup);
@@ -195,7 +202,8 @@ namespace Tinkercell
 		changePen->setToolTip(tr("Change outline color"));
 		alignButton->setToolTip(tr("Align items"));
 		
-		toolBar->addWidget(setColor);
+		if (colorTool)
+			toolBar->addWidget(setColor);
 
 		findText = new QLineEdit;
 		replaceText = new QLineEdit;
@@ -204,6 +212,7 @@ namespace Tinkercell
 
 		QAction * findAction = new QAction(QIcon(tr(":/images/find.png")),tr("Find text"),mainWindow);
 		findAction->setShortcut(QKeySequence::Find);
+		
 		toolBar->addAction(findAction);
 
 		QAction * replaceAction = new QAction(QIcon(tr(":/images/replace.png")),tr("Replace text"),mainWindow);
@@ -296,7 +305,8 @@ namespace Tinkercell
                 this,
                 SLOT(sendToBack()));
             
-            mainWindow->contextItemsMenu.addAction(alignButton);
+			if (alignmentTool)
+	            mainWindow->contextItemsMenu.addAction(alignButton);
 
 			connect(mainWindow,SIGNAL(escapeSignal(const QWidget*)),this,SLOT(escapeSlot(const QWidget*)));
 

@@ -651,7 +651,6 @@ int main(int argc, char *argv[])
 	GlobalSettings::ENABLE_CONSOLE_WINDOW = true;
 	GlobalSettings::ENABLE_GRAPHING_TOOLS = true;
 	GlobalSettings::ENABLE_CODING_TOOLS = false;
-	GlobalSettings::ENABLE_ALIGNMENT_TOOL = false;
 	GlobalSettings::ENABLE_PYTHON = false;
 	GlobalSettings::ENABLE_OCTAVE = true;
 	GlobalSettings::ENABLE_LOADSAVE_TOOL = true;

@@ -295,11 +295,11 @@ namespace Tinkercell
 		{
 			addTool(new LoadSaveTool);
 		}
-		
-		if (GlobalSettings::ENABLE_ALIGNMENT_TOOL)
-		{
-			addTool(new BasicGraphicsToolbar);
-		}
+
+		addTool(new BasicGraphicsToolbar(GlobalSettings::ENABLE_ALIGNMENT_MENU,
+																GlobalSettings::ENABLE_COLOR_TOOLBAR,
+																GlobalSettings::ENABLE_ZOOM_TOOLBAR,
+																GlobalSettings::ENABLE_TEXT_TOOLBAR));
 	
 		if (GlobalSettings::ENABLE_GRAPHING_TOOLS)
 		{
@@ -1483,7 +1483,10 @@ namespace Tinkercell
 	bool GlobalSettings::ENABLE_CONSOLE_WINDOW = true;
 	bool GlobalSettings::ENABLE_GRAPHING_TOOLS = false;
 	bool GlobalSettings::ENABLE_CODING_TOOLS = false;
-	bool GlobalSettings::ENABLE_ALIGNMENT_TOOL = true;
+	bool GlobalSettings::ENABLE_ALIGNMENT_MENU = true;
+	bool GlobalSettings::ENABLE_COLOR_TOOLBAR = true;
+	bool GlobalSettings::ENABLE_ZOOM_TOOLBAR = true;
+	bool GlobalSettings::ENABLE_TEXT_TOOLBAR = true;
 	bool GlobalSettings::ENABLE_PYTHON = false;
 	bool GlobalSettings::ENABLE_OCTAVE = false;
 	bool GlobalSettings::ENABLE_RUBY = false;

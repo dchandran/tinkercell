@@ -840,24 +840,27 @@ namespace Tinkercell
 		emit keyPressed(this, keyEvent);
 		
 		int key = keyEvent->key();
-		
-		if (selectedItems.size() == 1 && TextGraphicsItem::cast(selectedItems[0]))
-		{
-			QGraphicsScene::keyPressEvent(keyEvent);
-			if (!(key == Qt::Key_Escape || 
-				  ((key == Qt::Key_Return || key == Qt::Key_Enter) && (keyEvent->modifiers() != 0)))
-				  )
-				keyEvent->accept();
-		}
-		else
-		for (int i=0; i < selectedItems.size(); ++i)
-			if (TextGraphicsItem::cast(selectedItems[i]))
+
+		if (_useDefaultBehavior)
+		{		
+			if (selectedItems.size() == 1 && TextGraphicsItem::cast(selectedItems[0]))
 			{
-				TextGraphicsItem * textItem = TextGraphicsItem::cast(selectedItems[i]);
-				textItem->showBorder(false);
-				textItem->setSelected(false);
-				textItem->setTextInteractionFlags(Qt::NoTextInteraction);
+				QGraphicsScene::keyPressEvent(keyEvent);
+				if (!(key == Qt::Key_Escape || 
+					  ((key == Qt::Key_Return || key == Qt::Key_Enter) && (keyEvent->modifiers() != 0)))
+					  )
+					keyEvent->accept();
 			}
+			else
+			for (int i=0; i < selectedItems.size(); ++i)
+				if (TextGraphicsItem::cast(selectedItems[i]))
+				{
+					TextGraphicsItem * textItem = TextGraphicsItem::cast(selectedItems[i]);
+					textItem->showBorder(false);
+					textItem->setSelected(false);
+					textItem->setTextInteractionFlags(Qt::NoTextInteraction);
+				}
+		}
 
 		if (keyEvent->isAccepted())
 		{
@@ -880,32 +883,35 @@ namespace Tinkercell
 			return;
 		}
 
-		if (keyEvent->matches(QKeySequence::Copy))
+		if (_useDefaultBehavior)
 		{
-			copy();
-			keyEvent->accept();
-			return;
-		}
+			if (keyEvent->matches(QKeySequence::Copy))
+			{
+				copy();
+				keyEvent->accept();
+				return;
+			}
 
-		if (keyEvent->matches(QKeySequence::Cut))
-		{
-			cut();
-			keyEvent->accept();
-			return;
-		}
+			if (keyEvent->matches(QKeySequence::Cut))
+			{
+				cut();
+				keyEvent->accept();
+				return;
+			}
 
-		if (keyEvent->matches(QKeySequence::Paste))
-		{
-			paste();
-			keyEvent->accept();
-			return;
-		}
+			if (keyEvent->matches(QKeySequence::Paste))
+			{
+				paste();
+				keyEvent->accept();
+				return;
+			}
 
-		if (keyEvent->matches(QKeySequence::SelectAll))
-		{
-			selectAll();
-			keyEvent->accept();
-			return;
+			if (keyEvent->matches(QKeySequence::SelectAll))
+			{
+				selectAll();
+				keyEvent->accept();
+				return;
+			}
 		}
 
 		if (key == Qt::Key_Escape || key == Qt::Key_Space)
@@ -914,24 +920,24 @@ namespace Tinkercell
 			keyEvent->accept();
 		}
 
-		if (_useDefaultBehavior)
+		if ((key == Qt::Key_Plus || key == Qt::Key_Equal || key == Qt::Key_Underscore || key == Qt::Key_Minus)
+			&& (selectedItems.isEmpty() || (keyEvent->modifiers() & (Qt::ShiftModifier | Qt::ControlModifier))))
 		{
-			if ((key == Qt::Key_Plus || key == Qt::Key_Equal || key == Qt::Key_Underscore || key == Qt::Key_Minus)
-				&& (selectedItems.isEmpty() || (keyEvent->modifiers() & (Qt::ShiftModifier | Qt::ControlModifier))))
+			if (key == Qt::Key_Plus || key == Qt::Key_Equal)
 			{
-				if (key == Qt::Key_Plus || key == Qt::Key_Equal)
-				{
-					zoom(qreal(1.2));
-					keyEvent->accept();
-				}
-				else
-					if (key == Qt::Key_Underscore || key == Qt::Key_Minus)
-					{
-						zoom(1/qreal(1.2));
-						keyEvent->accept();
-					}
+				zoom(qreal(1.2));
+				keyEvent->accept();
 			}
 			else
+				if (key == Qt::Key_Underscore || key == Qt::Key_Minus)
+				{
+					zoom(1/qreal(1.2));
+					keyEvent->accept();
+				}
+		}
+
+		if (_useDefaultBehavior)
+		{
 				if (key == Qt::Key_Delete || key == Qt::Key_Backspace)
 				{
 					if (selectedItems.size() > 0)

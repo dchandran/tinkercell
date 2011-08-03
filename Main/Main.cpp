@@ -65,7 +65,6 @@ int main(int argc, char *argv[])
 	GlobalSettings::ENABLE_CONSOLE_WINDOW = true;
 	GlobalSettings::ENABLE_GRAPHING_TOOLS = true;
 	GlobalSettings::ENABLE_CODING_TOOLS = true;
-	GlobalSettings::ENABLE_ALIGNMENT_TOOL = true;
 	GlobalSettings::ENABLE_PYTHON = true;
 	GlobalSettings::ENABLE_RUBY = true;
 	GlobalSettings::ENABLE_OCTAVE = true;

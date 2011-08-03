@@ -25,7 +25,10 @@ namespace Tinkercell
 	ENABLE_CONSOLE_WINDOW
 	ENABLE_GRAPHING_TOOLS
 	ENABLE_CODING_TOOLS
-	ENABLE_ALIGNMENT_TOOL
+	ENABLE_ALIGNMENT_MENU
+	ENABLE_COLOR_TOOLBAR
+	ENABLE_ZOOM_TOOLBAR
+	ENABLE_TEXT_TOOLBAR
 	ENABLE_PYTHON
 	ENABLE_RUBY
 	ENABLE_OCTAVE
@@ -47,8 +50,17 @@ namespace Tinkercell
 		/*!\brief enable coding window and interpreters -- defaults to false*/
 		static bool ENABLE_CODING_TOOLS;
 		
-		/*!\brief enable alignment and other basic GUI -- defaults to true*/
-		static bool ENABLE_ALIGNMENT_TOOL;
+		/*!\brief enable alignment menu -- defaults to true*/
+		static bool ENABLE_ALIGNMENT_MENU;
+		
+		/*!\brief enable color menu -- defaults to true*/
+		static bool ENABLE_COLOR_TOOLBAR;
+		
+		/*!\brief enable zoom menu -- defaults to true*/
+		static bool ENABLE_ZOOM_TOOLBAR;
+		
+		/*!\brief enable text options -- defaults to true*/
+		static bool ENABLE_TEXT_TOOLBAR;
 		
 		/*!\brief enable python interpreter -- defaults to false*/
 		static bool ENABLE_PYTHON;

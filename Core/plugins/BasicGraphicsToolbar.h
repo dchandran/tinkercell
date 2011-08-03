@@ -54,7 +54,8 @@ namespace Tinkercell
 		Q_OBJECT
 
 	public:
-		BasicGraphicsToolbar();
+		
+		BasicGraphicsToolbar(bool alignment=true, bool color=true, bool zoom=true, bool text=true);
 		bool setMainWindow(MainWindow * main);
 
 	public slots:
@@ -105,6 +106,8 @@ namespace Tinkercell
 		void revertColors(const QList<QGraphicsItem*>&);
 
 	protected:
+
+		bool alignmentTool, colorTool, zoomTool, textTool;
 
 		QList<QGraphicsItem*> itemsToAlign ( QList< QGraphicsItem*>&);
 

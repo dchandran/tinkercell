@@ -152,6 +152,9 @@ Solution: Be sure that TC_EXPORTS is NOT defined.
 In the source code, hover the mouse over TINKERCELLCOREEXPORTS and 
 check whether it is defined as __declspec(dllimport)
 
+Problem: Visual Studio is complaining about WinMain
+Solution: Go to project properties -> Linker -> System ->SubSystem and select Console
+
 
 =====================================
    WHAT EACH FOLDER CONTAINS

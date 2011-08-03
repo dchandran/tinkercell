@@ -8,7 +8,8 @@
 #include "ConsoleWindow.h"
 #include "DynamicLibraryMenu.h"
 
-using namespace Tinkercell;
+namespace Tinkercell
+{
 
 CopasiExporter * CopasiExporter::_instance = 0;
 
@@ -999,4 +1000,4 @@ void CopasiExporter::toolLoaded(Tool*)
 		}
     }
 }
-
+}

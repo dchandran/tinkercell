@@ -5,7 +5,8 @@
 #include "BasicInformationTool.h"
 #include "SimulationThread.h"
 
-using namespace Tinkercell;
+namespace Tinkercell
+{
 
 int SimulationThread::totalModelCount = 0;
 
@@ -1024,4 +1025,4 @@ void SimulationDialog::updateParameterList()
 		menu3->setCurrentIndex(j);
 	}
 }
-
+}

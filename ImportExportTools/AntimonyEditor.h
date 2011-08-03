@@ -28,6 +28,7 @@
 #include <QActionGroup>
 #include <QLineEdit>
 #include <QSemaphore>
+#include "MainWindow.h"
 #include "NetworkHandle.h"
 #include "NetworkWindow.h"
 #include "TextEditor.h"

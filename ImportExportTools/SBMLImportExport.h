@@ -13,6 +13,7 @@
 
 #include <QThread>
 #include <QSemaphore>
+#include "MainWindow.h"
 #include <QStringList>
 #include "NetworkWindow.h"
 #include "ItemHandle.h"

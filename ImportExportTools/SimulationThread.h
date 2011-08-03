@@ -20,6 +20,7 @@
 #include <QDoubleSpinBox>
 #include <QSpinBox>
 #include <QComboBox>
+#include "MainWindow.h"
 #include "NetworkWindow.h"
 #include "ItemHandle.h"
 #include "Tool.h"

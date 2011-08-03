@@ -14,6 +14,7 @@
 #include <QThread>
 #include <QSemaphore>
 #include <QStringList>
+#include "MainWindow.h"
 #include "NetworkWindow.h"
 #include "ItemHandle.h"
 #include "Tool.h"

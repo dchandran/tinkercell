@@ -1,6 +1,5 @@
 SET(LIBRARY_OUTPUT_PATH ${EXECUTABLE_OUTPUT_PATH})
 ADD_DEFINITIONS(-DTC_EXPORTS)
-
 #-------------------------------------------------------------------------------------------------------------
 #        Source files from Core, Qwt, and Qwt3D
 #-------------------------------------------------------------------------------------------------------------
@@ -133,6 +132,9 @@ SET( QWTPLOT3D_HDRS
 FILE( GLOB QWT_SRC ${TINKERCELL_SOURCE_DIR}/ExternalCode/qwt/*.cpp )
 FILE( GLOB QWT_HDRS ${TINKERCELL_SOURCE_DIR}/ExternalCode/qwt/*.h )
 
+FILE( GLOB MUPARSER_SRC ${TINKERCELL_SOURCE_DIR}/ExternalCode/muparser/*.cpp)
+FILE( GLOB CLUSTER_SRC ${TINKERCELL_SOURCE_DIR}/ExternalCode/cluster/src/*.c)
+
 #-------------------------------------------------------------------------------------------------------------
 #    Create resource file and MOC files used by Qt
 #-------------------------------------------------------------------------------------------------------------
@@ -155,8 +157,8 @@ ADD_DEFINITIONS(-DQT_SHARED)
 #-------------------------------------------------------------------------------------------------------------
 ADD_LIBRARY( TinkerCellCore
   SHARED
-  ${TINKERCELL_SOURCE_DIR}/ExternalCode/muparser/*.cpp
-  ${TINKERCELL_SOURCE_DIR}/ExternalCode/cluster/src/*.c
+  ${MUPARSER_SRC}
+  ${CLUSTER_SRC}
   ${TINKERCELL_CORE_MOC}
   ${QWT_SRC}
   ${QWTPLOT3D_SRC}

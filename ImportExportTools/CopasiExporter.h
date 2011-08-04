@@ -78,7 +78,9 @@ namespace Tinkercell
 		SimulationDialog * simDialog;
 		static QList<SimulationThread*> runningThreads;
 		static SimulationThread * getSimulationThread();
-		
+		static NumericalDataTable updatedParameters;
+
+	public:
 		static tc_matrix simulateDeterministic(double startTime, double endTime, int numSteps);
 		static tc_matrix simulateStochastic(double startTime, double endTime, int numSteps);
 		static tc_matrix simulateHybrid(double startTime, double endTime, int numSteps);
@@ -100,8 +102,6 @@ namespace Tinkercell
 		static tc_matrix LMatrix();
 		static tc_matrix gaOptimize(const char*);
 		static void updateParams(tc_matrix);
-		
-		static NumericalDataTable updatedParameters;
 	};
 }
 

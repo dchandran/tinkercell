@@ -236,8 +236,7 @@ namespace Tinkercell
 		initializeMenus(enableScene,enableText);
 		//setIconSize(QSize(25,25));
 
-		tabWidget = new DroppableTabWidget;
-		tabWidget->mainWindow = this;
+		tabWidget = new DroppableTabWidget(this);
 		connect(tabWidget,SIGNAL(itemsDropped(GraphicsScene*, const QString&, const QPointF&)),this,SIGNAL(itemsDropped(GraphicsScene*, const QString&,const QPointF&)));
 
 		tabWidget->setStyleSheet(tr("QTabBar::tab { min-width: 36ex; }"));
@@ -1524,6 +1523,10 @@ namespace Tinkercell
 			event->accept();
 			mainWindow->loadFiles(files);
 		}
+	}
+
+	DroppableTabWidget::DroppableTabWidget(MainWindow * main): QTabWidget(main), mainWindow(main)
+	{
 	}
 
 	}

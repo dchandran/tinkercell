@@ -75,7 +75,7 @@ namespace Tinkercell
 			void dropEvent(QDropEvent * event);
 
 		private:
-			DroppableTabWidget();
+			DroppableTabWidget(MainWindow * main);
 			MainWindow * mainWindow;		
 	};
 

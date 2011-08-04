@@ -15,7 +15,7 @@ if ($dir !~ /\/$/)
 }
 
 print "<RCC>\n";
-print "    <qresource prefix=\"/images\" >\n";
+print "    <qresource prefix=\"/images\">\n";
 
 foreach my $file(@FILES)
 {

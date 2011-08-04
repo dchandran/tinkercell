@@ -43,7 +43,6 @@ ADD_LIBRARY( raptor
 TARGET_LINK_LIBRARIES( raptor
    raptor
    libcurl
-   expat
 )
 
 #----------------------------------

@@ -63,7 +63,7 @@ namespace Tinkercell
 		
 		QStringList keys;
 		if (filename.isEmpty())
-			keys = Ontology::readNodes(appDir + tr("/NodesTree/NodesTree.nt"),"ntriples");
+			keys = Ontology::readNodes(appDir + tr("/NodesTree.nt"),"ntriples");
 		else
 			keys = Ontology::readNodes(filename,"ntriples");
 		QList<NodeFamily*> families;

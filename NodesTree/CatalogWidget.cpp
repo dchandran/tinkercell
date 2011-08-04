@@ -827,7 +827,7 @@ namespace Tinkercell
 		if (familiesInCatalog.size() < 30)
 		{
 			QString appDir = QCoreApplication::applicationDirPath();
-			QFile defaultListFile(appDir + tr("/NodesTree/InitialCatalogList.txt"));
+			QFile defaultListFile(appDir + tr("/InitialCatalogList.txt"));
 			if (defaultListFile.open( QFile::ReadOnly | QFile::Text ))
 			{
 				QString readAll(defaultListFile.readAll());

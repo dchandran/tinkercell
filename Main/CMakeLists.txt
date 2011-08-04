@@ -119,7 +119,7 @@ FILE(GLOB NODESTREE_XML_FILES
 	${TINKERCELL_SOURCE_DIR}/NodesTree/*.nt
 )
 
-INSTALL( FILES ${NODESTREE_XML_FILES} DESTINATION NodesTree )
+INSTALL( FILES ${NODESTREE_XML_FILES} DESTINATION bin/../ )
 
 #--------------------------------------------------------------------------
 #  Copy example files and stylesheet

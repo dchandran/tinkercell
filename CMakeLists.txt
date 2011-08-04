@@ -1,4 +1,5 @@
 PROJECT( TINKERCELL )
+SET(CMAKE_RC_COMPILE_OBJECT Release)
 
 #--------------------------------------------------------------------------
 #  CMake not supporting Win32 MinGW?

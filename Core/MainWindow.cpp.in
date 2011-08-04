@@ -236,7 +236,10 @@ namespace Tinkercell
 		initializeMenus(enableScene,enableText);
 		//setIconSize(QSize(25,25));
 
-		tabWidget = new QTabWidget;
+		tabWidget = new DroppableTabWidget;
+		tabWidget->mainWindow = this;
+		connect(tabWidget,SIGNAL(itemsDropped(GraphicsScene*, const QString&, const QPointF&)),this,SIGNAL(itemsDropped(GraphicsScene*, const QString&,const QPointF&)));
+
 		tabWidget->setStyleSheet(tr("QTabBar::tab { min-width: 36ex; }"));
 		connect(tabWidget,SIGNAL(currentChanged(int)),this,SLOT(tabIndexChanged(int)));
 
@@ -1493,5 +1496,35 @@ namespace Tinkercell
 	bool GlobalSettings::ENABLE_LOADSAVE_TOOL = true;
 	bool GlobalSettings::DO_SVN_UPDATE = false;
 	QString GlobalSettings::PLUGINS_SVN_URL = QString();
-}
+	
+	void DroppableTabWidget::dropEvent(QDropEvent * event)
+	{
+		QList<QUrl> urlList;
+		QList<QFileInfo> files;
+		QString fName;
+		QFileInfo info;
+		
+		const QMimeData * mimeData = event->mimeData();
+		
+		if (mimeData->hasUrls())
+		{
+			urlList = event->mimeData()->urls(); // returns list of QUrls
+			// if just text was dropped, urlList is empty (size == 0)
+			if ( urlList.size() > 0) // if at least one QUrl is present in list
+			{
+				fName = urlList[0].toLocalFile(); // convert first QUrl to local path
+				info.setFile( fName ); // information about file
+				if ( info.isFile() )
+					files += info;
+			}
+		}
+		
+		if (!files.isEmpty() && mainWindow)
+		{
+			event->accept();
+			mainWindow->loadFiles(files);
+		}
+	}
+
+	}
 

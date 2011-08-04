@@ -9,7 +9,6 @@ The central widget in MainWindow is a tab widget. Each tab widget can hold
 a GraphicsView or a TextEditor.
 One of the main roles of MainWindow is to serve as a signal/slot hub for Tools. 
 
-
 ****************************************************************************/
 
 #ifndef TINKERCELL_MAINWINDOW_H
@@ -66,6 +65,18 @@ namespace Tinkercell
 	class SymbolsTable;
 	class CThread;
 	class C_API_Slots;
+	class MainWindow;
+
+	class DroppableTabWidget : public QTabWidget
+	{
+		friend class MainWindow;
+
+		protected:
+			void dropEvent(QDropEvent * event);
+
+		private:
+			MainWindow * mainWindow;		
+	};
 
 	/*! \brief 
 	MainWindow is the parent container for all the other widgets in TinkerCell
@@ -792,8 +803,9 @@ namespace Tinkercell
 		* \param QCloseEvent * event
 		* \return void*/
 		void closeEvent(QCloseEvent *event);
+
 		/*! \brief the central multi-document interface widget*/
-		QTabWidget * tabWidget;
+		DroppableTabWidget * tabWidget;
 		/*! \brief the list of all network windows*/
 		QList<NetworkHandle*> allNetworks;
 		/*! \brief the optional tool box that will only appear if one of the plug-ins uses the tab widget argument in the addToolWindow call*/

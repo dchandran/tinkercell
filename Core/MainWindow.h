@@ -75,6 +75,7 @@ namespace Tinkercell
 			void dropEvent(QDropEvent * event);
 
 		private:
+			DroppableTabWidget();
 			MainWindow * mainWindow;		
 	};
 
@@ -96,6 +97,7 @@ namespace Tinkercell
 		friend class GraphicsScene;
 		friend class TextEditor;
 		friend class GraphicsView;
+		friend class DroppableTabWidget;
 
 		/*! \brief this enum is used to determine how to place a widget when used in addToolWindow.
 		             DockWidget = tool window is placed into a dockable widget

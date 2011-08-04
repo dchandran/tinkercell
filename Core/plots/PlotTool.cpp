@@ -44,8 +44,8 @@ namespace Tinkercell
 		dockWidget = 0;
 		organizerToolBar = 0;
 		plotOrganizerEnabled = false;
-		setPalette(QPalette(QColor(255,255,255,255)));
-		setAutoFillBackground(true);
+		//setPalette(QPalette(QColor(255,255,255,255)));
+		//setAutoFillBackground(true);
 
 		connect(&actionGroup,SIGNAL(triggered(QAction*)),this,SLOT(actionTriggered(QAction*)));
 

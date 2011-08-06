@@ -64,15 +64,15 @@ namespace Tinkercell
 		if (colorTool)
 			toolBar->addAction(QIcon(tr(":/images/brightness.png")),tr("Brightness"),this,SLOT(alphaDialogOpened()));
 
-		QToolButton * setColor = new QToolButton(toolBar);
+		QToolButton * setColor = new QToolButton(this);
 		setColor->setPopupMode(QToolButton::MenuButtonPopup);
 		setColor->setIcon(QIcon(tr(":/images/bucket.png")));
 		setColor->setToolTip(tr("Set color"));
 		 
-		QAction * changeBrush = new QAction(QIcon(tr(":/images/paint.png")),tr("Fill color"),toolBar);
+		QAction * changeBrush = new QAction(QIcon(tr(":/images/paint.png")),tr("Fill color"),this);
 		connect(changeBrush,SIGNAL(triggered()),this,SLOT(changeBrush()));
 
-		gradientMenu = new QMenu(tr("Gradients"),setColor);
+		gradientMenu = new QMenu(tr("Gradients"),this);
 		QAction * noGradient = new QAction(tr("None"),gradientMenu);
 		connect(noGradient,SIGNAL(triggered()),this,SLOT(noGradient()));
 		QAction * linearGradient = new QAction(tr("Linear"),gradientMenu);
@@ -145,7 +145,7 @@ namespace Tinkercell
 		painter4.drawRect(0,0,20,20);
 		changeBrushAlpha2->setIcon(QIcon(balpha2));
 
-		QAction * changePen = new QAction(QIcon(tr(":/images/pencil.png")),tr("Outline color"),toolBar);
+		QAction * changePen = new QAction(QIcon(tr(":/images/pencil.png")),tr("Outline color"),this);
 		connect(changePen,SIGNAL(triggered()),this,SLOT(changePen()));
 		changePenWidth = new QAction(tr("Outline width : ") + QString::number(penWidth),changeColorMenu);
 		connect(changePenWidth,SIGNAL(triggered()),this,SLOT(selectPenWidth()));
@@ -169,29 +169,14 @@ namespace Tinkercell
 
 		QMenu * alignMenu = new QMenu(toolBar);
 
-		alignMenu->addAction(QIcon(tr(":/images/alignright.png")),tr("Align right"),
-			this,SLOT(alignRight()));
-
-		alignMenu->addAction(QIcon(tr(":/images/alignleft.png")),tr("Align left"),
-			this,SLOT(alignLeft()));
-
-		alignMenu->addAction(QIcon(tr(":/images/aligntop.png")),tr("Align top"),
-			this,SLOT(alignTop()));
-
-		alignMenu->addAction(QIcon(tr(":/images/alignbottom.png")),tr("Align bottom"),
-			this,SLOT(alignBottom()));
-
-		alignMenu->addAction(QIcon(tr(":/images/aligncompactvertical.png")),tr("Align compact vertical"),
-			this,SLOT(alignCompactVertical()));
-
-		alignMenu->addAction(QIcon(tr(":/images/aligncompacthorizontal.png")),tr("Align compact horizontal"),
-			this,SLOT(alignCompactHorizontal()));
-
-		alignMenu->addAction(QIcon(tr(":/images/aligncentervertical.png")),tr("Align evenly vertical"),
-			this,SLOT(alignEvenSpacedVertical()));
-
-		alignMenu->addAction(QIcon(tr(":/images/aligncenterhorizontal.png")),tr("Align evenly horizontal"),
-			this,SLOT(alignEvenSpacedHorizontal()));
+		alignMenu->addAction(QIcon(tr(":/images/alignright.png")),tr("Align right"), this,SLOT(alignRight()));
+		alignMenu->addAction(QIcon(tr(":/images/alignleft.png")),tr("Align left"), this,SLOT(alignLeft()));
+		alignMenu->addAction(QIcon(tr(":/images/aligntop.png")),tr("Align top"), this,SLOT(alignTop()));
+		alignMenu->addAction(QIcon(tr(":/images/alignbottom.png")),tr("Align bottom"), this,SLOT(alignBottom()));
+		alignMenu->addAction(QIcon(tr(":/images/aligncompactvertical.png")),tr("Align compact vertical"), this,SLOT(alignCompactVertical()));
+		alignMenu->addAction(QIcon(tr(":/images/aligncompacthorizontal.png")),tr("Align compact horizontal"), this,SLOT(alignCompactHorizontal()));
+		alignMenu->addAction(QIcon(tr(":/images/aligncentervertical.png")),tr("Align evenly vertical"), this,SLOT(alignEvenSpacedVertical()));
+		alignMenu->addAction(QIcon(tr(":/images/aligncenterhorizontal.png")),tr("Align evenly horizontal"), this,SLOT(alignEvenSpacedHorizontal()));
 
 		alignButton->setMenu(alignMenu);
 

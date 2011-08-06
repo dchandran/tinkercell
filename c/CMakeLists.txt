@@ -1,4 +1,5 @@
 SET(LIBRARY_OUTPUT_PATH ${C_LIBRARY_OUTPUT_PATH})
+ADD_DEFINITIONS(-DTC_EXPORTS)
 
 OPTION( USE_COPASI "Use COPASI for simulations" ON )
 
@@ -61,37 +62,39 @@ INCLUDE_DIRECTORIES( BEFORE
 )
 
 ADD_SUBDIRECTORY( sbml_sim )
-IF (NOT TINKERCELL_LITE_PARTS)  #don't add any numerical packages in "parts" mode
 
-	IF (USE_COPASI)	 #use COPASI for the numerical analysis (more features)
-	     
-	     #all the simulation work is handled by C++ plugins
-		INSTALL( FILES 
-				${TINKERCELL_SOURCE_DIR}/API/TC_structs.h
-				${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/copasi_api.h
-				${TINKERCELL_SOURCE_DIR}/ExternalCode/lapack/INCLUDE/f2c.h
-				${TINKERCELL_SOURCE_DIR}/ExternalCode/lapack/INCLUDE/clapack.h
-				${TINKERCELL_SOURCE_DIR}/ExternalCode/lapack/INCLUDE/blaswrap.h
-		  DESTINATION c
-		)
-	
-	ELSE(USE_COPASI)   #use custom programs for the numerical analysis (less features, but faster)
-		INCLUDE( CustomSimulationPrograms.cmake )
-	ENDIF (USE_COPASI)
-	
-	INCLUDE_DIRECTORIES( BEFORE
-		${TINKERCELL_SOURCE_DIR}/ExternalCode/lpsolve
+IF (USE_COPASI)	 #use COPASI for the numerical analysis (more features)
+	 
+	 #all the simulation work is handled by C++ plugins
+	INSTALL( FILES 
+			${TINKERCELL_SOURCE_DIR}/API/TC_structs.h
+			${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/copasi_api.h
+			${TINKERCELL_SOURCE_DIR}/ExternalCode/lapack/INCLUDE/f2c.h
+			${TINKERCELL_SOURCE_DIR}/ExternalCode/lapack/INCLUDE/clapack.h
+			${TINKERCELL_SOURCE_DIR}/ExternalCode/lapack/INCLUDE/blaswrap.h
+	  DESTINATION c
 	)
 
-	ADD_LIBRARY( lpsolve
-	  SHARED
-	  lpsolve.c
-	)
+ELSE(USE_COPASI)   #use custom programs for the numerical analysis (less features, but faster)
+	INCLUDE( CustomSimulationPrograms.cmake )
+ENDIF (USE_COPASI)
 
-	TARGET_LINK_LIBRARIES( lpsolve lpsolve lp_solve tinkercellapi )
+INCLUDE_DIRECTORIES( BEFORE
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/lpsolve
+)
 
+ADD_LIBRARY( lpsolve
+  SHARED
+  lpsolve.c
+)
 
-ENDIF (NOT TINKERCELL_LITE_PARTS)
+TARGET_LINK_LIBRARIES( lpsolve lpsolve lp_solve tinkercellapi )
+
+IF( WIN32 )
+  INSTALL(TARGETS lpsolve DESTINATION plugins/c/ )
+ELSE( WIN32 )
+  INSTALL(TARGETS lpsolve LIBRARY DESTINATION plugins/c/ )
+ENDIF( WIN32 )
 
 
 

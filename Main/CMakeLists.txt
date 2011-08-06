@@ -32,12 +32,12 @@ INCLUDE_DIRECTORIES( BEFORE
     ${TINKERCELL_SOURCE_DIR}/ModelingTools
     ${TINKERCELL_SOURCE_DIR}/ModuleTools
     ${TINKERCELL_SOURCE_DIR}/GeneticNetworks
-     ${TINKERCELL_SOURCE_DIR}/OtherTools
-     ${TINKERCELL_SOURCE_DIR}/ImportExportTools
-     ${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi
-     ${TINKERCELL_SOURCE_DIR}/ExternalCode/libSBML/include
-     ${TINKERCELL_SOURCE_DIR}/ExternalCode/Antimony/src
-     ${TINKERCELL_SOURCE_DIR}/ModularNetworkAlgorithms
+    ${TINKERCELL_SOURCE_DIR}/OtherTools
+    ${TINKERCELL_SOURCE_DIR}/ImportExportTools
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/libSBML/include
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/Antimony/src
+    ${TINKERCELL_SOURCE_DIR}/ModularNetworkAlgorithms
  )
 
 ADD_DEFINITIONS(-DTINKERCELL_CPP_PLUGINS_FOLDER="${TINKERCELL_CPP_PLUGINS_FOLDER}")

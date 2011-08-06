@@ -67,7 +67,7 @@ namespace Tinkercell
 		else
 			keys = Ontology::readNodes(filename,"ntriples");
 		QList<NodeFamily*> families;
-		QList<QTreeWidgetItem*> parentTreeItems; 
+		QList<QTreeWidgetItem*> parentTreeItems;
 		
 		for (int i=0; i < keys.size(); ++i)
 		{

@@ -66,6 +66,7 @@ namespace Tinkercell
 		~SBMLImportExport();
 		bool setMainWindow(MainWindow * main);
 		
+		void exportSBML(const QString&);
 		QList<ItemHandle*> importSBML(const QString&);
 		SBMLDocument_t* exportSBML(QList<ItemHandle*>&);
 		SBMLDocument_t* exportSBML(NetworkHandle * network = 0);

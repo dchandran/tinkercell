@@ -20,6 +20,7 @@
 void sbml_rates_function(double t, double * y, double * rates, void * data);
 int sbml_event_function(int i, double t, double * y, void * data);
 void sbml_response_function(int i, double * y, void * data);
+double * muparser_add_variable(const char *, void *);
 
 #ifdef _WIN32
 #define SBML_SIM_EXPORT __declspec(dllexport)
@@ -135,6 +136,7 @@ private:
 	friend void sbml_rates_function(double t, double * y, double * rates, void * data);
 	friend int sbml_event_function(int i, double t, double * y, void * data);
 	friend void sbml_response_function(int i, double * y, void * data);
+	friend double * muparser_add_variable(const char *, void *);
 };
 
 #endif

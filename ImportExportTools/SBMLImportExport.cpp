@@ -259,14 +259,18 @@ namespace Tinkercell
 			sem->release();
 	}
 
-	void SBMLImportExport::exportSBML(QSemaphore * sem, const QString & str)
+	void SBMLImportExport::exportSBML(const QString & str)
 	{
 		if (modelNeedsUpdate)
 			updateSBMLModel();
 
 		if (sbmlDocument)
 			writeSBML (sbmlDocument, ConvertValue(str) );
+	}
 
+	void SBMLImportExport::exportSBML(QSemaphore * sem, const QString & str)
+	{
+		exportSBML(str);
 		if (sem)
 			sem->release();
 	}

@@ -595,7 +595,7 @@ void SimpleDesigner::simulate(bool stochastic)
 		Parameter_setValue(p, params.value(i,0));
 	}	
 	
-	SBML_sim sim(doc);	
+	SBML_sim sim("C:\\Users\\Deepak\\Desktop\\temp.txt");
 
 	vector<string> names = sim.getVariableNames();	
 	vector< vector<double> > output;	
@@ -670,8 +670,8 @@ int main(int argc, char *argv[])
 	ConnectionGraphicsItem::DefaultMiddleItemFile = "";
 	ConnectionGraphicsItem::DefaultArrowHeadFile = ":/images/arrow.xml";
 
-	Ontology::readNodes("NodesTree.nt");
-	Ontology::readConnections("ConnectionsTree.nt");
+	//Ontology::readNodes("NodesTree.nt");
+	//Ontology::readConnections("ConnectionsTree.nt");
 	
     GraphicsScene * scene = mainWindow.newScene();
 	GraphicsView::DEFAULT_ZOOM = 0.5;

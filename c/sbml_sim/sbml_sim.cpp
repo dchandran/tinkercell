@@ -42,6 +42,14 @@ void sbml_response_function(int i, double * y, void * data)
 		 u->responseEqns[i][j].Eval();
 }
 
+double* muparser_add_variable(const char * s, void* d)
+{
+	SBML_sim * sim = (SBML_sim*)d;
+	sim->parameterNames.push_back(std::string(s));
+	sim->parameterValues.push_back(1.0);
+	return &(sim->parameterValues[ sim->parameterValues.size()-1 ]);
+}
+
 static double power(double x, double e) {	return pow(x,e); }
 static double ge(double x, double y) { 	return (double)(x >= y); }
 static double gt(double x, double y) { 	return (double)(x > y); }
@@ -213,14 +221,17 @@ void SBML_sim::loadSBML(SBMLDocument * doc)
 			for (int j=0; j < assignmentVariables.size(); ++j)
 				p.DefineVar(assignmentVariables[j],&assignmentValues[j]);
 
+			p.SetVarFactory(muparser_add_variable, (void*)this);
+
 			try
 			{
+				p.Eval();
 				rateEqns.push_back(p);
 			}
 			catch(...)
 			{
-				reactionNames.clear();
-				rateEqns.clear();
+				//reactionNames.clear();
+				//rateEqns.clear();
 				break;
 			}
 		}
@@ -239,6 +250,8 @@ void SBML_sim::loadSBML(SBMLDocument * doc)
 			
 			for (int j=0; j < assignmentVariables.size(); ++j)
 				p.DefineVar(assignmentVariables[j],&assignmentValues[j]);
+
+			p.SetVarFactory(muparser_add_variable, 0);
 
 			try
 			{

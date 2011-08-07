@@ -15,7 +15,7 @@ Name: {app}; Type: filesandordirs\n\
 [Run]\n\
 Filename: \"msiexec.exe\"; Parameters: \"$i \"\"{app}\\installation\\Slik-Subversion-1.6.16-win32.msi\"\"\"; Description: \"install Subversion (for updating plugins)\"; WorkingDir: {app}; Flags: postinstall\n\
 Filename: \"msiexec.exe\"; Parameters: \"$i \"\"{app}\\installation\\python-2.6.msi\"\"\"; Description: \"install Python\"; WorkingDir: {app}; Flags: postinstall\n\
-Filename: {app}\\installation\\setuptools-0.6c11.win32-py2.5.exe; Description: \"install Python easy_install (run as admin)\"; WorkingDir: {app}; Flags: postinstall unchecked\n\
+Filename: {app}\\installation\\setuptools-0.6c11.win32-py2.6.exe; Description: \"install Python easy_install (run as admin)\"; WorkingDir: {app}; Flags: postinstall unchecked\n\
 Filename: {app}\\installation\\numpy-1.6.1-win32-superpack-python2.6.exe; Description: \"install Python Numeric package\"; WorkingDir: {app}; Flags: postinstall\n\
 Filename: {app}\\installation\\scipy-0.9.0-win32-superpack-python2.6.exe; Description: \"install Python Scientific package\"; WorkingDir: {app}; Flags: postinstall\n\
 Filename: C:\\Python26\\Scripts\\easy_install.exe; Parameters: simplejson; Description: \"install JSON package\"; WorkingDir: C:\\Python25\\Scripts; Flags: postinstall unchecked\n\

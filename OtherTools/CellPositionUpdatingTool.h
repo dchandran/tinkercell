@@ -36,8 +36,8 @@ namespace Tinkercell
 	public slots:
 		
 		void itemsMoved(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<QPointF>& distance);
-		
-	
+		void itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<ItemHandle*>& handles);
+
 	};
 
 

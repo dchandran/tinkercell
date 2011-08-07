@@ -33,11 +33,19 @@ namespace Tinkercell
 		{	
 			connect(mainWindow,SIGNAL(itemsMoved(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<QPointF>&)),
 						  this, SLOT(itemsMoved(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<QPointF>&)));
+
+			connect(mainWindow,SIGNAL(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)),
+						  this, SLOT(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)));
 		}
 		return true;
 	}
+
+	void CellPositionUpdateTool::itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>& items, const QList<ItemHandle*>& handles)
+	{
+		itemsMoved(scene, items, QList<QPointF>());
+	}
 	
-	void CellPositionUpdateTool::itemsMoved(GraphicsScene* scene, const QList<QGraphicsItem*>& items, const QList<QPointF>& distance)
+	void CellPositionUpdateTool::itemsMoved(GraphicsScene* scene, const QList<QGraphicsItem*>& items, const QList<QPointF>& )
 	{
 		if (!scene) return;
 		
@@ -48,14 +56,15 @@ namespace Tinkercell
 		
 		for (int i=0; i < items.size(); ++i)
 			if (NodeGraphicsItem::cast(items[i]) &&
+				items[i]->scene() == scene &&
 				(handle = getHandle(items[i])) && 
 				handle->isA(tr("Cell")))
 			{
 				NumericalDataTable * dat = new NumericalDataTable(handle->numericalDataTable(tr("Position")));
 				QPointF pos = items[i]->scenePos();
 				
-				dat->value(tr("x"),0) = pos.x();
-				dat->value(tr("y"),0) = pos.y();
+				dat->value(tr("x"),tr("value")) = pos.x();
+				dat->value(tr("y"),tr("value")) = pos.y();
 				
 				handles << handle;
 				newTables << dat;

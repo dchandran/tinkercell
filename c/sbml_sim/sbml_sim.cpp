@@ -12,6 +12,8 @@ void sbml_rates_function(double t, double * y, double * rates, void * data)
 {
 	int i;
 	SBML_sim * u = (SBML_sim*)data;
+
+	u->time = t;
 	
 	for (i=0; i < u->variableValues.size(); ++i)
 	{
@@ -138,7 +140,7 @@ void SBML_sim::loadSBML(SBMLDocument * doc)
 				{
 					AssignmentRule * ar  = (AssignmentRule*)r;
 					assignmentVariables.push_back(ar->getVariable());
-					assignmentValues.push_back(0.0);
+					assignmentValues.push_back(1.0);
 					assignmentEquations.push_back(ar->getFormula());
 				}
 			}
@@ -211,6 +213,12 @@ void SBML_sim::loadSBML(SBMLDocument * doc)
 			mu::Parser p;
 			addSBMLFunctions(p);
 			p.SetExpr(rateEquations[i]);
+
+			for (int j=0; j < variableNames.size(); ++j)
+				p.DefineVar("time",&(this->time));
+
+			for (int j=0; j < variableNames.size(); ++j)
+				p.DefineVar("Time",&(this->time));
 			
 			for (int j=0; j < variableNames.size(); ++j)
 				p.DefineVar(variableNames[j],&variableValues[j]);
@@ -251,7 +259,7 @@ void SBML_sim::loadSBML(SBMLDocument * doc)
 			for (int j=0; j < assignmentVariables.size(); ++j)
 				p.DefineVar(assignmentVariables[j],&assignmentValues[j]);
 
-			p.SetVarFactory(muparser_add_variable, 0);
+			//p.SetVarFactory(muparser_add_variable, (void*)this);
 
 			try
 			{
@@ -260,6 +268,7 @@ void SBML_sim::loadSBML(SBMLDocument * doc)
 			}
 			catch(...)
 			{
+				std::cout << assignmentEquations[i] << std::endl;
 				//assignmentVariables.clear();
 				//assignmentEqns.clear();
 				break;
@@ -271,6 +280,12 @@ void SBML_sim::loadSBML(SBMLDocument * doc)
 			mu::Parser p;
 			addSBMLFunctions(p);
 			p.SetExpr(eventTriggers[i]);
+
+			for (int j=0; j < variableNames.size(); ++j)
+				p.DefineVar("time",&(this->time));
+
+			for (int j=0; j < variableNames.size(); ++j)
+				p.DefineVar("Time",&(this->time));
 			
 			for (int j=0; j < variableNames.size(); ++j)
 				p.DefineVar(variableNames[j],&variableValues[j]);

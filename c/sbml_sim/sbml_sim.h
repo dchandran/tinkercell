@@ -120,6 +120,8 @@ private:
 	
 	std::vector<std::string> assignmentVariables;
 	std::vector<double> assignmentValues;
+	double time;
+
 	std::vector<mu::Parser> assignmentEqns;
 
 	std::vector<mu::Parser> triggerEqns;

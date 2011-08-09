@@ -15,8 +15,8 @@ Name: {app}; Type: filesandordirs\n\
 [Run]\n\
 Filename: \"msiexec.exe\"; Parameters: \"$i \"\"{app}\\installation\\Slik-Subversion-1.6.16-win32.msi\"\"\"; Description: \"install Subversion (for updating plugins)\"; WorkingDir: {app}; Flags: postinstall\n\
 Filename: \"msiexec.exe\"; Parameters: \"$i \"\"{app}\\installation\\python-2.5.4.msi\"\"\"; Description: \"install Python\"; WorkingDir: {app}; Flags: postinstall\n\
-Filename: {app}\\installation\\numpy-1.3.0-win32-superpack-python2.5.exe; Description: \"install Python Numeric package\"; WorkingDir: {app}; Flags: postinstall\n\
-Filename: {app}\\installation\\scipy-0.7.1-win32-superpack-python2.5.exe; Description: \"install Python Scientific package\"; WorkingDir: {app}; Flags: postinstall\n\
+Filename: {app}\\installation\\numpy-1.3.0-win32-superpack-python2.5.exe; Description: \"install Numeric package (must be admin)\"; WorkingDir: {app}; Flags: postinstall\n\
+Filename: {app}\\installation\\scipy-0.7.1-win32-superpack-python2.5.exe; Description: \"install Scientific package (must be admin)\"; WorkingDir: {app}; Flags: postinstall\n\
 Filename: {app}\\installation\\pysces-0.7.0.win32-py2.5.exe; Description: \"install Python Cell Simulation package\"; WorkingDir: {app}; Flags: postinstall unchecked\n\
 Filename: {app}\\@TINKERCELL_EXE@.exe; Description: \"run @TINKERCELL_EXE@\"; WorkingDir: {app}; Flags: postinstall\n\
 [Icons]\n\

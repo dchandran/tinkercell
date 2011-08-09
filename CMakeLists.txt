@@ -6,7 +6,8 @@ SET(CMAKE_RC_COMPILE_OBJECT Release)
 #--------------------------------------------------------------------------
 
 IF( WIN32 AND MINGW)
-  set(CMAKE_RC_COMPILER_INIT windres)
+  ADD_DEFINITIONS(-DMINGW)
+  SET(CMAKE_RC_COMPILER_INIT windres)
   ENABLE_LANGUAGE(RC)
   SET(CMAKE_RC_COMPILE_OBJECT
     "<CMAKE_RC_COMPILER> <FLAGS> -O coff <DEFINES> -i <SOURCE> -o <OBJECT>")

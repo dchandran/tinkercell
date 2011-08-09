@@ -5,7 +5,11 @@
 #include "CellTypeSelector.h"
 #include "GlobalSettings.h"
 
+#if defined(Q_WS_WIN) && !defined(MINGW)
+int WinMain(int argc, char *argv[])
+#else
 int main(int argc, char *argv[])
+#endif
 {
 	QApplication app(argc, argv);
 	

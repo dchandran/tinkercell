@@ -50,7 +50,11 @@ using namespace Tinkercell;
 
 void LoadPluginsFromDir(const QString&,MainWindow *,QSplashScreen*);
 
+#if defined(Q_WS_WIN) && !defined(MINGW)
+int WinMain(int argc, char *argv[])
+#else
 int main(int argc, char *argv[])
+#endif
 {
 	//these two lines are required by all QT apps
     QApplication::setColorSpec (QApplication::ManyColor);

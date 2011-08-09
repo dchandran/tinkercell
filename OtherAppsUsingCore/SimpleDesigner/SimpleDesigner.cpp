@@ -635,7 +635,11 @@ void SimpleDesigner::simulate(bool stochastic)
 
 /************ MAIN ******************/
 
+#if defined(Q_WS_WIN) && !defined(MINGW)
+int WinMain(int argc, char *argv[])
+#else
 int main(int argc, char *argv[])
+#endif
 {
 	//setup project name
     GlobalSettings::PROJECTWEBSITE = "www.tinkercell.com";

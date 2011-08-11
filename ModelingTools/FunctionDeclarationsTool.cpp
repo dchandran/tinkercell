@@ -105,6 +105,7 @@ namespace Tinkercell
 			QHBoxLayout * layout = new QHBoxLayout;
 			layout->setContentsMargins(1,1,1,1);
 			snapshotIcon = new QToolButton;
+			connect(snapshotIcon, SIGNAL(pressed()), this, SLOT(clickedFunctionImage()));
 			layout->addWidget(snapshotIcon);
 			snapshotToolTip->setLayout(layout);
 
@@ -115,56 +116,69 @@ namespace Tinkercell
 
 		return (mainWindow != 0);
 	}
+
+	void AssignmentFunctionsTool::clickedFunctionImage()
+	{
+		Tool * tool = mainWindow->tool(tr("Model Summary"));
+		if (tool)
+			tool->select();
+	}
 	
 	void AssignmentFunctionsTool::mouseMoved(GraphicsScene* scene, QGraphicsItem * hoverOverItem, QPointF , Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>& )
 	{
-		if (mainWindow && scene && scene->useDefaultBehavior() && hoverOverItem && !TextGraphicsItem::cast(hoverOverItem) && snapshotToolTip)
+		if (mainWindow && scene && scene->useDefaultBehavior())
 		{
-			ItemHandle * h = getHandle(hoverOverItem);
-			
-			if (h && h->hasTextData(tr("Assignments")) && graphWidget)
-			{
-				TextDataTable & assignments = h->textDataTable(tr("Assignments"));
-				if (assignments.columns() > 0 && (assignments.hasRow(Self) || assignments.hasRow(h->fullName())))
-				{
-					QString s;
-					if (assignments.hasRow(Self))
-						s = assignments.value(Self,0);
-					else
-						s = assignments.value(h->fullName(),0);
-					
-					if (s.isEmpty())
-						if (assignments.hasRow(Self))
-							s = assignments.value(Self, assignments.columns()-1);
-						else
-							s = assignments.value(h->fullName(),assignments.columns()-1);
-					
-					if (!s.isEmpty() && s.size() > 2 && !functionSnapshots.contains(s))
-					{
-						QPixmap printer(WINDOW_WIDTH, WINDOW_WIDTH);
-						printer.fill();
-						graphWidget->setFormula(s,scene->network);
-						graphWidget->setYLabel(h->name);
-						graphWidget->setTitle(tr("Function"));
-						graphWidget->print(printer);
-						functionSnapshots[s] = printer;
-					}
+			if (!hoverOverItem && scene->selected().size() == 1)
+				hoverOverItem = scene->selected()[0];
 
-					if (!s.isEmpty() && s.size() > 2 && functionSnapshots.contains(s) && !snapshotToolTip->isVisible())
+			if (hoverOverItem && !TextGraphicsItem::cast(hoverOverItem) && snapshotToolTip)
+			{
+				ItemHandle * h = getHandle(hoverOverItem);
+			
+				if (h && h->hasTextData(tr("Assignments")) && graphWidget)
+				{
+					TextDataTable & assignments = h->textDataTable(tr("Assignments"));
+					if (assignments.columns() > 0 && (assignments.hasRow(Self) || assignments.hasRow(h->fullName())))
 					{
-						QRect rect = scene->mapToWidget( hoverOverItem->sceneBoundingRect() );
-						snapshotToolTip->setGeometry (rect.right() + 100, rect.top() - 100, WINDOW_WIDTH, WINDOW_WIDTH );
-						snapshotIcon->setIcon(QIcon(functionSnapshots[s]));
-						snapshotIcon->setIconSize(QSize(WINDOW_WIDTH,WINDOW_WIDTH));
-						snapshotToolTip->show();
-						snapshotToolTip->raise();
-						QStringList vars1,vars2;
-						QList<ItemHandle*> handles;
-						scene->network->parseMath(s,vars1,vars2,handles);
-						for (int i=0; i < handles.size(); ++i)
-							emit highlightItem(handles[i],QColor(0,255,0));
+						QString s;
+						if (assignments.hasRow(Self))
+							s = assignments.value(Self,0);
+						else
+							s = assignments.value(h->fullName(),0);
+					
+						if (s.isEmpty())
+							if (assignments.hasRow(Self))
+								s = assignments.value(Self, assignments.columns()-1);
+							else
+								s = assignments.value(h->fullName(),assignments.columns()-1);
+					
+						if (!s.isEmpty() && s.size() > 2 && !functionSnapshots.contains(s))
+						{
+							QPixmap printer(WINDOW_WIDTH, WINDOW_WIDTH);
+							printer.fill();
+							graphWidget->setFormula(s,scene->network);
+							graphWidget->setYLabel(h->name);
+							graphWidget->setTitle(tr("Function"));
+							graphWidget->print(printer);
+							functionSnapshots[s] = printer;
+						}
+
+						if (!s.isEmpty() && s.size() > 2 && functionSnapshots.contains(s) && !snapshotToolTip->isVisible())
+						{
+							QRect rect = scene->mapToWidget( hoverOverItem->sceneBoundingRect() );
+							snapshotToolTip->setGeometry (rect.right() + 100, rect.top() - 100, WINDOW_WIDTH, WINDOW_WIDTH );
+							snapshotIcon->setIcon(QIcon(functionSnapshots[s]));
+							snapshotIcon->setIconSize(QSize(WINDOW_WIDTH,WINDOW_WIDTH));
+							snapshotToolTip->show();
+							snapshotToolTip->raise();
+							QStringList vars1,vars2;
+							QList<ItemHandle*> handles;
+							scene->network->parseMath(s,vars1,vars2,handles);
+							for (int i=0; i < handles.size(); ++i)
+								emit highlightItem(handles[i],QColor(0,255,0));
+						}
+						return;
 					}
-					return;
 				}
 			}
 		}
@@ -186,10 +200,13 @@ namespace Tinkercell
 		{
 			QWidget * widget = mainWindow->tool(tr("Model Summary"));
 			ModelSummaryTool * modelSummary = static_cast<ModelSummaryTool*>(widget);
+
 			connect(modelSummary,SIGNAL(aboutToDisplayModel(const QList<ItemHandle*>&, QHash<QString,qreal>&, QHash<QString,QString>&)),
 				this,SLOT(aboutToDisplayModel(const QList<ItemHandle*>&, QHash<QString,qreal>&, QHash<QString,QString>&)));
+
 			connect(modelSummary,SIGNAL(displayModel(QTabWidget&, const QList<ItemHandle*>&, QHash<QString,qreal>&, QHash<QString,QString>&)),
 				this,SLOT(displayModel(QTabWidget&, const QList<ItemHandle*>&, QHash<QString,qreal>&, QHash<QString,QString>&)));
+
 			connected1 = true;
 		}
 		

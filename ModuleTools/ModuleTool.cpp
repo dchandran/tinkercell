@@ -558,6 +558,7 @@ namespace Tinkercell
 			QHBoxLayout * layout = new QHBoxLayout;
 			layout->setContentsMargins(1,1,1,1);
 			snapshotIcon = new QToolButton;
+			connect(snapshotIcon, SIGNAL(pressed()), this, SLOT(clickedModuleImage()));
 			layout->addWidget(snapshotIcon);
 			snapshotToolTip->setLayout(layout);
 			snapshotToolTip->hide();
@@ -1051,27 +1052,37 @@ namespace Tinkercell
 */
     void ModuleTool::mouseMoved(GraphicsScene* scene, QGraphicsItem * hoverOverItem, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>& items)
     {
-		if (mainWindow && scene && scene->useDefaultBehavior() && hoverOverItem && !TextGraphicsItem::cast(hoverOverItem) && snapshotToolTip)
+		if (mainWindow && scene && scene->useDefaultBehavior())
 		{
-			ItemHandle * h = 0;
-			ArrowHeadItem * arrowHead = ArrowHeadItem::cast(hoverOverItem);
-			if (arrowHead && arrowHead->connectionItem && 
-				arrowHead == arrowHead->connectionItem->centerRegionItem)
-				h = getHandle(arrowHead->connectionItem);
-
-			ConnectionHandle * ch;
-			if (h && (ch = ConnectionHandle::cast(h)) && moduleSnapshots.contains(ch))
+			if (!hoverOverItem && scene->selected().size() == 1)
 			{
-				if (!snapshotToolTip->isVisible())
+				if (ArrowHeadItem::cast(scene->selected()[0]))
+					hoverOverItem = scene->selected()[0];
+			}
+
+			if (hoverOverItem && !TextGraphicsItem::cast(hoverOverItem) && snapshotToolTip)
+			{
+				ItemHandle * h = 0;
+				ConnectionHandle * ch = 0;
+				ArrowHeadItem * arrowHead = ArrowHeadItem::cast(hoverOverItem);
+
+				if (arrowHead && arrowHead->connectionItem && 
+					arrowHead == arrowHead->connectionItem->centerRegionItem)
+					h = getHandle(arrowHead->connectionItem);
+
+				if (h && (ch = ConnectionHandle::cast(h)) && moduleSnapshots.contains(ch))
 				{
-					QRect rect = scene->mapToWidget( hoverOverItem->sceneBoundingRect() );
-					snapshotToolTip->setGeometry (rect.right() + 100, rect.top() - 100, WINDOW_WIDTH, WINDOW_WIDTH );
-					snapshotIcon->setIcon(QIcon(moduleSnapshots[ch]));
-					snapshotIcon->setIconSize(QSize(WINDOW_WIDTH,WINDOW_WIDTH));
-					snapshotToolTip->show();
-					snapshotToolTip->raise();
+					if (!snapshotToolTip->isVisible())
+					{
+						QRect rect = scene->mapToWidget( hoverOverItem->sceneBoundingRect() );
+						snapshotToolTip->setGeometry (rect.right() + 100, rect.top() - 100, WINDOW_WIDTH, WINDOW_WIDTH );
+						snapshotIcon->setIcon(QIcon(moduleSnapshots[ch]));
+						snapshotIcon->setIconSize(QSize(WINDOW_WIDTH,WINDOW_WIDTH));
+						snapshotToolTip->show();
+						snapshotToolTip->raise();
+					}
+					return;
 				}
-				return;
 			}
 		}
 		
@@ -1315,6 +1326,17 @@ namespace Tinkercell
 			}
 		}
 		return 0;
+	}
+
+	void ModuleTool::clickedModuleImage()
+	{
+		GraphicsScene * scene = currentScene();
+		QList<QGraphicsItem*> & selected = scene->selected();
+		
+		if (selected.size() == 1)
+		{
+			mouseDoubleClicked(scene,QPointF(),selected[0],Qt::LeftButton,(Qt::KeyboardModifiers)0);
+		}
 	}
 	
 	void ModuleTool::keyPressed(GraphicsScene* scene,QKeyEvent * keyEvent)

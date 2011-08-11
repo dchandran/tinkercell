@@ -115,6 +115,7 @@ namespace Tinkercell
 		void getForcingFunctionNames(QSemaphore*,QStringList*,const QList<ItemHandle*>&);
 		void getForcingFunctionAssignments(QSemaphore*,QStringList*,const QList<ItemHandle*>&);
 		void addForcingFunction(QSemaphore*,ItemHandle*,const QString&, const QString&);
+		void clickedFunctionImage();
 
 	protected:
 		void insertDataMatrix(ItemHandle * handle);

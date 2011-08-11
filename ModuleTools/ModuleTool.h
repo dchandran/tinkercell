@@ -147,6 +147,7 @@ namespace Tinkercell
 		void updateNumberForNewModule(int);
 		
 		void doSubstituteModel(QSemaphore*, ItemHandle*, const QString&);
+		void clickedModuleImage();
 
 	private:
 	

@@ -1144,6 +1144,12 @@ namespace Tinkercell
 		{
 			if (connectionHandles[i])
 			{
+				if (connectionHandles[i]->hasNumericalData(QObject::tr("Initial Value")))
+				{
+					if (!columnNames.contains(connectionHandles[i]->fullName()))
+						columnNames += connectionHandles[i]->fullName();
+				}
+
 				if (!connectionHandles[i]->children.isEmpty())
 				{
 					QList<ItemHandle*> children = connectionHandles[i]->children;
@@ -1259,6 +1265,7 @@ namespace Tinkercell
 		}
 
 		combinedTable.resize(rowNames.size(),columnNames.size());
+		columnNames.sort();
 
 		for (int i=0; i < columnNames.size(); ++i)
 			combinedTable.setColumnName(i,columnNames[i]);

@@ -163,6 +163,11 @@ namespace Tinkercell
 					}
 				}
 			this->replot();
+			if (zoomer)
+			{
+				QwtDoubleRect rect = zoomer->zoomRect();
+				zoomer->setZoomBase(rect);
+			}
 		}
 	}
 	
@@ -396,6 +401,11 @@ namespace Tinkercell
 				}
 		}
 		replot();
+		if (zoomer)
+		{
+			QwtDoubleRect rect = zoomer->zoomRect();
+			zoomer->setZoomBase(rect);
+		}
 	}
 	
 	bool DataPlot::usesRowNames() const
@@ -423,6 +433,11 @@ namespace Tinkercell
 			setAxisScaleEngine(QwtPlot::xBottom, new QwtLinearScaleEngine);
 		}
 		replot();
+		if (zoomer)
+		{
+			QwtDoubleRect rect = zoomer->zoomRect();
+			zoomer->setZoomBase(rect);
+		}
 	}
 	
 	void DataPlot::setLogY(bool b)
@@ -441,6 +456,11 @@ namespace Tinkercell
 			setAxisScaleEngine(QwtPlot::yLeft, new QwtLinearScaleEngine);
 		}
 		replot();
+		if (zoomer)
+		{
+			QwtDoubleRect rect = zoomer->zoomRect();
+			zoomer->setZoomBase(rect);
+		}
 	}
 	
 	QStringList DataPlot::hideList;
@@ -730,11 +750,11 @@ namespace Tinkercell
 				if (x >= 0)
 					axisNames->addItems(newData.columnNames());
 			}
-			/*if (dataPlot->zoomer)
+			if (dataPlot->zoomer)
 			{
-				rect.setWidth(dataPlot->zoomer->zoomBase().width());
-				dataPlot->zoomer->zoom(rect);
-			}*/
+				QwtDoubleRect rect = dataPlot->zoomer->zoomRect();
+				dataPlot->zoomer->setZoomBase(rect);
+			}
 		}
 		else
 		{

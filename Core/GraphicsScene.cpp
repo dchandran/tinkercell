@@ -450,7 +450,8 @@ namespace Tinkercell
 										QRectF rect = ncp->sceneBoundingRect();
 										QList<QGraphicsItem*> & ngraphics = ncp->nodeItem->handle()->graphicsItems;
 										for (int j=0; j < ngraphics.size(); ++j)
-											if (TextGraphicsItem::cast(ngraphics[j]) &&  
+											if ( ngraphics[j]->scene() == this &&
+												 TextGraphicsItem::cast(ngraphics[j]) &&  
 												 !movingItems.contains(ngraphics[j]) &&
 												 (
 												 	fabs(ngraphics[j]->scenePos().x() - rect.center().x()) < 1.5*rect.width() ||
@@ -472,8 +473,9 @@ namespace Tinkercell
 										rect.adjust(-20,-20,20,20);
 										QList<QGraphicsItem*> & ngraphics = ccp->connectionItem->handle()->graphicsItems;
 										for (int j=0; j < ngraphics.size(); ++j)
-											if (TextGraphicsItem::cast(ngraphics[j]) &&  
-												 !movingItems.contains(ngraphics[j]) &&
+											if ( ngraphics[j]->scene() == this &&
+												  TextGraphicsItem::cast(ngraphics[j]) &&  
+												  !movingItems.contains(ngraphics[j]) &&
 												 (
 												 	fabs(ngraphics[j]->scenePos().x() - rect.center().x()) < rect.width() ||
 												 	fabs(ngraphics[j]->scenePos().y() - rect.center().y()) < rect.height()

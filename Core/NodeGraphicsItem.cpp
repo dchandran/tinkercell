@@ -561,7 +561,7 @@ namespace Tinkercell
 			//painter->drawRoundRect(boundingRect());
 			//painter->drawRect(boundingRect());
 		}
-		
+	
 		QGraphicsItemGroup::paint(painter,option,widget);
 	}
 

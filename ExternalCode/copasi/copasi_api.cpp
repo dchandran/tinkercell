@@ -16,7 +16,6 @@
 #include <QFile>
 
 //copasi
-#define COPASI_MAIN
 #include "copasi_api.h"
 #include "copasi/copasi.h"
 #include "copasi/report/CCopasiRootContainer.h"
@@ -221,11 +220,11 @@ copasi_model cCreateModel(const char * name)
 {
 	copasi_init();
 
-	CCopasiDataModel* pDataModel = CCopasiRootContainer::addDatamodel();
-	CModel* pModel = pDataModel->getModel();
-	CQHash * qHash = new CQHash();
+	CCopasiDataModel* pDataModel = 0;//CCopasiRootContainer::addDatamodel();
+	CModel* pModel = 0;//pDataModel->getModel();
+	CQHash * qHash = 0;//new CQHash();
 	copasi_model m = { (void*)(pModel) , (void*)(pDataModel), (void*)(qHash), (char*)(NULL) };
-	
+/*	
 	hashTablesToCleanup += qHash;
 	copasiModelsToCleanup += m;
 
@@ -239,7 +238,7 @@ copasi_model cCreateModel(const char * name)
 	pModel->setQuantityUnit(CModel::dimensionlessQuantity);
 	
 	cCreateVariable(m, "time", "time");
-	
+*/	
 	return m;
 }
 

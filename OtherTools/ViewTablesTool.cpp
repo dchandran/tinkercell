@@ -149,17 +149,11 @@ namespace Tinkercell
 	
 		QHBoxLayout * layout1 = new QHBoxLayout;
 		layout1->addWidget(&tables,1);
-		groupBox1->setLayout(layout1);
+		groupBox->setLayout(layout1);
 
-		//QVBoxLayout * layout3 = new QVBoxLayout;
-		//layout3->addWidget(groupBox1);
-		
-		//QWidget * widget = new QWidget;
-		//widget->setLayout(layout3);
-		
 		QSplitter * splitter = new QSplitter(Qt::Horizontal,this);
 		
-		splitter->addWidget( groupBox1 );
+		splitter->addWidget( groupBox );
 		splitter->addWidget( textEdit );
 		splitter->setStretchFactor(0,1);
 		splitter->setStretchFactor(1,2);

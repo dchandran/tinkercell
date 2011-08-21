@@ -1,6 +1,4 @@
 PROJECT( TINKERCELL )
-SET(CMAKE_RC_COMPILE_OBJECT Release)
-
 #--------------------------------------------------------------------------
 #  CMake not supporting Win32 MinGW?
 #--------------------------------------------------------------------------
@@ -20,8 +18,10 @@ ENDIF( WIN32 AND MINGW)
 OPTION( USE_DEBUG_MODE "Release vs Debug mode" OFF)
 IF (USE_DEBUG_MODE)
 	SET(CMAKE_BUILD_TYPE "Release" CACHE STRING "Build type")
+	SET(CMAKE_RC_COMPILE_OBJECT Debug)
 ELSE(USE_DEBUG_MODE)
 	SET(CMAKE_BUILD_TYPE "Debug" CACHE STRING "Build type")
+	SET(CMAKE_RC_COMPILE_OBJECT Release)
 ENDIF(USE_DEBUG_MODE)
 
 #--------------------------------------------------------------------------

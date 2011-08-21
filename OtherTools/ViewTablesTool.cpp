@@ -104,7 +104,7 @@ namespace Tinkercell
 						  this, SLOT(itemsInserted(NetworkHandle*, const QList<ItemHandle*>&)));
 			
 			setWindowTitle(name);
-			setWindowIcon(QIcon(tr(":/images/new.png")));
+			setWindowIcon(QIcon(tr(":/images/grid.PNG")));
 			mainWindow->addToViewMenu(this);
 			
 			move(mainWindow->geometry().bottomRight() - QPoint(sizeHint().width()*2,sizeHint().height()*2));
@@ -127,7 +127,7 @@ namespace Tinkercell
 		QString appDir = QCoreApplication::applicationDirPath();
 		openedByUser = false;
 		NodeGraphicsReader reader;
-		reader.readXml(&item,tr(":/images/grid2.xml"));
+		reader.readXml(&item,tr(":/images/grid.xml"));
 
 		item.normalize();
 		item.scale(35.0/item.sceneBoundingRect().width(),35.0/item.sceneBoundingRect().height());
@@ -139,34 +139,27 @@ namespace Tinkercell
 		itemHandle = 0;
 		QFont font = this->font();
 		font.setPointSize(12);
-		numericalTables.setFont(font);
-		textTables.setFont(font);
+		tables.setFont(font);
 		
 		textEdit = new CodeEditor(this);
 		textEdit->setTabStopWidth(160);
 		textEdit->setFont(font);
 		
-		QGroupBox * groupBox1 = new QGroupBox(tr(" Numerical tables "),this);
-		QGroupBox * groupBox2 = new QGroupBox(tr(" Text tables "),this);
+		QGroupBox * groupBox = new QGroupBox(tr(" Tables "),this);
 	
 		QHBoxLayout * layout1 = new QHBoxLayout;
-		layout1->addWidget(&numericalTables,1);
+		layout1->addWidget(&tables,1);
 		groupBox1->setLayout(layout1);
+
+		//QVBoxLayout * layout3 = new QVBoxLayout;
+		//layout3->addWidget(groupBox1);
 		
-		QHBoxLayout * layout2 = new QHBoxLayout;
-		layout2->addWidget(&textTables,1);
-		groupBox2->setLayout(layout2);
-		
-		QVBoxLayout * layout3 = new QVBoxLayout;
-		layout3->addWidget(groupBox1);
-		layout3->addWidget(groupBox2);
-		
-		QWidget * widget = new QWidget;
-		widget->setLayout(layout3);
+		//QWidget * widget = new QWidget;
+		//widget->setLayout(layout3);
 		
 		QSplitter * splitter = new QSplitter(Qt::Horizontal,this);
 		
-		splitter->addWidget( widget );
+		splitter->addWidget( groupBox1 );
 		splitter->addWidget( textEdit );
 		splitter->setStretchFactor(0,1);
 		splitter->setStretchFactor(1,2);
@@ -181,88 +174,77 @@ namespace Tinkercell
 		regularFormat.setFontWeight(QFont::Bold);
 		regularFormat.setForeground(QColor("#252F41"));
 		
-		connect(&numericalTables,SIGNAL(currentItemChanged(QListWidgetItem *, QListWidgetItem *)),
-				this,SLOT(currentNumericalItemChanged(QListWidgetItem *, QListWidgetItem *)));
-		
-		connect(&textTables,SIGNAL(currentItemChanged(QListWidgetItem *, QListWidgetItem *)),
-				this,SLOT(currentTextItemChanged(QListWidgetItem *, QListWidgetItem *)));
+		connect(&tables,SIGNAL(currentItemChanged(QListWidgetItem *, QListWidgetItem *)),
+				this,SLOT(currentItemChanged(QListWidgetItem *, QListWidgetItem *)));		
 	}
 	
-	void ViewTablesTool::currentNumericalItemChanged(QListWidgetItem * item, QListWidgetItem *)
+	void ViewTablesTool::currentItemChanged(QListWidgetItem * item, QListWidgetItem *)
 	{
-		if (!item || !itemHandle || !itemHandle->hasNumericalData(item->text())) return;
-		
-		NumericalDataTable& table = itemHandle->numericalDataTable(item->text());
-		
-		textEdit->clear();
-		
-		QTextCursor cursor = textEdit->textCursor();
-		
-		QString outputs;
-		
-		QStringList colnames = table.columnNames(), rownames = table.rowNames();
-		
-		for (int i=0; i < colnames.size(); ++i)
+		if (!item || !itemHandle) return;
+
+		if (itemHandle->hasNumericalData(item->text()))
 		{
-			outputs += tr("\t") + colnames.at(i);
-		}
+			NumericalDataTable& table = itemHandle->numericalDataTable(item->text());
+			textEdit->clear();
+			QTextCursor cursor = textEdit->textCursor();
+			QString outputs;
+			QStringList colnames = table.columnNames(), rownames = table.rowNames();
 		
-		cursor.setCharFormat(headerFormat);
-		cursor.insertText(outputs + tr("\n"));
-		
-		for (int i=0; i < table.rows(); ++i)
-		{
-			cursor.setCharFormat(headerFormat);
-			cursor.insertText(rownames.at(i));
-			outputs = tr("");
-			
-			for (int j=0; j < table.columns(); ++j)
+			for (int i=0; i < colnames.size(); ++i)
 			{
-				outputs += tr("\t") + QString::number(table.at(i,j));
+				outputs += tr("\t") + colnames.at(i);
 			}
-			
-			cursor.setCharFormat(regularFormat);
-			cursor.insertText(outputs + tr("\n"));
-		}
-	}
-	
-	void ViewTablesTool::currentTextItemChanged(QListWidgetItem * item, QListWidgetItem *)
-	{
-		if (!item || !itemHandle || !itemHandle->hasTextData(item->text())) return;
 		
-		DataTable<QString>& table = itemHandle->textDataTable(item->text());
-		
-		textEdit->clear();
-		
-		QTextCursor cursor = textEdit->textCursor();
-		
-		QString outputs;
-		
-		QStringList colnames = table.columnNames(), rownames = table.rowNames();
-		
-		for (int i=0; i < colnames.size(); ++i)
-		{
-			outputs += tr("\t") + colnames.at(i);
-		}
-		
-		cursor.setCharFormat(headerFormat);
-		cursor.insertText(outputs + tr("\n"));
-		
-		for (int i=0; i < table.rows(); ++i)
-		{
 			cursor.setCharFormat(headerFormat);
-			cursor.insertText(rownames.at(i));
-			outputs = tr("");
-			
-			for (int j=0; j < table.columns(); ++j)
-			{
-				outputs += tr("\t") + (table.at(i,j));
-			}
-			
-			cursor.setCharFormat(regularFormat);
 			cursor.insertText(outputs + tr("\n"));
-		}
 		
+			for (int i=0; i < table.rows(); ++i)
+			{
+				cursor.setCharFormat(headerFormat);
+				cursor.insertText(rownames.at(i));
+				outputs = tr("");
+			
+				for (int j=0; j < table.columns(); ++j)
+				{
+					outputs += tr("\t") + QString::number(table.at(i,j));
+				}
+			
+				cursor.setCharFormat(regularFormat);
+				cursor.insertText(outputs + tr("\n"));
+			}
+		}
+		else
+		if (itemHandle->hasTextData(item->text()))
+		{
+			DataTable<QString>& table = itemHandle->textDataTable(item->text());		
+			textEdit->clear();		
+			QTextCursor cursor = textEdit->textCursor();		
+			QString outputs;		
+			QStringList colnames = table.columnNames(), rownames = table.rowNames();
+		
+			for (int i=0; i < colnames.size(); ++i)
+			{
+				outputs += tr("\t") + colnames.at(i);
+			}
+		
+			cursor.setCharFormat(headerFormat);
+			cursor.insertText(outputs + tr("\n"));
+		
+			for (int i=0; i < table.rows(); ++i)
+			{
+				cursor.setCharFormat(headerFormat);
+				cursor.insertText(rownames.at(i));
+				outputs = tr("");
+			
+				for (int j=0; j < table.columns(); ++j)
+				{
+					outputs += tr("\t") + (table.at(i,j));
+				}
+			
+				cursor.setCharFormat(regularFormat);
+				cursor.insertText(outputs + tr("\n"));
+			}
+		}
 	}
 	
 	QSize ViewTablesTool::sizeHint() const
@@ -272,8 +254,7 @@ namespace Tinkercell
 
 	void ViewTablesTool::updateList()
 	{
-		numericalTables.clear();
-		textTables.clear();
+		tables.clear();
 		
 		if (!textEdit || !itemHandle) return;
 		
@@ -287,7 +268,7 @@ namespace Tinkercell
 			newItem = new QListWidgetItem;
 			newItem->setText(list[i]);
 			newItem->setToolTip(itemHandle->numericalDataTable( list[i] ).description());
-			numericalTables.addItem(newItem);
+			tables.addItem(newItem);
 		}
 		
 		list = itemHandle->textDataNames();
@@ -296,7 +277,7 @@ namespace Tinkercell
 			newItem = new QListWidgetItem;
 			newItem->setText(list[i]);
 			newItem->setToolTip(itemHandle->textDataTable( list[i] ).description());
-			textTables.addItem(newItem);
+			tables.addItem(newItem);
 		}
 	}
 	

@@ -67,13 +67,11 @@ namespace Tinkercell
 	protected:
 
 		CodeEditor * textEdit;
-		QListWidget numericalTables;
-		QListWidget textTables;
+		QListWidget tables;
 		void updateList();
 		
 	protected slots:
-		void currentNumericalItemChanged(QListWidgetItem *, QListWidgetItem *);
-		void currentTextItemChanged(QListWidgetItem *, QListWidgetItem *);
+		void currentItemChanged(QListWidgetItem *, QListWidgetItem *);
 	
 	private:
 

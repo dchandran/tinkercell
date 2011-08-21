@@ -221,11 +221,11 @@ copasi_model cCreateModel(const char * name)
 {
 	copasi_init();
 
-	CCopasiDataModel* pDataModel = 0;//CCopasiRootContainer::addDatamodel();
-	CModel* pModel = 0;//pDataModel->getModel();
-	CQHash * qHash = 0;//new CQHash();
+	CCopasiDataModel* pDataModel = CCopasiRootContainer::addDatamodel();
+	CModel* pModel = pDataModel->getModel();
+	CQHash * qHash = new CQHash();
 	copasi_model m = { (void*)(pModel) , (void*)(pDataModel), (void*)(qHash), (char*)(NULL) };
-/*	
+	
 	hashTablesToCleanup += qHash;
 	copasiModelsToCleanup += m;
 
@@ -239,7 +239,7 @@ copasi_model cCreateModel(const char * name)
 	pModel->setQuantityUnit(CModel::dimensionlessQuantity);
 	
 	cCreateVariable(m, "time", "time");
-*/	
+	
 	return m;
 }
 
@@ -774,11 +774,12 @@ copasi_reaction cCreateReaction(copasi_model model, const char* name)
 	
 	if (!pModel || !hash)
 	{
-		copasi_reaction r = { 0, 0 };
+		copasi_reaction r = { 0, 0, 0 };
 		return r;
 	}
 	
 	CReaction* pReaction = pModel->createReaction(name);
+	
 	copasi_reaction r = { (void*)(pReaction), (void*)(pModel), (void*)hash };
 	
 	CopasiPtr copasiPtr = { 

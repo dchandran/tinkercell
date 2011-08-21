@@ -371,7 +371,7 @@ TCAPIEXPORT tc_matrix cGetScaledFluxControlCoeffs(copasi_model model);
  \return tc_matrix 
  \ingroup Simulation
 */
-TCAPIEXPORT tc_matrix ccGetFullStoichiometryMatrix(copasi_model model);
+TCAPIEXPORT tc_matrix cGetFullStoichiometryMatrix(copasi_model model);
 
 /*! 
  \brief reduced stoichiometry matrix

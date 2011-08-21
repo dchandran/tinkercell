@@ -15,9 +15,9 @@ int main()
 	m1 = model1();
     //m1 = cReadSBMLFile("model1.sbml");
     
-	output = cSimulateDeterministic(m1, 0, 10, 200);  //model, start, end, num. points
-	tc_printMatrixToFile("output.tab", output);	
-	tc_deleteMatrix(output);
+	//output = cSimulateDeterministic(m1, 0, 10, 200);  //model, start, end, num. points
+	//tc_printMatrixToFile("output.tab", output);	
+	//tc_deleteMatrix(output);
 	//printf("%s\n",m1.errorMessage);
 	/*params = tc_createMatrix(3,3);
 	tc_setRowName(params,0,"k1");
@@ -43,8 +43,8 @@ int main()
 	//tc_deleteMatrix(output);
 
 	//cleanup	
-	cRemoveModel(m1);
-	copasi_end();
+	//cRemoveModel(m1);
+	//copasi_end();
 	return 0;
 }
 
@@ -53,13 +53,14 @@ copasi_model model1()
 	//model named M
 	copasi_model model = cCreateModel("M");
 	copasi_reaction R1, R2, R3;
+	copasi_compartment cell;
 	
 	//species
-	copasi_compartment cell = cCreateCompartment(model, "cell", 1.0);
+	cell = cCreateCompartment(model, "cell", 1.0);
 	cCreateSpecies(cell, "A", 2);
 	cCreateSpecies(cell, "B", 1);
 	cCreateSpecies(cell, "C", 3);
-
+	
 	//parameters
 	cSetValue(model, "k1", 0.1);   //k1
 	cSetValue(model, "k2", 0.2);   //k2
@@ -67,7 +68,7 @@ copasi_model model1()
 	
 	//reactions -- make sure all parameters or species are defined BEFORE this step
 	R1 = cCreateReaction(model, "R1");  // A+B -> 2B
-	
+	return model;
 	cAddReactant(R1, "A", 1.0);
 	cAddReactant(R1, "B", 1.0);
 	cAddProduct(R1, "B", 2.0);

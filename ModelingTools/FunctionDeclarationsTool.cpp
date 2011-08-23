@@ -126,6 +126,8 @@ namespace Tinkercell
 	
 	void AssignmentFunctionsTool::mouseMoved(GraphicsScene* scene, QGraphicsItem * hoverOverItem, QPointF , Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>& )
 	{
+		if (!GlobalSettings::PROGRAM_MODE.isEmpty()) return;
+		
 		if (mainWindow && scene && scene->useDefaultBehavior())
 		{
 			if (!hoverOverItem && scene->selected().size() == 1)

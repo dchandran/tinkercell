@@ -346,20 +346,25 @@ namespace Tinkercell
 		return mainWindow->currentNetworkWindow->editor;
 	}
 
-	void NetworkHandle::rename(const QString& oldname, const QString& s)
+	QString NetworkHandle::rename(const QString& oldname, const QString& s)
 	{
-		if (oldname == s) return;
+		if (oldname == s) return s;
 
 		if (symbolsTable.uniqueHandlesWithDot.contains(oldname))
 		{
-			rename(symbolsTable.uniqueHandlesWithDot[oldname],s);
-			return;
+			return rename(symbolsTable.uniqueHandlesWithDot[oldname],s);
 		}
 
-		if (symbolsTable.nonuniqueHandles.contains(oldname))
+		if (symbolsTable.uniqueHandlesWithUnderscore.contains(oldname))
 		{
-			rename(symbolsTable.nonuniqueHandles[oldname],s);
-			return;
+			return rename(symbolsTable.uniqueHandlesWithDot[oldname],s);
+		}
+
+		if (symbolsTable.nonuniqueHandles.contains(oldname) && 
+			!symbolsTable.uniqueDataWithDot.contains(oldname) &&
+			!symbolsTable.uniqueDataWithUnderscore.contains(oldname))
+		{
+			return rename(symbolsTable.nonuniqueHandles[oldname],s);
 		}
 
 		QList<QString> oldNames, newNames;
@@ -377,11 +382,14 @@ namespace Tinkercell
 		QList<ItemHandle*> items = handles();
 		emit itemsRenamed(this, items, oldNames, newNames);
 		emit dataChanged(items);
+
+		return newname;
 	}
 
-	void NetworkHandle::rename(ItemHandle* handle, const QString& s)
+	QString NetworkHandle::rename(ItemHandle* handle, const QString& s)
 	{
-		if (!handle || (handle->fullName() == s)) return;
+		if (!handle) return QString();
+		if (handle->fullName() == s) return s;
 
 		QList<ItemHandle*> items;
 		items += handle;
@@ -404,11 +412,13 @@ namespace Tinkercell
 
 		emit itemsRenamed(this, items, oldNames, newNames);
 		emit dataChanged(items);
+
+		return newname;
 	}
 
-	void NetworkHandle::rename(const QList<ItemHandle*>& items, const QList<QString>& new_names)
+	QStringList NetworkHandle::rename(const QList<ItemHandle*>& items, const QList<QString>& new_names)
 	{
-		if (items.isEmpty() || items.size() != new_names.size()) return;
+		if (items.isEmpty() || items.size() > new_names.size()) return QStringList();
 
 		QList<QString> oldNames, newNames;
 		ItemHandle * handle;
@@ -435,6 +445,8 @@ namespace Tinkercell
 
 		emit itemsRenamed(this, items, oldNames, newNames);
 		emit dataChanged(items);
+
+		return newNames;
 	}
 
 	void NetworkHandle::setParentHandle(const QList<ItemHandle*>& handles, const QList<ItemHandle*>& parentHandles)

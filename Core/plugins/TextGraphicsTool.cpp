@@ -11,6 +11,7 @@ The tool also updates the name of a handle when the text item is changed (and vi
 
 #include <QKeyEvent>
 #include "MainWindow.h"
+#include "ConsoleWindow.h"
 #include "GraphicsScene.h"
 #include "UndoCommands.h"
 #include "ConnectionGraphicsItem.h"
@@ -55,7 +56,7 @@ namespace Tinkercell
 			insertText->setToolTip(tr("Insert text"));
 			connect(insertText,SIGNAL(triggered()),this,SLOT(insertTextWith()));
 
-			mainWindow->contextItemsMenu.addAction(insertText);
+			//mainWindow->contextItemsMenu.addAction(insertText);
 			
 			if (mainWindow->editMenu)
 			{
@@ -323,8 +324,14 @@ namespace Tinkercell
 				{
 					//item->handle()->name = newName;
 					if (currentNetwork())
-						currentNetwork()->rename(getHandle(item),newName);
-					return;
+					{
+						QString s = currentNetwork()->rename(getHandle(item),newName);
+						if (s == newName) //no collision, so done
+							return;
+						else
+							if (console())
+								console()->error(tr("There is already another item named ") + newName + tr(", so this text box is no longer consistent with the item's real name, ") + s);
+					}
 				}
 			}
 			

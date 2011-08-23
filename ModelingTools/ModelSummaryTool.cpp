@@ -577,6 +577,8 @@ namespace Tinkercell
 
 	void ModelSummaryTool::updateTables()
 	{
+		if (!GlobalSettings::PROGRAM_MODE.isEmpty())
+			return;
 		//disconnect(tabWidget,SIGNAL(currentChanged (int)),this,SLOT(currentChanged ( int)));
 		tableWidget.clearContents();
 		tableWidget.setRowCount(0);

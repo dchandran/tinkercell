@@ -218,12 +218,15 @@ namespace Tinkercell
 			\{
 		*/
 
-		/*! \brief rename item and also adds undo command to history window and emits associated signal(s)*/
-		virtual void rename(const QString& oldname, const QString& new_name);
-		/*! \brief rename an item and also adds undo command to history window and emits associated signal(s)*/
-		virtual void rename(ItemHandle * item, const QString& new_name);
-		/*! \brief rename items and also adds undo command to history window and emits associated signal(s)*/
-		virtual void rename(const QList<ItemHandle*>& items, const QList<QString>& new_names);
+		/*! \brief rename item and also adds undo command to history window and emits associated signal(s)
+		\return QString the new name; it might be different if the provided string was not unique*/
+		virtual QString rename(const QString& oldname, const QString& new_name);
+		/*! \brief rename an item and also adds undo command to history window and emits associated signal(s)
+		\return QString the new name; it might be different if the provided string was not unique*/
+		virtual QString rename(ItemHandle * item, const QString& new_name);
+		/*! \brief rename items and also adds undo command to history window and emits associated signal(s)
+		\return QString the new names; they might be different if the provided strings were not unique*/
+		virtual QStringList rename(const QList<ItemHandle*>& items, const QList<QString>& new_names);
 
 		/*! \}
 			\name change parents of items

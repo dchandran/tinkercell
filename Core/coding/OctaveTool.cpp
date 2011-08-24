@@ -110,6 +110,7 @@ namespace Tinkercell
 		if (octFileNames.contains(octFile)) return false;
 
 		QFile file(octFile);
+		if (!file.open(QFile::ReadOnly | QFile::Text)) return false;
 		if (fileInfo.completeSuffix().toLower() != tr("m") || !file.open(QFile::ReadOnly)) return false;
 
 		QString category, name, descr, icon, specific;

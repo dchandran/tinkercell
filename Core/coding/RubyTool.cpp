@@ -110,6 +110,7 @@ namespace Tinkercell
 		if (rubyFileNames.contains(rubyFile)) return false;
 
 		QFile file(rubyFile);
+		if (!file.open(QFile::ReadOnly | QFile::Text)) return false;
 		if (fileInfo.completeSuffix().toLower() != tr("rb") || !file.open(QFile::ReadOnly)) return false;
 
 		QString category, name, descr, icon, specific;

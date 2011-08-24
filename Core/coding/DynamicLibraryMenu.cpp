@@ -290,7 +290,6 @@ namespace Tinkercell
 		}
 
 		ToolGraphicsItem::visible(b && match && nonEmpty);
-
 	}
 
 	void DynamicLibraryMenu::itemsSelected(GraphicsScene * scene,const QList<QGraphicsItem*>& items, QPointF, Qt::KeyboardModifiers)

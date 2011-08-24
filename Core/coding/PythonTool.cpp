@@ -89,6 +89,8 @@ namespace Tinkercell
 		QFile file(pyFile);
 		if (!file.open(QFile::ReadOnly | QFile::Text)) return false;
 
+		console()->message(pyFile);
+
 		if (fileInfo.completeSuffix().toLower() != tr("py")) return false;
 
 		QString category, name, descr, icon, specific;

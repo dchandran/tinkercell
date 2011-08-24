@@ -10,6 +10,9 @@
 ****************************************************************************/
 
 #include "GlobalSettings.h"
+#include "PythonTool.h"
+#include "OctaveTool.h"
+#include "RubyTool.h"
 #include "BasicInformationTool.h"
 #include "StoichiometryTool.h"
 #include "FunctionDeclarationsTool.h"
@@ -66,7 +69,7 @@ int main(int argc, char *argv[])
     ******************************************/
 
 	GlobalSettings::ENABLE_HISTORY_WINDOW = false;
-	GlobalSettings::ENABLE_CONSOLE_WINDOW = false;
+	GlobalSettings::ENABLE_CONSOLE_WINDOW = true;
 	GlobalSettings::ENABLE_GRAPHING_TOOLS = false;
 	GlobalSettings::ENABLE_CODING_TOOLS = false;
 	GlobalSettings::ENABLE_PYTHON = false;
@@ -137,15 +140,15 @@ int main(int argc, char *argv[])
 	mainWindow.addTool(new CompartmentTool);	
 	mainWindow.addTool(new OctaveExporter);
 	mainWindow.addTool(new SBMLImportExport);
-	mainWindow.addTool(new CopasiExporter);
-	mainWindow.addTool(new AntimonyEditor);
+	//mainWindow.addTool(new CopasiExporter);
+	//mainWindow.addTool(new AntimonyEditor);
 	mainWindow.addTool(new EnglishExporter);	
 	mainWindow.addTool(new ModuleTool);
 	mainWindow.addTool(new WetLabTool);
 	mainWindow.addTool(new AutoGeneRegulatoryTool);
 	mainWindow.addTool(new DNASequenceViewer);
 	mainWindow.addTool(new ViewTablesTool);
-	mainWindow.addTool(new LPSolveInputWindow);
+	//mainWindow.addTool(new LPSolveInputWindow);
 	mainWindow.addTool(new CellPositionUpdateTool);
 
     /*******  Splash screen ***********/

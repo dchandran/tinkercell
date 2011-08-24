@@ -49,15 +49,16 @@ namespace Tinkercell
 
 	public slots:
 		void setupFunctionPointers( QLibrary * );
-		bool loadFromDir( QDir& );
-		bool loadFromDir(DynamicLibraryMenu* , QDir& );
-		void toolLoaded(Tool*);
+		bool loadFilesInDir(const QString&);
+		bool loadFile(const QString&);
 		void runOctaveCode(const QString&);
 		void runOctaveFile(const QString&);
 		void runOctaveCode(QSemaphore*,const QString&);
 		void runOctaveFile(QSemaphore*,const QString&);
 		
 	protected slots:
+		bool loadFile(DynamicLibraryMenu * libMenu, const QFileInfo&);
+		bool loadFilesInDir(DynamicLibraryMenu* , QDir& );
 		void buttonPressed (int);	 
 		void actionTriggered(QAction *);
 		void addOctavePlugin(QSemaphore*,const QString&,const QString&,const QString&,const QString&, const QString&);

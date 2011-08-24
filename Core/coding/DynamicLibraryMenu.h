@@ -57,6 +57,12 @@ namespace Tinkercell
         Q_OBJECT
 
     public:
+		/*! \brief display functions in the top menu*/
+		static bool USE_MENU;
+		/*! \brief display functions in the top toolbar*/
+		static bool USE_TOOLBAR;
+		/*! \brief display functions in a list widget*/
+		static bool USE_LIST_WIDGET;
         /*! \brief default constructor
         */
         DynamicLibraryMenu();

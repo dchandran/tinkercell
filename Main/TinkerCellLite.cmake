@@ -5,7 +5,7 @@ ADD_DEFINITIONS(-DTINKERCELL_PARTS_ONLY)
 #----------------------------------------------
 
 FILE( GLOB TINKERCELL_MAIN_SRC 
-	${TINKERCELL_SOURCE_DIR}/Main/Main.cpp
+	${TINKERCELL_SOURCE_DIR}/Main/WikiDustMain.cpp
 	${TINKERCELL_SOURCE_DIR}/Main/DefaultPluginsMenu.cpp
     ${TINKERCELL_SOURCE_DIR}/DynamicCodeTools/PythonTool.cpp
 	${TINKERCELL_SOURCE_DIR}/DynamicCodeTools/OctaveTool.cpp
@@ -51,14 +51,14 @@ IF( APPLE AND BUILD_BUNDLE )
   SET( MACOSX_BUNDLE_VERSION ${TINKERCELL_VERSION}  )
   SET( MACOSX_BUNDLE_LONG_VERSION_STRING Version ${TINKERCELL_VERSION}  )
 
-  ADD_EXECUTABLE( TinkerCellLite 
+  ADD_EXECUTABLE( WikiDust 
     MACOSX_BUNDLE
     ${TINKERCELL_MAIN_SRC}
     ${TINKERCELL_MAIN_MOC}
     ${TINKERCELL_QRC}
   )
 
-  TARGET_LINK_LIBRARIES( TinkerCellLite
+  TARGET_LINK_LIBRARIES( WikiDust
     TinkerCellCore
      muparser
      copasi
@@ -67,22 +67,22 @@ IF( APPLE AND BUILD_BUNDLE )
     ${QT_LIBRARIES}
   )
 
-  ADD_CUSTOM_COMMAND( TARGET TinkerCellLite PRE_BUILD
+  ADD_CUSTOM_COMMAND( TARGET WikiDust PRE_BUILD
       COMMAND mkdir ARGS -p
-        ${EXECUTABLE_OUTPUT_PATH}/TinkerCellLite.app/Contents/Resources
+        ${EXECUTABLE_OUTPUT_PATH}/WikiDust.app/Contents/Resources
       COMMAND cp ARGS ${MACOSX_BUNDLE_ICON_FILE}
-        ${EXECUTABLE_OUTPUT_PATH}/TinkerCellLite.app/Contents/Resources
+        ${EXECUTABLE_OUTPUT_PATH}/WikiDust.app/Contents/Resources
   )
 
 ELSE( APPLE AND BUILD_BUNDLE )
   IF( UNIX OR ( APPLE AND NOT BUILD_BUNDLE ) )
-    ADD_EXECUTABLE( TinkerCellLite 
+    ADD_EXECUTABLE( WikiDust 
       ${TINKERCELL_MAIN_SRC}
       ${TINKERCELL_MAIN_MOC}
       ${TINKERCELL_QRC}
     )
 
-    TARGET_LINK_LIBRARIES( TinkerCellLite
+    TARGET_LINK_LIBRARIES( WikiDust
     TinkerCellCore
      muparser
      copasi
@@ -108,14 +108,14 @@ ELSE( APPLE AND BUILD_BUNDLE )
 
 		ENDIF( MINGW )
 	
-    ADD_EXECUTABLE( TinkerCellLite WIN32
+    ADD_EXECUTABLE( WikiDust WIN32
       ${TINKERCELL_MAIN_SRC}
       ${TINKERCELL_MAIN_MOC}
       ${TINKERCELL_QRC}
       ${TINKERCELL_RC}
     )
 
-    TARGET_LINK_LIBRARIES( TinkerCellLite
+    TARGET_LINK_LIBRARIES( WikiDust
     TinkerCellCore
      muparser
      copasi
@@ -132,7 +132,7 @@ ENDIF( APPLE AND BUILD_BUNDLE )
 #  INSTALL TinkerCell executable
 #--------------------------------------------------------------------------
 
-INSTALL(TARGETS TinkerCellLite 
+INSTALL(TARGETS WikiDust 
    BUNDLE DESTINATION bin/../
    RUNTIME DESTINATION bin/../
    )
@@ -152,7 +152,7 @@ ENDIF (NOT APPLE AND UNIX AND EXISTS $ENV{HOME}/Documents/TinkerCell/updates.txt
 #  Run Inno setup and WinSCP for windows  or create bundle for Mac
 #-------------------------------------------------------------------------------
 
-SET (TINKERCELL_EXE TinkerCellLite CACHE STRING "TinkerCellLite.exe will be the name of the program"
+SET (TINKERCELL_EXE WikiDust CACHE STRING "WikiDust.exe will be the name of the program"
 		FORCE)
 
 IF (TINKERCELL_INSTALLER AND WIN32)

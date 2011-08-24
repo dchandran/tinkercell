@@ -65,21 +65,22 @@ int main(int argc, char *argv[])
     (must be done before creating MainWindow)
     ******************************************/
 
-	GlobalSettings::ENABLE_HISTORY_WINDOW = true;
-	GlobalSettings::ENABLE_CONSOLE_WINDOW = true;
-	GlobalSettings::ENABLE_GRAPHING_TOOLS = true;
-	GlobalSettings::ENABLE_CODING_TOOLS = true;
-	GlobalSettings::ENABLE_PYTHON = true;
-	GlobalSettings::ENABLE_RUBY = true;
-	GlobalSettings::ENABLE_OCTAVE = true;
+	GlobalSettings::ENABLE_HISTORY_WINDOW = false;
+	GlobalSettings::ENABLE_CONSOLE_WINDOW = false;
+	GlobalSettings::ENABLE_GRAPHING_TOOLS = false;
+	GlobalSettings::ENABLE_CODING_TOOLS = false;
+	GlobalSettings::ENABLE_PYTHON = false;
+	GlobalSettings::ENABLE_OCTAVE = false;
+	GlobalSettings::ENABLE_RUBY = false;
 	GlobalSettings::ENABLE_LOADSAVE_TOOL = true;
     
-    GlobalSettings::PROJECTWEBSITE = QObject::tr("www.tinkercell.com");
+    GlobalSettings::PROJECTWEBSITE = QObject::tr("http://www.tinkercell.com/plugins/wikidust");
     GlobalSettings::ORGANIZATIONNAME = QObject::tr("TinkerCell");
-    GlobalSettings::PROJECTNAME = QObject::tr("TinkerCell");
+    GlobalSettings::PROJECTICON = QObject::tr(":/images/wikidust.png");
+	GlobalSettings::PROJECTNAME = QObject::tr("WikiDust Editor");
     GlobalSettings::PLUGINS_SVN_URL = QObject::tr("https://tinkercellextra.svn.sourceforge.net/svnroot/tinkercellextra"); //for updating
 	
-    ConsoleWindow::Prompt = QObject::tr(">");	
+    ConsoleWindow::Prompt = QObject::tr(">");
 	ConsoleWindow::BackgroundColor = QColor("#555555");
 	
 	QColor color("#00EE00");
@@ -97,32 +98,22 @@ int main(int argc, char *argv[])
     
     /*******  Main Window ***********/
     
-    // "lite" modes
-  #ifdef TINKERCELL_PARTS_ONLY
-		GlobalSettings::ENABLE_HISTORY_WINDOW = false;
-		GlobalSettings::ENABLE_CONSOLE_WINDOW = false;
-		GlobalSettings::ENABLE_GRAPHING_TOOLS = false;
-		GlobalSettings::ENABLE_CODING_TOOLS = false;
-		GlobalSettings::ENABLE_PYTHON = false;
-		GlobalSettings::ENABLE_OCTAVE = false;
-		GlobalSettings::ENABLE_RUBY = false;
-  	    MainWindow mainWindow(true, false, false);
-	    GlobalSettings::PROGRAM_MODE = QString("parts-only");
-  #else
-  #ifdef TINKERCELL_TEXT_ONLY
-		GlobalSettings::ENABLE_HISTORY_WINDOW = false;
- 	    GlobalSettings::PROGRAM_MODE = QString("text-only");
-   	    MainWindow mainWindow(false, true, true);
-  #else
-    	MainWindow mainWindow;
-  #endif
-  #endif
-  
-   mainWindow.hide();
+	DynamicLibraryMenu::USE_LIST_WIDGET = false;
+
+	MainWindow mainWindow(true, false, false);
+	GlobalSettings::PROGRAM_MODE = QString("parts-only");
+	mainWindow.hide();
+
+	mainWindow.addTool(new DynamicLibraryMenu);  //functions menu
+	PythonTool * pythonTool = new PythonTool;   //python tool
+	mainWindow.addTool(pythonTool);
+	
+	/****** wikidust ***********/
+	pythonTool->loadFile(GlobalSettings::homeDir() + QObject::tr("/python/wikidust_annotatepart.py")); 
+	pythonTool->loadFile(GlobalSettings::homeDir() + QObject::tr("/python/wikidust_exportmap.py"));
   
   /*******  title , etc ***********/
-    mainWindow.setWindowTitle(QObject::tr("TinkerCell"));
-    mainWindow.statusBar()->showMessage(QObject::tr("Welcome to TinkerCell"));
+    mainWindow.statusBar()->showMessage(QObject::tr("Welcome to WikiDust"));
     
    	mainWindow.addTool(new CatalogWidget);
 	mainWindow.addTool(new CollisionDetection);
@@ -157,10 +148,9 @@ int main(int argc, char *argv[])
 	mainWindow.addTool(new LPSolveInputWindow);
 	mainWindow.addTool(new CellPositionUpdateTool);
 
-
     /*******  Splash screen ***********/
 
-    QString splashFile(":/images/Tinkercell.png");
+    QString splashFile(":/images/wikidust.png");
 	QPixmap pixmap(splashFile);
 	QSplashScreen splash(pixmap,Qt::SplashScreen);//|Qt::WindowStaysOnTopHint);
 	
@@ -177,25 +167,13 @@ int main(int argc, char *argv[])
     DefaultPluginsMenu menu(&mainWindow);
     mainWindow.settingsMenu->addMenu(&menu);
 	mainWindow.setDockOptions(QMainWindow::AnimatedDocks|QMainWindow::AllowNestedDocks);
-
-    QString home = GlobalSettings::homeDir();
-
-    LoadPluginsFromDir(appDir + QString("/") + QString(TINKERCELL_CPP_PLUGINS_FOLDER),&mainWindow, &splash);
-	LoadPluginsFromDir(home + QString("/") + QString(TINKERCELL_CPP_PLUGINS_FOLDER),&mainWindow, &splash);
-
-	LoadPluginsFromDir(appDir + QString("/") + QString(TINKERCELL_C_PLUGINS_FOLDER),&mainWindow, &splash);
-	LoadPluginsFromDir(home + QString("/") +  QString(TINKERCELL_C_PLUGINS_FOLDER),&mainWindow, &splash);
 	
 
     /*******  START TINKERCELL ***********/
 
     mainWindow.readSettings();
-  #ifdef TINKERCELL_TEXT_ONLY
-		mainWindow.newTextEditor();
-  #else
-		GraphicsScene * scene = mainWindow.newScene();
-  #endif
-    mainWindow.show();
+	GraphicsScene * scene = mainWindow.newScene();
+	mainWindow.show();
     splash.finish(&mainWindow);
 
     /*******  process command line arguments, if any ***********/
@@ -213,23 +191,3 @@ int main(int argc, char *argv[])
 	app.closeAllWindows();
     return output;
 }
-
-void LoadPluginsFromDir(const QString& dirname,MainWindow * main,QSplashScreen * splash)
-{
-    QDir dir(dirname);
-    dir.setFilter(QDir::Files);
-    dir.setSorting(QDir::Time);
-    QFileInfoList list = dir.entryInfoList();
-
-    for (int i = (list.size()-1); i >= 0; --i)
-    {
-        QFileInfo fileInfo = list.at(i);
-        QString filename = fileInfo.absoluteFilePath();
-        if (!QLibrary::isLibrary(filename)) continue;
-
-        if (splash)
-            splash->showMessage(QString("loading ") + fileInfo.fileName() + QString("..."));
-        main->loadDynamicLibrary(filename);
-    }
-}
-

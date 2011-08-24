@@ -48,15 +48,16 @@ namespace Tinkercell
 
 	public slots:
 		void setupFunctionPointers( QLibrary * );
-		bool loadFromDir( QDir& );
-		bool loadFromDir(DynamicLibraryMenu* , QDir& );
-		void toolLoaded(Tool*);
+		bool loadFilesInDir(const QString&);
+		bool loadFile(const QString&);
 		void runRubyCode(const QString&);
 		void runRubyFile(const QString&);
 		void runRubyCode(QSemaphore*,const QString&);
 		void runRubyFile(QSemaphore*,const QString&);
 		
 	protected slots:
+		bool loadFile(DynamicLibraryMenu * libMenu, const QFileInfo&);
+		bool loadFilesInDir(DynamicLibraryMenu* , QDir& );
 		void buttonPressed (int);	 
 		void actionTriggered(QAction *);
 		void addRubyPlugin(QSemaphore*,const QString&,const QString&,const QString&,const QString&, const QString&);

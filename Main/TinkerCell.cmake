@@ -3,7 +3,7 @@
 #----------------------------------------------
 
 FILE( GLOB TINKERCELL_MAIN_SRC 
-	${TINKERCELL_SOURCE_DIR}/Main/Main.cpp
+	${TINKERCELL_SOURCE_DIR}/Main/TinkerCellMain.cpp
 	${TINKERCELL_SOURCE_DIR}/Main/DefaultPluginsMenu.cpp
     ${TINKERCELL_SOURCE_DIR}/DynamicCodeTools/PythonTool.cpp
 	${TINKERCELL_SOURCE_DIR}/DynamicCodeTools/OctaveTool.cpp

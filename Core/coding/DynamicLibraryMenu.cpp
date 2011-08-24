@@ -226,15 +226,20 @@ namespace Tinkercell
 			setWindowTitle(tr("Programs"));
 			setWindowIcon(QIcon(tr(":/images/play.png")));
 			
-			mainWindow->addToolWindow(this, MainWindow::defaultToolWindowOption, Qt::BottomDockWidgetArea);
-			QToolBar * toolBar = mainWindow->toolBarForTools;
-			menuButton = new QToolButton(toolBar);
-			menuButton->setIcon(QIcon(":/images/play.png"));
-			menuButton->setMenu(&functionsToolbarMenu);
-			menuButton->setPopupMode(QToolButton::MenuButtonPopup);
-			toolBar->addWidget(menuButton);
-			
-			if (mainWindow->menuBar())
+			if (USE_LIST_WIDGET)
+				mainWindow->addToolWindow(this, MainWindow::defaultToolWindowOption, Qt::BottomDockWidgetArea);
+
+			if (USE_TOOLBAR)
+			{
+				QToolBar * toolBar = mainWindow->toolBarForTools;
+				menuButton = new QToolButton(toolBar);
+				menuButton->setIcon(QIcon(":/images/play.png"));
+				menuButton->setMenu(&functionsToolbarMenu);
+				menuButton->setPopupMode(QToolButton::MenuButtonPopup);
+				toolBar->addWidget(menuButton);
+			}
+
+			if (mainWindow->menuBar() && USE_MENU)
     			mainWindow->menuBar()->insertMenu(mainWindow->helpMenu->menuAction(),&functionsMenu);
 
 			connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene *, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),
@@ -403,4 +408,8 @@ namespace Tinkercell
 	{
 		return fToS->callFunction(c);
 	}
+
+	bool DynamicLibraryMenu::USE_MENU = true;
+	bool DynamicLibraryMenu::USE_TOOLBAR = true;
+	bool DynamicLibraryMenu::USE_LIST_WIDGET = true;
 }

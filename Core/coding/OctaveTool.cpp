@@ -1,8 +1,8 @@
 /****************************************************************************
- Copyright (c) 2008 Deepak Chandran
- Contact: Deepak Chandran (dchandran1@gmail.com)
- see COPYRIGHT.TXT
- 
+Copyright (c) 2008 Deepak Chandran
+Contact: Deepak Chandran (dchandran1@gmail.com)
+see COPYRIGHT.TXT
+
 ****************************************************************************/
 #include <QDesktopServices>
 #include <QVBoxLayout>
@@ -27,179 +27,213 @@
 
 namespace Tinkercell
 {
-    OctaveTool::OctaveTool() : Tool(tr("Octave Interpreter"),tr("Coding")), actionsGroup(this), buttonsGroup(this)
-    {
-    	OctaveTool::fToS = new OctaveTool_FToS;
-    	OctaveTool::fToS->setParent(this);
-        octaveInterpreter = 0;
+	OctaveTool::OctaveTool() : Tool(tr("Octave Interpreter"),tr("Coding")), actionsGroup(this), buttonsGroup(this)
+	{
+		OctaveTool::fToS = new OctaveTool_FToS;
+		OctaveTool::fToS->setParent(this);
+		octaveInterpreter = 0;
 
-        connect(&actionsGroup,SIGNAL(triggered ( QAction *  )),this,SLOT(actionTriggered ( QAction *  )));
-        connect(&buttonsGroup,SIGNAL(buttonPressed ( int  )),this,SLOT(buttonPressed ( int  )));
-        connectTCFunctions();
-    }
-    
-    bool OctaveTool::loadFromDir(QDir& dir)
-    {
-        QWidget * widget = mainWindow->tool(tr("Dynamic Library Menu"));
-        if (widget)
-        {
-            DynamicLibraryMenu * libMenu = static_cast<DynamicLibraryMenu*>(widget);
-    		return loadFromDir(libMenu, dir);
-    	}
-    	return false;
-    }
+		connect(&actionsGroup,SIGNAL(triggered ( QAction *  )),this,SLOT(actionTriggered ( QAction *  )));
+		connect(&buttonsGroup,SIGNAL(buttonPressed ( int  )),this,SLOT(buttonPressed ( int  )));
+		connectTCFunctions();
+	}
 
-    bool OctaveTool::loadFromDir(DynamicLibraryMenu * libMenu, QDir& dir)
-    {
-    	bool filesFound = false;
-        if (!libMenu) return filesFound;
-        
-        dir.setFilter(QDir::Files);
+	bool OctaveTool::loadFilesInDir(const QString& dirname)
+	{
+		QString name[] = {
+			dirname, 
+			GlobalSettings::tempDir() + tr("/") + dirname,
+			GlobalSettings::homeDir() + tr("/") + dirname,
+			QDir::currentPath() + tr("/") + dirname,
+			QCoreApplication::applicationDirPath() + tr("/") + dirname
+		};
+
+		bool opened = false;
+		for (int i=0; i < 4; ++i)
+		{
+			QDir dir(name[i]);
+			if (dir.exists())
+			{
+				QWidget * widget = mainWindow->tool(tr("Dynamic Library Menu"));
+				if (widget)
+				{
+					DynamicLibraryMenu * libMenu = static_cast<DynamicLibraryMenu*>(widget);
+					if (loadFilesInDir(libMenu, dir))
+						opened = true;
+				}
+			}
+		}
+		return opened;
+	}
+
+	bool OctaveTool::loadFile(const QString& filename)
+	{
+		if (!mainWindow) return false;
+
+		QWidget * widget = mainWindow->tool(tr("Dynamic Library Menu"));
+		if (widget)
+		{
+			DynamicLibraryMenu * libMenu = static_cast<DynamicLibraryMenu*>(widget);
+			return loadFile(libMenu, QFileInfo(filename));
+		}
+		return false;
+	}
+
+	bool OctaveTool::loadFilesInDir(DynamicLibraryMenu * libMenu, QDir& dir)
+	{
+		bool filesFound = false;
+		if (!libMenu) return filesFound;
+
+		dir.setFilter(QDir::Files);
 		dir.setSorting(QDir::Name);
 
 		QFileInfoList list = dir.entryInfoList();
 
-		QString appDir = QCoreApplication::applicationDirPath();
-		QString homeDir = GlobalSettings::homeDir();
-		
 		for (int i = 0; i < list.size(); ++i)
 		{
 			QFileInfo fileInfo = list.at(i);
-			
-			QString octFile = fileInfo.absoluteFilePath();
-			if (octFileNames.contains(octFile)) continue;
-			
-			QFile file(octFile);
-			if (fileInfo.completeSuffix().toLower() != tr("m") || !file.open(QFile::ReadOnly)) continue;
-			
-			QString category, name, descr, icon, specific;
-			bool menu = true, tool = true;
-			bool commentsLine = false;
+			if (loadFile(libMenu, fileInfo))
+				filesFound = true;
+		} //done reading one script file
 
-			while (!file.atEnd()) //inside octave script file
+		return filesFound;
+	}
+
+	bool OctaveTool::loadFile(DynamicLibraryMenu * libMenu, const QFileInfo& fileInfo)
+	{
+		if (!libMenu) return false;
+
+		QString appDir = QCoreApplication::applicationDirPath();
+		QString homeDir = GlobalSettings::homeDir();
+
+		QString octFile = fileInfo.absoluteFilePath();
+		if (octFileNames.contains(octFile)) return false;
+
+		QFile file(octFile);
+		if (fileInfo.completeSuffix().toLower() != tr("m") || !file.open(QFile::ReadOnly)) return false;
+
+		QString category, name, descr, icon, specific;
+		bool menu = true, tool = true;
+		bool commentsLine = false;
+
+		while (!file.atEnd()) //inside octave script file
+		{
+			QString line(file.readLine());
+			commentsLine = line.toLower().contains(tr("#")) || line.toLower().contains(tr("%"));				
+			if (!commentsLine) return false;
+
+			line.remove(tr("#"));
+			line.remove(tr("%"));
+
+			QStringList words = line.split(tr(":"));
+			if (words.size() == 2)
 			{
-				QString line(file.readLine());
-				commentsLine = line.toLower().contains(tr("#")) || line.toLower().contains(tr("%"));				
-				if (!commentsLine) continue;
-				
-				line.remove(tr("#"));
-				line.remove(tr("%"));
-				
-				QStringList words = line.split(tr(":"));
-				if (words.size() == 2)
-				{
-					QString s1 = words[0].trimmed(), 
-							s2 = words[1].trimmed();
+				QString s1 = words[0].trimmed(), 
+					s2 = words[1].trimmed();
 
-					if (s1 == tr("category"))
-						category = s2;
-					else
+				if (s1 == tr("category"))
+					category = s2;
+				else
 					if (s1 == tr("name"))
 						name = s2;
 					else
-					if (s1 == tr("description"))
-						descr = s2;
-					else
-					if (s1 == tr("icon"))
-						icon = s2;
-					else
-					if (s1 == tr("menu"))
-						menu = (s2.toLower().contains("yes"));
-					else
-					if (s1 == tr("tool"))
-						tool = (s2.toLower().contains("yes"));
-					else
-					if (s1.contains(tr("specific")))
-						specific = s2;
-				}
+						if (s1 == tr("description"))
+							descr = s2;
+						else
+							if (s1 == tr("icon"))
+								icon = s2;
+							else
+								if (s1 == tr("menu"))
+									menu = (s2.toLower().contains("yes"));
+								else
+									if (s1 == tr("tool"))
+										tool = (s2.toLower().contains("yes"));
+									else
+										if (s1.contains(tr("specific")))
+											specific = s2;
 			}
-			
-			file.close();
-			
-			if (name.isNull() || name.isEmpty()) continue;
-			
-			filesFound = true;
-		
-			if (!QFile(icon).exists())
-			{
-				if (QFile(appDir + tr("/") + icon).exists())
-					icon = appDir + tr("/") + icon;
-				else
+		}
+
+		file.close();
+
+		if (name.isNull() || name.isEmpty()) return false;
+
+		if (!QFile(icon).exists())
+		{
+			if (QFile(appDir + tr("/") + icon).exists())
+				icon = appDir + tr("/") + icon;
+			else
 				if (QFile(tr(":/images/") + icon).exists())
 					icon = tr(":/images/") + icon;
 				else
-				if (QFile(homeDir + tr("/") + icon).exists())
-					icon = homeDir + tr("/") + icon;
-				else
-				if (QFile(homeDir + tr("/octave/") + icon).exists())
-					icon = homeDir + tr("/octave/") + icon;
-			}
-			if (icon.isEmpty() || !QFile(icon).exists())
-				icon = tr(":/images/function.png");
-			QPixmap pixmap(icon);
-		
-            QToolButton * button = libMenu->addFunction(category, name, QIcon(pixmap));
-		
-			if (button)
+					if (QFile(homeDir + tr("/") + icon).exists())
+						icon = homeDir + tr("/") + icon;
+					else
+						if (QFile(homeDir + tr("/octave/") + icon).exists())
+							icon = homeDir + tr("/octave/") + icon;
+		}
+		if (icon.isEmpty() || !QFile(icon).exists())
+			icon = tr(":/images/function.png");
+		QPixmap pixmap(icon);
+
+		QToolButton * button = libMenu->addFunction(category, name, QIcon(pixmap));
+
+		if (button)
+		{
+			button->setToolTip(descr);
+			buttonsGroup.addButton(button,octFileNames.size());
+			octFileNames << octFile;
+		}
+
+		if (menu)
+		{
+			QAction * menuItem = libMenu->addMenuItem(category, name, QIcon(pixmap));
+			if (menuItem)
 			{
-				button->setToolTip(descr);
-				buttonsGroup.addButton(button,octFileNames.size());
-				octFileNames << octFile;
+				menuItem->setToolTip(descr);
+				actionsGroup.addAction(menuItem);
+				hashOctFile[menuItem] = octFile;
 			}
+		}
 
-			if (menu)
+		if (!specific.isEmpty())
+		{
+			QAction * contextAction = libMenu->addContextMenuItem(specific, name, pixmap, tool);
+			if (contextAction)
 			{
-				QAction * menuItem = libMenu->addMenuItem(category, name, QIcon(pixmap));
-				if (menuItem)
-				{
-					menuItem->setToolTip(descr);
-					actionsGroup.addAction(menuItem);
-					hashOctFile[menuItem] = octFile;
-				}
+				contextAction->setToolTip(descr);
+				actionsGroup.addAction(contextAction);
+				hashOctFile[contextAction] = octFile;
 			}
+		}
 
-			if (!specific.isEmpty())
-			{
-				QAction * contextAction = libMenu->addContextMenuItem(specific, name, pixmap, tool);
-				if (contextAction)
-				{
-					contextAction->setToolTip(descr);
-					actionsGroup.addAction(contextAction);
-					hashOctFile[contextAction] = octFile;
-				}
-			}
-		} //done reading one oct script file
+		return true;
+	}
 
-		return filesFound;
-    }
-
-    bool OctaveTool::setMainWindow(MainWindow * main)
-    {
+	bool OctaveTool::setMainWindow(MainWindow * main)
+	{
 		Tool::setMainWindow(main);
 		if (mainWindow)
 		{
 			QString appDir = QCoreApplication::applicationDirPath();
-			
+
 			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
-			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
 
 			octaveInterpreter = new OctaveInterpreterThread(tr("octave/tinkercell"), tr("octave/libtcoct"), mainWindow);
-			
+
 			octaveInterpreter->initialize();
-			
-			toolLoaded(0);
 
 			QString s;
-			
+
 			QFile file(appDir + tr("/octave/init.m"));
 			if (file.open(QFile::ReadOnly | QFile::Text))
-            {
-                s += file.readAll();
-                file.close();
-            }
-			
+			{
+				s += file.readAll();
+				file.close();
+			}
+
 			runOctaveCode(s);
-			
+
 			ConsoleWindow * outWin = console();
 			if (outWin)
 			{
@@ -208,188 +242,153 @@ namespace Tinkercell
 				if (!outWin->interpreter() && octaveInterpreter)
 					outWin->setInterpreter(octaveInterpreter);
 			}
-			
+
 			return true;
 		}
-        
+
 		return false;
-    }
+	}
 
-    void OctaveTool::toolLoaded(Tool*)
-    {
-        static bool connected = false;
+	void OctaveTool::buttonPressed ( int id )
+	{
+		if (octFileNames.size() <= id)
+			return;
 
-        if (!connected && mainWindow->tool(tr("Dynamic Library Menu")))
-        {
-            QWidget * widget = mainWindow->tool(tr("Dynamic Library Menu"));
-            if (widget)
-            {
-                connected = true;
+		QString octfile = octFileNames[id];
 
-                DynamicLibraryMenu * libMenu = static_cast<DynamicLibraryMenu*>(widget);
+		if (!octfile.isEmpty())
+		{
+			runOctaveFile(octfile); //go
+		}
+	}
 
-                QString appDir = QCoreApplication::applicationDirPath();
+	void OctaveTool::actionTriggered(QAction * item)
+	{
+		if (!item || !hashOctFile.contains(item))
+			return;
 
-                QString name[] = {
-				  GlobalSettings::tempDir() + tr("/octave"),
-                  GlobalSettings::homeDir() + tr("/octave"),
-                  QDir::currentPath() + tr("/octave"),
-                  appDir + tr("/octave")
-               };
+		QString octfile = hashOctFile[item];
 
-                bool opened = false;
-                for (int i=0; i < 4; ++i)
-                {
-                    QDir dir(name[i]);
-                    if (dir.exists())
-                    {
-                        opened = loadFromDir(libMenu,dir) || opened;
-                    }
-                }
-            }
-        }
-    }
+		if (!octfile.isEmpty())
+		{
+			runOctaveFile(octfile); //go
+		}
+	}
 
-    void OctaveTool::buttonPressed ( int id )
-    {
-        if (octFileNames.size() <= id)
-            return;
+	void OctaveTool::connectTCFunctions()
+	{
+		connect(fToS,SIGNAL(runOctaveCode(QSemaphore*,const QString&)),this,SLOT(runOctaveCode(QSemaphore*,const QString&)));
+		connect(fToS,SIGNAL(runOctaveFile(QSemaphore*,const QString&)),this,SLOT(runOctaveFile(QSemaphore*,const QString&)));
+		connect(fToS,SIGNAL(addOctavePlugin(QSemaphore*,const QString&,const QString&,const QString&,const QString&, const QString&)),
+			this,SLOT(addOctavePlugin(QSemaphore*,const QString&,const QString&,const QString&,const QString&, const QString&)));
+	}
 
-        QString octfile = octFileNames[id];
+	typedef void (*tc_OctaveTool_api)(
+		void (*runOctaveCode)(const char*),
+		void (*runOctaveFile)(const char*),
+		void (*addOctavePlugin)(const char*,const char*,const char*,const char*,const char*)
+		);
 
-        if (!octfile.isEmpty())
-        {
-            runOctaveFile(octfile); //go
-        }
-    }
+	void OctaveTool::setupFunctionPointers( QLibrary * library)
+	{
+		tc_OctaveTool_api f = (tc_OctaveTool_api)library->resolve("tc_OctaveTool_api");
+		if (f)
+		{
+			//qDebug() << "tc_OctaveTool_api resolved";
+			f(
+				&(_runOctaveCode),
+				&(_runOctaveFile),
+				&(_addOctavePlugin)
+				);
+		}
+	}
 
-    void OctaveTool::actionTriggered(QAction * item)
-    {
-        if (!item || !hashOctFile.contains(item))
-            return;
+	/******************************************************/
 
-        QString octfile = hashOctFile[item];
-
-        if (!octfile.isEmpty())
-        {
-            runOctaveFile(octfile); //go
-        }
-    }
-
-    void OctaveTool::connectTCFunctions()
-    {
-        connect(fToS,SIGNAL(runOctaveCode(QSemaphore*,const QString&)),this,SLOT(runOctaveCode(QSemaphore*,const QString&)));
-        connect(fToS,SIGNAL(runOctaveFile(QSemaphore*,const QString&)),this,SLOT(runOctaveFile(QSemaphore*,const QString&)));
-        connect(fToS,SIGNAL(addOctavePlugin(QSemaphore*,const QString&,const QString&,const QString&,const QString&, const QString&)),
-        		this,SLOT(addOctavePlugin(QSemaphore*,const QString&,const QString&,const QString&,const QString&, const QString&)));
-    }
-
-    typedef void (*tc_OctaveTool_api)(
-            void (*runOctaveCode)(const char*),
-            void (*runOctaveFile)(const char*),
-            void (*addOctavePlugin)(const char*,const char*,const char*,const char*,const char*)
-            );
-
-    void OctaveTool::setupFunctionPointers( QLibrary * library)
-    {
-        tc_OctaveTool_api f = (tc_OctaveTool_api)library->resolve("tc_OctaveTool_api");
-        if (f)
-        {
-            //qDebug() << "tc_OctaveTool_api resolved";
-            f(
-                &(_runOctaveCode),
-                &(_runOctaveFile),
-                &(_addOctavePlugin)
-                );
-        }
-    }
-
-    /******************************************************/
-
-    OctaveTool_FToS * OctaveTool::fToS;
+	OctaveTool_FToS * OctaveTool::fToS;
 
 
-    void OctaveTool::_runOctaveCode(const char* c)
-    {
-        return fToS->runOctaveCode(c);
-    }
+	void OctaveTool::_runOctaveCode(const char* c)
+	{
+		return fToS->runOctaveCode(c);
+	}
 
-    void OctaveTool::_runOctaveFile(const char* c)
-    {
-        return fToS->runOctaveFile(c);
-    }
-    
-    void OctaveTool::_addOctavePlugin(const char* file,const char* name,const char* descr,const char* category,const char* icon)
-    {
-        return fToS->addOctavePlugin(file,name,descr,category,icon);
-    }
+	void OctaveTool::_runOctaveFile(const char* c)
+	{
+		return fToS->runOctaveFile(c);
+	}
 
-    void OctaveTool_FToS::runOctaveCode(const char* c)
-    {
-        QSemaphore * s = new QSemaphore(1);
-        s->acquire();
-        emit runOctaveCode(s,ConvertValue(c));
-        s->acquire();
-        s->release();
-        delete s;
-    }
+	void OctaveTool::_addOctavePlugin(const char* file,const char* name,const char* descr,const char* category,const char* icon)
+	{
+		return fToS->addOctavePlugin(file,name,descr,category,icon);
+	}
 
-    void OctaveTool_FToS::runOctaveFile(const char* c)
-    {
-        QSemaphore * s = new QSemaphore(1);
-        s->acquire();
-        emit runOctaveFile(s,ConvertValue(c));
-        s->acquire();
-        s->release();
-        delete s;
-    }
-    
-    void OctaveTool_FToS::addOctavePlugin(const char* file,const char* name,const char* descr,const char* category,const char* icon)
-    {
-        QSemaphore * s = new QSemaphore(1);
-        s->acquire();
-        emit addOctavePlugin(s,tr(file),tr(name),tr(descr),tr(category),tr(icon));
-        s->acquire();
-        s->release();
-        delete s;
-    }
+	void OctaveTool_FToS::runOctaveCode(const char* c)
+	{
+		QSemaphore * s = new QSemaphore(1);
+		s->acquire();
+		emit runOctaveCode(s,ConvertValue(c));
+		s->acquire();
+		s->release();
+		delete s;
+	}
 
-    /*******************
-          OCTAVE STUFF
-    *********************/
+	void OctaveTool_FToS::runOctaveFile(const char* c)
+	{
+		QSemaphore * s = new QSemaphore(1);
+		s->acquire();
+		emit runOctaveFile(s,ConvertValue(c));
+		s->acquire();
+		s->release();
+		delete s;
+	}
 
-    void OctaveTool::runOctaveCode(QSemaphore* sem,const QString& code)
-    {
-        runOctaveCode(code);
-        if (sem)
-            sem->release();
-    }
+	void OctaveTool_FToS::addOctavePlugin(const char* file,const char* name,const char* descr,const char* category,const char* icon)
+	{
+		QSemaphore * s = new QSemaphore(1);
+		s->acquire();
+		emit addOctavePlugin(s,tr(file),tr(name),tr(descr),tr(category),tr(icon));
+		s->acquire();
+		s->release();
+		delete s;
+	}
 
-    void OctaveTool::runOctaveFile(QSemaphore* sem,const QString& file)
-    {
-        runOctaveFile(file);
-        if (sem)
-            sem->release();
-    }
-    
-    void OctaveTool::addOctavePlugin(QSemaphore * sem,const QString& octFile,const QString& name,const QString& descr,const QString& category, const QString& icon0)
-    {
-    	QWidget * widget = mainWindow->tool(tr("Dynamic Library Menu"));
-        
-        if (!widget) return;
-        
-        DynamicLibraryMenu * libMenu = static_cast<DynamicLibraryMenu*>(widget);
-        
+	/*******************
+	OCTAVE STUFF
+	*********************/
+
+	void OctaveTool::runOctaveCode(QSemaphore* sem,const QString& code)
+	{
+		runOctaveCode(code);
+		if (sem)
+			sem->release();
+	}
+
+	void OctaveTool::runOctaveFile(QSemaphore* sem,const QString& file)
+	{
+		runOctaveFile(file);
+		if (sem)
+			sem->release();
+	}
+
+	void OctaveTool::addOctavePlugin(QSemaphore * sem,const QString& octFile,const QString& name,const QString& descr,const QString& category, const QString& icon0)
+	{
+		QWidget * widget = mainWindow->tool(tr("Dynamic Library Menu"));
+
+		if (!widget) return;
+
+		DynamicLibraryMenu * libMenu = static_cast<DynamicLibraryMenu*>(widget);
+
 		if (name.isNull() || name.isEmpty())
 		{
 			if (sem) 
 				sem->release();
 			return;
 		}
-		
+
 		QString appDir = QCoreApplication::applicationDirPath();
 		QString homeDir = GlobalSettings::homeDir();
-		
+
 		QString icon = icon0;
 
 		if (!QFile(icon).exists())
@@ -397,21 +396,21 @@ namespace Tinkercell
 			if (QFile(appDir + tr("/") + icon).exists())
 				icon = appDir + tr("/") + icon;
 			else
-			if (QFile(tr(":/images/") + icon).exists())
-				icon = tr(":/images/") + icon;
-			else
-			if (QFile(homeDir + tr("/") + icon).exists())
-				icon = homeDir + tr("/") + icon;
-			else
-			if (QFile(homeDir + tr("/octave/") + icon).exists())
-				icon = homeDir + tr("/octave/") + icon;
+				if (QFile(tr(":/images/") + icon).exists())
+					icon = tr(":/images/") + icon;
+				else
+					if (QFile(homeDir + tr("/") + icon).exists())
+						icon = homeDir + tr("/") + icon;
+					else
+						if (QFile(homeDir + tr("/octave/") + icon).exists())
+							icon = homeDir + tr("/octave/") + icon;
 		}
 		if (icon.isEmpty() || !QFile(icon).exists())
 			icon = tr(":/images/function.png");
 		QPixmap pixmap(icon);
-	
-        QToolButton * button = libMenu->addFunction(category, name, QIcon(pixmap));
-	
+
+		QToolButton * button = libMenu->addFunction(category, name, QIcon(pixmap));
+
 		if (button)
 		{
 			button->setToolTip(descr);
@@ -426,67 +425,67 @@ namespace Tinkercell
 			actionsGroup.addAction(menuItem);
 			hashOctFile[menuItem] = octFile;
 		}
-		
+
 		/*
 		if (!specific.isEmpty())
 		{
-			QAction * contextAction = libMenu->addContextMenuItem(specific, name, pixmap, tool);
-			if (contextAction)
-			{
-				contextAction->setToolTip(descr);
-				actionsGroup.addAction(contextAction);
-				hashOctFile[contextAction] = octFile;
-			}
+		QAction * contextAction = libMenu->addContextMenuItem(specific, name, pixmap, tool);
+		if (contextAction)
+		{
+		contextAction->setToolTip(descr);
+		actionsGroup.addAction(contextAction);
+		hashOctFile[contextAction] = octFile;
+		}
 		}*/
-			
-    	if (sem)
-    		sem->release();
-    }
 
-    void OctaveTool::runOctaveCode(const QString& code)
-    {	
-        if (octaveInterpreter)
-            octaveInterpreter->exec(code);
-    }
+		if (sem)
+			sem->release();
+	}
 
-    void OctaveTool::runOctaveFile(const QString& filename)
-    {
-        if (octaveInterpreter)
-        {
-            QString appDir = QCoreApplication::applicationDirPath();
+	void OctaveTool::runOctaveCode(const QString& code)
+	{	
+		if (octaveInterpreter)
+			octaveInterpreter->exec(code);
+	}
 
-            QString name[] = {	GlobalSettings::homeDir() + tr("/") + filename,
-                                GlobalSettings::homeDir() + tr("/octave/") + filename,
-								GlobalSettings::tempDir() + tr("/") + filename,
-                                GlobalSettings::tempDir() + tr("/octave/") + filename,
-                                filename,
-                                QDir::currentPath() + tr("/") + filename,
-                                appDir + tr("/octave/") + filename ,
-                                appDir + tr("/") + filename };
+	void OctaveTool::runOctaveFile(const QString& filename)
+	{
+		if (octaveInterpreter)
+		{
+			QString appDir = QCoreApplication::applicationDirPath();
 
-            QFile file;
-            bool opened = false;
-            for (int i=0; i < 8; ++i)
-            {
-                file.setFileName(name[i]);
-                if (file.open(QFile::ReadOnly | QFile::Text))
-                {
-                    opened = true;
-                    break;
-                }
-            }
-            if (!opened)
-            {
-                if (console())
+			QString name[] = {	GlobalSettings::homeDir() + tr("/") + filename,
+				GlobalSettings::homeDir() + tr("/octave/") + filename,
+				GlobalSettings::tempDir() + tr("/") + filename,
+				GlobalSettings::tempDir() + tr("/octave/") + filename,
+				filename,
+				QDir::currentPath() + tr("/") + filename,
+				appDir + tr("/octave/") + filename ,
+				appDir + tr("/") + filename };
+
+			QFile file;
+			bool opened = false;
+			for (int i=0; i < 8; ++i)
+			{
+				file.setFileName(name[i]);
+				if (file.open(QFile::ReadOnly | QFile::Text))
+				{
+					opened = true;
+					break;
+				}
+			}
+			if (!opened)
+			{
+				if (console())
 					console()->error( filename + tr("file not found"));
-            }
-            else
-            {
-                QString code(file.readAll());
-                runOctaveCode(code);
-                file.close();
-            }
-        }
-    }
+			}
+			else
+			{
+				QString code(file.readAll());
+				runOctaveCode(code);
+				file.close();
+			}
+		}
+	}
 
 }

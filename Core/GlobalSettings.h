@@ -83,6 +83,9 @@ namespace Tinkercell
 		/*! \brief the project name*/
 		static QString PROJECTNAME;
 
+		/*! \brief the project icon file*/
+		static QString PROJECTICON;
+
 		/*! \brief the default function that is loaded in C++ plugins*/
 		static QString CPP_ENTRY_FUNCTION;
 

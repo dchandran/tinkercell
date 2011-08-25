@@ -549,7 +549,7 @@ namespace Tinkercell
 			for (int i=0; i < handles.size(); ++i)
 				if ((h = handles[i]) && !h->parent && h->name == root->name)  //problem case -- do first
 				{
-					//h->setParent(root,false);
+					h->setParent(root,false);
 					RenameCommand::findReplaceAllHandleData(handles,h->name, tr("XXX...XXX.") + h->name);
 					visited += h;
 				}
@@ -557,7 +557,7 @@ namespace Tinkercell
 			for (int i=0; i < handles.size(); ++i)
 				if ((h = handles[i]) && !h->parent && !h->name.isEmpty() && !visited.contains(h))
 				{
-					//h->setParent(root,false);
+					h->setParent(root,false);
 					RenameCommand::findReplaceAllHandleData(handles,h->name,tr("XXX...XXX.") + h->name);
 					visited += h;
 				}

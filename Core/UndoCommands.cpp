@@ -801,10 +801,11 @@ namespace Tinkercell
 								{
 									bool onlyThisScene = true;
 									for (int j=0; j < handles[i]->graphicsItems.size(); ++j)
-										if (handles[i]->graphicsItems[j] && handles[i]->graphicsItems[j]->scene() != graphicsScene)
+										if (handles[i]->graphicsItems[j] && 
+											!graphicsItems.contains(handles[i]->graphicsItems[j]) &&
+											 handles[i]->graphicsItems[j]->scene() != graphicsScene)
 										{
 											onlyThisScene = false;
-											false;
 										}
 									if (onlyThisScene)
 										handles[i]->setParent(graphicsScene->localHandle(),false);

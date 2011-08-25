@@ -112,7 +112,7 @@ int main(int argc, char *argv[])
 	mainWindow.addTool(pythonTool);
 	
 	/****** wikidust ***********/
-	pythonTool->loadFile(GlobalSettings::homeDir() + QObject::tr("/python/wikidust_annotatepart.py")); 
+	pythonTool->loadFile(GlobalSettings::homeDir() + QObject::tr("/python/wikidust_annotatepart.py"));
 	pythonTool->loadFile(GlobalSettings::homeDir() + QObject::tr("/python/wikidust_exportmap.py"));
   
   /*******  title , etc ***********/

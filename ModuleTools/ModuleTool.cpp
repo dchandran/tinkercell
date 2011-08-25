@@ -338,7 +338,7 @@ namespace Tinkercell
 					if (handles[i] && !visitedHandles.contains(handles[i]))
 					{
 						visitedHandles << handles[i];
-						if (!handles[i]->parent)							
+						if (!handles[i]->parent)
 							items += handles[i]->graphicsItems;
 					}
 			}

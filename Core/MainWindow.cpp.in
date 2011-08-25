@@ -84,13 +84,13 @@ namespace Tinkercell
 	QString GlobalSettings::homeDir()
 	{
 		QString & homeDirPath = MainWindow::homeDirPath;		
-		if (homeDirPath.contains(GlobalSettings::PROJECTNAME) && QDir(homeDirPath).exists())
+		if (homeDirPath.contains(GlobalSettings::ORGANIZATIONNAME) && QDir(homeDirPath).exists())
 		{
 			return homeDirPath;
 		}
 
 		QDir dir = QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation);
-		QString tcdir = GlobalSettings::PROJECTNAME;
+		QString tcdir = GlobalSettings::ORGANIZATIONNAME;
 
 		if (!dir.exists(tcdir))
 			dir.mkdir(tcdir);

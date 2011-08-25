@@ -32,7 +32,7 @@ expect sftp>
 send "cd /home/frs/project/t/ti/tinkercell/current\r"
 expect sftp>
 
-send "put TinkerCell*.tar.gz\r"
+send "put @TINKERCELL_EXE@*.tar.gz\r"
 expect sftp>
 
 send "exit\r"

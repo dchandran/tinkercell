@@ -89,8 +89,6 @@ namespace Tinkercell
 		QFile file(pyFile);
 		if (!file.open(QFile::ReadOnly | QFile::Text)) return false;
 
-		console()->message(pyFile);
-
 		if (fileInfo.completeSuffix().toLower() != tr("py")) return false;
 
 		QString category, name, descr, icon, specific;
@@ -144,7 +142,6 @@ namespace Tinkercell
 		QString appDir = QCoreApplication::applicationDirPath();
 		QString homeDir = GlobalSettings::homeDir();
 
-		console()->message(pyFile);
 		if (!icon.isEmpty() && !QFile(icon).exists())
 		{
 			if (QFile(appDir + tr("/") + icon).exists())

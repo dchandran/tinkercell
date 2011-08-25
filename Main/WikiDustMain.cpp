@@ -69,7 +69,7 @@ int main(int argc, char *argv[])
     ******************************************/
 
 	GlobalSettings::ENABLE_HISTORY_WINDOW = false;
-	GlobalSettings::ENABLE_CONSOLE_WINDOW = true;
+	GlobalSettings::ENABLE_CONSOLE_WINDOW = false;
 	GlobalSettings::ENABLE_GRAPHING_TOOLS = false;
 	GlobalSettings::ENABLE_CODING_TOOLS = false;
 	GlobalSettings::ENABLE_PYTHON = false;

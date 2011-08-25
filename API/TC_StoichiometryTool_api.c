@@ -80,14 +80,14 @@ const char* tc_getRate(long x)
 void tc_setRate(long x, const char* r)
 {
 	long a[] = { x };
-	char * cs[] = { r };
+	const char * cs[] = { r };
 	tc_items A;
 	tc_strings s;
 	A.length = 1;
 	A.items = a;
 	s.length = 1;
-	s.strings = cs;
-	tc_setRates(a,s);
+	s.strings = (char**)cs;
+	tc_setRates(A,s);
 }
 /*!
 \brief set stoichiometry for the given items

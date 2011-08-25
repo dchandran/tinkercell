@@ -9,7 +9,7 @@ Empty
 Small Molecule
 Enzyme
 Transcription Factor
-Reporter
+Fluorescent Protein
 Receptor
 mRNA
 Compartment

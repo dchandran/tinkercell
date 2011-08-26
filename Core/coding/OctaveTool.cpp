@@ -49,15 +49,15 @@ namespace Tinkercell
 		};
 
 		bool opened = false;
-		for (int i=0; i < 4; ++i)
+		QWidget * widget = mainWindow->tool(tr("Dynamic Library Menu"));
+		if (widget)
 		{
-			QDir dir(name[i]);
-			if (dir.exists())
+			DynamicLibraryMenu * libMenu = static_cast<DynamicLibraryMenu*>(widget);
+			for (int i=0; i < 5; ++i)
 			{
-				QWidget * widget = mainWindow->tool(tr("Dynamic Library Menu"));
-				if (widget)
+				QDir dir(name[i]);
+				if (dir.exists())
 				{
-					DynamicLibraryMenu * libMenu = static_cast<DynamicLibraryMenu*>(widget);
 					if (loadFilesInDir(libMenu, dir))
 						opened = true;
 				}
@@ -107,11 +107,13 @@ namespace Tinkercell
 		QString homeDir = GlobalSettings::homeDir();
 
 		QString octFile = fileInfo.absoluteFilePath();
+
 		if (octFileNames.contains(octFile)) return false;
 
 		QFile file(octFile);
+
+		if (fileInfo.completeSuffix().toLower() != tr("m")) return false;
 		if (!file.open(QFile::ReadOnly | QFile::Text)) return false;
-		if (fileInfo.completeSuffix().toLower() != tr("m") || !file.open(QFile::ReadOnly)) return false;
 
 		QString category, name, descr, icon, specific;
 		bool menu = true, tool = true;

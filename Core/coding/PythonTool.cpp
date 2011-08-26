@@ -52,7 +52,7 @@ namespace Tinkercell
 		if (widget)
 		{
 			DynamicLibraryMenu * libMenu = static_cast<DynamicLibraryMenu*>(widget);
-			for (int i=0; i < 4; ++i)
+			for (int i=0; i < 5; ++i)
 			{
 				QDir dir(name[i]);
 				if (dir.exists())
@@ -87,6 +87,7 @@ namespace Tinkercell
 		if (pyFileNames.contains(pyFile)) return false;
 
 		QFile file(pyFile);
+
 		if (!file.open(QFile::ReadOnly | QFile::Text)) return false;
 
 		if (fileInfo.completeSuffix().toLower() != tr("py")) return false;

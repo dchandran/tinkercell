@@ -614,6 +614,7 @@ namespace Tinkercell
 		QList< QPair< QGraphicsItem*, ItemHandle*> > newItemHandles;
 	};
 
+	class TINKERCELLCOREEXPORT SetHandleFamilyCommand;
 	/*! \brief this command places all the graphics items inside one handle into the other
 	* \ingroup undo*/
 	class TINKERCELLCOREEXPORT MergeHandlesCommand : public QUndoCommand
@@ -634,6 +635,7 @@ namespace Tinkercell
 		QList< ItemHandle* > allChildren;
 		QList<QGraphicsItem*> allGraphicsItems;
 		RenameCommand * renameCommand;
+		SetHandleFamilyCommand * setFamilyCommand;
 		Change2DataCommand<qreal,QString> * changeDataCommand;
 	};
 

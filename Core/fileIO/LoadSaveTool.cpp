@@ -495,7 +495,7 @@ namespace Tinkercell
 
 		if (root)
 		{
-			mapDataTables(root->children, handles);
+			//mapDataTables(root->children, handles);
 			if (globalHandle)
 			{
 				h = globalHandle;

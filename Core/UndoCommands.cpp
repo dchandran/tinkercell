@@ -3101,9 +3101,11 @@ namespace Tinkercell
 	void MergeHandlesCommand::init(NetworkHandle * net, const QList<ItemHandle*>& allItems, const QList<ItemHandle*>& handles)
 	{
 		newHandle = 0;
+		setFamilyCommand = 0;
 		oldHandles = handles;
 		
 		QStringList oldNames, newNames;
+		ItemFamily * lowestFamily = 0, * family = 0;
 
 		if (handles.size() > 0)
 		{
@@ -3117,8 +3119,22 @@ namespace Tinkercell
 		}
 
 		for (int i =0; i < handles.size(); ++i)
-			if (handles[i] && handles[i] != newHandle)
-				oldNames << handles[i]->fullName();
+			if (handles[i])
+			{
+				if (handles[i] != newHandle)
+					oldNames << handles[i]->fullName();
+				family = handles[i]->family();
+				if (family && (!lowestFamily || family->depth() > lowestFamily->depth()))
+					lowestFamily = family;
+			}
+
+		if (lowestFamily)
+		{
+			QList<ItemFamily*> families;
+			while (families.size() < handles.size())
+				families << lowestFamily;
+			setFamilyCommand = new SetHandleFamilyCommand(QObject::tr("set families to lowest"), handles, families);
+		}
 
 		if (newHandle)
 			for (int i=0; i < oldNames.size(); ++i)
@@ -3214,6 +3230,9 @@ namespace Tinkercell
 		
 		if (changeDataCommand)
 			delete changeDataCommand;
+
+		if (setFamilyCommand)
+			delete setFamilyCommand;
 	}
 
 	void MergeHandlesCommand::redo()
@@ -3261,6 +3280,9 @@ namespace Tinkercell
 
 		if (renameCommand)
 			renameCommand->redo();
+
+		if (setFamilyCommand)
+			setFamilyCommand->redo();
 	}
 
 	void MergeHandlesCommand::undo()
@@ -3272,6 +3294,9 @@ namespace Tinkercell
 
 		if (changeDataCommand)
 			changeDataCommand->redo();
+
+		if (setFamilyCommand)
+			setFamilyCommand->undo();
 
 		QList<ItemHandle*> keyHandles = oldChildren.keys();
 		for (int i=0; i < keyHandles.size(); ++i)

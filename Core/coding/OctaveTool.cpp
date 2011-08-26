@@ -114,7 +114,7 @@ namespace Tinkercell
 
 		if (fileInfo.completeSuffix().toLower() != tr("m")) return false;
 		if (!file.open(QFile::ReadOnly | QFile::Text)) return false;
-
+		
 		QString category, name, descr, icon, specific;
 		bool menu = true, tool = true;
 		bool commentsLine = false;
@@ -123,7 +123,7 @@ namespace Tinkercell
 		{
 			QString line(file.readLine());
 			commentsLine = line.toLower().contains(tr("#")) || line.toLower().contains(tr("%"));				
-			if (!commentsLine) return false;
+			if (!commentsLine) continue;
 
 			line.remove(tr("#"));
 			line.remove(tr("%"));

@@ -418,7 +418,7 @@ namespace Tinkercell
 								for (int j2=0; j2 < table2->columns(); ++j2)
 									table3.value(table2->rowName(j1), table2->columnName(j2)) = table2->value(j1,j2);
 
-							//commands << new ChangeTextDataCommand( tr("replace text table"), table1, &(table3));
+							commands << new ChangeTextDataCommand( tr("replace text table"), table1, &(table3));
 						}
 
 				for (int k=0; k < textTablesToBeRemoved.size(); ++k)
@@ -426,7 +426,7 @@ namespace Tinkercell
 						{
 							TextDataTable * table2 = &(parentHandle->children[i]->textDataTable(textTablesToBeRemoved[k]));
 							TextDataTable table3;
-							//commands << new ChangeTextDataCommand( tr("remove text table"), table2, &(table3));
+							commands << new ChangeTextDataCommand( tr("remove text table"), table2, &(table3));
 						}
 
 					for (int k=0; k < numericalTablesToBeReplaced.size(); ++k)
@@ -439,7 +439,7 @@ namespace Tinkercell
 							for (int j1=0; j1 < table2->rows(); ++j1)
 								for (int j2=0; j2 < table2->columns(); ++j2)
 									table3.value(table2->rowName(j1), table2->columnName(j2)) = table2->value(j1,j2);
-							//commands << new ChangeNumericalDataCommand( tr("replace num table"), table1, &(table3));
+							commands << new ChangeNumericalDataCommand( tr("replace num table"), table1, &(table3));
 						}
 
 					for (int k=0; k < numericalTablesToBeRemoved.size(); ++k)
@@ -447,7 +447,7 @@ namespace Tinkercell
 						{
 							NumericalDataTable * table2 = &(parentHandle->children[i]->numericalDataTable(numericalTablesToBeRemoved[k]));
 							NumericalDataTable table3;
-							//commands << new ChangeNumericalDataCommand( tr("remove num table"), table2, &(table3));
+							commands << new ChangeNumericalDataCommand( tr("remove num table"), table2, &(table3));
 						}
 				}
 			}

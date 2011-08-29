@@ -118,18 +118,6 @@
 <Enzyme Catalysis> 								<participant>		"Molecule, Substrate"@en .
 <Enzyme Catalysis> 								<participant>		"Molecule, Product"@en .
 <Enzyme Catalysis>								<description>		"An enzyme converts one molecule to another"@en .
-<Non-Competetive Inhibition> 								<a>		<Enzyme Catalysis>	.
-<Non-Competetive Inhibition>								<description>		"An enzyme converts one molecule to another and an inhibitor binds to the intermediate complex"@en .
-<Non-Competetive Inhibition> 								<participant>		"Enzyme, Catalyst"@en .
-<Non-Competetive Inhibition> 								<participant>		"Molecule, Substrate"@en .
-<Non-Competetive Inhibition> 								<participant>		"Molecule, Product"@en .
-<Non-Competetive Inhibition> 								<participant>		"Molecule, Inhibitor"@en .
-<Competetive Inhibition>								<a>		<Enzyme Catalysis> .
-<Competetive Inhibition>								<description>		"An enzyme converts one molecule to another and an inhibitor binds to the free enzyme"@en .
-<Competetive Inhibition> 								<participant>		"Enzyme, Catalyst"@en .
-<Competetive Inhibition> 								<participant>		"Molecule, Substrate"@en .
-<Competetive Inhibition> 								<participant>		"Molecule, Product"@en .
-<Competetive Inhibition> 								<participant>		"Molecule, Inhibitor"@en .
 <Activation>								<a>					<Regulation> .
 <Repression>								<a>					<Regulation> .
 <Activation>								<description>			"A molecule positively regulating another"@en .

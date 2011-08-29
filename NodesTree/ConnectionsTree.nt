@@ -14,6 +14,11 @@
 <Production>									<participant>			"Empty, Source"@en .
 <Production>									<participant>			"Molecule, Product"@en .
 <Production>								<description>			"A process where a molecule enters the system from outside the system"@en .
+<Dimerization>									<a>							<2 to 1> .
+<Dimerization>									<participant>			"Molecule, Reactant1"@en .
+<Dimerization>									<participant>			"Molecule, Reactant2"@en .
+<Dimerization>									<participant>			"Molecule, Product"@en .
+<Dimerization>								    <description>			"A process where two molecules to combine to form a dimer"@en .
 <Transcription>									<a>			<2 to 1> .
 <Transcription>									<a>			<Production> .
 <Transcription>								<a>					<Activation> .

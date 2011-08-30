@@ -81,13 +81,13 @@ namespace Tinkercell
 
 	signals:
 		void runPython(const QString&);
-		void loadPyFromDir( QDir& );
+		void loadPyFromDir( const QString& );
 
 		void runRuby(const QString&);
-		void loadRubyFromDir( QDir& );
+		void loadRubyFromDir( const QString& );
 		
 		void runOctave(const QString&);
-		void loadOctFromDir( QDir& );
+		void loadOctFromDir( const QString& );
 		
 		//void stop();
 		

@@ -265,7 +265,7 @@ specific for:\n\"\"\"\n\n") + text;
 			QMessageBox::information(mainWindow, "Saved", tr("Saved and uploaded ") + filename);
 		}
 		
-		loadPyFromDir(userHomeDir);
+		emit loadPyFromDir(userHomeDir.absolutePath());
 	}
 
 	void CodingWindow::convertCodeToButtonRuby()
@@ -331,7 +331,7 @@ specific for:\n\"\"\"\n\n") + text;
 			QMessageBox::information(mainWindow, "Saved", tr("Saved and uploaded ") + filename);
 		}
 		
-		loadRubyFromDir(userHomeDir);
+		emit loadRubyFromDir(userHomeDir.absolutePath());
 	}
 	
 	void CodingWindow::convertCodeToButtonOctave()
@@ -397,7 +397,7 @@ specific for:\n\"\"\"\n\n") + text;
 			QMessageBox::information(mainWindow, "Saved", tr("Saved and uploaded ") + filename);
 		}
 		
-		loadOctFromDir(userHomeDir);
+		emit loadOctFromDir(userHomeDir.absolutePath());
 	}
 	
 	void CodingWindow::enableC(bool b)
@@ -524,7 +524,7 @@ specific for:\n\"\"\"\n\n") + text;
 			{
 				PythonTool * pyTool = static_cast<PythonTool*>(widget);				
 				connect(this,SIGNAL(runPython(const QString&)),pyTool,SLOT(runPythonCode(const QString&)));
-				connect(this,SIGNAL(loadPyFromDir( QDir& )),pyTool,SLOT(loadFromDir( QDir& )));				
+				connect(this,SIGNAL(loadPyFromDir( const QString& )),pyTool,SLOT(loadFilesInDir( const QString& )));				
 				pyLoaded = true;
 
 				if (selectedLanguage == None)
@@ -539,7 +539,7 @@ specific for:\n\"\"\"\n\n") + text;
 			{
 				RubyTool * rubyTool = static_cast<RubyTool*>(widget);				
 				connect(this,SIGNAL(runRuby(const QString&)),rubyTool,SLOT(runRubyCode(const QString&)));
-				connect(this,SIGNAL(loadRubyFromDir( QDir& )),rubyTool,SLOT(loadFromDir( QDir& )));				
+				connect(this,SIGNAL(loadRubyFromDir( const QString& )),rubyTool,SLOT(loadFilesInDir( const QString& )));				
 				rubyLoaded = true;
 
 				if (selectedLanguage == None)
@@ -554,7 +554,7 @@ specific for:\n\"\"\"\n\n") + text;
 			{
 				OctaveTool * ocTool = static_cast<OctaveTool*>(widget);				
 				connect(this,SIGNAL(runOctave(const QString&)),ocTool,SLOT(runOctaveCode(const QString&)));
-				connect(this,SIGNAL(loadOctFromDir( QDir& )),ocTool,SLOT(loadFromDir( QDir& )));				
+				connect(this,SIGNAL(loadOctFromDir( const QString& )),ocTool,SLOT(loadFilesInDir( const QString& )));				
 				ocLoaded = true;
 				
 				if (selectedLanguage == None)

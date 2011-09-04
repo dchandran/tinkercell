@@ -688,6 +688,7 @@ void SimulationThread::run()
 SimulationDialog::SimulationDialog(MainWindow * parent) : QDialog(parent)
 {
 	sliderWidget = 0;
+	numParameters = 0;
 
 	QVBoxLayout * layout1 = new QVBoxLayout;
 	QGridLayout * simLayout = new QGridLayout;
@@ -923,7 +924,11 @@ void SimulationDialog::run()
 	QList<double> col1, col2;
 	for (int i=0; i < sliderValues.rows(); ++i)
 	{
-		rownames += sliderValues.rowName(i);
+		if (i < numParameters)
+			rownames += tr("Parameters::") + sliderValues.rowName(i);
+		else
+			rownames += tr("Initial Values::") + sliderValues.rowName(i);
+		//rownames += sliderValues.rowName(i);
 		col1 += sliderValues(i) * 0.1;
 		col2 += sliderValues(i) * 1.9;
 	}
@@ -982,6 +987,7 @@ void SimulationDialog::updateParameterList()
 	QList<ItemHandle*> handles = network->handles(true), handles2;
 
 	sliderValues = BasicInformationTool::getUsedParameters(0, handles, tr("_"));
+	numParameters = sliderValues.rows();
 	
 	for (int i=0; i < handles.size(); ++i)
 		if (handles[i] && !handles[i]->name.isEmpty() && handles[i]->hasNumericalData(tr("Initial value")))

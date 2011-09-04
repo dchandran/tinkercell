@@ -237,6 +237,7 @@ namespace Tinkercell
 			QComboBox * menu1, * menu2, *menu3;
 			/*! \brief values for the sliders*/
 			NumericalDataTable sliderValues;
+			int numParameters;
 			MultithreadedSliderWidget * sliderWidget;
 	};
 }

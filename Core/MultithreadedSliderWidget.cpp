@@ -1,3 +1,4 @@
+
 /****************************************************************************
 
 Copyright (c) 2008 Deepak Chandran
@@ -219,30 +220,93 @@ namespace Tinkercell
 		maxline.clear();
 		valueline.clear();
 		values.resize(options.size(),1);
-		values.setRowNames(options);
+		//values.setRowNames(options);
 		values.setColumnNames(QStringList() << "value");
 		
 		if (this->layout())
 			delete (layout());
 
-		QHBoxLayout* layout = new QHBoxLayout;
-		
-		layout->addWidget(new QLabel(tr("name")));
-		layout->addWidget(new QLabel(tr("")));
-		layout->addWidget(new QLabel(tr("value")));
-		layout->addWidget(new QLabel(tr("min")));
-		layout->addWidget(new QLabel(tr("max")));
-		
-		QVBoxLayout * slidersLayout = new QVBoxLayout;
-		QWidget * widget = new QWidget;
-		widget->setLayout(layout);
-		slidersLayout->addWidget(widget);		
+		//create tab widget if names contain "::"
+		bool createTabs = false;
+		for (int i=0; i < options.size(); ++i)
+			if (options[i].contains("::"))
+			{
+				createTabs = true;
+				break;
+			}
+
+		QHBoxLayout* layout = 0;
+		QVBoxLayout * slidersLayout = 0;
+
+		QHash< QString, QVBoxLayout * > slidersLayoutsHash; //only if using multiple tabs
+
+		if (createTabs)
+		{
+			for (int i=0; i < options.size(); ++i)
+			{
+				QString tabname;
+				if (options[i].contains("::"))
+				{
+					QStringList words = options[i].split("::");
+					tabname = words[0];
+				}
+				if (tabname.isNull() || tabname.isEmpty())
+					tabname = tr("misc.");
+				if (!slidersLayoutsHash.contains(tabname))
+				{
+					layout = new QHBoxLayout;
+					layout->addWidget(new QLabel(tr("name")));
+					layout->addWidget(new QLabel(tr("")));
+					layout->addWidget(new QLabel(tr("value")));
+					layout->addWidget(new QLabel(tr("min")));
+					layout->addWidget(new QLabel(tr("max")));
+
+					slidersLayout = new QVBoxLayout;
+					QWidget * widget = new QWidget;
+					widget->setLayout(layout);
+					slidersLayout->addWidget(widget);
+					slidersLayoutsHash[ tabname ] = slidersLayout; 
+				}
+			}
+		}
+		else
+		{
+			layout = new QHBoxLayout;
+			layout->addWidget(new QLabel(tr("name")));
+			layout->addWidget(new QLabel(tr("")));
+			layout->addWidget(new QLabel(tr("value")));
+			layout->addWidget(new QLabel(tr("min")));
+			layout->addWidget(new QLabel(tr("max")));
+
+			slidersLayout = new QVBoxLayout;
+			QWidget * widget = new QWidget;
+			widget->setLayout(layout);
+			slidersLayout->addWidget(widget);
+		}
 
 		for (int i=0; i < options.size() && i < minValues.size() && i < maxValues.size(); ++i)
 		{
+			QString tabname, labelname;
+			if (createTabs)
+			{
+				if (options[i].contains("::"))
+				{
+					QStringList words = options[i].split("::");
+					tabname = words[0];
+					labelname = words[1];
+				}
+				if (tabname.isNull() || tabname.isEmpty())
+					tabname = tr("misc.");
+				slidersLayout = slidersLayoutsHash[ tabname ];
+			}
+			else
+			{
+				labelname = options[i];
+			}
+
+			values.setRowName(i, labelname);
 			layout = new QHBoxLayout;
-			
-			label = new QLabel(options[i]);
+			label = new QLabel(labelname);
 			//label->setMaximumWidth(options[i].size() * 3);
 			layout->addWidget(label);
 			labels << label;
@@ -301,12 +365,37 @@ namespace Tinkercell
 			QWidget * widget = new QWidget;
 			widget->setLayout(layout);
 			slidersLayout->addWidget(widget);
-			sliderWidgets[ options[i] ] = widget;
+			sliderWidgets[ labelname ] = widget;
 		}
+
+		QWidget * centralWidget = 0;
 		
-		QWidget * slidersWidget = new QWidget;
-		slidersWidget->setLayout(slidersLayout);		
-		
+		if (createTabs)
+		{
+			QTabWidget * tabWidget = new QTabWidget;
+			QStringList keys = slidersLayoutsHash.keys();
+			for (int i=0; i < keys.size(); ++i)
+			{
+				slidersLayout = slidersLayoutsHash[ keys[i] ];
+				QWidget * slidersWidget = new QWidget;
+				slidersWidget->setLayout(slidersLayout);
+				QScrollArea * scrollArea = new QScrollArea;
+				scrollArea->setWidget(slidersWidget);
+				scrollArea->setWidgetResizable(true);
+				tabWidget->addTab(scrollArea, keys[i]);
+			}
+			centralWidget = tabWidget;
+		}
+		else
+		{
+			QWidget * slidersWidget = new QWidget;
+			slidersWidget->setLayout(slidersLayout);
+			QScrollArea * scrollArea = new QScrollArea;
+			scrollArea->setWidget(slidersWidget);
+			scrollArea->setWidgetResizable(true);
+			centralWidget = scrollArea;
+		}
+
 		QVBoxLayout * mainlayout = new QVBoxLayout;
 		//search box
 		QHBoxLayout * searchLayout = new QHBoxLayout;
@@ -326,12 +415,9 @@ namespace Tinkercell
 		buttonLayout->addWidget(closeButton);
 		buttonLayout->addStretch(1);
 		
-		//main area
-		QScrollArea * scrollArea = new QScrollArea;
-		scrollArea->setWidget(slidersWidget);
-		scrollArea->setWidgetResizable(true);
+		//main layout
 		mainlayout->addLayout(searchLayout,0);
-		mainlayout->addWidget(scrollArea,1);
+		mainlayout->addWidget(centralWidget,1);
 		mainlayout->addLayout(buttonLayout,0);
 		connect(closeButton,SIGNAL(pressed()),this,SLOT(close()));
 		connect(saveValues,SIGNAL(pressed()),this,SLOT(saveValues()));

@@ -325,8 +325,9 @@ namespace Tinkercell
 					//item->handle()->name = newName;
 					if (currentNetwork())
 					{
-						QString s = currentNetwork()->rename(getHandle(item),newName);
-						if (s == newName) //no collision, so done
+						ItemHandle * h = getHandle(item);
+						QString s = currentNetwork()->rename(h,newName);
+						if (s == newName || newName == h->name) //no collision, so done
 							return;
 						else
 							if (console())

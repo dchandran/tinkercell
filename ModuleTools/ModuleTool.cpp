@@ -8,6 +8,7 @@
 
 ****************************************************************************/
 #include <math.h>
+#include <iostream>
 #include <QRegExp>
 #include <QProcess>
 #include "ItemFamily.h"
@@ -311,6 +312,8 @@ namespace Tinkercell
 				QPair< QList<ItemHandle*> , QList<QGraphicsItem*> > pair = mainWindow->getItemsFromFile(filename,parentHandle);
 				items = pair.second;
 				handles = pair.first;
+				if (handles.contains(parentHandle))
+					handles.removeAll(parentHandle);
 			}
 
 			for (int i=0; i < items.size(); ++i)
@@ -399,7 +402,7 @@ namespace Tinkercell
 
 			for (int i=0; i < parentHandle->children.size(); ++i)
 			{
-				h = findCorrespondingHandle(NodeHandle::cast(parentHandle->children[i]),ConnectionHandle::cast(parentHandle));
+				h = findCorrespondingHandle(parentHandle->children[i]->name,ConnectionHandle::cast(parentHandle));
 				if (h)
 				{
 					nodes.removeAll(NodeHandle::cast(h));
@@ -900,9 +903,10 @@ namespace Tinkercell
 						filename = tr(":/images/Module.xml");
 				}
 				else
-				{
-					filename = tr(":/images/expand.xml");
-				}
+					if (!list.isEmpty())
+					{
+						filename = tr(":/images/expand.xml");
+					}
 
 				
 				if (!filename.isEmpty() && QFile::exists(filename))
@@ -956,15 +960,13 @@ namespace Tinkercell
 			}
 	}
 	
-	ItemHandle * ModuleTool::findCorrespondingHandle(NodeHandle * node, ConnectionHandle * connection)
+	NodeHandle * ModuleTool::findCorrespondingHandle(const QString& name, ConnectionHandle * connection)
 	{
-		if (!node || !connection || !connection->hasTextData(tr("Participants")))
+		if (name.isNull() || name.isEmpty() || !connection || !connection->hasTextData(tr("Participants")))
 			return 0;
 
 		QList<NodeHandle*> nodes = connection->nodes();
-		
-		if (nodes.contains(node)) return 0;
-		
+
 		TextDataTable & participants = connection->textDataTable(tr("Participants"));
 		ConnectionFamily * family = ConnectionFamily::cast(connection->family());
 		
@@ -974,7 +976,7 @@ namespace Tinkercell
 		
 		for (int i=0; i < nodes.size(); ++i)
 		{
-			QStringList candidates = family->synonymsForRole(node->name.toLower());
+			QStringList candidates = family->synonymsForRole(name);
 			for (int j=0; j < candidates.size(); ++j)
 			{
 				if (participants.hasRow(candidates[j]))
@@ -1382,7 +1384,7 @@ namespace Tinkercell
 			QList<GraphicsScene*> scenes = scene->network->scenes();
 
 			for (int i=0; i < editors.size(); ++i)
-				if (editors[i]->localHandle() == handle && !editors[i]->text().isEmpty())
+				if (editors[i]->localHandle() == handle)
 				{
 					editors[i]->popOut();
 					return;

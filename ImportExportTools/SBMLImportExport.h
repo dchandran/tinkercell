@@ -67,7 +67,7 @@ namespace Tinkercell
 		bool setMainWindow(MainWindow * main);
 		
 		void exportSBML(const QString&);
-		QList<ItemHandle*> importSBML(const QString&);
+		static QList<ItemHandle*> importSBML(const QString&, ItemHandle * root=0);
 		SBMLDocument_t* exportSBML(QList<ItemHandle*>&);
 		SBMLDocument_t* exportSBML(NetworkHandle * network = 0);
 	
@@ -87,6 +87,7 @@ namespace Tinkercell
 		void exportText(QSemaphore*, const QString&);
 		void importText(QSemaphore*, const QString&);
 		void exportMath(QSemaphore*, const QString&);
+		void getItemsFromFile(QList<ItemHandle*>&, QList<QGraphicsItem*>&, const QString& filename,ItemHandle * root=0);
 
 	private:
 

@@ -179,8 +179,8 @@ namespace Tinkercell
 		QHash< ItemHandle* , QList<QGraphicsItem*> > cachedModels;
 		QDialog * snapshotToolTip;
 		QToolButton * snapshotIcon;
-		
-		static ItemHandle * findCorrespondingHandle(NodeHandle*,ConnectionHandle*);
+	public:
+		static NodeHandle * findCorrespondingHandle(const QString& string,ConnectionHandle*);
 	};
 
 

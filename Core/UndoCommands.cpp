@@ -311,7 +311,7 @@ namespace Tinkercell
 			
 			QList<ItemHandle*>& list = textEditor->items();
 			
-			while (parentHandles.size() < items.size()) parentHandles += 0;
+			//while (parentHandles.size() < items.size()) parentHandles += 0;
 			
 			for (int i=0; i < items.size(); ++i)
 			{
@@ -328,7 +328,7 @@ namespace Tinkercell
 								if (items[i]->graphicsItems[j])
 								{
 									onlyThisWindow = false;
-									false;
+									break;
 								}
 							if (onlyThisWindow)
 								items[i]->setParent(textEditor->localHandle(),false);

@@ -207,6 +207,7 @@ namespace Tinkercell
 			QList<ItemHandle*> handlesInModule;*/
 			QHash<QString,NodeHandle*> speciesItems;
 			QHash<QString,ConnectionHandle*> reactionItems;
+			QList< QPair<QString,ItemHandle*> > externalParticipants;
 
 			char ***leftrxnnames = getReactantNames("__main");
 			char ***rightrxnnames = getProductNames("__main");
@@ -268,14 +269,27 @@ namespace Tinkercell
 					for (int var=0; var<numReactants; ++var)
 					{
 						NodeHandle * handle = 0;
-						if (!speciesItems.contains(tr(leftrxnnames[rxn][var])))
+						QString name = tr(leftrxnnames[rxn][var]);
+
+						if (!speciesItems.contains(name))
 						{
-							handle = new NodeHandle(speciesFamily);
-							handle->name = tr(leftrxnnames[rxn][var]);
-							symbolsInModule << handle->name;
-							speciesItems[tr(leftrxnnames[rxn][var])] = handle;
+							if (moduleHandle)
+								handle = ModuleTool::findCorrespondingHandle(name, ConnectionHandle::cast(moduleHandle));
+
+							if (handle)
+							{
+								externalParticipants << QPair<QString,ItemHandle*>(name, handle);
+							}
+							else
+							{
+								handle = new NodeHandle(speciesFamily);
+								handle->name = name;
+								symbolsInModule << handle->name;
+								itemsToInsert  += handle;
+							}
+
+							speciesItems[name] = handle;
 							nodesIn << handle;
-							itemsToInsert  += handle;
 						}
 						else
 						{
@@ -285,17 +299,28 @@ namespace Tinkercell
 					}
 
 					for (int var=0; var<numProducts; var++)
-
 					{
 						NodeHandle * handle = 0;
-						if (!speciesItems.contains(tr(rightrxnnames[rxn][var])))
+						QString name = tr(rightrxnnames[rxn][var]);						
+						if (!speciesItems.contains(name))
 						{
-							handle = new NodeHandle(speciesFamily);
-							handle->name = tr(rightrxnnames[rxn][var]);
-							symbolsInModule << handle->name;
-							speciesItems[tr(rightrxnnames[rxn][var])] = handle;
+							if (moduleHandle)
+								handle = ModuleTool::findCorrespondingHandle(name, ConnectionHandle::cast(moduleHandle));
+
+							if (handle)
+							{
+								externalParticipants << QPair<QString,ItemHandle*>(name, handle);
+							}
+							else
+							{
+								handle = new NodeHandle(speciesFamily);
+								handle->name = name;
+								symbolsInModule << handle->name;
+								itemsToInsert += handle;
+							}
+
+							speciesItems[name] = handle;
 							nodesOut << handle;
-							itemsToInsert += handle;
 						}
 						else
 						{
@@ -333,11 +358,24 @@ namespace Tinkercell
 				
 				if (!speciesItems.contains(s))
 				{
-					NodeHandle * handle = new NodeHandle(speciesFamily);
-					handle->name = s;
-					symbolsInModule << handle->name;
+					NodeHandle * handle = 0;
+
+					if (moduleHandle)
+						handle = ModuleTool::findCorrespondingHandle(s, ConnectionHandle::cast(moduleHandle));
+
+					if (handle)
+					{
+						externalParticipants << QPair<QString,ItemHandle*>(name, handle);
+					}
+					else
+					{
+						handle = new NodeHandle(speciesFamily);
+						handle->name = s;
+						symbolsInModule << handle->name;
+						itemsToInsert << handle;
+					}
+
 					speciesItems[s] = handle;
-					itemsToInsert << handle;
 				}
 
 				if (ok)
@@ -357,11 +395,23 @@ namespace Tinkercell
 				QString s(constSpeciesNames[j]);
 				if (!speciesItems.contains(s))
 				{
-					NodeHandle * handle = new NodeHandle(speciesFamily);
-					handle->name = s;
-					symbolsInModule << handle->name;
+					NodeHandle * handle = 0;
+					if (moduleHandle)
+						handle = ModuleTool::findCorrespondingHandle(s, ConnectionHandle::cast(moduleHandle));
+
+					if (handle)
+					{
+						externalParticipants << QPair<QString,ItemHandle*>(name, handle);
+					}
+					else
+					{
+						handle = new NodeHandle(speciesFamily);
+						handle->name = s;
+						symbolsInModule << handle->name;
+						itemsToInsert << handle;
+					}
+
 					speciesItems[s] = handle;
-					itemsToInsert << handle;
 				}
 				if (ok)
 				{
@@ -411,10 +461,10 @@ namespace Tinkercell
 				{
 					QString x(getNthAssignmentVariableForEvent("__main",j,k));
 					QString f(getNthAssignmentEquationForEvent("__main",j,k));
-
 					eventsTable.value(trigger,0) = x + tr(" = ") + f;
 				}
 			}
+
 			if (moduleHandle)
 				moduleHandle->textDataTable(tr("Events")) = eventsTable;
 
@@ -474,6 +524,11 @@ namespace Tinkercell
 						{
 							RenameCommand::findReplaceAllHandleData(allHandles,itemsToInsert[j]->name,moduleHandle->fullName() + tr(".") + itemsToInsert[j]->name);
 						}
+
+				for (int j=0; j < externalParticipants.size(); ++j)
+				{
+					RenameCommand::findReplaceAllHandleData(allHandles,externalParticipants[j].first,externalParticipants[j].second->fullName());
+				}
 			}
 		}
 

@@ -1479,6 +1479,8 @@ namespace Tinkercell
 		QList<ItemHandle*> items;
 		QList<QGraphicsItem*> gitems;
 		emit getItemsFromFile(items,gitems,filename,root);
+		if (items.contains(root))
+			items.removeAll(root);
 		return QPair< QList<ItemHandle*>, QList<QGraphicsItem*> >(items, gitems);
 	}
 	

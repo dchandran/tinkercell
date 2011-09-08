@@ -95,13 +95,14 @@ namespace Tinkercell
 				//importmenu->addAction(tr("load SBML file"),this,SLOT(loadSBMLFile()));
 				exportmenu->addAction(tr("SBML"),this,SLOT(saveSBMLFile()));
 			}
-
 		}
+
 		connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 		connect(mainWindow,SIGNAL(loadNetwork(const QString&)),this,SLOT(loadNetwork(const QString&)));
 		connect(main,SIGNAL(historyChanged(int)),this, SLOT(historyChanged(int)));
 		connect(main,SIGNAL(windowChanged(NetworkWindow*,NetworkWindow*)),this, SLOT(windowChanged(NetworkWindow*,NetworkWindow*)));
-	
+		connect(mainWindow,SIGNAL(getItemsFromFile(QList<ItemHandle*>&, QList<QGraphicsItem*>&, const QString&,ItemHandle*)),
+						this,SLOT(getItemsFromFile(QList<ItemHandle*>&, QList<QGraphicsItem*>&, const QString&,ItemHandle*)));
 		return true;
 	}
 
@@ -331,7 +332,17 @@ namespace Tinkercell
 		modelNeedsUpdate = false;
 	}
 
-	QList<ItemHandle*> SBMLImportExport::importSBML(const QString& sbml_text)
+	void SBMLImportExport::getItemsFromFile(QList<ItemHandle*>& handles, QList<QGraphicsItem*>&, const QString& filename,ItemHandle * root)
+	{
+		if (!handles.isEmpty()) return;
+
+		if (!root && currentWindow())
+			root = currentWindow()->handle;
+
+		handles = importSBML(filename, root);
+	}
+
+	QList<ItemHandle*> SBMLImportExport::importSBML(const QString& sbml_text, ItemHandle * global)
 	{
 		QList<ItemHandle*> handles;
 	
@@ -359,8 +370,11 @@ namespace Tinkercell
 		}
 		else
 		{
-			ItemHandle * global = new ItemHandle("");
-			handles << global;
+			if (!global)
+			{
+				global = new ItemHandle("");
+				handles << global;
+			}
 
 			Model * model = doc->getModel();
 			ListOfParameters * params = model->getListOfParameters();

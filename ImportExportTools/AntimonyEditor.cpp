@@ -274,7 +274,9 @@ namespace Tinkercell
 						if (!speciesItems.contains(name))
 						{
 							if (moduleHandle)
+							{
 								handle = ModuleTool::findCorrespondingHandle(name, ConnectionHandle::cast(moduleHandle));
+							}
 
 							if (handle)
 							{
@@ -305,7 +307,9 @@ namespace Tinkercell
 						if (!speciesItems.contains(name))
 						{
 							if (moduleHandle)
+							{
 								handle = ModuleTool::findCorrespondingHandle(name, ConnectionHandle::cast(moduleHandle));
+							}
 
 							if (handle)
 							{
@@ -527,7 +531,7 @@ namespace Tinkercell
 
 				for (int j=0; j < externalParticipants.size(); ++j)
 				{
-					RenameCommand::findReplaceAllHandleData(allHandles,externalParticipants[j].first,externalParticipants[j].second->fullName());
+					RenameCommand::findReplaceAllHandleData(allHandles,moduleHandle->fullName() + tr(".") + externalParticipants[j].first,externalParticipants[j].second->fullName());
 				}
 			}
 		}
@@ -809,9 +813,18 @@ namespace Tinkercell
 		}
 	}
 
-	QString AntimonyEditor::getAntimonyScript(const QList<ItemHandle*>& list)
+	QString AntimonyEditor::getAntimonyScript(const QList<ItemHandle*>& list, ItemHandle * parentHandle)
 	{
 		QString s;
+
+		QList<ItemHandle*> parentHandleChildren;		
+		if (parentHandle)
+		{
+			parentHandleChildren = parentHandle->children;
+			for (int i=0; i < parentHandleChildren.size(); ++i)
+				if (parentHandleChildren[i])
+					parentHandleChildren[i]->setParent(0,false);
+		}
 
 		QList<ItemHandle*> visitedHandles, allHandles, childHandles, temp;
 		ItemHandle * root;
@@ -847,13 +860,26 @@ namespace Tinkercell
 
 		appendScript(s,childHandles);
 
+		if (parentHandle)
+		{
+			for (int i=0; i < parentHandleChildren.size(); ++i)
+				if (parentHandleChildren[i])
+					parentHandleChildren[i]->setParent(parentHandle,false);
+		}
+
 		return s;
 	}
 
 	void AntimonyEditor::getTextVersion(const QList<ItemHandle*>& items, QString* text)
 	{
+		std::cout << items[0]->name.toAscii().data() << "\n";
 		if (text)
-			(*text) = getAntimonyScript(items);
+		{
+			ItemHandle * root = 0;
+			if (currentWindow() && currentWindow()->handle)
+				root = currentWindow()->handle;
+			(*text) = getAntimonyScript(items, root);
+		}
 	}
 	
 	void AntimonyEditor::getItemsFromFile(QList<ItemHandle*>& items, QList<QGraphicsItem*>& , const QString& filename, ItemHandle * root)

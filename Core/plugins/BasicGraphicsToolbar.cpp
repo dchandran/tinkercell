@@ -365,6 +365,9 @@ namespace Tinkercell
 	{
 		if (!currentNetwork() || !findText || !replaceText || findText->text().isEmpty()) return;
 
+		if (currentTextEditor())
+			currentTextEditor()->replace(findText->text(),replaceText->text());
+		else
 		if (currentNetwork())
 			currentNetwork()->rename(findText->text(),replaceText->text());
 	}

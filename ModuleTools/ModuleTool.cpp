@@ -346,7 +346,7 @@ namespace Tinkercell
 					}
 			}
 
-			if (!items.isEmpty())
+			if (!items.isEmpty() || items.isEmpty())
 			{
 				GraphicsScene * newScene = window->newScene();
 				newScene->insert(tr("new model"),items);
@@ -359,9 +359,10 @@ namespace Tinkercell
 			{
 				QString modelText;
 				emit getTextVersion(handles, &modelText);
-				TextEditor * newEditor = window->newTextEditor();
-				newEditor->setText(modelText);
-				newEditor->insert(handles);
+				TextEditor * newEditor = window->newTextEditor();				
+				//newEditor->setText(modelText);
+				newEditor->popOut();
+				//newEditor->insert(handles);
 			}
 
 			ItemHandle * h;

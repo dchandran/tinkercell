@@ -3,6 +3,9 @@ CMAKE_MINIMUM_REQUIRED( VERSION 2.6 )
 INCLUDE_DIRECTORIES( BEFORE
 	${TINKERCELL_SOURCE_DIR}/c
     ${TINKERCELL_SOURCE_DIR}/ExternalCode
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/curl/include
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/expat
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/expat/lib
     ${TINKERCELL_SOURCE_DIR}/ExternalCode/muparser
     ${TINKERCELL_SOURCE_DIR}/ExternalCode/qwt
     ${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include

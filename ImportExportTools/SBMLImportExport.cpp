@@ -18,6 +18,7 @@
 #include "SimulationThread.h"
 #include "AntimonyEditor.h"
 #include "OctaveExporter.h"
+#include "UndoCommands.h"
 
 using namespace std;
 
@@ -414,7 +415,7 @@ namespace Tinkercell
 				TextDataTable & globalAssignments = global->textDataTable("Assignments");
 				for (int i=0; i < rules->size(); ++i)
 				{
-					Rule * r = rules->get(i);			
+					Rule * r = rules->get(i);
 					if (r->isAssignment())
 					{
 						AssignmentRule * ar  = (AssignmentRule*)r;
@@ -429,9 +430,10 @@ namespace Tinkercell
 				for (int i=0; i < species->size(); ++i)
 				{
 					s1 = species->get(i)->getId();
-					ItemHandle * h = new NodeHandle(defaultSpeciesFamily, tr( s1.c_str() ));
+					QString name(s1.c_str());
+					ItemHandle * h = new NodeHandle(defaultSpeciesFamily, name);
 					handles << h;
-
+					
 					double d = 0.0;
 				
 					if (species->get(i)->isSetInitialAmount())
@@ -489,6 +491,7 @@ namespace Tinkercell
 						prodStoic.value(0, tr(s1.c_str())) += 1.0; 
 					}
 			}
+
 		}
 
 		return handles;

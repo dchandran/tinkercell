@@ -8,7 +8,6 @@
 
 ****************************************************************************/
 #include <math.h>
-#include <iostream>
 #include <QRegExp>
 #include <QProcess>
 #include "ItemFamily.h"
@@ -156,6 +155,8 @@ namespace Tinkercell
 		ConnectionGraphicsItem * connection;
 		TextGraphicsItem * text;
 		QString groupName = parentHandle->name;
+
+		TextDataTable oldParticipantsData (parentHandle->textDataTable(tr("participants")));			
 
 		if (!cachedModels.contains(parentHandle) && !parentHandle->children.isEmpty())
 		{
@@ -334,7 +335,7 @@ namespace Tinkercell
 			}
 
 			QList<ItemHandle*> visitedHandles;
-
+			
 			if (items.isEmpty())
 			{
 				for (int i=0; i < handles.size(); ++i)
@@ -346,7 +347,7 @@ namespace Tinkercell
 					}
 			}
 
-			if (!items.isEmpty() || items.isEmpty())
+			if (!items.isEmpty())
 			{
 				GraphicsScene * newScene = window->newScene();
 				newScene->insert(tr("new model"),items);
@@ -358,15 +359,13 @@ namespace Tinkercell
 			else
 			{
 				QString modelText;
-				emit getTextVersion(handles, &modelText);
-				TextEditor * newEditor = window->newTextEditor();				
-				//newEditor->setText(modelText);
-				newEditor->popOut();
-				//newEditor->insert(handles);
+				TextEditor * newEditor = window->newTextEditor();	
+				newEditor->insert(handles);
+				emit getTextVersion(handles, &modelText);		
+				newEditor->setText(modelText);
 			}
 
 			ItemHandle * h;
-			TextDataTable oldParticipantsData (parentHandle->textDataTable(tr("participants")));
 			
 			QList<NodeHandle*> nodes;
 			if (ConnectionHandle::cast(parentHandle))
@@ -401,9 +400,13 @@ namespace Tinkercell
 				}
 			}
 
+			TextDataTable newParticipantsTable = parentHandle->textDataTable(tr("participants"));
+			parentHandle->textDataTable(tr("participants")) = oldParticipantsData;
+			
 			for (int i=0; i < parentHandle->children.size(); ++i)
 			{
 				h = findCorrespondingHandle(parentHandle->children[i]->name,ConnectionHandle::cast(parentHandle));
+				
 				if (h)
 				{
 					nodes.removeAll(NodeHandle::cast(h));
@@ -455,7 +458,8 @@ namespace Tinkercell
 						}
 				}
 			}
-			
+			parentHandle->textDataTable(tr("participants")) = newParticipantsTable;
+
 			for (int i=0; i < nodes.size(); ++i)
 			{
 				h = nodes[i];
@@ -961,9 +965,9 @@ namespace Tinkercell
 			}
 	}
 	
-	NodeHandle * ModuleTool::findCorrespondingHandle(const QString& name, ConnectionHandle * connection)
+	NodeHandle * ModuleTool::findCorrespondingHandle(const QString& name0, ConnectionHandle * connection)
 	{
-		if (name.isNull() || name.isEmpty() || !connection || !connection->hasTextData(tr("Participants")))
+		if (name0.isNull() || name0.isEmpty() || !connection || !connection->hasTextData(tr("Participants")))
 			return 0;
 
 		QList<NodeHandle*> nodes = connection->nodes();
@@ -973,11 +977,21 @@ namespace Tinkercell
 		
 		if (!family) return 0;
 		
-		QString s;
+		QString s, name = name0;
+
+		QString parentNameWithDot = connection->fullName() + tr("\\.");
+		QString parentNameWithUnderscore = connection->fullName("_") + tr("_");
+
+		if (name.startsWith(parentNameWithDot))
+			name.replace(QRegExp( tr("^") + parentNameWithDot ), tr(""));
+		else
+		if (name.startsWith(parentNameWithUnderscore))
+			name.replace(QRegExp( tr("^") + parentNameWithUnderscore ), tr(""));
+		
+		QStringList candidates = family->synonymsForRole(name);
 		
 		for (int i=0; i < nodes.size(); ++i)
 		{
-			QStringList candidates = family->synonymsForRole(name);
 			for (int j=0; j < candidates.size(); ++j)
 			{
 				if (participants.hasRow(candidates[j]))
@@ -1313,8 +1327,7 @@ namespace Tinkercell
 				else
 				{
 					QString modelText;
-					emit getTextVersion(chandle->children, &modelText);
-					TextEditor * newEditor = network->createTextEditor(modelText);	
+					TextEditor * newEditor = network->createTextEditor();	
 					window = newEditor->networkWindow;
 					if (window)
 					{
@@ -1322,6 +1335,8 @@ namespace Tinkercell
 						window->handle = chandle;	
 					}
 					newEditor->insert(chandle->children);
+					emit getTextVersion(chandle->children, &modelText);
+					newEditor->setText(modelText);
 				}
 				
 				if (!window)

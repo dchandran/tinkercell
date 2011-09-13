@@ -61,7 +61,7 @@ namespace Tinkercell
 		/*! \brief parse text and convert them to items*/
 		QList<ItemHandle*> parse(const QString& modelString, ItemHandle * parentHandle=0);
 
-		static QString getAntimonyScript(const QList<ItemHandle*>&, ItemHandle * parentHandle=0);
+		static QString getAntimonyScript(const QList<ItemHandle*>&);
 
 	public slots:
 		/*! \brief parse text and insert items*/

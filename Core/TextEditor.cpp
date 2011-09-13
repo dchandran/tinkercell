@@ -9,7 +9,7 @@ The Canvas is used for graphical reprentation of a network, whereas the TextEdit
 text-based representation of a network.
 
 ****************************************************************************/
-
+#include <iostream>
 #include "NetworkHandle.h"
 #include "ConsoleWindow.h"
 #include "NetworkWindow.h"
@@ -152,8 +152,23 @@ namespace Tinkercell
 	{
 		QList<QUndoCommand*> commands;
 
+		if (localHandle())
+		{
+			QString parentNameWithDot = localHandle()->fullName() + tr("\\.");
+			QString parentNameWithUnderscore = localHandle()->fullName("_") + tr("_");
+			for (int i=0; i < newItems.size(); ++i)
+				if (newItems[i])
+				{
+					if (newItems[i]->name.startsWith(parentNameWithDot))
+						newItems[i]->name.replace(QRegExp( tr("^") + parentNameWithDot ), tr(""));
+					else					
+					if (newItems[i]->name.startsWith(parentNameWithUnderscore))
+						newItems[i]->name.replace(QRegExp( tr("^") + parentNameWithUnderscore ), tr(""));
+				}
+		}
+
 		commands << new RemoveHandlesCommand(this,allItems,false)
-		  		  << new InsertHandlesCommand(this,newItems,false);
+			  		    << new InsertHandlesCommand(this,newItems,false);
 	
 		emit itemsRemoved(network, allItems);
 	
@@ -169,6 +184,17 @@ namespace Tinkercell
 	{
 		if (item && !allItems.contains(item))
 		{
+			if (localHandle())
+			{
+				QString parentNameWithDot = localHandle()->fullName() + tr("\\.");
+				QString parentNameWithUnderscore = localHandle()->fullName("_") + tr("_");
+				if (item->name.startsWith(parentNameWithDot))
+					item->name.replace(QRegExp( tr("^") + parentNameWithDot ), tr(""));
+				else
+				if (item->name.startsWith(parentNameWithUnderscore))
+					item->name.replace(QRegExp( tr("^") + parentNameWithUnderscore ), tr(""));
+			}
+
 			push( new InsertHandlesCommand(this,item) );
 
 			QList<ItemHandle*> handles;
@@ -177,11 +203,26 @@ namespace Tinkercell
 		}
 	}
 
-	void TextEditor::insert( const QList<ItemHandle*>& list)
+	void TextEditor::insert( const QList<ItemHandle*>& newItems)
 	{
-		push( new InsertHandlesCommand(this,list) );
+		if (localHandle())
+		{
+			QString parentNameWithDot = localHandle()->fullName() + tr("\\.");
+			QString parentNameWithUnderscore = localHandle()->fullName("_") + tr("_");
+			for (int i=0; i < newItems.size(); ++i)
+				if (newItems[i])
+				{
+					if (newItems[i]->name.startsWith(parentNameWithDot))
+						newItems[i]->name.replace(QRegExp( tr("^") + parentNameWithDot ), tr(""));
+					else					
+					if (newItems[i]->name.startsWith(parentNameWithUnderscore))
+						newItems[i]->name.replace(QRegExp( tr("^") + parentNameWithUnderscore ), tr(""));
+				}
+		}
 
-		emit itemsInserted(network, list);
+		push( new InsertHandlesCommand(this,newItems) );
+
+		emit itemsInserted(network, newItems);
 	}
 
 	void TextEditor::remove( ItemHandle * item)

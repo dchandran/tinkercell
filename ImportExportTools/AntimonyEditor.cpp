@@ -152,7 +152,7 @@ namespace Tinkercell
 		QList<ItemHandle*> itemsToInsert = parse(modelString, root);
 
 		if (!itemsToInsert.isEmpty())
-		{ 
+		{
 			editor->setItems(itemsToInsert);
 		}
 	}
@@ -207,7 +207,6 @@ namespace Tinkercell
 			QList<ItemHandle*> handlesInModule;*/
 			QHash<QString,NodeHandle*> speciesItems;
 			QHash<QString,ConnectionHandle*> reactionItems;
-			QList< QPair<QString,ItemHandle*> > externalParticipants;
 
 			char ***leftrxnnames = getReactantNames("__main");
 			char ***rightrxnnames = getProductNames("__main");
@@ -273,23 +272,11 @@ namespace Tinkercell
 
 						if (!speciesItems.contains(name))
 						{
-							if (moduleHandle)
-							{
-								handle = ModuleTool::findCorrespondingHandle(name, ConnectionHandle::cast(moduleHandle));
-							}
-
-							if (handle)
-							{
-								externalParticipants << QPair<QString,ItemHandle*>(name, handle);
-							}
-							else
-							{
-								handle = new NodeHandle(speciesFamily);
-								handle->name = name;
-								symbolsInModule << handle->name;
-								itemsToInsert  += handle;
-							}
-
+							handle = new NodeHandle(speciesFamily);
+							handle->name = name;
+							itemsToInsert  += handle;
+						
+							symbolsInModule << name;
 							speciesItems[name] = handle;
 							nodesIn << handle;
 						}
@@ -306,24 +293,12 @@ namespace Tinkercell
 						QString name = tr(rightrxnnames[rxn][var]);						
 						if (!speciesItems.contains(name))
 						{
-							if (moduleHandle)
-							{
-								handle = ModuleTool::findCorrespondingHandle(name, ConnectionHandle::cast(moduleHandle));
-							}
-
-							if (handle)
-							{
-								externalParticipants << QPair<QString,ItemHandle*>(name, handle);
-							}
-							else
-							{
-								handle = new NodeHandle(speciesFamily);
-								handle->name = name;
-								symbolsInModule << handle->name;
-								itemsToInsert += handle;
-							}
+							handle = new NodeHandle(speciesFamily);
+							handle->name = name;
+							itemsToInsert += handle;
 
 							speciesItems[name] = handle;
+							symbolsInModule << name;
 							nodesOut << handle;
 						}
 						else
@@ -362,24 +337,12 @@ namespace Tinkercell
 				
 				if (!speciesItems.contains(s))
 				{
-					NodeHandle * handle = 0;
-
-					if (moduleHandle)
-						handle = ModuleTool::findCorrespondingHandle(s, ConnectionHandle::cast(moduleHandle));
-
-					if (handle)
-					{
-						externalParticipants << QPair<QString,ItemHandle*>(name, handle);
-					}
-					else
-					{
-						handle = new NodeHandle(speciesFamily);
-						handle->name = s;
-						symbolsInModule << handle->name;
-						itemsToInsert << handle;
-					}
+					NodeHandle * handle = new NodeHandle(speciesFamily);
+					handle->name = s;
+					itemsToInsert << handle;
 
 					speciesItems[s] = handle;
+					symbolsInModule << handle->name;
 				}
 
 				if (ok)
@@ -399,22 +362,11 @@ namespace Tinkercell
 				QString s(constSpeciesNames[j]);
 				if (!speciesItems.contains(s))
 				{
-					NodeHandle * handle = 0;
-					if (moduleHandle)
-						handle = ModuleTool::findCorrespondingHandle(s, ConnectionHandle::cast(moduleHandle));
+					NodeHandle * handle = new NodeHandle(speciesFamily);
+					handle->name = s;
+					itemsToInsert << handle;
 
-					if (handle)
-					{
-						externalParticipants << QPair<QString,ItemHandle*>(name, handle);
-					}
-					else
-					{
-						handle = new NodeHandle(speciesFamily);
-						handle->name = s;
-						symbolsInModule << handle->name;
-						itemsToInsert << handle;
-					}
-
+					symbolsInModule << handle->name;
 					speciesItems[s] = handle;
 				}
 				if (ok)
@@ -485,15 +437,16 @@ namespace Tinkercell
 				if (ok)
 				{
 					paramsTable.value(tr(paramNames[j]),0) = x;
-					if (moduleHandle && !moduleHandle->name.isEmpty())
+					if (moduleHandle && !moduleHandle->name.isEmpty() && !tr(paramNames[j]).startsWith(moduleHandle->fullName("_")))
 					{						
-						RenameCommand::findReplaceAllHandleData(allHandles,tr(paramNames[j]),moduleHandle->name + tr(".") + tr(paramNames[j]));
+						RenameCommand::findReplaceAllHandleData(allHandles,tr(paramNames[j]),moduleHandle->fullName() + tr(".") + tr(paramNames[j]));
 					}
 				}
 				else
 				if (moduleHandle)
 				{
-					RenameCommand::findReplaceAllHandleData(allHandles,tr(paramNames[j]),moduleHandle->name + tr(".") + tr(paramNames[j]));
+					if (!moduleHandle->name.isEmpty() && !tr(paramNames[j]).startsWith(moduleHandle->fullName("_")))
+						RenameCommand::findReplaceAllHandleData(allHandles,tr(paramNames[j]),moduleHandle->fullName() + tr(".") + tr(paramNames[j]));
 					moduleHandle->textDataTable(tr("Assignments")).value(tr(paramNames[j]),0) = paramValues[j];
 				}
 			}
@@ -510,10 +463,11 @@ namespace Tinkercell
 					qreal x = QString(paramValues[j]).toDouble(&ok);
 					if (!ok)
 						x = 1.0;
+					symbolsInModule << tr(paramNames[j]);
 					paramsTable.value(tr(paramNames[j]),0) = x;
-					if (moduleHandle && !moduleHandle->name.isEmpty())
+					if (moduleHandle && !moduleHandle->name.isEmpty() && !tr(paramNames[j]).startsWith(moduleHandle->fullName("_")))
 					{
-						RenameCommand::findReplaceAllHandleData(allHandles,tr(paramNames[j]),moduleHandle->name + tr(".") + tr(paramNames[j]));
+						RenameCommand::findReplaceAllHandleData(allHandles,tr(paramNames[j]),moduleHandle->fullName() + tr(".") + tr(paramNames[j]));
 					}
 				}
 			}
@@ -522,17 +476,12 @@ namespace Tinkercell
 			{
 				moduleHandle->numericalDataTable(tr("Parameters")) = paramsTable;
 
-				if (!moduleHandle->name.isEmpty())				
+				if (!moduleHandle->name.isEmpty())	
 					for (int j=0; j < itemsToInsert.size(); ++j)
-						if (itemsToInsert[j] && !itemsToInsert[j]->parent)
+						if (itemsToInsert[j] && !itemsToInsert[j]->parent && !itemsToInsert[j]->name.startsWith(moduleHandle->fullName()))
 						{
 							RenameCommand::findReplaceAllHandleData(allHandles,itemsToInsert[j]->name,moduleHandle->fullName() + tr(".") + itemsToInsert[j]->name);
 						}
-
-				for (int j=0; j < externalParticipants.size(); ++j)
-				{
-					RenameCommand::findReplaceAllHandleData(allHandles,moduleHandle->fullName() + tr(".") + externalParticipants[j].first,externalParticipants[j].second->fullName());
-				}
 			}
 		}
 
@@ -576,7 +525,6 @@ namespace Tinkercell
 			QWidget * widget = mainWindow->tool(tr("Module Connection Tool"));
 			ModuleTool * moduleTool = static_cast<ModuleTool*>(widget);
 			connect(moduleTool,SIGNAL(getTextVersion(const QList<ItemHandle*>&, QString*)),
-
 					this,SLOT(getTextVersion(const QList<ItemHandle*>&, QString*)));
 		}
 	}
@@ -813,18 +761,11 @@ namespace Tinkercell
 		}
 	}
 
-	QString AntimonyEditor::getAntimonyScript(const QList<ItemHandle*>& list, ItemHandle * parentHandle)
+	QString AntimonyEditor::getAntimonyScript(const QList<ItemHandle*>& list)
 	{
 		QString s;
 
 		QList<ItemHandle*> parentHandleChildren;		
-		if (parentHandle)
-		{
-			parentHandleChildren = parentHandle->children;
-			for (int i=0; i < parentHandleChildren.size(); ++i)
-				if (parentHandleChildren[i])
-					parentHandleChildren[i]->setParent(0,false);
-		}
 
 		QList<ItemHandle*> visitedHandles, allHandles, childHandles, temp;
 		ItemHandle * root;
@@ -860,26 +801,13 @@ namespace Tinkercell
 
 		appendScript(s,childHandles);
 
-		if (parentHandle)
-		{
-			for (int i=0; i < parentHandleChildren.size(); ++i)
-				if (parentHandleChildren[i])
-					parentHandleChildren[i]->setParent(parentHandle,false);
-		}
-
 		return s;
 	}
 
 	void AntimonyEditor::getTextVersion(const QList<ItemHandle*>& items, QString* text)
 	{
-		std::cout << items[0]->name.toAscii().data() << "\n";
 		if (text)
-		{
-			ItemHandle * root = 0;
-			if (currentWindow() && currentWindow()->handle)
-				root = currentWindow()->handle;
-			(*text) = getAntimonyScript(items, root);
-		}
+			(*text) = getAntimonyScript(items);
 	}
 	
 	void AntimonyEditor::getItemsFromFile(QList<ItemHandle*>& items, QList<QGraphicsItem*>& , const QString& filename, ItemHandle * root)

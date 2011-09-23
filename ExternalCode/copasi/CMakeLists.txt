@@ -143,6 +143,7 @@ TARGET_LINK_LIBRARIES( copasi
   galib
   structural
   muparser
+  boost_regex
   ${QT_QTCORE_LIBRARY}
 )
 

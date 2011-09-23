@@ -46,6 +46,7 @@ ENDIF(BUILD_LAPACK)
 ADD_SUBDIRECTORY( lpsolve )    #linear programming
 ADD_SUBDIRECTORY( libSBML )    #systems biology markup language parser
 ADD_SUBDIRECTORY( Antimony )   #human-readable test-based reaction networks
+ADD_SUBDIRECTORY( boost )      #regular expressions
 ADD_SUBDIRECTORY( copasi )     #simulation and analysis package
 ADD_SUBDIRECTORY( libstructural )   #network structural analysis based on stoichiometry matrix
 ADD_SUBDIRECTORY( galib )   #genetic algorithms library

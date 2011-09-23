@@ -15,6 +15,9 @@
 #include <QPair>
 #include <QFile>
 
+//boost regex
+#include <boost/regex.hpp>
+
 //copasi
 #define COPASI_MAIN 1
 #include "copasi_api.h"

@@ -1,6 +1,6 @@
 SET(LIBRARY_OUTPUT_PATH ${EXECUTABLE_OUTPUT_PATH})
 
-SET( BOOST_REGEX_SRC regex/src/*.cpp)
+FILE(GLOB BOOST_REGEX_SRC regex/src/*.cpp)
   
 ADD_LIBRARY ( boost_regex
 #   SHARED

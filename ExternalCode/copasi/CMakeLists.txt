@@ -144,7 +144,6 @@ TARGET_LINK_LIBRARIES( copasi
   structural
   muparser
   boost_regex
-  ${QT_QTCORE_LIBRARY}
 )
 
 #----------------------------------

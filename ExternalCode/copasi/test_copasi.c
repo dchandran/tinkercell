@@ -12,11 +12,13 @@ int main()
 	tc_matrix efm, output, params;
 	copasi_model m1, m2;
 	
+	printf("creating model...\n");	
 	m1 = model1();
     //m1 = cReadSBMLFile("model1.sbml");
     
+	printf("simulating...\n");	
 	output = cSimulateDeterministic(m1, 0, 10, 100);  //model, start, end, num. points
-	printf("rows = %i\n",output.rows);
+	printf("output.tab has %i rows and %i columns\n",output.rows, output.cols);
 	tc_printMatrixToFile("output.tab", output);
 	tc_deleteMatrix(output);
 	//printf("%s\n",m1.errorMessage);
@@ -63,8 +65,8 @@ copasi_model model1()
 	cCreateSpecies(cell, "C", 2);
 	
 	//parameters
-	cSetValue(model, "k1", 1);   //k1
-	cSetValue(model, "k2", 1);   //k2
+	cSetValue(model, "k1", 0.2);   //k1
+	cSetValue(model, "k2", 0.5);   //k2
 	cSetValue(model, "k3", 1);   //k3
 	
 	//reactions -- make sure all parameters or species are defined BEFORE this step

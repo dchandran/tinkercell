@@ -930,6 +930,7 @@ namespace Tinkercell
 							}
 						}
 						connection->centerRegionItem = newDecorator;
+						connection->refresh();
 						items += newDecorator;
 					}
 				}

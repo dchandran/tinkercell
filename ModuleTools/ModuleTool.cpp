@@ -24,6 +24,7 @@
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
 #include "LoadSaveTool.h"
+#include "CodingWindow.h"
 #include "TreeButton.h"
 #include "ModuleTool.h"
 #include "GlobalSettings.h"
@@ -595,8 +596,9 @@ namespace Tinkercell
 				return;
 			}
 			
-			name.replace(QRegExp(tr("[^\\sA-Za-z0-9_]")),tr(""));
+			name.replace(QRegExp(tr("[^A-Za-z0-9_]")),tr(""));
 			moduleNameEdit->setText(name);
+			name.replace(" ","_");
 
 			if (GlobalSettings::SAVE_FILE_EXTENSIONS.isEmpty())
 				GlobalSettings::SAVE_FILE_EXTENSIONS << "TIC";
@@ -606,7 +608,7 @@ namespace Tinkercell
 			
 			if (s.isEmpty() || s.contains(tr("Custom...")))
 			{
-				QMessageBox::information(mainWindow, tr("Cannot export"), tr("Sorry, custom model families cannot be added through this interface at this point. If you are really interested, then take a look at Modules.nt in the TinkerCell home folder."));
+				QMessageBox::information(mainWindow, tr("Cannot export"), tr("Sorry, custom model families cannot be added through this interface just yet. An alternative is to edit the Modules.nt in the TinkerCell home folder to add new Module types."));
 				return;
 			}
 			
@@ -628,12 +630,26 @@ namespace Tinkercell
 
 			if (dir.exists())
 			{
-				emit saveModel(dir.absoluteFilePath(name));
-				s = tr("cd ") + dir.absolutePath() + tr("; svn add ") + name;// + tr("; svn commit -m\"new model added\";");
-				QMessageBox::information(mainWindow, "Success", 
-					tr("Model saved in ") + dir.absoluteFilePath(name) + 
-					tr("\nTo make the model available to other TinkerCell users, \nplease do svn commit in ") + dir.absolutePath());
-				QProcess::startDetached(s);
+				QString filename = dir.absoluteFilePath(name);
+				emit saveModel(filename);
+
+				QPair<QString,QString> login = CodingWindow::requestLoginInfo();
+				QString username = login.first;
+				QString password = login.second;
+
+				if (!username.isEmpty() && !password.isEmpty())
+				{
+				#ifdef Q_WS_WIN
+					home.replace(tr("/"),tr("\\"));
+					home = tr("\"") + home + tr("\"");
+					QString s = QObject::tr("cd ") + home + QObject::tr("& svn add ") + filename + QObject::tr("& svn commit -m\"new module added\" --username ") + username + QObject::tr(" --password ") + password + QObject::tr(" --no-auth-cache --non-interactive");
+				#else
+					QString s = QObject::tr("cd ") + homeDir + QObject::tr("; svn add ") + dllName + QObject::tr("; svn commit -m\"new module added\" --username ") + username + QObject::tr(" --password ") + password + QObject::tr(" --no-auth-cache --non-interactive");
+				#endif
+					system(s.toAscii().data());
+				}
+		
+				QMessageBox::information(this,tr("Saved"),tr("The file ") + filename + tr(" has been saved and uploaded"));
 			}
 			else
 			{

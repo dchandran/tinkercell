@@ -78,6 +78,7 @@ namespace Tinkercell
 		CodingWindow();
 		bool setMainWindow(MainWindow*);
 		static bool DO_SVN_UPDATE;
+		static QPair<QString,QString> requestLoginInfo();
 
 	signals:
 		void runPython(const QString&);
@@ -112,14 +113,13 @@ namespace Tinkercell
         void enableOctave(bool b=true);
 	    void enableC(bool b=true);
 		void toolLoaded(Tool *);
-
+		
 	protected slots:
 		void convertCodeToButton();
 
 	protected:
 		void setupEditor();
 		void setupMenu();
-		QPair<QString,QString> requestLoginInfo();
 		void runC(const QString&);
 		void convertCodeToButtonOctave();
 		void convertCodeToButtonPy();
@@ -142,7 +142,7 @@ namespace Tinkercell
 		CodingWindowSyntaxHighlighter *highlighter;
 
 		QString fileName;
-		QDialog * usernameDialog;
+		static QDialog * usernameDialog;
 		QLineEdit * usernameLine, *passwordLine;
 
 	};

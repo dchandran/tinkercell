@@ -121,7 +121,7 @@ namespace Tinkercell
 		/*!\brief setup the C API pointers when a new C library is loaded*/
 		void setupFunctionPointers( QLibrary * );
 		/*!\brief add Participants table in each connection*/
-		void itemsAboutToBeInserted (GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>&);
+		void itemsAboutToBeInserted (GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>&, GraphicsScene::InsertType);
 		/*!\brief remove items from Participants table in each connection*/
 		void itemsAboutToBeRemoved(GraphicsScene * scene, QList<QGraphicsItem*>& item, QList<ItemHandle*>& handles, QList<QUndoCommand*>&);
 		/*! \brief insert parts and connections*/

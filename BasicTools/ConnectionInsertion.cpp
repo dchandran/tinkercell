@@ -185,8 +185,8 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(itemsDropped(GraphicsScene *, const QString&, const QPointF&)),
 				this, SLOT(itemsDropped(GraphicsScene *, const QString&, const QPointF&)));
 
-			connect(mainWindow,SIGNAL(itemsAboutToBeInserted(GraphicsScene*,QList<QGraphicsItem *>&, QList<ItemHandle*>&, QList<QUndoCommand*>&)),
-					this, SLOT(itemsAboutToBeInserted(GraphicsScene*,QList<QGraphicsItem *>&, QList<ItemHandle*>&, QList<QUndoCommand*>&)));
+			connect(mainWindow,SIGNAL(itemsAboutToBeInserted(GraphicsScene*,QList<QGraphicsItem *>&, QList<ItemHandle*>&, QList<QUndoCommand*>&, GraphicsScene::InsertType)),
+					this, SLOT(itemsAboutToBeInserted(GraphicsScene*,QList<QGraphicsItem *>&, QList<ItemHandle*>&, QList<QUndoCommand*>&, GraphicsScene::InsertType)));
 
 			connect(mainWindow, SIGNAL(itemsAboutToBeRemoved(GraphicsScene *, QList<QGraphicsItem*>& , QList<ItemHandle*>&, QList<QUndoCommand*>& )),
 					this, SLOT(itemsAboutToBeRemoved(GraphicsScene *, QList<QGraphicsItem*>& , QList<ItemHandle*>&, QList<QUndoCommand*>& )));
@@ -444,8 +444,10 @@ namespace Tinkercell
 	}
 	
 	//adds the Participants data table
-	void ConnectionInsertion::itemsAboutToBeInserted (GraphicsScene* scene, QList<QGraphicsItem *>& , QList<ItemHandle*>& handles, QList<QUndoCommand*>& commands)
+	void ConnectionInsertion::itemsAboutToBeInserted (GraphicsScene* scene, QList<QGraphicsItem *>& , QList<ItemHandle*>& handles, QList<QUndoCommand*>& commands, GraphicsScene::InsertType insertType)
 	{
+		if (insertType != GraphicsScene::NEW) return;
+
 		ConnectionHandle * connection;
 		ConnectionFamily * family;
 		ItemFamily * nodeFamily;

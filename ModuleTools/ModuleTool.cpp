@@ -868,7 +868,7 @@ namespace Tinkercell
 			if (handles[i])
 			{
 				++count;
-				if (!handles[i]->hasTextData(tr("annotation"))) //the "annotation" is to check that is was not loaded form a file (hack?)
+				if (!handles[i]->hasTextData(tr("annotation"))) //the "annotation" is to check that is was not loaded from a file (hack?)
 				{
 					loadedItems = false;
 					break;
@@ -928,6 +928,8 @@ namespace Tinkercell
 							{
 								connectionsOnDecorator[j]->replaceNode(connection->centerRegionItem, newDecorator);
 							}
+							items.removeAll(connection->centerRegionItem);
+							delete connection->centerRegionItem;
 						}
 						connection->centerRegionItem = newDecorator;
 						connection->refresh();

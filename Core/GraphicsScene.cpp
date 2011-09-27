@@ -1356,7 +1356,7 @@ namespace Tinkercell
 			}
 	}
 
-	void GraphicsScene::insert(const QString& name, QGraphicsItem * item)
+	void GraphicsScene::insert(const QString& name, QGraphicsItem * item, InsertType type)
 	{
 		if (!network) return;
 		
@@ -1369,7 +1369,7 @@ namespace Tinkercell
 			handles += handle;
 
 		QList<QUndoCommand*> commands;
-		emit itemsAboutToBeInserted(this,items,handles,commands);
+		emit itemsAboutToBeInserted(this,items,handles,commands,type);
 		
 		QUndoCommand * command = new InsertGraphicsCommand(name, this, items);
 		
@@ -1380,12 +1380,12 @@ namespace Tinkercell
 		}
 		
 		network->history.push(command);
-		emit itemsInserted(this,items,handles);
+		emit itemsInserted(this,items,handles,type);
 		network->symbolsTable.update();
 	}
 
 	/*! \brief this command performs an insert and allows redo/undo of that insert*/
-	void GraphicsScene::insert(const QString& name, const QList<QGraphicsItem*>& items)
+	void GraphicsScene::insert(const QString& name, const QList<QGraphicsItem*>& items, InsertType type)
 	{
 		if (!network) return;
 		QList<ItemHandle*> handles;
@@ -1403,7 +1403,7 @@ namespace Tinkercell
 		}
 
 		QList<QUndoCommand*> commands;
-		emit itemsAboutToBeInserted(this,allItems,handles,commands);
+		emit itemsAboutToBeInserted(this,allItems,handles,commands, type);
 
 		QUndoCommand * command = new InsertGraphicsCommand(name, this, allItems);
 		
@@ -1415,7 +1415,7 @@ namespace Tinkercell
 
 		network->history.push(command);
 
-		emit itemsInserted(this,allItems,handles);
+		emit itemsInserted(this,allItems,handles, type);
 		network->symbolsTable.update();
 	}
 	/*! \brief this command performs an removal and allows redo/undo of that removal*/

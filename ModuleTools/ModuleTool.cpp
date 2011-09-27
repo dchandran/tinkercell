@@ -644,7 +644,7 @@ namespace Tinkercell
 					home = tr("\"") + home + tr("\"");
 					QString s = QObject::tr("cd ") + home + QObject::tr("& svn add ") + filename + QObject::tr("& svn commit -m\"new module added\" --username ") + username + QObject::tr(" --password ") + password + QObject::tr(" --no-auth-cache --non-interactive");
 				#else
-					QString s = QObject::tr("cd ") + homeDir + QObject::tr("; svn add ") + dllName + QObject::tr("; svn commit -m\"new module added\" --username ") + username + QObject::tr(" --password ") + password + QObject::tr(" --no-auth-cache --non-interactive");
+					QString s = QObject::tr("cd ") + home + QObject::tr("; svn add ") + filename + QObject::tr("; svn commit -m\"new module added\" --username ") + username + QObject::tr(" --password ") + password + QObject::tr(" --no-auth-cache --non-interactive");
 				#endif
 					system(s.toAscii().data());
 				}
@@ -825,7 +825,7 @@ namespace Tinkercell
 			connected1 = true;
 		}
 	}
-	
+/*	
 	void ModuleTool::itemsRenamed(NetworkHandle * network, const QList<ItemHandle*>& items, const QList<QString>& oldnames, const QList<QString>& newnames)
 	{
 		QList<GraphicsScene*> scenes = network->scenes();
@@ -872,7 +872,7 @@ namespace Tinkercell
 						text->groupID = newname;
 			}
 	}
-
+*/
 	void ModuleTool::itemsAboutToBeInserted(GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>& commands,GraphicsScene::InsertType type)
 	{
 		if (!scene || !scene->network) return;
@@ -943,6 +943,7 @@ namespace Tinkercell
 			}
 	}
 
+/*
 	void ModuleTool::itemsAboutToBeRemoved(GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>& commands)
 	{
 		if (!scene || !scene->network) return;
@@ -971,6 +972,7 @@ namespace Tinkercell
 				}
 			}
 	}
+*/
 	
 	NodeHandle * ModuleTool::findCorrespondingHandle(const QString& name0, ConnectionHandle * connection)
 	{

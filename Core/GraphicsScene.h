@@ -267,9 +267,9 @@ namespace Tinkercell
 		* \param QList<QPointF>& distance to move the items specified for each item
 		* \return void
 		*/
-		virtual void insert(const QString& name, QGraphicsItem * item);
+		virtual void insert(const QString& name, QGraphicsItem * item, InsertType type=NEW);
 		/*! \brief this command performs an insert and also adds undo command to history window and emits associated signal(s)*/
-		virtual void insert(const QString& name, const QList<QGraphicsItem*>& items);
+		virtual void insert(const QString& name, const QList<QGraphicsItem*>& items, InsertType type=NEW);
 		/*! \brief this command performs an removal and also adds undo command to history window and emits associated signal(s)*/
 		virtual void remove(const QString& name, QGraphicsItem * item);
 		/*! \brief this command performs an removal and also adds undo command to history window and emits associated signal(s)*/

@@ -185,15 +185,24 @@ namespace Tinkercell
 	
 	QPair<QString,QString> CodingWindow::requestLoginInfo()
 	{
+		if (!MainWindow::instance())
+			return QPair<QString,QString>("","");
 		QSettings settings(GlobalSettings::ORGANIZATIONNAME,GlobalSettings::ORGANIZATIONNAME);
 		settings.beginGroup("Subversion");
 		QString username = settings.value(tr("svn-username")).toString();
 		QString password = settings.value(tr("svn-password")).toString();
-		usernameLine->setText(username);
-		passwordLine->setText(password);
-		usernameDialog->exec();
-		username = usernameLine->text();
-		password = passwordLine->text();
+		
+		Tool * tool = MainWindow::instance()->tool(QObject::tr("Coding Window"));
+		if (tool)
+		{
+			CodingWindow * codingWindow = static_cast<CodingWindow*>(tool);
+			codingWindow->usernameLine->setText(username);
+			codingWindow->passwordLine->setText(password);
+			codingWindow->usernameDialog->exec();
+			username = codingWindow->usernameLine->text();
+			password = codingWindow->passwordLine->text();
+		}
+		
 		settings.setValue(tr("svn-username"),username);
 		settings.setValue(tr("svn-password"),password);
 		settings.endGroup();
@@ -726,6 +735,7 @@ specific for:\n\"\"\"\n\n") + text;
 		QFont font;
 		font.setFamily("Courier");
 		font.setFixedPitch(true);
+
 		font.setPointSize(10);
 
 		editor = new RuntimeCodeEditor;

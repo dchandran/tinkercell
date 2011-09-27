@@ -142,7 +142,7 @@ namespace Tinkercell
 		CodingWindowSyntaxHighlighter *highlighter;
 
 		QString fileName;
-		static QDialog * usernameDialog;
+		QDialog * usernameDialog;
 		QLineEdit * usernameLine, *passwordLine;
 
 	};

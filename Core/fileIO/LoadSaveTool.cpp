@@ -84,9 +84,9 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(saveNetwork(const QString&)),this,SLOT(saveNetwork(const QString&)));
 			connect(mainWindow,SIGNAL(loadNetwork(const QString&)),this,SLOT(loadNetwork(const QString&)));
 			
-			connect(this, SIGNAL(itemsAboutToBeInserted(GraphicsScene * , QList<QGraphicsItem*>& , QList<ItemHandle*>&, QList<QUndoCommand*>& )), mainWindow, SIGNAL(itemsAboutToBeInserted(GraphicsScene * , QList<QGraphicsItem*>& , QList<ItemHandle*>&, QList<QUndoCommand*>& )));
+			connect(this, SIGNAL(itemsAboutToBeInserted(GraphicsScene * , QList<QGraphicsItem*>& , QList<ItemHandle*>&, QList<QUndoCommand*>&,GraphicsScene::InsertType)), mainWindow, SIGNAL(itemsAboutToBeInserted(GraphicsScene * , QList<QGraphicsItem*>& , QList<ItemHandle*>&, QList<QUndoCommand*>&,GraphicsScene::InsertType)));
 
-			connect(this, SIGNAL(itemsInserted(GraphicsScene * , const QList<QGraphicsItem*>& , const QList<ItemHandle*>& )), mainWindow, SIGNAL(itemsInserted(GraphicsScene * , const QList<QGraphicsItem*>& , const QList<ItemHandle*>& )));
+			connect(this, SIGNAL(itemsInserted(GraphicsScene * , const QList<QGraphicsItem*>& , const QList<ItemHandle*>&, GraphicsScene::InsertType)), mainWindow, SIGNAL(itemsInserted(GraphicsScene * , const QList<QGraphicsItem*>& , const QList<ItemHandle*>&,GraphicsScene::InsertType)));
 			
 			connect(mainWindow,SIGNAL(getItemsFromFile(QList<ItemHandle*>&, QList<QGraphicsItem*>&, const QString&,ItemHandle*)),this,SLOT(getItemsFromFile(QList<ItemHandle*>&, QList<QGraphicsItem*>&, const QString&,ItemHandle*)));
 			connect(mainWindow,SIGNAL(networkClosing(NetworkHandle * , bool *)),this,SLOT(networkClosing(NetworkHandle * , bool *)));
@@ -415,14 +415,14 @@ namespace Tinkercell
 		    
 		    ConnectionGraphicsItem * connection = 0;
 		    
-		    emit itemsAboutToBeInserted(scene, items , handles, commands );
+			emit itemsAboutToBeInserted(scene, items , handles, commands, GraphicsScene::LOADED);
 
 			commands << new InsertGraphicsCommand(tr("insert"),scene,items);
 			QUndoCommand * command = new CompositeCommand(tr("load"), commands);
 			command->redo();
 			scene->network->updateSymbolsTable();
 			
-			emit itemsInserted(scene, items, handles);
+			emit itemsInserted(scene, items, handles, GraphicsScene::LOADED);
 			loadCommands << command;
 			//
 

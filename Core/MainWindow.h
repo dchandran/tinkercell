@@ -43,6 +43,7 @@ One of the main roles of MainWindow is to serve as a signal/slot hub for Tools.
 #include "HistoryWindow.h"
 #include "DataTable.h"
 #include "ConvertValue.h"
+#include "GraphicsScene.h"
 
 namespace Tinkercell
 {
@@ -50,7 +51,6 @@ namespace Tinkercell
 	class ConsoleWindow;
 	class NodeGraphicsItem;
 	class ConnectionGraphicsItem;
-	class GraphicsScene;
 	class ItemHandle;
 	class ItemFamily;
 	class MainWindow_FtoS;
@@ -654,15 +654,17 @@ namespace Tinkercell
 		* \param QList<QGraphicsItem*>& list of new graphics items
 		* \param QList<ItemHandle*>& list of new handles (does NOT have to be the same number as items)
 		* \param QList<QUndoCommand*>& list of commands that will be executed right before items are inserted
+		* \param InsertType (optional) indicated how the items were inserted, e.g. copy/pasted or loaded from a file  
 		* \return void*/
-		void itemsAboutToBeInserted(GraphicsScene * scene, QList<QGraphicsItem*>& , QList<ItemHandle*>&, QList<QUndoCommand*>& );
+		void itemsAboutToBeInserted(GraphicsScene * scene, QList<QGraphicsItem*>& , QList<ItemHandle*>&, QList<QUndoCommand*>&, GraphicsScene::InsertType type=GraphicsScene::NEW);
 		/*!
 		* \brief signals whenever items are added
 		* \param GraphicsScene * scene where the items were added
 		* \param QList<QGraphicsItem*>& list of new items
 		* \param QList<ItemHandle*>& list of new handles (does NOT have to be the same number as items)
+		* \param InsertType (optional) indicated how the items were inserted, e.g. copy/pasted or loaded from a file  
 		* \return void*/
-		void itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<ItemHandle*>& handles);
+		void itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<ItemHandle*>& handles, GraphicsScene::InsertType type=GraphicsScene::NEW);
 		/*!
 		* \brief A convenient signal that is emitted when items are inserted from a GraphicsScene
 		or TextEditor. Warning: listening to the other itemsInserted signals may cause redundancy

@@ -505,8 +505,8 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(mouseMoved(GraphicsScene* , QGraphicsItem*, QPointF , Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>&)),
                     this,SLOT(mouseMoved(GraphicsScene* , QGraphicsItem*, QPointF , Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>&)));
 
-            connect(mainWindow,SIGNAL(itemsAboutToBeInserted(GraphicsScene*,QList<QGraphicsItem *>&, QList<ItemHandle*>&, QList<QUndoCommand*>&)),
-					this, SLOT(itemsAboutToBeInserted(GraphicsScene*,QList<QGraphicsItem *>&, QList<ItemHandle*>&, QList<QUndoCommand*>&)));
+            connect(mainWindow,SIGNAL(itemsAboutToBeInserted(GraphicsScene*,QList<QGraphicsItem *>&, QList<ItemHandle*>&, QList<QUndoCommand*>&,GraphicsScene::InsertType)),
+					this, SLOT(itemsAboutToBeInserted(GraphicsScene*,QList<QGraphicsItem *>&, QList<ItemHandle*>&, QList<QUndoCommand*>&,GraphicsScene::InsertType)));
 
 			connect(this,SIGNAL(itemsInserted(NetworkHandle*, const QList<ItemHandle*>&)),
                     mainWindow, SIGNAL(itemsInserted(NetworkHandle*, const QList<ItemHandle*>&)));
@@ -857,24 +857,12 @@ namespace Tinkercell
 			}
 	}
 
-	void ModuleTool::itemsAboutToBeInserted(GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>& commands)
+	void ModuleTool::itemsAboutToBeInserted(GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>& commands,GraphicsScene::InsertType type)
 	{
 		if (!scene || !scene->network) return;
 
-		bool loadedItems = true; //loaded or pasted items
+		bool loadedItems = (type != GraphicsScene::NEW); //loaded or pasted items
 		int count = 0;
-				
-		for (int i=0; i < handles.size(); ++i)
-			if (handles[i])
-			{
-				++count;
-				if (!handles[i]->hasTextData(tr("annotation"))) //the "annotation" is to check that is was not loaded from a file (hack?)
-				{
-					loadedItems = false;
-					break;
-				}
-			}
-
 		QList<ItemHandle*> visited;
 		if (loadedItems)
 		{

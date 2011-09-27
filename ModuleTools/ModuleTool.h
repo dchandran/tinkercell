@@ -132,7 +132,7 @@ namespace Tinkercell
 
 	private slots:
 
-		void itemsAboutToBeInserted (GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>&);
+		void itemsAboutToBeInserted (GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>&,GraphicsScene::InsertType);
 		void itemsAboutToBeRemoved(GraphicsScene * scene, QList<QGraphicsItem*>& item, QList<ItemHandle*>& handles, QList<QUndoCommand*>&);
 		void toolLoaded (Tool * tool);
 		//void itemsInserted(NetworkHandle * network, const QList<ItemHandle*>& handles);

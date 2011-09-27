@@ -9,6 +9,7 @@ In addition to drawing , the GraphicsScene provides serveral signals and functio
 that is useful for plugins, eg. move, insert, delete, changeData, etc.
 
 ****************************************************************************/
+#include "CloneItems.h"
 #include "DataTable.h"
 #include "NetworkHandle.h"
 #include "NetworkWindow.h"
@@ -1963,7 +1964,7 @@ namespace Tinkercell
 			}
 		}
 
-		emit itemsAboutToBeInserted(this,items,handles,commands);
+		emit itemsAboutToBeInserted(this,items,handles,commands,PASTED);
 
 		for (int i=0; i < handles.size(); ++i)
 		{
@@ -2010,7 +2011,7 @@ namespace Tinkercell
 
 		network->push(compositeCommand);
 
-        emit itemsInserted(this,items,handles);
+        emit itemsInserted(this,items,handles,PASTED);
         network->symbolsTable.update();
 		select(items);
 	}

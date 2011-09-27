@@ -87,6 +87,9 @@ namespace Tinkercell
 		/*! \brief the minimum distance that gets classified as a "drag". Anything less will be considered just a click.*/
 		static qreal MIN_DRAG_DISTANCE;
 
+		/*! \brief for describing how an insertion was done*/
+		enum InsertType { NEW, PASTED, LOADED, OTHER }; 
+
 		/*! \brief the network represented by this scene*/
 		NetworkHandle * network;
 		/*! \brief the network window widget inside of which this scene is located*/
@@ -332,14 +335,16 @@ namespace Tinkercell
 		* \param QList<QGraphicsItem*>& list of new graphics items
 		* \param QList<ItemHandle*>& list of new handles (does NOT have to be the same number as items)
 		* \param QList<QUndoCommand*>& list of commands that will be executed right before items are inserted
+		* \param InsertType (optional) indicated how the items were inserted, e.g. copy/pasted or loaded from a file  
 		* \return void*/
-		void itemsAboutToBeInserted(GraphicsScene * scene, QList<QGraphicsItem*>& , QList<ItemHandle*>& , QList<QUndoCommand*>&);
+		void itemsAboutToBeInserted(GraphicsScene * scene, QList<QGraphicsItem*>& , QList<ItemHandle*>& , QList<QUndoCommand*>&, InsertType type=NEW);
 		/*! \brief signals whenever items are added
 		* \param GraphicsScene* scene where the items were added
 		* \param QList<QGraphicsItem*>& list of new graphics items
 		* \param QList<ItemHandle*>& list of new handles (does NOT have to be the same number as items)
+		* \param InsertType (optional) indicated how the items were inserted, e.g. copy/pasted or loaded from a file  
 		* \return void*/
-		void itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>& , const QList<ItemHandle*>& );
+		void itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>& , const QList<ItemHandle*>& , InsertType type=NEW);
 		/*! \brief signals whenever items are selected (item can be sub-item, not top-level)
 		* \param GraphicsScene* scene where items are selected
 		* \param QList<QGraphicsItem*>& list of all selected item pointers

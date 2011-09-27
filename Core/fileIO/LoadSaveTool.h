@@ -69,9 +69,9 @@ namespace Tinkercell
 		/*!\brief connects to MainWindow's networkLoaded signal*/
 		void networkLoaded(NetworkHandle*);
 		/*!\brief connects to MainWindow's itemsAbouToBeInsered signal*/
-		void itemsAboutToBeInserted(GraphicsScene * scene, QList<QGraphicsItem*>& , QList<ItemHandle*>&, QList<QUndoCommand*>& );
+		void itemsAboutToBeInserted(GraphicsScene * scene, QList<QGraphicsItem*>& , QList<ItemHandle*>&, QList<QUndoCommand*>&,GraphicsScene::InsertType);
 		/*!\brief connects to MainWindow's itemsInsered signal*/
-		void itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<ItemHandle*>& handles);
+		void itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<ItemHandle*>& handles,GraphicsScene::InsertType);
 		/*!\brief connects to MainWindow's historyChanged signal*/
 		void historyChanged( int i=0);
 

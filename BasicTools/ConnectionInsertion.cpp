@@ -541,7 +541,10 @@ namespace Tinkercell
 		{
 			commands << new ChangeTextDataCommand(tr("Add node roles"),oldTables,newTables);
 			for (int i=0; i < newTables.size(); ++i)
+			{
+				(*oldTables[i]) = (*newTables[i]);
 				delete newTables[i];
+			}
 		}
 	}
 

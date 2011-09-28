@@ -465,7 +465,7 @@ namespace Tinkercell
 		* \param QList<QGraphicsItem*>& list of new items
 		* \param QList<ItemHandle*>& list of new handles (does NOT have to be the same number as items)
 		* \return void*/
-		void itemsInsertedSlot(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<ItemHandle*>& handles);
+		void itemsInsertedSlot(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<ItemHandle*>& handles,GraphicsScene::InsertType);
 		/*!
 		* \brief send signal to other tools so that they can connect functions to signals
 		* \param QSemaphore* semaphore

@@ -28,6 +28,7 @@
 #include "TreeButton.h"
 #include "ModuleTool.h"
 #include "GlobalSettings.h"
+#include "Ontology.h"
 
 namespace Tinkercell
 {
@@ -554,7 +555,7 @@ namespace Tinkercell
 		
 			if (exportmenu)
 			{
-				exportmenu->addAction(tr("share model"),this,SLOT(exportModule()));
+				exportmenu->addAction(tr("Share model"),this,SLOT(exportModule()));
 			}
 			
 			//module snapshot window
@@ -577,13 +578,20 @@ namespace Tinkercell
     }
     
     void ModuleTool::exportModule()
-    {
-    	if (!exportModuleDialog || !modulesComboBox || !moduleNameEdit) 
+	{
+    	if (!exportModuleDialog || !modulesComboBox || !moduleNameEdit)
 		{
 			QMessageBox::information(mainWindow, tr("Cannot export"), tr("Some necessary files or plug-ins for exporting sub-models are missing"));
 			return;
 		}
 		
+		NetworkHandle * network = currentNetwork();
+		if (!network || network->handles().isEmpty())
+		{
+			QMessageBox::information(mainWindow, tr("Cannot export"), tr("You cannot export an empty as a module"));
+			return;
+		}
+
 		exportModuleDialog->exec();
 		
 		if (exportModuleDialog->result() == QDialog::Accepted)
@@ -601,14 +609,31 @@ namespace Tinkercell
 			name.replace(" ","_");
 
 			if (GlobalSettings::SAVE_FILE_EXTENSIONS.isEmpty())
-				GlobalSettings::SAVE_FILE_EXTENSIONS << "TIC";
+				GlobalSettings::SAVE_FILE_EXTENSIONS << "tic";
 
 			name += tr(".") + GlobalSettings::SAVE_FILE_EXTENSIONS[0];
 			QString s = modulesComboBox->currentText();
 			
-			if (s.isEmpty() || s.contains(tr("Custom...")))
+			if (s.isEmpty() || s.contains(tr("Custom...")) || !Ontology::connectionFamily(s))
 			{
 				QMessageBox::information(mainWindow, tr("Cannot export"), tr("Sorry, custom model families cannot be added through this interface just yet. An alternative is to edit the Modules.nt in the TinkerCell home folder to add new Module types."));
+				return;
+			}
+
+			ConnectionFamily * connectionFamily = Ontology::connectionFamily(s);
+			QStringList roles = connectionFamily->participantRoles();
+			QStringList missingRoles;
+
+			for (int i=0; i < roles.size(); ++i)
+			{
+				QList<ItemHandle*> items = network->findItem(roles[i]);
+				if (items.isEmpty() || items[0]->fullName() != roles[i])
+					missingRoles << roles[i];
+			}
+
+			if (!missingRoles.isEmpty())
+			{
+				QMessageBox::information(mainWindow, tr("Cannot export"), tr("You must have the following components for a module of type ") + s + tr(": \n") + missingRoles.join(", "));
 				return;
 			}
 			

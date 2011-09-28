@@ -337,14 +337,14 @@ namespace Tinkercell
 		* \param QList<QUndoCommand*>& list of commands that will be executed right before items are inserted
 		* \param InsertType (optional) indicated how the items were inserted, e.g. copy/pasted or loaded from a file  
 		* \return void*/
-		void itemsAboutToBeInserted(GraphicsScene * scene, QList<QGraphicsItem*>& , QList<ItemHandle*>& , QList<QUndoCommand*>&, InsertType type=NEW);
+		void itemsAboutToBeInserted(GraphicsScene * scene, QList<QGraphicsItem*>& , QList<ItemHandle*>& , QList<QUndoCommand*>&, GraphicsScene::InsertType type=NEW);
 		/*! \brief signals whenever items are added
 		* \param GraphicsScene* scene where the items were added
 		* \param QList<QGraphicsItem*>& list of new graphics items
 		* \param QList<ItemHandle*>& list of new handles (does NOT have to be the same number as items)
 		* \param InsertType (optional) indicated how the items were inserted, e.g. copy/pasted or loaded from a file  
 		* \return void*/
-		void itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>& , const QList<ItemHandle*>& , InsertType type=NEW);
+		void itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>& , const QList<ItemHandle*>& , GraphicsScene::InsertType type=NEW);
 		/*! \brief signals whenever items are selected (item can be sub-item, not top-level)
 		* \param GraphicsScene* scene where items are selected
 		* \param QList<QGraphicsItem*>& list of all selected item pointers

@@ -97,7 +97,7 @@ static int substituteString(string& target, const string& oldname,const string& 
 static list< CCMap* > hashTablesToCleanup;
 static list< copasi_model > copasiModelsToCleanup;
 
-static boost::regex stupidPowFunction("pow\\s*\\(\\s*([^,]+)\\s*,\\s*([^,]+)\\s*\\)");
+static boost::regex stupidPowFunction("pow\\s*\\(\\s*([^,]+)\\s*,\\s*([^,]+)\\s*\\)", boost::regex::perl);
 //static RegExp stupidPowFunction("pow\\s*\\(\\s*([^,]+)\\s*,\\s*([^,]+)\\s*\\)");
 
 bool contains(CCMap * hash, const string & s)
@@ -592,14 +592,15 @@ int cSetAssignmentRuleHelper(copasi_model model, CMetab* pSpecies, const char * 
 					 	string s1("<");
 							s1 += getHashValue(hash,s0).name;
 							s1 += string(">");
+						//std::cout << "sub " << s1 << "  for " << s0 << "\n";
 						substituteString(qFormula,s0,s1);
 					}
 				}
 			}
 		}
 
-		string sFormula( qFormula );
-		retval = retval & pSpecies->setExpression(sFormula);
+		//std::cout << qFormula << "\n";
+		retval = retval & pSpecies->setExpression(qFormula);
 	}
 	else
 		pSpecies->setStatus(CModelEntity::REACTIONS);
@@ -1986,18 +1987,20 @@ tc_matrix cGetScaledFluxControlCoeffs(copasi_model model)
 
 static int substituteString(string& target, const string& oldname,const string& newname0)
 {
-	if (oldname == newname0) return 0;
+	if (oldname == newname0 || target == newname0) return 0;
 	string newname(newname0);
 
-	boost::regex_replace(newname, boost::regex("[^A-Za-z0-9_]"), string("_@@@_"));
+	boost::regex_replace(newname, boost::regex("[^A-Za-z0-9_]",boost::regex::perl), string("_@@@_"));
 	//newname.replace(QRegExp("[^A-Za-z0-9_]"),QString("_@@@_"));
 
-	boost::regex regexp1(string("^") + oldname + string("$")),  //just old name
-		regexp2(string("^") + oldname + string("([^A-Za-z0-9_])")),  //oldname+(!letter/num)
-		regexp3(string("([^A-Za-z0-9_\\.=])") + oldname + string("$")), //(!letter/num)+oldname
-		regexp4(string("([^A-Za-z0-9_\\.=])") + oldname + string("([^A-Za-z0-9_])")); //(!letter/num)+oldname+(!letter/num)
+	boost::regex regexp1(string("^") + oldname + string("$"),boost::regex::perl),  //just old name
+		regexp2(string("^") + oldname + string("([^A-Za-z0-9_])"),boost::regex::perl),  //oldname+(!letter/num)
+		regexp3(string("([^A-Za-z0-9_\\.=])") + oldname + string("$"),boost::regex::perl), //(!letter/num)+oldname
+		regexp4(string("([^A-Za-z0-9_\\.=])") + oldname + string("([^A-Za-z0-9_])"),boost::regex::perl); //(!letter/num)+oldname+(!letter/num)
 
 	int retval = 0;
+	std::cout << "target = " << target << "   to-match = " << oldname << "\n";
+
 	if (boost::regex_match(target, regexp1))
 	{
 		retval = 1;
@@ -2008,18 +2011,21 @@ static int substituteString(string& target, const string& oldname,const string& 
 	{
 		retval = 1;
 		boost::regex_replace(target, regexp2,newname+string("\\1"));
+		std::cout << "did replacement 2\n";
 	}
 
 	while (boost::regex_match(target, regexp3))
 	{
 		retval = 1;
 		boost::regex_replace(target, regexp3, string("\\1")+newname);
+		std::cout << "did replacement 3\n";
 	}
 
 	while (boost::regex_match(target, regexp4))
 	{
 		retval = 1;
 		boost::regex_replace(target, regexp4, string("\\1")+newname+string("\\2"));
+		std::cout << "did replacement 4\n";
 	}
 
 	boost::regex_replace(target, boost::regex(newname),newname0);

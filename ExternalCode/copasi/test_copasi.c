@@ -13,7 +13,7 @@ int main()
 	copasi_model m1, m2;
 	
 	printf("creating model...\n");	
-	m1 = model1();
+	m1 = model3();
     //m1 = cReadSBMLFile("model1.sbml");
     
 	printf("simulating...\n");	

@@ -1994,12 +1994,11 @@ static int substituteString(string& target, const string& oldname,const string& 
 	//newname.replace(QRegExp("[^A-Za-z0-9_]"),QString("_@@@_"));
 
 	boost::regex regexp1(string("^") + oldname + string("$"),boost::regex::perl),  //just old name
-		regexp2(string("^") + oldname + string("([^A-Za-z0-9_])"),boost::regex::perl),  //oldname+(!letter/num)
-		regexp3(string("([^A-Za-z0-9_\\.=])") + oldname + string("$"),boost::regex::perl), //(!letter/num)+oldname
-		regexp4(string("([^A-Za-z0-9_\\.=])") + oldname + string("([^A-Za-z0-9_])"),boost::regex::perl); //(!letter/num)+oldname+(!letter/num)
+		regexp2(string("^") + oldname + string("([^A-Za-z0-9_]).*"),boost::regex::perl),  //oldname+(!letter/num)
+		regexp3(string(".*([^A-Za-z0-9_\\.=])") + oldname + string("$"),boost::regex::perl), //(!letter/num)+oldname
+		regexp4(string(".*([^A-Za-z0-9_\\.=])") + oldname + string("([^A-Za-z0-9_]).*"),boost::regex::perl); //(!letter/num)+oldname+(!letter/num)
 
 	int retval = 0;
-	std::cout << "target = " << target << "   to-match = " << oldname << "\n";
 
 	if (boost::regex_match(target, regexp1))
 	{
@@ -2024,8 +2023,9 @@ static int substituteString(string& target, const string& oldname,const string& 
 	while (boost::regex_match(target, regexp4))
 	{
 		retval = 1;
-		boost::regex_replace(target, regexp4, string("\\1")+newname+string("\\2"));
-		std::cout << "did replacement 4\n";
+		std::cout << target << "   replace  " <<  oldname << " with " << newname << " : ";
+		boost::regex_replace(target, regexp4, string("$1")+newname+string("$2"));
+		std::cout << ": " << target << "\n\n";
 	}
 
 	boost::regex_replace(target, boost::regex(newname),newname0);

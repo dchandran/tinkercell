@@ -130,8 +130,8 @@ namespace Tinkercell
 		
 		if (mainWindow && scene && scene->useDefaultBehavior())
 		{
-			if (!hoverOverItem && scene->selected().size() == 1)
-				hoverOverItem = scene->selected()[0];
+			//if (!hoverOverItem && scene->selected().size() == 1)
+				//hoverOverItem = scene->selected()[0];
 
 			if (hoverOverItem && !TextGraphicsItem::cast(hoverOverItem) && snapshotToolTip)
 			{
@@ -227,6 +227,7 @@ namespace Tinkercell
 		itemHandles = items;
 		updateTable();
 		for (int i=0; i < updatedFunctions.size() && i < updatedFunctionNames.size(); ++i)
+
 			equations[ updatedFunctionNames[i] ] = updatedFunctions[i];
 	}
 

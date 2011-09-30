@@ -1107,11 +1107,11 @@ namespace Tinkercell
 
 		if (mainWindow && scene && scene->useDefaultBehavior())
 		{
-			if (!hoverOverItem && scene->selected().size() == 1)
+			/*if (!hoverOverItem && scene->selected().size() == 1)
 			{
 				if (ArrowHeadItem::cast(scene->selected()[0]))
 					hoverOverItem = scene->selected()[0];
-			}
+			}*/
 
 			if (hoverOverItem && !TextGraphicsItem::cast(hoverOverItem) && snapshotToolTip)
 			{

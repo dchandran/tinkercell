@@ -17,7 +17,7 @@ int main()
     //m1 = cReadSBMLFile("model1.sbml");
     
 	printf("simulating...\n");	
-	output = cSimulateDeterministic(m1, 0, 10, 100);  //model, start, end, num. points
+	output = cSimulateDeterministic(m1, 0, 50, 100);  //model, start, end, num. points
 	printf("output.tab has %i rows and %i columns\n",output.rows, output.cols);
 	tc_printMatrixToFile("output.tab", output);
 	tc_deleteMatrix(output);
@@ -211,6 +211,7 @@ cSetGlobalParameter(model,"ta1_Kd",5);
 cSetGlobalParameter(model,"ta1_h",4);
 cSetGlobalParameter(model,"ta2_Kd",2);
 cSetGlobalParameter(model,"ta2_h",5);
+cSetAssignmentRule(model, "INPUT","10 * (1 + sin(time * 0.5))");
 cSetAssignmentRule(model, "as1","((1+((INPUT/ta1_Kd)^ta1_h))-1)/((1+((INPUT/ta1_Kd)^ta1_h)))");
 cSetAssignmentRule(model, "as2","((1+((INPUT/ta2_Kd)^ta2_h))-1)/((1+((INPUT/ta2_Kd)^ta2_h)))");
 cSetAssignmentRule(model, "cod1","pro1_strength * (as1)");

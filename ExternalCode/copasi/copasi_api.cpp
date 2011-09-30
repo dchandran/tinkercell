@@ -1994,9 +1994,14 @@ static int substituteString(string& target, const string& oldname,const string& 
 	//newname.replace(QRegExp("[^A-Za-z0-9_]"),QString("_@@@_"));
 
 	boost::regex regexp1(string("^") + oldname + string("$"),boost::regex::perl),  //just old name
-		regexp2(string("^") + oldname + string("([^A-Za-z0-9_]).*"),boost::regex::perl),  //oldname+(!letter/num)
-		regexp3(string(".*([^A-Za-z0-9_\\.=])") + oldname + string("$"),boost::regex::perl), //(!letter/num)+oldname
-		regexp4(string(".*([^A-Za-z0-9_\\.=])") + oldname + string("([^A-Za-z0-9_]).*"),boost::regex::perl); //(!letter/num)+oldname+(!letter/num)
+		regexp2(string("^") + oldname + string("([^A-Za-z0-9_\\]]).*"),boost::regex::perl),  //oldname+(!letter/num)
+		regexp3(string(".*([^A-Za-z0-9_\\.=\\[])") + oldname + string("$"),boost::regex::perl), //(!letter/num)+oldname
+		regexp4(string(".*([^A-Za-z0-9_\\.=\\[])") + oldname + string("([^A-Za-z0-9_\\]]).*"),boost::regex::perl); //(!letter/num)+oldname+(!letter/num)
+
+	boost::regex regexp1r(string("^") + oldname + string("$"),boost::regex::perl),  //just old name
+		regexp2r(string("^") + oldname + string("([^A-Za-z0-9_\\]])"),boost::regex::perl),  //oldname+(!letter/num)
+		regexp3r(string("([^A-Za-z0-9_\\.=\\[])") + oldname + string("$"),boost::regex::perl), //(!letter/num)+oldname
+		regexp4r(string("([^A-Za-z0-9_\\.=\\[])") + oldname + string("([^A-Za-z0-9_\\]])"),boost::regex::perl); //(!letter/num)+oldname+(!letter/num)
 
 	int retval = 0;
 
@@ -2009,26 +2014,22 @@ static int substituteString(string& target, const string& oldname,const string& 
 	while (boost::regex_match(target, regexp2))
 	{
 		retval = 1;
-		boost::regex_replace(target, regexp2,newname+string("\\1"));
-		std::cout << "did replacement 2\n";
+		target = boost::regex_replace(target, regexp2r,newname+string("\\1"));
 	}
 
 	while (boost::regex_match(target, regexp3))
 	{
 		retval = 1;
-		boost::regex_replace(target, regexp3, string("\\1")+newname);
-		std::cout << "did replacement 3\n";
+		target = boost::regex_replace(target, regexp3r, string("\\1")+newname);
 	}
 
 	while (boost::regex_match(target, regexp4))
 	{
 		retval = 1;
-		std::cout << target << "   replace  " <<  oldname << " with " << newname << " : ";
-		boost::regex_replace(target, regexp4, string("$1")+newname+string("$2"));
-		std::cout << ": " << target << "\n\n";
+		target = boost::regex_replace(target, regexp4r, string("\\1")+newname+string("\\2"));
 	}
 
-	boost::regex_replace(target, boost::regex(newname),newname0);
+	target = boost::regex_replace(target, boost::regex(newname),newname0);
 	return retval;
 }
 
@@ -2722,7 +2723,7 @@ tc_matrix cOptimize(copasi_model model, const char * objective, tc_matrix params
 			while (ga.done() != gaTrue)
 			{
 				ga.step();
-				cout << "gen " << ++k << "\n";
+				//cout << "gen " << ++k << "\n";
 			}
 			pop = ga.population();
 			pop.order(GAPopulation::LOW_IS_BEST);

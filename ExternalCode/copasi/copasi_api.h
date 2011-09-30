@@ -1,7 +1,9 @@
 #ifndef COPASI_SIMPLE_C_API
 #define COPASI_SIMPLE_C_API
+ /**
+  * @file    copasi_api.h
+  * @brief   Simple C API for the Copasi C++ library
 
-/*
 This is a C API for the COPASI C++ library. Rate equations in COPASI require the "complete name",   
 e.g. instead of X, the rate must specify <model.compartment.X>. In this C API, those complete names
 are stored in a hash table. The API replaces the simple strings, i.e. "C", with the complete names by
@@ -13,8 +15,8 @@ hash table to identify what a variable is.
 The C API hides the C++ classes by casting some of the main classes into void pointers inside
 C structs. 
 
-QtCore is used for providing the hash-table feature and regular expression (QHash and QRegExp). This
-should be replaced with the boost library at some point. 
+std::map is used for performing the hashing (it is not a real hash-table, but close enough).
+boost::regex is used for string substitutions.
 */
 
 #include "TC_structs.h"
@@ -46,40 +48,29 @@ typedef struct
 
 BEGIN_C_DECLS
 
-/*! 
- \brief initialize copasi -- MUST BE CALLED before calling any other functions
- \ingroup Simulation
-*/
-//TCAPIEXPORT void copasi_init();
+/**
+  * @name Memory management
+  */
+/** \{*/
+
 /*! 
  \brief destroy copasi -- MUST BE CALLED at the end of program
  \ingroup Simulation
 */
 TCAPIEXPORT void copasi_end();
-/*! 
- \brief create a model
- \param char* model name
- \return copasi_model a new copasi model
- \ingroup Simulation
-*/
-TCAPIEXPORT copasi_model cCreateModel(const char * name);
+
 /*! 
  \brief remove a model
  \ingroup Simulation
 */
 TCAPIEXPORT void cRemoveModel(copasi_model);
-/*! 
- \brief clear all contents of a model
- \ingroup Simulation
-*/
-//TCAPIEXPORT void clearCopasiModel(copasi_model);
-/*! 
- \brief This function is only needed for calling COPASI methods not found in this library. This function compiles the COPASI model; it is called internally by the simulate and other anlysis functions. 
- \param copasi_model model
- \param int substitute nested assignments
- \ingroup Simulation
-*/
-TCAPIEXPORT void cCompileModel(copasi_model model, int substitute_nested_assignments);
+
+/** \} */
+/**
+  * @name Read and write models
+  */
+/** \{ */
+
 /*! 
  \brief create a model from an Antimony or SBML file
  \param char* file name
@@ -87,6 +78,7 @@ TCAPIEXPORT void cCompileModel(copasi_model model, int substitute_nested_assignm
  \ingroup Simulation
 */
 TCAPIEXPORT copasi_model cReadAntimonyFile(const char * filename);
+
 /*! 
  \brief create a model from an SBML file
  \param char* file name
@@ -108,15 +100,29 @@ TCAPIEXPORT copasi_model cReadSBMLString(const char * sbml);
  \ingroup Simulation
 */
 TCAPIEXPORT void cWriteSBMLFile(copasi_model model, const char * filename);
+
+/** \} */
+/**
+  * @name Create model
+  */
+/** \{ */
+
 /*! 
- \brief add a compartment to the model
- \param copasi_model model/*! 
- \brief scaled flux control coefficients
- \param copasi_model model
- \return tc_matrix 
+ \brief create a model
+ \param char* model name
+ \return copasi_model a new copasi model
  \ingroup Simulation
 */
-TCAPIEXPORT tc_matrix cGetScaledFluxControlCoeffs(copasi_model model);
+TCAPIEXPORT copasi_model cCreateModel(const char * name);
+
+/*! 
+ \brief This function is only needed for calling COPASI methods not found in this library. This function compiles the COPASI model; it is called internally by the simulate and other anlysis functions. 
+ \param copasi_model model
+ \param int substitute nested assignments
+ \ingroup Simulation
+*/
+TCAPIEXPORT void cCompileModel(copasi_model model, int substitute_nested_assignments);
+
 /*! 
  \brief create compartment
  \param char* compartment name
@@ -245,6 +251,13 @@ TCAPIEXPORT void cAddProduct(copasi_reaction reaction, const char * species, dou
 */
 TCAPIEXPORT int cSetReactionRate(copasi_reaction reaction, const char * formula);
 
+/** \} */
+/**
+  * @name Time course simulation
+  */
+/** \{ */
+
+
 /*! 
  \brief simulate using LSODA numerical integrator
  \param copasi_model model
@@ -286,6 +299,13 @@ TCAPIEXPORT tc_matrix cSimulateHybrid(copasi_model model, double startTime, doub
 */
 TCAPIEXPORT tc_matrix cSimulateTauLeap(copasi_model model, double startTime, double endTime, int numSteps);
 
+/** \} */
+/**
+  * @name Steady state analysis 
+  */
+/** \{ */
+
+
 /*! 
  \brief bring the system to steady state
  \param copasi_model model
@@ -316,6 +336,23 @@ TCAPIEXPORT tc_matrix cGetJacobian(copasi_model model);
  \ingroup Simulation
 */
 TCAPIEXPORT tc_matrix cGetEigenvalues(copasi_model model);
+
+/** \} */
+/**
+  * @name Metabolic control analysis (MCA)
+  */
+/** \{ */
+
+
+/*! 
+ \brief add a compartment to the model
+ \param copasi_model model/*! 
+ \brief scaled flux control coefficients
+ \param copasi_model model
+ \return tc_matrix 
+ \ingroup Simulation
+*/
+TCAPIEXPORT tc_matrix cGetScaledFluxControlCoeffs(copasi_model model);
 
 /*! 
  \brief unscaled elasticities
@@ -364,6 +401,13 @@ TCAPIEXPORT tc_matrix cGetScaledConcentrationConcentrationCoeffs(copasi_model mo
  \ingroup Simulation
 */
 TCAPIEXPORT tc_matrix cGetScaledFluxControlCoeffs(copasi_model model);
+
+/** \} */
+/**
+  * @name Stoichiometry matrix and matrix analysis
+  */
+/** \{ */
+
 
 /*! 
  \brief full stoichiometry matrix
@@ -428,6 +472,13 @@ TCAPIEXPORT tc_matrix cGetLinkMatrix(copasi_model model);
  \ingroup Structural
 */
 TCAPIEXPORT tc_matrix cGetL0Matrix(copasi_model model);
+
+
+/** \} */
+/**
+  * @name Optimization (incomplete)
+  */
+/** \{ */
 
 
 /*! 

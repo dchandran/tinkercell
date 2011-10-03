@@ -1,8 +1,16 @@
 FILE(GLOB BOOST_REGEX_SRC regex/src/*.cpp)
 
-ADD_LIBRARY ( boost_regex
-#   SHARED
-  STATIC
-  ${BOOST_REGEX_SRC}
-)
+IF (WIN32 AND NOT MINGW)
+	ADD_LIBRARY ( libboost_regex-vc100-mt-gd-1_48
+	#   SHARED
+	  STATIC
+	  ${BOOST_REGEX_SRC}
+	)
+ELSE(WIN32 AND NOT MINGW)
+	ADD_LIBRARY ( boost_regex
+	#   SHARED
+	  STATIC
+	  ${BOOST_REGEX_SRC}
+	)
+ENDIF(WIN32 AND NOT MINGW)
 

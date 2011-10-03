@@ -23,7 +23,7 @@ INCLUDE_DIRECTORIES( BEFORE
 
 #  All of these are third-party libraries
 
-SET (CMAKE_LIBRARY_OUTPUT_DIRECTORY ${TINKERCELL_BINARY_DIR})
+SET (LIBRARY_OUTPUT_PATH ${TINKERCELL_BINARY_DIR})
 
 OPTION( BUILD_LAPACK "check this if your system does not have lapack library" ON )
 OPTION( BUILD_SBWCORE "systems biology workbench core" OFF )

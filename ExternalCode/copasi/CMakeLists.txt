@@ -131,7 +131,11 @@ ADD_LIBRARY( copasi
 )
 
 IF (WIN32 AND NOT MINGW)
-	SET( boost_library_name libboost_regex-vc100-mt-gd-1_48)
+	IF(CMAKE_BUILG_TYPE STREQUAL "Debug")
+		SET( boost_library_name libboost_regex-vc100-mt-1_48)
+	ELSEIF(CMAKE_BUILG_TYPE STREQUAL "Debug")
+		SET( boost_library_name libboost_regex-vc100-mt-gd-1_48)
+	ENDIF(CMAKE_BUILG_TYPE STREQUAL "Debug")
 ELSE (WIN32 AND NOT MINGW)
 	SET( boost_library_name boost_regex)
 ENDIF (WIN32 AND NOT MINGW)

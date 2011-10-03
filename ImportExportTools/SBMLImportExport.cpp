@@ -296,28 +296,14 @@ namespace Tinkercell
 
 	void SBMLImportExport::importSBML(QSemaphore * sem, const QString& str)
 	{
-		QList<ItemHandle*> items = importSBML(str);
-	
-		if (items.size() > 0)
+		QWidget * tool = mainWindow->tool("Antimony Parser");
+		if (tool)
 		{
-			QString text;
-			emit getTextVersion(items, &text);
-	
-			TextEditor * editor = mainWindow->newTextEditor();
-			if (editor)
-			{
-				editor->setItems(items);
-				editor->setText(text);
-			}
+			AntimonyEditor * antEdit = static_cast<AntimonyEditor*>(tool);
+			antEdit->loadNetwork(str);	
 		}
-		else
-		{
-			if (sem && console())
-				console()->error("Failed to load SBML file");
-		}
-
 		if (sem)
-			sem->release();
+			sem->release();	
 	}
 
 	/***************************************************

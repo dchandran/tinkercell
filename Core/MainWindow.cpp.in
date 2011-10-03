@@ -539,7 +539,7 @@ namespace Tinkercell
 			fileName =
 				QFileDialog::getSaveFileName(this, tr("Save Current Network"),
 				previousFileName + tr("/model_") + QDateTime::	currentDateTime().toString("d-M-yy_h-m.tic"),
-				(GlobalSettings::PROJECTNAME + tr(" files (*.") + GlobalSettings::SAVE_FILE_EXTENSIONS.join(tr(" *.")) + tr(")")));
+				(GlobalSettings::PROJECTNAME + tr(" files (*.") + GlobalSettings::SAVE_FILE_EXTENSIONS.join(tr(" *.")) + tr(");; All files(*.*)")));
 			if (fileName.isNull() || fileName.isEmpty())
 				return;
 			
@@ -586,7 +586,7 @@ namespace Tinkercell
 		QString fileName =
 			QFileDialog::getSaveFileName(this, tr("Save Current Network"),
 			QFileInfo(currentNetworkWindow->filename).absolutePath(),
-			(GlobalSettings::PROJECTNAME + tr(" files (*.") + GlobalSettings::SAVE_FILE_EXTENSIONS.join(tr(" *.")) + tr(")")));
+			(GlobalSettings::PROJECTNAME + tr(" files (*.") + GlobalSettings::SAVE_FILE_EXTENSIONS.join(tr(" *.")) + tr(");; All files(*.*)")));
 		if (fileName.isEmpty())
 			return;
 
@@ -646,7 +646,7 @@ namespace Tinkercell
 			QFileDialog::getOpenFileNames(this, 
 			tr("Open File(s)"),
 			dir,
-			(GlobalSettings::PROJECTNAME + tr(" files (*.") + GlobalSettings::OPEN_FILE_EXTENSIONS.join(tr(" *.")) + tr(")")));
+			(GlobalSettings::PROJECTNAME + tr(" files (*.") + GlobalSettings::OPEN_FILE_EXTENSIONS.join(tr(" *.")) + tr(");; All files(*.*)")));
 		for (int i=0; i < fileNames.size(); ++i)
 			if (!fileNames[i].isEmpty())
 				open(fileNames[i]);
@@ -696,7 +696,7 @@ namespace Tinkercell
 			if (scene)
 				fileTypes = tr("Portable Document Format (*.pdf *.PDF);;Portable Network Graphics(*.png *.PNG);;Joint Photographic Experts Group(*.jpg *.jpeg *.JPG)");
 			else
-				fileTypes = tr("Text (*.txt *.TXT)");
+				fileTypes = tr("Text (*.txt *.TXT);; All files(*.*)");
 		
 			fileName =
 				QFileDialog::getSaveFileName(this, tr("Print to File"),

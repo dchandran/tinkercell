@@ -1,5 +1,3 @@
-SET(LIBRARY_OUTPUT_PATH ${EXECUTABLE_OUTPUT_PATH})
-
 #----------- include folders ----------------------
 
 INCLUDE_DIRECTORIES( 

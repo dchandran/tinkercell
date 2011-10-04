@@ -86,11 +86,11 @@ namespace Tinkercell
 		ItemHandle root;
 		QList<ItemHandle*> itemsToInsert = parse(modelString, &root);
 
-		if (!itemsToInsert.isEmpty())
+		//if (!itemsToInsert.isEmpty())
 		{
 			TextEditor * editor = mainWindow->newTextEditor();
 			(*editor->globalHandle()) = root;
-			editor->setText(getAntimonyString("__main"));
+			editor->setText(modelString);
 			editor->setItems(itemsToInsert);
 		}
 	}
@@ -157,10 +157,10 @@ namespace Tinkercell
 		}
 	}
 
-	QList<ItemHandle*> AntimonyEditor::parse(const QString& modelString, ItemHandle * moduleHandle)
+	QList<ItemHandle*> AntimonyEditor::parse(QString& modelString, ItemHandle * moduleHandle)
 	{
 		long ok = loadString(modelString.toAscii().data());
-
+		
 		if (ok < 0)
 		{
 			if (console() && !moduleHandle && currentTextEditor())
@@ -170,6 +170,7 @@ namespace Tinkercell
 		}
 		else
 		{
+			modelString = tr(getAntimonyString(NULL));
 			emit validSyntax(true);
 		}
 

@@ -1,0 +1,55 @@
+//Created by libAntimony v2.0
+model Lavrentovich2008_Ca_Oscillations()
+
+  // Compartments and Species:
+  compartment compartment_, ER;
+  species X in compartment_, Y in ER, Z in compartment_;
+
+  // Reactions:
+  R1:  => X; compartment_ * vin;
+  R2: X => ; compartment_ * kout * X;
+  R3: Y => X; ER * 4 * vM3 * k_CaA^n * (X^n / ((X^n + k_CaA^n) * (X^n + k_CaI^n))) * (Z^m / (Z^m + kip3^m)) * (Y - X);
+  R4: X => Y; compartment_ * vM2 * X^2 / (X^2 + k2^2);
+  R5: Y => X; ER * kf * (Y - X);
+  R6:  => Z; compartment_ * vp * X^2 / (X^2 + kp^2);
+  R7: Z => ; compartment_ * kdeg * Z;
+
+  // Species initializations:
+  X = 0.1;
+  Y = 1.5;
+  Z = 0.1;
+
+  // Compartment initializations:
+  compartment_ = 1;
+  ER = 1;
+
+  // Variable initializations:
+  vin = 0.05;
+  kout = 0.5;
+  vM3 = 40;
+  k_CaA = 0.15;
+  n = 2.02;
+  k_CaI = 0.15;
+  m = 2.2;
+  kip3 = 0.1;
+  vM2 = 15;
+  k2 = 0.1;
+  kf = 0.5;
+  vp = 0.05;
+  kp = 0.3;
+  kdeg = 0.08;
+
+  //Display Names:
+  compartment_ is "Cytoplasm";
+  ER is "Endoplasmic Reticulum";
+  X is "Cytoplasmic Calcium";
+  Y is "Calcium in ER";
+  Z is "IP3";
+  R1 is "vin";
+  R2 is "Calcium export from cell";
+  R3 is "CICR";
+  R4 is "serca";
+  R5 is "Leak flux";
+  R6 is "PLC";
+  R7 is "IP3 degradation";
+end

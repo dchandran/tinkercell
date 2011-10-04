@@ -1,0 +1,40 @@
+//Created by libAntimony v2.0
+model Scheper1999()
+
+  // Compartments and Species:
+  compartment compartment_0000004;
+  species $EmptySet in compartment_0000004, M in compartment_0000004, P in compartment_0000004;
+
+  // Reactions:
+  TC: $EmptySet => M; compartment_0000004 * (TC_rM / (1 + (P / TC_k)^TC_n));
+  TL: $EmptySet => P; compartment_0000004 * TL_rP * delay(M, TL_parameter_0000009)^TL_m;
+  Md: M => $EmptySet; compartment_0000004 * Md_qM * M;
+  Pd: P => $EmptySet; compartment_0000004 * Pd_qP * P;
+
+  // Species initializations:
+  EmptySet = 0;
+  M = 1e-15/compartment_0000004;
+  P = 1e-15/compartment_0000004;
+
+  // Compartment initializations:
+  compartment_0000004 = 1e-15;
+
+  // Variable initializations:
+  TC_rM = 1;
+  TC_k = 1;
+  TC_n = 2;
+  TL_rP = 1;
+  TL_m = 3;
+  TL_parameter_0000009 = 4;
+  Md_qM = 0.21;
+  Pd_qP = 0.21;
+
+  //Display Names:
+  compartment_0000004 is "cytoplasm";
+  M is "mRNA";
+  P is "protein";
+  TC is "mRNA production";
+  TL is "protein production";
+  Md is "messenger degradation";
+  Pd is "protein degradation";
+end

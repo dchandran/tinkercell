@@ -1,0 +1,65 @@
+//Created by libAntimony v2.0
+function function_4(P, V3, R, k3)
+  P * V3 * (1 - R) / (k3 + (1 - R));
+end
+
+function function_3(V2, R, Q, K2)
+  V2 * R * Q / (K2 + Q);
+end
+
+function function_2(V1, Q, K1)
+  V1 * (1 - Q) / (K1 + (1 - Q));
+end
+
+function function_1(V, substrate, Km)
+  V * substrate / (Km + substrate);
+end
+
+function function_0(a, Q)
+  a * Q;
+end
+
+
+model Model_0()
+
+  // Compartments and Species:
+  compartment body;
+  species P in body, R in body, Q in body;
+
+  // Reactions:
+  reaction_0:  => P; body * function_0(reaction_0_a, Q);
+  reaction_1: P => ; function_1(reaction_1_V, P, reaction_1_Km);
+  reaction_2:  => Q; function_2(reaction_2_V1, Q, reaction_2_K1);
+  reaction_3: Q => ; function_3(reaction_3_V2, R, Q, reaction_3_K2);
+  reaction_4:  => R; function_4(P, reaction_4_V3, R, reaction_4_k3);
+  reaction_5: R => ; function_1(reaction_5_V, R, reaction_5_Km);
+
+  // Species initializations:
+  P = 0.43;
+  R = 0.55;
+  Q = 0.8;
+
+  // Compartment initializations:
+  body = 1;
+
+  // Variable initializations:
+  reaction_0_a = 0.1;
+  reaction_1_V = 0.1;
+  reaction_1_Km = 0.2;
+  reaction_2_V1 = 1;
+  reaction_2_K1 = 0.01;
+  reaction_3_V2 = 1.5;
+  reaction_3_K2 = 0.01;
+  reaction_4_V3 = 6;
+  reaction_4_k3 = 0.01;
+  reaction_5_V = 2.5;
+  reaction_5_Km = 0.01;
+
+  //Display Names:
+  reaction_0 is "Increase of  P";
+  reaction_1 is "Decrease of P";
+  reaction_2 is "Increase of Q";
+  reaction_3 is "Decrease of Q";
+  reaction_4 is "Increase of R";
+  reaction_5 is "Decrease of R";
+end

@@ -1,0 +1,46 @@
+//Created by libAntimony v2.0
+model Goldbeter1990_CalciumSpike_CICR()
+
+  // Compartments and Species:
+  compartment cytosol, store;
+  species Z in cytosol, Y in store;
+
+  // Reactions:
+  R0:  => Z; cytosol * v0;
+  R1:  => Z; cytosol * v1 * beta;
+  R2: Z => Y; cytosol * (Vm2 * Z^n / (K2^n + Z^n));
+  R3: Y => Z; store * (Vm3 * Y^m * Z^p / ((Kr^m + Y^m) * (Ka^p + Z^p)));
+  Rf: Y => Z; store * kf * Y;
+  R_eff: Z => ; cytosol * k * Z;
+
+  // Species initializations:
+  Z = 0.15;
+  Y = 1.6;
+
+  // Compartment initializations:
+  cytosol = 1;
+  store = 1;
+
+  // Variable initializations:
+  v0 = 1;
+  v1 = 7.3;
+  beta = 0.301;
+  Vm2 = 65;
+  n = 2;
+  K2 = 1;
+  Vm3 = 500;
+  m = 2;
+  Kr = 2;
+  Ka = 0.9;
+  kf = 1;
+  k = 10;
+  p = 4;
+
+  //Display Names:
+  R0 is "Ca influx";
+  R1 is "InsP3 dependent Ca influx";
+  R2 is "ATP driven Ca pumping into store";
+  R3 is "ATP driven pumping into cytosol";
+  Rf is "Ca leak";
+  R_eff is "Ca efflux";
+end

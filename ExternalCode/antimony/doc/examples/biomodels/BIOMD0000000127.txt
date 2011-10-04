@@ -1,0 +1,33 @@
+//Created by libAntimony v2.0
+model model_0000001()
+
+  // Compartments and Species:
+  compartment cell;
+
+  // Rate Rules:
+  v' = 0.04 * v^2 + 5 * v + 140 - U + i;
+  U' = a * (b * v - U);
+
+  // Events:
+  event_0000001: at gt(v, Vthresh): U = U + d, v = c;
+  event_0000002: at gt(time, 10): i = 10;
+
+  // Compartment initializations:
+  cell = 1;
+
+  // Variable initializations:
+  v = -70;
+  Vthresh = 30;
+  c = -65;
+  U = -14;
+  d = 8;
+  i = 0;
+  a = 0.02;
+  b = 0.2;
+
+  //Other declarations:
+  var v, U, i;
+
+  //Display Names:
+  event_0000002 is "Stimulus";
+end

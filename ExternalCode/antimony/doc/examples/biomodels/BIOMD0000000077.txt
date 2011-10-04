@@ -1,0 +1,53 @@
+//Created by libAntimony v2.0
+model Model_1()
+
+  // Compartments and Species:
+  compartment cell;
+  species H in cell, HR in cell, R in cell, HRRH in cell, E in cell, GQ in cell;
+  species IP3 in cell, $CHO in cell;
+
+  // Assignment Rules:
+  CHO := 0.001 * alpha * IP3 * (0.3 + 0.3 * beta * time * exp(1 - beta * time)) / (1 + 0.001 * alpha * IP3);
+
+  // Reactions:
+  reaction_0: H + R -> HR; cell * (reaction_0_k1 * H * R - reaction_0_k2 * HR);
+  reaction_1: 2HR -> HRRH; cell * (reaction_1_k1 * HR^2 - reaction_1_k2 * HRRH);
+  reaction_2: HRRH + GQ -> E; cell * (reaction_2_k1 * HRRH * GQ - reaction_2_k2 * E);
+  reaction_3: IP3 => ; cell * reaction_3_k1 * IP3;
+  reaction_4:  => IP3; cell * reaction_4_k * E;
+
+  // Events:
+  RemovalH: at gt(time, 5): H = 0;
+
+  // Species initializations:
+  H = 1;
+  HR = 0;
+  R = 0.01;
+  HRRH = 0;
+  E = 0;
+  GQ = 0.1;
+  IP3 = 0;
+
+  // Compartment initializations:
+  cell = 1;
+
+  // Variable initializations:
+  alpha = 2;
+  beta = 4;
+  reaction_0_k1 = 2.5;
+  reaction_0_k2 = 5;
+  reaction_1_k1 = 2500;
+  reaction_1_k2 = 5;
+  reaction_2_k1 = 4000;
+  reaction_2_k2 = 200;
+  reaction_3_k1 = 10;
+  reaction_4_k = 20000000;
+
+  //Display Names:
+  RemovalH is "removal of hormone";
+  reaction_0 is "H binding to  R";
+  reaction_1 is "HR forming HRRH";
+  reaction_2 is "G protein react with dimer producing E";
+  reaction_3 is "IP3 converted into inactive metabolites";
+  reaction_4 is "Production of IP3";
+end

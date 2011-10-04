@@ -1,0 +1,45 @@
+//Created by libAntimony v2.0
+model Zatorsky2006_p53_Model4()
+
+  // Compartments and Species:
+  compartment compartment_;
+  species x in compartment_, y in compartment_, y0 in compartment_;
+
+  // Reactions:
+  R1:  => x; compartment_ * beta_x * psi;
+  R2: x => ; compartment_ * alpha_x * x;
+  R3: x => ; compartment_ * alpha_k * y * x / (x + k);
+  R4:  => y0; compartment_ * beta_y * x * psi;
+  R5: y0 => y; compartment_ * alpha_0 * y0;
+  R6: y -> ; compartment_ * alpha_y * y;
+
+  // Species initializations:
+  x = 0;
+  y = 0.8;
+  y0 = 0.1;
+
+  // Compartment initializations:
+  compartment_ = 1;
+
+  // Variable initializations:
+  beta_x = 0.9;
+  psi = 1;
+  alpha_x = 0;
+  beta_y = 1.1;
+  alpha_y = 0.8;
+  alpha_0 = 0.8;
+  k = 0.0001;
+  alpha_k = 1.7;
+
+  //Display Names:
+  compartment_ is "cell";
+  x is "p53";
+  y is "Mdm2";
+  y0 is "precursor Mdm2";
+  R1 is "p53 production";
+  R2 is "Mdm2 independent p53 degradation";
+  R3 is "Mdm2 dependent p53 degradation";
+  R4 is "p53 dependent Mdm2 precursor production";
+  R5 is "Mdm2 synthesis from precursor";
+  R6 is "Mdm2 degradation";
+end

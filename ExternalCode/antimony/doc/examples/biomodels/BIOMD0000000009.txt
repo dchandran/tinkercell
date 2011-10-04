@@ -1,0 +1,147 @@
+//Created by libAntimony v2.0
+model Huang1996_MAPK_ultrasens()
+
+  // Compartments and Species:
+  compartment compartment_;
+  species E1 in compartment_, E2 in compartment_, KKK in compartment_, P_KKK in compartment_;
+  species KK in compartment_, P_KK in compartment_, PP_KK in compartment_;
+  species K in compartment_, P_K in compartment_, PP_K in compartment_, KPase in compartment_;
+  species KKPase in compartment_, E1_KKK in compartment_, E2_P_KKK in compartment_;
+  species P_KKK_KK in compartment_, P_KKK_P_KK in compartment_, PP_KK_K in compartment_;
+  species PP_KK_P_K in compartment_, KKPase_PP_KK in compartment_, KKPase_P_KK in compartment_;
+  species KPase_PP_K in compartment_, KPase_P_K in compartment_, $K_PP_norm in compartment_;
+  species $KK_PP_norm in compartment_, $KKK_P_norm in compartment_, $rel_K_PP_max in compartment_;
+
+  // Assignment Rules:
+  K_PP_norm := (PP_K + KPase_PP_K) / (PP_K + P_K + K + PP_KK_K + PP_KK_P_K + KPase_PP_K + KPase_P_K);
+  KK_PP_norm := (PP_KK + PP_KK_K + PP_KK_P_K + KKPase_PP_KK) / (PP_KK + P_KK + KK + PP_KK_K + PP_KK_P_K + P_KKK_KK + P_KKK_P_KK + KKPase_PP_KK + KKPase_P_KK);
+  KKK_P_norm := (P_KKK + P_KKK_KK + P_KKK_P_KK) / (KKK + P_KKK + P_KKK_KK + P_KKK_P_KK);
+  rel_K_PP_max := K_PP_norm / K_PP_norm_max;
+
+  // Reactions:
+  r1a: KKK + E1 -> E1_KKK; compartment_ * (r1a_a1 * E1 * KKK - r1a_d1 * E1_KKK);
+  r1b: E1_KKK => E1 + P_KKK; compartment_ * r1b_k2 * E1_KKK;
+  r2a: P_KKK + E2 -> E2_P_KKK; compartment_ * (r2a_a2 * E2 * P_KKK - r2a_d2 * E2_P_KKK);
+  r2b: E2_P_KKK => E2 + KKK; compartment_ * r2b_k2 * E2_P_KKK;
+  r3a: KK + P_KKK -> P_KKK_KK; compartment_ * (r3a_a3 * KK * P_KKK - r3a_d3 * P_KKK_KK);
+  r3b: P_KKK_KK => P_KK + P_KKK; compartment_ * r3b_k3 * P_KKK_KK;
+  r4a: P_KK + KKPase -> KKPase_P_KK; compartment_ * (r4a_a4 * P_KK * KKPase - r4a_d4 * KKPase_P_KK);
+  r4b: KKPase_P_KK => KK + KKPase; compartment_ * r4b_k4 * KKPase_P_KK;
+  r5a: P_KK + P_KKK -> P_KKK_P_KK; compartment_ * (r5a_a5 * P_KK * P_KKK - r5a_d5 * P_KKK_P_KK);
+  r5b: P_KKK_P_KK => PP_KK + P_KKK; compartment_ * r5b_k5 * P_KKK_P_KK;
+  r6a: PP_KK + KKPase -> KKPase_PP_KK; compartment_ * (r6a_a6 * PP_KK * KKPase - r6a_d6 * KKPase_PP_KK);
+  r6b: KKPase_PP_KK => P_KK + KKPase; compartment_ * r6b_k6 * KKPase_PP_KK;
+  r7a: K + PP_KK -> PP_KK_K; compartment_ * (r7a_a7 * K * PP_KK - r7a_d7 * PP_KK_K);
+  r7b: PP_KK_K => P_K + PP_KK; compartment_ * r7b_k7 * PP_KK_K;
+  r8a: P_K + KPase -> KPase_P_K; compartment_ * (r8a_a8 * P_K * KPase - r8a_d8 * KPase_P_K);
+  r8b: KPase_P_K => K + KPase; compartment_ * r8b_k8 * KPase_P_K;
+  r9a: P_K + PP_KK -> PP_KK_P_K; compartment_ * (r9a_a9 * P_K * PP_KK - r9a_d9 * PP_KK_P_K);
+  r9b: PP_KK_P_K => PP_KK + PP_K; compartment_ * r9b_k9 * PP_KK_P_K;
+  r10a: PP_K + KPase -> KPase_PP_K; compartment_ * (r10a_a10 * PP_K * KPase - r10a_d10 * KPase_PP_K);
+  r10b: KPase_PP_K => P_K + KPase; compartment_ * r10b_k10 * KPase_PP_K;
+
+  // Species initializations:
+  E1 = 3e-05;
+  E2 = 0.0003;
+  KKK = 0.003;
+  P_KKK = 0;
+  KK = 1.2;
+  P_KK = 0;
+  PP_KK = 0;
+  K = 1.2;
+  P_K = 0;
+  PP_K = 0;
+  KPase = 0.12;
+  KKPase = 0.0003;
+  E1_KKK = 0;
+  E2_P_KKK = 0;
+  P_KKK_KK = 0;
+  P_KKK_P_KK = 0;
+  PP_KK_K = 0;
+  PP_KK_P_K = 0;
+  KKPase_PP_KK = 0;
+  KKPase_P_KK = 0;
+  KPase_PP_K = 0;
+  KPase_P_K = 0;
+
+  // Compartment initializations:
+  compartment_ = 4e-12;
+
+  // Variable initializations:
+  K_PP_norm_max = 0.900049;
+  r1a_a1 = 1000;
+  r1a_d1 = 150;
+  r1b_k2 = 150;
+  r2a_a2 = 1000;
+  r2a_d2 = 150;
+  r2b_k2 = 150;
+  r3a_a3 = 1000;
+  r3a_d3 = 150;
+  r3b_k3 = 150;
+  r4a_a4 = 1000;
+  r4a_d4 = 150;
+  r4b_k4 = 150;
+  r5a_a5 = 1000;
+  r5a_d5 = 150;
+  r5b_k5 = 150;
+  r6a_a6 = 1000;
+  r6a_d6 = 150;
+  r6b_k6 = 150;
+  r7a_a7 = 1000;
+  r7a_d7 = 150;
+  r7b_k7 = 150;
+  r8a_a8 = 1000;
+  r8a_d8 = 150;
+  r8b_k8 = 150;
+  r9a_a9 = 1000;
+  r9a_d9 = 150;
+  r9b_k9 = 150;
+  r10a_a10 = 1000;
+  r10a_d10 = 150;
+  r10b_k10 = 150;
+
+  //Display Names:
+  E1 is "MAPKKK activator";
+  E2 is "MAPKKK inactivator";
+  KKK is "MAPKKK";
+  P_KKK is "P-MAPKKK";
+  KK is "MAPKK";
+  P_KK is "P-MAPKK";
+  PP_KK is "PP-MAPKK";
+  K is "MAPK";
+  P_K is "P-MAPK";
+  PP_K is "PP-MAPK";
+  KPase is "MAPK-Pase";
+  KKPase is "MAPKK-Pase";
+  E1_KKK is "activ_MAPKKK";
+  E2_P_KKK is "inact_P-MAPKKK";
+  P_KKK_KK is "P-MAPKKK_MAPKK";
+  P_KKK_P_KK is "P-MAPKKK_P-MAPKK";
+  PP_KK_K is "PP-MAPKK_MAPK";
+  PP_KK_P_K is "PP-MAPKK_P-MAPK";
+  KKPase_PP_KK is "MAPKK-Pase_PP-MAPKK";
+  KKPase_P_KK is "MAPKK-Pase_P-MAPKK";
+  KPase_PP_K is "MAPK-Pase_PP-MAPK";
+  KPase_P_K is "MAPK-Pase_P-MAPK";
+  rel_K_PP_max is "relative maximal K_PP";
+  r1a is "binding of MAPKKK activator";
+  r1b is "MAPKKK activation";
+  r2a is "binding of MAPKKK inactivator";
+  r2b is "MAPKKK inactivation";
+  r3a is "binding P-MAPKKK and MAPKK";
+  r3b is "phosphorylation of MAPKK";
+  r4a is "binding MAPKK-Pase and P-MAPKK";
+  r4b is "dephosphorylation of P-MAPKK";
+  r5a is "binding P-MAPKKK and P-MAPKK";
+  r5b is "phosphorylation of P-MAPKK";
+  r6a is "binding MAPKK-Pase and PP-MAPKK";
+  r6b is "dephosphorylation of PP-MAPKK";
+  r7a is "binding MAPK and PP-MAPKK";
+  r7b is "phosphorylation of MAPK";
+  r8a is "binding MAPK-Pase and P-MAPK";
+  r8b is "dephosphorylation of P-MAPK";
+  r9a is "binding PP-MAPKK and P-MAPK";
+  r9b is "phosphorylation of P-MAPK";
+  r10a is "binding MAPK-Pase and PP-MAPK";
+  r10b is "dephosphorylation of PP-MAPK";
+end

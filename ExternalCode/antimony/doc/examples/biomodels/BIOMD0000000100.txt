@@ -1,0 +1,81 @@
+//Created by libAntimony v2.0
+model Rozi2003_Glycogen_Phosphorylase_Activation()
+
+  // Compartments and Species:
+  compartment extracellular, cytosol, intravesicular;
+  species $EC in extracellular, Z in cytosol, A in cytosol, Y in intravesicular;
+  species GP in cytosol;
+
+  // Reactions:
+  vin: $EC => Z; extracellular * (v0 + v1 * beta);
+  R2: Z => Y; cytosol * (Vm2 * Z^2 / (K2^2 + Z^2));
+  R3: Y => Z; intravesicular * Vm3 * A^4 * Y^2 * Z^m / ((Ka^4 + A^4) * (Ky^2 + Y^2) * (Kz^m + Z^m));
+  Rkf: Y => Z; intravesicular * Kf * Y;
+  Rkz: Z => $EC; cytosol * K * Z;
+  R4:  => A; cytosol * beta * V4;
+  R5: A => ; cytosol * Vm5 * A^p * Z^n / ((K5^p + A^p) * (Kd^n + Z^n));
+  R6: A => ; cytosol * epsilon * A;
+  R7:  => GP; cytosol * (Vpm1 * (1 + gamma * Z^4 / (Ka5^4 + Z^4)) * (1 - GP) / (K1 / (1 + Z^4 / Ka6^4) + 1 - GP));
+  R8: GP => ; cytosol * (Vpm2 * (1 + alpha * G / (Ka1 + G)) * GP / (Kp2 / (1 + G / Ka2) + GP));
+
+  // Species initializations:
+  EC = 1000;
+  Z = 0;
+  A = 0.45;
+  Y = 0.36;
+  GP = 1;
+
+  // Compartment initializations:
+  extracellular = 1;
+  cytosol = 1;
+  intravesicular = 1;
+
+  // Variable initializations:
+  v0 = 2;
+  v1 = 2;
+  beta = 0.5;
+  Vm2 = 6;
+  K2 = 0.1;
+  Vm3 = 20;
+  m = 2;
+  Ka = 0.2;
+  Ky = 0.2;
+  Kz = 0.5;
+  Kf = 1;
+  K = 10;
+  V4 = 2;
+  Vm5 = 30;
+  n = 4;
+  K5 = 1;
+  Kd = 0.4;
+  epsilon = 0.1;
+  Vpm1 = 1.5;
+  gamma = 9;
+  Ka5 = 0.5;
+  K1 = 0.1;
+  Ka6 = 0.5;
+  Vpm2 = 0.6;
+  alpha = 9;
+  G = 10000;
+  Ka1 = 10000;
+  Kp2 = 0.2;
+  Ka2 = 10000;
+  p = 2;
+
+  //Display Names:
+  EC is "Extracellular Calcium";
+  Z is "Cytosolic Calcium";
+  A is "IP3";
+  Y is "Intravesicular Calcium";
+  GP is "Glycogen Phosphorylase";
+  vin is "Calcium Influx";
+  R2 is "Calcium transport to internal store";
+  R3 is "Calcium transport to cytosol";
+  Rkf is "Calcium leak";
+  Rkz is "Calcium efflux";
+  R4 is "Agonist stimulated production of IP3";
+  R5 is "Ca-dependant IP3 degradation";
+  R6 is "Ca independent IP3 degradation";
+  R7 is "Phosphorylase kinase activity";
+  R8 is "Phosphatase activity";
+end

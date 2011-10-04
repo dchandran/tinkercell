@@ -1,0 +1,37 @@
+//Created by libAntimony v2.0
+model Tyson1991CellModel_2()
+
+  // Compartments and Species:
+  compartment cell;
+  species $EmptySet in cell, $u in cell, $z in cell, $v in cell;
+
+  // Assignment Rules:
+  z := v - u;
+  alpha := k4prime / k4;
+
+  // Rate Rules:
+  u' = k4 * (v - u) * (alpha + u^2) - k6 * u;
+  v' = kappa - k6 * u;
+
+  // Reactions:
+  Reaction1: $EmptySet => $z; kappa;
+  Reaction2: $u => $EmptySet; k6 * u;
+  Reaction3: $z => $u; k4 * z * (k4prime / k4 + u^2);
+
+  // Species initializations:
+  EmptySet = 1;
+  u = 0;
+  v = 0;
+
+  // Compartment initializations:
+  cell = 1;
+
+  // Variable initializations:
+  kappa = 0.015;
+  k6 = 1;
+  k4 = 180;
+  k4prime = 0.018;
+
+  //Other declarations:
+  var alpha;
+end

@@ -1,0 +1,680 @@
+
+%{
+  //#define YYSTYPE double
+#include <math.h>
+#include <stdio.h>
+#include <string>
+#include <ctype.h>
+#include <fstream>
+#include <iostream>
+#include <set>
+#ifndef NSBML
+#include <sbml/SBMLTypes.h>
+#endif
+#include "registry.h"
+#include "module.h"
+
+  class Formula;
+  class ReactantList;
+  class AntimonyReaction;
+  class Variable;
+
+  using namespace std;
+  int yylex(void);
+  void yyerror(char const *);
+  bool CaselessStrCmp(const string& lhs, const string& rhs);
+  Registry g_registry;
+  int yylloc_first_line = 1;
+  int yylloc_last_line = 1;
+  std::vector<int> yylloc_last_lines;
+%}
+
+/*Bison declarations */
+%union {
+  char character;
+  const string* word;
+  double num;
+  rd_type reactionDivider;
+  Formula* formula;
+  Formula* spacedformula;
+  Formula* commaformula;
+  Module* module;
+  ReactantList* reactantList;
+  Variable* variable;
+  Variable* variablein;
+  Variable* varmaybein;
+  Variable* maybein;
+  bool maybemain;
+}
+
+%type <character> mathThing "mathematical symbol"
+%type <formula> formula spacedformula commaformula
+%type <module> module
+%type <reactantList> reactantList
+%type <reactionDivider> reactionDivider
+%type <variable> variable variablein varmaybein varmaybeis maybein
+%type <maybemain> maybemain
+
+%left '(' ')' '+' '-' '*' '/' '^' ','
+
+%token YYEOF 0 "end of file"
+%token  <num> NUM "number"
+%token  <word> ANTWORD "element name"
+%token  <word> MODNAME "name of an existing module"
+%token  <word> TEXTSTRING "text string"
+%token  <word> MODULE "'model' or 'module'"
+%token  <word> END "'end'"
+%token  <word> SPECIES "'species'"
+%token  <word> REACTION "'reaction'"
+%token  <word> FORMULA "'formula'"
+%token  <word> DNA "'DNA'"
+%token  <word> GENE "'gene'"
+%token  <word> OPERATOR "'operator'"
+%token  <word> EVENT "'event'"
+%token  <word> COMPARTMENT "'compartment'"
+%token  <word> INWORD "'in'"
+%token  <word> IS "'is'"
+%token  <word> VARWORD "'var'"
+%token  <word> CONSTWORD "'const'"
+%token  <word> DASHES "--"
+%token  <word> BECOMESIRREV "=>"
+%token  <word> ELLIPSES "..."
+%token  <word> FUNCTION "name of an existing function"
+%token  <word> IMPORT "'import'"
+%token  <word> AT "'@' or 'at'"
+%token  <word> AFTER "'after'"
+%token  <word> FUNCTIONWORD "'function'"
+//                      %token  <word> DELETEWORD "'delete'"
+
+%debug
+%error-verbose
+%% /* The grammar: */
+
+input:          /* empty */
+        |       input import {}
+        |       input module { /*cout << endl << $2->ToString() << endl << endl;*/ }
+        |       input modulepart {}
+        |       input function {}
+        |       input error {YYABORT;} 
+        ;
+
+import:         IMPORT TEXTSTRING { if (g_registry.OpenFile(*($2))==0) YYABORT;}
+        ;
+
+module:         MODULE maybemain ANTWORD {g_registry.NewCurrentModule($3, $2);} '(' variableexportlist ')' modulebody END
+                {
+                  $$ = g_registry.CurrentModule();
+                  if ($$->Finalize()) YYABORT;
+                  g_registry.RevertToPreviousModule();
+                }
+        |       MODULE maybemain ANTWORD {g_registry.NewCurrentModule($3, $2);} modulebody END
+                {
+                  $$ = g_registry.CurrentModule();
+                  if ($$->Finalize()) YYABORT;
+                  g_registry.RevertToPreviousModule();
+                }
+        |       MODULE MODNAME {g_registry.SetError("module '" + *($2) + "' already defined."); YYABORT;}
+        |       MODULE FUNCTION {g_registry.SetError("Cannot define '" + *($2) + "' as a module because it is already a defined function."); YYABORT;} 
+        ;
+
+maybemain:      /* empty */ {$$ = false;}
+        |       '*' {$$ = true;}
+        ;
+
+function:       FUNCTIONWORD ANTWORD {g_registry.NewUserFunction($2);} '(' variableexportlist ')' spacedformula END {if (g_registry.SetUserFunction($7)) YYABORT;}
+        |       FUNCTIONWORD MODNAME {g_registry.SetError("Cannot use '" + *($2) +"' as a function name because it is already the name of a module."); YYABORT;}
+        |       FUNCTIONWORD FUNCTION {g_registry.SetError("Cannot define '" + *($2) + "' as a new function because it is already a defined function."); YYABORT;} 
+        ;
+
+spacedformula:  formula {$$ = $1;}
+        |       lineend spacedformula {$$ = $2;}
+        |       spacedformula lineend {$$ = $1;}
+        ;
+
+variableexportlist:
+                /* empty */ {}
+        |       variable {if (g_registry.AddVariableToCurrentExportList($1)) YYABORT; }
+        |       variableexportlist ',' variable { if (g_registry.AddVariableToCurrentExportList($3)) YYABORT; }
+        ;
+
+variable:       ANTWORD {$$ = g_registry.AddVariableToCurrent($1); }
+        |       variable '.' ANTWORD {$$ = $1->GetSubVariable($3);
+                  if ($$ == NULL) {
+                    g_registry.SetError("'" + *($3) + "' is not a subvariable of '" + $1->GetNameDelimitedBy('.') + "'.");
+                    YYABORT;
+                  }
+                }
+        |       '$' variable {$$ = $2; if ($$->SetIsConst(true)) YYABORT;}
+        ;
+
+variablein:    variable INWORD variable {if ($1->SetCompartment($3)) YYABORT; $$ = $1;}
+        ;
+
+varmaybein:    variable {$$ = $1;}
+        |      variablein {$$ = $1;}
+        ;
+
+varmaybeis:    varmaybein {$$ = $1;}
+        |      varmaybein '=' formula {$$ = $1; if ($1->SetFormula($3)) YYABORT; }
+        ;
+
+maybein:        /* empty */ {$$ = NULL;}
+        |       INWORD variable {$$ = $2;}
+        ;
+
+modulebody:     modulepart {}
+        |       modulebody modulepart {}
+        ;
+
+modulepart:     reaction lineend {}
+        |       assignment lineend {}
+        |       submodule lineend {}
+        |       varinitialize lineend {}
+        |       dnadef lineend {}
+        |       event lineend {}
+//|       deletion lineend {}
+        |       variablein {}
+        |       lineend {}
+        ;
+
+reaction:       varmaybein ':' reactantList reactionDivider reactantList ';' formula maybein
+                {
+                  Variable* var = g_registry.AddNewReactionToCurrent($4, $7, $1);
+                  if (var == NULL) YYABORT;
+                  if ($8 != NULL) {
+                    if ($1->SetCompartment($8)) YYABORT;
+                  }
+                }
+        |       reactantList reactionDivider reactantList ';' formula maybein
+                {
+                  Variable* var = g_registry.AddNewReactionToCurrent($2, $5);
+                  if (var == NULL) YYABORT;
+                  if ($6 != NULL) {
+                    if (var->SetCompartment($6)) YYABORT;
+                  }
+                }
+        ;
+
+reactantList:   /* empty */ {$$ = g_registry.NewBlankReactantList(); }
+        |       variable {$$ = g_registry.NewBlankReactantList(); $$->AddReactant($1); }
+        |       NUM variable {$$ = g_registry.NewBlankReactantList(); $$->AddReactant($2, $1); }
+        |       reactantList '+' variable {$$ = $1; $1->AddReactant($3); }
+        |       reactantList '+' NUM variable {$$ = $1; $1->AddReactant($4, $3); }
+        ;
+
+reactionDivider:
+                '-' '>' {$$ = rdBecomes;}
+        |       '-' '|' {$$ = rdInhibits;}
+        |       '-' '(' {$$ = rdInfluences;}
+        |       '-' ANTWORD {if (*$2 != "o") {g_registry.SetError("'-" + *$2 + "' is not a valid set of characters to demark reactions.  Try '->' for reactions, and '-|', '-o', and '-(' for interactions."); YYABORT;} $$ = rdActivates;}
+        |       BECOMESIRREV {$$ = rdBecomesIrreversibly;}
+        |       '<' BECOMESIRREV {$$ = rdBecomes;}
+        ;
+
+formula:        /* empty */ {$$ = g_registry.NewBlankFormula(); }
+        |       ELLIPSES {$$ = g_registry.NewBlankFormula(); $$->AddEllipses();}
+        |       variable {$$ = g_registry.NewBlankFormula(); $$->AddVariable($1); }
+        |       NUM  {$$ = g_registry.NewBlankFormula(); $$->AddNum($1); }
+        |       FUNCTION '(' commaformula ')' {$$ = g_registry.NewBlankFormula(); $$->AddText($1); $$->AddMathThing('('); $$->AddFormula($3); $$->AddMathThing(')');}
+        |       FUNCTION {$$ = g_registry.NewBlankFormula(); $$->AddText($1); }
+        |       mathThing {$$ = g_registry.NewBlankFormula(); $$->AddMathThing($1); }
+        |       '(' commaformula ')' {$$ = $2; $$->AddParentheses();}
+        |       formula ELLIPSES {$$ = $1; $1->AddEllipses();}
+        |       formula variable {$$ = $1; $1->AddVariable($2); }
+        |       formula NUM  {$$ = $1; $1->AddNum($2); }
+        |       formula FUNCTION '(' commaformula ')' {$$ = $1; $1->AddText($2); $4->AddParentheses(); $$->AddFormula($4); }
+        |       formula FUNCTION {$$ = $1; $1->AddText($2);}
+        |       formula mathThing {$$ = $1; $1->AddMathThing($2); }
+        |       formula '(' commaformula ')' {$$ = $1; $3->AddParentheses(); $$->AddFormula($3); }
+        |       formula '<' '=' {$$ = $1; $1->AddMathThing('<'); $1->AddMathThing('='); }
+        |       formula '>' '=' {$$ = $1; $1->AddMathThing('>'); $1->AddMathThing('='); }
+        |       formula '=' '=' {$$ = $1; $1->AddMathThing('='); $1->AddMathThing('='); }
+        |       formula '!' '=' {$$ = $1; $1->AddMathThing('!'); $1->AddMathThing('='); }
+        |       formula '&' '&' {$$ = $1; $1->AddMathThing('&'); $1->AddMathThing('&'); }
+        |       formula '|' '|' {$$ = $1; $1->AddMathThing('|'); $1->AddMathThing('|'); }
+        ;
+
+commaformula:   formula {$$ = $1;}
+        |       commaformula ',' formula {$$ = $1; $$->AddMathThing(','); $$->AddFormula($3); }
+        ;
+
+mathThing:      '+' {$$ = '+';}
+        |       '-' {$$ = '-';}
+        |       '*' {$$ = '*';}
+        |       '/' {$$ = '/';}
+        |       '^' {$$ = '^';}
+        |       '>' {$$ = '>';}
+        |       '<' {$$ = '<';}
+        |       '!' {$$ = '!';}
+        ;
+
+lineend:        ';' {}
+        |       '\n' {}
+        ;
+
+assignment:     varmaybein '=' formula {if ($1->SetFormula($3)) YYABORT; }
+        |       varmaybein IS variable {if ($1->Synchronize($3)) YYABORT;}
+        |       varmaybein IS TEXTSTRING {if ($1->SetDisplayName(*($3))) YYABORT;}
+        |       varmaybein ':' '=' formula {if ($1->SetAssignmentRule($4)) YYABORT;}
+        |       varmaybein '\'' '=' formula {if ($1->SetRateRule($4)) YYABORT;}
+        ;
+
+submodule:      varmaybein ':' MODNAME '(' {if ($1->SetModule($3)) YYABORT;} variableimportlist ')' maybein {if ($8 != NULL) {if ($1->SetCompartment($8)) YYABORT;}}
+        |       MODNAME '(' {if(g_registry.CurrentModule()->SetModule($1)) YYABORT;} variableimportlist ')' maybein {if ($6 != NULL) {if (g_registry.SetCompartmentOfCurrentSubmod($6)) YYABORT;}}
+        ;
+variableimportlist:
+                /* empty */ {}
+        |       variable {if (g_registry.AddVariableToCurrentImportList($1)) YYABORT; }
+        |       variableimportlist ',' variable { if (g_registry.AddVariableToCurrentImportList($3)) YYABORT; }
+        ;
+
+varinitialize:  specinit { }
+        |       formulainit { }
+        |       reactioninit { }
+        |       dnainit { }
+        |       geneinit { }
+        |       operatorinit { }
+//        |       eventinit { }
+        |       compartmentinit { }
+        |       varconstinit { }
+        ;
+
+specinit:       SPECIES varmaybeis {g_registry.SetConstness(constDEFAULT); $2->SetRegConst(); if ($2->SetType(varSpeciesUndef)) YYABORT; }
+        |       VARWORD SPECIES varmaybeis {g_registry.SetConstness(constVAR); $3->SetRegConst(); if ($3->SetType(varSpeciesUndef)) YYABORT; }
+        |       CONSTWORD SPECIES varmaybeis {g_registry.SetConstness(constCONST); $3->SetRegConst(); if ($3->SetType(varSpeciesUndef)) YYABORT; }
+        |       specinit ',' varmaybeis {$3->SetRegConst(); if ($3->SetType(varSpeciesUndef)) YYABORT; }
+        ;
+
+formulainit:    FORMULA varmaybeis {g_registry.SetConstness(constDEFAULT); $2->SetRegConst(); if ($2->SetType(varFormulaUndef)) YYABORT; }
+        |       VARWORD FORMULA varmaybeis {g_registry.SetConstness(constVAR); $3->SetRegConst(); if ($3->SetType(varFormulaUndef)) YYABORT; }
+        |       CONSTWORD FORMULA varmaybeis {g_registry.SetConstness(constCONST); $3->SetRegConst(); if ($3->SetType(varFormulaUndef)) YYABORT; }
+        |       formulainit ',' varmaybeis {$3->SetRegConst(); if ($3->SetType(varFormulaUndef)) YYABORT; }
+        ;
+
+reactioninit:   REACTION varmaybeis {g_registry.SetConstness(constDEFAULT); $2->SetRegConst(); if ($2->SetType(varReactionUndef)) YYABORT; }
+        |       VARWORD REACTION varmaybeis {g_registry.SetConstness(constVAR); $3->SetRegConst(); if ($3->SetType(varReactionUndef)) YYABORT; }
+        |       CONSTWORD REACTION {g_registry.SetError("Reactions may not be set 'const'."); YYABORT; }
+        |       reactioninit ',' varmaybeis {$3->SetRegConst(); if ($3->SetType(varReactionUndef)) YYABORT; }
+        ;
+
+dnainit:        DNA varmaybeis {g_registry.SetConstness(constDEFAULT); $2->SetRegConst(); if ($2->SetType(varDNA)) YYABORT; }
+        |       VARWORD DNA varmaybeis {g_registry.SetConstness(constVAR); $3->SetRegConst(); if ($3->SetType(varDNA)) YYABORT; }
+        |       CONSTWORD DNA varmaybeis {g_registry.SetConstness(constCONST); $3->SetRegConst(); if ($3->SetType(varDNA)) YYABORT; }
+        |       dnainit ',' varmaybeis {$3->SetRegConst(); if ($3->SetType(varDNA)) YYABORT; }
+        ;
+
+geneinit:       GENE varmaybeis {g_registry.SetConstness(constDEFAULT); $2->SetRegConst(); if ($2->SetType(varReactionGene)) YYABORT; }
+        |       VARWORD GENE varmaybeis {g_registry.SetConstness(constVAR); $3->SetRegConst(); if ($3->SetType(varReactionGene)) YYABORT; }
+        |       CONSTWORD GENE varmaybeis {g_registry.SetError("Genes may not be set 'const'."); YYABORT; }
+        |       geneinit ',' varmaybeis {$3->SetRegConst(); if ($3->SetType(varReactionGene)) YYABORT; }
+        ;
+
+operatorinit:   OPERATOR varmaybeis {g_registry.SetConstness(constDEFAULT); $2->SetRegConst(); if ($2->SetType(varFormulaOperator)) YYABORT; }
+        |       VARWORD OPERATOR varmaybeis {g_registry.SetConstness(constVAR); $3->SetRegConst(); if ($3->SetType(varFormulaOperator)) YYABORT; }
+        |       CONSTWORD OPERATOR varmaybeis {g_registry.SetConstness(constCONST); $3->SetRegConst(); if ($3->SetType(varFormulaOperator)) YYABORT; }
+        |       operatorinit ',' varmaybeis {$3->SetRegConst(); if ($3->SetType(varFormulaOperator)) YYABORT; }
+        ;
+
+compartmentinit:
+                COMPARTMENT varmaybeis {g_registry.SetConstness(constDEFAULT); $2->SetRegConst(); if ($2->SetType(varCompartment)) YYABORT; }
+        |       VARWORD COMPARTMENT varmaybeis {g_registry.SetConstness(constVAR); $3->SetRegConst(); if ($3->SetType(varCompartment)) YYABORT; }
+        |       CONSTWORD COMPARTMENT varmaybeis {g_registry.SetConstness(constCONST); $3->SetRegConst(); if ($3->SetType(varCompartment)) YYABORT; }
+        |       compartmentinit ',' varmaybeis {$3->SetRegConst(); if ($3->SetType(varCompartment)) YYABORT; }
+        ;
+
+varconstinit:   VARWORD varmaybeis {g_registry.SetConstness(constVAR); $2->SetRegConst();}
+        |       CONSTWORD varmaybeis {g_registry.SetConstness(constCONST); $2->SetRegConst();}
+        |       varconstinit ',' varmaybeis {$3->SetRegConst();}
+        ;
+
+dnadef:         dnastrand {if (g_registry.SaveWorkingStrand()) YYABORT;}
+        |       varmaybein ':' dnastrand {if (g_registry.SetStrandAs($1)) YYABORT;}
+        ;
+
+dnastrand:      DASHES variable {if (g_registry.SetNewUpstreamOpen($2)) YYABORT;}
+        |       DASHES dnamiddle {g_registry.SetOpenUpstream(); }
+        |       dnamiddle variable {if (g_registry.SetDownstreamEnd($2)) YYABORT;}
+        |       DASHES dnamiddle variable {g_registry.SetOpenUpstream(); if(g_registry.SetDownstreamEnd($3)) YYABORT;}
+        |       dnamiddle { }
+        ;
+
+dnamiddle:      variable DASHES {if (g_registry.SetNewDownstreamOpen($1)) YYABORT;}
+        |       dnamiddle variable DASHES {if (g_registry.SetDownstreamOpen($2)) YYABORT;}
+        ;
+
+event:          AT formula {if (g_registry.SetNewCurrentEvent($2)) YYABORT;} eventmodifications colonret assignmentlist {}
+        |       AT formula AFTER formula {if (g_registry.SetNewCurrentEvent($2, $4)) YYABORT;} eventmodifications colonret assignmentlist {}
+        |       varmaybein ':' AT formula {if (g_registry.SetNewCurrentEvent($4, $1)) YYABORT;}  eventmodifications colonret assignmentlist {}
+        |       varmaybein ':' AT formula AFTER formula {if (g_registry.SetNewCurrentEvent($4, $6, $1)) YYABORT;} eventmodifications colonret assignmentlist {}
+        ;
+
+colonret:       ':' {}
+        |       colonret '\n' {}
+        ;
+
+eventmodifications:  /* empty */ {}
+        |       ',' ANTWORD '=' formula {if (CaselessStrCmp(*$2, "priority")) {if (g_registry.GetCurrentEvent()->SetPriority(*$4)) YYABORT;}
+                else if (CaselessStrCmp(*$2, "t0")) {if (g_registry.GetCurrentEvent()->SetInitialValue(*$4)) YYABORT;}
+                else if (CaselessStrCmp(*$2, "fromTrigger")) {if (g_registry.GetCurrentEvent()->SetUseValuesFromTriggerTime(*$4)) YYABORT;}
+                else if (CaselessStrCmp(*$2, "persistent")) {if (g_registry.GetCurrentEvent()->SetPersistent(*$4)) YYABORT;}
+                else { g_registry.SetError("Illegal term '" + *$2 + "' in event defintion.  You may use the terms 'priority', 't0', 'fromTrigger', and 'persistent' here to set those properties of an event."); YYABORT;}}
+        |       eventmodifications ',' ANTWORD '=' formula {if (CaselessStrCmp(*$3, "priority")) {g_registry.GetCurrentEvent()->SetPriority(*$5);}
+                else if (CaselessStrCmp(*$3, "t0")) {if (g_registry.GetCurrentEvent()->SetInitialValue(*$5)) YYABORT;}
+                else if (CaselessStrCmp(*$3, "fromTrigger")) {if (g_registry.GetCurrentEvent()->SetUseValuesFromTriggerTime(*$5)) YYABORT;}
+                else if (CaselessStrCmp(*$3, "persistent")) {if (g_registry.GetCurrentEvent()->SetPersistent(*$5)) YYABORT;}
+                else { g_registry.SetError("Illegal term '" + *$3 + "' in event defintion.  You may use the terms 'priority', 't0', 'fromTrigger', and 'persistent' here to set those properties of an event."); YYABORT;}}
+        ;
+
+assignmentlist: variable '=' formula {if (g_registry.GetCurrentEvent()->AddResult($1, $3)) YYABORT;}
+        |       variable '=' formula ':' assignmentlist {if (g_registry.GetCurrentEvent()->AddResult($1, $3)) YYABORT;}
+        |       variable '=' formula ':' '\n' assignmentlist {if (g_registry.GetCurrentEvent()->AddResult($1, $3)) YYABORT;}
+        |       variable '=' formula ',' assignmentlist {if (g_registry.GetCurrentEvent()->AddResult($1, $3)) YYABORT;}
+        |       variable '=' formula ',' '\n' assignmentlist {if (g_registry.GetCurrentEvent()->AddResult($1, $3)) YYABORT;}
+        ;
+/*
+deletion:       DELETEWORD variable {g_registry.CurrentModule()->AddDeletion($2);}
+        |       deletion ',' variable {g_registry.CurrentModule()->AddDeletion($3);}
+        ;
+*/
+%%
+
+
+void yyerror(char const *s)
+{
+  g_registry.SetError(s);
+}
+
+int yylex(void)
+{
+  char cc = 0;
+  g_registry.input->get(cc);
+
+  //If we're done with the file:
+  if (g_registry.input->eof()) {
+    if (g_registry.SwitchToPreviousFile()) {
+      return 0;
+    }
+    else {
+      yylloc_first_line = yylloc_last_lines.back();
+      yylloc_last_line = yylloc_last_lines.back();
+      yylloc_last_lines.pop_back();
+      return yylex();
+    }
+  }
+  if (!g_registry.input->good()) {
+    //Something else went wrong!
+    g_registry.SetError("The input file is no longer good, for an unknown reason.");
+    return -1;
+  }
+
+  yylloc_first_line = yylloc_last_line;
+
+  // Skip white space.
+  while ((cc == ' ' ||
+         cc == '\t') &&
+         !g_registry.input->eof()) {
+    g_registry.input->get(cc);
+  }
+  if (g_registry.input->eof()) return yylex();
+  // Skip carriage returns after '\':
+  if (cc == '\\') {
+    g_registry.input->get(cc);
+    if (cc == '\r' || cc == '\n') {
+      while ((cc == '\r' || cc == '\n') && !g_registry.input->eof()) {
+	g_registry.input->get(cc);
+      }
+      ++yylloc_last_line;
+      g_registry.input->unget();
+      return yylex();
+    }
+    else {
+      g_registry.input->unget();
+      cc = '\\';
+    }
+  }
+
+  // Parse words
+  if (isalpha(cc) || cc == '_') {
+    string word;
+    while ((isalpha(cc) || isdigit(cc) || cc == '_') && !g_registry.input->eof()) {
+      word += cc;
+      g_registry.input->get(cc);
+    }
+    if (!g_registry.input->eof()) {
+      g_registry.input->unget();
+    }
+    if (CaselessStrCmp(word, "module")) {
+      return MODULE;
+    }
+    if (CaselessStrCmp(word, "model")) {
+      return MODULE;
+    }
+    if (CaselessStrCmp(word, "end")) {
+      return END;
+    }
+    if (CaselessStrCmp(word, "species")) {
+      return SPECIES;
+    }
+    if (CaselessStrCmp(word, "formula")) {
+      return FORMULA;
+    }
+    if (CaselessStrCmp(word, "reaction")) {
+      return REACTION;
+    }
+    if (CaselessStrCmp(word, "DNA")) {
+      return DNA;
+    }
+    if (CaselessStrCmp(word, "gene")) {
+      return GENE;
+    }
+    if (CaselessStrCmp(word, "operator")) {
+      return OPERATOR;
+    }
+    if (CaselessStrCmp(word, "compartment")) {
+      return COMPARTMENT;
+    }
+    if (CaselessStrCmp(word, "in")) {
+      return INWORD;
+    }
+    if (CaselessStrCmp(word, "is")) {
+      return IS;
+    }
+    if (CaselessStrCmp(word, "var")) {
+      return VARWORD;
+    }
+    if (CaselessStrCmp(word, "const")) {
+      return CONSTWORD;
+    }
+    if (CaselessStrCmp(word, "ext")) {
+      return CONSTWORD;
+    }
+    if (CaselessStrCmp(word, "import")) {
+      return IMPORT;
+    }
+    if (CaselessStrCmp(word, "event")) {
+      return EVENT;
+    }
+    if (CaselessStrCmp(word, "at")) {
+      return AT;
+    }
+    if (CaselessStrCmp(word, "after")) {
+      return AFTER;
+    }
+    if (CaselessStrCmp(word, "function")) {
+      return FUNCTIONWORD;
+    }
+    /*
+    if (CaselessStrCmp(word, "delete")) {
+      return DELETEWORD;
+    }
+    */
+    
+    if (g_registry.IsFunction(word) != NULL) {
+      yylval.word = g_registry.IsFunction(word);
+      return FUNCTION;
+    }
+    //Otherwise, it's a user-defined variable:
+    yylval.word = g_registry.AddWord(word);
+    //cout << "\tRead word '" << word << "'." << endl;
+    if (g_registry.IsModuleName(word)) {
+      return MODNAME;
+    }
+    return ANTWORD;
+  }
+
+  // Parse numbers
+  if (isdigit(cc) || (cc=='.' && isdigit(g_registry.input->peek()))) {
+    double number;
+    g_registry.input->unget();
+    streampos numbegin = g_registry.input->tellg();
+    *g_registry.input >> number;
+    if (g_registry.input->fail()) {
+      //The gcc 4.4.3 parser fails if there's an 'e' after a number with no exponent.
+      g_registry.input->clear();
+      g_registry.input->seekg(numbegin);
+      int numint;
+      *g_registry.input >> numint;
+      yylval.num = numint;
+      if (g_registry.input->peek() == '.') {
+        g_registry.input->get();
+        *g_registry.input >> numint;
+        double fraction = numint;
+        while (fraction >= 1.0) {
+          fraction = fraction/10;
+        }
+        yylval.num += fraction;
+      }
+      return NUM;
+    }
+    yylval.num = number;
+    //However, pre-4.4.3 parsers would read the 'e' anyway, and we don't want it to, so unget the 'e'.
+    g_registry.input->unget();
+    g_registry.input->get(cc);
+    if (cc == 'e' || cc == 'E') {
+      g_registry.input->unget();
+    }
+    return NUM;
+  }
+
+  //Parse reaction dividers and dashes
+  if (cc == '-') {
+    g_registry.input->get(cc);
+    if (cc == '-') {
+      while ((cc == '-') && !g_registry.input->eof()) {
+        g_registry.input->get(cc);
+      }
+      g_registry.input->unget();
+      return DASHES;
+    }
+    g_registry.input->unget();
+    cc = '-';
+    return cc;
+  }
+
+  //Parse '=>'
+  if (cc == '=') {
+    g_registry.input->get(cc);
+    if (cc == '>') {
+      return BECOMESIRREV;
+    }
+    g_registry.input->unget();
+    cc = '=';
+    return cc;
+  }
+
+  //Skip comments:
+  if (cc == '/') {
+    g_registry.input->get(cc);
+    if (cc == '/') {
+      while (cc != '\n' && cc != '\r' && !g_registry.input->eof()) {
+        g_registry.input->get(cc);
+      }
+      if (!g_registry.input->eof()) {
+        g_registry.input->unget();
+      }
+      return yylex();
+    }
+    else if (cc == '*') {
+      bool nextstar = false;
+      g_registry.input->get(cc);
+      while ((!g_registry.input->eof()) && !(nextstar && cc == '/')) {
+        if (cc == '*') {
+          nextstar = true;
+        }
+        else {
+          nextstar = false;
+        }
+        g_registry.input->get(cc);
+      }
+      return yylex();
+    }
+    else {
+      g_registry.input->unget();
+      cc = '/';
+    }
+  }
+
+  //Parse ellipses
+  if (cc == '.') {
+    char c1, c2;
+    g_registry.input->get(c1);
+    g_registry.input->get(c2);
+    if (c1=='.' && c2=='.') {
+      return ELLIPSES;
+    }
+    g_registry.input->unget();
+    g_registry.input->unget();
+  }
+
+  //Parse text strings
+  if (cc == '"') {
+    string textstring;
+    long ccount = 0;
+    g_registry.input->get(cc);
+    while (cc != '"' && cc != '\r' && cc != '\n' && !g_registry.input->eof()) {
+      textstring += cc;
+      ccount++;
+      g_registry.input->get(cc);
+    }
+    if (cc == '\r' || cc == '\n' || g_registry.input->eof()) {
+      for (; ccount > 0; ccount--) {
+        g_registry.input->unget();
+      }
+      cc = '"';
+    }
+    else {
+      yylval.word = g_registry.AddWord(textstring);
+      return TEXTSTRING;
+    }
+  }
+
+  //Parse '@'
+  if (cc == '@') {
+    return AT;
+  }
+
+  //This converts PC and Mac end-of-line characters to \n:
+  if (cc == '\r') {
+    g_registry.input->get(cc);
+    if (cc != '\n') {
+      g_registry.input->unget();
+    }
+    cc = '\n';
+  }
+  if (cc == '\n') {
+    ++yylloc_last_line;
+  }
+  return cc;
+}
+
+bool CaselessStrCmp(const string& lhs, const string& rhs)
+{
+
+  if (lhs.size() != rhs.size()) return false;
+
+  for (size_t i = 0; i < lhs.size(); ++i) {
+    if (toupper(lhs[i]) != toupper(rhs[i])) return false;
+  }
+  return true;
+
+} /* CaselessStrCmp */

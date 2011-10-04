@@ -1,0 +1,165 @@
+//Created by libAntimony v2.0
+model Schmierer_2008_Smad_Tgfb()
+
+  // Compartments and Species:
+  compartment nucleus, cytosol;
+  species $PPase in nucleus, S2_n in nucleus, pS2_n in nucleus, G_n in nucleus;
+  species pG_n in nucleus, S22_n in nucleus, S24_n in nucleus, S4_n in nucleus;
+  species G2_n in nucleus, G4_n in nucleus, GG_n in nucleus, S22_c in cytosol;
+  species S24_c in cytosol, S4_c in cytosol, S2_c in cytosol, pS2_c in cytosol;
+  species G_c in cytosol, pG_c in cytosol, G2_c in cytosol, G4_c in cytosol;
+  species GG_c in cytosol, $TGFb_c in cytosol, R_act in cytosol, R in cytosol;
+  species R_inact in cytosol, $SB in cytosol;
+
+  // Assignment Rules:
+  SB := piecewise(SB_add, gt(time, t_SB), SB_0);
+  CIF := kin_CIF / kin;
+  K_diss := koff / kon;
+  K_dissSB := koff_SB / kon_SB;
+
+  // Reactions:
+  reaction_1: S4_c -> S4_n; kin * S4_c - kin * S4_n;
+  reaction_2: S2_c -> S2_n; kin * S2_c - kex * S2_n;
+  reaction_3: pS2_c -> pS2_n; kin * pS2_c - kex * pS2_n;
+  reaction_4: R_act + S2_c => R_act + pS2_c; cytosol * kphos * R_act * S2_c;
+  reaction_5: pS2_c + S4_c -> S24_c; cytosol * (kon * pS2_c * S4_c - koff * S24_c);
+  reaction_6: pS2_n + S4_n -> S24_n; nucleus * (kon * pS2_n * S4_n - koff * S24_n);
+  reaction_7: S24_c => S24_n; kin_CIF * S24_c;
+  reaction_8: S22_c => S22_n; kin_CIF * S22_c;
+  reaction_9: 2pS2_c -> S22_c; cytosol * (kon * pS2_c * pS2_c - koff * S22_c);
+  reaction_10: 2pS2_n -> S22_n; nucleus * (kon * pS2_n * pS2_n - koff * S22_n);
+  reaction_11: pS2_n + $PPase => S2_n + $PPase; nucleus * kdephos * pS2_n * PPase;
+  reaction_12: R + $TGFb_c => R_act; cytosol * k_TGFb * R * TGFb_c;
+  reaction_13: R_act + $SB -> R_inact; cytosol * (kon_SB * R_act * SB - koff_SB * R_inact);
+  reaction_14: G_c + R_act => pG_c + R_act; cytosol * kphos * G_c * R_act;
+  reaction_15: pG_n + $PPase => G_n + $PPase; nucleus * kdephos * pG_n * PPase;
+  reaction_16: G_c -> G_n; kin * G_c - kex * G_n;
+  reaction_17: pG_c -> pG_n; kin * pG_c - kex * pG_n;
+  reaction_18: 2pG_c -> GG_c; cytosol * (kon * pG_c * pG_c - koff * GG_c);
+  reaction_19: 2pG_n -> GG_n; nucleus * (kon * pG_n * pG_n - koff * GG_n);
+  reaction_20: pS2_c + pG_c -> G2_c; cytosol * (kon * pS2_c * pG_c - koff * G2_c);
+  reaction_21: pS2_n + pG_n -> G2_n; nucleus * (kon * pS2_n * pG_n - koff * G2_n);
+  reaction_22: pG_c + S4_c -> G4_c; cytosol * (kon * pG_c * S4_c - koff * G4_c);
+  reaction_23: pG_n + S4_n -> G4_n; nucleus * (kon * pG_n * S4_n - koff * G4_n);
+  reaction_24: GG_c => GG_n; kin_CIF * GG_c;
+  reaction_25: G2_c => G2_n; kin_CIF * G2_c;
+  reaction_26: G4_c => G4_n; kin_CIF * G4_c;
+
+  // Species initializations:
+  PPase = 1;
+  S2_n = 28.514773357617;
+  pS2_n = 0;
+  G_n = 28.514773357617;
+  pG_n = 0;
+  S22_n = 0;
+  S24_n = 0;
+  S4_n = 50.78093897;
+  G2_n = 0;
+  G4_n = 0;
+  GG_n = 0;
+  S22_c = 0;
+  S24_c = 0;
+  S4_c = 50.78103407;
+  S2_c = 60.5899176013587;
+  pS2_c = 0;
+  G_c = 60.5899176013587;
+  pG_c = 0;
+  G2_c = 0;
+  G4_c = 0;
+  GG_c = 0;
+  TGFb_c = 0.0659999824780232;
+  R_act = 0;
+  R = 1;
+  R_inact = 0;
+
+  // Compartment initializations:
+  nucleus = 1e-12;
+  cytosol = 2.27e-12;
+
+  // Variable initializations:
+  kin = 5.93e-15;
+  kex = 1.26e-14;
+  kphos = 0.0004037081673984;
+  kdephos = 0.00656639;
+  kin_CIF = 3.36347821e-14;
+  kon = 0.00183925592901392;
+  koff = 0.016;
+  kon_SB = 0.146422317103884;
+  koff_SB = 100;
+  k_TGFb = 0.07423555020288;
+  ntoN = 602214150000000;
+  SB_0 = 0;
+  SB_add = 10000;
+  t_SB = 2700;
+
+  //Other declarations:
+  var CIF, K_diss, K_dissSB;
+
+  //Display Names:
+  nucleus is "Nuc";
+  cytosol is "Cyt";
+  S2_n is "Smad2_n";
+  pS2_n is "pSmad2_n";
+  G_n is "GFP-Smad2_n";
+  pG_n is "pGFP-Smad2_n";
+  S22_n is "pSmad2/pSmad2_n";
+  S24_n is "pSmad2/Smad4_n";
+  S4_n is "Smad4_n";
+  G2_n is "pGFP-Smad2/pSmad2_n";
+  G4_n is "pGFP-Smad2/Smad4_n";
+  GG_n is "pGFP-Smad2/pGFP_Smad2_n";
+  S22_c is "pSmad2/pSmad2_c";
+  S24_c is "pSmad2/Smad4_c";
+  S4_c is "Smad4_c";
+  S2_c is "Smad2_c";
+  pS2_c is "pSmad2_c";
+  G_c is "GFP-Smad2_c";
+  pG_c is "pGFP-Smad2_c";
+  G2_c is "pGFP-Smad2/pSmad2_c";
+  G4_c is "pGFP-Smad2/Smad4_c";
+  GG_c is "pGFP-Smad2/pGFP-Smad2_c";
+  SB is "SB-431542";
+  kin is "kin (import rate for monomeric Smads)";
+  kex is "kex (export rate for monomeric Smads)";
+  kphos is "kphos (phosphorylation rate)";
+  kdephos is "kdephos (dephosphorylation rate)";
+  kin_CIF is "kin*CIF (Complex import rate)";
+  kon is "kon (Smad complex on-rate)";
+  koff is "koff (Smad complex off-rate)";
+  CIF is "CIF (complex import factor)";
+  K_diss is "Kdiss (dissociation constant of Smad complexes)";
+  kon_SB is "kon_SB (on-rate of the SB/receptor interaction)";
+  koff_SB is "koff_SB (off-rate of the SB/receptor interaction)";
+  k_TGFb is "k_TGFb (rate of TGFb binding to receptors)";
+  K_dissSB is "Kdiss SB (dissociation constant of the SB/receptor interaction)";
+  ntoN is "quantity to number factor";
+  SB_0 is "SB conc at start";
+  SB_add is "SB conc after addition";
+  t_SB is "time of SB addition";
+  reaction_1 is "Reaction  7 Shuttling S4";
+  reaction_2 is "Reaction  5A Shuttling S2";
+  reaction_3 is "Reaction  6A Shuttling pS2";
+  reaction_4 is "Reaction  2A Phosphorylation S2";
+  reaction_5 is "Reaction  3A Formation S24_C";
+  reaction_6 is "Reaction  3B Formation S24_N";
+  reaction_7 is "Reaction  8A Import S24";
+  reaction_8 is "Reaction  9A Import S22";
+  reaction_9 is "Reaction  4A Formation S22_C";
+  reaction_10 is "Reaction  4B Formation S22_N";
+  reaction_11 is "Reaction 10A Dephos pS2 Nuc";
+  reaction_12 is "Reaction  1 TGFb Binding";
+  reaction_13 is "Reaction 11 Receptor Inhibition";
+  reaction_14 is "Reaction  2B Phosphorylation GS2";
+  reaction_15 is "Reaction 10B Dephos pG Nuc";
+  reaction_16 is "Reaction  5B Shuttling G";
+  reaction_17 is "Reaction  6B Shuttling pG";
+  reaction_18 is "Reaction  4E Formation GG_C";
+  reaction_19 is "Reaction  4F Formation GG_N";
+  reaction_20 is "Reaction  4C Formation G2_C";
+  reaction_21 is "Reaction  4D Formation G2_N";
+  reaction_22 is "Reaction  3C Formation G4_C";
+  reaction_23 is "Reaction  3D Formation G4_N";
+  reaction_24 is "Reaction  9C Import GG";
+  reaction_25 is "Reaction  9B Import G2";
+  reaction_26 is "Reaction  8B Import G4";
+end

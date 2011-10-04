@@ -215,7 +215,7 @@ set(LIBSBML_XML_LIBRARY_LIBS)
 if(WITH_EXPAT)
 
     #set(LIBEXPAT_LIBRARY expat)
-	set(LIBEXPAT_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/ExternalCode/expat/lib)
+	set(LIBEXPAT_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../expat/lib)
     add_definitions( -DUSE_EXPAT )
 
     set(LIBSBML_XML_LIBRARY "expat")

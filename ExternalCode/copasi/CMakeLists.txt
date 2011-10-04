@@ -26,8 +26,7 @@ INCLUDE_DIRECTORIES(
 	${TINKERCELL_SOURCE_DIR}/API
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/expat/
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/expat/lib
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/libSBML/include
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/libSBML/src
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/libsbml/src
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor/src
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor/librdfa

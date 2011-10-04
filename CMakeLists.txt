@@ -92,7 +92,7 @@ ENDIF(COMMAND CMAKE_POLICY)
 #---------------------------------------------------------------------------
 IF( APPLE )
   OPTION( BUILD_BUNDLE "Make A Bundle Application" ON )
-  SET (CMAKE_OSX_ARCHITECTURES ppc;i386) 
+  SET (CMAKE_OSX_ARCHITECTURES "i386;ppc;x86_64") 
 ENDIF( APPLE )
 
 #---------------------------------------------------------------------------
@@ -215,9 +215,16 @@ SET(TINKERCELL_BINARY_BIN_DIR ${TINKERCELL_BINARY_DIR}/bin)
 #   TinkerCellCore and graphics files
 #----------------------------------------------------------------------------
 
-MESSAGE( STATUS "======  configuring external code  ====== ")
+MESSAGE( STATUS "
+========================================================= 
+                CONFIGURING EXTERNAL CODE                              
+========================================================= ")
 ADD_SUBDIRECTORY( ExternalCode )  #MuParser, QWT, cvODE, letc.
-MESSAGE( STATUS "==== done configuring external code =====\n")
+
+MESSAGE( STATUS "
+========================================================= 
+          FINISHED CONFIGURING EXTERNAL CODE                              
+========================================================= ")
 
 OPTION( PYTHON_ENABLE "Embed Python in TinkerCell" OFF ) #embed python?
 OPTION( OCTAVE_ENABLE "Embed Octave in TinkerCell" OFF ) #embed octave?

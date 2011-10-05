@@ -320,7 +320,7 @@ TCAPIEXPORT int cCreateVariable(copasi_model model, const char * name, const cha
  
  Example Usage. The following code will create an event where the parameter k1 is halved when time > 10.
  @code
- result = cCreateEvent (m, "myEvent", "time > 10", "k1", "k1/2");
+ result = cCreateEvent (m, "myEvent", "time gt 10", "k1", "k1/2");
  @endcode
  \ingroup Simulation
 */

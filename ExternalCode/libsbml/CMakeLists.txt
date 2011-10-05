@@ -165,7 +165,7 @@ option(WITH_LIBXML   "Use libxml XML parser"  OFF )
 option(WITH_XERCES   "Use xerces XML parser"  OFF )
 
 # use C++ namespace
-option(WITH_CPP_NAMESPACE "Use C++ namespace for libsbml" OFF)
+option(WITH_CPP_NAMESPACE "Use C++ namespace for libsbml -- REQUIRED for Copasi API" ON)
 
 # generate documentation
 option(WITH_DOXYGEN   "Generate Documentation"    OFF )
@@ -173,7 +173,7 @@ option(WITH_DOXYGEN   "Generate Documentation"    OFF )
 # re-generate the swig bindings? This really should be on by default
 # otherwise one might have the wrong wrapper code without support for
 # the libsbml packages one wants. 
-option(WITH_SWIG     "Regenerate SWIG bindings"  ON )
+option(WITH_SWIG     "Regenerate SWIG bindings"  OFF )
 
 # set build type default
 set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Choose the type of build, options are: None (CMAKE_CXX_FLAGS or CMAKE_C_FLAGS are used), Debug, Release, RelWithDebInfo, MinSizeRel" FORCE )

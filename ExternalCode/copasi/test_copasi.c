@@ -88,7 +88,7 @@ copasi_model model1() //oscillator
 	cAddProduct(R3, "A", 2.0);
 	cSetReactionRate(R3, "k3*C*A");
 
-	cCreateEvent(model, "event1", "time gt 10", "k3", "k3/2.0");
+	cCreateEvent(model, "event1", "time > 10", "k3", "k3/2.0");
 	return model;
 }
 

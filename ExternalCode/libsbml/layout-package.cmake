@@ -29,7 +29,8 @@
 #
 ###############################################################################
 
-option(ENABLE_LAYOUT     "Enable SBML Layout package"    OFF )
+#option(ENABLE_LAYOUT     "Enable SBML Layout package"    ON )
+set (ENABLE_LAYOUT ON)
 
 if(ENABLE_LAYOUT)
 	add_definitions( -DUSE_LAYOUT )

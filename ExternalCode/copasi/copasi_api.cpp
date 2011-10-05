@@ -93,7 +93,8 @@ struct CopasiPtr
 };
 
 typedef map< string, CopasiPtr > CCMap;
-static int substituteString(string& target, const string& oldname,const string& newname0);
+static int rename(string& target, const string& oldname,const string& newname0);
+static int replaceSubstring(string& target, const string& oldname,const string& newname0);
 static list< CCMap* > hashTablesToCleanup;
 static list< copasi_model > copasiModelsToCleanup;
 
@@ -206,7 +207,7 @@ int copasi_cleanup_assignments(copasi_model model, bool doWhile=false)
 						names[j] != (*i).first && 
 						contains((*i).second.assignmentRule, names[j]))
 					{
-						if (substituteString((*i).second.assignmentRule, names[j], assignments[j]))
+						if (rename((*i).second.assignmentRule, names[j], assignments[j]))
 							replace_needed = true;
 					}
 			}
@@ -581,7 +582,7 @@ int cSetAssignmentRuleHelper(copasi_model model, CMetab* pSpecies, const char * 
 					string s1("<");
 						s1 += pModel->getValueReference()->getCN();
 						s1 += string(">");
-					substituteString(qFormula,s0,s1);
+					rename(qFormula,s0,s1);
 				}
 				else
 				{
@@ -593,7 +594,7 @@ int cSetAssignmentRuleHelper(copasi_model model, CMetab* pSpecies, const char * 
 							s1 += getHashValue(hash,s0).name;
 							s1 += string(">");
 						//std::cout << "sub " << s1 << "  for " << s0 << "\n";
-						substituteString(qFormula,s0,s1);
+						rename(qFormula,s0,s1);
 					}
 				}
 			}
@@ -656,7 +657,7 @@ int cCreateVariable(copasi_model model, const char * name, const char * formula)
 				string s1("<");
 					s1 += pModel->getValueReference()->getCN();
 					s1 += string(">");
-				substituteString(qFormula,s0,s1);
+				rename(qFormula,s0,s1);
 			}
 			else
 			{
@@ -668,7 +669,7 @@ int cCreateVariable(copasi_model model, const char * name, const char * formula)
 				 	string s1("<");
 						s1 += getHashValue(hash,s0).name;
 						s1 += string(">");
-					substituteString(qFormula,s0,s1);
+					rename(qFormula,s0,s1);
 				}
 			}
 		}
@@ -720,8 +721,13 @@ int cCreateEvent(copasi_model model, const char * name, const char * trigger, co
 
 	CFunction pFunction;
 	string qFormula(trigger);
+	replaceSubstring(qFormula,">","gt");
+	replaceSubstring(qFormula,"<","lt");
+	replaceSubstring(qFormula,">=","ge");
+	replaceSubstring(qFormula,"<=","le");
+	replaceSubstring(qFormula,"=","eq");
 
-	if (pFunction.setInfix(string(trigger)))  //parse trigger
+	if (pFunction.setInfix(qFormula))  //parse trigger
 	{
 		CFunctionParameters& variables = pFunction.getVariables();
 		CFunctionParameter* pParam;
@@ -738,7 +744,7 @@ int cCreateEvent(copasi_model model, const char * name, const char * trigger, co
 				string s1("<");
 					s1 += pModel->getValueReference()->getCN();
 					s1 += string(">");
-				substituteString(qFormula,s0,s1);
+				rename(qFormula,s0,s1);
 			}
 			else
 			{
@@ -749,7 +755,7 @@ int cCreateEvent(copasi_model model, const char * name, const char * trigger, co
 				 	string s1("<");
 						s1 += getHashValue(hash,s0).name;
 						s1 += string(">");
-					substituteString(qFormula,s0,s1);
+					rename(qFormula,s0,s1);
 				}
 			}
 		}
@@ -782,7 +788,7 @@ int cCreateEvent(copasi_model model, const char * name, const char * trigger, co
 				string s1("<");
 					s1 += pModel->getValueReference()->getCN();
 					s1 += string(">");
-				substituteString(qFormula,s0,s1);
+				rename(qFormula,s0,s1);
 			}
 			else
 			{
@@ -794,7 +800,7 @@ int cCreateEvent(copasi_model model, const char * name, const char * trigger, co
 				 	string s1("<");
 						s1 += getHashValue(hash,s0).name;
 						s1 += string(">");
-					substituteString(qFormula,s0,s1);
+					rename(qFormula,s0,s1);
 				}
 			}
 		}
@@ -2025,7 +2031,7 @@ tc_matrix cGetScaledFluxControlCoeffs(copasi_model model)
 
 /** Sloten from TinkerCell  **/
 
-static int substituteString(string& target, const string& oldname,const string& newname0)
+static int rename(string& target, const string& oldname,const string& newname0)
 {
 	if (oldname == newname0 || target == newname0) return 0;
 	string newname(newname0);
@@ -3084,5 +3090,30 @@ list<string> splitString(const string& seq, const string& _1cdelim)
 	if( ! STR.empty() ) L.push_back(STR);
 	}
 	return L;
+}
+
+
+
+int replaceSubstring(std::string& s,const std::string& from, const std::string& to)
+{
+	int cnt = -1;
+
+	if(from != to && !from.empty())
+	{
+		string::size_type pos1(0);
+		string::size_type pos2(0);
+		const string::size_type from_len(from.size());
+		const string::size_type to_len(to.size());
+		cnt = 0;
+
+		while((pos1 = s.find(from, pos2)) != std::string::npos)
+		{
+			s.replace(pos1, from_len, to);
+			pos2 = pos1 + to_len;
+			++cnt;
+		}
+	}
+
+	return cnt;
 }
 

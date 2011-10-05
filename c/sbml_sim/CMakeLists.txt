@@ -1,8 +1,8 @@
 SET(LIBRARY_OUTPUT_PATH ${EXECUTABLE_OUTPUT_PATH})
 
  INCLUDE_DIRECTORIES( BEFORE
-    ${TINKERCELL_SOURCE_DIR}/ExternalCode/libsbml
-    ${TINKERCELL_SOURCE_DIR}/ExternalCode/libsbml/src
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/src
     ${TINKERCELL_SOURCE_DIR}/c/sbml_sim
     ${TINKERCELL_SOURCE_DIR}/ExternalCode/muparser
     ${TINKERCELL_SOURCE_DIR}/ExternalCode/qwt

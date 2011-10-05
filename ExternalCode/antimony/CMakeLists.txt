@@ -71,7 +71,7 @@ add_definitions( -DLIBANTIMONY_VERSION_STRING="${LIBANTIMONY_VERSION_STRING}" )
 if(WITH_SBML)
 
 	set (LIBSBML_LIBRARY sbml)
-	set(LIBSBML_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../libsbml/src)
+	set(LIBSBML_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../sbml/src)
 
     set(LIBANTIMONY_LIBS ${LIBANTIMONY_LIBS} ${LIBSBML_LIBRARY} )
     INCLUDE_DIRECTORIES(${INCLUDE_DIRECTORIES} ${LIBSBML_INCLUDE_DIR})
@@ -421,7 +421,7 @@ if (WITH_SBW_TRANSLATOR)
 		PATHS /usr/lib /usr/local/lib 
 			  ${CMAKE_SOURCE_DIR} 
 			  ${CMAKE_SOURCE_DIR}/dependencies/lib
-              ${CMAKE_SOURCE_DIR}/../libsbml-5/build/src/RelWithDebInfo
+              ${CMAKE_SOURCE_DIR}/../sbml-5/build/src/RelWithDebInfo
     )
     find_path(SBW_INCLUDE_DIR
 		NAMES SBW/config.h

@@ -44,7 +44,7 @@ IF (BUILD_LAPACK)
 	ADD_SUBDIRECTORY( lapack )     #linear algebra
 ENDIF(BUILD_LAPACK)
 ADD_SUBDIRECTORY( lpsolve )    #linear programming
-ADD_SUBDIRECTORY( libsbml )    #systems biology markup language parser
+ADD_SUBDIRECTORY( sbml )    #systems biology markup language parser
 ADD_SUBDIRECTORY( antimony )   #human-readable test-based reaction networks
 ADD_SUBDIRECTORY( boost )      #regular expressions
 ADD_SUBDIRECTORY( copasi )     #simulation and analysis package

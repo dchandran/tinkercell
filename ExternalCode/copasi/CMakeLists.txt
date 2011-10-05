@@ -30,7 +30,7 @@ INCLUDE_DIRECTORIES(
 	${CMAKE_CURRENT_SOURCE_DIR}/../raptor/src
 	${CMAKE_CURRENT_SOURCE_DIR}/../raptor/librdfa
 	${CMAKE_CURRENT_SOURCE_DIR}/../raptor/util
-	${CMAKE_CURRENT_SOURCE_DIR}/../Antimony
+	${CMAKE_CURRENT_SOURCE_DIR}/../antimony
 	${CMAKE_CURRENT_SOURCE_DIR}/../galib/ga
 	${CMAKE_CURRENT_SOURCE_DIR}/../galib
 	${CMAKE_CURRENT_SOURCE_DIR}/../libstructural/include/

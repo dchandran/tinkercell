@@ -12,12 +12,12 @@ int main()
 	tc_matrix efm, output, params;
 	copasi_model m1, m2;
 	
-	printf("creating model...\n");	
-	m1 = model3();
+	printf("creating model...\n");
+	m1 = model1();
     //m1 = cReadSBMLFile("model1.sbml");
     
 	printf("simulating...\n");	
-	output = cSimulateDeterministic(m1, 0, 50, 100);  //model, start, end, num. points
+	output = cSimulateDeterministic(m1, 0, 20, 100);  //model, start, end, num. points
 	printf("output.tab has %i rows and %i columns\n",output.rows, output.cols);
 	tc_printMatrixToFile("output.tab", output);
 	tc_deleteMatrix(output);
@@ -51,7 +51,7 @@ int main()
 	return 0;
 }
 
-copasi_model model1()
+copasi_model model1() //oscillator
 {
 	//model named M
 	copasi_model model = cCreateModel("M");
@@ -88,14 +88,11 @@ copasi_model model1()
 	cAddProduct(R3, "A", 2.0);
 	cSetReactionRate(R3, "k3*C*A");
 
-	//assignment rule -- make sure all parameters or species are defined BEFORE this step
-	//cCreateVariable(model, "prod1","sin(time)");
-	//cCreateVariable(model, "prod2","prod1 * prod1");
-	//cCreateEvent(model, "event1", "ge(Time,5)", "C", "C/2.0");
+	cCreateEvent(model, "event1", "time gt 10", "k3", "k3/2.0");
 	return model;
 }
 
-copasi_model model2()
+copasi_model model2() //gene regulation
 {
 	//model named M
 	copasi_model model = cCreateModel("M");
@@ -180,56 +177,54 @@ void eigen(copasi_model model, const char* param)
 	tc_deleteMatrix(output);
 }
 
-copasi_model model3()
+copasi_model model3() //big genetic model
 {
 	copasi_model model = cCreateModel("M");
 	copasi_compartment DefaultCompartment;
 	copasi_reaction r0,r1,r2,r3;
-DefaultCompartment = cCreateCompartment(model,"DefaultCompartment",1);
-cCreateSpecies(DefaultCompartment,"dr1_Monomer",0);
-cCreateSpecies(DefaultCompartment,"rs2",1);
-cCreateSpecies(DefaultCompartment,"cod1",1);
-cCreateSpecies(DefaultCompartment,"OUTPUT",5);
-cCreateSpecies(DefaultCompartment,"cod2",1);
-//cSetGlobalParameter(model,"INPUT",12);
-cCreateSpecies(DefaultCompartment,"INPUT",5);
-cCreateSpecies(DefaultCompartment,"as1",1);
-cCreateSpecies(DefaultCompartment,"as2",1);
-cCreateSpecies(DefaultCompartment,"pro1",1);
-cCreateSpecies(DefaultCompartment,"pro2",1);
-cCreateSpecies(DefaultCompartment,"rbs1",1);
-cCreateSpecies(DefaultCompartment,"rbs2",1);
-cCreateSpecies(DefaultCompartment,"ter1",1);
-cCreateSpecies(DefaultCompartment,"ter2",1);
-cSetGlobalParameter(model,"OUTPUT_degradation_rate",0.1);
-cSetGlobalParameter(model,"dr1_degradation_rate",0.1);
-cSetGlobalParameter(model,"dr1_Kd",12);
-cSetGlobalParameter(model,"dr1_h",4);
-cSetGlobalParameter(model,"pro1_strength",5);
-cSetGlobalParameter(model,"pro2_strength",12);
-cSetGlobalParameter(model,"ta1_Kd",5);
-cSetGlobalParameter(model,"ta1_h",4);
-cSetGlobalParameter(model,"ta2_Kd",2);
-cSetGlobalParameter(model,"ta2_h",5);
-cSetAssignmentRule(model, "INPUT","10 * (1 + sin(time * 0.5))");
-cSetAssignmentRule(model, "as1","((1+((INPUT/ta1_Kd)^ta1_h))-1)/((1+((INPUT/ta1_Kd)^ta1_h)))");
-cSetAssignmentRule(model, "as2","((1+((INPUT/ta2_Kd)^ta2_h))-1)/((1+((INPUT/ta2_Kd)^ta2_h)))");
-cSetAssignmentRule(model, "cod1","pro1_strength * (as1)");
-cSetAssignmentRule(model, "cod2","pro2_strength * (( as1 + as2) *(rs2))");
-cSetAssignmentRule(model, "rs2","1/(dr1_Kd+dr1_Monomer^dr1_h)");
-r0 = cCreateReaction(model, "dr1_v1");
-cSetReactionRate(r0,"cod1");
-cAddProduct(r0,"dr1_Monomer",1);
-r1 = cCreateReaction(model, "dr1_v2");
-cSetReactionRate(r1,"dr1_degradation_rate*dr1_Monomer");
-cAddReactant(r1,"dr1_Monomer",1);
-r2 = cCreateReaction(model, "pp1_v1");
-cSetReactionRate(r2,"cod2");
-cAddProduct(r2,"OUTPUT",1);
-r3 = cCreateReaction(model, "pp1_v2");
-cSetReactionRate(r3,"OUTPUT_degradation_rate*OUTPUT");
-cAddReactant(r3,"OUTPUT",1);
-//cSetBoundarySpecies(model, "INPUT",1);
+	DefaultCompartment = cCreateCompartment(model,"DefaultCompartment",1);
+	cCreateSpecies(DefaultCompartment,"dr1_Monomer",0);
+	cCreateSpecies(DefaultCompartment,"rs2",1);
+	cCreateSpecies(DefaultCompartment,"cod1",1);
+	cCreateSpecies(DefaultCompartment,"OUTPUT",5);
+	cCreateSpecies(DefaultCompartment,"cod2",1);
+	cCreateSpecies(DefaultCompartment,"INPUT",5);
+	cCreateSpecies(DefaultCompartment,"as1",1);
+	cCreateSpecies(DefaultCompartment,"as2",1);
+	cCreateSpecies(DefaultCompartment,"pro1",1);
+	cCreateSpecies(DefaultCompartment,"pro2",1);
+	cCreateSpecies(DefaultCompartment,"rbs1",1);
+	cCreateSpecies(DefaultCompartment,"rbs2",1);
+	cCreateSpecies(DefaultCompartment,"ter1",1);
+	cCreateSpecies(DefaultCompartment,"ter2",1);
+	cSetGlobalParameter(model,"OUTPUT_degradation_rate",0.1);
+	cSetGlobalParameter(model,"dr1_degradation_rate",0.1);
+	cSetGlobalParameter(model,"dr1_Kd",12);
+	cSetGlobalParameter(model,"dr1_h",4);
+	cSetGlobalParameter(model,"pro1_strength",5);
+	cSetGlobalParameter(model,"pro2_strength",12);
+	cSetGlobalParameter(model,"ta1_Kd",5);
+	cSetGlobalParameter(model,"ta1_h",4);
+	cSetGlobalParameter(model,"ta2_Kd",2);
+	cSetGlobalParameter(model,"ta2_h",5);
+	cSetAssignmentRule(model, "INPUT","10 * (1 + sin(time * 0.5))");
+	cSetAssignmentRule(model, "as1","((1+((INPUT/ta1_Kd)^ta1_h))-1)/((1+((INPUT/ta1_Kd)^ta1_h)))");
+	cSetAssignmentRule(model, "as2","((1+((INPUT/ta2_Kd)^ta2_h))-1)/((1+((INPUT/ta2_Kd)^ta2_h)))");
+	cSetAssignmentRule(model, "cod1","pro1_strength * (as1)");
+	cSetAssignmentRule(model, "cod2","pro2_strength * (( as1 + as2) *(rs2))");
+	cSetAssignmentRule(model, "rs2","1/(dr1_Kd+dr1_Monomer^dr1_h)");
+	r0 = cCreateReaction(model, "dr1_v1");
+	cSetReactionRate(r0,"cod1");
+	cAddProduct(r0,"dr1_Monomer",1);
+	r1 = cCreateReaction(model, "dr1_v2");
+	cSetReactionRate(r1,"dr1_degradation_rate*dr1_Monomer");
+	cAddReactant(r1,"dr1_Monomer",1);
+	r2 = cCreateReaction(model, "pp1_v1");
+	cSetReactionRate(r2,"cod2");
+	cAddProduct(r2,"OUTPUT",1);
+	r3 = cCreateReaction(model, "pp1_v2");
+	cSetReactionRate(r3,"OUTPUT_degradation_rate*OUTPUT");
+	cAddReactant(r3,"OUTPUT",1);
 	return model;
 }
 

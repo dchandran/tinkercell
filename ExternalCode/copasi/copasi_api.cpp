@@ -484,7 +484,7 @@ int cSetGlobalParameter(copasi_model model, const char * name, double value)
 	return 0;
 }
 
-void cSetBoundarySpecies(copasi_model model, const char * name, int isBoundary)
+void cSetSpeciesType(copasi_model model, const char * name, int isBoundary)
 {
 	CCMap * hash = (CCMap*)(model.qHash);
 	string s(name);
@@ -743,7 +743,7 @@ int cCreateEvent(copasi_model model, const char * name, const char * trigger, co
 			else
 			{
 				if (!contains(hash,s0))
-					cSetGlobalParameter(model,pParam->getObjectName().c_str(),1.0);
+					cSetGlobalParameter(model,s0.c_str(),1.0);
 				if (contains(hash,s0))
 				{
 				 	string s1("<");
@@ -760,7 +760,7 @@ int cCreateEvent(copasi_model model, const char * name, const char * trigger, co
 	}
 	
 	CExpression * expression = new CExpression(name,pModel);
-	retval = retval & expression->setInfix(string( qFormula.c_str() ));
+	retval = retval & expression->setInfix(qFormula);
 	pEvent->setTriggerExpressionPtr(expression);   //set trigger
 	
 	qFormula = string(formula);
@@ -787,7 +787,7 @@ int cCreateEvent(copasi_model model, const char * name, const char * trigger, co
 			else
 			{
 				if (!contains(hash,s0))
-					cSetGlobalParameter(model,pParam->getObjectName().c_str(),1.0);
+					cSetGlobalParameter(model,s0.c_str(),1.0);
 
 				if (contains(hash,s0))
 				{
@@ -805,13 +805,15 @@ int cCreateEvent(copasi_model model, const char * name, const char * trigger, co
 	}
 	
 	CCopasiVectorN< CEventAssignment > & assignments = pEvent->getAssignments();
-	CEventAssignment * assgn = new CEventAssignment;
+	CEventAssignment * assgn = new CEventAssignment(string(name) + string("_assgn"),pModel);
 	if (ptr.species)
-		retval = retval & assgn->setTargetKey(ptr.species->getCN());   //set target
+		retval = retval & assgn->setTargetKey(ptr.species->getKey());   //set target
 	else
-		retval = retval & assgn->setTargetKey(ptr.param->getCN());
+		retval = retval & assgn->setTargetKey(ptr.param->getKey());
 
-	retval = retval & assgn->setExpression( qFormula );   //set expression
+	expression = new CExpression(name,pModel);
+	retval = retval & expression->setInfix(qFormula);
+	assgn->setExpressionPtr(  expression );   //set expression
 	assignments.add(assgn); 
 	
 	return (int)retval;
@@ -1150,28 +1152,29 @@ void cWriteSBMLFile(copasi_model model, const char * filename)
 		pDataModel->exportSBML(filename, true, 2, 3);
 }
 
+void cWriteAntimonyFile(copasi_model model, const char * filename)
+{
+	CCopasiDataModel* pDataModel = (CCopasiDataModel*)(model.CopasiDataModelPtr);
+	if (pDataModel)
+	{
+		pDataModel->exportSBML(filename, true, 2, 3);
+		loadSBMLFile(filename);
+		writeAntimonyFile(filename,NULL);
+	}
+}
+
+copasi_model cReadAntimonyString(const char * model)
+{
+	loadString(model); //load Antimony
+	const char * s = getSBMLString("__main");  //Antimony -> SBML (at worst, an empty model)
+	copasi_model m = cReadSBMLString(s);
+	freeAll(); //free Antimony
+	return m;
+}
+
 copasi_model cReadAntimonyFile(const char * filename)
 {
-	copasi_init();
-	
-	CCopasiDataModel* pDataModel = CCopasiRootContainer::addDatamodel();
-	char * error = NULL;
-
 	loadFile(filename); //load Antimony
-	//get the error message, if any
-	const char * err = getLastError();
-	int len = 0;
-	for (int i=0; err && err[i]; ++i) ++len;
-
-	if (len > 1)
-	{
-		error = (char*)malloc((1+len) * sizeof(char));
-		if (error)
-		{
-			for (int i=0; i < len; ++i) error[i] = err[i];
-			error[len-1] = 0;
-		}
-	}
 	const char * s = getSBMLString("__main");  //Antimony -> SBML (at worst, an empty model)
 	copasi_model m = cReadSBMLString(s);
 	freeAll(); //free Antimony
@@ -1331,7 +1334,7 @@ tc_matrix cGetJacobian(copasi_model model)
 	return tc_createMatrix(0,0);
 }
 
-tc_matrix cGetSteadyState2(copasi_model model, int maxiter)
+tc_matrix cGetSteadyStateUsingSimulation(copasi_model model, int maxiter)
 {
 	CModel* pModel = (CModel*)(model.CopasiModelPtr);
 	CCopasiDataModel* pDataModel = (CCopasiDataModel*)(model.CopasiDataModelPtr);
@@ -1436,6 +1439,43 @@ tc_matrix cGetSteadyState(copasi_model model)
 	cCompileModel(model,1);
 
 	CCopasiVectorN< CCopasiTask > & TaskList = * pDataModel->getTaskList();
+	CTrajectoryTask* pTrajTask = dynamic_cast<CTrajectoryTask*>(TaskList["Time-Course"]);
+	// if there isn’t one
+	if (pTrajTask == NULL)
+	{
+		// create a new one
+		pTrajTask = new CTrajectoryTask();
+		// remove any existing trajectory task just to be sure since in
+		// theory only the cast might have failed above
+		TaskList.remove("Time-Course");
+		// add the new time course task to the task list
+		TaskList.add(pTrajTask, true);
+	}
+	
+	CCopasiMessage::clearDeque();
+	
+	if (pTrajTask && pTrajTask->setMethodType(CCopasiMethod::deterministic))
+	{
+		//set the start and end time, number of steps, and save output in memory
+		CTrajectoryProblem* pProblem=(CTrajectoryProblem*)pTrajTask->getProblem();
+		pProblem->setModel(pModel);
+		pTrajTask->setScheduled(true);
+		pProblem->setStepNumber(10);
+		pProblem->setDuration(10.0);
+		pDataModel->getModel()->setInitialTime(0.0);
+		pProblem->setTimeSeriesRequested(true);
+		try
+		{
+			pTrajTask->initialize(CCopasiTask::ONLY_TIME_SERIES, pDataModel, NULL);
+			pTrajTask->process(true);
+		}
+		catch(...)
+		{
+			cerr << CCopasiMessage::getAllMessageText(true);
+			pTrajTask = NULL;
+		}
+	}
+
 	CSteadyStateTask* pTask = dynamic_cast<CSteadyStateTask*>(TaskList["Steady-State"]);
 
 	if (pTask == NULL)
@@ -1456,43 +1496,43 @@ tc_matrix cGetSteadyState(copasi_model model)
 		return tc_createMatrix(0,0);
 	}
 
-	CTrajectoryTask* pTask2 = dynamic_cast<CTrajectoryTask*>(TaskList["Time-Course"]);
+	pTrajTask = dynamic_cast<CTrajectoryTask*>(TaskList["Time-Course"]);
 	// if there isn’t one
-	if (pTask2 == NULL)
+	if (pTrajTask == NULL)
 	{
-		pTask2 = new CTrajectoryTask();
+		pTrajTask = new CTrajectoryTask();
 		TaskList.remove("Time-Course");
-		TaskList.add(pTask2, true);
+		TaskList.add(pTrajTask, true);
 	}
 	
 	CCopasiMessage::clearDeque();
 	
-	if (pTask2 && pTask2->setMethodType(CCopasiMethod::deterministic))
+	if (pTrajTask && pTrajTask->setMethodType(CCopasiMethod::deterministic))
 	{
 		//set the start and end time, number of steps, and save output in memory
-		CTrajectoryProblem* pProblem=(CTrajectoryProblem*)pTask2->getProblem();
+		CTrajectoryProblem* pProblem=(CTrajectoryProblem*)pTrajTask->getProblem();
 		pProblem->setModel(pModel);
-		pTask2->setScheduled(true);
+		pTrajTask->setScheduled(true);
 		pProblem->setStepNumber(10);
 		pProblem->setDuration(10.0);
 		pDataModel->getModel()->setInitialTime(0.0);
 		pProblem->setTimeSeriesRequested(true);
 		try
 		{
-			pTask2->initialize(CCopasiTask::ONLY_TIME_SERIES, pDataModel, NULL);
-			pTask2->process(true);
-			pTask2->restore();
+			pTrajTask->initialize(CCopasiTask::ONLY_TIME_SERIES, pDataModel, NULL);
+			pTrajTask->process(true);
+			//pTrajTask->restore();
 		}
 		catch(...)
 		{
 			cerr << CCopasiMessage::getAllMessageText(true);
-			pTask2 = NULL;
+			pTrajTask = NULL;
 		}
 	}
 	
-	if (pTask2)
+	if (pTrajTask)
 	{
-		const CTimeSeries & timeSeries = pTask2->getTimeSeries();
+		const CTimeSeries & timeSeries = pTrajTask->getTimeSeries();
 		int rows = (pModel->getNumMetabs());
 		int i,j,k;
 
@@ -1515,7 +1555,7 @@ tc_matrix cGetSteadyState(copasi_model model)
 		return output;
 	}
 
-	return cGetSteadyState2(model,10);
+	return cGetSteadyStateUsingSimulation(model,10);
 }
 
 tc_matrix cGetEigenvalues(copasi_model model)

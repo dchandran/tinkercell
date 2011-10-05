@@ -29,8 +29,8 @@
 #
 ###############################################################################
 
-#option(ENABLE_LAYOUT     "Enable SBML Layout package"    ON )
-set (ENABLE_LAYOUT ON)
+option(ENABLE_LAYOUT     "Enable SBML Layout package -- required for COPASI_API"    ON )
+#set (ENABLE_LAYOUT ON)
 
 if(ENABLE_LAYOUT)
 	add_definitions( -DUSE_LAYOUT )

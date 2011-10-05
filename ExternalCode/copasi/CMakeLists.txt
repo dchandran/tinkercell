@@ -23,18 +23,17 @@ ENDIF(WIN32)
 
 INCLUDE_DIRECTORIES( 
 	BEFORE
-	${TINKERCELL_SOURCE_DIR}/API
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/expat/
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/expat/lib
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/libsbml/src
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor/src
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor/librdfa
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/raptor/util
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/Antimony
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/galib/ga
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/galib
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/libstructural/include/
+	${CMAKE_CURRENT_SOURCE_DIR}/../expat/
+	${CMAKE_CURRENT_SOURCE_DIR}/../expat/lib
+	${CMAKE_CURRENT_SOURCE_DIR}/../libsbml/src
+	${CMAKE_CURRENT_SOURCE_DIR}
+	${CMAKE_CURRENT_SOURCE_DIR}/../raptor/src
+	${CMAKE_CURRENT_SOURCE_DIR}/../raptor/librdfa
+	${CMAKE_CURRENT_SOURCE_DIR}/../raptor/util
+	${CMAKE_CURRENT_SOURCE_DIR}/../Antimony
+	${CMAKE_CURRENT_SOURCE_DIR}/../galib/ga
+	${CMAKE_CURRENT_SOURCE_DIR}/../galib
+	${CMAKE_CURRENT_SOURCE_DIR}/../libstructural/include/
 )
 
 #---------------------
@@ -81,42 +80,42 @@ ENDIF(APPLE)
 #--------------------------
 
 FILE( GLOB copasi_SRC_FILES
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/model/*.cpp
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/compareExpressions/*.cpp
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/CopasiDataModel/*.cpp
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/crosssection/*.cpp
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/elementaryFluxModes/*.cpp
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/function/*.cpp
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/layout/*.cpp
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/libs/*.cpp
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/lyap/*.cpp
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/moieties/*.cpp
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/odepack++/*.cpp
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/optimization/*.cpp
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/parameterFitting/*.cpp
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/plot/*.cpp
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/randomGenerator/*.cpp	
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/sbml/*.cpp
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/sbmlunit/*.cpp
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/scan/*.cpp
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/sensitivities/*.cpp
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/steadystate/*.cpp
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/report/*.cpp
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/trajectory/*.cpp
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/tss/*.cpp
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/tssanalysis/*.cpp
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/utilities/*.cpp
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/xml/*.cpp
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/commandline/*.cpp
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/MIRIAM/*.cpp
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/MIRIAM/WebServicesIssues/*.cpp
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi/copasi_api.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/model/*.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/compareExpressions/*.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/CopasiDataModel/*.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/crosssection/*.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/elementaryFluxModes/*.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/function/*.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/layout/*.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/libs/*.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/lyap/*.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/moieties/*.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/odepack++/*.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/optimization/*.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/parameterFitting/*.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/plot/*.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/randomGenerator/*.cpp	
+	${CMAKE_CURRENT_SOURCE_DIR}/sbml/*.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/sbmlunit/*.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/scan/*.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/sensitivities/*.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/steadystate/*.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/report/*.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/trajectory/*.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/tss/*.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/tssanalysis/*.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/utilities/*.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/xml/*.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/commandline/*.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/MIRIAM/*.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/MIRIAM/WebServicesIssues/*.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/copasi_api.cpp
 	${TINKERCELL_SOURCE_DIR}/API/TC_structs.c
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/mtrand.c
+	${CMAKE_CURRENT_SOURCE_DIR}/../mtrand.c
 )
 
 ADD_DEFINITIONS(-DHAVE_EXPAT_CONFIG_H)
-FILE( GLOB  EXPAT_SRC_FILES   ${TINKERCELL_SOURCE_DIR}/ExternalCode/expat/lib/*.c)
+FILE( GLOB  EXPAT_SRC_FILES   ${CMAKE_CURRENT_SOURCE_DIR}/../expat/lib/*.c)
 
 #--------------------------
 #  MAKE libcopasi

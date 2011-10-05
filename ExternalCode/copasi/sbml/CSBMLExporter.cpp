@@ -22,6 +22,7 @@
 
 #define USE_LAYOUT 1
 
+#include "sbml/packages/layout/extension/LayoutModelPlugin.h"
 #include "CSBMLExporter.h"
 #include "SBMLUtils.h"
 
@@ -79,7 +80,7 @@
 #include "utilities/CVersion.h"
 #include "sbmlunit/CUnitInterfaceSBML.h"
 
-CSBMLExporter::CSBMLExporter(): mpSBMLDocument(NULL), mSBMLLevel(2), mSBMLVersion(1), mIncompleteExport(false), mVariableVolumes(false), mpAvogadro(NULL), mAvogadroCreated(false), mMIRIAMWarning(false), mDocumentDisowned(false), mExportCOPASIMIRIAM(false)
+CSBMLExporter::CSBMLExporter(): mpSBMLDocument(NULL), mSBMLLevel(2), mSBMLVersion(1), mIncompleteExport(false), mVariableVolumes(false), mpAvogadro(NULL), mAvogadroCreated(false), mMIRIAMWarning(false), mDocumentDisowned(false), mExportCOPASIMIRIAM(false), mExportedFunctions(new SBMLNamespaces())
 {}
 
 CSBMLExporter::~CSBMLExporter()
@@ -1800,16 +1801,16 @@ const std::map<std::string, const SBase*> CSBMLExporter::createIdMap(const Model
     }
 
   // if COPASI is compiled with layout, we have to add those ids as well
-  if (sbmlModel.getListOfLayouts()->isSetId())
+  if ((static_cast<const LayoutModelPlugin*>(sbmlModel.getPlugin("layout")))->getListOfLayouts()->isSetId())
     {
-      idMap.insert(std::pair<const std::string, const SBase*>(sbmlModel.getListOfLayouts()->getId(), sbmlModel.getListOfLayouts()));
+      idMap.insert(std::pair<const std::string, const SBase*>((static_cast<const LayoutModelPlugin*>(sbmlModel.getPlugin("layout")))->getListOfLayouts()->getId(), (static_cast<const LayoutModelPlugin*>(sbmlModel.getPlugin("layout")))->getListOfLayouts()));
     }
 
-  iMax = sbmlModel.getListOfLayouts()->size();
+  iMax = (static_cast<const LayoutModelPlugin*>(sbmlModel.getPlugin("layout")))->getListOfLayouts()->size();
 
   for (i = 0; i < iMax; ++i)
     {
-      const Layout* pLayout = sbmlModel.getLayout(i);
+      const Layout* pLayout = static_cast<const LayoutModelPlugin*>(sbmlModel.getPlugin("layout"))->getLayout(i);
 
       if (pLayout != NULL)
         {
@@ -2681,7 +2682,7 @@ const std::string CSBMLExporter::exportModelToString(CCopasiDataModel& dataModel
   createSBMLDocument(dataModel);
 
   if (this->mpSBMLDocument && this->mpSBMLDocument->getModel())
-    dataModel.getListOfLayouts()->exportToSBML(this->mpSBMLDocument->getModel()->getListOfLayouts(),
+    dataModel.getListOfLayouts()->exportToSBML((static_cast<const LayoutModelPlugin*>(this->mpSBMLDocument->getModel()->getPlugin("layout")))->getListOfLayouts(),
         dataModel.getCopasi2SBMLMap(), mIdMap);
 
 #ifdef COPASI_DEBUG
@@ -6474,7 +6475,7 @@ void CSBMLExporter::collectIds(const CCopasiDataModel& dataModel, std::map<std::
 
       if (!id.empty())
         {
-          idMap.insert(std::pair<const std::string, const SBase*>(id, (const SBase*)NULL));
+          idMap.insert(std::pair<const std::string, const SBase*>(id, NULL));
         }
     }
 
@@ -6489,7 +6490,7 @@ void CSBMLExporter::collectIds(const CCopasiDataModel& dataModel, std::map<std::
 
       if (!id.empty())
         {
-          idMap.insert(std::pair<const std::string, const SBase*>(id, (const SBase*)NULL));
+          idMap.insert(std::pair<const std::string, const SBase*>(id, NULL));
         }
     }
 
@@ -6502,7 +6503,7 @@ void CSBMLExporter::collectIds(const CCopasiDataModel& dataModel, std::map<std::
 
       if (!id.empty())
         {
-          idMap.insert(std::pair<const std::string, const SBase*>(id, (const SBase*)NULL));
+          idMap.insert(std::pair<const std::string, const SBase*>(id, NULL));
         }
     }
 
@@ -6515,7 +6516,7 @@ void CSBMLExporter::collectIds(const CCopasiDataModel& dataModel, std::map<std::
 
       if (!id.empty())
         {
-          idMap.insert(std::pair<const std::string, const SBase*>(id, (const SBase*)NULL));
+          idMap.insert(std::pair<const std::string, const SBase*>(id, NULL));
         }
     }
 
@@ -6528,7 +6529,7 @@ void CSBMLExporter::collectIds(const CCopasiDataModel& dataModel, std::map<std::
 
       if (!id.empty())
         {
-          idMap.insert(std::pair<const std::string, const SBase*>(id, (const SBase*)NULL));
+          idMap.insert(std::pair<const std::string, const SBase*>(id, NULL));
         }
     }
 
@@ -6541,7 +6542,7 @@ void CSBMLExporter::collectIds(const CCopasiDataModel& dataModel, std::map<std::
 
       if (!id.empty())
         {
-          idMap.insert(std::pair<const std::string, const SBase*>(id, (const SBase*)NULL));
+          idMap.insert(std::pair<const std::string, const SBase*>(id, NULL));
         }
     }
 }
@@ -6557,7 +6558,7 @@ void CSBMLExporter::assignSBMLIdsToReactions(CModel* pModel)
         {
           sbmlId = CSBMLExporter::createUniqueId(this->mIdMap, "reaction_");
           (*it)->setSBMLId(sbmlId);
-          this->mIdMap.insert(std::pair<const std::string, const SBase*>(sbmlId, (const SBase*)NULL));
+          this->mIdMap.insert(std::pair<const std::string, const SBase*>(sbmlId, NULL));
         }
 
       ++it;

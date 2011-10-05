@@ -19,9 +19,9 @@
 
 #define USE_LAYOUT 1
 
-#include <sbml/layout/SpeciesGlyph.h>
-#include <sbml/layout/CompartmentGlyph.h>
-#include <sbml/layout/TextGlyph.h>
+#include <sbml/packages/layout/sbml/SpeciesGlyph.h>
+#include <sbml/packages/layout/sbml/CompartmentGlyph.h>
+#include <sbml/packages/layout/sbml/TextGlyph.h>
 
 #include "CLGlyphs.h"
 

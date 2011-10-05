@@ -23,7 +23,7 @@
 #include "report/CKeyFactory.h"
 #include "copasi/report/CCopasiRootContainer.h"
 
-#include "sbml/layout/Layout.h"
+#include "sbml/packages/layout/sbml/Layout.h"
 
 CListOfLayouts::CListOfLayouts(const std::string & name,
                                const CCopasiContainer * pParent):

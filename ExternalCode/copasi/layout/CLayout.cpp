@@ -18,7 +18,7 @@
 #define USE_LAYOUT 1
 
 #include "iostream"
-#include "sbml/layout/Layout.h"
+#include "sbml/packages/layout/sbml/Layout.h"
 
 #include "copasi.h"
 

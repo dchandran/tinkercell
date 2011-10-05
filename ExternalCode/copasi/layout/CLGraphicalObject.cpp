@@ -17,7 +17,7 @@
 
 #define USE_LAYOUT 1
 
-#include <sbml/layout/GraphicalObject.h>
+#include <sbml/packages/layout/sbml/GraphicalObject.h>
 
 #include "CLGraphicalObject.h"
 

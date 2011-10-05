@@ -31,13 +31,13 @@
 #ifndef COPASI_CCopasiObject
 #define COPASI_CCopasiObject
 
-#include "copasi.h"
-
 #include <string>
 #include <iostream>
+#include <vector>
 #include <set>
 #include <list>
-#include <vector>
+
+#include "copasi.h"
 
 class CCopasiObjectName;
 class CCopasiContainer;
@@ -161,7 +161,7 @@ class CRenameHandler;
 class CCopasiObject
 {
 #ifdef WIN32
-  friend class CCopasiVector< CCopasiObject >;
+  friend CCopasiVector< CCopasiObject >;
 #endif // WIN32
 
   typedef CCopasiObject referenceType;

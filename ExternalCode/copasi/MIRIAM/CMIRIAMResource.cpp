@@ -17,6 +17,9 @@
 // All rights reserved.
 
 // These are treated as external includes and must appear first
+#include "WebServicesIssues/soapH.h"
+#include "WebServicesIssues/soapMiriamWebServicesSoapBindingProxy.h"
+#include "WebServicesIssues/MiriamWebServicesSoapBinding.nsmap"
 
 #include "copasi.h"
 
@@ -24,10 +27,6 @@
 #include "CConstants.h"
 
 #include "utilities/CCopasiException.h"
-
-#include "WebServicesIssues/soapH.h"
-#include "WebServicesIssues/soapMiriamWebServicesSoapBindingProxy.h"
-#include "WebServicesIssues/MiriamWebServicesSoapBinding.nsmap"
 
 // static
 CMIRIAMResource * CMIRIAMResources::pUnknownResource = NULL;
@@ -189,11 +188,11 @@ bool CMIRIAMResources::updateMIRIAMResources(CProcessReport * pProcessReport)
       createDisplayNameMap();
       createURIMap();
     }
-  /*else
+  else
     CCopasiMessage(CCopasiMessage::ERROR,
                    MCMiriam + 3,
                    pProxy->soap_fault_string(),
-                   pProxy->soap_fault_detail());*/
+                   pProxy->soap_fault_detail());
 
   pdelete(pTmpCpyCMIRIAMResources);
 

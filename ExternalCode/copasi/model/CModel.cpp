@@ -38,6 +38,8 @@
 
 #include "copasi.h"
 
+// #define DEBUG_MATRIX
+
 #include "CCompartment.h"
 #include "CMetab.h"
 #include "CModel.h"
@@ -416,14 +418,14 @@ bool CModel::compile()
 
   buildStoi();
   CompileStep = 1;
-  
+
   if (mpCompileHandler && !mpCompileHandler->progressItem(hCompileStep)) return false;
- 
+
   buildLinkZero();
   CompileStep = 2;
-  
+
   if (mpCompileHandler && !mpCompileHandler->progressItem(hCompileStep)) return false;
-  
+
   buildRedStoi();
   CompileStep = 3;
 
@@ -454,7 +456,7 @@ bool CModel::compile()
     }
 
   CompileStep = 6;
-  
+
   if (mpCompileHandler && !mpCompileHandler->progressItem(hCompileStep)) return false;
 
   buildUserOrder();
@@ -487,9 +489,7 @@ void CModel::compileDefaultMetabInitialValueDependencies()
   CCopasiVector< CMetab >::iterator end = mMetabolites.end();
 
   for (; it != end; ++it)
-  {
     (*it)->compileInitialValueDependencies(true);
-   }
 
   mBuildInitialSequence = true;
 
@@ -511,16 +511,15 @@ bool CModel::compileIfNecessary(CProcessReport* pProcessReport)
     }
 
   mpCompileHandler = pProcessReport;
-  
+
   try
     {
       compile();
     }
 
   catch (...)
-    {
-    }
-    
+    {}
+
   mpCompileHandler = NULL;
 
   return true;
@@ -534,7 +533,7 @@ bool CModel::forceCompile(CProcessReport* pProcessReport)
 
 void CModel::buildStoi()
 {
-  unsigned C_INT32 i=0;
+  unsigned C_INT32 i;
 
   initializeMetabolites();
 
@@ -1140,7 +1139,7 @@ bool CModel::buildStateTemplate()
 {
   CVector<CModelEntity *> Entities(mMetabolitesX.size() + mCompartments.size() + mValues.size());
   CModelEntity ** ppEntity = Entities.array();
-  
+
   CCopasiVector< CModelValue >::iterator itValue = mValues.begin();
   CCopasiVector< CModelValue >::iterator endValue = mValues.end();
 
@@ -1163,14 +1162,14 @@ bool CModel::buildStateTemplate()
 
   CCopasiVector< CMetab >::iterator itMetab = mMetabolitesX.begin();
   CCopasiVector< CMetab >::iterator endMetab = mMetabolitesX.end();
-  
+
   for (; itMetab != endMetab; ++itMetab)
-  if (*itMetab)
-  {
-       if (!(*itMetab)->isUsed()) break;
+    {
+      if (!(*itMetab)->isUsed()) break;
+
       *ppEntity++ = *itMetab;
-   }
-  
+    }
+
   itCompartment = mCompartments.begin();
 
   for (; itCompartment != endCompartment; ++itCompartment)
@@ -3295,7 +3294,7 @@ void CModel::buildLinkZero()
   // have been constructed.
 
   mRedStoi = mStoi;
-  
+
   C_INT NumReactions = mRedStoi.numCols();
   C_INT NumSpecies = mRedStoi.numRows();
   C_INT LDA = std::max<C_INT>(1, NumReactions);
@@ -3417,7 +3416,7 @@ void CModel::buildLinkZero()
 
   LWORK = (C_INT) WORK[0];
   WORK.resize(LWORK);
-  
+
   dgeqp3_(&NumReactions, &NumSpecies, mRedStoi.array(), &LDA,
           JPVT.array(), TAU.array(), WORK.array(), &LWORK, &INFO);
 
@@ -3450,6 +3449,7 @@ void CModel::buildLinkZero()
      we need to take the transpose, i.e.,the upper triangular */
   char cL = 'U';
   char cU = 'N'; /* values in the diagonal of R */
+
   // Calculate Row Echelon form of R.
   // First invert R_1,1
   /* int dtrtri_(char *uplo,
@@ -3482,7 +3482,7 @@ void CModel::buildLinkZero()
    *          = 'N':  A is non-unit triangular;
    *          = 'U':  A is unit triangular.
    *
-   *  n       (input) INTEGERstd::cout << "bool \n"; 
+   *  n       (input) INTEGER
    *          The order of the matrix A.  n >= 0.
    *
    *  A       (input/output) DOUBLE PRECISION array, dimension (lda,n)

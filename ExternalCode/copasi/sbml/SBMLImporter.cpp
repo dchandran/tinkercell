@@ -36,6 +36,7 @@
 #include <limits>
 #include <cmath>
 
+#include "sbml/packages/layout/extension/LayoutModelPlugin.h"
 #include <sbml/SBMLReader.h>
 #include <sbml/SBMLDocument.h>
 #include <sbml/Compartment.h>
@@ -2686,7 +2687,7 @@ SBMLImporter::parseSBML(const std::string& sbmlDocumentText,
 
       if (sbmlmodel && prLol)
         SBMLDocumentLoader::readListOfLayouts(*prLol,
-                                              *sbmlmodel->getListOfLayouts(),
+                                              *((static_cast<const LayoutModelPlugin*>(sbmlmodel->getPlugin("layout")))->getListOfLayouts()),
                                               copasi2sbmlmap);
     }
   else
@@ -3634,7 +3635,7 @@ bool SBMLImporter::sbmlId2CopasiCN(ASTNode* pNode, std::map<CCopasiObject*, SBas
 
           while (it != endIt)
             {
-              SBMLTypeCode_t type = it->second->getTypeCode();
+              SBMLTypeCode_t type = SBMLTypeCode_t(it->second->getTypeCode());
 
               switch (type)
                 {
@@ -5345,7 +5346,7 @@ void SBMLImporter::importSBMLRule(const Rule* sbmlRule, std::map<CCopasiObject*,
   // because this would lead to the species id set being empty
   assert(this->mLevel < 3 || (pSBMLModel->getNumReactions() == 0 || !this->mSBMLSpeciesReferenceIds.empty()));
 #endif // LIBSBML_VERSION
-  SBMLTypeCode_t type = sbmlRule->getTypeCode();
+  SBMLTypeCode_t type = SBMLTypeCode_t(sbmlRule->getTypeCode());
 
   if (type == SBML_ASSIGNMENT_RULE)
     {
@@ -5772,7 +5773,7 @@ void SBMLImporter::checkRuleMathConsistency(const Rule* pRule, std::map<CCopasiO
       while (i < iMax)
         {
           pR = sbmlModel->getRule(i);
-          type = pR->getTypeCode();
+          type = SBMLTypeCode_t(pR->getTypeCode());
 
           if (type == SBML_ASSIGNMENT_RULE)
             {

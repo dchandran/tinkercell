@@ -22,8 +22,8 @@
 
 #define USE_LAYOUT 1
 
-#include <sbml/layout/Curve.h>
-#include <sbml/layout/CubicBezier.h>
+#include <sbml/packages/layout/sbml/Curve.h>
+#include <sbml/packages/layout/sbml/CubicBezier.h>
 
 #include "CLCurve.h"
 

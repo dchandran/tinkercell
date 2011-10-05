@@ -176,7 +176,6 @@ void COptMethodNelderMead::initObjects()
 
 bool COptMethodNelderMead::optimise()
 {
-std::cout << "here\n";
   if (!initialize())
     {
       if (mpCallBack)

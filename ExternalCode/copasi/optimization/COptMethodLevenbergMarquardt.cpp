@@ -334,7 +334,6 @@ const C_FLOAT64 & COptMethodLevenbergMarquardt::evaluate()
 
   mContinue &= mpOptProblem->calculate();
   mEvaluationValue = mpOptProblem->getCalculateValue();
-  std::cout << "mEvaluationValue = " << mEvaluationValue << "\n";
 
   // when we leave the either the parameter or functional domain
   // we penalize the objective value by forcing it to be larger

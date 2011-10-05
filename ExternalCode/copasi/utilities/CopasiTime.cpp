@@ -1,4 +1,3 @@
-
 /* Begin CVS Header
    $Source: /fs/turing/cvs/copasi_dev/copasi/utilities/CopasiTime.cpp,v $
    $Revision: 1.13 $

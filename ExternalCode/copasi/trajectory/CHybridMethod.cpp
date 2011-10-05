@@ -38,11 +38,10 @@
 /* DEFINE ********************************************************************/
 
 #ifdef WIN32
-//#define min _cpp_min
-//#define max _cpp_max
+#define min _cpp_min
+#define max _cpp_max
 #endif // WIN32
 
-#include <iterator>
 #include <limits.h>
 
 #include "mathematics.h" // pow(), floor()

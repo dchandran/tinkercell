@@ -17,7 +17,7 @@
 
 #define USE_LAYOUT 1
 
-#include <sbml/layout/BoundingBox.h>
+#include <sbml/packages/layout/sbml/BoundingBox.h>
 
 #include "CLBase.h"
 
@@ -56,7 +56,7 @@ CLBoundingBox::CLBoundingBox(const BoundingBox & bb)
 
 BoundingBox CLBoundingBox::getSBMLBoundingBox() const
   {
-    return BoundingBox("", mPosition.getX(), mPosition.getY(),
+    return BoundingBox(new LayoutPkgNamespaces(), "", mPosition.getX(), mPosition.getY(),
                        mDimensions.getWidth(), mDimensions.getHeight());
   }
 

@@ -35,7 +35,7 @@ std::string SBMLUtils::getIdFromSBase(const SBase* pS)
 
   std::string id;
 
-  SBMLTypeCode_t type = pS->getTypeCode();
+  SBMLTypeCode_t type = SBMLTypeCode_t(pS->getTypeCode());
 
   switch (type)
     {

@@ -19,8 +19,8 @@
 
 #define USE_LAYOUT 1
 
-#include <sbml/layout/ReactionGlyph.h>
-#include <sbml/layout/SpeciesReferenceGlyph.h>
+#include <sbml/packages/layout/sbml/ReactionGlyph.h>
+#include <sbml/packages/layout/sbml/SpeciesReferenceGlyph.h>
 
 #include "copasi.h"
 

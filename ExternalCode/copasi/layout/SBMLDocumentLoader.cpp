@@ -19,11 +19,11 @@
 
 #include "SBMLDocumentLoader.h"
 
-#include <sbml/layout/Layout.h>
-#include <sbml/layout/SpeciesGlyph.h>
-#include <sbml/layout/ReactionGlyph.h>
-#include <sbml/layout/SpeciesReferenceGlyph.h>
-#include <sbml/layout/TextGlyph.h>
+#include <sbml/packages/layout/sbml/Layout.h>
+#include <sbml/packages/layout/sbml/SpeciesGlyph.h>
+#include <sbml/packages/layout/sbml/ReactionGlyph.h>
+#include <sbml/packages/layout/sbml/SpeciesReferenceGlyph.h>
+#include <sbml/packages/layout/sbml/TextGlyph.h>
 #include <sbml/ListOf.h>
 
 #include "report/CKeyFactory.h"

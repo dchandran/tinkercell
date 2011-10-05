@@ -1,9 +1,9 @@
 # Begin CVS Header
 #   $Source: /fs/turing/cvs/copasi_dev/copasi/layout/layout.pro,v $
-#   $Revision: 1.6.2.3 $
-#   $Name: Build-31 $
+#   $Revision: 1.13 $
+#   $Name: Build-33 $
 #   $Author: shoops $
-#   $Date: 2010/04/26 17:40:53 $
+#   $Date: 2010/09/16 18:28:06 $
 # End CVS Header
 
 # Copyright (C) 2010 by Pedro Mendes, Virginia Tech Intellectual 
@@ -22,6 +22,9 @@
 
 LIB = layout
 
+include(../lib.pri)
+include(../common.pri)
+
 # Input
 HEADERS += CLayout.h \
            CLayoutInitializer.h \
@@ -31,8 +34,47 @@ HEADERS += CLayout.h \
            CLGlyphs.h \
            CListOfLayouts.h \
            CLReactionGlyph.h \
-           SBMLDocumentLoader.h
+           SBMLDocumentLoader.h 
 
+contains(DEFINES,USE_CRENDER_EXTENSION) {           
+HEADERS += CLColorDefinition.h \
+           CLDefaultStyles.h \
+           CLEllipse.h \
+           CLFontRendererBase.h \
+           CLGlobalRenderInformation.h \
+           CLGlobalStyle.h \
+           CLGradientBase.h \
+           CLGradientStop.h \
+           CLGradientStops.h \
+           CLGraphicalPrimitive1D.h \
+           CLGraphicalPrimitive2D.h \
+           CLGroup.h \
+           CLImage.h \
+           CLImageTexturizer.h \
+           CLLayoutRenderer.h \
+           CLLineEnding.h \
+           CLLinearGradient.h \
+           CLLocalRenderInformation.h \
+           CLLocalStyle.h \
+           CLPolygon.h \
+           CLRadialGradient.h \
+           CLRectangle.h \
+           CLRelAbsVector.h \
+           CLRenderCubicBezier.h \
+           CLRenderCurve.h \
+           CLRenderFlattener.h \
+           CLRenderInformationBase.h \
+           CLRenderPoint.h \
+           CLRenderResolver.h \
+           CLRGBAColor.h \
+#           CLSimpleImageTexturizer.h \
+           CLStyle.h \
+           CLText.h \
+           CLTransformation.h \
+           CLTransformation2D.h \
+           CLUnresolvedReferenceException.h \
+           utility_classes.h
+}
 
 SOURCES += CLayout.cpp \
            CLayoutInitializer.cpp \
@@ -44,5 +86,44 @@ SOURCES += CLayout.cpp \
            CLReactionGlyph.cpp \
            SBMLDocumentLoader.cpp
 
-include(../lib.pri)
-include(../common.pri)
+contains(DEFINES,USE_CRENDER_EXTENSION) {
+SOURCES += CLColorDefinition.cpp \
+           CLDefaultStyles.cpp \
+           CLEllipse.cpp \
+           CLGlobalRenderInformation.cpp \
+           CLGlobalStyle.cpp \
+           CLGradientBase.cpp \
+           CLGradientStop.cpp \
+           CLGradientStops.cpp \
+           CLGraphicalPrimitive1D.cpp \
+           CLGraphicalPrimitive2D.cpp \
+           CLGroup.cpp \
+           CLImage.cpp \
+           CLImageTexturizer.cpp \
+           CLLayoutRenderer.cpp \
+           CLLineEnding.cpp \
+           CLLinearGradient.cpp \
+           CLLocalRenderInformation.cpp \
+           CLLocalStyle.cpp \
+           CLPolygon.cpp \
+           CLRadialGradient.cpp \
+           CLRectangle.cpp \
+           CLRelAbsVector.cpp \
+           CLRenderCubicBezier.cpp \
+           CLRenderCurve.cpp \
+           CLRenderFlattener.cpp \
+           CLRenderInformationBase.cpp \
+           CLRenderPoint.cpp \
+           CLRenderResolver.cpp \
+# this class is only needed if we want to create 
+# bitmaps from layouts in the backend
+#           CLSimpleImageTexturizer.cpp \
+           CLStyle.cpp \
+           CLText.cpp \
+           CLTransformation.cpp \
+           CLTransformation2D.cpp \
+           CLUnresolvedReferenceException.cpp \
+           utility_classes.cpp
+}
+
+

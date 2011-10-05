@@ -22,8 +22,6 @@
 #endif
 
 #ifdef WIN32 // These are not part of ANSI C and Visual C++ 6.0 misses them.
-
-#ifndef CYGWIN
 static inline double asinh(double value)
 {return log(value + sqrt(value * value + 1.0));}
 
@@ -32,8 +30,6 @@ static inline double acosh(double value)
 
 static inline double atanh(double value)
 {return (.5 * log((1.0 + value) / (1.0 - value)));}
-#endif //CYGWIN
-
 #endif // WIN32
 
 #endif // COPASI_mathematics

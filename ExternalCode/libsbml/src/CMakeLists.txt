@@ -344,7 +344,7 @@ endif(MSVC)
 #
 
 #---------added for including Expat within SBML-------------
-FILE( GLOB  EXPAT_SRC_FILES   ${CMAKE_CURRENT_SOURCE_DIR}/../expat/lib/*.c)
+FILE( GLOB  EXPAT_SRC_FILES   ${CMAKE_CURRENT_SOURCE_DIR}/../../expat/lib/*.c)
 set(LIBSBML_SOURCES ${LIBSBML_SOURCES} ${EXPAT_SRC_FILES})
 add_definitions(-DHAVE_EXPAT_CONFIG_H)
 #------------------------------------------------------------------

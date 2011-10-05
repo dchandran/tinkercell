@@ -242,8 +242,8 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles, copasi_model & 
 		commands += tr("cCreateSpecies(") + speciesCompartments[i] + tr(",\"") + species[i] + tr("\",") + QString::number(initialValues[i]) + tr(");\n");
 		if (fixedVars.contains(species[i]))
 		{
-			cSetBoundarySpecies(model, species[i].toUtf8().data(), 1);
-			commands += tr("cSetBoundarySpecies(model, \"") + species[i] + tr("\",1);\n");
+			cSetSpeciesType(model, species[i].toUtf8().data(), 1);
+			commands += tr("cSetSpeciesType(model, \"") + species[i] + tr("\",1);\n");
 		}
 	}
 	
@@ -288,7 +288,7 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles, copasi_model & 
 	fout.close();
 	
 	//list of events
-/*	for (int i=0; i < eventTriggers.size(); ++i)
+	for (int i=0; i < eventTriggers.size(); ++i)
 	{
 		QStringList actions = eventActions[i].split(";");
 		for (int j=0; j < actions.size(); ++j)
@@ -300,7 +300,7 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles, copasi_model & 
 				break;
 			}
 		}
-	}*/
+	}
 }
 
 void SimulationThread::updateModel()
@@ -496,7 +496,8 @@ void SimulationThread::run()
 			break;
 		case SteadyState:
 			tc_deleteMatrix(resultMatrix);
-			resultMatrix = cGetSteadyState2(model,10);
+			resultMatrix = cGetSteadyState(model);
+			//resultMatrix = cGetSteadyStateUsingSimulation(model,10);
 			plotTitle = tr("Steady state");
 			plotType = PlotTool::Text;
 			x = -1;
@@ -519,7 +520,7 @@ void SimulationThread::run()
 					showProgress( title, (int)(100 * i)/n  );
 					p = start + (double)(i)*step;
 					cSetValue(model, param.toUtf8().data(), p);
-					ss = cGetSteadyState2(model,10);					
+					ss = cGetSteadyState(model);
 
 					if (i == 0)
 					{
@@ -571,7 +572,7 @@ void SimulationThread::run()
 
 						cSetValue(model, param1.toUtf8().data(), p1);
 						cSetValue(model, param2.toUtf8().data(), p2);
-						ss = cGetSteadyState2(model,10);
+						ss = cGetSteadyState(model);
 
 						if (l == -1)
 						{

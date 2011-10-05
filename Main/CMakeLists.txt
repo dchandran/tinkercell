@@ -35,8 +35,8 @@ INCLUDE_DIRECTORIES( BEFORE
     ${TINKERCELL_SOURCE_DIR}/OtherTools
     ${TINKERCELL_SOURCE_DIR}/ImportExportTools
     ${TINKERCELL_SOURCE_DIR}/ExternalCode/copasi
-    ${TINKERCELL_SOURCE_DIR}/ExternalCode/libSBML/include
-    ${TINKERCELL_SOURCE_DIR}/ExternalCode/Antimony/src
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/libsbml/src
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/antimony/src
     ${TINKERCELL_SOURCE_DIR}/ModularNetworkAlgorithms
  )
 

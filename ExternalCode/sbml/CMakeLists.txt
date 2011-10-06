@@ -125,7 +125,7 @@ INCLUDE(CPack)
 #
 
 # build static / shared library
-# option(BUILD_SHARED_LIBS  "Build shared library (Set to OFF to build static libraries)" OFF)
+option(BUILD_SHARED_LIBS  "Build shared library (recommended)" ON)
 
 # should we compile examples
 option(WITH_EXAMPLES "Compile Examples"         OFF )

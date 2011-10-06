@@ -98,7 +98,7 @@
 #endif //WIN32
 #endif //SunOS || CYGWIN || Darwin
 
-#ifdef WIN32
+#if defined(WIN32) && !defined(CYGWIN)
 # define vsnprintf _vsnprintf // they just have a different name for this guy
 # define snprintf  _snprintf  // they just have a different name for this guy
 # define strcasecmp _stricmp  // they just have a different name for this guy

@@ -49,7 +49,7 @@ template <class CType> class CCopasiObjectReference;
 template <class CType> class CCopasiVectorReference;
 template <class CType> class CCopasiMatrixReference;
 
-#ifdef WIN32
+#if defined(WIN32) && !defined(CYGWIN)
 template <class CType> class CCopasiVector;
 #endif // WIN32
 
@@ -160,7 +160,7 @@ class CRenameHandler;
 
 class CCopasiObject
 {
-#ifdef WIN32
+#if defined(WIN32) && !defined(CYGWIN)
   friend CCopasiVector< CCopasiObject >;
 #endif // WIN32
 

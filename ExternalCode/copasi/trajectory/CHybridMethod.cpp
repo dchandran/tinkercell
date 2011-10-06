@@ -37,7 +37,7 @@
 
 /* DEFINE ********************************************************************/
 
-#ifdef WIN32
+#if defined(WIN32) && !defined(CYGWIN)
 #define min _cpp_min
 #define max _cpp_max
 #endif // WIN32

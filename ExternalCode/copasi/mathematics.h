@@ -21,7 +21,7 @@
 #define M_E            2.7182818284590452354   /* e */
 #endif
 
-#ifdef WIN32 // These are not part of ANSI C and Visual C++ 6.0 misses them.
+#if defined(WIN32) && !defined(CYGWIN) // These are not part of ANSI C and Visual C++ 6.0 misses them.
 static inline double asinh(double value)
 {return log(value + sqrt(value * value + 1.0));}
 

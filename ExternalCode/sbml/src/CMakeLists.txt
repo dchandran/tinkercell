@@ -358,14 +358,14 @@ INSTALL(TARGETS ${LIBSBML_LIBRARY}
 	ARCHIVE DESTINATION lib
   )
 
-add_library (${LIBSBML_LIBRARY}-static STATIC ${LIBSBML_SOURCES} )
-target_link_libraries(${LIBSBML_LIBRARY}-static ${LIBSBML_LIBS} ${EXTRA_LIBS})
+#add_library (${LIBSBML_LIBRARY}-static STATIC ${LIBSBML_SOURCES} )
+#target_link_libraries(${LIBSBML_LIBRARY}-static ${LIBSBML_LIBS} ${EXTRA_LIBS})
 
-INSTALL(TARGETS ${LIBSBML_LIBRARY}-static 
-	RUNTIME DESTINATION bin
-	LIBRARY DESTINATION lib
-	ARCHIVE DESTINATION lib
-  )
+#INSTALL(TARGETS ${LIBSBML_LIBRARY}-static 
+#	RUNTIME DESTINATION bin
+#	LIBRARY DESTINATION lib
+#	ARCHIVE DESTINATION lib
+#  )
 
 ##############################################################################
 #

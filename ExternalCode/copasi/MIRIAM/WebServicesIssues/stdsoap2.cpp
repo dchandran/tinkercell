@@ -76,6 +76,10 @@ when locally allocated data exceeds 64K.
 
  */
 
+ #ifdef __CYGWIN__
+ typedef int socklen_t;
+#endif
+ 
 #ifdef AS400
 # pragma convert(819) /* EBCDIC to ASCII */
 #endif

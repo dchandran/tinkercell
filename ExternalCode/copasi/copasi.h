@@ -98,21 +98,21 @@
 #endif //WIN32
 #endif //SunOS || CYGWIN || Darwin
 
-#if defined(WIN32) && !defined(CYGWIN)
-# define vsnprintf _vsnprintf // they just have a different name for this guy
-# define snprintf  _snprintf  // they just have a different name for this guy
-# define strcasecmp _stricmp  // they just have a different name for this guy
-# define strdup _strdup       // they just have a different name for this guy
-# define finite _finite       // they just have a different name for this guy
-# define isnan _isnan         // they just have a different name for this guy
-#ifndef __CYGWIN__
-      #define NOMINMAX
-   //# define abs64 _abs64
-   //# define min _cpp_min         // they just have a different name for this guy
-   //# define max _cpp_max         // they just have a different name for this guy
-#else //not CYGWIN
-   #define abs64 abs
-#endif  //CYGWIN
+#ifdef WIN32
+	#ifndef __CYGWIN__
+		# define vsnprintf _vsnprintf // they just have a different name for this guy
+		# define snprintf  _snprintf  // they just have a different name for this guy
+		# define strcasecmp _stricmp  // they just have a different name for this guy
+		# define strdup _strdup       // they just have a different name for this guy
+		# define finite _finite       // they just have a different name for this guy
+		# define isnan _isnan         // they just have a different name for this guy
+		 #define NOMINMAX
+	   //# define abs64 _abs64
+	   //# define min _cpp_min         // they just have a different name for this guy
+	   //# define max _cpp_max         // they just have a different name for this guy
+	#else //not CYGWIN
+	   #define abs64 abs
+	#endif  //CYGWIN
 #else //WIN32
 # define C_INT64 long long int
 # ifndef LLONG_MAX

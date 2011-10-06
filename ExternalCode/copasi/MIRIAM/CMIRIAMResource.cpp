@@ -17,6 +17,13 @@
 // All rights reserved.
 
 // These are treated as external includes and must appear first
+
+#ifdef __CYGWIN__
+#    undef WIN32 
+#endif
+
+#include <vector>
+
 #include "WebServicesIssues/soapH.h"
 #include "WebServicesIssues/soapMiriamWebServicesSoapBindingProxy.h"
 #include "WebServicesIssues/MiriamWebServicesSoapBinding.nsmap"

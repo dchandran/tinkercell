@@ -48,6 +48,10 @@
 
 #include "clapackwrap.h"        //use CLAPACK
 
+#if defined(WIN32) && defined(__CYGWIN__)
+using namespace std;
+#endif
+
 /**
  * Default constructor
  */

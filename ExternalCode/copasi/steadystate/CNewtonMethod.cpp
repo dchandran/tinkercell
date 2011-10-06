@@ -44,6 +44,10 @@
 #include "clapackwrap.h"
 #include "blaswrap.h"
 
+#if defined(WIN32) && defined(__CYGWIN__)
+using namespace std;
+#endif
+
 CNewtonMethod::CNewtonMethod(const CCopasiContainer * pParent):
     CSteadyStateMethod(CCopasiMethod::Newton, pParent),
     mIpiv(NULL),

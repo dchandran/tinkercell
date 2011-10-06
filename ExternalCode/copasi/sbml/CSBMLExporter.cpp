@@ -2682,7 +2682,7 @@ const std::string CSBMLExporter::exportModelToString(CCopasiDataModel& dataModel
   createSBMLDocument(dataModel);
 
   if (this->mpSBMLDocument && this->mpSBMLDocument->getModel())
-    dataModel.getListOfLayouts()->exportToSBML((static_cast<const LayoutModelPlugin*>(this->mpSBMLDocument->getModel()->getPlugin("layout")))->getListOfLayouts(),
+    dataModel.getListOfLayouts()->exportToSBML((static_cast<LayoutModelPlugin*>(this->mpSBMLDocument->getModel()->getPlugin("layout")))->getListOfLayouts(),
         dataModel.getCopasi2SBMLMap(), mIdMap);
 
 #ifdef COPASI_DEBUG

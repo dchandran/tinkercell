@@ -122,7 +122,7 @@ foreach (directory annotation common extension math sbml
 		set(prefix "")
 	endif()
 	
-	
+	message(${prefix}${directory})
 	file(GLOB temp 
 			${prefix}${directory}/*.cpp 
 			${prefix}${directory}/*.c 
@@ -344,7 +344,7 @@ endif(MSVC)
 #
 
 #---------added for including Expat within SBML-------------
-FILE( GLOB  EXPAT_SRC_FILES   ${CMAKE_CURRENT_SOURCE_DIR}/../../expat/lib/*.c)
+file( GLOB  EXPAT_SRC_FILES   ${CMAKE_CURRENT_SOURCE_DIR}/../../expat/lib/*.c)
 set(LIBSBML_SOURCES ${LIBSBML_SOURCES} ${EXPAT_SRC_FILES})
 add_definitions(-DHAVE_EXPAT_CONFIG_H)
 #------------------------------------------------------------------

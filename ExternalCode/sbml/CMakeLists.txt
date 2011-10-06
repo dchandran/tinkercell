@@ -165,7 +165,7 @@ option(WITH_LIBXML   "Use libxml XML parser"  OFF )
 option(WITH_XERCES   "Use xerces XML parser"  OFF )
 
 # use C++ namespace
-option(WITH_CPP_NAMESPACE "Use C++ namespace for libsbml -- REQUIRED for Copasi API" ON)
+option(WITH_CPP_NAMESPACE "Use C++ namespace for libsbml -- DISABLE for Copasi API" OFF)
 
 # generate documentation
 option(WITH_DOXYGEN   "Generate Documentation"    OFF )

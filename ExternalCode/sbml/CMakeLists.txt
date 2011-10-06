@@ -75,10 +75,10 @@ SET(PACKAGE_VERSION "${LIBSBML_VERSION_MAJOR}.${LIBSBML_VERSION_MINOR}.${LIBSBML
 SET(PACKAGE_NAME "libSBML")
 
 # configure the version for documentation / bindings
-configure_file(
-    ${CMAKE_CURRENT_SOURCE_DIR}/docs/src/common-text/libsbml-version.html.in
-    ${CMAKE_CURRENT_SOURCE_DIR}/docs/src/common-text/libsbml-version.html
-)
+#configure_file(
+#    ${CMAKE_CURRENT_SOURCE_DIR}/docs/src/common-text/libsbml-version.html.in
+#    ${CMAKE_CURRENT_SOURCE_DIR}/docs/src/common-text/libsbml-version.html
+#)
 
 
 ###############################################################################

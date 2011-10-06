@@ -123,11 +123,11 @@ if(NOT CURL_STATICLIB)
   endif()
   
   #------ install the library in the main TinkerCell folder --------------
-  IF ( WIN32 )
-    INSTALL(TARGETS ${LIB_NAME} DESTINATION bin/../)
-  ELSE ( WIN32 )
-    INSTALL(TARGETS ${LIB_NAME} LIBRARY DESTINATION bin/../)
-  ENDIF( WIN32 )
+ INSTALL(TARGETS ${LIB_NAME}
+	RUNTIME DESTINATION bin/../
+	LIBRARY DESTINATION bin/../
+	ARCHIVE DESTINATION bin/../
+  )
 
 endif()
 

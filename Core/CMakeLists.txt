@@ -182,9 +182,10 @@ TARGET_LINK_LIBRARIES( TinkerCellCore
 #-------------------------------------------------------------------------------------------------------------
 #  For Cmake: copy the library into the main app folder (i.e. bin/../)
 #-------------------------------------------------------------------------------------------------------------
-IF( WIN32 )
-  INSTALL(TARGETS TinkerCellCore DESTINATION bin/../ )
-ELSE( WIN32 )
-  INSTALL(TARGETS TinkerCellCore LIBRARY DESTINATION bin/../ )
-ENDIF( WIN32 )
+INSTALL(TARGETS TinkerCellCore
+	RUNTIME DESTINATION bin/../
+	LIBRARY DESTINATION bin/../
+	ARCHIVE DESTINATION bin/../
+  )
+
 

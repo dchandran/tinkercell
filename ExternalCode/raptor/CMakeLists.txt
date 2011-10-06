@@ -49,9 +49,10 @@ TARGET_LINK_LIBRARIES( raptor
 #  INSTALL libraptor in . (CPack)
 #----------------------------------
 
-IF ( WIN32 )
-   INSTALL(TARGETS raptor DESTINATION bin/../)
-ELSE ( WIN32 )
-   INSTALL(TARGETS raptor LIBRARY DESTINATION bin/../)
-ENDIF( WIN32 )
+INSTALL(TARGETS raptor
+	RUNTIME DESTINATION bin/../
+	LIBRARY DESTINATION bin/../
+	ARCHIVE DESTINATION bin/../
+  )
+
 

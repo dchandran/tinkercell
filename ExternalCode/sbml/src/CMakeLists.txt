@@ -90,12 +90,12 @@ configure_file (
 foreach(dir annotation common compress extension math units util validator xml  )
 
 	file(GLOB header_files "${CMAKE_CURRENT_SOURCE_DIR}/sbml/${dir}/*.h")
-	install(FILES ${header_files} DESTINATION include/sbml/${dir})
+	#install(FILES ${header_files} DESTINATION include/sbml/${dir})
 
 endforeach(dir)
 
 file(GLOB files "${CMAKE_CURRENT_SOURCE_DIR}/sbml/*.h")
-install(FILES ${files} DESTINATION include/sbml)
+#install(FILES ${files} DESTINATION include/sbml)
 
 ###############################################################################
 #
@@ -122,7 +122,6 @@ foreach (directory annotation common extension math sbml
 		set(prefix "")
 	endif()
 	
-	message(${prefix}${directory})
 	file(GLOB temp 
 			${prefix}${directory}/*.cpp 
 			${prefix}${directory}/*.c 
@@ -354,8 +353,8 @@ target_link_libraries(${LIBSBML_LIBRARY} ${LIBSBML_LIBS} ${EXTRA_LIBS})
 
 INSTALL(TARGETS ${LIBSBML_LIBRARY} 
 	RUNTIME DESTINATION bin/../
-	LIBRARY DESTINATION lib
-	ARCHIVE DESTINATION lib
+	LIBRARY DESTINATION bin/../
+	ARCHIVE DESTINATION bin/../
   )
 
 #add_library (${LIBSBML_LIBRARY}-static STATIC ${LIBSBML_SOURCES} )

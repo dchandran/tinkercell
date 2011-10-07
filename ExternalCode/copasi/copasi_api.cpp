@@ -236,6 +236,8 @@ void cRemoveModel(copasi_model model)
 	//delete model
 	if (model.errorMessage)
 		free(model.errorMessage);
+	if (model.warningMessage)
+		free(model.warningMessage);
 	if (model.CopasiDataModelPtr)
 		CCopasiRootContainer::removeDatamodel((CCopasiDataModel*)model.CopasiDataModelPtr);
 }
@@ -276,7 +278,7 @@ copasi_model cCreateModel(const char * name)
 	CCopasiDataModel* pDataModel = CCopasiRootContainer::addDatamodel();
 	CModel* pModel = pDataModel->getModel();
 	CCMap * qHash = new CCMap();
-	copasi_model m = { (void*)(pModel) , (void*)(pDataModel), (void*)(qHash), (char*)(NULL) };
+	copasi_model m = { (void*)(pModel) , (void*)(pDataModel), (void*)(qHash), (char*)(NULL), (char*)(NULL) };
 	
 	hashTablesToCleanup.push_back(qHash);
 	copasiModelsToCleanup.push_back(m);
@@ -942,7 +944,7 @@ int cSetReactionRate(copasi_reaction reaction, const char * formula)
 				
 				if (!contains(hash,s))
 				{
-					copasi_model model = { (void*)(pModel) , (void*)(0), (void*)(hash) };
+					copasi_model model = { (void*)(pModel) , (void*)(0), (void*)(hash), (char*)(NULL), (char*)(NULL) };
 					cSetGlobalParameter(model,pParam->getObjectName().c_str(),1.0);				
 				}
 				
@@ -1197,30 +1199,42 @@ copasi_model cReadSBMLFile(const char * filename)
 	CModel* pModel = 0;
 	CCMap * qHash = 0;	
 	char * error = NULL;
+	char * warning = NULL;
 	string s;
+	CCopasiMessage::Type type;
+
 	try 
 	{
 		pDataModel->importSBML(filename); //SBML -> COPASI
 		s = CCopasiMessage::getAllMessageText();
+		type = CCopasiMessage::getHighestSeverity();
 		pModel = pDataModel->getModel();
 		qHash = new CCMap();	
 	}
 	catch(...)
 	{
 		s = CCopasiMessage::getAllMessageText();
+		type = CCopasiMessage::EXCEPTION;
 	}
 
 	int len = s.length();
 	if (len > 1)
 	{
-		error = (char*)malloc((1+len) * sizeof(char));
-		if (error)
+		char * msg = (char*)malloc((1+len) * sizeof(char));
+		if (msg)
 		{
-			for (int i=0; i < len; ++i) error[i] = s[i];
-			error[len-1] = 0;
+			for (int i=0; i < len; ++i) msg[i] = s[i];
+			msg[len-1] = 0;
 		}
+
+		//error or warning?
+		if (type == CCopasiMessage::EXCEPTION || type == CCopasiMessage::ERROR)
+			error = msg;
+		else
+			warning = msg;
 	}
-	copasi_model m = { (void*)(pModel) , (void*)(pDataModel), (void*)(qHash), (char*)(error) };
+
+	copasi_model m = { (void*)(pModel) , (void*)(pDataModel), (void*)(qHash), (char*)(error), (char*)warning };
 	if (pModel && qHash)
 	{
 		hashTablesToCleanup.push_back( qHash );

@@ -87,7 +87,8 @@ typedef struct
 	void * CopasiModelPtr;
 	void * CopasiDataModelPtr;
 	void * qHash;
-	char * errorMessage; 
+	char * errorMessage;
+	char * warningMessage;
 } copasi_model;
 
 /*!\brief This struct is used to contain a pointer to an instance of a COPASI reaction object*/

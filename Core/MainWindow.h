@@ -545,9 +545,10 @@ namespace Tinkercell
 		/*!
 		* \brief signals when  user selects a file to open in the current network
 		* \param QString& file that is selected by user
+		* \param bool* file already loaded by another plugin
 		* \return void
 		*/
-		void loadNetwork(const QString& filename);
+		void loadNetwork(const QString& filename, bool * alreadyLoaded = 0);
 		/*!
 		* \brief signal sent to a tool so that the tool can get the items inside a file
 		* \param QList<ItemHandle*>& list of items inside the file

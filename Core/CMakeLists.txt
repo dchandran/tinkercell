@@ -153,6 +153,14 @@ FILE( GLOB CLUSTER_SRC ${TINKERCELL_SOURCE_DIR}/ExternalCode/cluster/src/*.c)
 
 source_group("muparser" FILES ${MUPARSER_SRC}) #for IDE
 
+#DBL_ definitions are missing in new MinGW -- why did they do that?
+IF (WIN32 AND MINGW)
+	ADD_DEFINITIONS(-DDBL_EPSILON=2.22045e-16)
+	ADD_DEFINITIONS(-DDBL_MIN=1e-999)
+	ADD_DEFINITIONS(-DDBL_MIN_EXP=-999)
+	ADD_DEFINITIONS(-DDBL_MAX=1.79769e+308)
+ENDIF (WIN32 AND MINGW)
+
 #-------------------------------------------------------------------------------------------------------------
 #    Create resource file and MOC files used by Qt
 #-------------------------------------------------------------------------------------------------------------

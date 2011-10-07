@@ -99,7 +99,7 @@ namespace Tinkercell
 		}
 
 		connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
-		connect(mainWindow,SIGNAL(loadNetwork(const QString&)),this,SLOT(loadNetwork(const QString&)));
+		connect(mainWindow,SIGNAL(loadNetwork(const QString&, bool*)),this,SLOT(loadNetwork(const QString&, bool*)));
 		connect(main,SIGNAL(historyChanged(int)),this, SLOT(historyChanged(int)));
 		connect(main,SIGNAL(windowChanged(NetworkWindow*,NetworkWindow*)),this, SLOT(windowChanged(NetworkWindow*,NetworkWindow*)));
 		connect(mainWindow,SIGNAL(getItemsFromFile(QList<ItemHandle*>&, QList<QGraphicsItem*>&, const QString&,ItemHandle*)),
@@ -277,9 +277,10 @@ namespace Tinkercell
 			sem->release();
 	}
 
-	void SBMLImportExport::loadNetwork(const QString& filename)
+	void SBMLImportExport::loadNetwork(const QString& filename, bool * b)
 	{
-		importSBML(0,filename);
+		if (b && (*b)) return;
+		(*b) = importSBML(0,filename);
 	}
 
 	void SBMLImportExport::importText(QSemaphore * sem, const QString& str)
@@ -294,16 +295,19 @@ namespace Tinkercell
 			sem->release();	
 	}
 
-	void SBMLImportExport::importSBML(QSemaphore * sem, const QString& str)
+	bool SBMLImportExport::importSBML(QSemaphore * sem, const QString& str)
 	{
+		bool b = false;
 		QWidget * tool = mainWindow->tool("Antimony Parser");
 		if (tool)
 		{
 			AntimonyEditor * antEdit = static_cast<AntimonyEditor*>(tool);
-			antEdit->loadNetwork(str);	
+			antEdit->loadNetwork(str, &b);
 		}
 		if (sem)
 			sem->release();	
+
+		return b;
 	}
 
 	/***************************************************

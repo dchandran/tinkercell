@@ -630,7 +630,8 @@ namespace Tinkercell
 		}
 
 		previousFileName = QFileInfo(fileName).absolutePath();
-		emit loadNetwork(fileName);
+		bool b = false;
+		emit loadNetwork(fileName, &b);
 		
 		if (currentNetworkWindow)
 		{
@@ -1214,7 +1215,8 @@ namespace Tinkercell
 				{
 					QString fileName = files[i].absoluteFilePath();
 					previousFileName = QFileInfo(fileName).absolutePath();
-					emit loadNetwork(fileName);
+					bool b = false;
+					emit loadNetwork(fileName, &b);
 					if (currentNetworkWindow)
 						currentNetworkWindow->setFileName(fileName);
 				}

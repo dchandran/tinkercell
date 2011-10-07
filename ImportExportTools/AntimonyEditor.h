@@ -126,7 +126,7 @@ namespace Tinkercell
 		void toolLoaded(Tool*);
 		
 	public slots:
-		void loadNetwork(const QString&);
+		void loadNetwork(const QString&, bool * b = 0);
 
 	private:
 		void connectTCFunctions();

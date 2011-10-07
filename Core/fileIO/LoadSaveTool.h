@@ -87,7 +87,7 @@ namespace Tinkercell
 		/*!\brief connects to MainWindow's saveNetwork signal*/
 		void saveNetwork(const QString& filename);
 		/*!\brief connects to MainWindow's loadNetwork signal*/
-		void loadNetwork(const QString& filename);
+		void loadNetwork(const QString& filename, bool * b);
 		/*!\brief connects to MainWindow's historyChanged signal*/
 		void historyChangedSlot( int );
 		/*!\brief connects to MainWindow's networkClosing signal*/

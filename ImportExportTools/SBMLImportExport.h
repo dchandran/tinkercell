@@ -76,14 +76,14 @@ namespace Tinkercell
 
 	private slots:
 
-		void loadNetwork(const QString& filename);
+		void loadNetwork(const QString& filename, bool *);
 		void windowChanged(NetworkWindow*,NetworkWindow*);
 		void historyChanged(int);
 		void setupFunctionPointers( QLibrary * );
 		void loadSBMLFile();
 		void saveSBMLFile();
 		void exportSBML(QSemaphore*, const QString&);
-		void importSBML(QSemaphore*, const QString&);
+		bool importSBML(QSemaphore*, const QString&);
 		void exportText(QSemaphore*, const QString&);
 		void importText(QSemaphore*, const QString&);
 		void exportMath(QSemaphore*, const QString&);

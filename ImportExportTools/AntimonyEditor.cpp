@@ -60,16 +60,16 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(getItemsFromFile(QList<ItemHandle*>&, QList<QGraphicsItem*>&, const QString&,ItemHandle*)),
 						this,SLOT(getItemsFromFile(QList<ItemHandle*>&, QList<QGraphicsItem*>&, const QString&,ItemHandle*)));
 
-			//connect(mainWindow,SIGNAL(loadNetwork(const QString&)),this,SLOT(loadNetwork(const QString&)));
-
 			toolLoaded(0);
 
 		}
 		return false;
 	}
 	
-	void AntimonyEditor::loadNetwork(const QString& filename)
+	void AntimonyEditor::loadNetwork(const QString& filename, bool * b)
 	{
+		if (b && (*b)) return;
+
 		QFile file(filename);
 		QString modelString;
 

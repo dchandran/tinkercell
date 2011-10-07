@@ -82,7 +82,7 @@ namespace Tinkercell
 		if (mainWindow)
 		{
 			connect(mainWindow,SIGNAL(saveNetwork(const QString&)),this,SLOT(saveNetwork(const QString&)));
-			connect(mainWindow,SIGNAL(loadNetwork(const QString&)),this,SLOT(loadNetwork(const QString&)));
+			connect(mainWindow,SIGNAL(loadNetwork(const QString&, bool*)),this,SLOT(loadNetwork(const QString&, bool*)));
 			
 			connect(this, SIGNAL(itemsAboutToBeInserted(GraphicsScene * , QList<QGraphicsItem*>& , QList<ItemHandle*>&, QList<QUndoCommand*>&,GraphicsScene::InsertType)), mainWindow, SIGNAL(itemsAboutToBeInserted(GraphicsScene * , QList<QGraphicsItem*>& , QList<ItemHandle*>&, QList<QUndoCommand*>&,GraphicsScene::InsertType)));
 
@@ -121,7 +121,7 @@ namespace Tinkercell
 			QFile file(filename);
 		
 			if (file.open(QFile::ReadOnly | QFile::Text))
-				loadNetwork(filename);
+				loadNetwork(filename,0);
 		}
 	}
 
@@ -373,8 +373,10 @@ namespace Tinkercell
 			saveItems(network,filename);
 	}
 
-	void LoadSaveTool::loadNetwork(const QString& filename)
+	void LoadSaveTool::loadNetwork(const QString& filename, bool * b)
 	{
+		if (b && (*b)) return;
+
 		QList<QGraphicsItem*> items;
 		ItemHandle globalHandle;
 		loadItems(items,filename, &globalHandle);
@@ -387,6 +389,8 @@ namespace Tinkercell
 
 		if (items.size() > 0)
 		{
+			if (b)
+				(*b) = true;
 			GraphicsScene * scene = currentScene();
 			if (!scene || !scene->network || !scene->network->handles().isEmpty() || (scene->network->history.count() > 0))
 			{

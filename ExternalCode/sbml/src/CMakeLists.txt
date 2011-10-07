@@ -90,12 +90,12 @@ configure_file (
 foreach(dir annotation common compress extension math units util validator xml  )
 
 	file(GLOB header_files "${CMAKE_CURRENT_SOURCE_DIR}/sbml/${dir}/*.h")
-	#install(FILES ${header_files} DESTINATION include/sbml/${dir})
+	install(FILES ${header_files} DESTINATION include/sbml/${dir})
 
 endforeach(dir)
 
 file(GLOB files "${CMAKE_CURRENT_SOURCE_DIR}/sbml/*.h")
-#install(FILES ${files} DESTINATION include/sbml)
+install(FILES ${files} DESTINATION include/sbml)
 
 ###############################################################################
 #
@@ -121,6 +121,7 @@ foreach (directory annotation common extension math sbml
 	if ("${directory}" STREQUAL "sbml")
 		set(prefix "")
 	endif()
+	
 	
 	file(GLOB temp 
 			${prefix}${directory}/*.cpp 
@@ -343,7 +344,7 @@ endif(MSVC)
 #
 
 #---------added for including Expat within SBML-------------
-file( GLOB  EXPAT_SRC_FILES   ${CMAKE_CURRENT_SOURCE_DIR}/../../expat/lib/*.c)
+FILE( GLOB  EXPAT_SRC_FILES   ${CMAKE_CURRENT_SOURCE_DIR}/../../expat/lib/*.c)
 set(LIBSBML_SOURCES ${LIBSBML_SOURCES} ${EXPAT_SRC_FILES})
 add_definitions(-DHAVE_EXPAT_CONFIG_H)
 #------------------------------------------------------------------
@@ -353,8 +354,8 @@ target_link_libraries(${LIBSBML_LIBRARY} ${LIBSBML_LIBS} ${EXTRA_LIBS})
 
 INSTALL(TARGETS ${LIBSBML_LIBRARY} 
 	RUNTIME DESTINATION bin/../
-	LIBRARY DESTINATION bin/../
-	ARCHIVE DESTINATION bin/../
+	LIBRARY DESTINATION lib
+	ARCHIVE DESTINATION lib
   )
 
 #add_library (${LIBSBML_LIBRARY}-static STATIC ${LIBSBML_SOURCES} )

@@ -289,7 +289,7 @@ bool CProcessQueue::process(const C_FLOAT64 & time,
   // as the queue enforces the proper ordering.
   while (success &&
          notEmpty(Assignments) &&
-         mCascadingLevel != std::numeric_limits<unsigned C_INT32>::max())
+		 mCascadingLevel != std::numeric_limits<unsigned C_INT32>::max())
     {
       // We switch to the next cascading level so that events triggered by the
       // execution of assignments are properly scheduled.

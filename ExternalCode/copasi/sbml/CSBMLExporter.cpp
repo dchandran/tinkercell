@@ -6475,7 +6475,7 @@ void CSBMLExporter::collectIds(const CCopasiDataModel& dataModel, std::map<std::
 
       if (!id.empty())
         {
-          idMap.insert(std::pair<const std::string, const SBase*>(id, NULL));
+          idMap.insert(std::pair<const std::string, const SBase*>(id, (const SBase *)NULL));
         }
     }
 
@@ -6490,7 +6490,7 @@ void CSBMLExporter::collectIds(const CCopasiDataModel& dataModel, std::map<std::
 
       if (!id.empty())
         {
-          idMap.insert(std::pair<const std::string, const SBase*>(id, NULL));
+          idMap.insert(std::pair<const std::string, const SBase*>(id, (const SBase*)NULL));
         }
     }
 
@@ -6503,7 +6503,7 @@ void CSBMLExporter::collectIds(const CCopasiDataModel& dataModel, std::map<std::
 
       if (!id.empty())
         {
-          idMap.insert(std::pair<const std::string, const SBase*>(id, NULL));
+          idMap.insert(std::pair<const std::string, const SBase*>(id, (const SBase*)NULL));
         }
     }
 
@@ -6516,7 +6516,7 @@ void CSBMLExporter::collectIds(const CCopasiDataModel& dataModel, std::map<std::
 
       if (!id.empty())
         {
-          idMap.insert(std::pair<const std::string, const SBase*>(id, NULL));
+          idMap.insert(std::pair<const std::string, const SBase*>(id, (const SBase*)NULL));
         }
     }
 
@@ -6529,7 +6529,7 @@ void CSBMLExporter::collectIds(const CCopasiDataModel& dataModel, std::map<std::
 
       if (!id.empty())
         {
-          idMap.insert(std::pair<const std::string, const SBase*>(id, NULL));
+          idMap.insert(std::pair<const std::string, const SBase*>(id, (const SBase*)NULL));
         }
     }
 
@@ -6542,7 +6542,7 @@ void CSBMLExporter::collectIds(const CCopasiDataModel& dataModel, std::map<std::
 
       if (!id.empty())
         {
-          idMap.insert(std::pair<const std::string, const SBase*>(id, NULL));
+          idMap.insert(std::pair<const std::string, const SBase*>(id, (const SBase*)NULL));
         }
     }
 }
@@ -6558,7 +6558,7 @@ void CSBMLExporter::assignSBMLIdsToReactions(CModel* pModel)
         {
           sbmlId = CSBMLExporter::createUniqueId(this->mIdMap, "reaction_");
           (*it)->setSBMLId(sbmlId);
-          this->mIdMap.insert(std::pair<const std::string, const SBase*>(sbmlId, NULL));
+          this->mIdMap.insert(std::pair<const std::string, const SBase*>(sbmlId, (const SBase*)NULL));
         }
 
       ++it;

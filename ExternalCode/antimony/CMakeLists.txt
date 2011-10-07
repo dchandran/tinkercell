@@ -36,7 +36,6 @@ SET(CPACK_PACKAGE_VERSION_PATCH "${LIBANTIMONY_VERSION_PATCH}")
 SET(CPACK_PACKAGE_VERSION_RELEASE "${LIBANTIMONY_VERSION_RELEASE}")
 INCLUDE(CPack)
 
-option(BUILD_SHARED_LIBS  "Build shared library (Set to OFF to build static libraries)" ON)
 set(CMAKE_BUILD_TYPE "RelWithDebInfo" CACHE STRING "Choose the type of build, options are: None (CMAKE_CXX_FLAGS or CMAKE_C_FLAGS are used), Debug, Release, RelWithDebInfo, MinSizeRel" )
 
 
@@ -170,7 +169,6 @@ if(UNIX)
 else()
 	set(PATH_SEP "\\")
 	set(FILE_SEP ";")
-	#set(LIBANTIMONY_LIBRARY libantimony)
 	set(LIBANTIMONY_LIBRARY antimony)
 endif()
 
@@ -231,18 +229,17 @@ file(GLOB LIBANTIMONY_HEADERS
         ${ANTIMONY_SRC_DIR}variable.h
         )
  
-add_library(${LIBANTIMONY_LIBRARY} ${LIBANTIMONY_HEADERS} ${LIBANTIMONY_SOURCES} ${LIBANTIMONY_TRANSLATORS})
+add_library(${LIBANTIMONY_LIBRARY} SHARED ${LIBANTIMONY_SOURCES} ${LIBANTIMONY_TRANSLATORS})
 target_link_libraries(${LIBANTIMONY_LIBRARY} ${LIBANTIMONY_LIBRARY} ${LIBANTIMONY_LIBS})
 add_definitions(-DLIB_EXPORTS)
+#install(TARGETS ${LIBANTIMONY_LIBRARY} DESTINATION bin)
+#install(FILES   ${LIBANTIMONY_HEADERS} DESTINATION include)
 
-INSTALL(TARGETS ${LIBANTIMONY_LIBRARY} 
+INSTALL(TARGETS ${LIBANTIMONY_LIBRARY}
 	RUNTIME DESTINATION bin/../
 	LIBRARY DESTINATION bin/../
 	ARCHIVE DESTINATION bin/../
-  )
-
-
-#install(FILES   ${LIBANTIMONY_HEADERS} DESTINATION include)
+)
 
 if (NOT UNIX)
   add_definitions(-DWIN32=1 -DLIBSBML_EXPORTS -DLIBLAX_EXPORTS)
@@ -429,7 +426,7 @@ if (WITH_SBW_TRANSLATOR)
 		PATHS /usr/lib /usr/local/lib 
 			  ${CMAKE_SOURCE_DIR} 
 			  ${CMAKE_SOURCE_DIR}/dependencies/lib
-              ${CMAKE_SOURCE_DIR}/../sbml-5/build/src/RelWithDebInfo
+              ${CMAKE_SOURCE_DIR}/../libsbml-5/build/src/RelWithDebInfo
     )
     find_path(SBW_INCLUDE_DIR
 		NAMES SBW/config.h

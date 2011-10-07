@@ -17,6 +17,7 @@ IF(WIN32)
 	ADD_DEFINITIONS(-DWIN32)
 	IF (MINGW)
 		ADD_DEFINITIONS(-D__MINGW32__)
+		ADD_DEFINITIONS(-DDBL_EPSILON=2.22045e-16)
 	ELSE(MINGW)
 		ADD_DEFINITIONS(-Dstrcasecmp=_stricmp)
 		ADD_DEFINITIONS(-Dstrncasecmp=_strnicmp)
@@ -49,10 +50,9 @@ TARGET_LINK_LIBRARIES( raptor
 #  INSTALL libraptor in . (CPack)
 #----------------------------------
 
-INSTALL(TARGETS raptor
-	RUNTIME DESTINATION bin/../
-	LIBRARY DESTINATION bin/../
-	ARCHIVE DESTINATION bin/../
-  )
-
+IF ( WIN32 )
+   INSTALL(TARGETS raptor DESTINATION bin/../)
+ELSE ( WIN32 )
+   INSTALL(TARGETS raptor LIBRARY DESTINATION bin/../)
+ENDIF( WIN32 )
 

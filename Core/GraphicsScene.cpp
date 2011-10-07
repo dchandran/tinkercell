@@ -2548,8 +2548,8 @@ namespace Tinkercell
 	void GraphicsScene::useDefaultBehavior(bool b)
 	{
 		_useDefaultBehavior = b;
-		clickedButton = Qt::NoButton;
-		clickedPoint = QPointF();
+		//clickedButton = Qt::NoButton;
+		//clickedPoint = QPointF();
 	}
 	
 	bool GraphicsScene::useDefaultBehavior() const

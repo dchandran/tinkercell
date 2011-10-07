@@ -125,7 +125,7 @@ namespace Tinkercell
 		/*!\brief remove items from Participants table in each connection*/
 		void itemsAboutToBeRemoved(GraphicsScene * scene, QList<QGraphicsItem*>& item, QList<ItemHandle*>& handles, QList<QUndoCommand*>&);
 		/*! \brief insert parts and connections*/
-		void itemsDropped(GraphicsScene *, const QString&, const QPointF&);
+		void itemsDropped(GraphicsScene *, const QString&, QPointF);
 	signals:
 		void aboutToInsertItems( GraphicsScene* , QList<QGraphicsItem *>& , QList<ItemHandle*>& , QList<QUndoCommand*>&);
 		void insertedItems( GraphicsScene* ,  const QList<QGraphicsItem *>& , const QList<ItemHandle*>& );

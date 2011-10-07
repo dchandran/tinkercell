@@ -39,8 +39,8 @@ namespace Tinkercell
 		{
 			connect(mainWindow,SIGNAL(escapeSignal(const QWidget*)),this,SLOT(escapeSignal(const QWidget*)));
 
-			connect(mainWindow,SIGNAL(itemsDropped(GraphicsScene *, const QString&, const QPointF&)),
-				this, SLOT(itemsDropped(GraphicsScene *, const QString&, const QPointF&)));
+			connect(mainWindow,SIGNAL(itemsDropped(GraphicsScene *, const QString&, QPointF)),
+				this, SLOT(itemsDropped(GraphicsScene *, const QString&, QPointF)));
 
 			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 
@@ -220,7 +220,7 @@ namespace Tinkercell
 		connectToNodesTree();
 	}
 	
-	void NodeInsertion::itemsDropped(GraphicsScene * scene, const QString& family, const QPointF& point)
+	void NodeInsertion::itemsDropped(GraphicsScene * scene, const QString& family, QPointF point)
 	{
 		if (mainWindow && scene->useDefaultBehavior() && !selectedNodeFamily && !family.isEmpty() && 
 			nodesTree && nodesTree->getFamily(family))

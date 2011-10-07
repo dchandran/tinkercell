@@ -482,8 +482,7 @@ else()
     if (MINGW)
         set(LIBSBML_LIBRARY sbml)
     else()
-        #set(LIBSBML_LIBRARY libsbml)
-		set(LIBSBML_LIBRARY sbml)
+        set(LIBSBML_LIBRARY sbml)
     endif()
 endif()
 
@@ -550,9 +549,9 @@ else(UNIX)
         endif(WITH_STATIC_RUNTIME)
     
         file(GLOB WIN32_BINARIES ${CMAKE_SOURCE_DIR}/dependencies/bin/*.dll)
-        #INSTALL(FILES ${WIN32_BINARIES} DESTINATION bin)
+        INSTALL(FILES ${WIN32_BINARIES} DESTINATION bin)
         file(GLOB WIN32_DEPENDENCIES ${CMAKE_SOURCE_DIR}/dependencies/lib/*.lib)
-        #install(FILES ${WIN32_DEPENDENCIES} DESTINATION lib)
+        install(FILES ${WIN32_DEPENDENCIES} DESTINATION lib)
         
     elseif(CYGWIN)
         add_definitions(-DCYGWIN)
@@ -652,7 +651,7 @@ set(DOCUMENTATION_FILES
         VERSION.txt
 )
 
-#install(FILES ${DOCUMENTATION_FILES} DESTINATION ${MISC_PREFIX}.)
+install(FILES ${DOCUMENTATION_FILES} DESTINATION ${MISC_PREFIX}.)
 
 
 ###############################################################################

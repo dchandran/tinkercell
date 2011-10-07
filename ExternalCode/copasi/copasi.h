@@ -238,5 +238,5 @@ extern std::ofstream DebugFile;
 // suppress unused parameter warnings
 #define C_UNUSED(p)
 #define COPASI_DEPRECATED
-#define C_INVALID_INDEX (std::numeric_limits< unsigned C_INT32 >::max())
+extern unsigned C_INT32 C_INVALID_INDEX;
 #endif // COPASI_copasi

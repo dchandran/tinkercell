@@ -788,7 +788,7 @@ namespace Tinkercell
 		* \param QString the string describing the object that was dropped
 		* \param QPointF the Scene position where it was dropped
 		* \return void*/
-		void itemsDropped(GraphicsScene*, const QString&, const QPointF&);
+		void itemsDropped(GraphicsScene*, const QString&, QPointF);
 
 	protected:
 		/*! \brief allowed views*/

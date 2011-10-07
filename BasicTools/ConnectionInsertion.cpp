@@ -182,8 +182,8 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(mousePressed(GraphicsScene *, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)),
 					this,SLOT(sceneClicked(GraphicsScene *, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)));
 
-			connect(mainWindow,SIGNAL(itemsDropped(GraphicsScene *, const QString&, const QPointF&)),
-				this, SLOT(itemsDropped(GraphicsScene *, const QString&, const QPointF&)));
+			connect(mainWindow,SIGNAL(itemsDropped(GraphicsScene *, const QString&, QPointF)),
+				this, SLOT(itemsDropped(GraphicsScene *, const QString&, QPointF)));
 
 			connect(mainWindow,SIGNAL(itemsAboutToBeInserted(GraphicsScene*,QList<QGraphicsItem *>&, QList<ItemHandle*>&, QList<QUndoCommand*>&, GraphicsScene::InsertType)),
 					this, SLOT(itemsAboutToBeInserted(GraphicsScene*,QList<QGraphicsItem *>&, QList<ItemHandle*>&, QList<QUndoCommand*>&, GraphicsScene::InsertType)));
@@ -748,7 +748,7 @@ namespace Tinkercell
 		}
 	}
 
-	void ConnectionInsertion::itemsDropped(GraphicsScene * scene, const QString& family, const QPointF& point)
+	void ConnectionInsertion::itemsDropped(GraphicsScene * scene, const QString& family, QPointF point)
 	{
 		if (mainWindow && scene && scene->useDefaultBehavior() && !selectedFamily && !family.isEmpty() && 
 			connectionsTree && connectionsTree->getFamily(family))

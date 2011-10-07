@@ -100,7 +100,7 @@ namespace Tinkercell
         void addEvent(QSemaphore*,const QString&, const QString&);
 		void itemsRemoved(GraphicsScene * , QList<QGraphicsItem*>& , QList<ItemHandle*>&, QList<QUndoCommand*>&);
 		void sceneClicked(GraphicsScene *scene, QPointF point, Qt::MouseButton button, Qt::KeyboardModifiers modifiers);
-		void itemsDropped(GraphicsScene *, const QString&, const QPointF&);
+		void itemsDropped(GraphicsScene *, const QString&, QPointF);
 
     protected:
 

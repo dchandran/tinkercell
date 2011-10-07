@@ -43,6 +43,7 @@
 #endif // WIN32
 
 #include <limits.h>
+#include <iterator>
 
 #include "mathematics.h" // pow(), floor()
 

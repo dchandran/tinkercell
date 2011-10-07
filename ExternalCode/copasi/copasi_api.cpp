@@ -81,6 +81,8 @@ using namespace LIB_STRUCTURAL;
 using namespace LIB_LA;
 using namespace std;
 
+unsigned C_INT32 C_INVALID_INDEX = std::numeric_limits< unsigned C_INT32 >::max();
+
 struct CopasiPtr 
 { 
 	string name;

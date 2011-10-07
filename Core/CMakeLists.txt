@@ -57,17 +57,29 @@ FILE(GLOB TINKERCELL_CORE_HDRS
 	coding/*.h
 )
 
+FILE( GLOB CORE_SRC *.cpp  ${TINKERCELL_BINARY_DIR}/Core/*.cpp)
+FILE( GLOB INTERPRETERS_SRC interpreters/*.cpp  )
+FILE( GLOB PLOTS_SRC plots/*.cpp  )
+FILE( GLOB FILEIO_SRC fileIO/*.cpp  )
+FILE( GLOB PLUGINS_SRC plugins/*.cpp )
+FILE( GLOB CODING_SRC coding/*.cpp ${TINKERCELL_BINARY_DIR}/Core/coding/*.cpp)
+
 # source code
-FILE(GLOB TINKERCELL_CORE_SRC 
-	*.cpp 
-	interpreters/*.cpp 
-	plots/*.cpp 
-	fileIO/*.cpp 
-	plugins/*.cpp 
-	coding/*.cpp
-	${TINKERCELL_BINARY_DIR}/Core/coding/*.cpp
-	${TINKERCELL_BINARY_DIR}/Core/*.cpp
+SET(TINKERCELL_CORE_SRC 
+	${CORE_SRC}
+	${INTERPRETERS_SRC}
+	${PLOTS_SRC}
+	${FILEIO_SRC}
+	${PLUGINS_SRC}
+	${CODING_SRC}
 )
+
+source_group("core" FILES ${CORE_SRC}) #for IDE
+source_group("interpreters" FILES ${INTERPRETERS_SRC}) #for IDE
+source_group("plotting" FILES ${PLOTS_SRC}) #for IDE
+source_group("file_io" FILES ${FILEIO_SRC}) #for IDE
+source_group("plugins" FILES ${PLUGINS_SRC}) #for IDE
+source_group("coding" FILES ${CODING_SRC}) #for IDE
 
 # Qwt3D and Qwt
 SET( QWTPLOT3D_SRC
@@ -129,11 +141,17 @@ SET( QWTPLOT3D_HDRS
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/qwt3d_io_gl2ps.h
 	)
 
+source_group("QWT3D" FILES ${QWTPLOT3D_SRC}) #for IDE
+
 FILE( GLOB QWT_SRC ${TINKERCELL_SOURCE_DIR}/ExternalCode/qwt/*.cpp )
 FILE( GLOB QWT_HDRS ${TINKERCELL_SOURCE_DIR}/ExternalCode/qwt/*.h )
 
+source_group("QWT" FILES ${QWT_SRC}) #for IDE
+
 FILE( GLOB MUPARSER_SRC ${TINKERCELL_SOURCE_DIR}/ExternalCode/muparser/*.cpp)
 FILE( GLOB CLUSTER_SRC ${TINKERCELL_SOURCE_DIR}/ExternalCode/cluster/src/*.c)
+
+source_group("muparser" FILES ${MUPARSER_SRC}) #for IDE
 
 #-------------------------------------------------------------------------------------------------------------
 #    Create resource file and MOC files used by Qt

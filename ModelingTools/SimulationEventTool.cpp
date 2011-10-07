@@ -122,8 +122,8 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(mousePressed(GraphicsScene *, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)),
 				this,SLOT(sceneClicked(GraphicsScene *, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)));
 				
-			connect(mainWindow,SIGNAL(itemsDropped(GraphicsScene *, const QString&, const QPointF&)),
-				this,SLOT(itemsDropped(GraphicsScene *, const QString&, const QPointF&)));
+			connect(mainWindow,SIGNAL(itemsDropped(GraphicsScene *, const QString&, QPointF)),
+				this,SLOT(itemsDropped(GraphicsScene *, const QString&, QPointF)));
 
 			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 
@@ -226,7 +226,7 @@ namespace Tinkercell
 		return QSize(400, 200);
 	}
 	
-	void SimulationEventsTool::itemsDropped(GraphicsScene * scene, const QString& name, const QPointF& point)
+	void SimulationEventsTool::itemsDropped(GraphicsScene * scene, const QString& name, QPointF point)
 	{
 		scene->useDefaultBehavior(false);
 		if (name.toLower() == tr("new event"))

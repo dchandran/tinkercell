@@ -23,6 +23,7 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.2)
 # Project SUNDIALS (initially only C supported)
 
 PROJECT(sundials C)
+CMAKE_POLICY( SET CMP0005 NEW )
 
 # Set some variables with info on the SUNDIALS project
 

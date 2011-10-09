@@ -92,7 +92,7 @@ ENDIF(COMMAND CMAKE_POLICY)
 #---------------------------------------------------------------------------
 IF( APPLE )
   OPTION( BUILD_BUNDLE "Make A Bundle Application" ON )
-  SET (CMAKE_OSX_ARCHITECTURES "ppc;i386") 
+  set(CMAKE_OSX_ARCHITECTURES "i386;ppc;x86_64" CACHE STRING "A semicolon separated list of build architectures to be used" FORCE) 
 ENDIF( APPLE )
 
 #---------------------------------------------------------------------------

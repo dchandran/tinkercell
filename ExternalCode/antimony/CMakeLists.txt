@@ -388,7 +388,7 @@ if(UNIX)
                   # overwrite them with all three common architectures. If the user 
                   # specified their own list of architectures do not touch!
                   if (CMAKE_OSX_ARCHITECTURES STREQUAL "")                        
-                    set(CMAKE_OSX_ARCHITECTURES "i386;ppc;x86_64" CACHE STRING "A semicolon separated list of build architectures to be used" FORCE)                
+                    set(CMAKE_OSX_ARCHITECTURES "i386;ppc;x86_64" CACHE STRING "A semicolon separated list of build architectures to be used" FORCE) 
                   endif()
                 endif(ENABLE_UNIVERSAL)
     else(APPLE)

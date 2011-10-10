@@ -26,7 +26,7 @@ INCLUDE_DIRECTORIES( BEFORE
 SET (LIBRARY_OUTPUT_PATH ${TINKERCELL_BINARY_DIR})
 
 OPTION( BUILD_LAPACK "check this if your system does not have lapack library" ON )
-OPTION( BUILD_SBWCORE "systems biology workbench core" OFF )
+#OPTION( BUILD_SBWCORE "systems biology workbench core" OFF )
 OPTION( BUILD_BIOCODER "wet-lab protocol coder" OFF )
 
 #Qwt and QwtPlot3D are not included in TinkerCellCore
@@ -51,9 +51,9 @@ ADD_SUBDIRECTORY( copasi )     #simulation and analysis package
 ADD_SUBDIRECTORY( libstructural )   #network structural analysis based on stoichiometry matrix
 ADD_SUBDIRECTORY( galib )   #genetic algorithms library
 ADD_SUBDIRECTORY( cluster )   #clustering algorithms
-IF (BUILD_SBWCORE)
-	ADD_SUBDIRECTORY( sbw )        #systems biology workbench (Core only)
-ENDIF (BUILD_SBWCORE)
+#IF (BUILD_SBWCORE)
+#	ADD_SUBDIRECTORY( sbw )        #systems biology workbench (Core only)
+#ENDIF (BUILD_SBWCORE)
 IF (BUILD_BIOCODER)	
 	ADD_SUBDIRECTORY( BioCoder )   #wet-lab protocol generator
 ENDIF (BUILD_BIOCODER)

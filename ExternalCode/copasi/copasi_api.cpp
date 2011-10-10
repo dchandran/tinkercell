@@ -1067,7 +1067,7 @@ tc_matrix simulate(copasi_model model, double startTime, double endTime, int num
 	CCopasiDataModel* pDataModel = (CCopasiDataModel*)(model.CopasiDataModelPtr);
 
 	if (!pModel || !pDataModel) return tc_createMatrix(0,0);
-	cCompileModel(model,0);
+	cCompileModel(model);
 	
 	// get the task list
 	CCopasiVectorN< CCopasiTask > & TaskList = * pDataModel->getTaskList();

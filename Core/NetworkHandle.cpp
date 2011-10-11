@@ -66,15 +66,10 @@ namespace Tinkercell
 	{
 		QList<ItemHandle*> items = this->handles(), items2;
 
-		console()->message("regex search");
-
 		for (int i=0; i < items.size(); ++i)
-			if (items[i] && 
-					(
-						(re.indexIn(items[i]->fullName()) > -1) ||
-						(re.indexIn(items[i]->fullName("_")) > -1)
-					))
+			if (items[i] && (items[i]->fullName().contains(re) ||  items[i]->fullName("_").contains(re)))
 				items2 += items[i];
+			
 		return items2;
 	}
 	

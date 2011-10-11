@@ -903,19 +903,22 @@ namespace Tinkercell
 		if (!scene || !scene->network) return;
 
 		bool loadedItems = (type != GraphicsScene::NEW); //loaded or pasted items
+		
 		int count = 0;
 		QList<ItemHandle*> visited;
+		
 		if (loadedItems)
 		{
 			for (int i=0; i < handles.size(); ++i)
-				if (ConnectionHandle::cast(handles[i]) && !handles[i]->children.isEmpty() && !visited.contains(handles[i]))
+				if (ConnectionHandle::cast(handles[i]) && !visited.contains(handles[i]))
 				{
 					visited << handles[i];
-					createNewWindow(ConnectionHandle::cast(handles[i]), scene->network);
+					if (!handles[i]->children.isEmpty())
+						createNewWindow(ConnectionHandle::cast(handles[i]), scene->network);
 				}
 			return;
 		}
-
+		
 		visited.clear();
 		for (int i=0; i < handles.size(); ++i)
 			if (handles[i] && handles[i]->children.isEmpty() && !visited.contains(handles[i]) && ConnectionFamily::cast(handles[i]->family()))
@@ -1256,6 +1259,9 @@ namespace Tinkercell
 				layout->addWidget(button,0,Qt::AlignTop);
 			}
 		}
+		
+		if (!dock)
+			return dock;
 
 		layout->setContentsMargins(5,8,5,5);
 		layout->setSpacing(12);
@@ -1352,7 +1358,7 @@ namespace Tinkercell
 						window->addDockWidget(Qt::TopDockWidgetArea,dock);
 						window->handle = chandle;	
 					}
-					newScene->insert(chandle->name + tr(" visible"),items);
+					newScene->insert(chandle->name + tr(" visible"),items, GraphicsScene::LOADED);
 					QPixmap printer(WINDOW_WIDTH, WINDOW_WIDTH);
 					printer.fill();
 					newScene->print(&printer);

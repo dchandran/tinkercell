@@ -2246,6 +2246,29 @@ SWIGEXPORT jdouble JNICALL Java_tinkercellJNI_tc_1getNumericalValue(JNIEnv *jenv
 }
 
 
+SWIGEXPORT jlong JNICALL Java_tinkercellJNI_tc_1getNumericalValueUsingRegexp(JNIEnv *jenv, jclass jcls, jstring jarg1) {
+  jlong jresult = 0 ;
+  char *arg1 = (char *) 0 ;
+  tc_matrix result;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = 0;
+  if (jarg1) {
+    arg1 = (char *)(*jenv)->GetStringUTFChars(jenv, jarg1, 0);
+    if (!arg1) return 0;
+  }
+  result = tc_getNumericalValueUsingRegexp((char const *)arg1);
+  {
+    tc_matrix * resultptr = (tc_matrix *) malloc(sizeof(tc_matrix));
+    memmove(resultptr, &result, sizeof(tc_matrix));
+    *(tc_matrix **)&jresult = resultptr;
+  }
+  if (arg1) (*jenv)->ReleaseStringUTFChars(jenv, jarg1, (const char *)arg1);
+  return jresult;
+}
+
+
 SWIGEXPORT jstring JNICALL Java_tinkercellJNI_tc_1getTextValue(JNIEnv *jenv, jclass jcls, jstring jarg1) {
   jstring jresult = 0 ;
   char *arg1 = (char *) 0 ;
@@ -2260,6 +2283,29 @@ SWIGEXPORT jstring JNICALL Java_tinkercellJNI_tc_1getTextValue(JNIEnv *jenv, jcl
   }
   result = (char *)tc_getTextValue((char const *)arg1);
   if (result) jresult = (*jenv)->NewStringUTF(jenv, (const char *)result);
+  if (arg1) (*jenv)->ReleaseStringUTFChars(jenv, jarg1, (const char *)arg1);
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_tinkercellJNI_tc_1getTextValueUsingRegexp(JNIEnv *jenv, jclass jcls, jstring jarg1) {
+  jlong jresult = 0 ;
+  char *arg1 = (char *) 0 ;
+  tc_table result;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = 0;
+  if (jarg1) {
+    arg1 = (char *)(*jenv)->GetStringUTFChars(jenv, jarg1, 0);
+    if (!arg1) return 0;
+  }
+  result = tc_getTextValueUsingRegexp((char const *)arg1);
+  {
+    tc_table * resultptr = (tc_table *) malloc(sizeof(tc_table));
+    memmove(resultptr, &result, sizeof(tc_table));
+    *(tc_table **)&jresult = resultptr;
+  }
   if (arg1) (*jenv)->ReleaseStringUTFChars(jenv, jarg1, (const char *)arg1);
   return jresult;
 }
@@ -2904,7 +2950,7 @@ SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1setLineWidth(JNIEnv *jenv, jclass
 }
 
 
-SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1Main_1api_1initialize(JNIEnv *jenv, jclass jcls, jlong jarg1, jlong jarg2, jlong jarg3, jlong jarg4, jlong jarg5, jlong jarg6, jlong jarg7, jlong jarg8, jlong jarg9, jlong jarg10, jlong jarg11, jlong jarg12, jlong jarg13, jlong jarg14, jlong jarg15, jlong jarg16, jlong jarg17, jlong jarg18, jlong jarg19, jlong jarg20, jlong jarg21, jlong jarg22, jlong jarg23, jlong jarg24, jlong jarg25, jlong jarg26, jlong jarg27, jlong jarg28, jlong jarg29, jlong jarg30, jlong jarg31, jlong jarg32, jlong jarg33, jlong jarg34, jlong jarg35, jlong jarg36, jlong jarg37, jlong jarg38, jlong jarg39, jlong jarg40, jlong jarg41, jlong jarg42, jlong jarg43, jlong jarg44, jlong jarg45, jlong jarg46, jlong jarg47, jlong jarg48, jlong jarg49, jlong jarg50, jlong jarg51, jlong jarg52, jlong jarg53, jlong jarg54, jlong jarg55, jlong jarg56, jlong jarg57, jlong jarg58, jlong jarg59, jlong jarg60, jlong jarg61, jlong jarg62, jlong jarg63, jlong jarg64, jlong jarg65, jlong jarg66, jlong jarg67, jlong jarg68, jlong jarg69, jlong jarg70, jlong jarg71, jlong jarg72, jlong jarg73, jlong jarg74, jlong jarg75, jlong jarg76, jlong jarg77, jlong jarg78, jlong jarg79, jlong jarg80, jlong jarg81, jlong jarg82, jlong jarg83, jlong jarg84, jlong jarg85, jlong jarg86, jlong jarg87, jlong jarg88, jlong jarg89) {
+SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1Main_1api_1initialize(JNIEnv *jenv, jclass jcls, jlong jarg1, jlong jarg2, jlong jarg3, jlong jarg4, jlong jarg5, jlong jarg6, jlong jarg7, jlong jarg8, jlong jarg9, jlong jarg10, jlong jarg11, jlong jarg12, jlong jarg13, jlong jarg14, jlong jarg15, jlong jarg16, jlong jarg17, jlong jarg18, jlong jarg19, jlong jarg20, jlong jarg21, jlong jarg22, jlong jarg23, jlong jarg24, jlong jarg25, jlong jarg26, jlong jarg27, jlong jarg28, jlong jarg29, jlong jarg30, jlong jarg31, jlong jarg32, jlong jarg33, jlong jarg34, jlong jarg35, jlong jarg36, jlong jarg37, jlong jarg38, jlong jarg39, jlong jarg40, jlong jarg41, jlong jarg42, jlong jarg43, jlong jarg44, jlong jarg45, jlong jarg46, jlong jarg47, jlong jarg48, jlong jarg49, jlong jarg50, jlong jarg51, jlong jarg52, jlong jarg53, jlong jarg54, jlong jarg55, jlong jarg56, jlong jarg57, jlong jarg58, jlong jarg59, jlong jarg60, jlong jarg61, jlong jarg62, jlong jarg63, jlong jarg64, jlong jarg65, jlong jarg66, jlong jarg67, jlong jarg68, jlong jarg69, jlong jarg70, jlong jarg71, jlong jarg72, jlong jarg73, jlong jarg74, jlong jarg75, jlong jarg76, jlong jarg77, jlong jarg78, jlong jarg79, jlong jarg80, jlong jarg81, jlong jarg82, jlong jarg83, jlong jarg84, jlong jarg85, jlong jarg86, jlong jarg87, jlong jarg88, jlong jarg89, jlong jarg90, jlong jarg91) {
   tc_items (*arg1)() = (tc_items (*)()) 0 ;
   tc_items (*arg2)() = (tc_items (*)()) 0 ;
   tc_items (*arg3)(char const *) = (tc_items (*)(char const *)) 0 ;
@@ -2984,16 +3030,18 @@ SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1Main_1api_1initialize(JNIEnv *jen
   void (*arg77)(char const *,char const *) = (void (*)(char const *,char const *)) 0 ;
   double (*arg78)(char const *) = (double (*)(char const *)) 0 ;
   char *(*arg79)(char const *) = (char *(*)(char const *)) 0 ;
-  void (*arg80)() = (void (*)()) 0 ;
-  double (*arg81)(long,long,int) = (double (*)(long,long,int)) 0 ;
-  double (*arg82)(long,long,int) = (double (*)(long,long,int)) 0 ;
-  void (*arg83)(long,long,int,double,double) = (void (*)(long,long,int,double,double)) 0 ;
-  void (*arg84)(long,double,double) = (void (*)(long,double,double)) 0 ;
-  double (*arg85)(long) = (double (*)(long)) 0 ;
-  double (*arg86)(long) = (double (*)(long)) 0 ;
-  void (*arg87)(long,int) = (void (*)(long,int)) 0 ;
-  void (*arg88)(int) = (void (*)(int)) 0 ;
-  void (*arg89)(long,double,int) = (void (*)(long,double,int)) 0 ;
+  tc_matrix (*arg80)(char const *) = (tc_matrix (*)(char const *)) 0 ;
+  tc_table (*arg81)(char const *) = (tc_table (*)(char const *)) 0 ;
+  void (*arg82)() = (void (*)()) 0 ;
+  double (*arg83)(long,long,int) = (double (*)(long,long,int)) 0 ;
+  double (*arg84)(long,long,int) = (double (*)(long,long,int)) 0 ;
+  void (*arg85)(long,long,int,double,double) = (void (*)(long,long,int,double,double)) 0 ;
+  void (*arg86)(long,double,double) = (void (*)(long,double,double)) 0 ;
+  double (*arg87)(long) = (double (*)(long)) 0 ;
+  double (*arg88)(long) = (double (*)(long)) 0 ;
+  void (*arg89)(long,int) = (void (*)(long,int)) 0 ;
+  void (*arg90)(int) = (void (*)(int)) 0 ;
+  void (*arg91)(long,double,int) = (void (*)(long,double,int)) 0 ;
   
   (void)jenv;
   (void)jcls;
@@ -3076,17 +3124,19 @@ SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1Main_1api_1initialize(JNIEnv *jen
   arg77 = *(void (**)(char const *,char const *))&jarg77; 
   arg78 = *(double (**)(char const *))&jarg78; 
   arg79 = *(char *(**)(char const *))&jarg79; 
-  arg80 = *(void (**)())&jarg80; 
-  arg81 = *(double (**)(long,long,int))&jarg81; 
-  arg82 = *(double (**)(long,long,int))&jarg82; 
-  arg83 = *(void (**)(long,long,int,double,double))&jarg83; 
-  arg84 = *(void (**)(long,double,double))&jarg84; 
-  arg85 = *(double (**)(long))&jarg85; 
-  arg86 = *(double (**)(long))&jarg86; 
-  arg87 = *(void (**)(long,int))&jarg87; 
-  arg88 = *(void (**)(int))&jarg88; 
-  arg89 = *(void (**)(long,double,int))&jarg89; 
-  tc_Main_api_initialize(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,(char const *(*)(long))arg10,(char const *(*)(long))arg11,arg12,arg13,arg14,(char const *(*)(long))arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23,arg24,arg25,arg26,arg27,arg28,arg29,arg30,arg31,(char const *(*)())arg32,(char const *(*)())arg33,arg34,arg35,arg36,arg37,arg38,arg39,arg40,arg41,arg42,arg43,arg44,arg45,arg46,arg47,arg48,arg49,(char const *(*)(char const *))arg50,arg51,arg52,arg53,(char const *(*)())arg54,arg55,arg56,arg57,arg58,arg59,arg60,arg61,arg62,(char const *(*)(long))arg63,arg64,arg65,arg66,arg67,arg68,arg69,arg70,arg71,(char const *(*)())arg72,arg73,arg74,arg75,arg76,arg77,arg78,(char const *(*)(char const *))arg79,arg80,arg81,arg82,arg83,arg84,arg85,arg86,arg87,arg88,arg89);
+  arg80 = *(tc_matrix (**)(char const *))&jarg80; 
+  arg81 = *(tc_table (**)(char const *))&jarg81; 
+  arg82 = *(void (**)())&jarg82; 
+  arg83 = *(double (**)(long,long,int))&jarg83; 
+  arg84 = *(double (**)(long,long,int))&jarg84; 
+  arg85 = *(void (**)(long,long,int,double,double))&jarg85; 
+  arg86 = *(void (**)(long,double,double))&jarg86; 
+  arg87 = *(double (**)(long))&jarg87; 
+  arg88 = *(double (**)(long))&jarg88; 
+  arg89 = *(void (**)(long,int))&jarg89; 
+  arg90 = *(void (**)(int))&jarg90; 
+  arg91 = *(void (**)(long,double,int))&jarg91; 
+  tc_Main_api_initialize(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,(char const *(*)(long))arg10,(char const *(*)(long))arg11,arg12,arg13,arg14,(char const *(*)(long))arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23,arg24,arg25,arg26,arg27,arg28,arg29,arg30,arg31,(char const *(*)())arg32,(char const *(*)())arg33,arg34,arg35,arg36,arg37,arg38,arg39,arg40,arg41,arg42,arg43,arg44,arg45,arg46,arg47,arg48,arg49,(char const *(*)(char const *))arg50,arg51,arg52,arg53,(char const *(*)())arg54,arg55,arg56,arg57,arg58,arg59,arg60,arg61,arg62,(char const *(*)(long))arg63,arg64,arg65,arg66,arg67,arg68,arg69,arg70,arg71,(char const *(*)())arg72,arg73,arg74,arg75,arg76,arg77,arg78,(char const *(*)(char const *))arg79,arg80,arg81,arg82,arg83,arg84,arg85,arg86,arg87,arg88,arg89,arg90,arg91);
 }
 
 
@@ -5582,7 +5632,17 @@ SWIGEXPORT jlong JNICALL Java_tinkercellJNI_tc_1optimize(JNIEnv *jenv, jclass jc
 }
 
 
-SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1COPASI_1api(JNIEnv *jenv, jclass jcls, jlong jarg1, jlong jarg2, jlong jarg3, jlong jarg4, jlong jarg5, jlong jarg6, jlong jarg7, jlong jarg8, jlong jarg9, jlong jarg10, jlong jarg11, jlong jarg12, jlong jarg13, jlong jarg14, jlong jarg15, jlong jarg16, jlong jarg17, jlong jarg18, jlong jarg19, jlong jarg20, jlong jarg21) {
+SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1enableAssignmentRulesReordering(JNIEnv *jenv, jclass jcls, jint jarg1) {
+  int arg1 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = (int)jarg1; 
+  tc_enableAssignmentRulesReordering(arg1);
+}
+
+
+SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1COPASI_1api(JNIEnv *jenv, jclass jcls, jlong jarg1, jlong jarg2, jlong jarg3, jlong jarg4, jlong jarg5, jlong jarg6, jlong jarg7, jlong jarg8, jlong jarg9, jlong jarg10, jlong jarg11, jlong jarg12, jlong jarg13, jlong jarg14, jlong jarg15, jlong jarg16, jlong jarg17, jlong jarg18, jlong jarg19, jlong jarg20, jlong jarg21, jlong jarg22) {
   tc_matrix (*arg1)(double,double,int) = (tc_matrix (*)(double,double,int)) 0 ;
   tc_matrix (*arg2)(double,double,int) = (tc_matrix (*)(double,double,int)) 0 ;
   tc_matrix (*arg3)(double,double,int) = (tc_matrix (*)(double,double,int)) 0 ;
@@ -5604,6 +5664,7 @@ SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1COPASI_1api(JNIEnv *jenv, jclass 
   tc_matrix (*arg19)() = (tc_matrix (*)()) 0 ;
   tc_matrix (*arg20)(char const *) = (tc_matrix (*)(char const *)) 0 ;
   void (*arg21)(tc_matrix) = (void (*)(tc_matrix)) 0 ;
+  void (*arg22)(int) = (void (*)(int)) 0 ;
   
   (void)jenv;
   (void)jcls;
@@ -5628,7 +5689,8 @@ SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1COPASI_1api(JNIEnv *jenv, jclass 
   arg19 = *(tc_matrix (**)())&jarg19; 
   arg20 = *(tc_matrix (**)(char const *))&jarg20; 
   arg21 = *(void (**)(tc_matrix))&jarg21; 
-  tc_COPASI_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13,arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21);
+  arg22 = *(void (**)(int))&jarg22; 
+  tc_COPASI_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13,arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22);
 }
 
 

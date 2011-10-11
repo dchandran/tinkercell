@@ -157,6 +157,9 @@ namespace Tinkercell
 		
 		double (*getNumericalValue)(const char*),
 		const char* (*getTextValue)(const char*),
+
+		tc_matrix (*getNumericalValueRegexp)(const char*),
+		tc_table (*getTextValueRegexp)(const char*),
 		
 		void (*openUrl)(const char*),
 		
@@ -256,6 +259,8 @@ namespace Tinkercell
 				&(_setTextValue),
 				&(_getNumericalValue),
 				&(_getTextValue),
+				&(_getNumericalValueUsingRegex),
+				&(_getTextValueUsingRegex),
 				&(_openUrl),
 				&(_getControlPointX),
 				&(_getControlPointY),
@@ -379,6 +384,13 @@ namespace Tinkercell
 		
 		connect(fToS,SIGNAL(getNumericalValue(QSemaphore*, const QString&, double*)),this,SLOT(getNumericalValue(QSemaphore*, const QString&, double*)));
 		connect(fToS,SIGNAL(getTextValue(QSemaphore*, const QString&, QString*)),this,SLOT(getTextValue(QSemaphore*, const QString&, QString*)));
+
+		connect(fToS,SIGNAL(getNumericalValueUsingRegex(QSemaphore*,const QString&, DataTable<qreal>*)),
+					this,SLOT(getNumericalValueUsingRegex(QSemaphore*,const QString&, DataTable<qreal>*)));
+
+		connect(fToS,SIGNAL(getTextValueUsingRegex(QSemaphore*,const QString&, DataTable<QString>*)),
+					this,SLOT(getTextValueUsingRegex(QSemaphore*,const QString&, DataTable<QString>*)));
+
 		
 		connect(fToS,SIGNAL(getControlPointX(QSemaphore*,qreal*,ItemHandle*,ItemHandle*,int)),
 			this,SLOT(getControlPointX(QSemaphore*,qreal*,ItemHandle*,ItemHandle*,int)));
@@ -1615,6 +1627,60 @@ namespace Tinkercell
 		s->release();
 		delete s;
 		return ConvertValue(d);
+	}
+
+	tc_table C_API_Slots::_getTextValueUsingRegex(const char* s)
+	{
+		return fToS->getTextValueUsingRegex(s);
+	}
+
+	tc_table Core_FtoS::getTextValueUsingRegex(const char* c)
+	{
+		QSemaphore * s = new QSemaphore(1);
+		s->acquire();
+		DataTable<QString> * p = new DataTable<QString>();
+		emit getTextValueUsingRegex(s,ConvertValue(c),p);
+		s->acquire();
+		s->release();
+		delete s;
+		tc_table m;
+		if (p)
+		{
+			m = ConvertValue(*p);
+			delete p;
+			return m;
+		}
+		m.strings = 0;
+		m.rownames.length = m.colnames.length =0;
+		m.rownames.strings = m.colnames.strings = 0;
+		return m;
+	}
+
+	tc_matrix C_API_Slots::_getNumericalValueUsingRegex(const char* s)
+	{
+		return fToS->getNumericalValueUsingRegex(s);
+	}
+
+	tc_matrix Core_FtoS::getNumericalValueUsingRegex(const char* c)
+	{
+		QSemaphore * s = new QSemaphore(1);
+		s->acquire();
+		DataTable<qreal> * p = new DataTable<qreal>();
+		emit getNumericalValueUsingRegex(s, ConvertValue(c),p);
+		s->acquire();
+		s->release();
+		delete s;
+		tc_matrix m;
+		if (p)
+		{
+			m = ConvertValue(*p);
+			delete p;
+			return m;
+		}
+		m.values = 0;
+		m.rownames.length = m.colnames.length = 0;
+		m.rownames.strings = m.colnames.strings = 0;
+		return m;
 	}
 
 	void Core_FtoS::zoom(double x)
@@ -3281,6 +3347,56 @@ namespace Tinkercell
 					(*v) = h->numericalData(id, s2);
 				}
 			}
+		}
+		
+		if (sem)
+			sem->release();
+	}
+
+	void C_API_Slots::getNumericalValueUsingRegex(QSemaphore * sem, const QString& s, DataTable<qreal> * v)
+	{
+		NetworkHandle * network = currentNetwork();
+		if (network && v)
+		{
+			QList< QPair<ItemHandle*,QString> > pairs = network->findData(QRegExp(s));
+			NumericalDataTable dat;
+			for (int i=0; i < pairs.size(); ++i)
+			{
+				ItemHandle * h = pairs[i].first;
+				QString id = pairs[i].second;
+				if (h && h->hasNumericalData(id))
+				{
+					NumericalDataTable & dat2 = h->numericalDataTable(id);
+					for (int j=0; j < dat2.rows(); ++j)
+						dat.value(h->fullName(tr("_")) + tr("_") + dat2.rowName(j), 0) = dat2.value(j,0);
+				}
+			}
+			(*v) = dat;
+		}
+		
+		if (sem)
+			sem->release();
+	}
+
+	void C_API_Slots::getTextValueUsingRegex(QSemaphore* sem,const QString& s, DataTable<QString>* v)
+	{
+		NetworkHandle * network = currentNetwork();
+		if (network && v)
+		{
+			QList< QPair<ItemHandle*,QString> > pairs = network->findData(QRegExp(s));
+			TextDataTable dat;
+			for (int i=0; i < pairs.size(); ++i)
+			{
+				ItemHandle * h = pairs[i].first;
+				QString id = pairs[i].second;
+				if (h && h->hasTextData(id))
+				{
+					TextDataTable & dat2 = h->textDataTable(id);
+					for (int j=0; j < dat2.rows(); ++j)
+						dat.value(h->fullName(tr("_")) + tr("_") + dat2.rowName(j), 0) = dat2.value(j,0);
+				}
+			}
+			(*v) = dat;
 		}
 		
 		if (sem)

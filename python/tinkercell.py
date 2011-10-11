@@ -481,9 +481,17 @@ def tc_getNumericalValue(*args):
   return _tinkercell.tc_getNumericalValue(*args)
 tc_getNumericalValue = _tinkercell.tc_getNumericalValue
 
+def tc_getNumericalValueUsingRegexp(*args):
+  return _tinkercell.tc_getNumericalValueUsingRegexp(*args)
+tc_getNumericalValueUsingRegexp = _tinkercell.tc_getNumericalValueUsingRegexp
+
 def tc_getTextValue(*args):
   return _tinkercell.tc_getTextValue(*args)
 tc_getTextValue = _tinkercell.tc_getTextValue
+
+def tc_getTextValueUsingRegexp(*args):
+  return _tinkercell.tc_getTextValueUsingRegexp(*args)
+tc_getTextValueUsingRegexp = _tinkercell.tc_getTextValueUsingRegexp
 
 def tc_setTextValue(*args):
   return _tinkercell.tc_setTextValue(*args)
@@ -1144,6 +1152,10 @@ tc_updateParameters = _tinkercell.tc_updateParameters
 def tc_optimize(*args):
   return _tinkercell.tc_optimize(*args)
 tc_optimize = _tinkercell.tc_optimize
+
+def tc_enableAssignmentRulesReordering(*args):
+  return _tinkercell.tc_enableAssignmentRulesReordering(*args)
+tc_enableAssignmentRulesReordering = _tinkercell.tc_enableAssignmentRulesReordering
 
 def tc_COPASI_api(*args):
   return _tinkercell.tc_COPASI_api(*args)

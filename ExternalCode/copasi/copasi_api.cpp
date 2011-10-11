@@ -172,6 +172,18 @@ void copasi_end()
 
 int cSetAssignmentRuleHelper(copasi_model , CMetab * , const char * );
 
+static int DO_CLEANUP_ASSIGNMENT_RULES = 1;
+
+void cEnableAssignmentRuleReordering()
+{
+	DO_CLEANUP_ASSIGNMENT_RULES = 1;
+}
+
+void cDisableAssignmentRuleReordering()
+{
+	DO_CLEANUP_ASSIGNMENT_RULES = 0;
+}
+
 int copasi_cleanup_assignments(copasi_model model)
 {
 	CCMap * hash = (CCMap*)(model.qHash);
@@ -195,9 +207,8 @@ int copasi_cleanup_assignments(copasi_model model)
 		}
 
 	int retval = 1;
-	bool replace_needed = true;
+	bool replace_needed = (bool)(DO_CLEANUP_ASSIGNMENT_RULES);
 	
-#ifndef COPASI_NO_ASSIGNMENT_REORDERING
 	while (replace_needed)
 	{
 		replace_needed = false;
@@ -214,7 +225,6 @@ int copasi_cleanup_assignments(copasi_model model)
 					}
 			}
 	}
-#endif
 
 	for (CCMap::iterator i = hash->begin(); i != hash->end(); i++)
 		if ((*i).second.species && !(*i).second.assignmentRule.empty())

@@ -1151,20 +1151,20 @@ namespace Tinkercell
                 if (dataTable && dataTable->columns() > 0)
                     for (int j=0; j < dataTable->rows(); ++j)
                     {
-                    if ((mustHave.isEmpty() || mustHave.contains(dataTable->rowName(j).toLower()) || mustHave.contains(dataTable->rowName(j)))
-                        && (exclude.isEmpty() || !(exclude.contains(dataTable->rowName(j).toLower()) || exclude.contains(dataTable->rowName(j)))))
-						{
-							if (handle->name.isEmpty())
-								s = dataTable->rowName(j);
-							else							
-								s = handle->fullName(sep) + sep + dataTable->rowName(j);
+		                if ((mustHave.isEmpty() || mustHave.contains(dataTable->rowName(j).toLower()) || mustHave.contains(dataTable->rowName(j)))
+		                    && (exclude.isEmpty() || !(exclude.contains(dataTable->rowName(j).toLower()) || exclude.contains(dataTable->rowName(j)))))
+							{
+								if (handle->name.isEmpty())
+									s = dataTable->rowName(j);
+								else							
+									s = handle->fullName(sep) + sep + dataTable->rowName(j);
 
-							rownames += s;
-							values += dataTable->at(j,0);
-							minv += dataTable->at(j,1);
-							maxv += dataTable->at(j,2);
-						}
-                }
+								rownames += s;
+								values += dataTable->at(j,0);
+								minv += dataTable->at(j,1);
+								maxv += dataTable->at(j,2);
+							}
+		            }
             }
         }
 

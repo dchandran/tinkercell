@@ -113,6 +113,28 @@ namespace Tinkercell
 
 		return list;
 	}
+
+	QList< QPair<ItemHandle*,QString> > NetworkHandle::findData(const QRegExp& re) const
+	{
+		QList< QPair<ItemHandle*,QString> > list;
+
+		QStringList keys = symbolsTable.uniqueDataWithDot.keys();
+
+		for (int i=0; i < keys.size(); ++i)
+			if (keys[i].contains(re))
+				list += symbolsTable.uniqueDataWithDot.values(keys[i]);
+
+		if (list.isEmpty())
+		{
+			QStringList keys = symbolsTable.uniqueDataWithUnderscore.keys();
+
+			for (int i=0; i < keys.size(); ++i)
+				if (keys[i].contains(re))
+					list += symbolsTable.uniqueDataWithUnderscore.values(keys[i]);
+		}
+
+		return list;
+	}
 	
 	QList< QPair<ItemHandle*,QString> > NetworkHandle::findData(const QStringList& list) const
 	{

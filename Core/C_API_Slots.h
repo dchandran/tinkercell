@@ -137,7 +137,9 @@ namespace Tinkercell
 		
 		void getNumericalValue(QSemaphore*, const QString&, double*);
 		void getTextValue(QSemaphore*, const QString&, QString*);
-		
+		void getNumericalValueUsingRegex(QSemaphore*,const QString&, DataTable<qreal>*);
+		void getTextValueUsingRegex(QSemaphore*,const QString&, DataTable<QString>*);
+
 		void getControlPointX(QSemaphore*,qreal*,ItemHandle*,ItemHandle*,int);
 		void getControlPointY(QSemaphore*,qreal*,ItemHandle*,ItemHandle*,int);
 		void setControlPoint(QSemaphore*,ItemHandle*,ItemHandle*,int,qreal,qreal);
@@ -242,6 +244,8 @@ namespace Tinkercell
 		
 		double getNumericalValue(const char*);
 		const char* getTextValue(const char*);
+		tc_matrix getNumericalValueUsingRegex(const char*);
+		tc_table getTextValueUsingRegex(const char*);
 		
 		double getControlPointX(long a0,long a1,int a2);
 		double getControlPointY(long a0,long a1,int a2);
@@ -364,6 +368,8 @@ namespace Tinkercell
 		
 		static double _getNumericalValue(const char*);
 		static const char* _getTextValue(const char*);
+		static tc_matrix _getNumericalValueUsingRegex(const char*);
+		static tc_table _getTextValueUsingRegex(const char*);
 		
 		static void _openUrl(const char*);
 		
@@ -834,8 +840,11 @@ namespace Tinkercell
 		void setNumericalValue(QSemaphore*, const QString&, double);
 		void setTextValues(QSemaphore*, const TextDataTable&);
 		void setTextValue(QSemaphore*, const QString&, const QString&);
+
 		void getNumericalValue(QSemaphore*, const QString&, double*);
 		void getTextValue(QSemaphore*, const QString&, QString*);
+		void getNumericalValueUsingRegex(QSemaphore*,const QString&, DataTable<qreal>*);
+		void getTextValueUsingRegex(QSemaphore*,const QString&, DataTable<QString>*);
 		
 		void getControlPointX(QSemaphore*,qreal*,ItemHandle*,ItemHandle*,int);
 		void getControlPointY(QSemaphore*,qreal*,ItemHandle*,ItemHandle*,int);

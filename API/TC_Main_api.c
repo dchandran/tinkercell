@@ -515,6 +515,33 @@ TCAPIEXPORT const char* tc_getTextValue(const char* name)
 	return 0;
 }
 
+tc_matrix (*_tc_getNumericalValueUsingRegexp)(const char* ) = 0;
+/*! 
+ \brief get a value from its full name
+ \ingroup Data
+*/ 
+TCAPIEXPORT 
+tc_matrix tc_getNumericalValueUsingRegexp(const char* name)
+{
+	if (_tc_getNumericalValueUsingRegexp)
+		return _tc_getNumericalValueUsingRegexp(name);
+	return tc_createMatrix(0,0);
+}
+
+tc_table (*_tc_getTextValueUsingRegexp)(const char* name) = 0;
+/*! 
+ \brief get a text value from pattern
+ \ingroup Data
+
+*/ 
+TCAPIEXPORT tc_table tc_getTextValueUsingRegexp(const char* name)
+{
+	if (_tc_getTextValueUsingRegexp)
+		return _tc_getTextValueUsingRegexp(name);
+	return tc_createTable(0,0);
+}
+
+
 void (*_tc_setNumericalData)(long,const char*,tc_matrix) = 0;
 /*! 
  \brief set a new data matrix for an item. Use 0 for the global model item.
@@ -1159,6 +1186,8 @@ void tc_Main_api_initialize(
 		
 		double (*getNumericalValue)(const char*),
 		const char* (*getTextValue)(const char*),
+		tc_matrix (*getNumericalValueUsingRegexp)(const char*),
+		tc_table (*getTextValueUsingRegexp)(const char*),
 		
 		void (*openUrl)(),
 		
@@ -1275,6 +1304,9 @@ void tc_Main_api_initialize(
 	
 	_tc_getNumericalValue = getNumericalValue;
 	_tc_getTextValue = getTextValue;
+
+	_tc_getNumericalValueUsingRegexp = getNumericalValueUsingRegexp;
+	_tc_getTextValueUsingRegexp = getTextValueUsingRegexp;
 	
 	_tc_openUrl = openUrl;
 	

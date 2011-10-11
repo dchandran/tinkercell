@@ -147,7 +147,10 @@ namespace Tinkercell
 		* \param QString
 		* \return QPair<ItemHandle*,QString>*/		
 		QList< QPair<ItemHandle*,QString> > findData(const QStringList&) const;
-		
+		/*! \brief get all the items and corresponding data table name that contains the given pattern. if non-unique, returns a list
+		* \param QString
+		* \return QPair<ItemHandle*,QString>*/		
+		QList< QPair<ItemHandle*,QString> > findData(const QRegExp&) const;
 		/*! \}
 			\name create scene or editor
 			\{

@@ -385,11 +385,27 @@ TCAPIEXPORT void tc_setTextValues(tc_table data);
 TCAPIEXPORT double tc_getNumericalValue(const char* name);
 
 /*! 
+ \brief get a numerical table using regular expressions to match numerical value names
+ \param string Perl regular expression
+ \return tc_matrix rows are individual numerical values, 1 column
+ \ingroup Data
+*/ 
+TCAPIEXPORT tc_matrix tc_getNumericalValueUsingRegexp(const char* regex);
+
+/*! 
  \brief get a text value from its full name
  \param string full name
  \ingroup Data
 */ 
 TCAPIEXPORT const char* tc_getTextValue(const char* name);
+
+/*! 
+ \brief get a text table using regular expressions to match numerical value names
+ \param string Perl regular expression
+ \return rows are individual text values, 1 column
+ \ingroup Data
+*/ 
+TCAPIEXPORT tc_table tc_getTextValueUsingRegexp(const char* regex);
 
 /*! 
  \brief set a single text value in a model
@@ -799,6 +815,9 @@ TCAPIEXPORT void tc_Main_api_initialize(
 		
 		double (*getNumericalValue)(const char*),
 		const char* (*getTextValue)(const char*),
+
+		tc_matrix (*getNumericalValueUsingRegexp)(const char*),
+		tc_table (*getTextValueUsingRegexp)(const char*),
 		
 		void (*openUrl)(),
 		

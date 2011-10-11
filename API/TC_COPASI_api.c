@@ -24,7 +24,7 @@ tc_matrix (*_tc_LMatrix)() = 0;
 tc_matrix (*_tc_KMatrix)() = 0;
 tc_matrix (*_tc_optimize)(const char * ) = 0;
 void (*_tc_updateParams)(tc_matrix) = 0;
-
+void (*_tc_enableAssignmentRulesReordering)(int) = 0;
 /******************************************
    The actual functions defined in the API
 *******************************************/
@@ -198,6 +198,13 @@ void tc_updateParameters(tc_matrix params)
 		_tc_updateParams(params);
 }
 
+TCAPIEXPORT
+void tc_enableAssignmentRulesReordering(int a)
+{
+	if (_tc_enableAssignmentRulesReordering)
+		_tc_enableAssignmentRulesReordering(a);
+}
+
 TCAPIEXPORT 
 void tc_COPASI_api( 
 tc_matrix (*simulateDeterministic)(double startTime, double endTime, int numSteps),
@@ -220,7 +227,8 @@ tc_matrix (*emf)(),
 tc_matrix (*Lmat)(),
 tc_matrix (*Kmat)(),
 tc_matrix (*gaoptim)(const char *),
-void (*update)(tc_matrix)
+void (*update)(tc_matrix),
+void (*enableAssignmentRulesReordering)(int)
 )
 {
 	_tc_simulateDeterministic = simulateDeterministic;
@@ -244,5 +252,6 @@ void (*update)(tc_matrix)
 	_tc_KMatrix = Kmat;
 	_tc_optimize = gaoptim;
 	_tc_updateParams = update;
+	_tc_enableAssignmentRulesReordering = enableAssignmentRulesReordering;
 }
 

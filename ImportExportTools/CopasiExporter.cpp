@@ -121,7 +121,8 @@ typedef void (*tc_COPASI_api)(
 	tc_matrix (*LMat)(),
 	tc_matrix (*KMat)(),
 	tc_matrix (*Optimize)(const char * ),
-	void (*update)(tc_matrix)
+	void (*update)(tc_matrix),
+	void (*enableAssignmentRulesOrdering)(int)
 );
 
 void CopasiExporter::setupFunctionPointers( QLibrary * library)
@@ -149,8 +150,17 @@ void CopasiExporter::setupFunctionPointers( QLibrary * library)
 			&KMatrix,
 			&LMatrix,
 			&gaOptimize,
-			&updateParams
+			&updateParams,
+			&enableAssignmentRulesReordering
 		);
+}
+
+void CopasiExporter::enableAssignmentRulesReordering(int a)
+{
+	if (a)
+		cEnableAssignmentRuleReordering();
+	else
+		cDisableAssignmentRuleReordering();
 }
 
 void CopasiExporter::historyChanged(int)

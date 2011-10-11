@@ -177,6 +177,15 @@ TCAPIEXPORT void tc_updateParameters(tc_matrix params);
 TCAPIEXPORT tc_matrix tc_optimize(const char * formulaOrFile);
 
 /*!
+ \brief enable or disable assignment rule reordering. 
+             reordering prevents possible errors due to the order of 
+             assignment rules. Default: enabled
+  \param int  0=disable, 1=enable
+ \ingroup Simulation
+*/
+TCAPIEXPORT void tc_enableAssignmentRulesReordering(int);
+
+/*!
  \brief initializing function
  \ingroup init
 */
@@ -201,7 +210,8 @@ tc_matrix (*tc_emf)(),
 tc_matrix (*tc_Lmat)(),
 tc_matrix (*tc_Kmat)(),
 tc_matrix (*gaoptim)(const char *),
-void (*update)(tc_matrix)
+void (*update)(tc_matrix),
+void (*enableAssignmentRulesOrdering)(int)
 );
 
 END_C_DECLS

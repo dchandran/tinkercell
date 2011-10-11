@@ -52,6 +52,14 @@ TCAPIEXPORT long tc_find(const char* name);
 TCAPIEXPORT tc_items tc_findItems(tc_strings names);
 
 /*! 
+ \brief get all items with the pattern in their names
+ \param string Perl regular expression
+ \return tc_items addresses of all the items. 
+ \ingroup Get items
+*/
+TCAPIEXPORT tc_items tc_findItemsUsingRegexp(const char* names);
+
+/*! 
  \brief select an item
  \param int address of the item
  \ingroup Get items
@@ -699,6 +707,7 @@ TCAPIEXPORT void tc_Main_api_initialize(
 		tc_items (*tc_itemsOfFamily1)(const char*, tc_items),
 		long (*tc_find0)(const char*),
 		tc_items (*tc_findItems0)(tc_strings),
+		tc_items (*tc_findItemsUsingRegexp0)(const char*),
 		void (*tc_select0)(long),
 		void (*tc_deselect0)(),
 		const char* (*tc_getName0)(long),

@@ -61,6 +61,22 @@ namespace Tinkercell
 		}
 		return items;
 	}
+
+	QList<ItemHandle*> NetworkHandle::findItem(const QRegExp& re) const
+	{
+		QList<ItemHandle*> items = this->handles(), items2;
+
+		console()->message("regex search");
+
+		for (int i=0; i < items.size(); ++i)
+			if (items[i] && 
+					(
+						(re.indexIn(items[i]->fullName()) > -1) ||
+						(re.indexIn(items[i]->fullName("_")) > -1)
+					))
+				items2 += items[i];
+		return items2;
+	}
 	
 	QList<ItemHandle*> NetworkHandle::findItem(const QStringList& list) const
 	{
@@ -299,7 +315,7 @@ namespace Tinkercell
 		return &(symbolsTable.globalHandle);
 	}
 
-	QList<ItemHandle*> NetworkHandle::handles(bool sort)
+	QList<ItemHandle*> NetworkHandle::handles(bool sort) const
 	{
 		QList<ItemHandle*> handles;
 
@@ -308,7 +324,7 @@ namespace Tinkercell
 			QStringList names = symbolsTable.uniqueHandlesWithDot.keys();
 			names.sort();			
 			for (int i=0; i < names.size(); ++i)
-				handles += symbolsTable.uniqueHandlesWithDot[ names[i] ];
+				handles += symbolsTable.uniqueHandlesWithDot.value( names[i] );
 		}
 		else
 		{

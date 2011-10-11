@@ -23,6 +23,7 @@ This class provides functions for inserting items, removing items, and changing 
 #include <QtGui>
 #include <QObject>
 #include <QString>
+#include <QRegExp>
 #include <QHash>
 #include <QUndoCommand>
 #include <QToolBar>
@@ -80,10 +81,10 @@ namespace Tinkercell
 			\{
 		*/
 		
-		/*! \brief get all the visible items in this network window
+		/*! \brief get all the items in this network
 		* \param bool sort handles by full name (default = false)
 		*/
-		virtual QList<ItemHandle*> handles(bool sort=false);
+		virtual QList<ItemHandle*> handles(bool sort=false) const;
 		/*! \brief get list of all items sorted according to family*/
 		virtual QList<ItemHandle*> handlesSortedByFamily() const;
 		/*! \brief the model global item*/
@@ -130,6 +131,10 @@ namespace Tinkercell
 		* \param QString
 		* \return QList<ItemHandle*>*/
 		QList<ItemHandle*> findItem(const QString&) const;
+		/*! \brief get all the items with the given name pattern.
+		* \param QString
+		* \return QList<ItemHandle*>*/
+		QList<ItemHandle*> findItem(const QRegExp&) const;
 		/*! \brief get all the items with the given name. returned list may be longer if names are non-unique
 		* \param QStringList
 		* \return QList<ItemHandle*>*/		

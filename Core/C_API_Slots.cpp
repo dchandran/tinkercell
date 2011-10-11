@@ -63,6 +63,7 @@ namespace Tinkercell
 		tc_items (*tc_itemsOfFamily1)(const char*, tc_items),
 		long (*tc_find0)(const char*),
 		tc_items (*tc_findItems0)(tc_strings),
+		tc_items (*tc_findItemsUsingRegex0)(const char*),
 		void (*tc_select0)(long),
 		void (*tc_deselect0)(),
 		const char* (*tc_getName0)(long),
@@ -182,6 +183,7 @@ namespace Tinkercell
 				&(_itemsOfFamily2),
 				&(_find),
 				&(_findItems),
+				&(_findItemsUsingRegex),
 				&(_select),
 				&(_deselect),
 				&(_getName),
@@ -273,6 +275,8 @@ namespace Tinkercell
 		connect(fToS,SIGNAL(find(QSemaphore*,ItemHandle**,const QString&)),this,SLOT(findItem(QSemaphore*,ItemHandle**,const QString&)));
 		connect(fToS,SIGNAL(findItems(QSemaphore*,QList<ItemHandle*>*,const QStringList&)),
 				this,SLOT(findItems(QSemaphore*,QList<ItemHandle*>*,const QStringList&)));
+		connect(fToS,SIGNAL(findItemsUsingRegex(QSemaphore*,QList<ItemHandle*>*,const QString&)),
+				this,SLOT(findItemsUsingRegex(QSemaphore*,QList<ItemHandle*>*,const QString&)));
 
 		connect(fToS,SIGNAL(select(QSemaphore*,ItemHandle*)),this,SLOT(select(QSemaphore*,ItemHandle*)));
 		connect(fToS,SIGNAL(deselect(QSemaphore*)),this,SLOT(deselect(QSemaphore*)));
@@ -908,6 +912,23 @@ namespace Tinkercell
 			s->release();
 	}
 
+	void C_API_Slots::findItemsUsingRegex(QSemaphore* s,QList<ItemHandle*>* returnPtr,const QString& regex)
+	{
+		NetworkHandle * win = currentNetwork();
+		if (!win || !returnPtr)
+		{
+			if (returnPtr)
+				returnPtr->clear();
+			if (s) s->release();
+			return;
+		}
+
+		(*returnPtr) = win->findItem(QRegExp(regex));;
+
+		if (s)
+			s->release();
+	}
+
 	/*! \brief select an item in the current scene.
 	* \param graphics item pointer
 	*/
@@ -1259,6 +1280,11 @@ namespace Tinkercell
 	tc_items C_API_Slots::_findItems(tc_strings c)
 	{
 		return fToS->findItems(c);
+	}
+
+	tc_items C_API_Slots::_findItemsUsingRegex(const char* c)
+	{
+		return fToS->findItemsUsingRegex(c);
 	}
 
 	void C_API_Slots::_select(long o)
@@ -1620,6 +1646,20 @@ namespace Tinkercell
 		QList<ItemHandle*>* p = new QList<ItemHandle*>;
 		s->acquire();
 		emit findItems(s,p,ConvertValue(c));
+		s->acquire();
+		s->release();
+		delete s;
+		tc_items A = ConvertValue(*p);
+		delete p;
+		return A;
+	}
+
+	tc_items Core_FtoS::findItemsUsingRegex(const char* c)
+	{
+		QSemaphore * s = new QSemaphore(1);
+		QList<ItemHandle*>* p = new QList<ItemHandle*>;
+		s->acquire();
+		emit findItemsUsingRegex(s,p,ConvertValue(c));
 		s->acquire();
 		s->release();
 		delete s;

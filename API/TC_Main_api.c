@@ -74,6 +74,18 @@ tc_items tc_findItems(tc_strings names)
 	return tc_createItemsArray(0);
 }
 
+tc_items (*_tc_findItemsUsingRegexp)(const char*) = 0;
+/*! 
+ \brief get all items with the given names (full names)
+ \ingroup Get items
+*/ TCAPIEXPORT 
+tc_items tc_findItemsUsingRegexp(const char* re)
+{
+	if (_tc_findItemsUsingRegexp)
+		return _tc_findItemsUsingRegexp(re);
+	return tc_createItemsArray(0);
+}
+
 void (*_tc_select)(long item) = 0;
 /*! 
  \brief select an item
@@ -1055,6 +1067,8 @@ void tc_Main_api_initialize(
 		long (*tc_find0)(const char*),
 
 		tc_items (*tc_findItems0)(tc_strings),
+		tc_items (*tc_findItemsUsingRegexp0)(const char*),
+
 		void (*tc_select0)(long),
 		void (*tc_deselect0)(),
 		const char* (*tc_getName0)(long),
@@ -1165,6 +1179,7 @@ void tc_Main_api_initialize(
 	_tc_itemsOfFamilyFrom = tc_itemsOfFamily1;
 	_tc_find = tc_find0;
 	_tc_findItems = tc_findItems0;
+	_tc_findItemsUsingRegexp = tc_findItemsUsingRegexp0;
 	_tc_select = tc_select0;
 	_tc_deselect = tc_deselect0;
 	_tc_getName = tc_getName0;

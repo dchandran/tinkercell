@@ -53,6 +53,7 @@ namespace Tinkercell
 		void itemsOfFamily(QSemaphore*,QList<ItemHandle*>*,const QList<ItemHandle*>&,const QString&);
 		void find(QSemaphore*,ItemHandle**,const QString&);
 		void findItems(QSemaphore*,QList<ItemHandle*>*,const QStringList&);
+		void findItemsUsingRegex(QSemaphore*,QList<ItemHandle*>*,const QString&);
 		void select(QSemaphore*,ItemHandle*);
 		void deselect(QSemaphore*);
 		void removeItem(QSemaphore*,ItemHandle* );
@@ -156,6 +157,7 @@ namespace Tinkercell
 		tc_items selectedItems();
 		long find(const char*);
 		tc_items findItems(tc_strings);
+		tc_items findItemsUsingRegex(const char *);
 		void select(long);
 		void deselect();
 		const char* getName(long);
@@ -281,6 +283,7 @@ namespace Tinkercell
 		static tc_items _selectedItems();
 		static long _find(const char*);
 		static tc_items _findItems(tc_strings);
+		static tc_items _findItemsUsingRegex(const char *);
 		static void _select(long);
 		static void _deselect();
 		static const char* _getName(long);
@@ -492,6 +495,14 @@ namespace Tinkercell
 		* \return void
 		*/
 		void findItems(QSemaphore*,QList<ItemHandle*>*,const QStringList& name);
+		/*!
+		* \brief Finds all graphics items with the names pattern. This function is designed to be used with the C API framework
+		* \param QSemaphore * semaphore
+		* \param return value
+		* \param QString regex (perl)
+		* \return void
+		*/
+		void findItemsUsingRegex(QSemaphore*,QList<ItemHandle*>*,const QString& regex);
 		/*!
 		* \brief selects the given item. This function is designed to be used with the C API framework
 		* \param QSemaphore * semaphore

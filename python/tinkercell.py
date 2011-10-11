@@ -309,6 +309,10 @@ def tc_findItems(*args):
   return _tinkercell.tc_findItems(*args)
 tc_findItems = _tinkercell.tc_findItems
 
+def tc_findItemsUsingRegexp(*args):
+  return _tinkercell.tc_findItemsUsingRegexp(*args)
+tc_findItemsUsingRegexp = _tinkercell.tc_findItemsUsingRegexp
+
 def tc_select(*args):
   return _tinkercell.tc_select(*args)
 tc_select = _tinkercell.tc_select

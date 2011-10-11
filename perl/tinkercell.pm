@@ -84,6 +84,7 @@ package tinkercell;
 *tc_itemsOfFamilyFrom = *tinkercellc::tc_itemsOfFamilyFrom;
 *tc_find = *tinkercellc::tc_find;
 *tc_findItems = *tinkercellc::tc_findItems;
+*tc_findItemsUsingRegexp = *tinkercellc::tc_findItemsUsingRegexp;
 *tc_select = *tinkercellc::tc_select;
 *tc_deselect = *tinkercellc::tc_deselect;
 *tc_getName = *tinkercellc::tc_getName;

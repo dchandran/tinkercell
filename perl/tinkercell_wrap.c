@@ -4368,6 +4368,35 @@ XS(_wrap_tc_findItems) {
 }
 
 
+XS(_wrap_tc_findItemsUsingRegexp) {
+  {
+    char *arg1 = (char *) 0 ;
+    int res1 ;
+    char *buf1 = 0 ;
+    int alloc1 = 0 ;
+    int argvi = 0;
+    tc_items result;
+    dXSARGS;
+    
+    if ((items < 1) || (items > 1)) {
+      SWIG_croak("Usage: tc_findItemsUsingRegexp(names);");
+    }
+    res1 = SWIG_AsCharPtrAndSize(ST(0), &buf1, NULL, &alloc1);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_findItemsUsingRegexp" "', argument " "1"" of type '" "char const *""'");
+    }
+    arg1 = (char *)(buf1);
+    result = tc_findItemsUsingRegexp((char const *)arg1);
+    ST(argvi) = SWIG_NewPointerObj((tc_items *)memcpy((tc_items *)malloc(sizeof(tc_items)),&result,sizeof(tc_items)), SWIGTYPE_p_tc_items, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+    XSRETURN(argvi);
+  fail:
+    if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+    SWIG_croak_null();
+  }
+}
+
+
 XS(_wrap_tc_select) {
   {
     long arg1 ;
@@ -7115,93 +7144,94 @@ XS(_wrap_tc_Main_api_initialize) {
     tc_items (*arg4)(char const *,tc_items) = (tc_items (*)(char const *,tc_items)) 0 ;
     long (*arg5)(char const *) = (long (*)(char const *)) 0 ;
     tc_items (*arg6)(tc_strings) = (tc_items (*)(tc_strings)) 0 ;
-    void (*arg7)(long) = (void (*)(long)) 0 ;
-    void (*arg8)() = (void (*)()) 0 ;
-    char *(*arg9)(long) = (char *(*)(long)) 0 ;
+    tc_items (*arg7)(char const *) = (tc_items (*)(char const *)) 0 ;
+    void (*arg8)(long) = (void (*)(long)) 0 ;
+    void (*arg9)() = (void (*)()) 0 ;
     char *(*arg10)(long) = (char *(*)(long)) 0 ;
-    void (*arg11)(long,char const *) = (void (*)(long,char const *)) 0 ;
-    tc_strings (*arg12)(tc_items) = (tc_strings (*)(tc_items)) 0 ;
+    char *(*arg11)(long) = (char *(*)(long)) 0 ;
+    void (*arg12)(long,char const *) = (void (*)(long,char const *)) 0 ;
     tc_strings (*arg13)(tc_items) = (tc_strings (*)(tc_items)) 0 ;
-    char *(*arg14)(long) = (char *(*)(long)) 0 ;
-    int (*arg15)(long,char const *) = (int (*)(long,char const *)) 0 ;
-    void (*arg16)() = (void (*)()) 0 ;
-    void (*arg17)(char const *) = (void (*)(char const *)) 0 ;
+    tc_strings (*arg14)(tc_items) = (tc_strings (*)(tc_items)) 0 ;
+    char *(*arg15)(long) = (char *(*)(long)) 0 ;
+    int (*arg16)(long,char const *) = (int (*)(long,char const *)) 0 ;
+    void (*arg17)() = (void (*)()) 0 ;
     void (*arg18)(char const *) = (void (*)(char const *)) 0 ;
-    void (*arg19)(tc_matrix) = (void (*)(tc_matrix)) 0 ;
-    void (*arg20)(char const *) = (void (*)(char const *)) 0 ;
-    void (*arg21)(long) = (void (*)(long)) 0 ;
-    double (*arg22)(long) = (double (*)(long)) 0 ;
+    void (*arg19)(char const *) = (void (*)(char const *)) 0 ;
+    void (*arg20)(tc_matrix) = (void (*)(tc_matrix)) 0 ;
+    void (*arg21)(char const *) = (void (*)(char const *)) 0 ;
+    void (*arg22)(long) = (void (*)(long)) 0 ;
     double (*arg23)(long) = (double (*)(long)) 0 ;
-    tc_matrix (*arg24)(tc_items) = (tc_matrix (*)(tc_items)) 0 ;
-    void (*arg25)(long,double,double) = (void (*)(long,double,double)) 0 ;
-    void (*arg26)(tc_items,tc_matrix) = (void (*)(tc_items,tc_matrix)) 0 ;
-    void (*arg27)(double,double) = (void (*)(double,double)) 0 ;
-    int (*arg28)() = (int (*)()) 0 ;
+    double (*arg24)(long) = (double (*)(long)) 0 ;
+    tc_matrix (*arg25)(tc_items) = (tc_matrix (*)(tc_items)) 0 ;
+    void (*arg26)(long,double,double) = (void (*)(long,double,double)) 0 ;
+    void (*arg27)(tc_items,tc_matrix) = (void (*)(tc_items,tc_matrix)) 0 ;
+    void (*arg28)(double,double) = (void (*)(double,double)) 0 ;
     int (*arg29)() = (int (*)()) 0 ;
     int (*arg30)() = (int (*)()) 0 ;
-    char *(*arg31)() = (char *(*)()) 0 ;
+    int (*arg31)() = (int (*)()) 0 ;
     char *(*arg32)() = (char *(*)()) 0 ;
-    void (*arg33)(tc_matrix,char const *,char const *) = (void (*)(tc_matrix,char const *,char const *)) 0 ;
-    void (*arg34)(long,tc_matrix,char const *,void (*)(tc_matrix)) = (void (*)(long,tc_matrix,char const *,void (*)(tc_matrix))) 0 ;
-    void (*arg35)(long,tc_matrix,void (*)(tc_matrix)) = (void (*)(long,tc_matrix,void (*)(tc_matrix))) 0 ;
-    void (*arg36)(char const *,int,int,tc_strings) = (void (*)(char const *,int,int,tc_strings)) 0 ;
-    void (*arg37)(char const *,int,int) = (void (*)(char const *,int,int)) 0 ;
-    void (*arg38)(char const *) = (void (*)(char const *)) 0 ;
-    tc_items (*arg39)(long) = (tc_items (*)(long)) 0 ;
-    long (*arg40)(long) = (long (*)(long)) 0 ;
-    tc_matrix (*arg41)(long,char const *) = (tc_matrix (*)(long,char const *)) 0 ;
-    void (*arg42)(long,char const *,tc_matrix) = (void (*)(long,char const *,tc_matrix)) 0 ;
-    tc_table (*arg43)(long,char const *) = (tc_table (*)(long,char const *)) 0 ;
-    void (*arg44)(long,char const *,tc_table) = (void (*)(long,char const *,tc_table)) 0 ;
-    tc_strings (*arg45)(long) = (tc_strings (*)(long)) 0 ;
+    char *(*arg33)() = (char *(*)()) 0 ;
+    void (*arg34)(tc_matrix,char const *,char const *) = (void (*)(tc_matrix,char const *,char const *)) 0 ;
+    void (*arg35)(long,tc_matrix,char const *,void (*)(tc_matrix)) = (void (*)(long,tc_matrix,char const *,void (*)(tc_matrix))) 0 ;
+    void (*arg36)(long,tc_matrix,void (*)(tc_matrix)) = (void (*)(long,tc_matrix,void (*)(tc_matrix))) 0 ;
+    void (*arg37)(char const *,int,int,tc_strings) = (void (*)(char const *,int,int,tc_strings)) 0 ;
+    void (*arg38)(char const *,int,int) = (void (*)(char const *,int,int)) 0 ;
+    void (*arg39)(char const *) = (void (*)(char const *)) 0 ;
+    tc_items (*arg40)(long) = (tc_items (*)(long)) 0 ;
+    long (*arg41)(long) = (long (*)(long)) 0 ;
+    tc_matrix (*arg42)(long,char const *) = (tc_matrix (*)(long,char const *)) 0 ;
+    void (*arg43)(long,char const *,tc_matrix) = (void (*)(long,char const *,tc_matrix)) 0 ;
+    tc_table (*arg44)(long,char const *) = (tc_table (*)(long,char const *)) 0 ;
+    void (*arg45)(long,char const *,tc_table) = (void (*)(long,char const *,tc_table)) 0 ;
     tc_strings (*arg46)(long) = (tc_strings (*)(long)) 0 ;
-    void (*arg47)(double) = (void (*)(double)) 0 ;
-    void (*arg48)(char const *) = (void (*)(char const *)) 0 ;
-    char *(*arg49)(char const *) = (char *(*)(char const *)) 0 ;
-    int (*arg50)(char const *,tc_strings,char const *) = (int (*)(char const *,tc_strings,char const *)) 0 ;
-    double (*arg51)(char const *) = (double (*)(char const *)) 0 ;
-    tc_matrix (*arg52)(tc_strings) = (tc_matrix (*)(tc_strings)) 0 ;
-    char *(*arg53)() = (char *(*)()) 0 ;
-    int (*arg54)(char const *) = (int (*)(char const *)) 0 ;
-    void (*arg55)(char const *) = (void (*)(char const *)) 0 ;
+    tc_strings (*arg47)(long) = (tc_strings (*)(long)) 0 ;
+    void (*arg48)(double) = (void (*)(double)) 0 ;
+    void (*arg49)(char const *) = (void (*)(char const *)) 0 ;
+    char *(*arg50)(char const *) = (char *(*)(char const *)) 0 ;
+    int (*arg51)(char const *,tc_strings,char const *) = (int (*)(char const *,tc_strings,char const *)) 0 ;
+    double (*arg52)(char const *) = (double (*)(char const *)) 0 ;
+    tc_matrix (*arg53)(tc_strings) = (tc_matrix (*)(tc_strings)) 0 ;
+    char *(*arg54)() = (char *(*)()) 0 ;
+    int (*arg55)(char const *) = (int (*)(char const *)) 0 ;
     void (*arg56)(char const *) = (void (*)(char const *)) 0 ;
     void (*arg57)(char const *) = (void (*)(char const *)) 0 ;
-    void (*arg58)(long,double,double,int) = (void (*)(long,double,double,int)) 0 ;
-    double (*arg59)(long) = (double (*)(long)) 0 ;
+    void (*arg58)(char const *) = (void (*)(char const *)) 0 ;
+    void (*arg59)(long,double,double,int) = (void (*)(long,double,double,int)) 0 ;
     double (*arg60)(long) = (double (*)(long)) 0 ;
-    void (*arg61)(long,double,int) = (void (*)(long,double,int)) 0 ;
-    char *(*arg62)(long) = (char *(*)(long)) 0 ;
-    void (*arg63)(long,char const *,int) = (void (*)(long,char const *,int)) 0 ;
-    void (*arg64)(long,char const *) = (void (*)(long,char const *)) 0 ;
+    double (*arg61)(long) = (double (*)(long)) 0 ;
+    void (*arg62)(long,double,int) = (void (*)(long,double,int)) 0 ;
+    char *(*arg63)(long) = (char *(*)(long)) 0 ;
+    void (*arg64)(long,char const *,int) = (void (*)(long,char const *,int)) 0 ;
     void (*arg65)(long,char const *) = (void (*)(long,char const *)) 0 ;
-    void (*arg66)(char const *,int,int) = (void (*)(char const *,int,int)) 0 ;
-    int (*arg67)() = (int (*)()) 0 ;
+    void (*arg66)(long,char const *) = (void (*)(long,char const *)) 0 ;
+    void (*arg67)(char const *,int,int) = (void (*)(char const *,int,int)) 0 ;
     int (*arg68)() = (int (*)()) 0 ;
     int (*arg69)() = (int (*)()) 0 ;
     int (*arg70)() = (int (*)()) 0 ;
-    char *(*arg71)() = (char *(*)()) 0 ;
-    void (*arg72)(char const *,double,double) = (void (*)(char const *,double,double)) 0 ;
-    void (*arg73)(tc_matrix) = (void (*)(tc_matrix)) 0 ;
-    void (*arg74)(char const *,double) = (void (*)(char const *,double)) 0 ;
-    void (*arg75)(tc_table) = (void (*)(tc_table)) 0 ;
-    void (*arg76)(char const *,char const *) = (void (*)(char const *,char const *)) 0 ;
-    double (*arg77)(char const *) = (double (*)(char const *)) 0 ;
-    char *(*arg78)(char const *) = (char *(*)(char const *)) 0 ;
-    void (*arg79)() = (void (*)()) 0 ;
-    double (*arg80)(long,long,int) = (double (*)(long,long,int)) 0 ;
+    int (*arg71)() = (int (*)()) 0 ;
+    char *(*arg72)() = (char *(*)()) 0 ;
+    void (*arg73)(char const *,double,double) = (void (*)(char const *,double,double)) 0 ;
+    void (*arg74)(tc_matrix) = (void (*)(tc_matrix)) 0 ;
+    void (*arg75)(char const *,double) = (void (*)(char const *,double)) 0 ;
+    void (*arg76)(tc_table) = (void (*)(tc_table)) 0 ;
+    void (*arg77)(char const *,char const *) = (void (*)(char const *,char const *)) 0 ;
+    double (*arg78)(char const *) = (double (*)(char const *)) 0 ;
+    char *(*arg79)(char const *) = (char *(*)(char const *)) 0 ;
+    void (*arg80)() = (void (*)()) 0 ;
     double (*arg81)(long,long,int) = (double (*)(long,long,int)) 0 ;
-    void (*arg82)(long,long,int,double,double) = (void (*)(long,long,int,double,double)) 0 ;
-    void (*arg83)(long,double,double) = (void (*)(long,double,double)) 0 ;
-    double (*arg84)(long) = (double (*)(long)) 0 ;
+    double (*arg82)(long,long,int) = (double (*)(long,long,int)) 0 ;
+    void (*arg83)(long,long,int,double,double) = (void (*)(long,long,int,double,double)) 0 ;
+    void (*arg84)(long,double,double) = (void (*)(long,double,double)) 0 ;
     double (*arg85)(long) = (double (*)(long)) 0 ;
-    void (*arg86)(long,int) = (void (*)(long,int)) 0 ;
-    void (*arg87)(int) = (void (*)(int)) 0 ;
-    void (*arg88)(long,double,int) = (void (*)(long,double,int)) 0 ;
+    double (*arg86)(long) = (double (*)(long)) 0 ;
+    void (*arg87)(long,int) = (void (*)(long,int)) 0 ;
+    void (*arg88)(int) = (void (*)(int)) 0 ;
+    void (*arg89)(long,double,int) = (void (*)(long,double,int)) 0 ;
     int argvi = 0;
     dXSARGS;
     
-    if ((items < 88) || (items > 88)) {
-      SWIG_croak("Usage: tc_Main_api_initialize(tc_allItems0,tc_selectedItems0,tc_itemsOfFamily0,tc_itemsOfFamily1,tc_find0,tc_findItems0,tc_select0,tc_deselect0,tc_getName0,tc_getUniqueName0,tc_setName0,tc_getNames0,tc_getUniqueNames0,tc_getFamily0,tc_isA0,tc_clearText,tc_outputText0,tc_errorReport0,tc_outputTable0,tc_printFile0,tc_removeItem0,tc_getY0,tc_getX0,tc_getPos0,tc_setPos0,tc_setPos1,tc_moveSelected0,tc_isWindows0,tc_isMac0,tc_isLinux0,tc_appDir0,tc_homeDir0,tc_createInputWindow0,tc_createInputWindow1,createSliders,tc_addInputWindowOptions0,tc_addInputWindowCheckbox0,tc_openNewWindow0,tc_getChildren0,tc_getParent0,tc_getNumericalData0,tc_setNumericalData0,tc_getTextData0,tc_setTextData0,tc_getNumericalDataNames0,tc_getTextDataNames0,tc_zoom0,tc_viewWindow0,tc_getStringDialog0,getSelectedString,getNumber,getNumbers,getFilename,askQuestion,messageDialog,openFile,saveToFile,setSize0,getWidth0,getHeight0,setAngle0,getColor,setColor0,changeGraphics0,changeArrowHead0,screenshot,screenHeight,screenWidth,screenX,screenY,annotations,insertAnnotations,setNumericalValues,setNumericalValue,setTextValues,setTextValue,getNumericalValue,getTextValue,openUrl,getControlPointX,getControlPointY,setControlPoint,setCenterPoint,getCenterPointX,getCenterPointY,setStraight,setAllStraight,setLineWidth);");
+    if ((items < 89) || (items > 89)) {
+      SWIG_croak("Usage: tc_Main_api_initialize(tc_allItems0,tc_selectedItems0,tc_itemsOfFamily0,tc_itemsOfFamily1,tc_find0,tc_findItems0,tc_findItemsUsingRegexp0,tc_select0,tc_deselect0,tc_getName0,tc_getUniqueName0,tc_setName0,tc_getNames0,tc_getUniqueNames0,tc_getFamily0,tc_isA0,tc_clearText,tc_outputText0,tc_errorReport0,tc_outputTable0,tc_printFile0,tc_removeItem0,tc_getY0,tc_getX0,tc_getPos0,tc_setPos0,tc_setPos1,tc_moveSelected0,tc_isWindows0,tc_isMac0,tc_isLinux0,tc_appDir0,tc_homeDir0,tc_createInputWindow0,tc_createInputWindow1,createSliders,tc_addInputWindowOptions0,tc_addInputWindowCheckbox0,tc_openNewWindow0,tc_getChildren0,tc_getParent0,tc_getNumericalData0,tc_setNumericalData0,tc_getTextData0,tc_setTextData0,tc_getNumericalDataNames0,tc_getTextDataNames0,tc_zoom0,tc_viewWindow0,tc_getStringDialog0,getSelectedString,getNumber,getNumbers,getFilename,askQuestion,messageDialog,openFile,saveToFile,setSize0,getWidth0,getHeight0,setAngle0,getColor,setColor0,changeGraphics0,changeArrowHead0,screenshot,screenHeight,screenWidth,screenX,screenY,annotations,insertAnnotations,setNumericalValues,setNumericalValue,setTextValues,setTextValue,getNumericalValue,getTextValue,openUrl,getControlPointX,getControlPointY,setControlPoint,setCenterPoint,getCenterPointX,getCenterPointY,setStraight,setAllStraight,setLineWidth);");
     }
     {
       int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f___tc_items);
@@ -7240,21 +7270,21 @@ XS(_wrap_tc_Main_api_initialize) {
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(6), (void**)(&arg7), SWIGTYPE_p_f_long__void);
+      int res = SWIG_ConvertFunctionPtr(ST(6), (void**)(&arg7), SWIGTYPE_p_f_p_q_const__char__tc_items);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "7"" of type '" "void (*)(long)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "7"" of type '" "tc_items (*)(char const *)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(7), (void**)(&arg8), SWIGTYPE_p_f___void);
+      int res = SWIG_ConvertFunctionPtr(ST(7), (void**)(&arg8), SWIGTYPE_p_f_long__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "8"" of type '" "void (*)()""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "8"" of type '" "void (*)(long)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(8), (void**)(&arg9), SWIGTYPE_p_f_long__p_char);
+      int res = SWIG_ConvertFunctionPtr(ST(8), (void**)(&arg9), SWIGTYPE_p_f___void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "9"" of type '" "char const *(*)(long)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "9"" of type '" "void (*)()""'"); 
       }
     }
     {
@@ -7264,15 +7294,15 @@ XS(_wrap_tc_Main_api_initialize) {
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(10), (void**)(&arg11), SWIGTYPE_p_f_long_p_q_const__char__void);
+      int res = SWIG_ConvertFunctionPtr(ST(10), (void**)(&arg11), SWIGTYPE_p_f_long__p_char);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "11"" of type '" "void (*)(long,char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "11"" of type '" "char const *(*)(long)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(11), (void**)(&arg12), SWIGTYPE_p_f_tc_items__tc_strings);
+      int res = SWIG_ConvertFunctionPtr(ST(11), (void**)(&arg12), SWIGTYPE_p_f_long_p_q_const__char__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "12"" of type '" "tc_strings (*)(tc_items)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "12"" of type '" "void (*)(long,char const *)""'"); 
       }
     }
     {
@@ -7282,27 +7312,27 @@ XS(_wrap_tc_Main_api_initialize) {
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(13), (void**)(&arg14), SWIGTYPE_p_f_long__p_char);
+      int res = SWIG_ConvertFunctionPtr(ST(13), (void**)(&arg14), SWIGTYPE_p_f_tc_items__tc_strings);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "14"" of type '" "char const *(*)(long)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "14"" of type '" "tc_strings (*)(tc_items)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(14), (void**)(&arg15), SWIGTYPE_p_f_long_p_q_const__char__int);
+      int res = SWIG_ConvertFunctionPtr(ST(14), (void**)(&arg15), SWIGTYPE_p_f_long__p_char);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "15"" of type '" "int (*)(long,char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "15"" of type '" "char const *(*)(long)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(15), (void**)(&arg16), SWIGTYPE_p_f___void);
+      int res = SWIG_ConvertFunctionPtr(ST(15), (void**)(&arg16), SWIGTYPE_p_f_long_p_q_const__char__int);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "16"" of type '" "void (*)()""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "16"" of type '" "int (*)(long,char const *)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(16), (void**)(&arg17), SWIGTYPE_p_f_p_q_const__char__void);
+      int res = SWIG_ConvertFunctionPtr(ST(16), (void**)(&arg17), SWIGTYPE_p_f___void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "17"" of type '" "void (*)(char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "17"" of type '" "void (*)()""'"); 
       }
     }
     {
@@ -7312,27 +7342,27 @@ XS(_wrap_tc_Main_api_initialize) {
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(18), (void**)(&arg19), SWIGTYPE_p_f_tc_matrix__void);
+      int res = SWIG_ConvertFunctionPtr(ST(18), (void**)(&arg19), SWIGTYPE_p_f_p_q_const__char__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "19"" of type '" "void (*)(tc_matrix)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "19"" of type '" "void (*)(char const *)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(19), (void**)(&arg20), SWIGTYPE_p_f_p_q_const__char__void);
+      int res = SWIG_ConvertFunctionPtr(ST(19), (void**)(&arg20), SWIGTYPE_p_f_tc_matrix__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "20"" of type '" "void (*)(char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "20"" of type '" "void (*)(tc_matrix)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(20), (void**)(&arg21), SWIGTYPE_p_f_long__void);
+      int res = SWIG_ConvertFunctionPtr(ST(20), (void**)(&arg21), SWIGTYPE_p_f_p_q_const__char__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "21"" of type '" "void (*)(long)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "21"" of type '" "void (*)(char const *)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(21), (void**)(&arg22), SWIGTYPE_p_f_long__double);
+      int res = SWIG_ConvertFunctionPtr(ST(21), (void**)(&arg22), SWIGTYPE_p_f_long__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "22"" of type '" "double (*)(long)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "22"" of type '" "void (*)(long)""'"); 
       }
     }
     {
@@ -7342,33 +7372,33 @@ XS(_wrap_tc_Main_api_initialize) {
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(23), (void**)(&arg24), SWIGTYPE_p_f_tc_items__tc_matrix);
+      int res = SWIG_ConvertFunctionPtr(ST(23), (void**)(&arg24), SWIGTYPE_p_f_long__double);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "24"" of type '" "tc_matrix (*)(tc_items)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "24"" of type '" "double (*)(long)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(24), (void**)(&arg25), SWIGTYPE_p_f_long_double_double__void);
+      int res = SWIG_ConvertFunctionPtr(ST(24), (void**)(&arg25), SWIGTYPE_p_f_tc_items__tc_matrix);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "25"" of type '" "void (*)(long,double,double)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "25"" of type '" "tc_matrix (*)(tc_items)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(25), (void**)(&arg26), SWIGTYPE_p_f_tc_items_tc_matrix__void);
+      int res = SWIG_ConvertFunctionPtr(ST(25), (void**)(&arg26), SWIGTYPE_p_f_long_double_double__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "26"" of type '" "void (*)(tc_items,tc_matrix)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "26"" of type '" "void (*)(long,double,double)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(26), (void**)(&arg27), SWIGTYPE_p_f_double_double__void);
+      int res = SWIG_ConvertFunctionPtr(ST(26), (void**)(&arg27), SWIGTYPE_p_f_tc_items_tc_matrix__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "27"" of type '" "void (*)(double,double)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "27"" of type '" "void (*)(tc_items,tc_matrix)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(27), (void**)(&arg28), SWIGTYPE_p_f___int);
+      int res = SWIG_ConvertFunctionPtr(ST(27), (void**)(&arg28), SWIGTYPE_p_f_double_double__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "28"" of type '" "int (*)()""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "28"" of type '" "void (*)(double,double)""'"); 
       }
     }
     {
@@ -7384,9 +7414,9 @@ XS(_wrap_tc_Main_api_initialize) {
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(30), (void**)(&arg31), SWIGTYPE_p_f___p_char);
+      int res = SWIG_ConvertFunctionPtr(ST(30), (void**)(&arg31), SWIGTYPE_p_f___int);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "31"" of type '" "char const *(*)()""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "31"" of type '" "int (*)()""'"); 
       }
     }
     {
@@ -7396,81 +7426,81 @@ XS(_wrap_tc_Main_api_initialize) {
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(32), (void**)(&arg33), SWIGTYPE_p_f_tc_matrix_p_q_const__char_p_q_const__char__void);
+      int res = SWIG_ConvertFunctionPtr(ST(32), (void**)(&arg33), SWIGTYPE_p_f___p_char);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "33"" of type '" "void (*)(tc_matrix,char const *,char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "33"" of type '" "char const *(*)()""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(33), (void**)(&arg34), SWIGTYPE_p_f_long_tc_matrix_p_q_const__char_p_f_tc_matrix__void__void);
+      int res = SWIG_ConvertFunctionPtr(ST(33), (void**)(&arg34), SWIGTYPE_p_f_tc_matrix_p_q_const__char_p_q_const__char__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "34"" of type '" "void (*)(long,tc_matrix,char const *,void (*)(tc_matrix))""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "34"" of type '" "void (*)(tc_matrix,char const *,char const *)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(34), (void**)(&arg35), SWIGTYPE_p_f_long_tc_matrix_p_f_tc_matrix__void__void);
+      int res = SWIG_ConvertFunctionPtr(ST(34), (void**)(&arg35), SWIGTYPE_p_f_long_tc_matrix_p_q_const__char_p_f_tc_matrix__void__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "35"" of type '" "void (*)(long,tc_matrix,void (*)(tc_matrix))""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "35"" of type '" "void (*)(long,tc_matrix,char const *,void (*)(tc_matrix))""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(35), (void**)(&arg36), SWIGTYPE_p_f_p_q_const__char_int_int_tc_strings__void);
+      int res = SWIG_ConvertFunctionPtr(ST(35), (void**)(&arg36), SWIGTYPE_p_f_long_tc_matrix_p_f_tc_matrix__void__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "36"" of type '" "void (*)(char const *,int,int,tc_strings)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "36"" of type '" "void (*)(long,tc_matrix,void (*)(tc_matrix))""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(36), (void**)(&arg37), SWIGTYPE_p_f_p_q_const__char_int_int__void);
+      int res = SWIG_ConvertFunctionPtr(ST(36), (void**)(&arg37), SWIGTYPE_p_f_p_q_const__char_int_int_tc_strings__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "37"" of type '" "void (*)(char const *,int,int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "37"" of type '" "void (*)(char const *,int,int,tc_strings)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(37), (void**)(&arg38), SWIGTYPE_p_f_p_q_const__char__void);
+      int res = SWIG_ConvertFunctionPtr(ST(37), (void**)(&arg38), SWIGTYPE_p_f_p_q_const__char_int_int__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "38"" of type '" "void (*)(char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "38"" of type '" "void (*)(char const *,int,int)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(38), (void**)(&arg39), SWIGTYPE_p_f_long__tc_items);
+      int res = SWIG_ConvertFunctionPtr(ST(38), (void**)(&arg39), SWIGTYPE_p_f_p_q_const__char__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "39"" of type '" "tc_items (*)(long)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "39"" of type '" "void (*)(char const *)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(39), (void**)(&arg40), SWIGTYPE_p_f_long__long);
+      int res = SWIG_ConvertFunctionPtr(ST(39), (void**)(&arg40), SWIGTYPE_p_f_long__tc_items);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "40"" of type '" "long (*)(long)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "40"" of type '" "tc_items (*)(long)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(40), (void**)(&arg41), SWIGTYPE_p_f_long_p_q_const__char__tc_matrix);
+      int res = SWIG_ConvertFunctionPtr(ST(40), (void**)(&arg41), SWIGTYPE_p_f_long__long);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "41"" of type '" "tc_matrix (*)(long,char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "41"" of type '" "long (*)(long)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(41), (void**)(&arg42), SWIGTYPE_p_f_long_p_q_const__char_tc_matrix__void);
+      int res = SWIG_ConvertFunctionPtr(ST(41), (void**)(&arg42), SWIGTYPE_p_f_long_p_q_const__char__tc_matrix);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "42"" of type '" "void (*)(long,char const *,tc_matrix)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "42"" of type '" "tc_matrix (*)(long,char const *)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(42), (void**)(&arg43), SWIGTYPE_p_f_long_p_q_const__char__tc_table);
+      int res = SWIG_ConvertFunctionPtr(ST(42), (void**)(&arg43), SWIGTYPE_p_f_long_p_q_const__char_tc_matrix__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "43"" of type '" "tc_table (*)(long,char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "43"" of type '" "void (*)(long,char const *,tc_matrix)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(43), (void**)(&arg44), SWIGTYPE_p_f_long_p_q_const__char_tc_table__void);
+      int res = SWIG_ConvertFunctionPtr(ST(43), (void**)(&arg44), SWIGTYPE_p_f_long_p_q_const__char__tc_table);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "44"" of type '" "void (*)(long,char const *,tc_table)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "44"" of type '" "tc_table (*)(long,char const *)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(44), (void**)(&arg45), SWIGTYPE_p_f_long__tc_strings);
+      int res = SWIG_ConvertFunctionPtr(ST(44), (void**)(&arg45), SWIGTYPE_p_f_long_p_q_const__char_tc_table__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "45"" of type '" "tc_strings (*)(long)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "45"" of type '" "void (*)(long,char const *,tc_table)""'"); 
       }
     }
     {
@@ -7480,57 +7510,57 @@ XS(_wrap_tc_Main_api_initialize) {
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(46), (void**)(&arg47), SWIGTYPE_p_f_double__void);
+      int res = SWIG_ConvertFunctionPtr(ST(46), (void**)(&arg47), SWIGTYPE_p_f_long__tc_strings);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "47"" of type '" "void (*)(double)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "47"" of type '" "tc_strings (*)(long)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(47), (void**)(&arg48), SWIGTYPE_p_f_p_q_const__char__void);
+      int res = SWIG_ConvertFunctionPtr(ST(47), (void**)(&arg48), SWIGTYPE_p_f_double__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "48"" of type '" "void (*)(char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "48"" of type '" "void (*)(double)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(48), (void**)(&arg49), SWIGTYPE_p_f_p_q_const__char__p_char);
+      int res = SWIG_ConvertFunctionPtr(ST(48), (void**)(&arg49), SWIGTYPE_p_f_p_q_const__char__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "49"" of type '" "char const *(*)(char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "49"" of type '" "void (*)(char const *)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(49), (void**)(&arg50), SWIGTYPE_p_f_p_q_const__char_tc_strings_p_q_const__char__int);
+      int res = SWIG_ConvertFunctionPtr(ST(49), (void**)(&arg50), SWIGTYPE_p_f_p_q_const__char__p_char);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "50"" of type '" "int (*)(char const *,tc_strings,char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "50"" of type '" "char const *(*)(char const *)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(50), (void**)(&arg51), SWIGTYPE_p_f_p_q_const__char__double);
+      int res = SWIG_ConvertFunctionPtr(ST(50), (void**)(&arg51), SWIGTYPE_p_f_p_q_const__char_tc_strings_p_q_const__char__int);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "51"" of type '" "double (*)(char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "51"" of type '" "int (*)(char const *,tc_strings,char const *)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(51), (void**)(&arg52), SWIGTYPE_p_f_tc_strings__tc_matrix);
+      int res = SWIG_ConvertFunctionPtr(ST(51), (void**)(&arg52), SWIGTYPE_p_f_p_q_const__char__double);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "52"" of type '" "tc_matrix (*)(tc_strings)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "52"" of type '" "double (*)(char const *)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(52), (void**)(&arg53), SWIGTYPE_p_f___p_char);
+      int res = SWIG_ConvertFunctionPtr(ST(52), (void**)(&arg53), SWIGTYPE_p_f_tc_strings__tc_matrix);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "53"" of type '" "char const *(*)()""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "53"" of type '" "tc_matrix (*)(tc_strings)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(53), (void**)(&arg54), SWIGTYPE_p_f_p_q_const__char__int);
+      int res = SWIG_ConvertFunctionPtr(ST(53), (void**)(&arg54), SWIGTYPE_p_f___p_char);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "54"" of type '" "int (*)(char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "54"" of type '" "char const *(*)()""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(54), (void**)(&arg55), SWIGTYPE_p_f_p_q_const__char__void);
+      int res = SWIG_ConvertFunctionPtr(ST(54), (void**)(&arg55), SWIGTYPE_p_f_p_q_const__char__int);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "55"" of type '" "void (*)(char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "55"" of type '" "int (*)(char const *)""'"); 
       }
     }
     {
@@ -7546,15 +7576,15 @@ XS(_wrap_tc_Main_api_initialize) {
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(57), (void**)(&arg58), SWIGTYPE_p_f_long_double_double_int__void);
+      int res = SWIG_ConvertFunctionPtr(ST(57), (void**)(&arg58), SWIGTYPE_p_f_p_q_const__char__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "58"" of type '" "void (*)(long,double,double,int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "58"" of type '" "void (*)(char const *)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(58), (void**)(&arg59), SWIGTYPE_p_f_long__double);
+      int res = SWIG_ConvertFunctionPtr(ST(58), (void**)(&arg59), SWIGTYPE_p_f_long_double_double_int__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "59"" of type '" "double (*)(long)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "59"" of type '" "void (*)(long,double,double,int)""'"); 
       }
     }
     {
@@ -7564,27 +7594,27 @@ XS(_wrap_tc_Main_api_initialize) {
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(60), (void**)(&arg61), SWIGTYPE_p_f_long_double_int__void);
+      int res = SWIG_ConvertFunctionPtr(ST(60), (void**)(&arg61), SWIGTYPE_p_f_long__double);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "61"" of type '" "void (*)(long,double,int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "61"" of type '" "double (*)(long)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(61), (void**)(&arg62), SWIGTYPE_p_f_long__p_char);
+      int res = SWIG_ConvertFunctionPtr(ST(61), (void**)(&arg62), SWIGTYPE_p_f_long_double_int__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "62"" of type '" "char const *(*)(long)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "62"" of type '" "void (*)(long,double,int)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(62), (void**)(&arg63), SWIGTYPE_p_f_long_p_q_const__char_int__void);
+      int res = SWIG_ConvertFunctionPtr(ST(62), (void**)(&arg63), SWIGTYPE_p_f_long__p_char);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "63"" of type '" "void (*)(long,char const *,int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "63"" of type '" "char const *(*)(long)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(63), (void**)(&arg64), SWIGTYPE_p_f_long_p_q_const__char__void);
+      int res = SWIG_ConvertFunctionPtr(ST(63), (void**)(&arg64), SWIGTYPE_p_f_long_p_q_const__char_int__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "64"" of type '" "void (*)(long,char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "64"" of type '" "void (*)(long,char const *,int)""'"); 
       }
     }
     {
@@ -7594,15 +7624,15 @@ XS(_wrap_tc_Main_api_initialize) {
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(65), (void**)(&arg66), SWIGTYPE_p_f_p_q_const__char_int_int__void);
+      int res = SWIG_ConvertFunctionPtr(ST(65), (void**)(&arg66), SWIGTYPE_p_f_long_p_q_const__char__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "66"" of type '" "void (*)(char const *,int,int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "66"" of type '" "void (*)(long,char const *)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(66), (void**)(&arg67), SWIGTYPE_p_f___int);
+      int res = SWIG_ConvertFunctionPtr(ST(66), (void**)(&arg67), SWIGTYPE_p_f_p_q_const__char_int_int__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "67"" of type '" "int (*)()""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "67"" of type '" "void (*)(char const *,int,int)""'"); 
       }
     }
     {
@@ -7624,63 +7654,63 @@ XS(_wrap_tc_Main_api_initialize) {
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(70), (void**)(&arg71), SWIGTYPE_p_f___p_char);
+      int res = SWIG_ConvertFunctionPtr(ST(70), (void**)(&arg71), SWIGTYPE_p_f___int);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "71"" of type '" "char const *(*)()""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "71"" of type '" "int (*)()""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(71), (void**)(&arg72), SWIGTYPE_p_f_p_q_const__char_double_double__void);
+      int res = SWIG_ConvertFunctionPtr(ST(71), (void**)(&arg72), SWIGTYPE_p_f___p_char);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "72"" of type '" "void (*)(char const *,double,double)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "72"" of type '" "char const *(*)()""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(72), (void**)(&arg73), SWIGTYPE_p_f_tc_matrix__void);
+      int res = SWIG_ConvertFunctionPtr(ST(72), (void**)(&arg73), SWIGTYPE_p_f_p_q_const__char_double_double__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "73"" of type '" "void (*)(tc_matrix)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "73"" of type '" "void (*)(char const *,double,double)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(73), (void**)(&arg74), SWIGTYPE_p_f_p_q_const__char_double__void);
+      int res = SWIG_ConvertFunctionPtr(ST(73), (void**)(&arg74), SWIGTYPE_p_f_tc_matrix__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "74"" of type '" "void (*)(char const *,double)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "74"" of type '" "void (*)(tc_matrix)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(74), (void**)(&arg75), SWIGTYPE_p_f_tc_table__void);
+      int res = SWIG_ConvertFunctionPtr(ST(74), (void**)(&arg75), SWIGTYPE_p_f_p_q_const__char_double__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "75"" of type '" "void (*)(tc_table)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "75"" of type '" "void (*)(char const *,double)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(75), (void**)(&arg76), SWIGTYPE_p_f_p_q_const__char_p_q_const__char__void);
+      int res = SWIG_ConvertFunctionPtr(ST(75), (void**)(&arg76), SWIGTYPE_p_f_tc_table__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "76"" of type '" "void (*)(char const *,char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "76"" of type '" "void (*)(tc_table)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(76), (void**)(&arg77), SWIGTYPE_p_f_p_q_const__char__double);
+      int res = SWIG_ConvertFunctionPtr(ST(76), (void**)(&arg77), SWIGTYPE_p_f_p_q_const__char_p_q_const__char__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "77"" of type '" "double (*)(char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "77"" of type '" "void (*)(char const *,char const *)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(77), (void**)(&arg78), SWIGTYPE_p_f_p_q_const__char__p_char);
+      int res = SWIG_ConvertFunctionPtr(ST(77), (void**)(&arg78), SWIGTYPE_p_f_p_q_const__char__double);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "78"" of type '" "char const *(*)(char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "78"" of type '" "double (*)(char const *)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(78), (void**)(&arg79), SWIGTYPE_p_f___void);
+      int res = SWIG_ConvertFunctionPtr(ST(78), (void**)(&arg79), SWIGTYPE_p_f_p_q_const__char__p_char);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "79"" of type '" "void (*)()""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "79"" of type '" "char const *(*)(char const *)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(79), (void**)(&arg80), SWIGTYPE_p_f_long_long_int__double);
+      int res = SWIG_ConvertFunctionPtr(ST(79), (void**)(&arg80), SWIGTYPE_p_f___void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "80"" of type '" "double (*)(long,long,int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "80"" of type '" "void (*)()""'"); 
       }
     }
     {
@@ -7690,21 +7720,21 @@ XS(_wrap_tc_Main_api_initialize) {
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(81), (void**)(&arg82), SWIGTYPE_p_f_long_long_int_double_double__void);
+      int res = SWIG_ConvertFunctionPtr(ST(81), (void**)(&arg82), SWIGTYPE_p_f_long_long_int__double);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "82"" of type '" "void (*)(long,long,int,double,double)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "82"" of type '" "double (*)(long,long,int)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(82), (void**)(&arg83), SWIGTYPE_p_f_long_double_double__void);
+      int res = SWIG_ConvertFunctionPtr(ST(82), (void**)(&arg83), SWIGTYPE_p_f_long_long_int_double_double__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "83"" of type '" "void (*)(long,double,double)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "83"" of type '" "void (*)(long,long,int,double,double)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(83), (void**)(&arg84), SWIGTYPE_p_f_long__double);
+      int res = SWIG_ConvertFunctionPtr(ST(83), (void**)(&arg84), SWIGTYPE_p_f_long_double_double__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "84"" of type '" "double (*)(long)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "84"" of type '" "void (*)(long,double,double)""'"); 
       }
     }
     {
@@ -7714,25 +7744,32 @@ XS(_wrap_tc_Main_api_initialize) {
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(85), (void**)(&arg86), SWIGTYPE_p_f_long_int__void);
+      int res = SWIG_ConvertFunctionPtr(ST(85), (void**)(&arg86), SWIGTYPE_p_f_long__double);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "86"" of type '" "void (*)(long,int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "86"" of type '" "double (*)(long)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(86), (void**)(&arg87), SWIGTYPE_p_f_int__void);
+      int res = SWIG_ConvertFunctionPtr(ST(86), (void**)(&arg87), SWIGTYPE_p_f_long_int__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "87"" of type '" "void (*)(int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "87"" of type '" "void (*)(long,int)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(87), (void**)(&arg88), SWIGTYPE_p_f_long_double_int__void);
+      int res = SWIG_ConvertFunctionPtr(ST(87), (void**)(&arg88), SWIGTYPE_p_f_int__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "88"" of type '" "void (*)(long,double,int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "88"" of type '" "void (*)(int)""'"); 
       }
     }
-    tc_Main_api_initialize(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,(char const *(*)(long))arg9,(char const *(*)(long))arg10,arg11,arg12,arg13,(char const *(*)(long))arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23,arg24,arg25,arg26,arg27,arg28,arg29,arg30,(char const *(*)())arg31,(char const *(*)())arg32,arg33,arg34,arg35,arg36,arg37,arg38,arg39,arg40,arg41,arg42,arg43,arg44,arg45,arg46,arg47,arg48,(char const *(*)(char const *))arg49,arg50,arg51,arg52,(char const *(*)())arg53,arg54,arg55,arg56,arg57,arg58,arg59,arg60,arg61,(char const *(*)(long))arg62,arg63,arg64,arg65,arg66,arg67,arg68,arg69,arg70,(char const *(*)())arg71,arg72,arg73,arg74,arg75,arg76,arg77,(char const *(*)(char const *))arg78,arg79,arg80,arg81,arg82,arg83,arg84,arg85,arg86,arg87,arg88);
+    {
+      int res = SWIG_ConvertFunctionPtr(ST(88), (void**)(&arg89), SWIGTYPE_p_f_long_double_int__void);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "89"" of type '" "void (*)(long,double,int)""'"); 
+      }
+    }
+    tc_Main_api_initialize(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,(char const *(*)(long))arg10,(char const *(*)(long))arg11,arg12,arg13,arg14,(char const *(*)(long))arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23,arg24,arg25,arg26,arg27,arg28,arg29,arg30,arg31,(char const *(*)())arg32,(char const *(*)())arg33,arg34,arg35,arg36,arg37,arg38,arg39,arg40,arg41,arg42,arg43,arg44,arg45,arg46,arg47,arg48,arg49,(char const *(*)(char const *))arg50,arg51,arg52,arg53,(char const *(*)())arg54,arg55,arg56,arg57,arg58,arg59,arg60,arg61,arg62,(char const *(*)(long))arg63,arg64,arg65,arg66,arg67,arg68,arg69,arg70,arg71,(char const *(*)())arg72,arg73,arg74,arg75,arg76,arg77,arg78,(char const *(*)(char const *))arg79,arg80,arg81,arg82,arg83,arg84,arg85,arg86,arg87,arg88,arg89);
     ST(argvi) = sv_newmortal();
+    
     
     
     
@@ -7823,6 +7860,7 @@ XS(_wrap_tc_Main_api_initialize) {
     
     XSRETURN(argvi);
   fail:
+    
     
     
     
@@ -13514,6 +13552,7 @@ static swig_command_info swig_commands[] = {
 {"tinkercellc::tc_itemsOfFamilyFrom", _wrap_tc_itemsOfFamilyFrom},
 {"tinkercellc::tc_find", _wrap_tc_find},
 {"tinkercellc::tc_findItems", _wrap_tc_findItems},
+{"tinkercellc::tc_findItemsUsingRegexp", _wrap_tc_findItemsUsingRegexp},
 {"tinkercellc::tc_select", _wrap_tc_select},
 {"tinkercellc::tc_deselect", _wrap_tc_deselect},
 {"tinkercellc::tc_getName", _wrap_tc_getName},

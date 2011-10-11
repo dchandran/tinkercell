@@ -64,7 +64,7 @@ namespace Tinkercell
 
 	QList<ItemHandle*> NetworkHandle::findItem(const QRegExp& re) const
 	{
-		QList<ItemHandle*> items = this->handles(), items2;
+		QList<ItemHandle*> items = this->handles(true), items2;
 
 		for (int i=0; i < items.size(); ++i)
 			if (items[i] && (items[i]->fullName().contains(re) ||  items[i]->fullName("_").contains(re)))

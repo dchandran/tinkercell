@@ -109,6 +109,7 @@ namespace Tinkercell
 		SimulationThread * simThread;		
 		SimulationDialog * simDialog;
 		bool needsUpdate;
+		bool reorderingEnabled;
 
 	public:
 		static tc_matrix simulateDeterministic(double startTime, double endTime, int numSteps);

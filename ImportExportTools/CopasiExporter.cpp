@@ -13,7 +13,7 @@ namespace Tinkercell
 
 CopasiExporter_FtoS CopasiExporter::fToS;
 
-CopasiExporter::CopasiExporter() : Tool("COPASI","Export"), simThread(0), simDialog(0)
+CopasiExporter::CopasiExporter() : Tool("COPASI","Export"), simThread(0), simDialog(0), reorderingEnabled(true)
 {
 	connect(&fToS, SIGNAL(simulate(QSemaphore *, double, double, int, int, tc_matrix*)),
 					this, SLOT(simulate(QSemaphore *, double, double, int, int, tc_matrix*)));
@@ -120,12 +120,28 @@ void CopasiExporter::setupFunctionPointers( QLibrary * library)
 		);
 }
 
+void CopasiExporter::enableAssignmentRulesReordering(QSemaphore * sem, int a)
+{
+	bool reorderingEnabled2 = (a > 0);
+	if (reorderingEnabled != reorderingEnabled2)
+	{
+		reorderingEnabled = reorderingEnabled2;
+
+		if (reorderingEnabled)
+			cEnableAssignmentRuleReordering();
+		else
+			cDisableAssignmentRuleReordering();
+
+		needsUpdate = true;
+	}
+
+	if (sem)
+		sem->release();
+}
+
 void CopasiExporter::enableAssignmentRulesReordering(int a)
 {
-	if (a)
-		cEnableAssignmentRuleReordering();
-	else
-		cDisableAssignmentRuleReordering();
+	fToS.enableAssignmentRulesReordering(a);
 }
 
 void CopasiExporter::historyChanged(int)
@@ -135,7 +151,7 @@ void CopasiExporter::historyChanged(int)
 
 void CopasiExporter::windowChanged(NetworkWindow*,NetworkWindow*)
 {
-	historyChanged(0);
+	needsUpdate = true;
 }
 
 /***************************************************
@@ -340,16 +356,6 @@ void CopasiExporter::updateParams(QSemaphore * sem, tc_matrix m)
 		simThread->updateModelParameters(*dat);
 		delete dat;
 	}
-	if (sem)
-		sem->release();
-}
-
-void CopasiExporter::enableAssignmentRulesReordering(QSemaphore * sem, int i)
-{
-	if (i > 0)
-		cEnableAssignmentRuleReordering();
-	else
-		cDisableAssignmentRuleReordering();
 	if (sem)
 		sem->release();
 }

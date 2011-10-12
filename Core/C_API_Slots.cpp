@@ -3358,7 +3358,8 @@ namespace Tinkercell
 		NetworkHandle * network = currentNetwork();
 		if (network && v)
 		{
-			QList< QPair<ItemHandle*,QString> > pairs = network->findData(QRegExp(s));
+			QRegExp re(s);
+			QList< QPair<ItemHandle*,QString> > pairs = network->findData(re);
 			NumericalDataTable dat;
 			for (int i=0; i < pairs.size(); ++i)
 			{
@@ -3366,9 +3367,13 @@ namespace Tinkercell
 				QString id = pairs[i].second;
 				if (h && h->hasNumericalData(id))
 				{
+					QString name = h->fullName(tr("_")) + tr("_");
+					if (h->name.isNull() || h->name.isEmpty())
+						name = tr("");
 					NumericalDataTable & dat2 = h->numericalDataTable(id);
 					for (int j=0; j < dat2.rows(); ++j)
-						dat.value(h->fullName(tr("_")) + tr("_") + dat2.rowName(j), 0) = dat2.value(j,0);
+						if ((name + dat2.rowName(j)).contains(re))
+							dat.value(name + dat2.rowName(j), 0) = dat2.value(j,0);
 				}
 			}
 			(*v) = dat;
@@ -3383,7 +3388,8 @@ namespace Tinkercell
 		NetworkHandle * network = currentNetwork();
 		if (network && v)
 		{
-			QList< QPair<ItemHandle*,QString> > pairs = network->findData(QRegExp(s));
+			QRegExp re(s);
+			QList< QPair<ItemHandle*,QString> > pairs = network->findData(re);
 			TextDataTable dat;
 			for (int i=0; i < pairs.size(); ++i)
 			{
@@ -3391,9 +3397,13 @@ namespace Tinkercell
 				QString id = pairs[i].second;
 				if (h && h->hasTextData(id))
 				{
+					QString name = h->fullName(tr("_")) + tr("_");
+					if (h->name.isNull() || h->name.isEmpty())
+						name = tr("");
 					TextDataTable & dat2 = h->textDataTable(id);
 					for (int j=0; j < dat2.rows(); ++j)
-						dat.value(h->fullName(tr("_")) + tr("_") + dat2.rowName(j), 0) = dat2.value(j,0);
+						if ((name + dat2.rowName(j)).contains(re))
+							dat.value(name + dat2.rowName(j), 0) = dat2.value(j,0);
 				}
 			}
 			(*v) = dat;

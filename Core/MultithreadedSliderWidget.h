@@ -36,14 +36,9 @@ namespace Tinkercell
 	signals:
 		
 		/*!
-		* \brief the options in the slider have changed
-		*/
-		void optionsChanged(const QStringList&);
-		
-		/*!
 		* \brief the values in the slider have changed
 		*/
-		void valuesChanged(const QList<double>&);
+		void valuesChanged(DataTable<qreal>);
 
 	public slots:
 	

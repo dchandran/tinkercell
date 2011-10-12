@@ -126,7 +126,7 @@ namespace Tinkercell
 
 		if (list.isEmpty())
 		{
-			QStringList keys = symbolsTable.uniqueDataWithUnderscore.keys();
+			keys = symbolsTable.uniqueDataWithUnderscore.keys();
 
 			for (int i=0; i < keys.size(); ++i)
 				if (keys[i].contains(re))

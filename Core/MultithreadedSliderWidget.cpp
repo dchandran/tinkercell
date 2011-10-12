@@ -76,6 +76,8 @@ namespace Tinkercell
 	{
 		setAttribute(Qt::WA_DeleteOnClose,true);
 		cthread = thread;
+		if (cthread)
+			cthread->setMatrixFunction(functionName.toAscii().data());
 		setWindowFlags(Qt::Dialog);
 		slidersLayout = 0;
 		hide();
@@ -186,6 +188,8 @@ namespace Tinkercell
 			return;
 			//cthread->terminate();
 		}
+
+		emit valuesChanged(values);
 
 		cthread->start();
 	}

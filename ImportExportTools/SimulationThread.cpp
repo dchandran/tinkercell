@@ -20,18 +20,19 @@ SimulationThread::~SimulationThread()
 	model.qHash = 0;
 }
 
-void SimulationThread::updateModelParameters(const DataTable<qreal> & params)
+void SimulationThread::updateModelParameters(DataTable<qreal> params)
 {
 	for (int i=0; i < params.rows(); ++i)
 		cSetValue(model, params.rowName(i).toUtf8().data(), params.at(i,0));
 }
 
-void SimulationThread::updateModel(QList<ItemHandle*> & handles)
+void SimulationThread::updateModelParametersAndRerun(DataTable<qreal> params)
 {
-	updateModel(handles, model, optimizationParameters);
+	updateModelParameters(params);
+	run();
 }
 
-void SimulationThread::updateModel(QList<ItemHandle*> & handles, copasi_model & model, DataTable<qreal> & optimizationParameters)
+void SimulationThread::updateModel(QList<ItemHandle*> & handles)
 {
 	//make sure all children are included
 	for (int i=0; i < handles.size(); ++i)
@@ -303,46 +304,11 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles, copasi_model & 
 	}
 }
 
-void SimulationThread::updateModel()
-{
-	QSemaphore * sem = new QSemaphore(1);
 
-	bool changed = true;
-	QList<ItemHandle*> handles;
-	
-	sem->acquire();
-	emit getHandles( this, sem, &handles, &changed);
-	sem->acquire();
-	sem->release();
-
-	if (changed)
-	{
-		argMatrix.resize(0,0);
-		updateModel(handles, this->model, optimizationParameters);
-	}
-
-	delete sem;
-}
-
-void SimulationDialog::updateModel()
-{
-	if (!thread) return;
-	
-	bool changed = false;
-	QList<ItemHandle*> handles;
-	emit getHandles( thread, 0, &handles, &changed);
-	if (changed)
-	{
-		thread->argMatrix.resize(0,0);
-		SimulationThread::updateModel(handles, thread->model, thread->optimizationParameters);
-	}
-}
-
-SimulationThread::SimulationThread(MainWindow * parent) : CThread(parent)
+SimulationThread::SimulationThread(MainWindow * parent) : QObject(parent), mainWindow(parent)
 {
 	method = None;
 	resultMatrix = tc_createMatrix(0,0);
-	semaphore = 0;
 	plot = false;
 	model.CopasiModelPtr = 0;
 	model.CopasiDataModelPtr = 0;
@@ -363,11 +329,6 @@ void SimulationThread::setMethod(AnalysisMethod mthd)
 {
 	method = mthd;
 	scanItems.clear();
-}
-
-void SimulationThread::setSemaphore(QSemaphore * sem)
-{
-	semaphore = sem;
 }
 
 void SimulationThread::setStartTime(double d)
@@ -411,12 +372,8 @@ void SimulationThread::run()
 {
 	if (!model.CopasiModelPtr)
 	{
-		if (semaphore)
-			semaphore->release();
 		return;
 	}
-
-	updateModelParameters(argMatrix); //values from slider
 
 	int x = 0;
 	PlotTool::PlotType plotType;
@@ -517,7 +474,7 @@ void SimulationThread::run()
 				QString title("steady state scan");
 				for (i=0; i < n; ++i)
 				{
-					showProgress( title, (int)(100 * i)/n  );
+					//showProgress( title, (int)(100 * i)/n  );
 					p = start + (double)(i)*step;
 					cSetValue(model, param.toUtf8().data(), p);
 					ss = cGetSteadyState(model);
@@ -537,7 +494,7 @@ void SimulationThread::run()
 		
 					tc_deleteMatrix(ss);
 				}
-				showProgress(title, 100);
+				//showProgress(title, 100);
 				plotTitle = tr("Steady state scan");
 				plotType = PlotTool::Plot2D;
 			}
@@ -563,7 +520,7 @@ void SimulationThread::run()
 				QString title("steady state scan 2D");
 				for (i=0; i < n1; ++i)
 				{
-					showProgress( title, (int)(100 * i)/n1  );
+					//showProgress( title, (int)(100 * i)/n1  );
 					p1 = start1 + (double)(i)*step1;
 					
 					for (j=0; j < n2; ++j)
@@ -600,7 +557,7 @@ void SimulationThread::run()
 						tc_deleteMatrix(ss);
 					}
 				}
-				showProgress(title, 100);
+				//showProgress(title, 100);
 			}
 			plotTitle = tr("Steady state scan");
 			plotType = PlotTool::SurfacePlot;
@@ -672,7 +629,7 @@ void SimulationThread::run()
 			break;
 	}
 	
-	if (plot && !semaphore)
+	if (plot)
 	{
 		DataTable<qreal> * dat = ConvertValue(resultMatrix);
 		emit graph(*dat, plotTitle, x, plotType);
@@ -681,9 +638,6 @@ void SimulationThread::run()
 				mainWindow->console()->printTable(*dat);
 		delete dat; 
 	}
-	
-	if (semaphore)
-		semaphore->release();
 }
 
 SimulationDialog::SimulationDialog(MainWindow * parent) : QDialog(parent)
@@ -824,7 +778,6 @@ void SimulationDialog::setMethod(SimulationThread::AnalysisMethod method)
 	if (thread)
 	{
 		thread->setMethod(method);
-		thread->setSemaphore(0);
 	}
 	
 	if (	method == SimulationThread::DeterministicSimulation ||
@@ -877,9 +830,14 @@ void SimulationDialog::setMethod(SimulationThread::AnalysisMethod method)
 	}
 }
 
+void SimulationThread::plotResult(bool b)
+{
+	plot = b;
+}
+
 void SimulationDialog::run()
 {
-	if (!thread || thread->isRunning()) return;
+	if (!thread) return;
 
 	if (sliderValues.rows() < 1)
 	{
@@ -891,9 +849,9 @@ void SimulationDialog::run()
 	thread->startTime = simStart->value();
 	thread->endTime = simEnd->value();
 	thread->numPoints = numPoints1->value();
-	thread->plot = true;
+	emit updateModel();
+	thread->plotResult(true);
 	thread->scanItems.clear();
-	thread->setSemaphore(0);
 	
 	if (param1Box->isVisible())
 	{
@@ -919,7 +877,6 @@ void SimulationDialog::run()
 	}
 	
 	this->hide();
-	updateModel();
 	
 	QStringList rownames;
 	QList<double> col1, col2;
@@ -944,14 +901,17 @@ void SimulationDialog::run()
 		sliderWidget = 0;
 	}
 
-	sliderWidget = new MultithreadedSliderWidget(thread->mainWindow,thread);
+	sliderWidget = new MultithreadedSliderWidget(thread->mainWindow);
 	if (!rect.isNull())
 		sliderWidget->setGeometry(rect);
 	sliderWidget->setAttribute(Qt::WA_DeleteOnClose,false);
 	sliderWidget->setDefaultDataTable(tr("Initial value"));
 	sliderWidget->setSliders(rownames,col1,col2);
+
+	thread->run();
+
 	sliderWidget->show();
-	//thread->start();
+	connect(sliderWidget, SIGNAL(valuesChanged(DataTable<qreal>)), thread, SLOT(updateModelParametersAndRerun(DataTable<qreal>)));
 }
 
 void SimulationDialog::historyChanged(int)

@@ -45,10 +45,10 @@ namespace Tinkercell
 {
 	class SimulationDialog;
 	
-	/*!\brief simulation class that uses COPASI as its backend. This class extends the thread class, so the simulations
-			always run as a separate thread.
+	/*!\brief simulation class that uses COPASI as its backend. 
+        This class no longer runs as a seaprate thread due to problems with COPASI and multithreading
 		\ingroup simulation*/
-	class TINKERCELLEXPORT SimulationThread : public CThread
+	class TINKERCELLEXPORT SimulationThread : public QObject
 	{
 		Q_OBJECT
 		
@@ -89,17 +89,6 @@ namespace Tinkercell
 		/*! \brief destructor removes copasi model*/
 		~SimulationThread();
 		
-		/*! \brief Updates the COPASI model using the updateModel(QList<ItemHandle*>) function*/
-		void updateModel();
-		
-		/*! \brief Updates the COPASI model parameters */
-		void updateModelParameters(const NumericalDataTable & params);
-		
-		/*! \brief Updates the COPASI model using the list of handles provided
-		* \param QList<ItemHandle*> all items in the model
-		*/
-		static void updateModel(QList<ItemHandle*>&, copasi_model & model, NumericalDataTable &);
-		
 		/*! \brief Updates the COPASI model using the list of handles provided
 		* \param QList<ItemHandle*> all items in the model
 		*/
@@ -109,10 +98,6 @@ namespace Tinkercell
 		* \param AnalysisMethod
 		*/
 		void setMethod(AnalysisMethod);
-		/*! \brief Provide a semaphore (optional) so that the calling thread can wait until simulation is finished
-		* \param QSemaphote*
-		*/
-		void setSemaphore(QSemaphore*);
 		/*! \brief set the time-course simulation start time
 		* \param double time
 		*/
@@ -146,21 +131,23 @@ namespace Tinkercell
 		tc_matrix result();
 	
 	signals:
-		/*! \brief get the item handles in the model
-		* \param SimulationThread * this thread
-		* \param QSemaphore * semaphore that should be released by the thread recieving this signal
-		* \param QList<ItemHandle> reference to list of handles
-		* \param bool receiving thread should set this to true is any changes to the model is made
-		*/
-		void getHandles( const SimulationThread *, QSemaphore*, QList<ItemHandle*>*, bool * changed);
 		/*! \brief graph the results matrix. This signal is connected to the PlotTool's slot
 		*/
 		void graph(const DataTable<qreal>&,const QString& title,int xaxis, PlotTool::PlotType type);
 
-	protected:
+	public slots:
+
+		/*! \brief Updates the COPASI model parameters */
+		void updateModelParameters(DataTable<qreal> params);
+
+		/*! \brief Updates the COPASI model parameters and run again*/
+		void updateModelParametersAndRerun(DataTable<qreal> params);
 
 		/*! \brief perform the analysis*/
 		virtual void run();
+
+	protected:
+
 		/*! \brief the analysis method*/
 		AnalysisMethod method;
 		/*! \brief the copasi model*/
@@ -175,8 +162,6 @@ namespace Tinkercell
 		bool plot;
 		/*! \brief results matrix (see copasi_api.h)*/
 		tc_matrix resultMatrix;
-		/*! \brief if a semaphore is set by calling thread*/
-		QSemaphore * semaphore;
 		/*! \brief for optimization*/
 		QString objective;
 		/*! \brief all params such that their min != max*/
@@ -189,6 +174,8 @@ namespace Tinkercell
 		/*! \brief the total number of copasi models created so far*/
 		static int totalModelCount;
 		
+		/*! \brief main window*/
+		MainWindow * mainWindow;
 		friend class SimulationDialog;
 	}; 
 
@@ -196,25 +183,16 @@ namespace Tinkercell
 		\ingroup plugins*/
 	class TINKERCELLEXPORT SimulationDialog : public QDialog
 	{
-		Q_OBJECT
-		
-		signals:
-			/*! \brief get the item handles in the model
-			* \param SimulationThread * this thread
-			* \param QSemaphore * semaphore that should be released by the thread recieving this signal
-			* \param QList<ItemHandle> reference to list of handles
-			* \param bool receiving thread should set this to true is any changes to the model is made
-			*/
-			void getHandles( const SimulationThread *, QSemaphore*, QList<ItemHandle*>*, bool * changed);
+			Q_OBJECT
 
 		public:
 			/*! \brief constructor*/
 			SimulationDialog(MainWindow * parent);
 			/*! \brief destructor*/
 			~SimulationDialog();
-		public slots:
-			/*! \brief Updates the COPASI model using the updateModel(QList<ItemHandle*>) function*/
+		signals:
 			void updateModel();
+		public slots:
 			/*! \brief set the simulation thread*/
 			void setThread(SimulationThread *);
 			/*! \brief set the analysis method*/

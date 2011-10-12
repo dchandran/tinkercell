@@ -2,229 +2,293 @@
 #include <stdio.h>
 #include "copasi_api.h"
 
-copasi_model model1(); //oscillation
-copasi_model model2(); //positive feebdack gene regulation
-copasi_model model3();
-void eigen(copasi_model, const char*); //compute eigenvalues by changing parameters (similar to root-locus)
+copasi_model model(); 
 
 int main()
 {
 	tc_matrix efm, output, params;
-	copasi_model m1, m2;
+	copasi_model m;
 	
 	printf("creating model...\n");
-	m1 = model1();
+	m = model();
     //m1 = cReadSBMLFile("model1.sbml");
     
 	printf("simulating...\n");	
-	output = cSimulateDeterministic(m1, 0, 20, 100);  //model, start, end, num. points
+	output = cSimulateDeterministic(m, 0, 20, 100);  //model, start, end, num. points
 	printf("output.tab has %i rows and %i columns\n",output.rows, output.cols);
 	tc_printMatrixToFile("output.tab", output);
 	tc_deleteMatrix(output);
-	//printf("%s\n",m1.errorMessage);
-	/*params = tc_createMatrix(3,3);
-	tc_setRowName(params,0,"k1");
-	tc_setRowName(params,1,"k2");
-	tc_setRowName(params,2,"k3");
-	tc_setMatrixValue(params, 0, 0, 1);
-	tc_setMatrixValue(params, 0, 1, 0.0);
-	tc_setMatrixValue(params, 0, 2, 5.0);
-	tc_setMatrixValue(params, 1, 0, 1);
-	tc_setMatrixValue(params, 1, 1, 0.0);
-	tc_setMatrixValue(params, 1, 2, 5.0);
-	tc_setMatrixValue(params, 2, 0, 1);
-	tc_setMatrixValue(params, 2, 1, 0.0);
-	tc_setMatrixValue(params, 2, 2, 5.0);
-	
-	cSetValue(m1,"k1",2.0);
-	cSetValue(m1,"k2",1.0);
-	cSetValue(m1,"k3",1.0);*/
-	
-	//cSetOptimizerIterations(10);
-	//output = cOptimize(m1, "output.tab", params);
-	//tc_printMatrixToFile("params.out", output);
-	//tc_deleteMatrix(output);
 
 	//cleanup	
-	cRemoveModel(m1);
+	cRemoveModel(m);
 	copasi_end();
 	return 0;
 }
 
-copasi_model model1() //oscillator
-{
-	//model named M
-	copasi_model model = cCreateModel("M");
-	copasi_reaction R1, R2, R3;
-	copasi_compartment cell;
-	
-	//species
-	cell = cCreateCompartment(model, "cell", 1.0);
-	cCreateSpecies(cell, "A", 4);
-	cCreateSpecies(cell, "B", 3);
-	cCreateSpecies(cell, "C", 2);
-	
-	//parameters
-	cSetValue(model, "k1", 0.2);   //k1
-	cSetValue(model, "k2", 0.5);   //k2
-	cSetValue(model, "k3", 1);   //k3
-	
-	//reactions -- make sure all parameters or species are defined BEFORE this step
-	R1 = cCreateReaction(model, "R1");  // A+B -> 2B
-	cAddReactant(R1, "A", 1.0);
-	cAddReactant(R1, "B", 1.0);
-	cAddProduct(R1, "B", 2.0);
-	cSetReactionRate(R1, "k1*A*B");
-
-	R2 = cCreateReaction(model, "R2");  //B+C -> 2C
-	cAddReactant(R2, "B", 1.0);
-	cAddReactant(R2, "C", 1.0);
-	cAddProduct(R2, "C", 2.0);
-	cSetReactionRate(R2, "k2*B*C");
-
-	R3 = cCreateReaction(model, "R3"); //C+A -> 2A
-	cAddReactant(R3, "C", 1.0);
-	cAddReactant(R3, "A", 1.0);
-	cAddProduct(R3, "A", 2.0);
-	cSetReactionRate(R3, "k3*C*A");
-
-	cCreateEvent(model, "event1", "time > 10", "k3", "k3/2.0");
-	return model;
-}
-
-copasi_model model2() //gene regulation
-{
-	//model named M
-	copasi_model model = cCreateModel("M");
-	copasi_compartment cell;
-	copasi_reaction R1, R2, R3, R4;
-	
-	//species
-	cell = cCreateCompartment(model, "cell", 1.0);
-	cCreateSpecies(cell, "mRNA", 0);
-	cCreateSpecies(cell, "Protein", 0);
-	
-	//parameters	
-	cSetValue(model, "d1", 1.0);
-	cSetValue(model, "d2", 0.2);  
-	cSetValue(model, "k0", 2.0);
-	cSetValue(model, "k1", 1.0);
-	cSetValue(model, "h", 4.0);  
-	cSetValue(model, "Kd", 1.0);
-	cSetValue(model, "leak", 0.1);  
-	
-	//reactions -- make sure all parameters or species are defined BEFORE this step
-	R1 = cCreateReaction(model, "R1");  //  mRNA production
-	cAddProduct(R1, "mRNA", 1.0);
-	cSetReactionRate(R1, "leak + k0 * (Protein^h) / (Kd + (Protein^h))");
-
-	R2 = cCreateReaction(model, "R2");  // Protein production
-	cAddProduct(R2, "Protein", 1.0);
-	cSetReactionRate(R2, "k1*mRNA");
-
-	R3 = cCreateReaction(model, "R3"); // mRNA degradation
-	cAddReactant(R3, "mRNA", 1.0);
-	cSetReactionRate(R3, "d1*mRNA");
-	
-	R4 = cCreateReaction(model, "R4"); // Protein degradation
-	cAddReactant(R4, "Protein", 1.0);
-	cSetReactionRate(R4, "d2*Protein");
-	return model;
-}
-
-// eigenvalues
-void eigen(copasi_model model, const char* param)
-{
-	int i, j,k;
-	double p;
-	FILE * outfile;
-	tc_matrix ss;
-	tc_matrix output;
-	
-	//steady states
-	
-	for (i=0; i < 100; ++i)
-	{
-		p = (double)(i + 1)/10.0;
-		k = cSetValue( model, param, p );
-		
-		if (k)
-			printf("calculating steady state for %s = %lf\n",param, p);
-		
-		ss = cGetEigenvalues(model);
-		//ss = cGetSteadyState(model);
-
-		if (i == 0)
-		{
-			output = tc_createMatrix(100, ss.rows+1);
-			tc_setColumnName(output, 0, param);
-			for (j=0; j < output.cols; ++j)
-				tc_setColumnName(output, j+1, tc_getRowName(ss, j));
-		}
-		
-		tc_setMatrixValue(output, i, 0, p);
-		for (j=0; j < output.cols; ++j)
-			tc_setMatrixValue(output, i, j+1, tc_getMatrixValue(ss, j, 0));
-		
-		tc_deleteMatrix(ss);
-	}
-	
-	//output
-	tc_printMatrixToFile("output.tab", output);
-	
-	printf("\noutput.tab contains the final output\n\n");
-
-	tc_deleteMatrix(output);
-}
-
-copasi_model model3() //big genetic model
+copasi_model model() //big genetic model
 {
 	copasi_model model = cCreateModel("M");
 	copasi_compartment DefaultCompartment;
-	copasi_reaction r0,r1,r2,r3;
+	copasi_reaction r0,r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11,r12,r13,r14,r15,r16,r17,r18,r19,r20,r21,r22,r23,r24,r25,r26,r27,r28,r29,r30,r31,r32,r33,r34,r35;
 	DefaultCompartment = cCreateCompartment(model,"DefaultCompartment",1);
-	cCreateSpecies(DefaultCompartment,"dr1_Monomer",0);
-	cCreateSpecies(DefaultCompartment,"rs2",1);
+	cCreateSpecies(DefaultCompartment,"as1",2);
+	cCreateSpecies(DefaultCompartment,"as2",2);
+	cCreateSpecies(DefaultCompartment,"as3",1);
+	cCreateSpecies(DefaultCompartment,"as4",2);
+	cCreateSpecies(DefaultCompartment,"as5",2);
+	cCreateSpecies(DefaultCompartment,"as6",2);
+	cCreateSpecies(DefaultCompartment,"as7",1);
+	cCreateSpecies(DefaultCompartment,"as8",2);
 	cCreateSpecies(DefaultCompartment,"cod1",1);
-	cCreateSpecies(DefaultCompartment,"OUTPUT",5);
 	cCreateSpecies(DefaultCompartment,"cod2",1);
-	cCreateSpecies(DefaultCompartment,"INPUT",5);
-	cCreateSpecies(DefaultCompartment,"as1",1);
-	cCreateSpecies(DefaultCompartment,"as2",1);
+	cCreateSpecies(DefaultCompartment,"cod3",1);
+	cCreateSpecies(DefaultCompartment,"cod4",1);
+	cCreateSpecies(DefaultCompartment,"cod5",1);
+	cCreateSpecies(DefaultCompartment,"cod6",1);
+	cCreateSpecies(DefaultCompartment,"cod7",1);
+	cCreateSpecies(DefaultCompartment,"cod8",1);
+	cCreateSpecies(DefaultCompartment,"cod9",1);
+	cCreateSpecies(DefaultCompartment,"p1",5);
+	cCreateSpecies(DefaultCompartment,"p2",0);
+	cCreateSpecies(DefaultCompartment,"p3",0);
+	cCreateSpecies(DefaultCompartment,"p4",0);
+	cCreateSpecies(DefaultCompartment,"p5",0);
+	cCreateSpecies(DefaultCompartment,"p6",0);
+	cCreateSpecies(DefaultCompartment,"p7",0);
+	cCreateSpecies(DefaultCompartment,"p8",0);
+	cCreateSpecies(DefaultCompartment,"p9",0);
+	cCreateSpecies(DefaultCompartment,"pp1_mrna",0);
+	cCreateSpecies(DefaultCompartment,"pp2_mrna",0);
+	cCreateSpecies(DefaultCompartment,"pp3_mrna",0);
+	cCreateSpecies(DefaultCompartment,"pp4_mrna",0);
+	cCreateSpecies(DefaultCompartment,"pp5_mrna",0);
+	cCreateSpecies(DefaultCompartment,"pp6_mrna",0);
+	cCreateSpecies(DefaultCompartment,"pp7_mrna",0);
+	cCreateSpecies(DefaultCompartment,"pp8_mrna",0);
+	cCreateSpecies(DefaultCompartment,"pp9_mrna",0);
 	cCreateSpecies(DefaultCompartment,"pro1",1);
-	cCreateSpecies(DefaultCompartment,"pro2",1);
+	cCreateSpecies(DefaultCompartment,"pro2",2);
+	cCreateSpecies(DefaultCompartment,"pro3",3.08);
+	cCreateSpecies(DefaultCompartment,"pro4",3.08);
+	cCreateSpecies(DefaultCompartment,"pro5",2);
+	cCreateSpecies(DefaultCompartment,"pro6",2);
+	cCreateSpecies(DefaultCompartment,"pro7",2);
+	cCreateSpecies(DefaultCompartment,"pro8",2);
+	cCreateSpecies(DefaultCompartment,"pro9",2);
 	cCreateSpecies(DefaultCompartment,"rbs1",1);
 	cCreateSpecies(DefaultCompartment,"rbs2",1);
-	cCreateSpecies(DefaultCompartment,"ter1",1);
-	cCreateSpecies(DefaultCompartment,"ter2",1);
-	cSetGlobalParameter(model,"OUTPUT_degradation_rate",0.1);
-	cSetGlobalParameter(model,"dr1_degradation_rate",0.1);
-	cSetGlobalParameter(model,"dr1_Kd",12);
-	cSetGlobalParameter(model,"dr1_h",4);
-	cSetGlobalParameter(model,"pro1_strength",5);
-	cSetGlobalParameter(model,"pro2_strength",12);
-	cSetGlobalParameter(model,"ta1_Kd",5);
-	cSetGlobalParameter(model,"ta1_h",4);
-	cSetGlobalParameter(model,"ta2_Kd",2);
-	cSetGlobalParameter(model,"ta2_h",5);
-	cSetAssignmentRule(model, "INPUT","10 * (1 + sin(time * 0.5))");
-	cSetAssignmentRule(model, "as1","((1+((INPUT/ta1_Kd)^ta1_h))-1)/((1+((INPUT/ta1_Kd)^ta1_h)))");
-	cSetAssignmentRule(model, "as2","((1+((INPUT/ta2_Kd)^ta2_h))-1)/((1+((INPUT/ta2_Kd)^ta2_h)))");
-	cSetAssignmentRule(model, "cod1","pro1_strength * (as1)");
-	cSetAssignmentRule(model, "cod2","pro2_strength * (( as1 + as2) *(rs2))");
-	cSetAssignmentRule(model, "rs2","1/(dr1_Kd+dr1_Monomer^dr1_h)");
-	r0 = cCreateReaction(model, "dr1_v1");
+	cCreateSpecies(DefaultCompartment,"rbs3",1);
+	cCreateSpecies(DefaultCompartment,"rbs4",1);
+	cCreateSpecies(DefaultCompartment,"rbs5",1);
+	cCreateSpecies(DefaultCompartment,"rbs6",1);
+	cCreateSpecies(DefaultCompartment,"rbs7",1);
+	cCreateSpecies(DefaultCompartment,"rbs8",1);
+	cCreateSpecies(DefaultCompartment,"rbs9",1);
+	cCreateSpecies(DefaultCompartment,"rs1",1);
+	cCreateSpecies(DefaultCompartment,"rs2",1);
+	cCreateSpecies(DefaultCompartment,"rs3",2);
+	cCreateSpecies(DefaultCompartment,"rs4",1);
+	cCreateSpecies(DefaultCompartment,"rs5",1);
+	cCreateSpecies(DefaultCompartment,"rs6",2);
+	cCreateSpecies(DefaultCompartment,"rs7",1);
+	cSetGlobalParameter(model,"p1_degradation_rate",0.5);
+	cSetGlobalParameter(model,"p2_degradation_rate",0.5);
+	cSetGlobalParameter(model,"p3_degradation_rate",0.5);
+	cSetGlobalParameter(model,"p4_degradation_rate",0.5);
+	cSetGlobalParameter(model,"p5_degradation_rate",0.5);
+	cSetGlobalParameter(model,"p6_degradation_rate",0.5);
+	cSetGlobalParameter(model,"p7_degradation_rate",0.5);
+	cSetGlobalParameter(model,"p8_degradation_rate",0.5);
+	cSetGlobalParameter(model,"p9_degradation_rate",0.5);
+	cSetGlobalParameter(model,"pp1_mrna_degradation_rate",1);
+	cSetGlobalParameter(model,"pp2_mrna_degradation_rate",1);
+	cSetGlobalParameter(model,"pp3_mrna_degradation_rate",1);
+	cSetGlobalParameter(model,"pp4_mrna_degradation_rate",1);
+	cSetGlobalParameter(model,"pp5_mrna_degradation_rate",1);
+	cSetGlobalParameter(model,"pp6_mrna_degradation_rate",1);
+	cSetGlobalParameter(model,"pp7_mrna_degradation_rate",1);
+	cSetGlobalParameter(model,"pp8_mrna_degradation_rate",1);
+	cSetGlobalParameter(model,"pp9_mrna_degradation_rate",1);
+	cSetGlobalParameter(model,"pro1_strength",2);
+	cSetGlobalParameter(model,"pro2_strength",4.5077);
+	cSetGlobalParameter(model,"pro3_strength",5);
+	cSetGlobalParameter(model,"pro4_strength",5);
+	cSetGlobalParameter(model,"pro5_strength",5);
+	cSetGlobalParameter(model,"pro6_strength",1.31);
+	cSetGlobalParameter(model,"pro7_strength",1.31);
+	cSetGlobalParameter(model,"pro8_strength",5);
+	cSetGlobalParameter(model,"pro9_strength",5);
+	cSetGlobalParameter(model,"rbs1_strength",0.3668);
+	cSetGlobalParameter(model,"rbs2_strength",1.4102);
+	cSetGlobalParameter(model,"rbs3_strength",0.8);
+	cSetGlobalParameter(model,"rbs4_strength",2.21);
+	cSetGlobalParameter(model,"rbs5_strength",0.5);
+	cSetGlobalParameter(model,"rbs6_strength",2);
+	cSetGlobalParameter(model,"rbs7_strength",5);
+	cSetGlobalParameter(model,"rbs8_strength",3.6377);
+	cSetGlobalParameter(model,"rbs9_strength",8);
+	cSetGlobalParameter(model,"v1_Kd",11.147);
+	cSetGlobalParameter(model,"v1_h",1);
+	cSetGlobalParameter(model,"v10_Kd",0.02);
+	cSetGlobalParameter(model,"v10_h",4);
+	cSetGlobalParameter(model,"v11_Kd",0.1);
+	cSetGlobalParameter(model,"v11_h",2);
+	cSetGlobalParameter(model,"v12_Kd",0.1);
+	cSetGlobalParameter(model,"v12_h",2);
+	cSetGlobalParameter(model,"v13_Kd",0.01);
+	cSetGlobalParameter(model,"v13_h",2);
+	cSetGlobalParameter(model,"v14_Kd",1);
+	cSetGlobalParameter(model,"v14_h",4);
+	cSetGlobalParameter(model,"v15_Kd",20);
+	cSetGlobalParameter(model,"v15_h",1);
+	cSetGlobalParameter(model,"v2_Kd",1);
+	cSetGlobalParameter(model,"v2_h",4);
+	cSetGlobalParameter(model,"v3_Kd",20);
+	cSetGlobalParameter(model,"v3_h",1);
+	cSetGlobalParameter(model,"v4_Kd",0.2);
+	cSetGlobalParameter(model,"v4_h",4);
+	cSetGlobalParameter(model,"v5_Kd",0.2);
+	cSetGlobalParameter(model,"v5_h",4);
+	cSetGlobalParameter(model,"v6_Kd",0.04);
+	cSetGlobalParameter(model,"v6_h",4);
+	cSetGlobalParameter(model,"v7_Kd",0.02);
+	cSetGlobalParameter(model,"v7_h",4);
+	cSetGlobalParameter(model,"v8_Kd",0.04);
+	cSetGlobalParameter(model,"v8_h",4);
+	cSetGlobalParameter(model,"v9_Kd",0.2);
+	cSetGlobalParameter(model,"v9_h",4);
+	cSetAssignmentRule(model, "as1","((1+((p1/v1_Kd)^v1_h))-1)/((1+((p1/v1_Kd)^v1_h)))");
+	cSetAssignmentRule(model, "as2","((1+((p4/v4_Kd)^v4_h))-1)/((1+((p4/v4_Kd)^v4_h)))");
+	cSetAssignmentRule(model, "as3","((1+((p5/v5_Kd)^v5_h))-1)/((1+((p5/v5_Kd)^v5_h)))");
+	cSetAssignmentRule(model, "as4","((1+((p6/v6_Kd)^v6_h))-1)/((1+((p6/v6_Kd)^v6_h)))");
+	cSetAssignmentRule(model, "as5","((1+((p7/v7_Kd)^v7_h))-1)/((1+((p7/v7_Kd)^v7_h)))");
+	cSetAssignmentRule(model, "as6","((1+((p7/v10_Kd)^v10_h))-1)/((1+((p7/v10_Kd)^v10_h)))");
+	cSetAssignmentRule(model, "as7","((1+((p6/v8_Kd)^v8_h))-1)/((1+((p6/v8_Kd)^v8_h)))");
+	cSetAssignmentRule(model, "as8","((1+((p5/v9_Kd)^v9_h))-1)/((1+((p5/v9_Kd)^v9_h)))");
+	cSetAssignmentRule(model, "cod1","pro1_strength");
+	cSetAssignmentRule(model, "cod2","pro2_strength * (( as1) *(rs1))");
+	cSetAssignmentRule(model, "cod3","pro3_strength * ((rs2 * rs3))");
+	cSetAssignmentRule(model, "cod4","pro4_strength * ((rs7 * rs6))");
+	cSetAssignmentRule(model, "cod5","pro5_strength * (as2)");
+	cSetAssignmentRule(model, "cod6","pro6_strength * (as3 + as4)");
+	cSetAssignmentRule(model, "cod7","pro7_strength * (as7 + as8)");
+	cSetAssignmentRule(model, "cod8","pro8_strength * (( as5) *(rs4))");
+	cSetAssignmentRule(model, "cod9","pro9_strength * (( as6) *(rs5))");
+	cSetAssignmentRule(model, "rs1","1.0/((1+((p9/v13_Kd)^v13_h)))");
+	cSetAssignmentRule(model, "rs2","1.0/((1+((p2/v2_Kd)^v2_h)))");
+	cSetAssignmentRule(model, "rs3","1.0/((1+((p3/v3_Kd)^v3_h)))");
+	cSetAssignmentRule(model, "rs4","1.0/((1+((p8/v11_Kd)^v11_h)))");
+	cSetAssignmentRule(model, "rs5","1.0/((1+((p8/v12_Kd)^v12_h)))");
+	cSetAssignmentRule(model, "rs6","1.0/((1+((p2/v14_Kd)^v14_h)))");
+	cSetAssignmentRule(model, "rs7","1.0/((1+((p3/v15_Kd)^v15_h)))");
+	r0 = cCreateReaction(model, "pp1_v1");
 	cSetReactionRate(r0,"cod1");
-	cAddProduct(r0,"dr1_Monomer",1);
-	r1 = cCreateReaction(model, "dr1_v2");
-	cSetReactionRate(r1,"dr1_degradation_rate*dr1_Monomer");
-	cAddReactant(r1,"dr1_Monomer",1);
-	r2 = cCreateReaction(model, "pp1_v1");
-	cSetReactionRate(r2,"cod2");
-	cAddProduct(r2,"OUTPUT",1);
-	r3 = cCreateReaction(model, "pp1_v2");
-	cSetReactionRate(r3,"OUTPUT_degradation_rate*OUTPUT");
-	cAddReactant(r3,"OUTPUT",1);
+	cAddProduct(r0,"pp1_mrna",1);
+	r1 = cCreateReaction(model, "pp1_v2");
+	cSetReactionRate(r1,"pp1_mrna_degradation_rate*pp1_mrna");
+	cAddReactant(r1,"pp1_mrna",1);
+	r2 = cCreateReaction(model, "pp1_v3");
+	cSetReactionRate(r2,"rbs1_strength * pp1_mrna");
+	cAddProduct(r2,"p1",1);
+	r3 = cCreateReaction(model, "pp1_v4");
+	cSetReactionRate(r3,"p1_degradation_rate*p1");
+	cAddReactant(r3,"p1",1);
+	r4 = cCreateReaction(model, "pp2_v1");
+	cSetReactionRate(r4,"cod2");
+	cAddProduct(r4,"pp2_mrna",1);
+	r5 = cCreateReaction(model, "pp2_v2");
+	cSetReactionRate(r5,"pp2_mrna_degradation_rate*pp2_mrna");
+	cAddReactant(r5,"pp2_mrna",1);
+	r6 = cCreateReaction(model, "pp2_v3");
+	cSetReactionRate(r6,"rbs2_strength * pp2_mrna");
+	cAddProduct(r6,"p2",1);
+	r7 = cCreateReaction(model, "pp2_v4");
+	cSetReactionRate(r7,"p2_degradation_rate*p2");
+	cAddReactant(r7,"p2",1);
+	r8 = cCreateReaction(model, "pp3_v1");
+	cSetReactionRate(r8,"cod3");
+	cAddProduct(r8,"pp3_mrna",1);
+	r9 = cCreateReaction(model, "pp3_v2");
+	cSetReactionRate(r9,"pp3_mrna_degradation_rate*pp3_mrna");
+	cAddReactant(r9,"pp3_mrna",1);
+	r10 = cCreateReaction(model, "pp3_v3");
+	cSetReactionRate(r10,"rbs3_strength * pp3_mrna");
+	cAddProduct(r10,"p3",1);
+	r11 = cCreateReaction(model, "pp3_v4");
+	cSetReactionRate(r11,"p3_degradation_rate*p3");
+	cAddReactant(r11,"p3",1);
+	r12 = cCreateReaction(model, "pp4_v1");
+	cSetReactionRate(r12,"cod4");
+	cAddProduct(r12,"pp4_mrna",1);
+	r13 = cCreateReaction(model, "pp4_v2");
+	cSetReactionRate(r13,"pp4_mrna_degradation_rate*pp4_mrna");
+	cAddReactant(r13,"pp4_mrna",1);
+	r14 = cCreateReaction(model, "pp4_v3");
+	cSetReactionRate(r14,"rbs4_strength * pp4_mrna");
+	cAddProduct(r14,"p4",1);
+	r15 = cCreateReaction(model, "pp4_v4");
+	cSetReactionRate(r15,"p4_degradation_rate*p4");
+	cAddReactant(r15,"p4",1);
+	r16 = cCreateReaction(model, "pp5_v1");
+	cSetReactionRate(r16,"cod5");
+	cAddProduct(r16,"pp5_mrna",1);
+	r17 = cCreateReaction(model, "pp5_v2");
+	cSetReactionRate(r17,"pp5_mrna_degradation_rate*pp5_mrna");
+	cAddReactant(r17,"pp5_mrna",1);
+	r18 = cCreateReaction(model, "pp5_v3");
+	cSetReactionRate(r18,"rbs5_strength * pp5_mrna");
+	cAddProduct(r18,"p5",1);
+	r19 = cCreateReaction(model, "pp5_v4");
+	cSetReactionRate(r19,"p5_degradation_rate*p5");
+	cAddReactant(r19,"p5",1);
+	r20 = cCreateReaction(model, "pp6_v1");
+	cSetReactionRate(r20,"cod6");
+	cAddProduct(r20,"pp6_mrna",1);
+	r21 = cCreateReaction(model, "pp6_v2");
+	cSetReactionRate(r21,"pp6_mrna_degradation_rate*pp6_mrna");
+	cAddReactant(r21,"pp6_mrna",1);
+	r22 = cCreateReaction(model, "pp6_v3");
+	cSetReactionRate(r22,"rbs6_strength * pp6_mrna");
+	cAddProduct(r22,"p6",1);
+	r23 = cCreateReaction(model, "pp6_v4");
+	cSetReactionRate(r23,"p6_degradation_rate*p6");
+	cAddReactant(r23,"p6",1);
+	r24 = cCreateReaction(model, "pp7_v1");
+	cSetReactionRate(r24,"cod7");
+	cAddProduct(r24,"pp7_mrna",1);
+	r25 = cCreateReaction(model, "pp7_v2");
+	cSetReactionRate(r25,"pp7_mrna_degradation_rate*pp7_mrna");
+	cAddReactant(r25,"pp7_mrna",1);
+	r26 = cCreateReaction(model, "pp7_v3");
+	cSetReactionRate(r26,"rbs7_strength * pp7_mrna");
+	cAddProduct(r26,"p7",1);
+	r27 = cCreateReaction(model, "pp7_v4");
+	cSetReactionRate(r27,"p7_degradation_rate*p7");
+	cAddReactant(r27,"p7",1);
+	r28 = cCreateReaction(model, "pp8_v1");
+	cSetReactionRate(r28,"cod8");
+	cAddProduct(r28,"pp8_mrna",1);
+	r29 = cCreateReaction(model, "pp8_v2");
+	cSetReactionRate(r29,"pp8_mrna_degradation_rate*pp8_mrna");
+	cAddReactant(r29,"pp8_mrna",1);
+	r30 = cCreateReaction(model, "pp8_v3");
+	cSetReactionRate(r30,"rbs8_strength * pp8_mrna");
+	cAddProduct(r30,"p8",1);
+	r31 = cCreateReaction(model, "pp8_v4");
+	cSetReactionRate(r31,"p8_degradation_rate*p8");
+	cAddReactant(r31,"p8",1);
+	r32 = cCreateReaction(model, "pp9_v1");
+	cSetReactionRate(r32,"cod9");
+	cAddProduct(r32,"pp9_mrna",1);
+	r33 = cCreateReaction(model, "pp9_v2");
+	cSetReactionRate(r33,"pp9_mrna_degradation_rate*pp9_mrna");
+	cAddReactant(r33,"pp9_mrna",1);
+	r34 = cCreateReaction(model, "pp9_v3");
+	cSetReactionRate(r34,"rbs9_strength * pp9_mrna");
+	cAddProduct(r34,"p9",1);
+	r35 = cCreateReaction(model, "pp9_v4");
+	cSetReactionRate(r35,"p9_degradation_rate*p9");
+	cAddReactant(r35,"p9",1);
 	return model;
 }
 

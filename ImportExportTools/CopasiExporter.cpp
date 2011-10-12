@@ -11,72 +11,38 @@
 namespace Tinkercell
 {
 
-CopasiExporter * CopasiExporter::_instance = 0;
+CopasiExporter_FtoS CopasiExporter::fToS;
 
-CopasiExporter::CopasiExporter() : Tool("COPASI","Export")
+CopasiExporter::CopasiExporter() : Tool("COPASI","Export"), simThread(0), simDialog(0)
 {
-	CopasiExporter::_instance = this;
-	//qRegisterMetaType< copasi_model >("copasi_model");
-	//qRegisterMetaType< copasi_model* >("copasi_model*");
-	//copasi_init();
-}
+	connect(&fToS, SIGNAL(simulate(QSemaphore *, double, double, int, int, tc_matrix*)),
+					this, SLOT(simulate(QSemaphore *, double, double, int, int, tc_matrix*)));
 
-void CopasiExporter::getHandles(const SimulationThread * thread, QSemaphore * sem, QList<ItemHandle*>* handles, bool * b)
-{
-	bool needUpdate = true;
-	if (updatedThreads.contains(thread))
-		needUpdate = updatedThreads[thread];
-	else
-		updatedThreads[thread] = true;
-	if (currentNetwork() && handles && needUpdate)
-		(*handles) = currentNetwork()->handles(true);
-	if (b)
-		(*b) = needUpdate;
-	updatedThreads[thread] = false;
-	if (sem)
-		sem->release();
+	connect(&fToS, SIGNAL(otherAnalysis(QSemaphore *, int, tc_matrix*)),
+					this, SLOT(otherAnalysis(QSemaphore *, int, tc_matrix*)));
+
+	connect(&fToS, SIGNAL(steadyStateScan(QSemaphore *, const char *, double , double, int , tc_matrix*)),
+					this, SLOT(steadyStateScan(QSemaphore *, const char *, double , double, int , tc_matrix*)));
+
+	connect(&fToS, SIGNAL(steadyStateScan2D(QSemaphore *, const char *, double , double, int ,const char * , double , double , int , tc_matrix*)),
+					this, SLOT(steadyStateScan2D(QSemaphore *, const char *, double , double, int ,const char * , double , double , int , tc_matrix*)));
+
+	connect(&fToS, SIGNAL(gaOptimize(QSemaphore *, const char*, tc_matrix*)),
+					this, SLOT(gaOptimize(QSemaphore *, const char*, tc_matrix*)));
+
+	connect(&fToS, SIGNAL(updateParams(QSemaphore *, tc_matrix)),
+					this, SLOT(updateParams(QSemaphore *, tc_matrix)));
+
+	connect(&fToS, SIGNAL(enableAssignmentRulesReordering(QSemaphore *, int)),
+					this, SLOT(enableAssignmentRulesReordering(QSemaphore *, int)));
+
+	needsUpdate = true;
 }
 
 CopasiExporter::~CopasiExporter()
 {
-	for (int i=0; i < runningThreads.size(); ++i)
-		if (runningThreads[i])
-		{
-			if (runningThreads[i]->isRunning())
-				runningThreads[i]->terminate();
-			delete runningThreads[i];
-		}
-
+	delete simThread;
 	copasi_end();
-}
-
-QList<SimulationThread*> CopasiExporter::runningThreads;
-NumericalDataTable CopasiExporter::updatedParameters;
-
-SimulationThread * CopasiExporter::getSimulationThread()
-{
-	for (int i=0; i < runningThreads.size(); ++i)
-		if (runningThreads[i] && !runningThreads[i]->isRunning())
-		{
-			if (updatedParameters.rows() > 0)
-				runningThreads[i]->updateModelParameters(updatedParameters);
-			return runningThreads[i];
-		}
-	
-	SimulationThread * thread = new SimulationThread(MainWindow::instance());
-	if (!connect(thread,
-					SIGNAL(getHandles(const SimulationThread *, QSemaphore*, QList<ItemHandle*>*, bool *)),
-					CopasiExporter::_instance, 
-					SLOT(getHandles(const SimulationThread *, QSemaphore*, QList<ItemHandle*>*, bool *))))
-		{
-			delete thread;
-			return 0;
-		}
-
-	if (updatedParameters.rows() > 0)
-		thread->updateModelParameters(updatedParameters);
-	runningThreads += thread;
-	return thread;
 }
 
 bool CopasiExporter::setMainWindow(MainWindow * main)
@@ -85,11 +51,10 @@ bool CopasiExporter::setMainWindow(MainWindow * main)
 	if (!mainWindow) return false;
 	
 	simDialog = new SimulationDialog(mainWindow);
-	connect(simDialog,
-					SIGNAL(getHandles(const SimulationThread *, QSemaphore*, QList<ItemHandle*>*, bool *)),
-					CopasiExporter::_instance, 
-					SLOT(getHandles(const SimulationThread *, QSemaphore*, QList<ItemHandle*>*, bool *)));
-	
+	simThread = new SimulationThread(mainWindow);
+	connect(simDialog, SIGNAL(updateModel()), this, SLOT(updateModel()));
+	simDialog->setThread(simThread);
+
 	connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 	connect(main,SIGNAL(historyChanged(int)),this, SLOT(historyChanged(int)));
 	connect(main,SIGNAL(windowChanged(NetworkWindow*,NetworkWindow*)),this, SLOT(windowChanged(NetworkWindow*,NetworkWindow*)));
@@ -165,18 +130,12 @@ void CopasiExporter::enableAssignmentRulesReordering(int a)
 
 void CopasiExporter::historyChanged(int)
 {
-	updatedParameters.resize(0,0);
-	QList<const SimulationThread*> threads = updatedThreads.keys();
-	for (int i=0; i < threads.size(); ++i)
-		updatedThreads[ threads[i] ] = true;
+	needsUpdate = true;
 }
 
 void CopasiExporter::windowChanged(NetworkWindow*,NetworkWindow*)
 {
-	updatedParameters.resize(0,0);
-	QList<const SimulationThread*> threads = updatedThreads.keys();
-	for (int i=0; i < threads.size(); ++i)
-		updatedThreads[ threads[i] ] = true;
+	historyChanged(0);
 }
 
 /***************************************************
@@ -185,79 +144,68 @@ void CopasiExporter::windowChanged(NetworkWindow*,NetworkWindow*)
 
 void CopasiExporter::odeSim()
 {
-	simDialog->setThread(getSimulationThread());
 	simDialog->setMethod(SimulationThread::DeterministicSimulation);
 }
 
 void CopasiExporter::getEig()
 {
-	simDialog->setThread(getSimulationThread());
 	simDialog->setMethod(SimulationThread::Eigenvalues);
 }
 
 void CopasiExporter::getJac()
 {
-	simDialog->setThread(getSimulationThread());
 	simDialog->setMethod(SimulationThread::Jacobian);
 }
 
 void CopasiExporter::scan2D()
 {
-	simDialog->setThread(getSimulationThread());
 	simDialog->setMethod(SimulationThread::SteadyStateScan2D);
 }
 
 void CopasiExporter::scan1D()
 {
-	simDialog->setThread(getSimulationThread());
 	simDialog->setMethod(SimulationThread::SteadyStateScan1D);
 }
 
 void CopasiExporter::getSS()
 {
-	simDialog->setThread(getSimulationThread());
 	simDialog->setMethod(SimulationThread::SteadyState);
 }
 
 void CopasiExporter::hybridSim()
 {
-	simDialog->setThread(getSimulationThread());
 	simDialog->setMethod(SimulationThread::HybridSimulation);
 }
 
 void CopasiExporter::tauleapSim()
 {
-	simDialog->setThread(getSimulationThread());
 	simDialog->setMethod(SimulationThread::TauLeapSimulation);
 }
 
 void CopasiExporter::ssaSim()
 {
-	simDialog->setThread(getSimulationThread());
 	simDialog->setMethod(SimulationThread::StochasticSimulation);
 }
 
 void CopasiExporter::scaledElasticities()
 {
-	simDialog->setThread(getSimulationThread());
 	simDialog->setMethod(SimulationThread::ScaledElasticities);
 }
 
 void CopasiExporter::scaledConcentrationCC()
 {
-	simDialog->setThread(getSimulationThread());
 	simDialog->setMethod(SimulationThread::ScaledConcentrationCC);
 }
 
 void CopasiExporter::scaledFluxCC()
 {
-	simDialog->setThread(getSimulationThread());
 	simDialog->setMethod(SimulationThread::ScaledFluxCC);
 }
 
 void CopasiExporter::redStoic()
 {
-	tc_matrix m = reducedStoichiometry();
+	tc_matrix m;
+	otherAnalysis(0, SimulationThread::ReducedStoichiometry, &m);
 	NumericalDataTable * N = ConvertValue(m);
 	
 	if (console())
@@ -273,7 +221,8 @@ void CopasiExporter::redStoic()
 
 void CopasiExporter::getELM()
 {
-	tc_matrix m = elementaryFluxModes();
+	tc_matrix m;
+	otherAnalysis(0, SimulationThread::ElementaryFluxModes, &m);
 	NumericalDataTable * N = ConvertValue(m);
 
 	if (console())
@@ -292,490 +241,302 @@ void CopasiExporter::optimize()
 	QString input = QInputDialog::getText(this, "Optimize", "Enter an objective function or a filename (least squares fit)");
 	if (input.isNull() || input.isEmpty()) return;
 
-	SimulationThread * optimThread = getSimulationThread();
-	if (optimThread && !optimThread->isRunning())
+	tc_matrix m;
+	gaOptimize(0, input.toAscii().data(), &m);
+}
+
+void CopasiExporter::updateModel()
+{
+	if (simThread)
 	{
-		//optimThread->plot = true;
-		optimThread->updateModel();
-		if (updatedParameters.rows() > 0)
-			optimThread->updateModelParameters(updatedParameters);
-		optimThread->setObjective(input);
-		optimThread->setMethod(SimulationThread::GA);
-		optimThread->setSemaphore(0);
-		optimThread->start();
-		NumericalDataTable * N = ConvertValue(optimThread->result());
-		delete N;
+		simThread->plotResult(false);
+		if (currentNetwork() && needsUpdate)
+		{
+			QList<ItemHandle*> lst = currentNetwork()->handles(true);
+			simThread->updateModel(lst);
+		}
 	}
+	needsUpdate = false;
+}
+
+void CopasiExporter::simulate(QSemaphore * sem, double startTime, double endTime, int numSteps, int type, tc_matrix * m)
+{
+	if (simThread)
+	{
+		updateModel();
+		simThread->setMethod(SimulationThread::AnalysisMethod(type));
+		simThread->setStartTime(startTime);
+		simThread->setEndTime(endTime);
+		simThread->setNumPoints(numSteps);
+		simThread->run();
+		(*m) = simThread->result();
+	}
+	if (sem)
+		sem->release();
+}
+
+void CopasiExporter::otherAnalysis(QSemaphore * sem, int type, tc_matrix * m)
+{
+	if (simThread)
+	{
+		updateModel();
+		simThread->setMethod(SimulationThread::AnalysisMethod(type));
+		simThread->run();
+		(*m) = simThread->result();
+	}
+	if (sem)
+		sem->release();
+}
+
+void CopasiExporter::steadyStateScan(QSemaphore * sem, const char * param, double start, double end, int numSteps, tc_matrix * m)
+{
+	if (simThread)
+	{
+		updateModel();
+		simThread->setMethod(SimulationThread::SteadyStateScan1D);
+		simThread->setParameterRange(tr(param),start,end,numSteps);
+		simThread->run();
+		(*m) = simThread->result();
+	}
+	if (sem)
+		sem->release();
+}
+
+void CopasiExporter::steadyStateScan2D(QSemaphore * sem, const char * param1, double start1, double end1, int numSteps1,const char * param2, double start2, double end2, int numSteps2, tc_matrix * m)
+{
+	if (simThread)
+	{
+		updateModel();
+		simThread->setMethod(SimulationThread::SteadyStateScan2D);
+		simThread->setParameterRange(tr(param1),start1,end1,numSteps1);
+		simThread->setParameterRange(tr(param2),start2,end2,numSteps2);
+		simThread->run();
+		(*m) = simThread->result();
+	}
+	if (sem)
+		sem->release();
+}
+
+void CopasiExporter::gaOptimize(QSemaphore * sem, const char * f, tc_matrix* m)
+{
+	if (simThread)
+	{
+		updateModel();
+		simThread->setMethod(SimulationThread::GA);
+		simThread->setObjective(tr(f));
+		simThread->run();
+		(*m) = simThread->result();
+	}
+	if (sem)
+		sem->release();
+}
+
+void CopasiExporter::updateParams(QSemaphore * sem, tc_matrix m)
+{
+	if (simThread)
+	{
+		updateModel();
+		DataTable<qreal>* dat = ConvertValue(m);
+		simThread->updateModelParameters(*dat);
+		delete dat;
+	}
+	if (sem)
+		sem->release();
+}
+
+void CopasiExporter::enableAssignmentRulesReordering(QSemaphore * sem, int i)
+{
+	if (i > 0)
+		cEnableAssignmentRuleReordering();
+	else
+		cDisableAssignmentRuleReordering();
+	if (sem)
+		sem->release();
+}
+
+tc_matrix CopasiExporter_FtoS::simulate(double startTime, double endTime, int numSteps, int type)
+{
+	tc_matrix m;
+	QSemaphore * sem = new QSemaphore(1);
+	sem->acquire();
+	emit simulate(sem, startTime, endTime, numSteps, type, &m);
+	sem->acquire();
+	sem->release();
+	delete sem;
+	return m;
+}
+
+tc_matrix CopasiExporter_FtoS::steadyStateScan(const char * param, double start, double end, int numSteps)
+{
+	tc_matrix m;
+	QSemaphore * sem = new QSemaphore(1);
+	sem->acquire();
+	emit steadyStateScan(sem, param, start, end, numSteps, &m);
+	sem->acquire();
+	sem->release();
+	delete sem;
+	return m;
+}
+
+tc_matrix CopasiExporter_FtoS::steadyStateScan2D(const char * param1, double start1, double end1, int numSteps1,const char * param2, double start2, double end2, int numSteps2)
+{
+	tc_matrix m;
+	QSemaphore * sem = new QSemaphore(1);
+	sem->acquire();
+	emit steadyStateScan2D(sem, param1, start1, end1, numSteps1, param2, start2, end2, numSteps2, &m);
+	sem->acquire();
+	sem->release();
+	delete sem;
+	return m;
+}
+
+tc_matrix CopasiExporter_FtoS::otherAnalysis(int type)
+{
+	tc_matrix m;
+	QSemaphore * sem = new QSemaphore(1);
+	sem->acquire();
+	emit otherAnalysis(sem, type, &m);
+	sem->acquire();
+	sem->release();
+	delete sem;
+	return m;
+}
+
+tc_matrix CopasiExporter_FtoS::gaOptimize(const char* c)
+{
+	tc_matrix m;
+	QSemaphore * sem = new QSemaphore(1);
+	sem->acquire();
+	emit gaOptimize(sem, c, &m);
+	sem->acquire();
+	sem->release();
+	delete sem;
+	return m;
+}
+
+void CopasiExporter_FtoS::updateParams(tc_matrix m)
+{
+	QSemaphore * sem = new QSemaphore(1);
+	sem->acquire();
+	emit updateParams(sem, m);
+	sem->acquire();
+	sem->release();
+	delete sem;
+}
+
+void CopasiExporter_FtoS::enableAssignmentRulesReordering(int i)
+{
+	QSemaphore * sem = new QSemaphore(1);
+	sem->acquire();
+	emit enableAssignmentRulesReordering(sem, i);
+	sem->acquire();
+	sem->release();
+	delete sem;
 }
 
 tc_matrix CopasiExporter::simulateDeterministic(double startTime, double endTime, int numSteps)
 {
-	SimulationThread * odeThread = getSimulationThread();
-	if (odeThread && !odeThread->isRunning())
-	{
-		odeThread->updateModel();
-		if (updatedParameters.rows() > 0)
-			odeThread->updateModelParameters(updatedParameters);
-		odeThread->setMethod(SimulationThread::DeterministicSimulation);
-		odeThread->setStartTime(startTime);
-		odeThread->setEndTime(endTime);
-		odeThread->setNumPoints(numSteps);
-		QSemaphore * sem = new QSemaphore(1);
-		sem->acquire();
-		odeThread->setSemaphore(sem);
-		odeThread->start();
-		sem->acquire();
-		sem->release();
-		odeThread->setSemaphore(0);		
-		delete sem;
-		return (odeThread->result());
-	}
-	return tc_createMatrix(0,0);
+	return fToS.simulate(startTime, endTime, numSteps, (int)(SimulationThread::DeterministicSimulation));
 }
 
 tc_matrix CopasiExporter::simulateStochastic(double startTime, double endTime, int numSteps)
 {
-	SimulationThread * stochThread = getSimulationThread();
-	if (stochThread && !stochThread->isRunning())
-	{
-		stochThread->updateModel();
-		if (updatedParameters.rows() > 0)
-			stochThread->updateModelParameters(updatedParameters);
-		stochThread->setMethod(SimulationThread::StochasticSimulation);
-		stochThread->setStartTime(startTime);
-		stochThread->setEndTime(endTime);
-		stochThread->setNumPoints(numSteps);
-		QSemaphore * sem = new QSemaphore(1);
-		sem->acquire();
-		stochThread->setSemaphore(sem);
-		stochThread->start();
-		sem->acquire();
-		sem->release();
-		stochThread->setSemaphore(0);		
-		delete sem;
-		return (stochThread->result());
-	}
-	return tc_createMatrix(0,0);
+	return fToS.simulate(startTime, endTime, numSteps, (int)(SimulationThread::StochasticSimulation));
 }
 
 tc_matrix CopasiExporter::simulateHybrid(double startTime, double endTime, int numSteps)
 {
-	SimulationThread * odeThread = getSimulationThread();
-	if (odeThread && !odeThread->isRunning())
-	{
-		odeThread->updateModel();
-		if (updatedParameters.rows() > 0)
-			odeThread->updateModelParameters(updatedParameters);
-		odeThread->setMethod(SimulationThread::HybridSimulation);
-		odeThread->setStartTime(startTime);
-		odeThread->setEndTime(endTime);
-		odeThread->setNumPoints(numSteps);
-		QSemaphore * sem = new QSemaphore(1);
-		sem->acquire();
-		odeThread->setSemaphore(sem);
-		odeThread->start();
-		sem->acquire();
-		sem->release();
-		odeThread->setSemaphore(0);		
-		delete sem;
-		return (odeThread->result());
-	}
-	return tc_createMatrix(0,0);
+	return fToS.simulate(startTime, endTime, numSteps, (int)(SimulationThread::HybridSimulation));
 }
 
 tc_matrix CopasiExporter::simulateTauLeap(double startTime, double endTime, int numSteps)
 {
-	SimulationThread * stochThread = getSimulationThread();
-	if (stochThread && !stochThread->isRunning())
-	{
-		stochThread->updateModel();
-		if (updatedParameters.rows() > 0)
-			stochThread->updateModelParameters(updatedParameters);
-		stochThread->setMethod(SimulationThread::TauLeapSimulation);
-		stochThread->setStartTime(startTime);
-		stochThread->setEndTime(endTime);
-		stochThread->setNumPoints(numSteps);
-		QSemaphore * sem = new QSemaphore(1);
-		sem->acquire();
-		stochThread->setSemaphore(sem);
-		stochThread->start();
-		sem->acquire();
-		sem->release();
-		stochThread->setSemaphore(0);		
-		delete sem;
-		return (stochThread->result());
-	}
-	return tc_createMatrix(0,0);
+	return fToS.simulate(startTime, endTime, numSteps, (int)(SimulationThread::TauLeapSimulation));
 }
 
 tc_matrix CopasiExporter::getSteadyState()
 {
-	SimulationThread * ssThread = getSimulationThread();
-	if (ssThread && !ssThread->isRunning())
-	{
-		ssThread->updateModel();
-		if (updatedParameters.rows() > 0)
-			ssThread->updateModelParameters(updatedParameters);
-		ssThread->setMethod(SimulationThread::SteadyState);
-		QSemaphore * sem = new QSemaphore(1);
-		sem->acquire();
-		ssThread->setSemaphore(sem);
-		ssThread->start();
-		sem->acquire();
-		sem->release();
-		ssThread->setSemaphore(0);
-		delete sem;
-		return (ssThread->result());
-	}
-	return tc_createMatrix(0,0);
+	return fToS.otherAnalysis((int)(SimulationThread::SteadyState));
 }
 
 tc_matrix CopasiExporter::steadyStateScan(const char * param, double start, double end, int numSteps)
 {
-	SimulationThread * ssThread = getSimulationThread();
-	if (ssThread && !ssThread->isRunning())
-	{
-		ssThread->updateModel();
-		if (updatedParameters.rows() > 0)
-			ssThread->updateModelParameters(updatedParameters);
-		ssThread->setMethod(SimulationThread::SteadyStateScan1D);
-		ssThread->setParameterRange(QString(param), start, end, numSteps);
-		QSemaphore * sem = new QSemaphore(1);
-		sem->acquire();
-		ssThread->setSemaphore(sem);
-		ssThread->start();
-		sem->acquire();
-		sem->release();
-		ssThread->setSemaphore(0);		
-		delete sem;
-		return (ssThread->result());
-	}
-	return tc_createMatrix(0,0);
+	return fToS.steadyStateScan(param, start, end, numSteps);
 }
 
 tc_matrix CopasiExporter::steadyStateScan2D(const char * param1, double start1, double end1, int numSteps1,const char * param2, double start2, double end2, int numSteps2)
 {
-	SimulationThread * ssThread = getSimulationThread();
-	if (ssThread && !ssThread->isRunning())
-	{
-		ssThread->updateModel();
-		if (updatedParameters.rows() > 0)
-			ssThread->updateModelParameters(updatedParameters);
-		ssThread->setMethod(SimulationThread::SteadyStateScan2D);
-		ssThread->setParameterRange(QString(param1), start1, end1, numSteps1);
-		ssThread->setParameterRange(QString(param2), start2, end2, numSteps2);
-		QSemaphore * sem = new QSemaphore(1);
-		sem->acquire();
-		ssThread->setSemaphore(sem);
-		ssThread->start();
-		sem->acquire();
-		sem->release();
-		ssThread->setSemaphore(0);		
-		delete sem;
-		return (ssThread->result());
-	}
-	return tc_createMatrix(0,0);
+	return fToS.steadyStateScan2D(param1, start1, end1, numSteps1, param2, start2, end2, numSteps2);
 }
 
 tc_matrix CopasiExporter::getJacobian()
 {
-	SimulationThread * ssThread = getSimulationThread();
-	if (ssThread && !ssThread->isRunning())
-	{
-		ssThread->updateModel();
-		if (updatedParameters.rows() > 0)
-			ssThread->updateModelParameters(updatedParameters);
-		ssThread->setMethod(SimulationThread::Jacobian);
-		QSemaphore * sem = new QSemaphore(1);
-		sem->acquire();
-		ssThread->setSemaphore(sem);
-		ssThread->start();
-		sem->acquire();
-		sem->release();
-		ssThread->setSemaphore(0);		
-		delete sem;
-		return (ssThread->result());
-	}
-	return tc_createMatrix(0,0);
+	return fToS.otherAnalysis((int)(SimulationThread::Jacobian));
 }
 
 tc_matrix CopasiExporter::getEigenvalues()
 {
-	SimulationThread * ssThread = getSimulationThread();
-	if (ssThread && !ssThread->isRunning())
-	{
-		ssThread->updateModel();
-		if (updatedParameters.rows() > 0)
-			ssThread->updateModelParameters(updatedParameters);
-		ssThread->setMethod(SimulationThread::Eigenvalues);
-		QSemaphore * sem = new QSemaphore(1);
-		sem->acquire();
-		ssThread->setSemaphore(sem);
-		ssThread->start();
-		sem->acquire();
-		sem->release();
-		ssThread->setSemaphore(0);		
-		delete sem;
-		return (ssThread->result());
-	}
-	return tc_createMatrix(0,0);
+	return fToS.otherAnalysis((int)(SimulationThread::Eigenvalues));
 }
 
 tc_matrix CopasiExporter::getUnscaledElasticities()
 {
-	SimulationThread * mcaThread = getSimulationThread();
-	if (mcaThread && !mcaThread->isRunning())
-	{
-		mcaThread->updateModel();
-		if (updatedParameters.rows() > 0)
-			mcaThread->updateModelParameters(updatedParameters);
-		mcaThread->setMethod(SimulationThread::UnscaledElasticities);
-		QSemaphore * sem = new QSemaphore(1);
-		sem->acquire();
-		mcaThread->setSemaphore(sem);
-		mcaThread->start();
-		sem->acquire();
-		sem->release();
-		mcaThread->setSemaphore(0);		
-		delete sem;
-		return (mcaThread->result());
-	}
-	return tc_createMatrix(0,0);
+	return fToS.otherAnalysis((int)(SimulationThread::UnscaledElasticities));
 }
 
 tc_matrix CopasiExporter::getUnscaledConcentrationCC()
 {
-	SimulationThread * mcaThread = getSimulationThread();
-	if (mcaThread && !mcaThread->isRunning())
-	{
-		mcaThread->updateModel();
-		if (updatedParameters.rows() > 0)
-			mcaThread->updateModelParameters(updatedParameters);
-		mcaThread->setMethod(SimulationThread::UnscaledConcentrationCC);
-		QSemaphore * sem = new QSemaphore(1);
-		sem->acquire();
-		mcaThread->setSemaphore(sem);
-		mcaThread->start();
-		sem->acquire();
-		sem->release();
-		mcaThread->setSemaphore(0);		
-		delete sem;
-		return (mcaThread->result());
-	}
-	return tc_createMatrix(0,0);
+	return fToS.otherAnalysis((int)(SimulationThread::UnscaledConcentrationCC));
 }
 
 tc_matrix CopasiExporter::getUnscaledFluxCC()
 {
-	SimulationThread * mcaThread = getSimulationThread();
-	if (mcaThread && !mcaThread->isRunning())
-	{
-		mcaThread->updateModel();
-		if (updatedParameters.rows() > 0)
-			mcaThread->updateModelParameters(updatedParameters);
-		mcaThread->setMethod(SimulationThread::UnscaledFluxCC);
-		QSemaphore * sem = new QSemaphore(1);
-		sem->acquire();
-		mcaThread->setSemaphore(sem);
-		mcaThread->start();
-		sem->acquire();
-		sem->release();
-		mcaThread->setSemaphore(0);		
-		delete sem;
-		return (mcaThread->result());
-	}
-	return tc_createMatrix(0,0);
+	return fToS.otherAnalysis((int)(SimulationThread::UnscaledFluxCC));
 }
 
 tc_matrix CopasiExporter::getScaledElasticities()
 {
-	SimulationThread * mcaThread = getSimulationThread();
-	if (mcaThread && !mcaThread->isRunning())
-	{
-		mcaThread->updateModel();
-		if (updatedParameters.rows() > 0)
-			mcaThread->updateModelParameters(updatedParameters);
-		mcaThread->setMethod(SimulationThread::ScaledElasticities);
-		QSemaphore * sem = new QSemaphore(1);
-		sem->acquire();
-		mcaThread->setSemaphore(sem);
-		mcaThread->start();
-		sem->acquire();
-		sem->release();
-		mcaThread->setSemaphore(0);		
-		delete sem;
-		return (mcaThread->result());
-	}
-	return tc_createMatrix(0,0);
+	return fToS.otherAnalysis((int)(SimulationThread::ScaledElasticities));
 }
 
 tc_matrix CopasiExporter::getScaledConcentrationCC()
 {
-	SimulationThread * mcaThread = getSimulationThread();
-	if (mcaThread && !mcaThread->isRunning())
-	{
-		mcaThread->updateModel();
-		if (updatedParameters.rows() > 0)
-			mcaThread->updateModelParameters(updatedParameters);
-		mcaThread->setMethod(SimulationThread::ScaledConcentrationCC);
-		QSemaphore * sem = new QSemaphore(1);
-		sem->acquire();
-		mcaThread->setSemaphore(sem);
-		mcaThread->start();
-		sem->acquire();
-		sem->release();
-		mcaThread->setSemaphore(0);		
-		delete sem;
-		return (mcaThread->result());
-	}
-	return tc_createMatrix(0,0);
+	return fToS.otherAnalysis((int)(SimulationThread::ScaledConcentrationCC));
 }
 
 tc_matrix CopasiExporter::getScaledFluxCC()
 {
-	SimulationThread * mcaThread = getSimulationThread();
-	if (mcaThread && !mcaThread->isRunning())
-	{
-		mcaThread->updateModel();
-		if (updatedParameters.rows() > 0)
-			mcaThread->updateModelParameters(updatedParameters);
-		mcaThread->setMethod(SimulationThread::ScaledFluxCC);
-		QSemaphore * sem = new QSemaphore(1);
-		sem->acquire();
-		mcaThread->setSemaphore(sem);
-		mcaThread->start();
-		sem->acquire();
-		sem->release();
-		mcaThread->setSemaphore(0);		
-		delete sem;
-		return (mcaThread->result());
-	}
-	return tc_createMatrix(0,0);
+	return fToS.otherAnalysis((int)(SimulationThread::ScaledFluxCC));
 }
 
 tc_matrix CopasiExporter::reducedStoichiometry()
 {
-	SimulationThread * mcaThread = getSimulationThread();
-	if (mcaThread && !mcaThread->isRunning())
-	{
-		mcaThread->updateModel();
-		if (updatedParameters.rows() > 0)
-			mcaThread->updateModelParameters(updatedParameters);
-		mcaThread->setMethod(SimulationThread::ReducedStoichiometry);
-		QSemaphore * sem = new QSemaphore(1);
-		sem->acquire();
-		mcaThread->setSemaphore(sem);
-		mcaThread->start();
-		sem->acquire();
-		sem->release();
-		mcaThread->setSemaphore(0);		
-		delete sem;
-		return (mcaThread->result());
-	}
-	return tc_createMatrix(0,0);
+	return fToS.otherAnalysis((int)(SimulationThread::ReducedStoichiometry));
 }
 
 tc_matrix CopasiExporter::elementaryFluxModes()
 {
-	SimulationThread * mcaThread = getSimulationThread();
-	if (mcaThread && !mcaThread->isRunning())
-	{
-		mcaThread->updateModel();
-		if (updatedParameters.rows() > 0)
-			mcaThread->updateModelParameters(updatedParameters);
-		mcaThread->setMethod(SimulationThread::ElementaryFluxModes);
-		QSemaphore * sem = new QSemaphore(1);
-		sem->acquire();
-		mcaThread->setSemaphore(sem);
-		mcaThread->start();
-		sem->acquire();
-		sem->release();
-		mcaThread->setSemaphore(0);		
-		delete sem;
-		return (mcaThread->result());
-	}
-	return tc_createMatrix(0,0);
+	return fToS.otherAnalysis((int)(SimulationThread::ElementaryFluxModes));
 }
 
 tc_matrix CopasiExporter::KMatrix()
 {
-	SimulationThread * mcaThread = getSimulationThread();
-	if (mcaThread && !mcaThread->isRunning())
-	{
-		mcaThread->updateModel();
-		if (updatedParameters.rows() > 0)
-			mcaThread->updateModelParameters(updatedParameters);
-		mcaThread->setMethod(SimulationThread::KMatrix);
-		QSemaphore * sem = new QSemaphore(1);
-		sem->acquire();
-		mcaThread->setSemaphore(sem);
-		mcaThread->start();
-		sem->acquire();
-		sem->release();
-		mcaThread->setSemaphore(0);		
-		delete sem;
-		return (mcaThread->result());
-	}
-	return tc_createMatrix(0,0);
+	return fToS.otherAnalysis((int)(SimulationThread::KMatrix));
 }
 
 tc_matrix CopasiExporter::LMatrix()
 {
-	SimulationThread * mcaThread = getSimulationThread();
-	if (mcaThread && !mcaThread->isRunning())
-	{
-		mcaThread->updateModel();
-		if (updatedParameters.rows() > 0)
-			mcaThread->updateModelParameters(updatedParameters);
-		mcaThread->setMethod(SimulationThread::LMatrix);
-		QSemaphore * sem = new QSemaphore(1);
-		sem->acquire();
-		mcaThread->setSemaphore(sem);
-		mcaThread->start();
-		sem->acquire();
-		sem->release();
-		mcaThread->setSemaphore(0);		
-		delete sem;
-		return (mcaThread->result());
-	}
-	return tc_createMatrix(0,0);
+	return fToS.otherAnalysis((int)(SimulationThread::LMatrix));
 }
 
 tc_matrix CopasiExporter::gaOptimize(const char * s)
 {
-	SimulationThread * optimThread = getSimulationThread();
-	if (optimThread && !optimThread->isRunning())
-	{
-//		optimThread->plot = false;
-		optimThread->updateModel();
-		if (updatedParameters.rows() > 0)
-			optimThread->updateModelParameters(updatedParameters);
-		optimThread->setObjective(QString(s));
-		optimThread->setMethod(SimulationThread::GA);
-		QSemaphore * sem = new QSemaphore(1);
-		sem->acquire();
-		optimThread->setSemaphore(sem);
-		optimThread->start();
-		sem->acquire();
-		sem->release();
-		optimThread->setSemaphore(0);		
-		delete sem;
-		return (optimThread->result());
-	}
-	return tc_createMatrix(0,0);
+	return fToS.gaOptimize(s);
 }
 
 void CopasiExporter::updateParams(tc_matrix params)
 {
-	NumericalDataTable * dat = ConvertValue(params);
-	updatedParameters = (*dat);
-	delete dat;
-
-	for (int i=0; i < runningThreads.size(); ++i)
-		if (runningThreads[i])
-		{
-			runningThreads[i]->updateModelParameters(updatedParameters);
-		}
+	return fToS.updateParams(params);
 }
 
 void CopasiExporter::toolLoaded(Tool*)

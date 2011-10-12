@@ -1451,6 +1451,12 @@ namespace Tinkercell
 		qRegisterMetaType< tc_table >("tc_table");
 		qRegisterMetaType< tc_strings >("tc_strings");
 		qRegisterMetaType< tc_items >("tc_items");
+
+		qRegisterMetaType< tc_matrix* >("tc_matrix*");
+		qRegisterMetaType< tc_table* >("tc_table*");
+		qRegisterMetaType< tc_strings* >("tc_strings*");
+		qRegisterMetaType< tc_items* >("tc_items*");
+		qRegisterMetaType< const char * >("const char *");
 	}
 	
 	QHash<void*,bool> MainWindow::invalidPointers;

@@ -33,7 +33,28 @@
 #endif
 
 namespace Tinkercell
-{
+{	
+	class CopasiExporter_FtoS : public QObject
+	{
+		Q_OBJECT
+		signals:
+			void simulate(QSemaphore *, double startTime, double endTime, int numSteps, int type, tc_matrix*);
+			void steadyStateScan(QSemaphore *, const char * param, double start, double end, int numSteps, tc_matrix*);
+			void steadyStateScan2D(QSemaphore *, const char * param1, double start1, double end1, int numSteps1,const char * param2, double start2, double end2, int numSteps2, tc_matrix*);
+			void otherAnalysis(QSemaphore *, int type, tc_matrix *);
+			void gaOptimize(QSemaphore *, const char*, tc_matrix*);
+			void updateParams(QSemaphore *, tc_matrix);
+			void enableAssignmentRulesReordering(QSemaphore *, int);
+		public:
+			tc_matrix simulate(double startTime, double endTime, int numSteps, int type);
+			tc_matrix steadyStateScan(const char * param, double start, double end, int numSteps);
+			tc_matrix steadyStateScan2D(const char * param1, double start1, double end1, int numSteps1,const char * param2, double start2, double end2, int numSteps2);
+			tc_matrix otherAnalysis(int type);
+			tc_matrix gaOptimize(const char*);
+			void updateParams(tc_matrix);
+			void enableAssignmentRulesReordering(int);
+	};
+
 	/*! \brief This class links C programs to the SimulationThread, which uses COPASI
 	/ingrou simulations
 	*/
@@ -47,13 +68,15 @@ namespace Tinkercell
 		~CopasiExporter();
 		bool setMainWindow(MainWindow * main);
 
+	private:
+		static  CopasiExporter_FtoS fToS;
+
 	private slots:
 
 		void toolLoaded(Tool*);
 		void setupFunctionPointers(QLibrary * library);
-		void historyChanged(int);/*! \brief make the window transparent when mouse exits the window*/
+		void historyChanged(int);
 		void windowChanged(NetworkWindow*,NetworkWindow*);
-		void getHandles( const SimulationThread *, QSemaphore*, QList<ItemHandle*>*, bool * changed);
 		
 		void getEig();
 		void getJac();
@@ -71,14 +94,21 @@ namespace Tinkercell
 		void getELM();
 		void optimize();
 
+		void simulate(QSemaphore *, double startTime, double endTime, int numSteps, int type, tc_matrix*);
+		void steadyStateScan(QSemaphore *, const char * param, double start, double end, int numSteps, tc_matrix*);
+		void steadyStateScan2D(QSemaphore *, const char * param1, double start1, double end1, int numSteps1,const char * param2, double start2, double end2, int numSteps2, tc_matrix*);
+		void otherAnalysis(QSemaphore *, int type, tc_matrix *);
+		void gaOptimize(QSemaphore *, const char*, tc_matrix*);
+		void updateParams(QSemaphore *, tc_matrix);
+		void enableAssignmentRulesReordering(QSemaphore *, int);
+
+		void updateModel();
+
 	private:
-		QHash<const SimulationThread*, bool> updatedThreads;
-		static CopasiExporter * _instance;
-		
+
+		SimulationThread * simThread;		
 		SimulationDialog * simDialog;
-		static QList<SimulationThread*> runningThreads;
-		static SimulationThread * getSimulationThread();
-		static NumericalDataTable updatedParameters;
+		bool needsUpdate;
 
 	public:
 		static tc_matrix simulateDeterministic(double startTime, double endTime, int numSteps);

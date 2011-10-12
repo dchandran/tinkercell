@@ -104,7 +104,7 @@ namespace Tinkercell
 	
 	void MultithreadedSliderWidget::minmaxChanged()
 	{
-		if (!cthread || sliders.isEmpty()) return;
+		if (sliders.isEmpty()) return;
 		
 		double range,x;
 		bool ok;
@@ -138,7 +138,7 @@ namespace Tinkercell
 	
 	void MultithreadedSliderWidget::valueChanged()
 	{
-		if (!cthread || sliders.isEmpty()) return;
+		if (sliders.isEmpty()) return;
 
 		double range,x;
 		bool ok;
@@ -177,24 +177,26 @@ namespace Tinkercell
 			if (sliders[i])
 				connect(sliders[i],SIGNAL(valueChanged(int)),this,SLOT(sliderChanged(int)));
 		
-		cthread->setArg(values);
-		
-		if (cthread->isRunning())
-		{
-			if (mainWindow && mainWindow->console())
-				mainWindow->console()->message(tr("Previous run has not finished yet"));
-			return;
-			//cthread->terminate();
-		}
-
 		emit valuesChanged(values);
 
-		cthread->start();
+		if (cthread)
+		{
+			cthread->setArg(values);
+		
+			if (cthread->isRunning())
+			{
+				if (mainWindow && mainWindow->console())
+					mainWindow->console()->message(tr("Previous run has not finished yet"));
+				return;
+				//cthread->terminate();
+			}
+			cthread->start();
+		}
 	}
 
 	void MultithreadedSliderWidget::sliderChanged(int)
 	{
-		if (!cthread || sliders.isEmpty()) return;
+		if (sliders.isEmpty()) return;
 		
 		double range;
 		

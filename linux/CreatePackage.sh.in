@@ -21,25 +21,28 @@ echo "logging in to Sourceforge as @TINKERCELL_SOURCEFORGE_USERNAME@"
 
 cd @TINKERCELL_BINARY_DIR@/@TINKERCELL_PACKAGE_FOLDER@
 
-/usr/bin/expect <<EOD
-set timeout -1
+if [ @TINKERCELL_BINARY_UPLOAD@ == ON ]
 
-spawn sftp @TINKERCELL_SOURCEFORGE_USERNAME@,tinkercell@frs.sourceforge.net
-expect *assword:
+	/usr/bin/expect <<EOD
+	set timeout -1
 
-send "@TINKERCELL_SOURCEFORGE_PASSWORD@\r"
-expect sftp>
+	spawn sftp @TINKERCELL_SOURCEFORGE_USERNAME@,tinkercell@frs.sourceforge.net
+	expect *assword:
 
-send "cd /home/frs/project/t/ti/tinkercell/current\r"
-expect sftp>
+	send "@TINKERCELL_SOURCEFORGE_PASSWORD@\r"
+	expect sftp>
 
-send "put @TINKERCELL_EXE@*.tar.gz\r"
-expect sftp>
+	send "cd /home/frs/project/t/ti/tinkercell/current\r"
+	expect sftp>
 
-send "exit\r"
-expect eof
+	send "put @TINKERCELL_EXE@*.tar.gz\r"
+	expect sftp>
 
-EOD
+	send "exit\r"
+	expect eof
+
+	EOD
+fi
 
 cd TinkerCell
 echo "To run TinkerCell, use: source run_tinkercell.sh"

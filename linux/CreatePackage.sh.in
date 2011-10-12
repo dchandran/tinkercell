@@ -22,7 +22,7 @@ echo "logging in to Sourceforge as @TINKERCELL_SOURCEFORGE_USERNAME@"
 cd @TINKERCELL_BINARY_DIR@/@TINKERCELL_PACKAGE_FOLDER@
 
 if [ @TINKERCELL_BINARY_UPLOAD@ == ON ]
-
+  then
 	/usr/bin/expect <<EOD
 	set timeout -1
 

@@ -68,10 +68,10 @@ void (*_tc_importAntimony)(const char*) = 0;
  \param const char* text model file or string
  \\ingroup Export/Import
 */ TCAPIEXPORT 
-void tc_importText(const char* s)
+void tc_importAntimony(const char* s)
 {
-	if (_tc_importText)
-		_tc_importText(s);
+	if (_tc_importAntimony)
+		_tc_importAntimony(s);
 }
 
 void (*_tc_exportMath)(const char*) = 0;
@@ -97,7 +97,7 @@ void tc_SBML_api(
 	void (*importText)(const char*),
 	void (*exportMath)(const char*),
 	const char * (*getSBMLString)(),
-	const char * (*getAntimonyString()))
+	const char * (*getAntimonyString)())
 {
 	_tc_exportSBML = exportSBML;
 	_tc_importSBML = importSBML;

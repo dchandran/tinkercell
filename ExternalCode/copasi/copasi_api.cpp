@@ -232,7 +232,9 @@ int copasi_cleanup_assignments(copasi_model model)
 			if ((*i).second.assignmentRule.empty())
 			{
 				if ((*i).second.unused)
+				{
 					(*i).second.species->setStatus(CModelEntity::FIXED); //unused species
+				}
 			}
 			else
 			{
@@ -416,7 +418,7 @@ int cSetValue(copasi_model model, const char * name, double value)
 		return 0;
 	}
 
-	CopasiPtr p = getHashValue(hash,s);
+	CopasiPtr & p = getHashValue(hash,s);
 	
 	if (p.compartment)
 	{
@@ -689,7 +691,7 @@ int cCreateVariable(copasi_model model, const char * name, const char * formula)
 
 	if (contains(hash,qname))
 	{
-			CopasiPtr ptr = getHashValue(hash,qname);
+			CopasiPtr & ptr = getHashValue(hash,qname);
 			if (ptr.species)
 				return cSetAssignmentRule(model, name, formula);
 			if (ptr.param)
@@ -783,7 +785,7 @@ int cCreateEvent(copasi_model model, const char * name, const char * trigger, co
 	
 	if (!contains(hash,string(variable))) return 0;
 
-	CopasiPtr ptr = getHashValue(hash,string(variable));
+	CopasiPtr & ptr = getHashValue(hash,string(variable));
 	
 	if (!ptr.species && !ptr.param) return 0;
 
@@ -944,12 +946,26 @@ void cAddReactant(copasi_reaction reaction, const char * species, double stoichi
 		ccCreateSpecies((CModel*)reaction.CopasiModelPtr, (CCMap*)reaction.qHash, s);
 	}
 	
-	CopasiPtr p = getHashValue(hash,s);
-	if (contains(hash,s) && (pSpecies = p.species))
+	if (contains(hash,s))
 	{
-		CChemEq* pChemEq = &pReaction->getChemEq();
-		pChemEq->addMetabolite(pSpecies->getKey(), stoichiometry, CChemEq::SUBSTRATE);
-		p.unused = false;
+		CopasiPtr & p = getHashValue(hash,s);
+		if (pSpecies = p.species)
+		{
+			CChemEq* pChemEq = &pReaction->getChemEq();
+			pChemEq->addMetabolite(pSpecies->getKey(), stoichiometry, CChemEq::SUBSTRATE);
+			p.unused = false;
+		}
+	}
+
+	if (pSpecies && pSpecies->getCompartment())
+	{
+		s = pSpecies->getCompartment()->getObjectName() + string("_") + s;
+		if (contains(hash,s))
+		{
+			CopasiPtr & p = getHashValue(hash,s);
+			if (pSpecies = p.species)
+				p.unused = false;
+		}
 	}
 }
 
@@ -967,12 +983,26 @@ void cAddProduct(copasi_reaction reaction, const char * species, double stoichio
 		ccCreateSpecies((CModel*)reaction.CopasiModelPtr, (CCMap*)reaction.qHash, s);
 	}
 
-	CopasiPtr p = getHashValue(hash,s);
-	if (contains(hash,s) && (pSpecies = p.species))
+	if (contains(hash,s))
 	{
-		CChemEq* pChemEq = &pReaction->getChemEq();
-		pChemEq->addMetabolite(pSpecies->getKey(), stoichiometry, CChemEq::PRODUCT);
-		p.unused = false;
+		CopasiPtr & p = getHashValue(hash,s);
+		if (pSpecies = p.species)
+		{
+			CChemEq* pChemEq = &pReaction->getChemEq();
+			pChemEq->addMetabolite(pSpecies->getKey(), stoichiometry, CChemEq::PRODUCT);
+			p.unused = false;
+		}
+	}
+
+	if (pSpecies && pSpecies->getCompartment())
+	{
+		s = pSpecies->getCompartment()->getObjectName() + string("_") + s;
+		if (contains(hash,s))
+		{
+			CopasiPtr & p = getHashValue(hash,s);
+			if (pSpecies = p.species)
+				p.unused = false;
+		}
 	}
 }
 
@@ -1032,7 +1062,7 @@ int cSetReactionRate(copasi_reaction reaction, const char * formula)
 				
 				if (contains(hash,s))
 				{
-					CopasiPtr p = getHashValue(hash,s);
+					CopasiPtr & p = getHashValue(hash,s);
 					if (p.compartment)
 					{
 						pParam->setUsage(CFunctionParameter::VOLUME);
@@ -3470,7 +3500,7 @@ double cGetConcentration(copasi_model model, const char * name)
 	string s(name);
 	
 	if (!pModel || !contains(hash, s)) return -1.0;
-	CopasiPtr p = getHashValue(hash, s);
+	CopasiPtr & p = getHashValue(hash, s);
 
 	if (!p.species || !p.species->getCompartment()) return -1.0;	
 
@@ -3484,7 +3514,7 @@ double cGetAmount(copasi_model model, const char * name)
 	string s(name);
 	
 	if (!pModel || !contains(hash, s)) return -1.0;
-	CopasiPtr p = getHashValue(hash, s);
+	CopasiPtr & p = getHashValue(hash, s);
 
 	if (!p.species || !p.species->getCompartment()) return -1.0;	
 
@@ -3495,13 +3525,13 @@ tc_matrix cGetRatesOfChange(copasi_model model)
 {
 	CModel* pModel = (CModel*)(model.CopasiModelPtr);
 	
-	if (!pModel) return tc_createMatrix(0,0);
+	if (!pModel)
+		return tc_createMatrix(0,0);
 
 	const CCopasiVector< CMetab > & species = pModel->getMetabolites();
 	int n = pModel->getState().getNumVariable();
 
-	if (n != species.size()) return tc_createMatrix(0,0);
-
+	if (n > species.size()) n = species.size();
 	tc_matrix res  = tc_createMatrix(1, n);
 
 	for (int i=0; i < species.size(); ++i)
@@ -3512,6 +3542,7 @@ tc_matrix cGetRatesOfChange(copasi_model model)
 	
 	pModel->calculateDerivatives(res.values);
 	return res;
+
 }
 
 double cGetFlux(copasi_model model, const char * name)
@@ -3524,7 +3555,7 @@ double cGetFlux(copasi_model model, const char * name)
 
 	if (!pModel || !contains(hash, s)) return NaN;
 
-	CopasiPtr p = getHashValue(hash, s);
+	CopasiPtr & p = getHashValue(hash, s);
 
 	if (!p.reaction) return NaN;
 
@@ -3541,7 +3572,7 @@ double cGetParticleFlux(copasi_model model, const char * name)
 
 	if (!pModel || !contains(hash, s)) return NaN;
 
-	CopasiPtr p = getHashValue(hash, s);
+	CopasiPtr & p = getHashValue(hash, s);
 
 	if (!p.reaction) return NaN;
 

@@ -44,7 +44,7 @@ TCAPIEXPORT void tc_exportAntimony(const char* file);
  \param const char* filename
  \ingroup Import/Export
 */
-TCAPIEXPORT void tc_importText(const char* file);
+TCAPIEXPORT void tc_importAntimony(const char* file);
 
 /*!
  \brief save model as Octave
@@ -63,8 +63,8 @@ TCAPIEXPORT void tc_SBML_api(
 	void (*exportText)(const char*),
 	void (*importText)(const char*),
 	void (*exportMath)(const char*),
-	const char * (sbmlString)(),
-	const char * (antimonyString)
+	const char * (*sbmlString)(),
+	const char * (*antimonyString)()
 	);
 
 END_C_DECLS

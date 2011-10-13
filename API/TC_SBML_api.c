@@ -12,6 +12,32 @@ void tc_exportSBML(const char* s)
 		_tc_exportSBML(s);
 }
 
+const char * (*_tc_getSBMLString)() = 0;
+/*!
+ \brief save sbml format to a string
+ \param const char* file name
+ \\ingroup Export/Import
+*/ TCAPIEXPORT 
+const char * tc_getSBMLString()
+{
+	if (_tc_getSBMLString)
+		return _tc_getSBMLString();
+	return 0;
+}
+
+const char * (*_tc_getAntimonyString)() = 0;
+/*!
+ \brief save sbml format to a string
+ \param const char* file name
+ \\ingroup Export/Import
+*/ TCAPIEXPORT 
+const char * tc_getAntimonyString()
+{
+	if (_tc_getAntimonyString)
+		return _tc_getAntimonyString();
+	return 0;
+}
+
 void (*_tc_importSBML)(const char*) = 0;
 /*!
  \brief load sbml model as string
@@ -23,19 +49,20 @@ void tc_importSBML(const char* s)
 	if (_tc_importSBML)
 		_tc_importSBML(s);
 }
-void (*_tc_exportText)(const char*) = 0;
+
+void (*_tc_exportAntimony)(const char*) = 0;
 /*!
- \brief save text format to a file
+ \brief save antimony format to a file
  \param const char* file name
  \\ingroup Export/Import
 */ TCAPIEXPORT 
-void tc_exportText(const char* s)
+void tc_exportAntimony(const char* s)
 {
-	if (_tc_exportText)
-		_tc_exportText(s);
+	if (_tc_exportAntimony)
+		_tc_exportAntimony(s);
 }
 
-void (*_tc_importText)(const char*) = 0;
+void (*_tc_importAntimony)(const char*) = 0;
 /*!
  \brief load text model as string
  \param const char* text model file or string
@@ -68,12 +95,16 @@ void tc_SBML_api(
 	void (*importSBML)(const char*),
 	void (*exportText)(const char*),
 	void (*importText)(const char*),
-	void (*exportMath)(const char*))
+	void (*exportMath)(const char*),
+	const char * (*getSBMLString)(),
+	const char * (*getAntimonyString()))
 {
 	_tc_exportSBML = exportSBML;
 	_tc_importSBML = importSBML;
-	_tc_exportText = exportText;
-	_tc_importText = importText;
+	_tc_exportAntimony = exportText;
+	_tc_importAntimony = importText;
 	_tc_exportMath = exportMath;
+	_tc_getSBMLString = getSBMLString;
+	_tc_getAntimonyString = getAntimonyString;
 }
 

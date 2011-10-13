@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include <QDesktopServices>
 #include <QFileDialog>
@@ -19,6 +20,7 @@
 #include "AntimonyEditor.h"
 #include "OctaveExporter.h"
 #include "UndoCommands.h"
+#include "antimony_api.h"
 
 using namespace std;
 
@@ -32,9 +34,11 @@ namespace Tinkercell
 		SBMLImportExport::fToS->setParent(this);
 		connect(fToS,SIGNAL(exportSBML(QSemaphore*, const QString&)),this,SLOT(exportSBML(QSemaphore*, const QString&)));
 		connect(fToS,SIGNAL(importSBML(QSemaphore*, const QString&)),this,SLOT(importSBML(QSemaphore*, const QString&)));
-		connect(fToS,SIGNAL(exportText(QSemaphore*, const QString&)),this,SLOT(exportText(QSemaphore*, const QString&)));
-		connect(fToS,SIGNAL(importText(QSemaphore*, const QString&)),this,SLOT(importText(QSemaphore*, const QString&)));
+		connect(fToS,SIGNAL(exportAntimony(QSemaphore*, const QString&)),this,SLOT(exportAntimony(QSemaphore*, const QString&)));
+		connect(fToS,SIGNAL(importAntimony(QSemaphore*, const QString&)),this,SLOT(importAntimony(QSemaphore*, const QString&)));
 		connect(fToS,SIGNAL(exportMath(QSemaphore*, const QString&)),this,SLOT(exportMath(QSemaphore*, const QString&)));
+		connect(fToS,SIGNAL(exportSBMLString(QSemaphore*, QString*)),this,SLOT(exportSBMLString(QSemaphore*, QString*)));
+		connect(fToS,SIGNAL(exportAntimonyString(QSemaphore*, QString*)),this,SLOT(exportAntimonyString(QSemaphore*, QString*)));
 	}
 
 	SBMLImportExport::~SBMLImportExport()
@@ -110,16 +114,19 @@ namespace Tinkercell
 	typedef void (*tc_SBML_api)(
 			void (*exportSBMLFile)(const char *),
 			void (*importSBMLString)(const char*),
-			void (*exportTextFile)(const char *),
-			void (*importTextString)(const char*),
-			void (*exportMathFile)(const char *));
+			void (*exportAntimonyFile)(const char *),
+			void (*importAntimonyString)(const char*),
+			void (*exportMathFile)(const char *),
+			const char* (*exportSBMLString)(),
+			const char* (*exportAntimonyString)()
+			);
 
 	void SBMLImportExport::setupFunctionPointers( QLibrary * library)
 	{
 		tc_SBML_api f = (tc_SBML_api)library->resolve("tc_SBML_api");
 		if (f)
 		{
-			f(	&exportSBMLFile, &importSBMLString, &exportTextFile, &importTextString, &exportMathFile );
+			f(	&exportSBMLFile, &importSBMLString, &exportAntimonyFile, &importAntimonyString, &exportMathFile, &_exportSBMLString, &_exportAntimonyString );
 		}
 	}
 
@@ -167,14 +174,24 @@ namespace Tinkercell
 		fToS->importSBMLString(s);
 	}
 
-	void SBMLImportExport::exportTextFile(const char * s)
+	void SBMLImportExport::exportAntimonyFile(const char * s)
 	{
-		return fToS->exportTextFile(s);
+		return fToS->exportAntimonyFile(s);
 	}
 
-	void SBMLImportExport::importTextString(const char* s)
+	const char * SBMLImportExport::_exportAntimonyString()
 	{
-		fToS->importTextString(s);
+		return fToS->exportAntimonyString();
+	}
+
+	const char * SBMLImportExport::_exportSBMLString()
+	{
+		return fToS->exportSBMLString();
+	}
+
+	void SBMLImportExport::importAntimonyString(const char* s)
+	{
+		fToS->importAntimonyString(s);
 	}
 
 	void SBMLImportExport::exportMathFile(const char * s)
@@ -193,6 +210,18 @@ namespace Tinkercell
 		delete s;
 	}
 
+	const char * SBMLImportExport_FtoS::exportSBMLString()
+	{
+		QSemaphore * s = new QSemaphore(1);
+		QString c;
+		s->acquire();
+		emit exportSBMLString(s,&c);
+		s->acquire();
+		s->release();
+		delete s;
+		return ConvertValue(c);
+	}
+
 	void SBMLImportExport_FtoS::importSBMLString(const char* c)
 	{
 		QSemaphore * s = new QSemaphore(1);
@@ -202,21 +231,33 @@ namespace Tinkercell
 		s->release();
 	}
 
-	void SBMLImportExport_FtoS::exportTextFile(const char * c)
+	void SBMLImportExport_FtoS::exportAntimonyFile(const char * c)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
-		emit exportText(s,ConvertValue(c));
+		emit exportAntimony(s,ConvertValue(c));
 		s->acquire();
 		s->release();
 		delete s;
 	}
 
-	void SBMLImportExport_FtoS::importTextString(const char* c)
+	const char * SBMLImportExport_FtoS::exportAntimonyString()
+	{
+		QSemaphore * s = new QSemaphore(1);
+		QString c;
+		s->acquire();
+		emit exportAntimonyString(s,&c);
+		s->acquire();
+		s->release();
+		delete s;
+		return ConvertValue(c);
+	}
+
+	void SBMLImportExport_FtoS::importAntimonyString(const char* c)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
-		emit importText(s,ConvertValue(c));
+		emit importAntimony(s,ConvertValue(c));
 		s->acquire();
 		s->release();
 	}
@@ -243,12 +284,12 @@ namespace Tinkercell
 			sem->release();
 	}
 
-	void SBMLImportExport::exportText(QSemaphore * sem, const QString & str)
+	void SBMLImportExport::exportAntimony(QSemaphore * sem, const QString & str)
 	{
-		if (currentNetwork())
+		if (sbmlDocument)
 		{
-			QString text;
-			emit getTextVersion(currentNetwork()->handles(), &text);
+			loadString(writeSBMLToString(sbmlDocument));
+			QString text(getAntimonyString(NULL));
 			QFile file(str);
 			if (file.open(QFile::WriteOnly | QFile::Text))
 			{
@@ -276,6 +317,35 @@ namespace Tinkercell
 		if (sem)
 			sem->release();
 	}
+	
+	void SBMLImportExport::exportSBMLString(QSemaphore * sem, QString * str)
+	{
+		if (modelNeedsUpdate)
+			updateSBMLModel();
+
+		if (sbmlDocument && str)
+			(*str) = QString(writeSBMLToString(sbmlDocument));
+			
+		if (sem)
+			sem->release();
+	}
+	
+	void SBMLImportExport::exportAntimonyString(QSemaphore * sem, QString * str)
+	{
+		if (modelNeedsUpdate)
+			updateSBMLModel();
+
+		if (sbmlDocument && str)
+		{
+			loadString(writeSBMLToString(sbmlDocument));
+			QString text(getAntimonyString(NULL));
+			
+			(*str) = text;
+		}
+			
+		if (sem)
+			sem->release();
+	}
 
 	void SBMLImportExport::loadNetwork(const QString& filename, bool * b)
 	{
@@ -283,7 +353,7 @@ namespace Tinkercell
 		(*b) = importSBML(0,filename);
 	}
 
-	void SBMLImportExport::importText(QSemaphore * sem, const QString& str)
+	void SBMLImportExport::importAntimony(QSemaphore * sem, const QString& str)
 	{
 		QWidget * tool = mainWindow->tool("Antimony Parser");
 		if (tool)

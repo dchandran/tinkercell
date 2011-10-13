@@ -42,15 +42,19 @@ namespace Tinkercell
 		signals:
 			void exportSBML(QSemaphore*, const QString&);
 			void importSBML(QSemaphore*, const QString&);
-			void exportText(QSemaphore*, const QString&);
-			void importText(QSemaphore*, const QString&);
+			void exportAntimony(QSemaphore*, const QString&);
+			void importAntimony(QSemaphore*, const QString&);
 			void exportMath(QSemaphore*, const QString&);
+			void exportSBMLString(QSemaphore*, QString*);
+			void exportAntimonyString(QSemaphore*, QString*);
 		public:
 			void exportSBMLFile(const char *);
 			void importSBMLString(const char*);
-			void exportTextFile(const char *);
-			void importTextString(const char*);
+			void exportAntimonyFile(const char *);
+			void importAntimonyString(const char*);
 			void exportMathFile(const char *);
+			const char * exportSBMLString();
+			const char * exportAntimonyString();
 	};
 	
 	/*! \brief This class imports and exports SBML file format.
@@ -84,9 +88,12 @@ namespace Tinkercell
 		void saveSBMLFile();
 		void exportSBML(QSemaphore*, const QString&);
 		bool importSBML(QSemaphore*, const QString&);
-		void exportText(QSemaphore*, const QString&);
-		void importText(QSemaphore*, const QString&);
+		void exportAntimony(QSemaphore*, const QString&);
+		void importAntimony(QSemaphore*, const QString&);
 		void exportMath(QSemaphore*, const QString&);
+		void exportSBMLString(QSemaphore*,QString*);
+		void exportAntimonyString(QSemaphore*,QString*);
+
 		void getItemsFromFile(QList<ItemHandle*>&, QList<QGraphicsItem*>&, const QString& filename,ItemHandle * root=0);
 
 	private:
@@ -99,9 +106,11 @@ namespace Tinkercell
 		static SBMLImportExport_FtoS * fToS;
 		static void exportSBMLFile(const char *);
 		static void importSBMLString(const char*);
-		static void exportTextFile(const char *);
-		static void importTextString(const char*);
+		static void exportAntimonyFile(const char *);
+		static void importAntimonyString(const char*);
 		static void exportMathFile(const char *);
+		static const char * _exportSBMLString();
+		static const char * _exportAntimonyString();
 	};
 }
 

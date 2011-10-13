@@ -30,7 +30,6 @@
 #include <QtDebug>
 #include <QSemaphore>
 #include <QFileDialog>
-
 #include "antimony_api.h"
 
 namespace Tinkercell

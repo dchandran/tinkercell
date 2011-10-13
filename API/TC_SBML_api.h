@@ -12,6 +12,20 @@ BEGIN_C_DECLS
 TCAPIEXPORT void tc_exportSBML(const char* file);
 
 /*!
+ \brief get sbml formatted model as a string
+ \return const char* sbml
+ \ingroup Import/Export
+*/
+TCAPIEXPORT const char* tc_getSBMLString();
+
+/*!
+ \brief get antimony formatted model as a string
+ \return const char* antimony
+ \ingroup Import/Export
+*/
+TCAPIEXPORT const char* tc_getAntimonyString();
+
+/*!
  \brief load sbml model as string
  \param const char* filename
  \ingroup Import/Export
@@ -19,11 +33,11 @@ TCAPIEXPORT void tc_exportSBML(const char* file);
 TCAPIEXPORT void tc_importSBML(const char* file);
 
 /*!
- \brief save model as string
+ \brief save model as antimony file
  \param const char* filename
  \ingroup Import/Export
 */
-TCAPIEXPORT void tc_exportText(const char* file);
+TCAPIEXPORT void tc_exportAntimony(const char* file);
 
 /*!
  \brief load model as string
@@ -48,7 +62,10 @@ TCAPIEXPORT void tc_SBML_api(
 	void (*importSBML)(const char*),
 	void (*exportText)(const char*),
 	void (*importText)(const char*),
-	void (*exportMath)(const char*));
+	void (*exportMath)(const char*),
+	const char * (sbmlString)(),
+	const char * (antimonyString)
+	);
 
 END_C_DECLS
 #endif

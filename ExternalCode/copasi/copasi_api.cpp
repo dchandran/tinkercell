@@ -234,7 +234,6 @@ int copasi_cleanup_assignments(copasi_model model)
 				if ((*i).second.unused)
 				{
 					(*i).second.species->setStatus(CModelEntity::FIXED); //unused species
-					std::cout << (*i).first << " is unused\n";
 				}
 			}
 			else
@@ -615,7 +614,6 @@ int cSetAssignmentRule(copasi_model model, const char * name, const char * formu
 		CopasiPtr & p = (*hash)[s];
 		p.assignmentRule = string(formula);
 		boost::regex_replace(p.assignmentRule, stupidPowFunction, string("((\\1)^(\\2))"));
-		//cout << p.assignmentRule.c_str() << "\n";
 		return 1;
 	}
 	return 0;
@@ -664,14 +662,12 @@ int cSetAssignmentRuleHelper(copasi_model model, CMetab* pSpecies, const char * 
 					 	string s1("<");
 							s1 += getHashValue(hash,s0).name;
 							s1 += string(">");
-						//std::cout << "sub " << s1 << "  for " << s0 << "\n";
 						rename(qFormula,s0,s1);
 					}
 				}
 			}
 		}
 
-		//std::cout << qFormula << "\n";
 		retval = retval & pSpecies->setExpression(qFormula);
 	}
 	else

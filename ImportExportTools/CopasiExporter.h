@@ -102,7 +102,10 @@ namespace Tinkercell
 		void updateParams(QSemaphore *, tc_matrix);
 		void enableAssignmentRulesReordering(QSemaphore *, int);
 
+
+	public slots:
 		void updateModel();
+		void exportSBML(const QString& filename);
 
 	private:
 

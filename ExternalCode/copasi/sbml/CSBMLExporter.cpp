@@ -1801,7 +1801,7 @@ const std::map<std::string, const SBase*> CSBMLExporter::createIdMap(const Model
     }
 
   // if COPASI is compiled with layout, we have to add those ids as well
-  if ((static_cast<const LayoutModelPlugin*>(sbmlModel.getPlugin("layout")))->getListOfLayouts()->isSetId())
+  /*if ((static_cast<const LayoutModelPlugin*>(sbmlModel.getPlugin("layout")))->getListOfLayouts()->isSetId())
     {
       idMap.insert(std::pair<const std::string, const SBase*>((static_cast<const LayoutModelPlugin*>(sbmlModel.getPlugin("layout")))->getListOfLayouts()->getId(), (static_cast<const LayoutModelPlugin*>(sbmlModel.getPlugin("layout")))->getListOfLayouts()));
     }
@@ -1819,7 +1819,7 @@ const std::map<std::string, const SBase*> CSBMLExporter::createIdMap(const Model
               idMap.insert(std::pair<const std::string, const SBase*>(pLayout->getId(), pLayout));
             }
         }
-    }
+    }*/
 
   return idMap;
 }
@@ -2681,9 +2681,9 @@ const std::string CSBMLExporter::exportModelToString(CCopasiDataModel& dataModel
   mHandledSBMLObjects.clear();
   createSBMLDocument(dataModel);
 
-  if (this->mpSBMLDocument && this->mpSBMLDocument->getModel())
-    dataModel.getListOfLayouts()->exportToSBML((static_cast<LayoutModelPlugin*>(this->mpSBMLDocument->getModel()->getPlugin("layout")))->getListOfLayouts(),
-        dataModel.getCopasi2SBMLMap(), mIdMap);
+  //if (this->mpSBMLDocument && this->mpSBMLDocument->getModel())
+    //dataModel.getListOfLayouts()->exportToSBML((static_cast<LayoutModelPlugin*>(this->mpSBMLDocument->getModel()->getPlugin("layout")))->getListOfLayouts(),
+       // dataModel.getCopasi2SBMLMap(), mIdMap);
 
 #ifdef COPASI_DEBUG
 

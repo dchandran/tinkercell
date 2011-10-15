@@ -234,6 +234,7 @@ int copasi_cleanup_assignments(copasi_model model)
 				if ((*i).second.unused)
 				{
 					(*i).second.species->setStatus(CModelEntity::FIXED); //unused species
+					std::cout << (*i).first << " is unused\n";
 				}
 			}
 			else
@@ -1332,7 +1333,7 @@ copasi_model cReadSBMLFile(const char * filename)
 	catch(...)
 	{
 		s = CCopasiMessage::getAllMessageText();
-		type = CCopasiMessage::EXCEPTION;
+		type = CCopasiMessage::ERROR;
 	}
 
 	int len = s.length();

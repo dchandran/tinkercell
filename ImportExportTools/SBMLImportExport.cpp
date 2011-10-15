@@ -20,6 +20,7 @@
 #include "AntimonyEditor.h"
 #include "OctaveExporter.h"
 #include "UndoCommands.h"
+#include "CopasiExporter.h"
 #include "antimony_api.h"
 
 using namespace std;
@@ -304,11 +305,19 @@ namespace Tinkercell
 
 	void SBMLImportExport::exportSBML(const QString & str)
 	{
-		if (modelNeedsUpdate)
+		/*if (modelNeedsUpdate)
 			updateSBMLModel();
 
 		if (sbmlDocument)
-			writeSBML (sbmlDocument, ConvertValue(str) );
+			writeSBML (sbmlDocument, ConvertValue(str) );*/
+
+		QWidget * tool = mainWindow->tool("COPASI");
+		if (tool)
+		{
+			CopasiExporter * copasi = static_cast<CopasiExporter*>(tool);
+			copasi->exportSBML(str);	
+		}
+
 	}
 
 	void SBMLImportExport::exportSBML(QSemaphore * sem, const QString & str)
@@ -325,7 +334,22 @@ namespace Tinkercell
 
 		if (sbmlDocument && str)
 			(*str) = QString(writeSBMLToString(sbmlDocument));
-			
+/*
+		QWidget * tool = mainWindow->tool("COPASI");
+		if (tool && str)
+		{
+			CopasiExporter * copasi = static_cast<CopasiExporter*>(tool);
+
+			QString filename = tempDir() + tr("/temp.sbml");
+			copasi->exportSBML(filename);	
+			QFile file(filename);
+			if (file.open(QFile::ReadOnly | QFile::Text))
+			{
+				(*str) = file.readAll();
+				file.close();
+			}
+		}
+*/			
 		if (sem)
 			sem->release();
 	}
@@ -559,7 +583,8 @@ namespace Tinkercell
 
 	SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 	{
-		SBMLDocument_t * doc = SBMLDocument_create();
+		SBMLDocument_t * doc = SBMLDocument_createWithLevelAndVersion(2,1);
+
 		Model_t * model = SBMLDocument_createModel(doc);
 	
 		if (!model) return doc;
@@ -577,7 +602,7 @@ namespace Tinkercell
 		NumericalDataTable params = BasicInformationTool::getUsedParameters(0,handles);
 		NumericalDataTable stoicMatrix = StoichiometryTool::getStoichiometry(handles);
 		QStringList rates = StoichiometryTool::getRates(handles);
-		QStringList species, compartments, eventTriggers, eventActions, assignmentNames,
+		QStringList species, compartments, compartmentFormula, eventTriggers, eventActions, assignmentNames,
 					assignmentDefs, fixedVars, functionNames, functionDefs, functionArgs;
 
 		species = stoicMatrix.rowNames();
@@ -599,6 +624,12 @@ namespace Tinkercell
 					compartments << handles[i]->fullName(tr("_"));
 					if (handles[i]->hasNumericalData(tr("Initial Value")))
 						compartmentVolumes += handles[i]->numericalData(tr("Initial Value"));
+
+					if (handles[i]->hasTextData(tr("Assignments")) && handles[i]->textDataTable(tr("Assignments")).hasRow(tr("self")))
+						compartmentFormula += handles[i]->textData(tr("Assignments"),tr("self"));
+					else
+						compartmentFormula += tr("");
+					
 				}
 				if (handles[i]->children.isEmpty())
 				{
@@ -696,10 +727,11 @@ namespace Tinkercell
 			}
 		}
 	
-		if (compartments.isEmpty() || !fixedVars.isEmpty())
+		if (compartments.isEmpty())
 		{
 			compartments << tr("DefaultCompartment");
 			compartmentVolumes << 1.0;
+			compartmentFormula << tr("");
 		}
 	
 		//Make list of species types and units
@@ -730,6 +762,16 @@ namespace Tinkercell
 				Compartment_setId(comp, ConvertValue(compartments[i]));
 				Compartment_setName(comp, ConvertValue(compartments[i]));
 				Compartment_setVolume(comp, compartmentVolumes[i]);
+				if (compartmentFormula[i].isEmpty())
+				{
+					Compartment_setConstant(comp, 1);
+				}
+				else
+				{
+					Compartment_setConstant(comp,0);
+					assignmentNames << compartments[i];
+					assignmentDefs << compartmentFormula[i];
+				}
 				//Compartment_setUnits(comp, "uL");
 			}
 		}
@@ -748,71 +790,38 @@ namespace Tinkercell
 
 		//create list of species
 		for (int i=0; i < species.size(); ++i)
-			if (!fixedVars.contains(species[i]))
-			{
-				Species_t * s = Model_createSpecies(model);
-				if (s)
-				{
-					Species_setId(s,ConvertValue(species[i]));
-					Species_setName(s,ConvertValue(species[i]));
-					Species_setConstant(s,0);
-					Species_setInitialConcentration(s,initialValues[i]);
-					Species_setInitialAmount(s,initialValues[i]);		
-					Species_setCompartment(s, ConvertValue(speciesCompartments[i]));
-					if (speciesHandles[i] && speciesHandles[i]->family())
-					{
-						Species_setSpeciesType(s,ConvertValue(tr("family_") + speciesHandles[i]->family()->name()));
-						//if (!speciesHandles[i]->family()->measurementUnit.name.isEmpty())
-							//Species_setUnits(s, ConvertValue(speciesHandles[i]->family()->measurementUnit.name));
-					}
-				}
-			}
-
-		//create list of fixed species
-		/*for (int i=0; i < fixedVars.size(); ++i)
 		{
 			Species_t * s = Model_createSpecies(model);
 			if (s)
 			{
-				Species_setId(s,ConvertValue(fixedVars[i]));
-				Species_setName(s,ConvertValue(fixedVars[i]));
-				Species_setConstant(s,1);
-				Species_setInitialConcentration(s,fixedValues[i]);
-				Species_setInitialAmount(s,fixedValues[i]);
-				Species_setCompartment(s, "DefaultCompartment");
+				Species_setId(s,ConvertValue(species[i]));
+				Species_setName(s,ConvertValue(species[i]));
+				Species_setConstant(s,0);
+				Species_setInitialConcentration(s,initialValues[i]);
+				//Species_setInitialAmount(s,initialValues[i]);		
+				Species_setCompartment(s, ConvertValue(speciesCompartments[i]));
 
-				for (int j=0; j < handles.size(); ++j)
-					if (handles[j] && 
-						handles[j]->family() && 
-						fixedVars[i] == handles[j]->fullName(tr("_")))
-					{
-						if (!families.contains(handles[j]->family()))
-						{
-							SpeciesType_t * s = Model_createSpeciesType(model);
-							if (s)
-							{
-								SpeciesType_setId(s, ConvertValue(tr("family_") + handles[j]->family()->name()));
-								SpeciesType_setName(s, ConvertValue(handles[j]->family()->name()));
-								if (!handles[j]->family()->measurementUnit.name.isEmpty())
-								{
-									UnitDefinition_t * unitDef = Model_createUnitDefinition(model);
-									UnitDefinition_setId(unitDef, ConvertValue(handles[j]->family()->measurementUnit.name)); 
-									UnitDefinition_setName(unitDef, ConvertValue(handles[j]->family()->measurementUnit.name));
-								}
-							}
-						}
-						Species_setSpeciesType(s,ConvertValue(tr("family_") + handles[j]->family()->name()));
-						if (!handles[j]->family()->measurementUnit.name.isEmpty())
-							Species_setUnits(s, ConvertValue(handles[j]->family()->measurementUnit.name));
-					}
+				if (fixedVars.contains(species[i]))
+					Species_setBoundaryCondition(s,1);
+				else
+					Species_setBoundaryCondition(s,0);
+
+				Species_setHasOnlySubstanceUnits(s,0);
+				if (speciesHandles[i] && speciesHandles[i]->family())
+				{
+					Species_setSpeciesType(s,ConvertValue(tr("family_") + speciesHandles[i]->family()->name()));
+					//if (!speciesHandles[i]->family()->measurementUnit.name.isEmpty())
+						//Species_setUnits(s, ConvertValue(speciesHandles[i]->family()->measurementUnit.name));
 				}
-		}*/
+			}
+		}
 	
 		//create list of reactions
 		for (int i=0; i < stoicMatrix.columns(); ++i)
 		{
 			Reaction * reac = Model_createReaction(model);
 			Reaction_setReversible(reac,0);
+			Reaction_setFast(reac,0);
 			if (!reac)
 				continue;
 			Reaction_setId(reac, ConvertValue(stoicMatrix.columnName(i)));
@@ -834,6 +843,7 @@ namespace Tinkercell
 					SpeciesReference_setName(sref, ConvertValue(stoicMatrix.rowName(j)));
 					SpeciesReference_setSpecies(sref, ConvertValue(stoicMatrix.rowName(j)));
 					SpeciesReference_setStoichiometry( sref, -stoicMatrix.value(j,i) );
+					SpeciesReference_setConstant( sref, 0 );
 				}
 				else
 				if (stoicMatrix.value(j,i) > 0)
@@ -844,6 +854,7 @@ namespace Tinkercell
 					SpeciesReference_setName(sref, ConvertValue(stoicMatrix.rowName(j)));
 					SpeciesReference_setSpecies(sref, ConvertValue(stoicMatrix.rowName(j)));
 					SpeciesReference_setStoichiometry( sref, stoicMatrix.value(j,i) );
+					SpeciesReference_setConstant( sref, 0 );
 				}
 				else
 				if ((rates[i].contains(regex1) || rates[i].contains(regex2) || rates[i].contains(regex2) || rates[i].contains(regex3)) && !fixedVars.contains(stoicMatrix.rowName(j)))
@@ -852,6 +863,7 @@ namespace Tinkercell
 					SpeciesReference_setId(sref, ConvertValue(stoicMatrix.columnName(i) + QString("_") + stoicMatrix.rowName(j)));
 					SpeciesReference_setName(sref, ConvertValue(stoicMatrix.rowName(j)));
 					SpeciesReference_setSpecies(sref, ConvertValue(stoicMatrix.rowName(j)));
+					SpeciesReference_setConstant(sref, 0);
 				}
 			}
 		}
@@ -869,7 +881,7 @@ namespace Tinkercell
 			}
 		}
 	
-		for (int i=0; i < fixedVars.size(); ++i)
+		/*for (int i=0; i < fixedVars.size(); ++i)
 		{
 			Parameter_t * p = Model_createParameter(model);
 			if (p)
@@ -879,7 +891,7 @@ namespace Tinkercell
 				Parameter_setValue(p, fixedValues[i]);
 				Parameter_setConstant(p, 0);
 			}
-		}
+		}*/
 	
 		//list of assignments
 		for (int i=0; i < assignmentNames.size(); ++i)
@@ -931,7 +943,8 @@ namespace Tinkercell
 			return exportSBML(handles);
 		}
 	
-		return 	SBMLDocument_create();
+		SBMLDocument_t * doc = SBMLDocument_createWithLevelAndVersion(2,1);
+		return doc;
 	}
 }
 

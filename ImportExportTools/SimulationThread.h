@@ -136,6 +136,9 @@ namespace Tinkercell
 		void graph(const DataTable<qreal>&,const QString& title,int xaxis, PlotTool::PlotType type);
 
 	public slots:
+		
+		/*! \brief write model to file in SBML format */
+		void exportSBML(const QString&);
 
 		/*! \brief Updates the COPASI model parameters */
 		void updateModelParameters(DataTable<qreal> params);

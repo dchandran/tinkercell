@@ -2685,10 +2685,10 @@ SBMLImporter::parseSBML(const std::string& sbmlDocumentText,
       prLol = new CListOfLayouts("ListOfLayouts", mpDataModel);
       Model* sbmlmodel = pSBMLDocument->getModel();
 
-      if (sbmlmodel && prLol)
+      /*if (sbmlmodel && prLol)
         SBMLDocumentLoader::readListOfLayouts(*prLol,
                                               *((static_cast<const LayoutModelPlugin*>(sbmlmodel->getPlugin("layout")))->getListOfLayouts()),
-                                              copasi2sbmlmap);
+                                              copasi2sbmlmap);*/
     }
   else
     {

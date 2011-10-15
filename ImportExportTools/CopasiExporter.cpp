@@ -261,6 +261,14 @@ void CopasiExporter::optimize()
 	gaOptimize(0, input.toAscii().data(), &m);
 }
 
+void CopasiExporter::exportSBML(const QString& file)
+{
+	if (needsUpdate)
+		updateModel();
+	if (simThread)
+		simThread->exportSBML(file);
+}
+
 void CopasiExporter::updateModel()
 {
 	if (simThread)

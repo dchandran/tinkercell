@@ -992,4 +992,10 @@ void SimulationDialog::updateParameterList()
 		menu3->setCurrentIndex(j);
 	}
 }
+
+void SimulationThread::exportSBML(const QString& file)
+{
+	cWriteSBMLFile(model, ConvertValue(file));
+}
+
 }

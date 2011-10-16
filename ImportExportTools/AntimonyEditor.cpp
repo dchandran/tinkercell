@@ -156,6 +156,16 @@ namespace Tinkercell
 		}
 	}
 
+	static void substituteToEqualitySymbols(QString& s)
+	{
+		s.replace(QRegExp("gt\\((.*),(.*)\\)"), "\\1>\\2");
+		s.replace(QRegExp("lt\\((.*),(.*)\\)"), "\\1<\\2");
+		s.replace(QRegExp("ge\\((.*),(.*)\\)"), "\\1>=\\2");
+		s.replace(QRegExp("le\\((.*),(.*)\\)"), "\\1<=\\2");
+		s.replace(QRegExp("ne\\((.*),(.*)\\)"), "\\1!=\\2");
+		s.replace(QRegExp("eq\\((.*),(.*)\\)"), "\\1=\\2");
+	}
+
 	QList<ItemHandle*> AntimonyEditor::parse(QString& modelString, ItemHandle * moduleHandle)
 	{
 		long ok = loadString(modelString.toAscii().data());
@@ -410,6 +420,7 @@ namespace Tinkercell
 			for (int j=0; j < numEvents; ++j)
 			{
 				QString trigger(getTriggerForEvent("__main",j));
+				substituteToEqualitySymbols(trigger);
 
 				int n = (int)getNumAssignmentsForEvent("__main",j);
 

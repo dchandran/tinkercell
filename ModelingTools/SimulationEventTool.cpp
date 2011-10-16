@@ -719,6 +719,9 @@ namespace Tinkercell
 		QString ifs = eventIf->text();
 		QString thens = eventThen->text();
 
+		ifs.remove(QRegExp("\\s"));
+		thens.remove(QRegExp("\\s"));
+
 		if (ifs.isEmpty() || thens.isEmpty()) return;
 
 		ItemHandle * lastItem = win->globalHandle();
@@ -727,7 +730,6 @@ namespace Tinkercell
 
 		if (!lastItem->hasTextData(tr("Events")))
 			lastItem->textDataTable(tr("Events")) = DataTable<QString>();
-
 		
 		if (!parseRateString(win, lastItem, ifs))
 			return;
@@ -736,19 +738,6 @@ namespace Tinkercell
 			return;
 
 		DataTable<QString> newData(lastItem->textDataTable(tr("Events")));
-
-		if (!oldEvent.isEmpty())
-		{
-			int k = newData.rowNames().indexOf(oldEvent);
-			if (k >= 0)
-				newData.setRowName(k,ifs);
-		}
-
-		if (!newData.hasRow(ifs))
-		{
-			newData.insertRow(newData.rows(),ifs);
-		}
-
 		newData.value(ifs,0) = thens;
 
 		win->changeData(tr("when ") + ifs + tr(" do ") + thens,lastItem,tr("Events"),&newData);

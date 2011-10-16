@@ -10,6 +10,7 @@
 #include "sbml/ListOf.h"
 #include "sbml/Model.h"
 #include "sbml/Rule.h"
+#include "sbmlx.h"
 #include "SBMLImportExport.h"
 #include "BasicInformationTool.h"
 #include "StoichiometryTool.h"
@@ -305,19 +306,19 @@ namespace Tinkercell
 
 	void SBMLImportExport::exportSBML(const QString & str)
 	{
-		/*if (modelNeedsUpdate)
+		if (modelNeedsUpdate)
 			updateSBMLModel();
 
 		if (sbmlDocument)
-			writeSBML (sbmlDocument, ConvertValue(str) );*/
-
+			writeSBML (sbmlDocument, ConvertValue(str) );
+/*
 		QWidget * tool = mainWindow->tool("COPASI");
 		if (tool)
 		{
 			CopasiExporter * copasi = static_cast<CopasiExporter*>(tool);
 			copasi->exportSBML(str);	
 		}
-
+*/
 	}
 
 	void SBMLImportExport::exportSBML(QSemaphore * sem, const QString & str)
@@ -828,7 +829,11 @@ namespace Tinkercell
 			Reaction_setName(reac, ConvertValue(stoicMatrix.columnName(i)));
 			Reaction_setId(reac, ConvertValue(stoicMatrix.columnName(i)));
 			KineticLaw_t  * kinetic = Reaction_createKineticLaw(reac);
-			KineticLaw_setFormula( kinetic, ConvertValue( rates[i] ));
+			std::string formula(rates[i].toAscii().data());
+			ASTNode_t* ASTform = parseStringToASTNode(formula);
+ 			caratToPower(ASTform);
+			KineticLaw_setMath(kinetic, ASTform);			
+			//KineticLaw_setFormula( kinetic, formula.c_str());
 
 			for (int j=0; j < stoicMatrix.rows(); ++j)
 			{
@@ -899,8 +904,12 @@ namespace Tinkercell
 			Rule_t * rule = Model_createAssignmentRule(model);
 			if (rule)
 			{
+				std::string formula(assignmentDefs[i].toAscii().data());
+				ASTNode_t* ASTform = parseStringToASTNode(formula);
+	 			caratToPower(ASTform);
 				Rule_setVariable(rule, ConvertValue(assignmentNames[i]));
-				Rule_setFormula(rule, ConvertValue(assignmentDefs[i]));		
+				//Rule_setFormula(rule, formula.c_str());	
+				Rule_setMath(rule, ASTform);	
 			}
 		}
 	
@@ -911,7 +920,10 @@ namespace Tinkercell
 			Trigger_t * trigger = Event_createTrigger(event);
 			if (event && trigger)
 			{
-				Trigger_setMath(trigger, SBML_parseFormula (ConvertValue(eventTriggers[i])));
+				std::string formula(eventTriggers[i].toAscii().data());
+				ASTNode_t* ASTform = parseStringToASTNode(formula);
+	 			caratToPower(ASTform);
+				Trigger_setMath(trigger, ASTform);
 				QStringList actions = eventActions[i].split(";");
 				for (int j=0; j < actions.size(); ++j)
 				{
@@ -921,8 +933,11 @@ namespace Tinkercell
 						EventAssignment_t * assignment = Event_createEventAssignment(event);
 						if (assignment)
 						{
+							formula = std::string(words[1].toAscii().data());
+							ASTform = parseStringToASTNode(formula);
+				 			caratToPower(ASTform);
 							EventAssignment_setVariable(assignment, ConvertValue(words[0].trimmed()));
-							EventAssignment_setMath(assignment, SBML_parseFormula (ConvertValue(words[1].trimmed())));
+							EventAssignment_setMath(assignment, ASTform);
 						}
 					}
 				}

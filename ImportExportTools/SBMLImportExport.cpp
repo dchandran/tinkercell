@@ -10,7 +10,6 @@
 #include "sbml/ListOf.h"
 #include "sbml/Model.h"
 #include "sbml/Rule.h"
-#include "sbmlx.h"
 #include "SBMLImportExport.h"
 #include "BasicInformationTool.h"
 #include "StoichiometryTool.h"
@@ -590,6 +589,47 @@ namespace Tinkercell
 		s.replace(QRegExp("(.*)<=(.*)"), "le(\\1,\\2)");
 		s.replace(QRegExp("(.*)!=(.*)"), "ne(\\1,\\2)");
 		s.replace(QRegExp("(.*)=(.*)"), "eq(\\1,\\2)");
+	}
+
+	static void matchTypesToNames(ASTNode_t* node)  
+	{
+	  if (node->isOperator() == false && node->isNumber() == false) {
+		if (string(node->getName()) == "time") {
+		  node->setType(AST_NAME_TIME);
+		}
+		if (string(node->getName()) == "avogadro") {
+		  node->setType(AST_NAME_AVOGADRO);
+		}
+		if (string(node->getName()) == "delay") {
+		  node->setType(AST_FUNCTION_DELAY);
+		}
+	  }
+	  for (unsigned int c = 0; c < node->getNumChildren() ; c++) {
+		matchTypesToNames(node->getChild(c));
+	  }
+	}
+
+	static ASTNode* parseStringToASTNode(const string& formula)
+	{
+	  ASTNode* rootnode = SBML_parseFormula(formula.c_str());
+	  if (rootnode == NULL) return NULL;
+	  if (formula.find("time") != string::npos ||
+		  formula.find("avogadro") != string::npos ||
+		  formula.find("delay") != string::npos) {
+		matchTypesToNames(rootnode);
+	  }
+	  return rootnode;
+	}
+
+	static void caratToPower(ASTNode* node)
+	{
+	  if (!node) return;
+	  if (node->getType() == AST_POWER) {
+		node->setType(AST_FUNCTION_POWER);
+	  }
+	  for (unsigned int c = 0; c < node->getNumChildren() ; c++) {
+		caratToPower(node->getChild(c));
+	  }
 	}
 
 	SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)

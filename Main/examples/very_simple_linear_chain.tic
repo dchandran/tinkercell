@@ -4,7 +4,8 @@
     <Handles>
         <Handle type="0" name="" parent="" family="">
             <tc_table>
-                <Table key="units" rows="27" cols="2" rowNames="_cell;;_vector;;_molecule;;_transcription factor;;_fluorescent protein;;_constitutive promoter;;_repressor binding site;;_receptor;;_inducible promoter;;_rbs;;_part;;_composite part;;_protein;;_coding;;_small molecule;;_sticky ends;;_terminator;;_mrna;;_promoter;;_repressible promoter;;_compartment;;_enzyme;;_ribozyme;;_activator binding site;;_operator;;_rna;;_subcellular compartment" columnNames="property;;name" values="volume;;fL;;copies;;count;;concentration;;uM;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;concentration;;uM;;copies;;count;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;volume;;fL;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;volume;;fL"/>
+                <Table key="events" rows="1" cols="1" rowNames="time&gt;20" columnNames="event" values="pro1.k0=10"/>
+                <Table key="units" rows="29" cols="2" rowNames="_cell;;_vector;;_molecule;;_reporter;;_transcription factor;;_fluorescent protein;;_constitutive promoter;;_repressor binding site;;_receptor;;_inducible promoter;;_rbs;;_part;;_composite part;;_protein;;_coding;;_catalyst;;_small molecule;;_sticky ends;;_terminator;;_mrna;;_promoter;;_repressible promoter;;_compartment;;_enzyme;;_ribozyme;;_activator binding site;;_operator;;_rna;;_subcellular compartment" columnNames="property;;name" values="volume;;fL;;copies;;count;;concentration;;uM;;concentration;;uM;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;concentration;;uM;;concentration;;uM;;copies;;count;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;volume;;fL;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;volume;;fL"/>
             </tc_table>
         </Handle>
         <Handle type="2" name="br2" parent="" family="biochemical reaction">
@@ -25,7 +26,7 @@
         </Handle>
         <Handle type="1" name="sm1" parent="" family="small molecule">
             <tc_matrix>
-                <Table key="initial value" rows="1" cols="1" rowNames="concentration" columnNames="concentration" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="0"/>
+                <Table key="initial value" rows="1" cols="1" rowNames="concentration" columnNames="concentration" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="10"/>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
@@ -65,7 +66,7 @@
         <Handle type="2" name="pro1" parent="" family="production">
             <tc_matrix>
                 <Table key="product stoichiometries" rows="1" cols="1" rowNames="stoichiometry" columnNames="sm1" desc="Number of each product participating in this reaction" values="1"/>
-                <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
+                <Table key="parameters" rows="1" cols="3" rowNames="k0" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="0;;0;;0"/>
                 <Table key="reactant stoichiometries" rows="1" cols="1" rowNames="stoichiometry" columnNames="sm1" desc="Number of each reactant participating in this reaction" values="0"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
@@ -75,7 +76,7 @@
                 <Table key="participants" rows="2" cols="1" rowNames="source;;product" columnNames="" values="emp1;;sm1"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
-                <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="10"/>
+                <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="pro1.k0"/>
             </tc_table>
         </Handle>
         <Handle type="1" name="emp1" parent="" family="empty">
@@ -136,6 +137,65 @@
         </Handle>
     </Handles>
     <Nodes>
+        <NodeItem className="Event function" scene="0" handle="" z="40.6">
+            <pos x="5417.65" y="4854.33"/>
+            <transform m11="0.6" m12="0" m21="0" m22="0.6"/>
+            <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
+                <renderInformation id="TinkerCell_Style" programName="TinkerCell">
+                    <listOfColorDefinitions>
+                        <colorDefinition id="shape1color" value="#000c7c" alpha="255"/>
+                        <colorDefinition id="shape2color" value="#000c7c" alpha="255"/>
+                        <colorDefinition id="shape3color" value="#bfbfbf" alpha="0"/>
+                    </listOfColorDefinitions>
+                    <listOfGradientDefinitions>
+                        <linearGradient id="shape0color" x1="-14.4689" y1="-12.4031" x2="-12.2711" y2="48.4496">
+                            <stop offset="0%" stop-color="#ffffff" stop-alpha="1"/>
+                            <stop offset="100%" stop-color="#aed1ff" stop-alpha="1"/>
+                        </linearGradient>
+                    </listOfGradientDefinitions>
+                    <listOfStyles>
+                        <style idList="clock" width="60" height="60">
+                            <g>
+                                <ellipse cx="0" cy="-0.1938" rx="36.0806" ry="35.4651" angleStart="0" angleEnd="360" fill="shape0color" stroke="#6464ff" stroke-width="8" stroke-alpha="1"/>
+                                <polygon fill="shape1color" stroke="#646464" stroke-width="0" stroke-alpha="1">
+                                    <listOfCurveSegments>
+                                        <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                            <start x="-3.8462" y="0"/>
+                                            <end x="30.5861" y="-1.5504"/>
+                                        </curveSegment>
+                                        <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                            <start x="30.5861" y="-1.5504"/>
+                                            <end x="-3.4799" y="-4.6512"/>
+                                        </curveSegment>
+                                        <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                            <start x="-3.4799" y="-4.6512"/>
+                                            <end x="-3.8462" y="0"/>
+                                        </curveSegment>
+                                    </listOfCurveSegments>
+                                </polygon>
+                                <polygon fill="shape2color" stroke="#646464" stroke-width="0" stroke-alpha="1">
+                                    <listOfCurveSegments>
+                                        <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                            <start x="-3.8462" y="0"/>
+                                            <end x="-0.5495" y="27.5194"/>
+                                        </curveSegment>
+                                        <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                            <start x="-0.5495" y="27.5194"/>
+                                            <end x="2.0147" y="0"/>
+                                        </curveSegment>
+                                        <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                            <start x="2.0147" y="0"/>
+                                            <end x="-3.8462" y="0"/>
+                                        </curveSegment>
+                                    </listOfCurveSegments>
+                                </polygon>
+                                <ellipse cx="0" cy="0" rx="-50" ry="-50" angleStart="0" angleEnd="360" fill="shape3color" stroke="#7f7f7f" stroke-width="4" stroke-alpha="1"/>
+                            </g>
+                        </style>
+                    </listOfStyles>
+                </renderInformation>
+            </listOfRenderInformation>
+        </NodeItem>
         <NodeItem className="NodeGraphicsItem" scene="0" handle="emp2" z="38.6">
             <pos x="5587.42" y="5090.69"/>
             <transform m11="0.4" m12="0" m21="0" m22="0.4"/>
@@ -282,17 +342,17 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="0" handle="deg1" z="39.6">
             <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="bezier" style="1" gap="10">
                 <ControlPoints>
-                    <ControlPoint x="5359.98" y="5111"/>
-                    <ControlPoint x="5373.02" y="5089.24"/>
-                    <ControlPoint x="5452.72" y="5049.14"/>
-                    <ControlPoint x="5547.42" y="5078.35"/>
+                    <ControlPoint x="5357.33" y="5111"/>
+                    <ControlPoint x="5364.77" y="5096.46"/>
+                    <ControlPoint x="5444.47" y="5056.36"/>
+                    <ControlPoint x="5547.42" y="5081.08"/>
                 </ControlPoints>
                 <CurveSegments>
                     <Path numPoints="4" NodeAtStart="sm3" NodeAtStartX="5342" NodeAtStartY="5141" NodeAtEnd="emp2" NodeAtEndX="5587.42" NodeAtEndY="5090.69">
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
-                            <pos x="5547.42" y="5078.35" angle="17.1443"/>
-                            <transform m11="0.382226" m12="0.117912" m21="-0.0884339" m22="0.28667"/>
+                            <pos x="5547.42" y="5081.08" angle="13.5029"/>
+                            <transform m11="0.388943" m12="0.0933983" m21="-0.0700481" m22="0.291708"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -332,26 +392,17 @@
                 <CenterRegion>
                     <Rect width="20" height="20"/>
                     <Decorator>
-                        <pos x="5423.36" y="5075" angle="0"/>
+                        <pos x="5416.83" y="5080.77" angle="0"/>
                         <transform m11="0.3" m12="0" m21="0" m22="0.3"/>
                         <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                             <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                 <listOfColorDefinitions>
-                                    <colorDefinition id="shape0color" value="#00007f" alpha="0"/>
-                                    <colorDefinition id="shape1color" value="#00007f" alpha="23"/>
+                                    <colorDefinition id="shape0color" value="#ffffff" alpha="255"/>
                                 </listOfColorDefinitions>
-                                <listOfGradientDefinitions>
-                                    <linearGradient id="shape2color" x1="12.8" y1="3.6" x2="12.8" y2="3.6">
-                                        <stop offset="0%" stop-color="#6464ff" stop-alpha="0.447059"/>
-                                        <stop offset="100%" stop-color="#6464ff" stop-alpha="1"/>
-                                    </linearGradient>
-                                </listOfGradientDefinitions>
                                 <listOfStyles>
-                                    <style idList="expanding rectangle" width="30" height="30">
+                                    <style idList="rectangle" width="30" height="30">
                                         <g>
-                                            <rectangle x="-50" y="-50" width="100" height="100" rx="10" ry="10" fill="shape0color" stroke="#d5dbff" stroke-width="8" stroke-alpha="1"/>
-                                            <rectangle x="-37.2449" y="-37.3016" width="75" height="75.1323" rx="10" ry="10" fill="shape1color" stroke="#9daaff" stroke-width="8" stroke-alpha="1"/>
-                                            <rectangle x="-21.4286" y="-20.8995" width="44.3878" height="43.3862" rx="10" ry="10" fill="shape2color" stroke="#6464ff" stroke-width="8" stroke-alpha="1"/>
+                                            <rectangle x="-50" y="-50" width="100" height="100" rx="10" ry="10" fill="shape0color" stroke="#3f3f43" stroke-width="13" stroke-alpha="1"/>
                                         </g>
                                     </style>
                                 </listOfStyles>
@@ -364,17 +415,17 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="0" handle="br2" z="34.3">
             <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="bezier" style="1" gap="10">
                 <ControlPoints>
-                    <ControlPoint x="5235" y="4918.97"/>
-                    <ControlPoint x="5284.87" y="4928.89"/>
-                    <ControlPoint x="5347.68" y="4978.92"/>
-                    <ControlPoint x="5343.4" y="5101"/>
+                    <ControlPoint x="5235" y="4922.68"/>
+                    <ControlPoint x="5276.62" y="4936.11"/>
+                    <ControlPoint x="5339.43" y="4986.14"/>
+                    <ControlPoint x="5341.34" y="5101"/>
                 </ControlPoints>
                 <CurveSegments>
                     <Path numPoints="4" NodeAtStart="sm2" NodeAtStartX="5205" NodeAtStartY="4913" NodeAtEnd="sm3" NodeAtEndX="5342" NodeAtEndY="5141">
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
-                            <pos x="5343.4" y="5101" angle="92.0071"/>
-                            <transform m11="-0.0140085" m12="0.399755" m21="-0.299816" m22="-0.0105063"/>
+                            <pos x="5341.34" y="5101" angle="89.0478"/>
+                            <transform m11="0.00664782" m12="0.399945" m21="-0.299959" m22="0.0049859"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -414,26 +465,17 @@
                 <CenterRegion>
                     <Rect width="20" height="20"/>
                     <Decorator>
-                        <pos x="5310.1" y="4967.95" angle="0"/>
+                        <pos x="5303.69" y="4973.86" angle="0"/>
                         <transform m11="0.3" m12="0" m21="0" m22="0.3"/>
                         <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                             <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                 <listOfColorDefinitions>
-                                    <colorDefinition id="shape0color" value="#00007f" alpha="0"/>
-                                    <colorDefinition id="shape1color" value="#00007f" alpha="23"/>
+                                    <colorDefinition id="shape0color" value="#ffffff" alpha="255"/>
                                 </listOfColorDefinitions>
-                                <listOfGradientDefinitions>
-                                    <linearGradient id="shape2color" x1="12.8" y1="3.6" x2="12.8" y2="3.6">
-                                        <stop offset="0%" stop-color="#6464ff" stop-alpha="0.447059"/>
-                                        <stop offset="100%" stop-color="#6464ff" stop-alpha="1"/>
-                                    </linearGradient>
-                                </listOfGradientDefinitions>
                                 <listOfStyles>
-                                    <style idList="expanding rectangle" width="30" height="30">
+                                    <style idList="rectangle" width="30" height="30">
                                         <g>
-                                            <rectangle x="-50" y="-50" width="100" height="100" rx="10" ry="10" fill="shape0color" stroke="#d5dbff" stroke-width="8" stroke-alpha="1"/>
-                                            <rectangle x="-37.2449" y="-37.3016" width="75" height="75.1323" rx="10" ry="10" fill="shape1color" stroke="#9daaff" stroke-width="8" stroke-alpha="1"/>
-                                            <rectangle x="-21.4286" y="-20.8995" width="44.3878" height="43.3862" rx="10" ry="10" fill="shape2color" stroke="#6464ff" stroke-width="8" stroke-alpha="1"/>
+                                            <rectangle x="-50" y="-50" width="100" height="100" rx="10" ry="10" fill="shape0color" stroke="#3f3f43" stroke-width="13" stroke-alpha="1"/>
                                         </g>
                                     </style>
                                 </listOfStyles>
@@ -446,17 +488,17 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="0" handle="br1" z="30.3">
             <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="bezier" style="1" gap="10">
                 <ControlPoints>
-                    <ControlPoint x="4971.66" y="4980"/>
-                    <ControlPoint x="5021.81" y="4894.8"/>
-                    <ControlPoint x="5093.19" y="4886.2"/>
-                    <ControlPoint x="5165" y="4903.41"/>
+                    <ControlPoint x="4970.55" y="4980"/>
+                    <ControlPoint x="5013.56" y="4902.02"/>
+                    <ControlPoint x="5087" y="4892.39"/>
+                    <ControlPoint x="5165" y="4906.01"/>
                 </ControlPoints>
                 <CurveSegments>
                     <Path numPoints="4" NodeAtStart="sm1" NodeAtStartX="4954" NodeAtStartY="5010" NodeAtEnd="sm2" NodeAtEndX="5205" NodeAtEndY="4913">
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
-                            <pos x="5165" y="4903.41" angle="13.4811"/>
-                            <transform m11="0.388979" m12="0.0932495" m21="-0.0699372" m22="0.291734"/>
+                            <pos x="5165" y="4906.01" angle="9.90717"/>
+                            <transform m11="0.394035" m12="0.0688199" m21="-0.0516152" m22="0.295526"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -496,26 +538,17 @@
                 <CenterRegion>
                     <Rect width="20" height="20"/>
                     <Decorator>
-                        <pos x="5060.49" y="4902.71" angle="0"/>
+                        <pos x="5054.93" y="4908.07" angle="0"/>
                         <transform m11="0.3" m12="0" m21="0" m22="0.3"/>
                         <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                             <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                 <listOfColorDefinitions>
-                                    <colorDefinition id="shape0color" value="#00007f" alpha="0"/>
-                                    <colorDefinition id="shape1color" value="#00007f" alpha="23"/>
+                                    <colorDefinition id="shape0color" value="#ffffff" alpha="255"/>
                                 </listOfColorDefinitions>
-                                <listOfGradientDefinitions>
-                                    <linearGradient id="shape2color" x1="12.8" y1="3.6" x2="12.8" y2="3.6">
-                                        <stop offset="0%" stop-color="#6464ff" stop-alpha="0.447059"/>
-                                        <stop offset="100%" stop-color="#6464ff" stop-alpha="1"/>
-                                    </linearGradient>
-                                </listOfGradientDefinitions>
                                 <listOfStyles>
-                                    <style idList="expanding rectangle" width="30" height="30">
+                                    <style idList="rectangle" width="30" height="30">
                                         <g>
-                                            <rectangle x="-50" y="-50" width="100" height="100" rx="10" ry="10" fill="shape0color" stroke="#d5dbff" stroke-width="8" stroke-alpha="1"/>
-                                            <rectangle x="-37.2449" y="-37.3016" width="75" height="75.1323" rx="10" ry="10" fill="shape1color" stroke="#9daaff" stroke-width="8" stroke-alpha="1"/>
-                                            <rectangle x="-21.4286" y="-20.8995" width="44.3878" height="43.3862" rx="10" ry="10" fill="shape2color" stroke="#6464ff" stroke-width="8" stroke-alpha="1"/>
+                                            <rectangle x="-50" y="-50" width="100" height="100" rx="10" ry="10" fill="shape0color" stroke="#3f3f43" stroke-width="13" stroke-alpha="1"/>
                                         </g>
                                     </style>
                                 </listOfStyles>
@@ -537,8 +570,8 @@
                     <Path numPoints="4" NodeAtStart="emp1" NodeAtStartX="4730.84" NodeAtStartY="4882.47" NodeAtEnd="sm1" NodeAtEndX="4954" NodeAtEndY="5010">
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
-                            <pos x="4936.39" y="4970" angle="66.2383"/>
-                            <transform m11="0.161174" m12="0.366091" m21="-0.274569" m22="0.12088"/>
+                            <pos x="4936.39" y="4970" angle="66.2392"/>
+                            <transform m11="0.161168" m12="0.366093" m21="-0.274571" m22="0.120876"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -583,21 +616,12 @@
                         <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                             <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                 <listOfColorDefinitions>
-                                    <colorDefinition id="shape0color" value="#00007f" alpha="0"/>
-                                    <colorDefinition id="shape1color" value="#00007f" alpha="23"/>
+                                    <colorDefinition id="shape0color" value="#ffffff" alpha="255"/>
                                 </listOfColorDefinitions>
-                                <listOfGradientDefinitions>
-                                    <linearGradient id="shape2color" x1="12.8" y1="3.6" x2="12.8" y2="3.6">
-                                        <stop offset="0%" stop-color="#6464ff" stop-alpha="0.447059"/>
-                                        <stop offset="100%" stop-color="#6464ff" stop-alpha="1"/>
-                                    </linearGradient>
-                                </listOfGradientDefinitions>
                                 <listOfStyles>
-                                    <style idList="expanding rectangle" width="30" height="30">
+                                    <style idList="rectangle" width="30" height="30">
                                         <g>
-                                            <rectangle x="-50" y="-50" width="100" height="100" rx="10" ry="10" fill="shape0color" stroke="#d5dbff" stroke-width="8" stroke-alpha="1"/>
-                                            <rectangle x="-37.2449" y="-37.3016" width="75" height="75.1323" rx="10" ry="10" fill="shape1color" stroke="#9daaff" stroke-width="8" stroke-alpha="1"/>
-                                            <rectangle x="-21.4286" y="-20.8995" width="44.3878" height="43.3862" rx="10" ry="10" fill="shape2color" stroke="#6464ff" stroke-width="8" stroke-alpha="1"/>
+                                            <rectangle x="-50" y="-50" width="100" height="100" rx="10" ry="10" fill="shape0color" stroke="#3f3f43" stroke-width="13" stroke-alpha="1"/>
                                         </g>
                                     </style>
                                 </listOfStyles>
@@ -609,9 +633,9 @@
         </ConnectionItem>
     </Connections>
     <Texts>
-        <TextItem text="deg1" scene="0" handle="deg1" x="5446.26" y="5094.9" color="#323232" m11="1" m12="0" m21="0" m22="1" z="40.6" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="br2" scene="0" handle="br2" x="5257.62" y="4961.01" color="#323232" m11="1" m12="0" m21="0" m22="1" z="35.3" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="br1" scene="0" handle="br1" x="5037.08" y="4907.78" color="#323232" m11="1" m12="0" m21="0" m22="1" z="31.3" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="deg1" scene="0" handle="deg1" x="5438.01" y="5102.12" color="#323232" m11="1" m12="0" m21="0" m22="1" z="40.6" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="br2" scene="0" handle="br2" x="5249.37" y="4968.23" color="#323232" m11="1" m12="0" m21="0" m22="1" z="35.3" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="br1" scene="0" handle="br1" x="5029.6" y="4914.54" color="#323232" m11="1" m12="0" m21="0" m22="1" z="31.3" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="pro1" scene="0" handle="pro1" x="4794.85" y="4884.54" color="#323232" m11="1" m12="0" m21="0" m22="1" z="27.3" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="sm3" scene="0" handle="sm3" x="5299" y="5166" color="#323232" m11="1" m12="0" m21="0" m22="1" z="24" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="sm2" scene="0" handle="sm2" x="5195.18" y="4848.84" color="#323232" m11="1" m12="0" m21="0" m22="1" z="22" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>

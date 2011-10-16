@@ -113,6 +113,7 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles)
 			if (handles[i]->hasTextData(tr("Events")))
 			{
 				DataTable<QString>& dat = handles[i]->textDataTable(tr("Events"));
+							
 				if (dat.columns() == 1)
 					for (j=0; j < dat.rows(); ++j)
 					{
@@ -285,9 +286,6 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles)
 			}
 	}
 	
-	fout.write(commands.toUtf8());
-	fout.close();
-	
 	//list of events
 	for (int i=0; i < eventTriggers.size(); ++i)
 	{
@@ -298,10 +296,15 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles)
 			if (words.size() == 2)
 			{
 				cCreateEvent(model, (QString("event") + QString::number(i)).toUtf8().data(), eventTriggers[i].toUtf8().data(), words[0].trimmed().toUtf8().data(), words[1].trimmed().toUtf8().data());
-				break;
+				commands += tr("cCreateEvent(model,") + (QString("event") + QString::number(i)) + tr(", ") + eventTriggers[i] + tr(",") + words[0].trimmed() + tr(",") + words[1].trimmed() + tr(");\n");
 			}
 		}
 	}
+
+	cCompileModel(model);
+
+	fout.write(commands.toUtf8());
+	fout.close();
 }
 
 

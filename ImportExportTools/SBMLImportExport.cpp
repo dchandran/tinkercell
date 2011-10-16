@@ -582,6 +582,16 @@ namespace Tinkercell
 		return handles;
 	}
 
+	static void substituteEqualitySymbols(QString& s)
+	{
+		s.replace(QRegExp("(.*)>(.*)"), "gt(\\1,\\2)");
+		s.replace(QRegExp("(.*)<(.*)"), "lt(\\1,\\2)");
+		s.replace(QRegExp("(.*)>=(.*)"), "ge(\\1,\\2)");
+		s.replace(QRegExp("(.*)<=(.*)"), "le(\\1,\\2)");
+		s.replace(QRegExp("(.*)!=(.*)"), "ne(\\1,\\2)");
+		s.replace(QRegExp("(.*)=(.*)"), "eq(\\1,\\2)");
+	}
+
 	SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 	{
 		SBMLDocument_t * doc = SBMLDocument_createWithLevelAndVersion(2,1);
@@ -666,6 +676,7 @@ namespace Tinkercell
 
 							if (s1.isEmpty() || s2.isEmpty()) continue;
 
+							substituteEqualitySymbols(s1);
 							eventTriggers << s1;
 							eventActions << s2;
 						}
@@ -922,7 +933,7 @@ namespace Tinkercell
 			{
 				std::string formula(eventTriggers[i].toAscii().data());
 				ASTNode_t* ASTform = parseStringToASTNode(formula);
-	 			caratToPower(ASTform);
+				caratToPower(ASTform);
 				Trigger_setMath(trigger, ASTform);
 				QStringList actions = eventActions[i].split(";");
 				for (int j=0; j < actions.size(); ++j)

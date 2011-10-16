@@ -132,6 +132,7 @@ ASTNode* parseStringToASTNode(const string& formula)
 
 void caratToPower(ASTNode* node)
 {
+  if (!node) return;
   if (node->getType() == AST_POWER) {
     node->setType(AST_FUNCTION_POWER);
   }

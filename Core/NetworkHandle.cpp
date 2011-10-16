@@ -834,6 +834,10 @@ namespace Tinkercell
 		if (reservedWords.isEmpty())
 			reservedWords << "time" << "TIME" << "Time";
 
+		bool ok;
+		double d = s.toDouble(&ok);
+		if (ok) return true;
+
 		mu::Parser parser;
 
 		s.replace(QRegExp(tr("\\.(?!\\d)")),tr("__Q_X_Z_W__"));

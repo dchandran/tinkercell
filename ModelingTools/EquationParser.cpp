@@ -46,6 +46,10 @@ namespace Tinkercell
 	{
 		if (!win || !handle) return false;
 
+		bool ok;
+		double d = s.toDouble(&ok);
+		if (ok) return true;
+
 		mu::Parser parser;
 		
 		parser.DefineFun("pow", powFunc, false);

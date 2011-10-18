@@ -487,7 +487,7 @@ namespace Tinkercell
 					if (nodeRoles.contains(oldTable->rowName(j)))
 					{
 						int k = nodeNames.indexOf(oldTable->value(j,0));
-						if (k > -1 && nodes[k]))
+						if (k > -1 && nodes[k])
 						{
 							newTable->value(oldTable->rowName(j),0) = nodeNames[k];
 							k = nodeRoles.indexOf(oldTable->rowName(j));
@@ -497,7 +497,7 @@ namespace Tinkercell
 
 				for (int j=0; j < nodeRoles.size() && j < nodeFamilies.size(); ++j)
 					if (!nodeRoles[j].isEmpty() && isReactant(nodeRoles[j]))
-						for (int k=0 k < nodesIn.size(); ++k)
+						for (int k=0; k < nodesIn.size(); ++k)
 							if (nodesIn[j] && 
 								(nodeFamily = nodesIn[k]->family()) && 
 								nodeFamily->isA(nodeFamilies[j]))
@@ -510,7 +510,7 @@ namespace Tinkercell
 
 				for (int j=0; j < nodeRoles.size() && j < nodeFamilies.size(); ++j)
 					if (!nodeRoles[j].isEmpty() && isReactant(nodeRoles[j]))
-						for (int k=0 k < nodesOut.size(); ++k)
+						for (int k=0; k < nodesOut.size(); ++k)
 							if (nodesOut[j] && 
 								(nodeFamily = nodesOut[k]->family()) && 
 								nodeFamily->isA(nodeFamilies[j]))
@@ -523,7 +523,7 @@ namespace Tinkercell
 
 				for (int i=0; i < nodeRoles.size() && i < nodeFamilies.size(); ++i)
 					if (!nodeRoles[i].isEmpty() && !isReactant(nodeRoles[i]))
-						for (int j=0 j < nodes.size(); ++j)
+						for (int j=0; j < nodes.size(); ++j)
 							if (nodes[j] && 
 								(nodeFamily = nodes[j]->family()) && 
 								nodeFamily->isA(nodeFamilies[i]))

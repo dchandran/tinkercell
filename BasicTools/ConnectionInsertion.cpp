@@ -454,7 +454,6 @@ namespace Tinkercell
 
 		TextDataTable * oldTable, * newTable;
 		QList<TextDataTable*> oldTables, newTables;
-		QList<NodeHandle*> nodesIn, nodes;
 		
 		for (int i=0; i < handles.size(); ++i)
 			if ((connection = ConnectionHandle::cast(handles[i])) && 
@@ -470,67 +469,71 @@ namespace Tinkercell
 					oldTable = newTable = &(connection->textDataTable(tr("Participants")));
 				}
 				
-				nodesIn = connection->nodesIn();
-				nodes = connection->nodes();
+				QList<NodeHandle*> nodesOut = connection->nodesOut();
+				QList<NodeHandle*> nodesIn = connection->nodesIn();
+				QList<NodeHandle*> nodes = connection->nodes();
 				
-				bool in;
 				QStringList nodeRoles = family->participantRoles(),
 							nodeFamilies = family->participantTypes(),
-							oldRowNames;
+							nodeNames;
 				
-				for (int j=0; j < oldTable->rows(); ++j)
-					oldRowNames << oldTable->value(j,0);
-							
-				for (int j=0; j < nodes.size(); ++j) //for each node
-					if (nodes[j] &&
-						!oldRowNames.contains(nodes[j]->fullName()) &&
-						(nodeFamily = nodes[j]->family()))
-					{
-						in = nodesIn.contains(nodes[j]) && (j < nodesIn.size());
-						//look for suitable role for this node
-						for (int k=0; k < nodeRoles.size() && k < nodeFamilies.size(); ++k)
-							if (!nodeRoles[k].isEmpty() && 
-								nodeFamily->isA(nodeFamilies[k]) &&
-								(!in || (in && isReactant(nodeRoles[k]))) //if in-node, then must be reactant
-								)
-							{
-								newTable->value(nodeRoles[k],0) = nodes[j]->fullName();
-								nodeRoles[k] = tr("");
-								break;
-							}
-					}
-					
-				oldRowNames.clear();
+				for (int j=0; j < nodes.size(); ++j)
+					if (nodes[j])
+						nodeNames += nodes[j]->fullName();
+					else
+						nodeNames += tr("");
 
 				for (int j=0; j < oldTable->rows(); ++j)
-				{
-					int k = nodeRoles.indexOf(oldTable->rowName(j));
-					if (k > -1)
+					if (nodeRoles.contains(oldTable->rowName(j)))
 					{
-						nodeRoles[k] = tr("");
-						oldRowNames += oldTable->value(j,0);
+						int k = nodeNames.indexOf(oldTable->value(j,0));
+						if (k > -1 && nodes[k]))
+						{
+							newTable->value(oldTable->rowName(j),0) = nodeNames[k];
+							k = nodeRoles.indexOf(oldTable->rowName(j));
+							nodeRoles[k] = tr("");
+						}
 					}
-				}
-				
-				for (int j=0; j < nodes.size(); ++j) //for each node
-					if (nodes[j] &&
-						!oldRowNames.contains(nodes[j]->fullName()) &&
-						(nodeFamily = nodes[j]->family()))
-					{
-						in = nodesIn.contains(nodes[j]) && (j < nodesIn.size());
-						//look for suitable role for this node
-						for (int k=0; k < nodeRoles.size() && k < nodeFamilies.size(); ++k)
-							if (!nodeRoles[k].isEmpty() && 
-								nodeFamily->isA(nodeFamilies[k]) &&
-								(!in || (in && isReactant(nodeRoles[k]))) //if in-node, then must be reactant
-								)
+
+				for (int j=0; j < nodeRoles.size() && j < nodeFamilies.size(); ++j)
+					if (!nodeRoles[j].isEmpty() && isReactant(nodeRoles[j]))
+						for (int k=0 k < nodesIn.size(); ++k)
+							if (nodesIn[j] && 
+								(nodeFamily = nodesIn[k]->family()) && 
+								nodeFamily->isA(nodeFamilies[j]))
 							{
-								newTable->value(nodeRoles[k],0) = nodes[j]->fullName();
-								nodeRoles[k] = tr("");
+								newTable->value(nodeRoles[j],0) = nodesIn[k]->fullName();
+								nodeRoles[j] = tr("");
+								nodesIn[k] = 0;
 								break;
 							}
-					}
-				
+
+				for (int j=0; j < nodeRoles.size() && j < nodeFamilies.size(); ++j)
+					if (!nodeRoles[j].isEmpty() && isReactant(nodeRoles[j]))
+						for (int k=0 k < nodesOut.size(); ++k)
+							if (nodesOut[j] && 
+								(nodeFamily = nodesOut[k]->family()) && 
+								nodeFamily->isA(nodeFamilies[j]))
+							{
+								newTable->value(nodeRoles[j],0) = nodesOut[k]->fullName();
+								nodeRoles[j] = tr("");
+								nodesOut[k] = 0;
+								break;
+							}
+
+				for (int i=0; i < nodeRoles.size() && i < nodeFamilies.size(); ++i)
+					if (!nodeRoles[i].isEmpty() && !isReactant(nodeRoles[i]))
+						for (int j=0 j < nodes.size(); ++j)
+							if (nodes[j] && 
+								(nodeFamily = nodes[j]->family()) && 
+								nodeFamily->isA(nodeFamilies[i]))
+							{
+								newTable->value(nodeRoles[i],0) = nodes[j]->fullName();
+								nodeRoles[i] = tr("");
+								nodes[j] = 0;
+								break;
+							}
+									
 				if (oldTable && oldTable != newTable)
 				{
 					oldTables << oldTable;

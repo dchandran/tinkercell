@@ -509,7 +509,7 @@ namespace Tinkercell
 							}
 
 				for (int j=0; j < nodeRoles.size() && j < nodeFamilies.size(); ++j)
-					if (!nodeRoles[j].isEmpty() && isReactant(nodeRoles[j]))
+					if (!nodeRoles[j].isEmpty() && !isReactant(nodeRoles[j]))
 						for (int k=0; k < nodesOut.size(); ++k)
 							if (nodesOut[j] && 
 								(nodeFamily = nodesOut[k]->family()) && 
@@ -522,7 +522,7 @@ namespace Tinkercell
 							}
 
 				for (int i=0; i < nodeRoles.size() && i < nodeFamilies.size(); ++i)
-					if (!nodeRoles[i].isEmpty() && !isReactant(nodeRoles[i]))
+					if (!nodeRoles[i].isEmpty())
 						for (int j=0; j < nodes.size(); ++j)
 							if (nodes[j] && 
 								(nodeFamily = nodes[j]->family()) && 

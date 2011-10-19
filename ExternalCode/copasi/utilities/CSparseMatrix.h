@@ -136,10 +136,10 @@ class CCompressedColumnFormat
     // Iterator
   public:
 #if (defined __GNUC__ && __GNUC__ < 3)
-  class const_row_iterator: public std::forward_iterator< C_FLOAT64, ptrdiff_t >
+  class const_row_iterator: public std::forward_iterator< C_FLOAT64, std::ptrdiff_t >
 #else
   class const_row_iterator:
-          public std::iterator< std::forward_iterator_tag, C_FLOAT64, ptrdiff_t >
+          public std::iterator< std::forward_iterator_tag, C_FLOAT64, std::ptrdiff_t >
 #endif
 
       {

@@ -70,10 +70,10 @@ public:
    * A forward iterator used to traverse the tree.
    */
 #if (defined __GNUC__ && __GNUC__ < 3)
-  class iterator: public std::forward_iterator< _Node, ptrdiff_t >
+  class iterator: public std::forward_iterator< _Node, std::ptrdiff_t >
 #else
   class iterator:
-      public std::iterator< std::forward_iterator_tag, _Node, ptrdiff_t >
+      public std::iterator< std::forward_iterator_tag, _Node, std::ptrdiff_t >
 #endif
 
   {
@@ -155,10 +155,10 @@ public:
    * A const forward iterator used to traverse the tree.
    */
 #if (defined __GNUC__ && __GNUC__ < 3)
-  class const_iterator: public std::forward_iterator< _Node, ptrdiff_t >
+  class const_iterator: public std::forward_iterator< _Node, std::ptrdiff_t >
 #else
   class const_iterator:
-      public std::iterator< std::forward_iterator_tag, _Node, ptrdiff_t >
+      public std::iterator< std::forward_iterator_tag, _Node, std::ptrdiff_t >
 #endif
 
   {

@@ -198,7 +198,7 @@ namespace Tinkercell
 		/*!\brief C API function*/
 		static tc_items _getConnectionsWithRole(long,const char*);
 		
-		bool isReactant(NodeHandle*);
+		bool isReactantOrModifier(NodeHandle*);
 		bool isProduct(NodeHandle*);
 		
 		CatalogWidget * catalogWidget;
@@ -208,6 +208,7 @@ namespace Tinkercell
 		bool pickFamily(bool,bool);
 		QList<QToolButton*> visibleButtons;
 		
+		static bool isReactantOrModifier(const QString&);
 		static bool isReactant(const QString&);
 		
 		static QStringList excludeList;

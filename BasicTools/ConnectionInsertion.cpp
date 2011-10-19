@@ -24,13 +24,18 @@ namespace Tinkercell
 {
 	
 	QStringList ConnectionInsertion::excludeList;
-	
+
 	bool ConnectionInsertion::isReactant(const QString& s)
+	{
+		return (s.toLower().contains(tr("substrate")) || s.toLower().contains(tr("reactant")));
+	}
+
+	bool ConnectionInsertion::isReactantOrModifier(const QString& s)
 	{
 		return !(s.toLower().contains(tr("target")) || s.toLower().contains(tr("product")) || s.toLower().contains(tr("output")) || s.toLower().contains(tr("sink")));
 	}
 	
-	bool ConnectionInsertion::isReactant(NodeHandle * node)
+	bool ConnectionInsertion::isReactantOrModifier(NodeHandle * node)
 	{
 		if (!node || !node->family()) return false;
 		for (int i=0; i < typeIn.size(); ++i)
@@ -61,7 +66,7 @@ namespace Tinkercell
 			QStringList nodeRoles = selectedFamily->participantRoles(),
 						nodeFamilies = selectedFamily->participantTypes();
 			for (int i=0; i < nodeFamilies.size() && i < nodeRoles.size(); ++i)
-				if (isReactant(nodeRoles[i]))
+				if (isReactantOrModifier(nodeRoles[i]))
 				{
 					++numRequiredIn;
 					typeIn << nodeFamilies[i];
@@ -84,7 +89,7 @@ namespace Tinkercell
 					}
 				}
 				for (int j=0; j < nodes.size(); ++j)
-					if (isReactant(nodes[j]) && numRequiredIn > 0)
+					if (isReactantOrModifier(nodes[j]) && numRequiredIn > 0)
 						--numRequiredIn;
 					else
 					if (isProduct(nodes[j]) && numRequiredOut > 0)
@@ -102,7 +107,7 @@ namespace Tinkercell
 				h = NodeHandle::cast(selectedNodes[i]->handle());
 				if (!h) continue;
 				
-				isR = isReactant(h);
+				isR = isReactantOrModifier(h);
 				isP = isProduct(h);
 				
 				if (isR && !isP && i >= numRequiredIn)	
@@ -476,7 +481,7 @@ namespace Tinkercell
 				QStringList nodeRoles = family->participantRoles(),
 							nodeFamilies = family->participantTypes(),
 							nodeNames;
-				
+
 				for (int j=0; j < nodes.size(); ++j)
 					if (nodes[j])
 						nodeNames += nodes[j]->fullName();
@@ -498,39 +503,41 @@ namespace Tinkercell
 				for (int j=0; j < nodeRoles.size() && j < nodeFamilies.size(); ++j)
 					if (!nodeRoles[j].isEmpty() && isReactant(nodeRoles[j]))
 						for (int k=0; k < nodesIn.size(); ++k)
-							if (nodesIn[j] && 
+							if (nodesIn[k] && 
 								(nodeFamily = nodesIn[k]->family()) && 
 								nodeFamily->isA(nodeFamilies[j]))
 							{
 								newTable->value(nodeRoles[j],0) = nodesIn[k]->fullName();
 								nodeRoles[j] = tr("");
+								nodes.removeOne(nodesIn[k]);
 								nodesIn[k] = 0;
 								break;
 							}
 
 				for (int j=0; j < nodeRoles.size() && j < nodeFamilies.size(); ++j)
-					if (!nodeRoles[j].isEmpty() && !isReactant(nodeRoles[j]))
+					if (!nodeRoles[j].isEmpty() && !isReactantOrModifier(nodeRoles[j]))
 						for (int k=0; k < nodesOut.size(); ++k)
-							if (nodesOut[j] && 
+							if (nodesOut[k] && 
 								(nodeFamily = nodesOut[k]->family()) && 
 								nodeFamily->isA(nodeFamilies[j]))
 							{
 								newTable->value(nodeRoles[j],0) = nodesOut[k]->fullName();
 								nodeRoles[j] = tr("");
+								nodes.removeOne(nodesOut[k]);
 								nodesOut[k] = 0;
 								break;
 							}
 
-				for (int i=0; i < nodeRoles.size() && i < nodeFamilies.size(); ++i)
-					if (!nodeRoles[i].isEmpty())
-						for (int j=0; j < nodes.size(); ++j)
-							if (nodes[j] && 
-								(nodeFamily = nodes[j]->family()) && 
-								nodeFamily->isA(nodeFamilies[i]))
+				for (int j=0; j < nodeRoles.size() && j < nodeFamilies.size(); ++j)
+					if (!nodeRoles[j].isEmpty())
+						for (int k=0; k < nodes.size(); ++k)
+							if (nodes[k] && 
+								(nodeFamily = nodes[k]->family()) && 
+								nodeFamily->isA(nodeFamilies[j]))
 							{
-								newTable->value(nodeRoles[i],0) = nodes[j]->fullName();
-								nodeRoles[i] = tr("");
-								nodes[j] = 0;
+								newTable->value(nodeRoles[j],0) = nodes[k]->fullName();
+								nodeRoles[j] = tr("");
+								nodes[k] = 0;
 								break;
 							}
 									

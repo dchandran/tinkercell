@@ -274,6 +274,7 @@ namespace Tinkercell
         DataTable<qreal> result;
 		if (multiplePlotsArea && numClusters > 1 && ClusterPlot::tables.size() > 1)
 		{
+			otherToolBar = 0;
 			QList<QMdiSubWindow *>  list = multiplePlotsArea->subWindowList(QMdiArea::ActivationHistoryOrder);
 			PlotType type;
 			for (int i=0; i < list.size(); ++i)
@@ -381,6 +382,7 @@ namespace Tinkercell
 			for (int i=0; i < list.size(); ++i)
 				if (list[i]->widget())
 				{
+					otherToolBar = 0;
 					PlotWidget * widget = static_cast<PlotWidget*>(list[i]->widget());
 					if (widget && widget->type == type)
 					{
@@ -608,6 +610,7 @@ namespace Tinkercell
 	void PlotTool::plotMultiplot(QSemaphore* s, int x, int y)
 	{
 		numMultiplots = x*y;
+		otherToolBar = 0;
 		QList<QMdiSubWindow *> subWindowList = multiplePlotsArea->subWindowList();
 		for (int i=0; i < subWindowList.size(); ++i)
 			if (subWindowList[i])

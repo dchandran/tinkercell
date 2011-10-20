@@ -805,12 +805,13 @@ namespace Tinkercell
 
 					if (childFamilies.isEmpty())
 						QMessageBox::information(this, tr("Cannot connect to repository"), 
-						tr("One of these is missing: internet or subversion. \n\
-						#ifdef Q_WS_WIN
-							 Try rebooting\n\
+						#ifdef Q_WS_WIN	
+							tr("One of these is missing: internet or subversion. \nTinkerCell uses subversion to download some files the first time it runs.\n\n Try rebooting.")
+						#else
+							 tr("One of these is missing: internet or subversion. \n TinkerCell uses subversion to download some files the first time it runs.")
 						#endif
-							 TinkerCell uses subversion to download some files the first time it runs."));
-				
+							 );
+			
 					for (int i=0; i < childFamilies.size(); ++i)
 					{
 						QString s = childFamilies[i]->name();

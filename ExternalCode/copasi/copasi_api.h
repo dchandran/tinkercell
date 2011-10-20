@@ -99,7 +99,6 @@
 
 #ifndef COPASI_SIMPLE_C_API
 #define COPASI_SIMPLE_C_API
-#define COPASIAPIEXPORT TCAPIEXPORT
 
  /**
   * @file    copasi_api.h
@@ -121,6 +120,7 @@ boost::regex is used for string substitutions.
 */
 
 #include "TC_structs.h"
+#define COPASIAPIEXPORT TCAPIEXPORT
 
 /*!\brief This struct is used to contain a pointer to an instance of a COPASI object*/
 typedef struct  
@@ -149,6 +149,8 @@ typedef struct
 } copasi_compartment;
 
 BEGIN_C_DECLS
+
+void copasi_init();
 
 // -----------------------------------------------------------------------
 /**
@@ -438,6 +440,25 @@ COPASIAPIEXPORT int cSetReactionRate(copasi_reaction reaction, const char * form
   The names of the fluxes are included in the matrix column labels
  \ingroup state
 */
+COPASIAPIEXPORT double cGetReactionRate(copasi_model, const char * name);
+
+/*! 
+ \brief Returns the rates of change given an array of new species concentrations and/or parameter values 
+ \param copasi_model model
+ \param tc_matrix vector of floating concentrations. must have row names
+ \return tc_matrix vector of reaction rates with row names
+ \ingroup reaction
+*/
+COPASIAPIEXPORT tc_matrix cGetReactionRatesEx(copasi_model, tc_matrix values);
+
+/*! 
+ \brief Compute current flux through the given reactions
+ \param copasi_model model
+ \param string reaction name, e.g. "J1"
+ \return double rate. If reaction by this name does not exist that NaN will be returned
+  The names of the fluxes are included in the matrix column labels
+ \ingroup state
+*/
 COPASIAPIEXPORT double cGetFlux(copasi_model, const char * name);
 
 /*! 
@@ -581,7 +602,7 @@ COPASIAPIEXPORT tc_matrix cGetAllSpecies(copasi_model model);
  The names of the species are included in the matrix column labels
  \ingroup state
 */
-COPASIAPIEXPORT tc_matrix cGetFloatingSpecies(copasi_model);
+COPASIAPIEXPORT tc_matrix cGetFloatingSpeciesConcentrations(copasi_model);
 
 /*! 
  \brief Get the current concentrations of all boundary species
@@ -747,6 +768,29 @@ COPASIAPIEXPORT tc_matrix cSimulateHybrid(copasi_model model, double startTime, 
 */
 COPASIAPIEXPORT tc_matrix cSimulateTauLeap(copasi_model model, double startTime, double endTime, int numSteps);
 
+/*! 
+ \brief add a new return value from simulation results. 
+           Use species or reaction names to add a species of reaction
+		   Use species' for derivatives, e.g. A' for derivative of A
+		   Use cc_X_Y for the control coefficient of x on steady state of y
+ \param copasi_model model
+  \param char * name
+ \return tc_matrix matrix of concentration or particles
+ \ingroup simulation
+*/
+COPASIAPIEXPORT void cIncludeInResults(copasi_model model, const char * id);
+
+/*! 
+ \brief remove a return value from simulation results. 
+           Use species or reaction names to add a species of reaction
+		   Use species' for derivatives, e.g. A' for derivative of A
+		   Use cc_X_Y for the control coefficient of x on steady state of y
+ \param copasi_model model
+  \param char * name
+ \return tc_matrix matrix of concentration or particles
+ \ingroup simulation
+*/
+COPASIAPIEXPORT void cExcludeFromResults(copasi_model model, const char * id);
 
 // -----------------------------------------------------------------------
 /** \} */

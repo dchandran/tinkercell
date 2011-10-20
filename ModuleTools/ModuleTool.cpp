@@ -616,7 +616,8 @@ namespace Tinkercell
 			
 			if (s.isEmpty() || s.contains(tr("Custom...")) || !Ontology::connectionFamily(s))
 			{
-				QMessageBox::information(mainWindow, tr("Cannot export"), tr("Sorry, custom model families cannot be added through this interface just yet. An alternative is to edit the Modules.nt in the TinkerCell home folder to add new Module types."));
+				QMessageBox::information(mainWindow, tr("Cannot export"), 
+					tr("Sorry, custom model families cannot be added through this interface just yet. An alternative is to edit the Modules.nt in the TinkerCell home folder to add new Module types."));
 				return;
 			}
 
@@ -633,7 +634,8 @@ namespace Tinkercell
 
 			if (!missingRoles.isEmpty())
 			{
-				QMessageBox::information(mainWindow, tr("Cannot export"), tr("You must have the following components for a module of type ") + s + tr(": \n") + missingRoles.join(", "));
+				QMessageBox::information(mainWindow, tr("Cannot export"), 
+					tr("You must have the following components for a module of type ") + s + tr(": \n") + missingRoles.join(", "));
 				return;
 			}
 			
@@ -678,7 +680,8 @@ namespace Tinkercell
 			}
 			else
 			{
-				QMessageBox::information(mainWindow, tr("Cannot export"), tr("The modules folder seems to be missing in TinkerCell home folder. Try installing Subversion."));
+				QMessageBox::information(mainWindow, tr("Cannot export"), 
+					tr("The modules folder seems to be missing in TinkerCell home folder. Try installing Subversion."));
 			}
 		}
     }
@@ -801,7 +804,12 @@ namespace Tinkercell
 					QList<ItemFamily*> childFamilies = moduleFamily->allChildren();
 
 					if (childFamilies.isEmpty())
-						QMessageBox::information(this, tr("No modules"), tr("Sub-models will not be automatically generated because there are no modules in ") + home + tr("/Modules/modules.nt\nCheck to see if you have subversion correctly installed, which is used to automatically download modules."));
+						QMessageBox::information(this, tr("Cannot connect to repository"), 
+						tr("One of these is missing: internet or subversion. \n\
+						#ifdef Q_WS_WIN
+							 Try rebooting\n\
+						#endif
+							 TinkerCell uses subversion to download some files the first time it runs."));
 				
 					for (int i=0; i < childFamilies.size(); ++i)
 					{

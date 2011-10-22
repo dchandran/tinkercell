@@ -1,6 +1,7 @@
 ﻿HOW TO BUILD TINKERCELL PROJECT FROM SOURCE CODE
+________________
 
-====================================================================
+
 TABLE OF CONTENTS
     
 REQUIRED LIBRARIES & PACKAGES
@@ -8,9 +9,9 @@ BUILDING TINKERCELL
 WIN32 PROBLEMS & SOLUTIONS
 WHAT EACH FOLDER CONTAINS
 
-
-====================================================================
+==================================================================================================
 REQUIRED LIBRARIES & PACKAGES
+==================================================================================================
 
 C and C++ Compiler (see below for recommended compilers)
 CMake (www.cmake.org)
@@ -28,10 +29,10 @@ then you will also need to install Inno Setup and WinSCP. You will also need to 
 these executables in the CMake GUI (details given in step 12 below)
 
 
-UBUNTU NATTY NARWHAL ISSUES:
-Apparently, the following libraries have been moved out of /usr/lib and not found in the library path:
-libSM.* libz.* libICE.* libX11.*
-Copy them from /usr/lib/i386-linux-gnu or /usr/lib/x86_64-linux-gnu into /usr/lib
+UBUNTU 11.+ ISSUES:
+Several libraries have been moved from /urs/lib to  /usr/lib/i386-linux-gnu or /usr/lib/x86_64-linux-gnu (for 32-bit and 64-bit, respectively). If you get link errors, try copying them into /usr/lib. Some of these libraries include libSM, libz, libICE, libX11. However, the latest CMake should include these directories in the list of link directories.
+
+
 
 
 RECOMMENDED C/C++ COMPILERS:
@@ -41,14 +42,13 @@ GCC in Linux
 
 
 
-====================================================================
+==================================================================================================
 BUILDING TINKERCELL
-
+==================================================================================================
 
 1. Install the following libraries or packages: python, subversion, octave (optional)
 In Linux, just use apt-get install libx11-dev python-dev subversion octave octave-headers
-
-
+In Linux, you might also need to install libssl-dev because some versions do not have it by default
 
 
 2. Install cmake, available from www.cmake.org
@@ -157,9 +157,9 @@ export LD_LIBRARY_PATH=<tinkercell folder>:<tinkercell folder>/plugins:<octave l
 <tinkercell folder>/TinkerCell
 15. Run run_tinkercell
 
-====================================================================
+==================================================================================================
 WIN32 PROBLEMS & SOLUTIONS
-
+==================================================================================================
 
 Problem: CMake is not able to find MinGW.
 Solution: Look for a field in the CMake GUI called CMAKE_CXX_COMPILER.
@@ -188,8 +188,10 @@ Solution: TinkerCellCore should build find with VisualStudio, but the TinkerCell
 
 
 
-====================================================================
+==================================================================================================
 WHAT EACH FOLDER CONTAINS
+==================================================================================================
+
 Main: the main executable and qss style file
 
 

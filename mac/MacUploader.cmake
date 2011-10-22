@@ -9,4 +9,11 @@ CONFIGURE_FILE(
   @ONLY
 )
 
+CONFIGURE_FILE( 
+  ${TINKERCELL_SOURCE_DIR}/mac/CreateNodeGraphicsApp.sh.in
+  ${TINKERCELL_BINARY_DIR}/mac/CreateNodeGraphicsApp.sh
+  @ONLY
+)
+
 MESSAGE(STATUS "Source ${TINKERCELL_BINARY_DIR}/mac/CreateApp.sh to build the program, the installer, and upload it to the sourceforge site")
+MESSAGE(STATUS "Source ${TINKERCELL_BINARY_DIR}/mac/CreateNodeGraphicsApp.sh to build the NodeGraphics program")

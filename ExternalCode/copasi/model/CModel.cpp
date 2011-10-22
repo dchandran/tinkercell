@@ -533,7 +533,7 @@ bool CModel::forceCompile(CProcessReport* pProcessReport)
 
 void CModel::buildStoi()
 {
-  unsigned C_INT32 i;
+  unsigned C_INT32 i = 0;
 
   initializeMetabolites();
 

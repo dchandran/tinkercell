@@ -1801,7 +1801,7 @@ const std::map<std::string, const SBase*> CSBMLExporter::createIdMap(const Model
     }
 
   // if COPASI is compiled with layout, we have to add those ids as well
-  /*if ((static_cast<const LayoutModelPlugin*>(sbmlModel.getPlugin("layout")))->getListOfLayouts()->isSetId())
+  if ((static_cast<const LayoutModelPlugin*>(sbmlModel.getPlugin("layout")))->getListOfLayouts()->isSetId())
     {
       idMap.insert(std::pair<const std::string, const SBase*>((static_cast<const LayoutModelPlugin*>(sbmlModel.getPlugin("layout")))->getListOfLayouts()->getId(), (static_cast<const LayoutModelPlugin*>(sbmlModel.getPlugin("layout")))->getListOfLayouts()));
     }
@@ -1819,7 +1819,7 @@ const std::map<std::string, const SBase*> CSBMLExporter::createIdMap(const Model
               idMap.insert(std::pair<const std::string, const SBase*>(pLayout->getId(), pLayout));
             }
         }
-    }*/
+    }
 
   return idMap;
 }
@@ -2680,11 +2680,11 @@ const std::string CSBMLExporter::exportModelToString(CCopasiDataModel& dataModel
   this->mSBMLVersion = sbmlVersion;
   mHandledSBMLObjects.clear();
   createSBMLDocument(dataModel);
-
-  //if (this->mpSBMLDocument && this->mpSBMLDocument->getModel())
-    //dataModel.getListOfLayouts()->exportToSBML((static_cast<LayoutModelPlugin*>(this->mpSBMLDocument->getModel()->getPlugin("layout")))->getListOfLayouts(),
-       // dataModel.getCopasi2SBMLMap(), mIdMap);
-
+/*
+  if (this->mpSBMLDocument && this->mpSBMLDocument->getModel())
+    dataModel.getListOfLayouts()->exportToSBML((static_cast<LayoutModelPlugin*>(this->mpSBMLDocument->getModel()->getPlugin("layout")))->getListOfLayouts(),
+        dataModel.getCopasi2SBMLMap(), mIdMap);
+*/
 #ifdef COPASI_DEBUG
 
   if (this->mpSBMLDocument != NULL)
@@ -2956,13 +2956,13 @@ void CSBMLExporter::createSBMLDocument(CCopasiDataModel& dataModel)
     }
 
   this->outputIncompatibilities();
-
+/*
   // if the model is incompatible with SBML export, throw an exception
   if (!this->mIncompatibilities.empty() && !this->mIncompleteExport)
     {
       CCopasiMessage(CCopasiMessage::EXCEPTION, "Model incompatible with chosen version and/or level of SBML.");
     }
-
+*/
   // delete all temporary function definitions
   // and the function map
   this->mExportedFunctions.clear(true);
@@ -3659,11 +3659,11 @@ void CSBMLExporter::exportEventAssignments(const CEvent& event, Event* pSBMLEven
             {
               this->mIncompatibilities.insert(this->mIncompatibilities.end(), result.begin(), result.end());
 
-              if (!this->mIncompleteExport)
+              /*if (!this->mIncompleteExport)
                 {
                   this->outputIncompatibilities();
                   CCopasiMessage(CCopasiMessage::EXCEPTION, MCSBML + 60, std::string("event assignment for variable with id \"" + sbmlId + "\"").c_str(), "event", event.getObjectName().c_str());
-                }
+                }*/
             }
 
           const CEvaluationNode* pOrigNode = pExpression->getRoot();

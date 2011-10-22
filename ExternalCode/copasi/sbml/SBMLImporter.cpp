@@ -1101,7 +1101,7 @@ CModel* SBMLImporter::createCModelFromSBMLDocument(SBMLDocument* sbmlDocument, s
   setInitialValues(this->mpCopasiModel, copasi2sbmlmap);
   // evaluate and apply the initial expressions
   this->applyStoichiometricExpressions(copasi2sbmlmap, sbmlModel);
-#if LIBSBML_LEVEL >= 40100
+#if LIBSBML_VERSION >= 40100
 
   // now we apply the conversion factors
   if (this->mLevel > 2)
@@ -2685,10 +2685,10 @@ SBMLImporter::parseSBML(const std::string& sbmlDocumentText,
       prLol = new CListOfLayouts("ListOfLayouts", mpDataModel);
       Model* sbmlmodel = pSBMLDocument->getModel();
 
-      /*if (sbmlmodel && prLol)
+      if (sbmlmodel && prLol)
         SBMLDocumentLoader::readListOfLayouts(*prLol,
                                               *((static_cast<const LayoutModelPlugin*>(sbmlmodel->getPlugin("layout")))->getListOfLayouts()),
-                                              copasi2sbmlmap);*/
+                                              copasi2sbmlmap);
     }
   else
     {

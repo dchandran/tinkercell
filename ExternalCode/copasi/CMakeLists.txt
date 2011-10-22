@@ -1,25 +1,6 @@
-#---------------------
-#    OS STUFF
-#---------------------
-IF (WIN32)
-
-   SET(BUILD_OS WIN32)
-
-ELSE(WIN32)	
-	
-	IF (UNIX)
-		IF (APPLE)
-			SET(BUILD_OS MAC)
-		ELSEIF(APPLE)
-			SET(BUILD_OS LINUX)
-		ENDIF(APPLE)
-	ENDIF(UNIX)
-
-ENDIF(WIN32)
-
-#-----------------------------------
-#    INCLUDE DIRECTORIES
-#-----------------------------------
+#------------------------------------------------------------------------------
+#    INCLUDE DIRECTORIES (in addition to those listed in ../CMakeLists.txt)
+#------------------------------------------------------------------------------
 
 INCLUDE_DIRECTORIES( 
 	BEFORE
@@ -36,23 +17,27 @@ INCLUDE_DIRECTORIES(
 	${CMAKE_CURRENT_SOURCE_DIR}/../libstructural/include/
 )
 
-#---------------------
-#    DEFINITIONS
-#---------------------
+#------------------------------------------------------------------------------
+#    DEFINITIONS FOR COPASI 
+#------------------------------------------------------------------------------
 
-#ADD_DEFINITIONS(-DCOPASI_MAIN)
-ADD_DEFINITIONS(-DWITH_CSPMETHOD)
-#ADD_DEFINITIONS(-D__cplusplus)
+#clapack seems to be work better for cross-platform compilation
+#ADD_DEFINITIONS(-DUSE_LAPACK)  
 ADD_DEFINITIONS(-DUSE_CLAPACK)
-#ADD_DEFINITIONS(-DUSE_LAPACK)
+
+#Use the following two definitions to debug copasi
 #ADD_DEFINITIONS(-DCOPASI_DEBUG)
 #ADD_DEFINITIONS(-DDEBUG_MATRIX)
-ADD_DEFINITIONS(-DTC_EXPORTS)
-ADD_DEFINITIONS(-DLIBSBML_EXPORTS)
 
-#------------------------------------------
+ADD_DEFINITIONS(-DWITH_CSPMETHOD)
+ADD_DEFINITIONS(-DTC_EXPORTS) #export tc_matrix and related tc_* functions
+ADD_DEFINITIONS(-DSBW_EXPORTS)
+ADD_DEFINITIONS(-DLIBSBML_EXPORTS)
+ADD_DEFINITIONS(-DENABLE_LAYOUT)
+
+#------------------------------------------------------------------------------
 #  DEFINITIONS FOR WINDOWS
-#------------------------------------------
+#------------------------------------------------------------------------------
 
 IF (WIN32)
 	ADD_DEFINITIONS(-DWIN32)
@@ -60,7 +45,7 @@ IF (WIN32)
 	ADD_DEFINITIONS(-D_WINDOWS)
 	ADD_DEFINITIONS(-D_USRDLL)
 	ADD_DEFINITIONS(-D_EXPORTS)
-	IF (MINGW)
+	IF (MINGW)       #these definitions appear to be missing in the new MinGW
 		ADD_DEFINITIONS(-DCYGWIN)
 		ADD_DEFINITIONS(-D__CYGWIN__)
 		ADD_DEFINITIONS(-DDBL_EPSILON=2.22045e-16)
@@ -68,7 +53,7 @@ IF (WIN32)
 		ADD_DEFINITIONS(-DDBL_MIN_EXP=-999)
 		ADD_DEFINITIONS(-DDBL_MAX=1.79769e+308)
 		IF (USE_STDCALL)
-			ADD_DEFINITIONS(-DUSE_STDCALL)
+			ADD_DEFINITIONS(-DUSE_STDCALL)      #std instead of cdecl
 		 ENDIF(USE_STDCALL)
 	ELSE(MINGW)
 		ADD_DEFINITIONS(-Dstrcasecmp=_stricmp)
@@ -78,9 +63,10 @@ ENDIF (WIN32)
  IF (APPLE)
   	 ADD_DEFINITIONS(-D_APPLE)
 ENDIF(APPLE)
-#--------------------------
+
+#------------------------------------------------------------------------------
 #  COPASI SOURCE FILES
-#--------------------------
+#------------------------------------------------------------------------------
 
 FILE( GLOB copasi_SRC_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/model/*.cpp
@@ -113,24 +99,33 @@ FILE( GLOB copasi_SRC_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/MIRIAM/*.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/MIRIAM/WebServicesIssues/*.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/copasi_api.cpp
-	${TINKERCELL_SOURCE_DIR}/API/TC_structs.c
+	${CMAKE_CURRENT_SOURCE_DIR}/../TC_structs.c
 	${CMAKE_CURRENT_SOURCE_DIR}/mtrand.c
 )
 
 ADD_DEFINITIONS(-DHAVE_EXPAT_CONFIG_H)
 FILE( GLOB  EXPAT_SRC_FILES   ${CMAKE_CURRENT_SOURCE_DIR}/../expat/lib/*.c)
 
-#--------------------------
-#  MAKE libcopasi
-#--------------------------
+#--------------------------------
+#  MAKE LIBRARY libcopasi
+#-------------------------------
 
 ADD_LIBRARY( copasi
-#  STATIC
   SHARED
   ${copasi_SRC_FILES}
   ${EXPAT_SRC_FILES}
 )
 
+ADD_LIBRARY( copasiSBW  #just a variant of the copasi API
+  SHARED
+  copasiSBWApi.cpp
+)
+
+#---------------------------------------------------------------------
+# This section is for resolving complications in Viisual Studio
+#  Visual Studio automatically renames the boost library 
+#  when linking
+#---------------------------------------------------------------------
 IF (WIN32 AND NOT MINGW)
 	SET( boost_library_name libboost_regex-vc100-mt-1_48)
 	IF(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
@@ -139,6 +134,7 @@ IF (WIN32 AND NOT MINGW)
 ELSE (WIN32 AND NOT MINGW)
 	SET( boost_library_name boost_regex)
 ENDIF (WIN32 AND NOT MINGW)
+#----------------------------------------------------------------------
 
 TARGET_LINK_LIBRARIES( copasi
   copasi
@@ -154,6 +150,11 @@ TARGET_LINK_LIBRARIES( copasi
   ${boost_library_name}
 )
 
+TARGET_LINK_LIBRARIES( copasiSBW
+  copasiSBW
+  copasi
+)
+
 #----------------------------------
 #  INSTALL libcopasi in . (CPack)
 #----------------------------------
@@ -163,15 +164,4 @@ INSTALL(TARGETS copasi
 	LIBRARY DESTINATION bin/../
 	ARCHIVE DESTINATION bin/../
 )
-
-#----------------------------------
-#  COPASI api
-#----------------------------------
-
-OPTION( TEST_COPASI_API "test copasi api" ON )
-
-IF (TEST_COPASI_API)
-  ADD_EXECUTABLE(copasi_api_test test_copasi.c)
-  TARGET_LINK_LIBRARIES( copasi_api_test copasi)
-ENDIF (TEST_COPASI_API)
 

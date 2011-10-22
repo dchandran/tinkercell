@@ -913,13 +913,15 @@ namespace Tinkercell
 					SpeciesReference_setConstant( sref, 0 );
 				}
 				else
-				if ((rates[i].contains(regex1) || rates[i].contains(regex2) || rates[i].contains(regex2) || rates[i].contains(regex3)) && !fixedVars.contains(stoicMatrix.rowName(j)))
 				{
-					SpeciesReference_t * sref = Reaction_createModifier(reac);
-					SpeciesReference_setId(sref, ConvertValue(stoicMatrix.columnName(i) + QString("_") + stoicMatrix.rowName(j)));
-					SpeciesReference_setName(sref, ConvertValue(stoicMatrix.rowName(j)));
-					SpeciesReference_setSpecies(sref, ConvertValue(stoicMatrix.rowName(j)));
-					SpeciesReference_setConstant(sref, 0);
+					if ((rates[i].contains(regex1) || rates[i].contains(regex2) || rates[i].contains(regex3) || rates[i].contains(regex4)))
+					{
+						SpeciesReference_t * sref = Reaction_createModifier(reac);
+						SpeciesReference_setId(sref, ConvertValue(stoicMatrix.columnName(i) + QString("_") + stoicMatrix.rowName(j)));
+						SpeciesReference_setName(sref, ConvertValue(stoicMatrix.rowName(j)));
+						SpeciesReference_setSpecies(sref, ConvertValue(stoicMatrix.rowName(j)));
+						SpeciesReference_setConstant(sref, 0);
+					}
 				}
 			}
 		}

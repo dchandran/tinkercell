@@ -280,7 +280,7 @@ void populate_hash(copasi_model model)
 				"",
 				true};
 
-			hashInsert(hash,   compartments[i]->getObjectName(),		copasiPtr );
+			hashInsert(hash,   reacs[i]->getObjectName(),		copasiPtr );
 		}
 
 	for (int i=0; i < params.size(); ++i)

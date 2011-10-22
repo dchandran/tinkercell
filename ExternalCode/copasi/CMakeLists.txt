@@ -116,11 +116,6 @@ ADD_LIBRARY( copasi
   ${EXPAT_SRC_FILES}
 )
 
-ADD_LIBRARY( copasiSBW  #just a variant of the copasi API
-  SHARED
-  copasiSBWApi.cpp
-)
-
 #---------------------------------------------------------------------
 # This section is for resolving complications in Viisual Studio
 #  Visual Studio automatically renames the boost library 
@@ -148,11 +143,6 @@ TARGET_LINK_LIBRARIES( copasi
   structural
   muparser
   ${boost_library_name}
-)
-
-TARGET_LINK_LIBRARIES( copasiSBW
-  copasiSBW
-  copasi
 )
 
 #----------------------------------

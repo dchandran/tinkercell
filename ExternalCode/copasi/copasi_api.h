@@ -179,6 +179,15 @@ COPASIAPIEXPORT void cRemoveModel(copasi_model);
 /** \{ */
 
 /*! 
+ \brief Set the expected version and level of SBML files and strings; default is 2.4
+ \param int level
+ \param in version
+ \ingroup loadsave
+*/
+COPASIAPIEXPORT void cSetSBMLLevelAndVersion(int level, int version);
+
+
+/*! 
  \brief Create a model from an Antimony, see antimony.sf.net for details of Antimony syntax
  \param char* file name
  \return copasi_model Copasi model of the Antimony file
@@ -671,7 +680,15 @@ COPASIAPIEXPORT int cSetValue(copasi_model, const char * name, double value);
 COPASIAPIEXPORT int cSetGlobalParameter(copasi_model model, const char * name, double value);
 
 /*! 
- \brief Get the list of global parameter names
+ \brief Get the number of of global parameter names
+ \param copasi_model model 
+ \return int
+ \ingroup parameter
+*/
+COPASIAPIEXPORT int cGetNumberOfGlobalParameters (copasi_model);
+
+/*! 
+ \brief Get the list of global parameter names and values
  \param copasi_model model 
  \return tc_matrix column vector with parameter names are the row names
  \ingroup parameter
@@ -684,7 +701,7 @@ COPASIAPIEXPORT tc_matrix cGetGlobalParameters (copasi_model);
  \paramn tc_matrix column vector containing the values for the global parameters.
  \ingroup parameter
 */
-COPASIAPIEXPORT void cSetGlobalParameterValues (copasi_model, tc_matrix gp);
+COPASIAPIEXPORT void cSetGlobalParameterValues(copasi_model, tc_matrix gp);
 
 /*! 
  \brief Set values for species, parameters, or compartments
@@ -692,7 +709,7 @@ COPASIAPIEXPORT void cSetGlobalParameterValues (copasi_model, tc_matrix gp);
  \param tc_matrix column vector with names and values of species or parameters or compartments
  \ingroup floating
 */
-COPASIAPIEXPORT void cSetValues (copasi_model model, tc_matrix );
+COPASIAPIEXPORT void cSetValues(copasi_model model, tc_matrix );
 
 
 // -----------------------------------------------------------------------
@@ -709,6 +726,15 @@ COPASIAPIEXPORT void cSetValues (copasi_model model, tc_matrix );
  \ingroup rateOfChange
 */
 COPASIAPIEXPORT tc_matrix cGetRatesOfChange(copasi_model);
+
+/*! 
+ \brief Compute the rates of change for all species after updating species concentrations
+ \param copasi_model model
+ \param tc_matrix new species concentrations
+ \return tc_matrix matrix of with 1 row and n columns, where n = number of species
+ \ingroup rateOfChange
+*/
+COPASIAPIEXPORT tc_matrix cGetRatesOfChangeEx(copasi_model, tc_matrix);
 
 /*! 
  \brief Simulate using LSODA numerical integrator
@@ -768,29 +794,57 @@ COPASIAPIEXPORT tc_matrix cSimulateHybrid(copasi_model model, double startTime, 
 */
 COPASIAPIEXPORT tc_matrix cSimulateTauLeap(copasi_model model, double startTime, double endTime, int numSteps);
 
-/*! 
- \brief add a new return value from simulation results. 
-           Use species or reaction names to add a species of reaction
-		   Use species' for derivatives, e.g. A' for derivative of A
-		   Use cc_X_Y for the control coefficient of x on steady state of y
- \param copasi_model model
-  \param char * name
- \return tc_matrix matrix of concentration or particles
- \ingroup simulation
-*/
-COPASIAPIEXPORT void cIncludeInResults(copasi_model model, const char * id);
+
+// -----------------------------------------------------------------------
+/** \} */
+/**
+  * @name Create filters for time-course data
+  */
+/** \{ */
 
 /*! 
- \brief remove a return value from simulation results. 
-           Use species or reaction names to add a species of reaction
-		   Use species' for derivatives, e.g. A' for derivative of A
-		   Use cc_X_Y for the control coefficient of x on steady state of y
+ \brief Compute all the reaction rates, or flux, for each row of a time course data
  \param copasi_model model
-  \param char * name
- \return tc_matrix matrix of concentration or particles
+  \param tc_matrix original results with species as column names
+ \return tc_matrix 
  \ingroup simulation
 */
-COPASIAPIEXPORT void cExcludeFromResults(copasi_model model, const char * id);
+COPASIAPIEXPORT tc_matrix cGetReactionRatesFromTimeCourse(copasi_model model, tc_matrix results);
+
+/*! 
+ \brief Compute the given formula for each row of a time course data. 
+ 		    The formula must only contain the following as variable names: species, parameters, compartments, reaction 
+ \param copasi_model model
+  \param tc_matrix original results with species as column names
+  \param string formula
+ \return tc_matrix 
+ \ingroup simulation
+*/
+COPASIAPIEXPORT tc_matrix cGetCustomFormulaFromTimeCourse(copasi_model model, tc_matrix results, const char * formula);
+
+/*! 
+ \brief Get all the control coefficients for each row of a time course data
+ \param copasi_model model
+  \param tc_matrix original results with species as column names
+ \return tc_matrix 
+ \ingroup simulation
+*/
+COPASIAPIEXPORT tc_matrix cGetCCFromTimeCourse(copasi_model model, tc_matrix results);
+
+/*! 
+ \brief Filter the results of a time-course simulation based on the list of names provided. -- NOT IMPLEMENTED
+ 		   The list of names can consist of species names, reaction names, control coefficients, or derivatives.
+           Use species or reaction names to add a species of reaction
+		   Use species' for derivatives, e.g. A' for derivative of A
+		   Use cc_x_y for the control coefficient of x on y
+ \param copasi_model model
+  \param tc_matrix original results with species as column names
+  \param tc_strings array of names to return 
+ \return tc_matrix 
+ \ingroup simulation
+*/
+COPASIAPIEXPORT tc_matrix cFilterTimeCourseResults(copasi_model model, tc_matrix results, tc_strings names);
+
 
 // -----------------------------------------------------------------------
 /** \} */

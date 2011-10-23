@@ -23,7 +23,7 @@ SimulationThread::~SimulationThread()
 void SimulationThread::updateModelParameters(DataTable<qreal> params)
 {
 	for (int i=0; i < params.rows(); ++i)
-		cSetValue(model, params.rowName(i).toUtf8().data(), params.at(i,0));
+		cSetValue(model, params.rowName(i).toAscii().data(), params.at(i,0));
 }
 
 void SimulationThread::updateModelParametersAndRerun(DataTable<qreal> params)
@@ -50,7 +50,7 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles)
 	model.qHash = 0;
 	++totalModelCount;
 	QString modelName = tr("tinkercell") + QString::number(totalModelCount);
-	model = cCreateModel(modelName.toUtf8().data());
+	model = cCreateModel(modelName.toAscii().data());
 
 	DataTable<qreal> params = BasicInformationTool::getUsedParameters(0, handles);
 	for (int i=0; i < params.rows(); ++i)
@@ -236,15 +236,15 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles)
 		}
 		else
 		{
-			c = cCreateCompartment(model, speciesCompartments[i].toUtf8().data(), compartmentVolumes[i]);
+			c = cCreateCompartment(model, speciesCompartments[i].toAscii().data(), compartmentVolumes[i]);
 			compartmentHash[ speciesCompartments[i] ] = c;
 			commands += speciesCompartments[i] + tr(" = cCreateCompartment(model,\"") + speciesCompartments[i] + tr("\",") + QString::number(compartmentVolumes[i]) + tr(");\n");
 		}
-		cCreateSpecies(c, species[i].toUtf8().data(), initialValues[i]);
+		cCreateSpecies(c, species[i].toAscii().data(), initialValues[i]);
 		commands += tr("cCreateSpecies(") + speciesCompartments[i] + tr(",\"") + species[i] + tr("\",") + QString::number(initialValues[i]) + tr(");\n");
 		if (fixedVars.contains(species[i]))
 		{
-			cSetSpeciesType(model, species[i].toUtf8().data(), 1);
+			cSetSpeciesType(model, species[i].toAscii().data(), 1);
 			commands += tr("cSetSpeciesType(model, \"") + species[i] + tr("\",1);\n");
 		}
 	}
@@ -252,22 +252,22 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles)
 	//create list of parameters
 	for (int i=0; i < params.rows(); ++i)
 	{
-		cSetGlobalParameter(model, params.rowName(i).toUtf8().data(), params.value(i,0));
+		cSetGlobalParameter(model, params.rowName(i).toAscii().data(), params.value(i,0));
 		commands += tr("cSetGlobalParameter(model,\"") + params.rowName(i) + tr("\",") + QString::number(params.value(i,0)) + tr(");\n");
 	}
 
 	//list of assignments
 	for (int i=0; i < assignmentNames.size(); ++i)
 	{
-		cSetAssignmentRule(model, assignmentNames[i].toUtf8().data(), assignmentDefs[i].toUtf8().data());
+		cSetAssignmentRule(model, assignmentNames[i].toAscii().data(), assignmentDefs[i].toAscii().data());
 		commands += tr("cSetAssignmentRule(model, \"") + assignmentNames[i] + tr("\",\"") + assignmentDefs[i] + tr("\");\n");
 	}
 
 	//create list of reactions
 	for (int i=0; i < stoic_matrix.columns(); ++i)
 	{
-		copasi_reaction reac = cCreateReaction(model, stoic_matrix.columnName(i).toUtf8().data());
-		cSetReactionRate(reac, rates[i].toUtf8().data());
+		copasi_reaction reac = cCreateReaction(model, stoic_matrix.columnName(i).toAscii().data());
+		cSetReactionRate(reac, rates[i].toAscii().data());
 		
 		commands += tr("r") + QString::number(i) + tr(" = cCreateReaction(model, \"") + stoic_matrix.columnName(i) + tr("\");\n");
 		commands += tr("cSetReactionRate(") + tr("r") + QString::number(i) + tr(",\"") + rates[i] + tr("\");\n");
@@ -275,13 +275,13 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles)
 		for (int j=0; j < stoic_matrix.rows(); ++j)
 			if (stoic_matrix.value(j,i) < 0)
 			{
-				cAddReactant(reac, stoic_matrix.rowName(j).toUtf8().data(), -stoic_matrix.value(j,i));
+				cAddReactant(reac, stoic_matrix.rowName(j).toAscii().data(), -stoic_matrix.value(j,i));
 				commands += tr("cAddReactant(") + tr("r") + QString::number(i) + tr(",\"") + stoic_matrix.rowName(j) + tr("\",") + QString::number(-stoic_matrix.value(j,i)) + tr(");\n");
 			}
 			else
 			if (stoic_matrix.value(j,i) > 0)
 			{
-				cAddProduct(reac, stoic_matrix.rowName(j).toUtf8().data(), stoic_matrix.value(j,i));
+				cAddProduct(reac, stoic_matrix.rowName(j).toAscii().data(), stoic_matrix.value(j,i));
 				commands += tr("cAddProduct(") + tr("r") + QString::number(i) + tr(",\"") + stoic_matrix.rowName(j) + tr("\",") + QString::number(stoic_matrix.value(j,i)) + tr(");\n");
 			}
 	}
@@ -295,7 +295,7 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles)
 			QStringList words = actions[j].split("=");
 			if (words.size() == 2)
 			{
-				cCreateEvent(model, (QString("event") + QString::number(i)).toUtf8().data(), eventTriggers[i].toUtf8().data(), words[0].trimmed().toUtf8().data(), words[1].trimmed().toUtf8().data());
+				cCreateEvent(model, (QString("event") + QString::number(i)).toAscii().data(), eventTriggers[i].toAscii().data(), words[0].trimmed().toAscii().data(), words[1].trimmed().toAscii().data());
 				commands += tr("cCreateEvent(model,") + (QString("event") + QString::number(i)) + tr(", ") + eventTriggers[i] + tr(",") + words[0].trimmed() + tr(",") + words[1].trimmed() + tr(");\n");
 			}
 		}
@@ -303,7 +303,7 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles)
 
 	cCompileModel(model);
 
-	fout.write(commands.toUtf8());
+	fout.write(commands.toAscii());
 	fout.close();
 }
 
@@ -479,14 +479,14 @@ void SimulationThread::run()
 				{
 					//showProgress( title, (int)(100 * i)/n  );
 					p = start + (double)(i)*step;
-					cSetValue(model, param.toUtf8().data(), p);
+					cSetValue(model, param.toAscii().data(), p);
 					ss = cGetSteadyState(model);
 
 					if (i == 0)
 					{
 						tc_deleteMatrix(resultMatrix);
 						resultMatrix = tc_createMatrix(n, ss.rows+1);
-						tc_setColumnName(resultMatrix, 0, param.toUtf8().data());
+						tc_setColumnName(resultMatrix, 0, param.toAscii().data());
 						for (j=0; j < ss.rows; ++j)
 							tc_setColumnName(resultMatrix, j+1, tc_getRowName(ss, j));
 					}
@@ -530,17 +530,17 @@ void SimulationThread::run()
 					{
 						p2 = start2 + (double)(j)*step2;
 
-						cSetValue(model, param1.toUtf8().data(), p1);
-						cSetValue(model, param2.toUtf8().data(), p2);
+						cSetValue(model, param1.toAscii().data(), p1);
+						cSetValue(model, param2.toAscii().data(), p2);
 						ss = cGetSteadyState(model);
 
 						if (l == -1)
 						{
 							tc_deleteMatrix(resultMatrix);
 							resultMatrix = tc_createMatrix(n1*n2, 3);
-							tc_setColumnName(resultMatrix, 0, param1.toUtf8().data());
-							tc_setColumnName(resultMatrix, 1, param2.toUtf8().data());
-							tc_setColumnName(resultMatrix, 2, param3.toUtf8().data());
+							tc_setColumnName(resultMatrix, 0, param1.toAscii().data());
+							tc_setColumnName(resultMatrix, 1, param2.toAscii().data());
+							tc_setColumnName(resultMatrix, 2, param3.toAscii().data());
 							
 							for (k=0; k < ss.rows; ++k)
 								if (QString(tc_getRowName(ss, k)) == param3)

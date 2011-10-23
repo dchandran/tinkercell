@@ -702,17 +702,10 @@ void cSetSpeciesType(copasi_model model, const char * name, int isBoundary)
 	if (contains(hash,s) && 
 		(pSpecies = getHashValue(hash,s).species))
 	{
-		double iv = pSpecies->getInitialConcentration();
-
 		if (isBoundary)
 			pSpecies->setStatus(CModelEntity::FIXED);
 		else
 			pSpecies->setStatus(CModelEntity::REACTIONS);
-		
-		pSpecies->setConcentration(iv);
-		pSpecies->setValue(iv);
-		pSpecies->setInitialValue(iv);
-		pSpecies->setInitialConcentration(iv);
 	}
 }
 

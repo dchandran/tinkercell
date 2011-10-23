@@ -352,7 +352,7 @@ namespace Tinkercell
 			if (!items.isEmpty())
 			{
 				GraphicsScene * newScene = window->newScene();
-				newScene->insert(tr("new model"),items);
+				newScene->insert(tr("new model"),items,GraphicsScene::LOADED);
 				QPixmap printer(WINDOW_WIDTH, WINDOW_WIDTH);
 				printer.fill();
 				newScene->print(&printer);

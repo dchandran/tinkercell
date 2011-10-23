@@ -6,6 +6,7 @@ make
 #run in the bin folder
 CURPATH=@TINKERCELL_BINARY_BIN_DIR@
 cd @TINKERCELL_BINARY_BIN_DIR@
+cp ../*.dylib .
 
 #library files
 LIBFILES='*.dylib'

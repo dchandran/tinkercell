@@ -143,7 +143,7 @@ IF (WIN32)
 ELSE(WIN32)
 	IF (APPLE)
 		SET(CREATE_TINKERCELL "source mac/CreateApp.sh")
-		SET(CREATE_TINKERCELL "source mac/CreateNodeGraphicsApp.sh")
+		SET(CREATE_NODEGRAPHICS "source mac/CreateNodeGraphicsApp.sh")
 	ELSE(APPLE)
 		SET(CREATE_TINKERCELL "source linux/CreatePackage.sh")
 	ENDIF(APPLE)
@@ -154,3 +154,4 @@ ELSE(WIN32)
 ENDIF(WIN32)
 
 ENDIF( QT4_FOUND AND QT_VERSION_MINOR GREATER 5)
+

@@ -6,10 +6,10 @@ make
 #run in the bin folder
 CURPATH=@TINKERCELL_BINARY_BIN_DIR@
 cd @TINKERCELL_BINARY_BIN_DIR@
-cp ../*.dylib .
 
 #library files
-LIBFILES='*.dylib'
+LIBFILES='@TINKERCELL_BINARY_BIN_DIR@/bin/*.dylib
+@TINKERCELL_BINARY_BIN_DIR@/*.dylib'
 PLUGINFILES='plugins/*.dylib'
 CPLUGINFILES='plugins/c/*.dylib python/*.dylib octave/*.oct'
 

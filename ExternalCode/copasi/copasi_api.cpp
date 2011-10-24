@@ -83,11 +83,11 @@ using namespace std;
 
 //using macro instead of this variable (as in original copasi code) causes some issues in visual studio
 unsigned C_INT32 C_INVALID_INDEX = std::numeric_limits< unsigned C_INT32 >::max();
-#ifdef _WIN32
+//#ifdef _WIN32
     static double NaN = std::numeric_limits<double>::quiet_NaN(); 
-#else
-	static double NaN = 0.0/0.0;
-#endif
+//#else
+	//static double NaN = 0.0/0.0;
+//#endif
 
 //this "wrapper" struct is used to store pointer to 
 //either a compartment, species, reaction, or parameter

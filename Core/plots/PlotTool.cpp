@@ -803,7 +803,7 @@ namespace Tinkercell
 			if (type.toLower() == tr("save graph"))
 				fileName = QFileDialog::getSaveFileName(this, tr("Print to File"),
                                           MainWindow::previousFileName,
-                                          tr("PDF Files (*.pdf)"));
+                                          tr("PDF Files (*.pdf);; All Files (*.*)"));
 
 			plotWidget->exportData(type,fileName);
 		}

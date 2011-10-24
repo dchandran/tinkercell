@@ -8,7 +8,7 @@ CURPATH=@TINKERCELL_BINARY_BIN_DIR@
 cd @TINKERCELL_BINARY_BIN_DIR@
 
 #library files
-LIBFILES='@TINKERCELL_BINARY_BIN_DIR@/bin/*.dylib'
+LIBFILES='@TINKERCELL_BINARY_BIN_DIR@/*.dylib'
 PLUGINFILES='plugins/*.dylib'
 CPLUGINFILES='plugins/c/*.dylib python/*.dylib octave/*.oct'
 

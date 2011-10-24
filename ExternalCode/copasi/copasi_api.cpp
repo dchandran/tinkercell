@@ -3483,7 +3483,7 @@ tc_matrix cGetFloatingSpeciesIntitialConcentrations (copasi_model model)
 			(species[i]->getStatus() == CModelEntity::ODE || species[i]->getStatus() == CModelEntity::REACTIONS))
 			++n;
 
-	tc_matrix res  = tc_createMatrix(n,1);
+	tc_matrix res  = efficiently_createMatrix(n,1);
 
 	for (int i=0, j=0; i < species.size(); ++i)
 		if (species[i] && 

@@ -1605,22 +1605,24 @@ tc_matrix cGetSteadyStateUsingSimulation(copasi_model model, int maxiter)
     double err = 2.0, eps = 0.01, time = 10.0;
 
    	CCopasiVectorN< CCopasiTask > & TaskList = * pDataModel->getTaskList();
+	CTrajectoryTask* pTask = dynamic_cast<CTrajectoryTask*>(TaskList["Time-Course"]);
+	// if there isn’t one
+	if (pTask == NULL)
+	{
+		pTask = new CTrajectoryTask();
+		TaskList.remove("Time-Course");
+		TaskList.add(pTask, true);
+	}
+
+	if (pTask)
+		pTask->setUpdateModel(true);
 
     while (iter < maxiter && err > eps)
     {
         ++iter;
         time *= 2.0;
 
-	    CTrajectoryTask* pTask = dynamic_cast<CTrajectoryTask*>(TaskList["Time-Course"]);
-	    // if there isn’t one
-	    if (pTask == NULL)
-	    {
-		    pTask = new CTrajectoryTask();
-		    TaskList.remove("Time-Course");
-		    TaskList.add(pTask, true);
-	    }
-	
-    	CCopasiMessage::clearDeque();
+	   CCopasiMessage::clearDeque();
 
 	    if (pTask && pTask->setMethodType(CCopasiMethod::deterministic))
 	    {
@@ -1635,7 +1637,7 @@ tc_matrix cGetSteadyStateUsingSimulation(copasi_model model, int maxiter)
 		    {
 			    pTask->initialize(CCopasiTask::ONLY_TIME_SERIES, pDataModel, NULL);
 			    pTask->process(true);
-                //pTask->restore();
+                pTask->restore();
 		    }
 		    catch(...)
 		    {
@@ -1719,13 +1721,14 @@ tc_matrix cGetSteadyState(copasi_model model)
 		pProblem->setModel(pModel);
 		pTrajTask->setScheduled(true);
 		pProblem->setStepNumber(10);
-		pProblem->setDuration(10.0);
+		pProblem->setDuration(100.0);
 		pDataModel->getModel()->setInitialTime(0.0);
 		pProblem->setTimeSeriesRequested(true);
 		try
 		{
 			pTrajTask->initialize(CCopasiTask::ONLY_TIME_SERIES, pDataModel, NULL);
 			pTrajTask->process(true);
+			pTrajTask->restore();
 		}
 		catch(...)
 		{
@@ -1745,8 +1748,10 @@ tc_matrix cGetSteadyState(copasi_model model)
 	
 	try
 	{
+		pTask->setUpdateModel(true);
 		pTask->initialize(CCopasiTask::OUTPUT, pDataModel, NULL);
 		pTask->process(true);
+		pTask->restore();
 	}
 	catch (...)
 	{
@@ -1754,66 +1759,9 @@ tc_matrix cGetSteadyState(copasi_model model)
 		return tc_createMatrix(0,0);
 	}
 
-	pTrajTask = dynamic_cast<CTrajectoryTask*>(TaskList["Time-Course"]);
-	// if there isn’t one
-	if (pTrajTask == NULL)
-	{
-		pTrajTask = new CTrajectoryTask();
-		TaskList.remove("Time-Course");
-		TaskList.add(pTrajTask, true);
-	}
-	
 	CCopasiMessage::clearDeque();
 	
-	if (pTrajTask && pTrajTask->setMethodType(CCopasiMethod::deterministic))
-	{
-		//set the start and end time, number of steps, and save output in memory
-		CTrajectoryProblem* pProblem=(CTrajectoryProblem*)pTrajTask->getProblem();
-		pProblem->setModel(pModel);
-		pTrajTask->setScheduled(true);
-		pProblem->setStepNumber(10);
-		pProblem->setDuration(10.0);
-		pDataModel->getModel()->setInitialTime(0.0);
-		pProblem->setTimeSeriesRequested(true);
-		try
-		{
-			pTrajTask->initialize(CCopasiTask::ONLY_TIME_SERIES, pDataModel, NULL);
-			pTrajTask->process(true);
-			//pTrajTask->restore();
-		}
-		catch(...)
-		{
-			cerr << CCopasiMessage::getAllMessageText(true);
-			pTrajTask = NULL;
-		}
-	}
-	
-	if (pTrajTask)
-	{
-		const CTimeSeries & timeSeries = pTrajTask->getTimeSeries();
-		int rows = (pModel->getNumMetabs());
-		int i,j,k;
-
-		tc_matrix output = efficiently_createMatrix(rows, 1);
-
-		list<string> rownames;
-		for (i=0; i < rows; ++i)
-        	rownames.push_back( timeSeries.getTitle(i+1) );
-		rownames.sort();
-		j = timeSeries.getRecordedSteps() - 1;	
-
-		list<string>::iterator it=rownames.begin();
-        for (i=0; i < rows && it != rownames.end(); ++i, it++)
-        {
-			k = indexOf(rownames ,  timeSeries.getTitle(i+1) );
-    		tc_setRowName( output, i, (*it).c_str() );
-            tc_setMatrixValue( output, k, 0, timeSeries.getConcentrationData(j,i+1) );
-        }
-
-		return output;
-	}
-
-	return cGetSteadyStateUsingSimulation(model,10);
+	return cGetFloatingSpeciesConcentrations(model);
 }
 
 tc_matrix cGetEigenvalues(copasi_model model)
@@ -3535,7 +3483,7 @@ tc_matrix cGetFloatingSpeciesIntitialConcentrations (copasi_model model)
 			(species[i]->getStatus() == CModelEntity::ODE || species[i]->getStatus() == CModelEntity::REACTIONS))
 			++n;
 
-	tc_matrix res  = efficiently_createMatrix(n,1);
+	tc_matrix res  = tc_createMatrix(n,1);
 
 	for (int i=0, j=0; i < species.size(); ++i)
 		if (species[i] && 

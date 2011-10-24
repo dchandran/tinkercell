@@ -156,3 +156,6 @@ INSTALL(TARGETS copasi
 	ARCHIVE DESTINATION bin/../
 )
 
+add_executable(test_copasi test_copasi.c)
+target_link_libraries(test_copasi copasi)
+

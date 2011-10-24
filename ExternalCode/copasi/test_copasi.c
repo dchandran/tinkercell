@@ -6,7 +6,7 @@ copasi_model model();
 
 int main()
 {
-	tc_matrix efm, output, params;
+	tc_matrix efm, output, params, iv;
 	copasi_model m;
 	
 	printf("creating model...\n");
@@ -15,6 +15,8 @@ int main()
     
 	printf("simulating...\n");	
 	output = cSimulateDeterministic(m, 0, 20, 100);  //model, start, end, num. points
+	iv = cGetFloatingSpeciesIntitialConcentrations(m);
+	tc_printMatrixToFile("iv.txt",iv);
 	printf("output.tab has %i rows and %i columns\n",output.rows, output.cols);
 	tc_printMatrixToFile("output.tab", output);
 	tc_deleteMatrix(output);

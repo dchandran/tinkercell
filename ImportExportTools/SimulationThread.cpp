@@ -481,7 +481,7 @@ void SimulationThread::run()
 					p = start + (double)(i)*step;
 					cSetValue(model, param.toAscii().data(), p);
 					ss = cGetSteadyState(model);
-
+					//ss = cGetSteadyStateUsingSimulation(model, 10);
 					if (i == 0)
 					{
 						tc_deleteMatrix(resultMatrix);
@@ -533,7 +533,7 @@ void SimulationThread::run()
 						cSetValue(model, param1.toAscii().data(), p1);
 						cSetValue(model, param2.toAscii().data(), p2);
 						ss = cGetSteadyState(model);
-
+						//ss = cGetSteadyStateUsingSimulation(model, 10);
 						if (l == -1)
 						{
 							tc_deleteMatrix(resultMatrix);

@@ -23,7 +23,7 @@ INCLUDE_DIRECTORIES( BEFORE
 
 #  All of these are third-party libraries
 
-SET (LIBRARY_OUTPUT_PATH ${TINKERCELL_BINARY_DIR})
+SET (LIBRARY_OUTPUT_PATH ${EXECUTABLE_OUTPUT_PATH})
 
 OPTION( BUILD_LAPACK "check this if your system does not have lapack library" ON )
 #OPTION( BUILD_SBWCORE "systems biology workbench core" OFF )

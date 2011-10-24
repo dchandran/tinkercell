@@ -8,8 +8,7 @@ CURPATH=@TINKERCELL_BINARY_BIN_DIR@
 cd @TINKERCELL_BINARY_BIN_DIR@
 
 #library files
-LIBFILES='@TINKERCELL_BINARY_BIN_DIR@/bin/*.dylib
-@TINKERCELL_BINARY_BIN_DIR@/*.dylib'
+LIBFILES='@TINKERCELL_BINARY_BIN_DIR@/bin/*.dylib'
 PLUGINFILES='plugins/*.dylib'
 CPLUGINFILES='plugins/c/*.dylib python/*.dylib octave/*.oct'
 
@@ -21,7 +20,6 @@ QTOPENGL=@QT_QTOPENGL@
 
 #copy QT framework
 @QT_LIBRARY_DIR@/../bin/macdeployqt @TINKERCELL_EXE@.app
-@QT_LIBRARY_DIR@/../bin/macdeployqt NodeGraphics.app
 
 #copy supporting files
 cp -R @TINKERCELL_SOURCE_DIR@/plugins @TINKERCELL_EXE@.app/Contents/MacOS/
@@ -35,7 +33,6 @@ cp @TINKERCELL_BINARY_BIN_DIR@/plugins/c/*.a @TINKERCELL_EXE@.app/Contents/MacOS
 cp @TINKERCELL_BINARY_BIN_DIR@/plugins/*.a @TINKERCELL_EXE@.app/Contents/MacOS/lib/
 cp @TINKERCELL_BINARY_BIN_DIR@/*.a @TINKERCELL_EXE@.app/Contents/MacOS/lib/
 cp @TINKERCELL_BINARY_BIN_DIR@/*.dylib @TINKERCELL_EXE@.app/Contents/Frameworks/
-cp @TINKERCELL_BINARY_BIN_DIR@/*.dylib NodeGraphics.app/Contents/Frameworks/
 cp -R @TINKERCELL_SOURCE_DIR@/Graphics @TINKERCELL_EXE@.app/Contents/MacOS/
 cp @TINKERCELL_SOURCE_DIR@/NodesTree/*.nt @TINKERCELL_EXE@.app/Contents/MacOS/
 cp @TINKERCELL_SOURCE_DIR@/NodesTree/*.txt @TINKERCELL_EXE@.app/Contents/MacOS/
@@ -49,26 +46,20 @@ cp -R @TINKERCELL_HOME_DIR@/octave/*.* @TINKERCELL_EXE@.app/Contents/MacOS/octav
 cp -R @TINKERCELL_HOME_DIR@/python/ @TINKERCELL_EXE@.app/Contents/MacOS/python/
 cp -R @TINKERCELL_HOME_DIR@/plugins/ @TINKERCELL_EXE@.app/Contents/MacOS/plugins/
 
-#name change for all libraries used in @TINKERCELL_EXE@.app and NodeGraphics.app
+#name change for all libraries used in @TINKERCELL_EXE@.app
 
 for f in $LIBFILES
 do
   echo "Processing $f"
   
   cp $f @TINKERCELL_EXE@.app/Contents/Frameworks/
-  
-  cp $f NodeGraphics.app/Contents/Frameworks/
-  
+
   for f2 in $LIBFILES
   do
     install_name_tool \
           -change $CURPATH/$f2 \
           @executable_path/../Frameworks/$f2 \
           @TINKERCELL_EXE@.app/Contents/Frameworks/$f
-    install_name_tool \
-          -change $CURPATH/$f2 \
-          @executable_path/../Frameworks/$f2 \
-          NodeGraphics.app/Contents/Frameworks/$f
   done
   
   install_name_tool \
@@ -79,11 +70,6 @@ do
         -change $CURPATH/$f \
          @executable_path/../Frameworks/$f \
          @TINKERCELL_EXE@.app/Contents/MacOS/@TINKERCELL_EXE@
-
-  install_name_tool \
-         -change $CURPATH/$f \
-         @executable_path/../Frameworks/$f \
-         NodeGraphics.app/Contents/MacOS/NodeGraphics
 
   install_name_tool \
           -change @QT_QTCORE_LIBRARY_RELEASE@/$QTCORE \
@@ -104,21 +90,6 @@ do
           -change @QT_QTOPENGL_LIBRARY_RELEASE@/$QTOPENGL \
           @executable_path/../Frameworks/QtOpenGL.framework/$QTOPENGL \
           @TINKERCELL_EXE@.app/Contents/Frameworks/$f
-          
-  install_name_tool \
-          -change @QT_QTCORE_LIBRARY_RELEASE@/$QTCORE \
-          @executable_path/../Frameworks/QtCore.framework/$QTCORE \
-          NodeGraphics.app/Contents/Frameworks/$f
-
-  install_name_tool \
-          -change @QT_QTGUI_LIBRARY_RELEASE@/$QTGUI \
-          @executable_path/../Frameworks/QtGui.framework/$QTGUI \
-          NodeGraphics.app/Contents/Frameworks/$f
-
-  install_name_tool \
-          -change @QT_QTXML_LIBRARY_RELEASE@$QTXML \
-          @executable_path/../Frameworks/QtXml.framework/$QTXML \
-          NodeGraphics.app/Contents/Frameworks/$f
 
 done
 

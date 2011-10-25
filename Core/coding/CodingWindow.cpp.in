@@ -75,10 +75,10 @@ namespace Tinkercell
 
 	#endif
 		
-		if (GlobalSettings::DO_SVN_UPDATE)
+		/*if (GlobalSettings::DO_SVN_UPDATE)
 		{
 			doSVNUpdate();
-		}
+		}*/
 		
 		usernameDialog = 0;
 		usernameLine = 0;
@@ -631,8 +631,9 @@ specific for:\n\"\"\"\n\n") + text;
 			QAction * action = new QAction(tr("Coding Window"),toolBar);
 			action->setIcon(QIcon(tr(":/images/tool.png")));
 
-			QAction * updateAction = new QAction(tr("Update Plug-ins and Modules"),toolBar);
+			QAction * updateAction = new QAction(tr("Update"),toolBar);
 			updateAction->setIcon(QIcon(tr(":/images/down.png")));
+			updateAction->setToolTip(tr("Download plug-ins and modules to the TinkerCell home folder (usually inside the Documents folder)"));					
 			connect(updateAction,SIGNAL(triggered()),this,SLOT(doSVNUpdate()));
 
 			if (dock)
@@ -651,12 +652,13 @@ specific for:\n\"\"\"\n\n") + text;
 			if (mainWindow->settingsMenu)
 			{
 				mainWindow->settingsMenu->addSeparator();
-				QAction * svnupdate = mainWindow->settingsMenu->addAction(tr("SVN updates"));
+				mainWindow->settingsMenu->addAction(updateAction);
+				/*QAction * svnupdate = mainWindow->settingsMenu->addAction(tr("SVN updates"));
 				svnupdate->setToolTip(tr("TinkerCell home folder will be updated with new models and plug-ins during startup"));					
 				svnupdate->setCheckable(true);
 				svnupdate->setChecked(GlobalSettings::DO_SVN_UPDATE);
 				toggleSVNupdate(GlobalSettings::DO_SVN_UPDATE);
-				connect(svnupdate,SIGNAL(toggled(bool)),this,SLOT(toggleSVNupdate(bool)));
+				connect(svnupdate,SIGNAL(toggled(bool)),this,SLOT(toggleSVNupdate(bool)));*/
 			}
 			
 			toolBar->addAction(action);

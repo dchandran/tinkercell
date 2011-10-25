@@ -4,13 +4,13 @@ cd @TINKERCELL_BINARY_DIR@
 make
 
 #run in the bin folder
-CURPATH=@TINKERCELL_BINARY_BIN_DIR@
+#CURPATH=@TINKERCELL_BINARY_BIN_DIR@
 cd @TINKERCELL_BINARY_BIN_DIR@
 
 #library files
 LIBFILES='@TINKERCELL_BINARY_BIN_DIR@/*.dylib'
-PLUGINFILES='plugins/*.dylib'
-CPLUGINFILES='plugins/c/*.dylib python/*.dylib octave/*.oct'
+PLUGINFILES='@TINKERCELL_BINARY_BIN_DIR@/plugins/*.dylib'
+CPLUGINFILES='@TINKERCELL_BINARY_BIN_DIR@/plugins/c/*.dylib @TINKERCELL_BINARY_BIN_DIR@/python/*.dylib @TINKERCELL_BINARY_BIN_DIR@/octave/*.oct'
 
 #Qt framework files
 QTCORE=@QT_QTCORE@
@@ -57,7 +57,7 @@ do
   for f2 in $LIBFILES
   do
     install_name_tool \
-          -change $CURPATH/$f2 \
+          -change $f2 \
           @executable_path/../Frameworks/$f2 \
           @TINKERCELL_EXE@.app/Contents/Frameworks/$f
   done
@@ -67,7 +67,7 @@ do
         @TINKERCELL_EXE@.app/Contents/Frameworks/$f
   
   install_name_tool \
-        -change $CURPATH/$f \
+        -change $f \
          @executable_path/../Frameworks/$f \
          @TINKERCELL_EXE@.app/Contents/MacOS/@TINKERCELL_EXE@
 
@@ -126,21 +126,21 @@ do
   for f2 in $LIBFILES
   do
     install_name_tool \
-          -change $CURPATH/$f2 \
+          -change $f2 \
           @executable_path/../Frameworks/$f2 \
           @TINKERCELL_EXE@.app/Contents/MacOS/$f1
   done
   for f2 in $PLUGINFILES
   do
     install_name_tool \
-          -change $CURPATH/$f2 \
+          -change $f2 \
           @executable_path/$f2 \
           @TINKERCELL_EXE@.app/Contents/MacOS/$f1
   done
   for f2 in $CPLUGINFILES
   do
     install_name_tool \
-          -change $CURPATH/$f2 \
+          -change $f2 \
           @executable_path/$f2 \
           @TINKERCELL_EXE@.app/Contents/MacOS/$f1
   done
@@ -156,7 +156,7 @@ do
   for f2 in $CPLUGINFILES
   do
     install_name_tool \
-          -change $CURPATH/$f2 \
+          -change $f2 \
           @executable_path/$f2 \
           @TINKERCELL_EXE@.app/Contents/MacOS/$f1
   done

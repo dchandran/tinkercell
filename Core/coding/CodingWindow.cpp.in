@@ -54,10 +54,13 @@ namespace Tinkercell
 		 setupEditor();
 		 setupMenu();
 		 
- 		QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
-		settings.beginGroup("Subversion");
-		GlobalSettings::DO_SVN_UPDATE = settings.value(tr("auto-update"),true).toBool();
-		settings.endGroup();
+ 		 QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
+		 settings.beginGroup("Subversion");
+	 	 if (QDir(homeDir).exists())
+			GlobalSettings::DO_SVN_UPDATE = settings.value(tr("auto-update"),false).toBool();
+		else
+			GlobalSettings::DO_SVN_UPDATE = settings.value(tr("auto-update"),true).toBool();	
+		 settings.endGroup();
 
 	#ifdef Q_WS_WIN
 
@@ -74,21 +77,7 @@ namespace Tinkercell
 		
 		if (GlobalSettings::DO_SVN_UPDATE)
 		{
-			QString s;
-			int err = 0;
-			if (!QFile::exists(GlobalSettings::homeDir() + QObject::tr("/.svn")) && !GlobalSettings::PLUGINS_SVN_URL.isEmpty())
-			{
-				s = QObject::tr("svn co ") + GlobalSettings::PLUGINS_SVN_URL + QObject::tr(" ") + homeDir;
-				err = system(s.toAscii().data());
-			}
-
-		
-		#ifdef Q_WS_WIN
-			s = QObject::tr("cd ") + homeDir + QObject::tr("& svn update --force");
-		#else
-			s = QObject::tr("cd ") + homeDir + QObject::tr("; svn update");
-		#endif
-			err = system(s.toAscii().data());
+			doSVNUpdate();
 		}
 		
 		usernameDialog = 0;
@@ -587,6 +576,29 @@ specific for:\n\"\"\"\n\n") + text;
 		}
 	}
 
+	bool CodingWindow::doSVNUpdate()
+	{
+		 //QString appDir = QCoreApplication::applicationDirPath();
+		 QString homeDir = GlobalSettings::homeDir();
+		 //QString tempDir = GlobalSettings::tempDir();
+
+		QString s;
+		int err = 0;
+		if (!QFile::exists(GlobalSettings::homeDir() + QObject::tr("/.svn")) && !GlobalSettings::PLUGINS_SVN_URL.isEmpty())
+		{
+			s = QObject::tr("svn co ") + GlobalSettings::PLUGINS_SVN_URL + QObject::tr(" ") + homeDir;
+			err = system(s.toAscii().data());
+		}
+
+	
+	#ifdef Q_WS_WIN
+		s = QObject::tr("cd ") + homeDir + QObject::tr("& svn update --force");
+	#else
+		s = QObject::tr("cd ") + homeDir + QObject::tr("; svn update");
+	#endif
+		err = system(s.toAscii().data());
+	}
+
 	bool CodingWindow::setMainWindow(MainWindow* main)
 	{
 		Tool::setMainWindow(main);
@@ -617,8 +629,13 @@ specific for:\n\"\"\"\n\n") + text;
 			dock->setFloating(true);
 
 			QToolBar * toolBar = mainWindow->toolBarForTools;
+
 			QAction * action = new QAction(tr("Coding Window"),toolBar);
 			action->setIcon(QIcon(tr(":/images/tool.png")));
+
+			QAction * updateAction = new QAction(tr("Update Plug-ins and Modules"),toolBar);
+			updateAction->setIcon(QIcon(tr(":/images/down.png")));
+			connect(updateAction,SIGNAL(triggered()),this,SLOT(doSVNUpdate()));
 
 			if (dock)
 				connect(action,SIGNAL(triggered()),dock,SLOT(show()));
@@ -645,6 +662,7 @@ specific for:\n\"\"\"\n\n") + text;
 			}
 			
 			toolBar->addAction(action);
+			toolBar->addAction(updateAction);
 
 			if (mainWindow->helpMenu)
 			{

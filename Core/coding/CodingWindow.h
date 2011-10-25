@@ -77,6 +77,7 @@ namespace Tinkercell
 	public:
 		CodingWindow();
 		bool setMainWindow(MainWindow*);
+
 		static bool DO_SVN_UPDATE;
 		static QPair<QString,QString> requestLoginInfo();
 
@@ -96,6 +97,7 @@ namespace Tinkercell
 		void compile(const QString&, QString&);
 
 	public slots:
+		bool doSVNUpdate();		
 		void setCode(const QString&);
 		void run();
 		void about();

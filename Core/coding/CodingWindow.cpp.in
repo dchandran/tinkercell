@@ -578,9 +578,7 @@ specific for:\n\"\"\"\n\n") + text;
 
 	bool CodingWindow::doSVNUpdate()
 	{
-		 //QString appDir = QCoreApplication::applicationDirPath();
 		 QString homeDir = GlobalSettings::homeDir();
-		 //QString tempDir = GlobalSettings::tempDir();
 
 		QString s;
 		int err = 0;

@@ -592,7 +592,7 @@ specific for:\n\"\"\"\n\n") + text;
 	#ifdef Q_WS_WIN
 		s = QObject::tr("cd ") + homeDir + QObject::tr("& svn update --force");
 	#else
-		s = QObject::tr("cd ") + homeDir + QObject::tr("; svn update");
+		s = QObject::tr("cd ") + homeDir + QObject::tr("; svn update --force");
 	#endif
 		err = system(s.toAscii().data());
 	}

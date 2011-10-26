@@ -52,18 +52,6 @@ This tool allows insertion of nodes from the NodesTree
 
 namespace Tinkercell
 {
-	/*! \brief This class provides the C API for the NodeInsertion class
-	\ingroup capi
-	*/
-	class NodeInsertion_FToS : public QObject
-	{
-		Q_OBJECT
-		signals:
-			void insertItem(QSemaphore*, ItemHandle** item, const QString& name, const QString& family);
-		public slots:
-			long insertItem(const char* , const char* );
-	};
-
 	/*! \brief This class listens to the NodesTree signals and allows users to insert items from
 	the tree of nodes. It also ensures that the inserted item has a unique name and inserts a
 	text item along with the node item. When user selects a node from the tree of nodes, this tool
@@ -105,16 +93,8 @@ namespace Tinkercell
 		/*! \brief exit from current operations such as insertion mode*/
 		void toolLoaded(Tool*);
 
-		/*! \brief this function sets up the C API function pointers whenever a C library is loaded*/
-		void setupFunctionPointers( QLibrary * f );
-
 		/*! \brief insert parts*/
 		void itemsDropped(GraphicsScene *, const QString&, QPointF);
-
-	private slots:
-
-		/*! \brief A C API function*/
-		void insertItem(QSemaphore*, ItemHandle** item, const QString& name, const QString& family);
 
 	private:
 		/*! \brief the currently selected item from the nodes tree*/
@@ -128,8 +108,6 @@ namespace Tinkercell
 
 		/*! \brief connect the C API signals and slots*/
 		void connectTCFunctions();
-		/*! \brief the C API function to signal converter*/
-		static NodeInsertion_FToS * fToS;
 		/*! \brief the C API function*/
 		static long _insertItem(const char* , const char* );
 

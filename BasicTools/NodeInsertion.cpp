@@ -24,12 +24,9 @@ namespace Tinkercell
 
 	NodeInsertion::NodeInsertion(NodesTree * tree) : Tool(tr("Node Insertion"),tr("Basic GUI")), selectedNodeFamily(0)
 	{
-		NodeInsertion::fToS = new NodeInsertion_FToS;
-		NodeInsertion::fToS->setParent(this);
 		mainWindow = 0;
 		nodesTree = tree;
 		selectedNodeFamily = 0;
-		connectTCFunctions();
 	}
 
 	bool NodeInsertion::setMainWindow(MainWindow * main)
@@ -41,8 +38,6 @@ namespace Tinkercell
 
 			connect(mainWindow,SIGNAL(itemsDropped(GraphicsScene *, const QString&, QPointF)),
 				this, SLOT(itemsDropped(GraphicsScene *, const QString&, QPointF)));
-
-			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 
 			connectToNodesTree();
 
@@ -66,23 +61,6 @@ namespace Tinkercell
 
 			if (mainWindow->currentScene())
 				mainWindow->currentScene()->useDefaultBehavior(false);
-		}
-	}
-
-	void NodeInsertion::connectTCFunctions( )
-	{
-		connect(fToS,SIGNAL(insertItem(QSemaphore*,ItemHandle**,const QString&,const QString&)),this,SLOT(insertItem(QSemaphore*,ItemHandle**,const QString&,const QString&)));
-	}
-
-	typedef void (*tc_NodeInsertion_api)(long (*insertItem)(const char* , const char* ));
-
-	void NodeInsertion::setupFunctionPointers( QLibrary * library )
-	{
-		tc_NodeInsertion_api f = (tc_NodeInsertion_api)library->resolve("tc_NodeInsertion_api");
-		if (f)
-		{
-			f(
-				&(_insertItem) );
 		}
 	}
 
@@ -141,7 +119,7 @@ namespace Tinkercell
 
 				for (int i=0; i < nodeFamily->graphicsItems.size(); ++i)
 				{
-					image = (NodeGraphicsItem::topLevelNodeItem(nodeFamily->graphicsItems[i]));
+					image = (NodeGraphicsItem::cast(nodeFamily->graphicsItems[i]));
 					if (image)
 					{
 						image = image->clone();
@@ -187,33 +165,6 @@ namespace Tinkercell
 		}
 		return list;
 	}
-
-	void NodeInsertion::insertItem(QSemaphore * sem, ItemHandle** item, const QString& name, const QString& family)
-	{
-		if (mainWindow && mainWindow->currentScene() && !name.isEmpty() && !family.isEmpty() && nodesTree
-			&& nodesTree->getFamily(family))
-		{
-			NodeFamily * nodeFamily = nodesTree->getFamily(family);
-			GraphicsScene * scene = mainWindow->currentScene();
-			if (item)
-				(*item) = 0;
-			if (nodeFamily && scene)
-			{
-				scene->lastPoint().rx() = scene->lastPoint().ry() = 0.0; //make null
-				QList<QGraphicsItem*> list = createNewNode(scene, scene->visibleRegion().center(), name, nodeFamily);
-				if (!list.isEmpty())
-				{
-					scene->insert(name + tr("inserted"),list);
-					QList<ItemHandle*> handles = getHandle(list);
-					if (handles.size() > 0)
-						(*item) = handles[0];
-				}
-			}
-		}
-		if (sem)
-			sem->release();
-	}
-
 
 	void NodeInsertion::toolLoaded(Tool*)
 	{
@@ -288,27 +239,6 @@ namespace Tinkercell
 	{
 		if (selectedNodeFamily)
 			clear();
-	}
-
-	/**************************************************/
-
-	NodeInsertion_FToS * NodeInsertion::fToS;
-
-	long NodeInsertion::_insertItem(const char* a, const char* b)
-	{
-		return fToS->insertItem(a,b);
-	}
-
-	long NodeInsertion_FToS::insertItem(const char* a0, const char* a1)
-	{
-		QSemaphore * s = new QSemaphore(1);
-		ItemHandle * item = 0;
-		s->acquire();
-		emit insertItem(s,&item,ConvertValue(a0),ConvertValue(a1));
-		s->acquire();
-		s->release();
-		delete s;
-		return ConvertValue(item);
 	}
 
 }

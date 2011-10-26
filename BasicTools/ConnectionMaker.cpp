@@ -46,8 +46,8 @@ namespace Tinkercell
 					        			  this,SLOT(connectionCollided(const QList<QGraphicsItem*>&, ConnectionGraphicsItem *, const QList<QPointF>&, Qt::KeyboardModifiers)));
 				}
 			}*/
-			connect(main,SIGNAL(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)),
-				this,SLOT(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)));
+			connect(main,SIGNAL(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&,GraphicsScene::InsertType)),
+				this,SLOT(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&,GraphicsScene::InsertType)));
 
 			return true;
 		}
@@ -55,7 +55,7 @@ namespace Tinkercell
 		return false;
 	}
 
-	void ConnectionMaker::itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>& inserts, const QList<ItemHandle*>& )
+	void ConnectionMaker::itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>& inserts, const QList<ItemHandle*>&, GraphicsScene::InsertType type)
 	{
 		if (!scene) return;
 		static bool callBySelf = false;
@@ -116,7 +116,7 @@ namespace Tinkercell
 				if (inputs == 0 || outputs == 0)
 					inputs = outputs = (int)(connection->curveSegments.size()/2);
 
-				if (!connection->isValid())
+				if (!connection->isValid() || type == GraphicsScene::NEW)
 				{
 					for (int j=0; j < connection->curveSegments.size(); ++j)
 					{

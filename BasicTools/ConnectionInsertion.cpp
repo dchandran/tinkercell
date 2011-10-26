@@ -213,27 +213,15 @@ namespace Tinkercell
 
 	void ConnectionInsertion::connectTCFunctions()
 	{
-		connect(fToS,SIGNAL(insertConnection(QSemaphore*,ItemHandle**,const QList<ItemHandle*>&,const QString&, const QString&)),
-			this,SLOT(insertConnection(QSemaphore*,ItemHandle**,const QList<ItemHandle*>&,const QString&, const QString&)));
-
-		connect(fToS,SIGNAL(getConnectedNodes(QSemaphore*,QList<ItemHandle*>*,ItemHandle*)),
-			this,SLOT(getConnectedNodes(QSemaphore*,QList<ItemHandle*>*,ItemHandle*)));
-
 		connect(fToS,SIGNAL(getConnectedNodesWithRole(QSemaphore*,QList<ItemHandle*>*,ItemHandle*,const QString&)),
 			this,SLOT(getConnectedNodesWithRole(QSemaphore*,QList<ItemHandle*>*,ItemHandle*,const QString&)));
-
-		connect(fToS,SIGNAL(getConnections(QSemaphore*,QList<ItemHandle*>*,ItemHandle*)),
-			this,SLOT(getConnections(QSemaphore*,QList<ItemHandle*>*,ItemHandle*)));
 
 		connect(fToS,SIGNAL(getConnectionsWithRole(QSemaphore*,QList<ItemHandle*>*,ItemHandle*,const QString&)),
 			this,SLOT(getConnectionsWithRole(QSemaphore*,QList<ItemHandle*>*,ItemHandle*,const QString&)));
 	}
 
 	typedef void (*tc_ConnectionInsertion_api)(
-		long (*insertConnection)(tc_items, const char*, const char*),
-		tc_items (*getConnectedNodes)(long),
 		tc_items (*getConnectedNodesWithRole)(long,const char*),
-		tc_items (*getConnections)(long),
 		tc_items (*getConnectionsWithRole)(long,const char*));
 
 
@@ -243,42 +231,10 @@ namespace Tinkercell
 		if (f)
 		{
 			f(
-				&(_insertConnection),
-				&(_getConnectedNodes),
 				&(_getConnectedNodesWithRole),
-				&(_getConnections),
 				&(_getConnectionsWithRole)
 				);
 		}
-	}
-
-	void ConnectionInsertion::getConnectedNodes(QSemaphore* sem,QList<ItemHandle*>* list,ItemHandle* item)
-	{
-		if (mainWindow->isValidHandlePointer(item) && list)
-		{
-			if (item->type == ConnectionHandle::TYPE)
-			{
-				QList<NodeHandle*> nodes = (static_cast<ConnectionHandle*>(item))->nodes();
-				for (int i=0; i < nodes.size(); ++i)
-					(*list) += nodes[i];
-			}
-			else
-			if (item->type == NodeHandle::TYPE)
-			{
-				QList<ConnectionHandle*> connections = (static_cast<NodeHandle*>(item))->connections();
-				QList<ItemHandle*> & lst = (*list);
-				for (int j=0; j < connections.size(); ++j)
-				{
-					QList<NodeHandle*> nodes = connections[j]->nodes();
-					for (int i=0; i < nodes.size(); ++i)
-						if (!lst.contains(nodes[i]) && nodes[i] != item)
-							lst += nodes[i];
-				}
-			}
-		}
-
-		if (sem)
-			sem->release();
 	}
 
 	void ConnectionInsertion::getConnectedNodesWithRole(QSemaphore* sem,QList<ItemHandle*>* list,ItemHandle* item, const QString & role)
@@ -323,19 +279,6 @@ namespace Tinkercell
 					}
 			}
 		}
-		if (sem)
-			sem->release();
-	}
-
-	void ConnectionInsertion::getConnections(QSemaphore* sem,QList<ItemHandle*>* list,ItemHandle* item)
-	{
-		if (mainWindow->isValidHandlePointer(item) && item->type == NodeHandle::TYPE && list)
-		{
-			QList<ConnectionHandle*> connections = (static_cast<NodeHandle*>(item))->connections();
-			for (int i=0; i < connections.size(); ++i)
-				(*list) += connections[i];
-		}
-
 		if (sem)
 			sem->release();
 	}
@@ -556,186 +499,6 @@ namespace Tinkercell
 				delete newTables[i];
 			}
 		}
-	}
-
-	void ConnectionInsertion::insertConnection(QSemaphore* sem,ItemHandle** retitem,const QList<ItemHandle*>& items,const QString& name, const QString& family)
-	{
-		if (!mainWindow || !connectionsTree)
-		{
-			if (retitem)
-				(*retitem) = 0;
-			if (sem)
-				sem->release();
-			return;
-		}
-		
-		GraphicsScene * scene = mainWindow->currentScene();
-
-		if (!scene || !scene->network)
-		{
-			if (console())
-				console()->error(tr("Cannot insert without a scene!"));
-			if (retitem)
-				(*retitem) = 0;
-			if (sem)
-				sem->release();
-			return;
-		}
-
-		if (!connectionsTree->getFamily(family))
-		{
-			if (console())
-				console()->error(family + tr(" not recognized"));
-			if (retitem)
-				(*retitem) = 0;
-			if (sem)
-				sem->release();
-			return;
-		}
-
-		selectedFamily = connectionsTree->getFamily(family);
-		
-		QList<NodeHandle*> nodes;
-		NodeHandle * h1;
-		ConnectionHandle * h2;
-		for (int i=0; i < items.size(); ++i)
-			if (h1 = NodeHandle::cast(items[i]))
-				nodes << h1;
-			else
-			if (h2 = ConnectionHandle::cast(items[i]))
-				nodes << h2->nodes();
-		
-		QList<ItemFamily*> subFamilies = selectedFamily->findValidChildFamilies(nodes);
-		selectedFamily = 0;
-		if (!subFamilies.isEmpty())
-			selectedFamily = ConnectionFamily::cast(subFamilies.last());
-		
-		if (!selectedFamily)
-		{
-			if (console())
-				console()->error(tr("Given set of nodes are not appropriate for a ") + family);
-			if (retitem)
-				(*retitem) = 0;
-			if (sem)
-				sem->release();
-			return;
-		}
-		
-		QList<NodeGraphicsItem*> saveSelectedNodes = selectedNodes;
-		QList<ConnectionGraphicsItem*> saveSelectedConnections = selectedConnections;
-		selectedNodes.clear();
-		selectedConnections.clear();
-		
-		ItemHandle * handle;
-
-		ConnectionGraphicsItem * connection;
-		NodeGraphicsItem * node;
-
-		for (int i=0; i < items.size(); ++i)
-			if (items[i])
-			{
-				for (int j=0; j < items[i]->graphicsItems.size(); ++j)
-					if (items[i]->graphicsItems[j])
-					{
-						if ((connection = ConnectionGraphicsItem::topLevelConnectionItem(items[i]->graphicsItems[j])) &&
-							!selectedConnections.contains(connection))
-						{
-							selectedConnections += connection;
-							break;
-						}
-						if ((node = NodeGraphicsItem::topLevelNodeItem(items[i]->graphicsItems[j])))
-						{
-							selectedNodes += node;
-							break;
-						}
-					}
-			}
-		
-		setRequirements();
-		
-		QString appDir = QCoreApplication::applicationDirPath();
-		
-		QList<QGraphicsItem*> insertList;
-		ConnectionGraphicsItem * item = new ConnectionGraphicsItem;
-		insertList += item;
-		
-		//center decorator
-		/*if (selectedFamily->graphicsItems.size() > 1 && selectedFamily->graphicsItems.last())
-		{
-			NodeGraphicsItem * node = NodeGraphicsItem::cast(selectedFamily->graphicsItems.last());
-			if (node && ArrowHeadItem::cast(node))
-			{
-				item->centerRegionItem = new ArrowHeadItem(*ArrowHeadItem::cast(node));
-				if (node->defaultSize.width() > 0 && node->defaultSize.height() > 0)
-					item->centerRegionItem->scale(node->defaultSize.width()/node->sceneBoundingRect().width(),node->defaultSize.height()/node->sceneBoundingRect().height());
-				insertList += item->centerRegionItem;
-			}
-		}*/
-
-		//making new connections
-		handle = new ConnectionHandle(selectedFamily,item);
-		if (retitem)
-			(*retitem) = handle;
-
-		QPointF center;
-
-		for (int i=0; i < selectedNodes.size(); ++i)
-		{
-			center += selectedNodes[i]->scenePos();
-			item->curveSegments +=
-				ConnectionGraphicsItem::CurveSegment(1,new ConnectionGraphicsItem::ControlPoint(item,selectedNodes[i]));
-
-			if (i >= numRequiredIn)
-			{
-				ArrowHeadItem * arrow0 = 0, * arrow = 0;
-				if (!selectedFamily->graphicsItems.isEmpty() &&
-					(arrow0 = qgraphicsitem_cast<ArrowHeadItem*>(selectedFamily->graphicsItems.first())) &&
-					arrow0->isValid())
-				{
-					arrow = new ArrowHeadItem(*arrow0);
-					arrow->connectionItem = item;
-					if (arrow->defaultSize.width() > 0 && arrow->defaultSize.height() > 0)
-						arrow->scale(arrow->defaultSize.width()/arrow->sceneBoundingRect().width(),arrow->defaultSize.height()/arrow->sceneBoundingRect().height());
-				}
-				else
-				{
-					arrow = new ArrowHeadItem(ConnectionGraphicsItem::DefaultArrowHeadFile, item);
-					if (arrow->defaultSize.width() > 0 && arrow->defaultSize.height() > 0)
-						arrow->scale(arrow->defaultSize.width()/arrow->sceneBoundingRect().width(),arrow->defaultSize.height()/arrow->sceneBoundingRect().height());
-				}
-				item->curveSegments.last().arrowStart = arrow;
-				insertList += arrow;
-			}
-		}
-
-		if (selectedNodes.size() > 0)
-			center /= selectedNodes.size();
-
-		handle->name = name;
-		if (!handle->name[0].isLetter())
-			handle->name = tr("J") + handle->name;
-		handle->name = scene->network->makeUnique(name);
-
-		TextGraphicsItem * nameItem = new TextGraphicsItem(handle,0);
-		if (item)
-			nameItem->relativePosition = QPair<QGraphicsItem*,QPointF>(item,QPointF(0,0));
-		insertList += nameItem;
-		nameItem->setPos(center);
-		QFont font = nameItem->font();
-		font.setPointSize(22);
-		nameItem->setFont(font);
-
-		if (handle->family()->name().contains(tr("gene")) || handle->family()->name().contains(tr("transcription")))
-			item->lineType = ConnectionGraphicsItem::line;
-
-		scene->insert(handle->name + tr(" inserted"), insertList);
-		
-		selectedNodes = saveSelectedNodes;
-		selectedConnections = saveSelectedConnections;
-		selectedFamily = 0;
-
-		if (sem)
-			sem->release();
 	}
 
 	void ConnectionInsertion::connectionSelected(ConnectionFamily * connectionFamily)
@@ -1306,44 +1069,6 @@ namespace Tinkercell
 
 	ConnectionInsertion_FToS * ConnectionInsertion::fToS = 0;
 
-	long ConnectionInsertion::_insertConnection(tc_items A, const char* a0, const char* a1)
-	{
-		return fToS->insertConnection(A, a0, a1);
-	}
-
-	long ConnectionInsertion_FToS::insertConnection(tc_items A, const char* a0, const char* a1)
-	{
-		QSemaphore * s = new QSemaphore(1);
-		ItemHandle * item = 0;
-		s->acquire();
-		QList<ItemHandle*> * list = ConvertValue(A);
-		emit insertConnection(s,&item,*list,ConvertValue(a0),ConvertValue(a1));
-		s->acquire();
-		s->release();
-		delete s;
-		delete list;
-		return ConvertValue(item);
-	}
-
-	tc_items ConnectionInsertion::_getConnectedNodes(long x)
-	{
-		return fToS->getConnectedNodes(x);
-	}
-
-	tc_items ConnectionInsertion_FToS::getConnectedNodes(long x)
-	{
-		QSemaphore * s = new QSemaphore(1);
-		QList<ItemHandle*>* list = new QList<ItemHandle*>;
-		s->acquire();
-		emit getConnectedNodes(s,list,ConvertValue(x));
-		s->acquire();
-		s->release();
-		delete s;
-		tc_items A = ConvertValue(*list);
-		delete list;
-		return A;
-	}
-
 	tc_items ConnectionInsertion::_getConnectedNodesWithRole(long x, const char * s)
 	{
 		return fToS->getConnectedNodesWithRole(x,s);
@@ -1356,25 +1081,6 @@ namespace Tinkercell
 		s->acquire();
 		QString qs = ConvertValue(c);
 		emit getConnectedNodesWithRole(s,list,ConvertValue(x), qs.toLower());
-		s->acquire();
-		s->release();
-		delete s;
-		tc_items A = ConvertValue(*list);
-		delete list;
-		return A;
-	}
-
-	tc_items ConnectionInsertion::_getConnections(long x)
-	{
-		return fToS->getConnections(x);
-	}
-
-	tc_items ConnectionInsertion_FToS::getConnections(long x)
-	{
-		QSemaphore * s = new QSemaphore(1);
-		QList<ItemHandle*>* list = new QList<ItemHandle*>;
-		s->acquire();
-		emit getConnections(s,list,ConvertValue(x));
 		s->acquire();
 		s->release();
 		delete s;

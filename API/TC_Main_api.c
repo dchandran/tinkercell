@@ -269,6 +269,54 @@ void tc_remove(long item)
 		_tc_remove(item);
 }
 
+long (*_tc_insert)(const char* name, const char* family) = 0;
+/*! 
+ \brief insert an item with the given name and family. returns the inserted connection
+ \ingroup Insert and remove
+*/ TCAPIEXPORT 
+long tc_insert(const char* name, const char* family)
+{
+	if (_tc_insert)
+		return _tc_insert(name,family);
+	return 0;
+}
+
+long (*_tc_insertConnection)(tc_items parts, const char* name, const char* family) = 0;
+/*! 
+ \brief connect a set of parts (in) to another (out). give the connection name and family. returns the inserted connection
+ \ingroup Connections
+*/ TCAPIEXPORT 
+long tc_insertConnection(tc_items parts, const char* name, const char* family) 
+{
+	if (_tc_insertConnection)
+		return _tc_insertConnection(parts, name, family);
+	return 0;
+}
+
+tc_items (*_tc_getConnectedNodes)(long connection) = 0;
+/*! 
+ \brief get the connected parts for a connection
+ \ingroup Connections
+*/ TCAPIEXPORT 
+tc_items tc_getConnectedNodes(long connection)
+{
+	if (_tc_getConnectedNodes)
+		return _tc_getConnectedNodes(connection);
+	return tc_createItemsArray(0);
+}
+
+tc_items (*_tc_getConnections)(long part) = 0;
+/*! 
+ \brief get connections for a part
+ \ingroup Connections
+*/ TCAPIEXPORT 
+tc_items tc_getConnections(long part)
+{
+	if (_tc_getConnections)
+		return _tc_getConnections(part);
+	return tc_createItemsArray(0);
+}
+
 double (*_tc_getY)(long item) = 0;
 
 /*! 
@@ -1113,6 +1161,10 @@ void tc_Main_api_initialize(
 		void (*tc_printFile0)(const char*),
 
 		void (*tc_removeItem0)(long),
+		long (*insertItem)(const char* , const char* ),
+		long (*insertConnection)(tc_items, const char*,const char*),
+		tc_items (*getConnectedParts)(long),
+		tc_items (*getConnections)(long),
 
 		double (*tc_getY0)(long),
 		double (*tc_getX0)(long),
@@ -1228,6 +1280,10 @@ void tc_Main_api_initialize(
 	_tc_printFile = tc_printFile0;
 
 	_tc_remove = tc_removeItem0;
+	_tc_insert = insertItem;
+	_tc_insertConnection = insertConnection;
+	_tc_getConnectedNodes = getConnectedParts;
+	_tc_getConnections = getConnections;
 
 	_tc_getY = tc_getY0;
 	_tc_getX = tc_getX0;

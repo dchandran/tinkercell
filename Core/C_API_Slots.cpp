@@ -20,6 +20,7 @@
 #include "plugins/TextParser.h"
 #include "UndoCommands.h"
 #include "GlobalSettings.h"
+#include "Ontology.h"
 
 namespace Tinkercell
 {
@@ -81,6 +82,10 @@ namespace Tinkercell
 		void (*tc_printFile0)(const char*),
 
 		void (*tc_removeItem0)(long),
+		long (*tc_insertItem0)(const char*, const char*),
+		long (*insertConnection)(tc_items, const char*, const char*),
+		tc_items (*getConnectedNodes)(long),
+		tc_items (*getConnections)(long),
 
 		double (*tc_getY0)(long),
 		double (*tc_getX0)(long),
@@ -202,6 +207,10 @@ namespace Tinkercell
 				&(_outputTable),
 				&(_printFile),
 				&(_removeItem),
+				&(_insertItem),
+				&(_insertConnection),
+				&(_getConnectedNodes),
+				&(_getConnections),
 				&(_getY),
 				&(_getX),
 				&(_getPos),
@@ -297,6 +306,16 @@ namespace Tinkercell
 		connect(fToS,SIGNAL(getPos(QSemaphore*,const QList<ItemHandle*>&,DataTable<qreal>*)),this,SLOT(getPos(QSemaphore*,const QList<ItemHandle*>&,DataTable<qreal>*)));
 
 		connect(fToS,SIGNAL(removeItem(QSemaphore*,ItemHandle*)),this,SLOT(removeItem(QSemaphore*,ItemHandle*)));
+		connect(fToS,SIGNAL(insertItem(QSemaphore*,ItemHandle**,const QString&,const QString&)),this,SLOT(insertItem(QSemaphore*,ItemHandle**,const QString&,const QString&)));
+		connect(fToS,SIGNAL(insertConnection(QSemaphore*,ItemHandle**,const QList<ItemHandle*>&,const QString&, const QString&)),
+			this,SLOT(insertConnection(QSemaphore*,ItemHandle**,const QList<ItemHandle*>&,const QString&, const QString&)));
+
+		connect(fToS,SIGNAL(getConnectedNodes(QSemaphore*,QList<ItemHandle*>*,ItemHandle*)),
+			this,SLOT(getConnectedNodes(QSemaphore*,QList<ItemHandle*>*,ItemHandle*)));
+
+		connect(fToS,SIGNAL(getConnections(QSemaphore*,QList<ItemHandle*>*,ItemHandle*)),
+			this,SLOT(getConnections(QSemaphore*,QList<ItemHandle*>*,ItemHandle*)));
+
 		connect(fToS,SIGNAL(moveSelected(QSemaphore*,qreal,qreal)),this,SLOT(moveSelected(QSemaphore*,qreal,qreal)));
 		connect(fToS,SIGNAL(getName(QSemaphore*,QString*,ItemHandle*)),this,SLOT(itemName(QSemaphore*,QString*,ItemHandle*)));
 		connect(fToS,SIGNAL(getUniqueName(QSemaphore*,QString*,ItemHandle*)),this,SLOT(uniqueName(QSemaphore*,QString*,ItemHandle*)));
@@ -978,6 +997,151 @@ namespace Tinkercell
 			sem->release();
 	}
 
+	QList<QGraphicsItem*> C_API_Slots::createNewNode(GraphicsScene * scene, const QPointF& point, const QString& s, const QString & familyname, const QStringList & usedNames)
+	{
+		NodeFamily * family = Ontology::nodeFamily(familyname);
+		QList<QGraphicsItem*> list;
+		if (family && scene)
+		{
+			QString name = s;
+			if (s.isNull() || s.isEmpty())
+			{
+				name = family->name().toLower() + tr("1");
+				QStringList words = name.split(tr(" "));
+				if (words.size() > 1)
+				{
+					name = words.first().left(1) + words.last().left(1);
+					name += tr("1");
+				}
+				
+				if (name.length() > 3)
+					name = name.left( 3 ) + tr("1");
+				
+				if (!name[0].isLetter())
+						name = tr("x") + name;
+			}
+
+			QList<NodeFamily*> allFamilies;		
+			allFamilies += family;
+			qreal xpos = point.x();
+			qreal height = 0.0;
+			qreal width = 0.0;
+
+			for (int j=0; j < allFamilies.size(); ++j)
+			{
+				NodeFamily * nodeFamily = allFamilies[j];
+
+				for (int i=0; i < nodeFamily->graphicsItems.size(); ++i)
+					if (NodeGraphicsItem::cast(nodeFamily->graphicsItems[i]))
+						width += NodeGraphicsItem::cast(nodeFamily->graphicsItems[i])->defaultSize.width();
+			}
+
+			xpos -= width/2.0;
+			bool alternate = false;
+
+			for (int j=0; j < allFamilies.size(); ++j)
+			{
+				NodeFamily * nodeFamily = allFamilies[j];
+
+				NodeHandle * handle = new NodeHandle(nodeFamily);
+				handle->name = RemoveDisallowedCharactersFromName(name);
+				if (!handle->name[0].isLetter())
+						handle->name = tr("S") + handle->name;
+				handle->name = scene->network->makeUnique(handle->name,usedNames);
+				
+				NodeGraphicsItem * image = 0;
+
+				for (int i=0; i < nodeFamily->graphicsItems.size(); ++i)
+				{
+					image = (NodeGraphicsItem::cast(nodeFamily->graphicsItems[i]));
+					if (image)
+					{
+						image = image->clone();
+						if (image->defaultSize.width() > 0 && image->defaultSize.height() > 0)
+							image->scale(image->defaultSize.width()/image->sceneBoundingRect().width(),image->defaultSize.height()/image->sceneBoundingRect().height());
+
+						qreal w = image->sceneBoundingRect().width();
+
+						image->setPos(xpos + w/2.0, point.y());
+
+						image->setBoundingBoxVisible(false);
+
+						if (image->isValid())
+						{
+							xpos += w;
+							setHandle(image,handle);
+							list += image;
+						}
+						if (image->sceneBoundingRect().height() > height)
+							height = image->sceneBoundingRect().height();
+					}
+				}
+
+				if (nodeFamily->graphicsItems.size() > 0)
+				{
+					if (handle->family() && !handle->family()->isA("Empty"))
+					{
+						TextGraphicsItem * nameItem = new TextGraphicsItem(handle,0);
+						if (image)
+							nameItem->relativePosition = QPair<QGraphicsItem*,QPointF>(image,QPointF(0,0));
+						QFont font = nameItem->font();
+						font.setPointSize(22);
+						nameItem->setFont(font);
+						if (alternate)
+							nameItem->setPos(xpos - nameItem->boundingRect().width(), point.y() - height/2.0 - 40.0);
+						else
+							nameItem->setPos(xpos - nameItem->boundingRect().width(), point.y() + height/2.0 + 5.0);
+						list += nameItem;
+						alternate = !alternate;
+					}
+				}
+			}
+		}
+		return list;
+	}
+
+	void C_API_Slots::insertItem(QSemaphore * sem, ItemHandle** item, const QString& name, const QString& family)
+	{
+		if (mainWindow && mainWindow->currentScene() && !name.isEmpty())
+		{
+			GraphicsScene * scene = mainWindow->currentScene();
+			if (item)
+				(*item) = 0;
+			if (scene)
+			{
+				//scene->lastPoint().rx() = scene->lastPoint().ry() = 0.0; //make null
+				QList<QGraphicsItem*> list = createNewNode(scene, scene->visibleRegion().center(), name, family);
+				if (!list.isEmpty())
+				{
+					scene->insert(name + tr("inserted"),list);
+					QList<ItemHandle*> handles = getHandle(list);
+					if (handles.size() > 0)
+						(*item) = handles[0];
+				}
+				else
+				{
+					NodeFamily * nodeFamily = 0;
+					if (!family.isEmpty())
+					{
+						nodeFamily = Ontology::nodeFamily(family);
+						if (!nodeFamily)
+						{
+							nodeFamily = new NodeFamily(family.toLower());
+							Ontology::insertNodeFamily(family.toLower(), nodeFamily);
+						}
+					}
+					NodeGraphicsItem * nodeItem = new NodeGraphicsItem(":/images/defaultnode.xml");
+					NodeHandle * h = new NodeHandle(nodeFamily, nodeItem);
+					scene->insert(name + tr("inserted"), nodeItem);
+					(*item) = h;
+				}
+			}
+		}
+		if (sem)
+			sem->release();
+	}
+
+
 	void C_API_Slots::getX(QSemaphore * s, qreal * returnPtr, ItemHandle * item)
 	{
 		if (item == 0 || item->graphicsItems.isEmpty() || !returnPtr)
@@ -1368,6 +1532,11 @@ namespace Tinkercell
 	void C_API_Slots::_removeItem(long o)
 	{
 		return fToS->removeItem(o);
+	}
+
+	long C_API_Slots::_insertItem(const char* a, const char* b)
+	{
+		return fToS->insertItem(a,b);
 	}
 
 	void C_API_Slots::_setPos(long o,double x,double y)
@@ -1907,6 +2076,18 @@ namespace Tinkercell
 		s->acquire();
 		s->release();
 		delete s;
+	}
+
+	long Core_FtoS::insertItem(const char* a0, const char* a1)
+	{
+		QSemaphore * s = new QSemaphore(1);
+		ItemHandle * item = 0;
+		s->acquire();
+		emit insertItem(s,&item,ConvertValue(a0),ConvertValue(a1));
+		s->acquire();
+		s->release();
+		delete s;
+		return ConvertValue(item);
 	}
 
 	void Core_FtoS::setPos(long a0,double a1,double a2)
@@ -3842,6 +4023,314 @@ namespace Tinkercell
 		s->acquire();
 		s->release();
 		return;
+	}
+
+		void C_API_Slots::getConnectedNodes(QSemaphore* sem,QList<ItemHandle*>* list,ItemHandle* item)
+	{
+		if (mainWindow->isValidHandlePointer(item) && list)
+		{
+			if (item->type == ConnectionHandle::TYPE)
+			{
+				QList<NodeHandle*> nodes = (static_cast<ConnectionHandle*>(item))->nodes();
+				for (int i=0; i < nodes.size(); ++i)
+					(*list) += nodes[i];
+			}
+			else
+			if (item->type == NodeHandle::TYPE)
+			{
+				QList<ConnectionHandle*> connections = (static_cast<NodeHandle*>(item))->connections();
+				QList<ItemHandle*> & lst = (*list);
+				for (int j=0; j < connections.size(); ++j)
+				{
+					QList<NodeHandle*> nodes = connections[j]->nodes();
+					for (int i=0; i < nodes.size(); ++i)
+						if (!lst.contains(nodes[i]) && nodes[i] != item)
+							lst += nodes[i];
+				}
+			}
+		}
+
+		if (sem)
+			sem->release();
+	}
+	
+	void C_API_Slots::getConnections(QSemaphore* sem,QList<ItemHandle*>* list,ItemHandle* item)
+	{
+		if (mainWindow->isValidHandlePointer(item) && item->type == NodeHandle::TYPE && list)
+		{
+			QList<ConnectionHandle*> connections = (static_cast<NodeHandle*>(item))->connections();
+			for (int i=0; i < connections.size(); ++i)
+				(*list) += connections[i];
+		}
+
+		if (sem)
+			sem->release();
+	}
+
+	void C_API_Slots::insertConnection(QSemaphore* sem,ItemHandle** retitem,const QList<ItemHandle*>& items,const QString& name, const QString& family)
+	{
+		if (!mainWindow)
+		{
+			if (retitem)
+				(*retitem) = 0;
+			if (sem)
+				sem->release();
+			return;
+		}
+		
+		GraphicsScene * scene = mainWindow->currentScene();
+
+		if (!scene || !scene->network)
+		{
+			if (console())
+				console()->error(tr("Cannot insert without a scene!"));
+			if (retitem)
+				(*retitem) = 0;
+			if (sem)
+				sem->release();
+			return;
+		}
+
+		ConnectionFamily * selectedFamily = 0;
+		if (!family.isEmpty())
+		{
+			selectedFamily = Ontology::connectionFamily(family);
+			if (!selectedFamily)
+			{
+				selectedFamily = new ConnectionFamily(family.toLower());
+				Ontology::insertConnectionFamily(family.toLower(), selectedFamily);
+			}
+		}
+		
+		QList<NodeHandle*> nodes;
+		NodeHandle * h1;
+		ConnectionHandle * h2;
+		for (int i=0; i < items.size(); ++i)
+			if (h1 = NodeHandle::cast(items[i]))
+				nodes << h1;
+			else
+			if (h2 = ConnectionHandle::cast(items[i]))
+				nodes << h2->nodes();
+		
+		QList<ItemFamily*> subFamilies = selectedFamily->findValidChildFamilies(nodes);
+		selectedFamily = 0;
+		if (!subFamilies.isEmpty())
+			selectedFamily = ConnectionFamily::cast(subFamilies.last());
+		
+		if (!selectedFamily)
+		{
+			if (retitem)
+				(*retitem) = 0;
+			if (sem)
+				sem->release();
+			return;
+		}
+		
+		QList<NodeGraphicsItem*> selectedNodes;
+		QList<ConnectionGraphicsItem*> selectedConnections;
+		
+		ItemHandle * handle;
+
+		ConnectionGraphicsItem * connection;
+		NodeGraphicsItem * node;
+
+		for (int i=0; i < items.size(); ++i)
+			if (items[i])
+			{
+				for (int j=0; j < items[i]->graphicsItems.size(); ++j)
+					if (items[i]->graphicsItems[j])
+					{
+						if ((connection = ConnectionGraphicsItem::cast(items[i]->graphicsItems[j])) &&
+							!selectedConnections.contains(connection))
+						{
+							selectedConnections += connection;
+							break;
+						}
+						if ((node = NodeGraphicsItem::cast(items[i]->graphicsItems[j])))
+						{
+							selectedNodes += node;
+							break;
+						}
+					}
+			}
+		
+		int numRequiredIn = 0, numRequiredOut = 0;
+		QStringList typeOut, typeIn;
+		
+		if (selectedFamily != 0)
+		{
+			QList<NodeHandle*> nodes, visited;
+			QStringList nodeRoles = selectedFamily->participantRoles(),
+						nodeFamilies = selectedFamily->participantTypes();
+
+			for (int i=0; i < nodeFamilies.size() && i < nodeRoles.size(); ++i)
+			{
+				QString s = nodeRoles[i];
+				if (!(s.toLower().contains(tr("target")) || 
+					  s.toLower().contains(tr("product")) || 
+				      s.toLower().contains(tr("output")) || s.toLower().contains(tr("sink"))))
+				{
+					++numRequiredIn;
+					typeIn += nodeFamilies[i];
+				}
+				else
+				{
+					++numRequiredOut;
+					typeOut += nodeFamilies[i];
+				}
+			}
+
+			for (int i=0; i < selectedConnections.size(); ++i)
+			{
+				ConnectionHandle * h = ConnectionHandle::cast(selectedConnections[i]->handle());
+				for (int j=0; j < h->graphicsItems.size(); ++j)
+				{
+					ConnectionGraphicsItem * c;
+					if (c = ConnectionGraphicsItem::cast(h->graphicsItems[j]))
+					{
+						nodes += NodeHandle::cast( getHandle(c->nodesAsGraphicsItems()) );
+					}
+				}
+				for (int j=0; j < nodes.size(); ++j)
+				{
+					bool b = false;
+					for (int k=0; k < typeIn.size(); ++k)
+						if (nodes[j]->family()->isA(typeIn[k]) || nodes[j]->family()->isParentOf(typeIn[k]))
+						{
+							b = true;
+							break;
+						}
+					if (b && numRequiredIn > 0)
+						--numRequiredIn;
+					else
+					{
+						b = false;
+						for (int k=0; k < typeIn.size(); ++k)
+							if (nodes[j]->family()->isA(typeIn[k]) || nodes[j]->family()->isParentOf(typeIn[k]))
+							{
+								b = true;
+								break;
+							}
+						if (b && numRequiredOut > 0)
+							--numRequiredOut;
+					}
+				}
+			}
+		}
+		else
+		{
+			numRequiredIn = (int)(selectedNodes.size() / 2);
+		}
+
+		QList<QGraphicsItem*> insertList;
+		QList<NodeGraphicsItem*> nodesIn, nodesOut;
+
+		for (int i=0; i < selectedNodes.size(); ++i)
+		{
+			if (i >= numRequiredIn)
+				nodesOut << selectedNodes[i];
+			else
+				nodesIn << selectedNodes[i];
+		}
+
+		ConnectionGraphicsItem * item = new ConnectionGraphicsItem(nodesIn, nodesOut);
+		insertList += item;
+		
+		//center decorator
+		/*if (selectedFamily->graphicsItems.size() > 1 && selectedFamily->graphicsItems.last())
+		{
+			NodeGraphicsItem * node = NodeGraphicsItem::cast(selectedFamily->graphicsItems.last());
+			if (node && ArrowHeadItem::cast(node))
+			{
+				item->centerRegionItem = new ArrowHeadItem(*ArrowHeadItem::cast(node));
+				if (node->defaultSize.width() > 0 && node->defaultSize.height() > 0)
+					item->centerRegionItem->scale(node->defaultSize.width()/node->sceneBoundingRect().width(),node->defaultSize.height()/node->sceneBoundingRect().height());
+				insertList += item->centerRegionItem;
+			}
+		}*/
+
+		//making new connections
+		handle = new ConnectionHandle(selectedFamily,item);
+		if (retitem)
+			(*retitem) = handle;
+
+		handle->name = name;
+		if (!handle->name[0].isLetter())
+			handle->name = tr("p") + handle->name;
+		handle->name = scene->network->makeUnique(name);
+
+		TextGraphicsItem * nameItem = new TextGraphicsItem(handle,0);
+		if (item)
+			nameItem->relativePosition = QPair<QGraphicsItem*,QPointF>(item,QPointF(0,0));
+		insertList += nameItem;
+		nameItem->setPos(item->centerLocation());
+		QFont font = nameItem->font();
+		font.setPointSize(22);
+		nameItem->setFont(font);
+
+		scene->insert(handle->name + tr(" inserted"), insertList);
+		
+		selectedFamily = 0;
+
+		if (sem)
+			sem->release();
+	}
+
+	long C_API_Slots::_insertConnection(tc_items A, const char* a0, const char* a1)
+	{
+		return fToS->insertConnection(A, a0, a1);
+	}
+
+	long Core_FtoS::insertConnection(tc_items A, const char* a0, const char* a1)
+	{
+		QSemaphore * s = new QSemaphore(1);
+		ItemHandle * item = 0;
+		s->acquire();
+		QList<ItemHandle*> * list = ConvertValue(A);
+		emit insertConnection(s,&item,*list,ConvertValue(a0),ConvertValue(a1));
+		s->acquire();
+		s->release();
+		delete s;
+		delete list;
+		return ConvertValue(item);
+	}
+
+	tc_items C_API_Slots::_getConnectedNodes(long x)
+	{
+		return fToS->getConnectedNodes(x);
+	}
+
+	tc_items Core_FtoS::getConnectedNodes(long x)
+	{
+		QSemaphore * s = new QSemaphore(1);
+		QList<ItemHandle*>* list = new QList<ItemHandle*>;
+		s->acquire();
+		emit getConnectedNodes(s,list,ConvertValue(x));
+		s->acquire();
+		s->release();
+		delete s;
+		tc_items A = ConvertValue(*list);
+		delete list;
+		return A;
+	}
+
+	tc_items C_API_Slots::_getConnections(long x)
+	{
+		return fToS->getConnections(x);
+	}
+
+	tc_items Core_FtoS::getConnections(long x)
+	{
+		QSemaphore * s = new QSemaphore(1);
+		QList<ItemHandle*>* list = new QList<ItemHandle*>;
+		s->acquire();
+		emit getConnections(s,list,ConvertValue(x));
+		s->acquire();
+		s->release();
+		delete s;
+		tc_items A = ConvertValue(*list);
+		delete list;
+		return A;
 	}
 
 }

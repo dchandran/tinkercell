@@ -9,7 +9,8 @@ g++ simplemain.cpp -ICore -LBUILD/bin -lTinkerCellCore -I. -I/usr/include/qt4/Qt
 
 Then to run:
 cd BUILD/bin
-
+export LD_LIBRARY_PATH=.
+./simplemain
 
 ****************************************************************************/
 
@@ -48,7 +49,7 @@ int main(int argc, char *argv[])
 	mainWindow.readSettings();   //load settings such as window positions
 
 	//set window title -- OPTIONAL
-	mainWindow.setWindowTitle("Simple Designer"); 
+	mainWindow.setWindowTitle("My Wonderful App"); 
 	
 	//ADD PLUGINS
 	

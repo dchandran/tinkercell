@@ -68,14 +68,14 @@ namespace Tinkercell
 		/*! \brief adds this tool to TinkerCell */
 		bool setMainWindow(MainWindow * main);
 
-		public slots:
+	public slots:
 
-			/*! \brief does nothing currently */
-			//void nodeCollided(const QList<QGraphicsItem*>& , NodeGraphicsItem * , const QList<QPointF>&  , Qt::KeyboardModifiers );
-			/*! \brief does nothing currently */
-			//void connectionCollided(const QList<QGraphicsItem*>& , ConnectionGraphicsItem * itemCollided , const QList<QPointF>& , Qt::KeyboardModifiers );
-			/*! \brief if connectors are inserted and they are not valid, then this function will provide a new layout for them */
-			void itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>& handles);
+		/*! \brief does nothing currently */
+		//void nodeCollided(const QList<QGraphicsItem*>& , NodeGraphicsItem * , const QList<QPointF>&  , Qt::KeyboardModifiers );
+		/*! \brief does nothing currently */
+		//void connectionCollided(const QList<QGraphicsItem*>& , ConnectionGraphicsItem * itemCollided , const QList<QPointF>& , Qt::KeyboardModifiers );
+		/*! \brief if connectors are inserted and they are not valid, then this function will provide a new layout for them */
+		void itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>& handles,GraphicsScene::InsertType);
 
 	public:
 		//CollisionDetection * collisionDetection;

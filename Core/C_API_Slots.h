@@ -57,6 +57,10 @@ namespace Tinkercell
 		void select(QSemaphore*,ItemHandle*);
 		void deselect(QSemaphore*);
 		void removeItem(QSemaphore*,ItemHandle* );
+		void insertItem(QSemaphore*, ItemHandle** item, const QString& name, const QString& family);
+		void insertConnection(QSemaphore*,ItemHandle** item,const QList<ItemHandle*>&,const QString&, const QString&);
+		void getConnectedNodes(QSemaphore*,QList<ItemHandle*>*,ItemHandle*);
+		void getConnections(QSemaphore*,QList<ItemHandle*>*,ItemHandle*);
 		void setPos(QSemaphore*,ItemHandle* ,qreal ,qreal );
 		void setPos(QSemaphore*,const QList<ItemHandle*>& , DataTable<qreal>&);
 		void getPos(QSemaphore*,const QList<ItemHandle*>& , DataTable<qreal>*);
@@ -170,6 +174,11 @@ namespace Tinkercell
 		const char* getFamily(long);
 		int isA(long,const char*);
 		void removeItem(long);
+		long insertItem(const char* , const char* );
+		long insertConnection(tc_items, const char*, const char*);
+		tc_items getConnectedNodes(long);
+		tc_items getConnections(long);
+
 		void setPos(long,double ,double );
 
 		void setPos(tc_items,tc_matrix);
@@ -298,6 +307,10 @@ namespace Tinkercell
 		static const char* _getFamily(long);
 		static int _isA(long,const char*);
 		static void _removeItem(long);
+		static long _insertItem(const char* , const char* );
+		static long _insertConnection(tc_items, const char*, const char*);
+		static tc_items _getConnectedNodes(long);
+		static tc_items _getConnections(long);
 		static void _setPos(long,double ,double );
 
 		static void _setPos2(tc_items,tc_matrix);
@@ -602,6 +615,27 @@ namespace Tinkercell
 		*/
 		void removeItem(QSemaphore*,ItemHandle* item);
 		/*!
+		* \brief insert a new item with the given name and family. 
+					If family does not exist, it will be inserted into the ontology
+		* \param QSemaphore * semaphore
+		* \param item pointer
+		* \return void
+		*/
+		void insertItem(QSemaphore*, ItemHandle** item, const QString& name, const QString& family);
+		/*!
+		* \brief insert a new connection with the given name and family. 
+					If family does not exist, it will be inserted into the ontology
+		*/
+		void insertConnection(QSemaphore*,ItemHandle** ,const QList<ItemHandle*>&,const QString&, const QString&);
+		/*!
+		* \brief get list of connected nodes for a node of connection
+		*/
+		void getConnectedNodes(QSemaphore*,QList<ItemHandle*>*,ItemHandle*);
+		/*!
+		* \brief get connections of a node
+		*/
+		void getConnections(QSemaphore*,QList<ItemHandle*>* list,ItemHandle*);
+		/*!
 		* \brief moves all selected items. This function is designed to be used with the C API framework
 		* \param QSemaphore * semaphore
 		* \param delta x
@@ -862,6 +896,7 @@ namespace Tinkercell
 		QList<QGraphicsItem*> temporarilyColorChanged;
 		QList< QPair<NodeGraphicsItem*,QPointF> > temporarilyChangedSize; 
 		QList< QPair<NodeGraphicsItem*,double> > temporarilyChangedAngle;
+		QList<QGraphicsItem*> createNewNode(GraphicsScene *, const QPointF& point, const QString& name, const QString&  family, const QStringList& usedNames = QStringList());
 	};
 }
 #endif

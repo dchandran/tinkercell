@@ -278,6 +278,24 @@ setClass('_p_f_p_q_const__char__void',
         contains = 'CRoutinePointer')
 
 ##
+setClass('_p_f_p_q_const__char_p_q_const__char__long',
+        prototype = list(parameterTypes = c('_p_char', '_p_char'),
+                        returnType = '_p_f_p_q_const__char_p_q_const__char__long'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_tc_items_p_q_const__char_p_q_const__char__long',
+        prototype = list(parameterTypes = c('_tc_items', '_p_char', '_p_char'),
+                        returnType = '_p_f_tc_items_p_q_const__char_p_q_const__char__long'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_long__tc_items',
+        prototype = list(parameterTypes = c('_long'),
+                        returnType = '_p_f_long__tc_items'),
+        contains = 'CRoutinePointer')
+
+##
 setClass('_p_f_long__double',
         prototype = list(parameterTypes = c('_long'),
                         returnType = '_p_f_long__double'),
@@ -347,12 +365,6 @@ setClass('_p_f_p_q_const__char_int_int_tc_strings__void',
 setClass('_p_f_p_q_const__char_int_int__void',
         prototype = list(parameterTypes = c('_p_char', '_int', '_int'),
                         returnType = '_p_f_p_q_const__char_int_int__void'),
-        contains = 'CRoutinePointer')
-
-##
-setClass('_p_f_long__tc_items',
-        prototype = list(parameterTypes = c('_long'),
-                        returnType = '_p_f_long__tc_items'),
         contains = 'CRoutinePointer')
 
 ##
@@ -560,12 +572,6 @@ setClass('_p_f_long_p_q_const__char_double__void',
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_tc_items_p_q_const__char_p_q_const__char__long',
-        prototype = list(parameterTypes = c('_tc_items', '_p_char', '_p_char'),
-                        returnType = '_p_f_tc_items_p_q_const__char_p_q_const__char__long'),
-        contains = 'CRoutinePointer')
-
-##
 setClass('_p_f_long_p_q_const__char__tc_items',
         prototype = list(parameterTypes = c('_long', '_p_char'),
                         returnType = '_p_f_long_p_q_const__char__tc_items'),
@@ -575,12 +581,6 @@ setClass('_p_f_long_p_q_const__char__tc_items',
 setClass('_p_f_tc_items__void',
         prototype = list(parameterTypes = c('_tc_items'),
                         returnType = '_p_f_tc_items__void'),
-        contains = 'CRoutinePointer')
-
-##
-setClass('_p_f_p_q_const__char_p_q_const__char__long',
-        prototype = list(parameterTypes = c('_p_char', '_p_char'),
-                        returnType = '_p_f_p_q_const__char_p_q_const__char__long'),
         contains = 'CRoutinePointer')
 
 ##
@@ -2364,6 +2364,76 @@ attr(`tc_remove`, 'returnType') = 'void'
 attr(`tc_remove`, "inputTypes") = c('integer')
 class(`tc_remove`) = c("SWIGFunction", class('tc_remove'))
 
+# Start of tc_insert
+
+`tc_insert` = function(name, family, .copy = FALSE)
+{
+  name = as(name, "character") 
+  family = as(family, "character") 
+  .Call('R_swig_tc_insert', name, family, as.logical(.copy), PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_insert`, 'returnType') = 'integer'
+attr(`tc_insert`, "inputTypes") = c('character', 'character')
+class(`tc_insert`) = c("SWIGFunction", class('tc_insert'))
+
+# Start of tc_insertConnection
+
+`tc_insertConnection` = function(parts, name, family, .copy = FALSE)
+{
+  name = as(name, "character") 
+  family = as(family, "character") 
+  .Call('R_swig_tc_insertConnection', parts, name, family, as.logical(.copy), PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_insertConnection`, 'returnType') = 'integer'
+attr(`tc_insertConnection`, "inputTypes") = c('_p_tc_items', 'character', 'character')
+class(`tc_insertConnection`) = c("SWIGFunction", class('tc_insertConnection'))
+
+# Start of tc_getConnectedNodes
+
+`tc_getConnectedNodes` = function(connection, .copy = FALSE)
+{
+  connection = as.integer(connection) 
+  
+  if(length(connection) > 1) {
+    warning("using only the first element of connection")
+  }
+  
+  ans = .Call('R_swig_tc_getConnectedNodes', connection, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_tc_items"
+  
+  ans
+  
+}
+
+attr(`tc_getConnectedNodes`, 'returnType') = '_p_tc_items'
+attr(`tc_getConnectedNodes`, "inputTypes") = c('integer')
+class(`tc_getConnectedNodes`) = c("SWIGFunction", class('tc_getConnectedNodes'))
+
+# Start of tc_getConnections
+
+`tc_getConnections` = function(part, .copy = FALSE)
+{
+  part = as.integer(part) 
+  
+  if(length(part) > 1) {
+    warning("using only the first element of part")
+  }
+  
+  ans = .Call('R_swig_tc_getConnections', part, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_tc_items"
+  
+  ans
+  
+}
+
+attr(`tc_getConnections`, 'returnType') = '_p_tc_items'
+attr(`tc_getConnections`, "inputTypes") = c('integer')
+class(`tc_getConnections`) = c("SWIGFunction", class('tc_getConnections'))
+
 # Start of tc_getY
 
 `tc_getY` = function(item, .copy = FALSE)
@@ -3535,7 +3605,7 @@ class(`tc_setLineWidth`) = c("SWIGFunction", class('tc_setLineWidth'))
 
 # Start of tc_Main_api_initialize
 
-`tc_Main_api_initialize` = function(tc_allItems0, tc_selectedItems0, tc_itemsOfFamily0, tc_itemsOfFamily1, tc_find0, tc_findItems0, tc_findItemsUsingRegexp0, tc_select0, tc_deselect0, tc_getName0, tc_getUniqueName0, tc_setName0, tc_getNames0, tc_getUniqueNames0, tc_getFamily0, tc_isA0, tc_clearText, tc_outputText0, tc_errorReport0, tc_outputTable0, tc_printFile0, tc_removeItem0, tc_getY0, tc_getX0, tc_getPos0, tc_setPos0, tc_setPos1, tc_moveSelected0, tc_isWindows0, tc_isMac0, tc_isLinux0, tc_appDir0, tc_homeDir0, tc_createInputWindow0, tc_createInputWindow1, createSliders, tc_addInputWindowOptions0, tc_addInputWindowCheckbox0, tc_openNewWindow0, tc_getChildren0, tc_getParent0, tc_getNumericalData0, tc_setNumericalData0, tc_getTextData0, tc_setTextData0, tc_getNumericalDataNames0, tc_getTextDataNames0, tc_zoom0, tc_viewWindow0, tc_getStringDialog0, getSelectedString, getNumber, getNumbers, getFilename, askQuestion, messageDialog, openFile, saveToFile, setSize0, getWidth0, getHeight0, setAngle0, getColor, setColor0, changeGraphics0, changeArrowHead0, screenshot, screenHeight, screenWidth, screenX, screenY, annotations, insertAnnotations, setNumericalValues, setNumericalValue, setTextValues, setTextValue, getNumericalValue, getTextValue, getNumericalValueUsingRegexp, getTextValueUsingRegexp, openUrl, getControlPointX, getControlPointY, setControlPoint, setCenterPoint, getCenterPointX, getCenterPointY, setStraight, setAllStraight, setLineWidth)
+`tc_Main_api_initialize` = function(tc_allItems0, tc_selectedItems0, tc_itemsOfFamily0, tc_itemsOfFamily1, tc_find0, tc_findItems0, tc_findItemsUsingRegexp0, tc_select0, tc_deselect0, tc_getName0, tc_getUniqueName0, tc_setName0, tc_getNames0, tc_getUniqueNames0, tc_getFamily0, tc_isA0, tc_clearText, tc_outputText0, tc_errorReport0, tc_outputTable0, tc_printFile0, tc_removeItem0, insertItem, insertConnection, getConnectedParts, getConnections, tc_getY0, tc_getX0, tc_getPos0, tc_setPos0, tc_setPos1, tc_moveSelected0, tc_isWindows0, tc_isMac0, tc_isLinux0, tc_appDir0, tc_homeDir0, tc_createInputWindow0, tc_createInputWindow1, createSliders, tc_addInputWindowOptions0, tc_addInputWindowCheckbox0, tc_openNewWindow0, tc_getChildren0, tc_getParent0, tc_getNumericalData0, tc_setNumericalData0, tc_getTextData0, tc_setTextData0, tc_getNumericalDataNames0, tc_getTextDataNames0, tc_zoom0, tc_viewWindow0, tc_getStringDialog0, getSelectedString, getNumber, getNumbers, getFilename, askQuestion, messageDialog, openFile, saveToFile, setSize0, getWidth0, getHeight0, setAngle0, getColor, setColor0, changeGraphics0, changeArrowHead0, screenshot, screenHeight, screenWidth, screenX, screenY, annotations, insertAnnotations, setNumericalValues, setNumericalValue, setTextValues, setTextValue, getNumericalValue, getTextValue, getNumericalValueUsingRegexp, getTextValueUsingRegexp, openUrl, getControlPointX, getControlPointY, setControlPoint, setCenterPoint, getCenterPointX, getCenterPointY, setStraight, setAllStraight, setLineWidth)
 {
   if(is.function(tc_allItems0)) {
     assert('...' %in% names(formals(tc_allItems0)) || length(formals(tc_allItems0)) >= 0)
@@ -3757,6 +3827,46 @@ class(`tc_setLineWidth`) = c("SWIGFunction", class('tc_setLineWidth'))
       tc_removeItem0 = tc_removeItem0$address
     }
   }
+  if(is.function(insertItem)) {
+    assert('...' %in% names(formals(insertItem)) || length(formals(insertItem)) >= 2)
+  } else {
+    if(is.character(insertItem)) {
+      insertItem = getNativeSymbolInfo(insertItem)
+    }
+    if(is(insertItem, "NativeSymbolInfo")) {
+      insertItem = insertItem$address
+    }
+  }
+  if(is.function(insertConnection)) {
+    assert('...' %in% names(formals(insertConnection)) || length(formals(insertConnection)) >= 3)
+  } else {
+    if(is.character(insertConnection)) {
+      insertConnection = getNativeSymbolInfo(insertConnection)
+    }
+    if(is(insertConnection, "NativeSymbolInfo")) {
+      insertConnection = insertConnection$address
+    }
+  }
+  if(is.function(getConnectedParts)) {
+    assert('...' %in% names(formals(getConnectedParts)) || length(formals(getConnectedParts)) >= 1)
+  } else {
+    if(is.character(getConnectedParts)) {
+      getConnectedParts = getNativeSymbolInfo(getConnectedParts)
+    }
+    if(is(getConnectedParts, "NativeSymbolInfo")) {
+      getConnectedParts = getConnectedParts$address
+    }
+  }
+  if(is.function(getConnections)) {
+    assert('...' %in% names(formals(getConnections)) || length(formals(getConnections)) >= 0)
+  } else {
+    if(is.character(getConnections)) {
+      getConnections = getNativeSymbolInfo(getConnections)
+    }
+    if(is(getConnections, "NativeSymbolInfo")) {
+      getConnections = getConnections$address
+    }
+  }
   if(is.function(tc_getY0)) {
     assert('...' %in% names(formals(tc_getY0)) || length(formals(tc_getY0)) >= 1)
   } else {
@@ -3928,7 +4038,7 @@ class(`tc_setLineWidth`) = c("SWIGFunction", class('tc_setLineWidth'))
     }
   }
   if(is.function(tc_getChildren0)) {
-    assert('...' %in% names(formals(tc_getChildren0)) || length(formals(tc_getChildren0)) >= 1)
+    assert('...' %in% names(formals(tc_getChildren0)) || length(formals(tc_getChildren0)) >= 0)
   } else {
     if(is.character(tc_getChildren0)) {
       tc_getChildren0 = getNativeSymbolInfo(tc_getChildren0)
@@ -4447,12 +4557,12 @@ class(`tc_setLineWidth`) = c("SWIGFunction", class('tc_setLineWidth'))
       setLineWidth = setLineWidth$address
     }
   }
-  .Call('R_swig_tc_Main_api_initialize', tc_allItems0, tc_selectedItems0, tc_itemsOfFamily0, tc_itemsOfFamily1, tc_find0, tc_findItems0, tc_findItemsUsingRegexp0, tc_select0, tc_deselect0, tc_getName0, tc_getUniqueName0, tc_setName0, tc_getNames0, tc_getUniqueNames0, tc_getFamily0, tc_isA0, tc_clearText, tc_outputText0, tc_errorReport0, tc_outputTable0, tc_printFile0, tc_removeItem0, tc_getY0, tc_getX0, tc_getPos0, tc_setPos0, tc_setPos1, tc_moveSelected0, tc_isWindows0, tc_isMac0, tc_isLinux0, tc_appDir0, tc_homeDir0, tc_createInputWindow0, tc_createInputWindow1, createSliders, tc_addInputWindowOptions0, tc_addInputWindowCheckbox0, tc_openNewWindow0, tc_getChildren0, tc_getParent0, tc_getNumericalData0, tc_setNumericalData0, tc_getTextData0, tc_setTextData0, tc_getNumericalDataNames0, tc_getTextDataNames0, tc_zoom0, tc_viewWindow0, tc_getStringDialog0, getSelectedString, getNumber, getNumbers, getFilename, askQuestion, messageDialog, openFile, saveToFile, setSize0, getWidth0, getHeight0, setAngle0, getColor, setColor0, changeGraphics0, changeArrowHead0, screenshot, screenHeight, screenWidth, screenX, screenY, annotations, insertAnnotations, setNumericalValues, setNumericalValue, setTextValues, setTextValue, getNumericalValue, getTextValue, getNumericalValueUsingRegexp, getTextValueUsingRegexp, openUrl, getControlPointX, getControlPointY, setControlPoint, setCenterPoint, getCenterPointX, getCenterPointY, setStraight, setAllStraight, setLineWidth, PACKAGE='tinkercell')
+  .Call('R_swig_tc_Main_api_initialize', tc_allItems0, tc_selectedItems0, tc_itemsOfFamily0, tc_itemsOfFamily1, tc_find0, tc_findItems0, tc_findItemsUsingRegexp0, tc_select0, tc_deselect0, tc_getName0, tc_getUniqueName0, tc_setName0, tc_getNames0, tc_getUniqueNames0, tc_getFamily0, tc_isA0, tc_clearText, tc_outputText0, tc_errorReport0, tc_outputTable0, tc_printFile0, tc_removeItem0, insertItem, insertConnection, getConnectedParts, getConnections, tc_getY0, tc_getX0, tc_getPos0, tc_setPos0, tc_setPos1, tc_moveSelected0, tc_isWindows0, tc_isMac0, tc_isLinux0, tc_appDir0, tc_homeDir0, tc_createInputWindow0, tc_createInputWindow1, createSliders, tc_addInputWindowOptions0, tc_addInputWindowCheckbox0, tc_openNewWindow0, tc_getChildren0, tc_getParent0, tc_getNumericalData0, tc_setNumericalData0, tc_getTextData0, tc_setTextData0, tc_getNumericalDataNames0, tc_getTextDataNames0, tc_zoom0, tc_viewWindow0, tc_getStringDialog0, getSelectedString, getNumber, getNumbers, getFilename, askQuestion, messageDialog, openFile, saveToFile, setSize0, getWidth0, getHeight0, setAngle0, getColor, setColor0, changeGraphics0, changeArrowHead0, screenshot, screenHeight, screenWidth, screenX, screenY, annotations, insertAnnotations, setNumericalValues, setNumericalValue, setTextValues, setTextValue, getNumericalValue, getTextValue, getNumericalValueUsingRegexp, getTextValueUsingRegexp, openUrl, getControlPointX, getControlPointY, setControlPoint, setCenterPoint, getCenterPointX, getCenterPointY, setStraight, setAllStraight, setLineWidth, PACKAGE='tinkercell')
   
 }
 
 attr(`tc_Main_api_initialize`, 'returnType') = 'void'
-attr(`tc_Main_api_initialize`, "inputTypes") = c('_p_f___tc_items', '_p_f___tc_items', '_p_f_p_q_const__char__tc_items', '_p_f_p_q_const__char_tc_items__tc_items', '_p_f_p_q_const__char__long', '_p_f_tc_strings__tc_items', '_p_f_p_q_const__char__tc_items', '_p_f_long__void', '_p_f___void', '_p_f_long__p_char', '_p_f_long__p_char', '_p_f_long_p_q_const__char__void', '_p_f_tc_items__tc_strings', '_p_f_tc_items__tc_strings', '_p_f_long__p_char', '_p_f_long_p_q_const__char__int', '_p_f___void', '_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void', '_p_f_tc_matrix__void', '_p_f_p_q_const__char__void', '_p_f_long__void', '_p_f_long__double', '_p_f_long__double', '_p_f_tc_items__tc_matrix', '_p_f_long_double_double__void', '_p_f_tc_items_tc_matrix__void', '_p_f_double_double__void', '_p_f___int', '_p_f___int', '_p_f___int', '_p_f___p_char', '_p_f___p_char', '_p_f_tc_matrix_p_q_const__char_p_q_const__char__void', '_p_f_long_tc_matrix_p_q_const__char_p_f_tc_matrix__void__void', '_p_f_long_tc_matrix_p_f_tc_matrix__void__void', '_p_f_p_q_const__char_int_int_tc_strings__void', '_p_f_p_q_const__char_int_int__void', '_p_f_p_q_const__char__void', '_p_f_long__tc_items', '_p_f_long__long', '_p_f_long_p_q_const__char__tc_matrix', '_p_f_long_p_q_const__char_tc_matrix__void', '_p_f_long_p_q_const__char__tc_table', '_p_f_long_p_q_const__char_tc_table__void', '_p_f_long__tc_strings', '_p_f_long__tc_strings', '_p_f_double__void', '_p_f_p_q_const__char__void', '_p_f_p_q_const__char__p_char', '_p_f_p_q_const__char_tc_strings_p_q_const__char__int', '_p_f_p_q_const__char__double', '_p_f_tc_strings__tc_matrix', '_p_f___p_char', '_p_f_p_q_const__char__int', '_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void', '_p_f_long_double_double_int__void', '_p_f_long__double', '_p_f_long__double', '_p_f_long_double_int__void', '_p_f_long__p_char', '_p_f_long_p_q_const__char_int__void', '_p_f_long_p_q_const__char__void', '_p_f_long_p_q_const__char__void', '_p_f_p_q_const__char_int_int__void', '_p_f___int', '_p_f___int', '_p_f___int', '_p_f___int', '_p_f___p_char', '_p_f_p_q_const__char_double_double__void', '_p_f_tc_matrix__void', '_p_f_p_q_const__char_double__void', '_p_f_tc_table__void', '_p_f_p_q_const__char_p_q_const__char__void', '_p_f_p_q_const__char__double', '_p_f_p_q_const__char__p_char', '_p_f_p_q_const__char__tc_matrix', '_p_f_p_q_const__char__tc_table', '_p_f___void', '_p_f_long_long_int__double', '_p_f_long_long_int__double', '_p_f_long_long_int_double_double__void', '_p_f_long_double_double__void', '_p_f_long__double', '_p_f_long__double', '_p_f_long_int__void', '_p_f_int__void', '_p_f_long_double_int__void')
+attr(`tc_Main_api_initialize`, "inputTypes") = c('_p_f___tc_items', '_p_f___tc_items', '_p_f_p_q_const__char__tc_items', '_p_f_p_q_const__char_tc_items__tc_items', '_p_f_p_q_const__char__long', '_p_f_tc_strings__tc_items', '_p_f_p_q_const__char__tc_items', '_p_f_long__void', '_p_f___void', '_p_f_long__p_char', '_p_f_long__p_char', '_p_f_long_p_q_const__char__void', '_p_f_tc_items__tc_strings', '_p_f_tc_items__tc_strings', '_p_f_long__p_char', '_p_f_long_p_q_const__char__int', '_p_f___void', '_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void', '_p_f_tc_matrix__void', '_p_f_p_q_const__char__void', '_p_f_long__void', '_p_f_p_q_const__char_p_q_const__char__long', '_p_f_tc_items_p_q_const__char_p_q_const__char__long', '_p_f_long__tc_items', '_p_f_long__tc_items', '_p_f_long__double', '_p_f_long__double', '_p_f_tc_items__tc_matrix', '_p_f_long_double_double__void', '_p_f_tc_items_tc_matrix__void', '_p_f_double_double__void', '_p_f___int', '_p_f___int', '_p_f___int', '_p_f___p_char', '_p_f___p_char', '_p_f_tc_matrix_p_q_const__char_p_q_const__char__void', '_p_f_long_tc_matrix_p_q_const__char_p_f_tc_matrix__void__void', '_p_f_long_tc_matrix_p_f_tc_matrix__void__void', '_p_f_p_q_const__char_int_int_tc_strings__void', '_p_f_p_q_const__char_int_int__void', '_p_f_p_q_const__char__void', '_p_f_long__tc_items', '_p_f_long__long', '_p_f_long_p_q_const__char__tc_matrix', '_p_f_long_p_q_const__char_tc_matrix__void', '_p_f_long_p_q_const__char__tc_table', '_p_f_long_p_q_const__char_tc_table__void', '_p_f_long__tc_strings', '_p_f_long__tc_strings', '_p_f_double__void', '_p_f_p_q_const__char__void', '_p_f_p_q_const__char__p_char', '_p_f_p_q_const__char_tc_strings_p_q_const__char__int', '_p_f_p_q_const__char__double', '_p_f_tc_strings__tc_matrix', '_p_f___p_char', '_p_f_p_q_const__char__int', '_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void', '_p_f_long_double_double_int__void', '_p_f_long__double', '_p_f_long__double', '_p_f_long_double_int__void', '_p_f_long__p_char', '_p_f_long_p_q_const__char_int__void', '_p_f_long_p_q_const__char__void', '_p_f_long_p_q_const__char__void', '_p_f_p_q_const__char_int_int__void', '_p_f___int', '_p_f___int', '_p_f___int', '_p_f___int', '_p_f___p_char', '_p_f_p_q_const__char_double_double__void', '_p_f_tc_matrix__void', '_p_f_p_q_const__char_double__void', '_p_f_tc_table__void', '_p_f_p_q_const__char_p_q_const__char__void', '_p_f_p_q_const__char__double', '_p_f_p_q_const__char__p_char', '_p_f_p_q_const__char__tc_matrix', '_p_f_p_q_const__char__tc_table', '_p_f___void', '_p_f_long_long_int__double', '_p_f_long_long_int__double', '_p_f_long_long_int_double_double__void', '_p_f_long_double_double__void', '_p_f_long__double', '_p_f_long__double', '_p_f_long_int__void', '_p_f_int__void', '_p_f_long_double_int__void')
 class(`tc_Main_api_initialize`) = c("SWIGFunction", class('tc_Main_api_initialize'))
 
 # Start of tc_showProgress
@@ -5127,41 +5237,6 @@ attr(`tc_BasicInformationTool_Numeric_api`, 'returnType') = 'void'
 attr(`tc_BasicInformationTool_Numeric_api`, "inputTypes") = c('_p_f_tc_items__tc_matrix', '_p_f_tc_items_tc_matrix__void', '_p_f_tc_items__tc_matrix', '_p_f_tc_items__tc_matrix', '_p_f_tc_items__tc_matrix', '_p_f_long_p_q_const__char__double', '_p_f_tc_items_tc_strings__tc_matrix', '_p_f_tc_items_tc_strings__tc_matrix', '_p_f_long_p_q_const__char_double__void')
 class(`tc_BasicInformationTool_Numeric_api`) = c("SWIGFunction", class('tc_BasicInformationTool_Numeric_api'))
 
-# Start of tc_insertConnection
-
-`tc_insertConnection` = function(parts, name, family, .copy = FALSE)
-{
-  name = as(name, "character") 
-  family = as(family, "character") 
-  .Call('R_swig_tc_insertConnection', parts, name, family, as.logical(.copy), PACKAGE='tinkercell')
-  
-}
-
-attr(`tc_insertConnection`, 'returnType') = 'integer'
-attr(`tc_insertConnection`, "inputTypes") = c('_p_tc_items', 'character', 'character')
-class(`tc_insertConnection`) = c("SWIGFunction", class('tc_insertConnection'))
-
-# Start of tc_getConnectedNodes
-
-`tc_getConnectedNodes` = function(connection, .copy = FALSE)
-{
-  connection = as.integer(connection) 
-  
-  if(length(connection) > 1) {
-    warning("using only the first element of connection")
-  }
-  
-  ans = .Call('R_swig_tc_getConnectedNodes', connection, as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_tc_items"
-  
-  ans
-  
-}
-
-attr(`tc_getConnectedNodes`, 'returnType') = '_p_tc_items'
-attr(`tc_getConnectedNodes`, "inputTypes") = c('integer')
-class(`tc_getConnectedNodes`) = c("SWIGFunction", class('tc_getConnectedNodes'))
-
 # Start of tc_getConnectedNodesWithRole
 
 `tc_getConnectedNodesWithRole` = function(connection, role, .copy = FALSE)
@@ -5183,27 +5258,6 @@ class(`tc_getConnectedNodes`) = c("SWIGFunction", class('tc_getConnectedNodes'))
 attr(`tc_getConnectedNodesWithRole`, 'returnType') = '_p_tc_items'
 attr(`tc_getConnectedNodesWithRole`, "inputTypes") = c('integer', 'character')
 class(`tc_getConnectedNodesWithRole`) = c("SWIGFunction", class('tc_getConnectedNodesWithRole'))
-
-# Start of tc_getConnections
-
-`tc_getConnections` = function(part, .copy = FALSE)
-{
-  part = as.integer(part) 
-  
-  if(length(part) > 1) {
-    warning("using only the first element of part")
-  }
-  
-  ans = .Call('R_swig_tc_getConnections', part, as.logical(.copy), PACKAGE='tinkercell')
-  class(ans) <- "_p_tc_items"
-  
-  ans
-  
-}
-
-attr(`tc_getConnections`, 'returnType') = '_p_tc_items'
-attr(`tc_getConnections`, "inputTypes") = c('integer')
-class(`tc_getConnections`) = c("SWIGFunction", class('tc_getConnections'))
 
 # Start of tc_getConnectionsWithRole
 
@@ -5229,28 +5283,8 @@ class(`tc_getConnectionsWithRole`) = c("SWIGFunction", class('tc_getConnectionsW
 
 # Start of tc_ConnectionInsertion_api
 
-`tc_ConnectionInsertion_api` = function(insertConnection, getConnectedParts, getConnectedPartsWithRole, getConnections, getConnectionsWithRole)
+`tc_ConnectionInsertion_api` = function(getConnectedPartsWithRole, getConnectionsWithRole)
 {
-  if(is.function(insertConnection)) {
-    assert('...' %in% names(formals(insertConnection)) || length(formals(insertConnection)) >= 3)
-  } else {
-    if(is.character(insertConnection)) {
-      insertConnection = getNativeSymbolInfo(insertConnection)
-    }
-    if(is(insertConnection, "NativeSymbolInfo")) {
-      insertConnection = insertConnection$address
-    }
-  }
-  if(is.function(getConnectedParts)) {
-    assert('...' %in% names(formals(getConnectedParts)) || length(formals(getConnectedParts)) >= 0)
-  } else {
-    if(is.character(getConnectedParts)) {
-      getConnectedParts = getNativeSymbolInfo(getConnectedParts)
-    }
-    if(is(getConnectedParts, "NativeSymbolInfo")) {
-      getConnectedParts = getConnectedParts$address
-    }
-  }
   if(is.function(getConnectedPartsWithRole)) {
     assert('...' %in% names(formals(getConnectedPartsWithRole)) || length(formals(getConnectedPartsWithRole)) >= 2)
   } else {
@@ -5259,16 +5293,6 @@ class(`tc_getConnectionsWithRole`) = c("SWIGFunction", class('tc_getConnectionsW
     }
     if(is(getConnectedPartsWithRole, "NativeSymbolInfo")) {
       getConnectedPartsWithRole = getConnectedPartsWithRole$address
-    }
-  }
-  if(is.function(getConnections)) {
-    assert('...' %in% names(formals(getConnections)) || length(formals(getConnections)) >= 0)
-  } else {
-    if(is.character(getConnections)) {
-      getConnections = getNativeSymbolInfo(getConnections)
-    }
-    if(is(getConnections, "NativeSymbolInfo")) {
-      getConnections = getConnections$address
     }
   }
   if(is.function(getConnectionsWithRole)) {
@@ -5281,12 +5305,12 @@ class(`tc_getConnectionsWithRole`) = c("SWIGFunction", class('tc_getConnectionsW
       getConnectionsWithRole = getConnectionsWithRole$address
     }
   }
-  .Call('R_swig_tc_ConnectionInsertion_api', insertConnection, getConnectedParts, getConnectedPartsWithRole, getConnections, getConnectionsWithRole, PACKAGE='tinkercell')
+  .Call('R_swig_tc_ConnectionInsertion_api', getConnectedPartsWithRole, getConnectionsWithRole, PACKAGE='tinkercell')
   
 }
 
 attr(`tc_ConnectionInsertion_api`, 'returnType') = 'void'
-attr(`tc_ConnectionInsertion_api`, "inputTypes") = c('_p_f_tc_items_p_q_const__char_p_q_const__char__long', '_p_f_long__tc_items', '_p_f_long_p_q_const__char__tc_items', '_p_f_long__tc_items', '_p_f_long_p_q_const__char__tc_items')
+attr(`tc_ConnectionInsertion_api`, "inputTypes") = c('_p_f_long_p_q_const__char__tc_items', '_p_f_long_p_q_const__char__tc_items')
 class(`tc_ConnectionInsertion_api`) = c("SWIGFunction", class('tc_ConnectionInsertion_api'))
 
 # Start of tc_merge
@@ -5350,42 +5374,6 @@ class(`tc_separate`) = c("SWIGFunction", class('tc_separate'))
 attr(`tc_GroupHandlerTool_api`, 'returnType') = 'void'
 attr(`tc_GroupHandlerTool_api`, "inputTypes") = c('_p_f_tc_items__void', '_p_f_long__void')
 class(`tc_GroupHandlerTool_api`) = c("SWIGFunction", class('tc_GroupHandlerTool_api'))
-
-# Start of tc_insert
-
-`tc_insert` = function(name, family, .copy = FALSE)
-{
-  name = as(name, "character") 
-  family = as(family, "character") 
-  .Call('R_swig_tc_insert', name, family, as.logical(.copy), PACKAGE='tinkercell')
-  
-}
-
-attr(`tc_insert`, 'returnType') = 'integer'
-attr(`tc_insert`, "inputTypes") = c('character', 'character')
-class(`tc_insert`) = c("SWIGFunction", class('tc_insert'))
-
-# Start of tc_NodeInsertion_api
-
-`tc_NodeInsertion_api` = function(insertItem)
-{
-  if(is.function(insertItem)) {
-    assert('...' %in% names(formals(insertItem)) || length(formals(insertItem)) >= 2)
-  } else {
-    if(is.character(insertItem)) {
-      insertItem = getNativeSymbolInfo(insertItem)
-    }
-    if(is(insertItem, "NativeSymbolInfo")) {
-      insertItem = insertItem$address
-    }
-  }
-  .Call('R_swig_tc_NodeInsertion_api', insertItem, PACKAGE='tinkercell')
-  
-}
-
-attr(`tc_NodeInsertion_api`, 'returnType') = 'void'
-attr(`tc_NodeInsertion_api`, "inputTypes") = c('_p_f_p_q_const__char_p_q_const__char__long')
-class(`tc_NodeInsertion_api`) = c("SWIGFunction", class('tc_NodeInsertion_api'))
 
 # Start of tc_getStoichiometry
 

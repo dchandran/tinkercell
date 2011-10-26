@@ -178,6 +178,42 @@ TCAPIEXPORT void tc_clear();
 TCAPIEXPORT void tc_remove(long item);
 
 /*! 
+ \brief insert an item with the given name and family. 
+           family can be null.
+           returns the inserted item
+ \param string name of new item
+ \param string family name (type) of new item
+ \return int address of new item, 0 if insertion failed
+ \ingroup Insert and remove
+*/
+TCAPIEXPORT long tc_insert(const char* name, const char* family);
+
+/*! 
+ \brief connect a set of parts. The role of each part is automatically determined by its type. Give the connection name and family. returns the inserted connection
+ \param tc_items nodes to be connected
+ \param string name of new connection
+ \param string type of the new connection, i.e. one of the connection types in the catalog
+ \ingroup Connections
+*/
+TCAPIEXPORT long tc_insertConnection(tc_items parts, const char* name, const char* family);
+
+/*! 
+ \brief get the connected parts for a connection
+ \param int address of a connection, e.g. obtained using tc_find 
+ \return tc_items all nodes connection by the given connection
+ \ingroup Connections
+*/
+TCAPIEXPORT tc_items tc_getConnectedNodes(long connection);
+
+/*! 
+ \brief get connections for a part
+ \param int address of a node, e.g. obtained using tc_find 
+ \return tc_items all connections linked to the given node
+ \ingroup Connections
+*/
+TCAPIEXPORT tc_items tc_getConnections(long part);
+
+/*! 
  \brief get the x location of an item
  \param int address of item
  \return double x position
@@ -742,6 +778,10 @@ TCAPIEXPORT void tc_Main_api_initialize(
 		void (*tc_printFile0)(const char*),
 
 		void (*tc_removeItem0)(long),
+		long (*insertItem)(const char* , const char* ),
+		long (*insertConnection)(tc_items, const char*, const char*),
+		tc_items (*getConnectedParts)(long),
+		tc_items (*getConnections)(long),
 
 		double (*tc_getY0)(long),
 		double (*tc_getX0)(long),

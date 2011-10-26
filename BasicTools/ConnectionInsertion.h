@@ -64,16 +64,10 @@ namespace Tinkercell
 	{
 		Q_OBJECT
 	signals:
-		void insertConnection(QSemaphore*,ItemHandle** item,const QList<ItemHandle*>&,const QString&, const QString&);
-		void getConnectedNodes(QSemaphore*,QList<ItemHandle*>*,ItemHandle*);
-		void getConnectedNodesWithRole(QSemaphore*,QList<ItemHandle*>*,ItemHandle*,const QString&);
-		void getConnections(QSemaphore*,QList<ItemHandle*>*,ItemHandle*);
+		void getConnectedNodesWithRole(QSemaphore*,QList<ItemHandle*>*,ItemHandle*,const QString&);		
 		void getConnectionsWithRole(QSemaphore*,QList<ItemHandle*>*,ItemHandle*,const QString&);
 	public slots:
-		long insertConnection(tc_items, const char*, const char*);
-		tc_items getConnectedNodes(long);
 		tc_items getConnectedNodesWithRole(long,const char*);
-		tc_items getConnections(long);
 		tc_items getConnectionsWithRole(long,const char*);
 	};
 
@@ -131,15 +125,9 @@ namespace Tinkercell
 		void insertedItems( GraphicsScene* ,  const QList<QGraphicsItem *>& , const QList<ItemHandle*>& );
 		void handleFamilyChanged(NetworkHandle * , const QList<ItemHandle*>& , const QList<ItemFamily*>& );
 
-	private slots:
-		/*!\brief C API function*/
-		void insertConnection(QSemaphore*,ItemHandle** ,const QList<ItemHandle*>&,const QString&, const QString&);
-		/*!\brief C API function*/
-		void getConnectedNodes(QSemaphore*,QList<ItemHandle*>*,ItemHandle*);
+	private slots:		
 		/*!\brief C API function*/
 		void getConnectedNodesWithRole(QSemaphore*,QList<ItemHandle*>*,ItemHandle*,const QString&);
-		/*!\brief C API function*/
-		void getConnections(QSemaphore*,QList<ItemHandle*>* list,ItemHandle*);
 		/*!\brief C API function*/
 		void getConnectionsWithRole(QSemaphore*,QList<ItemHandle*>* list,ItemHandle*,const QString&);
 
@@ -186,15 +174,9 @@ namespace Tinkercell
 		void connectTCFunctions();
 		/*!\brief the C API function to signal converter*/
 		static ConnectionInsertion_FToS * fToS;
-
-		/*!\brief C API function*/
-		static long _insertConnection(tc_items, const char*, const char*);
-		/*!\brief C API function*/
-		static tc_items _getConnectedNodes(long);
+		
 		/*!\brief C API function*/
 		static tc_items _getConnectedNodesWithRole(long,const char*);
-		/*!\brief C API function*/
-		static tc_items _getConnections(long);
 		/*!\brief C API function*/
 		static tc_items _getConnectionsWithRole(long,const char*);
 		

@@ -377,6 +377,22 @@ def tc_remove(*args):
   return _tinkercell.tc_remove(*args)
 tc_remove = _tinkercell.tc_remove
 
+def tc_insert(*args):
+  return _tinkercell.tc_insert(*args)
+tc_insert = _tinkercell.tc_insert
+
+def tc_insertConnection(*args):
+  return _tinkercell.tc_insertConnection(*args)
+tc_insertConnection = _tinkercell.tc_insertConnection
+
+def tc_getConnectedNodes(*args):
+  return _tinkercell.tc_getConnectedNodes(*args)
+tc_getConnectedNodes = _tinkercell.tc_getConnectedNodes
+
+def tc_getConnections(*args):
+  return _tinkercell.tc_getConnections(*args)
+tc_getConnections = _tinkercell.tc_getConnections
+
 def tc_getY(*args):
   return _tinkercell.tc_getY(*args)
 tc_getY = _tinkercell.tc_getY
@@ -773,21 +789,9 @@ def tc_BasicInformationTool_Numeric_api(*args):
   return _tinkercell.tc_BasicInformationTool_Numeric_api(*args)
 tc_BasicInformationTool_Numeric_api = _tinkercell.tc_BasicInformationTool_Numeric_api
 
-def tc_insertConnection(*args):
-  return _tinkercell.tc_insertConnection(*args)
-tc_insertConnection = _tinkercell.tc_insertConnection
-
-def tc_getConnectedNodes(*args):
-  return _tinkercell.tc_getConnectedNodes(*args)
-tc_getConnectedNodes = _tinkercell.tc_getConnectedNodes
-
 def tc_getConnectedNodesWithRole(*args):
   return _tinkercell.tc_getConnectedNodesWithRole(*args)
 tc_getConnectedNodesWithRole = _tinkercell.tc_getConnectedNodesWithRole
-
-def tc_getConnections(*args):
-  return _tinkercell.tc_getConnections(*args)
-tc_getConnections = _tinkercell.tc_getConnections
 
 def tc_getConnectionsWithRole(*args):
   return _tinkercell.tc_getConnectionsWithRole(*args)
@@ -808,14 +812,6 @@ tc_separate = _tinkercell.tc_separate
 def tc_GroupHandlerTool_api(*args):
   return _tinkercell.tc_GroupHandlerTool_api(*args)
 tc_GroupHandlerTool_api = _tinkercell.tc_GroupHandlerTool_api
-
-def tc_insert(*args):
-  return _tinkercell.tc_insert(*args)
-tc_insert = _tinkercell.tc_insert
-
-def tc_NodeInsertion_api(*args):
-  return _tinkercell.tc_NodeInsertion_api(*args)
-tc_NodeInsertion_api = _tinkercell.tc_NodeInsertion_api
 
 def tc_getStoichiometry(*args):
   return _tinkercell.tc_getStoichiometry(*args)

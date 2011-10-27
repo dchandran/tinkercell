@@ -57,7 +57,7 @@ The MainWindow keeps a list of all plugins, and it is also responsible for loadi
 #include "plugins/LabelingTool.h"
 #include "GlobalSettings.h"
 #include "Ontology.h"
-#include "PluginsMenu.h"
+#include "ExtensionsMenu.h"
 
 namespace Tinkercell
 {
@@ -996,7 +996,7 @@ namespace Tinkercell
 		actionGroup->addAction(gridSz);
 		actionGroup->setExclusive(true);
 
-		menuBar()->addMenu(new PluginsMenu(this));
+		menuBar()->addMenu(new ExtensionsMenu(this));
 		helpMenu = menuBar()->addMenu(tr("&Help"));
 
 		QAction * copyAction = new QAction(QIcon(":/images/copy.png"),tr("&Copy"),this);

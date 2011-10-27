@@ -19,6 +19,7 @@
         <file alias="database.png">../icons/database.png</file>
         <file alias="default.png">../icons/default.png</file>
         <file alias="defaultnode.xml">../icons/defaultnode.xml</file>
+        <file alias="defaultarrow.xml">../icons/defaultarrow.xml</file>
         <file alias="3to3.png">../icons/3to3.png</file>
         <file alias="textsheet.xml">../icons/textsheet.xml</file>
         <file alias="bubbles.xml">../icons/bubbles.xml</file>

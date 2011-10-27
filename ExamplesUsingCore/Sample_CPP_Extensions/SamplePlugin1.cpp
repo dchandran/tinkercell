@@ -1,8 +1,11 @@
 #include "MainWindow.h"
+#include "NetworkHandle.h"
 #include "GlobalSettings.h"
 #include "Ontology.h"
 #include "ConsoleWindow.h"
 #include "NodeGraphicsItem.h"
+#include "TextGraphicsItem.h"
+#include "ItemHandle.h"
 #include "SamplePlugin1.h"
 using namespace Tinkercell;
 
@@ -13,20 +16,48 @@ SamplePlugin1::SamplePlugin1(): Tool("My Plugin 1", "Sample Plugins") //name, ca
 bool SamplePlugin1::setMainWindow(MainWindow * main)
 {
 	Tool::setMainWindow(main); //must call this
+
 	connect(main, SIGNAL(mouseReleased(GraphicsScene*, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)),
 				this, SLOT(mouseReleased(GraphicsScene*, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)));
+
+	connect(main, SIGNAL(itemsSelected(GraphicsScene *, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),
+				this,SLOT(itemsSelected(GraphicsScene *, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
 }
 
 void SamplePlugin1::mouseReleased(GraphicsScene * scene, QPointF point, Qt::MouseButton button, Qt::KeyboardModifiers modifiers)
 {
+	NodeHandle * handle = new NodeHandle("x");
+	scene->network->makeUnique(handle);  //assign unique name
+
 	NodeGraphicsItem * node;
 	if (modifiers == Qt::ControlModifier)
 		node = new NodeGraphicsItem(":/images/fire.xml");
 	else		
-		node = new NodeGraphicsItem(":/images/simplecircle.xml");
+		node = new NodeGraphicsItem(":/images/defaultnode.xml");
+
+	node->setHandle(handle);
+	TextGraphicsItem * text = new TextGraphicsItem(handle);
 
 	node->setPos(point);
-	scene->insert("new node", node);
+
+	QPointF bottom(0, node->boundingRect().height()/2);
+	text->setPos( point + bottom );
+	QFont font = text->font();
+	font.setPointSize(22);
+	text->setFont(font);
+	
+	QList<QGraphicsItem*> list;
+	list << node << text;
+
+	scene->insert("new node", list);
+}
+
+void SamplePlugin1::itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers modifiers)
+{
+	QList<ItemHandle*> handles = getHandle(items);
+
+	for (int i=0; i < handles.size(); ++i)
+		scene->moving() += handles[i]->graphicsItems;
 }
 
 

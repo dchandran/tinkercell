@@ -8,7 +8,6 @@ Whenever a new connection item is created, this class adds control points to the
 so that it looks appealing
 
 ****************************************************************************/
-
 #include "GraphicsScene.h"
 #include "UndoCommands.h"
 #include "MainWindow.h"
@@ -57,7 +56,7 @@ namespace Tinkercell
 
 	void ConnectionMaker::itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>& inserts, const QList<ItemHandle*>&, GraphicsScene::InsertType type)
 	{
-		if (!scene) return;
+		if (!scene || type != GraphicsScene::NEW) return;
 		static bool callBySelf = false;
 
 		QList<QGraphicsItem*> oldItems, newItems;
@@ -116,7 +115,7 @@ namespace Tinkercell
 				if (inputs == 0 || outputs == 0)
 					inputs = outputs = (int)(connection->curveSegments.size()/2);
 
-				if (!connection->isValid() || type == GraphicsScene::NEW)
+				//if (!connection->isValid())
 				{
 					for (int j=0; j < connection->curveSegments.size(); ++j)
 					{
@@ -128,11 +127,10 @@ namespace Tinkercell
 					makeSegments(scene, connection, nodes, inputs);
 					connection->refresh();
 
-					if (connection->handle() && connection->centerPoint())  //set location of text
+					if (connection->handle())// && connection->centerPoint())  //set location of text
 					{
 						TextGraphicsItem * textItem = 0;
 						QPointF centerPoint = connection->centerLocation();
-						
 						QPointF p[] = { 	(centerPoint + QPointF(20.0,20.0) ),
 							(centerPoint + QPointF(20.0,0.0) ),
 							(centerPoint + QPointF(0.0,-20.0) ),
@@ -150,11 +148,11 @@ namespace Tinkercell
 								for (int k=0; k < 8; ++k)
 								{
 									textItem->setPos( p[k] );
-									if (scene->items( connection->handle()->graphicsItems[j]->sceneBoundingRect() ).size() < 2)
+									if (scene->items( textItem->sceneBoundingRect() ).size() < 2)
 										break;
 								}
 								textItem->relativePosition = 
-									QPair<QGraphicsItem*,QPointF>(connection,connection->handle()->graphicsItems[j]->scenePos() - centerPoint);								
+									QPair<QGraphicsItem*,QPointF>(connection,textItem->scenePos() - centerPoint);
 							}
 						}
 					}

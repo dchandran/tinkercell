@@ -27,8 +27,8 @@ namespace Tinkercell
 {
 	const QString ArrowHeadItem::CLASSNAME = QString("ArrowHeadItem");
 	const QString ConnectionGraphicsItem::CLASSNAME = QString("ConnectionGraphicsItem");
-	QString ConnectionGraphicsItem::DefaultMiddleItemFile("");
-	QString ConnectionGraphicsItem::DefaultArrowHeadFile("");
+	QString ConnectionGraphicsItem::DefaultMiddleItemFile(":/images/defaultarrow.xml");
+	QString ConnectionGraphicsItem::DefaultArrowHeadFile(":/images/defaultarrow.xml");
 
 	ItemHandle * ConnectionGraphicsItem::handle() const
 	{
@@ -603,35 +603,48 @@ namespace Tinkercell
 	/*! \brief the center location*/
 	QPointF ConnectionGraphicsItem::centerLocation() const
 	{
-		if (pathShape.elementCount() < 1)
+		QPointF p(0,0);
+		if (scene())
 		{
-			QPointF p(0,0);
-			NodeGraphicsItem * node;
-			int l = 0;
-			for (int i=0; i < curveSegments.size(); ++i)
-				if (curveSegments[i].size() > 0 && curveSegments[i][0])
+			if (pathShape.elementCount() > 0 && curveSegments.size() == 1 && curveSegments[0].size() < 5)
+			{
+				p = pathShape.pointAtPercent(0.25);
+			}
+			else
+			{
+				ConnectionGraphicsItem::ControlPoint * cp  = centerPoint();
+				if (cp && cp->scene())
+					p = centerPoint()->scenePos();
+			}
+			if (!p.isNull())
+				return p;
+		}
+		
+		p = QPointF(0,0);
+
+		NodeGraphicsItem * node;
+		int n = 0;
+		for (int i=0; i < curveSegments.size(); ++i)
+			if (curveSegments[i].size() > 0 && curveSegments[i][0])
+			{
+				node = NodeGraphicsItem::cast(curveSegments[i][0]->parentItem());
+				if (node && node != curveSegments[i].arrowStart && node != curveSegments[i].arrowEnd)
 				{
-					node = NodeGraphicsItem::cast(curveSegments[i][0]->parentItem());
-					if (node)
+					p += node->scenePos();
+					++n;
+				}
+				if (curveSegments[i].size() > 1 && curveSegments[i][curveSegments[i].size()-1])
+				{
+					node = NodeGraphicsItem::cast(curveSegments[i][curveSegments[i].size()-1]->parentItem());
+					if (node && node != curveSegments[i].arrowStart && node != curveSegments[i].arrowEnd)
 					{
-						++l;
 						p += node->scenePos();
+						++n;
 					}
 				}
-			return p/l;
-		}
-		else
-		if (curveSegments.size() == 1 && curveSegments[0].size() < 5)
-		{
-			return ( pathShape.pointAtPercent(0.25) );
-		}
-		else
-		{
-			ConnectionGraphicsItem::ControlPoint * cp  = centerPoint();
-			if (cp)
-				return ( centerPoint()->scenePos() );
-		}
-		return QPointF(0,0);
+			}
+		p /= n;
+		return p;
 	}
 
 	/*! \brief adjust the end control points so that they point straight

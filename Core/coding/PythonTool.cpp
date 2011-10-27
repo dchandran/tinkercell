@@ -233,12 +233,17 @@ namespace Tinkercell
 			}
 
 			QFile file(appDir + tr("/python/init.py"));
+			QString s;
 			if (file.open(QFile::ReadOnly | QFile::Text))
 			{
 				QString s = file.readAll();
 				file.close();
-				runPythonCode(s);
 			}
+
+			if (!s.contains(tr("from tinkercell import *")))
+				s = tr("from tinkercell import *\n") + s;
+
+			runPythonCode(s);
 
 			ConsoleWindow * outWin = console();
 			if (outWin)

@@ -235,6 +235,9 @@ namespace Tinkercell
 				file.close();
 			}
 
+			if (!s.contains("global tinkercell"))
+				s = tr("tinkercell;\nglobal tinkercell;\n") + s;
+
 			runOctaveCode(s);
 
 			ConsoleWindow * outWin = console();

@@ -1113,7 +1113,7 @@ namespace Tinkercell
 				QList<QGraphicsItem*> list = createNewNode(scene, scene->visibleRegion().center(), name, family);
 				if (!list.isEmpty())
 				{
-					scene->insert(name + tr("inserted"),list);
+					scene->insert(name + tr(" inserted"),list);
 					QList<ItemHandle*> handles = getHandle(list);
 					if (handles.size() > 0)
 						(*item) = handles[0];
@@ -1131,8 +1131,19 @@ namespace Tinkercell
 						}
 					}
 					NodeGraphicsItem * nodeItem = new NodeGraphicsItem(":/images/defaultnode.xml");
+					nodeItem->setPos(scene->visibleRegion().center());
 					NodeHandle * h = new NodeHandle(nodeFamily, nodeItem);
-					scene->insert(name + tr("inserted"), nodeItem);
+					if (scene->network)
+						scene->network->makeUnique(h);
+					TextGraphicsItem * text = new TextGraphicsItem(h);
+					QPointF bottom(0, nodeItem->boundingRect().height()/2);
+					text->setPos( nodeItem->pos() + bottom );
+					QFont font = text->font();
+					font.setPointSize(22);
+					text->setFont(font);					
+					QList<QGraphicsItem*> list;
+					list << nodeItem << text;
+					scene->insert(h->name + tr(" inserted"), list);
 					(*item) = h;
 				}
 			}
@@ -4262,6 +4273,7 @@ namespace Tinkercell
 		TextGraphicsItem * nameItem = new TextGraphicsItem(handle,0);
 		if (item)
 			nameItem->relativePosition = QPair<QGraphicsItem*,QPointF>(item,QPointF(0,0));
+
 		insertList += nameItem;
 		nameItem->setPos(item->centerLocation());
 		QFont font = nameItem->font();

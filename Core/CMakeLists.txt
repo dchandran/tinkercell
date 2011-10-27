@@ -42,7 +42,7 @@ FILE(GLOB TINKERCELL_CORE_HDRS
 	NetworkHandle.h
 	NetworkWindow.h
 	MultithreadedSliderWidget.h
-	PluginsMenu.h
+	ExtensionsMenu.h
 	plots/GnuplotTool.h
 	plots/Plot2DWidget.h
 	plots/Plot3DWidget.h

@@ -57,7 +57,9 @@ void SamplePlugin1::mouseReleased(GraphicsScene * scene, QPointF point, Qt::Mous
 	QList<QGraphicsItem*> list;  //create a list of the node and the text box
 	list << node << text;
 
-	scene->insert("new node", list);  //insert items into the scene
+	scene->insert("new node", list);   /*insert items into the scene. 
+    DO NOT USE scene->addItem because that is part of the Qt 
+    and would not do all the things that ->insert would do*/
 }
 
 void SamplePlugin1::itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers modifiers)

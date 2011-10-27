@@ -15,49 +15,68 @@ SamplePlugin1::SamplePlugin1(): Tool("My Plugin 1", "Sample Plugins") //name, ca
 
 bool SamplePlugin1::setMainWindow(MainWindow * main)
 {
-	Tool::setMainWindow(main); //must call this
+	Tool::setMainWindow(main); //must call this to properly setup the extension
 
+	//this extension performs some action when mouse button is released
 	connect(main, SIGNAL(mouseReleased(GraphicsScene*, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)),
 				this, SLOT(mouseReleased(GraphicsScene*, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)));
 
+	//this extension performs some action when items on the screen are selected
 	connect(main, SIGNAL(itemsSelected(GraphicsScene *, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),
 				this,SLOT(itemsSelected(GraphicsScene *, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
 }
 
 void SamplePlugin1::mouseReleased(GraphicsScene * scene, QPointF point, Qt::MouseButton button, Qt::KeyboardModifiers modifiers)
 {
-	NodeHandle * handle = new NodeHandle("x");
-	scene->network->makeUnique(handle);  //assign unique name
+	/*
+		One network can be represented in multiple scenes (canvas) or
+		multiple text editors, so a scene might be just a piece of the entire network
+	*/
+	NetworkHandle * network = scene->network;  //get the network
 
-	NodeGraphicsItem * node;
-	if (modifiers == Qt::ControlModifier)
-		node = new NodeGraphicsItem(":/images/fire.xml");
+	NodeHandle * handle = new NodeHandle("x"); //create a new "Handle", or entity, called x
+	scene->network->makeUnique(handle);  //assign unique name, if x is already taken
+
+	NodeGraphicsItem * node;  //greate a graphical node, different from a Handle
+	if (modifiers == Qt::ControlModifier) 
+		node = new NodeGraphicsItem(":/images/fire.xml");  //load either the fire image
 	else		
-		node = new NodeGraphicsItem(":/images/defaultnode.xml");
+		node = new NodeGraphicsItem(":/images/defaultnode.xml"); //or the default image
 
-	node->setHandle(handle);
-	TextGraphicsItem * text = new TextGraphicsItem(handle);
+	node->setHandle(handle);  //set the handle for the graphical item
+	TextGraphicsItem * text = new TextGraphicsItem(handle);  //create a text box that also belong with the same handle
 
-	node->setPos(point);
+	node->setPos(point); //set the position of the node. point is where mouse was clicked
 
-	QPointF bottom(0, node->boundingRect().height()/2);
-	text->setPos( point + bottom );
-	QFont font = text->font();
+	QPointF bottom(0, node->boundingRect().height()/2);  //set the position of the text box
+	text->setPos( point + bottom );  
+	QFont font = text->font();  //increase the font of the text box
 	font.setPointSize(22);
 	text->setFont(font);
 	
-	QList<QGraphicsItem*> list;
+	QList<QGraphicsItem*> list;  //create a list of the node and the text box
 	list << node << text;
 
-	scene->insert("new node", list);
+	scene->insert("new node", list);  //insert items into the scene
 }
 
 void SamplePlugin1::itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers modifiers)
 {
-	QList<ItemHandle*> handles = getHandle(items);
+	/*
+		The following look ensures that text boxes also move
+ 		when nodes are selected, but nodes do not move when
+		text boxes are selected
 
-	for (int i=0; i < handles.size(); ++i)
-		scene->moving() += handles[i]->graphicsItems;
+		A handle is a collection of graphical items that reprent
+		the same entity. For example a node and the text box
+		below the node belong with the same entity.
+	*/
+	for (int i=0; i < items.size(); ++i)
+	{
+		ItemHandle * h = getHandle(items[i]);
+		if (h != 0 && NodeGraphicsItem::cast(items[i]))
+			scene->moving() += h->graphicsItems;
+	}
 }
 
 

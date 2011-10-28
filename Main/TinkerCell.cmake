@@ -4,7 +4,6 @@
 
 FILE( GLOB TINKERCELL_MAIN_SRC 
 	${TINKERCELL_SOURCE_DIR}/Main/TinkerCellMain.cpp
-	${TINKERCELL_SOURCE_DIR}/Main/DefaultPluginsMenu.cpp
     ${TINKERCELL_SOURCE_DIR}/DynamicCodeTools/PythonTool.cpp
 	${TINKERCELL_SOURCE_DIR}/DynamicCodeTools/OctaveTool.cpp
 	${TINKERCELL_SOURCE_DIR}/ModelingTools/*.cpp
@@ -19,7 +18,6 @@ FILE( GLOB TINKERCELL_MAIN_SRC
 )
 
 FILE( GLOB TINKERCELL_MAIN_HRDS
-	${TINKERCELL_SOURCE_DIR}/Main/DefaultPluginsMenu.h
     ${TINKERCELL_SOURCE_DIR}/DynamicCodeTools/PythonTool.h
 	${TINKERCELL_SOURCE_DIR}/DynamicCodeTools/OctaveTool.h
 	${TINKERCELL_SOURCE_DIR}/ModelingTools/*.h

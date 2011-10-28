@@ -16,8 +16,7 @@ QTGUI=@QT_QTGUI@
 QTXML=@QT_QTXML@
 QTOPENGL=@QT_QTOPENGL@
 
-cp @TINKERCELL_BINARY_BIN_DIR@/*.dylib @TINKERCELL_EXE@.app/Contents/Frameworks/
-cp -R @TINKERCELL_SOURCE_DIR@/Graphics @TINKERCELL_EXE@.app/Contents/MacOS/
+cp @TINKERCELL_BINARY_BIN_DIR@/*.dylib NodeGraphics.app/Contents/Frameworks/
 
 #copy QT framework
 @QT_LIBRARY_DIR@/../bin/macdeployqt NodeGraphics.app

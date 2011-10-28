@@ -40,7 +40,6 @@
 #include "NameFamilyDialog.h"
 #include "ConnectionSelection.h"
 #include "NodeSelection.h"
-#include "DefaultPluginsMenu.h"
 #include "GraphicsScene.h"
 #include "ConsoleWindow.h"
 #include <QColor>
@@ -154,7 +153,6 @@ int main(int argc, char *argv[])
     splash.showMessage(QString("loading ..."));
 
     /*******  Dynamically load plugins from folders ***********/
-    DefaultPluginsMenu menu(&mainWindow);
     mainWindow.settingsMenu->addMenu(&menu);
 	mainWindow.setDockOptions(QMainWindow::AnimatedDocks|QMainWindow::AllowNestedDocks);
 

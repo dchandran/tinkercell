@@ -59,8 +59,8 @@ namespace Tinkercell
             connect(mainWindow,SIGNAL(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)),
                     this,SLOT(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)));
 
-            connect(mainWindow,SIGNAL(itemsRemoved(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)),
-                    this,SLOT(itemsRemoved(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)));
+            //connect(mainWindow,SIGNAL(itemsRemoved(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)),
+               //     this,SLOT(itemsRemoved(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)));
 
             connect(mainWindow,SIGNAL(itemsMoved(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<QPointF>&)),
                     this,SLOT(itemsMoved(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<QPointF>&)));
@@ -579,9 +579,8 @@ namespace Tinkercell
 
         if (!children.isEmpty() && !newParents.isEmpty())
         {
-            scene->network->setParentHandle(children,newParents);
-
-            //adjustRates(scene, children, newParents);
+            scene->network->setParentHandle(children,newParents);		
+			adjustRates(scene, children, newParents);
         }
         
         updateTree(0);

@@ -1434,10 +1434,15 @@ namespace Tinkercell
 		if (handle)
 		{
 			handles << handle;
-			QList<ItemHandle*> handles2 = handle->allChildren();
-			for (int j=0; j < handles2.size(); ++j)
-				if (handles2[j])
-					allitems << handles2[j]->allGraphicsItems();
+			if ((NodeGraphicsItem::cast(item) || ConnectionGraphicsItem::cast(item)) &&
+				(NodeGraphicsItem::cast(handle->graphicsItems).size() + 
+				ConnectionGraphicsItem::cast(handle->graphicsItems).size()) == 1)
+			{
+				QList<ItemHandle*> handles2 = handle->allChildren();
+				for (int j=0; j < handles2.size(); ++j)
+					if (handles2[j])
+						allitems << handles2[j]->allGraphicsItems();
+			}
 		}
 
 		QList<QUndoCommand*> commands;		
@@ -1456,6 +1461,7 @@ namespace Tinkercell
 		emit itemsRemoved(this,allitems,handles);
 		network->symbolsTable.update();
 	}
+
 	/*! \brief this command performs an removal and allows redo/undo of that removal*/
 	void GraphicsScene::remove(const QString& name, const QList<QGraphicsItem*>& items)
 	{
@@ -1475,10 +1481,15 @@ namespace Tinkercell
 				if (handle)
 				{
 					handles << handle;
-					handles2 = handle->allChildren();
-					for (int j=0; j < handles2.size(); ++j)
-						if (handles2[j])
-							allitems << handles2[j]->allGraphicsItems();
+					if ((NodeGraphicsItem::cast(items[i]) || ConnectionGraphicsItem::cast(items[i])) &&
+						(NodeGraphicsItem::cast(handle->graphicsItems).size() + 
+						ConnectionGraphicsItem::cast(handle->graphicsItems).size()) == 1)
+					{
+						handles2 = handle->allChildren();
+						for (int j=0; j < handles2.size(); ++j)
+							if (handles2[j])
+								allitems << handles2[j]->allGraphicsItems();
+					}
 				}
 			}
 

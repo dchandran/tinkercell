@@ -153,8 +153,7 @@ int main(int argc, char *argv[])
     splash.showMessage(QString("loading ..."));
 
     /*******  Dynamically load plugins from folders ***********/
-    mainWindow.settingsMenu->addMenu(&menu);
-	mainWindow.setDockOptions(QMainWindow::AnimatedDocks|QMainWindow::AllowNestedDocks);
+    mainWindow.setDockOptions(QMainWindow::AnimatedDocks|QMainWindow::AllowNestedDocks);
 
     QString home = GlobalSettings::homeDir();
 

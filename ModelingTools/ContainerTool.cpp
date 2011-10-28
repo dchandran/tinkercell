@@ -458,7 +458,7 @@ namespace Tinkercell
 					child = getHandle(movingItems[i]);
 				}
             if (child && child != handle && !handle->children.contains(child) && !handle->isChildOf(child)
-				&& ((child->isA("part") && handle->isA("part")) || (!child->isA("part") && !handle->isA("part")))) //special case for parts
+				&& ((child->isA("part") && handle->isA("part")) || (/*!child->isA("part") &&*/ !handle->isA("part")))) //special case for parts
             {
                 stillWithParent = false;
                 

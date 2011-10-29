@@ -135,6 +135,9 @@ namespace Tinkercell
 		*/
 		void graph(const DataTable<qreal>&,const QString& title,int xaxis, PlotTool::PlotType type);
 
+		/*! \brief Update progress bar*/
+		void showProgress(int);
+
 	public slots:
 		
 		/*! \brief write model to file in SBML format */
@@ -145,6 +148,12 @@ namespace Tinkercell
 
 		/*! \brief Updates the COPASI model parameters and run again*/
 		void updateModelParametersAndRerun(DataTable<qreal> params);
+
+		/*! \brief Show progress bar*/
+		void showProgressDialog(const QString&);
+		
+		/*! \brief Hide progress bar*/
+		void hideProgressDialog();
 
 		/*! \brief perform the analysis*/
 		virtual void run();
@@ -179,6 +188,10 @@ namespace Tinkercell
 		
 		/*! \brief main window*/
 		MainWindow * mainWindow;
+
+		QDialog * progressDialog;
+		QLabel * progressDialogText;
+
 		friend class SimulationDialog;
 	}; 
 

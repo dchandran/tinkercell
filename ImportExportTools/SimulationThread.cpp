@@ -326,6 +326,18 @@ SimulationThread::SimulationThread(MainWindow * parent) : QObject(parent), mainW
 							 plotTool, SLOT(plot(const DataTable<qreal>&,const QString&,int, PlotTool::PlotType)));
 		}
 	}
+
+	progressDialog = new QDialog(mainWindow);
+	progressDialog->hide();
+	QProgressBar * progressbar = new QProgressBar;
+	progressbar->setRange(0,100);
+	QVBoxLayout * layout = new QVBoxLayout;
+	
+	layout->addWidget(progressDialogText = new QLabel(""));
+	layout->addWidget(progressbar);
+	progressDialog->setLayout(layout);
+
+	connect(this,SIGNAL(showProgress(int)), progressbar, SLOT(setValue(int)));
 }
 
 void SimulationThread::setMethod(AnalysisMethod mthd)
@@ -473,11 +485,12 @@ void SimulationThread::run()
 				QString param = scanItems[0].name;
 				tc_matrix ss;
 				int i,j;
-				
-				QString title("steady state scan");
+
+				showProgressDialog("steady state scan");
+
 				for (i=0; i < n; ++i)
 				{
-					//showProgress( title, (int)(100 * i)/n  );
+					emit showProgress( (int)(100 * i)/n  );
 					p = start + (double)(i)*step;
 					cSetValue(model, param.toAscii().data(), p);
 					ss = cGetSteadyState(model);
@@ -497,7 +510,7 @@ void SimulationThread::run()
 		
 					tc_deleteMatrix(ss);
 				}
-				//showProgress(title, 100);
+				hideProgressDialog();
 				plotTitle = tr("Steady state scan");
 				plotType = PlotTool::Plot2D;
 			}
@@ -519,11 +532,13 @@ void SimulationThread::run()
 								param3 = scanItems[2].name;
 				tc_matrix ss;
 				int i,j,k,l=-1;
-				
-				QString title("steady state scan 2D");
+
+				showProgressDialog("steady state scan 2D");
+
 				for (i=0; i < n1; ++i)
 				{
-					//showProgress( title, (int)(100 * i)/n1  );
+					emit showProgress( (int)(100 * i)/n1  );
+
 					p1 = start1 + (double)(i)*step1;
 					
 					for (j=0; j < n2; ++j)
@@ -560,7 +575,7 @@ void SimulationThread::run()
 						tc_deleteMatrix(ss);
 					}
 				}
-				//showProgress(title, 100);
+				hideProgressDialog();
 			}
 			plotTitle = tr("Steady state scan");
 			plotType = PlotTool::SurfacePlot;
@@ -999,6 +1014,23 @@ void SimulationDialog::updateParameterList()
 void SimulationThread::exportSBML(const QString& file)
 {
 	cWriteSBMLFile(model, ConvertValue(file));
+}
+
+void SimulationThread::showProgressDialog(const QString& text)
+{
+	if (progressDialog && progressDialogText)
+	{
+		progressDialogText->setText(text);
+		progressDialog->show();
+	}
+}
+
+void SimulationThread::hideProgressDialog()
+{
+	if (progressDialog)
+	{
+		progressDialog->hide();
+	}
 }
 
 }

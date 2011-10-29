@@ -236,7 +236,7 @@ namespace Tinkercell
 			QString s;
 			if (file.open(QFile::ReadOnly | QFile::Text))
 			{
-				QString s = file.readAll();
+				s = file.readAll();
 				file.close();
 			}
 

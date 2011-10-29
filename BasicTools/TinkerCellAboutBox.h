@@ -43,15 +43,16 @@ namespace Tinkercell
 	public:
 		TinkercellAboutBox();
 		bool setMainWindow(MainWindow * main);	
-		public slots:
-			void showAboutBox();
-			void openWhatIsTinkerCell();
-			void openUserDocumentation();
-			void openC_API();
-			void openHomePage();
-			void openFeedbackPage();
-			void openBlog();
-			void emailAuthor();
+	public slots:
+		void showAboutBox();
+		void openWhatIsTinkerCell();
+		void openUserDocumentation();
+		void openC_API();
+		void openHomePage();
+		void openTutorialsPage();
+		void openFeedbackPage();
+		void openBlog();
+		void emailAuthor();
 	private:
 		QDialog dialog;
 	};

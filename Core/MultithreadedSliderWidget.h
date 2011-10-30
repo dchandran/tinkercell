@@ -113,7 +113,7 @@ namespace Tinkercell
 		/*!
 		* \brief whenver the sliders change, the function in the C library is called
 		*/
-		virtual void sliderChanged(int);
+		virtual void sliderChanged(int,int);
 		
 		/*!
 		* \brief whenver the text change, the function in the C library is called
@@ -173,6 +173,23 @@ namespace Tinkercell
 						changing the slider for "A" will result in change to "A.bla[0,0]"
 		*/
 		QString defaultDataTable;
+	};
+
+	class SliderWithIndex : public QSlider
+	{
+		Q_OBJECT
+
+		public:
+			SliderWithIndex(int);
+
+		signals:
+			void valueChanged(int,int);
+
+		private slots:
+			void valueChangedSlot(int);
+
+		private:
+			int index;
 	};
 }
 

@@ -111,8 +111,8 @@ namespace Tinkercell
 		
 		for (int i=0; i < sliders.size(); ++i)
 			if (sliders[i])
-				disconnect(sliders[i],SIGNAL(valueChanged(int)),this,SLOT(sliderChanged(int)));
-		
+				disconnect(sliders[i],SIGNAL(valueChanged(int,int)),this,SLOT(sliderChanged(int,int)));
+
 		for (int i=0; i < sliders.size() && i < max.size() && i < min.size(); ++i)
 			if (sliders[i])
 			{
@@ -133,7 +133,7 @@ namespace Tinkercell
 			}
 		for (int i=0; i < sliders.size(); ++i)
 			if (sliders[i])
-				connect(sliders[i],SIGNAL(valueChanged(int)),this,SLOT(sliderChanged(int)));
+				connect(sliders[i],SIGNAL(valueChanged(int,int)),this,SLOT(sliderChanged(int,int)));
 	}
 	
 	void MultithreadedSliderWidget::valueChanged()
@@ -145,7 +145,7 @@ namespace Tinkercell
 		
 		for (int i=0; i < sliders.size(); ++i)
 			if (sliders[i])
-				disconnect(sliders[i],SIGNAL(valueChanged(int)),this,SLOT(sliderChanged(int)));
+				disconnect(sliders[i],SIGNAL(valueChanged(int,int)),this,SLOT(sliderChanged(int,int)));
 		
 		for (int i=0; i < valueline.size() && i < sliders.size() && i < max.size() && i < min.size(); ++i)
 			if (sliders[i])
@@ -175,7 +175,7 @@ namespace Tinkercell
 		
 		for (int i=0; i < sliders.size(); ++i)
 			if (sliders[i])
-				connect(sliders[i],SIGNAL(valueChanged(int)),this,SLOT(sliderChanged(int)));
+				connect(sliders[i],SIGNAL(valueChanged(int,int)),this,SLOT(sliderChanged(int,int)));
 		
 		emit valuesChanged(values);
 
@@ -194,13 +194,13 @@ namespace Tinkercell
 		}
 	}
 
-	void MultithreadedSliderWidget::sliderChanged(int)
+	void MultithreadedSliderWidget::sliderChanged(int, int i)
 	{
-		if (sliders.isEmpty()) return;
+		if (sliders.isEmpty() || sliders.size() <= i) return;
 		
 		double range;
 		
-		for (int i=0; i < valueline.size() && i < sliders.size() && i < max.size() && i < min.size(); ++i)
+		//for (int i=0; i < valueline.size() && i < sliders.size() && i < max.size() && i < min.size(); ++i)
 			if (sliders[i])
 			{
 				range = (max[i]-min[i]);
@@ -212,7 +212,7 @@ namespace Tinkercell
 	
 	void MultithreadedSliderWidget::setSliders(const QStringList& options, const QList<double>& minValues, const QList<double>& maxValues)
 	{
-		QSlider * slider;
+		SliderWithIndex * slider;
 		QLabel * label;
 		QLineEdit * line;
 
@@ -315,7 +315,7 @@ namespace Tinkercell
 			layout->addWidget(label);
 			labels << label;
 
-			slider = new QSlider;
+			slider = new SliderWithIndex(i);
 			slider->setOrientation(orientation);
 			slider->setRange(0,100);
 			slider->setValue(50);
@@ -323,7 +323,7 @@ namespace Tinkercell
 			layout->addWidget(slider,5);
 			sliders << slider;
 			slider->setTracking(false);
-			connect(slider,SIGNAL(valueChanged(int)),this,SLOT(sliderChanged(int)));
+			connect(slider,SIGNAL(valueChanged(int,int)),this,SLOT(sliderChanged(int,int)));
 
 			values.value(i,0) = (maxValues[i] + minValues[i])/2.0;
 			
@@ -545,6 +545,16 @@ namespace Tinkercell
 			for (int i=0; i < newTables.size(); ++i)
 				delete newTables[i];
 		}
+	}
+
+	SliderWithIndex::SliderWithIndex(int i) : index(i) 
+	{
+		connect(this,SIGNAL(valueChanged(int)), this, SLOT(valueChangedSlot(int)));
+	}
+
+	void SliderWithIndex::valueChangedSlot(int n)
+	{
+		emit valueChanged(n, index);
 	}
 }
 

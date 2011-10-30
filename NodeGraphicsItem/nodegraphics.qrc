@@ -2,5 +2,6 @@
 <qresource>
     <file>images/bucket.png</file>
     <file>images/pencil.png</file>
+	<file>images/tutorial.mp4</file>
 </qresource>
 </RCC>

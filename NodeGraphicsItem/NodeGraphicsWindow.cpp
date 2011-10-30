@@ -83,6 +83,7 @@
 		QAction	* saveAction;
 		QAction	* loadAction;
 		QAction	* docAction;
+		QAction * vidAction;
 	
 		exitAction = new QAction(tr("E&xit"), this);
 		exitAction->setShortcut(tr("Ctrl+Q"));
@@ -122,9 +123,8 @@
 	
 	void NodeImageDesigner::MainWindow::openDocumentation()
 	{
-		
 		QString appDir = QCoreApplication::applicationDirPath();
-		QString doc = tr("file:") + appDir + tr("/Documentation/NodeGraphics_Documentat.html");
+		QString doc = tr(":/images/tutorial.mp4");
 		QDesktopServices::openUrl(QUrl(doc));
 	}
 

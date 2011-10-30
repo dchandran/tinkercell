@@ -728,6 +728,15 @@ COPASIAPIEXPORT void cSetValues(copasi_model model, tc_matrix );
 COPASIAPIEXPORT tc_matrix cGetRatesOfChange(copasi_model);
 
 /*! 
+ \brief Compute the current rates of change for one species
+ \param copasi_model model
+ \param string name of species
+ \return tc_matrix matrix of with 1 row and n columns, where n = number of species
+ \ingroup rateOfChange
+*/
+COPASIAPIEXPORT double cGetRateOfChange(copasi_model, const char * species);
+
+/*! 
  \brief Compute the rates of change for all species after updating species concentrations
  \param copasi_model model
  \param tc_matrix new species concentrations

@@ -484,7 +484,8 @@ bool CMetab::compile()
 
                   std::pair< C_FLOAT64, const C_FLOAT64 * > Insert;
                   Insert.first = (*itChem)->getMultiplicity();
-                  Insert.second = &(*it)->getParticleFlux();
+                  //Insert.second = &(*it)->getParticleFlux();
+                  Insert.second = &(*it)->getFlux();
 
                   mRateVector.push_back(Insert);
                 }

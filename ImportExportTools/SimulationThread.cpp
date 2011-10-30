@@ -400,6 +400,8 @@ void SimulationThread::run()
 		widget->show();
 	}*/
 	
+	tc_matrix m = cSimulateDeterministic(model, 0, 1, 2);
+	tc_deleteMatrix(m);
 
 	switch (method)
 	{

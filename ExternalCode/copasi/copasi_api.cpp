@@ -242,7 +242,7 @@ void populate_hash(copasi_model model)
 				0,
 				0,
 				"",
-				true};
+				false};
 
 			hashInsert(hash,   compartments[i]->getObjectName(),		copasiPtr );
 		}
@@ -258,7 +258,7 @@ void populate_hash(copasi_model model)
 				0,
 				0,
 				"",
-				true};
+				false};
 
 			hashInsert(hash,  species[i]->getObjectName(),	  copasiPtr );
 
@@ -278,7 +278,7 @@ void populate_hash(copasi_model model)
 				reacs[i],
 				0,
 				"",
-				true};
+				false};
 
 			hashInsert(hash,   reacs[i]->getObjectName(),		copasiPtr );
 		}
@@ -294,7 +294,7 @@ void populate_hash(copasi_model model)
 				0,
 				params[i],
 				"",
-				true};
+				false};
 
 			hashInsert(hash,   params[i]->getObjectName(),	 copasiPtr );
 		}
@@ -1315,7 +1315,7 @@ tc_matrix simulate(copasi_model model, double startTime, double endTime, int num
 		// add the new time course task to the task list
 		TaskList.add(pTask, true);
 	}
-	
+
 	CCopasiMessage::clearDeque();
 	
 	if (startTime >= endTime)
@@ -1331,6 +1331,7 @@ tc_matrix simulate(copasi_model model, double startTime, double endTime, int num
 		pProblem->setDuration(endTime-startTime);
 		pDataModel->getModel()->setInitialTime(startTime);
 		pProblem->setTimeSeriesRequested(true);
+		//pTask->setUpdateModel(true);
 		try
 		{
 			pTask->initialize(CCopasiTask::ONLY_TIME_SERIES, pDataModel, NULL);
@@ -1614,6 +1615,8 @@ tc_matrix cGetSteadyStateUsingSimulation(copasi_model model, int maxiter)
 		TaskList.add(pTask, true);
 	}
 
+	CState state = pModel->getState();
+
 	if (pTask)
 		pTask->setUpdateModel(true);
 
@@ -1680,6 +1683,7 @@ tc_matrix cGetSteadyStateUsingSimulation(copasi_model model, int maxiter)
             		tc_setRowName( output, i, (*it).c_str() );
                     tc_setMatrixValue( output, k, 0, timeSeries.getConcentrationData(j,i+1) );
                 }
+				pModel->setInitialState(state);
                 return output;
             }
         }
@@ -1713,6 +1717,7 @@ tc_matrix cGetSteadyState(copasi_model model)
 	}
 	
 	CCopasiMessage::clearDeque();
+	CState state = pModel->getState();
 	
 	if (pTrajTask && pTrajTask->setMethodType(CCopasiMethod::deterministic))
 	{
@@ -1724,6 +1729,7 @@ tc_matrix cGetSteadyState(copasi_model model)
 		pProblem->setDuration(100.0);
 		pDataModel->getModel()->setInitialTime(0.0);
 		pProblem->setTimeSeriesRequested(true);
+		pTrajTask->setUpdateModel(true);
 		try
 		{
 			pTrajTask->initialize(CCopasiTask::ONLY_TIME_SERIES, pDataModel, NULL);
@@ -1761,7 +1767,10 @@ tc_matrix cGetSteadyState(copasi_model model)
 
 	CCopasiMessage::clearDeque();
 	
-	return cGetFloatingSpeciesConcentrations(model);
+	tc_matrix m = cGetFloatingSpeciesConcentrations(model);
+	pModel->setInitialState(state);
+	
+	return m;
 }
 
 tc_matrix cGetEigenvalues(copasi_model model)
@@ -3630,10 +3639,25 @@ tc_matrix cGetRatesOfChange(copasi_model model)
 		if (species[i] && species[i]->getCompartment())
 		{
 			tc_setColumnName(res, i, species[i]->getObjectName().c_str());
+			species[i]->refreshRate();
+			tc_setMatrixValue(res, 0, i, species[i]->getRate());
 		}
-	
-	pModel->calculateDerivatives(res.values);
 	return res;
+}
+
+double cGetRateOfChange(copasi_model model, const char * name)
+{
+	CModel* pModel = (CModel*)(model.CopasiModelPtr);
+	CCMap * hash = (CCMap*)(model.qHash);
+	string s(name);
+	
+	if (!pModel || !contains(hash, s)) return 0.0;
+	CopasiPtr & p = getHashValue(hash, s);
+
+	if (!p.species || !p.species->getCompartment()) return 0.0;
+
+	p.species->refreshRate();
+	return p.species->getRate();
 }
 
 double cGetFlux(copasi_model model, const char * name)

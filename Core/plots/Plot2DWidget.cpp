@@ -1188,12 +1188,36 @@ namespace Tinkercell
 	{
 		plotWidget = parent;
 		plot = parent->dataPlot;
-		
+
 		if (!plotWidget || !plot || plot->dataTables.isEmpty()) return;
 		
 		QString s;
-		NumericalDataTable * dataTable = plot->dataTables.last();
-		int rows = dataTable->columns();
+		QStringList colnames;
+		QHash<QString,bool> hashnames;
+
+		QList<Plot2DWidget*> plots = parent->getAllOther2DWidgets();
+
+		for (int i=0; i < plots.size(); ++i)
+		{
+			Plot2DWidget * plotWidget = plots[i];
+			if (plot = plotWidget->dataPlot)
+			{
+				for (int j=0; j < plot->dataTables.size(); ++j)
+				{
+					if (plot->dataTables[j])
+					{
+						colnames = plot->dataTables[j]->columnNames();
+						for (int k=0; k < colnames.size(); ++k)
+							hashnames[ colnames[k] ] = true;
+					}
+				}
+			}
+		}
+
+		colnames = hashnames.keys();
+		colnames.sort();
+		plot = parent->dataPlot;
+		int rows = colnames.size();
 		QTableWidget * tableWidget = new QTableWidget(rows,1);
 		//tableWidget->horizontalHeader()->hide();
 		tableWidget->setHorizontalHeaderLabels(QStringList() << "plot items");
@@ -1214,7 +1238,7 @@ namespace Tinkercell
 		QStringList uniqueFamilyNames;
 		for (int i=0; i < rows; ++i)
 		{
-			s = dataTable->columnName(i);
+			s = colnames[i];
 			QCheckBox * button = new QCheckBox( s );
 			tableWidget->setCellWidget(i,0,button);
 			checkBoxes << button;
@@ -1317,9 +1341,10 @@ namespace Tinkercell
 				checkBoxes[i]->setChecked(false);
 	}
 	
-	void Plot2DWidget::replotAllOther2DWidgets()
+	QList<Plot2DWidget*> Plot2DWidget::getAllOther2DWidgets()
 	{
-		if (!plotTool || !plotTool->multiplePlotsArea) return;
+		QList<Plot2DWidget*> plot2DWidgets;
+		if (!plotTool || !plotTool->multiplePlotsArea) return plot2DWidgets;
 		
 		QList<QMdiSubWindow*>  list = plotTool->multiplePlotsArea->subWindowList(QMdiArea::ActivationHistoryOrder);
 		
@@ -1327,14 +1352,12 @@ namespace Tinkercell
 			if (list[i]->widget())
 			{
 				PlotWidget * widget = static_cast<PlotWidget*>(list[i]->widget());
-				if (widget && widget != this && widget->type == type)
+				if (widget && widget->type == type)
 				{
-					Plot2DWidget * plot = static_cast<Plot2DWidget*>(widget);
-					plot->dataPlot->plot(NumericalDataTable(),
-										plot->dataPlot->xcolumn,
-										plot->dataPlot->title().text());
+					plot2DWidgets << static_cast<Plot2DWidget*>(widget);
 				}
 			}
+		return plot2DWidgets;
 	}
 	
 	void ShowHideLegendItemsWidget::updatePlot()
@@ -1351,7 +1374,15 @@ namespace Tinkercell
 							plot->title().text());
 		
 		plotWidget->displayFire();
-		plotWidget->replotAllOther2DWidgets();
+		QList<Plot2DWidget*> plots = plotWidget->getAllOther2DWidgets();
+		for (int i=0; i < plots.size(); ++i)
+		{
+			Plot2DWidget * plot = plots[i];
+			if (plot != plotWidget)
+				plot->dataPlot->plot(NumericalDataTable(),
+											plot->dataPlot->xcolumn,
+											plot->dataPlot->title().text());
+		}
 	}
 	
 	void Plot2DWidget::legendConfigure()

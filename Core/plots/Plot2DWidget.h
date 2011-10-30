@@ -241,7 +241,7 @@ namespace Tinkercell
 		/*! \brief set label for y-axis*/
 		void setYLabel(const QString&);
 		/*! \brief replot all the other Plot2DWidget that are visible in the PlotTool window*/
-		void replotAllOther2DWidgets();
+		QList<Plot2DWidget*> getAllOther2DWidgets();
 	
 	private slots:
 		void buttonPressed(int);

@@ -124,7 +124,7 @@
 	void NodeImageDesigner::MainWindow::openDocumentation()
 	{
 		QString appDir = QCoreApplication::applicationDirPath();
-		QString doc = tr(":/images/tutorial.mp4");
+		QString doc = tr("file:") + appDir + tr("/tutorial.mp4");
 		QDesktopServices::openUrl(QUrl(doc));
 	}
 

@@ -1316,6 +1316,8 @@ tc_matrix simulate(copasi_model model, double startTime, double endTime, int num
 		TaskList.add(pTask, true);
 	}
 
+	CState state = pModel->getInitialState();
+
 	CCopasiMessage::clearDeque();
 	
 	if (startTime >= endTime)
@@ -1331,7 +1333,7 @@ tc_matrix simulate(copasi_model model, double startTime, double endTime, int num
 		pProblem->setDuration(endTime-startTime);
 		pDataModel->getModel()->setInitialTime(startTime);
 		pProblem->setTimeSeriesRequested(true);
-		//pTask->setUpdateModel(true);
+		pTask->setUpdateModel(true);
 		try
 		{
 			pTask->initialize(CCopasiTask::ONLY_TIME_SERIES, pDataModel, NULL);
@@ -1377,6 +1379,8 @@ tc_matrix simulate(copasi_model model, double startTime, double endTime, int num
 			for (i=0; i < rows; ++i)
 				tc_setMatrixValue( output, i, k, timeSeries.getConcentrationData(i,j) );
 		}
+
+		pModel->setInitialState(state);
 		return output;
 	}
 	return tc_createMatrix(0,0);
@@ -1520,6 +1524,13 @@ copasi_model cReadSBMLString(const char * sbml)
 	return cReadSBML_helper(sbml, false);
 }
 
+void cResetState(copasi_model model)
+{
+	CModel* pModel = (CModel*)(model.CopasiModelPtr);
+	if (pModel)
+		pModel->setState( pModel->getInitialState() );
+}
+
 tc_matrix cGetJacobian(copasi_model model)
 {
 	CModel* pModel = (CModel*)(model.CopasiModelPtr);
@@ -1615,7 +1626,7 @@ tc_matrix cGetSteadyStateUsingSimulation(copasi_model model, int maxiter)
 		TaskList.add(pTask, true);
 	}
 
-	CState state = pModel->getState();
+	CState state = pModel->getInitialState();
 
 	if (pTask)
 		pTask->setUpdateModel(true);
@@ -1717,7 +1728,7 @@ tc_matrix cGetSteadyState(copasi_model model)
 	}
 	
 	CCopasiMessage::clearDeque();
-	CState state = pModel->getState();
+	CState state = pModel->getInitialState();
 	
 	if (pTrajTask && pTrajTask->setMethodType(CCopasiMethod::deterministic))
 	{

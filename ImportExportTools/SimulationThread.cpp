@@ -446,24 +446,28 @@ void SimulationThread::run()
 			break;
 		case DeterministicSimulation:
 			tc_deleteMatrix(resultMatrix);
+			cResetState(model);
 			resultMatrix = cSimulateDeterministic(model, startTime, endTime, numPoints);
 			plotTitle = tr("Time-course");
 			plotType = PlotTool::Plot2D;
 			break;
 		case StochasticSimulation:
 			tc_deleteMatrix(resultMatrix);
+			cResetState(model);
 			resultMatrix = cSimulateStochastic(model, startTime, endTime, numPoints);
 			plotTitle = tr("Stochastic simulation");
 			plotType = PlotTool::Plot2D;
 			break;
 		case HybridSimulation:
 			tc_deleteMatrix(resultMatrix);
+			cResetState(model);
 			resultMatrix = cSimulateHybrid(model, startTime, endTime, numPoints);
 			plotTitle = tr("Hybrid simulation");
 			plotType = PlotTool::Plot2D;
 			break;
 		case TauLeapSimulation:
 			tc_deleteMatrix(resultMatrix);
+			cResetState(model);
 			resultMatrix = cSimulateTauLeap(model, startTime, endTime, numPoints);
 			plotTitle = tr("Stochastic simulation");
 			plotType = PlotTool::Plot2D;

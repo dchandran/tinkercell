@@ -60,10 +60,26 @@ namespace Tinkercell
 		for (int i=0; i < keys.size(); ++i)
 		{
 			ConnectionFamily * conn = Ontology::connectionFamily(keys[i]);
-			if (conn && conn->parents().isEmpty())
+			if (conn && conn->parents().isEmpty() && !treeItems.contains(keys[i]))
 			{
 				families << conn;
 				parentTreeItems << 0;
+			}
+		}
+
+		if (families.isEmpty())
+		{
+			for (int i=0; i < keys.size(); ++i)
+			{
+				ConnectionFamily * conn = Ontology::connectionFamily(keys[i]);
+				if (conn && !treeItems.contains(keys[i]))
+				{
+					if (conn->parent() && treeItems.contains(conn->parent()->name()))
+					{
+						families << conn;
+						parentTreeItems << treeItems[ conn->parent()->name() ];
+					}
+				}
 			}
 		}
 		

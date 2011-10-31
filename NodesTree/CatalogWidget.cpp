@@ -59,6 +59,12 @@ namespace Tinkercell
 			CatalogWidget::layoutMode = CatalogWidget::TreeView;
 		else
 			CatalogWidget::layoutMode = CatalogWidget::TabView;
+
+		QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
+		settings.beginGroup("CatalogWidget");		
+		settings.setValue(tr("Mode"),(int)(CatalogWidget::layoutMode));
+		settings.endGroup();
+
 		QMessageBox::information(this,tr("Parts Layout"),tr("The change in display will take effect the next time TinkerCell starts"));
 	}
 

@@ -75,10 +75,10 @@ namespace Tinkercell
 
 	#endif
 		
-		/*if (GlobalSettings::DO_SVN_UPDATE)
+		if (GlobalSettings::DO_SVN_UPDATE)
 		{
 			doSVNUpdate();
-		}*/
+		}
 		
 		usernameDialog = 0;
 		usernameLine = 0;

@@ -806,9 +806,11 @@ namespace Tinkercell
 					if (childFamilies.isEmpty())
 						QMessageBox::information(this, tr("Cannot connect to repository"), 
 						#ifdef Q_WS_WIN	
-							tr("One of these is missing: internet or subversion. \nTinkerCell uses subversion to download some files the first time it runs.\n\n Try rebooting.")
+							tr("One of these is missing: internet or subversion. \nTinkerCell uses subversion to download some files the first time it runs.\n\n Try rebooting or re-installing SVN located in ") 
+								+ appDir + tr("\\installation") 
+								+ tr("\n\n You can still use TinkerCell without modular modeling and some plugins")
 						#else
-							 tr("One of these is missing: internet or subversion. \n TinkerCell uses subversion to download some files the first time it runs.")
+							 tr("One of these is missing: internet or subversion. \n TinkerCell uses subversion to download some files the first time it runs. \n\n Please install subversion. \n\n You can still use TinkerCell without modular modeling and some plugins")
 						#endif
 							 );
 			

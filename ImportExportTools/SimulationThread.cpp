@@ -205,6 +205,16 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles)
 		}
 	}
 
+	for (int i=0; i < speciesCompartments.size(); ++i)
+	{
+		int k = species.indexOf(speciesCompartments[i]);
+		if (k > -1 && !species[k].isEmpty())
+		{
+			species[k] = tr("");
+			speciesCompartments[k] = tr("");
+		}
+	}
+
 	//Make list of species types and units
 	QVector<ItemHandle*> speciesHandles(species.size(),0);
 	QList<ItemFamily*> families;
@@ -226,28 +236,29 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles)
 	QHash<QString, copasi_compartment> compartmentHash;
 
 	//create list of species
-	for (int i=0; i < species.size(); ++i)
-	{
-		copasi_compartment c;
+	for (int i=0; i < species.size() && i < speciesCompartments.size(); ++i)
+		if (!species[i].isEmpty() && !speciesCompartments[i].isEmpty())
+		{
+			copasi_compartment c;
 		
-		if (compartmentHash.contains(speciesCompartments[i]))
-		{
-			c = compartmentHash[ speciesCompartments[i] ];
+			if (compartmentHash.contains(speciesCompartments[i]))
+			{
+				c = compartmentHash[ speciesCompartments[i] ];
+			}
+			else
+			{
+				c = cCreateCompartment(model, speciesCompartments[i].toAscii().data(), compartmentVolumes[i]);
+				compartmentHash[ speciesCompartments[i] ] = c;
+				commands += speciesCompartments[i] + tr(" = cCreateCompartment(model,\"") + speciesCompartments[i] + tr("\",") + QString::number(compartmentVolumes[i]) + tr(");\n");
+			}
+			cCreateSpecies(c, species[i].toAscii().data(), initialValues[i]);
+			commands += tr("cCreateSpecies(") + speciesCompartments[i] + tr(",\"") + species[i] + tr("\",") + QString::number(initialValues[i]) + tr(");\n");
+			if (fixedVars.contains(species[i]))
+			{
+				cSetSpeciesType(model, species[i].toAscii().data(), 1);
+				commands += tr("cSetSpeciesType(model, \"") + species[i] + tr("\",1);\n");
+			}
 		}
-		else
-		{
-			c = cCreateCompartment(model, speciesCompartments[i].toAscii().data(), compartmentVolumes[i]);
-			compartmentHash[ speciesCompartments[i] ] = c;
-			commands += speciesCompartments[i] + tr(" = cCreateCompartment(model,\"") + speciesCompartments[i] + tr("\",") + QString::number(compartmentVolumes[i]) + tr(");\n");
-		}
-		cCreateSpecies(c, species[i].toAscii().data(), initialValues[i]);
-		commands += tr("cCreateSpecies(") + speciesCompartments[i] + tr(",\"") + species[i] + tr("\",") + QString::number(initialValues[i]) + tr(");\n");
-		if (fixedVars.contains(species[i]))
-		{
-			cSetSpeciesType(model, species[i].toAscii().data(), 1);
-			commands += tr("cSetSpeciesType(model, \"") + species[i] + tr("\",1);\n");
-		}
-	}
 	
 	//create list of parameters
 	for (int i=0; i < params.rows(); ++i)

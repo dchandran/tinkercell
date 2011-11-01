@@ -10,19 +10,13 @@ cd @TINKERCELL_BINARY_BIN_DIR@
 #library files
 LIBFILES='*.dylib'
 
-#Qt framework files
-QTCORE=@QT_QTCORE@
-QTGUI=@QT_QTGUI@
-QTXML=@QT_QTXML@
-QTOPENGL=@QT_QTOPENGL@
-
 cp @TINKERCELL_BINARY_BIN_DIR@/*.dylib NodeGraphics.app/Contents/Frameworks/
 
 #copy QT framework
 @QT_LIBRARY_DIR@/../bin/macdeployqt NodeGraphics.app
 
-#copy supporting files
-cp @TINKERCELL_BINARY_BIN_DIR@/*.dylib NodeGraphics.app/Contents/Frameworks/
+#copy supporting files from the other app that already works
+cp -R @TINKERCELL_EXE@.app/Contents/Frameworks NodeGraphics.app/Contents/
 
 for f in $LIBFILES
 do
@@ -38,24 +32,5 @@ do
           NodeGraphics.app/Contents/Frameworks/$f
   done
   
-  install_name_tool \
-         -change $CURPATH/$f \
-         @executable_path/../Frameworks/$f \
-         NodeGraphics.app/Contents/MacOS/NodeGraphics
-
-  install_name_tool \
-          -change @QT_QTCORE_LIBRARY_RELEASE@/$QTCORE \
-          @executable_path/../Frameworks/QtCore.framework/$QTCORE \
-          NodeGraphics.app/Contents/Frameworks/$f
-
-  install_name_tool \
-          -change @QT_QTGUI_LIBRARY_RELEASE@/$QTGUI \
-          @executable_path/../Frameworks/QtGui.framework/$QTGUI \
-          NodeGraphics.app/Contents/Frameworks/$f
-
-  install_name_tool \
-          -change @QT_QTXML_LIBRARY_RELEASE@$QTXML \
-          @executable_path/../Frameworks/QtXml.framework/$QTXML \
-          NodeGraphics.app/Contents/Frameworks/$f
-
 done
+

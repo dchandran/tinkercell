@@ -659,6 +659,9 @@ install(FILES ${DOCUMENTATION_FILES} DESTINATION ${MISC_PREFIX}.)
 # Print Summary
 #
 
+OPTION(SHOW_SBML_REPORT OFF)
+
+IF (SHOW_SBML_REPORT)
 message(STATUS "
 ----------------------------------------------------------------------
 libSBML version ${PACKAGE_VERSION}
@@ -692,8 +695,6 @@ XML parser library configuration:
 
 Other libSBML configuration settings:
   Installation $prefix          = ${CMAKE_INSTALL_PREFIX}")
-
-
 
 if (UNIX)
     if (APPLE)
@@ -748,6 +749,8 @@ else()
     message(STATUS "  Using C++ namespace for libSBML (libsbml) = no")
 endif()
 
+ENDIF(SHOW_SBML_REPORT)
+
 if (APPLE)
     if (CMAKE_OSX_ARCHITECTURES STREQUAL "")
         message(STATUS "  Building universal binaries               = no (using native arch)")
@@ -777,9 +780,9 @@ foreach(line ${cache})
         string(SUBSTRING "${line}" 0 7 start)
         if ("${start}" STREQUAL  "ENABLE_")
             if ("${line}" MATCHES "^.*ON")
-                message(STATUS "  ${last_line} = yes")
+            #    message(STATUS "  ${last_line} = yes")
             else()
-                message(STATUS "  ${last_line} = no")
+            #    message(STATUS "  ${last_line} = no")
             endif()
         endif()
     
@@ -789,38 +792,39 @@ foreach(line ${cache})
         endif() 
     else()
         set(last_line "")
-        message(${line})
+        #message(${line})
     endif() 
 endforeach()
 endif()
 
-message(STATUS "
-")
-message(STATUS "Other potentially important settings:")
-if(WITH_ZLIB)
-    message(STATUS "  Compression support is enabled for .zip and .gz files")
-else()
+
+#message(STATUS "
+#")
+#message(STATUS "Other potentially important settings:")
+#if(WITH_ZLIB)
+#    message(STATUS "  Compression support is enabled for .zip and .gz files")
+#else()
 #    message(STATUS "
 #Warning: reading/writing compressed SBML in .zip or .gz format in
 #this copy of libSBML is not supported or has been disabled.
 #If this was not your intention, please check the WITH_ZLIB
 #option.")
-endif()
+#endif()
 
-if(WITH_BZIP2)
-    message(STATUS "  Compression support is enabled for .bz2 files")
-else()
+#if(WITH_BZIP2)
+#    message(STATUS "  Compression support is enabled for .bz2 files")
+#else()
 #    message(STATUS "
 #Warning: reading/writing compressed SBML in .bz2 format in
 #this copy of libSBML is not supported or has been disabled.
 #If this was not your intention, please check the WITH_BZIP2
 #option.")
-endif()
+#endif()
 
 include_directories(BEFORE ${libsbml_SOURCE_DIR} ${libsbml_SOURCE_DIR}/src)
 
-message(STATUS "
-----------------------------------------------------------------------")
+#message(STATUS "
+#----------------------------------------------------------------------")
 
 
 ## To compile a test program simply comment out the lines below ... 

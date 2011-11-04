@@ -926,11 +926,11 @@ int cCreateEvent(copasi_model model, const char * name, const char * trigger, co
 
 	CFunction pFunction;
 	string qFormula(trigger);
-	replaceSubstring(qFormula,">","gt");
-	replaceSubstring(qFormula,"<","lt");
-	replaceSubstring(qFormula,">=","ge");
-	replaceSubstring(qFormula,"<=","le");
-	replaceSubstring(qFormula,"=","eq");
+	replaceSubstring(qFormula,">"," gt ");
+	replaceSubstring(qFormula,"<"," lt ");
+	replaceSubstring(qFormula,">="," ge ");
+	replaceSubstring(qFormula,"<="," le ");
+	replaceSubstring(qFormula,"="," eq ");
 
 	if (pFunction.setInfix(qFormula))  //parse trigger
 	{

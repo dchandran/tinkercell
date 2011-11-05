@@ -969,7 +969,10 @@ namespace Tinkercell
 					}
 			}
 		
-			centerRegionItem->setPos( centerLocation() );
+			if (centerPoint())
+				centerRegionItem->setPos( centerPoint()->scenePos() );
+			else
+				centerRegionItem->setPos( centerLocation() );
 			centerRegionItem->setZValue(z + 0.01);
 
 			QList<ConnectionGraphicsItem*> otherConnections = centerRegionItem->connections();

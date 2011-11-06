@@ -601,7 +601,7 @@ namespace Tinkercell
 	}
 
 	/*! \brief the center location*/
-	QPointF ConnectionGraphicsItem::centerLocation() const
+	QPointF ConnectionGraphicsItem::centerLocation(bool outOfSceneOK) const
 	{
 		QPointF p(0,0);
 		if (scene())
@@ -613,7 +613,7 @@ namespace Tinkercell
 			else
 			{
 				ConnectionGraphicsItem::ControlPoint * cp  = centerPoint();
-				if (cp && cp->scene())
+				if (cp && (outOfSceneOK || cp->scene()))
 					p = centerPoint()->scenePos();
 			}
 			if (!p.isNull())
@@ -968,11 +968,8 @@ namespace Tinkercell
 						break;
 					}
 			}
-		
-			if (centerPoint())
-				centerRegionItem->setPos( centerPoint()->scenePos() );
-			else
-				centerRegionItem->setPos( centerLocation() );
+
+			centerRegionItem->setPos( centerLocation(true) );
 			centerRegionItem->setZValue(z + 0.01);
 
 			QList<ConnectionGraphicsItem*> otherConnections = centerRegionItem->connections();
@@ -989,7 +986,7 @@ namespace Tinkercell
 		{
 			TextGraphicsItem * textItem;
 			QList<QGraphicsItem*> & gitems = itemHandle->graphicsItems;
-			QPointF center = centerLocation();
+			QPointF center = centerLocation(true);
 			for (int i=0; i < gitems.size(); ++i)
 				if ( !gitems[i]->parentItem() && 
 					 (textItem = TextGraphicsItem::cast(gitems[i])) &&
@@ -1124,7 +1121,7 @@ namespace Tinkercell
 		//text items
 		if (itemHandle && !textItems.isEmpty())
 		{
-			QPointF center = centerLocation();
+			QPointF center = centerLocation(true);
 			for (int i=0; i < textItems.size(); ++i)
 			{
 				textItems[i]->setPos( center + textItems[i]->relativePosition.second );

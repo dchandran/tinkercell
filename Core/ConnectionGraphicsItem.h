@@ -312,8 +312,9 @@ namespace Tinkercell
 		bool controlPointsVisible;
 		/*! \brief the center point (if one exists)*/
 		virtual ControlPoint * centerPoint() const;
-		/*! \brief the center point (if one exists)*/
-		virtual QPointF centerLocation() const;
+		/*! \brief the center point (if one exists)
+		\param bool is it ok if the connection does not exist in a scene yet?*/
+		virtual QPointF centerLocation(bool outOfSceneOK=false) const;
 		/*! \brief a rectangle that sits at the center of the connector*/
 		QSizeF centerRegion;
 		/*! \brief the image on the rectangle that sits at the center of the connector*/

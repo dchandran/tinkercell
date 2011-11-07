@@ -30,6 +30,8 @@
 namespace Tinkercell
 {
 	AutoGeneRegulatoryTool_FtoS * AutoGeneRegulatoryTool::fToS;
+	
+	bool isCircularItem(ItemHandle * handle);
 
 	AutoGeneRegulatoryTool::AutoGeneRegulatoryTool() :
 		Tool(tr("Auto Gene Regulatory Tool"),tr("Modeling")),
@@ -880,7 +882,7 @@ namespace Tinkercell
 
 		ItemHandle * handle = item->handle();
 
-		if (handle && handle->isA(tr("Vector")))
+		if (handle && /*handle->isA(tr("Vector"))*/ isCircularItem(handle))
 		{
 			scene->network->push(adjustPlasmid(scene,item));
 			return;
@@ -1491,11 +1493,32 @@ namespace Tinkercell
 			mainWindow->contextItemsMenu.removeAction(&autoGeneProduct);
 		}
 	}
+	
+	bool isCircularItem(ItemHandle * handle)
+	{
+		bool b = false;
+		if (handle && handle->isA(QObject::tr("Vector")))
+		{
+			QList<NodeGraphicsItem*> nodes = NodeGraphicsItem::cast(handle->graphicsItems);
+			for (int i=0; i < nodes.size(); ++i)
+			{
+				NodeGraphicsItem::Shape * shape = nodes[i]->longestShape();
+				if (shape)
+				{
+					if (shape->types.contains(NodeGraphicsItem::arc))
+						b = true;
+				}
+				if (b)
+					break;
+			}
+		}
+		return b;
+	}
 
 	void AutoGeneRegulatoryTool::findAllParts(NodeGraphicsItem * node, const QString& family,QList<ItemHandle*>& handles,bool upstream,const QStringList & until, bool stopIfElongation)
 	{
 		if (!node) return;
-		if (node->handle() && node->handle()->parent && node->handle()->parent->isA(tr("Vector")))
+		if (node->handle() && isCircularItem(node->handle()->parent))
 		{
 			QList<QGraphicsItem*> & graphicsItems = node->handle()->graphicsItems;			
 			QList<NodeGraphicsItem*> nodes;

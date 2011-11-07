@@ -103,6 +103,7 @@ namespace Tinkercell
 	public:
 		static QString ORGANIZER_DELIMITER;
 		static bool TAB_VIEW;
+		static int MAX_PLOTS;
 		
 	signals:
 	

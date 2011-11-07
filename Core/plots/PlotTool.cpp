@@ -320,6 +320,8 @@ namespace Tinkercell
 		}
 		return result;
 	}
+	
+	int PlotTool::MAX_PLOTS = 20;
 
 	void PlotTool::plot(const DataTable<qreal>& matrix,const QString& title0,int x,PlotTool::PlotType type)
 	{
@@ -375,6 +377,17 @@ namespace Tinkercell
 					ClusterPlot::tables.clear();
 			}
 		
+		if (list.size() > MAX_PLOTS)
+			for (int i=0; i < list.size(); ++i)
+				if (list[i])
+				{
+					PlotWidget * plotWidget = static_cast<PlotWidget*>(list[i]->widget());
+					if (plotWidget && !plotWidget->category.isNull() && !plotWidget->category.isEmpty())
+						list[i]->showMinimized();
+					else
+						list[i]->close();
+				}
+			
 		if ((category.isNull() || category.isEmpty()) &&
 			((holdCurrentPlot && holdCurrentPlot->isChecked()) ||
 			 !(keepOldPlots && keepOldPlots->isChecked())))

@@ -9,7 +9,7 @@ tool: no
 from tinkercell import *
 from tc2py import *
 from numpy import *
-import CrossEntropy
+import PSO
 import numpy.random
 
 fname = tc_getFilename()
@@ -52,15 +52,6 @@ if len(fname) > 0:
     trueData = genfromtxt(fname, type(0.0), comments='#', delimiter=',')
     numpts = len(trueData) - 1     #rows
     time = trueData[ numpts, 0 ]  #last time point
-    res = CrossEntropy.OptimizeParameters(FitData_Objective, "Data fitting", 100, 100)
-    mu = res[0]
-    sigma2 = res[1]
-    paramnames = res[2]
-    CrossEntropy.DoPCA(mu, sigma2, paramnames)
-    n = len(mu)
-    params = tc_createMatrix(n, 1)
-    for i in range(0,n):
-        tc_setMatrixValue(params, i, 0, mu[i])
-        tc_setRowName(params, i, paramnames[i])
-    tc_setParameters(params,1)
+    res = ParticleSwarm(FitData_Objective, 1);
+
 

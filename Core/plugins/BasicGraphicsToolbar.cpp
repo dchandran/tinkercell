@@ -21,6 +21,7 @@ buttons for all these functions.
 #include "TextGraphicsItem.h"
 #include "BasicGraphicsToolbar.h"
 #include "TextGraphicsTool.h"
+#include "coding/CodingWindow.h"
 
 namespace Tinkercell
 {
@@ -196,8 +197,7 @@ namespace Tinkercell
 		findToolBar->setObjectName(tr("Find tool"));
 
 		QAction * findAction = new QAction(QIcon(tr(":/images/find.png")),tr("Find text"),mainWindow);
-		findAction->setShortcut(QKeySequence::Find);
-		
+		findAction->setShortcut(QKeySequence::Find);	
 		toolBar->addAction(findAction);
 
 		QAction * replaceAction = new QAction(QIcon(tr(":/images/replace.png")),tr("Replace text"),mainWindow);
@@ -224,8 +224,8 @@ namespace Tinkercell
 		connect(findText,SIGNAL(returnPressed()),this,SLOT(find()));
 		connect(replaceText,SIGNAL(returnPressed()),this,SLOT(rename()));
 
-		connect(findAction,SIGNAL(triggered()),findToolBar,SLOT(show()));
-		connect(replaceAction,SIGNAL(triggered()),findToolBar,SLOT(show()));
+		connect(findAction,SIGNAL(triggered()),this,SLOT(showFindToolbar()));
+		connect(replaceAction,SIGNAL(triggered()),this,SLOT(showFindToolbar()));
 
 		connect(findAction,SIGNAL(triggered()),findText,SLOT(setFocus()));
 		connect(replaceAction,SIGNAL(triggered()),findText,SLOT(setFocus()));
@@ -345,9 +345,22 @@ namespace Tinkercell
 	{
 		if (findText) findText->clear();
 		if (replaceText) replaceText->clear();
-		find();
+		//find();
 		if (findToolBar)
 			findToolBar->hide();
+	}
+
+	void BasicGraphicsToolbar::showFindToolbar()
+	{
+		Tool * tool = mainWindow->tool(tr("Coding Window"));
+		if (tool && tool->isActiveWindow())
+		{
+			CodingWindow * codingWindow = static_cast<CodingWindow*>(tool);
+			codingWindow->showFindReplaceDialog();
+		}
+		else
+			if (findToolBar)
+				findToolBar->show();
 	}
 
 	void BasicGraphicsToolbar::find()
@@ -368,8 +381,8 @@ namespace Tinkercell
 		if (currentTextEditor())
 			currentTextEditor()->replace(findText->text(),replaceText->text());
 		else
-		if (currentNetwork())
-			currentNetwork()->rename(findText->text(),replaceText->text());
+			if (currentNetwork())
+				currentNetwork()->rename(findText->text(),replaceText->text());
 	}
 
 	void BasicGraphicsToolbar::noGradient()

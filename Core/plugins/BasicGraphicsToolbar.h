@@ -104,6 +104,7 @@ namespace Tinkercell
 	private slots:
 		void alphaDialogClosing();
 		void revertColors(const QList<QGraphicsItem*>&);
+		void showFindToolbar();
 
 	protected:
 

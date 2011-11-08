@@ -101,6 +101,8 @@ namespace Tinkercell
 		void setCode(const QString&);
 		void run();
 		void about();
+
+		void showFindReplaceDialog();
 		void toggleSVNupdate(bool);
 		virtual QSize sizeHint() const;
 		void newDoc();

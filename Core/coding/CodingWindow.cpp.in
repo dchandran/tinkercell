@@ -854,6 +854,12 @@ specific for:\n\"\"\"\n\n") + text;
 		 //editorC->grabShortcut(tr("Ctrl+A"));
 	 }
 
+	void CodingWindow::showFindReplaceDialog()
+	{
+		if (editor)
+			editor->showFindReplaceDialog();
+	}
+
 	void CodingWindow::newDoc()
 	{
 		if (editor)

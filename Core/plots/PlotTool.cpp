@@ -1092,6 +1092,36 @@ namespace Tinkercell
 				QMessageBox::information(this, tr("Error"), error);
 		}
 	}
+
+	static double d = 1.0;
+	static double* AddVariable(const char * s, void * net)
+	{
+		if (net)
+		{
+			NetworkHandle * network = (NetworkHandle*)(net);
+			QString str(s);
+			QList< QPair<ItemHandle*,QString> > data = network->findData(str);
+			for (int i=0; i < data.size(); ++i)
+			{
+				if (data[i].first && 
+					 data[i].first->hasNumericalData(data[i].second))
+				{
+					NumericalDataTable & table = data[i].first->numericalDataTable(data[i].second);
+					if (str.startsWith(data[i].first->fullName() + QObject::tr(".")))
+						str.remove(data[i].first->fullName() + QObject::tr("."));
+					else
+						if (str.startsWith(data[i].first->fullName("_") + QObject::tr("_")))
+							str.remove(data[i].first->fullName("_") + QObject::tr("_"));
+
+					if (table.hasRow(str))
+						return &(table.value(str,0));
+
+					str = QObject::tr(s);
+				}
+			}	
+		}
+		return &d;
+	}
 	
 	QString PlotTool::computeNewColumn(QString formula)
 	{
@@ -1130,7 +1160,8 @@ namespace Tinkercell
 					parser.DefineVar(colnames[i].toLower().toAscii().data(), dp);
 			}
 				
-			parser.SetExpr(formula.toAscii().data());				
+			parser.SetExpr(formula.toAscii().data());
+			parser.SetVarFactory(AddVariable, currentNetwork());
 
 			for (int i=0; i < matrix.rows(); ++i)
 			{

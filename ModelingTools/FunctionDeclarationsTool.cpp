@@ -72,8 +72,8 @@ namespace Tinkercell
 		{
 			ModuleTool::textTablesToBeReplaced << "assignments";
 			
-			connect(mainWindow,SIGNAL(itemsInserted(NetworkHandle*,const QList<ItemHandle*>&)),
-				this, SLOT(itemsInserted(NetworkHandle*,const QList<ItemHandle*>&)));
+			connect(mainWindow,SIGNAL(itemsInserted(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&,GraphicsScene::InsertType)),
+				this, SLOT(itemsInserted(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&,GraphicsScene::InsertType)));
 
 			connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),
 				this,SLOT(itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
@@ -245,8 +245,10 @@ namespace Tinkercell
 			updateTable();
 	}
 
-	void AssignmentFunctionsTool::itemsInserted(NetworkHandle*, const QList<ItemHandle*>& handles)
+	void AssignmentFunctionsTool::itemsInserted(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<ItemHandle*>& handles, GraphicsScene::InsertType type)
 	{
+		if (type != GraphicsScene::NEW) return;
+
 		for (int i=0; i < handles.size(); ++i)
 		{
 			//if (handles[i] && handles[i]->isA("Node") && !handles[i]->tools.contains(this))

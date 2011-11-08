@@ -99,7 +99,7 @@ namespace Tinkercell
 		void deselect(int i=0);
 
 		void setValue(int i, int j);
-		void itemsInserted(NetworkHandle * scene, const QList<ItemHandle*>& handles);
+		void itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<ItemHandle*>& handles, GraphicsScene::InsertType type);
 		void itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers);
 		void toolLoaded(Tool*);
 		void addAttribute();

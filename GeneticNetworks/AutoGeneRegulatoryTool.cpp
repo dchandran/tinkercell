@@ -697,10 +697,6 @@ namespace Tinkercell
 						QString oldrate = parts[i]->textData(tr("Assignments"),tr("self"),tr("rule"));
 					
 						bool isCustomEqn = StoichiometryTool::userModifiedRates.contains(parts[i]);
-					
-
-
-
 
 						if (!parts[i]->textDataTable(tr("Assignments")).hasRow(tr("self")) ||
 							(!isCustomEqn && oldrate != rate))

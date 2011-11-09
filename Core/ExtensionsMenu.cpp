@@ -5,7 +5,7 @@
 namespace Tinkercell
 {
 	ExtensionsMenu::ExtensionsMenu(MainWindow * main)
-        : QMenu(tr("Packages"), main)
+        : QMenu(tr("Extensions"), main)
     {
       QCoreApplication::setOrganizationName(Tinkercell::GlobalSettings::ORGANIZATIONNAME);
       QCoreApplication::setOrganizationDomain(Tinkercell::GlobalSettings::PROJECTWEBSITE);

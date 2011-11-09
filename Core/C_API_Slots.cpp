@@ -4123,18 +4123,12 @@ namespace Tinkercell
 			if (h2 = ConnectionHandle::cast(items[i]))
 				nodes << h2->nodes();
 		
-		QList<ItemFamily*> subFamilies = selectedFamily->findValidChildFamilies(nodes);
-		selectedFamily = 0;
-		if (!subFamilies.isEmpty())
-			selectedFamily = ConnectionFamily::cast(subFamilies.last());
-		
-		if (!selectedFamily)
+		if (selectedFamily && !selectedFamily->isValidSet(nodes))
 		{
-			if (retitem)
-				(*retitem) = 0;
-			if (sem)
-				sem->release();
-			return;
+			QList<ItemFamily*> subFamilies = selectedFamily->findValidChildFamilies(nodes);
+			selectedFamily = 0;
+			if (!subFamilies.isEmpty())
+				selectedFamily = ConnectionFamily::cast(subFamilies.first());
 		}
 		
 		QList<NodeGraphicsItem*> selectedNodes;
@@ -4168,7 +4162,7 @@ namespace Tinkercell
 		int numRequiredIn = 0, numRequiredOut = 0;
 		QStringList typeOut, typeIn;
 		
-		if (selectedFamily != 0)
+		if (selectedFamily)
 		{
 			QList<NodeHandle*> nodes, visited;
 			QStringList nodeRoles = selectedFamily->participantRoles(),
@@ -4281,8 +4275,6 @@ namespace Tinkercell
 		nameItem->setFont(font);
 
 		scene->insert(handle->name + tr(" inserted"), insertList);
-		
-		selectedFamily = 0;
 
 		if (sem)
 			sem->release();

@@ -40,6 +40,7 @@
         <file alias="find.png">../icons/find.png</file>
         <file alias="1to1.png">../icons/1to1.png</file>
         <file alias="stepFunc.xml">../icons/stepFunc.xml</file>
+		<file alias="invStepFunc.xml">../icons/invStepFunc.xml</file>
         <file alias="aligntop.png">../icons/aligntop.png</file>
         <file alias="switch.png">../icons/switch.png</file>
         <file alias="directgeneactivation.png">../icons/directgeneactivation.png</file>
@@ -88,6 +89,7 @@
         <file alias="moduleInterface.xml">../icons/moduleInterface.xml</file>
         <file alias="aligncenterhorizontal.png">../icons/aligncenterhorizontal.png</file>
         <file alias="stepFunc.png">../icons/stepFunc.png</file>
+        <file alias="invStepFunc.png">../icons/invStepFunc.PNG</file>
         <file alias="3to1.png">../icons/3to1.png</file>
         <file alias="Star.xml">../icons/Star.xml</file>
         <file alias="Module.xml">../icons/Module.xml</file>

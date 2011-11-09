@@ -131,7 +131,7 @@ namespace Tinkercell
 
     private:
 
-		enum Mode { none, addingEvent, globalParams, addingStep, addingPulse, addingWave };
+		enum Mode { none, addingEvent, globalParams, addingStep, addingPulse, addingWave, addingInvStep };
 		Mode mode;
 
         static SimulationEventsTool_FToS * fToS;

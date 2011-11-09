@@ -76,16 +76,19 @@ namespace Tinkercell
 				QStringList() 	<< tr("New event") 
 								<< tr("Global parameters")
 								<< tr("Step input") 
+								<< tr("Inverse step input") 
 								<< tr("Impulse") 
 								<< tr("Wave input"),
 				QList<QIcon>() 	<< QIcon(QPixmap(tr(":/images/clock.png")))
 								<< QIcon(QPixmap(tr(":/images/scroll.png")))
 								<< QIcon(QPixmap(tr(":/images/stepFunc.png")))
+								<< QIcon(QPixmap(tr(":/images/invStepFunc.png")))
 								<< QIcon(QPixmap(tr(":/images/pulseFunc.png")))
 								<< QIcon(QPixmap(tr(":/images/sinFunc.png"))),
 				QStringList() 	<< tr("Add an event that occurs as a reponse to a given condition")
 								<< tr("Edit global parameters")
 								<< tr("Insert a step function as input for one of the variables in the model")
+								<< tr("Insert an inverted step function as input for one of the variables in the model")
 								<< tr("Insert an delta function as as input for one of the variables in the model")
 								<< tr("Insert a sin function as as input for one of the variables in the model")
 				);
@@ -237,6 +240,9 @@ namespace Tinkercell
 		
 		if (name.toLower() == tr("step input"))
 			mode = addingStep;
+
+		if (name.toLower() == tr("inverse step input"))
+			mode = addingInvStep;
 			
 		if (name.toLower() == tr("impulse"))
 			mode = addingPulse;
@@ -409,6 +415,17 @@ namespace Tinkercell
 			parameters.value( tr("step_time"), 0 ) = 2.0;
 			parameters.value( tr("step_steepness"), 0 ) = 4.0;
 		}
+		else
+		if (mode == addingInvStep)
+		{
+			reader.readXml(image, tr(":/images/invStepFunc.xml"));
+			image->setToolTip(tr("Inverted step"));	
+			command = tr("Inverted step function");
+			assignments.value( "self" , 0 ) = name + tr(".step_height * (1.0 - 1.0/(1.0 + exp((") + name + tr(".step_time^") + name + tr(".step_steepness) - (time^") + name + tr(".step_steepness))))");
+			parameters.value( tr("step_height"), 0 ) = 1.0;
+			parameters.value( tr("step_time"), 0 ) = 2.0;
+			parameters.value( tr("step_steepness"), 0 ) = 4.0;
+		}
 		else		
 		if (mode == addingPulse)
 		{
@@ -434,7 +451,7 @@ namespace Tinkercell
 		image->className = tr("Forcing function");
 		image->normalize();
 		image->scale(image->defaultSize.width()/image->sceneBoundingRect().width(),
-			image->defaultSize.height()/image->sceneBoundingRect().height());
+							image->defaultSize.height()/image->sceneBoundingRect().height());
 		image->setPos(QPointF(node->sceneBoundingRect().left() - 100.0, node->scenePos().y()));
 		connection->curveSegments += ConnectionGraphicsItem::CurveSegment(1,new ConnectionGraphicsItem::ControlPoint(connection,image));
 		connection->className = tr("Forcing function");

@@ -821,6 +821,9 @@ namespace Tinkercell
 		
 		if (name.toLower() == tr("step input"))
 			mode = addingStep;
+
+		if (name.toLower() == tr("inverse step input"))
+			mode = addingInvStep;
 			
 		if (name.toLower() == tr("impulse"))
 			mode = addingPulse;

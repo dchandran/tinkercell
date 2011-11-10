@@ -179,6 +179,7 @@ namespace Tinkercell
 		Plot2DWidget * plotWidget;
 		DataPlot * plot;
 		QStringList names, familyNames;
+		QList<ItemHandle*> nameHandles;
 		QList<QCheckBox*> checkBoxes;
 		QComboBox * selectFamilyBox;
 		QLineEdit * lineEdit;

@@ -1248,12 +1248,17 @@ namespace Tinkercell
 				handles = network->findItem(s);
 				if (!handles.isEmpty() && handles[0] && handles[0]->family())
 				{
-					familyNames << handles[0]->family()->name();
-					if (!uniqueFamilyNames.contains(familyNames.last()))
-						uniqueFamilyNames << familyNames.last();
+					//familyNames << handles[0]->family()->name();
+					//if (!uniqueFamilyNames.contains(familyNames.last()))
+						//uniqueFamilyNames << familyNames.last();
+					s = handles[0]->family()->name();
+					nameHandles << handles[0];
+					if (!uniqueFamilyNames.contains(s))
+						uniqueFamilyNames << s;
 				}
 				else
-					familyNames << QString();
+					nameHandles << 0;
+					//familyNames << QString();
 			}
 			button->setChecked ( !DataPlot::hideList.contains(s) );
 		}
@@ -1322,9 +1327,9 @@ namespace Tinkercell
 
 	void ShowHideLegendItemsWidget::selectFamily(const QString& s)
 	{
-		for (int i=0; i < checkBoxes.size() && i < names.size() && i < familyNames.size(); ++i)
-			if (checkBoxes[i])
-				checkBoxes[i]->setChecked(familyNames[i] == s);
+		for (int i=0; i < checkBoxes.size() && i < names.size() && i < nameHandles.size(); ++i)
+			if (checkBoxes[i] && nameHandles[i])
+				checkBoxes[i]->setChecked(nameHandles[i]->isA(s));
 	}
 	
 	void ShowHideLegendItemsWidget::checkAll()

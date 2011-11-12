@@ -27,7 +27,7 @@ namespace Tinkercell
 {
 	const QString ArrowHeadItem::CLASSNAME = QString("ArrowHeadItem");
 	const QString ConnectionGraphicsItem::CLASSNAME = QString("ConnectionGraphicsItem");
-	QString ConnectionGraphicsItem::DefaultMiddleItemFile(":/images/defaultarrow.xml");
+	QString ConnectionGraphicsItem::DefaultMiddleItemFile(":/images/simplecircle.xml");
 	QString ConnectionGraphicsItem::DefaultArrowHeadFile(":/images/defaultarrow.xml");
 
 	ItemHandle * ConnectionGraphicsItem::handle() const

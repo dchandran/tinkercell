@@ -1,0 +1,86 @@
+<Module>			<a>			<Process> .
+
+<Induced Transcription Activation>		<a>		<Module> .
+<Induced Transcription Activation>		<a>		<Activation> .
+<Induced Transcription Activation>	<description>	"Transcription regulation where a small molecule regulates the transcription factor"@en.
+<Induced Transcription Activation>		<participant>		"Small Molecule, Inducer"@en.
+<Induced Transcription Activation>		<participant>		"Operator, Target"@en.
+
+<Multiple Steps>			<a>			<Module> .
+<Multiple Steps>			<description>			"A process involving multiple intermediate stages"@en.
+<Multiple Steps>			<participant>			"Molecule, Input"@en.
+<Multiple Steps>			<participant>			"Molecule, Output"@en.
+<Linear Chain>			<a>				<Multiple Steps> .
+
+<Gene Regulatory Network>			<a>				<Module> .
+<Gene Regulatory Network>			<description>			"The class of modules where all the regulation is in the form of transcriptional control"@en.
+<Gene Regulatory Network>			<participant>			"Transcription Factor, Input"@en.
+<Gene Regulatory Network>			<participant>			"Transcription Factor, Output"@en.
+
+<Ultrasensitive>			<a>				<Module> .
+<Ultrasensitive>			<description>			"A process where the input-output response is expected to be sigmoidal"@en.
+<Ultrasensitive>			<participant>			"Molecule, Input"@en.
+<Ultrasensitive>			<participant>			"Molecule, Output"@en.
+
+<Bistable>			<a>				<Module> .
+<Bistable>			<description>			"The class of modules where the system can exist in one of two stable states (depends on parameters too)"@en.
+<Bistable>			<participant>			"Molecule, Input"@en.
+<Bistable>			<participant>			"Molecule, Output"@en.
+
+<Non-monotonic> 	<a> 	<Module> .
+<Non-monotonic>	<participant>	"Transcription Factor, Input"@en. 
+<Non-monotonic>	<participant>	"Transcription Factor, Input"@en.
+<Non-monotonic>	<description>	"The input regulator positively and negatively regulates the output protein's production, depending on the level of the input"@en.
+
+<Feedback> 	<a> 	<Module> .
+<Feedback>	<participant>	"Molecule, Input"@en. 
+<Feedback>	<participant>	"Molecule, Output"@en.
+<Feedback>	<description>	"The class of networks where there is some form of feedback"@en.
+
+<Homostatic> 	<a> 	<Module> .
+<Homostatic>	<participant>	"Molecule, Input"@en. 
+<Homostatic>	<participant>	"Molecule, Output"@en.
+<Homostatic>	<description>	"The class of networks where the output is unaffected by changes, except perhaps the input"@en.
+
+<Phosphorylation Dephosphorylation Cycle> 	<a> 	<Activation>.
+<Phosphorylation Dephosphorylation Cycle> 	<a> 	<Ultrasensitive>.
+<Phosphorylation Dephosphorylation Cycle>	<participant>	"Protein, Kinase"@en.
+<Phosphorylation Dephosphorylation Cycle>	<participant>	"Protein, Phosphatase"@en. 
+<Phosphorylation Dephosphorylation Cycle>	<participant>	"Protein, Target"@en.
+<Phosphorylation Dephosphorylation Cycle>	<description>	"A process where the input Kinase phosphorylates the output protein and another phosphatase dephosphorylates the output protein"@en.
+
+<Genetic Positive Autoregulation> 	<a> 	<Ultrasensitive> .
+<Genetic Positive Autoregulation> 	<a> 	<Bistable> .
+<Genetic Positive Autoregulation> 	<a> 	<Gene Regulatory Network> .
+<Genetic Positive Autoregulation>	<participant>	"Transcription Factor, Input"@en. 
+<Genetic Positive Autoregulation>	<participant>	"Transcription Factor, Output"@en.
+<Genetic Positive Autoregulation>	<description>	"An induced production of a activator, where the activator also activates its own production. Can be bistable for certain parameter ranges"@en.
+
+<Genetic Negative Autoregulation> 	<a> 	<Homostatic> .
+<Genetic Negative Autoregulation> 	<a> 	<Gene Regulatory Network> .
+<Genetic Negative Autoregulation>	<participant>	"Transcription Factor, Input"@en. 
+<Genetic Negative Autoregulation>	<participant>	"Transcription Factor, Output"@en.
+<Genetic Negative Autoregulation>	<description>	"An induced production of a repressor, where the repressor also activates its own production"@en.
+
+<Genetic Toggle Switch> 	<a> 	<Bistable> .
+<Genetic Toggle Switch> 	<a> 	<Gene Regulatory Network> .
+<Genetic Toggle Switch>	<participant>	"Transcription Factor, Repressor1"@en. 
+<Genetic Toggle Switch>	<participant>	"Transcription Factor, Repressor2"@en.
+<Genetic Toggle Switch>	<description>	"Bistable switch involving two transcription factors that repress each other's promoters"@en.
+
+<Incoherent Feedforward> 	<a> 	<Gene Regulatory Network> .
+<Incoherent Feedforward>	<participant>	"Transcription Factor, Input"@en. 
+<Incoherent Feedforward>	<participant>	"Transcription Factor, Output"@en.
+<Incoherent Feedforward>	<description>	"The input regulator positively and negatively regulates the output protein's production, depending on the level of the input"@en.
+
+<Coherent Feedforward> 	<a> 	<Gene Regulatory Network> .
+<Coherent Feedforward>	<participant>	"Transcription Factor, Input"@en. 
+<Coherent Feedforward>	<participant>	"Transcription Factor, Output"@en.
+<Coherent Feedforward>	<description>	"The input regulator positively regulates the output protein's production through an intermediate"@en.
+
+<Oscillator> 	<a> 	<Module> .
+<Oscillator>	<participant>	"Molecule, Input1"@en.
+<Oscillator>	<participant>	"Molecule, Input2"@en.
+<Oscillator>	<participant>	"Molecule, Output"@en. 
+<Oscillator>	<description>	"A system where the molecular concentrations can oscillate in time (depending on parameters, of course). Input1 and Input2 control different aspects of the oscillation, which depends on the individual modules."@en.
+

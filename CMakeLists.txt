@@ -226,9 +226,9 @@ MESSAGE( STATUS "
           FINISHED CONFIGURING EXTERNAL CODE                              
 ========================================================= ")
 
-OPTION( PYTHON_ENABLE "Embed Python in TinkerCell" OFF ) #embed python?
-OPTION( OCTAVE_ENABLE "Embed Octave in TinkerCell" OFF ) #embed octave?
-OPTION( RUBY_ENABLE "Embed Ruby in TinkerCell" OFF ) #embed ruby?
+OPTION( PYTHON_ENABLE "Embed Python in TinkerCell" ON ) #embed python?
+OPTION( OCTAVE_ENABLE "Embed Octave in TinkerCell" ON ) #embed octave?
+OPTION( RUBY_ENABLE "Embed Ruby in TinkerCell" ON ) #embed ruby?
 
 ADD_SUBDIRECTORY( Core )   #C++ Core + API
 ADD_SUBDIRECTORY( API )   #C API + SWIG file
@@ -245,7 +245,7 @@ ADD_SUBDIRECTORY( Documentation )
 # Other programs (not really part of Tinkercell)
 #----------------------------------------------------------------------------
 
-OPTION( BUILD_EXAMPLE_PROGRAMS "SimpleDesigner, Multicell, SegmentationAnimation" OFF )
+OPTION( BUILD_EXAMPLE_PROGRAMS "Examples that use TinkerCellCore" ON )
 
 IF( BUILD_EXAMPLE_PROGRAMS )
      ADD_SUBDIRECTORY( ExamplesUsingCore )
@@ -289,10 +289,17 @@ ENDIF (RUBY_ENABLE)
 #ADD_SUBDIRECTORY( R )
 
 #----------------------------------------------------------------------------
-#   Required
+#   Some needed files
 #----------------------------------------------------------------------------
 ADD_SUBDIRECTORY( DB )
 ADD_SUBDIRECTORY( c )
+
+OPTION(TINKERCELL_COPY_REPOSITORY "Include copy of the TinkerCell shared repository when creating package" ON)
+#this is the TinkerCell repository that is available automatically via SVN,
+#but its included here in case the user does not have SVN
+IF (TINKERCELL_COPY_REPOSITORY)
+	ADD_SUBDIRECTORY( tinkercellrepo )
+ENDIF (TINKERCELL_COPY_REPOSITORY)
   
 #----------------------------------------------------------------------------
 # CPack

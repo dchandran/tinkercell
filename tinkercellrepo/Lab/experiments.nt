@@ -1,0 +1,6 @@
+<Experiment>			<a>			<Process> .
+<Microscope>							<a>		<Experiment> .
+<Fluorescence Microscope>		<a>		<Microscope> .
+<Fluorescence Microscope>		<description>	"Use of microscope to make fluorescence measurements on single cells"@en.
+<Fluorescence Microscope>		<participant>	"Container, Input"@en.
+<Fluorescence Microscope>		<participant>	"Fluorescence Data, Output"@en.

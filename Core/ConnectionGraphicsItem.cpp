@@ -1013,11 +1013,19 @@ namespace Tinkercell
 							curveSegments[i].arrowStart->scene()->removeItem(curveSegments[i].arrowStart);
 						(static_cast<GraphicsScene*>(scene()))->addItem(curveSegments[i].arrowStart);
 					}
+					else
+					if (!this->scene())
+					{
+						if (curveSegments[i].arrowStart->scene())
+							curveSegments[i].arrowStart->scene()->removeItem(curveSegments[i].arrowStart);
+					}
+					if (curveSegments[i].arrowStart->pos().isNull() && curveSegments[i].arrowStart->scene())
+						curveSegments[i].arrowStart->scene()->removeItem(curveSegments[i].arrowStart);					
 					curveSegments[i].arrowStart->setZValue(z + 0.1);
 				}
 				
-				if (MainWindow::invalidPointers.contains(curveSegments[i].arrowEnd))
-					curveSegments[i].arrowEnd = 0;
+				//if (MainWindow::invalidPointers.contains(curveSegments[i].arrowEnd))
+					//curveSegments[i].arrowEnd = 0;
 				
 				if (curveSegments[i].arrowEnd)
 				{
@@ -1027,6 +1035,15 @@ namespace Tinkercell
 							curveSegments[i].arrowEnd->scene()->removeItem(curveSegments[i].arrowEnd);
 						(static_cast<GraphicsScene*>(scene()))->addItem(curveSegments[i].arrowEnd);
 					}
+					else
+					if (!this->scene())
+					{
+						if (curveSegments[i].arrowEnd->scene())
+							curveSegments[i].arrowEnd->scene()->removeItem(curveSegments[i].arrowEnd);
+					}
+					if (curveSegments[i].arrowEnd->pos().isNull() && curveSegments[i].arrowEnd->scene())
+						curveSegments[i].arrowEnd->scene()->removeItem(curveSegments[i].arrowEnd);					
+					
 					curveSegments[i].arrowEnd->setZValue(z + 0.1);
 				}
 
@@ -1063,8 +1080,18 @@ namespace Tinkercell
 							curveSegments[i].arrowStart->scene()->removeItem(curveSegments[i].arrowStart);
 						(static_cast<GraphicsScene*>(scene()))->addItem(curveSegments[i].arrowStart);
 					}
+					else
+					if (!this->scene())
+					{
+						if (curveSegments[i].arrowStart->scene())
+							curveSegments[i].arrowStart->scene()->removeItem(curveSegments[i].arrowStart);
+					}
+					if (curveSegments[i].arrowStart->pos().isNull() && curveSegments[i].arrowStart->scene())
+						curveSegments[i].arrowStart->scene()->removeItem(curveSegments[i].arrowStart);					
+					
 					curveSegments[i].arrowStart->setZValue(z + 0.1);
 				}
+
 				if (curveSegments[i].arrowEnd)
 				{
 					if (curveSegments[i].arrowEnd->scene() != this->scene() && this->scene())
@@ -1073,6 +1100,14 @@ namespace Tinkercell
 							curveSegments[i].arrowEnd->scene()->removeItem(curveSegments[i].arrowEnd);
 						(static_cast<GraphicsScene*>(scene()))->addItem(curveSegments[i].arrowEnd);
 					}
+					else
+					if (!this->scene())
+					{
+						if (curveSegments[i].arrowEnd->scene())
+							curveSegments[i].arrowEnd->scene()->removeItem(curveSegments[i].arrowEnd);
+					}
+					if (curveSegments[i].arrowEnd->pos().isNull() && curveSegments[i].arrowEnd->scene())
+						curveSegments[i].arrowEnd->scene()->removeItem(curveSegments[i].arrowEnd);
 					curveSegments[i].arrowEnd->setZValue(z + 0.1);
 				}
 				

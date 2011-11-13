@@ -3,14 +3,14 @@
 cd @TINKERCELL_BINARY_DIR@
 make package
 
-#run in the bin folder
-CURPATH=@TINKERCELL_BINARY_DIR@/_CPack_Packages/Darwin/TGZ/TinkerCell/
+#run in the package folder
+CURPATH=@TINKERCELL_BINARY_DIR@/@TINKERCELL_PACKAGE_FOLDER@/
 cd $CURPATH
 
 #library files
-LIBFILES='*.dylib'
-PLUGINFILES='plugins/*.dylib'
-CPLUGINFILES='plugins/c/*.dylib python/*.dylib octave/*.oct'
+LIBFILES='@TINKERCELL_EXE@/Contents/MacOS/*.dylib'
+PLUGINFILES='@TINKERCELL_EXE@/Contents/MacOS/plugins/*.dylib'
+CPLUGINFILES='@TINKERCELL_EXE@/Contents/MacOS/plugins/c/*.dylib @TINKERCELL_EXE@/Contents/MacOS/python/*.dylib @TINKERCELL_EXE@/Contents/MacOS/octave/*.oct'
 
 #Qt framework files
 QTCORE=@QT_QTCORE@

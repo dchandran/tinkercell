@@ -96,8 +96,7 @@ IF( APPLE )
   IF (BUILD_BUNDLE) 
      IF (NOT DEFINED TINKERCELL_EXE)
          MESSAGE("Please run CMake CONFIGURE again because TINKERCELL_EXE is not defined")
-     ENDIF (NOT DEFINED TINKERCELL_EXE)
-     MESSAGE(STATUS "The App bundle will be placed in _CPack_Packages folder")
+     ENDIF (NOT DEFINED TINKERCELL_EXE)     
      SET(TINKERCELL_PACKAGE_ROOT_DIR ${TINKERCELL_EXE}.app/Contents/MacOS)
   ELSE(BUILD_BUNDLE)
      SET(TINKERCELL_PACKAGE_ROOT_DIR bin/..)
@@ -325,14 +324,14 @@ IF (NOT DEFINED TINKERCELL_PACKAGE_FOLDER)
 	ENDIF(WIN32)
 
 	IF (APPLE)
-	   SET(TINKERCELL_PACKAGE_FOLDER bin CACHE STRING "Change this if your CPack package folder is different (depending on CMake version)")
+	   SET(TINKERCELL_PACKAGE_FOLDER _CPack_Packages/Darwin/TGZ CACHE STRING "Change this if your CPack package folder is different (depending on CMake version)")
 	ENDIF(APPLE)
 
 	IF (UNIX AND NOT APPLE)
 	   SET(TINKERCELL_PACKAGE_FOLDER _CPack_Packages/Linux/TGZ CACHE STRING "Change this if your CPack package folder is different (depending on CMake version)")
 	ENDIF(UNIX AND NOT APPLE)
 ENDIF (NOT DEFINED TINKERCELL_PACKAGE_FOLDER)
-MESSAGE(STATUS "Package will be placed in ${TINKERCELL_BINARY_DIR}/${TINKERCELL_PACKAGE_FOLDER}")
+MESSAGE(STATUS "After 'make package', the output folder will be ${TINKERCELL_BINARY_DIR}/${TINKERCELL_PACKAGE_FOLDER}")
 
 #--------------------------------------------------------------------------------------------
 # OS Specific

@@ -3010,14 +3010,18 @@ namespace Tinkercell
 
 				for (int i=0;  i < connection->curveSegments.size(); ++i)
 				{
-					if (connection->curveSegments[i].first() && NodeGraphicsItem::cast(connection->curveSegments[i].first()->parentItem()))
+					if (connection->curveSegments[i].first() && 
+						!connection->curveSegments[i].arrowStart &&
+						NodeGraphicsItem::cast(connection->curveSegments[i].first()->parentItem()))
 					{
 						p = connection->curveSegments[i].first()->scenePos() - point;
 						d = p.rx() * p.rx() + p.ry() + p.ry();
 						if (distance < 0 || d < distance)
 							closest = connection->curveSegments[i].first();
 					}
-					if (connection->curveSegments[i].last() && NodeGraphicsItem::cast(connection->curveSegments[i].first()->parentItem()))
+					if (connection->curveSegments[i].last() && 
+						!connection->curveSegments[i].arrowEnd &&
+						NodeGraphicsItem::cast(connection->curveSegments[i].last()->parentItem()))
 					{
 						p = connection->curveSegments[i].last()->scenePos() - point;
 						d = p.rx() * p.rx() + p.ry() + p.ry();

@@ -4,8 +4,8 @@ cd @TINKERCELL_BINARY_DIR@
 make package
 
 #run in the package folder
-CURPATH=@TINKERCELL_BINARY_DIR@/@TINKERCELL_PACKAGE_FOLDER@/@TINKERCELL_EXE@/Contents/MacOS
-cd $CURPATH
+EXECPATH=@TINKERCELL_BINARY_DIR@/@TINKERCELL_PACKAGE_FOLDER@/@TINKERCELL_EXE@/Contents/MacOS
+cd $EXECPATH
 
 #library files
 LIBFILES='*.dylib'
@@ -34,7 +34,7 @@ do
   for f2 in $LIBFILES
   do
     install_name_tool \
-          -change $CURPATH/$f2 \
+          -change $EXECPATH/$f2 \
           @executable_path/../Frameworks/$f2 \
           @TINKERCELL_EXE@.app/Contents/Frameworks/$f
   done
@@ -44,7 +44,7 @@ do
         @TINKERCELL_EXE@.app/Contents/Frameworks/$f
   
   install_name_tool \
-        -change $CURPATH/$f \
+        -change $EXECPATH/$f \
          @executable_path/../Frameworks/$f \
          @TINKERCELL_EXE@.app/Contents/MacOS/@TINKERCELL_EXE@
 
@@ -103,21 +103,21 @@ do
   for f2 in $LIBFILES
   do
     install_name_tool \
-          -change $CURPATH/$f2 \
+          -change $EXECPATH/$f2 \
           @executable_path/../Frameworks/$f2 \
           @TINKERCELL_EXE@.app/Contents/MacOS/$f1
   done
   for f2 in $PLUGINFILES
   do
     install_name_tool \
-          -change $CURPATH/$f2 \
+          -change $EXECPATH/$f2 \
           @executable_path/$f2 \
           @TINKERCELL_EXE@.app/Contents/MacOS/$f1
   done
   for f2 in $CPLUGINFILES
   do
     install_name_tool \
-          -change $CURPATH/$f2 \
+          -change $EXECPATH/$f2 \
           @executable_path/$f2 \
           @TINKERCELL_EXE@.app/Contents/MacOS/$f1
   done
@@ -133,7 +133,7 @@ do
   for f2 in $CPLUGINFILES
   do
     install_name_tool \
-          -change $CURPATH/$f2 \
+          -change $EXECPATH/$f2 \
           @executable_path/$f2 \
           @TINKERCELL_EXE@.app/Contents/MacOS/$f1
   done

@@ -2,9 +2,8 @@
 
 cd @TINKERCELL_BINARY_DIR@
 make package
-tar xzvf @TINKERCELL_EXE@.tar.gz
-rm @TINKERCELL_EXE@/*.dylib
-rm @TINKERCELL_EXE@/*.a
+rm _CPack_Packages/*/TGZ/@TINKERCELL_EXE@/*.dylib
+rm _CPack_Packages/*/TGZ/@TINKERCELL_EXE@/*.a
 
 #run in the bin folder
 CURPATH=@TINKERCELL_BINARY_BIN_DIR@
@@ -25,7 +24,7 @@ QTOPENGL=@QT_QTOPENGL@
 @QT_LIBRARY_DIR@/../bin/macdeployqt @TINKERCELL_EXE@.app
 
 #copy supporting files
-cp -R ../TinkerCell/* @TINKERCELL_EXE@.app/Contents/MacOS/
+mv -R _CPack_Packages/*/TGZ/@TINKERCELL_EXE@/* @TINKERCELL_EXE@.app/Contents/MacOS/
 mkdir @TINKERCELL_EXE@.app/Contents/MacOS/c
 mkdir @TINKERCELL_EXE@.app/Contents/MacOS/lib
 cp @TINKERCELL_BINARY_BIN_DIR@/plugins/c/*.a @TINKERCELL_EXE@.app/Contents/MacOS/lib/

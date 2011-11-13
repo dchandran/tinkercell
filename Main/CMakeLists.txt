@@ -115,9 +115,9 @@ FILE(GLOB TINKERCELL_EXAMPLES examples/*.tic examples/*.TIC examples/*.xml)
 INSTALL(FILES ${TINKERCELL_EXAMPLES} DESTINATION ${TINKERCELL_PACKAGE_ROOT_DIR}/examples )
 INSTALL(FILES tinkercell.qss DESTINATION ${TINKERCELL_PACKAGE_ROOT_DIR}/ )
 
-#------------------------------------------------
+#-------------------------------------------------------------------------
 #  Setup for automatic upload to Sourceforce
-#------------------------------------------------
+#-------------------------------------------------------------------------
 IF (TINKERCELL_BINARY_UPLOAD)
 	IF (NOT DEFINED TINKERCELL_SOURCEFORGE_PASSWORD OR NOT DEFINED TINKERCELL_SOURCEFORGE_USERNAME)	
 		SET(TINKERCELL_SOURCEFORGE_USERNAME "UNKNOWN" CACHE STRING "your sourceforge username")

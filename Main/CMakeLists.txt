@@ -65,21 +65,6 @@ IF (WIN32)
 	
 ENDIF(WIN32)
 
-#--------------------------------------------------
-#  get sourceforge password for uploading
-#--------------------------------------------------
-
-IF (TINKERCELL_BINARY_UPLOAD)
-	IF (NOT DEFINED TINKERCELL_SOURCEFORGE_PASSWORD OR NOT DEFINED TINKERCELL_SOURCEFORGE_USERNAME)	
-		SET(TINKERCELL_SOURCEFORGE_USERNAME "UNKNOWN" CACHE STRING "your sourceforge username")
-		SET(TINKERCELL_SOURCEFORGE_PASSWORD "UNKNOWN" CACHE STRING "your sourceforge password")
-	ENDIF (NOT DEFINED TINKERCELL_SOURCEFORGE_PASSWORD OR NOT DEFINED TINKERCELL_SOURCEFORGE_USERNAME)
-	
-	IF (${TINKERCELL_SOURCEFORGE_USERNAME} MATCHES "UNKNOWN" OR ${TINKERCELL_SOURCEFORGE_PASSWORD} MATCHES "UNKNOWN")
-		MESSAGE("If you want to upload to Sourceforge, you must set the values for TINKERCELL_SOURCEFORGE_USERNAME and TINKERCELL_SOURCEFORGE_PASSWORD")
-	ENDIF (${TINKERCELL_SOURCEFORGE_USERNAME} MATCHES "UNKNOWN" OR ${TINKERCELL_SOURCEFORGE_PASSWORD} MATCHES "UNKNOWN")
-ENDIF (TINKERCELL_BINARY_UPLOAD)
-
 #-----------------------
 # TinkerCell variants
 #------------------------
@@ -131,27 +116,36 @@ INSTALL(FILES ${TINKERCELL_EXAMPLES} DESTINATION ${TINKERCELL_PACKAGE_ROOT_DIR}/
 INSTALL(FILES tinkercell.qss DESTINATION ${TINKERCELL_PACKAGE_ROOT_DIR}/ )
 
 #------------------------------------------------
-#  configure the BuildAndUploadAll script
+#  Setup for automatic upload to Sourceforce
 #------------------------------------------------
+IF (TINKERCELL_BINARY_UPLOAD)
+	IF (NOT DEFINED TINKERCELL_SOURCEFORGE_PASSWORD OR NOT DEFINED TINKERCELL_SOURCEFORGE_USERNAME)	
+		SET(TINKERCELL_SOURCEFORGE_USERNAME "UNKNOWN" CACHE STRING "your sourceforge username")
+		SET(TINKERCELL_SOURCEFORGE_PASSWORD "UNKNOWN" CACHE STRING "your sourceforge password")
+	ENDIF (NOT DEFINED TINKERCELL_SOURCEFORGE_PASSWORD OR NOT DEFINED TINKERCELL_SOURCEFORGE_USERNAME)
+	
+	IF (${TINKERCELL_SOURCEFORGE_USERNAME} MATCHES "UNKNOWN" OR ${TINKERCELL_SOURCEFORGE_PASSWORD} MATCHES "UNKNOWN")
+		MESSAGE("If you want to upload to Sourceforge, you must set the values for TINKERCELL_SOURCEFORGE_USERNAME and TINKERCELL_SOURCEFORGE_PASSWORD")
+	ENDIF (${TINKERCELL_SOURCEFORGE_USERNAME} MATCHES "UNKNOWN" OR ${TINKERCELL_SOURCEFORGE_PASSWORD} MATCHES "UNKNOWN")
 
-IF (WIN32)
-	SET(CREATE_TINKERCELL "call win32\\CreateInstaller.bat")
-	CONFIGURE_FILE(  ${TINKERCELL_SOURCE_DIR}/Main/BuildAndUploadAll.in
-	                                 ${TINKERCELL_BINARY_DIR}/BuildAndUploadAll.bat
-	                                 @ONLY )
-    MESSAGE(STATUS "Source BUILD\\BuildAndUploadAll.bat to upload full and lite versions")
-ELSE(WIN32)
-	IF (APPLE)
-		SET(CREATE_TINKERCELL "source mac/CreateApp.sh")
-		SET(CREATE_NODEGRAPHICS "source mac/CreateNodeGraphicsApp.sh")
-	ELSE(APPLE)
-		SET(CREATE_TINKERCELL "source linux/CreatePackage.sh")
-	ENDIF(APPLE)
-	CONFIGURE_FILE(  ${TINKERCELL_SOURCE_DIR}/Main/BuildAndUploadAll.in
-	                                 ${TINKERCELL_BINARY_DIR}/BuildAndUploadAll.sh
-	                                  @ONLY )
-    MESSAGE(STATUS "Source BUILD/BuildAndUploadAll.sh to upload full and lite versions")
-ENDIF(WIN32)
-
+	IF (WIN32)
+		SET(CREATE_TINKERCELL "call win32\\CreateInstaller.bat")
+		CONFIGURE_FILE(  ${TINKERCELL_SOURCE_DIR}/Main/BuildAndUploadAll.in
+			                             ${TINKERCELL_BINARY_DIR}/BuildAndUploadAll.bat
+			                             @ONLY )
+		MESSAGE(STATUS "BUILD\\BuildAndUploadAll.bat to upload full and lite versions")
+	ELSE(WIN32)
+		IF (APPLE )
+			SET(CREATE_TINKERCELL "source mac/CreateApp.sh")
+			SET(CREATE_NODEGRAPHICS "source mac/CreateNodeGraphicsApp.sh")
+		ELSE(APPLE)
+			SET(CREATE_TINKERCELL "source linux/CreatePackage.sh")
+		ENDIF(APPLE)
+		CONFIGURE_FILE(  ${TINKERCELL_SOURCE_DIR}/Main/BuildAndUploadAll.in
+			                             ${TINKERCELL_BINARY_DIR}/BuildAndUploadAll.sh
+			                              @ONLY )
+		MESSAGE(STATUS "Source BUILD/BuildAndUploadAll.sh to upload full and lite versions")
+	ENDIF(WIN32)
+ENDIF(TINKERCELL_BINARY_UPLOAD)
 ENDIF( QT4_FOUND AND QT_VERSION_MINOR GREATER 5)
 

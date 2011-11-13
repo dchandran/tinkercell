@@ -24,7 +24,7 @@ QTOPENGL=@QT_QTOPENGL@
 @QT_LIBRARY_DIR@/../bin/macdeployqt @TINKERCELL_EXE@.app
 
 #copy supporting files
-mv -R _CPack_Packages/*/TGZ/@TINKERCELL_EXE@/* @TINKERCELL_EXE@.app/Contents/MacOS/
+mv -R @TINKERCELL_BINARY_DIR@/_CPack_Packages/*/TGZ/@TINKERCELL_EXE@/* @TINKERCELL_EXE@.app/Contents/MacOS/
 mkdir @TINKERCELL_EXE@.app/Contents/MacOS/c
 mkdir @TINKERCELL_EXE@.app/Contents/MacOS/lib
 cp @TINKERCELL_BINARY_BIN_DIR@/plugins/c/*.a @TINKERCELL_EXE@.app/Contents/MacOS/lib/

@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/images" >
         <file alias="lock.png">../icons/lock.png</file>
+        <file alias="arc.png">../icons/arc.png</file>
         <file alias="globe.png">../icons/globe.png</file>
         <file alias="DNATool.xml">../icons/DNATool.xml</file>
         <file alias="1to3.png">../icons/1to3.png</file>

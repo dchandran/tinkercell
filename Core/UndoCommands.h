@@ -222,6 +222,10 @@ namespace Tinkercell
 		* \param bool update data of other items where removed items might occur (default=true)
 		*/
 		RemoveGraphicsCommand(const QString& name, const QList<QGraphicsItem*>& items, bool updateDataFields=true);
+
+		/*! \brief destructor*/
+		virtual ~RemoveGraphicsCommand();
+
 		/*! \brief redo the change*/
 		void redo();
 		/*! \brief undo the change*/
@@ -233,6 +237,8 @@ namespace Tinkercell
 		QList<GraphicsScene*> graphicsScenes;
 		/*! \brief items that were removed*/
 		QList<QGraphicsItem*> graphicsItems;
+		/*! \brief arrowheads need to call RemoveArrowHead*/
+		QUndoCommand * removeArrowheads;
 		/*! \brief removed items' parents*/
 		QList<QGraphicsItem*> itemParents;
 		/*! \brief removed items' handles*/
@@ -909,7 +915,37 @@ namespace Tinkercell
 		void redo();
 	};
 
+	class TINKERCELLCOREEXPORT AddArrowHeadCommand : public QUndoCommand
+	{
 
+	public:
+		virtual ~AddArrowHeadCommand();
+		AddArrowHeadCommand(ConnectionGraphicsItem * , QPointF );
+		AddArrowHeadCommand(const QList<ConnectionGraphicsItem*>& , const QList<QPointF>& );
+		void undo();
+		void redo();
+
+	private:
+		QList<ArrowHeadItem*> arrowheads;
+		QList<int> curveSegments;
+		QList<bool> startArrow;
+		void init(const QList<ConnectionGraphicsItem*>& connections, const QList<ControlPoint*>& nodes);
+	};
+
+	class TINKERCELLCOREEXPORT RemoveArrowHeadCommand : public QUndoCommand
+	{
+
+	public:
+		virtual ~RemoveArrowHeadCommand();
+		RemoveArrowHeadCommand(ArrowHeadItem *);
+		RemoveArrowHeadCommand(const QList<ArrowHeadItem*>&);
+		void undo();
+		void redo();
+	private:
+		QList<ArrowHeadItem*> arrowheads;
+		QList<int> curveSegments;
+		QList<bool> startArrow;
+	};
 }
 
 #endif

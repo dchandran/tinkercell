@@ -1008,30 +1008,56 @@ namespace Tinkercell
 			delete renameCommand;
 	}
 
-	RemoveGraphicsCommand::RemoveGraphicsCommand(const QString& name, QGraphicsItem * item, bool update)
-		: QUndoCommand(name), changeDataCommand(0), updateData(update)
+	RemoveGraphicsCommand::~RemoveGraphicsCommand()
 	{
-		item = getGraphicsItem(item);
-		graphicsItems.append( item );
-		
-		if (item)
-			itemParents.append(item->parentItem());
+		if (changeDataCommand)
+			delete changeDataCommand;
+		if (removeArrowheads)
+			delete removeArrowheads;
+	}
+
+	RemoveGraphicsCommand::RemoveGraphicsCommand(const QString& name, QGraphicsItem * item, bool update)
+		: QUndoCommand(name), removeArrowheads(0), changeDataCommand(0), updateData(update)
+	{
+	
+		if (ArrowHeadItem::cast(item))
+		{
+			removeArrowheads = new RemoveArrowHeadCommand(ArrowHeadItem::cast(item));
+		}
 		else
-			itemParents.append(0);
+		{
+			item = getGraphicsItem(item);
+			graphicsItems.append( item );
+		
+			if (item)
+				itemParents.append(item->parentItem());
+			else
+				itemParents.append(0);
+		}
 	}
 
 	RemoveGraphicsCommand::RemoveGraphicsCommand(const QString& name, const QList<QGraphicsItem*>& items, bool update)
-		: QUndoCommand(name), changeDataCommand(0), updateData(update)
+		: QUndoCommand(name), removeArrowheads(0), changeDataCommand(0), updateData(update)
 	{
 		QGraphicsItem * item;
 		NodeGraphicsItem * node;
+		QList<ArrowHeadItem*> arrowheads;
 		
 		for (int i=0; i < items.size(); ++i)
 			if ( (item = getGraphicsItem(items[i]) ) )
 			{
-				graphicsItems.append(item);
-				itemParents.append(item->parentItem());
+				if (ArrowHeadItem::cast(item))
+					arrowheads += ArrowHeadItem::cast(item);
+				else
+				{
+					graphicsItems.append(item);
+					itemParents.append(item->parentItem());
+				}
 			}
+		if (arrowheads.size() > 0)
+		{
+			removeArrowheads = new RemoveArrowHeadCommand(arrowheads);
+		}
 	}
 
 	void RemoveGraphicsCommand::redo()
@@ -1041,7 +1067,10 @@ namespace Tinkercell
 		NodeGraphicsItem * node;
 		GraphicsScene * scene;
 		ItemHandle * h;
-		
+
+		if (removeArrowheads)
+			removeArrowheads->redo();		
+
 		ConnectionGraphicsItem * connection;
 		for (int i=0; i < graphicsItems.size(); ++i)
 			if (connection = ConnectionGraphicsItem::cast(graphicsItems[i]))
@@ -1407,8 +1436,10 @@ namespace Tinkercell
 
 		if (changeDataCommand)
 			changeDataCommand->redo();
-	}
 
+		if (removeArrowheads)
+			removeArrowheads->undo();
+	}
 
 	ChangeBrushCommand::ChangeBrushCommand(const QString& name, QGraphicsItem * item, const QBrush& to)
 		: QUndoCommand(name)
@@ -2872,6 +2903,320 @@ namespace Tinkercell
 			if (itemsToDelete[i] && itemsToDelete[i]->scene())
 				itemsToDelete[i]->scene()->removeItem(itemsToDelete[i]);
 	}
+
+	AddArrowHeadCommand::~AddArrowHeadCommand()
+	{
+		for (int i=0; i < arrowheads.size(); ++i)	
+			if (arrowheads[i] && 
+				!(arrowheads[i]->connectionItem && arrowheads[i]->connectionItem->arrowHeads().contains(arrowheads[i])) &&
+				 !MainWindow::invalidPointers[ (void*)arrowheads[i] ])
+			{
+				MainWindow::invalidPointers[ (void*)arrowheads[i] ] = true;
+				delete arrowheads[i];
+			}
+		arrowheads.clear();
+	}
+
+	void AddArrowHeadCommand::init(const QList<ConnectionGraphicsItem*>& connections, const QList<ControlPoint*>& nodes)
+	{
+		for (int i=0; i < connections.size(); ++i)
+			if (connections[i])
+			{
+				if (!nodes[i])
+				{
+					arrowheads += new ArrowHeadItem(ConnectionGraphicsItem::DefaultMiddleItemFile, connections[i]);
+					curveSegments += -1;
+					startArrow += false;	
+				}
+				else
+				{
+					for (int j=0; j < connections[i]->curveSegments.size(); ++j)
+					{
+						if (connections[i]->curveSegments[j].first() == nodes[i])
+						{
+							arrowheads += new ArrowHeadItem(ConnectionGraphicsItem::DefaultArrowHeadFile, connections[i]);
+							curveSegments += j;
+							startArrow += true;
+						}
+
+						if (connections[i]->curveSegments[j].last() == nodes[i])
+						{
+							arrowheads += new ArrowHeadItem(ConnectionGraphicsItem::DefaultArrowHeadFile, connections[i]);
+							curveSegments += j;
+							startArrow += false;
+						}
+					}
+				}
+			}
+	}
+
+	AddArrowHeadCommand::AddArrowHeadCommand(ConnectionGraphicsItem * connection, QPointF point)
+	{
+		double distance = -1.0;
+		ControlPoint * closest = 0;
+
+		if (connection)
+		{
+			QPointF p = connection->centerLocation() - point;
+			double d = -1;
+			if (!connection->centerRegionItem) 
+				distance = d = p.rx() * p.rx() + p.ry() + p.ry();
+
+			for (int i=0;  i < connection->curveSegments.size(); ++i)
+			{
+				if (connection->curveSegments[i].first() && NodeGraphicsItem::cast(connection->curveSegments[i].first()->parentItem()))
+				{
+					p = connection->curveSegments[i].first()->scenePos() - point;
+					d = p.rx() * p.rx() + p.ry() + p.ry();
+					if (distance < 0 || d < distance)
+					{
+						closest = connection->curveSegments[i].first();
+						distance = d;
+					}
+				}
+				if (connection->curveSegments[i].last() && NodeGraphicsItem::cast(connection->curveSegments[i].last()->parentItem()))
+				{
+					p = connection->curveSegments[i].last()->scenePos() - point;
+					d = p.rx() * p.rx() + p.ry() + p.ry();
+					if (distance < 0 || d < distance)
+					{
+						closest = connection->curveSegments[i].last();
+						distance = d;
+					}
+				}
+			}
+
+			if (distance > -1)
+				init( QList<ConnectionGraphicsItem*>() << connection, QList<ControlPoint*>() << closest);
+		}
+	}
+
+	AddArrowHeadCommand::AddArrowHeadCommand(const QList<ConnectionGraphicsItem*>& connections, const QList<QPointF>& points)
+	{
+		QList<ControlPoint*> controlpoints;
+		QList<ConnectionGraphicsItem*> connections2;
+
+		for (int j=0; j < connections.size() && j < points.size(); ++j)
+		{
+			ConnectionGraphicsItem * connection = connections[j];
+			QPointF point = points[j];
+
+			if (connection)
+			{
+				QPointF p = connection->centerLocation() - point;
+				double d = p.rx() * p.rx() + p.ry() + p.ry();
+				double distance = d;
+				ControlPoint * closest = 0;
+
+				for (int i=0;  i < connection->curveSegments.size(); ++i)
+				{
+					if (connection->curveSegments[i].first() && NodeGraphicsItem::cast(connection->curveSegments[i].first()->parentItem()))
+					{
+						p = connection->curveSegments[i].first()->scenePos() - point;
+						d = p.rx() * p.rx() + p.ry() + p.ry();
+						if (distance < 0 || d < distance)
+							closest = connection->curveSegments[i].first();
+					}
+					if (connection->curveSegments[i].last() && NodeGraphicsItem::cast(connection->curveSegments[i].first()->parentItem()))
+					{
+						p = connection->curveSegments[i].last()->scenePos() - point;
+						d = p.rx() * p.rx() + p.ry() + p.ry();
+						if (distance < 0 || d < distance)
+							closest = connection->curveSegments[i].last();
+					}
+				}
+
+				connections2 << connection;
+				controlpoints << closest;
+			}
+		}
+
+		init( connections2, controlpoints);
+	}
+
+	void AddArrowHeadCommand::undo()
+	{
+		QList<ConnectionGraphicsItem*> connections;
+		for (int i=0; i < arrowheads.size() && i < curveSegments.size() && i < startArrow.size(); ++i)
+			if (arrowheads[i])
+			{
+				if (arrowheads[i]->scene())
+					arrowheads[i]->scene()->removeItem(arrowheads[i]);
+
+				ConnectionGraphicsItem * connection = arrowheads[i]->connectionItem;
+				if (connection)
+				{
+					if (connection->centerRegionItem == arrowheads[i])
+					{
+						connection->centerRegionItem  = 0;
+						curveSegments[i] = -1;
+						if (!connections.contains(connection))
+							connections << connection;
+					}
+
+					for (int j=0; j < connection->curveSegments.size(); ++j)
+					{
+						if (connection->curveSegments[j].arrowStart == arrowheads[i])
+						{
+							connection->curveSegments[j].arrowStart = 0;
+							curveSegments[i] = j;
+							startArrow[i] = true;
+							if (!connections.contains(connection))
+								connections << connection;
+						}
+						else
+						if (connection->curveSegments[j].arrowEnd == arrowheads[i])
+						{
+							connection->curveSegments[j].arrowEnd = 0;
+							curveSegments[i] = j;
+							startArrow[i] = false;
+							if (!connections.contains(connection))
+								connections << connection;
+						}
+					}
+				}
+			}
+		for (int i=0; i < connections.size(); ++i)
+			connections[i]->refresh();
+	}
+
+	void AddArrowHeadCommand::redo()
+	{
+		QList<ConnectionGraphicsItem*> connections;
+		for (int i=0; i < arrowheads.size() && i < curveSegments.size() && i < startArrow.size(); ++i)
+			if (arrowheads[i])
+			{
+				ConnectionGraphicsItem * connection = arrowheads[i]->connectionItem;
+				if (connection)
+				{
+					if (curveSegments[i] == -1 && !connection->centerRegionItem)
+					{
+						connection->centerRegionItem = arrowheads[i];
+					}
+					else
+					if (curveSegments[i] < connection->curveSegments.size())
+					{
+						int j = curveSegments[i];
+						if (startArrow[i] && !connection->curveSegments[j].arrowStart)
+							connection->curveSegments[j].arrowStart = arrowheads[i];
+						else
+						if (!connection->curveSegments[j].arrowEnd)
+							connection->curveSegments[j].arrowEnd = arrowheads[i];
+						connections += connection;
+					}
+				}
+			}
+		for (int i=0; i < connections.size(); ++i)
+			connections[i]->refresh();
+	}
+
+	RemoveArrowHeadCommand::~RemoveArrowHeadCommand()
+	{
+		for (int i=0; i < arrowheads.size(); ++i)	
+			if (arrowheads[i] &&
+				!(arrowheads[i]->connectionItem && arrowheads[i]->connectionItem->arrowHeads().contains(arrowheads[i])) &&
+				 !MainWindow::invalidPointers[ (void*)arrowheads[i] ])
+			{
+				MainWindow::invalidPointers[ (void*)arrowheads[i] ] = true;
+				delete arrowheads[i];
+			}
+		arrowheads.clear();
+	}
+
+	RemoveArrowHeadCommand::RemoveArrowHeadCommand(ArrowHeadItem * a)
+	{
+		arrowheads += a;
+		curveSegments += -1;
+		startArrow += false;
+	}
+
+	RemoveArrowHeadCommand::RemoveArrowHeadCommand(const QList<ArrowHeadItem*>& a)
+	{
+		for (int i=0; i < a.size(); ++i)
+			if (a[i])
+			{
+				arrowheads += a[i];
+				curveSegments += -1;
+				startArrow += false;
+			}
+	}
+
+	void RemoveArrowHeadCommand::redo()
+	{
+		QList<ConnectionGraphicsItem*> connections;
+		for (int i=0; i < arrowheads.size() && i < curveSegments.size() && i < startArrow.size(); ++i)
+			if (arrowheads[i])
+			{
+				if (arrowheads[i]->scene())
+					arrowheads[i]->scene()->removeItem(arrowheads[i]);
+
+				ConnectionGraphicsItem * connection = arrowheads[i]->connectionItem;
+				if (connection)
+				{
+					if (connection->centerRegionItem == arrowheads[i])
+					{
+						connection->centerRegionItem  = 0;
+						curveSegments[i] = -1;
+						if (!connections.contains(connection))
+							connections << connection;
+					}
+
+					for (int j=0; j < connection->curveSegments.size(); ++j)
+					{
+						if (connection->curveSegments[j].arrowStart == arrowheads[i])
+						{
+							connection->curveSegments[j].arrowStart = 0;
+							curveSegments[i] = j;
+							startArrow[i] = true;
+							if (!connections.contains(connection))
+								connections << connection;
+						}
+						else
+						if (connection->curveSegments[j].arrowEnd == arrowheads[i])
+						{
+							connection->curveSegments[j].arrowEnd = 0;
+							curveSegments[i] = j;
+							startArrow[i] = false;
+							if (!connections.contains(connection))
+								connections << connection;
+						}
+					}
+				}
+			}
+		for (int i=0; i < connections.size(); ++i)
+			connections[i]->refresh();
+	}
+
+	void RemoveArrowHeadCommand::undo()
+	{
+		QList<ConnectionGraphicsItem*> connections;
+		for (int i=0; i < arrowheads.size() && i < curveSegments.size() && i < startArrow.size(); ++i)
+			if (arrowheads[i])
+			{
+				ConnectionGraphicsItem * connection = arrowheads[i]->connectionItem;
+				if (curveSegments[i] == -1)
+				{
+					if (!connection->centerRegionItem)
+						connection->centerRegionItem =  arrowheads[i];
+					if (!connections.contains(connection))
+						connections += connection;					
+				}
+				if (connection && curveSegments[i] < connection->curveSegments.size())
+				{
+					int j = curveSegments[i];
+					if (startArrow[i] && !connection->curveSegments[j].arrowStart)
+						connection->curveSegments[j].arrowStart = arrowheads[i];
+					else
+					if (!connection->curveSegments[j].arrowEnd)
+						connection->curveSegments[j].arrowEnd = arrowheads[i];
+					if (!connections.contains(connection))
+						connections += connection;
+				}
+			}
+		for (int i=0; i < connections.size(); ++i)
+			connections[i]->refresh();
+	}
+
 	void ReplaceNodeGraphicsCommand::undo()
 	{
 		for (int i=0; i < targetNodes.size(); ++i)

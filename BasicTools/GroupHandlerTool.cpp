@@ -501,7 +501,8 @@ namespace Tinkercell
 			{
 				QGraphicsItem * item = cloneGraphicsItem(selected[i]);
 				newItems += item;
-				item->setPos( item->scenePos() + QPointF(100,100) );
+				QPointF randpt( qrand() % 50, qrand() % 50 );
+				item->setPos( item->scenePos() + 2.0*(QPointF(-50,50) + randpt) );
 			}
 
 		scene->insert(tr("alias inserted"),newItems);

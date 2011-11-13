@@ -32,11 +32,12 @@ namespace Tinkercell
 		controlHeld = false;
 		gridDist = 100.0;
 
-		addAction(QIcon(":/images/blueDot.png"),tr("Add control point"),tr("Insert new control point"));
-		addAction(QIcon(),tr("Use straight lines"),tr("Use straight lines to draw the selected connectors"));
-		addAction(QIcon(),tr("Use Bezier lines"),tr("Use Bezier curves to draw the selected connectors"));
-		addAction(QIcon(),tr("Show middle region"),tr("Show information box for connector(s)"));
-		addAction(QIcon(),tr("Hide middle region"),tr("Hide information box for connector(s)"));
+		addAction(QIcon(":/images/arc.png"),tr("Add control point"),tr("Insert new control point"));
+		addAction(QIcon(":/images/arc.png"),tr("Use straight lines"),tr("Use straight lines to draw the selected connectors"));
+		addAction(QIcon(":/images/arc.png"),tr("Use Bezier lines"),tr("Use Bezier curves to draw the selected connectors"));
+		addAction(QIcon(":/images/arc.png"),tr("Show middle region"),tr("Show information box for connector(s)"));
+		addAction(QIcon(":/images/arc.png"),tr("Hide middle region"),tr("Hide information box for connector(s)"));
+		addAction(QIcon(":/images/arc.png"),tr("Add/remove arrowhead"),tr("Add or remove an arrowhead from the currently selected segment of the connector"));
 	}
 	
 	void ConnectionSelection::select(int i)
@@ -55,6 +56,12 @@ namespace Tinkercell
 		else
 		if (i==4)
 			hideMiddleBox();
+		else
+		if (i==5)
+			showArrow();
+		else
+		if (i==6)
+			hideArrow();
 	}
 
 	bool ConnectionSelection::setMainWindow(MainWindow * main)
@@ -552,6 +559,34 @@ namespace Tinkercell
 	{
 	}
 
+	void ConnectionSelection::showArrow()
+	{
+		GraphicsScene * scene = currentScene();
+		if (!scene) return;
+
+		QList<QPointF> points;
+		QList<ConnectionGraphicsItem*> connections = ConnectionGraphicsItem::cast(scene->selected());
+
+		for (int i=0; i < connections.size(); ++i)
+			points += scene->lastPoint();
+
+		scene->network->push( new AddArrowHeadCommand(connections, points) );
+	}
+
+	void ConnectionSelection::hideArrow()
+	{
+		GraphicsScene * scene = currentScene();
+		if (!scene) return;
+
+		QList<ArrowHeadItem*> arrows;
+		QList<ConnectionGraphicsItem*> connections = ConnectionGraphicsItem::cast(scene->selected());
+
+		for (int i=0; i < connections.size(); ++i)
+			arrows += connections[i]->arrowHeads();
+
+		scene->network->push( new RemoveArrowHeadCommand(arrows) );
+	}
+
 	void ConnectionSelection::showMiddleBox()
 	{
 		showMiddleBox(1);
@@ -609,30 +644,25 @@ namespace Tinkercell
 				filenames << filename;
 			}
 
-			QList<QUndoCommand*> commands;
-
+			QUndoCommand * command;
 
 			if (!filename.isNull() && !filename.isEmpty())
-				commands << new ReplaceNodeGraphicsCommand(tr("center decorator changed"),nodeItems,filenames);
-
-			commands << new InsertGraphicsCommand(tr("center decorator added"),scene,items);
-			QUndoCommand * command = new CompositeCommand(tr("center decorator added"),commands);
-
-			if (scene->network)
-				scene->network->push(command);
-			else
 			{
-				command->redo();
-				delete command;
+				command = new ReplaceNodeGraphicsCommand(tr("center decorator changed"),nodeItems,filenames);
+				if (scene->network)
+					scene->network->push(command);
+				else
+				{
+					command->redo();
+					delete command;
+				}
 			}
-
-			emit itemsInserted(scene, items, handles);
-
-			//scene->insert(tr("center box added"),centerBoxes);
+			else
+				scene->insert(tr("Decorator(s) added"),items);
 		}
 		else
 		{
-			//scene->remove(tr("center decorator removed"),items);
+			scene->remove(tr("Decorator(s) removed"),items);
 		}
 	}
 

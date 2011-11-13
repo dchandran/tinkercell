@@ -27,6 +27,7 @@ The MainWindow keeps a list of all plugins, and it is also responsible for loadi
 #include <QColorDialog>
 #include <QImage>
 #include <QDateTime>
+#include <QTime>
 #include "TextEditor.h"
 #include "NetworkWindow.h"
 #include "NetworkHandle.h"
@@ -270,6 +271,9 @@ namespace Tinkercell
 
 		parsersMenu = 0;
 		c_api_slots = new C_API_Slots(this);
+
+		QTime midnight(0, 0, 0);
+		qsrand(midnight.secsTo(QTime::currentTime()));
 	}
 	
 	void MainWindow::loadDefaultPlugins()

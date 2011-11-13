@@ -121,6 +121,8 @@ namespace Tinkercell
 		void showMiddleBox(int, const QString& filename = QString());
 		void showMiddleBox();
 		void hideMiddleBox();
+		void showArrow();
+		void hideArrow();
 		void arrowHeadDistance(double value);
 		void newControlPoint();
 		void setLineTypeStraight();

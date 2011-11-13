@@ -958,7 +958,7 @@ namespace Tinkercell
 			centerRegionItem->connectionItem = this;
 			if (centerRegionItem->scene() != this->scene() && this->scene())
 			{
-				QList<QGraphicsItem*> children = centerRegionItem->childItems();
+				/*QList<QGraphicsItem*> children = centerRegionItem->childItems();
 				for (int i=0; i < children.size(); ++i)
 					if (qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(children[i]))
 					{
@@ -966,7 +966,10 @@ namespace Tinkercell
 							centerRegionItem->scene()->removeItem(centerRegionItem);
 						(static_cast<GraphicsScene*>(scene()))->addItem(centerRegionItem);
 						break;
-					}
+					}*/
+				if (centerRegionItem->scene())
+					centerRegionItem->scene()->removeItem(centerRegionItem);
+				(static_cast<GraphicsScene*>(scene()))->addItem(centerRegionItem);
 			}
 
 			centerRegionItem->setPos( centerLocation(true) );

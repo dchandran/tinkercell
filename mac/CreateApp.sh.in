@@ -1,7 +1,9 @@
 #!/bin/sh
 
 cd @TINKERCELL_BINARY_DIR@
-make
+make package
+rm TinkerCell/*.dylib
+rm TinkerCell/*.a
 
 #run in the bin folder
 CURPATH=@TINKERCELL_BINARY_BIN_DIR@
@@ -22,29 +24,13 @@ QTOPENGL=@QT_QTOPENGL@
 @QT_LIBRARY_DIR@/../bin/macdeployqt @TINKERCELL_EXE@.app
 
 #copy supporting files
-cp -R @TINKERCELL_SOURCE_DIR@/plugins @TINKERCELL_EXE@.app/Contents/MacOS/
+cp -R ../TinkerCell/* @TINKERCELL_EXE@.app/Contents/MacOS/
 mkdir @TINKERCELL_EXE@.app/Contents/MacOS/c
 mkdir @TINKERCELL_EXE@.app/Contents/MacOS/lib
-cp @TINKERCELL_SOURCE_DIR@/API/*.h @TINKERCELL_EXE@.app/Contents/MacOS/c
-cp @TINKERCELL_SOURCE_DIR@/ExternalCode/copasi/copasi_api.h @TINKERCELL_EXE@.app/Contents/MacOS/c
-cp @TINKERCELL_SOURCE_DIR@/Main/tinkercell.qss @TINKERCELL_EXE@.app/Contents/MacOS/
-cp -R @TINKERCELL_SOURCE_DIR@/icons @TINKERCELL_EXE@.app/Contents/MacOS/
 cp @TINKERCELL_BINARY_BIN_DIR@/plugins/c/*.a @TINKERCELL_EXE@.app/Contents/MacOS/lib/
 cp @TINKERCELL_BINARY_BIN_DIR@/plugins/*.a @TINKERCELL_EXE@.app/Contents/MacOS/lib/
 cp @TINKERCELL_BINARY_BIN_DIR@/*.a @TINKERCELL_EXE@.app/Contents/MacOS/lib/
 cp @TINKERCELL_BINARY_BIN_DIR@/*.dylib @TINKERCELL_EXE@.app/Contents/Frameworks/
-cp -R @TINKERCELL_SOURCE_DIR@/Graphics @TINKERCELL_EXE@.app/Contents/MacOS/
-cp @TINKERCELL_SOURCE_DIR@/NodesTree/*.nt @TINKERCELL_EXE@.app/Contents/MacOS/
-cp @TINKERCELL_SOURCE_DIR@/NodesTree/*.txt @TINKERCELL_EXE@.app/Contents/MacOS/
-cp -R @TINKERCELL_BINARY_BIN_DIR@/python @TINKERCELL_EXE@.app/Contents/MacOS/
-cp @TINKERCELL_SOURCE_DIR@/python/*.py @TINKERCELL_EXE@.app/Contents/MacOS/python
-cp @TINKERCELL_SOURCE_DIR@/*.txt @TINKERCELL_EXE@.app/Contents/MacOS/
-cp -R octave @TINKERCELL_EXE@.app/Contents/MacOS/
-cp @TINKERCELL_SOURCE_DIR@/octave/*.m @TINKERCELL_EXE@.app/Contents/MacOS/octave/
-cp -R @TINKERCELL_HOME_DIR@/Modules @TINKERCELL_EXE@.app/Contents/MacOS/
-cp -R @TINKERCELL_HOME_DIR@/octave/*.* @TINKERCELL_EXE@.app/Contents/MacOS/octave/
-cp -R @TINKERCELL_HOME_DIR@/python/ @TINKERCELL_EXE@.app/Contents/MacOS/python/
-cp -R @TINKERCELL_HOME_DIR@/plugins/ @TINKERCELL_EXE@.app/Contents/MacOS/plugins/
 
 #name change for all libraries used in @TINKERCELL_EXE@.app
 

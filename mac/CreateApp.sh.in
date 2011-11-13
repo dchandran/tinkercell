@@ -21,15 +21,6 @@ QTOPENGL=@QT_QTOPENGL@
 #copy QT framework
 @QT_LIBRARY_DIR@/../bin/macdeployqt @TINKERCELL_EXE@.app
 
-#copy supporting files
-mkdir @TINKERCELL_EXE@.app/Contents/MacOS/c
-mkdir @TINKERCELL_EXE@.app/Contents/MacOS/lib
-cp $CURPATH/plugins/c/*.a @TINKERCELL_EXE@.app/Contents/MacOS/lib/
-cp $CURPATH/plugins/*.a @TINKERCELL_EXE@.app/Contents/MacOS/lib/
-mv $CURPATH/*.a @TINKERCELL_EXE@.app/Contents/MacOS/lib/
-mv $CURPATH/*.dylib @TINKERCELL_EXE@.app/Contents/Frameworks/
-mv -R @TINKERCELL_BINARY_DIR@/_CPack_Packages/*/TGZ/TinkerCell/* @TINKERCELL_EXE@.app/Contents/MacOS//_CPack_Packages/*/TGZ/TinkerCell/* @TINKERCELL_EXE@.app/Contents/MacOS/
-
 #name change for all libraries used in @TINKERCELL_EXE@.app
 
 for f in $LIBFILES

@@ -130,8 +130,8 @@ ENDIF( APPLE AND BUILD_BUNDLE )
 #--------------------------------------------------------------------------
 
 INSTALL(TARGETS TinkerCell 
-   BUNDLE DESTINATION bin/../
-   RUNTIME DESTINATION bin/../
+   BUNDLE DESTINATION ${TINKERCELL_PACKAGE_ROOT_DIR}/
+   RUNTIME DESTINATION ${TINKERCELL_PACKAGE_ROOT_DIR}/
    )
 
 #---------------------------------------------------------------------

@@ -93,6 +93,17 @@ ENDIF(COMMAND CMAKE_POLICY)
 IF( APPLE )
   OPTION( BUILD_BUNDLE "Make A Bundle Application" ON )
   SET (CMAKE_OSX_ARCHITECTURES "ppc;i386;" CACHE STRING "enable universal binaries" FORCE) 
+  IF (BUILD_BUNDLE) 
+     IF (NOT DEFINED TINKERCELL_EXE)
+         MESSAGE("Please run CMake CONFIGURE again because TINKERCELL_EXE is not defined")
+     ENDIF (NOT DEFINED TINKERCELL_EXE)
+     SET(TINKERCELL_PACKAGE_ROOT_DIR ${TINKERCELL_EXE}.app/Contents/MacOS)
+  ELSE(BUILD_BUNDLE)
+     SET(TINKERCELL_PACKAGE_ROOT_DIR bin/..)
+  ENDIF (BUILD_BUNDLE)
+  
+ELSE (APPLE)
+   SET(TINKERCELL_PACKAGE_ROOT_DIR bin/..)
 ENDIF( APPLE )
 
 #---------------------------------------------------------------------------

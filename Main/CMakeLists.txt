@@ -120,15 +120,15 @@ FILE(GLOB NODESTREE_XML_FILES
 	${TINKERCELL_SOURCE_DIR}/NodesTree/*.nt
 )
 
-INSTALL( FILES ${NODESTREE_XML_FILES} DESTINATION bin/../ )
+INSTALL( FILES ${NODESTREE_XML_FILES} DESTINATION ${TINKERCELL_PACKAGE_ROOT_DIR}/ )
 
 #--------------------------------------------------------------------------
 #  Copy example files and stylesheet
 #--------------------------------------------------------------------------
 
 FILE(GLOB TINKERCELL_EXAMPLES examples/*.tic examples/*.TIC examples/*.xml)
-INSTALL(FILES ${TINKERCELL_EXAMPLES} DESTINATION examples )
-INSTALL(FILES tinkercell.qss DESTINATION bin/../ )
+INSTALL(FILES ${TINKERCELL_EXAMPLES} DESTINATION ${TINKERCELL_PACKAGE_ROOT_DIR}/examples )
+INSTALL(FILES tinkercell.qss DESTINATION ${TINKERCELL_PACKAGE_ROOT_DIR}/ )
 
 #------------------------------------------------
 #  configure the BuildAndUploadAll script

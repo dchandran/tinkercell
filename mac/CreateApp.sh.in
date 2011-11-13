@@ -2,13 +2,10 @@
 
 cd @TINKERCELL_BINARY_DIR@
 make package
-rm _CPack_Packages/*/TGZ/@TINKERCELL_EXE@/*.dylib
-rm _CPack_Packages/*/TGZ/@TINKERCELL_EXE@/*.a
-rm -rf _CPack_Packages/*/TGZ/@TINKERCELL_EXE@/*.app
 
 #run in the bin folder
-CURPATH=@TINKERCELL_BINARY_BIN_DIR@
-cd @TINKERCELL_BINARY_BIN_DIR@
+CURPATH=@TINKERCELL_BINARY_DIR@/_CPack_Packages/Darwin/TGZ/TinkerCell/
+cd $CURPATH
 
 #library files
 LIBFILES='*.dylib'
@@ -25,13 +22,13 @@ QTOPENGL=@QT_QTOPENGL@
 @QT_LIBRARY_DIR@/../bin/macdeployqt @TINKERCELL_EXE@.app
 
 #copy supporting files
-mv -R @TINKERCELL_BINARY_DIR@/_CPack_Packages/*/TGZ/TinkerCell/* @TINKERCELL_EXE@.app/Contents/MacOS/
 mkdir @TINKERCELL_EXE@.app/Contents/MacOS/c
 mkdir @TINKERCELL_EXE@.app/Contents/MacOS/lib
-cp @TINKERCELL_BINARY_BIN_DIR@/plugins/c/*.a @TINKERCELL_EXE@.app/Contents/MacOS/lib/
-cp @TINKERCELL_BINARY_BIN_DIR@/plugins/*.a @TINKERCELL_EXE@.app/Contents/MacOS/lib/
-cp @TINKERCELL_BINARY_BIN_DIR@/*.a @TINKERCELL_EXE@.app/Contents/MacOS/lib/
-cp @TINKERCELL_BINARY_BIN_DIR@/*.dylib @TINKERCELL_EXE@.app/Contents/Frameworks/
+cp $CURPATH/plugins/c/*.a @TINKERCELL_EXE@.app/Contents/MacOS/lib/
+cp $CURPATH/plugins/*.a @TINKERCELL_EXE@.app/Contents/MacOS/lib/
+mv $CURPATH/*.a @TINKERCELL_EXE@.app/Contents/MacOS/lib/
+mv $CURPATH/*.dylib @TINKERCELL_EXE@.app/Contents/Frameworks/
+mv -R @TINKERCELL_BINARY_DIR@/_CPack_Packages/*/TGZ/TinkerCell/* @TINKERCELL_EXE@.app/Contents/MacOS//_CPack_Packages/*/TGZ/TinkerCell/* @TINKERCELL_EXE@.app/Contents/MacOS/
 
 #name change for all libraries used in @TINKERCELL_EXE@.app
 

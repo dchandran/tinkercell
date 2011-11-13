@@ -35,11 +35,11 @@ ADD_LIBRARY( ssa
 )
 
 SET_TARGET_PROPERTIES(ssa PROPERTIES LINKER_LANGUAGE C)
-IF ( WIN32 )
-	  INSTALL(TARGETS ssa ode DESTINATION lib )
-ELSE ( WIN32 )
-	  INSTALL(TARGETS ssa ode ARCHIVE DESTINATION lib )
-ENDIF( WIN32 )
+INSTALL(TARGETS ssa ode
+	RUNTIME DESTINATION ${TINKERCELL_PACKAGE_ROOT_DIR}/lib
+	LIBRARY DESTINATION ${TINKERCELL_PACKAGE_ROOT_DIR}/lib
+	ARCHIVE DESTINATION ${TINKERCELL_PACKAGE_ROOT_DIR}/lib
+)
 
 #*******************************************************************************
 
@@ -72,7 +72,7 @@ IF (USE_COPASI)	 #use COPASI for the numerical analysis (more features)
 			${TINKERCELL_SOURCE_DIR}/ExternalCode/lapack/INCLUDE/f2c.h
 			${TINKERCELL_SOURCE_DIR}/ExternalCode/lapack/INCLUDE/clapack.h
 			${TINKERCELL_SOURCE_DIR}/ExternalCode/lapack/INCLUDE/blaswrap.h
-	  DESTINATION c
+	  DESTINATION ${TINKERCELL_PACKAGE_ROOT_DIR}/c
 	)
 
 ELSE(USE_COPASI)   #use custom programs for the numerical analysis (less features, but faster)
@@ -90,11 +90,9 @@ ADD_LIBRARY( lpsolve
 
 TARGET_LINK_LIBRARIES( lpsolve lpsolve lp_solve tinkercellapi )
 
-IF( WIN32 )
-  INSTALL(TARGETS lpsolve DESTINATION plugins/c/ )
-ELSE( WIN32 )
-  INSTALL(TARGETS lpsolve LIBRARY DESTINATION plugins/c/ )
-ENDIF( WIN32 )
-
-
+INSTALL(TARGETS lpsolve 
+	RUNTIME DESTINATION ${TINKERCELL_PACKAGE_ROOT_DIR}/plugins/c
+	LIBRARY DESTINATION ${TINKERCELL_PACKAGE_ROOT_DIR}/plugins/c
+	ARCHIVE DESTINATION ${TINKERCELL_PACKAGE_ROOT_DIR}/plugins/c
+)
 

@@ -2,6 +2,7 @@
 
 cd @TINKERCELL_BINARY_DIR@
 make package
+tar xzvf @TINKERCELL_EXE@.tar.gz
 rm @TINKERCELL_EXE@/*.dylib
 rm @TINKERCELL_EXE@/*.a
 

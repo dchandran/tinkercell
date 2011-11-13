@@ -19,6 +19,7 @@ QTXML=@QT_QTXML@
 QTOPENGL=@QT_QTOPENGL@
 
 cd @TINKERCELL_BINARY_DIR@/@TINKERCELL_PACKAGE_FOLDER@
+mkdir @TINKERCELL_EXE@.app/Contents/Frameworks
 
 #copy QT framework
 @QT_LIBRARY_DIR@/../bin/macdeployqt @TINKERCELL_EXE@.app

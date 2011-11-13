@@ -2,8 +2,8 @@
 
 cd @TINKERCELL_BINARY_DIR@
 make package
-rm TinkerCell/*.dylib
-rm TinkerCell/*.a
+rm @TINKERCELL_EXE@/*.dylib
+rm @TINKERCELL_EXE@/*.a
 
 #run in the bin folder
 CURPATH=@TINKERCELL_BINARY_BIN_DIR@

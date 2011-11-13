@@ -145,9 +145,9 @@ hdiutil create -megabytes 220 -fs HFS+ -volname @TINKERCELL_EXE@ ~/Desktop/@TINK
 open ~/Desktop/@TINKERCELL_EXE@.dmg
 echo "waiting 20 secs for hutil to finish"
 sleep 10
-cd @TINKERCELL_BINARY_BIN_DIR@
+cd @TINKERCELL_BINARY_DIR@/@TINKERCELL_PACKAGE_FOLDER@
 cp -R @TINKERCELL_EXE@.app /Volumes/@TINKERCELL_EXE@
-cp -R NodeGraphics.app /Volumes/@TINKERCELL_EXE@
+cp -R @TINKERCELL_BINARY_DIR@/NodeGraphics.app /Volumes/@TINKERCELL_EXE@
 ln -s /Applications /Volumes/@TINKERCELL_EXE@
 
 #upload to sourceforge

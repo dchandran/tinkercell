@@ -3,6 +3,10 @@
 cd @TINKERCELL_BINARY_DIR@
 make package
 
+# TINKERCELL_BINARY_DIR is the Build folder specified in the CMake window
+# TINKERCELL_PACKAGE_FOLDER should be listed in the CMake window as a string variable
+# BE SURE that TGZ is enables as the CPack package 
+
 #run in the package folder
 EXECPATH=@TINKERCELL_BINARY_DIR@/@TINKERCELL_PACKAGE_FOLDER@/TinkerCell/@TINKERCELL_EXE@.app/Contents/MacOS
 cd $EXECPATH

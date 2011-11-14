@@ -77,4 +77,6 @@
 <Subcellular compartment>	<description>									"A compartment inside a biological cell, e.g. nucleus"@en .
 <Cell>									<description>									"A biological cell, e.g. a bacterium"@en .
 <Cell>									<species>							"unspecified"@en .
+<Spacer DNA>                     <a>                                   <Part>.
+<Spacer DNA>                     <description>                  "A piece of DNA that is used to provide spacing between two other functional parts."@en .
 

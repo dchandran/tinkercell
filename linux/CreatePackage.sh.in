@@ -2,7 +2,7 @@
 
 cd @TINKERCELL_BINARY_DIR@
 make package
-cd @TINKERCELL_BINARY_DIR@/_CPack_Packages/Linux/TGZ
+cd @TINKERCELL_BINARY_DIR@/@TINKERCELL_PACKAGE_FOLDER@
 cp TinkerCell.tar.gz @TINKERCELL_BINARY_DIR@/linux/@TINKERCELL_EXE@@TINKERCELL_BIT@.tar.gz
 mv TinkerCell.tar.gz @TINKERCELL_EXE@@TINKERCELL_BIT@.tar.gz
 echo "renamed TinkerCell.tar.gz to @TINKERCELL_EXE@@TINKERCELL_BIT@.tar.gz"
@@ -12,9 +12,9 @@ if [ @TINKERCELL_UPLOAD_SOURCE@ == ON ]
 	echo "extracting source code..."
     svn export @TINKERCELL_SOURCE_DIR@ TinkerCellSource
     echo "compressing source code..."
-    tar czf @TINKERCELL_BINARY_DIR@/_CPack_Packages/Linux/TGZ/TinkerCellSource.tar.gz TinkerCellSource
+    tar czf @TINKERCELL_BINARY_DIR@/@TINKERCELL_PACKAGE_FOLDER@/TinkerCellSource.tar.gz TinkerCellSource
     rm -Rf TinkerCellSource
-	echo "created @TINKERCELL_BINARY_DIR@/_CPack_Packages/Linux/TGZ/TinkerCellSource.tar.gz"
+	echo "created @TINKERCELL_BINARY_DIR@/@TINKERCELL_PACKAGE_FOLDER@/TinkerCellSource.tar.gz"
 fi 
 
 echo "logging in to Sourceforge as @TINKERCELL_SOURCEFORGE_USERNAME@"

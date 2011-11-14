@@ -322,6 +322,7 @@ IF (NOT DEFINED TINKERCELL_PACKAGE_FOLDER)
 	ENDIF(WIN32)
 
 	IF (APPLE)
+	   MESSAGE(STATUS "After 'make package', the output folder will be ${TINKERCELL_BINARY_DIR}/${TINKERCELL_PACKAGE_FOLDER}")
 	   SET(TINKERCELL_PACKAGE_FOLDER _CPack_Packages/Darwin/TGZ CACHE STRING "Change this if your CPack package folder is different (depending on CMake version)")
 	ENDIF(APPLE)
 
@@ -329,6 +330,7 @@ IF (NOT DEFINED TINKERCELL_PACKAGE_FOLDER)
 	   SET(TINKERCELL_PACKAGE_FOLDER _CPack_Packages/Linux/TGZ CACHE STRING "Change this if your CPack package folder is different (depending on CMake version)")
 	ENDIF(UNIX AND NOT APPLE)
 ENDIF (NOT DEFINED TINKERCELL_PACKAGE_FOLDER)
+
 MESSAGE(STATUS "After 'make package', the output folder will be ${TINKERCELL_BINARY_DIR}/${TINKERCELL_PACKAGE_FOLDER}")
 
 #--------------------------------------------------------------------------------------------

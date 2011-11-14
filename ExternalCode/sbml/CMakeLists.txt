@@ -749,8 +749,6 @@ else()
     message(STATUS "  Using C++ namespace for libSBML (libsbml) = no")
 endif()
 
-ENDIF(SHOW_SBML_REPORT)
-
 if (APPLE)
     if (CMAKE_OSX_ARCHITECTURES STREQUAL "")
         message(STATUS "  Building universal binaries               = no (using native arch)")
@@ -767,6 +765,7 @@ if (APPLE)
     endif()
 endif()
 
+ENDIF(SHOW_SBML_REPORT)
 
 # print selected packages if configured previously
 if (EXISTS ${CMAKE_BINARY_DIR}/CMakeCache.txt)

@@ -227,15 +227,13 @@ SET(TINKERCELL_BINARY_BIN_DIR ${TINKERCELL_BINARY_DIR}/bin)
 #----------------------------------------------------------------------------
 
 MESSAGE( STATUS "
-========================================================= 
-                CONFIGURING EXTERNAL CODE                              
-========================================================= ")
+----------- Configuring external code -------------- ")
 ADD_SUBDIRECTORY( ExternalCode )  #MuParser, QWT, cvODE, letc.
+MESSAGE( STATUS "Finished configuring external code
 
-MESSAGE( STATUS "
-========================================================= 
-          FINISHED CONFIGURING EXTERNAL CODE                              
-========================================================= ")
+--- All messages below are related to TinkerCell ---
+
+")
 
 OPTION( PYTHON_ENABLE "Embed Python in TinkerCell" ON ) #embed python?
 OPTION( OCTAVE_ENABLE "Embed Octave in TinkerCell" ON ) #embed octave?

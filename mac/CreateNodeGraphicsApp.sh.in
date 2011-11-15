@@ -1,36 +1,4 @@
 #!/bin/sh
 
-cd @TINKERCELL_BINARY_DIR@
-make NodeGraphics
 
-#run in the bin folder
-CURPATH=@TINKERCELL_BINARY_BIN_DIR@
-cd @TINKERCELL_BINARY_BIN_DIR@
-
-#library files
-LIBFILES='*.dylib'
-
-cp @TINKERCELL_BINARY_BIN_DIR@/*.dylib NodeGraphics.app/Contents/Frameworks/
-
-#copy QT framework
-@QT_LIBRARY_DIR@/../bin/macdeployqt NodeGraphics.app
-
-#copy supporting files from the other app that already works
-cp -R @TINKERCELL_EXE@.app/Contents/Frameworks NodeGraphics.app/Contents/
-
-for f in $LIBFILES
-do
-  echo "Processing $f"
-  
-  cp $f NodeGraphics.app/Contents/Frameworks/
-  
-  for f2 in $LIBFILES
-  do
-    install_name_tool \
-          -change $CURPATH/$f2 \
-          @executable_path/../Frameworks/$f2 \
-          NodeGraphics.app/Contents/Frameworks/$f
-  done
-  
-done
 

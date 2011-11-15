@@ -144,6 +144,39 @@ do
   done
 done
 
+#NodeGraphics program
+
+#run in the bin folder
+CURPATH=@TINKERCELL_BINARY_BIN_DIR@
+cd @TINKERCELL_BINARY_BIN_DIR@
+
+#library files
+LIBFILES='*.dylib'
+
+cp @TINKERCELL_BINARY_BIN_DIR@/*.dylib NodeGraphics.app/Contents/Frameworks/
+
+#copy QT framework
+@QT_LIBRARY_DIR@/../bin/macdeployqt NodeGraphics.app
+
+#copy supporting files from the other app that already works
+cp -R @TINKERCELL_EXE@.app/Contents/Frameworks NodeGraphics.app/Contents/
+
+for f in $LIBFILES
+do
+  echo "Processing $f"
+  
+  cp $f NodeGraphics.app/Contents/Frameworks/
+  
+  for f2 in $LIBFILES
+  do
+    install_name_tool \
+          -change $CURPATH/$f2 \
+          @executable_path/../Frameworks/$f2 \
+          NodeGraphics.app/Contents/Frameworks/$f
+  done
+  
+done
+
 #create disk image
 hdiutil create -megabytes 220 -fs HFS+ -volname @TINKERCELL_EXE@ ~/Desktop/@TINKERCELL_EXE@
 open ~/Desktop/@TINKERCELL_EXE@.dmg
@@ -151,7 +184,7 @@ echo "waiting 20 secs for hutil to finish"
 sleep 10
 
 cp -R @TINKERCELL_BINARY_DIR@/@TINKERCELL_PACKAGE_FOLDER@/TinkerCell/@TINKERCELL_EXE@.app /Volumes/@TINKERCELL_EXE@
-cp -R @TINKERCELL_BINARY_DIR@/NodeGraphics.app /Volumes/@TINKERCELL_EXE@
+cp -R @TINKERCELL_BINARY_BIN_DIR@/NodeGraphics.app /Volumes/@TINKERCELL_EXE@
 ln -s /Applications /Volumes/@TINKERCELL_EXE@
 
 #upload to Sourceforge.net

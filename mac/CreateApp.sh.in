@@ -39,7 +39,7 @@ do
   for f2 in $LIBFILES
   do
     install_name_tool \
-          -change $EXECPATH/$f2 \
+          -change @TINKERCELL_BINARY_BIN_DIR@/$f2 \
           @executable_path/../Frameworks/$f2 \
           @TINKERCELL_EXE@.app/Contents/Frameworks/$f
   done
@@ -49,7 +49,7 @@ do
         @TINKERCELL_EXE@.app/Contents/Frameworks/$f
   
   install_name_tool \
-        -change $EXECPATH/$f \
+        -change @TINKERCELL_BINARY_BIN_DIR@/$f \
          @executable_path/../Frameworks/$f \
          @TINKERCELL_EXE@.app/Contents/MacOS/@TINKERCELL_EXE@
 
@@ -108,21 +108,21 @@ do
   for f2 in $LIBFILES
   do
     install_name_tool \
-          -change $EXECPATH/$f2 \
+          -change @TINKERCELL_BINARY_BIN_DIR@/$f2 \
           @executable_path/../Frameworks/$f2 \
           @TINKERCELL_EXE@.app/Contents/MacOS/$f1
   done
   for f2 in $PLUGINFILES
   do
     install_name_tool \
-          -change $EXECPATH/$f2 \
+          -change @TINKERCELL_BINARY_BIN_DIR@/$f2 \
           @executable_path/$f2 \
           @TINKERCELL_EXE@.app/Contents/MacOS/$f1
   done
   for f2 in $CPLUGINFILES
   do
     install_name_tool \
-          -change $EXECPATH/$f2 \
+          -change @TINKERCELL_BINARY_BIN_DIR@/$f2 \
           @executable_path/$f2 \
           @TINKERCELL_EXE@.app/Contents/MacOS/$f1
   done
@@ -138,7 +138,7 @@ do
   for f2 in $CPLUGINFILES
   do
     install_name_tool \
-          -change $EXECPATH/$f2 \
+          -change @TINKERCELL_BINARY_BIN_DIR@/$f2 \
           @executable_path/$f2 \
           @TINKERCELL_EXE@.app/Contents/MacOS/$f1
   done
@@ -147,7 +147,6 @@ done
 #NodeGraphics program
 
 #run in the bin folder
-CURPATH=@TINKERCELL_BINARY_BIN_DIR@
 cd @TINKERCELL_BINARY_BIN_DIR@
 
 #library files
@@ -170,7 +169,7 @@ do
   for f2 in $LIBFILES
   do
     install_name_tool \
-          -change $CURPATH/$f2 \
+          -change @TINKERCELL_BINARY_BIN_DIR@/$f2 \
           @executable_path/../Frameworks/$f2 \
           NodeGraphics.app/Contents/Frameworks/$f
   done

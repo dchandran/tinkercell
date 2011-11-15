@@ -5,7 +5,7 @@ make package
 
 # TINKERCELL_BINARY_DIR is the Build folder specified in the CMake window
 # TINKERCELL_PACKAGE_FOLDER should be listed in the CMake window as a string variable
-# BE SURE that TGZ is enables as the CPack package 
+# BE SURE that TGZ is enabled as the CPack package (otherwise, change the TINKERCELL_PACKAGE_FOLDER)
 
 #run in the package folder
 EXECPATH=@TINKERCELL_BINARY_DIR@/@TINKERCELL_PACKAGE_FOLDER@/TinkerCell/@TINKERCELL_EXE@.app/Contents/MacOS
@@ -149,12 +149,12 @@ hdiutil create -megabytes 220 -fs HFS+ -volname @TINKERCELL_EXE@ ~/Desktop/@TINK
 open ~/Desktop/@TINKERCELL_EXE@.dmg
 echo "waiting 20 secs for hutil to finish"
 sleep 10
-cd @TINKERCELL_BINARY_DIR@/@TINKERCELL_PACKAGE_FOLDER@
-cp -R @TINKERCELL_EXE@.app /Volumes/@TINKERCELL_EXE@
+
+cp -R @TINKERCELL_BINARY_DIR@/@TINKERCELL_PACKAGE_FOLDER@/TinkerCell/@TINKERCELL_EXE@.app /Volumes/@TINKERCELL_EXE@
 cp -R @TINKERCELL_BINARY_DIR@/NodeGraphics.app /Volumes/@TINKERCELL_EXE@
 ln -s /Applications /Volumes/@TINKERCELL_EXE@
 
-#upload to sourceforge
+#upload to Sourceforge.net
 
 cd ~/Desktop
 

@@ -85,6 +85,7 @@ namespace Tinkercell
 					{
 						products.value( QObject::tr("stoichiometry"), node->fullName()) += 1.0;
 						reactants.value( QObject::tr("stoichiometry"), node->fullName()) += 0.0;
+						rates.value(QObject::tr("rate"),QObject::tr("formula"));
 					}
 					else
 					{
@@ -144,13 +145,15 @@ namespace Tinkercell
 
 			if (rates.hasRow("rate"))
 			{
-				if (rates.value(QObject::tr("rate"),QObject::tr("formula")).isEmpty())
-					rates.value(QObject::tr("rate"),QObject::tr("formula")) = QObject::tr("0.0");
-				else
 				if (handle->hasNumericalData(QObject::tr("Parameters")))
 				{
 					handle->numericalDataTable(QObject::tr("Parameters")).value(QObject::tr("k0"),0) = 0.1;
 					rates.value(QObject::tr("rate"),QObject::tr("formula")) = handle->fullName() + QObject::tr(".k0") + rates.value(QObject::tr("rate"),QObject::tr("formula"));
+				}
+				else
+				{
+					if (rates.value(QObject::tr("rate"),QObject::tr("formula")).isEmpty())
+						rates.value(QObject::tr("rate"),QObject::tr("formula")) = QObject::tr("0.0");
 				}
 			}
 

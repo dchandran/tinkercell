@@ -2640,7 +2640,7 @@ namespace Tinkercell
 
                 layout->addLayout(buttonsLayout);
 
-                connect(&getStringList,SIGNAL(itemActivated(QListWidgetItem * item)),this,SLOT(getStringListItemSelected(QListWidgetItem * item)));
+                connect(&getStringList,SIGNAL(itemActivated(QListWidgetItem *)),this,SLOT(getStringListItemSelected(QListWidgetItem * )));
                 connect(&getStringList,SIGNAL(currentRowChanged (int)),this,SLOT(getStringListRowChanged (int)));
                 connect(getStringDialog,SIGNAL(rejected()),this,SLOT(getStringListCanceled()));
 

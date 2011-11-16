@@ -8549,6 +8549,43 @@ XS(_wrap_tc_burn) {
 }
 
 
+XS(_wrap_tc_setAlpha) {
+  {
+    long arg1 ;
+    double arg2 ;
+    long val1 ;
+    int ecode1 = 0 ;
+    double val2 ;
+    int ecode2 = 0 ;
+    int argvi = 0;
+    dXSARGS;
+    
+    if ((items < 2) || (items > 2)) {
+      SWIG_croak("Usage: tc_setAlpha(item,alpha);");
+    }
+    ecode1 = SWIG_AsVal_long SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    if (!SWIG_IsOK(ecode1)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setAlpha" "', argument " "1"" of type '" "long""'");
+    } 
+    arg1 = (long)(val1);
+    ecode2 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
+    if (!SWIG_IsOK(ecode2)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_setAlpha" "', argument " "2"" of type '" "double""'");
+    } 
+    arg2 = (double)(val2);
+    tc_setAlpha(arg1,arg2);
+    ST(argvi) = sv_newmortal();
+    
+    
+    XSRETURN(argvi);
+  fail:
+    
+    
+    SWIG_croak_null();
+  }
+}
+
+
 XS(_wrap_tc_LabelingTool_api) {
   {
     void (*arg1)(long,char const *) = (void (*)(long,char const *)) 0 ;
@@ -13814,6 +13851,7 @@ static swig_command_info swig_commands[] = {
 {"tinkercellc::tc_setDisplayLabelColor", _wrap_tc_setDisplayLabelColor},
 {"tinkercellc::tc_highlight", _wrap_tc_highlight},
 {"tinkercellc::tc_burn", _wrap_tc_burn},
+{"tinkercellc::tc_setAlpha", _wrap_tc_setAlpha},
 {"tinkercellc::tc_LabelingTool_api", _wrap_tc_LabelingTool_api},
 {"tinkercellc::ApplySpringForce", _wrap_ApplySpringForce},
 {"tinkercellc::tc_getParameters", _wrap_tc_getParameters},

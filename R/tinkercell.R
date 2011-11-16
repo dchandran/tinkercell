@@ -4766,6 +4766,25 @@ attr(`tc_burn`, 'returnType') = 'void'
 attr(`tc_burn`, "inputTypes") = c('integer', 'numeric')
 class(`tc_burn`) = c("SWIGFunction", class('tc_burn'))
 
+# Start of tc_setAlpha
+
+`tc_setAlpha` = function(item, alpha)
+{
+  item = as.integer(item) 
+  
+  if(length(item) > 1) {
+    warning("using only the first element of item")
+  }
+  
+  
+  .Call('R_swig_tc_setAlpha', item, alpha, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_setAlpha`, 'returnType') = 'void'
+attr(`tc_setAlpha`, "inputTypes") = c('integer', 'numeric')
+class(`tc_setAlpha`) = c("SWIGFunction", class('tc_setAlpha'))
+
 # Start of tc_LabelingTool_api
 
 `tc_LabelingTool_api` = function(displayText, displayNumber, setDisplayLabelColor, highlight, burn, setalpha)

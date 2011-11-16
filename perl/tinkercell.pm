@@ -184,6 +184,7 @@ package tinkercell;
 *tc_setDisplayLabelColor = *tinkercellc::tc_setDisplayLabelColor;
 *tc_highlight = *tinkercellc::tc_highlight;
 *tc_burn = *tinkercellc::tc_burn;
+*tc_setAlpha = *tinkercellc::tc_setAlpha;
 *tc_LabelingTool_api = *tinkercellc::tc_LabelingTool_api;
 *ApplySpringForce = *tinkercellc::ApplySpringForce;
 *tc_getParameters = *tinkercellc::tc_getParameters;

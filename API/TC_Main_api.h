@@ -470,26 +470,26 @@ TCAPIEXPORT tc_strings tc_getTextDataNames(long o);
 /*! 
  \brief zoom by the given factor (0 - 1)
  \param double zoom factor between 0 and 1
- \ingroup Input and Output
+ \ingroup Visual effects
 */
 TCAPIEXPORT void tc_zoom(double factor);
 
 /*! 
  \brief show one of the windows in the TinkerCell GUI, e.g. "Console Window"
  \param string name of the window or part of the name
- \ingroup Input and Output
+ \ingroup Visual effects
 */
 TCAPIEXPORT void tc_viewWindow(const char * name);
 
 /*! 
  \brief get a text from the user (dialog)
- \ingroup Input and Output
+ \ingroup Dialog
 */
 TCAPIEXPORT const char* tc_getStringDialog(const char* title);
 /*! 
  \brief popup dialog asking user to select a file
  \return string the filename selected by the user
- \ingroup Input and Output
+ \ingroup Dialog
 */
 TCAPIEXPORT const char* tc_getFilename();
 
@@ -499,14 +499,14 @@ TCAPIEXPORT const char* tc_getFilename();
  \param tc_string list of options
  \param string the option that is selected by default
  \return int index of the user's selection, -1 if canceled
- \ingroup Input and Output
+ \ingroup Dialog
 */
 TCAPIEXPORT int tc_getStringFromList(const char* title, tc_strings list,const char* selectedString);
 /*! 
  \brief popup dialog asking user for a number
  \param string text presented to the user
  \return double user's response
- \ingroup Input and Output
+ \ingroup Dialog
 */
 TCAPIEXPORT double tc_getNumber(const char* title);
 
@@ -514,35 +514,35 @@ TCAPIEXPORT double tc_getNumber(const char* title);
  \brief popup dialog asking user for several numbers (with labels)
  \param tc_strings labels for each number to get
  \param tc_matrix results
- \ingroup Input and Output
+ \ingroup Dialog
 */
 TCAPIEXPORT tc_matrix tc_getNumbers(tc_strings labels);
 
 /*! 
  \brief display a dialog with a text and a yes and no button
  \param string displayed message or question
- \ingroup Input and Output
+ \ingroup Dialog
 */
 TCAPIEXPORT int tc_askQuestion(const char* message);
 
 /*! 
  \brief display a dialog with a text message and a close button
  \param string displayed message
- \ingroup Input and Output
+ \ingroup Dialog
 */
 TCAPIEXPORT void tc_messageDialog(const char* message);
 
 /*! 
  \brief open a file
  \param string file name
- \ingroup Input and Output
+ \ingroup Dialog
 */
 TCAPIEXPORT void tc_openFile(const char* file);
 
 /*! 
  \brief save current network
  \param string filename
- \ingroup Input and Output
+ \ingroup Dialog
 */
 TCAPIEXPORT void tc_saveToFile(const char* file);
 
@@ -557,7 +557,7 @@ TCAPIEXPORT long tc_thisThread();
  \brief create a window with several sliders. when the sliders change, the given function will be called with the values in the sliders
  \param tc_matrix names of variables and initial values for the sliders
  \param void* callback function with tc_matrix as the argument
- \ingroup Input and Output
+ \ingroup Dialog
 */
 TCAPIEXPORT void tc_createSliders(tc_matrix input, void (*f)(tc_matrix));
 
@@ -632,35 +632,35 @@ TCAPIEXPORT void tc_rotate(long item, double t);
  \param string filename (PNG)
  \param int width of image
  \param int height of image
- \ingroup Input and Output
+ \ingroup Visual effects
 */
 TCAPIEXPORT void tc_screenshot(const char * filename, int width, int height);
 
 /*!
  \brief get width of current canvas
  \return int width
- \ingroup Input and Output
+ \ingroup Visual effects
 */
 TCAPIEXPORT int tc_screenWidth();
 
 /*!
  \brief get height of current canvas
  \return int height
- \ingroup Input and Output
+ \ingroup Visual effects
 */
 TCAPIEXPORT int tc_screenHeight();
 
 /*!
  \brief get x position of current canvas
  \return int x
- \ingroup Input and Output
+ \ingroup Visual effects
 */
 TCAPIEXPORT int tc_screenX();
 
 /*!
  \brief get y position of current canvas
  \return int y
- \ingroup Input and Output
+ \ingroup Visual effects
 */
 TCAPIEXPORT int tc_screenY();
 /*! 
@@ -876,7 +876,7 @@ TCAPIEXPORT void tc_Main_api_initialize(
  \brief show progress of current operation
  \param string label for the progress bar
  \param int progress in range 0-100
- \ingroup Input and Output
+ \ingroup Dialog
 */
 TCAPIEXPORT void tc_showProgress(const char * title, int progress);
 /*! 
@@ -905,37 +905,44 @@ TCAPIEXPORT void tc_CThread_api_initialize(
  \brief displays the given text on the given item (the text is temporary)
  \param int address of item
  \param string text to display
- \ingroup Input and Output
+ \ingroup Visual effects
 */
 TCAPIEXPORT void tc_displayText(long item,const char* text);
 /*! 
  \brief displays the given number on the given item (the text is temporary)
  \param int address of item in model, e.g. obtained from tc_find
  \param double number to display
- \ingroup Input and Output
+ \ingroup Visual effects
 */
 TCAPIEXPORT void tc_displayNumber(long item,double number);
 /*! 
  \brief set the color for the number or text when using tc_displayNumber and tc_displayText
  \param string HEX code for text color
  \param string HEX code for background color
- \ingroup Input and Output
+ \ingroup Visual effects
 */
 TCAPIEXPORT void tc_setDisplayLabelColor(const char* color1, const char* color2);
 /*! 
  \brief highlights an item (the highlight is temporary) with the given color
  \param int address of item in model, e.g. obtained from tc_find
  \param string HEX code for color
- \ingroup Input and Output
+ \ingroup Visual effects
 */
 TCAPIEXPORT void tc_highlight(long item,const char* color);
 /*! 
  \brief shows a fire icon next to the item
  \param int address of item in model, e.g. obtained from tc_find
  \param double intensity of the fire (0-1)
- \ingroup Input and Output
+ \ingroup Appearance
 */
 TCAPIEXPORT void tc_burn(long item,double intensity);
+/*! 
+ \brief set the transparency of an item (useful for shading out items)
+ \param int address of item in model, e.g. obtained from tc_find
+ \param double alpha value (0-1)
+ \ingroup Visual effects
+*/
+TCAPIEXPORT void tc_setAlpha(long item,double alpha);
 /*! 
  \brief initialize highlighting plug-in
  \ingroup init

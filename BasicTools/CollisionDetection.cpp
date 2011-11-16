@@ -294,8 +294,15 @@ namespace Tinkercell
 					glowTimer.setDuration(2000);
 					glowTimer.setLoopCount(0);
 					
-					if (connectionBelowCursor || nodeBelowCursor)
+					if (connectionBelowCursor)
 						glowTimer.start();
+					else
+					if (nodeBelowCursor)
+					{
+						QRectF view = scene->visibleRegion(), rect = nodeBelowCursor->sceneBoundingRect();
+						if (view.width() > 2*rect.width() || view.height() > 2*rect.height())
+							glowTimer.start();
+					}
 				}
 				else
 				{

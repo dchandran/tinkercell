@@ -9970,6 +9970,28 @@ R_swig_tc_burn ( SEXP item, SEXP intensity)
 }
 
 
+SWIGEXPORT SEXP
+R_swig_tc_setAlpha ( SEXP item, SEXP alpha)
+{
+  long arg1 ;
+  double arg2 ;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  arg1 = (long)(INTEGER(item)[0]);
+  arg2 = (double)(REAL(alpha)[0]);
+  tc_setAlpha(arg1,arg2);
+  r_ans = R_NilValue;
+  
+  
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
 void _p_f_long_double__void(long s_arg1, double s_arg2) {
   long arg1 ;
   double arg2 ;
@@ -16647,6 +16669,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_listOfPossibleModels", (DL_FUNC) &R_swig_tc_listOfPossibleModels, 2},
    {"R_swig_tc_getConnections", (DL_FUNC) &R_swig_tc_getConnections, 2},
    {"R_swig_tc_BasicInformationTool_Numeric_api", (DL_FUNC) &R_swig_tc_BasicInformationTool_Numeric_api, 9},
+   {"R_swig_tc_setAlpha", (DL_FUNC) &R_swig_tc_setAlpha, 2},
    {"R_swig_tc_getRates", (DL_FUNC) &R_swig_tc_getRates, 2},
    {"R_swig_tc_setRates", (DL_FUNC) &R_swig_tc_setRates, 2},
    {"R_swig_tc_addEvent", (DL_FUNC) &R_swig_tc_addEvent, 2},

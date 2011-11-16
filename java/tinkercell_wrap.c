@@ -3377,6 +3377,18 @@ SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1burn(JNIEnv *jenv, jclass jcls, j
 }
 
 
+SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1setAlpha(JNIEnv *jenv, jclass jcls, jint jarg1, jdouble jarg2) {
+  long arg1 ;
+  double arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = (long)jarg1; 
+  arg2 = (double)jarg2; 
+  tc_setAlpha(arg1,arg2);
+}
+
+
 SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1LabelingTool_1api(JNIEnv *jenv, jclass jcls, jlong jarg1, jlong jarg2, jlong jarg3, jlong jarg4, jlong jarg5, jlong jarg6) {
   void (*arg1)(long,char const *) = (void (*)(long,char const *)) 0 ;
   void (*arg2)(long,double) = (void (*)(long,double)) 0 ;

@@ -8772,6 +8772,36 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_tc_setAlpha(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  long arg1 ;
+  double arg2 ;
+  long val1 ;
+  int ecode1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:tc_setAlpha",&obj0,&obj1)) SWIG_fail;
+  ecode1 = SWIG_AsVal_long(obj0, &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setAlpha" "', argument " "1"" of type '" "long""'");
+  } 
+  arg1 = (long)(val1);
+  ecode2 = SWIG_AsVal_double(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_setAlpha" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = (double)(val2);
+  tc_setAlpha(arg1,arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_tc_LabelingTool_api(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   void (*arg1)(long,char const *) = (void (*)(long,char const *)) 0 ;
@@ -13019,6 +13049,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"tc_setDisplayLabelColor", _wrap_tc_setDisplayLabelColor, METH_VARARGS, NULL},
 	 { (char *)"tc_highlight", _wrap_tc_highlight, METH_VARARGS, NULL},
 	 { (char *)"tc_burn", _wrap_tc_burn, METH_VARARGS, NULL},
+	 { (char *)"tc_setAlpha", _wrap_tc_setAlpha, METH_VARARGS, NULL},
 	 { (char *)"tc_LabelingTool_api", _wrap_tc_LabelingTool_api, METH_VARARGS, NULL},
 	 { (char *)"ApplySpringForce", _wrap_ApplySpringForce, METH_VARARGS, NULL},
 	 { (char *)"tc_getParameters", _wrap_tc_getParameters, METH_VARARGS, NULL},

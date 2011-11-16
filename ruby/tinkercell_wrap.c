@@ -7780,6 +7780,35 @@ fail:
 
 
 SWIGINTERN VALUE
+_wrap_tc_setAlpha(int argc, VALUE *argv, VALUE self) {
+  long arg1 ;
+  double arg2 ;
+  long val1 ;
+  int ecode1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  
+  if ((argc < 2) || (argc > 2)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 2)",argc); SWIG_fail;
+  }
+  ecode1 = SWIG_AsVal_long(argv[0], &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), Ruby_Format_TypeError( "", "long","tc_setAlpha", 1, argv[0] ));
+  } 
+  arg1 = (long)(val1);
+  ecode2 = SWIG_AsVal_double(argv[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), Ruby_Format_TypeError( "", "double","tc_setAlpha", 2, argv[1] ));
+  } 
+  arg2 = (double)(val2);
+  tc_setAlpha(arg1,arg2);
+  return Qnil;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
 _wrap_tc_LabelingTool_api(int argc, VALUE *argv, VALUE self) {
   void (*arg1)(long,char const *) = (void (*)(long,char const *)) 0 ;
   void (*arg2)(long,double) = (void (*)(long,double)) 0 ;
@@ -12634,6 +12663,7 @@ SWIGEXPORT void Init_tinkercell(void) {
   rb_define_module_function(mTinkercell, "tc_setDisplayLabelColor", _wrap_tc_setDisplayLabelColor, -1);
   rb_define_module_function(mTinkercell, "tc_highlight", _wrap_tc_highlight, -1);
   rb_define_module_function(mTinkercell, "tc_burn", _wrap_tc_burn, -1);
+  rb_define_module_function(mTinkercell, "tc_setAlpha", _wrap_tc_setAlpha, -1);
   rb_define_module_function(mTinkercell, "tc_LabelingTool_api", _wrap_tc_LabelingTool_api, -1);
   rb_define_module_function(mTinkercell, "ApplySpringForce", _wrap_ApplySpringForce, -1);
   rb_define_module_function(mTinkercell, "tc_getParameters", _wrap_tc_getParameters, -1);

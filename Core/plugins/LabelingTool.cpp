@@ -231,6 +231,10 @@ namespace Tinkercell
 	void LabelingTool::setAlpha(ItemHandle * handle, double a)
 	{
 		if (!handle) return;
+		if (a > 0 && a < 1) a *= 255;		
+		if (a < 0) a = -a;
+		if (a > 255) a = 255;
+
 		QList<QGraphicsItem*> selected = handle->allGraphicsItems();
 		
 		for (int i=0; i < selected.size(); ++i)

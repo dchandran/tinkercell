@@ -8395,6 +8395,38 @@ fail:
 }
 
 
+static octave_value_list _wrap_tc_setAlpha (const octave_value_list& args, int nargout) {
+  long arg1 ;
+  double arg2 ;
+  long val1 ;
+  int ecode1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  
+  if (!SWIG_check_num_args("tc_setAlpha",args.length(),2,2,0)) {
+    SWIG_fail;
+  }
+  ecode1 = SWIG_AsVal_long(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setAlpha" "', argument " "1"" of type '" "long""'");
+  } 
+  arg1 = (long)(val1);
+  ecode2 = SWIG_AsVal_double(args(1), &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_setAlpha" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = (double)(val2);
+  tc_setAlpha(arg1,arg2);
+  _outv = octave_value();
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
 static octave_value_list _wrap_tc_LabelingTool_api (const octave_value_list& args, int nargout) {
   void (*arg1)(long,char const *) = (void (*)(long,char const *)) 0 ;
   void (*arg2)(long,double) = (void (*)(long,double)) 0 ;
@@ -12797,6 +12829,7 @@ static const struct swig_octave_member swig_globals[] = {
 {"tc_setDisplayLabelColor",_wrap_tc_setDisplayLabelColor,0,0,2,0},
 {"tc_highlight",_wrap_tc_highlight,0,0,2,0},
 {"tc_burn",_wrap_tc_burn,0,0,2,0},
+{"tc_setAlpha",_wrap_tc_setAlpha,0,0,2,0},
 {"tc_LabelingTool_api",_wrap_tc_LabelingTool_api,0,0,2,0},
 {"ApplySpringForce",_wrap_ApplySpringForce,0,0,2,0},
 {"tc_getParameters",_wrap_tc_getParameters,0,0,2,0},

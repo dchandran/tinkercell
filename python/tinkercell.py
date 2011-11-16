@@ -709,6 +709,10 @@ def tc_burn(*args):
   return _tinkercell.tc_burn(*args)
 tc_burn = _tinkercell.tc_burn
 
+def tc_setAlpha(*args):
+  return _tinkercell.tc_setAlpha(*args)
+tc_setAlpha = _tinkercell.tc_setAlpha
+
 def tc_LabelingTool_api(*args):
   return _tinkercell.tc_LabelingTool_api(*args)
 tc_LabelingTool_api = _tinkercell.tc_LabelingTool_api

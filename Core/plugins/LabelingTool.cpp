@@ -8,6 +8,7 @@
  of items.
  
 ****************************************************************************/
+#include "TextGraphicsItem.h"
 #include "plugins/LabelingTool.h"
 #include "plots/PlotTool.h"
 #include "GlobalSettings.h"
@@ -63,6 +64,8 @@ namespace Tinkercell
 			connect(fToS,SIGNAL(highlightItem(ItemHandle*,QColor)),this,SLOT(highlightItem(ItemHandle*,QColor)));
 			
 			connect(fToS,SIGNAL(displayFire(ItemHandle*,double)),this,SLOT(displayFire(ItemHandle*,double)));
+
+			connect(fToS,SIGNAL(setAlpha(ItemHandle*,double)),this,SLOT(setAlpha(ItemHandle*,double)));
 			
 			QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
 			settings.beginGroup("LabelingTool");
@@ -78,7 +81,7 @@ namespace Tinkercell
 			}
 			
 			Tool * tool = mainWindow->tool("Default Plot Tool");
-			if (tool)
+			if (tool && LabelingTool::ENABLE_FIRE)
 			{
 				PlotTool * plotTool = static_cast<PlotTool*>(tool);
 				connect(plotTool,SIGNAL(displayFire(ItemHandle*,double)), this, SLOT(displayFire(ItemHandle*,double)));
@@ -91,6 +94,18 @@ namespace Tinkercell
 	void LabelingTool::enableFire(bool b)
 	{
 		LabelingTool::ENABLE_FIRE = b;
+		Tool * tool = mainWindow->tool("Default Plot Tool");
+		if (tool)
+		{
+			PlotTool * plotTool = static_cast<PlotTool*>(tool);
+			disconnect(plotTool,SIGNAL(displayFire(ItemHandle*,double)), this, SLOT(displayFire(ItemHandle*,double)));
+   			disconnect(plotTool,SIGNAL(hideFire()), this, SLOT(hideFire()));
+			if (LabelingTool::ENABLE_FIRE)
+			{
+				connect(plotTool,SIGNAL(displayFire(ItemHandle*,double)), this, SLOT(displayFire(ItemHandle*,double)));
+   				connect(plotTool,SIGNAL(hideFire()), this, SLOT(hideFire()));
+			}
+		}
 	}
 	
 	void LabelingTool::hideFire()
@@ -103,7 +118,8 @@ namespace Tinkercell
 		void (*displayNumber)(long item,double),
 		void (*setDisplayLabelColor)(const char *, const char *),
 		void (*highlight)(long,const char*),
-		void (*displayFire)(long,double)
+		void (*displayFire)(long,double),
+		void (*setAlpha)(long,double)
 	);
 	
 	void LabelingTool::historyChanged( int )
@@ -121,7 +137,8 @@ namespace Tinkercell
 				&(_displayNumber),
 				&(_setDisplayLabelColor),
 				&(_highlightItem),
-				&(_displayFire)
+				&(_displayFire),
+				&(_setAlpha)
 			);
 		}
 	}
@@ -210,10 +227,77 @@ namespace Tinkercell
 			glowTimer.stop();
 		}
 	}
+
+	void LabelingTool::setAlpha(ItemHandle * handle, double a)
+	{
+		if (!handle) return;
+		QList<QGraphicsItem*> selected = handle->allGraphicsItems();
+		
+		for (int i=0; i < selected.size(); ++i)
+		{
+			NodeGraphicsItem * node = NodeGraphicsItem::cast(selected[i]);
+			if (node)
+			{
+				node->setBoundingBoxVisible(false);
+				node->setAlpha(a);
+			}
+			else
+			{
+				ConnectionGraphicsItem * connection = ConnectionGraphicsItem::cast(selected[i]);
+				if (connection)
+				{
+					QPen pen = connection->pen();
+					QColor color = pen.color();
+					color.setAlpha(a);
+					pen.setColor(color);
+					connection->setPen(pen);
+					QList<ArrowHeadItem*> arrows = connection->arrowHeads();
+					if (connection->centerRegionItem)
+						arrows << connection->centerRegionItem;
+					
+					for (int j=0; j < arrows.size(); ++j)
+						if (arrows[j])
+						{
+							node = arrows[j];
+							node->setBoundingBoxVisible(false);
+							node->setAlpha(a);
+						}
+				}
+				else
+				{
+					ControlPoint * cp = ControlPoint::cast(selected[i]);
+					if (cp)
+					{
+						QPen pen = cp->pen();
+						QBrush brush = cp->brush();
+						QColor color = pen.color();
+						color.setAlpha(a);
+						pen.setColor(color);
+						color = brush.color();
+						color.setAlpha(a);
+						brush.setColor(color);
+						cp->setPen(pen);
+						cp->setBrush(brush);
+					}
+					else
+					{
+						TextGraphicsItem * text = TextGraphicsItem::cast(selected[i]);
+						if (text)
+						{
+							QColor color = text->defaultTextColor();
+							color.setAlpha(a);
+							text->showBorder(false);
+							text->setDefaultTextColor(color);
+						}
+					}
+				}
+			}
+		}
+	}
 	
 	void LabelingTool::displayFire(ItemHandle * handle, double intensity)
 	{
-		if (!fireNode || !LabelingTool::ENABLE_FIRE) return;
+		if (!fireNode /*|| !LabelingTool::ENABLE_FIRE*/) return;
 
 		if (handle)
 		{
@@ -422,13 +506,23 @@ namespace Tinkercell
 	{
 		fToS->displayFire(o,d);
 	}
+
+	void LabelingTool::_setAlpha(long o,double d)
+	{
+		fToS->setAlpha(o,d);
+	}
 	
 	void LabelingTool_FToS::displayFire(long o, double d)
 	{
-		bool b = LabelingTool::ENABLE_FIRE; //turn on fire temporarily
-		LabelingTool::ENABLE_FIRE = true;
+		//bool b = LabelingTool::ENABLE_FIRE; //turn on fire temporarily
+		//LabelingTool::ENABLE_FIRE = true;
 		emit displayFire(ConvertValue(o),d);
-		LabelingTool::ENABLE_FIRE = b;
+		//LabelingTool::ENABLE_FIRE = b;
+	}
+
+	void LabelingTool_FToS::setAlpha(long o, double d)
+	{
+		emit setAlpha(ConvertValue(o),d);
 	}
 	
 	void LabelingTool::makeNodeGlow(int alpha)

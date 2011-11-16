@@ -945,7 +945,8 @@ TCAPIEXPORT void tc_LabelingTool_api(
 		void (*displayNumber)(long item,double),
 		void (*setDisplayLabelColor)(const char* color1,const char* color2),
 		void (*highlight)(long,const char* color),
-		void (*burn)(long,double)
+		void (*burn)(long,double),
+		void (*setalpha)(long,double)
 	);
 
 END_C_DECLS

@@ -3377,12 +3377,13 @@ SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1burn(JNIEnv *jenv, jclass jcls, j
 }
 
 
-SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1LabelingTool_1api(JNIEnv *jenv, jclass jcls, jlong jarg1, jlong jarg2, jlong jarg3, jlong jarg4, jlong jarg5) {
+SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1LabelingTool_1api(JNIEnv *jenv, jclass jcls, jlong jarg1, jlong jarg2, jlong jarg3, jlong jarg4, jlong jarg5, jlong jarg6) {
   void (*arg1)(long,char const *) = (void (*)(long,char const *)) 0 ;
   void (*arg2)(long,double) = (void (*)(long,double)) 0 ;
   void (*arg3)(char const *,char const *) = (void (*)(char const *,char const *)) 0 ;
   void (*arg4)(long,char const *) = (void (*)(long,char const *)) 0 ;
   void (*arg5)(long,double) = (void (*)(long,double)) 0 ;
+  void (*arg6)(long,double) = (void (*)(long,double)) 0 ;
   
   (void)jenv;
   (void)jcls;
@@ -3391,7 +3392,8 @@ SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1LabelingTool_1api(JNIEnv *jenv, j
   arg3 = *(void (**)(char const *,char const *))&jarg3; 
   arg4 = *(void (**)(long,char const *))&jarg4; 
   arg5 = *(void (**)(long,double))&jarg5; 
-  tc_LabelingTool_api(arg1,arg2,arg3,arg4,arg5);
+  arg6 = *(void (**)(long,double))&jarg6; 
+  tc_LabelingTool_api(arg1,arg2,arg3,arg4,arg5,arg6);
 }
 
 

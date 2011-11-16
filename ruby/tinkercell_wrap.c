@@ -7786,9 +7786,10 @@ _wrap_tc_LabelingTool_api(int argc, VALUE *argv, VALUE self) {
   void (*arg3)(char const *,char const *) = (void (*)(char const *,char const *)) 0 ;
   void (*arg4)(long,char const *) = (void (*)(long,char const *)) 0 ;
   void (*arg5)(long,double) = (void (*)(long,double)) 0 ;
+  void (*arg6)(long,double) = (void (*)(long,double)) 0 ;
   
-  if ((argc < 5) || (argc > 5)) {
-    rb_raise(rb_eArgError, "wrong # of arguments(%d for 5)",argc); SWIG_fail;
+  if ((argc < 6) || (argc > 6)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 6)",argc); SWIG_fail;
   }
   {
     int res = SWIG_ConvertFunctionPtr(argv[0], (void**)(&arg1), SWIGTYPE_p_f_long_p_q_const__char__void);
@@ -7820,7 +7821,13 @@ _wrap_tc_LabelingTool_api(int argc, VALUE *argv, VALUE self) {
       SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(long,double)","tc_LabelingTool_api", 5, argv[4] )); 
     }
   }
-  tc_LabelingTool_api(arg1,arg2,arg3,arg4,arg5);
+  {
+    int res = SWIG_ConvertFunctionPtr(argv[5], (void**)(&arg6), SWIGTYPE_p_f_long_double__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(long,double)","tc_LabelingTool_api", 6, argv[5] )); 
+    }
+  }
+  tc_LabelingTool_api(arg1,arg2,arg3,arg4,arg5,arg6);
   return Qnil;
 fail:
   return Qnil;

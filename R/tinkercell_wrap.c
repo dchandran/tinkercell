@@ -10012,13 +10012,14 @@ void _p_f_long_double__void(long s_arg1, double s_arg2) {
 
 
 SWIGEXPORT SEXP
-R_swig_tc_LabelingTool_api ( SEXP displayText, SEXP displayNumber, SEXP setDisplayLabelColor, SEXP highlight, SEXP burn)
+R_swig_tc_LabelingTool_api ( SEXP displayText, SEXP displayNumber, SEXP setDisplayLabelColor, SEXP highlight, SEXP burn, SEXP setalpha)
 {
   void (*arg1)(long,char const *) = (void (*)(long,char const *)) 0 ;
   void (*arg2)(long,double) = (void (*)(long,double)) 0 ;
   void (*arg3)(char const *,char const *) = (void (*)(char const *,char const *)) 0 ;
   void (*arg4)(long,char const *) = (void (*)(long,char const *)) 0 ;
   void (*arg5)(long,double) = (void (*)(long,double)) 0 ;
+  void (*arg6)(long,double) = (void (*)(long,double)) 0 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
@@ -10078,8 +10079,20 @@ R_swig_tc_LabelingTool_api ( SEXP displayText, SEXP displayNumber, SEXP setDispl
     arg5 = _p_f_long_double__void;
     R_SWIG_pushCallbackFunctionData(burn, NULL);
   }
-  tc_LabelingTool_api(arg1,arg2,arg3,arg4,arg5);
+  if(TYPEOF(setalpha) != CLOSXP) {
+    {
+      int res = SWIG_R_ConvertPtr(setalpha, (void**)(&arg6), SWIGTYPE_p_f_long_double__void, 0);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_LabelingTool_api" "', argument " "6"" of type '" "void (*)(long,double)""'"); 
+      }
+    }
+  } else {
+    arg6 = _p_f_long_double__void;
+    R_SWIG_pushCallbackFunctionData(setalpha, NULL);
+  }
+  tc_LabelingTool_api(arg1,arg2,arg3,arg4,arg5,arg6);
   r_ans = R_NilValue;
+  
   
   
   
@@ -16386,7 +16399,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_getParametersAndFixedVariables", (DL_FUNC) &R_swig_tc_getParametersAndFixedVariables, 2},
    {"R_swig_tc_surface", (DL_FUNC) &R_swig_tc_surface, 2},
    {"R_swig_tc_getParent", (DL_FUNC) &R_swig_tc_getParent, 2},
-   {"R_swig_tc_LabelingTool_api", (DL_FUNC) &R_swig_tc_LabelingTool_api, 5},
+   {"R_swig_tc_LabelingTool_api", (DL_FUNC) &R_swig_tc_LabelingTool_api, 6},
    {"R_swig_tc_GroupHandlerTool_api", (DL_FUNC) &R_swig_tc_GroupHandlerTool_api, 2},
    {"R_swig_tc_StoichiometryTool_api", (DL_FUNC) &R_swig_tc_StoichiometryTool_api, 4},
    {"R_swig_tc_OctaveTool_api", (DL_FUNC) &R_swig_tc_OctaveTool_api, 3},

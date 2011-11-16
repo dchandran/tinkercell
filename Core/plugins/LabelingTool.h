@@ -39,12 +39,14 @@ namespace Tinkercell
 			void displayText(ItemHandle*,const QString&);
 			void setLabelColor(QColor, QColor);
 			void displayFire(ItemHandle*, double);
+			void setAlpha(ItemHandle*, double);
 		public slots:
 			void highlightItem(long,const char *);
 			void displayText(long,const char*);
 			void displayNumber(long,double);
 			void setDisplayLabelColor(const char *, const char *);
 			void displayFire(long, double);
+			void setAlpha(long, double);
 	};
 
 	/*!
@@ -76,6 +78,7 @@ namespace Tinkercell
 		void displayText(ItemHandle*, const QString&);
 		void highlightItem(ItemHandle*,QColor);
 		void displayFire(ItemHandle*,double);
+		void setAlpha(ItemHandle*,double);
 		void setDisplayLabelColor(QColor, QColor);
 		void enableFire(bool);
 		
@@ -94,6 +97,7 @@ namespace Tinkercell
 		static void _displayNumber(long,double);
 		static void _setDisplayLabelColor(const char *, const char *);
 		static void _displayFire(long,double);
+		static void _setAlpha(long,double);
 	private slots:
 		/*!
 		\brief used to make items "glow" using a QTimeLine

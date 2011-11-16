@@ -1484,6 +1484,18 @@ void tc_burn(long item, double intensity)
 		_tc_burn(item,intensity);
 }
 
+void (*_tc_setAlpha)(long item,double intensity) = 0;
+/*! 
+
+ \brief intensity
+ \ingroup Input and Output
+*/ TCAPIEXPORT 
+void tc_setAlpha(long item, double intensity)
+{
+	if (_tc_setAlpha)
+		_tc_setAlpha(item,intensity);
+}
+
 /*! 
  \brief initialize
  \ingroup init
@@ -1493,7 +1505,8 @@ void tc_LabelingTool_api(
 		void (*displayNumber)(long item,double),
 		void (*setDisplayLabelColor)(const char *, const char *),
 		void (*highlight)(long,const char*),
-		void (*burn)(long,double)
+		void (*burn)(long,double),
+		void (*setalpha)(long,double)
 	)
 {
 	_tc_displayText = displayText;
@@ -1501,5 +1514,6 @@ void tc_LabelingTool_api(
 	_tc_setDisplayLabelColor = setDisplayLabelColor;
 	_tc_highlight = highlight;
 	_tc_burn = burn;
+	_tc_setAlpha = setalpha;
 }
 

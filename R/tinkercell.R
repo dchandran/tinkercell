@@ -4768,7 +4768,7 @@ class(`tc_burn`) = c("SWIGFunction", class('tc_burn'))
 
 # Start of tc_LabelingTool_api
 
-`tc_LabelingTool_api` = function(displayText, displayNumber, setDisplayLabelColor, highlight, burn)
+`tc_LabelingTool_api` = function(displayText, displayNumber, setDisplayLabelColor, highlight, burn, setalpha)
 {
   if(is.function(displayText)) {
     assert('...' %in% names(formals(displayText)) || length(formals(displayText)) >= 0)
@@ -4820,12 +4820,22 @@ class(`tc_burn`) = c("SWIGFunction", class('tc_burn'))
       burn = burn$address
     }
   }
-  .Call('R_swig_tc_LabelingTool_api', displayText, displayNumber, setDisplayLabelColor, highlight, burn, PACKAGE='tinkercell')
+  if(is.function(setalpha)) {
+    assert('...' %in% names(formals(setalpha)) || length(formals(setalpha)) >= 0)
+  } else {
+    if(is.character(setalpha)) {
+      setalpha = getNativeSymbolInfo(setalpha)
+    }
+    if(is(setalpha, "NativeSymbolInfo")) {
+      setalpha = setalpha$address
+    }
+  }
+  .Call('R_swig_tc_LabelingTool_api', displayText, displayNumber, setDisplayLabelColor, highlight, burn, setalpha, PACKAGE='tinkercell')
   
 }
 
 attr(`tc_LabelingTool_api`, 'returnType') = 'void'
-attr(`tc_LabelingTool_api`, "inputTypes") = c('_p_f_long_p_q_const__char__void', '_p_f_long_double__void', '_p_f_p_q_const__char_p_q_const__char__void', '_p_f_long_p_q_const__char__void', '_p_f_long_double__void')
+attr(`tc_LabelingTool_api`, "inputTypes") = c('_p_f_long_p_q_const__char__void', '_p_f_long_double__void', '_p_f_p_q_const__char_p_q_const__char__void', '_p_f_long_p_q_const__char__void', '_p_f_long_double__void', '_p_f_long_double__void')
 class(`tc_LabelingTool_api`) = c("SWIGFunction", class('tc_LabelingTool_api'))
 
 # Start of ApplySpringForce

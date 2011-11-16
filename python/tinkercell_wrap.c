@@ -8779,13 +8779,15 @@ SWIGINTERN PyObject *_wrap_tc_LabelingTool_api(PyObject *SWIGUNUSEDPARM(self), P
   void (*arg3)(char const *,char const *) = (void (*)(char const *,char const *)) 0 ;
   void (*arg4)(long,char const *) = (void (*)(long,char const *)) 0 ;
   void (*arg5)(long,double) = (void (*)(long,double)) 0 ;
+  void (*arg6)(long,double) = (void (*)(long,double)) 0 ;
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   PyObject * obj2 = 0 ;
   PyObject * obj3 = 0 ;
   PyObject * obj4 = 0 ;
+  PyObject * obj5 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"OOOOO:tc_LabelingTool_api",&obj0,&obj1,&obj2,&obj3,&obj4)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"OOOOOO:tc_LabelingTool_api",&obj0,&obj1,&obj2,&obj3,&obj4,&obj5)) SWIG_fail;
   {
     int res = SWIG_ConvertFunctionPtr(obj0, (void**)(&arg1), SWIGTYPE_p_f_long_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
@@ -8816,7 +8818,13 @@ SWIGINTERN PyObject *_wrap_tc_LabelingTool_api(PyObject *SWIGUNUSEDPARM(self), P
       SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_LabelingTool_api" "', argument " "5"" of type '" "void (*)(long,double)""'"); 
     }
   }
-  tc_LabelingTool_api(arg1,arg2,arg3,arg4,arg5);
+  {
+    int res = SWIG_ConvertFunctionPtr(obj5, (void**)(&arg6), SWIGTYPE_p_f_long_double__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_LabelingTool_api" "', argument " "6"" of type '" "void (*)(long,double)""'"); 
+    }
+  }
+  tc_LabelingTool_api(arg1,arg2,arg3,arg4,arg5,arg6);
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:

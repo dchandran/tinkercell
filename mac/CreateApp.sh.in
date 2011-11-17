@@ -37,10 +37,10 @@ do
   
   for f2 in $LIBFILES
   do
-    install_name_tool \
-          -change @TINKERCELL_BINARY_BIN_DIR@/$f2 \
-          @executable_path/../Frameworks/$f2 \
-          @TINKERCELL_EXE@.app/Contents/Frameworks/$f
+#    install_name_tool \
+#          -change @TINKERCELL_BINARY_BIN_DIR@/$f2 \
+#          @executable_path/../Frameworks/$f2 \
+#          @TINKERCELL_EXE@.app/Contents/Frameworks/$f
 	install_name_tool \
           -change $f2 \
           @executable_path/../Frameworks/$f2 \
@@ -110,10 +110,10 @@ do
 
   for f2 in $LIBFILES
   do
-    install_name_tool \
-          -change @TINKERCELL_BINARY_BIN_DIR@/$f2 \
-          @executable_path/../Frameworks/$f2 \
-          @TINKERCELL_EXE@.app/Contents/MacOS/$f1
+#    install_name_tool \
+#          -change @TINKERCELL_BINARY_BIN_DIR@/$f2 \
+#          @executable_path/../Frameworks/$f2 \
+#          @TINKERCELL_EXE@.app/Contents/MacOS/$f1
     install_name_tool \
           -change $f2 \
           @executable_path/../Frameworks/$f2 \
@@ -121,10 +121,10 @@ do
   done
   for f2 in $PLUGINFILES
   do
-    install_name_tool \
-          -change @TINKERCELL_BINARY_BIN_DIR@/$f2 \
-          @executable_path/$f2 \
-          @TINKERCELL_EXE@.app/Contents/MacOS/$f1
+#    install_name_tool \
+#          -change @TINKERCELL_BINARY_BIN_DIR@/$f2 \
+#          @executable_path/$f2 \
+#          @TINKERCELL_EXE@.app/Contents/MacOS/$f1
     install_name_tool \
           -change $f2 \
           @executable_path/$f2 \
@@ -132,10 +132,10 @@ do
   done
   for f2 in $CPLUGINFILES
   do
-    install_name_tool \
-          -change @TINKERCELL_BINARY_BIN_DIR@/$f2 \
-          @executable_path/$f2 \
-          @TINKERCELL_EXE@.app/Contents/MacOS/$f1
+#    install_name_tool \
+#          -change @TINKERCELL_BINARY_BIN_DIR@/$f2 \
+#          @executable_path/$f2 \
+#          @TINKERCELL_EXE@.app/Contents/MacOS/$f1
     install_name_tool \
           -change $f2 \
           @executable_path/$f2 \
@@ -149,17 +149,17 @@ do
   install_name_tool \
           -id \
           @executable_path/$f1 \
-          @TINKERCELL_EXE@.app/Contents/MacOS/$f1  
+          @TINKERCELL_EXE@.app/Contents/Frameworks/$f1  
   for f2 in $CPLUGINFILES
   do
-    install_name_tool \
-          -change @TINKERCELL_BINARY_BIN_DIR@/$f2 \
-          @executable_path/$f2 \
-          @TINKERCELL_EXE@.app/Contents/MacOS/$f1
+#    install_name_tool \
+#          -change @TINKERCELL_BINARY_BIN_DIR@/$f2 \
+#          @executable_path/$f2 \
+#          @TINKERCELL_EXE@.app/Contents/Frameworks/$f1
 	install_name_tool \
           -change $f2 \
           @executable_path/$f2 \
-          @TINKERCELL_EXE@.app/Contents/MacOS/$f1
+          @TINKERCELL_EXE@.app/Contents/Frameworks/$f1
   done
 done
 

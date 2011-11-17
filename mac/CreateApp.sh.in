@@ -24,6 +24,7 @@ QTOPENGL=@QT_QTOPENGL@
 
 cd @TINKERCELL_BINARY_DIR@/@TINKERCELL_PACKAGE_FOLDER@/TinkerCell
 mkdir @TINKERCELL_EXE@.app/Contents/Frameworks
+cp $EXECPATH/*.dylib @TINKERCELL_EXE@.app/Contents/Frameworks/
 
 #copy QT framework
 @QT_LIBRARY_DIR@/../bin/macdeployqt @TINKERCELL_EXE@.app
@@ -34,8 +35,6 @@ for f in $LIBFILES
 do
   echo "Processing $f"
   
-  cp $f @TINKERCELL_EXE@.app/Contents/Frameworks/
-
   for f2 in $LIBFILES
   do
     install_name_tool \

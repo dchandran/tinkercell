@@ -929,10 +929,12 @@ namespace Tinkercell
 			toolBarBasic->addAction(newAction);
 		}
 
-		if (enableText && !enableScene)
+		if (enableText /*&& !enableScene*/)
 		{
 			QAction* newAction2 = fileMenu->addAction(QIcon(tr(":/images/new.png")),tr("New text &editor"));
-			newAction2->setShortcut(tr("CTRL+SHIFT+N"));
+			if (!enableScene)
+				newAction2->setShortcut(QKeySequence::New);
+			//newAction2->setShortcut(tr("CTRL+SHIFT+N"));
 			connect (newAction2, SIGNAL(triggered()),this,SLOT(newTextEditor()));
 			toolBarBasic->addAction(newAction2);
 		}

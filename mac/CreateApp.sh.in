@@ -198,6 +198,35 @@ do
           NodeGraphics.app/Contents/Frameworks/$f
   done
   
+  install_name_tool \
+        -id @executable_path/../Frameworks/$f \
+        NodeGraphics.app/Contents/Frameworks/$f
+  
+  install_name_tool \
+        -change @TINKERCELL_BINARY_BIN_DIR@/$f \
+         @executable_path/../Frameworks/$f \
+         NodeGraphics.app/Contents/MacOS/NodeGraphics
+
+  install_name_tool \
+          -change @QT_QTCORE_LIBRARY_RELEASE@/$QTCORE \
+          @executable_path/../Frameworks/QtCore.framework/$QTCORE \
+          NodeGraphics.app/Contents/Frameworks/$f
+
+  install_name_tool \
+          -change @QT_QTGUI_LIBRARY_RELEASE@/$QTGUI \
+          @executable_path/../Frameworks/QtGui.framework/$QTGUI \
+          NodeGraphics.app/Contents/Frameworks/$f
+
+  install_name_tool \
+          -change @QT_QTXML_LIBRARY_RELEASE@/$QTXML \
+          @executable_path/../Frameworks/QtXml.framework/$QTXML \
+          NodeGraphics.app/Contents/Frameworks/$f
+
+  install_name_tool \
+          -change @QT_QTOPENGL_LIBRARY_RELEASE@/$QTOPENGL \
+          @executable_path/../Frameworks/QtOpenGL.framework/$QTOPENGL \
+          NodeGraphics.app/Contents/Frameworks/$f
+  
 done
 
 #create disk image

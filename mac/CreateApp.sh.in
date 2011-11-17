@@ -41,6 +41,10 @@ do
           -change @TINKERCELL_BINARY_BIN_DIR@/$f2 \
           @executable_path/../Frameworks/$f2 \
           @TINKERCELL_EXE@.app/Contents/Frameworks/$f
+	install_name_tool \
+          -change $f2 \
+          @executable_path/../Frameworks/$f2 \
+          @TINKERCELL_EXE@.app/Contents/Frameworks/$f
   done
   
   install_name_tool \
@@ -110,6 +114,10 @@ do
           -change @TINKERCELL_BINARY_BIN_DIR@/$f2 \
           @executable_path/../Frameworks/$f2 \
           @TINKERCELL_EXE@.app/Contents/MacOS/$f1
+    install_name_tool \
+          -change $f2 \
+          @executable_path/../Frameworks/$f2 \
+          @TINKERCELL_EXE@.app/Contents/MacOS/$f1
   done
   for f2 in $PLUGINFILES
   do
@@ -117,11 +125,19 @@ do
           -change @TINKERCELL_BINARY_BIN_DIR@/$f2 \
           @executable_path/$f2 \
           @TINKERCELL_EXE@.app/Contents/MacOS/$f1
+    install_name_tool \
+          -change $f2 \
+          @executable_path/$f2 \
+          @TINKERCELL_EXE@.app/Contents/MacOS/$f1
   done
   for f2 in $CPLUGINFILES
   do
     install_name_tool \
           -change @TINKERCELL_BINARY_BIN_DIR@/$f2 \
+          @executable_path/$f2 \
+          @TINKERCELL_EXE@.app/Contents/MacOS/$f1
+    install_name_tool \
+          -change $f2 \
           @executable_path/$f2 \
           @TINKERCELL_EXE@.app/Contents/MacOS/$f1
   done
@@ -138,6 +154,10 @@ do
   do
     install_name_tool \
           -change @TINKERCELL_BINARY_BIN_DIR@/$f2 \
+          @executable_path/$f2 \
+          @TINKERCELL_EXE@.app/Contents/MacOS/$f1
+	install_name_tool \
+          -change $f2 \
           @executable_path/$f2 \
           @TINKERCELL_EXE@.app/Contents/MacOS/$f1
   done
@@ -169,6 +189,11 @@ do
   do
     install_name_tool \
           -change @TINKERCELL_BINARY_BIN_DIR@/$f2 \
+          @executable_path/../Frameworks/$f2 \
+          NodeGraphics.app/Contents/Frameworks/$f
+
+	install_name_tool \
+          -change $f2 \
           @executable_path/../Frameworks/$f2 \
           NodeGraphics.app/Contents/Frameworks/$f
   done

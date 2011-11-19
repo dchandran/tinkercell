@@ -10,6 +10,8 @@ extern "C"
 
 namespace Tinkercell
 {
+		QStringList Ontology::GLOBAL_PARENTS;
+
 		NodeFamily * Ontology::nodeFamily(const QString& s0)
 		{
 			QString s = s0.toLower();

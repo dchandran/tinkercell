@@ -230,6 +230,8 @@ namespace Tinkercell
 										}
 										
 										dat.value(str,0) = 1.0;
+										dat.value(str,1) = 1e-8;
+										dat.value(str,2) = 100.0;
 										win->changeData(str2 + QString(" = 1"),handle2,QString("Parameters"),&dat);
 										if (win->console())
                                             win->console()->message(str2 + QString(" = 1.0"));

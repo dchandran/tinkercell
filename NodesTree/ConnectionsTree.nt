@@ -157,4 +157,20 @@
 <Direct Gene Repression>								<a>			<Repression> .
 <Direct Gene Repression>								<participant>			"Coding, Repressor"@en .
 <Direct Gene Repression>								<participant>			"Repressor Binding Site, Target"@en .
+<Gene Activation with Repressor>								<a>			<Direct Gene Activation> .
+<Gene Activation with Repressor>								<participant>			"Coding, Activator"@en .
+<Gene Activation with Repressor>								<participant>			"Activator Binding Site, Target"@en .
+<Gene Activation with Repressor>								<participant>			"Molecule, Inhibitor"@en .
+<Gene Repression with Repressor>								<a>			<Direct Gene Repression> .
+<Gene Repression with Repressor>								<participant>			"Coding, Repressor"@en .
+<Gene Repression with Repressor>								<participant>			"Repressor Binding Site, Target"@en .
+<Gene Repression with Repressor>								<participant>			"Molecule, Inhibitor"@en .
+<Gene Activation with Activator>								<a>			<Direct Gene Activation> .
+<Gene Activation with Activator>								<participant>			"Coding, Activator"@en .
+<Gene Activation with Activator>								<participant>			"Activator Binding Site, Target"@en .
+<Gene Activation with Activator>								<participant>			"Molecule, Activator"@en .
+<Gene Repression with Activator>								<a>			<Direct Gene Repression> .
+<Gene Repression with Activator>								<participant>			"Coding, Repressor"@en .
+<Gene Repression with Activator>								<participant>			"Repressor Binding Site, Target"@en .
+<Gene Repression with Activator>								<participant>			"Molecule, Activator"@en .
 

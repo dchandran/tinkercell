@@ -148,6 +148,8 @@ namespace Tinkercell
 				if (handle->hasNumericalData(QObject::tr("Parameters")))
 				{
 					handle->numericalDataTable(QObject::tr("Parameters")).value(QObject::tr("k0"),0) = 0.1;
+					handle->numericalDataTable(QObject::tr("Parameters")).value(QObject::tr("k0"),1) = 1e-8;
+					handle->numericalDataTable(QObject::tr("Parameters")).value(QObject::tr("k0"),2) = 100.0;
 					rates.value(QObject::tr("rate"),QObject::tr("formula")) = handle->fullName() + QObject::tr(".k0") + rates.value(QObject::tr("rate"),QObject::tr("formula"));
 				}
 				else

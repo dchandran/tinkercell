@@ -887,6 +887,8 @@ namespace Tinkercell
 
 				nDat.resize(nDat.rows()+1,nDat.columns());
 				nDat.value(nDat.rows()-1,0) = 1.0;
+				nDat.value(nDat.rows()-1,1) = 1e-8;
+				nDat.value(nDat.rows()-1,2) = 100.0;
 				nDat.setRowName(nDat.rows()-1,name);
 
 				if (!lastItem->name.isEmpty())

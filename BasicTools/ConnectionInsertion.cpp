@@ -19,6 +19,7 @@ for connecting items using the connections in the ConnectionsTree
 #include "CThread.h"
 #include "ConsoleWindow.h"
 #include "ConnectionInsertion.h"
+#include "Ontology.h"
 
 namespace Tinkercell
 {
@@ -142,6 +143,7 @@ namespace Tinkercell
 	{
 		ConnectionInsertion::fToS = new ConnectionInsertion_FToS;
 		ConnectionInsertion::fToS->setParent(this);
+		Ontology::GLOBAL_PARENTS << "empty" << "null";
 		
 		QString appDir = QCoreApplication::applicationDirPath();
 
@@ -1199,8 +1201,8 @@ namespace Tinkercell
 				{
 					leaves << list[i];
 					QList<ItemFamily*> parents = list[i]->parents();
-					for (int j=0; j < parents.size(); ++j)
-						leaves.removeAll(ConnectionFamily::cast(parents[j]));
+					//for (int j=0; j < parents.size(); ++j)
+						//leaves.removeAll(ConnectionFamily::cast(parents[j]));
 				}
 		}
 		else

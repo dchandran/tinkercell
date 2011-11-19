@@ -103,6 +103,8 @@ namespace Tinkercell
 	bool ItemFamily::isA(const QString& name) const
 	{
 		QString s1 = name.toLower();
+		if (Ontology::GLOBAL_PARENTS.contains(s1)) return true;
+ 
 		ConnectionFamily * f1 = Ontology::connectionFamily(s1);
 		if (f1)
 			s1 = f1->name(); //map possible synonyms to default names
@@ -125,6 +127,7 @@ namespace Tinkercell
 	bool ItemFamily::isA(const ItemFamily* family) const
 	{
 		if (!family) return false;
+		if (Ontology::GLOBAL_PARENTS.contains(family->name())) return true;
 		return isA(family->ID);
 	}
 	
@@ -232,6 +235,8 @@ namespace Tinkercell
 	{
 		if (ID == id) return true;
 
+		if (ALLNAMES.size() > id && Ontology::GLOBAL_PARENTS.contains(ALLNAMES[id])) return true;
+
 		QList<NodeFamily*> families = parentFamilies;
 		for (int i=0; i < families.size(); ++i)
 		{
@@ -245,6 +250,8 @@ namespace Tinkercell
 	bool NodeFamily::isA(const QString& name) const
 	{
 		QString s1 = name.toLower();
+		if (Ontology::GLOBAL_PARENTS.contains(s1)) return true;
+
 		NodeFamily * f = Ontology::nodeFamily(s1);
 		if (f)
 			s1 = f->name(); //map possible synonyms to default names
@@ -264,6 +271,7 @@ namespace Tinkercell
 	bool NodeFamily::isA(const ItemFamily* family) const
 	{
 		if (!family) return false;
+		if (Ontology::GLOBAL_PARENTS.contains(family->name())) return true;
 		return isA(family->ID);
 	}
 
@@ -330,6 +338,8 @@ namespace Tinkercell
 	{
 		if (ID == id) return true;
 
+		if (ALLNAMES.size() > id  && Ontology::GLOBAL_PARENTS.contains(ALLNAMES[id])) return true;
+
 		QList<ConnectionFamily*> families = parentFamilies;
 		for (int i=0; i < families.size(); ++i)
 		{
@@ -343,6 +353,7 @@ namespace Tinkercell
 	bool ConnectionFamily::isA(const QString& name) const
 	{
 		QString s1 = name.toLower();
+		if (Ontology::GLOBAL_PARENTS.contains(s1)) return true;
 		ConnectionFamily * f = Ontology::connectionFamily(s1);
 		if (f)
 			s1 = f->name(); //map possible synonyms to default names
@@ -362,6 +373,7 @@ namespace Tinkercell
 	bool ConnectionFamily::isA(const ItemFamily* family) const
 	{
 		if (!family) return false;
+		if (Ontology::GLOBAL_PARENTS.contains(family->name())) return true;
 		return isA(family->ID);
 	}
 

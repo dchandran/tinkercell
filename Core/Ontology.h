@@ -40,6 +40,10 @@ namespace Tinkercell
 	class TINKERCELLCOREEXPORT Ontology
 	{
 	public:
+		/*! \brief list of families that are parents to any other family, e.g. the empty set or something like that. 
+				This list should remain empty if such a concept does not make sense for the application
+		*/
+		static QStringList GLOBAL_PARENTS;
 		/*! \brief get a family pointer given its name (not case-sensitive)
 			\param QString& name of family
 			\return NodeFamily* can be 0 if name does not exist

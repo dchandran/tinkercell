@@ -301,7 +301,7 @@ namespace Tinkercell
 	{
 		for (int i=0; i < handles.size(); ++i)
 		{
-			if (handles[i] && handles[i]->isA(tr("Part")) && !handles[i]->tools.contains(this))
+			if (handles[i] && handles[i]->isA(tr("Part")) && !handles[i]->isA(tr("Empty")) && !handles[i]->tools.contains(this))
 					handles[i]->tools += this;
 		}
 	}

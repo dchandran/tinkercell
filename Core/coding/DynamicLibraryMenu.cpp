@@ -21,7 +21,7 @@ Provides a toolbar with buttons that call C functions (run of separate threads)
 #include "TextGraphicsItem.h"
 #include "ConsoleWindow.h"
 #include "DynamicLibraryMenu.h"
-#include <QtDebug>
+#include "Ontology.h"
 
 namespace Tinkercell
 {
@@ -281,7 +281,8 @@ namespace Tinkercell
 			if (handle = getHandle(items[j]))
 			{
 				nonEmpty = true;
-				if (!handle->isA(targetFamily))
+				if (!handle->isA(targetFamily) || 
+						(handle->family() && Ontology::GLOBAL_CHILDREN.contains(handle->family()->name())))
 				{
 					match = false;
 					break;

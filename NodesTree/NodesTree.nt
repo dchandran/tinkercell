@@ -65,6 +65,8 @@
 <Vector>								<resitance>					"ampicillin"@en .
 <Vector>								<replication rate>					"10.0" .
 <Vector>								<description>					"A vector backbone, which contains a selectable marker, and an insert constitute a plasmid"@en .
+<Empty>                <a>                         <Node>.
+<Empty>                <a>                         <Container>.
 <Empty>								<description>					"Used for representing degradation, dilution, or other forms of exit from the system"@en .
 <Container>							<description>					"A generic component that can contain other components inside it"@en .
 <Composite Part>					<a>									<Container> .

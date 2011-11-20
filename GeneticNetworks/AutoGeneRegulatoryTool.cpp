@@ -195,7 +195,7 @@ namespace Tinkercell
 		for (int i=0; i < selected.size(); ++i)
 		{
 			handle = getHandle(selected[i]);
-			if (NodeGraphicsItem::cast(selected[i]) && handle && handle->isA("Operator") && !visited.contains(handle))
+			if (NodeGraphicsItem::cast(selected[i]) && handle && handle->isA("Operator") && !handle->isA("Empty") && !visited.contains(handle))
 			{
 				regulatorNodes += NodeGraphicsItem::cast(selected[i]);
 				visited += handle;
@@ -337,7 +337,7 @@ namespace Tinkercell
 		for (int i=0; i < selected.size(); ++i)
 		{
 			handle = getHandle(selected[i]);
-			if (NodeGraphicsItem::cast(selected[i]) && handle && handle->isA("Coding") && !visited.contains(handle))
+			if (NodeGraphicsItem::cast(selected[i]) && handle && handle->isA("Coding") && !handle->isA("Empty") && !visited.contains(handle))
 			{
 				visited += handle;
 				NodeHandle * proteinNode = new NodeHandle(proteinFamily);
@@ -496,7 +496,7 @@ namespace Tinkercell
 		for (int i=0; i < selected.size(); ++i)
 		{
 			handle = getHandle(selected[i]);
-			if (NodeGraphicsItem::cast(selected[i]) && handle && handle->isA("Molecule") && !visited.contains(handle))
+			if (NodeGraphicsItem::cast(selected[i]) && handle && handle->isA("Molecule") && !handle->isA("Empty") && !visited.contains(handle))
 			{
 				visited += handle;
 				NodeHandle * node = new NodeHandle(nodeFamily);
@@ -606,15 +606,15 @@ namespace Tinkercell
 		for (int i=0; i < parts.size(); ++i)
 			if (parts[i])
 			{
-				if (parts[i]->isA(tr("RBS")))
+				if (parts[i]->isA(tr("RBS")) && !parts[i]->isA("Empty"))
 				{
 					rbs = parts[i];
 				}
 
-				if (parts[i]->isA(tr("Promoter")))
+				if (parts[i]->isA(tr("Promoter")) && !parts[i]->isA("Empty"))
 					promoter = NodeHandle::cast(parts[i]);
 
-				if (parts[i]->isA(tr("Operator")))
+				if (parts[i]->isA(tr("Operator")) && !parts[i]->isA("Empty"))
 				{
 					if (!operators.contains(parts[i]))
 						operators += parts[i];
@@ -634,7 +634,7 @@ namespace Tinkercell
 					}
 				}
 
-				if (parts[i]->isA(tr("Coding")) && NodeHandle::cast(parts[i]))
+				if (parts[i]->isA(tr("Coding")) && !parts[i]->isA("Empty") && NodeHandle::cast(parts[i]))
 				{
 					rate = tr("");
 					if (promoter)
@@ -736,7 +736,7 @@ namespace Tinkercell
 									rna << NodeHandle::cast(connections[j]->children);
 
 									for (int k=0; k < rna.size(); ++k)
-										if (NodeHandle::cast(rna[k]) && rna[k]->isA(tr("RNA")))
+										if (NodeHandle::cast(rna[k]) && rna[k]->isA(tr("RNA")) && !rna[k]->isA("Empty"))
 										{
 											QList<ConnectionHandle*> connections2 = NodeHandle::cast(rna[k])->connections();
 											for (int l=0; l < connections2.size(); ++l)
@@ -762,7 +762,9 @@ namespace Tinkercell
 						}
 						rbs = 0;
 				
-						if ((parts[i]->isA(tr("Terminator")) || parts[i]->isA(tr("Vector")) ) && NodeHandle::cast(parts[i]))
+						if ((parts[i]->isA(tr("Terminator")) || parts[i]->isA(tr("Vector"))) 
+							&& !parts[i]->isA("Empty")	
+							&& NodeHandle::cast(parts[i]))
 						{
 							operators.clear();
 							promoter = 0;
@@ -887,7 +889,9 @@ namespace Tinkercell
 		bool partCollided = false;
 
 		for (int i=0; i < items.size(); ++i)
-			if ((handle = getHandle(items[i])) && handle->isA(tr("Part")) && !(handle->parent && handle->parent->isA(tr("Vector"))))
+			if ((handle = getHandle(items[i])) 
+				&& handle->isA(tr("Part")) 
+				&& !(handle->parent && !handle->parent->isA(tr("Empty")) && handle->parent->isA(tr("Vector"))))
 			{
 				partCollided = true;
 				break;

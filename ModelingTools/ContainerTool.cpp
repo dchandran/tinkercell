@@ -187,7 +187,8 @@ namespace Tinkercell
         {
             if (NodeGraphicsItem::cast(items[i])
                 && (handle = getHandle(items[i]))
-                && handle->isA(tr("Container")))
+                && handle->isA(tr("Container"))
+				&& !handle->isA(tr("Empty")))
             {
 				QRectF sceneBoundingRect = items[i]->sceneBoundingRect().adjusted(-10,-10,10,10);
                 QList<ItemHandle*> list = handle->children;
@@ -278,7 +279,8 @@ namespace Tinkercell
             handle = handleList[i];
 
             if (handle && handle->family() && !handles.contains(handle) &&
-                handle->family()->isA(tr("Container")))
+                handle->family()->isA(tr("Container")) &&
+				!handle->family()->isA(tr("Empty")))
                 handles << handle;
         }
 
@@ -395,7 +397,7 @@ namespace Tinkercell
         ItemHandle * handle = getHandle(nodeHit);
 
         //if items are placed into a Compartment or module...
-        if (!handle || !handle->isA(tr("Container")))
+        if (!handle || !handle->isA(tr("Container")) || handle->isA(tr("Empty")))
             return;
 
 		ConnectionGraphicsItem::ControlPoint * cpt = 0;
@@ -457,7 +459,7 @@ namespace Tinkercell
 				{
 					child = getHandle(movingItems[i]);
 				}
-            if (child && child != handle && !handle->children.contains(child) && !handle->isChildOf(child)
+            if (child && child != handle && !handle->isA(tr("Empty")) && !handle->children.contains(child) && !handle->isChildOf(child)
 				&& ((child->isA("part") && handle->isA("part")) || (/*!child->isA("part") &&*/ !handle->isA("part")))) //special case for parts
             {
                 stillWithParent = false;
@@ -607,8 +609,10 @@ namespace Tinkercell
         for (int i=0; i < items0.size(); ++i)
         {
             if (NodeGraphicsItem::cast(items0[i]) &&
-                (handle = getHandle(items0[i])) && !visited.contains(handle) &&
+                (handle = getHandle(items0[i])) && 
+				!visited.contains(handle) &&
                 handle->isA(tr("Container")) &&
+				!handle->isA(tr("Empty")) &&
                 handle->children.size() > 0)
             {
                 visited += handle;
@@ -688,10 +692,10 @@ namespace Tinkercell
                 items << node->connectionsAsGraphicsItems();
             }
 
-			if (handle->parent && handle->parent->isA(tr("Container")))
+			if (handle->parent && handle->parent->isA(tr("Container")) && !handle->parent->isA(tr("Empty")))
 				movedChildNodes << handle;
 			else
-				if (handle->isA(tr("Container")))
+				if (handle->isA(tr("Container")) && !handle->isA(tr("Empty")))
 				{
 					movedCompartmentNodes << handle;
 					movedChildNodes << handle->children;

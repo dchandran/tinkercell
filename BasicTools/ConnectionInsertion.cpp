@@ -143,7 +143,6 @@ namespace Tinkercell
 	{
 		ConnectionInsertion::fToS = new ConnectionInsertion_FToS;
 		ConnectionInsertion::fToS->setParent(this);
-		Ontology::GLOBAL_PARENTS << "empty" << "null";
 		
 		QString appDir = QCoreApplication::applicationDirPath();
 

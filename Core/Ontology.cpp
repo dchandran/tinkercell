@@ -11,6 +11,7 @@ extern "C"
 namespace Tinkercell
 {
 		QStringList Ontology::GLOBAL_PARENTS;
+		QStringList Ontology::GLOBAL_CHILDREN;
 
 		NodeFamily * Ontology::nodeFamily(const QString& s0)
 		{

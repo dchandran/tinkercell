@@ -39,6 +39,10 @@ namespace Tinkercell
 		selectFamilyWidget(0)
 	{
 		QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
+
+		//Ontology::GLOBAL_PARENTS << "empty" << "null";
+		Ontology::GLOBAL_CHILDREN << "empty" << "null";
+
 		nodesTree = new NodesTree;
 		connectionsTree = new ConnectionsTree;
 
@@ -783,7 +787,7 @@ namespace Tinkercell
 
 		tabGroups	<< QPair<QString, QStringList>(
 													tr("Molecules"),
-													QStringList() << "molecule" << "empty")
+													QStringList() << "molecule")
 					<< QPair<QString, QStringList>(
 													tr("Parts"),
 													QStringList() << "part")

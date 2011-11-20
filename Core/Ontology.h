@@ -44,6 +44,10 @@ namespace Tinkercell
 				This list should remain empty if such a concept does not make sense for the application
 		*/
 		static QStringList GLOBAL_PARENTS;
+		/*! \brief list of families that are children to any other family, e.g. the empty set or something like that. 
+				This list should remain empty if such a concept does not make sense for the application
+		*/
+		static QStringList GLOBAL_CHILDREN;
 		/*! \brief get a family pointer given its name (not case-sensitive)
 			\param QString& name of family
 			\return NodeFamily* can be 0 if name does not exist

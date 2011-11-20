@@ -95,8 +95,10 @@ namespace Tinkercell
 		NAMETOID.insert( _name , ID );
 	}
 	
-	bool ItemFamily::isA(int ID) const
+	bool ItemFamily::isA(int id) const
 	{
+		if (ID >= 0 && ALLNAMES.size() > ID && Ontology::GLOBAL_CHILDREN.contains(ALLNAMES[ID])) return true;
+		if (id >= 0 && ALLNAMES.size() > id && Ontology::GLOBAL_PARENTS.contains(ALLNAMES[id])) return true;
 		return false;
 	}
 
@@ -235,7 +237,8 @@ namespace Tinkercell
 	{
 		if (ID == id) return true;
 
-		if (ALLNAMES.size() > id && Ontology::GLOBAL_PARENTS.contains(ALLNAMES[id])) return true;
+		if (ID >= 0 && ALLNAMES.size() > ID && Ontology::GLOBAL_CHILDREN.contains(ALLNAMES[ID])) return true;
+		if (id >= 0 && ALLNAMES.size() > id && Ontology::GLOBAL_PARENTS.contains(ALLNAMES[id])) return true;
 
 		QList<NodeFamily*> families = parentFamilies;
 		for (int i=0; i < families.size(); ++i)
@@ -338,7 +341,8 @@ namespace Tinkercell
 	{
 		if (ID == id) return true;
 
-		if (ALLNAMES.size() > id  && Ontology::GLOBAL_PARENTS.contains(ALLNAMES[id])) return true;
+		if (ID >= 0 && ALLNAMES.size() > ID && Ontology::GLOBAL_CHILDREN.contains(ALLNAMES[ID])) return true;
+		if (id >= 0 && ALLNAMES.size() > id && Ontology::GLOBAL_PARENTS.contains(ALLNAMES[id])) return true;
 
 		QList<ConnectionFamily*> families = parentFamilies;
 		for (int i=0; i < families.size(); ++i)

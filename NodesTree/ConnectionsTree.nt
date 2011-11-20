@@ -168,9 +168,9 @@
 <Gene Activation with Activator>								<a>			<Direct Gene Activation> .
 <Gene Activation with Activator>								<participant>			"Coding, Activator"@en .
 <Gene Activation with Activator>								<participant>			"Activator Binding Site, Target"@en .
-<Gene Activation with Activator>								<participant>			"Molecule, Activator"@en .
+<Gene Activation with Activator>								<participant>			"Molecule, Inducer"@en .
 <Gene Repression with Activator>								<a>			<Direct Gene Repression> .
 <Gene Repression with Activator>								<participant>			"Coding, Repressor"@en .
 <Gene Repression with Activator>								<participant>			"Repressor Binding Site, Target"@en .
-<Gene Repression with Activator>								<participant>			"Molecule, Activator"@en .
+<Gene Repression with Activator>								<participant>			"Molecule, Inducer"@en .
 

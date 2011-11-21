@@ -26,6 +26,11 @@ void SimulationThread::updateModelParameters(DataTable<qreal> params)
 		cSetValue(model, params.rowName(i).toAscii().data(), params.at(i,0));
 }
 
+void SimulationThread::updateModelParameter(const QString& param, double d)
+{
+	cSetValue(model, param.toAscii().data(), d);
+}
+
 void SimulationThread::updateModelParametersAndRerun(DataTable<qreal> params)
 {
 	updateModelParameters(params);

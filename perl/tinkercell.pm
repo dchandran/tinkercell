@@ -296,6 +296,7 @@ package tinkercell;
 *tc_LMatrix = *tinkercellc::tc_LMatrix;
 *tc_KMatrix = *tinkercellc::tc_KMatrix;
 *tc_updateParameters = *tinkercellc::tc_updateParameters;
+*tc_updateParameter = *tinkercellc::tc_updateParameter;
 *tc_optimize = *tinkercellc::tc_optimize;
 *tc_enableAssignmentRulesReordering = *tinkercellc::tc_enableAssignmentRulesReordering;
 *tc_COPASI_api = *tinkercellc::tc_COPASI_api;

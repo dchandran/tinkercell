@@ -160,11 +160,19 @@ TCAPIEXPORT tc_matrix tc_KMatrix();
 /*! 
  \brief update the model parameters just for simulation purposes, i.e. not the actual model itself
             this function will be much faster than using tc_setParameters
-\param const char * formula to maximize or filename with data (csv or tab-delimited)
- \return tc_matrix a population of parameters
+ \param tc_matrix parameters with row names
  \ingroup Simulation
 */
 TCAPIEXPORT void tc_updateParameters(tc_matrix params);
+
+/*! 
+ \brief update a model parameter just for simulation purposes, i.e. not the actual model itself
+            this function will be much faster than using tc_setParameter
+\param string parameter name
+\param double parameter value
+ \ingroup Simulation
+*/
+TCAPIEXPORT void tc_updateParameter(const char * param, double value);
 
 /*! 
  \brief Maximize the given formula or fit the data is the given filename, depending on whether or not the input is a filename.
@@ -210,7 +218,8 @@ tc_matrix (*tc_emf)(),
 tc_matrix (*tc_Lmat)(),
 tc_matrix (*tc_Kmat)(),
 tc_matrix (*gaoptim)(const char *),
-void (*update)(tc_matrix),
+void (*update1)(tc_matrix),
+void (*update2)(const char *, double),
 void (*enableAssignmentRulesOrdering)(int)
 );
 

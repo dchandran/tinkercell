@@ -12513,6 +12513,39 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_tc_updateParameter(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  char *arg1 = (char *) 0 ;
+  double arg2 ;
+  int res1 ;
+  char *buf1 = 0 ;
+  int alloc1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:tc_updateParameter",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_AsCharPtrAndSize(obj0, &buf1, NULL, &alloc1);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_updateParameter" "', argument " "1"" of type '" "char const *""'");
+  }
+  arg1 = (char *)(buf1);
+  ecode2 = SWIG_AsVal_double(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_updateParameter" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = (double)(val2);
+  tc_updateParameter((char const *)arg1,arg2);
+  resultobj = SWIG_Py_Void();
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  return resultobj;
+fail:
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_tc_optimize(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   char *arg1 = (char *) 0 ;
@@ -12582,7 +12615,8 @@ SWIGINTERN PyObject *_wrap_tc_COPASI_api(PyObject *SWIGUNUSEDPARM(self), PyObjec
   tc_matrix (*arg19)() = (tc_matrix (*)()) 0 ;
   tc_matrix (*arg20)(char const *) = (tc_matrix (*)(char const *)) 0 ;
   void (*arg21)(tc_matrix) = (void (*)(tc_matrix)) 0 ;
-  void (*arg22)(int) = (void (*)(int)) 0 ;
+  void (*arg22)(char const *,double) = (void (*)(char const *,double)) 0 ;
+  void (*arg23)(int) = (void (*)(int)) 0 ;
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   PyObject * obj2 = 0 ;
@@ -12605,8 +12639,9 @@ SWIGINTERN PyObject *_wrap_tc_COPASI_api(PyObject *SWIGUNUSEDPARM(self), PyObjec
   PyObject * obj19 = 0 ;
   PyObject * obj20 = 0 ;
   PyObject * obj21 = 0 ;
+  PyObject * obj22 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"OOOOOOOOOOOOOOOOOOOOOO:tc_COPASI_api",&obj0,&obj1,&obj2,&obj3,&obj4,&obj5,&obj6,&obj7,&obj8,&obj9,&obj10,&obj11,&obj12,&obj13,&obj14,&obj15,&obj16,&obj17,&obj18,&obj19,&obj20,&obj21)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"OOOOOOOOOOOOOOOOOOOOOOO:tc_COPASI_api",&obj0,&obj1,&obj2,&obj3,&obj4,&obj5,&obj6,&obj7,&obj8,&obj9,&obj10,&obj11,&obj12,&obj13,&obj14,&obj15,&obj16,&obj17,&obj18,&obj19,&obj20,&obj21,&obj22)) SWIG_fail;
   {
     int res = SWIG_ConvertFunctionPtr(obj0, (void**)(&arg1), SWIGTYPE_p_f_double_double_int__tc_matrix);
     if (!SWIG_IsOK(res)) {
@@ -12734,12 +12769,18 @@ SWIGINTERN PyObject *_wrap_tc_COPASI_api(PyObject *SWIGUNUSEDPARM(self), PyObjec
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(obj21, (void**)(&arg22), SWIGTYPE_p_f_int__void);
+    int res = SWIG_ConvertFunctionPtr(obj21, (void**)(&arg22), SWIGTYPE_p_f_p_q_const__char_double__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "22"" of type '" "void (*)(int)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "22"" of type '" "void (*)(char const *,double)""'"); 
     }
   }
-  tc_COPASI_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13,arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22);
+  {
+    int res = SWIG_ConvertFunctionPtr(obj22, (void**)(&arg23), SWIGTYPE_p_f_int__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "23"" of type '" "void (*)(int)""'"); 
+    }
+  }
+  tc_COPASI_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13,arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23);
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -13161,6 +13202,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"tc_LMatrix", _wrap_tc_LMatrix, METH_VARARGS, NULL},
 	 { (char *)"tc_KMatrix", _wrap_tc_KMatrix, METH_VARARGS, NULL},
 	 { (char *)"tc_updateParameters", _wrap_tc_updateParameters, METH_VARARGS, NULL},
+	 { (char *)"tc_updateParameter", _wrap_tc_updateParameter, METH_VARARGS, NULL},
 	 { (char *)"tc_optimize", _wrap_tc_optimize, METH_VARARGS, NULL},
 	 { (char *)"tc_enableAssignmentRulesReordering", _wrap_tc_enableAssignmentRulesReordering, METH_VARARGS, NULL},
 	 { (char *)"tc_COPASI_api", _wrap_tc_COPASI_api, METH_VARARGS, NULL},

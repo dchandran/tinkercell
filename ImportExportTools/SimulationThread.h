@@ -146,6 +146,9 @@ namespace Tinkercell
 		/*! \brief Updates the COPASI model parameters */
 		void updateModelParameters(DataTable<qreal> params);
 
+		/*! \brief Updates the COPASI model parameter */
+		void updateModelParameter(const QString&, double);
+
 		/*! \brief Updates the COPASI model parameters and run again*/
 		void updateModelParametersAndRerun(DataTable<qreal> params);
 

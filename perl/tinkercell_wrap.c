@@ -12878,6 +12878,44 @@ XS(_wrap_tc_updateParameters) {
 }
 
 
+XS(_wrap_tc_updateParameter) {
+  {
+    char *arg1 = (char *) 0 ;
+    double arg2 ;
+    int res1 ;
+    char *buf1 = 0 ;
+    int alloc1 = 0 ;
+    double val2 ;
+    int ecode2 = 0 ;
+    int argvi = 0;
+    dXSARGS;
+    
+    if ((items < 2) || (items > 2)) {
+      SWIG_croak("Usage: tc_updateParameter(param,value);");
+    }
+    res1 = SWIG_AsCharPtrAndSize(ST(0), &buf1, NULL, &alloc1);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_updateParameter" "', argument " "1"" of type '" "char const *""'");
+    }
+    arg1 = (char *)(buf1);
+    ecode2 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
+    if (!SWIG_IsOK(ecode2)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_updateParameter" "', argument " "2"" of type '" "double""'");
+    } 
+    arg2 = (double)(val2);
+    tc_updateParameter((char const *)arg1,arg2);
+    ST(argvi) = sv_newmortal();
+    if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+    
+    XSRETURN(argvi);
+  fail:
+    if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+    
+    SWIG_croak_null();
+  }
+}
+
+
 XS(_wrap_tc_optimize) {
   {
     char *arg1 = (char *) 0 ;
@@ -12957,12 +12995,13 @@ XS(_wrap_tc_COPASI_api) {
     tc_matrix (*arg19)() = (tc_matrix (*)()) 0 ;
     tc_matrix (*arg20)(char const *) = (tc_matrix (*)(char const *)) 0 ;
     void (*arg21)(tc_matrix) = (void (*)(tc_matrix)) 0 ;
-    void (*arg22)(int) = (void (*)(int)) 0 ;
+    void (*arg22)(char const *,double) = (void (*)(char const *,double)) 0 ;
+    void (*arg23)(int) = (void (*)(int)) 0 ;
     int argvi = 0;
     dXSARGS;
     
-    if ((items < 22) || (items > 22)) {
-      SWIG_croak("Usage: tc_COPASI_api(simulateDeterministic,simulateStochastic,simulateHybrid,simulateTauLeap,getSteadyState,steadyStateScan,steadyStateScan2D,getJacobian,getEigenvalues,getUnscaledElasticities,getUnscaledConcentrationCC,getUnscaledFluxCC,getScaledElasticities,getScaledConcentrationCC,getScaledFluxCC,tc_reducedStoichiometry,tc_emf,tc_Lmat,tc_Kmat,gaoptim,update,enableAssignmentRulesOrdering);");
+    if ((items < 23) || (items > 23)) {
+      SWIG_croak("Usage: tc_COPASI_api(simulateDeterministic,simulateStochastic,simulateHybrid,simulateTauLeap,getSteadyState,steadyStateScan,steadyStateScan2D,getJacobian,getEigenvalues,getUnscaledElasticities,getUnscaledConcentrationCC,getUnscaledFluxCC,getScaledElasticities,getScaledConcentrationCC,getScaledFluxCC,tc_reducedStoichiometry,tc_emf,tc_Lmat,tc_Kmat,gaoptim,update1,update2,enableAssignmentRulesOrdering);");
     }
     {
       int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_double_double_int__tc_matrix);
@@ -13091,13 +13130,20 @@ XS(_wrap_tc_COPASI_api) {
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(21), (void**)(&arg22), SWIGTYPE_p_f_int__void);
+      int res = SWIG_ConvertFunctionPtr(ST(21), (void**)(&arg22), SWIGTYPE_p_f_p_q_const__char_double__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "22"" of type '" "void (*)(int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "22"" of type '" "void (*)(char const *,double)""'"); 
       }
     }
-    tc_COPASI_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13,arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22);
+    {
+      int res = SWIG_ConvertFunctionPtr(ST(22), (void**)(&arg23), SWIGTYPE_p_f_int__void);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "23"" of type '" "void (*)(int)""'"); 
+      }
+    }
+    tc_COPASI_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13,arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23);
     ST(argvi) = sv_newmortal();
+    
     
     
     
@@ -13122,6 +13168,7 @@ XS(_wrap_tc_COPASI_api) {
     
     XSRETURN(argvi);
   fail:
+    
     
     
     
@@ -13963,6 +14010,7 @@ static swig_command_info swig_commands[] = {
 {"tinkercellc::tc_LMatrix", _wrap_tc_LMatrix},
 {"tinkercellc::tc_KMatrix", _wrap_tc_KMatrix},
 {"tinkercellc::tc_updateParameters", _wrap_tc_updateParameters},
+{"tinkercellc::tc_updateParameter", _wrap_tc_updateParameter},
 {"tinkercellc::tc_optimize", _wrap_tc_optimize},
 {"tinkercellc::tc_enableAssignmentRulesReordering", _wrap_tc_enableAssignmentRulesReordering},
 {"tinkercellc::tc_COPASI_api", _wrap_tc_COPASI_api},

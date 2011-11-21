@@ -44,6 +44,7 @@ namespace Tinkercell
 			void otherAnalysis(QSemaphore *, int type, tc_matrix *);
 			void gaOptimize(QSemaphore *, const char*, tc_matrix*);
 			void updateParams(QSemaphore *, tc_matrix);
+			void updateParam(QSemaphore *, const char *, double);
 			void enableAssignmentRulesReordering(QSemaphore *, int);
 		public:
 			tc_matrix simulate(double startTime, double endTime, int numSteps, int type);
@@ -52,6 +53,7 @@ namespace Tinkercell
 			tc_matrix otherAnalysis(int type);
 			tc_matrix gaOptimize(const char*);
 			void updateParams(tc_matrix);
+			void updateParam(const char *, double);
 			void enableAssignmentRulesReordering(int);
 	};
 
@@ -100,8 +102,8 @@ namespace Tinkercell
 		void otherAnalysis(QSemaphore *, int type, tc_matrix *);
 		void gaOptimize(QSemaphore *, const char*, tc_matrix*);
 		void updateParams(QSemaphore *, tc_matrix);
+		void updateParam(QSemaphore *, const char *, double);
 		void enableAssignmentRulesReordering(QSemaphore *, int);
-
 
 	public slots:
 		void updateModel();
@@ -136,6 +138,7 @@ namespace Tinkercell
 		static tc_matrix LMatrix();
 		static tc_matrix gaOptimize(const char*);
 		static void updateParams(tc_matrix);
+		static void updateParam(const char *, double);
 		static void enableAssignmentRulesReordering(int);
 	};
 }

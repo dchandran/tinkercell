@@ -33,6 +33,9 @@ CopasiExporter::CopasiExporter() : Tool("COPASI","Export"), simThread(0), simDia
 	connect(&fToS, SIGNAL(updateParams(QSemaphore *, tc_matrix)),
 					this, SLOT(updateParams(QSemaphore *, tc_matrix)));
 
+	connect(&fToS, SIGNAL(updateParam(QSemaphore *, const QString&, double)),
+					this, SLOT(updateParam(QSemaphore *, const QString&, double)));
+
 	connect(&fToS, SIGNAL(enableAssignmentRulesReordering(QSemaphore *, int)),
 					this, SLOT(enableAssignmentRulesReordering(QSemaphore *, int)));
 
@@ -86,7 +89,8 @@ typedef void (*tc_COPASI_api)(
 	tc_matrix (*LMat)(),
 	tc_matrix (*KMat)(),
 	tc_matrix (*Optimize)(const char * ),
-	void (*update)(tc_matrix),
+	void (*updateParameters)(tc_matrix),
+	void (*updateParameter)(const char *, double),
 	void (*enableAssignmentRulesOrdering)(int)
 );
 
@@ -116,6 +120,7 @@ void CopasiExporter::setupFunctionPointers( QLibrary * library)
 			&LMatrix,
 			&gaOptimize,
 			&updateParams,
+			&updateParam,
 			&enableAssignmentRulesReordering
 		);
 }
@@ -368,6 +373,17 @@ void CopasiExporter::updateParams(QSemaphore * sem, tc_matrix m)
 		sem->release();
 }
 
+void CopasiExporter::updateParam(QSemaphore * sem, const char * s, double v)
+{
+	if (simThread)
+	{
+		updateModel();
+		simThread->updateModelParameter(tr(s), v);
+	}
+	if (sem)
+		sem->release();
+}
+
 tc_matrix CopasiExporter_FtoS::simulate(double startTime, double endTime, int numSteps, int type)
 {
 	tc_matrix m;
@@ -433,6 +449,16 @@ void CopasiExporter_FtoS::updateParams(tc_matrix m)
 	QSemaphore * sem = new QSemaphore(1);
 	sem->acquire();
 	emit updateParams(sem, m);
+	sem->acquire();
+	sem->release();
+	delete sem;
+}
+
+void CopasiExporter_FtoS::updateParam(const char * s, double v)
+{
+	QSemaphore * sem = new QSemaphore(1);
+	sem->acquire();
+	emit updateParam(sem, s, v);
 	sem->acquire();
 	sem->release();
 	delete sem;
@@ -551,6 +577,11 @@ tc_matrix CopasiExporter::gaOptimize(const char * s)
 void CopasiExporter::updateParams(tc_matrix params)
 {
 	return fToS.updateParams(params);
+}
+
+void CopasiExporter::updateParam(const char * s, double v)
+{
+	return fToS.updateParam(s, v);
 }
 
 void CopasiExporter::toolLoaded(Tool*)

@@ -1157,6 +1157,10 @@ def tc_updateParameters(*args):
   return _tinkercell.tc_updateParameters(*args)
 tc_updateParameters = _tinkercell.tc_updateParameters
 
+def tc_updateParameter(*args):
+  return _tinkercell.tc_updateParameter(*args)
+tc_updateParameter = _tinkercell.tc_updateParameter
+
 def tc_optimize(*args):
   return _tinkercell.tc_optimize(*args)
 tc_optimize = _tinkercell.tc_optimize

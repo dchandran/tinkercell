@@ -24,6 +24,7 @@ tc_matrix (*_tc_LMatrix)() = 0;
 tc_matrix (*_tc_KMatrix)() = 0;
 tc_matrix (*_tc_optimize)(const char * ) = 0;
 void (*_tc_updateParams)(tc_matrix) = 0;
+void (*_tc_updateParam)(const char *, double) = 0;
 void (*_tc_enableAssignmentRulesReordering)(int) = 0;
 /******************************************
    The actual functions defined in the API
@@ -199,6 +200,13 @@ void tc_updateParameters(tc_matrix params)
 }
 
 TCAPIEXPORT
+void tc_updateParameter(const char * param, double d)
+{
+	if (_tc_updateParam)
+		_tc_updateParam(param,d);
+}
+
+TCAPIEXPORT
 void tc_enableAssignmentRulesReordering(int a)
 {
 	if (_tc_enableAssignmentRulesReordering)
@@ -227,7 +235,8 @@ tc_matrix (*emf)(),
 tc_matrix (*Lmat)(),
 tc_matrix (*Kmat)(),
 tc_matrix (*gaoptim)(const char *),
-void (*update)(tc_matrix),
+void (*update1)(tc_matrix),
+void (*update2)(const char *, double),
 void (*enableAssignmentRulesReordering)(int)
 )
 {
@@ -251,7 +260,8 @@ void (*enableAssignmentRulesReordering)(int)
 	_tc_LMatrix = Lmat;
 	_tc_KMatrix = Kmat;
 	_tc_optimize = gaoptim;
-	_tc_updateParams = update;
+	_tc_updateParams = update1;
+	_tc_updateParam = update2;
 	_tc_enableAssignmentRulesReordering = enableAssignmentRulesReordering;
 }
 

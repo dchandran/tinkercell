@@ -4417,6 +4417,37 @@ fail:
 }
 
 
+static octave_value_list _wrap_tc_transpose (const octave_value_list& args, int nargout) {
+  tc_matrix arg1 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  tc_matrix result;
+  
+  if (!SWIG_check_num_args("tc_transpose",args.length(),1,1,0)) {
+    SWIG_fail;
+  }
+  {
+    res1 = SWIG_ConvertPtr(args(0), &argp1, SWIGTYPE_p_tc_matrix,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_transpose" "', argument " "1"" of type '" "tc_matrix""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_transpose" "', argument " "1"" of type '" "tc_matrix""'");
+    } else {
+      arg1 = *((tc_matrix *)(argp1));
+    }
+  }
+  result = tc_transpose(arg1);
+  _outv = SWIG_NewPointerObj((new tc_matrix((const tc_matrix&)(result))), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
 static octave_value_list _wrap_tc_printMatrixToFile (const octave_value_list& args, int nargout) {
   char *arg1 = (char *) 0 ;
   tc_matrix arg2 ;
@@ -12760,6 +12791,7 @@ static const struct swig_octave_member swig_globals[] = {
 {"tc_deleteStringsArray",_wrap_tc_deleteStringsArray,0,0,2,0},
 {"tc_appendColumns",_wrap_tc_appendColumns,0,0,2,0},
 {"tc_appendRows",_wrap_tc_appendRows,0,0,2,0},
+{"tc_transpose",_wrap_tc_transpose,0,0,2,0},
 {"tc_printMatrixToFile",_wrap_tc_printMatrixToFile,0,0,2,0},
 {"tc_printOutMatrix",_wrap_tc_printOutMatrix,0,0,2,0},
 {"tc_printTableToFile",_wrap_tc_printTableToFile,0,0,2,0},

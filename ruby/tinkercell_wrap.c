@@ -3974,6 +3974,36 @@ fail:
 
 
 SWIGINTERN VALUE
+_wrap_tc_transpose(int argc, VALUE *argv, VALUE self) {
+  tc_matrix arg1 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  tc_matrix result;
+  VALUE vresult = Qnil;
+  
+  if ((argc < 1) || (argc > 1)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 1)",argc); SWIG_fail;
+  }
+  {
+    res1 = SWIG_ConvertPtr(argv[0], &argp1, SWIGTYPE_p_tc_matrix,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "tc_matrix","tc_transpose", 1, argv[0] )); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, Ruby_Format_TypeError("invalid null reference ", "tc_matrix","tc_transpose", 1, argv[0]));
+    } else {
+      arg1 = *((tc_matrix *)(argp1));
+    }
+  }
+  result = tc_transpose(arg1);
+  vresult = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
+  return vresult;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
 _wrap_tc_printMatrixToFile(int argc, VALUE *argv, VALUE self) {
   char *arg1 = (char *) 0 ;
   tc_matrix arg2 ;
@@ -12592,6 +12622,7 @@ SWIGEXPORT void Init_tinkercell(void) {
   rb_define_module_function(mTinkercell, "tc_deleteStringsArray", _wrap_tc_deleteStringsArray, -1);
   rb_define_module_function(mTinkercell, "tc_appendColumns", _wrap_tc_appendColumns, -1);
   rb_define_module_function(mTinkercell, "tc_appendRows", _wrap_tc_appendRows, -1);
+  rb_define_module_function(mTinkercell, "tc_transpose", _wrap_tc_transpose, -1);
   rb_define_module_function(mTinkercell, "tc_printMatrixToFile", _wrap_tc_printMatrixToFile, -1);
   rb_define_module_function(mTinkercell, "tc_printOutMatrix", _wrap_tc_printOutMatrix, -1);
   rb_define_module_function(mTinkercell, "tc_printTableToFile", _wrap_tc_printTableToFile, -1);

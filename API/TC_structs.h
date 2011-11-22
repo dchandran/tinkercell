@@ -266,6 +266,13 @@ TCAPIEXPORT tc_matrix tc_appendColumns(tc_matrix A, tc_matrix B);
 */
 TCAPIEXPORT tc_matrix tc_appendRows(tc_matrix A, tc_matrix B);
 
+/*!\brief transpose a matrix
+ \param tc_matrix target matrix
+ \return tc_matrix new transposed matrix
+ \ingroup Basic
+*/
+TCAPIEXPORT tc_matrix tc_transpose(tc_matrix A);
+
 /*!\brief print a matrix to file
  \param char* file name
  \param tc_matrix

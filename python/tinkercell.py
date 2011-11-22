@@ -269,6 +269,10 @@ def tc_appendRows(*args):
   return _tinkercell.tc_appendRows(*args)
 tc_appendRows = _tinkercell.tc_appendRows
 
+def tc_transpose(*args):
+  return _tinkercell.tc_transpose(*args)
+tc_transpose = _tinkercell.tc_transpose
+
 def tc_printMatrixToFile(*args):
   return _tinkercell.tc_printMatrixToFile(*args)
 tc_printMatrixToFile = _tinkercell.tc_printMatrixToFile

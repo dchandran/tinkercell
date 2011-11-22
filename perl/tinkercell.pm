@@ -74,6 +74,7 @@ package tinkercell;
 *tc_deleteStringsArray = *tinkercellc::tc_deleteStringsArray;
 *tc_appendColumns = *tinkercellc::tc_appendColumns;
 *tc_appendRows = *tinkercellc::tc_appendRows;
+*tc_transpose = *tinkercellc::tc_transpose;
 *tc_printMatrixToFile = *tinkercellc::tc_printMatrixToFile;
 *tc_printOutMatrix = *tinkercellc::tc_printOutMatrix;
 *tc_printTableToFile = *tinkercellc::tc_printTableToFile;

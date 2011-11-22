@@ -376,7 +376,7 @@ namespace Tinkercell
 			QwtDoubleRect rect = zoomer->zoomRect();
 			if (type == PlotTool::ScatterPlot)
 			{
-				rect.adjust(-1.0,-1.0,1.0,1.0);
+				rect.adjust(-0.5,-0.5,0.5,0.5);
 				zoomer->zoom(rect);
 			}
 			zoomer->setZoomBase(rect);

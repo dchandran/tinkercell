@@ -3299,6 +3299,37 @@ R_swig_tc_appendRows ( SEXP A, SEXP B, SEXP s_swig_copy)
 
 
 SWIGEXPORT SEXP
+R_swig_tc_transpose ( SEXP A, SEXP s_swig_copy)
+{
+  tc_matrix result;
+  tc_matrix arg1 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  {
+    res1 = SWIG_R_ConvertPtr(A, &argp1, SWIGTYPE_p_tc_matrix,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_transpose" "', argument " "1"" of type '" "tc_matrix""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_transpose" "', argument " "1"" of type '" "tc_matrix""'");
+    } else {
+      arg1 = *((tc_matrix *)(argp1));
+    }
+  }
+  result = tc_transpose(arg1);
+  r_ans = SWIG_R_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
+SWIGEXPORT SEXP
 R_swig_tc_printMatrixToFile ( SEXP file, SEXP M)
 {
   char *arg1 = (char *) 0 ;
@@ -16480,8 +16511,8 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_createTable", (DL_FUNC) &R_swig_tc_createTable, 3},
    {"R_swig_tc_deleteTable", (DL_FUNC) &R_swig_tc_deleteTable, 1},
    {"R_swig_tc_thisThread", (DL_FUNC) &R_swig_tc_thisThread, 1},
-   {"R_swig_tc_getCenterPointY", (DL_FUNC) &R_swig_tc_getCenterPointY, 2},
    {"R_swig_tc_getControlPointY", (DL_FUNC) &R_swig_tc_getControlPointY, 4},
+   {"R_swig_tc_getCenterPointY", (DL_FUNC) &R_swig_tc_getCenterPointY, 2},
    {"R_swig_tc_getAllTextNamed", (DL_FUNC) &R_swig_tc_getAllTextNamed, 3},
    {"R_swig_tc_getStoichiometry", (DL_FUNC) &R_swig_tc_getStoichiometry, 2},
    {"R_swig_tc_setStoichiometry", (DL_FUNC) &R_swig_tc_setStoichiometry, 2},
@@ -16598,6 +16629,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_getForcingFunctionNames", (DL_FUNC) &R_swig_tc_getForcingFunctionNames, 2},
    {"R_swig_tc_addForcingFunction", (DL_FUNC) &R_swig_tc_addForcingFunction, 3},
    {"R_swig_tc_askQuestion", (DL_FUNC) &R_swig_tc_askQuestion, 2},
+   {"R_swig_tc_transpose", (DL_FUNC) &R_swig_tc_transpose, 2},
    {"R_swig_tc_getTextValueUsingRegexp", (DL_FUNC) &R_swig_tc_getTextValueUsingRegexp, 2},
    {"R_swig_tc_getNumericalValueUsingRegexp", (DL_FUNC) &R_swig_tc_getNumericalValueUsingRegexp, 2},
    {"R_swig_tc_findItemsUsingRegexp", (DL_FUNC) &R_swig_tc_findItemsUsingRegexp, 2},
@@ -16700,8 +16732,8 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_getRowName", (DL_FUNC) &R_swig_tc_getRowName, 2},
    {"R_swig_tc_setRowName", (DL_FUNC) &R_swig_tc_setRowName, 3},
    {"R_swig_tc_homeDir", (DL_FUNC) &R_swig_tc_homeDir, 0},
-   {"R_swig_tc_select", (DL_FUNC) &R_swig_tc_select, 1},
    {"R_swig_tc_deselect", (DL_FUNC) &R_swig_tc_deselect, 0},
+   {"R_swig_tc_select", (DL_FUNC) &R_swig_tc_select, 1},
    {"R_swig_tc_isA", (DL_FUNC) &R_swig_tc_isA, 3},
    {"R_swig_tc_getParameter", (DL_FUNC) &R_swig_tc_getParameter, 3},
    {"R_swig_tc_setParameter", (DL_FUNC) &R_swig_tc_setParameter, 3},

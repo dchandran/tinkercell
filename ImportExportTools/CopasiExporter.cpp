@@ -33,8 +33,8 @@ CopasiExporter::CopasiExporter() : Tool("COPASI","Export"), simThread(0), simDia
 	connect(&fToS, SIGNAL(updateParams(QSemaphore *, tc_matrix)),
 					this, SLOT(updateParams(QSemaphore *, tc_matrix)));
 
-	connect(&fToS, SIGNAL(updateParam(QSemaphore *, const QString&, double)),
-					this, SLOT(updateParam(QSemaphore *, const QString&, double)));
+	connect(&fToS, SIGNAL(updateParam(QSemaphore *, const char*, double)),
+					this, SLOT(updateParam(QSemaphore *, const char*, double)));
 
 	connect(&fToS, SIGNAL(enableAssignmentRulesReordering(QSemaphore *, int)),
 					this, SLOT(enableAssignmentRulesReordering(QSemaphore *, int)));

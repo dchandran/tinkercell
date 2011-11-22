@@ -513,3 +513,22 @@ int tc_getColumnIndex(tc_matrix m, const char * s)
 	return tc_getStringIndex( m.colnames, s );
 }
 
+TCAPIEXPORT 
+tc_matrix tc_transpose(tc_matrix A)
+{
+	int i,j;
+	tc_matrix A2 = tc_createMatrix(A.cols, A.rows);
+
+	for (i=0; i < A.rows; ++i)
+		tc_setColumnName(A2, i, tc_getRowName(A, i));
+
+	for (i=0; i < A.cols; ++i)
+		tc_setRowName(A2, i, tc_getColumnName(A, i));
+
+	for (i=0; i < A.rows; ++i)
+		for (j=0; j < A.cols; ++j)
+			tc_setMatrixValue(A2, j, i, tc_getMatrixValue(A, i, j));
+
+	return A2;
+}
+

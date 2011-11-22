@@ -4929,6 +4929,34 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_tc_transpose(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  tc_matrix arg1 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  tc_matrix result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:tc_transpose",&obj0)) SWIG_fail;
+  {
+    res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_tc_matrix,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_transpose" "', argument " "1"" of type '" "tc_matrix""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_transpose" "', argument " "1"" of type '" "tc_matrix""'");
+    } else {
+      arg1 = *((tc_matrix *)(argp1));
+    }
+  }
+  result = tc_transpose(arg1);
+  resultobj = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_tc_printMatrixToFile(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   char *arg1 = (char *) 0 ;
@@ -12980,6 +13008,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"tc_deleteStringsArray", _wrap_tc_deleteStringsArray, METH_VARARGS, NULL},
 	 { (char *)"tc_appendColumns", _wrap_tc_appendColumns, METH_VARARGS, NULL},
 	 { (char *)"tc_appendRows", _wrap_tc_appendRows, METH_VARARGS, NULL},
+	 { (char *)"tc_transpose", _wrap_tc_transpose, METH_VARARGS, NULL},
 	 { (char *)"tc_printMatrixToFile", _wrap_tc_printMatrixToFile, METH_VARARGS, NULL},
 	 { (char *)"tc_printOutMatrix", _wrap_tc_printOutMatrix, METH_VARARGS, NULL},
 	 { (char *)"tc_printTableToFile", _wrap_tc_printTableToFile, METH_VARARGS, NULL},

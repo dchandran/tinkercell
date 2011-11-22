@@ -4053,6 +4053,38 @@ XS(_wrap_tc_appendRows) {
 }
 
 
+XS(_wrap_tc_transpose) {
+  {
+    tc_matrix arg1 ;
+    void *argp1 ;
+    int res1 = 0 ;
+    int argvi = 0;
+    tc_matrix result;
+    dXSARGS;
+    
+    if ((items < 1) || (items > 1)) {
+      SWIG_croak("Usage: tc_transpose(A);");
+    }
+    {
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_tc_matrix,  0 );
+      if (!SWIG_IsOK(res1)) {
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_transpose" "', argument " "1"" of type '" "tc_matrix""'"); 
+      }  
+      if (!argp1) {
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_transpose" "', argument " "1"" of type '" "tc_matrix""'");
+      } else {
+        arg1 = *((tc_matrix *)(argp1));
+      }
+    }
+    result = tc_transpose(arg1);
+    ST(argvi) = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    XSRETURN(argvi);
+  fail:
+    SWIG_croak_null();
+  }
+}
+
+
 XS(_wrap_tc_printMatrixToFile) {
   {
     char *arg1 = (char *) 0 ;
@@ -13788,6 +13820,7 @@ static swig_command_info swig_commands[] = {
 {"tinkercellc::tc_deleteStringsArray", _wrap_tc_deleteStringsArray},
 {"tinkercellc::tc_appendColumns", _wrap_tc_appendColumns},
 {"tinkercellc::tc_appendRows", _wrap_tc_appendRows},
+{"tinkercellc::tc_transpose", _wrap_tc_transpose},
 {"tinkercellc::tc_printMatrixToFile", _wrap_tc_printMatrixToFile},
 {"tinkercellc::tc_printOutMatrix", _wrap_tc_printOutMatrix},
 {"tinkercellc::tc_printTableToFile", _wrap_tc_printTableToFile},

@@ -1280,6 +1280,31 @@ SWIGEXPORT jlong JNICALL Java_tinkercellJNI_tc_1appendRows(JNIEnv *jenv, jclass 
 }
 
 
+SWIGEXPORT jlong JNICALL Java_tinkercellJNI_tc_1transpose(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  tc_matrix arg1 ;
+  tc_matrix *argp1 ;
+  tc_matrix result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  argp1 = *(tc_matrix **)&jarg1; 
+  if (!argp1) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null tc_matrix");
+    return 0;
+  }
+  arg1 = *argp1; 
+  result = tc_transpose(arg1);
+  {
+    tc_matrix * resultptr = (tc_matrix *) malloc(sizeof(tc_matrix));
+    memmove(resultptr, &result, sizeof(tc_matrix));
+    *(tc_matrix **)&jresult = resultptr;
+  }
+  return jresult;
+}
+
+
 SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1printMatrixToFile(JNIEnv *jenv, jclass jcls, jstring jarg1, jlong jarg2, jobject jarg2_) {
   char *arg1 = (char *) 0 ;
   tc_matrix arg2 ;

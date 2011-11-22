@@ -1963,6 +1963,21 @@ attr(`tc_appendRows`, 'returnType') = '_p_tc_matrix'
 attr(`tc_appendRows`, "inputTypes") = c('_p_tc_matrix', '_p_tc_matrix')
 class(`tc_appendRows`) = c("SWIGFunction", class('tc_appendRows'))
 
+# Start of tc_transpose
+
+`tc_transpose` = function(A, .copy = FALSE)
+{
+  ans = .Call('R_swig_tc_transpose', A, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_tc_matrix"
+  
+  ans
+  
+}
+
+attr(`tc_transpose`, 'returnType') = '_p_tc_matrix'
+attr(`tc_transpose`, "inputTypes") = c('_p_tc_matrix')
+class(`tc_transpose`) = c("SWIGFunction", class('tc_transpose'))
+
 # Start of tc_printMatrixToFile
 
 `tc_printMatrixToFile` = function(file, M)

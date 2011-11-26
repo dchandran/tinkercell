@@ -12514,6 +12514,32 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_tc_calcFluxes(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  tc_matrix result;
+  
+  if (!PyArg_ParseTuple(args,(char *)":tc_calcFluxes")) SWIG_fail;
+  result = tc_calcFluxes();
+  resultobj = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_tc_calcDerivatives(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  tc_matrix result;
+  
+  if (!PyArg_ParseTuple(args,(char *)":tc_calcDerivatives")) SWIG_fail;
+  result = tc_calcDerivatives();
+  resultobj = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_tc_updateParameters(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   tc_matrix arg1 ;
@@ -12641,10 +12667,12 @@ SWIGINTERN PyObject *_wrap_tc_COPASI_api(PyObject *SWIGUNUSEDPARM(self), PyObjec
   tc_matrix (*arg17)() = (tc_matrix (*)()) 0 ;
   tc_matrix (*arg18)() = (tc_matrix (*)()) 0 ;
   tc_matrix (*arg19)() = (tc_matrix (*)()) 0 ;
-  tc_matrix (*arg20)(char const *) = (tc_matrix (*)(char const *)) 0 ;
-  void (*arg21)(tc_matrix) = (void (*)(tc_matrix)) 0 ;
-  void (*arg22)(char const *,double) = (void (*)(char const *,double)) 0 ;
-  void (*arg23)(int) = (void (*)(int)) 0 ;
+  tc_matrix (*arg20)() = (tc_matrix (*)()) 0 ;
+  tc_matrix (*arg21)() = (tc_matrix (*)()) 0 ;
+  tc_matrix (*arg22)(char const *) = (tc_matrix (*)(char const *)) 0 ;
+  void (*arg23)(tc_matrix) = (void (*)(tc_matrix)) 0 ;
+  void (*arg24)(char const *,double) = (void (*)(char const *,double)) 0 ;
+  void (*arg25)(int) = (void (*)(int)) 0 ;
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   PyObject * obj2 = 0 ;
@@ -12668,8 +12696,10 @@ SWIGINTERN PyObject *_wrap_tc_COPASI_api(PyObject *SWIGUNUSEDPARM(self), PyObjec
   PyObject * obj20 = 0 ;
   PyObject * obj21 = 0 ;
   PyObject * obj22 = 0 ;
+  PyObject * obj23 = 0 ;
+  PyObject * obj24 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"OOOOOOOOOOOOOOOOOOOOOOO:tc_COPASI_api",&obj0,&obj1,&obj2,&obj3,&obj4,&obj5,&obj6,&obj7,&obj8,&obj9,&obj10,&obj11,&obj12,&obj13,&obj14,&obj15,&obj16,&obj17,&obj18,&obj19,&obj20,&obj21,&obj22)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"OOOOOOOOOOOOOOOOOOOOOOOOO:tc_COPASI_api",&obj0,&obj1,&obj2,&obj3,&obj4,&obj5,&obj6,&obj7,&obj8,&obj9,&obj10,&obj11,&obj12,&obj13,&obj14,&obj15,&obj16,&obj17,&obj18,&obj19,&obj20,&obj21,&obj22,&obj23,&obj24)) SWIG_fail;
   {
     int res = SWIG_ConvertFunctionPtr(obj0, (void**)(&arg1), SWIGTYPE_p_f_double_double_int__tc_matrix);
     if (!SWIG_IsOK(res)) {
@@ -12785,30 +12815,42 @@ SWIGINTERN PyObject *_wrap_tc_COPASI_api(PyObject *SWIGUNUSEDPARM(self), PyObjec
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(obj19, (void**)(&arg20), SWIGTYPE_p_f_p_q_const__char__tc_matrix);
+    int res = SWIG_ConvertFunctionPtr(obj19, (void**)(&arg20), SWIGTYPE_p_f___tc_matrix);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "20"" of type '" "tc_matrix (*)(char const *)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "20"" of type '" "tc_matrix (*)()""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(obj20, (void**)(&arg21), SWIGTYPE_p_f_tc_matrix__void);
+    int res = SWIG_ConvertFunctionPtr(obj20, (void**)(&arg21), SWIGTYPE_p_f___tc_matrix);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "21"" of type '" "void (*)(tc_matrix)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "21"" of type '" "tc_matrix (*)()""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(obj21, (void**)(&arg22), SWIGTYPE_p_f_p_q_const__char_double__void);
+    int res = SWIG_ConvertFunctionPtr(obj21, (void**)(&arg22), SWIGTYPE_p_f_p_q_const__char__tc_matrix);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "22"" of type '" "void (*)(char const *,double)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "22"" of type '" "tc_matrix (*)(char const *)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(obj22, (void**)(&arg23), SWIGTYPE_p_f_int__void);
+    int res = SWIG_ConvertFunctionPtr(obj22, (void**)(&arg23), SWIGTYPE_p_f_tc_matrix__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "23"" of type '" "void (*)(int)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "23"" of type '" "void (*)(tc_matrix)""'"); 
     }
   }
-  tc_COPASI_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13,arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23);
+  {
+    int res = SWIG_ConvertFunctionPtr(obj23, (void**)(&arg24), SWIGTYPE_p_f_p_q_const__char_double__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "24"" of type '" "void (*)(char const *,double)""'"); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(obj24, (void**)(&arg25), SWIGTYPE_p_f_int__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "25"" of type '" "void (*)(int)""'"); 
+    }
+  }
+  tc_COPASI_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13,arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23,arg24,arg25);
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -13230,6 +13272,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"tc_elementaryFluxModes", _wrap_tc_elementaryFluxModes, METH_VARARGS, NULL},
 	 { (char *)"tc_LMatrix", _wrap_tc_LMatrix, METH_VARARGS, NULL},
 	 { (char *)"tc_KMatrix", _wrap_tc_KMatrix, METH_VARARGS, NULL},
+	 { (char *)"tc_calcFluxes", _wrap_tc_calcFluxes, METH_VARARGS, NULL},
+	 { (char *)"tc_calcDerivatives", _wrap_tc_calcDerivatives, METH_VARARGS, NULL},
 	 { (char *)"tc_updateParameters", _wrap_tc_updateParameters, METH_VARARGS, NULL},
 	 { (char *)"tc_updateParameter", _wrap_tc_updateParameter, METH_VARARGS, NULL},
 	 { (char *)"tc_optimize", _wrap_tc_optimize, METH_VARARGS, NULL},

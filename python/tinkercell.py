@@ -1157,6 +1157,14 @@ def tc_KMatrix():
   return _tinkercell.tc_KMatrix()
 tc_KMatrix = _tinkercell.tc_KMatrix
 
+def tc_calcFluxes():
+  return _tinkercell.tc_calcFluxes()
+tc_calcFluxes = _tinkercell.tc_calcFluxes
+
+def tc_calcDerivatives():
+  return _tinkercell.tc_calcDerivatives()
+tc_calcDerivatives = _tinkercell.tc_calcDerivatives
+
 def tc_updateParameters(*args):
   return _tinkercell.tc_updateParameters(*args)
 tc_updateParameters = _tinkercell.tc_updateParameters

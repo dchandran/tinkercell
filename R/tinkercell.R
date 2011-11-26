@@ -7210,6 +7210,34 @@ class(`tc_LMatrix`) = c("SWIGFunction", class('tc_LMatrix'))
 attr(`tc_KMatrix`, 'returnType') = '_p_tc_matrix'
 class(`tc_KMatrix`) = c("SWIGFunction", class('tc_KMatrix'))
 
+# Start of tc_calcFluxes
+
+`tc_calcFluxes` = function(.copy = FALSE)
+{
+  ans = .Call('R_swig_tc_calcFluxes', as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_tc_matrix"
+  
+  ans
+  
+}
+
+attr(`tc_calcFluxes`, 'returnType') = '_p_tc_matrix'
+class(`tc_calcFluxes`) = c("SWIGFunction", class('tc_calcFluxes'))
+
+# Start of tc_calcDerivatives
+
+`tc_calcDerivatives` = function(.copy = FALSE)
+{
+  ans = .Call('R_swig_tc_calcDerivatives', as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_tc_matrix"
+  
+  ans
+  
+}
+
+attr(`tc_calcDerivatives`, 'returnType') = '_p_tc_matrix'
+class(`tc_calcDerivatives`) = c("SWIGFunction", class('tc_calcDerivatives'))
+
 # Start of tc_updateParameters
 
 `tc_updateParameters` = function(params)
@@ -7272,7 +7300,7 @@ class(`tc_enableAssignmentRulesReordering`) = c("SWIGFunction", class('tc_enable
 
 # Start of tc_COPASI_api
 
-`tc_COPASI_api` = function(simulateDeterministic, simulateStochastic, simulateHybrid, simulateTauLeap, getSteadyState, steadyStateScan, steadyStateScan2D, getJacobian, getEigenvalues, getUnscaledElasticities, getUnscaledConcentrationCC, getUnscaledFluxCC, getScaledElasticities, getScaledConcentrationCC, getScaledFluxCC, tc_reducedStoichiometry, tc_emf, tc_Lmat, tc_Kmat, gaoptim, update1, update2, enableAssignmentRulesOrdering)
+`tc_COPASI_api` = function(simulateDeterministic, simulateStochastic, simulateHybrid, simulateTauLeap, getSteadyState, steadyStateScan, steadyStateScan2D, getJacobian, getEigenvalues, getUnscaledElasticities, getUnscaledConcentrationCC, getUnscaledFluxCC, getScaledElasticities, getScaledConcentrationCC, getScaledFluxCC, tc_reducedStoichiometry, tc_emf, tc_Lmat, tc_Kmat, calcFlux, calcDeriv, gaoptim, update1, update2, enableAssignmentRulesOrdering)
 {
   if(is.function(simulateDeterministic)) {
     assert('...' %in% names(formals(simulateDeterministic)) || length(formals(simulateDeterministic)) >= 3)
@@ -7464,6 +7492,26 @@ class(`tc_enableAssignmentRulesReordering`) = c("SWIGFunction", class('tc_enable
       tc_Kmat = tc_Kmat$address
     }
   }
+  if(is.function(calcFlux)) {
+    assert('...' %in% names(formals(calcFlux)) || length(formals(calcFlux)) >= 0)
+  } else {
+    if(is.character(calcFlux)) {
+      calcFlux = getNativeSymbolInfo(calcFlux)
+    }
+    if(is(calcFlux, "NativeSymbolInfo")) {
+      calcFlux = calcFlux$address
+    }
+  }
+  if(is.function(calcDeriv)) {
+    assert('...' %in% names(formals(calcDeriv)) || length(formals(calcDeriv)) >= 0)
+  } else {
+    if(is.character(calcDeriv)) {
+      calcDeriv = getNativeSymbolInfo(calcDeriv)
+    }
+    if(is(calcDeriv, "NativeSymbolInfo")) {
+      calcDeriv = calcDeriv$address
+    }
+  }
   if(is.function(gaoptim)) {
     assert('...' %in% names(formals(gaoptim)) || length(formals(gaoptim)) >= 0)
   } else {
@@ -7504,12 +7552,12 @@ class(`tc_enableAssignmentRulesReordering`) = c("SWIGFunction", class('tc_enable
       enableAssignmentRulesOrdering = enableAssignmentRulesOrdering$address
     }
   }
-  .Call('R_swig_tc_COPASI_api', simulateDeterministic, simulateStochastic, simulateHybrid, simulateTauLeap, getSteadyState, steadyStateScan, steadyStateScan2D, getJacobian, getEigenvalues, getUnscaledElasticities, getUnscaledConcentrationCC, getUnscaledFluxCC, getScaledElasticities, getScaledConcentrationCC, getScaledFluxCC, tc_reducedStoichiometry, tc_emf, tc_Lmat, tc_Kmat, gaoptim, update1, update2, enableAssignmentRulesOrdering, PACKAGE='tinkercell')
+  .Call('R_swig_tc_COPASI_api', simulateDeterministic, simulateStochastic, simulateHybrid, simulateTauLeap, getSteadyState, steadyStateScan, steadyStateScan2D, getJacobian, getEigenvalues, getUnscaledElasticities, getUnscaledConcentrationCC, getUnscaledFluxCC, getScaledElasticities, getScaledConcentrationCC, getScaledFluxCC, tc_reducedStoichiometry, tc_emf, tc_Lmat, tc_Kmat, calcFlux, calcDeriv, gaoptim, update1, update2, enableAssignmentRulesOrdering, PACKAGE='tinkercell')
   
 }
 
 attr(`tc_COPASI_api`, 'returnType') = 'void'
-attr(`tc_COPASI_api`, "inputTypes") = c('_p_f_double_double_int__tc_matrix', '_p_f_double_double_int__tc_matrix', '_p_f_double_double_int__tc_matrix', '_p_f_double_double_int__tc_matrix', '_p_f___tc_matrix', '_p_f_p_q_const__char_double_double_int__tc_matrix', '_p_f_p_q_const__char_double_double_int_p_q_const__char_double_double_int__tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f_p_q_const__char__tc_matrix', '_p_f_tc_matrix__void', '_p_f_p_q_const__char_double__void', '_p_f_int__void')
+attr(`tc_COPASI_api`, "inputTypes") = c('_p_f_double_double_int__tc_matrix', '_p_f_double_double_int__tc_matrix', '_p_f_double_double_int__tc_matrix', '_p_f_double_double_int__tc_matrix', '_p_f___tc_matrix', '_p_f_p_q_const__char_double_double_int__tc_matrix', '_p_f_p_q_const__char_double_double_int_p_q_const__char_double_double_int__tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f___tc_matrix', '_p_f_p_q_const__char__tc_matrix', '_p_f_tc_matrix__void', '_p_f_p_q_const__char_double__void', '_p_f_int__void')
 class(`tc_COPASI_api`) = c("SWIGFunction", class('tc_COPASI_api'))
 
 # Start of tc_substituteModel

@@ -1160,7 +1160,10 @@ namespace Tinkercell
 		
 		QList<ItemFamily*> childFamilies = selectedFamily->findValidChildFamilies(nodeHandles,all);
 		Ontology::GLOBAL_CHILDREN = globalChildren;
-		
+
+		if (childFamilies.isEmpty())
+			childFamilies = selectedFamily->findValidChildFamilies(nodeHandles,all);
+
 		if (childFamilies.isEmpty())// || !ConnectionFamily::cast(childFamilies.first()))
 		{
 			return false;

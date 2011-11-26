@@ -5650,6 +5650,38 @@ SWIGEXPORT jlong JNICALL Java_tinkercellJNI_tc_1KMatrix(JNIEnv *jenv, jclass jcl
 }
 
 
+SWIGEXPORT jlong JNICALL Java_tinkercellJNI_tc_1calcFluxes(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  tc_matrix result;
+  
+  (void)jenv;
+  (void)jcls;
+  result = tc_calcFluxes();
+  {
+    tc_matrix * resultptr = (tc_matrix *) malloc(sizeof(tc_matrix));
+    memmove(resultptr, &result, sizeof(tc_matrix));
+    *(tc_matrix **)&jresult = resultptr;
+  }
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_tinkercellJNI_tc_1calcDerivatives(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  tc_matrix result;
+  
+  (void)jenv;
+  (void)jcls;
+  result = tc_calcDerivatives();
+  {
+    tc_matrix * resultptr = (tc_matrix *) malloc(sizeof(tc_matrix));
+    memmove(resultptr, &result, sizeof(tc_matrix));
+    *(tc_matrix **)&jresult = resultptr;
+  }
+  return jresult;
+}
+
+
 SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1updateParameters(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   tc_matrix arg1 ;
   tc_matrix *argp1 ;
@@ -5717,7 +5749,7 @@ SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1enableAssignmentRulesReordering(J
 }
 
 
-SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1COPASI_1api(JNIEnv *jenv, jclass jcls, jlong jarg1, jlong jarg2, jlong jarg3, jlong jarg4, jlong jarg5, jlong jarg6, jlong jarg7, jlong jarg8, jlong jarg9, jlong jarg10, jlong jarg11, jlong jarg12, jlong jarg13, jlong jarg14, jlong jarg15, jlong jarg16, jlong jarg17, jlong jarg18, jlong jarg19, jlong jarg20, jlong jarg21, jlong jarg22, jlong jarg23) {
+SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1COPASI_1api(JNIEnv *jenv, jclass jcls, jlong jarg1, jlong jarg2, jlong jarg3, jlong jarg4, jlong jarg5, jlong jarg6, jlong jarg7, jlong jarg8, jlong jarg9, jlong jarg10, jlong jarg11, jlong jarg12, jlong jarg13, jlong jarg14, jlong jarg15, jlong jarg16, jlong jarg17, jlong jarg18, jlong jarg19, jlong jarg20, jlong jarg21, jlong jarg22, jlong jarg23, jlong jarg24, jlong jarg25) {
   tc_matrix (*arg1)(double,double,int) = (tc_matrix (*)(double,double,int)) 0 ;
   tc_matrix (*arg2)(double,double,int) = (tc_matrix (*)(double,double,int)) 0 ;
   tc_matrix (*arg3)(double,double,int) = (tc_matrix (*)(double,double,int)) 0 ;
@@ -5737,10 +5769,12 @@ SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1COPASI_1api(JNIEnv *jenv, jclass 
   tc_matrix (*arg17)() = (tc_matrix (*)()) 0 ;
   tc_matrix (*arg18)() = (tc_matrix (*)()) 0 ;
   tc_matrix (*arg19)() = (tc_matrix (*)()) 0 ;
-  tc_matrix (*arg20)(char const *) = (tc_matrix (*)(char const *)) 0 ;
-  void (*arg21)(tc_matrix) = (void (*)(tc_matrix)) 0 ;
-  void (*arg22)(char const *,double) = (void (*)(char const *,double)) 0 ;
-  void (*arg23)(int) = (void (*)(int)) 0 ;
+  tc_matrix (*arg20)() = (tc_matrix (*)()) 0 ;
+  tc_matrix (*arg21)() = (tc_matrix (*)()) 0 ;
+  tc_matrix (*arg22)(char const *) = (tc_matrix (*)(char const *)) 0 ;
+  void (*arg23)(tc_matrix) = (void (*)(tc_matrix)) 0 ;
+  void (*arg24)(char const *,double) = (void (*)(char const *,double)) 0 ;
+  void (*arg25)(int) = (void (*)(int)) 0 ;
   
   (void)jenv;
   (void)jcls;
@@ -5763,11 +5797,13 @@ SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1COPASI_1api(JNIEnv *jenv, jclass 
   arg17 = *(tc_matrix (**)())&jarg17; 
   arg18 = *(tc_matrix (**)())&jarg18; 
   arg19 = *(tc_matrix (**)())&jarg19; 
-  arg20 = *(tc_matrix (**)(char const *))&jarg20; 
-  arg21 = *(void (**)(tc_matrix))&jarg21; 
-  arg22 = *(void (**)(char const *,double))&jarg22; 
-  arg23 = *(void (**)(int))&jarg23; 
-  tc_COPASI_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13,arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23);
+  arg20 = *(tc_matrix (**)())&jarg20; 
+  arg21 = *(tc_matrix (**)())&jarg21; 
+  arg22 = *(tc_matrix (**)(char const *))&jarg22; 
+  arg23 = *(void (**)(tc_matrix))&jarg23; 
+  arg24 = *(void (**)(char const *,double))&jarg24; 
+  arg25 = *(void (**)(int))&jarg25; 
+  tc_COPASI_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13,arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23,arg24,arg25);
 }
 
 

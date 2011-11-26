@@ -22,6 +22,8 @@ tc_matrix (*_tc_reducedStoichiometry)() = 0;
 tc_matrix (*_tc_elementaryFluxModes)() = 0;
 tc_matrix (*_tc_LMatrix)() = 0;
 tc_matrix (*_tc_KMatrix)() = 0;
+tc_matrix (*_tc_calcFluxes)() = 0;
+tc_matrix (*_tc_calcDerivatives)() = 0;
 tc_matrix (*_tc_optimize)(const char * ) = 0;
 void (*_tc_updateParams)(tc_matrix) = 0;
 void (*_tc_updateParam)(const char *, double) = 0;
@@ -183,6 +185,21 @@ tc_matrix tc_KMatrix()
 	return tc_createMatrix(0,0);
 }
 
+TCAPIEXPORT 
+tc_matrix tc_calcFluxes()
+{
+	if (_tc_calcFluxes)
+		return tc_calcFluxes();
+	return tc_createMatrix(0,0);
+}
+
+TCAPIEXPORT 
+tc_matrix tc_calcDerivatives()
+{
+	if (_tc_calcDerivatives)
+		return tc_calcDerivatives();
+	return tc_createMatrix(0,0);
+}
 
 TCAPIEXPORT 
 tc_matrix tc_optimize(const char * s)
@@ -234,6 +251,8 @@ tc_matrix (*reducedStoichiometry)(),
 tc_matrix (*emf)(),
 tc_matrix (*Lmat)(),
 tc_matrix (*Kmat)(),
+tc_matrix (*calcFlux)(),
+tc_matrix (*calcDeriv)(),
 tc_matrix (*gaoptim)(const char *),
 void (*update1)(tc_matrix),
 void (*update2)(const char *, double),
@@ -259,6 +278,8 @@ void (*enableAssignmentRulesReordering)(int)
 	_tc_elementaryFluxModes = emf;
 	_tc_LMatrix = Lmat;
 	_tc_KMatrix = Kmat;
+	_tc_calcFluxes = calcFlux;
+	_tc_calcDerivatives = calcDeriv;
 	_tc_optimize = gaoptim;
 	_tc_updateParams = update1;
 	_tc_updateParam = update2;

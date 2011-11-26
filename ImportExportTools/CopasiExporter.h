@@ -136,6 +136,8 @@ namespace Tinkercell
 		static tc_matrix elementaryFluxModes();
 		static tc_matrix KMatrix();
 		static tc_matrix LMatrix();
+		static tc_matrix calcFluxes();
+		static tc_matrix calcDerivatives();
 		static tc_matrix gaOptimize(const char*);
 		static void updateParams(tc_matrix);
 		static void updateParam(const char *, double);

@@ -296,6 +296,8 @@ package tinkercell;
 *tc_elementaryFluxModes = *tinkercellc::tc_elementaryFluxModes;
 *tc_LMatrix = *tinkercellc::tc_LMatrix;
 *tc_KMatrix = *tinkercellc::tc_KMatrix;
+*tc_calcFluxes = *tinkercellc::tc_calcFluxes;
+*tc_calcDerivatives = *tinkercellc::tc_calcDerivatives;
 *tc_updateParameters = *tinkercellc::tc_updateParameters;
 *tc_updateParameter = *tinkercellc::tc_updateParameter;
 *tc_optimize = *tinkercellc::tc_optimize;

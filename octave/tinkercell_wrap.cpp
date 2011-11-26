@@ -12299,6 +12299,40 @@ fail:
 }
 
 
+static octave_value_list _wrap_tc_calcFluxes (const octave_value_list& args, int nargout) {
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  tc_matrix result;
+  
+  if (!SWIG_check_num_args("tc_calcFluxes",args.length(),0,0,0)) {
+    SWIG_fail;
+  }
+  result = tc_calcFluxes();
+  _outv = SWIG_NewPointerObj((new tc_matrix((const tc_matrix&)(result))), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
+static octave_value_list _wrap_tc_calcDerivatives (const octave_value_list& args, int nargout) {
+  octave_value_list _out;
+  octave_value_list *_outp=&_out;
+  octave_value _outv;
+  tc_matrix result;
+  
+  if (!SWIG_check_num_args("tc_calcDerivatives",args.length(),0,0,0)) {
+    SWIG_fail;
+  }
+  result = tc_calcDerivatives();
+  _outv = SWIG_NewPointerObj((new tc_matrix((const tc_matrix&)(result))), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
+  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+fail:
+  return _out;
+}
+
+
 static octave_value_list _wrap_tc_updateParameters (const octave_value_list& args, int nargout) {
   tc_matrix arg1 ;
   void *argp1 ;
@@ -12434,15 +12468,17 @@ static octave_value_list _wrap_tc_COPASI_api (const octave_value_list& args, int
   tc_matrix (*arg17)() = (tc_matrix (*)()) 0 ;
   tc_matrix (*arg18)() = (tc_matrix (*)()) 0 ;
   tc_matrix (*arg19)() = (tc_matrix (*)()) 0 ;
-  tc_matrix (*arg20)(char const *) = (tc_matrix (*)(char const *)) 0 ;
-  void (*arg21)(tc_matrix) = (void (*)(tc_matrix)) 0 ;
-  void (*arg22)(char const *,double) = (void (*)(char const *,double)) 0 ;
-  void (*arg23)(int) = (void (*)(int)) 0 ;
+  tc_matrix (*arg20)() = (tc_matrix (*)()) 0 ;
+  tc_matrix (*arg21)() = (tc_matrix (*)()) 0 ;
+  tc_matrix (*arg22)(char const *) = (tc_matrix (*)(char const *)) 0 ;
+  void (*arg23)(tc_matrix) = (void (*)(tc_matrix)) 0 ;
+  void (*arg24)(char const *,double) = (void (*)(char const *,double)) 0 ;
+  void (*arg25)(int) = (void (*)(int)) 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
   
-  if (!SWIG_check_num_args("tc_COPASI_api",args.length(),23,23,0)) {
+  if (!SWIG_check_num_args("tc_COPASI_api",args.length(),25,25,0)) {
     SWIG_fail;
   }
   {
@@ -12560,30 +12596,42 @@ static octave_value_list _wrap_tc_COPASI_api (const octave_value_list& args, int
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(19), (void**)(&arg20), SWIGTYPE_p_f_p_q_const__char__tc_matrix);
+    int res = SWIG_ConvertFunctionPtr(args(19), (void**)(&arg20), SWIGTYPE_p_f___tc_matrix);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "20"" of type '" "tc_matrix (*)(char const *)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "20"" of type '" "tc_matrix (*)()""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(20), (void**)(&arg21), SWIGTYPE_p_f_tc_matrix__void);
+    int res = SWIG_ConvertFunctionPtr(args(20), (void**)(&arg21), SWIGTYPE_p_f___tc_matrix);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "21"" of type '" "void (*)(tc_matrix)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "21"" of type '" "tc_matrix (*)()""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(21), (void**)(&arg22), SWIGTYPE_p_f_p_q_const__char_double__void);
+    int res = SWIG_ConvertFunctionPtr(args(21), (void**)(&arg22), SWIGTYPE_p_f_p_q_const__char__tc_matrix);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "22"" of type '" "void (*)(char const *,double)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "22"" of type '" "tc_matrix (*)(char const *)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(22), (void**)(&arg23), SWIGTYPE_p_f_int__void);
+    int res = SWIG_ConvertFunctionPtr(args(22), (void**)(&arg23), SWIGTYPE_p_f_tc_matrix__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "23"" of type '" "void (*)(int)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "23"" of type '" "void (*)(tc_matrix)""'"); 
     }
   }
-  tc_COPASI_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13,arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23);
+  {
+    int res = SWIG_ConvertFunctionPtr(args(23), (void**)(&arg24), SWIGTYPE_p_f_p_q_const__char_double__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "24"" of type '" "void (*)(char const *,double)""'"); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(args(24), (void**)(&arg25), SWIGTYPE_p_f_int__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "25"" of type '" "void (*)(int)""'"); 
+    }
+  }
+  tc_COPASI_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13,arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23,arg24,arg25);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
 fail:
@@ -13013,6 +13061,8 @@ static const struct swig_octave_member swig_globals[] = {
 {"tc_elementaryFluxModes",_wrap_tc_elementaryFluxModes,0,0,2,0},
 {"tc_LMatrix",_wrap_tc_LMatrix,0,0,2,0},
 {"tc_KMatrix",_wrap_tc_KMatrix,0,0,2,0},
+{"tc_calcFluxes",_wrap_tc_calcFluxes,0,0,2,0},
+{"tc_calcDerivatives",_wrap_tc_calcDerivatives,0,0,2,0},
 {"tc_updateParameters",_wrap_tc_updateParameters,0,0,2,0},
 {"tc_updateParameter",_wrap_tc_updateParameter,0,0,2,0},
 {"tc_optimize",_wrap_tc_optimize,0,0,2,0},

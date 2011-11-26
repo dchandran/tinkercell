@@ -15042,6 +15042,40 @@ R_swig_tc_KMatrix ( SEXP s_swig_copy)
 
 
 SWIGEXPORT SEXP
+R_swig_tc_calcFluxes ( SEXP s_swig_copy)
+{
+  tc_matrix result;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  result = tc_calcFluxes();
+  r_ans = SWIG_R_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
+SWIGEXPORT SEXP
+R_swig_tc_calcDerivatives ( SEXP s_swig_copy)
+{
+  tc_matrix result;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  result = tc_calcDerivatives();
+  r_ans = SWIG_R_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
+SWIGEXPORT SEXP
 R_swig_tc_updateParameters ( SEXP params)
 {
   tc_matrix arg1 ;
@@ -15406,7 +15440,7 @@ tc_matrix _p_f_p_q_const__char_double_double_int_p_q_const__char_double_double_i
 
 
 SWIGEXPORT SEXP
-R_swig_tc_COPASI_api ( SEXP simulateDeterministic, SEXP simulateStochastic, SEXP simulateHybrid, SEXP simulateTauLeap, SEXP getSteadyState, SEXP steadyStateScan, SEXP steadyStateScan2D, SEXP getJacobian, SEXP getEigenvalues, SEXP getUnscaledElasticities, SEXP getUnscaledConcentrationCC, SEXP getUnscaledFluxCC, SEXP getScaledElasticities, SEXP getScaledConcentrationCC, SEXP getScaledFluxCC, SEXP tc_reducedStoichiometry, SEXP tc_emf, SEXP tc_Lmat, SEXP tc_Kmat, SEXP gaoptim, SEXP update1, SEXP update2, SEXP enableAssignmentRulesOrdering)
+R_swig_tc_COPASI_api ( SEXP simulateDeterministic, SEXP simulateStochastic, SEXP simulateHybrid, SEXP simulateTauLeap, SEXP getSteadyState, SEXP steadyStateScan, SEXP steadyStateScan2D, SEXP getJacobian, SEXP getEigenvalues, SEXP getUnscaledElasticities, SEXP getUnscaledConcentrationCC, SEXP getUnscaledFluxCC, SEXP getScaledElasticities, SEXP getScaledConcentrationCC, SEXP getScaledFluxCC, SEXP tc_reducedStoichiometry, SEXP tc_emf, SEXP tc_Lmat, SEXP tc_Kmat, SEXP calcFlux, SEXP calcDeriv, SEXP gaoptim, SEXP update1, SEXP update2, SEXP enableAssignmentRulesOrdering)
 {
   tc_matrix (*arg1)(double,double,int) = (tc_matrix (*)(double,double,int)) 0 ;
   tc_matrix (*arg2)(double,double,int) = (tc_matrix (*)(double,double,int)) 0 ;
@@ -15427,10 +15461,12 @@ R_swig_tc_COPASI_api ( SEXP simulateDeterministic, SEXP simulateStochastic, SEXP
   tc_matrix (*arg17)() = (tc_matrix (*)()) 0 ;
   tc_matrix (*arg18)() = (tc_matrix (*)()) 0 ;
   tc_matrix (*arg19)() = (tc_matrix (*)()) 0 ;
-  tc_matrix (*arg20)(char const *) = (tc_matrix (*)(char const *)) 0 ;
-  void (*arg21)(tc_matrix) = (void (*)(tc_matrix)) 0 ;
-  void (*arg22)(char const *,double) = (void (*)(char const *,double)) 0 ;
-  void (*arg23)(int) = (void (*)(int)) 0 ;
+  tc_matrix (*arg20)() = (tc_matrix (*)()) 0 ;
+  tc_matrix (*arg21)() = (tc_matrix (*)()) 0 ;
+  tc_matrix (*arg22)(char const *) = (tc_matrix (*)(char const *)) 0 ;
+  void (*arg23)(tc_matrix) = (void (*)(tc_matrix)) 0 ;
+  void (*arg24)(char const *,double) = (void (*)(char const *,double)) 0 ;
+  void (*arg25)(int) = (void (*)(int)) 0 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
@@ -15644,52 +15680,76 @@ R_swig_tc_COPASI_api ( SEXP simulateDeterministic, SEXP simulateStochastic, SEXP
     arg19 = _p_f___tc_matrix;
     R_SWIG_pushCallbackFunctionData(tc_Kmat, NULL);
   }
-  if(TYPEOF(gaoptim) != CLOSXP) {
+  if(TYPEOF(calcFlux) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(gaoptim, (void**)(&arg20), SWIGTYPE_p_f_p_q_const__char__tc_matrix, 0);
+      int res = SWIG_R_ConvertPtr(calcFlux, (void**)(&arg20), SWIGTYPE_p_f___tc_matrix, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "20"" of type '" "tc_matrix (*)(char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "20"" of type '" "tc_matrix (*)()""'"); 
       }
     }
   } else {
-    arg20 = _p_f_p_q_const__char__tc_matrix;
+    arg20 = _p_f___tc_matrix;
+    R_SWIG_pushCallbackFunctionData(calcFlux, NULL);
+  }
+  if(TYPEOF(calcDeriv) != CLOSXP) {
+    {
+      int res = SWIG_R_ConvertPtr(calcDeriv, (void**)(&arg21), SWIGTYPE_p_f___tc_matrix, 0);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "21"" of type '" "tc_matrix (*)()""'"); 
+      }
+    }
+  } else {
+    arg21 = _p_f___tc_matrix;
+    R_SWIG_pushCallbackFunctionData(calcDeriv, NULL);
+  }
+  if(TYPEOF(gaoptim) != CLOSXP) {
+    {
+      int res = SWIG_R_ConvertPtr(gaoptim, (void**)(&arg22), SWIGTYPE_p_f_p_q_const__char__tc_matrix, 0);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "22"" of type '" "tc_matrix (*)(char const *)""'"); 
+      }
+    }
+  } else {
+    arg22 = _p_f_p_q_const__char__tc_matrix;
     R_SWIG_pushCallbackFunctionData(gaoptim, NULL);
   }
   if(TYPEOF(update1) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(update1, (void**)(&arg21), SWIGTYPE_p_f_tc_matrix__void, 0);
+      int res = SWIG_R_ConvertPtr(update1, (void**)(&arg23), SWIGTYPE_p_f_tc_matrix__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "21"" of type '" "void (*)(tc_matrix)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "23"" of type '" "void (*)(tc_matrix)""'"); 
       }
     }
   } else {
-    arg21 = _p_f_tc_matrix__void;
+    arg23 = _p_f_tc_matrix__void;
     R_SWIG_pushCallbackFunctionData(update1, NULL);
   }
   if(TYPEOF(update2) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(update2, (void**)(&arg22), SWIGTYPE_p_f_p_q_const__char_double__void, 0);
+      int res = SWIG_R_ConvertPtr(update2, (void**)(&arg24), SWIGTYPE_p_f_p_q_const__char_double__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "22"" of type '" "void (*)(char const *,double)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "24"" of type '" "void (*)(char const *,double)""'"); 
       }
     }
   } else {
-    arg22 = _p_f_p_q_const__char_double__void;
+    arg24 = _p_f_p_q_const__char_double__void;
     R_SWIG_pushCallbackFunctionData(update2, NULL);
   }
   if(TYPEOF(enableAssignmentRulesOrdering) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(enableAssignmentRulesOrdering, (void**)(&arg23), SWIGTYPE_p_f_int__void, 0);
+      int res = SWIG_R_ConvertPtr(enableAssignmentRulesOrdering, (void**)(&arg25), SWIGTYPE_p_f_int__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "23"" of type '" "void (*)(int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "25"" of type '" "void (*)(int)""'"); 
       }
     }
   } else {
-    arg23 = _p_f_int__void;
+    arg25 = _p_f_int__void;
     R_SWIG_pushCallbackFunctionData(enableAssignmentRulesOrdering, NULL);
   }
-  tc_COPASI_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13,arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23);
+  tc_COPASI_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13,arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23,arg24,arg25);
   r_ans = R_NilValue;
+  
+  
   
   
   
@@ -16601,6 +16661,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_getWidth", (DL_FUNC) &R_swig_tc_getWidth, 2},
    {"R_swig_tc_itemsOfFamilyFrom", (DL_FUNC) &R_swig_tc_itemsOfFamilyFrom, 3},
    {"R_swig_tc_partsIn", (DL_FUNC) &R_swig_tc_partsIn, 2},
+   {"R_swig_tc_calcDerivatives", (DL_FUNC) &R_swig_tc_calcDerivatives, 1},
    {"R_swig_tc_changeArrowHead", (DL_FUNC) &R_swig_tc_changeArrowHead, 2},
    {"R_swig_tc_getUnscaledFluxCC", (DL_FUNC) &R_swig_tc_getUnscaledFluxCC, 1},
    {"R_swig_tc_getScaledFluxCC", (DL_FUNC) &R_swig_tc_getScaledFluxCC, 1},
@@ -16611,7 +16672,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_addPythonPlugin", (DL_FUNC) &R_swig_tc_addPythonPlugin, 5},
    {"R_swig_tc_partsUpstream", (DL_FUNC) &R_swig_tc_partsUpstream, 2},
    {"R_swig_tc_partsDownstream", (DL_FUNC) &R_swig_tc_partsDownstream, 2},
-   {"R_swig_tc_COPASI_api", (DL_FUNC) &R_swig_tc_COPASI_api, 23},
+   {"R_swig_tc_COPASI_api", (DL_FUNC) &R_swig_tc_COPASI_api, 25},
    {"R_swig_tc_getJacobian", (DL_FUNC) &R_swig_tc_getJacobian, 1},
    {"R_swig_tc_setTextData", (DL_FUNC) &R_swig_tc_setTextData, 3},
    {"R_swig_tc_getTextData", (DL_FUNC) &R_swig_tc_getTextData, 3},
@@ -16643,6 +16704,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_findItems", (DL_FUNC) &R_swig_tc_findItems, 2},
    {"R_swig_tc_savePlot", (DL_FUNC) &R_swig_tc_savePlot, 1},
    {"R_swig_tc_simulateHybrid", (DL_FUNC) &R_swig_tc_simulateHybrid, 4},
+   {"R_swig_tc_calcFluxes", (DL_FUNC) &R_swig_tc_calcFluxes, 1},
    {"R_swig_tc_getParameters", (DL_FUNC) &R_swig_tc_getParameters, 2},
    {"R_swig_tc_setParameters", (DL_FUNC) &R_swig_tc_setParameters, 2},
    {"R_swig_tc_updateParameters", (DL_FUNC) &R_swig_tc_updateParameters, 1},

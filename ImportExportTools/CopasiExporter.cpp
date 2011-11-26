@@ -88,6 +88,8 @@ typedef void (*tc_COPASI_api)(
 	tc_matrix (*elementaryFluxModes)(),
 	tc_matrix (*LMat)(),
 	tc_matrix (*KMat)(),
+	tc_matrix (*CalcFluxes)(),
+	tc_matrix (*CalcDerivatives)(),
 	tc_matrix (*Optimize)(const char * ),
 	void (*updateParameters)(tc_matrix),
 	void (*updateParameter)(const char *, double),
@@ -116,8 +118,10 @@ void CopasiExporter::setupFunctionPointers( QLibrary * library)
 			&getScaledFluxCC,
 			&reducedStoichiometry,
 			&elementaryFluxModes,
-			&KMatrix,
 			&LMatrix,
+			&KMatrix,
+			&calcFluxes,
+			&calcDerivatives,
 			&gaOptimize,
 			&updateParams,
 			&updateParam,
@@ -567,6 +571,16 @@ tc_matrix CopasiExporter::KMatrix()
 tc_matrix CopasiExporter::LMatrix()
 {
 	return fToS.otherAnalysis((int)(SimulationThread::LMatrix));
+}
+
+tc_matrix CopasiExporter::calcFluxes()
+{
+	return fToS.otherAnalysis((int)(SimulationThread::CalcFlux));
+}
+
+tc_matrix CopasiExporter::calcDerivatives()
+{
+	return fToS.otherAnalysis((int)(SimulationThread::CalcDerivatives));
 }
 
 tc_matrix CopasiExporter::gaOptimize(const char * s)

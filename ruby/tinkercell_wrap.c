@@ -11511,6 +11511,38 @@ fail:
 
 
 SWIGINTERN VALUE
+_wrap_tc_calcFluxes(int argc, VALUE *argv, VALUE self) {
+  tc_matrix result;
+  VALUE vresult = Qnil;
+  
+  if ((argc < 0) || (argc > 0)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 0)",argc); SWIG_fail;
+  }
+  result = tc_calcFluxes();
+  vresult = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
+  return vresult;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_tc_calcDerivatives(int argc, VALUE *argv, VALUE self) {
+  tc_matrix result;
+  VALUE vresult = Qnil;
+  
+  if ((argc < 0) || (argc > 0)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 0)",argc); SWIG_fail;
+  }
+  result = tc_calcDerivatives();
+  vresult = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN |  0 );
+  return vresult;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
 _wrap_tc_updateParameters(int argc, VALUE *argv, VALUE self) {
   tc_matrix arg1 ;
   void *argp1 ;
@@ -11638,13 +11670,15 @@ _wrap_tc_COPASI_api(int argc, VALUE *argv, VALUE self) {
   tc_matrix (*arg17)() = (tc_matrix (*)()) 0 ;
   tc_matrix (*arg18)() = (tc_matrix (*)()) 0 ;
   tc_matrix (*arg19)() = (tc_matrix (*)()) 0 ;
-  tc_matrix (*arg20)(char const *) = (tc_matrix (*)(char const *)) 0 ;
-  void (*arg21)(tc_matrix) = (void (*)(tc_matrix)) 0 ;
-  void (*arg22)(char const *,double) = (void (*)(char const *,double)) 0 ;
-  void (*arg23)(int) = (void (*)(int)) 0 ;
+  tc_matrix (*arg20)() = (tc_matrix (*)()) 0 ;
+  tc_matrix (*arg21)() = (tc_matrix (*)()) 0 ;
+  tc_matrix (*arg22)(char const *) = (tc_matrix (*)(char const *)) 0 ;
+  void (*arg23)(tc_matrix) = (void (*)(tc_matrix)) 0 ;
+  void (*arg24)(char const *,double) = (void (*)(char const *,double)) 0 ;
+  void (*arg25)(int) = (void (*)(int)) 0 ;
   
-  if ((argc < 23) || (argc > 23)) {
-    rb_raise(rb_eArgError, "wrong # of arguments(%d for 23)",argc); SWIG_fail;
+  if ((argc < 25) || (argc > 25)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 25)",argc); SWIG_fail;
   }
   {
     int res = SWIG_ConvertFunctionPtr(argv[0], (void**)(&arg1), SWIGTYPE_p_f_double_double_int__tc_matrix);
@@ -11761,30 +11795,42 @@ _wrap_tc_COPASI_api(int argc, VALUE *argv, VALUE self) {
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[19], (void**)(&arg20), SWIGTYPE_p_f_p_q_const__char__tc_matrix);
+    int res = SWIG_ConvertFunctionPtr(argv[19], (void**)(&arg20), SWIGTYPE_p_f___tc_matrix);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "tc_matrix (*)(char const *)","tc_COPASI_api", 20, argv[19] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "tc_matrix (*)()","tc_COPASI_api", 20, argv[19] )); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[20], (void**)(&arg21), SWIGTYPE_p_f_tc_matrix__void);
+    int res = SWIG_ConvertFunctionPtr(argv[20], (void**)(&arg21), SWIGTYPE_p_f___tc_matrix);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(tc_matrix)","tc_COPASI_api", 21, argv[20] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "tc_matrix (*)()","tc_COPASI_api", 21, argv[20] )); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[21], (void**)(&arg22), SWIGTYPE_p_f_p_q_const__char_double__void);
+    int res = SWIG_ConvertFunctionPtr(argv[21], (void**)(&arg22), SWIGTYPE_p_f_p_q_const__char__tc_matrix);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(char const *,double)","tc_COPASI_api", 22, argv[21] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "tc_matrix (*)(char const *)","tc_COPASI_api", 22, argv[21] )); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[22], (void**)(&arg23), SWIGTYPE_p_f_int__void);
+    int res = SWIG_ConvertFunctionPtr(argv[22], (void**)(&arg23), SWIGTYPE_p_f_tc_matrix__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(int)","tc_COPASI_api", 23, argv[22] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(tc_matrix)","tc_COPASI_api", 23, argv[22] )); 
     }
   }
-  tc_COPASI_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13,arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23);
+  {
+    int res = SWIG_ConvertFunctionPtr(argv[23], (void**)(&arg24), SWIGTYPE_p_f_p_q_const__char_double__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(char const *,double)","tc_COPASI_api", 24, argv[23] )); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(argv[24], (void**)(&arg25), SWIGTYPE_p_f_int__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(int)","tc_COPASI_api", 25, argv[24] )); 
+    }
+  }
+  tc_COPASI_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13,arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23,arg24,arg25);
   return Qnil;
 fail:
   return Qnil;
@@ -12844,6 +12890,8 @@ SWIGEXPORT void Init_tinkercell(void) {
   rb_define_module_function(mTinkercell, "tc_elementaryFluxModes", _wrap_tc_elementaryFluxModes, -1);
   rb_define_module_function(mTinkercell, "tc_LMatrix", _wrap_tc_LMatrix, -1);
   rb_define_module_function(mTinkercell, "tc_KMatrix", _wrap_tc_KMatrix, -1);
+  rb_define_module_function(mTinkercell, "tc_calcFluxes", _wrap_tc_calcFluxes, -1);
+  rb_define_module_function(mTinkercell, "tc_calcDerivatives", _wrap_tc_calcDerivatives, -1);
   rb_define_module_function(mTinkercell, "tc_updateParameters", _wrap_tc_updateParameters, -1);
   rb_define_module_function(mTinkercell, "tc_updateParameter", _wrap_tc_updateParameter, -1);
   rb_define_module_function(mTinkercell, "tc_optimize", _wrap_tc_optimize, -1);

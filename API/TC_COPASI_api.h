@@ -4,7 +4,6 @@
 #include "TC_structs.h"
 BEGIN_C_DECLS
 
-
 /*! 
  \brief simulate using LSODA numerical integrator
   \param double start time
@@ -158,6 +157,21 @@ TCAPIEXPORT tc_matrix tc_LMatrix();
 TCAPIEXPORT tc_matrix tc_KMatrix();
 
 /*! 
+ \brief get current flux values
+ \return tc_matrix 
+ \ingroup Simulation
+*/
+TCAPIEXPORT tc_matrix tc_calcFluxes();
+
+/*! 
+ \brief get current rates of change (derivaives)
+ \return tc_matrix 
+ \ingroup Simulation
+*/
+TCAPIEXPORT tc_matrix tc_calcDerivatives();
+
+
+/*! 
  \brief update the model parameters just for simulation purposes, i.e. not the actual model itself
             this function will be much faster than using tc_setParameters
  \param tc_matrix parameters with row names
@@ -217,6 +231,8 @@ tc_matrix (*tc_reducedStoichiometry)(),
 tc_matrix (*tc_emf)(),
 tc_matrix (*tc_Lmat)(),
 tc_matrix (*tc_Kmat)(),
+tc_matrix (*calcFlux)(),
+tc_matrix (*calcDeriv)(),
 tc_matrix (*gaoptim)(const char *),
 void (*update1)(tc_matrix),
 void (*update2)(const char *, double),

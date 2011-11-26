@@ -75,10 +75,12 @@ namespace Tinkercell
 			ScaledFluxCC,
 			ReducedStoichiometry,
 			ElementaryFluxModes,
-			KMatrix,
 			LMatrix,
+			KMatrix,
 			K0Matrix,
 			L0Matrix,
+			CalcFlux,
+			CalcDerivatives,
 			GammaMatrix,
 			GA
 		};

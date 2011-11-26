@@ -12879,6 +12879,42 @@ XS(_wrap_tc_KMatrix) {
 }
 
 
+XS(_wrap_tc_calcFluxes) {
+  {
+    int argvi = 0;
+    tc_matrix result;
+    dXSARGS;
+    
+    if ((items < 0) || (items > 0)) {
+      SWIG_croak("Usage: tc_calcFluxes();");
+    }
+    result = tc_calcFluxes();
+    ST(argvi) = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    XSRETURN(argvi);
+  fail:
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_tc_calcDerivatives) {
+  {
+    int argvi = 0;
+    tc_matrix result;
+    dXSARGS;
+    
+    if ((items < 0) || (items > 0)) {
+      SWIG_croak("Usage: tc_calcDerivatives();");
+    }
+    result = tc_calcDerivatives();
+    ST(argvi) = SWIG_NewPointerObj((tc_matrix *)memcpy((tc_matrix *)malloc(sizeof(tc_matrix)),&result,sizeof(tc_matrix)), SWIGTYPE_p_tc_matrix, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    XSRETURN(argvi);
+  fail:
+    SWIG_croak_null();
+  }
+}
+
+
 XS(_wrap_tc_updateParameters) {
   {
     tc_matrix arg1 ;
@@ -13025,15 +13061,17 @@ XS(_wrap_tc_COPASI_api) {
     tc_matrix (*arg17)() = (tc_matrix (*)()) 0 ;
     tc_matrix (*arg18)() = (tc_matrix (*)()) 0 ;
     tc_matrix (*arg19)() = (tc_matrix (*)()) 0 ;
-    tc_matrix (*arg20)(char const *) = (tc_matrix (*)(char const *)) 0 ;
-    void (*arg21)(tc_matrix) = (void (*)(tc_matrix)) 0 ;
-    void (*arg22)(char const *,double) = (void (*)(char const *,double)) 0 ;
-    void (*arg23)(int) = (void (*)(int)) 0 ;
+    tc_matrix (*arg20)() = (tc_matrix (*)()) 0 ;
+    tc_matrix (*arg21)() = (tc_matrix (*)()) 0 ;
+    tc_matrix (*arg22)(char const *) = (tc_matrix (*)(char const *)) 0 ;
+    void (*arg23)(tc_matrix) = (void (*)(tc_matrix)) 0 ;
+    void (*arg24)(char const *,double) = (void (*)(char const *,double)) 0 ;
+    void (*arg25)(int) = (void (*)(int)) 0 ;
     int argvi = 0;
     dXSARGS;
     
-    if ((items < 23) || (items > 23)) {
-      SWIG_croak("Usage: tc_COPASI_api(simulateDeterministic,simulateStochastic,simulateHybrid,simulateTauLeap,getSteadyState,steadyStateScan,steadyStateScan2D,getJacobian,getEigenvalues,getUnscaledElasticities,getUnscaledConcentrationCC,getUnscaledFluxCC,getScaledElasticities,getScaledConcentrationCC,getScaledFluxCC,tc_reducedStoichiometry,tc_emf,tc_Lmat,tc_Kmat,gaoptim,update1,update2,enableAssignmentRulesOrdering);");
+    if ((items < 25) || (items > 25)) {
+      SWIG_croak("Usage: tc_COPASI_api(simulateDeterministic,simulateStochastic,simulateHybrid,simulateTauLeap,getSteadyState,steadyStateScan,steadyStateScan2D,getJacobian,getEigenvalues,getUnscaledElasticities,getUnscaledConcentrationCC,getUnscaledFluxCC,getScaledElasticities,getScaledConcentrationCC,getScaledFluxCC,tc_reducedStoichiometry,tc_emf,tc_Lmat,tc_Kmat,calcFlux,calcDeriv,gaoptim,update1,update2,enableAssignmentRulesOrdering);");
     }
     {
       int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_double_double_int__tc_matrix);
@@ -13150,31 +13188,45 @@ XS(_wrap_tc_COPASI_api) {
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(19), (void**)(&arg20), SWIGTYPE_p_f_p_q_const__char__tc_matrix);
+      int res = SWIG_ConvertFunctionPtr(ST(19), (void**)(&arg20), SWIGTYPE_p_f___tc_matrix);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "20"" of type '" "tc_matrix (*)(char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "20"" of type '" "tc_matrix (*)()""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(20), (void**)(&arg21), SWIGTYPE_p_f_tc_matrix__void);
+      int res = SWIG_ConvertFunctionPtr(ST(20), (void**)(&arg21), SWIGTYPE_p_f___tc_matrix);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "21"" of type '" "void (*)(tc_matrix)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "21"" of type '" "tc_matrix (*)()""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(21), (void**)(&arg22), SWIGTYPE_p_f_p_q_const__char_double__void);
+      int res = SWIG_ConvertFunctionPtr(ST(21), (void**)(&arg22), SWIGTYPE_p_f_p_q_const__char__tc_matrix);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "22"" of type '" "void (*)(char const *,double)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "22"" of type '" "tc_matrix (*)(char const *)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(22), (void**)(&arg23), SWIGTYPE_p_f_int__void);
+      int res = SWIG_ConvertFunctionPtr(ST(22), (void**)(&arg23), SWIGTYPE_p_f_tc_matrix__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "23"" of type '" "void (*)(int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "23"" of type '" "void (*)(tc_matrix)""'"); 
       }
     }
-    tc_COPASI_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13,arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23);
+    {
+      int res = SWIG_ConvertFunctionPtr(ST(23), (void**)(&arg24), SWIGTYPE_p_f_p_q_const__char_double__void);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "24"" of type '" "void (*)(char const *,double)""'"); 
+      }
+    }
+    {
+      int res = SWIG_ConvertFunctionPtr(ST(24), (void**)(&arg25), SWIGTYPE_p_f_int__void);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_COPASI_api" "', argument " "25"" of type '" "void (*)(int)""'"); 
+      }
+    }
+    tc_COPASI_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13,arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23,arg24,arg25);
     ST(argvi) = sv_newmortal();
+    
+    
     
     
     
@@ -13200,6 +13252,8 @@ XS(_wrap_tc_COPASI_api) {
     
     XSRETURN(argvi);
   fail:
+    
+    
     
     
     
@@ -14042,6 +14096,8 @@ static swig_command_info swig_commands[] = {
 {"tinkercellc::tc_elementaryFluxModes", _wrap_tc_elementaryFluxModes},
 {"tinkercellc::tc_LMatrix", _wrap_tc_LMatrix},
 {"tinkercellc::tc_KMatrix", _wrap_tc_KMatrix},
+{"tinkercellc::tc_calcFluxes", _wrap_tc_calcFluxes},
+{"tinkercellc::tc_calcDerivatives", _wrap_tc_calcDerivatives},
 {"tinkercellc::tc_updateParameters", _wrap_tc_updateParameters},
 {"tinkercellc::tc_updateParameter", _wrap_tc_updateParameter},
 {"tinkercellc::tc_optimize", _wrap_tc_optimize},

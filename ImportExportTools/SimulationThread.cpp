@@ -496,6 +496,16 @@ void SimulationThread::run()
 			plotType = PlotTool::Text;
 			x = -1;
 			break;
+		case CalcFlux:
+			tc_deleteMatrix(resultMatrix);
+			resultMatrix = cGetReactionRates(model);
+			plot = false;
+			break;
+		case CalcDerivatives:
+			tc_deleteMatrix(resultMatrix);
+			resultMatrix = cGetRatesOfChange(model);
+			plot = false;
+			break;
 		case SteadyStateScan1D:			
 			if (scanItems.size() > 0)
 			{

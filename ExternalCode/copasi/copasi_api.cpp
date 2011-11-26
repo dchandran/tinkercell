@@ -3379,8 +3379,9 @@ tc_matrix cGetReactionRatesEx(copasi_model model, tc_matrix conc)
 	tc_deleteMatrix(savedMatrix);
 
 	tc_matrix rates = cGetReactionRates(model);
-	
 
+	cResetState(model);
+	
 	return rates;
 }
 
@@ -3630,7 +3631,9 @@ double cGetAmount(copasi_model model, const char * name)
 tc_matrix cGetRatesOfChangeEx(copasi_model model, tc_matrix m)
 {
 	cSetValues(model, m);
-	return cGetRatesOfChange(model);
+	tc_matrix m2 = cGetRatesOfChange(model);
+	cResetState(model);
+	return m2;
 }
 
 tc_matrix cGetRatesOfChange(copasi_model model)
@@ -3818,7 +3821,13 @@ int cGetNumberOfReactions (copasi_model model)
 	return reacs.size();
 }
 
-tc_matrix cGetReactionRatesFromTimeCourse(copasi_model model, tc_matrix results)
+static int GET_CC = 0;
+static int GET_ELAS = 1;
+static int GET_RATES = 2;
+static int GET_DERIV = 3;
+
+//this function is a generic function used to get different MCA related calculations from simulated data
+tc_matrix cGetXFromTimeCourse(copasi_model model, tc_matrix results, int type)
 {
 	CModel* pModel = (CModel*)(model.CopasiModelPtr);
 	CCMap * hash = (CCMap*)(model.qHash);
@@ -3826,104 +3835,63 @@ tc_matrix cGetReactionRatesFromTimeCourse(copasi_model model, tc_matrix results)
 	if (!pModel || !hash) return results;
 
 	vector<CMetab*> metabs;
-	metabs.resize(results.cols, (CMetab*)NULL);
-	for (int i=0; i < results.cols; ++i)
-	{
-		string s(tc_getColumnName(results, i));
-		if (contains(hash, s))
-		{
-			CopasiPtr & p = getHashValue(hash,s);
-			metabs[i] = p.species;
-		}
-	}
-
-	list<string> colnames;
-	CCopasiVectorNS < CReaction > & reacs = pModel->getReactions();
-	int i,j,k;
-
-	//get reaction names and sort them	
-	for (i=0; i < reacs.size(); ++i)
-		if (reacs[i])
-			colnames.push_back(reacs[i]->getObjectName());
-	
-	tc_matrix output = tc_createMatrix(results.rows, 1 + reacs.size());
-	colnames.sort();
-	vector<CReaction*> ordered_reacs;
-	ordered_reacs.resize(reacs.size(),(CReaction*)0);
-
-	for (i=0; i < reacs.size(); ++i) //map from original to sorted list
-		if (reacs[i])
-		{
-			k = indexOf(colnames, reacs[i]->getObjectName());
-			if (k > -1)
-				ordered_reacs[k] = reacs[i];
-		}
-
-	j = 0;
-	tc_setColumnName( output, 0, tc_getColumnName(results,0) );  //first column name remains same, e.g. "time"
-	
-	for (list<string>::iterator it=colnames.begin(); j < (1+output.cols) && it != colnames.end(); ++j, it++) //set column names
-		tc_setColumnName( output, 1+j, (*it).c_str() );
-	
-	//the main loop -- calculate fluxes for each row
-	for (i=0; i < results.rows; ++i)
-	{
-		tc_setMatrixValue( output, i, 0, 
-				tc_getMatrixValue(results,i,0) );  //copy the first column, presumably the independent variable (e.g. time)
-		for (j=0; j < (results.cols-1); ++j) //update metab concentrations
-			if (metabs[j])
-			{
-				double v = tc_getMatrixValue(results, i, j+1);
-				metabs[j]->setConcentration(v);
-				metabs[j]->setValue(v); 
-			}			
-		for (j=0; j <  (output.cols-1); ++j) //calculate flux
-		{
-			CReaction * r = ordered_reacs[j];
-			tc_setMatrixValue( output, i, 1+j, r->calculateFlux() );
-		}
-	}
-
-	return output;
-}
-
-tc_matrix cGetCCFromTimeCourse(copasi_model model, tc_matrix results)
-{
-	CModel* pModel = (CModel*)(model.CopasiModelPtr);
-	CCMap * hash = (CCMap*)(model.qHash);
-
-	if (!pModel || !hash) return results;
-
-	vector<CMetab*> metabs;
-	metabs.resize(results.cols, (CMetab*)NULL);
-	for (int i=0; i < results.cols; ++i)
+	metabs.resize(results.cols-1, (CMetab*)NULL);
+	for (int i=1; i < results.cols; ++i)
 	{
 		string s(tc_getColumnName(results, i));
 		if (contains(hash, s))
 		{
 			CopasiPtr & p = getHashValue(hash, s);
-			metabs[i] = p.species;
+			metabs[i-1] = p.species;
 		}
 	}
 	
-	tc_matrix cc = cGetScaledConcentrationConcentrationCoeffs(model);
-	setStorageMatrix(&cc); //for speed-up.. might be risky on multithreaded apps
+	tc_matrix m;
+	if (type == GET_ELAS)
+		m = cGetScaledElasticities(model);
+	else
+	if (type == GET_CC)
+		m = cGetScaledConcentrationConcentrationCoeffs(model);
+	else
+	if (type == GET_RATES)
+		m = cGetReactionRates(model);
+	else
+		m = cGetRatesOfChange(model);
+
+	setStorageMatrix(&m); //for speed-up.. might be risky on multithreaded apps
 	
 	int i,j,k;
-
-	//get cc names
+	//get column names
 	list<string> colnames;
-	for (i=0; i < cc.rows; ++i)
+	for (i=0; i < m.rows; ++i)
 	{
-		string rowname( tc_getRowName(cc, i) );
-		for (j=0; j < cc.cols; ++j)
+		char c0[] = {0};
+		char * c = (char*)tc_getRowName(m, i);		
+		if (c == 0)
+			c = c0;
+		string rowname( c );
+
+		for (j=0; j < m.cols; ++j)
 		{
-			string colname( tc_getColumnName(cc, j) );			
-			colnames.push_back( string("cc_") + rowname + string("_") + colname); //naming convention: cc_x_y
+			c = (char*)tc_getColumnName(m, j);
+			if (c == 0)
+				c = c0;
+			string colname( c );
+				
+			if (type == GET_ELAS)
+				colnames.push_back( string("ec_") + rowname + string("_") + colname); //naming convention: es_x_y
+			else
+			if (type == GET_CC)
+				colnames.push_back( string("cc_") + rowname + string("_") + colname); //naming convention: cc_x_y
+			else
+			if (m.rows > 1)
+				colnames.push_back( rowname + string("_") + colname ); //
+			else
+				colnames.push_back( colname); //same
 		}
 	}
 	
-	tc_matrix output = tc_createMatrix(results.rows, 1 + colnames.size()); //the matrix with cc's for each row in the time series
+	tc_matrix output = tc_createMatrix(results.rows, 1 + colnames.size()); //the matrix with calculations for each row in the time series
 
 	j = 0;
 	tc_setColumnName( output, 0, tc_getColumnName(results,0) );  //first column name remains same, e.g. "time"
@@ -3931,43 +3899,70 @@ tc_matrix cGetCCFromTimeCourse(copasi_model model, tc_matrix results)
 	for (list<string>::iterator it=colnames.begin(); j < (1+output.cols) && it != colnames.end(); ++j, it++) //set column names
 		tc_setColumnName( output, 1+j, (*it).c_str() );
 	
-	//the main loop -- calculate cc for each row
+	//the main loop -- make calculations for each row
 	for (i=0; i < results.rows; ++i)
 	{
 		tc_setMatrixValue( output, i, 0, 
 				tc_getMatrixValue(results,i,0) );  //copy the first column, presumably the independent variable (e.g. time)
 
-		for (j=0; j < (results.cols-1); ++j) //update metab concentrations
-			if (metabs[j])
+		for (j=1; j < results.cols; ++j) //update metab concentrations
+			if (metabs[j-1])
 			{
-				double v = tc_getMatrixValue(results, i, j+1);
-				metabs[j]->setConcentration(v);
-				metabs[j]->setValue(v); 
+				double v = tc_getMatrixValue(results, i, j);
+				metabs[j-1]->setConcentration(v);
+				metabs[j-1]->setValue(v);
 			}
 
-		cc = cGetScaledConcentrationConcentrationCoeffs(model);
+		if (type == GET_ELAS)
+			m = cGetScaledElasticities(model);
+		else
+		if (type == GET_CC)
+			m = cGetScaledConcentrationConcentrationCoeffs(model);
+		else
+		if (type == GET_RATES)
+			m = cGetReactionRates(model);
+		else
+			m = cGetRatesOfChange(model);
+			
+		//tc_printOutMatrix(m);
+			
 		int l = 0;
-		for (j=0; j <  cc.rows; ++j)
-			for (k=0; k <  cc.cols; ++k)
+		for (j=0; j <  m.rows; ++j)
+			for (k=0; k <  m.cols; ++k)
 			{
-				tc_setMatrixValue( output, i, 1+l, 
-					tc_getMatrixValue(cc, i, j) );
+				tc_setMatrixValue( output, i, 1+l, tc_getMatrixValue(m, j, k) );
 				++l;
 			}
 	}
 
+	cResetState(model);
 	unsetStorageMatrix();
 	return output;
 }
 
-
-tc_matrix cGetCustomFormulaFromTimeCourse(copasi_model model, tc_matrix results, const char * formula)
+tc_matrix cGetCCFromTimeCourse(copasi_model model, tc_matrix results)
 {
-	return results;
+	return cGetXFromTimeCourse(model, results, GET_CC);
+}
+
+tc_matrix cGetElasticitiesFromTimeCourse(copasi_model model, tc_matrix results)
+{
+	return cGetXFromTimeCourse(model, results, GET_ELAS);
+}
+
+tc_matrix cGetReactionRatesFromTimeCourse(copasi_model model, tc_matrix results)
+{
+	return cGetXFromTimeCourse(model, results, GET_RATES);
+}
+
+tc_matrix cGetDerivativesFromTimeCourse(copasi_model model, tc_matrix results)
+{
+	return cGetXFromTimeCourse(model, results, GET_DERIV);
 }
 
 tc_matrix cFilterTimeCourseResults(copasi_model model, tc_matrix results, tc_strings names)
 {
+	
 	return results;
 }
 

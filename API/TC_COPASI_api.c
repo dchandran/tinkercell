@@ -189,7 +189,7 @@ TCAPIEXPORT
 tc_matrix tc_calcFluxes()
 {
 	if (_tc_calcFluxes)
-		return tc_calcFluxes();
+		return _tc_calcFluxes();
 	return tc_createMatrix(0,0);
 }
 
@@ -197,7 +197,7 @@ TCAPIEXPORT
 tc_matrix tc_calcDerivatives()
 {
 	if (_tc_calcDerivatives)
-		return tc_calcDerivatives();
+		return _tc_calcDerivatives();
 	return tc_createMatrix(0,0);
 }
 

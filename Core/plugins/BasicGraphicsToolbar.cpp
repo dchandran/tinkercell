@@ -1357,13 +1357,21 @@ namespace Tinkercell
 		if (list.size() < 2 || !list[0]) return;
 
 		qreal x = list[0]->sceneBoundingRect().left(),
-			y = list[0]->sceneBoundingRect().bottom(),
+			y = list[0]->sceneBoundingRect().top(),
 			w = list[0]->sceneBoundingRect().width();
 
-		NodeGraphicsItem * node;
-		NodeGraphicsItem::Shape * shape;
+		NodeGraphicsItem * node = 0;
+		NodeGraphicsItem::Shape * shape = 0;
 
 		node = NodeGraphicsItem::cast(list[0]);
+		
+		for (int i=0; i < list.size(); ++i)
+			if (list[i])
+			{
+				if (!node || list[i]->sceneBoundingRect().width() > node->sceneBoundingRect().width())
+					node = NodeGraphicsItem::cast(list[i]);
+			}
+
 		if (node && (shape = node->rightMostShape()))
 		{
 			x = shape->sceneBoundingRect().left();
@@ -1372,11 +1380,11 @@ namespace Tinkercell
 
 		QList<QPointF> newPositions;
 		QList<QPointF> changeSize;
-		newPositions += QPointF(); //first item does not move
-		changeSize += QPointF(1.0,1.0);
+		//newPositions += QPointF(); //first item does not move
+		//changeSize += QPointF(1.0,1.0);
 		bool sizeChangeNeeded = false;
 
-		for (int i=1; i < list.size(); ++i)
+		for (int i=0; i < list.size(); ++i)
 		{
 			if (list[i])
 			{
@@ -1397,7 +1405,7 @@ namespace Tinkercell
 		if (sizeChangeNeeded)
 			scene->transform(tr("change size"),list,changeSize,QList<qreal>(),QList<bool>(),QList<bool>());
 
-		for (int i=1; i < list.size(); ++i)
+		for (int i=0; i < list.size(); ++i)
 		{
 			if (list[i])
 			{
@@ -1453,12 +1461,21 @@ namespace Tinkercell
 
 		if (list.size() < 2 || !list[0]) return;
 
-		qreal x = list[0]->sceneBoundingRect().right(),
+		qreal x = list[0]->sceneBoundingRect().left(),
 				 y = list[0]->sceneBoundingRect().bottom(),
 				 h = list[0]->sceneBoundingRect().height();
 
-		NodeGraphicsItem * node = NodeGraphicsItem::cast(list[0]);
-		NodeGraphicsItem::Shape * shape;
+		NodeGraphicsItem * node = 0;
+		NodeGraphicsItem::Shape * shape = 0;
+
+		node = NodeGraphicsItem::cast(list[0]);
+		for (int i=0; i < list.size(); ++i)
+			if (list[i])
+			{
+				if (!node || list[i]->sceneBoundingRect().height() > node->sceneBoundingRect().height())
+					node = NodeGraphicsItem::cast(list[i]);
+			}
+
 		if (node && (shape = node->rightMostShape()))
 		{
 			y = shape->sceneBoundingRect().bottom();
@@ -1466,11 +1483,11 @@ namespace Tinkercell
 		}
 
 		QList<QPointF> newPositions, changeSize;
-		newPositions += QPointF(); //first item does not move
-		changeSize += QPointF(1.0,1.0);
+		//newPositions += QPointF(); //first item does not move
+		//changeSize += QPointF(1.0,1.0);
 		bool sizeChangeNeeded = false;
 
-		for (int i=1; i < list.size(); ++i)
+		for (int i=0; i < list.size(); ++i)
 		{
 			if (list[i])
 			{
@@ -1492,7 +1509,7 @@ namespace Tinkercell
 		if (sizeChangeNeeded)
 			scene->transform(tr("change size"),list,changeSize,QList<qreal>(),QList<bool>(),QList<bool>());
 
-		for (int i=1; i < list.size(); ++i)
+		for (int i=0; i < list.size(); ++i)
 		{
 			if (list[i])
 			{

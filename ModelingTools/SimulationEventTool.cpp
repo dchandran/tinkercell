@@ -863,7 +863,7 @@ namespace Tinkercell
 				&(_getEventTriggers),
 				&(_getEventResponses),
 				&(_addEvent)
-				);
+			);
 		}
 	}
 
@@ -932,7 +932,7 @@ namespace Tinkercell
 	{
 		ItemHandle * item = 0;
 		NetworkHandle * network = currentNetwork();
-		if (network)
+		if (!network)
 		{
 			if (sem)
 				sem->release();
@@ -941,20 +941,23 @@ namespace Tinkercell
 		
 		item = network->globalHandle();
 
-		if (item && !trigger.isEmpty() && !event.isEmpty())
+		if (item && !trigger.isEmpty())
 		{
 			if (!item->hasTextData(tr("Events")))
 				item->textDataTable(tr("Events")) = DataTable<QString>();
 
 			DataTable<QString> dat = item->textDataTable(tr("Events"));
 
-			QRegExp regex(QString("([A-Za-z0-9])_([A-Za-z])"));
+			//QRegExp regex(QString("([A-Za-z0-9])_([A-Za-z])"));
 
 			QString s1 = trigger, s2 = event;
-			s1.replace(regex,QString("\\1.\\2"));
-			s2.replace(regex,QString("\\1.\\2"));
+			//s1.replace(regex,QString("\\1.\\2"));
+			//s2.replace(regex,QString("\\1.\\2"));
 
-			dat.value(s1,0) = s2;
+			if (event.isEmpty())
+				dat.removeRow(s1);
+			else
+				dat.value(s1,0) = s2;
 			network->changeData(tr("new event: when ") + s1 + tr(" do ") + s2,item,tr("Events"),&dat);
 		}
 		if (sem)
@@ -997,6 +1000,7 @@ namespace Tinkercell
 
 	void SimulationEventsTool::_addEvent( const char* a, const char* b)
 	{
+
 		return fToS->addEvent(a,b);
 	}
 

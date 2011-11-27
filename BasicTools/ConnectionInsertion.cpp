@@ -421,7 +421,10 @@ namespace Tinkercell
 				
 				QStringList nodeRoles = family->participantRoles(),
 							nodeFamilies = family->participantTypes(),
-							nodeNames;
+							nodeNames, oldNodeNames;
+
+				for (int j=0; j < oldTable->rows(); ++j)
+					oldNodeNames << oldTable->value(j,0);
 
 				for (int j=0; j < nodes.size(); ++j)
 					if (nodes[j])
@@ -445,6 +448,7 @@ namespace Tinkercell
 					if (!nodeRoles[j].isEmpty() && isReactant(nodeRoles[j]))
 						for (int k=0; k < nodesIn.size(); ++k)
 							if (nodesIn[k] && 
+								!oldNodeNames.contains(nodesIn[k]->fullName()) &&
 								(nodeFamily = nodesIn[k]->family()) && 
 								nodeFamily->isA(nodeFamilies[j]))
 							{
@@ -459,6 +463,7 @@ namespace Tinkercell
 					if (!nodeRoles[j].isEmpty() && !isReactantOrModifier(nodeRoles[j]))
 						for (int k=0; k < nodesOut.size(); ++k)
 							if (nodesOut[k] && 
+								!oldNodeNames.contains(nodesOut[k]->fullName()) &&
 								(nodeFamily = nodesOut[k]->family()) && 
 								nodeFamily->isA(nodeFamilies[j]))
 							{
@@ -473,6 +478,7 @@ namespace Tinkercell
 					if (!nodeRoles[j].isEmpty())
 						for (int k=0; k < nodes.size(); ++k)
 							if (nodes[k] && 
+								!oldNodeNames.contains(nodes[k]->fullName()) &&
 								(nodeFamily = nodes[k]->family()) && 
 								nodeFamily->isA(nodeFamilies[j]))
 							{
@@ -481,7 +487,53 @@ namespace Tinkercell
 								nodes[k] = 0;
 								break;
 							}
-									
+
+				oldNodeNames.clear();
+
+				for (int j=0; j < nodeRoles.size() && j < nodeFamilies.size(); ++j)
+					if (!nodeRoles[j].isEmpty() && isReactant(nodeRoles[j]))
+						for (int k=0; k < nodesIn.size(); ++k)
+							if (nodesIn[k] && 
+								!oldNodeNames.contains(nodesIn[k]->fullName()) &&
+								(nodeFamily = nodesIn[k]->family()) && 
+								nodeFamily->isA(nodeFamilies[j]))
+							{
+								newTable->value(nodeRoles[j],0) = nodesIn[k]->fullName();
+								nodeRoles[j] = tr("");
+								nodes.removeOne(nodesIn[k]);
+								nodesIn[k] = 0;
+								break;
+							}
+
+				for (int j=0; j < nodeRoles.size() && j < nodeFamilies.size(); ++j)
+					if (!nodeRoles[j].isEmpty() && !isReactantOrModifier(nodeRoles[j]))
+						for (int k=0; k < nodesOut.size(); ++k)
+							if (nodesOut[k] && 
+								!oldNodeNames.contains(nodesOut[k]->fullName()) &&
+								(nodeFamily = nodesOut[k]->family()) && 
+								nodeFamily->isA(nodeFamilies[j]))
+							{
+								newTable->value(nodeRoles[j],0) = nodesOut[k]->fullName();
+								nodeRoles[j] = tr("");
+								nodes.removeOne(nodesOut[k]);
+								nodesOut[k] = 0;
+								break;
+							}
+
+				for (int j=0; j < nodeRoles.size() && j < nodeFamilies.size(); ++j)
+					if (!nodeRoles[j].isEmpty())
+						for (int k=0; k < nodes.size(); ++k)
+							if (nodes[k] && 
+								!oldNodeNames.contains(nodes[k]->fullName()) &&
+								(nodeFamily = nodes[k]->family()) && 
+								nodeFamily->isA(nodeFamilies[j]))
+							{
+								newTable->value(nodeRoles[j],0) = nodes[k]->fullName();
+								nodeRoles[j] = tr("");
+								nodes[k] = 0;
+								break;
+							}
+
 				if (oldTable && oldTable != newTable)
 				{
 					oldTables << oldTable;

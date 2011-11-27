@@ -561,6 +561,15 @@ TCAPIEXPORT long tc_thisThread();
 */
 TCAPIEXPORT void tc_createSliders(tc_matrix input, void (*f)(tc_matrix));
 
+/*!
+ \brief create a window with several sliders. 
+             when the sliders change, the given function will be called with the values in the sliders
+ \param tc_matrix names of variables and initial values for the sliders
+ \param string callback function name. the function must have the same number of arguments as the sliders
+ \ingroup Dialog
+*/
+TCAPIEXPORT void tc_createSlidersForScript(tc_matrix input, const char * function);
+
 /*! 
  \brief get the color of the item
  \param int address of item, e.g. obtained using tc_find
@@ -798,8 +807,9 @@ TCAPIEXPORT void tc_Main_api_initialize(
 
 		void (*tc_createInputWindow0)(tc_matrix , const char* , const char* ),
         void (*tc_createInputWindow1)(long, tc_matrix, const char*, void (*f)(tc_matrix)),
-		void (*createSliders)(long, tc_matrix, void (*f)(tc_matrix)),
-		
+		void (*createSliders1)(long, tc_matrix, void (*f)(tc_matrix)),
+		void (*createSliders2)(tc_matrix, const char*),
+
 		void (*tc_addInputWindowOptions0)(const char*, int i, int j, tc_strings),
 		void (*tc_addInputWindowCheckbox0)(const char*, int i, int j),
 		void (*tc_openNewWindow0)(const char* title),

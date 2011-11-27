@@ -844,6 +844,17 @@ void tc_createSliders(tc_matrix input, void (*f)(tc_matrix))
 		_tc_createSliders(_cthread_ptr, input,f);
 }
 
+void (*_tc_createSlidersForScript)(tc_matrix, const char *) = 0;
+/*!
+ \brief create a window with several sliders. when the sliders change, the given function will be called with the values in the sliders
+ \ingroup Input and Output
+*/ TCAPIEXPORT 
+void tc_createSlidersForScript(tc_matrix input, const char * s)
+{
+	if (_tc_createSlidersForScript)
+		_tc_createSlidersForScript(input,s);
+}
+
 void (*_tc_setSize)(long,double,double,int) = 0;
 /*!
  \brief Change the size of an item
@@ -1181,8 +1192,9 @@ void tc_Main_api_initialize(
 
 		void (*tc_createInputWindow0)(tc_matrix,const char*,const char*),
         void (*tc_createInputWindow1)(long ptr, tc_matrix, const char*, void (*f)(tc_matrix)),
-		void (*createSliders0)(long, tc_matrix, void (*f)(tc_matrix)),
-		
+		void (*createSliders1)(long, tc_matrix, void (*f)(tc_matrix)),
+		void (*createSliders2)(tc_matrix, const char *),
+
 		void (*tc_addInputWindowOptions0)(const char*, int i, int j, tc_strings),
 		void (*tc_addInputWindowCheckbox0)(const char*, int i, int j),
 		void (*tc_openNewWindow0)(const const char* title),
@@ -1331,8 +1343,9 @@ void tc_Main_api_initialize(
 	_tc_openFile = openFile0;
 	_tc_saveToFile = saveToFile0;
 	
-	_tc_createSliders = createSliders0;
-	
+	_tc_createSliders = createSliders1;
+	_tc_createSlidersForScript = createSliders2;
+
 	_tc_setSize = setSize0;
 	_tc_getWidth = getWidth0;
 	_tc_getHeight = getHeight0;

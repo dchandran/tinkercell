@@ -40,6 +40,11 @@ namespace Tinkercell
 		*/
 		void valuesChanged(DataTable<qreal>);
 
+		/*!
+		* \brief this signal is used to call a script function that responds to the slider widget
+		*/
+		void evalScript(const QString& string);
+
 	public slots:
 	
 		/*!
@@ -92,6 +97,16 @@ namespace Tinkercell
 		virtual void setThread(CThread *);
 		
 		/*!
+		* \brief the console command that is executed every time the sliders change
+		*/
+		virtual QString command() const;
+		
+		/*!
+		* \brief the console command that is executed every time the sliders change
+		*/
+		virtual void setCommand(const QString&);
+
+		/*!
 		* \brief This is the data table that will be altered when no appropriate data is available. 
 						For example, if one of the sliders is labeled "A" and the default table is set to "bla", then
 						changing the slider for "A" will result in change to "A.bla[0,0]"
@@ -131,6 +146,10 @@ namespace Tinkercell
 		* \brief whenver the slides change, cthread->start() is called
 		*/
 		CThread * cthread;	
+		/*!
+		* \brief whenver the slides change, this command is called using console's evalScript
+		*/
+		QString scriptCommand;
 		/*!
 		* \brief orientation of the sliders
 		*/

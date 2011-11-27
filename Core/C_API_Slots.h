@@ -82,6 +82,7 @@ namespace Tinkercell
 		void createInputWindow(QSemaphore*,const DataTable<qreal>&, const QString&,const QString&);
 		void createInputWindow(QSemaphore*,long, const DataTable<qreal>&, const QString &, MatrixInputFunction);
 		void createSliders(QSemaphore*,CThread*, const DataTable<qreal>&, MatrixInputFunction);
+		void createSliders(QSemaphore*, const DataTable<qreal>&, const QString&);
 		void addInputWindowOptions(QSemaphore*, const QString&, int i, int j, const QStringList&);
 		void addInputWindowCheckbox(QSemaphore*, const QString&, int i, int j);
 		void openNewWindow(QSemaphore*,const QString&);
@@ -195,6 +196,7 @@ namespace Tinkercell
 		void createInputWindow(tc_matrix, const char*, const char*);
 		void createInputWindow(long, tc_matrix, const char*, MatrixInputFunction);
 		void createSliders(long, tc_matrix, MatrixInputFunction);
+		void createSliders(long, tc_matrix, const char*);
 		void addInputWindowOptions(const char*, int i, int j, tc_strings);
 		void addInputWindowCheckbox(const char*, int i, int j);
 		void openNewWindow(const char*);
@@ -327,7 +329,8 @@ namespace Tinkercell
 
 		static void _createInputWindow1(tc_matrix, const char*, const char*);
 		static void _createInputWindow2(long, tc_matrix, const char*, MatrixInputFunction);
-		static void _createSliders(long, tc_matrix, MatrixInputFunction);
+		static void _createSliders1(long, tc_matrix, MatrixInputFunction);
+		static void _createSliders2(long, tc_matrix, const char*);
 		static void _addInputWindowOptions(const char*, int i, int j, tc_strings);
 		static void _addInputWindowCheckbox(const char*, int i, int j);
 		static void _openNewWindow(const char*);
@@ -691,6 +694,12 @@ namespace Tinkercell
 		* \return void
 		*/
 		void createSliders(QSemaphore*, CThread * , const DataTable<qreal>&, MatrixInputFunction);
+		/*!
+		* \brief make a new dialog with sliders. This function is designed to be used with the C API framework
+		* \param QSemaphore* semaphore
+		* \return void
+		*/
+		void createSliders(QSemaphore*, const DataTable<qreal>&, const QString&);
 		/*!
 		* \brief change an input window. This function is designed to be used with the C API framework
 		* \param QSemaphore* semaphore

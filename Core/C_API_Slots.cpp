@@ -105,8 +105,9 @@ namespace Tinkercell
 		
 		void (*tc_createInputWindow0)(tc_matrix,const char*,const char*),
         void (*tc_createInputWindow1)(long, tc_matrix, const char*, void (*f)(tc_matrix)),
-		void (*createSliders)(long, tc_matrix, void (*f)(tc_matrix)),
-		
+		void (*createSliders1)(long, tc_matrix, void (*f)(tc_matrix)),
+		void (*createSliders2)(long, tc_matrix, const char*),
+
 		void (*tc_addInputWindowOptions0)(const char*, int i, int j, tc_strings),
 		void (*tc_addInputWindowCheckbox0)(const char*, int i, int j),
 		void (*tc_openNewWindow0)(const char * title),
@@ -224,7 +225,8 @@ namespace Tinkercell
 				&(_homeDir),
 				&(_createInputWindow1),
 				&(_createInputWindow2),
-				&(_createSliders),
+				&(_createSliders1),
+				&(_createSliders2),
 				&(_addInputWindowOptions),
 				&(_addInputWindowCheckbox),
 				&(_openNewWindow),
@@ -339,6 +341,9 @@ namespace Tinkercell
 		
 		connect(fToS,SIGNAL(createSliders(QSemaphore*,CThread*,const DataTable<qreal>&,MatrixInputFunction)),
 			this,SLOT(createSliders(QSemaphore*,CThread*,const DataTable<qreal>&,MatrixInputFunction)));
+
+		connect(fToS,SIGNAL(createSliders(QSemaphore*, const DataTable<qreal>&,const QString&)),
+			this,SLOT(createSliders(QSemaphore*, const DataTable<qreal>&,const QString&)));
 
 		connect(fToS,SIGNAL(addInputWindowOptions(QSemaphore*,const QString&, int, int, const QStringList&)),
 			this,SLOT(addInputWindowOptions(QSemaphore*,const QString&, int, int, const QStringList&)));
@@ -562,6 +567,32 @@ namespace Tinkercell
 			
 			MultithreadedSliderWidget * widget = new MultithreadedSliderWidget(mainWindow, cthread, Qt::Horizontal);
 			
+			QStringList names(data.rowNames());
+			QList<double> min, max;
+			for (int i=0; i < names.size(); ++i)
+			{
+				names[i].replace(tr("_"),tr("."));
+				names[i].replace(tr(".."),tr("_"));
+				min <<  data.at(i,0);
+				max << data.at(i,1);
+			}
+			widget->setSliders(names, min, max);
+			
+			widget->show();
+		}
+		if (s)
+			s->release();
+	}
+
+	void C_API_Slots::createSliders(QSemaphore* s, const DataTable<qreal>& data, const QString& f)
+	{
+		if (!f.isNull() && !f.isEmpty())
+		{
+			//cthread->setFunction(f);
+			
+			MultithreadedSliderWidget * widget = new MultithreadedSliderWidget(mainWindow, 0, Qt::Horizontal);
+			widget->setCommand(f);
+
 			QStringList names(data.rowNames());
 			QList<double> min, max;
 			for (int i=0; i < names.size(); ++i)
@@ -1615,7 +1646,12 @@ namespace Tinkercell
 		return fToS->createInputWindow(ptr, m,a,f);
 	}
 	
-	void  C_API_Slots::_createSliders(long c, tc_matrix m,MatrixInputFunction f)
+	void  C_API_Slots::_createSliders1(long c, tc_matrix m,MatrixInputFunction f)
+	{
+		return fToS->createSliders(c,m,f);
+	}
+
+	void  C_API_Slots::_createSliders2(long c, tc_matrix m,const char* f)
 	{
 		return fToS->createSliders(c,m,f);
 	}
@@ -2267,6 +2303,18 @@ namespace Tinkercell
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
 		emit createSliders(s,cthread,*dat,f);
+		s->acquire();
+		s->release();
+		delete s;
+		delete dat;
+	}
+
+	void Core_FtoS::createSliders(long c, tc_matrix m, const char* f)
+	{
+		DataTable<qreal>* dat = ConvertValue(m);
+		QSemaphore * s = new QSemaphore(1);
+		s->acquire();
+		emit createSliders(s,*dat,QString(f));
 		s->acquire();
 		s->release();
 		delete s;

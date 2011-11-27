@@ -101,6 +101,16 @@ namespace Tinkercell
 	{
 		cthread = t;
 	}
+
+	QString MultithreadedSliderWidget::command() const
+	{
+		return scriptCommand;
+	}
+
+	void MultithreadedSliderWidget::setCommand(const QString& s)
+	{
+		scriptCommand = s;
+	}
 	
 	void MultithreadedSliderWidget::minmaxChanged()
 	{
@@ -191,6 +201,15 @@ namespace Tinkercell
 				//cthread->terminate();
 			}
 			cthread->start();
+		}
+		
+		if (mainWindow && mainWindow->console() && !scriptCommand.isNull() && !scriptCommand.isEmpty())
+		{
+			QStringList args;
+			for (int i=0; i < values.rows(); ++i)
+				for (int j=0; j < values.columns(); ++j)
+					args << QString::number(values(i,j));
+			emit evalScript(scriptCommand + tr("(") + args.join(tr(",")) + tr(")"));
 		}
 	}
 

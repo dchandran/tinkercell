@@ -79,6 +79,9 @@ namespace Tinkercell
 		setWindowFlags(Qt::Dialog);
 		slidersLayout = 0;
 		hide();
+
+		if (mainWindow->console())
+			connect(this,SIGNAL(evalScript(const QString&)), mainWindow->console(), SLOT(eval(const QString&)));
 	}
 
 	MultithreadedSliderWidget::MultithreadedSliderWidget(MainWindow * parent, const QString & lib, const QString & functionName, Qt::Orientation orientation)
@@ -90,6 +93,9 @@ namespace Tinkercell
 		setWindowFlags(Qt::Dialog);
 		slidersLayout = 0;
 		hide();
+
+		if (mainWindow->console())
+			connect(this,SIGNAL(evalScript(const QString&)), mainWindow->console(), SLOT(eval(const QString&)));
 	}
 
 	CThread * MultithreadedSliderWidget::thread() const

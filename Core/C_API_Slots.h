@@ -196,7 +196,7 @@ namespace Tinkercell
 		void createInputWindow(tc_matrix, const char*, const char*);
 		void createInputWindow(long, tc_matrix, const char*, MatrixInputFunction);
 		void createSliders(long, tc_matrix, MatrixInputFunction);
-		void createSliders(long, tc_matrix, const char*);
+		void createSliders(tc_matrix, const char*);
 		void addInputWindowOptions(const char*, int i, int j, tc_strings);
 		void addInputWindowCheckbox(const char*, int i, int j);
 		void openNewWindow(const char*);
@@ -330,7 +330,7 @@ namespace Tinkercell
 		static void _createInputWindow1(tc_matrix, const char*, const char*);
 		static void _createInputWindow2(long, tc_matrix, const char*, MatrixInputFunction);
 		static void _createSliders1(long, tc_matrix, MatrixInputFunction);
-		static void _createSliders2(long, tc_matrix, const char*);
+		static void _createSliders2(tc_matrix, const char*);
 		static void _addInputWindowOptions(const char*, int i, int j, tc_strings);
 		static void _addInputWindowCheckbox(const char*, int i, int j);
 		static void _openNewWindow(const char*);

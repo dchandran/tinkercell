@@ -106,7 +106,7 @@ namespace Tinkercell
 		void (*tc_createInputWindow0)(tc_matrix,const char*,const char*),
         void (*tc_createInputWindow1)(long, tc_matrix, const char*, void (*f)(tc_matrix)),
 		void (*createSliders1)(long, tc_matrix, void (*f)(tc_matrix)),
-		void (*createSliders2)(long, tc_matrix, const char*),
+		void (*createSliders2)(tc_matrix, const char*),
 
 		void (*tc_addInputWindowOptions0)(const char*, int i, int j, tc_strings),
 		void (*tc_addInputWindowCheckbox0)(const char*, int i, int j),
@@ -1651,9 +1651,9 @@ namespace Tinkercell
 		return fToS->createSliders(c,m,f);
 	}
 
-	void  C_API_Slots::_createSliders2(long c, tc_matrix m,const char* f)
+	void  C_API_Slots::_createSliders2(tc_matrix m,const char* f)
 	{
-		return fToS->createSliders(c,m,f);
+		return fToS->createSliders(m,f);
 	}
 
 	void  C_API_Slots::_addInputWindowOptions(const char* a,int i, int j, tc_strings c)
@@ -2309,7 +2309,7 @@ namespace Tinkercell
 		delete dat;
 	}
 
-	void Core_FtoS::createSliders(long c, tc_matrix m, const char* f)
+	void Core_FtoS::createSliders(tc_matrix m, const char* f)
 	{
 		DataTable<qreal>* dat = ConvertValue(m);
 		QSemaphore * s = new QSemaphore(1);

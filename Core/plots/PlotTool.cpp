@@ -1188,7 +1188,7 @@ namespace Tinkercell
 			}
 		}
 
-		if (widget->canAppendData() && holdCurrentPlot && holdCurrentPlot->isChecked())
+		if (plotWidget->canAppendData() && holdCurrentPlot && holdCurrentPlot->isChecked())
 			plotWidget->appendData(matrix,plotWidget->windowTitle());
 		else
 			plotWidget->updateData(matrix,plotWidget->windowTitle());

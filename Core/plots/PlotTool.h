@@ -218,12 +218,12 @@ namespace Tinkercell
 			\param QString format: "Save graph", "LaTeX", "Text", "Clipboard"
 		*/
 		void exportData(const QString&);
-		
+
 		/*! \brief compute the values of a new column using values in the other columns
-			\param QString math formula (can only use names of other columns as variables)
+			\param QStringList math formulae (can only use names of other columns as variables)
 			\return QString error string (if empty, then no error)
 		*/
-		QString computeNewColumn(QString);
+		QString computeNewColumn(const QStringList&);
 		
 		/*!\brief 
 		Show a window that catergorizes all windows.
@@ -325,6 +325,8 @@ namespace Tinkercell
 	protected:
 		virtual void keyPressEvent ( QKeyEvent * event );
 		virtual void mouseMoveEvent ( QMouseEvent * event );
+		
+		QStringList customFormulae;
 	};
 }
 #endif

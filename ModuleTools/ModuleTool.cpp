@@ -930,6 +930,26 @@ namespace Tinkercell
 			return;
 		}
 		
+		NodeGraphicsItem * node;
+		ConnectionGraphicsItem * connection;
+		TextGraphicsItem * text;
+		
+		if (scene->localHandle())
+		{
+			QString groupName = scene->localHandle()->name;
+			for (int i=0; i < items.size(); ++i)
+			{
+				if (node = NodeGraphicsItem::cast(items[i]))
+					node->groupID = groupName;
+				else
+				if (connection = ConnectionGraphicsItem::cast(items[i]))
+					connection->groupID = groupName;
+				else
+				if (text = TextGraphicsItem::cast(items[i]))
+					text->groupID = groupName;
+			}
+		}
+		
 		visited.clear();
 		for (int i=0; i < handles.size(); ++i)
 			if (handles[i] && handles[i]->children.isEmpty() && !visited.contains(handles[i]) && ConnectionFamily::cast(handles[i]->family()))
@@ -1338,6 +1358,23 @@ namespace Tinkercell
 					if (chandle->children[i])
 						items2 << chandle->children[i]->graphicsItems;
 				
+				for (int j=0; j < items2.size(); ++j)
+					if (!items2[j]->scene() &&
+						(
+							( (connection = ConnectionGraphicsItem::cast(items2[j])) &&
+								(groupID == connection->groupID || connection->groupID.isEmpty()))
+							||
+							( (node = NodeGraphicsItem::cast(items2[j]))  &&
+								(groupID  ==  node->groupID || node->groupID.isEmpty()))
+							||	
+							( (text = TextGraphicsItem::cast(items2[j]))  &&
+								(groupID == text->groupID || text->groupID.isEmpty()))
+						))
+						{
+							items << items2[j];
+						}
+				
+				items2.clear();
 				QList<NodeHandle*> nodes = chandle->nodes();
 				for (int i=0; i < nodes.size(); ++i)
 					if (nodes[i])

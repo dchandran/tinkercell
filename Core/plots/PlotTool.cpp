@@ -423,11 +423,14 @@ namespace Tinkercell
 							}
 							else
 								list[j]->showMaximized();
+						if (!customFormulae.isEmpty())
+							computeNewColumn( customFormulae );
 						return;
 					}
 				}
 		}
 		
+		customFormulae.clear();
 		PlotWidget * newPlot = 0;
 		
 		if  (type == SurfacePlot)
@@ -1084,10 +1087,14 @@ namespace Tinkercell
 	
 	void PlotTool::plotCustomFormula()
 	{
-		QString s = QInputDialog::getText(this, tr("Enter formula"), tr("Enter formula using existing column names"));
+		QString s0;
+		if (!customFormulae.isEmpty())
+			s0 = customFormulae.last();
+		QString s = QInputDialog::getText(this, tr("Enter formula"), tr("Enter formula using existing column names"), QLineEdit::Normal, s0);
 		if (!s.isNull() && !s.isEmpty())
 		{
-			QString error = computeNewColumn(s);
+			customFormulae << s;
+			QString error = computeNewColumn( QStringList() << s );
 			if (!error.isEmpty())
 				QMessageBox::information(this, tr("Error"), error);
 		}
@@ -1123,7 +1130,7 @@ namespace Tinkercell
 		return &d;
 	}
 	
-	QString PlotTool::computeNewColumn(QString formula)
+	QString PlotTool::computeNewColumn(const QStringList& formulae)
 	{
 		if (!multiplePlotsArea) return QString();
 		
@@ -1131,52 +1138,60 @@ namespace Tinkercell
 		if (!subwindow || !subwindow->widget()) return QString();
 		
 		PlotWidget * plotWidget = static_cast<PlotWidget*>(subwindow->widget());
-		
-		QRegExp regex(tr("\\.(?!\\d)"));
-		formula.replace(regex, tr("_"));
-		
 		DataTable<qreal> * pData = plotWidget->data();
 		if (!pData)
 			return QString("No data to compute function");
-		
-		DataTable<qreal> matrix(*pData);
-		
-		int k = 1;
-		QString newcol("formula_1");
-		while (matrix.hasColumn(newcol))
-			newcol = tr("formula_") + QString::number(++k);
-		
-		QStringList colnames = matrix.columnNames();				
-		double * params = new double[colnames.size()];
-		mu::Parser parser;
-		try
-		{
-			for (int i=0; i < colnames.size(); ++i)
-			{
-				double * dp = &(params[i]);
-				colnames[i].replace(tr("."), tr("_"));
-				parser.DefineVar(colnames[i].toAscii().data(), dp);
-				if (!colnames[i].contains(colnames[i].toLower()))
-					parser.DefineVar(colnames[i].toLower().toAscii().data(), dp);
-			}
-				
-			parser.SetExpr(formula.toAscii().data());
-			parser.SetVarFactory(AddVariable, currentNetwork());
-
-			for (int i=0; i < matrix.rows(); ++i)
-			{
-				for (int j=0; j < colnames.size(); ++j)
-					params[j] = matrix(i,j);
-
-				matrix(i,newcol) = parser.Eval();
-			}
 			
-			plotWidget->updateData(matrix,plotWidget->windowTitle());
-		}
-		catch(mu::Parser::exception_type &e)
+		DataTable<qreal> matrix(*pData);
+			
+		QRegExp regex(tr("\\.(?!\\d)"));
+		
+		for (int j = 0; j < formulae.size(); ++j)
 		{
-		    return QString(e.GetMsg().data()) + tr("\n");
+			QString formula = formulae[j];
+			
+			formula.replace(regex, tr("_"));
+			
+			int k = 1;
+			QString newcol("formula_1");
+			while (matrix.hasColumn(newcol))
+				newcol = tr("formula_") + QString::number(++k);
+			
+			QStringList colnames = matrix.columnNames();				
+			double * params = new double[colnames.size()];
+			mu::Parser parser;
+			try
+			{
+				for (int i=0; i < colnames.size(); ++i)
+				{
+					double * dp = &(params[i]);
+					colnames[i].replace(tr("."), tr("_"));
+					parser.DefineVar(colnames[i].toAscii().data(), dp);
+					if (!colnames[i].contains(colnames[i].toLower()))
+						parser.DefineVar(colnames[i].toLower().toAscii().data(), dp);
+				}
+					
+				parser.SetExpr(formula.toAscii().data());
+				parser.SetVarFactory(AddVariable, currentNetwork());
+
+				for (int i=0; i < matrix.rows(); ++i)
+				{
+					for (int j=0; j < colnames.size(); ++j)
+						params[j] = matrix(i,j);
+
+					matrix(i,newcol) = parser.Eval();
+				}
+			}
+			catch(mu::Parser::exception_type &e)
+			{
+				return QString(e.GetMsg().data()) + tr("\n");
+			}
 		}
+
+		if (widget->canAppendData() && holdCurrentPlot && holdCurrentPlot->isChecked())
+			plotWidget->appendData(matrix,plotWidget->windowTitle());
+		else
+			plotWidget->updateData(matrix,plotWidget->windowTitle());
 		return QString();
 	}
 	

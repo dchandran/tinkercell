@@ -732,6 +732,20 @@ namespace Tinkercell
 										commands << new ChangeNumericalDataCommand(tr("New parameters"),&params,&params2);
 									}
 
+									bool rateChanged = false;
+									QRegExp translationRateRegex("\S+\\.translation_rate");
+									TextDataTable originalRates = connections[j]->textDataTable(tr("Rate equations"));
+									TextDataTable rates = connections[j]->textDataTable(tr("Rate equations"));
+									for (int k=0; k < rates.rows(); ++k)
+										if (rates(k).contains(translationRateRegex))
+										{
+											rateChanged = true;
+											rates(k).replace(translationRateRegex, rbs->fullName() + tr(".strength"));
+										}
+
+									if (rateChanged)
+										commands << new ChangeNumericalDataCommand(tr("New parameters"),&originalRates,&rates);
+
 									QList<NodeHandle*> rna = connections[j]->nodes();
 									rna << NodeHandle::cast(connections[j]->children);
 

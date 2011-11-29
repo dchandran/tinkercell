@@ -7,7 +7,6 @@ See COPYRIGHT.TXT
 The tool class is the parent class for all plugins.
 A Tool is a Qt Widget with a name and pointer to the Tinkercell MainWindow.
 
-
 ****************************************************************************/
 
 #include "MainWindow.h"

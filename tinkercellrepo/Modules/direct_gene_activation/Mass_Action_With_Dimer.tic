@@ -4,10 +4,10 @@
     <Handles>
         <Handle type="0" name="" parent="" family="">
             <tc_matrix>
-                <Table key="parameters" rows="3" cols="3" rowNames="translation_rate;;Kon;;Koff" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1;;1e-05;;100;;1;;1e-06;;100;;0.01;;1e-06;;100"/>
+                <Table key="parameters" rows="4" cols="3" rowNames="translation_rate;;Kon;;Koff;;transcription_rate" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1;;1e-05;;100;;1;;1e-06;;100;;0.01;;1e-06;;100;;1;;1e-08;;100"/>
             </tc_matrix>
             <tc_table>
-                <Table key="units" rows="29" cols="2" rowNames="_cell;;_vector;;_molecule;;_reporter;;_transcription factor;;_fluorescent protein;;_constitutive promoter;;_repressor binding site;;_receptor;;_inducible promoter;;_rbs;;_part;;_composite part;;_protein;;_coding;;_catalyst;;_small molecule;;_sticky ends;;_terminator;;_mrna;;_promoter;;_repressible promoter;;_compartment;;_enzyme;;_ribozyme;;_activator binding site;;_operator;;_rna;;_subcellular compartment" columnNames="property;;name" values="volume;;fL;;copies;;count;;concentration;;uM;;concentration;;uM;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;concentration;;uM;;concentration;;uM;;copies;;count;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;volume;;fL;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;volume;;fL"/>
+                <Table key="units" rows="30" cols="2" rowNames="_coding;;_ribozyme;;_small molecule;;_receptor;;_rna;;_reporter;;_sticky ends;;_molecule;;_promoter;;_activator binding site;;_spacer dna;;_vector;;_part;;_cell;;_constitutive promoter;;_fluorescent protein;;_protein;;_transcription factor;;_rbs;;_operator;;_repressible promoter;;_repressor binding site;;_terminator;;_enzyme;;_subcellular compartment;;_catalyst;;_mrna;;_inducible promoter;;_compartment;;_composite part" columnNames="property;;name" values="activity;;PoPS;;concentration;;uM;;concentration;;uM;;concentration;;uM;;concentration;;uM;;concentration;;uM;;copies;;count;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;copies;;count;;activity;;PoPS;;volume;;fL;;activity;;PoPS;;concentration;;uM;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;volume;;fL;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;volume;;fL;;activity;;PoPS"/>
             </tc_table>
         </Handle>
         <Handle type="1" name="Dimer" parent="" family="transcription factor">
@@ -171,6 +171,7 @@
         <Handle type="1" name="emp1" parent="" family="empty">
             <tc_matrix>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
+                <Table key="position" rows="2" cols="1" rowNames="x;;y" columnNames="value" desc="" values="4408.93;;5051.8"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
@@ -183,6 +184,7 @@
         <Handle type="1" name="emp2" parent="" family="empty">
             <tc_matrix>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
+                <Table key="position" rows="2" cols="1" rowNames="x;;y" columnNames="value" desc="" values="5368.41;;5051.8"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
@@ -195,6 +197,7 @@
         <Handle type="1" name="emp3" parent="" family="empty">
             <tc_matrix>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
+                <Table key="position" rows="2" cols="1" rowNames="x;;y" columnNames="value" desc="" values="4686.9;;4768.95"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
@@ -217,12 +220,13 @@
                 <Table key="participants" rows="4" cols="1" rowNames="template;;reactant;;product;;source" columnNames="" values="Activator;;emp1;;mrna;;emp1"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
-                <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="Activator"/>
+                <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="transcription_rate * Activator"/>
             </tc_table>
         </Handle>
         <Handle type="1" name="emp4" parent="" family="empty">
             <tc_matrix>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
+                <Table key="position" rows="2" cols="1" rowNames="x;;y" columnNames="value" desc="" values="5648.05;;4768.95"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
@@ -974,7 +978,7 @@
             </listOfRenderInformation>
         </NodeItem>
         <NodeItem className="Global parameters" scene="0" handle="" z="52.2">
-            <pos x="4360.17" y="4641.69"/>
+            <pos x="4354.85" y="4643.46"/>
             <transform m11="0.5" m12="0" m21="0" m22="0.8"/>
             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
@@ -1387,15 +1391,15 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="0" handle="v1" z="237.5">
             <ConnectionGraphicsItem version="1.0" name="" color="#049102" width="5" type="bezier" style="1" gap="10">
                 <ControlPoints>
-                    <ControlPoint x="4513.69" y="5269.66"/>
-                    <ControlPoint x="4540.9" y="5207.38"/>
-                    <ControlPoint x="4570.2" y="5136.82"/>
-                    <ControlPoint x="4653.02" y="5111.28"/>
-                    <ControlPoint x="4438.93" y="5067.37"/>
-                    <ControlPoint x="4499.56" y="5098.83"/>
-                    <ControlPoint x="4826.39" y="5063.9"/>
-                    <ControlPoint x="4787.26" y="5071.57"/>
-                    <ControlPoint x="4735.85" y="5085.73"/>
+                    <ControlPoint x="4513.2" y="5269.66"/>
+                    <ControlPoint x="4539.13" y="5207.38"/>
+                    <ControlPoint x="4568.43" y="5136.82"/>
+                    <ControlPoint x="4651.25" y="5111.28"/>
+                    <ControlPoint x="4438.93" y="5067.68"/>
+                    <ControlPoint x="4497.79" y="5098.83"/>
+                    <ControlPoint x="4826.39" y="5063.68"/>
+                    <ControlPoint x="4785.49" y="5071.57"/>
+                    <ControlPoint x="4734.08" y="5085.73"/>
                 </ControlPoints>
                 <CurveSegments>
                     <Path numPoints="4" NodeAtStart="Activator" NodeAtStartX="4506.05" NodeAtStartY="5293.06" NodeAtEnd="" NodeAtEndX="0" NodeAtEndY="0">
@@ -1407,8 +1411,8 @@
                     <Path numPoints="4" NodeAtStart="mrna" NodeAtStartX="4896.39" NodeAtStartY="5055.66" NodeAtEnd="" NodeAtEndX="0" NodeAtEndY="0">
                         <ControlPoints indices="6,7,8,3"/>
                         <ArrowAtStart>
-                            <pos x="4826.39" y="5063.9" angle="-11.0852"/>
-                            <transform m11="0.392537" m12="-0.0769074" m21="0.0576804" m22="0.294402"/>
+                            <pos x="4826.39" y="5063.68" angle="-10.9122"/>
+                            <transform m11="0.392767" m12="-0.0757221" m21="0.0567914" m22="0.294575"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -1540,7 +1544,7 @@
                         <ControlPoints indices="6,7,8,3"/>
                         <ArrowAtStart>
                             <pos x="5573.7" y="4527.78" angle="11.3879"/>
-                            <transform m11="0.392125" m12="0.0789767" m21="-0.0592328" m22="0.294094"/>
+                            <transform m11="0.392125" m12="0.0789764" m21="-0.0592326" m22="0.294094"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -1723,7 +1727,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="5328.41" y="5052.66" angle="-1.23546"/>
-                            <transform m11="0.399907" m12="-0.00862452" m21="0.00646842" m22="0.29993"/>
+                            <transform m11="0.399907" m12="-0.00862454" m21="0.00646844" m22="0.29993"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -1767,7 +1771,7 @@
         </ConnectionItem>
     </Connections>
     <Texts>
-        <TextItem text="v1" scene="0" handle="v1" x="4606.39" y="5132.22" color="#171717" m11="1" m12="0" m21="0" m22="1" z="238.5" font="Sans" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="v1" scene="0" handle="v1" x="4604.62" y="5132.22" color="#171717" m11="1" m12="0" m21="0" m22="1" z="238.5" font="Sans" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="v3" scene="0" handle="v3" x="4917.2" y="4862.89" color="#171717" m11="1" m12="0" m21="0" m22="1" z="234.9" font="Sans" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="reversible" scene="0" handle="j2" x="5393.64" y="4425.33" color="#171717" m11="1" m12="0" m21="0" m22="1" z="151.3" font="Sans" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="j2" scene="0" handle="j2" x="5352.88" y="4504.52" color="#171717" m11="1" m12="0" m21="0" m22="1" z="148.3" font="Sans" size="22" bold="0" italics="0" underline="0"/>

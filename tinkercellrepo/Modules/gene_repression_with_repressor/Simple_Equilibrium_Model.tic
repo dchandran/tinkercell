@@ -4,7 +4,7 @@
     <Handles>
         <Handle type="0" name="" parent="" family="">
             <tc_matrix>
-                <Table key="parameters" rows="2" cols="3" rowNames="Kd;;h" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="0.1;;1e-06;;100;;2;;1;;8"/>
+                <Table key="parameters" rows="4" cols="3" rowNames="Kd;;h;;transcription_rate;;translation_rate" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="0.1;;1e-06;;100;;2;;1;;8;;1;;1e-08;;100;;1;;1e-08;;100"/>
             </tc_matrix>
             <tc_table>
                 <Table key="units" rows="30" cols="2" rowNames="_coding;;_ribozyme;;_small molecule;;_receptor;;_rna;;_reporter;;_sticky ends;;_molecule;;_promoter;;_activator binding site;;_spacer dna;;_vector;;_part;;_cell;;_constitutive promoter;;_fluorescent protein;;_protein;;_transcription factor;;_rbs;;_operator;;_repressible promoter;;_repressor binding site;;_terminator;;_enzyme;;_subcellular compartment;;_catalyst;;_mrna;;_inducible promoter;;_compartment;;_composite part" columnNames="property;;name" values="activity;;PoPS;;concentration;;uM;;concentration;;uM;;concentration;;uM;;concentration;;uM;;concentration;;uM;;copies;;count;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;copies;;count;;activity;;PoPS;;volume;;fL;;activity;;PoPS;;concentration;;uM;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;volume;;fL;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;volume;;fL;;activity;;PoPS"/>
@@ -150,7 +150,7 @@
                 <Table key="participants" rows="4" cols="1" rowNames="reactant;;product;;reactant1;;reactant2" columnNames="" values="emp1;;Monomer;;Repressor;;Repressor"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
-                <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="Repressor"/>
+                <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="transcription_rate*translation_rate*Repressor"/>
             </tc_table>
         </Handle>
         <Handle type="1" name="Inactive" parent="inhibition" family="protein">
@@ -1231,15 +1231,15 @@
                 <ControlPoints>
                     <ControlPoint x="5488.42" y="5979.25"/>
                     <ControlPoint x="5603.58" y="5979.25"/>
-                    <ControlPoint x="5813.92" y="5979.25"/>
-                    <ControlPoint x="5916.45" y="5980.55"/>
+                    <ControlPoint x="5816.31" y="5979.25"/>
+                    <ControlPoint x="5916.45" y="5980.53"/>
                 </ControlPoints>
                 <CurveSegments>
                     <Path numPoints="4" NodeAtStart="emp1" NodeAtStartX="5458.42" NodeAtStartY="5979.25" NodeAtEnd="Monomer" NodeAtEndX="5981.81" NodeAtEndY="5981.37">
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
-                            <pos x="5916.45" y="5980.55" angle="0.724584"/>
-                            <transform m11="0.399968" m12="0.00505848" m21="-0.00379385" m22="0.299976"/>
+                            <pos x="5916.45" y="5980.53" angle="0.735075"/>
+                            <transform m11="0.399967" m12="0.00513172" m21="-0.00384878" m22="0.299975"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -1279,7 +1279,7 @@
                 <CenterRegion>
                     <Rect width="20" height="20"/>
                     <Decorator>
-                        <pos x="5708.05" y="5978.91" angle="0"/>
+                        <pos x="5708.95" y="5978.91" angle="0"/>
                         <transform m11="0.3" m12="0" m21="0" m22="0.3"/>
                         <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                             <renderInformation id="TinkerCell_Style" programName="TinkerCell">
@@ -1397,7 +1397,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="5985.87" y="5747.05" angle="-92.9233"/>
-                            <transform m11="-0.020398" m12="-0.399479" m21="0.299609" m22="-0.0152986"/>
+                            <transform m11="-0.0203977" m12="-0.399479" m21="0.299609" m22="-0.0152984"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -1445,14 +1445,14 @@
                     <ControlPoint x="5702.4" y="6214.2"/>
                     <ControlPoint x="5703.91" y="6156.59"/>
                     <ControlPoint x="5703.38" y="6061.36"/>
-                    <ControlPoint x="5706.07" y="6013.91"/>
+                    <ControlPoint x="5706.59" y="6013.91"/>
                 </ControlPoints>
                 <CurveSegments>
-                    <Path numPoints="4" NodeAtStart="Repressor" NodeAtStartX="5704.37" NodeAtStartY="6237.6" NodeAtEnd="v1" NodeAtEndX="5708.05" NodeAtEndY="5978.91">
+                    <Path numPoints="4" NodeAtStart="Repressor" NodeAtStartX="5704.37" NodeAtStartY="6237.6" NodeAtEnd="v1" NodeAtEndX="5708.95" NodeAtEndY="5978.91">
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
-                            <pos x="5706.07" y="6013.91" angle="-86.7555"/>
-                            <transform m11="0.0226393" m12="-0.399359" m21="0.299519" m22="0.0169794"/>
+                            <pos x="5706.59" y="6013.91" angle="-86.1321"/>
+                            <transform m11="0.0269828" m12="-0.399089" m21="0.299317" m22="0.020237"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -1555,10 +1555,10 @@
                     <ControlPoint x="5661.3" y="5408.08"/>
                     <ControlPoint x="5729.66" y="5414.58"/>
                     <ControlPoint x="5848.8" y="5424.54"/>
-                    <ControlPoint x="5949.61" y="5396.63"/>
+                    <ControlPoint x="8369.45" y="7544.2"/>
                 </ControlPoints>
                 <CurveSegments>
-                    <Path numPoints="4" NodeAtStart="inhibition.Inactive" NodeAtStartX="5616.3" NodeAtStartY="5403.8" NodeAtEnd="inhibition.emp3" NodeAtEndX="5989.61" NodeAtEndY="5385.55">
+                    <Path numPoints="4" NodeAtStart="" NodeAtStartX="0" NodeAtStartY="0" NodeAtEnd="inhibition.emp3" NodeAtEndX="5989.61" NodeAtEndY="5385.55">
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="5949.61" y="5396.63" angle="-15.476"/>
@@ -1683,7 +1683,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="5547.5" y="5016.84" angle="-153.988"/>
-                            <transform m11="-0.359486" m12="-0.175416" m21="0.131562" m22="-0.269613"/>
+                            <transform m11="-0.359488" m12="-0.175413" m21="0.13156" m22="-0.269614"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -1732,7 +1732,7 @@
         <TextItem text="J1" scene="0" handle="J1" x="5990.94" y="5826.45" color="#000000" m11="1" m12="0" m21="0" m22="1" z="176.8" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="Target" scene="0" handle="Target" x="6041.05" y="5637.89" color="#000000" m11="1" m12="0" m21="0" m22="1" z="172.9" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="v2" scene="0" handle="v2" x="6174.36" y="5979.76" color="#171717" m11="1" m12="0" m21="0" m22="1" z="34.4" font="Sans" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="v1" scene="0" handle="v1" x="5719.54" y="5985.05" color="#171717" m11="1" m12="0" m21="0" m22="1" z="31.4" font="Sans" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="v1" scene="0" handle="v1" x="5711.25" y="5985.96" color="#171717" m11="1" m12="0" m21="0" m22="1" z="31.4" font="Sans" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="Monomer" scene="0" handle="Monomer" x="6028.9" y="5911.17" color="#171717" m11="1" m12="0" m21="0" m22="1" z="26.7" font="Sans" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="Repressor" scene="0" handle="Repressor" x="5638.23" y="6260.13" color="#171717" m11="1" m12="0" m21="0" m22="1" z="21.6" font="Sans" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="deg" scene="1" handle="inhibition.deg" x="5796.91" y="5354.91" color="#000000" m11="1" m12="0" m21="0" m22="1" z="307.5" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>

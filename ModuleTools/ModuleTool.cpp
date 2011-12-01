@@ -149,7 +149,45 @@ namespace Tinkercell
 		return fileNames;
 	}
 
-	void ModuleTool::substituteModel(ItemHandle * parentHandle, const QString& filename0, NetworkWindow * window)
+	QStringList ModuleTool::checkValidityOfModule(ConnectionHandle * module)
+	{
+		if (!module || !ConnectionFamily::cast(module->family())) return QStringList();
+		
+		NumericalDataTable paramsTable = module->numericalDataTable(tr("Parameters"));
+
+		ConnectionFamily * family = ConnectionFamily::cast(module->family());
+		QStringList participantRoles = family->participantRoles();
+		QStringList participantTypes = family->participantTypes();
+		QStringList parameters = family->numericalAttributes.keys();
+
+		QStringList missing;
+		QList<ItemHandle*> children = module->children;
+
+		for (int i=0; i < participantRoles.size(); ++i)
+		{
+			bool exists = false;
+			for (int j=0; j < children.size(); ++j)
+				if (children[j] && children[j]->name.toLower() == participantRoles[i].toLower() && children[j]->isA(participantTypes[i]))
+				{
+					exists = true;
+					break;
+				}
+			if (!exists)
+			{
+				missing += participantRoles[i];
+			}
+		}
+
+		for (int i=0; i < parameters.size(); ++i)
+		{
+			bool exists = paramsTable.hasRow(parameters[i]);
+			if (!exists)
+				missing += parameters[i];
+		}
+		return missing;
+	}
+
+	void ModuleTool::substituteModel(ItemHandle * parentHandle, const QString& filename0, NetworkWindow * window, QStringList * missing)
 	{
 		if (!parentHandle) return;
 
@@ -409,7 +447,7 @@ namespace Tinkercell
 			{
 				h = findCorrespondingHandle(parentHandle->children[i]->name,ConnectionHandle::cast(parentHandle));
 				
-				if (h)
+				if (h && (h->isA(parentHandle->children[i]->family()) || parentHandle->children[i]->isA(h->family())))
 				{
 					nodes.removeAll(NodeHandle::cast(h));
 
@@ -484,6 +522,8 @@ namespace Tinkercell
 												&(numericalTable));*/
 			}
 
+			if (missing)
+				(*missing) = checkValidityOfModule(ConnectionHandle::cast(parentHandle));
 			if (!commands.isEmpty())
 			{
 				commands << new ChangeTextDataCommand(
@@ -1192,9 +1232,13 @@ namespace Tinkercell
 				if (!window || !window->handle || !window->handle->family()) return;
 				ItemHandle * parentHandle = window->handle;
 				
-				substituteModel(parentHandle, filename, window);
+				QStringList missing;
+				substituteModel(parentHandle, filename, window, &missing);
 				if (currentScene())
 					currentScene()->fitAll();
+
+				if (!missing.isEmpty())
+					QMessageBox::information(mainWindow, tr("Invalid model"), tr("Please note that this model is invalid because it is missing the following items: \n\n") + missing.join("\n"));
 			}
 		}
 	}

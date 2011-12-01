@@ -4,10 +4,10 @@
     <Handles>
         <Handle type="0" name="" parent="" family="">
             <tc_matrix>
-                <Table key="parameters" rows="1" cols="3" rowNames="translation_rate" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1;;1e-05;;100"/>
+                <Table key="parameters" rows="2" cols="3" rowNames="translation_rate;;transcription_rate" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1;;1e-08;;100;;1;;1e-08;;100"/>
             </tc_matrix>
             <tc_table>
-                <Table key="units" rows="28" cols="2" rowNames="_cell;;_vector;;_molecule;;_reporter;;_transcription factor;;_fluorescent protein;;_constitutive promoter;;_repressor binding site;;_receptor;;_inducible promoter;;_rbs;;_part;;_composite part;;_protein;;_small molecule;;_coding;;_sticky ends;;_terminator;;_mrna;;_promoter;;_repressible promoter;;_compartment;;_enzyme;;_ribozyme;;_activator binding site;;_operator;;_rna;;_subcellular compartment" columnNames="property;;name" values="volume;;fL;;copies;;count;;concentration;;uM;;concentration;;uM;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;copies;;count;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;volume;;fL;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;volume;;fL"/>
+                <Table key="units" rows="30" cols="2" rowNames="_coding;;_ribozyme;;_small molecule;;_receptor;;_rna;;_reporter;;_sticky ends;;_molecule;;_promoter;;_activator binding site;;_spacer dna;;_vector;;_part;;_cell;;_constitutive promoter;;_fluorescent protein;;_protein;;_transcription factor;;_rbs;;_operator;;_repressible promoter;;_repressor binding site;;_terminator;;_enzyme;;_subcellular compartment;;_catalyst;;_mrna;;_inducible promoter;;_compartment;;_composite part" columnNames="property;;name" values="activity;;PoPS;;concentration;;uM;;concentration;;uM;;concentration;;uM;;concentration;;uM;;concentration;;uM;;copies;;count;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;copies;;count;;activity;;PoPS;;volume;;fL;;activity;;PoPS;;concentration;;uM;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;volume;;fL;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;volume;;fL;;activity;;PoPS"/>
             </tc_table>
         </Handle>
         <Handle type="2" name="v2" parent="" family="degradation">
@@ -100,6 +100,7 @@
         <Handle type="1" name="emp1" parent="" family="empty">
             <tc_matrix>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
+                <Table key="position" rows="2" cols="1" rowNames="x;;y" columnNames="value" desc="" values="4415.59;;5046.8"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
@@ -112,6 +113,7 @@
         <Handle type="1" name="emp2" parent="" family="empty">
             <tc_matrix>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
+                <Table key="position" rows="2" cols="1" rowNames="x;;y" columnNames="value" desc="" values="5368.41;;5051.8"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
@@ -124,6 +126,7 @@
         <Handle type="1" name="emp3" parent="" family="empty">
             <tc_matrix>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
+                <Table key="position" rows="2" cols="1" rowNames="x;;y" columnNames="value" desc="" values="4686.9;;4777.28"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
@@ -146,12 +149,13 @@
                 <Table key="participants" rows="4" cols="1" rowNames="template;;reactant;;product;;source" columnNames="" values="Template;;emp1;;mrna;;emp1"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
-                <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="Template"/>
+                <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="transcription_rate*Template"/>
             </tc_table>
         </Handle>
         <Handle type="1" name="emp4" parent="" family="empty">
             <tc_matrix>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
+                <Table key="position" rows="2" cols="1" rowNames="x;;y" columnNames="value" desc="" values="5648.05;;4768.95"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
@@ -290,7 +294,7 @@
             </listOfRenderInformation>
         </NodeItem>
         <NodeItem className="Global parameters" scene="0" handle="" z="52.2">
-            <pos x="4359.37" y="4638.57"/>
+            <pos x="4361.01" y="4640.21"/>
             <transform m11="0.5" m12="0" m21="0" m22="0.8"/>
             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
@@ -724,7 +728,7 @@
                         <ControlPoints indices="6,7,8,3"/>
                         <ArrowAtStart>
                             <pos x="5109.58" y="4770.12" angle="-1.22102"/>
-                            <transform m11="0.399909" m12="-0.00852381" m21="0.00639286" m22="0.299932"/>
+                            <transform m11="0.399909" m12="-0.00852384" m21="0.00639288" m22="0.299932"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -845,7 +849,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="5608.05" y="4768.13" angle="1.17918"/>
-                            <transform m11="0.399915" m12="0.00823195" m21="-0.00617394" m22="0.299936"/>
+                            <transform m11="0.399915" m12="0.00823198" m21="-0.00617396" m22="0.299936"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -900,7 +904,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="5328.41" y="5052.8" angle="-1.42982"/>
-                            <transform m11="0.399875" m12="-0.00998108" m21="0.0074858" m22="0.299906"/>
+                            <transform m11="0.399875" m12="-0.00998111" m21="0.00748582" m22="0.299906"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>

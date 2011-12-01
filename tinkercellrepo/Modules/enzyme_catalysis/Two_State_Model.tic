@@ -4,10 +4,10 @@
     <Handles>
         <Handle type="0" name="" parent="" family="">
             <tc_matrix>
-                <Table key="parameters" rows="3" cols="3" rowNames="Kd;;Kcat;;Kreverse" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1;;0.001;;10;;1;;0.001;;100;;0.001;;0;;100"/>
+                <Table key="parameters" rows="3" cols="3" rowNames="Km;;Kcat;;Kreverse" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1;;1e-08;;10;;1;;1e-08;;100;;1e-05;;1e-08;;100"/>
             </tc_matrix>
             <tc_table>
-                <Table key="units" rows="53" cols="2" rowNames="Activator Binding Site;;Cell;;Coding;;Compartment;;Constitutive Promoter;;Enzyme;;Inducible Promoter;;Molecule;;Operator;;Part;;Promoter;;Protein;;RBS;;RNA;;Receptor;;Reporter;;Repressible Promoter;;Repressor Binding Site;;Ribozyme;;Small Molecule;;Sticky Ends;;Subcellular compartment;;Terminator;;Transcription Factor;;Vector;;mRNA;;activator binding site;;cell;;coding;;compartment;;composite part;;constitutive promoter;;enzyme;;inducible promoter;;molecule;;mrna;;operator;;part;;promoter;;protein;;rbs;;receptor;;reporter;;repressible promoter;;repressor binding site;;ribozyme;;rna;;small molecule;;sticky ends;;subcellular compartment;;terminator;;transcription factor;;vector" columnNames="property;;name" values="activity;;PoPS;;volume;;fL;;activity;;PoPS;;volume;;fL;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;concentration;;uM;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;concentration;;uM;;copies;;count;;volume;;fL;;activity;;PoPS;;concentration;;uM;;copies;;count;;concentration;;uM;;activity;;PoPS;;volume;;fL;;activity;;PoPS;;volume;;fL;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;concentration;;uM;;concentration;;uM;;copies;;count;;volume;;fL;;activity;;PoPS;;concentration;;uM;;copies;;count"/>
+                <Table key="units" rows="30" cols="2" rowNames="_coding;;_ribozyme;;_small molecule;;_receptor;;_rna;;_reporter;;_sticky ends;;_molecule;;_promoter;;_activator binding site;;_spacer dna;;_vector;;_part;;_cell;;_constitutive promoter;;_fluorescent protein;;_protein;;_transcription factor;;_rbs;;_operator;;_repressible promoter;;_repressor binding site;;_terminator;;_enzyme;;_subcellular compartment;;_catalyst;;_mrna;;_inducible promoter;;_compartment;;_composite part" columnNames="property;;name" values="activity;;PoPS;;concentration;;uM;;concentration;;uM;;concentration;;uM;;concentration;;uM;;concentration;;uM;;copies;;count;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;copies;;count;;activity;;PoPS;;volume;;fL;;activity;;PoPS;;concentration;;uM;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;volume;;fL;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;volume;;fL;;activity;;PoPS"/>
             </tc_table>
         </Handle>
         <Handle type="2" name="v2" parent="" family="1 to 2">
@@ -120,13 +120,13 @@
                 <Table key="participants" rows="6" cols="1" rowNames="reactant1;;reactant2;;product;;Catalyst;;Substrate;;Intermediate1" columnNames="" values="Catalyst;;Substrate;;Intermediate1;;reactant1;;reactant2;;product"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
-                <Table key="rate equations" rows="2" cols="1" rowNames="forward;;reverse" columnNames="formula" values="Kcat*Catalyst*Substrate;;Kcat*Kd*Intermediate1"/>
+                <Table key="rate equations" rows="2" cols="1" rowNames="forward;;reverse" columnNames="formula" values="5*(Kcat/Km)*Catalyst*Substrate;;4*Kcat*Intermediate1"/>
             </tc_table>
         </Handle>
     </Handles>
     <Nodes>
         <NodeItem className="Global parameters" scene="0" handle="" z="51.7">
-            <pos x="4761.5" y="4771.16"/>
+            <pos x="4763.85" y="4769.98"/>
             <transform m11="0.5" m12="0" m21="0" m22="0.8"/>
             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
@@ -697,15 +697,15 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="0" handle="v1" z="50.7">
             <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="bezier" style="1" gap="10">
                 <ControlPoints>
-                    <ControlPoint x="5195.28" y="4759.48"/>
-                    <ControlPoint x="5089.76" y="4790.36"/>
-                    <ControlPoint x="5039.84" y="4875.58"/>
-                    <ControlPoint x="5041.57" y="4921.21"/>
-                    <ControlPoint x="4896.5" y="4905.55"/>
-                    <ControlPoint x="4967.53" y="4881.04"/>
-                    <ControlPoint x="5059.4" y="5039.34"/>
-                    <ControlPoint x="5043.42" y="4999.67"/>
-                    <ControlPoint x="5043.3" y="4966.85"/>
+                    <ControlPoint x="5195.28" y="4759.79"/>
+                    <ControlPoint x="5088.58" y="4791.54"/>
+                    <ControlPoint x="5038.66" y="4876.76"/>
+                    <ControlPoint x="5040.39" y="4922.39"/>
+                    <ControlPoint x="4896.5" y="4905.83"/>
+                    <ControlPoint x="4966.35" y="4882.22"/>
+                    <ControlPoint x="5058.31" y="5039.34"/>
+                    <ControlPoint x="5042.24" y="5000.85"/>
+                    <ControlPoint x="5042.12" y="4968.03"/>
                 </ControlPoints>
                 <CurveSegments>
                     <Path numPoints="4" NodeAtStart="Catalyst" NodeAtStartX="5260.28" NodeAtStartY="4740.45" NodeAtEnd="" NodeAtEndX="0" NodeAtEndY="0">
@@ -717,8 +717,8 @@
                     <Path numPoints="4" NodeAtStart="Intermediate1" NodeAtStartX="5089.2" NodeAtStartY="5113.33" NodeAtEnd="" NodeAtEndX="0" NodeAtEndY="0">
                         <ControlPoints indices="6,7,8,3"/>
                         <ArrowAtStart>
-                            <pos x="5059.4" y="5039.34" angle="68.0615"/>
-                            <transform m11="0.14967" m12="0.370943" m21="-0.278207" m22="0.112252"/>
+                            <pos x="5058.31" y="5039.34" angle="67.3426"/>
+                            <transform m11="0.154312" m12="0.369036" m21="-0.276777" m22="0.115734"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfGradientDefinitions>
@@ -766,17 +766,17 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="0" handle="v3" z="42.6">
             <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="bezier" style="1" gap="10">
                 <ControlPoints>
-                    <ControlPoint x="5156.22" y="5058.63"/>
-                    <ControlPoint x="5187.76" y="5032.89"/>
-                    <ControlPoint x="5290.53" y="5032.93"/>
-                    <ControlPoint x="5324.93" y="5057.31"/>
+                    <ControlPoint x="5156.22" y="5059.91"/>
+                    <ControlPoint x="5190.11" y="5032.89"/>
+                    <ControlPoint x="5292.88" y="5032.93"/>
+                    <ControlPoint x="5324.93" y="5056.14"/>
                 </ControlPoints>
                 <CurveSegments>
                     <Path numPoints="4" NodeAtStart="Intermediate1" NodeAtStartX="5089.2" NodeAtStartY="5113.33" NodeAtEnd="Intermediate2" NodeAtEndX="5399.93" NodeAtEndY="5110.45">
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
-                            <pos x="5324.93" y="5057.31" angle="35.3211"/>
-                            <transform m11="0.326439" m12="0.231163" m21="-0.173371" m22="0.24483"/>
+                            <pos x="5324.93" y="5056.14" angle="35.9102"/>
+                            <transform m11="0.324045" m12="0.234507" m21="-0.175879" m22="0.243034"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfGradientDefinitions>
@@ -885,7 +885,7 @@
                         <ControlPoints indices="7,8,6,3"/>
                         <ArrowAtStart>
                             <pos x="5335.28" y="4780.49" angle="-151.904"/>
-                            <transform m11="-0.352619" m12="-0.188834" m21="0.141626" m22="-0.264464"/>
+                            <transform m11="-0.35262" m12="-0.188832" m21="0.141625" m22="-0.264465"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfGradientDefinitions>
@@ -950,13 +950,13 @@
         </ConnectionItem>
     </Connections>
     <Texts>
-        <TextItem text="v1" scene="0" handle="v1" x="5063.51" y="4913.43" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="51.7" font="Sans" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="v3" scene="0" handle="v3" x="5203.19" y="5047.08" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="43.6" font="Sans" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="v1" scene="0" handle="v1" x="5062.33" y="4914.61" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="51.7" font="Sans" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="v3" scene="0" handle="v3" x="5205.54" y="5047.08" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="43.6" font="Sans" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="v2" scene="0" handle="v2" x="5439.95" y="4921.51" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="36.1" font="Sans" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="Intermediate2" scene="0" handle="Intermediate2" x="5308.22" y="5184.46" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="28.8" font="Sans" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="Intermediate1" scene="0" handle="Intermediate1" x="5001.53" y="5178.26" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="19.1" font="Sans" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="Catalyst" scene="0" handle="Catalyst" x="5190.84" y="4643.77" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="17.1" font="Sans" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="Product" scene="0" handle="Product" x="5568.61" y="4912.21" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="5" font="Sans" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="Substrate" scene="0" handle="Substrate" x="4809.34" y="4957.63" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="3" font="Sans" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="Substrate" scene="0" handle="Substrate" x="4812.87" y="4958.81" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="3" font="Sans" size="22" bold="0" italics="0" underline="0"/>
     </Texts>
 </Model>

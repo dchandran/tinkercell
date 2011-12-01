@@ -1,4 +1,0 @@
-current version: 2796
-
-updates:
-a few small bug fixes

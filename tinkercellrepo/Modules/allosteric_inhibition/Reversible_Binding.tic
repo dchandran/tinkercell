@@ -6,8 +6,11 @@
             <tc_matrix>
                 <Table key="parameters" rows="1" cols="3" rowNames="Kd" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="0.1;;1e-05;;1"/>
             </tc_matrix>
+            <tc_table>
+                <Table key="units" rows="30" cols="2" rowNames="_coding;;_ribozyme;;_small molecule;;_receptor;;_rna;;_reporter;;_sticky ends;;_molecule;;_promoter;;_activator binding site;;_spacer dna;;_vector;;_part;;_cell;;_constitutive promoter;;_fluorescent protein;;_protein;;_transcription factor;;_rbs;;_operator;;_repressible promoter;;_repressor binding site;;_terminator;;_enzyme;;_subcellular compartment;;_catalyst;;_mrna;;_inducible promoter;;_compartment;;_composite part" columnNames="property;;name" values="activity;;PoPS;;concentration;;uM;;concentration;;uM;;concentration;;uM;;concentration;;uM;;concentration;;uM;;copies;;count;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;copies;;count;;activity;;PoPS;;volume;;fL;;activity;;PoPS;;concentration;;uM;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;volume;;fL;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;volume;;fL;;activity;;PoPS"/>
+            </tc_table>
         </Handle>
-        <Handle type="1" name="Target" parent="" family="Protein">
+        <Handle type="1" name="Target" parent="" family="protein">
             <tc_matrix>
                 <Table key="initial value" rows="1" cols="1" rowNames="concentration" columnNames="concentration" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="5"/>
                 <Table key="parameters" rows="1" cols="3" rowNames="molecularweight" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="50000;;5000;;500000"/>
@@ -20,12 +23,7 @@
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
         </Handle>
-        <Handle type="0" name="" parent="" family="">
-            <tc_matrix>
-                <Table key="parameters" rows="1" cols="3" rowNames="Kd" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="0.1;;1e-05;;1"/>
-            </tc_matrix>
-        </Handle>
-        <Handle type="1" name="Inhibitor" parent="" family="Molecule">
+        <Handle type="1" name="Inhibitor" parent="" family="molecule">
             <tc_matrix>
                 <Table key="initial value" rows="1" cols="1" rowNames="concentration" columnNames="concentration" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="5"/>
                 <Table key="parameters" rows="1" cols="3" rowNames="molecularweight" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="50000;;5000;;500000"/>
@@ -51,10 +49,10 @@
                 <Table key="participants" rows="6" cols="1" rowNames="reactant1;;reactant2;;product;;Target;;Inhibitor;;Inactive" columnNames="" values="Target;;Inhibitor;;Inactive;;reactant1;;reactant2;;product"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
-                <Table key="rate equations" rows="2" cols="1" rowNames="forward;;reverse" columnNames="formula" values="Target*Inhibitor;;Kd*Inactive"/>
+                <Table key="rate equations" rows="2" cols="1" rowNames="forward;;reverse" columnNames="formula" values="100*Target*Inhibitor;;100*Kd*Inactive"/>
             </tc_table>
         </Handle>
-        <Handle type="1" name="Inactive" parent="" family="Protein">
+        <Handle type="1" name="Inactive" parent="" family="protein">
             <tc_matrix>
                 <Table key="initial value" rows="1" cols="1" rowNames="concentration" columnNames="concentration" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="0"/>
                 <Table key="parameters" rows="1" cols="3" rowNames="molecularweight" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="50000;;5000;;500000"/>

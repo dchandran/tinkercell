@@ -1,9 +1,11 @@
 <Node>									<description>			"Nodes can be connected to one another using one of the various types of connections. The two main divisions of nodes are DNA parts and molecular species"@en .
 <Molecule>							<a>							<Node> .
+<Molecule>							<moldecular weight>		"1.0"@en.
 <Catalyst>							<a>							<Molecule> .
 <Reporter>							<a>							<Molecule> .
 <Small Molecule>					<a>							<Molecule> .
 <Protein>								<a>							<Molecule> .
+<Protein>								<sequence>				"XXXXXXXXXX"@en.
 <Enzyme>								<a>							<Protein> .
 <Enzyme>								<a>							<Catalyst> .
 <Transcription Factor>		<a>							<Enzyme> .
@@ -11,6 +13,7 @@
 <Fluorescent Protein>			<a>							<Protein> .
 <Fluorescent Protein>			<a>							<Reporter> .
 <RNA>									<a>							<Molecule> .
+<RNA>									<sequence>					"NNNNNNNNNN"@en.
 <mRNA>								<a>							<RNA> .
 <Ribozyme>							<a>							<RNA> .
 <Ribozyme>							<a>							<Catalyst> .
@@ -29,6 +32,7 @@
 <RNA>									<description>			"Chain of nucleic acids"@en .
 <Ribozyme>							<description>			"RNA molecules with catalytic activity"@en .
 <Part>									<a>							<Node> .
+<Part>									<sequence>					"NNNNNNNNNN"@en.
 <Part>									<synonyms>				"DNA Part"@en .
 <Part>									<units>						"activity,PoPS"@en.
 <Part>									<sequence>				"NNNNNNNNNN"@en.
@@ -40,6 +44,7 @@
 <Activator Binding Site>		<a>							<Operator> .
 <Repressor Binding Site>		<a>							<Operator> .
 <Promoter>							<a>							<Part> .
+<Promoter>							<strength>							"1.0"@en.
 <Constitutive Promoter>		<a>							<Promoter> .
 <Inducible Promoter>			<a>							<Promoter> .
 <Inducible Promoter>			<a>							<Activator Binding Site> .
@@ -51,6 +56,7 @@
 <Repressible Promoter>		<description>		"A promoter with a binding site that can be repressed by a transcription factor" .
 <Repressible Promoter>		<description>			"A promoter with a binding site that can be repressed by a transcription factor" .
 <RBS>									<a>							<Part> .
+<RBS>									<strength>							"1.0"@en.
 <RBS>									<description>			"Ribosome binding site"@en .
 <RBS>									<strength>				"1.0"	.
 <Terminator>						<a>								<Part> .

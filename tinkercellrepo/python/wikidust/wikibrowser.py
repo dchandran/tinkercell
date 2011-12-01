@@ -107,7 +107,8 @@ class Browser(mechanize.Browser):
         try:
             url = self.geturl()
             LOG.debug("url: %s" % self.geturl())
-            return url.find("igem") != -1 or url.find("partsregistry") != -1
+            return url.find("igem")          != -1 \
+                or url.find("partsregistry") != -1
         except mechanize.BrowserStateError: # no page yet
             return False
 

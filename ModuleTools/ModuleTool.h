@@ -115,8 +115,7 @@ namespace Tinkercell
 		static QStringList textTablesToBeRemoved;
 		
 		static QStringList listOfModels(ItemFamily * family);
-		void substituteModel(ItemHandle * , const QString& , NetworkWindow * window=0);
-		QList<QUndoCommand*> substituteModelCommands(ItemHandle * , const QString& , NetworkWindow * window=0, QList<QGraphicsItem*>* list=0);
+		void substituteModel(ItemHandle * , const QString& , NetworkWindow * window=0, QStringList * missingItems = 0);
 
 	signals:
 
@@ -155,6 +154,7 @@ namespace Tinkercell
 		static tc_strings _listOfModels(long);
 		static void _substituteModel(long, const char *);
 		static QString emptyModel();
+		static QStringList checkValidityOfModule(ConnectionHandle *);
 
 		QDialog * newModuleDialog;
 		QDialog * exportModuleDialog;

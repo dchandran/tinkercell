@@ -26,6 +26,7 @@
 #include "NodesTree.h"
 #include "ConnectionsTree.h"
 #include "AutoGeneRegulatoryTool.h"
+#include "Ontology.h"
 
 namespace Tinkercell
 {
@@ -682,98 +683,99 @@ namespace Tinkercell
 							commands << new ChangeNumericalDataCommand(tr("New parameters"),&params,&params2);
 						}
 						
-						if (rate.isEmpty())
+						/*if (rate.isEmpty())
 							rate = promoter->fullName() + tr(".strength");
 						else
 							rate = promoter->fullName() + tr(".strength * (") + rate + tr(")");
 
 						if (parts[i]->parent && parts[i]->parent->isA(tr("Vector")))
-							rate = parts[i]->parent->fullName() + tr(" * ") + rate;
+							rate = parts[i]->parent->fullName() + tr(" * ") + rate;*/
 					}
-					
-					if (parts[i]->hasTextData("Assignments") &&
-						(parts[i]->textDataTable("Assignments").hasRow("self") || rate != tr("0.0")))
-					{
-						QString oldrate = parts[i]->textData(tr("Assignments"),tr("self"),tr("rule"));
-					
-						bool isCustomEqn = StoichiometryTool::userModifiedRates.contains(parts[i]);
 
-						if (!parts[i]->textDataTable(tr("Assignments")).hasRow(tr("self")) ||
-							(!isCustomEqn && oldrate != rate))
-							 {
-								TextDataTable * sDat = new TextDataTable(parts[i]->textDataTable(tr("Assignments")));
-								sDat->value(tr("self"),0) = rate;
-								oldDataTables += &(parts[i]->textDataTable(tr("Assignments")));
-								newDataTables += sDat;
-							}
+					if (rbs && (!rbs->hasNumericalData("Parameters") || !rbs->numericalDataTable("Parameters").hasRow("strength")))
+					{
+						NumericalDataTable & params = rbs->numericalDataTable(tr("Parameters"));
+						NumericalDataTable params2(params);
+						params2("strength",0) = 5.0;
+						commands << new ChangeNumericalDataCommand(tr("New parameters"),&params,&params2);
 					}
 				
 					QList<ConnectionHandle*> connections = NodeHandle::cast(parts[i])->connections();
+					QStringList renameFrom, renameTo;
+
+					ConnectionFamily * transcription = Ontology::connectionFamily("Transcription"),
+												 *	translation = Ontology::connectionFamily("Translation");
+					QStringList transcriptionParams, translationParams;
+
+					if (transcription)
+						transcriptionParams = transcription->numericalAttributes.keys();
+
+					if (translation)
+						translationParams = translation->numericalAttributes.keys();
 					
 					for (int j=0; j < connections.size(); ++j)
-						if (connections[j] &&
-							connections[j]->hasTextData(tr("Participants")) &&
-							connections[j]->hasTextData(tr("Rate equations")))
+						if (connections[j])
 						{
-							TextDataTable & participants = connections[j]->textDataTable(tr("Participants"));
 
-/*							if ((participants.hasRow(tr("template")) && participants.at(tr("template"),0) == parts[i]->fullName()) ||
-								 (participants.hasRow(tr("regulator")) && participants.at(tr("regulator"),0) == parts[i]->fullName()) ||
-								 (participants.hasRow(tr("activator")) && participants.at(tr("activator"),0) == parts[i]->fullName()) ||
-								 (participants.hasRow(tr("repressor")) && participants.at(tr("repressor"),0) == parts[i]->fullName()))*/
+							if (promoter)
 							{
-								if (rbs)
+								for (int k=0; k < transcriptionParams.size(); ++k)
 								{
-									if (!rbs->hasNumericalData("Parameters") || !rbs->numericalDataTable("Parameters").hasRow("strength"))
+									renameFrom << connections[j]->fullName() + tr(".") + transcriptionParams[k];
+									renameTo << promoter->fullName() + tr(".strength");
+								}
+							}
+
+							if (rbs)
+							{
+								for (int k=0; k < translationParams.size(); ++k)
+								{
+									renameFrom << connections[j]->fullName() + tr(".") + translationParams[k];
+									renameTo << rbs->fullName() + tr(".strength");
+								}
+
+								QList<NodeHandle*> rna = connections[j]->nodes();
+								rna << NodeHandle::cast(connections[j]->children);
+
+								for (int k=0; k < rna.size(); ++k)
+									if (NodeHandle::cast(rna[k]) && rna[k]->isA(tr("RNA")) && !rna[k]->isA("Empty"))
 									{
-										NumericalDataTable & params = rbs->numericalDataTable(tr("Parameters"));
-										NumericalDataTable params2(params);
-										params2("strength",0) = 5.0;
-										commands << new ChangeNumericalDataCommand(tr("New parameters"),&params,&params2);
-									}
-
-									bool rateChanged = false;
-									QRegExp translationRateRegex("\S+\\.translation_rate");
-									TextDataTable originalRates = connections[j]->textDataTable(tr("Rate equations"));
-									TextDataTable rates = connections[j]->textDataTable(tr("Rate equations"));
-									for (int k=0; k < rates.rows(); ++k)
-										if (rates(k).contains(translationRateRegex))
-										{
-											rateChanged = true;
-											rates(k).replace(translationRateRegex, rbs->fullName() + tr(".strength"));
-										}
-
-									if (rateChanged)
-										commands << new ChangeNumericalDataCommand(tr("New parameters"),&originalRates,&rates);
-
-									QList<NodeHandle*> rna = connections[j]->nodes();
-									rna << NodeHandle::cast(connections[j]->children);
-
-									for (int k=0; k < rna.size(); ++k)
-										if (NodeHandle::cast(rna[k]) && rna[k]->isA(tr("RNA")) && !rna[k]->isA("Empty"))
-										{
-											QList<ConnectionHandle*> connections2 = NodeHandle::cast(rna[k])->connections();
-											for (int l=0; l < connections2.size(); ++l)
-												if (connections2[l] &&
-													connections2[l]->isA(tr("Translation")) &&
-													connections2[l]->hasTextData(tr("Rate equations")))
+										QList<ConnectionHandle*> connections2 = NodeHandle::cast(rna[k])->connections();
+										for (int l=0; l < connections2.size(); ++l)
+											if (connections2[l] &&
+												connections2[l]->isA(tr("Translation")) &&
+												connections2[l]->hasTextData(tr("Rate equations")))
+											{
+												for (int m=0; m < translationParams.size(); ++m)
 												{
-													DataTable<QString> * sDat2 = new DataTable<QString>(connections2[l]->textDataTable(tr("Rate equations")));
-													QString s = rbs->fullName() + tr(".strength * ") + rna[k]->fullName();
-
-													if (!sDat2->value(0,0).contains(rbs->fullName()))
-													{
-														sDat2->value(0,0) = s;
-														oldDataTables += &(connections2[l]->textDataTable(tr("Rate equations")));
-														newDataTables += sDat2;
-													}
-													else
-														delete sDat2;
+													renameFrom << connections2[l]->fullName() + tr(".") + translationParams[m];
+													renameTo << rbs->fullName() + tr(".strength");
 												}
-										}
+											}
 									}
 								}
 						}
+
+						if (parts[i]->hasTextData("Assignments") &&
+							(parts[i]->textDataTable("Assignments").hasRow("self") || rate != tr("0.0")))
+						{
+							QString oldrate = parts[i]->textData(tr("Assignments"),tr("self"),tr("rule"));
+					
+							bool isCustomEqn = StoichiometryTool::userModifiedRates.contains(parts[i]);
+
+							if (!parts[i]->textDataTable(tr("Assignments")).hasRow(tr("self")) ||
+								(!isCustomEqn && oldrate != rate))
+								 {
+									TextDataTable * sDat = new TextDataTable(parts[i]->textDataTable(tr("Assignments")));
+									sDat->value(tr("self"),0) = rate;
+									oldDataTables += &(parts[i]->textDataTable(tr("Assignments")));
+									newDataTables += sDat;
+								}
+						}
+
+						if (!renameFrom.isEmpty())
+							commands << new RenameCommand("rename strengths", scene->network, renameFrom, renameTo, false);
+
 						rbs = 0;
 				
 						if ((parts[i]->isA(tr("Terminator")) || parts[i]->isA(tr("Vector"))) 
@@ -2038,7 +2040,7 @@ namespace Tinkercell
 		QHash< QString, TextGraphicsItem* > textsInPlasmid;
 
 		for (int i=0; i < trueChildren.size(); ++i)
-			if (trueChildren[i])
+			if (trueChildren[i] && trueChildren[i]->children.isEmpty())
 			{
 				list = trueChildren[i]->graphicsItems;
 				for (int j=0; j < list.size(); ++j)

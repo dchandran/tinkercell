@@ -174,10 +174,12 @@ namespace Tinkercell
 				{
 					bool ok;
 					double d = o.toDouble(&ok);
+					p = p.trimmed();
+					p.replace(" ","_");
 					if (ok)
-						family1->numericalAttributes[p.trimmed()] = d;
+						family1->numericalAttributes[p] = d;
 					else
-						family1->textAttributes[p.trimmed()] = o.trimmed();
+						family1->textAttributes[p] = o.trimmed();
 				}
 			}
 		}
@@ -291,10 +293,12 @@ namespace Tinkercell
 				{
 					bool ok;
 					double d = o.toDouble(&ok);
+					p = p.trimmed();
+					p.replace(" ","_");
 					if (ok)
-						family1->numericalAttributes[p.trimmed()] = d;
+						family1->numericalAttributes[p] = d;
 					else
-						family1->textAttributes[p.trimmed()] = o.trimmed();
+						family1->textAttributes[p] = o.trimmed();
 				}
 			}
 		}
@@ -335,21 +339,25 @@ namespace Tinkercell
 					families += family;
 			for (int i=0; i < families.size(); ++i)
 			{
-				NodeFamily * parent = NodeFamily::cast(families[i]->parent());
-				if (parent)
+				QList<ItemFamily*> parents = families[i]->parents();
+				for (int j=0; j < parents.size(); ++j)
 				{
-					if (families[i]->description.isEmpty())
-						families[i]->description = parent->description;
-					if (families[i]->measurementUnitOptions.isEmpty())
-						families[i]->measurementUnitOptions = parent->measurementUnitOptions;
-					QStringList keys(parent->textAttributes.keys());
-					for (int j=0; j < keys.size(); ++j)
-						if (!families[i]->textAttributes.contains(keys[j]))
-							families[i]->textAttributes[ keys[j] ] = parent->textAttributes[ keys[j] ];
-					keys = QStringList(parent->numericalAttributes.keys());
-					for (int j=0; j < keys.size(); ++j)
-						if (!families[i]->numericalAttributes.contains(keys[j]))
-							families[i]->numericalAttributes[ keys[j] ] = parent->numericalAttributes[ keys[j] ];
+					NodeFamily * parent = NodeFamily::cast(parents[j]);
+					if (parent)
+					{
+						if (families[i]->description.isEmpty())
+							families[i]->description = parent->description;
+						if (families[i]->measurementUnitOptions.isEmpty())
+							families[i]->measurementUnitOptions = parent->measurementUnitOptions;
+						QStringList keys(parent->textAttributes.keys());
+						for (int j=0; j < keys.size(); ++j)
+							if (!families[i]->textAttributes.contains(keys[j]))
+								families[i]->textAttributes[ keys[j] ] = parent->textAttributes[ keys[j] ];
+						keys = QStringList(parent->numericalAttributes.keys());
+						for (int j=0; j < keys.size(); ++j)
+							if (!families[i]->numericalAttributes.contains(keys[j]))
+								families[i]->numericalAttributes[ keys[j] ] = parent->numericalAttributes[ keys[j] ];
+					}
 				}
 				
 				if (!families[i]->measurementUnitOptions.isEmpty())
@@ -372,29 +380,34 @@ namespace Tinkercell
 					families += family;
 			for (int i=0; i < families.size(); ++i)
 			{
-				ConnectionFamily * parent = ConnectionFamily::cast(families[i]->parent());
-				if (parent)
+				QList<ItemFamily*> parents = families[i]->parents();
+				for (int j=0; j < parents.size(); ++j)
 				{
-					if (families[i]->participantRoles().isEmpty())
+					ConnectionFamily * parent = ConnectionFamily::cast(parents[j]);
+					if (parent)
 					{
-						QStringList roles = parent->participantRoles();
-						QStringList types = parent->participantTypes();
-						for (int j=0; j < roles.size() && j < types.size(); ++j)
-							families[i]->addParticipant(roles[j],types[j]);
+						if (families[i]->participantRoles().isEmpty())
+						{
+							QStringList roles = parent->participantRoles();
+							QStringList types = parent->participantTypes();
+							for (int j=0; j < roles.size() && j < types.size(); ++j)
+								families[i]->addParticipant(roles[j],types[j]);
+						}
+						if (families[i]->description.isEmpty())
+							families[i]->description = parent->description;
+						if (families[i]->measurementUnitOptions.isEmpty())
+							families[i]->measurementUnitOptions = parent->measurementUnitOptions;
+						QStringList keys(parent->textAttributes.keys());
+						for (int j=0; j < keys.size(); ++j)
+							if (!families[i]->textAttributes.contains(keys[j]))
+								families[i]->textAttributes[ keys[j] ] = parent->textAttributes[ keys[j] ];
+						keys = QStringList(parent->numericalAttributes.keys());
+						for (int j=0; j < keys.size(); ++j)
+							if (!families[i]->numericalAttributes.contains(keys[j]))
+								families[i]->numericalAttributes[ keys[j] ] = parent->numericalAttributes[ keys[j] ];
 					}
-					if (families[i]->description.isEmpty())
-						families[i]->description = parent->description;
-					if (families[i]->measurementUnitOptions.isEmpty())
-						families[i]->measurementUnitOptions = parent->measurementUnitOptions;
-					QStringList keys(parent->textAttributes.keys());
-					for (int j=0; j < keys.size(); ++j)
-						if (!families[i]->textAttributes.contains(keys[j]))
-							families[i]->textAttributes[ keys[j] ] = parent->textAttributes[ keys[j] ];
-					keys = QStringList(parent->numericalAttributes.keys());
-					for (int j=0; j < keys.size(); ++j)
-						if (!families[i]->numericalAttributes.contains(keys[j]))
-							families[i]->numericalAttributes[ keys[j] ] = parent->numericalAttributes[ keys[j] ];
 				}
+
 				if (!families[i]->measurementUnitOptions.isEmpty())
 					families[i]->measurementUnit = families[i]->measurementUnitOptions.first();
 				families += ConnectionFamily::cast(families[i]->children());

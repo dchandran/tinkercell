@@ -295,7 +295,7 @@ class PartAnnotator(window.Window):
         try:
             sequence = partInfo["seq_data"]
             sequence = sequence.replace(" ", "")
-            print sequence
+            #print sequence
             #tc_setSequence(self.currentPart, sequence)
         except KeyError: # no sequence
             pass

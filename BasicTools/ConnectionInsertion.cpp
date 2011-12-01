@@ -1211,6 +1211,17 @@ namespace Tinkercell
 		}
 		
 		QList<ItemFamily*> childFamilies = selectedFamily->findValidChildFamilies(nodeHandles,all);
+
+		if (selectedFamily->name() == tr("1 to 1")) //special treatment because everything in 1 to 1
+		{
+			QList<ItemFamily*> childFamilies2;
+			for (int i=0; i < childFamilies.size(); ++i)
+				if (!(childFamilies[i]->isA(tr("2 to 1")) || childFamilies[i]->isA(tr("1 to 2"))))
+					childFamilies2 << childFamilies[i];
+
+			childFamilies = childFamilies2;
+		}
+
 		Ontology::GLOBAL_CHILDREN = globalChildren;
 
 		if (childFamilies.isEmpty())

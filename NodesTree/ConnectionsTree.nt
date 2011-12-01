@@ -13,7 +13,7 @@
 <Production>									<a>							<1 to 1> .
 <Production>									<participant>			"Empty, Source"@en .
 <Production>									<participant>			"Molecule, Product"@en .
-<Production>								<description>			"A process where a molecule enters the system from outside the system"@en .
+<Production>									<description>			"A process where a molecule enters the system from outside the system"@en .
 <Dimerization>									<a>							<2 to 1> .
 <Dimerization>									<participant>			"Molecule, Reactant1"@en .
 <Dimerization>									<participant>			"Molecule, Reactant2"@en .
@@ -22,6 +22,7 @@
 <Transcription>									<a>			<2 to 1> .
 <Transcription>									<a>			<Production> .
 <Transcription>								<a>					<Activation> .
+<Transcription>									<transcription rate>			"1.0"@en.
 <Transcription>								<description>			"Production of mRNA from DNA template"@en .
 <Transcription>									<participant>			"Coding, Template"@en .
 <Transcription>									<participant>			"Empty, Source"@en .
@@ -29,23 +30,26 @@
 <Translation>									<a>			<2 to 1> .
 <Translation>									<a>			<Production> .
 <Translation>								<a>					<Activation> .
+<Translation>									<translation rate>			"1.0"@en.
 <Translation>								<description>			"Production of Protein from mRNA template"@en .
 <Translation>									<participant>			"mRNA, Template"@en .
 <Translation>									<participant>			"Empty, Source"@en .
 <Translation>									<participant>			"Protein, Product"@en .
-<Protein Production>									<a>			<Production> .
+<Protein Production>								<a>					<Transcription> .
+<Protein Production>								<a>					<Translation> .
 <Protein Production>								<a>					<Activation> .
 <Protein Production>								<description>			"The complete process of starting from a DNA template and producing a protein product, including any necessary intermediate steps"@en .
 <Protein Production>									<participant>			"Coding, Template"@en .
 <Protein Production>									<participant>			"Protein, Product"@en .
-<Multimerization>									<a>			<1 to 1> .
+<Multimerization>									<a>								<Biochemical reaction> .
+<Multimerization>									<monomers>					"2.0"@en.
 <Multimerization>									<description>		"The formation of a multimer from monomers of the same kind"@en .
 <Multimerization>									<participant>			"Molecule, Reactant"@en .
 <Multimerization>									<participant>			"Molecule, Product"@en .
-<PoPS>														<a>			<1 to 1> .
-<PoPS>									<description>		"Movement of RNA polymerase along a DNA strand"@en .
-<PoPS>									<participant>			"Part, Upstream"@en .
-<PoPS>									<participant>			"Part, Downstream"@en .
+<PoPS Flow>														<a>			<1 to 1> .
+<PoPS Flow>									<description>		"Movement of RNA polymerase along a DNA strand"@en .
+<PoPS Flow>									<participant>			"Part, Upstream"@en .
+<PoPS Flow>									<participant>			"Part, Downstream"@en .
 <Allosteric Regulation>									<a>							<1 to 1> .
 <Allosteric Regulation>									<a>							<Regulation> .
 <Allosteric Regulation>									<description>			"One molecule affecting the activity of another"@en .
@@ -157,18 +161,22 @@
 <Direct Gene Repression>								<a>			<Repression> .
 <Direct Gene Repression>								<participant>			"Coding, Repressor"@en .
 <Direct Gene Repression>								<participant>			"Repressor Binding Site, Target"@en .
+<Gene Activation with Repressor>								<a>			<2 to 1> .
 <Gene Activation with Repressor>								<a>			<Direct Gene Activation> .
 <Gene Activation with Repressor>								<participant>			"Coding, Activator"@en .
 <Gene Activation with Repressor>								<participant>			"Activator Binding Site, Target"@en .
 <Gene Activation with Repressor>								<participant>			"Molecule, Inhibitor"@en .
+<Gene Repression with Repressor>								<a>			<2 to 1> .
 <Gene Repression with Repressor>								<a>			<Direct Gene Repression> .
 <Gene Repression with Repressor>								<participant>			"Coding, Repressor"@en .
 <Gene Repression with Repressor>								<participant>			"Repressor Binding Site, Target"@en .
 <Gene Repression with Repressor>								<participant>			"Molecule, Inhibitor"@en .
+<Gene Activation with Activator>								<a>			<2 to 1> .
 <Gene Activation with Activator>								<a>			<Direct Gene Activation> .
 <Gene Activation with Activator>								<participant>			"Coding, Activator"@en .
 <Gene Activation with Activator>								<participant>			"Activator Binding Site, Target"@en .
 <Gene Activation with Activator>								<participant>			"Molecule, Inducer"@en .
+<Gene Repression with Activator>								<a>			<2 to 1> .
 <Gene Repression with Activator>								<a>			<Direct Gene Repression> .
 <Gene Repression with Activator>								<participant>			"Coding, Repressor"@en .
 <Gene Repression with Activator>								<participant>			"Repressor Binding Site, Target"@en .

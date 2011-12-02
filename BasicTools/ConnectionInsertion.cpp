@@ -590,6 +590,9 @@ namespace Tinkercell
 		{
 			setRequirements();
 
+			QStringList globalChildren = Ontology::GLOBAL_CHILDREN;
+			Ontology::GLOBAL_CHILDREN.clear();
+
 			QStringList alltypes;
 			alltypes << typeIn << typeOut;
 	
@@ -642,6 +645,7 @@ namespace Tinkercell
 								usedNames << handle->fullName();
 					}
 				}
+				Ontology::GLOBAL_CHILDREN = globalChildren;
 		}
 		return newNodes;
 	}

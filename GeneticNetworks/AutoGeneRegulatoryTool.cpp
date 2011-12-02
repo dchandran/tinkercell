@@ -589,7 +589,7 @@ namespace Tinkercell
 		}
 	}
 
-	QUndoCommand * AutoGeneRegulatoryTool::autoAssignRates(QList<NodeHandle*>& parts)
+	QUndoCommand * AutoGeneRegulatoryTool::autoAssignRates(QList<NodeHandle*>& parts, const QList<NodeHandle*>& movedItems)
 	{
 		QUndoCommand * command = 0;
 		QList<QUndoCommand*> commands;
@@ -669,6 +669,19 @@ namespace Tinkercell
 							}
 					}
 
+					QList<ConnectionHandle*> connections = NodeHandle::cast(parts[i])->connections();
+					QStringList renameFrom, renameTo;
+
+					ConnectionFamily * transcription = Ontology::connectionFamily("Transcription"),
+												 *	translation = Ontology::connectionFamily("Translation");
+					QStringList transcriptionParams, translationParams;
+
+					if (transcription)
+						transcriptionParams = transcription->numericalAttributes.keys();
+
+					if (translation)
+						translationParams = translation->numericalAttributes.keys();
+
 					if (!promoter)
 					{
 						rate = tr("0.0");
@@ -682,56 +695,72 @@ namespace Tinkercell
 							params2("strength",0) = 5.0;
 							commands << new ChangeNumericalDataCommand(tr("New parameters"),&params,&params2);
 						}
-						
-						/*if (rate.isEmpty())
-							rate = promoter->fullName() + tr(".strength");
-						else
-							rate = promoter->fullName() + tr(".strength * (") + rate + tr(")");
-
-						if (parts[i]->parent && parts[i]->parent->isA(tr("Vector")))
-							rate = parts[i]->parent->fullName() + tr(" * ") + rate;*/
 					}
-
-					if (rbs && (!rbs->hasNumericalData("Parameters") || !rbs->numericalDataTable("Parameters").hasRow("strength")))
-					{
-						NumericalDataTable & params = rbs->numericalDataTable(tr("Parameters"));
-						NumericalDataTable params2(params);
-						params2("strength",0) = 5.0;
-						commands << new ChangeNumericalDataCommand(tr("New parameters"),&params,&params2);
-					}
-				
-					QList<ConnectionHandle*> connections = NodeHandle::cast(parts[i])->connections();
-					QStringList renameFrom, renameTo;
-
-					ConnectionFamily * transcription = Ontology::connectionFamily("Transcription"),
-												 *	translation = Ontology::connectionFamily("Translation");
-					QStringList transcriptionParams, translationParams;
-
-					if (transcription)
-						transcriptionParams = transcription->numericalAttributes.keys();
-
-					if (translation)
-						translationParams = translation->numericalAttributes.keys();
+					
+					bool usesTranscriptionalParams = false;
 					
 					for (int j=0; j < connections.size(); ++j)
-						if (connections[j])
+						if (connections[j] &&
+							connections[j]->hasTextData(tr("Participants")) &&
+							connections[j]->hasTextData(tr("Rate equations")))
 						{
+							TextDataTable & participants = connections[j]->textDataTable(tr("Participants"));
+							TextDataTable & rate = connections[j]->textDataTable(tr("Rate equations"));
+
+							if (!transcriptionParams.isEmpty() && connections[j]->textData(tr("Rate equations")).contains(transcriptionParams[0]))
+								usesTranscriptionalParams = true;
 
 							if (promoter)
 							{
-								for (int k=0; k < transcriptionParams.size(); ++k)
+								if (rate.rows() > 0 && rate(0,0).contains(tr(".strength")) && !rate(0,0).contains(promoter->fullName()))
 								{
-									renameFrom << connections[j]->fullName() + tr(".") + transcriptionParams[k];
-									renameTo << promoter->fullName() + tr(".strength");
-								}
+									DataTable<QString> * sDat2 = new DataTable<QString>(rate);
+									sDat2->value(0,0).replace(QRegExp("\\S+\\.strength"),promoter->fullName() + tr(".strength"));
+									oldDataTables += &(rate);
+									newDataTables += sDat2;
+								}									
+
+								for (int k=0; k < transcriptionParams.size(); ++k)
+									if (connections[j]->numericalDataTable("Parameters").hasRow(transcriptionParams[k]))
+									{
+										renameFrom << connections[j]->fullName() + tr(".") + transcriptionParams[k];
+										renameTo << promoter->fullName() + tr(".strength");
+									}
+							}
+							else
+							{
+								for (int k=0; k < movedItems.size(); ++k)
+									if (movedItems[k] && movedItems[k]->isA("promoter"))
+									{
+										renameFrom << movedItems[k]->fullName() + tr(".strength");
+										renameTo << tr("1.0");
+									}
 							}
 
-							if (rbs)
+							if (!rbs)
+							{
+								for (int k=0; k < movedItems.size(); ++k)
+									if (movedItems[k] && movedItems[k]->isA("RBS"))
+									{
+										renameFrom << movedItems[k]->fullName() + tr(".strength");
+										renameTo << tr("1.0");
+									}
+							}
+							else
 							{
 								for (int k=0; k < translationParams.size(); ++k)
+									if (connections[j]->numericalDataTable("Parameters").hasRow(translationParams[k]))
+									{
+										renameFrom << connections[j]->fullName() + tr(".") + translationParams[k];
+										renameTo << rbs->fullName() + tr(".strength");
+									}
+
+								if (!rbs->hasNumericalData("Parameters") || !rbs->numericalDataTable("Parameters").hasRow("strength"))
 								{
-									renameFrom << connections[j]->fullName() + tr(".") + translationParams[k];
-									renameTo << rbs->fullName() + tr(".strength");
+									NumericalDataTable & params = rbs->numericalDataTable(tr("Parameters"));
+									NumericalDataTable params2(params);
+									params2("strength",0) = 5.0;
+									commands << new ChangeNumericalDataCommand(tr("New parameters"),&params,&params2);
 								}
 
 								QList<NodeHandle*> rna = connections[j]->nodes();
@@ -747,10 +776,24 @@ namespace Tinkercell
 												connections2[l]->hasTextData(tr("Rate equations")))
 											{
 												for (int m=0; m < translationParams.size(); ++m)
+													if (connections2[l]->numericalDataTable("Parameters").hasRow(translationParams[m]))
+													{
+														renameFrom << connections2[l]->fullName() + tr(".") + translationParams[m];
+														renameTo << rbs->fullName() + tr(".strength");
+													}
+
+												DataTable<QString> * sDat2 = new DataTable<QString>(connections2[l]->textDataTable(tr("Rate equations")));
+												QString s = rbs->fullName() + tr(".strength * ") + rna[k]->fullName();
+
+												if (!sDat2->value(0,0).contains(rbs->fullName()) && 
+														(translationParams.isEmpty() || !sDat2->value(0,0).contains(translationParams[0])))
 												{
-													renameFrom << connections2[l]->fullName() + tr(".") + translationParams[m];
-													renameTo << rbs->fullName() + tr(".strength");
+													sDat2->value(0,0) = s;
+													oldDataTables += &(connections2[l]->textDataTable(tr("Rate equations")));
+													newDataTables += sDat2;
 												}
+												else
+													delete sDat2;
 											}
 									}
 								}
@@ -766,6 +809,17 @@ namespace Tinkercell
 							if (!parts[i]->textDataTable(tr("Assignments")).hasRow(tr("self")) ||
 								(!isCustomEqn && oldrate != rate))
 								 {
+									if (promoter && !usesTranscriptionalParams)
+									{
+										if (rate.isEmpty())
+											rate = promoter->fullName() + tr(".strength");
+										else
+											rate = promoter->fullName() + tr(".strength * (") + rate + tr(")");
+									}
+
+									if (!rate.isEmpty() && parts[i]->parent && parts[i]->parent->isA(tr("Vector")))
+										rate = parts[i]->parent->fullName() + tr(" * ") + rate;
+
 									TextDataTable * sDat = new TextDataTable(parts[i]->textDataTable(tr("Assignments")));
 									sDat->value(tr("self"),0) = rate;
 									oldDataTables += &(parts[i]->textDataTable(tr("Assignments")));
@@ -773,11 +827,15 @@ namespace Tinkercell
 								}
 						}
 
-						if (!renameFrom.isEmpty())
-							commands << new RenameCommand("rename strengths", scene->network, renameFrom, renameTo, false);
-
 						rbs = 0;
-				
+						if (!renameFrom.isEmpty())
+						{
+							QList<ItemHandle*> handles;
+							for (int j=0; j < connections.size(); ++j)
+								handles += connections[j];
+							commands << new RenameCommand("rename strengths", scene->network, handles, renameFrom, renameTo, false);
+						}
+
 						if ((parts[i]->isA(tr("Terminator")) || parts[i]->isA(tr("Vector"))) 
 							&& !parts[i]->isA("Empty")	
 							&& NodeHandle::cast(parts[i]))
@@ -1171,12 +1229,14 @@ namespace Tinkercell
 		NodeHandle * handle = 0;
 		ItemHandle * h;
 		QString rate;
+		QList<NodeHandle*> movedItems;
 		
 		for (int i=0; i < items.size(); ++i)
 		{
 			handle = NodeHandle::cast( getHandle(items[i]) );
-			if (NodeGraphicsItem::cast(items[i]) && handle && (handle->isA(tr("Operator")) || handle->isA(tr("RBS"))))
+			if (NodeGraphicsItem::cast(items[i]) && handle && (handle->isA(tr("Promoter")) || handle->isA(tr("Operator")) || handle->isA(tr("RBS"))))
 			{
+				movedItems << handle;
 				connections = scene->network->symbolsTable.handlesByFamily.values(tr("Transcription"));
 				connections += scene->network->symbolsTable.handlesByFamily.values(tr("Translation"));
 				connections += scene->network->symbolsTable.handlesByFamily.values(tr("Protein Production"));
@@ -1360,7 +1420,7 @@ namespace Tinkercell
 			}
 			if (!parts3.isEmpty())
 			{
-				commands << autoAssignRates(parts3);
+				commands << autoAssignRates(parts3,movedItems);
 			}
 		}
 		
@@ -2040,7 +2100,7 @@ namespace Tinkercell
 		QHash< QString, TextGraphicsItem* > textsInPlasmid;
 
 		for (int i=0; i < trueChildren.size(); ++i)
-			if (trueChildren[i] && trueChildren[i]->children.isEmpty())
+			if (trueChildren[i])
 			{
 				list = trueChildren[i]->graphicsItems;
 				for (int j=0; j < list.size(); ++j)

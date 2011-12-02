@@ -115,7 +115,7 @@ namespace Tinkercell
 		static AutoGeneRegulatoryTool_FtoS * fToS;
 		
 		QUndoCommand * adjustPlasmid(GraphicsScene * , NodeGraphicsItem*, bool align=true, bool keepChildren=false);
-		QUndoCommand * autoAssignRates(QList<NodeHandle*>&);
+		QUndoCommand * autoAssignRates(QList<NodeHandle*>&, const QList<NodeHandle*>& movedItems=QList<NodeHandle*>());
 		
 	public:
 		static void findAllParts(NodeGraphicsItem*,const QString& family,QList<ItemHandle*>& ,bool upstream=true,const QStringList& stopIf=QStringList(), bool stopIfElongation = false);

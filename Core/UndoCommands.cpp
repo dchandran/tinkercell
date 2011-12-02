@@ -2349,11 +2349,14 @@ namespace Tinkercell
 						}*/
 
 						if ((handles[i]->name.isEmpty() && nDat->rowName(k) == oldname) ||
-							 ((handles[i]->fullName() + QObject::tr(".") + nDat->rowName(k)) == oldname ||
-								(handles[i]->fullName() + QObject::tr("_") + nDat->rowName(k)) == oldname)
-							)
+							 (s1 != newname && 
+								((handles[i]->fullName() + QObject::tr(".") + nDat->rowName(k)) == oldname ||
+								(handles[i]->fullName() + QObject::tr("_") + nDat->rowName(k)) == oldname))	)
 						{
-							nDat->setRowName(k,s1);
+							if (!sDat->hasRow(s1))
+								nDat->setRowName(k,s1);
+							else
+								nDat->removeRow(k);
 						}
 					}
 					for (int k=0; k < nDat->columns(); ++k)
@@ -2414,14 +2417,13 @@ namespace Tinkercell
 						}*/
 
 						if ((handles[i]->name.isEmpty() && sDat->rowName(k) == oldname) ||
-							((handles[i]->fullName() + QObject::tr(".") + sDat->rowName(k)) == oldname ||
-							 (handles[i]->fullName() + QObject::tr("_") + sDat->rowName(k)) == oldname)
-							 )
+							(s1 != newname && ((handles[i]->fullName() + QObject::tr(".") + sDat->rowName(k)) == oldname ||
+							 (handles[i]->fullName() + QObject::tr("_") + sDat->rowName(k)) == oldname)))
 						{
-							if (!sDat->hasColumn(s2))
+							if (!sDat->hasRow(s1))
 								sDat->setRowName(k,s1);
 							else
-								sDat->removeColumn(k);
+								sDat->removeRow(k);
 						}
 					}
 					for (int k=0; k < sDat->columns(); ++k)

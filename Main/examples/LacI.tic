@@ -4,7 +4,7 @@
     <Handles>
         <Handle type="0" name="" parent="" family="">
             <tc_table>
-                <Table key="units" rows="29" cols="2" rowNames="_cell;;_vector;;_molecule;;_reporter;;_transcription factor;;_fluorescent protein;;_constitutive promoter;;_repressor binding site;;_receptor;;_inducible promoter;;_rbs;;_part;;_composite part;;_protein;;_coding;;_catalyst;;_small molecule;;_sticky ends;;_terminator;;_mrna;;_promoter;;_repressible promoter;;_compartment;;_enzyme;;_ribozyme;;_activator binding site;;_operator;;_rna;;_subcellular compartment" columnNames="property;;name" values="volume;;fL;;copies;;count;;concentration;;uM;;concentration;;uM;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;concentration;;uM;;concentration;;uM;;copies;;count;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;volume;;fL;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;volume;;fL"/>
+                <Table key="units" rows="30" cols="2" rowNames="_coding;;_ribozyme;;_small molecule;;_receptor;;_rna;;_reporter;;_sticky ends;;_molecule;;_promoter;;_activator binding site;;_spacer dna;;_vector;;_part;;_cell;;_constitutive promoter;;_fluorescent protein;;_protein;;_transcription factor;;_rbs;;_operator;;_repressible promoter;;_repressor binding site;;_terminator;;_enzyme;;_subcellular compartment;;_catalyst;;_mrna;;_inducible promoter;;_compartment;;_composite part" columnNames="property;;name" values="activity;;PoPS;;concentration;;uM;;concentration;;uM;;concentration;;uM;;concentration;;uM;;concentration;;uM;;copies;;count;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;copies;;count;;activity;;PoPS;;volume;;fL;;activity;;PoPS;;concentration;;uM;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;volume;;fL;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;volume;;fL;;activity;;PoPS"/>
             </tc_table>
         </Handle>
         <Handle type="1" name="cel1" parent="" family="cell">
@@ -32,10 +32,10 @@
                 <Table key="text attributes" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
                 <Table key="units" rows="0" cols="0" rowNames="" columnNames="" values=""/>
-                <Table key="participants" rows="4" cols="1" rowNames="reactant;;product;;substrate;;catalyst" columnNames="" values="lactose;;cel1.lactose;;lactose;;cel1.LacZ"/>
+                <Table key="participants" rows="4" cols="1" rowNames="reactant;;product;;substrate;;catalyst" columnNames="" values="lactose;;cel1.lactose;;lactose;;cel1.LacY"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
-                <Table key="rate equations" rows="1" cols="1" rowNames="" columnNames="" values="tra1.Kcat * cel1.LacZ * lactose*lactose/( tra1.Km + lactose*lactose)"/>
+                <Table key="rate equations" rows="1" cols="1" rowNames="" columnNames="" values="tra1.Kcat * cel1.LacY * lactose*lactose/( tra1.Km + lactose*lactose)"/>
             </tc_table>
         </Handle>
         <Handle type="1" name="lactose" parent="" family="small molecule">
@@ -54,6 +54,7 @@
         <Handle type="1" name="emp1" parent="" family="empty">
             <tc_matrix>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
+                <Table key="position" rows="2" cols="1" rowNames="x;;y" columnNames="value" desc="" values="4528;;4684"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
@@ -79,7 +80,7 @@
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="consume.k0*cel1.lactose"/>
             </tc_table>
         </Handle>
-        <Handle type="1" name="LacZ" parent="cel1" family="enzyme">
+        <Handle type="1" name="LacY" parent="cel1" family="enzyme">
             <tc_matrix>
                 <Table key="initial value" rows="1" cols="1" rowNames="concentration" columnNames="concentration" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="0"/>
                 <Table key="parameters" rows="2" cols="3" rowNames="degradation_rate;;molecularweight" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="0.1;;0.001;;10;;50000;;5000;;500000"/>
@@ -146,16 +147,16 @@
         </Handle>
         <Handle type="2" name="pp1" parent="cel1" family="protein production">
             <tc_matrix>
-                <Table key="product stoichiometries" rows="1" cols="2" rowNames="stoichiometry" columnNames="cel1.cod1;;cel1.LacZ" desc="Number of each product participating in this reaction" values="0;;1"/>
+                <Table key="product stoichiometries" rows="1" cols="2" rowNames="stoichiometry" columnNames="cel1.cod1;;cel1.LacY" desc="Number of each product participating in this reaction" values="0;;1"/>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
-                <Table key="reactant stoichiometries" rows="1" cols="2" rowNames="stoichiometry" columnNames="cel1.cod1;;cel1.LacZ" desc="Number of each reactant participating in this reaction" values="0;;0"/>
+                <Table key="reactant stoichiometries" rows="1" cols="2" rowNames="stoichiometry" columnNames="cel1.cod1;;cel1.LacY" desc="Number of each reactant participating in this reaction" values="0;;0"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
                 <Table key="text attributes" rows="0" cols="1" rowNames="" columnNames="value" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
                 <Table key="units" rows="0" cols="0" rowNames="" columnNames="" values=""/>
-                <Table key="participants" rows="2" cols="1" rowNames="product;;template" columnNames="" values="cel1.LacZ;;cel1.cod1"/>
+                <Table key="participants" rows="2" cols="1" rowNames="product;;template" columnNames="" values="cel1.LacY;;cel1.cod1"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
                 <Table key="rate equations" rows="0" cols="0" rowNames="" columnNames="" values=""/>
@@ -231,15 +232,16 @@
             <tc_table>
                 <Table key="text attributes" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="participants" rows="3" cols="1" rowNames="reactant1;;product;;reactant2" columnNames="t1_t1" values="cel1.LacZ;;cel1.lactose;;lactose"/>
+                <Table key="participants" rows="3" cols="1" rowNames="reactant1;;product;;reactant2" columnNames="t1_t1" values="cel1.LacY;;cel1.lactose;;lactose"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
-                <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="tra1.Kcat*lactose*cel1.LacZ/(tra1.Kd + lactose)"/>
+                <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="tra1.Kcat*lactose*cel1.LacY/(tra1.Kd + lactose)"/>
             </tc_table>
         </Handle>
         <Handle type="1" name="emp2" parent="cel1.pp1" family="empty">
             <tc_matrix>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
+                <Table key="position" rows="2" cols="1" rowNames="x;;y" columnNames="value" desc="" values="6489.75;;5979.25"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
@@ -252,6 +254,7 @@
         <Handle type="1" name="emp1" parent="cel1.pp1" family="empty">
             <tc_matrix>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
+                <Table key="position" rows="2" cols="1" rowNames="x;;y" columnNames="value" desc="" values="5458.42;;5979.25"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
@@ -263,31 +266,31 @@
         </Handle>
         <Handle type="2" name="v2" parent="cel1.pp1" family="degradation">
             <tc_matrix>
-                <Table key="product stoichiometries" rows="1" cols="1" rowNames="stoichiometry" columnNames="cel1.LacZ" desc="Number of each product participating in this reaction" values="0"/>
+                <Table key="product stoichiometries" rows="1" cols="1" rowNames="stoichiometry" columnNames="cel1.LacY" desc="Number of each product participating in this reaction" values="0"/>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
-                <Table key="reactant stoichiometries" rows="1" cols="1" rowNames="stoichiometry" columnNames="cel1.LacZ" desc="Number of each reactant participating in this reaction" values="1"/>
+                <Table key="reactant stoichiometries" rows="1" cols="1" rowNames="stoichiometry" columnNames="cel1.LacY" desc="Number of each reactant participating in this reaction" values="1"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
                 <Table key="text attributes" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="participants" rows="3" cols="1" rowNames="reactant;;product;;sink" columnNames="" values="cel1.LacZ;;cel1.pp1.emp2;;cel1.pp1.emp2"/>
+                <Table key="participants" rows="3" cols="1" rowNames="reactant;;product;;sink" columnNames="" values="cel1.LacY;;cel1.pp1.emp2;;cel1.pp1.emp2"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
-                <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="cel1.LacZ.degradation_rate*cel1.LacZ"/>
+                <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="cel1.LacY.degradation_rate*cel1.LacY"/>
             </tc_table>
         </Handle>
         <Handle type="2" name="v1" parent="cel1.pp1" family="2 to 1">
             <tc_matrix>
-                <Table key="product stoichiometries" rows="1" cols="1" rowNames="stoichiometry" columnNames="cel1.LacZ" desc="Number of each product participating in this reaction" values="1"/>
+                <Table key="product stoichiometries" rows="1" cols="1" rowNames="stoichiometry" columnNames="cel1.LacY" desc="Number of each product participating in this reaction" values="1"/>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
-                <Table key="reactant stoichiometries" rows="1" cols="1" rowNames="stoichiometry" columnNames="cel1.LacZ" desc="Number of each reactant participating in this reaction" values="0"/>
+                <Table key="reactant stoichiometries" rows="1" cols="1" rowNames="stoichiometry" columnNames="cel1.LacY" desc="Number of each reactant participating in this reaction" values="0"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
                 <Table key="text attributes" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" values=""/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="participants" rows="4" cols="1" rowNames="reactant;;product;;reactant1;;reactant2" columnNames="" values="cel1.pp1.emp1;;cel1.LacZ;;cel1.cod1;;cel1.cod1"/>
+                <Table key="participants" rows="4" cols="1" rowNames="reactant;;product;;reactant1;;reactant2" columnNames="" values="cel1.pp1.emp1;;cel1.LacY;;cel1.cod1;;cel1.cod1"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="cel1.cod1"/>
@@ -1064,7 +1067,7 @@
                 </renderInformation>
             </listOfRenderInformation>
         </NodeItem>
-        <NodeItem className="NodeGraphicsItem" scene="0" handle="cel1.LacZ" z="15.1">
+        <NodeItem className="NodeGraphicsItem" scene="0" handle="cel1.LacY" z="15.1">
             <pos x="5208.83" y="4879.61"/>
             <transform m11="0.66" m12="0" m21="0" m22="0.851115"/>
             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
@@ -1221,7 +1224,7 @@
                 </renderInformation>
             </listOfRenderInformation>
         </NodeItem>
-        <NodeItem className="NodeGraphicsItem" scene="1" handle="cel1.LacZ" z="16.1">
+        <NodeItem className="NodeGraphicsItem" scene="1" handle="cel1.LacY" z="16.1">
             <pos x="5129.12" y="4738.23"/>
             <transform m11="1.1" m12="0" m21="0" m22="1.1"/>
             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
@@ -1829,7 +1832,7 @@
                 </renderInformation>
             </listOfRenderInformation>
         </NodeItem>
-        <NodeItem className="NodeGraphicsItem" scene="4" handle="cel1.LacZ" z="25.7">
+        <NodeItem className="NodeGraphicsItem" scene="4" handle="cel1.LacY" z="25.7">
             <pos x="5973.72" y="5981.77"/>
             <transform m11="0.7" m12="0" m21="0" m22="0.6"/>
             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
@@ -2031,7 +2034,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="4950.78" y="4809.25" angle="94.3345"/>
-                            <transform m11="-0.0302311" m12="0.398856" m21="-0.299142" m22="-0.0226733"/>
+                            <transform m11="-0.0302312" m12="0.398856" m21="-0.299142" m22="-0.0226734"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -2188,7 +2191,7 @@
                     <ControlPoint x="5918.72" y="5980.9"/>
                 </ControlPoints>
                 <CurveSegments>
-                    <Path numPoints="4" NodeAtStart="cel1.pp1.emp1" NodeAtStartX="5458.42" NodeAtStartY="5979.25" NodeAtEnd="cel1.LacZ" NodeAtEndX="5973.72" NodeAtEndY="5981.77">
+                    <Path numPoints="4" NodeAtStart="cel1.pp1.emp1" NodeAtStartX="5458.42" NodeAtStartY="5979.25" NodeAtEnd="cel1.LacY" NodeAtEndX="5973.72" NodeAtEndY="5981.77">
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="5918.72" y="5980.9" angle="0.910815"/>
@@ -2265,7 +2268,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="4568" y="4672.51" angle="163.979"/>
-                            <transform m11="-0.384464" m12="0.110395" m21="-0.0827961" m22="-0.288348"/>
+                            <transform m11="-0.384464" m12="0.110394" m21="-0.082795" m22="-0.288348"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -2483,11 +2486,11 @@
                     <ControlPoint x="5066.47" y="4676.64"/>
                 </ControlPoints>
                 <CurveSegments>
-                    <Path numPoints="4" NodeAtStart="cel1.LacZ" NodeAtStartX="5208.83" NodeAtStartY="4879.61" NodeAtEnd="tra1" NodeAtEndX="5031.47" NodeAtEndY="4663.5">
+                    <Path numPoints="4" NodeAtStart="cel1.LacY" NodeAtStartX="5208.83" NodeAtStartY="4879.61" NodeAtEnd="tra1" NodeAtEndX="5031.47" NodeAtEndY="4663.5">
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="5066.47" y="4676.64" angle="-159.425"/>
-                            <transform m11="-0.374485" m12="-0.140572" m21="0.105429" m22="-0.280864"/>
+                            <transform m11="-0.374485" m12="-0.140573" m21="0.105429" m22="-0.280864"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -2538,11 +2541,11 @@
                     <ControlPoint x="5238.32" y="4942.17"/>
                 </ControlPoints>
                 <CurveSegments>
-                    <Path numPoints="4" NodeAtStart="cel1.cod1" NodeAtStartX="5132" NodeAtStartY="5133.28" NodeAtEnd="cel1.LacZ" NodeAtEndX="5208.83" NodeAtEndY="4879.61">
+                    <Path numPoints="4" NodeAtStart="cel1.cod1" NodeAtStartX="5132" NodeAtStartY="5133.28" NodeAtEnd="cel1.LacY" NodeAtEndX="5208.83" NodeAtEndY="4879.61">
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="5238.32" y="4942.17" angle="-117.662"/>
-                            <transform m11="-0.162488" m12="-0.309996" m21="0.354281" m22="-0.185701"/>
+                            <transform m11="-0.16249" m12="-0.309995" m21="0.35428" m22="-0.185703"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -2637,11 +2640,11 @@
                     <ControlPoint x="5283.48" y="4900.47"/>
                 </ControlPoints>
                 <CurveSegments>
-                    <Path numPoints="4" NodeAtStart="cel1.LacZ" NodeAtStartX="5129.12" NodeAtStartY="4738.23" NodeAtEnd="tra1.catalysis" NodeAtEndX="5279.48" NodeAtEndY="4935.47">
+                    <Path numPoints="4" NodeAtStart="cel1.LacY" NodeAtStartX="5129.12" NodeAtStartY="4738.23" NodeAtEnd="tra1.catalysis" NodeAtEndX="5279.48" NodeAtEndY="4935.47">
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="5283.48" y="4900.47" angle="96.5202"/>
-                            <transform m11="-0.0454215" m12="0.397412" m21="-0.29806" m22="-0.0340662"/>
+                            <transform m11="-0.0454217" m12="0.397412" m21="-0.29806" m22="-0.0340664"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -2963,7 +2966,7 @@
                     <ControlPoint x="6449.75" y="5979.55"/>
                 </ControlPoints>
                 <CurveSegments>
-                    <Path numPoints="4" NodeAtStart="cel1.LacZ" NodeAtStartX="5973.72" NodeAtStartY="5981.77" NodeAtEnd="cel1.pp1.emp2" NodeAtEndX="6489.75" NodeAtEndY="5979.25">
+                    <Path numPoints="4" NodeAtStart="cel1.LacY" NodeAtStartX="5973.72" NodeAtStartY="5981.77" NodeAtEnd="cel1.pp1.emp2" NodeAtEndX="6489.75" NodeAtEndY="5979.25">
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="6449.75" y="5979.55" angle="-0.436722"/>
@@ -3024,10 +3027,10 @@
         <TextItem text="cod1" scene="0" handle="cel1.cod1" x="5095.5" y="5146.82" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="64" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="rbs1" scene="0" handle="cel1.rbs1" x="4974" y="5139" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="61.8" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="pro1" scene="0" handle="cel1.pro1" x="4797" y="5139" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="58.7" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="LacZ" scene="0" handle="cel1.LacZ" x="5243.83" y="4815.44" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="16.1" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="LacY" scene="0" handle="cel1.LacY" x="5243.83" y="4815.44" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="16.1" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="cel1" scene="0" handle="cel1" x="4959" y="5259" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="3" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="catalysis" scene="1" handle="tra1.catalysis" x="5217.49" y="4974.92" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="65.2" font="Sans" size="22" bold="0" italics="0" underline="0" group="tra1"/>
-        <TextItem text="LacZ" scene="1" handle="cel1.LacZ" x="5059.68" y="4641.55" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="17.1" font="Sans" size="22" bold="0" italics="0" underline="0" group="tra1"/>
+        <TextItem text="LacY" scene="1" handle="cel1.LacY" x="5059.68" y="4641.55" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="17.1" font="Sans" size="22" bold="0" italics="0" underline="0" group="tra1"/>
         <TextItem text="lactose" scene="1" handle="cel1.lactose" x="5564.35" y="5026.91" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="5" font="Sans" size="22" bold="0" italics="0" underline="0" group="tra1"/>
         <TextItem text="lactose" scene="1" handle="lactose" x="4870.36" y="5023.84" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="3" font="Sans" size="22" bold="0" italics="0" underline="0" group="tra1"/>
         <TextItem text="This model is basically&#10;a single equation" scene="2" handle="cel1.tr1.act1" x="5274.37" y="4628.17" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="126.2" font="Sans" size="22" bold="0" italics="0" underline="0" group="tr1"/>
@@ -3040,8 +3043,8 @@
         <TextItem text="LacI" scene="3" handle="cel1.LacI" x="5433.3" y="4911.59" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="5" font="Sans" size="22" bold="0" italics="0" underline="0" group="ai1"/>
         <TextItem text="lactose" scene="3" handle="cel1.lactose" x="5039.02" y="5349.2" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="3" font="Sans" size="22" bold="0" italics="0" underline="0" group="ai1"/>
         <TextItem text="v2" scene="4" handle="cel1.pp1.v2" x="6174.53" y="5982.64" color="#171717" m11="1" m12="0" m21="0" m22="1" z="34.4" font="Sans" size="22" bold="0" italics="0" underline="0" group="pp1"/>
-        <TextItem text="v1" scene="4" handle="cel1.pp1.v1" x="5721.06" y="5985.14" color="#171717" m11="1" m12="0" m21="0" m22="1" z="31.4" font="Sans" size="22" bold="0" italics="0" underline="0" group="pp1"/>
-        <TextItem text="LacZ" scene="4" handle="cel1.LacZ" x="5911.42" y="6011.7" color="#171717" m11="1" m12="0" m21="0" m22="1" z="26.7" font="Sans" size="22" bold="0" italics="0" underline="0" group="pp1"/>
+        <TextItem text="v1" scene="4" handle="cel1.pp1.v1" x="5711.73" y="5986.09" color="#171717" m11="1" m12="0" m21="0" m22="1" z="31.4" font="Sans" size="22" bold="0" italics="0" underline="0" group="pp1"/>
+        <TextItem text="LacY" scene="4" handle="cel1.LacY" x="5911.42" y="6011.7" color="#171717" m11="1" m12="0" m21="0" m22="1" z="26.7" font="Sans" size="22" bold="0" italics="0" underline="0" group="pp1"/>
         <TextItem text="cod1" scene="4" handle="cel1.cod1" x="5642.1" y="6260.13" color="#171717" m11="1" m12="0" m21="0" m22="1" z="21.6" font="Sans" size="22" bold="0" italics="0" underline="0" group="pp1"/>
     </Texts>
 </Model>

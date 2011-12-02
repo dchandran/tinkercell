@@ -712,6 +712,9 @@ namespace Tinkercell
 
 							if (promoter)
 							{
+								if (connections[j]->textData(tr("Rate equations")).contains(promoter->fullName()))
+									usesTranscriptionalParams = true;
+
 								if (rate.rows() > 0 && rate(0,0).contains(tr(".strength")) && !rate(0,0).contains(promoter->fullName()))
 								{
 									DataTable<QString> * sDat2 = new DataTable<QString>(rate);

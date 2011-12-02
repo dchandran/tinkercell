@@ -904,7 +904,7 @@ namespace Tinkercell
 						insertList += arrow;
 					}
 					
-					if (handle->family()->name().contains(tr("gene")) || handle->family()->name().contains(tr("transcription")))
+					if (!handle->parent && handle->family()->name().contains(tr("gene")) || handle->family()->name().contains(tr("transcription")))
 						item->lineType = ConnectionGraphicsItem::line;
 					
 					if (handle->isA(tr("Repression")))

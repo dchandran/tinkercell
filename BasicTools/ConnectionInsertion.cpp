@@ -1215,7 +1215,7 @@ namespace Tinkercell
 		}
 		
 		QList<ItemFamily*> childFamilies = selectedFamily->findValidChildFamilies(nodeHandles,all);
-
+/*
 		if (selectedFamily->name() == tr("1 to 1")) //special treatment because everything in 1 to 1
 		{
 			QList<ItemFamily*> childFamilies2;
@@ -1224,7 +1224,7 @@ namespace Tinkercell
 					childFamilies2 << childFamilies[i];
 
 			childFamilies = childFamilies2;
-		}
+		}*/
 
 		Ontology::GLOBAL_CHILDREN = globalChildren;
 

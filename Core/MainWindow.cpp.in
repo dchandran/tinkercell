@@ -264,7 +264,7 @@ namespace Tinkercell
 		connect(this,SIGNAL(itemsRemoved(GraphicsScene*,QList<QGraphicsItem*>,QList<ItemHandle*>)),
 			this,SLOT(itemsRemovedSlot(GraphicsScene*,QList<QGraphicsItem*>,QList<ItemHandle*>)));
 		
-		readSettings();
+		readSettings("settings.ini");
 
 		loadDefaultPlugins();
 

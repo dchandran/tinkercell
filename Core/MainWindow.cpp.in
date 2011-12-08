@@ -264,8 +264,7 @@ namespace Tinkercell
 		connect(this,SIGNAL(itemsRemoved(GraphicsScene*,QList<QGraphicsItem*>,QList<ItemHandle*>)),
 			this,SLOT(itemsRemovedSlot(GraphicsScene*,QList<QGraphicsItem*>,QList<ItemHandle*>)));
 		
-		readSettings("settings.ini");
-
+		readSettings();
 		loadDefaultPlugins();
 
 		parsersMenu = 0;
@@ -357,6 +356,49 @@ namespace Tinkercell
 			saveSettings(fileName);
 		}
 	}
+	
+	QSettings * MainWindow::getSettings(const QString& filename)
+	{
+		QString settingsFileName = filename;
+		if (settingsFileName.isNull() || settingsFileName.isEmpty())
+			settingsFileName = GlobalSettings::SETTINGS_FILE_NAME;
+
+		QCoreApplication::setOrganizationName(GlobalSettings::ORGANIZATIONNAME);
+		QCoreApplication::setOrganizationDomain(GlobalSettings::PROJECTWEBSITE);
+		QCoreApplication::setApplicationName(GlobalSettings::ORGANIZATIONNAME);
+		
+		QSettings * settings = 0;
+
+		if (!settingsFileName.isNull() && !settingsFileName.isEmpty())
+		{
+			QDir homeDir(GlobalSettings::homeDir()), appDir(QCoreApplication::applicationDirPath());
+			
+			if (QFile::exists(settingsFileName))
+			{
+				settings = new QSettings( settingsFileName, QSettings::IniFormat );
+			}
+			else
+			 if (homeDir.exists(settingsFileName))
+			 {
+				settings = new QSettings( homeDir.absoluteFilePath(settingsFileName), QSettings::IniFormat );
+			}
+			else
+			if (appDir.exists(settingsFileName))
+			{
+				settings = new QSettings( appDir.absoluteFilePath(settingsFileName), QSettings::IniFormat );
+			}
+			else
+			{
+				settings = new QSettings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
+			}
+		}
+		else
+		{
+			settings = new QSettings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
+		}
+		
+		return settings;
+	}
 
 	void MainWindow::importSettings()
 	{
@@ -369,67 +411,53 @@ namespace Tinkercell
 			readSettings(fileName);
 	}
 	
-	void MainWindow::saveSettings(QSettings& settings)
-	{
-		settings.beginGroup("MainWindow");		
-		settings.setValue("home", homeDirPath);
-		settings.setValue("size", size());
-		settings.setValue("pos", pos());
-		settings.setValue("maximized",(isMaximized()));
-		settings.setValue("previousFileName", previousFileName);
-		settings.setValue("defaultToolWindowOption", (int)(defaultToolWindowOption));
-		settings.setValue("defaultHistoryWindowOption", (int)(defaultHistoryWindowOption));
-		settings.setValue("defaultConsoleWindowOption", (int)(defaultConsoleWindowOption));
-		settings.setValue("windowState", saveState());
-		
-		settings.setValue("ConsoleWindow::BackgroundColor", ConsoleWindow::BackgroundColor.name());
-		settings.setValue("ConsoleWindow::PlainTextColor", ConsoleWindow::PlainTextColor.name());
-		settings.setValue("ConsoleWindow::ErrorTextColor", ConsoleWindow::ErrorTextColor.name());
-		settings.setValue("ConsoleWindow::OutputTextColor", ConsoleWindow::OutputTextColor.name());
-		settings.setValue("ConsoleWindow::TableTextColor", ConsoleWindow::TableTextColor.name());
-
-		settings.endGroup();
-	}
-
 	void MainWindow::saveSettings(const QString& settingsFileName)
 	{
-		QCoreApplication::setOrganizationName(GlobalSettings::ORGANIZATIONNAME);
-		QCoreApplication::setOrganizationDomain(GlobalSettings::PROJECTWEBSITE);
-		QCoreApplication::setApplicationName(GlobalSettings::ORGANIZATIONNAME);
-
-		if (!settingsFileName.isNull() && !settingsFileName.isEmpty())
-		{
-			QSettings settings(settingsFileName, QSettings::IniFormat);
-			loadSettings(settings);
-		}
-		else
-		{
-			QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
-			loadSettings(settings);
-		}
+		QSettings * settings = getSettings(settingsFileName);
 		
+		settings->beginGroup("MainWindow");		
+		settings->setValue("home", homeDirPath);
+		settings->setValue("size", size());
+		settings->setValue("pos", pos());
+		settings->setValue("maximized",(isMaximized()));
+		settings->setValue("previousFileName", previousFileName);
+		settings->setValue("defaultToolWindowOption", (int)(defaultToolWindowOption));
+		settings->setValue("defaultHistoryWindowOption", (int)(defaultHistoryWindowOption));
+		settings->setValue("defaultConsoleWindowOption", (int)(defaultConsoleWindowOption));
+		settings->setValue("windowState", saveState());
+		
+		settings->setValue("ConsoleWindow::BackgroundColor", ConsoleWindow::BackgroundColor.name());
+		settings->setValue("ConsoleWindow::PlainTextColor", ConsoleWindow::PlainTextColor.name());
+		settings->setValue("ConsoleWindow::ErrorTextColor", ConsoleWindow::ErrorTextColor.name());
+		settings->setValue("ConsoleWindow::OutputTextColor", ConsoleWindow::OutputTextColor.name());
+		settings->setValue("ConsoleWindow::TableTextColor", ConsoleWindow::TableTextColor.name());
+
+		settings->endGroup();
+		delete settings;
 	}
 	
-	void MainWindow::loadSettings(QSettings& settings)
+	void MainWindow::readSettings(const QString& settingsFileName)
 	{
-		settings.beginGroup("MainWindow");
+		QSettings * settings = getSettings(settingsFileName);
+		
+		settings->beginGroup("MainWindow");
 		
 		QDir dir = QDesktopServices::storageLocation(QDesktopServices::HomeLocation);
-		QString home = settings.value("home", tr("")).toString();
+		QString home = settings->value("home", tr("")).toString();
 		
 		if (!home.isNull() && !home.isEmpty() && home.contains(dir.absolutePath()))  
 			homeDirPath = home;
 
-		resize(settings.value("size", QSize(1000, 800)).toSize());
-		move(settings.value("pos", QPoint(100, 100)).toPoint());
-		if (settings.value("maximized",false).toBool()) showMaximized();
-		previousFileName = settings.value("previousFileName", tr("")).toString();
-		defaultToolWindowOption = (TOOL_WINDOW_OPTION)(settings.value("defaultToolWindowOption", (int)defaultToolWindowOption).toInt());
-		defaultHistoryWindowOption = (TOOL_WINDOW_OPTION)(settings.value("defaultHistoryWindowOption", (int)defaultHistoryWindowOption).toInt());
-		defaultConsoleWindowOption = (TOOL_WINDOW_OPTION)(settings.value("defaultConsoleWindowOption", (int)defaultConsoleWindowOption).toInt());
+		resize(settings->value("size", QSize(1000, 800)).toSize());
+		move(settings->value("pos", QPoint(100, 100)).toPoint());
+		if (settings->value("maximized",false).toBool()) showMaximized();
+		previousFileName = settings->value("previousFileName", tr("")).toString();
+		defaultToolWindowOption = (TOOL_WINDOW_OPTION)(settings->value("defaultToolWindowOption", (int)defaultToolWindowOption).toInt());
+		defaultHistoryWindowOption = (TOOL_WINDOW_OPTION)(settings->value("defaultHistoryWindowOption", (int)defaultHistoryWindowOption).toInt());
+		defaultConsoleWindowOption = (TOOL_WINDOW_OPTION)(settings->value("defaultConsoleWindowOption", (int)defaultConsoleWindowOption).toInt());
 		
-		restoreState(settings.value("windowState").toByteArray());
-		settings.endGroup();
+		restoreState(settings->value("windowState").toByteArray());
+		settings->endGroup();
 
 		GlobalSettings::PROJECT_VERSION = tr("@TINKERCELL_WC_REVISION@");
 		QString text;
@@ -438,42 +466,8 @@ namespace Tinkercell
 		int number = GlobalSettings::PROJECT_VERSION.toInt(&ok);
 		if (ok)
 			GlobalSettings::PROJECT_VERSION = tr("@TINKERCELL_MAJOR_VERSION@.") + QString::number( (int)(number/1000 ) ) + tr(".") + QString::number(number % 1000);
-	}
-
-	void MainWindow::readSettings(const QString& settingsFileName)
-	{
-		QCoreApplication::setOrganizationName(GlobalSettings::ORGANIZATIONNAME);
-		QCoreApplication::setOrganizationDomain(GlobalSettings::PROJECTWEBSITE);
-		QCoreApplication::setApplicationName(GlobalSettings::ORGANIZATIONNAME);
-
-		if (!settingsFileName.isNull() && !settingsFileName.isEmpty())
-		{
-			QDir homeDir(GlobalSettings::homeDir()), appDir(QCoreApplication::applicationDirPath());
-
-			 if (homeDir.exists(settingsFileName))
-			 {
-				QSettings settings( homeDir.absoluteFilePath(settingsFileName), QSettings::IniFormat );
-				loadSettings(settings);
-			}
-			 else
-			 if (appDir.exists(settingsFileName))
-			 {
-				QSettings settings( appDir.absoluteFilePath(settingsFileName), QSettings::IniFormat );
-				loadSettings(settings);
-			}
-			else
-			{
-				QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
-				loadSettings(settings);
-			}
-		}
-		else
-		{
-			QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
-			loadSettings(settings);
-		}
-
 		
+		delete settings;
 	}
 
 	/*! \brief destructor*/
@@ -1586,6 +1580,7 @@ namespace Tinkercell
 	bool GlobalSettings::ENABLE_LOADSAVE_TOOL = true;
 	bool GlobalSettings::DO_SVN_UPDATE = false;
 	QString GlobalSettings::PLUGINS_SVN_URL = QString();
+	QString GlobalSettings::SETTINGS_FILE_NAME = QString();
 	
 	void DroppableTabWidget::dropEvent(QDropEvent * event)
 	{

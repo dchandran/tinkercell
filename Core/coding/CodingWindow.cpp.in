@@ -54,13 +54,16 @@ namespace Tinkercell
 		 setupEditor();
 		 setupMenu();
 		 
- 		 QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
-		 settings.beginGroup("Subversion");
+ 		 QSettings * settings = MainWindow::getSettings();
+ 		 
+		 settings->beginGroup("Subversion");
 	 	 if (QDir(homeDir).exists())
-			GlobalSettings::DO_SVN_UPDATE = settings.value(tr("auto-update"),false).toBool();
+			GlobalSettings::DO_SVN_UPDATE = settings->value(tr("auto-update"),false).toBool();
 		else
-			GlobalSettings::DO_SVN_UPDATE = settings.value(tr("auto-update"),true).toBool();	
-		 settings.endGroup();
+			GlobalSettings::DO_SVN_UPDATE = settings->value(tr("auto-update"),true).toBool();	
+		 settings->endGroup();
+		 
+		 delete settings;
 
 	#ifdef Q_WS_WIN
 
@@ -176,10 +179,11 @@ namespace Tinkercell
 	{
 		if (!MainWindow::instance())
 			return QPair<QString,QString>("","");
-		QSettings settings(GlobalSettings::ORGANIZATIONNAME,GlobalSettings::ORGANIZATIONNAME);
-		settings.beginGroup("Subversion");
-		QString username = settings.value(tr("svn-username")).toString();
-		QString password = settings.value(tr("svn-password")).toString();
+			
+		QSettings * settings = MainWindow::getSettings();
+		settings->beginGroup("Subversion");
+		QString username = settings->value(tr("svn-username")).toString();
+		QString password = settings->value(tr("svn-password")).toString();
 		
 		Tool * tool = MainWindow::instance()->tool(QObject::tr("Coding Window"));
 		if (tool)
@@ -192,9 +196,9 @@ namespace Tinkercell
 			password = codingWindow->passwordLine->text();
 		}
 		
-		settings.setValue(tr("svn-username"),username);
-		settings.setValue(tr("svn-password"),password);
-		settings.endGroup();
+		settings->setValue(tr("svn-username"),username);
+		settings->setValue(tr("svn-password"),password);
+		settings->endGroup();
 		
 		return QPair<QString,QString>( username, password);
 	}
@@ -504,11 +508,11 @@ specific for:\n\"\"\"\n\n") + text;
 
 	void CodingWindow::toggleSVNupdate(bool b)
 	{
-		QSettings settings(GlobalSettings::ORGANIZATIONNAME,GlobalSettings::ORGANIZATIONNAME);
-		settings.beginGroup("Subversion");
+		QSettings * settings = MainWindow::getSettings();
+		settings->beginGroup("Subversion");
 		GlobalSettings::DO_SVN_UPDATE = b;
-		settings.setValue(tr("auto-update"),b);
-		settings.endGroup();
+		settings->setValue(tr("auto-update"),b);
+		settings->endGroup();
 	}
 	
 	void CodingWindow::toolLoaded(Tool *)

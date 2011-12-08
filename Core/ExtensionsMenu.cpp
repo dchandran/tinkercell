@@ -11,13 +11,15 @@ namespace Tinkercell
       QCoreApplication::setOrganizationDomain(Tinkercell::GlobalSettings::PROJECTWEBSITE);
       QCoreApplication::setApplicationName(Tinkercell::GlobalSettings::ORGANIZATIONNAME);
 
-      QSettings settings(Tinkercell::GlobalSettings::ORGANIZATIONNAME, Tinkercell::GlobalSettings::ORGANIZATIONNAME);
+      QSettings * settings = MainWindow::getSettings();
 
-      settings.beginGroup("MainWindow");
+      settings->beginGroup("MainWindow");
 
-      QStringList doNotLoad = settings.value("doNotLoadPlugins", QStringList()).toStringList();
+      QStringList doNotLoad = settings->value("doNotLoadPlugins", QStringList()).toStringList();
 
-      settings.endGroup();
+      settings->endGroup();
+      
+      delete settings;
 
       for (int i = 0; i < doNotLoad.size(); ++i)
         doNotLoadPluginNames += doNotLoad.at(i).toLower();
@@ -112,7 +114,7 @@ namespace Tinkercell
       QCoreApplication::setOrganizationDomain(Tinkercell::GlobalSettings::PROJECTWEBSITE);
       QCoreApplication::setApplicationName(Tinkercell::GlobalSettings::ORGANIZATIONNAME);
 
-      QSettings settings(Tinkercell::GlobalSettings::ORGANIZATIONNAME, Tinkercell::GlobalSettings::ORGANIZATIONNAME);
+      QSettings * settings = MainWindow::getSettings();
 
       QStringList doNotLoad;
 
@@ -120,11 +122,13 @@ namespace Tinkercell
         if (actions[i] && !actions[i]->isChecked())
           doNotLoad << actions[i]->text();
 
-      settings.beginGroup("MainWindow");
+      settings->beginGroup("MainWindow");
 
-      settings.setValue("doNotLoadPlugins", QVariant(doNotLoad));
+      settings->setValue("doNotLoadPlugins", QVariant(doNotLoad));
 
-      settings.endGroup();
+      settings->endGroup();
+      
+      delete settings;
     }
 
     void ExtensionsMenu::toolAboutToBeLoaded( Tool * tool, bool * shouldLoad )

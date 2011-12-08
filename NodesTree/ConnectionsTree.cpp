@@ -45,9 +45,9 @@ namespace Tinkercell
     {
         QString appDir = QCoreApplication::applicationDirPath();
 		QString homeDir = GlobalSettings::homeDir();
-		QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
-        settings.beginGroup("ConnectionsTree");
-        NodesTree::themeDirectory = settings.value("theme",tr("Bio1")).toString();
+		QSettings * settings = MainWindow::getSettings();
+        settings->beginGroup("ConnectionsTree");
+        NodesTree::themeDirectory = settings->value("theme",tr("Bio1")).toString();
 
 		QStringList keys;
 		if (filename.isEmpty())
@@ -106,7 +106,7 @@ namespace Tinkercell
 			QList<QTreeWidgetItem*> treeItem = treeItems.values(keys[i]);
 			if (family && !treeItem.isEmpty())
 			{
-				QString setting = settings.value(family->name(),QString()).toString();
+				QString setting = settings->value(family->name(),QString()).toString();
 				if (!setting.isEmpty())
 					for (int j=0; j < treeItem.size(); ++j)
 						treeItem[j]->setExpanded(setting == tr("expanded"));
@@ -137,7 +137,8 @@ namespace Tinkercell
 				setConnectionGraphics(conn);
 		}
 	
-		settings.endGroup();
+		settings->endGroup();		
+		delete settings;
     }
 
     ConnectionsTree::ConnectionsTree(QWidget * parent, const QString& filename) :
@@ -196,11 +197,12 @@ namespace Tinkercell
         if (fileName.isEmpty())
             return;
 
-        QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
+        QSettings * settings = MainWindow::getSettings();
 
-        settings.beginGroup("ConnectionsTree");
-        settings.setValue("file", fileName);
-        settings.endGroup();
+        settings->beginGroup("ConnectionsTree");
+        settings->setValue("file", fileName);
+        settings->endGroup();
+        delete settings;
 
         QMessageBox::information (this, tr("Change tree"), tr("The new connections tree will be active the next time you start TinkerCell"));
     }
@@ -229,10 +231,10 @@ namespace Tinkercell
     void ConnectionsTree::networkClosing(NetworkHandle * , bool *)
     {
         //save state of the tree
-        QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
+        QSettings * settings = MainWindow::getSettings();
 
-        settings.beginGroup("ConnectionsTree");
-    	settings.setValue("theme",NodesTree::themeDirectory);
+        settings->beginGroup("ConnectionsTree");
+    	settings->setValue("theme",NodesTree::themeDirectory);
 
         QList<QString> keys = Ontology::allConnectionFamilyNames();
 
@@ -243,13 +245,14 @@ namespace Tinkercell
             if (family && item)
             {
                 if (item->isExpanded())
-                    settings.setValue(family->name(), tr("expanded"));
+                    settings->setValue(family->name(), tr("expanded"));
                 else
-                    settings.setValue(family->name(), tr("collapsed"));
+                    settings->setValue(family->name(), tr("collapsed"));
             }
 
         }
-        settings.endGroup();
+        settings->endGroup();
+        delete settings;
     }
 	
 	QString ConnectionsTree::iconFile(ConnectionFamily * family)

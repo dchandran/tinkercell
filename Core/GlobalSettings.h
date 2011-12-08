@@ -110,6 +110,9 @@ namespace Tinkercell
 		
 		/*! \brief if there is an svn service that stores latest plug-ins, place that url here*/
 		static QString PLUGINS_SVN_URL;
+		
+		/*! \brief settings file to use for all plugins*/
+		static QString SETTINGS_FILE_NAME;
 
 		/*! \brief register all the TinkerCell data structures with Qt*/
 		static void RegisterDataTypes();

@@ -31,16 +31,18 @@ namespace Tinkercell
 	LabelingTool::~LabelingTool()
 	{
 		clearLabels();
-		QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
+		QSettings * settings = MainWindow::getSettings();
 
-		settings.beginGroup("LabelingTool");
-		settings.setValue("enableFire", ENABLE_FIRE);
+		settings->beginGroup("LabelingTool");
+		settings->setValue("enableFire", ENABLE_FIRE);
 
-		settings.endGroup();
+		settings->endGroup();
 		
 		delete fireNode;
 		for (int i=0; i < itemsToDelete.size(); ++i)
 			delete itemsToDelete[i];
+			
+		delete settings;
 	}
 	
 	bool LabelingTool::setMainWindow(MainWindow * main)
@@ -67,10 +69,13 @@ namespace Tinkercell
 
 			connect(fToS,SIGNAL(setAlpha(ItemHandle*,double)),this,SLOT(setAlpha(ItemHandle*,double)));
 			
-			QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
-			settings.beginGroup("LabelingTool");
-			LabelingTool::ENABLE_FIRE = settings.value("enableFire").toBool();
-			settings.endGroup();
+			QSettings * settings = MainWindow::getSettings();
+			
+			settings->beginGroup("LabelingTool");
+			LabelingTool::ENABLE_FIRE = settings->value("enableFire").toBool();
+			settings->endGroup();
+			
+			delete settings;
 			
 			if (mainWindow->settingsMenu)
 			{

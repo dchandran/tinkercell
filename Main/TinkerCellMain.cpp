@@ -80,6 +80,7 @@ int main(int argc, char *argv[])
     GlobalSettings::ORGANIZATIONNAME = QObject::tr("TinkerCell");
     GlobalSettings::PROJECTNAME = QObject::tr("TinkerCell");
     GlobalSettings::PLUGINS_SVN_URL = QObject::tr("https://tinkercellextra.svn.sourceforge.net/svnroot/tinkercellextra"); //for updating
+   	GlobalSettings::SETTINGS_FILE_NAME = QString("settings.ini"); //for distributing TinkerCell in USB drive with the settings
 	
     ConsoleWindow::Prompt = QObject::tr(">");
 	ConsoleWindow::BackgroundColor = QColor("#555555");
@@ -186,7 +187,7 @@ int main(int argc, char *argv[])
 	
 
     /*******  START TINKERCELL ***********/
-
+    
     mainWindow.readSettings();
 	GraphicsScene * scene = mainWindow.newScene();
 	mainWindow.show();

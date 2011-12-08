@@ -227,6 +227,11 @@ namespace Tinkercell
 		*/
 		QUndoView * historyWidget();
 		/*!
+		* \brief get the settings for TinkerCell
+		* \return QSettings * pointer. calling function must delete the pointer
+		*/
+		static QSettings * getSettings(const QString& defaultFileName=QString());
+		/*!
 		* \brief get a tool
 		* \param QString name of the tool
 		* \return Tool*
@@ -810,12 +815,6 @@ namespace Tinkercell
 		/*! \brief save initial settings to settingsFileName
 		* \return void*/
 		void saveSettings(const QString& settingsFileName=QString());
-		/*! \brief save initial settings
-		* \return void*/
-		void loadSettings(QSettings&);
-		/*! \brief save settings
-		* \return void*/
-		void saveSettings(QSettings&);
 		/*! \brief load default plugins
 		* \return void*/
 		void loadDefaultPlugins();

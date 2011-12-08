@@ -512,17 +512,18 @@ namespace Tinkercell
 			QCoreApplication::setOrganizationDomain(Tinkercell::GlobalSettings::PROJECTWEBSITE);
 			QCoreApplication::setApplicationName(Tinkercell::GlobalSettings::ORGANIZATIONNAME);
 
-			QSettings settings(Tinkercell::GlobalSettings::ORGANIZATIONNAME, Tinkercell::GlobalSettings::ORGANIZATIONNAME);
+			QSettings * settings = MainWindow::getSettings();
 			
-			settings.beginGroup("Plot2DWidget");
+			settings->beginGroup("Plot2DWidget");
 			
 			QStringList colors, penWidths, penStyles;
 			
-			colors = settings.value(tr("colors"),QStringList()).toStringList();
-			penWidths = settings.value(tr("widths"),QStringList()).toStringList();
-			penStyles = settings.value(tr("styles"),QStringList()).toStringList();
+			colors = settings->value(tr("colors"),QStringList()).toStringList();
+			penWidths = settings->value(tr("widths"),QStringList()).toStringList();
+			penStyles = settings->value(tr("styles"),QStringList()).toStringList();
 		
-			settings.endGroup();
+			settings->endGroup();
+			delete settings;
 			
 			for (int i=0; i < colors.size() && i < penWidths.size() && i < penStyles.size(); ++i)
 			{
@@ -663,9 +664,9 @@ namespace Tinkercell
 		QCoreApplication::setOrganizationDomain(Tinkercell::GlobalSettings::PROJECTWEBSITE);
 		QCoreApplication::setApplicationName(Tinkercell::GlobalSettings::ORGANIZATIONNAME);
 
-		QSettings settings(Tinkercell::GlobalSettings::ORGANIZATIONNAME, Tinkercell::GlobalSettings::ORGANIZATIONNAME);
+		QSettings * settings = MainWindow::getSettings();
 		
-		settings.beginGroup("Plot2DWidget");
+		settings->beginGroup("Plot2DWidget");
 		
 		QStringList colors, penWidth, penStyles;
 		
@@ -678,11 +679,12 @@ namespace Tinkercell
 			penWidth << QString::number(penList[i].widthF());
 		}
 		
-		settings.setValue(tr("colors"),colors);
-		settings.setValue(tr("widths"),penWidth);
-		settings.setValue(tr("styles"),penStyles);
+		settings->setValue(tr("colors"),colors);
+		settings->setValue(tr("widths"),penWidth);
+		settings->setValue(tr("styles"),penStyles);
 		
-		settings.endGroup();
+		settings->endGroup();
+		delete settings;
 		
 		//dataPlot->replot();
 		dataPlot->type = type;

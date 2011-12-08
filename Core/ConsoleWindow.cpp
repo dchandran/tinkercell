@@ -107,17 +107,18 @@ namespace Tinkercell
 	{
 		setUndoRedoEnabled ( false );
 		
-		QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
+		QSettings * settings = MainWindow::getSettings();
 
-		settings.beginGroup("MainWindow");
+		settings->beginGroup("MainWindow");
 		
-		ConsoleWindow::BackgroundColor =  QColor(settings.value("ConsoleWindow::BackgroundColor", ConsoleWindow::BackgroundColor.name()).toString());
-		ConsoleWindow::PlainTextColor =  QColor(settings.value("ConsoleWindow::PlainTextColor", ConsoleWindow::PlainTextColor.name()).toString());
-		ConsoleWindow::ErrorTextColor =  QColor(settings.value("ConsoleWindow::ErrorTextColor",ConsoleWindow::ErrorTextColor.name()).toString());
-		ConsoleWindow::OutputTextColor =  QColor(settings.value("ConsoleWindow::OutputTextColor",ConsoleWindow::OutputTextColor.name()).toString());
-		ConsoleWindow::TableTextColor =  QColor(settings.value("ConsoleWindow::TableTextColor", ConsoleWindow::TableTextColor.name()).toString());
+		ConsoleWindow::BackgroundColor =  QColor(settings->value("ConsoleWindow::BackgroundColor", ConsoleWindow::BackgroundColor.name()).toString());
+		ConsoleWindow::PlainTextColor =  QColor(settings->value("ConsoleWindow::PlainTextColor", ConsoleWindow::PlainTextColor.name()).toString());
+		ConsoleWindow::ErrorTextColor =  QColor(settings->value("ConsoleWindow::ErrorTextColor",ConsoleWindow::ErrorTextColor.name()).toString());
+		ConsoleWindow::OutputTextColor =  QColor(settings->value("ConsoleWindow::OutputTextColor",ConsoleWindow::OutputTextColor.name()).toString());
+		ConsoleWindow::TableTextColor =  QColor(settings->value("ConsoleWindow::TableTextColor", ConsoleWindow::TableTextColor.name()).toString());
 		
-		settings.endGroup();
+		settings->endGroup();
+		delete settings;
 
 		setTextInteractionFlags(Qt::TextEditorInteraction);
 

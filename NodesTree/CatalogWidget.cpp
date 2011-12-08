@@ -38,7 +38,7 @@ namespace Tinkercell
 		tabWidget(0),
 		selectFamilyWidget(0)
 	{
-		QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
+		QSettings * settings = MainWindow::getSettings();
 
 		//Ontology::GLOBAL_PARENTS << "empty" << "null";
 		Ontology::GLOBAL_CHILDREN << "empty" << "null";
@@ -46,9 +46,10 @@ namespace Tinkercell
 		nodesTree = new NodesTree;
 		connectionsTree = new ConnectionsTree;
 
-		settings.beginGroup("CatalogWidget");
-		CatalogWidget::layoutMode = (CatalogWidget::MODE)(settings.value(tr("Mode"),(int)layoutMode).toInt());
-		settings.endGroup();
+		settings->beginGroup("CatalogWidget");
+		CatalogWidget::layoutMode = (CatalogWidget::MODE)(settings->value(tr("Mode"),(int)layoutMode).toInt());
+		settings->endGroup();
+		delete settings;
 
 		arrowButton.setToolTip(QObject::tr("Cursor"));
         arrowButton.setPalette(QPalette(QColor(255,255,255)));
@@ -64,10 +65,11 @@ namespace Tinkercell
 		else
 			CatalogWidget::layoutMode = CatalogWidget::TabView;
 
-		QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
-		settings.beginGroup("CatalogWidget");		
-		settings.setValue(tr("Mode"),(int)(CatalogWidget::layoutMode));
-		settings.endGroup();
+		QSettings * settings = MainWindow::getSettings();
+		settings->beginGroup("CatalogWidget");		
+		settings->setValue(tr("Mode"),(int)(CatalogWidget::layoutMode));
+		settings->endGroup();
+		delete settings;
 
 		QMessageBox::information(this,tr("Parts Layout"),tr("The change in display will take effect the next time TinkerCell starts"));
 	}
@@ -279,39 +281,40 @@ namespace Tinkercell
 
 	CatalogWidget::~CatalogWidget()
 	{
-		QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
-		settings.beginGroup("CatalogWidget");
-		settings.setValue(tr("Mode"),(int)(CatalogWidget::layoutMode));
+		QSettings * settings = MainWindow::getSettings();
+		settings->beginGroup("CatalogWidget");
+		settings->setValue(tr("Mode"),(int)(CatalogWidget::layoutMode));
 
 		if (layoutMode == TreeView)
 		{
-			settings.beginGroup("LastSelectedNodes");
+			settings->beginGroup("LastSelectedNodes");
 
 			for (int i=0; i < nodes.size(); ++i)
 			{
 			   if (nodes[i])
-				settings.setValue(QString::number(i),nodes[i]->name());
+				settings->setValue(QString::number(i),nodes[i]->name());
 			}
-			settings.endGroup();
+			settings->endGroup();
 
-			settings.beginGroup("LastSelectedConnections");
+			settings->beginGroup("LastSelectedConnections");
 
 			for (int i=0; i < connections.size(); ++i)
 			{
 			   if (connections[i])
-				settings.setValue(QString::number(i),connections[i]->name());
+				settings->setValue(QString::number(i),connections[i]->name());
 			}
 
-			settings.endGroup();
+			settings->endGroup();
 		}
 		else
 		{
 			if (tabWidget)
-				settings.setValue(tr("currentIndex"),tabWidget->currentIndex());
-			settings.setValue(tr("familiesInCatalog"),familiesInCatalog);
+				settings->setValue(tr("currentIndex"),tabWidget->currentIndex());
+			settings->setValue(tr("familiesInCatalog"),familiesInCatalog);
 		}
 
-		settings.endGroup();
+		settings->endGroup();
+		delete settings;
 	}
 
 	QSize CatalogWidget::sizeHint() const
@@ -456,21 +459,23 @@ namespace Tinkercell
 		showButtons(showlist);
 		hideButtons(hidelist);
 
-		QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
-		settings.beginGroup("CatalogWidget");
-		settings.setValue(tr("familiesInCatalog"),familiesInCatalog);
-		settings.endGroup();
+		QSettings * settings = MainWindow::getSettings();
+		settings->beginGroup("CatalogWidget");
+		settings->setValue(tr("familiesInCatalog"),familiesInCatalog);
+		settings->endGroup();
+		
+		delete settings;
 	}
 
 	void CatalogWidget::setNumberOfRecentItems()
 	{
 		if (layoutMode != TreeView) return;
 
-		QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
+		QSettings * settings = MainWindow::getSettings();
 
-		settings.beginGroup("LastSelectedNodes");
+		settings->beginGroup("LastSelectedNodes");
 
-		int n = settings.value(tr("numRows"),5).toInt();
+		int n = settings->value(tr("numRows"),5).toInt();
 #if QT_VERSION > 0x045000
 		n = QInputDialog::getInt(this,tr("Recent items"), tr("Number of recent items (will take event when TinkerCell starts)"), 2*n, 2, 20, 2);
 #else
@@ -478,12 +483,14 @@ namespace Tinkercell
 #endif
 		n = n/2;
 
-		settings.setValue("numRows",n);
-		settings.endGroup();
+		settings->setValue("numRows",n);
+		settings->endGroup();
 
-		settings.beginGroup("LastSelectedConnections");
-		settings.setValue("numRows",n);
-		settings.endGroup();
+		settings->beginGroup("LastSelectedConnections");
+		settings->setValue("numRows",n);
+		settings->endGroup();
+		
+		delete settings;
 	}
 
 	void CatalogWidget::setUpTreeView()
@@ -492,12 +499,12 @@ namespace Tinkercell
 		QGridLayout * buttonsLayout = new QGridLayout;
 		buttonsLayout->addWidget(&arrowButton,0,0,Qt::AlignCenter);
 
-		QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
+		QSettings * settings = MainWindow::getSettings();
 
 		int n = 5;
 		QStringList allFamilyNames;
 
-		settings.beginGroup("CatalogWidget");
+		settings->beginGroup("CatalogWidget");
 
 		if (nodesTree)
 		{
@@ -505,9 +512,9 @@ namespace Tinkercell
 
 			NodeFamily * family;
 
-			settings.beginGroup("LastSelectedNodes");
+			settings->beginGroup("LastSelectedNodes");
 
-			n = settings.value(tr("numRows"),5).toInt();
+			n = settings->value(tr("numRows"),5).toInt();
 
 			connect(this,SIGNAL(nodeSelected(NodeFamily*)),nodesTree,SIGNAL(nodeSelected(NodeFamily*)));
 			connect(nodesTree,SIGNAL(nodeSelected(NodeFamily*)),this,SLOT(nodeSelectedSlot(NodeFamily*)));
@@ -519,7 +526,7 @@ namespace Tinkercell
 
 			for (int i=0; nodes.size() < n && i < keys.size(); ++i)
 			{
-				QString s = settings.value(QString::number(i),keys[i]).toString();
+				QString s = settings->value(QString::number(i),keys[i]).toString();
 
 				if (nodesTree->getFamily(s) && (family = Ontology::nodeFamily(s)))
 				{
@@ -550,7 +557,7 @@ namespace Tinkercell
 					nodesButtonGroup.addButton(button,i);
 				}
 			}
-			settings.endGroup();
+			settings->endGroup();
 		}
 
 		if (connectionsTree)
@@ -559,7 +566,7 @@ namespace Tinkercell
 
 			ConnectionFamily * family;
 
-			settings.beginGroup("LastSelectedConnections");
+			settings->beginGroup("LastSelectedConnections");
 
 			connect(this,SIGNAL(connectionSelected(ConnectionFamily*)),connectionsTree,SIGNAL(connectionSelected(ConnectionFamily*)));
 			connect(connectionsTree,SIGNAL(connectionSelected(ConnectionFamily*)),this,SLOT(connectionSelectedSlot(ConnectionFamily*)));
@@ -570,7 +577,7 @@ namespace Tinkercell
 
 			for (int i=0; connections.size() < n && i < keys.size(); ++i)
 			{
-				QString s = settings.value(QString::number(i),keys[i]).toString();
+				QString s = settings->value(QString::number(i),keys[i]).toString();
 
 				if (connectionsTree->getFamily(s) &&
 					(family = Ontology::connectionFamily(s)))
@@ -608,9 +615,9 @@ namespace Tinkercell
 					connectionsButtonGroup.addButton(button,i);
 				}
 			}
-			settings.endGroup();
+			settings->endGroup();
 		}
-		settings.endGroup();
+		settings->endGroup();
 
 		/*QWidget * widget = new QWidget;
 		widgetsToUpdate << widget;
@@ -640,6 +647,7 @@ namespace Tinkercell
 		connect(&connectionsButtonGroup,SIGNAL(buttonPressed(int)),this,SLOT(connectionButtonPressed(int)));
 
 		setLayout(layout);
+		delete settings;
 	}
 
 	void CatalogWidget::makeTabWidget()
@@ -825,11 +833,11 @@ namespace Tinkercell
 			numNodeTabs = 3;
 		}
 
-		QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
-		settings.beginGroup("CatalogWidget");
-		familiesInCatalog = settings.value(tr("familiesInCatalog"),QStringList()).toStringList();
-		int currentIndex = settings.value(tr("currentIndex"),0).toInt();
-		settings.endGroup();
+		QSettings * settings = MainWindow::getSettings();
+		settings->beginGroup("CatalogWidget");
+		familiesInCatalog = settings->value(tr("familiesInCatalog"),QStringList()).toStringList();
+		int currentIndex = settings->value(tr("currentIndex"),0).toInt();
+		settings->endGroup();
 		
 		if (familiesInCatalog.size() < 30)
 		{

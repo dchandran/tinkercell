@@ -77,7 +77,8 @@ int main(int argc, char *argv[])
     GlobalSettings::ORGANIZATIONNAME = QObject::tr("TinkerCell");
     GlobalSettings::PROJECTNAME = QObject::tr("Antimony Editor");
     GlobalSettings::PLUGINS_SVN_URL = QObject::tr("https://tinkercellextra.svn.sourceforge.net/svnroot/tinkercellextra"); //for updating
-	
+   	GlobalSettings::SETTINGS_FILE_NAME = QString("settings.ini"); //for distributing TinkerCell in USB drive with the settings
+   	
     ConsoleWindow::Prompt = QObject::tr(">");
 	ConsoleWindow::BackgroundColor = QColor("#555555");
 	

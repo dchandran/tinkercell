@@ -18,7 +18,6 @@ The MainWindow keeps a list of all plugins, and it is also responsible for loadi
 
 #include <QLibrary>
 #include <QFileInfo>
-#include <QSettings>
 #include <QInputDialog>
 #include <QActionGroup>
 #include <QCoreApplication>
@@ -366,21 +365,10 @@ namespace Tinkercell
 		if (!fileName.isNull() && !fileName.isEmpty())
 			readSettings(fileName);
 	}
-
-	void MainWindow::saveSettings(const QString& settingsFileName)
+	
+	void MainWindow::saveSettings(QSettings& settings)
 	{
-		QCoreApplication::setOrganizationName(GlobalSettings::ORGANIZATIONNAME);
-		QCoreApplication::setOrganizationDomain(GlobalSettings::PROJECTWEBSITE);
-		QCoreApplication::setApplicationName(GlobalSettings::ORGANIZATIONNAME);
-
-		QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
-		if (!settingsFileName.isNull() && !settingsFileName.isEmpty())
-		{
-			settings = QSettings(settingsFileName, QSettings::IniFormat);
-		}
-
-		settings.beginGroup("MainWindow");
-		
+		settings.beginGroup("MainWindow");		
 		settings.setValue("home", homeDirPath);
 		settings.setValue("size", size());
 		settings.setValue("pos", pos());
@@ -400,27 +388,27 @@ namespace Tinkercell
 		settings.endGroup();
 	}
 
-	void MainWindow::readSettings(const QString& settingsFileName)
+	void MainWindow::saveSettings(const QString& settingsFileName)
 	{
 		QCoreApplication::setOrganizationName(GlobalSettings::ORGANIZATIONNAME);
 		QCoreApplication::setOrganizationDomain(GlobalSettings::PROJECTWEBSITE);
 		QCoreApplication::setApplicationName(GlobalSettings::ORGANIZATIONNAME);
 
-		QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
-
-		//load settings from a file if it exists
 		if (!settingsFileName.isNull() && !settingsFileName.isEmpty())
 		{
-			QDir homeDir(GlobalSettings::homeDir())
-					 appDir(QCoreApplication::applicationDirPath());
-
-			 if (homeDir.exists(settingsFileName))
-				settings = QSettings( homeDir.absoluteFilePath(settingsFileName), QSettings::IniFormat );
-			 else
-			 if (appDir.exists(settingsFileName))
-				settings = QSettings( appDir.absoluteFilePath(settingsFileName), QSettings::IniFormat );
+			QSettings settings(settingsFileName, QSettings::IniFormat);
+			loadSettings(settings);
 		}
-
+		else
+		{
+			QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
+			loadSettings(settings);
+		}
+		
+	}
+	
+	void MainWindow::loadSettings(QSettings& settings)
+	{
 		settings.beginGroup("MainWindow");
 		
 		QDir dir = QDesktopServices::storageLocation(QDesktopServices::HomeLocation);
@@ -447,6 +435,42 @@ namespace Tinkercell
 		int number = GlobalSettings::PROJECT_VERSION.toInt(&ok);
 		if (ok)
 			GlobalSettings::PROJECT_VERSION = tr("@TINKERCELL_MAJOR_VERSION@.") + QString::number( (int)(number/1000 ) ) + tr(".") + QString::number(number % 1000);
+	}
+
+	void MainWindow::readSettings(const QString& settingsFileName)
+	{
+		QCoreApplication::setOrganizationName(GlobalSettings::ORGANIZATIONNAME);
+		QCoreApplication::setOrganizationDomain(GlobalSettings::PROJECTWEBSITE);
+		QCoreApplication::setApplicationName(GlobalSettings::ORGANIZATIONNAME);
+
+		if (!settingsFileName.isNull() && !settingsFileName.isEmpty())
+		{
+			QDir homeDir(GlobalSettings::homeDir()), appDir(QCoreApplication::applicationDirPath());
+
+			 if (homeDir.exists(settingsFileName))
+			 {
+				QSettings settings( homeDir.absoluteFilePath(settingsFileName), QSettings::IniFormat );
+				loadSettings(settings);
+			}
+			 else
+			 if (appDir.exists(settingsFileName))
+			 {
+				QSettings settings( appDir.absoluteFilePath(settingsFileName), QSettings::IniFormat );
+				loadSettings(settings);
+			}
+			else
+			{
+				QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
+				loadSettings(settings);
+			}
+		}
+		else
+		{
+			QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
+			loadSettings(settings);
+		}
+
+		
 	}
 
 	/*! \brief destructor*/

@@ -346,13 +346,16 @@ namespace Tinkercell
 
 	void MainWindow::exportSettings()
 	{
-		QString fileName =
-				QFileDialog::getSaveFileName(this, tr("Save Settings"),
-				QDir::currentPath(),
-				tr("INI files (*.init)"));
+		QString dirName =
+				QFileDialog::getExistingDirectory(this, tr("Save Settings"),
+				QCoreApplication::applicationDirPath());
 
-		if (!fileName.isNull() && !fileName.isEmpty())
+		if (!dirName.isNull() && !dirName.isEmpty())
+		{
+			QDir dir(dirName);
+			QString fileName = dir.absoluteFilePath("settings.ini");
 			saveSettings(fileName);
+		}
 	}
 
 	void MainWindow::importSettings()

@@ -345,14 +345,39 @@ namespace Tinkercell
 	    return consoleWindow;
 	}
 
-	void MainWindow::saveSettings()
+	void MainWindow::exportSettings()
+	{
+		QString fileName =
+				QFileDialog::getSaveFileName(this, tr("Save Settings"),
+				QDir::currentPath(),
+				tr("INI files (*.init)"));
+
+		if (!fileName.isNull() && !fileName.isEmpty())
+			saveSettings(fileName);
+	}
+
+	void MainWindow::importSettings()
+	{
+		QString fileName =
+				QFileDialog::getOpenFileName(this, tr("Open Settings"),
+				QDir::currentPath(),
+				tr("INI files (*.init)"));
+
+		if (!fileName.isNull() && !fileName.isEmpty())
+			readSettings(fileName);
+	}
+
+	void MainWindow::saveSettings(const QString& settingsFileName)
 	{
 		QCoreApplication::setOrganizationName(GlobalSettings::ORGANIZATIONNAME);
 		QCoreApplication::setOrganizationDomain(GlobalSettings::PROJECTWEBSITE);
 		QCoreApplication::setApplicationName(GlobalSettings::ORGANIZATIONNAME);
 
-
 		QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
+		if (!settingsFileName.isNull() && !settingsFileName.isEmpty())
+		{
+			settings = QSettings(settingsFileName, QSettings::IniFormat);
+		}
 
 		settings.beginGroup("MainWindow");
 		
@@ -375,13 +400,26 @@ namespace Tinkercell
 		settings.endGroup();
 	}
 
-	void MainWindow::readSettings()
+	void MainWindow::readSettings(const QString& settingsFileName)
 	{
 		QCoreApplication::setOrganizationName(GlobalSettings::ORGANIZATIONNAME);
 		QCoreApplication::setOrganizationDomain(GlobalSettings::PROJECTWEBSITE);
 		QCoreApplication::setApplicationName(GlobalSettings::ORGANIZATIONNAME);
 
 		QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
+
+		//load settings from a file if it exists
+		if (!settingsFileName.isNull() && !settingsFileName.isEmpty())
+		{
+			QDir homeDir(GlobalSettings::homeDir())
+					 appDir(QCoreApplication::applicationDirPath());
+
+			 if (homeDir.exists(settingsFileName))
+				settings = QSettings( homeDir.absoluteFilePath(settingsFileName), QSettings::IniFormat );
+			 else
+			 if (appDir.exists(settingsFileName))
+				settings = QSettings( appDir.absoluteFilePath(settingsFileName), QSettings::IniFormat );
+		}
 
 		settings.beginGroup("MainWindow");
 		
@@ -983,6 +1021,13 @@ namespace Tinkercell
 		viewMenu = menuBar()->addMenu(tr("&View"));
 
 		settingsMenu = menuBar()->addMenu(tr("&Settings"));
+
+		QAction * exportSettings = settingsMenu->addAction(QIcon(tr(":/images/user.png")), tr("&Export current settings"));
+		connect (exportSettings, SIGNAL(triggered()),this,SLOT(exportSettings()));
+
+		QAction * importSettings = settingsMenu->addAction(QIcon(tr(":/images/user.png")), tr("&Import settings"));
+		connect (importSettings, SIGNAL(triggered()),this,SLOT(importSettings()));
+
 		QAction * changeUserHome = settingsMenu->addAction(QIcon(tr(":/images/appicon.png")), tr("&Set Home Directory"));
 		connect (changeUserHome, SIGNAL(triggered()),this,SLOT(setUserHome()));
 

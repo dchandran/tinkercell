@@ -406,7 +406,7 @@ namespace Tinkercell
 		
 		/*! \brief read initial settings from settingsFileName
 		* \return void*/
-		void readSettings();
+		void readSettings(const QString& settingsFileName=QString());
 
 		/*! \brief gets the global main window*/
 		static MainWindow * instance();
@@ -473,7 +473,15 @@ namespace Tinkercell
 		* \return void
 		*/
 		void setupFunctionPointersSlot(QSemaphore*,QLibrary *);
+
+		/*! \brief save initial settings to settingsFileName
+		* \return void*/
+		void exportSettings();
 		
+		/*! \brief read initial settings from settingsFileName
+		* \return void*/
+		void importSettings();
+
 		/*! \}
 			\name signals
 			\{
@@ -800,7 +808,7 @@ namespace Tinkercell
 		ConsoleWindow * consoleWindow;
 		/*! \brief save initial settings to settingsFileName
 		* \return void*/
-		void saveSettings();
+		void saveSettings(const QString& settingsFileName=QString());
 		/*! \brief load default plugins
 		* \return void*/
 		void loadDefaultPlugins();

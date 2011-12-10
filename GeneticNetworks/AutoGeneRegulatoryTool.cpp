@@ -30,6 +30,8 @@
 
 namespace Tinkercell
 {
+	static bool FirstTimeWarningMessage = false;
+
 	AutoGeneRegulatoryTool_FtoS * AutoGeneRegulatoryTool::fToS;
 	
 	bool isCircularItem(ItemHandle * handle);
@@ -960,6 +962,12 @@ namespace Tinkercell
 		if (handle && /*handle->isA(tr("Vector"))*/ isCircularItem(handle))
 		{
 			scene->network->push(adjustPlasmid(scene,item));
+			if (!FirstTimeWarningMessage)
+			{
+				if (console())
+					console()->message("NOTE: undo and redo does not work correctly for parts placed on the plasmid (esp. rotations), so avoid undoing operations related to parts on plasmids.");
+				FirstTimeWarningMessage = true;
+			}
 			return;
 		}
 
@@ -970,6 +978,12 @@ namespace Tinkercell
 				&& handle->isA(tr("Part")) 
 				&& !(handle->parent && !handle->parent->isA(tr("Empty")) && handle->parent->isA(tr("Vector"))))
 			{
+				if (!FirstTimeWarningMessage)
+				{
+					if (console())
+						console()->message("NOTE: undo and redo does not work correctly for parts placed on the plasmid (esp. rotations), so avoid undoing operations related to parts on plasmids.");
+					FirstTimeWarningMessage = true;
+				}
 				partCollided = true;
 				break;
 			}

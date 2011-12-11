@@ -976,6 +976,7 @@ namespace Tinkercell
 		for (int i=0; i < items.size(); ++i)
 			if ((handle = getHandle(items[i])) 
 				&& handle->isA(tr("Part")) 
+				&& !handle->isA(tr("Empty")) 
 				&& !(handle->parent && !handle->parent->isA(tr("Empty")) && handle->parent->isA(tr("Vector"))))
 			{
 				partCollided = true;
@@ -1584,7 +1585,7 @@ namespace Tinkercell
 	bool isCircularItem(ItemHandle * handle)
 	{
 		bool b = false;
-		if (handle && handle->isA(QObject::tr("Vector")))
+		if (handle && !handle->isA(QObject::tr("Empty")) && handle->isA(QObject::tr("Vector")))
 		{
 			QList<NodeGraphicsItem*> nodes = NodeGraphicsItem::cast(handle->graphicsItems);
 			for (int i=0; i < nodes.size(); ++i)

@@ -754,7 +754,7 @@ TCAPIEXPORT void tc_setAllStraight(int straight);
  \param int address of a connection, e.g. obtained using tc_find 
  \param double line width
  \param int 0 (temporary change) or 1 (permanent change)
- \ingroup Get and set position
+ \ingroup Appearance
 */
 TCAPIEXPORT void tc_setLineWidth(long item,double width, int permanent);
 /*! 

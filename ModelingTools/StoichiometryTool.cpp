@@ -501,7 +501,7 @@ namespace Tinkercell
 	void StoichiometryTool::addReverseReaction()
 	{
 		GraphicsScene * scene = currentScene();
-		if (!scene) return;
+		if (!scene || !scene->network) return;
 
 		QList<ItemHandle*> items;
 		QList<NumericalDataTable*> nDataNew, nDataOld;
@@ -510,12 +510,16 @@ namespace Tinkercell
 		TextDataTable* sDat;
 
 		QList<QGraphicsItem*>& selected = scene->selected();
+		QList<ConnectionGraphicsItem*> connections;
+		QList<QPointF> points;
 		ItemHandle* handle;
 		QStringList cannots;
 
 		for (int i=0; i < selected.size(); ++i)
 		{
-			if ((handle = getHandle(selected[i]))
+			ConnectionGraphicsItem * connection = ConnectionGraphicsItem::cast(selected[i]);
+			if (
+				connection &&	(handle = connection->handle())
 				&& handle->hasNumericalData(tr("Reactant stoichiometries"))
 				&& handle->hasNumericalData(tr("Product stoichiometries"))
 				&& handle->hasTextData(tr("Rate equations")))
@@ -568,21 +572,25 @@ namespace Tinkercell
 					nDataOld << &(handle->numericalDataTable(tr("Reactant stoichiometries"))) 
 							 << &(handle->numericalDataTable(tr("Product stoichiometries")));
 					sDataOld << &(handle->textDataTable(tr("Rate equations")));
+
+					QList<NodeGraphicsItem*> nodes = connection->nodes();
+					for (int j=0; j < nodes.size(); ++j)
+						if (nodes[j])
+						{
+							connections << connection;					
+							points << nodes[j]->scenePos();
+						}
 				}
 			}
 		}
 
 		if (nDataNew.size() > 0)
 		{
-			QUndoCommand * command = new Change2DataCommand<qreal,QString>(tr("Reversible reactions added"),nDataOld,nDataNew,sDataOld,sDataNew);
+			QList<QUndoCommand*> commands;
+			commands  += new Change2DataCommand<qreal,QString>(tr("Reversible"),nDataOld,nDataNew,sDataOld,sDataNew);
+			commands += new AddArrowHeadCommand(connections, points);
 
-			if (scene->network)
-				scene->network->push(command);
-			else
-			{
-				command->redo();
-				delete command;
-			}
+			scene->network->push(new CompositeCommand(tr("Reversible reactions added"), commands));
 			
 			emit dataChanged(items);
 

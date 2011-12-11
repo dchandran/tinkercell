@@ -978,12 +978,6 @@ namespace Tinkercell
 				&& handle->isA(tr("Part")) 
 				&& !(handle->parent && !handle->parent->isA(tr("Empty")) && handle->parent->isA(tr("Vector"))))
 			{
-				if (!FirstTimeWarningMessage)
-				{
-					if (console())
-						console()->message("NOTE: undo and redo does not work correctly for parts placed on the plasmid (esp. rotations), so avoid undoing operations related to parts on plasmids.");
-					FirstTimeWarningMessage = true;
-				}
 				partCollided = true;
 				break;
 			}

@@ -5,7 +5,7 @@
         <Handle type="0" name="" parent="" family="">
             <tc_table>
                 <Table key="events" rows="1" cols="1" rowNames="time&gt;20" columnNames="event" values="pro1.k0=10"/>
-                <Table key="units" rows="29" cols="2" rowNames="_cell;;_vector;;_molecule;;_reporter;;_transcription factor;;_fluorescent protein;;_constitutive promoter;;_repressor binding site;;_receptor;;_inducible promoter;;_rbs;;_part;;_composite part;;_protein;;_coding;;_catalyst;;_small molecule;;_sticky ends;;_terminator;;_mrna;;_promoter;;_repressible promoter;;_compartment;;_enzyme;;_ribozyme;;_activator binding site;;_operator;;_rna;;_subcellular compartment" columnNames="property;;name" values="volume;;fL;;copies;;count;;concentration;;uM;;concentration;;uM;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;concentration;;uM;;concentration;;uM;;copies;;count;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;volume;;fL;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;volume;;fL"/>
+                <Table key="units" rows="30" cols="2" rowNames="_coding;;_ribozyme;;_small molecule;;_receptor;;_rna;;_reporter;;_sticky ends;;_molecule;;_promoter;;_activator binding site;;_spacer dna;;_vector;;_part;;_cell;;_constitutive promoter;;_fluorescent protein;;_protein;;_transcription factor;;_rbs;;_operator;;_repressible promoter;;_repressor binding site;;_terminator;;_enzyme;;_subcellular compartment;;_catalyst;;_mrna;;_inducible promoter;;_compartment;;_composite part" columnNames="property;;name" values="activity;;PoPS;;concentration;;uM;;concentration;;uM;;concentration;;uM;;concentration;;uM;;concentration;;uM;;copies;;count;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;copies;;count;;activity;;PoPS;;volume;;fL;;activity;;PoPS;;concentration;;uM;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;volume;;fL;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;volume;;fL;;activity;;PoPS"/>
             </tc_table>
         </Handle>
         <Handle type="2" name="br2" parent="" family="biochemical reaction">
@@ -82,6 +82,7 @@
         <Handle type="1" name="emp1" parent="" family="empty">
             <tc_matrix>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
+                <Table key="position" rows="2" cols="1" rowNames="x;;y" columnNames="value" desc="" values="4730.84;;4882.47"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
@@ -94,6 +95,7 @@
         <Handle type="1" name="emp2" parent="" family="empty">
             <tc_matrix>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
+                <Table key="position" rows="2" cols="1" rowNames="x;;y" columnNames="value" desc="" values="5587.42;;5090.69"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
@@ -138,7 +140,7 @@
     </Handles>
     <Nodes>
         <NodeItem className="Event function" scene="0" handle="" z="40.6">
-            <pos x="5417.65" y="4854.33"/>
+            <pos x="5591.37" y="4820.38"/>
             <transform m11="0.6" m12="0" m21="0" m22="0.6"/>
             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
@@ -342,7 +344,7 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="0" handle="deg1" z="39.6">
             <ConnectionGraphicsItem version="1.0" name="" color="#3232ff" width="5" type="bezier" style="1" gap="10">
                 <ControlPoints>
-                    <ControlPoint x="5357.33" y="5111"/>
+                    <ControlPoint x="5357.34" y="5111"/>
                     <ControlPoint x="5364.77" y="5096.46"/>
                     <ControlPoint x="5444.47" y="5056.36"/>
                     <ControlPoint x="5547.42" y="5081.08"/>
@@ -351,8 +353,8 @@
                     <Path numPoints="4" NodeAtStart="sm3" NodeAtStartX="5342" NodeAtStartY="5141" NodeAtEnd="emp2" NodeAtEndX="5587.42" NodeAtEndY="5090.69">
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
-                            <pos x="5547.42" y="5081.08" angle="13.5029"/>
-                            <transform m11="0.388943" m12="0.0933983" m21="-0.0700481" m22="0.291708"/>
+                            <pos x="5547.42" y="5081.08" angle="13.5041"/>
+                            <transform m11="0.388941" m12="0.0934063" m21="-0.0700541" m22="0.291707"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -391,24 +393,6 @@
                 </CurveSegments>
                 <CenterRegion>
                     <Rect width="20" height="20"/>
-                    <Decorator>
-                        <pos x="5416.83" y="5080.77" angle="0"/>
-                        <transform m11="0.3" m12="0" m21="0" m22="0.3"/>
-                        <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
-                            <renderInformation id="TinkerCell_Style" programName="TinkerCell">
-                                <listOfColorDefinitions>
-                                    <colorDefinition id="shape0color" value="#ffffff" alpha="255"/>
-                                </listOfColorDefinitions>
-                                <listOfStyles>
-                                    <style idList="rectangle" width="30" height="30">
-                                        <g>
-                                            <rectangle x="-50" y="-50" width="100" height="100" rx="10" ry="10" fill="shape0color" stroke="#3f3f43" stroke-width="13" stroke-alpha="1"/>
-                                        </g>
-                                    </style>
-                                </listOfStyles>
-                            </renderInformation>
-                        </listOfRenderInformation>
-                    </Decorator>
                 </CenterRegion>
             </ConnectionGraphicsItem>
         </ConnectionItem>
@@ -424,8 +408,8 @@
                     <Path numPoints="4" NodeAtStart="sm2" NodeAtStartX="5205" NodeAtStartY="4913" NodeAtEnd="sm3" NodeAtEndX="5342" NodeAtEndY="5141">
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
-                            <pos x="5341.34" y="5101" angle="89.0478"/>
-                            <transform m11="0.00664782" m12="0.399945" m21="-0.299959" m22="0.0049859"/>
+                            <pos x="5341.34" y="5101" angle="89.0493"/>
+                            <transform m11="0.00663733" m12="0.399945" m21="-0.299959" m22="0.00497803"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -464,24 +448,6 @@
                 </CurveSegments>
                 <CenterRegion>
                     <Rect width="20" height="20"/>
-                    <Decorator>
-                        <pos x="5303.69" y="4973.86" angle="0"/>
-                        <transform m11="0.3" m12="0" m21="0" m22="0.3"/>
-                        <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
-                            <renderInformation id="TinkerCell_Style" programName="TinkerCell">
-                                <listOfColorDefinitions>
-                                    <colorDefinition id="shape0color" value="#ffffff" alpha="255"/>
-                                </listOfColorDefinitions>
-                                <listOfStyles>
-                                    <style idList="rectangle" width="30" height="30">
-                                        <g>
-                                            <rectangle x="-50" y="-50" width="100" height="100" rx="10" ry="10" fill="shape0color" stroke="#3f3f43" stroke-width="13" stroke-alpha="1"/>
-                                        </g>
-                                    </style>
-                                </listOfStyles>
-                            </renderInformation>
-                        </listOfRenderInformation>
-                    </Decorator>
                 </CenterRegion>
             </ConnectionGraphicsItem>
         </ConnectionItem>
@@ -497,8 +463,8 @@
                     <Path numPoints="4" NodeAtStart="sm1" NodeAtStartX="4954" NodeAtStartY="5010" NodeAtEnd="sm2" NodeAtEndX="5205" NodeAtEndY="4913">
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
-                            <pos x="5165" y="4906.01" angle="9.90717"/>
-                            <transform m11="0.394035" m12="0.0688199" m21="-0.0516152" m22="0.295526"/>
+                            <pos x="5165" y="4906.01" angle="9.90741"/>
+                            <transform m11="0.394035" m12="0.0688215" m21="-0.0516164" m22="0.295526"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -537,24 +503,6 @@
                 </CurveSegments>
                 <CenterRegion>
                     <Rect width="20" height="20"/>
-                    <Decorator>
-                        <pos x="5054.93" y="4908.07" angle="0"/>
-                        <transform m11="0.3" m12="0" m21="0" m22="0.3"/>
-                        <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
-                            <renderInformation id="TinkerCell_Style" programName="TinkerCell">
-                                <listOfColorDefinitions>
-                                    <colorDefinition id="shape0color" value="#ffffff" alpha="255"/>
-                                </listOfColorDefinitions>
-                                <listOfStyles>
-                                    <style idList="rectangle" width="30" height="30">
-                                        <g>
-                                            <rectangle x="-50" y="-50" width="100" height="100" rx="10" ry="10" fill="shape0color" stroke="#3f3f43" stroke-width="13" stroke-alpha="1"/>
-                                        </g>
-                                    </style>
-                                </listOfStyles>
-                            </renderInformation>
-                        </listOfRenderInformation>
-                    </Decorator>
                 </CenterRegion>
             </ConnectionGraphicsItem>
         </ConnectionItem>
@@ -610,31 +558,14 @@
                 </CurveSegments>
                 <CenterRegion>
                     <Rect width="20" height="20"/>
-                    <Decorator>
-                        <pos x="4864.1" y="4876.94" angle="0"/>
-                        <transform m11="0.3" m12="0" m21="0" m22="0.3"/>
-                        <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
-                            <renderInformation id="TinkerCell_Style" programName="TinkerCell">
-                                <listOfColorDefinitions>
-                                    <colorDefinition id="shape0color" value="#ffffff" alpha="255"/>
-                                </listOfColorDefinitions>
-                                <listOfStyles>
-                                    <style idList="rectangle" width="30" height="30">
-                                        <g>
-                                            <rectangle x="-50" y="-50" width="100" height="100" rx="10" ry="10" fill="shape0color" stroke="#3f3f43" stroke-width="13" stroke-alpha="1"/>
-                                        </g>
-                                    </style>
-                                </listOfStyles>
-                            </renderInformation>
-                        </listOfRenderInformation>
-                    </Decorator>
                 </CenterRegion>
             </ConnectionGraphicsItem>
         </ConnectionItem>
     </Connections>
     <Texts>
+        <TextItem text="This event will change a parameter&#10;when time reaches 20s. Double-click&#10;to edit the event" scene="0" handle="" x="5275.64" y="4691.57" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="40.6" font="Ubuntu" size="24" bold="0" italics="0" underline="0"/>
         <TextItem text="deg1" scene="0" handle="deg1" x="5438.01" y="5102.12" color="#323232" m11="1" m12="0" m21="0" m22="1" z="40.6" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="br2" scene="0" handle="br2" x="5249.37" y="4968.23" color="#323232" m11="1" m12="0" m21="0" m22="1" z="35.3" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="br2" scene="0" handle="br2" x="5241.38" y="4978.21" color="#323232" m11="1" m12="0" m21="0" m22="1" z="35.3" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="br1" scene="0" handle="br1" x="5029.6" y="4914.54" color="#323232" m11="1" m12="0" m21="0" m22="1" z="31.3" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="pro1" scene="0" handle="pro1" x="4794.85" y="4884.54" color="#323232" m11="1" m12="0" m21="0" m22="1" z="27.3" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="sm3" scene="0" handle="sm3" x="5299" y="5166" color="#323232" m11="1" m12="0" m21="0" m22="1" z="24" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>

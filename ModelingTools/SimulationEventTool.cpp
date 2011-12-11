@@ -751,11 +751,23 @@ namespace Tinkercell
 		if (!parseRateString(win, lastItem, ifs))
 			return;
 
-		if (!parseRateString(win, lastItem, thens))
-			return;
+		QStringList thenslist;
+		if (thens.contains(tr(",")))
+			thenslist = thens.split(tr(","));
+		else
+		if (thens.contains(tr(";")))
+			thenslist = thens.split(tr(";"));
+		else
+			thenslist += thens;
+
+		for (int i=0; i < thenslist.size(); ++i)
+		{
+			if (!parseRateString(win, lastItem, thenslist[i]))
+				return;
+		}
 
 		DataTable<QString> newData(lastItem->textDataTable(tr("Events")));
-		newData.value(ifs,0) = thens;
+		newData.value(ifs,0) = thenslist.join(";");
 
 		win->changeData(tr("when ") + ifs + tr(" do ") + thens,lastItem,tr("Events"),&newData);
 
@@ -947,17 +959,34 @@ namespace Tinkercell
 				item->textDataTable(tr("Events")) = DataTable<QString>();
 
 			DataTable<QString> dat = item->textDataTable(tr("Events"));
-
-			//QRegExp regex(QString("([A-Za-z0-9])_([A-Za-z])"));
-
 			QString s1 = trigger, s2 = event;
-			//s1.replace(regex,QString("\\1.\\2"));
-			//s2.replace(regex,QString("\\1.\\2"));
 
-			if (event.isEmpty())
+			if (s2.isEmpty())
 				dat.removeRow(s1);
 			else
+			{
+				if (!parseRateString(network, item, s1))
+					return;
+
+				QStringList thenslist;
+				if (s2.contains(tr(",")))
+					thenslist = s2.split(tr(","));
+				else
+				if (s2.contains(tr(";")))
+					thenslist = s2.split(tr(";"));
+				else
+					thenslist += s2;
+
+				for (int i=0; i < thenslist.size(); ++i)
+				{
+					if (!parseRateString(network, item, thenslist[i]))
+						return;
+				}
+
+				s2 = thenslist.join(";");
 				dat.value(s1,0) = s2;
+			}
+
 			network->changeData(tr("new event: when ") + s1 + tr(" do ") + s2,item,tr("Events"),&dat);
 		}
 		if (sem)

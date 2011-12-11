@@ -2034,7 +2034,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="4950.78" y="4809.25" angle="94.3345"/>
-                            <transform m11="-0.0302312" m12="0.398856" m21="-0.299142" m22="-0.0226734"/>
+                            <transform m11="-0.0302313" m12="0.398856" m21="-0.299142" m22="-0.0226735"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -2268,7 +2268,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="4568" y="4672.51" angle="163.979"/>
-                            <transform m11="-0.384464" m12="0.110394" m21="-0.082795" m22="-0.288348"/>
+                            <transform m11="-0.384464" m12="0.110393" m21="-0.0827939" m22="-0.288348"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -2490,7 +2490,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="5066.47" y="4676.64" angle="-159.425"/>
-                            <transform m11="-0.374485" m12="-0.140573" m21="0.105429" m22="-0.280864"/>
+                            <transform m11="-0.374485" m12="-0.140574" m21="0.105429" m22="-0.280864"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -2545,7 +2545,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="5238.32" y="4942.17" angle="-117.662"/>
-                            <transform m11="-0.16249" m12="-0.309995" m21="0.35428" m22="-0.185703"/>
+                            <transform m11="-0.162492" m12="-0.309994" m21="0.354279" m22="-0.185705"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -2644,7 +2644,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="5283.48" y="4900.47" angle="96.5202"/>
-                            <transform m11="-0.0454217" m12="0.397412" m21="-0.29806" m22="-0.0340664"/>
+                            <transform m11="-0.0454219" m12="0.397412" m21="-0.29806" m22="-0.0340666"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -3014,7 +3014,7 @@
         </ConnectionItem>
     </Connections>
     <Texts>
-        <TextItem text="Try executing the Python script below.&#10;What is it telling you?&#10;&#10;tc_clear()&#10;n = 1000&#10;count = 0.0&#10;for i in range(0,n):&#10;    m = tc_simulateStochastic(0,100,100)&#10;    if tc_getMatrixValue(m, 100, 2) &gt; 0:&#10;        count = count + 1.0&#10;    tc_showProgress(&quot;counting...&quot;, 100 * i/n)&#10;&#10;tc_showProgress(&quot;counting...&quot;, 100)&#10;print count/n" scene="0" handle="" x="5554" y="4732" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="157.2" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="Try executing the Python script below&#10;using the Coding Window from the View menu&#10;&#10;What does the result mean biologically?&#10;&#10;tc_clear()&#10;n = 1000&#10;count = 0.0&#10;for i in range(0,n):&#10;    m = tc_simulateStochastic(0,100,100)&#10;    if tc_getMatrixValue(m, 100, 2) &gt; 0:&#10;        count = count + 1.0&#10;    tc_showProgress(&quot;counting...&quot;, 100 * i/n)&#10;&#10;tc_showProgress(&quot;counting...&quot;, 100)&#10;print count/n" scene="0" handle="" x="5543" y="4625.69" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="157.2" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="consume" scene="0" handle="consume" x="4666.81" y="4601.19" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="149.7" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="tr1" scene="0" handle="cel1.tr1" x="4846" y="5006" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="115.5" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="ai1" scene="0" handle="cel1.ai1" x="4742.77" y="4829.69" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="108.7" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
@@ -3043,7 +3043,7 @@
         <TextItem text="LacI" scene="3" handle="cel1.LacI" x="5433.3" y="4911.59" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="5" font="Sans" size="22" bold="0" italics="0" underline="0" group="ai1"/>
         <TextItem text="lactose" scene="3" handle="cel1.lactose" x="5039.02" y="5349.2" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="3" font="Sans" size="22" bold="0" italics="0" underline="0" group="ai1"/>
         <TextItem text="v2" scene="4" handle="cel1.pp1.v2" x="6174.53" y="5982.64" color="#171717" m11="1" m12="0" m21="0" m22="1" z="34.4" font="Sans" size="22" bold="0" italics="0" underline="0" group="pp1"/>
-        <TextItem text="v1" scene="4" handle="cel1.pp1.v1" x="5711.73" y="5986.09" color="#171717" m11="1" m12="0" m21="0" m22="1" z="31.4" font="Sans" size="22" bold="0" italics="0" underline="0" group="pp1"/>
+        <TextItem text="v1" scene="4" handle="cel1.pp1.v1" x="5702.4" y="5987.04" color="#171717" m11="1" m12="0" m21="0" m22="1" z="31.4" font="Sans" size="22" bold="0" italics="0" underline="0" group="pp1"/>
         <TextItem text="LacY" scene="4" handle="cel1.LacY" x="5911.42" y="6011.7" color="#171717" m11="1" m12="0" m21="0" m22="1" z="26.7" font="Sans" size="22" bold="0" italics="0" underline="0" group="pp1"/>
         <TextItem text="cod1" scene="4" handle="cel1.cod1" x="5642.1" y="6260.13" color="#171717" m11="1" m12="0" m21="0" m22="1" z="21.6" font="Sans" size="22" bold="0" italics="0" underline="0" group="pp1"/>
     </Texts>

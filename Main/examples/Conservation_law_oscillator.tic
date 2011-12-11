@@ -4,7 +4,7 @@
     <Handles>
         <Handle type="0" name="" parent="" family="">
             <tc_table>
-                <Table key="units" rows="29" cols="2" rowNames="_cell;;_vector;;_molecule;;_reporter;;_transcription factor;;_fluorescent protein;;_constitutive promoter;;_repressor binding site;;_receptor;;_inducible promoter;;_rbs;;_part;;_composite part;;_protein;;_coding;;_catalyst;;_small molecule;;_sticky ends;;_terminator;;_mrna;;_promoter;;_repressible promoter;;_compartment;;_enzyme;;_ribozyme;;_activator binding site;;_operator;;_rna;;_subcellular compartment" columnNames="property;;name" values="volume;;fL;;copies;;count;;concentration;;uM;;concentration;;uM;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;concentration;;uM;;concentration;;uM;;copies;;count;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;volume;;fL;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;volume;;fL"/>
+                <Table key="units" rows="30" cols="2" rowNames="_coding;;_ribozyme;;_small molecule;;_receptor;;_rna;;_reporter;;_sticky ends;;_molecule;;_promoter;;_activator binding site;;_spacer dna;;_vector;;_part;;_cell;;_constitutive promoter;;_fluorescent protein;;_protein;;_transcription factor;;_rbs;;_operator;;_repressible promoter;;_repressor binding site;;_terminator;;_enzyme;;_subcellular compartment;;_catalyst;;_mrna;;_inducible promoter;;_compartment;;_composite part" columnNames="property;;name" values="activity;;PoPS;;concentration;;uM;;concentration;;uM;;concentration;;uM;;concentration;;uM;;concentration;;uM;;copies;;count;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;copies;;count;;activity;;PoPS;;volume;;fL;;activity;;PoPS;;concentration;;uM;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;volume;;fL;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;volume;;fL;;activity;;PoPS"/>
             </tc_table>
         </Handle>
         <Handle type="1" name="cod1" parent="" family="coding">
@@ -257,6 +257,7 @@
         <Handle type="1" name="emp4" parent="pp1" family="empty">
             <tc_matrix>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
+                <Table key="position" rows="2" cols="1" rowNames="x;;y" columnNames="value" desc="" values="5648.05;;4768.95"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
@@ -269,6 +270,7 @@
         <Handle type="1" name="emp3" parent="pp1" family="empty">
             <tc_matrix>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
+                <Table key="position" rows="2" cols="1" rowNames="x;;y" columnNames="value" desc="" values="4686.9;;4777.28"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
@@ -281,6 +283,7 @@
         <Handle type="1" name="emp2" parent="pp1" family="empty">
             <tc_matrix>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
+                <Table key="position" rows="2" cols="1" rowNames="x;;y" columnNames="value" desc="" values="5368.41;;5051.8"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
@@ -293,6 +296,7 @@
         <Handle type="1" name="emp1" parent="pp1" family="empty">
             <tc_matrix>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
+                <Table key="position" rows="2" cols="1" rowNames="x;;y" columnNames="value" desc="" values="4415.59;;5046.8"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
@@ -382,6 +386,7 @@
         <Handle type="1" name="emp4" parent="pp2" family="empty">
             <tc_matrix>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
+                <Table key="position" rows="2" cols="1" rowNames="x;;y" columnNames="value" desc="" values="5648.05;;4768.95"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
@@ -394,6 +399,7 @@
         <Handle type="1" name="emp3" parent="pp2" family="empty">
             <tc_matrix>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
+                <Table key="position" rows="2" cols="1" rowNames="x;;y" columnNames="value" desc="" values="4686.9;;4777.28"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
@@ -406,6 +412,7 @@
         <Handle type="1" name="emp2" parent="pp2" family="empty">
             <tc_matrix>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
+                <Table key="position" rows="2" cols="1" rowNames="x;;y" columnNames="value" desc="" values="5368.41;;5051.8"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
@@ -418,6 +425,7 @@
         <Handle type="1" name="emp1" parent="pp2" family="empty">
             <tc_matrix>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
+                <Table key="position" rows="2" cols="1" rowNames="x;;y" columnNames="value" desc="" values="4415.59;;5046.8"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
@@ -1519,102 +1527,6 @@
                                             <basePoint1 x="-17.374" y="50"/>
                                             <basePoint2 x="-37.5332" y="37.7419"/>
                                             <end x="-43.1035" y="9.6774"/>
-                                        </curveSegment>
-                                    </listOfCurveSegments>
-                                </polygon>
-                            </g>
-                        </style>
-                    </listOfStyles>
-                </renderInformation>
-            </listOfRenderInformation>
-        </NodeItem>
-        <NodeItem className="Global parameters" scene="2" handle="" z="133.3">
-            <pos x="5000.27" y="5009.92"/>
-            <transform m11="0.5" m12="0" m21="0" m22="0.8"/>
-            <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
-                <renderInformation id="TinkerCell_Style" programName="TinkerCell">
-                    <listOfColorDefinitions>
-                        <colorDefinition id="shape1color" value="#5b615f" alpha="255"/>
-                        <colorDefinition id="shape2color" value="#5b615f" alpha="255"/>
-                    </listOfColorDefinitions>
-                    <listOfGradientDefinitions>
-                        <linearGradient id="shape0color" x1="-0.9317" y1="-27.7202" x2="2.1739" y2="24.0933">
-                            <stop offset="0%" stop-color="#e0efeb" stop-alpha="1"/>
-                            <stop offset="100%" stop-color="#c7c7c7" stop-alpha="1"/>
-                        </linearGradient>
-                    </listOfGradientDefinitions>
-                    <listOfStyles>
-                        <style idList="paper" width="50" height="80" group="ai1">
-                            <g>
-                                <polygon fill="shape0color" stroke="#646464" stroke-width="0" stroke-alpha="1">
-                                    <listOfCurveSegments>
-                                        <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                            <start x="-50" y="44.3005"/>
-                                            <end x="-50" y="-28.7565"/>
-                                        </curveSegment>
-                                        <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                            <start x="-50" y="-28.7565"/>
-                                            <end x="-26.3975" y="-28.7565"/>
-                                        </curveSegment>
-                                        <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                            <start x="-26.3975" y="-28.7565"/>
-                                            <end x="-26.3975" y="-50"/>
-                                        </curveSegment>
-                                        <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                            <start x="-26.3975" y="-50"/>
-                                            <end x="43.1677" y="-50"/>
-                                        </curveSegment>
-                                        <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                            <start x="43.1677" y="-50"/>
-                                            <end x="43.7888" y="44.3005"/>
-                                        </curveSegment>
-                                        <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                            <start x="43.7888" y="44.3005"/>
-                                            <end x="-50" y="44.3005"/>
-                                        </curveSegment>
-                                    </listOfCurveSegments>
-                                </polygon>
-                                <polygon fill="shape1color" stroke="#646464" stroke-width="0" stroke-alpha="1">
-                                    <listOfCurveSegments>
-                                        <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                            <start x="-50" y="-28.7565"/>
-                                            <end x="-26.3975" y="-50"/>
-                                        </curveSegment>
-                                        <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                            <start x="-26.3975" y="-50"/>
-                                            <end x="-26.3975" y="-28.7565"/>
-                                        </curveSegment>
-                                        <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                            <start x="-26.3975" y="-28.7565"/>
-                                            <end x="-50" y="-28.7565"/>
-                                        </curveSegment>
-                                    </listOfCurveSegments>
-                                </polygon>
-                                <polygon fill="shape2color" stroke="#646464" stroke-width="0" stroke-alpha="1">
-                                    <listOfCurveSegments>
-                                        <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                            <start x="-41.9255" y="44.3005"/>
-                                            <end x="43.7888" y="44.3005"/>
-                                        </curveSegment>
-                                        <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                            <start x="43.7888" y="44.3005"/>
-                                            <end x="43.1677" y="-41.7098"/>
-                                        </curveSegment>
-                                        <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                            <start x="43.1677" y="-41.7098"/>
-                                            <end x="50" y="-41.1917"/>
-                                        </curveSegment>
-                                        <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                            <start x="50" y="-41.1917"/>
-                                            <end x="50" y="50"/>
-                                        </curveSegment>
-                                        <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                            <start x="50" y="50"/>
-                                            <end x="-41.9255" y="50"/>
-                                        </curveSegment>
-                                        <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                            <start x="-41.9255" y="50"/>
-                                            <end x="-41.9255" y="44.3005"/>
                                         </curveSegment>
                                     </listOfCurveSegments>
                                 </polygon>
@@ -2893,7 +2805,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="5341" y="4657.1" angle="18.9647"/>
-                            <transform m11="0.0945719" m12="0.0324987" m21="-0.129995" m22="0.378288"/>
+                            <transform m11="0.0945719" m12="0.0324988" m21="-0.129995" m22="0.378288"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -3391,7 +3303,7 @@
                 <CenterRegion>
                     <Rect width="20" height="20"/>
                     <Decorator>
-                        <pos x="5426.68" y="5274.05" angle="0"/>
+                        <pos x="5416.03" y="5257.34" angle="0"/>
                         <transform m11="0.25" m12="0" m21="0" m22="0.25"/>
                         <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                             <renderInformation id="TinkerCell_Style" programName="TinkerCell">
@@ -3501,7 +3413,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="5149.28" y="5363.92" angle="-122.636"/>
-                            <transform m11="-0.215718" m12="-0.336847" m21="0.252636" m22="-0.161788"/>
+                            <transform m11="-0.215719" m12="-0.336847" m21="0.252636" m22="-0.161788"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -3556,7 +3468,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="5149.28" y="5363.92" angle="-122.636"/>
-                            <transform m11="-0.215717" m12="-0.336847" m21="0.252636" m22="-0.161788"/>
+                            <transform m11="-0.215718" m12="-0.336847" m21="0.252636" m22="-0.161788"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -3662,7 +3574,7 @@
                 <CenterRegion>
                     <Rect width="20" height="20"/>
                     <Decorator>
-                        <pos x="5426.68" y="5274.05" angle="0"/>
+                        <pos x="5416.03" y="5257.34" angle="0"/>
                         <transform m11="0.25" m12="0" m21="0" m22="0.25"/>
                         <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                             <renderInformation id="TinkerCell_Style" programName="TinkerCell">
@@ -3827,7 +3739,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="5328.41" y="5052.8" angle="-1.42982"/>
-                            <transform m11="0.399875" m12="-0.00998114" m21="0.00748584" m22="0.299906"/>
+                            <transform m11="0.399875" m12="-0.00998117" m21="0.00748586" m22="0.299906"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -3882,7 +3794,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="5608.05" y="4768.13" angle="1.17918"/>
-                            <transform m11="0.399915" m12="0.00823201" m21="-0.00617398" m22="0.299936"/>
+                            <transform m11="0.399915" m12="0.00823204" m21="-0.006174" m22="0.299936"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -4014,7 +3926,7 @@
                         <ControlPoints indices="6,7,8,3"/>
                         <ArrowAtStart>
                             <pos x="5109.58" y="4770.12" angle="-1.22102"/>
-                            <transform m11="0.399909" m12="-0.00852387" m21="0.0063929" m22="0.299932"/>
+                            <transform m11="0.399909" m12="-0.0085239" m21="0.00639292" m22="0.299932"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -4069,7 +3981,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="5328.41" y="5052.8" angle="-1.42982"/>
-                            <transform m11="0.399875" m12="-0.00998114" m21="0.00748584" m22="0.299906"/>
+                            <transform m11="0.399875" m12="-0.00998117" m21="0.00748586" m22="0.299906"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -4124,7 +4036,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="5608.05" y="4768.13" angle="1.17918"/>
-                            <transform m11="0.399915" m12="0.00823201" m21="-0.00617398" m22="0.299936"/>
+                            <transform m11="0.399915" m12="0.00823204" m21="-0.006174" m22="0.299936"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -4256,7 +4168,7 @@
                         <ControlPoints indices="6,7,8,3"/>
                         <ArrowAtStart>
                             <pos x="5109.58" y="4770.12" angle="-1.22102"/>
-                            <transform m11="0.399909" m12="-0.00852387" m21="0.0063929" m22="0.299932"/>
+                            <transform m11="0.399909" m12="-0.0085239" m21="0.00639292" m22="0.299932"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -4300,6 +4212,7 @@
         </ConnectionItem>
     </Connections>
     <Texts>
+        <TextItem text="There is a &quot;hidden&quot; feedback in this system&#10;as a result of the inhibitor being sequestered&#10;by tf2 and tf1." scene="0" handle="" x="4582.93" y="4255.28" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="295.9" font="Ubuntu" size="28" bold="0" italics="0" underline="0"/>
         <TextItem text="ai2" scene="0" handle="ai2" x="5109.25" y="4603.81" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="295.9" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="ai1" scene="0" handle="ai1" x="4813.5" y="4612.29" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="293.9" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="tr1" scene="0" handle="tr1" x="5192.42" y="4734" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="288.6" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>

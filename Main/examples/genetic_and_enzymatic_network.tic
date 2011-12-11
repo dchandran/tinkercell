@@ -4,7 +4,7 @@
     <Handles>
         <Handle type="0" name="" parent="" family="">
             <tc_table>
-                <Table key="units" rows="27" cols="2" rowNames="activator binding site;;cell;;coding;;compartment;;composite part;;constitutive promoter;;enzyme;;inducible promoter;;molecule;;mrna;;operator;;part;;promoter;;protein;;rbs;;receptor;;reporter;;repressible promoter;;repressor binding site;;ribozyme;;rna;;small molecule;;sticky ends;;subcellular compartment;;terminator;;transcription factor;;vector" columnNames="property;;name" values="activity;;PoPS;;volume;;fL;;activity;;PoPS;;volume;;fL;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;activity;;PoPS;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;concentration;;uM;;concentration;;uM;;copies;;count;;volume;;fL;;activity;;PoPS;;concentration;;uM;;copies;;count"/>
+                <Table key="units" rows="30" cols="2" rowNames="_coding;;_ribozyme;;_small molecule;;_receptor;;_rna;;_reporter;;_sticky ends;;_molecule;;_promoter;;_activator binding site;;_spacer dna;;_vector;;_part;;_cell;;_constitutive promoter;;_fluorescent protein;;_protein;;_transcription factor;;_rbs;;_operator;;_repressible promoter;;_repressor binding site;;_terminator;;_enzyme;;_subcellular compartment;;_catalyst;;_mrna;;_inducible promoter;;_compartment;;_composite part" columnNames="property;;name" values="activity;;PoPS;;concentration;;uM;;concentration;;uM;;concentration;;uM;;concentration;;uM;;concentration;;uM;;copies;;count;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;copies;;count;;activity;;PoPS;;volume;;fL;;activity;;PoPS;;concentration;;uM;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;volume;;fL;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;volume;;fL;;activity;;PoPS"/>
             </tc_table>
         </Handle>
         <Handle type="1" name="vec1" parent="" family="vector">
@@ -75,7 +75,7 @@
         <Handle type="2" name="br1" parent="" family="enzyme catalysis">
             <tc_matrix>
                 <Table key="product stoichiometries" rows="1" cols="2" rowNames="stoichiometry" columnNames="mol1;;mol2" desc="Number of each product participating in this reaction" values="0;;1"/>
-                <Table key="parameters" rows="4" cols="3" rowNames="k0;;Km;;Kcat;;Kreverse" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="0.1;;0;;0;;1;;0.001;;10;;1;;0.001;;100;;0.1;;0;;100"/>
+                <Table key="parameters" rows="4" cols="3" rowNames="k0;;Km;;Kcat;;Kreverse" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="0.1;;0;;0;;0.622;;0.001;;10;;1.612;;0.001;;100;;0.0298;;0;;100"/>
                 <Table key="reactant stoichiometries" rows="1" cols="2" rowNames="stoichiometry" columnNames="mol1;;mol2" desc="Number of each reactant participating in this reaction" values="1;;0"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
@@ -111,7 +111,7 @@
         <Handle type="2" name="br2" parent="" family="enzyme catalysis">
             <tc_matrix>
                 <Table key="product stoichiometries" rows="1" cols="2" rowNames="stoichiometry" columnNames="mol3;;mol1" desc="Number of each product participating in this reaction" values="0;;1"/>
-                <Table key="parameters" rows="4" cols="3" rowNames="k0;;Km;;Kcat;;Kreverse" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="0.1;;0;;0;;1;;0.001;;10;;1;;0.001;;100;;0.1;;0;;100"/>
+                <Table key="parameters" rows="4" cols="3" rowNames="k0;;Km;;Kcat;;Kreverse" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="0.1;;0;;0;;0.388;;0.001;;10;;1;;0.001;;100;;0.1;;0;;100"/>
                 <Table key="reactant stoichiometries" rows="1" cols="2" rowNames="stoichiometry" columnNames="mol3;;mol1" desc="Number of each reactant participating in this reaction" values="1;;0"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
@@ -183,6 +183,7 @@
         <Handle type="1" name="emp1" parent="" family="empty">
             <tc_matrix>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
+                <Table key="position" rows="2" cols="1" rowNames="x;;y" columnNames="value" desc="" values="3996.5;;4931"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
@@ -195,6 +196,7 @@
         <Handle type="1" name="emp2" parent="" family="empty">
             <tc_matrix>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
+                <Table key="position" rows="2" cols="1" rowNames="x;;y" columnNames="value" desc="" values="6045.5;;4928"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
@@ -275,84 +277,6 @@
                 <Table key="rate equations" rows="1" cols="1" rowNames="rate" columnNames="formula" values="pro1.k0"/>
             </tc_table>
         </Handle>
-        <Handle type="1" name="cod3" parent="vec1" family="coding">
-            <tc_matrix>
-                <Table key="initial value" rows="1" cols="1" rowNames="activity" columnNames="activity" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="10"/>
-                <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
-                <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
-            </tc_matrix>
-            <tc_table>
-                <Table key="text attributes" rows="2" cols="1" rowNames="sequence;;composite" columnNames="value" values="AAGCTGATGGCTAGAAT;;false"/>
-                <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="assignments" rows="1" cols="1" rowNames="self" columnNames="rule" values="vec1 * vec1.pro4.strength"/>
-                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
-            </tc_table>
-        </Handle>
-        <Handle type="1" name="pro4" parent="vec1" family="promoter">
-            <tc_matrix>
-                <Table key="initial value" rows="1" cols="1" rowNames="activity" columnNames="activity" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="10"/>
-                <Table key="parameters" rows="1" cols="3" rowNames="strength" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="190;;0;;0"/>
-                <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
-            </tc_matrix>
-            <tc_table>
-                <Table key="text attributes" rows="2" cols="1" rowNames="sequence;;composite" columnNames="value" values="AAGCTGATGGCTAGAAT;;false"/>
-                <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
-                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
-            </tc_table>
-        </Handle>
-        <Handle type="1" name="ter3" parent="vec1" family="terminator">
-            <tc_matrix>
-                <Table key="initial value" rows="1" cols="1" rowNames="activity" columnNames="activity" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="10"/>
-                <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
-                <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
-            </tc_matrix>
-            <tc_table>
-                <Table key="text attributes" rows="2" cols="1" rowNames="sequence;;composite" columnNames="value" values="AAGCTGATGGCTAGAAT;;false"/>
-                <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
-                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
-            </tc_table>
-        </Handle>
-        <Handle type="1" name="ter2" parent="vec1" family="terminator">
-            <tc_matrix>
-                <Table key="initial value" rows="1" cols="1" rowNames="activity" columnNames="activity" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="10"/>
-                <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
-                <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
-            </tc_matrix>
-            <tc_table>
-                <Table key="text attributes" rows="2" cols="1" rowNames="sequence;;composite" columnNames="value" values="AAGCTGATGGCTAGAAT;;false"/>
-                <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
-                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
-            </tc_table>
-        </Handle>
-        <Handle type="1" name="cod2" parent="vec1" family="coding">
-            <tc_matrix>
-                <Table key="initial value" rows="1" cols="1" rowNames="activity" columnNames="activity" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="10"/>
-                <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
-                <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
-            </tc_matrix>
-            <tc_table>
-                <Table key="text attributes" rows="2" cols="1" rowNames="sequence;;composite" columnNames="value" values="AAGCTGATGGCTAGAAT;;false"/>
-                <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="assignments" rows="1" cols="1" rowNames="self" columnNames="rule" values="vec1 * vec1.pro3.strength"/>
-                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
-            </tc_table>
-        </Handle>
-        <Handle type="1" name="pro3" parent="vec1" family="promoter">
-            <tc_matrix>
-                <Table key="initial value" rows="1" cols="1" rowNames="activity" columnNames="activity" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="10"/>
-                <Table key="parameters" rows="1" cols="3" rowNames="strength" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="0.3877;;0;;0"/>
-                <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
-            </tc_matrix>
-            <tc_table>
-                <Table key="text attributes" rows="2" cols="1" rowNames="sequence;;composite" columnNames="value" values="AAGCTGATGGCTAGAAT;;false"/>
-                <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
-                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
-            </tc_table>
-        </Handle>
         <Handle type="1" name="ter1" parent="vec1" family="terminator">
             <tc_matrix>
                 <Table key="initial value" rows="1" cols="1" rowNames="activity" columnNames="activity" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="10"/>
@@ -375,14 +299,92 @@
             <tc_table>
                 <Table key="text attributes" rows="2" cols="1" rowNames="sequence;;composite" columnNames="value" values="AAGCTGATGGCTAGAAT;;false"/>
                 <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
-                <Table key="assignments" rows="1" cols="1" rowNames="self" columnNames="rule" values="vec1 * vec1.pro2.strength"/>
+                <Table key="assignments" rows="1" cols="1" rowNames="self" columnNames="rule" values="vec1 * vec1.p1.strength"/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
             </tc_table>
         </Handle>
-        <Handle type="1" name="pro2" parent="vec1" family="promoter">
+        <Handle type="1" name="p1" parent="vec1" family="promoter">
             <tc_matrix>
                 <Table key="initial value" rows="1" cols="1" rowNames="activity" columnNames="activity" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="10"/>
-                <Table key="parameters" rows="1" cols="3" rowNames="strength" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="10;;0;;0"/>
+                <Table key="parameters" rows="1" cols="3" rowNames="strength" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="16.12;;0;;0"/>
+                <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
+            </tc_matrix>
+            <tc_table>
+                <Table key="text attributes" rows="2" cols="1" rowNames="sequence;;composite" columnNames="value" values="AAGCTGATGGCTAGAAT;;false"/>
+                <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
+                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
+            </tc_table>
+        </Handle>
+        <Handle type="1" name="p2" parent="vec1" family="promoter">
+            <tc_matrix>
+                <Table key="initial value" rows="1" cols="1" rowNames="activity" columnNames="activity" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="10"/>
+                <Table key="parameters" rows="1" cols="3" rowNames="strength" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="0.7366;;0;;0"/>
+                <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
+            </tc_matrix>
+            <tc_table>
+                <Table key="text attributes" rows="2" cols="1" rowNames="sequence;;composite" columnNames="value" values="AAGCTGATGGCTAGAAT;;false"/>
+                <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
+                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
+            </tc_table>
+        </Handle>
+        <Handle type="1" name="cod2" parent="vec1" family="coding">
+            <tc_matrix>
+                <Table key="initial value" rows="1" cols="1" rowNames="activity" columnNames="activity" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="10"/>
+                <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
+                <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
+            </tc_matrix>
+            <tc_table>
+                <Table key="text attributes" rows="2" cols="1" rowNames="sequence;;composite" columnNames="value" values="AAGCTGATGGCTAGAAT;;false"/>
+                <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="assignments" rows="1" cols="1" rowNames="self" columnNames="rule" values="vec1 * vec1.p2.strength"/>
+                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
+            </tc_table>
+        </Handle>
+        <Handle type="1" name="ter2" parent="vec1" family="terminator">
+            <tc_matrix>
+                <Table key="initial value" rows="1" cols="1" rowNames="activity" columnNames="activity" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="10"/>
+                <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
+                <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
+            </tc_matrix>
+            <tc_table>
+                <Table key="text attributes" rows="2" cols="1" rowNames="sequence;;composite" columnNames="value" values="AAGCTGATGGCTAGAAT;;false"/>
+                <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
+                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
+            </tc_table>
+        </Handle>
+        <Handle type="1" name="p3" parent="vec1" family="promoter">
+            <tc_matrix>
+                <Table key="initial value" rows="1" cols="1" rowNames="activity" columnNames="activity" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="10"/>
+                <Table key="parameters" rows="1" cols="3" rowNames="strength" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1;;0;;0"/>
+                <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
+            </tc_matrix>
+            <tc_table>
+                <Table key="text attributes" rows="2" cols="1" rowNames="sequence;;composite" columnNames="value" values="AAGCTGATGGCTAGAAT;;false"/>
+                <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
+                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
+            </tc_table>
+        </Handle>
+        <Handle type="1" name="cod3" parent="vec1" family="coding">
+            <tc_matrix>
+                <Table key="initial value" rows="1" cols="1" rowNames="activity" columnNames="activity" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="10"/>
+                <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
+                <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
+            </tc_matrix>
+            <tc_table>
+                <Table key="text attributes" rows="2" cols="1" rowNames="sequence;;composite" columnNames="value" values="AAGCTGATGGCTAGAAT;;false"/>
+                <Table key="functions" rows="0" cols="2" rowNames="" columnNames="args;;defn" values=""/>
+                <Table key="assignments" rows="1" cols="1" rowNames="self" columnNames="rule" values="vec1 * vec1.p3.strength"/>
+                <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
+            </tc_table>
+        </Handle>
+        <Handle type="1" name="ter3" parent="vec1" family="terminator">
+            <tc_matrix>
+                <Table key="initial value" rows="1" cols="1" rowNames="activity" columnNames="activity" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="10"/>
+                <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
@@ -440,6 +442,7 @@
         <Handle type="1" name="emp2" parent="pp1" family="empty">
             <tc_matrix>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
+                <Table key="position" rows="2" cols="1" rowNames="x;;y" columnNames="value" desc="" values="6489.75;;5979.25"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
@@ -452,6 +455,7 @@
         <Handle type="1" name="emp1" parent="pp1" family="empty">
             <tc_matrix>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
+                <Table key="position" rows="2" cols="1" rowNames="x;;y" columnNames="value" desc="" values="5458.42;;5979.25"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
@@ -541,6 +545,7 @@
         <Handle type="1" name="emp2" parent="pp2" family="empty">
             <tc_matrix>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
+                <Table key="position" rows="2" cols="1" rowNames="x;;y" columnNames="value" desc="" values="6489.75;;5979.25"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
@@ -553,6 +558,7 @@
         <Handle type="1" name="emp1" parent="pp2" family="empty">
             <tc_matrix>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
+                <Table key="position" rows="2" cols="1" rowNames="x;;y" columnNames="value" desc="" values="5458.42;;5979.25"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
@@ -642,6 +648,7 @@
         <Handle type="1" name="emp2" parent="pp3" family="empty">
             <tc_matrix>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
+                <Table key="position" rows="2" cols="1" rowNames="x;;y" columnNames="value" desc="" values="6489.75;;5979.25"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
@@ -654,6 +661,7 @@
         <Handle type="1" name="emp1" parent="pp3" family="empty">
             <tc_matrix>
                 <Table key="parameters" rows="0" cols="3" rowNames="" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values=""/>
+                <Table key="position" rows="2" cols="1" rowNames="x;;y" columnNames="value" desc="" values="5458.42;;5979.25"/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
             <tc_table>
@@ -697,27 +705,9 @@
         </Handle>
     </Handles>
     <Nodes>
-        <NodeItem className="NodeGraphicsItem" scene="0" handle="vec1" z="1323.9">
-            <pos x="4998.6" y="6001.2"/>
-            <transform m11="8.376" m12="0" m21="0" m22="8.376"/>
-            <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
-                <renderInformation id="TinkerCell_Style" programName="TinkerCell">
-                    <listOfColorDefinitions>
-                        <colorDefinition id="shape0color" value="#ffffff" alpha="0"/>
-                    </listOfColorDefinitions>
-                    <listOfStyles>
-                        <style idList="ring" width="600" height="600">
-                            <g>
-                                <ellipse cx="0" cy="0" rx="50" ry="50" angleStart="0" angleEnd="360" fill="shape0color" stroke="#6464ff" stroke-width="2" stroke-alpha="1"/>
-                            </g>
-                        </style>
-                    </listOfStyles>
-                </renderInformation>
-            </listOfRenderInformation>
-        </NodeItem>
         <NodeItem className="NodeGraphicsItem" scene="0" handle="vec1.cod3" z="317.1">
-            <pos x="5395.2" y="5865.05"/>
-            <transform m11="0.519518" m12="1.51331" m21="-0.253479" m22="0.0870193"/>
+            <pos x="5392.8" y="5862.68"/>
+            <transform m11="0.519322" m12="1.51338" m21="-0.25349" m22="0.0869864"/>
             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                     <listOfColorDefinitions>
@@ -733,7 +723,7 @@
                     <listOfStyles>
                         <style idList="protein coding" width="160" height="26.8">
                             <g>
-                                <polygon fill="shape0color" stroke="#000000" stroke-width="0" stroke-alpha="1">
+                                <polygon fill="shape0color" stroke="#000000" stroke-width="0" stroke-alpha="0">
                                     <listOfCurveSegments>
                                         <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                                             <start x="-50" y="-12.2501"/>
@@ -753,7 +743,7 @@
                                         </curveSegment>
                                     </listOfCurveSegments>
                                 </polygon>
-                                <polygon fill="shape1color" stroke="#000000" stroke-width="0" stroke-alpha="1">
+                                <polygon fill="shape1color" stroke="#000000" stroke-width="0" stroke-alpha="0">
                                     <listOfCurveSegments>
                                         <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                                             <start x="27.0492" y="-12.2501"/>
@@ -816,8 +806,8 @@
             </listOfRenderInformation>
         </NodeItem>
         <NodeItem className="NodeGraphicsItem" scene="0" handle="vec1.ter3" z="315.1">
-            <pos x="5439.17" y="5966.98"/>
-            <transform m11="0.0774384" m12="0.996997" m21="-0.538378" m22="0.0418167"/>
+            <pos x="5438.07" y="6000.46"/>
+            <transform m11="-0.00378986" m12="0.999993" m21="-0.539996" m22="-0.00204652"/>
             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                     <listOfColorDefinitions>
@@ -832,7 +822,7 @@
                     <listOfStyles>
                         <style idList="terminator" width="100" height="54">
                             <g>
-                                <polygon fill="shape0color" stroke="#000000" stroke-width="0" stroke-alpha="1">
+                                <polygon fill="shape0color" stroke="#000000" stroke-width="0" stroke-alpha="0">
                                     <listOfCurveSegments>
                                         <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                                             <start x="-50" y="35.5337"/>
@@ -902,9 +892,9 @@
                 </renderInformation>
             </listOfRenderInformation>
         </NodeItem>
-        <NodeItem className="NodeGraphicsItem" scene="0" handle="vec1.pro4" z="313.1">
-            <pos x="5353.72" y="5739.82"/>
-            <transform m11="0.592775" m12="0.805368" m21="-0.563758" m22="0.414942"/>
+        <NodeItem className="NodeGraphicsItem" scene="0" handle="vec1.p3" z="313.1">
+            <pos x="5352.73" y="5739.36"/>
+            <transform m11="0.58834" m12="0.808614" m21="-0.56603" m22="0.411838"/>
             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                     <listOfColorDefinitions>
@@ -965,7 +955,7 @@
                                         </curveSegment>
                                     </listOfCurveSegments>
                                 </polygon>
-                                <polygon fill="shape1color" stroke="#000000" stroke-width="0" stroke-alpha="1">
+                                <polygon fill="shape1color" stroke="#000000" stroke-width="0" stroke-alpha="0">
                                     <listOfCurveSegments>
                                         <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                                             <start x="-50" y="26.2062"/>
@@ -985,7 +975,7 @@
                                         </curveSegment>
                                     </listOfCurveSegments>
                                 </polygon>
-                                <polygon fill="shape2color" stroke="#000000" stroke-width="0" stroke-alpha="1">
+                                <polygon fill="shape2color" stroke="#000000" stroke-width="0" stroke-alpha="0">
                                     <listOfCurveSegments>
                                         <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                                             <start x="13.3558" y="26.2062"/>
@@ -1060,8 +1050,8 @@
             </listOfRenderInformation>
         </NodeItem>
         <NodeItem className="NodeGraphicsItem" scene="0" handle="vec1.cod2" z="311.1">
-            <pos x="5027.78" y="5582.9"/>
-            <transform m11="1.59612" m12="0.111345" m21="-0.0186504" m22="0.26735"/>
+            <pos x="5016.65" y="5579.96"/>
+            <transform m11="1.59809" m12="0.0781183" m21="-0.0130848" m22="0.26768"/>
             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                     <listOfColorDefinitions>
@@ -1077,7 +1067,7 @@
                     <listOfStyles>
                         <style idList="protein coding" width="160" height="26.8">
                             <g>
-                                <polygon fill="shape0color" stroke="#000000" stroke-width="0" stroke-alpha="1">
+                                <polygon fill="shape0color" stroke="#000000" stroke-width="0" stroke-alpha="0">
                                     <listOfCurveSegments>
                                         <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                                             <start x="-50" y="-12.2501"/>
@@ -1097,7 +1087,7 @@
                                         </curveSegment>
                                     </listOfCurveSegments>
                                 </polygon>
-                                <polygon fill="shape1color" stroke="#000000" stroke-width="0" stroke-alpha="1">
+                                <polygon fill="shape1color" stroke="#000000" stroke-width="0" stroke-alpha="0">
                                     <listOfCurveSegments>
                                         <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                                             <start x="27.0492" y="-12.2501"/>
@@ -1160,8 +1150,8 @@
             </listOfRenderInformation>
         </NodeItem>
         <NodeItem className="NodeGraphicsItem" scene="0" handle="vec1.ter2" z="309.1">
-            <pos x="5144.93" y="5584.24"/>
-            <transform m11="0.943582" m12="0.33114" m21="-0.178816" m22="0.509534"/>
+            <pos x="5149.25" y="5584.24"/>
+            <transform m11="0.938092" m12="0.346385" m21="-0.187048" m22="0.50657"/>
             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                     <listOfColorDefinitions>
@@ -1176,7 +1166,7 @@
                     <listOfStyles>
                         <style idList="terminator" width="100" height="54">
                             <g>
-                                <polygon fill="shape0color" stroke="#000000" stroke-width="0" stroke-alpha="1">
+                                <polygon fill="shape0color" stroke="#000000" stroke-width="0" stroke-alpha="0">
                                     <listOfCurveSegments>
                                         <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                                             <start x="-50" y="35.5337"/>
@@ -1246,9 +1236,9 @@
                 </renderInformation>
             </listOfRenderInformation>
         </NodeItem>
-        <NodeItem className="NodeGraphicsItem" scene="0" handle="vec1.pro3" z="307.1">
-            <pos x="4879.37" y="5576.69"/>
-            <transform m11="0.962748" m12="-0.2704" m21="0.18928" m22="0.673924"/>
+        <NodeItem className="NodeGraphicsItem" scene="0" handle="vec1.p2" z="307.1">
+            <pos x="4896.64" y="5569.22"/>
+            <transform m11="0.974188" m12="-0.22574" m21="0.158018" m22="0.681931"/>
             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                     <listOfColorDefinitions>
@@ -1309,7 +1299,7 @@
                                         </curveSegment>
                                     </listOfCurveSegments>
                                 </polygon>
-                                <polygon fill="shape1color" stroke="#000000" stroke-width="0" stroke-alpha="1">
+                                <polygon fill="shape1color" stroke="#000000" stroke-width="0" stroke-alpha="0">
                                     <listOfCurveSegments>
                                         <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                                             <start x="-50" y="26.2062"/>
@@ -1329,7 +1319,7 @@
                                         </curveSegment>
                                     </listOfCurveSegments>
                                 </polygon>
-                                <polygon fill="shape2color" stroke="#000000" stroke-width="0" stroke-alpha="1">
+                                <polygon fill="shape2color" stroke="#000000" stroke-width="0" stroke-alpha="0">
                                     <listOfCurveSegments>
                                         <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                                             <start x="13.3558" y="26.2062"/>
@@ -1403,9 +1393,9 @@
                 </renderInformation>
             </listOfRenderInformation>
         </NodeItem>
-        <NodeItem className="NodeGraphicsItem" scene="0" handle="vec1.pro2" z="303.9">
-            <pos x="4574.41" y="5880.82"/>
-            <transform m11="0.273005" m12="-0.962013" m21="0.673409" m22="0.191103"/>
+        <NodeItem className="NodeGraphicsItem" scene="0" handle="vec1.p1" z="303.9">
+            <pos x="4574.14" y="5871.06"/>
+            <transform m11="0.289654" m12="-0.957131" m21="0.669992" m22="0.202758"/>
             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                     <listOfColorDefinitions>
@@ -1466,7 +1456,7 @@
                                         </curveSegment>
                                     </listOfCurveSegments>
                                 </polygon>
-                                <polygon fill="shape1color" stroke="#000000" stroke-width="0" stroke-alpha="1">
+                                <polygon fill="shape1color" stroke="#000000" stroke-width="0" stroke-alpha="0">
                                     <listOfCurveSegments>
                                         <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                                             <start x="-50" y="26.2062"/>
@@ -1486,7 +1476,7 @@
                                         </curveSegment>
                                     </listOfCurveSegments>
                                 </polygon>
-                                <polygon fill="shape2color" stroke="#000000" stroke-width="0" stroke-alpha="1">
+                                <polygon fill="shape2color" stroke="#000000" stroke-width="0" stroke-alpha="0">
                                     <listOfCurveSegments>
                                         <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                                             <start x="13.3558" y="26.2062"/>
@@ -1561,8 +1551,8 @@
             </listOfRenderInformation>
         </NodeItem>
         <NodeItem className="NodeGraphicsItem" scene="0" handle="vec1.ter1" z="301.9">
-            <pos x="4687.93" y="5686.95"/>
-            <transform m11="0.711148" m12="-0.703043" m21="0.379643" m22="0.38402"/>
+            <pos x="4727.62" y="5647.86"/>
+            <transform m11="0.794122" m12="-0.607758" m21="0.328189" m22="0.428826"/>
             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                     <listOfColorDefinitions>
@@ -1577,7 +1567,7 @@
                     <listOfStyles>
                         <style idList="terminator" width="100" height="54">
                             <g>
-                                <polygon fill="shape0color" stroke="#000000" stroke-width="0" stroke-alpha="1">
+                                <polygon fill="shape0color" stroke="#000000" stroke-width="0" stroke-alpha="0">
                                     <listOfCurveSegments>
                                         <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                                             <start x="-50" y="35.5337"/>
@@ -1648,8 +1638,8 @@
             </listOfRenderInformation>
         </NodeItem>
         <NodeItem className="NodeGraphicsItem" scene="0" handle="vec1.cod1" z="299.9">
-            <pos x="4639.41" y="5784.84"/>
-            <transform m11="0.825588" m12="-1.37055" m21="0.229567" m22="0.138286"/>
+            <pos x="4658.39" y="5747.08"/>
+            <transform m11="0.96041" m12="-1.27969" m21="0.214349" m22="0.160869"/>
             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                     <listOfColorDefinitions>
@@ -1665,7 +1655,7 @@
                     <listOfStyles>
                         <style idList="protein coding" width="160" height="26.8">
                             <g>
-                                <polygon fill="shape0color" stroke="#000000" stroke-width="0" stroke-alpha="1">
+                                <polygon fill="shape0color" stroke="#000000" stroke-width="0" stroke-alpha="0">
                                     <listOfCurveSegments>
                                         <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                                             <start x="-50" y="-12.2501"/>
@@ -1685,7 +1675,7 @@
                                         </curveSegment>
                                     </listOfCurveSegments>
                                 </polygon>
-                                <polygon fill="shape1color" stroke="#000000" stroke-width="0" stroke-alpha="1">
+                                <polygon fill="shape1color" stroke="#000000" stroke-width="0" stroke-alpha="0">
                                     <listOfCurveSegments>
                                         <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                                             <start x="27.0492" y="-12.2501"/>
@@ -2047,6 +2037,24 @@
                         <style idList="new node" width="40" height="40">
                             <g>
                                 <ellipse cx="0" cy="0" rx="50" ry="50" angleStart="0" angleEnd="360" fill="shape0color" stroke="#3d50ff" stroke-width="0" stroke-alpha="1"/>
+                            </g>
+                        </style>
+                    </listOfStyles>
+                </renderInformation>
+            </listOfRenderInformation>
+        </NodeItem>
+        <NodeItem className="NodeGraphicsItem" scene="0" handle="vec1" z="-1">
+            <pos x="4996.18" y="5998.78"/>
+            <transform m11="8.376" m12="0" m21="0" m22="8.376"/>
+            <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
+                <renderInformation id="TinkerCell_Style" programName="TinkerCell">
+                    <listOfColorDefinitions>
+                        <colorDefinition id="shape0color" value="#ffffff" alpha="0"/>
+                    </listOfColorDefinitions>
+                    <listOfStyles>
+                        <style idList="ring" width="600" height="600">
+                            <g>
+                                <ellipse cx="0" cy="0" rx="50" ry="50" angleStart="0" angleEnd="360" fill="shape0color" stroke="#6464ff" stroke-width="2" stroke-alpha="1"/>
                             </g>
                         </style>
                     </listOfStyles>
@@ -4170,17 +4178,17 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="0" handle="pp3" z="331.5">
             <ConnectionGraphicsItem version="1.0" name="" color="#049102" width="5" type="bezier" style="1" gap="10">
                 <ControlPoints>
-                    <ControlPoint x="5432.01" y="5827.58"/>
+                    <ControlPoint x="5429.6" y="5826.26"/>
                     <ControlPoint x="5558.38" y="5710.02"/>
                     <ControlPoint x="5610.43" y="5467.87"/>
                     <ControlPoint x="5548.63" y="5282"/>
                 </ControlPoints>
                 <CurveSegments>
-                    <Path numPoints="4" NodeAtStart="vec1.cod3" NodeAtStartX="5395.2" NodeAtStartY="5865.05" NodeAtEnd="enz3" NodeAtEndX="5532" NodeAtEndY="5232">
+                    <Path numPoints="4" NodeAtStart="vec1.cod3" NodeAtStartX="5392.8" NodeAtStartY="5862.68" NodeAtEnd="enz3" NodeAtEndX="5532" NodeAtEndY="5232">
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="5548.63" y="5282" angle="-108.393"/>
-                            <transform m11="-0.110433" m12="-0.332122" m21="0.379568" m22="-0.126209"/>
+                            <transform m11="-0.110431" m12="-0.332123" m21="0.379569" m22="-0.126206"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -4237,7 +4245,7 @@
                 <CenterRegion>
                     <Rect width="20" height="20"/>
                     <Decorator>
-                        <pos x="5560.65" y="5579.21" angle="0"/>
+                        <pos x="5556.52" y="5580.86" angle="0"/>
                         <transform m11="0.3" m12="0" m21="0" m22="0.3"/>
                         <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                             <renderInformation id="TinkerCell_Style" programName="TinkerCell">
@@ -4269,13 +4277,13 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="0" handle="pp2" z="327.2">
             <ConnectionGraphicsItem version="1.0" name="" color="#049102" width="5" type="bezier" style="1" gap="10">
                 <ControlPoints>
-                    <ControlPoint x="5025.39" y="5556.14"/>
+                    <ControlPoint x="5016.73" y="5554.2"/>
                     <ControlPoint x="5026.04" y="5464.19"/>
                     <ControlPoint x="4997.55" y="5333.13"/>
                     <ControlPoint x="5017.5" y="5282"/>
                 </ControlPoints>
                 <CurveSegments>
-                    <Path numPoints="4" NodeAtStart="vec1.cod2" NodeAtStartX="5027.78" NodeAtStartY="5582.9" NodeAtEnd="enz2" NodeAtEndX="5037" NodeAtEndY="5232">
+                    <Path numPoints="4" NodeAtStart="vec1.cod2" NodeAtStartX="5016.65" NodeAtStartY="5579.96" NodeAtEnd="enz2" NodeAtEndX="5037" NodeAtEndY="5232">
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="5017.5" y="5282" angle="-68.6897"/>
@@ -4336,7 +4344,7 @@
                 <CenterRegion>
                     <Rect width="20" height="20"/>
                     <Decorator>
-                        <pos x="5013.63" y="5402.97" angle="0"/>
+                        <pos x="5012.46" y="5404.79" angle="0"/>
                         <transform m11="0.3" m12="0" m21="0" m22="0.3"/>
                         <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                             <renderInformation id="TinkerCell_Style" programName="TinkerCell">
@@ -4368,13 +4376,13 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="0" handle="pp1" z="323">
             <ConnectionGraphicsItem version="1.0" name="" color="#049102" width="5" type="bezier" style="1" gap="10">
                 <ControlPoints>
-                    <ControlPoint x="4592.8" y="5756.22"/>
+                    <ControlPoint x="4608.44" y="5731.47"/>
                     <ControlPoint x="4496.29" y="5690.5"/>
                     <ControlPoint x="4469.9" y="5487.77"/>
                     <ControlPoint x="4549.63" y="5282"/>
                 </ControlPoints>
                 <CurveSegments>
-                    <Path numPoints="4" NodeAtStart="vec1.cod1" NodeAtStartX="4639.41" NodeAtStartY="5784.84" NodeAtEnd="enz1" NodeAtEndX="4569" NodeAtEndY="5232">
+                    <Path numPoints="4" NodeAtStart="vec1.cod1" NodeAtStartX="4658.39" NodeAtStartY="5747.08" NodeAtEnd="enz1" NodeAtEndX="4569" NodeAtEndY="5232">
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="4549.63" y="5282" angle="-68.8208"/>
@@ -4435,7 +4443,7 @@
                 <CenterRegion>
                     <Rect width="20" height="20"/>
                     <Decorator>
-                        <pos x="4504.62" y="5571.28" angle="0"/>
+                        <pos x="4506.58" y="5568.28" angle="0"/>
                         <transform m11="0.3" m12="0" m21="0" m22="0.3"/>
                         <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                             <renderInformation id="TinkerCell_Style" programName="TinkerCell">
@@ -4477,7 +4485,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="5496.48" y="4966.4" angle="-97.6213"/>
-                            <transform m11="-0.0530499" m12="-0.396467" m21="0.29735" m22="-0.0397874"/>
+                            <transform m11="-0.0530501" m12="-0.396467" m21="0.29735" m22="-0.0397875"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -4559,7 +4567,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="5029.13" y="4966.4" angle="-91.6948"/>
-                            <transform m11="-0.0118298" m12="-0.399825" m21="0.299869" m22="-0.00887233"/>
+                            <transform m11="-0.01183" m12="-0.399825" m21="0.299869" m22="-0.00887249"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -4641,7 +4649,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="4564.88" y="4966.4" angle="-88.9808"/>
-                            <transform m11="0.0071154" m12="-0.399937" m21="0.299952" m22="0.00533655"/>
+                            <transform m11="0.00711511" m12="-0.399937" m21="0.299952" m22="0.00533633"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -4884,7 +4892,7 @@
                         <ControlPoints indices="7,8,6,3"/>
                         <ArrowAtStart>
                             <pos x="5335.28" y="4784.12" angle="-149.787"/>
-                            <transform m11="-0.345392" m12="-0.201755" m21="0.151318" m22="-0.259042"/>
+                            <transform m11="-0.345391" m12="-0.201757" m21="0.15132" m22="-0.259041"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfGradientDefinitions>
@@ -5080,7 +5088,7 @@
                         <ControlPoints indices="7,8,6,3"/>
                         <ArrowAtStart>
                             <pos x="5335.28" y="4784.12" angle="-149.787"/>
-                            <transform m11="-0.345392" m12="-0.201755" m21="0.151318" m22="-0.259042"/>
+                            <transform m11="-0.345391" m12="-0.201757" m21="0.15132" m22="-0.259041"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfGradientDefinitions>
@@ -5276,7 +5284,7 @@
                         <ControlPoints indices="7,8,6,3"/>
                         <ArrowAtStart>
                             <pos x="5335.28" y="4784.12" angle="-149.787"/>
-                            <transform m11="-0.345392" m12="-0.201755" m21="0.151318" m22="-0.259042"/>
+                            <transform m11="-0.345391" m12="-0.201757" m21="0.15132" m22="-0.259041"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfGradientDefinitions>
@@ -5476,7 +5484,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="5706.26" y="6013.75" angle="-86.5347"/>
-                            <transform m11="0.0241775" m12="-0.399269" m21="0.299451" m22="0.0181332"/>
+                            <transform m11="0.0241772" m12="-0.399269" m21="0.299451" m22="0.018133"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -5586,7 +5594,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="5706.26" y="6013.75" angle="-86.5347"/>
-                            <transform m11="0.0241775" m12="-0.399269" m21="0.299451" m22="0.0181332"/>
+                            <transform m11="0.0241772" m12="-0.399269" m21="0.299451" m22="0.018133"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -5696,7 +5704,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="5706.26" y="6013.75" angle="-86.5347"/>
-                            <transform m11="0.0241775" m12="-0.399269" m21="0.299451" m22="0.0181332"/>
+                            <transform m11="0.0241772" m12="-0.399269" m21="0.299451" m22="0.018133"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -5740,27 +5748,28 @@
         </ConnectionItem>
     </Connections>
     <Texts>
-        <TextItem text="pp3" scene="0" handle="pp3" x="5578.72" y="5615.09" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="332.5" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="pp2" scene="0" handle="pp2" x="5018.38" y="5399.01" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="328.2" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="pp1" scene="0" handle="pp1" x="4486.07" y="5613.17" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="324" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="vec1" scene="0" handle="vec1" x="5333.8" y="6425" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="319.4" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="cod3" scene="0" handle="vec1.cod3" x="5311.9" y="5880.45" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="316.1" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="ter3" scene="0" handle="vec1.ter3" x="5334.67" y="5967.18" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="314.1" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="pro4" scene="0" handle="vec1.pro4" x="5253.92" y="5766.02" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="312.1" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="cod2" scene="0" handle="vec1.cod2" x="4991.28" y="5598.3" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="310.1" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="ter2" scene="0" handle="vec1.ter2" x="5112.43" y="5613.24" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="308.1" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="pro3" scene="0" handle="vec1.pro3" x="4844.37" y="5613.69" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="306.1" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="pro2" scene="0" handle="vec1.pro2" x="4618.61" y="5892.62" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="304.9" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="ter1" scene="0" handle="vec1.ter1" x="4727.43" y="5723.15" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="302.9" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="cod1" scene="0" handle="vec1.cod1" x="4656.91" y="5796.64" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="300.9" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="This is a simple linear metabolic pathway controlled by three enzymes" scene="0" handle="" x="4589.92" y="4727.84" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="1501.6" font="Ubuntu" size="24" bold="0" italics="0" underline="0"/>
+        <TextItem text="pp3" scene="0" handle="pp3" x="5578.42" y="5614.92" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="332.5" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="pp2" scene="0" handle="pp2" x="5017.31" y="5398.72" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="328.2" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="pp1" scene="0" handle="pp1" x="4488.04" y="5610.17" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="324" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="vec1" scene="0" handle="vec1" x="5331.38" y="6422.58" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="319.4" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="cod3" scene="0" handle="vec1.cod3" x="5390.61" y="5829.9" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="316.1" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="ter3" scene="0" handle="vec1.ter3" x="5446.98" y="5979.61" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="314.1" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="p3" scene="0" handle="vec1.p3" x="5369.36" y="5677.06" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="312.1" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="cod2" scene="0" handle="vec1.cod2" x="4981.93" y="5522.72" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="310.1" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="ter2" scene="0" handle="vec1.ter2" x="5131.42" y="5524.87" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="308.1" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="p2" scene="0" handle="vec1.p2" x="4846.16" y="5491.86" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="306.1" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="p1" scene="0" handle="vec1.p1" x="4452.31" y="5840.56" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="304.9" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="ter1" scene="0" handle="vec1.ter1" x="4670.75" y="5594.38" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="302.9" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="cod1" scene="0" handle="vec1.cod1" x="4584.8" y="5688.49" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="300.9" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="enz3" scene="0" handle="enz3" x="5405.5" y="5220.8" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="271.8" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="enz2" scene="0" handle="enz2" x="5076.1" y="5213.6" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="269.8" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="enz1" scene="0" handle="enz1" x="4586.5" y="5217.2" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="267.8" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="pro1" scene="0" handle="pro1" x="5818.15" y="4916.37" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="264.1" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="deg1" scene="0" handle="deg1" x="4139.78" y="4916.09" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="261.1" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="br3" scene="0" handle="br3" x="5457.47" y="4925.27" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="21" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="pro1" scene="0" handle="pro1" x="5788.19" y="4902.91" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="264.1" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="deg1" scene="0" handle="deg1" x="4115.08" y="4901.22" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="261.1" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="br3" scene="0" handle="br3" x="5387.07" y="4936.8" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="21" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="mol5" scene="0" handle="mol5" x="5682.5" y="4952.9" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="17" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="br2" scene="0" handle="br2" x="4960.52" y="4925.65" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="14" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="br2" scene="0" handle="br2" x="4909.18" y="4910.82" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="14" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="mol3" scene="0" handle="mol3" x="5217.67" y="4952.9" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="10" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="br1" scene="0" handle="br1" x="4537.75" y="4843.47" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="7" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="mol2" scene="0" handle="mol2" x="4292.5" y="4952.9" color="#3c3c3c" m11="1" m12="0" m21="0" m22="1" z="5" font="Ubuntu" size="22" bold="0" italics="0" underline="0"/>
@@ -5786,14 +5795,14 @@
         <TextItem text="enz3" scene="4" handle="enz3" x="5911.78" y="6009.18" color="#171717" m11="1" m12="0" m21="0" m22="1" z="16" font="Sans" size="22" bold="0" italics="0" underline="0" group="pp3"/>
         <TextItem text="cod3" scene="4" handle="vec1.cod3" x="5638.23" y="6260.13" color="#171717" m11="1" m12="0" m21="0" m22="1" z="14" font="Sans" size="22" bold="0" italics="0" underline="0" group="pp3"/>
         <TextItem text="v2" scene="4" handle="pp3.v2" x="6173.22" y="5981.32" color="#171717" m11="1" m12="0" m21="0" m22="1" z="12" font="Sans" size="22" bold="0" italics="0" underline="0" group="pp3"/>
-        <TextItem text="v1" scene="4" handle="pp3.v1" x="5738.39" y="5983.06" color="#171717" m11="1" m12="0" m21="0" m22="1" z="9" font="Sans" size="22" bold="0" italics="0" underline="0" group="pp3"/>
+        <TextItem text="v1" scene="4" handle="pp3.v1" x="5729.15" y="5983.95" color="#171717" m11="1" m12="0" m21="0" m22="1" z="9" font="Sans" size="22" bold="0" italics="0" underline="0" group="pp3"/>
         <TextItem text="enz2" scene="5" handle="enz2" x="5911.78" y="6009.18" color="#171717" m11="1" m12="0" m21="0" m22="1" z="16" font="Sans" size="22" bold="0" italics="0" underline="0" group="pp2"/>
         <TextItem text="cod2" scene="5" handle="vec1.cod2" x="5638.23" y="6260.13" color="#171717" m11="1" m12="0" m21="0" m22="1" z="14" font="Sans" size="22" bold="0" italics="0" underline="0" group="pp2"/>
         <TextItem text="v2" scene="5" handle="pp2.v2" x="6173.22" y="5981.32" color="#171717" m11="1" m12="0" m21="0" m22="1" z="12" font="Sans" size="22" bold="0" italics="0" underline="0" group="pp2"/>
-        <TextItem text="v1" scene="5" handle="pp2.v1" x="5738.39" y="5983.06" color="#171717" m11="1" m12="0" m21="0" m22="1" z="9" font="Sans" size="22" bold="0" italics="0" underline="0" group="pp2"/>
+        <TextItem text="v1" scene="5" handle="pp2.v1" x="5729.15" y="5983.95" color="#171717" m11="1" m12="0" m21="0" m22="1" z="9" font="Sans" size="22" bold="0" italics="0" underline="0" group="pp2"/>
         <TextItem text="enz1" scene="6" handle="enz1" x="5911.78" y="6009.18" color="#171717" m11="1" m12="0" m21="0" m22="1" z="16" font="Sans" size="22" bold="0" italics="0" underline="0" group="pp1"/>
         <TextItem text="cod1" scene="6" handle="vec1.cod1" x="5638.23" y="6260.13" color="#171717" m11="1" m12="0" m21="0" m22="1" z="14" font="Sans" size="22" bold="0" italics="0" underline="0" group="pp1"/>
         <TextItem text="v2" scene="6" handle="pp1.v2" x="6173.22" y="5981.32" color="#171717" m11="1" m12="0" m21="0" m22="1" z="12" font="Sans" size="22" bold="0" italics="0" underline="0" group="pp1"/>
-        <TextItem text="v1" scene="6" handle="pp1.v1" x="5738.39" y="5983.06" color="#171717" m11="1" m12="0" m21="0" m22="1" z="9" font="Sans" size="22" bold="0" italics="0" underline="0" group="pp1"/>
+        <TextItem text="v1" scene="6" handle="pp1.v1" x="5729.15" y="5983.95" color="#171717" m11="1" m12="0" m21="0" m22="1" z="9" font="Sans" size="22" bold="0" italics="0" underline="0" group="pp1"/>
     </Texts>
 </Model>

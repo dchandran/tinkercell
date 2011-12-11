@@ -720,7 +720,13 @@ namespace Tinkercell
 	
 	void Plot2DWidget::updateData(const NumericalDataTable & newData, const QString& title, int x)
 	{
-		if (!dataPlot || dataPlot->dataTables.isEmpty()) return;
+		if (!dataPlot) return;
+
+		if (dataPlot->dataTables.isEmpty())
+		{
+			plot(newData,title,x);
+			return;
+		}
 		
 		NumericalDataTable * dataTable = dataPlot->dataTables.last();
 		
@@ -1276,6 +1282,7 @@ namespace Tinkercell
 		selectFamilyBox = 0;
 		if (mainWindow && uniqueFamilyNames.size() > 1)
 		{
+			uniqueFamilyNames.push_front("");
 			layout0->addStretch(2);
 			layout0->addWidget(new QLabel("By type:"));
 			layout0->addWidget(selectFamilyBox = new QComboBox);
@@ -1331,7 +1338,7 @@ namespace Tinkercell
 	{
 		for (int i=0; i < checkBoxes.size() && i < names.size() && i < nameHandles.size(); ++i)
 			if (checkBoxes[i] && nameHandles[i])
-				checkBoxes[i]->setChecked(nameHandles[i]->isA(s));
+				checkBoxes[i]->setChecked(s.isNull() || s.isEmpty() || nameHandles[i]->isA(s));
 	}
 	
 	void ShowHideLegendItemsWidget::checkAll()

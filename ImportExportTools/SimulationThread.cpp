@@ -506,7 +506,7 @@ void SimulationThread::run()
 			resultMatrix = cGetRatesOfChange(model);
 			plot = false;
 			break;
-		case SteadyStateScan1D:			
+		case SteadyStateScan1D:
 			if (scanItems.size() > 0)
 			{
 				int n = scanItems[0].numPoints;

@@ -675,7 +675,7 @@ namespace Tinkercell
 		}
 	}
 
-	void BasicGraphicsToolbar::mouseDragged(GraphicsScene * scene, QPointF from, QPointF to, Qt::MouseButton button, Qt::KeyboardModifiers )
+	void BasicGraphicsToolbar::mouseDragged(GraphicsScene * scene, QPointF from, QPointF to, Qt::MouseButton button, Qt::KeyboardModifiers modifiers)
 	{
 		if (scene == 0) return;
 
@@ -713,7 +713,10 @@ namespace Tinkercell
 				{
 					scene->useDefaultBehavior(false);
 					revertColors(alphaChangedItems);
-					alphaChangedItems = scene->items(rect);
+					if (modifiers == Qt::ShiftModifier || modifiers == Qt::ControlModifier)
+						alphaChangedItems += scene->items(rect);
+					else
+						alphaChangedItems = scene->items(rect);
 					setAlphaForSelected(brightnessSpinbox->value());
 				}
 				else

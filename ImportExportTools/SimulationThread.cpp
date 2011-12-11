@@ -737,15 +737,15 @@ SimulationDialog::SimulationDialog(MainWindow * parent) : QDialog(parent)
 	param2End->setSingleStep(0.1);
 
 	numPoints1 = new QSpinBox;
-	numPoints1->setRange(2,1000);
+	numPoints1->setRange(2,1E5);
 	numPoints1->setValue(100);
 
 	numPoints2 = new QSpinBox;
-	numPoints2->setRange(2,1000);
+	numPoints2->setRange(2,1E5);
 	numPoints2->setValue(10);
 
 	numPoints3 = new QSpinBox;
-	numPoints3->setRange(2,1000);
+	numPoints3->setRange(2,1E5);
 	numPoints3->setValue(10);
 	
 	menu1 = new QComboBox;

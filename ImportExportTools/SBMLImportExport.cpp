@@ -670,7 +670,7 @@ namespace Tinkercell
 		{
 			if (handles[i])// && handles[i]->family())
 			{
-				if (handles[i]->isA(tr("Compartment")))
+				if (!handles[i]->children.isEmpty() && handles[i]->isA(tr("Compartment")))
 				{
 					compartments << handles[i]->fullName(tr("_"));
 					if (handles[i]->hasNumericalData(tr("Initial Value")))

@@ -569,7 +569,7 @@ namespace Tinkercell
 			}
 
 		for (int j=0; j < childHandles.size(); ++j)
-			if (childHandles[j] && childHandles[j]->isA(tr("compartment")))
+			if (childHandles[j] && !childHandles[j]->children.isEmpty() && childHandles[j]->isA(tr("compartment")))
 			{
 				if (s2.isEmpty())
 					s2 += tr("compartment ");

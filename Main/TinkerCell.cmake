@@ -149,8 +149,7 @@ ENDIF (NOT APPLE AND UNIX AND EXISTS $ENV{HOME}/Documents/TinkerCell/updates.txt
 #  Run Inno setup and WinSCP for windows  or create bundle for Mac
 #-------------------------------------------------------------------------------
 
-SET (TINKERCELL_EXE TinkerCell CACHE STRING "TinkerCell.exe will be the name of the program"
-	FORCE)
+SET (TINKERCELL_EXE TinkerCell CACHE STRING "TinkerCell will be the name of the program" FORCE)
 
 IF (TINKERCELL_INSTALLER AND WIN32)
     INCLUDE (${TINKERCELL_SOURCE_DIR}/win32/WindowsUploader.cmake)

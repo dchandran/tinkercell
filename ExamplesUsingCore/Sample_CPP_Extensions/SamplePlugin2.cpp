@@ -61,7 +61,7 @@ int main(int argc, char *argv[])
 	
 	//create main window -- REQUIRED
 	MainWindow mainWindow(true,false,false);  //@args: enable scene, text, allow pop-out windows
-	mainWindow.readSettings();   //load settings such as window positions
+	mainWindow.readSettings("settings.ini");   //load settings such as window positions
 
 	//set window title -- OPTIONAL
 	mainWindow.setWindowTitle("My Wonderful App"); 

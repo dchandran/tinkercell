@@ -4,8 +4,8 @@ from tc2py import *
 
 def doLayout(type): #type = (spring, circular, random, spectral, shell, pydot, graphviz) 
  
-	nodes = tc_itemsOfFamily("node");
-	connections = tc_itemsOfFamily("connection");
+	nodes = tc_itemsOfFamily("Biological entity");
+	connections = tc_itemsOfFamily("Biological process");
 
 	#connections are from 1...numConnections, nodes are the rest
 

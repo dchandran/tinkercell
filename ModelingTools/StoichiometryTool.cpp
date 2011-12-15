@@ -407,7 +407,7 @@ namespace Tinkercell
 		ConnectionHandle * connectionHandle = 0;
 		for (int i=0; i < handles.size(); ++i)
 		{
-			if (handles[i] && handles[i]->family() && (connectionHandle = ConnectionHandle::cast(handles[i])))
+			if ((connectionHandle = ConnectionHandle::cast(handles[i])) && handles[i]->isA(tr("Biological process")))
 			{
 				if (connectionHandle &&
 					(

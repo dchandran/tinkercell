@@ -24,8 +24,8 @@ class BadInputError(BrowsingError):   pass
 class BadURLError(BadInputError):     pass
 class BadLoginError(BadInputError):   pass
 
-LOGIN_LINKS         = ["Log in / create account", "Log in"]
-LOGOUT_LINKS        = ["Log out"]
+LOGIN_LINKS         = ["Log in / create account", "Log in", "log in"]
+LOGOUT_LINKS        = ["Log out", "log out"]
 EXISTING_FILE_LINKS = ["Full resolution"]
 NEW_FILE_LINKS      = ["upload it", "upload one"]
 SOURCE_LINKS        = ["Edit", "Create", "View source", "edit this page"]
@@ -104,21 +104,24 @@ class Browser(mechanize.Browser):
             return False
 
     def oniGEMSite(self):
-        try:
-            url = self.geturl()
-            LOG.debug("url: %s" % self.geturl())
-            return url.find("igem")          != -1 \
-                or url.find("partsregistry") != -1
-        except mechanize.BrowserStateError: # no page yet
-            return False
+        return self.urlContains( ["igem", "partsregistry"] )
 
     def onWikipediaSite(self):
+        return self.urlContains( ["wikipedia", "wikimedia"] )
+
+    def onOpenWetWare(self):
+        return self.urlContains( ["openwetware"] )
+
+    def urlContains(self, keywords):
         try:
             url = self.geturl()
             LOG.debug("url: %s" % self.geturl())
-            return url.find("wikipedia") != -1 or url.find("wikimedia") != -1
         except mechanize.BrowserStateError: # no page yet
             return False
+        for word in keywords:
+            if url.find(word) != -1:
+                return True
+        return False
 
     def wikiLoaded(self):
         if self.userURL == None:
@@ -463,11 +466,12 @@ class Browser(mechanize.Browser):
         if not self.wikiLoaded():
             raise StateError("Can't go to file page without knowing index url")
         filename = self.wikiEncode(filename)
+        parsed = urlparse(self.userURL)
         if self.oniGEMSite():
-            parsed = urlparse(self.userURL)
             fileURL = "%s://%s/Image:%s" % (parsed.scheme, parsed.hostname, filename)
+        elif self.onOpenWetWare():
+            fileURL = "%s://%s/wiki/Image:%s" % (parsed.scheme, parsed.hostname, filename)
         elif self.onWikipediaSite():
-            parsed = urlparse(self.userURL)
             fileURL = "%s://%s/wiki/File:%s" % (parsed.scheme, parsed.netloc, filename)
         else: # regular mediawiki site hopefully
             fileURL = "%s?title=File:%s" % (self.guessURL["index"], filename)
@@ -475,8 +479,12 @@ class Browser(mechanize.Browser):
         try:
             self.open(fileURL)
             LOG.debug( "went to %s" % self.geturl() )
-        except:
-            raise SiteLayoutError("Couldn't find file page %s" % fileURL)
+        except Exception, e:
+            if str(e).find("HTTP Error 404: Not Found") != -1:
+                LOG.debug("ignoring 404 error on new page")
+            else:
+                LOG.error( "%s\n%s" % (type(e), e) )
+                raise SiteLayoutError("Couldn't find file page %s" % fileURL)
 
     def wikiEncode(self, text):
         LOG.debug("sanitizing %s" % text)

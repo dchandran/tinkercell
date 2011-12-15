@@ -56,7 +56,9 @@ def setShadeForTime(x):
             break
     for j in range(0, dat.cols-1):
         val = tc_getMatrixValue(dat, k, j+1)
-        if maxValues[j] > 0:
+        if val > maxValues[j]:
+            val = 1.0
+        elif maxValues[j] > 0:
             val = 0.1 + (val/maxValues[j]) * (0.9)
         else:
             val = 0.1

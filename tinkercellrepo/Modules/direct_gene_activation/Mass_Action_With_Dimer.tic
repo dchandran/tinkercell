@@ -4,7 +4,7 @@
     <Handles>
         <Handle type="0" name="" parent="" family="">
             <tc_matrix>
-                <Table key="parameters" rows="4" cols="3" rowNames="translation_rate;;Kon;;Koff;;transcription_rate" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1;;1e-05;;100;;1;;1e-06;;100;;0.01;;1e-06;;100;;1;;1e-08;;100"/>
+                <Table key="parameters" rows="3" cols="3" rowNames="translation_rate;;transcription_rate;;Kd" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1;;1e-05;;100;;1;;1e-08;;100;;0.01;;1e-08;;100"/>
             </tc_matrix>
             <tc_table>
                 <Table key="units" rows="30" cols="2" rowNames="_coding;;_ribozyme;;_small molecule;;_receptor;;_rna;;_reporter;;_sticky ends;;_molecule;;_promoter;;_activator binding site;;_spacer dna;;_vector;;_part;;_cell;;_constitutive promoter;;_fluorescent protein;;_protein;;_transcription factor;;_rbs;;_operator;;_repressible promoter;;_repressor binding site;;_terminator;;_enzyme;;_subcellular compartment;;_catalyst;;_mrna;;_inducible promoter;;_compartment;;_composite part" columnNames="property;;name" values="activity;;PoPS;;concentration;;uM;;concentration;;uM;;concentration;;uM;;concentration;;uM;;concentration;;uM;;copies;;count;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;copies;;count;;activity;;PoPS;;volume;;fL;;activity;;PoPS;;concentration;;uM;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;volume;;fL;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;volume;;fL;;activity;;PoPS"/>
@@ -152,7 +152,7 @@
                 <Table key="participants" rows="3" cols="1" rowNames="reactant1;;reactant2;;product" columnNames="" values="Operator;;Dimer;;Target"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
-                <Table key="rate equations" rows="2" cols="1" rowNames="forward;;reverse" columnNames="formula" values="Kon*Operator*Dimer;;Koff*Target"/>
+                <Table key="rate equations" rows="2" cols="1" rowNames="forward;;reverse" columnNames="formula" values="Operator*Dimer;;Kd*Target"/>
             </tc_table>
         </Handle>
         <Handle type="1" name="Monomer" parent="" family="protein">
@@ -978,7 +978,7 @@
             </listOfRenderInformation>
         </NodeItem>
         <NodeItem className="Global parameters" scene="0" handle="" z="52.2">
-            <pos x="4354.85" y="4643.46"/>
+            <pos x="4350.9" y="4637.53"/>
             <transform m11="0.5" m12="0" m21="0" m22="0.8"/>
             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
@@ -1391,7 +1391,7 @@
         <ConnectionItem className="ConnectionGraphicsItem" scene="0" handle="v1" z="237.5">
             <ConnectionGraphicsItem version="1.0" name="" color="#049102" width="5" type="bezier" style="1" gap="10">
                 <ControlPoints>
-                    <ControlPoint x="4513.2" y="5269.66"/>
+                    <ControlPoint x="4513.21" y="5269.66"/>
                     <ControlPoint x="4539.13" y="5207.38"/>
                     <ControlPoint x="4568.43" y="5136.82"/>
                     <ControlPoint x="4651.25" y="5111.28"/>
@@ -1411,8 +1411,8 @@
                     <Path numPoints="4" NodeAtStart="mrna" NodeAtStartX="4896.39" NodeAtStartY="5055.66" NodeAtEnd="" NodeAtEndX="0" NodeAtEndY="0">
                         <ControlPoints indices="6,7,8,3"/>
                         <ArrowAtStart>
-                            <pos x="4826.39" y="5063.68" angle="-10.9122"/>
-                            <transform m11="0.392767" m12="-0.0757221" m21="0.0567914" m22="0.294575"/>
+                            <pos x="4826.39" y="5063.68" angle="-10.9126"/>
+                            <transform m11="0.392767" m12="-0.0757245" m21="0.0567932" m22="0.294575"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -1544,7 +1544,7 @@
                         <ControlPoints indices="6,7,8,3"/>
                         <ArrowAtStart>
                             <pos x="5573.7" y="4527.78" angle="11.3879"/>
-                            <transform m11="0.392125" m12="0.0789764" m21="-0.0592326" m22="0.294094"/>
+                            <transform m11="0.392125" m12="0.0789761" m21="-0.0592324" m22="0.294094"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -1727,7 +1727,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="5328.41" y="5052.66" angle="-1.23546"/>
-                            <transform m11="0.399907" m12="-0.00862454" m21="0.00646844" m22="0.29993"/>
+                            <transform m11="0.399907" m12="-0.00862456" m21="0.00646846" m22="0.29993"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>

@@ -352,7 +352,6 @@ namespace Tinkercell
 		NetworkHandle * win = currentNetwork();
 		if (mainWindow && win && mainWindow->statusBar())
 			mainWindow->statusBar()->showMessage(win->history.text(i-1));
-
 	}
 
 	void BasicInformationTool::itemsInserted(NetworkHandle * , const QList<ItemHandle*>& handles)

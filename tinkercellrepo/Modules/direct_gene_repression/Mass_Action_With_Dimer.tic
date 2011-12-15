@@ -4,7 +4,7 @@
     <Handles>
         <Handle type="0" name="" parent="" family="">
             <tc_matrix>
-                <Table key="parameters" rows="4" cols="3" rowNames="translation_rate;;Kon;;Koff;;transcription_rate" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1;;1e-05;;100;;1;;1e-06;;100;;0.01;;1e-06;;100;;1;;1e-08;;100"/>
+                <Table key="parameters" rows="3" cols="3" rowNames="translation_rate;;Kd;;transcription_rate" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1;;1e-05;;100;;0.01;;1e-06;;100;;1;;1e-08;;100"/>
             </tc_matrix>
             <tc_table>
                 <Table key="units" rows="30" cols="2" rowNames="_coding;;_ribozyme;;_small molecule;;_receptor;;_rna;;_reporter;;_sticky ends;;_molecule;;_promoter;;_activator binding site;;_spacer dna;;_vector;;_part;;_cell;;_constitutive promoter;;_fluorescent protein;;_protein;;_transcription factor;;_rbs;;_operator;;_repressible promoter;;_repressor binding site;;_terminator;;_enzyme;;_subcellular compartment;;_catalyst;;_mrna;;_inducible promoter;;_compartment;;_composite part" columnNames="property;;name" values="activity;;PoPS;;concentration;;uM;;concentration;;uM;;concentration;;uM;;concentration;;uM;;concentration;;uM;;copies;;count;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;copies;;count;;activity;;PoPS;;volume;;fL;;activity;;PoPS;;concentration;;uM;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;activity;;PoPS;;concentration;;uM;;volume;;fL;;concentration;;uM;;concentration;;uM;;activity;;PoPS;;volume;;fL;;activity;;PoPS"/>
@@ -97,7 +97,7 @@
                 <Table key="participants" rows="3" cols="1" rowNames="reactant1;;reactant2;;product" columnNames="" values="Target;;Dimer;;Bound"/>
                 <Table key="assignments" rows="0" cols="1" rowNames="" columnNames="rule" values=""/>
                 <Table key="annotation" rows="5" cols="1" rowNames="author;;date;;description;;uri;;reference" columnNames="entry" values=";;;;;;;;"/>
-                <Table key="rate equations" rows="2" cols="1" rowNames="forward;;reverse" columnNames="formula" values="Kon*Target*Dimer;;Koff*Bound"/>
+                <Table key="rate equations" rows="2" cols="1" rowNames="forward;;reverse" columnNames="formula" values="Target*Dimer;;Kd*Bound"/>
             </tc_table>
         </Handle>
         <Handle type="1" name="Repressor" parent="" family="coding">
@@ -914,7 +914,7 @@
             </listOfRenderInformation>
         </NodeItem>
         <NodeItem className="Global parameters" scene="0" handle="" z="52.2">
-            <pos x="4367.54" y="4641.91"/>
+            <pos x="4367.54" y="4647.87"/>
             <transform m11="0.5" m12="0" m21="0" m22="0.8"/>
             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
@@ -1347,8 +1347,8 @@
                     <Path numPoints="4" NodeAtStart="mrna" NodeAtStartX="4894.49" NodeAtStartY="5051.8" NodeAtEnd="" NodeAtEndX="0" NodeAtEndY="0">
                         <ControlPoints indices="6,7,8,3"/>
                         <ArrowAtStart>
-                            <pos x="4824.49" y="5063.12" angle="-13.4872"/>
-                            <transform m11="0.388968" m12="-0.0932914" m21="0.0699686" m22="0.291726"/>
+                            <pos x="4824.49" y="5063.12" angle="-13.4871"/>
+                            <transform m11="0.388968" m12="-0.0932907" m21="0.0699681" m22="0.291726"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>

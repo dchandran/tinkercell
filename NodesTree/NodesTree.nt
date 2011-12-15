@@ -1,5 +1,5 @@
-<Node>									<description>			"Nodes can be connected to one another using one of the various types of connections. The two main divisions of nodes are DNA parts and molecular species"@en .
-<Molecule>							<a>							<Node> .
+<Biological entity>									<description>			"Biological entities can be connected to one another using one of the various types of biological processes. The two main divisions of biological entities are DNA parts and molecular species"@en .
+<Molecule>							<a>							<Biological entity> .
 <Molecule>							<moldecular weight>		"1.0"@en.
 <Catalyst>							<a>							<Molecule> .
 <Reporter>							<a>							<Molecule> .
@@ -31,7 +31,7 @@
 <RNA>									<sequence>				"XXXXXXXX"@en .
 <RNA>									<description>			"Chain of nucleic acids"@en .
 <Ribozyme>							<description>			"RNA molecules with catalytic activity"@en .
-<Part>									<a>							<Node> .
+<Part>									<a>							<Biological entity> .
 <Part>									<sequence>					"NNNNNNNNNN"@en.
 <Part>									<synonyms>				"DNA Part"@en .
 <Part>									<units>						"activity,PoPS"@en.
@@ -71,7 +71,7 @@
 <Vector>								<resitance>					"ampicillin"@en .
 <Vector>								<replication rate>					"10.0" .
 <Vector>								<description>					"A vector backbone, which contains a selectable marker, and an insert constitute a plasmid"@en .
-<Empty>                <a>                         <Node>.
+<Empty>                <a>                         <Biological entity>.
 <Empty>                <a>                         <Container>.
 <Empty>								<description>					"Used for representing degradation, dilution, or other forms of exit from the system"@en .
 <Container>							<description>					"A generic component that can contain other components inside it"@en .

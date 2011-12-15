@@ -1,6 +1,5 @@
 <Module>			<a>			<Process> .
 
-<Induced Transcription Activation>		<a>		<Module> .
 <Induced Transcription Activation>		<a>		<Activation> .
 <Induced Transcription Activation>	<description>	"Transcription regulation where a small molecule regulates the transcription factor"@en.
 <Induced Transcription Activation>		<participant>		"Small Molecule, Inducer"@en.

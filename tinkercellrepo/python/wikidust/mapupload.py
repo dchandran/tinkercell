@@ -166,6 +166,7 @@ class MapUploader(Window):
                     question = "WikiDust encountered an unexpected webpage layout."\
                                "\nNotify the developer so support for sites like this can be added?"
                 else:
+                    print e
                     message = type(e)
                     question = "WikiDust encountered an error."\
                                "\nNotify the developer so the problem can be fixed?"

@@ -7,7 +7,6 @@ from window import Window
 from mapdisplay import CodeDisplayPrompt
 from mapupload import MapUploader
 import os
-import webbrowser
 from datetime import datetime
 
 MAPGENERATOR_ACTIVE   = False
@@ -94,7 +93,7 @@ class MapGenerator(Window):
             name = self.name.get()
             screenshotPath = "%s.png" % os.path.splitext(name)[0]
             tc_screenshot(screenshotPath, width, height)
-            webbrowser.open(screenshotPath) # uses default image viewer instead :(
+            tc_openUrl(screenshotPath) # opens with default program
             #TODO specify based on platform
 
     class CodeControls(Window.ControlPanel):
@@ -123,8 +122,8 @@ class MapGenerator(Window):
             def __init__(self, parent, codeType):
                 question = "Which type of code should be used?"
                 tip = "Most wikis expect Wiki Markup, if they do imagemaps at all. "\
-                      "HTML should be used instead on the iGEM wiki and the Parts Registry, "\
-                      "and on non-wiki websites."
+                      "However, HTML should be used instead on the iGEM wiki, "\
+                      "Parts Registry, or OpenWetWare, and on non-wiki websites."
                 self.codeType = codeType
                 Window.ControlPanel.__init__(self, parent, question, tip)
                 self.wikiRadio = Radiobutton(self, text="Wiki Markup", value="wiki",

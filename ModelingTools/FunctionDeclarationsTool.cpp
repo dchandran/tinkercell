@@ -227,7 +227,6 @@ namespace Tinkercell
 		itemHandles = items;
 		updateTable();
 		for (int i=0; i < updatedFunctions.size() && i < updatedFunctionNames.size(); ++i)
-
 			equations[ updatedFunctionNames[i] ] = updatedFunctions[i];
 	}
 
@@ -235,8 +234,12 @@ namespace Tinkercell
 	{
 		if (!updatedFunctions.isEmpty())
 			widgets.insertTab(0,this,tr("Formulas"));
-		else	
-			widgets.addTab(this,tr("Formulas"));
+		else
+		{
+			/*for (int i=0; i < items.size(); ++i)
+				if (items[i] && items[i]->hasTextData(tr("Formulas")))
+					widgets.addTab(this,tr("Formulas"));*/
+		}
 	}
 
 	void AssignmentFunctionsTool::historyUpdate(int i)
@@ -254,7 +257,7 @@ namespace Tinkercell
 			//if (handles[i] && handles[i]->isA("Node") && !handles[i]->tools.contains(this))
 				//handles[i]->tools += this;
 
-			if (handles[i] && handles[i]->family())
+			if (handles[i] && (handles[i]->isA(tr("Biological process")) || handles[i]->isA(tr("Biological entity"))))
 			{
 				if (!(handles[i]->hasTextData(tr("Functions"))) ||
 					!(handles[i]->hasTextData(tr("Assignments")))

@@ -19,9 +19,9 @@ def getIndex(item,array):
 
 tc_print("generating adjacency matrix...");
 
-nodes = tc_itemsOfFamily("node");
+nodes = tc_itemsOfFamily("Biological entity");
 nodeNames = tc_getUniqueNames(nodes);
-connections = tc_itemsOfFamily("connection");
+connections = tc_itemsOfFamily("Biological process");
 
 numNodes = nodes.length;
 numConnections = connections.length;

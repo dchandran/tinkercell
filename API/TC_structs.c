@@ -382,15 +382,23 @@ TCAPIEXPORT void tc_printMatrixToFile(const char* s, tc_matrix output)
 {
 	int i,j;
 	FILE * outfile = fopen(s,"w+");
+
 	if (output.colnames.strings)
 	{
-		fprintf(outfile, "#\t");
+		printf("\t");
 		for (j=0; j < output.cols; ++j)
 			if (j < (output.cols-1))
-				fprintf(outfile, "%s\t", tc_getColumnName(output, j));
+				if (tc_getColumnName(output, j))
+					fprintf(outfile, "%s\t", tc_getColumnName(output, j));
+				else
+					fprintf(outfile,"\t");
 			else
-				fprintf(outfile, "%s\n", tc_getColumnName(output, j));
+				if (tc_getColumnName(output, j))
+					fprintf(outfile,"%s\n", tc_getColumnName(output, j));
+				else
+					fprintf(outfile,"\n");
 	}
+
 	for (i=0; i < output.rows; ++i)
 	{
 		if (tc_getRowName(output,i))
@@ -413,9 +421,15 @@ TCAPIEXPORT void tc_printOutMatrix(tc_matrix output)
 		printf("\t");
 		for (j=0; j < output.cols; ++j)
 			if (j < (output.cols-1))
-				printf("%s\t", tc_getColumnName(output, j));
+				if (tc_getColumnName(output, j))
+					printf("%s\t", tc_getColumnName(output, j));
+				else
+					printf("\t");
 			else
-				printf("%s\n", tc_getColumnName(output, j));
+				if (tc_getColumnName(output, j))
+					printf("%s\n", tc_getColumnName(output, j));
+				else
+					printf("\n");
 	}
 
 	for (i=0; i < output.rows; ++i)

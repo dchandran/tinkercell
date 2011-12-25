@@ -59,11 +59,21 @@ namespace Tinkercell
 		return _name;
 	}
 	
-	ItemFamily * ItemFamily::parent() const {	return 0;  }
-	
-	QList<ItemFamily*> ItemFamily::parents() const { return QList<ItemFamily*>(); }
-	
-	QList<ItemFamily*> ItemFamily::children() const { return QList<ItemFamily*>(); }
+	QList<ItemFamily*> ItemFamily::parents() const
+	{
+		QList<ItemFamily*> list;
+		for (int i=0; i < parentFamilies.size(); ++i)
+			list += parentFamilies.at(i);
+		return list;
+	}
+
+	QList<ItemFamily*> ItemFamily::children() const
+	{
+		QList<ItemFamily*> list;
+		for (int i=0; i < childFamilies.size(); ++i)
+			list += childFamilies.at(i);
+		return list;
+	}
 
 	int ItemFamily::depth() const
 	{
@@ -94,11 +104,22 @@ namespace Tinkercell
 		ALLFAMILIES += this;
 		NAMETOID.insert( _name , ID );
 	}
-	
+
+		/*! \brief indicates whether or not the given string is the name of this family or any of its parent families*/
 	bool ItemFamily::isA(int id) const
 	{
+		if (ID == id) return true;
+
 		if (ID >= 0 && ALLNAMES.size() > ID && Ontology::GLOBAL_CHILDREN.contains(ALLNAMES[ID])) return true;
 		if (id >= 0 && ALLNAMES.size() > id && Ontology::GLOBAL_PARENTS.contains(ALLNAMES[id])) return true;
+
+		QList<ItemFamily*> families = parentFamilies;
+		for (int i=0; i < families.size(); ++i)
+		{
+			if (families[i]->ID == id) return true;
+			families += families[i]->parentFamilies;
+		}
+		
 		return false;
 	}
 
@@ -111,6 +132,7 @@ namespace Tinkercell
 		if (f1)
 			s1 = f1->name(); //map possible synonyms to default names
 		NodeFamily * f2 = Ontology::nodeFamily(s1);
+
 		if (f2)
 			s1 = f2->name(); //map possible synonyms to default names
 	
@@ -182,6 +204,34 @@ namespace Tinkercell
 		return list;
 	}
 
+	ItemFamily* ItemFamily::parent() const
+	{
+		if (parentFamilies.isEmpty()) return 0;
+		ItemFamily * p = 0;
+		int maxd = 0, d = 0;
+		for (int i=0; i < parentFamilies.size(); ++i)
+			if (parentFamilies[i])
+			{
+				d = parentFamilies[i]->depth();
+				if (p==0 || d >= maxd)
+				{
+					p = parentFamilies[i];
+					maxd = d;
+				}
+			}
+		return p;
+	}
+
+	void ItemFamily::setParent(ItemFamily* p)
+	{
+		if (!p || this == p || isA(p->ID) || p->isA(ID)) return;
+		if (!parentFamilies.contains(p))
+			parentFamilies.append(p);
+		if (!p->childFamilies.contains(this))
+			p->childFamilies.append(this);
+	}
+
+
 	/**************************************
 				NODE FAMILY
 	**************************************/
@@ -214,102 +264,11 @@ namespace Tinkercell
 
 	NodeFamily::~NodeFamily() {}
 
-	ItemFamily* NodeFamily::parent() const
-	{
-		if (parentFamilies.isEmpty()) return 0;
-		ItemFamily * p = 0;
-		int maxd = 0, d = 0;
-		for (int i=0; i < parentFamilies.size(); ++i)
-			if (parentFamilies[i])
-			{
-				d = parentFamilies[i]->depth();
-				if (p==0 || d >= maxd)
-				{
-					p = parentFamilies[i];
-					maxd = d;
-				}
-			}
-		return p;
-	}
-
-	/*! \brief indicates whether or not the given string is the name of this family or any of its parent families*/
-	bool NodeFamily::isA(int id) const
-	{
-		if (ID == id) return true;
-
-		if (ID >= 0 && ALLNAMES.size() > ID && Ontology::GLOBAL_CHILDREN.contains(ALLNAMES[ID])) return true;
-		if (id >= 0 && ALLNAMES.size() > id && Ontology::GLOBAL_PARENTS.contains(ALLNAMES[id])) return true;
-
-		QList<NodeFamily*> families = parentFamilies;
-		for (int i=0; i < families.size(); ++i)
-		{
-			if (families[i]->ID == id) return true;
-			families += families[i]->parentFamilies;
-		}
-		
-		return false;
-	}
-	
-	bool NodeFamily::isA(const QString& name) const
-	{
-		QString s1 = name.toLower();
-		if (Ontology::GLOBAL_PARENTS.contains(s1)) return true;
-
-		NodeFamily * f = Ontology::nodeFamily(s1);
-		if (f)
-			s1 = f->name(); //map possible synonyms to default names
-	
-		if (NAMETOID.contains(s1))
-			return isA(NAMETOID.value(s1));
-		
-		if (s1.endsWith('s'))
-			s1.chop(1);
-
-		if (NAMETOID.contains(s1))
-			return isA(NAMETOID.value(s1));
-		
-		return false;
-	}
-
-	bool NodeFamily::isA(const ItemFamily* family) const
-	{
-		if (!family) return false;
-		if (Ontology::GLOBAL_PARENTS.contains(family->name())) return true;
-		return isA(family->ID);
-	}
-
-	QList<ItemFamily*> NodeFamily::parents() const
-	{
-		QList<ItemFamily*> list;
-		for (int i=0; i < parentFamilies.size(); ++i)
-			list += parentFamilies.at(i);
-		return list;
-	}
-
-	QList<ItemFamily*> NodeFamily::children() const
-	{
-		QList<ItemFamily*> list;
-		for (int i=0; i < childFamilies.size(); ++i)
-			list += childFamilies.at(i);
-		return list;
-	}
-
-	void NodeFamily::setParent(NodeFamily* p)
-	{
-		if (!p || this == p || isA(p->ID) || p->isA(ID)) return;
-		if (!parentFamilies.contains(p))
-			parentFamilies.append(p);
-		if (!p->childFamilies.contains(this))
-			p->childFamilies.append(this);
-	}
-
 	/*********************************
-	CONNECTION FAMILY
+	         CONNECTION FAMILY
 	**********************************/
 
 	int ConnectionFamily::TYPE = 2;
-	QStringList ConnectionFamily::ALLROLENAMES;
-	QHash<QString,int> ConnectionFamily::ROLEID;	
 
 	ConnectionFamily * ConnectionFamily::cast(ItemFamily* item)
 	{
@@ -335,95 +294,6 @@ namespace Tinkercell
 	}
 
 	ConnectionFamily::~ConnectionFamily() {}
-
-	/*! \brief indicates whether or not the given string is the name of this family or any of its parent families*/
-	bool ConnectionFamily::isA(int id) const
-	{
-		if (ID == id) return true;
-
-		if (ID >= 0 && ALLNAMES.size() > ID && Ontology::GLOBAL_CHILDREN.contains(ALLNAMES[ID])) return true;
-		if (id >= 0 && ALLNAMES.size() > id && Ontology::GLOBAL_PARENTS.contains(ALLNAMES[id])) return true;
-
-		QList<ConnectionFamily*> families = parentFamilies;
-		for (int i=0; i < families.size(); ++i)
-		{
-			if (families[i]->ID == id) return true;
-			families += families[i]->parentFamilies;
-		}
-		
-		return false;
-	}
-	
-	bool ConnectionFamily::isA(const QString& name) const
-	{
-		QString s1 = name.toLower();
-		if (Ontology::GLOBAL_PARENTS.contains(s1)) return true;
-		ConnectionFamily * f = Ontology::connectionFamily(s1);
-		if (f)
-			s1 = f->name(); //map possible synonyms to default names
-	
-		if (NAMETOID.contains(s1))
-			return isA(NAMETOID.value(s1));
-		
-		if (s1.endsWith('s'))
-			s1.chop(1);
-
-		if (NAMETOID.contains(s1))
-			return isA(NAMETOID.value(s1));
-		
-		return false;	
-	}
-
-	bool ConnectionFamily::isA(const ItemFamily* family) const
-	{
-		if (!family) return false;
-		if (Ontology::GLOBAL_PARENTS.contains(family->name())) return true;
-		return isA(family->ID);
-	}
-
-	ItemFamily* ConnectionFamily::parent() const
-	{
-		if (parentFamilies.isEmpty()) return 0;
-		ItemFamily * p = 0;
-		int maxd = 0, d = 0;
-		for (int i=0; i < parentFamilies.size(); ++i)
-			if (parentFamilies[i])
-			{
-				d = parentFamilies[i]->depth();
-				if (p==0 || d >= maxd)
-				{
-					p = parentFamilies[i];
-					maxd = d;
-				}
-			}
-		return p;
-
-	}
-
-	QList<ItemFamily*> ConnectionFamily::parents() const
-	{
-		QList<ItemFamily*> list;
-		for (int i=0; i < parentFamilies.size(); ++i)
-			list += parentFamilies.at(i);
-		return list;
-	}
-
-	QList<ItemFamily*> ConnectionFamily::children() const
-	{
-		QList<ItemFamily*> list;
-		for (int i=0; i < childFamilies.size(); ++i)
-			list += childFamilies.at(i);
-		return list;
-	}
-
-	void ConnectionFamily::setParent(ConnectionFamily* p)
-	{
-		if (!p || this == p || isA(p->ID) || p->isA(ID)) return;
-		if (!parentFamilies.contains(p))
-			parentFamilies.append(p);
-		if (!p->childFamilies.contains(this))
-			p->childFamilies.append(this);
-	}
 
 	bool ConnectionFamily::isValidSet(const QList<NodeHandle*>& nodes, bool full)
 	{
@@ -506,37 +376,29 @@ namespace Tinkercell
 
 		return validFamilies;
 	}
-	
+
 	bool ConnectionFamily::addParticipant(const QString& role, const QString& family)
 	{
 		QString f = family.toLower().trimmed(), r = role.toLower().trimmed();
-		
-		if (!ItemFamily::NAMETOID.contains(f)) return false;
+
+		if (!ItemFamily::NAMETOID.contains(f) ||
+			 !ItemFamily::NAMETOID.contains(r) ||  
+			 !Ontology::nodeFamily(f) || 
+			 !Ontology::participantRole(r)) return false;
 		
 		int nodeid = NAMETOID.value(f);
-		int roleid = 0;
-		
-		if (ROLEID.contains(r) && ALLROLENAMES.size() > ROLEID.value(r))	
-		{
-			roleid = ROLEID.value(r);
-		}
-		else
-		{
-			roleid = ALLROLENAMES.size();
-			ALLROLENAMES += r;
-			ROLEID.insert( r, roleid );
-		}
+		int roleid = NAMETOID.value(r);
 
 		if (!nodeRoles.contains(QPair<int,int>( roleid, nodeid ))) //don't allow duplicate roles
 			nodeRoles += QPair<int,int>( roleid, nodeid );
 		return true;
 	}
-	
+
 	QString ConnectionFamily::participantFamily(const QString& role) const
 	{
 		QString r = role.toLower();
-		if (!ROLEID.contains(r)) return QString();		
-		int k1 = ROLEID.value(r);
+		if (!NAMETOID.contains(r)) return QString();
+		int k1 = NAMETOID.value(r);
 		int k2 = -1;
 		
 		for (int i=0; i < nodeRoles.size(); ++i)
@@ -546,7 +408,7 @@ namespace Tinkercell
 				break;
 			}
 		
-		if (k2 < 0) 
+		if (k2 < 0)
 			return QString();
 
 		if (ItemFamily::ALLNAMES.size() > k2)
@@ -559,8 +421,8 @@ namespace Tinkercell
 	{
 		QStringList roles;
 		for (int i=0; i < nodeRoles.size(); ++i)
-			if (ALLROLENAMES.size() > nodeRoles[i].first)
-				roles += ALLROLENAMES[ nodeRoles[i].first ];
+			if (ALLNAMES.size() > nodeRoles[i].first)
+				roles += ALLNAMES[ nodeRoles[i].first ];
 
 		return roles;
 	}
@@ -589,58 +451,21 @@ namespace Tinkercell
 				}
 	}
 	
-	QStringList ConnectionFamily::synonymsForRole(const QString& rolename) const
+	QStringList ConnectionFamily::synonymsForRole(const QString& rolename)
 	{
-		int roleid = ALLROLENAMES.indexOf(rolename.toLower());
-		if (roleid < 0) return QStringList();
-		
-		int index = -1;
-		
-		for (int i=0; i < nodeRoles.size(); ++i)
-			if (nodeRoles.at(i).first == roleid)
-			{
-				index = i;
-				break;
-			}
-
-		if (index == -1)
-		{
-			for (int i=0; i < childFamilies.size(); ++i)
-			{
-				const ConnectionFamily * child = childFamilies.at(i);
-				for (int j=0; j < child->nodeRoles.size(); ++j)
-					if (child->nodeRoles.at(j).first == roleid)
-					{
-						index = j;
-						break;
-					}
-				if (index > -1) break;
-			}
-		}
-		
 		QStringList rolelist;
-		QList<int> roleids;
-		
-		if (index == -1) return rolelist;
-		
-		if (nodeRoles.size() > index)
-			if (ALLROLENAMES.size() > nodeRoles[index].first && !roleids.contains(nodeRoles[index].first))
-			{
-				roleids += nodeRoles[index].first;
-				rolelist += ALLROLENAMES[ nodeRoles[index].first ];
-			}
-		
-		for (int i=0; i < childFamilies.size(); ++i)
+	
+		if (NAMETOID.contains(rolename.toLower()))
 		{
-			const ConnectionFamily * child = childFamilies.at(i);
-			if (child->nodeRoles.size() > index)
-				if (ALLROLENAMES.size() > child->nodeRoles[index].first && !roleids.contains(child->nodeRoles[index].first))
-				{
-					roleids += child->nodeRoles[index].first;
-					rolelist += ALLROLENAMES[ child->nodeRoles[index].first ];			
-				}
+			int roleid = NAMETOID[ rolename.toLower() ];
+			if (ALLFAMILIES.size() > roleid && ALLFAMILIES[roleid])
+			{
+				QList<ItemFamily*> all = ALLFAMILIES[roleid]->allChildren();
+				for (int i=0; i < all.size(); ++i)
+					rolelist += all[i]->name();
+			}
 		}
-		
+
 		return rolelist;
 	}
 	

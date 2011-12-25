@@ -1,4 +1,22 @@
-<1 to 1>											<a>							<Biological process> .
+<Reactant>                                  <a>                            <participant>.
+<Reactant1>                                 <a>                            <Reactant>.
+<Reactant2>                                <a>                            <Reactant>.
+<Reactant3>                                <a>                            <Reactant>.
+<Substrate>                                <a>                            <Reactant>.
+<Source>                                     <a>                            <participant>.
+<Template>                                 <a>                            <Source>.
+<Product>                                    <a>                            <participant>.
+<Product1>                                   <a>                            <Product>.
+<Product2>                                   <a>                            <Product>.
+<Product3>                                   <a>                            <Product>.
+<Regulator>                                  <a>                            <participant>.
+<Activator>                                   <a>                            <Regulator>.
+<Repressor>                                   <a>                            <Regulator>.
+<Inhibitor>                                    <a>                            <Repressor>.
+<Inducer>                                     <a>                            <Activator>.
+<Catalyst>                                     <a>                            <Regulator>.
+<Sink>                                           <a>                            <participant>.
+<1 to 1>							  				<a>							<Biological process> .
 <1 to 1>											<participant>			"Node,Reactant"@en .
 <1 to 1>											<participant>			"Node,Product"@en .
 <1 to 1>											<description>			"A process involving two participants"@en .

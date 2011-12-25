@@ -113,6 +113,8 @@ namespace Tinkercell
 		virtual QList<ItemFamily*> parents() const;
 		/*! \brief get all the families that inherit directly from this family*/
 		virtual QList<ItemFamily*> children() const;
+		/*! \brief set parent family*/
+		virtual void setParent(ItemFamily*);		
 		/*! \brief get all the families that inherit from this family. the list will be ordered in a breadth-first ordering
 		*	\return QList<ItemFamily*>
 		*/
@@ -125,6 +127,11 @@ namespace Tinkercell
 	protected:
 		/*! \brief used for casting between different sub-classes*/
 		int type;
+		/*! \brief all the parents*/
+		QList<ItemFamily*> parentFamilies;
+		/*! \brief all the families that are under this family*/
+		QList<ItemFamily*> childFamilies;
+
 		/*! \brief indicates whether or not the given family ID is the name of this family or any of its parent families*/
 		virtual bool isA(int ID) const;
 		/*! \brief name of this family*/
@@ -156,31 +163,12 @@ namespace Tinkercell
 		static NodeFamily * cast(ItemFamily*);
 		/*! \brief cast to node family*/
 		static QList<NodeFamily*> cast(const QList<ItemFamily*>&);
-		/*! \brief get the parent for this family. If there are more than one parents, returns the first*/
-		virtual ItemFamily* parent() const;
-		/*! \brief get all the parents for this family.*/
-		virtual QList<ItemFamily*> parents() const;
-		/*! \brief get all the families that make up this family.*/
-		virtual QList<ItemFamily*> children() const;
-		/*! \brief set parent family*/
-		virtual void setParent(NodeFamily*);
 		/*! \brief destructor.*/
 		virtual ~NodeFamily();
 		/*! \brief constructor.
 			\param QString name*/
 		NodeFamily(const QString& name = QString());
-		/*! \brief indicates whether or not the given string is the name of this family or any of its parent families*/
-		virtual bool isA(const QString& ) const;
-		/*! \brief indicates whether or not the given family is the name of this family or any of its parent families*/
-		virtual bool isA(const ItemFamily*) const;
 	protected:
-		/*! \brief indicates whether or not the given ID is this family or any of its parent families*/
-		virtual bool isA(int) const;
-		/*! \brief all the parents*/
-		QList<NodeFamily*> parentFamilies;
-		/*! \brief all the families that are under this family*/
-		QList<NodeFamily*> childFamilies;
-		
 		friend class ConnectionFamily;
 	};
 
@@ -198,23 +186,10 @@ namespace Tinkercell
 		static ConnectionFamily * cast(ItemFamily*);
 		/*! \brief cast to connection family*/
 		static QList<ConnectionFamily*> cast(const QList<ItemFamily*>&);
-		
-		/*! \brief get the parent for this family. If there are more than one parents, returns the first*/
-		virtual ItemFamily* parent() const;
-		/*! \brief get all the parents for this family.*/
-		virtual QList<ItemFamily*> parents() const;
-		/*! \brief get all the families that make up this family.*/
-		virtual QList<ItemFamily*> children() const;
-		/*! \brief set parent family*/
-		virtual void setParent(ConnectionFamily*);
 		/*! \brief destructor.*/
 		virtual ~ConnectionFamily();
 		/*! \brief constructor.*/
 		ConnectionFamily(const QString& name = QString());
-		/*! \brief indicates whether or not the given string is the name of this family or any of its parent families*/
-		virtual bool isA(const QString& ) const;
-		/*! \brief indicates whether or not the given family is the name of this family or any of its parent families*/
-		virtual bool isA(const ItemFamily*) const;
 		
 		/*!  @Participants in a connection and related functions \{*/
 		
@@ -222,13 +197,13 @@ namespace Tinkercell
 		* \param QString role of participant
 		* \param QString type of participant, must be a family name of a node
 		* \return bool false if the participant family does not exist (i.e role not added)*/
-		virtual bool addParticipant(const QString& role, const QString& family);		
+		virtual bool addParticipant(const QString& role, const QString& family);
 		/*! \brief get participant family
 		* \param QString role of participant
 		* \return QString family name (empty if none)*/
 		virtual QString participantFamily(const QString& role) const;
 		/*! \brief get all participant roles
-		* \return QStringList role names (may not be unique)*/
+		* \return QStringList role names (may not be unique, but usually is)*/
 		virtual QStringList participantRoles() const;
 		/*! \brief get all participant family names
 		* \return QStringList family names (may not be unique)*/
@@ -243,32 +218,22 @@ namespace Tinkercell
 		\param bool QList<NodeHandle*> node handles
 		\param bool use false here if the list of nodes is a partial list
 		\return QList<ItemFamily*> valid connection families*/
-		virtual QList<ItemFamily*> findValidChildFamilies(const QList<NodeHandle*>&, bool checkFull=true);		
+		virtual QList<ItemFamily*> findValidChildFamilies(const QList<NodeHandle*>&, bool checkFull=true);
 		/*! \brief finds the number of node families that are common between the two connections  (the node families should be exactly the same, not isA)
 		\param ConnectionFamily * 
 		\return bool*/
 		virtual int numberOfIdenticalNodesFamilies(ConnectionFamily *) const;
-		/*! \brief finds possible role synonyms by looking at child families and finding roles with the same index
-		\param QString role name
-		\return QStringList synonyms for the input role*/
-		virtual QStringList synonymsForRole(const QString& role) const;
+		/*! \brief 
+		\param QString 
+		\return QStringList*/
+		static QStringList synonymsForRole(const QString& rolename);
 		/*!  \} */
 		
 	protected:
-		/*! \brief indicates whether or not the given ID is this family or any of its parent families*/
-		virtual bool isA(int) const;
 		/*! \brief check for restrictions. RESTRICTIONS ARE HARD CODED. SEE FUNCTION CODE*/
 		static bool checkRestrictions(const QString & restriction, const QList<NodeHandle*>&, bool checkFull=true);
-		/*! \brief all the parents*/
-		QList<ConnectionFamily*> parentFamilies;
-		/*! \brief all the families that are under this family*/
-		QList<ConnectionFamily*> childFamilies;
 		/*! \brief the role ID and type ID of each node that is involved in this connection*/
 		QList< QPair<int,int> > nodeRoles;
-		/*! \brief stored a list of all possible node roles as IDs*/
-		static QHash<QString,int> ROLEID;
-		/*! \brief all role names. used to assign role IDs*/
-		static QStringList ALLROLENAMES;
 	};
 
 }

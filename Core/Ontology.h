@@ -33,6 +33,7 @@ namespace Tinkercell
 	class ItemFamily;
 	class NodeFamily;
 	class ConnectionFamily;
+	typedef ItemFamily ParticipantRole;
 	
 	/*! \brief A set of node and connection families. All functions are static
 	\ingroup core
@@ -58,6 +59,13 @@ namespace Tinkercell
 			\return ConnectionFamily* can be 0 if name does not exist
 		*/	
 		static ConnectionFamily * connectionFamily(const QString&);
+
+		/*! \brief get a family pointer given its name (not case-sensitive)
+			\param QString& name of family
+			\return ParticipantRole* can be 0 if name does not exist
+		*/	
+		static ParticipantRole * participantRole(const QString&);
+
 		/*! \brief add a new family to the ontology
 			\param QString family name
 			\param NodeFamily* new family
@@ -70,6 +78,11 @@ namespace Tinkercell
 			\return bool did the insertion succeed
 		*/	
 		static bool insertConnectionFamily(const QString &, ConnectionFamily *);
+		/*! \brief add a new participant type to the ontology
+			\param QString role name
+			\return bool did the insertion succeed
+		*/	
+		static bool insertParticipantRole(const QString &, ParticipantRole *);
 		/*! \brief get list of all node families
 			\param QList<NodeFamily*>
 		*/	
@@ -107,6 +120,8 @@ namespace Tinkercell
 		static QHash<QString, NodeFamily*> nodeFamilies;
 		/*! \brief maps name to connection families*/
 		static QHash<QString, ConnectionFamily*> connectionFamilies;
+		/*! \brief maps name to participant role families*/
+		static QHash<QString, ParticipantRole*> participantRoleFamilies;
 	};
 }
 

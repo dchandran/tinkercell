@@ -21,6 +21,7 @@ namespace Tinkercell
 			else
 				return 0;
 		}
+
 		ConnectionFamily  * Ontology::connectionFamily(const QString& s0)
 		{
 			QString s = s0.toLower();
@@ -29,20 +30,46 @@ namespace Tinkercell
 			else
 				return 0;
 		}
+
+		ParticipantRole * Ontology::participantRole(const QString& s0)
+		{
+			QString s = s0.toLower();
+			if (participantRoleFamilies.contains(s))
+				return participantRoleFamilies.value(s);
+			else
+				return 0;
+		}
+
 		bool Ontology::insertNodeFamily(const QString & s0, NodeFamily * ptr)
 		{
 			QString s = s0.toLower();
 			if (!ptr || s.isEmpty() || nodeFamilies.contains(s)) return false;
 			nodeFamilies.insert(s,ptr);
+			if (s != ptr->name())
+				nodeFamilies.insert(ptr->name(), ptr);
 			return true;
 		}
+
 		bool Ontology::insertConnectionFamily(const QString & s0, ConnectionFamily * ptr)
 		{
 			QString s = s0.toLower();
 			if (!ptr || s.isEmpty() || connectionFamilies.contains(s)) return false;
 			connectionFamilies.insert(s,ptr);
+			if (s != ptr->name())
+				connectionFamilies.insert(ptr->name(), ptr);
 			return true;
 		}
+
+		bool Ontology::insertParticipantRole(const QString & s0, ParticipantRole * ptr)
+		{
+			QString s = s0.toLower();
+			if (!ptr || s.isEmpty() || participantRoleFamilies.contains(s)) return false;
+			participantRoleFamilies.insert(s,ptr);
+			if (s != ptr->name())
+				participantRoleFamilies.insert(ptr->name(), ptr);
+			return true;
+		}
+
 		QList<NodeFamily*> Ontology::allNodeFamilies()
 		{
 			QList<NodeFamily*> all = nodeFamilies.values(), unique;
@@ -51,6 +78,7 @@ namespace Tinkercell
 					unique += all[i];
 			return unique;
 		}
+
 		QList<ConnectionFamily*> Ontology::allConnectionFamilies()
 		{
 			QList<ConnectionFamily*> all = connectionFamilies.values(), unique;
@@ -59,6 +87,7 @@ namespace Tinkercell
 					unique += all[i];
 			return unique;
 		}
+
 		QStringList Ontology::allNodeFamilyNames()
 		{
 			QStringList keys(nodeFamilies.keys()), names;
@@ -67,6 +96,7 @@ namespace Tinkercell
 					names << keys[i];
 			return names;
 		}
+
 		QStringList Ontology::allConnectionFamilyNames()
 		{
 			QStringList keys(connectionFamilies.keys()), names;
@@ -75,7 +105,7 @@ namespace Tinkercell
 					names << keys[i];
 			return names;
 		}
-		
+
 #ifndef NOT_USING_RAPTOR
 		static QStringList lastReadFamilyNames;
 		static void read_node_triple(void* user_data, raptor_statement* triple) 
@@ -110,9 +140,7 @@ namespace Tinkercell
 				{
 					family1 = new NodeFamily(s);
 					lastReadFamilyNames << family1->name();
-					Ontology::insertNodeFamily(family1->name(),family1);
-					if (s != family1->name())
-						Ontology::insertNodeFamily(s,family1);
+					Ontology::insertNodeFamily(s,family1);
 				}
 				if (!lastReadFamilyNames.contains(family1->name()))
 					lastReadFamilyNames << family1->name();
@@ -124,9 +152,6 @@ namespace Tinkercell
 					{
 						family2 = new NodeFamily(o);
 						Ontology::insertNodeFamily(o,family2);
-						Ontology::insertNodeFamily(family2->name(),family2);
-						if (o != family2->name())
-							Ontology::insertNodeFamily(o,family2);
 					}
 					family1->setParent(family2);
 					if (!lastReadFamilyNames.contains(family2->name()))
@@ -187,7 +212,8 @@ namespace Tinkercell
 		static void read_connection_triple(void* user_data, raptor_statement* triple) 
 		{
 			QString s,p,o;
-			ConnectionFamily *family1 = 0, *family2 = 0;
+			ConnectionFamily *family1 = 0, *family2 = 0;			
+			ParticipantRole * participantFamily1 = 0, * participantFamily2 = 0;
 
 			if (triple->subject->type == RAPTOR_TERM_TYPE_URI)
 				s = QObject::tr((char*)raptor_uri_as_string(triple->subject->value.uri));
@@ -211,94 +237,106 @@ namespace Tinkercell
 			{
 				//insert s as new family
 				s = s.toLower();
+				o = o.toLower(); 
 				family1 = Ontology::connectionFamily(s);
-				if (!family1)
+				participantFamily2 = Ontology::participantRole(o);
+
+				if (!family1 && !participantFamily2)
 				{
 					family1 = new ConnectionFamily(s);
-					Ontology::insertConnectionFamily(s,family1);					
-					Ontology::insertConnectionFamily(family1->name(),family1);
-					if (s != family1->name())
-						Ontology::insertConnectionFamily(s,family1);
+					Ontology::insertConnectionFamily(s,family1);
 				}
-
+					
 				if (!lastReadFamilyNames.contains(family1->name()))
 					lastReadFamilyNames << family1->name();
 
 				if (p == QObject::tr("a") || p == QObject::tr("isa") || p == QObject::tr("is a"))  //if isa relationship
 				{
-					o = o.toLower(); 
-					family2 = Ontology::connectionFamily(o);
-					if (!family2)  //insert o as new family
+					if (participantFamily2)
 					{
-						family2 = new ConnectionFamily(o);
-						Ontology::insertConnectionFamily(o,family2);
-						Ontology::insertConnectionFamily(family2->name(),family2);
-						if (o != family2->name())
-							Ontology::insertConnectionFamily(o,family2);
+						participantFamily1 = Ontology::participantRole(s);
+						if (!participantFamily1)
+						{
+							participantFamily1 = new ParticipantRole(s);
+							Ontology::insertParticipantRole(s, participantFamily1);
+						}
+						participantFamily1->setParent(participantFamily2);
 					}
-					family1->setParent(family2);
-					if (!lastReadFamilyNames.contains(family2->name()))
-						lastReadFamilyNames << family2->name();
+					else
+					{
+						family2 = Ontology::connectionFamily(o);
+						if (!family2)  //insert o as new family
+						{
+							family2 = new ConnectionFamily(o);
+							Ontology::insertConnectionFamily(o,family2);
+						}
+						family1->setParent(family2);
+						if (!lastReadFamilyNames.contains(family2->name()))
+							lastReadFamilyNames << family2->name();
+					}
 				}
 				else
-				if (p.toLower() == QObject::tr("synonyms"))
+				if (family1)
 				{
-					QStringList syn = o.split(",");
-					for (int i=0; i < syn.size(); ++i)
+					if (p.toLower() == QObject::tr("synonyms"))
 					{
-						QString s2 = syn[i].trimmed().toLower();
-						if (!Ontology::connectionFamily(s2))
+						QStringList syn = o.split(",");
+						for (int i=0; i < syn.size(); ++i)
 						{
-							family1->synonyms += s2;
-							Ontology::insertConnectionFamily(s2, family1);
+							QString s2 = syn[i].trimmed().toLower();
+							if (!Ontology::connectionFamily(s2))
+							{
+								family1->synonyms += s2;
+								Ontology::insertConnectionFamily(s2, family1);
+							}
 						}
 					}
-				}
-				else
-				if (p.toLower() == QObject::tr("description"))
-				{
-					family1->description = o;
-				}
-				else
-				if (p.toLower() == QObject::tr("units") || p.toLower() == QObject::tr("unit"))
-				{
-					QStringList lst = o.split(",");
-					if (lst.size() > 1)
-					{
-						QString property = lst[0];
-						QStringList unitnames = lst[1].split(" ");
-						for (int i=0; i < unitnames.size(); ++i)
-							if (!family1->measurementUnitOptions.contains(Unit(property, unitnames[i].trimmed())))
-								family1->measurementUnitOptions += Unit(property, unitnames[i].trimmed());
-					}
-				}
-				else
-				if (p.toLower() == QObject::tr("participants") || p.toLower() == QObject::tr("participant"))
-				{
-					QStringList lst = o.split(",");
-					if (lst.size() > 1)
-					{
-						QString type = lst[0].trimmed();
-						QString role = lst[1].trimmed();
-						family1->addParticipant(role, type);
-					}
-				}
-				else
-				if (p.toLower() == QObject::tr("conditions") || p.toLower() == QObject::tr("condition") ||
-					 p.toLower() == QObject::tr("restrictions") || p.toLower() == QObject::tr("restriction"))
-				{
-					family1->restrictions += o.split(",");
-				}
-				else
-				{
-					bool ok;
-					double d = o.toDouble(&ok);
-					p = p.trimmed();
-					p.replace(" ","_");
-					if (ok)
-						family1->numericalAttributes[p] = d;
 					else
-						family1->textAttributes[p] = o.trimmed();
+					if (p.toLower() == QObject::tr("description"))
+					{
+						family1->description = o;
+					}
+					else
+					if (p.toLower() == QObject::tr("units") || p.toLower() == QObject::tr("unit"))
+					{
+						QStringList lst = o.split(",");
+						if (lst.size() > 1)
+						{
+							QString property = lst[0];
+							QStringList unitnames = lst[1].split(" ");
+							for (int i=0; i < unitnames.size(); ++i)
+								if (!family1->measurementUnitOptions.contains(Unit(property, unitnames[i].trimmed())))
+									family1->measurementUnitOptions += Unit(property, unitnames[i].trimmed());
+						}
+					}
+					else
+					if (p.toLower() == QObject::tr("participants") || p.toLower() == QObject::tr("participant"))
+					{
+						QStringList lst = o.split(",");
+						if (lst.size() > 1)
+						{
+							QString type = lst[0].trimmed();
+							QString role = lst[1].trimmed();
+							family1->addParticipant(role, type);
+						}
+					}
+					else
+					if (p.toLower() == QObject::tr("conditions") || p.toLower() == QObject::tr("condition") ||
+						 p.toLower() == QObject::tr("restrictions") || p.toLower() == QObject::tr("restriction"))
+					{
+						family1->restrictions += o.split(",");
+					}
+					else
+					{
+						bool ok;
+						double d = o.toDouble(&ok);
+						p = p.trimmed();
+						p.replace(" ","_");
+						if (ok)
+							family1->numericalAttributes[p] = d;
+						else
+							family1->textAttributes[p] = o.trimmed();
+					}
 				}
 			}
 		}
@@ -370,6 +408,10 @@ namespace Tinkercell
 		QStringList Ontology::readConnections(const QString& rdf, const QString& format)
 		{
 			lastReadFamilyNames.clear();
+
+			if (!Ontology::participantRole("participant"))
+				Ontology::insertParticipantRole("participant", new ParticipantRole("participant"));
+
 			parse_rdf_file(&read_connection_triple, rdf.toAscii().data(), format.toAscii().data());
 			ConnectionFamily * family = 0;
 			QList<ConnectionFamily*> families;
@@ -425,7 +467,7 @@ namespace Tinkercell
 			return QStringList();
 		}
 #endif
-		
+
 		void Ontology::cleanup()
 		{
 			QList<NodeFamily*> nodes = nodeFamilies.values(), visitedNodes;
@@ -451,5 +493,6 @@ namespace Tinkercell
 
 		QHash<QString, NodeFamily*>  Ontology::nodeFamilies;
 		QHash<QString, ConnectionFamily*>  Ontology::connectionFamilies;
+		QHash<QString, ParticipantRole*>  Ontology::participantRoleFamilies;
 }
 

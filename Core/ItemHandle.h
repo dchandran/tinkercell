@@ -6,8 +6,7 @@ See COPYRIGHT.TXT
 
 An Item Handle represents a single item in a network. The Handle can either
 be a Node or a Connection. Each Connection can be connected to multiple
-Nodes, with a relationship integer describing the role of the Node. -1 and 1 are
-reserved roles, indicating "in" and "out" nodes. 
+Nodes.
 
 ****************************************************************************/
 

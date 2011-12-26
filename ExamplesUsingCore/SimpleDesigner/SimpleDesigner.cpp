@@ -352,17 +352,17 @@ void SimpleDesigner::itemsInserted(NetworkHandle * net,const QList<ItemHandle*>&
 			}
 			else
 			{	
-				QList<NodeHandle*> nodes = connection->nodesIn();
+				QList<NodeHandle*> nodes = connection->nodes("reactant");
 			
 				rate = tr("1.0");
 				
 				for (int j=0; j < nodes.size(); ++j)
 					rate += tr(" * ") + nodes[j]->name;   //default mass-action rate
 			}
-			
+
 			connection->textData("rate") = rate;
 		}
-		
+
 		setToolTip(items[i]);
 	}
 }
@@ -407,6 +407,10 @@ void SimpleDesigner::selectItem(GraphicsScene * scene, QGraphicsItem * item, boo
 		qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(item)->connectionItem->setControlPointsVisible(select);
 }
 
+/*
+When items are selected, the program might be in regular mode or it might
+be in connect-mode, i.e. connecting two items together 
+*/
 void SimpleDesigner::itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers modifiers)
 {
 	if (!scene) return;
@@ -414,11 +418,12 @@ void SimpleDesigner::itemsSelected(GraphicsScene * scene, const QList<QGraphicsI
 	QList<QGraphicsItem*> nodeItems;
 	NodeGraphicsItem * node = 0;
 	
+	//go through all the previously selected items and un-color them
 	for (int i=0; i < selectedItems.size(); ++i)
 	{
 		deselectItem(scene,selectedItems[i]);
 		
-		if (mode == 2)
+		if (mode == 2) //if connect-mode, then store the previously selected nodes
 		{
 			node = NodeGraphicsItem::cast(selectedItems[i]);
 			if (node && !nodeItems.contains(node))
@@ -487,8 +492,15 @@ void SimpleDesigner::itemsSelected(GraphicsScene * scene, const QList<QGraphicsI
 		QList<NodeGraphicsItem*> list1, list2;
 		list1 << NodeGraphicsItem::cast(nodeItems[0]);
 		list2 << NodeGraphicsItem::cast(nodeItems[1]);
+
+		NodeHandle * nodeHandle1 = NodeHandle::cast(getHandle(nodeItems[0])),
+						   * nodeHandle2 = NodeHandle::cast(getHandle(nodeItems[1]));		
+
 		ConnectionGraphicsItem * item = new ConnectionGraphicsItem(list1,list2);
+
 		ConnectionHandle * handle = new ConnectionHandle;
+		handle->addNode(nodeHandle1, "reactant");
+		handle->addNode(nodeHandle2, "product");
 
 		handle->name = scene->network->makeUnique(tr("J1"));
 		setHandle(item,handle);
@@ -559,8 +571,8 @@ void SimpleDesigner::simulate(bool stochastic)
 			QString name = reactionHandle->name;
 			QString rate = reactionHandle->textData("rate");
 			
-			QList<NodeHandle*> reactants = reactionHandle->nodesIn();
-			QList<NodeHandle*> products = reactionHandle->nodesOut();
+			QList<NodeHandle*> reactants = reactionHandle->nodes("reactant");
+			QList<NodeHandle*> products = reactionHandle->nodes("product");
 			
 			Reaction_t * reac = Model_createReaction(model);
 			Reaction_setId(reac, ConvertValue(name));

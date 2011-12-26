@@ -312,7 +312,7 @@ namespace Tinkercell
 
 	bool ItemHandle::isChildOf(ItemHandle * handle) const
 	{
-		if (!handle) return 0;
+		if (!handle) return false;
 
 		ItemHandle * p = parent;
 
@@ -939,7 +939,7 @@ namespace Tinkercell
 		return nodesList;
 	}
 */	
-	void ConnectionHandle::addNode(NodeHandle * h, int role)
+	void ConnectionHandle::addNode(NodeHandle * h, const QString& role)
 	{
 		if (h)
 		{

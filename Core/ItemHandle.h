@@ -313,7 +313,7 @@ namespace Tinkercell
 		\param NodeHandle* node
 		\param QString role 
 		*/
-		virtual void addNode(NodeHandle*, const QString& role));
+		virtual void addNode(NodeHandle*, const QString& role);
 		/*! \brief returns all the nodes that are on the "input" side of this connection. 
 		If this connection is represented by graphics items, then this 
 		is determined by looking at which nodes have an arrow-head associated with them in graphics items

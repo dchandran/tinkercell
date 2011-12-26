@@ -40,16 +40,16 @@ namespace Tinkercell
 
 		QPair<QString,ItemHandle*> handle(QString(),0);
 		
-		QList< QPair<ItemHandle*,QStringList> > nodes, roles;
+		//QList< QPair<ItemHandle*,QStringList> > nodes, roles;
 		
-		handle = readHandle(list,nodes,roles);
+		handle = readHandle(list/*,nodes,roles*/);
 		while (handle.second)
 		{
 			list << handle;
-			handle = readHandle(list,nodes,roles);
+			handle = readHandle(list/*,nodes,roles*/);
 		}
 
-		ConnectionHandle * connection;		
+		/*ConnectionHandle * connection;		
 		for (int i=0; i < nodes.size() && i < roles.size(); ++i)
 			if (connection = ConnectionHandle::cast(nodes[i].first))
 			{
@@ -65,12 +65,12 @@ namespace Tinkercell
 						}
 					}
 				}
-			}
+			}*/
 		
 		return list;
 	}
 
-	QPair<QString,ItemHandle*> ModelReader::readHandle(QList< QPair<QString,ItemHandle*> >& existingHandles, QList< QPair<ItemHandle*,QStringList> >& nodes, QList< QPair<ItemHandle*,QStringList> >& roles)
+	QPair<QString,ItemHandle*> ModelReader::readHandle(QList< QPair<QString,ItemHandle*> >& existingHandles/*, QList< QPair<ItemHandle*,QStringList> >& nodes, QList< QPair<ItemHandle*,QStringList> >& roles*/)
 	{
 		while (!atEnd() && !(isStartElement() && name() == "Handle"))
 		{
@@ -122,7 +122,7 @@ namespace Tinkercell
 						{
 							parent = vec.at(i).value().toString();
 						}
-						else
+						/*else
 							if (vec.at(i).name().toString() == QObject::tr("nodes"))
 							{
 								nodes += QPair<ItemHandle*,QStringList>(handle, vec.at(i).value().toString().split(sep));
@@ -131,7 +131,7 @@ namespace Tinkercell
 								if (vec.at(i).name().toString() == QObject::tr("roles"))
 								{
 									roles += QPair<ItemHandle*,QStringList>(handle, vec.at(i).value().toString().split(sep));
-								}
+								}*/
 		}
 
 		if (handle)
@@ -321,5 +321,5 @@ namespace Tinkercell
 			}
 		}
 	}
-
 }
+

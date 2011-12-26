@@ -131,7 +131,7 @@ namespace Tinkercell
 				writer->writeAttribute("family",handle->family()->name());
 			else
 				writer->writeAttribute("family","");
-			
+			/*
 			ConnectionHandle * connection = ConnectionHandle::cast(handle);
 			if (connection && !connection->nodesWithRoles.isEmpty())
 			{
@@ -144,7 +144,7 @@ namespace Tinkercell
 					}
 				writer->writeAttribute("nodes",names.join(sep));
 				writer->writeAttribute("roles",roles.join(sep));
-			}
+			}*/
 
 
 			QList<QString> nkeys = handle->numericalDataNames();

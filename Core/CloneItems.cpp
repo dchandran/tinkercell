@@ -334,7 +334,7 @@ namespace Tinkercell
 					handle2->setParent( hash[ handle->parent ],false );
 				}
 			
-				if (handle &&
+				/*if (handle &&
 					(connection = ConnectionHandle::cast(handle)) && 
 					(connection2 = ConnectionHandle::cast(handle2)))
 				{
@@ -345,7 +345,7 @@ namespace Tinkercell
 						{
 							connection2->addNode(node,connection->nodesWithRoles[j].second);
 						}
-				}
+				}*/
 			}
 		}
 		return newHandles;

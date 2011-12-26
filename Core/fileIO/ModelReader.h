@@ -40,7 +40,7 @@ namespace Tinkercell
 		/*! \brief Reads a handle from an XML file 
 		*	\param existing handles
 		* \return item handle*/
-		QPair<QString,ItemHandle*> readHandle(QList< QPair<QString,ItemHandle*> >& existingHandles, QList< QPair<ItemHandle*,QStringList> >&, QList< QPair<ItemHandle*,QStringList> >&);
+		QPair<QString,ItemHandle*> readHandle(QList< QPair<QString,ItemHandle*> >& existingHandles/*, QList< QPair<ItemHandle*,QStringList> >&, QList< QPair<ItemHandle*,QStringList> >&*/);
 		/*! \brief Reads a table from an XML file 
 		* \return item handle*/
 		void readRealsTable(ItemHandle*); 

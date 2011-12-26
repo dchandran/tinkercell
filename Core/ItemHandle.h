@@ -293,10 +293,13 @@ namespace Tinkercell
 	};
 
 	/*! \brief
-	* The handles are used to bring together data and graphics items.
-	* Connection Handle contains pointers to all the graphics items that belong to it, the tools
-	* that apply to this item, the data for this item, the family that it belongs with, and pointers
-	* to nodes connected (in and out)
+	* Connection Handle represents an Item Handle that connects multiple Node Handles
+	* together. ConnectionHandle::ParticipantsTableName is the name of the participants text table, 
+	* i.e. connectionhandle->textDataTable(ConnectionHandle::ParticipantsTableName) will
+	* return a table containing all the nodes that are connected by this connection handle
+	* and their roles (row name = roles). For handles represented using graphical items, 
+	* this participants table is optional. However, the participants table is necessary for
+	* providing roles to each connected node. 
 	* \ingroup core
 	*/
 	class TINKERCELLCOREEXPORT ConnectionHandle : public ItemHandle
@@ -304,31 +307,18 @@ namespace Tinkercell
 	public:
 		/*! \brief this number is used to identify when an item handle is a connection handle*/
 		static const int TYPE = 2;
-		/*! \brief returns all the nodes connected to all the connectors in this handle
-		\return QList<NodeHandle*> list of node handles*/
-		virtual QList<NodeHandle*> nodes(int role = 0) const;
-		/*! \brief add a node to this connection (only applies to connections with NO grpahics items)
+		/*! \brief name of participant table*/
+		static QString ParticipantsTableName;
+		/*! \brief same as adding (node->name, role) to participants table
 		\param NodeHandle* node
-		\param int role of this node. -1 is for "in" nodes. +1 is for "out" nodes. Use any other values for specific purposes
+		\param QString role 
 		*/
-		virtual void addNode(NodeHandle*, int role=0);
-		/*! \brief clear all nodes in connection (only applies to connections with NO graphics items)
-		*/
-		virtual void clearNodes();
+		virtual void addNode(NodeHandle*, const QString& role));
 		/*! \brief returns all the nodes that are on the "input" side of this connection. 
 		If this connection is represented by graphics items, then this 
 		is determined by looking at which nodes have an arrow-head associated with them in graphics items
-		If there are no graphics items, then this function uses the _nodes list to 
-		find the "in" nodes (role = -1).
 		\return QList<NodeHandle*> list of node handles*/
-		virtual QList<NodeHandle*> nodesIn() const;
-		/*! \brief
-		If this connection is represented by graphics items, then this 
-		is determined by looking at which nodes have NO arrow-head associated with them in graphics items
-		If there are no graphics items, then this function uses the _nodes list to 
-		find the "out" nodes (role = +1).
-		\return QList<NodeHandle*> list of node handles*/
-		virtual QList<NodeHandle*> nodesOut() const;
+		virtual QList<NodeHandle*> nodes(const QString& role=QString()) const;
 		/*! \brief the family for this connection handle*/
 		ConnectionFamily* connectionFamily;
 		/*! \brief default constructor -- initializes everything*/
@@ -366,11 +356,6 @@ namespace Tinkercell
 		Returns QList<ConnectionHandle*>
 		\param Returns QList<ItemHandle*> items*/
 		static QList<ConnectionHandle*> cast(const QList<ItemHandle*>&);
-		/*! \brief the nodes that are connected by this connection and the role of each node.
-		     this list is ONLY used for connections with NO graphics items
-		    -1 and 1 are reseved roles, indicating in and out nodes
-		*/
-		QList< QPair<NodeHandle*, int> > nodesWithRoles;
 	};
 
 	/*! \brief get the handle from a graphics item

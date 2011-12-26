@@ -10,6 +10,7 @@
 <Product2>                                   <a>                            <Product>.
 <Product3>                                   <a>                            <Product>.
 <Regulator>                                  <a>                            <participant>.
+<Target>                                      <a>                            <participant>.
 <Activator>                                   <a>                            <Regulator>.
 <Repressor>                                   <a>                            <Regulator>.
 <Inhibitor>                                    <a>                            <Repressor>.

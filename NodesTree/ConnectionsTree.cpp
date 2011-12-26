@@ -362,7 +362,7 @@ namespace Tinkercell
 	           if (parentFamily && family->graphicsItems.isEmpty() && 
 	           		!parentFamily->graphicsItems.isEmpty() &&
 	                NodeGraphicsItem::cast(parentFamily->graphicsItems[0]))
-	                family->graphicsItems += (NodeGraphicsItem::topLevelNodeItem(parentFamily->graphicsItems[0]))->clone();
+	                family->graphicsItems += (NodeGraphicsItem::cast(parentFamily->graphicsItems[0]))->clone();
 
 				if (family->graphicsItems.isEmpty()) //still?
 				{

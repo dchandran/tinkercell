@@ -788,14 +788,12 @@ namespace Tinkercell
 	ConnectionHandle::ConnectionHandle(const ConnectionHandle & copy) : ItemHandle(copy)
 	{
 		connectionFamily = copy.connectionFamily;
-		nodesWithRoles = copy.nodesWithRoles;
 	}
 
 	ConnectionHandle& ConnectionHandle::operator = (const ConnectionHandle& copy)
 	{
 	    ItemHandle::operator=(copy);
 	    connectionFamily = copy.connectionFamily;
-		nodesWithRoles = copy.nodesWithRoles;
 		return *this;
 	}
 
@@ -809,14 +807,19 @@ namespace Tinkercell
 		return connectionFamily;
 	}
 
-	QList<NodeHandle*> ConnectionHandle::nodes(int role) const
+	QString ConnectionHandle::ParticipantsTableName("participants");
+
+	QList<NodeHandle*> ConnectionHandle::nodes(const QString& role) const
 	{
 		QList<NodeHandle*> nodeslist;
+		QString nodename;
+		if (!role.isNull() && !role.isEmpty() && hasTextData(ParticipantsTableName))
+		{
+			 nodename = textData(ParticipantsTableName, role);
+		}
 
 		if (graphicsItems.size() > 0)
 		{
-			if (role == -1 ) return nodesIn();
-			if (role == 1 ) return nodesOut();
 			for (int j=0; j < graphicsItems.size(); ++j)
 			{
 				ConnectionGraphicsItem * connection;
@@ -828,7 +831,8 @@ namespace Tinkercell
 					for (int i=0; i < nodes.size(); ++i)
 					{
 						if (nodes[i] && nodes[i]->handle() &&
-							nodes[i]->handle()->type == NodeHandle::TYPE)
+							nodes[i]->handle()->type == NodeHandle::TYPE &&
+							(nodename.isNull() || nodename.isEmpty() || nodes[i]->handle()->name == nodename))
 							nodeslist << static_cast<NodeHandle*>(nodes[i]->handle());
 					}
 				}
@@ -836,13 +840,15 @@ namespace Tinkercell
 		}
 		else
 		{
-			for (int i=0; i < nodesWithRoles.size(); ++i)
-				if (nodesWithRoles[i].first && (role == 0 || nodesWithRoles[i].second == role))
-					nodeslist << nodesWithRoles[i].first;
+			if (network && !nodename.isNull() && !nodename.isEmpty())
+			{
+				nodeslist << NodeHandle::cast( network->findItem(nodename) );
+			}
 		}
 		return nodeslist;
 	}
 
+/*
 	QList<NodeHandle*> ConnectionHandle::nodesIn() const
 	{
 		QList<NodeHandle*> nodesList;
@@ -932,16 +938,14 @@ namespace Tinkercell
 		}
 		return nodesList;
 	}
-	
+*/	
 	void ConnectionHandle::addNode(NodeHandle * h, int role)
 	{
 		if (h)
-			nodesWithRoles << QPair<NodeHandle*,int>(h,role);
-	}
-	
-	void ConnectionHandle::clearNodes()
-	{
-		nodesWithRoles.clear();
+		{
+			TextDataTable & participants = textDataTable(ParticipantsTableName);
+			participants(role,0) = h->fullName();
+		}
 	}
 
 	QList<ItemFamily*> ConnectionHandle::findValidChildFamilies() const

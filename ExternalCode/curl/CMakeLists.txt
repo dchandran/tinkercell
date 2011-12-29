@@ -232,7 +232,7 @@ check_library_exists("wldap32" cldap_open "" HAVE_WLDAP32)
 #  CHECK_LIBRARY_EXISTS_CONCAT("z"      inflateEnd   HAVE_LIBZ)
 # ENDIF(NOT CURL_SPECIAL_LIBZ)
 
-option(CMAKE_USE_OPENSSL "Use OpenSSL code. Experimental" ON)
+option(CMAKE_USE_OPENSSL "Use OpenSSL code. Experimental" OFF)
 mark_as_advanced(CMAKE_USE_OPENSSL)
 if(CMAKE_USE_OPENSSL)
   if(WIN32)

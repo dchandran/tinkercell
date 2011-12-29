@@ -18,8 +18,8 @@
 <Catalyst>                                     <a>                            <Regulator>.
 <Sink>                                           <a>                            <participant>.
 <1 to 1>							  				<a>							<Biological process> .
-<1 to 1>											<participant>			"Node,Reactant"@en .
-<1 to 1>											<participant>			"Node,Product"@en .
+<1 to 1>											<participant>			"Biological entity,Reactant"@en .
+<1 to 1>											<participant>			"Biological entity,Product"@en .
 <1 to 1>											<description>			"A process involving two participants"@en .
 <Biochemical reaction>				<a>							<1 to 1> .
 <Biochemical reaction>				<participant>			"Molecule,Reactant"@en .
@@ -89,58 +89,58 @@
 <Transport>									<conditions>			"different compartments"@en .
 <2 to 1>											<a>							<Biological process> .
 <2 to 1>										<description>		"A process involving 3 participants"@en .
-<2 to 1>										<participant>		"Node, Reactant1"@en .
-<2 to 1>										<participant>		"Node, Reactant2"@en .
-<2 to 1>										<participant>		"Node, Product"@en .
+<2 to 1>										<participant>		"Biological entity, Reactant1"@en .
+<2 to 1>										<participant>		"Biological entity, Reactant2"@en .
+<2 to 1>										<participant>		"Biological entity, Product"@en .
 <1 to 2>											<a>							<Biological process> .
 <1 to 2>										<description>		"A process involving 3 participants"@en .
-<1 to 2>										<participant>		"Node, Reactant"@en .
-<1 to 2>										<participant>		"Node, Product1"@en .
-<1 to 2>										<participant>		"Node, Product2"@en .
+<1 to 2>										<participant>		"Biological entity, Reactant"@en .
+<1 to 2>										<participant>		"Biological entity, Product1"@en .
+<1 to 2>										<participant>		"Biological entity, Product2"@en .
 <3 to 1>											<a>							<Biological process> .
 <3 to 1>										<description>		"A process involving 4 participants"@en .
-<3 to 1>										<participant>		"Node, Reactant1"@en .
-<3 to 1>										<participant>		"Node, Reactant2"@en .
-<3 to 1>										<participant>		"Node, Reactant3"@en .
-<3 to 1>										<participant>		"Node, Product"@en .
+<3 to 1>										<participant>		"Biological entity, Reactant1"@en .
+<3 to 1>										<participant>		"Biological entity, Reactant2"@en .
+<3 to 1>										<participant>		"Biological entity, Reactant3"@en .
+<3 to 1>										<participant>		"Biological entity, Product"@en .
 <1 to 3>											<a>							<Biological process> .
 <1 to 3>										<description>		"A process involving 4 participants"@en .
-<1 to 3>										<participant>		"Node, Reactant"@en .
-<1 to 3>										<participant>		"Node, Product1"@en .
-<1 to 3>										<participant>		"Node, Product2"@en .
-<1 to 3>										<participant>		"Node, Product3"@en .
+<1 to 3>										<participant>		"Biological entity, Reactant"@en .
+<1 to 3>										<participant>		"Biological entity, Product1"@en .
+<1 to 3>										<participant>		"Biological entity, Product2"@en .
+<1 to 3>										<participant>		"Biological entity, Product3"@en .
 <2 to 2>											<a>							<Biological process> .
 <2 to 2>										<description>		"A process involving 4 participants"@en .
-<2 to 2>										<participant>		"Node, Reactant1"@en .
-<2 to 2>										<participant>		"Node, Reactant2"@en .
-<2 to 2>										<participant>		"Node, Product1"@en .
-<2 to 2>										<participant>		"Node, Product2"@en .
+<2 to 2>										<participant>		"Biological entity, Reactant1"@en .
+<2 to 2>										<participant>		"Biological entity, Reactant2"@en .
+<2 to 2>										<participant>		"Biological entity, Product1"@en .
+<2 to 2>										<participant>		"Biological entity, Product2"@en .
 <3 to 2>											<a>							<Biological process> .
 <3 to 2>										<description>		"A process involving 5 participants"@en .
-<3 to 2>										<participant>		"Node, Reactant1"@en .
-<3 to 2>										<participant>		"Node, Reactant2"@en .
-<3 to 2>										<participant>		"Node, Reactant3"@en .
-<3 to 2>										<participant>		"Node, Product1"@en .
-<3 to 2>										<participant>		"Node, Product2"@en .
+<3 to 2>										<participant>		"Biological entity, Reactant1"@en .
+<3 to 2>										<participant>		"Biological entity, Reactant2"@en .
+<3 to 2>										<participant>		"Biological entity, Reactant3"@en .
+<3 to 2>										<participant>		"Biological entity, Product1"@en .
+<3 to 2>										<participant>		"Biological entity, Product2"@en .
 <2 to 3>											<a>							<Biological process> .
-<2 to 3>										<description>		"A process involving 5 participants"@en .
-<2 to 3>										<participant>		"Node, Reactant1"@en .
-<2 to 3>										<participant>		"Node, Reactant2"@en .
-<2 to 3>										<participant>		"Node, Product1"@en .
-<2 to 3>										<participant>		"Node, Product2"@en .
-<2 to 3>										<participant>		"Node, Product3"@en .
+<2 to 3>										<description>		"A process involving 5 particyipants"@en .
+<2 to 3>										<participant>		"Biological entity, Reactant1"@en .
+<2 to 3>										<participant>		"Biological entity, Reactant2"@en .
+<2 to 3>										<participant>		"Biological entity, Product1"@en .
+<2 to 3>										<participant>		"Biological entity, Product2"@en .
+<2 to 3>										<participant>		"Biological entity, Product3"@en .
 <3 to 3>											<a>							<Biological process> .
 <3 to 3>										<description>		"A process involving 6 participants"@en .
-<3 to 3>										<participant>		"Node, Reactant1"@en .
-<3 to 3>										<participant>		"Node, Reactant2"@en .
-<3 to 3>										<participant>		"Node, Reactant3"@en .
-<3 to 3>										<participant>		"Node, Product1"@en .
-<3 to 3>										<participant>		"Node, Product2"@en .
-<3 to 3>										<participant>		"Node, Product3"@en .
+<3 to 3>										<participant>		"Biological entity, Reactant1"@en .
+<3 to 3>										<participant>		"Biological entity, Reactant2"@en .
+<3 to 3>										<participant>		"Biological entity, Reactant3"@en .
+<3 to 3>										<participant>		"Biological entity, Product1"@en .
+<3 to 3>										<participant>		"Biological entity, Product2"@en .
+<3 to 3>										<participant>		"Biological entity, Product3"@en .
 <Regulation>											<a>							<Biological process> .
 <Regulation> 								<description>		"Any form of biological regulation"@en .
-<Regulation> 								<participant>		"Node, Regulator"@en .
-<Regulation> 								<participant>		"Node, Target"@en .
+<Regulation> 								<participant>		"Biological entity, Regulator"@en .
+<Regulation> 								<participant>		"Biological entity, Target"@en .
 <Catalysis>								<a>						<Regulation> .
 <Catalysis>								<a>						<2 to 1> .
 <Catalysis> 								<description>		"A regulator converts one molecule to another"@en .

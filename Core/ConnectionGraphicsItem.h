@@ -133,6 +133,12 @@ namespace Tinkercell
 		* \param QList<NodeGraphicsItem*> list of nodes to connect to (have arrow heads)
 		*/
 		ConnectionGraphicsItem(const QList<NodeGraphicsItem*>&, const QList<NodeGraphicsItem*>&, QGraphicsItem * parent = 0);
+		/*! Constructor: constructs linear curve segments with arrow heads on the second set of nodes
+		* \param NodeGraphicsItem* node to connect from (no arrow heads)
+		* \param NodeGraphicsItem* node to connect to (have arrow heads)
+		*/
+		ConnectionGraphicsItem(NodeGraphicsItem*, NodeGraphicsItem*, QGraphicsItem * parent = 0);
+
 		/*! Copy Constructor: copies handle but not control points */
 		ConnectionGraphicsItem(const ConnectionGraphicsItem& copy);
 		/*! operator =: remove everything from original connection and copy everything from the given connection */
@@ -349,6 +355,11 @@ namespace Tinkercell
 		/*! \brief adjust the end control points so that they point straight
 		* \param bool adjust arrow transformations*/
 		virtual void adjustEndPoints(bool arrows=true);
+		/*! \brief 
+				Connect one set of nodes to another. The second set will contain arrowheads
+				This function is used by the constructors
+		*/
+		void init(const QList<NodeGraphicsItem*>&, const QList<NodeGraphicsItem*>&);
 	};
 
 }

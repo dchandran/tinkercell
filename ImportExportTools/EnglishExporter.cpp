@@ -112,8 +112,8 @@ namespace Tinkercell
 			QStringList words = family.split(" ");
 			QString verb = words.last();
 			
-			QList<NodeHandle*> nodesIn = connectionHandles[i]->nodesIn(),
-											nodesOut = connectionHandles[i]->nodesOut(),
+			QList<NodeHandle*> nodesIn = connectionHandles[i]->nodes("reactant") + connectionHandles[i]->nodes("regulator"),
+											nodesOut = connectionHandles[i]->nodes("product") + connectionHandles[i]->nodes("target"),
 											nodes = connectionHandles[i]->nodes();
 			
 			for (int i=0; i < nodesOut.size(); ++i)
@@ -140,7 +140,7 @@ namespace Tinkercell
 					in += tr("(") + participants.rowName(k) + tr(") ");
 					in += nodesIn[i]->name;
 				}
-			
+
 			for (int i=0; i < nodesOut.size(); ++i)
 				if (itemNames.contains(nodesOut[i]->fullName()))
 				{

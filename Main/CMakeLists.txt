@@ -22,7 +22,6 @@ INCLUDE_DIRECTORIES( BEFORE
     ${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include
     ${TINKERCELL_SOURCE_DIR}/ExternalCode/optim
     ${TINKERCELL_SOURCE_DIR}/BasicTools
-    ${TINKERCELL_SOURCE_DIR}/NodesTree
     ${TINKERCELL_SOURCE_DIR}/Core/plugins
 	${TINKERCELL_SOURCE_DIR}/Core/fileIO
 	${TINKERCELL_SOURCE_DIR}/Core/interpreters
@@ -99,13 +98,13 @@ ENDIF (TINKERCELL_FOR_WIKIDUST)
 #  Parts catalog
 #-----------------------------------
 
-FILE(GLOB NODESTREE_XML_FILES 
+FILE(GLOB ONTOLOGY_RDF_FILES 
 #	${TINKERCELL_SOURCE_DIR}/NodesTree/*.xml
-	${TINKERCELL_SOURCE_DIR}/NodesTree/*.txt
-	${TINKERCELL_SOURCE_DIR}/NodesTree/*.nt
+	${TINKERCELL_SOURCE_DIR}/BasicTools/*.txt
+	${TINKERCELL_SOURCE_DIR}/BasicTools/*.nt
 )
 
-INSTALL( FILES ${NODESTREE_XML_FILES} DESTINATION ${TINKERCELL_PACKAGE_ROOT_DIR}/ )
+INSTALL( FILES ${ONTOLOGY_RDF_FILES} DESTINATION ${TINKERCELL_PACKAGE_ROOT_DIR}/ )
 
 #--------------------------------------------------------------------------
 #  Copy example files and stylesheet

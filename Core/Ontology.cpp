@@ -247,7 +247,7 @@ namespace Tinkercell
 					Ontology::insertConnectionFamily(s,family1);
 				}
 					
-				if (!lastReadFamilyNames.contains(family1->name()))
+				if (family1 && !lastReadFamilyNames.contains(family1->name()))
 					lastReadFamilyNames << family1->name();
 
 				if (p == QObject::tr("a") || p == QObject::tr("isa") || p == QObject::tr("is a"))  //if isa relationship
@@ -263,6 +263,7 @@ namespace Tinkercell
 						participantFamily1->setParent(participantFamily2);
 					}
 					else
+					if (family1)
 					{
 						family2 = Ontology::connectionFamily(o);
 						if (!family2)  //insert o as new family

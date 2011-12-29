@@ -426,7 +426,7 @@ namespace Tinkercell
 
 		return roles;
 	}
-	
+
 	QStringList ConnectionFamily::participantTypes() const
 	{
 		QStringList families;

@@ -667,9 +667,15 @@ namespace Tinkercell
 
 			if (curveSegments[i].size() < 4 || !lastPoint || !firstPoint) continue;
 
+			if (curveSegments[i].arrowStart)
+				curveSegments[i].arrowStart->connectionItem = this;
+
+			if (curveSegments[i].arrowEnd)
+				curveSegments[i].arrowEnd->connectionItem = this;
+
 			if (firstPoint->parentItem() != 0 &&
 				((lastPoint->parentItem() != 0 &&
-				lastPoint->parentItem() != curveSegments[i].arrowEnd)
+					lastPoint->parentItem() != curveSegments[i].arrowEnd)
 				|| (lastPoint->parentItem() == 0)))
 				++truePaths;
 
@@ -692,10 +698,10 @@ namespace Tinkercell
 
 				if (firstPoint->isVisible())
 					firstPoint->setVisible(false);
+
 				if (curveSegments[i].arrowStart != 0)
 				{
 					QPointF p = pointOnEdge(*node, cp0->scenePos(), arrowHeadDistance , lineType == line);
-
 					firstPoint->setPos( node->mapFromScene(p) );
 
 					if (curveSegments[i].arrowStart->scene() != scene() && scene())
@@ -712,8 +718,8 @@ namespace Tinkercell
 
 					if (curveSegments[i].arrowStart->parentItem() == 0)
 					{
-						QPointF p2 = p;//pointOnEdge( *node, cp0->scenePos(), arrowHeadDistance, lineType == line);
-						curveSegments[i].arrowStart->setPos(p2);
+						//QPointF p2 = pointOnEdge( *node, cp0->scenePos(), arrowHeadDistance, lineType == line);
+						curveSegments[i].arrowStart->setPos(p);
 					}
 
 					qreal angle;
@@ -756,187 +762,73 @@ namespace Tinkercell
 				}
 			}
 
-			//adjust modifier arrows (if exists) by using center region
-			ControlPoint * centerPoint = this->centerPoint();
-			if (cp1 != 0 && centerPoint && lastPoint != centerPoint && curveSegments[i].arrowEnd != 0
-				&& (lastPoint->parentItem() == 0 || lastPoint->parentItem() == curveSegments[i].arrowEnd)
-				&& curveSegments.size() > 1)
+			if (cp1 != 0 && lastPoint != 0)
 			{
-				QPointF centerPoint = this->centerPoint()->scenePos();
-				QRectF centerRect(centerPoint - QPointF(centerRegion.width(),centerRegion.height())/2.0, centerRegion);
-				QPointF p = pointOnEdge(centerRect, cp1->scenePos(), arrowHeadDistance + 2.0,lineType == line);
-				QPointF p2 = cp1->scenePos();
-				if (lastPoint->parentItem() != curveSegments[i].arrowEnd)
-					lastPoint->setParentItem(curveSegments[i].arrowEnd);
-
-				curveSegments[i].arrowEnd->setPos(p);
-				lastPoint->setPos(curveSegments[i].arrowEnd->mapFromScene(p) );
-
-				if (curveSegments[i].arrowEnd->scene() != scene() && scene())
+				node = NodeGraphicsItem::cast(lastPoint->parentItem());
+				QPointF p, p2 = cp1->scenePos();
+				if (node)
 				{
-					if (curveSegments[i].arrowEnd->scene())
-						curveSegments[i].arrowEnd->scene()->removeItem(curveSegments[i].arrowEnd);
-					(static_cast<GraphicsScene*>(scene()))->addItem(curveSegments[i].arrowEnd);
+					p = pointOnEdge(*node, cp1->scenePos(), arrowHeadDistance,lineType == line);
+					lastPoint->setPos( node->mapFromScene(p) );
 				}
-
-				curveSegments[i].arrowEnd->setZValue(zValue() + 0.1);
-
-				qreal angle;
-				if (cp1->x() == p.x())
-					if (cp1->y() < p.y())
-						angle = 90.0;
-					else
-						angle = -90.0;
 				else
-					angle = atan((cp1->y() - p.y())/(cp1->x() - p.x())) * 180.0/3.14159;
-				if (cp1->x() > p.x())
-					if (cp1->y() < p.y())
-						angle += 180.0;
-					else
-						angle -= 180.0;
-
-				if (curveSegments[i].arrowEnd->angle != angle)
 				{
-					double dx = angle - curveSegments[i].arrowEnd->angle;
-					if (arrowTransform)
+					if (this->centerPoint())
 					{
-						double sinx = sin(dx * 3.14159/180.0),
-						  	   cosx = cos(dx * 3.14159/180.0);
-						QTransform rotate(cosx, sinx, -sinx, cosx, 0, 0);
-						QTransform t = curveSegments[i].arrowEnd->transform();
-						curveSegments[i].arrowEnd->setTransform(t * rotate);
+						QPointF centerPoint = this->centerPoint()->scenePos();
+						QRectF centerRegion = cp1->sceneBoundingRect();
+						QRectF centerRect(centerPoint - QPointF(centerRegion.width(),centerRegion.height())/2.0, centerRegion.size());
+						p = pointOnEdge(centerRect, cp1->scenePos(), arrowHeadDistance + 2.0,lineType == line);
 					}
-					curveSegments[i].arrowEnd->angle = angle;
 				}
-			}
-		}
 
-		if (truePaths == 1 && curveSegments[0].size() >= 4)
-		{
-			firstPoint = curveSegments[0].last();
-			lastPoint = curveSegments[0].first();
+				//if (lastPoint->parentItem() != curveSegments[i].arrowEnd)
+					//lastPoint->setParentItem(curveSegments[i].arrowEnd);
 
-			if (lineType == bezier)
-				cp0 = curveSegments[0][ curveSegments[0].size()-2 ];
-			else
-				cp0 = curveSegments[0][ curveSegments[0].size()-4 ];
-
-			NodeGraphicsItem * node = NodeGraphicsItem::cast(firstPoint->parentItem());
-			NodeGraphicsItem * node2 = NodeGraphicsItem::cast(lastPoint->parentItem());
-			if (firstPoint != 0 && cp0 != 0 && node && node2)
-			{
-				QRectF parentRect1 = node->sceneBoundingRect(),
-					parentRect2 = node2->sceneBoundingRect();
-				//QPainterPath parentShape = node->mapToScene(node->shape());
-
-				if (firstPoint->isVisible())
-					firstPoint->setVisible(false);
-
-				QPointF p0 = cp0->scenePos();
-
-				if (curveSegments[0].arrowEnd != 0)
+				if (curveSegments[i].arrowEnd != 0)
 				{
-					QPointF p = pointOnEdge(*node, cp0->scenePos(), arrowHeadDistance,lineType == line);
+					curveSegments[i].arrowEnd->setPos(p);
+					//lastPoint->setPos(curveSegments[i].arrowEnd->mapFromScene(p));
 
-					if (lineType == line && curveSegments[0].size() == 4)
+					if (curveSegments[i].arrowEnd->scene() != scene() && scene())
 					{
-						if (p.rx() == p0.rx())
-						{
-							if (parentRect1.center().rx() > parentRect2.left() && parentRect1.center().rx() < parentRect2.right())
-								p.rx() = parentRect1.center().rx();
-							else
-								if (parentRect2.center().rx() > parentRect1.left() && parentRect2.center().rx() < parentRect1.right())
-									p.rx() = parentRect2.center().rx();
-						}
-						else
-							if (p.ry() == p0.ry())
-							{
-								if (parentRect1.center().ry() > parentRect2.top() && parentRect1.center().ry() < parentRect2.bottom())
-									p.ry() = parentRect1.center().ry();
-								else
-									if (parentRect2.center().ry() > parentRect1.top() && parentRect2.center().ry() < parentRect1.bottom())
-										p.ry() = parentRect2.center().ry();
-							}
+						if (curveSegments[i].arrowEnd->scene())
+							curveSegments[i].arrowEnd->scene()->removeItem(curveSegments[i].arrowEnd);
+						(static_cast<GraphicsScene*>(scene()))->addItem(curveSegments[i].arrowEnd);
 					}
 
-					firstPoint->setPos( node->mapFromScene(p) );
-
-					if (curveSegments[0].arrowEnd->scene() != scene() && scene())
-					{
-						if (curveSegments[0].arrowEnd->scene())
-							curveSegments[0].arrowEnd->scene()->removeItem(curveSegments[0].arrowEnd);
-						(static_cast<GraphicsScene*>(scene()))->addItem(curveSegments[0].arrowEnd);
-					}
-
-					if (curveSegments[0].arrowEnd->parentItem() == 0)
-					{
-						QPointF p2 = p;//pointOnEdge(*node, cp0->scenePos(), arrowHeadDistance,lineType == line);
-						curveSegments[0].arrowEnd->setPos(p2);
-					}
-
-					curveSegments[0].arrowEnd->setZValue(zValue() + 0.1);
+					curveSegments[i].arrowEnd->setZValue(zValue() + 0.1);
 
 					qreal angle;
-					if (cp0->x() == p.x())
-						if (cp0->y() < p.y())
+					if (cp1->x() == p.x())
+						if (cp1->y() < p.y())
 							angle = 90.0;
 						else
 							angle = -90.0;
 					else
-						angle = atan((cp0->y()-p.y())/(cp0->x()-p.x())) * 180.0/3.14159;
-					if (cp0->x() > p.x())
-						if (cp0->y() < p.y())
+						angle = atan((cp1->y() - p.y())/(cp1->x() - p.x())) * 180.0/3.14159;
+					if (cp1->x() > p.x())
+						if (cp1->y() < p.y())
 							angle += 180.0;
 						else
 							angle -= 180.0;
 
-					if (curveSegments[0].arrowEnd->angle != angle)
+					if (curveSegments[i].arrowEnd->angle != angle)
 					{
-						double dx = angle - curveSegments[0].arrowEnd->angle;
+						double dx = angle - curveSegments[i].arrowEnd->angle;
 						if (arrowTransform)
 						{
 							double sinx = sin(dx * 3.14159/180.0),
-								   cosx = cos(dx * 3.14159/180.0);
+							  	   cosx = cos(dx * 3.14159/180.0);
 							QTransform rotate(cosx, sinx, -sinx, cosx, 0, 0);
-							QTransform t = curveSegments[0].arrowEnd->transform();
-							curveSegments[0].arrowEnd->setTransform(t * rotate);
+							QTransform t = curveSegments[i].arrowEnd->transform();
+							curveSegments[i].arrowEnd->setTransform(t * rotate);
 						}
-						curveSegments[0].arrowEnd->angle = angle;
+						curveSegments[i].arrowEnd->angle = angle;
 					}
-				}
-				else
-				{
-					QRectF parentRect1 = node->sceneBoundingRect(),
-						parentRect2 = node2->sceneBoundingRect();
-
-					QPointF p = pointOnEdge(*node,cp0->scenePos(),arrowHeadDistance/2.0,lineType == line);
-
-					if (lineType == line && curveSegments[0].size() == 4)
-					{
-						if (p.rx() == p0.rx())
-						{
-							if (parentRect1.center().rx() > parentRect2.left() && parentRect1.center().rx() < parentRect2.right())
-								p.rx() = parentRect1.center().rx();
-							else
-								if (parentRect2.center().rx() > parentRect1.left() && parentRect2.center().rx() < parentRect1.right())
-									p.rx() = parentRect2.center().rx();
-						}
-						else
-							if (p.ry() == p0.ry())
-							{
-								if (parentRect1.center().ry() > parentRect2.top() && parentRect1.center().ry() < parentRect2.bottom())
-									p.ry() = parentRect1.center().ry();
-								else
-									if (parentRect2.center().ry() > parentRect1.top() && parentRect2.center().ry() < parentRect1.bottom())
-										p.ry() = parentRect2.center().ry();
-							}
-					}
-
-					firstPoint->setPos( node->mapFromScene(p) );
 				}
 			}
 		}
-
 	}
 
 	/*! \brief refresh the path if any controlpoints have moved
@@ -1647,10 +1539,7 @@ namespace Tinkercell
 		if (node == curveSegments[index].arrowStart || node == curveSegments[index].arrowEnd)
 			node = 0;
 
-		if (node)
-			return node;
-
-		return 0;
+		return node;
 	}
 
 	/*! \brief find the index of the node
@@ -1959,8 +1848,19 @@ namespace Tinkercell
 		return connections;
 	}
 
+	ConnectionGraphicsItem::ConnectionGraphicsItem(NodeGraphicsItem* from, NodeGraphicsItem* to, QGraphicsItem * parent) :
+		QGraphicsItemGroup (parent), itemHandle(0)
+	{
+		init( QList<NodeGraphicsItem*>() << from, QList<NodeGraphicsItem*>() << to);
+	}
+
 	ConnectionGraphicsItem::ConnectionGraphicsItem(const QList<NodeGraphicsItem*>& from, const QList<NodeGraphicsItem*>& to, QGraphicsItem * parent) :
 		QGraphicsItemGroup (parent), itemHandle(0)
+	{
+		init(from,to);
+	}
+
+	void ConnectionGraphicsItem::init(const QList<NodeGraphicsItem*>& from, const QList<NodeGraphicsItem*>& to)
 	{
 		setCacheMode(QGraphicsItem::DeviceCoordinateCache);
 		setFlag(QGraphicsItem::ItemIsMovable, false);

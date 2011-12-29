@@ -308,11 +308,11 @@ namespace Tinkercell
 		static const int TYPE = 2;
 		/*! \brief name of participant table*/
 		static QString ParticipantsTableName;
-		/*! \brief same as adding (node->name, role) to participants table
+		/*! \brief same as calling "numericalData(ConnectionHandle::ParticipantTableName, role) = node->name"
 		\param NodeHandle* node
 		\param QString role 
 		*/
-		virtual void addNode(NodeHandle*, const QString& role);
+		virtual void setNodeRole(NodeHandle*, const QString& role);
 		/*! \brief returns all the nodes that are on the "input" side of this connection. 
 		If this connection is represented by graphics items, then this 
 		is determined by looking at which nodes have an arrow-head associated with them in graphics items

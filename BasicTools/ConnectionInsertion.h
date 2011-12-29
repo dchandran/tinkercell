@@ -122,7 +122,9 @@ namespace Tinkercell
 		void itemsDropped(GraphicsScene *, const QString&, QPointF);
 	signals:
 		void aboutToInsertItems( GraphicsScene* , QList<QGraphicsItem *>& , QList<ItemHandle*>& , QList<QUndoCommand*>&);
+		void aboutToRemoveItems( GraphicsScene* , QList<QGraphicsItem *>& , QList<ItemHandle*>& , QList<QUndoCommand*>&);
 		void insertedItems( GraphicsScene* ,  const QList<QGraphicsItem *>& , const QList<ItemHandle*>& );
+		void itemsRemoved(GraphicsScene * , const QList<QGraphicsItem*>& , const QList<ItemHandle*>& );
 		void handleFamilyChanged(NetworkHandle * , const QList<ItemHandle*>& , const QList<ItemFamily*>& );
 
 	private slots:		

@@ -1467,7 +1467,7 @@ namespace Tinkercell
 				QList<ItemHandle*> parts, upstream;
 
 				QList<NodeGraphicsItem*> nodes;
-				QList<NodeHandle*> nodeHandles = connection->nodesOut();
+				QList<NodeHandle*> nodeHandles = connection->nodes("target");
 				NodeGraphicsItem * startNode = 0;
 
 				for (int j=0; j < nodeHandles.size(); ++j)
@@ -1951,7 +1951,7 @@ namespace Tinkercell
 					continue;
                 QString cname = connections[i]->fullName();
                 bool isPositive = !(connections[i]->isA("Repression"));
-                QList<NodeHandle*> nodesIn = connections[i]->nodesIn();
+                QList<NodeHandle*> nodesIn = connections[i]->nodes("regulator");
 				for (int j=0; j < nodesIn.size(); ++j)
 				{
 					ItemHandle * nodeHandle = (nodesIn[j]);

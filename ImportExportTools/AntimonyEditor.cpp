@@ -328,10 +328,10 @@ namespace Tinkercell
 					reactionHandle->numericalDataTable(tr("Product stoichiometries")) = products;
 
 					for (int var=0; var < nodesIn.size(); ++var)
-						reactionHandle->addNode(nodesIn[var],-1);
+						reactionHandle->setNodeRole(nodesIn[var],"reactant");
 				
 					for (int var=0; var < nodesOut.size(); ++var)
-						reactionHandle->addNode(nodesOut[var],1);
+						reactionHandle->setNodeRole(nodesOut[var],"product");
 
 					itemsToInsert += reactionHandle;
 				}

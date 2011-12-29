@@ -80,11 +80,14 @@ namespace Tinkercell
 	public:
 		//CollisionDetection * collisionDetection;
 		/*! \brief makes all the individual segments leading to each node from the middle segment*/
-		static void makeSegments(GraphicsScene*,ConnectionGraphicsItem * connection, const QList<NodeGraphicsItem*>& nodes, int inputs);
+		static void makeSegments(GraphicsScene*,ConnectionGraphicsItem * connection, const QList<NodeGraphicsItem*>& nodes, int inputs, const QList<ArrowHeadItem*> arrowHeadsEnd = QList<ArrowHeadItem*>());
 		/*! \brief makes the middle segment for a connector */
 		static void setupMiddleSegment(ConnectionGraphicsItem * connection, const QList<NodeGraphicsItem*>& nodes, int inputs);
 		/*! \brief mix problems occurring when there one node appears multiple times in the same connector */
 		static void FixMultipleConnections(ConnectionGraphicsItem * connection, const QList<NodeGraphicsItem*>& nodes, int inputs);
+
+	private:
+		static QPair<ArrowHeadItem*, ArrowHeadItem*> getArrowHeads(const QString& role);
 	};
 
 }

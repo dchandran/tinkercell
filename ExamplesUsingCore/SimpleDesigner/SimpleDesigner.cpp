@@ -433,7 +433,7 @@ void SimpleDesigner::itemsSelected(GraphicsScene * scene, const QList<QGraphicsI
 	
 	selectedItems.clear();
 	
-	if (items.size() != 1 || !items[0])
+	if (items.size() != 1 || !items[0]) //scene selected
 	{
 		groupBox1->hide();
 		groupBox2->hide();
@@ -448,7 +448,7 @@ void SimpleDesigner::itemsSelected(GraphicsScene * scene, const QList<QGraphicsI
 	
 		listWidget->addItems(vars);   //update list widget for viewing parameters
 	}
-	else
+	else //show concentration or rates
 	{
 		ItemHandle * handle = getHandle(items[0]);
 		if (NodeHandle::cast(handle) && handle->hasNumericalData("concentration"))
@@ -486,27 +486,25 @@ void SimpleDesigner::itemsSelected(GraphicsScene * scene, const QList<QGraphicsI
 		}
 	}
 	
-	if (mode == 2 && nodeItems.size() == 2)
+	if (mode == 2 && nodeItems.size() == 2) //insert connection mode
 	{	
-		//scene->remove("remove temp",nodeItems);
-		QList<NodeGraphicsItem*> list1, list2;
-		list1 << NodeGraphicsItem::cast(nodeItems[0]);
-		list2 << NodeGraphicsItem::cast(nodeItems[1]);
+		NodeGraphicsItem * node1 = NodeGraphicsItem::cast(nodeItems[0]),  //nodes to connect
+									 * node2 = NodeGraphicsItem::cast(nodeItems[1]);
 
-		NodeHandle * nodeHandle1 = NodeHandle::cast(getHandle(nodeItems[0])),
-						   * nodeHandle2 = NodeHandle::cast(getHandle(nodeItems[1]));		
+		ConnectionGraphicsItem * item = new ConnectionGraphicsItem(node1, node2); //create new connection
 
-		ConnectionGraphicsItem * item = new ConnectionGraphicsItem(list1,list2);
-
-		ConnectionHandle * handle = new ConnectionHandle;
-		handle->addNode(nodeHandle1, "reactant");
-		handle->addNode(nodeHandle2, "product");
-
-		handle->name = scene->network->makeUnique(tr("J1"));
+		ConnectionHandle * handle = new ConnectionHandle;  //create handle for the connection
 		setHandle(item,handle);
-		scene->insert(tr("connection inserted"),item);
+
+		NodeHandle * nodeHandle1 = NodeHandle::cast(node1->handle()), 
+						   * nodeHandle2 = NodeHandle::cast(node2->handle()); 		
+		handle->setNodeRole(nodeHandle1, "reactant");  //assign roles for each node (will be useful later)
+		handle->setNodeRole(nodeHandle2, "product");
+		handle->name = scene->network->makeUnique(tr("J1"));  //find unique name, with J1 being the default
+
+		scene->insert(tr("connection inserted"),item); //insert the new connection
 		
-		scene->deselect();
+		scene->deselect(); //deselect everything
 	}
 }
 

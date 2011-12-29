@@ -815,7 +815,7 @@ namespace Tinkercell
 		QString nodename;
 		if (!role.isNull() && !role.isEmpty() && hasTextData(ParticipantsTableName))
 		{
-			 nodename = textData(ParticipantsTableName, role);
+			nodename = textData(ParticipantsTableName, role);
 		}
 
 		if (graphicsItems.size() > 0)
@@ -828,11 +828,12 @@ namespace Tinkercell
 				if (connection)
 				{
 					nodes = connection->nodes();
+
 					for (int i=0; i < nodes.size(); ++i)
 					{
 						if (nodes[i] && nodes[i]->handle() &&
 							nodes[i]->handle()->type == NodeHandle::TYPE &&
-							(nodename.isNull() || nodename.isEmpty() || nodes[i]->handle()->name == nodename))
+							(nodename.isNull() || nodename.isEmpty() || nodes[i]->handle()->fullName() == nodename))
 							nodeslist << static_cast<NodeHandle*>(nodes[i]->handle());
 					}
 				}
@@ -937,9 +938,9 @@ namespace Tinkercell
 			nodesList = nodes(1);
 		}
 		return nodesList;
-	}
-*/	
-	void ConnectionHandle::addNode(NodeHandle * h, const QString& role)
+	}*/
+
+	void ConnectionHandle::setNodeRole(NodeHandle * h, const QString& role)
 	{
 		if (h)
 		{

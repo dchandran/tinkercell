@@ -16,10 +16,13 @@ so that it looks appealing
 #include "TextGraphicsItem.h"
 #include "ConnectionMaker.h"
 #include "DnaGraphicsItem.h"
+#include "ConnectionsTree.h"
+#include "NodesTree.h"
+#include "GlobalSettings.h"
+#include "Ontology.h"
 
 namespace Tinkercell
 {
-
 	ConnectionMaker::ConnectionMaker() : Tool(tr("Connection Maker"),tr("Basic GUI"))
 	{ 
 		mainWindow = 0;
@@ -94,26 +97,55 @@ namespace Tinkercell
 		for (int i=0; i < items.size(); ++i)
 		{
 			ConnectionGraphicsItem * connection = ConnectionGraphicsItem::cast(items.at(i));
+			QList<ArrowHeadItem*> arrowHeadsStart, arrowHeadsEnd;
+
 			if (connection)
 			{
 				int inputs = 0, outputs = 0;
-				QList<NodeGraphicsItem*> nodes = connection->nodes();
-				QList<ArrowHeadItem*> arrowHeadsStart, arrowHeadsEnd;
 
-				for (int j=0; j < connection->curveSegments.size(); ++j)
+				ItemHandle * connectionHandle = connection->handle();
+				QList<NodeGraphicsItem*> nodes = connection->nodes();
+
+				if (connectionHandle)
 				{
-					arrowHeadsStart += connection->curveSegments[j].arrowStart;
-					arrowHeadsEnd += connection->curveSegments[j].arrowEnd;
+					TextDataTable & participantsTable = connectionHandle->textDataTable(ConnectionHandle::ParticipantsTableName);
+					QStringList nodenames;
+					for (int j=0; j < nodes.size(); ++j)
+					{
+						if (nodes[j] && nodes[j]->handle())
+							nodenames += nodes[j]->handle()->fullName();
+						else
+							nodenames += tr("");
+
+						arrowHeadsStart += 0;
+						arrowHeadsEnd += 0;
+					}
+
+					for (int j=0; j < participantsTable.rows(); ++j)
+					{
+						QString role = participantsTable.rowName(j);
+						QString nodename = participantsTable(j,0);
+						int k = nodenames.indexOf(nodename);
+						if (k > -1)
+						{
+							QPair<ArrowHeadItem*,ArrowHeadItem*> pair = getArrowHeads(role);
+							arrowHeadsStart[k] = pair.first;
+							arrowHeadsEnd[k] = pair.second;
+						}
+					}
 				}
 
 				for (int j=0; j < arrowHeadsStart.size() && j < arrowHeadsEnd.size(); ++j)
-					if (arrowHeadsStart[j] == 0 && arrowHeadsEnd[j] == 0)
+					if (arrowHeadsStart[j] == 0 && (arrowHeadsEnd.size() > 1 || arrowHeadsEnd[j] == 0))
 						++inputs;
 					else
 						++outputs;
 						
 				if (inputs == 0 || outputs == 0)
 					inputs = outputs = (int)(connection->curveSegments.size()/2);
+
+				if (inputs == 1 && outputs == 1 && !arrowHeadsEnd[0] && arrowHeadsStart[1])
+					arrowHeadsEnd[0] = arrowHeadsStart[1];
 
 				//if (!connection->isValid())
 				{
@@ -124,10 +156,10 @@ namespace Tinkercell
 					}
 
 					connection->clear();
-					makeSegments(scene, connection, nodes, inputs);
+					makeSegments(scene, connection, nodes, inputs, arrowHeadsEnd);
 					connection->refresh();
 
-					if (connection->handle())// && connection->centerPoint())  //set location of text
+					if (connection->handle()) // && connection->centerPoint())  //set location of text
 					{
 						TextGraphicsItem * textItem = 0;
 						QPointF centerPoint = connection->centerLocation();
@@ -157,20 +189,12 @@ namespace Tinkercell
 						}
 					}
 
-					if (connection->curveSegments.size() == 1 && arrowHeadsStart.size() > 1)
+					for (int j=0; j < connection->curveSegments.size() && j < arrowHeadsStart.size() && j < arrowHeadsEnd.size(); ++j)
 					{
-						connection->curveSegments[0].arrowEnd = arrowHeadsStart[1];
-						if (connection->curveSegments[0].arrowEnd) connection->curveSegments[0].arrowEnd->setVisible(true);
-					}
-					else
-					{					
-						for (int j=0; j < connection->curveSegments.size() && j < arrowHeadsStart.size() && j < arrowHeadsEnd.size(); ++j)
-						{
-							connection->curveSegments[j].arrowStart = arrowHeadsStart[j];
-							connection->curveSegments[j].arrowEnd = arrowHeadsEnd[j];
-							if (connection->curveSegments[j].arrowStart) connection->curveSegments[j].arrowStart->setVisible(true);
-							if (connection->curveSegments[j].arrowEnd) connection->curveSegments[j].arrowEnd->setVisible(true);
-						}
+						connection->curveSegments[j].arrowStart = arrowHeadsStart[j];
+						connection->curveSegments[j].arrowEnd = arrowHeadsEnd[j];
+						if (connection->curveSegments[j].arrowStart) connection->curveSegments[j].arrowStart->setVisible(true);
+						if (connection->curveSegments[j].arrowEnd) connection->curveSegments[j].arrowEnd->setVisible(true);
 					}
 					connection->refresh();
 					connection->setControlPointsVisible(false);	
@@ -363,7 +387,7 @@ namespace Tinkercell
 			}
 	}
 
-	void ConnectionMaker::makeSegments(GraphicsScene* scene,ConnectionGraphicsItem * connection, const QList<NodeGraphicsItem*>& nodes, int inputs)
+	void ConnectionMaker::makeSegments(GraphicsScene* scene,ConnectionGraphicsItem * connection, const QList<NodeGraphicsItem*>& nodes, int inputs, const QList<ArrowHeadItem*> arrowHeadsEnd)
 	{
 		if (!scene || nodes.size() < 2 || inputs < 1 || inputs >= nodes.size()) return;
 
@@ -407,7 +431,10 @@ namespace Tinkercell
 					QPointF p = pointOnEdge(nodes.at(i)->sceneBoundingRect(),(center + middlePiece[0]->scenePos()) * 0.5);
 					vector.append(new ConnectionGraphicsItem::ControlPoint(nodes.at(i)->mapFromScene(p), connection, nodes.at(i) ));
 					vector.append(new ConnectionGraphicsItem::ControlPoint((p + middlePiece[0]->scenePos()) * 0.5,connection));
-					vector.append(middlePiece[0]);
+					if (arrowHeadsEnd.at(i))
+						vector.append(new ConnectionGraphicsItem::ControlPoint(*middlePiece[0]));
+					else
+						vector.append(middlePiece[0]);
 					vector.append(middlePiece[1]);
 					connection->curveSegments.append(vector);
 				}
@@ -419,7 +446,6 @@ namespace Tinkercell
 					vector.append(new ConnectionGraphicsItem::ControlPoint((p + middlePiece[3]->scenePos()) * 0.5,connection));
 					vector.append(middlePiece[3]);
 					vector.append(middlePiece[1]);
-
 					connection->curveSegments.append(vector);
 				}
 				++k;
@@ -539,6 +565,58 @@ namespace Tinkercell
 				}
 			}
 		}
+	}
+
+	QPair<ArrowHeadItem*, ArrowHeadItem*> ConnectionMaker::getArrowHeads(const QString& s)
+	{
+		QString homeDir = GlobalSettings::homeDir();
+		QString appDir = QCoreApplication::applicationDirPath();
+
+		QPair<ArrowHeadItem*, ArrowHeadItem*> pair(0,0);
+		QList<ItemFamily*> families;
+		families += Ontology::participantRole(s);
+		
+		for (int i=0; i < families.size() && !pair.first; ++i)
+			if (families[i])
+			{
+				QString role = families[i]->name();
+				if (QFile::exists(homeDir + tr("/") + ConnectionsTree::arrowImageFile(role + tr("_start"))))
+				{
+					pair.first = 
+						new ArrowHeadItem(homeDir + tr("/") + ConnectionsTree::arrowImageFile(role + tr("_start")));
+				}
+				else
+				if (QFile::exists(appDir + tr("/") + ConnectionsTree::arrowImageFile(role + tr("_start"))))
+				{
+					pair.first =
+						new ArrowHeadItem(appDir + tr("/") + ConnectionsTree::arrowImageFile(role + tr("_start")));
+				}
+				families += families[i]->parents();
+			}
+
+
+		families.clear();
+		families += Ontology::participantRole(s);
+
+		for (int i=0; i < families.size() && !pair.second; ++i)
+			if (families[i])
+			{
+				QString role = families[i]->name();
+				if (QFile::exists(homeDir + ConnectionsTree::arrowImageFile(role + tr("_end"))))
+				{
+					pair.second = 
+						new ArrowHeadItem(homeDir + ConnectionsTree::arrowImageFile(role + tr("_end")));
+				}
+				else
+				if (QFile::exists(appDir + ConnectionsTree::arrowImageFile(role + tr("_end"))))
+				{
+					pair.second = 
+						new ArrowHeadItem(appDir + ConnectionsTree::arrowImageFile(role + tr("_end")));
+				}
+				families += families[i]->parents();
+			}
+
+		return pair;
 	}
 
 }

@@ -145,7 +145,35 @@ namespace Tinkercell
 					inputs = outputs = (int)(connection->curveSegments.size()/2);
 
 				if (inputs == 1 && outputs == 1 && !arrowHeadsEnd[0] && arrowHeadsStart[1])
+				{
 					arrowHeadsEnd[0] = arrowHeadsStart[1];
+				}
+				else
+				if (arrowHeadsEnd.size() > 1)
+				{
+					int k1 = 0, k2 = 0;
+					{
+						k2 = -1;
+						for (int j=0; j < arrowHeadsEnd.size(); ++j)
+							if (arrowHeadsEnd[j])
+							{
+								k2 = j;
+								break;						
+							}
+						k1 = -1;
+						if (k2 > -1)
+							for (int j=0; j < arrowHeadsStart.size(); ++j)
+							{
+								if (!arrowHeadsStart[j] && !arrowHeadsEnd[j])
+								{
+									k1 = j;
+									arrowHeadsStart[k1] = arrowHeadsEnd[k2];
+									arrowHeadsEnd[k2] = 0;
+									break;
+								}
+							}
+					}
+				}
 
 				//if (!connection->isValid())
 				{

@@ -29,6 +29,7 @@
 #include "ModuleTool.h"
 #include "GlobalSettings.h"
 #include "Ontology.h"
+#include <iostream>
 
 namespace Tinkercell
 {
@@ -1084,8 +1085,10 @@ namespace Tinkercell
 		ConnectionFamily * family = ConnectionFamily::cast(connection->family());
 		
 		if (!family) return 0;
-		
+
 		QString s, name = name0;
+
+		std::cout << "name = " << name.toAscii().data() << "\n";
 
 		QString parentNameWithDot = connection->fullName() + tr("\\.");
 		QString parentNameWithUnderscore = connection->fullName("_") + tr("_");

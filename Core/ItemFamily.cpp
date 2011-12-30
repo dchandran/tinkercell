@@ -450,7 +450,7 @@ namespace Tinkercell
 					break;
 				}
 	}
-	
+
 	QStringList ConnectionFamily::synonymsForRole(const QString& rolename)
 	{
 		QStringList rolelist;
@@ -458,11 +458,16 @@ namespace Tinkercell
 		if (NAMETOID.contains(rolename.toLower()))
 		{
 			int roleid = NAMETOID[ rolename.toLower() ];
+			rolelist += ALLFAMILIES[roleid]->name();
+			rolelist += ALLFAMILIES[roleid]->synonyms;
 			if (ALLFAMILIES.size() > roleid && ALLFAMILIES[roleid])
 			{
 				QList<ItemFamily*> all = ALLFAMILIES[roleid]->allChildren();
 				for (int i=0; i < all.size(); ++i)
+				{
 					rolelist += all[i]->name();
+					rolelist += all[i]->synonyms;
+				}
 			}
 		}
 

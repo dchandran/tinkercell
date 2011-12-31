@@ -259,12 +259,7 @@ namespace Tinkercell
 				for (int i=0; i < handles.size(); ++i)
 					if (handles[i]->parent == root)
 					{
-						for (int j=0; j < handles[i]->graphicsItems.size(); ++j)
-							if (((node = NodeGraphicsItem::cast(handles[i]->graphicsItems[j])) && node->groupID == groupName) ||
-							     ((connection = ConnectionGraphicsItem::cast(handles[i]->graphicsItems[j])) && connection->groupID == groupName) ||
-							     ((text = TextGraphicsItem::cast(handles[i]->graphicsItems[j])) && text->groupID == groupName))
-								 items += handles[i]->graphicsItems[j];
-						
+						items = GraphicsScene::getItemsInGroup(handles[i]->graphicsItems,groupName);
 						handles[i]->setParent(parentHandle,false);
 					}
 			}
@@ -330,7 +325,7 @@ namespace Tinkercell
 			QList<GraphicsScene*> scenes = network->scenes();
 			QList<TextEditor*> editors = network->editors();
 			
-			for (int i=0; i < scenes.size(); ++i)
+			/*for (int i=0; i < scenes.size(); ++i)
 				if (scenes[i] && 
 					scenes[i]->localHandle() && 
 					scenes[i]->localHandle() != parentHandle &&
@@ -344,7 +339,7 @@ namespace Tinkercell
 					editors[i]->localHandle() != parentHandle && 					
 					editors[i]->networkWindow && 
 					editors[i]->networkWindow->isVisible())
-					editors[i]->networkWindow->close();
+					editors[i]->networkWindow->close();*/
 			
 			if (handles.isEmpty())
 			{
@@ -355,15 +350,7 @@ namespace Tinkercell
 					handles.removeAll(parentHandle);
 			}
 
-			for (int i=0; i < items.size(); ++i)
-				if (node = NodeGraphicsItem::cast(items[i]))
-					node->groupID = groupName;
-				else
-				if (connection = ConnectionGraphicsItem::cast(items[i]))
-					connection->groupID = groupName;
-				else
-				if (text = TextGraphicsItem::cast(items[i]))
-					text->groupID = groupName;
+			GraphicsScene::setItemGroup(items,groupName);
 			
 			if (handles.isEmpty())
 			{
@@ -975,17 +962,7 @@ namespace Tinkercell
 		if (scene->localHandle())
 		{
 			QString groupName = scene->localHandle()->name;
-			for (int i=0; i < items.size(); ++i)
-			{
-				if (node = NodeGraphicsItem::cast(items[i]))
-					node->groupID = groupName;
-				else
-				if (connection = ConnectionGraphicsItem::cast(items[i]))
-					connection->groupID = groupName;
-				else
-				if (text = TextGraphicsItem::cast(items[i]))
-					text->groupID = groupName;
-			}
+			GraphicsScene::setItemGroup(items,groupName);
 		}
 		
 		visited.clear();

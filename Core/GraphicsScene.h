@@ -533,7 +533,16 @@ namespace Tinkercell
 		* \param NodeGraphicsItem*
 		* \return void*/
 		virtual void snapToGrid(QGraphicsItem*);
-		
+		/*! \brief get all the items with the given group ID
+		* \param QList<QGraphicsItem*>
+		* \param QString groupID
+		* \return QList<QGraphicsItem*> all items with the given group ID*/
+		static QList<QGraphicsItem*> getItemsInGroup(const QList<QGraphicsItem*>& list, const QString& groupID);
+		/*! \brief set the group ID for the given items
+		* \param QList<QGraphicsItem*>
+		* \param QString groupID
+		* \return void*/
+		static void setItemGroup(const QList<QGraphicsItem*>& list, const QString& groupID);
 
 		friend class MainWindow;
 		friend class NetworkWindow;

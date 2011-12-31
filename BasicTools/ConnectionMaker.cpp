@@ -147,31 +147,43 @@ namespace Tinkercell
 				if (inputs == 1 && outputs == 1 && !arrowHeadsEnd[0] && arrowHeadsStart[1])
 				{
 					arrowHeadsEnd[0] = arrowHeadsStart[1];
+					arrowHeadsStart[1] = 0;
 				}
 				else
 				if (arrowHeadsEnd.size() > 1)
 				{
 					int k1 = 0, k2 = 0;
+					k2 = -1;
+					for (int j=0; j < arrowHeadsEnd.size(); ++j)
+						if (arrowHeadsEnd[j])
+						{
+							k2 = j;
+							break;						
+						}
+					k1 = -1;
+					if (k2 > -1)
 					{
-						k2 = -1;
-						for (int j=0; j < arrowHeadsEnd.size(); ++j)
-							if (arrowHeadsEnd[j])
+						for (int j=0; j < arrowHeadsStart.size(); ++j)
+						{
+							if (!arrowHeadsStart[j] && !arrowHeadsEnd[j] && j != k2)
 							{
-								k2 = j;
-								break;						
+								k1 = j;
+								break;
 							}
-						k1 = -1;
-						if (k2 > -1)
-							for (int j=0; j < arrowHeadsStart.size(); ++j)
+						}
+						for (int j=0; j < arrowHeadsStart.size(); ++j)
+						{
+							if (arrowHeadsStart[j])
 							{
-								if (!arrowHeadsStart[j] && !arrowHeadsEnd[j])
-								{
-									k1 = j;
-									arrowHeadsStart[k1] = arrowHeadsEnd[k2];
-									arrowHeadsEnd[k2] = 0;
-									break;
-								}
+								k1 = -1;
+								break;
 							}
+						}
+					}
+					if (k1 > -1 && k2 > -1)
+					{
+						arrowHeadsStart[k1] = arrowHeadsEnd[k2];
+						arrowHeadsEnd[k2] = 0;
 					}
 				}
 

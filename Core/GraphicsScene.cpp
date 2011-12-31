@@ -2567,5 +2567,36 @@ namespace Tinkercell
 	{
 		return _useDefaultBehavior;
 	}
+
+	QList<QGraphicsItem*> GraphicsScene::getItemsInGroup(const QList<QGraphicsItem*>& items, const QString& groupName)
+	{
+		NodeGraphicsItem * node;
+		ConnectionGraphicsItem * connection;
+		TextGraphicsItem * text;
+		QList<QGraphicsItem*> list;
+		for (int j=0; j < items.size(); ++j)
+			if (((node = NodeGraphicsItem::cast(items[j])) && node->groupID == groupName) ||
+			     ((connection = ConnectionGraphicsItem::cast(items[j])) && connection->groupID == groupName) ||
+			     ((text = TextGraphicsItem::cast(items[j])) && text->groupID == groupName))
+				 list += items[j];
+		return list;
+	}
+
+	void GraphicsScene::setItemGroup(const QList<QGraphicsItem*>& items, const QString& groupName)
+	{
+		NodeGraphicsItem * node;
+		ConnectionGraphicsItem * connection;
+		TextGraphicsItem * text;
+		for (int i=0; i < items.size(); ++i)
+			if (node = NodeGraphicsItem::cast(items[i]))
+				node->groupID = groupName;
+			else
+			if (connection = ConnectionGraphicsItem::cast(items[i]))
+				connection->groupID = groupName;
+			else
+			if (text = TextGraphicsItem::cast(items[i]))
+				text->groupID = groupName;
+	}
+
 }
 

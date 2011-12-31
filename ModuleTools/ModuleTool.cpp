@@ -152,7 +152,7 @@ namespace Tinkercell
 
 	QStringList ModuleTool::checkValidityOfModule(ConnectionHandle * module)
 	{
-		if (!module || !ConnectionFamily::cast(module->family())) return QStringList();
+		if (!module || !ConnectionFamily::cast(module->family()) || !module->hasNumericalData(tr("Parameters"))) return QStringList();
 		
 		NumericalDataTable paramsTable = module->numericalDataTable(tr("Parameters"));
 
@@ -197,7 +197,7 @@ namespace Tinkercell
 		TextGraphicsItem * text;
 		QString groupName = parentHandle->name;
 
-		TextDataTable oldParticipantsData (parentHandle->textDataTable(tr("participants")));			
+		TextDataTable oldParticipantsData (parentHandle->textDataTable(ConnectionHandle::ParticipantsTableName));			
 
 		if (!cachedModels.contains(parentHandle) && !parentHandle->children.isEmpty())
 		{
@@ -215,7 +215,7 @@ namespace Tinkercell
 
 			if (root)
 			{
-				TextDataTable participants (parentHandle->textDataTable(tr("participants")));
+				TextDataTable participants (parentHandle->textDataTable(ConnectionHandle::ParticipantsTableName));
 				for (int i=0; i < newHandles.size(); ++i)
 					if (newHandles[i] && !newHandles[i]->parent)
 						for (int j=0; j < participants.rows(); ++j)
@@ -441,8 +441,8 @@ namespace Tinkercell
 				}
 			}
 
-			TextDataTable newParticipantsTable = parentHandle->textDataTable(tr("participants"));
-			parentHandle->textDataTable(tr("participants")) = oldParticipantsData;
+			TextDataTable newParticipantsTable = parentHandle->textDataTable(ConnectionHandle::ParticipantsTableName);
+			parentHandle->textDataTable(ConnectionHandle::ParticipantsTableName) = oldParticipantsData;
 			
 			for (int i=0; i < parentHandle->children.size(); ++i)
 			{
@@ -499,7 +499,7 @@ namespace Tinkercell
 						}
 				}
 			}
-			parentHandle->textDataTable(tr("participants")) = newParticipantsTable;
+			parentHandle->textDataTable(ConnectionHandle::ParticipantsTableName) = newParticipantsTable;
 
 			for (int i=0; i < nodes.size(); ++i)
 			{
@@ -528,7 +528,7 @@ namespace Tinkercell
 			if (!commands.isEmpty())
 			{
 				commands << new ChangeTextDataCommand(
-										tr("participants"), &(parentHandle->textDataTable(tr("participants"))), &(oldParticipantsData));
+										ConnectionHandle::ParticipantsTableName, &(parentHandle->textDataTable(ConnectionHandle::ParticipantsTableName)), &(oldParticipantsData));
 				network->push( new CompositeCommand(tr("merged models by roles"),commands) );
 			}
 		}
@@ -1016,7 +1016,6 @@ namespace Tinkercell
 					{
 						filename = tr(":/images/expand.xml");
 					}
-
 				
 				if (!filename.isEmpty() && QFile::exists(filename))
 				{
@@ -1076,19 +1075,17 @@ namespace Tinkercell
 	
 	NodeHandle * ModuleTool::findCorrespondingHandle(const QString& name0, ConnectionHandle * connection)
 	{
-		if (name0.isNull() || name0.isEmpty() || !connection || !connection->hasTextData(tr("Participants")))
+		if (name0.isNull() || name0.isEmpty() || !connection || !connection->hasTextData(ConnectionHandle::ParticipantsTableName))
 			return 0;
 
 		QList<NodeHandle*> nodes = connection->nodes();
 
-		TextDataTable & participants = connection->textDataTable(tr("Participants"));
+		TextDataTable & participants = connection->textDataTable(ConnectionHandle::ParticipantsTableName);
 		ConnectionFamily * family = ConnectionFamily::cast(connection->family());
 		
 		if (!family) return 0;
 
 		QString s, name = name0;
-
-		std::cout << "name = " << name.toAscii().data() << "\n";
 
 		QString parentNameWithDot = connection->fullName() + tr("\\.");
 		QString parentNameWithUnderscore = connection->fullName("_") + tr("_");
@@ -1135,7 +1132,7 @@ namespace Tinkercell
 
 			for (int i=0; i < modules.size(); ++i)
 			{
-				TextDataTable oldParticipantsData (modules[i]->textDataTable(tr("participants")));
+				TextDataTable oldParticipantsData (modules[i]->textDataTable(ConnectionHandle::ParticipantsTableName));
 				for (int j=0; j < modules[i]->children.size(); ++j)
 				{
 					h = findCorrespondingHandle(NodeHandle::cast(modules[i]->children[j]),ConnectionHandle::cast(modules[i]));
@@ -1162,7 +1159,7 @@ namespace Tinkercell
 					}
 				}
 				commands << new ChangeTextDataCommand(
-													tr("participants"), &(modules[i]->textDataTable(tr("participants"))), &(oldParticipantsData));
+													ConnectionHandle::ParticipantsTableName, &(modules[i]->textDataTable(ConnectionHandle::ParticipantsTableName)), &(oldParticipantsData));
 			}
 
 			if (!commands.isEmpty())

@@ -192,9 +192,6 @@ namespace Tinkercell
 	{
 		if (!parentHandle) return;
 
-		NodeGraphicsItem * node;
-		ConnectionGraphicsItem * connection;
-		TextGraphicsItem * text;
 		QString groupName = parentHandle->name;
 
 		TextDataTable oldParticipantsData (parentHandle->textDataTable(ConnectionHandle::ParticipantsTableName));			

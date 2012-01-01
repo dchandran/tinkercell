@@ -150,7 +150,7 @@ namespace Tinkercell
 					arrowHeadsStart[1] = 0;
 				}
 				else
-				if (arrowHeadsEnd.size() > 1)
+				if (arrowHeadsEnd.size() > 2)
 				{
 					int k1 = 0, k2 = 0;
 					k2 = -1;

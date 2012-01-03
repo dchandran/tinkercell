@@ -13,6 +13,7 @@
 #include "NodeGraphicsItem.h"
 #include "NodeGraphicsReader.h"
 #include "ConnectionGraphicsItem.h"
+#include "NodesTree.h"
 #include "TreeButton.h"
 
 namespace Tinkercell

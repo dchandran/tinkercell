@@ -54,9 +54,11 @@ namespace Tinkercell
        
         /*! \brief default constructor
         \param Widget* parent widget
+		\param QString RDF file containing node families
+		\param QString RDF file containing connection families
         \param QString filename from which to load heirarchy of nodes. default = NodesTree/NodesTree.xml
          */
-        CatalogWidget(QWidget * parent=0);
+        CatalogWidget(const QString& nodesTreeFile=QString(), const QString& connectionTreeFile=QString(), QWidget * parent=0);
 
         /*! \brief destructor*/
         ~CatalogWidget();
@@ -150,11 +152,6 @@ namespace Tinkercell
 		/*! \brief the connections tree widgets*/
 		ConnectionsTree * connectionsTree;
 		
-		/*! \brief the categories for the tabs*/
-		QList< QPair< QString, QStringList> > tabGroups;
-		
-		int numNodeTabs;
-		
 		/*! \brief setup the widget using the TreeView layout*/
 		void setUpTreeView();
 		
@@ -187,6 +184,10 @@ namespace Tinkercell
 		
 		/*! \brief widget to select the families to show*/
 		QDialog * selectFamilyWidget;
+
+	public:
+		/*! \brief the categories for the tabs*/
+		static QList< QPair< QString, QStringList> > tabGroups;
     };
 
 

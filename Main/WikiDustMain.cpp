@@ -17,6 +17,7 @@
 #include "StoichiometryTool.h"
 #include "FunctionDeclarationsTool.h"
 #include "ModelSummaryTool.h"
+#include "ModelSummaryWidget.h"
 #include "ContainerTool.h"
 #include "ModelFileGenerator.h"
 #include "SimulationEventTool.h"
@@ -117,6 +118,20 @@ int main(int argc, char *argv[])
   
   /*******  title , etc ***********/
     mainWindow.statusBar()->showMessage(QObject::tr("Welcome to WikiDust"));
+
+	//setup the tabs
+	CatalogWidget::tabGroups
+			<< QPair<QString, QStringList>(
+											tr("Parts"),
+											QStringList() << "part")
+
+			<< QPair<QString, QStringList>(
+											tr("Compartments"),
+											QStringList() << "compartment")
+
+			<< QPair<QString, QStringList>(
+											tr("Regulation"),
+											QStringList() << "regulation");
     
    	mainWindow.addTool(new CatalogWidget);
 	mainWindow.addTool(new CollisionDetection);
@@ -135,9 +150,10 @@ int main(int argc, char *argv[])
 	mainWindow.addTool(new AssignmentFunctionsTool);
 	mainWindow.addTool(new StoichiometryTool);
 	mainWindow.addTool(new ModelSummaryTool);
+	mainWindow.addTool(new ModelSummaryWidget);
 	mainWindow.addTool(new ModelFileGenerator);
 	mainWindow.addTool(new SimulationEventsTool);	
-	mainWindow.addTool(new CompartmentTool);	
+	mainWindow.addTool(new ContainerTool);	
 	mainWindow.addTool(new OctaveExporter);
 	mainWindow.addTool(new SBMLImportExport);
 	//mainWindow.addTool(new CopasiExporter);

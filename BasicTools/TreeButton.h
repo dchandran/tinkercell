@@ -22,7 +22,6 @@
 #include "Tool.h"
 #include "ItemFamily.h"
 #include "ItemHandle.h"
-#include "NodesTree.h"
 
 #ifndef TINKERCELLEXPORT
 #ifdef Q_WS_WIN

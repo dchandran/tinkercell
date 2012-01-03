@@ -17,7 +17,7 @@
 #include "StoichiometryTool.h"
 #include "FunctionDeclarationsTool.h"
 #include "ModelSummaryTool.h"
-#include "ContainerTool.h"
+#include "ModelSummaryWidget.h"
 #include "ModelFileGenerator.h"
 #include "SimulationEventTool.h"
 #include "ModuleTool.h"
@@ -45,6 +45,7 @@
 #include "NodeSelection.h"
 #include "GraphicsScene.h"
 #include "ConsoleWindow.h"
+#include "ContainerTool.h"
 #include <QColor>
 #include <QBrush>
 
@@ -107,8 +108,28 @@ int main(int argc, char *argv[])
     mainWindow.setWindowTitle(QObject::tr("TinkerCell"));
     mainWindow.statusBar()->showMessage(QObject::tr("Welcome to TinkerCell"));
     
+	//setup the tabs
+	CatalogWidget::tabGroups	
+					<< QPair<QString, QStringList>(
+													"Molecules",
+													QStringList() << "molecule")
+					<< QPair<QString, QStringList>(
+													"Parts",
+													QStringList() << "part")
+					<< QPair<QString, QStringList>(
+													"Compartments",
+													QStringList() << "compartment")
+                   << QPair<QString, QStringList>(
+													"Regulation",
+													QStringList()  << "regulation")
+					<< QPair<QString, QStringList>(
+													"Reaction",
+													QStringList()  << "1 to 1"  << "1 to 2"  << "1 to 3"
+																		  << "2 to 1" << "2 to 2" << "2 to 3"
+																		  << "3 to 1" << "3 to 2" << "3 to 3");
+
 	/****  load plugins  ******/
-   	mainWindow.addTool(new CatalogWidget);
+	mainWindow.addTool(new CatalogWidget);
 	mainWindow.addTool(new CollisionDetection);
 	mainWindow.addTool(new ConnectionInsertion);
 	mainWindow.addTool(new NodeInsertion);
@@ -127,7 +148,8 @@ int main(int argc, char *argv[])
 	mainWindow.addTool(new ModelSummaryTool);
 	mainWindow.addTool(new ModelFileGenerator);
 	mainWindow.addTool(new SimulationEventsTool);	
-	mainWindow.addTool(new CompartmentTool);	
+	mainWindow.addTool(new ModelSummaryWidget);
+	mainWindow.addTool(new ContainerTool);	
 	mainWindow.addTool(new OctaveExporter);
 	mainWindow.addTool(new SBMLImportExport);
 	mainWindow.addTool(new CopasiExporter);

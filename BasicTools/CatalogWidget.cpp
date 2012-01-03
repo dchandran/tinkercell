@@ -30,7 +30,7 @@ namespace Tinkercell
 {
 	CatalogWidget::MODE CatalogWidget::layoutMode = CatalogWidget::TabView;
 
-	CatalogWidget::CatalogWidget(QWidget * parent) :
+	CatalogWidget::CatalogWidget(const QString& nodesTreeFile, const QString& connectionsTreeFile, QWidget * parent) :
 		Tool(tr("Parts and Connections Catalog"),tr("Parts Catalog"),parent),
 		nodesButtonGroup(this),
 		connectionsButtonGroup(this),
@@ -43,8 +43,8 @@ namespace Tinkercell
 		//Ontology::GLOBAL_PARENTS << "empty" << "null";
 		Ontology::GLOBAL_CHILDREN << "empty" << "null";
 
-		nodesTree = new NodesTree;
-		connectionsTree = new ConnectionsTree;
+		nodesTree = new NodesTree(0, nodesTreeFile);
+		connectionsTree = new ConnectionsTree(0, connectionsTreeFile);
 
 		settings->beginGroup("CatalogWidget");
 		CatalogWidget::layoutMode = (CatalogWidget::MODE)(settings->value(tr("Mode"),(int)layoutMode).toInt());
@@ -793,46 +793,6 @@ namespace Tinkercell
 		tabWidget = new QTabWidget;
 		tabWidget->setWindowTitle(tr("Parts and Connections"));
 
-		tabGroups	<< QPair<QString, QStringList>(
-													tr("Molecules"),
-													QStringList() << "molecule")
-					<< QPair<QString, QStringList>(
-													tr("Parts"),
-													QStringList() << "part")
-					<< QPair<QString, QStringList>(
-													tr("Compartments"),
-													QStringList() << "compartment")
-                   << QPair<QString, QStringList>(
-													tr("Regulation"),
-													QStringList()  << "regulation")
-					<< QPair<QString, QStringList>(
-													tr("Reaction"),
-													QStringList()  << tr("1 to 1")  << tr("1 to 2")  << tr("1 to 3")
-																		  << tr("2 to 1") << tr("2 to 2") << tr("2 to 3")
-																		  << tr("3 to 1") << tr("3 to 2") << tr("3 to 3"));
-
-		numNodeTabs = 4;
-		
-		if (GlobalSettings::PROGRAM_MODE == tr("parts-only"))
-		{
-			tabGroups.clear();
-
-			tabGroups
-					<< QPair<QString, QStringList>(
-													tr("Parts"),
-													QStringList() << "part")
-
-					<< QPair<QString, QStringList>(
-													tr("Compartments"),
-													QStringList() << "compartment")
-
-					<< QPair<QString, QStringList>(
-													tr("Regulation"),
-													QStringList() << "regulation");
-
-			numNodeTabs = 3;
-		}
-
 		QSettings * settings = MainWindow::getSettings();
 		settings->beginGroup("CatalogWidget");
 		familiesInCatalog = settings->value(tr("familiesInCatalog"),QStringList()).toStringList();
@@ -1172,6 +1132,8 @@ namespace Tinkercell
 			makeTabWidget();
 		}
 	}
+
+	QList< QPair< QString, QStringList> > CatalogWidget::tabGroups;
 }
 /*
 extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)

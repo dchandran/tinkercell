@@ -6,14 +6,14 @@
 #include "NodeGraphicsItem.h"
 #include "TextGraphicsItem.h"
 #include "ItemHandle.h"
-#include "SamplePlugin1.h"
+#include "MyFirstExtension.h"
 using namespace Tinkercell;
 
-SamplePlugin1::SamplePlugin1(): Tool("My Plugin 1", "Sample Plugins") //name, category
+MyFirstExtension::MyFirstExtension(): Tool("My Plugin 1", "Sample Plugins") //name, category
 {
 }
 
-bool SamplePlugin1::setMainWindow(MainWindow * main)
+bool MyFirstExtension::setMainWindow(MainWindow * main)
 {
 	Tool::setMainWindow(main); //must call this to properly setup the extension
 
@@ -26,7 +26,7 @@ bool SamplePlugin1::setMainWindow(MainWindow * main)
 				this,SLOT(itemsSelected(GraphicsScene *, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
 }
 
-void SamplePlugin1::mouseReleased(GraphicsScene * scene, QPointF point, Qt::MouseButton button, Qt::KeyboardModifiers modifiers)
+void MyFirstExtension::mouseReleased(GraphicsScene * scene, QPointF point, Qt::MouseButton button, Qt::KeyboardModifiers modifiers)
 {
 	/*
 		One network can be represented in multiple scenes (canvas) or
@@ -62,7 +62,7 @@ void SamplePlugin1::mouseReleased(GraphicsScene * scene, QPointF point, Qt::Mous
     and would not do all the things that ->insert would do*/
 }
 
-void SamplePlugin1::itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers modifiers)
+void MyFirstExtension::itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers modifiers)
 {
 	/*
 		The following look ensures that text boxes also move
@@ -119,7 +119,7 @@ int main(int argc, char *argv[])
 	mainWindow.setWindowTitle("My Wonderful App"); 
 	
 	//ADD PLUGINS
-	mainWindow.addTool(new SamplePlugin1);
+	mainWindow.addTool(new MyFirstExtension);
 	
 	//load Ontology -- OPTIONAL
 	Ontology::readNodes("Nodes.nt");

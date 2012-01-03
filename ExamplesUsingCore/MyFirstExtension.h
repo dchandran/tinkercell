@@ -14,18 +14,18 @@ inputs
 namespace Tinkercell
 {
 
-	class SamplePlugin1 : public Tool
+	class MyFirstExtension : public Tool
 	{
 
 		Q_OBJECT
 
 	public:
-		SamplePlugin1();
+		MyFirstExtension();
 		bool setMainWindow(MainWindow * main);
 	
 	public slots:
 		void mouseReleased(GraphicsScene * scene, QPointF point, Qt::MouseButton button, Qt::KeyboardModifiers modifiers);
-
+		void itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers modifiers);
 	};
 
 }

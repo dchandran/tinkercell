@@ -102,8 +102,7 @@ namespace Tinkercell
 			experimentFamily->description = tr("A protocol used to obtain some quantitative results about the system of interest");
 			experimentFamily->textAttributes[tr("Type")] = tr("");
 			experimentFamily->numericalAttributes[tr("Time duration")] = 0.0;
-			experimentFamily->graphicsItems << new ArrowHeadItem(appDir + tr("/Graphics/") + NodesTree::themeDirectory + tr("/Arrows/default.xml"))
-																	<< new ArrowHeadItem(home + tr("/Lab/microscope.xml"));
+			experimentFamily->graphicsItems << new ArrowHeadItem(home + tr("/Lab/microscope.xml"));
 			connectionsTree->insertFamily(experimentFamily,0);
 
 			if (QFile::exists(home + tr("/Lab/experiments.nt")))

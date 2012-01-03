@@ -9,8 +9,8 @@
 
 ****************************************************************************/
 
-#ifndef TINKERCELL_CONTAINERTOOL_H
-#define TINKERCELL_CONTAINERTOOL_H
+#ifndef TINKERCELL_PARAMETERWIDGETTOOL_H
+#define TINKERCELL_PARAMETERWIDGETTOOL_H
 
 #include <stdlib.h>
 #include <QtGui>
@@ -50,40 +50,27 @@
 
 namespace Tinkercell
 {
-	class TINKERCELLEXPORT CompartmentTool : public Tool
+	class TINKERCELLEXPORT ModelSummaryWidget : public Tool
 	{
 		Q_OBJECT
 
 	public:
 
-		CompartmentTool();
-		~CompartmentTool();
+		ModelSummaryWidget();
+		~ModelSummaryWidget();
 		bool setMainWindow(MainWindow * main);
 		QSize sizeHint() const;
-
-//signals:
-  //      void parentHandleChanged(NetworkHandle * , const QList<ItemHandle*>&, const QList<ItemHandle*>&);
 
 	public slots:
 		void updateTree(int);
 		void windowChanged(NetworkWindow * , NetworkWindow * );
 		void windowClosed(NetworkHandle *);
-		void itemsSelected(GraphicsScene * , const QList<QGraphicsItem*>& , QPointF point, Qt::KeyboardModifiers );
-		void itemsInserted(GraphicsScene * , const QList<QGraphicsItem*>& , const QList<ItemHandle*>&);
-		void itemsRemoved(GraphicsScene * , const QList<QGraphicsItem*>& , const QList<ItemHandle*>&);
-		void itemsMoved(GraphicsScene * , const QList<QGraphicsItem*>& item, const QList<QPointF>& );
-		void nodeCollided(const QList<QGraphicsItem*>& , NodeGraphicsItem * , const QList<QPointF>& );
-		void toolLoaded(Tool*);
 		void indexSelected(const QModelIndex&);
 	private:
 		ContainerTreeDelegate * treeDelegate;
 		ContainerTreeModel * treeModel;
 		QTreeView * treeView;
-		void connectCollisionDetector();
-		void sendToBack(QGraphicsItem*, GraphicsScene *);
 		void adjustRates(GraphicsScene * scene, QList<ItemHandle*> childItems, QList<ItemHandle*> parents);
-		static bool connectionInsideRect(ConnectionGraphicsItem* connection, const QRectF& rect,bool all=true);
-		void moveChildItems(GraphicsScene * scene, const QList<QGraphicsItem*> & items0, const QList<QPointF> & dist);
 	};
 
 

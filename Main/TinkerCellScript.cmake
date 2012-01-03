@@ -13,7 +13,6 @@ FILE( GLOB TINKERCELL_MAIN_SRC
     ${TINKERCELL_SOURCE_DIR}/GeneticNetworks/*.cpp
     ${TINKERCELL_SOURCE_DIR}/OtherTools/*.cpp
     ${TINKERCELL_SOURCE_DIR}/ImportExportTools/*.cpp
-	${TINKERCELL_SOURCE_DIR}/NodesTree/*.cpp
     ${TINKERCELL_SOURCE_DIR}/BasicTools/*.cpp
     ${TINKERCELL_BINARY_DIR}/BasicTools/*.cpp
 #    ${TINKERCELL_SOURCE_DIR}/ModularNetworkAlgorithms/*.cpp
@@ -28,7 +27,6 @@ FILE( GLOB TINKERCELL_MAIN_HRDS
     ${TINKERCELL_SOURCE_DIR}/OtherTools/*.h
     ${TINKERCELL_SOURCE_DIR}/ImportExportTools/*.h
 	${TINKERCELL_SOURCE_DIR}/BasicTools/*.h
-    ${TINKERCELL_SOURCE_DIR}/NodesTree/*.h
 )
 
 QT4_WRAP_CPP( TINKERCELL_MAIN_MOC ${TINKERCELL_MAIN_HRDS})

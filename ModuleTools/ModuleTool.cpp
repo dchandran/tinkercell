@@ -1046,7 +1046,7 @@ namespace Tinkercell
 			}
 	}
 */
-	
+
 	NodeHandle * ModuleTool::findCorrespondingHandle(const QString& name0, ConnectionHandle * connection)
 	{
 		if (name0.isNull() || name0.isEmpty() || !connection || !connection->hasTextData(ConnectionHandle::ParticipantsTableName))

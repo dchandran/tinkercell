@@ -900,7 +900,15 @@ namespace Tinkercell
 						insertList += arrow;
 					}*/
 					
-					if (!handle->parent && handle->family()->name().contains(tr("gene")) || handle->family()->name().contains(tr("transcription")))
+					bool nodesRotated = false;
+					for (int i=0; i < selectedNodes.size(); ++i)
+						if (selectedNodes[i]->sceneTransform().isRotating())
+						{
+							nodesRotated = true;
+							break;
+						}
+					
+					if (!nodesRotated && handle->family()->name().contains(tr("gene")) || handle->family()->name().contains(tr("transcription")))
 						item->lineType = ConnectionGraphicsItem::line;
 					
 					if (handle->isA(tr("Repression")))

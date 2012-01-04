@@ -14,6 +14,7 @@
 #include "StoichiometryTool.h"
 #include "FunctionDeclarationsTool.h"
 #include "ModelSummaryTool.h"
+#include "ModelSummaryWidget.h"
 #include "ContainerTool.h"
 #include "ModelFileGenerator.h"
 #include "SimulationEventTool.h"
@@ -123,7 +124,7 @@ int main(int argc, char *argv[])
 	mainWindow.addTool(new ModelSummaryTool);
 	mainWindow.addTool(new ModelFileGenerator);
 	mainWindow.addTool(new SimulationEventsTool);	
-	mainWindow.addTool(new CompartmentTool);	
+	mainWindow.addTool(new ContainerTool);	
 	mainWindow.addTool(new OctaveExporter);
 	mainWindow.addTool(new SBMLImportExport);
 	mainWindow.addTool(new CopasiExporter);

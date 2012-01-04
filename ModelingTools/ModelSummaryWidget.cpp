@@ -17,7 +17,6 @@
 #include "TextGraphicsItem.h"
 #include "CollisionDetection.h"
 #include "ModelSummaryWidget.h"
-#include "GlobalSettings.h"
 #include <QtDebug>
 
 namespace Tinkercell
@@ -72,9 +71,6 @@ namespace Tinkercell
 
 			setWindowTitle(tr("Model summary"));
 			setWindowIcon(QIcon(tr(":/images/monitor.png")));
-
-			if (GlobalSettings::PROGRAM_MODE.isEmpty())
-				mainWindow->addToolWindow(this, MainWindow::defaultToolWindowOption, Qt::RightDockWidgetArea);
 
             return true;
         }

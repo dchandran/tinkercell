@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE NodeGraphicsItem>
+<listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
+    <renderInformation id="TinkerCell_Style" programName="TinkerCell">
+        <listOfColorDefinitions>
+            <colorDefinition id="shape0color" value="#e6ff00" alpha="84"/>
+        </listOfColorDefinitions>
+        <listOfStyles>
+            <style idList="blob" width="1000" height="1000">
+                <g>
+                    <polygon fill="shape0color" stroke="#00aa00" stroke-width="3" stroke-alpha="1">
+                        <listOfCurveSegments>
+                            <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="14.8342%" y="56.0706%"/>
+                                <basePoint1 x="24.7818%" y="32.2296%"/>
+                                <basePoint2 x="12.9145%" y="0%"/>
+                                <end x="42.2339%" y="7.94702%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="42.2339%" y="7.94702%"/>
+                                <basePoint1 x="84.2932%" y="13.245%"/>
+                                <basePoint2 x="100%" y="38.1898%"/>
+                                <end x="76.9634%" y="67.9912%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="76.9634%" y="67.9912%"/>
+                                <basePoint1 x="56.719%" y="100%"/>
+                                <basePoint2 x="0%" y="81.0155%"/>
+                                <end x="14.8342%" y="56.0706%"/>
+                            </curveSegment>
+                        </listOfCurveSegments>
+                    </polygon>
+                </g>
+            </style>
+        </listOfStyles>
+    </renderInformation>
+</listOfRenderInformation>

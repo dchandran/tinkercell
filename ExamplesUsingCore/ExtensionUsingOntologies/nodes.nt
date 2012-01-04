@@ -1,0 +1,18 @@
+<animal>        <a>      <thing>.
+<vertebrate>   <a>    <animal>.
+<invertebrate>   <a>    <animal>.
+<vertebrate>    <description>     "Animals with a backbone"@en.
+<mammal>   <a>   <vertebrate>.
+<mammal>    <limbs>    "4".
+<reptile>     <a>   <vertebrate>.
+<bird>        <a>   <reptile>.
+<bird>    <limbs>    "2".
+<bird>    <description>     "Animals with feathers and wings"@en.
+<arthropod>   <a>    <invertebrate>.
+<invertebrate>    <description>     "Animals without a backbone"@en.
+<insect>   <a>    <arthropod>.
+<insect>   <limbs>     "6". 
+<soil>       <a>         <thing>.
+<container>    <a>       <thing>.
+<forest>           <a>       <container>.
+

@@ -803,7 +803,9 @@ namespace Tinkercell
 			connectionsTree = static_cast<ConnectionsTree*>(tool);
 		}
 		
-		if (connectionsTree)
+		if (connectionsTree && 
+				(QFile::exists(home + tr("/Modules/modules.nt")) || QFile::exists(appDir + tr("/Modules/modules.nt")))
+			)
 		{
 			ConnectionFamily * moduleFamily = connectionsTree->getFamily(tr("Module"));
 			if (!moduleFamily)
@@ -812,8 +814,7 @@ namespace Tinkercell
 				moduleFamily->pixmap = QPixmap(tr(":/images/module.png"));
 				moduleFamily->description = tr("Self-contained subsystem that can be used to build larger systems");
 				moduleFamily->textAttributes[tr("Functional description")] = tr("");
-				moduleFamily->graphicsItems << new ArrowHeadItem(appDir + tr("/Graphics/") + NodesTree::themeDirectory + tr("/Arrows/default.xml"))
-				 											    << new ArrowHeadItem(moduleFileName);
+				moduleFamily->graphicsItems << new ArrowHeadItem(moduleFileName);
 				connectionsTree->insertFamily(moduleFamily,0);
 
 				if (QFile::exists(home + tr("/Modules/modules.nt")))
@@ -865,7 +866,7 @@ namespace Tinkercell
 			}
 		}
 
-		if (mainWindow->tool(tr("Parts and Connections Catalog")) && !connected1)
+		if (mainWindow->tool(tr("Parts and Connections Catalog")) && !connected1 && connectionsTree && connectionsTree->getFamily(tr("Module")))
 		{
 			Tool * tool = static_cast<Tool*>(mainWindow->tool(tr("Parts and Connections Catalog")));
 			catalogWidget = static_cast<CatalogWidget*>(tool);

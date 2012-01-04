@@ -5,9 +5,9 @@ TinkerCell
 
 This extension programs uses several extensions in the 
 BasicTools folder
-
 ****************************************************************************/
 
+#include "Ontology.h"
 #include "GlobalSettings.h"
 #include "PythonTool.h"
 #include "OctaveTool.h"
@@ -56,8 +56,8 @@ int main(int argc, char *argv[])
 	GlobalSettings::ENABLE_LOADSAVE_TOOL = true;
     
     GlobalSettings::PROJECTWEBSITE = "http://www.tinkercell.com";
-    GlobalSettings::ORGANIZATIONNAME = "TinkerCell";
-    GlobalSettings::PROJECTNAME = "TinkerCell";
+    GlobalSettings::ORGANIZATIONNAME = "MyOrganization";
+    GlobalSettings::PROJECTNAME = "MyProgram";
     //GlobalSettings::PLUGINS_SVN_URL = "https://tinkercellextra.svn.sourceforge.net/svnroot/tinkercellextra"; //for updating
    	GlobalSettings::SETTINGS_FILE_NAME = "settings.ini"; //for distributing TinkerCell in USB drive with the settings
 	
@@ -69,13 +69,13 @@ int main(int argc, char *argv[])
 	//GraphicsScene::SelectionRectangleBrush = QBrush(color);
 
     QString appDir = QCoreApplication::applicationDirPath();	
-    //QFile styleFile(appDir + QString("/tinkercell.qss");
+    QFile styleFile(appDir + QString("/tinkercell.qss"));
 
-    //if (styleFile.open(QFile::ReadOnly | QFile::Text))
-    //{
-    //    app.setStyleSheet(styleFile.readAll());
-    //    styleFile.close();
-    //}
+    if (styleFile.open(QFile::ReadOnly | QFile::Text))
+    {
+        app.setStyleSheet(styleFile.readAll());
+        styleFile.close();
+    }
     
     /*******  Main Window ***********/
     
@@ -96,16 +96,25 @@ int main(int argc, char *argv[])
 													QStringList() << "ungulates" )
 					<< QPair<QString, QStringList>(
 													"Arthropods",
-													QStringList() << "insert" )
+													QStringList() << "insect" )
                    << QPair<QString, QStringList>(
 													"Birth",
 													QStringList())
 					<< QPair<QString, QStringList>(
 													"Death",
-													QStringList());
+													QStringList())
+					<< QPair<QString, QStringList>(
+													"Containers",
+													QStringList() << "forest" );
 
+	Ontology::GLOBAL_CHILDREN += "empty set";  //the empty set belongs to all classes
+	NodesTree::themeDirectory = "theme1"; //this is the name of a folder inside the Graphics folder
+ 
 	/****  load extensions  ******/
-   	mainWindow.addTool(new CatalogWidget);
+	QString nodesFile = appDir + QString("/nodes.nt");
+	QString connectionsFile = appDir + QString("/connections.nt");
+
+   	mainWindow.addTool(new CatalogWidget(nodesFile, connectionsFile));
 	mainWindow.addTool(new CollisionDetection);
 	mainWindow.addTool(new ConnectionInsertion);
 	mainWindow.addTool(new NodeInsertion);
@@ -114,7 +123,6 @@ int main(int argc, char *argv[])
 	mainWindow.addTool(new GraphicsReplaceTool);
 	mainWindow.addTool(new GraphicsTransformTool);
 	mainWindow.addTool(new GroupHandlerTool);
-	mainWindow.addTool(new NameFamilyDialog);
 	mainWindow.addTool(new ConnectionMaker);
 	mainWindow.addTool(new ContainerTool);	
 	mainWindow.addTool(new ModuleTool);

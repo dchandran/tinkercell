@@ -768,6 +768,8 @@ namespace Tinkercell
 				QPointF p, p2 = cp1->scenePos();
 				if (node)
 				{
+					if (lastPoint->isVisible())
+						lastPoint->setVisible(false);
 					p = pointOnEdge(*node, cp1->scenePos(), arrowHeadDistance,lineType == line);
 					lastPoint->setPos( node->mapFromScene(p) );
 				}

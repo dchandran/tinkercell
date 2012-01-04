@@ -47,8 +47,7 @@ namespace Tinkercell
 		QString homeDir = GlobalSettings::homeDir();
 		QSettings * settings = MainWindow::getSettings();
         settings->beginGroup("ConnectionsTree");
-        NodesTree::themeDirectory = settings->value("theme",tr("Bio1")).toString();
-
+        
 		QStringList keys;
 		if (filename.isEmpty())
 			keys = Ontology::readConnections(appDir + tr("/ConnectionsTree.nt"),"ntriples");

@@ -1,0 +1,13 @@
+<source>         <a>             <participant>.
+<parent>         <a>             <source>.
+<sink>             <a>             <participant>.
+<birth>           <a>             <process>.
+<death>          <a>             <process>.
+<birth>           <participant>       "animal, source"@en.
+<birth>           <participant>       "animal, sink"@en.
+<death>           <participant>       "animal, source"@en.
+<death>           <participant>       "soil, sink"@en.
+<lay egg>         <a>                    <birth>.
+<lay egg>           <participant>       "bird, parent"@en.
+<lay egg>           <participant>       "bird, sink"@en.
+

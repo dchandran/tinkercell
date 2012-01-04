@@ -788,8 +788,6 @@ namespace Tinkercell
 	
 	void CatalogWidget::setUpTabView()
 	{
-		tabGroups.clear();
-
 		tabWidget = new QTabWidget;
 		tabWidget->setWindowTitle(tr("Parts and Connections"));
 

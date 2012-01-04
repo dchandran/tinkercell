@@ -47,7 +47,7 @@ namespace Tinkercell
 		QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
 		settings.beginGroup("NodesTree");
 
-		themeDirectory = settings.value("theme",tr("Bio1")).toString();
+		themeDirectory = settings.value("theme",themeDirectory).toString();
 		QStringList nodeSettings = settings.value("nodeFiles",QStringList()).toStringList();
 		QHash<QString,bool> expandedNodes;
 

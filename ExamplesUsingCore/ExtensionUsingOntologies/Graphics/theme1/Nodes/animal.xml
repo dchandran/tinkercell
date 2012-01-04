@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE NodeGraphicsItem>
+<listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
+    <renderInformation id="TinkerCell_Style" programName="TinkerCell">
+        <listOfGradientDefinitions>
+            <radialGradient id="shape0color" x1="22.093%" y1="26.9294%" x2="56.2016%" y2="75.1141%">
+                <stop offset="0%" stop-color="#3892ff" stop-alpha="1"/>
+                <stop offset="100%" stop-color="#4848b9" stop-alpha="1"/>
+            </radialGradient>
+        </listOfGradientDefinitions>
+        <listOfStyles>
+            <style idList="pacman" width="50" height="50">
+                <g>
+                    <polygon fill="shape0color" stroke="#646464" stroke-width="0" stroke-alpha="1">
+                        <listOfCurveSegments>
+                            <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="0%" y="42.8571%"/>
+                                <basePoint1 x="10.0775%" y="0%"/>
+                                <basePoint2 x="53.1008%" y="27.1137%"/>
+                                <end x="94.5736%" y="30.6122%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="94.5736%" y="30.6122%"/>
+                                <end x="66.2791%" y="50.1458%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="66.2791%" y="50.1458%"/>
+                                <end x="100%" y="63.5569%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="100%" y="63.5569%"/>
+                                <basePoint1 x="34.4961%" y="100%"/>
+                                <basePoint2 x="0.387597%" y="71.137%"/>
+                                <end x="0%" y="42.8571%"/>
+                            </curveSegment>
+                        </listOfCurveSegments>
+                    </polygon>
+                </g>
+            </style>
+        </listOfStyles>
+    </renderInformation>
+</listOfRenderInformation>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE NodeGraphicsItem>
+<listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
+    <renderInformation id="TinkerCell_Style" programName="TinkerCell">
+        <listOfGradientDefinitions>
+            <linearGradient id="shape0color" x1="15.4656%" y1="-1.68514%" x2="15.4656%" y2="-1.68514%">
+                <stop offset="0%" stop-color="#ff8a3c" stop-alpha="1"/>
+                <stop offset="100%" stop-color="#6464ff" stop-alpha="1"/>
+            </linearGradient>
+            <linearGradient id="shape1color" x1="0.454545%" y1="45.9854%" x2="0.454545%" y2="45.9854%">
+                <stop offset="0%" stop-color="#c3321f" stop-alpha="1"/>
+                <stop offset="100%" stop-color="#6464ff" stop-alpha="1"/>
+            </linearGradient>
+        </listOfGradientDefinitions>
+        <listOfStyles>
+            <style idList="orange arc" width="20" height="20">
+                <g>
+                    <polygon fill="shape0color" stroke="#ff8a3c" stroke-width="8" stroke-alpha="1">
+                        <listOfCurveSegments>
+                            <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="0%" y="0%"/>
+                                <basePoint1 x="100%" y="19.708%"/>
+                                <basePoint2 x="100%" y="80.292%"/>
+                                <end x="0%" y="100%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="0%" y="100%"/>
+                                <basePoint1 x="82.7273%" y="80.292%"/>
+                                <basePoint2 x="82.7273%" y="19.708%"/>
+                                <end x="0%" y="0%"/>
+                            </curveSegment>
+                        </listOfCurveSegments>
+                    </polygon>
+                    <ellipse cx="26.1364%" cy="49.635%" rx="7.95455%" ry="12.4088%" angleStart="0" angleEnd="360" fill="shape1color" stroke="#646464" stroke-width="0" stroke-alpha="1"/>
+                </g>
+            </style>
+        </listOfStyles>
+    </renderInformation>
+</listOfRenderInformation>

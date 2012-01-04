@@ -71,6 +71,8 @@ namespace Tinkercell
 
 			setWindowTitle(tr("Model summary"));
 			setWindowIcon(QIcon(tr(":/images/monitor.png")));
+			
+			mainWindow->addToolWindow(this, MainWindow::defaultToolWindowOption, Qt::RightDockWidgetArea);
 
             return true;
         }

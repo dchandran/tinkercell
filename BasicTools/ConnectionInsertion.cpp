@@ -251,15 +251,18 @@ namespace Tinkercell
 		NodeHandle * nodeHandle = 0;
 		if (mainWindow->isValidHandlePointer(item) && list)
 		{
+			QList<ItemHandle*> & lst = (*list);
 			if (connectionHandle = ConnectionHandle::cast(item))
 			{
 				QList<NodeHandle*> nodes = connectionHandle->nodes(role);
+				for (int i=0; i < nodes.size(); ++i)
+					if (nodes[i] && !lst.contains(nodes[i]))
+						lst += nodes[i];
 			}	
 			else
 			if (nodeHandle = NodeHandle::cast(item))
 			{
 				QList<ConnectionHandle*> connections = nodeHandle->connections();
-				QList<ItemHandle*> & lst = (*list);
 				for (int j=0; j < connections.size(); ++j)
 					if (connections[j])
 					{

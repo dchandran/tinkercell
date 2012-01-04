@@ -1,4 +1,14 @@
-<Module>			<a>			<Process> .
+<Input>             <a>            <Participant>.
+<Input1>             <a>            <Input>.
+<Input2>             <a>            <Input>.
+<Input3>             <a>            <Input>.
+<Input4>             <a>            <Input>.
+<Output>             <a>            <Participant>.
+<Output1>           <a>           <Output>.
+<Output2>           <a>           <Output>.
+<Output3>           <a>           <Output>.
+<Output4>           <a>           <Output>.
+<Module>			<a>			<Biological process> .
 
 <Induced Transcription Activation>		<a>		<Activation> .
 <Induced Transcription Activation>	<description>	"Transcription regulation where a small molecule regulates the transcription factor"@en.

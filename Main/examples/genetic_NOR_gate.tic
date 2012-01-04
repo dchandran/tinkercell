@@ -36,7 +36,7 @@
         <Handle type="2" name="tr1" parent="" family="transcription repression">
             <tc_matrix>
                 <Table key="product stoichiometries" rows="0" cols="0" rowNames="" columnNames="" desc="Number of each product participating in this reaction" values=""/>
-                <Table key="parameters" rows="3" cols="3" rowNames="Kd;;h;;k0" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1;;0.0001;;10;;2;;1;;8;;0.1;;0;;0"/>
+                <Table key="parameters" rows="3" cols="3" rowNames="Kd;;h;;k0" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1.738;;0.0001;;10;;4;;1;;8;;0.1;;0;;0"/>
                 <Table key="reactant stoichiometries" rows="0" cols="0" rowNames="" columnNames="" desc="Number of each reactant participating in this reaction" values=""/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
@@ -53,7 +53,7 @@
         <Handle type="2" name="tr2" parent="" family="transcription repression">
             <tc_matrix>
                 <Table key="product stoichiometries" rows="0" cols="0" rowNames="" columnNames="" desc="Number of each product participating in this reaction" values=""/>
-                <Table key="parameters" rows="3" cols="3" rowNames="Kd;;h;;k0" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1;;0.0001;;10;;2;;1;;8;;0.1;;0;;0"/>
+                <Table key="parameters" rows="3" cols="3" rowNames="Kd;;h;;k0" columnNames="value;;min;;max" desc="Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds." values="1.612;;0.0001;;10;;4;;1;;8;;0.1;;0;;0"/>
                 <Table key="reactant stoichiometries" rows="0" cols="0" rowNames="" columnNames="" desc="Number of each reactant participating in this reaction" values=""/>
                 <Table key="fixed" rows="1" cols="1" rowNames="fix" columnNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </tc_matrix>
@@ -2466,7 +2466,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="5706.26" y="6013.75" angle="-86.5347"/>
-                            <transform m11="0.0241773" m12="-0.399269" m21="0.299451" m22="0.018133"/>
+                            <transform m11="0.024177" m12="-0.399269" m21="0.299451" m22="0.0181328"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfColorDefinitions>
@@ -2637,7 +2637,7 @@
         <TextItem text="GFP" scene="1" handle="GFP" x="5911.78" y="6009.18" color="#171717" m11="1" m12="0" m21="0" m22="1" z="16" font="Sans" size="22" bold="0" italics="0" underline="0" group="pp1"/>
         <TextItem text="cod1" scene="1" handle="vec1.cod1" x="5638.23" y="6260.13" color="#171717" m11="1" m12="0" m21="0" m22="1" z="14" font="Sans" size="22" bold="0" italics="0" underline="0" group="pp1"/>
         <TextItem text="v2" scene="1" handle="pp1.v2" x="6173.22" y="5981.32" color="#171717" m11="1" m12="0" m21="0" m22="1" z="12" font="Sans" size="22" bold="0" italics="0" underline="0" group="pp1"/>
-        <TextItem text="v1" scene="1" handle="pp1.v1" x="5729.15" y="5983.95" color="#171717" m11="1" m12="0" m21="0" m22="1" z="9" font="Sans" size="22" bold="0" italics="0" underline="0" group="pp1"/>
+        <TextItem text="v1" scene="1" handle="pp1.v1" x="5719.91" y="5984.84" color="#171717" m11="1" m12="0" m21="0" m22="1" z="9" font="Sans" size="22" bold="0" italics="0" underline="0" group="pp1"/>
         <TextItem text="rs2" scene="2" handle="vec1.rs2" x="5650.64" y="4758.79" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="8" font="Sans" size="22" bold="0" italics="0" underline="0" group="tr2"/>
         <TextItem text="tf2" scene="2" handle="tf2" x="5119.48" y="4922.03" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="6" font="Sans" size="22" bold="0" italics="0" underline="0" group="tr2"/>
         <TextItem text="rep1" scene="2" handle="tr2.rep1" x="5385.27" y="4739.64" color="#3a3935" m11="1" m12="0" m21="0" m22="1" z="4" font="Sans" size="22" bold="0" italics="0" underline="0" group="tr2"/>

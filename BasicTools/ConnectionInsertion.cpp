@@ -734,6 +734,7 @@ namespace Tinkercell
 						if (pickFamily(false,true))
 						{
 							insertList = autoInsertNodes(scene,point);
+							
 							for (int i=0; i < insertList.size(); ++i)
 								if (node = NodeGraphicsItem::cast(insertList[i]))
 								{
@@ -744,6 +745,7 @@ namespace Tinkercell
 
 				QString appDir = QCoreApplication::applicationDirPath();
 				bool valid = pickFamily(true,true);
+
 				//check if enough items have been selected to make the connection
 				if (selectedNodes.size() > 0 && 
 					selectedNodes.size() >= (numRequiredIn + numRequiredOut) && 

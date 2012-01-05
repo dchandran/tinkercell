@@ -11,7 +11,7 @@ Attributes are essentially <name,value> pairs (!itemHandles[i]->name.isEmpty())
 							else
 								headers << QString();rs that are used to characterize an item.
 
-The BasicInformationTool contains two tools, one for text attributes and one
+The ParametersTool contains two tools, one for text attributes and one
 for parameters. The buttons are drawn as NodeGraphicsItems using the datasheet.xml and
 textsheet.xml files that define the NodeGraphicsItems.
 
@@ -29,17 +29,16 @@ textsheet.xml files that define the NodeGraphicsItems.
 #include "NodeGraphicsReader.h"
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
-#include "ModelSummaryTool.h"
-#include "BasicInformationTool.h"
-#include "StoichiometryTool.h"
+#include "ParametersTool.h"
 #include "NodesTree.h"
 #include "GlobalSettings.h"
 
 namespace Tinkercell
 {	
-	QHash<QString,double> BasicInformationTool::initialValues;
+	QHash<QString,double> ParametersTool::initialValues;
+	bool ParametersTool::EnforceDefaultParameters=false;
 
-	void BasicInformationTool::select(int)
+	void ParametersTool::select(int)
 	{
 		GraphicsScene * scene = currentScene();
 		if (!scene) return;
@@ -78,7 +77,7 @@ namespace Tinkercell
 		this->setFocus();
 	}
 
-	void BasicInformationTool::deselect(int)
+	void ParametersTool::deselect(int)
 	{
 		/*if (openedByUser && (!dockWidget || dockWidget->isFloating()))
 		{
@@ -91,14 +90,14 @@ namespace Tinkercell
 		}*/
 	}
 
-	void BasicInformationTool::loadInitialValues()
+	void ParametersTool::loadInitialValues()
 	{
 		Tool * tool = mainWindow->tool(tr("Nodes Tree"));
 		
 		if (!tool) return;
 		
 		QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
-		settings.beginGroup("BasicInformationTool");
+		settings.beginGroup("ParametersTool");
 		
 		NodesTree * nodesTree = static_cast<NodesTree*>(tool);
 
@@ -133,7 +132,7 @@ namespace Tinkercell
 		settings.endGroup();
 	}
 
-	bool BasicInformationTool::setMainWindow(MainWindow * main)
+	bool ParametersTool::setMainWindow(MainWindow * main)
 	{
 		QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
 
@@ -183,13 +182,13 @@ namespace Tinkercell
 
 				if (type == both || type == numerical)
 				{
-					settings.beginGroup("BasicInformationTool");
+					settings.beginGroup("ParametersTool");
 					//dockWidget->resize(settings.value("size", sizeHint()).toSize());
 					//dockWidget->move(settings.value("pos", dockWidget->pos()).toPoint());
 				}
 				else
 				{
-					settings.beginGroup("BasicInformationToolText");
+					settings.beginGroup("ParametersToolText");
 					//dockWidget->resize(settings.value("size", sizeHint()).toSize());
 					//dockWidget->move(settings.value("pos", dockWidget->pos()).toPoint());
 				}
@@ -204,15 +203,14 @@ namespace Tinkercell
 		return (mainWindow != 0);
 	}
 
-	void BasicInformationTool::pluginLoaded(Tool*)
+	void ParametersTool::pluginLoaded(Tool*)
 	{
 		static bool connected = false;
 		if (connected) return;
 
 		if (!connected && type != text && mainWindow && mainWindow->tool(tr("Model Summary")))
 		{
-			QWidget * widget = mainWindow->tool(tr("Model Summary"));
-			ModelSummaryTool * modelSummary = static_cast<ModelSummaryTool*>(widget);
+			QWidget * modelSummary = mainWindow->tool(tr("Model Summary"));
 
 			connect(modelSummary,SIGNAL(displayModel(QTabWidget&, const QList<ItemHandle*>&, QHash<QString,qreal>&, QHash<QString,QString>&)),
 				this,SLOT(displayModel(QTabWidget&, const QList<ItemHandle*>&, QHash<QString,qreal>&, QHash<QString,QString>&)));
@@ -220,7 +218,7 @@ namespace Tinkercell
 		}
 	}
 
-	void BasicInformationTool::windowClosing(NetworkHandle * , bool *)
+	void ParametersTool::windowClosing(NetworkHandle * , bool *)
 	{
 		QSettings settings(GlobalSettings::ORGANIZATIONNAME, GlobalSettings::ORGANIZATIONNAME);
 
@@ -228,11 +226,11 @@ namespace Tinkercell
 		{
 			if (type == text)
 			{
-				settings.beginGroup("BasicInformationToolText");
+				settings.beginGroup("ParametersToolText");
 			}
 			else
 			{
-				settings.beginGroup("BasicInformationTool");
+				settings.beginGroup("ParametersTool");
 			}
 			//settings.setValue("floating", dockWidget && dockWidget->isFloating());
 			settings.setValue("size", dockWidget->size());
@@ -251,11 +249,11 @@ namespace Tinkercell
 		}
 	}
 
-	void BasicInformationTool::aboutToDisplayModel(const QList<ItemHandle*>& , QHash<QString,qreal>& , QHash<QString,QString>& )
+	void ParametersTool::aboutToDisplayModel(const QList<ItemHandle*>& , QHash<QString,qreal>& , QHash<QString,QString>& )
 	{
 	}
 
-	void BasicInformationTool::displayModel(QTabWidget& widgets, const QList<ItemHandle*>& items, QHash<QString,qreal>& constants, QHash<QString,QString>& equationsList)
+	void ParametersTool::displayModel(QTabWidget& widgets, const QList<ItemHandle*>& items, QHash<QString,qreal>& constants, QHash<QString,QString>& equationsList)
 	{
 		if (type == text) return;
 
@@ -345,7 +343,7 @@ namespace Tinkercell
 				dockWidget->setWidget(this);
 	}
 
-	void BasicInformationTool::historyUpdate(int i)
+	void ParametersTool::historyUpdate(int i)
 	{
 		if (parentWidget() && parentWidget()->isVisible())
 			updateTable();
@@ -354,7 +352,7 @@ namespace Tinkercell
 			mainWindow->statusBar()->showMessage(win->history.text(i-1));
 	}
 
-	void BasicInformationTool::itemsInserted(NetworkHandle * , const QList<ItemHandle*>& handles)
+	void ParametersTool::itemsInserted(NetworkHandle * , const QList<ItemHandle*>& handles)
 	{
 		for (int i=0; i < handles.size(); ++i)
 		{
@@ -370,7 +368,7 @@ namespace Tinkercell
 		}
 	}
 
-	void BasicInformationTool::itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& list, QPointF , Qt::KeyboardModifiers )
+	void ParametersTool::itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& list, QPointF , Qt::KeyboardModifiers )
 	{
 		if (scene && (parentWidget() && parentWidget() != mainWindow && parentWidget()->isVisible()))
 		{
@@ -393,7 +391,7 @@ namespace Tinkercell
 		}
 	}
 
-	void BasicInformationTool::setValue(int row,int col)
+	void ParametersTool::setValue(int row,int col)
 	{
 		static bool recursive = false;
 
@@ -516,25 +514,25 @@ namespace Tinkercell
 		}
 	}
 
-	BasicInformationTool::BasicInformationTool(const QString& typ) : Tool(tr("Attributes"),tr("Modeling")), delegate(QStringList())
+	ParametersTool::ParametersTool(const QString& typ) : Tool(tr("Attributes"),tr("Modeling")), delegate(QStringList())
 	{
 		QString appDir = QCoreApplication::applicationDirPath();
 		delegate.textColumn = 0;
 		if (typ == tr("both"))
 		{
-			type = BasicInformationTool::both;
+			type = ParametersTool::both;
 			groupBox = new QGroupBox(tr(" Attributes "),this);
 		}
 		else
 			if (typ == tr("text"))
 			{
-				type = BasicInformationTool::text;
+				type = ParametersTool::text;
 				name = tr("Text Attributes");
 				groupBox = new QGroupBox(tr(" Strings "),this);
 			}
 			else
 			{
-				type = BasicInformationTool::numerical;
+				type = ParametersTool::numerical;
 				name = tr("Parameters");
 				groupBox = new QGroupBox(tr(" Constants "),this);
 			}
@@ -543,14 +541,14 @@ namespace Tinkercell
 			ToolGraphicsItem * toolGraphicsItem = new ToolGraphicsItem(this);
 			addGraphicsItem(toolGraphicsItem);
 			
-			if (type == BasicInformationTool::both)
+			if (type == ParametersTool::both)
 			{
 				reader.readXml(&item,tr(":/images/textsheet.xml"));
 				item.setToolTip(tr("Attributes"));
 				toolGraphicsItem->setToolTip(tr("Attributes"));
 			}
 			else
-				if (type == BasicInformationTool::numerical)
+				if (type == ParametersTool::numerical)
 				{
 					reader.readXml(&item,tr(":/images/datasheet.xml"));
 					item.setToolTip(tr("Parameters"));
@@ -587,7 +585,7 @@ namespace Tinkercell
 			closeButton = new QPushButton("Done", this);
 			
 			QString message;
-			if (type == BasicInformationTool::numerical)
+			if (type == ParametersTool::numerical)
 			{
 				addAttribAction->setToolTip(tr("Add constant"));
 				removeAttribAction->setToolTip(tr("Remove constant"));
@@ -597,7 +595,7 @@ namespace Tinkercell
 				message = tr("This table shows the set of parameters belonging with the selected objects. Parameters can be used inside rate equations or other equations. For example, if the name of the parameter is k0 and it belongs with an object name J0, then you can use J0.k0 inside questions in order to address this value. You may change the name or value of the parameter using this table. Changing the name will automatically update all the equations where it is used.");
 			}
 			else
-				if (type == BasicInformationTool::text)
+				if (type == ParametersTool::text)
 				{
 					addAttribAction->setToolTip(tr("Add string"));
 					removeAttribAction->setToolTip(tr("Remove string"));
@@ -642,19 +640,19 @@ namespace Tinkercell
 		connectTCFunctions();
 	}
 
-	QSize BasicInformationTool::sizeHint() const
+	QSize ParametersTool::sizeHint() const
 	{
 		return QSize(300, 200);
 	}
 
 
-	void BasicInformationTool::insertDataMatrix(ItemHandle * handle)
+	void ParametersTool::insertDataMatrix(ItemHandle * handle)
 	{
 		if (handle == 0 || handle->family() == 0) return;
 
 		QStringList columnNames;
 		
-		if (type == BasicInformationTool::text)
+		if (type == ParametersTool::text)
 			columnNames << "value";
 		else
 			columnNames << "value" << "min" << "max";
@@ -681,22 +679,12 @@ namespace Tinkercell
 			handle->numericalDataTable(QString("Initial Value")) = table;
 		}
 
-		if (!handle->hasNumericalData(QString("Fixed")))
-		{
-			DataTable<qreal> fixed;
-			fixed.resize(1,1);
-
-			fixed.setRowName(0, QString("fix"));
-			fixed.setColumnName(0,QString("value"));
-			fixed.value(0,0) = 0.0;
-			fixed.description() = tr("Fixed: stores 1 if this is a fixed variable, 0 otherwise");
-
-			handle->numericalDataTable(QString("Fixed")) = fixed;
-		}
-
 		if ((type == both || type == numerical) && !(handle->hasNumericalData(name)))
 		{
-			QStringList nKeys;// = family->numericalAttributes.keys();
+			QStringList nKeys;
+			if (ParametersTool::EnforceDefaultParameters)
+				nKeys = family->numericalAttributes.keys();
+				
 			DataTable<qreal> numericalAttributes;
 			numericalAttributes.resize(nKeys.size(),3);
 			numericalAttributes.description() = tr("Parameters: an Nx3 table storing all the real attributes for this item. Row names are the attribute names. First column holds the values. Second and third columns hold the upper and lower bounds.");
@@ -716,6 +704,9 @@ namespace Tinkercell
 		if ((type == both || type == text) && !(handle->hasTextData(name)))
 		{
 			QList<QString> sKeys = family->textAttributes.keys();
+			//if (ParametersTool::EnforceDefaultParameters)
+				//sKeys = family->textAttributes.keys();
+
 			DataTable<QString> textAttributes;
 			textAttributes.description() = tr("Text Attributes: an Nx1 table storing all the string attributes for this item. Row names are the attribute names, and first column holds the values.");
 			textAttributes.resize(sKeys.size(),1);
@@ -731,7 +722,7 @@ namespace Tinkercell
 		}
 	}
 
-	void BasicInformationTool::updateTable()
+	void ParametersTool::updateTable()
 	{
 		tableItems.clear();
 		tableWidget.clear();
@@ -822,7 +813,7 @@ namespace Tinkercell
 		connect(&tableWidget,SIGNAL(cellChanged(int,int)),this,SLOT(setValue(int,int)));
 	}
 
-	void BasicInformationTool::addAttribute()
+	void ParametersTool::addAttribute()
 	{
 		NetworkHandle * win = currentNetwork();
 		GraphicsScene * scene = currentScene();
@@ -936,7 +927,7 @@ namespace Tinkercell
 		connect(mainWindow,SIGNAL(historyChanged(int)),this,SLOT(historyUpdate(int)));
 	}
 
-	void BasicInformationTool::removeSelectedAttributes()
+	void ParametersTool::removeSelectedAttributes()
 	{
 		QList<QTableWidgetItem*> selectedItems = tableWidget.selectedItems();
 		NetworkHandle * win = currentNetwork();
@@ -1035,12 +1026,12 @@ namespace Tinkercell
 			delete sDats[i];
 	}
 
-	typedef void (*tc_BasicInformationTool_Text_api)(
+	typedef void (*tc_ParametersTool_Text_api)(
 		char* (*getTextData)(long ,const char* ),
 		tc_strings (*getAllTextDataNamed)(tc_items, tc_strings),
 		void (*setTextData)(long ,const char* ,const char* ));
 
-	typedef void (*tc_BasicInformationTool_Numeric_api)(
+	typedef void (*tc_ParametersTool_Numeric_api)(
 		tc_matrix (*getInitialValues)(tc_items ),
 		void (*setInitialValues)(tc_items,tc_matrix),
 		tc_matrix (*getParameters)(tc_items ),
@@ -1051,14 +1042,14 @@ namespace Tinkercell
 		tc_matrix (*getParametersExcept)(tc_items, tc_strings),
 		void (*setNumericalData)(long ,const char* ,double ));
 
-	void BasicInformationTool::setupFunctionPointers( QLibrary * library )
+	void ParametersTool::setupFunctionPointers( QLibrary * library )
 	{
 		if (type == both || type == numerical)
 		{
-			tc_BasicInformationTool_Numeric_api f = (tc_BasicInformationTool_Numeric_api)library->resolve("tc_BasicInformationTool_Numeric_api");
+			tc_ParametersTool_Numeric_api f = (tc_ParametersTool_Numeric_api)library->resolve("tc_ParametersTool_Numeric_api");
 			if (f)
 			{
-				//qDebug() << "tc_BasicInformationTool_Numeric_api resolved";
+				//qDebug() << "tc_ParametersTool_Numeric_api resolved";
 				f(
 					&(_getInitialValues),
 					&(_setInitialValues),
@@ -1074,10 +1065,10 @@ namespace Tinkercell
 		}
 		if (type == both || type == text)
 		{
-			tc_BasicInformationTool_Text_api f = (tc_BasicInformationTool_Text_api)library->resolve("tc_BasicInformationTool_Text_api");
+			tc_ParametersTool_Text_api f = (tc_ParametersTool_Text_api)library->resolve("tc_ParametersTool_Text_api");
 			if (f)
 			{
-				//qDebug() << "tc_BasicInformationTool_Text_api resolved";
+				//qDebug() << "tc_ParametersTool_Text_api resolved";
 				f(
 					&(_getTextData),
 					&(_getAllTextDataNamed),
@@ -1088,7 +1079,7 @@ namespace Tinkercell
 		}
 	}
 
-	void BasicInformationTool::connectTCFunctions()
+	void ParametersTool::connectTCFunctions()
 	{
 		if (type == both || type == text)
 		{
@@ -1110,7 +1101,7 @@ namespace Tinkercell
 		}
 	}
 
-	DataTable<qreal> BasicInformationTool::getParameters(const QList<QGraphicsItem*>& items, const QStringList& mustHave, const QStringList& exclude, const QString& sep)
+	DataTable<qreal> ParametersTool::getParameters(const QList<QGraphicsItem*>& items, const QStringList& mustHave, const QStringList& exclude, const QString& sep)
 	{
 		QList<ItemHandle*> handles;
 
@@ -1126,7 +1117,7 @@ namespace Tinkercell
 		return getParameters(handles,mustHave,exclude,sep);
 	}
 
-	DataTable<qreal> BasicInformationTool::getParameters(const QList<ItemHandle*>& handles, const QStringList& mustHave, const QStringList& exclude, const QString& sep)
+	DataTable<qreal> ParametersTool::getParameters(const QList<ItemHandle*>& handles, const QStringList& mustHave, const QStringList& exclude, const QString& sep)
 	{
 		QStringList rownames;
         QList<qreal> values, minv, maxv;
@@ -1179,7 +1170,7 @@ namespace Tinkercell
         return combinedTable;
 	}
 
-	DataTable<QString> BasicInformationTool::getTextData(const QList<ItemHandle*>& handles, const QStringList& mustHave, const QStringList& exclude, const QString& sep)
+	DataTable<QString> ParametersTool::getTextData(const QList<ItemHandle*>& handles, const QStringList& mustHave, const QStringList& exclude, const QString& sep)
 	{
 		QStringList rownames;
 		QList<QString> values;
@@ -1232,7 +1223,7 @@ namespace Tinkercell
 		return combinedTable;
 	}
 
-	void BasicInformationTool::getInitialValues(QSemaphore* s,DataTable<qreal>* ptr,const QList<ItemHandle*>& handles)
+	void ParametersTool::getInitialValues(QSemaphore* s,DataTable<qreal>* ptr,const QList<ItemHandle*>& handles)
 	{
 		if (ptr)
 		{
@@ -1271,7 +1262,7 @@ namespace Tinkercell
 			s->release();
 	}
 
-	void BasicInformationTool::setInitialValues(QSemaphore* s,const QList<ItemHandle*>& handles,const DataTable<qreal>& dat)
+	void ParametersTool::setInitialValues(QSemaphore* s,const QList<ItemHandle*>& handles,const DataTable<qreal>& dat)
 	{
 		ItemHandle * handle = 0;
 		DataTable<qreal> * dataTable = 0;
@@ -1308,7 +1299,7 @@ namespace Tinkercell
 			s->release();
 	}
 
-	void BasicInformationTool::getFixedVars(QSemaphore* s,DataTable<qreal>* ptr,const QList<ItemHandle*>& handles)
+	void ParametersTool::getFixedVars(QSemaphore* s,DataTable<qreal>* ptr,const QList<ItemHandle*>& handles)
 	{
 		if (ptr)
 		{
@@ -1346,7 +1337,7 @@ namespace Tinkercell
 			s->release();
 	}
 
-	void BasicInformationTool::getFixedAndParameters(QSemaphore* s,DataTable<qreal>* ptr,const QList<ItemHandle*>& handles0)
+	void ParametersTool::getFixedAndParameters(QSemaphore* s,DataTable<qreal>* ptr,const QList<ItemHandle*>& handles0)
 	{
 		if (ptr)
 		{
@@ -1358,11 +1349,11 @@ namespace Tinkercell
 
 			int i,j;
 			QString replaceDot("_");
-			QStringList rates = StoichiometryTool::getRates(handles, replaceDot);
-			DataTable<qreal> params = BasicInformationTool::getParameters(handles,QStringList(), QStringList(), replaceDot);
-			params.insertColumn(1,tr("used"));
+			//QStringList rates = StoichiometryTool::getRates(handles, replaceDot);
+			//params.insertColumn(1,tr("used"));
+			DataTable<qreal> params = ParametersTool::getParameters(handles,QStringList(), QStringList(), replaceDot);
 
-			bool used = false;
+			/*bool used = false;
 			for (i=0; i < params.rows(); ++i)
 			{
 				used = false;
@@ -1378,12 +1369,12 @@ namespace Tinkercell
 					params.value(i,1) = 1.0;
 				else
 					params.value(i,1) = 0.0;
-			}
+			}*/
 
 			QRegExp regex(tr("\\.(?!\\d)"));
 			QString s1,s2;
 
-			for (i=0; i < handles.size(); ++i)
+			/*for (i=0; i < handles.size(); ++i)
 			{
 				if (!handles[i])
 					continue;
@@ -1446,13 +1437,13 @@ namespace Tinkercell
 									params.value(k,1) = 1.0;
 						}
 				}
-			}
+			}*/
 
-			int count = 0;
-			for (int i=0; i < params.rows(); ++i)
+			int count = params.rows();
+			/*for (int i=0; i < params.rows(); ++i)
 			{
 				if (params.value(i,1) > 0.0) ++count;
-			}
+			}*/
 
 			DataTable<qreal> params2;
 			params2.resize(count,1);
@@ -1503,7 +1494,7 @@ namespace Tinkercell
 			s->release();
 	}
 
-	void BasicInformationTool::getParameters(QSemaphore* s,DataTable<qreal>* ptr,const QList<ItemHandle*>& list)
+	void ParametersTool::getParameters(QSemaphore* s,DataTable<qreal>* ptr,const QList<ItemHandle*>& list)
 	{
 		if (ptr)
 		{
@@ -1522,7 +1513,7 @@ namespace Tinkercell
 			s->release();
 	}
 
-	void BasicInformationTool::getParametersNamed(QSemaphore* s,DataTable<qreal>* ptr,const QList<ItemHandle*>& list,const QStringList& text)
+	void ParametersTool::getParametersNamed(QSemaphore* s,DataTable<qreal>* ptr,const QList<ItemHandle*>& list,const QStringList& text)
 	{
 		if (ptr)
 		{
@@ -1541,7 +1532,7 @@ namespace Tinkercell
 			s->release();
 	}
 
-	void BasicInformationTool::getParametersExcept(QSemaphore* s,DataTable<qreal>* ptr,const QList<ItemHandle*>& list,const QStringList& text)
+	void ParametersTool::getParametersExcept(QSemaphore* s,DataTable<qreal>* ptr,const QList<ItemHandle*>& list,const QStringList& text)
 	{
 		if (ptr)
 		{
@@ -1560,7 +1551,7 @@ namespace Tinkercell
 			s->release();
 	}
 
-	void BasicInformationTool::getAllTextDataNamed(QSemaphore* s,QStringList* ptr,const QList<ItemHandle*>& list,const QStringList& text)
+	void ParametersTool::getAllTextDataNamed(QSemaphore* s,QStringList* ptr,const QList<ItemHandle*>& list,const QStringList& text)
 	{
 		if (ptr)
 		{
@@ -1584,7 +1575,7 @@ namespace Tinkercell
 			s->release();
 	}
 
-	void BasicInformationTool::getTextData(QSemaphore* s,QString* ptr,ItemHandle* handle,const QString& text)
+	void ParametersTool::getTextData(QSemaphore* s,QString* ptr,ItemHandle* handle,const QString& text)
 	{
 		if (ptr)
 		{
@@ -1606,7 +1597,7 @@ namespace Tinkercell
 		if (s)
 			s->release();
 	}
-	void BasicInformationTool::getNumericalData(QSemaphore* s,qreal* ptr,ItemHandle* handle,const QString& text)
+	void ParametersTool::getNumericalData(QSemaphore* s,qreal* ptr,ItemHandle* handle,const QString& text)
 	{
 		if (ptr)
 		{
@@ -1626,7 +1617,7 @@ namespace Tinkercell
 		if (s)
 			s->release();
 	}
-	void BasicInformationTool::setTextData(QSemaphore* s,ItemHandle* handle,const QString& text,const QString& value)
+	void ParametersTool::setTextData(QSemaphore* s,ItemHandle* handle,const QString& text,const QString& value)
 	{
 		if (handle)
 		{
@@ -1650,7 +1641,7 @@ namespace Tinkercell
 			s->release();
 	}
 
-	void BasicInformationTool::setNumericalData(QSemaphore* s,ItemHandle* handle,const QString& text,qreal value)
+	void ParametersTool::setNumericalData(QSemaphore* s,ItemHandle* handle,const QString& text,qreal value)
 	{
 		if (handle)
 		{
@@ -1676,69 +1667,69 @@ namespace Tinkercell
 
 	/********************************************************/
 
-	BasicInformationTool_FToS BasicInformationTool::fToS;
+	ParametersTool_FToS ParametersTool::fToS;
 
-	tc_matrix BasicInformationTool::_getParameters(tc_items A)
+	tc_matrix ParametersTool::_getParameters(tc_items A)
 	{
 		return fToS.getParameters(A);
 	}
 
-	tc_matrix BasicInformationTool::_getInitialValues(tc_items A)
+	tc_matrix ParametersTool::_getInitialValues(tc_items A)
 	{
 		return fToS.getInitialValues(A);
 	}
 
-	void BasicInformationTool::_setInitialValues(tc_items A, tc_matrix M)
+	void ParametersTool::_setInitialValues(tc_items A, tc_matrix M)
 	{
 		fToS.setInitialValues(A,M);
 	}
 
-	tc_matrix BasicInformationTool::_getFixedVars(tc_items A)
+	tc_matrix ParametersTool::_getFixedVars(tc_items A)
 	{
 		return fToS.getFixedVars(A);
 	}
 
-	tc_matrix BasicInformationTool::_getFixedAndParameters(tc_items A)
+	tc_matrix ParametersTool::_getFixedAndParameters(tc_items A)
 	{
 		return fToS.getFixedAndParameters(A);
 	}
 
-	char* BasicInformationTool::_getTextData(long o,const char* c)
+	char* ParametersTool::_getTextData(long o,const char* c)
 	{
 		return fToS.getTextData(o,c);
 	}
 
-	double BasicInformationTool::_getNumericalData(long o,const char* c)
+	double ParametersTool::_getNumericalData(long o,const char* c)
 	{
 		return fToS.getNumericalData(o,c);
 	}
 
-	tc_matrix BasicInformationTool::_getParametersNamed(tc_items A, tc_strings c)
+	tc_matrix ParametersTool::_getParametersNamed(tc_items A, tc_strings c)
 	{
 		return fToS.getParametersNamed(A,c);
 	}
 
-	tc_matrix BasicInformationTool::_getParametersExcept(tc_items A, tc_strings c)
+	tc_matrix ParametersTool::_getParametersExcept(tc_items A, tc_strings c)
 	{
 		return fToS.getParametersExcept(A,c);
 	}
 
-	tc_strings BasicInformationTool::_getAllTextDataNamed(tc_items A, tc_strings c)
+	tc_strings ParametersTool::_getAllTextDataNamed(tc_items A, tc_strings c)
 	{
 		return fToS.getAllTextDataNamed(A,c);
 	}
 
-	void BasicInformationTool::_setTextData(long o,const char* a,const char* b)
+	void ParametersTool::_setTextData(long o,const char* a,const char* b)
 	{
 		return fToS.setTextData(o,a,b);
 	}
 
-	void BasicInformationTool::_setNumericalData(long o,const char* a,double b)
+	void ParametersTool::_setNumericalData(long o,const char* a,double b)
 	{
 		return fToS.setNumericalData(o,a,b);
 	}
 
-	tc_matrix BasicInformationTool_FToS::getParameters(tc_items a0)
+	tc_matrix ParametersTool_FToS::getParameters(tc_items a0)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QList<ItemHandle*> * list = ConvertValue(a0);
@@ -1758,7 +1749,7 @@ namespace Tinkercell
 		return emptyMatrix();
 	}
 
-	tc_matrix BasicInformationTool_FToS::getInitialValues(tc_items a0)
+	tc_matrix ParametersTool_FToS::getInitialValues(tc_items a0)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QList<ItemHandle*> * list = ConvertValue(a0);
@@ -1779,7 +1770,7 @@ namespace Tinkercell
 		return emptyMatrix();
 	}
 
-	void BasicInformationTool_FToS::setInitialValues(tc_items a0, tc_matrix M)
+	void ParametersTool_FToS::setInitialValues(tc_items a0, tc_matrix M)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QList<ItemHandle*> * list = ConvertValue(a0);
@@ -1798,7 +1789,7 @@ namespace Tinkercell
 		}
 	}
 
-	tc_matrix BasicInformationTool_FToS::getFixedVars(tc_items a0)
+	tc_matrix ParametersTool_FToS::getFixedVars(tc_items a0)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QList<ItemHandle*> * list = ConvertValue(a0);
@@ -1818,7 +1809,7 @@ namespace Tinkercell
 		return emptyMatrix();
 	}
 
-	tc_matrix BasicInformationTool_FToS::getFixedAndParameters(tc_items a0)
+	tc_matrix ParametersTool_FToS::getFixedAndParameters(tc_items a0)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QList<ItemHandle*> * list = ConvertValue(a0);
@@ -1838,7 +1829,7 @@ namespace Tinkercell
 		return emptyMatrix();
 	}
 
-	tc_matrix BasicInformationTool_FToS::getParametersNamed(tc_items a0,tc_strings name)
+	tc_matrix ParametersTool_FToS::getParametersNamed(tc_items a0,tc_strings name)
 	{
 		QList<ItemHandle*> * list = ConvertValue(a0);
 		QSemaphore * s = new QSemaphore(1);
@@ -1858,7 +1849,7 @@ namespace Tinkercell
 		return emptyMatrix();
 	}
 
-	tc_matrix BasicInformationTool_FToS::getParametersExcept(tc_items a0,tc_strings name)
+	tc_matrix ParametersTool_FToS::getParametersExcept(tc_items a0,tc_strings name)
 	{
 		QList<ItemHandle*> * list = ConvertValue(a0);
 		QSemaphore * s = new QSemaphore(1);
@@ -1878,7 +1869,7 @@ namespace Tinkercell
 		return emptyMatrix();
 	}
 
-	tc_strings BasicInformationTool_FToS::getAllTextDataNamed(tc_items a0,tc_strings name)
+	tc_strings ParametersTool_FToS::getAllTextDataNamed(tc_items a0,tc_strings name)
 	{
 		QList<ItemHandle*> * list = ConvertValue(a0);
 		QSemaphore * s = new QSemaphore(1);
@@ -1892,7 +1883,7 @@ namespace Tinkercell
 		return ConvertValue(p);
 	}
 
-	char* BasicInformationTool_FToS::getTextData(long a0,const char* a1)
+	char* ParametersTool_FToS::getTextData(long a0,const char* a1)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QString p;
@@ -1904,7 +1895,7 @@ namespace Tinkercell
 		return (char*)ConvertValue(p);
 	}
 
-	double BasicInformationTool_FToS::getNumericalData(long a0,const char* a1)
+	double ParametersTool_FToS::getNumericalData(long a0,const char* a1)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		qreal p;
@@ -1916,7 +1907,7 @@ namespace Tinkercell
 		return (double)p;
 	}
 
-	void BasicInformationTool_FToS::setTextData(long a0,const char* a1,const char* a2)
+	void ParametersTool_FToS::setTextData(long a0,const char* a1,const char* a2)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
@@ -1926,7 +1917,7 @@ namespace Tinkercell
 		delete s;
 	}
 
-	void BasicInformationTool_FToS::setNumericalData(long a0,const char* a1,double a2)
+	void ParametersTool_FToS::setNumericalData(long a0,const char* a1,double a2)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
@@ -1936,7 +1927,7 @@ namespace Tinkercell
 		delete s;
 	}
 
-	void BasicInformationTool::keyPressEvent ( QKeyEvent * event )
+	void ParametersTool::keyPressEvent ( QKeyEvent * event )
 	{
 		if (event->key() == Qt::Key_Delete || event->key() == Qt::Key_Backspace)
 		{
@@ -1944,10 +1935,10 @@ namespace Tinkercell
 		}
 	}
 	
-	DataTable<qreal> BasicInformationTool::getUsedParameters(NetworkHandle * network, QList<ItemHandle*>& handles, const QString& replaceDot)
+	DataTable<qreal> ParametersTool::getUsedParameters(NetworkHandle * network, QList<ItemHandle*>& handles, const QString& replaceDot)
 	{
 		int i,j;
-		DataTable<qreal> params = BasicInformationTool::getParameters(handles,QStringList(), QStringList(), replaceDot);
+		DataTable<qreal> params = ParametersTool::getParameters(handles,QStringList(), QStringList(), replaceDot);
 		
 		params.insertColumn(3,tr("used"));
 
@@ -2051,7 +2042,7 @@ namespace Tinkercell
 		return params2;
 	}
 	
-	QString BasicInformationTool::removeParameterFromModel(NetworkHandle * win, ItemHandle * handle, const QString& s)
+	QString ParametersTool::removeParameterFromModel(NetworkHandle * win, ItemHandle * handle, const QString& s)
 	{
 		if (!handle) return QString("No item");		
 		if (!handle->hasNumericalData("Parameters")) return QString("No parameters inside this item");
@@ -2112,7 +2103,7 @@ namespace Tinkercell
 		return QString();
 	}
 	
-	QString BasicInformationTool::removeUnusedParametersInModel(NetworkHandle * win)
+	QString ParametersTool::removeUnusedParametersInModel(NetworkHandle * win)
 	{
 		return QString();
 

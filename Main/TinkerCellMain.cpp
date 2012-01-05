@@ -13,7 +13,7 @@
 #include "PythonTool.h"
 #include "OctaveTool.h"
 #include "RubyTool.h"
-#include "BasicInformationTool.h"
+#include "ParametersTool.h"
 #include "StoichiometryTool.h"
 #include "FunctionDeclarationsTool.h"
 #include "ModelSummaryTool.h"
@@ -141,8 +141,8 @@ int main(int argc, char *argv[])
 	mainWindow.addTool(new GroupHandlerTool);
 	mainWindow.addTool(new NameFamilyDialog);
 	mainWindow.addTool(new ConnectionMaker);	
-	mainWindow.addTool(new BasicInformationTool(QString("text")));
-	mainWindow.addTool(new BasicInformationTool(QString("numerical")));
+	mainWindow.addTool(new ParametersTool(QString("text")));
+	mainWindow.addTool(new ParametersTool(QString("numerical")));
 	mainWindow.addTool(new AssignmentFunctionsTool);
 	mainWindow.addTool(new StoichiometryTool);
 	mainWindow.addTool(new ModelSummaryTool);

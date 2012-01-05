@@ -25,7 +25,7 @@ Assignments are parameters that are defined as a function, eg. k1 = sin(time) + 
 #include "ModelSummaryTool.h"
 #include "FunctionDeclarationsTool.h"
 #include "EquationParser.h"
-#include "BasicInformationTool.h"
+#include "ParametersTool.h"
 #include "StoichiometryTool.h"
 #include "ModuleTools/ModuleTool.h"
 #include "muParserDef.h"
@@ -335,7 +335,7 @@ namespace Tinkercell
 					newData.removeRow(f);
 
 					win->changeData(handle->fullName() + tr(".") + f + tr(" removed"), handle,tr("Assignments"),&newData);
-					BasicInformationTool::removeUnusedParametersInModel(win);
+					ParametersTool::removeUnusedParametersInModel(win);
 				}
 				if (handle->hasTextData(tr("Functions")) && handle->textDataTable(tr("Functions")).hasRow(f))
 				{
@@ -343,7 +343,7 @@ namespace Tinkercell
 					newData.removeRow(f);
 
 					win->changeData(handle->fullName() + tr(".") + f + tr(" removed"), handle,tr("Functions"),&newData);
-					BasicInformationTool::removeUnusedParametersInModel(win);
+					ParametersTool::removeUnusedParametersInModel(win);
 				}
 				
 				StoichiometryTool::userModifiedRates.removeAll(handle);
@@ -381,7 +381,7 @@ namespace Tinkercell
 				newData.value(var,0) = func;
 
 				win->changeData(handle->fullName() + tr(".") + var + tr(" = ") + func, handle,tr("Assignments"),&newData);
-				BasicInformationTool::removeUnusedParametersInModel(win);
+				ParametersTool::removeUnusedParametersInModel(win);
 			}
 			else
 				if (regex2.indexIn(text) > -1 && regex2.numCaptures() > 2)
@@ -429,7 +429,7 @@ namespace Tinkercell
 					newData.value(var,1) = s;
 
 					win->changeData(handle->fullName() + tr(".") + var + tr("(") + newData.value(var,0) + tr("(") + tr(" = ") + s,handle,tr("Functions"),&newData);
-					BasicInformationTool::removeUnusedParametersInModel(win);
+					ParametersTool::removeUnusedParametersInModel(win);
 				}
 				else
 				if (!text.isEmpty())
@@ -450,7 +450,7 @@ namespace Tinkercell
 					newData.value(var,0) = func;
 
 					win->changeData(handle->fullName() + tr(".") + var + tr(" = ") + func, handle,tr("Assignments"),&newData);
-					BasicInformationTool::removeUnusedParametersInModel(win);
+					ParametersTool::removeUnusedParametersInModel(win);
 				}
 				updateTable();
 		}
@@ -758,7 +758,7 @@ namespace Tinkercell
 		if (sDats.size() > 0)
 		{
 			scene->network->changeData(tr("selected functions removed"),handles,toolNames,sDats);
-			BasicInformationTool::removeUnusedParametersInModel(scene->network);
+			ParametersTool::removeUnusedParametersInModel(scene->network);
 		}
 
 		for (int i=0; i < sDats.size(); ++i)
@@ -938,7 +938,7 @@ namespace Tinkercell
 						currentNetwork()->changeData(s + tr(" = ") + f,item,tr("Assignments"),&dat);
 					else
 						currentNetwork()->changeData(item->fullName() + tr(".") + s + tr(" = ") + f,item,tr("Assignments"),&dat);
-					BasicInformationTool::removeUnusedParametersInModel(currentNetwork());
+					ParametersTool::removeUnusedParametersInModel(currentNetwork());
 				}
 				else
 					item->textDataTable(tr("Assignments")) = dat;
@@ -961,7 +961,7 @@ namespace Tinkercell
 						currentNetwork()->changeData(s + tr(" removed"),item,tr("Assignments"),&dat);
 					else
 						currentNetwork()->changeData(item->fullName() + tr(".") + s + tr(" removed"),item,tr("Assignments"),&dat);
-					BasicInformationTool::removeUnusedParametersInModel(currentNetwork());
+					ParametersTool::removeUnusedParametersInModel(currentNetwork());
 				}
 				else
 					item->textDataTable(tr("Assignments")) = dat;

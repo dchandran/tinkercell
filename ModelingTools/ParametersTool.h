@@ -8,14 +8,14 @@ This class adds the "attributes" data to each item in Tinkercell.
 Two types of attributes are added -- "Parameters" and "Text Attributes".
 Attributes are essentially a <name,value> pair that are used to characterize an item.
 
-The BasicInformationTool also comes with two GraphicalTools, one for text attributes and one
+The ParametersTool also comes with two GraphicalTools, one for text attributes and one
 for numerical attributes. The buttons are drawn as NodeGraphicsItems using the datasheet.xml and
 textsheet.xml files that define the NodeGraphicsItems.
 
 ****************************************************************************/
 
-#ifndef TINKERCELL_BASICINFORMATIONTOOL_H
-#define TINKERCELL_BASICINFORMATIONTOOL_H
+#ifndef TINKERCELL_BASICPARAMETERSTOOL_H
+#define TINKERCELL_BASICPARAMETERSTOOL_H
 
 #include <stdlib.h>
 #include <QtGui>
@@ -62,7 +62,7 @@ namespace Tinkercell
 	\brief This class provides the C API for the ConnectionInsertion class
 	\ingroup capi
 	*/
-	class BasicInformationTool_FToS : public QObject
+	class ParametersTool_FToS : public QObject
 	{
 		Q_OBJECT
 	signals:
@@ -99,13 +99,15 @@ namespace Tinkercell
 	Also insert data for ``initial value" and ``fixed".
 	\ingroup plugins
 	*/
-	class TINKERCELLEXPORT BasicInformationTool : public Tool
+	class TINKERCELLEXPORT ParametersTool : public Tool
 	{
 		Q_OBJECT
 
 	public:
+		static bool EnforceDefaultParameters;
+
 		QList<ItemHandle*> itemHandles;
-		BasicInformationTool(const QString& typ = QString("both"));
+		ParametersTool(const QString& typ = QString("both"));
 		bool setMainWindow(MainWindow * main);
 		QSize sizeHint() const;
 		static DataTable<qreal> getParameters(const QList<QGraphicsItem*>& items, const QStringList& must = QStringList(), const QStringList& exclude = QStringList(), const QString& sep = QString("_"));
@@ -161,7 +163,7 @@ namespace Tinkercell
 		QGroupBox * groupBox;
 
 		void updateTable();
-		static BasicInformationTool_FToS fToS;
+		static ParametersTool_FToS fToS;
 		void connectTCFunctions();
 		static tc_matrix _getInitialValues(tc_items );
 		static void _setInitialValues(tc_items,tc_matrix);

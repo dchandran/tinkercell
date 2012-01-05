@@ -24,7 +24,7 @@ textsheet.xml files that define the NodeGraphicsItems.
 #include "NodeGraphicsReader.h"
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
-#include "BasicInformationTool.h"
+#include "ParametersTool.h"
 #include "ModelSummaryTool.h"
 
 namespace Tinkercell
@@ -235,10 +235,24 @@ namespace Tinkercell
 	void ModelSummaryTool::itemsInserted(NetworkHandle* , const QList<ItemHandle*>& handles)
 	{
 		for (int i=0; i < handles.size(); ++i)
-		{
-			if (handles[i] && handles[i]->family() && !handles[i]->tools.contains(this))
-				handles[i]->tools += this;
-		}
+			if (handles[i])
+			{
+				if (handles[i]->family() && !handles[i]->tools.contains(this))
+					handles[i]->tools += this;
+
+				if (!handle->hasNumericalData(QString("Fixed")))
+				{
+					DataTable<qreal> fixed;
+					fixed.resize(1,1);
+
+					fixed.setRowName(0, QString("fix"));
+					fixed.setColumnName(0,QString("value"));
+					fixed.value(0,0) = 0.0;
+					fixed.description() = tr("Fixed: stores 1 if this is a fixed variable, 0 otherwise");
+
+					handle->numericalDataTable(QString("Fixed")) = fixed;
+				}
+			}
 		
 		updateToolTips(handles);
 	}
@@ -476,7 +490,7 @@ namespace Tinkercell
 							{
 								nDataTable1->value(j,0) = temp;
 								if (itemHandles[i]->family())
-									BasicInformationTool::initialValues[ itemHandles[i]->family()->measurementUnit.property ] = temp;
+									ParametersTool::initialValues[ itemHandles[i]->family()->measurementUnit.property ] = temp;
 							}
 							if (nDataTable2 && j < nDataTable2->rows())
 							{

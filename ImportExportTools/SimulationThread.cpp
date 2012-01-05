@@ -2,7 +2,7 @@
 #include "ItemHandle.h"
 #include "NetworkHandle.h"
 #include "StoichiometryTool.h"
-#include "BasicInformationTool.h"
+#include "ParametersTool.h"
 #include "SimulationThread.h"
 
 namespace Tinkercell
@@ -57,7 +57,7 @@ void SimulationThread::updateModel(QList<ItemHandle*> & handles)
 	QString modelName = tr("tinkercell") + QString::number(totalModelCount);
 	model = cCreateModel(modelName.toAscii().data());
 
-	DataTable<qreal> params = BasicInformationTool::getUsedParameters(0, handles);
+	DataTable<qreal> params = ParametersTool::getUsedParameters(0, handles);
 	for (int i=0; i < params.rows(); ++i)
 		if (params(i,1) < params(i,2))
 			optimizationParameters.value(params.rowName(i)) = params(i,0);
@@ -997,7 +997,7 @@ void SimulationDialog::updateParameterList()
 
 	QList<ItemHandle*> handles = network->handles(true), handles2;
 
-	sliderValues = BasicInformationTool::getUsedParameters(0, handles, tr("_"));
+	sliderValues = ParametersTool::getUsedParameters(0, handles, tr("_"));
 	numParameters = sliderValues.rows();
 	
 	for (int i=0; i < handles.size(); ++i)

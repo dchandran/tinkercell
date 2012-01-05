@@ -11,7 +11,7 @@
 #include "sbml/Model.h"
 #include "sbml/Rule.h"
 #include "SBMLImportExport.h"
-#include "BasicInformationTool.h"
+#include "ParametersTool.h"
 #include "StoichiometryTool.h"
 #include "TextEditor.h"
 #include "LoadSaveTool.h"
@@ -650,7 +650,7 @@ namespace Tinkercell
 			Model_setId( model, RemoveDisallowedCharactersFromName(s).toAscii().data() );
 		}
 
-		NumericalDataTable params = BasicInformationTool::getUsedParameters(0,handles);
+		NumericalDataTable params = ParametersTool::getUsedParameters(0,handles);
 		NumericalDataTable stoicMatrix = StoichiometryTool::getStoichiometry(handles);
 		QStringList rates = StoichiometryTool::getRates(handles);
 		QStringList species, compartments, compartmentFormula, eventTriggers, eventActions, assignmentNames,

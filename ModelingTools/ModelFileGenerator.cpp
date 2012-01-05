@@ -12,7 +12,7 @@ A small class that generates the ode and rates file from the given items
 #include "ConsoleWindow.h"
 #include "ModelFileGenerator.h"
 #include "StoichiometryTool.h"
-#include "BasicInformationTool.h"
+#include "ParametersTool.h"
 
 namespace Tinkercell
 {
@@ -170,7 +170,7 @@ namespace Tinkercell
 
 		if (r < 1 || c < 1 || rates.isEmpty()) return 0;
 
-		DataTable<qreal> params = BasicInformationTool::getParameters(handles,QStringList(), QStringList(), replaceDot);
+		DataTable<qreal> params = ParametersTool::getParameters(handles,QStringList(), QStringList(), replaceDot);
 		params.insertColumn(1,tr("used"));
 
 		bool used = false;

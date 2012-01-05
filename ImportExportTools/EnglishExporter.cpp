@@ -10,7 +10,7 @@
 #include <QMessageBox>
 #include <QDesktopServices>
 #include "StoichiometryTool.h"
-#include "BasicInformationTool.h"
+#include "ParametersTool.h"
 #include "EnglishExporter.h"
 
 namespace Tinkercell

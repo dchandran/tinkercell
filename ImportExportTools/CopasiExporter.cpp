@@ -2,7 +2,7 @@
 #include <QInputDialog>
 #include <QFileDialog>
 #include "PlotTool.h"
-#include "BasicInformationTool.h"
+#include "ParametersTool.h"
 #include "StoichiometryTool.h"
 #include "CopasiExporter.h"
 #include "ConsoleWindow.h"

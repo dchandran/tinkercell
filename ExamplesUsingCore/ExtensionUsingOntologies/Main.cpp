@@ -14,6 +14,7 @@ BasicTools folder
 #include "RubyTool.h"
 #include "ContainerTool.h"
 #include "ModuleTool.h"
+#include "ParametersTool.h"
 #include "CollisionDetection.h"
 #include "ConnectionInsertion.h"
 #include "ConnectionMaker.h"
@@ -126,6 +127,7 @@ int main(int argc, char *argv[])
 	mainWindow.addTool(new ConnectionMaker);
 	mainWindow.addTool(new ContainerTool);	
 	mainWindow.addTool(new ModuleTool);
+	mainWindow.addTool(new ParametersTool("numeric"));
 
 	/********* load python, octave, ruby plugins ***********/
 	if (mainWindow.tool("Python Interpreter"))

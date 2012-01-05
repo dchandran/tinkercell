@@ -4,6 +4,7 @@
 
 INCLUDE_DIRECTORIES( BEFORE
     ${TINKERCELL_SOURCE_DIR}/BasicTools
+    ${TINKERCELL_SOURCE_DIR}/ModelingTools
 	${TINKERCELL_SOURCE_DIR}/ModuleTools
     ${TINKERCELL_SOURCE_DIR}/Core/plugins
 	${TINKERCELL_SOURCE_DIR}/Core/fileIO
@@ -26,9 +27,12 @@ CONFIGURE_FILE(
 # header files
 #------------------
 
+ADD_DEFINITIONS(-DTC_EXPORTS)
 FILE( GLOB ONTOLOGY_MAIN_HRDS
     ${TINKERCELL_SOURCE_DIR}/ModuleTools/*.h
 	${TINKERCELL_SOURCE_DIR}/BasicTools/*.h
+	${TINKERCELL_SOURCE_DIR}/ModelingTools/ParametersTool.h
+	${TINKERCELL_SOURCE_DIR}/ModelingTools/SpinBoxDelegate.h
 )
 
 QT4_WRAP_CPP( ONTOLOGY_MAIN_MOC ${ONTOLOGY_MAIN_HRDS})
@@ -41,7 +45,9 @@ QT4_WRAP_CPP( ONTOLOGY_MAIN_MOC ${ONTOLOGY_MAIN_HRDS})
 FILE( GLOB ONTOLOGY_MAIN_SRC
     ${TINKERCELL_SOURCE_DIR}/ModuleTools/*.cpp
 	${TINKERCELL_SOURCE_DIR}/BasicTools/*.cpp
+	${TINKERCELL_SOURCE_DIR}/ModelingTools/ParametersTool.cpp
 	${TINKERCELL_BINARY_DIR}/BasicTools/*.cpp
+	${TINKERCELL_SOURCE_DIR}/ModelingTools/SpinBoxDelegate.cpp
 	Main.cpp
 )
 

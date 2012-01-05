@@ -17,8 +17,8 @@ extern "C"  TINKERCELLEXPORT void loadTCTool(MainWindow * main)
 {
 	if (!main) return;
 
-	main->addTool(new BasicInformationTool(QString("text")));
-	main->addTool(new BasicInformationTool(QString("numerical")));
+	main->addTool(new ParametersTool(QString("text")));
+	main->addTool(new ParametersTool(QString("numerical")));
 	main->addTool(new AssignmentFunctionsTool);
 	main->addTool(new StoichiometryTool);
 	main->addTool(new ModelSummaryTool);

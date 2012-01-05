@@ -1,4 +1,4 @@
-#include "TC_BasicInformationTool_api.h"
+#include "TC_ParametersTool_api.h"
 #include "TC_Main_api.h"
 #include "TC_COPASI_api.h"
 
@@ -173,7 +173,7 @@ TCAPIEXPORT void tc_setParameters(tc_matrix t, int permanent)
  \brief initialize attribute functions
  \ingroup init
 */ TCAPIEXPORT 
-void tc_BasicInformationTool_Text_api(
+void tc_ParametersTool_Text_api(
 		const char* (*getTextData)(long ,const char* ),
 		tc_strings (*getAllTextDataNamed)(tc_items,tc_strings),
 		void (*setTextData)(long ,const char* ,const char* ))
@@ -184,7 +184,7 @@ void tc_BasicInformationTool_Text_api(
 }
 
 TCAPIEXPORT 
-void tc_BasicInformationTool_Numeric_api(
+void tc_ParametersTool_Numeric_api(
 		tc_matrix (*getInitialValues)(tc_items ),
 		void (*setInitialValues)(tc_items,tc_matrix),
 		tc_matrix (*getParameters)(tc_items ),

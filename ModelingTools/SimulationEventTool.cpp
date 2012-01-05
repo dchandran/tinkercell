@@ -25,7 +25,7 @@ textsheet.xml files that define the NodeGraphicsItems.
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
 #include "SimulationEventTool.h"
-#include "BasicInformationTool.h"
+#include "ParametersTool.h"
 #include "FunctionDeclarationsTool.h"
 #include "CatalogWidget.h"
 #include "muParserDef.h"
@@ -336,7 +336,7 @@ namespace Tinkercell
 			QWidget * widget = mainWindow->tool(tr("Parameters"));
 			if (!widget) return;
 			
-			BasicInformationTool * basicInfoTool = static_cast<BasicInformationTool*>(widget);
+			ParametersTool * basicInfoTool = static_cast<ParametersTool*>(widget);
 		
 			for (int i=0; i < items.size(); ++i)
 			{
@@ -510,7 +510,7 @@ namespace Tinkercell
 			QWidget * widget = mainWindow->tool(tr("Parameters"));
 			if (!widget) return;
 			
-			BasicInformationTool * basicInfoTool = static_cast<BasicInformationTool*>(widget);
+			ParametersTool * basicInfoTool = static_cast<ParametersTool*>(widget);
 			if (!globalHandle->hasNumericalData(tr("Parameters")))
 			{
 				DataTable<double> params;

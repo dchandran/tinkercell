@@ -11,7 +11,7 @@
 #include "EquationParser.h"
 #include "ItemFamily.h"
 #include "ContainerTreeModel.h"
-#include "BasicInformationTool.h"
+#include "ParametersTool.h"
 
 namespace Tinkercell
 {
@@ -495,7 +495,7 @@ namespace Tinkercell
 						network->rename(handle->fullName() + tr(".") + attributeName, handle->fullName() + tr(".") + value.toString());
 					else
 					{
-						QString err = BasicInformationTool::removeParameterFromModel(network, handle, attributeName);
+						QString err = ParametersTool::removeParameterFromModel(network, handle, attributeName);
 						if (!err.isEmpty())
 							QMessageBox::information(network->currentWindow(),tr("Cannot remove"), err);
 					}
@@ -524,7 +524,7 @@ namespace Tinkercell
 											handle,
 											QString("Assignments"),
 											&newTable);
-							BasicInformationTool::removeUnusedParametersInModel(network);
+							ParametersTool::removeUnusedParametersInModel(network);
 							return true;
 						}
 					}
@@ -535,7 +535,7 @@ namespace Tinkercell
 						{
 							newTable.value(0,0) = d;
 						
-							BasicInformationTool::initialValues[ handle->family()->measurementUnit.property ] = d;						
+							ParametersTool::initialValues[ handle->family()->measurementUnit.property ] = d;						
 		                    network->changeData(handle->fullName() + tr(" = ") + QString::number(d),
 												handle,
 												QString("Initial Value"),
@@ -556,7 +556,7 @@ namespace Tinkercell
 											handle,
 											QString("Rate equations"),
 											&newTable);
-							BasicInformationTool::removeUnusedParametersInModel(network);
+							ParametersTool::removeUnusedParametersInModel(network);
 							return true;
 						}
 					}

@@ -9,7 +9,7 @@ Function that loads dll into main window
 ****************************************************************************/
 
 #include "MainWindow.h"
-#include "BasicInformationTool.h"
+#include "ParametersTool.h"
 #include "StoichiometryTool.h"
 #include "FunctionDeclarationsTool.h"
 #include "ModelSummaryTool.h"

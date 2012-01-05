@@ -24,7 +24,7 @@ the stoichiometry and rates tables.
 #include "ConnectionSelection.h"
 #include "StoichiometryTool.h"
 #include "ModelSummaryTool.h"
-#include "BasicInformationTool.h"
+#include "ParametersTool.h"
 #include "CThread.h"
 #include "DefaultReactionRates.h"
 #include "ConnectionsTree.h"
@@ -1014,7 +1014,7 @@ namespace Tinkercell
 										connectionHandle,
 										tr("Rate equations"),
 										&newTable);
-					BasicInformationTool::removeUnusedParametersInModel(network);
+					ParametersTool::removeUnusedParametersInModel(network);
 					updatePlotWidget();
 				}
 			}
@@ -1073,7 +1073,7 @@ namespace Tinkercell
 									QList<ItemHandle*>() << connectionHandle << connectionHandle,
 									QStringList() << tr("Reactant stoichiometries") << tr("Product stoichiometries"),
 									QList<NumericalDataTable*>() << &reactants << &products);
-				BasicInformationTool::removeUnusedParametersInModel(network);
+				ParametersTool::removeUnusedParametersInModel(network);
 				updateStoichiometryWidget();
 			}
 		}
@@ -1478,7 +1478,7 @@ namespace Tinkercell
 		if (win)
 		{
 			win->changeData(tr("stoichiometry changed"),connectionHandles,nDataTablesOld,nDataTablesNew);
-			BasicInformationTool::removeUnusedParametersInModel(win);
+			ParametersTool::removeUnusedParametersInModel(win);
 		}
 
 		for (int i=0; i < nDataTablesNew.size(); ++i)
@@ -1618,7 +1618,7 @@ namespace Tinkercell
 		if (win)
 		{
 			win->changeData(tr("Rate equations changed"),handles,QObject::tr("Rate equations"),sDataTablesNew);
-			BasicInformationTool::removeUnusedParametersInModel(win);
+			ParametersTool::removeUnusedParametersInModel(win);
 		}
 
 		for (int i=0; i < sDataTablesNew.size(); ++i)

@@ -10,7 +10,7 @@
 #include <QMessageBox>
 #include <QDesktopServices>
 #include "StoichiometryTool.h"
-#include "BasicInformationTool.h"
+#include "ParametersTool.h"
 #include "OctaveExporter.h"
 
 namespace Tinkercell
@@ -123,7 +123,7 @@ namespace Tinkercell
 			return;
 		}
 
-		DataTable<qreal> params = BasicInformationTool::getParameters(handles,QStringList(), QStringList(), replaceDot);
+		DataTable<qreal> params = ParametersTool::getParameters(handles,QStringList(), QStringList(), replaceDot);
 		
 		params.insertColumn(1,tr("used"));
 

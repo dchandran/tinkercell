@@ -1,5 +1,5 @@
 #include "TC_AutoGeneRegulatoryTool_api.h"
-#include "TC_BasicInformationTool_api.h"
+#include "TC_ParametersTool_api.h"
 
 tc_items (*_tc_partsIn)(long) = 0;
 /*! 

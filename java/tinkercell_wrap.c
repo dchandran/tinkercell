@@ -3884,7 +3884,7 @@ SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1setParameters(JNIEnv *jenv, jclas
 }
 
 
-SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1BasicInformationTool_1Text_1api(JNIEnv *jenv, jclass jcls, jlong jarg1, jlong jarg2, jlong jarg3) {
+SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1ParametersTool_1Text_1api(JNIEnv *jenv, jclass jcls, jlong jarg1, jlong jarg2, jlong jarg3) {
   char *(*arg1)(long,char const *) = (char *(*)(long,char const *)) 0 ;
   tc_strings (*arg2)(tc_items,tc_strings) = (tc_strings (*)(tc_items,tc_strings)) 0 ;
   void (*arg3)(long,char const *,char const *) = (void (*)(long,char const *,char const *)) 0 ;
@@ -3894,11 +3894,11 @@ SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1BasicInformationTool_1Text_1api(J
   arg1 = *(char *(**)(long,char const *))&jarg1; 
   arg2 = *(tc_strings (**)(tc_items,tc_strings))&jarg2; 
   arg3 = *(void (**)(long,char const *,char const *))&jarg3; 
-  tc_BasicInformationTool_Text_api((char const *(*)(long,char const *))arg1,arg2,arg3);
+  tc_ParametersTool_Text_api((char const *(*)(long,char const *))arg1,arg2,arg3);
 }
 
 
-SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1BasicInformationTool_1Numeric_1api(JNIEnv *jenv, jclass jcls, jlong jarg1, jlong jarg2, jlong jarg3, jlong jarg4, jlong jarg5, jlong jarg6, jlong jarg7, jlong jarg8, jlong jarg9) {
+SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1ParametersTool_1Numeric_1api(JNIEnv *jenv, jclass jcls, jlong jarg1, jlong jarg2, jlong jarg3, jlong jarg4, jlong jarg5, jlong jarg6, jlong jarg7, jlong jarg8, jlong jarg9) {
   tc_matrix (*arg1)(tc_items) = (tc_matrix (*)(tc_items)) 0 ;
   void (*arg2)(tc_items,tc_matrix) = (void (*)(tc_items,tc_matrix)) 0 ;
   tc_matrix (*arg3)(tc_items) = (tc_matrix (*)(tc_items)) 0 ;
@@ -3920,7 +3920,7 @@ SWIGEXPORT void JNICALL Java_tinkercellJNI_tc_1BasicInformationTool_1Numeric_1ap
   arg7 = *(tc_matrix (**)(tc_items,tc_strings))&jarg7; 
   arg8 = *(tc_matrix (**)(tc_items,tc_strings))&jarg8; 
   arg9 = *(void (**)(long,char const *,double))&jarg9; 
-  tc_BasicInformationTool_Numeric_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9);
+  tc_ParametersTool_Numeric_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9);
 }
 
 

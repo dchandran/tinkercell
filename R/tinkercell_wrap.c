@@ -11022,7 +11022,7 @@ void _p_f_long_p_q_const__char_p_q_const__char__void(long s_arg1, char const * s
 
 
 SWIGEXPORT SEXP
-R_swig_tc_BasicInformationTool_Text_api ( SEXP getTextData, SEXP getAllTextDataNamed, SEXP setTextData)
+R_swig_tc_ParametersTool_Text_api ( SEXP getTextData, SEXP getAllTextDataNamed, SEXP setTextData)
 {
   char *(*arg1)(long,char const *) = (char *(*)(long,char const *)) 0 ;
   tc_strings (*arg2)(tc_items,tc_strings) = (tc_strings (*)(tc_items,tc_strings)) 0 ;
@@ -11035,7 +11035,7 @@ R_swig_tc_BasicInformationTool_Text_api ( SEXP getTextData, SEXP getAllTextDataN
     {
       int res = SWIG_R_ConvertPtr(getTextData, (void**)(&arg1), SWIGTYPE_p_f_long_p_q_const__char__p_char, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Text_api" "', argument " "1"" of type '" "char const *(*)(long,char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ParametersTool_Text_api" "', argument " "1"" of type '" "char const *(*)(long,char const *)""'"); 
       }
     }
   } else {
@@ -11046,7 +11046,7 @@ R_swig_tc_BasicInformationTool_Text_api ( SEXP getTextData, SEXP getAllTextDataN
     {
       int res = SWIG_R_ConvertPtr(getAllTextDataNamed, (void**)(&arg2), SWIGTYPE_p_f_tc_items_tc_strings__tc_strings, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Text_api" "', argument " "2"" of type '" "tc_strings (*)(tc_items,tc_strings)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ParametersTool_Text_api" "', argument " "2"" of type '" "tc_strings (*)(tc_items,tc_strings)""'"); 
       }
     }
   } else {
@@ -11057,14 +11057,14 @@ R_swig_tc_BasicInformationTool_Text_api ( SEXP getTextData, SEXP getAllTextDataN
     {
       int res = SWIG_R_ConvertPtr(setTextData, (void**)(&arg3), SWIGTYPE_p_f_long_p_q_const__char_p_q_const__char__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Text_api" "', argument " "3"" of type '" "void (*)(long,char const *,char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ParametersTool_Text_api" "', argument " "3"" of type '" "void (*)(long,char const *,char const *)""'"); 
       }
     }
   } else {
     arg3 = _p_f_long_p_q_const__char_p_q_const__char__void;
     R_SWIG_pushCallbackFunctionData(setTextData, NULL);
   }
-  tc_BasicInformationTool_Text_api((char const *(*)(long,char const *))arg1,arg2,arg3);
+  tc_ParametersTool_Text_api((char const *(*)(long,char const *))arg1,arg2,arg3);
   r_ans = R_NilValue;
   
   
@@ -11223,7 +11223,7 @@ void _p_f_long_p_q_const__char_double__void(long s_arg1, char const * s_arg2, do
 
 
 SWIGEXPORT SEXP
-R_swig_tc_BasicInformationTool_Numeric_api ( SEXP getInitialValues, SEXP setInitialValues, SEXP getParameters, SEXP getFixedVariabes, SEXP getParametersAndFixedVariabes, SEXP getNumericalData, SEXP getParametersNamed, SEXP getParametersExcept, SEXP setNumericalData)
+R_swig_tc_ParametersTool_Numeric_api ( SEXP getInitialValues, SEXP setInitialValues, SEXP getParameters, SEXP getFixedVariabes, SEXP getParametersAndFixedVariabes, SEXP getNumericalData, SEXP getParametersNamed, SEXP getParametersExcept, SEXP setNumericalData)
 {
   tc_matrix (*arg1)(tc_items) = (tc_matrix (*)(tc_items)) 0 ;
   void (*arg2)(tc_items,tc_matrix) = (void (*)(tc_items,tc_matrix)) 0 ;
@@ -11242,7 +11242,7 @@ R_swig_tc_BasicInformationTool_Numeric_api ( SEXP getInitialValues, SEXP setInit
     {
       int res = SWIG_R_ConvertPtr(getInitialValues, (void**)(&arg1), SWIGTYPE_p_f_tc_items__tc_matrix, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "1"" of type '" "tc_matrix (*)(tc_items)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ParametersTool_Numeric_api" "', argument " "1"" of type '" "tc_matrix (*)(tc_items)""'"); 
       }
     }
   } else {
@@ -11253,7 +11253,7 @@ R_swig_tc_BasicInformationTool_Numeric_api ( SEXP getInitialValues, SEXP setInit
     {
       int res = SWIG_R_ConvertPtr(setInitialValues, (void**)(&arg2), SWIGTYPE_p_f_tc_items_tc_matrix__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "2"" of type '" "void (*)(tc_items,tc_matrix)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ParametersTool_Numeric_api" "', argument " "2"" of type '" "void (*)(tc_items,tc_matrix)""'"); 
       }
     }
   } else {
@@ -11264,7 +11264,7 @@ R_swig_tc_BasicInformationTool_Numeric_api ( SEXP getInitialValues, SEXP setInit
     {
       int res = SWIG_R_ConvertPtr(getParameters, (void**)(&arg3), SWIGTYPE_p_f_tc_items__tc_matrix, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "3"" of type '" "tc_matrix (*)(tc_items)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ParametersTool_Numeric_api" "', argument " "3"" of type '" "tc_matrix (*)(tc_items)""'"); 
       }
     }
   } else {
@@ -11275,7 +11275,7 @@ R_swig_tc_BasicInformationTool_Numeric_api ( SEXP getInitialValues, SEXP setInit
     {
       int res = SWIG_R_ConvertPtr(getFixedVariabes, (void**)(&arg4), SWIGTYPE_p_f_tc_items__tc_matrix, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "4"" of type '" "tc_matrix (*)(tc_items)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ParametersTool_Numeric_api" "', argument " "4"" of type '" "tc_matrix (*)(tc_items)""'"); 
       }
     }
   } else {
@@ -11286,7 +11286,7 @@ R_swig_tc_BasicInformationTool_Numeric_api ( SEXP getInitialValues, SEXP setInit
     {
       int res = SWIG_R_ConvertPtr(getParametersAndFixedVariabes, (void**)(&arg5), SWIGTYPE_p_f_tc_items__tc_matrix, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "5"" of type '" "tc_matrix (*)(tc_items)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ParametersTool_Numeric_api" "', argument " "5"" of type '" "tc_matrix (*)(tc_items)""'"); 
       }
     }
   } else {
@@ -11297,7 +11297,7 @@ R_swig_tc_BasicInformationTool_Numeric_api ( SEXP getInitialValues, SEXP setInit
     {
       int res = SWIG_R_ConvertPtr(getNumericalData, (void**)(&arg6), SWIGTYPE_p_f_long_p_q_const__char__double, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "6"" of type '" "double (*)(long,char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ParametersTool_Numeric_api" "', argument " "6"" of type '" "double (*)(long,char const *)""'"); 
       }
     }
   } else {
@@ -11308,7 +11308,7 @@ R_swig_tc_BasicInformationTool_Numeric_api ( SEXP getInitialValues, SEXP setInit
     {
       int res = SWIG_R_ConvertPtr(getParametersNamed, (void**)(&arg7), SWIGTYPE_p_f_tc_items_tc_strings__tc_matrix, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "7"" of type '" "tc_matrix (*)(tc_items,tc_strings)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ParametersTool_Numeric_api" "', argument " "7"" of type '" "tc_matrix (*)(tc_items,tc_strings)""'"); 
       }
     }
   } else {
@@ -11319,7 +11319,7 @@ R_swig_tc_BasicInformationTool_Numeric_api ( SEXP getInitialValues, SEXP setInit
     {
       int res = SWIG_R_ConvertPtr(getParametersExcept, (void**)(&arg8), SWIGTYPE_p_f_tc_items_tc_strings__tc_matrix, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "8"" of type '" "tc_matrix (*)(tc_items,tc_strings)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ParametersTool_Numeric_api" "', argument " "8"" of type '" "tc_matrix (*)(tc_items,tc_strings)""'"); 
       }
     }
   } else {
@@ -11330,14 +11330,14 @@ R_swig_tc_BasicInformationTool_Numeric_api ( SEXP getInitialValues, SEXP setInit
     {
       int res = SWIG_R_ConvertPtr(setNumericalData, (void**)(&arg9), SWIGTYPE_p_f_long_p_q_const__char_double__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "9"" of type '" "void (*)(long,char const *,double)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ParametersTool_Numeric_api" "', argument " "9"" of type '" "void (*)(long,char const *,double)""'"); 
       }
     }
   } else {
     arg9 = _p_f_long_p_q_const__char_double__void;
     R_SWIG_pushCallbackFunctionData(setNumericalData, NULL);
   }
-  tc_BasicInformationTool_Numeric_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9);
+  tc_ParametersTool_Numeric_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9);
   r_ans = R_NilValue;
   
   
@@ -16769,7 +16769,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_printOutMatrix", (DL_FUNC) &R_swig_tc_printOutMatrix, 1},
    {"R_swig_tc_LMatrix", (DL_FUNC) &R_swig_tc_LMatrix, 1},
    {"R_swig_tc_getPos", (DL_FUNC) &R_swig_tc_getPos, 2},
-   {"R_swig_tc_BasicInformationTool_Text_api", (DL_FUNC) &R_swig_tc_BasicInformationTool_Text_api, 3},
+   {"R_swig_tc_ParametersTool_Text_api", (DL_FUNC) &R_swig_tc_ParametersTool_Text_api, 3},
    {"R_swig_tc_createSliders", (DL_FUNC) &R_swig_tc_createSliders, 2},
    {"R_swig_tc_compileBuildLoadSliders", (DL_FUNC) &R_swig_tc_compileBuildLoadSliders, 5},
    {"R_swig_tc_getTableValue", (DL_FUNC) &R_swig_tc_getTableValue, 3},
@@ -16859,7 +16859,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_printTableToFile", (DL_FUNC) &R_swig_tc_printTableToFile, 2},
    {"R_swig_tc_listOfPossibleModels", (DL_FUNC) &R_swig_tc_listOfPossibleModels, 2},
    {"R_swig_tc_getConnections", (DL_FUNC) &R_swig_tc_getConnections, 2},
-   {"R_swig_tc_BasicInformationTool_Numeric_api", (DL_FUNC) &R_swig_tc_BasicInformationTool_Numeric_api, 9},
+   {"R_swig_tc_ParametersTool_Numeric_api", (DL_FUNC) &R_swig_tc_ParametersTool_Numeric_api, 9},
    {"R_swig_tc_setAlpha", (DL_FUNC) &R_swig_tc_setAlpha, 2},
    {"R_swig_tc_getRates", (DL_FUNC) &R_swig_tc_getRates, 2},
    {"R_swig_tc_setRates", (DL_FUNC) &R_swig_tc_setRates, 2},

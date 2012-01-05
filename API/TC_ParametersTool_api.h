@@ -125,12 +125,12 @@ TCAPIEXPORT void tc_setParameters(tc_matrix parameters, int permanentOrTemporary
  \brief initialize the parameters and attributes plug-in
  \ingroup init
 */
-TCAPIEXPORT void tc_BasicInformationTool_Text_api(
+TCAPIEXPORT void tc_ParametersTool_Text_api(
 		const char* (*getTextData)(long ,const char* ),
 		tc_strings (*getAllTextDataNamed)(tc_items,tc_strings),
 		void (*setTextData)(long ,const char* ,const char* ));
 
-TCAPIEXPORT void tc_BasicInformationTool_Numeric_api(
+TCAPIEXPORT void tc_ParametersTool_Numeric_api(
 		tc_matrix (*getInitialValues)(tc_items ),
 		void (*setInitialValues)(tc_items,tc_matrix),
 		tc_matrix (*getParameters)(tc_items ),

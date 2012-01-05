@@ -5160,9 +5160,9 @@ attr(`tc_setParameters`, 'returnType') = 'void'
 attr(`tc_setParameters`, "inputTypes") = c('_p_tc_matrix', 'integer')
 class(`tc_setParameters`) = c("SWIGFunction", class('tc_setParameters'))
 
-# Start of tc_BasicInformationTool_Text_api
+# Start of tc_ParametersTool_Text_api
 
-`tc_BasicInformationTool_Text_api` = function(getTextData, getAllTextDataNamed, setTextData)
+`tc_ParametersTool_Text_api` = function(getTextData, getAllTextDataNamed, setTextData)
 {
   if(is.function(getTextData)) {
     assert('...' %in% names(formals(getTextData)) || length(formals(getTextData)) >= 2)
@@ -5194,17 +5194,17 @@ class(`tc_setParameters`) = c("SWIGFunction", class('tc_setParameters'))
       setTextData = setTextData$address
     }
   }
-  .Call('R_swig_tc_BasicInformationTool_Text_api', getTextData, getAllTextDataNamed, setTextData, PACKAGE='tinkercell')
+  .Call('R_swig_tc_ParametersTool_Text_api', getTextData, getAllTextDataNamed, setTextData, PACKAGE='tinkercell')
   
 }
 
-attr(`tc_BasicInformationTool_Text_api`, 'returnType') = 'void'
-attr(`tc_BasicInformationTool_Text_api`, "inputTypes") = c('_p_f_long_p_q_const__char__p_char', '_p_f_tc_items_tc_strings__tc_strings', '_p_f_long_p_q_const__char_p_q_const__char__void')
-class(`tc_BasicInformationTool_Text_api`) = c("SWIGFunction", class('tc_BasicInformationTool_Text_api'))
+attr(`tc_ParametersTool_Text_api`, 'returnType') = 'void'
+attr(`tc_ParametersTool_Text_api`, "inputTypes") = c('_p_f_long_p_q_const__char__p_char', '_p_f_tc_items_tc_strings__tc_strings', '_p_f_long_p_q_const__char_p_q_const__char__void')
+class(`tc_ParametersTool_Text_api`) = c("SWIGFunction", class('tc_ParametersTool_Text_api'))
 
-# Start of tc_BasicInformationTool_Numeric_api
+# Start of tc_ParametersTool_Numeric_api
 
-`tc_BasicInformationTool_Numeric_api` = function(getInitialValues, setInitialValues, getParameters, getFixedVariabes, getParametersAndFixedVariabes, getNumericalData, getParametersNamed, getParametersExcept, setNumericalData)
+`tc_ParametersTool_Numeric_api` = function(getInitialValues, setInitialValues, getParameters, getFixedVariabes, getParametersAndFixedVariabes, getNumericalData, getParametersNamed, getParametersExcept, setNumericalData)
 {
   if(is.function(getInitialValues)) {
     assert('...' %in% names(formals(getInitialValues)) || length(formals(getInitialValues)) >= 0)
@@ -5296,13 +5296,13 @@ class(`tc_BasicInformationTool_Text_api`) = c("SWIGFunction", class('tc_BasicInf
       setNumericalData = setNumericalData$address
     }
   }
-  .Call('R_swig_tc_BasicInformationTool_Numeric_api', getInitialValues, setInitialValues, getParameters, getFixedVariabes, getParametersAndFixedVariabes, getNumericalData, getParametersNamed, getParametersExcept, setNumericalData, PACKAGE='tinkercell')
+  .Call('R_swig_tc_ParametersTool_Numeric_api', getInitialValues, setInitialValues, getParameters, getFixedVariabes, getParametersAndFixedVariabes, getNumericalData, getParametersNamed, getParametersExcept, setNumericalData, PACKAGE='tinkercell')
   
 }
 
-attr(`tc_BasicInformationTool_Numeric_api`, 'returnType') = 'void'
-attr(`tc_BasicInformationTool_Numeric_api`, "inputTypes") = c('_p_f_tc_items__tc_matrix', '_p_f_tc_items_tc_matrix__void', '_p_f_tc_items__tc_matrix', '_p_f_tc_items__tc_matrix', '_p_f_tc_items__tc_matrix', '_p_f_long_p_q_const__char__double', '_p_f_tc_items_tc_strings__tc_matrix', '_p_f_tc_items_tc_strings__tc_matrix', '_p_f_long_p_q_const__char_double__void')
-class(`tc_BasicInformationTool_Numeric_api`) = c("SWIGFunction", class('tc_BasicInformationTool_Numeric_api'))
+attr(`tc_ParametersTool_Numeric_api`, 'returnType') = 'void'
+attr(`tc_ParametersTool_Numeric_api`, "inputTypes") = c('_p_f_tc_items__tc_matrix', '_p_f_tc_items_tc_matrix__void', '_p_f_tc_items__tc_matrix', '_p_f_tc_items__tc_matrix', '_p_f_tc_items__tc_matrix', '_p_f_long_p_q_const__char__double', '_p_f_tc_items_tc_strings__tc_matrix', '_p_f_tc_items_tc_strings__tc_matrix', '_p_f_long_p_q_const__char_double__void')
+class(`tc_ParametersTool_Numeric_api`) = c("SWIGFunction", class('tc_ParametersTool_Numeric_api'))
 
 # Start of tc_getConnectedNodesWithRole
 

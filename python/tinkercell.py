@@ -793,13 +793,13 @@ def tc_setParameters(*args):
   return _tinkercell.tc_setParameters(*args)
 tc_setParameters = _tinkercell.tc_setParameters
 
-def tc_BasicInformationTool_Text_api(*args):
-  return _tinkercell.tc_BasicInformationTool_Text_api(*args)
-tc_BasicInformationTool_Text_api = _tinkercell.tc_BasicInformationTool_Text_api
+def tc_ParametersTool_Text_api(*args):
+  return _tinkercell.tc_ParametersTool_Text_api(*args)
+tc_ParametersTool_Text_api = _tinkercell.tc_ParametersTool_Text_api
 
-def tc_BasicInformationTool_Numeric_api(*args):
-  return _tinkercell.tc_BasicInformationTool_Numeric_api(*args)
-tc_BasicInformationTool_Numeric_api = _tinkercell.tc_BasicInformationTool_Numeric_api
+def tc_ParametersTool_Numeric_api(*args):
+  return _tinkercell.tc_ParametersTool_Numeric_api(*args)
+tc_ParametersTool_Numeric_api = _tinkercell.tc_ParametersTool_Numeric_api
 
 def tc_getConnectedNodesWithRole(*args):
   return _tinkercell.tc_getConnectedNodesWithRole(*args)

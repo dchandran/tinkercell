@@ -9229,7 +9229,7 @@ fail:
 }
 
 
-static octave_value_list _wrap_tc_BasicInformationTool_Text_api (const octave_value_list& args, int nargout) {
+static octave_value_list _wrap_tc_ParametersTool_Text_api (const octave_value_list& args, int nargout) {
   char *(*arg1)(long,char const *) = (char *(*)(long,char const *)) 0 ;
   tc_strings (*arg2)(tc_items,tc_strings) = (tc_strings (*)(tc_items,tc_strings)) 0 ;
   void (*arg3)(long,char const *,char const *) = (void (*)(long,char const *,char const *)) 0 ;
@@ -9237,28 +9237,28 @@ static octave_value_list _wrap_tc_BasicInformationTool_Text_api (const octave_va
   octave_value_list *_outp=&_out;
   octave_value _outv;
   
-  if (!SWIG_check_num_args("tc_BasicInformationTool_Text_api",args.length(),3,3,0)) {
+  if (!SWIG_check_num_args("tc_ParametersTool_Text_api",args.length(),3,3,0)) {
     SWIG_fail;
   }
   {
     int res = SWIG_ConvertFunctionPtr(args(0), (void**)(&arg1), SWIGTYPE_p_f_long_p_q_const__char__p_char);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Text_api" "', argument " "1"" of type '" "char const *(*)(long,char const *)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ParametersTool_Text_api" "', argument " "1"" of type '" "char const *(*)(long,char const *)""'"); 
     }
   }
   {
     int res = SWIG_ConvertFunctionPtr(args(1), (void**)(&arg2), SWIGTYPE_p_f_tc_items_tc_strings__tc_strings);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Text_api" "', argument " "2"" of type '" "tc_strings (*)(tc_items,tc_strings)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ParametersTool_Text_api" "', argument " "2"" of type '" "tc_strings (*)(tc_items,tc_strings)""'"); 
     }
   }
   {
     int res = SWIG_ConvertFunctionPtr(args(2), (void**)(&arg3), SWIGTYPE_p_f_long_p_q_const__char_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Text_api" "', argument " "3"" of type '" "void (*)(long,char const *,char const *)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ParametersTool_Text_api" "', argument " "3"" of type '" "void (*)(long,char const *,char const *)""'"); 
     }
   }
-  tc_BasicInformationTool_Text_api((char const *(*)(long,char const *))arg1,arg2,arg3);
+  tc_ParametersTool_Text_api((char const *(*)(long,char const *))arg1,arg2,arg3);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
 fail:
@@ -9266,7 +9266,7 @@ fail:
 }
 
 
-static octave_value_list _wrap_tc_BasicInformationTool_Numeric_api (const octave_value_list& args, int nargout) {
+static octave_value_list _wrap_tc_ParametersTool_Numeric_api (const octave_value_list& args, int nargout) {
   tc_matrix (*arg1)(tc_items) = (tc_matrix (*)(tc_items)) 0 ;
   void (*arg2)(tc_items,tc_matrix) = (void (*)(tc_items,tc_matrix)) 0 ;
   tc_matrix (*arg3)(tc_items) = (tc_matrix (*)(tc_items)) 0 ;
@@ -9280,64 +9280,64 @@ static octave_value_list _wrap_tc_BasicInformationTool_Numeric_api (const octave
   octave_value_list *_outp=&_out;
   octave_value _outv;
   
-  if (!SWIG_check_num_args("tc_BasicInformationTool_Numeric_api",args.length(),9,9,0)) {
+  if (!SWIG_check_num_args("tc_ParametersTool_Numeric_api",args.length(),9,9,0)) {
     SWIG_fail;
   }
   {
     int res = SWIG_ConvertFunctionPtr(args(0), (void**)(&arg1), SWIGTYPE_p_f_tc_items__tc_matrix);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "1"" of type '" "tc_matrix (*)(tc_items)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ParametersTool_Numeric_api" "', argument " "1"" of type '" "tc_matrix (*)(tc_items)""'"); 
     }
   }
   {
     int res = SWIG_ConvertFunctionPtr(args(1), (void**)(&arg2), SWIGTYPE_p_f_tc_items_tc_matrix__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "2"" of type '" "void (*)(tc_items,tc_matrix)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ParametersTool_Numeric_api" "', argument " "2"" of type '" "void (*)(tc_items,tc_matrix)""'"); 
     }
   }
   {
     int res = SWIG_ConvertFunctionPtr(args(2), (void**)(&arg3), SWIGTYPE_p_f_tc_items__tc_matrix);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "3"" of type '" "tc_matrix (*)(tc_items)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ParametersTool_Numeric_api" "', argument " "3"" of type '" "tc_matrix (*)(tc_items)""'"); 
     }
   }
   {
     int res = SWIG_ConvertFunctionPtr(args(3), (void**)(&arg4), SWIGTYPE_p_f_tc_items__tc_matrix);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "4"" of type '" "tc_matrix (*)(tc_items)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ParametersTool_Numeric_api" "', argument " "4"" of type '" "tc_matrix (*)(tc_items)""'"); 
     }
   }
   {
     int res = SWIG_ConvertFunctionPtr(args(4), (void**)(&arg5), SWIGTYPE_p_f_tc_items__tc_matrix);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "5"" of type '" "tc_matrix (*)(tc_items)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ParametersTool_Numeric_api" "', argument " "5"" of type '" "tc_matrix (*)(tc_items)""'"); 
     }
   }
   {
     int res = SWIG_ConvertFunctionPtr(args(5), (void**)(&arg6), SWIGTYPE_p_f_long_p_q_const__char__double);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "6"" of type '" "double (*)(long,char const *)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ParametersTool_Numeric_api" "', argument " "6"" of type '" "double (*)(long,char const *)""'"); 
     }
   }
   {
     int res = SWIG_ConvertFunctionPtr(args(6), (void**)(&arg7), SWIGTYPE_p_f_tc_items_tc_strings__tc_matrix);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "7"" of type '" "tc_matrix (*)(tc_items,tc_strings)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ParametersTool_Numeric_api" "', argument " "7"" of type '" "tc_matrix (*)(tc_items,tc_strings)""'"); 
     }
   }
   {
     int res = SWIG_ConvertFunctionPtr(args(7), (void**)(&arg8), SWIGTYPE_p_f_tc_items_tc_strings__tc_matrix);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "8"" of type '" "tc_matrix (*)(tc_items,tc_strings)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ParametersTool_Numeric_api" "', argument " "8"" of type '" "tc_matrix (*)(tc_items,tc_strings)""'"); 
     }
   }
   {
     int res = SWIG_ConvertFunctionPtr(args(8), (void**)(&arg9), SWIGTYPE_p_f_long_p_q_const__char_double__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "9"" of type '" "void (*)(long,char const *,double)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ParametersTool_Numeric_api" "', argument " "9"" of type '" "void (*)(long,char const *,double)""'"); 
     }
   }
-  tc_BasicInformationTool_Numeric_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9);
+  tc_ParametersTool_Numeric_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
 fail:
@@ -13017,8 +13017,8 @@ static const struct swig_octave_member swig_globals[] = {
 {"tc_setParameterByName",_wrap_tc_setParameterByName,0,0,2,0},
 {"tc_setTextAttributes",_wrap_tc_setTextAttributes,0,0,2,0},
 {"tc_setParameters",_wrap_tc_setParameters,0,0,2,0},
-{"tc_BasicInformationTool_Text_api",_wrap_tc_BasicInformationTool_Text_api,0,0,2,0},
-{"tc_BasicInformationTool_Numeric_api",_wrap_tc_BasicInformationTool_Numeric_api,0,0,2,0},
+{"tc_ParametersTool_Text_api",_wrap_tc_ParametersTool_Text_api,0,0,2,0},
+{"tc_ParametersTool_Numeric_api",_wrap_tc_ParametersTool_Numeric_api,0,0,2,0},
 {"tc_getConnectedNodesWithRole",_wrap_tc_getConnectedNodesWithRole,0,0,2,0},
 {"tc_getConnectionsWithRole",_wrap_tc_getConnectionsWithRole,0,0,2,0},
 {"tc_ConnectionInsertion_api",_wrap_tc_ConnectionInsertion_api,0,0,2,0},

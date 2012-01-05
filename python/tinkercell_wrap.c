@@ -9577,7 +9577,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_tc_BasicInformationTool_Text_api(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_tc_ParametersTool_Text_api(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   char *(*arg1)(long,char const *) = (char *(*)(long,char const *)) 0 ;
   tc_strings (*arg2)(tc_items,tc_strings) = (tc_strings (*)(tc_items,tc_strings)) 0 ;
@@ -9586,26 +9586,26 @@ SWIGINTERN PyObject *_wrap_tc_BasicInformationTool_Text_api(PyObject *SWIGUNUSED
   PyObject * obj1 = 0 ;
   PyObject * obj2 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"OOO:tc_BasicInformationTool_Text_api",&obj0,&obj1,&obj2)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"OOO:tc_ParametersTool_Text_api",&obj0,&obj1,&obj2)) SWIG_fail;
   {
     int res = SWIG_ConvertFunctionPtr(obj0, (void**)(&arg1), SWIGTYPE_p_f_long_p_q_const__char__p_char);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Text_api" "', argument " "1"" of type '" "char const *(*)(long,char const *)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ParametersTool_Text_api" "', argument " "1"" of type '" "char const *(*)(long,char const *)""'"); 
     }
   }
   {
     int res = SWIG_ConvertFunctionPtr(obj1, (void**)(&arg2), SWIGTYPE_p_f_tc_items_tc_strings__tc_strings);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Text_api" "', argument " "2"" of type '" "tc_strings (*)(tc_items,tc_strings)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ParametersTool_Text_api" "', argument " "2"" of type '" "tc_strings (*)(tc_items,tc_strings)""'"); 
     }
   }
   {
     int res = SWIG_ConvertFunctionPtr(obj2, (void**)(&arg3), SWIGTYPE_p_f_long_p_q_const__char_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Text_api" "', argument " "3"" of type '" "void (*)(long,char const *,char const *)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ParametersTool_Text_api" "', argument " "3"" of type '" "void (*)(long,char const *,char const *)""'"); 
     }
   }
-  tc_BasicInformationTool_Text_api((char const *(*)(long,char const *))arg1,arg2,arg3);
+  tc_ParametersTool_Text_api((char const *(*)(long,char const *))arg1,arg2,arg3);
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -9613,7 +9613,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_tc_BasicInformationTool_Numeric_api(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_tc_ParametersTool_Numeric_api(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   tc_matrix (*arg1)(tc_items) = (tc_matrix (*)(tc_items)) 0 ;
   void (*arg2)(tc_items,tc_matrix) = (void (*)(tc_items,tc_matrix)) 0 ;
@@ -9634,62 +9634,62 @@ SWIGINTERN PyObject *_wrap_tc_BasicInformationTool_Numeric_api(PyObject *SWIGUNU
   PyObject * obj7 = 0 ;
   PyObject * obj8 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"OOOOOOOOO:tc_BasicInformationTool_Numeric_api",&obj0,&obj1,&obj2,&obj3,&obj4,&obj5,&obj6,&obj7,&obj8)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"OOOOOOOOO:tc_ParametersTool_Numeric_api",&obj0,&obj1,&obj2,&obj3,&obj4,&obj5,&obj6,&obj7,&obj8)) SWIG_fail;
   {
     int res = SWIG_ConvertFunctionPtr(obj0, (void**)(&arg1), SWIGTYPE_p_f_tc_items__tc_matrix);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "1"" of type '" "tc_matrix (*)(tc_items)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ParametersTool_Numeric_api" "', argument " "1"" of type '" "tc_matrix (*)(tc_items)""'"); 
     }
   }
   {
     int res = SWIG_ConvertFunctionPtr(obj1, (void**)(&arg2), SWIGTYPE_p_f_tc_items_tc_matrix__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "2"" of type '" "void (*)(tc_items,tc_matrix)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ParametersTool_Numeric_api" "', argument " "2"" of type '" "void (*)(tc_items,tc_matrix)""'"); 
     }
   }
   {
     int res = SWIG_ConvertFunctionPtr(obj2, (void**)(&arg3), SWIGTYPE_p_f_tc_items__tc_matrix);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "3"" of type '" "tc_matrix (*)(tc_items)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ParametersTool_Numeric_api" "', argument " "3"" of type '" "tc_matrix (*)(tc_items)""'"); 
     }
   }
   {
     int res = SWIG_ConvertFunctionPtr(obj3, (void**)(&arg4), SWIGTYPE_p_f_tc_items__tc_matrix);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "4"" of type '" "tc_matrix (*)(tc_items)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ParametersTool_Numeric_api" "', argument " "4"" of type '" "tc_matrix (*)(tc_items)""'"); 
     }
   }
   {
     int res = SWIG_ConvertFunctionPtr(obj4, (void**)(&arg5), SWIGTYPE_p_f_tc_items__tc_matrix);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "5"" of type '" "tc_matrix (*)(tc_items)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ParametersTool_Numeric_api" "', argument " "5"" of type '" "tc_matrix (*)(tc_items)""'"); 
     }
   }
   {
     int res = SWIG_ConvertFunctionPtr(obj5, (void**)(&arg6), SWIGTYPE_p_f_long_p_q_const__char__double);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "6"" of type '" "double (*)(long,char const *)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ParametersTool_Numeric_api" "', argument " "6"" of type '" "double (*)(long,char const *)""'"); 
     }
   }
   {
     int res = SWIG_ConvertFunctionPtr(obj6, (void**)(&arg7), SWIGTYPE_p_f_tc_items_tc_strings__tc_matrix);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "7"" of type '" "tc_matrix (*)(tc_items,tc_strings)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ParametersTool_Numeric_api" "', argument " "7"" of type '" "tc_matrix (*)(tc_items,tc_strings)""'"); 
     }
   }
   {
     int res = SWIG_ConvertFunctionPtr(obj7, (void**)(&arg8), SWIGTYPE_p_f_tc_items_tc_strings__tc_matrix);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "8"" of type '" "tc_matrix (*)(tc_items,tc_strings)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ParametersTool_Numeric_api" "', argument " "8"" of type '" "tc_matrix (*)(tc_items,tc_strings)""'"); 
     }
   }
   {
     int res = SWIG_ConvertFunctionPtr(obj8, (void**)(&arg9), SWIGTYPE_p_f_long_p_q_const__char_double__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "9"" of type '" "void (*)(long,char const *,double)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ParametersTool_Numeric_api" "', argument " "9"" of type '" "void (*)(long,char const *,double)""'"); 
     }
   }
-  tc_BasicInformationTool_Numeric_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9);
+  tc_ParametersTool_Numeric_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9);
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -13228,8 +13228,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"tc_setParameterByName", _wrap_tc_setParameterByName, METH_VARARGS, NULL},
 	 { (char *)"tc_setTextAttributes", _wrap_tc_setTextAttributes, METH_VARARGS, NULL},
 	 { (char *)"tc_setParameters", _wrap_tc_setParameters, METH_VARARGS, NULL},
-	 { (char *)"tc_BasicInformationTool_Text_api", _wrap_tc_BasicInformationTool_Text_api, METH_VARARGS, NULL},
-	 { (char *)"tc_BasicInformationTool_Numeric_api", _wrap_tc_BasicInformationTool_Numeric_api, METH_VARARGS, NULL},
+	 { (char *)"tc_ParametersTool_Text_api", _wrap_tc_ParametersTool_Text_api, METH_VARARGS, NULL},
+	 { (char *)"tc_ParametersTool_Numeric_api", _wrap_tc_ParametersTool_Numeric_api, METH_VARARGS, NULL},
 	 { (char *)"tc_getConnectedNodesWithRole", _wrap_tc_getConnectedNodesWithRole, METH_VARARGS, NULL},
 	 { (char *)"tc_getConnectionsWithRole", _wrap_tc_getConnectionsWithRole, METH_VARARGS, NULL},
 	 { (char *)"tc_ConnectionInsertion_api", _wrap_tc_ConnectionInsertion_api, METH_VARARGS, NULL},

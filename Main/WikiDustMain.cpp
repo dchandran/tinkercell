@@ -122,15 +122,15 @@ int main(int argc, char *argv[])
 	//setup the tabs
 	CatalogWidget::tabGroups
 			<< QPair<QString, QStringList>(
-											tr("Parts"),
+											QObject::tr("Parts"),
 											QStringList() << "part")
 
 			<< QPair<QString, QStringList>(
-											tr("Compartments"),
+											QObject::tr("Compartments"),
 											QStringList() << "compartment")
 
 			<< QPair<QString, QStringList>(
-											tr("Regulation"),
+											QObject::tr("Regulation"),
 											QStringList() << "regulation");
     
    	mainWindow.addTool(new CatalogWidget);

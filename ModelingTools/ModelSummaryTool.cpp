@@ -240,7 +240,7 @@ namespace Tinkercell
 				if (handles[i]->family() && !handles[i]->tools.contains(this))
 					handles[i]->tools += this;
 
-				if (!handle->hasNumericalData(QString("Fixed")))
+				if (!handles[i]->hasNumericalData(QString("Fixed")))
 				{
 					DataTable<qreal> fixed;
 					fixed.resize(1,1);
@@ -250,7 +250,7 @@ namespace Tinkercell
 					fixed.value(0,0) = 0.0;
 					fixed.description() = tr("Fixed: stores 1 if this is a fixed variable, 0 otherwise");
 
-					handle->numericalDataTable(QString("Fixed")) = fixed;
+					handles[i]->numericalDataTable(QString("Fixed")) = fixed;
 				}
 			}
 		

@@ -148,7 +148,7 @@ namespace Tinkercell
 		{
 			handle = modifiedHandles[i].first;
 			popSz =  modifiedHandles[i].second;
-			if (handle && handle->family() && handle->family()->isA("Node")  && handle->hasNumericalData(QString("Initial Value")))
+			if (handle && handle->family() && handle->family()->isA("Biological entity")  && handle->hasNumericalData(QString("Initial Value")))
 			{
 				DataTable<qreal>& dat = handle->numericalDataTable(QString("Initial Value"));
 				dat.value(0,0) *= popSz;
@@ -196,7 +196,7 @@ namespace Tinkercell
 		{
 			handle = modifiedHandles[i].first;
 			popSz =  modifiedHandles[i].second;
-			if (handle && handle->family() && handle->family()->isA("Node") && handle->hasNumericalData("Initial Value"))
+			if (handle && handle->family() && handle->family()->isA("Biological entity") && handle->hasNumericalData("Initial Value"))
 			{
 				DataTable<qreal>& dat = handle->numericalDataTable("Initial Value");
 				dat.value(0,0) /= popSz;

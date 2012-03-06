@@ -254,7 +254,7 @@ namespace Tinkercell
 
 		for (int i=0; i < handles.size(); ++i)
 		{
-			//if (handles[i] && handles[i]->isA("Node") && !handles[i]->tools.contains(this))
+			//if (handles[i] && handles[i]->isA("Biological entity") && !handles[i]->tools.contains(this))
 				//handles[i]->tools += this;
 
 			if (handles[i] && (handles[i]->isA(tr("Biological process")) || handles[i]->isA(tr("Biological entity"))))

@@ -37,12 +37,12 @@ namespace Tinkercell
             connect(mainWindow,SIGNAL(itemsMoved(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<QPointF>&)),
                     this,SLOT(itemsMoved(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<QPointF>&)));
 
-            connect(mainWindow,SIGNAL(historyChanged(int)),this,SLOT(updateTree(int)));
+            //connect(mainWindow,SIGNAL(historyChanged(int)),this,SLOT(updateTree(int)));
 
-            connect(mainWindow,SIGNAL(windowChanged(NetworkWindow*, NetworkWindow*)),
-                    this,SLOT(windowChanged(NetworkWindow*, NetworkWindow*)));
+            //connect(mainWindow,SIGNAL(windowChanged(NetworkWindow*, NetworkWindow*)),
+                //    this,SLOT(windowChanged(NetworkWindow*, NetworkWindow*)));
 
-			connect(mainWindow,SIGNAL(networkClosed(NetworkHandle *)),this,SLOT(windowClosed(NetworkHandle *)));
+			//connect(mainWindow,SIGNAL(networkClosed(NetworkHandle *)),this,SLOT(windowClosed(NetworkHandle *)));
 
 			connectCollisionDetector();
 

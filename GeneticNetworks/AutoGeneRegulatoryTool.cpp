@@ -1001,6 +1001,7 @@ namespace Tinkercell
 					break;
 
 			ItemHandle * h;
+
 			if (hitNode && item
 				&& handle
 				&& !hitNode->connections().isEmpty()
@@ -1008,7 +1009,7 @@ namespace Tinkercell
 				&& (h = hitNode->handle()) 
 
 				&& (h->isA(handle->family()) || handle->isA(h->family())) 
-				&& h->isA("Node") && handle->isA("Node")
+				&& h->isA("Biological entity") && handle->isA("Biological entity")
 				)
 			{
 				if (handle->isA(h->family()))

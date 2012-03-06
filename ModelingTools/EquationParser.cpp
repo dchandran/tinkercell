@@ -217,6 +217,7 @@ namespace Tinkercell
 										if (!str2.contains(QRegExp(QString("^") + handle2->fullName() + QString("\\."))) &&
 											!str2.contains(QRegExp(QString("^") + handle2->fullName() + QString("_"))))
 										{
+											if (str2.isEmpty()) str2 = "_";
 											str = str2;
 											str2 = handle2->fullName() + QString(".") + str2;
 											s.replace(QRegExp(QString("^")+str+QString("([^a-zA-Z0-9_])")),str2 + QString("\\1"));
@@ -227,6 +228,13 @@ namespace Tinkercell
 										{
 											str.replace(QRegExp(QString("^") + handle2->fullName() + QString("\\.")),QString(""));
 											str.replace(QRegExp(QString("^") + handle2->fullName() + QString("_")),QString(""));
+											if (str.isEmpty())
+											{
+												str = QString("_");
+												s.replace(QRegExp(QString("^")+QString("([^a-zA-Z0-9_])")),str + QString("\\1"));
+												s.replace(QRegExp(QString("([^a-zA-Z0-9_\\.])")+QString("([^a-zA-Z0-9_])")), QString("\\1") + str + QString("\\2"));
+												s.replace(QRegExp(QString("([^a-zA-Z0-9_\\.])")+QString("$")),QString("\\1") + str);
+											}
 										}
 										
 										dat.value(str,0) = 1.0;

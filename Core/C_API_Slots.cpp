@@ -736,12 +736,17 @@ namespace Tinkercell
 			return;
 		}
 
+		QStringList globals = Ontology::GLOBAL_CHILDREN;
+		Ontology::GLOBAL_CHILDREN.clear();
+
 		if (returnPtr)
 		{
 			for (int i=0; i < handles.size(); ++i)
 				if (handles[i] && handles[i]->isA(family))
 					(*returnPtr) += handles[i];
 		}
+
+		Ontology::GLOBAL_CHILDREN = globals;
 
 		if (s)
 			s->release();
@@ -910,10 +915,15 @@ namespace Tinkercell
 		{
 			(*boolean) = 0;
 
+			QStringList globals = Ontology::GLOBAL_CHILDREN;
+			Ontology::GLOBAL_CHILDREN.clear();
+
 			if (handle->family())
 			{
 				(*boolean) = (int)(handle->family()->isA(family));
 			}
+
+			Ontology::GLOBAL_CHILDREN = globals;
 		}
 		if (s)
 			s->release();

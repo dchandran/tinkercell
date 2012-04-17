@@ -307,17 +307,17 @@ namespace Tinkercell
 	{
 		if (modelNeedsUpdate)
 			updateSBMLModel();
-/*
+
 		if (sbmlDocument)
 			writeSBML (sbmlDocument, ConvertValue(str) );
-*/
+/*
 		QWidget * tool = mainWindow->tool("COPASI");
 		if (tool)
 		{
 			CopasiExporter * copasi = static_cast<CopasiExporter*>(tool);
 			copasi->exportSBML(str);	
 		}
-
+*/
 	}
 
 	void SBMLImportExport::exportSBML(QSemaphore * sem, const QString & str)
@@ -331,10 +331,10 @@ namespace Tinkercell
 	{
 		if (modelNeedsUpdate)
 			updateSBMLModel();
-/*
+
 		if (sbmlDocument && str)
 			(*str) = QString(writeSBMLToString(sbmlDocument));
-*/
+/*
 		QWidget * tool = mainWindow->tool("COPASI");
 		if (tool && str)
 		{
@@ -349,7 +349,7 @@ namespace Tinkercell
 				file.close();
 			}
 		}
-	
+*/	
 		if (sem)
 			sem->release();
 	}

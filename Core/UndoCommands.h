@@ -506,7 +506,7 @@ namespace Tinkercell
 		void redo();
 		void undo();
 		static void findReplaceAllHandleData(QList<ItemHandle*>& allItems,const QString& oldName,const QString& newName);
-		static void substituteString(QString& targetValue, const QString& oldName,const QString& newName);
+		static bool substituteString(QString& targetValue, const QString& oldName,const QString& newName);
 	private:
 		QList<ItemHandle*> allhandles;
 		QList<ItemHandle*> handles;

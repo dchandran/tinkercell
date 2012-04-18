@@ -778,6 +778,29 @@ namespace Tinkercell
 				}
 			}
 		}
+
+		//cleanup assignment rules so that one does not contain another
+		bool replace_needed = true;
+		while (replace_needed)
+		{
+			replace_needed = false;
+			for (int i=0; i < assignmentNames.size(); ++i)
+			{
+				if (!assignmentDefs[i].isEmpty())
+				{
+					for (int j=0; j < assignmentNames.size(); ++j)
+						if (!assignmentNames[j].isEmpty() && 
+							assignmentNames[j] != assignmentNames[i] && 
+							assignmentDefs[i].contains(assignmentNames[j]))
+						{
+							if (RenameCommand::substituteString(assignmentDefs[i], assignmentNames[j], assignmentDefs[j]))
+							{
+								replace_needed = true;
+							}
+						}
+				}
+			}
+		}
 	
 		if (compartments.isEmpty())
 		{

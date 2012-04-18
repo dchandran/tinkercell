@@ -2268,9 +2268,11 @@ namespace Tinkercell
 		}
 	}
 
-	void RenameCommand::substituteString(QString& target, const QString& oldname,const QString& newname0)
+	bool RenameCommand::substituteString(QString& target, const QString& oldname,const QString& newname0)
 	{
-		if (oldname == newname0) return;
+		if (oldname == newname0) return false;
+
+		QString target0 = target;
 		QString newname = newname0;
 		newname.replace(QRegExp("[^A-Za-z0-9_]"),QString("_@@@_"));
 
@@ -2303,6 +2305,8 @@ namespace Tinkercell
 			n = regexp4.indexIn(target);
 		}
 		target.replace(newname,newname0);
+
+		return !(target0 == target); //true if some replacement was done
 	}
 
 	void RenameCommand::findReplaceAllHandleData(QList<ItemHandle*>& handles,const QString& oldname,const QString& newname)

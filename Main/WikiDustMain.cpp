@@ -46,6 +46,7 @@
 #include "NodeSelection.h"
 #include "GraphicsScene.h"
 #include "ConsoleWindow.h"
+#include "SpecialCommandsConsole.h"
 #include <QColor>
 #include <QBrush>
 
@@ -150,7 +151,7 @@ int main(int argc, char *argv[])
 	mainWindow.addTool(new AssignmentFunctionsTool);
 	mainWindow.addTool(new StoichiometryTool);
 	mainWindow.addTool(new ModelSummaryTool);
-	mainWindow.addTool(new ModelSummaryWidget);
+	//mainWindow.addTool(new ModelSummaryWidget);
 	mainWindow.addTool(new ModelFileGenerator);
 	mainWindow.addTool(new SimulationEventsTool);	
 	mainWindow.addTool(new ContainerTool);	
@@ -165,7 +166,8 @@ int main(int argc, char *argv[])
 	mainWindow.addTool(new DNASequenceViewer);
 	mainWindow.addTool(new ViewTablesTool);
 	//mainWindow.addTool(new LPSolveInputWindow);
-	mainWindow.addTool(new CellPositionUpdateTool);
+	//mainWindow.addTool(new CellPositionUpdateTool);
+	mainWindow.addTool(new SpecialCommandsConsole);
 
     /*******  Splash screen ***********/
 
@@ -208,3 +210,6 @@ int main(int argc, char *argv[])
 	app.closeAllWindows();
     return output;
 }
+
+
+

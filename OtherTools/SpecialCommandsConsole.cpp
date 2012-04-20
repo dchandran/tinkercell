@@ -32,7 +32,7 @@ if len(parts) > 0:\n\
 	{
 		Tool::setMainWindow(main);
 		connect(this, SIGNAL(commandExecuted(const QString&)), this, SLOT(commandExecutedSlot(const QString&)));
-
+		setWindowTitle("Text input window");
 		mainWindow->addToolWindow(this,MainWindow::defaultConsoleWindowOption,Qt::BottomDockWidgetArea);
 
 		if (mainWindow && mainWindow->tool("Python interpreter"))

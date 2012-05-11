@@ -813,7 +813,7 @@ namespace Tinkercell
 							
 							handles[i]->network = network;
 							
-							if (!renameCommand && !nameChangeHandles.contains(handles[i]))
+							if (!renameCommand && !nameChangeHandles.contains(handles[i]) && !handles.contains(handles[i]->parent))
 							{
 								s1 = graphicsScene->network->makeUnique(handles[i],usedNames);
 								usedNames << s1;

@@ -459,7 +459,7 @@ namespace Tinkercell
 		
 		if (!fileInfo.exists()) return;
 		CachedModel * cache;
-		
+
 		ItemHandle * globalHandle = 0;
 
 		bool cacheExists = false;

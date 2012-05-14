@@ -87,6 +87,9 @@ namespace Tinkercell
 		QString & homeDirPath = MainWindow::homeDirPath;		
 		if (homeDirPath.contains(GlobalSettings::ORGANIZATIONNAME) && QDir(homeDirPath).exists())
 		{
+		#ifdef Q_WS_WIN
+			homeDirPath = QString("\"") + homeDirPath.replace("/","\\") + QString("\"");
+		#endif
 			return homeDirPath;
 		}
 
@@ -98,6 +101,9 @@ namespace Tinkercell
 
 		dir.cd(tcdir);
 		homeDirPath = dir.absolutePath();
+		#ifdef Q_WS_WIN
+			homeDirPath = QString("\"") + homeDirPath.replace("/","\\") + QString("\"");
+		#endif
 		return homeDirPath;
 	}
 
@@ -108,7 +114,12 @@ namespace Tinkercell
 		QString temp = location + QString("/TinkerCell");
 
 		if (!temp.isEmpty() && QDir(temp).exists())
+		{
+		#ifdef Q_WS_WIN
+			temp = QString("\"") + temp.replace("/","\\") + QString("\"");
+		#endif
 			return temp;
+		}
 
 		QDir dir(location);
 
@@ -117,6 +128,9 @@ namespace Tinkercell
 
 		dir.cd(QString("TinkerCell"));
 		temp = dir.absolutePath();
+		#ifdef Q_WS_WIN
+			temp = QString("\"") + temp.replace("/","\\") + QString("\"");
+		#endif
 		return temp;
 	}
 

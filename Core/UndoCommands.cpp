@@ -2320,6 +2320,7 @@ namespace Tinkercell
 		{
 			if (handles[i])  //go through each handles num data and text data
 			{
+				std::cout << handles[i]->fullName().toAscii().data() << "\n";
 				for (int j=0; j < handles[i]->children.size(); ++j)
 					if (!handles.contains(handles[i]->children[j]))
 						handles += handles[i]->children[j];
@@ -2332,6 +2333,7 @@ namespace Tinkercell
 					s1.replace(handles[i]->fullName() + QObject::tr("_"), QObject::tr(""));					
 				}
 
+				std::cout << "here 1\n";
 				QList< QString > keys = handles[i]->numericalDataNames();
 				for (int j=0; j < keys.size(); ++j)  //go through each num data
 				{
@@ -2357,12 +2359,14 @@ namespace Tinkercell
 								((handles[i]->fullName() + QObject::tr(".") + nDat->rowName(k)) == oldname ||
 								(handles[i]->fullName() + QObject::tr("_") + nDat->rowName(k)) == oldname))	)
 						{
-							if (!sDat->hasRow(s1))
+							if (!nDat->hasRow(s1))
 								nDat->setRowName(k,s1);
 							else
 								nDat->removeRow(k);
 						}
 					}
+
+					std::cout << keys[j].toAscii().data() << " B\n";
 					for (int k=0; k < nDat->columns(); ++k)
 					{
 						if (nDat->columnName(k) == oldname)

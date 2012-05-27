@@ -45,7 +45,7 @@ namespace Tinkercell
 		++countHistory;
 		if (countHistory > 10)
 		{
-			saveNetwork(GlobalSettings::tempDir() + tr("/backup.xml"));
+			saveNetwork(GlobalSettings::tempDir(tr("/backup.xml")));
 			countHistory = 0;
 		}
 	}

@@ -120,11 +120,11 @@ namespace Tinkercell
 		/*!
 		* \brief The TinkerCell user directory, which is User's Documents Folder/TinkerCell by default, but users may change this setting
 		*/
-		static QString homeDir();
+		static QString homeDir(const QString& filename=QString());
 		/*!
 		* \brief The TinkerCell user temporary directory, which is <SYSTEM TEMP FOLDER>/TinkerCell
 		*/
-		static QString tempDir();
+		static QString tempDir(const QString& filename=QString());
 
 	};
 }

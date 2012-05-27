@@ -82,7 +82,7 @@ namespace Tinkercell
 	QString MainWindow::homeDirPath;
 	/*************************************/
 
-	QString GlobalSettings::homeDir()
+	QString GlobalSettings::homeDir(const QString& filename)
 	{
 		QString & homeDirPath = MainWindow::homeDirPath;		
 		if (homeDirPath.contains(GlobalSettings::ORGANIZATIONNAME) && QDir(homeDirPath).exists())
@@ -90,6 +90,12 @@ namespace Tinkercell
 		#ifdef Q_WS_WIN
 			homeDirPath = QString("\"") + homeDirPath.replace("/","\\") + QString("\"");
 		#endif
+			if (!filename.isNull() && !filename.isEmpty())
+			#ifdef Q_WS_WIN
+				homeDirPath += QString("\\") + filename; 
+			#else
+				homeDirPath += QString("/") + filename; 
+			#endif
 			return homeDirPath;
 		}
 
@@ -104,10 +110,17 @@ namespace Tinkercell
 		#ifdef Q_WS_WIN
 			homeDirPath = QString("\"") + homeDirPath.replace("/","\\") + QString("\"");
 		#endif
+
+		if (!filename.isNull() && !filename.isEmpty())
+		#ifdef Q_WS_WIN
+			homeDirPath += QString("\\") + filename; 
+		#else
+			homeDirPath += QString("/") + filename; 
+		#endif
 		return homeDirPath;
 	}
 
-	QString GlobalSettings::tempDir()
+	QString GlobalSettings::tempDir(const QString& filename)
 	{
 		QString location = QDesktopServices::storageLocation(QDesktopServices::TempLocation);
 
@@ -118,6 +131,12 @@ namespace Tinkercell
 		#ifdef Q_WS_WIN
 			temp = QString("\"") + temp.replace("/","\\") + QString("\"");
 		#endif
+			if (!filename.isNull() && !filename.isEmpty())
+			#ifdef Q_WS_WIN
+				temp += QString("\\") + filename; 
+			#else
+				temp += QString("/") + filename; 
+			#endif
 			return temp;
 		}
 
@@ -131,6 +150,14 @@ namespace Tinkercell
 		#ifdef Q_WS_WIN
 			temp = QString("\"") + temp.replace("/","\\") + QString("\"");
 		#endif
+		
+		if (!filename.isNull() && !filename.isEmpty())
+		#ifdef Q_WS_WIN
+			temp += QString("\\") + filename; 
+		#else
+			temp += QString("/") + filename; 
+		#endif
+
 		return temp;
 	}
 

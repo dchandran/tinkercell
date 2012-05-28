@@ -88,7 +88,7 @@ namespace Tinkercell
 		if (homeDirPath.contains(GlobalSettings::ORGANIZATIONNAME) && QDir(homeDirPath).exists())
 		{
 		#ifdef Q_WS_WIN
-			homeDirPath = QString("\"") + homeDirPath.replace("/","\\") + QString("\"");
+			homeDirPath = homeDirPath.replace("/","\\");
 		#endif
 			if (!filename.isNull() && !filename.isEmpty())
 			#ifdef Q_WS_WIN
@@ -108,7 +108,7 @@ namespace Tinkercell
 		dir.cd(tcdir);
 		homeDirPath = dir.absolutePath();
 		#ifdef Q_WS_WIN
-			homeDirPath = QString("\"") + homeDirPath.replace("/","\\") + QString("\"");
+			homeDirPath = homeDirPath.replace("/","\\");
 		#endif
 
 		if (!filename.isNull() && !filename.isEmpty())
@@ -129,7 +129,7 @@ namespace Tinkercell
 		if (!temp.isEmpty() && QDir(temp).exists())
 		{
 		#ifdef Q_WS_WIN
-			temp = QString("\"") + temp.replace("/","\\") + QString("\"");
+			temp = temp.replace("/","\\") ;
 		#endif
 			if (!filename.isNull() && !filename.isEmpty())
 			#ifdef Q_WS_WIN
@@ -148,7 +148,7 @@ namespace Tinkercell
 		dir.cd(QString("TinkerCell"));
 		temp = dir.absolutePath();
 		#ifdef Q_WS_WIN
-			temp = QString("\"") + temp.replace("/","\\") + QString("\"");
+			temp = temp.replace("/","\\");
 		#endif
 		
 		if (!filename.isNull() && !filename.isEmpty())

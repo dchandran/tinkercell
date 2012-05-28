@@ -45,7 +45,7 @@ namespace Tinkercell
 		++countHistory;
 		if (countHistory > 10)
 		{
-			saveNetwork(GlobalSettings::tempDir(tr("/backup.xml")));
+			saveNetwork(GlobalSettings::tempDir(tr("backup.xml")));
 			countHistory = 0;
 		}
 	}
@@ -96,7 +96,7 @@ namespace Tinkercell
 			connect(this,SIGNAL(networkSaved(NetworkHandle*)),mainWindow,SIGNAL(networkSaved(NetworkHandle*)));
 			connect(this,SIGNAL(networkLoaded(NetworkHandle*)),mainWindow,SIGNAL(networkLoaded(NetworkHandle*)));
 
-			QString filename = GlobalSettings::tempDir() + tr("/backup.xml");
+			QString filename = GlobalSettings::tempDir(tr("backup.xml"));
 			QFile file(filename);
 			
 			if (file.open(QFile::ReadOnly | QFile::Text))

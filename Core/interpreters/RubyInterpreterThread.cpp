@@ -105,7 +105,9 @@ namespace Tinkercell
 			{
 				QString dir = subdirs[i];
 				#ifdef Q_WS_WIN
+					dir = dir.replace("\\","\\\\");
 					dir = dir.replace("/","\\\\");
+					dir = dir.replace("\"","");
 				#endif
 				script += tr("$LOAD_PATH << \"") + dir + tr("\"\n");
 			}

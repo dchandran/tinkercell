@@ -14,7 +14,6 @@ The interpreter that runs as a separate thread and can accept strings to parse a
 #include "MainWindow.h"
 #include "ConsoleWindow.h"
 #include "InterpreterThread.h"
-#include "ConsoleWindow.h"
 
 namespace Tinkercell
 {

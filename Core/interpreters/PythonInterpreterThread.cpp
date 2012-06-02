@@ -113,7 +113,6 @@ namespace Tinkercell
 				#endif
 				script += tr("sys.path.append(\"") + dir + tr("\")\n");
 			}
-			mainWindow->console()->message(script);
 			addpathDone = true;
 		}
         

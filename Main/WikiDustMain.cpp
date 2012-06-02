@@ -72,8 +72,8 @@ int main(int argc, char *argv[])
 	GlobalSettings::ENABLE_HISTORY_WINDOW = false;
 	GlobalSettings::ENABLE_CONSOLE_WINDOW = false;
 	GlobalSettings::ENABLE_GRAPHING_TOOLS = false;
-	GlobalSettings::ENABLE_CODING_TOOLS = false;
-	GlobalSettings::ENABLE_PYTHON = false;
+	GlobalSettings::ENABLE_CODING_TOOLS = true;
+	GlobalSettings::ENABLE_PYTHON = true;
 	GlobalSettings::ENABLE_OCTAVE = false;
 	GlobalSettings::ENABLE_RUBY = false;
 	GlobalSettings::ENABLE_LOADSAVE_TOOL = true;
@@ -104,7 +104,8 @@ int main(int argc, char *argv[])
     /*******  Main Window ***********/
     
 	DynamicLibraryMenu::USE_LIST_WIDGET = false;
-
+	DynamicLibraryMenu::USE_MENU = true;
+	DynamicLibraryMenu::USE_TOOLBAR = true;
 	MainWindow mainWindow(true, false, false);
 	GlobalSettings::PROGRAM_MODE = QString("parts-only");
 	mainWindow.hide();
@@ -168,6 +169,12 @@ int main(int argc, char *argv[])
 	//mainWindow.addTool(new LPSolveInputWindow);
 	//mainWindow.addTool(new CellPositionUpdateTool);
 	mainWindow.addTool(new SpecialCommandsConsole);
+	
+	if (mainWindow.tool("Python Interpreter"))
+	{
+		PythonTool * tool = (PythonTool*)mainWindow.tool("Python Interpreter");
+		tool->loadFilesInDir("python");
+	}
 
     /*******  Splash screen ***********/
 

@@ -14,6 +14,7 @@ The interpreter that runs as a separate thread and can accept strings to parse a
 #include "MainWindow.h"
 #include "ConsoleWindow.h"
 #include "InterpreterThread.h"
+#include "ConsoleWindow.h"
 
 namespace Tinkercell
 {
@@ -78,21 +79,28 @@ namespace Tinkercell
         finalize();
     }
     
-    QStringList InterpreterThread::allSubdirectories(const QString& dir)
+    QStringList InterpreterThread::allSubdirectories(const QString& dir0)
     {
     	QStringList subdirs;
     	QList<QDir> dirs;
-    	dirs << QDir(dir);
+    	dirs << QDir(dir0);
+		QString dir = dirs[0].absolutePath();
     	for (int i=0; i < dirs.size(); ++i)
+		{
     		if (dirs[i].exists() && 
-    			dirs[i].absolutePath().contains(dir) &&
+				dir.contains(dirs[i].absolutePath()) &&  //this is avoid . and .. dorectories
     			!subdirs.contains(dirs[i].absolutePath()))
 	    	{
 	    		subdirs << dirs[i].absolutePath();
     			QFileInfoList list = dirs[i].entryInfoList();
     			for (int j=0; j < list.size(); ++j)
-    				dirs << QDir(list[j].absoluteFilePath());
-    		}
-    	return subdirs;
+				{
+					QDir subdir = QDir(list[j].absoluteFilePath());
+					if (!dirs.contains(subdir))
+						dirs << subdir;
+				}
+			}
+		}
+		return subdirs;
 	}
 }

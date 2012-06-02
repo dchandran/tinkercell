@@ -35,21 +35,20 @@ if len(parts) > 0:\n\
 		setWindowTitle("Text input window");
 		mainWindow->addToolWindow(this,MainWindow::defaultConsoleWindowOption,Qt::BottomDockWidgetArea);
 
-		if (mainWindow && mainWindow->tool("Python interpreter"))
-		{
-			PythonTool * pytool = (PythonTool*)mainWindow->tool("Python interpreter");
-			QString code = "import re\n";
-			pytool->runPythonCode( code );
-		}
-
 		message("try the following command as an example: promoter(p1)--rbs(r1)--cds(g1)--terminator(t1)");
 	}
 		
 	void SpecialCommandsConsole::commandExecutedSlot(const QString& s)
 	{
+		static bool reLoaded = false;
 		if (mainWindow && mainWindow->tool("Python interpreter"))
 		{
 			PythonTool * pytool = (PythonTool*)mainWindow->tool("Python interpreter");
+			if (!reLoaded)
+			{
+				pytool->runPythonCode("import re");
+				reLoaded = true;
+			}
 			pytool->runPythonCode( getCode(s) );
 		}
 	}

@@ -1208,8 +1208,8 @@ namespace Tinkercell
 	{
 		if (!pickFamilyDialog || !selectedFamily) return false;
 		
-		QStringList globalChildren = Ontology::GLOBAL_CHILDREN;
-		Ontology::GLOBAL_CHILDREN.clear();
+		//QStringList globalChildren = Ontology::GLOBAL_CHILDREN;
+		//Ontology::GLOBAL_CHILDREN.clear();
 
 		QList<NodeHandle*> nodeHandles;
 		QList<NodeGraphicsItem*> nodeItems;
@@ -1244,10 +1244,10 @@ namespace Tinkercell
 			childFamilies = childFamilies2;
 		}*/
 
-		Ontology::GLOBAL_CHILDREN = globalChildren;
+		//Ontology::GLOBAL_CHILDREN = globalChildren;
 
-		if (childFamilies.isEmpty())
-			childFamilies = selectedFamily->findValidChildFamilies(nodeHandles,all);
+		//if (childFamilies.isEmpty())
+			//childFamilies = selectedFamily->findValidChildFamilies(nodeHandles,all);
 
 		if (childFamilies.isEmpty())// || !ConnectionFamily::cast(childFamilies.first()))
 		{

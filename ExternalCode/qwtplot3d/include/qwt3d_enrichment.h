@@ -3,6 +3,13 @@
 
 #include "qwt3d_global.h"
 #include "qwt3d_types.h"
+#if QT_VERSION < 0x040000
+#include <qgl.h>
+#else
+#include <QtOpenGL/qgl.h>
+#include <QtOpenGL>
+#endif
+#include <GL/glu.h>
 
 namespace Qwt3D
 {

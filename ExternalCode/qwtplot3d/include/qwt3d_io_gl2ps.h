@@ -7,8 +7,10 @@
 #include <qgl.h>
 #else
 #include <QtOpenGL/qgl.h>
+#include <QtOpenGL>
 #endif
 
+#include <GL/glu.h>
 #include "qwt3d_types.h"
 #include "qwt3d_io.h"
 

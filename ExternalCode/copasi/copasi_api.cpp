@@ -1536,73 +1536,21 @@ tc_matrix cGetJacobian(copasi_model model)
 {
 	CModel* pModel = (CModel*)(model.CopasiModelPtr);
 	CCopasiDataModel* pDataModel = (CCopasiDataModel*)(model.CopasiDataModelPtr);
-	
-	if (!pModel || !pDataModel) return tc_createMatrix(0,0);
-	//cCompileModel(model);
-	
-	// get the task list
-	CCopasiVectorN< CCopasiTask > & TaskList = * pDataModel->getTaskList();
-	// get the steady state task object
-	CSteadyStateTask* pTask = dynamic_cast<CSteadyStateTask*>(TaskList["Steady-State"]);
-	// if there isn’t one
-	if (pTask == NULL)
-	{
-		// create a new one
-		pTask = new CSteadyStateTask();
-		// remove any existing steady state task just to be sure since in
-		// theory only the cast might have failed above
-		TaskList.remove("Steady-State");
-		// add the new time course task to the task list
-		TaskList.add(pTask, true);
-	}
-	
-	CCopasiMessage::clearDeque();
-	
-	try
-	{
-		// initialize the trajectory task
-		// we want complete output (HEADER, BODY and FOOTER)
-		pTask->initialize(CCopasiTask::OUTPUT_COMPLETE, pDataModel, NULL);
-		// now we run the actual trajectory
-		pTask->process(true);
-	}
-	catch (...)
-	{
-		cerr << "Error when computing steady state." << endl;
-		return tc_createMatrix(0,0);
-	}
-	
-	const CArrayAnnotation* pAJ = pTask->getJacobianAnnotated();
-	//const CEigen & cGetEigenvalues() const;
-	
-	if (pAJ && pAJ->dimensionality() == 2)
-	{
-		vector<unsigned int> index(2);
-		const vector<string>& annotations = pAJ->getAnnotationsString(1);
-		
-		int n = annotations.size();
-		tc_matrix J = efficiently_createMatrix(n,n);
-		
-		for (int i=0; i < J.rows; ++i)
-		{
-			tc_setRowName(J, i, annotations[i].c_str());
-			tc_setColumnName(J, i, annotations[i].c_str());
-		}
-		
-		for (int i=0; i < n; ++i)
-		{
-			index[0] = i;
-			for (int j=0; j < n; ++j)
-			{
-				index[1] = j;
-				tc_setMatrixValue(J, i, j, (*pAJ->array())[index]);
-			}
-		}
-		
-		return J;
-	}
 
-	return tc_createMatrix(0,0);
+	if (!pModel || !pDataModel) return c_createMatrix(0,0);
+
+	const CCopasiVector< CMetab > & species = pModel->getMetabolites();
+
+	double epsilon = 1E-3;
+	CMatrix< C_FLOAT64 > jacobian(species.size(), species.size()); 
+	pModel->calculateJacobian(jacobian, epsilon, epsilon);
+
+	tc_matrix J = efficiently_createMatrix(species.size(),species.size());
+	for (int i=0; i < species.size(); ++i)
+		for (int j=0; j < species.size(); ++j)
+			tc_setMatrixValue(J, i, j, jacobian[i][j]);
+	
+	return J;
 }
 
 tc_matrix cGetSteadyStateUsingSimulation(copasi_model model, int maxiter)

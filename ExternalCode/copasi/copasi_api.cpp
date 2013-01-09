@@ -1537,7 +1537,7 @@ tc_matrix cGetJacobian(copasi_model model)
 	CModel* pModel = (CModel*)(model.CopasiModelPtr);
 	CCopasiDataModel* pDataModel = (CCopasiDataModel*)(model.CopasiDataModelPtr);
 
-	if (!pModel || !pDataModel) return c_createMatrix(0,0);
+	if (!pModel || !pDataModel) return tc_createMatrix(0,0);
 
 	const CCopasiVector< CMetab > & species = pModel->getMetabolites();
 
